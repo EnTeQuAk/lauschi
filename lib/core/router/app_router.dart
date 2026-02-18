@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lauschi/features/cards/screens/kid_home_screen.dart';
+import 'package:lauschi/features/parent/screens/pin_screen.dart';
 import 'package:lauschi/features/player/screens/player_screen.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -46,7 +47,7 @@ GoRouter appRouter(Ref ref) {
       ),
       GoRoute(
         path: AppRoutes.pinEntry,
-        builder: (context, state) => const _PlaceholderScreen(label: 'PIN Entry'),
+        builder: (context, state) => const PinScreen(),
       ),
       GoRoute(
         path: AppRoutes.parentDashboard,
