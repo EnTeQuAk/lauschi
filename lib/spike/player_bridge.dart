@@ -70,7 +70,16 @@ class SpotifyPlayerBridge {
     _tokens = tokens;
     L.info('bridge', 'Initialising WebViewController');
 
-    controller = WebViewController();
+    controller = WebViewController(
+      onPermissionRequest: (request) {
+        // Grant PROTECTED_MEDIA_ID so Android WebView exposes Widevine via EME.
+        // Without this, requestMediaKeySystemAccess silently fails.
+        L.info('bridge', 'Permission request', data: {
+          'types': request.types.map((t) => t.name).toList(),
+        });
+        request.grant();
+      },
+    );
     await controller.setJavaScriptMode(JavaScriptMode.unrestricted);
 
     // WORKAROUND: Spotify Web Playback SDK checks the browser UA before initialising
