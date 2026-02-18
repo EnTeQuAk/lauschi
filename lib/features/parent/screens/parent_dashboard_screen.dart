@@ -1,0 +1,167 @@
+import 'dart:async' show unawaited;
+
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:lauschi/core/auth/pin_service.dart';
+import 'package:lauschi/core/database/card_repository.dart';
+import 'package:lauschi/core/router/app_router.dart';
+import 'package:lauschi/core/spotify/spotify_auth_provider.dart';
+import 'package:lauschi/core/theme/app_theme.dart';
+
+/// Parent mode dashboard — editorial settings UI behind PIN gate.
+///
+/// Cooler stone surfaces, standard navigation, text labels.
+class ParentDashboardScreen extends ConsumerWidget {
+  const ParentDashboardScreen({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final authState = ref.watch(spotifyAuthNotifierProvider);
+    final cardsAsync = ref.watch(allCardsProvider);
+    final cardCount =
+        cardsAsync.whenOrNull(data: (cards) => cards.length) ?? 0;
+
+    return Scaffold(
+      backgroundColor: AppColors.parentBackground,
+      appBar: AppBar(
+        backgroundColor: AppColors.parentBackground,
+        title: const Text('Einstellungen'),
+        leading: IconButton(
+          onPressed: () {
+            ref.read(parentAuthProvider.notifier).deauthenticate();
+            context.go(AppRoutes.kidHome);
+          },
+          icon: const Icon(Icons.close_rounded),
+        ),
+      ),
+      body: ListView(
+        children: [
+          // Sammlung section
+          const _SectionHeader(title: 'Sammlung'),
+          _SettingsTile(
+            icon: Icons.library_music_rounded,
+            title: '$cardCount Karten verwalten',
+            onTap: () => context.push(AppRoutes.parentAddCard),
+          ),
+          const Divider(indent: 56),
+          _SettingsTile(
+            icon: Icons.add_rounded,
+            title: 'Hörspiel hinzufügen',
+            onTap: () => context.push(AppRoutes.parentAddCard),
+          ),
+
+          const SizedBox(height: AppSpacing.lg),
+
+          // Streaming section
+          const _SectionHeader(title: 'Streaming'),
+          _SettingsTile(
+            icon: Icons.music_note_rounded,
+            title: 'Spotify',
+            subtitle: authState is AuthAuthenticated
+                ? 'Verbunden'
+                : 'Nicht verbunden',
+            trailing: authState is AuthAuthenticated
+                ? const Icon(Icons.check_circle, color: AppColors.success)
+                : null,
+            onTap: () {
+              if (authState is! AuthAuthenticated) {
+                unawaited(
+                  ref.read(spotifyAuthNotifierProvider.notifier).login(),
+                );
+              }
+            },
+          ),
+
+          const SizedBox(height: AppSpacing.lg),
+
+          // Einstellungen section
+          const _SectionHeader(title: 'Einstellungen'),
+          _SettingsTile(
+            icon: Icons.lock_rounded,
+            title: 'PIN ändern',
+            onTap: () => unawaited(context.push(AppRoutes.pinEntry)),
+          ),
+          const Divider(indent: 56),
+          _SettingsTile(
+            icon: Icons.info_outline_rounded,
+            title: 'Über lauschi',
+            subtitle: 'Version 0.1.0',
+            onTap: () {},
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _SectionHeader extends StatelessWidget {
+  const _SectionHeader({required this.title});
+  final String title;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(
+        AppSpacing.screenH,
+        AppSpacing.md,
+        AppSpacing.screenH,
+        AppSpacing.xs,
+      ),
+      child: Text(
+        title.toUpperCase(),
+        style: const TextStyle(
+          fontFamily: 'Nunito',
+          fontSize: 12,
+          fontWeight: FontWeight.w700,
+          letterSpacing: 0.8,
+          color: AppColors.textSecondary,
+        ),
+      ),
+    );
+  }
+}
+
+class _SettingsTile extends StatelessWidget {
+  const _SettingsTile({
+    required this.icon,
+    required this.title,
+    required this.onTap,
+    this.subtitle,
+    this.trailing,
+  });
+
+  final IconData icon;
+  final String title;
+  final String? subtitle;
+  final Widget? trailing;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      leading: Icon(icon, color: AppColors.textSecondary),
+      title: Text(
+        title,
+        style: const TextStyle(
+          fontFamily: 'Nunito',
+          fontWeight: FontWeight.w600,
+          fontSize: 15,
+        ),
+      ),
+      subtitle: subtitle != null
+          ? Text(
+              subtitle!,
+              style: const TextStyle(
+                fontFamily: 'Nunito',
+                fontSize: 13,
+                color: AppColors.textSecondary,
+              ),
+            )
+          : null,
+      trailing: trailing ?? const Icon(Icons.chevron_right_rounded),
+      onTap: onTap,
+      tileColor: AppColors.parentSurface,
+    );
+  }
+}
