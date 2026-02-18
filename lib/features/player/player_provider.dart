@@ -1,0 +1,156 @@
+import 'dart:async' show StreamSubscription, unawaited;
+
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lauschi/core/log.dart';
+import 'package:lauschi/core/spotify/spotify_api.dart';
+import 'package:lauschi/core/spotify/spotify_auth_provider.dart';
+import 'package:lauschi/features/player/player_state.dart';
+import 'package:lauschi/features/player/spotify_player_bridge.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+part 'player_provider.g.dart';
+
+const _tag = 'PlayerProvider';
+
+@Riverpod(keepAlive: true)
+SpotifyApi spotifyApi(Ref ref) {
+  final api = SpotifyApi();
+
+  // Keep API token in sync with auth state.
+  ref.listen(spotifyAuthNotifierProvider, (_, next) {
+    if (next is AuthAuthenticated) {
+      api.updateToken(next.tokens.accessToken);
+    }
+  });
+
+  // Set initial token if already authenticated.
+  final authState = ref.read(spotifyAuthNotifierProvider);
+  if (authState is AuthAuthenticated) {
+    api.updateToken(authState.tokens.accessToken);
+  }
+
+  return api;
+}
+
+@Riverpod(keepAlive: true)
+SpotifyPlayerBridge spotifyPlayerBridge(Ref ref) {
+  final bridge = SpotifyPlayerBridge();
+  ref.onDispose(bridge.dispose);
+  return bridge;
+}
+
+/// Manages playback state and coordinates bridge + API.
+@Riverpod(keepAlive: true)
+class PlayerNotifier extends _$PlayerNotifier {
+  SpotifyPlayerBridge? _bridge;
+  SpotifyApi? _api;
+  StreamSubscription<PlaybackState>? _subscription;
+
+  /// URI of the album/context currently being played.
+  /// Used to highlight the active card in the grid.
+  String? _activeContextUri;
+  String? get activeContextUri => _activeContextUri;
+
+  @override
+  PlaybackState build() {
+    _bridge = ref.watch(spotifyPlayerBridgeProvider);
+    _api = ref.watch(spotifyApiProvider);
+
+    unawaited(_subscription?.cancel());
+    _subscription = _bridge!.stateStream.listen((playbackState) {
+      state = playbackState;
+    });
+
+    ref.onDispose(() => _subscription?.cancel());
+
+    return const PlaybackState();
+  }
+
+  /// Initialize the bridge with current auth tokens.
+  /// Call after successful Spotify login.
+  Future<void> initBridge() async {
+    final authState = ref.read(spotifyAuthNotifierProvider);
+    if (authState is! AuthAuthenticated) {
+      Log.warn(_tag, 'Cannot init bridge — not authenticated');
+      return;
+    }
+
+    final auth = ref.read(spotifyAuthProvider);
+    await _bridge!.init(auth: auth, tokens: authState.tokens);
+    Log.info(_tag, 'Bridge initialized');
+  }
+
+  /// Play a Spotify URI (album, playlist, or track).
+  ///
+  /// Uses the Web API to start playback on the WebView SDK device.
+  Future<void> play(String spotifyUri) async {
+    final deviceId = state.deviceId;
+    if (deviceId == null || _api == null) {
+      Log.error(_tag, 'Cannot play — no device ID');
+      return;
+    }
+
+    _activeContextUri = spotifyUri;
+    Log.info(_tag, 'Playing', data: {'uri': spotifyUri});
+
+    try {
+      await _api!.play(spotifyUri, deviceId: deviceId);
+    } on Exception catch (e) {
+      Log.error(_tag, 'Play failed', exception: e);
+    }
+  }
+
+  /// Pause playback.
+  Future<void> pause() async {
+    try {
+      await _bridge!.togglePlay();
+    } on Exception catch (e) {
+      Log.error(_tag, 'Pause failed', exception: e);
+    }
+  }
+
+  /// Resume playback.
+  Future<void> resume() async {
+    try {
+      await _bridge!.togglePlay();
+    } on Exception catch (e) {
+      Log.error(_tag, 'Resume failed', exception: e);
+    }
+  }
+
+  /// Toggle play/pause.
+  Future<void> togglePlay() async {
+    try {
+      await _bridge!.togglePlay();
+    } on Exception catch (e) {
+      Log.error(_tag, 'Toggle failed', exception: e);
+    }
+  }
+
+  /// Skip to next track.
+  Future<void> nextTrack() async {
+    try {
+      await _bridge!.nextTrack();
+    } on Exception catch (e) {
+      Log.error(_tag, 'Next track failed', exception: e);
+    }
+  }
+
+  /// Skip to previous track.
+  Future<void> prevTrack() async {
+    try {
+      await _bridge!.prevTrack();
+    } on Exception catch (e) {
+      Log.error(_tag, 'Previous track failed', exception: e);
+    }
+  }
+
+  /// Seek to position in milliseconds.
+  Future<void> seek(int positionMs) async {
+    try {
+      await _bridge!.seek(positionMs);
+    } on Exception catch (e) {
+      Log.error(_tag, 'Seek failed', exception: e);
+    }
+  }
+}
