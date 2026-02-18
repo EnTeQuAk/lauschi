@@ -4,14 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
+import 'connect_client.dart';
 import 'player_bridge.dart';
 import 'spike_logger.dart';
 import 'spotify_auth.dart';
 
-// Well-known Spotify URIs for testing.
 const _testUris = [
-  ('Die drei ???  (Folge 1)', 'spotify:album:4cTBMsO0dKN7aQrjOGVmb2'),
-  ('Bibi Blocksberg (Folge 1)', 'spotify:album:3IWEpzF0gPPPNtyFiTXhT7'),
+  ('Die drei ???  (1)', 'spotify:album:4cTBMsO0dKN7aQrjOGVmb2'),
+  ('Bibi Blocksberg (1)', 'spotify:album:3IWEpzF0gPPPNtyFiTXhT7'),
   ('Test track', 'spotify:track:4iV5W9uYEdYUVa79Axb7Rh'),
 ];
 
@@ -24,29 +24,40 @@ class SpikeApp extends StatefulWidget {
 
 class _SpikeAppState extends State<SpikeApp> {
   SpotifyTokens? _tokens;
-  final _bridge = SpotifyPlayerBridge();
-  final _logs = <LogEntry>[];
-  StreamSubscription<LogEntry>? _logSub;
 
+  // ── WebView SDK approach ─────────────────────────────────────────────────
+  SpotifyPlayerBridge? _bridge;
+  StreamSubscription<PlayerEvent>? _playerEventSub;
   PlayerStateChanged? _playerState;
   bool _playerReady = false;
   bool _bridgeInitialised = false;
 
-  LogLevel _filterLevel = LogLevel.debug;
+  // ── Connect approach ─────────────────────────────────────────────────────
+  final _connect = SpotifyConnectClient();
+  List<ConnectDevice> _connectDevices = [];
+  ConnectPlaybackState? _connectState;
+  Timer? _connectPollTimer;
 
-  // Background test
+  // ── Background test ──────────────────────────────────────────────────────
   Timer? _bgTimer;
   int _bgSecondsElapsed = 0;
   bool _bgTestRunning = false;
+
+  // ── Logging ──────────────────────────────────────────────────────────────
+  final _logs = <LogEntry>[];
+  StreamSubscription<LogEntry>? _logSub;
+  LogLevel _filterLevel = LogLevel.debug;
 
   @override
   void initState() {
     super.initState();
     _logSub = L.stream.listen((entry) {
-      setState(() {
-        _logs.insert(0, entry);
-        if (_logs.length > 200) _logs.removeLast();
-      });
+      if (mounted) {
+        setState(() {
+          _logs.insert(0, entry);
+          if (_logs.length > 300) _logs.removeLast();
+        });
+      }
     });
     _tryLoadStoredTokens();
   }
@@ -55,14 +66,21 @@ class _SpikeAppState extends State<SpikeApp> {
   void dispose() {
     _logSub?.cancel();
     _bgTimer?.cancel();
-    _bridge.dispose();
+    _connectPollTimer?.cancel();
+    _playerEventSub?.cancel();
+    _bridge?.dispose();
     super.dispose();
   }
+
+  // ── Auth ──────────────────────────────────────────────────────────────────
 
   Future<void> _tryLoadStoredTokens() async {
     final tokens = await SpotifyAuth.loadStored();
     if (tokens != null) {
-      setState(() => _tokens = tokens);
+      setState(() {
+        _tokens = tokens;
+        _connect.tokens = tokens;
+      });
       await _initBridge(tokens);
     }
   }
@@ -71,7 +89,10 @@ class _SpikeAppState extends State<SpikeApp> {
     L.info('app', 'Login tapped');
     try {
       final tokens = await SpotifyAuth.login();
-      setState(() => _tokens = tokens);
+      setState(() {
+        _tokens = tokens;
+        _connect.tokens = tokens;
+      });
       await _initBridge(tokens);
     } catch (e) {
       L.error('app', 'Login failed', data: {'error': e.toString()});
@@ -81,52 +102,100 @@ class _SpikeAppState extends State<SpikeApp> {
   Future<void> _logout() async {
     L.info('app', 'Logout tapped');
     await SpotifyAuth.logout();
+    _connectPollTimer?.cancel();
+    await _playerEventSub?.cancel();
+    _playerEventSub = null;
+    _bridge?.dispose();
     setState(() {
       _tokens = null;
+      _connect.tokens = null;
       _playerReady = false;
       _bridgeInitialised = false;
       _playerState = null;
+      _bridge = null;
+      _connectDevices = [];
+      _connectState = null;
     });
   }
+
+  // ── WebView SDK ───────────────────────────────────────────────────────────
 
   Future<void> _initBridge(SpotifyTokens tokens) async {
     if (_bridgeInitialised) return;
     _bridgeInitialised = true;
 
-    await _bridge.init(tokens);
+    final bridge = SpotifyPlayerBridge();
+    setState(() => _bridge = bridge);
 
-    _bridge.events.listen((event) {
+    await bridge.init(tokens);
+
+    _playerEventSub = bridge.events.listen((event) {
       switch (event) {
         case PlayerReady(:final deviceId):
           setState(() => _playerReady = true);
-          L.info('app', 'Player READY', data: {'device_id': deviceId});
+          L.info('app', 'WebView SDK player READY', data: {'device_id': deviceId});
         case PlayerNotReady():
           setState(() => _playerReady = false);
-          L.warn('app', 'Player NOT READY');
+          L.warn('app', 'WebView SDK player NOT READY');
         case PlayerStateChanged():
           setState(() => _playerState = event);
         case PlayerError(:final type, :final message):
-          L.error('app', 'Player error', data: {'type': type, 'message': message});
+          L.error('app', 'WebView SDK error', data: {'type': type, 'message': message});
       }
     });
   }
+
+  // ── Connect ───────────────────────────────────────────────────────────────
+
+  Future<void> _connectListDevices() async {
+    final devices = await _connect.getDevices();
+    setState(() => _connectDevices = devices);
+    if (devices.isEmpty) {
+      L.warn('app', 'No Connect devices found — open Spotify app on the phone first');
+    }
+  }
+
+  Future<void> _connectPlay(String deviceId, String uri) async {
+    await _connect.transferPlayback(deviceId, play: false);
+    await Future<void>.delayed(const Duration(milliseconds: 500));
+    await _connect.play(uri, deviceId: deviceId);
+    _startConnectPoll();
+  }
+
+  void _startConnectPoll() {
+    _connectPollTimer?.cancel();
+    _connectPollTimer = Timer.periodic(const Duration(seconds: 3), (_) async {
+      final state = await _connect.getPlaybackState();
+      if (mounted) setState(() => _connectState = state);
+    });
+  }
+
+  // ── Background test (Connect version) ────────────────────────────────────
 
   void _startBgTest() {
     _bgSecondsElapsed = 0;
     _bgTestRunning = true;
     L.info('app', 'Background test started — background the app NOW');
     _bgTimer?.cancel();
-    _bgTimer = Timer.periodic(const Duration(seconds: 5), (_) {
+    _bgTimer = Timer.periodic(const Duration(seconds: 5), (_) async {
       _bgSecondsElapsed += 5;
-      final paused = _playerState?.paused ?? true;
-      L.info('app', 'Background test tick', data: {
+      // Poll Connect state for background test (works even when app is backgrounded
+      // because the Spotify app handles playback independently).
+      final state = await _connect.getPlaybackState();
+      if (mounted) setState(() => _connectState = state);
+      L.info('app', 'BG test tick', data: {
         'elapsed_s': _bgSecondsElapsed.toString(),
-        'audio': paused ? 'PAUSED ❌' : 'playing ✅',
-        'track': _playerState?.track?.name ?? 'none',
+        'audio': state == null
+            ? 'no state'
+            : state.paused
+                ? 'PAUSED ❌'
+                : 'playing ✅',
+        'device': state?.deviceName ?? 'none',
+        'track': state?.trackName ?? 'none',
       });
       if (_bgSecondsElapsed >= 120) {
         _bgTimer?.cancel();
-        setState(() => _bgTestRunning = false);
+        if (mounted) setState(() => _bgTestRunning = false);
         L.info('app', 'Background test complete (120s)');
       }
     });
@@ -138,6 +207,8 @@ class _SpikeAppState extends State<SpikeApp> {
     L.info('app', 'Background test stopped', data: {'elapsed_s': _bgSecondsElapsed.toString()});
     setState(() => _bgTestRunning = false);
   }
+
+  // ── UI ────────────────────────────────────────────────────────────────────
 
   List<LogEntry> get _filteredLogs =>
       _logs.where((e) => e.level.index >= _filterLevel.index).toList();
@@ -171,20 +242,31 @@ class _SpikeAppState extends State<SpikeApp> {
       body: Column(
         children: [
           _buildAuthBar(),
-          const Divider(height: 1),
-          _buildPlayerState(),
-          const Divider(height: 1),
-          _buildControls(),
-          const Divider(height: 1),
-          _buildLevelFilter(),
-          const Divider(height: 1),
-          Expanded(child: _buildLogPanel()),
-          if (_bridgeInitialised)
-            SizedBox(
-              width: 1,
-              height: 1,
-              child: WebViewWidget(controller: _bridge.controller),
+          Expanded(
+            child: CustomScrollView(
+              slivers: [
+                // ── WebView SDK section ──────────────────────────────────
+                _sectionHeader('WebView SDK (EME/DRM)', subtitle: 'Requires Widevine in WebView'),
+                SliverToBoxAdapter(child: _buildSdkSection()),
+
+                // ── Connect section ──────────────────────────────────────
+                _sectionHeader('Spotify Connect', subtitle: 'Uses Spotify app as audio engine — no DRM needed'),
+                SliverToBoxAdapter(child: _buildConnectSection()),
+
+                // ── Log panel ────────────────────────────────────────────
+                _sectionHeader('Logs'),
+                SliverToBoxAdapter(child: _buildLevelFilter()),
+                SliverList(
+                  delegate: SliverChildBuilderDelegate(
+                    (ctx, i) => _LogRow(entry: _filteredLogs[i]),
+                    childCount: _filteredLogs.length,
+                  ),
+                ),
+              ],
             ),
+          ),
+          if (_bridge != null)
+            SizedBox(width: 1, height: 1, child: WebViewWidget(controller: _bridge!.controller)),
         ],
       ),
     );
@@ -192,156 +274,239 @@ class _SpikeAppState extends State<SpikeApp> {
 
   Widget _buildAuthBar() {
     if (_tokens == null) {
-      return ListTile(
-        dense: true,
-        leading: const Icon(Icons.login, color: Color(0xFF1DB954)),
-        title: const Text('Not connected'),
-        trailing: ElevatedButton(
-          onPressed: _login,
-          child: const Text('Login with Spotify'),
+      return Container(
+        color: Colors.grey[100],
+        child: ListTile(
+          dense: true,
+          leading: const Icon(Icons.login, color: Color(0xFF1DB954)),
+          title: const Text('Not connected to Spotify'),
+          trailing: ElevatedButton(onPressed: _login, child: const Text('Login')),
         ),
       );
     }
-    return ListTile(
-      dense: true,
-      leading: Icon(
-        _playerReady ? Icons.check_circle : Icons.hourglass_empty,
-        color: _playerReady ? Colors.green : Colors.orange,
-        size: 20,
-      ),
-      title: Text(
-        _playerReady ? 'Player ready' : 'Waiting for player…',
-        style: const TextStyle(fontSize: 13),
-      ),
-      subtitle: Text(
-        'Expires ${_tokens!.expiry.toLocal().toString().substring(0, 19)}',
-        style: const TextStyle(fontSize: 10),
-      ),
-      trailing: TextButton(onPressed: _logout, child: const Text('Logout')),
-    );
-  }
-
-  Widget _buildPlayerState() {
-    final state = _playerState;
-    if (state == null || state.track == null) {
-      return const ListTile(
+    return Container(
+      color: Colors.green[50],
+      child: ListTile(
         dense: true,
-        leading: Icon(Icons.music_off, color: Colors.grey, size: 20),
-        title: Text('Nothing playing', style: TextStyle(fontSize: 13)),
-      );
-    }
-    final track = state.track!;
-    final pos = Duration(milliseconds: state.positionMs);
-    final dur = Duration(milliseconds: state.durationMs);
-    return ListTile(
-      dense: true,
-      leading: track.artworkUrl != null
-          ? ClipRRect(
-              borderRadius: BorderRadius.circular(4),
-              child: Image.network(track.artworkUrl!, width: 40, height: 40, fit: BoxFit.cover),
-            )
-          : const Icon(Icons.album, size: 40),
-      title: Text(track.name, maxLines: 1, overflow: TextOverflow.ellipsis,
-          style: const TextStyle(fontSize: 13)),
-      subtitle: Text('${track.artist} · ${_fmt(pos)} / ${_fmt(dur)}',
-          style: const TextStyle(fontSize: 11)),
-      trailing: Icon(
-        state.paused ? Icons.pause_circle : Icons.play_circle,
-        color: const Color(0xFF1DB954),
-        size: 28,
+        leading: const Icon(Icons.check_circle, color: Colors.green, size: 20),
+        title: Text(
+          'Connected · token expires ${_tokens!.expiry.toLocal().toString().substring(11, 19)}',
+          style: const TextStyle(fontSize: 12),
+        ),
+        trailing: TextButton(onPressed: _logout, child: const Text('Logout')),
       ),
     );
   }
 
-  String _fmt(Duration d) =>
-      '${d.inMinutes}:${(d.inSeconds % 60).toString().padLeft(2, '0')}';
+  SliverToBoxAdapter _sectionHeader(String title, {String? subtitle}) {
+    return SliverToBoxAdapter(
+      child: Container(
+        color: Colors.grey[200],
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+        child: Row(children: [
+          Text(title, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold)),
+          if (subtitle != null) ...[
+            const SizedBox(width: 8),
+            Text(subtitle, style: TextStyle(fontSize: 10, color: Colors.grey[600])),
+          ],
+        ]),
+      ),
+    );
+  }
 
-  Widget _buildControls() {
+  // ── WebView SDK section ───────────────────────────────────────────────────
+
+  Widget _buildSdkSection() {
+    final state = _playerState;
     return Column(
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            IconButton(
-              icon: const Icon(Icons.skip_previous),
-              onPressed: _playerReady ? _bridge.prevTrack : null,
-            ),
-            IconButton(
-              icon: Icon((_playerState?.paused ?? true)
-                  ? Icons.play_circle_filled
-                  : Icons.pause_circle_filled),
-              iconSize: 44,
-              color: const Color(0xFF1DB954),
-              onPressed: _playerReady ? _bridge.togglePlay : null,
-            ),
-            IconButton(
-              icon: const Icon(Icons.skip_next),
-              onPressed: _playerReady ? _bridge.nextTrack : null,
-            ),
-          ],
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-          child: Wrap(
-            spacing: 6,
-            children: [
-              for (final (label, uri) in _testUris)
-                OutlinedButton(
-                  onPressed: _playerReady ? () => _bridge.play(uri) : null,
-                  style: OutlinedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                    minimumSize: Size.zero,
-                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                  ),
-                  child: Text(label, style: const TextStyle(fontSize: 11)),
-                ),
-            ],
+        // Status
+        ListTile(
+          dense: true,
+          leading: Icon(
+            _playerReady ? Icons.check_circle : Icons.error_outline,
+            color: _playerReady ? Colors.green : Colors.red,
+            size: 20,
           ),
+          title: Text(
+            _playerReady ? 'Player ready' : 'Player not ready (EME/DRM failure expected)',
+            style: const TextStyle(fontSize: 12),
+          ),
+          subtitle: state?.track != null
+              ? Text('${state!.track!.name} — ${state.paused ? "paused" : "playing"}',
+                  style: const TextStyle(fontSize: 11))
+              : null,
         ),
+        // Controls
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-          child: Row(
-            children: [
-              const Icon(Icons.timer_outlined, size: 16),
-              const SizedBox(width: 4),
-              const Text('BG test:', style: TextStyle(fontSize: 12)),
-              const SizedBox(width: 6),
-              if (!_bgTestRunning)
-                SizedBox(
-                  height: 28,
-                  child: ElevatedButton(
-                    onPressed: _playerReady && !(_playerState?.paused ?? true)
-                        ? _startBgTest
-                        : null,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.orange,
-                      foregroundColor: Colors.white,
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      textStyle: const TextStyle(fontSize: 12),
-                    ),
-                    child: const Text('Start (play audio first)'),
-                  ),
-                )
-              else
-                Row(children: [
-                  Text('${_bgSecondsElapsed}s / 120s',
-                      style: const TextStyle(
-                          fontWeight: FontWeight.bold, color: Colors.orange, fontSize: 12)),
-                  const SizedBox(width: 6),
-                  SizedBox(
-                    height: 24,
-                    child: TextButton(
-                      onPressed: _stopBgTest,
-                      child: const Text('Stop', style: TextStyle(fontSize: 12)),
-                    ),
-                  ),
-                ]),
-            ],
-          ),
+          child: Wrap(spacing: 6, runSpacing: 4, children: [
+            for (final (label, uri) in _testUris)
+              OutlinedButton(
+                onPressed: _playerReady ? () => _bridge!.play(uri) : null,
+                style: OutlinedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  minimumSize: Size.zero,
+                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                ),
+                child: Text(label, style: const TextStyle(fontSize: 11)),
+              ),
+            IconButton(
+              icon: const Icon(Icons.skip_previous, size: 20),
+              onPressed: _playerReady ? _bridge!.prevTrack : null,
+            ),
+            IconButton(
+              icon: Icon(
+                (_playerState?.paused ?? true) ? Icons.play_arrow : Icons.pause,
+                size: 20,
+              ),
+              onPressed: _playerReady ? _bridge!.togglePlay : null,
+            ),
+            IconButton(
+              icon: const Icon(Icons.skip_next, size: 20),
+              onPressed: _playerReady ? _bridge!.nextTrack : null,
+            ),
+          ]),
         ),
       ],
     );
   }
+
+  // ── Connect section ───────────────────────────────────────────────────────
+
+  Widget _buildConnectSection() {
+    final cs = _connectState;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // Connect playback state
+        if (cs != null)
+          ListTile(
+            dense: true,
+            leading: Icon(
+              cs.paused ? Icons.pause_circle : Icons.play_circle,
+              color: const Color(0xFF1DB954),
+              size: 28,
+            ),
+            title: Text(cs.trackName ?? 'Unknown', style: const TextStyle(fontSize: 12)),
+            subtitle: Text(
+              '${cs.artistName ?? ''} · ${cs.deviceName} · ${_fmt(Duration(milliseconds: cs.progressMs))}',
+              style: const TextStyle(fontSize: 11),
+            ),
+            trailing: cs.artworkUrl != null
+                ? ClipRRect(
+                    borderRadius: BorderRadius.circular(4),
+                    child: Image.network(cs.artworkUrl!, width: 36, height: 36, fit: BoxFit.cover),
+                  )
+                : null,
+          )
+        else if (_tokens != null)
+          const ListTile(
+            dense: true,
+            leading: Icon(Icons.phonelink_off, size: 20, color: Colors.grey),
+            title: Text('Open Spotify on your phone, then tap List Devices',
+                style: TextStyle(fontSize: 12, color: Colors.grey)),
+          ),
+
+        // Device list + content buttons
+        Padding(
+          padding: const EdgeInsets.all(8),
+          child: Wrap(spacing: 6, runSpacing: 6, children: [
+            // List devices
+            ElevatedButton.icon(
+              onPressed: _tokens != null ? _connectListDevices : null,
+              icon: const Icon(Icons.devices, size: 16),
+              label: const Text('List Devices', style: TextStyle(fontSize: 12)),
+              style: ElevatedButton.styleFrom(
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+              ),
+            ),
+
+            // Play buttons — one per device
+            for (final device in _connectDevices)
+              for (final (label, uri) in _testUris)
+                OutlinedButton(
+                  onPressed: () => _connectPlay(device.id, uri),
+                  style: OutlinedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    minimumSize: Size.zero,
+                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    side: BorderSide(
+                      color: device.isActive ? Colors.green : Colors.grey,
+                    ),
+                  ),
+                  child: Text(
+                    '▶ $label on ${device.name}',
+                    style: const TextStyle(fontSize: 11),
+                  ),
+                ),
+
+            // Connect/pause/next controls
+            if (_connectState != null) ...[
+              IconButton(
+                icon: Icon(_connectState!.paused ? Icons.play_arrow : Icons.pause, size: 20),
+                onPressed: () async {
+                  if (_connectState!.paused) {
+                    await _connect.resume();
+                  } else {
+                    await _connect.pause();
+                  }
+                  _startConnectPoll();
+                },
+              ),
+              IconButton(
+                icon: const Icon(Icons.skip_next, size: 20),
+                onPressed: () async {
+                  await _connect.nextTrack();
+                  _startConnectPoll();
+                },
+              ),
+            ],
+          ]),
+        ),
+
+        // Background test
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+          child: Row(children: [
+            const Icon(Icons.timer_outlined, size: 16),
+            const SizedBox(width: 4),
+            const Text('BG test:', style: TextStyle(fontSize: 12)),
+            const SizedBox(width: 6),
+            if (!_bgTestRunning)
+              SizedBox(
+                height: 28,
+                child: ElevatedButton(
+                  onPressed: _connectState != null && !_connectState!.paused ? _startBgTest : null,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.orange,
+                    foregroundColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    textStyle: const TextStyle(fontSize: 12),
+                  ),
+                  child: const Text('Start (Connect playing first)'),
+                ),
+              )
+            else
+              Row(children: [
+                Text('${_bgSecondsElapsed}s / 120s',
+                    style: const TextStyle(
+                        fontWeight: FontWeight.bold, color: Colors.orange, fontSize: 12)),
+                const SizedBox(width: 6),
+                SizedBox(
+                  height: 24,
+                  child: TextButton(
+                      onPressed: _stopBgTest,
+                      child: const Text('Stop', style: TextStyle(fontSize: 12))),
+                ),
+              ]),
+          ]),
+        ),
+      ],
+    );
+  }
+
+  // ── Log panel ─────────────────────────────────────────────────────────────
 
   Widget _buildLevelFilter() {
     const levels = [
@@ -369,30 +534,15 @@ class _SpikeAppState extends State<SpikeApp> {
               ),
             ),
           const Spacer(),
-          Text(
-            '${_filteredLogs.length} entries',
-            style: const TextStyle(fontSize: 10, color: Colors.grey),
-          ),
+          Text('${_filteredLogs.length}',
+              style: const TextStyle(fontSize: 10, color: Colors.grey)),
         ],
       ),
     );
   }
 
-  Widget _buildLogPanel() {
-    final logs = _filteredLogs;
-    if (logs.isEmpty) {
-      return const Center(
-        child: Text('No logs yet', style: TextStyle(color: Colors.grey, fontSize: 12)),
-      );
-    }
-    return ListView.builder(
-      itemCount: logs.length,
-      itemBuilder: (ctx, i) {
-        final entry = logs[i];
-        return _LogRow(entry: entry);
-      },
-    );
-  }
+  String _fmt(Duration d) =>
+      '${d.inMinutes}:${(d.inSeconds % 60).toString().padLeft(2, '0')}';
 }
 
 class _LogRow extends StatelessWidget {
@@ -419,7 +569,8 @@ class _LogRow extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(ts, style: TextStyle(fontSize: 10, color: Colors.grey[500], fontFamily: 'monospace')),
+          Text(ts,
+              style: TextStyle(fontSize: 10, color: Colors.grey[500], fontFamily: 'monospace')),
           const SizedBox(width: 4),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 1),
@@ -427,33 +578,28 @@ class _LogRow extends StatelessWidget {
               color: color.withValues(alpha: 0.15),
               borderRadius: BorderRadius.circular(3),
             ),
-            child: Text(
-              entry.source,
-              style: TextStyle(fontSize: 9, color: color, fontWeight: FontWeight.bold),
-            ),
+            child: Text(entry.source,
+                style: TextStyle(
+                    fontSize: 9, color: color, fontWeight: FontWeight.bold)),
           ),
           const SizedBox(width: 4),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  entry.message,
-                  style: TextStyle(fontSize: 11, color: color, fontFamily: 'monospace'),
-                ),
+                Text(entry.message,
+                    style: TextStyle(
+                        fontSize: 11, color: color, fontFamily: 'monospace')),
                 if (entry.data != null && entry.data!.isNotEmpty)
                   Text(
-                    entry.data!.entries
-                        .map((e) {
-                          final v = e.value?.toString() ?? 'null';
-                          return '${e.key}: ${v.length > 120 ? '${v.substring(0, 117)}…' : v}';
-                        })
-                        .join('  '),
+                    entry.data!.entries.map((e) {
+                      final v = e.value?.toString() ?? 'null';
+                      return '${e.key}: ${v.length > 100 ? '${v.substring(0, 97)}…' : v}';
+                    }).join('  '),
                     style: TextStyle(
-                      fontSize: 10,
-                      color: color.withValues(alpha: 0.8),
-                      fontFamily: 'monospace',
-                    ),
+                        fontSize: 10,
+                        color: color.withValues(alpha: 0.8),
+                        fontFamily: 'monospace'),
                   ),
               ],
             ),
