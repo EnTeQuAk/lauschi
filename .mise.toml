@@ -5,3 +5,30 @@ java = "temurin-17.0.18+8"
 
 [env]
 JAVA_HOME = "{{env.HOME}}/.local/share/mise/installs/java/temurin-17.0.18+8"
+
+[tasks.setup]
+description = "Install deps, run codegen, verify analysis"
+run = """
+flutter pub get
+dart run build_runner build --delete-conflicting-outputs
+flutter analyze
+"""
+
+[tasks.codegen]
+description = "Run build_runner (Riverpod + Drift)"
+run = "dart run build_runner build --delete-conflicting-outputs"
+
+[tasks.watch]
+description = "Run build_runner in watch mode"
+run = "dart run build_runner watch --delete-conflicting-outputs"
+
+[tasks.test]
+description = "Run all tests"
+run = "flutter test"
+
+[tasks.check]
+description = "Full CI check: analyze + test"
+run = """
+flutter analyze
+flutter test
+"""
