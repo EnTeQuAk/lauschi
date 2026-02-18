@@ -71,7 +71,8 @@ void main() {
     await tester.pump();
     await tester.pump();
 
-    expect(find.text('Parent Dashboard'), findsAtLeastNWidgets(1));
+    // Parent dashboard renders with settings title
+    expect(find.text('Einstellungen'), findsAtLeastNWidgets(1));
   });
 }
 
