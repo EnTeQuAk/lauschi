@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>lauschi player</title>
+  <script src="https://sdk.scdn.co/spotify-player.js"></script>
+</head>
+<body>
+<script>
+  // Spotify Web Playback SDK bridge.
+  // Initialised in issue #4.
+  // Dart talks to this page via JavaScriptChannel('SpotifyBridge').
+  // This page posts messages back via window.SpotifyBridge.postMessage(json).
+
+  window.onSpotifyWebPlaybackSDKReady = () => {
+    // TODO(#4): initialise Spotify.Player with token from Dart
+    if (window.SpotifyBridge) {
+      window.SpotifyBridge.postMessage(JSON.stringify({ type: 'sdk_ready' }));
+    }
+  };
+</script>
+</body>
+</html>
