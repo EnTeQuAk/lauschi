@@ -2,21 +2,171 @@
 <html>
 <head>
   <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>lauschi player</title>
   <script src="https://sdk.scdn.co/spotify-player.js"></script>
 </head>
 <body>
 <script>
-  // Spotify Web Playback SDK bridge.
-  // Initialised in issue #4.
-  // Dart talks to this page via JavaScriptChannel('SpotifyBridge').
-  // This page posts messages back via window.SpotifyBridge.postMessage(json).
+  // lauschi Spotify Web Playback SDK bridge.
+  //
+  // Dart → JS commands via: controller.runJavaScript('lauschi.<method>(...)')
+  // JS → Dart events via:   SpotifyBridge.postMessage(JSON.stringify({type, payload}))
+  //
+  // SPIKE NOTES:
+  // - On iOS, WKWebView suspends JS ~30s after backgrounding (OS restriction).
+  // - UIBackgroundModes: audio in Info.plist is necessary but may not be sufficient.
+  // - This spike will tell us definitively if the WebView approach is viable.
 
-  window.onSpotifyWebPlaybackSDKReady = () => {
-    // TODO(#4): initialise Spotify.Player with token from Dart
-    if (window.SpotifyBridge) {
-      window.SpotifyBridge.postMessage(JSON.stringify({ type: 'sdk_ready' }));
+  var player = null;
+  var deviceId = null;
+
+  function post(type, payload) {
+    try {
+      SpotifyBridge.postMessage(JSON.stringify({ type: type, payload: payload || {} }));
+    } catch(e) {
+      console.error('[lauschi] postMessage failed:', e);
     }
+  }
+
+  function post_log(msg) {
+    post('log', { message: msg });
+  }
+
+  // Called by Dart once SDK is ready and token is available.
+  window.lauschi = {
+    init: function(accessToken) {
+      post_log('init called, creating Spotify.Player');
+
+      player = new Spotify.Player({
+        name: 'lauschi',
+        getOAuthToken: function(cb) {
+          // Token refresh: Dart handles expiry. We request a fresh token via bridge.
+          post('token_request', {});
+          // The callback is stored and called when Dart responds with refreshed token.
+          window._pendingTokenCallback = cb;
+        },
+        volume: 0.8,
+      });
+
+      player.addListener('ready', function(data) {
+        deviceId = data.device_id;
+        post('ready', { device_id: deviceId });
+        post_log('Player ready, device_id: ' + deviceId);
+      });
+
+      player.addListener('not_ready', function(data) {
+        post('not_ready', { device_id: data.device_id });
+        post_log('Player not ready');
+      });
+
+      player.addListener('player_state_changed', function(state) {
+        if (!state) {
+          post('state_changed', { paused: true, track: null, position_ms: 0 });
+          return;
+        }
+        post('state_changed', {
+          paused: state.paused,
+          position_ms: state.position,
+          duration_ms: state.duration,
+          track: state.track_window.current_track ? {
+            uri: state.track_window.current_track.uri,
+            name: state.track_window.current_track.name,
+            artist: state.track_window.current_track.artists.map(function(a) { return a.name; }).join(', '),
+            album: state.track_window.current_track.album.name,
+            artwork_url: state.track_window.current_track.album.images[0] ? state.track_window.current_track.album.images[0].url : null,
+          } : null,
+        });
+      });
+
+      player.addListener('initialization_error', function(e) {
+        post('error', { type: 'init', message: e.message });
+        post_log('Init error: ' + e.message);
+      });
+
+      player.addListener('authentication_error', function(e) {
+        post('error', { type: 'auth', message: e.message });
+        post_log('Auth error: ' + e.message);
+      });
+
+      player.addListener('account_error', function(e) {
+        post('error', { type: 'account', message: e.message });
+        post_log('Account error (Premium required): ' + e.message);
+      });
+
+      player.addListener('playback_error', function(e) {
+        post('error', { type: 'playback', message: e.message });
+        post_log('Playback error: ' + e.message);
+      });
+
+      player.connect().then(function(success) {
+        post_log('player.connect() resolved: ' + success);
+        if (!success) {
+          post('error', { type: 'connect', message: 'connect() returned false' });
+        }
+      });
+
+      // Provide initial token directly (avoids first round-trip).
+      if (window._pendingTokenCallback) {
+        window._pendingTokenCallback(accessToken);
+        window._pendingTokenCallback = null;
+      }
+    },
+
+    // Called by Dart to deliver a refreshed token.
+    deliver_token: function(accessToken) {
+      post_log('deliver_token called');
+      if (window._pendingTokenCallback) {
+        window._pendingTokenCallback(accessToken);
+        window._pendingTokenCallback = null;
+      }
+    },
+
+    // Transfer playback to this device and start playing a URI.
+    play: function(spotifyUri) {
+      if (!deviceId) {
+        post('error', { type: 'play', message: 'no device_id yet' });
+        return;
+      }
+      post_log('play: ' + spotifyUri);
+      // Playback is transferred + started via the Spotify Web API (Dart-side).
+      // The JS player just needs to be the active device.
+      post('play_request', { uri: spotifyUri, device_id: deviceId });
+    },
+
+    toggle_play: function() {
+      if (player) player.togglePlay();
+    },
+
+    next_track: function() {
+      if (player) player.nextTrack();
+    },
+
+    prev_track: function() {
+      if (player) player.previousTrack();
+    },
+
+    seek: function(position_ms) {
+      if (player) player.seek(position_ms);
+    },
+
+    set_volume: function(volume) {
+      if (player) player.setVolume(volume);
+    },
+
+    disconnect: function() {
+      if (player) {
+        player.disconnect();
+        player = null;
+        deviceId = null;
+      }
+    },
+  };
+
+  window.onSpotifyWebPlaybackSDKReady = function() {
+    post_log('SDK ready');
+    post('sdk_ready', {});
+    // Dart will call lauschi.init(token) after receiving sdk_ready.
   };
 </script>
 </body>

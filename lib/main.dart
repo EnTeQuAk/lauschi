@@ -1,26 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'core/router/app_router.dart';
-import 'core/theme/app_theme.dart';
+import 'spike/spike_app.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(const ProviderScope(child: LauschiApp()));
+  runApp(const _SpikeRoot());
 }
 
-class LauschiApp extends ConsumerWidget {
-  const LauschiApp({super.key});
+class _SpikeRoot extends StatelessWidget {
+  const _SpikeRoot();
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final router = ref.watch(appRouterProvider);
-
-    return MaterialApp.router(
-      title: 'lauschi',
-      theme: buildAppTheme(),
-      routerConfig: router,
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'lauschi spike',
       debugShowCheckedModeBanner: false,
+      theme: ThemeData.light(useMaterial3: true),
+      home: const SpikeApp(),
     );
   }
 }
