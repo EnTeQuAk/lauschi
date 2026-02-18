@@ -58,23 +58,39 @@ class AppRemoteClient {
       L.warn('remote', 'getAccessToken() threw (may be pre-authorized)', data: {'error': e.toString()});
     }
 
-    try {
-      final result = await SpotifySdk.connectToSpotifyRemote(
-        clientId: SpikeSecrets.spotifyClientId,
-        redirectUrl: _redirectUri,
-      );
-      _connected = result;
-      L.info('remote', 'connectToSpotifyRemote result', data: {'connected': result.toString()});
+    // Give Spotify a moment to resume from background after the auth flow
+    // before attempting IPC. Without this the first connect reliably times out.
+    await Future<void>.delayed(const Duration(milliseconds: 800));
 
-      if (result) {
-        _subscribToState();
+    return _attemptConnect(retries: 2);
+  }
+
+  Future<bool> _attemptConnect({required int retries}) async {
+    for (var attempt = 1; attempt <= retries; attempt++) {
+      L.info('remote', 'connectToSpotifyRemote attempt $attempt/$retries');
+      try {
+        final result = await SpotifySdk.connectToSpotifyRemote(
+          clientId: SpikeSecrets.spotifyClientId,
+          redirectUrl: _redirectUri,
+        );
+        _connected = result;
+        L.info('remote', 'Connected', data: {'attempt': attempt.toString()});
+        if (result) _subscribToState();
+        return result;
+      } catch (e) {
+        final msg = e.toString();
+        L.warn('remote', 'Attempt $attempt failed', data: {'error': msg});
+        if (attempt < retries) {
+          // SpotifyAppRemoteException timeout — Spotify may still be starting up
+          L.info('remote', 'Retrying in 1.5s...');
+          await Future<void>.delayed(const Duration(milliseconds: 1500));
+        } else {
+          L.error('remote', 'All $retries attempts failed');
+        }
       }
-      return result;
-    } catch (e) {
-      L.error('remote', 'Connect failed', data: {'error': e.toString()});
-      _connected = false;
-      return false;
     }
+    _connected = false;
+    return false;
   }
 
   void _subscribToState() {
