@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+import 'package:webview_flutter_android/webview_flutter_android.dart';
 
 import 'spike_logger.dart';
 import 'spotify_auth.dart';
@@ -81,6 +82,13 @@ class SpotifyPlayerBridge {
       },
     );
     await controller.setJavaScriptMode(JavaScriptMode.unrestricted);
+
+    // Allow programmatic audio playback without user gesture inside the WebView.
+    // Without this, Android WebView's autoplay policy pauses audio immediately.
+    final platform = controller.platform;
+    if (platform is AndroidWebViewController) {
+      await platform.setMediaPlaybackRequiresUserGesture(false);
+    }
 
     // WORKAROUND: Spotify Web Playback SDK checks the browser UA before initialising
     // EME/Widevine. Android WebView uses a non-Chrome UA string by default, causing
