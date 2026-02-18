@@ -14,7 +14,8 @@ const _scopes = [
   'user-read-playback-state',
   'user-modify-playback-state',
   'user-read-currently-playing',
-  'user-read-private', // needed to verify Premium status
+  'user-read-private',
+  'user-read-email', // Web Playback SDK validates this during connection
 ];
 
 const _tokenKey = 'spike_access_token';

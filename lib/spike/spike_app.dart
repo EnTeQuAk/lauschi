@@ -272,7 +272,7 @@ class _SpikeAppState extends State<SpikeApp> {
             child: CustomScrollView(
               slivers: [
                 // ── WebView SDK section ──────────────────────────────────
-                _sectionHeader('WebView SDK (EME/DRM)', subtitle: 'Requires Widevine in WebView'),
+                _sectionHeader('WebView SDK (EME/DRM)', subtitle: 'Widevine L3 · no Spotify app needed'),
                 SliverToBoxAdapter(child: _buildSdkSection()),
 
                 // ── Connect section ──────────────────────────────────────
@@ -360,7 +360,7 @@ class _SpikeAppState extends State<SpikeApp> {
             size: 20,
           ),
           title: Text(
-            _playerReady ? 'Player ready' : 'Player not ready (EME/DRM failure expected)',
+            _playerReady ? 'Player ready (device: ${_bridge?.hasDevice == true ? "✓" : "–"})' : 'Initialising…',
             style: const TextStyle(fontSize: 12),
           ),
           subtitle: state?.track != null
@@ -391,7 +391,11 @@ class _SpikeAppState extends State<SpikeApp> {
                 (_playerState?.paused ?? true) ? Icons.play_arrow : Icons.pause,
                 size: 20,
               ),
-              onPressed: _playerReady ? _bridge!.togglePlay : null,
+              onPressed: _playerReady
+                  ? () => (_playerState?.paused ?? true)
+                      ? _bridge!.resume()
+                      : _bridge!.pause()
+                  : null,
             ),
             IconButton(
               icon: const Icon(Icons.skip_next, size: 20),

@@ -224,7 +224,7 @@ class SpotifyPlayerBridge {
   Future<void> _initPlayer() async {
     if (_tokens == null) return;
     L.info('bridge', 'Calling lauschi.init() with access token');
-    final token = await SpotifyAuth.validToken(_tokens!);
+    final token = await _freshToken();
     final safeToken = token.replaceAll('"', '\\"');
     await controller.runJavaScript('window.lauschi.init("$safeToken")');
     L.debug('dart→js', 'lauschi.init(token)');
@@ -233,7 +233,7 @@ class SpotifyPlayerBridge {
   Future<void> _deliverFreshToken() async {
     if (_tokens == null) return;
     try {
-      final token = await SpotifyAuth.validToken(_tokens!);
+      final token = await _freshToken();
       final safeToken = token.replaceAll('"', '\\"');
       await controller.runJavaScript('window.lauschi.deliver_token("$safeToken")');
       L.debug('dart→js', 'lauschi.deliver_token(token)');
@@ -243,43 +243,87 @@ class SpotifyPlayerBridge {
     }
   }
 
-  /// Transfer playback to our WebView device and start playing a URI.
+  /// Get a valid access token, refreshing if needed. Updates `_tokens`.
+  Future<String> _freshToken() async {
+    if (_tokens == null) throw StateError('No tokens');
+    if (!_tokens!.isExpired) return _tokens!.accessToken;
+    L.info('bridge', 'Token expired, refreshing');
+    if (_tokens!.refreshToken == null) throw StateError('No refresh token');
+    final refreshed = await SpotifyAuth.refresh(_tokens!.refreshToken!);
+    _tokens = refreshed;
+    return refreshed.accessToken;
+  }
+
+  /// Start playback via Spotify Web API.
+  /// Handles tracks (`spotify:track:`) and contexts (`spotify:album:`, etc.).
   Future<void> _startPlayback(String uri, String deviceId) async {
-    if (_tokens == null) return;
     try {
-      final token = await SpotifyAuth.validToken(_tokens!);
+      final token = await _freshToken();
+      // Track URIs use 'uris', context URIs (album/playlist/artist) use 'context_uri'
+      final isTrack = uri.startsWith('spotify:track:');
+      final body = isTrack ? {'uris': [uri]} : {'context_uri': uri};
 
-      L.info('api', 'PUT /v1/me/player (transfer)', data: {'device_id': deviceId});
-      final transferResp = await _dio.put(
-        'https://api.spotify.com/v1/me/player',
-        data: json.encode({'device_ids': [deviceId], 'play': false}),
-        options: Options(headers: {'Authorization': 'Bearer $token'}),
-      );
-      L.debug('api', 'Transfer response', data: {'status': transferResp.statusCode.toString()});
-
-      L.info('api', 'PUT /v1/me/player/play', data: {'uri': uri, 'device_id': deviceId});
-      final playResp = await _dio.put(
+      L.info('api', 'PUT /v1/me/player/play', data: {
+        'uri': uri,
+        'device_id': deviceId,
+        'type': isTrack ? 'track' : 'context',
+      });
+      final resp = await _dio.put(
         'https://api.spotify.com/v1/me/player/play?device_id=$deviceId',
-        data: json.encode({'context_uri': uri}),
+        data: json.encode(body),
         options: Options(headers: {'Authorization': 'Bearer $token'}),
       );
-      L.debug('api', 'Play response', data: {'status': playResp.statusCode.toString()});
+      L.info('api', 'Play response', data: {'status': resp.statusCode.toString()});
     } on DioException catch (e) {
-      L.error('api', 'Playback start failed', data: {
+      L.error('api', 'Playback failed', data: {
         'status': e.response?.statusCode?.toString() ?? '?',
         'body': e.response?.data?.toString() ?? e.message ?? '',
       });
-      _events.add(PlayerError('playback_start', '${e.response?.statusCode}: ${e.message}'));
+      _events.add(PlayerError('playback', '${e.response?.statusCode}: ${e.message}'));
     }
   }
 
-  // Commands to JS.
-
+  /// Start playback on the WebView SDK device via Spotify Web API.
   Future<void> play(String spotifyUri) async {
-    L.info('dart→js', 'lauschi.play()', data: {'uri': spotifyUri});
-    await controller.runJavaScript(
-      'window.lauschi.play("${spotifyUri.replaceAll('"', '\\"')}")',
-    );
+    if (_deviceId == null) {
+      L.error('bridge', 'Cannot play — no device_id yet');
+      _events.add(PlayerError('play', 'No device_id'));
+      return;
+    }
+    await _startPlayback(spotifyUri, _deviceId!);
+  }
+
+  /// Pause via Web API (more reliable than JS toggle when SDK state is uncertain).
+  Future<void> pause() async {
+    try {
+      final token = await _freshToken();
+      await _dio.put(
+        'https://api.spotify.com/v1/me/player/pause',
+        options: Options(headers: {'Authorization': 'Bearer $token'}),
+      );
+      L.info('api', 'Paused');
+    } on DioException catch (e) {
+      L.error('api', 'Pause failed', data: {
+        'status': e.response?.statusCode?.toString() ?? '?',
+      });
+    }
+  }
+
+  /// Resume via Web API.
+  Future<void> resume() async {
+    if (_deviceId == null) return;
+    try {
+      final token = await _freshToken();
+      await _dio.put(
+        'https://api.spotify.com/v1/me/player/play?device_id=$_deviceId',
+        options: Options(headers: {'Authorization': 'Bearer $token'}),
+      );
+      L.info('api', 'Resumed');
+    } on DioException catch (e) {
+      L.error('api', 'Resume failed', data: {
+        'status': e.response?.statusCode?.toString() ?? '?',
+      });
+    }
   }
 
   Future<void> togglePlay() async {
