@@ -1,4 +1,4 @@
-include: package:flutter_lints/flutter.yaml
+include: package:very_good_analysis/analysis_options.yaml
 
 analyzer:
   errors:
@@ -7,23 +7,11 @@ analyzer:
   exclude:
     - "**/*.g.dart"
     - "**/*.freezed.dart"
+    - lib/spike/**
 
 linter:
   rules:
-    # Style
-    - always_declare_return_types
-    - annotate_overrides
-    - avoid_print
-    - avoid_unnecessary_containers
-    - prefer_const_constructors
-    - prefer_const_declarations
-    - prefer_final_fields
-    - prefer_final_locals
-    - prefer_single_quotes
-    - unnecessary_const
-    - unnecessary_new
-    # Safety
-    - avoid_dynamic_calls
-    - cancel_subscriptions
-    - close_sinks
-    - unawaited_futures
+    # Relax rules that conflict with our patterns
+    public_member_api_docs: false # not needed for an app (not a library)
+    lines_longer_than_80_chars: false # 80 is too aggressive; formatter handles it
+    flutter_style_todos: false # we use TODO(#issue) not TODO(username)

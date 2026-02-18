@@ -1,7 +1,5 @@
 import 'package:drift/drift.dart';
 
-// ignore_for_file: prefer_mixin
-
 class Cards extends Table {
   TextColumn get id => text()();
   TextColumn get title => text()();
