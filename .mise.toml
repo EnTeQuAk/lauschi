@@ -5,3 +5,4 @@ java = "temurin-17.0.18+8"
 
 [env]
 JAVA_HOME = "{{env.HOME}}/.local/share/mise/installs/java/temurin-17.0.18+8"
+ANDROID_HOME = "{{env.HOME}}/android-sdk"

@@ -6,6 +6,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_web_auth_2/flutter_web_auth_2.dart';
 
+import 'spike_logger.dart';
 import 'spike_secrets.dart';
 
 const _scopes = [
@@ -51,6 +52,12 @@ class SpotifyAuth {
   }
 
   static Future<SpotifyTokens> login() async {
+    L.info('auth', 'Starting PKCE OAuth flow', data: {
+      'client_id': SpikeSecrets.spotifyClientId,
+      'redirect_uri': SpikeSecrets.spotifyRedirectUri,
+      'scopes': _scopes.join(' '),
+    });
+
     final pkce = _pkce();
     final state = base64UrlEncode(
       List<int>.generate(16, (_) => Random.secure().nextInt(256)),
@@ -66,56 +73,93 @@ class SpotifyAuth {
       'state': state,
     });
 
+    L.debug('auth', 'Opening auth browser', data: {'url': authUrl.toString()});
+
     final result = await FlutterWebAuth2.authenticate(
       url: authUrl.toString(),
       callbackUrlScheme: 'lauschi',
     );
 
+    L.debug('auth', 'Callback received', data: {'result': result});
+
     final resultUri = Uri.parse(result);
     if (resultUri.queryParameters['state'] != state) {
+      L.error('auth', 'State mismatch — possible CSRF');
       throw StateError('OAuth state mismatch — possible CSRF');
+    }
+
+    final error = resultUri.queryParameters['error'];
+    if (error != null) {
+      L.error('auth', 'OAuth error from Spotify', data: {
+        'error': error,
+        'description': resultUri.queryParameters['error_description'] ?? '',
+      });
+      throw StateError('OAuth error: $error');
     }
 
     final code = resultUri.queryParameters['code'];
     if (code == null) {
+      L.error('auth', 'No code in callback', data: {'result': result});
       throw StateError('No code in OAuth callback: $result');
     }
 
+    L.info('auth', 'Code received, exchanging for tokens');
     return _exchangeCode(code, pkce.verifier);
   }
 
   static Future<SpotifyTokens> _exchangeCode(String code, String verifier) async {
-    final resp = await _dio.post<Map<String, dynamic>>(
-      'https://accounts.spotify.com/api/token',
-      data: {
-        'grant_type': 'authorization_code',
-        'code': code,
-        'redirect_uri': SpikeSecrets.spotifyRedirectUri,
-        'client_id': SpikeSecrets.spotifyClientId,
-        'code_verifier': verifier,
-      },
-      options: Options(
-        contentType: Headers.formUrlEncodedContentType,
-      ),
-    );
-
-    return _saveAndReturn(resp.data!);
+    L.debug('auth', 'POST /api/token (authorization_code)');
+    try {
+      final resp = await _dio.post<Map<String, dynamic>>(
+        'https://accounts.spotify.com/api/token',
+        data: {
+          'grant_type': 'authorization_code',
+          'code': code,
+          'redirect_uri': SpikeSecrets.spotifyRedirectUri,
+          'client_id': SpikeSecrets.spotifyClientId,
+          'code_verifier': verifier,
+        },
+        options: Options(contentType: Headers.formUrlEncodedContentType),
+      );
+      L.info('auth', 'Token exchange success', data: {
+        'expires_in': resp.data!['expires_in'],
+        'scope': resp.data!['scope'],
+        'has_refresh': (resp.data!['refresh_token'] != null).toString(),
+      });
+      return _saveAndReturn(resp.data!);
+    } on DioException catch (e) {
+      L.error('auth', 'Token exchange failed', data: {
+        'status': e.response?.statusCode?.toString() ?? '?',
+        'body': e.response?.data?.toString() ?? e.message ?? '',
+      });
+      rethrow;
+    }
   }
 
   static Future<SpotifyTokens> refresh(String refreshToken) async {
-    final resp = await _dio.post<Map<String, dynamic>>(
-      'https://accounts.spotify.com/api/token',
-      data: {
-        'grant_type': 'refresh_token',
-        'refresh_token': refreshToken,
-        'client_id': SpikeSecrets.spotifyClientId,
-      },
-      options: Options(
-        contentType: Headers.formUrlEncodedContentType,
-      ),
-    );
-
-    return _saveAndReturn(resp.data!, existingRefreshToken: refreshToken);
+    L.debug('auth', 'POST /api/token (refresh_token)');
+    try {
+      final resp = await _dio.post<Map<String, dynamic>>(
+        'https://accounts.spotify.com/api/token',
+        data: {
+          'grant_type': 'refresh_token',
+          'refresh_token': refreshToken,
+          'client_id': SpikeSecrets.spotifyClientId,
+        },
+        options: Options(contentType: Headers.formUrlEncodedContentType),
+      );
+      L.info('auth', 'Token refresh success', data: {
+        'expires_in': resp.data!['expires_in'],
+        'scope': resp.data!['scope'],
+      });
+      return _saveAndReturn(resp.data!, existingRefreshToken: refreshToken);
+    } on DioException catch (e) {
+      L.error('auth', 'Token refresh failed', data: {
+        'status': e.response?.statusCode?.toString() ?? '?',
+        'body': e.response?.data?.toString() ?? e.message ?? '',
+      });
+      rethrow;
+    }
   }
 
   static Future<SpotifyTokens> _saveAndReturn(
@@ -133,6 +177,8 @@ class SpotifyAuth {
       _storage.write(key: _expiryKey, value: expiry.toIso8601String()),
     ]);
 
+    L.debug('auth', 'Tokens stored', data: {'expiry': expiry.toIso8601String()});
+
     return SpotifyTokens(
       accessToken: accessToken,
       refreshToken: refreshToken,
@@ -144,16 +190,21 @@ class SpotifyAuth {
     final token = await _storage.read(key: _tokenKey);
     final refresh = await _storage.read(key: _refreshKey);
     final expiryStr = await _storage.read(key: _expiryKey);
-    if (token == null || expiryStr == null) return null;
-
-    return SpotifyTokens(
-      accessToken: token,
-      refreshToken: refresh,
-      expiry: DateTime.parse(expiryStr),
-    );
+    if (token == null || expiryStr == null) {
+      L.debug('auth', 'No stored tokens found');
+      return null;
+    }
+    final expiry = DateTime.parse(expiryStr);
+    final isExpired = DateTime.now().isAfter(expiry.subtract(const Duration(minutes: 2)));
+    L.info('auth', 'Stored tokens loaded', data: {
+      'expiry': expiryStr,
+      'expired': isExpired.toString(),
+    });
+    return SpotifyTokens(accessToken: token, refreshToken: refresh, expiry: expiry);
   }
 
   static Future<void> logout() async {
+    L.info('auth', 'Logging out, clearing stored tokens');
     await Future.wait([
       _storage.delete(key: _tokenKey),
       _storage.delete(key: _refreshKey),
@@ -163,7 +214,11 @@ class SpotifyAuth {
 
   // Returns a valid (non-expired) access token, refreshing if needed.
   static Future<String> validToken(SpotifyTokens tokens) async {
-    if (!tokens.isExpired) return tokens.accessToken;
+    if (!tokens.isExpired) {
+      L.debug('auth', 'Token still valid');
+      return tokens.accessToken;
+    }
+    L.info('auth', 'Token expired, refreshing');
     if (tokens.refreshToken == null) throw StateError('No refresh token');
     final refreshed = await refresh(tokens.refreshToken!);
     return refreshed.accessToken;

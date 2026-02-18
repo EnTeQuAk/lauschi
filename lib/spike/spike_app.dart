@@ -1,16 +1,18 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 import 'player_bridge.dart';
+import 'spike_logger.dart';
 import 'spotify_auth.dart';
 
 // Well-known Spotify URIs for testing.
 const _testUris = [
   ('Die drei ???  (Folge 1)', 'spotify:album:4cTBMsO0dKN7aQrjOGVmb2'),
   ('Bibi Blocksberg (Folge 1)', 'spotify:album:3IWEpzF0gPPPNtyFiTXhT7'),
-  ('Test: single track', 'spotify:track:4iV5W9uYEdYUVa79Axb7Rh'),
+  ('Test track', 'spotify:track:4iV5W9uYEdYUVa79Axb7Rh'),
 ];
 
 class SpikeApp extends StatefulWidget {
@@ -23,10 +25,14 @@ class SpikeApp extends StatefulWidget {
 class _SpikeAppState extends State<SpikeApp> {
   SpotifyTokens? _tokens;
   final _bridge = SpotifyPlayerBridge();
-  final _logs = <String>[];
+  final _logs = <LogEntry>[];
+  StreamSubscription<LogEntry>? _logSub;
+
   PlayerStateChanged? _playerState;
   bool _playerReady = false;
   bool _bridgeInitialised = false;
+
+  LogLevel _filterLevel = LogLevel.debug;
 
   // Background test
   Timer? _bgTimer;
@@ -36,31 +42,44 @@ class _SpikeAppState extends State<SpikeApp> {
   @override
   void initState() {
     super.initState();
+    _logSub = L.stream.listen((entry) {
+      setState(() {
+        _logs.insert(0, entry);
+        if (_logs.length > 200) _logs.removeLast();
+      });
+    });
     _tryLoadStoredTokens();
+  }
+
+  @override
+  void dispose() {
+    _logSub?.cancel();
+    _bgTimer?.cancel();
+    _bridge.dispose();
+    super.dispose();
   }
 
   Future<void> _tryLoadStoredTokens() async {
     final tokens = await SpotifyAuth.loadStored();
     if (tokens != null) {
       setState(() => _tokens = tokens);
-      _log('Loaded stored tokens (expiry: ${tokens.expiry})');
       await _initBridge(tokens);
     }
   }
 
   Future<void> _login() async {
+    L.info('app', 'Login tapped');
     try {
-      _log('Starting Spotify OAuth...');
       final tokens = await SpotifyAuth.login();
       setState(() => _tokens = tokens);
-      _log('Auth success. Expiry: ${tokens.expiry}');
       await _initBridge(tokens);
     } catch (e) {
-      _log('Auth error: $e');
+      L.error('app', 'Login failed', data: {'error': e.toString()});
     }
   }
 
   Future<void> _logout() async {
+    L.info('app', 'Logout tapped');
     await SpotifyAuth.logout();
     setState(() {
       _tokens = null;
@@ -80,52 +99,35 @@ class _SpikeAppState extends State<SpikeApp> {
       switch (event) {
         case PlayerReady(:final deviceId):
           setState(() => _playerReady = true);
-          _log('✅ Player READY. device_id: $deviceId');
+          L.info('app', 'Player READY', data: {'device_id': deviceId});
         case PlayerNotReady():
           setState(() => _playerReady = false);
-          _log('⚠️  Player NOT READY');
+          L.warn('app', 'Player NOT READY');
         case PlayerStateChanged():
           setState(() => _playerState = event);
-          // Log only on meaningful changes to avoid spam.
-          if (event.track != null) {
-            _log('▶ ${event.paused ? "⏸" : "▶"} ${event.track!.name} — ${event.track!.artist}');
-          }
         case PlayerError(:final type, :final message):
-          _log('❌ Error [$type]: $message');
-        case PlayerLog(:final message):
-          _log('[js] $message');
+          L.error('app', 'Player error', data: {'type': type, 'message': message});
       }
     });
-  }
-
-  void _log(String msg) {
-    setState(() {
-      _logs.insert(0, '[${_timestamp()}] $msg');
-      if (_logs.length > 80) _logs.removeLast();
-    });
-  }
-
-  String _timestamp() {
-    final now = DateTime.now();
-    return '${now.hour.toString().padLeft(2, '0')}:'
-        '${now.minute.toString().padLeft(2, '0')}:'
-        '${now.second.toString().padLeft(2, '0')}';
   }
 
   void _startBgTest() {
     _bgSecondsElapsed = 0;
     _bgTestRunning = true;
-    _log('⏱ Background test started. Background the app NOW.');
+    L.info('app', 'Background test started — background the app NOW');
     _bgTimer?.cancel();
     _bgTimer = Timer.periodic(const Duration(seconds: 5), (_) {
       _bgSecondsElapsed += 5;
       final paused = _playerState?.paused ?? true;
-      final status = paused ? '❌ PAUSED' : '✅ playing';
-      _log('⏱ ${_bgSecondsElapsed}s elapsed — audio: $status');
+      L.info('app', 'Background test tick', data: {
+        'elapsed_s': _bgSecondsElapsed.toString(),
+        'audio': paused ? 'PAUSED ❌' : 'playing ✅',
+        'track': _playerState?.track?.name ?? 'none',
+      });
       if (_bgSecondsElapsed >= 120) {
         _bgTimer?.cancel();
         setState(() => _bgTestRunning = false);
-        _log('⏱ Background test complete (120s)');
+        L.info('app', 'Background test complete (120s)');
       }
     });
     setState(() {});
@@ -133,16 +135,12 @@ class _SpikeAppState extends State<SpikeApp> {
 
   void _stopBgTest() {
     _bgTimer?.cancel();
+    L.info('app', 'Background test stopped', data: {'elapsed_s': _bgSecondsElapsed.toString()});
     setState(() => _bgTestRunning = false);
-    _log('⏱ Background test stopped at ${_bgSecondsElapsed}s');
   }
 
-  @override
-  void dispose() {
-    _bgTimer?.cancel();
-    _bridge.dispose();
-    super.dispose();
-  }
+  List<LogEntry> get _filteredLogs =>
+      _logs.where((e) => e.level.index >= _filterLevel.index).toList();
 
   @override
   Widget build(BuildContext context) {
@@ -151,6 +149,24 @@ class _SpikeAppState extends State<SpikeApp> {
         title: const Text('lauschi — Spotify spike'),
         backgroundColor: const Color(0xFF1DB954),
         foregroundColor: Colors.white,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.copy_all, size: 20),
+            tooltip: 'Copy logs',
+            onPressed: () {
+              final text = _filteredLogs.reversed.map((e) => e.toString()).join('\n');
+              Clipboard.setData(ClipboardData(text: text));
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('Logs copied'), duration: Duration(seconds: 1)),
+              );
+            },
+          ),
+          IconButton(
+            icon: const Icon(Icons.delete_outline, size: 20),
+            tooltip: 'Clear logs',
+            onPressed: () => setState(() => _logs.clear()),
+          ),
+        ],
       ),
       body: Column(
         children: [
@@ -160,8 +176,9 @@ class _SpikeAppState extends State<SpikeApp> {
           const Divider(height: 1),
           _buildControls(),
           const Divider(height: 1),
+          _buildLevelFilter(),
+          const Divider(height: 1),
           Expanded(child: _buildLogPanel()),
-          // Hidden WebView — must stay in the widget tree.
           if (_bridgeInitialised)
             SizedBox(
               width: 1,
@@ -176,6 +193,7 @@ class _SpikeAppState extends State<SpikeApp> {
   Widget _buildAuthBar() {
     if (_tokens == null) {
       return ListTile(
+        dense: true,
         leading: const Icon(Icons.login, color: Color(0xFF1DB954)),
         title: const Text('Not connected'),
         trailing: ElevatedButton(
@@ -185,14 +203,19 @@ class _SpikeAppState extends State<SpikeApp> {
       );
     }
     return ListTile(
+      dense: true,
       leading: Icon(
         _playerReady ? Icons.check_circle : Icons.hourglass_empty,
         color: _playerReady ? Colors.green : Colors.orange,
+        size: 20,
       ),
-      title: Text(_playerReady ? 'Player ready' : 'Waiting for player...'),
+      title: Text(
+        _playerReady ? 'Player ready' : 'Waiting for player…',
+        style: const TextStyle(fontSize: 13),
+      ),
       subtitle: Text(
-        'Token expires ${_tokens!.expiry.toLocal()}',
-        style: const TextStyle(fontSize: 11),
+        'Expires ${_tokens!.expiry.toLocal().toString().substring(0, 19)}',
+        style: const TextStyle(fontSize: 10),
       ),
       trailing: TextButton(onPressed: _logout, child: const Text('Logout')),
     );
@@ -202,24 +225,31 @@ class _SpikeAppState extends State<SpikeApp> {
     final state = _playerState;
     if (state == null || state.track == null) {
       return const ListTile(
-        leading: Icon(Icons.music_off, color: Colors.grey),
-        title: Text('Nothing playing'),
+        dense: true,
+        leading: Icon(Icons.music_off, color: Colors.grey, size: 20),
+        title: Text('Nothing playing', style: TextStyle(fontSize: 13)),
       );
     }
     final track = state.track!;
     final pos = Duration(milliseconds: state.positionMs);
     final dur = Duration(milliseconds: state.durationMs);
     return ListTile(
+      dense: true,
       leading: track.artworkUrl != null
           ? ClipRRect(
               borderRadius: BorderRadius.circular(4),
-              child: Image.network(track.artworkUrl!, width: 48, height: 48, fit: BoxFit.cover),
+              child: Image.network(track.artworkUrl!, width: 40, height: 40, fit: BoxFit.cover),
             )
-          : const Icon(Icons.album),
-      title: Text(track.name, maxLines: 1, overflow: TextOverflow.ellipsis),
-      subtitle: Text('${track.artist} • ${_fmt(pos)} / ${_fmt(dur)}'),
-      trailing: Icon(state.paused ? Icons.pause_circle : Icons.play_circle,
-          color: const Color(0xFF1DB954), size: 32),
+          : const Icon(Icons.album, size: 40),
+      title: Text(track.name, maxLines: 1, overflow: TextOverflow.ellipsis,
+          style: const TextStyle(fontSize: 13)),
+      subtitle: Text('${track.artist} · ${_fmt(pos)} / ${_fmt(dur)}',
+          style: const TextStyle(fontSize: 11)),
+      trailing: Icon(
+        state.paused ? Icons.pause_circle : Icons.play_circle,
+        color: const Color(0xFF1DB954),
+        size: 28,
+      ),
     );
   }
 
@@ -229,7 +259,6 @@ class _SpikeAppState extends State<SpikeApp> {
   Widget _buildControls() {
     return Column(
       children: [
-        // Playback controls
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -241,7 +270,7 @@ class _SpikeAppState extends State<SpikeApp> {
               icon: Icon((_playerState?.paused ?? true)
                   ? Icons.play_circle_filled
                   : Icons.pause_circle_filled),
-              iconSize: 48,
+              iconSize: 44,
               color: const Color(0xFF1DB954),
               onPressed: _playerReady ? _bridge.togglePlay : null,
             ),
@@ -251,59 +280,62 @@ class _SpikeAppState extends State<SpikeApp> {
             ),
           ],
         ),
-        // Test content buttons
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8),
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
           child: Wrap(
-            spacing: 8,
+            spacing: 6,
             children: [
               for (final (label, uri) in _testUris)
                 OutlinedButton(
                   onPressed: _playerReady ? () => _bridge.play(uri) : null,
+                  style: OutlinedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    minimumSize: Size.zero,
+                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  ),
                   child: Text(label, style: const TextStyle(fontSize: 11)),
                 ),
             ],
           ),
         ),
-        // Background test controls
         Padding(
-          padding: const EdgeInsets.all(8),
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
           child: Row(
             children: [
               const Icon(Icons.timer_outlined, size: 16),
               const SizedBox(width: 4),
-              const Text('Background test:', style: TextStyle(fontSize: 12)),
-              const SizedBox(width: 8),
+              const Text('BG test:', style: TextStyle(fontSize: 12)),
+              const SizedBox(width: 6),
               if (!_bgTestRunning)
-                ElevatedButton.icon(
-                  onPressed: _playerReady && !(_playerState?.paused ?? true)
-                      ? _startBgTest
-                      : null,
-                  icon: const Icon(Icons.play_arrow, size: 14),
-                  label: const Text('Start', style: TextStyle(fontSize: 12)),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.orange,
-                    foregroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                SizedBox(
+                  height: 28,
+                  child: ElevatedButton(
+                    onPressed: _playerReady && !(_playerState?.paused ?? true)
+                        ? _startBgTest
+                        : null,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.orange,
+                      foregroundColor: Colors.white,
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      textStyle: const TextStyle(fontSize: 12),
+                    ),
+                    child: const Text('Start (play audio first)'),
                   ),
                 )
               else
-                Row(
-                  children: [
-                    Text('${_bgSecondsElapsed}s',
-                        style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.orange)),
-                    const SizedBox(width: 4),
-                    TextButton(
+                Row(children: [
+                  Text('${_bgSecondsElapsed}s / 120s',
+                      style: const TextStyle(
+                          fontWeight: FontWeight.bold, color: Colors.orange, fontSize: 12)),
+                  const SizedBox(width: 6),
+                  SizedBox(
+                    height: 24,
+                    child: TextButton(
                       onPressed: _stopBgTest,
                       child: const Text('Stop', style: TextStyle(fontSize: 12)),
                     ),
-                  ],
-                ),
-              const Spacer(),
-              const Text(
-                'Start playback → tap Start → background the app',
-                style: TextStyle(fontSize: 10, color: Colors.grey),
-              ),
+                  ),
+                ]),
             ],
           ),
         ),
@@ -311,27 +343,123 @@ class _SpikeAppState extends State<SpikeApp> {
     );
   }
 
+  Widget _buildLevelFilter() {
+    const levels = [
+      (LogLevel.debug, 'All', Colors.grey),
+      (LogLevel.info, 'Info', Colors.blue),
+      (LogLevel.warn, 'Warn', Colors.orange),
+      (LogLevel.error, 'Error', Colors.red),
+    ];
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      child: Row(
+        children: [
+          const Text('Show:', style: TextStyle(fontSize: 11, color: Colors.grey)),
+          const SizedBox(width: 6),
+          for (final (level, label, color) in levels)
+            Padding(
+              padding: const EdgeInsets.only(right: 4),
+              child: ChoiceChip(
+                label: Text(label, style: const TextStyle(fontSize: 11)),
+                selected: _filterLevel == level,
+                selectedColor: color.withValues(alpha: 0.2),
+                onSelected: (_) => setState(() => _filterLevel = level),
+                padding: const EdgeInsets.symmetric(horizontal: 4),
+                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              ),
+            ),
+          const Spacer(),
+          Text(
+            '${_filteredLogs.length} entries',
+            style: const TextStyle(fontSize: 10, color: Colors.grey),
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget _buildLogPanel() {
+    final logs = _filteredLogs;
+    if (logs.isEmpty) {
+      return const Center(
+        child: Text('No logs yet', style: TextStyle(color: Colors.grey, fontSize: 12)),
+      );
+    }
     return ListView.builder(
-      reverse: true,
-      itemCount: _logs.length,
+      itemCount: logs.length,
       itemBuilder: (ctx, i) {
-        // reverse: index 0 = most recent
-        final log = _logs[i];
-        final isError = log.contains('❌');
-        final isSuccess = log.contains('✅');
-        return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 1),
-          child: Text(
-            log,
-            style: TextStyle(
-              fontSize: 11,
-              fontFamily: 'monospace',
-              color: isError ? Colors.red[700] : isSuccess ? Colors.green[700] : null,
+        final entry = logs[i];
+        return _LogRow(entry: entry);
+      },
+    );
+  }
+}
+
+class _LogRow extends StatelessWidget {
+  final LogEntry entry;
+  const _LogRow({required this.entry});
+
+  @override
+  Widget build(BuildContext context) {
+    final (color, bgColor) = switch (entry.level) {
+      LogLevel.error => (Colors.red[700]!, Colors.red[50]!),
+      LogLevel.warn  => (Colors.orange[800]!, Colors.orange[50]!),
+      LogLevel.info  => (Colors.blue[800]!, Colors.transparent),
+      LogLevel.debug => (Colors.grey[600]!, Colors.transparent),
+    };
+
+    final ts = '${entry.time.hour.toString().padLeft(2, '0')}:'
+        '${entry.time.minute.toString().padLeft(2, '0')}:'
+        '${entry.time.second.toString().padLeft(2, '0')}.'
+        '${(entry.time.millisecond ~/ 10).toString().padLeft(2, '0')}';
+
+    return Container(
+      color: bgColor,
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(ts, style: TextStyle(fontSize: 10, color: Colors.grey[500], fontFamily: 'monospace')),
+          const SizedBox(width: 4),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 1),
+            decoration: BoxDecoration(
+              color: color.withValues(alpha: 0.15),
+              borderRadius: BorderRadius.circular(3),
+            ),
+            child: Text(
+              entry.source,
+              style: TextStyle(fontSize: 9, color: color, fontWeight: FontWeight.bold),
             ),
           ),
-        );
-      },
+          const SizedBox(width: 4),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  entry.message,
+                  style: TextStyle(fontSize: 11, color: color, fontFamily: 'monospace'),
+                ),
+                if (entry.data != null && entry.data!.isNotEmpty)
+                  Text(
+                    entry.data!.entries
+                        .map((e) {
+                          final v = e.value?.toString() ?? 'null';
+                          return '${e.key}: ${v.length > 120 ? '${v.substring(0, 117)}…' : v}';
+                        })
+                        .join('  '),
+                    style: TextStyle(
+                      fontSize: 10,
+                      color: color.withValues(alpha: 0.8),
+                      fontFamily: 'monospace',
+                    ),
+                  ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
