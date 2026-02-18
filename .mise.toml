@@ -6,3 +6,27 @@ java = "temurin-17.0.18+8"
 [env]
 JAVA_HOME = "{{env.HOME}}/.local/share/mise/installs/java/temurin-17.0.18+8"
 ANDROID_HOME = "{{env.HOME}}/android-sdk"
+
+[tasks.setup]
+description = "One-time setup: download native SDKs + generate Drift/Riverpod code"
+run = """
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Spotify App Remote AAR (Android) — gitignored binary blob, ~270k
+AAR_DIR="android/spotify-app-remote"
+AAR_FILE="$AAR_DIR/spotify-app-remote-release-0.8.0.aar"
+AAR_URL="https://github.com/spotify/android-sdk/releases/download/v0.8.0-appremote_v2.1.0-auth/spotify-app-remote-release-0.8.0.aar"
+
+if [ ! -f "$AAR_FILE" ]; then
+  echo "→ Downloading Spotify App Remote SDK..."
+  curl -L --progress-bar -o "$AAR_FILE" "$AAR_URL"
+else
+  echo "→ Spotify App Remote AAR already present, skipping."
+fi
+
+# Drift + Riverpod generated code
+echo "→ Running build_runner..."
+dart run build_runner build --delete-conflicting-outputs
+echo "Done. Run: flutter run"
+"""
