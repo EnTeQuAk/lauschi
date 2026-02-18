@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:lauschi/core/database/card_repository.dart';
 import 'package:lauschi/core/router/app_router.dart';
+import 'package:lauschi/core/spotify/spotify_auth_provider.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
+import 'package:lauschi/features/player/player_provider.dart';
+import 'package:lauschi/features/player/player_state.dart';
+import 'package:lauschi/features/player/spotify_player_bridge.dart';
 
 Widget _buildApp(ProviderContainer container) {
   return UncontrolledProviderScope(
@@ -19,41 +24,64 @@ Widget _buildApp(ProviderContainer container) {
   );
 }
 
+/// Override providers that require platform channels or async init.
+List<Override> get _testOverrides => [
+      spotifyAuthNotifierProvider.overrideWith(
+        () => _FakeAuthNotifier(),
+      ),
+      spotifyPlayerBridgeProvider.overrideWithValue(SpotifyPlayerBridge()),
+      playerNotifierProvider.overrideWith(() => _FakePlayerNotifier()),
+      allCardsProvider.overrideWith((ref) => Stream.value([])),
+    ];
+
 void main() {
   testWidgets('app starts on kid home route', (tester) async {
-    final container = ProviderContainer();
+    final container = ProviderContainer(overrides: _testOverrides);
     addTearDown(container.dispose);
 
     await tester.pumpWidget(_buildApp(container));
-    await tester.pumpAndSettle();
+    await tester.pump();
 
-    // Label appears in AppBar + body — both confirm we're on the right route
-    expect(find.text('Kid Home'), findsAtLeastNWidgets(1));
+    expect(find.text('Meine Hörspiele'), findsOneWidget);
   });
 
-  testWidgets('navigating to /player renders player placeholder', (tester) async {
-    final container = ProviderContainer();
+  testWidgets('navigating to /player renders player placeholder',
+      (tester) async {
+    final container = ProviderContainer(overrides: _testOverrides);
     addTearDown(container.dispose);
 
     await tester.pumpWidget(_buildApp(container));
-    await tester.pumpAndSettle();
+    await tester.pump();
 
     container.read(appRouterProvider).go(AppRoutes.player);
-    await tester.pumpAndSettle();
+    await tester.pump();
+    await tester.pump();
 
     expect(find.text('Player'), findsAtLeastNWidgets(1));
   });
 
-  testWidgets('navigating to /parent renders parent dashboard placeholder', (tester) async {
-    final container = ProviderContainer();
+  testWidgets('navigating to /parent renders parent dashboard placeholder',
+      (tester) async {
+    final container = ProviderContainer(overrides: _testOverrides);
     addTearDown(container.dispose);
 
     await tester.pumpWidget(_buildApp(container));
-    await tester.pumpAndSettle();
+    await tester.pump();
 
     container.read(appRouterProvider).go(AppRoutes.parentDashboard);
-    await tester.pumpAndSettle();
+    await tester.pump();
+    await tester.pump();
 
     expect(find.text('Parent Dashboard'), findsAtLeastNWidgets(1));
   });
+}
+
+class _FakeAuthNotifier extends SpotifyAuthNotifier {
+  @override
+  SpotifyAuthState build() => const AuthUnauthenticated();
+}
+
+class _FakePlayerNotifier extends PlayerNotifier {
+  @override
+  PlaybackState build() => const PlaybackState();
 }

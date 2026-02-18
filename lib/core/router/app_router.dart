@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:lauschi/features/cards/screens/kid_home_screen.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'app_router.g.dart';
@@ -34,7 +35,7 @@ GoRouter appRouter(Ref ref) {
       ),
       GoRoute(
         path: AppRoutes.kidHome,
-        builder: (context, state) => const _PlaceholderScreen(label: 'Kid Home'),
+        builder: (context, state) => const KidHomeScreen(),
         routes: [
           GoRoute(
             path: 'player',

@@ -17,7 +17,14 @@ const _tag = 'PlayerBridge';
 class SpotifyPlayerBridge {
   final _stateController = StreamController<PlaybackState>.broadcast();
 
-  late final WebViewController controller;
+  WebViewController? _controller;
+
+  /// Access the WebView controller. Only available after [init].
+  WebViewController get controller {
+    final c = _controller;
+    if (c == null) throw StateError('Bridge not initialized');
+    return c;
+  }
   SpotifyAuth? _auth;
   SpotifyTokens? _tokens;
   PlaybackState _state = const PlaybackState();
@@ -41,7 +48,7 @@ class SpotifyPlayerBridge {
     _tokens = tokens;
     Log.info(_tag, 'Initializing WebView bridge');
 
-    controller = WebViewController(
+    _controller = WebViewController(
       onPermissionRequest: (request) {
         // Grant PROTECTED_MEDIA_ID so Android WebView exposes Widevine via EME.
         Log.info(_tag, 'Permission request', data: {
@@ -228,7 +235,9 @@ class SpotifyPlayerBridge {
   /// Disconnect and clean up.
   Future<void> dispose() async {
     Log.info(_tag, 'Disposing bridge');
-    await controller.runJavaScript('window.lauschi.disconnect()');
+    if (_controller != null) {
+      await _controller!.runJavaScript('window.lauschi.disconnect()');
+    }
     await _stateController.close();
   }
 }
