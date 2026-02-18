@@ -35,9 +35,8 @@ class SpotifyPlayerBridge {
   /// Current playback state.
   PlaybackState get currentState => _state;
 
-  /// The WebView widget needs real dimensions (300x300+).
-  /// 1x1 causes Android to suspend media playback.
-  WebViewController get webViewController => controller;
+  /// Access the controller if initialized, null otherwise.
+  WebViewController? get controllerOrNull => _controller;
 
   /// Initialize the WebView and load the player HTML.
   Future<void> init({
