@@ -109,8 +109,12 @@ class SpotifyPlayerBridge {
       },
     ));
 
-    L.info('bridge', 'Loading player.html');
-    await controller.loadFlutterAsset('assets/player.html');
+    // HTTPS origin so Android WebView may expose Widevine via EME —
+    // file:// origin was blocking requestMediaKeySystemAccess.
+    // Deployed via: mise run deploy-player
+    const playerUrl = 'https://tuneloopbot.webshox.org/lauschi/player.html';
+    L.info('bridge', 'Loading player.html', data: {'url': playerUrl});
+    await controller.loadRequest(Uri.parse(playerUrl));
   }
 
   void _onPageLoaded() {

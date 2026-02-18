@@ -7,6 +7,10 @@ java = "temurin-17.0.18+8"
 JAVA_HOME = "{{env.HOME}}/.local/share/mise/installs/java/temurin-17.0.18+8"
 ANDROID_HOME = "{{env.HOME}}/android-sdk"
 
+[tasks.deploy-player]
+description = "Deploy assets/player.html to HTTPS test host for WebView DRM validation"
+run = "scp assets/player.html cgrebs@159.69.123.71:/var/www/lauschi/player.html"
+
 [tasks.setup]
 description = "One-time setup: download native SDKs + generate Drift/Riverpod code"
 run = """
