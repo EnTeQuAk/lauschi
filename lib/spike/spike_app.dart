@@ -1,9 +1,12 @@
-import 'dart:async';
+import 'dart:async' show StreamSubscription, Timer, unawaited;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
+import 'package:spotify_sdk/models/player_state.dart';
+
+import 'app_remote_client.dart';
 import 'connect_client.dart';
 import 'player_bridge.dart';
 import 'spike_logger.dart';
@@ -38,6 +41,11 @@ class _SpikeAppState extends State<SpikeApp> {
   ConnectPlaybackState? _connectState;
   Timer? _connectPollTimer;
 
+  // ── App Remote approach ───────────────────────────────────────────────────
+  final _remote = AppRemoteClient();
+  PlayerState? _remoteState;
+  StreamSubscription<PlayerState>? _remoteStateSub;
+
   // ── Background test ──────────────────────────────────────────────────────
   Timer? _bgTimer;
   int _bgSecondsElapsed = 0;
@@ -67,8 +75,10 @@ class _SpikeAppState extends State<SpikeApp> {
     _logSub?.cancel();
     _bgTimer?.cancel();
     _connectPollTimer?.cancel();
-    _playerEventSub?.cancel();
+    unawaited(_playerEventSub?.cancel());
     _bridge?.dispose();
+    unawaited(_remoteStateSub?.cancel());
+    _remote.dispose();
     super.dispose();
   }
 
@@ -106,6 +116,9 @@ class _SpikeAppState extends State<SpikeApp> {
     await _playerEventSub?.cancel();
     _playerEventSub = null;
     _bridge?.dispose();
+    await _remoteStateSub?.cancel();
+    _remoteStateSub = null;
+    if (_remote.connected) await _remote.disconnect();
     setState(() {
       _tokens = null;
       _connect.tokens = null;
@@ -115,6 +128,7 @@ class _SpikeAppState extends State<SpikeApp> {
       _bridge = null;
       _connectDevices = [];
       _connectState = null;
+      _remoteState = null;
     });
   }
 
@@ -168,6 +182,18 @@ class _SpikeAppState extends State<SpikeApp> {
       final state = await _connect.getPlaybackState();
       if (mounted) setState(() => _connectState = state);
     });
+  }
+
+  // ── App Remote ────────────────────────────────────────────────────────────
+
+  Future<void> _connectRemote() async {
+    final ok = await _remote.connect();
+    if (ok) {
+      await _remoteStateSub?.cancel();
+      _remoteStateSub = _remote.playerState.listen((state) {
+        setState(() => _remoteState = state);
+      });
+    }
   }
 
   // ── Background test (Connect version) ────────────────────────────────────
@@ -252,6 +278,11 @@ class _SpikeAppState extends State<SpikeApp> {
                 // ── Connect section ──────────────────────────────────────
                 _sectionHeader('Spotify Connect', subtitle: 'Uses Spotify app as audio engine — no DRM needed'),
                 SliverToBoxAdapter(child: _buildConnectSection()),
+
+                // ── App Remote section ───────────────────────────────────
+                _sectionHeader('App Remote SDK',
+                    subtitle: 'Native IPC — launches Spotify automatically'),
+                SliverToBoxAdapter(child: _buildAppRemoteSection()),
 
                 // ── Log panel ────────────────────────────────────────────
                 _sectionHeader('Logs'),
@@ -501,6 +532,114 @@ class _SpikeAppState extends State<SpikeApp> {
                 ),
               ]),
           ]),
+        ),
+      ],
+    );
+  }
+
+  // ── App Remote section ────────────────────────────────────────────────────
+
+  Widget _buildAppRemoteSection() {
+    final rs = _remoteState;
+    final track = rs?.track;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // Status + current track
+        ListTile(
+          dense: true,
+          leading: Icon(
+            _remote.connected ? Icons.bluetooth_connected : Icons.bluetooth_disabled,
+            color: _remote.connected ? Colors.green : Colors.grey,
+            size: 20,
+          ),
+          title: Text(
+            _remote.connected
+                ? (track != null
+                    ? '${track.name} — ${track.artist.name}'
+                    : 'Connected, nothing playing')
+                : 'Not connected',
+            style: const TextStyle(fontSize: 12),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+          subtitle: rs != null && track != null
+              ? Text(
+                  '${rs.isPaused ? "paused" : "playing"} · ${_fmt(Duration(milliseconds: rs.playbackPosition))} / ${_fmt(Duration(milliseconds: track.duration))}',
+                  style: const TextStyle(fontSize: 11),
+                )
+              : null,
+        ),
+
+        // Controls
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+          child: Wrap(spacing: 6, runSpacing: 6, children: [
+            // Connect button
+            if (!_remote.connected)
+              ElevatedButton.icon(
+                onPressed: _tokens != null ? _connectRemote : null,
+                icon: const Icon(Icons.link, size: 16),
+                label: const Text('Connect to Spotify', style: TextStyle(fontSize: 12)),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFF1DB954),
+                  foregroundColor: Colors.white,
+                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                ),
+              )
+            else
+              TextButton.icon(
+                onPressed: () async {
+                  await _remote.disconnect();
+                  setState(() => _remoteState = null);
+                },
+                icon: const Icon(Icons.link_off, size: 16),
+                label: const Text('Disconnect', style: TextStyle(fontSize: 12)),
+              ),
+
+            // Playback controls
+            if (_remote.connected) ...[
+              IconButton(
+                icon: const Icon(Icons.skip_previous, size: 20),
+                onPressed: _remote.skipPrevious,
+              ),
+              IconButton(
+                icon: Icon(
+                  (rs?.isPaused ?? true) ? Icons.play_arrow : Icons.pause,
+                  size: 24,
+                  color: const Color(0xFF1DB954),
+                ),
+                onPressed: () => _remote.togglePlay(rs?.isPaused ?? true),
+              ),
+              IconButton(
+                icon: const Icon(Icons.skip_next, size: 20),
+                onPressed: _remote.skipNext,
+              ),
+            ],
+
+            // Play URI buttons
+            if (_remote.connected)
+              for (final (label, uri) in _testUris)
+                OutlinedButton(
+                  onPressed: () => _remote.play(uri),
+                  style: OutlinedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    minimumSize: Size.zero,
+                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    side: const BorderSide(color: Color(0xFF1DB954)),
+                  ),
+                  child: Text('▶ $label', style: const TextStyle(fontSize: 11)),
+                ),
+          ]),
+        ),
+
+        // Note
+        const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+          child: Text(
+            '⚠ Spotify Dashboard: add package app.lauschi.lauschi + SHA-1 5F:BF:4A:A5:BB:0B:E8:77:FD:39:CB:40:69:8A:F6:AE:BE:1F:B7:B9 before connecting.',
+            style: TextStyle(fontSize: 10, color: Colors.orange),
+          ),
         ),
       ],
     );

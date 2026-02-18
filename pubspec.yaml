@@ -41,6 +41,7 @@ dependencies:
   uuid: ^4.5.1
   webview_flutter: ^4.13.1
   flutter_web_auth_2: ^5.0.1
+  spotify_sdk: ^3.0.2
 
 dev_dependencies:
   flutter_test:

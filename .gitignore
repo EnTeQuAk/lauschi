@@ -57,3 +57,7 @@ app.*.map.json
 
 # Spike secrets
 lib/spike/spike_secrets.dart
+
+# Spotify App Remote SDK — download via: dart run spotify_sdk:android_setup
+# (or manually from https://github.com/spotify/android-sdk/releases)
+android/spotify-app-remote/*.aar
