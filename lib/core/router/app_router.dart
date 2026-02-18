@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:lauschi/core/auth/pin_service.dart';
 import 'package:lauschi/features/cards/screens/kid_home_screen.dart';
+import 'package:lauschi/features/onboarding/screens/onboarding_provider.dart';
+import 'package:lauschi/features/onboarding/screens/onboarding_screen.dart';
 import 'package:lauschi/features/parent/screens/add_card_screen.dart';
 import 'package:lauschi/features/parent/screens/parent_dashboard_screen.dart';
 import 'package:lauschi/features/parent/screens/pin_screen.dart';
@@ -31,11 +34,11 @@ GoRouter appRouter(Ref ref) {
   return GoRouter(
     initialLocation: AppRoutes.kidHome,
     debugLogDiagnostics: true,
-    redirect: _globalRedirect,
+    redirect: (context, state) => _globalRedirect(ref, state),
     routes: [
       GoRoute(
         path: AppRoutes.onboarding,
-        builder: (context, state) => const _PlaceholderScreen(label: 'Onboarding'),
+        builder: (context, state) => const OnboardingScreen(),
       ),
       GoRoute(
         path: AppRoutes.kidHome,
@@ -69,9 +72,28 @@ GoRouter appRouter(Ref ref) {
   );
 }
 
-String? _globalRedirect(BuildContext context, GoRouterState state) {
-  // TODO(#10): redirect to /onboarding if first-run flag is set
-  // TODO(#9): redirect /parent/* to /pin if not authenticated
+String? _globalRedirect(Ref ref, GoRouterState state) {
+  final onboardingDone = ref.read(onboardingCompleteProvider);
+  final isOnboarding = state.matchedLocation == AppRoutes.onboarding;
+
+  // Redirect to onboarding if not completed
+  if (!onboardingDone && !isOnboarding) {
+    return AppRoutes.onboarding;
+  }
+  // Don't stay on onboarding if already completed
+  if (onboardingDone && isOnboarding) {
+    return AppRoutes.kidHome;
+  }
+
+  // Guard parent routes behind PIN
+  final isParentRoute = state.matchedLocation.startsWith('/parent');
+  if (isParentRoute) {
+    final isAuthenticated = ref.read(parentAuthProvider);
+    if (!isAuthenticated) {
+      return AppRoutes.pinEntry;
+    }
+  }
+
   return null;
 }
 

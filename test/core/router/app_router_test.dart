@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:lauschi/core/auth/pin_service.dart';
 import 'package:lauschi/core/database/card_repository.dart';
 import 'package:lauschi/core/router/app_router.dart';
 import 'package:lauschi/core/spotify/spotify_auth_provider.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
+import 'package:lauschi/features/onboarding/screens/onboarding_provider.dart';
 import 'package:lauschi/features/player/player_provider.dart';
 import 'package:lauschi/features/player/player_state.dart';
 import 'package:lauschi/features/player/spotify_player_bridge.dart';
@@ -30,6 +32,10 @@ List<Override> get _testOverrides => [
       spotifyPlayerBridgeProvider.overrideWithValue(SpotifyPlayerBridge()),
       playerNotifierProvider.overrideWith(_FakePlayerNotifier.new),
       allCardsProvider.overrideWith((_) => Stream.value([])),
+      // Skip onboarding in tests
+      onboardingCompleteProvider.overrideWith(_FakeOnboarding.new),
+      // Skip PIN gate
+      parentAuthProvider.overrideWith(_FakeParentAuth.new),
     ];
 
 void main() {
@@ -84,4 +90,14 @@ class _FakeAuthNotifier extends SpotifyAuthNotifier {
 class _FakePlayerNotifier extends PlayerNotifier {
   @override
   PlaybackState build() => const PlaybackState();
+}
+
+class _FakeOnboarding extends OnboardingComplete {
+  @override
+  bool build() => true; // Already completed
+}
+
+class _FakeParentAuth extends ParentAuth {
+  @override
+  bool build() => true; // Already authenticated for test navigation
 }
