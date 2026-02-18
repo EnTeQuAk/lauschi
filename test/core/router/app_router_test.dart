@@ -26,12 +26,10 @@ Widget _buildApp(ProviderContainer container) {
 
 /// Override providers that require platform channels or async init.
 List<Override> get _testOverrides => [
-      spotifyAuthNotifierProvider.overrideWith(
-        () => _FakeAuthNotifier(),
-      ),
+      spotifyAuthNotifierProvider.overrideWith(_FakeAuthNotifier.new),
       spotifyPlayerBridgeProvider.overrideWithValue(SpotifyPlayerBridge()),
-      playerNotifierProvider.overrideWith(() => _FakePlayerNotifier()),
-      allCardsProvider.overrideWith((ref) => Stream.value([])),
+      playerNotifierProvider.overrideWith(_FakePlayerNotifier.new),
+      allCardsProvider.overrideWith((_) => Stream.value([])),
     ];
 
 void main() {
@@ -57,7 +55,8 @@ void main() {
     await tester.pump();
     await tester.pump();
 
-    expect(find.text('Player'), findsAtLeastNWidgets(1));
+    // Full player renders play/pause button and collapse handle
+    expect(find.byIcon(Icons.play_arrow_rounded), findsAtLeastNWidgets(1));
   });
 
   testWidgets('navigating to /parent renders parent dashboard placeholder',
