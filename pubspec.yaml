@@ -4,16 +4,57 @@ publish_to: 'none'
 version: 0.1.0+1
 
 environment:
-  sdk: ^3.11.0
+  sdk: ^3.7.0
 
 dependencies:
   flutter:
     sdk: flutter
 
+  # State management
+  flutter_riverpod: ^2.6.1
+  riverpod_annotation: ^2.6.1
+
+  # Navigation
+  go_router: ^14.8.1
+
+  # Local database
+  drift: ^2.23.1
+  drift_flutter: ^0.2.4
+  sqlite3_flutter_libs: ^0.5.30
+
+  # Secure storage (tokens, PIN)
+  flutter_secure_storage: ^9.2.4
+
+  # HTTP client
+  dio: ^5.8.0+1
+
+  # Image caching
+  cached_network_image: ^3.4.1
+
+  # Connectivity
+  connectivity_plus: ^6.1.3
+
+  # Crypto (PIN hashing)
+  crypto: ^3.0.6
+
+  # UUID generation
+  uuid: ^4.5.1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^6.0.0
+
+  flutter_lints: ^5.0.0
+
+  # Code generation
+  build_runner: ^2.4.14
+  riverpod_generator: ^2.6.4
+  drift_dev: ^2.23.1
+
+  # Testing
+  mocktail: ^1.0.4
 
 flutter:
   uses-material-design: true
+  assets:
+    - assets/player.html

@@ -13,9 +13,10 @@ Early development (MVP in progress). Not usable yet.
 Requires [mise](https://mise.jdx.dev/) for tool management.
 
 ```bash
-mise install        # installs Flutter 3.41.1, gh, Java 17
+mise install                              # Flutter 3.41.1, gh, Java 17
 flutter pub get
-flutter run         # requires a connected device or simulator
+dart run build_runner build               # generate Drift + Riverpod code
+flutter run                               # requires a connected device or simulator
 ```
 
 ## Architecture
