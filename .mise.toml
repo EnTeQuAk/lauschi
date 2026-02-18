@@ -1,0 +1,7 @@
+[tools]
+flutter = "3.41.1"
+gh = "latest"
+java = "temurin-17.0.18+8"
+
+[env]
+JAVA_HOME = "{{env.HOME}}/.local/share/mise/installs/java/temurin-17.0.18+8"
