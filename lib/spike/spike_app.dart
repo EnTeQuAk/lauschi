@@ -296,8 +296,17 @@ class _SpikeAppState extends State<SpikeApp> {
               ],
             ),
           ),
+          // WebView needs real dimensions — 1x1 causes Android to treat
+          // the page as hidden, triggering visibilitychange → SDK auto-pauses.
           if (_bridge != null)
-            SizedBox(width: 1, height: 1, child: WebViewWidget(controller: _bridge!.controller)),
+            Opacity(
+              opacity: 0,
+              child: SizedBox(
+                width: 300,
+                height: 300,
+                child: WebViewWidget(controller: _bridge!.controller),
+              ),
+            ),
         ],
       ),
     );
