@@ -21,6 +21,7 @@ const _redirectUri = 'spotify-sdk://auth';
 /// Requires:
 ///   - Spotify app installed
 ///   - Package name + SHA-1 registered in Spotify Developer Dashboard
+///   - Redirect URIs in Spotify Dashboard: lauschi://callback AND spotify-sdk://auth
 class AppRemoteClient {
   bool _connected = false;
   StreamSubscription<PlayerState>? _stateSub;
@@ -35,6 +36,27 @@ class AppRemoteClient {
       'client_id': SpikeSecrets.spotifyClientId,
       'redirect_uri': _redirectUri,
     });
+
+    // On Android 10+, background apps cannot launch activities (background
+    // activity launch restrictions). SpotifyAppRemote.connect(showAuthView=true)
+    // tries to launch the Spotify auth activity from the background and silently
+    // hangs forever on API 29+. Fix: getAccessToken() first — it launches the
+    // auth UI via AuthorizationClient.openLoginActivity() from our foreground
+    // Activity, which Android allows. After that, connectToSpotifyRemote() sees
+    // an already-authorized session and connects without needing the auth view.
+    try {
+      L.info('remote', 'getAccessToken() — triggers foreground auth if needed');
+      await SpotifySdk.getAccessToken(
+        clientId: SpikeSecrets.spotifyClientId,
+        redirectUrl: _redirectUri,
+        scope: 'app-remote-control',
+      );
+      L.info('remote', 'getAccessToken() complete, now connecting App Remote');
+    } catch (e) {
+      // If the user already authorized previously, getAccessToken() may throw
+      // or return immediately. Either way, attempt connectToSpotifyRemote.
+      L.warn('remote', 'getAccessToken() threw (may be pre-authorized)', data: {'error': e.toString()});
+    }
 
     try {
       final result = await SpotifySdk.connectToSpotifyRemote(
