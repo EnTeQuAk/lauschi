@@ -5,9 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lauschi/app.dart';
 import 'package:lauschi/core/log.dart';
+import 'package:lauschi/core/settings/debug_settings.dart';
 import 'package:lauschi/features/player/media_session_handler.dart';
 import 'package:lauschi/features/player/player_provider.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -41,6 +43,11 @@ Future<void> main() async {
   );
   const isDev = env == 'development';
 
+  // Read user-controlled diagnostics preferences before Sentry init —
+  // replay options are init-time only and can't be changed at runtime.
+  final prefs = await SharedPreferences.getInstance();
+  final debugSettings = DebugSettings.fromPrefs(prefs);
+
   await SentryFlutter.init(
     (options) {
       options
@@ -49,12 +56,22 @@ Future<void> main() async {
         ..tracesSampleRate = isDev ? 1.0 : 0.2
         // Structured logs — visible in Sentry Logs tab.
         ..enableLogs = true
-        // Session replay: full capture in dev, errors-only in prod.
-        ..replay.sessionSampleRate = isDev ? 1.0 : 0.0
-        ..replay.onErrorSampleRate = 1.0;
+        // Session replay — respects user preference; error captures always on.
+        ..replay.sessionSampleRate =
+            debugSettings.replayEnabled ? (isDev ? 1.0 : 0.0) : 0.0
+        ..replay.onErrorSampleRate =
+            debugSettings.replayEnabled ? 1.0 : 0.0
+        // Privacy masking lives on options.privacy, not options.replay.
+        ..privacy.maskAllText = debugSettings.maskAllText
+        ..privacy.maskAllImages = debugSettings.maskAllImages;
     },
     appRunner: () {
-      Log.info('App', 'Starting', data: {'env': env});
+      Log.info('App', 'Starting', data: {
+        'env': env,
+        'replay': debugSettings.replayEnabled,
+        'maskText': debugSettings.maskAllText,
+        'maskImages': debugSettings.maskAllImages,
+      });
       return runApp(
         // SentryWidget is required for session replay.
         SentryWidget(

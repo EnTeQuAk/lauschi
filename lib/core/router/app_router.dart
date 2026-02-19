@@ -11,6 +11,7 @@ import 'package:lauschi/features/parent/screens/manage_cards_screen.dart';
 import 'package:lauschi/features/parent/screens/manage_groups_screen.dart';
 import 'package:lauschi/features/parent/screens/parent_dashboard_screen.dart';
 import 'package:lauschi/features/parent/screens/pin_screen.dart';
+import 'package:lauschi/features/parent/screens/settings_screen.dart';
 import 'package:lauschi/features/player/screens/player_screen.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -110,8 +111,7 @@ GoRouter appRouter(Ref ref) {
           ),
           GoRoute(
             path: 'settings',
-            builder:
-                (context, state) => const _PlaceholderScreen(label: 'Settings'),
+            builder: (context, state) => const SettingsScreen(),
           ),
         ],
       ),
@@ -150,24 +150,4 @@ String? _globalRedirect(Ref ref, GoRouterState state) {
 /// Bridges Riverpod state changes to GoRouter's [Listenable] refresh.
 class _RouterRefreshNotifier extends ChangeNotifier {
   void notify() => notifyListeners();
-}
-
-/// Placeholder while screens are being built feature-by-feature.
-class _PlaceholderScreen extends StatelessWidget {
-  const _PlaceholderScreen({required this.label});
-
-  final String label;
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text(label)),
-      body: Center(
-        child: Text(
-          label,
-          style: Theme.of(context).textTheme.headlineMedium,
-        ),
-      ),
-    );
-  }
 }

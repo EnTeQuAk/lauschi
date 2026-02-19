@@ -1,0 +1,257 @@
+import 'package:flutter/foundation.dart' show kDebugMode;
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lauschi/core/settings/debug_settings.dart';
+import 'package:lauschi/core/theme/app_theme.dart';
+
+// Version is injected at build time via --dart-define=APP_VERSION.
+// Falls back to pubspec version for local dev.
+const _appVersion = String.fromEnvironment(
+  'APP_VERSION',
+  defaultValue: '0.1.0',
+);
+const _buildFlavour = kDebugMode ? 'debug' : 'release';
+
+class SettingsScreen extends ConsumerStatefulWidget {
+  const SettingsScreen({super.key});
+
+  @override
+  ConsumerState<SettingsScreen> createState() => _SettingsScreenState();
+}
+
+class _SettingsScreenState extends ConsumerState<SettingsScreen> {
+  // Track whether any setting changed this session — used to show the
+  // "Neustart erforderlich" banner.
+  bool _changed = false;
+
+  @override
+  Widget build(BuildContext context) {
+    final settingsAsync = ref.watch(debugSettingsProvider);
+
+    return Scaffold(
+      backgroundColor: AppColors.parentBackground,
+      appBar: AppBar(
+        backgroundColor: AppColors.parentBackground,
+        title: const Text('Über lauschi'),
+      ),
+      body: settingsAsync.when(
+        data: (settings) => _buildBody(context, settings),
+        loading: () => const Center(child: CircularProgressIndicator()),
+        error: (e, _) => Center(child: Text('Fehler: $e')),
+      ),
+    );
+  }
+
+  Widget _buildBody(BuildContext context, DebugSettings settings) {
+    return ListView(
+      children: [
+        // ── Restart banner ──────────────────────────────────────────────────
+        if (_changed)
+          _RestartBanner(onDismiss: () => setState(() => _changed = false)),
+
+        // ── App version ──────────────────────────────────────────────────────
+        const _SectionHeader(title: 'App'),
+        const _InfoTile(
+          icon: Icons.info_outline_rounded,
+          title: 'Version',
+          value: '$_appVersion ($_buildFlavour)',
+        ),
+
+        const SizedBox(height: AppSpacing.lg),
+
+        // ── Sentry / Diagnostics ─────────────────────────────────────────────
+        const _SectionHeader(title: 'Diagnose & Datenschutz'),
+        _SwitchTile(
+          icon: Icons.videocam_outlined,
+          title: 'Session-Aufzeichnungen',
+          subtitle:
+              'Sentry zeichnet Bildschirminhalte zur Fehleranalyse auf. '
+              'Standardmäßig aktiv in Debug-Builds.',
+          value: settings.replayEnabled,
+          onChanged: (v) => _update(settings.copyWith(replayEnabled: v)),
+        ),
+        const Divider(indent: 56),
+        _SwitchTile(
+          icon: Icons.text_fields_rounded,
+          title: 'Text anonymisieren',
+          subtitle: 'Ersetzt alle Texte in Aufzeichnungen durch Blöcke.',
+          value: settings.maskAllText,
+          onChanged:
+              settings.replayEnabled
+                  ? (v) => _update(settings.copyWith(maskAllText: v))
+                  : null,
+        ),
+        const Divider(indent: 56),
+        _SwitchTile(
+          icon: Icons.image_outlined,
+          title: 'Bilder anonymisieren',
+          subtitle: 'Ersetzt Album-Cover in Aufzeichnungen durch Blöcke.',
+          value: settings.maskAllImages,
+          onChanged:
+              settings.replayEnabled
+                  ? (v) => _update(settings.copyWith(maskAllImages: v))
+                  : null,
+        ),
+      ],
+    );
+  }
+
+  Future<void> _update(DebugSettings updated) async {
+    await ref.read(debugSettingsProvider.notifier).save(updated);
+    if (mounted) setState(() => _changed = true);
+  }
+}
+
+// ── Supporting widgets ──────────────────────────────────────────────────────
+
+class _RestartBanner extends StatelessWidget {
+  const _RestartBanner({required this.onDismiss});
+  final VoidCallback onDismiss;
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: AppColors.warning.withValues(alpha: 0.15),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: AppSpacing.screenH,
+          vertical: AppSpacing.sm,
+        ),
+        child: Row(
+          children: [
+            const Icon(
+              Icons.restart_alt_rounded,
+              size: 18,
+              color: AppColors.warning,
+            ),
+            const SizedBox(width: AppSpacing.sm),
+            const Expanded(
+              child: Text(
+                'Neustart erforderlich, um Änderungen zu übernehmen.',
+                style: TextStyle(
+                  fontFamily: 'Nunito',
+                  fontSize: 13,
+                  color: AppColors.warning,
+                ),
+              ),
+            ),
+            IconButton(
+              icon: const Icon(Icons.close_rounded, size: 18),
+              color: AppColors.warning,
+              onPressed: onDismiss,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _SectionHeader extends StatelessWidget {
+  const _SectionHeader({required this.title});
+  final String title;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(
+        AppSpacing.screenH,
+        AppSpacing.md,
+        AppSpacing.screenH,
+        AppSpacing.xs,
+      ),
+      child: Text(
+        title.toUpperCase(),
+        style: const TextStyle(
+          fontFamily: 'Nunito',
+          fontSize: 12,
+          fontWeight: FontWeight.w700,
+          letterSpacing: 0.8,
+          color: AppColors.textSecondary,
+        ),
+      ),
+    );
+  }
+}
+
+class _InfoTile extends StatelessWidget {
+  const _InfoTile({
+    required this.icon,
+    required this.title,
+    required this.value,
+  });
+
+  final IconData icon;
+  final String title;
+  final String value;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      tileColor: AppColors.parentSurface,
+      leading: Icon(icon, color: AppColors.textSecondary),
+      title: Text(
+        title,
+        style: const TextStyle(
+          fontFamily: 'Nunito',
+          fontWeight: FontWeight.w600,
+          fontSize: 15,
+        ),
+      ),
+      trailing: Text(
+        value,
+        style: const TextStyle(
+          fontFamily: 'Nunito',
+          fontSize: 13,
+          color: AppColors.textSecondary,
+        ),
+      ),
+    );
+  }
+}
+
+class _SwitchTile extends StatelessWidget {
+  const _SwitchTile({
+    required this.icon,
+    required this.title,
+    required this.subtitle,
+    required this.value,
+    required this.onChanged,
+  });
+
+  final IconData icon;
+  final String title;
+  final String subtitle;
+  final bool value;
+  final ValueChanged<bool>? onChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    return SwitchListTile(
+      tileColor: AppColors.parentSurface,
+      secondary: Icon(
+        icon,
+        color: onChanged != null ? AppColors.textSecondary : AppColors.textHint,
+      ),
+      title: Text(
+        title,
+        style: TextStyle(
+          fontFamily: 'Nunito',
+          fontWeight: FontWeight.w600,
+          fontSize: 15,
+          color: onChanged != null ? null : AppColors.textHint,
+        ),
+      ),
+      subtitle: Text(
+        subtitle,
+        style: const TextStyle(
+          fontFamily: 'Nunito',
+          fontSize: 12,
+          color: AppColors.textSecondary,
+        ),
+      ),
+      value: value,
+      onChanged: onChanged,
+    );
+  }
+}
