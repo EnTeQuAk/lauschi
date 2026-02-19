@@ -32,6 +32,8 @@ abstract final class AppRoutes {
   static const parentDashboard = '/parent';
   static const parentManageCards = '/parent/cards';
   static const parentAddCard = '/parent/add-card';
+  static String parentAddCardToGroup(String groupId) =>
+      '/parent/add-card?groupId=$groupId';
   static const parentManageGroups = '/parent/groups';
   static String parentGroupEdit(String groupId) => '/parent/groups/$groupId';
   static const parentSettings = '/parent/settings';
@@ -88,7 +90,10 @@ GoRouter appRouter(Ref ref) {
           ),
           GoRoute(
             path: 'add-card',
-            builder: (context, state) => const AddCardScreen(),
+            builder: (context, state) => AddCardScreen(
+              autoAssignGroupId:
+                  state.uri.queryParameters['groupId'],
+            ),
           ),
           GoRoute(
             path: 'groups',
