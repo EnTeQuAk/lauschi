@@ -138,6 +138,7 @@ class _AddCardScreenState extends ConsumerState<AddCardScreen> {
                     : ListView.builder(
                         itemCount: _results.length,
                         padding: const EdgeInsets.only(bottom: AppSpacing.xxl),
+                        cacheExtent: 500,
                         itemBuilder: (context, index) {
                           final album = _results[index];
                           final isAdded = _addedUris.contains(album.uri);
@@ -179,6 +180,7 @@ class _SearchResultTile extends StatelessWidget {
               ? CachedNetworkImage(
                   imageUrl: album.imageUrl!,
                   fit: BoxFit.cover,
+                  memCacheWidth: 96,
                 )
               : const ColoredBox(
                   color: AppColors.surfaceDim,

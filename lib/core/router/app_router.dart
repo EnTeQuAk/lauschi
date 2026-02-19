@@ -6,6 +6,7 @@ import 'package:lauschi/features/cards/screens/kid_home_screen.dart';
 import 'package:lauschi/features/onboarding/screens/onboarding_provider.dart';
 import 'package:lauschi/features/onboarding/screens/onboarding_screen.dart';
 import 'package:lauschi/features/parent/screens/add_card_screen.dart';
+import 'package:lauschi/features/parent/screens/manage_cards_screen.dart';
 import 'package:lauschi/features/parent/screens/parent_dashboard_screen.dart';
 import 'package:lauschi/features/parent/screens/pin_screen.dart';
 import 'package:lauschi/features/player/screens/player_screen.dart';
@@ -24,6 +25,7 @@ abstract final class AppRoutes {
 
   // Parent mode (PIN-gated)
   static const parentDashboard = '/parent';
+  static const parentManageCards = '/parent/cards';
   static const parentAddCard = '/parent/add-card';
   static const parentSettings = '/parent/settings';
   static const pinEntry = '/pin';
@@ -58,6 +60,10 @@ GoRouter appRouter(Ref ref) {
         path: AppRoutes.parentDashboard,
         builder: (context, state) => const ParentDashboardScreen(),
         routes: [
+          GoRoute(
+            path: 'cards',
+            builder: (context, state) => const ManageCardsScreen(),
+          ),
           GoRoute(
             path: 'add-card',
             builder: (context, state) => const AddCardScreen(),

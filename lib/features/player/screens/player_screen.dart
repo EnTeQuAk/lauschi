@@ -85,15 +85,36 @@ class _CollapseHandle extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(top: AppSpacing.sm),
-      child: Center(
-        child: Container(
-          width: 36,
-          height: 5,
-          decoration: const BoxDecoration(
-            color: AppColors.surfaceDim,
-            borderRadius: BorderRadius.all(AppRadius.pill),
+      child: Row(
+        children: [
+          const SizedBox(width: AppSpacing.xs),
+          // Close button — large touch target for kids
+          IconButton(
+            onPressed: () => Navigator.of(context).pop(),
+            icon: const Icon(Icons.keyboard_arrow_down_rounded),
+            iconSize: 32,
+            style: IconButton.styleFrom(
+              minimumSize: const Size(56, 56),
+              foregroundColor: AppColors.textSecondary,
+            ),
+            tooltip: 'Zurück',
           ),
-        ),
+          // Drag handle hint
+          Expanded(
+            child: Center(
+              child: Container(
+                width: 36,
+                height: 5,
+                decoration: const BoxDecoration(
+                  color: AppColors.surfaceDim,
+                  borderRadius: BorderRadius.all(AppRadius.pill),
+                ),
+              ),
+            ),
+          ),
+          // Balance the row
+          const SizedBox(width: 56 + AppSpacing.xs),
+        ],
       ),
     );
   }

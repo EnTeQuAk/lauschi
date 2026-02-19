@@ -131,8 +131,8 @@ class _CardGrid extends StatelessWidget {
             crossAxisCount: columns,
             crossAxisSpacing: 12,
             mainAxisSpacing: 16,
-            // image is square + 8dp gap + ~2 lines of text (~36dp)
-            childAspectRatio: 0.75,
+            // Square art + 8dp gap + 2 lines of text (~40dp)
+            childAspectRatio: 0.7,
           ),
           itemCount: cards.length,
           itemBuilder: (context, index) {
