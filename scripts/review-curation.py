@@ -301,13 +301,12 @@ class SeriesListScreen(Screen):
         table.clear(columns=True)
         table.cursor_type = "row"
         table.add_column("", width=3)
-        table.add_column("Series", width=28)
+        table.add_column("Series", width=32)
         table.add_column("Model", width=16)
         table.add_column("Inc", width=6)
         table.add_column("Exc", width=6)
         table.add_column("Range", width=14)
         table.add_column("Gaps", width=6)
-        table.add_column("Ovr", width=6)
         table.add_column("Status", width=14)
 
         self._rows: list[Path] = []
@@ -326,11 +325,10 @@ class SeriesListScreen(Screen):
             gap_count = (
                 len(set(range(min(eps), max(eps) + 1)) - set(eps)) if eps else 0
             )
-            ovr = len(data.review.overrides)
             status = data.review.status
 
             icon = {"approved": "✅", "rejected": "❌"}.get(status, "⏳")
-            gap_str = f"⚠ {gap_count}" if gap_count else ""
+            gap_str = f"⚠️ {gap_count}" if gap_count else ""
 
             table.add_row(
                 icon,
@@ -339,13 +337,12 @@ class SeriesListScreen(Screen):
                 str(len(inc_albums)), str(exc),
                 ep_range,
                 gap_str,
-                str(ovr) if ovr else "",
                 _STATUS_DISPLAY.get(status, status),
             )
             self._rows.append(path)
 
         if not self._rows:
-            table.add_row("", "(no curations found)", "", "", "", "", "", "", "")
+            table.add_row("", "(no curations found)", "", "", "", "", "", "")
 
     def action_open_selected(self) -> None:
         table = self.query_one("#series-table", DataTable)
