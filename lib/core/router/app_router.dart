@@ -33,9 +33,17 @@ abstract final class AppRoutes {
 
 @Riverpod(keepAlive: true)
 GoRouter appRouter(Ref ref) {
+  // Re-evaluate redirects when auth or onboarding state changes.
+  final refreshNotifier = _RouterRefreshNotifier();
+  ref
+    ..listen(onboardingCompleteProvider, (_, _) => refreshNotifier.notify())
+    ..listen(parentAuthProvider, (_, _) => refreshNotifier.notify())
+    ..onDispose(refreshNotifier.dispose);
+
   return GoRouter(
     initialLocation: AppRoutes.kidHome,
     debugLogDiagnostics: true,
+    refreshListenable: refreshNotifier,
     redirect: (context, state) => _globalRedirect(ref, state),
     routes: [
       GoRoute(
@@ -104,6 +112,11 @@ String? _globalRedirect(Ref ref, GoRouterState state) {
   }
 
   return null;
+}
+
+/// Bridges Riverpod state changes to GoRouter's [Listenable] refresh.
+class _RouterRefreshNotifier extends ChangeNotifier {
+  void notify() => notifyListeners();
 }
 
 /// Placeholder while screens are being built feature-by-feature.
