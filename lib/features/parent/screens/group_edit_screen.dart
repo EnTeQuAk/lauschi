@@ -3,9 +3,11 @@ import 'dart:async' show unawaited;
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:lauschi/core/database/app_database.dart' as db;
 import 'package:lauschi/core/database/card_repository.dart';
 import 'package:lauschi/core/database/group_repository.dart';
+import 'package:lauschi/core/router/app_router.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
 import 'package:lauschi/features/cards/screens/group_detail_screen.dart';
 
@@ -102,6 +104,13 @@ class _GroupEditScreenState extends ConsumerState<GroupEditScreen> {
     db.CardGroup group,
     AsyncValue<List<db.AudioCard>> episodesAsync,
   ) {
+    final episodes = episodesAsync.value ?? <db.AudioCard>[];
+    final episodeCovers = episodes
+        .map((e) => e.coverUrl)
+        .whereType<String>()
+        .toSet()
+        .toList();
+
     return Scaffold(
       backgroundColor: AppColors.parentBackground,
       appBar: AppBar(
@@ -114,6 +123,13 @@ class _GroupEditScreenState extends ConsumerState<GroupEditScreen> {
               child: const Text('Speichern'),
             ),
         ],
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () => unawaited(
+          context.push(AppRoutes.parentAddCardToGroup(widget.groupId)),
+        ),
+        icon: const Icon(Icons.add_rounded),
+        label: const Text('Folge hinzufügen'),
       ),
       body: Column(
         children: [
@@ -138,14 +154,10 @@ class _GroupEditScreenState extends ConsumerState<GroupEditScreen> {
                   textCapitalization: TextCapitalization.sentences,
                 ),
                 const SizedBox(height: AppSpacing.md),
-                TextField(
+                _CoverPicker(
                   controller: _coverController,
-                  decoration: const InputDecoration(
-                    labelText: 'Cover-URL (optional)',
-                    hintText: 'https://…',
-                  ),
-                  onChanged: (_) => setState(() => _dirty = true),
-                  keyboardType: TextInputType.url,
+                  episodeCovers: episodeCovers,
+                  onChanged: () => setState(() => _dirty = true),
                 ),
               ],
             ),
@@ -173,7 +185,7 @@ class _GroupEditScreenState extends ConsumerState<GroupEditScreen> {
                 ),
                 const Spacer(),
                 Text(
-                  episodesAsync.whenOrNull(data: (e) => '${e.length}') ?? '',
+                  episodes.isEmpty ? '' : '${episodes.length}',
                   style: const TextStyle(
                     fontFamily: 'Nunito',
                     fontSize: 12,
@@ -187,11 +199,11 @@ class _GroupEditScreenState extends ConsumerState<GroupEditScreen> {
           // Episode list
           Expanded(
             child: episodesAsync.when(
-              data: (episodes) => episodes.isEmpty
+              data: (eps) => eps.isEmpty
                   ? const _EmptyEpisodesHint()
                   : _EpisodeReorderList(
                       groupId: widget.groupId,
-                      episodes: episodes,
+                      episodes: eps,
                     ),
               loading: () =>
                   const Center(child: CircularProgressIndicator()),
@@ -201,6 +213,216 @@ class _GroupEditScreenState extends ConsumerState<GroupEditScreen> {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Cover picker: shows current cover, episode cover chips, and a URL fallback.
+// ---------------------------------------------------------------------------
+
+class _CoverPicker extends StatefulWidget {
+  const _CoverPicker({
+    required this.controller,
+    required this.episodeCovers,
+    required this.onChanged,
+  });
+
+  final TextEditingController controller;
+
+  /// Distinct cover URLs already present in the group's episodes.
+  final List<String> episodeCovers;
+
+  final VoidCallback onChanged;
+
+  @override
+  State<_CoverPicker> createState() => _CoverPickerState();
+}
+
+class _CoverPickerState extends State<_CoverPicker> {
+  bool _showUrlField = false;
+
+  String get _currentUrl => widget.controller.text.trim();
+
+  void _pickCover(String url) {
+    widget.controller.text = url;
+    widget.onChanged();
+    setState(() => _showUrlField = false);
+  }
+
+  void _clearCover() {
+    widget.controller.clear();
+    widget.onChanged();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            // Cover preview
+            ClipRRect(
+              borderRadius: const BorderRadius.all(AppRadius.card),
+              child: SizedBox(
+                width: 72,
+                height: 72,
+                child: _currentUrl.isNotEmpty
+                    ? CachedNetworkImage(
+                        imageUrl: _currentUrl,
+                        fit: BoxFit.cover,
+                        errorWidget: (_, _, _) => const _CoverPlaceholder(),
+                      )
+                    : const _CoverPlaceholder(),
+              ),
+            ),
+            const SizedBox(width: AppSpacing.md),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    'Serien-Cover',
+                    style: TextStyle(
+                      fontFamily: 'Nunito',
+                      fontSize: 13,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    _currentUrl.isNotEmpty
+                        ? 'Tippe auf eine Folge unten zum Ändern'
+                        : 'Wähle das Cover einer Folge',
+                    style: const TextStyle(
+                      fontFamily: 'Nunito',
+                      fontSize: 12,
+                      color: AppColors.textSecondary,
+                    ),
+                  ),
+                  if (_currentUrl.isNotEmpty) ...[
+                    const SizedBox(height: 4),
+                    GestureDetector(
+                      onTap: _clearCover,
+                      child: const Text(
+                        'Entfernen',
+                        style: TextStyle(
+                          fontFamily: 'Nunito',
+                          fontSize: 12,
+                          color: AppColors.error,
+                        ),
+                      ),
+                    ),
+                  ],
+                ],
+              ),
+            ),
+          ],
+        ),
+
+        // Episode cover chips
+        if (widget.episodeCovers.isNotEmpty) ...[
+          const SizedBox(height: AppSpacing.sm),
+          const Text(
+            'Von Folgen übernehmen',
+            style: TextStyle(
+              fontFamily: 'Nunito',
+              fontSize: 11,
+              color: AppColors.textSecondary,
+            ),
+          ),
+          const SizedBox(height: 4),
+          SizedBox(
+            height: 52,
+            child: ListView.separated(
+              scrollDirection: Axis.horizontal,
+              itemCount: widget.episodeCovers.length,
+              separatorBuilder: (_, _) => const SizedBox(width: 6),
+              itemBuilder: (context, index) {
+                final url = widget.episodeCovers[index];
+                final isSelected = _currentUrl == url;
+                return GestureDetector(
+                  onTap: () => _pickCover(url),
+                  child: Container(
+                    width: 52,
+                    height: 52,
+                    decoration: BoxDecoration(
+                      borderRadius: const BorderRadius.all(AppRadius.card),
+                      border: isSelected
+                          ? Border.all(color: AppColors.primary, width: 2.5)
+                          : null,
+                    ),
+                    child: ClipRRect(
+                      borderRadius: const BorderRadius.all(AppRadius.card),
+                      child: CachedNetworkImage(
+                        imageUrl: url,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
+        ],
+
+        // Manual URL toggle
+        const SizedBox(height: AppSpacing.xs),
+        GestureDetector(
+          onTap: () => setState(() => _showUrlField = !_showUrlField),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                _showUrlField
+                    ? Icons.expand_less_rounded
+                    : Icons.expand_more_rounded,
+                size: 16,
+                color: AppColors.textSecondary,
+              ),
+              const SizedBox(width: 4),
+              const Text(
+                'URL manuell eingeben',
+                style: TextStyle(
+                  fontFamily: 'Nunito',
+                  fontSize: 12,
+                  color: AppColors.textSecondary,
+                ),
+              ),
+            ],
+          ),
+        ),
+        if (_showUrlField) ...[
+          const SizedBox(height: AppSpacing.xs),
+          TextField(
+            controller: widget.controller,
+            decoration: const InputDecoration(
+              hintText: 'https://…',
+              isDense: true,
+            ),
+            onChanged: (_) => widget.onChanged(),
+            keyboardType: TextInputType.url,
+            style: const TextStyle(fontSize: 13),
+          ),
+        ],
+      ],
+    );
+  }
+}
+
+class _CoverPlaceholder extends StatelessWidget {
+  const _CoverPlaceholder();
+
+  @override
+  Widget build(BuildContext context) {
+    return const ColoredBox(
+      color: AppColors.surfaceDim,
+      child: Icon(
+        Icons.layers_rounded,
+        size: 32,
+        color: AppColors.textSecondary,
       ),
     );
   }
