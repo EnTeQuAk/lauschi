@@ -35,7 +35,8 @@ void main() {
     test('does not extract year as episode (noise veto)', () {
       // Wickie compilation title — should not produce episode 1974.
       final r = catalog.match(
-          'Wickie 1974-2009 (Original Soundtrack Zur TV-Serie 1974)');
+        'Wickie 1974-2009 (Original Soundtrack Zur TV-Serie 1974)',
+      );
       // May or may not match keyword, but if it does, episode must not be 1974.
       if (r != null) {
         expect(r.episodeNumber, isNot(1974));
@@ -46,7 +47,8 @@ void main() {
   group('CatalogService.match — series identity', () {
     test('matches Yakari by keyword', () {
       final r = catalog.match(
-          'Folge 9: Yakari und die Pferdediebe (Das Original-Hörspiel zur TV-Serie)');
+        'Folge 9: Yakari und die Pferdediebe (Das Original-Hörspiel zur TV-Serie)',
+      );
       expect(r, isNotNull);
       expect(r!.series.id, 'yakari');
     });
@@ -70,11 +72,14 @@ void main() {
       expect(r!.series.id, 'die_drei_fragezeichen');
     });
 
-    test('prefers Die drei ??? Kids over Die drei ??? (more specific keyword)', () {
-      final r = catalog.match('Die drei ??? Kids, Folge 30');
-      expect(r, isNotNull);
-      expect(r!.series.id, 'die_drei_fragezeichen_kids');
-    });
+    test(
+      'prefers Die drei ??? Kids over Die drei ??? (more specific keyword)',
+      () {
+        final r = catalog.match('Die drei ??? Kids, Folge 30');
+        expect(r, isNotNull);
+        expect(r!.series.id, 'die_drei_fragezeichen_kids');
+      },
+    );
 
     test('matches TKKG by keyword', () {
       final r = catalog.match('Das Geheimnis um TKKG (Neuaufnahme)');
@@ -83,13 +88,17 @@ void main() {
     });
 
     test('matches Bibi & Tina by keyword', () {
-      final r = catalog.match('Bibi und Tina: VOLL VERHEXT! (Der Original-Soundtrack zum Kinofilm)');
+      final r = catalog.match(
+        'Bibi und Tina: VOLL VERHEXT! (Der Original-Soundtrack zum Kinofilm)',
+      );
       expect(r, isNotNull);
       expect(r!.series.id, 'bibi_und_tina');
     });
 
     test('matches Pumuckl by keyword', () {
-      final r = catalog.match('19: Pumuckl im Zoo (Das Original aus dem Fernsehen)');
+      final r = catalog.match(
+        '19: Pumuckl im Zoo (Das Original aus dem Fernsehen)',
+      );
       expect(r, isNotNull);
       expect(r!.series.id, 'pumuckl');
     });
@@ -109,7 +118,8 @@ void main() {
 
     test('matches Pettersson und Findus', () {
       final r = catalog.match(
-          'Folge 10: Findus und das eigene Fahrrad (Das Original Hörspiel zur TV-Serie)');
+        'Folge 10: Findus und das eigene Fahrrad (Das Original Hörspiel zur TV-Serie)',
+      );
       expect(r, isNotNull);
       expect(r!.series.id, 'pettersson_und_findus');
     });
@@ -121,7 +131,9 @@ void main() {
     });
 
     test('matches Biene Maja', () {
-      final r = catalog.match('Majas Flucht aus der Heimatstadt (Die Biene Maja, Folge 1)');
+      final r = catalog.match(
+        'Majas Flucht aus der Heimatstadt (Die Biene Maja, Folge 1)',
+      );
       expect(r, isNotNull);
       expect(r!.series.id, 'biene_maja');
     });
@@ -133,7 +145,9 @@ void main() {
     });
 
     test('matches Räuber Hotzenplotz', () {
-      final r = catalog.match('Der Räuber Hotzenplotz 1: Der Räuber Hotzenplotz');
+      final r = catalog.match(
+        'Der Räuber Hotzenplotz 1: Der Räuber Hotzenplotz',
+      );
       expect(r, isNotNull);
       expect(r!.series.id, 'raeubrer_hotzenplotz');
     });
@@ -159,7 +173,8 @@ void main() {
 
     test('matches Tom Turbo', () {
       final r = catalog.match(
-          'Familie Vogel fragt: Wie läuft eine Reise am Flughafen ab? (Wissensreise mit Tom Turbo! Teil 1)');
+        'Familie Vogel fragt: Wie läuft eine Reise am Flughafen ab? (Wissensreise mit Tom Turbo! Teil 1)',
+      );
       expect(r, isNotNull);
       expect(r!.series.id, 'tom_turbo');
     });
@@ -179,14 +194,16 @@ void main() {
     test('matches Die Fuchsbande by keyword', () {
       // The only album whose title contains "fuchsbande".
       final r = catalog.match(
-          'Singt alle mit! Bekannte Kinderlieder in der Fuchsbande-Version');
+        'Singt alle mit! Bekannte Kinderlieder in der Fuchsbande-Version',
+      );
       expect(r, isNotNull);
       expect(r!.series.id, 'die_fuchsbande');
     });
 
     test('matches Die Playmos', () {
       final r = catalog.match(
-          'Folge 46: Die Playmos ermitteln (Das Original Playmobil Hörspiel)');
+        'Folge 46: Die Playmos ermitteln (Das Original Playmobil Hörspiel)',
+      );
       expect(r, isNotNull);
       expect(r!.series.id, 'die_playmos');
     });
@@ -232,13 +249,15 @@ void main() {
     // Yakari: "Folge N:" format
     test('Yakari extracts Folge N', () {
       final r = catalog.match(
-          'Folge 9: Yakari und die Pferdediebe (Das Original-Hörspiel zur TV-Serie)');
+        'Folge 9: Yakari und die Pferdediebe (Das Original-Hörspiel zur TV-Serie)',
+      );
       expect(r!.episodeNumber, 9);
     });
 
     test('Yakari extracts larger Folge N', () {
       final r = catalog.match(
-          'Folge 33: Yakari und Silberfell (Das Original-Hörspiel zur TV-Serie)');
+        'Folge 33: Yakari und Silberfell (Das Original-Hörspiel zur TV-Serie)',
+      );
       expect(r!.episodeNumber, 33);
     });
 
@@ -250,12 +269,16 @@ void main() {
 
     // Pumuckl: "NN: title" leading number format
     test('Pumuckl extracts leading NN: number', () {
-      final r = catalog.match('19: Pumuckl im Zoo (Das Original aus dem Fernsehen)');
+      final r = catalog.match(
+        '19: Pumuckl im Zoo (Das Original aus dem Fernsehen)',
+      );
       expect(r!.episodeNumber, 19);
     });
 
     test('Pumuckl extracts zero-padded number', () {
-      final r = catalog.match('06: Pumuckl und die Schule (Das Original aus dem Fernsehen)');
+      final r = catalog.match(
+        '06: Pumuckl und die Schule (Das Original aus dem Fernsehen)',
+      );
       expect(r!.episodeNumber, 6);
     });
 
@@ -276,15 +299,22 @@ void main() {
     });
 
     test('Hanni und Nanni extracts Klassiker N', () {
-      final r = catalog.match('Klassiker 1 - 1972 Hanni und Nanni sind immer dagegen');
+      final r = catalog.match(
+        'Klassiker 1 - 1972 Hanni und Nanni sind immer dagegen',
+      );
       expect(r!.episodeNumber, 1);
     });
 
     // Räuber Hotzenplotz: both publisher formats
-    test('Räuber Hotzenplotz extracts from "Der Räuber Hotzenplotz N:" format', () {
-      final r = catalog.match('Der Räuber Hotzenplotz 1: Der Räuber Hotzenplotz');
-      expect(r!.episodeNumber, 1);
-    });
+    test(
+      'Räuber Hotzenplotz extracts from "Der Räuber Hotzenplotz N:" format',
+      () {
+        final r = catalog.match(
+          'Der Räuber Hotzenplotz 1: Der Räuber Hotzenplotz',
+        );
+        expect(r!.episodeNumber, 1);
+      },
+    );
 
     test('Räuber Hotzenplotz extracts from leading "N: title" format', () {
       final r = catalog.match('1: Der Räuber Hotzenplotz');
@@ -303,7 +333,9 @@ void main() {
     });
 
     test('Hui Buh extracts 3-digit NNN/ prefix', () {
-      final r = catalog.match('002/Hui Buh und seine Rasselkette/Halloween-Party');
+      final r = catalog.match(
+        '002/Hui Buh und seine Rasselkette/Halloween-Party',
+      );
       expect(r!.episodeNumber, 2);
     });
 
@@ -319,7 +351,9 @@ void main() {
     });
 
     test('Pippi Langstrumpf extracts book number 3', () {
-      final r = catalog.match('Pippi Langstrumpf 3. Pippi in Taka-Tuka-Land. Das Hörspiel');
+      final r = catalog.match(
+        'Pippi Langstrumpf 3. Pippi in Taka-Tuka-Land. Das Hörspiel',
+      );
       expect(r!.episodeNumber, 3);
     });
 
@@ -336,7 +370,9 @@ void main() {
 
     // Biene Maja: "Biene Maja, Folge N" format
     test('Biene Maja extracts Folge N', () {
-      final r = catalog.match('Majas Flucht aus der Heimatstadt (Die Biene Maja, Folge 1)');
+      final r = catalog.match(
+        'Majas Flucht aus der Heimatstadt (Die Biene Maja, Folge 1)',
+      );
       expect(r!.episodeNumber, 1);
     });
 
@@ -348,7 +384,8 @@ void main() {
 
     test('Nils Holgersson extracts from "Folge N: title" format', () {
       final r = catalog.match(
-          'Folge 1: Die wunderbare Reise des kleinen Nils Holgersson mit den Wildgänsen');
+        'Folge 1: Die wunderbare Reise des kleinen Nils Holgersson mit den Wildgänsen',
+      );
       expect(r!.episodeNumber, 1);
     });
 
@@ -371,13 +408,15 @@ void main() {
     // Tom Turbo: "Teil N" format
     test('Tom Turbo extracts Teil N', () {
       final r = catalog.match(
-          'Familie Vogel fragt: Wie läuft eine Reise am Flughafen ab? (Wissensreise mit Tom Turbo! Teil 1)');
+        'Familie Vogel fragt: Wie läuft eine Reise am Flughafen ab? (Wissensreise mit Tom Turbo! Teil 1)',
+      );
       expect(r!.episodeNumber, 1);
     });
 
     test('Tom Turbo extracts Teil N (larger)', () {
       final r = catalog.match(
-          'Familie Vogel fragt: Klettern Ziegen auf Bäume? (Wissensreise mit Tom Turbo! Teil 10)');
+        'Familie Vogel fragt: Klettern Ziegen auf Bäume? (Wissensreise mit Tom Turbo! Teil 10)',
+      );
       expect(r!.episodeNumber, 10);
     });
 
@@ -389,32 +428,39 @@ void main() {
 
     test('Lauras Stern extracts trailing number in brackets', () {
       // "Lauras Stern 10 (Ungekürzt)"
-      final r = catalog.match('Laura hat Geburtstag [Lauras Stern 10 (Ungekürzt)]');
+      final r = catalog.match(
+        'Laura hat Geburtstag [Lauras Stern 10 (Ungekürzt)]',
+      );
       expect(r!.episodeNumber, 10);
     });
 
     test('Lauras Stern extracts Band N', () {
-      final r = catalog.match('Lauras Stern, Band 12: Freundschaftliche Gutenacht-Geschichten');
+      final r = catalog.match(
+        'Lauras Stern, Band 12: Freundschaftliche Gutenacht-Geschichten',
+      );
       expect(r!.episodeNumber, 12);
     });
 
     // Pettersson und Findus: "Folge N:" format
     test('Pettersson und Findus extracts Folge N', () {
       final r = catalog.match(
-          'Folge 10: Findus und das eigene Fahrrad (Das Original Hörspiel zur TV-Serie)');
+        'Folge 10: Findus und das eigene Fahrrad (Das Original Hörspiel zur TV-Serie)',
+      );
       expect(r!.episodeNumber, 10);
     });
 
     // Die Playmos: "Folge N:" format
     test('Die Playmos extracts Folge N', () {
       final r = catalog.match(
-          'Folge 46: Die Playmos ermitteln (Das Original Playmobil Hörspiel)');
+        'Folge 46: Die Playmos ermitteln (Das Original Playmobil Hörspiel)',
+      );
       expect(r!.episodeNumber, 46);
     });
 
     test('Die Playmos extracts single-digit Folge N', () {
       final r = catalog.match(
-          'Folge 9: Manege frei für die Playmos (Das Original Playmobil Hörspiel)');
+        'Folge 9: Manege frei für die Playmos (Das Original Playmobil Hörspiel)',
+      );
       expect(r!.episodeNumber, 9);
     });
 
@@ -425,7 +471,9 @@ void main() {
     });
 
     test('Wendy extracts NNN/ prefix', () {
-      final r = catalog.match('005/Wendy Wolf hat Geburtstag (und 5 weitere Geschichten)');
+      final r = catalog.match(
+        '005/Wendy Wolf hat Geburtstag (und 5 weitere Geschichten)',
+      );
       expect(r!.episodeNumber, 5);
     });
 
@@ -452,7 +500,9 @@ void main() {
     });
 
     test('Gespensterjäger extracts Folge N', () {
-      final r = catalog.match('Folge 5: Gespensterjäger und der Weihnachtsspuk');
+      final r = catalog.match(
+        'Folge 5: Gespensterjäger und der Weihnachtsspuk',
+      );
       expect(r!.episodeNumber, 5);
     });
 
@@ -475,18 +525,21 @@ void main() {
     // Albums whose titles contain no series name — only artist ID can identify them.
     // These real formats are structural failures for keyword matching.
 
-    test('Die drei ??? matched via artist ID when title has no series name', () {
-      // Real Spotify album: "116/Codename: Cobra"
-      const dreiId = '3meJIgRw7YleJrmbpbJK6S';
-      final r = catalog.match(
-        '116/Codename: Cobra',
-        albumArtistIds: [dreiId],
-      );
-      expect(r, isNotNull);
-      expect(r!.series.id, 'die_drei_fragezeichen');
-      expect(r.source, CatalogMatchSource.artistId);
-      expect(r.episodeNumber, 116);
-    });
+    test(
+      'Die drei ??? matched via artist ID when title has no series name',
+      () {
+        // Real Spotify album: "116/Codename: Cobra"
+        const dreiId = '3meJIgRw7YleJrmbpbJK6S';
+        final r = catalog.match(
+          '116/Codename: Cobra',
+          albumArtistIds: [dreiId],
+        );
+        expect(r, isNotNull);
+        expect(r!.series.id, 'die_drei_fragezeichen');
+        expect(r.source, CatalogMatchSource.artistId);
+        expect(r.episodeNumber, 116);
+      },
+    );
 
     test('TKKG matched via artist ID when title has no series name', () {
       // Real Spotify album: "140/Draculas Erben"
@@ -588,7 +641,9 @@ void main() {
 
   group('CatalogService.match — new series (2026-02-19 additions)', () {
     test('Die Schule der magischen Tiere matches by keyword', () {
-      final r = catalog.match('Die Schule der magischen Tiere - Das Hörbuch zum Film');
+      final r = catalog.match(
+        'Die Schule der magischen Tiere - Das Hörbuch zum Film',
+      );
       expect(r, isNotNull);
       expect(r!.series.id, 'schule_magische_tiere');
     });
@@ -632,7 +687,9 @@ void main() {
     });
 
     test('Der kleine Rabe Socke matches by keyword', () {
-      final r = catalog.match('Der Kleine Rabe Socke - Das Hörbuch zum Kinofilm');
+      final r = catalog.match(
+        'Der Kleine Rabe Socke - Das Hörbuch zum Kinofilm',
+      );
       expect(r, isNotNull);
       expect(r!.series.id, 'kleiner_rabe_socke');
     });
@@ -669,14 +726,19 @@ void main() {
       expect(r!.series.id, 'bullerbue');
     });
 
-    test('Gespensterjäger: "Geisterjäger" does NOT match (wrong alias removed)', () {
-      // "Geisterjäger" is a different word; was previously a wrong alias
-      final r = catalog.match('Geisterjäger im Sturm');
-      expect(r?.series.id, isNot('gespensterjager'));
-    });
+    test(
+      'Gespensterjäger: "Geisterjäger" does NOT match (wrong alias removed)',
+      () {
+        // "Geisterjäger" is a different word; was previously a wrong alias
+        final r = catalog.match('Geisterjäger im Sturm');
+        expect(r?.series.id, isNot('gespensterjager'));
+      },
+    );
 
     test('Pumuckl matches via "meister eder" keyword', () {
-      final r = catalog.match('Meister Eder und sein Pumuckl - Die Hörspielkassette');
+      final r = catalog.match(
+        'Meister Eder und sein Pumuckl - Die Hörspielkassette',
+      );
       expect(r, isNotNull);
       expect(r!.series.id, 'pumuckl');
     });
@@ -702,7 +764,10 @@ void main() {
     test('Die drei ??? Folge N format when no NNN/ prefix', () {
       // "Folge 227: Melodie" — group 1 null, group 2 fires
       const id = '3meJIgRw7YleJrmbpbJK6S';
-      final r = catalog.match('Folge 227: Melodie der Rache', albumArtistIds: [id]);
+      final r = catalog.match(
+        'Folge 227: Melodie der Rache',
+        albumArtistIds: [id],
+      );
       expect(r!.episodeNumber, 227); // group 2 wins (group 1 null)
     });
 

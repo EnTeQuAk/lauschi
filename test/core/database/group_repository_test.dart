@@ -119,16 +119,20 @@ void main() {
 
   test('cardCount returns correct count', () async {
     final groupId = await groups.insert(title: 'Series');
-    await cards.insert(
-      title: 'Ep 1',
-      providerUri: 'spotify:album:c1',
-      cardType: 'album',
-    ).then((id) => cards.assignToGroup(cardId: id, groupId: groupId));
-    await cards.insert(
-      title: 'Ep 2',
-      providerUri: 'spotify:album:c2',
-      cardType: 'album',
-    ).then((id) => cards.assignToGroup(cardId: id, groupId: groupId));
+    await cards
+        .insert(
+          title: 'Ep 1',
+          providerUri: 'spotify:album:c1',
+          cardType: 'album',
+        )
+        .then((id) => cards.assignToGroup(cardId: id, groupId: groupId));
+    await cards
+        .insert(
+          title: 'Ep 2',
+          providerUri: 'spotify:album:c2',
+          cardType: 'album',
+        )
+        .then((id) => cards.assignToGroup(cardId: id, groupId: groupId));
 
     final count = await groups.cardCount(groupId);
     expect(count, 2);

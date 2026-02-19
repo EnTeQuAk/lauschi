@@ -34,10 +34,11 @@ class GroupDetailScreen extends ConsumerWidget {
           children: [
             // Header with back button
             groupAsync.when(
-              data: (group) => _GroupHeader(
-                title: group?.title ?? '',
-                onBack: () => context.pop(),
-              ),
+              data:
+                  (group) => _GroupHeader(
+                    title: group?.title ?? '',
+                    onBack: () => context.pop(),
+                  ),
               loading: () => _GroupHeader(title: '', onBack: context.pop),
               error: (_, _) => _GroupHeader(title: '', onBack: context.pop),
             ),
@@ -54,8 +55,11 @@ class GroupDetailScreen extends ConsumerWidget {
                 child: const Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(Icons.cloud_off_rounded,
-                        size: 16, color: AppColors.textSecondary),
+                    Icon(
+                      Icons.cloud_off_rounded,
+                      size: 16,
+                      color: AppColors.textSecondary,
+                    ),
                     SizedBox(width: AppSpacing.xs),
                     Text(
                       'Kein Internet',
@@ -83,16 +87,19 @@ class GroupDetailScreen extends ConsumerWidget {
                     activeUri: playerNotifier.activeContextUri,
                     isPlaying: playerState.isPlaying,
                     isActive: playerState.track != null,
-                    onCardTap: (card) =>
-                        playerNotifier.playCard(card.providerUri),
+                    onCardTap:
+                        (card) => playerNotifier.playCard(card.providerUri),
                   );
                 },
-                loading: () =>
-                    const Center(child: CircularProgressIndicator()),
-                error: (_, _) => const Center(
-                  child: Icon(Icons.error_outline_rounded,
-                      size: 48, color: AppColors.textSecondary),
-                ),
+                loading: () => const Center(child: CircularProgressIndicator()),
+                error:
+                    (_, _) => const Center(
+                      child: Icon(
+                        Icons.error_outline_rounded,
+                        size: 48,
+                        color: AppColors.textSecondary,
+                      ),
+                    ),
               ),
             ),
 
@@ -100,29 +107,34 @@ class GroupDetailScreen extends ConsumerWidget {
             if (playerState.error != null)
               _ErrorBanner(
                 message: playerState.error!,
-                onDismiss: () =>
-                    ref.read(playerProvider.notifier).clearError(),
+                onDismiss: () => ref.read(playerProvider.notifier).clearError(),
               ),
 
             // Now-playing bar (same as home)
             AnimatedSwitcher(
               duration: const Duration(milliseconds: 300),
-              transitionBuilder: (child, animation) => SlideTransition(
-                position: Tween<Offset>(
-                  begin: const Offset(0, 1),
-                  end: Offset.zero,
-                ).animate(CurvedAnimation(
-                    parent: animation, curve: Curves.easeOutCubic)),
-                child: child,
-              ),
-              child: playerState.track != null
-                  ? NowPlayingBar(
-                      key: const ValueKey('now-playing'),
-                      state: playerState,
-                      onTap: () => context.push(AppRoutes.player),
-                      onTogglePlay: playerNotifier.togglePlay,
-                    )
-                  : const SizedBox.shrink(),
+              transitionBuilder:
+                  (child, animation) => SlideTransition(
+                    position: Tween<Offset>(
+                      begin: const Offset(0, 1),
+                      end: Offset.zero,
+                    ).animate(
+                      CurvedAnimation(
+                        parent: animation,
+                        curve: Curves.easeOutCubic,
+                      ),
+                    ),
+                    child: child,
+                  ),
+              child:
+                  playerState.track != null
+                      ? NowPlayingBar(
+                        key: const ValueKey('now-playing'),
+                        state: playerState,
+                        onTap: () => context.push(AppRoutes.player),
+                        onTogglePlay: playerNotifier.togglePlay,
+                      )
+                      : const SizedBox.shrink(),
             ),
           ],
         ),
@@ -200,9 +212,10 @@ class _EpisodeGrid extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        final columns = constraints.maxWidth < 600
-            ? 3
-            : constraints.maxWidth < 900
+        final columns =
+            constraints.maxWidth < 600
+                ? 3
+                : constraints.maxWidth < 900
                 ? 4
                 : 5;
 
@@ -291,8 +304,11 @@ class _ErrorBanner extends StatelessWidget {
       color: AppColors.error.withValues(alpha: 0.1),
       child: Row(
         children: [
-          const Icon(Icons.error_outline_rounded,
-              color: AppColors.error, size: 20),
+          const Icon(
+            Icons.error_outline_rounded,
+            color: AppColors.error,
+            size: 20,
+          ),
           const SizedBox(width: AppSpacing.sm),
           Expanded(
             child: Text(
@@ -328,8 +344,7 @@ class _EmptyGroupState extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(Icons.layers_rounded,
-                size: 48, color: AppColors.primarySoft),
+            Icon(Icons.layers_rounded, size: 48, color: AppColors.primarySoft),
             SizedBox(height: AppSpacing.md),
             Text(
               'Noch keine Folgen',
@@ -352,19 +367,24 @@ class _EmptyGroupState extends StatelessWidget {
 // ---------------------------------------------------------------------------
 
 /// Cards in a specific group, ordered by episode number.
-final groupEpisodesProvider =
-    StreamProvider.family<List<db.AudioCard>, String>((ref, groupId) {
-  return ref.watch(groupRepositoryProvider).watchCards(groupId);
-});
+final groupEpisodesProvider = StreamProvider.family<List<db.AudioCard>, String>(
+  (ref, groupId) {
+    return ref.watch(groupRepositoryProvider).watchCards(groupId);
+  },
+);
 
 /// The group metadata for a given ID.
-final groupByIdProvider =
-    FutureProvider.family<db.CardGroup?, String>((ref, groupId) {
+final groupByIdProvider = FutureProvider.family<db.CardGroup?, String>((
+  ref,
+  groupId,
+) {
   return ref.watch(groupRepositoryProvider).getById(groupId);
 });
 
 /// First unheard card in a group.
-final groupNextUnheardProvider =
-    FutureProvider.family<db.AudioCard?, String>((ref, groupId) {
+final groupNextUnheardProvider = FutureProvider.family<db.AudioCard?, String>((
+  ref,
+  groupId,
+) {
   return ref.watch(groupRepositoryProvider).nextUnheard(groupId);
 });

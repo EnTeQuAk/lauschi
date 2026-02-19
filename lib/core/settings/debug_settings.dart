@@ -27,10 +27,10 @@ class DebugSettings {
   /// - maskAllText: true (privacy-first)
   /// - maskAllImages: true (privacy-first)
   factory DebugSettings.fromPrefs(SharedPreferences prefs) => DebugSettings(
-        replayEnabled: prefs.getBool(_keyReplay) ?? kDebugMode,
-        maskAllText: prefs.getBool(_keyMaskText) ?? true,
-        maskAllImages: prefs.getBool(_keyMaskImages) ?? true,
-      );
+    replayEnabled: prefs.getBool(_keyReplay) ?? kDebugMode,
+    maskAllText: prefs.getBool(_keyMaskText) ?? true,
+    maskAllImages: prefs.getBool(_keyMaskImages) ?? true,
+  );
 
   /// Whether session replay is captured at all.
   /// Default: true in debug builds, false in release.
@@ -46,12 +46,11 @@ class DebugSettings {
     bool? replayEnabled,
     bool? maskAllText,
     bool? maskAllImages,
-  }) =>
-      DebugSettings(
-        replayEnabled: replayEnabled ?? this.replayEnabled,
-        maskAllText: maskAllText ?? this.maskAllText,
-        maskAllImages: maskAllImages ?? this.maskAllImages,
-      );
+  }) => DebugSettings(
+    replayEnabled: replayEnabled ?? this.replayEnabled,
+    maskAllText: maskAllText ?? this.maskAllText,
+    maskAllImages: maskAllImages ?? this.maskAllImages,
+  );
 
   Future<void> saveTo(SharedPreferences prefs) async {
     await prefs.setBool(_keyReplay, replayEnabled);
@@ -75,10 +74,14 @@ class DebugSettingsNotifier extends _$DebugSettingsNotifier {
     final prefs = await SharedPreferences.getInstance();
     await updated.saveTo(prefs);
     state = AsyncData(updated);
-    Log.info(_tag, 'Settings saved', data: {
-      'replay': updated.replayEnabled,
-      'maskText': updated.maskAllText,
-      'maskImages': updated.maskAllImages,
-    });
+    Log.info(
+      _tag,
+      'Settings saved',
+      data: {
+        'replay': updated.replayEnabled,
+        'maskText': updated.maskAllText,
+        'maskImages': updated.maskAllImages,
+      },
+    );
   }
 }

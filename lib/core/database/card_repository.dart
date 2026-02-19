@@ -65,9 +65,10 @@ class CardRepository {
             coverUrl: Value(coverUrl),
             provider: Value(provider),
             sortOrder: Value(nextOrder),
-            spotifyArtistIds: spotifyArtistIds != null && spotifyArtistIds.isNotEmpty
-                ? Value(spotifyArtistIds.join(','))
-                : const Value(null),
+            spotifyArtistIds:
+                spotifyArtistIds != null && spotifyArtistIds.isNotEmpty
+                    ? Value(spotifyArtistIds.join(','))
+                    : const Value(null),
           ),
         );
 
@@ -165,11 +166,15 @@ class CardRepository {
         episodeNumber: Value(episodeNumber),
       ),
     );
-    Log.info(_tag, 'Card assigned to group', data: {
-      'cardId': cardId,
-      'groupId': groupId,
-      if (episodeNumber != null) 'episode': episodeNumber,
-    });
+    Log.info(
+      _tag,
+      'Card assigned to group',
+      data: {
+        'cardId': cardId,
+        'groupId': groupId,
+        if (episodeNumber != null) 'episode': episodeNumber,
+      },
+    );
   }
 
   /// Remove a card from its group.
@@ -200,15 +205,17 @@ class CardRepository {
   /// Get ungrouped cards as a one-shot fetch.
   Future<List<AudioCard>> getUngrouped() {
     return (_db.select(_db.cards)
-      ..where((t) => t.groupId.isNull())
-      ..orderBy([(t) => OrderingTerm.asc(t.sortOrder)])).get();
+          ..where((t) => t.groupId.isNull())
+          ..orderBy([(t) => OrderingTerm.asc(t.sortOrder)]))
+        .get();
   }
 
   /// Watch ungrouped cards (top-level items on kid home).
   Stream<List<AudioCard>> watchUngrouped() {
     return (_db.select(_db.cards)
-      ..where((t) => t.groupId.isNull())
-      ..orderBy([(t) => OrderingTerm.asc(t.sortOrder)])).watch();
+          ..where((t) => t.groupId.isNull())
+          ..orderBy([(t) => OrderingTerm.asc(t.sortOrder)]))
+        .watch();
   }
 }
 

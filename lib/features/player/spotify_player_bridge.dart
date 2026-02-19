@@ -125,9 +125,13 @@ class SpotifyPlayerBridge {
   void _onMessage(JavaScriptMessage msg) {
     // Reject oversized messages (>64KB is suspicious for our protocol).
     if (msg.message.length > 65536) {
-      Log.warn(_tag, 'Dropped oversized message', data: {
-        'bytes': '${msg.message.length}',
-      });
+      Log.warn(
+        _tag,
+        'Dropped oversized message',
+        data: {
+          'bytes': '${msg.message.length}',
+        },
+      );
       return;
     }
 
@@ -135,11 +139,16 @@ class SpotifyPlayerBridge {
     try {
       data = json.decode(msg.message) as Map<String, dynamic>;
     } on FormatException {
-      Log.error(_tag, 'Invalid JSON from JS', data: {
-        'raw': msg.message.length > 200
-            ? '${msg.message.substring(0, 200)}…'
-            : msg.message,
-      });
+      Log.error(
+        _tag,
+        'Invalid JSON from JS',
+        data: {
+          'raw':
+              msg.message.length > 200
+                  ? '${msg.message.substring(0, 200)}…'
+                  : msg.message,
+        },
+      );
       return;
     }
 
@@ -200,9 +209,8 @@ class SpotifyPlayerBridge {
 
   /// Truncate and strip control characters from JS-originated strings.
   static String _sanitize(String input, {int maxLength = 500}) {
-    final clamped = input.length > maxLength
-        ? '${input.substring(0, maxLength)}…'
-        : input;
+    final clamped =
+        input.length > maxLength ? '${input.substring(0, maxLength)}…' : input;
     return clamped.replaceAll(RegExp(r'[\x00-\x1f]'), '');
   }
 

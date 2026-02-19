@@ -194,9 +194,7 @@ class _ConnectPage extends ConsumerWidget {
                   authState is AuthAuthenticated
                       ? onNext
                       : () async {
-                        await ref
-                            .read(spotifyAuthProvider.notifier)
-                            .login();
+                        await ref.read(spotifyAuthProvider.notifier).login();
                         // Auto-advance on success
                         final newState = ref.read(spotifyAuthProvider);
                         if (newState is AuthAuthenticated) {

@@ -30,13 +30,16 @@ class ManageGroupsScreen extends ConsumerWidget {
         child: const Icon(Icons.add_rounded),
       ),
       body: groupsAsync.when(
-        data: (groups) => groups.isEmpty
-            ? const _EmptyState()
-            : _GroupList(groups: groups),
+        data:
+            (groups) =>
+                groups.isEmpty
+                    ? const _EmptyState()
+                    : _GroupList(groups: groups),
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (_, _) => const Center(
-          child: Text('Fehler beim Laden der Serien.'),
-        ),
+        error:
+            (_, _) => const Center(
+              child: Text('Fehler beim Laden der Serien.'),
+            ),
       ),
     );
   }
@@ -46,28 +49,32 @@ class ManageGroupsScreen extends ConsumerWidget {
     unawaited(
       showDialog<void>(
         context: context,
-        builder: (ctx) => AlertDialog(
-          title: const Text('Neue Serie'),
-          content: TextField(
-            controller: controller,
-            autofocus: true,
-            decoration: const InputDecoration(
-              labelText: 'Serientitel',
-              hintText: 'z.B. Yakari, Bibi Blocksberg …',
+        builder:
+            (ctx) => AlertDialog(
+              title: const Text('Neue Serie'),
+              content: TextField(
+                controller: controller,
+                autofocus: true,
+                decoration: const InputDecoration(
+                  labelText: 'Serientitel',
+                  hintText: 'z.B. Yakari, Bibi Blocksberg …',
+                ),
+                textCapitalization: TextCapitalization.sentences,
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.of(ctx).pop(),
+                  child: const Text('Abbrechen'),
+                ),
+                FilledButton(
+                  onPressed:
+                      () => unawaited(
+                        _submitCreate(ctx, controller, ref, context),
+                      ),
+                  child: const Text('Erstellen'),
+                ),
+              ],
             ),
-            textCapitalization: TextCapitalization.sentences,
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(ctx).pop(),
-              child: const Text('Abbrechen'),
-            ),
-            FilledButton(
-              onPressed: () => unawaited(_submitCreate(ctx, controller, ref, context)),
-              child: const Text('Erstellen'),
-            ),
-          ],
-        ),
       ),
     );
   }
@@ -81,7 +88,9 @@ class ManageGroupsScreen extends ConsumerWidget {
     final title = controller.text.trim();
     if (title.isEmpty) return;
     Navigator.of(dialogCtx).pop();
-    final groupId = await ref.read(groupRepositoryProvider).insert(title: title);
+    final groupId = await ref
+        .read(groupRepositoryProvider)
+        .insert(title: title);
     if (screenCtx.mounted) {
       unawaited(screenCtx.push(AppRoutes.parentGroupEdit(groupId)));
     }
@@ -142,9 +151,11 @@ class _GroupList extends ConsumerWidget {
         final item = reordered.removeAt(oldIndex);
         reordered.insert(insertAt, item);
         unawaited(
-          ref.read(groupRepositoryProvider).reorder(
-            reordered.map((g) => g.id).toList(),
-          ),
+          ref
+              .read(groupRepositoryProvider)
+              .reorder(
+                reordered.map((g) => g.id).toList(),
+              ),
         );
       },
       itemCount: groups.length,
@@ -169,31 +180,32 @@ class _GroupList extends ConsumerWidget {
     unawaited(
       showDialog<void>(
         context: context,
-        builder: (ctx) => AlertDialog(
-          title: const Text('Serie entfernen?'),
-          content: Text(
-            '„${group.title}" wird gelöscht. '
-            'Die enthaltenen Karten bleiben erhalten.',
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(ctx).pop(),
-              child: const Text('Abbrechen'),
-            ),
-            FilledButton(
-              onPressed: () {
-                Navigator.of(ctx).pop();
-                unawaited(
-                  ref.read(groupRepositoryProvider).delete(group.id),
-                );
-              },
-              style: FilledButton.styleFrom(
-                backgroundColor: AppColors.error,
+        builder:
+            (ctx) => AlertDialog(
+              title: const Text('Serie entfernen?'),
+              content: Text(
+                '„${group.title}" wird gelöscht. '
+                'Die enthaltenen Karten bleiben erhalten.',
               ),
-              child: const Text('Löschen'),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.of(ctx).pop(),
+                  child: const Text('Abbrechen'),
+                ),
+                FilledButton(
+                  onPressed: () {
+                    Navigator.of(ctx).pop();
+                    unawaited(
+                      ref.read(groupRepositoryProvider).delete(group.id),
+                    );
+                  },
+                  style: FilledButton.styleFrom(
+                    backgroundColor: AppColors.error,
+                  ),
+                  child: const Text('Löschen'),
+                ),
+              ],
             ),
-          ],
-        ),
       ),
     );
   }
@@ -226,16 +238,20 @@ class _GroupTile extends ConsumerWidget {
         child: SizedBox(
           width: 44,
           height: 44,
-          child: group.coverUrl != null
-              ? CachedNetworkImage(
-                  imageUrl: group.coverUrl!,
-                  fit: BoxFit.cover,
-                )
-              : const ColoredBox(
-                  color: AppColors.surfaceDim,
-                  child: Icon(Icons.layers_rounded,
-                      color: AppColors.primary, size: 22),
-                ),
+          child:
+              group.coverUrl != null
+                  ? CachedNetworkImage(
+                    imageUrl: group.coverUrl!,
+                    fit: BoxFit.cover,
+                  )
+                  : const ColoredBox(
+                    color: AppColors.surfaceDim,
+                    child: Icon(
+                      Icons.layers_rounded,
+                      color: AppColors.primary,
+                      size: 22,
+                    ),
+                  ),
         ),
       ),
       title: Text(
@@ -267,8 +283,10 @@ class _GroupTile extends ConsumerWidget {
           ),
           ReorderableDragStartListener(
             index: index,
-            child: const Icon(Icons.drag_handle_rounded,
-                color: AppColors.textSecondary),
+            child: const Icon(
+              Icons.drag_handle_rounded,
+              color: AppColors.textSecondary,
+            ),
           ),
         ],
       ),
