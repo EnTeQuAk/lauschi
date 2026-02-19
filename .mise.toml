@@ -4,8 +4,8 @@ gh = "latest"
 java = "temurin-17.0.18+8"
 
 [env]
+_.file = ".env"
 JAVA_HOME = "{{env.HOME}}/.local/share/mise/installs/java/temurin-17.0.18+8"
-# SPOTIFY_CLIENT_ID — set in .mise.local.toml (gitignored)
 
 [tasks.setup]
 description = "Install deps, run codegen, verify analysis"
