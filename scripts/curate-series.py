@@ -46,6 +46,7 @@ from pydantic import BaseModel, Field, field_validator
 from pydantic_ai import Agent, RunContext
 from pydantic_ai.models.openai import OpenAIChatModel
 from pydantic_ai.providers.openai import OpenAIProvider
+from pydantic_ai.usage import UsageLimits
 from rich import box
 from rich.console import Console
 from rich.panel import Panel
@@ -312,7 +313,11 @@ async def run_curation(model_name: str, api_key: str, query: str,
     for attempt in range(1, _MAX_RETRIES + 1):
         try:
             result = await asyncio.wait_for(
-                agent.run(prompt, deps=deps), timeout=timeout,
+                agent.run(
+                    prompt, deps=deps,
+                    usage_limits=UsageLimits(request_limit=200),
+                ),
+                timeout=timeout,
             )
             return result.output
         except asyncio.TimeoutError:
