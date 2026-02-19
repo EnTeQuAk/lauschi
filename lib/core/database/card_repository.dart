@@ -42,6 +42,7 @@ class CardRepository {
     String? coverUrl,
     String provider = 'spotify',
     List<String>? spotifyArtistIds,
+    int totalTracks = 0,
   }) async {
     final id = _uuid.v4();
 
@@ -69,6 +70,7 @@ class CardRepository {
                 spotifyArtistIds != null && spotifyArtistIds.isNotEmpty
                     ? Value(spotifyArtistIds.join(','))
                     : const Value(null),
+            totalTracks: Value(totalTracks),
           ),
         );
 
@@ -85,6 +87,7 @@ class CardRepository {
     String? coverUrl,
     String provider = 'spotify',
     List<String>? spotifyArtistIds,
+    int totalTracks = 0,
   }) async {
     final existing =
         await (_db.select(_db.cards)
@@ -99,6 +102,7 @@ class CardRepository {
       coverUrl: coverUrl,
       provider: provider,
       spotifyArtistIds: spotifyArtistIds,
+      totalTracks: totalTracks,
     );
   }
 
@@ -118,10 +122,12 @@ class CardRepository {
     required String cardId,
     required String trackUri,
     required int positionMs,
+    int trackNumber = 0,
   }) async {
     await (_db.update(_db.cards)..where((t) => t.id.equals(cardId))).write(
       CardsCompanion(
         lastTrackUri: Value(trackUri),
+        lastTrackNumber: Value(trackNumber),
         lastPositionMs: Value(positionMs),
         lastPlayedAt: Value(DateTime.now()),
       ),

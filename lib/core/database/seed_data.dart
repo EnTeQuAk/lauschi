@@ -54,6 +54,7 @@ Future<void> seedTestContent({
         providerUri: album.uri,
         cardType: 'album',
         coverUrl: album.imageUrl,
+        totalTracks: album.totalTracks,
       );
       added++;
       Log.debug(_tag, 'Seeded', data: {'title': album.name});

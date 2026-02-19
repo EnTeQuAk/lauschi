@@ -17,6 +17,7 @@ class AudioCard extends StatefulWidget {
     this.isPlaying = false,
     this.isPaused = false,
     this.isHeard = false,
+    this.progress = 0,
   });
 
   final String title;
@@ -26,6 +27,10 @@ class AudioCard extends StatefulWidget {
 
   /// Whether this episode has been heard. Dims the cover and shows ✓ badge.
   final bool isHeard;
+
+  /// Album playback progress 0.0–1.0 (track N of M). Shown as a red bar
+  /// at the bottom of the card. Not shown when 0 or when fully heard.
+  final double progress;
   final VoidCallback onTap;
 
   @override
@@ -129,6 +134,14 @@ class _AudioCardState extends State<AudioCard>
                           !widget.isPlaying &&
                           !widget.isPaused)
                         const _HeardBadge(),
+                      // Netflix-style progress bar at bottom
+                      if (widget.progress > 0 && !widget.isHeard)
+                        Positioned(
+                          left: 0,
+                          right: 0,
+                          bottom: 0,
+                          child: _ProgressBar(progress: widget.progress),
+                        ),
                     ],
                   ),
                 ),
@@ -323,6 +336,32 @@ class _HeardBadge extends StatelessWidget {
           Icons.check_rounded,
           color: AppColors.primary,
           size: 14,
+        ),
+      ),
+    );
+  }
+}
+
+/// Thin red progress bar at the bottom of the card (Netflix-style).
+class _ProgressBar extends StatelessWidget {
+  const _ProgressBar({required this.progress});
+
+  final double progress;
+
+  @override
+  Widget build(BuildContext context) {
+    return ClipRRect(
+      borderRadius: const BorderRadius.only(
+        bottomLeft: Radius.circular(8),
+        bottomRight: Radius.circular(8),
+      ),
+      child: SizedBox(
+        height: 3,
+        child: LinearProgressIndicator(
+          value: progress.clamp(0.0, 1.0),
+          backgroundColor: Colors.black26,
+          valueColor: const AlwaysStoppedAnimation<Color>(AppColors.accent),
+          minHeight: 3,
         ),
       ),
     );

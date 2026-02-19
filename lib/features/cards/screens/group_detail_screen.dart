@@ -10,6 +10,15 @@ import 'package:lauschi/features/cards/widgets/audio_card.dart';
 import 'package:lauschi/features/player/player_provider.dart';
 import 'package:lauschi/features/player/widgets/now_playing_bar.dart';
 
+/// Album playback progress 0.0–1.0 based on stored track position.
+/// Returns 0 for cards that haven't been started or are fully heard.
+double _albumProgress(db.AudioCard card) {
+  if (card.isHeard || card.totalTracks <= 0 || card.lastTrackNumber <= 0) {
+    return 0;
+  }
+  return (card.lastTrackNumber / card.totalTracks).clamp(0.0, 1.0);
+}
+
 /// Group/series drill-down — shows all episodes in order.
 ///
 /// Heard episodes are visually muted. First unheard episode is highlighted
@@ -248,6 +257,7 @@ class _EpisodeGrid extends StatelessWidget {
                   isPlaying: isCurrentCard && isPlaying,
                   isPaused: isCurrentCard && !isPlaying,
                   isHeard: card.isHeard,
+                  progress: _albumProgress(card),
                   onTap: () => onCardTap(card),
                 ),
                 // "Weiter" badge on next unheard episode

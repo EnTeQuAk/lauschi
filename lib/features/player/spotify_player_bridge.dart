@@ -218,6 +218,11 @@ class SpotifyPlayerBridge {
     final paused = payload['paused'] as bool? ?? true;
     final posMs = (payload['position_ms'] as int? ?? 0).clamp(0, 86400000);
     final durMs = (payload['duration_ms'] as int? ?? 0).clamp(0, 86400000);
+    final trackNum = (payload['track_number'] as int? ?? 0).clamp(0, 9999);
+    final nextCount = (payload['next_tracks_count'] as int? ?? 0).clamp(
+      0,
+      9999,
+    );
     final trackData = payload['track'] as Map<String, dynamic>?;
 
     TrackInfo? track;
@@ -244,6 +249,8 @@ class SpotifyPlayerBridge {
         isPlaying: !paused,
         positionMs: posMs,
         durationMs: durMs,
+        trackNumber: trackNum,
+        nextTracksCount: nextCount,
         track: track,
       ),
     );

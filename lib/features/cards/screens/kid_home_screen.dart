@@ -13,6 +13,14 @@ import 'package:lauschi/features/cards/widgets/group_card.dart';
 import 'package:lauschi/features/player/player_provider.dart';
 import 'package:lauschi/features/player/widgets/now_playing_bar.dart';
 
+/// Album playback progress 0.0–1.0 based on stored track position.
+double _albumProgress(db.AudioCard card) {
+  if (card.isHeard || card.totalTracks <= 0 || card.lastTrackNumber <= 0) {
+    return 0;
+  }
+  return (card.lastTrackNumber / card.totalTracks).clamp(0.0, 1.0);
+}
+
 /// The single kid-facing screen: group + card grid + now-playing bar.
 ///
 /// Groups appear as series tiles (drill-down to episodes).
@@ -241,6 +249,7 @@ class _HomeGrid extends StatelessWidget {
               isPlaying: isCurrentCard && isPlaying,
               isPaused: isCurrentCard && !isPlaying,
               isHeard: card.isHeard,
+              progress: _albumProgress(card),
               onTap: () => onCardTap(card),
             );
           },
@@ -260,12 +269,15 @@ class _GroupGridItem extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final episodesAsync = ref.watch(groupEpisodesProvider(group.id));
-    final count = episodesAsync.whenOrNull(data: (e) => e.length) ?? 0;
+    final episodes = episodesAsync.whenOrNull(data: (e) => e) ?? [];
+    final heardCount = episodes.where((e) => e.isHeard).length;
+    final progress = episodes.isNotEmpty ? (heardCount / episodes.length) : 0.0;
 
     return GroupCard(
       title: group.title,
-      episodeCount: count,
+      episodeCount: episodes.length,
       coverUrl: group.coverUrl,
+      progress: progress,
       onTap: onTap,
     );
   }

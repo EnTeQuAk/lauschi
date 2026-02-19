@@ -196,6 +196,7 @@ class _AddCardScreenState extends ConsumerState<AddCardScreen> {
           cardType: 'album',
           coverUrl: album.imageUrl,
           spotifyArtistIds: album.artistIds,
+          totalTracks: album.totalTracks,
         );
     await ref
         .read(cardRepositoryProvider)
@@ -270,6 +271,7 @@ class _AddCardScreenState extends ConsumerState<AddCardScreen> {
           cardType: 'album',
           coverUrl: album.imageUrl,
           spotifyArtistIds: album.artistIds,
+          totalTracks: album.totalTracks,
         );
     if (!mounted) return;
     setState(() => _addedUris.add(album.uri));
@@ -428,6 +430,7 @@ class _AddCardScreenState extends ConsumerState<AddCardScreen> {
                 cardType: 'album',
                 coverUrl: album.imageUrl,
                 spotifyArtistIds: album.artistIds,
+                totalTracks: album.totalTracks,
               );
           await ref
               .read(cardRepositoryProvider)
@@ -494,6 +497,7 @@ class _AddCardScreenState extends ConsumerState<AddCardScreen> {
             cardType: 'album',
             coverUrl: album.imageUrl,
             spotifyArtistIds: album.artistIds,
+            totalTracks: album.totalTracks,
           );
       await ref
           .read(cardRepositoryProvider)
@@ -853,14 +857,14 @@ class _SearchResultTile extends StatelessWidget {
       leading: ClipRRect(
         borderRadius: const BorderRadius.all(Radius.circular(6)),
         child: SizedBox(
-          width: 48,
-          height: 48,
+          width: 56,
+          height: 56,
           child:
               album.imageUrl != null
                   ? CachedNetworkImage(
                     imageUrl: album.imageUrl!,
                     fit: BoxFit.cover,
-                    memCacheWidth: 96,
+                    memCacheWidth: 112,
                   )
                   : const ColoredBox(
                     color: AppColors.surfaceDim,

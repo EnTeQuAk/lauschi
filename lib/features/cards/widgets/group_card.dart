@@ -14,6 +14,7 @@ class GroupCard extends StatefulWidget {
     super.key,
     this.coverUrl,
     this.nextEpisodeTitle,
+    this.progress = 0,
   });
 
   final String title;
@@ -23,6 +24,9 @@ class GroupCard extends StatefulWidget {
 
   /// If set, shown as a small subtitle hint (next to play).
   final String? nextEpisodeTitle;
+
+  /// Series progress 0.0–1.0 (episodes heard / total). Red bar at bottom.
+  final double progress;
 
   @override
   State<GroupCard> createState() => _GroupCardState();
@@ -80,7 +84,10 @@ class _GroupCardState extends State<GroupCard>
               // Stacked card art
               AspectRatio(
                 aspectRatio: 1,
-                child: _StackedArt(coverUrl: widget.coverUrl),
+                child: _StackedArt(
+                  coverUrl: widget.coverUrl,
+                  progress: widget.progress,
+                ),
               ),
               const SizedBox(height: 6),
               // Title
@@ -121,9 +128,10 @@ class _GroupCardState extends State<GroupCard>
 
 /// Card art with a subtle stack effect beneath it.
 class _StackedArt extends StatelessWidget {
-  const _StackedArt({this.coverUrl});
+  const _StackedArt({this.coverUrl, this.progress = 0});
 
   final String? coverUrl;
+  final double progress;
 
   @override
   Widget build(BuildContext context) {
@@ -185,6 +193,30 @@ class _StackedArt extends StatelessWidget {
             ),
           ),
         ),
+        // Series progress bar at bottom of top card
+        if (progress > 0)
+          Positioned(
+            left: 0,
+            right: 0,
+            bottom: 0,
+            child: ClipRRect(
+              borderRadius: const BorderRadius.only(
+                bottomLeft: Radius.circular(8),
+                bottomRight: Radius.circular(8),
+              ),
+              child: SizedBox(
+                height: 3,
+                child: LinearProgressIndicator(
+                  value: progress.clamp(0.0, 1.0),
+                  backgroundColor: Colors.black26,
+                  valueColor: const AlwaysStoppedAnimation<Color>(
+                    AppColors.accent,
+                  ),
+                  minHeight: 3,
+                ),
+              ),
+            ),
+          ),
       ],
     );
   }

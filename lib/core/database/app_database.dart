@@ -16,7 +16,7 @@ class AppDatabase extends _$AppDatabase {
 
   /// Bump when schema changes. See [migration] for upgrade steps.
   @override
-  int get schemaVersion => 4;
+  int get schemaVersion => 5;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -35,6 +35,10 @@ class AppDatabase extends _$AppDatabase {
       }
       if (from < 4) {
         await m.addColumn(cards, cards.spotifyArtistIds);
+      }
+      if (from < 5) {
+        await m.addColumn(cards, cards.totalTracks);
+        await m.addColumn(cards, cards.lastTrackNumber);
       }
     },
   );
