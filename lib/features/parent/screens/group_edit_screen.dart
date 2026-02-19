@@ -28,6 +28,10 @@ class _GroupEditScreenState extends ConsumerState<GroupEditScreen> {
   late final TextEditingController _titleController;
   late final TextEditingController _coverController;
   bool _dirty = false;
+  // Set to true after the first data load. Prevents _onLoaded from
+  // overwriting user-edited values with stale stream data after _save()
+  // resets _dirty to false.
+  bool _initialized = false;
 
   @override
   void initState() {
@@ -44,9 +48,10 @@ class _GroupEditScreenState extends ConsumerState<GroupEditScreen> {
   }
 
   void _onLoaded(db.CardGroup group) {
-    if (_dirty) return; // User already started editing
+    if (_initialized) return; // Controllers already set; don't clobber edits
     _titleController.text = group.title;
     _coverController.text = group.coverUrl ?? '';
+    _initialized = true;
   }
 
   Future<void> _save() async {
