@@ -108,7 +108,8 @@ class _LauschiAppState extends ConsumerState<LauschiApp>
           children: [
             child ?? const SizedBox.shrink(),
             // Hidden WebView for Spotify Web Playback SDK.
-            // Needs real dimensions (300x300) — see spike findings.
+            // Needs real dimensions (300x300) — WebView suspends media
+            // in undersized containers.
             if (authState is AuthAuthenticated)
               Positioned(
                 left: -500,
