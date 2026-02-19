@@ -1,0 +1,140 @@
+# DACH Hörspiel series catalog
+# Used by CatalogService to match Spotify search results and suggest
+# group assignments in AddCardScreen.
+#
+# Fields:
+#   id: unique identifier (snake_case)
+#   title: canonical series title
+#   aliases: alternative titles Spotify may use
+#   keywords: words that strongly signal this series (case-insensitive)
+#   episode_pattern: regex with one capture group for the episode number
+
+series:
+  - id: yakari
+    title: Yakari
+    aliases:
+      - "Yakari"
+      - "Yakari, der kleine Sioux"
+    keywords:
+      - yakari
+    episode_pattern: "Yakari[,\\s]+(Folge\\s+)?(\\d+)"
+
+  - id: bibi_blocksberg
+    title: Bibi Blocksberg
+    aliases:
+      - "Bibi Blocksberg"
+    keywords:
+      - "bibi blocksberg"
+      - blocksberg
+    episode_pattern: "Bibi Blocksberg[,\\s]+(Folge\\s+)?(\\d+)"
+
+  - id: benjamin_bluemchen
+    title: Benjamin Blümchen
+    aliases:
+      - "Benjamin Blümchen"
+      - "Benjamin Bluemchen"
+    keywords:
+      - "benjamin blümchen"
+      - "benjamin bluemchen"
+      - blümchen
+    episode_pattern: "Benjamin Blümchen[,\\s]+(Folge\\s+)?(\\d+)"
+
+  - id: die_drei_fragezeichen
+    title: "Die drei ???"
+    aliases:
+      - "Die drei Fragezeichen"
+      - "Die drei ???"
+    keywords:
+      - "drei ???"
+      - "drei fragezeichen"
+    episode_pattern: "(?:Die\\s+)?drei\\s+\\?\\?\\?[,\\s]*(\\d+)"
+
+  - id: die_drei_fragezeichen_kids
+    title: "Die drei ??? Kids"
+    aliases:
+      - "Die drei ??? Kids"
+      - "Die drei Fragezeichen Kids"
+    keywords:
+      - "drei ??? kids"
+      - "drei fragezeichen kids"
+    episode_pattern: "(?:Die\\s+)?drei\\s+\\?\\?\\?\\s+Kids[,\\s]*(\\d+)"
+
+  - id: tkkg
+    title: TKKG
+    aliases:
+      - TKKG
+    keywords:
+      - tkkg
+    episode_pattern: "TKKG[,\\s]+(Folge\\s+)?(\\d+)"
+
+  - id: bibi_und_tina
+    title: Bibi & Tina
+    aliases:
+      - "Bibi & Tina"
+      - "Bibi und Tina"
+    keywords:
+      - "bibi & tina"
+      - "bibi und tina"
+    episode_pattern: "Bibi(?:\\s+&|\\s+und)\\s+Tina[,\\s]+(Folge\\s+)?(\\d+)"
+
+  - id: pumuckl
+    title: Pumuckl
+    aliases:
+      - Pumuckl
+      - "Meister Eder und sein Pumuckl"
+    keywords:
+      - pumuckl
+    episode_pattern: "Pumuckl[,\\s]+(Folge\\s+)?(\\d+)"
+
+  - id: conni
+    title: Conni
+    aliases:
+      - Conni
+      - "Meine Freundin Conni"
+    keywords:
+      - conni
+    episode_pattern: "Conni[,\\s]+(Folge\\s+)?(\\d+)"
+
+  - id: pippi_langstrumpf
+    title: Pippi Langstrumpf
+    aliases:
+      - "Pippi Langstrumpf"
+    keywords:
+      - pippi
+      - langstrumpf
+    episode_pattern: "Pippi Langstrumpf[,\\s]+(Folge\\s+)?(\\d+)"
+
+  - id: pettersson_und_findus
+    title: Pettersson und Findus
+    aliases:
+      - "Pettersson und Findus"
+      - "Pettersson & Findus"
+    keywords:
+      - pettersson
+      - findus
+    episode_pattern: "Pettersson(?:\\s+und|\\s+&)\\s+Findus[,\\s]+(Folge\\s+)?(\\d+)"
+
+  - id: das_sams
+    title: Das Sams
+    aliases:
+      - "Das Sams"
+    keywords:
+      - sams
+    episode_pattern: "(?:Das\\s+)?Sams[,\\s]+(Folge\\s+)?(\\d+)"
+
+  - id: feuerwehrmann_sam
+    title: Feuerwehrmann Sam
+    aliases:
+      - "Feuerwehrmann Sam"
+    keywords:
+      - "feuerwehrmann sam"
+      - "fireman sam"
+    episode_pattern: "Feuerwehrmann Sam[,\\s]+(Folge\\s+)?(\\d+)"
+
+  - id: pan_tau
+    title: Pan Tau
+    aliases:
+      - "Pan Tau"
+    keywords:
+      - "pan tau"
+    episode_pattern: "Pan Tau[,\\s]+(Folge\\s+)?(\\d+)"

@@ -3,7 +3,9 @@ import 'dart:async' show Timer, unawaited;
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lauschi/core/catalog/catalog_service.dart';
 import 'package:lauschi/core/database/card_repository.dart';
+import 'package:lauschi/core/database/group_repository.dart';
 import 'package:lauschi/core/log.dart';
 import 'package:lauschi/core/spotify/spotify_api.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
@@ -26,6 +28,7 @@ class _AddCardScreenState extends ConsumerState<AddCardScreen> {
   final _searchController = TextEditingController();
   Timer? _debounce;
   List<SpotifyAlbum> _results = [];
+  List<CatalogMatch?> _catalogMatches = [];
   bool _isSearching = false;
   final _addedUris = <String>{};
 
@@ -62,6 +65,7 @@ class _AddCardScreenState extends ConsumerState<AddCardScreen> {
       });
       return;
     }
+    setState(() => _catalogMatches = []);
     _debounce = Timer(const Duration(milliseconds: 400), () async {
       await _search(query.trim());
     });
@@ -73,12 +77,17 @@ class _AddCardScreenState extends ConsumerState<AddCardScreen> {
     try {
       final api = ref.read(spotifyApiProvider);
       final result = await api.searchAlbums(query);
-      if (mounted) {
-        setState(() {
-          _results = result.albums;
-          _isSearching = false;
-        });
-      }
+      if (!mounted) return;
+      // Compute catalog matches for each result (synchronous, cheap)
+      final catalog = ref.read(catalogServiceProvider).value;
+      final matches = catalog != null
+          ? result.albums.map((a) => catalog.match(a.name)).toList()
+          : List<CatalogMatch?>.filled(result.albums.length, null);
+      setState(() {
+        _results = result.albums;
+        _catalogMatches = matches;
+        _isSearching = false;
+      });
     } on Exception catch (e) {
       Log.error(_tag, 'Search failed', exception: e);
       if (mounted) {
@@ -87,9 +96,9 @@ class _AddCardScreenState extends ConsumerState<AddCardScreen> {
     }
   }
 
-  Future<void> _addCard(SpotifyAlbum album) async {
+  Future<void> _addCard(SpotifyAlbum album, CatalogMatch? match) async {
     final cards = ref.read(cardRepositoryProvider);
-    await cards.insertIfAbsent(
+    final cardId = await cards.insertIfAbsent(
       title: album.name,
       providerUri: album.uri,
       cardType: 'album',
@@ -98,10 +107,57 @@ class _AddCardScreenState extends ConsumerState<AddCardScreen> {
 
     setState(() => _addedUris.add(album.uri));
 
-    if (mounted) {
+    if (!mounted) return;
+
+    if (match != null) {
+      // Show series-assignment snackbar with action
+      final seriesTitle = match.series.title;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('${album.name} hinzugefügt'),
+          duration: const Duration(seconds: 5),
+          behavior: SnackBarBehavior.floating,
+          action: SnackBarAction(
+            label: 'Zu »$seriesTitle«',
+            onPressed: () => unawaited(
+              _assignToSeries(cardId, match),
+            ),
+          ),
+        ),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('${album.name} hinzugefügt'),
+          duration: const Duration(seconds: 2),
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+    }
+  }
+
+  /// Find or create the series group and assign the card to it.
+  Future<void> _assignToSeries(String? cardId, CatalogMatch match) async {
+    if (cardId == null) return;
+    final groupRepo = ref.read(groupRepositoryProvider);
+
+    // Find existing group by series title, or create one
+    var group = await groupRepo.findByTitle(match.series.title);
+    group ??= await groupRepo
+        .insert(title: match.series.title)
+        .then(groupRepo.getById);
+
+    if (group == null) return;
+    await ref.read(cardRepositoryProvider).assignToGroup(
+      cardId: cardId,
+      groupId: group.id,
+      episodeNumber: match.episodeNumber,
+    );
+
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Zur Serie »${match.series.title}« hinzugefügt'),
           duration: const Duration(seconds: 2),
           behavior: SnackBarBehavior.floating,
         ),
@@ -160,11 +216,15 @@ class _AddCardScreenState extends ConsumerState<AddCardScreen> {
                       itemBuilder: (context, index) {
                         final album = _results[index];
                         final isAdded = _addedUris.contains(album.uri);
+                        final match = index < _catalogMatches.length
+                            ? _catalogMatches[index]
+                            : null;
 
                         return _SearchResultTile(
                           album: album,
                           isAdded: isAdded,
-                          onAdd: () => _addCard(album),
+                          catalogMatch: match,
+                          onAdd: () => unawaited(_addCard(album, match)),
                         );
                       },
                     ),
@@ -180,10 +240,12 @@ class _SearchResultTile extends StatelessWidget {
     required this.album,
     required this.isAdded,
     required this.onAdd,
+    this.catalogMatch,
   });
 
   final SpotifyAlbum album;
   final bool isAdded;
+  final CatalogMatch? catalogMatch;
   final VoidCallback onAdd;
 
   @override
@@ -194,17 +256,16 @@ class _SearchResultTile extends StatelessWidget {
         child: SizedBox(
           width: 48,
           height: 48,
-          child:
-              album.imageUrl != null
-                  ? CachedNetworkImage(
-                    imageUrl: album.imageUrl!,
-                    fit: BoxFit.cover,
-                    memCacheWidth: 96,
-                  )
-                  : const ColoredBox(
-                    color: AppColors.surfaceDim,
-                    child: Icon(Icons.music_note_rounded),
-                  ),
+          child: album.imageUrl != null
+              ? CachedNetworkImage(
+                  imageUrl: album.imageUrl!,
+                  fit: BoxFit.cover,
+                  memCacheWidth: 96,
+                )
+              : const ColoredBox(
+                  color: AppColors.surfaceDim,
+                  child: Icon(Icons.music_note_rounded),
+                ),
         ),
       ),
       title: Text(
@@ -217,24 +278,53 @@ class _SearchResultTile extends StatelessWidget {
           fontSize: 15,
         ),
       ),
-      subtitle: Text(
-        '${album.artistNames} · ${album.totalTracks} Titel',
-        maxLines: 1,
-        overflow: TextOverflow.ellipsis,
-        style: const TextStyle(
-          fontFamily: 'Nunito',
-          fontSize: 13,
-          color: AppColors.textSecondary,
-        ),
+      subtitle: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            '${album.artistNames} · ${album.totalTracks} Titel',
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: const TextStyle(
+              fontFamily: 'Nunito',
+              fontSize: 13,
+              color: AppColors.textSecondary,
+            ),
+          ),
+          if (catalogMatch != null) ...[
+            const SizedBox(height: 2),
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Icon(Icons.layers_rounded,
+                    size: 11, color: AppColors.primary),
+                const SizedBox(width: 3),
+                Text(
+                  catalogMatch!.episodeNumber != null
+                      ? '${catalogMatch!.series.title} · '
+                          'Folge ${catalogMatch!.episodeNumber}'
+                      : catalogMatch!.series.title,
+                  style: const TextStyle(
+                    fontFamily: 'Nunito',
+                    fontSize: 11,
+                    color: AppColors.primary,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ],
       ),
-      trailing:
-          isAdded
-              ? const Icon(Icons.check_rounded, color: AppColors.success)
-              : IconButton(
-                onPressed: onAdd,
-                icon: const Icon(Icons.add_rounded),
-                color: AppColors.primary,
-              ),
+      isThreeLine: catalogMatch != null,
+      trailing: isAdded
+          ? const Icon(Icons.check_rounded, color: AppColors.success)
+          : IconButton(
+              onPressed: onAdd,
+              icon: const Icon(Icons.add_rounded),
+              color: AppColors.primary,
+            ),
     );
   }
 }

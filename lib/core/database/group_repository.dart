@@ -103,6 +103,16 @@ class GroupRepository {
     });
   }
 
+  /// Find a group by exact title (case-insensitive). Returns null if not found.
+  Future<CardGroup?> findByTitle(String title) async {
+    final lower = title.toLowerCase();
+    final all = await getAll();
+    for (final g in all) {
+      if (g.title.toLowerCase() == lower) return g;
+    }
+    return null;
+  }
+
   /// Watch cards belonging to a group, ordered by episodeNumber then sortOrder.
   Stream<List<AudioCard>> watchCards(String groupId) {
     return (_db.select(_db.cards)
