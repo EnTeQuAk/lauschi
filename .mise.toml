@@ -43,3 +43,11 @@ dart format --set-exit-if-changed .
 flutter analyze --fatal-infos
 flutter test --dart-define-from-file=.env
 """
+
+[tasks.catalog-check]
+description = "Validate series.yaml against live Spotify data"
+run = "uv run scripts/validate_catalog.py"
+
+[tasks.catalog-check-fresh]
+description = "Validate series.yaml — bypass cache, hit Spotify API directly"
+run = "uv run scripts/validate_catalog.py --no-cache"
