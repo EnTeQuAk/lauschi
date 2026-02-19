@@ -303,3 +303,152 @@ series:
       - "wickie und die starken"
       - wickie
     episode_pattern: "Wickie[,\\s]+(Folge\\s+)?(\\d+)"
+
+  # ── Detected from Spotify playlists ──────────────────────────────────────
+
+  - id: prinzessin_lillifee
+    title: Prinzessin Lillifee
+    aliases:
+      - "Prinzessin Lillifee"
+      - "Lillifee"
+    keywords:
+      - "prinzessin lillifee"
+      - lillifee
+    # Spotify track format: "Prinzessin Lillifee, Folge N: <title>"
+    episode_pattern: "(?:Prinzessin\\s+)?Lillifee[,\\s]+(?:Folge\\s+)?(\\d+)"
+
+  - id: die_fuchsbande
+    title: Die Fuchsbande
+    aliases:
+      - "Die Fuchsbande"
+      - "Fuchsbande"
+    keywords:
+      - fuchsbande
+    # Spotify track format: "Fall N - <title>"
+    episode_pattern: "Fall\\s+(\\d+)"
+
+  - id: tkkg_junior
+    title: TKKG Junior
+    aliases:
+      - "TKKG Junior"
+    keywords:
+      - "tkkg junior"
+    # Spotify format: "TKKG Junior NNN" or "TKKG Junior, Folge N"
+    episode_pattern: "TKKG\\s+Junior[,\\s]*(Folge\\s+)?(\\d+)"
+
+  - id: fuenf_freunde_junior
+    title: Fünf Freunde Junior
+    aliases:
+      - "Fünf Freunde Junior"
+      - "5 Freunde Junior"
+    keywords:
+      - "fünf freunde junior"
+      - "5 freunde junior"
+    episode_pattern: "Fünf\\s+Freunde\\s+Junior[,\\s]*(\\d+)"
+
+  - id: die_playmos
+    title: Die Playmos
+    aliases:
+      - "Die Playmos"
+      - "Playmos"
+    keywords:
+      - playmos
+    # Spotify album: "Die Playmos - Folge N: <title>" or "Die Playmos, Folge N"
+    episode_pattern: "Playmos[^\\d]*(\\d+)"
+
+  - id: wendy
+    title: Wendy
+    aliases:
+      - "Wendy"
+    keywords:
+      - "wendy"
+    # Kiddinx series; Spotify: "Wendy, Folge N: <title>" or "Wendy N"
+    episode_pattern: "Wendy[,\\s]+(Folge\\s+|Teil\\s+)?(\\d+)"
+
+  - id: asterix
+    title: Asterix
+    aliases:
+      - "Asterix"
+      - "Asterix und Obelix"
+    keywords:
+      - asterix
+    episode_pattern: "Asterix[,\\s]+(Folge\\s+|Band\\s+)?(\\d+)"
+
+  - id: lucky_luke
+    title: Lucky Luke
+    aliases:
+      - "Lucky Luke"
+    keywords:
+      - "lucky luke"
+    episode_pattern: "Lucky\\s+Luke[,\\s]+(Folge\\s+|Band\\s+)?(\\d+)"
+
+  # ── Michael Ende works ────────────────────────────────────────────────────
+
+  - id: michael_ende
+    title: Michael Ende
+    aliases:
+      - "Momo"
+      - "Die unendliche Geschichte"
+      - "Jim Knopf und Lukas der Lokomotivführer"
+      - "Jim Knopf und die Wilde 13"
+      - "Der Wunschpunsch"
+      - "Das Traumfresserchen"
+    keywords:
+      - "jim knopf"
+      - "unendliche geschichte"
+      - wunschpunsch
+      - traumfresserchen
+      - momo
+
+  # ── Cornelia Funke works ──────────────────────────────────────────────────
+
+  - id: gespensterjager
+    title: Gespensterjäger
+    aliases:
+      - "Gespensterjäger"
+      - "Geisterjäger"
+      - "Cornelia Funke Gespensterjäger"
+    keywords:
+      - "gespensterjäger"
+      - "geisterjager"
+    episode_pattern: "Gespensterjäger[,\\s]+(Band\\s+|Folge\\s+)?(\\d+)"
+
+  # ── Swedish classics (Astrid Lindgren) ───────────────────────────────────
+
+  - id: bullerbue
+    title: Bullerbü
+    aliases:
+      - "Geschichten aus Bullerbü"
+      - "Bullerbü"
+      - "Bullerbue"
+    keywords:
+      - bullerbü
+      - bullerbue
+
+  # ── Janosch ───────────────────────────────────────────────────────────────
+
+  - id: janosch
+    title: Janosch
+    aliases:
+      - "Oh, wie schön ist Panama"
+      - "Der kleine Tiger"
+      - "Janosch"
+      - "Tigerente"
+    keywords:
+      - "oh wie schön ist panama"
+      - tigerente
+      - janosch
+
+  # ── Detektivbüro LasseMaja (Swedish series) ───────────────────────────────
+
+  - id: lassemaja
+    title: Detektivbüro LasseMaja
+    aliases:
+      - "Detektivbüro LasseMaja"
+      - "LasseMaja"
+      - "Lasse-Maja"
+    keywords:
+      - "lassemaja"
+      - "lasse-maja"
+      - "lasse maja"
+    episode_pattern: "(?:Detektivbüro\\s+)?LasseMaja[,\\s]+(Teil\\s+|Band\\s+)?(\\d+)"
