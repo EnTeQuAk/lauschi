@@ -384,8 +384,8 @@ def main() -> None:
                     help=f"opencode model (default: {_DEFAULT_MODEL})")
     ap.add_argument("--no-cache", action="store_true",
                     help="Bypass Spotify cache")
-    ap.add_argument("--timeout", type=int, default=300,
-                    help="Timeout in seconds (default: 300)")
+    ap.add_argument("--timeout", type=int, default=1800,
+                    help="Timeout in seconds (default: 1800)")
     args = ap.parse_args()
 
     api_key = os.environ.get("OPENCODE_API_KEY")
