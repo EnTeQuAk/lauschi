@@ -459,7 +459,12 @@ def analyze_series(token: str, s: dict, use_cache: bool, do_artist: bool) -> Ser
 # ── Artist discovery mode ─────────────────────────────────────────────────────
 
 def run_discover(token: str, series_list: list[dict], use_cache: bool) -> None:
-    """Search Spotify for artist candidates for series without artist IDs."""
+    """Search Spotify for artist candidates for series without artist IDs.
+
+    Uses ``discover_query`` from the YAML entry when present; falls back to
+    the series title.  This lets ambiguous titles (e.g. "Löwenzahn") use a
+    more targeted query without changing the canonical title.
+    """
     console.print(Panel("[bold]Artist Discovery Mode[/]\n"
                         "Searching for Spotify artist candidates…", title="🔍"))
 
@@ -469,9 +474,13 @@ def run_discover(token: str, series_list: list[dict], use_cache: bool) -> None:
 
         sid   = s["id"]
         title = s["title"]
-        console.print(f"\n[bold]{title}[/]  [dim]{sid}[/]")
+        query = s.get("discover_query") or title
+        label = f"[bold]{title}[/]  [dim]{sid}[/]"
+        if query != title:
+            label += f"  [dim](query: {query})[/]"
+        console.print(f"\n{label}")
 
-        artists = search_artists(token, title, limit=6)
+        artists = search_artists(token, query, limit=6)
         time.sleep(0.15)
 
         if not artists:

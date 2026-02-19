@@ -778,3 +778,41 @@ series:
       - "79fds5dgda0VCYelERV8Gi"  # Wieso? Weshalb? Warum? (37k followers)
       - "0LoeUAhyTnta8Vk7HBzBsP"  # Wieso? Weshalb? Warum? Junior (10k followers)
     # Ravensburger educational series for ages 4-7. Standalone topics.
+
+  # ── Adventure / Girls' series ─────────────────────────────────────────────
+
+  - id: sternenschweif
+    title: Sternenschweif
+    aliases:
+      - "Sternenschweif"
+    keywords:
+      - sternenschweif
+    spotify_artist_ids:
+      - "79iLUmzekfn37nPHuM09uq"  # Sternenschweif (38.7k followers)
+
+  # ── Nature & educational ───────────────────────────────────────────────────
+
+  - id: loewenzahn
+    title: Löwenzahn
+    aliases:
+      - "Löwenzahn"
+      - "Löwenzahn Hörspiel"
+    keywords:
+      - löwenzahn
+      - lowenzahn
+    spotify_artist_ids:
+      - "0p0BKNqJuryRzJj2yrZmNp"  # Löwenzahn (9.6k followers)
+    # "löwenzahn" is also German for dandelion. Artist ID is the primary guard.
+
+  # ── Astrid Lindgren (no dedicated Spotify Hörspiel artist) ────────────────
+
+  - id: ferien_saltkrokan
+    title: Ferien auf Saltkrokan
+    aliases:
+      - "Ferien auf Saltkrokan"
+      - "Wir auf Saltkrokan"
+    keywords:
+      - saltkrokan
+    # No dedicated Spotify artist found (only generic "Astrid Lindgren Deutsch"
+    # which covers Pippi, Ronja, Bullerbü etc. — too broad).
+    # "saltkrokan" keyword is specific enough for keyword-only matching.
