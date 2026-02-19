@@ -153,7 +153,7 @@ class _ConnectPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final authState = ref.watch(spotifyAuthNotifierProvider);
+    final authState = ref.watch(spotifyAuthProvider);
 
     return Padding(
       padding: const EdgeInsets.all(AppSpacing.xxl),
@@ -195,10 +195,10 @@ class _ConnectPage extends ConsumerWidget {
                       ? onNext
                       : () async {
                         await ref
-                            .read(spotifyAuthNotifierProvider.notifier)
+                            .read(spotifyAuthProvider.notifier)
                             .login();
                         // Auto-advance on success
-                        final newState = ref.read(spotifyAuthNotifierProvider);
+                        final newState = ref.read(spotifyAuthProvider);
                         if (newState is AuthAuthenticated) {
                           onNext();
                         }

@@ -55,15 +55,15 @@ class _LauschiAppState extends ConsumerState<LauschiApp>
   Future<void> _handleDeepLink(Uri uri) async {
     Log.info('DeepLink', 'Received', data: {'uri': '$uri'});
     if (uri.scheme == 'lauschi' && uri.host == 'callback') {
-      final auth = ref.read(spotifyAuthProvider);
+      final auth = ref.read(spotifyAuthClientProvider);
       await auth.handleCallback(uri);
     }
   }
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    final player = ref.read(playerNotifierProvider.notifier);
-    final playback = ref.read(playerNotifierProvider);
+    final player = ref.read(playerProvider.notifier);
+    final playback = ref.read(playerProvider);
 
     switch (state) {
       case AppLifecycleState.paused || AppLifecycleState.inactive:
@@ -96,7 +96,7 @@ class _LauschiAppState extends ConsumerState<LauschiApp>
   Widget build(BuildContext context) {
     final router = ref.watch(appRouterProvider);
 
-    final authState = ref.watch(spotifyAuthNotifierProvider);
+    final authState = ref.watch(spotifyAuthProvider);
 
     return MaterialApp.router(
       title: 'lauschi',
@@ -147,7 +147,7 @@ class _WebViewHostState extends ConsumerState<_WebViewHost> {
   Future<void> _initBridge() async {
     if (_initialized) return;
     _initialized = true;
-    await ref.read(playerNotifierProvider.notifier).initBridge();
+    await ref.read(playerProvider.notifier).initBridge();
     if (mounted) setState(() {});
   }
 

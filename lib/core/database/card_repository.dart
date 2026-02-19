@@ -15,19 +15,19 @@ class CardRepository {
   final AppDatabase _db;
 
   /// Watch all cards ordered by sortOrder.
-  Stream<List<Card>> watchAll() {
+  Stream<List<AudioCard>> watchAll() {
     return (_db.select(_db.cards)
       ..orderBy([(t) => OrderingTerm.asc(t.sortOrder)])).watch();
   }
 
   /// Get all cards ordered by sortOrder.
-  Future<List<Card>> getAll() {
+  Future<List<AudioCard>> getAll() {
     return (_db.select(_db.cards)
       ..orderBy([(t) => OrderingTerm.asc(t.sortOrder)])).get();
   }
 
   /// Get a single card by ID.
-  Future<Card?> getById(String id) {
+  Future<AudioCard?> getById(String id) {
     return (_db.select(_db.cards)
       ..where((t) => t.id.equals(id))).getSingleOrNull();
   }
@@ -119,7 +119,7 @@ class CardRepository {
   }
 
   /// Get the most recently played card (for resume on app launch).
-  Future<Card?> lastPlayed() {
+  Future<AudioCard?> lastPlayed() {
     return (_db.select(_db.cards)
           ..where((t) => t.lastPlayedAt.isNotNull())
           ..orderBy([(t) => OrderingTerm.desc(t.lastPlayedAt)])
@@ -128,7 +128,7 @@ class CardRepository {
   }
 
   /// Find a card by its provider URI.
-  Future<Card?> getByProviderUri(String uri) {
+  Future<AudioCard?> getByProviderUri(String uri) {
     return (_db.select(_db.cards)
       ..where((t) => t.providerUri.equals(uri))).getSingleOrNull();
   }
@@ -150,7 +150,9 @@ CardRepository cardRepository(Ref ref) {
 }
 
 /// Stream of all cards, ordered by sortOrder.
-@riverpod
-Stream<List<Card>> allCards(Ref ref) {
+///
+/// Manual provider (not generated) because the Drift-generated AudioCard
+/// type can't be resolved by riverpod_generator at codegen time.
+final allCardsProvider = StreamProvider<List<AudioCard>>((ref) {
   return ref.watch(cardRepositoryProvider).watchAll();
-}
+});

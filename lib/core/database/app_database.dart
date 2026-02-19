@@ -1,7 +1,6 @@
 import 'package:drift/drift.dart';
 import 'package:drift_flutter/drift_flutter.dart';
 import 'package:flutter/foundation.dart' show visibleForTesting;
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lauschi/core/database/tables.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 

@@ -20,8 +20,8 @@ class KidHomeScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final cardsAsync = ref.watch(allCardsProvider);
-    final playerState = ref.watch(playerNotifierProvider);
-    final playerNotifier = ref.read(playerNotifierProvider.notifier);
+    final playerState = ref.watch(playerProvider);
+    final playerNotifier = ref.read(playerProvider.notifier);
     final isOnline = ref.watch(isOnlineProvider);
 
     return Scaffold(
@@ -129,7 +129,7 @@ class KidHomeScreen extends ConsumerWidget {
                 message: playerState.error!,
                 onDismiss:
                     () =>
-                        ref.read(playerNotifierProvider.notifier).clearError(),
+                        ref.read(playerProvider.notifier).clearError(),
               ),
             // Now-playing bar (slides up on appearance)
             AnimatedSwitcher(
@@ -171,11 +171,11 @@ class _CardGrid extends StatelessWidget {
     required this.onCardTap,
   });
 
-  final List<db.Card> cards;
+  final List<db.AudioCard> cards;
   final String? activeUri;
   final bool isPlaying;
   final bool isActive;
-  final void Function(db.Card card) onCardTap;
+  final void Function(db.AudioCard card) onCardTap;
 
   @override
   Widget build(BuildContext context) {
