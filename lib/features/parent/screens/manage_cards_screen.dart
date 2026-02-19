@@ -306,14 +306,36 @@ class _GroupPickerSheet extends ConsumerWidget {
           // Group list
           groupsAsync.when(
             data: (groups) => groups.isEmpty
-                ? const Padding(
-                    padding: EdgeInsets.all(AppSpacing.lg),
-                    child: Text(
-                      'Noch keine Serien vorhanden.',
-                      style: TextStyle(
-                        fontFamily: 'Nunito',
-                        color: AppColors.textSecondary,
-                      ),
+                ? Padding(
+                    padding: const EdgeInsets.fromLTRB(
+                      AppSpacing.screenH,
+                      AppSpacing.sm,
+                      AppSpacing.screenH,
+                      AppSpacing.lg,
+                    ),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        const Text(
+                          'Noch keine Serien vorhanden.',
+                          style: TextStyle(
+                            fontFamily: 'Nunito',
+                            color: AppColors.textSecondary,
+                          ),
+                        ),
+                        const SizedBox(height: AppSpacing.md),
+                        FilledButton.icon(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                            unawaited(
+                              context.push(AppRoutes.parentManageGroups),
+                            );
+                          },
+                          icon: const Icon(Icons.add_rounded),
+                          label: const Text('Serie erstellen'),
+                        ),
+                      ],
                     ),
                   )
                 : ListView.builder(
