@@ -178,6 +178,37 @@ class SpotifyApi {
     return SpotifyAlbum.fromJson(resp!.data!);
   }
 
+  /// Get multiple albums in one request (max 20 IDs per Spotify API limit).
+  ///
+  /// Returns albums in the same order as [albumIds]. Missing/unavailable
+  /// albums are omitted (result may be shorter than input).
+  Future<List<SpotifyAlbum>> getAlbums(List<String> albumIds) async {
+    if (albumIds.isEmpty) return [];
+    assert(albumIds.length <= 20, 'Spotify allows max 20 IDs per request');
+
+    Log.info(
+      _tag,
+      'GET /albums?ids=...',
+      data: {'count': '${albumIds.length}'},
+    );
+
+    final resp = await _request(
+      () => _dio.get<Map<String, dynamic>>(
+        '/albums',
+        queryParameters: {
+          'ids': albumIds.join(','),
+          'market': SpotifyConfig.market,
+        },
+      ),
+    );
+
+    final items = (resp?.data?['albums'] as List<dynamic>?) ?? [];
+    return items
+        .whereType<Map<String, dynamic>>()
+        .map(SpotifyAlbum.fromJson)
+        .toList();
+  }
+
   // ---------------------------------------------------------------------------
   // Request wrapper with error handling
   // ---------------------------------------------------------------------------

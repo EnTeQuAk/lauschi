@@ -2,6 +2,23 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:yaml/yaml.dart';
 
+/// A pre-validated album entry in the catalog.
+class CatalogAlbum {
+  const CatalogAlbum({
+    required this.spotifyId,
+    required this.title,
+    this.episode,
+  });
+
+  /// Spotify album ID (the part after `spotify:album:`).
+  final String spotifyId;
+  final String title;
+  final int? episode;
+
+  /// Full Spotify URI.
+  String get uri => 'spotify:album:$spotifyId';
+}
+
 /// A single known Hörspiel series from the bundled catalog.
 class CatalogSeries {
   const CatalogSeries({
@@ -11,6 +28,7 @@ class CatalogSeries {
     required this.keywords,
     required this.spotifyArtistIds,
     this.episodePattern,
+    this.albums = const [],
   });
 
   final String id;
@@ -33,6 +51,13 @@ class CatalogSeries {
 
   /// Regex with one capture group for the episode number.
   final String? episodePattern;
+
+  /// Pre-validated album list with Spotify IDs and episode numbers.
+  /// Empty for series that haven't been fully curated yet.
+  final List<CatalogAlbum> albums;
+
+  /// Whether this series has a curated album list.
+  bool get hasCuratedAlbums => albums.isNotEmpty;
 }
 
 /// How a catalog match was found — useful for display/confidence decisions.
@@ -104,6 +129,19 @@ class CatalogService {
               ? <String>[]
               : aliasesRaw.map<String>((a) => a as String).toList();
 
+      final albumsRaw = map['albums'] as YamlList?;
+      final albums =
+          albumsRaw == null
+              ? <CatalogAlbum>[]
+              : albumsRaw.map<CatalogAlbum>((a) {
+                final aMap = a as YamlMap;
+                return CatalogAlbum(
+                  spotifyId: aMap['id'] as String,
+                  title: aMap['title'] as String,
+                  episode: aMap['episode'] as int?,
+                );
+              }).toList();
+
       parsed.add(
         CatalogSeries(
           id: map['id'] as String,
@@ -112,6 +150,7 @@ class CatalogService {
           keywords: keywords,
           spotifyArtistIds: artistIds,
           episodePattern: map['episode_pattern'] as String?,
+          albums: albums,
         ),
       );
     }
