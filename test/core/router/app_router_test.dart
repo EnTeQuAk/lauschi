@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:lauschi/core/auth/pin_service.dart';
 import 'package:lauschi/core/database/card_repository.dart';
@@ -28,9 +29,9 @@ Widget _buildApp(ProviderContainer container) {
 
 /// Override providers that require platform channels or async init.
 List<Override> get _testOverrides => [
-  spotifyAuthNotifierProvider.overrideWith(_FakeAuthNotifier.new),
+  spotifyAuthProvider.overrideWith(_FakeAuthNotifier.new),
   spotifyPlayerBridgeProvider.overrideWithValue(SpotifyPlayerBridge()),
-  playerNotifierProvider.overrideWith(_FakePlayerNotifier.new),
+  playerProvider.overrideWith(_FakePlayerNotifier.new),
   allCardsProvider.overrideWith((_) => Stream.value([])),
   // Skip onboarding in tests
   onboardingCompleteProvider.overrideWith(_FakeOnboarding.new),

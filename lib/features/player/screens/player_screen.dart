@@ -39,7 +39,7 @@ class _PlayerScreenState extends ConsumerState<PlayerScreen>
   }
 
   void _onTick(Duration elapsed) {
-    final state = ref.read(playerNotifierProvider);
+    final state = ref.read(playerProvider);
 
     // Snap to server position on large drift or pause
     if ((state.positionMs - _interpolatedPositionMs).abs() > 2000 ||
@@ -66,8 +66,8 @@ class _PlayerScreenState extends ConsumerState<PlayerScreen>
 
   @override
   Widget build(BuildContext context) {
-    final state = ref.watch(playerNotifierProvider);
-    final notifier = ref.read(playerNotifierProvider.notifier);
+    final state = ref.watch(playerProvider);
+    final notifier = ref.read(playerProvider.notifier);
     final track = state.track;
 
     return Scaffold(

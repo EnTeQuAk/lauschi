@@ -1,6 +1,5 @@
 import 'dart:async' show unawaited;
 
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lauschi/core/log.dart';
 import 'package:lauschi/core/spotify/spotify_auth.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -33,7 +32,7 @@ class AuthError extends SpotifyAuthState {
 }
 
 @Riverpod(keepAlive: true)
-SpotifyAuth spotifyAuth(Ref ref) => SpotifyAuth();
+SpotifyAuth spotifyAuthClient(Ref ref) => SpotifyAuth();
 
 /// Manages Spotify authentication state.
 ///
@@ -45,7 +44,7 @@ class SpotifyAuthNotifier extends _$SpotifyAuthNotifier {
 
   @override
   SpotifyAuthState build() {
-    _auth = ref.watch(spotifyAuthProvider);
+    _auth = ref.watch(spotifyAuthClientProvider);
     // Kick off async token load. State starts as loading.
     unawaited(_loadStoredTokens());
     return const AuthLoading();

@@ -86,7 +86,7 @@ class _EmptyState extends StatelessWidget {
 
 class _CardList extends ConsumerWidget {
   const _CardList({required this.cards});
-  final List<db.Card> cards;
+  final List<db.AudioCard> cards;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -103,7 +103,7 @@ class _CardList extends ConsumerWidget {
     );
   }
 
-  void _confirmDelete(BuildContext context, WidgetRef ref, db.Card card) {
+  void _confirmDelete(BuildContext context, WidgetRef ref, db.AudioCard card) {
     unawaited(
       showDialog<void>(
         context: context,
@@ -151,7 +151,7 @@ class _CardTile extends StatelessWidget {
     required this.onDelete,
   });
 
-  final db.Card card;
+  final db.AudioCard card;
   final VoidCallback onDelete;
 
   @override

@@ -1,6 +1,5 @@
 import 'dart:async' show StreamSubscription, Timer, unawaited;
 
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lauschi/core/database/card_repository.dart';
 import 'package:lauschi/core/log.dart';
 import 'package:lauschi/core/spotify/spotify_api.dart';
@@ -20,14 +19,14 @@ SpotifyApi spotifyApi(Ref ref) {
   final api = SpotifyApi();
 
   // Keep API token in sync with auth state.
-  ref.listen(spotifyAuthNotifierProvider, (_, next) {
+  ref.listen(spotifyAuthProvider, (_, next) {
     if (next is AuthAuthenticated) {
       api.updateToken(next.tokens.accessToken);
     }
   });
 
   // Set initial token if already authenticated.
-  final authState = ref.read(spotifyAuthNotifierProvider);
+  final authState = ref.read(spotifyAuthProvider);
   if (authState is AuthAuthenticated) {
     api.updateToken(authState.tokens.accessToken);
   }
@@ -51,7 +50,7 @@ SpotifyPlayerBridge spotifyPlayerBridge(Ref ref) {
       SpotifyPlayerBridge()
         // Keep all token consumers in sync when the bridge refreshes tokens.
         ..onTokenRefreshed = (tokens) {
-          ref.read(spotifyAuthNotifierProvider.notifier).updateTokens(tokens);
+          ref.read(spotifyAuthProvider.notifier).updateTokens(tokens);
         };
 
   ref.onDispose(bridge.dispose);
@@ -104,13 +103,13 @@ class PlayerNotifier extends _$PlayerNotifier {
   /// Initialize the bridge with current auth tokens.
   /// Call after successful Spotify login.
   Future<void> initBridge() async {
-    final authState = ref.read(spotifyAuthNotifierProvider);
+    final authState = ref.read(spotifyAuthProvider);
     if (authState is! AuthAuthenticated) {
       Log.warn(_tag, 'Cannot init bridge — not authenticated');
       return;
     }
 
-    final auth = ref.read(spotifyAuthProvider);
+    final auth = ref.read(spotifyAuthClientProvider);
     await _bridge!.init(auth: auth, tokens: authState.tokens);
     Log.info(_tag, 'Bridge initialized');
   }

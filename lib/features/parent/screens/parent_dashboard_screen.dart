@@ -17,7 +17,7 @@ class ParentDashboardScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final authState = ref.watch(spotifyAuthNotifierProvider);
+    final authState = ref.watch(spotifyAuthProvider);
     final cardsAsync = ref.watch(allCardsProvider);
     final cardCount = cardsAsync.whenOrNull(data: (cards) => cards.length) ?? 0;
 
@@ -68,7 +68,7 @@ class ParentDashboardScreen extends ConsumerWidget {
             onTap: () {
               if (authState is! AuthAuthenticated) {
                 unawaited(
-                  ref.read(spotifyAuthNotifierProvider.notifier).login(),
+                  ref.read(spotifyAuthProvider.notifier).login(),
                 );
               }
             },

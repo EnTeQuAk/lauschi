@@ -1,5 +1,6 @@
 import 'package:drift/drift.dart';
 
+@DataClassName('AudioCard')
 class Cards extends Table {
   TextColumn get id => text()();
   TextColumn get title => text()();
