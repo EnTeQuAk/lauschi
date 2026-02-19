@@ -26,8 +26,9 @@ Future<void> main() async {
           defaultValue: 'development',
         );
     },
-    appRunner: () => runApp(
-      const ProviderScope(child: LauschiApp()),
-    ),
+    appRunner:
+        () => runApp(
+          const ProviderScope(child: LauschiApp()),
+        ),
   );
 }

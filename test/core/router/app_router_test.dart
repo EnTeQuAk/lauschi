@@ -28,15 +28,15 @@ Widget _buildApp(ProviderContainer container) {
 
 /// Override providers that require platform channels or async init.
 List<Override> get _testOverrides => [
-      spotifyAuthNotifierProvider.overrideWith(_FakeAuthNotifier.new),
-      spotifyPlayerBridgeProvider.overrideWithValue(SpotifyPlayerBridge()),
-      playerNotifierProvider.overrideWith(_FakePlayerNotifier.new),
-      allCardsProvider.overrideWith((_) => Stream.value([])),
-      // Skip onboarding in tests
-      onboardingCompleteProvider.overrideWith(_FakeOnboarding.new),
-      // Skip PIN gate
-      parentAuthProvider.overrideWith(_FakeParentAuth.new),
-    ];
+  spotifyAuthNotifierProvider.overrideWith(_FakeAuthNotifier.new),
+  spotifyPlayerBridgeProvider.overrideWithValue(SpotifyPlayerBridge()),
+  playerNotifierProvider.overrideWith(_FakePlayerNotifier.new),
+  allCardsProvider.overrideWith((_) => Stream.value([])),
+  // Skip onboarding in tests
+  onboardingCompleteProvider.overrideWith(_FakeOnboarding.new),
+  // Skip PIN gate
+  parentAuthProvider.overrideWith(_FakeParentAuth.new),
+];
 
 void main() {
   testWidgets('app starts on kid home route', (tester) async {
@@ -49,8 +49,9 @@ void main() {
     expect(find.text('Meine Hörspiele'), findsOneWidget);
   });
 
-  testWidgets('navigating to /player renders player placeholder',
-      (tester) async {
+  testWidgets('navigating to /player renders player placeholder', (
+    tester,
+  ) async {
     final container = ProviderContainer(overrides: _testOverrides);
     addTearDown(container.dispose);
 
@@ -65,8 +66,9 @@ void main() {
     expect(find.byIcon(Icons.play_arrow_rounded), findsAtLeastNWidgets(1));
   });
 
-  testWidgets('navigating to /parent renders parent dashboard placeholder',
-      (tester) async {
+  testWidgets('navigating to /parent renders parent dashboard placeholder', (
+    tester,
+  ) async {
     final container = ProviderContainer(overrides: _testOverrides);
     addTearDown(container.dispose);
 

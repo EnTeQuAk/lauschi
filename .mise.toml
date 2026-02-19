@@ -12,7 +12,7 @@ description = "Install deps, run codegen, verify analysis"
 run = """
 flutter pub get
 dart run build_runner build --delete-conflicting-outputs
-flutter analyze
+flutter analyze --fatal-infos
 """
 
 [tasks.codegen]
@@ -25,19 +25,21 @@ run = "dart run build_runner watch --delete-conflicting-outputs"
 
 [tasks.test]
 description = "Run all tests"
-run = "flutter test"
+run = "flutter test --dart-define-from-file=.env"
 
 [tasks.dev]
 description = "Run on connected device (extra args passed through)"
 run = "flutter run --dart-define-from-file=.env"
 
 [tasks.build]
-description = "Build APK"
+description = "Build APK (runs codegen first)"
+depends = ["codegen"]
 run = "flutter build apk --dart-define-from-file=.env"
 
 [tasks.check]
-description = "Full CI check: analyze + test"
+description = "Full CI check: format + analyze + test"
 run = """
-flutter analyze
-flutter test
+dart format --set-exit-if-changed .
+flutter analyze --fatal-infos
+flutter test --dart-define-from-file=.env
 """

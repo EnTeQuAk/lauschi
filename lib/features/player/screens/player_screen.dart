@@ -56,8 +56,10 @@ class _PlayerScreenState extends ConsumerState<PlayerScreen>
       final deltaMs = now.difference(_lastTickTime).inMilliseconds;
       _lastTickTime = now;
       setState(() {
-        _interpolatedPositionMs = (_interpolatedPositionMs + deltaMs)
-            .clamp(0, state.durationMs);
+        _interpolatedPositionMs = (_interpolatedPositionMs + deltaMs).clamp(
+          0,
+          state.durationMs,
+        );
       });
     }
   }
@@ -199,19 +201,20 @@ class _AlbumArt extends StatelessWidget {
               ],
             ),
             clipBehavior: Clip.antiAlias,
-            child: artworkUrl != null
-                ? CachedNetworkImage(
-                    imageUrl: artworkUrl!,
-                    fit: BoxFit.cover,
-                  )
-                : const ColoredBox(
-                    color: AppColors.surfaceDim,
-                    child: Icon(
-                      Icons.music_note_rounded,
-                      size: 72,
-                      color: AppColors.textSecondary,
+            child:
+                artworkUrl != null
+                    ? CachedNetworkImage(
+                      imageUrl: artworkUrl!,
+                      fit: BoxFit.cover,
+                    )
+                    : const ColoredBox(
+                      color: AppColors.surfaceDim,
+                      child: Icon(
+                        Icons.music_note_rounded,
+                        size: 72,
+                        color: AppColors.textSecondary,
+                      ),
                     ),
-                  ),
           ),
         ),
       ),
@@ -394,16 +397,20 @@ class _PlayPauseButton extends StatelessWidget {
     return SizedBox(
       width: 72,
       height: 72,
-      child: FilledButton(
-        onPressed: onPressed,
-        style: FilledButton.styleFrom(
-          shape: const CircleBorder(),
-          padding: EdgeInsets.zero,
-        ),
-        child: Icon(
-          isPlaying ? Icons.pause_rounded : Icons.play_arrow_rounded,
-          size: 40,
-          color: AppColors.textOnPrimary,
+      child: Semantics(
+        label: isPlaying ? 'Pause' : 'Abspielen',
+        button: true,
+        child: FilledButton(
+          onPressed: onPressed,
+          style: FilledButton.styleFrom(
+            shape: const CircleBorder(),
+            padding: EdgeInsets.zero,
+          ),
+          child: Icon(
+            isPlaying ? Icons.pause_rounded : Icons.play_arrow_rounded,
+            size: 40,
+            color: AppColors.textOnPrimary,
+          ),
         ),
       ),
     );

@@ -35,11 +35,12 @@ SpotifyApi spotifyApi(Ref ref) {
 
 @Riverpod(keepAlive: true)
 SpotifyPlayerBridge spotifyPlayerBridge(Ref ref) {
-  final bridge = SpotifyPlayerBridge()
-    // Keep all token consumers in sync when the bridge refreshes tokens.
-    ..onTokenRefreshed = (tokens) {
-      ref.read(spotifyAuthNotifierProvider.notifier).updateTokens(tokens);
-    };
+  final bridge =
+      SpotifyPlayerBridge()
+        // Keep all token consumers in sync when the bridge refreshes tokens.
+        ..onTokenRefreshed = (tokens) {
+          ref.read(spotifyAuthNotifierProvider.notifier).updateTokens(tokens);
+        };
 
   ref.onDispose(bridge.dispose);
   return bridge;
@@ -192,11 +193,15 @@ class PlayerNotifier extends _$PlayerNotifier {
     final cards = ref.read(cardRepositoryProvider);
     final card = await cards.getByProviderUri(spotifyUri);
 
-    Log.info(_tag, 'Playing card', data: {
-      'uri': spotifyUri,
-      'resumeTrack': card?.lastTrackUri ?? 'none',
-      'resumeMs': '${card?.lastPositionMs ?? 0}',
-    });
+    Log.info(
+      _tag,
+      'Playing card',
+      data: {
+        'uri': spotifyUri,
+        'resumeTrack': card?.lastTrackUri ?? 'none',
+        'resumeMs': '${card?.lastPositionMs ?? 0}',
+      },
+    );
 
     try {
       // If we have a saved position, resume at that track + offset.

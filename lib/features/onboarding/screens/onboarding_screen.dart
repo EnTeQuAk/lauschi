@@ -33,10 +33,12 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
 
   void _next() {
     if (_currentPage < 2) {
-      unawaited(_pageController.nextPage(
-        duration: const Duration(milliseconds: 300),
-        curve: Curves.easeInOut,
-      ));
+      unawaited(
+        _pageController.nextPage(
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeInOut,
+        ),
+      );
     }
   }
 
@@ -77,9 +79,10 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                     width: index == _currentPage ? 24 : 8,
                     height: 8,
                     decoration: BoxDecoration(
-                      color: index == _currentPage
-                          ? AppColors.primary
-                          : AppColors.surfaceDim,
+                      color:
+                          index == _currentPage
+                              ? AppColors.primary
+                              : AppColors.surfaceDim,
                       borderRadius: const BorderRadius.all(AppRadius.pill),
                     ),
                   );
@@ -187,18 +190,19 @@ class _ConnectPage extends ConsumerWidget {
           SizedBox(
             width: double.infinity,
             child: FilledButton.icon(
-              onPressed: authState is AuthAuthenticated
-                  ? onNext
-                  : () async {
-                      await ref
-                          .read(spotifyAuthNotifierProvider.notifier)
-                          .login();
-                      // Auto-advance on success
-                      final newState = ref.read(spotifyAuthNotifierProvider);
-                      if (newState is AuthAuthenticated) {
-                        onNext();
-                      }
-                    },
+              onPressed:
+                  authState is AuthAuthenticated
+                      ? onNext
+                      : () async {
+                        await ref
+                            .read(spotifyAuthNotifierProvider.notifier)
+                            .login();
+                        // Auto-advance on success
+                        final newState = ref.read(spotifyAuthNotifierProvider);
+                        if (newState is AuthAuthenticated) {
+                          onNext();
+                        }
+                      },
               icon: Icon(
                 authState is AuthAuthenticated
                     ? Icons.check_rounded
@@ -320,9 +324,10 @@ class _PinSetupPageState extends ConsumerState<_PinSetupPage> {
                 height: 16,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: _error
-                      ? AppColors.error
-                      : isFilled
+                  color:
+                      _error
+                          ? AppColors.error
+                          : isFilled
                           ? AppColors.primary
                           : AppColors.surfaceDim,
                 ),

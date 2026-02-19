@@ -75,8 +75,11 @@ class KidHomeScreen extends ConsumerWidget {
                 child: const Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(Icons.cloud_off_rounded, size: 16,
-                        color: AppColors.textSecondary),
+                    Icon(
+                      Icons.cloud_off_rounded,
+                      size: 16,
+                      color: AppColors.textSecondary,
+                    ),
                     SizedBox(width: AppSpacing.xs),
                     Text(
                       'Kein Internet',
@@ -92,35 +95,41 @@ class KidHomeScreen extends ConsumerWidget {
             // Card grid
             Expanded(
               child: cardsAsync.when(
-                data: (cards) => cards.isEmpty
-                    ? const _EmptyState()
-                    : _CardGrid(
-                        cards: cards,
-                        activeUri: playerNotifier.activeContextUri,
-                        isPlaying: playerState.isPlaying,
-                        // Show active state when playing or paused with a track
-                        isActive: playerState.track != null,
-                        onCardTap: (card) =>
-                            playerNotifier.playCard(card.providerUri),
+                data:
+                    (cards) =>
+                        cards.isEmpty
+                            ? const _EmptyState()
+                            : _CardGrid(
+                              cards: cards,
+                              activeUri: playerNotifier.activeContextUri,
+                              isPlaying: playerState.isPlaying,
+                              // Show active state when playing or paused with a track
+                              isActive: playerState.track != null,
+                              onCardTap:
+                                  (card) =>
+                                      playerNotifier.playCard(card.providerUri),
+                            ),
+                loading:
+                    () => const Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                error:
+                    (_, _) => const Center(
+                      child: Icon(
+                        Icons.error_outline_rounded,
+                        size: 48,
+                        color: AppColors.textSecondary,
                       ),
-                loading: () => const Center(
-                  child: CircularProgressIndicator(),
-                ),
-                error: (_, _) => const Center(
-                  child: Icon(
-                    Icons.error_outline_rounded,
-                    size: 48,
-                    color: AppColors.textSecondary,
-                  ),
-                ),
+                    ),
               ),
             ),
             // Error feedback
             if (playerState.error != null)
               _ErrorBanner(
                 message: playerState.error!,
-                onDismiss: () =>
-                    ref.read(playerNotifierProvider.notifier).clearError(),
+                onDismiss:
+                    () =>
+                        ref.read(playerNotifierProvider.notifier).clearError(),
               ),
             // Now-playing bar
             if (playerState.track != null)
@@ -156,9 +165,10 @@ class _CardGrid extends StatelessWidget {
     return LayoutBuilder(
       builder: (context, constraints) {
         // 3 columns on phone, 4 on large phone, 5 on tablet
-        final columns = constraints.maxWidth < 600
-            ? 3
-            : constraints.maxWidth < 900
+        final columns =
+            constraints.maxWidth < 600
+                ? 3
+                : constraints.maxWidth < 900
                 ? 4
                 : 5;
 
@@ -176,8 +186,7 @@ class _CardGrid extends StatelessWidget {
           itemCount: cards.length,
           itemBuilder: (context, index) {
             final card = cards[index];
-            final isCurrentCard =
-                isActive && activeUri == card.providerUri;
+            final isCurrentCard = isActive && activeUri == card.providerUri;
 
             return AudioCard(
               key: ValueKey(card.id),
@@ -210,8 +219,11 @@ class _ErrorBanner extends StatelessWidget {
       color: AppColors.error.withValues(alpha: 0.1),
       child: Row(
         children: [
-          const Icon(Icons.error_outline_rounded,
-              color: AppColors.error, size: 20),
+          const Icon(
+            Icons.error_outline_rounded,
+            color: AppColors.error,
+            size: 20,
+          ),
           const SizedBox(width: AppSpacing.sm),
           Expanded(
             child: Text(

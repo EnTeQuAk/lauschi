@@ -17,21 +17,19 @@ class CardRepository {
   /// Watch all cards ordered by sortOrder.
   Stream<List<Card>> watchAll() {
     return (_db.select(_db.cards)
-          ..orderBy([(t) => OrderingTerm.asc(t.sortOrder)]))
-        .watch();
+      ..orderBy([(t) => OrderingTerm.asc(t.sortOrder)])).watch();
   }
 
   /// Get all cards ordered by sortOrder.
   Future<List<Card>> getAll() {
     return (_db.select(_db.cards)
-          ..orderBy([(t) => OrderingTerm.asc(t.sortOrder)]))
-        .get();
+      ..orderBy([(t) => OrderingTerm.asc(t.sortOrder)])).get();
   }
 
   /// Get a single card by ID.
   Future<Card?> getById(String id) {
-    return (_db.select(_db.cards)..where((t) => t.id.equals(id)))
-        .getSingleOrNull();
+    return (_db.select(_db.cards)
+      ..where((t) => t.id.equals(id))).getSingleOrNull();
   }
 
   /// Insert a new card. Returns the generated ID.
@@ -45,20 +43,27 @@ class CardRepository {
     final id = _uuid.v4();
 
     // Auto-increment sortOrder
-    final maxOrder = await _db.customSelect(
-      'SELECT COALESCE(MAX(sort_order), -1) AS max_order FROM cards',
-    ).getSingle();
+    final maxOrder =
+        await _db
+            .customSelect(
+              'SELECT COALESCE(MAX(sort_order), -1) AS max_order FROM cards',
+            )
+            .getSingle();
     final nextOrder = (maxOrder.read<int>('max_order')) + 1;
 
-    await _db.into(_db.cards).insert(CardsCompanion.insert(
-          id: id,
-          title: title,
-          cardType: cardType,
-          providerUri: providerUri,
-          coverUrl: Value(coverUrl),
-          provider: Value(provider),
-          sortOrder: Value(nextOrder),
-        ));
+    await _db
+        .into(_db.cards)
+        .insert(
+          CardsCompanion.insert(
+            id: id,
+            title: title,
+            cardType: cardType,
+            providerUri: providerUri,
+            coverUrl: Value(coverUrl),
+            provider: Value(provider),
+            sortOrder: Value(nextOrder),
+          ),
+        );
 
     return id;
   }
@@ -72,9 +77,9 @@ class CardRepository {
     String? coverUrl,
     String provider = 'spotify',
   }) async {
-    final existing = await (_db.select(_db.cards)
-          ..where((t) => t.providerUri.equals(providerUri)))
-        .getSingleOrNull();
+    final existing =
+        await (_db.select(_db.cards)
+          ..where((t) => t.providerUri.equals(providerUri))).getSingleOrNull();
 
     if (existing != null) return existing.id;
 
@@ -91,9 +96,9 @@ class CardRepository {
   Future<void> reorder(List<String> idsInOrder) async {
     await _db.transaction(() async {
       for (var i = 0; i < idsInOrder.length; i++) {
-        await (_db.update(_db.cards)
-              ..where((t) => t.id.equals(idsInOrder[i])))
-            .write(CardsCompanion(sortOrder: Value(i)));
+        await (_db.update(_db.cards)..where(
+          (t) => t.id.equals(idsInOrder[i]),
+        )).write(CardsCompanion(sortOrder: Value(i)));
       }
     });
   }
@@ -125,8 +130,7 @@ class CardRepository {
   /// Find a card by its provider URI.
   Future<Card?> getByProviderUri(String uri) {
     return (_db.select(_db.cards)
-          ..where((t) => t.providerUri.equals(uri)))
-        .getSingleOrNull();
+      ..where((t) => t.providerUri.equals(uri))).getSingleOrNull();
   }
 
   /// Delete a card by ID.

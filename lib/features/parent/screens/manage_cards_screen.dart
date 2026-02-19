@@ -31,15 +31,18 @@ class ManageCardsScreen extends ConsumerWidget {
         ],
       ),
       body: cardsAsync.when(
-        data: (cards) => cards.isEmpty
-            ? _EmptyState(
-                onAdd: () => context.push(AppRoutes.parentAddCard),
-              )
-            : _CardList(cards: cards),
+        data:
+            (cards) =>
+                cards.isEmpty
+                    ? _EmptyState(
+                      onAdd: () => context.push(AppRoutes.parentAddCard),
+                    )
+                    : _CardList(cards: cards),
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (_, _) => const Center(
-          child: Text('Fehler beim Laden der Karten.'),
-        ),
+        error:
+            (_, _) => const Center(
+              child: Text('Fehler beim Laden der Karten.'),
+            ),
       ),
     );
   }
@@ -101,39 +104,44 @@ class _CardList extends ConsumerWidget {
   }
 
   void _confirmDelete(BuildContext context, WidgetRef ref, db.Card card) {
-    unawaited(showDialog<void>(
-      context: context,
-      builder: (ctx) => AlertDialog(
-        title: const Text('Karte entfernen?'),
-        content: Text(
-          '„${card.customTitle ?? card.title}" wird aus der '
-          'Sammlung entfernt.',
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(ctx).pop(),
-            child: const Text('Abbrechen'),
-          ),
-          FilledButton(
-            onPressed: () {
-              Navigator.of(ctx).pop();
-              unawaited(ref.read(cardRepositoryProvider).delete(card.id));
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text('${card.customTitle ?? card.title} entfernt'),
-                  duration: const Duration(seconds: 2),
-                  behavior: SnackBarBehavior.floating,
+    unawaited(
+      showDialog<void>(
+        context: context,
+        builder:
+            (ctx) => AlertDialog(
+              title: const Text('Karte entfernen?'),
+              content: Text(
+                '„${card.customTitle ?? card.title}" wird aus der '
+                'Sammlung entfernt.',
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.of(ctx).pop(),
+                  child: const Text('Abbrechen'),
                 ),
-              );
-            },
-            style: FilledButton.styleFrom(
-              backgroundColor: AppColors.error,
+                FilledButton(
+                  onPressed: () {
+                    Navigator.of(ctx).pop();
+                    unawaited(ref.read(cardRepositoryProvider).delete(card.id));
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(
+                          '${card.customTitle ?? card.title} entfernt',
+                        ),
+                        duration: const Duration(seconds: 2),
+                        behavior: SnackBarBehavior.floating,
+                      ),
+                    );
+                  },
+                  style: FilledButton.styleFrom(
+                    backgroundColor: AppColors.error,
+                  ),
+                  child: const Text('Entfernen'),
+                ),
+              ],
             ),
-            child: const Text('Entfernen'),
-          ),
-        ],
       ),
-    ));
+    );
   }
 }
 
@@ -154,15 +162,16 @@ class _CardTile extends StatelessWidget {
         child: SizedBox(
           width: 48,
           height: 48,
-          child: card.coverUrl != null
-              ? CachedNetworkImage(
-                  imageUrl: card.coverUrl!,
-                  fit: BoxFit.cover,
-                )
-              : const ColoredBox(
-                  color: AppColors.surfaceDim,
-                  child: Icon(Icons.music_note_rounded),
-                ),
+          child:
+              card.coverUrl != null
+                  ? CachedNetworkImage(
+                    imageUrl: card.coverUrl!,
+                    fit: BoxFit.cover,
+                  )
+                  : const ColoredBox(
+                    color: AppColors.surfaceDim,
+                    child: Icon(Icons.music_note_rounded),
+                  ),
         ),
       ),
       title: Text(

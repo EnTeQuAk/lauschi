@@ -66,59 +66,73 @@ class _AudioCardState extends State<AudioCard>
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTapDown: _handleTapDown,
-      onTapUp: _handleTapUp,
-      onTapCancel: _handleTapCancel,
-      child: AnimatedBuilder(
-        animation: _scaleAnimation,
-        builder: (context, child) => Transform.scale(
-          scale: _scaleAnimation.value,
-          child: child,
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            // Album art
-            AspectRatio(
-              aspectRatio: 1,
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.all(AppRadius.card),
-                  border: (widget.isPlaying || widget.isPaused)
-                      ? Border.all(
-                          color: widget.isPlaying
-                              ? AppColors.primary
-                              : AppColors.primarySoft,
-                          width: 3,
-                        )
-                      : null,
-                ),
-                clipBehavior: Clip.antiAlias,
-                child: Stack(
-                  fit: StackFit.expand,
-                  children: [
-                    _CoverImage(url: widget.coverUrl),
-                    if (widget.isPlaying) const _PlayBadge(),
-                    if (widget.isPaused) const _PauseBadge(),
-                  ],
+    final semanticLabel =
+        widget.isPlaying
+            ? '${widget.title}, spielt gerade'
+            : widget.isPaused
+            ? '${widget.title}, pausiert'
+            : widget.title;
+
+    return Semantics(
+      label: semanticLabel,
+      button: true,
+      child: GestureDetector(
+        onTapDown: _handleTapDown,
+        onTapUp: _handleTapUp,
+        onTapCancel: _handleTapCancel,
+        child: AnimatedBuilder(
+          animation: _scaleAnimation,
+          builder:
+              (context, child) => Transform.scale(
+                scale: _scaleAnimation.value,
+                child: child,
+              ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              // Album art
+              AspectRatio(
+                aspectRatio: 1,
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.all(AppRadius.card),
+                    border:
+                        (widget.isPlaying || widget.isPaused)
+                            ? Border.all(
+                              color:
+                                  widget.isPlaying
+                                      ? AppColors.primary
+                                      : AppColors.primarySoft,
+                              width: 3,
+                            )
+                            : null,
+                  ),
+                  clipBehavior: Clip.antiAlias,
+                  child: Stack(
+                    fit: StackFit.expand,
+                    children: [
+                      _CoverImage(url: widget.coverUrl),
+                      if (widget.isPlaying) const _PlayBadge(),
+                      if (widget.isPaused) const _PauseBadge(),
+                    ],
+                  ),
                 ),
               ),
-            ),
-            // Title
-            const SizedBox(height: 8),
-            Text(
-              widget.title,
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-              style: const TextStyle(
-                fontFamily: 'Nunito',
-                fontWeight: FontWeight.w700,
-                fontSize: 14,
-                color: AppColors.textPrimary,
+              // Title
+              const SizedBox(height: 8),
+              Text(
+                widget.title,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(
+                  fontFamily: 'Nunito',
+                  fontWeight: FontWeight.w700,
+                  fontSize: 14,
+                  color: AppColors.textPrimary,
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -147,14 +161,15 @@ class _CoverImage extends StatelessWidget {
       imageUrl: url!,
       fit: BoxFit.cover,
       placeholder: (_, _) => _ShimmerPlaceholder(),
-      errorWidget: (_, _, _) => const ColoredBox(
-        color: AppColors.surfaceDim,
-        child: Icon(
-          Icons.music_note_rounded,
-          size: 48,
-          color: AppColors.textSecondary,
-        ),
-      ),
+      errorWidget:
+          (_, _, _) => const ColoredBox(
+            color: AppColors.surfaceDim,
+            child: Icon(
+              Icons.music_note_rounded,
+              size: 48,
+              color: AppColors.textSecondary,
+            ),
+          ),
     );
   }
 }

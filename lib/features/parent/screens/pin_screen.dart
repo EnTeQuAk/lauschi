@@ -190,7 +190,8 @@ class _PinScreenState extends ConsumerState<PinScreen>
             AnimatedBuilder(
               animation: _shakeAnimation,
               builder: (context, child) {
-                final offset = _shakeAnimation.value *
+                final offset =
+                    _shakeAnimation.value *
                     (_shakeController.status == AnimationStatus.forward
                         ? 1
                         : -1);
@@ -236,9 +237,10 @@ class _PinDots extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: List.generate(length, (index) {
         final isFilled = index < filled;
-        final color = hasError
-            ? AppColors.error
-            : isFilled
+        final color =
+            hasError
+                ? AppColors.error
+                : isFilled
                 ? AppColors.primary
                 : AppColors.surfaceDim;
 

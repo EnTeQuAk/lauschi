@@ -120,36 +120,37 @@ class _AddCardScreenState extends ConsumerState<AddCardScreen> {
           ),
           // Results
           Expanded(
-            child: _isSearching
-                ? const Center(child: CircularProgressIndicator())
-                : _results.isEmpty
+            child:
+                _isSearching
+                    ? const Center(child: CircularProgressIndicator())
+                    : _results.isEmpty
                     ? Center(
-                        child: Text(
-                          _searchController.text.isEmpty
-                              ? 'Suche nach Hörspielen, Hörbüchern oder Alben.'
-                              : 'Keine Ergebnisse.',
-                          style: const TextStyle(
-                            fontFamily: 'Nunito',
-                            fontSize: 15,
-                            color: AppColors.textSecondary,
-                          ),
+                      child: Text(
+                        _searchController.text.isEmpty
+                            ? 'Suche nach Hörspielen, Hörbüchern oder Alben.'
+                            : 'Keine Ergebnisse.',
+                        style: const TextStyle(
+                          fontFamily: 'Nunito',
+                          fontSize: 15,
+                          color: AppColors.textSecondary,
                         ),
-                      )
-                    : ListView.builder(
-                        itemCount: _results.length,
-                        padding: const EdgeInsets.only(bottom: AppSpacing.xxl),
-                        cacheExtent: 500,
-                        itemBuilder: (context, index) {
-                          final album = _results[index];
-                          final isAdded = _addedUris.contains(album.uri);
-
-                          return _SearchResultTile(
-                            album: album,
-                            isAdded: isAdded,
-                            onAdd: () => _addCard(album),
-                          );
-                        },
                       ),
+                    )
+                    : ListView.builder(
+                      itemCount: _results.length,
+                      padding: const EdgeInsets.only(bottom: AppSpacing.xxl),
+                      cacheExtent: 500,
+                      itemBuilder: (context, index) {
+                        final album = _results[index];
+                        final isAdded = _addedUris.contains(album.uri);
+
+                        return _SearchResultTile(
+                          album: album,
+                          isAdded: isAdded,
+                          onAdd: () => _addCard(album),
+                        );
+                      },
+                    ),
           ),
         ],
       ),
@@ -176,16 +177,17 @@ class _SearchResultTile extends StatelessWidget {
         child: SizedBox(
           width: 48,
           height: 48,
-          child: album.imageUrl != null
-              ? CachedNetworkImage(
-                  imageUrl: album.imageUrl!,
-                  fit: BoxFit.cover,
-                  memCacheWidth: 96,
-                )
-              : const ColoredBox(
-                  color: AppColors.surfaceDim,
-                  child: Icon(Icons.music_note_rounded),
-                ),
+          child:
+              album.imageUrl != null
+                  ? CachedNetworkImage(
+                    imageUrl: album.imageUrl!,
+                    fit: BoxFit.cover,
+                    memCacheWidth: 96,
+                  )
+                  : const ColoredBox(
+                    color: AppColors.surfaceDim,
+                    child: Icon(Icons.music_note_rounded),
+                  ),
         ),
       ),
       title: Text(
@@ -208,13 +210,14 @@ class _SearchResultTile extends StatelessWidget {
           color: AppColors.textSecondary,
         ),
       ),
-      trailing: isAdded
-          ? const Icon(Icons.check_rounded, color: AppColors.success)
-          : IconButton(
-              onPressed: onAdd,
-              icon: const Icon(Icons.add_rounded),
-              color: AppColors.primary,
-            ),
+      trailing:
+          isAdded
+              ? const Icon(Icons.check_rounded, color: AppColors.success)
+              : IconButton(
+                onPressed: onAdd,
+                icon: const Icon(Icons.add_rounded),
+                color: AppColors.primary,
+              ),
     );
   }
 }

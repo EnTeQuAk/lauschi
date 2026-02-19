@@ -16,15 +16,15 @@ class AppDatabase extends _$AppDatabase {
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
-        onCreate: (m) => m.createAll(),
-        onUpgrade: (m, from, to) async {
-          if (from < 2) {
-            await m.addColumn(cards, cards.lastTrackUri);
-            await m.addColumn(cards, cards.lastPositionMs);
-            await m.addColumn(cards, cards.lastPlayedAt);
-          }
-        },
-      );
+    onCreate: (m) => m.createAll(),
+    onUpgrade: (m, from, to) async {
+      if (from < 2) {
+        await m.addColumn(cards, cards.lastTrackUri);
+        await m.addColumn(cards, cards.lastPositionMs);
+        await m.addColumn(cards, cards.lastPlayedAt);
+      }
+    },
+  );
 
   static QueryExecutor _openConnection() {
     return driftDatabase(name: 'lauschi');
