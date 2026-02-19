@@ -544,25 +544,18 @@ class _EmptyEpisodesHint extends StatelessWidget {
   Widget build(BuildContext context) {
     return const Center(
       child: Padding(
-        padding: EdgeInsets.all(AppSpacing.xxl),
+        padding: EdgeInsets.symmetric(
+          horizontal: AppSpacing.screenH,
+          vertical: AppSpacing.md,
+        ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             Icon(Icons.playlist_add_rounded,
-                size: 40, color: AppColors.textSecondary),
-            SizedBox(height: AppSpacing.md),
-            Text(
-              'Noch keine Folgen in dieser Serie.',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontFamily: 'Nunito',
-                fontSize: 15,
-                color: AppColors.textSecondary,
-              ),
-            ),
+                size: 32, color: AppColors.textSecondary),
             SizedBox(height: AppSpacing.sm),
             Text(
-              'Gehe zu „Karten verwalten", um Karten dieser Serie zuzuweisen.',
+              'Tippe auf „Folge hinzufügen" um Folgen hinzuzufügen.',
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontFamily: 'Nunito',
