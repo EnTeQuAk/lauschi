@@ -182,6 +182,7 @@ class _AddCardScreenState extends ConsumerState<AddCardScreen> {
           providerUri: album.uri,
           cardType: 'album',
           coverUrl: album.imageUrl,
+          spotifyArtistIds: album.artistIds,
         );
     await ref.read(cardRepositoryProvider).assignToGroup(
           cardId: cardId,
@@ -245,6 +246,7 @@ class _AddCardScreenState extends ConsumerState<AddCardScreen> {
           providerUri: album.uri,
           cardType: 'album',
           coverUrl: album.imageUrl,
+          spotifyArtistIds: album.artistIds,
         );
     if (!mounted) return;
     setState(() => _addedUris.add(album.uri));

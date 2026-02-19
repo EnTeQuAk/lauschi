@@ -29,6 +29,11 @@ class Cards extends Table {
   // e.g. 'spotify:album:4aawyAB9vmqN3uQ7FjRGTy'
   TextColumn get providerUri => text()();
 
+  // Comma-separated Spotify artist IDs as returned by the search API.
+  // Stored at insert time so retroactive catalog matching can use artist ID
+  // phase-2 even for albums whose titles omit the series name.
+  TextColumn get spotifyArtistIds => text().nullable()();
+
   // Group membership (nullable — ungrouped cards appear at top level)
   TextColumn get groupId => text()
       .nullable()
