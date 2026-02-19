@@ -10,8 +10,21 @@ part 'app_database.g.dart';
 class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
 
+  /// Bump when schema changes. See [migration] for upgrade steps.
   @override
   int get schemaVersion => 1;
+
+  @override
+  MigrationStrategy get migration => MigrationStrategy(
+        onCreate: (m) => m.createAll(),
+        onUpgrade: (m, from, to) async {
+          // Stepwise migrations — add cases as schema evolves.
+          // Example for v1→v2:
+          // if (from < 2) {
+          //   await m.addColumn(cards, cards.lastPositionMs);
+          // }
+        },
+      );
 
   static QueryExecutor _openConnection() {
     return driftDatabase(name: 'lauschi');

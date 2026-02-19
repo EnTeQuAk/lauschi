@@ -1,3 +1,5 @@
+import 'dart:isolate';
+
 import 'package:bcrypt/bcrypt.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -24,18 +26,20 @@ class PinService {
     return hash != null;
   }
 
-  /// Set a new PIN. Hashes with bcrypt before storing.
+  /// Set a new PIN. Hashes with bcrypt in a background isolate.
   Future<void> setPin(String pin) async {
-    final hash = BCrypt.hashpw(pin, BCrypt.gensalt());
+    final hash = await Isolate.run(
+      () => BCrypt.hashpw(pin, BCrypt.gensalt()),
+    );
     await _storage.write(key: _pinHashKey, value: hash);
     Log.info(_tag, 'PIN set');
   }
 
-  /// Verify a PIN against the stored hash.
+  /// Verify a PIN against the stored hash in a background isolate.
   Future<bool> verifyPin(String pin) async {
     final hash = await _storage.read(key: _pinHashKey);
     if (hash == null) return false;
-    final match = BCrypt.checkpw(pin, hash);
+    final match = await Isolate.run(() => BCrypt.checkpw(pin, hash));
     Log.debug(_tag, 'PIN verification', data: {'match': '$match'});
     return match;
   }
