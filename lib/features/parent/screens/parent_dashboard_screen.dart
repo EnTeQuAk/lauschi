@@ -52,6 +52,17 @@ class ParentDashboardScreen extends ConsumerWidget {
 
           const SizedBox(height: AppSpacing.lg),
 
+          // Series section
+          const _SectionHeader(title: 'Serien'),
+          _SettingsTile(
+            icon: Icons.layers_rounded,
+            title: 'Serien verwalten',
+            subtitle: 'Yakari, Bibi Blocksberg und mehr',
+            onTap: () => context.push(AppRoutes.parentManageGroups),
+          ),
+
+          const SizedBox(height: AppSpacing.lg),
+
           // Streaming section
           const _SectionHeader(title: 'Streaming'),
           _SettingsTile(

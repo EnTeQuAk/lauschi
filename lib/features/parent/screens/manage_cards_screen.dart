@@ -6,10 +6,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lauschi/core/database/app_database.dart' as db;
 import 'package:lauschi/core/database/card_repository.dart';
+import 'package:lauschi/core/database/group_repository.dart';
 import 'package:lauschi/core/router/app_router.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
 
-/// Manage existing cards: view collection, delete cards.
+/// Manage existing cards: view, reorder, assign to groups, delete.
 class ManageCardsScreen extends ConsumerWidget {
   const ManageCardsScreen({super.key});
 
@@ -31,18 +32,13 @@ class ManageCardsScreen extends ConsumerWidget {
         ],
       ),
       body: cardsAsync.when(
-        data:
-            (cards) =>
-                cards.isEmpty
-                    ? _EmptyState(
-                      onAdd: () => context.push(AppRoutes.parentAddCard),
-                    )
-                    : _CardList(cards: cards),
+        data: (cards) => cards.isEmpty
+            ? _EmptyState(onAdd: () => context.push(AppRoutes.parentAddCard))
+            : _CardList(cards: cards),
         loading: () => const Center(child: CircularProgressIndicator()),
-        error:
-            (_, _) => const Center(
-              child: Text('Fehler beim Laden der Karten.'),
-            ),
+        error: (_, _) => const Center(
+          child: Text('Fehler beim Laden der Karten.'),
+        ),
       ),
     );
   }
@@ -50,6 +46,7 @@ class ManageCardsScreen extends ConsumerWidget {
 
 class _EmptyState extends StatelessWidget {
   const _EmptyState({required this.onAdd});
+
   final VoidCallback onAdd;
 
   @override
@@ -86,18 +83,34 @@ class _EmptyState extends StatelessWidget {
 
 class _CardList extends ConsumerWidget {
   const _CardList({required this.cards});
+
   final List<db.AudioCard> cards;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return ListView.builder(
-      itemCount: cards.length,
+    return ReorderableListView.builder(
       padding: const EdgeInsets.only(bottom: AppSpacing.xxl),
+      buildDefaultDragHandles: false,
+      onReorder: (oldIndex, newIndex) {
+        final insertAt = newIndex > oldIndex ? newIndex - 1 : newIndex;
+        final reordered = List<db.AudioCard>.from(cards);
+        final item = reordered.removeAt(oldIndex);
+        reordered.insert(insertAt, item);
+        unawaited(
+          ref.read(cardRepositoryProvider).reorder(
+            reordered.map((c) => c.id).toList(),
+          ),
+        );
+      },
+      itemCount: cards.length,
       itemBuilder: (context, index) {
         final card = cards[index];
         return _CardTile(
+          key: ValueKey(card.id),
           card: card,
+          index: index,
           onDelete: () => _confirmDelete(context, ref, card),
+          onAssignGroup: () => _showGroupPicker(context, ref, card),
         );
       },
     );
@@ -107,39 +120,48 @@ class _CardList extends ConsumerWidget {
     unawaited(
       showDialog<void>(
         context: context,
-        builder:
-            (ctx) => AlertDialog(
-              title: const Text('Karte entfernen?'),
-              content: Text(
-                '„${card.customTitle ?? card.title}" wird aus der '
-                'Sammlung entfernt.',
-              ),
-              actions: [
-                TextButton(
-                  onPressed: () => Navigator.of(ctx).pop(),
-                  child: const Text('Abbrechen'),
-                ),
-                FilledButton(
-                  onPressed: () {
-                    Navigator.of(ctx).pop();
-                    unawaited(ref.read(cardRepositoryProvider).delete(card.id));
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(
-                          '${card.customTitle ?? card.title} entfernt',
-                        ),
-                        duration: const Duration(seconds: 2),
-                        behavior: SnackBarBehavior.floating,
-                      ),
-                    );
-                  },
-                  style: FilledButton.styleFrom(
-                    backgroundColor: AppColors.error,
-                  ),
-                  child: const Text('Entfernen'),
-                ),
-              ],
+        builder: (ctx) => AlertDialog(
+          title: const Text('Karte entfernen?'),
+          content: Text(
+            '„${card.customTitle ?? card.title}" wird aus der Sammlung entfernt.',
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(ctx).pop(),
+              child: const Text('Abbrechen'),
             ),
+            FilledButton(
+              onPressed: () {
+                Navigator.of(ctx).pop();
+                unawaited(ref.read(cardRepositoryProvider).delete(card.id));
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(
+                      '${card.customTitle ?? card.title} entfernt',
+                    ),
+                    duration: const Duration(seconds: 2),
+                    behavior: SnackBarBehavior.floating,
+                  ),
+                );
+              },
+              style: FilledButton.styleFrom(backgroundColor: AppColors.error),
+              child: const Text('Entfernen'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _showGroupPicker(
+    BuildContext context,
+    WidgetRef ref,
+    db.AudioCard card,
+  ) {
+    unawaited(
+      showModalBottomSheet<void>(
+        context: context,
+        builder: (ctx) => _GroupPickerSheet(card: card),
       ),
     );
   }
@@ -148,30 +170,35 @@ class _CardList extends ConsumerWidget {
 class _CardTile extends StatelessWidget {
   const _CardTile({
     required this.card,
+    required this.index,
     required this.onDelete,
+    required this.onAssignGroup,
+    super.key,
   });
 
   final db.AudioCard card;
+  final int index;
   final VoidCallback onDelete;
+  final VoidCallback onAssignGroup;
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
+      tileColor: AppColors.parentSurface,
       leading: ClipRRect(
         borderRadius: const BorderRadius.all(Radius.circular(6)),
         child: SizedBox(
           width: 48,
           height: 48,
-          child:
-              card.coverUrl != null
-                  ? CachedNetworkImage(
-                    imageUrl: card.coverUrl!,
-                    fit: BoxFit.cover,
-                  )
-                  : const ColoredBox(
-                    color: AppColors.surfaceDim,
-                    child: Icon(Icons.music_note_rounded),
-                  ),
+          child: card.coverUrl != null
+              ? CachedNetworkImage(
+                  imageUrl: card.coverUrl!,
+                  fit: BoxFit.cover,
+                )
+              : const ColoredBox(
+                  color: AppColors.surfaceDim,
+                  child: Icon(Icons.music_note_rounded),
+                ),
         ),
       ),
       title: Text(
@@ -192,13 +219,147 @@ class _CardTile extends StatelessWidget {
           color: AppColors.textSecondary,
         ),
       ),
-      trailing: IconButton(
-        onPressed: onDelete,
-        icon: const Icon(Icons.delete_outline_rounded),
-        color: AppColors.error,
-        tooltip: 'Entfernen',
+      trailing: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          IconButton(
+            onPressed: onAssignGroup,
+            icon: const Icon(Icons.layers_rounded),
+            color: AppColors.primary,
+            tooltip: 'Serie zuweisen',
+          ),
+          IconButton(
+            onPressed: onDelete,
+            icon: const Icon(Icons.delete_outline_rounded),
+            color: AppColors.error,
+            tooltip: 'Entfernen',
+          ),
+          ReorderableDragStartListener(
+            index: index,
+            child: const Icon(Icons.drag_handle_rounded,
+                color: AppColors.textSecondary),
+          ),
+        ],
       ),
-      tileColor: AppColors.parentSurface,
+    );
+  }
+}
+
+/// Bottom sheet for picking or removing a group assignment.
+class _GroupPickerSheet extends ConsumerWidget {
+  const _GroupPickerSheet({required this.card});
+
+  final db.AudioCard card;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final groupsAsync = ref.watch(allGroupsProvider);
+
+    return SafeArea(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          // Handle
+          Container(
+            margin: const EdgeInsets.only(top: 8, bottom: 4),
+            width: 40,
+            height: 4,
+            decoration: const BoxDecoration(
+              color: AppColors.surfaceDim,
+              borderRadius: BorderRadius.all(Radius.circular(2)),
+            ),
+          ),
+          const Padding(
+            padding: EdgeInsets.fromLTRB(
+              AppSpacing.screenH,
+              AppSpacing.sm,
+              AppSpacing.screenH,
+              AppSpacing.md,
+            ),
+            child: Text(
+              'Serie zuweisen',
+              style: TextStyle(
+                fontFamily: 'Nunito',
+                fontSize: 17,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+          ),
+
+          // Remove from group option (if currently assigned)
+          if (card.groupId != null)
+            ListTile(
+              leading: const Icon(Icons.cancel_outlined,
+                  color: AppColors.textSecondary),
+              title: const Text(
+                'Aus Serie entfernen',
+                style: TextStyle(fontFamily: 'Nunito'),
+              ),
+              onTap: () {
+                Navigator.of(context).pop();
+                unawaited(
+                  ref.read(cardRepositoryProvider).removeFromGroup(card.id),
+                );
+              },
+            ),
+
+          // Group list
+          groupsAsync.when(
+            data: (groups) => groups.isEmpty
+                ? const Padding(
+                    padding: EdgeInsets.all(AppSpacing.lg),
+                    child: Text(
+                      'Noch keine Serien vorhanden.',
+                      style: TextStyle(
+                        fontFamily: 'Nunito',
+                        color: AppColors.textSecondary,
+                      ),
+                    ),
+                  )
+                : ListView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: groups.length,
+                    itemBuilder: (context, index) {
+                      final group = groups[index];
+                      final isAssigned = card.groupId == group.id;
+                      return ListTile(
+                        leading: Icon(
+                          Icons.layers_rounded,
+                          color: isAssigned
+                              ? AppColors.primary
+                              : AppColors.textSecondary,
+                        ),
+                        title: Text(
+                          group.title,
+                          style: const TextStyle(fontFamily: 'Nunito'),
+                        ),
+                        trailing: isAssigned
+                            ? const Icon(Icons.check_rounded,
+                                color: AppColors.primary)
+                            : null,
+                        onTap: () {
+                          Navigator.of(context).pop();
+                          unawaited(
+                            ref.read(cardRepositoryProvider).assignToGroup(
+                              cardId: card.id,
+                              groupId: group.id,
+                            ),
+                          );
+                        },
+                      );
+                    },
+                  ),
+            loading: () => const Padding(
+              padding: EdgeInsets.all(AppSpacing.lg),
+              child: CircularProgressIndicator(),
+            ),
+            error: (_, _) => const SizedBox.shrink(),
+          ),
+
+          const SizedBox(height: AppSpacing.md),
+        ],
+      ),
     );
   }
 }
