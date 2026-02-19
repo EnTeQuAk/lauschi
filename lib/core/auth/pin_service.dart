@@ -16,7 +16,7 @@ const _pinHashKey = 'pin_hash';
 /// PIN is stored as a bcrypt hash in secure storage.
 class PinService {
   PinService({FlutterSecureStorage? storage})
-      : _storage = storage ?? const FlutterSecureStorage();
+    : _storage = storage ?? const FlutterSecureStorage();
 
   final FlutterSecureStorage _storage;
 

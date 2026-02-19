@@ -58,12 +58,16 @@ class SpotifyApi {
       body['position_ms'] = positionMs;
     }
 
-    Log.info(_tag, 'PUT /me/player/play', data: {
-      'uri': spotifyUri,
-      'device_id': deviceId,
-      if (offsetUri != null) 'offset': offsetUri,
-      if (positionMs != null) 'position_ms': '$positionMs',
-    });
+    Log.info(
+      _tag,
+      'PUT /me/player/play',
+      data: {
+        'uri': spotifyUri,
+        'device_id': deviceId,
+        if (offsetUri != null) 'offset': offsetUri,
+        if (positionMs != null) 'position_ms': '$positionMs',
+      },
+    );
 
     await _request(
       () => _dio.put<void>(
@@ -105,7 +109,11 @@ class SpotifyApi {
 
   /// Seek to position in current track.
   Future<void> seek(int positionMs) async {
-    Log.debug(_tag, 'PUT /me/player/seek', data: {'position_ms': '$positionMs'});
+    Log.debug(
+      _tag,
+      'PUT /me/player/seek',
+      data: {'position_ms': '$positionMs'},
+    );
     await _request(
       () => _dio.put<void>(
         '/me/player/seek',
@@ -144,10 +152,11 @@ class SpotifyApi {
     final total = albums['total'] as int? ?? 0;
 
     return SpotifySearchResult(
-      albums: items
-          .cast<Map<String, dynamic>>()
-          .map(SpotifyAlbum.fromJson)
-          .toList(),
+      albums:
+          items
+              .cast<Map<String, dynamic>>()
+              .map(SpotifyAlbum.fromJson)
+              .toList(),
       total: total,
     );
   }
@@ -157,9 +166,12 @@ class SpotifyApi {
     Log.info(_tag, 'GET /albums/$albumId');
 
     final resp = await _request(
-      () => _dio.get<Map<String, dynamic>>('/albums/$albumId', queryParameters: {
-        'market': SpotifyConfig.market,
-      }),
+      () => _dio.get<Map<String, dynamic>>(
+        '/albums/$albumId',
+        queryParameters: {
+          'market': SpotifyConfig.market,
+        },
+      ),
     );
 
     if (resp?.data == null) return null;
@@ -182,17 +194,25 @@ class SpotifyApi {
         // Rate limited — retry after delay
         final retryAfter =
             int.tryParse(e.response?.headers.value('retry-after') ?? '') ?? 1;
-        Log.warn(_tag, 'Rate limited, retrying', data: {
-          'retry_after': '$retryAfter',
-        });
+        Log.warn(
+          _tag,
+          'Rate limited, retrying',
+          data: {
+            'retry_after': '$retryAfter',
+          },
+        );
         await Future<void>.delayed(Duration(seconds: retryAfter));
         return _request(fn);
       }
 
-      Log.error(_tag, 'API error', data: {
-        'status': '$status',
-        'body': '${e.response?.data}',
-      });
+      Log.error(
+        _tag,
+        'API error',
+        data: {
+          'status': '$status',
+          'body': '${e.response?.data}',
+        },
+      );
       rethrow;
     }
   }
@@ -230,23 +250,26 @@ class SpotifyAlbum {
     final tracksData = json['tracks'] as Map<String, dynamic>?;
     if (tracksData != null) {
       final items = (tracksData['items'] as List<dynamic>?) ?? [];
-      tracks = items
-          .cast<Map<String, dynamic>>()
-          .map(SpotifyTrack.fromJson)
-          .toList();
+      tracks =
+          items
+              .cast<Map<String, dynamic>>()
+              .map(SpotifyTrack.fromJson)
+              .toList();
     }
 
     return SpotifyAlbum(
       id: json['id'] as String,
       name: json['name'] as String,
       uri: json['uri'] as String,
-      artists: artists
-          .cast<Map<String, dynamic>>()
-          .map((a) => a['name'] as String)
-          .toList(),
-      imageUrl: images.isNotEmpty
-          ? (images.first as Map<String, dynamic>)['url'] as String?
-          : null,
+      artists:
+          artists
+              .cast<Map<String, dynamic>>()
+              .map((a) => a['name'] as String)
+              .toList(),
+      imageUrl:
+          images.isNotEmpty
+              ? (images.first as Map<String, dynamic>)['url'] as String?
+              : null,
       totalTracks: json['total_tracks'] as int? ?? 0,
       releaseDate: json['release_date'] as String?,
       tracks: tracks,

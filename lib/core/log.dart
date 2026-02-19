@@ -8,7 +8,11 @@ import 'package:sentry_flutter/sentry_flutter.dart';
 /// Uses `dart:developer` log (shows in DevTools / `flutter logs`) and
 /// records breadcrumbs in Sentry when a DSN is configured.
 abstract final class Log {
-  static void debug(String source, String message, {Map<String, Object>? data}) {
+  static void debug(
+    String source,
+    String message, {
+    Map<String, Object>? data,
+  }) {
     _log(source, message, level: 500, data: data);
   }
 
@@ -52,13 +56,15 @@ abstract final class Log {
     required SentryLevel level,
     Map<String, Object>? data,
   }) {
-    unawaited(Sentry.addBreadcrumb(
-      Breadcrumb(
-        category: source,
-        message: message,
-        level: level,
-        data: data?.map((k, v) => MapEntry(k, v.toString())),
+    unawaited(
+      Sentry.addBreadcrumb(
+        Breadcrumb(
+          category: source,
+          message: message,
+          level: level,
+          data: data?.map((k, v) => MapEntry(k, v.toString())),
+        ),
       ),
-    ));
+    );
   }
 }

@@ -44,8 +44,8 @@ class SpotifyAuth {
   SpotifyAuth({
     FlutterSecureStorage? storage,
     Dio? dio,
-  })  : _storage = storage ?? const FlutterSecureStorage(),
-        _dio = dio ?? Dio();
+  }) : _storage = storage ?? const FlutterSecureStorage(),
+       _dio = dio ?? Dio();
 
   final FlutterSecureStorage _storage;
   final Dio _dio;
@@ -153,9 +153,13 @@ class SpotifyAuth {
       );
       return _saveAndReturn(resp.data!, fallbackRefreshToken: refreshToken);
     } on DioException catch (e) {
-      Log.error(_tag, 'Token refresh failed', data: {
-        'status': '${e.response?.statusCode}',
-      });
+      Log.error(
+        _tag,
+        'Token refresh failed',
+        data: {
+          'status': '${e.response?.statusCode}',
+        },
+      );
       rethrow;
     }
   }
@@ -172,9 +176,13 @@ class SpotifyAuth {
     }
 
     final expiry = DateTime.parse(expiryStr);
-    Log.info(_tag, 'Loaded stored tokens', data: {
-      'expired': '${DateTime.now().isAfter(expiry)}',
-    });
+    Log.info(
+      _tag,
+      'Loaded stored tokens',
+      data: {
+        'expired': '${DateTime.now().isAfter(expiry)}',
+      },
+    );
 
     return SpotifyTokens(
       accessToken: token,
@@ -224,9 +232,13 @@ class SpotifyAuth {
       Log.info(_tag, 'Token exchange success');
       return _saveAndReturn(resp.data!);
     } on DioException catch (e) {
-      Log.error(_tag, 'Token exchange failed', data: {
-        'status': '${e.response?.statusCode}',
-      });
+      Log.error(
+        _tag,
+        'Token exchange failed',
+        data: {
+          'status': '${e.response?.statusCode}',
+        },
+      );
       rethrow;
     }
   }

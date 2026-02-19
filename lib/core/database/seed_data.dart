@@ -58,7 +58,12 @@ Future<void> seedTestContent({
       added++;
       Log.debug(_tag, 'Seeded', data: {'title': album.name});
     } on Exception catch (e) {
-      Log.error(_tag, 'Failed to seed album', data: {'id': albumId}, exception: e);
+      Log.error(
+        _tag,
+        'Failed to seed album',
+        data: {'id': albumId},
+        exception: e,
+      );
     }
   }
 

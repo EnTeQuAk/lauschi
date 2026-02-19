@@ -24,85 +24,91 @@ class NowPlayingBar extends StatelessWidget {
     final track = state.track;
     if (track == null) return const SizedBox.shrink();
 
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        height: 64,
-        decoration: const BoxDecoration(
-          color: AppColors.surface,
-          border: Border(
-            top: BorderSide(color: AppColors.surfaceDim),
+    return Semantics(
+      label: 'Jetzt läuft: ${track.name} von ${track.artist}',
+      button: true,
+      child: GestureDetector(
+        onTap: onTap,
+        child: Container(
+          height: 64,
+          decoration: const BoxDecoration(
+            color: AppColors.surface,
+            border: Border(
+              top: BorderSide(color: AppColors.surfaceDim),
+            ),
           ),
-        ),
-        padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
-        child: Row(
-          children: [
-            // Album art thumbnail
-            ClipRRect(
-              borderRadius: const BorderRadius.all(Radius.circular(8)),
-              child: SizedBox(
-                width: 44,
-                height: 44,
-                child: track.artworkUrl != null
-                    ? Hero(
-                        tag: 'player-artwork',
-                        child: CachedNetworkImage(
-                          imageUrl: track.artworkUrl!,
-                          fit: BoxFit.cover,
-                        ),
-                      )
-                    : const ColoredBox(
-                        color: AppColors.surfaceDim,
-                        child: Icon(Icons.music_note_rounded, size: 24),
+          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
+          child: Row(
+            children: [
+              // Album art thumbnail
+              ClipRRect(
+                borderRadius: const BorderRadius.all(Radius.circular(8)),
+                child: SizedBox(
+                  width: 44,
+                  height: 44,
+                  child:
+                      track.artworkUrl != null
+                          ? Hero(
+                            tag: 'player-artwork',
+                            child: CachedNetworkImage(
+                              imageUrl: track.artworkUrl!,
+                              fit: BoxFit.cover,
+                            ),
+                          )
+                          : const ColoredBox(
+                            color: AppColors.surfaceDim,
+                            child: Icon(Icons.music_note_rounded, size: 24),
+                          ),
+                ),
+              ),
+              const SizedBox(width: AppSpacing.sm + AppSpacing.xs),
+              // Track info
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      track.name,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        fontFamily: 'Nunito',
+                        fontWeight: FontWeight.w700,
+                        fontSize: 14,
+                        color: AppColors.textPrimary,
                       ),
-              ),
-            ),
-            const SizedBox(width: AppSpacing.sm + AppSpacing.xs),
-            // Track info
-            Expanded(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    track.name,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
-                      fontFamily: 'Nunito',
-                      fontWeight: FontWeight.w700,
-                      fontSize: 14,
-                      color: AppColors.textPrimary,
                     ),
-                  ),
-                  Text(
-                    track.artist,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
-                      fontFamily: 'Nunito',
-                      fontSize: 12,
-                      color: AppColors.textSecondary,
+                    Text(
+                      track.artist,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        fontFamily: 'Nunito',
+                        fontSize: 12,
+                        color: AppColors.textSecondary,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-            // Play/pause button
-            IconButton(
-              onPressed: onTogglePlay,
-              icon: Icon(
-                state.isPlaying
-                    ? Icons.pause_rounded
-                    : Icons.play_arrow_rounded,
+              // Play/pause button
+              IconButton(
+                onPressed: onTogglePlay,
+                icon: Icon(
+                  state.isPlaying
+                      ? Icons.pause_rounded
+                      : Icons.play_arrow_rounded,
+                ),
+                iconSize: 32,
+                style: IconButton.styleFrom(
+                  minimumSize: const Size(48, 48),
+                  foregroundColor: AppColors.textPrimary,
+                ),
+                tooltip: state.isPlaying ? 'Pause' : 'Abspielen',
               ),
-              iconSize: 32,
-              style: IconButton.styleFrom(
-                minimumSize: const Size(48, 48),
-                foregroundColor: AppColors.textPrimary,
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

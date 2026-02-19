@@ -19,8 +19,7 @@ class ParentDashboardScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final authState = ref.watch(spotifyAuthNotifierProvider);
     final cardsAsync = ref.watch(allCardsProvider);
-    final cardCount =
-        cardsAsync.whenOrNull(data: (cards) => cards.length) ?? 0;
+    final cardCount = cardsAsync.whenOrNull(data: (cards) => cards.length) ?? 0;
 
     return Scaffold(
       backgroundColor: AppColors.parentBackground,
@@ -58,12 +57,14 @@ class ParentDashboardScreen extends ConsumerWidget {
           _SettingsTile(
             icon: Icons.music_note_rounded,
             title: 'Spotify',
-            subtitle: authState is AuthAuthenticated
-                ? 'Verbunden'
-                : 'Nicht verbunden',
-            trailing: authState is AuthAuthenticated
-                ? const Icon(Icons.check_circle, color: AppColors.success)
-                : null,
+            subtitle:
+                authState is AuthAuthenticated
+                    ? 'Verbunden'
+                    : 'Nicht verbunden',
+            trailing:
+                authState is AuthAuthenticated
+                    ? const Icon(Icons.check_circle, color: AppColors.success)
+                    : null,
             onTap: () {
               if (authState is! AuthAuthenticated) {
                 unawaited(
@@ -149,16 +150,17 @@ class _SettingsTile extends StatelessWidget {
           fontSize: 15,
         ),
       ),
-      subtitle: subtitle != null
-          ? Text(
-              subtitle!,
-              style: const TextStyle(
-                fontFamily: 'Nunito',
-                fontSize: 13,
-                color: AppColors.textSecondary,
-              ),
-            )
-          : null,
+      subtitle:
+          subtitle != null
+              ? Text(
+                subtitle!,
+                style: const TextStyle(
+                  fontFamily: 'Nunito',
+                  fontSize: 13,
+                  color: AppColors.textSecondary,
+                ),
+              )
+              : null,
       trailing: trailing ?? const Icon(Icons.chevron_right_rounded),
       onTap: onTap,
       tileColor: AppColors.parentSurface,
