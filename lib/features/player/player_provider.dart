@@ -156,6 +156,12 @@ class PlayerNotifier extends _$PlayerNotifier {
     }
   }
 
+  /// Clear any error state.
+  void clearError() {
+    // ignore: avoid_redundant_argument_values, null clears the error
+    state = state.copyWith(error: null);
+  }
+
   /// Seek to position in milliseconds.
   Future<void> seek(int positionMs) async {
     try {
@@ -167,16 +173,22 @@ class PlayerNotifier extends _$PlayerNotifier {
 
   /// Resume playback for a card, restoring saved position.
   Future<void> playCard(String spotifyUri) async {
-    final cards = ref.read(cardRepositoryProvider);
-    final card = await cards.getByProviderUri(spotifyUri);
-
     _activeContextUri = spotifyUri;
+    // ignore: avoid_redundant_argument_values, null clears any previous error
+    state = state.copyWith(isLoading: true, error: null);
 
     final deviceId = state.deviceId;
     if (deviceId == null || _api == null) {
       Log.error(_tag, 'Cannot play — no device ID');
+      state = state.copyWith(
+        isLoading: false,
+        error: 'Spotify nicht verbunden',
+      );
       return;
     }
+
+    final cards = ref.read(cardRepositoryProvider);
+    final card = await cards.getByProviderUri(spotifyUri);
 
     Log.info(_tag, 'Playing card', data: {
       'uri': spotifyUri,
@@ -198,8 +210,13 @@ class PlayerNotifier extends _$PlayerNotifier {
       } else {
         await _api!.play(spotifyUri, deviceId: deviceId);
       }
+      state = state.copyWith(isLoading: false);
     } on Exception catch (e) {
       Log.error(_tag, 'Play failed', exception: e);
+      state = state.copyWith(
+        isLoading: false,
+        error: 'Wiedergabe fehlgeschlagen',
+      );
     }
   }
 

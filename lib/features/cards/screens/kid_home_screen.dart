@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:lauschi/core/connectivity/connectivity_provider.dart';
 import 'package:lauschi/core/database/app_database.dart' as db;
 import 'package:lauschi/core/database/card_repository.dart';
 import 'package:lauschi/core/router/app_router.dart';
@@ -21,6 +22,7 @@ class KidHomeScreen extends ConsumerWidget {
     final cardsAsync = ref.watch(allCardsProvider);
     final playerState = ref.watch(playerNotifierProvider);
     final playerNotifier = ref.read(playerNotifierProvider.notifier);
+    final isOnline = ref.watch(isOnlineProvider);
 
     return Scaffold(
       body: SafeArea(
@@ -61,6 +63,32 @@ class KidHomeScreen extends ConsumerWidget {
                 ],
               ),
             ),
+            // Offline indicator
+            if (!isOnline)
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.symmetric(
+                  horizontal: AppSpacing.screenH,
+                  vertical: AppSpacing.sm,
+                ),
+                color: AppColors.surfaceDim,
+                child: const Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.cloud_off_rounded, size: 16,
+                        color: AppColors.textSecondary),
+                    SizedBox(width: AppSpacing.xs),
+                    Text(
+                      'Kein Internet',
+                      style: TextStyle(
+                        fontFamily: 'Nunito',
+                        fontSize: 13,
+                        color: AppColors.textSecondary,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             // Card grid
             Expanded(
               child: cardsAsync.when(
@@ -87,6 +115,13 @@ class KidHomeScreen extends ConsumerWidget {
                 ),
               ),
             ),
+            // Error feedback
+            if (playerState.error != null)
+              _ErrorBanner(
+                message: playerState.error!,
+                onDismiss: () =>
+                    ref.read(playerNotifierProvider.notifier).clearError(),
+              ),
             // Now-playing bar
             if (playerState.track != null)
               NowPlayingBar(
@@ -155,6 +190,48 @@ class _CardGrid extends StatelessWidget {
           },
         );
       },
+    );
+  }
+}
+
+class _ErrorBanner extends StatelessWidget {
+  const _ErrorBanner({required this.message, required this.onDismiss});
+  final String message;
+  final VoidCallback onDismiss;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppSpacing.screenH,
+        vertical: AppSpacing.sm,
+      ),
+      color: AppColors.error.withValues(alpha: 0.1),
+      child: Row(
+        children: [
+          const Icon(Icons.error_outline_rounded,
+              color: AppColors.error, size: 20),
+          const SizedBox(width: AppSpacing.sm),
+          Expanded(
+            child: Text(
+              message,
+              style: const TextStyle(
+                fontFamily: 'Nunito',
+                fontSize: 14,
+                color: AppColors.error,
+              ),
+            ),
+          ),
+          IconButton(
+            onPressed: onDismiss,
+            icon: const Icon(Icons.close_rounded, size: 18),
+            color: AppColors.error,
+            padding: EdgeInsets.zero,
+            constraints: const BoxConstraints(minWidth: 32, minHeight: 32),
+          ),
+        ],
+      ),
     );
   }
 }
