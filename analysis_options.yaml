@@ -14,3 +14,7 @@ linter:
     public_member_api_docs: false # not needed for an app (not a library)
     lines_longer_than_80_chars: false # 80 is too aggressive; formatter handles it
     flutter_style_todos: false # we use TODO(#issue) not TODO(username)
+    # Riverpod 3's StreamProvider.family / FutureProvider.family return internal
+    # types (StreamProviderFamily etc.) that are not exported from the public API,
+    # so we can't annotate manual family providers with the correct type.
+    specify_nonobvious_property_types: false
