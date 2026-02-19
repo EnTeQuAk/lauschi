@@ -303,9 +303,9 @@ class SeriesListScreen(Screen):
         table.add_column("", width=3)
         table.add_column("Series", width=32)
         table.add_column("Model", width=16)
-        table.add_column("Inc", width=6)
-        table.add_column("Exc", width=6)
-        table.add_column("Range", width=14)
+        table.add_column("Included", width=10)
+        table.add_column("Excluded", width=10)
+        table.add_column("Episodes", width=14)
         table.add_column("Gaps", width=6)
         table.add_column("Status", width=14)
 
@@ -516,7 +516,7 @@ class ReviewScreen(Screen):
         table.clear(columns=True)
         table.cursor_type = "row"
         table.add_column("", width=4)
-        table.add_column("Ep", width=6)
+        table.add_column("Episode", width=8)
         table.add_column("Title", width=70)
         table.add_column("Reason", width=35)
         table.add_column("Album ID", width=24)
