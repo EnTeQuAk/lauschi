@@ -27,8 +27,8 @@ run = "dart run build_runner watch --delete-conflicting-outputs"
 description = "Run all tests"
 run = "flutter test"
 
-[tasks.run]
-description = "Run on connected device"
+[tasks.dev]
+description = "Run on connected device (extra args passed through)"
 run = "flutter run --dart-define-from-file=.env"
 
 [tasks.build]
