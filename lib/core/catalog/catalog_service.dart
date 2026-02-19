@@ -177,12 +177,17 @@ class CatalogService {
     final m = regex.firstMatch(title);
     if (m == null) return null;
 
-    // Walk groups right-to-left, return the first non-null group with digits
-    for (var i = m.groupCount; i >= 1; i--) {
+    // Walk groups left-to-right: the first non-null capture group wins.
+    // This gives preference to the leftmost (most specific) alternative in
+    // alternation patterns like (?:^(\d{1,3})/|[Ff]olge\s+(\d+)).
+    for (var i = 1; i <= m.groupCount; i++) {
       final group = m.group(i);
       if (group != null) {
-        final n = int.tryParse(group.replaceAll(RegExp(r'\D'), ''));
-        if (n != null) return n;
+        final digits = group.replaceAll(RegExp(r'\D'), '');
+        if (digits.isNotEmpty) {
+          final n = int.tryParse(digits);
+          if (n != null && n > 0) return n;
+        }
       }
     }
     return null;

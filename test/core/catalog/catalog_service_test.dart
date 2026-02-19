@@ -585,4 +585,132 @@ void main() {
       expect(r, isNull);
     });
   });
+
+  group('CatalogService.match — new series (2026-02-19 additions)', () {
+    test('Die Schule der magischen Tiere matches by keyword', () {
+      final r = catalog.match('Die Schule der magischen Tiere - Das Hörbuch zum Film');
+      expect(r, isNotNull);
+      expect(r!.series.id, 'schule_magische_tiere');
+    });
+
+    test('Die Schule der magischen Tiere matches by artist ID', () {
+      const id = '1BElEHaU2xaZg7FOGsSird';
+      final r = catalog.match('Irgendein Titel', albumArtistIds: [id]);
+      expect(r, isNotNull);
+      expect(r!.series.id, 'schule_magische_tiere');
+      expect(r.source, CatalogMatchSource.artistId);
+    });
+
+    test('Globi matches by keyword', () {
+      final r = catalog.match('Globi und der Kobold');
+      expect(r, isNotNull);
+      expect(r!.series.id, 'globi');
+    });
+
+    test('Was ist Was matches by keyword', () {
+      final r = catalog.match('Was Ist Was - Vulkane und Erdbeben');
+      expect(r, isNotNull);
+      expect(r!.series.id, 'was_ist_was');
+    });
+
+    test('Wieso Weshalb Warum matches by keyword', () {
+      final r = catalog.match('Wieso? Weshalb? Warum? - Wie entstehen Wolken?');
+      expect(r, isNotNull);
+      expect(r!.series.id, 'wieso_weshalb_warum');
+    });
+
+    test('Leo Lausemaus matches by keyword', () {
+      final r = catalog.match('Leo Lausemaus und die Zahnfee');
+      expect(r, isNotNull);
+      expect(r!.series.id, 'leo_lausemaus');
+    });
+
+    test('Bobo Siebenschläfer matches by keyword', () {
+      final r = catalog.match('Bobo Siebenschläfer entdeckt die Welt');
+      expect(r, isNotNull);
+      expect(r!.series.id, 'bobo_siebenschlaefer');
+    });
+
+    test('Der kleine Rabe Socke matches by keyword', () {
+      final r = catalog.match('Der Kleine Rabe Socke - Das Hörbuch zum Kinofilm');
+      expect(r, isNotNull);
+      expect(r!.series.id, 'kleiner_rabe_socke');
+    });
+
+    test('Peppa Wutz matches by keyword', () {
+      final r = catalog.match('Peppa Wutz - Peppa feiert Weihnachten');
+      expect(r, isNotNull);
+      expect(r!.series.id, 'peppa_wutz');
+    });
+
+    test('Sandmännchen matches by keyword', () {
+      final r = catalog.match('Unser Sandmännchen - Gute-Nacht-Geschichten');
+      expect(r, isNotNull);
+      expect(r!.series.id, 'sandmaennchen');
+    });
+
+    test('Tabaluga matches by keyword', () {
+      final r = catalog.match('Tabaluga und das leuchtende Eis');
+      expect(r, isNotNull);
+      expect(r!.series.id, 'tabaluga');
+    });
+
+    test('Die wilden Hühner matches by keyword', () {
+      final r = catalog.match('Die Wilden Hühner - Hörspiel zum Film');
+      expect(r, isNotNull);
+      expect(r!.series.id, 'die_wilden_huehner');
+    });
+  });
+
+  group('CatalogService.match — alias fixes (2026-02-19 review)', () {
+    test('Bullerbü matches via "Wir Kinder aus Bullerbü" alias keyword', () {
+      final r = catalog.match('Wir Kinder aus Bullerbü - Das Hörspiel');
+      expect(r, isNotNull);
+      expect(r!.series.id, 'bullerbue');
+    });
+
+    test('Gespensterjäger: "Geisterjäger" does NOT match (wrong alias removed)', () {
+      // "Geisterjäger" is a different word; was previously a wrong alias
+      final r = catalog.match('Geisterjäger im Sturm');
+      expect(r?.series.id, isNot('gespensterjager'));
+    });
+
+    test('Pumuckl matches via "meister eder" keyword', () {
+      final r = catalog.match('Meister Eder und sein Pumuckl - Die Hörspielkassette');
+      expect(r, isNotNull);
+      expect(r!.series.id, 'pumuckl');
+    });
+
+    test('Pippi matches Swedish spelling pippi långstrump', () {
+      final r = catalog.match('Pippi Långstrump på de sju haven (Hörspiel)');
+      expect(r, isNotNull);
+      expect(r!.series.id, 'pippi_langstrumpf');
+    });
+  });
+
+  group('CatalogService — extractEpisode direction (left-to-right)', () {
+    // Verifies group priority in alternation patterns (Opus finding: left-to-right wins)
+
+    test('Die drei ??? NNN/ format preferred over null Folge group', () {
+      // Pattern: (?:^(\d{1,3})/|[Ff]olge\s+(\d+))
+      // "116/Codename: Cobra" — group 1 fires (NNN/), group 2 is null
+      const id = '3meJIgRw7YleJrmbpbJK6S';
+      final r = catalog.match('116/Codename: Cobra', albumArtistIds: [id]);
+      expect(r!.episodeNumber, 116); // group 1 wins
+    });
+
+    test('Die drei ??? Folge N format when no NNN/ prefix', () {
+      // "Folge 227: Melodie" — group 1 null, group 2 fires
+      const id = '3meJIgRw7YleJrmbpbJK6S';
+      final r = catalog.match('Folge 227: Melodie der Rache', albumArtistIds: [id]);
+      expect(r!.episodeNumber, 227); // group 2 wins (group 1 null)
+    });
+
+    test('Hanni und Nanni: NNN/ preferred over Folge N when both present', () {
+      // Pattern: (?:^(\d{1,3})/|[Ff]olge\s+(\d+)|[Kk]lassiker\s+(\d+))
+      // With left-to-right: "065/Hanni und Nanni" → group 1 (065=65) wins
+      final r = catalog.match('065/Hanni und Nanni voll im Trend!');
+      expect(r!.episodeNumber, 65);
+    });
+  });
 }
