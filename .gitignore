@@ -62,4 +62,6 @@ app.*.map.json
 # Agent scaffolding
 .ralph/
 android/build/
-android/build/
+
+sentry.properties
+sentry-wizard
