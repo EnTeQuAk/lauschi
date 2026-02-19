@@ -109,16 +109,46 @@ class SpotifyPlayerBridge {
     await controller.loadRequest(Uri.parse(SpotifyConfig.playerUrl));
   }
 
+  /// Allowed message types from the JS bridge. Reject anything else to
+  /// prevent unexpected payloads if the CDN-loaded SDK is compromised.
+  static const _allowedTypes = {
+    'sdk_ready',
+    'ready',
+    'not_ready',
+    'state_changed',
+    'token_request',
+    'play_request',
+    'error',
+    'log',
+  };
+
   void _onMessage(JavaScriptMessage msg) {
+    // Reject oversized messages (>64KB is suspicious for our protocol).
+    if (msg.message.length > 65536) {
+      Log.warn(_tag, 'Dropped oversized message', data: {
+        'bytes': '${msg.message.length}',
+      });
+      return;
+    }
+
     late final Map<String, dynamic> data;
     try {
       data = json.decode(msg.message) as Map<String, dynamic>;
     } on FormatException {
-      Log.error(_tag, 'Invalid JSON from JS', data: {'raw': msg.message});
+      Log.error(_tag, 'Invalid JSON from JS', data: {
+        'raw': msg.message.length > 200
+            ? '${msg.message.substring(0, 200)}…'
+            : msg.message,
+      });
       return;
     }
 
     final type = data['type'] as String?;
+    if (type == null || !_allowedTypes.contains(type)) {
+      Log.warn(_tag, 'Rejected unknown message type', data: {'type': '$type'});
+      return;
+    }
+
     final payload = data['payload'] as Map<String, dynamic>? ?? {};
 
     switch (type) {
@@ -127,6 +157,10 @@ class SpotifyPlayerBridge {
 
       case 'ready':
         final deviceId = payload['device_id'] as String?;
+        if (deviceId != null && deviceId.length > 128) {
+          Log.warn(_tag, 'Rejected invalid device_id');
+          return;
+        }
         Log.info(_tag, 'Player ready', data: {'device_id': '$deviceId'});
         _updateState(_state.copyWith(isReady: true, deviceId: deviceId));
 
@@ -142,12 +176,12 @@ class SpotifyPlayerBridge {
         unawaited(_deliverFreshToken());
 
       case 'play_request':
-        // Legacy — playback is now handled via SpotifyApi, not via JS bridge.
+        // Legacy — playback is handled via SpotifyApi, not JS bridge.
         Log.debug(_tag, 'Play request from JS (ignored)');
 
       case 'error':
-        final errType = payload['type'] as String? ?? 'unknown';
-        final errMsg = payload['message'] as String? ?? '';
+        final errType = _sanitize(payload['type'] as String? ?? 'unknown');
+        final errMsg = _sanitize(payload['message'] as String? ?? '');
         Log.error(
           _tag,
           'SDK error',
@@ -156,29 +190,46 @@ class SpotifyPlayerBridge {
         _updateState(_state.copyWith(error: '$errType: $errMsg'));
 
       case 'log':
-        Log.debug('js', '${payload['message']}');
+        Log.debug('js', _sanitize('${payload['message']}'));
 
       default:
-        Log.warn(_tag, 'Unknown event', data: {'type': '$type'});
+        // Unreachable due to allowlist check above, but satisfies exhaustiveness.
+        break;
     }
+  }
+
+  /// Truncate and strip control characters from JS-originated strings.
+  static String _sanitize(String input, {int maxLength = 500}) {
+    final clamped = input.length > maxLength
+        ? '${input.substring(0, maxLength)}…'
+        : input;
+    return clamped.replaceAll(RegExp(r'[\x00-\x1f]'), '');
   }
 
   void _handleStateChanged(Map<String, dynamic> payload) {
     final paused = payload['paused'] as bool? ?? true;
-    final posMs = payload['position_ms'] as int? ?? 0;
-    final durMs = payload['duration_ms'] as int? ?? 0;
+    final posMs = (payload['position_ms'] as int? ?? 0).clamp(0, 86400000);
+    final durMs = (payload['duration_ms'] as int? ?? 0).clamp(0, 86400000);
     final trackData = payload['track'] as Map<String, dynamic>?;
 
-    final track =
-        trackData == null
-            ? null
-            : TrackInfo(
-              uri: trackData['uri'] as String,
-              name: trackData['name'] as String,
-              artist: trackData['artist'] as String,
-              album: trackData['album'] as String,
-              artworkUrl: trackData['artwork_url'] as String?,
-            );
+    TrackInfo? track;
+    if (trackData != null) {
+      // Validate required fields before constructing TrackInfo.
+      final uri = trackData['uri'] as String?;
+      final name = trackData['name'] as String?;
+      final artist = trackData['artist'] as String?;
+      final album = trackData['album'] as String?;
+
+      if (uri != null && name != null && artist != null && album != null) {
+        track = TrackInfo(
+          uri: _sanitize(uri, maxLength: 256),
+          name: _sanitize(name),
+          artist: _sanitize(artist),
+          album: _sanitize(album),
+          artworkUrl: trackData['artwork_url'] as String?,
+        );
+      }
+    }
 
     _updateState(
       _state.copyWith(
