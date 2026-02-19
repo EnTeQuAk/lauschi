@@ -10,8 +10,8 @@ void main() {
   });
 
   group('CatalogService.load', () {
-    test('loads at least 30 series', () {
-      expect(catalog.seriesCount, greaterThanOrEqualTo(30));
+    test('loads at least 45 series', () {
+      expect(catalog.seriesCount, greaterThanOrEqualTo(45));
     });
   });
 
@@ -99,6 +99,45 @@ void main() {
       final result = catalog.match('Fünf Freunde 50');
       expect(result, isNotNull);
       expect(result!.series.id, 'fuenf_freunde');
+    });
+
+    test('matches Die Fuchsbande with fall number', () {
+      final result = catalog.match('Die Fuchsbande - Fall 43 - Das unheimliche Geräusch');
+      expect(result, isNotNull);
+      expect(result!.series.id, 'die_fuchsbande');
+      expect(result.episodeNumber, 43);
+    });
+
+    test('matches Prinzessin Lillifee', () {
+      final result = catalog.match('Prinzessin Lillifee, Folge 5: Irgendwas');
+      expect(result, isNotNull);
+      expect(result!.series.id, 'prinzessin_lillifee');
+      expect(result.episodeNumber, 5);
+    });
+
+    test('matches Die Playmos', () {
+      final result = catalog.match('Die Playmos - Folge 98: Das gestohlene Ei');
+      expect(result, isNotNull);
+      expect(result!.series.id, 'die_playmos');
+      expect(result.episodeNumber, 98);
+    });
+
+    test('matches Asterix', () {
+      final result = catalog.match('Asterix der Gallier 1');
+      expect(result, isNotNull);
+      expect(result!.series.id, 'asterix');
+    });
+
+    test('matches Momo as Michael Ende', () {
+      final result = catalog.match('Momo - Michael Ende');
+      expect(result, isNotNull);
+      expect(result!.series.id, 'michael_ende');
+    });
+
+    test('matches Jim Knopf as Michael Ende', () {
+      final result = catalog.match('Jim Knopf und Lukas der Lokomotivführer');
+      expect(result, isNotNull);
+      expect(result!.series.id, 'michael_ende');
     });
   });
 }
