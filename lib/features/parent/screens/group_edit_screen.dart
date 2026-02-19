@@ -158,6 +158,7 @@ class _GroupEditScreenState extends ConsumerState<GroupEditScreen> {
                   controller: _coverController,
                   episodeCovers: episodeCovers,
                   onChanged: () => setState(() => _dirty = true),
+                  onAutoSave: _save,
                 ),
               ],
             ),
@@ -227,6 +228,7 @@ class _CoverPicker extends StatefulWidget {
     required this.controller,
     required this.episodeCovers,
     required this.onChanged,
+    this.onAutoSave,
   });
 
   final TextEditingController controller;
@@ -234,7 +236,12 @@ class _CoverPicker extends StatefulWidget {
   /// Distinct cover URLs already present in the group's episodes.
   final List<String> episodeCovers;
 
+  /// Called when any cover value changes (marks the form dirty).
   final VoidCallback onChanged;
+
+  /// Called immediately when an episode thumbnail is tapped — auto-saves
+  /// without requiring the user to tap a separate "Speichern" button.
+  final Future<void> Function()? onAutoSave;
 
   @override
   State<_CoverPicker> createState() => _CoverPickerState();
@@ -246,11 +253,13 @@ class _CoverPickerState extends State<_CoverPicker> {
   void _pickCover(String url) {
     widget.controller.text = url;
     widget.onChanged();
+    if (widget.onAutoSave != null) unawaited(widget.onAutoSave!());
   }
 
   void _clearCover() {
     widget.controller.clear();
     widget.onChanged();
+    if (widget.onAutoSave != null) unawaited(widget.onAutoSave!());
   }
 
   @override

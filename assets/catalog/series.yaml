@@ -138,3 +138,168 @@ series:
     keywords:
       - "pan tau"
     episode_pattern: "Pan Tau[,\\s]+(Folge\\s+)?(\\d+)"
+
+  - id: biene_maja
+    title: Biene Maja
+    aliases:
+      - "Biene Maja"
+      - "Die Biene Maja"
+    keywords:
+      - "biene maja"
+    episode_pattern: "(?:Die\\s+)?Biene Maja[,\\s]+(Folge\\s+)?(\\d+)"
+
+  - id: hui_buh
+    title: Hui Buh das Schlossgespenst
+    aliases:
+      - "Hui Buh"
+      - "Hui Buh das Schlossgespenst"
+    keywords:
+      - "hui buh"
+    episode_pattern: "Hui Buh[,\\s]+(Folge\\s+)?(\\d+)"
+
+  - id: raeubrer_hotzenplotz
+    title: Räuber Hotzenplotz
+    aliases:
+      - "Räuber Hotzenplotz"
+      - "Der Räuber Hotzenplotz"
+    keywords:
+      - "räuber hotzenplotz"
+      - "rauber hotzenplotz"
+      - hotzenplotz
+    episode_pattern: "(?:Der\\s+)?Räuber Hotzenplotz[,\\s]+(Folge\\s+)?(\\d+)"
+
+  - id: kleiner_drache_kokosnuss
+    title: Der kleine Drache Kokosnuss
+    aliases:
+      - "Der kleine Drache Kokosnuss"
+      - "Drache Kokosnuss"
+    keywords:
+      - "drache kokosnuss"
+      - kokosnuss
+    episode_pattern: "(?:Der\\s+)?kleine\\s+Drache\\s+Kokosnuss[,\\s]+(Folge\\s+)?(\\d+)"
+
+  - id: hanni_und_nanni
+    title: Hanni und Nanni
+    aliases:
+      - "Hanni und Nanni"
+    keywords:
+      - "hanni und nanni"
+      - "hanni & nanni"
+    episode_pattern: "Hanni(?:\\s+und|\\s+&)\\s+Nanni[,\\s]+(Folge\\s+)?(\\d+)"
+
+  - id: fuenf_freunde
+    title: Fünf Freunde
+    aliases:
+      - "Fünf Freunde"
+      - "Funf Freunde"
+    keywords:
+      - "fünf freunde"
+      - "funf freunde"
+      - "5 freunde"
+    episode_pattern: "Fünf\\s+Freunde[,\\s]+(\\d+)"
+
+  - id: die_olchis
+    title: Die Olchis
+    aliases:
+      - "Die Olchis"
+      - "Olchis"
+    keywords:
+      - olchis
+    episode_pattern: "(?:Die\\s+)?Olchis[,\\s]+(Folge\\s+)?(\\d+)"
+
+  - id: hexe_lilli
+    title: Hexe Lilli
+    aliases:
+      - "Hexe Lilli"
+      - "Die Hexe Lilli"
+    keywords:
+      - "hexe lilli"
+    episode_pattern: "(?:Die\\s+)?Hexe\\s+Lilli[,\\s]+(Folge\\s+)?(\\d+)"
+
+  - id: lauras_stern
+    title: Lauras Stern
+    aliases:
+      - "Lauras Stern"
+    keywords:
+      - "lauras stern"
+    episode_pattern: "Lauras\\s+Stern[,\\s]+(Folge\\s+)?(\\d+)"
+
+  - id: tom_turbo
+    title: Tom Turbo
+    aliases:
+      - "Tom Turbo"
+    keywords:
+      - "tom turbo"
+    episode_pattern: "Tom\\s+Turbo[,\\s]+(Folge\\s+)?(\\d+)"
+
+  - id: ritter_rost
+    title: Ritter Rost
+    aliases:
+      - "Ritter Rost"
+    keywords:
+      - "ritter rost"
+    episode_pattern: "Ritter\\s+Rost[,\\s]+(Folge\\s+)?(\\d+)"
+
+  - id: kommissar_kugelblitz
+    title: Kommissar Kugelblitz
+    aliases:
+      - "Kommissar Kugelblitz"
+    keywords:
+      - "kommissar kugelblitz"
+      - kugelblitz
+    episode_pattern: "Kommissar\\s+Kugelblitz[,\\s]+(Folge\\s+)?(\\d+)"
+
+  - id: nils_holgersson
+    title: Nils Holgersson
+    aliases:
+      - "Nils Holgersson"
+      - "Die wunderbare Reise des kleinen Nils Holgersson"
+    keywords:
+      - "nils holgersson"
+    episode_pattern: "Nils\\s+Holgersson[,\\s]+(Folge\\s+)?(\\d+)"
+
+  - id: heidi
+    title: Heidi
+    aliases:
+      - "Heidi"
+    keywords:
+      - heidi
+    episode_pattern: "Heidi[,\\s]+(Folge\\s+)?(\\d+)"
+
+  - id: ronja_raeubertocher
+    title: Ronja Räubertochter
+    aliases:
+      - "Ronja Räubertochter"
+      - "Ronja Raubertochter"
+    keywords:
+      - "ronja räubertochter"
+      - "ronja raubertochter"
+    episode_pattern: "Ronja\\s+Räubertochter[,\\s]+(Folge\\s+)?(\\d+)"
+
+  - id: emil_detektive
+    title: Emil und die Detektive
+    aliases:
+      - "Emil und die Detektive"
+    keywords:
+      - "emil und die detektive"
+      - "emil detektive"
+    episode_pattern: "Emil(?:\\s+und\\s+die)?\\s+Detektive[,\\s]+(Folge\\s+)?(\\d+)"
+
+  - id: bob_baumeister
+    title: Bob der Baumeister
+    aliases:
+      - "Bob der Baumeister"
+      - "Bob the Builder"
+    keywords:
+      - "bob der baumeister"
+    episode_pattern: "Bob\\s+der\\s+Baumeister[,\\s]+(Folge\\s+)?(\\d+)"
+
+  - id: wickie
+    title: Wickie und die starken Männer
+    aliases:
+      - "Wickie und die starken Männer"
+      - "Wickie"
+    keywords:
+      - "wickie und die starken"
+      - wickie
+    episode_pattern: "Wickie[,\\s]+(Folge\\s+)?(\\d+)"
