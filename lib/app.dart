@@ -18,13 +18,19 @@ class LauschiApp extends ConsumerStatefulWidget {
   ConsumerState<LauschiApp> createState() => _LauschiAppState();
 }
 
-class _LauschiAppState extends ConsumerState<LauschiApp> {
+class _LauschiAppState extends ConsumerState<LauschiApp>
+    with WidgetsBindingObserver {
   late final AppLinks _appLinks;
   StreamSubscription<Uri>? _linkSub;
+
+  /// Whether playback was active when the app went to background.
+  /// Used to auto-resume on foreground.
+  bool _wasPlayingBeforePause = false;
 
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     unawaited(
       ref.read(onboardingCompleteProvider.notifier).checkAsync(),
     );
@@ -55,7 +61,33 @@ class _LauschiAppState extends ConsumerState<LauschiApp> {
   }
 
   @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    final player = ref.read(playerNotifierProvider.notifier);
+    final playback = ref.read(playerNotifierProvider);
+
+    switch (state) {
+      case AppLifecycleState.paused || AppLifecycleState.inactive:
+        // App going to background — pause if playing, remember state.
+        if (playback.isPlaying) {
+          _wasPlayingBeforePause = true;
+          Log.info('Lifecycle', 'Pausing playback (app backgrounded)');
+          unawaited(player.pause());
+        }
+      case AppLifecycleState.resumed:
+        // App returning to foreground — resume if we paused it.
+        if (_wasPlayingBeforePause) {
+          _wasPlayingBeforePause = false;
+          Log.info('Lifecycle', 'Resuming playback (app foregrounded)');
+          unawaited(player.resume());
+        }
+      case AppLifecycleState.detached || AppLifecycleState.hidden:
+        break;
+    }
+  }
+
+  @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
     unawaited(_linkSub?.cancel());
     super.dispose();
   }
