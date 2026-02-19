@@ -25,6 +25,7 @@ from __future__ import annotations
 import argparse
 import json
 import sys
+import webbrowser
 from datetime import UTC, datetime
 from functools import partial
 from pathlib import Path
@@ -238,6 +239,10 @@ class CurationCommands(Provider):
         screen = app.screen
         if isinstance(screen, ReviewScreen):
             for cmd, action, help_text in [
+                ("🔗 Open album on Spotify", screen.action_open_album,
+                 "Open selected album in browser"),
+                ("🔗 Open artist on Spotify", screen.action_open_artist,
+                 "Open series artist page in browser"),
                 ("✅ Approve series", screen.action_approve,
                  "Write to series.yaml"),
                 ("❌ Reject series", screen.action_reject,
@@ -283,6 +288,7 @@ class CurationCommands(Provider):
 class SeriesListScreen(Screen):
     BINDINGS = [
         Binding("enter", "open_selected", "📖 Review", key_display="Enter"),
+        Binding("o", "open_spotify", "🔗 Spotify"),
         Binding("p", "open_pending", "⏭️  Next pending"),
         Binding("q", "quit_app", "🚪 Quit"),
     ]
@@ -312,6 +318,7 @@ class SeriesListScreen(Screen):
         table.add_column("Status", width=14)
 
         self._rows: list[Path] = []
+        self._data: list[CurationFile] = []
         for path in sorted(CURATION_DIR.glob("*.json")):
             try:
                 data = load_curation(path)
@@ -342,6 +349,7 @@ class SeriesListScreen(Screen):
                 _STATUS_DISPLAY.get(status, status),
             )
             self._rows.append(path)
+            self._data.append(data)
 
         if not self._rows:
             table.add_row("", "(no curations found)", "", "", "", "", "", "")
@@ -351,6 +359,18 @@ class SeriesListScreen(Screen):
         idx = table.cursor_row
         if idx is not None and 0 <= idx < len(self._rows):
             self.app.push_screen(ReviewScreen(self._rows[idx]))
+
+    def action_open_spotify(self) -> None:
+        table = self.query_one("#series-table", DataTable)
+        idx = table.cursor_row
+        if idx is not None and 0 <= idx < len(self._data):
+            artist_ids = self._data[idx].series.spotify_artist_ids
+            if artist_ids:
+                url = f"https://open.spotify.com/artist/{artist_ids[0]}"
+                webbrowser.open(url)
+                self.notify(f"🔗 Opened {self._data[idx].series.title} on Spotify")
+            else:
+                self.notify("No artist ID available", severity="warning")
 
     def action_open_pending(self) -> None:
         for path in self._rows:
@@ -425,6 +445,8 @@ _FILTER_ICONS = {"all": "📋", "included": "🟢", "excluded": "🔴"}
 class ReviewScreen(Screen):
     BINDINGS = [
         Binding("space", "toggle", "🔀 Toggle"),
+        Binding("o", "open_album", "🔗 Album"),
+        Binding("O", "open_artist", "🔗 Artist", key_display="Shift+O"),
         Binding("a", "approve", "✅ Approve"),
         Binding("r", "reject", "❌ Reject"),
         Binding("f", "cycle_filter", "🔽 Filter"),
@@ -550,6 +572,22 @@ class ReviewScreen(Screen):
                 table.move_cursor(row=target)
 
     # ── Actions ───────────────────────────────────────────────────────────
+
+    def action_open_album(self) -> None:
+        table = self.query_one("#album-table", DataTable)
+        idx = table.cursor_row
+        if idx is not None and idx < len(self._album_order):
+            album_id = self._album_order[idx]
+            webbrowser.open(f"https://open.spotify.com/album/{album_id}")
+            self.notify("🔗 Opened album on Spotify")
+
+    def action_open_artist(self) -> None:
+        artist_ids = self._data.series.spotify_artist_ids
+        if artist_ids:
+            webbrowser.open(f"https://open.spotify.com/artist/{artist_ids[0]}")
+            self.notify(f"🔗 Opened {self._data.series.title} artist on Spotify")
+        else:
+            self.notify("No artist ID available", severity="warning")
 
     def action_toggle(self) -> None:
         table = self.query_one("#album-table", DataTable)
