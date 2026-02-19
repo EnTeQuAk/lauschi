@@ -1,15 +1,42 @@
 # DACH Hörspiel series catalog
-# Used by CatalogService to match Spotify search results and suggest
-# group assignments in AddCardScreen.
+# Used by CatalogService to match Spotify album names returned by the parent's
+# search and suggest group assignments in AddCardScreen.
 #
 # Fields:
-#   id: unique identifier (snake_case)
-#   title: canonical series title
-#   aliases: alternative titles Spotify may use
-#   keywords: words that strongly signal this series (case-insensitive)
-#   episode_pattern: regex with one capture group for the episode number
+#   id              unique snake_case identifier (stable — stored in DB)
+#   title           canonical German series title
+#   aliases         alternative titles Spotify may use
+#   keywords        words that must appear in the Spotify album name for a match
+#                   (case-insensitive substring). Sorted longest-first at runtime.
+#   episode_pattern regex with one capture group that extracts the episode number.
+#                   Omit entirely for standalone (non-numbered) series.
+#
+# Validated against live Spotify data via scripts/validate_catalog.py.
+# Run `mise run catalog-check` to re-validate after edits.
+#
+# ── Naming conventions found in the wild ───────────────────────────────────
+# Most DACH Hörspiel publishers use one of these album-title formats:
+#
+#   Folge N: <episode title>          — the standard modern format
+#   NN: <episode title>               — Pumuckl, Asterix (Karussell label)
+#   NNN/<episode title>               — Hanni und Nanni, Heidi, Hui Buh
+#   <Series> N. <episode title>       — Pippi Langstrumpf (numbered books)
+#   <Series>, Folge N: <title>        — LasseMaja, Nils Holgersson
+#   Band N                            — Gespensterjäger (book numbering)
+#   Teil N                            — Tom Turbo (Wissensreise subseries)
+#
+# ── L2 (keyword) failures ──────────────────────────────────────────────────
+# Several major series omit the series name from album titles on Spotify.
+# Example: Die drei ??? episodes appear as "116/Codename: Cobra" — keyword
+# "drei ???" never fires. CatalogService currently matches on album name only;
+# artist-name matching would be needed to fix these properly.
+# Affected: Die drei ???, Die drei ??? Kids, TKKG, Feuerwehrmann Sam,
+#           Fünf Freunde, Die Fuchsbande, TKKG Junior, Fünf Freunde Junior.
 
 series:
+
+  # ── Classic Kiddinx / Europa series ────────────────────────────────────────
+
   - id: yakari
     title: Yakari
     aliases:
@@ -17,7 +44,8 @@ series:
       - "Yakari, der kleine Sioux"
     keywords:
       - yakari
-    episode_pattern: "Yakari[,\\s]+(Folge\\s+)?(\\d+)"
+    # Spotify: "Folge 9: Yakari und die Pferdediebe (Das Original-Hörspiel...)"
+    episode_pattern: "[Ff]olge\\s+(\\d+)"
 
   - id: bibi_blocksberg
     title: Bibi Blocksberg
@@ -26,7 +54,8 @@ series:
     keywords:
       - "bibi blocksberg"
       - blocksberg
-    episode_pattern: "Bibi Blocksberg[,\\s]+(Folge\\s+)?(\\d+)"
+    # Spotify: "Folge 157: Team Blocksberg"
+    episode_pattern: "[Ff]olge\\s+(\\d+)"
 
   - id: benjamin_bluemchen
     title: Benjamin Blümchen
@@ -37,7 +66,8 @@ series:
       - "benjamin blümchen"
       - "benjamin bluemchen"
       - blümchen
-    episode_pattern: "Benjamin Blümchen[,\\s]+(Folge\\s+)?(\\d+)"
+    # Spotify: "Benjamin Blümchen Gute-Nacht-Geschichten - Folge 6: ..."
+    episode_pattern: "[Ff]olge\\s+(\\d+)"
 
   - id: die_drei_fragezeichen
     title: "Die drei ???"
@@ -47,6 +77,9 @@ series:
     keywords:
       - "drei ???"
       - "drei fragezeichen"
+    # NOTE: L2 keyword failure. Spotify album titles use "116/Codename: Cobra"
+    # format — series name not in album title. Keyword rarely fires.
+    # Pattern kept for the few titles that do include "???".
     episode_pattern: "(?:Die\\s+)?drei\\s+\\?\\?\\?[,\\s]*(\\d+)"
 
   - id: die_drei_fragezeichen_kids
@@ -57,6 +90,8 @@ series:
     keywords:
       - "drei ??? kids"
       - "drei fragezeichen kids"
+    # NOTE: L2 keyword failure — same issue as Die drei ???.
+    # Albums: "033/Nacht im Kerker", "Folge 101: Geistermusik" — no series name.
     episode_pattern: "(?:Die\\s+)?drei\\s+\\?\\?\\?\\s+Kids[,\\s]*(\\d+)"
 
   - id: tkkg
@@ -65,7 +100,9 @@ series:
       - TKKG
     keywords:
       - tkkg
-    episode_pattern: "TKKG[,\\s]+(Folge\\s+)?(\\d+)"
+    # NOTE: L2 keyword failure. Albums: "Folge 239: Vollgas ins Verderben",
+    # "140/Draculas Erben" — series name absent from album title.
+    episode_pattern: "[Ff]olge\\s+(\\d+)"
 
   - id: bibi_und_tina
     title: Bibi & Tina
@@ -75,7 +112,7 @@ series:
     keywords:
       - "bibi & tina"
       - "bibi und tina"
-    episode_pattern: "Bibi(?:\\s+&|\\s+und)\\s+Tina[,\\s]+(Folge\\s+)?(\\d+)"
+    # Spotify returns only movie soundtracks; no numbered Hörspiel series found.
 
   - id: pumuckl
     title: Pumuckl
@@ -84,7 +121,9 @@ series:
       - "Meister Eder und sein Pumuckl"
     keywords:
       - pumuckl
-    episode_pattern: "Pumuckl[,\\s]+(Folge\\s+)?(\\d+)"
+    # Spotify: "19: Pumuckl im Zoo (Das Original aus dem Fernsehen)"
+    #          "06: Pumuckl und die Schule"
+    episode_pattern: "^(\\d{1,2}):\\s"
 
   - id: conni
     title: Conni
@@ -93,7 +132,7 @@ series:
       - "Meine Freundin Conni"
     keywords:
       - conni
-    episode_pattern: "Conni[,\\s]+(Folge\\s+)?(\\d+)"
+    # Standalone stories, no numbering: "Conni rettet Oma", "Conni ist krank".
 
   - id: pippi_langstrumpf
     title: Pippi Langstrumpf
@@ -102,7 +141,8 @@ series:
     keywords:
       - pippi
       - langstrumpf
-    episode_pattern: "Pippi Langstrumpf[,\\s]+(Folge\\s+)?(\\d+)"
+    # Spotify: "Pippi Langstrumpf 1. Das Hörspiel" (numbered book trilogy)
+    episode_pattern: "Pippi\\s+Langstrumpf\\s+(\\d+)[.\\s]"
 
   - id: pettersson_und_findus
     title: Pettersson und Findus
@@ -112,24 +152,30 @@ series:
     keywords:
       - pettersson
       - findus
-    episode_pattern: "Pettersson(?:\\s+und|\\s+&)\\s+Findus[,\\s]+(Folge\\s+)?(\\d+)"
+    # Spotify: "Folge 10: Findus und das eigene Fahrrad"
+    #          "Folge 5: Wie Findus zu Pettersson kam"
+    episode_pattern: "[Ff]olge\\s+(\\d+)"
 
   - id: das_sams
     title: Das Sams
     aliases:
       - "Das Sams"
     keywords:
-      - sams
-    episode_pattern: "(?:Das\\s+)?Sams[,\\s]+(Folge\\s+)?(\\d+)"
+      - "das sams"
+    # Spotify: "Das Sams 1. Eine Woche voller Samstage" (book numbering)
+    # Note: keyword "sams" was too short — matched "Samsara" etc. Use "das sams".
+    episode_pattern: "(?:Das\\s+)?Sams\\s+(\\d+)[.\\s]"
 
   - id: feuerwehrmann_sam
     title: Feuerwehrmann Sam
     aliases:
       - "Feuerwehrmann Sam"
+      - "Fireman Sam"
     keywords:
       - "feuerwehrmann sam"
       - "fireman sam"
-    episode_pattern: "Feuerwehrmann Sam[,\\s]+(Folge\\s+)?(\\d+)"
+    # NOTE: L2 keyword failure. Albums: "Folge 242: Die neue Feuerwache" —
+    # series name absent. Only theme-song singles match keyword.
 
   - id: pan_tau
     title: Pan Tau
@@ -137,7 +183,7 @@ series:
       - "Pan Tau"
     keywords:
       - "pan tau"
-    episode_pattern: "Pan Tau[,\\s]+(Folge\\s+)?(\\d+)"
+    # Old Czech/German series; Spotify only has soundtracks. No Hörspiel series.
 
   - id: biene_maja
     title: Biene Maja
@@ -146,7 +192,9 @@ series:
       - "Die Biene Maja"
     keywords:
       - "biene maja"
-    episode_pattern: "(?:Die\\s+)?Biene Maja[,\\s]+(Folge\\s+)?(\\d+)"
+    # Spotify: "Majas Flucht aus der Heimatstadt (Die Biene Maja, Folge 1)"
+    #          "Die Biene Maja 2 - Original-Hörspiel zum Kinofilm"
+    episode_pattern: "(?:Die\\s+)?Biene\\s+Maja[,\\s]*(?:[Ff]olge\\s+)?(\\d+)"
 
   - id: hui_buh
     title: Hui Buh das Schlossgespenst
@@ -155,7 +203,9 @@ series:
       - "Hui Buh das Schlossgespenst"
     keywords:
       - "hui buh"
-    episode_pattern: "Hui Buh[,\\s]+(Folge\\s+)?(\\d+)"
+    # Spotify: "01/Hui Buh das Schlossgespenst", "002/Hui Buh und seine ..."
+    #          "Folge 18: Hui Buh rettet Halloween"
+    episode_pattern: "(?:^(\\d{2,3})/|[Ff]olge\\s+(\\d+))"
 
   - id: raeubrer_hotzenplotz
     title: Räuber Hotzenplotz
@@ -166,7 +216,9 @@ series:
       - "räuber hotzenplotz"
       - "rauber hotzenplotz"
       - hotzenplotz
-    episode_pattern: "(?:Der\\s+)?Räuber Hotzenplotz[,\\s]+(Folge\\s+)?(\\d+)"
+    # Spotify: "Der Räuber Hotzenplotz 1: ..." (publisher A)
+    #          "1: Der Räuber Hotzenplotz"       (publisher B — leading number)
+    episode_pattern: "(?:^(\\d+):\\s|[Hh]otzenplotz[^0-9]*(\\d+))"
 
   - id: kleiner_drache_kokosnuss
     title: Der kleine Drache Kokosnuss
@@ -176,7 +228,7 @@ series:
     keywords:
       - "drache kokosnuss"
       - kokosnuss
-    episode_pattern: "(?:Der\\s+)?kleine\\s+Drache\\s+Kokosnuss[,\\s]+(Folge\\s+)?(\\d+)"
+    # Standalone stories: "Der kleine Drache Kokosnuss - Das Musical", etc.
 
   - id: hanni_und_nanni
     title: Hanni und Nanni
@@ -185,7 +237,11 @@ series:
     keywords:
       - "hanni und nanni"
       - "hanni & nanni"
-    episode_pattern: "Hanni(?:\\s+und|\\s+&)\\s+Nanni[,\\s]+(Folge\\s+)?(\\d+)"
+    # Spotify: "065/Hanni und Nanni voll im Trend!"  (NNN/ format)
+    #          "04/Lustige Streiche mit Hanni und Nanni" (NN/ format)
+    #          "Folge 79: Prost Neujahr, Hanni und Nanni!" (Folge N: format)
+    #          "Klassiker 1 - 1972 Hanni und Nanni sind immer dagegen"
+    episode_pattern: "(?:^(\\d{1,3})/|[Ff]olge\\s+(\\d+)|[Kk]lassiker\\s+(\\d+))"
 
   - id: fuenf_freunde
     title: Fünf Freunde
@@ -196,7 +252,8 @@ series:
       - "fünf freunde"
       - "funf freunde"
       - "5 freunde"
-    episode_pattern: "Fünf\\s+Freunde[,\\s]+(\\d+)"
+    # NOTE: L2 keyword failure. Albums: "107/und die Nacht im Safari-Park",
+    # "002/im Zeltlager" — series name absent. Standalone films also match.
 
   - id: die_olchis
     title: Die Olchis
@@ -205,7 +262,7 @@ series:
       - "Olchis"
     keywords:
       - olchis
-    episode_pattern: "(?:Die\\s+)?Olchis[,\\s]+(Folge\\s+)?(\\d+)"
+    # Standalone stories: "Die Olchis im Zoo", "Die Olchis fliegen zum Mond".
 
   - id: hexe_lilli
     title: Hexe Lilli
@@ -214,7 +271,7 @@ series:
       - "Die Hexe Lilli"
     keywords:
       - "hexe lilli"
-    episode_pattern: "(?:Die\\s+)?Hexe\\s+Lilli[,\\s]+(Folge\\s+)?(\\d+)"
+    # Standalone stories: "Hexe Lilli und der kleine Delfin", etc.
 
   - id: lauras_stern
     title: Lauras Stern
@@ -222,7 +279,11 @@ series:
       - "Lauras Stern"
     keywords:
       - "lauras stern"
-    episode_pattern: "Lauras\\s+Stern[,\\s]+(Folge\\s+)?(\\d+)"
+    # Spotify: "Lauras Stern, Folge 1: Lauras Stern"
+    #          "Laura hat Geburtstag [Lauras Stern 10 (Ungekürzt)]"
+    #          "Lauras Stern, Band 12: ..."
+    # Pattern: match series name then any non-digit gap then the number.
+    episode_pattern: "Lauras?\\s+Stern[^0-9]*(\\d+)"
 
   - id: tom_turbo
     title: Tom Turbo
@@ -230,7 +291,8 @@ series:
       - "Tom Turbo"
     keywords:
       - "tom turbo"
-    episode_pattern: "Tom\\s+Turbo[,\\s]+(Folge\\s+)?(\\d+)"
+    # Spotify: "Familie Vogel fragt: ... (Wissensreise mit Tom Turbo! Teil 3)"
+    episode_pattern: "[Tt]eil\\s+(\\d+)"
 
   - id: ritter_rost
     title: Ritter Rost
@@ -238,7 +300,7 @@ series:
       - "Ritter Rost"
     keywords:
       - "ritter rost"
-    episode_pattern: "Ritter\\s+Rost[,\\s]+(Folge\\s+)?(\\d+)"
+    # Spotify returns music/song albums ("Singen mit Ritter Rost"), not Hörspiele.
 
   - id: kommissar_kugelblitz
     title: Kommissar Kugelblitz
@@ -247,7 +309,8 @@ series:
     keywords:
       - "kommissar kugelblitz"
       - kugelblitz
-    episode_pattern: "Kommissar\\s+Kugelblitz[,\\s]+(Folge\\s+)?(\\d+)"
+    # Location-titled series: "Kugelblitz in London", "Kugelblitz in Paris".
+    # No episode numbering — each album is a standalone adventure.
 
   - id: nils_holgersson
     title: Nils Holgersson
@@ -256,7 +319,10 @@ series:
       - "Die wunderbare Reise des kleinen Nils Holgersson"
     keywords:
       - "nils holgersson"
-    episode_pattern: "Nils\\s+Holgersson[,\\s]+(Folge\\s+)?(\\d+)"
+    # Spotify: "Der Junge (Nils Holgersson, Folge 1)"  — series name before Folge
+    #          "Folge 1: Die wunderbare Reise des kleinen Nils Holgersson" — Folge first
+    #          "Nils Holgersson - Märchenklassiker Folge 7"
+    episode_pattern: "(?:[Ff]olge\\s+(\\d+)|Nils\\s+Holgersson\\D*(\\d+))"
 
   - id: heidi
     title: Heidi
@@ -264,7 +330,11 @@ series:
       - "Heidi"
     keywords:
       - heidi
-    episode_pattern: "Heidi[,\\s]+(Folge\\s+)?(\\d+)"
+    # Spotify: "06/Heidi kehrt zurück", "09/Heidi kehrt zurück (CGI)",
+    #          "068/Heidi I"
+    # Note: keyword "heidi" is very common (Heidi Klum etc.);
+    # most false positives are filtered by the NNN/ pattern requirement.
+    episode_pattern: "^(\\d{2,3})/"
 
   - id: ronja_raeubertocher
     title: Ronja Räubertochter
@@ -274,7 +344,7 @@ series:
     keywords:
       - "ronja räubertochter"
       - "ronja raubertochter"
-    episode_pattern: "Ronja\\s+Räubertochter[,\\s]+(Folge\\s+)?(\\d+)"
+    # Single novel adaptation; no numbered Hörspiel series.
 
   - id: emil_detektive
     title: Emil und die Detektive
@@ -283,7 +353,7 @@ series:
     keywords:
       - "emil und die detektive"
       - "emil detektive"
-    episode_pattern: "Emil(?:\\s+und\\s+die)?\\s+Detektive[,\\s]+(Folge\\s+)?(\\d+)"
+    # Single story; no numbered series.
 
   - id: bob_baumeister
     title: Bob der Baumeister
@@ -292,7 +362,7 @@ series:
       - "Bob the Builder"
     keywords:
       - "bob der baumeister"
-    episode_pattern: "Bob\\s+der\\s+Baumeister[,\\s]+(Folge\\s+)?(\\d+)"
+    # Standalone episode titles; no numbered series on Spotify.
 
   - id: wickie
     title: Wickie und die starken Männer
@@ -302,9 +372,9 @@ series:
     keywords:
       - "wickie und die starken"
       - wickie
-    episode_pattern: "Wickie[,\\s]+(Folge\\s+)?(\\d+)"
+    # Spotify returns only soundtracks and compilations. No numbered Hörspiel.
 
-  # ── Detected from Spotify playlists ──────────────────────────────────────
+  # ── Detected from Spotify playlists / editorial sources ──────────────────
 
   - id: prinzessin_lillifee
     title: Prinzessin Lillifee
@@ -314,8 +384,7 @@ series:
     keywords:
       - "prinzessin lillifee"
       - lillifee
-    # Spotify track format: "Prinzessin Lillifee, Folge N: <title>"
-    episode_pattern: "(?:Prinzessin\\s+)?Lillifee[,\\s]+(?:Folge\\s+)?(\\d+)"
+    # Standalone stories: "Prinzessin Lillifee in der Tierklinik", etc.
 
   - id: die_fuchsbande
     title: Die Fuchsbande
@@ -324,8 +393,10 @@ series:
       - "Fuchsbande"
     keywords:
       - fuchsbande
-    # Spotify track format: "Fall N - <title>"
-    episode_pattern: "Fall\\s+(\\d+)"
+    # NOTE: L2 keyword failure. Albums: "010/Fall 19: Das Loch in der Tür",
+    # "Folge 47: Fall 93: ..." — series name absent from album title.
+    # Patterns kept for if/when album titles include "fuchsbande".
+    episode_pattern: "(?:^(\\d{1,3})/|[Ff]olge\\s+(\\d+))"
 
   - id: tkkg_junior
     title: TKKG Junior
@@ -333,8 +404,9 @@ series:
       - "TKKG Junior"
     keywords:
       - "tkkg junior"
-    # Spotify format: "TKKG Junior NNN" or "TKKG Junior, Folge N"
-    episode_pattern: "TKKG\\s+Junior[,\\s]*(Folge\\s+)?(\\d+)"
+    # NOTE: L2 keyword failure. Albums: "Folge 41: Aliens im Anflug" —
+    # series name absent. Pattern correct for when keyword fires.
+    episode_pattern: "[Ff]olge\\s+(\\d+)"
 
   - id: fuenf_freunde_junior
     title: Fünf Freunde Junior
@@ -344,7 +416,9 @@ series:
     keywords:
       - "fünf freunde junior"
       - "5 freunde junior"
-    episode_pattern: "Fünf\\s+Freunde\\s+Junior[,\\s]*(\\d+)"
+    # NOTE: L2 keyword failure. Albums: "Folge 1: Der unsichtbare Dieb/..." —
+    # series name absent from album title.
+    episode_pattern: "[Ff]olge\\s+(\\d+)"
 
   - id: die_playmos
     title: Die Playmos
@@ -353,8 +427,9 @@ series:
       - "Playmos"
     keywords:
       - playmos
-    # Spotify album: "Die Playmos - Folge N: <title>" or "Die Playmos, Folge N"
-    episode_pattern: "Playmos[^\\d]*(\\d+)"
+    # Spotify: "Folge 46: Die Playmos ermitteln (Das Original Playmobil Hörspiel)"
+    #          "Folge 23: Die Playmos in geheimer Mission"
+    episode_pattern: "[Ff]olge\\s+(\\d+)"
 
   - id: wendy
     title: Wendy
@@ -362,8 +437,9 @@ series:
       - "Wendy"
     keywords:
       - "wendy"
-    # Kiddinx series; Spotify: "Wendy, Folge N: <title>" or "Wendy N"
-    episode_pattern: "Wendy[,\\s]+(Folge\\s+|Teil\\s+)?(\\d+)"
+    # Spotify: "Folge 22: Wendy verliebt sich"   (Folge N: format)
+    #          "005/Wendy Wolf hat Geburtstag"     (NNN/ format)
+    episode_pattern: "(?:[Ff]olge\\s+(\\d+)|^(\\d{3})/)"
 
   - id: asterix
     title: Asterix
@@ -372,7 +448,8 @@ series:
       - "Asterix und Obelix"
     keywords:
       - asterix
-    episode_pattern: "Asterix[,\\s]+(Folge\\s+|Band\\s+)?(\\d+)"
+    # Spotify: "41: Asterix in Lusitanien", "02: Asterix und Kleopatra"
+    episode_pattern: "^(\\d{1,2}):\\s"
 
   - id: lucky_luke
     title: Lucky Luke
@@ -380,9 +457,10 @@ series:
       - "Lucky Luke"
     keywords:
       - "lucky luke"
-    episode_pattern: "Lucky\\s+Luke[,\\s]+(Folge\\s+|Band\\s+)?(\\d+)"
+    # Spotify returns French soundtracks and unrelated singles.
+    # No German numbered Hörspiel series found. Kept for keyword awareness.
 
-  # ── Michael Ende works ────────────────────────────────────────────────────
+  # ── Michael Ende works ─────────────────────────────────────────────────────
 
   - id: michael_ende
     title: Michael Ende
@@ -399,21 +477,25 @@ series:
       - wunschpunsch
       - traumfresserchen
       - momo
+    # Standalone novels; no episode numbering.
 
-  # ── Cornelia Funke works ──────────────────────────────────────────────────
+  # ── Cornelia Funke ─────────────────────────────────────────────────────────
 
   - id: gespensterjager
     title: Gespensterjäger
     aliases:
       - "Gespensterjäger"
       - "Geisterjäger"
-      - "Cornelia Funke Gespensterjäger"
     keywords:
       - "gespensterjäger"
-      - "geisterjager"
-    episode_pattern: "Gespensterjäger[,\\s]+(Band\\s+|Folge\\s+)?(\\d+)"
+      - "gespensterjager"
+    # Spotify: "Gespensterjäger auf eisiger Spur (Band 1)"  — Band N in parens
+    #          "Gespensterjäger im Feuerspuk (Band 2)"
+    #          "Folge 5: Gespensterjäger und der Weihnachtsspuk"
+    #          "04/Der Schatten des Gespensterjägers"
+    episode_pattern: "(?:[Bb]and\\s+(\\d+)|[Ff]olge\\s+(\\d+)|^(\\d{2,3})/)"
 
-  # ── Swedish classics (Astrid Lindgren) ───────────────────────────────────
+  # ── Astrid Lindgren ────────────────────────────────────────────────────────
 
   - id: bullerbue
     title: Bullerbü
@@ -424,8 +506,9 @@ series:
     keywords:
       - bullerbü
       - bullerbue
+    # Standalone stories; no numbered series.
 
-  # ── Janosch ───────────────────────────────────────────────────────────────
+  # ── Janosch ────────────────────────────────────────────────────────────────
 
   - id: janosch
     title: Janosch
@@ -438,8 +521,9 @@ series:
       - "oh wie schön ist panama"
       - tigerente
       - janosch
+    # Standalone picture-book adaptations; no numbered series.
 
-  # ── Detektivbüro LasseMaja (Swedish series) ───────────────────────────────
+  # ── Detektivbüro LasseMaja ─────────────────────────────────────────────────
 
   - id: lassemaja
     title: Detektivbüro LasseMaja
@@ -451,4 +535,5 @@ series:
       - "lassemaja"
       - "lasse-maja"
       - "lasse maja"
-    episode_pattern: "(?:Detektivbüro\\s+)?LasseMaja[,\\s]+(Teil\\s+|Band\\s+)?(\\d+)"
+    # Spotify: "Detektivbüro LasseMaja 1", "Detektivbüro LasseMaja, Band 2", etc.
+    episode_pattern: "(?:Detektivbüro\\s+)?LasseMaja[,\\s]*(Teil\\s+|Band\\s+)?(\\d+)"

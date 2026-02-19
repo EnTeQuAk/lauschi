@@ -65,3 +65,6 @@ android/build/
 
 sentry.properties
 sentry-wizard
+
+# catalog validation cache
+.cache/
