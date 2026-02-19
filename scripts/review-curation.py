@@ -70,6 +70,7 @@ class SeriesData(BaseModel):
     spotify_artist_ids: list[str] = []
     episode_pattern: str | None = None
     albums: list[AlbumDecision] = []
+    age_note: str = ""
     curator_notes: str = ""
 
 
@@ -156,7 +157,8 @@ def series_summary(data: CurationFile) -> str:
     albums = effective_albums(data)
     inc = sum(1 for a in albums if a.include)
     exc = len(albums) - inc
-    return f"{_STATUS_DISPLAY.get(data.review.status, data.review.status)} · {inc} inc · {exc} exc"
+    age = f" · 👶 {data.series.age_note}" if data.series.age_note else ""
+    return f"{_STATUS_DISPLAY.get(data.review.status, data.review.status)} · {inc} included · {exc} excluded{age}"
 
 
 # ── YAML output ────────────────────────────────────────────────────────────────
@@ -481,6 +483,9 @@ class ReviewScreen(Screen):
             + (f" · 🎵 Episodes {min(eps)}–{max(eps)}" if eps else ""),
             f"🔍 Pattern: [dim]{d.series.episode_pattern or '—'}[/]",
         ]
+
+        if d.series.age_note:
+            lines.append(f"👶 {d.series.age_note}")
 
         if eps:
             gaps = sorted(set(range(min(eps), max(eps) + 1)) - set(eps))

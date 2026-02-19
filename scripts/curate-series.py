@@ -173,6 +173,11 @@ class CuratedSeries(BaseModel):
     spotify_artist_ids: list[str]
     episode_pattern: str | None = None
     albums: list[AlbumDecision]
+    age_note: str = Field(
+        default="",
+        description="Age guidance for the 3-14 range, e.g. 'Suitable from 3+' "
+        "or 'Crime themes, recommended 8+'",
+    )
     curator_notes: str = ""
 
     @field_validator("episode_pattern")
@@ -224,6 +229,14 @@ When prefixes change mid-run, use alternation: (?:[Tt]eil|[Bb]and)\\s+(\\d+)
 
 ## Keywords
 Only if the series name literally appears in album titles. Otherwise leave empty.
+
+## Age guidance
+lauschi targets kids aged 3-14.  Most DACH Hörspiel series are fine for all ages.
+Set age_note to a short guidance string based on your knowledge of the series:
+- "Suitable from 3+" for gentle series (Benjamin Blümchen, Peppa Wutz)
+- "Suitable from 5+" for series with mild tension (Fünf Freunde)
+- "Recommended 8+" for series with crime, horror, or complex themes (Die drei ???, TKKG)
+Only flag genuine concerns — don't over-rate harmless content.
 
 ## Important
 - Produce an AlbumDecision for EVERY album in each artist's discography.
@@ -349,6 +362,9 @@ def print_summary(series: CuratedSeries) -> None:
     if len(inc) > 10:
         t.add_row("…", f"({len(inc) - 10} more)", "")
     console.print(t)
+
+    if series.age_note:
+        console.print(f"\n👶 Age: {series.age_note}")
 
     if series.curator_notes:
         console.print(f"\n[dim]Notes: {series.curator_notes[:200]}[/]")
