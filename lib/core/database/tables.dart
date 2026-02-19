@@ -19,6 +19,11 @@ class Cards extends Table {
   IntColumn get sortOrder => integer().withDefault(const Constant(0))();
   DateTimeColumn get createdAt => dateTime().withDefault(currentDateAndTime)();
 
+  // Playback resume state
+  TextColumn get lastTrackUri => text().nullable()();
+  IntColumn get lastPositionMs => integer().withDefault(const Constant(0))();
+  DateTimeColumn get lastPlayedAt => dateTime().nullable()();
+
   @override
   Set<Column<Object>> get primaryKey => {id};
 }

@@ -1,5 +1,8 @@
+import 'dart:async' show unawaited;
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
 import 'package:lauschi/features/player/player_provider.dart';
@@ -9,14 +12,63 @@ import 'package:lauschi/features/player/player_state.dart';
 ///
 /// Expands from the now-playing bar via hero animation on the album art.
 /// Swipe down or tap the collapse handle to return to the card grid.
-class PlayerScreen extends ConsumerWidget {
+class PlayerScreen extends ConsumerStatefulWidget {
   const PlayerScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<PlayerScreen> createState() => _PlayerScreenState();
+}
+
+class _PlayerScreenState extends ConsumerState<PlayerScreen>
+    with SingleTickerProviderStateMixin {
+  late final Ticker _ticker;
+  int _interpolatedPositionMs = 0;
+  DateTime _lastTickTime = DateTime.now();
+
+  @override
+  void initState() {
+    super.initState();
+    _ticker = createTicker(_onTick);
+    unawaited(_ticker.start());
+  }
+
+  @override
+  void dispose() {
+    _ticker.dispose();
+    super.dispose();
+  }
+
+  void _onTick(Duration elapsed) {
+    final state = ref.read(playerNotifierProvider);
+    if (state.isPlaying && state.durationMs > 0) {
+      final now = DateTime.now();
+      final deltaMs = now.difference(_lastTickTime).inMilliseconds;
+      _lastTickTime = now;
+      setState(() {
+        _interpolatedPositionMs = (_interpolatedPositionMs + deltaMs)
+            .clamp(0, state.durationMs);
+      });
+    } else {
+      _lastTickTime = DateTime.now();
+      if (_interpolatedPositionMs != state.positionMs) {
+        setState(() {
+          _interpolatedPositionMs = state.positionMs;
+        });
+      }
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final state = ref.watch(playerNotifierProvider);
     final notifier = ref.read(playerNotifierProvider.notifier);
     final track = state.track;
+
+    // Snap to server position on state change events
+    if ((state.positionMs - _interpolatedPositionMs).abs() > 2000 ||
+        !state.isPlaying) {
+      _interpolatedPositionMs = state.positionMs;
+    }
 
     return Scaffold(
       body: SafeArea(
@@ -51,14 +103,18 @@ class PlayerScreen extends ConsumerWidget {
                 child: _TrackInfo(track: track),
               ),
               const SizedBox(height: AppSpacing.lg),
-              // Progress bar
+              // Progress bar with interpolated position
               Padding(
                 padding: const EdgeInsets.symmetric(
                   horizontal: AppSpacing.xl,
                 ),
                 child: _ProgressBar(
-                  state: state,
-                  onSeek: notifier.seek,
+                  positionMs: _interpolatedPositionMs,
+                  durationMs: state.durationMs,
+                  onSeek: (ms) {
+                    _interpolatedPositionMs = ms;
+                    unawaited(notifier.seek(ms));
+                  },
                 ),
               ),
               const SizedBox(height: AppSpacing.lg),
@@ -205,12 +261,17 @@ class _TrackInfo extends StatelessWidget {
 
 class _ProgressBar extends StatelessWidget {
   const _ProgressBar({
-    required this.state,
+    required this.positionMs,
+    required this.durationMs,
     required this.onSeek,
   });
 
-  final PlaybackState state;
+  final int positionMs;
+  final int durationMs;
   final void Function(int positionMs) onSeek;
+
+  double get _progress =>
+      durationMs > 0 ? (positionMs / durationMs).clamp(0.0, 1.0) : 0.0;
 
   @override
   Widget build(BuildContext context) {
@@ -227,10 +288,10 @@ class _ProgressBar extends StatelessWidget {
             trackShape: RoundedRectSliderTrackShape(),
           ),
           child: Slider(
-            value: state.progress,
+            value: _progress,
             onChanged: (value) {
-              if (state.durationMs > 0) {
-                onSeek((value * state.durationMs).round());
+              if (durationMs > 0) {
+                onSeek((value * durationMs).round());
               }
             },
           ),
@@ -241,7 +302,7 @@ class _ProgressBar extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                _formatDuration(state.positionMs),
+                _formatDuration(positionMs),
                 style: const TextStyle(
                   fontFamily: 'Nunito',
                   fontSize: 12,
@@ -249,7 +310,7 @@ class _ProgressBar extends StatelessWidget {
                 ),
               ),
               Text(
-                _formatDuration(state.durationMs),
+                _formatDuration(durationMs),
                 style: const TextStyle(
                   fontFamily: 'Nunito',
                   fontSize: 12,

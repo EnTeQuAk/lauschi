@@ -32,15 +32,37 @@ class SpotifyApi {
   /// Start playback of a Spotify URI on a specific device.
   ///
   /// Track URIs use `uris`, context URIs (album/playlist) use `context_uri`.
-  Future<void> play(String spotifyUri, {required String deviceId}) async {
+  /// Start playback of a Spotify URI.
+  ///
+  /// For resume: pass [offsetUri] (track URI within context) and
+  /// [positionMs] to start at a specific position.
+  Future<void> play(
+    String spotifyUri, {
+    required String deviceId,
+    String? offsetUri,
+    int? positionMs,
+  }) async {
     final isTrack = spotifyUri.startsWith('spotify:track:');
-    final body = isTrack
-        ? {'uris': [spotifyUri]}
-        : {'context_uri': spotifyUri};
+    final body = <String, Object>{};
+
+    if (isTrack) {
+      body['uris'] = [spotifyUri];
+    } else {
+      body['context_uri'] = spotifyUri;
+    }
+
+    if (offsetUri != null) {
+      body['offset'] = {'uri': offsetUri};
+    }
+    if (positionMs != null && positionMs > 0) {
+      body['position_ms'] = positionMs;
+    }
 
     Log.info(_tag, 'PUT /me/player/play', data: {
       'uri': spotifyUri,
       'device_id': deviceId,
+      if (offsetUri != null) 'offset': offsetUri,
+      if (positionMs != null) 'position_ms': '$positionMs',
     });
 
     await _request(

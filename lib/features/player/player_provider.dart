@@ -1,6 +1,7 @@
-import 'dart:async' show StreamSubscription, unawaited;
+import 'dart:async' show StreamSubscription, Timer, unawaited;
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lauschi/core/database/card_repository.dart';
 import 'package:lauschi/core/log.dart';
 import 'package:lauschi/core/spotify/spotify_api.dart';
 import 'package:lauschi/core/spotify/spotify_auth_provider.dart';
@@ -45,6 +46,7 @@ class PlayerNotifier extends _$PlayerNotifier {
   SpotifyPlayerBridge? _bridge;
   SpotifyApi? _api;
   StreamSubscription<PlaybackState>? _subscription;
+  Timer? _positionSaveTimer;
 
   /// URI of the album/context currently being played.
   /// Used to highlight the active card in the grid.
@@ -59,9 +61,13 @@ class PlayerNotifier extends _$PlayerNotifier {
     unawaited(_subscription?.cancel());
     _subscription = _bridge!.stateStream.listen((playbackState) {
       state = playbackState;
+      _onStateChange(playbackState);
     });
 
-    ref.onDispose(() => _subscription?.cancel());
+    ref.onDispose(() {
+      unawaited(_subscription?.cancel());
+      _positionSaveTimer?.cancel();
+    });
 
     return const PlaybackState();
   }
@@ -151,6 +157,84 @@ class PlayerNotifier extends _$PlayerNotifier {
       await _bridge!.seek(positionMs);
     } on Exception catch (e) {
       Log.error(_tag, 'Seek failed', exception: e);
+    }
+  }
+
+  /// Resume playback for a card, restoring saved position.
+  Future<void> playCard(String spotifyUri) async {
+    final cards = ref.read(cardRepositoryProvider);
+    final card = await cards.getByProviderUri(spotifyUri);
+
+    _activeContextUri = spotifyUri;
+
+    final deviceId = state.deviceId;
+    if (deviceId == null || _api == null) {
+      Log.error(_tag, 'Cannot play — no device ID');
+      return;
+    }
+
+    Log.info(_tag, 'Playing card', data: {
+      'uri': spotifyUri,
+      'resumeTrack': card?.lastTrackUri ?? 'none',
+      'resumeMs': '${card?.lastPositionMs ?? 0}',
+    });
+
+    try {
+      // If we have a saved position, resume at that track + offset.
+      if (card != null &&
+          card.lastTrackUri != null &&
+          card.lastPositionMs > 0) {
+        await _api!.play(
+          spotifyUri,
+          deviceId: deviceId,
+          offsetUri: card.lastTrackUri,
+          positionMs: card.lastPositionMs,
+        );
+      } else {
+        await _api!.play(spotifyUri, deviceId: deviceId);
+      }
+    } on Exception catch (e) {
+      Log.error(_tag, 'Play failed', exception: e);
+    }
+  }
+
+  /// Save position periodically while playing.
+  void _onStateChange(PlaybackState newState) {
+    if (newState.isPlaying) {
+      _startPositionSave();
+    } else {
+      _positionSaveTimer?.cancel();
+      // Save immediately on pause
+      unawaited(_savePosition());
+    }
+  }
+
+  void _startPositionSave() {
+    _positionSaveTimer?.cancel();
+    // Save every 10 seconds while playing
+    _positionSaveTimer = Timer.periodic(
+      const Duration(seconds: 10),
+      (_) => unawaited(_savePosition()),
+    );
+  }
+
+  Future<void> _savePosition() async {
+    final uri = _activeContextUri;
+    final track = state.track;
+    if (uri == null || track == null || state.positionMs <= 0) return;
+
+    try {
+      final cards = ref.read(cardRepositoryProvider);
+      final card = await cards.getByProviderUri(uri);
+      if (card == null) return;
+
+      await cards.savePosition(
+        cardId: card.id,
+        trackUri: track.uri,
+        positionMs: state.positionMs,
+      );
+    } on Exception catch (e) {
+      Log.error(_tag, 'Position save failed', exception: e);
     }
   }
 }

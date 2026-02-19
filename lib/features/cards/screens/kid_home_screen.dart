@@ -70,8 +70,10 @@ class KidHomeScreen extends ConsumerWidget {
                         cards: cards,
                         activeUri: playerNotifier.activeContextUri,
                         isPlaying: playerState.isPlaying,
+                        // Show active state when playing or paused with a track
+                        isActive: playerState.track != null,
                         onCardTap: (card) =>
-                            playerNotifier.play(card.providerUri),
+                            playerNotifier.playCard(card.providerUri),
                       ),
                 loading: () => const Center(
                   child: CircularProgressIndicator(),
@@ -104,12 +106,14 @@ class _CardGrid extends StatelessWidget {
     required this.cards,
     required this.activeUri,
     required this.isPlaying,
+    required this.isActive,
     required this.onCardTap,
   });
 
   final List<db.Card> cards;
   final String? activeUri;
   final bool isPlaying;
+  final bool isActive;
   final void Function(db.Card card) onCardTap;
 
   @override
@@ -137,14 +141,15 @@ class _CardGrid extends StatelessWidget {
           itemCount: cards.length,
           itemBuilder: (context, index) {
             final card = cards[index];
-            final isActive =
-                isPlaying && activeUri == card.providerUri;
+            final isCurrentCard =
+                isActive && activeUri == card.providerUri;
 
             return AudioCard(
               key: ValueKey(card.id),
               title: card.customTitle ?? card.title,
               coverUrl: card.coverUrl,
-              isPlaying: isActive,
+              isPlaying: isCurrentCard && isPlaying,
+              isPaused: isCurrentCard && !isPlaying,
               onTap: () => onCardTap(card),
             );
           },

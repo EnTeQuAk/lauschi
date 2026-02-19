@@ -15,11 +15,13 @@ class AudioCard extends StatefulWidget {
     super.key,
     this.coverUrl,
     this.isPlaying = false,
+    this.isPaused = false,
   });
 
   final String title;
   final String? coverUrl;
   final bool isPlaying;
+  final bool isPaused;
   final VoidCallback onTap;
 
   @override
@@ -83,8 +85,13 @@ class _AudioCardState extends State<AudioCard>
               child: Container(
                 decoration: BoxDecoration(
                   borderRadius: const BorderRadius.all(AppRadius.card),
-                  border: widget.isPlaying
-                      ? Border.all(color: AppColors.primary, width: 3)
+                  border: (widget.isPlaying || widget.isPaused)
+                      ? Border.all(
+                          color: widget.isPlaying
+                              ? AppColors.primary
+                              : AppColors.primarySoft,
+                          width: 3,
+                        )
                       : null,
                 ),
                 clipBehavior: Clip.antiAlias,
@@ -93,6 +100,7 @@ class _AudioCardState extends State<AudioCard>
                   children: [
                     _CoverImage(url: widget.coverUrl),
                     if (widget.isPlaying) const _PlayBadge(),
+                    if (widget.isPaused) const _PauseBadge(),
                   ],
                 ),
               ),
@@ -216,6 +224,31 @@ class _PlayBadge extends StatelessWidget {
         ),
         child: const Icon(
           Icons.play_arrow_rounded,
+          color: AppColors.textOnPrimary,
+          size: 16,
+        ),
+      ),
+    );
+  }
+}
+
+class _PauseBadge extends StatelessWidget {
+  const _PauseBadge();
+
+  @override
+  Widget build(BuildContext context) {
+    return Positioned(
+      right: 6,
+      bottom: 6,
+      child: Container(
+        width: 24,
+        height: 24,
+        decoration: const BoxDecoration(
+          color: AppColors.primarySoft,
+          shape: BoxShape.circle,
+        ),
+        child: const Icon(
+          Icons.pause_rounded,
           color: AppColors.textOnPrimary,
           size: 16,
         ),
