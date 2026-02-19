@@ -42,7 +42,7 @@ class ParentDashboardScreen extends ConsumerWidget {
           _SettingsTile(
             icon: Icons.library_music_rounded,
             title: '$cardCount Karten verwalten',
-            onTap: () => context.push(AppRoutes.parentAddCard),
+            onTap: () => context.push(AppRoutes.parentManageCards),
           ),
           const Divider(indent: 56),
           _SettingsTile(
