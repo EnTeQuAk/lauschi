@@ -191,6 +191,13 @@ class CardRepository {
     );
   }
 
+  /// Get ungrouped cards as a one-shot fetch.
+  Future<List<AudioCard>> getUngrouped() {
+    return (_db.select(_db.cards)
+      ..where((t) => t.groupId.isNull())
+      ..orderBy([(t) => OrderingTerm.asc(t.sortOrder)])).get();
+  }
+
   /// Watch ungrouped cards (top-level items on kid home).
   Stream<List<AudioCard>> watchUngrouped() {
     return (_db.select(_db.cards)

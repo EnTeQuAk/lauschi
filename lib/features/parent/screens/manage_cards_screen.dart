@@ -4,11 +4,15 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:lauschi/core/catalog/catalog_service.dart';
 import 'package:lauschi/core/database/app_database.dart' as db;
 import 'package:lauschi/core/database/card_repository.dart';
 import 'package:lauschi/core/database/group_repository.dart';
+import 'package:lauschi/core/log.dart';
 import 'package:lauschi/core/router/app_router.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
+
+const _tag = 'ManageCards';
 
 /// Manage existing cards: view, reorder, assign to groups, delete.
 class ManageCardsScreen extends ConsumerWidget {
@@ -28,6 +32,24 @@ class ManageCardsScreen extends ConsumerWidget {
             onPressed: () => context.push(AppRoutes.parentAddCard),
             icon: const Icon(Icons.add_rounded),
             tooltip: 'Hörspiel hinzufügen',
+          ),
+          PopupMenuButton<_MenuAction>(
+            onSelected: (action) {
+              if (action == _MenuAction.sortIntoSeries) {
+                unawaited(_runRetroactiveSort(context, ref));
+              }
+            },
+            itemBuilder: (_) => const [
+              PopupMenuItem(
+                value: _MenuAction.sortIntoSeries,
+                child: ListTile(
+                  leading: Icon(Icons.auto_awesome_rounded),
+                  title: Text('In Serien einordnen'),
+                  subtitle: Text('Ungroupierte Karten automatisch sortieren'),
+                  contentPadding: EdgeInsets.zero,
+                ),
+              ),
+            ],
           ),
         ],
       ),
@@ -383,5 +405,102 @@ class _GroupPickerSheet extends ConsumerWidget {
         ],
       ),
     );
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Retroactive series sorting
+// ---------------------------------------------------------------------------
+
+enum _MenuAction { sortIntoSeries }
+
+/// Runs keyword-only catalog matching against all ungrouped cards and
+/// assigns matches to their series groups. Keyword-only because stored cards
+/// have no artist IDs — albums whose titles omit the series name (e.g.
+/// "Folge 38: Eile mit Weile") will not be matched and stay ungrouped.
+Future<void> _runRetroactiveSort(BuildContext context, WidgetRef ref) async {
+  final catalog = ref.read(catalogServiceProvider).value;
+  if (catalog == null) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Katalog noch nicht geladen.')),
+    );
+    return;
+  }
+
+  // Show loading dialog
+  unawaited(showDialog<void>(
+    context: context,
+    barrierDismissible: false,
+    builder: (_) => const AlertDialog(
+      content: Row(
+        children: [
+          CircularProgressIndicator(),
+          SizedBox(width: 20),
+          Text('Karten werden sortiert…'),
+        ],
+      ),
+    ),
+  ));
+
+  try {
+    final cardRepo = ref.read(cardRepositoryProvider);
+    final groupRepo = ref.read(groupRepositoryProvider);
+    final ungrouped = await cardRepo.getUngrouped();
+
+    // Keyword-only match (no artist IDs in stored cards)
+    final grouped = <String, String>{}; // seriesTitle → groupId
+    var matchCount = 0;
+
+    for (final card in ungrouped) {
+      final match = catalog.match(card.title);
+      if (match == null) continue;
+
+      final title = match.series.title;
+      if (!grouped.containsKey(title)) {
+        final existing = await groupRepo.findByTitle(title);
+        grouped[title] = existing?.id ?? await groupRepo.insert(title: title);
+      }
+
+      await cardRepo.assignToGroup(
+        cardId: card.id,
+        groupId: grouped[title]!,
+        episodeNumber: match.episodeNumber,
+      );
+      matchCount++;
+    }
+
+    Log.info(_tag, 'Retroactive sort complete', data: {
+      'ungrouped': ungrouped.length,
+      'matched': matchCount,
+      'series': grouped.length,
+    });
+
+    if (context.mounted) Navigator.of(context).pop(); // close loading dialog
+
+    if (context.mounted) {
+      final msg = matchCount == 0
+          ? 'Keine Karten konnten zugeordnet werden.\n'
+              'Tipp: Karten ohne Serienname im Titel (z.B. „Folge 38: Eile mit Weile") '
+              'müssen manuell einer Serie zugewiesen werden.'
+          : '$matchCount Karten zu ${grouped.length} '
+              '${grouped.length == 1 ? 'Serie' : 'Serien'} sortiert.';
+
+      unawaited(showDialog<void>(
+        context: context,
+        builder: (_) => AlertDialog(
+          title: const Text('Serien einordnen'),
+          content: Text(msg),
+          actions: [
+            FilledButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text('OK'),
+            ),
+          ],
+        ),
+      ));
+    }
+  } on Exception catch (e) {
+    if (context.mounted) Navigator.of(context).pop();
+    Log.error(_tag, 'Retroactive sort failed', exception: e);
   }
 }
