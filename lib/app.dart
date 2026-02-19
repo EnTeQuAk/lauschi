@@ -1,7 +1,9 @@
-import 'dart:async' show unawaited;
+import 'dart:async' show StreamSubscription, unawaited;
 
+import 'package:app_links/app_links.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lauschi/core/log.dart';
 import 'package:lauschi/core/router/app_router.dart';
 import 'package:lauschi/core/spotify/spotify_auth_provider.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
@@ -17,13 +19,45 @@ class LauschiApp extends ConsumerStatefulWidget {
 }
 
 class _LauschiAppState extends ConsumerState<LauschiApp> {
+  late final AppLinks _appLinks;
+  StreamSubscription<Uri>? _linkSub;
+
   @override
   void initState() {
     super.initState();
-    // Check onboarding state from SharedPreferences.
     unawaited(
       ref.read(onboardingCompleteProvider.notifier).checkAsync(),
     );
+    unawaited(_initDeepLinks());
+  }
+
+  Future<void> _initDeepLinks() async {
+    _appLinks = AppLinks();
+
+    // Handle link that launched the app (cold start)
+    final initial = await _appLinks.getInitialLink();
+    if (initial != null) await _handleDeepLink(initial);
+
+    // Handle links while app is running (warm start)
+    _linkSub = _appLinks.uriLinkStream.listen(_onDeepLink);
+  }
+
+  void _onDeepLink(Uri uri) {
+    unawaited(_handleDeepLink(uri));
+  }
+
+  Future<void> _handleDeepLink(Uri uri) async {
+    Log.info('DeepLink', 'Received', data: {'uri': '$uri'});
+    if (uri.scheme == 'lauschi' && uri.host == 'callback') {
+      final auth = ref.read(spotifyAuthProvider);
+      await auth.handleCallback(uri);
+    }
+  }
+
+  @override
+  void dispose() {
+    unawaited(_linkSub?.cancel());
+    super.dispose();
   }
 
   @override
