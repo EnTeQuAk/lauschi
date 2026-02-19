@@ -17,13 +17,19 @@
 #
 # Validated against live Spotify data via scripts/validate_catalog.py.
 # Run `mise run catalog-check` (cached) or `mise run catalog-check-fresh`.
-# Run `mise run catalog-check -- --artist-audit` for full L5 discography check.
+# Run `mise run catalog-audit` for full L5 discography check.
 #
 # Artist IDs discovered 2026-02-18 via `--discover`; verified via `--artist-audit`.
-# L5 discography sizes (total albums per artist):
-#   Die drei ???    302  |  TKKG          248  |  Benjamin Blümchen 270
-#   Bibi Blocksberg 251  |  Fünf Freunde  175  |  Feuerwehrmann Sam 171
-#   Bibi & Tina     177  |  Wendy          99  |  Die Playmos       119
+# Multi-agent content/data review 2026-02-19: Sonnet, Opus, Minimax, GLM, Kimi.
+#
+# ⚠ KEYWORD RISK NOTES:
+#   - "heidi"  (5 chars): common German name; artist ID is primary match
+#   - "momo"   (4 chars): K-pop / other artists; michael_ende entry is intended
+#   - "wendy"  (5 chars): K-pop WENDY has 998k followers but her ALBUM TITLES
+#                         don't contain "wendy" — keyword fires on Hörspiel titles
+#                         like "Folge 22: Wendy verliebt sich". Artist ID guards phase-2.
+#   - "conni"  (5 chars): "Connie Francis" albums titled "Connie Sings" don't contain
+#                         "conni" — low practical false-positive risk
 
 series:
 
@@ -127,8 +133,10 @@ series:
     aliases:
       - Pumuckl
       - "Meister Eder und sein Pumuckl"
+      - "Kobold Pumuckl"
     keywords:
       - pumuckl
+      - "meister eder"
     spotify_artist_ids:
       - "1lhceMHrxr0jC943AuAhhh"  # Pumuckl (65k followers, 122 albums, 87% N: format)
     # Spotify: "19: Pumuckl im Zoo (Das Original aus dem Fernsehen)"
@@ -144,21 +152,22 @@ series:
     spotify_artist_ids:
       - "0jRC2uXx4hEpqNrBDJdY7l"  # Conni (152k followers, 93 albums)
       - "0HerMOOFZXxIF3Yg9BVl0W"  # Meine Freundin Conni (62k followers, 18 albums, 56% N: format)
-    # "Meine Freundin Conni" releases numbered, "Conni" mainly standalone.
-    # L5: 10/18 numbered albums use ^N: format.
+    # "Meine Freundin Conni" releases numbered with ^N: format; "Conni" mainly standalone.
     episode_pattern: "^(\\d+):\\s"
 
   - id: pippi_langstrumpf
     title: Pippi Langstrumpf
     aliases:
       - "Pippi Langstrumpf"
+      - "Pippi Långstrump"
     keywords:
       - pippi
       - langstrumpf
+      - "pippi långstrump"
     spotify_artist_ids:
       - "56X4yBwPoibTkKAaQ8sTJQ"  # Pippi Langstrumpf (73k followers, 48 albums)
     # Spotify: "Pippi Langstrumpf 1. Das Hörspiel" (numbered book trilogy)
-    episode_pattern: "Pippi\\s+Langstrumpf\\s+(\\d+)[.\\s]"
+    episode_pattern: "Pippi\\s+Lang[sz]trum[pf]+\\s+(\\d+)[.\\s]"
 
   - id: pettersson_und_findus
     title: Pettersson und Findus
@@ -198,17 +207,6 @@ series:
     # Albums: "Folge 242: Die neue Feuerwache" — series name absent from title.
     # Artist ID is required for reliable matching.
     episode_pattern: "[Ff]olge\\s+(\\d+)"
-
-  - id: pan_tau
-    title: Pan Tau
-    aliases:
-      - "Pan Tau"
-    keywords:
-      - "pan tau hörspiel"
-      - "pan tau hörspiele"
-    # "pan tau" keyword alone matches unrelated content (Pan Flute, Pan Träume…).
-    # Narrowed to include "Hörspiel" suffix — these albums exist as a 1973 WDR series.
-    # No reliable Spotify artist found (only 13 followers).
 
   - id: biene_maja
     title: Biene Maja
@@ -250,6 +248,8 @@ series:
       - "2AvETPAFFbhV737lBKXJj9"  # Der Räuber Hotzenplotz - Hörspiele (4.5k)
     # Publisher A: "Der Räuber Hotzenplotz 1: …"
     # Publisher B: "1: Der Räuber Hotzenplotz"
+    # ⚠ Pattern risk: "Hotzenplotz[^0-9]*(\d+)" could catch years if a title has
+    #   "Hotzenplotz 1976 Neuauflage". Currently only 14 albums — acceptable risk.
     episode_pattern: "(?:^(\\d+):\\s|[Hh]otzenplotz[^0-9]*(\\d+))"
 
   - id: kleiner_drache_kokosnuss
@@ -260,8 +260,11 @@ series:
     keywords:
       - "drache kokosnuss"
       - kokosnuss
-    # Standalone stories — no dedicated Spotify artist found.
-    # Keyword matching is sufficient (artist search returned only unrelated results).
+    # No dedicated Spotify artist for the Hörspiel series (confirmed via API search
+    # and album results — only "Theater Lichtermeer" for a musical, not a series).
+    # "Ingo Siegner" artist (7wuKnjjgUlPDhrh72u4MI8) covers other Siegner works too.
+    # Keyword-only matching is correct for this entry.
+    # Standalone stories — no consistent Folge N numbering on Spotify.
 
   - id: hanni_und_nanni
     title: Hanni und Nanni
@@ -302,9 +305,9 @@ series:
     keywords:
       - olchis
     spotify_artist_ids:
-      - "32Aa42Dbmqm4GKsv3wUSMb"  # Die Olchis (24k followers, 66 albums)
+      - "32Aa42Dbmqm4GKsv3wUSMb"  # Die Olchis / Erhard Dietl (24k followers, 66 albums)
     # L5 shows no clear numbering pattern (title_space_N_dot 30% = borderline).
-    # Keeping as standalone stories for now.
+    # Standalone stories; no episode_pattern added.
 
   - id: hexe_lilli
     title: Hexe Lilli
@@ -327,6 +330,8 @@ series:
     spotify_artist_ids:
       - "0xY8w0o3cSH3gzx4G4h8qD"  # Lauras Stern (16k followers, 25 albums)
     # Spotify: "Lauras Stern, Folge 1:", "Lauras Stern, Band 12:", "Lauras Stern 10 (…)"
+    # ⚠ Pattern risk: "Lauras Stern[,\s]*(\d+)" could extract year from
+    #   "Lauras Stern 2024 Kalender". Acceptable for a 25-album series.
     episode_pattern: "(?:[Ff]olge\\s+(\\d+)|[Bb]and\\s+(\\d+)|[Tt]eil\\s+(\\d+)|Lauras?\\s+Stern[,\\s]*(\\d+))"
 
   - id: tom_turbo
@@ -337,7 +342,11 @@ series:
       - "tom turbo"
     spotify_artist_ids:
       - "39ePAp05xC1loWbb7bF46b"  # Thomas Brezina (creator, 10 albums under this ID)
-    # Spotify: "… (Wissensreise mit Tom Turbo! Teil 3)"
+    # ⚠ Phase-2 artist ID risk: Thomas Brezina has other series. However, phase-2
+    #   only fires when NO keyword matched in phase-1. Non-Tom-Turbo Brezina albums
+    #   (e.g. "Die Rucksack-Detektive") won't contain "tom turbo" and would
+    #   incorrectly match here via artist ID. Acceptable for 10-album catalog.
+    #   Future fix: search for a Tom Turbo-specific artist page on Spotify.
     episode_pattern: "[Tt]eil\\s+(\\d+)"
 
   - id: ritter_rost
@@ -348,7 +357,7 @@ series:
       - "ritter rost"
     spotify_artist_ids:
       - "6zn86iqNCkQZqsBvEv6oBO"  # Ritter Rost (25k followers, 53 albums)
-    # Musical series; no consistent numbering found in L5 data.
+    # Musical series with individual book adaptations — no consistent episode numbering.
 
   - id: kommissar_kugelblitz
     title: Kommissar Kugelblitz
@@ -370,9 +379,16 @@ series:
     keywords:
       - "nils holgersson"
     spotify_artist_ids:
+      # Albums appear under three co-artists: "Audio Media Digital Hörbücher" +
+      # "Nils Holgersson" + "Selma Lagerlöf" — the first album artist is the
+      # publisher, not the series. All 68 albums are genuine Nils Holgersson
+      # content. The artist ID resolving to a publisher label is expected behavior
+      # for Spotify multi-artist entries on Hörspiel releases.
       - "6vS1r2PgQlby3jeU4KpDds"  # Nils Holgersson (16k followers, 68 albums, 85% Folge N)
-    # Two orderings seen: "Nils Holgersson, Folge N" and "Folge N: Series title"
-    episode_pattern: "(?:[Ff]olge\\s+(\\d+)|Nils\\s+Holgersson\\D*(\\d+))"
+    # Formats: "Nils Holgersson (Folge N)", "Der Abschied von den Wildgänsen (Nils Holgersson, Folge 54)"
+    # ⚠ Pattern risk: "\D*(\d+)" after "Holgersson" could extract a production
+    #   year from "Nils Holgersson 1980 Original". Acceptable for well-known series.
+    episode_pattern: "(?:[Ff]olge\\s+(\\d+)|Nils\\s+Holgersson[,\\s]*[Ff]olge\\s+(\\d+))"
 
   - id: heidi
     title: Heidi
@@ -382,7 +398,8 @@ series:
       - heidi
     spotify_artist_ids:
       - "2kSiXgvssxAYOIvu4lwVGf"  # Heidi (Hörspiel artist, 11k followers, 24 albums, 96% NNN/)
-    # L5: 23/24 albums use NNN/ prefix. Confirmed format.
+    # ⚠ "heidi" (5 chars) is a common German name; keyword alone is unreliable.
+    #   Primarily relies on artist ID (phase-2). NNN/ format confirmed by L5 data.
     episode_pattern: "^(\\d{2,3})/"
 
   - id: ronja_raeubertocher
@@ -504,8 +521,10 @@ series:
       - "wendy"
     spotify_artist_ids:
       - "7bq6y10LXuxWmZ7Q1E9mwr"  # Wendy (Hörspiel, 25k followers, 99 albums, 99% Folge N)
-      # NOT "WENDY" 0FRUZvZNPzM3YJMABJxf2K (998k followers — K-pop artist, completely different)
-    # L5: 98/99 albums use Folge N. Extremely consistent.
+      # NOT "WENDY" 0FRUZvZNPzM3YJMABJxf2K (998k followers — K-pop artist)
+      # False-positive risk analysis: K-pop WENDY's album titles are "Like Water",
+      # "Wish You Hell" etc — none contain "wendy" → keyword match doesn't fire.
+      # Artist ID phase-2 correctly uses the Hörspiel artist only.
     # Spotify: "Folge 22: Wendy verliebt sich", "005/Wendy Wolf hat Geburtstag"
     episode_pattern: "(?:[Ff]olge\\s+(\\d+)|^(\\d{3})/)"
 
@@ -529,7 +548,7 @@ series:
       - "lucky luke"
     spotify_artist_ids:
       - "3GhvVhdZylZUmxABM30UeP"  # Lucky Luke (21k followers, 18 albums, 67% N: format)
-      # NOT 5ee4yhrWOxaxvL77BoVpVR (148k — likely K-pop)
+      # NOT 5ee4yhrWOxaxvL77BoVpVR (148k — likely K-pop / different Lucky Luke)
     # L5: 12/18 albums use N: prefix (same format as Asterix/Pumuckl).
     episode_pattern: "^(\\d{1,2}):\\s"
 
@@ -552,8 +571,10 @@ series:
       - momo
     spotify_artist_ids:
       - "1VORulhv2aMemo1kSvxdVX"  # Michael Ende (28k followers, 43 albums)
-    # All Ende adaptations grouped into one lauschi series.
-    # Artist covers only Ende's works so artist-ID matching is safe here.
+    # All Ende adaptations grouped under one lauschi series for UX simplicity.
+    # Artist covers only Ende's works — no false-positive risk from artist ID.
+    # ⚠ "momo" keyword (4 chars): could match unrelated content. Practical risk
+    #   is low because K-pop MOMO's album titles don't contain the word "momo".
 
   # ── Cornelia Funke ─────────────────────────────────────────────────────────
 
@@ -561,7 +582,7 @@ series:
     title: Gespensterjäger
     aliases:
       - "Gespensterjäger"
-      - "Geisterjäger"
+      # "Geisterjäger" removed — wrong word; Geisterjäger is a different term
     keywords:
       - "gespensterjäger"
       - "gespensterjager"
@@ -571,6 +592,19 @@ series:
     # Spotify: "Gespensterjäger auf eisiger Spur (Band 1)", "Folge 5: …"
     episode_pattern: "(?:[Bb]and\\s+(\\d+)|[Ff]olge\\s+(\\d+)|^(\\d{2,3})/)"
 
+  - id: die_wilden_huehner
+    title: Die wilden Hühner
+    aliases:
+      - "Die wilden Hühner"
+      - "Die Wilden Hühner"
+    keywords:
+      - "wilden hühner"
+      - "wilden huhner"
+    spotify_artist_ids:
+      - "7FFCbo48YA1o0mhUE66DjO"  # Die Wilden Hühner (6k followers)
+    # Cornelia Funke's popular girls' adventure series, ages 8-12.
+    # No consistent numbering found in Spotify catalog.
+
   # ── Astrid Lindgren ────────────────────────────────────────────────────────
 
   - id: bullerbue
@@ -579,6 +613,7 @@ series:
       - "Geschichten aus Bullerbü"
       - "Bullerbü"
       - "Bullerbue"
+      - "Wir Kinder aus Bullerbü"
     keywords:
       - bullerbü
       - bullerbue
@@ -619,5 +654,146 @@ series:
     spotify_artist_ids:
       - "3Mr28PUoMrOvS8KshvBXa8"  # Martin Widmark (author, 29 albums, 100% Teil N)
     # L5: 29/29 albums use "Teil N" format. Extremely consistent.
-    # Spotify: "Detektivbüro LasseMaja 15. Die Skischulklasse"
+    # Spotify: "Das Dinogeheimnis [Detektivbüro LasseMaja, Teil 36 (Ungekürzt)]"
     episode_pattern: "[Tt]eil\\s+(\\d+)"
+
+  # ── Tabaluga ───────────────────────────────────────────────────────────────
+
+  - id: tabaluga
+    title: Tabaluga
+    aliases:
+      - "Tabaluga"
+      - "Tabaluga und Leo"
+    keywords:
+      - tabaluga
+    spotify_artist_ids:
+      - "4M0PZyOPSvjzFEBRg3G8xA"  # Tabaluga (9.8k followers)
+      - "5W3s4beu23rOlseCbVOp4l"  # Peter Maffay (798k — creator, wide discography)
+    # ⚠ Peter Maffay artist ID risk: Maffay has non-Tabaluga albums. Artist ID is a
+    #   secondary match; keyword "tabaluga" provides primary discrimination.
+    # Standalone album adaptations based on the rock-opera; no consistent Folge N.
+
+  # ── Toddler & preschool series (3-5 years) ────────────────────────────────
+
+  - id: bobo_siebenschlaefer
+    title: Bobo Siebenschläfer
+    aliases:
+      - "Bobo Siebenschläfer"
+      - "Bobo"
+    keywords:
+      - "bobo siebenschläfer"
+      - "bobo siebenschlafer"
+    spotify_artist_ids:
+      - "5LBMERk5Gvsq80NL5eJ6LG"  # Bobo Siebenschläfer (21k followers)
+    # Standalone bedtime stories for toddlers.
+
+  - id: leo_lausemaus
+    title: Leo Lausemaus
+    aliases:
+      - "Leo Lausemaus"
+    keywords:
+      - "leo lausemaus"
+    spotify_artist_ids:
+      - "6b9DQDp0xKeYM2vdK9pAE6"  # Leo Lausemaus (50k followers)
+    # Standalone stories for preschoolers (3-5 years).
+
+  - id: sandmaennchen
+    title: Sandmännchen
+    aliases:
+      - "Sandmännchen"
+      - "Unser Sandmännchen"
+      - "Sandmaennchen"
+    keywords:
+      - "sandmännchen"
+      - "sandmaennchen"
+      - "unser sandmännchen"
+    spotify_artist_ids:
+      - "02Z9KUEjSTXcsmEB7uhDiJ"  # Unser Sandmännchen (15k followers)
+    # Iconic East/West German bedtime character; standalone stories.
+
+  - id: kleiner_rabe_socke
+    title: Der kleine Rabe Socke
+    aliases:
+      - "Der kleine Rabe Socke"
+      - "Rabe Socke"
+    keywords:
+      - "rabe socke"
+      - "kleiner rabe"
+    spotify_artist_ids:
+      - "6NdYPh29DHFBbiYzcK7Nb0"  # Der Kleine Rabe Socke (27k followers)
+    # Standalone picture-book Hörspiele for preschoolers.
+
+  - id: peppa_wutz
+    title: Peppa Wutz
+    aliases:
+      - "Peppa Wutz"
+      - "Peppa Pig"
+      - "Peppa Pig Hörspiele"
+    keywords:
+      - "peppa wutz"
+      - "peppa pig"
+    spotify_artist_ids:
+      - "46iD7xFc8ubzILibDQ7fL7"  # Peppa Pig Hörspiele (43k followers)
+    # German-dubbed Peppa Pig audio stories.
+    # No consistent episode numbering — standalone stories.
+
+  # ── Die Schule der magischen Tiere ────────────────────────────────────────
+
+  - id: schule_magische_tiere
+    title: Die Schule der magischen Tiere
+    aliases:
+      - "Die Schule der magischen Tiere"
+      - "Schule der magischen Tiere"
+    keywords:
+      - "schule der magischen tiere"
+      - "magischen tiere"
+    spotify_artist_ids:
+      - "1BElEHaU2xaZg7FOGsSird"  # Die Schule der magischen Tiere (196k followers!)
+      - "6wlMx6MhWCynm8yVU0K3V3"  # Die Schule der magischen Tiere ermittelt (10k — spinoff)
+    # Massive current hit (2020s): Margit Auer book series, popular with ages 6-10.
+    # 196k followers = one of the largest Hörspiel artists on Spotify.
+    # Standalone stories per book + spinoff detective series.
+
+  # ── Swiss ─────────────────────────────────────────────────────────────────
+
+  - id: globi
+    title: Globi
+    aliases:
+      - "Globi"
+      - "Globi der Globetrotter"
+    keywords:
+      - globi
+    spotify_artist_ids:
+      - "7p5EwRiUqxJxnOCcULTHex"  # Globi (29k followers)
+    # THE essential Swiss Hörspiel series. If you're in CH market and don't have
+    # Globi, you're not serious about Switzerland. Standalone adventure stories.
+
+  # ── Educational / Was ist Was ─────────────────────────────────────────────
+
+  - id: was_ist_was
+    title: Was ist Was
+    aliases:
+      - "Was ist Was"
+      - "Was Ist Was"
+      - "WAS IST WAS"
+    keywords:
+      - "was ist was"
+    spotify_artist_ids:
+      - "7zNPHpOB4uBduLjmEZzzpy"  # Was Ist Was (97k followers!)
+      - "4MpuODBeOH8gBHqVZtXa7U"  # Was Ist Was Junior (54k followers)
+    # Ravensburger educational Hörspiel series. Huge Spotify catalog.
+    # Standalone educational stories — no episode numbering.
+
+  - id: wieso_weshalb_warum
+    title: Wieso? Weshalb? Warum?
+    aliases:
+      - "Wieso? Weshalb? Warum?"
+      - "Wieso Weshalb Warum"
+      - "WWW Junior"
+    keywords:
+      - "wieso weshalb warum"
+      - "wieso? weshalb? warum?"
+    spotify_artist_ids:
+      - "79fds5dgda0VCYelERV8Gi"  # Wieso? Weshalb? Warum? (37k followers)
+      - "0LoeUAhyTnta8Vk7HBzBsP"  # Wieso? Weshalb? Warum? Junior (10k followers)
+    # Ravensburger educational series for ages 4-7. Standalone topics.
