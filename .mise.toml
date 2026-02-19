@@ -59,3 +59,11 @@ run = "uv run scripts/validate_catalog.py --artist-audit"
 [tasks.catalog-discover]
 description = "Search Spotify for artist candidates for series without artist IDs"
 run = "uv run scripts/validate_catalog.py --discover"
+
+[tasks.catalog-curate]
+description = "AI-curated series.yaml entry via pydantic-ai + Spotify (needs ANTHROPIC_API_KEY)"
+run = "uv run scripts/curate-series.py"
+
+[tasks.catalog-titles]
+description = "Quick artist discovery + optional AI YAML snippet"
+run = "uv run scripts/discover-titles.py"
