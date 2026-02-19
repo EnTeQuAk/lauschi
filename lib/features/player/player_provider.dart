@@ -35,7 +35,12 @@ SpotifyApi spotifyApi(Ref ref) {
 
 @Riverpod(keepAlive: true)
 SpotifyPlayerBridge spotifyPlayerBridge(Ref ref) {
-  final bridge = SpotifyPlayerBridge();
+  final bridge = SpotifyPlayerBridge()
+    // Keep all token consumers in sync when the bridge refreshes tokens.
+    ..onTokenRefreshed = (tokens) {
+      ref.read(spotifyAuthNotifierProvider.notifier).updateTokens(tokens);
+    };
+
   ref.onDispose(bridge.dispose);
   return bridge;
 }
