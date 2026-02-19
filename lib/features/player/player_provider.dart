@@ -173,6 +173,8 @@ class PlayerNotifier extends _$PlayerNotifier {
 
   /// Resume playback for a card, restoring saved position.
   Future<void> playCard(String spotifyUri) async {
+    // Cancel position save timer — new SDK events will restart it.
+    _positionSaveTimer?.cancel();
     _activeContextUri = spotifyUri;
     // ignore: avoid_redundant_argument_values, null clears any previous error
     state = state.copyWith(isLoading: true, error: null);

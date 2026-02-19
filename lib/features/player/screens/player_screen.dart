@@ -40,6 +40,17 @@ class _PlayerScreenState extends ConsumerState<PlayerScreen>
 
   void _onTick(Duration elapsed) {
     final state = ref.read(playerNotifierProvider);
+
+    // Snap to server position on large drift or pause
+    if ((state.positionMs - _interpolatedPositionMs).abs() > 2000 ||
+        !state.isPlaying) {
+      if (_interpolatedPositionMs != state.positionMs) {
+        setState(() => _interpolatedPositionMs = state.positionMs);
+      }
+      _lastTickTime = DateTime.now();
+      return;
+    }
+
     if (state.isPlaying && state.durationMs > 0) {
       final now = DateTime.now();
       final deltaMs = now.difference(_lastTickTime).inMilliseconds;
@@ -48,13 +59,6 @@ class _PlayerScreenState extends ConsumerState<PlayerScreen>
         _interpolatedPositionMs = (_interpolatedPositionMs + deltaMs)
             .clamp(0, state.durationMs);
       });
-    } else {
-      _lastTickTime = DateTime.now();
-      if (_interpolatedPositionMs != state.positionMs) {
-        setState(() {
-          _interpolatedPositionMs = state.positionMs;
-        });
-      }
     }
   }
 
@@ -63,12 +67,6 @@ class _PlayerScreenState extends ConsumerState<PlayerScreen>
     final state = ref.watch(playerNotifierProvider);
     final notifier = ref.read(playerNotifierProvider.notifier);
     final track = state.track;
-
-    // Snap to server position on state change events
-    if ((state.positionMs - _interpolatedPositionMs).abs() > 2000 ||
-        !state.isPlaying) {
-      _interpolatedPositionMs = state.positionMs;
-    }
 
     return Scaffold(
       body: SafeArea(
