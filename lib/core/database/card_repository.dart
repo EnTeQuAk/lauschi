@@ -41,6 +41,7 @@ class CardRepository {
     required String cardType,
     String? coverUrl,
     String provider = 'spotify',
+    List<String>? spotifyArtistIds,
   }) async {
     final id = _uuid.v4();
 
@@ -64,6 +65,9 @@ class CardRepository {
             coverUrl: Value(coverUrl),
             provider: Value(provider),
             sortOrder: Value(nextOrder),
+            spotifyArtistIds: spotifyArtistIds != null && spotifyArtistIds.isNotEmpty
+                ? Value(spotifyArtistIds.join(','))
+                : const Value(null),
           ),
         );
 
@@ -79,6 +83,7 @@ class CardRepository {
     required String cardType,
     String? coverUrl,
     String provider = 'spotify',
+    List<String>? spotifyArtistIds,
   }) async {
     final existing =
         await (_db.select(_db.cards)
@@ -92,6 +97,7 @@ class CardRepository {
       cardType: cardType,
       coverUrl: coverUrl,
       provider: provider,
+      spotifyArtistIds: spotifyArtistIds,
     );
   }
 

@@ -136,4 +136,48 @@ void main() {
     expect(cards[0].id, id2);
     expect(cards[1].id, id1);
   });
+
+  test('spotifyArtistIds stored as comma-separated string', () async {
+    final id = await repo.insert(
+      title: 'Folge 38: Eile mit Weile',
+      providerUri: 'spotify:album:yakari38',
+      cardType: 'album',
+      spotifyArtistIds: ['5BOhng5bYwJNOR8ckMWpUg', '2ndArtistId'],
+    );
+
+    final card = await repo.getById(id);
+    expect(card!.spotifyArtistIds, '5BOhng5bYwJNOR8ckMWpUg,2ndArtistId');
+  });
+
+  test('spotifyArtistIds null when not provided', () async {
+    final id = await repo.insert(
+      title: 'Some Album',
+      providerUri: 'spotify:album:noartist',
+      cardType: 'album',
+    );
+
+    final card = await repo.getById(id);
+    expect(card!.spotifyArtistIds, isNull);
+  });
+
+  test('insertIfAbsent does not overwrite existing card on duplicate URI', () async {
+    await repo.insertIfAbsent(
+      title: 'Original Title',
+      providerUri: 'spotify:album:dup',
+      cardType: 'album',
+      spotifyArtistIds: ['artist1'],
+    );
+    await repo.insertIfAbsent(
+      title: 'New Title',
+      providerUri: 'spotify:album:dup',
+      cardType: 'album',
+      spotifyArtistIds: ['artist2'],
+    );
+
+    final cards = await repo.getAll();
+    expect(cards, hasLength(1));
+    // Original card is preserved unchanged
+    expect(cards.first.title, 'Original Title');
+    expect(cards.first.spotifyArtistIds, 'artist1');
+  });
 }

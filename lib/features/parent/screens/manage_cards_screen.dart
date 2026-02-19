@@ -414,10 +414,12 @@ class _GroupPickerSheet extends ConsumerWidget {
 
 enum _MenuAction { sortIntoSeries }
 
-/// Runs keyword-only catalog matching against all ungrouped cards and
-/// assigns matches to their series groups. Keyword-only because stored cards
-/// have no artist IDs — albums whose titles omit the series name (e.g.
-/// "Folge 38: Eile mit Weile") will not be matched and stay ungrouped.
+/// Runs catalog matching (keyword + stored artist IDs) against all ungrouped
+/// cards and assigns matches to their series groups.
+///
+/// Cards added before schema v4 have no stored artist IDs and fall back to
+/// keyword-only matching — albums whose titles omit the series name (e.g.
+/// "Folge 38: Eile mit Weile" added in an older build) will not be matched.
 Future<void> _runRetroactiveSort(BuildContext context, WidgetRef ref) async {
   final catalog = ref.read(catalogServiceProvider).value;
   if (catalog == null) {
@@ -452,7 +454,14 @@ Future<void> _runRetroactiveSort(BuildContext context, WidgetRef ref) async {
     var matchCount = 0;
 
     for (final card in ungrouped) {
-      final match = catalog.match(card.title);
+      // Parse stored artist IDs so phase-2 matching fires for albums
+      // whose titles omit the series name (e.g. "Folge 38: Eile mit Weile").
+      final artistIds = card.spotifyArtistIds
+              ?.split(',')
+              .where((s) => s.isNotEmpty)
+              .toList() ??
+          const [];
+      final match = catalog.match(card.title, albumArtistIds: artistIds);
       if (match == null) continue;
 
       final title = match.series.title;
