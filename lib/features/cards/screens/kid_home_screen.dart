@@ -131,13 +131,30 @@ class KidHomeScreen extends ConsumerWidget {
                     () =>
                         ref.read(playerNotifierProvider.notifier).clearError(),
               ),
-            // Now-playing bar
-            if (playerState.track != null)
-              NowPlayingBar(
-                state: playerState,
-                onTap: () => context.push(AppRoutes.player),
-                onTogglePlay: playerNotifier.togglePlay,
-              ),
+            // Now-playing bar (slides up on appearance)
+            AnimatedSwitcher(
+              duration: const Duration(milliseconds: 300),
+              transitionBuilder: (child, animation) {
+                return SlideTransition(
+                  position: Tween<Offset>(
+                    begin: const Offset(0, 1),
+                    end: Offset.zero,
+                  ).animate(CurvedAnimation(
+                    parent: animation,
+                    curve: Curves.easeOutCubic,
+                  )),
+                  child: child,
+                );
+              },
+              child: playerState.track != null
+                  ? NowPlayingBar(
+                      key: const ValueKey('now-playing'),
+                      state: playerState,
+                      onTap: () => context.push(AppRoutes.player),
+                      onTogglePlay: playerNotifier.togglePlay,
+                    )
+                  : const SizedBox.shrink(),
+            ),
           ],
         ),
       ),
