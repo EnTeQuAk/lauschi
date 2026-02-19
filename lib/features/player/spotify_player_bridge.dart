@@ -17,6 +17,10 @@ const _tag = 'PlayerBridge';
 class SpotifyPlayerBridge {
   final _stateController = StreamController<PlaybackState>.broadcast();
 
+  /// Called when the bridge refreshes tokens internally.
+  /// Wire this to the auth notifier so all consumers stay in sync.
+  void Function(SpotifyTokens tokens)? onTokenRefreshed;
+
   WebViewController? _controller;
 
   /// Access the WebView controller. Only available after [init].
@@ -199,6 +203,7 @@ class SpotifyPlayerBridge {
 
     final refreshed = await _auth!.refresh(_tokens!.refreshToken!);
     _tokens = refreshed;
+    onTokenRefreshed?.call(refreshed);
     return refreshed.accessToken;
   }
 

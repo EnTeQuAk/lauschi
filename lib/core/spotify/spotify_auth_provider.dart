@@ -96,6 +96,13 @@ class SpotifyAuthNotifier extends _$SpotifyAuthNotifier {
     Log.info(_tag, 'Logged out');
   }
 
+  /// Update tokens from an external source (e.g., bridge token refresh).
+  /// Keeps all providers in sync without triggering a full reload.
+  void updateTokens(SpotifyTokens tokens) {
+    state = AuthAuthenticated(tokens);
+    Log.debug(_tag, 'Tokens updated externally');
+  }
+
   /// Get a valid access token, refreshing if needed.
   /// Returns null if not authenticated.
   Future<String?> validAccessToken() async {
