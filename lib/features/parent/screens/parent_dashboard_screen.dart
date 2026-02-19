@@ -98,8 +98,8 @@ class ParentDashboardScreen extends ConsumerWidget {
           _SettingsTile(
             icon: Icons.info_outline_rounded,
             title: 'Über lauschi',
-            subtitle: 'Version 0.1.0',
-            onTap: () {},
+            subtitle: 'Einstellungen & Version',
+            onTap: () => context.push(AppRoutes.parentSettings),
           ),
         ],
       ),

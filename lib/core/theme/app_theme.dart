@@ -30,10 +30,12 @@ abstract final class AppColors {
   // Text
   static const textPrimary = Color(0xFF1A1E1C);
   static const textSecondary = Color(0xFF6B706D);
+  static const textHint = Color(0xFFABAFAD);
   static const textOnPrimary = Color(0xFFFFFFFF);
 
   // Semantic
   static const error = Color(0xFFC44B3B);
+  static const warning = Color(0xFFAA7A18);
   static const success = Color(0xFF2D7A54);
 }
 
