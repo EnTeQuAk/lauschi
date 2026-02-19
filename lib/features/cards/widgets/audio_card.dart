@@ -89,6 +89,7 @@ class _AudioCardState extends State<AudioCard>
               ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisSize: MainAxisSize.min,
             children: [
               // Album art
               AspectRatio(
@@ -118,17 +119,20 @@ class _AudioCardState extends State<AudioCard>
                   ),
                 ),
               ),
-              // Title
-              const SizedBox(height: 8),
-              Text(
-                widget.title,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
-                  fontFamily: 'Nunito',
-                  fontWeight: FontWeight.w700,
-                  fontSize: 14,
-                  color: AppColors.textPrimary,
+              // Title — Flexible to avoid overflow when grid cell is tight.
+              const SizedBox(height: 6),
+              Flexible(
+                child: Text(
+                  widget.title,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                    fontFamily: 'Nunito',
+                    fontWeight: FontWeight.w700,
+                    fontSize: 13,
+                    height: 1.2,
+                    color: AppColors.textPrimary,
+                  ),
                 ),
               ),
             ],
