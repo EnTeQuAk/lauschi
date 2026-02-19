@@ -1,4 +1,4 @@
-import 'dart:async' show Timer;
+import 'dart:async' show Timer, unawaited;
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -28,6 +28,23 @@ class _AddCardScreenState extends ConsumerState<AddCardScreen> {
   List<SpotifyAlbum> _results = [];
   bool _isSearching = false;
   final _addedUris = <String>{};
+
+  @override
+  void initState() {
+    super.initState();
+    unawaited(_loadExistingUris());
+  }
+
+  /// Pre-populate _addedUris from the database so existing cards show ✓.
+  Future<void> _loadExistingUris() async {
+    final cards = ref.read(cardRepositoryProvider);
+    final all = await cards.getAll();
+    if (mounted) {
+      setState(() {
+        _addedUris.addAll(all.map((c) => c.providerUri));
+      });
+    }
+  }
 
   @override
   void dispose() {
