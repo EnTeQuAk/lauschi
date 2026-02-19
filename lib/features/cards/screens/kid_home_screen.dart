@@ -141,6 +141,7 @@ class _CardGrid extends StatelessWidget {
                 isPlaying && activeUri == card.providerUri;
 
             return AudioCard(
+              key: ValueKey(card.id),
               title: card.customTitle ?? card.title,
               coverUrl: card.coverUrl,
               isPlaying: isActive,
