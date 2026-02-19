@@ -26,793 +26,1780 @@ series:
 
   # ── Classic Kiddinx / Europa series ────────────────────────────────────────
 
-  - id: yakari
-    title: Yakari
-    aliases:
-      - "Yakari"
-      - "Yakari, der kleine Sioux"
-    keywords:
-      - yakari
-    spotify_artist_ids:
-      - "5BOhng5bYwJNOR8ckMWpUg"  # Yakari (34k followers, 39 albums, 97% Folge N)
+- id: yakari
+  title: Yakari
+  aliases:
+  - "Yakari"
+  - "Yakari, der kleine Sioux"
+  keywords:
+  - yakari
+  spotify_artist_ids:
+  - "5BOhng5bYwJNOR8ckMWpUg"      # Yakari (34k followers, 39 albums, 97% Folge N)
     # Spotify: "Folge 9: Yakari und die Pferdediebe"
-    episode_pattern: "[Ff]olge\\s+(\\d+)"
+  episode_pattern: "[Ff]olge\\s+(\\d+)"
 
-  - id: bibi_blocksberg
-    title: Bibi Blocksberg
-    aliases:
-      - "Bibi Blocksberg"
-    keywords:
-      - "bibi blocksberg"
-      - blocksberg
-    spotify_artist_ids:
-      - "3t2iKODSDyzoDJw7AsD99u"  # Bibi Blocksberg (368k followers, 251 albums, 67% Folge N)
-    # Spotify: "Folge 157: Team Blocksberg"
-    episode_pattern: "[Ff]olge\\s+(\\d+)"
-
-  - id: benjamin_bluemchen
-    title: Benjamin Blümchen
-    aliases:
-      - "Benjamin Blümchen"
-      - "Benjamin Bluemchen"
-    keywords:
-      - "benjamin blümchen"
-      - "benjamin bluemchen"
-      - blümchen
-    spotify_artist_ids:
-      - "1l6d0RIxTL3JytlLGvWzYe"  # Benjamin Blümchen (200k followers, 270 albums, 79% Folge N)
-    # Spotify: "Benjamin Blümchen Gute-Nacht-Geschichten - Folge 6: …"
-    episode_pattern: "[Ff]olge\\s+(\\d+)"
-
-  - id: die_drei_fragezeichen
-    title: "Die drei ???"
-    aliases:
-      - "Die drei Fragezeichen"
-      - "Die drei ???"
-    keywords:
-      - "drei ???"
-      - "drei fragezeichen"
-    spotify_artist_ids:
-      - "3meJIgRw7YleJrmbpbJK6S"  # Die drei ??? (1.24M followers, 302 albums)
+- id: bibi_blocksberg
+  title: Bibi Blocksberg
+  aliases:
+  - "Bibi Blocksberg"
+  keywords:
+  - "bibi blocksberg"
+  - blocksberg
+  spotify_artist_ids:
+  - 3t2iKODSDyzoDJw7AsD99u
+  episode_pattern: '[Ff]olge\s+(\d+)'
+  albums:
+  - id: 016dC2sOt7x7FXQ6N8Bxi5
+    episode: 1
+    title: 'Folge 1: Hexen gibt es doch'
+  - id: 6X51IeJchTdorw4xosg6ha
+    episode: 2
+    title: 'Folge 2: Hexerei in der Schule'
+  - id: 14igDYerOOomBtHHYxvFLz
+    episode: 3
+    title: 'Folge 3: Die Zauberlimonade'
+  - id: 7fj4TDf4T2thg5BuFUluNY
+    episode: 4
+    title: 'Folge 4: Der Bankräuber'
+  - id: 0OhISkdajK4qD5fx9CxPpx
+    episode: 5
+    title: 'Folge 5: Ein verhexter Urlaub'
+  - id: 5iu0MDEgjEJPmVE0aZ7CN3
+    episode: 6
+    title: 'Folge 6: Die Kuh im Schlafzimmer'
+  - id: 0viYjQhnyJVulf0D265Qnd
+    episode: 7
+    title: 'Folge 7: heilt den Bürgermeister'
+  - id: 4evoKVgGoAw4R617nW85W5
+    episode: 8
+    title: 'Folge 8: Die Schlossgespenster'
+  - id: 4UiRVmfNLWyGMDbPzg109x
+    episode: 9
+    title: 'Folge 9: verliebt sich'
+  - id: 5TAliz0iVXH4UnnG3xuUSa
+    episode: 10
+    title: 'Folge 10: Bibis neue Freundin'
+  - id: 26zN16SJvC23dC1HjQr8TW
+    episode: 11
+    title: 'Folge 11: Der Schulausflug'
+  - id: 6v2cxj3fmW8LevdIJ7Ygz7
+    episode: 12
+    title: 'Folge 12: hat Geburtstag'
+  - id: 6IQnx6E5uQSJEz04WyJGvQ
+    episode: 13
+    title: 'Folge 13: Ein verhexter Sonntag'
+  - id: 7BLGgpfiTb4mhgcZ57wuzH
+    episode: 14
+    title: 'Folge 14: in Amerika'
+  - id: 1WHT8t9eOxHOTitSRiDI1K
+    episode: 15
+    title: 'Folge 15: Die schwarzen Vier'
+  - id: 3CyUN5uejVe7VUTXbYiKGv
+    episode: 16
+    title: 'Folge 16: Das Schulfest'
+  - id: 5waLQdOgHq5P3hlHcJG82J
+    episode: 17
+    title: 'Folge 17: Der kleine Hexer'
+  - id: 0tc9PpO2BKS6ELuwrY3qcq
+    episode: 18
+    title: 'Folge 18: Auf dem Hexenberg'
+  - id: 66CaSx2cXiWgUqjV9vR1Tb
+    episode: 19
+    title: 'Folge 19: Das Sportfest'
+  - id: 1Sae0p3RKO0xocgbqd2get
+    episode: 20
+    title: 'Folge 20: Papa ist weg'
+  - id: 7sV2OMe8kI7zB3BQjii8kk
+    episode: 21
+    title: 'Folge 21: zieht um'
+  - id: 2TsmeG5H55T9lBHWtPQFyZ
+    episode: 22
+    title: 'Folge 22: 3x schwarzer Kater'
+  - id: 2LCPUZQHR4ccuElIFKEmnE
+    episode: 23
+    title: 'Folge 23: und der Autostau'
+  - id: 5xagNxpBIparuhPw9YwFZU
+    episode: 24
+    title: 'Folge 24: Der Supermarkt'
+  - id: 6ZW1C8ryUxEWQnL06qYzUu
+    episode: 25
+    title: 'Folge 25: reißt aus'
+  - id: 0DIfUps0Z42y9R1qmIdgJs
+    episode: 26
+    title: 'Folge 26: Die Schnitzeljagd'
+  - id: 5erPQX1yxlnMesKnHIHdaD
+    episode: 27
+    title: 'Folge 27: Die verhexte Hitparade'
+  - id: 4BbDgXrHhanWUpd8essOOo
+    episode: 28
+    title: 'Folge 28: im Dschungel'
+  - id: 4ObgiuEUvF147RqsosuV0U
+    episode: 29
+    title: 'Folge 29: Der neue Hexenbesen'
+  - id: 33VBPH6HeKEpqqWXDtmy9S
+    episode: 30
+    title: 'Folge 30: in der Ritterzeit'
+  - id: 3akqYpDWmz2ea4ITUeD4UU
+    episode: 31
+    title: 'Folge 31: Auf der Märcheninsel'
+  - id: 3wT6JhGI0wcOr7EyTc2m2a
+    episode: 32
+    title: 'Folge 32: als Prinzessin'
+  - id: 3KDqhf6L5aRlMiMKJyobV1
+    episode: 33
+    title: 'Folge 33: als Babysitter'
+  - id: 5XGOUZGOQGIgeGmsVfwVzA
+    episode: 34
+    title: 'Folge 34: darf nicht hexen'
+  - id: 3dhTDo27zieo3NKG9yWDOm
+    episode: 35
+    title: 'Folge 35: Der Hexenfluch'
+  - id: 4RQjXVys2iOp9zGm0rXCC1
+    episode: 36
+    title: 'Folge 36: Die weißen Enten'
+  - id: 1ejqpqYmyAoe6gSwD40lNL
+    episode: 37
+    title: 'Folge 37: Der Flohmarkt'
+  - id: 5ju4E5z2e8haWhNVI6jvah
+    episode: 38
+    title: 'Folge 38: Die Weihnachtsmänner'
+  - id: 0awBJkPdlBHlWxUf3npiT4
+    episode: 39
+    title: 'Folge 39: Unverhofftes Wiedersehen'
+  - id: 49zMhdaThDGD3YdlpWU6ld
+    episode: 40
+    title: 'Folge 40: und die Vampire'
+  - id: 1xdobvCo2gCgsPybqQo4kP
+    episode: 41
+    title: 'Folge 41: Ohne Mami geht es nicht'
+  - id: 3axhlalFLU2684Ffm0u0Rp
+    episode: 42
+    title: 'Folge 42: im Zirkus'
+  - id: 6uacZqeyRJY1fg3cSdESi4
+    episode: 43
+    title: 'Folge 43: Der Reiterhof (Teil 1)'
+  - id: 5ihpMyF5AYdMCxEsLV6w0a
+    episode: 44
+    title: 'Folge 44: Der Reiterhof (Teil 2)'
+  - id: 0d3Z4saWW50l3MXNkpCJ7I
+    episode: 45
+    title: 'Folge 45: Das Lufttaxi'
+  - id: 3y9j3kFCrP3Q0O7ZibDi7p
+    episode: 46
+    title: 'Folge 46: Karla gibt nicht auf'
+  - id: 5h7Ggh6H0gMI3oznLBxdrv
+    episode: 47
+    title: 'Folge 47: Das Reitturnier'
+  - id: 4SVLS2ncc6Ot1JJ8B3qbBr
+    episode: 48
+    title: 'Folge 48: ist krank'
+  - id: 7b7uWHRAQVXwrBgxNoCPRl
+    episode: 49
+    title: 'Folge 49: Der Hexengeburtstag'
+  - id: 0qcnTqFeybzQduW1Dv3LK8
+    episode: 50
+    title: 'Folge 50: im Orient'
+  - id: 3H9tZerTI2ajefyBmDfTTf
+    episode: 51
+    title: 'Folge 51: wird entführt'
+  - id: 6uCqLQcwGE68ivDdRKHJBx
+    episode: 52
+    title: 'Folge 52: Wo ist Kartoffelbrei?'
+  - id: 523x0XaylN0MAV7eoT26sb
+    episode: 53
+    title: 'Folge 53: Der Superhexspruch'
+  - id: 4JVyKVAgkslJJ1VIjgYtJO
+    episode: 54
+    title: 'Folge 54: Die Computerhexe'
+  - id: 5gaHwQOHH6gEzOtESjzMhZ
+    episode: 55
+    title: 'Folge 55: Mamis Geburtstag'
+  - id: 2uKW5UZvpjK12HCu6mjWMn
+    episode: 56
+    title: 'Folge 56: Der Wetterfrosch'
+  - id: 385rWt3WU6eMB1WQO5WNtn
+    episode: 57
+    title: 'Folge 57: Der Blaue Brief'
+  - id: 4P4UCQT5t1q0PkCMEpVVdz
+    episode: 58
+    title: 'Folge 58: und das Dino-Ei'
+  - id: 3C7DaJS1K0LnoujmouszQh
+    episode: 59
+    title: 'Folge 59: und Dino'
+  - id: 5YBKwIf9x9U7NHkov762o1
+    episode: 60
+    title: 'Folge 60: Der Geisterkater'
+  - id: 4fWgzDHQmDJgvIsX1lz8pv
+    episode: 61
+    title: 'Folge 61: Der Flaschengeist'
+  - id: 7xRpOtXpkNiBcJEnXVfccV
+    episode: 63
+    title: 'Folge 63: Die Wahrsagerin'
+  - id: 5nTJZt13W1sGJZ2CNpUwaV
+    episode: 64
+    title: 'Folge 64: Die neue Schule'
+  - id: 2z4cLfFGNvddC9HxvPLkGE
+    episode: 65
+    title: 'Folge 65: Das Wettfliegen'
+  - id: 3k1zRojgdOKuvwrNn1UZTG
+    episode: 66
+    title: 'Folge 66: Das verhexte Osterei'
+  - id: 0I2bIG46Q3YPvx7afu76e8
+    episode: 67
+    title: 'Folge 67: Der weiße Kakadu'
+  - id: 7sTPdEQPX39U72i1GQlnN3
+    episode: 68
+    title: 'Folge 68: und die Piraten'
+  - id: 6LQALkZO2BD7UJW5Rbe7AQ
+    episode: 69
+    title: 'Folge 69: Verhexte Weihnachten'
+  - id: 5HfjaJmcfj9S9bRGkQpBJ5
+    episode: 70
+    title: 'Folge 70: Das gestohlene Hexenkraut'
+  - id: 0IzwTIRrtytdA7WEOJ9CP7
+    episode: 71
+    title: 'Folge 71: Die Hexenschule'
+  - id: 7qeMWKOavSYt562C3GVgSK
+    episode: 72
+    title: 'Folge 72: Der verhexte Kalender'
+  - id: 7KQp0p0UBZcCZBBSpyrjJ9
+    episode: 73
+    title: 'Folge 73: Freitag, der 13.'
+  - id: 4oS72Kd9VNckIDnYWn3wSn
+    episode: 74
+    title: 'Folge 74: Der Brieffreund'
+  - id: 2VriXf9hxcRWDlmzlV72KD
+    episode: 75
+    title: 'Folge 75: Die neue Lehrerin'
+  - id: 1HPi7hKKtbHdIaGMxnxYPd
+    episode: 76
+    title: 'Folge 76: Schubia dreht durch'
+  - id: 59MCBgKhiiRP4U4j5nv0PX
+    episode: 77
+    title: 'Folge 77: im Hexeninternat'
+  - id: 2VoEjVIJjsLMfadnIgl8fS
+    episode: 78
+    title: 'Folge 78: und Elea Eluanda'
+  - id: 407gZmvL9MdtwmrW8ySEqQ
+    episode: 79
+    title: 'Folge 79: Papis Geburtstag'
+  - id: 1ch6uYeVDAxn7jpZMKaLET
+    episode: 80
+    title: 'Folge 80: Das Schmusekätzchen'
+  - id: 6cWFEg9YIvV2wVuJVl0N68
+    episode: 81
+    title: 'Folge 81: Mami in Not'
+  - id: 2Wegfuh5Dlt8sNf9Eae1PY
+    episode: 82
+    title: 'Folge 82: Hexspruch mit Folgen'
+  - id: 2aWERllAjtNNK9Kbkm2I2q
+    episode: 83
+    title: 'Folge 83: Die Klassenreise'
+  - id: 0pGc98KAvzdN2JjWNR89d8
+    episode: 84
+    title: 'Folge 84: Das Hexenhoroskop'
+  - id: 6s9C4BFs9a2cVXGJrjwvHP
+    episode: 85
+    title: 'Folge 85: Die Hundebabys'
+  - id: 7fud5UxfNO0Hr0nFo6ibNZ
+    episode: 86
+    title: 'Folge 86: Kann Papi hexen?'
+  - id: 1cN8O0Rul5pXwEuB5NGNuo
+    episode: 87
+    title: 'Folge 87: Die vertauschte Hexenkugel'
+  - id: 3DhwS2IWRKLPkgpGEAHkqp
+    episode: 88
+    title: 'Folge 88: Superpudel Puck'
+  - id: 4IZgtUIZi8ZV0z5QgeuOHL
+    episode: 89
+    title: 'Folge 89: Die Junghexenbande'
+  - id: 4RZmAzNsgqnXg3XmbRhtlS
+    episode: 90
+    title: 'Folge 90: Oma Grete sorgt für Wirbel'
+  - id: 7bSMWMekbcIt2UGSTcgQbW
+    episode: 91
+    title: 'Folge 91: Maritas Geheimnis'
+  - id: 0Xn2j7LCD7alTHyqI1sZZy
+    episode: 92
+    title: 'Folge 92: Das geheimnisvolle Schloss'
+  - id: 20cMkwAbd3YBKpy7qKK8Db
+    episode: 93
+    title: 'Folge 93: braucht Hilfe'
+  - id: 3Bn0AwH2iS3iiNWid5DNgX
+    episode: 94
+    title: 'Folge 94: Die verhexte Zeitreise'
+  - id: 7EP950Y99vx1wZbWnR7niE
+    episode: 95
+    title: 'Folge 95: Die verbotene Hexeninsel'
+  - id: 1nWxVgOE75Z38IqATOY9pW
+    episode: 96
+    title: 'Folge 96: Das traurige Einhorn'
+  - id: 0CiLLl9LyAK1WozIUyHxBy
+    episode: 97
+    title: 'Folge 97: Überraschung für Mami'
+  - id: 5oOA2fFkPVsX1eEKMLvCxg
+    episode: 98
+    title: 'Folge 98: Die Prinzessinnen von Thunderstorm'
+  - id: 1Iul2w374DgjJyZdj5C0aX
+    episode: 99
+    title: 'Folge 99: Die kleine Spürnase'
+  - id: 11vwmqeqjOwpyIg3oC9bim
+    episode: 101
+    title: 'Folge 101: und Piraten-Lilly'
+  - id: 0QVIG5VArUfN5mdUCJamXe
+    episode: 102
+    title: 'Folge 102: Die Ballett-Tanzgruppe'
+  - id: 0LPotWHTscY0p960bKPnXs
+    episode: 103
+    title: 'Folge 103: Der Hexenschatz'
+  - id: 3SoRs56zin3XsOcR0jjnuz
+    episode: 104
+    title: 'Folge 104: Der verhexte Bürgermeister'
+  - id: 2AilQcxXGDAH8fAbx6hlen
+    episode: 105
+    title: 'Folge 105: Die Hexenküche'
+  - id: 18m3UfFgOBeycdvncflyjr
+    episode: 106
+    title: 'Folge 106: Der verrückte Staubsauger'
+  - id: 3e0xy8ShIfg6Lw8qNWcK1I
+    episode: 107
+    title: 'Folge 107: Die Geheimsprache'
+  - id: 13epvlBYRs9IjtjpztaGsw
+    episode: 108
+    title: 'Folge 108: Der Familienausflug'
+  - id: 2BF58dKEDN1h7Lqk8gHdQj
+    episode: 109
+    title: 'Folge 109: Der Hexenball'
+  - id: 3Ob6ngCds1HdMHlI1fFZ5P
+    episode: 110
+    title: 'Folge 110: und die kleine Elfe'
+  - id: 2mgNOEXdIDf2JVDfkxbLoc
+    episode: 111
+    title: 'Folge 111: Der Hexenbesen-Dieb'
+  - id: 6ztYlU1ZWTsyBVu0GlRnu1
+    episode: 112
+    title: 'Folge 112: Das TV-Hex-Duell'
+  - id: 2hhYz9kSY6kvk3ap3c3WrB
+    episode: 113
+    title: 'Folge 113: Die Hexprüfung'
+  - id: 3yhsHZtwn7diH2c9cYuwRB
+    episode: 114
+    title: 'Folge 114: Der verhexte Wandertag'
+  - id: 47VYGDLLY8oH6eiw1CE5wB
+    episode: 115
+    title: 'Folge 115: Urlaub in der Hexenpension'
+  - id: 3waZXnHoxYigFC8x4OHjrz
+    episode: 116
+    title: 'Folge 116: Im Wald der Hexenbesen'
+  - id: 6Lo1YeuDbQugBGrdqtbwF3
+    episode: 117
+    title: 'Folge 117: Die Besenflugprüfung'
+  - id: 03UgGgq3RHBN2X2oIxYISg
+    episode: 118
+    title: 'Folge 118: Die Austauschschülerin'
+  - id: 6tkHnfpom7MtMFVNs4hGHw
+    episode: 119
+    title: 'Folge 119: und der Feuerdrache'
+  - id: 17HukoZaZGFK2duA9JLszH
+    episode: 120
+    title: 'Folge 120: Der Affe ist los'
+  - id: 1OWdzptir9UJjW4ApRy0bK
+    episode: 121
+    title: 'Folge 121: Der neue Schulgarten'
+  - id: 2qD3O44kQYq9MO7eInmbl2
+    episode: 122
+    title: 'Folge 122: Chaos im Hexeninternat'
+  - id: 2dIeA7oHFxnb0fS8DtL7Ih
+    episode: 123
+    title: 'Folge 123: Oma Grete in Gefahr'
+  - id: 1F1WnNVOh8fVzeDl8xBeJc
+    episode: 124
+    title: 'Folge 124: Das verrückte Huhn'
+  - id: 1pmyleYQz8MWZszsFvr7xj
+    episode: 125
+    title: 'Folge 125: Der Strandurlaub'
+  - id: 5OH74t2YiGAmrKmcZGtevb
+    episode: 126
+    title: 'Folge 126: Das wilde Schlittenrennen'
+  - id: 6xEB4R8xiXssXH8dSYoQAS
+    episode: 127
+    title: 'Folge 127: Bibi zieht aus'
+  - id: 682cqkcWcjb1U3H8JxyK16
+    episode: 128
+    title: 'Folge 128: Ausgehext!'
+  - id: 0Lv1iJm33h876fkf7FSa5W
+    episode: 129
+    title: 'Folge 129: Ein sensationelles Team'
+  - id: 6DyX9shzgRTrVZmTq70JNU
+    episode: 130
+    title: 'Folge 130: Mami spielt verrückt'
+  - id: 1buYITtet3OnwtThxeV51Q
+    episode: 131
+    title: 'Folge 131: Das verhexte Handy'
+  - id: 41l2qMSfmK9CgcuacL2CfC
+    episode: 133
+    title: 'Folge 133: im Modeatelier'
+  - id: 7Bxr8SwNbQzX3q4uzVKgbk
+    episode: 134
+    title: 'Folge 134: Hexen unter Verdacht'
+  - id: 2ZL5h4hTZAaY3JrpyRYARM
+    episode: 135
+    title: 'Folge 135: Freunde in Gefahr'
+  - id: 5nygx26FcoDjDwQt84wmJB
+    episode: 136
+    title: 'Folge 136: Im verhexten Winterwald'
+  - id: 6pHuh1UxL2SDBjsd6MxfCr
+    episode: 137
+    title: 'Folge 137: Ein verrückter Ausflug'
+  - id: 77gyPoJGToVg2DZE97RxVm
+    episode: 138
+    title: 'Folge 138: Urlaub am See'
+  - id: 7a2dmAy38GmlaKpQLgdRpU
+    episode: 139
+    title: 'Folge 139: Chaos am Flughafen'
+  - id: 3b4nEIPEUNqs5vDiwLcYmD
+    episode: 140
+    title: 'Folge 140: Alles voll verhext'
+  - id: 2jLZDggadHysg5q7rZeoeJ
+    episode: 141
+    title: 'Folge 141: Mit Papi allein zu Haus'
+  - id: 6Ey6TvSHZOBvITyvpFpwO1
+    episode: 142
+    title: 'Folge 142: UFOs über Neustadt'
+  - id: 52UszsQV0QZkLEiDq2xGTP
+    episode: 143
+    title: 'Folge 143: Zurück zur Märcheninsel'
+  - id: 4q69u4w9tfe3VYufXPnW8Q
+    episode: 144
+    title: 'Folge 144: Der Klimawettbewerb'
+  - id: 4c953EJfsQj9PZ9ZIQLcrw
+    episode: 145
+    title: 'Folge 145: Etwas andere Weihnachten'
+  - id: 08WiNhDkUyIT2gw4tpuPfp
+    episode: 146
+    title: 'Folge 146: Der Hexenbesenausflug'
+  - id: 6Sz3V9aMJWj1Qe457JDACT
+    episode: 147
+    title: 'Folge 147: Rettung der Junghexeninsel'
+  - id: 3H9SfXUsbuEbeHfZVItGXZ
+    episode: 151
+    title: 'Folge 151: … rettet das Hexenfest'
+  - id: 1U3EhHycn9k9zid9uTRsP8
+    episode: 152
+    title: 'Folge 152: Die verrückte Autofahrt'
+  - id: 75Tg1XiUREuxQ0ePbfW8of
+    episode: 153
+    title: 'Folge 153: Die neuen Klassensprecher'
+  - id: 5SgJp00Yl1oLEjIh77PFOn
+    episode: 154
+    title: 'Folge 154: Besuch in London'
+  - id: 0YWd2kqavTlqH8QofFz2jD
+    episode: 155
+    title: 'Folge 155: Die Hexenbürgermeisterin'
+  - id: 4valjE1jzEBUAxQ4zD3sDZ
+    episode: 156
+    title: 'Folge 156: Die Vertretungshexlehrerin'
+  - id: 2PW14jj2QodkDLsIaUgQin
+    episode: 157
+    title: 'Folge 157: Team Blocksberg'
+  - id: 2XxUKjk8F0CesEOFthbF4b
+    episode: 158
+    title: 'Folge 158: Der fliegende Bürgermeister'
+  - id: 2amsw917oRm2IZUCaNgZXG
+    episode: 159
+    title: 'Folge 159: Ins Bild gehext!'
+  - id: 0MSVIMc1fw1WN2vIkb0Y3z
+    episode: 160
+    title: 'Folge 160: Spuk auf Schloss Thunderstorm'
+  - id: 0sXrDM0RkbpNOyRYpmHxxn
+    episode: 161
+    title: 'Folge 161: Das neue Hexkraut'
+  - id: 3CRVq4g35eiwGt98GmBNdQ
+    episode: 162
+    title: 'Folge 162: Der verhexte Eulenstaub'
+  - id: 1BsPIjY5OGVilHg51ZURXI
+    title: 'Bibi Blocksberg: Das große Hexentreffen (Das Original-Hörspiel zum Kinofilm)'
+  - id: 1LueDXY6cF4HllLN8HfeqW
+    title: Das Original Hörspiel zum Kinofilm
+  - id: 5MuK38H2p9v1O7mnVUMRTP
+    title: 'Hörspiel zum 2. Kinofilm: und das Geheimnis der blauen Eulen'
+  - id: 2m337lLnqHXhZZOCusT4ZX
+    title: 'Kampf um Kartoffelbrei (Special) - Teil 10: Die verhexte Fledermaus'
+  - id: 5Q1BcpSXzvQA7QIB5ff1UV
+    title: 'Kampf um Kartoffelbrei (Special) - Teil 11: Das Hex-Duell'
+  - id: 52MciMhichwTXMlwvkYikQ
+    title: 'Kampf um Kartoffelbrei (Special) - Teil 1: Malicias Rache'
+  - id: 0FpTHkAiviemFeIrZKOmNC
+    title: 'Kampf um Kartoffelbrei (Special) - Teil 2: Auf heißer Spur'
+  - id: 4ugqQGYYrWYSwYDgR69Xid
+    title: 'Kampf um Kartoffelbrei (Special) - Teil 3: Hexerei aus der Ferne'
+  - id: 6ufbMbSRG5Ru2TDwt4ogsW
+    title: 'Kampf um Kartoffelbrei (Special) - Teil 4: Eine Falle für Malicia'
+  - id: 5bBhXVErYFrcqFsygEaH4Z
+    title: 'Kampf um Kartoffelbrei (Special) - Teil 5: Der Wirbelsturm'
+  - id: 1w5Jm0gKU6e6l5WB1v9hPn
+    title: 'Kampf um Kartoffelbrei (Special) - Teil 6: Die geheime Mission'
+  - id: 1luiyb5yyfntu7pGgNghv1
+    title: 'Kampf um Kartoffelbrei (Special) - Teil 7: Mutige Junghexen'
+  - id: 7CDNI7CgMnR438Rrg8l2Dq
+    title: 'Kampf um Kartoffelbrei (Special) - Teil 8: Mania greift ein'
+  - id: 2vS11F2lZ3gt85jebic2q6
+    title: 'Kampf um Kartoffelbrei (Special) - Teil 9: Karla in Gefahr'
+- id: benjamin_bluemchen
+  title: Benjamin Blümchen
+  aliases:
+  - "Benjamin Blümchen"
+  - "Benjamin Bluemchen"
+  keywords:
+  - "benjamin blümchen"
+  - "benjamin bluemchen"
+  - "blümchen"
+  spotify_artist_ids:
+  - 1l6d0RIxTL3JytlLGvWzYe
+  episode_pattern: '[Ff]olge\s+(\d+)'
+  albums:
+  - id: 2i00tmcCo3wf6oS24RGm1Y
+    episode: 1
+    title: 'Folge 1: als Wetterelefant'
+  - id: 0xOg5PRAKCU8kzhokTZ5cN
+    episode: 2
+    title: 'Folge 2: rettet den Zoo'
+  - id: 2tdFRPNUM90hNvqPfEWGec
+    episode: 3
+    title: 'Folge 3: Kampf dem Lärm'
+  - id: 5zmwMrcBclTFX6D7gDU53Y
+    episode: 4
+    title: 'Folge 4: in Afrika'
+  - id: 1YWRo7Pd6Q4W8G5E7MNWfJ
+    episode: 5
+    title: 'Folge 5: auf hoher See'
+  - id: 6Cu4H95ELuBdKDXc5aNKx3
+    episode: 6
+    title: 'Folge 6: und die Schule'
+  - id: 0FtvpWIdYR2sBAXQI9U9Fw
+    episode: 7
+    title: 'Folge 7: verliebt sich'
+  - id: 5KDjixmAqFXJsC4qWEYAuI
+    episode: 8
+    title: 'Folge 8: auf dem Baum'
+  - id: 0epGk3XbMA6tcLpya6ZhLp
+    episode: 9
+    title: 'Folge 9: hat Geburtstag'
+  - id: 3rjWwSOQ7Ez9LMrBiI0QWD
+    episode: 10
+    title: 'Folge 10: und das Schloss'
+  - id: 6l7GVfebOLInQzjVnmVCqs
+    episode: 11
+    title: 'Folge 11: auf dem Mond'
+  - id: 4HCcQmrcPvXaOYA19sYeE7
+    episode: 12
+    title: 'Folge 12: als Briefträger'
+  - id: 4Jf8phtPzm7SO081ema4KR
+    episode: 13
+    title: 'Folge 13: im Krankenhaus'
+  - id: 2G3RokMaa2kuje6GyBh001
+    episode: 14
+    title: 'Folge 14: als Filmstar'
+  - id: 5nUKBNK6kEKLfEYEI2DH0Z
+    episode: 15
+    title: 'Folge 15: im Urlaub'
+  - id: 785N42522OzvC7LmKr48vW
+    episode: 16
+    title: 'Folge 16: träumt'
+  - id: 4WX50nu0FmuaXhcOD11KJt
+    episode: 17
+    title: 'Folge 17: Der Skiurlaub'
+  - id: 3XaKEQd1PyGTliLRbMMaYw
+    episode: 18
+    title: 'Folge 18: als Schornsteinfeger'
+  - id: 2ICgCC40eIWGlxDi2koZHF
+    episode: 19
+    title: 'Folge 19: als Fußballstar'
+  - id: 6sTefktQuhIHCWjVYMS6h5
+    episode: 20
+    title: 'Folge 20: und Bibi Blocksberg'
+  - id: 1T60798Dk35lypJ9JBYkaN
+    episode: 21
+    title: 'Folge 21: als Weihnachtsmann'
+  - id: 4TWLbDon59uuJFNLqFeLfW
+    episode: 22
+    title: 'Folge 22: als Kinderarzt'
+  - id: 1GcXxnJlY9YcoUiSOLYi5z
+    episode: 23
+    title: 'Folge 23: als Koch'
+  - id: 4WkQWEvVCJFe7ihUzbKKK2
+    episode: 24
+    title: 'Folge 24: als Detektiv'
+  - id: 4WbEseUizNYJ5jKYbs7Asg
+    episode: 25
+    title: 'Folge 25: auf Kreuzfahrt'
+  - id: 2kRDgDOcBgJCzDsVnxQiws
+    episode: 26
+    title: 'Folge 26: als Bademeister'
+  - id: 49DwAUyVbheRzzxC662qX8
+    episode: 27
+    title: 'Folge 27: auf dem Bauernhof'
+  - id: 18oX6D5HwiajNmwwOJLDMX
+    episode: 28
+    title: 'Folge 28: rettet den Kindergarten'
+  - id: 7iqD9gX7E48z85UT2VqjEF
+    episode: 29
+    title: 'Folge 29: auf dem Rummel'
+  - id: 4H3u03wDTWyjCkjHjuf6T2
+    episode: 30
+    title: 'Folge 30: als Pilot'
+  - id: 03HQW9PBvEDo5xSXa0EY7W
+    episode: 31
+    title: 'Folge 31: als Feuerwehrmann'
+  - id: 76Pe7zykxADXFkSytjSGPD
+    episode: 32
+    title: 'Folge 32: Die Verkehrsschule'
+  - id: 5iUK2WTrkX26qANGHOOnNM
+    episode: 33
+    title: 'Folge 33: Das Osterfest'
+  - id: 2waw26w79bjSvKp3JUCaL7
+    episode: 34
+    title: 'Folge 34: als Lokomotivführer'
+  - id: 7dycWnkBtV2HiD1yUfN7Q3
+    episode: 35
+    title: 'Folge 35: hat Zahnweh'
+  - id: 1bCc4jinUZk5kEP1jY4cEI
+    episode: 36
+    title: 'Folge 36: wird verhext'
+  - id: 3Ia4IZeAq31KXY2OYbrn5G
+    episode: 37
+    title: 'Folge 37: Der Gorilla ist weg'
+  - id: 0jjOMAQ1c8D3Y42Ewa3yvE
+    episode: 38
+    title: 'Folge 38: Der Zoo zieht um'
+  - id: 1NjLNdimIpBMKiFcN6cGgM
+    episode: 40
+    title: 'Folge 40: zieht aus'
+  - id: 0yqxDWCXVnKZ6c9TaYnpg5
+    episode: 41
+    title: 'Folge 41: als Pirat'
+  - id: 0iwtZzsdpdEMkIsSzLhBtW
+    episode: 42
+    title: 'Folge 42: als Ritter'
+  - id: 1bMXJHsD91OObW0t0CblqO
+    episode: 43
+    title: 'Folge 43: und die Autorallye'
+  - id: 50Sl3zrqfVWZ1p2ZqnQ5tY
+    episode: 44
+    title: 'Folge 44: als Bäcker'
+  - id: 0hTcMojdInP90x34eFmjjH
+    episode: 45
+    title: 'Folge 45: als Zirkusclown'
+  - id: 51LiFlgSuY4WZ24tTnwWFF
+    episode: 46
+    title: 'Folge 46: hilft den Tieren'
+  - id: 50GmLC4YtXpUMjkBsjOTNN
+    episode: 47
+    title: 'Folge 47: als Gärtner'
+  - id: 2AHTQGatd8BhDXPLSCiDHE
+    episode: 48
+    title: 'Folge 48: kriegt ein Geschenk'
+  - id: 3iBX3uryCaJl9xWUeOBOFv
+    episode: 49
+    title: 'Folge 49: als Müllmann'
+  - id: 6OYbjgwkzOnpHOZGpHYSst
+    episode: 50
+    title: 'Folge 50: als Sheriff'
+  - id: 3qAjGnHFbafzKWbntBjKb9
+    episode: 51
+    title: 'Folge 51: Der Weihnachtsabend'
+  - id: 3XOuj8bXBsPPJ5hmdtcGCd
+    episode: 52
+    title: 'Folge 52: Der Weihnachtstraum'
+  - id: 2cg9mcozoRx1fbtva3EVmk
+    episode: 53
+    title: 'Folge 53: wird reich'
+  - id: 1slxtwPlZyw5IhjvhDaJeE
+    episode: 54
+    title: 'Folge 54: ist krank'
+  - id: 4P2fATcMSz5SHRhETSdEYt
+    episode: 55
+    title: 'Folge 55: und die Astrofanten'
+  - id: 4sMD263oLEMzWM7gzLZ7wn
+    episode: 56
+    title: 'Folge 56: als Reporter'
+  - id: 1DeXY0arDkSYUzflvHfR89
+    episode: 57
+    title: 'Folge 57: als Bürgermeister'
+  - id: 6Z4QPIwTSshcadQlXex1dg
+    episode: 58
+    title: 'Folge 58: Die Wünschelrute'
+  - id: 6mNo1oHVzjdDolDVzmNtnp
+    episode: 59
+    title: 'Folge 59: findet einen Schatz'
+  - id: 00ntGueJPyBKVfXpxloAhM
+    episode: 60
+    title: 'Folge 60: Der Doppelgänger'
+  - id: 77gA9vmsypn6VGWQsp3wJ9
+    episode: 61
+    title: 'Folge 61: Otto ist krank'
+  - id: 2pJRbLmu2gn89QvFbQsLow
+    episode: 62
+    title: 'Folge 62: in der Steinzeit'
+  - id: 7zMQG7PhIjXlHXl8yfVmde
+    episode: 63
+    title: 'Folge 63: Der Computer'
+  - id: 6WPVxlZcxUidWx7FHYXZjH
+    episode: 64
+    title: 'Folge 64: als Butler'
+  - id: 0vA0r7hmSecsmqX9lSPItK
+    episode: 65
+    title: 'Folge 65: Wo ist Otto?'
+  - id: 1yv8jm64CiSPosTsxh4lCo
+    episode: 66
+    title: 'Folge 66: als Ballonfahrer'
+  - id: 63RcR5NFniG16nkYiTyaGc
+    episode: 68
+    title: 'Folge 68: als Taxifahrer'
+  - id: 1e3NPoCQB8TEgJ2fo3UMqp
+    episode: 69
+    title: 'Folge 69: als Zoodirektor'
+  - id: 6lNjuIEJNSfQXD7odKQKPG
+    episode: 70
+    title: 'Folge 70: und Bibi in Indien'
+  - id: 1PhNAdwzlUPyXerld6mVvR
+    episode: 72
+    title: 'Folge 72: und Bino'
+  - id: 3CHmjvDfUeAgOUdAWAMXxU
+    episode: 73
+    title: 'Folge 73: und der Weihnachtsmann'
+  - id: 38XOHM64E7ROyyUdHpa5jt
+    episode: 75
+    title: 'Folge 75: Der geheimnisvolle Brief'
+  - id: 1eY0gXcIvgBs54YMs4M2Oy
+    episode: 76
+    title: 'Folge 76: als Förster'
+  - id: 2JD9zuelRUhvJavOJ2HMYz
+    episode: 77
+    title: 'Folge 77: und die Eisprinzessin'
+  - id: 3gewDOk5myzaas8ws5L6Pe
+    episode: 78
+    title: 'Folge 78: und der kleine Hund'
+  - id: 1TIgU85PwUsvRqMW2initQ
+    episode: 79
+    title: 'Folge 79: Die Zirkuslöwen'
+  - id: 1SOepdR3uE7guqg6cmjRXP
+    episode: 80
+    title: 'Folge 80: Die Neue Zooheizung'
+  - id: 1f00m92dnQfvpRRswZdW2z
+    episode: 81
+    title: 'Folge 81: Das Geheimnis der Tempelkatze'
+  - id: 00ezgpZQe2DgeJlSrxNtHo
+    episode: 82
+    title: 'Folge 82: Der weiße Elefant'
+  - id: 5zH6qccus6QGU2xzq7urAx
+    episode: 83
+    title: 'Folge 83: als Gespenst'
+  - id: 4bLxeOMQU5u7E0cXaILMWn
+    episode: 84
+    title: 'Folge 84: Der kleine Ausreißer'
+  - id: 0FuEZWTzqOJ4hOlUoAJ6wY
+    episode: 85
+    title: 'Folge 85: als Tierarzt'
+  - id: 2wkyHcPMrpdqQ5Kre15mc1
+    episode: 86
+    title: 'Folge 86: Das Nilpferdbaby'
+  - id: 38pbTspcCkdsMSFKFXVucA
+    episode: 87
+    title: 'Folge 87: Das Laternenfest'
+  - id: 30dhxLcvYJebEX1whV9tHN
+    episode: 88
+    title: 'Folge 88: als Cowboy'
+  - id: 4hSnYURQJIt6tSQdvSd6Hj
+    episode: 89
+    title: 'Folge 89: Der rote Luftballon'
+  - id: 6iHVInBSDpxnqdTSZjQi77
+    episode: 90
+    title: 'Folge 90: Das Zoojubiläum'
+  - id: 3zGgL1lYfeHw3O8AwcJLqK
+    episode: 91
+    title: 'Folge 91: als Leuchtturmwärter'
+  - id: 2oNry5C5NJxjegEZPUc2mh
+    episode: 92
+    title: 'Folge 92: bei den Eskimos'
+  - id: 4yyRplMD6FyfA9pXmsI8iM
+    episode: 93
+    title: 'Folge 93: Das Walbaby'
+  - id: 49SUDcwXxYZhc4HkgTSmJe
+    episode: 94
+    title: 'Folge 94: Der Streichelzoo'
+  - id: 0d4qSHKmtfyHmSgGAJii8G
+    episode: 95
+    title: 'Folge 95: Die Wunderblume'
+  - id: 7yV29tKzPFtl7ujmHXxKzn
+    episode: 96
+    title: 'Folge 96: Der Bananendieb'
+  - id: 540SG1UzZcYwTDFL62lKT4
+    episode: 97
+    title: 'Folge 97: Die Gespensterkinder'
+  - id: 57RJDw23o93osNvq6wcoil
+    episode: 98
+    title: 'Folge 98: und die Murmeltiere'
+  - id: 16Ml01YmXqJsMNHOEOly0X
+    episode: 99
+    title: 'Folge 99: Der Geheimgang'
+  - id: 3LmSKnQxC1aL2y4py5NU6d
+    episode: 100
+    title: 'Folge 100: Ottos neue Freundin - Teil 1'
+  - id: 59HKBTyxYPwAwPMU6mTAfB
+    episode: 101
+    title: 'Folge 101: Ottos neue Freundin - Teil 2'
+  - id: 7e0u4afaSy1Hgiykt8lk9Q
+    episode: 102
+    title: 'Folge 102: Das Pinguin-Ei'
+  - id: 5BLgHxB1HWeaeC5jXPZuLq
+    episode: 103
+    title: 'Folge 103: 5:0 für Benjamin'
+  - id: 1N9xpyzcxP0H6eBUA1ToJW
+    episode: 104
+    title: 'Folge 104: Die Zoo-Olympiade'
+  - id: 7nFRNTfnh7iFY2Cppl5QvX
+    episode: 105
+    title: 'Folge 105: Das fleißige Faultier'
+  - id: 7wT4n1xXrw7yp6WSPUonwu
+    episode: 106
+    title: 'Folge 106: Das Spaghetti-Eis-Fest'
+  - id: 7bOMwhylgWe1Gd0PybclrI
+    episode: 107
+    title: 'Folge 107: in Schottland'
+  - id: 3iKWvU3iHt1GcuAXV5wswG
+    episode: 108
+    title: 'Folge 108: Ottos kleines Geheimnis'
+  - id: 3IKnQlCu8C4zciNueehiwB
+    episode: 109
+    title: 'Folge 109: als Baggerfahrer'
+  - id: 3nzUHIn2tHTtE3gojyqCfD
+    episode: 110
+    title: 'Folge 110: Hilfe für das Pandababy'
+  - id: 2w3cucz1aMsQtXia4WDX5q
+    episode: 111
+    title: 'Folge 111: Sei nicht traurig, Benjamin!'
+  - id: 2f3EQcq4mLQuzmmsXZZEr6
+    episode: 112
+    title: 'Folge 112: Die Elefantenkönigin'
+  - id: 0vUQBI9lJa6wGoF5YbjoUl
+    episode: 113
+    title: 'Folge 113: Der Abenteuer-Spielplatz'
+  - id: 72OfsYs9hiyR0GAJPKJmPZ
+    episode: 114
+    title: 'Folge 114: und der Delfin'
+  - id: 5tWwOxYYuyVtD7GF2Bppna
+    episode: 115
+    title: 'Folge 115: Die kleinen Kätzchen'
+  - id: 52BYCPzRCmDSRd7mkZkXYU
+    episode: 116
+    title: 'Folge 116: und die Spaßmaschine'
+  - id: 6M8JJZgpVGteyBPwkBErRs
+    episode: 117
+    title: 'Folge 117: Die Zoo-Schwimmschule'
+  - id: 6G8WJpL84sIpglOUdWmR7P
+    episode: 118
+    title: 'Folge 118: auf der Baustelle'
+  - id: 0fZiX5qerlQE4MkOyKjLRw
+    episode: 119
+    title: 'Folge 119: als Busfahrer'
+  - id: 7HzDbYyBIpUmGsCmgjGeoS
+    episode: 120
+    title: 'Folge 120: Der Zeltausflug'
+  - id: 5NsMHKpZO4uciMuzWGFDZh
+    episode: 121
+    title: 'Folge 121: Die Fahrrad-Wette'
+  - id: 1DkiCx6NF1aBS9spIdTXSd
+    episode: 122
+    title: 'Folge 122: als Polizist'
+  - id: 3FE5tY9szfGTd2GStAylDo
+    episode: 123
+    title: 'Folge 123: in der Spielzeugfabrik'
+  - id: 3uqFUvvqoCQL8FH2S0oFOA
+    episode: 124
+    title: 'Folge 124: im Tante-Emma-Laden'
+  - id: 0UAP3SdBGXLiwX7UvmSAsB
+    episode: 125
+    title: 'Folge 125: und die Zirkusponys'
+  - id: 7LbHcOXBHtYROZSyYA3Yj1
+    episode: 126
+    title: 'Folge 126: Der Zoo-Kindergarten'
+  - id: 6lrIYq9JOQENfRBOoKvLZx
+    episode: 127
+    title: 'Folge 127: in der Musikschule'
+  - id: 0AmLLfwHaf3S6m1AWNndUB
+    episode: 128
+    title: 'Folge 128: und die Schnitzeljagd'
+  - id: 4rauAQkc52kEQ6h9CpXPKa
+    episode: 129
+    title: 'Folge 129: Der Drachenflugtag'
+  - id: 4lAublXtVos90dmgpK5B1d
+    episode: 130
+    title: 'Folge 130: und der sprechende Papagei'
+  - id: 12zutChVRaP5aSaHS2zMKL
+    episode: 131
+    title: 'Folge 131: auf großer Floßfahrt'
+  - id: 3JKMmECwVYYWJKEpdvGU2p
+    episode: 132
+    title: 'Folge 132: Das Seifenkistenrennen'
+  - id: 05A48hpp25pRXQwiTuhX5O
+    episode: 133
+    title: 'Folge 133: auf dem Flughafen'
+  - id: 4ljJlWaDLg78EMtQ6pG3Se
+    episode: 134
+    title: 'Folge 134: Abschied von Stella'
+  - id: 2d3fKIHnPuyLBddMmc5vse
+    episode: 135
+    title: 'Folge 135: Die Zoo-Feuerwehr'
+  - id: 6jc9BsYKPJTJIkcOeg3FsT
+    episode: 136
+    title: 'Folge 136: Spuk im Zoo'
+  - id: 7IgAgPOoW0hdNdu8cJkwWD
+    episode: 137
+    title: 'Folge 137: Ein Törööö für alle Fälle'
+  - id: 7pn2kd0xBKYnZlM3jSaOq4
+    episode: 138
+    title: 'Folge 138: Das neue Müllauto'
+  - id: 4qQbfYDSaexEwY7dI95qMi
+    episode: 139
+    title: 'Folge 139: Der Dinosaurierknochen'
+  - id: 5qpOBsGa2q0Ok59f46ebw5
+    episode: 140
+    title: 'Folge 140: Weihnachtsmarkt im Zoo'
+  - id: 4jxT7kNMkxJTrvI5nTY7RS
+    episode: 141
+    title: 'Folge 141: Nachts in der Erfinderwerkstatt'
+  - id: 537xSgswIkL2ME3MwraGtb
+    episode: 142
+    title: 'Folge 142: Das besondere Osterei'
+  - id: 0xOTcVWrg0Hunbi3AMU15I
+    episode: 143
+    title: 'Folge 143: Die Halloween-Nacht'
+  - id: 6QZ9X0aeJflvlniT4vqthx
+    episode: 144
+    title: 'Folge 144: Der Zuckerstückchen-Express'
+  - id: 2LlZ7aBVcp0sqKcXcEm5hM
+    episode: 145
+    title: 'Folge 145: Zurück auf dem Bauernhof'
+  - id: 5T0h6kxqbvYJZorwTQVQbK
+    episode: 146
+    title: 'Folge 146: als Wikinger'
+  - id: 2jgebOVzoVTmDGe526pJjZ
+    episode: 147
+    title: 'Folge 147: Schlittenfahrt mit Hindernissen'
+  - id: 1LrQphIc546HmGso1CbDPR
+    episode: 148
+    title: 'Folge 148: Benjamin als Rettungselefant'
+  - id: 5GmHB4Vxr5GsNUwUNEoOAN
+    episode: 149
+    title: 'Folge 149: Auf der Tankstelle'
+  - id: 2Oh8TfUadKzI7HRNuz8MXs
+    episode: 150
+    title: 'Folge 150: auf Weltreise'
+  - id: 73cpcSaEWHRilez9XaGsCM
+    episode: 151
+    title: 'Folge 151: Das Elefantenkarussell'
+  - id: 0LbnGwmkoi6g22g8B5moLH
+    episode: 152
+    title: 'Folge 152: Schatzsuche im Zoosee'
+  - id: 1HZoPwcqIJUPHBTcopsEkE
+    episode: 153
+    title: 'Folge 153: Das große Gewitter'
+  - id: 4aFcAACP4SOnrxGX3OX9QC
+    episode: 154
+    title: 'Folge 154: in Italien'
+  - id: 45vjPlnLo7rYO2kZSFAqpn
+    episode: 155
+    title: 'Folge 155: und der Roboter'
+  - id: 00jaPHFcxpr4TcKicb0S5k
+    episode: 156
+    title: 'Folge 156: als Bergretter'
+  - id: 7z6kxqA39I6BMo2zyBT9Jx
+    episode: 157
+    title: 'Folge 157: als Sänger'
+  - id: 5ufylXwAl3QKljHfO3Yl3D
+    episode: 158
+    title: 'Folge 158: Der Fußball-Pokal'
+  - id: 38JdayoOePzvLK429bX8Z9
+    episode: 159
+    title: 'Folge 159: als Robin Hood'
+  - id: 7KryUkeiPcF0xOPhUy1aZZ
+    episode: 160
+    title: 'Folge 160: als Höhlenforscher'
+  - id: 3BEqo9EoFpHk9wP0I8Lw3U
+    episode: 161
+    title: 'Folge 161: zurück zur Leuchtturminsel'
+  - id: 70t6sQ44zjfpFqpvgToKYj
+    episode: 162
+    title: 'Folge 162: Ärger mit Rudi Raffke'
+  - id: 68BljNSAiszk4ogIdGW2iR
+    episode: 163
+    title: 'Folge 163: Die Drehorgel'
+  - id: 012b2Z2FgZfxcncnVLxvQP
+    episode: 164
+    title: 'Folge 164: als Eisverkäufer'
+  - id: 3k35LfD5Vzb8kMiYfr6Jd8
+    episode: 165
+    title: 'Folge 165: Der Paradiesvogel'
+  - id: 7cFwHnXBUBCC2eonrJYuOK
+    episode: 166
+    title: 'Folge 166: im Football-Fieber'
+  - id: 4E4xYZI969WRaBD9HssQcj
+    episode: 167
+    title: 'Folge 167: Der Meisterdetektiv'
+  - id: 5c9zfPgnRBIvJdzSumIw5r
+    episode: 168
+    title: 'Folge 168: Die Elchkuh'
+- id: die_drei_fragezeichen
+  title: "Die drei ???"
+  aliases:
+  - "Die drei Fragezeichen"
+  - "Die drei ???"
+  keywords:
+  - "drei ???"
+  - "drei fragezeichen"
+  spotify_artist_ids:
+  - "3meJIgRw7YleJrmbpbJK6S"      # Die drei ??? (1.24M followers, 302 albums)
     # Albums: "116/Codename: Cobra", "Folge 227: Melodie der Rache"
     # Series name absent from album title — artist ID is the only reliable match.
     # L5: 69% use NNN/ format, 9% Folge N.
-    episode_pattern: "(?:^(\\d{1,3})/|[Ff]olge\\s+(\\d+))"
+  episode_pattern: "(?:^(\\d{1,3})/|[Ff]olge\\s+(\\d+))"
 
-  - id: die_drei_fragezeichen_kids
-    title: "Die drei ??? Kids"
-    aliases:
-      - "Die drei ??? Kids"
-      - "Die drei Fragezeichen Kids"
-    keywords:
-      - "drei ??? kids"
-      - "drei fragezeichen kids"
-    spotify_artist_ids:
-      - "0vLsqW05dyLvjuKKftAEGA"  # Die drei ??? Kids (400k followers, 120 albums)
+- id: die_drei_fragezeichen_kids
+  title: "Die drei ??? Kids"
+  aliases:
+  - "Die drei ??? Kids"
+  - "Die drei Fragezeichen Kids"
+  keywords:
+  - "drei ??? kids"
+  - "drei fragezeichen kids"
+  spotify_artist_ids:
+  - "0vLsqW05dyLvjuKKftAEGA"      # Die drei ??? Kids (400k followers, 120 albums)
     # Albums: "033/Nacht im Kerker", "Folge 101: Geistermusik"
     # L5: 67% NNN/ format, 18% Folge N.
-    episode_pattern: "(?:^(\\d{1,3})/|[Ff]olge\\s+(\\d+))"
+  episode_pattern: "(?:^(\\d{1,3})/|[Ff]olge\\s+(\\d+))"
 
-  - id: tkkg
-    title: TKKG
-    aliases:
-      - TKKG
-    keywords:
-      - tkkg
-    spotify_artist_ids:
-      - "61qDotnjM0jnY5lkfOP7ve"  # TKKG (301k followers, 152 albums, 78% NNN/)
-      - "0i38tQX5j4gZ0KS3eCMoIl"  # TKKG Retro-Archiv (62k followers, 96 albums, 100% NNN/)
+- id: tkkg
+  title: TKKG
+  aliases:
+  - TKKG
+  keywords:
+  - tkkg
+  spotify_artist_ids:
+  - "61qDotnjM0jnY5lkfOP7ve"      # TKKG (301k followers, 152 albums, 78% NNN/)
+  - "0i38tQX5j4gZ0KS3eCMoIl"      # TKKG Retro-Archiv (62k followers, 96 albums, 100% NNN/)
     # Albums: "Folge 239: Vollgas ins Verderben", "140/Draculas Erben"
     # Series name absent — artist ID is the only reliable match.
-    episode_pattern: "(?:^(\\d{1,3})/|[Ff]olge\\s+(\\d+))"
+  episode_pattern: "(?:^(\\d{1,3})/|[Ff]olge\\s+(\\d+))"
 
-  - id: bibi_und_tina
-    title: Bibi & Tina
-    aliases:
-      - "Bibi & Tina"
-      - "Bibi und Tina"
-    keywords:
-      - "bibi & tina"
-      - "bibi und tina"
-    spotify_artist_ids:
-      - "2x8vG4f0HYXzMEo3xNsoiI"  # Bibi und Tina (602k followers, 177 albums, 69% Folge N)
+- id: bibi_und_tina
+  title: Bibi & Tina
+  aliases:
+  - "Bibi & Tina"
+  - "Bibi und Tina"
+  keywords:
+  - "bibi & tina"
+  - "bibi und tina"
+  spotify_artist_ids:
+  - "2x8vG4f0HYXzMEo3xNsoiI"      # Bibi und Tina (602k followers, 177 albums, 69% Folge N)
     # Spotify: "Folge 123: Das große Reitturnier" — series name present.
-    episode_pattern: "[Ff]olge\\s+(\\d+)"
+  episode_pattern: "[Ff]olge\\s+(\\d+)"
 
-  - id: pumuckl
-    title: Pumuckl
-    aliases:
-      - Pumuckl
-      - "Meister Eder und sein Pumuckl"
-      - "Kobold Pumuckl"
-    keywords:
-      - pumuckl
-      - "meister eder"
-    spotify_artist_ids:
-      - "1lhceMHrxr0jC943AuAhhh"  # Pumuckl (65k followers, 122 albums, 87% N: format)
+- id: pumuckl
+  title: Pumuckl
+  aliases:
+  - Pumuckl
+  - "Meister Eder und sein Pumuckl"
+  - "Kobold Pumuckl"
+  keywords:
+  - pumuckl
+  - "meister eder"
+  spotify_artist_ids:
+  - "1lhceMHrxr0jC943AuAhhh"      # Pumuckl (65k followers, 122 albums, 87% N: format)
     # Spotify: "19: Pumuckl im Zoo (Das Original aus dem Fernsehen)"
-    episode_pattern: "^(\\d{1,2}):\\s"
+  episode_pattern: "^(\\d{1,2}):\\s"
 
-  - id: conni
-    title: Conni
-    aliases:
-      - Conni
-      - "Meine Freundin Conni"
-    keywords:
-      - conni
-    spotify_artist_ids:
-      - "0jRC2uXx4hEpqNrBDJdY7l"  # Conni (152k followers, 93 albums)
-      - "0HerMOOFZXxIF3Yg9BVl0W"  # Meine Freundin Conni (62k followers, 18 albums, 56% N: format)
+- id: conni
+  title: Conni
+  aliases:
+  - Conni
+  - "Meine Freundin Conni"
+  keywords:
+  - conni
+  spotify_artist_ids:
+  - "0jRC2uXx4hEpqNrBDJdY7l"      # Conni (152k followers, 93 albums)
+  - "0HerMOOFZXxIF3Yg9BVl0W"      # Meine Freundin Conni (62k followers, 18 albums, 56% N: format)
     # "Meine Freundin Conni" releases numbered with ^N: format; "Conni" mainly standalone.
-    episode_pattern: "^(\\d+):\\s"
+  episode_pattern: "^(\\d+):\\s"
 
-  - id: pippi_langstrumpf
-    title: Pippi Langstrumpf
-    aliases:
-      - "Pippi Langstrumpf"
-      - "Pippi Långstrump"
-    keywords:
-      - pippi
-      - langstrumpf
-      - "pippi långstrump"
-    spotify_artist_ids:
-      - "56X4yBwPoibTkKAaQ8sTJQ"  # Pippi Langstrumpf (73k followers, 48 albums)
+- id: pippi_langstrumpf
+  title: Pippi Langstrumpf
+  aliases:
+  - "Pippi Langstrumpf"
+  - "Pippi Långstrump"
+  keywords:
+  - pippi
+  - langstrumpf
+  - "pippi långstrump"
+  spotify_artist_ids:
+  - "56X4yBwPoibTkKAaQ8sTJQ"      # Pippi Langstrumpf (73k followers, 48 albums)
     # Spotify: "Pippi Langstrumpf 1. Das Hörspiel" (numbered book trilogy)
-    episode_pattern: "Pippi\\s+Lang[sz]trum[pf]+\\s+(\\d+)[.\\s]"
+  episode_pattern: "Pippi\\s+Lang[sz]trum[pf]+\\s+(\\d+)[.\\s]"
 
-  - id: pettersson_und_findus
-    title: Pettersson und Findus
-    aliases:
-      - "Pettersson und Findus"
-      - "Pettersson & Findus"
-    keywords:
-      - pettersson
-      - findus
-    spotify_artist_ids:
-      - "3YZqnPKdtP5qP4LSvrgx9i"  # Pettersson und Findus (91k followers, 59 albums)
+- id: pettersson_und_findus
+  title: Pettersson und Findus
+  aliases:
+  - "Pettersson und Findus"
+  - "Pettersson & Findus"
+  keywords:
+  - pettersson
+  - findus
+  spotify_artist_ids:
+  - "3YZqnPKdtP5qP4LSvrgx9i"      # Pettersson und Findus (91k followers, 59 albums)
     # Spotify: "Folge 10: Findus und das eigene Fahrrad"
-    episode_pattern: "[Ff]olge\\s+(\\d+)"
+  episode_pattern: "[Ff]olge\\s+(\\d+)"
 
-  - id: das_sams
-    title: Das Sams
-    aliases:
-      - "Das Sams"
-    keywords:
-      - "das sams"
-    spotify_artist_ids:
-      - "5XxY429tXrkPUdlOZbmNg0"  # Das Sams (18k followers, 14 albums, 93% " N." pattern)
+- id: das_sams
+  title: Das Sams
+  aliases:
+  - "Das Sams"
+  keywords:
+  - "das sams"
+  spotify_artist_ids:
+  - "5XxY429tXrkPUdlOZbmNg0"      # Das Sams (18k followers, 14 albums, 93% " N." pattern)
     # Spotify: "Das Sams 1. Eine Woche voller Samstage"
     # keyword "sams" alone was too short — matched unrelated titles.
-    episode_pattern: "(?:Das\\s+)?Sams\\s+(\\d+)[.\\s]"
+  episode_pattern: "(?:Das\\s+)?Sams\\s+(\\d+)[.\\s]"
 
-  - id: feuerwehrmann_sam
-    title: Feuerwehrmann Sam
-    aliases:
-      - "Feuerwehrmann Sam"
-      - "Fireman Sam"
-    keywords:
-      - "feuerwehrmann sam"
-      - "fireman sam"
-    spotify_artist_ids:
-      - "4qhaHyCtCaFugTqT9LzuKp"  # Feuerwehrmann Sam (57k followers, 171 albums, 70% Folge N)
+- id: feuerwehrmann_sam
+  title: Feuerwehrmann Sam
+  aliases:
+  - "Feuerwehrmann Sam"
+  - "Fireman Sam"
+  keywords:
+  - "feuerwehrmann sam"
+  - "fireman sam"
+  spotify_artist_ids:
+  - "4qhaHyCtCaFugTqT9LzuKp"      # Feuerwehrmann Sam (57k followers, 171 albums, 70% Folge N)
     # Albums: "Folge 242: Die neue Feuerwache" — series name absent from title.
     # Artist ID is required for reliable matching.
-    episode_pattern: "[Ff]olge\\s+(\\d+)"
+  episode_pattern: "[Ff]olge\\s+(\\d+)"
 
-  - id: biene_maja
-    title: Biene Maja
-    aliases:
-      - "Biene Maja"
-      - "Die Biene Maja"
-    keywords:
-      - "biene maja"
-    spotify_artist_ids:
-      - "7GfaHcpmNcrcHoyGnOBsAz"  # Die Biene Maja (32k followers, 38 albums, 82% NNN/ format)
+- id: biene_maja
+  title: Biene Maja
+  aliases:
+  - "Biene Maja"
+  - "Die Biene Maja"
+  keywords:
+  - "biene maja"
+  spotify_artist_ids:
+  - "7GfaHcpmNcrcHoyGnOBsAz"      # Die Biene Maja (32k followers, 38 albums, 82% NNN/ format)
     # L5 shows dominant NNN/ format (31/38), plus some Folge N.
-    episode_pattern: "(?:^(\\d{2,3})/|[Ff]olge\\s+(\\d+))"
+  episode_pattern: "(?:^(\\d{2,3})/|[Ff]olge\\s+(\\d+))"
 
-  - id: hui_buh
-    title: Hui Buh das Schlossgespenst
-    aliases:
-      - "Hui Buh"
-      - "Hui Buh das Schlossgespenst"
-    keywords:
-      - "hui buh"
-    spotify_artist_ids:
-      - "1vjNjfkax0s9GD3jviAaZl"  # Hui Buh, das Schlossgespenst (15k, 23 alb, 100% NNN/)
-      - "4qobZpBtoZ58xPbLByIWzD"  # HUI BUH neue Welt (19k, 54 alb, 59% NNN/ + 31% Folge N)
-      - "5uXwgEQqIIIMsyi0LlRZDn"  # Der kleine Hui Buh (7k, 45 alb, 53% Folge N)
+- id: hui_buh
+  title: Hui Buh das Schlossgespenst
+  aliases:
+  - "Hui Buh"
+  - "Hui Buh das Schlossgespenst"
+  keywords:
+  - "hui buh"
+  spotify_artist_ids:
+  - "1vjNjfkax0s9GD3jviAaZl"      # Hui Buh, das Schlossgespenst (15k, 23 alb, 100% NNN/)
+  - "4qobZpBtoZ58xPbLByIWzD"      # HUI BUH neue Welt (19k, 54 alb, 59% NNN/ + 31% Folge N)
+  - "5uXwgEQqIIIMsyi0LlRZDn"      # Der kleine Hui Buh (7k, 45 alb, 53% Folge N)
     # Three subseries from different publishers, all grouped under one lauschi series.
-    episode_pattern: "(?:^(\\d{2,3})/|[Ff]olge\\s+(\\d+))"
+  episode_pattern: "(?:^(\\d{2,3})/|[Ff]olge\\s+(\\d+))"
 
-  - id: raeubrer_hotzenplotz
-    title: Räuber Hotzenplotz
-    aliases:
-      - "Räuber Hotzenplotz"
-      - "Der Räuber Hotzenplotz"
-    keywords:
-      - "räuber hotzenplotz"
-      - "rauber hotzenplotz"
-      - hotzenplotz
-    spotify_artist_ids:
-      - "3qAWgxar5hLNcW4ybNvjSW"  # Der Räuber Hotzenplotz (2.8k, 14 albums)
-      - "2AvETPAFFbhV737lBKXJj9"  # Der Räuber Hotzenplotz - Hörspiele (4.5k)
+- id: raeubrer_hotzenplotz
+  title: Räuber Hotzenplotz
+  aliases:
+  - "Räuber Hotzenplotz"
+  - "Der Räuber Hotzenplotz"
+  keywords:
+  - "räuber hotzenplotz"
+  - "rauber hotzenplotz"
+  - hotzenplotz
+  spotify_artist_ids:
+  - "3qAWgxar5hLNcW4ybNvjSW"      # Der Räuber Hotzenplotz (2.8k, 14 albums)
+  - "2AvETPAFFbhV737lBKXJj9"      # Der Räuber Hotzenplotz - Hörspiele (4.5k)
     # Publisher A: "Der Räuber Hotzenplotz 1: …"
     # Publisher B: "1: Der Räuber Hotzenplotz"
     # \d{1,3} caps at 999 to avoid extracting years (e.g. "1976 Neuauflage").
-    episode_pattern: "(?:^(\\d{1,3}):\\s|[Hh]otzenplotz[^0-9]*(\\d{1,3}))"
+  episode_pattern: "(?:^(\\d{1,3}):\\s|[Hh]otzenplotz[^0-9]*(\\d{1,3}))"
 
-  - id: kleiner_drache_kokosnuss
-    title: Der kleine Drache Kokosnuss
-    aliases:
-      - "Der kleine Drache Kokosnuss"
-      - "Drache Kokosnuss"
-    keywords:
-      - "drache kokosnuss"
-      - kokosnuss
+- id: kleiner_drache_kokosnuss
+  title: Der kleine Drache Kokosnuss
+  aliases:
+  - "Der kleine Drache Kokosnuss"
+  - "Drache Kokosnuss"
+  keywords:
+  - "drache kokosnuss"
+  - kokosnuss
     # No dedicated Spotify artist for the Hörspiel series (confirmed via API search
     # and album results — only "Theater Lichtermeer" for a musical, not a series).
     # "Ingo Siegner" artist (7wuKnjjgUlPDhrh72u4MI8) covers other Siegner works too.
     # Keyword-only matching is correct for this entry.
     # Standalone stories — no consistent Folge N numbering on Spotify.
 
-  - id: hanni_und_nanni
-    title: Hanni und Nanni
-    aliases:
-      - "Hanni und Nanni"
-    keywords:
-      - "hanni und nanni"
-      - "hanni & nanni"
-    spotify_artist_ids:
-      - "3iiABQlNuezpR3DcrlyPoA"  # Hanni und Nanni (52k followers, 99 albums, 69% NNN/)
-      - "4zZ6gJs5QRc7WpCZC6UjQF"  # Hanni & Nanni (9k followers)
+- id: hanni_und_nanni
+  title: Hanni und Nanni
+  aliases:
+  - "Hanni und Nanni"
+  keywords:
+  - "hanni und nanni"
+  - "hanni & nanni"
+  spotify_artist_ids:
+  - "3iiABQlNuezpR3DcrlyPoA"      # Hanni und Nanni (52k followers, 99 albums, 69% NNN/)
+  - "4zZ6gJs5QRc7WpCZC6UjQF"      # Hanni & Nanni (9k followers)
     # Three formats in the wild:
     #   "065/Hanni und Nanni voll im Trend!"       (NNN/ prefix)
     #   "Folge 79: Prost Neujahr, Hanni und Nanni" (Folge N:)
     #   "Klassiker 1 - 1972 Hanni und Nanni …"    (Klassiker N)
-    episode_pattern: "(?:^(\\d{1,3})/|[Ff]olge\\s+(\\d+)|[Kk]lassiker\\s+(\\d+))"
+  episode_pattern: "(?:^(\\d{1,3})/|[Ff]olge\\s+(\\d+)|[Kk]lassiker\\s+(\\d+))"
 
-  - id: fuenf_freunde
-    title: Fünf Freunde
-    aliases:
-      - "Fünf Freunde"
-      - "Funf Freunde"
-    keywords:
-      - "fünf freunde"
-      - "funf freunde"
-      - "5 freunde"
-    spotify_artist_ids:
-      - "1hD52edfn6aNsK3fb5c2OT"  # Fünf Freunde (141k followers, 175 albums, 81% NNN/)
+- id: fuenf_freunde
+  title: Fünf Freunde
+  aliases:
+  - "Fünf Freunde"
+  - "Funf Freunde"
+  keywords:
+  - "fünf freunde"
+  - "funf freunde"
+  - "5 freunde"
+  spotify_artist_ids:
+  - "1hD52edfn6aNsK3fb5c2OT"      # Fünf Freunde (141k followers, 175 albums, 81% NNN/)
     # Albums: "107/und die Nacht im Safari-Park" — series name absent.
     # L5: dominant NNN/ format (142/175) + Folge N (29/175).
-    episode_pattern: "(?:^(\\d{1,3})/|[Ff]olge\\s+(\\d+))"
+  episode_pattern: "(?:^(\\d{1,3})/|[Ff]olge\\s+(\\d+))"
 
-  - id: die_olchis
-    title: Die Olchis
-    aliases:
-      - "Die Olchis"
-      - "Olchis"
-    keywords:
-      - olchis
-    spotify_artist_ids:
-      - "32Aa42Dbmqm4GKsv3wUSMb"  # Die Olchis / Erhard Dietl (24k followers, 66 albums)
+- id: die_olchis
+  title: Die Olchis
+  aliases:
+  - "Die Olchis"
+  - "Olchis"
+  keywords:
+  - olchis
+  spotify_artist_ids:
+  - "32Aa42Dbmqm4GKsv3wUSMb"      # Die Olchis / Erhard Dietl (24k followers, 66 albums)
     # L5 shows no clear numbering pattern (title_space_N_dot 30% = borderline).
     # Standalone stories; no episode_pattern added.
 
-  - id: hexe_lilli
-    title: Hexe Lilli
-    aliases:
-      - "Hexe Lilli"
-      - "Die Hexe Lilli"
-    keywords:
-      - "hexe lilli"
-    spotify_artist_ids:
-      - "2IYME9b8x0ptqROxrDvAQ0"  # Hexe Lilli (48k followers, 41 albums, 59% NNN/)
+- id: hexe_lilli
+  title: Hexe Lilli
+  aliases:
+  - "Hexe Lilli"
+  - "Die Hexe Lilli"
+  keywords:
+  - "hexe lilli"
+  spotify_artist_ids:
+  - "2IYME9b8x0ptqROxrDvAQ0"      # Hexe Lilli (48k followers, 41 albums, 59% NNN/)
     # L5: 24/41 albums use NNN/ prefix format.
-    episode_pattern: "^(\\d{2,3})/"
+  episode_pattern: "^(\\d{2,3})/"
 
-  - id: lauras_stern
-    title: Lauras Stern
-    aliases:
-      - "Lauras Stern"
-    keywords:
-      - "lauras stern"
-    spotify_artist_ids:
-      - "0xY8w0o3cSH3gzx4G4h8qD"  # Lauras Stern (16k followers, 25 albums)
+- id: lauras_stern
+  title: Lauras Stern
+  aliases:
+  - "Lauras Stern"
+  keywords:
+  - "lauras stern"
+  spotify_artist_ids:
+  - "0xY8w0o3cSH3gzx4G4h8qD"      # Lauras Stern (16k followers, 25 albums)
     # Spotify: "Lauras Stern, Folge 1:", "Lauras Stern, Band 12:", "Lauras Stern 10 (…)"
     # \d{1,2} in the bare-number alternative caps at 99, avoiding year extraction.
-    episode_pattern: "(?:[Ff]olge\\s+(\\d+)|[Bb]and\\s+(\\d+)|[Tt]eil\\s+(\\d+)|Lauras?\\s+Stern[,\\s]*(\\d{1,2}))"
+  episode_pattern: "(?:[Ff]olge\\s+(\\d+)|[Bb]and\\s+(\\d+)|[Tt]eil\\s+(\\d+)|Lauras?\\s+Stern[,\\s]*(\\\
+    d{1,2}))"
 
-  - id: tom_turbo
-    title: Tom Turbo
-    aliases:
-      - "Tom Turbo"
-    keywords:
-      - "tom turbo"
-    spotify_artist_ids:
-      - "39ePAp05xC1loWbb7bF46b"  # Thomas Brezina (creator, 10 albums under this ID)
+- id: tom_turbo
+  title: Tom Turbo
+  aliases:
+  - "Tom Turbo"
+  keywords:
+  - "tom turbo"
+  spotify_artist_ids:
+  - "39ePAp05xC1loWbb7bF46b"      # Thomas Brezina (creator, 10 albums under this ID)
     # Phase-2 artist ID note: Thomas Brezina has other series. A non-Tom-Turbo
     # Brezina album without "tom turbo" in the title would match via artist ID.
     # Risk is low: only 10 albums and keyword phase-1 handles titled albums.
-    episode_pattern: "[Tt]eil\\s+(\\d+)"
+  episode_pattern: "[Tt]eil\\s+(\\d+)"
 
-  - id: ritter_rost
-    title: Ritter Rost
-    aliases:
-      - "Ritter Rost"
-    keywords:
-      - "ritter rost"
-    spotify_artist_ids:
-      - "6zn86iqNCkQZqsBvEv6oBO"  # Ritter Rost (25k followers, 53 albums)
+- id: ritter_rost
+  title: Ritter Rost
+  aliases:
+  - "Ritter Rost"
+  keywords:
+  - "ritter rost"
+  spotify_artist_ids:
+  - "6zn86iqNCkQZqsBvEv6oBO"      # Ritter Rost (25k followers, 53 albums)
     # Musical series with individual book adaptations — no consistent episode numbering.
 
-  - id: kommissar_kugelblitz
-    title: Kommissar Kugelblitz
-    aliases:
-      - "Kommissar Kugelblitz"
-    keywords:
-      - "kommissar kugelblitz"
-      - kugelblitz
-    spotify_artist_ids:
-      - "2c0sDbsWQXZc2Ljq735WgV"  # Kommissar Kugelblitz (9k followers, 51 albums, 37% Folge N)
+- id: kommissar_kugelblitz
+  title: Kommissar Kugelblitz
+  aliases:
+  - "Kommissar Kugelblitz"
+  keywords:
+  - "kommissar kugelblitz"
+  - kugelblitz
+  spotify_artist_ids:
+  - "2c0sDbsWQXZc2Ljq735WgV"      # Kommissar Kugelblitz (9k followers, 51 albums, 37% Folge N)
     # Location-titled: "Kugelblitz in London" — Folge N present in subset.
-    episode_pattern: "[Ff]olge\\s+(\\d+)"
+  episode_pattern: "[Ff]olge\\s+(\\d+)"
 
-  - id: nils_holgersson
-    title: Nils Holgersson
-    aliases:
-      - "Nils Holgersson"
-      - "Die wunderbare Reise des kleinen Nils Holgersson"
-    keywords:
-      - "nils holgersson"
-    spotify_artist_ids:
+- id: nils_holgersson
+  title: Nils Holgersson
+  aliases:
+  - "Nils Holgersson"
+  - "Die wunderbare Reise des kleinen Nils Holgersson"
+  keywords:
+  - "nils holgersson"
+  spotify_artist_ids:
       # Albums appear under three co-artists: "Audio Media Digital Hörbücher" +
       # "Nils Holgersson" + "Selma Lagerlöf" — the first album artist is the
       # publisher, not the series. All 68 albums are genuine Nils Holgersson
       # content. The artist ID resolving to a publisher label is expected behavior
       # for Spotify multi-artist entries on Hörspiel releases.
-      - "6vS1r2PgQlby3jeU4KpDds"  # Nils Holgersson (16k followers, 68 albums, 85% Folge N)
+  - "6vS1r2PgQlby3jeU4KpDds"      # Nils Holgersson (16k followers, 68 albums, 85% Folge N)
     # Formats: "Der Abschied von den Wildgänsen (Nils Holgersson, Folge 54)"
     # Pattern requires explicit "Folge" before the number — no bare-number risk.
-    episode_pattern: "(?:[Ff]olge\\s+(\\d+)|Nils\\s+Holgersson[,\\s]*[Ff]olge\\s+(\\d+))"
+  episode_pattern: "(?:[Ff]olge\\s+(\\d+)|Nils\\s+Holgersson[,\\s]*[Ff]olge\\s+(\\d+))"
 
-  - id: heidi
-    title: Heidi
-    aliases:
-      - "Heidi"
-    keywords:
-      - heidi
-    spotify_artist_ids:
-      - "2kSiXgvssxAYOIvu4lwVGf"  # Heidi (Hörspiel artist, 11k followers, 24 albums, 96% NNN/)
+- id: heidi
+  title: Heidi
+  aliases:
+  - "Heidi"
+  keywords:
+  - heidi
+  spotify_artist_ids:
+  - "2kSiXgvssxAYOIvu4lwVGf"      # Heidi (Hörspiel artist, 11k followers, 24 albums, 96% NNN/)
     # NNN/ format confirmed by L5 data (23/24 albums). Artist ID is primary match.
-    episode_pattern: "^(\\d{2,3})/"
+  episode_pattern: "^(\\d{2,3})/"
 
-  - id: ronja_raeubertocher
-    title: Ronja Räubertochter
-    aliases:
-      - "Ronja Räubertochter"
-      - "Ronja Raubertochter"
-    keywords:
-      - "ronja räubertochter"
-      - "ronja raubertochter"
+- id: ronja_raeubertocher
+  title: Ronja Räubertochter
+  aliases:
+  - "Ronja Räubertochter"
+  - "Ronja Raubertochter"
+  keywords:
+  - "ronja räubertochter"
+  - "ronja raubertochter"
     # Using keyword-only: "Astrid Lindgren Deutsch" artist covers multiple lauschi series
     # (Pippi, Bullerbü, Ronja, etc.) — artist ID matching would cause cross-series false positives.
     # Single novel adaptation; no numbered Hörspiel series.
 
-  - id: emil_detektive
-    title: Emil und die Detektive
-    aliases:
-      - "Emil und die Detektive"
-    keywords:
-      - "emil und die detektive"
-      - "emil detektive"
+- id: emil_detektive
+  title: Emil und die Detektive
+  aliases:
+  - "Emil und die Detektive"
+  keywords:
+  - "emil und die detektive"
+  - "emil detektive"
     # Single story; keyword-only is sufficient for Kästner's Hörspiel releases.
 
-  - id: bob_baumeister
-    title: Bob der Baumeister
-    aliases:
-      - "Bob der Baumeister"
-      - "Bob the Builder"
-    keywords:
-      - "bob der baumeister"
-    spotify_artist_ids:
-      - "0nNcNNBedN3GKqhlUsAObU"  # Bob der Baumeister (26k followers, 28 albums, 93% NNN/)
+- id: bob_baumeister
+  title: Bob der Baumeister
+  aliases:
+  - "Bob der Baumeister"
+  - "Bob the Builder"
+  keywords:
+  - "bob der baumeister"
+  spotify_artist_ids:
+  - "0nNcNNBedN3GKqhlUsAObU"      # Bob der Baumeister (26k followers, 28 albums, 93% NNN/)
     # L5: 26/28 albums use NNN/ prefix. Clear numbering.
-    episode_pattern: "^(\\d{2,3})/"
+  episode_pattern: "^(\\d{2,3})/"
 
-  - id: wickie
-    title: Wickie und die starken Männer
-    aliases:
-      - "Wickie und die starken Männer"
-      - "Wickie"
-    keywords:
-      - "wickie und die starken"
-      - wickie
-    spotify_artist_ids:
-      - "7fMJUFfMkaB6tT8Dte6tgF"  # Wickie (35k followers, 37 albums, 73% NNN/)
+- id: wickie
+  title: Wickie und die starken Männer
+  aliases:
+  - "Wickie und die starken Männer"
+  - "Wickie"
+  keywords:
+  - "wickie und die starken"
+  - wickie
+  spotify_artist_ids:
+  - "7fMJUFfMkaB6tT8Dte6tgF"      # Wickie (35k followers, 37 albums, 73% NNN/)
     # L5: 27/37 albums use NNN/ prefix format.
-    episode_pattern: "^(\\d{2,3})/"
+  episode_pattern: "^(\\d{2,3})/"
 
   # ── Detected from Spotify playlists / editorial sources ──────────────────
 
-  - id: prinzessin_lillifee
-    title: Prinzessin Lillifee
-    aliases:
-      - "Prinzessin Lillifee"
-      - "Lillifee"
-    keywords:
-      - "prinzessin lillifee"
-      - lillifee
-    spotify_artist_ids:
-      - "78iNrogmY4Ru7d7PLtwD4b"  # Prinzessin Lillifee (21k followers, 46 albums, 33% NNN/)
+- id: prinzessin_lillifee
+  title: Prinzessin Lillifee
+  aliases:
+  - "Prinzessin Lillifee"
+  - "Lillifee"
+  keywords:
+  - "prinzessin lillifee"
+  - lillifee
+  spotify_artist_ids:
+  - "78iNrogmY4Ru7d7PLtwD4b"      # Prinzessin Lillifee (21k followers, 46 albums, 33% NNN/)
     # 15/46 albums numbered; rest are song compilations. Episode pattern only fires where applicable.
-    episode_pattern: "^(\\d{2,3})/"
+  episode_pattern: "^(\\d{2,3})/"
 
-  - id: die_fuchsbande
-    title: Die Fuchsbande
-    aliases:
-      - "Die Fuchsbande"
-      - "Fuchsbande"
-    keywords:
-      - fuchsbande
-    spotify_artist_ids:
-      - "325gkGGHH2WrswRh3qC3e9"  # Die Fuchsbande (31k followers, 49 albums)
+- id: die_fuchsbande
+  title: Die Fuchsbande
+  aliases:
+  - "Die Fuchsbande"
+  - "Fuchsbande"
+  keywords:
+  - fuchsbande
+  spotify_artist_ids:
+  - "325gkGGHH2WrswRh3qC3e9"      # Die Fuchsbande (31k followers, 49 albums)
     # Albums: "010/Fall 19: Das Loch in der Tür", "Folge 47: Fall 93: …"
     # Series name ABSENT from album titles — artist ID is the ONLY reliable match.
     # L5: Fall N fires 96% (47/49) — case number is most user-meaningful identifier.
-    episode_pattern: "[Ff]all\\s+(\\d+)"
+  episode_pattern: "[Ff]all\\s+(\\d+)"
 
-  - id: tkkg_junior
-    title: TKKG Junior
-    aliases:
-      - "TKKG Junior"
-    keywords:
-      - "tkkg junior"
-    spotify_artist_ids:
-      - "1ZFGYimyLnfKewOL84ABEp"  # TKKG Junior (93k followers, 44 albums, 93% Folge N)
+- id: tkkg_junior
+  title: TKKG Junior
+  aliases:
+  - "TKKG Junior"
+  keywords:
+  - "tkkg junior"
+  spotify_artist_ids:
+  - "1ZFGYimyLnfKewOL84ABEp"      # TKKG Junior (93k followers, 44 albums, 93% Folge N)
     # Albums: "Folge 41: Aliens im Anflug" — series name absent from title.
-    episode_pattern: "[Ff]olge\\s+(\\d+)"
+  episode_pattern: "[Ff]olge\\s+(\\d+)"
 
-  - id: fuenf_freunde_junior
-    title: Fünf Freunde Junior
-    aliases:
-      - "Fünf Freunde Junior"
-      - "5 Freunde Junior"
-    keywords:
-      - "fünf freunde junior"
-      - "5 freunde junior"
-    spotify_artist_ids:
-      - "4olmFseR6mODuZ27j4VPAm"  # Fünf Freunde Junior (8k followers, 14 albums, 100% Folge N)
+- id: fuenf_freunde_junior
+  title: Fünf Freunde Junior
+  aliases:
+  - "Fünf Freunde Junior"
+  - "5 Freunde Junior"
+  keywords:
+  - "fünf freunde junior"
+  - "5 freunde junior"
+  spotify_artist_ids:
+  - "4olmFseR6mODuZ27j4VPAm"      # Fünf Freunde Junior (8k followers, 14 albums, 100% Folge N)
     # Albums: "Folge 1: Der unsichtbare Dieb/…" — series name absent.
-    episode_pattern: "[Ff]olge\\s+(\\d+)"
+  episode_pattern: "[Ff]olge\\s+(\\d+)"
 
-  - id: die_playmos
-    title: Die Playmos
-    aliases:
-      - "Die Playmos"
-      - "Playmos"
-    keywords:
-      - playmos
-    spotify_artist_ids:
-      - "1QIbeCbJNuFMKhZMY1rey8"  # Die Playmos (72k followers, 119 albums, 83% Folge N)
+- id: die_playmos
+  title: Die Playmos
+  aliases:
+  - "Die Playmos"
+  - "Playmos"
+  keywords:
+  - playmos
+  spotify_artist_ids:
+  - "1QIbeCbJNuFMKhZMY1rey8"      # Die Playmos (72k followers, 119 albums, 83% Folge N)
     # Spotify: "Folge 46: Die Playmos ermitteln (Das Original Playmobil Hörspiel)"
-    episode_pattern: "[Ff]olge\\s+(\\d+)"
+  episode_pattern: "[Ff]olge\\s+(\\d+)"
 
-  - id: wendy
-    title: Wendy
-    aliases:
-      - "Wendy"
-    keywords:
-      - "wendy"
-    spotify_artist_ids:
-      - "7bq6y10LXuxWmZ7Q1E9mwr"  # Wendy (Hörspiel, 25k followers, 99 albums, 99% Folge N)
+- id: wendy
+  title: Wendy
+  aliases:
+  - "Wendy"
+  keywords:
+  - "wendy"
+  spotify_artist_ids:
+  - "7bq6y10LXuxWmZ7Q1E9mwr"      # Wendy (Hörspiel, 25k followers, 99 albums, 99% Folge N)
       # NOT "WENDY" 0FRUZvZNPzM3YJMABJxf2K — different artist (K-pop)
     # Spotify: "Folge 22: Wendy verliebt sich", "005/Wendy Wolf hat Geburtstag"
-    episode_pattern: "(?:[Ff]olge\\s+(\\d+)|^(\\d{3})/)"
+  episode_pattern: "(?:[Ff]olge\\s+(\\d+)|^(\\d{3})/)"
 
-  - id: asterix
-    title: Asterix
-    aliases:
-      - "Asterix"
-      - "Asterix und Obelix"
-    keywords:
-      - asterix
-    spotify_artist_ids:
-      - "55dz39BSDTWYbBFVZRj72b"  # Asterix (66k followers, 42 albums, 98% N: format)
+- id: asterix
+  title: Asterix
+  aliases:
+  - "Asterix"
+  - "Asterix und Obelix"
+  keywords:
+  - asterix
+  spotify_artist_ids:
+  - "55dz39BSDTWYbBFVZRj72b"      # Asterix (66k followers, 42 albums, 98% N: format)
     # Spotify: "41: Asterix in Lusitanien", "02: Asterix und Kleopatra"
-    episode_pattern: "^(\\d{1,2}):\\s"
+  episode_pattern: "^(\\d{1,2}):\\s"
 
-  - id: lucky_luke
-    title: Lucky Luke
-    aliases:
-      - "Lucky Luke"
-    keywords:
-      - "lucky luke"
-    spotify_artist_ids:
-      - "3GhvVhdZylZUmxABM30UeP"  # Lucky Luke (21k followers, 18 albums, 67% N: format)
+- id: lucky_luke
+  title: Lucky Luke
+  aliases:
+  - "Lucky Luke"
+  keywords:
+  - "lucky luke"
+  spotify_artist_ids:
+  - "3GhvVhdZylZUmxABM30UeP"      # Lucky Luke (21k followers, 18 albums, 67% N: format)
       # NOT 5ee4yhrWOxaxvL77BoVpVR (148k — likely K-pop / different Lucky Luke)
     # L5: 12/18 albums use N: prefix (same format as Asterix/Pumuckl).
-    episode_pattern: "^(\\d{1,2}):\\s"
+  episode_pattern: "^(\\d{1,2}):\\s"
 
   # ── Michael Ende works ─────────────────────────────────────────────────────
 
-  - id: michael_ende
-    title: Michael Ende
-    aliases:
-      - "Momo"
-      - "Die unendliche Geschichte"
-      - "Jim Knopf und Lukas der Lokomotivführer"
-      - "Jim Knopf und die Wilde 13"
-      - "Der Wunschpunsch"
-      - "Das Traumfresserchen"
-    keywords:
-      - "michael ende"
-      - "jim knopf"
-      - "unendliche geschichte"
-      - wunschpunsch
-      - traumfresserchen
-      - momo
-    spotify_artist_ids:
-      - "1VORulhv2aMemo1kSvxdVX"  # Michael Ende (28k followers, 43 albums)
+- id: michael_ende
+  title: Michael Ende
+  aliases:
+  - "Momo"
+  - "Die unendliche Geschichte"
+  - "Jim Knopf und Lukas der Lokomotivführer"
+  - "Jim Knopf und die Wilde 13"
+  - "Der Wunschpunsch"
+  - "Das Traumfresserchen"
+  keywords:
+  - "michael ende"
+  - "jim knopf"
+  - "unendliche geschichte"
+  - wunschpunsch
+  - traumfresserchen
+  - momo
+  spotify_artist_ids:
+  - "1VORulhv2aMemo1kSvxdVX"      # Michael Ende (28k followers, 43 albums)
     # All Ende adaptations grouped under one lauschi series for UX simplicity.
     # Artist covers only Ende's works — no false-positive risk from artist ID.
 
   # ── Cornelia Funke ─────────────────────────────────────────────────────────
 
-  - id: gespensterjager
-    title: Gespensterjäger
-    aliases:
-      - "Gespensterjäger"
+- id: gespensterjager
+  title: Gespensterjäger
+  aliases:
+  - "Gespensterjäger"
       # "Geisterjäger" removed — wrong word; Geisterjäger is a different term
-    keywords:
-      - "gespensterjäger"
-      - "gespensterjager"
-    spotify_artist_ids:
-      - "4icYuK6RKqj5ALhxuJHDGU"  # Gespensterjäger (73 followers — series-specific label)
+  keywords:
+  - "gespensterjäger"
+  - "gespensterjager"
+  spotify_artist_ids:
+  - "4icYuK6RKqj5ALhxuJHDGU"      # Gespensterjäger (73 followers — series-specific label)
       # Not using Cornelia Funke artist (5HQzBHnczgis11u7lSLVbt) — covers unrelated titles.
     # Spotify: "Gespensterjäger auf eisiger Spur (Band 1)", "Folge 5: …"
-    episode_pattern: "(?:[Bb]and\\s+(\\d+)|[Ff]olge\\s+(\\d+)|^(\\d{2,3})/)"
+  episode_pattern: "(?:[Bb]and\\s+(\\d+)|[Ff]olge\\s+(\\d+)|^(\\d{2,3})/)"
 
-  - id: die_wilden_huehner
-    title: Die wilden Hühner
-    aliases:
-      - "Die wilden Hühner"
-      - "Die Wilden Hühner"
-    keywords:
-      - "wilden hühner"
-      - "wilden huhner"
-    spotify_artist_ids:
-      - "7FFCbo48YA1o0mhUE66DjO"  # Die Wilden Hühner (6k followers)
+- id: die_wilden_huehner
+  title: Die wilden Hühner
+  aliases:
+  - "Die wilden Hühner"
+  - "Die Wilden Hühner"
+  keywords:
+  - "wilden hühner"
+  - "wilden huhner"
+  spotify_artist_ids:
+  - "7FFCbo48YA1o0mhUE66DjO"      # Die Wilden Hühner (6k followers)
     # Cornelia Funke's popular girls' adventure series, ages 8-12.
     # No consistent numbering found in Spotify catalog.
 
   # ── Astrid Lindgren ────────────────────────────────────────────────────────
 
-  - id: bullerbue
-    title: Bullerbü
-    aliases:
-      - "Geschichten aus Bullerbü"
-      - "Bullerbü"
-      - "Bullerbue"
-      - "Wir Kinder aus Bullerbü"
-    keywords:
-      - bullerbü
-      - bullerbue
-    spotify_artist_ids:
-      - "6zjAfmQRjD2sWgEOkmKD3D"  # Wir Kinder aus Bullerbü (2k — series-specific)
+- id: bullerbue
+  title: Bullerbü
+  aliases:
+  - "Geschichten aus Bullerbü"
+  - "Bullerbü"
+  - "Bullerbue"
+  - "Wir Kinder aus Bullerbü"
+  keywords:
+  - bullerbü
+  - bullerbue
+  spotify_artist_ids:
+  - "6zjAfmQRjD2sWgEOkmKD3D"      # Wir Kinder aus Bullerbü (2k — series-specific)
       # Not using "Astrid Lindgren Deutsch" — would cross-match Pippi, Ronja, etc.
     # Standalone stories; no numbered series.
 
   # ── Janosch ────────────────────────────────────────────────────────────────
 
-  - id: janosch
-    title: Janosch
-    aliases:
-      - "Oh, wie schön ist Panama"
-      - "Der kleine Tiger"
-      - "Janosch"
-      - "Tigerente"
-    keywords:
-      - "oh wie schön ist panama"
-      - tigerente
-      - janosch
-    spotify_artist_ids:
-      - "2QnEjtjHZPLkj6dYDmSigw"  # Janosch (30k followers, 50 albums)
+- id: janosch
+  title: Janosch
+  aliases:
+  - "Oh, wie schön ist Panama"
+  - "Der kleine Tiger"
+  - "Janosch"
+  - "Tigerente"
+  keywords:
+  - "oh wie schön ist panama"
+  - tigerente
+  - janosch
+  spotify_artist_ids:
+  - "2QnEjtjHZPLkj6dYDmSigw"      # Janosch (30k followers, 50 albums)
     # Standalone picture-book adaptations; no numbered series.
 
   # ── Detektivbüro LasseMaja ─────────────────────────────────────────────────
 
-  - id: lassemaja
-    title: Detektivbüro LasseMaja
-    aliases:
-      - "Detektivbüro LasseMaja"
-      - "LasseMaja"
-      - "Lasse-Maja"
-    keywords:
-      - "lassemaja"
-      - "lasse-maja"
-      - "lasse maja"
-    spotify_artist_ids:
-      - "3Mr28PUoMrOvS8KshvBXa8"  # Martin Widmark (author, 29 albums, 100% Teil N)
+- id: lassemaja
+  title: Detektivbüro LasseMaja
+  aliases:
+  - "Detektivbüro LasseMaja"
+  - "LasseMaja"
+  - "Lasse-Maja"
+  keywords:
+  - "lassemaja"
+  - "lasse-maja"
+  - "lasse maja"
+  spotify_artist_ids:
+  - "3Mr28PUoMrOvS8KshvBXa8"      # Martin Widmark (author, 29 albums, 100% Teil N)
     # L5: 29/29 albums use "Teil N" format. Extremely consistent.
     # Spotify: "Das Dinogeheimnis [Detektivbüro LasseMaja, Teil 36 (Ungekürzt)]"
-    episode_pattern: "[Tt]eil\\s+(\\d+)"
+  episode_pattern: "[Tt]eil\\s+(\\d+)"
 
   # ── Tabaluga ───────────────────────────────────────────────────────────────
 
-  - id: tabaluga
-    title: Tabaluga
-    aliases:
-      - "Tabaluga"
-      - "Tabaluga und Leo"
-    keywords:
-      - tabaluga
-    spotify_artist_ids:
-      - "4M0PZyOPSvjzFEBRg3G8xA"  # Tabaluga (9.8k followers)
-      - "5W3s4beu23rOlseCbVOp4l"  # Peter Maffay (798k — creator, wide discography)
+- id: tabaluga
+  title: Tabaluga
+  aliases:
+  - "Tabaluga"
+  - "Tabaluga und Leo"
+  keywords:
+  - tabaluga
+  spotify_artist_ids:
+  - "4M0PZyOPSvjzFEBRg3G8xA"      # Tabaluga (9.8k followers)
+  - "5W3s4beu23rOlseCbVOp4l"      # Peter Maffay (798k — creator, wide discography)
     # Peter Maffay phase-2 note: Maffay has non-Tabaluga albums; keyword "tabaluga"
     # in phase-1 handles titled albums. Phase-2 only fires for untitled releases.
     # Standalone album adaptations based on the rock-opera; no consistent Folge N.
 
   # ── Toddler & preschool series (3-5 years) ────────────────────────────────
 
-  - id: bobo_siebenschlaefer
-    title: Bobo Siebenschläfer
-    aliases:
-      - "Bobo Siebenschläfer"
-      - "Bobo"
-    keywords:
-      - "bobo siebenschläfer"
-      - "bobo siebenschlafer"
-    spotify_artist_ids:
-      - "5LBMERk5Gvsq80NL5eJ6LG"  # Bobo Siebenschläfer (21k followers)
+- id: bobo_siebenschlaefer
+  title: Bobo Siebenschläfer
+  aliases:
+  - "Bobo Siebenschläfer"
+  - "Bobo"
+  keywords:
+  - "bobo siebenschläfer"
+  - "bobo siebenschlafer"
+  spotify_artist_ids:
+  - "5LBMERk5Gvsq80NL5eJ6LG"      # Bobo Siebenschläfer (21k followers)
     # Standalone bedtime stories for toddlers.
 
-  - id: leo_lausemaus
-    title: Leo Lausemaus
-    aliases:
-      - "Leo Lausemaus"
-    keywords:
-      - "leo lausemaus"
-    spotify_artist_ids:
-      - "6b9DQDp0xKeYM2vdK9pAE6"  # Leo Lausemaus (50k followers)
+- id: leo_lausemaus
+  title: Leo Lausemaus
+  aliases:
+  - "Leo Lausemaus"
+  keywords:
+  - "leo lausemaus"
+  spotify_artist_ids:
+  - "6b9DQDp0xKeYM2vdK9pAE6"      # Leo Lausemaus (50k followers)
     # Standalone stories for preschoolers (3-5 years).
 
-  - id: sandmaennchen
-    title: Sandmännchen
-    aliases:
-      - "Sandmännchen"
-      - "Unser Sandmännchen"
-      - "Sandmaennchen"
-    keywords:
-      - "sandmännchen"
-      - "sandmaennchen"
-      - "unser sandmännchen"
-    spotify_artist_ids:
-      - "02Z9KUEjSTXcsmEB7uhDiJ"  # Unser Sandmännchen (15k followers)
+- id: sandmaennchen
+  title: Sandmännchen
+  aliases:
+  - "Sandmännchen"
+  - "Unser Sandmännchen"
+  - "Sandmaennchen"
+  keywords:
+  - "sandmännchen"
+  - "sandmaennchen"
+  - "unser sandmännchen"
+  spotify_artist_ids:
+  - "02Z9KUEjSTXcsmEB7uhDiJ"      # Unser Sandmännchen (15k followers)
     # Iconic East/West German bedtime character; standalone stories.
 
-  - id: kleiner_rabe_socke
-    title: Der kleine Rabe Socke
-    aliases:
-      - "Der kleine Rabe Socke"
-      - "Rabe Socke"
-    keywords:
-      - "rabe socke"
-      - "kleiner rabe"
-    spotify_artist_ids:
-      - "6NdYPh29DHFBbiYzcK7Nb0"  # Der Kleine Rabe Socke (27k followers)
+- id: kleiner_rabe_socke
+  title: Der kleine Rabe Socke
+  aliases:
+  - "Der kleine Rabe Socke"
+  - "Rabe Socke"
+  keywords:
+  - "rabe socke"
+  - "kleiner rabe"
+  spotify_artist_ids:
+  - "6NdYPh29DHFBbiYzcK7Nb0"      # Der Kleine Rabe Socke (27k followers)
     # Standalone picture-book Hörspiele for preschoolers.
 
-  - id: peppa_wutz
-    title: Peppa Wutz
-    aliases:
-      - "Peppa Wutz"
-      - "Peppa Pig"
-      - "Peppa Pig Hörspiele"
-    keywords:
-      - "peppa wutz"
-      - "peppa pig"
-    spotify_artist_ids:
-      - "46iD7xFc8ubzILibDQ7fL7"  # Peppa Pig Hörspiele (43k followers)
+- id: peppa_wutz
+  title: Peppa Wutz
+  aliases:
+  - "Peppa Wutz"
+  - "Peppa Pig"
+  - "Peppa Pig Hörspiele"
+  keywords:
+  - "peppa wutz"
+  - "peppa pig"
+  spotify_artist_ids:
+  - "46iD7xFc8ubzILibDQ7fL7"      # Peppa Pig Hörspiele (43k followers)
     # German-dubbed Peppa Pig audio stories.
     # No consistent episode numbering — standalone stories.
 
   # ── Die Schule der magischen Tiere ────────────────────────────────────────
 
-  - id: schule_magische_tiere
-    title: Die Schule der magischen Tiere
-    aliases:
-      - "Die Schule der magischen Tiere"
-      - "Schule der magischen Tiere"
-    keywords:
-      - "schule der magischen tiere"
-      - "magischen tiere"
-    spotify_artist_ids:
-      - "1BElEHaU2xaZg7FOGsSird"  # Die Schule der magischen Tiere (196k followers!)
-      - "6wlMx6MhWCynm8yVU0K3V3"  # Die Schule der magischen Tiere ermittelt (10k — spinoff)
+- id: schule_magische_tiere
+  title: Die Schule der magischen Tiere
+  aliases:
+  - "Die Schule der magischen Tiere"
+  - "Schule der magischen Tiere"
+  keywords:
+  - "schule der magischen tiere"
+  - "magischen tiere"
+  spotify_artist_ids:
+  - "1BElEHaU2xaZg7FOGsSird"      # Die Schule der magischen Tiere (196k followers!)
+  - "6wlMx6MhWCynm8yVU0K3V3"      # Die Schule der magischen Tiere ermittelt (10k — spinoff)
     # Massive current hit (2020s): Margit Auer book series, popular with ages 6-10.
     # 196k followers = one of the largest Hörspiel artists on Spotify.
     # Standalone stories per book + spinoff detective series.
 
   # ── Swiss ─────────────────────────────────────────────────────────────────
 
-  - id: globi
-    title: Globi
-    aliases:
-      - "Globi"
-      - "Globi der Globetrotter"
-    keywords:
-      - globi
-    spotify_artist_ids:
-      - "7p5EwRiUqxJxnOCcULTHex"  # Globi (29k followers)
+- id: globi
+  title: Globi
+  aliases:
+  - "Globi"
+  - "Globi der Globetrotter"
+  keywords:
+  - globi
+  spotify_artist_ids:
+  - "7p5EwRiUqxJxnOCcULTHex"      # Globi (29k followers)
     # THE essential Swiss Hörspiel series. If you're in CH market and don't have
     # Globi, you're not serious about Switzerland. Standalone adventure stories.
 
   # ── Educational / Was ist Was ─────────────────────────────────────────────
 
-  - id: was_ist_was
-    title: Was ist Was
-    aliases:
-      - "Was ist Was"
-      - "Was Ist Was"
-      - "WAS IST WAS"
-    keywords:
-      - "was ist was"
-    spotify_artist_ids:
-      - "7zNPHpOB4uBduLjmEZzzpy"  # Was Ist Was (97k followers!)
-      - "4MpuODBeOH8gBHqVZtXa7U"  # Was Ist Was Junior (54k followers)
+- id: was_ist_was
+  title: Was ist Was
+  aliases:
+  - "Was ist Was"
+  - "Was Ist Was"
+  - "WAS IST WAS"
+  keywords:
+  - "was ist was"
+  spotify_artist_ids:
+  - "7zNPHpOB4uBduLjmEZzzpy"      # Was Ist Was (97k followers!)
+  - "4MpuODBeOH8gBHqVZtXa7U"      # Was Ist Was Junior (54k followers)
     # Ravensburger educational Hörspiel series. Huge Spotify catalog.
     # Standalone educational stories — no episode numbering.
 
-  - id: wieso_weshalb_warum
-    title: Wieso? Weshalb? Warum?
-    aliases:
-      - "Wieso? Weshalb? Warum?"
-      - "Wieso Weshalb Warum"
-      - "WWW Junior"
-    keywords:
-      - "wieso weshalb warum"
-      - "wieso? weshalb? warum?"
-    spotify_artist_ids:
-      - "79fds5dgda0VCYelERV8Gi"  # Wieso? Weshalb? Warum? (37k followers)
-      - "0LoeUAhyTnta8Vk7HBzBsP"  # Wieso? Weshalb? Warum? Junior (10k followers)
+- id: wieso_weshalb_warum
+  title: Wieso? Weshalb? Warum?
+  aliases:
+  - "Wieso? Weshalb? Warum?"
+  - "Wieso Weshalb Warum"
+  - "WWW Junior"
+  keywords:
+  - "wieso weshalb warum"
+  - "wieso? weshalb? warum?"
+  spotify_artist_ids:
+  - "79fds5dgda0VCYelERV8Gi"      # Wieso? Weshalb? Warum? (37k followers)
+  - "0LoeUAhyTnta8Vk7HBzBsP"      # Wieso? Weshalb? Warum? Junior (10k followers)
     # Ravensburger educational series for ages 4-7. Standalone topics.
 
   # ── Adventure / Girls' series ─────────────────────────────────────────────
 
-  - id: sternenschweif
-    title: Sternenschweif
-    aliases:
-      - "Sternenschweif"
-    keywords:
-      - sternenschweif
-    spotify_artist_ids:
-      - "79iLUmzekfn37nPHuM09uq"  # Sternenschweif (38.7k followers)
+- id: sternenschweif
+  title: Sternenschweif
+  aliases:
+  - "Sternenschweif"
+  keywords:
+  - sternenschweif
+  spotify_artist_ids:
+  - "79iLUmzekfn37nPHuM09uq"      # Sternenschweif (38.7k followers)
 
   # ── Nature & educational ───────────────────────────────────────────────────
 
-  - id: loewenzahn
-    title: Löwenzahn
-    aliases:
-      - "Löwenzahn"
-      - "Löwenzahn Hörspiel"
-    keywords:
-      - löwenzahn
-      - lowenzahn
-    spotify_artist_ids:
-      - "0p0BKNqJuryRzJj2yrZmNp"  # Löwenzahn (9.6k followers)
+- id: loewenzahn
+  title: Löwenzahn
+  aliases:
+  - "Löwenzahn"
+  - "Löwenzahn Hörspiel"
+  keywords:
+  - löwenzahn
+  - lowenzahn
+  spotify_artist_ids:
+  - "0p0BKNqJuryRzJj2yrZmNp"      # Löwenzahn (9.6k followers)
     # "löwenzahn" is also German for dandelion. Artist ID is the primary guard.
 
   # ── Astrid Lindgren (no dedicated Spotify Hörspiel artist) ────────────────
 
-  - id: ferien_saltkrokan
-    title: Ferien auf Saltkrokan
-    aliases:
-      - "Ferien auf Saltkrokan"
-      - "Wir auf Saltkrokan"
-    keywords:
-      - saltkrokan
+- id: ferien_saltkrokan
+  title: Ferien auf Saltkrokan
+  aliases:
+  - "Ferien auf Saltkrokan"
+  - "Wir auf Saltkrokan"
+  keywords:
+  - saltkrokan
     # No dedicated Spotify artist found (only generic "Astrid Lindgren Deutsch"
     # which covers Pippi, Ronja, Bullerbü etc. — too broad).
     # "saltkrokan" keyword is specific enough for keyword-only matching.
