@@ -1,5 +1,6 @@
 import 'dart:async' show unawaited;
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -220,7 +221,23 @@ class _GroupTile extends ConsumerWidget {
     return ListTile(
       tileColor: AppColors.parentSurface,
       onTap: onTap,
-      leading: const Icon(Icons.layers_rounded, color: AppColors.primary),
+      leading: ClipRRect(
+        borderRadius: const BorderRadius.all(Radius.circular(8)),
+        child: SizedBox(
+          width: 44,
+          height: 44,
+          child: group.coverUrl != null
+              ? CachedNetworkImage(
+                  imageUrl: group.coverUrl!,
+                  fit: BoxFit.cover,
+                )
+              : const ColoredBox(
+                  color: AppColors.surfaceDim,
+                  child: Icon(Icons.layers_rounded,
+                      color: AppColors.primary, size: 22),
+                ),
+        ),
+      ),
       title: Text(
         group.title,
         maxLines: 1,

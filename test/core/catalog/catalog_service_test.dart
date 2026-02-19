@@ -10,8 +10,8 @@ void main() {
   });
 
   group('CatalogService.load', () {
-    test('loads at least 10 series', () {
-      expect(catalog.seriesCount, greaterThanOrEqualTo(10));
+    test('loads at least 30 series', () {
+      expect(catalog.seriesCount, greaterThanOrEqualTo(30));
     });
   });
 
@@ -73,6 +73,32 @@ void main() {
       final result = catalog.match('Pumuckl und das Geld');
       expect(result, isNotNull);
       expect(result!.series.id, 'pumuckl');
+    });
+
+    test('matches Biene Maja', () {
+      final result = catalog.match('Biene Maja, Folge 5');
+      expect(result, isNotNull);
+      expect(result!.series.id, 'biene_maja');
+      expect(result.episodeNumber, 5);
+    });
+
+    test('matches Hanni und Nanni', () {
+      final result = catalog.match('Hanni und Nanni, Folge 12');
+      expect(result, isNotNull);
+      expect(result!.series.id, 'hanni_und_nanni');
+    });
+
+    test('matches Der kleine Drache Kokosnuss', () {
+      final result = catalog.match('Der kleine Drache Kokosnuss, Folge 3');
+      expect(result, isNotNull);
+      expect(result!.series.id, 'kleiner_drache_kokosnuss');
+      expect(result.episodeNumber, 3);
+    });
+
+    test('matches Fünf Freunde', () {
+      final result = catalog.match('Fünf Freunde 50');
+      expect(result, isNotNull);
+      expect(result!.series.id, 'fuenf_freunde');
     });
   });
 }
