@@ -98,6 +98,37 @@ class CardRepository {
     });
   }
 
+  /// Save playback position for a card.
+  Future<void> savePosition({
+    required String cardId,
+    required String trackUri,
+    required int positionMs,
+  }) async {
+    await (_db.update(_db.cards)..where((t) => t.id.equals(cardId))).write(
+      CardsCompanion(
+        lastTrackUri: Value(trackUri),
+        lastPositionMs: Value(positionMs),
+        lastPlayedAt: Value(DateTime.now()),
+      ),
+    );
+  }
+
+  /// Get the most recently played card (for resume on app launch).
+  Future<Card?> lastPlayed() {
+    return (_db.select(_db.cards)
+          ..where((t) => t.lastPlayedAt.isNotNull())
+          ..orderBy([(t) => OrderingTerm.desc(t.lastPlayedAt)])
+          ..limit(1))
+        .getSingleOrNull();
+  }
+
+  /// Find a card by its provider URI.
+  Future<Card?> getByProviderUri(String uri) {
+    return (_db.select(_db.cards)
+          ..where((t) => t.providerUri.equals(uri)))
+        .getSingleOrNull();
+  }
+
   /// Delete a card by ID.
   Future<void> delete(String id) async {
     await (_db.delete(_db.cards)..where((t) => t.id.equals(id))).go();
