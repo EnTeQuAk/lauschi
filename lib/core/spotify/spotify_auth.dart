@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
 
@@ -6,6 +7,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:lauschi/core/log.dart';
 import 'package:lauschi/core/spotify/spotify_config.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 const _tag = 'SpotifyAuth';
 
@@ -32,6 +34,12 @@ class SpotifyTokens {
 }
 
 /// Handles Spotify PKCE OAuth flow, token storage, and refresh.
+///
+/// Login flow:
+/// 1. [login] opens browser with Spotify auth URL
+/// 2. User logs in, Spotify redirects to `lauschi://callback?code=...&state=...`
+/// 3. App receives deep link, calls [handleCallback] with the URI
+/// 4. [handleCallback] exchanges code for tokens and completes the login future
 class SpotifyAuth {
   SpotifyAuth({
     FlutterSecureStorage? storage,
@@ -42,10 +50,15 @@ class SpotifyAuth {
   final FlutterSecureStorage _storage;
   final Dio _dio;
 
-  /// Run the full PKCE authorization code flow.
+  // Pending login state — connects the browser redirect back to login().
+  Completer<SpotifyTokens>? _loginCompleter;
+  String? _pendingVerifier;
+  String? _pendingState;
+
+  /// Run the PKCE authorization code flow.
   ///
-  /// Opens a browser for Spotify login, exchanges the code for tokens,
-  /// and persists them in secure storage.
+  /// Opens the system browser for Spotify login. Returns when
+  /// [handleCallback] is called with the redirect URI.
   Future<SpotifyTokens> login() async {
     assert(
       SpotifyConfig.clientId.isNotEmpty,
@@ -54,6 +67,10 @@ class SpotifyAuth {
 
     final pkce = _generatePkce();
     final state = _randomBase64(16);
+
+    _pendingVerifier = pkce.verifier;
+    _pendingState = state;
+    _loginCompleter = Completer<SpotifyTokens>();
 
     final authUrl = Uri.https('accounts.spotify.com', '/authorize', {
       'client_id': SpotifyConfig.clientId,
@@ -65,15 +82,60 @@ class SpotifyAuth {
       'state': state,
     });
 
-    Log.info(_tag, 'Starting PKCE OAuth flow');
+    Log.info(_tag, 'Opening browser for OAuth');
 
-    // TODO: implement browser-based auth flow (url_launcher + intent filter)
-    // The flow is: open authUrl in browser → user logs in → Spotify redirects
-    // to lauschi://callback?code=...&state=... → app handles deep link →
-    // call _exchangeCode(code, pkce.verifier).
-    throw UnimplementedError(
-      'Browser auth not implemented. Auth URL: $authUrl',
+    final launched = await launchUrl(
+      authUrl,
+      mode: LaunchMode.externalApplication,
     );
+
+    if (!launched) {
+      _loginCompleter = null;
+      throw StateError('Could not open browser for Spotify login');
+    }
+
+    return _loginCompleter!.future;
+  }
+
+  /// Handle the OAuth callback deep link.
+  ///
+  /// Called by the app's deep link handler when `lauschi://callback` is received.
+  Future<void> handleCallback(Uri uri) async {
+    final completer = _loginCompleter;
+    if (completer == null || completer.isCompleted) {
+      Log.warn(_tag, 'Received callback but no login pending');
+      return;
+    }
+
+    try {
+      // Verify state
+      if (uri.queryParameters['state'] != _pendingState) {
+        throw StateError('OAuth state mismatch — possible CSRF');
+      }
+
+      // Check for error
+      final error = uri.queryParameters['error'];
+      if (error != null) {
+        throw StateError('OAuth error: $error');
+      }
+
+      // Extract code
+      final code = uri.queryParameters['code'];
+      if (code == null) {
+        throw StateError('No code in OAuth callback');
+      }
+
+      Log.info(_tag, 'Code received, exchanging for tokens');
+      final tokens = await _exchangeCode(code, _pendingVerifier!);
+      completer.complete(tokens);
+    } on Exception catch (e) {
+      Log.error(_tag, 'Callback handling failed', exception: e);
+      completer.completeError(e);
+    } finally {
+      _loginCompleter = null;
+      _pendingVerifier = null;
+      _pendingState = null;
+    }
   }
 
   /// Refresh an expired token using the refresh token.
@@ -146,7 +208,6 @@ class SpotifyAuth {
 
   // -- Private --
 
-  // ignore: unused_element, called once browser auth flow is wired
   Future<SpotifyTokens> _exchangeCode(String code, String verifier) async {
     try {
       final resp = await _dio.post<Map<String, dynamic>>(
