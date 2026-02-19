@@ -142,6 +142,51 @@ class CardRepository {
   Future<void> deleteAll() async {
     await _db.delete(_db.cards).go();
   }
+
+  /// Assign a card to a group with optional episode number.
+  Future<void> assignToGroup({
+    required String cardId,
+    required String groupId,
+    int? episodeNumber,
+  }) async {
+    await (_db.update(_db.cards)..where((t) => t.id.equals(cardId))).write(
+      CardsCompanion(
+        groupId: Value(groupId),
+        episodeNumber: Value(episodeNumber),
+      ),
+    );
+  }
+
+  /// Remove a card from its group.
+  Future<void> removeFromGroup(String cardId) async {
+    await (_db.update(_db.cards)..where((t) => t.id.equals(cardId))).write(
+      const CardsCompanion(
+        groupId: Value(null),
+        episodeNumber: Value(null),
+      ),
+    );
+  }
+
+  /// Mark a card as heard.
+  Future<void> markHeard(String cardId) async {
+    await (_db.update(_db.cards)..where((t) => t.id.equals(cardId))).write(
+      const CardsCompanion(isHeard: Value(true)),
+    );
+  }
+
+  /// Mark a card as unheard.
+  Future<void> markUnheard(String cardId) async {
+    await (_db.update(_db.cards)..where((t) => t.id.equals(cardId))).write(
+      const CardsCompanion(isHeard: Value(false)),
+    );
+  }
+
+  /// Watch ungrouped cards (top-level items on kid home).
+  Stream<List<AudioCard>> watchUngrouped() {
+    return (_db.select(_db.cards)
+      ..where((t) => t.groupId.isNull())
+      ..orderBy([(t) => OrderingTerm.asc(t.sortOrder)])).watch();
+  }
 }
 
 @Riverpod(keepAlive: true)
