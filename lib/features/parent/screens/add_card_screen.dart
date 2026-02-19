@@ -97,17 +97,24 @@ class _AddCardScreenState extends ConsumerState<AddCardScreen> {
       final result = await ref.read(spotifyApiProvider).searchAlbums(query);
       if (!mounted) return;
       final catalog = ref.read(catalogServiceProvider).value;
-      final matches = catalog != null
-          ? result.albums
-              .map((a) => catalog.match(a.name, albumArtistIds: a.artistIds))
-              .toList()
-          : List<CatalogMatch?>.filled(result.albums.length, null);
+      final matches =
+          catalog != null
+              ? result.albums
+                  .map(
+                    (a) => catalog.match(a.name, albumArtistIds: a.artistIds),
+                  )
+                  .toList()
+              : List<CatalogMatch?>.filled(result.albums.length, null);
       final catalogHits = matches.whereType<CatalogMatch>().length;
-      Log.info(_tag, 'Search', data: {
-        'query': query,
-        'results': result.albums.length,
-        'catalogHits': catalogHits,
-      });
+      Log.info(
+        _tag,
+        'Search',
+        data: {
+          'query': query,
+          'results': result.albums.length,
+          'catalogHits': catalogHits,
+        },
+      );
       setState(() {
         _results = result.albums;
         _catalogMatches = matches;
@@ -154,11 +161,13 @@ class _AddCardScreenState extends ConsumerState<AddCardScreen> {
     if (mounted && count > 0) {
       ScaffoldMessenger.of(context)
         ..clearSnackBars()
-        ..showSnackBar(SnackBar(
-          content: Text('$count Folgen zu »$seriesTitle« hinzugefügt'),
-          duration: const Duration(seconds: 3),
-          behavior: SnackBarBehavior.floating,
-        ));
+        ..showSnackBar(
+          SnackBar(
+            content: Text('$count Folgen zu »$seriesTitle« hinzugefügt'),
+            duration: const Duration(seconds: 3),
+            behavior: SnackBarBehavior.floating,
+          ),
+        );
     }
   }
 
@@ -177,14 +186,18 @@ class _AddCardScreenState extends ConsumerState<AddCardScreen> {
     bool showUndo = false,
     bool silent = false,
   }) async {
-    final cardId = await ref.read(cardRepositoryProvider).insertIfAbsent(
+    final cardId = await ref
+        .read(cardRepositoryProvider)
+        .insertIfAbsent(
           title: album.name,
           providerUri: album.uri,
           cardType: 'album',
           coverUrl: album.imageUrl,
           spotifyArtistIds: album.artistIds,
         );
-    await ref.read(cardRepositoryProvider).assignToGroup(
+    await ref
+        .read(cardRepositoryProvider)
+        .assignToGroup(
           cardId: cardId,
           groupId: groupId,
           episodeNumber: match?.episodeNumber,
@@ -203,22 +216,26 @@ class _AddCardScreenState extends ConsumerState<AddCardScreen> {
         if (!mounted) return;
         final n = _pendingAssigned;
         _pendingAssigned = 0;
-        final label = n == 1
-            ? 'Zu »$_lastSeriesTitle« hinzugefügt'
-            : '$n Folgen zu »$_lastSeriesTitle« hinzugefügt';
+        final label =
+            n == 1
+                ? 'Zu »$_lastSeriesTitle« hinzugefügt'
+                : '$n Folgen zu »$_lastSeriesTitle« hinzugefügt';
 
         ScaffoldMessenger.of(context)
           ..clearSnackBars()
-          ..showSnackBar(SnackBar(
-            content: Text(label),
-            behavior: SnackBarBehavior.floating,
-            action: SnackBarAction(
-              label: 'Rückgängig',
-              onPressed: () => unawaited(
-                ref.read(cardRepositoryProvider).removeFromGroup(cardId),
+          ..showSnackBar(
+            SnackBar(
+              content: Text(label),
+              behavior: SnackBarBehavior.floating,
+              action: SnackBarAction(
+                label: 'Rückgängig',
+                onPressed:
+                    () => unawaited(
+                      ref.read(cardRepositoryProvider).removeFromGroup(cardId),
+                    ),
               ),
             ),
-          ));
+          );
       });
     } else {
       _pendingAdded++;
@@ -231,17 +248,21 @@ class _AddCardScreenState extends ConsumerState<AddCardScreen> {
             n == 1 ? '${album.name} hinzugefügt' : '$n Folgen hinzugefügt';
         ScaffoldMessenger.of(context)
           ..clearSnackBars()
-          ..showSnackBar(SnackBar(
-            content: Text(label),
-            duration: const Duration(seconds: 2),
-            behavior: SnackBarBehavior.floating,
-          ));
+          ..showSnackBar(
+            SnackBar(
+              content: Text(label),
+              duration: const Duration(seconds: 2),
+              behavior: SnackBarBehavior.floating,
+            ),
+          );
       });
     }
   }
 
   Future<void> _addOnly(SpotifyAlbum album) async {
-    await ref.read(cardRepositoryProvider).insertIfAbsent(
+    await ref
+        .read(cardRepositoryProvider)
+        .insertIfAbsent(
           title: album.name,
           providerUri: album.uri,
           cardType: 'album',
@@ -258,12 +279,40 @@ class _AddCardScreenState extends ConsumerState<AddCardScreen> {
       _pendingAdded = 0;
       ScaffoldMessenger.of(context)
         ..clearSnackBars()
-        ..showSnackBar(SnackBar(
-          content: Text(n == 1 ? '${album.name} hinzugefügt' : '$n Folgen hinzugefügt'),
-          duration: const Duration(seconds: 2),
-          behavior: SnackBarBehavior.floating,
-        ));
+        ..showSnackBar(
+          SnackBar(
+            content: Text(
+              n == 1 ? '${album.name} hinzugefügt' : '$n Folgen hinzugefügt',
+            ),
+            duration: const Duration(seconds: 2),
+            behavior: SnackBarBehavior.floating,
+          ),
+        );
     });
+  }
+
+  // -------------------------------------------------------------------------
+  // Album detail
+  // -------------------------------------------------------------------------
+
+  Future<void> _showAlbumDetail(SpotifyAlbum album, CatalogMatch? match) async {
+    if (!mounted) return;
+    final isAdded = _addedUris.contains(album.uri);
+    await showModalBottomSheet<void>(
+      context: context,
+      isScrollControlled: true,
+      useSafeArea: true,
+      builder:
+          (ctx) => _AlbumDetailSheet(
+            album: album,
+            catalogMatch: match,
+            isAdded: isAdded,
+            onAdd: () {
+              Navigator.of(ctx).pop();
+              unawaited(_handleAddTap(album, match));
+            },
+          ),
+    );
   }
 
   // -------------------------------------------------------------------------
@@ -310,8 +359,11 @@ class _AddCardScreenState extends ConsumerState<AddCardScreen> {
               ),
               child: Row(
                 children: [
-                  const Icon(Icons.layers_rounded,
-                      size: 16, color: AppColors.primary),
+                  const Icon(
+                    Icons.layers_rounded,
+                    size: 16,
+                    color: AppColors.primary,
+                  ),
                   const SizedBox(width: AppSpacing.xs),
                   Expanded(
                     child: Text(
@@ -351,48 +403,48 @@ class _AddCardScreenState extends ConsumerState<AddCardScreen> {
           if (batchSeries != null)
             _BatchAddBanner(
               seriesTitle: batchSeries,
-              count: _results
-                  .where((a) => !_addedUris.contains(a.uri))
-                  .length,
+              count: _results.where((a) => !_addedUris.contains(a.uri)).length,
               onAddAll: () => unawaited(_handleAddAll(batchSeries)),
             ),
 
           // Results
           Expanded(
-            child: _isSearching
-                ? const Center(child: CircularProgressIndicator())
-                : _results.isEmpty
+            child:
+                _isSearching
+                    ? const Center(child: CircularProgressIndicator())
+                    : _results.isEmpty
                     ? Center(
-                        child: Text(
-                          _searchController.text.isEmpty
-                              ? 'Suche nach Hörspielen, Hörbüchern oder Alben.'
-                              : 'Keine Ergebnisse.',
-                          style: const TextStyle(
-                            fontFamily: 'Nunito',
-                            fontSize: 15,
-                            color: AppColors.textSecondary,
-                          ),
+                      child: Text(
+                        _searchController.text.isEmpty
+                            ? 'Suche nach Hörspielen, Hörbüchern oder Alben.'
+                            : 'Keine Ergebnisse.',
+                        style: const TextStyle(
+                          fontFamily: 'Nunito',
+                          fontSize: 15,
+                          color: AppColors.textSecondary,
                         ),
-                      )
-                    : ListView.builder(
-                        itemCount: _results.length,
-                        padding:
-                            const EdgeInsets.only(bottom: AppSpacing.xxl),
-                        cacheExtent: 500,
-                        itemBuilder: (context, index) {
-                          final album = _results[index];
-                          final match = index < _catalogMatches.length
-                              ? _catalogMatches[index]
-                              : null;
-                          return _SearchResultTile(
-                            album: album,
-                            isAdded: _addedUris.contains(album.uri),
-                            catalogMatch: match,
-                            onAdd: () =>
-                                unawaited(_handleAddTap(album, match)),
-                          );
-                        },
                       ),
+                    )
+                    : ListView.builder(
+                      itemCount: _results.length,
+                      padding: const EdgeInsets.only(bottom: AppSpacing.xxl),
+                      cacheExtent: 500,
+                      itemBuilder: (context, index) {
+                        final album = _results[index];
+                        final match =
+                            index < _catalogMatches.length
+                                ? _catalogMatches[index]
+                                : null;
+                        return _SearchResultTile(
+                          album: album,
+                          isAdded: _addedUris.contains(album.uri),
+                          catalogMatch: match,
+                          onAdd: () => unawaited(_handleAddTap(album, match)),
+                          onTap:
+                              () => unawaited(_showAlbumDetail(album, match)),
+                        );
+                      },
+                    ),
           ),
         ],
       ),
@@ -433,8 +485,11 @@ class _BatchAddBanner extends StatelessWidget {
           horizontal: AppSpacing.md,
           vertical: AppSpacing.xs,
         ),
-        leading: const Icon(Icons.layers_rounded,
-            color: AppColors.primary, size: 20),
+        leading: const Icon(
+          Icons.layers_rounded,
+          color: AppColors.primary,
+          size: 20,
+        ),
         title: Text(
           count == 1
               ? 'Zur Serie »$seriesTitle« hinzufügen'
@@ -450,7 +505,9 @@ class _BatchAddBanner extends StatelessWidget {
           onPressed: onAddAll,
           style: FilledButton.styleFrom(
             padding: const EdgeInsets.symmetric(
-                horizontal: AppSpacing.md, vertical: AppSpacing.xs),
+              horizontal: AppSpacing.md,
+              vertical: AppSpacing.xs,
+            ),
             minimumSize: Size.zero,
             tapTargetSize: MaterialTapTargetSize.shrinkWrap,
           ),
@@ -470,6 +527,7 @@ class _SearchResultTile extends StatelessWidget {
     required this.album,
     required this.isAdded,
     required this.onAdd,
+    required this.onTap,
     this.catalogMatch,
   });
 
@@ -477,25 +535,28 @@ class _SearchResultTile extends StatelessWidget {
   final bool isAdded;
   final CatalogMatch? catalogMatch;
   final VoidCallback onAdd;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
+      onTap: onTap,
       leading: ClipRRect(
         borderRadius: const BorderRadius.all(Radius.circular(6)),
         child: SizedBox(
           width: 48,
           height: 48,
-          child: album.imageUrl != null
-              ? CachedNetworkImage(
-                  imageUrl: album.imageUrl!,
-                  fit: BoxFit.cover,
-                  memCacheWidth: 96,
-                )
-              : const ColoredBox(
-                  color: AppColors.surfaceDim,
-                  child: Icon(Icons.music_note_rounded),
-                ),
+          child:
+              album.imageUrl != null
+                  ? CachedNetworkImage(
+                    imageUrl: album.imageUrl!,
+                    fit: BoxFit.cover,
+                    memCacheWidth: 96,
+                  )
+                  : const ColoredBox(
+                    color: AppColors.surfaceDim,
+                    child: Icon(Icons.music_note_rounded),
+                  ),
         ),
       ),
       title: Text(
@@ -527,8 +588,11 @@ class _SearchResultTile extends StatelessWidget {
             Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Icon(Icons.layers_rounded,
-                    size: 11, color: AppColors.primary),
+                const Icon(
+                  Icons.layers_rounded,
+                  size: 11,
+                  color: AppColors.primary,
+                ),
                 const SizedBox(width: 3),
                 Text(
                   catalogMatch!.episodeNumber != null
@@ -547,13 +611,255 @@ class _SearchResultTile extends StatelessWidget {
         ],
       ),
       isThreeLine: catalogMatch != null,
-      trailing: isAdded
-          ? const Icon(Icons.check_rounded, color: AppColors.success)
-          : IconButton(
-              onPressed: onAdd,
-              icon: const Icon(Icons.add_rounded),
-              color: AppColors.primary,
+      trailing:
+          isAdded
+              ? const Icon(Icons.check_rounded, color: AppColors.success)
+              : IconButton(
+                onPressed: onAdd,
+                icon: const Icon(Icons.add_rounded),
+                color: AppColors.primary,
+              ),
+    );
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Album detail bottom sheet — shows track listing
+// ---------------------------------------------------------------------------
+
+class _AlbumDetailSheet extends ConsumerStatefulWidget {
+  const _AlbumDetailSheet({
+    required this.album,
+    required this.isAdded,
+    required this.onAdd,
+    this.catalogMatch,
+  });
+
+  final SpotifyAlbum album;
+  final bool isAdded;
+  final CatalogMatch? catalogMatch;
+  final VoidCallback onAdd;
+
+  @override
+  ConsumerState<_AlbumDetailSheet> createState() => _AlbumDetailSheetState();
+}
+
+class _AlbumDetailSheetState extends ConsumerState<_AlbumDetailSheet> {
+  List<SpotifyTrack>? _tracks;
+  bool _loading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    unawaited(_loadTracks());
+  }
+
+  Future<void> _loadTracks() async {
+    try {
+      final detail = await ref
+          .read(spotifyApiProvider)
+          .getAlbum(widget.album.id);
+      if (!mounted) return;
+      setState(() {
+        _tracks = detail?.tracks;
+        _loading = false;
+      });
+    } on Exception catch (e) {
+      Log.error(_tag, 'Failed to load album detail', exception: e);
+      if (mounted) setState(() => _loading = false);
+    }
+  }
+
+  String _formatDuration(int ms) {
+    final minutes = ms ~/ 60000;
+    final seconds = (ms % 60000) ~/ 1000;
+    return '$minutes:${seconds.toString().padLeft(2, '0')}';
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return DraggableScrollableSheet(
+      initialChildSize: 0.6,
+      minChildSize: 0.3,
+      maxChildSize: 0.9,
+      expand: false,
+      builder: (context, scrollController) {
+        return Column(
+          children: [
+            // Handle
+            Container(
+              margin: const EdgeInsets.only(top: 8, bottom: 4),
+              width: 40,
+              height: 4,
+              decoration: const BoxDecoration(
+                color: AppColors.surfaceDim,
+                borderRadius: BorderRadius.all(Radius.circular(2)),
+              ),
             ),
+
+            // Album header
+            Padding(
+              padding: const EdgeInsets.fromLTRB(
+                AppSpacing.screenH,
+                AppSpacing.sm,
+                AppSpacing.screenH,
+                AppSpacing.md,
+              ),
+              child: Row(
+                children: [
+                  ClipRRect(
+                    borderRadius: const BorderRadius.all(Radius.circular(8)),
+                    child: SizedBox(
+                      width: 64,
+                      height: 64,
+                      child:
+                          widget.album.imageUrl != null
+                              ? CachedNetworkImage(
+                                imageUrl: widget.album.imageUrl!,
+                                fit: BoxFit.cover,
+                              )
+                              : const ColoredBox(
+                                color: AppColors.surfaceDim,
+                                child: Icon(Icons.music_note_rounded),
+                              ),
+                    ),
+                  ),
+                  const SizedBox(width: AppSpacing.md),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          widget.album.name,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                            fontFamily: 'Nunito',
+                            fontWeight: FontWeight.w700,
+                            fontSize: 16,
+                          ),
+                        ),
+                        const SizedBox(height: 2),
+                        Text(
+                          widget.album.artistNames,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                            fontFamily: 'Nunito',
+                            fontSize: 13,
+                            color: AppColors.textSecondary,
+                          ),
+                        ),
+                        if (widget.catalogMatch != null) ...[
+                          const SizedBox(height: 4),
+                          Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const Icon(
+                                Icons.layers_rounded,
+                                size: 12,
+                                color: AppColors.primary,
+                              ),
+                              const SizedBox(width: 3),
+                              Text(
+                                widget.catalogMatch!.series.title,
+                                style: const TextStyle(
+                                  fontFamily: 'Nunito',
+                                  fontSize: 12,
+                                  color: AppColors.primary,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ],
+                    ),
+                  ),
+                  const SizedBox(width: AppSpacing.sm),
+                  if (widget.isAdded)
+                    const Icon(Icons.check_rounded, color: AppColors.success)
+                  else
+                    FilledButton(
+                      onPressed: widget.onAdd,
+                      style: FilledButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: AppSpacing.md,
+                          vertical: AppSpacing.xs,
+                        ),
+                        minimumSize: Size.zero,
+                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      ),
+                      child: const Text('Hinzufügen'),
+                    ),
+                ],
+              ),
+            ),
+
+            const Divider(height: 1),
+
+            // Track listing
+            Expanded(
+              child:
+                  _loading
+                      ? const Center(child: CircularProgressIndicator())
+                      : _tracks == null || _tracks!.isEmpty
+                      ? const Center(
+                        child: Text(
+                          'Keine Titel verfügbar.',
+                          style: TextStyle(
+                            fontFamily: 'Nunito',
+                            color: AppColors.textSecondary,
+                          ),
+                        ),
+                      )
+                      : ListView.builder(
+                        controller: scrollController,
+                        padding: const EdgeInsets.only(
+                          bottom: AppSpacing.xxl,
+                          top: AppSpacing.xs,
+                        ),
+                        itemCount: _tracks!.length,
+                        itemBuilder: (context, index) {
+                          final track = _tracks![index];
+                          return ListTile(
+                            dense: true,
+                            leading: SizedBox(
+                              width: 24,
+                              child: Text(
+                                '${track.trackNumber}',
+                                textAlign: TextAlign.center,
+                                style: const TextStyle(
+                                  fontFamily: 'Nunito',
+                                  fontSize: 13,
+                                  color: AppColors.textSecondary,
+                                ),
+                              ),
+                            ),
+                            title: Text(
+                              track.name,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(
+                                fontFamily: 'Nunito',
+                                fontSize: 14,
+                              ),
+                            ),
+                            trailing: Text(
+                              _formatDuration(track.durationMs),
+                              style: const TextStyle(
+                                fontFamily: 'Nunito',
+                                fontSize: 13,
+                                color: AppColors.textSecondary,
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+            ),
+          ],
+        );
+      },
     );
   }
 }

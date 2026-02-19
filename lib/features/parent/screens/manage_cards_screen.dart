@@ -21,6 +21,9 @@ class ManageCardsScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final cardsAsync = ref.watch(allCardsProvider);
+    final ungroupedCount =
+        ref.watch(ungroupedCardsProvider).whenOrNull(data: (c) => c.length) ??
+        0;
 
     return Scaffold(
       backgroundColor: AppColors.parentBackground,
@@ -33,34 +36,27 @@ class ManageCardsScreen extends ConsumerWidget {
             icon: const Icon(Icons.add_rounded),
             tooltip: 'Hörspiel hinzufügen',
           ),
-          PopupMenuButton<_MenuAction>(
-            onSelected: (action) {
-              if (action == _MenuAction.sortIntoSeries) {
-                unawaited(_runRetroactiveSort(context, ref));
-              }
-            },
-            itemBuilder: (_) => const [
-              PopupMenuItem(
-                value: _MenuAction.sortIntoSeries,
-                child: ListTile(
-                  leading: Icon(Icons.auto_awesome_rounded),
-                  title: Text('In Serien einordnen'),
-                  subtitle: Text('Ungroupierte Karten automatisch sortieren'),
-                  contentPadding: EdgeInsets.zero,
-                ),
-              ),
-            ],
-          ),
         ],
       ),
       body: cardsAsync.when(
-        data: (cards) => cards.isEmpty
-            ? _EmptyState(onAdd: () => context.push(AppRoutes.parentAddCard))
-            : _CardList(cards: cards),
+        data:
+            (cards) =>
+                cards.isEmpty
+                    ? _EmptyState(
+                      onAdd: () => context.push(AppRoutes.parentAddCard),
+                    )
+                    : Column(
+                      children: [
+                        if (ungroupedCount > 0)
+                          _AutoSortBanner(ungroupedCount: ungroupedCount),
+                        Expanded(child: _CardList(cards: cards)),
+                      ],
+                    ),
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (_, _) => const Center(
-          child: Text('Fehler beim Laden der Karten.'),
-        ),
+        error:
+            (_, _) => const Center(
+              child: Text('Fehler beim Laden der Karten.'),
+            ),
       ),
     );
   }
@@ -119,9 +115,11 @@ class _CardList extends ConsumerWidget {
         final item = reordered.removeAt(oldIndex);
         reordered.insert(insertAt, item);
         unawaited(
-          ref.read(cardRepositoryProvider).reorder(
-            reordered.map((c) => c.id).toList(),
-          ),
+          ref
+              .read(cardRepositoryProvider)
+              .reorder(
+                reordered.map((c) => c.id).toList(),
+              ),
         );
       },
       itemCount: cards.length,
@@ -142,35 +140,40 @@ class _CardList extends ConsumerWidget {
     unawaited(
       showDialog<void>(
         context: context,
-        builder: (ctx) => AlertDialog(
-          title: const Text('Karte entfernen?'),
-          content: Text(
-            '„${card.customTitle ?? card.title}" wird aus der Sammlung entfernt.',
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(ctx).pop(),
-              child: const Text('Abbrechen'),
-            ),
-            FilledButton(
-              onPressed: () {
-                Navigator.of(ctx).pop();
-                unawaited(ref.read(cardRepositoryProvider).delete(card.id));
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(
-                      '${card.customTitle ?? card.title} entfernt',
-                    ),
-                    duration: const Duration(seconds: 2),
-                    behavior: SnackBarBehavior.floating,
+        builder:
+            (ctx) => AlertDialog(
+              title: const Text('Karte entfernen?'),
+              content: Text(
+                '„${card.customTitle ?? card.title}" wird aus der Sammlung entfernt.',
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.of(ctx).pop(),
+                  child: const Text('Abbrechen'),
+                ),
+                FilledButton(
+                  onPressed: () {
+                    Navigator.of(ctx).pop();
+                    unawaited(ref.read(cardRepositoryProvider).delete(card.id));
+                    ScaffoldMessenger.of(context)
+                      ..clearSnackBars()
+                      ..showSnackBar(
+                        SnackBar(
+                          content: Text(
+                            '${card.customTitle ?? card.title} entfernt',
+                          ),
+                          duration: const Duration(seconds: 2),
+                          behavior: SnackBarBehavior.floating,
+                        ),
+                      );
+                  },
+                  style: FilledButton.styleFrom(
+                    backgroundColor: AppColors.error,
                   ),
-                );
-              },
-              style: FilledButton.styleFrom(backgroundColor: AppColors.error),
-              child: const Text('Entfernen'),
+                  child: const Text('Entfernen'),
+                ),
+              ],
             ),
-          ],
-        ),
       ),
     );
   }
@@ -212,15 +215,16 @@ class _CardTile extends StatelessWidget {
         child: SizedBox(
           width: 48,
           height: 48,
-          child: card.coverUrl != null
-              ? CachedNetworkImage(
-                  imageUrl: card.coverUrl!,
-                  fit: BoxFit.cover,
-                )
-              : const ColoredBox(
-                  color: AppColors.surfaceDim,
-                  child: Icon(Icons.music_note_rounded),
-                ),
+          child:
+              card.coverUrl != null
+                  ? CachedNetworkImage(
+                    imageUrl: card.coverUrl!,
+                    fit: BoxFit.cover,
+                  )
+                  : const ColoredBox(
+                    color: AppColors.surfaceDim,
+                    child: Icon(Icons.music_note_rounded),
+                  ),
         ),
       ),
       title: Text(
@@ -258,8 +262,10 @@ class _CardTile extends StatelessWidget {
           ),
           ReorderableDragStartListener(
             index: index,
-            child: const Icon(Icons.drag_handle_rounded,
-                color: AppColors.textSecondary),
+            child: const Icon(
+              Icons.drag_handle_rounded,
+              color: AppColors.textSecondary,
+            ),
           ),
         ],
       ),
@@ -311,8 +317,10 @@ class _GroupPickerSheet extends ConsumerWidget {
           // Remove from group option (if currently assigned)
           if (card.groupId != null)
             ListTile(
-              leading: const Icon(Icons.cancel_outlined,
-                  color: AppColors.textSecondary),
+              leading: const Icon(
+                Icons.cancel_outlined,
+                color: AppColors.textSecondary,
+              ),
               title: const Text(
                 'Aus Serie entfernen',
                 style: TextStyle(fontFamily: 'Nunito'),
@@ -327,77 +335,86 @@ class _GroupPickerSheet extends ConsumerWidget {
 
           // Group list
           groupsAsync.when(
-            data: (groups) => groups.isEmpty
-                ? Padding(
-                    padding: const EdgeInsets.fromLTRB(
-                      AppSpacing.screenH,
-                      AppSpacing.sm,
-                      AppSpacing.screenH,
-                      AppSpacing.lg,
-                    ),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        const Text(
-                          'Noch keine Serien vorhanden.',
-                          style: TextStyle(
-                            fontFamily: 'Nunito',
-                            color: AppColors.textSecondary,
+            data:
+                (groups) =>
+                    groups.isEmpty
+                        ? Padding(
+                          padding: const EdgeInsets.fromLTRB(
+                            AppSpacing.screenH,
+                            AppSpacing.sm,
+                            AppSpacing.screenH,
+                            AppSpacing.lg,
                           ),
-                        ),
-                        const SizedBox(height: AppSpacing.md),
-                        FilledButton.icon(
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                            unawaited(
-                              context.push(AppRoutes.parentManageGroups),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              const Text(
+                                'Noch keine Serien vorhanden.',
+                                style: TextStyle(
+                                  fontFamily: 'Nunito',
+                                  color: AppColors.textSecondary,
+                                ),
+                              ),
+                              const SizedBox(height: AppSpacing.md),
+                              FilledButton.icon(
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                  unawaited(
+                                    context.push(AppRoutes.parentManageGroups),
+                                  );
+                                },
+                                icon: const Icon(Icons.add_rounded),
+                                label: const Text('Serie erstellen'),
+                              ),
+                            ],
+                          ),
+                        )
+                        : ListView.builder(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: groups.length,
+                          itemBuilder: (context, index) {
+                            final group = groups[index];
+                            final isAssigned = card.groupId == group.id;
+                            return ListTile(
+                              leading: Icon(
+                                Icons.layers_rounded,
+                                color:
+                                    isAssigned
+                                        ? AppColors.primary
+                                        : AppColors.textSecondary,
+                              ),
+                              title: Text(
+                                group.title,
+                                style: const TextStyle(fontFamily: 'Nunito'),
+                              ),
+                              trailing:
+                                  isAssigned
+                                      ? const Icon(
+                                        Icons.check_rounded,
+                                        color: AppColors.primary,
+                                      )
+                                      : null,
+                              onTap: () {
+                                Navigator.of(context).pop();
+                                unawaited(
+                                  ref
+                                      .read(cardRepositoryProvider)
+                                      .assignToGroup(
+                                        cardId: card.id,
+                                        groupId: group.id,
+                                      ),
+                                );
+                              },
                             );
                           },
-                          icon: const Icon(Icons.add_rounded),
-                          label: const Text('Serie erstellen'),
                         ),
-                      ],
-                    ),
-                  )
-                : ListView.builder(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: groups.length,
-                    itemBuilder: (context, index) {
-                      final group = groups[index];
-                      final isAssigned = card.groupId == group.id;
-                      return ListTile(
-                        leading: Icon(
-                          Icons.layers_rounded,
-                          color: isAssigned
-                              ? AppColors.primary
-                              : AppColors.textSecondary,
-                        ),
-                        title: Text(
-                          group.title,
-                          style: const TextStyle(fontFamily: 'Nunito'),
-                        ),
-                        trailing: isAssigned
-                            ? const Icon(Icons.check_rounded,
-                                color: AppColors.primary)
-                            : null,
-                        onTap: () {
-                          Navigator.of(context).pop();
-                          unawaited(
-                            ref.read(cardRepositoryProvider).assignToGroup(
-                              cardId: card.id,
-                              groupId: group.id,
-                            ),
-                          );
-                        },
-                      );
-                    },
-                  ),
-            loading: () => const Padding(
-              padding: EdgeInsets.all(AppSpacing.lg),
-              child: CircularProgressIndicator(),
-            ),
+            loading:
+                () => const Padding(
+                  padding: EdgeInsets.all(AppSpacing.lg),
+                  child: CircularProgressIndicator(),
+                ),
             error: (_, _) => const SizedBox.shrink(),
           ),
 
@@ -409,10 +426,67 @@ class _GroupPickerSheet extends ConsumerWidget {
 }
 
 // ---------------------------------------------------------------------------
-// Retroactive series sorting
+// Auto-sort banner — shown when ungrouped cards exist
 // ---------------------------------------------------------------------------
 
-enum _MenuAction { sortIntoSeries }
+class _AutoSortBanner extends ConsumerWidget {
+  const _AutoSortBanner({required this.ungroupedCount});
+
+  final int ungroupedCount;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Container(
+      margin: const EdgeInsets.symmetric(
+        horizontal: AppSpacing.screenH,
+        vertical: AppSpacing.sm,
+      ),
+      decoration: BoxDecoration(
+        color: AppColors.primary.withValues(alpha: 0.08),
+        borderRadius: const BorderRadius.all(AppRadius.card),
+      ),
+      child: ListTile(
+        dense: true,
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: AppSpacing.md,
+          vertical: AppSpacing.xs,
+        ),
+        leading: const Icon(
+          Icons.auto_awesome_rounded,
+          color: AppColors.primary,
+          size: 20,
+        ),
+        title: Text(
+          ungroupedCount == 1
+              ? '1 Karte ohne Serie'
+              : '$ungroupedCount Karten ohne Serie',
+          style: const TextStyle(
+            fontFamily: 'Nunito',
+            fontWeight: FontWeight.w700,
+            fontSize: 14,
+            color: AppColors.primary,
+          ),
+        ),
+        trailing: FilledButton(
+          onPressed: () => unawaited(_runRetroactiveSort(context, ref)),
+          style: FilledButton.styleFrom(
+            padding: const EdgeInsets.symmetric(
+              horizontal: AppSpacing.md,
+              vertical: AppSpacing.xs,
+            ),
+            minimumSize: Size.zero,
+            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+          ),
+          child: const Text('Einordnen'),
+        ),
+      ),
+    );
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Retroactive series sorting
+// ---------------------------------------------------------------------------
 
 /// Runs catalog matching (keyword + stored artist IDs) against all ungrouped
 /// cards and assigns matches to their series groups.
@@ -423,26 +497,31 @@ enum _MenuAction { sortIntoSeries }
 Future<void> _runRetroactiveSort(BuildContext context, WidgetRef ref) async {
   final catalog = ref.read(catalogServiceProvider).value;
   if (catalog == null) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Katalog noch nicht geladen.')),
-    );
+    ScaffoldMessenger.of(context)
+      ..clearSnackBars()
+      ..showSnackBar(
+        const SnackBar(content: Text('Katalog noch nicht geladen.')),
+      );
     return;
   }
 
   // Show loading dialog
-  unawaited(showDialog<void>(
-    context: context,
-    barrierDismissible: false,
-    builder: (_) => const AlertDialog(
-      content: Row(
-        children: [
-          CircularProgressIndicator(),
-          SizedBox(width: 20),
-          Text('Karten werden sortiert…'),
-        ],
-      ),
+  unawaited(
+    showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder:
+          (_) => const AlertDialog(
+            content: Row(
+              children: [
+                CircularProgressIndicator(),
+                SizedBox(width: 20),
+                Text('Karten werden sortiert…'),
+              ],
+            ),
+          ),
     ),
-  ));
+  );
 
   try {
     final cardRepo = ref.read(cardRepositoryProvider);
@@ -456,7 +535,8 @@ Future<void> _runRetroactiveSort(BuildContext context, WidgetRef ref) async {
     for (final card in ungrouped) {
       // Parse stored artist IDs so phase-2 matching fires for albums
       // whose titles omit the series name (e.g. "Folge 38: Eile mit Weile").
-      final artistIds = card.spotifyArtistIds
+      final artistIds =
+          card.spotifyArtistIds
               ?.split(',')
               .where((s) => s.isNotEmpty)
               .toList() ??
@@ -478,35 +558,43 @@ Future<void> _runRetroactiveSort(BuildContext context, WidgetRef ref) async {
       matchCount++;
     }
 
-    Log.info(_tag, 'Retroactive sort complete', data: {
-      'ungrouped': ungrouped.length,
-      'matched': matchCount,
-      'series': grouped.length,
-    });
+    Log.info(
+      _tag,
+      'Retroactive sort complete',
+      data: {
+        'ungrouped': ungrouped.length,
+        'matched': matchCount,
+        'series': grouped.length,
+      },
+    );
 
     if (context.mounted) Navigator.of(context).pop(); // close loading dialog
 
     if (context.mounted) {
-      final msg = matchCount == 0
-          ? 'Keine Karten konnten zugeordnet werden.\n'
-              'Tipp: Karten ohne Serienname im Titel (z.B. „Folge 38: Eile mit Weile") '
-              'müssen manuell einer Serie zugewiesen werden.'
-          : '$matchCount Karten zu ${grouped.length} '
-              '${grouped.length == 1 ? 'Serie' : 'Serien'} sortiert.';
+      final msg =
+          matchCount == 0
+              ? 'Keine Karten konnten zugeordnet werden.\n'
+                  'Tipp: Karten ohne Serienname im Titel (z.B. „Folge 38: Eile mit Weile") '
+                  'müssen manuell einer Serie zugewiesen werden.'
+              : '$matchCount Karten zu ${grouped.length} '
+                  '${grouped.length == 1 ? 'Serie' : 'Serien'} sortiert.';
 
-      unawaited(showDialog<void>(
-        context: context,
-        builder: (_) => AlertDialog(
-          title: const Text('Serien einordnen'),
-          content: Text(msg),
-          actions: [
-            FilledButton(
-              onPressed: () => Navigator.of(context).pop(),
-              child: const Text('OK'),
-            ),
-          ],
+      unawaited(
+        showDialog<void>(
+          context: context,
+          builder:
+              (_) => AlertDialog(
+                title: const Text('Serien einordnen'),
+                content: Text(msg),
+                actions: [
+                  FilledButton(
+                    onPressed: () => Navigator.of(context).pop(),
+                    child: const Text('OK'),
+                  ),
+                ],
+              ),
         ),
-      ));
+      );
     }
   } on Exception catch (e) {
     if (context.mounted) Navigator.of(context).pop();

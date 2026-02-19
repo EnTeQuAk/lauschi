@@ -57,22 +57,27 @@ class _GroupEditScreenState extends ConsumerState<GroupEditScreen> {
   Future<void> _save() async {
     final title = _titleController.text.trim();
     if (title.isEmpty) return;
-    await ref.read(groupRepositoryProvider).update(
+    await ref
+        .read(groupRepositoryProvider)
+        .update(
           id: widget.groupId,
           title: title,
-          coverUrl: _coverController.text.trim().isEmpty
-              ? null
-              : _coverController.text.trim(),
+          coverUrl:
+              _coverController.text.trim().isEmpty
+                  ? null
+                  : _coverController.text.trim(),
           clearCoverUrl: _coverController.text.trim().isEmpty,
         );
     if (mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Serie gespeichert'),
-          duration: Duration(seconds: 2),
-          behavior: SnackBarBehavior.floating,
-        ),
-      );
+      ScaffoldMessenger.of(context)
+        ..clearSnackBars()
+        ..showSnackBar(
+          const SnackBar(
+            content: Text('Serie gespeichert'),
+            duration: Duration(seconds: 2),
+            behavior: SnackBarBehavior.floating,
+          ),
+        );
       setState(() => _dirty = false);
     }
   }
@@ -93,14 +98,16 @@ class _GroupEditScreenState extends ConsumerState<GroupEditScreen> {
         _onLoaded(group);
         return _buildScaffold(context, group, episodesAsync);
       },
-      loading: () => Scaffold(
-        appBar: AppBar(title: const Text('Serie')),
-        body: const Center(child: CircularProgressIndicator()),
-      ),
-      error: (_, _) => Scaffold(
-        appBar: AppBar(title: const Text('Serie')),
-        body: const Center(child: Text('Fehler beim Laden')),
-      ),
+      loading:
+          () => Scaffold(
+            appBar: AppBar(title: const Text('Serie')),
+            body: const Center(child: CircularProgressIndicator()),
+          ),
+      error:
+          (_, _) => Scaffold(
+            appBar: AppBar(title: const Text('Serie')),
+            body: const Center(child: Text('Fehler beim Laden')),
+          ),
     );
   }
 
@@ -110,11 +117,8 @@ class _GroupEditScreenState extends ConsumerState<GroupEditScreen> {
     AsyncValue<List<db.AudioCard>> episodesAsync,
   ) {
     final episodes = episodesAsync.value ?? <db.AudioCard>[];
-    final episodeCovers = episodes
-        .map((e) => e.coverUrl)
-        .whereType<String>()
-        .toSet()
-        .toList();
+    final episodeCovers =
+        episodes.map((e) => e.coverUrl).whereType<String>().toSet().toList();
 
     return Scaffold(
       backgroundColor: AppColors.parentBackground,
@@ -130,9 +134,10 @@ class _GroupEditScreenState extends ConsumerState<GroupEditScreen> {
         ],
       ),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () => unawaited(
-          context.push(AppRoutes.parentAddCardToGroup(widget.groupId)),
-        ),
+        onPressed:
+            () => unawaited(
+              context.push(AppRoutes.parentAddCardToGroup(widget.groupId)),
+            ),
         icon: const Icon(Icons.add_rounded),
         label: const Text('Folge hinzufügen'),
       ),
@@ -205,17 +210,19 @@ class _GroupEditScreenState extends ConsumerState<GroupEditScreen> {
           // Episode list
           Expanded(
             child: episodesAsync.when(
-              data: (eps) => eps.isEmpty
-                  ? const _EmptyEpisodesHint()
-                  : _EpisodeReorderList(
-                      groupId: widget.groupId,
-                      episodes: eps,
-                    ),
-              loading: () =>
-                  const Center(child: CircularProgressIndicator()),
-              error: (_, _) => const Center(
-                child: Text('Fehler beim Laden der Folgen.'),
-              ),
+              data:
+                  (eps) =>
+                      eps.isEmpty
+                          ? const _EmptyEpisodesHint()
+                          : _EpisodeReorderList(
+                            groupId: widget.groupId,
+                            episodes: eps,
+                          ),
+              loading: () => const Center(child: CircularProgressIndicator()),
+              error:
+                  (_, _) => const Center(
+                    child: Text('Fehler beim Laden der Folgen.'),
+                  ),
             ),
           ),
         ],
@@ -280,13 +287,14 @@ class _CoverPickerState extends State<_CoverPicker> {
               child: SizedBox(
                 width: 72,
                 height: 72,
-                child: _currentUrl.isNotEmpty
-                    ? CachedNetworkImage(
-                        imageUrl: _currentUrl,
-                        fit: BoxFit.cover,
-                        errorWidget: (_, _, _) => const _CoverPlaceholder(),
-                      )
-                    : const _CoverPlaceholder(),
+                child:
+                    _currentUrl.isNotEmpty
+                        ? CachedNetworkImage(
+                          imageUrl: _currentUrl,
+                          fit: BoxFit.cover,
+                          errorWidget: (_, _, _) => const _CoverPlaceholder(),
+                        )
+                        : const _CoverPlaceholder(),
               ),
             ),
             const SizedBox(width: AppSpacing.md),
@@ -361,9 +369,10 @@ class _CoverPickerState extends State<_CoverPicker> {
                     height: 52,
                     decoration: BoxDecoration(
                       borderRadius: const BorderRadius.all(AppRadius.card),
-                      border: isSelected
-                          ? Border.all(color: AppColors.primary, width: 2.5)
-                          : null,
+                      border:
+                          isSelected
+                              ? Border.all(color: AppColors.primary, width: 2.5)
+                              : null,
                     ),
                     child: ClipRRect(
                       borderRadius: const BorderRadius.all(AppRadius.card),
@@ -419,9 +428,11 @@ class _EpisodeReorderList extends ConsumerWidget {
         final item = reordered.removeAt(oldIndex);
         reordered.insert(insertAt, item);
         unawaited(
-          ref.read(cardRepositoryProvider).reorder(
-            reordered.map((c) => c.id).toList(),
-          ),
+          ref
+              .read(cardRepositoryProvider)
+              .reorder(
+                reordered.map((c) => c.id).toList(),
+              ),
         );
       },
       itemCount: episodes.length,
@@ -459,15 +470,16 @@ class _EpisodeTile extends ConsumerWidget {
         child: SizedBox(
           width: 40,
           height: 40,
-          child: card.coverUrl != null
-              ? CachedNetworkImage(
-                  imageUrl: card.coverUrl!,
-                  fit: BoxFit.cover,
-                )
-              : const ColoredBox(
-                  color: AppColors.surfaceDim,
-                  child: Icon(Icons.music_note_rounded, size: 20),
-                ),
+          child:
+              card.coverUrl != null
+                  ? CachedNetworkImage(
+                    imageUrl: card.coverUrl!,
+                    fit: BoxFit.cover,
+                  )
+                  : const ColoredBox(
+                    color: AppColors.surfaceDim,
+                    child: Icon(Icons.music_note_rounded, size: 20),
+                  ),
         ),
       ),
       title: Text(
@@ -480,16 +492,17 @@ class _EpisodeTile extends ConsumerWidget {
           fontSize: 14,
         ),
       ),
-      subtitle: card.isHeard
-          ? const Text(
-              '✓ gehört',
-              style: TextStyle(
-                fontFamily: 'Nunito',
-                fontSize: 12,
-                color: AppColors.success,
-              ),
-            )
-          : null,
+      subtitle:
+          card.isHeard
+              ? const Text(
+                '✓ gehört',
+                style: TextStyle(
+                  fontFamily: 'Nunito',
+                  fontSize: 12,
+                  color: AppColors.success,
+                ),
+              )
+              : null,
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -501,8 +514,10 @@ class _EpisodeTile extends ConsumerWidget {
           ),
           ReorderableDragStartListener(
             index: index,
-            child: const Icon(Icons.drag_handle_rounded,
-                color: AppColors.textSecondary),
+            child: const Icon(
+              Icons.drag_handle_rounded,
+              color: AppColors.textSecondary,
+            ),
           ),
         ],
       ),
@@ -513,30 +528,29 @@ class _EpisodeTile extends ConsumerWidget {
     unawaited(
       showDialog<void>(
         context: context,
-        builder: (ctx) => AlertDialog(
-          title: const Text('Aus Serie entfernen?'),
-          content: Text(
-            '„${card.customTitle ?? card.title}" wird aus der Serie entfernt '
-            '(nicht gelöscht).',
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(ctx).pop(),
-              child: const Text('Abbrechen'),
+        builder:
+            (ctx) => AlertDialog(
+              title: const Text('Aus Serie entfernen?'),
+              content: Text(
+                '„${card.customTitle ?? card.title}" wird aus der Serie entfernt '
+                '(nicht gelöscht).',
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.of(ctx).pop(),
+                  child: const Text('Abbrechen'),
+                ),
+                FilledButton(
+                  onPressed: () {
+                    Navigator.of(ctx).pop();
+                    unawaited(
+                      ref.read(cardRepositoryProvider).removeFromGroup(card.id),
+                    );
+                  },
+                  child: const Text('Entfernen'),
+                ),
+              ],
             ),
-            FilledButton(
-              onPressed: () {
-                Navigator.of(ctx).pop();
-                unawaited(
-                  ref
-                      .read(cardRepositoryProvider)
-                      .removeFromGroup(card.id),
-                );
-              },
-              child: const Text('Entfernen'),
-            ),
-          ],
-        ),
       ),
     );
   }
@@ -556,8 +570,11 @@ class _EmptyEpisodesHint extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(Icons.playlist_add_rounded,
-                size: 32, color: AppColors.textSecondary),
+            Icon(
+              Icons.playlist_add_rounded,
+              size: 32,
+              color: AppColors.textSecondary,
+            ),
             SizedBox(height: AppSpacing.sm),
             Text(
               'Tippe auf „Folge hinzufügen" um Folgen hinzuzufügen.',

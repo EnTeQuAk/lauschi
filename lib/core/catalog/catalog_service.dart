@@ -88,9 +88,9 @@ class CatalogService {
           keywordsRaw == null
               ? <String>[]
               : (keywordsRaw
-                    .map<String>((k) => (k as String).toLowerCase())
-                    .toList()
-                  ..sort((a, b) => b.length.compareTo(a.length)));
+                  .map<String>((k) => (k as String).toLowerCase())
+                  .toList()
+                ..sort((a, b) => b.length.compareTo(a.length)));
 
       final artistIdsRaw = map['spotify_artist_ids'] as YamlList?;
       final artistIds =
@@ -98,22 +98,30 @@ class CatalogService {
               ? <String>[]
               : artistIdsRaw.map<String>((a) => a as String).toList();
 
-      parsed.add(CatalogSeries(
-        id: map['id'] as String,
-        title: map['title'] as String,
-        aliases:
-            (map['aliases'] as YamlList).map<String>((a) => a as String).toList(),
-        keywords: keywords,
-        spotifyArtistIds: artistIds,
-        episodePattern: map['episode_pattern'] as String?,
-      ));
+      final aliasesRaw = map['aliases'] as YamlList?;
+      final aliases =
+          aliasesRaw == null
+              ? <String>[]
+              : aliasesRaw.map<String>((a) => a as String).toList();
+
+      parsed.add(
+        CatalogSeries(
+          id: map['id'] as String,
+          title: map['title'] as String,
+          aliases: aliases,
+          keywords: keywords,
+          spotifyArtistIds: artistIds,
+          episodePattern: map['episode_pattern'] as String?,
+        ),
+      );
     }
 
     // Sort series so more specific ones (longer primary keyword) come first.
     // This prevents "Die drei ???" from stealing "Die drei ??? Kids" matches.
     parsed.sort(
-      (a, b) => (b.keywords.firstOrNull?.length ?? 0)
-          .compareTo(a.keywords.firstOrNull?.length ?? 0),
+      (a, b) => (b.keywords.firstOrNull?.length ?? 0).compareTo(
+        a.keywords.firstOrNull?.length ?? 0,
+      ),
     );
 
     return CatalogService._(parsed);
@@ -200,5 +208,6 @@ class CatalogService {
 
 /// Loaded catalog service. Null while loading; the app can handle the
 /// loading state gracefully (catalog match is optional, never blocking).
-final catalogServiceProvider =
-    FutureProvider<CatalogService>((ref) => CatalogService.load());
+final catalogServiceProvider = FutureProvider<CatalogService>(
+  (ref) => CatalogService.load(),
+);
