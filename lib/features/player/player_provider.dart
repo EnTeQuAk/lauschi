@@ -8,6 +8,7 @@ import 'package:lauschi/core/spotify/spotify_auth_provider.dart';
 import 'package:lauschi/features/player/player_state.dart';
 import 'package:lauschi/features/player/spotify_player_bridge.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:wakelock_plus/wakelock_plus.dart';
 
 part 'player_provider.g.dart';
 
@@ -227,8 +228,11 @@ class PlayerNotifier extends _$PlayerNotifier {
     }
   }
 
-  /// Save position periodically while playing.
+  /// Save position periodically while playing. Toggle wakelock.
   void _onStateChange(PlaybackState newState) {
+    // Keep screen on while audio plays; release on pause/stop.
+    unawaited(WakelockPlus.toggle(enable: newState.isPlaying));
+
     if (newState.isPlaying) {
       _startPositionSave();
     } else {
