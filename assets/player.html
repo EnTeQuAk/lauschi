@@ -13,10 +13,8 @@
   // Dart → JS commands via: controller.runJavaScript('lauschi.<method>(...)')
   // JS → Dart events via:   SpotifyBridge.postMessage(JSON.stringify({type, payload}))
   //
-  // SPIKE NOTES:
-  // - On iOS, WKWebView suspends JS ~30s after backgrounding (OS restriction).
-  // - UIBackgroundModes: audio in Info.plist is necessary but may not be sufficient.
-  // - This spike will tell us definitively if the WebView approach is viable.
+  // NOTE: On iOS, WKWebView suspends JS ~30s after backgrounding.
+  // UIBackgroundModes: audio in Info.plist is necessary but may not suffice.
 
   var player = null;
   var deviceId = null;

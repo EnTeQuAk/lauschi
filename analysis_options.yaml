@@ -7,7 +7,6 @@ analyzer:
   exclude:
     - "**/*.g.dart"
     - "**/*.freezed.dart"
-    - lib/spike/**
 
 linter:
   rules:
