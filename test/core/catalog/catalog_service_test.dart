@@ -778,4 +778,22 @@ void main() {
       expect(r!.episodeNumber, 65);
     });
   });
+
+  group('CatalogService — catalog albums', () {
+    test('series with curated albums exposes them', () {
+      final bb = catalog.all.where((s) => s.id == 'benjamin_bluemchen').first;
+      expect(bb.hasCuratedAlbums, isTrue);
+      expect(bb.albums.length, greaterThan(100));
+      expect(bb.albums.first.spotifyId, isNotEmpty);
+      expect(bb.albums.first.title, contains('Folge'));
+      expect(bb.albums.first.episode, 1);
+      expect(bb.albums.first.uri, startsWith('spotify:album:'));
+    });
+
+    test('series without curated albums has empty list', () {
+      final yakari = catalog.all.where((s) => s.id == 'yakari').first;
+      expect(yakari.hasCuratedAlbums, isFalse);
+      expect(yakari.albums, isEmpty);
+    });
+  });
 }

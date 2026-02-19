@@ -3,11 +3,13 @@ import 'dart:async' show Timer, unawaited;
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:lauschi/core/catalog/catalog_service.dart';
 import 'package:lauschi/core/database/app_database.dart' as db;
 import 'package:lauschi/core/database/card_repository.dart';
 import 'package:lauschi/core/database/group_repository.dart';
 import 'package:lauschi/core/log.dart';
+import 'package:lauschi/core/router/app_router.dart';
 import 'package:lauschi/core/spotify/spotify_api.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
 import 'package:lauschi/features/player/player_provider.dart';
@@ -316,29 +318,240 @@ class _AddCardScreenState extends ConsumerState<AddCardScreen> {
   }
 
   // -------------------------------------------------------------------------
-  // Build
+  // Series detection
   // -------------------------------------------------------------------------
 
-  /// If all unadded results share exactly one series title, return it.
-  String? _singleMatchSeries() {
-    String? title;
+  /// Distinct series detected in current search results, ordered by number
+  /// of matching albums (most matches first). Skips series that already
+  /// exist as groups (user already added them).
+  List<CatalogSeries> _detectedSeries() {
+    final counts = <String, int>{}; // series.id → count
+    final seriesMap = <String, CatalogSeries>{};
+    for (var i = 0; i < _results.length; i++) {
+      final match = i < _catalogMatches.length ? _catalogMatches[i] : null;
+      if (match == null) continue;
+      final sid = match.series.id;
+      counts[sid] = (counts[sid] ?? 0) + 1;
+      seriesMap[sid] = match.series;
+    }
+    if (counts.isEmpty) return [];
+
+    // Sort by match count descending
+    final sorted =
+        counts.keys.toList()..sort((a, b) => counts[b]!.compareTo(counts[a]!));
+    return sorted.map((id) => seriesMap[id]!).toList();
+  }
+
+  // -------------------------------------------------------------------------
+  // Bulk series add
+  // -------------------------------------------------------------------------
+
+  Future<void> _addSeriesFromCatalog(CatalogSeries series) async {
+    final groupId = await _findOrCreateGroup(series.title);
+    if (!mounted) return;
+
+    final sw = Stopwatch()..start();
+    var added = 0;
+    var failed = 0;
+    final albumIds = series.albums.map((a) => a.spotifyId).toList();
+
+    // Show progress dialog
+    final totalCount = albumIds.length;
+    var progressCount = 0;
+    final progressNotifier = ValueNotifier<double>(0);
+
+    unawaited(
+      showDialog<void>(
+        context: context,
+        barrierDismissible: false,
+        builder:
+            (_) => ValueListenableBuilder<double>(
+              valueListenable: progressNotifier,
+              builder:
+                  (_, progress, _) => AlertDialog(
+                    content: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        LinearProgressIndicator(value: progress),
+                        const SizedBox(height: AppSpacing.md),
+                        Text(
+                          '${(progress * 100).round()}% — $progressCount von $totalCount Folgen',
+                          style: const TextStyle(
+                            fontFamily: 'Nunito',
+                            fontSize: 14,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+            ),
+      ),
+    );
+
+    try {
+      // Fetch in batches of 20 (Spotify API limit)
+      for (var i = 0; i < albumIds.length; i += 20) {
+        final batch = albumIds.sublist(
+          i,
+          (i + 20).clamp(0, albumIds.length),
+        );
+        List<SpotifyAlbum> albums;
+        try {
+          albums = await ref.read(spotifyApiProvider).getAlbums(batch);
+        } on Exception catch (e) {
+          Log.error(
+            _tag,
+            'Batch fetch failed',
+            exception: e,
+            data: {
+              'batch': '${i ~/ 20 + 1}',
+              'ids': batch.length,
+            },
+          );
+          failed += batch.length;
+          progressCount += batch.length;
+          if (mounted) {
+            progressNotifier.value = progressCount / totalCount;
+          }
+          continue;
+        }
+
+        for (final album in albums) {
+          // Look up episode number from catalog
+          final catalogAlbum =
+              series.albums.where((a) => a.spotifyId == album.id).firstOrNull;
+          final cardId = await ref
+              .read(cardRepositoryProvider)
+              .insertIfAbsent(
+                title: album.name,
+                providerUri: album.uri,
+                cardType: 'album',
+                coverUrl: album.imageUrl,
+                spotifyArtistIds: album.artistIds,
+              );
+          await ref
+              .read(cardRepositoryProvider)
+              .assignToGroup(
+                cardId: cardId,
+                groupId: groupId,
+                episodeNumber: catalogAlbum?.episode,
+              );
+          added++;
+          if (mounted) setState(() => _addedUris.add(album.uri));
+        }
+
+        // Track albums that were in the batch request but not returned
+        failed += batch.length - albums.length;
+
+        progressCount += batch.length;
+        if (mounted) {
+          progressNotifier.value = progressCount / totalCount;
+        }
+      }
+    } on Exception catch (e) {
+      Log.error(_tag, 'Series bulk add failed', exception: e);
+    }
+
+    sw.stop();
+    Log.info(
+      _tag,
+      'Series bulk add complete',
+      data: {
+        'series': series.id,
+        'catalogAlbums': totalCount,
+        'added': added,
+        'failed': failed,
+        'durationMs': sw.elapsedMilliseconds,
+        'batches': (totalCount / 20).ceil(),
+      },
+    );
+
+    progressNotifier.dispose();
+    if (mounted) Navigator.of(context).pop(); // close progress dialog
+
+    if (mounted) {
+      unawaited(context.push(AppRoutes.parentGroupEdit(groupId)));
+    }
+  }
+
+  /// Add a detected series using just the visible search results (no catalog
+  /// album data). Creates the group and adds matching albums.
+  Future<void> _addSeriesFromSearch(CatalogSeries series) async {
+    final groupId = await _findOrCreateGroup(series.title);
+
+    var count = 0;
     for (var i = 0; i < _results.length; i++) {
       final album = _results[i];
       if (_addedUris.contains(album.uri)) continue;
       final match = i < _catalogMatches.length ? _catalogMatches[i] : null;
-      if (match == null) return null; // mixed results — no batch offer
-      if (title == null) {
-        title = match.series.title;
-      } else if (title != match.series.title) {
-        return null;
-      }
+      if (match?.series.id != series.id) continue;
+
+      final cardId = await ref
+          .read(cardRepositoryProvider)
+          .insertIfAbsent(
+            title: album.name,
+            providerUri: album.uri,
+            cardType: 'album',
+            coverUrl: album.imageUrl,
+            spotifyArtistIds: album.artistIds,
+          );
+      await ref
+          .read(cardRepositoryProvider)
+          .assignToGroup(
+            cardId: cardId,
+            groupId: groupId,
+            episodeNumber: match?.episodeNumber,
+          );
+      if (mounted) setState(() => _addedUris.add(album.uri));
+      count++;
     }
-    return title; // null if all already added
+
+    Log.info(
+      _tag,
+      'Series search add',
+      data: {
+        'series': series.id,
+        'added': count,
+      },
+    );
+
+    if (mounted) {
+      unawaited(context.push(AppRoutes.parentGroupEdit(groupId)));
+    }
   }
+
+  // -------------------------------------------------------------------------
+  // Build
+  // -------------------------------------------------------------------------
 
   @override
   Widget build(BuildContext context) {
-    final batchSeries = _results.isNotEmpty ? _singleMatchSeries() : null;
+    // Detect series in results (only in general add mode)
+    final detectedSeries =
+        widget.autoAssignGroupId == null && _results.isNotEmpty
+            ? _detectedSeries()
+            : <CatalogSeries>[];
+
+    // In autoAssign mode, offer batch add when all results match one series
+    String? batchSeries;
+    if (widget.autoAssignGroupId != null && _results.isNotEmpty) {
+      String? title;
+      var allMatch = true;
+      for (var i = 0; i < _results.length; i++) {
+        if (_addedUris.contains(_results[i].uri)) continue;
+        final match = i < _catalogMatches.length ? _catalogMatches[i] : null;
+        if (match == null) {
+          allMatch = false;
+          break;
+        }
+        title ??= match.series.title;
+        if (title != match.series.title) {
+          allMatch = false;
+          break;
+        }
+      }
+      if (allMatch) batchSeries = title;
+    }
 
     return Scaffold(
       backgroundColor: AppColors.parentBackground,
@@ -399,12 +612,30 @@ class _AddCardScreenState extends ConsumerState<AddCardScreen> {
             ),
           ),
 
-          // Batch-add banner — shown when every result is the same series
-          if (batchSeries != null)
+          // Batch-add banner — autoAssign mode only
+          if (batchSeries case final seriesTitle?)
             _BatchAddBanner(
-              seriesTitle: batchSeries,
+              seriesTitle: seriesTitle,
               count: _results.where((a) => !_addedUris.contains(a.uri)).length,
-              onAddAll: () => unawaited(_handleAddAll(batchSeries)),
+              onAddAll: () => unawaited(_handleAddAll(seriesTitle)),
+            ),
+
+          // Series cards — general add mode
+          if (detectedSeries.isNotEmpty)
+            ...detectedSeries.map(
+              (series) => _SeriesCard(
+                series: series,
+                matchCount:
+                    _catalogMatches
+                        .whereType<CatalogMatch>()
+                        .where((m) => m.series.id == series.id)
+                        .length,
+                onAdd:
+                    () =>
+                        series.hasCuratedAlbums
+                            ? unawaited(_addSeriesFromCatalog(series))
+                            : unawaited(_addSeriesFromSearch(series)),
+              ),
             ),
 
           // Results
@@ -512,6 +743,84 @@ class _BatchAddBanner extends StatelessWidget {
             tapTargetSize: MaterialTapTargetSize.shrinkWrap,
           ),
           child: Text(count == 1 ? 'Hinzufügen' : 'Alle hinzufügen'),
+        ),
+      ),
+    );
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Series card — shown when search results match a known catalog series
+// ---------------------------------------------------------------------------
+
+class _SeriesCard extends StatelessWidget {
+  const _SeriesCard({
+    required this.series,
+    required this.matchCount,
+    required this.onAdd,
+  });
+
+  final CatalogSeries series;
+
+  /// How many search results matched this series.
+  final int matchCount;
+  final VoidCallback onAdd;
+
+  @override
+  Widget build(BuildContext context) {
+    final hasAlbums = series.hasCuratedAlbums;
+    final subtitle =
+        hasAlbums
+            ? '${series.albums.length} Folgen im Katalog'
+            : '$matchCount ${matchCount == 1 ? 'Treffer' : 'Treffer'} in Ergebnissen';
+
+    return Container(
+      margin: const EdgeInsets.symmetric(
+        horizontal: AppSpacing.screenH,
+        vertical: AppSpacing.xs,
+      ),
+      decoration: BoxDecoration(
+        color: AppColors.primary.withValues(alpha: 0.08),
+        borderRadius: const BorderRadius.all(AppRadius.card),
+      ),
+      child: ListTile(
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: AppSpacing.md,
+          vertical: AppSpacing.xs,
+        ),
+        leading: const Icon(
+          Icons.library_music_rounded,
+          color: AppColors.primary,
+          size: 28,
+        ),
+        title: Text(
+          series.title,
+          style: const TextStyle(
+            fontFamily: 'Nunito',
+            fontWeight: FontWeight.w700,
+            fontSize: 15,
+            color: AppColors.primary,
+          ),
+        ),
+        subtitle: Text(
+          subtitle,
+          style: const TextStyle(
+            fontFamily: 'Nunito',
+            fontSize: 12,
+            color: AppColors.primary,
+          ),
+        ),
+        trailing: FilledButton(
+          onPressed: onAdd,
+          style: FilledButton.styleFrom(
+            padding: const EdgeInsets.symmetric(
+              horizontal: AppSpacing.md,
+              vertical: AppSpacing.xs,
+            ),
+            minimumSize: Size.zero,
+            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+          ),
+          child: const Text('Serie anlegen'),
         ),
       ),
     );
