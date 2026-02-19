@@ -7,15 +7,15 @@ const _key = 'onboarding_complete';
 
 /// Tracks whether onboarding has been completed.
 ///
-/// Reads from SharedPreferences on first access. The router
-/// redirects to /onboarding if this is false.
+/// `null` = still loading from SharedPreferences (show splash).
+/// `false` = needs onboarding.
+/// `true` = onboarding done.
 @Riverpod(keepAlive: true)
 class OnboardingComplete extends _$OnboardingComplete {
   @override
-  bool build() {
-    // Start as true (don't redirect) until async check completes.
-    // The router will call checkAsync() to update.
-    return true;
+  bool? build() {
+    // null = loading. Router shows splash until checkAsync resolves.
+    return null;
   }
 
   /// Check SharedPreferences for the onboarding flag.
