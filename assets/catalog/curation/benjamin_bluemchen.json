@@ -1,0 +1,1911 @@
+{
+  "models": [
+    "kimi-k2.5",
+    "claude-sonnet-4-6"
+  ],
+  "a": {
+    "id": "benjamin_bluemchen",
+    "title": "Benjamin Blümchen",
+    "aliases": [],
+    "keywords": [],
+    "spotify_artist_ids": [
+      "1l6d0RIxTL3JytlLGvWzYe"
+    ],
+    "episode_pattern": "[Ff]olge\\s+(\\d+)",
+    "albums": [
+      {
+        "spotify_album_id": "5c9zfPgnRBIvJdzSumIw5r",
+        "include": true,
+        "episode_num": 168,
+        "title": "Folge 168: Die Elchkuh",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4E4xYZI969WRaBD9HssQcj",
+        "include": true,
+        "episode_num": 167,
+        "title": "Folge 167: Der Meisterdetektiv",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7LGLBZOlnD3HrwvbiEcRYR",
+        "include": false,
+        "episode_num": null,
+        "title": "Weihnachtsfolgen",
+        "exclude_reason": "compilation"
+      },
+      {
+        "spotify_album_id": "22IyszbjSWQ9PHD7UEjalx",
+        "include": false,
+        "episode_num": 36,
+        "title": "Gute-Nacht-Geschichten - Folge 36: Die Zoomärchenstunde",
+        "exclude_reason": "spinoff"
+      },
+      {
+        "spotify_album_id": "4HkEFBWpnJbQXzIrbdNBFN",
+        "include": false,
+        "episode_num": null,
+        "title": "Benjamin Blümchen singt Weihnachtslieder",
+        "exclude_reason": "singalong"
+      },
+      {
+        "spotify_album_id": "7cFwHnXBUBCC2eonrJYuOK",
+        "include": true,
+        "episode_num": 166,
+        "title": "Folge 166: im Football-Fieber",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4oURlGd6tLuF6C7VLqba2z",
+        "include": false,
+        "episode_num": 14,
+        "title": "Find's raus mit Benjamin - Folge 14: Eisenbahn",
+        "exclude_reason": "spinoff"
+      },
+      {
+        "spotify_album_id": "3k35LfD5Vzb8kMiYfr6Jd8",
+        "include": true,
+        "episode_num": 165,
+        "title": "Folge 165: Der Paradiesvogel",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "373A10PBGMIleibQAAtKUO",
+        "include": false,
+        "episode_num": 7,
+        "title": "Benjamin Minis - Folge 7: Müllalarm im Zoo",
+        "exclude_reason": "spinoff"
+      },
+      {
+        "spotify_album_id": "012b2Z2FgZfxcncnVLxvQP",
+        "include": true,
+        "episode_num": 164,
+        "title": "Folge 164: als Eisverkäufer",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "68BljNSAiszk4ogIdGW2iR",
+        "include": true,
+        "episode_num": 163,
+        "title": "Folge 163: Die Drehorgel",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6GIYDPQ87bC5lxq1P9aKeW",
+        "include": false,
+        "episode_num": 13,
+        "title": "Find's raus mit Benjamin - Folge 13: Regenwald",
+        "exclude_reason": "spinoff"
+      },
+      {
+        "spotify_album_id": "70t6sQ44zjfpFqpvgToKYj",
+        "include": true,
+        "episode_num": 162,
+        "title": "Folge 162: Ärger mit Rudi Raffke",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3BEqo9EoFpHk9wP0I8Lw3U",
+        "include": true,
+        "episode_num": 161,
+        "title": "Folge 161: zurück zur Leuchtturminsel",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0nitnuUS2XZxyT82P5Zq4s",
+        "include": false,
+        "episode_num": 35,
+        "title": "Gute-Nacht-Geschichten - Folge 35: Der mutige Löwe",
+        "exclude_reason": "spinoff"
+      },
+      {
+        "spotify_album_id": "2Ck5U56StYxqFpecUB4Js4",
+        "include": false,
+        "episode_num": 12,
+        "title": "Find's raus mit Benjamin - Folge 12: Meer",
+        "exclude_reason": "spinoff"
+      },
+      {
+        "spotify_album_id": "7KryUkeiPcF0xOPhUy1aZZ",
+        "include": true,
+        "episode_num": 160,
+        "title": "Folge 160: als Höhlenforscher",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5ymm9RXqHRg6SxYgM2Cc3A",
+        "include": false,
+        "episode_num": 6,
+        "title": "Benjamin Minis - Folge 6: Eine verrückte Zahnputzgeschichte",
+        "exclude_reason": "spinoff"
+      },
+      {
+        "spotify_album_id": "1RuEM4ttfEhpZwBZC8YxtH",
+        "include": false,
+        "episode_num": null,
+        "title": "Find's raus mit Benjamin: Das Liederalbum",
+        "exclude_reason": "singalong"
+      },
+      {
+        "spotify_album_id": "38JdayoOePzvLK429bX8Z9",
+        "include": true,
+        "episode_num": 159,
+        "title": "Folge 159: als Robin Hood",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5ufylXwAl3QKljHfO3Yl3D",
+        "include": true,
+        "episode_num": 158,
+        "title": "Folge 158: Der Fußball-Pokal",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1U5WPQvOaUen0rEUXSF2xF",
+        "include": false,
+        "episode_num": null,
+        "title": "Find's raus mit Benjamin: Bauernhof",
+        "exclude_reason": "spinoff"
+      },
+      {
+        "spotify_album_id": "7z6kxqA39I6BMo2zyBT9Jx",
+        "include": true,
+        "episode_num": 157,
+        "title": "Folge 157: als Sänger",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "72zDeiWHQEPFyFNlTqDEJi",
+        "include": false,
+        "episode_num": 5,
+        "title": "Benjamin Minis - Folge 5: Endlich Schnee!",
+        "exclude_reason": "spinoff"
+      },
+      {
+        "spotify_album_id": "00jaPHFcxpr4TcKicb0S5k",
+        "include": true,
+        "episode_num": 156,
+        "title": "Folge 156: als Bergretter",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3Rr99zTIYQ15YEITCS0tNS",
+        "include": false,
+        "episode_num": null,
+        "title": "Find's raus mit Benjamin: Flughafen",
+        "exclude_reason": "spinoff"
+      },
+      {
+        "spotify_album_id": "45vjPlnLo7rYO2kZSFAqpn",
+        "include": true,
+        "episode_num": 155,
+        "title": "Folge 155: und der Roboter",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4meLr7oL6VRwQdQrOaM5Cc",
+        "include": false,
+        "episode_num": null,
+        "title": "Klangreise durch Burg Eintracht (ASMR)",
+        "exclude_reason": "ASMR"
+      },
+      {
+        "spotify_album_id": "4fmih7v3hLOwJk0Wmmav2R",
+        "include": false,
+        "episode_num": 34,
+        "title": "Gute-Nacht-Geschichten - Folge 34: Hilfe, ich kann nicht schlafen!",
+        "exclude_reason": "spinoff"
+      },
+      {
+        "spotify_album_id": "5iOHGdKsVr0aUmDAOMkIIG",
+        "include": false,
+        "episode_num": null,
+        "title": "Find's raus mit Benjamin: Müll",
+        "exclude_reason": "spinoff"
+      },
+      {
+        "spotify_album_id": "4aFcAACP4SOnrxGX3OX9QC",
+        "include": true,
+        "episode_num": 154,
+        "title": "Folge 154: in Italien",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6WqSiXGcwT0Sf0Kkszvvl0",
+        "include": false,
+        "episode_num": null,
+        "title": "Klangreise abends am Zoosee (ASMR)",
+        "exclude_reason": "ASMR"
+      },
+      {
+        "spotify_album_id": "1HZoPwcqIJUPHBTcopsEkE",
+        "include": true,
+        "episode_num": 153,
+        "title": "Folge 153: Das große Gewitter",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6omdBXnJMvLS2c9rAIHLfN",
+        "include": false,
+        "episode_num": null,
+        "title": "Adventskalender: Das große Weihnachtssingen",
+        "exclude_reason": "compilation"
+      },
+      {
+        "spotify_album_id": "3st7sFeFaTgjUnN2pK6PJg",
+        "include": false,
+        "episode_num": null,
+        "title": "Klangreise in Benjamins Haus (ASMR)",
+        "exclude_reason": "ASMR"
+      },
+      {
+        "spotify_album_id": "2rgYh2I7zLKUf6IcrbrvsP",
+        "include": false,
+        "episode_num": null,
+        "title": "Find's raus mit Benjamin: Dinosaurier",
+        "exclude_reason": "spinoff"
+      },
+      {
+        "spotify_album_id": "0LbnGwmkoi6g22g8B5moLH",
+        "include": true,
+        "episode_num": 152,
+        "title": "Folge 152: Schatzsuche im Zoosee",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2fiFlD2ujQz6E4s52D60sC",
+        "include": false,
+        "episode_num": 33,
+        "title": "Gute-Nacht-Geschichten - Folge 33: Im Reisefieber",
+        "exclude_reason": "spinoff"
+      },
+      {
+        "spotify_album_id": "5pDlWwNtOK3CheIcs1stBR",
+        "include": false,
+        "episode_num": null,
+        "title": "Find's raus mit Benjamin: Weltraum",
+        "exclude_reason": "spinoff"
+      },
+      {
+        "spotify_album_id": "73cpcSaEWHRilez9XaGsCM",
+        "include": true,
+        "episode_num": 151,
+        "title": "Folge 151: Das Elefantenkarussell",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0MN49nhoq9kCwtW8y4jEMV",
+        "include": false,
+        "episode_num": 4,
+        "title": "Benjamin Minis - Folge 4: Geburtstag im Zoo",
+        "exclude_reason": "spinoff"
+      },
+      {
+        "spotify_album_id": "06XA9Sto6EWaSdw8elWrDn",
+        "include": false,
+        "episode_num": null,
+        "title": "Klangreise Abendrunde im Zoo (ASMR)",
+        "exclude_reason": "ASMR"
+      },
+      {
+        "spotify_album_id": "2Oh8TfUadKzI7HRNuz8MXs",
+        "include": true,
+        "episode_num": 150,
+        "title": "Folge 150: auf Weltreise",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6I1iPM5ON3k2nPDa4dWVdz",
+        "include": false,
+        "episode_num": null,
+        "title": "Find's raus mit Benjamin: Jahreszeiten",
+        "exclude_reason": "spinoff"
+      },
+      {
+        "spotify_album_id": "5GmHB4Vxr5GsNUwUNEoOAN",
+        "include": true,
+        "episode_num": 149,
+        "title": "Folge 149: Auf der Tankstelle",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1XEgnkoYMJWVdgXLHyxtiR",
+        "include": false,
+        "episode_num": 32,
+        "title": "Gute-Nacht-Geschichten - Folge 32: Der Herbst ist da",
+        "exclude_reason": "spinoff"
+      },
+      {
+        "spotify_album_id": "1LrQphIc546HmGso1CbDPR",
+        "include": true,
+        "episode_num": 148,
+        "title": "Folge 148: Benjamin als Rettungselefant",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3TjPqzJLI3RvEMAfBWoXus",
+        "include": false,
+        "episode_num": null,
+        "title": "Find's raus mit Benjamin: Feuerwehr",
+        "exclude_reason": "spinoff"
+      },
+      {
+        "spotify_album_id": "4QCzgi6ctPLnBzbpXm02BT",
+        "include": false,
+        "episode_num": 3,
+        "title": "Benjamin Minis - Folge 3: Das erste Fahrrad",
+        "exclude_reason": "spinoff"
+      },
+      {
+        "spotify_album_id": "2jgebOVzoVTmDGe526pJjZ",
+        "include": true,
+        "episode_num": 147,
+        "title": "Folge 147: Schlittenfahrt mit Hindernissen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7rn6tf64uofISHlWtOksU1",
+        "include": false,
+        "episode_num": 31,
+        "title": "Gute-Nacht-Geschichten - Folge 31: Alle meine Tierkinder",
+        "exclude_reason": "spinoff"
+      },
+      {
+        "spotify_album_id": "5T0h6kxqbvYJZorwTQVQbK",
+        "include": true,
+        "episode_num": 146,
+        "title": "Folge 146: als Wikinger",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7AhVdEAC0mQspr8a3crPHk",
+        "include": false,
+        "episode_num": 2,
+        "title": "Benjamin Minis - Folge 2: Keine Angst im Dunkeln",
+        "exclude_reason": "spinoff"
+      },
+      {
+        "spotify_album_id": "3PnaYpicNEwuo4Gv2SJ5N8",
+        "include": false,
+        "episode_num": 1,
+        "title": "Benjamin Minis - Folge 1: Hallo, Lea!",
+        "exclude_reason": "spinoff"
+      },
+      {
+        "spotify_album_id": "37hOJLiFhOgMF5Oo4aFQSR",
+        "include": false,
+        "episode_num": null,
+        "title": "Find's raus mit Benjamin: Wald",
+        "exclude_reason": "spinoff"
+      },
+      {
+        "spotify_album_id": "2LlZ7aBVcp0sqKcXcEm5hM",
+        "include": true,
+        "episode_num": 145,
+        "title": "Folge 145: Zurück auf dem Bauernhof",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3ANkD069p7sujMWGFYL7Gk",
+        "include": false,
+        "episode_num": null,
+        "title": "Find's raus mit Benjamin: Baustelle",
+        "exclude_reason": "spinoff"
+      },
+      {
+        "spotify_album_id": "6QZ9X0aeJflvlniT4vqthx",
+        "include": true,
+        "episode_num": 144,
+        "title": "Folge 144: Der Zuckerstückchen-Express",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0Hk61KJfCPFrCuq2CsRKal",
+        "include": false,
+        "episode_num": 30,
+        "title": "Gute-Nacht-Geschichten - Folge 30: Viele kleine Schäfchenwolken",
+        "exclude_reason": "spinoff"
+      },
+      {
+        "spotify_album_id": "0xOTcVWrg0Hunbi3AMU15I",
+        "include": true,
+        "episode_num": 143,
+        "title": "Folge 143: Die Halloween-Nacht",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4BoMFkcqYNlQEzIRVA5O0v",
+        "include": false,
+        "episode_num": null,
+        "title": "Find's raus mit Benjamin: Wetter",
+        "exclude_reason": "spinoff"
+      },
+      {
+        "spotify_album_id": "5WZUcUwjAPQtneLG6HYlFU",
+        "include": false,
+        "episode_num": null,
+        "title": "Find's raus mit Benjamin: Straßenverkehr",
+        "exclude_reason": "spinoff"
+      },
+      {
+        "spotify_album_id": "4q0aiPJ28KdtBUacIzzuoM",
+        "include": false,
+        "episode_num": null,
+        "title": "Benjamin Blümchen: Das Original-Hörspiel zum Kinofilm",
+        "exclude_reason": "movie adaptation"
+      },
+      {
+        "spotify_album_id": "2fb6qUSV8TUQoW8G50da7P",
+        "include": false,
+        "episode_num": 29,
+        "title": "Gute-Nacht-Geschichten - Folge 29: Im Kindergarten",
+        "exclude_reason": "spinoff"
+      },
+      {
+        "spotify_album_id": "537xSgswIkL2ME3MwraGtb",
+        "include": true,
+        "episode_num": 142,
+        "title": "Folge 142: Das besondere Osterei",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5Km1Ic2e6sYeWXde5GsqPr",
+        "include": false,
+        "episode_num": null,
+        "title": "Unterwegs mit Benjamin (in Afrika / Bei den Eskimos / In Schottland)",
+        "exclude_reason": "compilation"
+      },
+      {
+        "spotify_album_id": "4jxT7kNMkxJTrvI5nTY7RS",
+        "include": true,
+        "episode_num": 141,
+        "title": "Folge 141: Nachts in der Erfinderwerkstatt",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5qpOBsGa2q0Ok59f46ebw5",
+        "include": true,
+        "episode_num": 140,
+        "title": "Folge 140: Weihnachtsmarkt im Zoo",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2r1WsIxAgbenRBDW5Ok16y",
+        "include": false,
+        "episode_num": 28,
+        "title": "Gute Nacht Geschichten - Folge 28: Der Winterschlaf-Teddy",
+        "exclude_reason": "spinoff"
+      },
+      {
+        "spotify_album_id": "4qQbfYDSaexEwY7dI95qMi",
+        "include": true,
+        "episode_num": 139,
+        "title": "Folge 139: Der Dinosaurierknochen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7pn2kd0xBKYnZlM3jSaOq4",
+        "include": true,
+        "episode_num": 138,
+        "title": "Folge 138: Das neue Müllauto",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "27upXzmCmVNjJsMRmD7bOv",
+        "include": false,
+        "episode_num": 27,
+        "title": "Gute Nacht Geschichten - Folge 27: Krümel, der freche Hamster",
+        "exclude_reason": "spinoff"
+      },
+      {
+        "spotify_album_id": "7IgAgPOoW0hdNdu8cJkwWD",
+        "include": true,
+        "episode_num": 137,
+        "title": "Folge 137: Ein Törööö für alle Fälle",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3CUqrbDq54UZ1J0mHGznle",
+        "include": false,
+        "episode_num": 26,
+        "title": "Gute Nacht Geschichten - Folge 26: Im Schneckentempo",
+        "exclude_reason": "spinoff"
+      },
+      {
+        "spotify_album_id": "6jc9BsYKPJTJIkcOeg3FsT",
+        "include": true,
+        "episode_num": 136,
+        "title": "Folge 136: Spuk im Zoo",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2d3fKIHnPuyLBddMmc5vse",
+        "include": true,
+        "episode_num": 135,
+        "title": "Folge 135: Die Zoo-Feuerwehr",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4ljJlWaDLg78EMtQ6pG3Se",
+        "include": true,
+        "episode_num": 134,
+        "title": "Folge 134: Abschied von Stella",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "05A48hpp25pRXQwiTuhX5O",
+        "include": true,
+        "episode_num": 133,
+        "title": "Folge 133: auf dem Flughafen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2W3XvoHpwNONqyRBTgzj2X",
+        "include": false,
+        "episode_num": 24,
+        "title": "Gute-Nacht-Geschichten - Folge 24: Der Traumwichtel",
+        "exclude_reason": "spinoff"
+      },
+      {
+        "spotify_album_id": "3JKMmECwVYYWJKEpdvGU2p",
+        "include": true,
+        "episode_num": 132,
+        "title": "Folge 132: Das Seifenkistenrennen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6u9Vz8ky2X27v8m2KBe2f9",
+        "include": false,
+        "episode_num": 23,
+        "title": "Gute-Nacht-Geschichten - Folge 23: Kleine Helden",
+        "exclude_reason": "spinoff"
+      },
+      {
+        "spotify_album_id": "12zutChVRaP5aSaHS2zMKL",
+        "include": true,
+        "episode_num": 131,
+        "title": "Folge 131: auf großer Floßfahrt",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2jBNdNjnkWyWhqYCdw44FW",
+        "include": false,
+        "episode_num": 22,
+        "title": "Gute-Nacht-Geschichten - Folge 22: Gute Nacht im Zoo",
+        "exclude_reason": "spinoff"
+      },
+      {
+        "spotify_album_id": "4lAublXtVos90dmgpK5B1d",
+        "include": true,
+        "episode_num": 130,
+        "title": "Folge 130: und der sprechende Papagei",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4Mw3LGGUNoS8UqxLGQyVz4",
+        "include": false,
+        "episode_num": 21,
+        "title": "Gute-Nacht-Geschichten - Folge 21: Das fliegende Bett",
+        "exclude_reason": "spinoff"
+      },
+      {
+        "spotify_album_id": "4rauAQkc52kEQ6h9CpXPKa",
+        "include": true,
+        "episode_num": 129,
+        "title": "Folge 129: Der Drachenflugtag",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0AmLLfwHaf3S6m1AWNndUB",
+        "include": true,
+        "episode_num": 128,
+        "title": "Folge 128: und die Schnitzeljagd",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2xx69IjNiel4mrcn7EI2IW",
+        "include": false,
+        "episode_num": 20,
+        "title": "Gute-Nacht-Geschichten - Folge 20: Das schnarchende Krokodil",
+        "exclude_reason": "spinoff"
+      },
+      {
+        "spotify_album_id": "6lrIYq9JOQENfRBOoKvLZx",
+        "include": true,
+        "episode_num": 127,
+        "title": "Folge 127: in der Musikschule",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1ZjAixYm8T5nH3eYC4KXDn",
+        "include": false,
+        "episode_num": 19,
+        "title": "Gute-Nacht-Geschichten - Folge 19: Tiere der Nacht",
+        "exclude_reason": "spinoff"
+      },
+      {
+        "spotify_album_id": "7LbHcOXBHtYROZSyYA3Yj1",
+        "include": true,
+        "episode_num": 126,
+        "title": "Folge 126: Der Zoo-Kindergarten",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0UAP3SdBGXLiwX7UvmSAsB",
+        "include": true,
+        "episode_num": 125,
+        "title": "Folge 125: und die Zirkusponys",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2VZdKhtpBNHZOlFKwNijDo",
+        "include": false,
+        "episode_num": 18,
+        "title": "Gute-Nacht-Geschichten - Folge 18: Die Pyjama-Party",
+        "exclude_reason": "spinoff"
+      },
+      {
+        "spotify_album_id": "3uqFUvvqoCQL8FH2S0oFOA",
+        "include": true,
+        "episode_num": 124,
+        "title": "Folge 124: im Tante-Emma-Laden",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3FE5tY9szfGTd2GStAylDo",
+        "include": true,
+        "episode_num": 123,
+        "title": "Folge 123: in der Spielzeugfabrik",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "65t3mAbkGAyq23jOyQCzyO",
+        "include": false,
+        "episode_num": null,
+        "title": "Englisch lernen mit Benjamin Blümchen",
+        "exclude_reason": "language learning"
+      },
+      {
+        "spotify_album_id": "5hfoUCzelAJ8TEeheK4v58",
+        "include": false,
+        "episode_num": 17,
+        "title": "Gute Nacht Geschichten - Folge 17: Mondgeschichten",
+        "exclude_reason": "spinoff"
+      },
+      {
+        "spotify_album_id": "5NsMHKpZO4uciMuzWGFDZh",
+        "include": true,
+        "episode_num": 121,
+        "title": "Folge 121: Die Fahrrad-Wette",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5erZoyJ22F2XI13RydIXmk",
+        "include": false,
+        "episode_num": 16,
+        "title": "Gute-Nacht-Geschichten - Folge 16: Meine liebsten Kuscheltiere",
+        "exclude_reason": "spinoff"
+      },
+      {
+        "spotify_album_id": "7HzDbYyBIpUmGsCmgjGeoS",
+        "include": true,
+        "episode_num": 120,
+        "title": "Folge 120: Der Zeltausflug",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "58sCMP2uMJZUCYtyqI5ZN2",
+        "include": false,
+        "episode_num": 15,
+        "title": "Gute-Nacht-Geschichten - Folge 15: Die Märchennacht im Zoo",
+        "exclude_reason": "spinoff"
+      },
+      {
+        "spotify_album_id": "0fZiX5qerlQE4MkOyKjLRw",
+        "include": true,
+        "episode_num": 119,
+        "title": "Folge 119: als Busfahrer",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1DkiCx6NF1aBS9spIdTXSd",
+        "include": true,
+        "episode_num": 122,
+        "title": "Folge 122: als Polizist",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "44BjfLdvG51vFXe9AOEh3q",
+        "include": false,
+        "episode_num": null,
+        "title": "Törööö im Zoo - Soundtrack zur Live-Show",
+        "exclude_reason": "soundtrack"
+      },
+      {
+        "spotify_album_id": "12Klv42T3Ohv9fixo2V3q9",
+        "include": false,
+        "episode_num": null,
+        "title": "Osterbundle",
+        "exclude_reason": "compilation"
+      },
+      {
+        "spotify_album_id": "6G8WJpL84sIpglOUdWmR7P",
+        "include": true,
+        "episode_num": 118,
+        "title": "Folge 118: auf der Baustelle",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7I7qLmUxgIcljxBOzb0YlE",
+        "include": false,
+        "episode_num": 14,
+        "title": "Gute-Nacht-Geschichten - Folge 14: Im Traumland",
+        "exclude_reason": "spinoff"
+      },
+      {
+        "spotify_album_id": "6M8JJZgpVGteyBPwkBErRs",
+        "include": true,
+        "episode_num": 117,
+        "title": "Folge 117: Die Zoo-Schwimmschule",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "72OfsYs9hiyR0GAJPKJmPZ",
+        "include": true,
+        "episode_num": 114,
+        "title": "Folge 114: und der Delfin",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "52BYCPzRCmDSRd7mkZkXYU",
+        "include": true,
+        "episode_num": 116,
+        "title": "Folge 116: und die Spaßmaschine",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5tWwOxYYuyVtD7GF2Bppna",
+        "include": true,
+        "episode_num": 115,
+        "title": "Folge 115: Die kleinen Kätzchen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0vUQBI9lJa6wGoF5YbjoUl",
+        "include": true,
+        "episode_num": 113,
+        "title": "Folge 113: Der Abenteuer-Spielplatz",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "30f4zKTJOXMSyynihrW8E5",
+        "include": false,
+        "episode_num": 13,
+        "title": "Gute Nacht Geschichten - Folge 13: Die Traumfee-Königin Karolila",
+        "exclude_reason": "spinoff"
+      },
+      {
+        "spotify_album_id": "47v1qzw9NhmSxoxnc1y2YZ",
+        "include": false,
+        "episode_num": 12,
+        "title": "Gute-Nacht-Geschichten - Folge 12: Frühling, Sommer, Herbst und Winter",
+        "exclude_reason": "spinoff"
+      },
+      {
+        "spotify_album_id": "2f3EQcq4mLQuzmmsXZZEr6",
+        "include": true,
+        "episode_num": 112,
+        "title": "Folge 112: Die Elefantenkönigin",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2w3cucz1aMsQtXia4WDX5q",
+        "include": true,
+        "episode_num": 111,
+        "title": "Folge 111: Sei nicht traurig, Benjamin!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3nzUHIn2tHTtE3gojyqCfD",
+        "include": true,
+        "episode_num": 110,
+        "title": "Folge 110: Hilfe für das Pandababy",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3IKnQlCu8C4zciNueehiwB",
+        "include": true,
+        "episode_num": 109,
+        "title": "Folge 109: als Baggerfahrer",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3iKWvU3iHt1GcuAXV5wswG",
+        "include": true,
+        "episode_num": 108,
+        "title": "Folge 108: Ottos kleines Geheimnis",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "43Gr4JRHBiPEYZD4B5rAH8",
+        "include": false,
+        "episode_num": 11,
+        "title": "Gute Nacht Geschichten - Folge 11: Badespaß im Zoo",
+        "exclude_reason": "spinoff"
+      },
+      {
+        "spotify_album_id": "7bOMwhylgWe1Gd0PybclrI",
+        "include": true,
+        "episode_num": 107,
+        "title": "Folge 107: in Schottland",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6wsUgHGmV2M61ooQpM5StQ",
+        "include": false,
+        "episode_num": 9,
+        "title": "Gute-Nacht-Geschichten - Folge 9: Fußballspaß im Zoo",
+        "exclude_reason": "spinoff"
+      },
+      {
+        "spotify_album_id": "4vl7h8Wkqj8JYHpacb7Y9v",
+        "include": false,
+        "episode_num": 7,
+        "title": "Gute-Nacht-Geschichten - Folge 7: A,B,C-Geschichten / 1,2,3-Geschichten",
+        "exclude_reason": "spinoff"
+      },
+      {
+        "spotify_album_id": "7qDYRuMu9XgqaaMt0bxUAG",
+        "include": false,
+        "episode_num": 5,
+        "title": "Gute-Nacht-Geschichten - Folge 5: Kuscheln mit dem Osterhasen",
+        "exclude_reason": "spinoff"
+      },
+      {
+        "spotify_album_id": "12HAZnjCSumqoi7VNw1Srz",
+        "include": false,
+        "episode_num": 4,
+        "title": "Gute-Nacht-Geschichten - Folge 4: Benjamin und die Glühwürmchen",
+        "exclude_reason": "spinoff"
+      },
+      {
+        "spotify_album_id": "4rKGBbiC5kNqgzXCwNQUSu",
+        "include": false,
+        "episode_num": 3,
+        "title": "Gute-Nacht-Geschichten - Folge 3: Wüstenfüchse fliegen nicht",
+        "exclude_reason": "spinoff"
+      },
+      {
+        "spotify_album_id": "0y7BgWCMzJfHpdFDKuQxb4",
+        "include": false,
+        "episode_num": 2,
+        "title": "Gute-Nacht-Geschichten - Folge 2: Die Rauschemuschel",
+        "exclude_reason": "spinoff"
+      },
+      {
+        "spotify_album_id": "3U00CUyWGu4Aav1I4kEMRm",
+        "include": false,
+        "episode_num": 1,
+        "title": "Gute-Nacht-Geschichten - Folge 1: Wo ist Winnie Waschbär",
+        "exclude_reason": "spinoff"
+      },
+      {
+        "spotify_album_id": "0CpO06kRKI1Bmxaq1tdODi",
+        "include": false,
+        "episode_num": 10,
+        "title": "Gute-Nacht-Geschichten - Folge 10: Das Schoko-Fest beim Tortenkönig",
+        "exclude_reason": "spinoff"
+      },
+      {
+        "spotify_album_id": "7wT4n1xXrw7yp6WSPUonwu",
+        "include": true,
+        "episode_num": 106,
+        "title": "Folge 106: Das Spaghetti-Eis-Fest",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3X3VYRdhraDuIIYp1OGNeM",
+        "include": false,
+        "episode_num": 25,
+        "title": "Gute-Nacht-Geschichten - Folge 25: Der verschwundene Stern",
+        "exclude_reason": "spinoff"
+      },
+      {
+        "spotify_album_id": "2snOPoNgGcybL52ymByZF7",
+        "include": false,
+        "episode_num": 6,
+        "title": "Benjamin Blümchen Gute-Nacht-Geschichten - Folge 6: 24 Weihnachts-Geschichten",
+        "exclude_reason": "spinoff"
+      },
+      {
+        "spotify_album_id": "0epGk3XbMA6tcLpya6ZhLp",
+        "include": true,
+        "episode_num": 9,
+        "title": "Folge 9: hat Geburtstag",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5KDjixmAqFXJsC4qWEYAuI",
+        "include": true,
+        "episode_num": 8,
+        "title": "Folge 8: auf dem Baum",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0FtvpWIdYR2sBAXQI9U9Fw",
+        "include": true,
+        "episode_num": 7,
+        "title": "Folge 7: verliebt sich",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "38XOHM64E7ROyyUdHpa5jt",
+        "include": true,
+        "episode_num": 75,
+        "title": "Folge 75: Der geheimnisvolle Brief",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3CHmjvDfUeAgOUdAWAMXxU",
+        "include": true,
+        "episode_num": 73,
+        "title": "Folge 73: und der Weihnachtsmann",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1PhNAdwzlUPyXerld6mVvR",
+        "include": true,
+        "episode_num": 72,
+        "title": "Folge 72: und Bino",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6lNjuIEJNSfQXD7odKQKPG",
+        "include": true,
+        "episode_num": 70,
+        "title": "Folge 70: und Bibi in Indien",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1e3NPoCQB8TEgJ2fo3UMqp",
+        "include": true,
+        "episode_num": 69,
+        "title": "Folge 69: als Zoodirektor",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "63RcR5NFniG16nkYiTyaGc",
+        "include": true,
+        "episode_num": 68,
+        "title": "Folge 68: als Taxifahrer",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1yv8jm64CiSPosTsxh4lCo",
+        "include": true,
+        "episode_num": 66,
+        "title": "Folge 66: als Ballonfahrer",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0vA0r7hmSecsmqX9lSPItK",
+        "include": true,
+        "episode_num": 65,
+        "title": "Folge 65: Wo ist Otto?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6WPVxlZcxUidWx7FHYXZjH",
+        "include": true,
+        "episode_num": 64,
+        "title": "Folge 64: als Butler",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7zMQG7PhIjXlHXl8yfVmde",
+        "include": true,
+        "episode_num": 63,
+        "title": "Folge 63: Der Computer",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2pJRbLmu2gn89QvFbQsLow",
+        "include": true,
+        "episode_num": 62,
+        "title": "Folge 62: in der Steinzeit",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "77gA9vmsypn6VGWQsp3wJ9",
+        "include": true,
+        "episode_num": 61,
+        "title": "Folge 61: Otto ist krank",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1YWRo7Pd6Q4W8G5E7MNWfJ",
+        "include": true,
+        "episode_num": 5,
+        "title": "Folge 5: auf hoher See",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5zmwMrcBclTFX6D7gDU53Y",
+        "include": true,
+        "episode_num": 4,
+        "title": "Folge 4: in Afrika",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2ICgCC40eIWGlxDi2koZHF",
+        "include": true,
+        "episode_num": 19,
+        "title": "Folge 19: als Fußballstar",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3rjWwSOQ7Ez9LMrBiI0QWD",
+        "include": true,
+        "episode_num": 10,
+        "title": "Folge 10: und das Schloss",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3gewDOk5myzaas8ws5L6Pe",
+        "include": true,
+        "episode_num": 78,
+        "title": "Folge 78: und der kleine Hund",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7nFRNTfnh7iFY2Cppl5QvX",
+        "include": true,
+        "episode_num": 105,
+        "title": "Folge 105: Das fleißige Faultier",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1N9xpyzcxP0H6eBUA1ToJW",
+        "include": true,
+        "episode_num": 104,
+        "title": "Folge 104: Die Zoo-Olympiade",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5BLgHxB1HWeaeC5jXPZuLq",
+        "include": true,
+        "episode_num": 103,
+        "title": "Folge 103: 5:0 für Benjamin",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7g5j2uYgt2iKbCnOoaNbLB",
+        "include": false,
+        "episode_num": 8,
+        "title": "Gute Nacht Geschichten - Folge 8: Die kleine freche Sternschnuppe",
+        "exclude_reason": "spinoff"
+      },
+      {
+        "spotify_album_id": "4vMTH5LPdKrBiK0KUJVCci",
+        "include": false,
+        "episode_num": null,
+        "title": "Feier mit Törööö (Sonderedition)",
+        "exclude_reason": "singalong"
+      },
+      {
+        "spotify_album_id": "2AzSNlR1nDffFyaCWmFZdG",
+        "include": false,
+        "episode_num": null,
+        "title": "30 Jahre - Feier mit Törööö!",
+        "exclude_reason": "compilation"
+      },
+      {
+        "spotify_album_id": "13WWvqshej7zcA8XEtR5nh",
+        "include": false,
+        "episode_num": null,
+        "title": "Benjamin Blümchen Liederzoo: Fußballfieber",
+        "exclude_reason": "singalong"
+      },
+      {
+        "spotify_album_id": "1rB56nfS0qKb2uanVdLOTw",
+        "include": false,
+        "episode_num": null,
+        "title": "als Apotheker (Sonderedition)",
+        "exclude_reason": "re-release"
+      },
+      {
+        "spotify_album_id": "7e0u4afaSy1Hgiykt8lk9Q",
+        "include": true,
+        "episode_num": 102,
+        "title": "Folge 102: Das Pinguin-Ei",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "59HKBTyxYPwAwPMU6mTAfB",
+        "include": true,
+        "episode_num": 101,
+        "title": "Folge 101: Ottos neue Freundin - Teil 2",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3LmSKnQxC1aL2y4py5NU6d",
+        "include": true,
+        "episode_num": 100,
+        "title": "Folge 100: Ottos neue Freundin - Teil 1",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5eE3bos99SlobyGrDPfnCV",
+        "include": false,
+        "episode_num": null,
+        "title": "Benjamin Blümchen Liederzoo: Wi-Wa-Wetterlieder",
+        "exclude_reason": "singalong"
+      },
+      {
+        "spotify_album_id": "16Ml01YmXqJsMNHOEOly0X",
+        "include": true,
+        "episode_num": 99,
+        "title": "Folge 99: Der Geheimgang",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "57RJDw23o93osNvq6wcoil",
+        "include": true,
+        "episode_num": 98,
+        "title": "Folge 98: und die Murmeltiere",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6NxgnnpyGsisWWr4TT0NyI",
+        "include": false,
+        "episode_num": null,
+        "title": "Benjamin Blümchen Liederzoo: 1x1 und ABC",
+        "exclude_reason": "singalong"
+      },
+      {
+        "spotify_album_id": "540SG1UzZcYwTDFL62lKT4",
+        "include": true,
+        "episode_num": 97,
+        "title": "Folge 97: Die Gespensterkinder",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7yV29tKzPFtl7ujmHXxKzn",
+        "include": true,
+        "episode_num": 96,
+        "title": "Folge 96: Der Bananendieb",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6ZxKdVwlDjiqhhZ0bZkiEt",
+        "include": false,
+        "episode_num": null,
+        "title": "Benjamin Blümchen Liederzoo: My Name is Benjamin",
+        "exclude_reason": "singalong"
+      },
+      {
+        "spotify_album_id": "3poA2gABzJKIdWgqd93B7n",
+        "include": false,
+        "episode_num": null,
+        "title": "Benjamin Blümchen Liederzoo: Meine schönsten Filmlieder",
+        "exclude_reason": "singalong"
+      },
+      {
+        "spotify_album_id": "0d4qSHKmtfyHmSgGAJii8G",
+        "include": true,
+        "episode_num": 95,
+        "title": "Folge 95: Die Wunderblume",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "49SUDcwXxYZhc4HkgTSmJe",
+        "include": true,
+        "episode_num": 94,
+        "title": "Folge 94: Der Streichelzoo",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6ajqHWKSkNPhFp83LxNn3r",
+        "include": false,
+        "episode_num": null,
+        "title": "Benjamin Blümchen Liederzoo: Lieder zum Gesundwerden",
+        "exclude_reason": "singalong"
+      },
+      {
+        "spotify_album_id": "4yyRplMD6FyfA9pXmsI8iM",
+        "include": true,
+        "episode_num": 93,
+        "title": "Folge 93: Das Walbaby",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2oNry5C5NJxjegEZPUc2mh",
+        "include": true,
+        "episode_num": 92,
+        "title": "Folge 92: bei den Eskimos",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0WkRJlaXKMmO40Qzt2T2S1",
+        "include": false,
+        "episode_num": null,
+        "title": "Benjamin Blümchen Liederzoo: Lieder zum Liebhaben",
+        "exclude_reason": "singalong"
+      },
+      {
+        "spotify_album_id": "5wpfkw1DTwhEieYemKe012",
+        "include": false,
+        "episode_num": null,
+        "title": "Benjamin Blümchen Liederzoo: Friede, Freude, Eierkuchen",
+        "exclude_reason": "singalong"
+      },
+      {
+        "spotify_album_id": "1JeXqGMIdSS2qE5nFXxoGJ",
+        "include": false,
+        "episode_num": null,
+        "title": "Benjamin Blümchen Liederzoo: Schokolade, Zuckerstückchen ...",
+        "exclude_reason": "singalong"
+      },
+      {
+        "spotify_album_id": "3zGgL1lYfeHw3O8AwcJLqK",
+        "include": true,
+        "episode_num": 91,
+        "title": "Folge 91: als Leuchtturmwärter",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6iHVInBSDpxnqdTSZjQi77",
+        "include": true,
+        "episode_num": 90,
+        "title": "Folge 90: Das Zoojubiläum",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1HzZozAWXQnSwPBpHRWgCZ",
+        "include": false,
+        "episode_num": null,
+        "title": "Benjamin Blümchen Liederzoo: Heut' feiern wir",
+        "exclude_reason": "singalong"
+      },
+      {
+        "spotify_album_id": "4hSnYURQJIt6tSQdvSd6Hj",
+        "include": true,
+        "episode_num": 89,
+        "title": "Folge 89: Der rote Luftballon",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "30dhxLcvYJebEX1whV9tHN",
+        "include": true,
+        "episode_num": 88,
+        "title": "Folge 88: als Cowboy",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4FTopXYnqEsGuurUqxw2km",
+        "include": false,
+        "episode_num": null,
+        "title": "Benjamin Blümchen Liederzoo: Laterne, Sonne, Mond und Sterne",
+        "exclude_reason": "singalong"
+      },
+      {
+        "spotify_album_id": "6MoJaPKuivI4cmJoPUbxYL",
+        "include": false,
+        "episode_num": null,
+        "title": "Benjamin Blümchen Liederzoo: Guten Abend, gute Nacht",
+        "exclude_reason": "singalong"
+      },
+      {
+        "spotify_album_id": "38pbTspcCkdsMSFKFXVucA",
+        "include": true,
+        "episode_num": 87,
+        "title": "Folge 87: Das Laternenfest",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "306zG4cWQdfxopt4L69GVJ",
+        "include": false,
+        "episode_num": null,
+        "title": "Benjamin Blümchen Liederzoo: Fröhliche Weihnachten",
+        "exclude_reason": "singalong"
+      },
+      {
+        "spotify_album_id": "5exzwTqbr33UIODgVVSy0m",
+        "include": false,
+        "episode_num": null,
+        "title": "Benjamin Blümchen Liederzoo: Geburtstagsparty",
+        "exclude_reason": "singalong"
+      },
+      {
+        "spotify_album_id": "2wkyHcPMrpdqQ5Kre15mc1",
+        "include": true,
+        "episode_num": 86,
+        "title": "Folge 86: Das Nilpferdbaby",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0FuEZWTzqOJ4hOlUoAJ6wY",
+        "include": true,
+        "episode_num": 85,
+        "title": "Folge 85: als Tierarzt",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4bLxeOMQU5u7E0cXaILMWn",
+        "include": true,
+        "episode_num": 84,
+        "title": "Folge 84: Der kleine Ausreißer",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1TIgU85PwUsvRqMW2initQ",
+        "include": true,
+        "episode_num": 79,
+        "title": "Folge 79: Die Zirkuslöwen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1eY0gXcIvgBs54YMs4M2Oy",
+        "include": true,
+        "episode_num": 76,
+        "title": "Folge 76: als Förster",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5zH6qccus6QGU2xzq7urAx",
+        "include": true,
+        "episode_num": 83,
+        "title": "Folge 83: als Gespenst",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "00ezgpZQe2DgeJlSrxNtHo",
+        "include": true,
+        "episode_num": 82,
+        "title": "Folge 82: Der weiße Elefant",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1F8rP3XGQwHQx3YsSyztIq",
+        "include": false,
+        "episode_num": null,
+        "title": "Benjamin Blümchen Liederzoo: Hallo, Gulliver",
+        "exclude_reason": "singalong"
+      },
+      {
+        "spotify_album_id": "47LNFSvQwtQGxx65mz2pOD",
+        "include": false,
+        "episode_num": null,
+        "title": "Benjamin Blümchen Liederzoo: Hallo, Bibi Blocksberg",
+        "exclude_reason": "singalong"
+      },
+      {
+        "spotify_album_id": "6hrmIjqpbF2YQesR1jFyRY",
+        "include": false,
+        "episode_num": null,
+        "title": "Benjamin Blümchen Liederzoo: Bunte Ostereier",
+        "exclude_reason": "singalong"
+      },
+      {
+        "spotify_album_id": "30ODH6Ybwjw6YNfBnVKiMk",
+        "include": false,
+        "episode_num": null,
+        "title": "Benjamin Blümchen Liederzoo: Was machst du?",
+        "exclude_reason": "singalong"
+      },
+      {
+        "spotify_album_id": "1f00m92dnQfvpRRswZdW2z",
+        "include": true,
+        "episode_num": 81,
+        "title": "Folge 81: Das Geheimnis der Tempelkatze",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1SOepdR3uE7guqg6cmjRXP",
+        "include": true,
+        "episode_num": 80,
+        "title": "Folge 80: Die Neue Zooheizung",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4qHZSba4P6wvhvVe0W6KgD",
+        "include": false,
+        "episode_num": null,
+        "title": "Benjamin Blümchen Liederzoo: Winterlieder",
+        "exclude_reason": "singalong"
+      },
+      {
+        "spotify_album_id": "26Y1xFtGOmKzFJrOGpvAOD",
+        "include": false,
+        "episode_num": null,
+        "title": "Benjamin Blümchen Liederzoo: Sing mit, Törööö!",
+        "exclude_reason": "singalong"
+      },
+      {
+        "spotify_album_id": "0XxFWYXKk8sDDmri9EymSI",
+        "include": false,
+        "episode_num": null,
+        "title": "Benjamin Blümchen Liederzoo: Alle meine Abenteuer",
+        "exclude_reason": "singalong"
+      },
+      {
+        "spotify_album_id": "2JD9zuelRUhvJavOJ2HMYz",
+        "include": true,
+        "episode_num": 77,
+        "title": "Folge 77: und die Eisprinzessin",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "572Jjtpckxvd7Hf0nRo8KQ",
+        "include": false,
+        "episode_num": null,
+        "title": "Benjamin Blümchen Liederzoo: Pass auf im Verkehr",
+        "exclude_reason": "singalong"
+      },
+      {
+        "spotify_album_id": "5OdQSnhLbnPUkAtdr7T1zy",
+        "include": false,
+        "episode_num": null,
+        "title": "Benjamin Blümchen Liederzoo: Lustige Ferienlieder",
+        "exclude_reason": "singalong"
+      },
+      {
+        "spotify_album_id": "0nViSLRhVDCBs5V6NOyXt3",
+        "include": false,
+        "episode_num": null,
+        "title": "Benjamin Blümchen Liederzoo: Schule ist schön",
+        "exclude_reason": "singalong"
+      },
+      {
+        "spotify_album_id": "2CrEduucAluk3PcyJY4VPD",
+        "include": false,
+        "episode_num": null,
+        "title": "Benjamin Blümchen Liederzoo: Alle meine Tiere",
+        "exclude_reason": "singalong"
+      },
+      {
+        "spotify_album_id": "7sEPIy8rDtPKO8RXzq7mNN",
+        "include": false,
+        "episode_num": null,
+        "title": "Benjamin Blümchen Liederzoo: Alle meine Berufe",
+        "exclude_reason": "singalong"
+      },
+      {
+        "spotify_album_id": "6AVz3QZh2M5qneXF3MyNua",
+        "include": false,
+        "episode_num": null,
+        "title": "Folge 74 - Benjamin Blümchen singt Weihnachtslieder",
+        "exclude_reason": "singalong"
+      },
+      {
+        "spotify_album_id": "1JeBY6qSC9x6Pd5MnWW8q8",
+        "include": false,
+        "episode_num": null,
+        "title": "Folge 71 - Benjamin Blümchen: Alle meine Freunde",
+        "exclude_reason": "singalong"
+      },
+      {
+        "spotify_album_id": "1SeO1t4hsaR0pZImgwCYpa",
+        "include": false,
+        "episode_num": null,
+        "title": "Folge 67: Meine schönsten Lieder",
+        "exclude_reason": "singalong"
+      },
+      {
+        "spotify_album_id": "00ntGueJPyBKVfXpxloAhM",
+        "include": true,
+        "episode_num": 60,
+        "title": "Folge 60: Der Doppelgänger",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6mNo1oHVzjdDolDVzmNtnp",
+        "include": true,
+        "episode_num": 59,
+        "title": "Folge 59: findet einen Schatz",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6Z4QPIwTSshcadQlXex1dg",
+        "include": true,
+        "episode_num": 58,
+        "title": "Folge 58: Die Wünschelrute",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4sMD263oLEMzWM7gzLZ7wn",
+        "include": true,
+        "episode_num": 56,
+        "title": "Folge 56: als Reporter",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4P2fATcMSz5SHRhETSdEYt",
+        "include": true,
+        "episode_num": 55,
+        "title": "Folge 55: und die Astrofanten",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1slxtwPlZyw5IhjvhDaJeE",
+        "include": true,
+        "episode_num": 54,
+        "title": "Folge 54: ist krank",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3qAjGnHFbafzKWbntBjKb9",
+        "include": true,
+        "episode_num": 51,
+        "title": "Folge 51: Der Weihnachtsabend",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6OYbjgwkzOnpHOZGpHYSst",
+        "include": true,
+        "episode_num": 50,
+        "title": "Folge 50: als Sheriff",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3iBX3uryCaJl9xWUeOBOFv",
+        "include": true,
+        "episode_num": 49,
+        "title": "Folge 49: als Müllmann",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2AHTQGatd8BhDXPLSCiDHE",
+        "include": true,
+        "episode_num": 48,
+        "title": "Folge 48: kriegt ein Geschenk",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1DeXY0arDkSYUzflvHfR89",
+        "include": true,
+        "episode_num": 57,
+        "title": "Folge 57: als Bürgermeister",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2cg9mcozoRx1fbtva3EVmk",
+        "include": true,
+        "episode_num": 53,
+        "title": "Folge 53: wird reich",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3XOuj8bXBsPPJ5hmdtcGCd",
+        "include": true,
+        "episode_num": 52,
+        "title": "Folge 52: Der Weihnachtstraum",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "50GmLC4YtXpUMjkBsjOTNN",
+        "include": true,
+        "episode_num": 47,
+        "title": "Folge 47: als Gärtner",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "51LiFlgSuY4WZ24tTnwWFF",
+        "include": true,
+        "episode_num": 46,
+        "title": "Folge 46: hilft den Tieren",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0hTcMojdInP90x34eFmjjH",
+        "include": true,
+        "episode_num": 45,
+        "title": "Folge 45: als Zirkusclown",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "50Sl3zrqfVWZ1p2ZqnQ5tY",
+        "include": true,
+        "episode_num": 44,
+        "title": "Folge 44: als Bäcker",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1bMXJHsD91OObW0t0CblqO",
+        "include": true,
+        "episode_num": 43,
+        "title": "Folge 43: und die Autorallye",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0iwtZzsdpdEMkIsSzLhBtW",
+        "include": true,
+        "episode_num": 42,
+        "title": "Folge 42: als Ritter",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0yqxDWCXVnKZ6c9TaYnpg5",
+        "include": true,
+        "episode_num": 41,
+        "title": "Folge 41: als Pirat",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1NjLNdimIpBMKiFcN6cGgM",
+        "include": true,
+        "episode_num": 40,
+        "title": "Folge 40: zieht aus",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0jjOMAQ1c8D3Y42Ewa3yvE",
+        "include": true,
+        "episode_num": 38,
+        "title": "Folge 38: Der Zoo zieht um",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3Ia4IZeAq31KXY2OYbrn5G",
+        "include": true,
+        "episode_num": 37,
+        "title": "Folge 37: Der Gorilla ist weg",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1bCc4jinUZk5kEP1jY4cEI",
+        "include": true,
+        "episode_num": 36,
+        "title": "Folge 36: wird verhext",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7dycWnkBtV2HiD1yUfN7Q3",
+        "include": true,
+        "episode_num": 35,
+        "title": "Folge 35: hat Zahnweh",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2waw26w79bjSvKp3JUCaL7",
+        "include": true,
+        "episode_num": 34,
+        "title": "Folge 34: als Lokomotivführer",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4H3u03wDTWyjCkjHjuf6T2",
+        "include": true,
+        "episode_num": 30,
+        "title": "Folge 30: als Pilot",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7iqD9gX7E48z85UT2VqjEF",
+        "include": true,
+        "episode_num": 29,
+        "title": "Folge 29: auf dem Rummel",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "18oX6D5HwiajNmwwOJLDMX",
+        "include": true,
+        "episode_num": 28,
+        "title": "Folge 28: rettet den Kindergarten",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "49DwAUyVbheRzzxC662qX8",
+        "include": true,
+        "episode_num": 27,
+        "title": "Folge 27: auf dem Bauernhof",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2kRDgDOcBgJCzDsVnxQiws",
+        "include": true,
+        "episode_num": 26,
+        "title": "Folge 26: als Bademeister",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5iUK2WTrkX26qANGHOOnNM",
+        "include": true,
+        "episode_num": 33,
+        "title": "Folge 33: Das Osterfest",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "76Pe7zykxADXFkSytjSGPD",
+        "include": true,
+        "episode_num": 32,
+        "title": "Folge 32: Die Verkehrsschule",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "03HQW9PBvEDo5xSXa0EY7W",
+        "include": true,
+        "episode_num": 31,
+        "title": "Folge 31: als Feuerwehrmann",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4WbEseUizNYJ5jKYbs7Asg",
+        "include": true,
+        "episode_num": 25,
+        "title": "Folge 25: auf Kreuzfahrt",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4WkQWEvVCJFe7ihUzbKKK2",
+        "include": true,
+        "episode_num": 24,
+        "title": "Folge 24: als Detektiv",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1GcXxnJlY9YcoUiSOLYi5z",
+        "include": true,
+        "episode_num": 23,
+        "title": "Folge 23: als Koch",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4TWLbDon59uuJFNLqFeLfW",
+        "include": true,
+        "episode_num": 22,
+        "title": "Folge 22: als Kinderarzt",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1T60798Dk35lypJ9JBYkaN",
+        "include": true,
+        "episode_num": 21,
+        "title": "Folge 21: als Weihnachtsmann",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6sTefktQuhIHCWjVYMS6h5",
+        "include": true,
+        "episode_num": 20,
+        "title": "Folge 20: und Bibi Blocksberg",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3XaKEQd1PyGTliLRbMMaYw",
+        "include": true,
+        "episode_num": 18,
+        "title": "Folge 18: als Schornsteinfeger",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4WX50nu0FmuaXhcOD11KJt",
+        "include": true,
+        "episode_num": 17,
+        "title": "Folge 17: Der Skiurlaub",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "785N42522OzvC7LmKr48vW",
+        "include": true,
+        "episode_num": 16,
+        "title": "Folge 16: träumt",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5nUKBNK6kEKLfEYEI2DH0Z",
+        "include": true,
+        "episode_num": 15,
+        "title": "Folge 15: im Urlaub",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2G3RokMaa2kuje6GyBh001",
+        "include": true,
+        "episode_num": 14,
+        "title": "Folge 14: als Filmstar",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4Jf8phtPzm7SO081ema4KR",
+        "include": true,
+        "episode_num": 13,
+        "title": "Folge 13: im Krankenhaus",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6Cu4H95ELuBdKDXc5aNKx3",
+        "include": true,
+        "episode_num": 6,
+        "title": "Folge 6: und die Schule",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4HCcQmrcPvXaOYA19sYeE7",
+        "include": true,
+        "episode_num": 12,
+        "title": "Folge 12: als Briefträger",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6l7GVfebOLInQzjVnmVCqs",
+        "include": true,
+        "episode_num": 11,
+        "title": "Folge 11: auf dem Mond",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2tdFRPNUM90hNvqPfEWGec",
+        "include": true,
+        "episode_num": 3,
+        "title": "Folge 3: Kampf dem Lärm",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0xOg5PRAKCU8kzhokTZ5cN",
+        "include": true,
+        "episode_num": 2,
+        "title": "Folge 2: rettet den Zoo",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2i00tmcCo3wf6oS24RGm1Y",
+        "include": true,
+        "episode_num": 1,
+        "title": "Folge 1: als Wetterelefant",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0Asegq1Tn4wjNyfuofvSZq",
+        "include": false,
+        "episode_num": null,
+        "title": "Alles Gute von Benjamin",
+        "exclude_reason": "single"
+      },
+      {
+        "spotify_album_id": "3an74mdAGGj5ISjIPaKmoP",
+        "include": false,
+        "episode_num": null,
+        "title": "Die Jahresuhr (Benjamins Version)",
+        "exclude_reason": "single"
+      },
+      {
+        "spotify_album_id": "4BKZSFrigs6xtQRVzi4nYy",
+        "include": false,
+        "episode_num": null,
+        "title": "Was ist das? (Last Christmas)",
+        "exclude_reason": "single"
+      },
+      {
+        "spotify_album_id": "26vQRffcwF2NLgRL3xcUYi",
+        "include": false,
+        "episode_num": null,
+        "title": "Ich bin so froh bei uns im Zoo!",
+        "exclude_reason": "single"
+      }
+    ],
+    "curator_notes": "Classic DACH children's Hörspiel series about Benjamin the elephant since 1977. Includes 168 main numbered episodes. Excluded: Gute-Nacht-Geschichten (36 sleep stories), Find's raus mit Benjamin (14 educational episodes), Benjamin Minis (7 short episodes), 20+ Liederzoo music albums, ASMR albums, English learning, movie adaptations, and various compilations. Note: Episode 39 and 120 exist as music albums (Lieder), not main episodes. Folge 100-101 are 2-parter. Several Sonderedition re-releases exist."
+  },
+  "b": null,
+  "disagreements": []
+}

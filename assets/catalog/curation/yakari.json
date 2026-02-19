@@ -1,0 +1,771 @@
+{
+  "query": "Yakari",
+  "models": [
+    "kimi-k2.5",
+    "claude-sonnet-4-6"
+  ],
+  "a": {
+    "id": "yakari",
+    "title": "Yakari",
+    "aliases": [],
+    "keywords": [],
+    "spotify_artist_ids": [
+      "5BOhng5bYwJNOR8ckMWpUg"
+    ],
+    "episode_pattern": "^[Ff]olge\\s+(\\d+)",
+    "albums": [
+      {
+        "spotify_album_id": "3nMZuCqXLZpZcmyrM0Fpk7",
+        "include": true,
+        "episode_num": 16,
+        "title": "Folge 16: Der Sohn des Windes (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4zWXRsCzORgbecCHxmRJir",
+        "include": true,
+        "episode_num": 15,
+        "title": "Folge 15: Die große Dürre (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2fUBLHinN5Po02wtFQckR4",
+        "include": true,
+        "episode_num": 13,
+        "title": "Folge 13: Yakari und der Riesenvielfraß (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "19gg4MpJwN1I4aRAQGHyff",
+        "include": true,
+        "episode_num": 24,
+        "title": "Folge 24: Der Wächter des Felsens (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0VrsONqS05mFTq0skh4P0E",
+        "include": true,
+        "episode_num": 23,
+        "title": "Folge 23: Der Schatten des Riesen (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "25u9Clfj4qnEJD3jjxOwPR",
+        "include": true,
+        "episode_num": 1,
+        "title": "Folge 1: Yakari und Grosser Adler (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5mUlMbvS2Bo78EuyPhzSrO",
+        "include": true,
+        "episode_num": 4,
+        "title": "Folge 4: Kleiner Dachs läuft davon (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3zp8KClWgYenFNdQZiFHtd",
+        "include": true,
+        "episode_num": 3,
+        "title": "Folge 3: Yakari bei den Bären (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2nEIUaQvIkRzIzixCXEInr",
+        "include": true,
+        "episode_num": 2,
+        "title": "Folge 2: Yakari und die Schneeziege (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6lFj8sTJ03WSnqIVzYuVbx",
+        "include": true,
+        "episode_num": 6,
+        "title": "Folge 6: Der alte Bison (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6urP7EnkE9zAMGdQVY2xR1",
+        "include": true,
+        "episode_num": 5,
+        "title": "Folge 5: Freunde für's Leben (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1SYDuZJn9J9Wxjb712VGkJ",
+        "include": true,
+        "episode_num": 8,
+        "title": "Folge 8: Der Gesang des Raben (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2Fz3n0L74CO5b9GEBUpxcy",
+        "include": true,
+        "episode_num": 7,
+        "title": "Folge 7: Schneeball in Gefahr (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "31GdeC1zUS8ghecVmTkQGL",
+        "include": true,
+        "episode_num": 9,
+        "title": "Folge 9: Yakari und die Pferdediebe (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5Roe8xt1vANlcAuRX4PjCE",
+        "include": true,
+        "episode_num": 10,
+        "title": "Folge 10: Der Ausreisser (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1kDht2VXSqrvd0sIiHAwUM",
+        "include": true,
+        "episode_num": 12,
+        "title": "Folge 12: Der Herrscher der Prärie (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2wbGkQnc3GxECQBFF8kDQd",
+        "include": true,
+        "episode_num": 11,
+        "title": "Folge 11: Die Suche nach Kleiner Donner (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3VB1Dhq8ZVtycjV7Xgz2LT",
+        "include": true,
+        "episode_num": 14,
+        "title": "Folge 14: Reise in die Urzeit (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "525EhxMK8M0hheL7EDUgs6",
+        "include": true,
+        "episode_num": 25,
+        "title": "Folge 25: Der Vogel mit den hundert Stimmen (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5QrsWEBnEqWd5aTCWW6P1E",
+        "include": true,
+        "episode_num": 18,
+        "title": "Folge 18: Stiller Fels reitet aus (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7qZZxYOjoUy6t1kqaNf1y4",
+        "include": true,
+        "episode_num": 17,
+        "title": "Folge 17: Der verstoßene Wolf (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5d7udadhcKCCUqVcGp0VLY",
+        "include": true,
+        "episode_num": 20,
+        "title": "Folge 20: Hüter der Quelle (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5JXLOQgoZhJy0mJixnOe04",
+        "include": true,
+        "episode_num": 19,
+        "title": "Folge 19: Der Zorn des Bisons (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3fhLYMLlidCb4tkkCb6GLb",
+        "include": true,
+        "episode_num": 22,
+        "title": "Folge 22: Der schlaflose Bär (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "62mnxiBe4QXKCL8fmmjvD8",
+        "include": true,
+        "episode_num": 21,
+        "title": "Folge 21: Die sieben Feuer (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1yIS6E1aad3gtkuO3s9fIB",
+        "include": true,
+        "episode_num": 26,
+        "title": "Folge 26: Das schnellste Tier der Prärie (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "07Irh2n1JWmhyDTFR36Y8I",
+        "include": true,
+        "episode_num": 28,
+        "title": "Folge 28: Yakari und Großer Grauer (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "34PsQHRI26woZOUDyFchFY",
+        "include": true,
+        "episode_num": 27,
+        "title": "Folge 27: Das blaue Pferd (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5dDrhch2EYOnNhZunvKpyj",
+        "include": true,
+        "episode_num": 29,
+        "title": "Folge 29: Kleine Jäger, Großer Grizzly (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0grRneMTTU5Bqsp1enxreq",
+        "include": true,
+        "episode_num": 30,
+        "title": "Folge 30: Die Fährte des Pumas (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "31BGwkBskV6b23Eg7VrRPk",
+        "include": true,
+        "episode_num": 31,
+        "title": "Folge 31: Weiße Pfote (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2XQUM3MLI5mIp6aQVjun3y",
+        "include": true,
+        "episode_num": 32,
+        "title": "Folge 32: Der Heilige Tomahawk (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "11tqxi7hn1vg2NIPaY4R6U",
+        "include": true,
+        "episode_num": 33,
+        "title": "Folge 33: Yakari und Silberfell (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0BRXt62LqbkQfKODjNvx0V",
+        "include": true,
+        "episode_num": 34,
+        "title": "Folge 34: Fliegender Fuß (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3rIyNtMUL0YbAAkox4kEmF",
+        "include": true,
+        "episode_num": 35,
+        "title": "Folge 35: Das Wolfsjunge (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "38kXr49pBLQgrtauiQrXSw",
+        "include": false,
+        "episode_num": null,
+        "title": "Colaboraciones Inéditas",
+        "exclude_reason": "Wrong artist - Latin hip hop, not Yakari Hörspiel"
+      },
+      {
+        "spotify_album_id": "0Vjh3TG1Gmy79clIn2wE72",
+        "include": true,
+        "episode_num": 36,
+        "title": "Folge 36: Ein Freund Für Wirbelwind (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3Mg9l3PAeBFt05Q6yuEyJP",
+        "include": true,
+        "episode_num": 37,
+        "title": "Folge 37: Zwei ganz verschiedene Freunde (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0rSd2yUflrVRUZzDB6sgta",
+        "include": true,
+        "episode_num": 38,
+        "title": "Folge 38: Eile mit Weile (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4U3xPNlT9hcFwXdYZcSWu0",
+        "include": false,
+        "episode_num": null,
+        "title": "¿Qué Debemos Hacer?",
+        "exclude_reason": "Wrong artist - Latin hip hop, not Yakari Hörspiel"
+      },
+      {
+        "spotify_album_id": "7qJ3dCCEPSCirJfpF2NkkG",
+        "include": false,
+        "episode_num": null,
+        "title": "¿De Qué Te Quejas?",
+        "exclude_reason": "Wrong artist - Latin hip hop, not Yakari Hörspiel"
+      },
+      {
+        "spotify_album_id": "3pieUNXnaZGk5E7QV0ftjm",
+        "include": false,
+        "episode_num": null,
+        "title": "Un Poeta Muere de Hambre",
+        "exclude_reason": "Wrong artist - Latin hip hop, not Yakari Hörspiel"
+      },
+      {
+        "spotify_album_id": "4yrwvAIkXoUsohrhuGk34D",
+        "include": false,
+        "episode_num": null,
+        "title": "Sanatana Dharma",
+        "exclude_reason": "Wrong artist - Latin hip hop, not Yakari Hörspiel"
+      },
+      {
+        "spotify_album_id": "4r6z2dEiGfm3dNaDa3zLTL",
+        "include": false,
+        "episode_num": null,
+        "title": "Reset",
+        "exclude_reason": "Wrong artist - Latin hip hop, not Yakari Hörspiel"
+      },
+      {
+        "spotify_album_id": "696UPKmH3d5DNr8NcLfsx7",
+        "include": false,
+        "episode_num": null,
+        "title": "Like a Dream",
+        "exclude_reason": "Wrong artist - Latin hip hop, not Yakari Hörspiel"
+      },
+      {
+        "spotify_album_id": "7ml2mjj9iZ1ek7GUiOFX9D",
+        "include": false,
+        "episode_num": null,
+        "title": "La Voz Que Nunca Escucharon de Dios",
+        "exclude_reason": "Wrong artist - Latin hip hop, not Yakari Hörspiel"
+      },
+      {
+        "spotify_album_id": "2RoouUOvcnJJaC4kZ211Yt",
+        "include": false,
+        "episode_num": null,
+        "title": "Guardián",
+        "exclude_reason": "Wrong artist - Latin hip hop, not Yakari Hörspiel"
+      },
+      {
+        "spotify_album_id": "1WRnLzXFGjvRaYQJWBXkQp",
+        "include": false,
+        "episode_num": null,
+        "title": "Film de Ficción",
+        "exclude_reason": "Wrong artist - Latin hip hop, not Yakari Hörspiel"
+      },
+      {
+        "spotify_album_id": "49ElcEqhvRVjnvLf9mJtoD",
+        "include": false,
+        "episode_num": null,
+        "title": "Conticinio",
+        "exclude_reason": "Wrong artist - Latin hip hop, not Yakari Hörspiel"
+      },
+      {
+        "spotify_album_id": "0Ujxk9qFgbAmWhTgjUiYr4",
+        "include": false,
+        "episode_num": null,
+        "title": "Children Ep",
+        "exclude_reason": "Wrong artist - Latin hip hop, not Yakari Hörspiel"
+      },
+      {
+        "spotify_album_id": "11mY5oZMn9XkefZaK55emW",
+        "include": false,
+        "episode_num": null,
+        "title": "Bios",
+        "exclude_reason": "Wrong artist - Latin hip hop, not Yakari Hörspiel"
+      },
+      {
+        "spotify_album_id": "6NiG7uvILpUWKewMlmgeVg",
+        "include": false,
+        "episode_num": null,
+        "title": "Ofrenda para Infelices",
+        "exclude_reason": "Wrong artist - Latin hip hop, not Yakari Hörspiel"
+      },
+      {
+        "spotify_album_id": "5jvnYaZvMOGWNCy2eT2FAo",
+        "include": false,
+        "episode_num": null,
+        "title": "Love Kills",
+        "exclude_reason": "Wrong artist - Latin hip hop, not Yakari Hörspiel"
+      },
+      {
+        "spotify_album_id": "6kpVjLk3rBXNajUp6OnLGN",
+        "include": false,
+        "episode_num": null,
+        "title": "Semillas",
+        "exclude_reason": "Wrong artist - Latin hip hop, not Yakari Hörspiel"
+      },
+      {
+        "spotify_album_id": "5opgEjI1pMZFhF2iYp7wgN",
+        "include": false,
+        "episode_num": null,
+        "title": "Tsuki",
+        "exclude_reason": "Wrong artist - Latin hip hop, not Yakari Hörspiel"
+      },
+      {
+        "spotify_album_id": "36B5Mdgn9ZcKlOdXNYAC33",
+        "include": false,
+        "episode_num": null,
+        "title": "El Sueño de Mis Demonios",
+        "exclude_reason": "Wrong artist - Latin hip hop, not Yakari Hörspiel"
+      },
+      {
+        "spotify_album_id": "3dEiUcKhZcDagptTOCoeQK",
+        "include": false,
+        "episode_num": null,
+        "title": "El Nacimiento del Cero / La Historia Jamás Contada",
+        "exclude_reason": "Wrong artist - Latin hip hop, not Yakari Hörspiel"
+      },
+      {
+        "spotify_album_id": "4gtXGe8Hl2Nle4EBYUoome",
+        "include": false,
+        "episode_num": null,
+        "title": "Areté",
+        "exclude_reason": "Wrong artist - Latin hip hop, not Yakari Hörspiel"
+      },
+      {
+        "spotify_album_id": "4h5MUHP3fIxeZnJnZDioId",
+        "include": false,
+        "episode_num": null,
+        "title": "Ansiedad",
+        "exclude_reason": "Wrong artist - Latin hip hop, not Yakari Hörspiel"
+      },
+      {
+        "spotify_album_id": "1cHzudZ4XvZU3B7g3PnEJE",
+        "include": false,
+        "episode_num": null,
+        "title": "Pandemia",
+        "exclude_reason": "Wrong artist - Latin hip hop, not Yakari Hörspiel"
+      },
+      {
+        "spotify_album_id": "64zc1mMNRwllv32iuB9ZNa",
+        "include": false,
+        "episode_num": null,
+        "title": "La Inútil Comedia",
+        "exclude_reason": "Wrong artist - Latin hip hop, not Yakari Hörspiel"
+      },
+      {
+        "spotify_album_id": "5zL67ncbQsLqCMzpfLljDN",
+        "include": false,
+        "episode_num": null,
+        "title": "Mr Tragedia",
+        "exclude_reason": "Wrong artist - Latin hip hop, not Yakari Hörspiel"
+      },
+      {
+        "spotify_album_id": "7HYDv9QbDtt7GIAdNF6cBW",
+        "include": false,
+        "episode_num": null,
+        "title": "Desconectado",
+        "exclude_reason": "Wrong artist - Latin hip hop, not Yakari Hörspiel"
+      },
+      {
+        "spotify_album_id": "4RXvw183oOMKNGp3pqrzrS",
+        "include": true,
+        "episode_num": null,
+        "title": "Yakari - Das Hörspiel zum Film",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2hdIR3O9LSkRENurTjYGNn",
+        "include": false,
+        "episode_num": null,
+        "title": "Llorará Noviembre",
+        "exclude_reason": "Wrong artist - Latin hip hop, not Yakari Hörspiel"
+      },
+      {
+        "spotify_album_id": "3c8Nf3MI58I4Mpiyjhr4Eh",
+        "include": false,
+        "episode_num": null,
+        "title": "Nictofilia",
+        "exclude_reason": "Wrong artist - Latin hip hop, not Yakari Hörspiel"
+      },
+      {
+        "spotify_album_id": "4uizcDnHWOSgoYxXHcTKR6",
+        "include": false,
+        "episode_num": null,
+        "title": "Merak",
+        "exclude_reason": "Wrong artist - Latin hip hop, not Yakari Hörspiel"
+      },
+      {
+        "spotify_album_id": "0FvDqV14fMmSdNDq3Dy3MI",
+        "include": false,
+        "episode_num": null,
+        "title": "No Quiero Suerte",
+        "exclude_reason": "Wrong artist - Latin hip hop, not Yakari Hörspiel"
+      },
+      {
+        "spotify_album_id": "76CJjIIBON03EhJlZYpTQo",
+        "include": false,
+        "episode_num": null,
+        "title": "Mena",
+        "exclude_reason": "Wrong artist - Latin hip hop, not Yakari Hörspiel"
+      },
+      {
+        "spotify_album_id": "5qXcVOY5OMetkkndljhdMs",
+        "include": false,
+        "episode_num": null,
+        "title": "Good Guys",
+        "exclude_reason": "Wrong artist - Latin hip hop, not Yakari Hörspiel"
+      },
+      {
+        "spotify_album_id": "5a5inQkHrSGcYaWjm1zYXO",
+        "include": false,
+        "episode_num": null,
+        "title": "Eunoia",
+        "exclude_reason": "Wrong artist - Latin hip hop, not Yakari Hörspiel"
+      },
+      {
+        "spotify_album_id": "5o9QRdK6IVUTiHCMEQFOHX",
+        "include": false,
+        "episode_num": null,
+        "title": "Broken Sky",
+        "exclude_reason": "Wrong artist - Latin hip hop, not Yakari Hörspiel"
+      },
+      {
+        "spotify_album_id": "3eMVoTywNHlU43I2JoYHup",
+        "include": false,
+        "episode_num": null,
+        "title": "Street Session",
+        "exclude_reason": "Wrong artist - Latin hip hop, not Yakari Hörspiel"
+      },
+      {
+        "spotify_album_id": "7pT7ec5x6nzPvGmOQHV6vo",
+        "include": false,
+        "episode_num": null,
+        "title": "Believe Me (Vol. I)",
+        "exclude_reason": "Wrong artist - Latin hip hop, not Yakari Hörspiel"
+      },
+      {
+        "spotify_album_id": "7qJVfQweGTb2yRuhzXXgjF",
+        "include": false,
+        "episode_num": null,
+        "title": "Hogueras",
+        "exclude_reason": "Wrong artist - Latin hip hop, not Yakari Hörspiel"
+      },
+      {
+        "spotify_album_id": "0P9FKcsI2e5rhGbj7EQu71",
+        "include": false,
+        "episode_num": null,
+        "title": "Identidad I",
+        "exclude_reason": "Wrong artist - Latin hip hop, not Yakari Hörspiel"
+      },
+      {
+        "spotify_album_id": "2N2ET5TiGnulcqFsTs4vvf",
+        "include": false,
+        "episode_num": null,
+        "title": "Origen",
+        "exclude_reason": "Wrong artist - Latin hip hop, not Yakari Hörspiel"
+      },
+      {
+        "spotify_album_id": "5pVWuiRjASLerTWzaFgdC4",
+        "include": false,
+        "episode_num": null,
+        "title": "Retinas",
+        "exclude_reason": "Wrong artist - Latin hip hop, not Yakari Hörspiel"
+      },
+      {
+        "spotify_album_id": "7jfdTBbiSbpdnBIxub7Ank",
+        "include": false,
+        "episode_num": null,
+        "title": "Del Bravo Pueblo",
+        "exclude_reason": "Wrong artist - Latin hip hop, not Yakari Hörspiel"
+      },
+      {
+        "spotify_album_id": "0hZyz7vloM4l16O5BlkNje",
+        "include": false,
+        "episode_num": null,
+        "title": "El Lenguaje Del Mundo",
+        "exclude_reason": "Wrong artist - Latin hip hop, not Yakari Hörspiel"
+      },
+      {
+        "spotify_album_id": "0MAOu0OlTYojSgr47hSNj1",
+        "include": false,
+        "episode_num": null,
+        "title": "Enchulaos",
+        "exclude_reason": "Wrong artist - Latin hip hop, not Yakari Hörspiel"
+      },
+      {
+        "spotify_album_id": "0spaLD8o7m97OmVpKmOM2B",
+        "include": false,
+        "episode_num": null,
+        "title": "A Bordo",
+        "exclude_reason": "Wrong artist - Latin hip hop, not Yakari Hörspiel"
+      },
+      {
+        "spotify_album_id": "4j0dygbBAtkBikY4ujpSO7",
+        "include": false,
+        "episode_num": null,
+        "title": "Excálibur",
+        "exclude_reason": "Wrong artist - Latin hip hop, not Yakari Hörspiel"
+      },
+      {
+        "spotify_album_id": "0z4qrE44T1Xs2uGJREpxbr",
+        "include": false,
+        "episode_num": null,
+        "title": "Honesto",
+        "exclude_reason": "Wrong artist - Latin hip hop, not Yakari Hörspiel"
+      },
+      {
+        "spotify_album_id": "6oh2Tr0n6PtgXsXdJrA1EJ",
+        "include": false,
+        "episode_num": null,
+        "title": "Elixir",
+        "exclude_reason": "Wrong artist - Latin hip hop, not Yakari Hörspiel"
+      },
+      {
+        "spotify_album_id": "7042PN0f0aX5HwllcUc7zg",
+        "include": false,
+        "episode_num": null,
+        "title": "Believe Me (Vol. II)",
+        "exclude_reason": "Wrong artist - Latin hip hop, not Yakari Hörspiel"
+      },
+      {
+        "spotify_album_id": "3n4MpWIg0GUs6aGQnpqm1Q",
+        "include": false,
+        "episode_num": null,
+        "title": "En Cholitas",
+        "exclude_reason": "Wrong artist - Latin hip hop, not Yakari Hörspiel"
+      },
+      {
+        "spotify_album_id": "6jTRyRI7EFAOHlQJNWdIeS",
+        "include": false,
+        "episode_num": null,
+        "title": "La práctica",
+        "exclude_reason": "Wrong artist - Latin hip hop, not Yakari Hörspiel"
+      },
+      {
+        "spotify_album_id": "3ZGTmeT5IaKv8Isvj95vDk",
+        "include": false,
+        "episode_num": null,
+        "title": "Voice Note",
+        "exclude_reason": "Wrong artist - Latin hip hop, not Yakari Hörspiel"
+      },
+      {
+        "spotify_album_id": "5Fl5XROqzEXmwnTpqE5D2i",
+        "include": false,
+        "episode_num": null,
+        "title": "Antítesis",
+        "exclude_reason": "Wrong artist - Latin hip hop, not Yakari Hörspiel"
+      },
+      {
+        "spotify_album_id": "0dQ7PklcJdSLpzPaDim3q9",
+        "include": false,
+        "episode_num": null,
+        "title": "Feliz Cumple, Mamá",
+        "exclude_reason": "Wrong artist - Latin hip hop, not Yakari Hörspiel"
+      },
+      {
+        "spotify_album_id": "52WfE4uFj8C52RAUbCA4gZ",
+        "include": false,
+        "episode_num": null,
+        "title": "Upsala",
+        "exclude_reason": "Wrong artist - Latin hip hop, not Yakari Hörspiel"
+      },
+      {
+        "spotify_album_id": "2Pjo6BL4YYYgAjd5JA2fYO",
+        "include": false,
+        "episode_num": null,
+        "title": "Contrastes",
+        "exclude_reason": "Wrong artist - Latin hip hop, not Yakari Hörspiel"
+      },
+      {
+        "spotify_album_id": "1zNJmeps4ij7lZDf3eemgO",
+        "include": false,
+        "episode_num": null,
+        "title": "Thoughts and Emotions",
+        "exclude_reason": "Wrong artist - Latin hip hop, not Yakari Hörspiel"
+      },
+      {
+        "spotify_album_id": "7CYesFbKcC15bHqJ22g3lb",
+        "include": false,
+        "episode_num": null,
+        "title": "Driver",
+        "exclude_reason": "Wrong artist - Latin hip hop, not Yakari Hörspiel"
+      },
+      {
+        "spotify_album_id": "3dZdBbGnVywBgCMF2c5NQS",
+        "include": false,
+        "episode_num": null,
+        "title": "Etéreos",
+        "exclude_reason": "Wrong artist - Latin hip hop, not Yakari Hörspiel"
+      },
+      {
+        "spotify_album_id": "5vCIQUabpiQLMKqDpp0ruQ",
+        "include": false,
+        "episode_num": null,
+        "title": "Para Viajar No Hacen Falta Maletas",
+        "exclude_reason": "Wrong artist - Latin hip hop, not Yakari Hörspiel"
+      },
+      {
+        "spotify_album_id": "5ILqKO5q3XDKpqcb3FItk1",
+        "include": false,
+        "episode_num": null,
+        "title": "Paganini",
+        "exclude_reason": "Wrong artist - Latin hip hop, not Yakari Hörspiel"
+      },
+      {
+        "spotify_album_id": "480b4HEzQNq5HHG8zB5Axo",
+        "include": false,
+        "episode_num": null,
+        "title": "Colaboraciones Dos",
+        "exclude_reason": "Wrong artist - Latin hip hop, not Yakari Hörspiel"
+      },
+      {
+        "spotify_album_id": "4VnFtzFp44DBQikk3XSqfX",
+        "include": false,
+        "episode_num": null,
+        "title": "Profesión",
+        "exclude_reason": "Wrong artist - Latin hip hop, not Yakari Hörspiel"
+      },
+      {
+        "spotify_album_id": "7bPmqjS9NLNnw7zn8l9sAu",
+        "include": false,
+        "episode_num": null,
+        "title": "C'est ma vie",
+        "exclude_reason": "Wrong artist - Latin hip hop, not Yakari Hörspiel"
+      },
+      {
+        "spotify_album_id": "2npNmH9NjNQw2T6lvu2kwl",
+        "include": false,
+        "episode_num": null,
+        "title": "La Emancipación del Individuo",
+        "exclude_reason": "Wrong artist - Latin hip hop, not Yakari Hörspiel"
+      },
+      {
+        "spotify_album_id": "5Yp6RHZ3OVZHKW9P0rKM4c",
+        "include": false,
+        "episode_num": null,
+        "title": "La Promesa",
+        "exclude_reason": "Wrong artist - Latin hip hop, not Yakari Hörspiel"
+      },
+      {
+        "spotify_album_id": "67Cth6mv40zW1Q3wZYEfIm",
+        "include": false,
+        "episode_num": null,
+        "title": "23",
+        "exclude_reason": "Wrong artist - Latin hip hop, not Yakari Hörspiel"
+      },
+      {
+        "spotify_album_id": "4v5gnyNwaLjglSr6beAJfe",
+        "include": false,
+        "episode_num": null,
+        "title": "Fresh",
+        "exclude_reason": "Wrong artist - Latin hip hop, not Yakari Hörspiel"
+      },
+      {
+        "spotify_album_id": "1EGpMQaksWYvqbZHmKuG39",
+        "include": false,
+        "episode_num": null,
+        "title": "Felices Fiestas",
+        "exclude_reason": "Wrong artist - Latin hip hop, not Yakari Hörspiel"
+      },
+      {
+        "spotify_album_id": "1cyfadtdgavjWDvtXQ6wGa",
+        "include": false,
+        "episode_num": null,
+        "title": "El show debe continuar",
+        "exclude_reason": "Wrong artist - Latin hip hop, not Yakari Hörspiel"
+      }
+    ],
+    "curator_notes": "Artist 'Yakari' (5BOhng5bYwJNOR8ckMWpUg) is the correct German children's Hörspiel series. Artist 'Yakari.' (4fUkVU0iJ24G3nfCllwoWs) is a Latin hip hop artist with a similar name - all their albums are excluded. The series includes 38 numbered episodes (Folge 1-38) plus the film adaptation 'Yakari - Das Hörspiel zum Film' as a special episode. Episodes were released out of order chronologically, with episodes 1-5 appearing in 2010 while episodes 13-16 were already released in 2006."
+  },
+  "b": null,
+  "disagreements": []
+}
