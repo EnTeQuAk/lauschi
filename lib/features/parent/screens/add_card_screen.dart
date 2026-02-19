@@ -38,6 +38,12 @@ class _AddCardScreenState extends ConsumerState<AddCardScreen> {
   final _addedUris = <String>{};
   db.CardGroup? _autoGroup;
 
+  // Snackbar debounce — batches rapid additions into a single notification.
+  Timer? _snackTimer;
+  int _pendingAdded = 0;
+  int _pendingAssigned = 0;
+  String _lastTitle = '';
+
   @override
   void initState() {
     super.initState();
@@ -51,7 +57,48 @@ class _AddCardScreenState extends ConsumerState<AddCardScreen> {
   void dispose() {
     _searchController.dispose();
     _debounce?.cancel();
+    _snackTimer?.cancel();
     super.dispose();
+  }
+
+  /// Queue a snackbar notification and fire it after a short debounce window.
+  /// Rapid additions within 500 ms are collapsed into a single "N Folgen
+  /// hinzugefügt" message.
+  void _notify(String albumName, {required bool toSeries}) {
+    _lastTitle = albumName;
+    if (toSeries) {
+      _pendingAssigned++;
+    } else {
+      _pendingAdded++;
+    }
+    _snackTimer?.cancel();
+    _snackTimer = Timer(const Duration(milliseconds: 500), () {
+      if (!mounted) return;
+      final added = _pendingAdded;
+      final assigned = _pendingAssigned;
+      final total = added + assigned;
+      _pendingAdded = 0;
+      _pendingAssigned = 0;
+
+      final String message;
+      if (total == 1) {
+        message = assigned == 1
+            ? '$_lastTitle zur Serie hinzugefügt'
+            : '$_lastTitle hinzugefügt';
+      } else if (added == 0) {
+        message = '$total Folgen zur Serie hinzugefügt';
+      } else {
+        message = '$total Folgen hinzugefügt';
+      }
+
+      ScaffoldMessenger.of(context)
+        ..clearSnackBars()
+        ..showSnackBar(SnackBar(
+          content: Text(message),
+          duration: const Duration(seconds: 2),
+          behavior: SnackBarBehavior.floating,
+        ));
+    });
   }
 
   Future<void> _loadExistingUris() async {
@@ -92,6 +139,12 @@ class _AddCardScreenState extends ConsumerState<AddCardScreen> {
       final matches = catalog != null
           ? result.albums.map((a) => catalog.match(a.name)).toList()
           : List<CatalogMatch?>.filled(result.albums.length, null);
+      final catalogHits = matches.whereType<CatalogMatch>().length;
+      Log.info(_tag, 'Search', data: {
+        'query': query,
+        'results': result.albums.length,
+        'catalogHits': catalogHits,
+      });
       setState(() {
         _results = result.albums;
         _catalogMatches = matches;
@@ -152,11 +205,7 @@ class _AddCardScreenState extends ConsumerState<AddCardScreen> {
         );
     if (mounted) {
       setState(() => _addedUris.add(album.uri));
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text('${album.name} zur Serie hinzugefügt'),
-        duration: const Duration(seconds: 2),
-        behavior: SnackBarBehavior.floating,
-      ));
+      _notify(album.name, toSeries: true);
     }
   }
 
@@ -170,11 +219,7 @@ class _AddCardScreenState extends ConsumerState<AddCardScreen> {
         );
     if (mounted) {
       setState(() => _addedUris.add(album.uri));
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text('${album.name} hinzugefügt'),
-        duration: const Duration(seconds: 2),
-        behavior: SnackBarBehavior.floating,
-      ));
+      _notify(album.name, toSeries: false);
     }
   }
 
