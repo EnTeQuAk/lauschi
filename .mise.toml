@@ -45,9 +45,17 @@ flutter test --dart-define-from-file=.env
 """
 
 [tasks.catalog-check]
-description = "Validate series.yaml against live Spotify data"
+description = "Validate series.yaml against live Spotify data (L1-L4)"
 run = "uv run scripts/validate_catalog.py"
 
 [tasks.catalog-check-fresh]
 description = "Validate series.yaml — bypass cache, hit Spotify API directly"
 run = "uv run scripts/validate_catalog.py --no-cache"
+
+[tasks.catalog-audit]
+description = "Full L5 artist-discography audit (fetches all albums per artist)"
+run = "uv run scripts/validate_catalog.py --artist-audit"
+
+[tasks.catalog-discover]
+description = "Search Spotify for artist candidates for series without artist IDs"
+run = "uv run scripts/validate_catalog.py --discover"

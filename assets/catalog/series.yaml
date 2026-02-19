@@ -1,37 +1,29 @@
 # DACH Hörspiel series catalog
-# Used by CatalogService to match Spotify album names returned by the parent's
-# search and suggest group assignments in AddCardScreen.
+# Used by CatalogService to match Spotify album names AND artist IDs returned
+# by the parent's search, and suggest group assignments in AddCardScreen.
 #
 # Fields:
-#   id              unique snake_case identifier (stable — stored in DB)
-#   title           canonical German series title
-#   aliases         alternative titles Spotify may use
-#   keywords        words that must appear in the Spotify album name for a match
-#                   (case-insensitive substring). Sorted longest-first at runtime.
-#   episode_pattern regex with one capture group that extracts the episode number.
-#                   Omit entirely for standalone (non-numbered) series.
+#   id                  unique snake_case (stable — stored in DB)
+#   title               canonical German series title
+#   aliases             alternative titles Spotify may use
+#   keywords            words that must appear in the Spotify album name.
+#                       Omit if matching by artist ID only.
+#   spotify_artist_ids  Spotify artist IDs whose albums belong to this series.
+#                       Artist-ID matching fires AFTER keyword matching and
+#                       catches albums whose titles omit the series name entirely
+#                       (e.g. TKKG "140/Draculas Erben", Die drei ??? "116/Cobra").
+#   episode_pattern     regex (one capture group) extracting the episode number.
+#                       Omit for standalone (non-numbered) series.
 #
 # Validated against live Spotify data via scripts/validate_catalog.py.
-# Run `mise run catalog-check` to re-validate after edits.
+# Run `mise run catalog-check` (cached) or `mise run catalog-check-fresh`.
+# Run `mise run catalog-check -- --artist-audit` for full L5 discography check.
 #
-# ── Naming conventions found in the wild ───────────────────────────────────
-# Most DACH Hörspiel publishers use one of these album-title formats:
-#
-#   Folge N: <episode title>          — the standard modern format
-#   NN: <episode title>               — Pumuckl, Asterix (Karussell label)
-#   NNN/<episode title>               — Hanni und Nanni, Heidi, Hui Buh
-#   <Series> N. <episode title>       — Pippi Langstrumpf (numbered books)
-#   <Series>, Folge N: <title>        — LasseMaja, Nils Holgersson
-#   Band N                            — Gespensterjäger (book numbering)
-#   Teil N                            — Tom Turbo (Wissensreise subseries)
-#
-# ── L2 (keyword) failures ──────────────────────────────────────────────────
-# Several major series omit the series name from album titles on Spotify.
-# Example: Die drei ??? episodes appear as "116/Codename: Cobra" — keyword
-# "drei ???" never fires. CatalogService currently matches on album name only;
-# artist-name matching would be needed to fix these properly.
-# Affected: Die drei ???, Die drei ??? Kids, TKKG, Feuerwehrmann Sam,
-#           Fünf Freunde, Die Fuchsbande, TKKG Junior, Fünf Freunde Junior.
+# Artist IDs discovered 2026-02-18 via `--discover`; verified via `--artist-audit`.
+# L5 discography sizes (total albums per artist):
+#   Die drei ???    302  |  TKKG          248  |  Benjamin Blümchen 270
+#   Bibi Blocksberg 251  |  Fünf Freunde  175  |  Feuerwehrmann Sam 171
+#   Bibi & Tina     177  |  Wendy          99  |  Die Playmos       119
 
 series:
 
@@ -44,7 +36,9 @@ series:
       - "Yakari, der kleine Sioux"
     keywords:
       - yakari
-    # Spotify: "Folge 9: Yakari und die Pferdediebe (Das Original-Hörspiel...)"
+    spotify_artist_ids:
+      - "5BOhng5bYwJNOR8ckMWpUg"  # Yakari (34k followers, 39 albums, 97% Folge N)
+    # Spotify: "Folge 9: Yakari und die Pferdediebe"
     episode_pattern: "[Ff]olge\\s+(\\d+)"
 
   - id: bibi_blocksberg
@@ -54,6 +48,8 @@ series:
     keywords:
       - "bibi blocksberg"
       - blocksberg
+    spotify_artist_ids:
+      - "3t2iKODSDyzoDJw7AsD99u"  # Bibi Blocksberg (368k followers, 251 albums, 67% Folge N)
     # Spotify: "Folge 157: Team Blocksberg"
     episode_pattern: "[Ff]olge\\s+(\\d+)"
 
@@ -66,7 +62,9 @@ series:
       - "benjamin blümchen"
       - "benjamin bluemchen"
       - blümchen
-    # Spotify: "Benjamin Blümchen Gute-Nacht-Geschichten - Folge 6: ..."
+    spotify_artist_ids:
+      - "1l6d0RIxTL3JytlLGvWzYe"  # Benjamin Blümchen (200k followers, 270 albums, 79% Folge N)
+    # Spotify: "Benjamin Blümchen Gute-Nacht-Geschichten - Folge 6: …"
     episode_pattern: "[Ff]olge\\s+(\\d+)"
 
   - id: die_drei_fragezeichen
@@ -77,10 +75,12 @@ series:
     keywords:
       - "drei ???"
       - "drei fragezeichen"
-    # NOTE: L2 keyword failure. Spotify album titles use "116/Codename: Cobra"
-    # format — series name not in album title. Keyword rarely fires.
-    # Pattern kept for the few titles that do include "???".
-    episode_pattern: "(?:Die\\s+)?drei\\s+\\?\\?\\?[,\\s]*(\\d+)"
+    spotify_artist_ids:
+      - "3meJIgRw7YleJrmbpbJK6S"  # Die drei ??? (1.24M followers, 302 albums)
+    # Albums: "116/Codename: Cobra", "Folge 227: Melodie der Rache"
+    # Series name absent from album title — artist ID is the only reliable match.
+    # L5: 69% use NNN/ format, 9% Folge N.
+    episode_pattern: "(?:^(\\d{1,3})/|[Ff]olge\\s+(\\d+))"
 
   - id: die_drei_fragezeichen_kids
     title: "Die drei ??? Kids"
@@ -90,9 +90,11 @@ series:
     keywords:
       - "drei ??? kids"
       - "drei fragezeichen kids"
-    # NOTE: L2 keyword failure — same issue as Die drei ???.
-    # Albums: "033/Nacht im Kerker", "Folge 101: Geistermusik" — no series name.
-    episode_pattern: "(?:Die\\s+)?drei\\s+\\?\\?\\?\\s+Kids[,\\s]*(\\d+)"
+    spotify_artist_ids:
+      - "0vLsqW05dyLvjuKKftAEGA"  # Die drei ??? Kids (400k followers, 120 albums)
+    # Albums: "033/Nacht im Kerker", "Folge 101: Geistermusik"
+    # L5: 67% NNN/ format, 18% Folge N.
+    episode_pattern: "(?:^(\\d{1,3})/|[Ff]olge\\s+(\\d+))"
 
   - id: tkkg
     title: TKKG
@@ -100,9 +102,12 @@ series:
       - TKKG
     keywords:
       - tkkg
-    # NOTE: L2 keyword failure. Albums: "Folge 239: Vollgas ins Verderben",
-    # "140/Draculas Erben" — series name absent from album title.
-    episode_pattern: "[Ff]olge\\s+(\\d+)"
+    spotify_artist_ids:
+      - "61qDotnjM0jnY5lkfOP7ve"  # TKKG (301k followers, 152 albums, 78% NNN/)
+      - "0i38tQX5j4gZ0KS3eCMoIl"  # TKKG Retro-Archiv (62k followers, 96 albums, 100% NNN/)
+    # Albums: "Folge 239: Vollgas ins Verderben", "140/Draculas Erben"
+    # Series name absent — artist ID is the only reliable match.
+    episode_pattern: "(?:^(\\d{1,3})/|[Ff]olge\\s+(\\d+))"
 
   - id: bibi_und_tina
     title: Bibi & Tina
@@ -112,7 +117,10 @@ series:
     keywords:
       - "bibi & tina"
       - "bibi und tina"
-    # Spotify returns only movie soundtracks; no numbered Hörspiel series found.
+    spotify_artist_ids:
+      - "2x8vG4f0HYXzMEo3xNsoiI"  # Bibi und Tina (602k followers, 177 albums, 69% Folge N)
+    # Spotify: "Folge 123: Das große Reitturnier" — series name present.
+    episode_pattern: "[Ff]olge\\s+(\\d+)"
 
   - id: pumuckl
     title: Pumuckl
@@ -121,8 +129,9 @@ series:
       - "Meister Eder und sein Pumuckl"
     keywords:
       - pumuckl
+    spotify_artist_ids:
+      - "1lhceMHrxr0jC943AuAhhh"  # Pumuckl (65k followers, 122 albums, 87% N: format)
     # Spotify: "19: Pumuckl im Zoo (Das Original aus dem Fernsehen)"
-    #          "06: Pumuckl und die Schule"
     episode_pattern: "^(\\d{1,2}):\\s"
 
   - id: conni
@@ -132,7 +141,12 @@ series:
       - "Meine Freundin Conni"
     keywords:
       - conni
-    # Standalone stories, no numbering: "Conni rettet Oma", "Conni ist krank".
+    spotify_artist_ids:
+      - "0jRC2uXx4hEpqNrBDJdY7l"  # Conni (152k followers, 93 albums)
+      - "0HerMOOFZXxIF3Yg9BVl0W"  # Meine Freundin Conni (62k followers, 18 albums, 56% N: format)
+    # "Meine Freundin Conni" releases numbered, "Conni" mainly standalone.
+    # L5: 10/18 numbered albums use ^N: format.
+    episode_pattern: "^(\\d+):\\s"
 
   - id: pippi_langstrumpf
     title: Pippi Langstrumpf
@@ -141,6 +155,8 @@ series:
     keywords:
       - pippi
       - langstrumpf
+    spotify_artist_ids:
+      - "56X4yBwPoibTkKAaQ8sTJQ"  # Pippi Langstrumpf (73k followers, 48 albums)
     # Spotify: "Pippi Langstrumpf 1. Das Hörspiel" (numbered book trilogy)
     episode_pattern: "Pippi\\s+Langstrumpf\\s+(\\d+)[.\\s]"
 
@@ -152,8 +168,9 @@ series:
     keywords:
       - pettersson
       - findus
+    spotify_artist_ids:
+      - "3YZqnPKdtP5qP4LSvrgx9i"  # Pettersson und Findus (91k followers, 59 albums)
     # Spotify: "Folge 10: Findus und das eigene Fahrrad"
-    #          "Folge 5: Wie Findus zu Pettersson kam"
     episode_pattern: "[Ff]olge\\s+(\\d+)"
 
   - id: das_sams
@@ -162,8 +179,10 @@ series:
       - "Das Sams"
     keywords:
       - "das sams"
-    # Spotify: "Das Sams 1. Eine Woche voller Samstage" (book numbering)
-    # Note: keyword "sams" was too short — matched "Samsara" etc. Use "das sams".
+    spotify_artist_ids:
+      - "5XxY429tXrkPUdlOZbmNg0"  # Das Sams (18k followers, 14 albums, 93% " N." pattern)
+    # Spotify: "Das Sams 1. Eine Woche voller Samstage"
+    # keyword "sams" alone was too short — matched unrelated titles.
     episode_pattern: "(?:Das\\s+)?Sams\\s+(\\d+)[.\\s]"
 
   - id: feuerwehrmann_sam
@@ -174,16 +193,22 @@ series:
     keywords:
       - "feuerwehrmann sam"
       - "fireman sam"
-    # NOTE: L2 keyword failure. Albums: "Folge 242: Die neue Feuerwache" —
-    # series name absent. Only theme-song singles match keyword.
+    spotify_artist_ids:
+      - "4qhaHyCtCaFugTqT9LzuKp"  # Feuerwehrmann Sam (57k followers, 171 albums, 70% Folge N)
+    # Albums: "Folge 242: Die neue Feuerwache" — series name absent from title.
+    # Artist ID is required for reliable matching.
+    episode_pattern: "[Ff]olge\\s+(\\d+)"
 
   - id: pan_tau
     title: Pan Tau
     aliases:
       - "Pan Tau"
     keywords:
-      - "pan tau"
-    # Old Czech/German series; Spotify only has soundtracks. No Hörspiel series.
+      - "pan tau hörspiel"
+      - "pan tau hörspiele"
+    # "pan tau" keyword alone matches unrelated content (Pan Flute, Pan Träume…).
+    # Narrowed to include "Hörspiel" suffix — these albums exist as a 1973 WDR series.
+    # No reliable Spotify artist found (only 13 followers).
 
   - id: biene_maja
     title: Biene Maja
@@ -192,9 +217,10 @@ series:
       - "Die Biene Maja"
     keywords:
       - "biene maja"
-    # Spotify: "Majas Flucht aus der Heimatstadt (Die Biene Maja, Folge 1)"
-    #          "Die Biene Maja 2 - Original-Hörspiel zum Kinofilm"
-    episode_pattern: "(?:Die\\s+)?Biene\\s+Maja[,\\s]*(?:[Ff]olge\\s+)?(\\d+)"
+    spotify_artist_ids:
+      - "7GfaHcpmNcrcHoyGnOBsAz"  # Die Biene Maja (32k followers, 38 albums, 82% NNN/ format)
+    # L5 shows dominant NNN/ format (31/38), plus some Folge N.
+    episode_pattern: "(?:^(\\d{2,3})/|[Ff]olge\\s+(\\d+))"
 
   - id: hui_buh
     title: Hui Buh das Schlossgespenst
@@ -203,8 +229,11 @@ series:
       - "Hui Buh das Schlossgespenst"
     keywords:
       - "hui buh"
-    # Spotify: "01/Hui Buh das Schlossgespenst", "002/Hui Buh und seine ..."
-    #          "Folge 18: Hui Buh rettet Halloween"
+    spotify_artist_ids:
+      - "1vjNjfkax0s9GD3jviAaZl"  # Hui Buh, das Schlossgespenst (15k, 23 alb, 100% NNN/)
+      - "4qobZpBtoZ58xPbLByIWzD"  # HUI BUH neue Welt (19k, 54 alb, 59% NNN/ + 31% Folge N)
+      - "5uXwgEQqIIIMsyi0LlRZDn"  # Der kleine Hui Buh (7k, 45 alb, 53% Folge N)
+    # Three subseries from different publishers, all grouped under one lauschi series.
     episode_pattern: "(?:^(\\d{2,3})/|[Ff]olge\\s+(\\d+))"
 
   - id: raeubrer_hotzenplotz
@@ -216,8 +245,11 @@ series:
       - "räuber hotzenplotz"
       - "rauber hotzenplotz"
       - hotzenplotz
-    # Spotify: "Der Räuber Hotzenplotz 1: ..." (publisher A)
-    #          "1: Der Räuber Hotzenplotz"       (publisher B — leading number)
+    spotify_artist_ids:
+      - "3qAWgxar5hLNcW4ybNvjSW"  # Der Räuber Hotzenplotz (2.8k, 14 albums)
+      - "2AvETPAFFbhV737lBKXJj9"  # Der Räuber Hotzenplotz - Hörspiele (4.5k)
+    # Publisher A: "Der Räuber Hotzenplotz 1: …"
+    # Publisher B: "1: Der Räuber Hotzenplotz"
     episode_pattern: "(?:^(\\d+):\\s|[Hh]otzenplotz[^0-9]*(\\d+))"
 
   - id: kleiner_drache_kokosnuss
@@ -228,7 +260,8 @@ series:
     keywords:
       - "drache kokosnuss"
       - kokosnuss
-    # Standalone stories: "Der kleine Drache Kokosnuss - Das Musical", etc.
+    # Standalone stories — no dedicated Spotify artist found.
+    # Keyword matching is sufficient (artist search returned only unrelated results).
 
   - id: hanni_und_nanni
     title: Hanni und Nanni
@@ -237,10 +270,13 @@ series:
     keywords:
       - "hanni und nanni"
       - "hanni & nanni"
-    # Spotify: "065/Hanni und Nanni voll im Trend!"  (NNN/ format)
-    #          "04/Lustige Streiche mit Hanni und Nanni" (NN/ format)
-    #          "Folge 79: Prost Neujahr, Hanni und Nanni!" (Folge N: format)
-    #          "Klassiker 1 - 1972 Hanni und Nanni sind immer dagegen"
+    spotify_artist_ids:
+      - "3iiABQlNuezpR3DcrlyPoA"  # Hanni und Nanni (52k followers, 99 albums, 69% NNN/)
+      - "4zZ6gJs5QRc7WpCZC6UjQF"  # Hanni & Nanni (9k followers)
+    # Three formats in the wild:
+    #   "065/Hanni und Nanni voll im Trend!"       (NNN/ prefix)
+    #   "Folge 79: Prost Neujahr, Hanni und Nanni" (Folge N:)
+    #   "Klassiker 1 - 1972 Hanni und Nanni …"    (Klassiker N)
     episode_pattern: "(?:^(\\d{1,3})/|[Ff]olge\\s+(\\d+)|[Kk]lassiker\\s+(\\d+))"
 
   - id: fuenf_freunde
@@ -252,8 +288,11 @@ series:
       - "fünf freunde"
       - "funf freunde"
       - "5 freunde"
-    # NOTE: L2 keyword failure. Albums: "107/und die Nacht im Safari-Park",
-    # "002/im Zeltlager" — series name absent. Standalone films also match.
+    spotify_artist_ids:
+      - "1hD52edfn6aNsK3fb5c2OT"  # Fünf Freunde (141k followers, 175 albums, 81% NNN/)
+    # Albums: "107/und die Nacht im Safari-Park" — series name absent.
+    # L5: dominant NNN/ format (142/175) + Folge N (29/175).
+    episode_pattern: "(?:^(\\d{1,3})/|[Ff]olge\\s+(\\d+))"
 
   - id: die_olchis
     title: Die Olchis
@@ -262,7 +301,10 @@ series:
       - "Olchis"
     keywords:
       - olchis
-    # Standalone stories: "Die Olchis im Zoo", "Die Olchis fliegen zum Mond".
+    spotify_artist_ids:
+      - "32Aa42Dbmqm4GKsv3wUSMb"  # Die Olchis (24k followers, 66 albums)
+    # L5 shows no clear numbering pattern (title_space_N_dot 30% = borderline).
+    # Keeping as standalone stories for now.
 
   - id: hexe_lilli
     title: Hexe Lilli
@@ -271,7 +313,10 @@ series:
       - "Die Hexe Lilli"
     keywords:
       - "hexe lilli"
-    # Standalone stories: "Hexe Lilli und der kleine Delfin", etc.
+    spotify_artist_ids:
+      - "2IYME9b8x0ptqROxrDvAQ0"  # Hexe Lilli (48k followers, 41 albums, 59% NNN/)
+    # L5: 24/41 albums use NNN/ prefix format.
+    episode_pattern: "^(\\d{2,3})/"
 
   - id: lauras_stern
     title: Lauras Stern
@@ -279,11 +324,10 @@ series:
       - "Lauras Stern"
     keywords:
       - "lauras stern"
-    # Spotify: "Lauras Stern, Folge 1: Lauras Stern"
-    #          "Laura hat Geburtstag [Lauras Stern 10 (Ungekürzt)]"
-    #          "Lauras Stern, Band 12: ..."
-    # Pattern: match series name then any non-digit gap then the number.
-    episode_pattern: "Lauras?\\s+Stern[^0-9]*(\\d+)"
+    spotify_artist_ids:
+      - "0xY8w0o3cSH3gzx4G4h8qD"  # Lauras Stern (16k followers, 25 albums)
+    # Spotify: "Lauras Stern, Folge 1:", "Lauras Stern, Band 12:", "Lauras Stern 10 (…)"
+    episode_pattern: "(?:[Ff]olge\\s+(\\d+)|[Bb]and\\s+(\\d+)|[Tt]eil\\s+(\\d+)|Lauras?\\s+Stern[,\\s]*(\\d+))"
 
   - id: tom_turbo
     title: Tom Turbo
@@ -291,7 +335,9 @@ series:
       - "Tom Turbo"
     keywords:
       - "tom turbo"
-    # Spotify: "Familie Vogel fragt: ... (Wissensreise mit Tom Turbo! Teil 3)"
+    spotify_artist_ids:
+      - "39ePAp05xC1loWbb7bF46b"  # Thomas Brezina (creator, 10 albums under this ID)
+    # Spotify: "… (Wissensreise mit Tom Turbo! Teil 3)"
     episode_pattern: "[Tt]eil\\s+(\\d+)"
 
   - id: ritter_rost
@@ -300,7 +346,9 @@ series:
       - "Ritter Rost"
     keywords:
       - "ritter rost"
-    # Spotify returns music/song albums ("Singen mit Ritter Rost"), not Hörspiele.
+    spotify_artist_ids:
+      - "6zn86iqNCkQZqsBvEv6oBO"  # Ritter Rost (25k followers, 53 albums)
+    # Musical series; no consistent numbering found in L5 data.
 
   - id: kommissar_kugelblitz
     title: Kommissar Kugelblitz
@@ -309,8 +357,10 @@ series:
     keywords:
       - "kommissar kugelblitz"
       - kugelblitz
-    # Location-titled series: "Kugelblitz in London", "Kugelblitz in Paris".
-    # No episode numbering — each album is a standalone adventure.
+    spotify_artist_ids:
+      - "2c0sDbsWQXZc2Ljq735WgV"  # Kommissar Kugelblitz (9k followers, 51 albums, 37% Folge N)
+    # Location-titled: "Kugelblitz in London" — Folge N present in subset.
+    episode_pattern: "[Ff]olge\\s+(\\d+)"
 
   - id: nils_holgersson
     title: Nils Holgersson
@@ -319,9 +369,9 @@ series:
       - "Die wunderbare Reise des kleinen Nils Holgersson"
     keywords:
       - "nils holgersson"
-    # Spotify: "Der Junge (Nils Holgersson, Folge 1)"  — series name before Folge
-    #          "Folge 1: Die wunderbare Reise des kleinen Nils Holgersson" — Folge first
-    #          "Nils Holgersson - Märchenklassiker Folge 7"
+    spotify_artist_ids:
+      - "6vS1r2PgQlby3jeU4KpDds"  # Nils Holgersson (16k followers, 68 albums, 85% Folge N)
+    # Two orderings seen: "Nils Holgersson, Folge N" and "Folge N: Series title"
     episode_pattern: "(?:[Ff]olge\\s+(\\d+)|Nils\\s+Holgersson\\D*(\\d+))"
 
   - id: heidi
@@ -330,10 +380,9 @@ series:
       - "Heidi"
     keywords:
       - heidi
-    # Spotify: "06/Heidi kehrt zurück", "09/Heidi kehrt zurück (CGI)",
-    #          "068/Heidi I"
-    # Note: keyword "heidi" is very common (Heidi Klum etc.);
-    # most false positives are filtered by the NNN/ pattern requirement.
+    spotify_artist_ids:
+      - "2kSiXgvssxAYOIvu4lwVGf"  # Heidi (Hörspiel artist, 11k followers, 24 albums, 96% NNN/)
+    # L5: 23/24 albums use NNN/ prefix. Confirmed format.
     episode_pattern: "^(\\d{2,3})/"
 
   - id: ronja_raeubertocher
@@ -344,6 +393,8 @@ series:
     keywords:
       - "ronja räubertochter"
       - "ronja raubertochter"
+    # Using keyword-only: "Astrid Lindgren Deutsch" artist covers multiple lauschi series
+    # (Pippi, Bullerbü, Ronja, etc.) — artist ID matching would cause cross-series false positives.
     # Single novel adaptation; no numbered Hörspiel series.
 
   - id: emil_detektive
@@ -353,7 +404,7 @@ series:
     keywords:
       - "emil und die detektive"
       - "emil detektive"
-    # Single story; no numbered series.
+    # Single story; keyword-only is sufficient for Kästner's Hörspiel releases.
 
   - id: bob_baumeister
     title: Bob der Baumeister
@@ -362,7 +413,10 @@ series:
       - "Bob the Builder"
     keywords:
       - "bob der baumeister"
-    # Standalone episode titles; no numbered series on Spotify.
+    spotify_artist_ids:
+      - "0nNcNNBedN3GKqhlUsAObU"  # Bob der Baumeister (26k followers, 28 albums, 93% NNN/)
+    # L5: 26/28 albums use NNN/ prefix. Clear numbering.
+    episode_pattern: "^(\\d{2,3})/"
 
   - id: wickie
     title: Wickie und die starken Männer
@@ -372,7 +426,10 @@ series:
     keywords:
       - "wickie und die starken"
       - wickie
-    # Spotify returns only soundtracks and compilations. No numbered Hörspiel.
+    spotify_artist_ids:
+      - "7fMJUFfMkaB6tT8Dte6tgF"  # Wickie (35k followers, 37 albums, 73% NNN/)
+    # L5: 27/37 albums use NNN/ prefix format.
+    episode_pattern: "^(\\d{2,3})/"
 
   # ── Detected from Spotify playlists / editorial sources ──────────────────
 
@@ -384,7 +441,10 @@ series:
     keywords:
       - "prinzessin lillifee"
       - lillifee
-    # Standalone stories: "Prinzessin Lillifee in der Tierklinik", etc.
+    spotify_artist_ids:
+      - "78iNrogmY4Ru7d7PLtwD4b"  # Prinzessin Lillifee (21k followers, 46 albums, 33% NNN/)
+    # 15/46 albums numbered; rest are song compilations. Episode pattern only fires where applicable.
+    episode_pattern: "^(\\d{2,3})/"
 
   - id: die_fuchsbande
     title: Die Fuchsbande
@@ -393,10 +453,12 @@ series:
       - "Fuchsbande"
     keywords:
       - fuchsbande
-    # NOTE: L2 keyword failure. Albums: "010/Fall 19: Das Loch in der Tür",
-    # "Folge 47: Fall 93: ..." — series name absent from album title.
-    # Patterns kept for if/when album titles include "fuchsbande".
-    episode_pattern: "(?:^(\\d{1,3})/|[Ff]olge\\s+(\\d+))"
+    spotify_artist_ids:
+      - "325gkGGHH2WrswRh3qC3e9"  # Die Fuchsbande (31k followers, 49 albums)
+    # Albums: "010/Fall 19: Das Loch in der Tür", "Folge 47: Fall 93: …"
+    # Series name ABSENT from album titles — artist ID is the ONLY reliable match.
+    # L5: Fall N fires 96% (47/49) — case number is most user-meaningful identifier.
+    episode_pattern: "[Ff]all\\s+(\\d+)"
 
   - id: tkkg_junior
     title: TKKG Junior
@@ -404,8 +466,9 @@ series:
       - "TKKG Junior"
     keywords:
       - "tkkg junior"
-    # NOTE: L2 keyword failure. Albums: "Folge 41: Aliens im Anflug" —
-    # series name absent. Pattern correct for when keyword fires.
+    spotify_artist_ids:
+      - "1ZFGYimyLnfKewOL84ABEp"  # TKKG Junior (93k followers, 44 albums, 93% Folge N)
+    # Albums: "Folge 41: Aliens im Anflug" — series name absent from title.
     episode_pattern: "[Ff]olge\\s+(\\d+)"
 
   - id: fuenf_freunde_junior
@@ -416,8 +479,9 @@ series:
     keywords:
       - "fünf freunde junior"
       - "5 freunde junior"
-    # NOTE: L2 keyword failure. Albums: "Folge 1: Der unsichtbare Dieb/..." —
-    # series name absent from album title.
+    spotify_artist_ids:
+      - "4olmFseR6mODuZ27j4VPAm"  # Fünf Freunde Junior (8k followers, 14 albums, 100% Folge N)
+    # Albums: "Folge 1: Der unsichtbare Dieb/…" — series name absent.
     episode_pattern: "[Ff]olge\\s+(\\d+)"
 
   - id: die_playmos
@@ -427,8 +491,9 @@ series:
       - "Playmos"
     keywords:
       - playmos
+    spotify_artist_ids:
+      - "1QIbeCbJNuFMKhZMY1rey8"  # Die Playmos (72k followers, 119 albums, 83% Folge N)
     # Spotify: "Folge 46: Die Playmos ermitteln (Das Original Playmobil Hörspiel)"
-    #          "Folge 23: Die Playmos in geheimer Mission"
     episode_pattern: "[Ff]olge\\s+(\\d+)"
 
   - id: wendy
@@ -437,8 +502,11 @@ series:
       - "Wendy"
     keywords:
       - "wendy"
-    # Spotify: "Folge 22: Wendy verliebt sich"   (Folge N: format)
-    #          "005/Wendy Wolf hat Geburtstag"     (NNN/ format)
+    spotify_artist_ids:
+      - "7bq6y10LXuxWmZ7Q1E9mwr"  # Wendy (Hörspiel, 25k followers, 99 albums, 99% Folge N)
+      # NOT "WENDY" 0FRUZvZNPzM3YJMABJxf2K (998k followers — K-pop artist, completely different)
+    # L5: 98/99 albums use Folge N. Extremely consistent.
+    # Spotify: "Folge 22: Wendy verliebt sich", "005/Wendy Wolf hat Geburtstag"
     episode_pattern: "(?:[Ff]olge\\s+(\\d+)|^(\\d{3})/)"
 
   - id: asterix
@@ -448,6 +516,8 @@ series:
       - "Asterix und Obelix"
     keywords:
       - asterix
+    spotify_artist_ids:
+      - "55dz39BSDTWYbBFVZRj72b"  # Asterix (66k followers, 42 albums, 98% N: format)
     # Spotify: "41: Asterix in Lusitanien", "02: Asterix und Kleopatra"
     episode_pattern: "^(\\d{1,2}):\\s"
 
@@ -457,8 +527,11 @@ series:
       - "Lucky Luke"
     keywords:
       - "lucky luke"
-    # Spotify returns French soundtracks and unrelated singles.
-    # No German numbered Hörspiel series found. Kept for keyword awareness.
+    spotify_artist_ids:
+      - "3GhvVhdZylZUmxABM30UeP"  # Lucky Luke (21k followers, 18 albums, 67% N: format)
+      # NOT 5ee4yhrWOxaxvL77BoVpVR (148k — likely K-pop)
+    # L5: 12/18 albums use N: prefix (same format as Asterix/Pumuckl).
+    episode_pattern: "^(\\d{1,2}):\\s"
 
   # ── Michael Ende works ─────────────────────────────────────────────────────
 
@@ -477,7 +550,10 @@ series:
       - wunschpunsch
       - traumfresserchen
       - momo
-    # Standalone novels; no episode numbering.
+    spotify_artist_ids:
+      - "1VORulhv2aMemo1kSvxdVX"  # Michael Ende (28k followers, 43 albums)
+    # All Ende adaptations grouped into one lauschi series.
+    # Artist covers only Ende's works so artist-ID matching is safe here.
 
   # ── Cornelia Funke ─────────────────────────────────────────────────────────
 
@@ -489,10 +565,10 @@ series:
     keywords:
       - "gespensterjäger"
       - "gespensterjager"
-    # Spotify: "Gespensterjäger auf eisiger Spur (Band 1)"  — Band N in parens
-    #          "Gespensterjäger im Feuerspuk (Band 2)"
-    #          "Folge 5: Gespensterjäger und der Weihnachtsspuk"
-    #          "04/Der Schatten des Gespensterjägers"
+    spotify_artist_ids:
+      - "4icYuK6RKqj5ALhxuJHDGU"  # Gespensterjäger (73 followers — series-specific label)
+      # Not using Cornelia Funke artist (5HQzBHnczgis11u7lSLVbt) — covers unrelated titles.
+    # Spotify: "Gespensterjäger auf eisiger Spur (Band 1)", "Folge 5: …"
     episode_pattern: "(?:[Bb]and\\s+(\\d+)|[Ff]olge\\s+(\\d+)|^(\\d{2,3})/)"
 
   # ── Astrid Lindgren ────────────────────────────────────────────────────────
@@ -506,6 +582,9 @@ series:
     keywords:
       - bullerbü
       - bullerbue
+    spotify_artist_ids:
+      - "6zjAfmQRjD2sWgEOkmKD3D"  # Wir Kinder aus Bullerbü (2k — series-specific)
+      # Not using "Astrid Lindgren Deutsch" — would cross-match Pippi, Ronja, etc.
     # Standalone stories; no numbered series.
 
   # ── Janosch ────────────────────────────────────────────────────────────────
@@ -521,6 +600,8 @@ series:
       - "oh wie schön ist panama"
       - tigerente
       - janosch
+    spotify_artist_ids:
+      - "2QnEjtjHZPLkj6dYDmSigw"  # Janosch (30k followers, 50 albums)
     # Standalone picture-book adaptations; no numbered series.
 
   # ── Detektivbüro LasseMaja ─────────────────────────────────────────────────
@@ -535,5 +616,8 @@ series:
       - "lassemaja"
       - "lasse-maja"
       - "lasse maja"
-    # Spotify: "Detektivbüro LasseMaja 1", "Detektivbüro LasseMaja, Band 2", etc.
-    episode_pattern: "(?:Detektivbüro\\s+)?LasseMaja[,\\s]*(Teil\\s+|Band\\s+)?(\\d+)"
+    spotify_artist_ids:
+      - "3Mr28PUoMrOvS8KshvBXa8"  # Martin Widmark (author, 29 albums, 100% Teil N)
+    # L5: 29/29 albums use "Teil N" format. Extremely consistent.
+    # Spotify: "Detektivbüro LasseMaja 15. Die Skischulklasse"
+    episode_pattern: "[Tt]eil\\s+(\\d+)"
