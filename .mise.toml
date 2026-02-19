@@ -29,11 +29,11 @@ run = "flutter test"
 
 [tasks.run]
 description = "Run on connected device"
-run = "flutter run --dart-define=SPOTIFY_CLIENT_ID=${SPOTIFY_CLIENT_ID:-}"
+run = "flutter run --dart-define-from-file=.env"
 
 [tasks.build]
 description = "Build APK"
-run = "flutter build apk --dart-define=SPOTIFY_CLIENT_ID=${SPOTIFY_CLIENT_ID:-}"
+run = "flutter build apk --dart-define-from-file=.env"
 
 [tasks.check]
 description = "Full CI check: analyze + test"
