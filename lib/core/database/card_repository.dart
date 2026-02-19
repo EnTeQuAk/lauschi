@@ -208,6 +208,16 @@ class CardRepository {
     );
   }
 
+  /// Set totalTracks for a card (used by data migration backfill).
+  Future<void> updateTotalTracks({
+    required String cardId,
+    required int totalTracks,
+  }) async {
+    await (_db.update(_db.cards)..where((t) => t.id.equals(cardId))).write(
+      CardsCompanion(totalTracks: Value(totalTracks)),
+    );
+  }
+
   /// Get ungrouped cards as a one-shot fetch.
   Future<List<AudioCard>> getUngrouped() {
     return (_db.select(_db.cards)

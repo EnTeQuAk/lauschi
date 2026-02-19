@@ -3,6 +3,8 @@ import 'dart:async' show StreamSubscription, unawaited;
 import 'package:app_links/app_links.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lauschi/core/database/card_repository.dart';
+import 'package:lauschi/core/database/data_migrations.dart';
 import 'package:lauschi/core/log.dart';
 import 'package:lauschi/core/router/app_router.dart';
 import 'package:lauschi/core/spotify/spotify_auth_provider.dart';
@@ -26,6 +28,8 @@ class _LauschiAppState extends ConsumerState<LauschiApp>
   /// Whether playback was active when the app went to background.
   /// Used to auto-resume on foreground.
   bool _wasPlayingBeforePause = false;
+
+  bool _dataMigrationsRun = false;
 
   @override
   void initState() {
@@ -97,6 +101,19 @@ class _LauschiAppState extends ConsumerState<LauschiApp>
     final router = ref.watch(appRouterProvider);
 
     final authState = ref.watch(spotifyAuthProvider);
+
+    // Run data migrations once after auth is established.
+    if (authState is AuthAuthenticated && !_dataMigrationsRun) {
+      _dataMigrationsRun = true;
+      unawaited(
+        runDataMigrations(
+          DataMigrationContext(
+            cards: ref.read(cardRepositoryProvider),
+            api: ref.read(spotifyApiProvider),
+          ),
+        ),
+      );
+    }
 
     return MaterialApp.router(
       title: 'lauschi',
