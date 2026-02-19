@@ -4,6 +4,7 @@ import 'package:audio_service/audio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lauschi/app.dart';
+import 'package:lauschi/core/log.dart';
 import 'package:lauschi/features/player/media_session_handler.dart';
 import 'package:lauschi/features/player/player_provider.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
@@ -29,23 +30,37 @@ Future<void> main() async {
 
   if (dsn.isEmpty) {
     // No Sentry DSN configured — run without error reporting.
+    Log.debug('App', 'Starting without Sentry (no DSN configured)');
     runApp(ProviderScope(overrides: overrides, child: const LauschiApp()));
     return;
   }
+
+  const env = String.fromEnvironment(
+    'SENTRY_ENVIRONMENT',
+    defaultValue: 'development',
+  );
+  const isDev = env == 'development';
 
   await SentryFlutter.init(
     (options) {
       options
         ..dsn = dsn
-        ..tracesSampleRate = 0.2
-        ..environment = const String.fromEnvironment(
-          'SENTRY_ENVIRONMENT',
-          defaultValue: 'development',
-        );
+        ..environment = env
+        ..tracesSampleRate = isDev ? 1.0 : 0.2
+        // Structured logs — visible in Sentry Logs tab.
+        ..enableLogs = true
+        // Session replay: full capture in dev, errors-only in prod.
+        ..replay.sessionSampleRate = isDev ? 1.0 : 0.0
+        ..replay.onErrorSampleRate = 1.0;
     },
-    appRunner:
-        () => runApp(
-          ProviderScope(overrides: overrides, child: const LauschiApp()),
+    appRunner: () {
+      Log.info('App', 'Starting', data: {'env': env});
+      return runApp(
+        // SentryWidget is required for session replay.
+        SentryWidget(
+          child: ProviderScope(overrides: overrides, child: const LauschiApp()),
         ),
+      );
+    },
   );
 }

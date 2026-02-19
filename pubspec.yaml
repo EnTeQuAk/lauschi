@@ -39,6 +39,7 @@ dev_dependencies:
     sdk: flutter
   mocktail: ^1.0.4
   riverpod_generator: ^4.0.3
+  sentry_dart_plugin: ^3.2.1
   very_good_analysis: ^10.2.0
 
 flutter:
@@ -52,3 +53,9 @@ flutter:
         - asset: fonts/Nunito-Variable.ttf
         - asset: fonts/Nunito-Italic-Variable.ttf
           style: italic
+
+sentry:
+  upload_debug_symbols: true
+  upload_source_maps: true
+  project: lauschi
+  org: christopher-grebs

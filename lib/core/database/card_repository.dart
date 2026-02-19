@@ -1,12 +1,14 @@
 import 'package:drift/drift.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lauschi/core/database/app_database.dart';
+import 'package:lauschi/core/log.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:uuid/uuid.dart';
 
 part 'card_repository.g.dart';
 
 const _uuid = Uuid();
+const _tag = 'CardRepo';
 
 /// CRUD operations for the Cards table.
 class CardRepository {
@@ -65,6 +67,7 @@ class CardRepository {
           ),
         );
 
+    Log.info(_tag, 'Card added', data: {'title': title, 'provider': provider});
     return id;
   }
 
@@ -136,6 +139,7 @@ class CardRepository {
   /// Delete a card by ID.
   Future<void> delete(String id) async {
     await (_db.delete(_db.cards)..where((t) => t.id.equals(id))).go();
+    Log.info(_tag, 'Card deleted', data: {'cardId': id});
   }
 
   /// Delete all cards.
@@ -155,6 +159,11 @@ class CardRepository {
         episodeNumber: Value(episodeNumber),
       ),
     );
+    Log.info(_tag, 'Card assigned to group', data: {
+      'cardId': cardId,
+      'groupId': groupId,
+      if (episodeNumber != null) 'episode': episodeNumber,
+    });
   }
 
   /// Remove a card from its group.
@@ -172,6 +181,7 @@ class CardRepository {
     await (_db.update(_db.cards)..where((t) => t.id.equals(cardId))).write(
       const CardsCompanion(isHeard: Value(true)),
     );
+    Log.info(_tag, 'Card marked heard', data: {'cardId': cardId});
   }
 
   /// Mark a card as unheard.

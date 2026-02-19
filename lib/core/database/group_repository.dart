@@ -1,12 +1,14 @@
 import 'package:drift/drift.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lauschi/core/database/app_database.dart';
+import 'package:lauschi/core/log.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:uuid/uuid.dart';
 
 part 'group_repository.g.dart';
 
 const _uuid = Uuid();
+const _tag = 'GroupRepo';
 
 /// CRUD operations for the Groups table.
 class GroupRepository {
@@ -58,6 +60,7 @@ class GroupRepository {
           ),
         );
 
+    Log.info(_tag, 'Group created', data: {'id': id, 'title': title});
     return id;
   }
 
@@ -78,6 +81,11 @@ class GroupRepository {
                 : const Value.absent(),
       ),
     );
+    Log.info(_tag, 'Group updated', data: {
+      'id': id,
+      if (title != null) 'title': title,
+      'coverOp': clearCoverUrl ? 'clear' : (coverUrl != null ? 'set' : 'none'),
+    });
   }
 
   /// Delete a group. Cards in the group become ungrouped.
@@ -90,6 +98,7 @@ class GroupRepository {
       ),
     );
     await (_db.delete(_db.groups)..where((t) => t.id.equals(id))).go();
+    Log.info(_tag, 'Group deleted', data: {'id': id});
   }
 
   /// Reorder groups.
