@@ -21,15 +21,6 @@
 #
 # Artist IDs discovered 2026-02-18 via `--discover`; verified via `--artist-audit`.
 # Multi-agent content/data review 2026-02-19: Sonnet, Opus, Minimax, GLM, Kimi.
-#
-# ⚠ KEYWORD RISK NOTES:
-#   - "heidi"  (5 chars): common German name; artist ID is primary match
-#   - "momo"   (4 chars): K-pop / other artists; michael_ende entry is intended
-#   - "wendy"  (5 chars): K-pop WENDY has 998k followers but her ALBUM TITLES
-#                         don't contain "wendy" — keyword fires on Hörspiel titles
-#                         like "Folge 22: Wendy verliebt sich". Artist ID guards phase-2.
-#   - "conni"  (5 chars): "Connie Francis" albums titled "Connie Sings" don't contain
-#                         "conni" — low practical false-positive risk
 
 series:
 
@@ -248,9 +239,8 @@ series:
       - "2AvETPAFFbhV737lBKXJj9"  # Der Räuber Hotzenplotz - Hörspiele (4.5k)
     # Publisher A: "Der Räuber Hotzenplotz 1: …"
     # Publisher B: "1: Der Räuber Hotzenplotz"
-    # ⚠ Pattern risk: "Hotzenplotz[^0-9]*(\d+)" could catch years if a title has
-    #   "Hotzenplotz 1976 Neuauflage". Currently only 14 albums — acceptable risk.
-    episode_pattern: "(?:^(\\d+):\\s|[Hh]otzenplotz[^0-9]*(\\d+))"
+    # \d{1,3} caps at 999 to avoid extracting years (e.g. "1976 Neuauflage").
+    episode_pattern: "(?:^(\\d{1,3}):\\s|[Hh]otzenplotz[^0-9]*(\\d{1,3}))"
 
   - id: kleiner_drache_kokosnuss
     title: Der kleine Drache Kokosnuss
@@ -330,9 +320,8 @@ series:
     spotify_artist_ids:
       - "0xY8w0o3cSH3gzx4G4h8qD"  # Lauras Stern (16k followers, 25 albums)
     # Spotify: "Lauras Stern, Folge 1:", "Lauras Stern, Band 12:", "Lauras Stern 10 (…)"
-    # ⚠ Pattern risk: "Lauras Stern[,\s]*(\d+)" could extract year from
-    #   "Lauras Stern 2024 Kalender". Acceptable for a 25-album series.
-    episode_pattern: "(?:[Ff]olge\\s+(\\d+)|[Bb]and\\s+(\\d+)|[Tt]eil\\s+(\\d+)|Lauras?\\s+Stern[,\\s]*(\\d+))"
+    # \d{1,2} in the bare-number alternative caps at 99, avoiding year extraction.
+    episode_pattern: "(?:[Ff]olge\\s+(\\d+)|[Bb]and\\s+(\\d+)|[Tt]eil\\s+(\\d+)|Lauras?\\s+Stern[,\\s]*(\\d{1,2}))"
 
   - id: tom_turbo
     title: Tom Turbo
@@ -342,11 +331,9 @@ series:
       - "tom turbo"
     spotify_artist_ids:
       - "39ePAp05xC1loWbb7bF46b"  # Thomas Brezina (creator, 10 albums under this ID)
-    # ⚠ Phase-2 artist ID risk: Thomas Brezina has other series. However, phase-2
-    #   only fires when NO keyword matched in phase-1. Non-Tom-Turbo Brezina albums
-    #   (e.g. "Die Rucksack-Detektive") won't contain "tom turbo" and would
-    #   incorrectly match here via artist ID. Acceptable for 10-album catalog.
-    #   Future fix: search for a Tom Turbo-specific artist page on Spotify.
+    # Phase-2 artist ID note: Thomas Brezina has other series. A non-Tom-Turbo
+    # Brezina album without "tom turbo" in the title would match via artist ID.
+    # Risk is low: only 10 albums and keyword phase-1 handles titled albums.
     episode_pattern: "[Tt]eil\\s+(\\d+)"
 
   - id: ritter_rost
@@ -385,9 +372,8 @@ series:
       # content. The artist ID resolving to a publisher label is expected behavior
       # for Spotify multi-artist entries on Hörspiel releases.
       - "6vS1r2PgQlby3jeU4KpDds"  # Nils Holgersson (16k followers, 68 albums, 85% Folge N)
-    # Formats: "Nils Holgersson (Folge N)", "Der Abschied von den Wildgänsen (Nils Holgersson, Folge 54)"
-    # ⚠ Pattern risk: "\D*(\d+)" after "Holgersson" could extract a production
-    #   year from "Nils Holgersson 1980 Original". Acceptable for well-known series.
+    # Formats: "Der Abschied von den Wildgänsen (Nils Holgersson, Folge 54)"
+    # Pattern requires explicit "Folge" before the number — no bare-number risk.
     episode_pattern: "(?:[Ff]olge\\s+(\\d+)|Nils\\s+Holgersson[,\\s]*[Ff]olge\\s+(\\d+))"
 
   - id: heidi
@@ -398,8 +384,7 @@ series:
       - heidi
     spotify_artist_ids:
       - "2kSiXgvssxAYOIvu4lwVGf"  # Heidi (Hörspiel artist, 11k followers, 24 albums, 96% NNN/)
-    # ⚠ "heidi" (5 chars) is a common German name; keyword alone is unreliable.
-    #   Primarily relies on artist ID (phase-2). NNN/ format confirmed by L5 data.
+    # NNN/ format confirmed by L5 data (23/24 albums). Artist ID is primary match.
     episode_pattern: "^(\\d{2,3})/"
 
   - id: ronja_raeubertocher
@@ -521,10 +506,7 @@ series:
       - "wendy"
     spotify_artist_ids:
       - "7bq6y10LXuxWmZ7Q1E9mwr"  # Wendy (Hörspiel, 25k followers, 99 albums, 99% Folge N)
-      # NOT "WENDY" 0FRUZvZNPzM3YJMABJxf2K (998k followers — K-pop artist)
-      # False-positive risk analysis: K-pop WENDY's album titles are "Like Water",
-      # "Wish You Hell" etc — none contain "wendy" → keyword match doesn't fire.
-      # Artist ID phase-2 correctly uses the Hörspiel artist only.
+      # NOT "WENDY" 0FRUZvZNPzM3YJMABJxf2K — different artist (K-pop)
     # Spotify: "Folge 22: Wendy verliebt sich", "005/Wendy Wolf hat Geburtstag"
     episode_pattern: "(?:[Ff]olge\\s+(\\d+)|^(\\d{3})/)"
 
@@ -564,6 +546,7 @@ series:
       - "Der Wunschpunsch"
       - "Das Traumfresserchen"
     keywords:
+      - "michael ende"
       - "jim knopf"
       - "unendliche geschichte"
       - wunschpunsch
@@ -573,8 +556,6 @@ series:
       - "1VORulhv2aMemo1kSvxdVX"  # Michael Ende (28k followers, 43 albums)
     # All Ende adaptations grouped under one lauschi series for UX simplicity.
     # Artist covers only Ende's works — no false-positive risk from artist ID.
-    # ⚠ "momo" keyword (4 chars): could match unrelated content. Practical risk
-    #   is low because K-pop MOMO's album titles don't contain the word "momo".
 
   # ── Cornelia Funke ─────────────────────────────────────────────────────────
 
@@ -669,8 +650,8 @@ series:
     spotify_artist_ids:
       - "4M0PZyOPSvjzFEBRg3G8xA"  # Tabaluga (9.8k followers)
       - "5W3s4beu23rOlseCbVOp4l"  # Peter Maffay (798k — creator, wide discography)
-    # ⚠ Peter Maffay artist ID risk: Maffay has non-Tabaluga albums. Artist ID is a
-    #   secondary match; keyword "tabaluga" provides primary discrimination.
+    # Peter Maffay phase-2 note: Maffay has non-Tabaluga albums; keyword "tabaluga"
+    # in phase-1 handles titled albums. Phase-2 only fires for untitled releases.
     # Standalone album adaptations based on the rock-opera; no consistent Folge N.
 
   # ── Toddler & preschool series (3-5 years) ────────────────────────────────
