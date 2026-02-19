@@ -336,12 +336,14 @@ def print_summary(series: CuratedSeries) -> None:
     exc = [x for x in series.albums if not x.include]
     eps = [a.episode_num for a in inc if a.episode_num is not None]
 
+    from rich.markup import escape
+    pattern = escape(series.episode_pattern or "(none)")
     console.print(Panel(
-        f"[bold]{series.title}[/]  [dim]{series.id}[/]\n"
+        f"[bold]{escape(series.title)}[/]  [dim]{series.id}[/]\n"
         f"Artists: {', '.join(series.spotify_artist_ids)}\n"
         f"Episodes: {len(inc)} included · {len(exc)} excluded\n"
         f"Range: {min(eps) if eps else '—'}–{max(eps) if eps else '—'}\n"
-        f"Pattern: {series.episode_pattern or '(none)'}",
+        f"Pattern: {pattern}",
         title="✅ Curated",
         border_style="green",
     ))
@@ -367,7 +369,7 @@ def print_summary(series: CuratedSeries) -> None:
         console.print(f"\n👶 Age: {series.age_note}")
 
     if series.curator_notes:
-        console.print(f"\n[dim]Notes: {series.curator_notes[:200]}[/]")
+        console.print(f"\n[dim]Notes: {escape(series.curator_notes[:200])}[/]")
 
     console.print(f"\n[dim]Review with: mise run catalog-review -- {series.id}[/]")
 
