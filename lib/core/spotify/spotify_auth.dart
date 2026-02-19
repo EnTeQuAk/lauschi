@@ -4,7 +4,6 @@ import 'dart:math';
 import 'package:crypto/crypto.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:flutter_web_auth_2/flutter_web_auth_2.dart';
 import 'package:lauschi/core/log.dart';
 import 'package:lauschi/core/spotify/spotify_config.dart';
 
@@ -68,32 +67,13 @@ class SpotifyAuth {
 
     Log.info(_tag, 'Starting PKCE OAuth flow');
 
-    final result = await FlutterWebAuth2.authenticate(
-      url: authUrl.toString(),
-      callbackUrlScheme: 'lauschi',
+    // TODO: implement browser-based auth flow (url_launcher + intent filter)
+    // The flow is: open authUrl in browser → user logs in → Spotify redirects
+    // to lauschi://callback?code=...&state=... → app handles deep link →
+    // call _exchangeCode(code, pkce.verifier).
+    throw UnimplementedError(
+      'Browser auth not implemented. Auth URL: $authUrl',
     );
-
-    final resultUri = Uri.parse(result);
-
-    if (resultUri.queryParameters['state'] != state) {
-      Log.error(_tag, 'OAuth state mismatch — possible CSRF');
-      throw StateError('OAuth state mismatch');
-    }
-
-    final error = resultUri.queryParameters['error'];
-    if (error != null) {
-      Log.error(_tag, 'OAuth error', data: {'error': error});
-      throw StateError('OAuth error: $error');
-    }
-
-    final code = resultUri.queryParameters['code'];
-    if (code == null) {
-      Log.error(_tag, 'No code in callback');
-      throw StateError('No code in OAuth callback');
-    }
-
-    Log.info(_tag, 'Code received, exchanging for tokens');
-    return _exchangeCode(code, pkce.verifier);
   }
 
   /// Refresh an expired token using the refresh token.
@@ -166,6 +146,7 @@ class SpotifyAuth {
 
   // -- Private --
 
+  // ignore: unused_element, called once browser auth flow is wired
   Future<SpotifyTokens> _exchangeCode(String code, String verifier) async {
     try {
       final resp = await _dio.post<Map<String, dynamic>>(
