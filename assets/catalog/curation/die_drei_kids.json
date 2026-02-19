@@ -1,0 +1,860 @@
+{
+  "query": "Die drei ??? Kids",
+  "model": "kimi-k2.5",
+  "series": {
+    "id": "die_drei_kids",
+    "title": "Die drei ??? Kids",
+    "aliases": [
+      "Die drei Fragezeichen Kids",
+      "Die 3 ??? Kids"
+    ],
+    "keywords": [],
+    "spotify_artist_ids": [
+      "0vLsqW05dyLvjuKKftAEGA"
+    ],
+    "episode_pattern": "^(?:(?:Folge|0{0,2})\\s*)?(\\d{1,3})",
+    "albums": [
+      {
+        "spotify_album_id": "5mQg8r5ivI0IX5bTV57KyN",
+        "include": true,
+        "episode_num": 1,
+        "title": "001/Panik im Paradies",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "50d2KMK7GtbCTfLqxDfHIS",
+        "include": true,
+        "episode_num": 2,
+        "title": "002/Radio Rocky Beach",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0jhxRM2HsImXg5W28JfUv8",
+        "include": true,
+        "episode_num": 3,
+        "title": "003/Invasion der Fliegen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "30w9IzSbHHevllaU299TMh",
+        "include": true,
+        "episode_num": 4,
+        "title": "004/Chaos vor der Kamera",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1wNy1x9hCcnmU1vhT7S2Tc",
+        "include": true,
+        "episode_num": 5,
+        "title": "005/Flucht in die Zukunft",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4TSPWdUo2J4w6VuwQgUK2e",
+        "include": true,
+        "episode_num": 6,
+        "title": "006/Gefahr im Gruselgarten",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2rleLzoiSWt5IVyZpkkVHA",
+        "include": true,
+        "episode_num": 7,
+        "title": "007/Gruft der Piraten",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3RRqQIyDs7AkO3TPbmuRpt",
+        "include": true,
+        "episode_num": 8,
+        "title": "008/Nacht unter Wölfen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7A5GQZrirxYgjWCTGpbnbs",
+        "include": true,
+        "episode_num": 9,
+        "title": "009/SOS über den Wolken",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6PRRmyf0vuFwPeuVLdDq4q",
+        "include": true,
+        "episode_num": 10,
+        "title": "010/Spuk in Rocky Beach",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6GPxCYDZkEqCLPc7BeCFYb",
+        "include": true,
+        "episode_num": 11,
+        "title": "011/Fluch des Goldes",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3aYsZOOX3BVsCcHC0MQq3f",
+        "include": true,
+        "episode_num": 12,
+        "title": "012/Internetpiraten",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7xFfmSVyP8y9gcXRPG7xmT",
+        "include": true,
+        "episode_num": 13,
+        "title": "013/Im Reich der Rätsel",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1WTFQcnnJZRhRLkA6Pemom",
+        "include": true,
+        "episode_num": 14,
+        "title": "014/Gefahr aus dem All",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3Dn23cUQU7RehW7QeBt3cJ",
+        "include": true,
+        "episode_num": 15,
+        "title": "015/In der Geisterstadt",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2xo9X40JoJuDO64Iy5mpNY",
+        "include": true,
+        "episode_num": 16,
+        "title": "016/Der magische Brunnen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2RJHP6Kw1jZrp56WCqtiQW",
+        "include": true,
+        "episode_num": 17,
+        "title": "017/Rettet Atlantis!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5Z6HPLDixzbX8TNK889Fr8",
+        "include": true,
+        "episode_num": 18,
+        "title": "018/Mission Maulwurf",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5NmTdnYuPpnDlF9zBTnwHT",
+        "include": true,
+        "episode_num": 19,
+        "title": "019/Spur in die Wildnis",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0WwfV73hIbVsEfIUJxFCMN",
+        "include": true,
+        "episode_num": 20,
+        "title": "020/Die Schmugglerinsel",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3sMdBpUspSRJxhr2oze3le",
+        "include": true,
+        "episode_num": 21,
+        "title": "021/Die Geisterjäger",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2ILrLgqLA1pterp2pZoChc",
+        "include": true,
+        "episode_num": 22,
+        "title": "022/Einarmige Banditen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5PEjckgsqkxbpDlgz30wTk",
+        "include": true,
+        "episode_num": 23,
+        "title": "023/Feuer in Rocky Beach",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1GsVIL0B05ykaxM0sjjik8",
+        "include": true,
+        "episode_num": 24,
+        "title": "024/Im Bann des Zauberers",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5nCCuIqR5MsRi3tI90Vu4T",
+        "include": true,
+        "episode_num": 25,
+        "title": "025/In letzter Sekunde",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7zlnjYjJotwmyxPWee0s9W",
+        "include": true,
+        "episode_num": 26,
+        "title": "026/Fußball-Alarm",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0BiK4U6FaICuYqpUQ553Qo",
+        "include": true,
+        "episode_num": 27,
+        "title": "027/Die Schokofalle",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4BTfGkg67lPD7pnV9YABGC",
+        "include": true,
+        "episode_num": 28,
+        "title": "028/Diamantenjagd",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4fIWqTa6s849HB2NInOgyF",
+        "include": true,
+        "episode_num": 29,
+        "title": "029/Monsterpilze",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5Dlq8pYslsD1dstLQR7NFw",
+        "include": true,
+        "episode_num": 30,
+        "title": "030/Im Geisterschiff",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "49GuQzqAa08WMB8fjtEBj4",
+        "include": true,
+        "episode_num": 31,
+        "title": "031/Rückkehr der Saurier",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3UzZjgfXxnjPigAfCYQCr5",
+        "include": true,
+        "episode_num": 32,
+        "title": "032/Die Gruselfalle",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5cJ4xmPFjEhOCQIBoYwmWi",
+        "include": true,
+        "episode_num": 33,
+        "title": "033/Nacht im Kerker",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7ATza45Jb2B3MhSD0icgPi",
+        "include": true,
+        "episode_num": 34,
+        "title": "034/Falsches Gold",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1bK1QqLOaESZgs2pXYY4J6",
+        "include": true,
+        "episode_num": 35,
+        "title": "035/Im Wilden Westen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6GUPPV35zx22eO4g9tctKN",
+        "include": true,
+        "episode_num": 36,
+        "title": "036/Mission Mars",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "24r6U8cWYIB4bQeMGhNB2Q",
+        "include": true,
+        "episode_num": 37,
+        "title": "037/Der Fluch der Indianer",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7o6y1qwFIJolo0ZKUpPTR9",
+        "include": true,
+        "episode_num": 38,
+        "title": "038/Stunde der Wahrheit",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6NkPN8kGJftA5ZURbZTKve",
+        "include": true,
+        "episode_num": 39,
+        "title": "039/Der verrückte Erfinder",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "12IDORrv50mRmb7501PgiI",
+        "include": true,
+        "episode_num": 40,
+        "title": "040/Brennendes Eis",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3ixBUKtl7HtxSZECC3YnNb",
+        "include": true,
+        "episode_num": 41,
+        "title": "041/Insel der Haie",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6sS4r99PFfzH6Gxc1Z3evg",
+        "include": true,
+        "episode_num": 42,
+        "title": "042/Fußballgötter",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5J0AsPaix5KTMNjTFpj624",
+        "include": true,
+        "episode_num": 43,
+        "title": "043/Duell der Ritter",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5fIxmzKdFvtbRIeRBEeptA",
+        "include": true,
+        "episode_num": 44,
+        "title": "044/Monster in Rocky Beach",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4Al8xe9LlMxHWhIddbienL",
+        "include": true,
+        "episode_num": 45,
+        "title": "045/Ein Fall für Superhelden",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6eQDj0n1wU2dEXO7vr1Bmm",
+        "include": true,
+        "episode_num": 46,
+        "title": "046/Jagd auf das Dino-Ei",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "42cBTxTbzCzbYm0sd4VUxU",
+        "include": true,
+        "episode_num": 47,
+        "title": "047/Falsche Fußball-Freunde",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "105UQAEjLpiqUCUK6x6i3g",
+        "include": true,
+        "episode_num": 48,
+        "title": "048/Tanz der Skelette",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1cCB23DWt7mRHBFvTsX87C",
+        "include": true,
+        "episode_num": 49,
+        "title": "049/Der singende Geist",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7zUg7xSxAAkwntDiX1yhGJ",
+        "include": true,
+        "episode_num": 50,
+        "title": "050/Schatz der Piraten",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2Vu69KfWoS6eAzwnhqssWk",
+        "include": true,
+        "episode_num": 51,
+        "title": "051/Tatort Kletterpark",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6g5MSdVTrKY3f1ZzsqUhXw",
+        "include": true,
+        "episode_num": 52,
+        "title": "052/Mächtige Magier",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3ahySlDFUrzxatkaJUC2hV",
+        "include": true,
+        "episode_num": 53,
+        "title": "053/Geheimnis der Tiere",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4bM4QL65khBjHgvAEW1glL",
+        "include": true,
+        "episode_num": 54,
+        "title": "054/Zombie-Alarm",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2UNXd8SieHWtTM5g0VMeGv",
+        "include": true,
+        "episode_num": 55,
+        "title": "055/Der schwarze Joker",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0zmK2RPZSiThN6xwxDFNrL",
+        "include": true,
+        "episode_num": 56,
+        "title": "056/Das Rätsel der Könige",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "23RIS8PEXnZUs0AwqmstMS",
+        "include": true,
+        "episode_num": 57,
+        "title": "057/Der Weihnachtsdieb",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2KpYeQgAWPq3skEUb1A8qb",
+        "include": true,
+        "episode_num": 58,
+        "title": "058/Spur des Drachen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "66YZOif5ogyl1O0rFT28HM",
+        "include": true,
+        "episode_num": 59,
+        "title": "059/Fußballhelden",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5XKW97txqaNv82dIUDWf6D",
+        "include": true,
+        "episode_num": 60,
+        "title": "060/Gespensterjagd",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2ZQKn9GVeJalLEuh3BvuOB",
+        "include": true,
+        "episode_num": 61,
+        "title": "061/Alarm im Dino-Park",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3KD5QNC2k1328SsuYFIjiq",
+        "include": true,
+        "episode_num": 62,
+        "title": "062/Gefahr im Dschungel",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "39QjW5XIE81HsWRjjyaVH0",
+        "include": true,
+        "episode_num": 63,
+        "title": "063/Monster-Wolken",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6Om3zELCMatFreSN4FMeOG",
+        "include": true,
+        "episode_num": 64,
+        "title": "064/In der Schatzhöhle",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4ErYqkUdfkAmsgltEPJKH7",
+        "include": true,
+        "episode_num": 65,
+        "title": "065/Mission Goldhund",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6xSlKWjaEpc6SMJ69uVKYT",
+        "include": true,
+        "episode_num": 66,
+        "title": "066/Geheimnis im Meer",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5qvokPibHLO3e47oV4wyhz",
+        "include": true,
+        "episode_num": 67,
+        "title": "067/Der goldene Drache",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0zDRwoqvJYhvfhcvQYzfcZ",
+        "include": true,
+        "episode_num": 68,
+        "title": "068/Chaos im Dunkeln",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6QpCsN1do9sWdzxMzP6vAm",
+        "include": true,
+        "episode_num": 69,
+        "title": "069/Die Rätselfalle",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1ntNbHEo93jDj2JgZtLMrS",
+        "include": true,
+        "episode_num": 70,
+        "title": "070/Aufbruch ins All",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1RrOzTtLYceG05edrb7YNQ",
+        "include": true,
+        "episode_num": 71,
+        "title": "071/Tatort Trampolin",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0xynCTUxYMlBA1IcPfAgKq",
+        "include": true,
+        "episode_num": 72,
+        "title": "072/Die Laser-Falle",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7JrHsowbMVguSku3JG2tLS",
+        "include": true,
+        "episode_num": 73,
+        "title": "073/Surfstrand in Gefahr",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7KEMmRYdYTyOkHaoocjwp7",
+        "include": true,
+        "episode_num": 74,
+        "title": "074/Das Schienen-Monster",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4M3VGzWy7xxm93zGw0xqAU",
+        "include": true,
+        "episode_num": 75,
+        "title": "075/Der Fußball-Roboter",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6nSehzQCvelIRQu84k5N7E",
+        "include": true,
+        "episode_num": 76,
+        "title": "076/Blinde Passagiere",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "75If2drFgUUJdC6eQ0dZYl",
+        "include": true,
+        "episode_num": 77,
+        "title": "077/Die Musikdiebe",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "15aFL9eaT1bjrURanvEKEn",
+        "include": true,
+        "episode_num": 78,
+        "title": "078/Schrottplatz in Gefahr",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5GOZBi4hHD6rvJI1zp7ryf",
+        "include": true,
+        "episode_num": 79,
+        "title": "079/Achtung, Abenteuer!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5EeUZitOFX7Nad5yp2CFud",
+        "include": true,
+        "episode_num": 80,
+        "title": "080/Gefährlicher Nebel",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3NOIKGCYKsL3nCCgzksldt",
+        "include": true,
+        "episode_num": 81,
+        "title": "Folge 81: Turbo-Rennen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5n6gdqMbunkR1J0MhqTaV8",
+        "include": true,
+        "episode_num": 82,
+        "title": "Folge 82: Die Delfin-Piraten",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0rjlBTxlkcd3aFoYS1HPCn",
+        "include": true,
+        "episode_num": 83,
+        "title": "Folge 83: Fußball-Diebe",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "11uIA0NksKWJ2xjjTMvO8x",
+        "include": true,
+        "episode_num": 84,
+        "title": "Folge 84: Tatort Skater-Park",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2FRfGv6pQommVYHmqJKqU5",
+        "include": true,
+        "episode_num": 85,
+        "title": "Folge 85: Falscher Alarm",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3CVr8yD3EmmbTAD3mgdkst",
+        "include": true,
+        "episode_num": 86,
+        "title": "Folge 86: Riesen in Rocky Beach",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3M7f1Ta7DdY49Cj0bsHchW",
+        "include": true,
+        "episode_num": 87,
+        "title": "Folge 87: Das Geisterspiel",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1wzirotAAliqPA1p0GPl08",
+        "include": true,
+        "episode_num": 88,
+        "title": "Folge 88: Schatz aus dem All",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7HIZJWnLo11Fsv68HPhjgj",
+        "include": true,
+        "episode_num": 89,
+        "title": "Folge 89: Im Geistergarten",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "41Wrbk3iySSFbBnbixychu",
+        "include": true,
+        "episode_num": 90,
+        "title": "Folge 90: Flug ins Nichts",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3cbOXb1xkJF65KRjBBqlmL",
+        "include": true,
+        "episode_num": 91,
+        "title": "Folge 91: Gefahr im Spiegelkabinett",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4793v2qgBpisdJjWcSCjt2",
+        "include": true,
+        "episode_num": 92,
+        "title": "Folge 92: Spuk im Leuchtturm",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6FLO3ExDCl0GwkzjCQGq0x",
+        "include": true,
+        "episode_num": 93,
+        "title": "Folge 93: Die Geistermühle",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4I3xNROKxdLC2GFcpp8o2R",
+        "include": true,
+        "episode_num": 94,
+        "title": "Folge 94: Falsche Vampire",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3xIGmydqrJOShru5bQmSVa",
+        "include": true,
+        "episode_num": 95,
+        "title": "Folge 95: Geheime Zeichen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4MvsJSPLzWm6irgVI2PXfo",
+        "include": true,
+        "episode_num": 96,
+        "title": "Folge 96: Der Schrottkönig",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0pIth1U2QD7sdvjt4xpRvS",
+        "include": true,
+        "episode_num": 97,
+        "title": "Folge 97: Die Fragezeichen-Falle",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2mvQwwgID8NjyxDum84o6n",
+        "include": true,
+        "episode_num": 98,
+        "title": "Folge 98: Die Geisterpferde",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4IMxyQClyxn6nLxYAK1BDs",
+        "include": true,
+        "episode_num": 99,
+        "title": "Folge 99: Football-Falle",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2HPtwODz0Pe0MQtAAdJVd8",
+        "include": true,
+        "episode_num": 100,
+        "title": "Folge 100: 100 Stunden",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6lJ7alLhPIHLRz411gDUut",
+        "include": true,
+        "episode_num": 101,
+        "title": "Folge 101: Geistermusik",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2SW10jAJqdxfbJZCW6hlEF",
+        "include": false,
+        "episode_num": null,
+        "title": "Mini-Fall/Die Piratenbande (Mini-Fall 03)",
+        "exclude_reason": "Mini-Fall (Kurzhörspiel) - separate short story series, not part of main episode run"
+      },
+      {
+        "spotify_album_id": "0qybrewjst6zJBOrdBghc2",
+        "include": false,
+        "episode_num": null,
+        "title": "Mini-Fall/Achtung, Dinos! (Mini-Fall 04)",
+        "exclude_reason": "Mini-Fall (Kurzhörspiel) - separate short story series, not part of main episode run"
+      },
+      {
+        "spotify_album_id": "7DA8OgWsVgCSM5ayHEOQHo",
+        "include": false,
+        "episode_num": null,
+        "title": "Mini-Fall/Alarm, die Ritter kommen! (Mini-Fall 05)",
+        "exclude_reason": "Mini-Fall (Kurzhörspiel) - separate short story series, not part of main episode run"
+      },
+      {
+        "spotify_album_id": "1q9psu1dvUemN0x8tFnwhr",
+        "include": false,
+        "episode_num": null,
+        "title": "Mini-Fall/Der Monsterschrecker Monsterschreck (Mini-Fall 06)",
+        "exclude_reason": "Mini-Fall (Kurzhörspiel) - separate short story series, not part of main episode run"
+      },
+      {
+        "spotify_album_id": "74usgzfUNYeiXgAe3CKrr7",
+        "include": false,
+        "episode_num": null,
+        "title": "Mini-Fall/Hilfe, Geisterzug (Mini-Fall 07)",
+        "exclude_reason": "Mini-Fall (Kurzhörspiel) - separate short story series, not part of main episode run"
+      },
+      {
+        "spotify_album_id": "1IrBxq3kgqabhcp6xfIezB",
+        "include": false,
+        "episode_num": null,
+        "title": "Mini-Fall/Vorsicht, Zaubertinte!",
+        "exclude_reason": "Mini-Fall (Kurzhörspiel) - separate short story series, not part of main episode run"
+      },
+      {
+        "spotify_album_id": "2AeYE1PVAulFFJlfp6GYZL",
+        "include": false,
+        "episode_num": null,
+        "title": "Mini-Fall/Die Räuberjagd",
+        "exclude_reason": "Mini-Fall (Kurzhörspiel) - separate short story series, not part of main episode run"
+      },
+      {
+        "spotify_album_id": "0eHCrhxh1eV3ql0d7tiQ9W",
+        "include": false,
+        "episode_num": null,
+        "title": "Magische Fälle",
+        "exclude_reason": "Box set / compilation - contains multiple full episodes (Folge 86, 95, etc.)"
+      },
+      {
+        "spotify_album_id": "5VGU97jdV50FJ8GgGI9qcf",
+        "include": false,
+        "episode_num": null,
+        "title": "Grusel-Fälle",
+        "exclude_reason": "Box set / compilation - contains multiple full episodes (Folge 93, 94, 48, etc.)"
+      },
+      {
+        "spotify_album_id": "2pZDQt7NvOlP7CFBQUvW9c",
+        "include": false,
+        "episode_num": null,
+        "title": "Sommer-Fälle",
+        "exclude_reason": "Box set / compilation - contains multiple full episodes (Folge 92, 84, etc.)"
+      },
+      {
+        "spotify_album_id": "2Xn2j4vYeYALVmoDj6NT5D",
+        "include": false,
+        "episode_num": null,
+        "title": "Adventskalender - 24 Tage Weihnachtsparade",
+        "exclude_reason": "Adventskalender (Christmas calendar) - special seasonal format, not main episode"
+      },
+      {
+        "spotify_album_id": "4KFElrzg5yWmppwtZ84UzG",
+        "include": false,
+        "episode_num": null,
+        "title": "Adventskalender - 24 Tage Elfen-Alarm",
+        "exclude_reason": "Adventskalender (Christmas calendar) - special seasonal format, not main episode"
+      },
+      {
+        "spotify_album_id": "5o3ryPeYmpRkmgEv4hnDmJ",
+        "include": false,
+        "episode_num": null,
+        "title": "Adventskalender - 24 Tage Weihnachtsspuk",
+        "exclude_reason": "Adventskalender (Christmas calendar) - special seasonal format, not main episode"
+      },
+      {
+        "spotify_album_id": "5MXAyx7ZeQGGbHdR1HEbtU",
+        "include": false,
+        "episode_num": null,
+        "title": "Adventskalender - 24 Tage eingeschneit",
+        "exclude_reason": "Adventskalender (Christmas calendar) - special seasonal format, not main episode"
+      },
+      {
+        "spotify_album_id": "5ZcAMixtzUYEBZNVSrixNE",
+        "include": false,
+        "episode_num": null,
+        "title": "Adventskalender - 24 Tage Chaos im Zoo",
+        "exclude_reason": "Adventskalender (Christmas calendar) - special seasonal format, not main episode"
+      },
+      {
+        "spotify_album_id": "0tuslnSb2vi63lqnROhlSl",
+        "include": false,
+        "episode_num": null,
+        "title": "Adventskalender - 24 Tage im Weihnachtszirkus",
+        "exclude_reason": "Adventskalender (Christmas calendar) - special seasonal format, not main episode"
+      },
+      {
+        "spotify_album_id": "0Pg0kbjNl7PC22ghcSqKih",
+        "include": false,
+        "episode_num": null,
+        "title": "Adventskalender",
+        "exclude_reason": "Adventskalender (Christmas calendar) - special seasonal format, not main episode"
+      },
+      {
+        "spotify_album_id": "4SVQrvQkXzYC1nU7DfDJx2",
+        "include": false,
+        "episode_num": null,
+        "title": "Adventskalender - Ein Rätsel in 24 Tagen",
+        "exclude_reason": "Adventskalender (Christmas calendar) - special seasonal format, not main episode"
+      },
+      {
+        "spotify_album_id": "7d8GIfIRWUNIZZXc5bjsrT",
+        "include": false,
+        "episode_num": null,
+        "title": "Adventskalender - 24 Tage im Weihnachtsland",
+        "exclude_reason": "Adventskalender (Christmas calendar) - special seasonal format, not main episode"
+      }
+    ],
+    "curator_notes": "Series has consistent episode numbering from 1-101. Early episodes (1-80) use 'NNN/Title' format, later episodes use 'Folge NNN: Title' format. Mini-Fälle are short stories released as a separate sub-series - excluded as they are not part of the main episode run. Multiple Adventskalender (Christmas calendar) releases exist with 24-day story formats - excluded as special seasonal content. Several compilation box sets ('Magische Fälle', 'Grusel-Fälle', 'Sommer-Fälle') group multiple full episodes together - excluded as they duplicate individual episode releases. No Retro-Archiv or Junior variants found for this series - all content is under the single 'Die drei ??? Kids' artist."
+  }
+}

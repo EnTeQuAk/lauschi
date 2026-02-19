@@ -6,20 +6,19 @@
 #   "pydantic>=2.0",
 #   "requests",
 #   "rich",
-#   "ruamel.yaml",
 # ]
 # ///
 """
 curate-series.py — AI-assisted series curation for the lauschi catalog.
 
 A pydantic-ai agent explores the Spotify API via tools, classifies every album,
-and produces a validated CuratedSeries.  Human reviews the output.
+and produces a validated CuratedSeries JSON.  Use review-curation.py to review
+and write approved entries to series.yaml.
 
 Usage
 -----
   mise run catalog-curate -- "Sternenschweif"
   mise run catalog-curate -- "TKKG" --timeout 600
-  mise run catalog-curate -- "Yakari" --dry-run
   mise run catalog-curate -- "Conni" --model claude-sonnet-4-6
 
 Credentials
@@ -38,6 +37,7 @@ import re
 import sys
 import time
 from dataclasses import dataclass
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
@@ -50,13 +50,11 @@ from rich import box
 from rich.console import Console
 from rich.panel import Panel
 from rich.table import Table
-from ruamel.yaml import YAML
 
 console = Console()
 
 REPO_ROOT    = Path(__file__).parent.parent
 CACHE_DIR    = REPO_ROOT / ".cache" / "spotify_artists"
-SERIES_YAML  = REPO_ROOT / "assets" / "catalog" / "series.yaml"
 CURATION_DIR = REPO_ROOT / "assets" / "catalog" / "curation"
 CACHE_DIR.mkdir(parents=True, exist_ok=True)
 CURATION_DIR.mkdir(parents=True, exist_ok=True)
@@ -253,20 +251,32 @@ def build_agent(model_name: str, api_key: str) -> Agent[Deps, CuratedSeries]:
     @agent.tool
     def search_artists(ctx: RunContext[Deps], query: str) -> list[dict]:
         """Search Spotify for artists. Returns id, name, followers, genres."""
-        return ctx.deps.spotify.search_artists(query)
+        results = ctx.deps.spotify.search_artists(query)
+        names = ", ".join(f"{a['name']} ({a['followers']:,})" for a in results[:5])
+        console.print(f"  [dim]🔍 search_artists({query!r}) → {len(results)} "
+                       f"results: {names}[/]")
+        return results
 
     @agent.tool
     def get_artist_albums(ctx: RunContext[Deps], artist_id: str) -> list[dict]:
         """Fetch full discography for a Spotify artist.
         Returns list of {id, name, release_date, total_tracks}."""
-        return ctx.deps.spotify.artist_albums(artist_id,
-                                              use_cache=not ctx.deps.no_cache)
+        albums = ctx.deps.spotify.artist_albums(artist_id,
+                                                use_cache=not ctx.deps.no_cache)
+        console.print(f"  [dim]📀 get_artist_albums({artist_id[:8]}…) → "
+                       f"{len(albums)} albums[/]")
+        return albums
 
     @agent.tool
     def get_album_details(ctx: RunContext[Deps], album_id: str) -> dict:
         """Full album details: release_date, total_tracks, track names, label.
         Use for ambiguous albums — possible box sets or duplicates."""
-        return ctx.deps.spotify.album_details(album_id)
+        details = ctx.deps.spotify.album_details(album_id)
+        name = details.get("name", "?")[:40]
+        tracks = details.get("total_tracks", "?")
+        console.print(f"  [dim]🔎 get_album_details({album_id[:8]}…) → "
+                       f"{tracks} tracks — {name}[/]")
+        return details
 
     return agent
 
@@ -297,7 +307,6 @@ async def run_curation(model_name: str, api_key: str, query: str,
         except Exception as e:
             last_err = e
             err_str = str(e)
-            # Retry on transient opencode proxy errors
             if ("<!DOCTYPE" in err_str or "500" in err_str) and attempt < _MAX_RETRIES:
                 console.print(f"[yellow]Attempt {attempt}/{_MAX_RETRIES} failed "
                               f"(proxy error), retrying in {_RETRY_DELAY}s…[/]")
@@ -309,7 +318,7 @@ async def run_curation(model_name: str, api_key: str, query: str,
 
 # ── Display ────────────────────────────────────────────────────────────────────
 
-def print_result(series: CuratedSeries) -> None:
+def print_summary(series: CuratedSeries) -> None:
     inc = series.included()
     exc = [x for x in series.albums if not x.include]
     eps = [a.episode_num for a in inc if a.episode_num is not None]
@@ -318,102 +327,40 @@ def print_result(series: CuratedSeries) -> None:
         f"[bold]{series.title}[/]  [dim]{series.id}[/]\n"
         f"Artists: {', '.join(series.spotify_artist_ids)}\n"
         f"Episodes: {len(inc)} included · {len(exc)} excluded\n"
-        f"Range: {min(eps)}-{max(eps) if eps else '—'}\n"
+        f"Range: {min(eps) if eps else '—'}–{max(eps) if eps else '—'}\n"
         f"Pattern: {series.episode_pattern or '(none)'}",
-        title="✅ Curated series",
+        title="✅ Curated",
         border_style="green",
     ))
 
     if eps:
         gaps = sorted(set(range(min(eps), max(eps) + 1)) - set(eps))
         if gaps:
-            console.print(f"[yellow]Gaps: {gaps[:20]}"
+            console.print(f"[yellow]⚠ Gaps: {gaps[:20]}"
                           f"{'…' if len(gaps) > 20 else ''}[/]")
 
-    t = Table(box=box.SIMPLE, title=f"Episodes (first 15 of {len(inc)})")
+    t = Table(box=box.SIMPLE, title=f"Included (first 10 of {len(inc)})")
     t.add_column("Ep", width=5, justify="right")
     t.add_column("Title", min_width=40)
     t.add_column("ID", width=24)
-    for ep in inc[:15]:
+    for ep in inc[:10]:
         t.add_row(str(ep.episode_num) if ep.episode_num else "—",
-                  ep.title[:40], ep.spotify_album_id)
-    if len(inc) > 15:
-        t.add_row("…", f"({len(inc) - 15} more)", "")
+                  ep.title[:50], ep.spotify_album_id)
+    if len(inc) > 10:
+        t.add_row("…", f"({len(inc) - 10} more)", "")
     console.print(t)
 
-    if exc:
-        console.print(f"\n[dim]Excluded ({len(exc)}):[/]")
-        for ex in exc[:5]:
-            console.print(f"  [dim]{ex.title[:50]}  — {ex.exclude_reason}[/]")
-        if len(exc) > 5:
-            console.print(f"  [dim]… {len(exc) - 5} more[/]")
-
     if series.curator_notes:
-        console.print(f"\n[dim]Notes: {series.curator_notes[:300]}[/]")
+        console.print(f"\n[dim]Notes: {series.curator_notes[:200]}[/]")
 
-
-# ── YAML / JSON output ────────────────────────────────────────────────────────
-
-def to_yaml_dict(series: CuratedSeries) -> dict:
-    d: dict = {"id": series.id, "title": series.title}
-    if series.aliases:
-        d["aliases"] = series.aliases
-    if series.keywords:
-        d["keywords"] = series.keywords
-    d["spotify_artist_ids"] = series.spotify_artist_ids
-    if series.episode_pattern:
-        d["episode_pattern"] = series.episode_pattern
-    eps = series.included()
-    if eps:
-        d["albums"] = [
-            ({"id": e.spotify_album_id, "episode": e.episode_num, "title": e.title}
-             if e.episode_num is not None
-             else {"id": e.spotify_album_id, "title": e.title})
-            for e in eps
-        ]
-    if series.curator_notes:
-        d["_curator_notes"] = series.curator_notes
-    return d
-
-
-def write_yaml(series: CuratedSeries, dry_run: bool) -> None:
-    yaml = YAML()
-    yaml.preserve_quotes = True
-    yaml.default_flow_style = False
-    yaml.width = 100
-    entry = to_yaml_dict(series)
-
-    if dry_run:
-        import io
-        buf = io.StringIO()
-        yaml.dump([entry], buf)
-        lines = buf.getvalue().split("\n")
-        preview = "\n".join(lines[:40])
-        if len(lines) > 40:
-            preview += f"\n… ({len(lines) - 40} more lines)"
-        console.print(Panel(preview, title="series.yaml (dry run)",
-                            border_style="yellow"))
-        return
-
-    with SERIES_YAML.open(encoding="utf-8") as f:
-        data = yaml.load(f) or {}
-    sl: list = data.get("series", [])
-    idx = next((i for i, s in enumerate(sl) if s.get("id") == series.id), None)
-    if idx is not None:
-        sl[idx] = entry
-        console.print(f"[yellow]Replaced {series.id} in series.yaml[/]")
-    else:
-        sl.append(entry)
-        console.print(f"[green]Appended {series.id} to series.yaml[/]")
-    with SERIES_YAML.open("w", encoding="utf-8") as f:
-        yaml.dump(data, f)
+    console.print(f"\n[dim]Review with: mise run catalog-review -- {series.id}[/]")
 
 
 # ── Main ───────────────────────────────────────────────────────────────────────
 
 def main() -> None:
     ap = argparse.ArgumentParser(
-        description="AI-curated series.yaml entry via pydantic-ai + Spotify.",
+        description="AI-curated series curation via pydantic-ai + Spotify.",
         epilog='Example: mise run catalog-curate -- "Sternenschweif"',
     )
     ap.add_argument("query", help="Series name to curate")
@@ -421,8 +368,6 @@ def main() -> None:
                     help=f"opencode model (default: {_DEFAULT_MODEL})")
     ap.add_argument("--no-cache", action="store_true",
                     help="Bypass Spotify cache")
-    ap.add_argument("--dry-run", action="store_true",
-                    help="Print YAML, don't write to series.yaml")
     ap.add_argument("--timeout", type=int, default=300,
                     help="Timeout in seconds (default: 300)")
     args = ap.parse_args()
@@ -441,7 +386,6 @@ def main() -> None:
         title="🎧 lauschi series curator",
     ))
 
-    # ── Run curation ──────────────────────────────────────────────────────────
     try:
         series = asyncio.run(
             run_curation(args.model, api_key, args.query, deps, args.timeout)
@@ -450,20 +394,19 @@ def main() -> None:
         console.print(f"[red]Failed:[/] {e}")
         sys.exit(1)
 
-    # ── Display ───────────────────────────────────────────────────────────────
-    print_result(series)
+    print_summary(series)
 
-    # ── Save curation JSON (audit trail) ──────────────────────────────────────
+    # Save curation JSON
     curation_path = CURATION_DIR / f"{series.id}.json"
     curation_path.write_text(
-        json.dumps({"query": args.query, "model": args.model,
-                    "series": series.model_dump()},
-                   indent=2, ensure_ascii=False),
+        json.dumps({
+            "query": args.query,
+            "model": args.model,
+            "curated_at": datetime.now(tz=UTC).isoformat(),
+            "series": series.model_dump(),
+        }, indent=2, ensure_ascii=False),
     )
-    console.print(f"[dim]Curation JSON → {curation_path.relative_to(REPO_ROOT)}[/]")
-
-    # ── Write YAML ────────────────────────────────────────────────────────────
-    write_yaml(series, dry_run=args.dry_run)
+    console.print(f"Saved → {curation_path.relative_to(REPO_ROOT)}")
 
 
 if __name__ == "__main__":

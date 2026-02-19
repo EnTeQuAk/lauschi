@@ -64,6 +64,10 @@ run = "uv run scripts/validate_catalog.py --discover"
 description = "AI-curated series.yaml entry via pydantic-ai + Spotify (needs OPENCODE_API_KEY)"
 run = "uv run scripts/curate-series.py"
 
+[tasks.catalog-review]
+description = "Review AI-curated series and write approved entries to series.yaml"
+run = "uv run scripts/review-curation.py"
+
 [tasks.catalog-titles]
 description = "Quick artist discovery + optional AI YAML snippet"
 run = "uv run scripts/discover-titles.py"
