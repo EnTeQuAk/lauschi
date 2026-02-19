@@ -33,7 +33,7 @@ migrate_working_dir/
 # Generated code (run: dart run build_runner build)
 # Generated files are committed — build_runner output is required for
 # the project to compile without running codegen first.
-# *.g.dart
+*.g.dart
 *.freezed.dart
 
 # Flutter/Dart/Pub related
