@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lauschi/core/auth/pin_service.dart';
+import 'package:lauschi/features/cards/screens/group_detail_screen.dart';
 import 'package:lauschi/features/cards/screens/kid_home_screen.dart';
 import 'package:lauschi/features/onboarding/screens/onboarding_provider.dart';
 import 'package:lauschi/features/onboarding/screens/onboarding_screen.dart';
@@ -21,6 +22,9 @@ abstract final class AppRoutes {
   // Kid mode (root)
   static const kidHome = '/';
   static const player = '/player';
+
+  // Group/series drill-down
+  static String groupDetail(String groupId) => '/group/$groupId';
 
   // Parent mode (PIN-gated)
   static const parentDashboard = '/parent';
@@ -56,6 +60,13 @@ GoRouter appRouter(Ref ref) {
           GoRoute(
             path: 'player',
             builder: (context, state) => const PlayerScreen(),
+          ),
+          GoRoute(
+            path: 'group/:id',
+            builder: (context, state) {
+              final groupId = state.pathParameters['id']!;
+              return GroupDetailScreen(groupId: groupId);
+            },
           ),
         ],
       ),

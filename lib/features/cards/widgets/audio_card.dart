@@ -16,12 +16,16 @@ class AudioCard extends StatefulWidget {
     this.coverUrl,
     this.isPlaying = false,
     this.isPaused = false,
+    this.isHeard = false,
   });
 
   final String title;
   final String? coverUrl;
   final bool isPlaying;
   final bool isPaused;
+
+  /// Whether this episode has been heard. Dims the cover and shows ✓ badge.
+  final bool isHeard;
   final VoidCallback onTap;
 
   @override
@@ -71,6 +75,8 @@ class _AudioCardState extends State<AudioCard>
             ? '${widget.title}, spielt gerade'
             : widget.isPaused
             ? '${widget.title}, pausiert'
+            : widget.isHeard
+            ? '${widget.title}, gehört'
             : widget.title;
 
     return Semantics(
@@ -113,8 +119,13 @@ class _AudioCardState extends State<AudioCard>
                     fit: StackFit.expand,
                     children: [
                       _CoverImage(url: widget.coverUrl),
+                      // Heard overlay dims the cover unless actively playing
+                      if (widget.isHeard && !widget.isPlaying && !widget.isPaused)
+                        const _HeardOverlay(),
                       if (widget.isPlaying) const _PlayBadge(),
                       if (widget.isPaused) const _PauseBadge(),
+                      if (widget.isHeard && !widget.isPlaying && !widget.isPaused)
+                        const _HeardBadge(),
                     ],
                   ),
                 ),
@@ -270,6 +281,46 @@ class _PauseBadge extends StatelessWidget {
           Icons.pause_rounded,
           color: AppColors.textOnPrimary,
           size: 16,
+        ),
+      ),
+    );
+  }
+}
+
+/// Semi-transparent overlay shown on heard episodes.
+class _HeardOverlay extends StatelessWidget {
+  const _HeardOverlay();
+
+  @override
+  Widget build(BuildContext context) {
+    return Positioned.fill(
+      child: ColoredBox(
+        color: AppColors.textPrimary.withValues(alpha: 0.35),
+      ),
+    );
+  }
+}
+
+/// Checkmark badge shown on heard episodes.
+class _HeardBadge extends StatelessWidget {
+  const _HeardBadge();
+
+  @override
+  Widget build(BuildContext context) {
+    return Positioned(
+      right: 6,
+      bottom: 6,
+      child: Container(
+        width: 22,
+        height: 22,
+        decoration: BoxDecoration(
+          color: AppColors.surface.withValues(alpha: 0.9),
+          shape: BoxShape.circle,
+        ),
+        child: const Icon(
+          Icons.check_rounded,
+          color: AppColors.primary,
+          size: 14,
         ),
       ),
     );

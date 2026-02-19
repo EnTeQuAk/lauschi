@@ -201,3 +201,8 @@ CardRepository cardRepository(Ref ref) {
 final allCardsProvider = StreamProvider<List<AudioCard>>((ref) {
   return ref.watch(cardRepositoryProvider).watchAll();
 });
+
+/// Stream of ungrouped cards (top-level, not in any series).
+final ungroupedCardsProvider = StreamProvider<List<AudioCard>>((ref) {
+  return ref.watch(cardRepositoryProvider).watchUngrouped();
+});
