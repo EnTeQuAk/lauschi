@@ -5,6 +5,7 @@ import 'package:lauschi/core/database/card_repository.dart';
 import 'package:lauschi/core/log.dart';
 import 'package:lauschi/core/spotify/spotify_api.dart';
 import 'package:lauschi/core/spotify/spotify_auth_provider.dart';
+import 'package:lauschi/features/player/media_session_handler.dart';
 import 'package:lauschi/features/player/player_state.dart';
 import 'package:lauschi/features/player/spotify_player_bridge.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -34,6 +35,16 @@ SpotifyApi spotifyApi(Ref ref) {
   return api;
 }
 
+/// Holds the [MediaSessionHandler] initialized in main().
+/// Must be overridden before use.
+@Riverpod(keepAlive: true)
+MediaSessionHandler mediaSessionHandler(Ref ref) {
+  throw StateError(
+    'mediaSessionHandlerProvider must be overridden with an '
+    'initialized MediaSessionHandler',
+  );
+}
+
 @Riverpod(keepAlive: true)
 SpotifyPlayerBridge spotifyPlayerBridge(Ref ref) {
   final bridge =
@@ -52,6 +63,7 @@ SpotifyPlayerBridge spotifyPlayerBridge(Ref ref) {
 class PlayerNotifier extends _$PlayerNotifier {
   SpotifyPlayerBridge? _bridge;
   SpotifyApi? _api;
+  MediaSessionHandler? _mediaSession;
   StreamSubscription<PlaybackState>? _subscription;
   Timer? _positionSaveTimer;
 
@@ -64,6 +76,16 @@ class PlayerNotifier extends _$PlayerNotifier {
   PlaybackState build() {
     _bridge = ref.watch(spotifyPlayerBridgeProvider);
     _api = ref.watch(spotifyApiProvider);
+    _mediaSession = ref.watch(mediaSessionHandlerProvider);
+
+    // Wire system media button callbacks → our methods.
+    if (_mediaSession != null) {
+      _mediaSession!.onPlay = resume;
+      _mediaSession!.onPause = () => unawaited(pause());
+      _mediaSession!.onSkipNext = () => unawaited(nextTrack());
+      _mediaSession!.onSkipPrev = () => unawaited(prevTrack());
+      _mediaSession!.onSeek = (pos) => unawaited(seek(pos.inMilliseconds));
+    }
 
     unawaited(_subscription?.cancel());
     _subscription = _bridge!.stateStream.listen((playbackState) {
@@ -229,9 +251,13 @@ class PlayerNotifier extends _$PlayerNotifier {
   }
 
   /// Save position periodically while playing. Toggle wakelock.
+  /// Sync media session notification.
   void _onStateChange(PlaybackState newState) {
     // Keep screen on while audio plays; release on pause/stop.
     unawaited(WakelockPlus.toggle(enable: newState.isPlaying));
+
+    // Update lock screen / notification controls.
+    _mediaSession?.updateFromAppState(newState);
 
     if (newState.isPlaying) {
       _startPositionSave();
