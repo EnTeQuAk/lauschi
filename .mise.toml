@@ -5,6 +5,7 @@ java = "temurin-17.0.18+8"
 
 [env]
 JAVA_HOME = "{{env.HOME}}/.local/share/mise/installs/java/temurin-17.0.18+8"
+# SPOTIFY_CLIENT_ID — set in .mise.local.toml (gitignored)
 
 [tasks.setup]
 description = "Install deps, run codegen, verify analysis"
@@ -25,6 +26,14 @@ run = "dart run build_runner watch --delete-conflicting-outputs"
 [tasks.test]
 description = "Run all tests"
 run = "flutter test"
+
+[tasks.run]
+description = "Run on connected device"
+run = "flutter run --dart-define=SPOTIFY_CLIENT_ID=${SPOTIFY_CLIENT_ID:-}"
+
+[tasks.build]
+description = "Build APK"
+run = "flutter build apk --dart-define=SPOTIFY_CLIENT_ID=${SPOTIFY_CLIENT_ID:-}"
 
 [tasks.check]
 description = "Full CI check: analyze + test"
