@@ -41,6 +41,8 @@ class PlaybackState {
     this.track,
     this.positionMs = 0,
     this.durationMs = 0,
+    this.trackNumber = 0,
+    this.nextTracksCount = 0,
     this.error,
   });
 
@@ -65,6 +67,14 @@ class PlaybackState {
   /// Total track duration in milliseconds.
   final int durationMs;
 
+  /// 1-based position of the current track within the album.
+  /// Approximate for very long albums where the SDK window is capped.
+  final int trackNumber;
+
+  /// Number of tracks remaining after the current one. Zero means this
+  /// is the last track in the album/context.
+  final int nextTracksCount;
+
   /// Last error message, if any.
   final String? error;
 
@@ -86,6 +96,8 @@ class PlaybackState {
     bool clearTrack = false,
     int? positionMs,
     int? durationMs,
+    int? trackNumber,
+    int? nextTracksCount,
     String? error,
   }) {
     return PlaybackState(
@@ -96,6 +108,8 @@ class PlaybackState {
       track: clearTrack ? null : (track ?? this.track),
       positionMs: positionMs ?? this.positionMs,
       durationMs: durationMs ?? this.durationMs,
+      trackNumber: trackNumber ?? this.trackNumber,
+      nextTracksCount: nextTracksCount ?? this.nextTracksCount,
       error: error,
     );
   }

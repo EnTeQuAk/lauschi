@@ -42,8 +42,16 @@ class Cards extends Table {
   IntColumn get sortOrder => integer().withDefault(const Constant(0))();
   DateTimeColumn get createdAt => dateTime().withDefault(currentDateAndTime)();
 
+  /// Total number of tracks in this album (from Spotify at insert time).
+  /// Used to compute playback progress and detect album completion.
+  IntColumn get totalTracks => integer().withDefault(const Constant(0))();
+
   // Playback resume state
   TextColumn get lastTrackUri => text().nullable()();
+
+  /// 1-based track number within the album, stored alongside lastTrackUri
+  /// so progress can be computed without an API lookup.
+  IntColumn get lastTrackNumber => integer().withDefault(const Constant(0))();
   IntColumn get lastPositionMs => integer().withDefault(const Constant(0))();
   DateTimeColumn get lastPlayedAt => dateTime().nullable()();
 

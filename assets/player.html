@@ -63,16 +63,23 @@
           post('state_changed', { paused: true, track: null, position_ms: 0 });
           return;
         }
+        var tw = state.track_window;
+        var prevCount = tw.previous_tracks ? tw.previous_tracks.length : 0;
+        var nextCount = tw.next_tracks ? tw.next_tracks.length : 0;
         post('state_changed', {
           paused: state.paused,
           position_ms: state.position,
           duration_ms: state.duration,
-          track: state.track_window.current_track ? {
-            uri: state.track_window.current_track.uri,
-            name: state.track_window.current_track.name,
-            artist: state.track_window.current_track.artists.map(function(a) { return a.name; }).join(', '),
-            album: state.track_window.current_track.album.name,
-            artwork_url: state.track_window.current_track.album.images[0] ? state.track_window.current_track.album.images[0].url : null,
+          // Track position within album (approximate for very long albums
+          // where the SDK window caps at ~20 previous tracks).
+          track_number: prevCount + 1,
+          next_tracks_count: nextCount,
+          track: tw.current_track ? {
+            uri: tw.current_track.uri,
+            name: tw.current_track.name,
+            artist: tw.current_track.artists.map(function(a) { return a.name; }).join(', '),
+            album: tw.current_track.album.name,
+            artwork_url: tw.current_track.album.images[0] ? tw.current_track.album.images[0].url : null,
           } : null,
         });
       });

@@ -250,7 +250,7 @@ class PlayerNotifier extends _$PlayerNotifier {
   }
 
   /// Save position periodically while playing. Toggle wakelock.
-  /// Sync media session notification.
+  /// Sync media session notification. Detect album completion.
   void _onStateChange(PlaybackState newState) {
     // Keep screen on while audio plays; release on pause/stop.
     unawaited(WakelockPlus.toggle(enable: newState.isPlaying));
@@ -264,6 +264,13 @@ class PlayerNotifier extends _$PlayerNotifier {
       _positionSaveTimer?.cancel();
       // Save immediately on pause
       unawaited(_savePosition());
+
+      // Detect album completion: paused on the last track, near the end.
+      if (newState.nextTracksCount == 0 &&
+          newState.durationMs > 0 &&
+          newState.positionMs > newState.durationMs * 0.9) {
+        unawaited(_markAlbumHeard());
+      }
     }
   }
 
@@ -289,10 +296,35 @@ class PlayerNotifier extends _$PlayerNotifier {
       await cards.savePosition(
         cardId: card.id,
         trackUri: track.uri,
+        trackNumber: state.trackNumber,
         positionMs: state.positionMs,
       );
     } on Exception catch (e) {
       Log.error(_tag, 'Position save failed', exception: e);
+    }
+  }
+
+  /// Mark the currently-playing album as heard.
+  Future<void> _markAlbumHeard() async {
+    final uri = _activeContextUri;
+    if (uri == null) return;
+
+    try {
+      final cards = ref.read(cardRepositoryProvider);
+      final card = await cards.getByProviderUri(uri);
+      if (card == null || card.isHeard) return;
+
+      await cards.markHeard(card.id);
+      Log.info(
+        _tag,
+        'Album completed',
+        data: {
+          'cardId': card.id,
+          'title': card.title,
+        },
+      );
+    } on Exception catch (e) {
+      Log.error(_tag, 'Mark heard failed', exception: e);
     }
   }
 }
