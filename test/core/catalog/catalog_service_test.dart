@@ -463,8 +463,126 @@ void main() {
 
     // LasseMaja: well-covered, spot check
     test('LasseMaja extracts episode number', () {
-      final r = catalog.match('Detektivbüro LasseMaja 1');
-      expect(r!.episodeNumber, 1);
+      // Real Spotify format: "Das Dinogeheimnis [Detektivbüro LasseMaja, Teil 36 (Ungekürzt)]"
+      final r = catalog.match(
+        'Das Dinogeheimnis [Detektivbüro LasseMaja, Teil 36 (Ungekürzt)]',
+      );
+      expect(r!.episodeNumber, 36);
+    });
+  });
+
+  group('CatalogService.match — artist ID (phase 2)', () {
+    // Albums whose titles contain no series name — only artist ID can identify them.
+    // These real formats are structural failures for keyword matching.
+
+    test('Die drei ??? matched via artist ID when title has no series name', () {
+      // Real Spotify album: "116/Codename: Cobra"
+      const dreiId = '3meJIgRw7YleJrmbpbJK6S';
+      final r = catalog.match(
+        '116/Codename: Cobra',
+        albumArtistIds: [dreiId],
+      );
+      expect(r, isNotNull);
+      expect(r!.series.id, 'die_drei_fragezeichen');
+      expect(r.source, CatalogMatchSource.artistId);
+      expect(r.episodeNumber, 116);
+    });
+
+    test('TKKG matched via artist ID when title has no series name', () {
+      // Real Spotify album: "140/Draculas Erben"
+      const tkkgId = '61qDotnjM0jnY5lkfOP7ve';
+      final r = catalog.match(
+        '140/Draculas Erben',
+        albumArtistIds: [tkkgId],
+      );
+      expect(r, isNotNull);
+      expect(r!.series.id, 'tkkg');
+      expect(r.source, CatalogMatchSource.artistId);
+      expect(r.episodeNumber, 140);
+    });
+
+    test('Die Fuchsbande matched via artist ID — Fall N extracted', () {
+      // Real Spotify album: "010/Fall 19: Das Loch in der Tür"
+      const fuchsId = '325gkGGHH2WrswRh3qC3e9';
+      final r = catalog.match(
+        '010/Fall 19: Das Loch in der Tür',
+        albumArtistIds: [fuchsId],
+      );
+      expect(r, isNotNull);
+      expect(r!.series.id, 'die_fuchsbande');
+      expect(r.source, CatalogMatchSource.artistId);
+      expect(r.episodeNumber, 19); // Fall 19, not album 010
+    });
+
+    test('Fünf Freunde matched via artist ID', () {
+      // Real Spotify album: "107/und die Nacht im Safari-Park"
+      const ffId = '1hD52edfn6aNsK3fb5c2OT';
+      final r = catalog.match(
+        '107/und die Nacht im Safari-Park',
+        albumArtistIds: [ffId],
+      );
+      expect(r, isNotNull);
+      expect(r!.series.id, 'fuenf_freunde');
+      expect(r.source, CatalogMatchSource.artistId);
+      expect(r.episodeNumber, 107);
+    });
+
+    test('TKKG Junior matched via artist ID', () {
+      // Real Spotify album: "Folge 41: Aliens im Anflug" — series name absent
+      const tkkgJuniorId = '1ZFGYimyLnfKewOL84ABEp';
+      final r = catalog.match(
+        'Folge 41: Aliens im Anflug',
+        albumArtistIds: [tkkgJuniorId],
+      );
+      expect(r, isNotNull);
+      expect(r!.series.id, 'tkkg_junior');
+      expect(r.source, CatalogMatchSource.artistId);
+      expect(r.episodeNumber, 41);
+    });
+
+    test('Feuerwehrmann Sam matched via artist ID', () {
+      // "Folge 242: Die neue Feuerwache" — "Sam" alone is not a keyword
+      const samId = '4qhaHyCtCaFugTqT9LzuKp';
+      final r = catalog.match(
+        'Folge 242: Die neue Feuerwache',
+        albumArtistIds: [samId],
+      );
+      expect(r, isNotNull);
+      expect(r!.series.id, 'feuerwehrmann_sam');
+      expect(r.source, CatalogMatchSource.artistId);
+      expect(r.episodeNumber, 242);
+    });
+
+    test('artist ID match does NOT fire when albumArtistIds is empty', () {
+      // Without artist IDs, "116/Codename: Cobra" has no keywords to match.
+      final r = catalog.match('116/Codename: Cobra');
+      expect(r, isNull);
+    });
+
+    test('keyword match has source=keyword', () {
+      final r = catalog.match('Folge 157: Team Blocksberg');
+      expect(r, isNotNull);
+      expect(r!.source, CatalogMatchSource.keyword);
+    });
+
+    test('keyword match wins over artist ID match for same series', () {
+      // Album has both keyword AND artist ID — should match via keyword (phase 1).
+      const bibiId = '3t2iKODSDyzoDJw7AsD99u';
+      final r = catalog.match(
+        'Folge 157: Team Blocksberg',
+        albumArtistIds: [bibiId],
+      );
+      expect(r, isNotNull);
+      expect(r!.series.id, 'bibi_blocksberg');
+      expect(r.source, CatalogMatchSource.keyword);
+    });
+
+    test('unknown artist ID does not match any series', () {
+      final r = catalog.match(
+        'Some Random Album Title',
+        albumArtistIds: ['0000000000000000000000'],
+      );
+      expect(r, isNull);
     });
   });
 }

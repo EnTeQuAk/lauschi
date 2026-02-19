@@ -137,7 +137,9 @@ class _AddCardScreenState extends ConsumerState<AddCardScreen> {
       if (!mounted) return;
       final catalog = ref.read(catalogServiceProvider).value;
       final matches = catalog != null
-          ? result.albums.map((a) => catalog.match(a.name)).toList()
+          ? result.albums
+              .map((a) => catalog.match(a.name, albumArtistIds: a.artistIds))
+              .toList()
           : List<CatalogMatch?>.filled(result.albums.length, null);
       final catalogHits = matches.whereType<CatalogMatch>().length;
       Log.info(_tag, 'Search', data: {

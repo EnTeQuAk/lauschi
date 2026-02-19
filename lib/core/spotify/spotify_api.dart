@@ -235,6 +235,7 @@ class SpotifyAlbum {
     required this.name,
     required this.uri,
     required this.artists,
+    required this.artistIds,
     required this.imageUrl,
     required this.totalTracks,
     this.releaseDate,
@@ -243,7 +244,8 @@ class SpotifyAlbum {
 
   factory SpotifyAlbum.fromJson(Map<String, dynamic> json) {
     final images = json['images'] as List<dynamic>? ?? [];
-    final artists = json['artists'] as List<dynamic>? ?? [];
+    final artistsRaw = json['artists'] as List<dynamic>? ?? [];
+    final artistMaps = artistsRaw.cast<Map<String, dynamic>>();
 
     // Parse tracks if present (album detail endpoint includes them)
     List<SpotifyTrack>? tracks;
@@ -261,10 +263,11 @@ class SpotifyAlbum {
       id: json['id'] as String,
       name: json['name'] as String,
       uri: json['uri'] as String,
-      artists:
-          artists
-              .cast<Map<String, dynamic>>()
-              .map((a) => a['name'] as String)
+      artists: artistMaps.map((a) => a['name'] as String).toList(),
+      artistIds:
+          artistMaps
+              .map((a) => a['id'] as String? ?? '')
+              .where((s) => s.isNotEmpty)
               .toList(),
       imageUrl:
           images.isNotEmpty
@@ -280,6 +283,10 @@ class SpotifyAlbum {
   final String name;
   final String uri;
   final List<String> artists;
+
+  /// Spotify artist IDs corresponding to [artists], same order.
+  final List<String> artistIds;
+
   final String? imageUrl;
   final int totalTracks;
   final String? releaseDate;
