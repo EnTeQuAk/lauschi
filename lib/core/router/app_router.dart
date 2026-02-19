@@ -6,7 +6,9 @@ import 'package:lauschi/features/cards/screens/kid_home_screen.dart';
 import 'package:lauschi/features/onboarding/screens/onboarding_provider.dart';
 import 'package:lauschi/features/onboarding/screens/onboarding_screen.dart';
 import 'package:lauschi/features/parent/screens/add_card_screen.dart';
+import 'package:lauschi/features/parent/screens/group_edit_screen.dart';
 import 'package:lauschi/features/parent/screens/manage_cards_screen.dart';
+import 'package:lauschi/features/parent/screens/manage_groups_screen.dart';
 import 'package:lauschi/features/parent/screens/parent_dashboard_screen.dart';
 import 'package:lauschi/features/parent/screens/pin_screen.dart';
 import 'package:lauschi/features/player/screens/player_screen.dart';
@@ -30,6 +32,8 @@ abstract final class AppRoutes {
   static const parentDashboard = '/parent';
   static const parentManageCards = '/parent/cards';
   static const parentAddCard = '/parent/add-card';
+  static const parentManageGroups = '/parent/groups';
+  static String parentGroupEdit(String groupId) => '/parent/groups/$groupId';
   static const parentSettings = '/parent/settings';
   static const pinEntry = '/pin';
 }
@@ -85,6 +89,19 @@ GoRouter appRouter(Ref ref) {
           GoRoute(
             path: 'add-card',
             builder: (context, state) => const AddCardScreen(),
+          ),
+          GoRoute(
+            path: 'groups',
+            builder: (context, state) => const ManageGroupsScreen(),
+            routes: [
+              GoRoute(
+                path: ':id',
+                builder: (context, state) {
+                  final groupId = state.pathParameters['id']!;
+                  return GroupEditScreen(groupId: groupId);
+                },
+              ),
+            ],
           ),
           GoRoute(
             path: 'settings',
