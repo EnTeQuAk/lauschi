@@ -1,5 +1,17 @@
 import 'package:drift/drift.dart';
 
+@DataClassName('CardGroup')
+class Groups extends Table {
+  TextColumn get id => text()();
+  TextColumn get title => text()();
+  TextColumn get coverUrl => text().nullable()();
+  IntColumn get sortOrder => integer().withDefault(const Constant(0))();
+  DateTimeColumn get createdAt => dateTime().withDefault(currentDateAndTime)();
+
+  @override
+  Set<Column<Object>> get primaryKey => {id};
+}
+
 @DataClassName('AudioCard')
 class Cards extends Table {
   TextColumn get id => text()();
@@ -16,6 +28,14 @@ class Cards extends Table {
 
   // e.g. 'spotify:album:4aawyAB9vmqN3uQ7FjRGTy'
   TextColumn get providerUri => text()();
+
+  // Group membership (nullable — ungrouped cards appear at top level)
+  TextColumn get groupId => text()
+      .nullable()
+      .references(Groups, #id)();
+  IntColumn get episodeNumber => integer().nullable()();
+  BoolColumn get isHeard =>
+      boolean().withDefault(const Constant(false))();
 
   IntColumn get sortOrder => integer().withDefault(const Constant(0))();
   DateTimeColumn get createdAt => dateTime().withDefault(currentDateAndTime)();
