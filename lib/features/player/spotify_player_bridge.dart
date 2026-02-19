@@ -239,8 +239,14 @@ class SpotifyPlayerBridge {
   /// Disconnect and clean up.
   Future<void> dispose() async {
     Log.info(_tag, 'Disposing bridge');
-    if (_controller != null) {
-      await _controller!.runJavaScript('window.lauschi.disconnect()');
+    try {
+      if (_controller != null) {
+        await _controller!.runJavaScript('window.lauschi.disconnect()');
+      }
+    } on Exception catch (e) {
+      // WebView may already be destroyed (process killed, widget disposed).
+      Log.warn(_tag, 'Disconnect failed (WebView likely dead)',
+          data: {'error': '$e'});
     }
     await _stateController.close();
   }

@@ -173,6 +173,16 @@ class _ConnectPage extends ConsumerWidget {
               color: AppColors.textPrimary,
             ),
           ),
+          const SizedBox(height: AppSpacing.md),
+          const Text(
+            'Spotify Premium wird benötigt.',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontFamily: 'Nunito',
+              fontSize: 14,
+              color: AppColors.textSecondary,
+            ),
+          ),
           const SizedBox(height: AppSpacing.xxl),
           SizedBox(
             width: double.infinity,
