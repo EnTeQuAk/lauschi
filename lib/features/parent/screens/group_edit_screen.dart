@@ -241,14 +241,11 @@ class _CoverPicker extends StatefulWidget {
 }
 
 class _CoverPickerState extends State<_CoverPicker> {
-  bool _showUrlField = false;
-
   String get _currentUrl => widget.controller.text.trim();
 
   void _pickCover(String url) {
     widget.controller.text = url;
     widget.onChanged();
-    setState(() => _showUrlField = false);
   }
 
   void _clearCover() {
@@ -365,46 +362,6 @@ class _CoverPickerState extends State<_CoverPicker> {
                 );
               },
             ),
-          ),
-        ],
-
-        // Manual URL toggle
-        const SizedBox(height: AppSpacing.xs),
-        GestureDetector(
-          onTap: () => setState(() => _showUrlField = !_showUrlField),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(
-                _showUrlField
-                    ? Icons.expand_less_rounded
-                    : Icons.expand_more_rounded,
-                size: 16,
-                color: AppColors.textSecondary,
-              ),
-              const SizedBox(width: 4),
-              const Text(
-                'URL manuell eingeben',
-                style: TextStyle(
-                  fontFamily: 'Nunito',
-                  fontSize: 12,
-                  color: AppColors.textSecondary,
-                ),
-              ),
-            ],
-          ),
-        ),
-        if (_showUrlField) ...[
-          const SizedBox(height: AppSpacing.xs),
-          TextField(
-            controller: widget.controller,
-            decoration: const InputDecoration(
-              hintText: 'https://…',
-              isDense: true,
-            ),
-            onChanged: (_) => widget.onChanged(),
-            keyboardType: TextInputType.url,
-            style: const TextStyle(fontSize: 13),
           ),
         ],
       ],
