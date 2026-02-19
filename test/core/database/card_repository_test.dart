@@ -160,24 +160,27 @@ void main() {
     expect(card!.spotifyArtistIds, isNull);
   });
 
-  test('insertIfAbsent does not overwrite existing card on duplicate URI', () async {
-    await repo.insertIfAbsent(
-      title: 'Original Title',
-      providerUri: 'spotify:album:dup',
-      cardType: 'album',
-      spotifyArtistIds: ['artist1'],
-    );
-    await repo.insertIfAbsent(
-      title: 'New Title',
-      providerUri: 'spotify:album:dup',
-      cardType: 'album',
-      spotifyArtistIds: ['artist2'],
-    );
+  test(
+    'insertIfAbsent does not overwrite existing card on duplicate URI',
+    () async {
+      await repo.insertIfAbsent(
+        title: 'Original Title',
+        providerUri: 'spotify:album:dup',
+        cardType: 'album',
+        spotifyArtistIds: ['artist1'],
+      );
+      await repo.insertIfAbsent(
+        title: 'New Title',
+        providerUri: 'spotify:album:dup',
+        cardType: 'album',
+        spotifyArtistIds: ['artist2'],
+      );
 
-    final cards = await repo.getAll();
-    expect(cards, hasLength(1));
-    // Original card is preserved unchanged
-    expect(cards.first.title, 'Original Title');
-    expect(cards.first.spotifyArtistIds, 'artist1');
-  });
+      final cards = await repo.getAll();
+      expect(cards, hasLength(1));
+      // Original card is preserved unchanged
+      expect(cards.first.title, 'Original Title');
+      expect(cards.first.spotifyArtistIds, 'artist1');
+    },
+  );
 }

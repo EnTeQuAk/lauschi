@@ -35,12 +35,9 @@ class Cards extends Table {
   TextColumn get spotifyArtistIds => text().nullable()();
 
   // Group membership (nullable — ungrouped cards appear at top level)
-  TextColumn get groupId => text()
-      .nullable()
-      .references(Groups, #id)();
+  TextColumn get groupId => text().nullable().references(Groups, #id)();
   IntColumn get episodeNumber => integer().nullable()();
-  BoolColumn get isHeard =>
-      boolean().withDefault(const Constant(false))();
+  BoolColumn get isHeard => boolean().withDefault(const Constant(false))();
 
   IntColumn get sortOrder => integer().withDefault(const Constant(0))();
   DateTimeColumn get createdAt => dateTime().withDefault(currentDateAndTime)();

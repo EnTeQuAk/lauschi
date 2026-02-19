@@ -56,13 +56,12 @@ abstract final class Log {
   static Map<String, SentryAttribute> _attrs(
     String source,
     Map<String, Object>? data,
-  ) =>
-      {
-        'source': SentryAttribute.string(source),
-        if (data != null)
-          for (final e in data.entries)
-            e.key: SentryAttribute.string(e.value.toString()),
-      };
+  ) => {
+    'source': SentryAttribute.string(source),
+    if (data != null)
+      for (final e in data.entries)
+        e.key: SentryAttribute.string(e.value.toString()),
+  };
 
   /// Async wrapper so callers can use [unawaited] without fighting
   /// [FutureOr<void>] directly.

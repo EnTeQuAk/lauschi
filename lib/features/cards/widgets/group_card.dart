@@ -53,9 +53,10 @@ class _GroupCardState extends State<GroupCard>
 
   @override
   Widget build(BuildContext context) {
-    final label = widget.episodeCount == 1
-        ? '${widget.title}, 1 Folge'
-        : '${widget.title}, ${widget.episodeCount} Folgen';
+    final label =
+        widget.episodeCount == 1
+            ? '${widget.title}, 1 Folge'
+            : '${widget.title}, ${widget.episodeCount} Folgen';
 
     return Semantics(
       label: label,
@@ -69,8 +70,9 @@ class _GroupCardState extends State<GroupCard>
         onTapCancel: () => _controller.reverse(),
         child: AnimatedBuilder(
           animation: _scaleAnimation,
-          builder: (context, child) =>
-              Transform.scale(scale: _scaleAnimation.value, child: child),
+          builder:
+              (context, child) =>
+                  Transform.scale(scale: _scaleAnimation.value, child: child),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             mainAxisSize: MainAxisSize.min,

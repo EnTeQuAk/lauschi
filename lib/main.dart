@@ -59,19 +59,22 @@ Future<void> main() async {
         // Session replay — respects user preference; error captures always on.
         ..replay.sessionSampleRate =
             debugSettings.replayEnabled ? (isDev ? 1.0 : 0.0) : 0.0
-        ..replay.onErrorSampleRate =
-            debugSettings.replayEnabled ? 1.0 : 0.0
+        ..replay.onErrorSampleRate = debugSettings.replayEnabled ? 1.0 : 0.0
         // Privacy masking lives on options.privacy, not options.replay.
         ..privacy.maskAllText = debugSettings.maskAllText
         ..privacy.maskAllImages = debugSettings.maskAllImages;
     },
     appRunner: () {
-      Log.info('App', 'Starting', data: {
-        'env': env,
-        'replay': debugSettings.replayEnabled,
-        'maskText': debugSettings.maskAllText,
-        'maskImages': debugSettings.maskAllImages,
-      });
+      Log.info(
+        'App',
+        'Starting',
+        data: {
+          'env': env,
+          'replay': debugSettings.replayEnabled,
+          'maskText': debugSettings.maskAllText,
+          'maskImages': debugSettings.maskAllImages,
+        },
+      );
       return runApp(
         // SentryWidget is required for session replay.
         SentryWidget(

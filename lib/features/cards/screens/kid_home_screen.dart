@@ -79,8 +79,11 @@ class KidHomeScreen extends ConsumerWidget {
                 child: const Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(Icons.cloud_off_rounded,
-                        size: 16, color: AppColors.textSecondary),
+                    Icon(
+                      Icons.cloud_off_rounded,
+                      size: 16,
+                      color: AppColors.textSecondary,
+                    ),
                     SizedBox(width: AppSpacing.xs),
                     Text(
                       'Kein Internet',
@@ -96,7 +99,10 @@ class KidHomeScreen extends ConsumerWidget {
 
             // Grid
             Expanded(
-              child: _combineAsync(groupsAsync, ungroupedAsync, (groups, ungrouped) {
+              child: _combineAsync(groupsAsync, ungroupedAsync, (
+                groups,
+                ungrouped,
+              ) {
                 if (groups.isEmpty && ungrouped.isEmpty) {
                   return const _EmptyState();
                 }
@@ -106,10 +112,10 @@ class KidHomeScreen extends ConsumerWidget {
                   activeUri: playerNotifier.activeContextUri,
                   isPlaying: playerState.isPlaying,
                   isActive: playerState.track != null,
-                  onCardTap: (card) =>
-                      playerNotifier.playCard(card.providerUri),
-                  onGroupTap: (group) =>
-                      context.push(AppRoutes.groupDetail(group.id)),
+                  onCardTap:
+                      (card) => playerNotifier.playCard(card.providerUri),
+                  onGroupTap:
+                      (group) => context.push(AppRoutes.groupDetail(group.id)),
                 );
               }),
             ),
@@ -124,22 +130,28 @@ class KidHomeScreen extends ConsumerWidget {
             // Now-playing bar
             AnimatedSwitcher(
               duration: const Duration(milliseconds: 300),
-              transitionBuilder: (child, animation) => SlideTransition(
-                position: Tween<Offset>(
-                  begin: const Offset(0, 1),
-                  end: Offset.zero,
-                ).animate(CurvedAnimation(
-                    parent: animation, curve: Curves.easeOutCubic)),
-                child: child,
-              ),
-              child: playerState.track != null
-                  ? NowPlayingBar(
-                      key: const ValueKey('now-playing'),
-                      state: playerState,
-                      onTap: () => context.push(AppRoutes.player),
-                      onTogglePlay: playerNotifier.togglePlay,
-                    )
-                  : const SizedBox.shrink(),
+              transitionBuilder:
+                  (child, animation) => SlideTransition(
+                    position: Tween<Offset>(
+                      begin: const Offset(0, 1),
+                      end: Offset.zero,
+                    ).animate(
+                      CurvedAnimation(
+                        parent: animation,
+                        curve: Curves.easeOutCubic,
+                      ),
+                    ),
+                    child: child,
+                  ),
+              child:
+                  playerState.track != null
+                      ? NowPlayingBar(
+                        key: const ValueKey('now-playing'),
+                        state: playerState,
+                        onTap: () => context.push(AppRoutes.player),
+                        onTogglePlay: playerNotifier.togglePlay,
+                      )
+                      : const SizedBox.shrink(),
             ),
           ],
         ),
@@ -158,8 +170,11 @@ class KidHomeScreen extends ConsumerWidget {
     }
     if (a is AsyncError || b is AsyncError) {
       return const Center(
-        child: Icon(Icons.error_outline_rounded,
-            size: 48, color: AppColors.textSecondary),
+        child: Icon(
+          Icons.error_outline_rounded,
+          size: 48,
+          color: AppColors.textSecondary,
+        ),
       );
     }
     return builder(a.requireValue, b.requireValue);
@@ -191,9 +206,10 @@ class _HomeGrid extends StatelessWidget {
 
     return LayoutBuilder(
       builder: (context, constraints) {
-        final columns = constraints.maxWidth < 600
-            ? 3
-            : constraints.maxWidth < 900
+        final columns =
+            constraints.maxWidth < 600
+                ? 3
+                : constraints.maxWidth < 900
                 ? 4
                 : 5;
 
@@ -272,8 +288,11 @@ class _ErrorBanner extends StatelessWidget {
       color: AppColors.error.withValues(alpha: 0.1),
       child: Row(
         children: [
-          const Icon(Icons.error_outline_rounded,
-              color: AppColors.error, size: 20),
+          const Icon(
+            Icons.error_outline_rounded,
+            color: AppColors.error,
+            size: 20,
+          ),
           const SizedBox(width: AppSpacing.sm),
           Expanded(
             child: Text(
@@ -309,8 +328,11 @@ class _EmptyState extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Icon(Icons.library_music_rounded,
-                size: 72, color: AppColors.primarySoft),
+            const Icon(
+              Icons.library_music_rounded,
+              size: 72,
+              color: AppColors.primarySoft,
+            ),
             const SizedBox(height: AppSpacing.lg),
             const Text(
               'Füge dein erstes Hörspiel hinzu',

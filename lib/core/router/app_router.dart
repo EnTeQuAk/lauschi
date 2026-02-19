@@ -91,10 +91,10 @@ GoRouter appRouter(Ref ref) {
           ),
           GoRoute(
             path: 'add-card',
-            builder: (context, state) => AddCardScreen(
-              autoAssignGroupId:
-                  state.uri.queryParameters['groupId'],
-            ),
+            builder:
+                (context, state) => AddCardScreen(
+                  autoAssignGroupId: state.uri.queryParameters['groupId'],
+                ),
           ),
           GoRoute(
             path: 'groups',

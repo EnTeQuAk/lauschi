@@ -74,18 +74,24 @@ class GroupRepository {
     await (_db.update(_db.groups)..where((t) => t.id.equals(id))).write(
       GroupsCompanion(
         title: title != null ? Value(title) : const Value.absent(),
-        coverUrl: clearCoverUrl
-            ? const Value(null)
-            : coverUrl != null
+        coverUrl:
+            clearCoverUrl
+                ? const Value(null)
+                : coverUrl != null
                 ? Value(coverUrl)
                 : const Value.absent(),
       ),
     );
-    Log.info(_tag, 'Group updated', data: {
-      'id': id,
-      if (title != null) 'title': title,
-      'coverOp': clearCoverUrl ? 'clear' : (coverUrl != null ? 'set' : 'none'),
-    });
+    Log.info(
+      _tag,
+      'Group updated',
+      data: {
+        'id': id,
+        if (title != null) 'title': title,
+        'coverOp':
+            clearCoverUrl ? 'clear' : (coverUrl != null ? 'set' : 'none'),
+      },
+    );
   }
 
   /// Delete a group. Cards in the group become ungrouped.
@@ -125,19 +131,21 @@ class GroupRepository {
   /// Watch cards belonging to a group, ordered by episodeNumber then sortOrder.
   Stream<List<AudioCard>> watchCards(String groupId) {
     return (_db.select(_db.cards)
-      ..where((t) => t.groupId.equals(groupId))
-      ..orderBy([
-        (t) => OrderingTerm.asc(t.episodeNumber),
-        (t) => OrderingTerm.asc(t.sortOrder),
-      ])).watch();
+          ..where((t) => t.groupId.equals(groupId))
+          ..orderBy([
+            (t) => OrderingTerm.asc(t.episodeNumber),
+            (t) => OrderingTerm.asc(t.sortOrder),
+          ]))
+        .watch();
   }
 
   /// Get the number of cards in a group.
   Future<int> cardCount(String groupId) async {
     final count = countAll();
-    final query = _db.selectOnly(_db.cards)
-      ..addColumns([count])
-      ..where(_db.cards.groupId.equals(groupId));
+    final query =
+        _db.selectOnly(_db.cards)
+          ..addColumns([count])
+          ..where(_db.cards.groupId.equals(groupId));
     final result = await query.getSingle();
     return result.read(count) ?? 0;
   }
@@ -145,14 +153,15 @@ class GroupRepository {
   /// Get the first unheard card in a group (next episode).
   Future<AudioCard?> nextUnheard(String groupId) {
     return (_db.select(_db.cards)
-      ..where(
-        (t) => t.groupId.equals(groupId) & t.isHeard.equals(false),
-      )
-      ..orderBy([
-        (t) => OrderingTerm.asc(t.episodeNumber),
-        (t) => OrderingTerm.asc(t.sortOrder),
-      ])
-      ..limit(1)).getSingleOrNull();
+          ..where(
+            (t) => t.groupId.equals(groupId) & t.isHeard.equals(false),
+          )
+          ..orderBy([
+            (t) => OrderingTerm.asc(t.episodeNumber),
+            (t) => OrderingTerm.asc(t.sortOrder),
+          ])
+          ..limit(1))
+        .getSingleOrNull();
   }
 }
 

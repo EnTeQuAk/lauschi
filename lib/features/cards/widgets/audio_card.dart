@@ -119,11 +119,15 @@ class _AudioCardState extends State<AudioCard>
                     children: [
                       _CoverImage(url: widget.coverUrl),
                       // Heard overlay dims the cover unless actively playing
-                      if (widget.isHeard && !widget.isPlaying && !widget.isPaused)
+                      if (widget.isHeard &&
+                          !widget.isPlaying &&
+                          !widget.isPaused)
                         const _HeardOverlay(),
                       if (widget.isPlaying) const _PlayBadge(),
                       if (widget.isPaused) const _PauseBadge(),
-                      if (widget.isHeard && !widget.isPlaying && !widget.isPaused)
+                      if (widget.isHeard &&
+                          !widget.isPlaying &&
+                          !widget.isPaused)
                         const _HeardBadge(),
                     ],
                   ),
