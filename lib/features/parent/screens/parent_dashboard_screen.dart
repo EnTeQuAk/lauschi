@@ -4,11 +4,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lauschi/core/auth/pin_service.dart';
+import 'package:lauschi/core/catalog/catalog_service.dart';
 import 'package:lauschi/core/database/card_repository.dart';
 import 'package:lauschi/core/router/app_router.dart';
 import 'package:lauschi/core/settings/debug_settings.dart';
 import 'package:lauschi/core/spotify/spotify_auth_provider.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
+
+String _catalogSubtitle(WidgetRef ref) {
+  final catalog = ref.watch(catalogServiceProvider).value;
+  if (catalog == null) return 'Kuratierte Serien durchstöbern';
+  final count = catalog.all.where((s) => s.hasCuratedAlbums).length;
+  return '$count kuratierte Serien';
+}
 
 /// Parent mode dashboard — editorial settings UI behind PIN gate.
 ///
@@ -53,7 +61,7 @@ class ParentDashboardScreen extends ConsumerWidget {
           _SettingsTile(
             icon: Icons.auto_stories_rounded,
             title: 'Aus Katalog hinzufügen',
-            subtitle: 'Kuratierte Serien durchstöbern',
+            subtitle: _catalogSubtitle(ref),
             onTap: () => context.push(AppRoutes.parentCatalog),
           ),
           const Divider(indent: 56),

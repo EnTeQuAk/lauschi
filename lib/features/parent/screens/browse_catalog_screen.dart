@@ -121,6 +121,15 @@ class _SeriesCard extends ConsumerWidget {
             overflow: TextOverflow.ellipsis,
             textAlign: TextAlign.center,
           ),
+          Text(
+            '${series.albums.length} Folgen',
+            style: const TextStyle(
+              fontFamily: 'Nunito',
+              fontSize: 10,
+              color: AppColors.textSecondary,
+            ),
+            textAlign: TextAlign.center,
+          ),
         ],
       ),
     );
