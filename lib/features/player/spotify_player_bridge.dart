@@ -1,7 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:flutter/foundation.dart' show TargetPlatform, defaultTargetPlatform;
+import 'package:flutter/foundation.dart'
+    show TargetPlatform, defaultTargetPlatform;
 import 'package:lauschi/core/log.dart';
 import 'package:lauschi/core/spotify/spotify_auth.dart';
 import 'package:lauschi/core/spotify/spotify_config.dart';
@@ -92,13 +93,14 @@ class SpotifyPlayerBridge {
     // WORKAROUND: Spotify Web Playback SDK checks browser UA before initializing
     // EME/Widevine. The default mobile WebView UAs fail the SDK's capability gate.
     // TODO: file upstream — Spotify should detect DRM directly, not via UA.
-    final ua = defaultTargetPlatform == TargetPlatform.iOS
-        ? 'Mozilla/5.0 (iPhone; CPU iPhone OS 18_0 like Mac OS X) '
-          'AppleWebKit/605.1.15 (KHTML, like Gecko) '
-          'Version/18.0 Mobile/15E148 Safari/604.1'
-        : 'Mozilla/5.0 (Linux; Android 15; Pixel 9) '
-          'AppleWebKit/537.36 (KHTML, like Gecko) '
-          'Chrome/144.0.7559.132 Mobile Safari/537.36';
+    final ua =
+        defaultTargetPlatform == TargetPlatform.iOS
+            ? 'Mozilla/5.0 (iPhone; CPU iPhone OS 18_0 like Mac OS X) '
+                'AppleWebKit/605.1.15 (KHTML, like Gecko) '
+                'Version/18.0 Mobile/15E148 Safari/604.1'
+            : 'Mozilla/5.0 (Linux; Android 15; Pixel 9) '
+                'AppleWebKit/537.36 (KHTML, like Gecko) '
+                'Chrome/144.0.7559.132 Mobile Safari/537.36';
     await controller.setUserAgent(ua);
 
     await controller.addJavaScriptChannel(
