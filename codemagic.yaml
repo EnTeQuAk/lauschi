@@ -17,7 +17,11 @@ workflows:
         app_store_connect: Codemagic
     triggering:
       events:
+        - push
         - tag
+      branch_patterns:
+        - pattern: main
+          include: true
       tag_patterns:
         - pattern: 'v*'
           include: true
