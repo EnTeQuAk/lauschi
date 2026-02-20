@@ -142,19 +142,20 @@ class PlayerNotifier extends _$PlayerNotifier {
     }
   }
 
-  /// Pause playback.
+  /// Pause playback (idempotent — safe to call when already paused).
   Future<void> pause() async {
+    _advanceTimer?.cancel();
     try {
-      await _bridge!.togglePlay();
+      await _bridge!.pause();
     } on Exception catch (e) {
       Log.error(_tag, 'Pause failed', exception: e);
     }
   }
 
-  /// Resume playback.
+  /// Resume playback (idempotent — safe to call when already playing).
   Future<void> resume() async {
     try {
-      await _bridge!.togglePlay();
+      await _bridge!.resume();
     } on Exception catch (e) {
       Log.error(_tag, 'Resume failed', exception: e);
     }
@@ -162,6 +163,7 @@ class PlayerNotifier extends _$PlayerNotifier {
 
   /// Toggle play/pause.
   Future<void> togglePlay() async {
+    _advanceTimer?.cancel();
     try {
       await _bridge!.togglePlay();
     } on Exception catch (e) {
@@ -189,6 +191,7 @@ class PlayerNotifier extends _$PlayerNotifier {
 
   /// Clear any error state.
   void clearError() {
+    _advanceTimer?.cancel();
     // ignore: avoid_redundant_argument_values, null clears the error
     state = state.copyWith(error: null);
   }
