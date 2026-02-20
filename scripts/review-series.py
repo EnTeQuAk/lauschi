@@ -179,12 +179,21 @@ product, or a different era — those should be their own series, not mixed in.
 If there are gaps in episode numbering, use `search_spotify` to find the missing
 album. If it exists, use `add_album`. If it doesn't exist on Spotify, note it.
 
+## Gap-filling
+
+If there are gaps in episode numbering, try ONE search to find each missing
+episode. If the first search doesn't return an obvious match, the episode is
+probably not on Spotify. Note it and move on. Do NOT retry the same gap with
+different query variations — Spotify's search is simple and rephrasing won't
+help. Maximum 2 search attempts per gap.
+
 ## Rules
 
 - Do NOT remove albums. Exclude or split instead.
 - The `show_series` tool shows everything: included, excluded, gaps, duplicates.
 - For series with no issues, return an empty ReviewResult.
 - Flag anything you're unsure about in `notes` for human review.
+- Be efficient. Don't loop on searches that aren't finding results.
 """
 
 
@@ -196,8 +205,11 @@ class Deps:
     # In-memory tracking
     added_albums: list[dict] = field(default_factory=list)
 
+    _MAX_SEARCHES: int = 30
+
     def __post_init__(self) -> None:
         self._search_cache: dict[str, list[dict]] = {}
+        self._search_count: int = 0
 
 
 def _analyze_series(curation: dict) -> dict[str, Any]:
@@ -288,11 +300,16 @@ def build_agent(model_name: str, api_key: str) -> Agent[Deps, ReviewResult]:
         }
 
     @agent.tool
-    def search_spotify(ctx: RunContext[Deps], query: str) -> list[dict]:
-        """Search Spotify for albums. Use to find missing episodes for gap-filling."""
+    def search_spotify(ctx: RunContext[Deps], query: str) -> list[dict] | str:
+        """Search Spotify for albums. Use to find missing episodes for gap-filling.
+        Try ONE simple search per gap. If it doesn't match, note it and move on."""
         if query in ctx.deps._search_cache:
             console.print(f"  [dim]🔍 search_spotify({query!r}) → (cached)[/]")
             return ctx.deps._search_cache[query]
+        if ctx.deps._search_count >= ctx.deps._MAX_SEARCHES:
+            console.print(f"  [dim]🔍 search_spotify({query!r}) → search limit reached[/]")
+            return "Search limit reached. Note remaining gaps and move on."
+        ctx.deps._search_count += 1
         results = ctx.deps.spotify.search_albums(query)
         ctx.deps._search_cache[query] = results
         console.print(f"  [dim]🔍 search_spotify({query!r}) → {len(results)} results[/]")
