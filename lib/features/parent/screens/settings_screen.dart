@@ -183,6 +183,11 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     final bridge = ref.read(spotifyPlayerBridgeProvider);
     await bridge.dispose();
 
+    // Invalidate the bridge provider so a fresh instance is created on
+    // next login. Without this, the disposed bridge (closed StreamController,
+    // stale WebViewController) would be reused.
+    ref.invalidate(spotifyPlayerBridgeProvider);
+
     // Clear tokens.
     await ref.read(spotifyAuthProvider.notifier).logout();
 
