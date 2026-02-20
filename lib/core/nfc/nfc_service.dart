@@ -8,6 +8,7 @@ import 'package:lauschi/core/database/app_database.dart'
 import 'package:lauschi/core/log.dart';
 import 'package:nfc_manager/nfc_manager.dart';
 import 'package:nfc_manager/nfc_manager_android.dart';
+import 'package:nfc_manager/nfc_manager_ios.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'nfc_service.g.dart';
@@ -59,16 +60,23 @@ class NfcService {
     required String targetId,
     String? label,
   }) async {
-    await _db
-        .into(_db.nfcTags)
-        .insertOnConflictUpdate(
-          db.NfcTagsCompanion.insert(
-            tagUid: tagUid,
-            targetType: targetType,
-            targetId: targetId,
-            label: Value(label),
-          ),
-        );
+    final companion = db.NfcTagsCompanion.insert(
+      tagUid: tagUid,
+      targetType: targetType,
+      targetId: targetId,
+      label: Value(label),
+    );
+    await _db.into(_db.nfcTags).insert(
+      companion,
+      onConflict: DoUpdate(
+        (old) => db.NfcTagsCompanion(
+          targetType: Value(targetType),
+          targetId: Value(targetId),
+          label: Value(label),
+        ),
+        target: [_db.nfcTags.tagUid],
+      ),
+    );
     Log.info(
       _tag,
       'Tag mapped',
@@ -157,15 +165,24 @@ class NfcService {
   }
 
   /// Extract the hardware UID from an NFC tag as a hex string.
+  ///
+  /// Android: reads from [NfcTagAndroid.id].
+  /// iOS: tries MiFare (NTAG215 stickers), ISO 7816, then ISO 15693.
   static String? _extractUid(NfcTag tag) {
-    if (!Platform.isAndroid) return null;
+    final Uint8List? id;
 
-    final androidTag = NfcTagAndroid.from(tag);
-    if (androidTag == null) return null;
+    if (Platform.isAndroid) {
+      id = NfcTagAndroid.from(tag)?.id;
+    } else if (Platform.isIOS) {
+      // NTAG215/NTAG213 stickers are MiFare Ultralight on iOS.
+      id = MiFareIos.from(tag)?.identifier ??
+          Iso7816Ios.from(tag)?.identifier ??
+          Iso15693Ios.from(tag)?.identifier;
+    } else {
+      return null;
+    }
 
-    final id = androidTag.id;
-    if (id.isEmpty) return null;
-
+    if (id == null || id.isEmpty) return null;
     return id.map((b) => b.toRadixString(16).padLeft(2, '0')).join(':');
   }
 }
