@@ -4,7 +4,6 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart'
     show TargetPlatform, defaultTargetPlatform;
 import 'package:lauschi/core/log.dart';
-import 'package:lauschi/core/spotify/spotify_auth.dart';
 import 'package:lauschi/core/spotify/spotify_config.dart';
 import 'package:lauschi/features/player/player_state.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -20,9 +19,9 @@ const _tag = 'PlayerBridge';
 class SpotifyPlayerBridge {
   final _stateController = StreamController<PlaybackState>.broadcast();
 
-  /// Called when the bridge refreshes tokens internally.
-  /// Wire this to the auth notifier so all consumers stay in sync.
-  void Function(SpotifyTokens tokens)? onTokenRefreshed;
+  /// Callback to get a valid (non-expired) access token.
+  /// Wired to the auth notifier's validAccessToken() to serialize refreshes.
+  Future<String> Function()? _getValidToken;
 
   WebViewController? _controller;
 
@@ -32,9 +31,6 @@ class SpotifyPlayerBridge {
     if (c == null) throw StateError('Bridge not initialized');
     return c;
   }
-
-  SpotifyAuth? _auth;
-  SpotifyTokens? _tokens;
   PlaybackState _state = const PlaybackState();
 
   /// Stream of playback state changes.
@@ -48,11 +44,9 @@ class SpotifyPlayerBridge {
 
   /// Initialize the WebView and load the player HTML.
   Future<void> init({
-    required SpotifyAuth auth,
-    required SpotifyTokens tokens,
+    required Future<String> Function() getValidToken,
   }) async {
-    _auth = auth;
-    _tokens = tokens;
+    _getValidToken = getValidToken;
     Log.info(_tag, 'Initializing WebView bridge');
 
     // Platform-specific WebView creation params.
@@ -286,14 +280,14 @@ class SpotifyPlayerBridge {
   }
 
   Future<void> _initPlayer() async {
-    if (_tokens == null) return;
+    if (_getValidToken == null) return;
     Log.info(_tag, 'Initializing SDK player with token');
     final token = await _freshToken();
     await controller.runJavaScript('window.lauschi.init(${json.encode(token)})');
   }
 
   Future<void> _deliverFreshToken() async {
-    if (_tokens == null) return;
+    if (_getValidToken == null) return;
     try {
       final token = await _freshToken();
       await controller.runJavaScript(
@@ -306,19 +300,9 @@ class SpotifyPlayerBridge {
   }
 
   Future<String> _freshToken() async {
-    if (_tokens == null || _auth == null) {
-      throw StateError('Bridge not initialized');
-    }
-    if (!_tokens!.isExpired) return _tokens!.accessToken;
-
-    if (_tokens!.refreshToken == null) {
-      throw StateError('Token expired, no refresh token');
-    }
-
-    final refreshed = await _auth!.refresh(_tokens!.refreshToken!);
-    _tokens = refreshed;
-    onTokenRefreshed?.call(refreshed);
-    return refreshed.accessToken;
+    final getter = _getValidToken;
+    if (getter == null) throw StateError('Bridge not initialized');
+    return getter();
   }
 
   void _updateState(PlaybackState newState) {
