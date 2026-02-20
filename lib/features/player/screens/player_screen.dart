@@ -19,54 +19,21 @@ class PlayerScreen extends ConsumerStatefulWidget {
   ConsumerState<PlayerScreen> createState() => _PlayerScreenState();
 }
 
-class _PlayerScreenState extends ConsumerState<PlayerScreen>
-    with SingleTickerProviderStateMixin {
-  late final Ticker _ticker;
-  int _interpolatedPositionMs = 0;
-  DateTime _lastTickTime = DateTime.now();
-
-  @override
-  void initState() {
-    super.initState();
-    _ticker = createTicker(_onTick);
-    unawaited(_ticker.start());
-  }
-
-  @override
-  void dispose() {
-    _ticker.dispose();
-    super.dispose();
-  }
-
-  void _onTick(Duration elapsed) {
-    final state = ref.read(playerProvider);
-
-    // Snap to server position on large drift or pause
-    if ((state.positionMs - _interpolatedPositionMs).abs() > 2000 ||
-        !state.isPlaying) {
-      if (_interpolatedPositionMs != state.positionMs) {
-        setState(() => _interpolatedPositionMs = state.positionMs);
-      }
-      _lastTickTime = DateTime.now();
-      return;
-    }
-
-    if (state.isPlaying && state.durationMs > 0) {
-      final now = DateTime.now();
-      final deltaMs = now.difference(_lastTickTime).inMilliseconds;
-      _lastTickTime = now;
-      setState(() {
-        _interpolatedPositionMs = (_interpolatedPositionMs + deltaMs).clamp(
-          0,
-          state.durationMs,
-        );
-      });
-    }
-  }
-
+class _PlayerScreenState extends ConsumerState<PlayerScreen> {
   @override
   Widget build(BuildContext context) {
-    final state = ref.watch(playerProvider);
+    final state = ref.watch(
+      playerProvider.select(
+        (s) => (
+          track: s.track,
+          isPlaying: s.isPlaying,
+          isAdvancing: s.isAdvancing,
+          nextEpisodeCoverUrl: s.nextEpisodeCoverUrl,
+          durationMs: s.durationMs,
+          positionMs: s.positionMs,
+        ),
+      ),
+    );
     final notifier = ref.read(playerProvider.notifier);
     final track = state.track;
 
@@ -141,18 +108,14 @@ class _PlayerScreenState extends ConsumerState<PlayerScreen>
                   ),
                 ),
               const SizedBox(height: AppSpacing.lg),
-              // Progress bar with interpolated position
+              // Progress bar with its own ticker for smooth interpolation.
+              // Isolated to avoid rebuilding album art / controls at 60fps.
               Padding(
                 padding: const EdgeInsets.symmetric(
                   horizontal: AppSpacing.xl,
                 ),
-                child: _ProgressBar(
-                  positionMs: _interpolatedPositionMs,
-                  durationMs: state.durationMs,
-                  onSeek: (ms) {
-                    _interpolatedPositionMs = ms;
-                    unawaited(notifier.seek(ms));
-                  },
+                child: _InterpolatedProgress(
+                  onSeek: (ms) => unawaited(notifier.seek(ms)),
                 ),
               ),
               const SizedBox(height: AppSpacing.lg),
@@ -167,6 +130,74 @@ class _PlayerScreenState extends ConsumerState<PlayerScreen>
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+/// Progress bar with its own ticker — only this widget rebuilds at 60fps.
+class _InterpolatedProgress extends ConsumerStatefulWidget {
+  const _InterpolatedProgress({required this.onSeek});
+  final ValueChanged<int> onSeek;
+
+  @override
+  ConsumerState<_InterpolatedProgress> createState() =>
+      _InterpolatedProgressState();
+}
+
+class _InterpolatedProgressState extends ConsumerState<_InterpolatedProgress>
+    with SingleTickerProviderStateMixin {
+  late final Ticker _ticker;
+  final _position = ValueNotifier<int>(0);
+  DateTime _lastTickTime = DateTime.now();
+
+  @override
+  void initState() {
+    super.initState();
+    _ticker = createTicker(_onTick);
+    unawaited(_ticker.start());
+  }
+
+  @override
+  void dispose() {
+    _ticker.dispose();
+    _position.dispose();
+    super.dispose();
+  }
+
+  void _onTick(Duration elapsed) {
+    final state = ref.read(playerProvider);
+
+    // Snap to server position on large drift or pause.
+    if ((state.positionMs - _position.value).abs() > 2000 ||
+        !state.isPlaying) {
+      _position.value = state.positionMs;
+      _lastTickTime = DateTime.now();
+      return;
+    }
+
+    if (state.isPlaying && state.durationMs > 0) {
+      final now = DateTime.now();
+      final deltaMs = now.difference(_lastTickTime).inMilliseconds;
+      _lastTickTime = now;
+      _position.value = (_position.value + deltaMs).clamp(0, state.durationMs);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final durationMs = ref.watch(
+      playerProvider.select((s) => s.durationMs),
+    );
+    return ValueListenableBuilder<int>(
+      valueListenable: _position,
+      builder: (context, positionMs, _) => _ProgressBar(
+        positionMs: positionMs,
+        durationMs: durationMs,
+        onSeek: (ms) {
+          _position.value = ms;
+          widget.onSeek(ms);
+        },
       ),
     );
   }
