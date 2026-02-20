@@ -145,48 +145,28 @@ class PlayerNotifier extends _$PlayerNotifier {
   /// Pause playback (idempotent — safe to call when already paused).
   Future<void> pause() async {
     _advanceTimer?.cancel();
-    try {
-      await _bridge!.pause();
-    } on Exception catch (e) {
-      Log.error(_tag, 'Pause failed', exception: e);
-    }
+    await _bridgeCommand('pause', () => _bridge!.pause());
   }
 
   /// Resume playback (idempotent — safe to call when already playing).
   Future<void> resume() async {
-    try {
-      await _bridge!.resume();
-    } on Exception catch (e) {
-      Log.error(_tag, 'Resume failed', exception: e);
-    }
+    await _bridgeCommand('resume', () => _bridge!.resume());
   }
 
   /// Toggle play/pause.
   Future<void> togglePlay() async {
     _advanceTimer?.cancel();
-    try {
-      await _bridge!.togglePlay();
-    } on Exception catch (e) {
-      Log.error(_tag, 'Toggle failed', exception: e);
-    }
+    await _bridgeCommand('toggle', () => _bridge!.togglePlay());
   }
 
   /// Skip to next track.
   Future<void> nextTrack() async {
-    try {
-      await _bridge!.nextTrack();
-    } on Exception catch (e) {
-      Log.error(_tag, 'Next track failed', exception: e);
-    }
+    await _bridgeCommand('next', () => _bridge!.nextTrack());
   }
 
   /// Skip to previous track.
   Future<void> prevTrack() async {
-    try {
-      await _bridge!.prevTrack();
-    } on Exception catch (e) {
-      Log.error(_tag, 'Previous track failed', exception: e);
-    }
+    await _bridgeCommand('prev', () => _bridge!.prevTrack());
   }
 
   /// Clear any error state.
@@ -198,10 +178,28 @@ class PlayerNotifier extends _$PlayerNotifier {
 
   /// Seek to position in milliseconds.
   Future<void> seek(int positionMs) async {
+    await _bridgeCommand('seek', () => _bridge!.seek(positionMs));
+  }
+
+  /// Execute a bridge command with error handling and device recovery.
+  ///
+  /// If the bridge isn't ready, reconnects and retries once.
+  Future<void> _bridgeCommand(
+    String name,
+    Future<void> Function() command,
+  ) async {
+    if (_bridge == null) return;
     try {
-      await _bridge!.seek(positionMs);
+      await command();
     } on Exception catch (e) {
-      Log.error(_tag, 'Seek failed', exception: e);
+      Log.error(_tag, '$name failed, attempting reconnect', exception: e);
+      try {
+        await _bridge!.reconnect();
+        await command();
+      } on Exception catch (retryError) {
+        Log.error(_tag, '$name retry failed', exception: retryError);
+        state = state.copyWith(error: 'Steuerung fehlgeschlagen');
+      }
     }
   }
 
