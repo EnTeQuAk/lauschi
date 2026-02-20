@@ -252,3 +252,21 @@ final allCardsProvider = StreamProvider<List<AudioCard>>((ref) {
 final ungroupedCardsProvider = StreamProvider<List<AudioCard>>((ref) {
   return ref.watch(cardRepositoryProvider).watchUngrouped();
 });
+
+/// Per-group card counts and heard progress, derived from allCardsProvider.
+/// Avoids N+1 queries when rendering the kid home grid.
+final groupProgressProvider =
+    Provider<Map<String, ({int total, int heard})>>((ref) {
+  final cards = ref.watch(allCardsProvider).value ?? [];
+  final result = <String, ({int total, int heard})>{};
+  for (final card in cards) {
+    final gid = card.groupId;
+    if (gid == null) continue;
+    final prev = result[gid] ?? (total: 0, heard: 0);
+    result[gid] = (
+      total: prev.total + 1,
+      heard: prev.heard + (card.isHeard ? 1 : 0),
+    );
+  }
+  return result;
+});

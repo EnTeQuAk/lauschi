@@ -7,7 +7,7 @@ import 'package:lauschi/core/database/card_repository.dart';
 import 'package:lauschi/core/database/group_repository.dart';
 import 'package:lauschi/core/router/app_router.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
-import 'package:lauschi/features/cards/screens/group_detail_screen.dart';
+
 import 'package:lauschi/features/cards/widgets/audio_card.dart';
 import 'package:lauschi/features/cards/widgets/group_card.dart';
 import 'package:lauschi/features/player/player_provider.dart';
@@ -311,14 +311,15 @@ class _GroupGridItem extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final episodesAsync = ref.watch(groupEpisodesProvider(group.id));
-    final episodes = episodesAsync.whenOrNull(data: (e) => e) ?? [];
-    final heardCount = episodes.where((e) => e.isHeard).length;
-    final progress = episodes.isNotEmpty ? (heardCount / episodes.length) : 0.0;
+    final progressMap = ref.watch(groupProgressProvider);
+    final stats = progressMap[group.id];
+    final total = stats?.total ?? 0;
+    final heard = stats?.heard ?? 0;
+    final progress = total > 0 ? (heard / total) : 0.0;
 
     return GroupCard(
       title: group.title,
-      episodeCount: episodes.length,
+      episodeCount: total,
       coverUrl: group.coverUrl,
       progress: progress,
       contentType: group.contentType,
