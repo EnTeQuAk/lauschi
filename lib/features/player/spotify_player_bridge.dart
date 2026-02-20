@@ -280,17 +280,15 @@ class SpotifyPlayerBridge {
     if (_tokens == null) return;
     Log.info(_tag, 'Initializing SDK player with token');
     final token = await _freshToken();
-    final safeToken = token.replaceAll('"', r'\"');
-    await controller.runJavaScript('window.lauschi.init("$safeToken")');
+    await controller.runJavaScript('window.lauschi.init(${json.encode(token)})');
   }
 
   Future<void> _deliverFreshToken() async {
     if (_tokens == null) return;
     try {
       final token = await _freshToken();
-      final safeToken = token.replaceAll('"', r'\"');
       await controller.runJavaScript(
-        'window.lauschi.deliver_token("$safeToken")',
+        'window.lauschi.deliver_token(${json.encode(token)})',
       );
     } on Exception catch (e) {
       Log.error(_tag, 'Token delivery failed', exception: e);
