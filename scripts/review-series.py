@@ -190,6 +190,10 @@ content. Use `album_details` to compare release dates, track counts, and track
 names. Use `web_search` if you need cultural context about whether something
 is a standalone release, a special, or genuinely a duplicate.
 
+One web search per question is enough. If the first search doesn't answer it,
+the information probably isn't easily available — flag it in `notes` for human
+review and move on. Do NOT rephrase and retry web searches.
+
 If you're not sure whether something is a duplicate or distinct content,
 flag it in `notes` for human review instead of excluding it. Wrong excludes
 are much worse than missed excludes — a human can easily exclude in the TUI,
@@ -223,7 +227,7 @@ class Deps:
 
     _MAX_SEARCHES: int = 30
 
-    _MAX_WEB_SEARCHES: int = 10
+    _MAX_WEB_SEARCHES: int = 5
 
     def __post_init__(self) -> None:
         self._search_cache: dict[str, list[dict]] = {}
