@@ -3,7 +3,8 @@ import 'dart:io' show Platform;
 
 import 'package:drift/drift.dart';
 import 'package:lauschi/core/database/app_database.dart' as db;
-import 'package:lauschi/core/database/app_database.dart' show appDatabaseProvider;
+import 'package:lauschi/core/database/app_database.dart'
+    show appDatabaseProvider;
 import 'package:lauschi/core/log.dart';
 import 'package:nfc_manager/nfc_manager.dart';
 import 'package:nfc_manager/nfc_manager_android.dart';
@@ -46,8 +47,7 @@ class NfcService {
   /// Look up what a tag UID maps to. Returns null for unknown tags.
   Future<db.NfcTag?> resolve(String tagUid) {
     return (_db.select(_db.nfcTags)
-          ..where((t) => t.tagUid.equals(tagUid)))
-        .getSingleOrNull();
+      ..where((t) => t.tagUid.equals(tagUid))).getSingleOrNull();
   }
 
   /// Store a tag mapping (scan tag → store UID → content link).
@@ -59,14 +59,16 @@ class NfcService {
     required String targetId,
     String? label,
   }) async {
-    await _db.into(_db.nfcTags).insertOnConflictUpdate(
-      db.NfcTagsCompanion.insert(
-        tagUid: tagUid,
-        targetType: targetType,
-        targetId: targetId,
-        label: Value(label),
-      ),
-    );
+    await _db
+        .into(_db.nfcTags)
+        .insertOnConflictUpdate(
+          db.NfcTagsCompanion.insert(
+            tagUid: tagUid,
+            targetType: targetType,
+            targetId: targetId,
+            label: Value(label),
+          ),
+        );
     Log.info(
       _tag,
       'Tag mapped',
@@ -80,9 +82,7 @@ class NfcService {
 
   /// Delete a tag mapping.
   Future<void> deleteMapping(String tagUid) async {
-    await (_db.delete(_db.nfcTags)
-          ..where((t) => t.tagUid.equals(tagUid)))
-        .go();
+    await (_db.delete(_db.nfcTags)..where((t) => t.tagUid.equals(tagUid))).go();
     Log.info(_tag, 'Tag mapping deleted', data: {'uid': tagUid});
   }
 

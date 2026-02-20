@@ -435,7 +435,9 @@ class _AddCardScreenState extends ConsumerState<AddCardScreen> {
       if (_playlistResults.isEmpty) {
         return Center(
           child: Text(
-            hasQuery ? 'Keine Ergebnisse.' : 'Suche nach Playlists auf Spotify.',
+            hasQuery
+                ? 'Keine Ergebnisse.'
+                : 'Suche nach Playlists auf Spotify.',
             style: const TextStyle(
               fontFamily: 'Nunito',
               fontSize: 15,
@@ -1023,20 +1025,21 @@ class _SeriesCard extends StatelessWidget {
             color: AppColors.primary,
           ),
         ),
-        trailing: alreadyCreated
-            ? null
-            : FilledButton(
-                onPressed: onAdd,
-                style: FilledButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: AppSpacing.md,
-                    vertical: AppSpacing.xs,
+        trailing:
+            alreadyCreated
+                ? null
+                : FilledButton(
+                  onPressed: onAdd,
+                  style: FilledButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: AppSpacing.md,
+                      vertical: AppSpacing.xs,
+                    ),
+                    minimumSize: Size.zero,
+                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                   ),
-                  minimumSize: Size.zero,
-                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  child: const Text('Serie anlegen'),
                 ),
-                child: const Text('Serie anlegen'),
-              ),
       ),
     );
   }
@@ -1584,15 +1587,16 @@ class _PlaylistDetailSheetState extends ConsumerState<_PlaylistDetailSheet> {
                     child: SizedBox(
                       width: 64,
                       height: 64,
-                      child: widget.playlist.imageUrl != null
-                          ? CachedNetworkImage(
-                              imageUrl: widget.playlist.imageUrl!,
-                              fit: BoxFit.cover,
-                            )
-                          : const ColoredBox(
-                              color: AppColors.surfaceDim,
-                              child: Icon(Icons.music_note_rounded),
-                            ),
+                      child:
+                          widget.playlist.imageUrl != null
+                              ? CachedNetworkImage(
+                                imageUrl: widget.playlist.imageUrl!,
+                                fit: BoxFit.cover,
+                              )
+                              : const ColoredBox(
+                                color: AppColors.surfaceDim,
+                                child: Icon(Icons.music_note_rounded),
+                              ),
                     ),
                   ),
                   const SizedBox(width: AppSpacing.md),
@@ -1649,52 +1653,54 @@ class _PlaylistDetailSheetState extends ConsumerState<_PlaylistDetailSheet> {
 
             // Track listing
             Expanded(
-              child: _loading
-                  ? const Center(child: CircularProgressIndicator())
-                  : _tracks == null || _tracks!.isEmpty
+              child:
+                  _loading
+                      ? const Center(child: CircularProgressIndicator())
+                      : _tracks == null || _tracks!.isEmpty
                       ? const Center(
-                          child: Text(
-                            'Keine Titel verfügbar.',
-                            style: TextStyle(
-                              fontFamily: 'Nunito',
-                              color: AppColors.textSecondary,
-                            ),
+                        child: Text(
+                          'Keine Titel verfügbar.',
+                          style: TextStyle(
+                            fontFamily: 'Nunito',
+                            color: AppColors.textSecondary,
                           ),
-                        )
+                        ),
+                      )
                       : ListView.builder(
-                          controller: scrollController,
-                          padding: const EdgeInsets.only(
-                            bottom: AppSpacing.xxl,
-                            top: AppSpacing.xs,
-                          ),
-                          itemCount: _tracks!.length,
-                          itemBuilder: (context, index) {
-                            final track = _tracks![index];
-                            return ListTile(
-                              dense: true,
-                              leading: SizedBox(
-                                width: 24,
-                                child: Text(
-                                  '${index + 1}',
-                                  textAlign: TextAlign.center,
-                                  style: const TextStyle(
-                                    fontFamily: 'Nunito',
-                                    fontSize: 13,
-                                    color: AppColors.textSecondary,
-                                  ),
-                                ),
-                              ),
-                              title: Text(
-                                track.name,
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
+                        controller: scrollController,
+                        padding: const EdgeInsets.only(
+                          bottom: AppSpacing.xxl,
+                          top: AppSpacing.xs,
+                        ),
+                        itemCount: _tracks!.length,
+                        itemBuilder: (context, index) {
+                          final track = _tracks![index];
+                          return ListTile(
+                            dense: true,
+                            leading: SizedBox(
+                              width: 24,
+                              child: Text(
+                                '${index + 1}',
+                                textAlign: TextAlign.center,
                                 style: const TextStyle(
                                   fontFamily: 'Nunito',
-                                  fontSize: 14,
+                                  fontSize: 13,
+                                  color: AppColors.textSecondary,
                                 ),
                               ),
-                              subtitle: track.artistNames != null
-                                  ? Text(
+                            ),
+                            title: Text(
+                              track.name,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(
+                                fontFamily: 'Nunito',
+                                fontSize: 14,
+                              ),
+                            ),
+                            subtitle:
+                                track.artistNames != null
+                                    ? Text(
                                       track.artistNames!,
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
@@ -1704,18 +1710,18 @@ class _PlaylistDetailSheetState extends ConsumerState<_PlaylistDetailSheet> {
                                         color: AppColors.textSecondary,
                                       ),
                                     )
-                                  : null,
-                              trailing: Text(
-                                _formatDuration(track.durationMs),
-                                style: const TextStyle(
-                                  fontFamily: 'Nunito',
-                                  fontSize: 13,
-                                  color: AppColors.textSecondary,
-                                ),
+                                    : null,
+                            trailing: Text(
+                              _formatDuration(track.durationMs),
+                              style: const TextStyle(
+                                fontFamily: 'Nunito',
+                                fontSize: 13,
+                                color: AppColors.textSecondary,
                               ),
-                            );
-                          },
-                        ),
+                            ),
+                          );
+                        },
+                      ),
             ),
           ],
         );

@@ -116,8 +116,9 @@ class _PlayerScreenState extends ConsumerState<PlayerScreen>
                       ),
                       const SizedBox(width: AppSpacing.sm),
                       ClipRRect(
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(6)),
+                        borderRadius: const BorderRadius.all(
+                          Radius.circular(6),
+                        ),
                         child: SizedBox(
                           width: 40,
                           height: 40,

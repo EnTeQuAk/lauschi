@@ -127,9 +127,7 @@ class PlaybackState {
       nextTracksCount: nextTracksCount ?? this.nextTracksCount,
       error: error,
       nextEpisodeTitle:
-          clearNextEpisode
-              ? null
-              : (nextEpisodeTitle ?? this.nextEpisodeTitle),
+          clearNextEpisode ? null : (nextEpisodeTitle ?? this.nextEpisodeTitle),
       nextEpisodeCoverUrl:
           clearNextEpisode
               ? null

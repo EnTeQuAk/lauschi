@@ -150,29 +150,30 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     unawaited(
       showDialog<void>(
         context: context,
-        builder: (ctx) => AlertDialog(
-          title: const Text('Von Spotify abmelden?'),
-          content: const Text(
-            'Du wirst zur Anmeldung weitergeleitet. '
-            'Deine Karten und Serien bleiben erhalten.',
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(ctx).pop(),
-              child: const Text('Abbrechen'),
-            ),
-            FilledButton(
-              onPressed: () {
-                Navigator.of(ctx).pop();
-                unawaited(_performLogout());
-              },
-              style: FilledButton.styleFrom(
-                backgroundColor: AppColors.error,
+        builder:
+            (ctx) => AlertDialog(
+              title: const Text('Von Spotify abmelden?'),
+              content: const Text(
+                'Du wirst zur Anmeldung weitergeleitet. '
+                'Deine Karten und Serien bleiben erhalten.',
               ),
-              child: const Text('Abmelden'),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.of(ctx).pop(),
+                  child: const Text('Abbrechen'),
+                ),
+                FilledButton(
+                  onPressed: () {
+                    Navigator.of(ctx).pop();
+                    unawaited(_performLogout());
+                  },
+                  style: FilledButton.styleFrom(
+                    backgroundColor: AppColors.error,
+                  ),
+                  child: const Text('Abmelden'),
+                ),
+              ],
             ),
-          ],
-        ),
       ),
     );
   }
