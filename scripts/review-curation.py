@@ -5,6 +5,7 @@
 #   "textual>=8.0",
 #   "pydantic>=2.0",
 #   "ruamel.yaml",
+#   "requests",
 # ]
 # ///
 """
@@ -24,6 +25,8 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
+import re
 import sys
 import webbrowser
 from datetime import UTC, datetime
@@ -31,6 +34,7 @@ from functools import partial
 from pathlib import Path
 from typing import Any
 
+import requests
 from pydantic import BaseModel
 from ruamel.yaml import YAML
 from textual import on
@@ -44,6 +48,11 @@ REPO_ROOT    = Path(__file__).parent.parent
 CURATION_DIR = REPO_ROOT / "assets" / "catalog" / "curation"
 SERIES_YAML  = REPO_ROOT / "assets" / "catalog" / "series.yaml"
 
+# Spotify album ID: 22 alphanumeric chars, optionally wrapped in a URL
+_ALBUM_ID_RE = re.compile(
+    r"(?:https?://open\.spotify\.com/album/)?([A-Za-z0-9]{22})"
+)
+
 # Status display
 _STATUS_DISPLAY = {
     "pending":  "⏳ pending",
@@ -51,6 +60,46 @@ _STATUS_DISPLAY = {
     "rejected": "❌ rejected",
 }
 _STATUS_COLOR = {"approved": "green", "rejected": "red", "pending": "yellow"}
+
+
+# ── Spotify lookup ─────────────────────────────────────────────────────────────
+
+def _spotify_token() -> str | None:
+    """Get a Spotify client-credentials token. Returns None if secrets missing."""
+    cid = os.environ.get("SPOTIFY_CLIENT_ID", "")
+    csec = os.environ.get("SPOTIFY_CLIENT_SECRET", "")
+    if not cid or not csec:
+        return None
+    r = requests.post(
+        "https://accounts.spotify.com/api/token",
+        data={"grant_type": "client_credentials",
+              "client_id": cid, "client_secret": csec},
+        timeout=10,
+    )
+    r.raise_for_status()
+    return r.json()["access_token"]
+
+
+def fetch_album(album_id: str) -> dict | None:
+    """Fetch album name and track count from Spotify. Returns None on failure."""
+    token = _spotify_token()
+    if not token:
+        return None
+    r = requests.get(
+        f"https://api.spotify.com/v1/albums/{album_id}",
+        headers={"Authorization": f"Bearer {token}"},
+        params={"market": "DE"},
+        timeout=10,
+    )
+    if not r.ok:
+        return None
+    data = r.json()
+    return {
+        "id": data["id"],
+        "name": data["name"],
+        "total_tracks": data.get("total_tracks", 0),
+        "release_date": data.get("release_date", ""),
+    }
 
 
 # ── Data models ────────────────────────────────────────────────────────────────
@@ -239,6 +288,8 @@ class CurationCommands(Provider):
         screen = app.screen
         if isinstance(screen, ReviewScreen):
             for cmd, action, help_text in [
+                ("➕ Add album by Spotify ID", screen.action_add_album,
+                 "Add a missing album to fill gaps"),
                 ("🔗 Open album on Spotify", screen.action_open_album,
                  "Open selected album in browser"),
                 ("🔗 Open artist on Spotify", screen.action_open_artist,
@@ -394,16 +445,16 @@ class SeriesListScreen(Screen):
 
 # ── TUI: Notes modal ──────────────────────────────────────────────────────────
 
-class NotesModal(ModalScreen[str]):
-    """Tiny modal for editing review notes."""
+class _SimpleInputModal(ModalScreen[str]):
+    """Reusable single-line input modal."""
 
     BINDINGS = [Binding("escape", "cancel", "Cancel")]
 
     DEFAULT_CSS = """
-    NotesModal {
+    _SimpleInputModal {
         align: center middle;
     }
-    #notes-box {
+    #modal-box {
         width: 70;
         height: auto;
         max-height: 10;
@@ -411,24 +462,25 @@ class NotesModal(ModalScreen[str]):
         background: $surface;
         border: round $accent;
     }
-    #notes-input {
+    #modal-input {
         width: 100%;
         margin-top: 1;
     }
     """
 
-    def __init__(self, current: str) -> None:
+    def __init__(self, prompt: str, current: str = "") -> None:
         super().__init__()
+        self._prompt = prompt
         self._current = current
 
     def compose(self) -> ComposeResult:
         from textual.containers import Vertical
-        with Vertical(id="notes-box"):
-            yield Static("📝 Review notes (Enter to save, Escape to cancel):")
-            yield Input(value=self._current, id="notes-input")
+        with Vertical(id="modal-box"):
+            yield Static(self._prompt)
+            yield Input(value=self._current, id="modal-input")
 
     def on_mount(self) -> None:
-        self.query_one("#notes-input", Input).focus()
+        self.query_one("#modal-input", Input).focus()
 
     @on(Input.Submitted)
     def on_submit(self, event: Input.Submitted) -> None:
@@ -438,6 +490,25 @@ class NotesModal(ModalScreen[str]):
         self.dismiss(self._current)
 
 
+class NotesModal(_SimpleInputModal):
+    """Modal for editing review notes."""
+
+    def __init__(self, current: str) -> None:
+        super().__init__(
+            "📝 Review notes (Enter to save, Escape to cancel):",
+            current,
+        )
+
+
+class AddAlbumModal(_SimpleInputModal):
+    """Modal for adding an album by Spotify ID or URL."""
+
+    def __init__(self) -> None:
+        super().__init__(
+            "➕ Spotify album ID or URL (Enter to add, Escape to cancel):",
+        )
+
+
 # ── TUI: Review screen ────────────────────────────────────────────────────────
 
 _FILTER_ICONS = {"all": "📋", "included": "🟢", "excluded": "🔴"}
@@ -445,6 +516,7 @@ _FILTER_ICONS = {"all": "📋", "included": "🟢", "excluded": "🔴"}
 class ReviewScreen(Screen):
     BINDINGS = [
         Binding("space", "toggle", "🔀 Toggle"),
+        Binding("plus,equal", "add_album", "➕ Add"),
         Binding("o", "open_album", "🔗 Album"),
         Binding("O", "open_artist", "🔗 Artist", key_display="Shift+O"),
         Binding("a", "approve", "✅ Approve"),
@@ -631,6 +703,55 @@ class ReviewScreen(Screen):
 
         label = "✅ included" if new_include else "❌ excluded"
         self.notify(f"{original.title[:40]} → {label}")
+
+    def action_add_album(self) -> None:
+        """Add a missing album by Spotify ID or URL."""
+        def on_input(value: str | None) -> None:
+            if not value or not value.strip():
+                return
+            m = _ALBUM_ID_RE.search(value.strip())
+            if not m:
+                self.notify("Invalid Spotify album ID or URL", severity="error")
+                return
+            album_id = m.group(1)
+
+            # Check for duplicates
+            existing_ids = {a.spotify_album_id for a in self._data.series.albums}
+            if album_id in existing_ids:
+                self.notify("Album already in curation", severity="warning")
+                return
+
+            # Fetch from Spotify
+            info = fetch_album(album_id)
+            if not info:
+                self.notify(
+                    "Could not fetch album (check SPOTIFY_CLIENT_ID/SECRET)",
+                    severity="error",
+                )
+                return
+
+            # Extract episode number from title using the series pattern
+            episode_num = None
+            pattern = self._data.series.episode_pattern
+            if pattern:
+                ep_match = re.search(pattern, info["name"])
+                if ep_match:
+                    episode_num = int(ep_match.group(1))
+
+            self._data.series.albums.append(AlbumDecision(
+                spotify_album_id=album_id,
+                include=True,
+                episode_num=episode_num,
+                title=info["name"],
+            ))
+            save_curation(self._path, self._data)
+            self._update_info()
+            self._rebuild_table()
+            self.notify(
+                f"➕ Added: {info['name']} ({info['total_tracks']} tracks)"
+            )
+
+        self.app.push_screen(AddAlbumModal(), callback=on_input)
 
     def action_approve(self) -> None:
         self._data.review.status = "approved"
