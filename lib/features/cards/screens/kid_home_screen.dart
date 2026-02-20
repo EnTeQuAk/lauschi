@@ -105,6 +105,33 @@ class KidHomeScreen extends ConsumerWidget {
                 ),
               ),
 
+            // Connecting indicator (bridge loading after Spotify login)
+            if (!playerState.isReady && isOnline)
+              const Padding(
+                padding: EdgeInsets.symmetric(
+                  horizontal: AppSpacing.screenH,
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      width: 14,
+                      height: 14,
+                      child: CircularProgressIndicator(strokeWidth: 2),
+                    ),
+                    SizedBox(width: AppSpacing.xs),
+                    Text(
+                      'Verbinde…',
+                      style: TextStyle(
+                        fontFamily: 'Nunito',
+                        fontSize: 13,
+                        color: AppColors.textSecondary,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
             // Grid
             Expanded(
               child: _combineAsync(groupsAsync, ungroupedAsync, (
@@ -120,8 +147,9 @@ class KidHomeScreen extends ConsumerWidget {
                   activeUri: playerNotifier.activeContextUri,
                   isPlaying: playerState.isPlaying,
                   isActive: playerState.track != null,
-                  onCardTap:
-                      (card) => playerNotifier.playCard(card.providerUri),
+                  onCardTap: playerState.isReady
+                      ? (card) => playerNotifier.playCard(card.providerUri)
+                      : null,
                   onGroupTap:
                       (group) => context.push(AppRoutes.groupDetail(group.id)),
                 );
@@ -205,7 +233,7 @@ class _HomeGrid extends StatelessWidget {
   final String? activeUri;
   final bool isPlaying;
   final bool isActive;
-  final void Function(db.AudioCard) onCardTap;
+  final void Function(db.AudioCard)? onCardTap;
   final void Function(db.CardGroup) onGroupTap;
 
   @override
@@ -250,7 +278,7 @@ class _HomeGrid extends StatelessWidget {
               isPaused: isCurrentCard && !isPlaying,
               isHeard: card.isHeard,
               progress: _albumProgress(card),
-              onTap: () => onCardTap(card),
+              onTap: onCardTap != null ? () => onCardTap!(card) : () {},
             );
           },
         );
