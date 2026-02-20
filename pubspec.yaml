@@ -57,7 +57,9 @@ flutter:
 
 # WORKAROUND: nfc_manager 4.1.1 passes null IntentFilter in
 # registerReceiver, crashing on Android 14+. Local patch adds the
-# ACTION_ADAPTER_STATE_CHANGED filter. Remove when upstream fixes.
+# ACTION_ADAPTER_STATE_CHANGED filter.
+# See https://github.com/okadan/flutter-nfc-manager/issues/252
+# Remove when upstream merges PR #260 and releases.
 dependency_overrides:
   nfc_manager:
     path: packages/nfc_manager

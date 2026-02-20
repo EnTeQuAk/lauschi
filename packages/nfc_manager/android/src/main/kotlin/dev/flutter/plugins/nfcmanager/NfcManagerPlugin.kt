@@ -47,7 +47,8 @@ class NfcManagerPlugin: FlutterPlugin, ActivityAware, HostApiPigeon, BroadcastRe
   override fun onAttachedToActivity(binding: ActivityPluginBinding) {
     activity = binding.activity
     // WORKAROUND: upstream passes null IntentFilter which crashes on Android 14+.
-    // See https://github.com/okadan/nfc-manager/issues/TODO
+    // See https://github.com/okadan/flutter-nfc-manager/issues/252
+    // Fix PR: https://github.com/okadan/flutter-nfc-manager/pull/260
     val filter = android.content.IntentFilter(NfcAdapter.ACTION_ADAPTER_STATE_CHANGED)
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
       activity.applicationContext.registerReceiver(this, filter, RECEIVER_NOT_EXPORTED)
