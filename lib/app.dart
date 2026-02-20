@@ -12,6 +12,7 @@ import 'package:lauschi/core/spotify/spotify_auth_provider.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
 import 'package:lauschi/features/onboarding/screens/onboarding_provider.dart';
 import 'package:lauschi/features/player/player_provider.dart';
+import 'package:lauschi/features/splash/splash_overlay.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class LauschiApp extends ConsumerStatefulWidget {
@@ -148,7 +149,10 @@ class _LauschiAppState extends ConsumerState<LauschiApp>
                   child: _WebViewHost(),
                 ),
               ),
-
+            // Cream + mascot overlay. Stays up until onboarding state
+            // resolves (app actually ready), then fades out. Native splash
+            // is plain cream — this adds the mascot and handles timing.
+            const Positioned.fill(child: SplashOverlay()),
           ],
         );
       },
