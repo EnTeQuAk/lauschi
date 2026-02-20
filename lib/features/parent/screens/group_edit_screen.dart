@@ -506,11 +506,32 @@ class _EpisodeTile extends ConsumerWidget {
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          IconButton(
-            onPressed: () => _removeFromGroup(context, ref),
-            icon: const Icon(Icons.remove_circle_outline_rounded),
-            color: AppColors.textSecondary,
-            tooltip: 'Aus Serie entfernen',
+          PopupMenuButton<String>(
+            icon: const Icon(
+              Icons.more_vert_rounded,
+              color: AppColors.textSecondary,
+            ),
+            onSelected: (action) {
+              switch (action) {
+                case 'remove':
+                  _removeFromGroup(context, ref);
+                case 'delete':
+                  _deleteCard(context, ref);
+              }
+            },
+            itemBuilder: (_) => const [
+              PopupMenuItem(
+                value: 'remove',
+                child: Text('Aus Serie entfernen'),
+              ),
+              PopupMenuItem(
+                value: 'delete',
+                child: Text(
+                  'Karte löschen',
+                  style: TextStyle(color: AppColors.error),
+                ),
+              ),
+            ],
           ),
           ReorderableDragStartListener(
             index: index,
@@ -548,6 +569,39 @@ class _EpisodeTile extends ConsumerWidget {
                     );
                   },
                   child: const Text('Entfernen'),
+                ),
+              ],
+            ),
+      ),
+    );
+  }
+
+  void _deleteCard(BuildContext context, WidgetRef ref) {
+    unawaited(
+      showDialog<void>(
+        context: context,
+        builder:
+            (ctx) => AlertDialog(
+              title: const Text('Karte löschen?'),
+              content: Text(
+                '„${card.customTitle ?? card.title}" wird endgültig gelöscht.',
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.of(ctx).pop(),
+                  child: const Text('Abbrechen'),
+                ),
+                FilledButton(
+                  onPressed: () {
+                    Navigator.of(ctx).pop();
+                    unawaited(
+                      ref.read(cardRepositoryProvider).delete(card.id),
+                    );
+                  },
+                  style: FilledButton.styleFrom(
+                    backgroundColor: AppColors.error,
+                  ),
+                  child: const Text('Löschen'),
                 ),
               ],
             ),
