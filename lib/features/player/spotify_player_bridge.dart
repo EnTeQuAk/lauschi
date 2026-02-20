@@ -1,12 +1,14 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart' show TargetPlatform, defaultTargetPlatform;
 import 'package:lauschi/core/log.dart';
 import 'package:lauschi/core/spotify/spotify_auth.dart';
 import 'package:lauschi/core/spotify/spotify_config.dart';
 import 'package:lauschi/features/player/player_state.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:webview_flutter_android/webview_flutter_android.dart';
+import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
 
 const _tag = 'PlayerBridge';
 
@@ -52,7 +54,20 @@ class SpotifyPlayerBridge {
     _tokens = tokens;
     Log.info(_tag, 'Initializing WebView bridge');
 
-    _controller = WebViewController(
+    // Platform-specific WebView creation params.
+    // iOS WKWebView needs media config at creation time, not after.
+    final PlatformWebViewControllerCreationParams params;
+    if (defaultTargetPlatform == TargetPlatform.iOS) {
+      params = WebKitWebViewControllerCreationParams(
+        mediaTypesRequiringUserAction: const <PlaybackMediaTypes>{},
+        allowsInlineMediaPlayback: true,
+      );
+    } else {
+      params = const PlatformWebViewControllerCreationParams();
+    }
+
+    _controller = WebViewController.fromPlatformCreationParams(
+      params,
       onPermissionRequest: (request) {
         // Grant PROTECTED_MEDIA_ID so Android WebView exposes Widevine via EME.
         Log.info(
@@ -68,19 +83,22 @@ class SpotifyPlayerBridge {
 
     await controller.setJavaScriptMode(JavaScriptMode.unrestricted);
 
-    // Allow audio playback without user gesture.
+    // Allow audio playback without user gesture (Android).
     final platform = controller.platform;
     if (platform is AndroidWebViewController) {
       await platform.setMediaPlaybackRequiresUserGesture(false);
     }
 
     // WORKAROUND: Spotify Web Playback SDK checks browser UA before initializing
-    // EME/Widevine. Android WebView's default UA fails the SDK's capability gate.
-    // TODO: file upstream — Spotify should detect Widevine directly, not via UA.
-    const ua =
-        'Mozilla/5.0 (Linux; Android 15; Pixel 9) '
-        'AppleWebKit/537.36 (KHTML, like Gecko) '
-        'Chrome/144.0.7559.132 Mobile Safari/537.36';
+    // EME/Widevine. The default mobile WebView UAs fail the SDK's capability gate.
+    // TODO: file upstream — Spotify should detect DRM directly, not via UA.
+    final ua = defaultTargetPlatform == TargetPlatform.iOS
+        ? 'Mozilla/5.0 (iPhone; CPU iPhone OS 18_0 like Mac OS X) '
+          'AppleWebKit/605.1.15 (KHTML, like Gecko) '
+          'Version/18.0 Mobile/15E148 Safari/604.1'
+        : 'Mozilla/5.0 (Linux; Android 15; Pixel 9) '
+          'AppleWebKit/537.36 (KHTML, like Gecko) '
+          'Chrome/144.0.7559.132 Mobile Safari/537.36';
     await controller.setUserAgent(ua);
 
     await controller.addJavaScriptChannel(
