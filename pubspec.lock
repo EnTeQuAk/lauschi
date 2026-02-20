@@ -707,10 +707,9 @@ packages:
   nfc_manager:
     dependency: "direct main"
     description:
-      name: nfc_manager
-      sha256: "24c78b0e5702da53e7f8794d073624c0bee7cd99924f257cbd11f5d1c5866879"
-      url: "https://pub.dev"
-    source: hosted
+      path: "packages/nfc_manager"
+      relative: true
+    source: path
     version: "4.1.1"
   nm:
     dependency: transitive
