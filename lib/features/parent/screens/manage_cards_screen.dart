@@ -53,7 +53,7 @@ class ManageCardsScreen extends ConsumerWidget {
 // Main list: series sections + ungrouped section
 // ---------------------------------------------------------------------------
 
-class _GroupedCardList extends ConsumerWidget {
+class _GroupedCardList extends ConsumerStatefulWidget {
   const _GroupedCardList({
     required this.groupsAsync,
     required this.ungroupedAsync,
@@ -63,16 +63,39 @@ class _GroupedCardList extends ConsumerWidget {
   final AsyncValue<List<db.AudioCard>> ungroupedAsync;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final groups = groupsAsync.whenOrNull(data: (g) => g) ?? [];
-    final ungrouped = ungroupedAsync.whenOrNull(data: (c) => c) ?? [];
+  ConsumerState<_GroupedCardList> createState() => _GroupedCardListState();
+}
+
+class _GroupedCardListState extends ConsumerState<_GroupedCardList> {
+  final _ungroupedKey = GlobalKey();
+
+  void _scrollToUngrouped() {
+    final ctx = _ungroupedKey.currentContext;
+    if (ctx != null) {
+      unawaited(Scrollable.ensureVisible(
+        ctx,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeInOut,
+      ));
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final groups =
+        widget.groupsAsync.whenOrNull(data: (g) => g) ?? [];
+    final ungrouped =
+        widget.ungroupedAsync.whenOrNull(data: (c) => c) ?? [];
 
     return CustomScrollView(
       slivers: [
         // Auto-sort banner for ungrouped cards
         if (ungrouped.isNotEmpty)
           SliverToBoxAdapter(
-            child: _AutoSortBanner(ungroupedCount: ungrouped.length),
+            child: _AutoSortBanner(
+              ungroupedCount: ungrouped.length,
+              onTap: _scrollToUngrouped,
+            ),
           ),
 
         // Series sections
@@ -83,6 +106,7 @@ class _GroupedCardList extends ConsumerWidget {
         if (ungrouped.isNotEmpty) ...[
           SliverToBoxAdapter(
             child: _SectionHeader(
+              key: _ungroupedKey,
               title: 'Ohne Serie',
               subtitle: '${ungrouped.length} Karten',
               icon: Icons.layers_clear_rounded,
@@ -155,6 +179,7 @@ class _SectionHeader extends StatelessWidget {
     required this.icon,
     this.coverUrl,
     this.onTap,
+    super.key,
   });
 
   final String title;
@@ -385,54 +410,63 @@ class _EmptyState extends StatelessWidget {
 // ---------------------------------------------------------------------------
 
 class _AutoSortBanner extends ConsumerWidget {
-  const _AutoSortBanner({required this.ungroupedCount});
+  const _AutoSortBanner({
+    required this.ungroupedCount,
+    this.onTap,
+  });
 
   final int ungroupedCount;
 
+  /// Called when the banner body is tapped (scroll to ungrouped section).
+  final VoidCallback? onTap;
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Container(
-      margin: const EdgeInsets.symmetric(
-        horizontal: AppSpacing.screenH,
-        vertical: AppSpacing.sm,
-      ),
-      decoration: BoxDecoration(
-        color: AppColors.primary.withValues(alpha: 0.08),
-        borderRadius: const BorderRadius.all(AppRadius.card),
-      ),
-      child: ListTile(
-        dense: true,
-        contentPadding: const EdgeInsets.symmetric(
-          horizontal: AppSpacing.md,
-          vertical: AppSpacing.xs,
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        margin: const EdgeInsets.symmetric(
+          horizontal: AppSpacing.screenH,
+          vertical: AppSpacing.sm,
         ),
-        leading: const Icon(
-          Icons.auto_awesome_rounded,
-          color: AppColors.primary,
-          size: 20,
+        decoration: BoxDecoration(
+          color: AppColors.primary.withValues(alpha: 0.08),
+          borderRadius: const BorderRadius.all(AppRadius.card),
         ),
-        title: Text(
-          ungroupedCount == 1
-              ? '1 Karte ohne Serie'
-              : '$ungroupedCount Karten ohne Serie',
-          style: const TextStyle(
-            fontFamily: 'Nunito',
-            fontWeight: FontWeight.w700,
-            fontSize: 14,
+        child: ListTile(
+          dense: true,
+          contentPadding: const EdgeInsets.symmetric(
+            horizontal: AppSpacing.md,
+            vertical: AppSpacing.xs,
+          ),
+          leading: const Icon(
+            Icons.auto_awesome_rounded,
             color: AppColors.primary,
+            size: 20,
           ),
-        ),
-        trailing: FilledButton(
-          onPressed: () => unawaited(_runRetroactiveSort(context, ref)),
-          style: FilledButton.styleFrom(
-            padding: const EdgeInsets.symmetric(
-              horizontal: AppSpacing.md,
-              vertical: AppSpacing.xs,
+          title: Text(
+            ungroupedCount == 1
+                ? '1 Karte ohne Serie'
+                : '$ungroupedCount Karten ohne Serie',
+            style: const TextStyle(
+              fontFamily: 'Nunito',
+              fontWeight: FontWeight.w700,
+              fontSize: 14,
+              color: AppColors.primary,
             ),
-            minimumSize: Size.zero,
-            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
           ),
-          child: const Text('Einordnen'),
+          trailing: FilledButton(
+            onPressed: () => unawaited(_runRetroactiveSort(context, ref)),
+            style: FilledButton.styleFrom(
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppSpacing.md,
+                vertical: AppSpacing.xs,
+              ),
+              minimumSize: Size.zero,
+              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+            ),
+            child: const Text('Einordnen'),
+          ),
         ),
       ),
     );
