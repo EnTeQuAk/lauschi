@@ -1,8 +1,14 @@
+import 'dart:async' show unawaited;
+
 import 'package:flutter/foundation.dart' show kDebugMode;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lauschi/core/settings/debug_settings.dart';
+import 'package:lauschi/core/spotify/spotify_auth_provider.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
+import 'package:lauschi/features/onboarding/screens/onboarding_provider.dart';
+import 'package:lauschi/features/player/player_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 // Version is injected at build time via --dart-define=APP_VERSION.
 // Falls back to pubspec version for local dev.
@@ -95,6 +101,36 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
 
         const SizedBox(height: AppSpacing.lg),
 
+        // ── Spotify account ──────────────────────────────────────────────────
+        const _SectionHeader(title: 'Spotify-Konto'),
+        ListTile(
+          tileColor: AppColors.parentSurface,
+          leading: const Icon(
+            Icons.logout_rounded,
+            color: AppColors.error,
+          ),
+          title: const Text(
+            'Abmelden',
+            style: TextStyle(
+              fontFamily: 'Nunito',
+              fontWeight: FontWeight.w600,
+              fontSize: 15,
+              color: AppColors.error,
+            ),
+          ),
+          subtitle: const Text(
+            'Spotify-Verbindung trennen und zur Anmeldung zurückkehren.',
+            style: TextStyle(
+              fontFamily: 'Nunito',
+              fontSize: 12,
+              color: AppColors.textSecondary,
+            ),
+          ),
+          onTap: () => _confirmLogout(context),
+        ),
+
+        const SizedBox(height: AppSpacing.lg),
+
         // ── Experimental ─────────────────────────────────────────────────────
         const _SectionHeader(title: 'Experimentell'),
         _SwitchTile(
@@ -108,6 +144,51 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
         ),
       ],
     );
+  }
+
+  void _confirmLogout(BuildContext context) {
+    unawaited(
+      showDialog<void>(
+        context: context,
+        builder: (ctx) => AlertDialog(
+          title: const Text('Von Spotify abmelden?'),
+          content: const Text(
+            'Du wirst zur Anmeldung weitergeleitet. '
+            'Deine Karten und Serien bleiben erhalten.',
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(ctx).pop(),
+              child: const Text('Abbrechen'),
+            ),
+            FilledButton(
+              onPressed: () {
+                Navigator.of(ctx).pop();
+                unawaited(_performLogout());
+              },
+              style: FilledButton.styleFrom(
+                backgroundColor: AppColors.error,
+              ),
+              child: const Text('Abmelden'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Future<void> _performLogout() async {
+    // Disconnect the player bridge.
+    final bridge = ref.read(spotifyPlayerBridgeProvider);
+    await bridge.dispose();
+
+    // Clear tokens.
+    await ref.read(spotifyAuthProvider.notifier).logout();
+
+    // Reset onboarding so the router redirects to the login flow.
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('onboarding_complete', false);
+    unawaited(ref.read(onboardingCompleteProvider.notifier).checkAsync());
   }
 
   Future<void> _update(DebugSettings updated) async {
