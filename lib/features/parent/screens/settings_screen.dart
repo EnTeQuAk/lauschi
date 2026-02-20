@@ -62,6 +62,11 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
           title: 'Version',
           value: '$_appVersion ($_buildFlavour)',
         ),
+        const _InfoTile(
+          icon: Icons.music_note_rounded,
+          title: 'Musik',
+          value: 'Powered by Spotify',
+        ),
 
         const SizedBox(height: AppSpacing.lg),
 
