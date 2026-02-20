@@ -1,0 +1,261 @@
+{
+  "query": "Sandmännchen",
+  "model": "kimi-k2.5",
+  "curated_at": "2026-02-20T00:41:03.908548+00:00",
+  "series": {
+    "id": "sandmaennchen",
+    "title": "Unser Sandmännchen",
+    "aliases": [
+      "Unser Sandmännchen"
+    ],
+    "keywords": [
+      "Sandmännchen"
+    ],
+    "spotify_artist_ids": [
+      "02Z9KUEjSTXcsmEB7uhDiJ"
+    ],
+    "episode_pattern": "^(?:Folge |0{0,2})(\\d+)",
+    "albums": [
+      {
+        "spotify_album_id": "6M7L4ciN4aRg50nT2aSoDM",
+        "include": true,
+        "episode_num": 25,
+        "title": "Folge 25: Was kommt da gefahren?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "20tXuUAOO8nsBgsXqL3KVr",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaf, Kindlein Schlaf",
+        "exclude_reason": "Music compilation (lullabies), not a story episode"
+      },
+      {
+        "spotify_album_id": "6mAXT4BZTtV9mhqPaul5c2",
+        "include": false,
+        "episode_num": null,
+        "title": "Die schönsten Gute Nacht Lieder",
+        "exclude_reason": "Music compilation (lullabies), not a story episode"
+      },
+      {
+        "spotify_album_id": "7j6nHVKFvr2MXt06fY4mvc",
+        "include": true,
+        "episode_num": 24,
+        "title": "Folge 24: Auf dem Bauernhof",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1g3GGBN6qDhrZveUeEnhWa",
+        "include": true,
+        "episode_num": 23,
+        "title": "Folge 23: Konfetti-Party zum Geburtstag",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1yWMa48fxgTfWgJ4HjCAGC",
+        "include": true,
+        "episode_num": 22,
+        "title": "Folge 22: Die fantastische Welt der Einhörner",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7p6V3YwfhFkOso6Oh6qS78",
+        "include": false,
+        "episode_num": null,
+        "title": "Gute Laune Lieder",
+        "exclude_reason": "Music compilation (children's songs), not a story episode"
+      },
+      {
+        "spotify_album_id": "1bKBDvMVm8mRC5JFJCltKV",
+        "include": true,
+        "episode_num": 21,
+        "title": "021/Winterwunderland",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4FOWYgok9wPEkmRE12Zyb7",
+        "include": true,
+        "episode_num": 20,
+        "title": "020/Die Kinder unserer Erde",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "50L0cCaW6mUH36tithuB5X",
+        "include": true,
+        "episode_num": 19,
+        "title": "019/Weihnachten mit dem Sandmännchen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5Dolr3AKz2OJXvMN77ZE1l",
+        "include": true,
+        "episode_num": 18,
+        "title": "018/Unsere lieben Haustiere",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5WFI0pJeYZ0LZHvGXZuik3",
+        "include": true,
+        "episode_num": 17,
+        "title": "017/Träumen unterm Sternenhimmel",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4TAPI6m8wxwcfGB6CuaVdw",
+        "include": true,
+        "episode_num": 16,
+        "title": "016/Was fliegt da durch die Nacht?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4BhFBcF5S9Cjdw8ayDsZQI",
+        "include": true,
+        "episode_num": 15,
+        "title": "015/Abends im Walde",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "13oDOOqDnxtHVb1bxfmPST",
+        "include": false,
+        "episode_num": null,
+        "title": "014/Die schönsten Schlaflieder - 17 bekannte Lieder zum Träumen",
+        "exclude_reason": "Music compilation (lullabies), not a story episode"
+      },
+      {
+        "spotify_album_id": "1avZUet8xmLQsu4A1el0Su",
+        "include": true,
+        "episode_num": 13,
+        "title": "013/Von Meerjungfrauen und Piraten",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2YFOSRTAILjuMsjeojq48o",
+        "include": true,
+        "episode_num": 12,
+        "title": "012/Zauberhafte Nacht!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1Sx1HXXKTWAHHqzGidahn6",
+        "include": true,
+        "episode_num": 11,
+        "title": "011/Mutige Prinzessinnen und tapfere Ritter",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0IPmFXFbMEYGGmHsxue9bw",
+        "include": true,
+        "episode_num": 10,
+        "title": "010/Nachts, wenn alles schläft",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0N6UuMSb0cr2ddRyUIQA6g",
+        "include": true,
+        "episode_num": 9,
+        "title": "009/Der Gute-Nacht-Wunsch",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5zRXNV465KtPfd59D76sRE",
+        "include": true,
+        "episode_num": 8,
+        "title": "008/Der Mond passt auf",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "68UdzSihs3zlEsMM9y1q4v",
+        "include": true,
+        "episode_num": 7,
+        "title": "007/Wo schlafen die Tierbabys?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "44x5gZ4oDufJmYwGe0KA8b",
+        "include": true,
+        "episode_num": 5,
+        "title": "005/Träum süß!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5b0anPJgs1WXftTDMfQ5B9",
+        "include": false,
+        "episode_num": null,
+        "title": "6/Auf ins Traumland",
+        "exclude_reason": "Duplicate of 006/Auf ins Traumland (2008 EUROPA mini vs 1998 full version)"
+      },
+      {
+        "spotify_album_id": "1jaEfzQLbFNvTdWXkYJdJ0",
+        "include": true,
+        "episode_num": 3,
+        "title": "003/Wieviel Sterne hat die Nacht",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0MaXXnUtLMakUfqMccJjxy",
+        "include": true,
+        "episode_num": 6,
+        "title": "006/Auf ins Traumland",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5cuRvdY7UZskaSybPCYdD0",
+        "include": true,
+        "episode_num": 4,
+        "title": "004/Guten Abend, gute Nacht",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2KrpCfUVuR3A4LAsgD5JpE",
+        "include": true,
+        "episode_num": 2,
+        "title": "002/Schlaf schön",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3Yd2IJwywlurTtykho0aPk",
+        "include": true,
+        "episode_num": 1,
+        "title": "001/La-Le-Lu",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1Rc1LS62nBK5IeNtZ111RU",
+        "include": false,
+        "episode_num": null,
+        "title": "Das Sandmännchen-Lied",
+        "exclude_reason": "Single track (theme song), not a story episode"
+      },
+      {
+        "spotify_album_id": "7wQaT7K19X7E4I4F8A3oVh",
+        "include": false,
+        "episode_num": null,
+        "title": "Hänsel und Gretel",
+        "exclude_reason": "Standalone fairy tale, not part of Sandmännchen series"
+      },
+      {
+        "spotify_album_id": "67gqUmwFqg4IYzVxmEKQZ5",
+        "include": false,
+        "episode_num": null,
+        "title": "081/Der klingende Adventskalender 2",
+        "exclude_reason": "Christmas music compilation (1975), not a story episode"
+      },
+      {
+        "spotify_album_id": "4tOOlTtvdvFTpLZE23suzF",
+        "include": false,
+        "episode_num": null,
+        "title": "Musik fürs Baby",
+        "exclude_reason": "Classical music compilation for babies, not a story episode"
+      },
+      {
+        "spotify_album_id": "01WRUEaT9RCE9yUReqyF6v",
+        "include": false,
+        "episode_num": null,
+        "title": "04/Guten Abend, gute Nacht",
+        "exclude_reason": "Duplicate of 004/Guten Abend, gute Nacht (EUROPA mini abridged version)"
+      }
+    ],
+    "age_note": "Suitable from 3+",
+    "curator_notes": "The series has two distinct numbering eras: 001-021 (1994-2020) using NNN/Title format, and Folge 22+ (2021-present) using modern 'Folge N: Title' format. Episode 14 is a music compilation, not a story episode. The '6/Auf ins Traumland' (2008) is an abridged EUROPA mini version - the 1998 '006/Auf ins Traumland' is the full version and should be preferred. Similarly, '04/Guten Abend, gute Nacht' (2001) is an abridged EUROPA mini version of the 1994 '004/Guten Abend, gute Nacht'."
+  }
+}

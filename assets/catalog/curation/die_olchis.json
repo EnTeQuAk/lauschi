@@ -1,0 +1,484 @@
+{
+  "query": "Die Olchis",
+  "model": "kimi-k2.5",
+  "curated_at": "2026-02-19T22:57:06.944430+00:00",
+  "series": {
+    "id": "die_olchis",
+    "title": "Die Olchis",
+    "aliases": [
+      "Olchi-Detektive"
+    ],
+    "keywords": [],
+    "spotify_artist_ids": [
+      "32Aa42Dbmqm4GKsv3wUSMb",
+      "0La5AAKOYrkJOGJyUtdDa8"
+    ],
+    "episode_pattern": null,
+    "albums": [
+      {
+        "spotify_album_id": "6gZranOqwMmS9ORc65ejIQ",
+        "include": true,
+        "episode_num": null,
+        "title": "Die Olchis im Land der Drachen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3AEfSP5qug6KGKXHM1LnxN",
+        "include": false,
+        "episode_num": null,
+        "title": "Die Olchis finden einen Schatz und andere krötige Abenteuer",
+        "exclude_reason": "Compilation of multiple stories, not a numbered episode"
+      },
+      {
+        "spotify_album_id": "4TfKfEFFslu1Us8rrXXswJ",
+        "include": false,
+        "episode_num": null,
+        "title": "Die Olchis. Matschige Müffelwitze",
+        "exclude_reason": "Joke book/audio, not a narrative episode"
+      },
+      {
+        "spotify_album_id": "63honUIEdfu3RIAxKQWoNm",
+        "include": true,
+        "episode_num": null,
+        "title": "Die Olchis im Land der Mammuts",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2NHyCmlzFBxKJJNsvu7BH1",
+        "include": true,
+        "episode_num": null,
+        "title": "Die Olchis retten das Dino-Baby",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3EDhmhEkAcWC5HGoIZj6Si",
+        "include": true,
+        "episode_num": null,
+        "title": "Die Olchis. Das große Weltraumabenteuer",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7dPPuLmRyPScw7koqVda23",
+        "include": true,
+        "episode_num": null,
+        "title": "Die Olchis - Willkommen in Schmuddelfing (Hörspiel zum Kinofilm)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3V5Ij1wqvzqHC6ZoDCKU6h",
+        "include": false,
+        "episode_num": null,
+        "title": "Die Olchis. Willkommen in Schmuddelfing",
+        "exclude_reason": "Audiobook version (55 tracks), not the radio play - use the Hörspiel version instead"
+      },
+      {
+        "spotify_album_id": "1TL383C1cIJAodhPAd7BNE",
+        "include": true,
+        "episode_num": null,
+        "title": "Die Olchis im Land der Ritter",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6Wt51jPnmUdbPToU8AoA35",
+        "include": true,
+        "episode_num": null,
+        "title": "Die Olchis im Land der Riesenkraken",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0XeUgGtMrqqSP7OXlkr6zH",
+        "include": true,
+        "episode_num": null,
+        "title": "Die Olchis im Land der Indianer",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1b2qy3KkOXUcm7EIXbSkfV",
+        "include": true,
+        "episode_num": null,
+        "title": "Die Olchis im Land der Dinos",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0Z00EMzcv7s4DCz3uxtaTR",
+        "include": true,
+        "episode_num": null,
+        "title": "Die Olchis. Krötige Weihnachten",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "47tQR44IYiMz02TBKKxp7W",
+        "include": false,
+        "episode_num": null,
+        "title": "Die Olchis. Das Stinkersocken-Festessen und eine weitere Geschichte",
+        "exclude_reason": "Short story compilation with two stories"
+      },
+      {
+        "spotify_album_id": "67d5Qf5qUmTmBsbzsxN9hH",
+        "include": true,
+        "episode_num": null,
+        "title": "Die Olchis und das Schrumpfpulver",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2rU2I21uuhtKimlRPZTveX",
+        "include": false,
+        "episode_num": null,
+        "title": "Die Olchis. Olchi-Opa kocht Spaghetti und weitere Geschichten",
+        "exclude_reason": "Short story collection, not a full episode"
+      },
+      {
+        "spotify_album_id": "4GtJPHfoycfhOvInSfasJ9",
+        "include": false,
+        "episode_num": null,
+        "title": "Die Olchis. Das Adventskalender-Hörbuch",
+        "exclude_reason": "Advent calendar audiobook, not an episode"
+      },
+      {
+        "spotify_album_id": "3OT22gbZAS4SN9Zx3YKgsB",
+        "include": true,
+        "episode_num": null,
+        "title": "Die Olchis. Gefangen auf der Pirateninsel",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0TAwnHe59S1WvIaGSXVq75",
+        "include": false,
+        "episode_num": null,
+        "title": "Die Olchis. Allein auf dem Müllberg und eine weitere Geschichte",
+        "exclude_reason": "Short story compilation with two stories"
+      },
+      {
+        "spotify_album_id": "1OuRd7ktC70ELun2PIh3bA",
+        "include": false,
+        "episode_num": null,
+        "title": "Olchi-Detektive 20. Der Gangster-Tunnel",
+        "exclude_reason": "Spinoff series from different artist (Olchi-Detektive)"
+      },
+      {
+        "spotify_album_id": "563qDRHXaFmbEiUYIswZL4",
+        "include": true,
+        "episode_num": null,
+        "title": "Die Olchis. Jagd auf das Phantom",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "12Hg2g6VjcTTvEVf8LFHYB",
+        "include": false,
+        "episode_num": null,
+        "title": "Die Olchis auf Klassenfahrt und andere Geschichten",
+        "exclude_reason": "Short story collection with 3 stories"
+      },
+      {
+        "spotify_album_id": "045r5GB8FForUsSjex24gQ",
+        "include": false,
+        "episode_num": null,
+        "title": "Olchi-Detektive 19. Himmel, Furz und Wolkenbruch!",
+        "exclude_reason": "Spinoff series from different artist (Olchi-Detektive)"
+      },
+      {
+        "spotify_album_id": "543QMwmSdrQv29i8A4Qhi2",
+        "include": false,
+        "episode_num": null,
+        "title": "Olchi-Detektive 18. Eine rabenschwarze Drohung",
+        "exclude_reason": "Spinoff series from different artist (Olchi-Detektive)"
+      },
+      {
+        "spotify_album_id": "2ghoETMh7cEiaSgZtlJbf6",
+        "include": false,
+        "episode_num": null,
+        "title": "Olchi-Detektive 17. Die Ritter der Popelrunde",
+        "exclude_reason": "Spinoff series from different artist (Olchi-Detektive)"
+      },
+      {
+        "spotify_album_id": "2XG2Yc35xnduSiBllza82G",
+        "include": false,
+        "episode_num": null,
+        "title": "Olchi-Detektive 16. Gefährliche Träume",
+        "exclude_reason": "Spinoff series from different artist (Olchi-Detektive)"
+      },
+      {
+        "spotify_album_id": "1ut0uHARGd6rd2u1sTkKuY",
+        "include": false,
+        "episode_num": null,
+        "title": "Olchi-Detektive 15. Angriff der Gangster-Haie",
+        "exclude_reason": "Spinoff series from different artist (Olchi-Detektive)"
+      },
+      {
+        "spotify_album_id": "7ockICf82zAaT9lUzcICh7",
+        "include": false,
+        "episode_num": null,
+        "title": "Olchi-Detektive 12. Eine brandheiße Spur",
+        "exclude_reason": "Spinoff series from different artist (Olchi-Detektive)"
+      },
+      {
+        "spotify_album_id": "6XUyd1HcZAmibfWm5O87MM",
+        "include": false,
+        "episode_num": null,
+        "title": "Die Olchis. Ein Drachenfest für Feuerstuhl und andere Geschichten",
+        "exclude_reason": "Short story collection with 3 stories"
+      },
+      {
+        "spotify_album_id": "0cF6tke3O2ir8AIJT9Nnoe",
+        "include": true,
+        "episode_num": null,
+        "title": "Die Olchis. Safari bei den Berggorillas",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3NdLxPIyulnZtmOaNDrDXi",
+        "include": false,
+        "episode_num": null,
+        "title": "Olchi-Detektive 9. Horrorspuk und Geisterspucke",
+        "exclude_reason": "Spinoff series from different artist (Olchi-Detektive)"
+      },
+      {
+        "spotify_album_id": "2ExQJI91WZd1av8in4zrJ7",
+        "include": false,
+        "episode_num": null,
+        "title": "Olchi-Detektive 8. Das Mikado-Komplott",
+        "exclude_reason": "Spinoff series from different artist (Olchi-Detektive)"
+      },
+      {
+        "spotify_album_id": "7JTcsA8FRdAQ5HJaEfWs9Y",
+        "include": false,
+        "episode_num": null,
+        "title": "Olchi-Detektive 7. Das Geheimnis der Löcherwände",
+        "exclude_reason": "Spinoff series from different artist (Olchi-Detektive)"
+      },
+      {
+        "spotify_album_id": "4dC3YA59SWJCZu21BVncN8",
+        "include": false,
+        "episode_num": null,
+        "title": "Olchi-Detektive 10. Das Erbe der Piraten",
+        "exclude_reason": "Spinoff series from different artist (Olchi-Detektive)"
+      },
+      {
+        "spotify_album_id": "7spqt81kgEvTbcuNxoOFtt",
+        "include": false,
+        "episode_num": null,
+        "title": "Olchi-Detektive 11. Achtung, Bankräuber!",
+        "exclude_reason": "Spinoff series from different artist (Olchi-Detektive)"
+      },
+      {
+        "spotify_album_id": "2ycRWGy7XTuhIzWP5MZOqi",
+        "include": false,
+        "episode_num": null,
+        "title": "Olchi-Detektive 6. Gefangen im Auge von London",
+        "exclude_reason": "Spinoff series from different artist (Olchi-Detektive)"
+      },
+      {
+        "spotify_album_id": "2WViA4GvDY25YYrQYb9PsR",
+        "include": false,
+        "episode_num": null,
+        "title": "Olchi-Detektive 5. Die Monsterschwäne vom Hyde Park",
+        "exclude_reason": "Spinoff series from different artist (Olchi-Detektive)"
+      },
+      {
+        "spotify_album_id": "4A8np03Bcme3bv4V05hL4I",
+        "include": false,
+        "episode_num": null,
+        "title": "Olchi-Detektive 4. Im Einsatz der Königin",
+        "exclude_reason": "Spinoff series from different artist (Olchi-Detektive)"
+      },
+      {
+        "spotify_album_id": "5oappd2T1kRdFZCMwgqmsq",
+        "include": false,
+        "episode_num": null,
+        "title": "Olchi-Detektive 3. Löwenalarm",
+        "exclude_reason": "Spinoff series from different artist (Olchi-Detektive)"
+      },
+      {
+        "spotify_album_id": "17SSDMYscSNsBvwZubonNw",
+        "include": false,
+        "episode_num": null,
+        "title": "Olchi-Detektive 2. Rote Karte für Halunken",
+        "exclude_reason": "Spinoff series from different artist (Olchi-Detektive)"
+      },
+      {
+        "spotify_album_id": "1uzRxeC1NHplN1rNKO61M7",
+        "include": false,
+        "episode_num": null,
+        "title": "Olchi-Detektive 1. Jagd auf die Gully-Gangster",
+        "exclude_reason": "Spinoff series from different artist (Olchi-Detektive)"
+      },
+      {
+        "spotify_album_id": "3YbQasSAfcPeE3Cv3I3IjN",
+        "include": false,
+        "episode_num": null,
+        "title": "Olchi-Detektive 14. Ufo in Sicht!",
+        "exclude_reason": "Spinoff series from different artist (Olchi-Detektive)"
+      },
+      {
+        "spotify_album_id": "7vZFM4jIZCg4RQLMjH2DV6",
+        "include": false,
+        "episode_num": null,
+        "title": "Olchi-Detektive 13. Die große Flut",
+        "exclude_reason": "Spinoff series from different artist (Olchi-Detektive)"
+      },
+      {
+        "spotify_album_id": "5n51rNzh5lsB5ZZeUIQkH9",
+        "include": false,
+        "episode_num": null,
+        "title": "Die Olchis und die große Mutprobe und eine weitere Geschichte",
+        "exclude_reason": "Short story compilation with two stories"
+      },
+      {
+        "spotify_album_id": "4ODbTpN1LlaoU8KgiqDO02",
+        "include": true,
+        "episode_num": null,
+        "title": "Die Olchis und die Gully-Detektive von London",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "11c5New1guByv4MFDb57tO",
+        "include": false,
+        "episode_num": null,
+        "title": "Die Olchis im Kindergarten und zwei weitere Geschichten",
+        "exclude_reason": "Short story collection with 3 stories - includes non-Olchi content"
+      },
+      {
+        "spotify_album_id": "3dxsoKPOmjCSo2stuJfRnn",
+        "include": true,
+        "episode_num": null,
+        "title": "Die Olchis und der Geist der blauen Berge",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "37fCj04FGdwlca9LbvAAS2",
+        "include": true,
+        "episode_num": null,
+        "title": "Die Olchis. Witze aus der Pfütze",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3cGahLE4HAxcR5l5Sr2D0X",
+        "include": true,
+        "episode_num": null,
+        "title": "Die Olchis im Bann des Magiers",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3igqtPYes3rJb1q7tLtBNc",
+        "include": true,
+        "episode_num": null,
+        "title": "Die Olchis und die Teufelshöhle",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7gifsVf7Aa4VKeSfSwWwBl",
+        "include": true,
+        "episode_num": null,
+        "title": "Die Olchis und die grüne Mumie",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "43qvuKBw1mi6nLmmWMBcuY",
+        "include": true,
+        "episode_num": null,
+        "title": "Die Olchis und der karierte Tigerhai",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2R1liNlbMwNYy4iuUOxLdw",
+        "include": true,
+        "episode_num": null,
+        "title": "Die Olchis und der schwarze Pirat",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2DomjnBGoT5guh9WM0PdGW",
+        "include": true,
+        "episode_num": null,
+        "title": "Die Olchis fliegen zum Mond",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0KdZHJfRbrVcnMeXX2SvlK",
+        "include": true,
+        "episode_num": null,
+        "title": "Die Olchis werden Fußballmeister",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0MSdfCNauhDCWxyxgn74pn",
+        "include": true,
+        "episode_num": null,
+        "title": "Die Olchis und der faule König",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2cPjA5RotuiAc9qeQpK4fN",
+        "include": true,
+        "episode_num": null,
+        "title": "Die Olchis auf Geburtstagsreise",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6RL2XHy8OzxCqA0NcGbsdD",
+        "include": true,
+        "episode_num": null,
+        "title": "Die Olchis im Zoo",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6NkRuH2C1hOZs9RSfRj5B2",
+        "include": false,
+        "episode_num": null,
+        "title": "Die Olchis bekommen ein Haustier und eine weitere Geschichte",
+        "exclude_reason": "Short story compilation with two stories"
+      },
+      {
+        "spotify_album_id": "4YwmF63tMuAWkHyeL9CKR8",
+        "include": true,
+        "episode_num": null,
+        "title": "Die Olchis feiern Weihnachten",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0dE6c84vfL1ZkQCB9dLrxS",
+        "include": true,
+        "episode_num": null,
+        "title": "Die Olchis räumen auf",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1gebBwzHIXYfPzfFzqGmWB",
+        "include": true,
+        "episode_num": null,
+        "title": "Die Olchis fliegen in die Schule",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5P6uJufmS1jGosomwMvVRn",
+        "include": true,
+        "episode_num": null,
+        "title": "Die Olchis und der blaue Nachbar",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5vonYPTqSyl3Lhc3kqKeqD",
+        "include": true,
+        "episode_num": null,
+        "title": "Die Olchis sind da",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7LCuF1AGy5pwiBS7Chqg4B",
+        "include": true,
+        "episode_num": null,
+        "title": "Das geheime Olchi-Experiment",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "599NbvEusaFI4SdfrLxFdG",
+        "include": true,
+        "episode_num": null,
+        "title": "Die Olchis ziehen um",
+        "exclude_reason": null
+      }
+    ],
+    "age_note": "Suitable from 4+",
+    "curator_notes": "Two distinct series exist: 1) Main 'Die Olchis' family adventure series (the troll-like creatures from Schmuddelfing), and 2) 'Olchi-Detektive' spinoff featuring detective/mystery stories. The Olchi-Detektive albums are excluded here as they belong to a separate series with numbered episodes (1-20). Main series albums don't have episode numbers - each is a standalone adventure story."
+  }
+}

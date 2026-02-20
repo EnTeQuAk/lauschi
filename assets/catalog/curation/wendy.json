@@ -1,0 +1,714 @@
+{
+  "query": "Wendy",
+  "model": "kimi-k2.5",
+  "curated_at": "2026-02-19T22:29:34.105448+00:00",
+  "series": {
+    "id": "wendy",
+    "title": "Wendy",
+    "aliases": [],
+    "keywords": [
+      "Wendy"
+    ],
+    "spotify_artist_ids": [
+      "7bq6y10LXuxWmZ7Q1E9mwr"
+    ],
+    "episode_pattern": "Folge (\\d+)",
+    "albums": [
+      {
+        "spotify_album_id": "03a0TDeawKdnzrYpph0RFK",
+        "include": true,
+        "episode_num": 86,
+        "title": "Folge 86: Mathestress für Wendy",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2635p71FRd7v5E2IRJEgaf",
+        "include": true,
+        "episode_num": 85,
+        "title": "Folge 85: Reitshow in Gefahr",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5kkNFQNoaVcS37doHpWk61",
+        "include": true,
+        "episode_num": 84,
+        "title": "Folge 84: Der wilde Mustang",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7KbPiSCSwpOSqdpB4cUuqA",
+        "include": true,
+        "episode_num": 83,
+        "title": "Folge 83: Abenteuer in den Alpen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3Zmpqbc3V6jhTuU2vvcWAk",
+        "include": true,
+        "episode_num": 82,
+        "title": "Folge 82: Stress mit Vanessa",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "18AGUxGwO8LJHQRfWkUnUk",
+        "include": true,
+        "episode_num": 81,
+        "title": "Folge 81: Schluss mit Mobbing",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1xjbBVazPp2ZIFHWXKrB9W",
+        "include": true,
+        "episode_num": 80,
+        "title": "Folge 80: Die Influencerin",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1TK0xO1azvMixXssOFUfcu",
+        "include": true,
+        "episode_num": 79,
+        "title": "Folge 79: Besuch aus Norwegen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1kDcVtycT1JY94xVXJV0SB",
+        "include": true,
+        "episode_num": 78,
+        "title": "Folge 78: Kampf ums Heu",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4c9arnUSv3PXdFmlJ3saKx",
+        "include": true,
+        "episode_num": 77,
+        "title": "Folge 77: Die Pechsträhne",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1hMNJvR00p8NhrPuf04rXb",
+        "include": true,
+        "episode_num": 76,
+        "title": "Folge 76: Onyx in Gefahr",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "541xwMB50Vt4USITCTi7wX",
+        "include": true,
+        "episode_num": 75,
+        "title": "Folge 75: Ein Rivale zum Verlieben",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4UwV8qH5oNqVsisY12tWXN",
+        "include": true,
+        "episode_num": 74,
+        "title": "Folge 74: Weihnachten auf Rosenborg",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "17FbzckcUuYuWKm89qoXCz",
+        "include": true,
+        "episode_num": 73,
+        "title": "Folge 73: Die Überschwemmung",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5iNIXV03Gms6JNKHxuGn6U",
+        "include": true,
+        "episode_num": 72,
+        "title": "Folge 72: Diebstahl auf Rosenborg",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4ejkmqrpDawcWCoSajyqyJ",
+        "include": true,
+        "episode_num": 71,
+        "title": "Folge 71: Auf der Curly Horse Ranch",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4eLpOEgYkkQ6w3VtmpsRbP",
+        "include": true,
+        "episode_num": 70,
+        "title": "Folge 70: Fotoshooting mit Hindernissen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0u5YaG7xYJ0IUCJSEI3nUz",
+        "include": false,
+        "episode_num": null,
+        "title": "Wendy 2 - Das Original-Hörspiel zum Kinofilm",
+        "exclude_reason": "Movie adaptation, not part of main episode series"
+      },
+      {
+        "spotify_album_id": "7pyXeK14GyBtIPM4HBPtSw",
+        "include": true,
+        "episode_num": 69,
+        "title": "Folge 69: Abenteuer in der Piratenbucht",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6M2CmFAPHihFpy8C268PYx",
+        "include": true,
+        "episode_num": 68,
+        "title": "Folge 68: Auf dem Pferdemarkt",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2gsE16xG54cFk0R724Y9rI",
+        "include": true,
+        "episode_num": 67,
+        "title": "Folge 67: Ein Trakehner auf Rosenborg",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5hdNCu97KNbxthQGUliiLg",
+        "include": true,
+        "episode_num": 66,
+        "title": "Folge 66: In Südfrankreich",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7hLKyiBOrhpRFX4joxPsjp",
+        "include": true,
+        "episode_num": 65,
+        "title": "Folge 65: Der Giftalarm",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4uAxalA23v1l3Kbk53LyQe",
+        "include": true,
+        "episode_num": 64,
+        "title": "Folge 64: Friesen in Gefahr",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5LL2rZrBoqABohsmLMV1mM",
+        "include": false,
+        "episode_num": null,
+        "title": "Folge 12: Unter Dopingverdacht / Fest im Sattel / Beste Freunde (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": "TV series adaptation, separate numbering from main series"
+      },
+      {
+        "spotify_album_id": "6oLede9t7MmiyKxmJWMIEM",
+        "include": false,
+        "episode_num": null,
+        "title": "Folge 11: Revierverhalten / Unverhofft kommt oft / Fiese Tricks (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": "TV series adaptation, separate numbering from main series"
+      },
+      {
+        "spotify_album_id": "6iwjpiUgzYl6Hoh4APF9Em",
+        "include": true,
+        "episode_num": 63,
+        "title": "Folge 63: Oliver verliebt sich",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4fAVpp8bHlaVDMgZlu0cXG",
+        "include": false,
+        "episode_num": null,
+        "title": "Folge 10: Angst vor Wasser / Hart verdientes Geld (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": "TV series adaptation, separate numbering from main series"
+      },
+      {
+        "spotify_album_id": "02Pqsv3ft5Ul7tFSzpbytN",
+        "include": true,
+        "episode_num": 62,
+        "title": "Folge 62: Die heimliche Prinzessin",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3b5Jrwf3FvNHcPHm36np4o",
+        "include": false,
+        "episode_num": null,
+        "title": "Folge 8: Die Geisterjagd / Das verwaiste Fohlen (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": "TV series adaptation, separate numbering from main series"
+      },
+      {
+        "spotify_album_id": "5gYpGzfGcRjG3ut9qTkVaF",
+        "include": false,
+        "episode_num": null,
+        "title": "Folge 7: Gewinnen ist nicht alles / Die Ausreißerin (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": "TV series adaptation, separate numbering from main series"
+      },
+      {
+        "spotify_album_id": "7xp8NrbUNfR26DTCicBZwH",
+        "include": false,
+        "episode_num": null,
+        "title": "Folge 6: Der heimliche Blogger / Die lästige Cousine (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": "TV series adaptation, separate numbering from main series"
+      },
+      {
+        "spotify_album_id": "4auUuFYHZ80ZO3tiBrdKto",
+        "include": false,
+        "episode_num": null,
+        "title": "Folge 5: Die Westernreit-Show / Das argwöhnische Pferd (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": "TV series adaptation, separate numbering from main series"
+      },
+      {
+        "spotify_album_id": "0Yqx2U9rdFh1CcJ5ICelyx",
+        "include": false,
+        "episode_num": null,
+        "title": "Folge 4: Erwischt! / Sina im Rampenlicht (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": "TV series adaptation, separate numbering from main series"
+      },
+      {
+        "spotify_album_id": "4zZlocXtIMEU1kGrHu0vGk",
+        "include": false,
+        "episode_num": null,
+        "title": "Folge 3: Dreharbeiten auf Rosenborg / Lampenfieber (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": "TV series adaptation, separate numbering from main series"
+      },
+      {
+        "spotify_album_id": "1J67EGaeV17NaK0MzyeUKy",
+        "include": true,
+        "episode_num": 61,
+        "title": "Folge 61: Freunde in Not",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6QWMssGNjp3jflE61Fuwn7",
+        "include": false,
+        "episode_num": null,
+        "title": "Folge 9: Zu viel des Guten / Mehr Schein als sein (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": "TV series adaptation, separate numbering from main series"
+      },
+      {
+        "spotify_album_id": "2FnnZ7z3bGgoWaXBvikl3g",
+        "include": false,
+        "episode_num": null,
+        "title": "Folge 2: Pferdeklau / Falscher Verdacht (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": "TV series adaptation, separate numbering from main series"
+      },
+      {
+        "spotify_album_id": "3r672yEJPE4OgZc7ZnHDNb",
+        "include": false,
+        "episode_num": null,
+        "title": "Folge 1: Der sechste Sinn / Vertrauen ist der Schlüssel (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": "TV series adaptation, separate numbering from main series"
+      },
+      {
+        "spotify_album_id": "3nQ1EINs3mXgnp0u6ykkm4",
+        "include": true,
+        "episode_num": 60,
+        "title": "Folge 60: Der Zauber Irlands",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1YGb6mNat3nJS5XthmgvpW",
+        "include": true,
+        "episode_num": 59,
+        "title": "Folge 59: Rettet das Café Blu!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5FoZDNM6k4zvJswuaVnDIx",
+        "include": true,
+        "episode_num": 58,
+        "title": "Folge 58: Silberauge in Not",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2kwTvMwcXYViZZ3KtQwnte",
+        "include": true,
+        "episode_num": 57,
+        "title": "Folge 57: Das Reiterspiele-Fest",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3xZ8DMP2qh788Zzj7CMGi8",
+        "include": true,
+        "episode_num": 56,
+        "title": "Folge 56: Ärger beim Voltigieren",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1gSrUE0Jjc4t2kEUg0ySDu",
+        "include": true,
+        "episode_num": 55,
+        "title": "Folge 55: Rodeo auf der Western-Ranch",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2I94rC2hViJuAKJGEbM9J6",
+        "include": true,
+        "episode_num": 54,
+        "title": "Folge 54: Sturm über Rosenborg",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7uv1UYScvHpqGrobErOnQm",
+        "include": true,
+        "episode_num": 53,
+        "title": "Folge 53: Im Land der Fjordpferde",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5ZCRahhhksRUAmoeL6Dsqg",
+        "include": true,
+        "episode_num": 52,
+        "title": "Folge 52: Eine Boygroup auf Rosenborg",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5ndqLbN5NvHQrqeqc0Zo6e",
+        "include": true,
+        "episode_num": 51,
+        "title": "Folge 51: Der Pferdeflüsterer",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3hmIxKpLXU3Obz6t1oTUMB",
+        "include": true,
+        "episode_num": 50,
+        "title": "Folge 50: Verschwörung im Internat",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "06cSQLBwcK57LlZzgHtsNo",
+        "include": true,
+        "episode_num": 49,
+        "title": "Folge 49: Das große Springturnier",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3jGb9LIfkhxJJwIcAGjUy4",
+        "include": true,
+        "episode_num": 48,
+        "title": "Folge 48: Die neue Freundin",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4dpinbIijgil2pcMjaJqob",
+        "include": true,
+        "episode_num": 47,
+        "title": "Folge 47: Sorge um \"Wirbelwind\"",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "29BY3QkYwXbOWDvvjHIDAN",
+        "include": true,
+        "episode_num": 46,
+        "title": "Folge 46: Das Schulpraktikum",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "43YTCN0zTl4uFjeIcqfetX",
+        "include": true,
+        "episode_num": 19,
+        "title": "Folge 19: Einzug auf Rosenborg",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3tA25F7UZnCLuJ55VZBtyW",
+        "include": true,
+        "episode_num": 45,
+        "title": "Folge 45: Der Traumtyp",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7cy0mynVOhKVoRGmfBA1Ai",
+        "include": true,
+        "episode_num": 44,
+        "title": "Folge 44: Nicht um jeden Preis",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4hBZXIOdiivhpzUtkDpirD",
+        "include": true,
+        "episode_num": 43,
+        "title": "Folge 43: Verliebt in einen Fußballstar",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6eXr9xOaceOebB0LtZsmfm",
+        "include": true,
+        "episode_num": 42,
+        "title": "Folge 42: Eine böse Überraschung",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1Yi2CPz5E7MFhzr7PJno4m",
+        "include": true,
+        "episode_num": 41,
+        "title": "Folge 41: Ärger in der Schule",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "089Cu2gSazVxEhTUnm5hMU",
+        "include": true,
+        "episode_num": 40,
+        "title": "Folge 40: Gefahr für \"Avalon\"",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3J9ZToXj9nEc5XxwCsbKhd",
+        "include": true,
+        "episode_num": 39,
+        "title": "Folge 39: Rettung fürs Tierheim",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0ordtibdlzZq6pb4vnvM9d",
+        "include": true,
+        "episode_num": 38,
+        "title": "Folge 38: Der Austauschschüler",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3oW0B9JlKRcVeZ3BRQycpo",
+        "include": true,
+        "episode_num": 37,
+        "title": "Folge 37: Chaos auf der Western-Ranch",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6h0XbwKakaY7oib0gNhrTb",
+        "include": true,
+        "episode_num": 36,
+        "title": "Folge 36: Das Filmpferd",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "14LGCZbltQEfWpWh2PhK8V",
+        "include": true,
+        "episode_num": 35,
+        "title": "Folge 35: Wo ist Dixie?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7xJktkiYmSBDUNcLYdEX90",
+        "include": true,
+        "episode_num": 34,
+        "title": "Folge 34: Besuch aus Island",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2W0n8H93s79Mge6luIObTh",
+        "include": true,
+        "episode_num": 33,
+        "title": "Folge 33: Ein Telegramm aus Amerika",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5ZZubRbl5hdF2IIF7WMlKi",
+        "include": true,
+        "episode_num": 32,
+        "title": "Folge 32: Die neue Tierärztin",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "47yGYJbYIsc2wsUE7B6ton",
+        "include": true,
+        "episode_num": 31,
+        "title": "Folge 31: Die Wiener Hofreitschule",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5FWRZu9C8e41Wo8CQX2j0E",
+        "include": true,
+        "episode_num": 30,
+        "title": "Folge 30: Der Liebesbrief",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1oJHfJu3e7tYq1yHNM67Pm",
+        "include": true,
+        "episode_num": 29,
+        "title": "Folge 29: Der Gnadenhof",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "29PtG0GCKrOMS4ABgPkEr0",
+        "include": true,
+        "episode_num": 28,
+        "title": "Folge 28: Die Seehundstation",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "44MSrCv5rQUel2ApZoGC7u",
+        "include": true,
+        "episode_num": 27,
+        "title": "Folge 27: Der Wanderritt",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6z3MwCtNFfKIo9bkDQp0l8",
+        "include": true,
+        "episode_num": 26,
+        "title": "Folge 26: Die Geburtstagsparty",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7wBR8VpwQVTryF0Z2MoT0i",
+        "include": true,
+        "episode_num": 25,
+        "title": "Folge 25: Das Weihnachtsfohlen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2IRb1Buzohr6Sm4fLhHcOW",
+        "include": true,
+        "episode_num": 24,
+        "title": "Folge 24: Das tanzende Pferd",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2iIRjUcAqb6dpKAqP5A4jk",
+        "include": true,
+        "episode_num": 23,
+        "title": "Folge 23: Das Osterfeuer",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7EY4nMElUz3KGeoMnIVmNu",
+        "include": true,
+        "episode_num": 22,
+        "title": "Folge 22: Wendy verliebt sich",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3owltlPioYi0ySy6kJbjxG",
+        "include": true,
+        "episode_num": 21,
+        "title": "Folge 21: Ein Pferd namens Bardi",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "12aqg0K2Cc6s4iGL9ssMQu",
+        "include": true,
+        "episode_num": 20,
+        "title": "Folge 20: Die Pferde vom Zirkus Rombasti",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1x2KPtrDujgx4v5xtnjGpZ",
+        "include": true,
+        "episode_num": 18,
+        "title": "Folge 18: Feuer auf Lindenhöhe",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6ceKIl37Pjdr4Uu7YKly6P",
+        "include": true,
+        "episode_num": 17,
+        "title": "Folge 17: Ein Araber auf Lindenhöhe",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4RwwSWwRKIVmc0aMj5uhJy",
+        "include": true,
+        "episode_num": 16,
+        "title": "Folge 16: Wendy in Amerika",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6TIwBLrs2n0IIHh2OjWQiB",
+        "include": true,
+        "episode_num": 14,
+        "title": "Folge 14: Streit um \"Axis\"",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5tLafI7jinfIpbaDdGmBfL",
+        "include": true,
+        "episode_num": 12,
+        "title": "Folge 12: Geheimnis um \"Coltano\"",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1aCeDxarQFCICHAmFPoSoJ",
+        "include": true,
+        "episode_num": 11,
+        "title": "Folge 11: \"Max\", der Kobold",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "20KAubXB5SiTVGP94dftaf",
+        "include": true,
+        "episode_num": 10,
+        "title": "Folge 10: Esters Pferd",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0vHipUtBil57XgqLq29lqk",
+        "include": true,
+        "episode_num": 15,
+        "title": "Folge 15: Vanessa macht eine Fehler",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4iDss8rqvx0RPURPL7pHPZ",
+        "include": true,
+        "episode_num": 13,
+        "title": "Folge 13: Alexa sorgt für Wirbel",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4Su2jMSfZfkK42pz1OtyId",
+        "include": true,
+        "episode_num": 9,
+        "title": "Folge 9: Glaub an dich, Petra!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0YsvCtqXhcmzQWh2kbXBC6",
+        "include": true,
+        "episode_num": 8,
+        "title": "Folge 8: Die geheimnisvolle Reiterin",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4SSpzLm45ukKU0JR7SeIW5",
+        "include": true,
+        "episode_num": 7,
+        "title": "Folge 7: \"Ravenna\" gehört mir!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2NinD4qWpkTyboopf6KAEq",
+        "include": true,
+        "episode_num": 6,
+        "title": "Folge 6: Das Fohlen \"Trolle\"",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "55rTvxqnrjTTDYns8qPv3x",
+        "include": true,
+        "episode_num": 5,
+        "title": "Folge 5: Nur ein bisschen Gift",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "65IHyHOwbnrs4aqN6xwh0d",
+        "include": true,
+        "episode_num": 4,
+        "title": "Folge 4: Der Pferdedieb",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5lntN1XiTkWVl3U9C96Bgz",
+        "include": true,
+        "episode_num": 3,
+        "title": "Folge 3: Meine Freundin Penny",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1znxrHaWj5lKxn0YKnobRM",
+        "include": true,
+        "episode_num": 2,
+        "title": "Folge 2: Wendy muss gewinnen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0pazNbqfU0aZQVWd1rh7VZ",
+        "include": true,
+        "episode_num": 1,
+        "title": "Folge 1: Angst um Lindenhöhe",
+        "exclude_reason": null
+      }
+    ],
+    "age_note": "Suitable from 5+",
+    "curator_notes": "Main Wendy Hörspiel series running since 1994. Note: There is a separate TV-series adaptation with its own numbering (Folge 1-12) which has been excluded as it's a different product line. The main series has episodes 1-86 with some gaps (episodes 19-20 appear out of sequence in the discography). All main series episodes follow the 'Folge N: Title' pattern and are individual releases, not box sets."
+  }
+}

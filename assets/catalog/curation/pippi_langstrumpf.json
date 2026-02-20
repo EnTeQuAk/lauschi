@@ -1,0 +1,358 @@
+{
+  "query": "Pippi Langstrumpf",
+  "model": "kimi-k2.5",
+  "curated_at": "2026-02-20T01:17:17.409940+00:00",
+  "series": {
+    "id": "pippi_langstrumpf",
+    "title": "Pippi Langstrumpf",
+    "aliases": [],
+    "keywords": [
+      "Pippi Langstrumpf"
+    ],
+    "spotify_artist_ids": [
+      "56X4yBwPoibTkKAaQ8sTJQ",
+      "7sRF5KPi10c3pueaKGmArz"
+    ],
+    "episode_pattern": "^Pippi Langstrumpf (\\d+)",
+    "albums": [
+      {
+        "spotify_album_id": "4VjgjeIgk71Rt8WHIShMvK",
+        "include": true,
+        "episode_num": null,
+        "title": "Pippi Langstrumpf. Kunterbunte Geschichten",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7hoMQpYOiy5NKHmhtc7WCC",
+        "include": false,
+        "episode_num": null,
+        "title": "Weihnachten mit Astrid Lindgren",
+        "exclude_reason": "Compilation with other Astrid Lindgren characters (Michel)"
+      },
+      {
+        "spotify_album_id": "5MVY6zsH9H5UMl0WAIl2gO",
+        "include": false,
+        "episode_num": null,
+        "title": "Schulbeginn mit Astrid Lindgren",
+        "exclude_reason": "Compilation with other Astrid Lindgren characters (Michel)"
+      },
+      {
+        "spotify_album_id": "1nF4extpjLxaPbtiwZRPff",
+        "include": true,
+        "episode_num": null,
+        "title": "Pippi außer Rand und Band (Hörspiel zum Film)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2HCUIbXoWJeHxjPkzQ1mUY",
+        "include": true,
+        "episode_num": null,
+        "title": "Pippi geht von Bord (Hörspiel zum Film)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3G92S1YIPBK32v5xwDwo6X",
+        "include": true,
+        "episode_num": null,
+        "title": "Pippi Langstrumpf (Hörspiel zum Film)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2fBFXKeZqgKCy4H8VBLEWe",
+        "include": true,
+        "episode_num": null,
+        "title": "Pippi plündert den Weihnachtsbaum und eine weitere Geschichte",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "63bgrgmu9TpmbbYFz7hP0x",
+        "include": true,
+        "episode_num": null,
+        "title": "Pippi im Taka-Tuka-Land (Hörspiel zum Film)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6GUZItpHQmZPmQiQBSkQjO",
+        "include": false,
+        "episode_num": null,
+        "title": "Pippi Langstrumpf. Die große Hörspielbox",
+        "exclude_reason": "Box set - 100 tracks, compilation of multiple stories"
+      },
+      {
+        "spotify_album_id": "1F9iktKsHF3zVHRFDYbuXj",
+        "include": true,
+        "episode_num": 1,
+        "title": "Pippi Langstrumpf 1",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0ijAKTeuSot2sbqabvyVkY",
+        "include": true,
+        "episode_num": null,
+        "title": "Hier kommt Pippi Langstrumpf! (Der kunterbunte Hörbuchschatz)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3yitvAGljBh32M3h6BjsBB",
+        "include": false,
+        "episode_num": null,
+        "title": "Pippi, Michel und Lotta. Astrid Lindgren für Kleine",
+        "exclude_reason": "Compilation with other Astrid Lindgren characters (Michel, Lotta)"
+      },
+      {
+        "spotify_album_id": "6bCDp732XNWBKCTQA5l15r",
+        "include": true,
+        "episode_num": null,
+        "title": "Pippi Langstrumpf will nicht groß werden und andere Abenteuer",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7jUnDPc9RZS887Q7OOKYxG",
+        "include": true,
+        "episode_num": null,
+        "title": "Pippi Langstrumpf findet einen Spunk und andere Abenteuer",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1bFjnWuG1m3RDDeiffLaHP",
+        "include": true,
+        "episode_num": 3,
+        "title": "Pippi Langstrumpf 3. Pippi in Taka-Tuka-Land. Hörspielklassiker",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1rrUTFdaxywT80Me8NuyMi",
+        "include": false,
+        "episode_num": null,
+        "title": "Pippi Langstrumpf 3. Pippi in Taka-Tuka-Land. Das Hörspiel",
+        "exclude_reason": "Duplicate of episode 3 - prefer Hörspielklassiker version (shorter, more accessible)"
+      },
+      {
+        "spotify_album_id": "6ZKTzxPQsOqzPTp4D4qcfa",
+        "include": false,
+        "episode_num": null,
+        "title": "Pippi Langstrumpf 3. Pippi in Taka-Tuka-Land",
+        "exclude_reason": "Duplicate of episode 3 - prefer Hörspielklassiker version"
+      },
+      {
+        "spotify_album_id": "31GIMLgEXtaAHpUF3ZpcJ9",
+        "include": true,
+        "episode_num": null,
+        "title": "Pippi Langstrumpf geht einkaufen und andere Abenteuer",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5lCloMFtlKiiCULMM4I7tb",
+        "include": false,
+        "episode_num": null,
+        "title": "Pippi Langstrumpf geht einkaufen",
+        "exclude_reason": "Shorter version of 'Pippi Langstrumpf geht einkaufen und andere Abenteuer'"
+      },
+      {
+        "spotify_album_id": "4pVPUbWYRVvJfqmNuHYqWo",
+        "include": true,
+        "episode_num": null,
+        "title": "Pippi Langstrumpf bekommt feinen Besuch und andere Abenteuer",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7k22AIodh2YLRKKb8llQe9",
+        "include": false,
+        "episode_num": null,
+        "title": "Pippi Langstrumpf außer Rand und Band (Hörspiel zum Film)",
+        "exclude_reason": "Duplicate - prefer 2015 EUROPA version"
+      },
+      {
+        "spotify_album_id": "2a9BkK7ZTaEIJSvt7VioEl",
+        "include": false,
+        "episode_num": null,
+        "title": "Pippi Langstrumpf 3. Pippi in Taka-Tuka-Land (Hörspiel zum Film)",
+        "exclude_reason": "Duplicate of episode 3 - prefer Hörspielklassiker version"
+      },
+      {
+        "spotify_album_id": "27AHZpPhZye4jk829IgYp0",
+        "include": false,
+        "episode_num": null,
+        "title": "Pippi Langstrumpf 2. Pippi Langstrumpf geht an Bord. Das Hörspiel",
+        "exclude_reason": "Duplicate of episode 2 - prefer numbered version without 'Das Hörspiel' suffix"
+      },
+      {
+        "spotify_album_id": "5ygygpGYvNKTV1RR9BjETd",
+        "include": true,
+        "episode_num": 2,
+        "title": "Pippi Langstrumpf 2. Pippi Langstrumpf geht an Bord",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1qlwK1FCtvNcg60DKUhqM1",
+        "include": true,
+        "episode_num": null,
+        "title": "Pippi Langstrumpf macht einen Ausflug",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2xKk1pD8sG7KCpvuoGK7mT",
+        "include": true,
+        "episode_num": null,
+        "title": "Pippi Langstrumpf geht in die Schule und andere Abenteuer",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3QsTCxfG72lKMCtIxdgSNL",
+        "include": true,
+        "episode_num": null,
+        "title": "Pippi Langstrumpf geht in den Zirkus und andere Abenteuer",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "685atdItP2RRPz3mZQh2zQ",
+        "include": false,
+        "episode_num": null,
+        "title": "Pippi Langstrumpf 1. Das Hörspiel",
+        "exclude_reason": "Duplicate of episode 1 - prefer 'Pippi Langstrumpf 1' (1986 version)"
+      },
+      {
+        "spotify_album_id": "4Cs5DuNp5t6NbkH3MskO7b",
+        "include": false,
+        "episode_num": null,
+        "title": "Pippi Langstrumpf 1. Das Hörspiel",
+        "exclude_reason": "Duplicate of episode 1 - prefer 'Pippi Langstrumpf 1' (1986 version)"
+      },
+      {
+        "spotify_album_id": "5mK72HovxbiKVcgtOBNwik",
+        "include": false,
+        "episode_num": null,
+        "title": "Alles von Pippi Langstrumpf",
+        "exclude_reason": "Box set - 127 tracks, complete collection"
+      },
+      {
+        "spotify_album_id": "5e7evUzrQH5gXnck3NCmeb",
+        "include": false,
+        "episode_num": null,
+        "title": "Hurra",
+        "exclude_reason": "Single song track"
+      },
+      {
+        "spotify_album_id": "62Wc5V3MM2H3JdtdooOEUd",
+        "include": false,
+        "episode_num": null,
+        "title": "Hey, Pippi Langstrumpf",
+        "exclude_reason": "Single song track"
+      },
+      {
+        "spotify_album_id": "3NmtMU8FF1TGrpbCTbCxOM",
+        "include": false,
+        "episode_num": null,
+        "title": "So will ich immer reisen",
+        "exclude_reason": "Single song track"
+      },
+      {
+        "spotify_album_id": "0cjVanBZtjBwIWapWnfw7A",
+        "include": false,
+        "episode_num": null,
+        "title": "Kalle Theodor",
+        "exclude_reason": "Single song track"
+      },
+      {
+        "spotify_album_id": "50aqHULCN564iNEkzHOy7D",
+        "include": false,
+        "episode_num": null,
+        "title": "Seeräuber-Opa Fabian",
+        "exclude_reason": "Single song track"
+      },
+      {
+        "spotify_album_id": "5AEGF9Oh3rciqgWVSYJbd4",
+        "include": false,
+        "episode_num": null,
+        "title": "Hier kommt Pippi Langstrumpf",
+        "exclude_reason": "Single song track"
+      },
+      {
+        "spotify_album_id": "0MkaCSR35JILSx3OT2xYyT",
+        "include": false,
+        "episode_num": null,
+        "title": "Hey, Pippi Langstrumpf (Piano Arrangement)",
+        "exclude_reason": "Single song track"
+      },
+      {
+        "spotify_album_id": "442mRSyMAXo21aimCKDH8L",
+        "include": false,
+        "episode_num": null,
+        "title": "So will ich immer reisen (Transkription für Klavier)",
+        "exclude_reason": "Single song track"
+      },
+      {
+        "spotify_album_id": "2BjNadkDLVw8PGVjKpRTJa",
+        "include": false,
+        "episode_num": null,
+        "title": "Seeräuberopa Fabian (Transkription für Klavier)",
+        "exclude_reason": "Single song track"
+      },
+      {
+        "spotify_album_id": "106DE74Vppcf2KBhewst8v",
+        "include": false,
+        "episode_num": null,
+        "title": "He, ich bin Pippi (Jazz Edition)",
+        "exclude_reason": "Single song track"
+      },
+      {
+        "spotify_album_id": "4CLKjyckfPJ0U1hvxeVIJN",
+        "include": false,
+        "episode_num": null,
+        "title": "He, ich bin Pippi (Piano Arrangement)",
+        "exclude_reason": "Single song track"
+      },
+      {
+        "spotify_album_id": "0x7cL6TTuT03jSxcaOB8Fy",
+        "include": false,
+        "episode_num": null,
+        "title": "Faul sein ist wunderschön (Jazz Edition)",
+        "exclude_reason": "Single song track"
+      },
+      {
+        "spotify_album_id": "4yVBkgZr4Uh4iSZeYCHZMf",
+        "include": false,
+        "episode_num": null,
+        "title": "So will ich immer reisen (Sommerlied)",
+        "exclude_reason": "Single song track"
+      },
+      {
+        "spotify_album_id": "5B3VzkXfZSSqqBs7rvb7dw",
+        "include": false,
+        "episode_num": null,
+        "title": "Seeräuberopa Fabian (Piano Arrangement)",
+        "exclude_reason": "Single song track"
+      },
+      {
+        "spotify_album_id": "7b3uyLzoYilyfHjhMPk5it",
+        "include": false,
+        "episode_num": null,
+        "title": "He, ich bin Pippi (Piano Arrangement)",
+        "exclude_reason": "Single song track"
+      },
+      {
+        "spotify_album_id": "49tBPxEYTmAAoADkFA9AtS",
+        "include": false,
+        "episode_num": null,
+        "title": "Faul sein ist wunderschön (Notenausgabe)",
+        "exclude_reason": "Single song track"
+      },
+      {
+        "spotify_album_id": "3eJqb435QpFpHxp9ytVCx2",
+        "include": false,
+        "episode_num": null,
+        "title": "Hey, Pippi Langstrumpf (Flöten Arrangement)",
+        "exclude_reason": "Single song track"
+      },
+      {
+        "spotify_album_id": "3NKh6aURNl92lna6M0HN5D",
+        "include": false,
+        "episode_num": null,
+        "title": "Hey, Pippi Langstrumpf (Jazz Piano Arrangement)",
+        "exclude_reason": "Single song track"
+      }
+    ],
+    "age_note": "Suitable from 4+",
+    "curator_notes": "The Pippi Langstrumpf series is spread across two Spotify artists: 'Pippi Langstrumpf' (main) and 'Astrid Lindgren Deutsch' (some shared compilations). The series consists of 3 main numbered episodes (1-3) plus various film adaptations and short story collections. Episode numbering uses simple '1', '2', '3' format. Note: Many duplicates exist across different releases - the Hörspielklassiker versions are preferred for episode 3 as they are more concise. The 'Kunterbunte Geschichten' (2024) contains new short stories not part of the classic trilogy."
+  }
+}

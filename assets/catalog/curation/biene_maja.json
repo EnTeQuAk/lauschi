@@ -1,0 +1,557 @@
+{
+  "query": "Biene Maja",
+  "model": "kimi-k2.5",
+  "curated_at": "2026-02-20T00:20:54.728329+00:00",
+  "series": {
+    "id": "biene_maja",
+    "title": "Biene Maja",
+    "aliases": [
+      "Die Biene Maja"
+    ],
+    "keywords": [
+      "Biene Maja",
+      "Die Biene Maja"
+    ],
+    "spotify_artist_ids": [
+      "7GfaHcpmNcrcHoyGnOBsAz",
+      "7rETIyymYr7alw77vGZnpl"
+    ],
+    "episode_pattern": "(?:Folge|Teil)\\s+(\\d+)",
+    "albums": [
+      {
+        "spotify_album_id": "6ySf1Q9HHKZcQENOpdgOyw",
+        "include": false,
+        "episode_num": null,
+        "title": "Der Regentanz/Geheimnisvolle Spuren",
+        "exclude_reason": "Double episode release (2 stories in one album), not standard episode format"
+      },
+      {
+        "spotify_album_id": "4cLiShU1jNxUmKXq5hwpoE",
+        "include": false,
+        "episode_num": null,
+        "title": "Das geheime Königreich (Das Original-Hörspiel zum Kinofilm)",
+        "exclude_reason": "Movie adaptation, not part of main episode series"
+      },
+      {
+        "spotify_album_id": "3lThbsoEt20TnapXJTFydW",
+        "include": false,
+        "episode_num": null,
+        "title": "16/Die fantastischen Vier (CGI)",
+        "exclude_reason": "Box set with multiple stories (5 episodes), not individual episode"
+      },
+      {
+        "spotify_album_id": "3NDmXmlb1im5DxYElp4d2H",
+        "include": false,
+        "episode_num": null,
+        "title": "Die Biene Maja 2 - Original-Hörspiel zum Kinofilm",
+        "exclude_reason": "Movie adaptation, not part of main episode series"
+      },
+      {
+        "spotify_album_id": "6D9DMe61lCQwmaVP4rtezc",
+        "include": false,
+        "episode_num": null,
+        "title": "15/Ein Salto für die Freundschaft (CGI)",
+        "exclude_reason": "Box set with multiple stories, not individual episode"
+      },
+      {
+        "spotify_album_id": "58owbHyrjYUk6J9LqZHB2Y",
+        "include": false,
+        "episode_num": null,
+        "title": "14/Das süße Geheimnis (CGI)",
+        "exclude_reason": "Box set with multiple stories, not individual episode"
+      },
+      {
+        "spotify_album_id": "6ZCZ7KXwZugFPewoW7kZVc",
+        "include": false,
+        "episode_num": null,
+        "title": "13/Die Wiesenfreunde (CGI)",
+        "exclude_reason": "Box set with multiple stories, not individual episode"
+      },
+      {
+        "spotify_album_id": "1CR4nb9spAdW7lk2Z3fCxr",
+        "include": false,
+        "episode_num": null,
+        "title": "12/Der kleine Ausreißer (CGI)",
+        "exclude_reason": "Box set with multiple stories, not individual episode"
+      },
+      {
+        "spotify_album_id": "1I4ANUvTxrahaAWhmcp983",
+        "include": false,
+        "episode_num": null,
+        "title": "11/Die Austauschbiene (CGI)",
+        "exclude_reason": "Box set with multiple stories, not individual episode"
+      },
+      {
+        "spotify_album_id": "12ZHLjObPDVv6yxD4z0dVx",
+        "include": false,
+        "episode_num": null,
+        "title": "10/Königin für einen Tag (CGI)",
+        "exclude_reason": "Box set with multiple stories, not individual episode"
+      },
+      {
+        "spotify_album_id": "07s0uMtUGiOgc5qS8tyCKs",
+        "include": false,
+        "episode_num": null,
+        "title": "09/Maja feiert Schlüpftag (CGI)",
+        "exclude_reason": "Box set with multiple stories, not individual episode"
+      },
+      {
+        "spotify_album_id": "68GvqD5QAua7bzRuW2nKa4",
+        "include": false,
+        "episode_num": null,
+        "title": "Das Hörspiel zum 3D-Kinofilm",
+        "exclude_reason": "Movie adaptation, not part of main episode series"
+      },
+      {
+        "spotify_album_id": "5iI5hQh4fU2HNnbz2LxTqp",
+        "include": false,
+        "episode_num": null,
+        "title": "08/Majas Schatz (CGI)",
+        "exclude_reason": "Box set with multiple stories, not individual episode"
+      },
+      {
+        "spotify_album_id": "487jVjvsebSknq2vulCq4u",
+        "include": false,
+        "episode_num": null,
+        "title": "07/Die Sonnenfinsternis (CGI)",
+        "exclude_reason": "Box set with multiple stories, not individual episode"
+      },
+      {
+        "spotify_album_id": "67Kbq6lX6JqLRFaaE8IbJD",
+        "include": false,
+        "episode_num": null,
+        "title": "06/Das Zepter der Königin (CGI)",
+        "exclude_reason": "Box set with multiple stories, not individual episode"
+      },
+      {
+        "spotify_album_id": "6R51c15NOqALq06zzTQsMl",
+        "include": false,
+        "episode_num": null,
+        "title": "05/Die falsche Wespe (CGI)",
+        "exclude_reason": "Box set with multiple stories, not individual episode"
+      },
+      {
+        "spotify_album_id": "1JFzgTGNZrDlPpDBBDzQyo",
+        "include": false,
+        "episode_num": null,
+        "title": "04/Majas Kuchenrezept (CGI)",
+        "exclude_reason": "Box set with multiple stories, not individual episode"
+      },
+      {
+        "spotify_album_id": "7vGsiOczDbWl1DYyHZZRUb",
+        "include": false,
+        "episode_num": null,
+        "title": "03/Willi zieht aus (CGI)",
+        "exclude_reason": "Box set with multiple stories, not individual episode"
+      },
+      {
+        "spotify_album_id": "2MrJDH3Vr4U1xRflFoxLRg",
+        "include": false,
+        "episode_num": null,
+        "title": "02/Der Schmetterlingsball (CGI)",
+        "exclude_reason": "Box set with multiple stories, not individual episode"
+      },
+      {
+        "spotify_album_id": "3j0eypsRnSTiMQm3ddIRH7",
+        "include": false,
+        "episode_num": null,
+        "title": "01/Majas Geburt (CGI)",
+        "exclude_reason": "Box set with multiple stories, not individual episode"
+      },
+      {
+        "spotify_album_id": "3PMOEl2R7oqqL5kiRT7h2w",
+        "include": true,
+        "episode_num": 15,
+        "title": "15/Spuk auf der Waldwiese",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "54zXsMPC1UbvjS2zLLR1eP",
+        "include": true,
+        "episode_num": 14,
+        "title": "14/Bei ganz feinen Leuten",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3vxuclJbCOp1HGeg6Rl9hf",
+        "include": true,
+        "episode_num": 13,
+        "title": "13/Maja kommt nach Hause",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "14NZvaavDNQKIxEkjeQXqj",
+        "include": true,
+        "episode_num": 12,
+        "title": "12/Wie die Fliege gefoppt wird",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1DNzHc4uEk33W88Nw8j9G8",
+        "include": true,
+        "episode_num": 11,
+        "title": "11/Der Blumenelf",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1KT1hrgeecibGerVbSftXb",
+        "include": true,
+        "episode_num": 10,
+        "title": "10/Maja sucht einen Wald",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "51V03ZPJ91nBLNJ7iP9g4o",
+        "include": true,
+        "episode_num": 9,
+        "title": "09/Der Frühling ist da",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7MU7lEVgwi1M5OYZzxxyih",
+        "include": true,
+        "episode_num": 8,
+        "title": "08/Der Schönheitswettbewerb",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5XGNl84HBzLU1WPZeSUzZM",
+        "include": true,
+        "episode_num": 7,
+        "title": "07/Der Kampf um die Blattläuse",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "566vH5dm9S6oaExyeYYbSf",
+        "include": true,
+        "episode_num": 6,
+        "title": "06/Wie Maja einen Floh rettet",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7uAVSr8QyzjpjmZRJt0bY9",
+        "include": true,
+        "episode_num": 5,
+        "title": "05/Die Fahrt in der Limonadenflasche",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7IFKNhSolczHxX9AoozUBZ",
+        "include": true,
+        "episode_num": 4,
+        "title": "04/Flip sitzt in der Falle",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7IWaaCsBw7d1H7mWiD33IB",
+        "include": true,
+        "episode_num": 3,
+        "title": "03/Maja und der Regenwurm Max",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "42cyl3CWY1bEhZPhBGeuhA",
+        "include": true,
+        "episode_num": 2,
+        "title": "02/Der Waldbrand",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3cehJgGlcIPTuNKI8wDsR2",
+        "include": true,
+        "episode_num": 1,
+        "title": "01/Maja lernt fliegen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6YOgE0AaRg4unu6HQSrrqu",
+        "include": false,
+        "episode_num": null,
+        "title": "Biene Maja (Piano Arrangement)",
+        "exclude_reason": "Music arrangement, not Hörspiel"
+      },
+      {
+        "spotify_album_id": "6TXf8vEJjbxVaUdQXGm9vj",
+        "include": false,
+        "episode_num": null,
+        "title": "Biene Maja (Flöten Arrangement)",
+        "exclude_reason": "Music arrangement, not Hörspiel"
+      },
+      {
+        "spotify_album_id": "1YNSifcrLnW67v1STa0Xek",
+        "include": false,
+        "episode_num": null,
+        "title": "Biene Maja (Jazz Piano Arrangement)",
+        "exclude_reason": "Music arrangement, not Hörspiel"
+      },
+      {
+        "spotify_album_id": "7oJwRZsIKZ4plDLAQlWjFq",
+        "include": false,
+        "episode_num": null,
+        "title": "Die Biene Maja und ihre Abenteuer",
+        "exclude_reason": "Audiobook compilation (98 tracks), not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "2zSLUkpvaBTxzcTVGlmn3j",
+        "include": true,
+        "episode_num": 17,
+        "title": "Die Freundin der Königin (Biene Maja, Folge 17)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1QReKaPzXixEvytf0XmjbH",
+        "include": true,
+        "episode_num": 16,
+        "title": "Die Schlacht der Bienen und Hornissen (Biene Maja, Folge 16)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5Ln0yHOvJ8C01UPegyrGIl",
+        "include": true,
+        "episode_num": 15,
+        "title": "Die Heimkehr (Biene Maja, Folge 15)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7zgRdCqMmWvTuIwLga3oNv",
+        "include": true,
+        "episode_num": 14,
+        "title": "Die Flucht (Biene Maja, Folge 14)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7jfuKJ8OqZasQCfXDZYRl3",
+        "include": true,
+        "episode_num": 13,
+        "title": "Die Räuberburg (Biene Maja, Folge 13)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0M1vdfDl1X76KJZQ5pooC3",
+        "include": true,
+        "episode_num": 12,
+        "title": "Der Dichter Alois Siebenpunkt (Biene Maja, Folge 12)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "65R5sGgc2w9v7LCfgEgQC4",
+        "include": true,
+        "episode_num": 11,
+        "title": "Die Elfenfahrt (Biene Maja, Folge 11)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0qddwDedChapDiAzKsc8Ch",
+        "include": true,
+        "episode_num": 10,
+        "title": "Die Wunder der Nacht (Biene Maja, Folge 10)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5IzCr2UkhnznseM39BUPbr",
+        "include": true,
+        "episode_num": 9,
+        "title": "Hannibals Kampf mit dem Menschen (Biene Maja, Folge 9)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7u6PRHF7q46B0Gayw9EWc9",
+        "include": true,
+        "episode_num": 8,
+        "title": "Die Wanze und der Schmetterling (Biene Maja, Folge 8)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3Pmsg7evoSKX2SjAyAYEme",
+        "include": true,
+        "episode_num": 7,
+        "title": "Majas Gefangenschaft bei der Spinne (Biene Maja, Folge 7)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2d5UWFyv64CeMllhjh5BUq",
+        "include": true,
+        "episode_num": 6,
+        "title": "Puck (Biene Maja, Folge 6)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5DnrVhHvHlpBN9qZxqYyLx",
+        "include": true,
+        "episode_num": 5,
+        "title": "Der Grashüpfer (Biene Maja, Folge 5)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4YonJZbMGIWhjUQBaYhJfN",
+        "include": true,
+        "episode_num": 4,
+        "title": "Iffi und Kurt (Biene Maja, Folge 4)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "71JRsRgUcYB7fzyFcSja5X",
+        "include": true,
+        "episode_num": 3,
+        "title": "Der Waldsee und seine Leute (Biene Maja, Folge 3)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0jipYkuPDUHbHY33fSIaOO",
+        "include": true,
+        "episode_num": 2,
+        "title": "Peppis Rosenhaus (Biene Maja, Folge 2)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3yi3ai09ghYucJ22e9iv41",
+        "include": true,
+        "episode_num": 1,
+        "title": "Majas Flucht aus der Heimatstadt (Biene Maja, Folge 1)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "74G7pF85w1UWLKiWGqxAwc",
+        "include": false,
+        "episode_num": null,
+        "title": "Die Biene Maja und ihre Abenteuer",
+        "exclude_reason": "Audiobook compilation (71 tracks), not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "5SaAlaSVXD2nxI52NbZLzf",
+        "include": true,
+        "episode_num": 19,
+        "title": "Die Freundin der Königin (Die Biene Maja, Folge 19)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "02RBowcBUf1tdMjztIy4G5",
+        "include": true,
+        "episode_num": 18,
+        "title": "Die Schlacht der Bienen und Hornissen (Die Biene Maja, Folge 18)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3yDjqIsxRjtX58BcjXRxtr",
+        "include": true,
+        "episode_num": 17,
+        "title": "Die Heimkehr (Die Biene Maja, Folge 17)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "54uoLi7XfOCXlU9VhcpFA4",
+        "include": true,
+        "episode_num": 16,
+        "title": "Die Flucht (Die Biene Maja, Folge 16)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7jTXOBZ97oGi6fydPU1Uir",
+        "include": true,
+        "episode_num": 15,
+        "title": "Die Räuberburg (Die Biene Maja, Folge 15)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1dgFNr059h2LDlq7NfOALy",
+        "include": true,
+        "episode_num": 14,
+        "title": "Der Dichter Alois Siebenpunkt (Die Biene Maja, Folge 14)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4ETGxDs2H7PFHiP0isVJcV",
+        "include": true,
+        "episode_num": 13,
+        "title": "Die Elfenfahrt (Die Biene Maja, Folge 13)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1xNbBlw1dUwsUCitEEeN9n",
+        "include": true,
+        "episode_num": 12,
+        "title": "Die Wunder der Nacht - Teil 2 (Die Biene Maja, Folge 12)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5IeGF6y1MiKV9AmzVck1ya",
+        "include": true,
+        "episode_num": 11,
+        "title": "Die Wunder der Nacht - Teil 1 (Die Biene Maja, Folge 11)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2o4ClxySgbVf4I2QM9k7Cl",
+        "include": true,
+        "episode_num": 10,
+        "title": "Hannibals Kampf mit dem Menschen - Teil 2 (Die Biene Maja, Folge 10)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1CV3qxoaeXiUXtWvw1azge",
+        "include": true,
+        "episode_num": 9,
+        "title": "Hannibals Kampf mit dem Menschen - Teil 1 (Die Biene Maja, Folge 9)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "41C1VeN0kNAVMHcHFwK62E",
+        "include": true,
+        "episode_num": 8,
+        "title": "Die Wanze und der Schmetterling (Die Biene Maja, Folge 8)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4rjSbfJIqysTcZFDg67BQq",
+        "include": true,
+        "episode_num": 7,
+        "title": "Majas Gefangenschaft bei der Spinne (Die Biene Maja, Folge 7)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1xQonUPRwzG90tiFiyUleI",
+        "include": true,
+        "episode_num": 6,
+        "title": "Puck (Die Biene Maja, Folge 6)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4ty7FV6jZKS7Ke6zS0vZ1A",
+        "include": true,
+        "episode_num": 5,
+        "title": "Der Grashüpfer (Die Biene Maja, Folge 5)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5R2V97bFngS719a68SXkxo",
+        "include": true,
+        "episode_num": 4,
+        "title": "Iffi und Kurt (Die Biene Maja, Folge 4)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1BFF4yotZskiMPs1OGZUfB",
+        "include": true,
+        "episode_num": 3,
+        "title": "Der Waldsee und seine Leute (Die Biene Maja, Folge 3)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3krEzMFEOV141SmbDY0ynT",
+        "include": true,
+        "episode_num": 2,
+        "title": "Peppis Rosenhaus (Die Biene Maja, Folge 2)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5zlX8b32cXfgLS1DvgS0yT",
+        "include": true,
+        "episode_num": 1,
+        "title": "Majas Flucht aus der Heimatstadt (Die Biene Maja, Folge 1)",
+        "exclude_reason": null
+      }
+    ],
+    "age_note": "Suitable from 3+",
+    "curator_notes": "This series spans two main Spotify artists: 'Die Biene Maja' (7GfaHcpmNcrcHoyGnOBsAz) and 'Die Biene Maja' (7rETIyymYr7alw77vGZnpl). The first artist contains the classic 1976/1977 Europa episodes (1-15) and CGI movie box sets. The second artist contains newer Lauscher Hörbücher releases (episodes 1-19). Note: There are overlapping episode numbers between the two artists - the 2023/2025 releases from Lauscher Hörbücher are new recordings/reinterpretations, not duplicates of the classic Europa episodes. The CGI albums (marked with 'CGI' in title) are box sets containing multiple stories and should be excluded. The 'Die Biene Maja und ihre Abenteuer' albums are audiobook compilations, not Hörspiel episodes."
+  }
+}

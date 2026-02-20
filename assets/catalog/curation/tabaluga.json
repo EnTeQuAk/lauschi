@@ -1,0 +1,1173 @@
+{
+  "query": "Tabaluga",
+  "model": "kimi-k2.5",
+  "curated_at": "2026-02-20T01:41:28.588980+00:00",
+  "series": {
+    "id": "tabaluga",
+    "title": "Tabaluga",
+    "aliases": [
+      "Tabaluga und Leo",
+      "Tabaluga und Lilli"
+    ],
+    "keywords": [
+      "Tabaluga"
+    ],
+    "spotify_artist_ids": [
+      "4M0PZyOPSvjzFEBRg3G8xA",
+      "5W3s4beu23rOlseCbVOp4l"
+    ],
+    "episode_pattern": "(?:Folge |^\\d{2}/|/)(\\d+)",
+    "albums": [
+      {
+        "spotify_album_id": "3FiJp9SBLabeDIN21MyJ3S",
+        "include": true,
+        "episode_num": 7,
+        "title": "Folge 7: Schneesturm auf dem Weihnachtsmarkt",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0IklRy7YgVQGESlc4nmy1E",
+        "include": true,
+        "episode_num": 6,
+        "title": "Folge 6: Wirbelwind auf dem Bauernhof",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3lqNB64CRZVTacJYx5QT1H",
+        "include": true,
+        "episode_num": 5,
+        "title": "Folge 5: Im Eisbären-Land",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5mZYyD6rk7jTaB1AYVisSt",
+        "include": false,
+        "episode_num": null,
+        "title": "Tabaluga - Die Welt ist wunderbar (Deluxe Version)",
+        "exclude_reason": "Music album with songs and story tracks, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "6hWbLvmZuYNxByx9zaceSu",
+        "include": true,
+        "episode_num": 4,
+        "title": "Folge 4: Im stürmischen Wald",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "31I8XXIgxv7MdAX6WdygeU",
+        "include": true,
+        "episode_num": 3,
+        "title": "Folge 3: In den eisigen Bergen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4rP8iu8oRrYsR91ELChdG7",
+        "include": true,
+        "episode_num": 2,
+        "title": "Folge 2: Am wilden Meer",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "52BaPmadnpTkDhNSP87luz",
+        "include": true,
+        "episode_num": 1,
+        "title": "Folge 1: Die große Stadt",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1FclFUOPoHx2gpYsZyhcw9",
+        "include": false,
+        "episode_num": null,
+        "title": "Tabaluga - Der Film (Original Soundtrack)",
+        "exclude_reason": "Soundtrack, not Hörspiel"
+      },
+      {
+        "spotify_album_id": "5aLSAfjjLWa1sgoeW1DAzz",
+        "include": false,
+        "episode_num": null,
+        "title": "Tabaluga: Ungekürzte Version (Das Original-Hörspiel zum Film)",
+        "exclude_reason": "Film adaptation Hörspiel, not numbered series episode"
+      },
+      {
+        "spotify_album_id": "77POHjj5tE6PN3fNWjbwoz",
+        "include": false,
+        "episode_num": null,
+        "title": "Tabaluga (Das Original-Hörspiel zum Kinofilm)",
+        "exclude_reason": "Film adaptation Hörspiel (abridged), not numbered series episode"
+      },
+      {
+        "spotify_album_id": "223lKBg3qRMYEzTcVoAuho",
+        "include": false,
+        "episode_num": null,
+        "title": "Tabaluga - Es lebe die Freundschaft! (Live)",
+        "exclude_reason": "Live recording of musical"
+      },
+      {
+        "spotify_album_id": "4ryOlPfMoWpQRq7G8HrORL",
+        "include": false,
+        "episode_num": null,
+        "title": "Tabaluga - Es lebe die Freundschaft!",
+        "exclude_reason": "Studio/live musical recording"
+      },
+      {
+        "spotify_album_id": "6dAWyGJBfe0OClBTudkIdJ",
+        "include": false,
+        "episode_num": null,
+        "title": "Tabaluga und die Zeichen der Zeit - LIVE",
+        "exclude_reason": "Live recording of musical"
+      },
+      {
+        "spotify_album_id": "5JaoytFl3qxYABcEmbcC0G",
+        "include": false,
+        "episode_num": null,
+        "title": "Tabaluga und die Zeichen der Zeit",
+        "exclude_reason": "Music album/concept album, not Hörspiel"
+      },
+      {
+        "spotify_album_id": "5JQbV8c9ZqipQvNkIOhojx",
+        "include": true,
+        "episode_num": 26,
+        "title": "26/Der verhängnisvolle Sandsturm / Kopf oder Zahl",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5TWOWpWProsNkD8QVC2Hhy",
+        "include": true,
+        "episode_num": 25,
+        "title": "25/Das Rätsel um die Kristallkugel / Prüfung mit Hindernissen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "179HKdiuNlQBmMyBiPo4II",
+        "include": true,
+        "episode_num": 24,
+        "title": "24/König der Lüfte / Der Bulle und die Sonnenblumen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5wWLRm03RuYzbBKKgjFl2g",
+        "include": false,
+        "episode_num": null,
+        "title": "Tabaluga und Leo",
+        "exclude_reason": "Spinoff series with Leo character, not main numbered series"
+      },
+      {
+        "spotify_album_id": "1fz9kWDOCav3a3C9LcwfeN",
+        "include": true,
+        "episode_num": 23,
+        "title": "23/Die Entführung / Schlaf gut Humsin",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0QjDBlgKUPNPtgjDdrMfMJ",
+        "include": true,
+        "episode_num": 22,
+        "title": "22/Spiel für den Frieden / Morris, der Zauberer",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5Vc3Y6KmQ4ErOpBjyg6Zuh",
+        "include": true,
+        "episode_num": 21,
+        "title": "21/Das Schneemonster / Wer ist wer?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0TuWvNDRNYujlNDiyyVQS5",
+        "include": true,
+        "episode_num": 20,
+        "title": "20/Der ersehnte Retter / Mein Baby!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5upyrxZZeqwyzerMxR48y8",
+        "include": true,
+        "episode_num": 19,
+        "title": "19/Seltsame Verwandlung / Sandflöhe",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7tDAdslWs2SW7F6Dbei5SJ",
+        "include": true,
+        "episode_num": 18,
+        "title": "18/Grünland unter Wasser / Der Zauberlehrling",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "03h8ke7wkwJggyn7NHpSJK",
+        "include": true,
+        "episode_num": 17,
+        "title": "17/Das Kartoffelfest / Eine stachlige Bedrohung",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7hpyd2OwN4XqmFwwBgflgc",
+        "include": true,
+        "episode_num": 16,
+        "title": "16/Die Weissagung / Digby, der Held",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5tNiC6qAdRXh8nDgJ8SVVn",
+        "include": true,
+        "episode_num": 15,
+        "title": "15/Gefährliches Vertrauen / Der große Frost",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "19CgePnwY4TjmWNnLrEwUr",
+        "include": true,
+        "episode_num": 14,
+        "title": "14/Prinz Tabaluga / Humsin",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1MvnFrYW82humwTiVLTMFF",
+        "include": true,
+        "episode_num": 13,
+        "title": "13/Der Strom der Zeit / Schokoladeneis für alle",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1Y8Ge8mhBYpD4TDTAUmHDs",
+        "include": true,
+        "episode_num": 12,
+        "title": "12/Eine feurige Begegnung",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6NRfTkUzc2D8OmUWywPQQC",
+        "include": true,
+        "episode_num": 11,
+        "title": "11/Eine kernige Angelegenheit",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2dfKfTjrl7EWvl8Reuaq6e",
+        "include": true,
+        "episode_num": 10,
+        "title": "10/Königin für einen Tag",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0mqDO8tsKNUKwL0qAJvLrG",
+        "include": true,
+        "episode_num": 9,
+        "title": "09/Eine verpatzte Premiere",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0wGZGHCV3P2k3eevStskPh",
+        "include": true,
+        "episode_num": 8,
+        "title": "08/Eine versalzene Suppe",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3bZNkrAEioFfUCbVZ7s803",
+        "include": true,
+        "episode_num": 7,
+        "title": "07/Einer spielt falsch",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3f9YEzfwGbt52kNH7QMrrg",
+        "include": true,
+        "episode_num": 6,
+        "title": "06/Ein friedlicher Überfall",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5Ig0Mmb6pCWMGcrGeK9blg",
+        "include": true,
+        "episode_num": 5,
+        "title": "05/Drachen weinen nicht",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6jETrm2u1F369py7bv2vxK",
+        "include": true,
+        "episode_num": 4,
+        "title": "04/Der Bessere gewinnt",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7528UKeBiYNKUkfwSLUG3n",
+        "include": true,
+        "episode_num": 3,
+        "title": "03/Ein Drache zuviel",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0IsukZuqX2H7A58SOH39xO",
+        "include": true,
+        "episode_num": 2,
+        "title": "02/Ein ganz heißes Ding",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2ZOZddzoAe6Avydf93Cwu5",
+        "include": true,
+        "episode_num": 1,
+        "title": "01/Das große Ereignis",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "43xL5YakDWwVsjRcXnfuxP",
+        "include": false,
+        "episode_num": null,
+        "title": "Tabaluga und Lilli",
+        "exclude_reason": "Music album/concept album from 1993, not Hörspiel"
+      },
+      {
+        "spotify_album_id": "0xmyI01Z5sfZElZDwfCzYD",
+        "include": false,
+        "episode_num": null,
+        "title": "Tabaluga und das leuchtende Schweigen",
+        "exclude_reason": "Music album/concept album from 1986, not Hörspiel"
+      },
+      {
+        "spotify_album_id": "5TK55A4eFCOkJSu1ZddZfM",
+        "include": false,
+        "episode_num": null,
+        "title": "Tabaluga oder die Reise zur Vernunft",
+        "exclude_reason": "First Tabaluga concept album from 1983, music not Hörspiel"
+      },
+      {
+        "spotify_album_id": "5jKlQDxYaiymBudMQtJZx3",
+        "include": false,
+        "episode_num": null,
+        "title": "Elektrizität (feat. Stefanie Heinzmann)",
+        "exclude_reason": "Single"
+      },
+      {
+        "spotify_album_id": "7Hydkdd7C6teuIQvjYBN9T",
+        "include": false,
+        "episode_num": null,
+        "title": "Königreich der Liebe (feat. Stefanie Heinzmann)",
+        "exclude_reason": "Single"
+      },
+      {
+        "spotify_album_id": "0oJA101t2qFezwHlbhZ208",
+        "include": false,
+        "episode_num": null,
+        "title": "Tabalugas Lied (Titelsong 2021)",
+        "exclude_reason": "Single"
+      },
+      {
+        "spotify_album_id": "4bIx2b5RwlS3nfqtyUJU7n",
+        "include": false,
+        "episode_num": null,
+        "title": "Erinnerungen 3 - Die stärksten Balladen",
+        "exclude_reason": "Compilation album, not Hörspiel"
+      },
+      {
+        "spotify_album_id": "7o7jN4RySVXG30nbOE9Sgg",
+        "include": false,
+        "episode_num": null,
+        "title": "Tabaluga und das verschenkte Glück",
+        "exclude_reason": "Music album from 2002, not Hörspiel"
+      },
+      {
+        "spotify_album_id": "4fSx5SlTNueqmkJtnm5jVV",
+        "include": false,
+        "episode_num": null,
+        "title": "Feuer und Liebe",
+        "exclude_reason": "Single"
+      },
+      {
+        "spotify_album_id": "7uqhuiwlFF5rdoqdQwwgTG",
+        "include": false,
+        "episode_num": null,
+        "title": "Love Places 25",
+        "exclude_reason": "Peter Maffay album, not Tabaluga Hörspiel"
+      },
+      {
+        "spotify_album_id": "10mop81HjZzjfSdf6w2PfG",
+        "include": false,
+        "episode_num": null,
+        "title": "We Love Rock'n'Roll (Leipzig-Live-2024)",
+        "exclude_reason": "Peter Maffay live album"
+      },
+      {
+        "spotify_album_id": "6yoc4JeBu9owCUEBHYcx3r",
+        "include": false,
+        "episode_num": null,
+        "title": "live-haftig Hamburg 2018",
+        "exclude_reason": "Peter Maffay live album"
+      },
+      {
+        "spotify_album_id": "0X299lgPGvtj1AB48boNcc",
+        "include": false,
+        "episode_num": null,
+        "title": "live-haftig Hamburg 2005 (Teil 2)",
+        "exclude_reason": "Peter Maffay live album"
+      },
+      {
+        "spotify_album_id": "2q23HUxKjzZFLQWveMfchh",
+        "include": false,
+        "episode_num": null,
+        "title": "live-haftig Hamburg 2005 (Teil 1)",
+        "exclude_reason": "Peter Maffay live album"
+      },
+      {
+        "spotify_album_id": "4O9JeLusJItNY3JUgOTxOg",
+        "include": false,
+        "episode_num": null,
+        "title": "live-haftig Radio Bremen 1991",
+        "exclude_reason": "Peter Maffay live album"
+      },
+      {
+        "spotify_album_id": "1gKYGwaUZJ4xJmuSHC0nZq",
+        "include": false,
+        "episode_num": null,
+        "title": "live-haftig Hamburg 2020",
+        "exclude_reason": "Peter Maffay live album"
+      },
+      {
+        "spotify_album_id": "6lwTJsyFu2AeF9N7phNCuL",
+        "include": false,
+        "episode_num": null,
+        "title": "live-haftig Loreley 2013",
+        "exclude_reason": "Peter Maffay live album"
+      },
+      {
+        "spotify_album_id": "0uy7A7Vp8iH2vpYq6qZTCI",
+        "include": false,
+        "episode_num": null,
+        "title": "Anouk und das Geheimnis der Weihnachtszeit (Anouk 3)",
+        "exclude_reason": "Different series (Anouk)"
+      },
+      {
+        "spotify_album_id": "7lCaN87Ngbdkyd7TWELBbb",
+        "include": false,
+        "episode_num": null,
+        "title": "Anouk 2: Anouk, dein nächstes Abenteuer ruft!",
+        "exclude_reason": "Different series (Anouk)"
+      },
+      {
+        "spotify_album_id": "16KeLW5dJRwJ7ZKtBsNS6T",
+        "include": false,
+        "episode_num": null,
+        "title": "Anouk, die nachts auf Reisen geht. Vertrau auf das, was du kannst",
+        "exclude_reason": "Different series (Anouk)"
+      },
+      {
+        "spotify_album_id": "5qOO9W4TGfaIha7JAuRckL",
+        "include": false,
+        "episode_num": null,
+        "title": "Anouk, die nachts auf Reisen geht. Die verschlüsselte Botschaft",
+        "exclude_reason": "Different series (Anouk)"
+      },
+      {
+        "spotify_album_id": "1FNgmzUfSjEXtnNUtc0vl2",
+        "include": false,
+        "episode_num": null,
+        "title": "So weit",
+        "exclude_reason": "Peter Maffay music album"
+      },
+      {
+        "spotify_album_id": "5zuc4cNrDP6H8veA8nQ50g",
+        "include": false,
+        "episode_num": null,
+        "title": "Anouk 1: Anouk, die nachts auf Reisen geht",
+        "exclude_reason": "Different series (Anouk)"
+      },
+      {
+        "spotify_album_id": "0yaEE8PgXYIRPwvIah3NgE",
+        "include": false,
+        "episode_num": null,
+        "title": "PETER MAFFAY UND...",
+        "exclude_reason": "Peter Maffay album"
+      },
+      {
+        "spotify_album_id": "1CNxoIzqxIkEpV8TJy7gR5",
+        "include": false,
+        "episode_num": null,
+        "title": "Erinnerungen 2 - Die stärksten Balladen",
+        "exclude_reason": "Compilation album"
+      },
+      {
+        "spotify_album_id": "41Jbx7tzDEW5pdFFa3WkUM",
+        "include": false,
+        "episode_num": null,
+        "title": "Hier und Jetzt - Mein Bild von einer besseren Zukunft (Ungekürzt)",
+        "exclude_reason": "Audiobook/speeches, not Hörspiel"
+      },
+      {
+        "spotify_album_id": "4Mt0EiETmg22vojPmoGUXD",
+        "include": false,
+        "episode_num": null,
+        "title": "Jetzt!",
+        "exclude_reason": "Peter Maffay music album"
+      },
+      {
+        "spotify_album_id": "1q72bN5T82EcY1lrR8JB5j",
+        "include": false,
+        "episode_num": null,
+        "title": "plugged - Die stärksten Rocksongs",
+        "exclude_reason": "Compilation"
+      },
+      {
+        "spotify_album_id": "7tM31l04PXeOQRYPRuyGdk",
+        "include": false,
+        "episode_num": null,
+        "title": "MTV Unplugged",
+        "exclude_reason": "Peter Maffay live album"
+      },
+      {
+        "spotify_album_id": "3h5ih0FSqw3Y3XUuhffdbZ",
+        "include": false,
+        "episode_num": null,
+        "title": "Erinnerungen - Die stärksten Balladen",
+        "exclude_reason": "Compilation album"
+      },
+      {
+        "spotify_album_id": "07OlvZ1LEyXzZamm91cJYr",
+        "include": false,
+        "episode_num": null,
+        "title": "Wenn das so ist - LIVE",
+        "exclude_reason": "Peter Maffay live album"
+      },
+      {
+        "spotify_album_id": "1qYM9HECIuKQUALfInaFm1",
+        "include": false,
+        "episode_num": null,
+        "title": "Gelobtes Land",
+        "exclude_reason": "Single/EP"
+      },
+      {
+        "spotify_album_id": "3loGzAhK8Elx4eN5VxyoOB",
+        "include": false,
+        "episode_num": null,
+        "title": "Wenn das so ist",
+        "exclude_reason": "Peter Maffay music album"
+      },
+      {
+        "spotify_album_id": "57bPWNgPmgWTKH0NihtgCn",
+        "include": false,
+        "episode_num": null,
+        "title": "Tattoos Live (Alben für die Ewigkeit)",
+        "exclude_reason": "Peter Maffay live album"
+      },
+      {
+        "spotify_album_id": "4MSx89v4vERMwRgwiiKwt9",
+        "include": false,
+        "episode_num": null,
+        "title": "EWIG",
+        "exclude_reason": "Peter Maffay music album"
+      },
+      {
+        "spotify_album_id": "49dnUnRnG947Y3Q0KBcZxm",
+        "include": false,
+        "episode_num": null,
+        "title": "Frohe Weihnachten mit Tabaluga, Peter Maffay und seinen Freunden",
+        "exclude_reason": "Christmas compilation"
+      },
+      {
+        "spotify_album_id": "22PPeZ198uD1pua2miWyEQ",
+        "include": false,
+        "episode_num": null,
+        "title": "Laut & Leise",
+        "exclude_reason": "Peter Maffay music album"
+      },
+      {
+        "spotify_album_id": "1kHb0XFl3FWdKhHYixG6ls",
+        "include": false,
+        "episode_num": null,
+        "title": "Heute vor dreissig Jahren",
+        "exclude_reason": "Peter Maffay music album"
+      },
+      {
+        "spotify_album_id": "4gDlC60gJPYBCSd2qZpmFe",
+        "include": false,
+        "episode_num": null,
+        "title": "Begegnungen - Eine Allianz für Kinder",
+        "exclude_reason": "Charity project album"
+      },
+      {
+        "spotify_album_id": "56oX8WkvfjoURR5SIlnRqw",
+        "include": false,
+        "episode_num": null,
+        "title": "X",
+        "exclude_reason": "Peter Maffay music album"
+      },
+      {
+        "spotify_album_id": "0kZRu4Kwx0lwVmIRNQmUH3",
+        "include": false,
+        "episode_num": null,
+        "title": "Begegnungen Live",
+        "exclude_reason": "Live album"
+      },
+      {
+        "spotify_album_id": "3y2GB8WMCzy55rmlBD1r7i",
+        "include": false,
+        "episode_num": null,
+        "title": "Begegnungen",
+        "exclude_reason": "Collaboration album"
+      },
+      {
+        "spotify_album_id": "3aJJXMz42csAvIrmNDRpwK",
+        "include": false,
+        "episode_num": null,
+        "title": "Maffay '96 Live",
+        "exclude_reason": "Peter Maffay live album"
+      },
+      {
+        "spotify_album_id": "41e7lWoxib5YthmMOsIPd3",
+        "include": false,
+        "episode_num": null,
+        "title": "96",
+        "exclude_reason": "Peter Maffay music album"
+      },
+      {
+        "spotify_album_id": "2477emD5bSCResRWIPg3zd",
+        "include": false,
+        "episode_num": null,
+        "title": "Tabaluga und Lilli - Live",
+        "exclude_reason": "Live recording of musical"
+      },
+      {
+        "spotify_album_id": "0foveoUQmusnSPgdIAmhYC",
+        "include": false,
+        "episode_num": null,
+        "title": "Freunde & Propheten",
+        "exclude_reason": "Peter Maffay music album"
+      },
+      {
+        "spotify_album_id": "0h9Kv18ffPvyqMNESSIgLW",
+        "include": false,
+        "episode_num": null,
+        "title": "38317 (Liebe)",
+        "exclude_reason": "Peter Maffay music album"
+      },
+      {
+        "spotify_album_id": "7Fqk1Dzra8vQFCPpJLWDYc",
+        "include": false,
+        "episode_num": null,
+        "title": "Leipzig (Live)",
+        "exclude_reason": "Peter Maffay live album"
+      },
+      {
+        "spotify_album_id": "53DSnawT38MPzkYTh5M3K6",
+        "include": false,
+        "episode_num": null,
+        "title": "Kein Weg zu weit",
+        "exclude_reason": "Peter Maffay music album"
+      },
+      {
+        "spotify_album_id": "3c0XooEQJ6XXJCnsa0ycEx",
+        "include": false,
+        "episode_num": null,
+        "title": "Live - Lange Schatten Tour '88",
+        "exclude_reason": "Peter Maffay live album"
+      },
+      {
+        "spotify_album_id": "17Kyh8DD8S6SfVS6CEMAX8",
+        "include": false,
+        "episode_num": null,
+        "title": "Lange Schatten",
+        "exclude_reason": "Peter Maffay music album"
+      },
+      {
+        "spotify_album_id": "327eJ0li5cRLl2VN6DiTGG",
+        "include": false,
+        "episode_num": null,
+        "title": "Sonne in der Nacht",
+        "exclude_reason": "Peter Maffay music album"
+      },
+      {
+        "spotify_album_id": "3E4tWr6f0CeCgSZcztpfXA",
+        "include": false,
+        "episode_num": null,
+        "title": "Carambolage",
+        "exclude_reason": "Peter Maffay music album"
+      },
+      {
+        "spotify_album_id": "5pKKk2u80Fi7O1n1kOVxUS",
+        "include": false,
+        "episode_num": null,
+        "title": "Ich will leben",
+        "exclude_reason": "Peter Maffay music album"
+      },
+      {
+        "spotify_album_id": "1JJYGb578a6f2uQPXFbPxp",
+        "include": false,
+        "episode_num": null,
+        "title": "Live '82",
+        "exclude_reason": "Peter Maffay live album"
+      },
+      {
+        "spotify_album_id": "4tbUAVTsQ4hvnQfgWkgWq8",
+        "include": false,
+        "episode_num": null,
+        "title": "Revanche",
+        "exclude_reason": "Peter Maffay music album"
+      },
+      {
+        "spotify_album_id": "6hd15v2TIpYjerUmC42cbh",
+        "include": false,
+        "episode_num": null,
+        "title": "Tame & Maffay II",
+        "exclude_reason": "Peter Maffay music album"
+      },
+      {
+        "spotify_album_id": "2vlmYWEEWjaBb5rDktxcs6",
+        "include": false,
+        "episode_num": null,
+        "title": "Steppenwolf",
+        "exclude_reason": "Peter Maffay music album"
+      },
+      {
+        "spotify_album_id": "5SSko0PpZj61zJHBa6QQhz",
+        "include": false,
+        "episode_num": null,
+        "title": "Live",
+        "exclude_reason": "Peter Maffay live album"
+      },
+      {
+        "spotify_album_id": "3TeUoP1eXAhrcdbG9VeTeZ",
+        "include": false,
+        "episode_num": null,
+        "title": "Tame & Maffay",
+        "exclude_reason": "Peter Maffay music album"
+      },
+      {
+        "spotify_album_id": "5W2qGatFZaptSWsE5V2FJo",
+        "include": false,
+        "episode_num": null,
+        "title": "Dein Gesicht",
+        "exclude_reason": "Peter Maffay music album"
+      },
+      {
+        "spotify_album_id": "4i7jCNYlETCsfAhpF3sbCh",
+        "include": false,
+        "episode_num": null,
+        "title": "Und es war Sommer",
+        "exclude_reason": "Peter Maffay music album"
+      },
+      {
+        "spotify_album_id": "4aGT5bRd3grkPLnX9Do4ZJ",
+        "include": false,
+        "episode_num": null,
+        "title": "Meine Freiheit",
+        "exclude_reason": "Peter Maffay music album"
+      },
+      {
+        "spotify_album_id": "3lKHA3PuXcuaDfeUeyJT1G",
+        "include": false,
+        "episode_num": null,
+        "title": "Samstag Abend in unserer Straße",
+        "exclude_reason": "Peter Maffay music album"
+      },
+      {
+        "spotify_album_id": "1yVBaG9LGJ5dcKa9bA2QBL",
+        "include": false,
+        "episode_num": null,
+        "title": "Omen",
+        "exclude_reason": "Peter Maffay music album"
+      },
+      {
+        "spotify_album_id": "6lgYajYnnQ6NrcCSvSQe9a",
+        "include": false,
+        "episode_num": null,
+        "title": "Du bist wie ein Lied",
+        "exclude_reason": "Peter Maffay music album"
+      },
+      {
+        "spotify_album_id": "4Kq9hd2ZTMSR0Ju7D2G0Df",
+        "include": false,
+        "episode_num": null,
+        "title": "Für das Mädchen, das ich liebe",
+        "exclude_reason": "Peter Maffay music album"
+      },
+      {
+        "spotify_album_id": "1Sm0A4kRPb9stmNRIHaJdb",
+        "include": false,
+        "episode_num": null,
+        "title": "Schweine Ragga",
+        "exclude_reason": "Single"
+      },
+      {
+        "spotify_album_id": "1DQTM3HtQ1FbSJkBnQDY1Z",
+        "include": false,
+        "episode_num": null,
+        "title": "Tattoos (40 Jahre Maffay - Alle Hits - Neu produziert)",
+        "exclude_reason": "Compilation album"
+      },
+      {
+        "spotify_album_id": "5SiX0YgUWuhjiwrrJRZHSA",
+        "include": false,
+        "episode_num": null,
+        "title": "23",
+        "exclude_reason": "Peter Maffay music album"
+      },
+      {
+        "spotify_album_id": "46RjcxrrWRFiOuq1V7MPHR",
+        "include": false,
+        "episode_num": null,
+        "title": "Die Helene Fischer Show - Meine schönsten Momente (Vol. 1)",
+        "exclude_reason": "TV show compilation"
+      },
+      {
+        "spotify_album_id": "55U0yfgkKN1HXleYulqyXo",
+        "include": false,
+        "episode_num": null,
+        "title": "Our Songs",
+        "exclude_reason": "Peter Maffay music album"
+      },
+      {
+        "spotify_album_id": "7hbXnJ4ezj3Goa92qelT3p",
+        "include": false,
+        "episode_num": null,
+        "title": "Ich liebe Menschen",
+        "exclude_reason": "Peter Maffay music album"
+      },
+      {
+        "spotify_album_id": "7erPFgnsdWOZn5aWkzHk5v",
+        "include": false,
+        "episode_num": null,
+        "title": "Rock Sommerhits",
+        "exclude_reason": "Compilation album"
+      },
+      {
+        "spotify_album_id": "2rP86idwwQTKQYNrZgMoA5",
+        "include": false,
+        "episode_num": null,
+        "title": "Our Songs (Gold Deluxe Edition)",
+        "exclude_reason": "Peter Maffay music album"
+      },
+      {
+        "spotify_album_id": "1M6o3G9KAduuuNgy7rdk4K",
+        "include": false,
+        "episode_num": null,
+        "title": "Das große Adventskonzert (Das Studioalbum zum Konzert im Stadion)",
+        "exclude_reason": "Live concert album"
+      },
+      {
+        "spotify_album_id": "5NNAM2rftSGhGJizHLpgJU",
+        "include": false,
+        "episode_num": null,
+        "title": "Verwahrlost aber LIVE",
+        "exclude_reason": "Peter Maffay live album"
+      },
+      {
+        "spotify_album_id": "3qusvR4fq5N1yZ2kA2rJ9D",
+        "include": false,
+        "episode_num": null,
+        "title": "Dein Song 2016 Finalversionen (Remastered)",
+        "exclude_reason": "Song contest compilation"
+      },
+      {
+        "spotify_album_id": "4TX8o2OfdT2vYUrl8vxuAZ",
+        "include": false,
+        "episode_num": null,
+        "title": "Anouk - Das Musical",
+        "exclude_reason": "Different series (Anouk musical)"
+      },
+      {
+        "spotify_album_id": "2kNAvIty1yD9jYGdnfejTp",
+        "include": false,
+        "episode_num": null,
+        "title": "Rilke Projekt - Bis an alle Sterne",
+        "exclude_reason": "Literature/music project"
+      },
+      {
+        "spotify_album_id": "4WaAFqGdNkUHZvv3xUCySD",
+        "include": false,
+        "episode_num": null,
+        "title": "Rilke Projekt: So viel Himmel",
+        "exclude_reason": "Literature/music project"
+      },
+      {
+        "spotify_album_id": "5Ifx4gdJoJB3qKdY2NCEpM",
+        "include": false,
+        "episode_num": null,
+        "title": "50 Jahre ZDF Hitparade",
+        "exclude_reason": "TV compilation"
+      },
+      {
+        "spotify_album_id": "4vJ2CZTcNldBtsF80IfZtt",
+        "include": false,
+        "episode_num": null,
+        "title": "BAMS 80er - Deutsch Rock",
+        "exclude_reason": "Compilation"
+      },
+      {
+        "spotify_album_id": "4Xsjqr1zTEe4KcPbWL2UCH",
+        "include": false,
+        "episode_num": null,
+        "title": "Barstensvol (Live)",
+        "exclude_reason": "Peter Maffay live album"
+      },
+      {
+        "spotify_album_id": "62Yatx7vvHDywq6HSC4hjF",
+        "include": false,
+        "episode_num": null,
+        "title": "Amiga HITstory 1987-1997",
+        "exclude_reason": "Compilation"
+      },
+      {
+        "spotify_album_id": "2O366EAfJnDQeenJ7iFGZd",
+        "include": false,
+        "episode_num": null,
+        "title": "25 Jahre Karat - Das Konzert",
+        "exclude_reason": "Collaboration concert"
+      },
+      {
+        "spotify_album_id": "646KyRIiCzWmR9fkOVlEOT",
+        "include": false,
+        "episode_num": null,
+        "title": "Kulthits aus Ost & West",
+        "exclude_reason": "Compilation"
+      },
+      {
+        "spotify_album_id": "5bwtwDsybkSJvgrSetvGaS",
+        "include": false,
+        "episode_num": null,
+        "title": "Leonard Cohen in deutscher Sprache - Poem",
+        "exclude_reason": "Literature/music project"
+      },
+      {
+        "spotify_album_id": "6KWqbVMpZtjjsKM8uz1e62",
+        "include": false,
+        "episode_num": null,
+        "title": "Rilke Projekt/Weltenweiter Wandrer",
+        "exclude_reason": "Literature/music project"
+      },
+      {
+        "spotify_album_id": "09g7ZFjWzdqj8r08XsLtSr",
+        "include": false,
+        "episode_num": null,
+        "title": "50 Jahre ZDF Hitparade, Vol. 2",
+        "exclude_reason": "TV compilation"
+      },
+      {
+        "spotify_album_id": "7tVe1FQpZFoIYewBXKVQjW",
+        "include": false,
+        "episode_num": null,
+        "title": "Was wenn alles gut geht (Zweite Edition)",
+        "exclude_reason": "Peter Maffay music album"
+      },
+      {
+        "spotify_album_id": "3HVRbBPijHDRIMmVVKsruV",
+        "include": false,
+        "episode_num": null,
+        "title": "Unsere 20 grössten Hits",
+        "exclude_reason": "Compilation"
+      },
+      {
+        "spotify_album_id": "5qHW6A4oXuWH6oYFw1JJHV",
+        "include": false,
+        "episode_num": null,
+        "title": "Weihnachten Dinner Party 2022",
+        "exclude_reason": "Christmas compilation"
+      },
+      {
+        "spotify_album_id": "3p2iArY68XXiKMk6qDFFOj",
+        "include": false,
+        "episode_num": null,
+        "title": "Die 90er - Das beste aus 40 Jahren Hitparade",
+        "exclude_reason": "Compilation"
+      },
+      {
+        "spotify_album_id": "0EOkI3HTEt3VAGtXk3Sdhp",
+        "include": false,
+        "episode_num": null,
+        "title": "Rilke Projekt - Weltenweiter Wandrer",
+        "exclude_reason": "Literature/music project"
+      },
+      {
+        "spotify_album_id": "4WqDiagDuPoEHqjCsvoMiP",
+        "include": false,
+        "episode_num": null,
+        "title": "Weihnachtslieder zum Backen",
+        "exclude_reason": "Christmas compilation"
+      },
+      {
+        "spotify_album_id": "0BcnMYhjvSxIUDkTOKBAme",
+        "include": false,
+        "episode_num": null,
+        "title": "Weihnachtslieder zum Frühstück",
+        "exclude_reason": "Christmas compilation"
+      },
+      {
+        "spotify_album_id": "5xcIMIHtS9txDbdcJaNFVX",
+        "include": false,
+        "episode_num": null,
+        "title": "Der Panikpräsident",
+        "exclude_reason": "Peter Maffay music album"
+      },
+      {
+        "spotify_album_id": "3YBEFjNxVfvKwKGnQJqxza",
+        "include": false,
+        "episode_num": null,
+        "title": "Weihnachtslieder zum Kochen",
+        "exclude_reason": "Christmas compilation"
+      },
+      {
+        "spotify_album_id": "0GlFD2ty5eJT7vhRz7ArPa",
+        "include": false,
+        "episode_num": null,
+        "title": "Weihnachtslieder zum Entspannen",
+        "exclude_reason": "Christmas compilation"
+      },
+      {
+        "spotify_album_id": "3XyjVIuenbaLFOWwW9Ggzp",
+        "include": false,
+        "episode_num": null,
+        "title": "Erwachsen sein (feat. Peter Maffay)",
+        "exclude_reason": "Single"
+      },
+      {
+        "spotify_album_id": "52mmZ5v1mmbelDg0YoN5lM",
+        "include": false,
+        "episode_num": null,
+        "title": "Ruhige Weihnachten",
+        "exclude_reason": "Christmas compilation"
+      },
+      {
+        "spotify_album_id": "66wtzKPcUHNL82ZN5IrdCk",
+        "include": false,
+        "episode_num": null,
+        "title": "Heiligabend 2022",
+        "exclude_reason": "Christmas compilation"
+      },
+      {
+        "spotify_album_id": "0TxuAbJG0kbpkb75ekaQ3k",
+        "include": false,
+        "episode_num": null,
+        "title": "Weihnachtslieder zum Essen",
+        "exclude_reason": "Christmas compilation"
+      },
+      {
+        "spotify_album_id": "1hQDdUeGAvR2CHOzR32qZD",
+        "include": false,
+        "episode_num": null,
+        "title": "Weihnachtsmarkt 2022",
+        "exclude_reason": "Christmas compilation"
+      },
+      {
+        "spotify_album_id": "7n3YX2jqbmfZ1SNrDGK7J5",
+        "include": false,
+        "episode_num": null,
+        "title": "Weihnachtssongs 2022",
+        "exclude_reason": "Christmas compilation"
+      },
+      {
+        "spotify_album_id": "0d6oszAZYAulDdSJhzLsx3",
+        "include": false,
+        "episode_num": null,
+        "title": "Weihnachten im Café",
+        "exclude_reason": "Christmas compilation"
+      },
+      {
+        "spotify_album_id": "1HlrD9kgWo1yAlhUqt1vdN",
+        "include": false,
+        "episode_num": null,
+        "title": "Weihnachten im Büro",
+        "exclude_reason": "Christmas compilation"
+      },
+      {
+        "spotify_album_id": "3wMhT0xAPlWw8s9bBQ0lf5",
+        "include": false,
+        "episode_num": null,
+        "title": "Weihnachtslieder zum Arbeiten",
+        "exclude_reason": "Christmas compilation"
+      },
+      {
+        "spotify_album_id": "3GsUSBmAaKi7unhvngPUKg",
+        "include": false,
+        "episode_num": null,
+        "title": "16 Karat",
+        "exclude_reason": "Peter Maffay music album"
+      },
+      {
+        "spotify_album_id": "1UezWj7kRAfaZn51WqYVsX",
+        "include": false,
+        "episode_num": null,
+        "title": "Weihnachten mit der Familie",
+        "exclude_reason": "Christmas compilation"
+      },
+      {
+        "spotify_album_id": "5At9Kgp74ZFHFLEyY3D4c4",
+        "include": false,
+        "episode_num": null,
+        "title": "Hüttenweihnachten",
+        "exclude_reason": "Christmas compilation"
+      },
+      {
+        "spotify_album_id": "3rQQtuLSUKINkH4xT9L9Po",
+        "include": false,
+        "episode_num": null,
+        "title": "The Gugulethu Tenors",
+        "exclude_reason": "Different artist"
+      },
+      {
+        "spotify_album_id": "0X1sNqiEGeA2Brvz0soXXN",
+        "include": false,
+        "episode_num": null,
+        "title": "Hier ist Berlin! - Dieter Thomas Heck präs.: Die 90er",
+        "exclude_reason": "Compilation"
+      },
+      {
+        "spotify_album_id": "7dS8SIYp5fzj42J6UUdzzn",
+        "include": false,
+        "episode_num": null,
+        "title": "Alterslos - Grenzenlos (Portraits und Gespräche über das Leben)",
+        "exclude_reason": "Interview/speech album"
+      },
+      {
+        "spotify_album_id": "6yAdn5DrjfXdGCnp5sTsad",
+        "include": false,
+        "episode_num": null,
+        "title": "Weihnachtslieder für die Bescherung",
+        "exclude_reason": "Christmas compilation"
+      },
+      {
+        "spotify_album_id": "0lxlftXbSQ3vUaHz7BrDxw",
+        "include": false,
+        "episode_num": null,
+        "title": "Weihnachtszeit 2022",
+        "exclude_reason": "Christmas compilation"
+      },
+      {
+        "spotify_album_id": "76E8lk7yRRuidIPPQZaX0s",
+        "include": false,
+        "episode_num": null,
+        "title": "Glühwein & Chill",
+        "exclude_reason": "Christmas compilation"
+      },
+      {
+        "spotify_album_id": "2QhroE8krR6EACwQRy1c9I",
+        "include": false,
+        "episode_num": null,
+        "title": "Weihnachten in den Bergen",
+        "exclude_reason": "Christmas compilation"
+      },
+      {
+        "spotify_album_id": "3kBV7Ls8va8o1WDb86RBCl",
+        "include": false,
+        "episode_num": null,
+        "title": "Weihnachten am Strand",
+        "exclude_reason": "Christmas compilation"
+      },
+      {
+        "spotify_album_id": "61KDaEo6z695YCujUfjLHB",
+        "include": false,
+        "episode_num": null,
+        "title": "Frohe Weihnachten",
+        "exclude_reason": "Christmas compilation"
+      },
+      {
+        "spotify_album_id": "0YUGUq2ESR8PfZFasFQ3Vf",
+        "include": false,
+        "episode_num": null,
+        "title": "Nessaja (Deutsch/Arabic)",
+        "exclude_reason": "Single"
+      }
+    ],
+    "age_note": "Suitable from 4+",
+    "curator_notes": "The Tabaluga series spans two distinct production eras: 1) The classic Europa Hörspiele (1997-2005) with episodes 01-26, each album containing two stories; and 2) The modern reboot (2021-2023) with episodes 1-7 as individual releases. Peter Maffay's catalog contains numerous Tabaluga music albums, musical recordings, and soundtracks that are not part of the Hörspiel series. The 'Tabaluga und Leo' (2003) album is a spinoff collaboration and not part of the numbered episode run."
+  }
+}

@@ -1,0 +1,725 @@
+{
+  "query": "Hanni und Nanni",
+  "model": "kimi-k2.5",
+  "curated_at": "2026-02-19T22:13:44.394117+00:00",
+  "series": {
+    "id": "hanni_und_nanni",
+    "title": "Hanni und Nanni",
+    "aliases": [
+      "Hanni & Nanni"
+    ],
+    "keywords": [
+      "Hanni und Nanni",
+      "Hanni & Nanni"
+    ],
+    "spotify_artist_ids": [
+      "3iiABQlNuezpR3DcrlyPoA",
+      "4zZ6gJs5QRc7WpCZC6UjQF"
+    ],
+    "episode_pattern": "(?:Folge\\s+)?(\\d+)",
+    "albums": [
+      {
+        "spotify_album_id": "6XTedYExfvjpVlgsqHg8Lh",
+        "include": true,
+        "episode_num": 4,
+        "title": "Folge 4: Immer Ärger mit Elli (Neue Abenteuer)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2AtMEM0eThrrAFZgsVdI2t",
+        "include": true,
+        "episode_num": 3,
+        "title": "Folge 3: Ein heimlicher Gast auf Lindenhof (Neue Abenteuer)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6zZk7LkH1m6YoWWm03YLiE",
+        "include": true,
+        "episode_num": 2,
+        "title": "Folge 2: Freundinnen für immer! (Neue Abenteuer)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4xrdTvOrQTFEGke8945KNt",
+        "include": true,
+        "episode_num": 1,
+        "title": "Folge 1: Warum denn ausgerechnet Internat Lindenhof? (Neue Abenteuer)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5bQb4dIjQm5z8qKaEseDkG",
+        "include": true,
+        "episode_num": 80,
+        "title": "Folge 80: Ein Hoch auf Hanni und Nanni!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0BcBSdtc5f4Bf4z6XH36k9",
+        "include": true,
+        "episode_num": 79,
+        "title": "Folge 79: Prost Neujahr, Hanni und Nanni!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0VmqhWPbO5BZJeRLR5nLff",
+        "include": true,
+        "episode_num": 78,
+        "title": "Folge 78: Daumen hoch, Hanni und Nanni!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "46XiUszz9jesFCyzPXliYX",
+        "include": true,
+        "episode_num": 77,
+        "title": "Folge 77: Durch Zeit und Raum mit Hanni und Nanni",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6iTiUDwRPx0ACc6N9CYhcO",
+        "include": true,
+        "episode_num": 76,
+        "title": "Folge 76: Auf Hanni und Nanni ist immer Verlass",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2Fl2enkd0VYAigzAFxqbCC",
+        "include": true,
+        "episode_num": 75,
+        "title": "Folge 75: Hände hoch, Hanni und Nanni!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6tjXyBIRPbauYOovPUXqnE",
+        "include": true,
+        "episode_num": 74,
+        "title": "Folge 74: Hanni und Nanni spielen falsch",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4LtmmYBGQmzlbQkYRgcZev",
+        "include": true,
+        "episode_num": 73,
+        "title": "Folge 73: Beauty-Abend mit Hanni und Nanni",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "59NlRfzYlq9VTNxaLZwz8h",
+        "include": true,
+        "episode_num": 72,
+        "title": "Folge 72: Volle Kasse für Hanni und Nanni",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0ywe0nqy5TBG48YHkMXaPy",
+        "include": true,
+        "episode_num": 71,
+        "title": "Folge 71: Hanni und Nanni sind nicht zu bremsen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0Bf9y6ulwey47C1pR4Rlfn",
+        "include": false,
+        "episode_num": null,
+        "title": "Adventskalender - Weihnachtszauber mit Hanni und Nanni",
+        "exclude_reason": "Adventskalender - 24 short daily stories, not a numbered episode"
+      },
+      {
+        "spotify_album_id": "4Fo3sSKU61Y9BMHCzXMOB0",
+        "include": true,
+        "episode_num": 70,
+        "title": "Folge 70: Schlechte Karten für Hanni und Nanni",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1CAyx96myKZ2fY7ZSclMgn",
+        "include": true,
+        "episode_num": 69,
+        "title": "Folge 69: Süße Versuchung für Hanni und Nanni",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1kax7ajPWrtJToyjghTj6f",
+        "include": true,
+        "episode_num": 68,
+        "title": "068/Schlaflose Nächte mit Hanni und Nanni",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5yigtkDxPvV6YB4cIXYpQ2",
+        "include": false,
+        "episode_num": null,
+        "title": "Klassiker 12 - 1976 Hanni und Nanni im Landschulheim",
+        "exclude_reason": "Classic re-release - original episodes 1-12 already exist separately; this is a compilation"
+      },
+      {
+        "spotify_album_id": "2pnMcetAP4Q9foSW0vwGKQ",
+        "include": false,
+        "episode_num": null,
+        "title": "Klassiker 11 - 1976 Hanni und Nanni geben ein Fest",
+        "exclude_reason": "Classic re-release - original episodes 1-12 already exist separately; this is a compilation"
+      },
+      {
+        "spotify_album_id": "4CknL6e9eppCHLp7csNrzk",
+        "include": false,
+        "episode_num": null,
+        "title": "Klassiker 10 - 1976 Hanni und Nanni sind groß in Form",
+        "exclude_reason": "Classic re-release - original episodes 1-12 already exist separately; this is a compilation"
+      },
+      {
+        "spotify_album_id": "2rJ3YbxYpf9BiPo1UvCjdn",
+        "include": false,
+        "episode_num": null,
+        "title": "Klassiker 9 - 1976 Hanni und Nanni in tausend Nöten",
+        "exclude_reason": "Classic re-release - original episodes 1-12 already exist separately; this is a compilation"
+      },
+      {
+        "spotify_album_id": "39PdMpo2mrLKgRcEcwFqQW",
+        "include": false,
+        "episode_num": null,
+        "title": "Klassiker 8 - 1974 Fröhliche Tage für Hanni und Nanni",
+        "exclude_reason": "Classic re-release - original episodes 1-12 already exist separately; this is a compilation"
+      },
+      {
+        "spotify_album_id": "0p9Xye50JzzetboKoAtYYd",
+        "include": false,
+        "episode_num": null,
+        "title": "Klassiker 7 - 1974 Hanni und Nanni suchen Gespenster",
+        "exclude_reason": "Classic re-release - original episodes 1-12 already exist separately; this is a compilation"
+      },
+      {
+        "spotify_album_id": "2trOdYvD2P0iv5RSzLxSDU",
+        "include": false,
+        "episode_num": null,
+        "title": "Klassiker 6 - 1974 Hanni und Nanni und das Geisterschloß",
+        "exclude_reason": "Classic re-release - original episodes 1-12 already exist separately; this is a compilation"
+      },
+      {
+        "spotify_album_id": "2dcFyoHWEiZYjJqxN7jVhH",
+        "include": false,
+        "episode_num": null,
+        "title": "Klassiker 5 - 1973 Hanni und Nanni gründen einen Klub",
+        "exclude_reason": "Classic re-release - original episodes 1-12 already exist separately; this is a compilation"
+      },
+      {
+        "spotify_album_id": "6bawb37LvOlNhlZXLTEkmS",
+        "include": false,
+        "episode_num": null,
+        "title": "Klassiker 4 - 1973 Lustige Streiche mit Hanni und Nanni",
+        "exclude_reason": "Classic re-release - original episodes 1-12 already exist separately; this is a compilation"
+      },
+      {
+        "spotify_album_id": "4RgEomzCHKEO0cltgfLC6M",
+        "include": false,
+        "episode_num": null,
+        "title": "Klassiker 3 - 1972 Hanni und Nanni in neuen Abenteuern",
+        "exclude_reason": "Classic re-release - original episodes 1-12 already exist separately; this is a compilation"
+      },
+      {
+        "spotify_album_id": "5ERpKJPjy20MbbIf9nfbka",
+        "include": false,
+        "episode_num": null,
+        "title": "Klassiker 2 - 1972 Hanni und Nanni schmieden neue Pläne",
+        "exclude_reason": "Classic re-release - original episodes 1-12 already exist separately; this is a compilation"
+      },
+      {
+        "spotify_album_id": "2EQGBwh6wRTHobnvSXGKYb",
+        "include": false,
+        "episode_num": null,
+        "title": "Klassiker 1 - 1972 Hanni und Nanni sind immer dagegen",
+        "exclude_reason": "Classic re-release - original episodes 1-12 already exist separately; this is a compilation"
+      },
+      {
+        "spotify_album_id": "25iNCh9iRAu0jF6gWxP5RD",
+        "include": true,
+        "episode_num": 67,
+        "title": "067/Hanni und Nanni im Hochzeitsrausch",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7qkXlfW1BMQ1BcYrg0p0WF",
+        "include": true,
+        "episode_num": 66,
+        "title": "066/Hanni und Nanni tauchen unter",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5OcTTm8aS3WdAAgsZMcJmF",
+        "include": true,
+        "episode_num": 65,
+        "title": "065/Hanni und Nanni voll im Trend!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5isrF6uyiJCWcejVw1OquX",
+        "include": true,
+        "episode_num": 64,
+        "title": "064/Tolle Stimmung mit Hanni und Nanni",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6G1RJB5pqrkgym8DzxL28k",
+        "include": true,
+        "episode_num": 63,
+        "title": "063/Hanni und Nanni werden umschwärmt",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1RgdW9EfofLAYnPSNj01e4",
+        "include": true,
+        "episode_num": 62,
+        "title": "062/Üble Verschwörung gegen Hanni und Nanni",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0jmG3btbBH1oyUteylUQy0",
+        "include": true,
+        "episode_num": 61,
+        "title": "061/Hanni und Nanni bleiben am Ball",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "470J0mvBYQimTLjlnnEJNh",
+        "include": true,
+        "episode_num": 60,
+        "title": "060/Halloweenspuk mit Hanni und Nanni",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2An32odgF1mmhILMMwe78s",
+        "include": true,
+        "episode_num": 59,
+        "title": "059/Bittere Lehre für Hanni und Nanni",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7jxzcTj2u4bY12cTMN8xeL",
+        "include": true,
+        "episode_num": 58,
+        "title": "058/Sommerspaß mit Hanni und Nanni",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6Jov044tT3aTge07M7iTib",
+        "include": true,
+        "episode_num": 57,
+        "title": "057/und das Verbrechen im Schnee",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2CdEyzihZkV9ZcBblWOFs1",
+        "include": true,
+        "episode_num": 56,
+        "title": "056/Schwere Wahl für Hanni und Nanni",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5XrrUr2F6DulnA8ppz2KC6",
+        "include": true,
+        "episode_num": 55,
+        "title": "055/Hanni und Nanni im Schulcafé",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2H3g9H1N9Nlawm59DoqmR2",
+        "include": false,
+        "episode_num": null,
+        "title": "Mehr als beste Freunde - Das Original-Hörspiel zum Kinofilm",
+        "exclude_reason": "Movie tie-in audiobook, not a numbered episode in the main series"
+      },
+      {
+        "spotify_album_id": "3O0Xb2XAuuPdwf4WbF1Cs0",
+        "include": true,
+        "episode_num": 54,
+        "title": "054/Frischer Wind um Hanni und Nanni",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "31x60GFRQMScJCfG8yf4nc",
+        "include": true,
+        "episode_num": 53,
+        "title": "53/Hanni und Nanni außer Kontrolle",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2GIzN7EtmM6t97jpAT9qFI",
+        "include": true,
+        "episode_num": 52,
+        "title": "52/Castingfieber mit Hanni und Nanni",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4D8repySYmezvf31BDMiSx",
+        "include": true,
+        "episode_num": 51,
+        "title": "51/in geheimer Mission",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1ssQ2WfQr9RgwtLxklxqQs",
+        "include": true,
+        "episode_num": 50,
+        "title": "50/kämpfen um Internat Lindenhof",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7ARMgotvAPFhfTg9oGP1qr",
+        "include": true,
+        "episode_num": 49,
+        "title": "49/ermitteln im Dunkeln",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7beCRontofJjYbaJDFkE9T",
+        "include": true,
+        "episode_num": 48,
+        "title": "48/und das große Vermächtnis",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2HtIlc4UDXvpl0E8REzJkv",
+        "include": true,
+        "episode_num": 47,
+        "title": "47/im Kinderdorf",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2OykCAyuULWlUvWV9lC4JZ",
+        "include": true,
+        "episode_num": 46,
+        "title": "46/auf dem Reiterhof",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0SEEjyJyRJRSn7NFiGE740",
+        "include": true,
+        "episode_num": 45,
+        "title": "45/auf heißer Spur",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3EnWXh6SW7CpNQc1cKoX4q",
+        "include": true,
+        "episode_num": 44,
+        "title": "44/Hanni und Nanni stehen vor einem Rätsel",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0g9Wq5PPx1SCh5deXGvV18",
+        "include": true,
+        "episode_num": 43,
+        "title": "43/Hanni und Nanni in Paris",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2fFhKA9QgLbs9ht1frVjvk",
+        "include": true,
+        "episode_num": 42,
+        "title": "42/Schöne Bescherung für Hanni und Nanni",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6sWONYALaTJ7JdMqB5jm44",
+        "include": true,
+        "episode_num": 41,
+        "title": "41/und die geheime Mitternachtsparty",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1yrtGNYPVOCh2pvKn1vqIa",
+        "include": true,
+        "episode_num": 40,
+        "title": "40/helfen in der Not",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4kI63RvmcF9Jf0nhHs3Mh0",
+        "include": true,
+        "episode_num": 39,
+        "title": "39/auf hoher See",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2uxDOJA9NTgSESwOHqM04G",
+        "include": true,
+        "episode_num": 38,
+        "title": "38/in ernster Gefahr",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1BzEQt3sWimI7lb5A4Jmw4",
+        "include": true,
+        "episode_num": 37,
+        "title": "37/gefährden eine Freundschaft",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5MVSXDorlTEXfknUJxyPwa",
+        "include": true,
+        "episode_num": 36,
+        "title": "36/beschützen die Tiere",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5tLUsY7hHHyM4Dt6n7qmYD",
+        "include": true,
+        "episode_num": 35,
+        "title": "35/allein in Lindenhof",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "57oQKXHcAQG8mfBreznaBI",
+        "include": true,
+        "episode_num": 34,
+        "title": "34/auf der Flucht",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7xAOg38Y7nSMIcEagpBQs1",
+        "include": true,
+        "episode_num": 33,
+        "title": "33/Gefangen im Eis",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1f5tc91j3yLQEBRey9dTyp",
+        "include": true,
+        "episode_num": 32,
+        "title": "32/lösen alle Probleme",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4f2viiiJu4foNApI0tr8RB",
+        "include": true,
+        "episode_num": 31,
+        "title": "31/Alarm bei Hanni und Nanni",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "488OPnpBA4Y7CTfiABQT9A",
+        "include": true,
+        "episode_num": 30,
+        "title": "30/wittern eine Tragödie",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1ndwxHBh4lSQPmuIQOsVwL",
+        "include": true,
+        "episode_num": 29,
+        "title": "29/Geisterbeschwörung mit Hanni und Nanni",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1W5nC7gYzGy9mAx5Rsm0LO",
+        "include": true,
+        "episode_num": 28,
+        "title": "28/im Schauspielhaus",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6mKzQKcLEqE1bKaQWWbFtP",
+        "include": true,
+        "episode_num": 27,
+        "title": "27/Applaus für Hanni und Nanni",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5JKJca6FVH8TqXFTATtCyo",
+        "include": true,
+        "episode_num": 26,
+        "title": "26/Schwere Entscheidung für Hanni und Nanni",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2QL44aPEnWUHyy8qCtzugm",
+        "include": true,
+        "episode_num": 25,
+        "title": "25/auf falscher Fährte",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1nSzmfZWGJxw4ortQnbOz6",
+        "include": true,
+        "episode_num": 24,
+        "title": "24/und das Wasserballett",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4Fgory3hReYEsTse2AD2N3",
+        "include": true,
+        "episode_num": 23,
+        "title": "23/hüten ein Geheimnis",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4sTyOwEH0zvFoe5KZ6I0Fw",
+        "include": true,
+        "episode_num": 22,
+        "title": "22/Gute Zeiten mit Hanni und Nanni",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0wyiLH442gx2vAWlr4DX86",
+        "include": true,
+        "episode_num": 21,
+        "title": "21/retten die Pferde",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7LbcM0HwyMCNDjKlHbzieO",
+        "include": true,
+        "episode_num": 20,
+        "title": "20/sind große Klasse",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3isr13K3tWMZId4H2Hgzi5",
+        "include": true,
+        "episode_num": 19,
+        "title": "19/Gefährliches Spiel für Hanni und Nanni",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2UCwCEyyI4f8LgK87RmBVG",
+        "include": true,
+        "episode_num": 18,
+        "title": "18/Die besten Freundinnen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0xPEk3BLRyX1Ymeknx8006",
+        "include": true,
+        "episode_num": 17,
+        "title": "17/Wintertrubel mit Hanni und Nanni",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4cnu7LmTI0zdzyKphybmeB",
+        "include": true,
+        "episode_num": 16,
+        "title": "16/kommen groß raus",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2Hsk7IZGxkxhBH3V8uZNCd",
+        "include": true,
+        "episode_num": 15,
+        "title": "15/und ihre Gäste",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "427GAnAUnUfH5jmLAnfb3M",
+        "include": true,
+        "episode_num": 14,
+        "title": "14/bringen alle in Schwung",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5qVndoaeQrkWCokVElf91J",
+        "include": true,
+        "episode_num": 13,
+        "title": "13/geben nicht auf",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5DqKY4QJrCk9Q35PLZf4Rq",
+        "include": true,
+        "episode_num": 12,
+        "title": "12/im Landschulheim",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3xGuyCiCaggZtadtSD3Kyb",
+        "include": true,
+        "episode_num": 11,
+        "title": "11/geben ein Fest",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3FRMWu6bfBo3zVr8MVoYQ8",
+        "include": true,
+        "episode_num": 10,
+        "title": "10/groß in Form",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1TBj5vu4Hq6jsIqNS7Jwjf",
+        "include": true,
+        "episode_num": 9,
+        "title": "09/in tausend Nöten",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1QSvqWwWxwQ3ZZe95eAGdA",
+        "include": true,
+        "episode_num": 8,
+        "title": "08/Fröhliche Tage für Hanni und Nanni",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1TtQzjRDb96hyRQlZTnCU4",
+        "include": true,
+        "episode_num": 7,
+        "title": "07/suchen Gespenster",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7IkoKOxdHRHdamCTmsO5rc",
+        "include": true,
+        "episode_num": 6,
+        "title": "06/im Geisterschloss",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4drTbbpheLCgo4D4bq6hd7",
+        "include": true,
+        "episode_num": 5,
+        "title": "05/gründen einen Klub",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3cVoL42B6Tk0XfENDvESrw",
+        "include": true,
+        "episode_num": 4,
+        "title": "04/Lustige Streiche mit Hanni und Nanni",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5cSal1otXLIaRfDpocF2RH",
+        "include": true,
+        "episode_num": 3,
+        "title": "03/in neuen Abenteuern",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3ujRGehOcxUD9j9SYCFgAj",
+        "include": true,
+        "episode_num": 2,
+        "title": "02/schmieden neue Pläne",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4CUufLD10OrD2yuk3PJkYG",
+        "include": true,
+        "episode_num": 1,
+        "title": "01/sind immer dagegen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3Zh93DbJWixZCajBbMqsEy",
+        "include": false,
+        "episode_num": null,
+        "title": "Ich muss gar nichts (Hanni und Nanni Version)",
+        "exclude_reason": "Single track - theme song release, not an episode"
+      },
+      {
+        "spotify_album_id": "4UxSKNc4iqK1lerITC2y0W",
+        "include": false,
+        "episode_num": null,
+        "title": "Mehr als beste Freunde + BFF",
+        "exclude_reason": "Music single from different artist (Hanni & Nanni), not a Hörspiel episode"
+      }
+    ],
+    "age_note": "Suitable from 5+",
+    "curator_notes": "Series spans two Spotify artists: 'Hanni und Nanni' (main, 52k followers) and 'Hanni & Nanni' (9k followers). The second artist only has a music single which is excluded. The main artist contains the complete Hörspiel series (episodes 1-80 plus a new 'Neue Abenteuer' sub-series). Episode numbering has varied formats over the years: early episodes use 'NN/' prefix (e.g., '068/'), mid-series uses 'Folge N:', and recent episodes use 'Folge N:' format. The 'Klassiker' albums are re-releases of the original 12 episodes from 1972-1976 and are excluded as duplicates. An Adventskalender (Christmas calendar) with 24 short daily stories is also excluded as it's not part of the main episode run. A movie tie-in audiobook 'Mehr als beste Freunde' is also excluded."
+  }
+}

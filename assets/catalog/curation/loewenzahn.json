@@ -1,0 +1,238 @@
+{
+  "query": "Löwenzahn",
+  "model": "kimi-k2.5",
+  "curated_at": "2026-02-20T00:42:21.522131+00:00",
+  "series": {
+    "id": "loewenzahn",
+    "title": "Löwenzahn",
+    "aliases": [],
+    "keywords": [
+      "Löwenzahn"
+    ],
+    "spotify_artist_ids": [
+      "0p0BKNqJuryRzJj2yrZmNp"
+    ],
+    "episode_pattern": "(?:Episode|Folge)\\s+(\\d+)",
+    "albums": [
+      {
+        "spotify_album_id": "7mButJSOPwVzzrxZi3sR8K",
+        "include": true,
+        "episode_num": 17,
+        "title": "Episode 17: Der Tag als Fritz ein Papa war",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1KjS3WIlzC6go46wcscTNJ",
+        "include": true,
+        "episode_num": 16,
+        "title": "Episode 16: Fritz Fuchs' bunte Familienbande",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "616eyGp48i4KmqmfNr5ip6",
+        "include": true,
+        "episode_num": 15,
+        "title": "Episode 15: Ein Kroko kommt selten allein",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3MqQoEdAYzGSXwSVJpmH0z",
+        "include": true,
+        "episode_num": 14,
+        "title": "Episode 14: Im Reich der Raubkatzen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7aO0gca3QjjSluWGhvZtpi",
+        "include": true,
+        "episode_num": 13,
+        "title": "Episode 13: Die Riesen der Savanne",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "78Zapn9RnWvnjJqgODNgkM",
+        "include": true,
+        "episode_num": 12,
+        "title": "Episode 12: Die große Safari",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5hAHWQI7BGp2GDGI7lQQTr",
+        "include": true,
+        "episode_num": 11,
+        "title": "Episode 11: Der doppelte Bankräuber",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0U41g1ZUCR2e0V1xDnL54b",
+        "include": true,
+        "episode_num": 10,
+        "title": "Episode 10: Dicke Backen und kurze Beine",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "19VqJKWcLjycds5IUqARM7",
+        "include": true,
+        "episode_num": 14,
+        "title": "Löwenzahn CLASSICS: Folge 14 - Peter geht zur Feuerwehr",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1ziY9K7tSTZvASsQ7xWze1",
+        "include": true,
+        "episode_num": 13,
+        "title": "Löwenzahn CLASSICS: Folge 13 - Peter will 'ne Minikuh",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1628LG4tGMNiyVtvYKN0nA",
+        "include": true,
+        "episode_num": 12,
+        "title": "Löwenzahn CLASSICS: Folge 12 - Reise ins Abenteuer Teil 2",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4CG6cUoxLhe4cvNn4NgzQZ",
+        "include": true,
+        "episode_num": 11,
+        "title": "Löwenzahn CLASSICS: Folge 11 - Reise ins Abenteuer Teil 1",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0zc0kqB4o3oXGwYBX1HSaD",
+        "include": true,
+        "episode_num": 10,
+        "title": "Löwenzahn CLASSICS: Folge 10 - Peter spielt den Wetterfrosch",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2vlCznueqZebgaAEqpYaAd",
+        "include": true,
+        "episode_num": 9,
+        "title": "Löwenzahn CLASSICS: Folge 09 - Peter stürmt die Berggipfel",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "05Sngq3UX7WZRrqiZduut5",
+        "include": true,
+        "episode_num": 8,
+        "title": "Löwenzahn CLASSICS: Folge 08 - Peter jagt den Dieb von Bärstadt",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1TjAlLPhQX8GXy2q1SG6hs",
+        "include": true,
+        "episode_num": 7,
+        "title": "Löwenzahn CLASSICS: Folge 07 - Peter und das Heulen der Wölfe",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5E8xDbQMUOh6Imi9E8XktW",
+        "include": true,
+        "episode_num": 6,
+        "title": "Löwenzahn CLASSICS: Folge 06 - Peter und das Biest vom Bärensee",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2bneBzGrch4nsyfc7ksXgn",
+        "include": true,
+        "episode_num": 5,
+        "title": "Löwenzahn CLASSICS: Folge 05 - Peter und die Wunderlampe",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7IRNGg0uop1vW8IkNDD44J",
+        "include": true,
+        "episode_num": 4,
+        "title": "Löwenzahn CLASSICS: Folge 04 - Der Schatz der alten Römer",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6Zb8gnLDF54v6StxWFvHft",
+        "include": true,
+        "episode_num": 3,
+        "title": "Löwenzahn CLASSICS: Folge 03 - Peter kauft 'ne Eisenbahn",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1ip1jv0F4yc6pSLaNhMqdB",
+        "include": true,
+        "episode_num": 2,
+        "title": "Löwenzahn CLASSICS: Folge 02 - Peter und der Müllwichtel",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3N5CbahYQ5qK2TAFg6KXWM",
+        "include": true,
+        "episode_num": 1,
+        "title": "Löwenzahn CLASSICS: Folge 01 - Peter und der Tanz der Vampire",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1vcJdL14wiKHyVhu6Q3rnw",
+        "include": true,
+        "episode_num": 9,
+        "title": "Episode 09: Sos im Wattenmeer",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2pm5pWLYJmzIbzl2BvXTWn",
+        "include": true,
+        "episode_num": 8,
+        "title": "Episode 08: Punktsieg für die Marienkäfer",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "20GkRF8SlL6VWTJKeLopyg",
+        "include": true,
+        "episode_num": 7,
+        "title": "Episode 07: Goldrausch in Bärstadt",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2mpHx8ks0H8w7A7bYCDePk",
+        "include": true,
+        "episode_num": 6,
+        "title": "Episode 06: Ein Gas unter Druck",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0e1RbG0IqvLy3HucYqHOHl",
+        "include": true,
+        "episode_num": 5,
+        "title": "Episode 05: Ein Dino im Garten",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4tjLn7L4Av0VmOK9HKTskz",
+        "include": true,
+        "episode_num": 4,
+        "title": "Episode 04: Geheimaktion auf der Baustelle",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0tYXzrAFFDqHLq0AZRBnI0",
+        "include": true,
+        "episode_num": 3,
+        "title": "Episode 03: Der Turm der Vampire",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1mI4l0j7LJPA8uRiR2vTzE",
+        "include": true,
+        "episode_num": 2,
+        "title": "Episode 02: Das Heulen der Wölfe",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2iqaLit9fq95EqpHHbSxfg",
+        "include": true,
+        "episode_num": 1,
+        "title": "Episode 01: Abenteuer Feuerland",
+        "exclude_reason": null
+      }
+    ],
+    "age_note": "Suitable from 5+",
+    "curator_notes": "Two distinct eras on the same artist: 1) 'Episode 01-17' are newer episodes with Fritz Fuchs (2021-present), 2) 'Löwenzahn CLASSICS Folge 01-14' are classic episodes with Peter Lustig (2023 re-releases). No Retro-Archiv or Junior variants found for this series. All albums are individual episodes split into multiple tracks (Teil 1-17), not box sets."
+  }
+}

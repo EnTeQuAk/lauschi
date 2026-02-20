@@ -1,0 +1,2137 @@
+{
+  "query": "Die drei ???",
+  "model": "kimi-k2.5",
+  "curated_at": "2026-02-20T06:16:34.519276+00:00",
+  "series": {
+    "id": "die_drei_fragezeichen",
+    "title": "Die drei ???",
+    "aliases": [
+      "Die drei Fragezeichen",
+      "The Three Investigators",
+      "Die 3 ???"
+    ],
+    "keywords": [],
+    "spotify_artist_ids": [
+      "3meJIgRw7YleJrmbpbJK6S"
+    ],
+    "episode_pattern": "^(?:Folge\\s+)?(\\d{1,3})[\\/:]",
+    "albums": [
+      {
+        "spotify_album_id": "2YWVtCaQLAUYyJrjCgw6qG",
+        "include": false,
+        "episode_num": null,
+        "title": "Toteninsel (Das Original-Hörspiel zum Kinofilm)",
+        "exclude_reason": "Film soundtrack, not regular series episode"
+      },
+      {
+        "spotify_album_id": "05Nc9NjE8Kl8qPMPkQ2hK1",
+        "include": false,
+        "episode_num": null,
+        "title": "Tödliche Törtchen (Tante Mathilda ermittelt)",
+        "exclude_reason": "Spin-off series - Tante Mathilda investigates"
+      },
+      {
+        "spotify_album_id": "0p1KjVQaxp5kQOqXuAlIp5",
+        "include": false,
+        "episode_num": null,
+        "title": "Mord unter Palmen (Victor Hugenay ermittelt)",
+        "exclude_reason": "Spin-off series - Victor Hugenay investigates"
+      },
+      {
+        "spotify_album_id": "0HV7C2bXMtiApWyNEJ0IKU",
+        "include": false,
+        "episode_num": null,
+        "title": "Eiskalter Rausch (Kommissar Reynolds ermittelt)",
+        "exclude_reason": "Spin-off series - Kommissar Reynolds investigates"
+      },
+      {
+        "spotify_album_id": "1u6tWG176AjKMJgIoz4Reu",
+        "include": false,
+        "episode_num": null,
+        "title": "Winter-Fälle",
+        "exclude_reason": "Box set / compilation of winter-themed episodes"
+      },
+      {
+        "spotify_album_id": "5yCEzMfmMnSG97SXDFGjR8",
+        "include": true,
+        "episode_num": 236,
+        "title": "Folge 236: Im Bann des Barrakudas",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0PLjPVDHMsLP0tF1Zt6uvx",
+        "include": false,
+        "episode_num": null,
+        "title": "Adventskalender - Gruselige Weihnacht überall",
+        "exclude_reason": "Advent calendar special, not numbered episode"
+      },
+      {
+        "spotify_album_id": "09pBOlMa7AxGh1JbdXmrgc",
+        "include": false,
+        "episode_num": null,
+        "title": "Das Dorf der Teufel",
+        "exclude_reason": "Unnumbered special release"
+      },
+      {
+        "spotify_album_id": "318zgpupgm4xcJhaawBbx7",
+        "include": false,
+        "episode_num": null,
+        "title": "Die gruseligsten Fälle",
+        "exclude_reason": "Box set / compilation"
+      },
+      {
+        "spotify_album_id": "031exGT0P6IWBYY6faqoLV",
+        "include": true,
+        "episode_num": 235,
+        "title": "Folge 235: und das Fantasmofon",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4oprA1H2km3RoCqY8MpXIC",
+        "include": false,
+        "episode_num": null,
+        "title": "Die Auferstehung",
+        "exclude_reason": "Special novel/audiobook release, not numbered episode"
+      },
+      {
+        "spotify_album_id": "4sQsFeHojdbFPB07vSg3Rd",
+        "include": true,
+        "episode_num": 234,
+        "title": "Folge 234: und der lebende Tresor",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0qWCMZsCwsj5cB5Poknl3l",
+        "include": false,
+        "episode_num": null,
+        "title": "Hazel Brugger liest... und der weinende Sarg",
+        "exclude_reason": "Celebrity narrator audiobook version of episode 042"
+      },
+      {
+        "spotify_album_id": "5rpHiMjPPL2iZB1s0sLzNM",
+        "include": false,
+        "episode_num": null,
+        "title": "Sommer-Fälle",
+        "exclude_reason": "Box set / compilation of summer-themed episodes"
+      },
+      {
+        "spotify_album_id": "0qZ0R61AqoD2i8GnzUk91C",
+        "include": true,
+        "episode_num": 233,
+        "title": "Folge 233: Die Nacht der Gewitter",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1Qnn3AAN3Nquv7GlNk41YQ",
+        "include": true,
+        "episode_num": 232,
+        "title": "Folge 232: Die Stadt aus Gold",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4MoN1GbGjfl1LjRsV14BAh",
+        "include": false,
+        "episode_num": null,
+        "title": "Die drei ??? und der Karpatenhund (Das Original-Hörspiel zum Kinofilm)",
+        "exclude_reason": "Film soundtrack, not regular series episode"
+      },
+      {
+        "spotify_album_id": "6isiJbL3hh7e60KigIgKuY",
+        "include": true,
+        "episode_num": 231,
+        "title": "Folge 231: und der Dreiäugige Schakal",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "154I9rUwPuFHj6snU4amYg",
+        "include": true,
+        "episode_num": 230,
+        "title": "Folge 230: Der Tag der Toten",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6SMOmIWODrO1gND2YPpjHf",
+        "include": true,
+        "episode_num": 229,
+        "title": "Folge 229: Drehbuch der Täuschung",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6sNAlohza1ZTWVMGhFTGJW",
+        "include": true,
+        "episode_num": 228,
+        "title": "Folge 228: Der Ruf der Krähen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2CMXywsh8wVXXCmr2bLTZ6",
+        "include": true,
+        "episode_num": 227,
+        "title": "Folge 227: Melodie der Rache",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3Sv5tE8PcAlGY6Ys2ISQXF",
+        "include": true,
+        "episode_num": 226,
+        "title": "Folge 226: Die Spur der Toten",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0FuC7q4bJG41g1naKBx4ot",
+        "include": true,
+        "episode_num": 225,
+        "title": "Folge 225: und der Puppenmacher",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7JhdaReI98XYFrzb3jJPFa",
+        "include": true,
+        "episode_num": 224,
+        "title": "Folge 224: Die Yacht des Verrats",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0oZaQfEwMWY2TfviD4fEdV",
+        "include": false,
+        "episode_num": null,
+        "title": "Adventskalender - Böser die Glocken nie klingen",
+        "exclude_reason": "Advent calendar special, not numbered episode"
+      },
+      {
+        "spotify_album_id": "4UCwiqC6kHQIsODPuJ0GoZ",
+        "include": false,
+        "episode_num": null,
+        "title": "Kai Schwind liest... und das Bergmonster",
+        "exclude_reason": "Celebrity narrator audiobook version of episode 014"
+      },
+      {
+        "spotify_album_id": "451jKBwuSNrNgLlqEAZfra",
+        "include": true,
+        "episode_num": 223,
+        "title": "Folge 223: und der Knochenmann",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6xZHTtiSBFxKdV2rJVHj2V",
+        "include": false,
+        "episode_num": null,
+        "title": "Klaas Heufer-Umlauf liest... und der schrullige Millionär",
+        "exclude_reason": "Celebrity narrator audiobook version of episode 046"
+      },
+      {
+        "spotify_album_id": "3o2Gwvg8lqLNRnlV1v1s5K",
+        "include": true,
+        "episode_num": 222,
+        "title": "Folge 222: und die Gesetzlosen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "77aMP5aTkzIaVW1SPxvLxy",
+        "include": false,
+        "episode_num": null,
+        "title": "Mai Thi Nguyen-Kim liest... und die rätselhaften Bilder",
+        "exclude_reason": "Celebrity narrator audiobook version of episode 009"
+      },
+      {
+        "spotify_album_id": "1KpVSqapKAUAtAepWWxPWs",
+        "include": true,
+        "episode_num": 221,
+        "title": "Folge 221: Manuskript des Satans",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2Z5khV1jYxMvc5peWZdnwC",
+        "include": false,
+        "episode_num": null,
+        "title": "Holger Mahlich liest...und die gefährliche Erbschaft",
+        "exclude_reason": "Celebrity narrator audiobook version of episode 017"
+      },
+      {
+        "spotify_album_id": "67Ipucoa0blx27O3sV7yAi",
+        "include": false,
+        "episode_num": null,
+        "title": "Erbe des Drachen (Das Original-Hörspiel zum Kinofilm)",
+        "exclude_reason": "Film soundtrack, not regular series episode"
+      },
+      {
+        "spotify_album_id": "01i4iyB40EU7Qgd6EgKoZt",
+        "include": true,
+        "episode_num": 220,
+        "title": "Folge 220: Im Wald der Gefahren",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3IxPhnYxh3qACTa2GBYVUw",
+        "include": false,
+        "episode_num": null,
+        "title": "Eckart Dux liest...und der Höhlenmensch",
+        "exclude_reason": "Celebrity narrator audiobook version of episode 035"
+      },
+      {
+        "spotify_album_id": "6ewdyVIW2LurJhYGU0UBAa",
+        "include": true,
+        "episode_num": 219,
+        "title": "Folge 219: und die Teufelsklippe",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0lwfVPSf5Zs5PTGkcSgSeo",
+        "include": false,
+        "episode_num": null,
+        "title": "Nicholas Müller liest... und die silberne Spinne",
+        "exclude_reason": "Celebrity narrator audiobook version of episode 024"
+      },
+      {
+        "spotify_album_id": "4qHjQN4qvZu9x27O5LOn2G",
+        "include": false,
+        "episode_num": null,
+        "title": "Jan Böhmermann liest... und die flüsternde Mumie",
+        "exclude_reason": "Celebrity narrator audiobook version of episode 010"
+      },
+      {
+        "spotify_album_id": "5u2wd0lYukcINw8dUFCREq",
+        "include": false,
+        "episode_num": null,
+        "title": "Adventskalender - Eine schreckliche Bescherung",
+        "exclude_reason": "Advent calendar special, not numbered episode"
+      },
+      {
+        "spotify_album_id": "2WwOKZLpFWrvw3O9CISod1",
+        "include": true,
+        "episode_num": 218,
+        "title": "Folge 218: Im Netz der Lügen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1WlRnNunbHpnRTTVkxMRnd",
+        "include": true,
+        "episode_num": 217,
+        "title": "Folge 217: und der Kristallschädel",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2BkEUZY7Da7bqlUjmMA2Cq",
+        "include": true,
+        "episode_num": 216,
+        "title": "Folge 216: Die Schwingen des Unheils",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "76pYNMMVZTiuNy3IoXcavU",
+        "include": true,
+        "episode_num": 215,
+        "title": "Folge 215: und die verlorene Zeit",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2uMs1XZBdGdZuXOY7draw4",
+        "include": false,
+        "episode_num": null,
+        "title": "und der dreiäugige Totenkopf (Kopfhörer-Hörspiel)",
+        "exclude_reason": "3D headphone version of episode 076"
+      },
+      {
+        "spotify_album_id": "7FVn5TYEbQbWM6r8unRaCe",
+        "include": false,
+        "episode_num": null,
+        "title": "und das versunkene Schiff (Kopfhörer-Hörspiel)",
+        "exclude_reason": "3D headphone version of episode 093"
+      },
+      {
+        "spotify_album_id": "6T5D7KpnftvfLaYPp94U4y",
+        "include": false,
+        "episode_num": null,
+        "title": "Das Grab der Inka-Mumie (Kopfhörer-Hörspiel)",
+        "exclude_reason": "3D headphone version of episode 071"
+      },
+      {
+        "spotify_album_id": "1cJ3fNx6K47p4eDFqhnvsA",
+        "include": true,
+        "episode_num": 214,
+        "title": "Folge 214: und der Geisterbunker",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5yI3MACumg0ZjPSRUOFmoB",
+        "include": false,
+        "episode_num": null,
+        "title": "Karin Lieneweg liest...und der sprechende Totenkopf",
+        "exclude_reason": "Celebrity narrator audiobook version of episode 006"
+      },
+      {
+        "spotify_album_id": "4BZfSV9maCil4l4yftT74F",
+        "include": true,
+        "episode_num": 213,
+        "title": "Folge 213: Der Fluch der Medusa",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5KIQUoxcSBlPN3ie9xVmnA",
+        "include": false,
+        "episode_num": null,
+        "title": "Sascha Draeger liest...und der gestohlene Preis",
+        "exclude_reason": "Celebrity narrator audiobook version of episode 044"
+      },
+      {
+        "spotify_album_id": "2zHMeFNQQxKOmUgmppOjIM",
+        "include": true,
+        "episode_num": 212,
+        "title": "Folge 212: und der weiße Leopard",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6heVFpJImaEoJT3TEtlSMl",
+        "include": false,
+        "episode_num": null,
+        "title": "Axel Prahl liest...und die schwarze Katze",
+        "exclude_reason": "Celebrity narrator audiobook version of episode 004"
+      },
+      {
+        "spotify_album_id": "7pZotNNAYOkeHNvJRKzYRk",
+        "include": true,
+        "episode_num": 211,
+        "title": "Folge 211: und der Jadekönig",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4u8yNY4Un2nErgeNRMFeh3",
+        "include": false,
+        "episode_num": null,
+        "title": "Jürgen Thormann liest... und der Zauberspiegel",
+        "exclude_reason": "Celebrity narrator audiobook version of episode 016"
+      },
+      {
+        "spotify_album_id": "3ieWqOL150wJOcft7iZHKZ",
+        "include": true,
+        "episode_num": 210,
+        "title": "Folge 210: und die schweigende Grotte",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7fsdjOiouCHQ9Rlmrz7ZIa",
+        "include": false,
+        "episode_num": null,
+        "title": "Judy Winter liest...und der Ameisenmensch",
+        "exclude_reason": "Celebrity narrator audiobook version of episode 032"
+      },
+      {
+        "spotify_album_id": "0q4FbI22wSMrzgWh5vgHi9",
+        "include": true,
+        "episode_num": 209,
+        "title": "Folge 209: Kreaturen der Nacht",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6WgRUQY49NRG6JT6dJ4xEq",
+        "include": true,
+        "episode_num": 208,
+        "title": "208/Kelch des Schicksals",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3t9NGa2A9SGvipHoU5Bc6m",
+        "include": false,
+        "episode_num": null,
+        "title": "und das Grab der Maya (Kopfhörer-Hörspiel)",
+        "exclude_reason": "3D headphone version of main episode"
+      },
+      {
+        "spotify_album_id": "4vj4Dq2q7fyvwY7UCj2vin",
+        "include": true,
+        "episode_num": 209,
+        "title": "und das Grab der Maya",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7ynXpeQRwzqKiv8WVh7c7B",
+        "include": false,
+        "episode_num": null,
+        "title": "Adventskalender - O du finstere",
+        "exclude_reason": "Advent calendar special, not numbered episode"
+      },
+      {
+        "spotify_album_id": "6BxvBG51szGmlg5x3F1rHj",
+        "include": true,
+        "episode_num": 207,
+        "title": "207/Die falschen Detektive",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5YuHQZqJWP3EmAvMSoWeTs",
+        "include": false,
+        "episode_num": null,
+        "title": "Katrin Fröhlich liest ...und die singende Schlange",
+        "exclude_reason": "Celebrity narrator audiobook version of episode 025"
+      },
+      {
+        "spotify_album_id": "7khAMIQlYBmW7mI9cphDhJ",
+        "include": true,
+        "episode_num": 206,
+        "title": "206/und der Mottenmann",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0VmZF3nyMuhRDcyVY0MuE1",
+        "include": false,
+        "episode_num": null,
+        "title": "Oliver Kalkofe liest ...und der lachende Schatten",
+        "exclude_reason": "Celebrity narrator audiobook version of episode 013"
+      },
+      {
+        "spotify_album_id": "2Sw9FBHOoT6fBhYxHsRFxq",
+        "include": true,
+        "episode_num": 205,
+        "title": "205/Das rätselhafte Erbe",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1PO7K8YvBHLa5d6jIuTkaj",
+        "include": false,
+        "episode_num": null,
+        "title": "Tim Grobe liest ...und der Fluch des Rubins",
+        "exclude_reason": "Celebrity narrator audiobook version of episode 005"
+      },
+      {
+        "spotify_album_id": "1yMMjH3tDN9GyXiADzTkL9",
+        "include": true,
+        "episode_num": 204,
+        "title": "204/Der dunkle Wächter",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5femMu6wEiqpYJ2O6FxwFH",
+        "include": false,
+        "episode_num": null,
+        "title": "Henning May liest ...und der seltsame Wecker",
+        "exclude_reason": "Celebrity narrator audiobook version of episode 012"
+      },
+      {
+        "spotify_album_id": "76M62o1rdKEqTN1JIbGdGV",
+        "include": true,
+        "episode_num": 76,
+        "title": "und der dreiäugige Totenkopf",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "79Drf49yNdGLBzzHMGGmBz",
+        "include": true,
+        "episode_num": 203,
+        "title": "203/Tauchgang ins Ungewisse",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5q9quwSbPpYxoAzMSKGfIw",
+        "include": false,
+        "episode_num": null,
+        "title": "Jessica Schwarz liest ...und der magische Kreis",
+        "exclude_reason": "Celebrity narrator audiobook version of episode 027"
+      },
+      {
+        "spotify_album_id": "14OPACj7jtzXOrgxis7pu2",
+        "include": false,
+        "episode_num": null,
+        "title": "Bela B liest... und der tanzende Teufel",
+        "exclude_reason": "Celebrity narrator audiobook version of episode 021"
+      },
+      {
+        "spotify_album_id": "4Exxckn0GwbhnGl6N4um2N",
+        "include": true,
+        "episode_num": 202,
+        "title": "202/Das weiße Grab",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3qqFfEjRLF7pxUpWw2g0P5",
+        "include": false,
+        "episode_num": null,
+        "title": "Oliver Rohrbeck liest ...und der Super-Papagei",
+        "exclude_reason": "Celebrity narrator audiobook version of episode 001"
+      },
+      {
+        "spotify_album_id": "1uPmiAn5sBUdGCbAeiPTNG",
+        "include": false,
+        "episode_num": null,
+        "title": "Jens Wawrczeck liest ...und das Gespensterschloß",
+        "exclude_reason": "Celebrity narrator audiobook version of episode 011"
+      },
+      {
+        "spotify_album_id": "5oCCy3K7JBWfdfp4QNhYxA",
+        "include": false,
+        "episode_num": null,
+        "title": "Andreas Fröhlich liest...und der Karpatenhund",
+        "exclude_reason": "Celebrity narrator audiobook version of episode 003"
+      },
+      {
+        "spotify_album_id": "3yzJOoR3024vkb7WXRVtFr",
+        "include": false,
+        "episode_num": null,
+        "title": "Jannik Schümann liest ...und der Phantomsee",
+        "exclude_reason": "Celebrity narrator audiobook version of episode 002"
+      },
+      {
+        "spotify_album_id": "6UN8m07SmIzyDe63H0oljL",
+        "include": true,
+        "episode_num": 93,
+        "title": "und das versunkene Schiff",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2EzmlFDy8q8etqohlJpaaB",
+        "include": false,
+        "episode_num": null,
+        "title": "Anna Thalbach liest ... und die Geisterinsel",
+        "exclude_reason": "Celebrity narrator audiobook version of episode 018"
+      },
+      {
+        "spotify_album_id": "4FxNfDSXqAg8N1D8NBtvZ5",
+        "include": true,
+        "episode_num": 201,
+        "title": "201/Höhenangst",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4QQ2iK81MWMhK2Qqr1AO0R",
+        "include": false,
+        "episode_num": null,
+        "title": "Bastian Pastewka liest... und der grüne Geist",
+        "exclude_reason": "Celebrity narrator audiobook version of episode 008"
+      },
+      {
+        "spotify_album_id": "09Ckx1JLgPsQHHGuSIt2j3",
+        "include": true,
+        "episode_num": 200,
+        "title": "200/Feuriges Auge",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7bTKP2hU0LRks1bXN1R7ko",
+        "include": true,
+        "episode_num": 199,
+        "title": "199/und der grüne Kobold",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4piiNuehCc4VjN8NBIcnRt",
+        "include": true,
+        "episode_num": 198,
+        "title": "198/Die Legende der Gaukler",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "39K0Sczt1mIbW33lB5RNer",
+        "include": true,
+        "episode_num": 4,
+        "title": "Und die schwarze Katze",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0GRoTtX1wI16M7GSnnN96R",
+        "include": true,
+        "episode_num": 197,
+        "title": "197/Im Auge des Sturms",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "39a7bHWZyWPxwukCHPrTly",
+        "include": true,
+        "episode_num": 196,
+        "title": "196/Geheimnis des Bauchredners",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7ehMwTyKuIM4zdiltMxE4X",
+        "include": false,
+        "episode_num": null,
+        "title": "und der schwarze Tag (Sechs Kurzgeschichten)",
+        "exclude_reason": "Short story collection, not numbered episode"
+      },
+      {
+        "spotify_album_id": "3pbXIzVk7CA5VM2ltxu9TN",
+        "include": true,
+        "episode_num": 195,
+        "title": "195/Im Reich der Ungeheuer",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2oKngJQA5TdxF5QcP3uZEf",
+        "include": true,
+        "episode_num": 194,
+        "title": "194/und die Zeitreisende",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4m6VlVOWfrUVhWWrueMo7p",
+        "include": true,
+        "episode_num": 193,
+        "title": "193/Schrecken aus der Tiefe",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1qag2AiFcxXU1UaIgrDFff",
+        "include": true,
+        "episode_num": 192,
+        "title": "192/im Bann des Drachen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2ICtKWqLqMBTzi7UeByhKd",
+        "include": true,
+        "episode_num": 191,
+        "title": "191/Verbrechen im Nichts",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "100ZHoBX994GlckxjoGpma",
+        "include": true,
+        "episode_num": 190,
+        "title": "190/und die Kammer der Rätsel",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "02MXdFaVMz0qQJjmivjI8g",
+        "include": true,
+        "episode_num": 189,
+        "title": "189/und der unsichtbare Passagier",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3egVVb6Zt0LdS6agBMGsiJ",
+        "include": true,
+        "episode_num": 72,
+        "title": "Und das kalte Auge",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "22soWryC08ctyMNb6NrMGD",
+        "include": true,
+        "episode_num": 188,
+        "title": "188/Signale aus dem Jenseits",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7mH8vdj0TkiPO6fMHBCvYj",
+        "include": true,
+        "episode_num": 73,
+        "title": "und der Tornadojäger",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6uj8JeIgluMibSu8Divkbh",
+        "include": true,
+        "episode_num": 187,
+        "title": "187/und das silberne Amulett",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7osWCNCcvGfqP31G7281iL",
+        "include": true,
+        "episode_num": 71,
+        "title": "Das Grab der Inka-Mumie",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5kevid18ttcAPK1vk0kLtc",
+        "include": true,
+        "episode_num": 186,
+        "title": "186/Insel des Vergessens",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7eHh5PAxQBt5KBWzd3a10G",
+        "include": true,
+        "episode_num": 185,
+        "title": "185/und der Mann ohne Augen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5B7w9vkfh979tEyzwkLk9k",
+        "include": true,
+        "episode_num": 184,
+        "title": "184/und der Hexengarten",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1qhlRmclvYWkrYkLnFxFZN",
+        "include": true,
+        "episode_num": 183,
+        "title": "183/und der letzte Song",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4zCPToY7AoTqvOKf4HRqAN",
+        "include": true,
+        "episode_num": 182,
+        "title": "182/Im Haus des Henkers",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "18xyskqkEGnVfVFhznkFIK",
+        "include": true,
+        "episode_num": 181,
+        "title": "181/Das Kabinett des Zauberers",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3L3ztKRWI0d7JwZga12WCb",
+        "include": false,
+        "episode_num": null,
+        "title": "Outro - FdW",
+        "exclude_reason": "Single track outro, not an episode"
+      },
+      {
+        "spotify_album_id": "4lLOJQU6QBH5cxmERE77La",
+        "include": false,
+        "episode_num": null,
+        "title": "und der Zeitgeist (Sechs Kurzgeschichten)",
+        "exclude_reason": "Short story collection, not numbered episode"
+      },
+      {
+        "spotify_album_id": "6tioH9PNiZbmUT54MsiX5k",
+        "include": true,
+        "episode_num": 180,
+        "title": "180/und die flüsternden Puppen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4IZ7Lsm5le7HJPtaGLCrjO",
+        "include": true,
+        "episode_num": 179,
+        "title": "179/Die Rache des Untoten",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5iobM2gNVymvP8XqnRnHVR",
+        "include": false,
+        "episode_num": null,
+        "title": "Adventskalender - Stille Nacht, düstere Nacht",
+        "exclude_reason": "Advent calendar special, not numbered episode"
+      },
+      {
+        "spotify_album_id": "3w5glP0mzKfTanzXpAjN27",
+        "include": true,
+        "episode_num": 178,
+        "title": "178/Der gefiederte Schrecken",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0w6Khy7kpqTXrEDITf0rZ0",
+        "include": true,
+        "episode_num": 177,
+        "title": "177/Der Geist des Goldgräbers",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4qbxSVpr3NxRjdIVC411ue",
+        "include": true,
+        "episode_num": 176,
+        "title": "176/und der gestohlene Sieg",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4uggmrJ3Xpm1e2tcz6laze",
+        "include": false,
+        "episode_num": null,
+        "title": "175/Schattenwelt",
+        "exclude_reason": "Special edition, box set style release with 120 tracks"
+      },
+      {
+        "spotify_album_id": "5RoL0jdWMoJ8KRFVOeFYtX",
+        "include": true,
+        "episode_num": 174,
+        "title": "174/und das Tuch der Toten",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2ALDCHCHdawewN1sduWVQQ",
+        "include": true,
+        "episode_num": 173,
+        "title": "173/Dämon der Rache",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6Anfub4AoVHg9bhJ7js0L0",
+        "include": true,
+        "episode_num": 172,
+        "title": "172/und der Eisenmann",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6YbaUGc6ZeR1YnDFGQJV8F",
+        "include": true,
+        "episode_num": 171,
+        "title": "171/und das Phantom aus dem Meer",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "62CKj2RCiWDDUtBWTn4KxQ",
+        "include": true,
+        "episode_num": 170,
+        "title": "170/Straße des Grauens",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5PEHeYcUhz1Aq02ZB1pUgJ",
+        "include": true,
+        "episode_num": 169,
+        "title": "169/Die Spur des Spielers",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "77aawQqgLQZxPb9kwSg0JR",
+        "include": true,
+        "episode_num": 168,
+        "title": "168/GPS-Gangster",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2AEzTekSWfyfzJH56jmhET",
+        "include": false,
+        "episode_num": null,
+        "title": "Das Rätsel der Sieben",
+        "exclude_reason": "Special edition box set"
+      },
+      {
+        "spotify_album_id": "7kskBahbrQWCOiaXKuoPjE",
+        "include": true,
+        "episode_num": 167,
+        "title": "167/und das blaue Biest",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "427kScPIeUSfoNKCNercMC",
+        "include": true,
+        "episode_num": 166,
+        "title": "166/und die brennende Stadt",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4izJKxYT4fTwIZjoXNgkX7",
+        "include": true,
+        "episode_num": 165,
+        "title": "165/Im Schatten des Giganten",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3An657Q0wkVp4nIDg2zpcB",
+        "include": true,
+        "episode_num": 164,
+        "title": "164/Fußball-Teufel",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4fv0pPN7ZjbUiejSTxTPZh",
+        "include": true,
+        "episode_num": 163,
+        "title": "163/und der verschollene Pilot",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7beppYTqtHAEPKoXyodssF",
+        "include": true,
+        "episode_num": 162,
+        "title": "162/und der schreiende Nebel",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1GEzdjI5N25iuGjvypRscs",
+        "include": true,
+        "episode_num": 161,
+        "title": "161/Die blutenden Bilder",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2F6VxgWbGCUpTU9ux6Dtbi",
+        "include": true,
+        "episode_num": 160,
+        "title": "160/Geheimnisvolle Botschaften",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4rCAnDrNJ96srnBEoA0ISj",
+        "include": true,
+        "episode_num": 159,
+        "title": "159/Nacht der Tiger",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2qFuUJMx8w4VEO0Zdf8jFJ",
+        "include": false,
+        "episode_num": null,
+        "title": "Der 5. Advent",
+        "exclude_reason": "Advent special, not numbered episode"
+      },
+      {
+        "spotify_album_id": "3uFt95otJjaxH8o40tPtIS",
+        "include": true,
+        "episode_num": 158,
+        "title": "158/und der Feuergeist",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1nL3AddBvZ845zMyXRowgs",
+        "include": false,
+        "episode_num": null,
+        "title": "Und die Geisterlampe",
+        "exclude_reason": "Special collection with 114 tracks"
+      },
+      {
+        "spotify_album_id": "0pdXEEgKjfh4H0aZg4IOTS",
+        "include": true,
+        "episode_num": 157,
+        "title": "157/Im Zeichen der Schlangen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "78wUIvkGT2CdWW0ngeEy8V",
+        "include": true,
+        "episode_num": 156,
+        "title": "156/Im Netz des Drachen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "623V90QowsF4WSqV3cHGKf",
+        "include": true,
+        "episode_num": 155,
+        "title": "155/und der Meister des Todes",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3uggg8gNlh1kpBxLeOfFTV",
+        "include": true,
+        "episode_num": 154,
+        "title": "154/Botschaft aus der Unterwelt",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7nxSEeJiQwI34VwnWT83C9",
+        "include": true,
+        "episode_num": 153,
+        "title": "153/und das Fußballphantom",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5iNeANVy4supl8HowB9V2h",
+        "include": true,
+        "episode_num": 152,
+        "title": "152/Skateboardfieber",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3u0OSCwiOblOhm4dKjwLN5",
+        "include": true,
+        "episode_num": 151,
+        "title": "151/Schwarze Sonne",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2Bxdn8Gn8vEy4UiTOc8cBK",
+        "include": false,
+        "episode_num": null,
+        "title": "High Strung - Unter Hochspannung",
+        "exclude_reason": "English language special release"
+      },
+      {
+        "spotify_album_id": "6cPgVsZ6TPyVIP9BHP5ty5",
+        "include": false,
+        "episode_num": null,
+        "title": "150/Geisterbucht",
+        "exclude_reason": "Box set with 120 tracks, not standard episode format"
+      },
+      {
+        "spotify_album_id": "7K7dfMc3VwHOKtENI1BWTD",
+        "include": true,
+        "episode_num": 149,
+        "title": "149/Der namenlose Gegner",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2uOsf31oenHRd4DVxCSjn9",
+        "include": true,
+        "episode_num": 148,
+        "title": "148/und die feurige Flut",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "35aU9bfmxPGdjiRA4JMuFd",
+        "include": true,
+        "episode_num": 147,
+        "title": "147/Grusel auf Campbell Castle",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3D9Jf4mdOBoeyrKpffYBvy",
+        "include": true,
+        "episode_num": 146,
+        "title": "146/Der Biss der Bestie",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5RBu5WK95Q6BtWfA4o3Vgs",
+        "include": false,
+        "episode_num": null,
+        "title": "Brainwash - Gefangene Gedanken",
+        "exclude_reason": "English language special release"
+      },
+      {
+        "spotify_album_id": "6TjzBTmeDakBgh5NOGj1BC",
+        "include": true,
+        "episode_num": 145,
+        "title": "145/Die Rache der Samurai",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2RxTF6MhAVOtudVNOyHTQz",
+        "include": true,
+        "episode_num": 144,
+        "title": "144/Zwillinge der Finsternis",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "249qkyRcqMAoKJhXwrTYtE",
+        "include": false,
+        "episode_num": null,
+        "title": "House of Horrors - Haus der Angst",
+        "exclude_reason": "English language special release"
+      },
+      {
+        "spotify_album_id": "4Y7Pxv7pzLmKVJowmBwOkd",
+        "include": true,
+        "episode_num": 143,
+        "title": "143/und die Poker-Hölle",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "71moidSHTwJsc2N70axEce",
+        "include": true,
+        "episode_num": 142,
+        "title": "142/Tödliches Eis",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3JJeehFIJTxhrltC6e44VT",
+        "include": false,
+        "episode_num": null,
+        "title": "Und der dreiTag",
+        "exclude_reason": "Special collection with 120 tracks"
+      },
+      {
+        "spotify_album_id": "6gxj68DOHRSVlEM4xzwtRy",
+        "include": true,
+        "episode_num": 141,
+        "title": "141/und die Fußball-Falle",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3HxAtK23R2gFkW000mdaFT",
+        "include": true,
+        "episode_num": 140,
+        "title": "140/Stadt der Vampire",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6RJf8I60kNhnYxlnw7eTGv",
+        "include": true,
+        "episode_num": 139,
+        "title": "139/Das Geheimnis der Diva",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "79enDMGQWH7LQ5weNB96g7",
+        "include": true,
+        "episode_num": 138,
+        "title": "138/Die geheime Treppe",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3m7fR2wOkytZHq9m4QeBkB",
+        "include": true,
+        "episode_num": 137,
+        "title": "137/Pfad der Angst",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5HiWGQmaCRaxdaon49Iw9S",
+        "include": true,
+        "episode_num": 136,
+        "title": "136/und das versunkene Dorf",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0TmWLedytkxVuP9b5Hqeqq",
+        "include": true,
+        "episode_num": 135,
+        "title": "135/Fluch des Piraten",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1Cta130Rwp5vH1ddfAChbU",
+        "include": true,
+        "episode_num": 134,
+        "title": "134/Der tote Mönch",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1juMQy6yZVmk9Za6HeiicB",
+        "include": true,
+        "episode_num": 133,
+        "title": "133/Fels der Dämonen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "23wcElHGWpunC23ggr4PcW",
+        "include": true,
+        "episode_num": 132,
+        "title": "132/Spuk im Netz",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4eorcDi9eRfsi7X0A91Z7u",
+        "include": true,
+        "episode_num": 131,
+        "title": "131/Haus des Schreckens",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5l5CFSjzSdhbflqmplcTFX",
+        "include": true,
+        "episode_num": 130,
+        "title": "130/Der Fluch des Drachen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0sCs2S5YTEN0UT1fwWpvKw",
+        "include": true,
+        "episode_num": 70,
+        "title": "Das verfluchte Schloss",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1lD4RdnibVS7QhtZqCal9E",
+        "include": true,
+        "episode_num": 129,
+        "title": "129/SMS aus dem Grab",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3XXYXmCEe185oHxigCRo97",
+        "include": true,
+        "episode_num": 128,
+        "title": "128/Schatten über Hollywood",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0mp5HVWlYinEYa7Y4Q2vau",
+        "include": true,
+        "episode_num": 127,
+        "title": "127/Schwarze Madonna",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0AnyLaLPx339iGaxjqVfob",
+        "include": true,
+        "episode_num": 126,
+        "title": "126/Schrecken aus dem Moor",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0sIRyuExi7jBQmOpHyyY78",
+        "include": false,
+        "episode_num": null,
+        "title": "125/Feuermond",
+        "exclude_reason": "Box set with 120 tracks, not standard episode format"
+      },
+      {
+        "spotify_album_id": "0LoesJ9VnJPrlvIDz4u4Xt",
+        "include": true,
+        "episode_num": 124,
+        "title": "124/Geister-Canyon",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3HgetGSMzg6bGM6b67YZcj",
+        "include": true,
+        "episode_num": 123,
+        "title": "123/Fußballfieber",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "68NWcgqeCQMZ3QcPJXBhzH",
+        "include": true,
+        "episode_num": 122,
+        "title": "122/und der Geisterzug",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "59WTBKsGdomSgMztadw3uL",
+        "include": false,
+        "episode_num": null,
+        "title": "Das Geheimnis der Geisterinsel",
+        "exclude_reason": "Single track album, not standard episode"
+      },
+      {
+        "spotify_album_id": "6d21lwV9Imn3ObWUyV1UN2",
+        "include": true,
+        "episode_num": 121,
+        "title": "121/Spur ins Nichts",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6fVTJQKJBku1yaOmZOnfwg",
+        "include": true,
+        "episode_num": 120,
+        "title": "120/Der schwarze Skorpion",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7rPDg8NlFJ1a2HMTQvVaB2",
+        "include": true,
+        "episode_num": 119,
+        "title": "119/Der geheime Schlüssel",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1GKXpMQRKEyZI8pL62VUIP",
+        "include": true,
+        "episode_num": 118,
+        "title": "118/Das düstere Vermächtnis",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3piMnopGsrEAKd1EZxsU3i",
+        "include": true,
+        "episode_num": 116,
+        "title": "116/Codename: Cobra",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3rxr4SLE2EG0EAlpSeI99o",
+        "include": true,
+        "episode_num": 117,
+        "title": "117/Der finstere Rivale",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5Hafee7JOUqNVqtsrCtrTZ",
+        "include": true,
+        "episode_num": 115,
+        "title": "115/Auf tödlichem Kurs",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5L2KCw21QT3JKg1KKuqSeF",
+        "include": true,
+        "episode_num": 114,
+        "title": "114/Die Villa der Toten",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3bFvjy9IyWd7GrzN2dr0Hi",
+        "include": true,
+        "episode_num": 113,
+        "title": "113/Das Auge des Drachen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0WBhXS0uAYuL1sYb6vjYeS",
+        "include": true,
+        "episode_num": 112,
+        "title": "112/Schlucht der Dämonen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7b9OiVsktCZyldiAnjkVDx",
+        "include": true,
+        "episode_num": 111,
+        "title": "111/Die Höhle des Grauens",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1OBHPhBUih26oQTqxLvJTQ",
+        "include": true,
+        "episode_num": 110,
+        "title": "110/Panik im Park",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4RZllDAKF3DeDz6jZJFXTa",
+        "include": true,
+        "episode_num": 109,
+        "title": "109/Gefährliches Quiz",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3v4W4AFaI8uO7J88ojaSkS",
+        "include": true,
+        "episode_num": 108,
+        "title": "108/Die sieben Tore",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3kBby5GJMI4U97XljKcPFD",
+        "include": true,
+        "episode_num": 107,
+        "title": "107/und der Schatz der Mönche",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4uJPgDMOIRfoAumwwmpRbR",
+        "include": false,
+        "episode_num": null,
+        "title": "Master of Chess",
+        "exclude_reason": "English language special release"
+      },
+      {
+        "spotify_album_id": "4eX1wH67TDcYPZ1ZsjtPb6",
+        "include": true,
+        "episode_num": 106,
+        "title": "106/Der Mann ohne Kopf",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6Mi4Smq7Fn8qNOg6Xnf0In",
+        "include": true,
+        "episode_num": 105,
+        "title": "105/Der Nebelberg",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6joRNVLN69v3eSnxM86BSM",
+        "include": true,
+        "episode_num": 104,
+        "title": "104/Gift per e-mail",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4ADdmpObDUmBdvyJ9oNz5o",
+        "include": true,
+        "episode_num": 103,
+        "title": "103/Das Erbe des Meisterdiebes",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3NYWEuwAPt4PIJ4OeNxmzO",
+        "include": true,
+        "episode_num": 102,
+        "title": "102/Doppelte Täuschung",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1DZAe0qMw8Pq9EPoX6gETA",
+        "include": true,
+        "episode_num": 101,
+        "title": "101/und das Hexen-Handy",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4KXnXnpFRnQsjeZHpNC7X9",
+        "include": false,
+        "episode_num": null,
+        "title": "Super-Papagei 2004",
+        "exclude_reason": "Special re-release of episode 001"
+      },
+      {
+        "spotify_album_id": "6zwBnyiy9Hy9TAser0DOuL",
+        "include": false,
+        "episode_num": null,
+        "title": "100/Toteninsel",
+        "exclude_reason": "Box set with 120 tracks, not standard episode format"
+      },
+      {
+        "spotify_album_id": "3haGZZ8x7PyaGxiqcLmLf9",
+        "include": true,
+        "episode_num": 99,
+        "title": "099/Rufmord",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4C4o7tHpT20QrdsvmI70uI",
+        "include": true,
+        "episode_num": 98,
+        "title": "098/Tal des Schreckens",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2bfJa4PRKVb7as86HZv8Df",
+        "include": true,
+        "episode_num": 97,
+        "title": "097/Insektenstachel",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5ub4r9Q0YVMrWuOEesu6dR",
+        "include": true,
+        "episode_num": 96,
+        "title": "096/und der rote Rächer",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3UHj03eU7OnDuMVCTLbmcj",
+        "include": true,
+        "episode_num": 94,
+        "title": "094/Das schwarze Monster",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7a9rwqPkVdU4FC2cWFudVO",
+        "include": true,
+        "episode_num": 93,
+        "title": "093/und das Geisterschiff",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7yMRFgR8FRyWwiLHzQQa2B",
+        "include": true,
+        "episode_num": 92,
+        "title": "092/Todesflug",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0Jh7gzQaOscoFndb3raq2l",
+        "include": true,
+        "episode_num": 91,
+        "title": "091/Labyrinth der Götter",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2dlgtHB8z7ZhSl1fsSb0Ic",
+        "include": true,
+        "episode_num": 90,
+        "title": "090/Der Feuerteufel",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3TcIn19pVz5LXE8UleuLuX",
+        "include": true,
+        "episode_num": 89,
+        "title": "089/Tödliche Spur",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3CZCwdMpj2jnjI43ZlnY5T",
+        "include": true,
+        "episode_num": 88,
+        "title": "088/Vampir im Internet",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1KpWkUQaj5ECJsrb8SrPl4",
+        "include": true,
+        "episode_num": 87,
+        "title": "087/Wolfsgesicht",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4uF9MjchYgq5jjPi5x5YZy",
+        "include": true,
+        "episode_num": 86,
+        "title": "086/Nacht in Angst",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2eeodcwD9HXpcA2rvoFkIq",
+        "include": true,
+        "episode_num": 85,
+        "title": "085/Feuerturm",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3bhsXwKIDwVK5LTkDCICp0",
+        "include": true,
+        "episode_num": 84,
+        "title": "084/Musik des Teufels",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3yofHdHiOLtVZlxWCZ4XBB",
+        "include": true,
+        "episode_num": 83,
+        "title": "083/Meuterei auf hoher See",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7iysTnwaaFrPPWAuUyyi0c",
+        "include": true,
+        "episode_num": 82,
+        "title": "082/Die Karten des Bösen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2s5u6hCaMpTIvZtBRvQzha",
+        "include": true,
+        "episode_num": 81,
+        "title": "081/Verdeckte Fouls",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4izXuApLzBWtWHrFqgcrxL",
+        "include": true,
+        "episode_num": 80,
+        "title": "080/Geheimakte Ufo",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1rDYlXZy6vN4wqqQ6buqOr",
+        "include": true,
+        "episode_num": 79,
+        "title": "079/Im Bann des Voodoo",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6t7Y1H4dUM0d4JycenVskN",
+        "include": true,
+        "episode_num": 78,
+        "title": "078/Das leere Grab",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3CMN8Y4kjoG4sFwlOEpfsV",
+        "include": true,
+        "episode_num": 77,
+        "title": "077/Pistenteufel",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6RDPGc2budsdTw1lj8f2O5",
+        "include": true,
+        "episode_num": 76,
+        "title": "076/Stimmen aus dem Nichts",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2IqfdlQamN3vCWN3CKLEVI",
+        "include": true,
+        "episode_num": 75,
+        "title": "075/Die Spur des Raben",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "69VLqtWA1bpguYRCFRAxQl",
+        "include": true,
+        "episode_num": 74,
+        "title": "074/und das brennende Schwert",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1K8kXLhNnHSdPvtUwf74DE",
+        "include": true,
+        "episode_num": 73,
+        "title": "073/Poltergeist",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2GQjkF0ceIse6jVZkUuAQc",
+        "include": true,
+        "episode_num": 72,
+        "title": "072/Dreckiger Deal",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6EEN6onzbHIOxnwUkGfKhv",
+        "include": true,
+        "episode_num": 71,
+        "title": "071/Die verschwundene Seglerin",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4mlQEwk6I0XuksZCYTtatz",
+        "include": true,
+        "episode_num": 70,
+        "title": "070/Schüsse aus dem Dunkel",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2erJcBofKBO6GFMqDPppsU",
+        "include": true,
+        "episode_num": 69,
+        "title": "069/Späte Rache",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "21pUsEhxssm6fvumGFmi35",
+        "include": true,
+        "episode_num": 68,
+        "title": "068/und der Schatz im Bergsee",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7Hjk98j1FSrHV5IHWmeeFh",
+        "include": true,
+        "episode_num": 67,
+        "title": "067/und das Geheimnis der Särge",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6qj4LD0zotutkIgEg9OvDj",
+        "include": true,
+        "episode_num": 66,
+        "title": "066/und die Schattenmänner",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "62z7yW4RKhhuAp0RklmNvc",
+        "include": true,
+        "episode_num": 65,
+        "title": "065/Diamantenschmuggel",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0tmMvsGyWRzVckCYgkvve3",
+        "include": true,
+        "episode_num": 64,
+        "title": "064/Geisterstadt",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5GPTZKrD7eaCp9p6VOBuIN",
+        "include": true,
+        "episode_num": 63,
+        "title": "063/Fußball-Gangster",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0biXUv1uGUaVsPcw8nAZCY",
+        "include": true,
+        "episode_num": 62,
+        "title": "062/Spuk im Hotel",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "26M4ktHp3isOX6XJazAxPn",
+        "include": true,
+        "episode_num": 61,
+        "title": "061/und die Rache des Tigers",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7cBoiWgh1bTMZmCwJE0eMu",
+        "include": true,
+        "episode_num": 60,
+        "title": "060/Dopingmixer",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2qcA1EqAoUsqxXqIivY6Zc",
+        "include": true,
+        "episode_num": 59,
+        "title": "059/Giftiges Wasser",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6DWykdlgf60Mq02hPAGYVD",
+        "include": true,
+        "episode_num": 58,
+        "title": "058/und der verrückte Maler",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5W6dRiaeSVE7zUBYHbepak",
+        "include": true,
+        "episode_num": 57,
+        "title": "057/Tatort Zirkus",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3fotka2Hbq0N7V9KKWIDdw",
+        "include": true,
+        "episode_num": 56,
+        "title": "056/Angriff der Computer-Viren",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4oH2GUWlSSsSgVkxyPVHX1",
+        "include": true,
+        "episode_num": 55,
+        "title": "055/Gekaufte Spieler",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1Fg15cBLFliy6Kr60QqRan",
+        "include": true,
+        "episode_num": 54,
+        "title": "054/Gefahr im Verzug",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0F9ebKwTd5RNZZOu49lWuF",
+        "include": true,
+        "episode_num": 53,
+        "title": "053/und die Automafia",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3pXJh2A9gYzNt22rEIE5q7",
+        "include": true,
+        "episode_num": 52,
+        "title": "052/und die Musikpiraten",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "71kiy6INV3LzsCddpTZoHf",
+        "include": true,
+        "episode_num": 51,
+        "title": "051/und der riskante Ritt",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6DKfjDIB1BSYRGAi2YJYm3",
+        "include": true,
+        "episode_num": 50,
+        "title": "050/und der verschwundene Filmstar",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7t2SteAH5OnLLC1ghTAmka",
+        "include": true,
+        "episode_num": 49,
+        "title": "049/und die Comic-Diebe",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5IRxm1lo35PttzU8YLslZy",
+        "include": true,
+        "episode_num": 48,
+        "title": "048/und die gefährlichen Fässer",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3iWNsrEs9D0FFlKFfscdvL",
+        "include": true,
+        "episode_num": 47,
+        "title": "047/und der giftige Gockel",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6YX4i7aMCYmn20zvAFM3lG",
+        "include": true,
+        "episode_num": 46,
+        "title": "046/und der schrullige Millionär",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "39mWWzaUZp0AXyN9Vnp4od",
+        "include": true,
+        "episode_num": 45,
+        "title": "045/und das Gold der Wikinger",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6JNNLdq9ELeKENK3RmxLWQ",
+        "include": true,
+        "episode_num": 44,
+        "title": "044/und der gestohlene Preis",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "48QVzskevXtA0KpJjXzvb1",
+        "include": true,
+        "episode_num": 43,
+        "title": "043/und der höllische Werwolf",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "24bba3w45LGGm7ps3qonkc",
+        "include": true,
+        "episode_num": 42,
+        "title": "042/und der weinende Sarg",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5KUXX8H2LNsuik46M5XLx0",
+        "include": true,
+        "episode_num": 41,
+        "title": "041/und das Volk der Winde",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2IIw1KESZrJQBFdZQAWcKY",
+        "include": true,
+        "episode_num": 40,
+        "title": "040/und der Automarder",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0AKPkUh4ElyZNipc0lZoiR",
+        "include": true,
+        "episode_num": 39,
+        "title": "039/und die Perlenvögel",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6d3Pavm0enVICdOvBEqxYA",
+        "include": true,
+        "episode_num": 38,
+        "title": "038/und der unsichtbare Gegner",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6R4gnRHXKgw2cxneWgTiEL",
+        "include": true,
+        "episode_num": 37,
+        "title": "037/und der heimliche Hehler",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4R24oyyqxGkczNpqWGCXBZ",
+        "include": true,
+        "episode_num": 36,
+        "title": "036/und der Super-Wal",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2REEfC6tVMiYv1eKMlGiOX",
+        "include": true,
+        "episode_num": 35,
+        "title": "035/und der Höhlenmensch",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2L18qTB1EfS4FuBk2M6QwV",
+        "include": true,
+        "episode_num": 34,
+        "title": "034/und der rote Pirat",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1imKVIfJIM0vKNymevqKjP",
+        "include": true,
+        "episode_num": 33,
+        "title": "033/und die bedrohte Ranch",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7K3VEzD1rm0dgUGBi1i5PW",
+        "include": true,
+        "episode_num": 32,
+        "title": "032/und der Ameisenmensch",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0tPetsUWuZIC0E85x6eVN5",
+        "include": true,
+        "episode_num": 31,
+        "title": "031/und das Narbengesicht",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0zV9pnaXLuogDr6prsvb4M",
+        "include": true,
+        "episode_num": 30,
+        "title": "030/und das Riff der Haie",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5JHijjtr65MjdNOnNvD3Ec",
+        "include": false,
+        "episode_num": null,
+        "title": "029/Die Originalmusik",
+        "exclude_reason": "Soundtrack album"
+      },
+      {
+        "spotify_album_id": "7Dbd2rya9glmBLVxclcU4d",
+        "include": true,
+        "episode_num": 28,
+        "title": "028/und der Doppelgänger",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2AisAUu4deLpNi6g6qlTLC",
+        "include": true,
+        "episode_num": 27,
+        "title": "027/und der magische Kreis",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2NSreywe8UbWo7BJVY3Spk",
+        "include": true,
+        "episode_num": 26,
+        "title": "026/und die Silbermine",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6RXr8BmKNSK9Zk11k0I7Dl",
+        "include": true,
+        "episode_num": 25,
+        "title": "025/und die singende Schlange",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "211IEWHi59nUsHx8li8G9r",
+        "include": true,
+        "episode_num": 24,
+        "title": "024/und die silberne Spinne",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "67qFOAxbhNRHEIeOjQ9Zkp",
+        "include": true,
+        "episode_num": 23,
+        "title": "023/und das Aztekenschwert",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7i50aK2wKvszWNnay4DtxP",
+        "include": true,
+        "episode_num": 22,
+        "title": "022/und der verschwundene Schatz",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4KEZWleMTT8lDaQDLgozFc",
+        "include": true,
+        "episode_num": 95,
+        "title": "095/Botschaft von Geisterhand",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2koZEkq7vQnHjMP73gVXCo",
+        "include": true,
+        "episode_num": 21,
+        "title": "021/und der tanzende Teufel",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5ilbdbGu5eQRUIsbslyiLe",
+        "include": true,
+        "episode_num": 20,
+        "title": "020/und die flammende Spur",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3JqJ2zIt3UzKug7onmbmAo",
+        "include": true,
+        "episode_num": 19,
+        "title": "019/und der Teufelsberg",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1yqICFWBL4l7fJkrFWvfWL",
+        "include": true,
+        "episode_num": 18,
+        "title": "018/und die Geisterinsel",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0CMsNalUakIcv6znyVLALr",
+        "include": true,
+        "episode_num": 17,
+        "title": "017/und die gefährliche Erbschaft",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "16dOhg07DVqoSxlS7ToLM5",
+        "include": true,
+        "episode_num": 16,
+        "title": "016/und der Zauberspiegel",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2dQYcaTRh5qEYk2oH7WoBC",
+        "include": true,
+        "episode_num": 15,
+        "title": "015/und der rasende Löwe",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3O5STjjugoL5cNKfeRuBiU",
+        "include": true,
+        "episode_num": 14,
+        "title": "014/und das Bergmonster",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2AZ7zFBophWEIuBPjAG60I",
+        "include": true,
+        "episode_num": 13,
+        "title": "013/und der lachende Schatten",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0bSrvyOjOzFoFJfx3uaFgk",
+        "include": true,
+        "episode_num": 12,
+        "title": "012/und der seltsame Wecker",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "07EhJ6uxWcQQWKeXJ1e8Lb",
+        "include": true,
+        "episode_num": 11,
+        "title": "011/und das Gespensterschloss",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4h75QQIxW1etThTuw6vWzg",
+        "include": true,
+        "episode_num": 10,
+        "title": "010/und die flüsternde Mumie",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0aNqdp5ayuUNsOdUwu8x0b",
+        "include": true,
+        "episode_num": 9,
+        "title": "009/und die rätselhaften Bilder",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6MRsf5IcfqJIogaNqtESnh",
+        "include": true,
+        "episode_num": 8,
+        "title": "008/und der grüne Geist",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3nGyW4ETDrDpInYEAQCyYS",
+        "include": true,
+        "episode_num": 7,
+        "title": "007/und der unheimliche Drache",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "54eP8BYMR270sTqklv83V0",
+        "include": true,
+        "episode_num": 6,
+        "title": "006/und der sprechende Totenkopf",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5YWM39RnabpxekZuHriTam",
+        "include": true,
+        "episode_num": 5,
+        "title": "005/und der Fluch des Rubins",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2w902iYtkf0ipmTImyLlsL",
+        "include": true,
+        "episode_num": 4,
+        "title": "004/und die schwarze Katze",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "61OtrnMm1lqoMgMRb1aw7g",
+        "include": true,
+        "episode_num": 3,
+        "title": "003/und der Karpatenhund",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0xldqK4Ocdt8dwQSxUzt6x",
+        "include": true,
+        "episode_num": 2,
+        "title": "002/und der Phantomsee",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4N9tvSjWfZXx3eHKblYEWQ",
+        "include": true,
+        "episode_num": 1,
+        "title": "001/und der Super-Papagei",
+        "exclude_reason": null
+      }
+    ],
+    "age_note": "Crime and mystery themes with suspense, recommended 8+",
+    "curator_notes": "The 'Die drei ???' series is the most iconic German Hörspiel crime series for young listeners. This curation includes only the main numbered episodes (Folge 001-236) from the primary artist. Excluded are: spin-off investigator series (Tante Mathilda, Victor Hugenay, Kommissar Reynolds), celebrity narrator audiobook versions, 3D headphone remixes, film soundtracks, box set compilations, advent calendars, and short story collections. The Junior and Kids variants are curated separately under different artist IDs."
+  }
+}

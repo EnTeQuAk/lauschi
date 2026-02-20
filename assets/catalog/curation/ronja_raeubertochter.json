@@ -1,0 +1,33 @@
+{
+  "query": "Ronja Räubertochter",
+  "model": "kimi-k2.5",
+  "curated_at": "2026-02-20T01:19:27.466552+00:00",
+  "series": {
+    "id": "ronja_raeubertochter",
+    "title": "Ronja Räubertochter",
+    "aliases": [],
+    "keywords": [],
+    "spotify_artist_ids": [
+      "7sRF5KPi10c3pueaKGmArz"
+    ],
+    "episode_pattern": null,
+    "albums": [
+      {
+        "spotify_album_id": "5DcgKpZpZxkakLCxKU3tJy",
+        "include": true,
+        "episode_num": null,
+        "title": "Ronja Räubertochter",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "52tuBgtTIPvtKlUI8NXZXq",
+        "include": false,
+        "episode_num": null,
+        "title": "Ronja Räubertochter (Ungekürzte Lesungen)",
+        "exclude_reason": "Ungekürzte Lesung (audiobook reading), not Hörspiel. Duplicate story."
+      }
+    ],
+    "age_note": "Suitable from 6+",
+    "curator_notes": "Ronja Räubertochter is a complete single-story Hörspiel (not an episodic series). Unlike typical DACH Hörspiel series with numbered episodes (Folge 1, 2, 3...), this is Astrid Lindgren's classic novel adapted as a complete radio play. The 1982 Oetinger AUDIO production (34 tracks) is the canonical German Hörspiel version. An unabridged audiobook reading (100 tracks) is excluded as it's a different format. No 'Retro-Archiv' or 'Junior' variants exist as this is a standalone classic release. The Swedish version 'Ronja Rövardotter' exists under the separate 'Astrid Lindgren' artist but is not part of the German DACH curation."
+  }
+}

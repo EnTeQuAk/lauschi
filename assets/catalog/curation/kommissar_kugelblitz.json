@@ -1,0 +1,381 @@
+{
+  "query": "Kommissar Kugelblitz",
+  "model": "kimi-k2.5",
+  "curated_at": "2026-02-19T23:15:35.857851+00:00",
+  "series": {
+    "id": "kommissar_kugelblitz",
+    "title": "Kommissar Kugelblitz",
+    "aliases": [
+      "Kommissar Kugelblitz"
+    ],
+    "keywords": [
+      "Kommissar Kugelblitz",
+      "Kugelblitz"
+    ],
+    "spotify_artist_ids": [
+      "2c0sDbsWQXZc2Ljq735WgV"
+    ],
+    "episode_pattern": "(?:Folge|Fall)\\s+(\\d+)",
+    "albums": [
+      {
+        "spotify_album_id": "55ITdCmKdzpL23deLCSwFB",
+        "include": true,
+        "episode_num": null,
+        "title": "Alarm in Windhuk",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5lxI2ZoC7FpkDyASfnhaU1",
+        "include": true,
+        "episode_num": null,
+        "title": "Piraten der Wüste",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3nX9eDNwNKTmtdea4QIHUw",
+        "include": true,
+        "episode_num": null,
+        "title": "Der Fall Rhinozeros",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "42RwFcOdxyKgDMabNWOLlL",
+        "include": true,
+        "episode_num": null,
+        "title": "Die Moskito-Bande",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3PwPv84ivTvcy0kHxLG3ae",
+        "include": true,
+        "episode_num": null,
+        "title": "Die Akte 2013",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4UtKU8tIOdxpr5LtybPQAm",
+        "include": true,
+        "episode_num": null,
+        "title": "Der Fall Kiwi",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "00l4724PhRgQfkoCgSYmNr",
+        "include": true,
+        "episode_num": null,
+        "title": "Der Fall Giftnudel",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6jOpbkUZQp2oZ2A7l6juZF",
+        "include": true,
+        "episode_num": null,
+        "title": "Das Geheimnis der gefiederten Schlange",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2Bu2rFSmXlRnT2Ux6ChQWM",
+        "include": false,
+        "episode_num": null,
+        "title": "Das Geheimnis der gefiederten Schlange",
+        "exclude_reason": "Extended version (52 tracks) - duplicate of 6jOpbkUZQp2oZ2A7l6juZF with more chapters"
+      },
+      {
+        "spotify_album_id": "5e0OYpymgepB33NPactKvp",
+        "include": true,
+        "episode_num": null,
+        "title": "Unter Hochspannung",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1w11l4b6TBgDj1cx8pstmY",
+        "include": true,
+        "episode_num": null,
+        "title": "Auf Gaunerjagd durch Deutschland",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3pH7UbF2X7wEctx4rg87Ft",
+        "include": true,
+        "episode_num": null,
+        "title": "Kugelblitz in Venedig",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "75xFoEfwSYDtjWzuViymPN",
+        "include": true,
+        "episode_num": null,
+        "title": "Kugelblitz in München",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1XaOn6HfpngCqrQHHBSbaf",
+        "include": false,
+        "episode_num": null,
+        "title": "Таємниця Спукі Хілл",
+        "exclude_reason": "Ukrainian language version - same content as German version"
+      },
+      {
+        "spotify_album_id": "4N77PwFUHPIE6qKoZwvq1C",
+        "include": true,
+        "episode_num": null,
+        "title": "Das Geheimnis von Spooky Hill",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "39IfFPvrOQ3ImEKTGUXzKs",
+        "include": true,
+        "episode_num": null,
+        "title": "Der Fall Wüstenkönig",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5qBAXGuN3WJ5TWe0mZ0DCK",
+        "include": true,
+        "episode_num": null,
+        "title": "Vermisst am Mississippi",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5hqpaijDgptIIO2vMxG7wM",
+        "include": true,
+        "episode_num": null,
+        "title": "Tote trinken keine Cola",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4pbnqH5lWntFfE8EZLdubC",
+        "include": true,
+        "episode_num": null,
+        "title": "Schnee auf Mallorca",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3Ik8gPVRTcFU55PVMwu4sP",
+        "include": true,
+        "episode_num": null,
+        "title": "Der Fall Shanghai",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0aXrCMRvN7F2PTJZeHaQ8i",
+        "include": true,
+        "episode_num": null,
+        "title": "Die Nikolaus-Bande (Der Adventskalender)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6hF9zznEzRkbHHgJO5KMPI",
+        "include": true,
+        "episode_num": null,
+        "title": "Kugelblitz in Hamburg",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "07lAvUvijAgZqYuG5k9Ra0",
+        "include": true,
+        "episode_num": null,
+        "title": "Kugelblitz als Weihnachtsmann",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5OtiHgJS7bWbUAseDWBDC8",
+        "include": false,
+        "episode_num": null,
+        "title": "Folge 2: Das blaue Zimmer",
+        "exclude_reason": "Re-release from All Ears GmbH - duplicate of 3jwQZlgpSPrSxUrj4oZWRC"
+      },
+      {
+        "spotify_album_id": "2a63gwDW1NrUSnooY9UrlJ",
+        "include": false,
+        "episode_num": null,
+        "title": "Folge 1: Die rote Socke",
+        "exclude_reason": "Re-release from All Ears GmbH - duplicate of 3XaE6tpyg9wQpK0MOpQcnK"
+      },
+      {
+        "spotify_album_id": "59wjR1gCmVzl44pOxhMVhM",
+        "include": true,
+        "episode_num": null,
+        "title": "Kugelblitz in Spanien",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7zeUeWFJU9uanvpv0mfVUL",
+        "include": true,
+        "episode_num": null,
+        "title": "Kugelblitz in Barcelona",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0Q2wkx9R5UDUweTaK4aXnb",
+        "include": true,
+        "episode_num": null,
+        "title": "Kugelblitz in Amsterdam",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7zx28IjvxZDxkuTDx4Zpd0",
+        "include": true,
+        "episode_num": null,
+        "title": "Kugelblitz in Sydney",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4JYlGrNG3eRBEBqT1yMPgb",
+        "include": true,
+        "episode_num": null,
+        "title": "Kugelblitz in Paris",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2NMb6ZAm4TDd0WHB6bLG9l",
+        "include": true,
+        "episode_num": null,
+        "title": "Kugelblitz in New York",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6jeLDNwSWLfTF3diCCTjyt",
+        "include": true,
+        "episode_num": null,
+        "title": "Kugelblitz in London",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5boocn7mGH6zphNOLX7A61",
+        "include": true,
+        "episode_num": null,
+        "title": "Kommissar Kugelblitz in Wien",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3XW5PmFIq9AhIbmXKV7Cjg",
+        "include": true,
+        "episode_num": null,
+        "title": "Kommissar Kugelblitz in Berlin",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2JKavuDqgVeNlMTPzzQKJ6",
+        "include": true,
+        "episode_num": 9,
+        "title": "Folge 9 - Die schneeweiße Katze",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2OeWg46R4B05IXw0JAXcJj",
+        "include": true,
+        "episode_num": 8,
+        "title": "Folge 8 - Das rosa Nilpferd",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4RlibXo2zBGkC1l7xh3xR4",
+        "include": true,
+        "episode_num": 7,
+        "title": "Folge 7 - Der schwarze Geist",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3jwQZlgpSPrSxUrj4oZWRC",
+        "include": true,
+        "episode_num": 6,
+        "title": "Folge 6 - Das blaue Zimmer",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4qd87CiYfHxNaNZOZCbNLb",
+        "include": true,
+        "episode_num": 5,
+        "title": "Folge 5 - Der lila Leierkasten",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5DCjg6as20C5i1Qhx9lYvD",
+        "include": true,
+        "episode_num": 4,
+        "title": "Folge 4 - Der grüne Papagei",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "18RmT3WdLAXXHZCrfpjbju",
+        "include": true,
+        "episode_num": 3,
+        "title": "Folge 3 - Der gelbe Juwelenkoffer",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3rJJBDxGmMcQeTVQVDxq6O",
+        "include": true,
+        "episode_num": 2,
+        "title": "Folge 2 - Die orangefarbene Maske",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1dP1knLDuLvDaLdPwtHBXm",
+        "include": true,
+        "episode_num": 17,
+        "title": "Folge 17 - KK fischt im Internet",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5p5SsVbOmcaJCFZaxOflJC",
+        "include": true,
+        "episode_num": 16,
+        "title": "Folge 16 - Nashornjägern auf der Spur",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3vQTtZU5EN1ib8Q3KRjgOn",
+        "include": true,
+        "episode_num": 15,
+        "title": "Folge 15 - Rauchsignale",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6xZYdnmOLRlz4Vlq35jOXR",
+        "include": true,
+        "episode_num": 14,
+        "title": "Folge 14 - Der Fall Kobra",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3CV2CW7yWJ682lO7pdjmW8",
+        "include": true,
+        "episode_num": 13,
+        "title": "Folge 13 - Kürbisgeist und Silberspray",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5f8kqlu2MLc0nntQ6F3xxg",
+        "include": true,
+        "episode_num": 12,
+        "title": "Folge 12 - Der Fall Koralle",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "39QJJgkNbOFNrcgUJkkJE8",
+        "include": true,
+        "episode_num": 11,
+        "title": "Folge 11 - Der Jade-Elefant",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1MBpYgGrXWpJqYDB6Z3XP3",
+        "include": true,
+        "episode_num": 10,
+        "title": "Folge 10 - Der goldene Drache",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3XaE6tpyg9wQpK0MOpQcnK",
+        "include": true,
+        "episode_num": 1,
+        "title": "Folge 1 - Die rote Socke",
+        "exclude_reason": null
+      }
+    ],
+    "age_note": "Recommended 8+",
+    "curator_notes": "The series has two distinct formats: 1) Classic numbered episodes (Folge 1-17) from 2011 with shorter runtime and multiple short cases per episode, and 2) Modern releases from 2017+ with longer-form stories organized by location/theme (Kugelblitz in [City], Der Fall [Name]). The modern releases use 'Fall' numbering within each album for chapter organization rather than episode numbers. Note: Episodes 10-17 use a different naming format with 'KK' abbreviation and interactive quiz elements. No Retro-Archiv or Junior variants found on Spotify."
+  }
+}

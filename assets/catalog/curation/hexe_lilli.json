@@ -1,0 +1,308 @@
+{
+  "query": "Hexe Lilli",
+  "model": "kimi-k2.5",
+  "curated_at": "2026-02-19T22:33:04.415628+00:00",
+  "series": {
+    "id": "hexe_lilli",
+    "title": "Hexe Lilli",
+    "aliases": [],
+    "keywords": [
+      "Hexe Lilli"
+    ],
+    "spotify_artist_ids": [
+      "2IYME9b8x0ptqROxrDvAQ0"
+    ],
+    "episode_pattern": "^(?:Folge |0*)(\\d+)",
+    "albums": [
+      {
+        "spotify_album_id": "2F4qbEk1JH1nj4E89882JI",
+        "include": true,
+        "episode_num": 24,
+        "title": "Folge 24: auf magischer Rettungsmission",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1sKEP8ee2dpRZ5dGgrsGnq",
+        "include": false,
+        "episode_num": null,
+        "title": "Folge 10: Hexe Lilli und der Elfenzauber (Erstlesergeschichten)",
+        "exclude_reason": "Erstlesergeschichten (beginner reader stories) - different format from main series, not numbered episode"
+      },
+      {
+        "spotify_album_id": "3lDYDRvVd3Ngjr6vdPq7O7",
+        "include": false,
+        "episode_num": null,
+        "title": "009/Ein zauberhafter erster Schultag (Erstlesergeschichten)",
+        "exclude_reason": "Erstlesergeschichten (beginner reader stories) - different format from main series, duplicate of episode 9"
+      },
+      {
+        "spotify_album_id": "4WO6LcJf1nMV9oUnff4CKA",
+        "include": true,
+        "episode_num": 23,
+        "title": "023/und die verzauberte Klassenfahrt",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1s2fFBRaLCFreCBop1ZUiQ",
+        "include": false,
+        "episode_num": null,
+        "title": "Hexe Lilli und der geheimnisvolle Flaschengeist Suki (Erstlesergeschichten)",
+        "exclude_reason": "Erstlesergeschichten (beginner reader stories) - different format from main series"
+      },
+      {
+        "spotify_album_id": "3CiZjceqtFe8yc63b4ZmsL",
+        "include": false,
+        "episode_num": null,
+        "title": "Hilfe! Die Murze kommen! (Erstlesergeschichten)",
+        "exclude_reason": "Erstlesergeschichten (beginner reader stories) - different format from main series"
+      },
+      {
+        "spotify_album_id": "2UFXuzfiqd0cThQRCalzdy",
+        "include": false,
+        "episode_num": null,
+        "title": "Hexe Lilli rettet Weihnachten - Das Hörspiel zum Kinofilm",
+        "exclude_reason": "Movie adaptation/soundtrack - not part of main episode series"
+      },
+      {
+        "spotify_album_id": "0lTuJ5StmzABahhbeAQUSb",
+        "include": true,
+        "episode_num": 21,
+        "title": "021/auf der Ponyinsel",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6eJm7ua5kKKJN1lJu6QWOg",
+        "include": true,
+        "episode_num": 20,
+        "title": "020/und das leuchtende Einhorn",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2qffSlb9FcXLjuAmVmxusg",
+        "include": false,
+        "episode_num": null,
+        "title": "Hexe Lilli und der verzauberte Goldesel",
+        "exclude_reason": "EUROPA mini compilation - contains 2 shorter stories, not main episode format"
+      },
+      {
+        "spotify_album_id": "2DEG7Y2G3U2ndY7KlMhT22",
+        "include": true,
+        "episode_num": 19,
+        "title": "019/wird Prinzessin",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "23Xt15lSmNEmJVmqjOqUeQ",
+        "include": false,
+        "episode_num": null,
+        "title": "Hexe Lilli und das verzauberte Fußballspiel",
+        "exclude_reason": "EUROPA mini compilation - contains 2 shorter stories, not main episode format"
+      },
+      {
+        "spotify_album_id": "6K5a3qRU976BpPIEG9mZnb",
+        "include": false,
+        "episode_num": null,
+        "title": "Feiert Geburtstag",
+        "exclude_reason": "EUROPA mini compilation - contains 2 shorter stories, not main episode format"
+      },
+      {
+        "spotify_album_id": "4fAxKCklCcMxl7LAxBeGDD",
+        "include": false,
+        "episode_num": null,
+        "title": "Hexe Lilli und der kleine Delfin",
+        "exclude_reason": "EUROPA mini compilation - contains 2 shorter stories, not main episode format"
+      },
+      {
+        "spotify_album_id": "7Js7yHJKNpYOy4maCeMXEY",
+        "include": true,
+        "episode_num": 18,
+        "title": "018/im Wunderland",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4NHm49J138o8iOADgQfLwk",
+        "include": false,
+        "episode_num": null,
+        "title": "Hexe Lilli und die Zaubernacht im Kindergarten",
+        "exclude_reason": "EUROPA mini compilation - contains 2 shorter stories, not main episode format"
+      },
+      {
+        "spotify_album_id": "1ateqhraMBgvZdaYeMuIok",
+        "include": false,
+        "episode_num": null,
+        "title": "Und der kleine Eisbär Knöpfchen",
+        "exclude_reason": "EUROPA mini compilation - contains 2 shorter stories, not main episode format"
+      },
+      {
+        "spotify_album_id": "7iQo6EXjMtLPorNrw2vlXW",
+        "include": false,
+        "episode_num": null,
+        "title": "Die Reise nach Mandolan",
+        "exclude_reason": "EUROPA release without episode number - appears to be a special/movie tie-in"
+      },
+      {
+        "spotify_album_id": "4IzmCaIX0eEgRb7xsQFkfv",
+        "include": false,
+        "episode_num": null,
+        "title": "Das Buch des Drachen",
+        "exclude_reason": "EUROPA mini release without episode number - shorter story format"
+      },
+      {
+        "spotify_album_id": "5whlUoCMRXmZleNGecPS2h",
+        "include": true,
+        "episode_num": 17,
+        "title": "017/und Hektors verzwickte Drachenprüfung",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4ix6YihDNef0CrY6yqAZAp",
+        "include": true,
+        "episode_num": 16,
+        "title": "016/in Lilliput",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3rGIlBMmHO0hCZG1WHuvN0",
+        "include": true,
+        "episode_num": 15,
+        "title": "015/fliegt zum Mond",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5bt9jrIAYM5pCxX41xBuq2",
+        "include": true,
+        "episode_num": 14,
+        "title": "014/im Land der Dinosaurier",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4S9JLpOKw8B5AxduUu8U88",
+        "include": false,
+        "episode_num": null,
+        "title": "Und der Vampir mit dem Wackelzahn",
+        "exclude_reason": "EUROPA primo release without episode number - shorter story format"
+      },
+      {
+        "spotify_album_id": "76WUFNebRsO94dGXDryN7B",
+        "include": true,
+        "episode_num": 13,
+        "title": "013/und der schreckhafte Wikinger",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4oRQ541UL1v7v1qHUFcQL9",
+        "include": true,
+        "episode_num": 9,
+        "title": "009/und das magische Schwert",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1sWKeCpY1qmEOdbcBFM6U3",
+        "include": true,
+        "episode_num": 8,
+        "title": "008/und das Geheimnis der versunkenen Welt",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0Oi22ZgzENBxjA05147yDS",
+        "include": true,
+        "episode_num": 12,
+        "title": "012/und der Ritter auf Zeitreise",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6wCQWfFLjfH2Uz5BhwkM94",
+        "include": true,
+        "episode_num": 11,
+        "title": "011/auf der Jagd nach dem verlorenen Schatz",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0G3RqtyGOgxi4RV1vu8Wyc",
+        "include": true,
+        "episode_num": 10,
+        "title": "010/auf Schloss Dracula",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6Jv639ZVhVhh3BNVPkBbTx",
+        "include": true,
+        "episode_num": 7,
+        "title": "007/und das Geheimnis der Mumie",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0yRsVFvmnWtOHXbZwJvGYn",
+        "include": true,
+        "episode_num": 6,
+        "title": "006/im Fußballfieber",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7J10fbU5ef9lYoxFMXhwqs",
+        "include": false,
+        "episode_num": null,
+        "title": "Und das wilde Indianerabenteuer",
+        "exclude_reason": "EUROPA primo release without episode number - shorter story format"
+      },
+      {
+        "spotify_album_id": "4ghoOGAttLAGG5LHZ2TyJI",
+        "include": false,
+        "episode_num": null,
+        "title": "Zaubert Hausaufgaben",
+        "exclude_reason": "EUROPA primo release without episode number - shorter story format"
+      },
+      {
+        "spotify_album_id": "4rRg8Lxw09m5FsCGWid99d",
+        "include": false,
+        "episode_num": null,
+        "title": "Im wilden Wilden Westen",
+        "exclude_reason": "EUROPA primo release without episode number - shorter story format"
+      },
+      {
+        "spotify_album_id": "53dBXzbp9pMtV3CDIQHg42",
+        "include": true,
+        "episode_num": 5,
+        "title": "005/wird Detektivin",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "76ZUfDiykUU2cf6CHoQ1f0",
+        "include": true,
+        "episode_num": 4,
+        "title": "004/bei den Piraten",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "054SUxjV0tHsBlyvUviVoI",
+        "include": true,
+        "episode_num": 3,
+        "title": "003/und der Zirkuszauber",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0SkX4W1bURosTGQ6IDMOy7",
+        "include": true,
+        "episode_num": 22,
+        "title": "022/und der Weihnachtszauber",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2AAyaocf5n35vHhq43ATco",
+        "include": true,
+        "episode_num": 2,
+        "title": "002/macht Zauberquatsch",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "17r2Acz7jO4CK7HH8vPB2k",
+        "include": true,
+        "episode_num": 1,
+        "title": "001/stellt die Schule auf den Kopf",
+        "exclude_reason": null
+      }
+    ],
+    "age_note": "Suitable from 5+",
+    "curator_notes": "The Hexe Lilli series has a complex release history with multiple sub-lines: (1) Main numbered episodes 1-24 with standard format (~40 tracks), (2) EUROPA mini/primo releases - shorter compilations with 2 stories per album, no episode numbers, (3) Erstlesergeschichten (beginner reader stories) - a separate educational line for young readers. Only the main numbered episodes are included. Note: Episode 9 exists in two versions - the main '009/und das magische Schwert' and an Erstlesergeschichten version which is excluded."
+  }
+}

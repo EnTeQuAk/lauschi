@@ -1,0 +1,1191 @@
+{
+  "query": "Wieso? Weshalb? Warum?",
+  "model": "kimi-k2.5",
+  "curated_at": "2026-02-20T01:13:19.545761+00:00",
+  "series": {
+    "id": "wieso_weshalb_warum",
+    "title": "Wieso? Weshalb? Warum?",
+    "aliases": [
+      "WWW",
+      "Wieso Weshalb Warum"
+    ],
+    "keywords": [
+      "Wieso? Weshalb? Warum?",
+      "Wieso Weshalb Warum"
+    ],
+    "spotify_artist_ids": [
+      "79fds5dgda0VCYelERV8Gi",
+      "0LoeUAhyTnta8Vk7HBzBsP",
+      "7CogQoFl6oPr45Xz6ZuFYU",
+      "7sdugL0BnF0QBh3fGPvYJz",
+      "56WIqh0XOgaRFbvdoEuk0F"
+    ],
+    "episode_pattern": "(?:Folge|folge)\\s+(\\d+)",
+    "albums": [
+      {
+        "spotify_album_id": "057lsE8G8zJwCBqL24Eld9",
+        "include": true,
+        "episode_num": 60,
+        "title": "Alles über Wasser (Wieso? Weshalb? Warum? Folge 60)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5lnYsIZ9ctS0x0NPK4XxAD",
+        "include": true,
+        "episode_num": 58,
+        "title": "Unsere Gefühle (Wieso? Weshalb? Warum? Folge 58)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4fax79LJBEYG0QuRrNrfio",
+        "include": true,
+        "episode_num": 43,
+        "title": "Wir schützen die Tiere (Wieso? Weshalb? Warum? Folge 43)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3cJ4YZvufqq9sEU9QLGChk",
+        "include": true,
+        "episode_num": 44,
+        "title": "Wie leben wir miteinander? (Wieso? Weshalb? Warum? Folge 44)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6KWJ1xCx7hS64eL0AJSroW",
+        "include": true,
+        "episode_num": 26,
+        "title": "Komm mit zum Schwimmen (Wieso? Weshalb? Warum? Folge 26)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7ttKxqdNWQmwIdGFJ9CHN3",
+        "include": true,
+        "episode_num": 4,
+        "title": "Wir erforschen die Vulkane (Wieso? Weshalb? Warum? Folge 4)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "20J46dTfIq2jkJDoIF7y8o",
+        "include": true,
+        "episode_num": 59,
+        "title": "Wir erforschen Sterne und Planeten (Wieso? Weshalb? Warum? Folge 59)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1gtFy1kopNItdbT6MKkEOJ",
+        "include": true,
+        "episode_num": 51,
+        "title": "Mutig, stark und selbstbewusst (Wieso? Weshalb? Warum? Folge 51)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1alHNywINSD1EgYegBFVEX",
+        "include": true,
+        "episode_num": 74,
+        "title": "Rund um den Müll (Wieso? Weshalb? Warum? Folge 74)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4DFhn7Qyd0Tw8TK0jHPCCE",
+        "include": true,
+        "episode_num": 73,
+        "title": "Komm mit zum Reiten (Wieso? Weshalb? Warum? Folge 73)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2alU7JoVPSPIaWHj6Wdl4A",
+        "include": true,
+        "episode_num": 28,
+        "title": "Wir entdecken Autos (Wieso? Weshalb? Warum? Folge 28)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6qS1NQq3edvJDOq4Iu6rW6",
+        "include": true,
+        "episode_num": 37,
+        "title": "Alles über Tierwanderungen (Wieso? Weshalb? Warum? Folge 37)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0YtUExzisgoShQ1RXzNBHb",
+        "include": true,
+        "episode_num": 36,
+        "title": "Unsere Erde (Wieso? Weshalb? Warum? Folge 36)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4sZdJbSIRJedMvNj4BNTkF",
+        "include": true,
+        "episode_num": 52,
+        "title": "Alles über Bäume (Wieso? Weshalb? Warum? Folge 52)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2JCk2B9a0UcyVGRSOHSDCB",
+        "include": true,
+        "episode_num": 7,
+        "title": "Fahrzeuge auf der Baustelle (Wieso? Weshalb? Warum? Folge 7)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1ibI2j9SHAp1ddIJcC7s4P",
+        "include": true,
+        "episode_num": 39,
+        "title": "Wir entdecken Insekten (Wieso? Weshalb? Warum? Folge 39)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6JkbQA31BFnmpLvEuLJIh1",
+        "include": true,
+        "episode_num": 72,
+        "title": "Wir entdecken Feste und Bräuche (Wieso? Weshalb? Warum? Folge 72)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2r9wTm3oF2dyfXygcsrm4T",
+        "include": true,
+        "episode_num": 20,
+        "title": "Alles über Flugzeuge (Wieso? Weshalb? Warum? Folge 20)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1PD29rUrcR80JiSDLCSdfi",
+        "include": true,
+        "episode_num": 71,
+        "title": "Wir entdecken heimische Tiere (Wieso? Weshalb? Warum? Folge 71)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4ql1R24M0uULTTNJFwDPxV",
+        "include": true,
+        "episode_num": 40,
+        "title": "Abenteurer und Entdecker (Wieso? Weshalb? Warum? Folge 40)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2f5Zs0o2bsKSBkJoUdHtZd",
+        "include": true,
+        "episode_num": 68,
+        "title": "Wir entdecken Märchen (Wieso? Weshalb? Warum? Folge 68)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1C0R0MmGoWOUXNIvBIJhJJ",
+        "include": true,
+        "episode_num": 43,
+        "title": "Unser Garten (Wieso? Weshalb? Warum? Folge 43)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6kZ0fKHKAgBeOEEvIMHmm5",
+        "include": true,
+        "episode_num": 67,
+        "title": "Wir schützen unsere Umwelt (Wieso? Weshalb? Warum? Folge 67)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5sdW8OgxNTmJCDTDd28tgW",
+        "include": true,
+        "episode_num": 64,
+        "title": "Alles über Reptilien (Wieso? Weshalb? Warum? Folge 64)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "46Hwxdi162zxY50yfMQ9tn",
+        "include": true,
+        "episode_num": 65,
+        "title": "Alles über Einsatzkräfte (Wieso? Weshalb? Warum? Folge 65)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0SJwUfZiU55SOgvFzjDg3B",
+        "include": true,
+        "episode_num": null,
+        "title": "Wir entdecken die Bibel (Wieso? Weshalb? Warum?)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0Fu7XuXcfPuRqePFBRjrRs",
+        "include": true,
+        "episode_num": 55,
+        "title": "Wir erforschen die Dinosaurier (Wieso? Weshalb? Warum? Folge 55)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1oDOfftK26tPN7ZXKBXrNr",
+        "include": true,
+        "episode_num": 61,
+        "title": "Wir entdecken die Wunder der Natur (Wieso? Weshalb? Warum? Folge 61",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5LjCg5xL2kMZPweUNcxYom",
+        "include": true,
+        "episode_num": 58,
+        "title": "Wir entdecken Österreich (Wieso? Weshalb? Warum? Folge 58)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4hKnFRVyyhEyDAm06jbtYi",
+        "include": true,
+        "episode_num": 13,
+        "title": "Mittelalter (Wieso? Weshalb? Warum? PROFIWISSEN, Folge 13)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4v8YbQpm5L2NejBhfUorXH",
+        "include": true,
+        "episode_num": 5,
+        "title": "Pass auf im Straßenverkehr (Wieso? Weshalb? Warum? Folge 5)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6cb4F0Vuv6Z1aCGBncpsW4",
+        "include": true,
+        "episode_num": 3,
+        "title": "Alles über den Bauernhof (Wieso? Weshalb? Warum? Folge 3)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3brOZUdwHBXZVoDX801Yhd",
+        "include": true,
+        "episode_num": 15,
+        "title": "Alles über Prinzessinnen (Wieso? Weshalb? Warum? Folge 15)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "18Kk8WF5Stp09Vn3ZBbTr5",
+        "include": true,
+        "episode_num": 35,
+        "title": "Rund um den Fußball (Wieso? Weshalb? Warum? Folge 35)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2S3y3lFMka1vu0K4jgnoWN",
+        "include": true,
+        "episode_num": 14,
+        "title": "Ich komme in die Schule (Wieso? Weshalb? Warum? Folge 14)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5QhV3TMwyItl0ss8kEPyKC",
+        "include": true,
+        "episode_num": null,
+        "title": "Wir entdecken Deutschland (Wieso? Weshalb? Warum?)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2kRAXHWzC0yJPfFpYh4ex1",
+        "include": true,
+        "episode_num": 8,
+        "title": "Alles über die Eisenbahn (Wieso? Weshalb? Warum? Folge 8)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5NhTrJXXNYsv0sBgfof7iu",
+        "include": true,
+        "episode_num": 34,
+        "title": "Wir feiern Weihnachten (Wieso? Weshalb? Warum? Folge 34)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3RRIHo5nF4dxI7IafAHqV2",
+        "include": true,
+        "episode_num": 1,
+        "title": "Wir entdecken unseren Körper (Wieso? Weshalb? Warum? Folge 1)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4teCqJn4CqFg1mCzaeqKUg",
+        "include": true,
+        "episode_num": 30,
+        "title": "Bei den Römern (Wieso? Weshalb? Warum? Folge 30)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7DUkHx0TZUGZRFC9PAvRuv",
+        "include": true,
+        "episode_num": 2,
+        "title": "Alles über die Feuerwehr (Wieso? Weshalb? Warum? Folge 2)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "12qtjOEtfKx9PAA2s3qUnt",
+        "include": true,
+        "episode_num": 27,
+        "title": "Wir entdecken die Meerestiere (Wieso? Weshalb? Warum? Folge 27)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "63SDBdCHioxIV9A8bsrwYh",
+        "include": true,
+        "episode_num": 25,
+        "title": "Die Uhr und die Zeit (Wieso? Weshalb? Warum? Folge 25)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1xeSaIDaeK20AQwtccyzWO",
+        "include": true,
+        "episode_num": 52,
+        "title": "Wir erforschen die Polargebiete (Wieso? Weshalb? Warum? Folge 52)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4vtfuOVuvvkOLIo0nTe41i",
+        "include": true,
+        "episode_num": 50,
+        "title": "Wir entdecken die Berge (Wieso? Weshalb? Warum? Folge50)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3y4LoVtRfrPX7UEaM6z16P",
+        "include": true,
+        "episode_num": 48,
+        "title": "Bei den Wikingern (Wieso? Weshalb? Warum? Folge 48)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "66FhFbAeTxjo29kQGhcBhk",
+        "include": true,
+        "episode_num": 45,
+        "title": "Im Zoo (Wieso? Weshalb? Warum? Folge 45)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1dJnKGmhG2k3Pc0djKULBv",
+        "include": true,
+        "episode_num": 44,
+        "title": "Alles über den Zirkus (Wieso? Weshalb? Warum? Folge 44)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3z8Q6Dj9JEgPl2g6wlHh5y",
+        "include": true,
+        "episode_num": 32,
+        "title": "Wir entdecken den Weltraum (Wieso? Weshalb? Warum? Folge 32)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1HKoVKmIuzkb3l7ZTHlCG9",
+        "include": true,
+        "episode_num": 21,
+        "title": "Alles über Pferde und Ponys (Wieso? Weshalb? Warum? Folge 21)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5mBZyy3QIpr977TjJwNr1h",
+        "include": true,
+        "episode_num": 10,
+        "title": "Unser Wetter (Wieso? Weshalb? Warum? Folge 10)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "19xQY4vRLPGehDohlpO714",
+        "include": true,
+        "episode_num": 18,
+        "title": "Bei den Indianern (Wieso? Weshalb? Warum? Folge 18)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1DOnUpyezBErILDzECKNk3",
+        "include": true,
+        "episode_num": 24,
+        "title": "Technik bei uns zu Hause (Wieso? Weshalb? Warum? Folge 24)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5dmA0wYZFF1wHcebERXZun",
+        "include": true,
+        "episode_num": 12,
+        "title": "Alles über Dinosaurier (Wieso? Weshalb? Warum? Folge 12)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0mKxPiw2IHCiS2f3L27ysZ",
+        "include": true,
+        "episode_num": 11,
+        "title": "Wir entdecken die Ritterburg (Wieso? Weshalb? Warum? Folge 11)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5g9EdAxe0cXhlZstJxgNVI",
+        "include": true,
+        "episode_num": 69,
+        "title": "Alles über Rennfahrzeuge (Wieso? Weshalb? Warum? Folge 69)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4CM3sxGWqeqefXhpEDTdKt",
+        "include": true,
+        "episode_num": 47,
+        "title": "Alles über Roboter (Wieso? Weshalb? Warum? Folge 47)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1j9egKGDrvalmdaujslFnx",
+        "include": true,
+        "episode_num": 16,
+        "title": "Tiere im Einsatz (Wieso? Weshalb? Warum? Folge 16)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "41gQkWwBJ4tRP405gt8k5X",
+        "include": true,
+        "episode_num": 48,
+        "title": "Wir erforschen die Nacht (Wieso? Weshalb? Warum? Folge 48)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7MoKxSFPyDUhSG7mClth7w",
+        "include": true,
+        "episode_num": 12,
+        "title": "Dinosaurier (Wieso? Weshalb? Warum? PROFIWISSEN, Folge 12)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3TAWveTLyLNgSGlEYVtQcI",
+        "include": true,
+        "episode_num": 26,
+        "title": "Umweltschutz (Wieso? Weshalb? Warum? PROFIWISSEN, Folge 26)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6aJcSvhJ3h3Flt3F6orEnM",
+        "include": true,
+        "episode_num": 6,
+        "title": "Weltraum (Wieso? Weshalb? Warum? PROFIWISSEN, Folge 6)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2ikT2NVMfU4kTVi0y0sBAp",
+        "include": true,
+        "episode_num": 25,
+        "title": "Vulkane (Wieso? Weshalb? Warum? PROFIWISSEN, Folge 25)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3EFJOwBrk4kaxHpzRYQRho",
+        "include": true,
+        "episode_num": 24,
+        "title": "Haie, Wale und Delfine (Wieso? Weshalb? Warum? PROFIWISSEN, Folge 24)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1tsKtqRc72V9z0wiShby5s",
+        "include": true,
+        "episode_num": 5,
+        "title": "Körper (Wieso? Weshalb? Warum? PROFIWISSEN, Folge 5)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4JjqSkIVYRTdkRMBfZa56s",
+        "include": true,
+        "episode_num": 21,
+        "title": "Deutschland (Wieso? Weshalb? Warum? PROFIWISSEN, Folge 21)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3hmusuKgLRhAjx02qRzX6L",
+        "include": true,
+        "episode_num": 19,
+        "title": "Ozeane (Wieso? Weshalb? Warum? PROFIWISSEN, Folge 19)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0rfxiNtXhAgSIdqeOpDa19",
+        "include": true,
+        "episode_num": 17,
+        "title": "Erfindungen (Wieso? Weshalb? Warum? PROFIWISSEN, Folge 17)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0PWNXFERql77QAetGLJYMf",
+        "include": true,
+        "episode_num": 15,
+        "title": "Fußball (Wieso? Weshalb? Warum? PROFIWISSEN, Folge 15)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2NnIrKPVmNZBJVdJsCfOKp",
+        "include": true,
+        "episode_num": 2,
+        "title": "Altes Ägypten(Wieso? Weshalb? Warum? PROFIWISSEN, Folge 2)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3zgxD0Wr2Y5tUtoafGAXJD",
+        "include": true,
+        "episode_num": 10,
+        "title": "Retter im Einsatz (Wieso? Weshalb? Warum? PROFIWISSEN, Folge 10)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3uoy5eDRPeXdmbajEMszRL",
+        "include": true,
+        "episode_num": 9,
+        "title": "Altes Rom (Wieso? Weshalb? Warum? PROFIWISSEN, Folge 9)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5D4NrvYikj5UxytXBFAcyZ",
+        "include": true,
+        "episode_num": 3,
+        "title": "Tiere (Wieso? Weshalb? Warum? PROFIWISSEN, Folge 3)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "505qINntDxBqxm1W9OXNtH",
+        "include": true,
+        "episode_num": 4,
+        "title": "Pferde (Wieso? Weshalb? Warum? PROFIWISSEN, Folge 4)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0VFw6TFHb28JOcv3mBsHxF",
+        "include": true,
+        "episode_num": 1,
+        "title": "Die Erde (Wieso? Weshalb? Warum? PROFIWISSEN, Folge 1)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2wwezWM0GBYFAK1ZBh6i6p",
+        "include": true,
+        "episode_num": 3,
+        "title": "Autos (Wieso? Weshalb? Warum? PROFIWISSEN, Folge 3)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7sTtq8pp7ShgVgjzlId6Xe",
+        "include": true,
+        "episode_num": 81,
+        "title": "Der Kran. (Wieso? Weshalb? Warum? junior, Folge 81)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1emKCQxJyCP57rsSSnxPBJ",
+        "include": true,
+        "episode_num": 80,
+        "title": "Mein erstes Fahrrad (Wieso? Weshalb? Warum? JUNIOR, Folge 80)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3r1pFPWOhvbZLHiXkvqziG",
+        "include": true,
+        "episode_num": 79,
+        "title": "Kämmen, schneiden, Haare waschen (Wieso? Weshalb? Warum? JUNIOR, Folge 79)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2JktIbXeoqcn9lRMrPOpMG",
+        "include": true,
+        "episode_num": 77,
+        "title": "Tiere im Wald (Wieso? Weshalb? Warum? JUNIOR, Folge 77)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6T7WqBAZw1aPpoqyMko3bT",
+        "include": true,
+        "episode_num": 76,
+        "title": "Bohrer, Lampe, Spülmaschine (Wieso? Weshalb? Warum? JUNIOR, Folge 76)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1io7r4BSeXf7d50e1cR5AK",
+        "include": true,
+        "episode_num": 75,
+        "title": "Im Krankenhaus (Wieso? Weshalb? Warum? JUNIOR, Folge 75)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2jI9RAovci4pN9XTmb2Spa",
+        "include": true,
+        "episode_num": 57,
+        "title": "Tiere im Meer (Wieso? Weshalb? Warum? JUNIOR, Folge 57)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "204WlPSjnEBiHfrf2NcMWR",
+        "include": true,
+        "episode_num": 50,
+        "title": "Wir gehen einkaufen (Wieso? Weshalb? Warum? JUNIOR, Folge 50)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0zyklUecdmBkUqKQyjobbC",
+        "include": true,
+        "episode_num": 29,
+        "title": "Wir sind Geschwister (Wieso? Weshalb? Warum? JUNIOR, Folge 29)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "72SMHfW7AKarbag2uwItXL",
+        "include": true,
+        "episode_num": 73,
+        "title": "Tiere der Welt (Wieso? Weshalb? Warum? JUNIOR, Folge 73)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6iOA39AnSL1Cc9mmHStjMj",
+        "include": true,
+        "episode_num": 74,
+        "title": "Die Müllfahrzeuge (Wieso? Weshalb? Warum? JUNIOR, Folge 74)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5hRuRqx5WLvq6CYoe18CxJ",
+        "include": true,
+        "episode_num": 72,
+        "title": "Sonne, Mond und Sterne (Wieso? Weshalb? Warum? JUNIOR, Folge 72)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4F9A0kKe2tBiB3cbFuhOpD",
+        "include": true,
+        "episode_num": 26,
+        "title": "Der Hubschrauber (Wieso? Weshalb? Warum? JUNIOR, Folge 26)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5q3LMwzRLM4ZuOLwle09eM",
+        "include": true,
+        "episode_num": 43,
+        "title": "Wie helfe ich der Umwelt? (Wieso? Weshalb? Warum? JUNIOR, Folge 43)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "01wPgiL6OuLdTej8MuMAaf",
+        "include": true,
+        "episode_num": 54,
+        "title": "Was machen wir an Ostern? (Wieso? Weshalb? Warum? JUNIOR, Folge 54)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4aJ5gxIUJycvKhPBiiNpem",
+        "include": true,
+        "episode_num": 51,
+        "title": "Der Lastwagen (Wieso? Weshalb? Warum? JUNIOR, Folge 51)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0QRQm1v2kjuYl5ChlAr0BL",
+        "include": true,
+        "episode_num": 33,
+        "title": "Tiere bei uns (Wieso? Weshalb? Warum? JUNIOR, Folge 33)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0S7iTpMAD9zjbPVmwUAQTi",
+        "include": true,
+        "episode_num": 71,
+        "title": "Turnen, tanzen, Musik machen (Wieso? Weshalb? Warum? JUNIOR, Folge 71)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7BFAWgAumC9mAAR931HUtO",
+        "include": true,
+        "episode_num": 66,
+        "title": "Helfen, teilen, sich vertragen (Wieso? Weshalb? Warum? JUNIOR, Folge 66)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0EAnLt86iauYM7w90ufFgH",
+        "include": true,
+        "episode_num": 64,
+        "title": "Komm mit zum Zahnarzt (Wieso? Weshalb? Warum? JUNIOR, Folge 64)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7wwaBc0hoV2PKHX4SRQMSz",
+        "include": true,
+        "episode_num": 68,
+        "title": "Was macht der Fußballer? (Wieso? Weshalb? Warum? JUNIOR, Folge 68)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3d9MDMbHDJdQdxPPrAxWr9",
+        "include": true,
+        "episode_num": null,
+        "title": "Wieso? Weshalb? Warum? junior. Tanken, waschen, reparieren",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0ir17MpHVslgFI40bT1NFh",
+        "include": true,
+        "episode_num": 39,
+        "title": "Mama, Papa, Oma, Opa (Wieso? Weshalb? Warum? JUNIOR, Folge 39)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "66gueEgbrr2mRl5hudeMUo",
+        "include": true,
+        "episode_num": 44,
+        "title": "Was machen wir an Weihnachten? (Wieso? Weshalb? Warum? JUNIOR, Folge 44)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2H6EoA8iIXGjIy4bAfcpNY",
+        "include": true,
+        "episode_num": 22,
+        "title": "Was wächst da? (Wieso? Weshalb? Warum? JUNIOR, Folge 22)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1gVkgmYgRRD0pj0U6FBG6L",
+        "include": true,
+        "episode_num": 19,
+        "title": "Was macht die Prinzessin? (Wieso? Weshalb? Warum? JUNIOR, Folge 19)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1Xzti3LZXioCsFxqMMBb55",
+        "include": true,
+        "episode_num": 27,
+        "title": "Wir feiern Geburtstag (Wieso? Weshalb? Warum? JUNIOR, Folge 27)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5100EVI0XorxLunKTiyvkW",
+        "include": true,
+        "episode_num": 65,
+        "title": "Was macht der Polizist (Wieso? Weshalb? Warum? JUNIOR, Folge 65)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2pLXJc6saebrCxLsgQbj4p",
+        "include": true,
+        "episode_num": 58,
+        "title": "Was machen wir im Sommer? (Wieso? Weshalb? Warum? JUNIOR, Folge 58)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4zUcSds6jotTsotWyE6u3E",
+        "include": true,
+        "episode_num": 15,
+        "title": "Unsere Tierkinder (Wieso? Weshalb? Warum? JUNIOR, Folge 15)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7lY7Q5D8KbHw8Uq4chL38W",
+        "include": true,
+        "episode_num": 61,
+        "title": "Was machen wir im Herbst? (Wieso? Weshalb? Warum? JUNIOR, Folge 61)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2QJTkqFO9ONZIibz5AwGz9",
+        "include": true,
+        "episode_num": 63,
+        "title": "Unterwegs mit Bus und Bahn (Wieso? Weshalb? Warum? JUNIOR, Folge 63)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6HohXs3FQ5ajfsmJPokMD3",
+        "include": true,
+        "episode_num": 58,
+        "title": "Was machen wir im Winter? (Wieso? Weshalb? Warum? JUNIOR, Folge 58)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1F656MaS0mhT18F4BT2RFL",
+        "include": true,
+        "episode_num": 29,
+        "title": "Der Pinguin (Wieso? Weshalb? Warum? JUNIOR, Folge 29)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5jHZRceH8uoQEIGtHJ4wfr",
+        "include": true,
+        "episode_num": 53,
+        "title": "Was essen wir? (Wieso? Weshalb? Warum? JUNIOR, Folge 53)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1XjNR9Kav1cQ5X0SrCAwv7",
+        "include": true,
+        "episode_num": 56,
+        "title": "Heute, morgen, jetzt und gleich (Wieso? Weshalb? Warum? JUNIOR, Folge 56)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6UfcMvEeQnqnGpqHKTgnNA",
+        "include": true,
+        "episode_num": 30,
+        "title": "Wir gehen in den Zoo (Wieso? Weshalb? Warum? JUNIOR, Folge 30)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1dAzaXeUBYj25OqNgIGmG2",
+        "include": true,
+        "episode_num": 34,
+        "title": "Der Traktor (Wieso? Weshalb? Warum? JUNIOR, Folge 34)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3ztvcaTl4iJYWkyISZ7M6v",
+        "include": true,
+        "episode_num": 14,
+        "title": "Was ich alles kann (Wieso? Weshalb? Warum? JUNIOR, Folge 14)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "50AtidafqpRFoS0DPt4HJ8",
+        "include": true,
+        "episode_num": 23,
+        "title": "Die Rettungsfahrzeuge (Wieso? Weshalb? Warum? JUNIOR, Folge 23)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5fodAVOk3T7rrjvPXusfvD",
+        "include": true,
+        "episode_num": 52,
+        "title": "Zähne putzen, Pipi machen (Wieso? Weshalb? Warum? JUNIOR, Folge 52)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0B2eoD3hlVjMhgPn0Gj4ll",
+        "include": true,
+        "episode_num": 36,
+        "title": "Was kriecht und krabbelt da? (Wieso? Weshalb? Warum? JUNIOR, Folge 36)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7tSZ55ZvLmrZu0udtUGyHe",
+        "include": true,
+        "episode_num": 24,
+        "title": "Mein Kindergarten (Wieso? Weshalb? Warum? JUNIOR, Folge 24)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "37FlFXt4WP5xwe7ViMbdY6",
+        "include": true,
+        "episode_num": 48,
+        "title": "Ampel, Straße und Verkehr (Wieso? Weshalb? Warum? JUNIOR, Folge 48)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0O5fBbwzurNKIcb8cufXwm",
+        "include": true,
+        "episode_num": 47,
+        "title": "Sonne, Wind und Regen (Wieso? Weshalb? Warum? JUNIOR, Folge 47)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5mY9S1Qwlah7AXdBERsn1q",
+        "include": true,
+        "episode_num": 16,
+        "title": "Die Müllabfuhr (Wieso? Weshalb? Warum? JUNIOR, Folge 16)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0qmAUmosvU4odac7Ib0Zz5",
+        "include": true,
+        "episode_num": 25,
+        "title": "Die Dinosaurier (Wieso? Weshalb? Warum? JUNIOR, Folge 25)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0ILxiFEuWxYy1IVQRiufMV",
+        "include": true,
+        "episode_num": 42,
+        "title": "In den Bergen (Wieso? Weshalb? Warum? JUNIOR, Folge 42)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7j0qrGG3KKwywEWEaFG8Gx",
+        "include": true,
+        "episode_num": 18,
+        "title": "Die Polizei (Wieso? Weshalb? Warum? JUNIOR, Folge 18)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3XoNliBbtfzY8DTZhVYuZV",
+        "include": true,
+        "episode_num": 55,
+        "title": "Wer arbeitet auf der Baustelle? (Wieso? Weshalb? Warum? JUNIOR, Folge 55)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5zf5CvMoEPxPP8oNRrQ8wv",
+        "include": true,
+        "episode_num": 41,
+        "title": "Mein Hund (Wieso? Weshalb? Warum? JUNIOR, Folge 41)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4I2ewHD1HR4Y3iKL87w1pC",
+        "include": true,
+        "episode_num": 38,
+        "title": "Der Bagger (Wieso? Weshalb? Warum? JUNIOR, Folge 38)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3yNMJXjQQ0rWAymj53Aq5B",
+        "include": true,
+        "episode_num": 17,
+        "title": "Am Meer (Wieso? Weshalb? Warum? JUNIOR, Folge 17)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3Ll8hgpkmPvRdjgQ8cpH8j",
+        "include": true,
+        "episode_num": 9,
+        "title": "Die Eisenbahn (Wieso? Weshalb? Warum? JUNIOR, Folge 9)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5cHtCSRyTYJZiKQ0qGmUEy",
+        "include": true,
+        "episode_num": 35,
+        "title": "Im Streichelzoo (Wieso? Weshalb? Warum? JUNIOR, Folge 35)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4FikmmRrBni6uTVOOpFADE",
+        "include": true,
+        "episode_num": 11,
+        "title": "Autos und Laster (Wieso? Weshalb? Warum? JUNIOR, Folge 11)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6ab5JjhiWFa06RvxlK3UIc",
+        "include": true,
+        "episode_num": 4,
+        "title": "Die Ritterburg (Wieso? Weshalb? Warum? JUNIOR, Folge 4)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7CEVzJZMZXwa4tiX9OT9ld",
+        "include": true,
+        "episode_num": 7,
+        "title": "Die Baustelle (Wieso? Weshalb? Warum? JUNIOR, Folge 7)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7aFBdUmTglMh5OAId7goSM",
+        "include": true,
+        "episode_num": 3,
+        "title": "Der Flughafen (Wieso? Weshalb? Warum? JUNIOR, Folge 3)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3n89fkumFJzz271wSwq1NI",
+        "include": true,
+        "episode_num": 10,
+        "title": "Die Jahreszeiten (Wieso? Weshalb? Warum? JUNIOR, Folge 10)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1zlWB5lTNlGkXk9aovuNhx",
+        "include": true,
+        "episode_num": 2,
+        "title": "Die Feuerwehr (Wieso? Weshalb? Warum? JUNIOR, Folge 2)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1ESUpWc4Tc10nAiMgLkcaR",
+        "include": true,
+        "episode_num": 1,
+        "title": "Der Bauernhof (Wieso? Weshalb? Warum? JUNIOR, Folge 1)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6wwy5qNXtNv1U8zGtvVi66",
+        "include": true,
+        "episode_num": 5,
+        "title": "Das bin Ich & Das bist Du (Wieso? Weshalb? Warum? JUNIOR, Folge 5)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "35AzVNMYJ0pcXugh1N7EeD",
+        "include": true,
+        "episode_num": 6,
+        "title": "Der Wald (Wieso? Weshalb? Warum? JUNIOR, Folge 6)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3iupva6Blzpc0coPBOLYC3",
+        "include": true,
+        "episode_num": 59,
+        "title": "Was machen wir im Frühling? (Wieso? Weshalb? Warum? JUNIOR, Folge 59)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3utAvGFi6JySY5c8vXT5Tc",
+        "include": true,
+        "episode_num": 17,
+        "title": "Im Wald (Wieso? Weshalb? Warum? ERSTLESER, Folge 17)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1Bph3iCCrgEyemGXR5lYN9",
+        "include": true,
+        "episode_num": 15,
+        "title": "Mein Körper (Wieso? Weshalb? Warum? ERSTLESER, Folge 15)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0S0M8RbZgQUVHB2NJexwBS",
+        "include": true,
+        "episode_num": 16,
+        "title": "Gefährliche Tiere (Wieso? Weshalb? Warum? ERSTLESER, Folge 16)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6lQWCJ7mo7ioMZSrZUKfxQ",
+        "include": true,
+        "episode_num": 13,
+        "title": "Umweltschutz (Wieso? Weshalb? Warum? ERSTLESER, Folge 13)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2I6tuy3ML4PyAaurlppW6B",
+        "include": true,
+        "episode_num": 14,
+        "title": "Roboter (Wieso? Weshalb? Warum? ERSTLESER, Folge 14)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5FBdee2s7NNUDgnBj22bv7",
+        "include": true,
+        "episode_num": 12,
+        "title": "Haustiere (Wieso? Weshalb? Warum? ERSTLESER, Folge 12)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7nmazapbnldQJN9qOUXwDX",
+        "include": true,
+        "episode_num": 11,
+        "title": "Detektive und Ermittler (Wieso? Weshalb? Warum? ERSTLESER, Folge 11)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "43E1rRbWsqJ3TthwimXvvS",
+        "include": true,
+        "episode_num": 10,
+        "title": "In der Natur (Wieso? Weshalb? Warum? ERSTLESER, Folge 10)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7v5xwVrCLQoJZpryltbMF3",
+        "include": true,
+        "episode_num": 9,
+        "title": "Das alte Ägypten (Wieso? Weshalb? Warum? ERSTLESER, Folge 9)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "41a2ZVOBGfP1yQ9TGCZg1M",
+        "include": true,
+        "episode_num": 8,
+        "title": "Ozeane (Wieso? Weshalb? Warum? ERSTLESER, Folge 8)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0Hc7NANGrr24Z3YM8z0i9p",
+        "include": true,
+        "episode_num": 7,
+        "title": "Fußball (Wieso? Weshalb? Warum? ERSTLESER, Folge 7)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4PJKSQEqcKSag3dKxjj2yD",
+        "include": true,
+        "episode_num": 5,
+        "title": "Unsere Erde (Wieso? Weshalb? Warum? ERSTLESER, Folge 5)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "450rh9RVDMe0muWgUkYMKQ",
+        "include": true,
+        "episode_num": 6,
+        "title": "Pferde (Wieso? Weshalb? Warum? ERSTLESER, Folge 6)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6wiQGmYF0rOCbqQGpQqYi0",
+        "include": true,
+        "episode_num": 4,
+        "title": "Weltraum (Wieso? Weshalb? Warum? ERSTLESER, Folge 4)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4nhwS9ztoA3OxsqQ7IVI2w",
+        "include": true,
+        "episode_num": 3,
+        "title": "Wale und Delfine (Wieso? Weshalb? Warum? ERSTLESER, Folge 3)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4uarYt8XVesrFlF5vEXqHI",
+        "include": true,
+        "episode_num": 2,
+        "title": "Vulkane (Wieso? Weshalb? Warum? ERSTLESER, Folge 2)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7f70cV1g4qlRZVHkSElmm1",
+        "include": true,
+        "episode_num": 1,
+        "title": "Dinosaurier (Wieso? Weshalb? Warum? ERSTLESER, Folge 1)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4craGbCLchGdKewnQYCGo2",
+        "include": true,
+        "episode_num": 1,
+        "title": "Was erleben wir Tag für Tag? (Wieso? Weshalb? Warum? Meine Vorlesegeschichten, Folge 1)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0NiJ11SM4QQzAbrEGRVXIf",
+        "include": true,
+        "episode_num": 2,
+        "title": "Was passiert in Wald und Wiese? (Wieso? Weshalb? Warum? Meine Vorlesegeschichten, Folge 2)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "20idnrDkDmTHirWuVDbEA8",
+        "include": true,
+        "episode_num": 3,
+        "title": "Wer ist hier im Einsatz? (Wieso? Weshalb? Warum? Meine Vorlesegeschichten, Folge 3)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "12n3niS0w5DHsoGJuXELM4",
+        "include": true,
+        "episode_num": 53,
+        "title": "Was passiert im Krankenhaus? (Wieso? Weshalb? Warum? Folge 53)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5hwpgcKwd7MxgGFpV7d0ot",
+        "include": true,
+        "episode_num": 22,
+        "title": "Alles über die Polizei (Wieso? Weshalb? Warum? Folge 22)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "74En58RbKkz93JtW4GSEkn",
+        "include": true,
+        "episode_num": 40,
+        "title": "Alles über Piraten (Wieso? Weshalb? Warum? Folge 40)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2Z6nsq9Gs1kFdffattlivY",
+        "include": true,
+        "episode_num": 38,
+        "title": "Alles über Laster, Bagger und Traktoren (Wieso? Weshalb? Warum? Folge 38",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1BChl9yd6B710OuCfIMLWU",
+        "include": true,
+        "episode_num": 41,
+        "title": "Wir entdecken Wale und Delfine (Wieso? Weshalb? Warum? Folge 41)",
+        "exclude_reason": null
+      }
+    ],
+    "age_note": "Suitable from 3+",
+    "curator_notes": "The 'Wieso? Weshalb? Warum?' series spans multiple sub-series targeted at different age groups: main series (ages 4-7), JUNIOR (ages 3-5, shorter episodes), PROFIWISSEN (ages 6-10, in-depth topics), ERSTLESER (early readers, longer content), and Meine Vorlesegeschichten (read-aloud stories). All sub-series are included as they form one cohesive educational brand. Some special episodes like 'Wir entdecken Deutschland' and 'Wir entdecken die Bibel' lack episode numbers but are valid individual releases."
+  }
+}

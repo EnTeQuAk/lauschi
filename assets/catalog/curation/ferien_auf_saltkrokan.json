@@ -1,0 +1,73 @@
+{
+  "query": "Ferien auf Saltkrokan",
+  "model": "kimi-k2.5",
+  "curated_at": "2026-02-20T01:21:40.975794+00:00",
+  "series": {
+    "id": "ferien_auf_saltkrokan",
+    "title": "Ferien auf Saltkrokan",
+    "aliases": [
+      "Vi på Saltkråkan"
+    ],
+    "keywords": [
+      "Ferien auf Saltkrokan"
+    ],
+    "spotify_artist_ids": [
+      "6Tgs4sCWBTcniX8YqJEhls",
+      "7sRF5KPi10c3pueaKGmArz"
+    ],
+    "episode_pattern": "(?:Ferien auf Saltkrokan)\\s*(\\d+)",
+    "albums": [
+      {
+        "spotify_album_id": "3oG647uAQIqJpEx5FsQ7DN",
+        "include": true,
+        "episode_num": 1,
+        "title": "Ferien auf Saltkrokan 1",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1hRhF8gMRtiiamGSQnIOXE",
+        "include": true,
+        "episode_num": 2,
+        "title": "Ferien auf Saltkrokan 2",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "00ew0iiHQFHE8Gs5VAhkE0",
+        "include": true,
+        "episode_num": 3,
+        "title": "Ferien auf Saltkrokan. Ein Kaninchen für Pelle",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "70GaL8TOZZyXiQzHfX2LE6",
+        "include": true,
+        "episode_num": 4,
+        "title": "Ferien auf Saltkrokan. Als Tjorven einen Seehund bekam",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6hjritIbcYaqyPhXJubKH1",
+        "include": true,
+        "episode_num": 5,
+        "title": "Ferien auf Saltkrokan. Pelle findet einen Wunschstein",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7tQCdaErong5Q2slfWK9oo",
+        "include": true,
+        "episode_num": 6,
+        "title": "Ferien auf Saltkrokan. Pelle feiert Weihnachten",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0agqBdbB7mh0PMkKHoHC5T",
+        "include": false,
+        "episode_num": null,
+        "title": "Ferien auf Saltkrokan. Hörspielklassiker",
+        "exclude_reason": "Box set / compilation (24 tracks, combines multiple episodes)"
+      }
+    ],
+    "age_note": "Suitable from 5+",
+    "curator_notes": "The series is based on Astrid Lindgren's classic Swedish children's books 'Vi på Saltkråkan'. The main artist 'Ferien auf Saltkrokan' only has 2 albums - one compilation box set (excluded) and one Christmas special (included). The actual episodes are found under 'Astrid Lindgren Deutsch' which contains the numbered releases (1-2) and individual story releases (3-6). No Retro-Archiv or Junior variants exist for this series."
+  }
+}

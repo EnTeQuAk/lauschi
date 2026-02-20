@@ -1,0 +1,865 @@
+{
+  "query": "Die Playmos",
+  "model": "kimi-k2.5",
+  "curated_at": "2026-02-19T22:54:35.637116+00:00",
+  "series": {
+    "id": "die_playmos",
+    "title": "Die Playmos",
+    "aliases": [
+      "Die Playmos - Das Original Playmobil Hörspiel"
+    ],
+    "keywords": [
+      "Playmos",
+      "Playmobil"
+    ],
+    "spotify_artist_ids": [
+      "1QIbeCbJNuFMKhZMY1rey8",
+      "5vzZ64hj1w4cJX8gz31o03"
+    ],
+    "episode_pattern": "Folge (\\d+)",
+    "albums": [
+      {
+        "spotify_album_id": "7IhqeWCTS3e8gjzXaeteDJ",
+        "include": true,
+        "episode_num": 98,
+        "title": "Folge 98: Das gestohlene Ei (Das Original Playmobil Hörspiel)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0pVaUzN0eLK95xvbVMLoai",
+        "include": true,
+        "episode_num": 97,
+        "title": "Folge 97: Die Schule der Superhelden (Das Original Playmobil Hörspiel)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3ht2YOWVZE3ujVaRVcmf2B",
+        "include": true,
+        "episode_num": 96,
+        "title": "Folge 96: Das geheime Buch (Das Original Playmobil Hörspiel)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6Hz4UqocMYRS12R0gfBTDV",
+        "include": true,
+        "episode_num": 95,
+        "title": "Folge 95: Perlenraub im Strandhotel (Das Original Playmobil Hörspiel)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "00lKBlAEgLFIUiTz2r7BuT",
+        "include": true,
+        "episode_num": 94,
+        "title": "Folge 94: Rettung für Captain Tolle (Das Original Playmobil Hörspiel)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0Z2qCjC3LnGisIgOxSR8x7",
+        "include": true,
+        "episode_num": 93,
+        "title": "Folge 93: Der verschwundene Kommissar (Das Original Playmobil Hörspiel)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "35YGgF6hVWWt7CceFsOyeK",
+        "include": true,
+        "episode_num": 92,
+        "title": "Folge 92: Im geheimen Tal der Dinosaurier (Das Original Playmobil Hörspiel)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0QtZ1viObjibZ9nstJsf4R",
+        "include": true,
+        "episode_num": 91,
+        "title": "Folge 91: Der erste Fall von Mato Meisterdetektiv (Das Original Playmobil Hörspiel)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2FRP9tZxFb6QmCAjZlyuhv",
+        "include": true,
+        "episode_num": 90,
+        "title": "Folge 90: Die rätselhaften Einbrüche (Das Original Playmobil Hörspiel)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "62LQT2YCJhkM0ZiR9Qedi6",
+        "include": true,
+        "episode_num": 89,
+        "title": "Folge 89: Der Ninja und der goldene Drache (Das Original Playmobil Hörspiel)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7DTJ53KFdONizDlV6a1Toz",
+        "include": true,
+        "episode_num": 88,
+        "title": "Folge 88: Wo ist Stürmer Leon Blitz? (Das Original Playmobil Hörspiel)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4LqDW7Zu1uQuPtI70xdOWY",
+        "include": true,
+        "episode_num": 87,
+        "title": "Folge 87: Verschwörung im Olymp (Das Original Playmobil Hörspiel) [Ungekürzt]",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7agXCYGSZKwaCKxEGw6UWa",
+        "include": true,
+        "episode_num": 86,
+        "title": "Folge 86: Red Firestar, Superheld (Das Original Playmobil Hörspiel)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7f6Y4efuTdFlJQd04M7biT",
+        "include": true,
+        "episode_num": 85,
+        "title": "Folge 85: Dreiste Diebe beim SWAT-Team (Das Original Playmobil Hörspiel)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2pffqhSOiXIz6u7PH5eixd",
+        "include": true,
+        "episode_num": 84,
+        "title": "Folge 84: Das seltsame Haus (Das Original Playmobil Hörspiel)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6TXhylURWat9Bq6rTgUztZ",
+        "include": true,
+        "episode_num": 83,
+        "title": "Folge 83: Von Doppelgängern und Agenten (Das Original Playmobil Hörspiel)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "28VIOsuLLbPTrbsyIqpApw",
+        "include": false,
+        "episode_num": null,
+        "title": "Die große Prinzessinnen-Box, Folgen 34, 63, 81 (Das Original Playmobil Hörspiel)",
+        "exclude_reason": "Box set - compilation of episodes 34, 63, 81"
+      },
+      {
+        "spotify_album_id": "7f6Thnu098F8uBMNliFG7B",
+        "include": true,
+        "episode_num": 82,
+        "title": "Folge 82: Drei Rettungseinsätze und ein Dieb (Das Original Playmobil Hörspiel)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6lNZz0SrE42wbq3f44enfl",
+        "include": true,
+        "episode_num": 81,
+        "title": "Folge 81: Prinzessin in Not (Das Original Playmobil Hörspiel)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6trn9YyD4LKMF0VrXoIa7m",
+        "include": true,
+        "episode_num": 80,
+        "title": "Folge 80: Der verschwundene Hengst (Das Original Playmobil Hörspiel)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1M65hIi5IF5MfByYKrYYll",
+        "include": true,
+        "episode_num": 79,
+        "title": "Folge 79: Das Rätsel um die Stunt-Show (Das Original Playmobil Hörspiel)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5bRRUmK6N3LFfJCvcqj6y5",
+        "include": true,
+        "episode_num": 78,
+        "title": "Folge 78: Auf Mission mit dem SWAT-Team (Das Original Playmobil Hörspiel)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4qa6HzKnwJE1hF7JjoykcX",
+        "include": true,
+        "episode_num": 77,
+        "title": "Folge 77: Schmuggler im Hafen (Das Original Playmobil Hörspiel)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0a8FPP8481bERYIRiGqvDt",
+        "include": true,
+        "episode_num": 76,
+        "title": "Folge 76: Auf Einsatz mit der Galaxy Police (Das Original Playmobil Hörspiel)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5gmloJVpUH5d1ZmWoYQI2p",
+        "include": true,
+        "episode_num": 75,
+        "title": "Folge 75: Dem Betrüger auf der Spur (Das Original Playmobil Hörspiel)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3aaB4jIkJKUssGOxADycD2",
+        "include": false,
+        "episode_num": null,
+        "title": "Die große Detektiv-Box, Folgen 46, 66, 73 (Das Original Playmobil Hörspiel)",
+        "exclude_reason": "Box set - compilation of episodes 46, 66, 73"
+      },
+      {
+        "spotify_album_id": "7jTWCkWRYoIf610ixLyilE",
+        "include": false,
+        "episode_num": null,
+        "title": "Die große Detektiv-Box, Folgen 46, 66 und 73 (Das Original Playmobil Hörspiel)",
+        "exclude_reason": "Box set - duplicate of other Detektiv-Box"
+      },
+      {
+        "spotify_album_id": "4BcZwqCFTteCdgGHB2CSGb",
+        "include": true,
+        "episode_num": 74,
+        "title": "Folge 74: Falsches Spiel im Polizeigefängnis (Das Original Playmobil Hörspiel)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1urY4MVHavvMR0Usc0lZfr",
+        "include": true,
+        "episode_num": 73,
+        "title": "Folge 73: Spurensuche im Zoo (Das Original Playmobil Hörspiel)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2YHRuwyqzbyUSCLvYt3GkP",
+        "include": true,
+        "episode_num": 72,
+        "title": "Folge 72: Ein Geheimcode für die Galaxy Police (Das Original Playmobil Hörspiel)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "435y8XGt6DF5OxxiM4WE9k",
+        "include": false,
+        "episode_num": null,
+        "title": "Die große Feuerwehr-Box, Folgen 42, 57, 62 (Das Original Playmobil Hörspiel)",
+        "exclude_reason": "Box set - compilation of episodes 42, 57, 62"
+      },
+      {
+        "spotify_album_id": "5MLMemOz7sEyS0UJE3iPxo",
+        "include": true,
+        "episode_num": 71,
+        "title": "Folge 71: Das dramatische Finale (Das Original Playmobil Hörspiel)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0ot4bdZsPZhekrAqYt5TGT",
+        "include": true,
+        "episode_num": 70,
+        "title": "Folge 70: Die Würfel sind gefallen (Das Original Playmobil Hörspiel)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3x2bH7mtbtizFcN80Xbr3Z",
+        "include": false,
+        "episode_num": null,
+        "title": "Die große Weltall-Box, Folgen 29, 36, 48 (Das Original Playmobil Hörspiel)",
+        "exclude_reason": "Box set - compilation of episodes 29, 36, 48"
+      },
+      {
+        "spotify_album_id": "4HN0xnLhkzpz7ySSkqyhuQ",
+        "include": true,
+        "episode_num": 69,
+        "title": "Folge 69: Die Macht der Kürbislaterne (Das Original Playmobil Hörspiel)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "44NEvICKAei0XPim6jLLi7",
+        "include": true,
+        "episode_num": 68,
+        "title": "Folge 68: Ein Fall für das Sondereinsatzkommando (Das Original Playmobil Hörspiel)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1EAhoWF50GV3hvvDYRM5dD",
+        "include": true,
+        "episode_num": 67,
+        "title": "Folge 67: Viele Piraten und eine Schatzkarte (Das Original Playmobil Hörspiel)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3DAP1KkvHFbtNwh3s7PRSn",
+        "include": false,
+        "episode_num": null,
+        "title": "Brief von Captain Tolle",
+        "exclude_reason": "Short story - 2 tracks, no episode number in main series"
+      },
+      {
+        "spotify_album_id": "1ZdgP9BgMnFbun3q5rANiw",
+        "include": true,
+        "episode_num": 66,
+        "title": "Folge 66: Detektive auf dem Campingplatz (Das Original Playmobil Hörspiel)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "63rcz9RnzCdZzWwsQoZL5r",
+        "include": true,
+        "episode_num": 65,
+        "title": "Folge 65: Die Top Agents auf hoher See (Das Original Playmobil Hörspiel)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1fYFzhaxMqDKrB6hcgINER",
+        "include": true,
+        "episode_num": 64,
+        "title": "Folge 64: Leben auf dem Mars (Das Original Playmobil Hörspiel)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6rcpuUMmvZM2CdzlsJlB0F",
+        "include": false,
+        "episode_num": null,
+        "title": "Die 2. große Ritter-Box, Folgen 24, 45, 55 (Das Original Playmobil Hörspiel)",
+        "exclude_reason": "Box set - compilation of episodes 24, 45, 55"
+      },
+      {
+        "spotify_album_id": "7dleW3I7Vjjsc3dATD0Kil",
+        "include": true,
+        "episode_num": 63,
+        "title": "Folge 63: Der verschwundene Kristall (Das Original Playmobil Hörspiel)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4LfqwqmVl4W4WCZaRiMZNR",
+        "include": true,
+        "episode_num": 62,
+        "title": "Folge 62: Der falsche Feuerwehrmann (Das Original Playmobil Hörspiel)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5Xfne3twpRswp7UTRlUEFr",
+        "include": true,
+        "episode_num": 61,
+        "title": "Folge 61: Eine Insel voller Abenteuer (Das Original Playmobil Hörspiel)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2h4VJ6cp1ZeHVXxDrM69DS",
+        "include": false,
+        "episode_num": null,
+        "title": "Die grosse Fussball-Box, Folgen 7, 51, 60 (Das Original Playmobil Hörspiel)",
+        "exclude_reason": "Box set - compilation of episodes 7, 51, 60"
+      },
+      {
+        "spotify_album_id": "2VvVPT1aURHhZL4KsgGC0y",
+        "include": true,
+        "episode_num": 60,
+        "title": "Folge 60: Die magische Fussballmeisterschaft (Das Original Playmobil Hörspiel)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3ttXkDjXnYHCaJKddmRZXN",
+        "include": true,
+        "episode_num": 59,
+        "title": "Folge 59: Auf Verfolgungsjagd mit den Top Agents (Das Original Playmobil Hörspiel)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3PEsk7SyyAzoBvCiMznmph",
+        "include": false,
+        "episode_num": null,
+        "title": "Die große Römer- und Ägypter-Box, Folge 5, 18, 52 (Das Original Playmobil Hörspiel)",
+        "exclude_reason": "Box set - compilation of episodes 5, 18, 52"
+      },
+      {
+        "spotify_album_id": "6lCWwsUqG6aykn99yzW5jm",
+        "include": true,
+        "episode_num": 58,
+        "title": "Folge 58: Wettkampf der Drachenreiter (Das Original Playmobil Hörspiel)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3Tb3kIavA0OOkO3DjASKll",
+        "include": true,
+        "episode_num": 57,
+        "title": "Folge 57: Wasser Marsch bei der Feuerwehr (Das Original Playmobil Hörspiel)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0ttj5uXcQuQP1dWiCCcrAd",
+        "include": true,
+        "episode_num": 56,
+        "title": "Folge 56: Flucht vor dem T-Rex (Das Original Playmobil Hörspiel)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2JXkyvImC6Jmyq9GT7KE08",
+        "include": true,
+        "episode_num": 55,
+        "title": "Folge 55: Die Belagerung der Löwenritterburg (Das Original Playmobil Hörspiel)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0JkbQzJXds0Ug6aIMRdEke",
+        "include": true,
+        "episode_num": 54,
+        "title": "Folge 54: Angriff der Eispiraten (Das Original Playmobil Hörspiel)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1H98GYKS3pnV9Q1vihiFwi",
+        "include": true,
+        "episode_num": 53,
+        "title": "Folge 53: Geheime Schatzsuche auf der Galeere (Das Original Playmobil Hörspiel)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5emvVmdnaGNvW7bodGXQEn",
+        "include": false,
+        "episode_num": null,
+        "title": "Die große Drachen-Box, Folgen 13, 38, 50 (Das Original Playmobil Hörspiel)",
+        "exclude_reason": "Box set - compilation of episodes 13, 38, 50"
+      },
+      {
+        "spotify_album_id": "4W4yWRjuTn2Pj1J8VrIhXt",
+        "include": true,
+        "episode_num": 52,
+        "title": "Folge 52: Der Schatz der Pyramide (Das Original Playmobil Hörspiel)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5pjV2Z0zZZnmkItpbgPhe2",
+        "include": true,
+        "episode_num": 51,
+        "title": "Folge 51: Im Fussballfieber! (Das Original Playmobil Hörspiel)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5jwf2foaFvsqStpWBDjtcu",
+        "include": true,
+        "episode_num": 50,
+        "title": "Folge 50: Die heiße Spur der Drachen (Das Original Playmobil Hörspiel)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6AydeCw4Rn2wxrpS2FHx3C",
+        "include": true,
+        "episode_num": 49,
+        "title": "Folge 49: Sabotage auf dem Reiterhof (Das Original Playmobil Hörspiel)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4stTylrusLCE5V6pI2MuRI",
+        "include": false,
+        "episode_num": null,
+        "title": "Die große Polizei-Box, Folgen 28, 41, 44 (Das Original Playmobil Hörspiel)",
+        "exclude_reason": "Box set - compilation of episodes 28, 41, 44"
+      },
+      {
+        "spotify_album_id": "2N623zMFqa76a6EBf14d9o",
+        "include": true,
+        "episode_num": 48,
+        "title": "Folge 48: Raketenstart ins All (Das Original Playmobil Hörspiel)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6Vf5iBuu43GZ5q8VzI6sos",
+        "include": true,
+        "episode_num": 47,
+        "title": "Folge 47: Flucht vor den Piraten (Das Original Playmobil Hörspiel)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5gP28gLRE2d534USNXuKID",
+        "include": true,
+        "episode_num": 46,
+        "title": "Folge 46: Die Playmos ermitteln (Das Original Playmobil Hörspiel)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4RTlbcwSedCC8o4WCu8EnV",
+        "include": true,
+        "episode_num": 45,
+        "title": "Folge 45: Ritter außer Rand und Band (Das Original Playmobil Hörspiel)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2bgFsJOC5SinK1ARGA20pf",
+        "include": true,
+        "episode_num": 44,
+        "title": "Folge 44: Spezialeinsatz im Freizeitpark (Das Original Playmobil Hörspiel)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7rrnMjggkZnYE9kD7TMKCP",
+        "include": false,
+        "episode_num": null,
+        "title": "Wie die Playmos sich kennenlernten",
+        "exclude_reason": "Short story - 6 tracks, no episode number in main series"
+      },
+      {
+        "spotify_album_id": "7tSH8SDpZMUq5FOnUO6Efr",
+        "include": false,
+        "episode_num": null,
+        "title": "Im Land der Riesen (Das Original Playmobil Hörspiel)",
+        "exclude_reason": "Short story - 6 tracks, no episode number in main series"
+      },
+      {
+        "spotify_album_id": "6093rP8IzEJcuMRtFl1quC",
+        "include": false,
+        "episode_num": null,
+        "title": "Der Schatz der Barbarenruine",
+        "exclude_reason": "Short story - 6 tracks, no episode number in main series"
+      },
+      {
+        "spotify_album_id": "5u62PMBevTK3R7Pujt7f47",
+        "include": false,
+        "episode_num": null,
+        "title": "Das Versteck in der Goldmine",
+        "exclude_reason": "Short story - 5 tracks, no episode number in main series"
+      },
+      {
+        "spotify_album_id": "2FQUesYJOEOW54kIF5BpUB",
+        "include": true,
+        "episode_num": 43,
+        "title": "Folge 43: Wirbel um den Weihnachtsmann (Das Original Playmobil Hörspiel)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "61BOWucuUNx6oH00fFjcQJ",
+        "include": false,
+        "episode_num": null,
+        "title": "Die große Cowboy- und Indianer-Box, Folgen 21, 32, 35 (Das Original Playmobil Hörspiel)",
+        "exclude_reason": "Box set - compilation of episodes 21, 32, 35"
+      },
+      {
+        "spotify_album_id": "3QbUTqWVyqgibqXySExnaq",
+        "include": true,
+        "episode_num": 42,
+        "title": "Folge 42: Großbrand in der Feuerwache (Das Original Playmobil Hörspiel)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5fkUryxXgXYJQKCoVPzdIy",
+        "include": true,
+        "episode_num": 41,
+        "title": "Folge 41: Sondereinsatz Geldtransport! (Das Original Playmobil Hörspiel)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5q0ViF4QqbdB8Y60IZpQWh",
+        "include": true,
+        "episode_num": 40,
+        "title": "Folge 40: Auf der Jagd nach dem goldenen Schlüssel (Das Original Playmobil Hörspiel)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2CCSMILCNWGeYe3CVBrHbt",
+        "include": true,
+        "episode_num": 39,
+        "title": "Folge 39: Mit der Küstenwache auf Verbrecherjagd (Das Original Playmobil Hörspiel)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2IoI7mQu91nKDY4s8eldS9",
+        "include": true,
+        "episode_num": 38,
+        "title": "Folge 38: Das Geheimnis des Drachenfeuers (Das Original Playmobil Hörspiel)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1xMWd36JtE4GzIZjJPJp37",
+        "include": true,
+        "episode_num": 37,
+        "title": "Folge 37: Die Entführung der Einhörner (Das Original Playmobil Hörspiel)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "48HWpR5dyW6yb0vvnH1RLx",
+        "include": false,
+        "episode_num": null,
+        "title": "Die große Agenten-Box, Folgen 19, 23, 31 (Das Original Playmobil Hörspiel)",
+        "exclude_reason": "Box set - compilation of episodes 19, 23, 31"
+      },
+      {
+        "spotify_album_id": "3EZ9aTSyMya7hVqAZ4BqDE",
+        "include": true,
+        "episode_num": 36,
+        "title": "Folge 36: Im Bann des Kometen (Das Original Playmobil Hörspiel)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4iDr2nHnDwqOwEDm3V4ifl",
+        "include": true,
+        "episode_num": 35,
+        "title": "Folge 35: Streit im Wilden Westen (Das Original Playmobil Hörspiel)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0WlrKxFR3kOOn89LGVHf91",
+        "include": true,
+        "episode_num": 34,
+        "title": "Folge 34: Der Ball im Prinzessinnen-Schloss (Das Original Playmobil Hörspiel)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "74OXYL4cabXwiOaUpFsZ1S",
+        "include": true,
+        "episode_num": 33,
+        "title": "Folge 33: Piratenschlacht auf hoher See (Das Original Playmobil Hörspiel)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4ydWc5rbm7pImxfs5s5GSE",
+        "include": true,
+        "episode_num": 32,
+        "title": "Folge 32: Überfall auf den Goldtransport (Das Original Playmobil Hörspiel)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5yRF3T39VLB1OrpcqbTPCD",
+        "include": true,
+        "episode_num": 31,
+        "title": "Folge 31: Nächtlicher Angriff der Mega Masters (Das Original Playmobil Hörspiel)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2ScSa7zFnG2WYcHJLDoo55",
+        "include": false,
+        "episode_num": null,
+        "title": "Die große Dino-Box, Folgen 3, 17, 30 (Das Original Playmobil Hörspiel)",
+        "exclude_reason": "Box set - compilation of episodes 3, 17, 30"
+      },
+      {
+        "spotify_album_id": "3tL1J27hmmq2C0vjqmIcjc",
+        "include": true,
+        "episode_num": 30,
+        "title": "Folge 30: Bei den Dinos (Das Original Playmobil Hörspiel)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1xrN8zIOQiGY6rrieWlG3l",
+        "include": true,
+        "episode_num": 29,
+        "title": "Folge 29: Wirbel um Planet Zentauri (Das Original Playmobil Hörspiel)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0GwbngHDRFjIPFoq1UQHbt",
+        "include": true,
+        "episode_num": 28,
+        "title": "Folge 28: Den Bankräubern auf der Spur (Das Original Playmobil Hörspiel)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6zrCuqyvuceleFebSkzKID",
+        "include": true,
+        "episode_num": 27,
+        "title": "Folge 27: Reise in die Steinzeit (Das Original Playmobil Hörspiel)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4tKHbQeq8LbVbXkgzqS3dR",
+        "include": true,
+        "episode_num": 26,
+        "title": "Folge 26: Wettrennen um die Schatzinsel (Das Original Playmobil Hörspiel)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5TBxfEuwRcxRBzYBhYTRp8",
+        "include": true,
+        "episode_num": 25,
+        "title": "Folge 25: Gefahr im Weltall (Das Original Playmobil Hörspiel)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1RJk6jujQNFKu4ZtY3quYL",
+        "include": false,
+        "episode_num": null,
+        "title": "Die große Piraten-Box, Folgen 1, 16, 22 (Das Original Playmobil Hörspiel)",
+        "exclude_reason": "Box set - compilation of episodes 1, 16, 22"
+      },
+      {
+        "spotify_album_id": "41T7dUHQEWVc6ZZDm61LzY",
+        "include": true,
+        "episode_num": 24,
+        "title": "Folge 24: Die Ritter sind los! (Das Original Playmobil Hörspiel)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2xOlwXKOqiAHEXjrgopF23",
+        "include": true,
+        "episode_num": 23,
+        "title": "Folge 23: Die Playmos in geheimer Mission (Das Original Playmobil Hörspiel)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0xQjugUkpkZ4ov13xQmsk4",
+        "include": true,
+        "episode_num": 22,
+        "title": "Folge 22: Gespenstig gruselige Geisterpiraten (Das Original Playmobil Hörspiel)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3ffwsMn1s5UG6jpENsY3iu",
+        "include": true,
+        "episode_num": 21,
+        "title": "Folge 21: Die Reise zu Häuptling Schlanker Bär (Das Original Playmobil Hörspiel)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2jRhlbYDCnIzHjPxESfh8C",
+        "include": false,
+        "episode_num": null,
+        "title": "Die große Ritter-Box, Folgen 2, 8, 20 (Das Original Playmobil Hörspiel)",
+        "exclude_reason": "Box set - compilation of episodes 2, 8, 20"
+      },
+      {
+        "spotify_album_id": "7Jj0ZyEqxCZyAuRxMbg8O7",
+        "include": true,
+        "episode_num": 20,
+        "title": "Folge 20: Die Schlacht der Löwenritter (Das Original Playmobil Hörspiel)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2tsbS9Copc1AZwphlLklXX",
+        "include": true,
+        "episode_num": 19,
+        "title": "Folge 19: Jagd auf Dr. Devil (Das Original Playmobil Hörspiel)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5WP4t0zCfN4CoCb5Cs0RPV",
+        "include": true,
+        "episode_num": 18,
+        "title": "Folge 18: Der Schatz des Archimedes (Das Original Playmobil Hörspiel)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "55NLTyIR39Gj9z67lbQQlO",
+        "include": true,
+        "episode_num": 17,
+        "title": "Folge 17: Rettet den Dinopark! (Das Original Playmobil Hörspiel)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3CvyE1TAQK5tA8BrQICQ8N",
+        "include": true,
+        "episode_num": 16,
+        "title": "Folge 16: Die Rückkehr der Piraten (Das Original Playmobil Hörspiel)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0EUmJe54MmelhrIaT905q5",
+        "include": true,
+        "episode_num": 15,
+        "title": "Folge 15: Der Schatz im Dschungeltempel (Das Original Playmobil Hörspiel)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3qDz9oN5zG6AHVcxQWK8ax",
+        "include": true,
+        "episode_num": 14,
+        "title": "Folge 14: Gefahr für den König der Tiere (Das Original Playmobil Hörspiel)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3uvsdVoRelrlI9BsMbriA1",
+        "include": true,
+        "episode_num": 13,
+        "title": "Folge 13: Das Licht aus dem Drachenland (Das Original Playmobil Hörspiel)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7ub4G11NH0JvgJnRrZymxF",
+        "include": true,
+        "episode_num": 12,
+        "title": "Folge 12: Im Reich der Feen (Das Original Playmobil Hörspiel)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5OU8A5ZOLh6OcfOrVPbTN0",
+        "include": true,
+        "episode_num": 11,
+        "title": "Folge 11: Alarm im Hafen (Das Original Playmobil Hörspiel)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "03pOhZPJN41ymAuPyP3giQ",
+        "include": true,
+        "episode_num": 9,
+        "title": "Folge 9: Manege frei für die Playmos (Das Original Playmobil Hörspiel)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6xhJZhNdbrcXEFAfkRXoZI",
+        "include": true,
+        "episode_num": 8,
+        "title": "Folge 8: Das Turnier auf der Königsritterburg (Das Original Playmobil Hörspiel)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5evLoiU7E4CD9EjnXRnGbY",
+        "include": true,
+        "episode_num": 10,
+        "title": "Folge 10: Die geheimnisvolle Sphinx (Das Original Playmobil Hörspiel)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0kTvWIGjxJnyIHCHdwGJnD",
+        "include": true,
+        "episode_num": 7,
+        "title": "Folge 7: Das große Spiel (Das Original Playmobil Hörspiel)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "62HwacGi2meq4x1bYfC06n",
+        "include": true,
+        "episode_num": 6,
+        "title": "Folge 6: Abenteuer auf dem Eichenhof (Das Original Playmobil Hörspiel)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1idLo8OV5Rnm424EizckOX",
+        "include": true,
+        "episode_num": 5,
+        "title": "Folge 5: Gefahr für Rom (Das Original Playmobil Hörspiel)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1ahtAwYe3o6zDSQEYkEbTD",
+        "include": true,
+        "episode_num": 4,
+        "title": "Folge 4: Chaos in der Herrmannstrasse (Das Original Playmobil Hörspiel)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1bOY5eTHniFXtDOjG6tcWA",
+        "include": true,
+        "episode_num": 3,
+        "title": "Folge 3: Die Dinos kommen (Das Original Playmobil Hörspiel)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2Ws3x3Of7kNA4cFSoxCFeT",
+        "include": true,
+        "episode_num": 2,
+        "title": "Folge 2: Angriff der Drachenritter (Das Original Playmobil Hörspiel)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1z65BHFwnZ2F6phMTDLlWH",
+        "include": true,
+        "episode_num": 1,
+        "title": "Folge 1: Der Schatz der Teufelsinsel (Das Original Playmobil Hörspiel)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5h8rRovJfhtQexXWS6ni5f",
+        "include": false,
+        "episode_num": null,
+        "title": "Die Playmos - Titellied / Titelsong",
+        "exclude_reason": "Theme song single - not an episode"
+      },
+      {
+        "spotify_album_id": "00E3aqxNKIjMdt1f5FhfV8",
+        "include": false,
+        "episode_num": null,
+        "title": "Die große SWAT-Team-Box, Folgen 68, 78, 85 (Das Original Playmobil Hörspiel)",
+        "exclude_reason": "Box set - compilation of episodes 68, 78, 85"
+      }
+    ],
+    "age_note": "Suitable from 5+",
+    "curator_notes": "Main series runs 1-98 (no episode 100 yet). Note: There is a separate PLAYMOBIL Hörspiele artist (6MxC9BIArt5BknNwpkTxFe) with spinoff series: Novelmore, PIRATES, Adventures of Ayuma, Horses Of Waterfall, Wiltopia, Dino Rise - these are distinct toy lines with their own storylines and not part of the core Die Playmos series. Some short stories without episode numbers were released in 2015 and 2019 but excluded as they don't fit the main numbered series."
+  }
+}

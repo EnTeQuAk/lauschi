@@ -1,0 +1,234 @@
+{
+  "query": "Bob der Baumeister",
+  "model": "kimi-k2.5",
+  "curated_at": "2026-02-20T00:22:59.531927+00:00",
+  "series": {
+    "id": "bob_der_baumeister",
+    "title": "Bob der Baumeister",
+    "aliases": [],
+    "keywords": [],
+    "spotify_artist_ids": [
+      "0nNcNNBedN3GKqhlUsAObU",
+      "6h8PrDhSmelIrOB70hHJ3c"
+    ],
+    "episode_pattern": "^(?:0*)(\\d{1,3})/",
+    "albums": [
+      {
+        "spotify_album_id": "74IERuqFFr0YSNA4GSYEfx",
+        "include": false,
+        "episode_num": null,
+        "title": "026/Chaos im Filmstudio",
+        "exclude_reason": "Box set - contains 4 complete episodes (Chaos im Filmstudio, Im Filmfieber, Buddel der Aufpasser, Türmers neue Garage)"
+      },
+      {
+        "spotify_album_id": "7kjJ33nOhpCiVOMjVisjt1",
+        "include": false,
+        "episode_num": null,
+        "title": "025/Ein Stern für Buddel",
+        "exclude_reason": "Box set - contains 4 complete episodes"
+      },
+      {
+        "spotify_album_id": "4I7b5RR33myf9ZmShB3AC5",
+        "include": false,
+        "episode_num": null,
+        "title": "024/Die Dino-Bahn",
+        "exclude_reason": "Box set - contains 4 complete episodes"
+      },
+      {
+        "spotify_album_id": "5Hl72sxSr8SQOQKRIAm8H7",
+        "include": false,
+        "episode_num": null,
+        "title": "023/Baggi, der größte Fan",
+        "exclude_reason": "Box set - contains 4 complete episodes"
+      },
+      {
+        "spotify_album_id": "3GUuVAKFUK14WyV13erFia",
+        "include": false,
+        "episode_num": null,
+        "title": "022/Eine Garage für Philip",
+        "exclude_reason": "Box set - contains 4 complete episodes"
+      },
+      {
+        "spotify_album_id": "0LqlAjoRlmGSHecWalRWyY",
+        "include": false,
+        "episode_num": null,
+        "title": "021/Baggi und der Eisbär",
+        "exclude_reason": "Box set - contains 4 complete episodes"
+      },
+      {
+        "spotify_album_id": "3ecEQCWoMwiVo34C9Mit3r",
+        "include": false,
+        "episode_num": null,
+        "title": "020/Klar Schiff",
+        "exclude_reason": "Box set - contains 4 complete episodes"
+      },
+      {
+        "spotify_album_id": "1urhDOSJ27KFT8RMjGBRqM",
+        "include": false,
+        "episode_num": null,
+        "title": "019/Der Star der Baustelle",
+        "exclude_reason": "Box set - contains 4 complete episodes"
+      },
+      {
+        "spotify_album_id": "7AYfXNRYuHfpL5OkhK7ikv",
+        "include": false,
+        "episode_num": null,
+        "title": "018/Wirbel in der Werkstatt",
+        "exclude_reason": "Box set - contains 4 complete episodes"
+      },
+      {
+        "spotify_album_id": "0u83AOf2tsW0O9FywYzJDv",
+        "include": false,
+        "episode_num": null,
+        "title": "017/Leos Prüfung",
+        "exclude_reason": "Box set - contains 4 complete episodes"
+      },
+      {
+        "spotify_album_id": "55nLl4FGHxDzDl6uu3nzqA",
+        "include": false,
+        "episode_num": null,
+        "title": "016/Die allerbeste Weihnachtsfeier",
+        "exclude_reason": "Box set - contains 4 complete episodes"
+      },
+      {
+        "spotify_album_id": "3weKdHk0FOJvywMo8Z6bhA",
+        "include": false,
+        "episode_num": null,
+        "title": "015/Das Buddel-Kuddel-Muddel",
+        "exclude_reason": "Box set - contains 4 complete episodes"
+      },
+      {
+        "spotify_album_id": "1C9QtOGCxNadhyZxhpr0NX",
+        "include": false,
+        "episode_num": null,
+        "title": "014/Strandgut und Treibgut",
+        "exclude_reason": "Box set - contains 4 complete episodes"
+      },
+      {
+        "spotify_album_id": "2kybiBNdNNY2AjhcOr9O5b",
+        "include": false,
+        "episode_num": null,
+        "title": "013/Mixis Piraten",
+        "exclude_reason": "Box set - contains 4 complete episodes"
+      },
+      {
+        "spotify_album_id": "49T1dl9u7rbM3IRWgiZ6Xh",
+        "include": false,
+        "episode_num": null,
+        "title": "012/Die kleinste Rakete im Weltall",
+        "exclude_reason": "Box set - contains 4 complete episodes"
+      },
+      {
+        "spotify_album_id": "1SXDWDxyKQDJ4e2N2sGw7W",
+        "include": false,
+        "episode_num": null,
+        "title": "011/Das Milchshake-Durcheinander",
+        "exclude_reason": "Box set - contains 4 complete episodes"
+      },
+      {
+        "spotify_album_id": "0y09APAXzIILLmCNhQR80W",
+        "include": false,
+        "episode_num": null,
+        "title": "Das Mega-Team (Hörspiel zum Kinofilm 2017)",
+        "exclude_reason": "Kinofilm special - not part of main episode series"
+      },
+      {
+        "spotify_album_id": "5Y3jNZ8HPJKWIBOxTHn7Gn",
+        "include": false,
+        "episode_num": null,
+        "title": "010/Ein Dino für Hochhausen",
+        "exclude_reason": "Box set - contains 4 complete episodes"
+      },
+      {
+        "spotify_album_id": "4l2BGZg4x3soMV8QuUd9OX",
+        "include": false,
+        "episode_num": null,
+        "title": "009/Buddel und der Elefant",
+        "exclude_reason": "Box set - contains 4 complete episodes"
+      },
+      {
+        "spotify_album_id": "7yxjIj5Hmq031EcSQ8G7dB",
+        "include": false,
+        "episode_num": null,
+        "title": "Bob der Baumeister - Wendy, die Heldin",
+        "exclude_reason": "Audiobook (SAGA Egmont) - abridged format, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "3hoJBDzJDFHezDBTqkBOON",
+        "include": false,
+        "episode_num": null,
+        "title": "008/Baggi allein zu Haus",
+        "exclude_reason": "Box set - contains 4 complete episodes"
+      },
+      {
+        "spotify_album_id": "7zseegNiha5VhoR1ZmgAh3",
+        "include": false,
+        "episode_num": null,
+        "title": "007/Das Winterfest",
+        "exclude_reason": "Box set - contains 4 complete episodes"
+      },
+      {
+        "spotify_album_id": "6JwFqewwq05GSrIXL1D1hr",
+        "include": false,
+        "episode_num": null,
+        "title": "006/Der Geist aus der Kiste",
+        "exclude_reason": "Box set - contains 4 complete episodes"
+      },
+      {
+        "spotify_album_id": "2PILIFqrF1fHgllswQXhsQ",
+        "include": false,
+        "episode_num": null,
+        "title": "005/Gib niemals auf!",
+        "exclude_reason": "Box set - contains 4 complete episodes"
+      },
+      {
+        "spotify_album_id": "1fKGp9gzMsPX0mZEWn7BKX",
+        "include": false,
+        "episode_num": null,
+        "title": "004/Ein Riesenrad für Hochhausen",
+        "exclude_reason": "Box set - contains 4 complete episodes"
+      },
+      {
+        "spotify_album_id": "2qpUvCbdYJAs3ORPCA09ey",
+        "include": false,
+        "episode_num": null,
+        "title": "003/Leo, der Filmstar",
+        "exclude_reason": "Box set - contains 4 complete episodes"
+      },
+      {
+        "spotify_album_id": "3LToWFKzGvdyfaCA0tGdHO",
+        "include": false,
+        "episode_num": null,
+        "title": "002/Wie Hund und Katze",
+        "exclude_reason": "Box set - contains 4 complete episodes"
+      },
+      {
+        "spotify_album_id": "3pPMTPkHqgeHNj03uhuwNo",
+        "include": false,
+        "episode_num": null,
+        "title": "001/Bob der Küchenmeister",
+        "exclude_reason": "Box set - contains 4 complete episodes"
+      },
+      {
+        "spotify_album_id": "6l4lLWBYJKW2yq3uSM18aP",
+        "include": false,
+        "episode_num": null,
+        "title": "Bob der Baumeister - Der Dino-Park",
+        "exclude_reason": "Audiobook (SAGA Egmont) - abridged format, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "1E2j0h8YSMfWYXDjh7c3oc",
+        "include": false,
+        "episode_num": null,
+        "title": "Bob der Baumeister - Wie Hund und Katze",
+        "exclude_reason": "Audiobook (SAGA Egmont) - abridged format, not Hörspiel episode"
+      }
+    ],
+    "age_note": "Suitable from 3+",
+    "curator_notes": "No individual episodes available on Spotify. All releases are either: (1) EUROPA/Sony compilation albums containing 4 episodes each (total 26 numbered albums = ~104 episodes), or (2) SAGA Egmont abridged audiobooks. The EUROPA albums split each episode into 10 track-parts with 4 episodes per album. For lauschi, would need individual episode albums (single story per album) which are not present on Spotify."
+  },
+  "review": {
+    "status": "rejected",
+    "notes": "Stub: all 30 Spotify releases are 4-episode compilation CDs, no individual episodes. Keep for future if singles appear."
+  }
+}

@@ -1,0 +1,877 @@
+{
+  "query": "Pumuckl",
+  "model": "kimi-k2.5",
+  "curated_at": "2026-02-19T23:30:41.245754+00:00",
+  "series": {
+    "id": "pumuckl",
+    "title": "Pumuckl",
+    "aliases": [
+      "Meister Eder und sein Pumuckl"
+    ],
+    "keywords": [
+      "Pumuckl"
+    ],
+    "spotify_artist_ids": [
+      "1lhceMHrxr0jC943AuAhhh"
+    ],
+    "episode_pattern": "^(?:\\d+|[Dd]er\\s+\\w+.*):\\s*(.+)$",
+    "albums": [
+      {
+        "spotify_album_id": "4nEh8IfJHLsFTw5VNjzkb1",
+        "include": true,
+        "episode_num": 20,
+        "title": "20: Pumuckl und der krumme Weihnachtsbaum (Neue Geschichten vom Pumuckl)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0gsZ6ZcNNy7ewIGiLGrhAt",
+        "include": true,
+        "episode_num": 19,
+        "title": "19: Pumuckl und das Geräusch (Neue Geschichten vom Pumuckl)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0YJdenrKvzzgniqlbeOuxg",
+        "include": true,
+        "episode_num": 18,
+        "title": "18: Pumuckl und der Schluckauf (Neue Geschichten vom Pumuckl)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4hxqwvbnzGpvCYV8dSq3tX",
+        "include": true,
+        "episode_num": 17,
+        "title": "17: Pumuckl geht Campen (Neue Geschichten vom Pumuckl)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "65qfQzOWCI8Ag9U1xemgiB",
+        "include": true,
+        "episode_num": 16,
+        "title": "16: Der kleine Flori (Neue Geschichten vom Pumuckl)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1dFekBqxbDUn4oJuy0Se07",
+        "include": true,
+        "episode_num": 15,
+        "title": "15: Pumuckl und die eingeworfene Scheibe (Neue Geschichten vom Pumuckl)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6aMoxSSwgJiPsBqcanGlm1",
+        "include": true,
+        "episode_num": 14,
+        "title": "14: Pumuckl und der Geisterjäger (Neue Geschichten vom Pumuckl)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3Nu2btZxxyTFoW3UISjRH5",
+        "include": false,
+        "episode_num": null,
+        "title": "Pumuckl und das große Missverständnis (Das Original-Hörspiel zum Kinofilm) (Neue Geschichten vom Pumuckl)",
+        "exclude_reason": "Movie adaptation, 27 tracks - special release, not part of numbered episode series"
+      },
+      {
+        "spotify_album_id": "6L66DV2OXCopakZdAQRdYx",
+        "include": true,
+        "episode_num": 13,
+        "title": "13: Pumuckl feiert Silvester (Neue Geschichten vom Pumuckl)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4WDHP7CsuBG0GAcxoVCUjs",
+        "include": true,
+        "episode_num": 12,
+        "title": "12: Pumuckl will Skifahren (Neue Geschichten vom Pumuckl)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "28hNtwEfL5ZFWZZrr5oiA2",
+        "include": true,
+        "episode_num": 11,
+        "title": "11: Pumuckl und die Spinne (Neue Geschichten vom Pumuckl)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3ocbUpSMT1A8PnqDWDOkPf",
+        "include": true,
+        "episode_num": 10,
+        "title": "10: Pumuckl und das Pferd vom Nil (Neue Geschichten vom Pumuckl)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3nrmZu2O1BHCeDWQBipGSz",
+        "include": true,
+        "episode_num": 9,
+        "title": "09: Werkstatt in Gefahr (Neue Geschichten vom Pumuckl)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1WiMMZmOiXbElhKsABYhoe",
+        "include": true,
+        "episode_num": 8,
+        "title": "08: Pumuckl wird verzaubert (Neue Geschichten vom Pumuckl)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6vewGeULWJmBGLUsEKjufI",
+        "include": true,
+        "episode_num": 7,
+        "title": "07: Pumuckl geht Angeln (Neue Geschichten vom Pumuckl)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1aTk0FeiimvscYkptrCl6K",
+        "include": true,
+        "episode_num": 6,
+        "title": "06: Pumuckl und die Geburtstagsüberraschung (Neue Geschichten vom Pumuckl)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5noRHJMN1Q8stRHv2Hhoqx",
+        "include": true,
+        "episode_num": 5,
+        "title": "05: Eder ist an allem schuld (Neue Geschichten vom Pumuckl)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1iT5NytGG3gXo4zflAF99l",
+        "include": true,
+        "episode_num": 4,
+        "title": "04: Der verflixte Kaugummi (Neue Geschichten vom Pumuckl)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4ifhQ2uMVkPvCWowXQON05",
+        "include": true,
+        "episode_num": 3,
+        "title": "03: Der alte Eder (Neue Geschichten vom Pumuckl)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6Gh01XkNx5zCy6YpF2TqNk",
+        "include": true,
+        "episode_num": 2,
+        "title": "02: Pumuckl wird verschenkt (Neue Geschichten vom Pumuckl)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3uE5b9Ky4hPqMwqGMbt94q",
+        "include": true,
+        "episode_num": 1,
+        "title": "01: Koboldsgesetz (Neue Geschichten vom Pumuckl)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2aVzUlpZ3X6gAXD9sCSRIa",
+        "include": false,
+        "episode_num": null,
+        "title": "Weihnachten mit Pumuckl",
+        "exclude_reason": "Compilation box set - 47 tracks containing 6 Christmas episodes already released separately"
+      },
+      {
+        "spotify_album_id": "5lFSAlbtlebPaXfrRN7ZRJ",
+        "include": false,
+        "episode_num": null,
+        "title": "Pumuckl [Klabautergeschichten (ungekürzt)]",
+        "exclude_reason": "Themed compilation - 39 chapter audiobook format, not individual episodes"
+      },
+      {
+        "spotify_album_id": "6cSYD6ZApIWZJOJFIGXn0Q",
+        "include": false,
+        "episode_num": null,
+        "title": "Pumuckl [Freche Geschichten (Ungekürzt)]",
+        "exclude_reason": "Themed compilation - 40 chapter audiobook format, not individual episodes"
+      },
+      {
+        "spotify_album_id": "6GPEsKop8ENzW3pJUduDGN",
+        "include": false,
+        "episode_num": null,
+        "title": "Pumuckl (Abenteuergeschichten)",
+        "exclude_reason": "Themed compilation - 40 chapter audiobook format, not individual episodes"
+      },
+      {
+        "spotify_album_id": "5AVKVWLs2eVNQxbxadUruI",
+        "include": false,
+        "episode_num": null,
+        "title": "Pumuckl [Gute-Nacht-Geschichten (Ungekürzt)]",
+        "exclude_reason": "Themed compilation - 39 chapter audiobook format, not individual episodes"
+      },
+      {
+        "spotify_album_id": "4p5ulpi574Wqvp0ccMhAMi",
+        "include": false,
+        "episode_num": null,
+        "title": "Pumuckl: Die neugierigen Buben (Ungekürzt)",
+        "exclude_reason": "Short story audiobook - 9 chapters, not part of numbered episode series"
+      },
+      {
+        "spotify_album_id": "0KxAe99fVrwBtN4afyl6Mo",
+        "include": false,
+        "episode_num": null,
+        "title": "Pumuckl: Der Geist des Wassers (Ungekürzt)",
+        "exclude_reason": "Short story audiobook - 9 chapters, not part of numbered episode series"
+      },
+      {
+        "spotify_album_id": "7atTdxQ4Zrm3yTpLbgWJlk",
+        "include": false,
+        "episode_num": null,
+        "title": "Pumuckl: Der Gartenzwerg (Ungekürzt)",
+        "exclude_reason": "Short story audiobook - 6 chapters, not part of numbered episode series"
+      },
+      {
+        "spotify_album_id": "2oPZXBE4jXkXot5tKMfXbb",
+        "include": false,
+        "episode_num": null,
+        "title": "Pumuckl: Der Ferienhund (Ungekürzt)",
+        "exclude_reason": "Short story audiobook - 4 chapters, not part of numbered episode series"
+      },
+      {
+        "spotify_album_id": "6M4W0CVbhyFHq0V6TkfAFS",
+        "include": false,
+        "episode_num": null,
+        "title": "Pumuckl (Sommergeschichten)",
+        "exclude_reason": "Themed compilation - 29 chapter audiobook format, not individual episodes"
+      },
+      {
+        "spotify_album_id": "3h427FCPcFS9dinNt4GdJl",
+        "include": false,
+        "episode_num": null,
+        "title": "Pumuckl [Wintergeschichten (Ungekürzt)]",
+        "exclude_reason": "Themed compilation - 43 chapter audiobook format, not individual episodes"
+      },
+      {
+        "spotify_album_id": "7GOZ8qDGyH9Q1KD2TxiQwP",
+        "include": true,
+        "episode_num": 6,
+        "title": "06: Weihnachten Folge - Pumuckl und die Schatulle (Das Original aus dem Fernsehen)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0t5XbGvxjnnQz1FWhFt7go",
+        "include": true,
+        "episode_num": 5,
+        "title": "05: Weihnachten - Pumuckl und die Christbaumkugeln (Das Original aus dem Fernsehen)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5qoNwBcEil2enjbC6zG8LT",
+        "include": true,
+        "episode_num": 4,
+        "title": "04: Weihnachten - Der erste Schnee (Das Original aus dem Fernsehen)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3zWItP43T8egaHsynZBZIS",
+        "include": true,
+        "episode_num": 3,
+        "title": "03: Weihnachten - Das Weihnachtsgeschenk (Das Original aus dem Fernsehen)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1i5j40JrA7Uq3sNHgVEYQA",
+        "include": true,
+        "episode_num": 2,
+        "title": "02: Weihnachten - Auf heißer Spur (Das Original aus dem Fernsehen)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6XYhYR3is3Bp6jMbdZraiC",
+        "include": true,
+        "episode_num": 1,
+        "title": "01: Weihnachten - Pumuckl und der Nikolaus (Das Original aus dem Fernsehen)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7fq5QwBc9yf8bz8nHHlOYn",
+        "include": false,
+        "episode_num": null,
+        "title": "Pumuckls Kinderparty",
+        "exclude_reason": "Music album - party songs and games, not Hörspiel episodes"
+      },
+      {
+        "spotify_album_id": "14Y6E9R13uJU85A93wkAWX",
+        "include": false,
+        "episode_num": null,
+        "title": "Pumuckl tanzt!",
+        "exclude_reason": "Music album - songs, not Hörspiel episodes"
+      },
+      {
+        "spotify_album_id": "5iF2pOGOgkLSHKfj3mugHc",
+        "include": false,
+        "episode_num": null,
+        "title": "Pumuckl, Teil 3: Pumuckl und die Ostereier / Der erste April (Ungekürzt)",
+        "exclude_reason": "Compilation - combines episodes 61 & 62 already in main series"
+      },
+      {
+        "spotify_album_id": "1W48LdaALiP3nQfvPmFNiP",
+        "include": false,
+        "episode_num": null,
+        "title": "Pumuckl, Teil 1: Einiges über Kobolde / Spuk in der Werkstatt / etc. (Ungekürzt)",
+        "exclude_reason": "Compilation - combines episodes 1-3 already in main series"
+      },
+      {
+        "spotify_album_id": "2USE12izRUjpp8HPMiCnUp",
+        "include": true,
+        "episode_num": 80,
+        "title": "80: Pumuckl setzt sich nicht durch (Das Original aus dem Fernsehen)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0rww9VO4XelsKVqTcqpV4O",
+        "include": true,
+        "episode_num": 79,
+        "title": "79: Pumuckl sieht alles (Das Original aus dem Fernsehen)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3e0VgC2evBsa5Vjv7HBzux",
+        "include": true,
+        "episode_num": 78,
+        "title": "78: Pumuckl wartet auf die Bescherung (Das Original aus dem Fernsehen)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4zLDxkqRejuCEXG0lebrsf",
+        "include": true,
+        "episode_num": 77,
+        "title": "77: Alte Liebe und Alleskleber (Das Original aus dem Fernsehen)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2QqNmRzGhBuZEvnVtZ395D",
+        "include": true,
+        "episode_num": 76,
+        "title": "76: Pumuckl und der Wellensittich (Das Original aus dem Fernsehen)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3J2JtUbmV9ZaRCNQ4JhTqC",
+        "include": true,
+        "episode_num": 75,
+        "title": "75: Pumuckl und der blaue Klabauter (Das Original aus dem Fernsehen)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "58reLA7sU6X3AG5jSqcB4U",
+        "include": true,
+        "episode_num": 74,
+        "title": "74: Das Parfümfläschchen (Das Original aus dem Fernsehen)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5jLkmNhy1va323LIc9tVAm",
+        "include": true,
+        "episode_num": 73,
+        "title": "73: Der verstauchte Daumen (Das Original aus dem Fernsehen)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2WS2YV3LlLkeDskceinAzA",
+        "include": true,
+        "episode_num": 72,
+        "title": "72: Der verdrehte Tag (Das Original aus dem Fernsehen)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0r3WHFbhTpZgQN4U091Gbb",
+        "include": true,
+        "episode_num": 71,
+        "title": "71: Der verbotene Kirschlikör (Das Original aus dem Fernsehen)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5ZYmW4V2g7hptpMtUmSosq",
+        "include": true,
+        "episode_num": 70,
+        "title": "70: Pumuckl will Schreiner werden (Das Original aus dem Fernsehen)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6EaRPAcoYtY1DxufA2kDXj",
+        "include": true,
+        "episode_num": 69,
+        "title": "69: Pumuckl und die Gartenzwerge (Das Original aus dem Fernsehen)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4IzJMHP4Xej2A58xut3o6A",
+        "include": true,
+        "episode_num": 68,
+        "title": "68: Hilfe - Eine Aushilfe (Das Original aus dem Fernsehen)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1zNU9EpWQxlrZDB29bRVmE",
+        "include": true,
+        "episode_num": 67,
+        "title": "67: Pumuckl auf Hexenjagd (Das Original aus dem Fernsehen)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2RiioGZLTBjDPncA03l74j",
+        "include": true,
+        "episode_num": 66,
+        "title": "66: Pumuckl hütet die Fische (Das Original aus dem Fernsehen)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3TNLDMT26R8PZVIMdgbdOi",
+        "include": true,
+        "episode_num": 65,
+        "title": "65: Pumuckl und die geheimnisvolle Schaukel (Das Original aus dem Fernsehen)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4QdN30u2Q69t17Xs7MWuO8",
+        "include": true,
+        "episode_num": 64,
+        "title": "64: Die abgerissenen Tulpen (Das Original aus dem Fernsehen)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "46H9A0AIEp8U72XYd40MQy",
+        "include": true,
+        "episode_num": 63,
+        "title": "63: Das Gespenst im Gartenhaus (Das Original aus dem Fernsehen)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2MmksUurOohDCbrg1tcfJC",
+        "include": true,
+        "episode_num": 62,
+        "title": "62: Der erste April (Das Original aus dem Fernsehen)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0BxtdlD13g6W7ZH7c7C4JD",
+        "include": true,
+        "episode_num": 61,
+        "title": "61: Pumuckl und die Ostereier (Das Original aus dem Fernsehen)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6eMYIuVTO3JI4C5AFwAZ5Q",
+        "include": true,
+        "episode_num": 60,
+        "title": "60: Das grüne Gemälde (Das Original aus dem Fernsehen)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "31lI9ZW2KzaS4O0Bqg2Ihf",
+        "include": true,
+        "episode_num": 59,
+        "title": "59: Pumuckl und der Schnupfen (Das Original aus dem Fernsehen)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4wJ9QnQHLOEL72hjRE76c4",
+        "include": true,
+        "episode_num": 58,
+        "title": "58: Pumuckl soll Ordnung lernen (Das Original aus dem Fernsehen)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0HAU41ci6LaNFxML2PjkNc",
+        "include": true,
+        "episode_num": 57,
+        "title": "57: Pumuckl und das Geld (Das Original aus dem Fernsehen)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5ARd3t6APxiYr0BepGwQhf",
+        "include": true,
+        "episode_num": 56,
+        "title": "56: Das Missverständnis (Das Original aus dem Fernsehen)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3ldGUtoT3kjUrsOuW10P8h",
+        "include": true,
+        "episode_num": 55,
+        "title": "55: Pumuckl spielt mit dem Feuer (Das Original aus dem Fernsehen)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1LQlxi0bFnpK3mJq8nDtir",
+        "include": true,
+        "episode_num": 54,
+        "title": "54: Pumuckl und die Katze (Das Original aus dem Fernsehen)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3xCpTcGyEcgkHG4XtDtdXh",
+        "include": true,
+        "episode_num": 53,
+        "title": "53: Pumuckl und der Schmutz (Das Original aus dem Fernsehen)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0ShJF1jauFg6k0egJejBv4",
+        "include": true,
+        "episode_num": 52,
+        "title": "52: Pumuckl und die Tauben (Das Original aus dem Fernsehen)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1YUTNDYp5DaLb4CvlmUS3u",
+        "include": true,
+        "episode_num": 51,
+        "title": "51: Pumuckl und die Maus (Das Original aus dem Fernsehen)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5MT4uMZWG5KWuCJg70Iztd",
+        "include": true,
+        "episode_num": 50,
+        "title": "50: Pumuckl und das Telefon (Das Original aus dem Fernsehen)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4VJvDbxOGXm3Rqs5XsPBNB",
+        "include": true,
+        "episode_num": 49,
+        "title": "49: Pumuckl und die Silberblumen (Das Original aus dem Fernsehen)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "29rhYl9UqYbFZ4U4UXmAlx",
+        "include": true,
+        "episode_num": 48,
+        "title": "48: Pumuckl und die Blechbüchsen (Das Original aus dem Fernsehen)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7I4AzfovUZjBO35xwSJ0Db",
+        "include": true,
+        "episode_num": 47,
+        "title": "47: Pumuckl und der Geburtstag (Das Original aus dem Fernsehen)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "45YRKU5BpPGKv0SBHG2P8f",
+        "include": true,
+        "episode_num": 46,
+        "title": "46: Pumuckl ist an gar nichts schuld (Das Original aus dem Fernsehen)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3zihx4c4AbrmON6ZibJFAR",
+        "include": true,
+        "episode_num": 45,
+        "title": "45: Pumuckl will eine Uhr haben (Das Original aus dem Fernsehen)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6YtGif66PnGmdiu6uh6RcP",
+        "include": true,
+        "episode_num": 44,
+        "title": "44: Pumuckl und das eigene Zimmer (Das Original aus dem Fernsehen)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "61MIdLZqBio9rfYuH0fDdl",
+        "include": true,
+        "episode_num": 43,
+        "title": "43: Ein Knüller für die Zeitung (Das Original aus dem Fernsehen)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4uz67qnKbcTymWtU32Ra8H",
+        "include": true,
+        "episode_num": 42,
+        "title": "42: Der Blutfleck auf dem Stuhl (Das Original aus dem Fernsehen)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0uigqOY1onIDLamGnWnJAW",
+        "include": true,
+        "episode_num": 41,
+        "title": "41: Pumuckl und die Gummi-Ente (Das Original aus dem Fernsehen)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7N0Cuw0IAAZI7JqlPqAC8O",
+        "include": true,
+        "episode_num": 40,
+        "title": "40: Pumuckl wird reich (Das Original aus dem Fernsehen)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6tjYNz9egW0DtvOmr20FBn",
+        "include": true,
+        "episode_num": 39,
+        "title": "39: Pumuckl und die Knackfrösche (Das Original aus dem Fernsehen)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6sISpLgz7SsdgZpIpTbIVr",
+        "include": true,
+        "episode_num": 38,
+        "title": "38: Die Bank vor der Werkstatt (Das Original aus dem Fernsehen)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6nOKAijaYaCa0AYekUJxxv",
+        "include": true,
+        "episode_num": 37,
+        "title": "37: Ein föhniger Tag (Das Original aus dem Fernsehen)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4EaILBnceQIIMesDfkVPQ1",
+        "include": true,
+        "episode_num": 36,
+        "title": "36: Der silberne Kegel (Das Original aus dem Fernsehen)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0C0yK8NsqEFQwdTmaCBsew",
+        "include": true,
+        "episode_num": 35,
+        "title": "35: Pumuckl und die Kopfwehtabletten (Das Original aus dem Fernsehen)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4rVCWzbxdVwaWLlRhbMvVp",
+        "include": true,
+        "episode_num": 34,
+        "title": "34: Pumuckl passt auf (Das Original aus dem Fernsehen)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4bm31a5Fbd2Hez9ZOwlTLy",
+        "include": true,
+        "episode_num": 33,
+        "title": "33: Pumuckl und die Obstbäume (Das Original aus dem Fernsehen)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6uGgA68CCFquIls7nflA7H",
+        "include": true,
+        "episode_num": 32,
+        "title": "32: Und jetzt erst recht (Das Original aus dem Fernsehen)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6JikY4cZN5k1DZurDArOgb",
+        "include": true,
+        "episode_num": 31,
+        "title": "31: Pumuckl und die Mundharmonika (Das Original aus dem Fernsehen)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5UldwenPr2Mnil4zOzat1T",
+        "include": true,
+        "episode_num": 30,
+        "title": "30: Pumuckl und die Kartenspieler (Das Original aus dem Fernsehen)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5qfoVan4N6jUEyTdzlkW47",
+        "include": true,
+        "episode_num": 29,
+        "title": "29: Pumuckl und der Finderlohn (Das Original aus dem Fernsehen)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "54D53bOFKjLTxPRnS5OWbq",
+        "include": true,
+        "episode_num": 28,
+        "title": "28: Pumuckl und der Waldspaziergang (Das Original aus dem Fernsehen)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6H9Q2NIx7l0SG2ZlyOEAbq",
+        "include": true,
+        "episode_num": 27,
+        "title": "27: Pumuckl und das goldene Herz (Das Original aus dem Fernsehen)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4BSbKZg25CgCp5XIgo5xY9",
+        "include": true,
+        "episode_num": 26,
+        "title": "26: Pumuckl und die Briefmarken (Das Original aus dem Fernsehen)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4JBTU4eiUzfCg7zrnNudYz",
+        "include": true,
+        "episode_num": 25,
+        "title": "25: Pumuckls Rache (Das Original aus dem Fernsehen)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5adWoQ1N14xZc4roQcxO9p",
+        "include": true,
+        "episode_num": 24,
+        "title": "24: Pumuckl und die Schatzsucher (Das Original aus dem Fernsehen)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "13xdWWsJecIdepkNbcZCqh",
+        "include": true,
+        "episode_num": 23,
+        "title": "23: Pumuckl und die Bergtour (Das Original aus dem Fernsehen)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5DuwChDGXLEeruW7ZOhGtI",
+        "include": true,
+        "episode_num": 22,
+        "title": "22: Pumuckl und das Spielzeugauto (Das Original aus dem Fernsehen)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4RKtNPjhmWuSFlKbXkHR2n",
+        "include": true,
+        "episode_num": 21,
+        "title": "21: Pumuckl und das Segelboot (Das Original aus dem Fernsehen)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2JTAmqw0dyEwYJxQl6xgh5",
+        "include": true,
+        "episode_num": 20,
+        "title": "20: Die geheimnisvollen Briefe (Das Original aus dem Fernsehen)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6pzht0DNox6yYGcAlLFYgU",
+        "include": true,
+        "episode_num": 19,
+        "title": "19: Pumuckl im Zoo (Das Original aus dem Fernsehen)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1KX83Ccgwu0N8dreMbLFbs",
+        "include": true,
+        "episode_num": 18,
+        "title": "18: Der verhängnisvolle Schlagrahm (Das Original aus dem Fernsehen)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "471QwYb1aRVNmh0RcEXeHK",
+        "include": true,
+        "episode_num": 17,
+        "title": "17: Pumuckl und die Angst (Das Original aus dem Fernsehen)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6bjgDxXnF2ZIURNy9Qq2ta",
+        "include": true,
+        "episode_num": 16,
+        "title": "16: Pumuckl und Puwackl (Das Original aus dem Fernsehen)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3OtB3UiwN0kkgibytuwT4h",
+        "include": true,
+        "episode_num": 15,
+        "title": "15: Das Spanferkelessen (Das Original aus dem Fernsehen)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2wgslUa2R3wvuvsDgIPnft",
+        "include": true,
+        "episode_num": 14,
+        "title": "14: Der große Krach und seine Folgen (Das Original aus dem Fernsehen)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "68rBc5Koahj8L1PMyhe0B1",
+        "include": true,
+        "episode_num": 13,
+        "title": "13: Der große Krach (Das Original aus dem Fernsehen)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "30ciO4vnN2Lbn88qzKvqnJ",
+        "include": true,
+        "episode_num": 12,
+        "title": "12: Eder bekommt Besuch (Das Original aus dem Fernsehen)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5yspIzivdRTXQyVBEWWBD1",
+        "include": true,
+        "episode_num": 11,
+        "title": "11: Der Wollpullover (Das Original aus dem Fernsehen)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5wzA9XvQa7tBuK5KLkm3iU",
+        "include": true,
+        "episode_num": 10,
+        "title": "10: Der rätselhafte Hund (Das Original aus dem Fernsehen)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1chTWZhEdZvGu8sMVuZt2W",
+        "include": true,
+        "episode_num": 9,
+        "title": "09: Pumuckl und der Pudding (Das Original aus dem Fernsehen)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "69HY8Jhy70mM25X6hAFT0M",
+        "include": true,
+        "episode_num": 8,
+        "title": "08: Der Geist des Wasser (Das Original aus dem Fernsehen)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4HhIOHPtRquLottZWGS8rQ",
+        "include": true,
+        "episode_num": 7,
+        "title": "07: Pumuckl macht Ferien (Das Original aus der Fernsehserie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4FcnJ8EWrVIDljp1q8E4ce",
+        "include": true,
+        "episode_num": 6,
+        "title": "06: Pumuckl und die Schule (Das Original aus dem Fernsehen)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "28botZO81Az1D06lngMUev",
+        "include": true,
+        "episode_num": 5,
+        "title": "05: Die abergläubische Putzfrau (Das Original aus dem Fernsehen)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0bpPat7Xf3EOZyfEFlzBmp",
+        "include": true,
+        "episode_num": 4,
+        "title": "04: Das Schlossgespenst (Das Original aus dem Fernsehen)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3fyNFOUjASIxPs7UZ9KUFa",
+        "include": true,
+        "episode_num": 3,
+        "title": "03: Das neue Badezimmer (Das Original aus dem Fernsehen)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2KUGWNkv3fqt5BSEz2pkEF",
+        "include": true,
+        "episode_num": 2,
+        "title": "02: Das verkaufte Bett (Das Original aus dem Fernsehen)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1cOFQWQW6BHrLbSiuQfsdO",
+        "include": true,
+        "episode_num": 1,
+        "title": "01: Spuk in der Werkstatt (Das Original aus dem Fernsehen)",
+        "exclude_reason": null
+      }
+    ],
+    "age_note": "Suitable from 3+",
+    "curator_notes": "The series has three distinct runs: (1) Original TV series episodes 1-80 (1982-1985), (2) Christmas specials 1-6 (2008), and (3) 'Neue Geschichten' (New Stories) episodes 1-20 (2023-2025). The Swiss German variant artist (0afAudZE1uMJydPJk9SmRI) contains Swiss German language versions - excluded as separate series. Multiple compilation albums exist that combine episodes - these have been excluded to avoid duplicates. The original numbered episodes from the TV series are the definitive versions."
+  }
+}

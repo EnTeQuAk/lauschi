@@ -1,0 +1,1249 @@
+{
+  "query": "Fünf Freunde",
+  "model": "kimi-k2.5",
+  "curated_at": "2026-02-20T06:13:19.408255+00:00",
+  "series": {
+    "id": "fuenf_freunde",
+    "title": "Fünf Freunde",
+    "aliases": [
+      "Fünf Freunde",
+      "Fünf Freunde Hörspiele"
+    ],
+    "keywords": [
+      "Fünf Freunde"
+    ],
+    "spotify_artist_ids": [
+      "1hD52edfn6aNsK3fb5c2OT"
+    ],
+    "episode_pattern": "(?:Folge\\s+|^)(\\d+)",
+    "albums": [
+      {
+        "spotify_album_id": "7ddgmp6O5O7ui7kxNnMoQo",
+        "include": true,
+        "episode_num": 169,
+        "title": "Folge 169: und der Diebstahl im Felsenhaus",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4zj9EB69dpyTLwXSk9WIA1",
+        "include": true,
+        "episode_num": 168,
+        "title": "Folge 168: und die verlorene Zeit",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6lIYOwF1BBI9zqFEg97JBl",
+        "include": true,
+        "episode_num": 167,
+        "title": "Folge 167: und der Streit um die Felseninsel",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5aPbBBENhMfbnEfUCeQf6w",
+        "include": true,
+        "episode_num": 166,
+        "title": "Folge 166: und das vergiftete Geheimnis",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4u2FlCpk5iTnLPaOIqSpYU",
+        "include": true,
+        "episode_num": 165,
+        "title": "Folge 165: und das Unglück am Kletterfelsen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6rrOpS7xsMTNfin9gUIwGs",
+        "include": true,
+        "episode_num": 164,
+        "title": "Folge 164: und das gestohlene Pferd",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1Hglie22PdyhVvmMOan8RS",
+        "include": true,
+        "episode_num": 163,
+        "title": "Folge 163: und das Rätsel um das Ufo",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1tyh8w1iPjrGuWzjIA8y7P",
+        "include": true,
+        "episode_num": 162,
+        "title": "Folge 162: und die Legende vom versteckten Sohn",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "03nNngl4Bs6vUmwFMf3oMb",
+        "include": true,
+        "episode_num": 161,
+        "title": "Folge 161: und der Juwelenschatz",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7mYAaDPjWTF2UqkxV5DxA6",
+        "include": true,
+        "episode_num": 160,
+        "title": "Folge 160: und der verschwundene Bräutigam",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7Kqd2LwNPvAYUHqlDXiEwa",
+        "include": true,
+        "episode_num": 159,
+        "title": "Folge 159: und das riesige Reptil",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0ZilG3oZQo0c23WQlVAllp",
+        "include": true,
+        "episode_num": 158,
+        "title": "Folge 158: und das verlorene Maß",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7rSCIhERMraymP4Ci5whK5",
+        "include": true,
+        "episode_num": 157,
+        "title": "Folge 157: und das seltsame Haus in der Schlucht",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2Zn3Tstqsf6H3JG4AdqoQH",
+        "include": true,
+        "episode_num": 156,
+        "title": "Folge 156: und die verlassene Villa",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6aMVk0x5m36k6WK1MsJ97R",
+        "include": true,
+        "episode_num": 155,
+        "title": "Folge 155: und das Erbe der Lady Thornton",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2DMgS6HtLTrTowuUaLlEN2",
+        "include": true,
+        "episode_num": 154,
+        "title": "Folge 154: und die Geheimbotschaft in der Ruine",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3ZacPvwuH9jZze5p9I5rBL",
+        "include": true,
+        "episode_num": 153,
+        "title": "Folge 153: und der weiße Hai",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6wgnQKNX26heGTGrvZV95p",
+        "include": true,
+        "episode_num": 152,
+        "title": "Folge 152: und das Geheimnis der Kelly Brüder",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2p3j8JvKKwO0D5D3UU05Ou",
+        "include": true,
+        "episode_num": 151,
+        "title": "Folge 151: und das unterirdische Versteck",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "663itkaq3LIGH2C6qYS5F4",
+        "include": true,
+        "episode_num": 150,
+        "title": "Folge 150: und der Verrat auf dem Hausboot",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5OFleTDaNNHpMEuFGl1oeD",
+        "include": true,
+        "episode_num": 149,
+        "title": "Folge 149: und der Schatz in der Drachenschlucht",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3KlFZkxeOGOyRe7BeyoBDS",
+        "include": true,
+        "episode_num": 148,
+        "title": "Folge 148: und die Lichter in der Niemandsbucht",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0wQETnTMpsQGqTYi6bzS8o",
+        "include": true,
+        "episode_num": 147,
+        "title": "Folge 147: und das unheimliche Dorf im See",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1LBl7Q25TbtHtD6bJGX7Tn",
+        "include": true,
+        "episode_num": 146,
+        "title": "Folge 146: und die verdächtige Fahrradbotin",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1MSUqIRZ02rYLly5YOsVYQ",
+        "include": false,
+        "episode_num": null,
+        "title": "Adventskalender - Fünf Freunde und das Abenteuer im Wald",
+        "exclude_reason": "Advent calendar special - 24 short daily stories, not a regular episode"
+      },
+      {
+        "spotify_album_id": "4pxQKdeE98Vyg8dVjKsMC6",
+        "include": true,
+        "episode_num": 145,
+        "title": "Folge 145: und die Suche nach dem Mondgestein",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1fx1KSS14TS3bqYRk8Dzqj",
+        "include": true,
+        "episode_num": 144,
+        "title": "Folge 144: und die große Meuterei",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0HQSazMxcRgtiP3HmQK8sQ",
+        "include": true,
+        "episode_num": 143,
+        "title": "Folge 143: und die verschwundene Riesenschildkröte",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7dgAjR8rW0xv0knBYJlqVP",
+        "include": true,
+        "episode_num": 142,
+        "title": "Folge 142: und der mysteriöse Dieb",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4WbOKUvwd1d8fi1cRRxMXJ",
+        "include": true,
+        "episode_num": 141,
+        "title": "Folge 141: und das rätselhafte Spukhaus",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1kabjjRCVKzJs8pkTOpFyS",
+        "include": true,
+        "episode_num": 140,
+        "title": "140/und das geheimnisvolle Licht",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2evSFTbb7Kj2EVN1HHo66J",
+        "include": true,
+        "episode_num": 139,
+        "title": "139/und die Geisterstadt",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2H46tTqNpMkpR55YN3TAc5",
+        "include": true,
+        "episode_num": 138,
+        "title": "138/am Ende der Welt",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5yoGMEr5doaWJnTlmXfNVV",
+        "include": true,
+        "episode_num": 137,
+        "title": "137/und der Schokoladendieb von London",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "61tT5XI9GX40z31yexaoS8",
+        "include": true,
+        "episode_num": 136,
+        "title": "136/und der wütende Stier",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1XEcqpqo05AEb6geQhldoR",
+        "include": true,
+        "episode_num": 135,
+        "title": "135/und die verdächtige Ölfirma",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6AN2eovtiP3NXkgcMfNt8k",
+        "include": true,
+        "episode_num": 134,
+        "title": "134/und die unheimliche Achterbahn",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6DOXgeV49OTiik0kUVppDL",
+        "include": true,
+        "episode_num": 133,
+        "title": "133/und der Esel in der Tropfsteinhöhle",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5sOpvlONkSUPgi09ME8Gki",
+        "include": true,
+        "episode_num": 132,
+        "title": "132/und das Rätsel um den Stromausfall",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2TtW4W6HAHWbPcKrQd5x5y",
+        "include": true,
+        "episode_num": 131,
+        "title": "131/verfolgen die Fahrraddiebe",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2Jee9XPRgwhGWe7SM6ISXd",
+        "include": true,
+        "episode_num": 130,
+        "title": "130/und die Glocke der Wikinger",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1wvCvWOhELxrXklMXcZM5D",
+        "include": true,
+        "episode_num": 129,
+        "title": "129/und die kleinen Detektive",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7yFFnG7vxrccj0pjLpOVSq",
+        "include": true,
+        "episode_num": 128,
+        "title": "128/und der unsichtbare Feind",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3VAxpuOINfqGTBUnSyvPNF",
+        "include": true,
+        "episode_num": 127,
+        "title": "127/und die Teufelsbucht",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3uTZGVVhXzJ3KU1ZBxPH6d",
+        "include": true,
+        "episode_num": 126,
+        "title": "126/und die gefährlichen Wurzeln",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2akmTQWswD0lQBMedOyhUU",
+        "include": false,
+        "episode_num": null,
+        "title": "Fünf Freunde und das Tal der Dinosaurier - Das Original-Hörspiel zum Kinofilm",
+        "exclude_reason": "Movie tie-in audiobook, not a numbered episode"
+      },
+      {
+        "spotify_album_id": "7exgOwKsg2MuiHI4Pb5Ewv",
+        "include": true,
+        "episode_num": 125,
+        "title": "125/und die gemeine Falle",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2MdUrlBdCIa6RanKfQTcv8",
+        "include": true,
+        "episode_num": 124,
+        "title": "124/auf der Suche nach Timmy",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6V5J8fOkRDDXxsxAHi0Ut4",
+        "include": true,
+        "episode_num": 123,
+        "title": "123/und der Zug im Dunkeln",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0oX0xTrbf5mm6J9nTMQKGJ",
+        "include": true,
+        "episode_num": 122,
+        "title": "122/und der Großalarm in Kirrin",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2mH1pMOtZ0rPAHhQ8lnVex",
+        "include": true,
+        "episode_num": 121,
+        "title": "121/und die verlassene Jagdhütte",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4NllbPOq0cMAD4NQZ8NIEC",
+        "include": true,
+        "episode_num": 120,
+        "title": "120/und die doppelte Erfindung",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "66yMv3N4xjf7yfx8xAFnjk",
+        "include": true,
+        "episode_num": 119,
+        "title": "119/und das versunkene Schiff",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2WkrFpSG4nZDMmlO58E6sD",
+        "include": true,
+        "episode_num": 118,
+        "title": "118/und der falsche Patient",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7m39uymt9bZuhztX8iRtjw",
+        "include": true,
+        "episode_num": 117,
+        "title": "117/und der Wolf in den Highlands",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7qL5b8h2mQSNwIokYvHTcd",
+        "include": true,
+        "episode_num": 116,
+        "title": "116/und der chinesische Pflanzenzauber",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "19fDVxsjnraxX7EiyPaYrf",
+        "include": true,
+        "episode_num": 115,
+        "title": "115/helfen den Flutopfern",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0nPeO3y0Zf8aG5EAqxTFyR",
+        "include": true,
+        "episode_num": 114,
+        "title": "114/und der Skandal auf der Freilichtbühne",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4dcEoyqGRRV17uwsRByHG4",
+        "include": true,
+        "episode_num": 113,
+        "title": "113/und das Feuer auf der Felseninsel",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1NwFaXCdP89xzoFTmriE0l",
+        "include": true,
+        "episode_num": 112,
+        "title": "112/und der Delfin in der Felsenbucht",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0YO812T6aOroGX98fT3bME",
+        "include": true,
+        "episode_num": 111,
+        "title": "111/und das Geheimverlies im Schloss",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5sBbygDrYQfmrU7kMXUcZX",
+        "include": true,
+        "episode_num": 110,
+        "title": "110/auf dem Pfad der Küstenschmuggler",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6DKW0i593WcqpKBl0xx2Zb",
+        "include": false,
+        "episode_num": null,
+        "title": "04/Das Original-Hörspiel zum Kinofilm",
+        "exclude_reason": "Movie tie-in audiobook (4th film), not a numbered episode"
+      },
+      {
+        "spotify_album_id": "5SN5o60yKKZTU2uuZNn5Dq",
+        "include": true,
+        "episode_num": 109,
+        "title": "109/und die mysteriöse Botschaft",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2McZvjpPKOHdb8Eu7Cu9vt",
+        "include": true,
+        "episode_num": 108,
+        "title": "108/und die Entführung im Skigebiet",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0Hq1SKPJFP0g75PWisli8G",
+        "include": true,
+        "episode_num": 107,
+        "title": "107/und die Nacht im Safari-Park",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4RfwChkrM1deq4fad67E1a",
+        "include": true,
+        "episode_num": 106,
+        "title": "106/und das geheimnisvolle Polarschiff",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "48AuM6VSUHPR2Xk2Nmx3cu",
+        "include": true,
+        "episode_num": 105,
+        "title": "105/und das magische Spinnennetz",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1hM6Tv4HKwuRnGNbtN4lLz",
+        "include": false,
+        "episode_num": null,
+        "title": "03/Das Original-Hörspiel zum Kinofilm",
+        "exclude_reason": "Movie tie-in audiobook (3rd film), not a numbered episode"
+      },
+      {
+        "spotify_album_id": "3z1g2zjc3aigQ1arAgQuF2",
+        "include": true,
+        "episode_num": 104,
+        "title": "104/und die Jagd nach der Diebesbande",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5N7Dfn8jUp8SId7CybhP6Q",
+        "include": true,
+        "episode_num": 103,
+        "title": "103/und die giftigen Feuerquallen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2cEEvRONOp9cLUYudoaO3i",
+        "include": true,
+        "episode_num": 102,
+        "title": "102/und die goldene Maske des Pharao",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6GpIAoh3k8slwVBsNHUqqX",
+        "include": true,
+        "episode_num": 101,
+        "title": "101/und der vergessene Schatz",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7MJOaVJijHPPdc7ERn6W3h",
+        "include": true,
+        "episode_num": 100,
+        "title": "100/und das Gorillakind in Gefahr",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7GgmiV6ZH3yklTQpIrgQCC",
+        "include": false,
+        "episode_num": null,
+        "title": "02/Das Original-Hörspiel zum Kinofilm",
+        "exclude_reason": "Movie tie-in audiobook (2nd film), not a numbered episode"
+      },
+      {
+        "spotify_album_id": "1nFkBK73s1YS93ZWFRDbF5",
+        "include": true,
+        "episode_num": 99,
+        "title": "099/und der seltsame Leuchtturm",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0cX49g0wBtvDryEyU5FhwA",
+        "include": true,
+        "episode_num": 98,
+        "title": "098/und die Legende der Zwillingseiche",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0a8k5a76wziBi7sXXXkAEv",
+        "include": true,
+        "episode_num": 97,
+        "title": "097/auf der Spur der Silberdiebe",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5Vj6YBjqO0DqRy4Tukg41u",
+        "include": true,
+        "episode_num": 96,
+        "title": "096/und das gefährliche Treibgut",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3TM4JQFuCVRI3tKP8fl6yp",
+        "include": true,
+        "episode_num": 95,
+        "title": "095/in der Höhle des Urmenschen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3ZWewGEaOLmtAwxiPYvtSh",
+        "include": false,
+        "episode_num": null,
+        "title": "Der Original-Soundtrack zum Kinofilm",
+        "exclude_reason": "Movie soundtrack, not an episode"
+      },
+      {
+        "spotify_album_id": "3dDoz1yLMHx0n6rllLAXeV",
+        "include": false,
+        "episode_num": null,
+        "title": "01/Das Original-Hörspiel zum Kinofilm",
+        "exclude_reason": "Movie tie-in audiobook (1st film), not a numbered episode"
+      },
+      {
+        "spotify_album_id": "6jXHqJzpe6vtywUv5jIHHE",
+        "include": true,
+        "episode_num": 94,
+        "title": "094/und die Sturmflut",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "22KZteRiQXIeJimUZ2TbK3",
+        "include": true,
+        "episode_num": 93,
+        "title": "093/und das Geheimnis des Winterwaldes",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6pOqvlELjegUu4JxJNeKQR",
+        "include": true,
+        "episode_num": 92,
+        "title": "092/auf der Insel der Seeräuber",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2G3MuFljF6VMDESi6Vonll",
+        "include": true,
+        "episode_num": 91,
+        "title": "091/und der Schatz aus dem U-Boot",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6vNpPneJaDekq3fidhNPN7",
+        "include": true,
+        "episode_num": 90,
+        "title": "090/retten die Honigbienen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6g0meqQ9kw3Y0UFiWzyJ7k",
+        "include": true,
+        "episode_num": 89,
+        "title": "089/und das Familienwappen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6MMT7DkAPlVeTz6hvvXXW0",
+        "include": true,
+        "episode_num": 88,
+        "title": "088/und das Gespenst von Canterbury",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3Qud7esyANFkH9t13BEPUw",
+        "include": true,
+        "episode_num": 87,
+        "title": "087/und das rätselhafte Sternbild",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1niKUvurX2rFPMkFdYSvGk",
+        "include": true,
+        "episode_num": 86,
+        "title": "086/und die verbotenen Blüten",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7vGPi7jFvzn6d5RgQnle6h",
+        "include": true,
+        "episode_num": 85,
+        "title": "085/und der verschwundene Wikingerhelm",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2OeNjbHqDfve97D2q0NJJg",
+        "include": true,
+        "episode_num": 84,
+        "title": "084/und der Gesang der Sirenen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6xtKrk6LQFbEjERrUlPkzT",
+        "include": true,
+        "episode_num": 83,
+        "title": "083/und das Abenteuer im Hundeschlitten",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7DFYLos47Brgbc0r4Nb7vt",
+        "include": true,
+        "episode_num": 82,
+        "title": "082/und der verhängnisvolle Treibsand",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2Yk0FlTxdQwOBiyazcL7E9",
+        "include": true,
+        "episode_num": 81,
+        "title": "081/und das Höhlen-Labyrinth",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0dUM4mpdxdrhu5n2FqvhgJ",
+        "include": true,
+        "episode_num": 80,
+        "title": "080/und das gefährliche Antoniusfeuer",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6Ob5DYYECuqRisjiNvL5GM",
+        "include": true,
+        "episode_num": 79,
+        "title": "079/und das Rätsel des Drachenbootes",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0Oe8F56HOoKhJX7tvlvL11",
+        "include": true,
+        "episode_num": 78,
+        "title": "078/und die Piraten-Bande",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7xBJ98nCNVCOclOSnYOzeI",
+        "include": true,
+        "episode_num": 77,
+        "title": "077/und das unheimliche Bergmonster",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0l8qQcC2q5BiOSYUoQCllH",
+        "include": true,
+        "episode_num": 76,
+        "title": "076//und das Geheimnis des Maskottchens",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "166ZxOtFgr5y5McnH27vwU",
+        "include": true,
+        "episode_num": 75,
+        "title": "075/und das unheimliche Hexenhaus",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5He2m6kpqw58EYAbBOpxhf",
+        "include": true,
+        "episode_num": 74,
+        "title": "074/verfolgen den Wilderer",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0nwiPm3ZUes1vNBto5sxN4",
+        "include": true,
+        "episode_num": 73,
+        "title": "073/und das Rätsel der Zinnmine",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6e4bQvU28sgg4OIhqhDvmp",
+        "include": true,
+        "episode_num": 72,
+        "title": "072/auf der Spur der Entführer",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4Y6aidArNM8JD6z85nRHv4",
+        "include": true,
+        "episode_num": 71,
+        "title": "071/und der Verrat an Bord",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4K5VhGgTc0HHpqxnOnpY3b",
+        "include": true,
+        "episode_num": 70,
+        "title": "070/und die Rückkehr zur Gespensterinsel",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5c6cJEmVIZMCDoIM8C4mBJ",
+        "include": true,
+        "episode_num": 69,
+        "title": "069/und die Gefahr für die Felseninsel",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4H8aT42VazYkjXLA30Rs46",
+        "include": true,
+        "episode_num": 68,
+        "title": "068/und die Druiden von Stonehenge",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1Un1S8omjGi2weFV5s8krP",
+        "include": true,
+        "episode_num": 67,
+        "title": "067/und der unheimliche Brandstifter",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1RUrpfazmZTqx95YxWHQTA",
+        "include": true,
+        "episode_num": 66,
+        "title": "066/und das Seeungeheuer",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3VISsuJBFrcP7NxAo3aQWl",
+        "include": true,
+        "episode_num": 65,
+        "title": "065/und die schwarze Festung",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3UDg2jZxtAu2FzZYWPFida",
+        "include": true,
+        "episode_num": 64,
+        "title": "064/geraten unter Verdacht",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3MULBnI2WPbx3fwThf5mu1",
+        "include": true,
+        "episode_num": 63,
+        "title": "063/und der Stein des Pharao",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6m9zlu731zUcXa6s6YwNH7",
+        "include": true,
+        "episode_num": 62,
+        "title": "062/und das Spuk-Festival",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6c97zHkOHsOazhPs5o04My",
+        "include": true,
+        "episode_num": 61,
+        "title": "061/und die Aufregung im Raubtierhaus",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6EhVUKOjpa6zOR3HJrmQSw",
+        "include": true,
+        "episode_num": 60,
+        "title": "060/tauchen unter",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "45PizjOsP8gWSGoEwpyj8q",
+        "include": true,
+        "episode_num": 59,
+        "title": "059/und das Abenteuer im Schnee",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4QKoFx1seuUXKjZkAzCY4x",
+        "include": true,
+        "episode_num": 58,
+        "title": "058/und die afrikanische Statue",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5IyZl2UWrXvzEZxgTNmRYs",
+        "include": true,
+        "episode_num": 57,
+        "title": "057/und der fliegende Teppich",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2qpNu6Uzrrt2YG6wksmCj9",
+        "include": true,
+        "episode_num": 56,
+        "title": "056/und die geheimnisvolle Erbschaft",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "10MCeSGudi98fDs54Yo3LZ",
+        "include": true,
+        "episode_num": 55,
+        "title": "055/und die goldene Schlange",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "63LJzNuzHOR8zyhICkhZ3U",
+        "include": true,
+        "episode_num": 54,
+        "title": "054/suchen den Stern des Nordens",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7KL5tfLbkTgJ3SW23YpnLH",
+        "include": true,
+        "episode_num": 53,
+        "title": "053/und die geheimnisvollen Kornkreise",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6K9b0vkwZu1As1Ynymut6e",
+        "include": true,
+        "episode_num": 52,
+        "title": "052/und das Phantom von Sherwood Forest",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1Y3pOmF4IXHU08Rop0TTN0",
+        "include": true,
+        "episode_num": 51,
+        "title": "051/und der Eisenbahnraub",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5FFMI41Qtmi70WSUZhSH0Z",
+        "include": true,
+        "episode_num": 50,
+        "title": "050/Timmy in Gefahr",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "32saLGUXvsHEw0hKYNr0yI",
+        "include": true,
+        "episode_num": 49,
+        "title": "049/und die Frau ohne Gedächtnis",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1TDoizBwEYox8icnxRtNc5",
+        "include": true,
+        "episode_num": 48,
+        "title": "048/und die Schrift der Tempelritter",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0TP7S0UMx4ekRfkWYLNRAN",
+        "include": true,
+        "episode_num": 47,
+        "title": "047/und der singende Schrank",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5C9uMZlffC4HuHBA1VWHTH",
+        "include": true,
+        "episode_num": 46,
+        "title": "046/lösen das Rätsel des Landschulheims",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "09HT8wAayNt5y4EWA7Hont",
+        "include": true,
+        "episode_num": 45,
+        "title": "045/und das Bootshaus in der Nebelbucht",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "325FWbbT8I4Bsjfq7MRCSw",
+        "include": true,
+        "episode_num": 44,
+        "title": "044/und die Flaschenpost",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4QvS9DYUA9FI97z5uignYO",
+        "include": true,
+        "episode_num": 43,
+        "title": "043/und der unheimliche Mönch",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "34QraAd9TYolYLJln84Fcq",
+        "include": true,
+        "episode_num": 42,
+        "title": "042/und der Dolch des Piraten",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "14oT9rq1E7KG10UyohENQz",
+        "include": true,
+        "episode_num": 41,
+        "title": "041/und die Spur des Dinosauriers",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6yL9LUp5Yf9Lmd5B85QmV1",
+        "include": true,
+        "episode_num": 40,
+        "title": "040/und das verschwundene Pferd",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1GRTlGk1VE2IsaAtn65rFT",
+        "include": true,
+        "episode_num": 39,
+        "title": "039/und das Monster im Moor",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4YjfEt3QFakmPHX0PrBe9n",
+        "include": true,
+        "episode_num": 38,
+        "title": "038/und das rätselhafte Medaillon",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2d1Kmo2rQbpJK1mfAlPyou",
+        "include": true,
+        "episode_num": 37,
+        "title": "037/und das Abenteuer im Ballon",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "16k5VHiYdyJlLZ1HDnHMTu",
+        "include": true,
+        "episode_num": 36,
+        "title": "036/gefangen im Hünengrab",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0pNx8acv1Khae0a6cqYMxx",
+        "include": true,
+        "episode_num": 35,
+        "title": "035/und die gestohlene Briefmarke",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "07t7JTdTe3EJxrVuBpDlam",
+        "include": true,
+        "episode_num": 34,
+        "title": "034/und die Gespensterinsel",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3TjAvJy8Jp1gTdcYpzyQrG",
+        "include": true,
+        "episode_num": 33,
+        "title": "033/entdecken den Geheimgang",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4l6hSvAivAqYTwAJNpuGUl",
+        "include": true,
+        "episode_num": 32,
+        "title": "032/und das Geheimnis des Oldtimers",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1rVETlFNVsiTZ8XOcSAG0y",
+        "include": true,
+        "episode_num": 31,
+        "title": "031/in der Geisterbahn",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0LLPKdB0JAu4ChP4VSBnLs",
+        "include": true,
+        "episode_num": 30,
+        "title": "030/auf gefährlichen Pfaden",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6xqvtpo28RddZoNoUCC4Ln",
+        "include": true,
+        "episode_num": 29,
+        "title": "029/und die Schwarze Maske",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2G5pUbYCwZF7JGxGlEEMHX",
+        "include": true,
+        "episode_num": 28,
+        "title": "028/und die geheimnisvolle Stadt",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7c0inxL7ps7oQ9FmXj0lL2",
+        "include": true,
+        "episode_num": 27,
+        "title": "027/und die goldene Truhe",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1O8JeQXHM6GkksezdglGuw",
+        "include": true,
+        "episode_num": 26,
+        "title": "026/und die Perlenschmuggler",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5DLMGNCegLz67iifFwWiDd",
+        "include": true,
+        "episode_num": 25,
+        "title": "025/und die Flugzeugentführer",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6ZJG6HTgrYmXl15UsyPJ3N",
+        "include": true,
+        "episode_num": 24,
+        "title": "024/im Fernsehen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7KT79rYzrmQcSkMRqTRcFS",
+        "include": true,
+        "episode_num": 23,
+        "title": "023/und die Jagd nach den Smaragden",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7lH0VALZVG4EWR9Mjumkc0",
+        "include": true,
+        "episode_num": 22,
+        "title": "022/und die Museumsbande",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6q0JbsC5Cz4AL1JSJzUIQ8",
+        "include": true,
+        "episode_num": 21,
+        "title": "021/auf neuen Abenteuern",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "30X7YEF6VsbqY7YiiNdaTv",
+        "include": true,
+        "episode_num": 20,
+        "title": "020/erforschen die Schatzinsel",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2N0HMpaXpx9NCmivgzcnqZ",
+        "include": true,
+        "episode_num": 19,
+        "title": "019/auf Schmugglerjagd",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3Dkdr202NIt7jCSwNNyGCY",
+        "include": true,
+        "episode_num": 18,
+        "title": "018/auf geheimnisvollen Spuren",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3QmaekbwAghuJ5nGi7waz4",
+        "include": true,
+        "episode_num": 17,
+        "title": "017/auf großer Fahrt",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2R4v7Ul9pBuYixU3Z12jOq",
+        "include": true,
+        "episode_num": 16,
+        "title": "016/auf dem Leuchtturm",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2EYXrVYSW2yvzdacdZXdCN",
+        "include": true,
+        "episode_num": 15,
+        "title": "015/wittern ein Geheimnis",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1AuEwi9nwzYDbr6ELO3iQ7",
+        "include": true,
+        "episode_num": 14,
+        "title": "014/machen eine Entdeckung",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6PtodneZRZqjBRbqGEUBYq",
+        "include": true,
+        "episode_num": 13,
+        "title": "013/jagen die Entführer",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4vG33WvVt4u3kaLxkGfjts",
+        "include": true,
+        "episode_num": 12,
+        "title": "012/auf der Felseninsel",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0zW2tRB2mekUQdMClmLsTV",
+        "include": true,
+        "episode_num": 11,
+        "title": "011/geraten in Schwierigkeiten",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5fFMNQtye6cjBXSt38axNj",
+        "include": true,
+        "episode_num": 9,
+        "title": "009/im alten Turm",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1xqLIzPqBdhSg5cgVG840f",
+        "include": true,
+        "episode_num": 7,
+        "title": "007/verfolgen die Strandräuber",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0pZAAAYIBruAZZkqg9K6PX",
+        "include": true,
+        "episode_num": 6,
+        "title": "006/helfen ihrem Kameraden",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5gCYYcivqoJL2voJg5K1ou",
+        "include": true,
+        "episode_num": 5,
+        "title": "005/und der Zauberer Wu",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6Uou6b83FPi6q0BNQi4Px2",
+        "include": true,
+        "episode_num": 4,
+        "title": "004/als Retter in der Not",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3M4cqtKzzPRWUdwxoFiBnz",
+        "include": true,
+        "episode_num": 3,
+        "title": "003/und das Burgverlies",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7tfESyt6scRuKPzOAXF4PC",
+        "include": true,
+        "episode_num": 2,
+        "title": "002/im Zeltlager",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7Hx03j0oo3eLfuijiUXAHg",
+        "include": true,
+        "episode_num": 1,
+        "title": "001/beim Wanderzirkus",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "563wOswalotpucmwrqOsRp",
+        "include": false,
+        "episode_num": null,
+        "title": "Wir sind Fünf Freunde - Der Titelsong zum Kinofilm",
+        "exclude_reason": "Single - movie theme song, not an episode"
+      }
+    ],
+    "age_note": "Suitable from 5+",
+    "curator_notes": "Classic DACH children's detective series based on Enid Blyton's Famous Five. Episodes 001-139 use 'NNN/subtitle' format with ~40 tracks. Episodes 140+ use 'Folge NNN: subtitle' format with ~20 tracks. Episode 8 and 10 missing from this artist - may be under different release. Movie tie-ins (4 films) and Adventskalender excluded. Follows continuous episode numbering without gaps (except 8, 10)."
+  }
+}

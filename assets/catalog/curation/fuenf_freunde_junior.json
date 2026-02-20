@@ -1,0 +1,121 @@
+{
+  "query": "Fünf Freunde Junior",
+  "model": "kimi-k2.5",
+  "curated_at": "2026-02-19T21:59:54.889743+00:00",
+  "series": {
+    "id": "fuenf_freunde_junior",
+    "title": "Fünf Freunde Junior",
+    "aliases": [
+      "Fünf Freunde Junior - Doppelhörspiele"
+    ],
+    "keywords": [
+      "Fünf Freunde Junior"
+    ],
+    "spotify_artist_ids": [
+      "4olmFseR6mODuZ27j4VPAm"
+    ],
+    "episode_pattern": "Folge\\s+(\\d+)",
+    "albums": [
+      {
+        "spotify_album_id": "4f3TFDAeTRa7MHCBsqFJFk",
+        "include": true,
+        "episode_num": 14,
+        "title": "Folge 14: Der Dinosaurierknochen/Das Hundeturnier",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2KbGh2hEpcWNatUBZrKNRm",
+        "include": true,
+        "episode_num": 13,
+        "title": "Folge 13: Der Schneemann-Wettbewerb/Wal in Not",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7wvJ0aLi32ansitRPiQj6v",
+        "include": true,
+        "episode_num": 12,
+        "title": "Folge 12: Die große Schatzsuche/Die rätselhaften Futterdiebe",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1JlRwuEZDs2GG9DhTd5tVH",
+        "include": true,
+        "episode_num": 11,
+        "title": "Folge 11: Die geraubte Rose/Die verdächtigen Vogelzähler",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0B8IOrwsCr7bCJqBUPLxve",
+        "include": true,
+        "episode_num": 10,
+        "title": "Folge 10: Ein aufregender Waldausflug/Die gestohlene Buchseite",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4tMi8DnCyjcqKqqLrc0Bv2",
+        "include": true,
+        "episode_num": 9,
+        "title": "Folge 9: Rettung für Timmy/Sternenfreunde mit Spürnase",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3YH6YhIY9Th83qmZgp2pUU",
+        "include": true,
+        "episode_num": 8,
+        "title": "Folge 8: Die verschwundenen Weihnachtspäckchen/Das Geheimnis der alten Villa",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0OjE759Y2cRxDw5swOhcAr",
+        "include": true,
+        "episode_num": 7,
+        "title": "Folge 7: Das Ungeheuer von Lorness/Die entführten Tierbabys",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7B9FMWWnKUvw9OiocDNTjq",
+        "include": true,
+        "episode_num": 6,
+        "title": "Folge 6: Die Suche nach dem Rennpferd/Der verschwundene Preis",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3ACIu8O5UG4LmGEtQvZvSZ",
+        "include": true,
+        "episode_num": 5,
+        "title": "Folge 5: Das Geburtstags-Abenteuer/Gefahr auf den Klippen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7GxRAFTyieFbSfckKERMz6",
+        "include": true,
+        "episode_num": 4,
+        "title": "Folge 4: Das geheimnisvolle Geräusch/Der verlorene Schatz",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5JNcvxZfg8XMlWGJzWgk7j",
+        "include": true,
+        "episode_num": 3,
+        "title": "Folge 3: Timmy, der Meisterdetektiv/Der vermisste Hund",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3V8U4AIoa8bsy9jp5rch37",
+        "include": true,
+        "episode_num": 2,
+        "title": "Folge 2: Die mysteriöse Flaschenpost/Unser Timmy ist der Beste",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3Fqjzgjdz2pMkXZv5zxC7w",
+        "include": true,
+        "episode_num": 1,
+        "title": "Folge 1: Der unsichtbare Dieb/Den Räubern auf der Spur",
+        "exclude_reason": null
+      }
+    ],
+    "age_note": "Suitable from 5+",
+    "curator_notes": "Junior spinoff series for younger listeners. Each episode contains two short stories (indicated by the / separator in titles). The main Fünf Freunde series (artist 1hD52edfn6aNsK3fb5c2OT) is a separate series with 169+ episodes for older children."
+  }
+}

@@ -1,0 +1,169 @@
+{
+  "query": "Die wilden Hühner",
+  "model": "kimi-k2.5",
+  "curated_at": "2026-02-19T23:08:28.294400+00:00",
+  "series": {
+    "id": "die_wilden_huehner",
+    "title": "Die wilden Hühner",
+    "aliases": [
+      "Die Wilden Hühner",
+      "Die Wilden Küken"
+    ],
+    "keywords": [
+      "Die Wilden Hühner",
+      "Die Wilden Küken"
+    ],
+    "spotify_artist_ids": [
+      "7FFCbo48YA1o0mhUE66DjO",
+      "5UfG709fnZ9mPNZShrAiVh",
+      "5HQzBHnczgis11u7lSLVbt",
+      "4P5tVOqHcQ7j5ZZjczglZk",
+      "5HJazOmTpfruUyrjLKnJou"
+    ],
+    "episode_pattern": "(?:Folge|Die Wilden Küken)\\s+(\\d+)",
+    "albums": [
+      {
+        "spotify_album_id": "1RHxV47cUq6KD3Bdo0tKs1",
+        "include": true,
+        "episode_num": 5,
+        "title": "Folge 5: Und die Liebe",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "17vdiC3MN9ccbaiy8kdp7V",
+        "include": true,
+        "episode_num": 4,
+        "title": "Folge 4: Und das Glück der Erde (Ungekürzt)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0XE0bMlL3xOIfIbkwfqvw5",
+        "include": true,
+        "episode_num": 3,
+        "title": "Folge 3: Fuchsalarm",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0LqDlXMMrLugwAUsVFlMrJ",
+        "include": true,
+        "episode_num": 2,
+        "title": "Folge 2: Auf Klassenfahrt",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4y9FLwcqRKYl5gbzn4LQ6Z",
+        "include": true,
+        "episode_num": 1,
+        "title": "Folge 1: Die Wilden Hühner",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "042KKQSpmrV8yjtf34reWq",
+        "include": true,
+        "episode_num": 6,
+        "title": "Die Wilden Hühner und das Leben. Das Original-Hörspiel zum Film",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7fAgcvHn3uszlfROsl7qla",
+        "include": false,
+        "episode_num": null,
+        "title": "Die Wilden Hühner 6. Cornelia Funkes Die Wilden Hühner und das Leben",
+        "exclude_reason": "Duplicate: Same content as 'Die Wilden Hühner und das Leben' but with different track splitting"
+      },
+      {
+        "spotify_album_id": "3x4xQ7RacLQbYIvnPvDjjR",
+        "include": false,
+        "episode_num": null,
+        "title": "Die Wilden Hühner und die Liebe (Das Original-Hörspiel zum Film)",
+        "exclude_reason": "Film adaptation, not part of main Hörspiel series"
+      },
+      {
+        "spotify_album_id": "3gqp7eFmVeOLGMWHeIzpsT",
+        "include": false,
+        "episode_num": null,
+        "title": "Die Wilden Hühner. Das Original-Hörspiel zum Film",
+        "exclude_reason": "Film adaptation, not part of main Hörspiel series"
+      },
+      {
+        "spotify_album_id": "2RDETQr3Y4kjE5BzhLLrXp",
+        "include": false,
+        "episode_num": null,
+        "title": "Die Wilden Hühner Hits",
+        "exclude_reason": "Music/songs compilation, not Hörspiel episodes"
+      },
+      {
+        "spotify_album_id": "1Krv6Fqjo72xQOg9uL2osE",
+        "include": false,
+        "episode_num": null,
+        "title": "Schüttel deine Federn",
+        "exclude_reason": "Single song release, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "2gxs2QvDsvylqoQjUrO1dw",
+        "include": false,
+        "episode_num": null,
+        "title": "Ich bin Okay",
+        "exclude_reason": "Single song release, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "31bkxKUPoN42LaOPbmVr23",
+        "include": false,
+        "episode_num": null,
+        "title": "Das geheime Wissen der Wilden Hühner",
+        "exclude_reason": "Bonus/extra content, not numbered episode in main series"
+      },
+      {
+        "spotify_album_id": "2G9U8COeagDotEZFOGD7HF",
+        "include": true,
+        "episode_num": 10,
+        "title": "Die Wilden Küken 10. Let's dance! (Gekürzte Lesung)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2Xek5ycEA6xYIZg7PVFO9O",
+        "include": true,
+        "episode_num": 9,
+        "title": "Die Wilden Küken 9. Im Bernsteinfieber (Gekürzte Lesung)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4QgYSZMtOxm8ZYFllIzd16",
+        "include": true,
+        "episode_num": 8,
+        "title": "Die Wilden Küken 8. Auf der Alm (Gekürzte Lesung)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1pSfvahwo4lz82q5EdeCLQ",
+        "include": true,
+        "episode_num": 6,
+        "title": "Die Wilden Küken 6. Ab ins Abenteuer! (Gekürzte Lesung)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6xGNK2dzNkK1Ul49lAELeS",
+        "include": true,
+        "episode_num": 4,
+        "title": "Die Wilden Küken 4. Es spukt! (Gekürzte Lesung)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "55ByQxTTLXBaO1w3d5mmvf",
+        "include": true,
+        "episode_num": 3,
+        "title": "Die Wilden Küken 3. Endlich Ferien! (Gekürzte Lesung)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1EKeuU4PM5UGiKXthq8pDW",
+        "include": true,
+        "episode_num": 2,
+        "title": "Die Wilden Küken 2. Eisalarm (Gekürzte Lesung)",
+        "exclude_reason": null
+      }
+    ],
+    "age_note": "Suitable from 8+",
+    "curator_notes": "Series spans multiple artists: 'Die Wilden Hühner' (main Hörspiel series, 2022-2023), 'Die Wilden Küken' (spinoff series for younger children, 2010-2014), and various Cornelia Funke artist entries. The main series has 5 numbered episodes (Folge 1-5) plus the film adaptation 'und das Leben' as episode 6. 'Die Wilden Küken' is a separate spinoff series with 7 episodes (numbered 2-10, missing 1, 5, 7). Note: Episodes appear duplicated across multiple artist IDs due to various collaborations credited on Spotify."
+  }
+}

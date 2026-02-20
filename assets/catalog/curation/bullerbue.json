@@ -1,0 +1,94 @@
+{
+  "query": "Bullerbü",
+  "model": "kimi-k2.5",
+  "curated_at": "2026-02-20T01:20:36.856474+00:00",
+  "series": {
+    "id": "bullerbue",
+    "title": "Bullerbü",
+    "aliases": [
+      "Wir Kinder aus Bullerbü"
+    ],
+    "keywords": [
+      "Bullerbü"
+    ],
+    "spotify_artist_ids": [
+      "6zjAfmQRjD2sWgEOkmKD3D",
+      "7sRF5KPi10c3pueaKGmArz"
+    ],
+    "episode_pattern": "Wir Kinder aus Bullerbü (\\d+)",
+    "albums": [
+      {
+        "spotify_album_id": "2p0ijK6bumieBNwZY4lToa",
+        "include": true,
+        "episode_num": null,
+        "title": "Weihnachten in Bullerbü",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2VUgVYllzCsRWMnBnidzZw",
+        "include": true,
+        "episode_num": null,
+        "title": "Geschichten aus Bullerbü",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2ARTYynNUhGWtA593lpq25",
+        "include": false,
+        "episode_num": null,
+        "title": "Bullerbü. Die neue große Hörspielbox",
+        "exclude_reason": "Box set - contains all three main episodes (44 tracks)"
+      },
+      {
+        "spotify_album_id": "2CIv3mEhn1ywdClh84DzQd",
+        "include": true,
+        "episode_num": 3,
+        "title": "Wir Kinder aus Bullerbü 3. Immer lustig in Bullerbü (Hörspiel)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4pT1FceiSDkkE05u6gfdRw",
+        "include": true,
+        "episode_num": 2,
+        "title": "Wir Kinder aus Bullerbü 2. Mehr von uns Kindern aus Bullerbü",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3nmu0g0rQ60YzhBFmH6l2q",
+        "include": false,
+        "episode_num": null,
+        "title": "Wir Kinder aus Bullerbü 2. Mehr von uns Kindern aus Bullerbü",
+        "exclude_reason": "Duplicate of episode 2 - 42-track version, prefer 16-track version"
+      },
+      {
+        "spotify_album_id": "0GdtZD5AfEs8slvISzH1xm",
+        "include": false,
+        "episode_num": null,
+        "title": "Wir Kinder aus Bullerbü 1 (Ungekürzte Lesung)",
+        "exclude_reason": "Audiobook/reading - 28 tracks, not Hörspiel"
+      },
+      {
+        "spotify_album_id": "2DepxkUs4ebtWQY2cVvN6n",
+        "include": true,
+        "episode_num": 1,
+        "title": "Wir Kinder aus Bullerbü 1",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "17PTQKJ1DTv6glw5o0dfaS",
+        "include": false,
+        "episode_num": null,
+        "title": "Wir Kinder aus Bullerbü 2. Mehr von uns Kindern aus Bullerbü. Hörspielklassiker",
+        "exclude_reason": "Duplicate of episode 2 - older 1949 version, prefer 1988 version"
+      },
+      {
+        "spotify_album_id": "2YnQbwUV1ZXv2lngvIDjqM",
+        "include": false,
+        "episode_num": null,
+        "title": "Wir Kinder aus Bullerbü 1. Hörspielklassiker",
+        "exclude_reason": "Duplicate of episode 1 - older 1949 version, prefer 1988 version"
+      }
+    ],
+    "age_note": "Suitable from 4+",
+    "curator_notes": "The Bullerbü series consists of 3 main episodes (Bücher): 1. Wir Kinder aus Bullerbü, 2. Mehr von uns Kindern aus Bullerbü, 3. Immer lustig in Bullerbü. The artist 'Wir Kinder aus Bullerbü' contains the core Hörspiel releases. The artist 'Astrid Lindgren Deutsch' contains many Astrid Lindgren works including Bullerbü titles, but these are primarily box sets, compilations, and duplicates. Only unique non-box-set Bullerbü titles are included. The 1949 'Hörspielklassiker' versions are excluded in favor of the 1988 remastered versions. 'Weihnachten in Bullerbü' and 'Geschichten aus Bullerbü' are included as bonus content."
+  }
+}

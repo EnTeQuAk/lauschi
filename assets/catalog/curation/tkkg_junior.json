@@ -1,0 +1,329 @@
+{
+  "query": "TKKG Junior",
+  "model": "kimi-k2.5",
+  "curated_at": "2026-02-19T21:45:22.559030+00:00",
+  "series": {
+    "id": "tkkg_junior",
+    "title": "TKKG Junior",
+    "aliases": [
+      "TKKG"
+    ],
+    "keywords": [],
+    "spotify_artist_ids": [
+      "1ZFGYimyLnfKewOL84ABEp"
+    ],
+    "episode_pattern": "Folge\\s+(\\d+)",
+    "albums": [
+      {
+        "spotify_album_id": "25Lgg3wsQK2vEdZ8ZHzBpk",
+        "include": true,
+        "episode_num": 1,
+        "title": "Folge 1: Auf frischer Tat ertappt",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "27mSixIRk3Zy1KMC9nB2q8",
+        "include": true,
+        "episode_num": 2,
+        "title": "Folge 2: Vorsicht: Bissig!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "79jRrfka8Brt6xchEv5znY",
+        "include": true,
+        "episode_num": 3,
+        "title": "Folge 3: Giftige Schokolade",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4gxLcGuGTjg0x5TaKg5wUv",
+        "include": true,
+        "episode_num": 4,
+        "title": "Folge 4: Der Rote Retter",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "16jlhWNeeHd8gkYc8VnbwL",
+        "include": true,
+        "episode_num": 5,
+        "title": "Folge 5: Die Dino-Diebe",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7L1ff3KpjaBiN4VjKsSW77",
+        "include": true,
+        "episode_num": 6,
+        "title": "Folge 6: Bei Anruf Abzocke",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6hWSl69rSnN7SCXEHmwxYO",
+        "include": true,
+        "episode_num": 7,
+        "title": "Folge 7: Zwischen Gauklern und Ganoven",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3P519xjxIxC3urJyHFgiNU",
+        "include": true,
+        "episode_num": 8,
+        "title": "Folge 8: Der verborgene Schatz",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3iUKVnEu73MbJuw2YoHMf9",
+        "include": true,
+        "episode_num": 9,
+        "title": "Folge 9: Gepanschter Punsch",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3IkC0qo70BxhdEY9yiq6hp",
+        "include": true,
+        "episode_num": 10,
+        "title": "Folge 10: Nachts im Gruselpark",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7aLmxTQSge7CvcARscxnsf",
+        "include": true,
+        "episode_num": 11,
+        "title": "Folge 11: Rote Karte für Betrüger",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "24Vjhr2bcKNIB9HU5K7wyC",
+        "include": true,
+        "episode_num": 12,
+        "title": "Folge 12: Schmierige Angelegenheiten",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "26Jy8CTLFGGfJ01nHjxyIa",
+        "include": true,
+        "episode_num": 13,
+        "title": "Folge 13: Das verpfuschte Gemälde",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3jfRKkHZP5LiCU1PtQhLGe",
+        "include": true,
+        "episode_num": 14,
+        "title": "Folge 14: Eisige Diamanten",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4cSlie55GGnPBITKW6MXpS",
+        "include": true,
+        "episode_num": 15,
+        "title": "Folge 15: In den Fängen der Felsenbande",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "06bJRz6jPvvRsWebFcbdDX",
+        "include": true,
+        "episode_num": 16,
+        "title": "Folge 16: Trügerischer Paddelspaß",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0Uq6DhPmc1t2pY5W5JQvLV",
+        "include": true,
+        "episode_num": 17,
+        "title": "Folge 17: Oskar in der Falle",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "57AP2ocYivnyE8gOphlo88",
+        "include": true,
+        "episode_num": 18,
+        "title": "Folge 18: Stimmen aus dem Jenseits",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1vAGWhovVVW8B0lN1ZJQyu",
+        "include": true,
+        "episode_num": 19,
+        "title": "Folge 19: Verschollen im Stollen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3aXWIKKrVzxy8gDCzALvHd",
+        "include": true,
+        "episode_num": 20,
+        "title": "Folge 20: Die gestohlene Stimme",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2tDx5pm5ufHbJQYZ1d8DW1",
+        "include": true,
+        "episode_num": 21,
+        "title": "Folge 21: Der Fluch der Mumie",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2ah3Yrl31piiEpImwUOFMz",
+        "include": true,
+        "episode_num": 22,
+        "title": "Folge 22: Abenteuer im Safari-Park",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6iJrNTDDo5c06dKJItVNBT",
+        "include": true,
+        "episode_num": 23,
+        "title": "Folge 23: Schmugglerbande voraus!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3Qbaz5marjzUKUETIsHRMb",
+        "include": true,
+        "episode_num": 24,
+        "title": "Folge 24: Das doppelte Klößchen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3MhJSDkdsjI8OvnR0R3FCU",
+        "include": true,
+        "episode_num": 25,
+        "title": "Folge 25: Heiße Spur im Nebelhafen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "67r2UajK4x4mMVjaOdxN1a",
+        "include": true,
+        "episode_num": 26,
+        "title": "Folge 26: Achtung, Fahrraddiebe!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "68xkgGJRu8P6eLmc9aFKcX",
+        "include": true,
+        "episode_num": 27,
+        "title": "Folge 27: Abrechnung in der Westernstadt",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4CHcJTNK9dX20aYCmuMnHt",
+        "include": true,
+        "episode_num": 28,
+        "title": "Folge 28: Tatort Zirkus",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7KTfnret5Jfbwm12IPoljZ",
+        "include": true,
+        "episode_num": 29,
+        "title": "Folge 29: Die Geisterjagd",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "28sOOpaso1blCfrpkJmxyM",
+        "include": true,
+        "episode_num": 30,
+        "title": "Folge 30: Kletterhalle in Gefahr",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3Z9XItCfJXDFYAGnDsNwZ8",
+        "include": true,
+        "episode_num": 31,
+        "title": "Folge 31: Zu viele Alibis",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0xmOpshH8sf9wmOo244O7i",
+        "include": true,
+        "episode_num": 32,
+        "title": "Folge 32: Ein rätselhafter Einbruch",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "53L3Vbbe3ORDxK9kEEe0xR",
+        "include": true,
+        "episode_num": 33,
+        "title": "Folge 33: Wirbel um die Wilde Wespe",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0hj5M9EN6PW9tSGJyFxfjM",
+        "include": true,
+        "episode_num": 34,
+        "title": "Folge 34: Die Jagd nach dem Phantom",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3lgKAQ5pKOML2JcRN614nS",
+        "include": true,
+        "episode_num": 35,
+        "title": "Folge 35: Die Schoko Erpressung",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0wYSY2sulGJmsjkegeXMBG",
+        "include": true,
+        "episode_num": 36,
+        "title": "Folge 36: Der rätselhafte Brandstifter",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2BrjU4YxXKk94EZSPAoTef",
+        "include": true,
+        "episode_num": 37,
+        "title": "Folge 37: Das Geheimnis der Pirateninsel",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7KiAZ80qM1e9Avl5kfCP1L",
+        "include": true,
+        "episode_num": 38,
+        "title": "Folge 38: Schock im Bienenstock",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "16yGOlp7y0MOBmWlQBty8B",
+        "include": true,
+        "episode_num": 39,
+        "title": "Folge 39: Spuk im Stadttheater",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7gv1RtZNt5gnOCGeUdPIWA",
+        "include": true,
+        "episode_num": 40,
+        "title": "Folge 40: Alarm im Aquarium",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2vK0c28H8JXfPe4UdfJsTH",
+        "include": true,
+        "episode_num": 41,
+        "title": "Folge 41: Aliens im Anflug",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2NOjKvA3XxO7J3TauLYxUK",
+        "include": true,
+        "episode_num": null,
+        "title": "Die Fußball-Lüge",
+        "exclude_reason": "Special episode without episode number - appears to be a standalone special release between Folge 33 and 34"
+      },
+      {
+        "spotify_album_id": "0SsYmJ9JQmizpobDaqIMyE",
+        "include": false,
+        "episode_num": null,
+        "title": "Adventskalender - Der widerliche Weihnachtswichtel",
+        "exclude_reason": "Advent calendar format - 24+ daily mini-episodes, not a regular numbered episode"
+      },
+      {
+        "spotify_album_id": "31YcOLMSdN0QYYeODng1R6",
+        "include": false,
+        "episode_num": null,
+        "title": "Adventskalender - Eine schöne Bescherung",
+        "exclude_reason": "Advent calendar format - 24+ daily mini-episodes, not a regular numbered episode"
+      }
+    ],
+    "age_note": "Recommended 8+",
+    "curator_notes": "TKKG Junior is the kid-friendly spinoff of the classic TKKG crime series. The main artist 'TKKG Junior' contains all numbered episodes (Folge 1-41). The regular 'TKKG' artist contains the original teen/adult series (episodes 1-239) which is a separate series with darker themes. The 'TKKG - Junior Investigators' artist contains English-language versions and should be excluded as non-German content. The 'TKKG Retro-Archiv' contains classic episodes from the original series (episodes 1-99) and belongs to the main TKKG series, not Junior. Note: Episode 20 was released out of order (2021-01-28) after episode 19 (2021-11-26), likely a re-release or correction. Episode 'Die Fußball-Lüge' appears to be a special episode released between Folge 33 and 34 without a number."
+  }
+}

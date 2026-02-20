@@ -1,0 +1,225 @@
+{
+  "query": "Detektivbüro LasseMaja",
+  "model": "kimi-k2.5",
+  "curated_at": "2026-02-19T23:20:19.645841+00:00",
+  "series": {
+    "id": "detektivbuero_lassemaja",
+    "title": "Detektivbüro LasseMaja",
+    "aliases": [
+      "LasseMaja",
+      "Lasse & Maja"
+    ],
+    "keywords": [],
+    "spotify_artist_ids": [
+      "3Mr28PUoMrOvS8KshvBXa8"
+    ],
+    "episode_pattern": "Teil (\\d+)",
+    "albums": [
+      {
+        "spotify_album_id": "30hi50DjyuscflSYsY2HnV",
+        "include": true,
+        "episode_num": 1,
+        "title": "Das Schulgeheimnis [Detektivbüro LasseMaja, Teil 1 (ungekürzt)]",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2nb4aM6G6PdHgpUz3E8bWT",
+        "include": true,
+        "episode_num": 2,
+        "title": "Das Mumiengeheimnis [Detektivbüro LasseMaja, Teil 2 (ungekürzt)]",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6HV1wF77ntBpT92IGWlRay",
+        "include": true,
+        "episode_num": 3,
+        "title": "Das Diamantengeheimnis [Detektivbüro LasseMaja, Teil 3 (ungekürzt)]",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6Bl5Gg19h65j1r3GnjuvHj",
+        "include": true,
+        "episode_num": 4,
+        "title": "Das Tiergeheimnis [Detektivbüro LasseMaja, Teil 4 (ungekürzt)]",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "36UimIcSqT1QwsWYYlWaAH",
+        "include": true,
+        "episode_num": 5,
+        "title": "Das Cafégeheimnis [Detektivbüro LasseMaja, Teil 5 (ungekürzt)]",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3XDdeTeZQdvTkm2NbfnARP",
+        "include": true,
+        "episode_num": 6,
+        "title": "Das Zirkusgeheimnis [Detektivbüro LasseMaja, Teil 6 (ungekürzt)]",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4Qycch7UD5vaJ61Y4rCM7U",
+        "include": true,
+        "episode_num": 7,
+        "title": "Das Zeitungsgeheimnis [Detektivbüro LasseMaja, Teil 7 (ungekürzt)]",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3eIAPpqAVeFlNnZ167j0ii",
+        "include": true,
+        "episode_num": 8,
+        "title": "Das Campinggeheimnis [Detektivbüro LasseMaja, Teil 8 (ungekürzt)]",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0J2RKHpu0qAaU8xWeWM1xR",
+        "include": true,
+        "episode_num": 9,
+        "title": "Das Kinogeheimnis [Detektivbüro LasseMaja, Teil 9 (ungekürzt)]",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7DFdveVMmgC7JuK8dDJNi1",
+        "include": true,
+        "episode_num": 10,
+        "title": "Das Goldgeheimnis [Detektivbüro LasseMaja, Teil 10 (ungekürzt)]",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0AKXwFhPf1MGoAHdw71yj3",
+        "include": true,
+        "episode_num": 11,
+        "title": "Das Fußballgeheimnis [Detektivbüro LasseMaja, Teil 11 (ungekürzt)]",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4M6qWJ0iGhzWIphFNVMfp6",
+        "include": true,
+        "episode_num": 12,
+        "title": "Das Bibliotheksgeheimnis [Detektivbüro LasseMaja, Teil 12 (ungekürzt)]",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "05au8hwDxIbm31TmKz27D1",
+        "include": true,
+        "episode_num": 14,
+        "title": "Das Eisenbahngeheimnis [Detektivbüro LasseMaja, Teil 14 (ungekürzt)]",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4kLEx4d3LSioWeG0ChgCBZ",
+        "include": true,
+        "episode_num": 15,
+        "title": "Das Liebesgeheimnis [Detektivbüro LasseMaja, Teil 15 (ungekürzt)]",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4G4wjfsS9Xy4bD8Ira5404",
+        "include": true,
+        "episode_num": 16,
+        "title": "Das Safrangeheimnis [Detektivbüro LasseMaja, Teil 16 (ungekürzt)]",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1dfAi1WbInlFTnDgwdZ0V7",
+        "include": true,
+        "episode_num": 17,
+        "title": "Das Krankenhausgeheimnis [Detektivbüro LasseMaja, Teil 17 (ungekürzt)]",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2MBF1mggaUwHXdKG6J9sCu",
+        "include": true,
+        "episode_num": 18,
+        "title": "Das Kirchengeheimnis [Detektivbüro LasseMaja, Teil 18 (ungekürzt)]",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7MiA61WnUOZgTVakSkEzu8",
+        "include": true,
+        "episode_num": 19,
+        "title": "Das Hotelgeheimnis [Detektivbüro LasseMaja, Teil 19 (ungekürzt)]",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "03ItuTQMBMsZggN72q4rnv",
+        "include": true,
+        "episode_num": 20,
+        "title": "Das Geburtstagsgeheimnis [Detektivbüro LasseMaja, Teil 20 (ungekürzt)]",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4GVkT9K2IM3ZFf3zVqehNn",
+        "include": true,
+        "episode_num": 22,
+        "title": "Das Fahrradgeheimnis [Detektivbüro LasseMaja, Teil 22 (ungekürzt)]",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1mF2ZfwFpiYKklNknbYTqG",
+        "include": true,
+        "episode_num": 23,
+        "title": "Das Feuerwehrgeheimnis [Detektivbüro LasseMaja, Teil 23 (ungekürzt)]",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5Q9sbLW61TftIoiLw2HnQz",
+        "include": true,
+        "episode_num": 24,
+        "title": "Das Gefängnisgeheimnis [Detektivbüro LasseMaja, Teil 24 (ungekürzt)]",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3x8U23hxtA1Ekhcq4n7Sxa",
+        "include": true,
+        "episode_num": 25,
+        "title": "Das Katzengeheimnis [Detektivbüro LasseMaja, Teil 25 (ungekürzt)]",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4PdNHEGa0rm1r1wisj2WxZ",
+        "include": true,
+        "episode_num": 26,
+        "title": "Das Schlossgeheimnis [Detektivbüro LasseMaja, Teil 26 (ungekürzt)]",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0ZlvofyIXUX2lLLl9xlC5R",
+        "include": true,
+        "episode_num": 29,
+        "title": "Das Wikingergeheimnis [Detektivbüro LasseMaja, Teil 29 (ungekürzt)]",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "29qq1zEdiXgfs1VbGnNmDp",
+        "include": true,
+        "episode_num": 30,
+        "title": "Das Filmgeheimnis [Detektivbüro LasseMaja, Teil 30 (ungekürzt)]",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0cRh5HnjcgzdPULQE8dvmu",
+        "include": true,
+        "episode_num": 33,
+        "title": "Das Strandgeheimnis [Detektivbüro LasseMaja, Teil 33 (ungekürzt)]",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1Q3odqM64ncGcbskuuAZBd",
+        "include": true,
+        "episode_num": 34,
+        "title": "Das Musikgeheimnis [Detektivbüro LasseMaja, Teil 34 (ungekürzt)]",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2PDvBwKvrSXHJvhImJARdN",
+        "include": true,
+        "episode_num": 36,
+        "title": "Das Dinogeheimnis [Detektivbüro LasseMaja, Teil 36 (Ungekürzt)]",
+        "exclude_reason": null
+      }
+    ],
+    "age_note": "Recommended 5+",
+    "curator_notes": "Based on the children's book series by Martin Widmark and Helena Willis. German Hörspiel series about two young detectives solving mysteries in their small town. All episodes are unabridged audiobook versions (10-17 chapters each). Note: Episodes 13, 21, 27-28, 31-32, and 35 are not currently available on Spotify. There is a separate Swedish artist 'LasseMaja' with music albums that are excluded as they are not German Hörspiele."
+  }
+}

@@ -1,0 +1,117 @@
+{
+  "query": "Räuber Hotzenplotz",
+  "model": "kimi-k2.5",
+  "curated_at": "2026-02-20T01:34:58.408362+00:00",
+  "series": {
+    "id": "raeuber_hotzenplotz",
+    "title": "Räuber Hotzenplotz",
+    "aliases": [
+      "Der Räuber Hotzenplotz"
+    ],
+    "keywords": [
+      "Räuber Hotzenplotz",
+      "Hotzenplotz"
+    ],
+    "spotify_artist_ids": [
+      "3qAWgxar5hLNcW4ybNvjSW",
+      "2AvETPAFFbhV737lBKXJj9",
+      "6OHFxwqdZpOuYMKrV0UHQ5"
+    ],
+    "episode_pattern": "([1-4])",
+    "albums": [
+      {
+        "spotify_album_id": "2zgCdgnOoep0XYcMhk65nx",
+        "include": true,
+        "episode_num": 1,
+        "title": "Der Räuber Hotzenplotz 1: Der Räuber Hotzenplotz",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3Ik0ZUPEEaHJ7OKp78broi",
+        "include": true,
+        "episode_num": 2,
+        "title": "Der Räuber Hotzenplotz 2: Neues vom Räuber Hotzenplotz (2. Band des Kinderbuch-Klassiker)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1npSrVLIuwZEcpa6y5srif",
+        "include": true,
+        "episode_num": 3,
+        "title": "Der Räuber Hotzenplotz 3: Der Räuber Hotzenplotz. Schluss mit der Räuberei (3. Band des Kinderbuch-Klassikers)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "36CwCR1wz682jxOLSUaUwh",
+        "include": true,
+        "episode_num": 4,
+        "title": "Der Räuber Hotzenplotz und die Mondrakete",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2psWDBpuMuQF9yIcXiqN4F",
+        "include": false,
+        "episode_num": null,
+        "title": "Der Räuber Hotzenplotz - Hörspiele 1: Der Räuber Hotzenplotz - Das Hörspiel",
+        "exclude_reason": "Duplicate: same story as episode 1, prefer 1962 original"
+      },
+      {
+        "spotify_album_id": "5Xmy3t937WiwSBfEYK6QgZ",
+        "include": false,
+        "episode_num": null,
+        "title": "Der Räuber Hotzenplotz - Hörspiele 2: Neues vom Räuber Hotzenplotz - Das Hörspiel",
+        "exclude_reason": "Duplicate: same story as episode 2, prefer 1969 original"
+      },
+      {
+        "spotify_album_id": "2YOK83serJO3UNnU8bDbja",
+        "include": false,
+        "episode_num": null,
+        "title": "Der Räuber Hotzenplotz - Hörspiele 3: Schluss mit der Räuberei - Das Hörspiel",
+        "exclude_reason": "Duplicate: same story as episode 3, prefer 2012 Silberfisch version"
+      },
+      {
+        "spotify_album_id": "4NaZuAgDM92V1nfjJKi0m4",
+        "include": false,
+        "episode_num": null,
+        "title": "Der Räuber Hotzenplotz - Hörspiele: Der Räuber Hotzenplotz und die Mondrakete - Das Hörspiel",
+        "exclude_reason": "Duplicate: same story as episode 4, prefer 2018 Karussell version"
+      },
+      {
+        "spotify_album_id": "4tgA4hMn7r356EyKPKv7cr",
+        "include": false,
+        "episode_num": null,
+        "title": "Der Räuber Hotzenplotz - Hörspiele: Der Räuber Hotzenplotz. Das Originalhörspiel zum Kinofilm",
+        "exclude_reason": "Movie tie-in adaptation, not part of main book series"
+      },
+      {
+        "spotify_album_id": "1r2IgBnfLarJ13GVfjOhn9",
+        "include": false,
+        "episode_num": null,
+        "title": "Der Räuber Hotzenplotz (Original-Soundtrack zum Kinofilm)",
+        "exclude_reason": "Soundtrack, not Hörspiel"
+      },
+      {
+        "spotify_album_id": "60E8SCY3oG0S4ouo9zGEJf",
+        "include": false,
+        "episode_num": null,
+        "title": "1: Der Räuber Hotzenplotz",
+        "exclude_reason": "Duplicate: same story as episode 1, prefer 1962 original"
+      },
+      {
+        "spotify_album_id": "2LaaedYUhpMjgkjU9b4EGi",
+        "include": false,
+        "episode_num": null,
+        "title": "2: Neues vom Räuber Hotzenplotz",
+        "exclude_reason": "Duplicate: same story as episode 2, prefer 1969 original"
+      },
+      {
+        "spotify_album_id": "1HKQ4d298PtVxT0a4BQsng",
+        "include": false,
+        "episode_num": null,
+        "title": "3: Der Räuber Hotzenplotz - Schluss mit der Räuberei",
+        "exclude_reason": "Duplicate: same story as episode 3, prefer 2012 Silberfisch version"
+      }
+    ],
+    "age_note": "Suitable from 5+",
+    "curator_notes": "Classic Otfried Preußler series with 4 main stories: the original trilogy (1962, 1969, 2012) plus 'Die Mondrakete' (2018). Multiple versions exist across artists - the 1962/1969 originals are the classic radio play versions, while the 2012 Silberfisch versions are modern remakes. The 'Mondrakete' episode is a newer addition not from the original book trilogy. Excluded movie tie-in and soundtrack content. All duplicates marked - kept the most iconic/original versions."
+  }
+}

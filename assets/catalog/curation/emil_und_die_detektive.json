@@ -1,0 +1,44 @@
+{
+  "query": "Emil und die Detektive",
+  "model": "kimi-k2.5",
+  "curated_at": "2026-02-20T02:11:55.989772+00:00",
+  "series": {
+    "id": "emil_und_die_detektive",
+    "title": "Emil und die Detektive",
+    "aliases": [],
+    "keywords": [],
+    "spotify_artist_ids": [
+      "3p7nf31e3wMZyrDz2sBifV"
+    ],
+    "episode_pattern": null,
+    "albums": [
+      {
+        "spotify_album_id": "0CMbeDjlOhNCx2drSQKuFe",
+        "include": false,
+        "episode_num": null,
+        "title": "Emil und die drei Zwillinge",
+        "exclude_reason": "Music/theater production tracks, not a numbered Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "5KAZbG4rexcHj5BWFQD30E",
+        "include": false,
+        "episode_num": null,
+        "title": "Parole Emil",
+        "exclude_reason": "Music single from theater production, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "4DLjniZscD1Yc8SQ1wKgOx",
+        "include": false,
+        "episode_num": null,
+        "title": "Deine Bande, deine Gang",
+        "exclude_reason": "Music single from theater production, not a Hörspiel episode"
+      }
+    ],
+    "age_note": "Suitable from 5+",
+    "curator_notes": "Emil und die Detektive is a classic 1929 children's novel by Erich Kästner, not a multi-episode Hörspiel series. The only Spotify artist found is 'Emil und die Detektive - Düsseldorfer Schauspielhaus', which contains music singles from a theater/musical stage adaptation. No numbered Hörspiel episodes exist on Spotify. The classic story has been adapted into films and stage productions, but unlike Die drei ??? or TKKG, it does not have an ongoing episodic Hörspiel series format."
+  },
+  "review": {
+    "status": "rejected",
+    "notes": "Stub: single Kästner novel, not an episodic series. Only a theater production artist on Spotify."
+  }
+}

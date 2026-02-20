@@ -1,0 +1,938 @@
+{
+  "query": "Leo Lausemaus",
+  "model": "kimi-k2.5",
+  "curated_at": "2026-02-20T00:04:11.310178+00:00",
+  "series": {
+    "id": "leo_lausemaus",
+    "title": "Leo Lausemaus",
+    "aliases": [],
+    "keywords": [
+      "Leo Lausemaus"
+    ],
+    "spotify_artist_ids": [
+      "6b9DQDp0xKeYM2vdK9pAE6"
+    ],
+    "episode_pattern": "[Ff]olge\\s+(\\d+)",
+    "albums": [
+      {
+        "spotify_album_id": "1a8b6HQRDY3td3wYHXIjHz",
+        "include": true,
+        "episode_num": 99,
+        "title": "Folge 99: Wir kümmern uns darum!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0Kl2cg8NlRol7gBaBy2PKJ",
+        "include": true,
+        "episode_num": 98,
+        "title": "Folge 98: Ich brauche keinen Mittagsschlaf mehr!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7xPGqcX6oIeO1dG7EKi2D2",
+        "include": true,
+        "episode_num": 97,
+        "title": "Folge 97: Aufhören, wenn es am Schönsten ist",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7Fv0Uql93vHNl8iyh8jp0T",
+        "include": true,
+        "episode_num": 96,
+        "title": "Folge 96: Ich kann das auch!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0JHmeShMtFxwNHWONDfuwp",
+        "include": true,
+        "episode_num": 95,
+        "title": "Folge 95: Leo hat immer recht!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4tI2fgatCk5ZOELbH4facw",
+        "include": true,
+        "episode_num": 94,
+        "title": "Folge 94: Gute Ratschläge",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7Cx4Ka3CbJrNpWnli0jDsD",
+        "include": true,
+        "episode_num": 93,
+        "title": "Folge 93: Ich mache es später!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6D4TkubPvjL62blpwnt9Z0",
+        "include": true,
+        "episode_num": 92,
+        "title": "Folge 92: Die Fast-Wahrheit",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "59ReVKdoXMO5Sy0EsMN3aV",
+        "include": true,
+        "episode_num": 91,
+        "title": "Folge 91: Besondere Freunde",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0vIZoThP4LHbYCK106VcbL",
+        "include": true,
+        "episode_num": 90,
+        "title": "Folge 90: Ich bin unsichtbar!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1Aw90vAwqOYRGnfLcXRFcc",
+        "include": true,
+        "episode_num": 89,
+        "title": "Folge 89: Ein Korb voller Wut",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2wEQWeHcolVaEDFx08lPJ0",
+        "include": true,
+        "episode_num": 88,
+        "title": "Folge 88: Der Glücksbringer",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4JkT1sqRI1hoddNvJtBttZ",
+        "include": true,
+        "episode_num": 87,
+        "title": "Folge 87: Als Leo ein großer Bruder wurde",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6zT3sKPK4LOH1vKFGF5RNn",
+        "include": true,
+        "episode_num": 86,
+        "title": "Folge 86: Von Beruf Kind",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5q8BVI1PtlxSxtkWdOhu2Y",
+        "include": true,
+        "episode_num": 85,
+        "title": "Folge 85: Ferien für immer!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6KDluveVArOOP6Qsnmv5hG",
+        "include": true,
+        "episode_num": 84,
+        "title": "Folge 84: Lampenfieber",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2vC50SPTfOvK7dEpKxdgAM",
+        "include": true,
+        "episode_num": 83,
+        "title": "Folge 83: Sicherheit geht vor!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0ALBwxbD88gjv0UgCXdd7r",
+        "include": true,
+        "episode_num": 82,
+        "title": "Folge 82: Echte Superhelden",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3UDH9jg8nmSM0fGTsD2iel",
+        "include": true,
+        "episode_num": 81,
+        "title": "Folge 81: Verkehrte Welt",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4M4JQUijw4AOsxQKbqJ3df",
+        "include": true,
+        "episode_num": 80,
+        "title": "Folge 80: Mama kann zaubern",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4f1JA1rb3H0zCxjT7Hi5VK",
+        "include": true,
+        "episode_num": 79,
+        "title": "Folge 79: Wünsch dir was!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6AOJkBMN6aGSKly1utFvpJ",
+        "include": true,
+        "episode_num": 104,
+        "title": "Folge 104: Die neue Knete",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7aD0shF5yX1PLQKF68BsXn",
+        "include": true,
+        "episode_num": 103,
+        "title": "Folge 103: Bist du schon wach?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4LaobSZsMpoHOsxn58J7Iu",
+        "include": true,
+        "episode_num": 102,
+        "title": "Folge 102: Seid nicht so laut!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1ZJeTpKWJDDw0ENkqsrlgI",
+        "include": true,
+        "episode_num": 101,
+        "title": "Folge 101: Keine Küsschen mehr",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6jpTvt1qnbwpcrlcdwnwG2",
+        "include": true,
+        "episode_num": 100,
+        "title": "Folge 100: Es ist doch ein Geheimnis!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5AnUgVs7cgKcWsygaVEX3C",
+        "include": true,
+        "episode_num": 78,
+        "title": "Folge 78: Gemeinsam geht's besser!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6BccPeFKKEDRVAf5FS7Nuu",
+        "include": true,
+        "episode_num": 77,
+        "title": "Folge 77: Sag auch mal \"Nein\"!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7kIevH73igc6JXEtZfGaO5",
+        "include": true,
+        "episode_num": 76,
+        "title": "Folge 76: Jeder braucht mal Hilfe",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4MyBYCpZVZqmFrNpuCpNJR",
+        "include": true,
+        "episode_num": 75,
+        "title": "Folge 75: Unterschiede sind toll!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "43CVGPO8SiNgJf0MdldkQa",
+        "include": true,
+        "episode_num": 74,
+        "title": "Folge 74: Wo ist mein Stift?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2W18qtmsWdsL0B2tjz5BDP",
+        "include": true,
+        "episode_num": 73,
+        "title": "Folge 73: Probier mal was Neues",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5zvz9T5ndtX6o7TBNRJ3B2",
+        "include": true,
+        "episode_num": 72,
+        "title": "Folge 72: Papa ist der Beste!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2SiCp9cAb0ZBXIDJwlL5PJ",
+        "include": true,
+        "episode_num": 71,
+        "title": "Folge 71: Ich bin mutig!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7EHUut9cexe2XCGyoLgafg",
+        "include": true,
+        "episode_num": 70,
+        "title": "Folge 70: Vertragen wir uns wieder!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3IkWYKTShvTJ22p6T4PSB8",
+        "include": true,
+        "episode_num": 69,
+        "title": "Folge 69: Keine Angst vor Fehlern!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3E0I7AHLgbJKiMzr94UifY",
+        "include": true,
+        "episode_num": 68,
+        "title": "Folge 68: Anstrengen lohnt sich!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5SThzETmuEbkIRRPUOgN5Q",
+        "include": true,
+        "episode_num": 67,
+        "title": "Folge 67: Versuch es noch mal!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4Efj95MyVD8SlkAhKM3rWu",
+        "include": true,
+        "episode_num": 66,
+        "title": "Folge 66: Die Übernachtungsparty!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7472OWF5f5uObTXkmNVYhO",
+        "include": true,
+        "episode_num": 65,
+        "title": "Folge 65: Amelias Schatz",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5JRDf1rdjEL39mLfAM0akg",
+        "include": true,
+        "episode_num": 64,
+        "title": "Folge 64: Kunst ist überall",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3mFeFiVLXFORCVcj8Igeky",
+        "include": true,
+        "episode_num": 63,
+        "title": "Folge 63: Zusammen macht es mehr Spaß!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "37xuePgd040zlqSvkAXjI3",
+        "include": true,
+        "episode_num": 62,
+        "title": "Folge 62: Die Glücks-Brille",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4POR6GIS8Px4NhQwug5B24",
+        "include": true,
+        "episode_num": 61,
+        "title": "Folge 61: Ihr habt sie lieber als mich!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "45j0ygcNR2AuPrZclCMIfT",
+        "include": true,
+        "episode_num": 60,
+        "title": "Folge 60: \"Entschuldigung\" sagen ist nicht schwer!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5EtWqYzoOjfl0sAWPdUkOa",
+        "include": true,
+        "episode_num": 59,
+        "title": "Folge 59: Spaß im Winter",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6DY3gOqxGbZ9VlVd6Vn21V",
+        "include": true,
+        "episode_num": 58,
+        "title": "Folge 58: Schlechte Laune",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4RIjib0kt3nj5iEdQbEr8i",
+        "include": true,
+        "episode_num": 57,
+        "title": "Folge 57: Mein erster Wackelzahn",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2jZmxJ9WCw89HrvcEfg4dg",
+        "include": true,
+        "episode_num": 56,
+        "title": "Folge 56: Halloween",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7KVa5gdD6afFmpk2ijNJJM",
+        "include": true,
+        "episode_num": 55,
+        "title": "Folge 55: Warten ist doof",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1KXjzLusSDBJYbOzHQIQ3q",
+        "include": true,
+        "episode_num": 54,
+        "title": "Folge 54: Jetzt und nicht später!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0srNDvvx99mXzXqBk1QBzC",
+        "include": true,
+        "episode_num": 53,
+        "title": "Folge 53: Mein eigenes Zimmer",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "45yBLw4roI1CM9sCI0H70v",
+        "include": true,
+        "episode_num": 52,
+        "title": "Folge 52: Ich will nicht Schlittschuhlaufen!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "17pp9gAcyAGd7KuIJmaeN3",
+        "include": true,
+        "episode_num": 51,
+        "title": "Folge 51: Ich räume später auf!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5zOUcRAo47e8KvtMiFEQW2",
+        "include": true,
+        "episode_num": 50,
+        "title": "Folge 50: Klein zu sein ist blöd",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5XGL9CVazojUuU2EgCaTf9",
+        "include": true,
+        "episode_num": 49,
+        "title": "Folge 49: Das Puppentheater",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6EJ80Et0Q1DiSoZjpjvpqZ",
+        "include": true,
+        "episode_num": 48,
+        "title": "Folge 48: Mama hat Geburtstag!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1gprUehvum5HbB7yV1V3Wm",
+        "include": true,
+        "episode_num": 47,
+        "title": "Folge 47: Versprochen ist versprochen!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "77BmGJkRAejRThjOoVP4ld",
+        "include": true,
+        "episode_num": 46,
+        "title": "Folge 46: Ich will endlich groß sein!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6hDAyMBwhq96ml1MU3nOG5",
+        "include": true,
+        "episode_num": 45,
+        "title": "Folge 45: Heute bin ich ein Faulpelz!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3hjkp5ib96HNZvP7HAFl8R",
+        "include": true,
+        "episode_num": 44,
+        "title": "Folge 44: Ich will nicht zum Friseur!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0EuMDrK9YKOSeQn2A8IeHl",
+        "include": true,
+        "episode_num": 43,
+        "title": "Folge 43: Wir gehen zelten!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "45Tkx1l09PuQF3qFC2HBI7",
+        "include": true,
+        "episode_num": 42,
+        "title": "Folge 42: Das ist lustig!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3UKaVZ0OctAwUofIFzY1LS",
+        "include": true,
+        "episode_num": 41,
+        "title": "Folge 41: Es tut mir leid!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2hd8uL6SZWavPvm4KDfacZ",
+        "include": true,
+        "episode_num": 40,
+        "title": "Folge 40: Helfen macht Spaß!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7dHB8a0MuhrstjhZtGmRB5",
+        "include": true,
+        "episode_num": 39,
+        "title": "Folge 39: Hurra! Es hat geschneit!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2a4iQGahmiDST9yqi3KX8P",
+        "include": true,
+        "episode_num": 38,
+        "title": "Folge 38: Ich mag die Natur!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2MOwFXrwt7yvHXkbYzOfVQ",
+        "include": true,
+        "episode_num": 37,
+        "title": "Folge 37: Ich helfe dir, Mama!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1hNEEtWRx12NSBqrT4pWN5",
+        "include": true,
+        "episode_num": 36,
+        "title": "Folge 36: Lecker! Kekse!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4oWBr6S7lN9cz57tuXO9BA",
+        "include": true,
+        "episode_num": 35,
+        "title": "Folge 35: Das Frechdachs-Spiel",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "50nhw21cxh5MfVoUSSdcEH",
+        "include": true,
+        "episode_num": 34,
+        "title": "Folge 34: Ich hab was gefunden!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0JCMbDDHs79uqnxGqElXvl",
+        "include": true,
+        "episode_num": 33,
+        "title": "Folge 33: Das Sommerfest",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6CWy72YKZtJJXDqbuEErWX",
+        "include": true,
+        "episode_num": 32,
+        "title": "Folge 32: Hilfe! Ein Drache!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7CglHaTxm5XYmmc8C4xHbW",
+        "include": true,
+        "episode_num": 31,
+        "title": "Folge 31: Besuch von Billy!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6HrbkLfTA9r8Kwzxxfr42B",
+        "include": true,
+        "episode_num": 30,
+        "title": "Folge 30: Ein Pirat kennt keine Angst!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3CLKycRHKddDGy9VsLJ6Yk",
+        "include": true,
+        "episode_num": 29,
+        "title": "Folge 29: Die Turnstunde",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "637umZ1OZ1R7CgBipFs0it",
+        "include": true,
+        "episode_num": 28,
+        "title": "Folge 28: Endlich Ferien!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2MVidXCAZVDMS5Fy6gh1BU",
+        "include": true,
+        "episode_num": 27,
+        "title": "Folge 27: Ich bin noch nicht müde!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3PVhaRlGZMTt8bz8U9yfvV",
+        "include": true,
+        "episode_num": 26,
+        "title": "Folge 26: Das Geburtstags-Konzert",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6VeikohjbhcByuQzsplavd",
+        "include": true,
+        "episode_num": 25,
+        "title": "Folge 25: Das Regen-Picknick",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5q6S8FUIU33aBZqHJziyhI",
+        "include": true,
+        "episode_num": 24,
+        "title": "Folge 24: Das Feuerwehrauto",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2GIuP6K5Xwb1p6lVnRcrcm",
+        "include": true,
+        "episode_num": 23,
+        "title": "Folge 23: Der Schnupfen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4uxjfSUjQmmxemnEqWyJIw",
+        "include": true,
+        "episode_num": 22,
+        "title": "Folge 22: Das Kostüm",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0KnPAG3bE4CwsTVef5tAbh",
+        "include": true,
+        "episode_num": 21,
+        "title": "Folge 21: Für immer wütend!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5Q75MUZy9PSTnqiTIZIPBq",
+        "include": true,
+        "episode_num": 20,
+        "title": "Folge 20: Wo ist Teddy?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6TdkeMZLqRLb1uHhky4nOv",
+        "include": true,
+        "episode_num": 19,
+        "title": "Folge 19: Papas Werkstatt",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4oNLeFWqbYsknBu6PgkCT6",
+        "include": true,
+        "episode_num": 18,
+        "title": "Folge 18: Die Übernachtungsparty",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0HtxVZHLDPGvZIhOl8jhjZ",
+        "include": true,
+        "episode_num": 17,
+        "title": "Folge 17: Igitt, Gemüse!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "38FVy2nmVK32Q39Zukk9wD",
+        "include": true,
+        "episode_num": 16,
+        "title": "Folge 16: Didis Lieblingsspielzeug",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "59OM9eZcPvHnGExDjl2rwN",
+        "include": true,
+        "episode_num": 15,
+        "title": "Folge 15: Das Schatten-Monster",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "50W2WML56LTWAaZ6xSAkuZ",
+        "include": true,
+        "episode_num": 14,
+        "title": "Folge 14: Bitte lächeln!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5duPJN3HRwCvuMyxOPCzZn",
+        "include": true,
+        "episode_num": 13,
+        "title": "Folge 13: Beste Freunde",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4Vg5HIkSPuRHlXcTML58np",
+        "include": true,
+        "episode_num": 12,
+        "title": "Folge 12: Das war keine Absicht!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "61sVa8n3jJwmzApfSHu32n",
+        "include": true,
+        "episode_num": 11,
+        "title": "Folge 11: Ich will ein Haustier!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7kb7UbGpSWIbpFMduQQFPn",
+        "include": true,
+        "episode_num": 10,
+        "title": "Folge 10: Babysitter? Nein Danke!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "18qAdHDVKiantYfE7Ueyno",
+        "include": true,
+        "episode_num": 9,
+        "title": "Folge 09: Der Helfer-Tag",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0hRBucwmMblcQ2GDjEAz2v",
+        "include": true,
+        "episode_num": 8,
+        "title": "Folge 08: Wer einmal lügt?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1Uw3h7urmrl0hQYEID0fOq",
+        "include": true,
+        "episode_num": 7,
+        "title": "Folge 07: Ich will gewinnen!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3XK1aQNLTZcoQH3CCerC71",
+        "include": true,
+        "episode_num": 6,
+        "title": "Folge 06: Das gehört mir!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7sAtjCVWEBod736PKKPUqT",
+        "include": true,
+        "episode_num": 5,
+        "title": "Folge 05: Jungs sind besser als Mädchen!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2DdvNZEK8TySlQS5y3m5E3",
+        "include": true,
+        "episode_num": 4,
+        "title": "Folge 04: Die Schatzsuche",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1VZB61PsRVbR0ErG9jP44R",
+        "include": true,
+        "episode_num": 3,
+        "title": "Folge 03: Das Algenmonster",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2JqfBhvr9BdncnscEC1Mra",
+        "include": true,
+        "episode_num": 2,
+        "title": "Folge 02: Tadaaaam!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5MH59A26cYgXMXRyOkc1iD",
+        "include": true,
+        "episode_num": 1,
+        "title": "Folge 01: Regeln sind blöd!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4RyCFkxrN9X3aVKxAKJPQL",
+        "include": false,
+        "episode_num": null,
+        "title": "Folge 21",
+        "exclude_reason": "Box set / Sammelausgabe - contains multiple stories (4 stories with 16 tracks total)"
+      },
+      {
+        "spotify_album_id": "6ptptx47oj8BQZNp4cYziC",
+        "include": false,
+        "episode_num": null,
+        "title": "Folge 20",
+        "exclude_reason": "Box set / Sammelausgabe - contains multiple stories (4 stories with 15 tracks total)"
+      },
+      {
+        "spotify_album_id": "0fitxzWmo8xZ8gweqBL5fL",
+        "include": false,
+        "episode_num": null,
+        "title": "Folge 19",
+        "exclude_reason": "Box set / Sammelausgabe - contains multiple stories (4 Weihnachtsgeschichten with 16 tracks total)"
+      },
+      {
+        "spotify_album_id": "53zaZ5nejdEz0uqBjJz65v",
+        "include": false,
+        "episode_num": null,
+        "title": "Folge 18",
+        "exclude_reason": "Box set / Sammelausgabe - contains multiple stories (4 stories with 15 tracks total). Duplicate: Individual episodes exist for Folge 18 stories"
+      },
+      {
+        "spotify_album_id": "1qljDQPe4qzLHUDeSsPTat",
+        "include": false,
+        "episode_num": null,
+        "title": "Folge 18",
+        "exclude_reason": "Box set / Sammelausgabe - contains multiple stories (30 tracks). Duplicate: Individual episodes exist for Folge 18 stories"
+      },
+      {
+        "spotify_album_id": "29ekZAt57t6aVimWrEUPuo",
+        "include": false,
+        "episode_num": null,
+        "title": "Folge 17",
+        "exclude_reason": "Box set / Sammelausgabe - contains multiple stories (4 stories with 28 tracks total)"
+      },
+      {
+        "spotify_album_id": "0fwNMMRv7xTgQ2fEAyssd7",
+        "include": false,
+        "episode_num": null,
+        "title": "Folge 16",
+        "exclude_reason": "Box set / Sammelausgabe - contains multiple stories (4 stories with 28 tracks total)"
+      },
+      {
+        "spotify_album_id": "09YkqrFbSLRs4QZOzO2xJo",
+        "include": false,
+        "episode_num": null,
+        "title": "Folge 15",
+        "exclude_reason": "Box set / Sammelausgabe - contains multiple stories (4 stories with 29 tracks total)"
+      },
+      {
+        "spotify_album_id": "6Yjp76n80lWc1krTbq7Z7m",
+        "include": false,
+        "episode_num": null,
+        "title": "Folge 14",
+        "exclude_reason": "Box set / Sammelausgabe - contains multiple stories (4 stories with 28 tracks total)"
+      },
+      {
+        "spotify_album_id": "6JhgZ0EwcAQDhGwzGDfo9s",
+        "include": false,
+        "episode_num": null,
+        "title": "Folge 13",
+        "exclude_reason": "Box set / Sammelausgabe - contains multiple stories (4 stories with 26 tracks total)"
+      },
+      {
+        "spotify_album_id": "7srD0uvQ1i6gHrPhPjR40N",
+        "include": false,
+        "episode_num": null,
+        "title": "Folge 12",
+        "exclude_reason": "Box set / Sammelausgabe - contains multiple stories (4 stories with 23 tracks total). Duplicate: Individual episodes exist for Folge 12 stories"
+      },
+      {
+        "spotify_album_id": "51kkgolN7koCKUZs00pdO1",
+        "include": false,
+        "episode_num": null,
+        "title": "Folge 12: Verläuft sich & Auf Tour",
+        "exclude_reason": "Partial box set - subset of Folge 12 stories (2 stories). Duplicate: Full Folge 12 box and individual episodes exist"
+      },
+      {
+        "spotify_album_id": "7L433w3xQNwWu1QlBI7bok",
+        "include": false,
+        "episode_num": null,
+        "title": "Folge 12: verläuft sich",
+        "exclude_reason": "Single story from Folge 12 - partial release. Duplicate: Full box set and individual episodes exist"
+      },
+      {
+        "spotify_album_id": "24buaw3qXTDggAgJYUnf0c",
+        "include": false,
+        "episode_num": null,
+        "title": "Folge 11",
+        "exclude_reason": "Box set / Sammelausgabe - contains multiple stories (4 stories with 25 tracks total)"
+      },
+      {
+        "spotify_album_id": "6Nn3ezMZrMWIvuhFke8jyl",
+        "include": false,
+        "episode_num": null,
+        "title": "Kurzgeschichte: Leo will alles alleine machen",
+        "exclude_reason": "Short story / Kurzhörspiel - single story from Folge 11. Duplicate: Full box set and individual episodes exist"
+      },
+      {
+        "spotify_album_id": "7k7Jn13vOnnvYAbrYoRj6z",
+        "include": false,
+        "episode_num": null,
+        "title": "Folge 9",
+        "exclude_reason": "Box set / Sammelausgabe - contains multiple stories (4 stories with songs, 32 tracks total)"
+      },
+      {
+        "spotify_album_id": "6uNXYXi4P2cYnDkv63iGUp",
+        "include": false,
+        "episode_num": null,
+        "title": "Folge 10",
+        "exclude_reason": "Box set / Sammelausgabe - contains multiple stories (4 stories with songs, 28 tracks total)"
+      },
+      {
+        "spotify_album_id": "3gq1hlZOc6uEau6tZASsLk",
+        "include": false,
+        "episode_num": null,
+        "title": "Folge 8",
+        "exclude_reason": "Box set / Sammelausgabe - contains multiple stories (4 stories with songs, 29 tracks total)"
+      },
+      {
+        "spotify_album_id": "4i88Sl4GloZyRjcDsmqey0",
+        "include": false,
+        "episode_num": null,
+        "title": "Folge 7",
+        "exclude_reason": "Box set / Sammelausgabe - contains multiple stories (4 stories with songs, 28 tracks total)"
+      },
+      {
+        "spotify_album_id": "4HcTrQ3KhFYTjBxs8f4HT7",
+        "include": false,
+        "episode_num": null,
+        "title": "Folge 6",
+        "exclude_reason": "Box set / Sammelausgabe - contains multiple stories (4 stories with songs, 28 tracks total)"
+      },
+      {
+        "spotify_album_id": "57HMqRB0M0ScB1rqbhvxED",
+        "include": false,
+        "episode_num": null,
+        "title": "Folge 5",
+        "exclude_reason": "Box set / Sammelausgabe - contains multiple stories (4 stories with songs, 29 tracks total)"
+      },
+      {
+        "spotify_album_id": "1gJZRSfvXDCnHhYnl5DgWd",
+        "include": false,
+        "episode_num": null,
+        "title": "Folge 4",
+        "exclude_reason": "Box set / Sammelausgabe - contains multiple stories (4 stories with songs, 29 tracks total)"
+      },
+      {
+        "spotify_album_id": "4xXNkK8yWFOxwvf9wxDq8w",
+        "include": false,
+        "episode_num": null,
+        "title": "Folge 3",
+        "exclude_reason": "Box set / Sammelausgabe - contains multiple stories (4 stories with songs, 29 tracks total)"
+      },
+      {
+        "spotify_album_id": "1zUT3P9v5P0o4Gd9DOoEMB",
+        "include": false,
+        "episode_num": null,
+        "title": "Folge 2",
+        "exclude_reason": "Box set / Sammelausgabe - contains multiple stories (4 stories with songs, 24 tracks total)"
+      },
+      {
+        "spotify_album_id": "5N73vwGXol4maS9U6HLp0o",
+        "include": false,
+        "episode_num": null,
+        "title": "Folge 1",
+        "exclude_reason": "Box set / Sammelausgabe - contains multiple stories (4 stories with songs, 23 tracks total)"
+      },
+      {
+        "spotify_album_id": "5EqQ6sdjTVPQk5bE3D6J5u",
+        "include": false,
+        "episode_num": null,
+        "title": "Leo Lausemaus: Folgen 71-78: Ich bin mutig!",
+        "exclude_reason": "Compilation box set - contains 8 episodes (Folgen 71-78) in one release. Individual episodes are available separately"
+      },
+      {
+        "spotify_album_id": "58HtWkUXDoPmLJgyTf5Cv7",
+        "include": false,
+        "episode_num": null,
+        "title": "Der Hör-Adventskalender mit Leo Lausemaus",
+        "exclude_reason": "Adventskalender special - 24 short Christmas stories. Special seasonal release, not part of main episode series"
+      }
+    ],
+    "age_note": "Suitable from 3+",
+    "curator_notes": "Leo Lausemaus has two distinct release formats on Spotify: 1) Recent individual episodes (2025) numbered 01-104, each containing a single story with 4-5 tracks. 2) Classic CD box sets (2007-2024) labeled 'Folge 1-21', each containing 4 stories with 23-32 tracks including songs. The curator includes all 104 individual episodes (new format) and excludes all box sets to avoid duplication. The series teaches social-emotional skills for preschoolers through relatable everyday situations."
+  }
+}

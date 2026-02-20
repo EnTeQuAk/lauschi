@@ -1,0 +1,315 @@
+{
+  "query": "Asterix",
+  "model": "kimi-k2.5",
+  "curated_at": "2026-02-20T01:43:17.784075+00:00",
+  "series": {
+    "id": "asterix",
+    "title": "Asterix",
+    "aliases": [],
+    "keywords": [
+      "Asterix"
+    ],
+    "spotify_artist_ids": [
+      "55dz39BSDTWYbBFVZRj72b"
+    ],
+    "episode_pattern": "^(\\d+):",
+    "albums": [
+      {
+        "spotify_album_id": "0iXw4Qg5jVG6RZjSLgwJG4",
+        "include": true,
+        "episode_num": 41,
+        "title": "41: Asterix in Lusitanien",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2ZqMGWvlljUKos4t9S3j6v",
+        "include": true,
+        "episode_num": 40,
+        "title": "40: Die weisse Iris",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4hxu6Gmh28aHojCcTFGXGt",
+        "include": true,
+        "episode_num": 39,
+        "title": "39: Asterix und der Greif",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "69GsPW0ekc7AXnc5zCP3CH",
+        "include": true,
+        "episode_num": 38,
+        "title": "38: Die Tochter des Vercingetorix",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2pGSPUtNWNhdpky1fYxMPD",
+        "include": true,
+        "episode_num": 35,
+        "title": "35: Asterix bei den Pikten",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6Vx0vK5VcR2cCknyapllBw",
+        "include": true,
+        "episode_num": 34,
+        "title": "34: Asterix & Obelix feiern Geburtstag",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1ujvJk1h8yqceFlJmtZd7d",
+        "include": true,
+        "episode_num": 32,
+        "title": "Der goldene Hinkelstein",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1JERvjvC27ciO2xDMs7cq7",
+        "include": true,
+        "episode_num": 33,
+        "title": "33: Gallien in Gefahr",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2vLhCA6PV0W0gK3egjW5o9",
+        "include": true,
+        "episode_num": 32,
+        "title": "32: Asterix plaudert aus der Schule",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4NOaEdhZJPIPIw7UlvPprG",
+        "include": true,
+        "episode_num": 31,
+        "title": "31: Asterix und Latraviata",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0zQ5SgloZdA5CaBcC0TMec",
+        "include": true,
+        "episode_num": 30,
+        "title": "30: Obelix auf Kreuzfahrt",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1qAf38FEbsBPopGn7NYT1P",
+        "include": true,
+        "episode_num": 37,
+        "title": "37: Asterix in Italien",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "58RCOoFsYBDfhVOrvWdYOY",
+        "include": true,
+        "episode_num": 29,
+        "title": "29: Asterix und Maestria",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7o8lHa9KyLrQmdJSKqpoQC",
+        "include": true,
+        "episode_num": 28,
+        "title": "28: Asterix im Morgenland",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2JW8o93xhBdvFix8VM6BcG",
+        "include": true,
+        "episode_num": 27,
+        "title": "27: Der Sohn des Asterix",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2fT2wcicCe7sXhQBiKTkPV",
+        "include": true,
+        "episode_num": 26,
+        "title": "26: Die Odyssee",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5GNBdlc9wYqzFo3txG8TTE",
+        "include": true,
+        "episode_num": 25,
+        "title": "25: Der große Graben",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3AV3PSud9LfuQv3oP8yZV1",
+        "include": true,
+        "episode_num": 24,
+        "title": "24: Asterix bei den Belgiern",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5RIU9cvkoI9ArwsPu6NtP9",
+        "include": true,
+        "episode_num": 23,
+        "title": "23: Obelix GmbH & Co. KG",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "74e8inuOZY5abyH2hoj4qs",
+        "include": true,
+        "episode_num": 22,
+        "title": "22: Die große Überfahrt",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7uAPDGxmcrhzCVqMeWU2E1",
+        "include": true,
+        "episode_num": 21,
+        "title": "21: Das Geschenk Cäsars",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "43UF0mVUWpoh2Zqx2bisvv",
+        "include": true,
+        "episode_num": 20,
+        "title": "20: Asterix auf Korsika",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4m6xuqkTB4twbidcmygJwR",
+        "include": true,
+        "episode_num": 19,
+        "title": "19: Der Seher",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1te20zvwrYLiT7FLPy2yeN",
+        "include": true,
+        "episode_num": 36,
+        "title": "36: Der Papyrus des Cäsar",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2e1oblKeyiKlBTaKFVdk3l",
+        "include": true,
+        "episode_num": 18,
+        "title": "18: Die Lorbeeren des Cäsar",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2TAgKAAfgIaRhslwoWqEN1",
+        "include": true,
+        "episode_num": 17,
+        "title": "17: Die Trabantenstadt",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6cY6YDevg6md9VpPtqEghZ",
+        "include": true,
+        "episode_num": 16,
+        "title": "16: Asterix bei den Schweizern",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4Ikq0EIVYuAgNSN691o0YH",
+        "include": true,
+        "episode_num": 15,
+        "title": "15: Streit um Asterix",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4uMOdahQOonHsoUHr2JK34",
+        "include": true,
+        "episode_num": 14,
+        "title": "14: Asterix in Spanien",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1Gg3SkZZJyIzjlnfpf8BDi",
+        "include": true,
+        "episode_num": 13,
+        "title": "13: Asterix und der Kupferkessel",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "42t97Gk0LCtyHIQNVae6NA",
+        "include": true,
+        "episode_num": 12,
+        "title": "12: Asterix bei den Olympischen Spielen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "35oDyjvfowZ8QFgNT5UKBr",
+        "include": true,
+        "episode_num": 11,
+        "title": "11: Asterix und der Arvernerschild",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "059Dk8ReLqKxpZUU3dEOGM",
+        "include": true,
+        "episode_num": 10,
+        "title": "10: Asterix als Legionär",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6uos5ZakxcYgzHvaXfsza3",
+        "include": true,
+        "episode_num": 9,
+        "title": "09: Asterix und die Normannen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3T6NXNEnipIGYYwczV2YOT",
+        "include": true,
+        "episode_num": 8,
+        "title": "08: Asterix bei den Briten",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5pJpXKAPgl20w0TZpMfmK5",
+        "include": true,
+        "episode_num": 7,
+        "title": "07: Asterix und die Goten",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7ChvfAuETcNZ818E4h9m30",
+        "include": true,
+        "episode_num": 6,
+        "title": "06: Tour De France",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6aMxJp4Hdi14ITvcOycOyE",
+        "include": true,
+        "episode_num": 5,
+        "title": "05: Die goldene Sichel",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3ReWwZddwx9jvkxnBhaWX4",
+        "include": true,
+        "episode_num": 4,
+        "title": "04: Der Kampf der Häuptlinge",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7J5Wl79hVANm6hACyxr30w",
+        "include": true,
+        "episode_num": 3,
+        "title": "03: Asterix als Gladiator",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2vbXxZSstQB0YiQP38Uno4",
+        "include": true,
+        "episode_num": 2,
+        "title": "02: Asterix und Kleopatra",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3cMI5Kfy8sIWn5gBbwZfIl",
+        "include": true,
+        "episode_num": 1,
+        "title": "01: Asterix der Gallier",
+        "exclude_reason": null
+      }
+    ],
+    "age_note": "Suitable from 5+",
+    "curator_notes": "The Asterix Hörspiel series is based on the famous French comic books. The numbering in the album titles is inconsistent (e.g., episode 32 appears twice - 'Asterix plaudert aus der Schule' and 'Der goldene Hinkelstein' without episode number). The album 'Der goldene Hinkelstein' (2020-10-21) is episode 32 but lacks the number prefix. All albums are individual episodes with 10-25 tracks each, representing chapter divisions. No box sets, compilations, or duplicates found. No Retro-Archiv or Junior variants exist for this series."
+  }
+}

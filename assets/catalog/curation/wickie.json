@@ -1,0 +1,282 @@
+{
+  "query": "Wickie und die starken Männer",
+  "model": "kimi-k2.5",
+  "curated_at": "2026-02-20T02:09:42.033489+00:00",
+  "series": {
+    "id": "wickie",
+    "title": "Wickie und die starken Männer",
+    "aliases": [
+      "Wickie"
+    ],
+    "keywords": [
+      "Wickie"
+    ],
+    "spotify_artist_ids": [
+      "7fMJUFfMkaB6tT8Dte6tgF"
+    ],
+    "episode_pattern": "^(?:\\d{2})/(.+?)(?:\\s*\\(CGI\\))?$",
+    "albums": [
+      {
+        "spotify_album_id": "2Altp3jr9ZzfL4dcoGKICH",
+        "include": false,
+        "episode_num": null,
+        "title": "Wickie und die starken Männer (Das magische Schwert)",
+        "exclude_reason": "Audiobook/movie soundtrack - 23 tracks with 'Inhaltsangabe' and 'Outro', not a numbered episode"
+      },
+      {
+        "spotify_album_id": "2ZXMo4Leji0PzchFUTo854",
+        "include": false,
+        "episode_num": null,
+        "title": "Seemannslieder - Sing mit uns!",
+        "exclude_reason": "Sing-along album, not Hörspiel episodes"
+      },
+      {
+        "spotify_album_id": "01MSgNKzQsCisg5Z1mQlw5",
+        "include": true,
+        "episode_num": 12,
+        "title": "12/Aufstand in Flake (CGI)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "60G01rHe6aphE5Uex6gOPL",
+        "include": true,
+        "episode_num": 11,
+        "title": "11/Svens Schiffbruch (CGI)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "05H6JvPTDlRpMnk5XqcwBe",
+        "include": true,
+        "episode_num": 10,
+        "title": "10/Olympische Spiele (CGI)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3Y2o8ZoqYDjNOTt8Bvn81R",
+        "include": true,
+        "episode_num": 9,
+        "title": "09/Nächtlicher Diebstahl (CGI)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3mfCuDzB1d2gMaQDk95H8n",
+        "include": true,
+        "episode_num": 8,
+        "title": "08/Der falsche Druide (CGI)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2kpxd3X4dl9BrNSOiCXK9N",
+        "include": true,
+        "episode_num": 7,
+        "title": "07/Thors Hammer (CGI)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0FTkpZ3ZBHTMX3BXXUdv3E",
+        "include": true,
+        "episode_num": 6,
+        "title": "06/Das Drachenbootrennen (CGI)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "541fqlrrZtVsg9KC7lUMra",
+        "include": true,
+        "episode_num": 5,
+        "title": "05/Thors Urteil (CGI)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1Pa9rFvXXrJtWh0uzuYOq7",
+        "include": true,
+        "episode_num": 4,
+        "title": "04/Der Donnergott (CGI)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2tU47IvruPorwTXemNvtPm",
+        "include": true,
+        "episode_num": 3,
+        "title": "03/Tanz mit dem Wolf (CGI)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0bYKBtwukDkGX1pIscACVB",
+        "include": true,
+        "episode_num": 2,
+        "title": "02/Die Königin der Winde (CGI)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6CIMPRkR2vOuJfFIDgZCpD",
+        "include": true,
+        "episode_num": 1,
+        "title": "01/Wasser auf die Mühlen (CGI)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1Jxl7OKYepVoYiX5GDQ5ws",
+        "include": true,
+        "episode_num": 15,
+        "title": "15/Das goldene Schwert",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "77cmsm4GF4KBVLvt6UQNLj",
+        "include": true,
+        "episode_num": 14,
+        "title": "14/Die zwei Kampfhähne",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1C4RG6Sxo0n7XIr26CkLlX",
+        "include": true,
+        "episode_num": 13,
+        "title": "13/Wer anderen eine Grube gräbt",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "24j06IRKeE52NFXr5mBbM5",
+        "include": false,
+        "episode_num": null,
+        "title": "12/Auf der Dracheninsel",
+        "exclude_reason": "Duplicate episode 12 - older release (2012), CGI version (2016) is more recent"
+      },
+      {
+        "spotify_album_id": "2dbeOdckSx25T5jJjnFH2A",
+        "include": false,
+        "episode_num": null,
+        "title": "11/Der Zirkus kommt",
+        "exclude_reason": "Duplicate episode 11 - older release (2012), CGI version (2016) is more recent"
+      },
+      {
+        "spotify_album_id": "4Ml3HsC8N4mxfRTllpl8HS",
+        "include": false,
+        "episode_num": null,
+        "title": "10/Die Schatztruhe",
+        "exclude_reason": "Duplicate episode 10 - older release (2012), CGI version (2016) is more recent"
+      },
+      {
+        "spotify_album_id": "7wnpoLGgZJSE8kDARH5oOY",
+        "include": false,
+        "episode_num": null,
+        "title": "09/Bullermann gibt nicht auf",
+        "exclude_reason": "Duplicate episode 9 - older release (2012), CGI version (2015) is more recent"
+      },
+      {
+        "spotify_album_id": "1go9LHY7bLy9wVd7oAC4xn",
+        "include": false,
+        "episode_num": null,
+        "title": "08/Der Überfall aufs Winkadorf",
+        "exclude_reason": "Duplicate episode 8 - older release (2012), CGI version (2015) is more recent"
+      },
+      {
+        "spotify_album_id": "04kR6QDFNrop1YiB8KDlCE",
+        "include": false,
+        "episode_num": null,
+        "title": "07/Die Olympiade der Wikinger",
+        "exclude_reason": "Duplicate episode 7 - older release (2012), CGI version (2015) is more recent"
+      },
+      {
+        "spotify_album_id": "0oSdlbWKm4U2A7IDzRSsQP",
+        "include": false,
+        "episode_num": null,
+        "title": "06/Das Geisterschiff",
+        "exclude_reason": "Duplicate episode 6 - older release (2012), CGI version (2015) is more recent"
+      },
+      {
+        "spotify_album_id": "3FFQngaEjrgfoExaqm1tiv",
+        "include": false,
+        "episode_num": null,
+        "title": "05/Der dicke König",
+        "exclude_reason": "Duplicate episode 5 - older release (2012), CGI version (2015) is more recent"
+      },
+      {
+        "spotify_album_id": "05h2BBcnThxpRG94DQTzhr",
+        "include": false,
+        "episode_num": null,
+        "title": "04/Sturm auf die Festung",
+        "exclude_reason": "Duplicate episode 4 - older release (2012), CGI version (2015) is more recent"
+      },
+      {
+        "spotify_album_id": "1CdXMdjbZfMXakGMhaPOZg",
+        "include": false,
+        "episode_num": null,
+        "title": "03/Die Befreiung",
+        "exclude_reason": "Duplicate episode 3 - older release (2012), CGI version (2015) is more recent"
+      },
+      {
+        "spotify_album_id": "7oJFr1NBIY2ZPbDwwAXx9O",
+        "include": false,
+        "episode_num": null,
+        "title": "02/Der schreckliche Sven",
+        "exclude_reason": "Duplicate episode 2 - older release (2012), CGI version (2015) is more recent"
+      },
+      {
+        "spotify_album_id": "3GfHcYxBcxdfG19nK1duKG",
+        "include": false,
+        "episode_num": null,
+        "title": "01/Die Falle",
+        "exclude_reason": "Duplicate episode 1 - older release (2012), CGI version (2015) is more recent"
+      },
+      {
+        "spotify_album_id": "78fT9uR1gXbQHyeAcRWZEL",
+        "include": false,
+        "episode_num": null,
+        "title": "Hey, Hey, Wickie (Flöten Arrangement)",
+        "exclude_reason": "Single music track, not Hörspiel"
+      },
+      {
+        "spotify_album_id": "59dURXuWMX4fIRi7qEDIT2",
+        "include": false,
+        "episode_num": null,
+        "title": "Schaukellied (Piano Arrangement)",
+        "exclude_reason": "Single music track, not Hörspiel"
+      },
+      {
+        "spotify_album_id": "7GdBe1aeSCwqQdtyXddZrg",
+        "include": false,
+        "episode_num": null,
+        "title": "Hey, hey, Wickie (Notenausgabe)",
+        "exclude_reason": "Single music track, not Hörspiel"
+      },
+      {
+        "spotify_album_id": "1njROPYIciDftuYyh6MaFk",
+        "include": false,
+        "episode_num": null,
+        "title": "Ulme - Lied (Transkription für Klavier)",
+        "exclude_reason": "Single music track, not Hörspiel"
+      },
+      {
+        "spotify_album_id": "5I02h3Zk6iZLjRan91Rmmx",
+        "include": false,
+        "episode_num": null,
+        "title": "Hey, hey, Wickie (Jazz Edition)",
+        "exclude_reason": "Single music track, not Hörspiel"
+      },
+      {
+        "spotify_album_id": "59yP6rtwEiY7M1q7Gimu9y",
+        "include": false,
+        "episode_num": null,
+        "title": "Anker los (Jazz Edition)",
+        "exclude_reason": "Single music track, not Hörspiel"
+      },
+      {
+        "spotify_album_id": "7gqT4aNyc4IRteDkF4pK2p",
+        "include": false,
+        "episode_num": null,
+        "title": "Hey, hey, Wickie (Piano Arrangement)",
+        "exclude_reason": "Single music track, not Hörspiel"
+      },
+      {
+        "spotify_album_id": "01ifEC6tKUBTpL022yZ5n0",
+        "include": false,
+        "episode_num": null,
+        "title": "Anker los (Piano Arrangement)",
+        "exclude_reason": "Single music track, not Hörspiel"
+      }
+    ],
+    "age_note": "Suitable from 4+",
+    "curator_notes": "The series exists in two versions: classic (2012) and CGI (2015-2016). The CGI versions are more recent and are kept. Episodes 1-12 were re-released as CGI versions; episodes 13-15 only exist in the classic format. Episode numbering follows the format 'NN/Title' with optional '(CGI)' suffix."
+  }
+}

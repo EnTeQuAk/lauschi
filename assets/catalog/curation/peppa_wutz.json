@@ -1,0 +1,577 @@
+{
+  "query": "Peppa Wutz",
+  "model": "kimi-k2.5",
+  "curated_at": "2026-02-20T00:16:24.480112+00:00",
+  "series": {
+    "id": "peppa_wutz",
+    "title": "Peppa Wutz",
+    "aliases": [],
+    "keywords": [
+      "Peppa Wutz",
+      "Peppa Pig"
+    ],
+    "spotify_artist_ids": [
+      "46iD7xFc8ubzILibDQ7fL7",
+      "58uwv9dYGClkxI0pzGUS00",
+      "63E3f5IDTnSrgADimAXrZX"
+    ],
+    "episode_pattern": "Folge\\s+(\\d+)",
+    "albums": [
+      {
+        "spotify_album_id": "2rg8wLzb0qgkfhJEqB41iP",
+        "include": true,
+        "episode_num": 62,
+        "title": "Folge 62: Ferien auf dem Kreuzfahrtschiff",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6WbTsXk5MZ4SCP1vjqmHbe",
+        "include": true,
+        "episode_num": 61,
+        "title": "Folge 61: Ein Tag bei Dr. Hamster",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2g01wsgjE0A10gD1s4VOk8",
+        "include": true,
+        "episode_num": 60,
+        "title": "Folge 60: Die Dinosaurier-Party!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "69tjEGRzocVaKkqLDCgmsK",
+        "include": true,
+        "episode_num": 59,
+        "title": "Folge 59: Hops, Hüpf, Spring!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0fstGVsIKeMDYg0h7n5MPe",
+        "include": true,
+        "episode_num": 58,
+        "title": "Folge 58: Die kribbel-krabbelige Safari",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0S3JeeJ0P3LNIeRouapYnM",
+        "include": true,
+        "episode_num": 57,
+        "title": "Folge 57: Die Unterwasser-Party",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4Aqfe0llv0nzwVQ6Fhjind",
+        "include": true,
+        "episode_num": 56,
+        "title": "Folge 56: Meerschweinchen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1FYJ7t6lDfES5WyTwD1aD6",
+        "include": true,
+        "episode_num": 55,
+        "title": "Folge 55: Das Spielhaus",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4Fzm3gQgCDoa6ZtXjwpmWK",
+        "include": true,
+        "episode_num": 54,
+        "title": "Folge 54: Weihnachten mit Katinka Känguru",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1wU5GM9B8So2NGG2zCDW3j",
+        "include": true,
+        "episode_num": 53,
+        "title": "Folge 53: Schorsch' Töpfchen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3Egk2aSnjf4UDnN8MCvlfI",
+        "include": true,
+        "episode_num": 52,
+        "title": "Folge 52: Amerika",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3r0qnm0gmROP4lcqbuZjHS",
+        "include": true,
+        "episode_num": 51,
+        "title": "Folge 51: Mister Kartoffels Weihnachtsshow",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4aUpoFmZCc4Fe6pLQ32FVT",
+        "include": true,
+        "episode_num": 50,
+        "title": "Folge 50: Eiscreme",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0za1p9smTQ2DeOJz7lka0f",
+        "include": true,
+        "episode_num": 49,
+        "title": "Folge 49: Sachen suchen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6OU4MZ1R5pzFzVC1ynN5YB",
+        "include": true,
+        "episode_num": 48,
+        "title": "Folge 48: Die Feuerwehr-Übung",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "65vqM6YdioJQ2E7B8GRrae",
+        "include": true,
+        "episode_num": 47,
+        "title": "Folge 47: Wenn wir groß sind",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "70GwHym2K39RltsxdFpu40",
+        "include": true,
+        "episode_num": 46,
+        "title": "Folge 46: Der vergrabene Schatz",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "22WxczL7rpXKDBeqygVz6a",
+        "include": true,
+        "episode_num": 45,
+        "title": "Folge 45: Superhelden",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4ExUA4LNNTSnrjNc9Ml1xm",
+        "include": true,
+        "episode_num": 44,
+        "title": "Folge 44: Jede Menge Matschepfützen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4LfeNc8mwrCuEvJDs0PXCB",
+        "include": true,
+        "episode_num": 43,
+        "title": "Folge 43: Die Panda-Zwillinge",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "30doiZYfEORpnA9s40ZRV6",
+        "include": true,
+        "episode_num": 42,
+        "title": "Folge 42: Der Piratenschatz",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4ubWC2mZVNiZLcUNuRSkDn",
+        "include": true,
+        "episode_num": 41,
+        "title": "Folge 41: Peppas Zirkus",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "165vRMrorjTTV0NQMDpeNk",
+        "include": true,
+        "episode_num": 40,
+        "title": "Folge 40: Gartenspiele",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2nOvNa4vZWTcH60dhKwmyc",
+        "include": true,
+        "episode_num": 39,
+        "title": "Folge 39: In den Urlaub fliegen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "37iI8Qw5uQ3o8ho8wBNlbK",
+        "include": true,
+        "episode_num": 38,
+        "title": "Folge 38: Der neue Dinosaurier von Schorsch",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "29ONLX3nrTK7OpRal9bIk0",
+        "include": true,
+        "episode_num": 37,
+        "title": "Folge 37: Opi Mümmels Saurierpark",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "49XB25frLLnsSplWvLI8bE",
+        "include": true,
+        "episode_num": 36,
+        "title": "Folge 36: Die fliegende Tierärztin",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1yNHinZWYKEQ6LKsuEaMK4",
+        "include": true,
+        "episode_num": 35,
+        "title": "Folge 35: Das neue Haus",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3KZVE282lTNhGact5370Jy",
+        "include": true,
+        "episode_num": 34,
+        "title": "Folge 34: Ein kalter Wintertag",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3C6B15mWXNlgYq79lFriU8",
+        "include": true,
+        "episode_num": 33,
+        "title": "Folge 33: Einkaufen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "217S1kAykPBrJFv9tt6jzf",
+        "include": true,
+        "episode_num": 32,
+        "title": "Folge 32: Das Babyschweinchen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2oWAo7yaLvSHLG58uNBakJ",
+        "include": true,
+        "episode_num": 31,
+        "title": "Folge 31: Seifenblasen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2FVJu9qqR95Q5DaZVNnHnu",
+        "include": true,
+        "episode_num": 30,
+        "title": "Folge 30: Flohmarkt",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2v3FM8GLR3p1epbG0xNpJX",
+        "include": true,
+        "episode_num": 29,
+        "title": "Folge 29: Käpt'n Papa Wutz",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0lMbcIcEfRxXweuOjVBvc4",
+        "include": true,
+        "episode_num": 28,
+        "title": "Folge 28: Der Fahrradausflug",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1PF6OqxkMDDw0dd0kJSQoa",
+        "include": true,
+        "episode_num": 27,
+        "title": "Folge 27: Am Strand",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6Li2dccY8K9hSJnjEIJgJ0",
+        "include": true,
+        "episode_num": 26,
+        "title": "Folge 26: Die Übernachtungsparty",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6C79VCUFek0lcYjU0M3gDQ",
+        "include": true,
+        "episode_num": 25,
+        "title": "Folge 25: Schweinchen in der Mitte",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1hFsiYohGbvTwTC4G5CJSw",
+        "include": true,
+        "episode_num": 24,
+        "title": "Folge 24: Papa hängt ein Bild auf",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6dyqbs8JKLDW5jZ38UWXPS",
+        "include": true,
+        "episode_num": 23,
+        "title": "Folge 23: Beste Freunde",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6vwdXQYB3s0zjgTT1fsTvT",
+        "include": true,
+        "episode_num": 22,
+        "title": "Folge 22: Matschepampe!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1f2NVD9FEgNtIb36QXRyev",
+        "include": true,
+        "episode_num": 21,
+        "title": "Folge 21: Ein schöner Abend",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3HXGRKb2i9UqfvBGcMvSlw",
+        "include": true,
+        "episode_num": 20,
+        "title": "Folge 20: Im Kindergarten",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3eru17M0QCuYu3BT98TXXV",
+        "include": true,
+        "episode_num": 19,
+        "title": "Folge 19: Schatzsuche",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7aPZ3dKOdZNkptHna8NbGK",
+        "include": true,
+        "episode_num": 18,
+        "title": "Folge 18: Opas kleine Lok",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2DsIGcjE38uIdKJe7vH4Yq",
+        "include": false,
+        "episode_num": 17,
+        "title": "Folge 17: Edmund Elefant feiert Geburtstag (und 5 weitere Geschichten",
+        "exclude_reason": "Compilation containing 6 stories, not a single episode. Early box set format."
+      },
+      {
+        "spotify_album_id": "2GhgJqvPj8EQeFUxk5rmLl",
+        "include": false,
+        "episode_num": 16,
+        "title": "Folge 16: Sonne, Strand und Schnee (und 5 weitere Geschichten)",
+        "exclude_reason": "Compilation containing 6 stories, not a single episode. Early box set format."
+      },
+      {
+        "spotify_album_id": "4yAAMz932keruUccrbaakI",
+        "include": false,
+        "episode_num": 15,
+        "title": "Folge 15: Schakka-Lakka-Bumm (und 5 weitere Geschichten",
+        "exclude_reason": "Compilation containing 6 stories, not a single episode. Early box set format."
+      },
+      {
+        "spotify_album_id": "6HDwdBLAw0ar2H5Qg47Ewf",
+        "include": false,
+        "episode_num": 14,
+        "title": "Folge 14: Frühling (und 5 weitere Geschichten)",
+        "exclude_reason": "Compilation containing 6 stories, not a single episode. Early box set format."
+      },
+      {
+        "spotify_album_id": "5RD417rhw0JgURWDB9FJCO",
+        "include": false,
+        "episode_num": 13,
+        "title": "013/Der Karnevalsumzug (und 5 weitere Geschichten)",
+        "exclude_reason": "Compilation containing 6 stories, not a single episode. Box set format with 20 tracks."
+      },
+      {
+        "spotify_album_id": "4zDWyAPv8TIEle15WaQVuc",
+        "include": false,
+        "episode_num": 12,
+        "title": "012/Der Piratengeburtstag (und 5 weitere Geschichten)",
+        "exclude_reason": "Compilation containing 6 stories, not a single episode. Box set format with 20 tracks."
+      },
+      {
+        "spotify_album_id": "75mJiWzOWPdKy6P6sUK5Iv",
+        "include": false,
+        "episode_num": 11,
+        "title": "011/Prinzessin Peppa (und 5 weitere Geschichten)",
+        "exclude_reason": "Compilation containing 6 stories, not a single episode. Box set format with 20 tracks."
+      },
+      {
+        "spotify_album_id": "0xJq3QbHsjBjTiqSN2QDkb",
+        "include": false,
+        "episode_num": 10,
+        "title": "010/Auf dem Weihnachtsmarkt (und 5 weitere Geschichten)",
+        "exclude_reason": "Compilation containing 6 stories, not a single episode. Box set format with 20 tracks."
+      },
+      {
+        "spotify_album_id": "3UmhaXEXvcr6qlQxsNvqkh",
+        "include": false,
+        "episode_num": 9,
+        "title": "009/Der Weihnachtsmann (und 5 weitere Geschichten)",
+        "exclude_reason": "Compilation containing 6 stories, not a single episode. Box set format with 20 tracks."
+      },
+      {
+        "spotify_album_id": "7GZylZvJGV6vGJMWdDkcbl",
+        "include": false,
+        "episode_num": 8,
+        "title": "008/Das Feuerwehrauto (und 5 weitere Geschichten)",
+        "exclude_reason": "Compilation containing 6 stories, not a single episode. Box set format with 20 tracks."
+      },
+      {
+        "spotify_album_id": "2DSoGdDvID72fuJQGI5F8Y",
+        "include": false,
+        "episode_num": 7,
+        "title": "007/Der Camping-Urlaub (und 5 weitere Geschichten)",
+        "exclude_reason": "Compilation containing 6 stories, not a single episode. Box set format with 20 tracks."
+      },
+      {
+        "spotify_album_id": "0Bueuwp5ichcTp2pY521Qw",
+        "include": false,
+        "episode_num": 6,
+        "title": "006/Der Rettungswagen (und 5 weitere Geschichten)",
+        "exclude_reason": "Compilation containing 6 stories, not a single episode. Box set format with 20 tracks."
+      },
+      {
+        "spotify_album_id": "352GpfKyQcVsK371mFfYDj",
+        "include": false,
+        "episode_num": 5,
+        "title": "005/Wendy Wolf hat Geburtstag (und 5 weitere Geschichten)",
+        "exclude_reason": "Compilation containing 6 stories, not a single episode. Box set format with 20 tracks."
+      },
+      {
+        "spotify_album_id": "1sEyNJz4QDcQCtdCFEqCSw",
+        "include": false,
+        "episode_num": 4,
+        "title": "004/Ein Picknick im Outback (und 5 weitere Geschichten)",
+        "exclude_reason": "Compilation containing 6 stories, not a single episode. Box set format with 20 tracks."
+      },
+      {
+        "spotify_album_id": "4t2E43d0NNZuTa6MFcyuwf",
+        "include": false,
+        "episode_num": 3,
+        "title": "003/Der Osterhase (und 5 weitere Geschichten)",
+        "exclude_reason": "Compilation containing 6 stories, not a single episode. Box set format with 20 tracks."
+      },
+      {
+        "spotify_album_id": "2mxbDEZtXDOSVqWFCIpKSc",
+        "include": false,
+        "episode_num": 2,
+        "title": "002/Der Kürbis-Wettbewerb (und 5 weitere Geschichten)",
+        "exclude_reason": "Compilation containing 6 stories, not a single episode. Box set format with 20 tracks."
+      },
+      {
+        "spotify_album_id": "0IakudBXfN2aYXChl5sEK7",
+        "include": false,
+        "episode_num": 1,
+        "title": "001/Die Ritterburg (und 5 weitere Geschichten)",
+        "exclude_reason": "Compilation containing 6 stories, not a single episode. Box set format with 20 tracks."
+      },
+      {
+        "spotify_album_id": "6lJss5TctOZUTCrQqaVLyM",
+        "include": false,
+        "episode_num": null,
+        "title": "Peppa Trifft Das Baby: Das Album",
+        "exclude_reason": "Spinoff/album release, not part of numbered episode series"
+      },
+      {
+        "spotify_album_id": "5Sxbqz3Z7wTWRpoj1TeGKa",
+        "include": false,
+        "episode_num": null,
+        "title": "Peppa Wutz Kinderlieder: Familie",
+        "exclude_reason": "Music/sing-along album, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "27xBeN4UTaF4Q0boJYXug2",
+        "include": false,
+        "episode_num": null,
+        "title": "Peppa Wutz Kinderlieder: Spielzeit",
+        "exclude_reason": "Music/sing-along album, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "3MnIHzwfMlKRDJQa5Fz4mW",
+        "include": false,
+        "episode_num": null,
+        "title": "Peppa Wutz Kinderlieder: Entdecken",
+        "exclude_reason": "Music/sing-along album, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "5wllJqMKuiElMF7khLS6NN",
+        "include": false,
+        "episode_num": null,
+        "title": "Peppa Wutz Kinderlieder: Lernspaß",
+        "exclude_reason": "Music/sing-along album, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "32pFCoGagAvBPukHRe3d6N",
+        "include": false,
+        "episode_num": null,
+        "title": "Peppa Wutz Größte Hits Teil 2",
+        "exclude_reason": "Music compilation, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "4ZFDIZenHdTNYqpfh2A91y",
+        "include": false,
+        "episode_num": null,
+        "title": "Peppa Wutz Größte Hits",
+        "exclude_reason": "Music compilation, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "3330Mducy5ute6Qa0YcVX7",
+        "include": false,
+        "episode_num": null,
+        "title": "Peppa Wutz Wiegenlieder",
+        "exclude_reason": "Music/sing-along album, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "0LTUDbdhyr1qu8J7Dku6V5",
+        "include": false,
+        "episode_num": null,
+        "title": "Peppa Pig Kinderlieder: Wachsen",
+        "exclude_reason": "Music/sing-along album, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "4tpzttxl98K9MKgX9PO6bb",
+        "include": false,
+        "episode_num": null,
+        "title": "Peppa Wutz Kinderlieder: Halloween",
+        "exclude_reason": "Music/sing-along album, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "4e4z4vn8WS8d3Ak7HaLvNl",
+        "include": false,
+        "episode_num": null,
+        "title": "Peppa Wutz Kinderlieder: Sommer",
+        "exclude_reason": "Music/sing-along album, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "2SVGmkqJTPkWOVNnMMgzV6",
+        "include": false,
+        "episode_num": null,
+        "title": "Peppa Wutz Kinderlieder: Weihnachten",
+        "exclude_reason": "Music/sing-along album, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "5GvNA5b1Dndq7DXcdWvi8t",
+        "include": false,
+        "episode_num": null,
+        "title": "Peppa Wutz - Schorschs neuer Dinosaurier und andere Geschichten",
+        "exclude_reason": "Compilation from different artist, duplicate stories"
+      },
+      {
+        "spotify_album_id": "3T66ycFDpFMwOeZ1K58wdo",
+        "include": false,
+        "episode_num": null,
+        "title": "Peppa Wutz - Peppa geht segeln und andere Geschichten",
+        "exclude_reason": "Compilation from different artist, duplicate stories"
+      },
+      {
+        "spotify_album_id": "6hHj3D0P2wb6DGRJPOvQZi",
+        "include": false,
+        "episode_num": null,
+        "title": "Peppa Wutz - Opi Mümmel im Weltraum und andere Geschichten",
+        "exclude_reason": "Compilation from different artist, duplicate stories"
+      },
+      {
+        "spotify_album_id": "1I4QpHXKvRNzo1l833HY27",
+        "include": false,
+        "episode_num": null,
+        "title": "Peppa Wutz - Die freche Schildkröte und andere Geschichten",
+        "exclude_reason": "Compilation from different artist, duplicate stories"
+      },
+      {
+        "spotify_album_id": "4RzSAcubHNu5ycdPUzuMef",
+        "include": false,
+        "episode_num": null,
+        "title": "Peppa Wutz - Der Haustierwettbewerb und andere Geschichten",
+        "exclude_reason": "Compilation from different artist, duplicate stories"
+      }
+    ],
+    "age_note": "Suitable from 3+",
+    "curator_notes": "Main series under 'Peppa Pig Hörspiele' (46iD7xFc8ubzILibDQ7fL7) contains 62 episodes. Early releases (Folge 1-17) were issued as 6-story compilations with 20 tracks each - these are excluded as box sets. The series transitioned to single-episode format from Folge 18 onwards (8 tracks each). Two secondary artists exist with only music compilations and story collections - all excluded as duplicates or non-Hörspiel content."
+  }
+}

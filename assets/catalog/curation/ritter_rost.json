@@ -1,0 +1,394 @@
+{
+  "query": "Ritter Rost",
+  "model": "kimi-k2.5",
+  "curated_at": "2026-02-20T01:39:06.992318+00:00",
+  "series": {
+    "id": "ritter_rost",
+    "title": "Ritter Rost",
+    "aliases": [
+      "Ritter-Rost"
+    ],
+    "keywords": [
+      "Ritter Rost"
+    ],
+    "spotify_artist_ids": [
+      "6zn86iqNCkQZqsBvEv6oBO"
+    ],
+    "episode_pattern": "(?:Folge|[Tt]eil|[Bb]and)\\s*(\\d+)",
+    "albums": [
+      {
+        "spotify_album_id": "19aafdRObfaD8M09pjGRvV",
+        "include": false,
+        "episode_num": null,
+        "title": "Die wunderbare Welt von Ritter Rost",
+        "exclude_reason": "Compilation: multilingual versions and demos, not a numbered episode"
+      },
+      {
+        "spotify_album_id": "5AoE5tspQxFhE3VEffUHrz",
+        "include": false,
+        "episode_num": null,
+        "title": "Die besten Reste von Ritter Rost",
+        "exclude_reason": "Compilation: demos, outtakes and alternate versions"
+      },
+      {
+        "spotify_album_id": "4CFN8H3JmhjVA4j85ga2yY",
+        "include": false,
+        "episode_num": null,
+        "title": "Radio Schrottland - Ab in den Süden",
+        "exclude_reason": "Radio show format, not numbered episode"
+      },
+      {
+        "spotify_album_id": "0vKhQY57K7SEwltVEjjftX",
+        "include": false,
+        "episode_num": null,
+        "title": "Radio Schrottland - Hoch zu Ross",
+        "exclude_reason": "Radio show format, not numbered episode"
+      },
+      {
+        "spotify_album_id": "6IaFDDTNauu0NNJf9eL6Mz",
+        "include": false,
+        "episode_num": null,
+        "title": "Radio Schrottland - Erfindungen",
+        "exclude_reason": "Radio show format, not numbered episode"
+      },
+      {
+        "spotify_album_id": "1y49oGjLi8o3zUMH0kzhH0",
+        "include": false,
+        "episode_num": null,
+        "title": "Radio Schrottland - Ohrwürmer",
+        "exclude_reason": "Radio show format, not numbered episode"
+      },
+      {
+        "spotify_album_id": "2zGR30QEsUKVszWN0zjC8U",
+        "include": false,
+        "episode_num": null,
+        "title": "Radio Schrottland - Gespenster",
+        "exclude_reason": "Radio show format, not numbered episode"
+      },
+      {
+        "spotify_album_id": "6uqZzrMfKSw2UkLI1Uv5rt",
+        "include": false,
+        "episode_num": null,
+        "title": "Radio Schrottland - Detektive",
+        "exclude_reason": "Radio show format, not numbered episode"
+      },
+      {
+        "spotify_album_id": "00mx089tRjRNCbLbpbOaNq",
+        "include": false,
+        "episode_num": null,
+        "title": "Radio Schrottland - Piraten",
+        "exclude_reason": "Radio show format, not numbered episode"
+      },
+      {
+        "spotify_album_id": "5oyD4gQvIaNrlLVLbcPtKe",
+        "include": false,
+        "episode_num": null,
+        "title": "Radio Schrottland - Ritter",
+        "exclude_reason": "Radio show format, not numbered episode"
+      },
+      {
+        "spotify_album_id": "4ipi6JKubB5E5t0jqgg91e",
+        "include": false,
+        "episode_num": null,
+        "title": "Radio Schrottland - Tiere",
+        "exclude_reason": "Radio show format, not numbered episode"
+      },
+      {
+        "spotify_album_id": "4i9tIqsLzBBJU51lKZU9EH",
+        "include": true,
+        "episode_num": 21,
+        "title": "Folge 21: Chaos auf der Burg",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2hieie9qV5PHeDNKLNz3E5",
+        "include": true,
+        "episode_num": 20,
+        "title": "Folge 20: Waldeslust",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1BwZ3cbZSSS7XX8CkpRd4X",
+        "include": true,
+        "episode_num": 19,
+        "title": "Folge 19: Der rostige König",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4wL1XYnnEr7GUTMpy2Bkbv",
+        "include": true,
+        "episode_num": 18,
+        "title": "Folge 18: Die Siebenmeilenstiefel",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4ST9sEo4PkSBojenDwawuh",
+        "include": true,
+        "episode_num": 17,
+        "title": "Folge 17: Der Rockstar",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4mighm3zEOKeMp4MfIjE6a",
+        "include": true,
+        "episode_num": 16,
+        "title": "Folge 16: Der zehnmillionenundallererste Geburtstag",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "40g8FHiLphiOKowQrQq4vg",
+        "include": false,
+        "episode_num": null,
+        "title": "25 Jahre Ritter Rost",
+        "exclude_reason": "Compilation: anniversary best-of album"
+      },
+      {
+        "spotify_album_id": "71hI0O0kfkPzUB18XnQ8LN",
+        "include": true,
+        "episode_num": null,
+        "title": "Hörspiel zur TV-Serie 12/Verkehrserziehung",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7FODFyf6KVO6pOxmUe8w7b",
+        "include": false,
+        "episode_num": null,
+        "title": "Das Original-Hörspiel zum Kinofilm 2: Das Schrottkomplott",
+        "exclude_reason": "Movie adaptation, not numbered episode"
+      },
+      {
+        "spotify_album_id": "2D6HXgKxvBqo0bLs3Pg7PU",
+        "include": true,
+        "episode_num": null,
+        "title": "Hörspiel zur TV-Serie 11/Rösti quietscht",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "06ONkoUL5voBy7QyCSUGHk",
+        "include": true,
+        "episode_num": null,
+        "title": "Hörspiel zur TV-Serie 10/Der Strandausflug",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "76kBHZPhoUbz2eR9dMgsBz",
+        "include": true,
+        "episode_num": null,
+        "title": "Hörspiel zur TV-Serie 09/Der Babysitter",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6iqqVY07fQd1b9Q0CmTDoR",
+        "include": true,
+        "episode_num": null,
+        "title": "Hörspiel zur TV-Serie 08/König Rösti",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0Too6v0absFuMwkUUU1oyR",
+        "include": true,
+        "episode_num": null,
+        "title": "Hörspiel zur TV-Serie 07/Geisterstunde",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6RX1WnTxJhQWASR4WFgnNg",
+        "include": true,
+        "episode_num": null,
+        "title": "Hörspiel zur TV-Serie 06/Jagdfieber",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2jKykXKc6VtAwEl7v6hgYT",
+        "include": true,
+        "episode_num": null,
+        "title": "Hörspiel zur TV-Serie 05/Wer ist Rösti?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0pkC1bydhGNKxNpBzpC7dg",
+        "include": true,
+        "episode_num": null,
+        "title": "Hörspiel zur TV-Serie 04/Der Geisterritter",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2jkGfKWKwbT31GBkhq0LqU",
+        "include": true,
+        "episode_num": null,
+        "title": "Hörspiel zur TV-Serie 03/Pfui Spinne!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4zq0Op9NMOxi3j3e4uLuz4",
+        "include": true,
+        "episode_num": null,
+        "title": "Hörspiel zur TV-Serie 02/Auf der Flucht",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "48gWFUydUDKGtXjmV7kIIO",
+        "include": true,
+        "episode_num": null,
+        "title": "Hörspiel zur TV-Serie 01/Das große Rennen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0bJStRr9LZy6Fe7tO1eF5e",
+        "include": true,
+        "episode_num": 15,
+        "title": "15/Das Phantom",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7y5A9xpWiqfk2zXg6QQwoY",
+        "include": false,
+        "episode_num": null,
+        "title": "Das Original-Hörspiel zum Kinofilm",
+        "exclude_reason": "Movie adaptation, not numbered episode"
+      },
+      {
+        "spotify_album_id": "4ejbYeR1ZPetSfpbSAUaSH",
+        "include": true,
+        "episode_num": 14,
+        "title": "14/Die Sportskanone",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5TMIMePRbqArMRjMQgNmBo",
+        "include": true,
+        "episode_num": 13,
+        "title": "13/Der Roboter",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5JsPKtQJU88xZwD9Yp14Cj",
+        "include": true,
+        "episode_num": 12,
+        "title": "12/Die Zauberfee",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "03NWoP5uXTlewjETwnrkfl",
+        "include": false,
+        "episode_num": null,
+        "title": "Singen mit Ritter Rost 2",
+        "exclude_reason": "Sing-along album, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "21kOtRmRjYRfMtrDZm0iw3",
+        "include": true,
+        "episode_num": 11,
+        "title": "11/Jäger des verlorenen Geschirrs",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "10jDUzZRwXSjTSb1EuHXtp",
+        "include": true,
+        "episode_num": 10,
+        "title": "10/Im Weltraum",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0Zg6bpLJwfWoDm2b1c2kvU",
+        "include": false,
+        "episode_num": null,
+        "title": "Singen mit Ritter Rost 1",
+        "exclude_reason": "Sing-along album, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "1S5KsjxvRRv1ofC6RiVFWb",
+        "include": true,
+        "episode_num": 9,
+        "title": "09/Der Babysitter",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2G12PiveCIrTKXrogbZo41",
+        "include": true,
+        "episode_num": 8,
+        "title": "08/Feuerstuhl",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7r1KAXeQrDNR7Ari4qXe84",
+        "include": true,
+        "episode_num": 7,
+        "title": "07/Unter Wasser",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4Enqj3d7VxTlHi83Q4IlZ5",
+        "include": true,
+        "episode_num": 6,
+        "title": "06/Der doppelte Koks",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6B5kt2vFSaaDreAp2ACPzM",
+        "include": true,
+        "episode_num": 5,
+        "title": "05/Die Windmühlen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0m5Lwk1mHPlJj3dH5xBsdU",
+        "include": true,
+        "episode_num": 4,
+        "title": "04/Die fantastischen Fünf",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "11DG5mOSJ3NemVQZ9ILk56",
+        "include": true,
+        "episode_num": 3,
+        "title": "03/Die Zauberinsel",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4e52BWpvxiKJkchO5ZQ93T",
+        "include": true,
+        "episode_num": 2,
+        "title": "02/Der Vampir",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5nCTs9VRURzlPDAjNi5DAS",
+        "include": true,
+        "episode_num": 1,
+        "title": "01/Die Bauchredner",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2rJu1sEAKmprIxzETwGKGi",
+        "include": false,
+        "episode_num": null,
+        "title": "Die schönsten Lieder",
+        "exclude_reason": "Song compilation, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "6iTsxNCwXsocfQVaoGlqDT",
+        "include": false,
+        "episode_num": null,
+        "title": "The Rusty King",
+        "exclude_reason": "English version, separate release"
+      },
+      {
+        "spotify_album_id": "2skgVu5AbPZciVqPMUElyF",
+        "include": false,
+        "episode_num": null,
+        "title": "The Rusty Movie",
+        "exclude_reason": "English movie adaptation"
+      },
+      {
+        "spotify_album_id": "5b7Fgr52raXq2wM7m4AHrb",
+        "include": false,
+        "episode_num": null,
+        "title": "Ritter Rost Goes on Holiday",
+        "exclude_reason": "English version, separate release"
+      }
+    ],
+    "age_note": "Suitable from 4+",
+    "curator_notes": "Main artist 'Ritter Rost' (6zn86iqNCkQZqsBvEv6oBO) contains the complete series. The related artist 'Burgfräulein Bö' (5q3QcfVaQH2pgpLXYkLK5a) is a spinoff character with only a party hits album (excluded as it's a music compilation). Jörg Hilbert (3k7tSWqbvtK0jzAyeaERwg) is the creator but his albums are other series. The series has three distinct release formats: 1) Classic episodes 1-15 (2007-2013) with 'NN/Title' naming, 2) TV series episodes (2014-2017) with 'Hörspiel zur TV-Serie NN/Title' naming containing multiple short stories per album, 3) Modern episodes 16-21 (2023-2024) with 'Folge NN: Title' naming. Radio Schrottland albums (2024-2025) are a separate radio-show format and excluded. Multiple English-language releases exist and are excluded as they are separate localizations."
+  }
+}

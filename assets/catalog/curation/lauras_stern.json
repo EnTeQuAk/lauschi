@@ -1,0 +1,199 @@
+{
+  "query": "Lauras Stern",
+  "model": "kimi-k2.5",
+  "curated_at": "2026-02-20T00:34:27.048905+00:00",
+  "series": {
+    "id": "lauras_stern",
+    "title": "Lauras Stern",
+    "aliases": [
+      "Laura's Star"
+    ],
+    "keywords": [
+      "Lauras Stern",
+      "Laura"
+    ],
+    "spotify_artist_ids": [
+      "0xY8w0o3cSH3gzx4G4h8qD"
+    ],
+    "episode_pattern": "(?:[Ff]olge|[Tt]eil|[Bb]and|Erstleser)\\s+(\\d+)",
+    "albums": [
+      {
+        "spotify_album_id": "2CSSfczar75i80rqrkW5w6",
+        "include": true,
+        "episode_num": 1,
+        "title": "Lauras Stern, Folge 1: Lauras Stern",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "19MAP4lIjhlhgFXfDif7WO",
+        "include": true,
+        "episode_num": 5,
+        "title": "Folge 5: Laura und das Pony",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6psvtJwbclXJ09i1lqvzvv",
+        "include": true,
+        "episode_num": 7,
+        "title": "Laura, Folge 7: Laura und die Lampioninsel",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "76dSQJudJoC0lawXTwQk4A",
+        "include": true,
+        "episode_num": 9,
+        "title": "Laura, Teil 9: Lauras Piratenschatz",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0AWAEwrd5UChH51lnUHT1D",
+        "include": true,
+        "episode_num": 9,
+        "title": "Glitzernde Gutenacht-Geschichten, Teil 9",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "03APgvGiNeJPPMMObuwZdB",
+        "include": true,
+        "episode_num": 10,
+        "title": "Lauras Stern - Tonspur der TV-Serie, Teil 10: Fabelhafte Gutenacht-Geschichten",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "46BdFm6jEmZj8odIugzIuv",
+        "include": true,
+        "episode_num": 11,
+        "title": "Lauras Stern - Tonspur der TV-Serie, Teil 11: Abenteuerliche Gutenacht-Geschichten",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0HbQdPgMltCnwwZ5bedqUA",
+        "include": true,
+        "episode_num": 12,
+        "title": "Lauras Stern, Band 12: Freundschaftliche Gutenacht-Geschichten",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3PDDxcSMAa0OdAIR7qZFgc",
+        "include": true,
+        "episode_num": 11,
+        "title": "Laura und die Osterüberraschung - Lauras Stern - Erstleser 11",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2yHAJUDnRBhiD22bTDCUN2",
+        "include": true,
+        "episode_num": 6,
+        "title": "Lauras Stern - Erstleser, Folge 6: Laura und der Freundschaftsbaum",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "62dIe1rJb1UyaWJx1hkOxf",
+        "include": false,
+        "episode_num": null,
+        "title": "Lauras Stern - Das Liederalbum zum Kinofilm (Instrumental-Versionen zum Mitsingen)",
+        "exclude_reason": "Song album, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "2m5U5mKGVufzo6waGyEhTR",
+        "include": false,
+        "episode_num": null,
+        "title": "Laura und die kleine Robbe",
+        "exclude_reason": "No episode number, appears to be a single special release"
+      },
+      {
+        "spotify_album_id": "7GPd5Hev95LjKV6U69FiRP",
+        "include": false,
+        "episode_num": null,
+        "title": "Das Original Hörspiel zum neuen Kinofilm",
+        "exclude_reason": "Movie soundtrack, not series episode"
+      },
+      {
+        "spotify_album_id": "7r855N0wTZTFxyiFntXUsz",
+        "include": false,
+        "episode_num": null,
+        "title": "Lauras Stern - Das Liederalbum zum Kinofilm",
+        "exclude_reason": "Song album, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "2eqIcLw1HkIhu6EhZ9tSgv",
+        "include": false,
+        "episode_num": null,
+        "title": "Ferien mit Laura und ihrem Stern - Lauras Ferien / Lauras erste Übernachtung / Laura und der Ferienhund",
+        "exclude_reason": "Box set: 24 tracks, combines multiple stories without episode numbers"
+      },
+      {
+        "spotify_album_id": "4WEiHmpkRvOtD2SONq1kYa",
+        "include": false,
+        "episode_num": null,
+        "title": "Lauras Stern - Sonderband: Weihnachten mit Laura und ihrem Stern: Laura sucht den Weihnachtsmann / Lauras Weihnachtsstern / Die gestohlene Nase",
+        "exclude_reason": "Box set: 24 tracks, combines multiple Christmas stories"
+      },
+      {
+        "spotify_album_id": "5M7P7v28Q2YbxpYaXCr7dG",
+        "include": false,
+        "episode_num": null,
+        "title": "Laura und der andere Stern",
+        "exclude_reason": "No episode number, appears to be a special/single release"
+      },
+      {
+        "spotify_album_id": "5DXhxgaIO0wHpQgrUksu7N",
+        "include": false,
+        "episode_num": null,
+        "title": "Lauras Geheimnis",
+        "exclude_reason": "No episode number, appears to be a special/single release"
+      },
+      {
+        "spotify_album_id": "1fkzpHnoCGZrYS1PJ4cAKq",
+        "include": false,
+        "episode_num": null,
+        "title": "Laura kommt in die Schule",
+        "exclude_reason": "No episode number, appears to be a special/single release"
+      },
+      {
+        "spotify_album_id": "5rOYhAMUVFcoQSSRvhzEGe",
+        "include": false,
+        "episode_num": null,
+        "title": "Und die Traummonster (Das Liederalbum zum Kinofilm)",
+        "exclude_reason": "Song album from movie, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "0U1OPdw7m47XF4Aaj9QLmn",
+        "include": false,
+        "episode_num": null,
+        "title": "Lauras Stern und die Traummonster (Das Original-Hörspiel zum Kinofilm)",
+        "exclude_reason": "Movie Hörspiel, not series episode"
+      },
+      {
+        "spotify_album_id": "3zpI8aaethPaiAkaPiiLKI",
+        "include": false,
+        "episode_num": null,
+        "title": "Lauras Stern und der geheinmisvolle Drache Nian (Das Original-Hörspiel zum Kinofilm)",
+        "exclude_reason": "Movie Hörspiel, not series episode"
+      },
+      {
+        "spotify_album_id": "13PBimCXPAbGYZKMiTUyhN",
+        "include": false,
+        "episode_num": null,
+        "title": "Lauras Weihnachtsstern (Das Original-Hörspiel zum Weihnachtsspezial)",
+        "exclude_reason": "Christmas special movie Hörspiel, not series episode"
+      },
+      {
+        "spotify_album_id": "6ybCKjugjMSzOU2i6vQT1J",
+        "include": false,
+        "episode_num": null,
+        "title": "Lauras Stern (Das Original Hörspiel zum 1. Kinofilm)",
+        "exclude_reason": "Movie Hörspiel, not series episode"
+      },
+      {
+        "spotify_album_id": "5kljkP3NKrVmDE1Kx6wPRu",
+        "include": false,
+        "episode_num": null,
+        "title": "Laura zeigt, wie's geht! (Das Liederalbum zur Verkehrsshow)",
+        "exclude_reason": "Educational song album, not Hörspiel episode"
+      }
+    ],
+    "age_note": "Suitable from 3+",
+    "curator_notes": "Main series artist 'Lauras Stern'. No Retro-Archiv or Junior variants found on Spotify. Series uses inconsistent numbering (Folge/Teil/Band) across releases. Includes Erstleser (early reader) spinoffs which are simplified versions of stories. Many movie soundtracks and song albums excluded - series has had multiple film adaptations. TV series 'Tonspur' episodes included as they follow the same episode numbering scheme."
+  }
+}

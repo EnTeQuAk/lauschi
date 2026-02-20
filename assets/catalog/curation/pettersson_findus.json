@@ -1,0 +1,436 @@
+{
+  "query": "Pettersson und Findus",
+  "model": "kimi-k2.5",
+  "curated_at": "2026-02-19T23:27:53.086103+00:00",
+  "series": {
+    "id": "pettersson_findus",
+    "title": "Pettersson und Findus",
+    "aliases": [
+      "Pettersson & Findus"
+    ],
+    "keywords": [
+      "Pettersson und Findus"
+    ],
+    "spotify_artist_ids": [
+      "3YZqnPKdtP5qP4LSvrgx9i"
+    ],
+    "episode_pattern": "Folge (\\d+)",
+    "albums": [
+      {
+        "spotify_album_id": "0V8EmGbXyvDS3L4lDpgrqI",
+        "include": false,
+        "episode_num": null,
+        "title": "Findus erklärt die Welt: Kluge Köpfe und schöne Klänge",
+        "exclude_reason": "Spinoff series - educational/non-fiction series, not main episode run"
+      },
+      {
+        "spotify_album_id": "4v8HRRE9VUYJ8SfkrssuJg",
+        "include": false,
+        "episode_num": null,
+        "title": "Findus erklärt die Welt: Schmutz und Katzenwäsche",
+        "exclude_reason": "Spinoff series - educational/non-fiction series, not main episode run"
+      },
+      {
+        "spotify_album_id": "6zuKQptNPGsZYuPLjRpDBz",
+        "include": false,
+        "episode_num": null,
+        "title": "Findus erklärt die Welt: Findus kunterbunte Werkstatt",
+        "exclude_reason": "Spinoff series - educational/non-fiction series, not main episode run"
+      },
+      {
+        "spotify_album_id": "2JNUcqfRYRunIV0BwzaThJ",
+        "include": false,
+        "episode_num": null,
+        "title": "Findus erklärt die Welt: Tiere im Wasser und an Land",
+        "exclude_reason": "Spinoff series - educational/non-fiction series, not main episode run"
+      },
+      {
+        "spotify_album_id": "6Gy4WtmWnYf3IcPGRheWeB",
+        "include": false,
+        "episode_num": null,
+        "title": "Findus erklärt die Welt: Der Mensch von innen und außen",
+        "exclude_reason": "Spinoff series - educational/non-fiction series, not main episode run"
+      },
+      {
+        "spotify_album_id": "5SqOysEyYwB08Rfc00ctMx",
+        "include": false,
+        "episode_num": null,
+        "title": "Findus erklärt die Welt: Eine Kugel namens Erde",
+        "exclude_reason": "Spinoff series - educational/non-fiction series, not main episode run"
+      },
+      {
+        "spotify_album_id": "2kXKwTAMGso5Hvf0l8zLlw",
+        "include": false,
+        "episode_num": null,
+        "title": "Findus erklärt die Welt: Der Urknall und das Weltall",
+        "exclude_reason": "Spinoff series - educational/non-fiction series, not main episode run"
+      },
+      {
+        "spotify_album_id": "6BToH492F1F8ueDPpy2Pdg",
+        "include": false,
+        "episode_num": null,
+        "title": "Findus erklärt die Welt: Mein Gartenjahr (Herbst & Winter)",
+        "exclude_reason": "Spinoff series - educational/non-fiction series, not main episode run"
+      },
+      {
+        "spotify_album_id": "4YRXxki5bkewmZjhFev86Y",
+        "include": false,
+        "episode_num": null,
+        "title": "Findus erklärt die Welt: Mein Gartenjahr (Frühling & Sommer)",
+        "exclude_reason": "Spinoff series - educational/non-fiction series, not main episode run"
+      },
+      {
+        "spotify_album_id": "1mfzZZXINHFfKFVNmxDORZ",
+        "include": false,
+        "episode_num": null,
+        "title": "Findus erklärt die Welt: Meine ersten Experimente und Erfindungen",
+        "exclude_reason": "Spinoff series - educational/non-fiction series, not main episode run"
+      },
+      {
+        "spotify_album_id": "10rq97uRicLHltvtdt3fCA",
+        "include": true,
+        "episode_num": 16,
+        "title": "Folge 16: Der allerlängste Tag des Jahres (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "74eWACIG45euHC11dV18gP",
+        "include": true,
+        "episode_num": 15,
+        "title": "Folge 15: Das Denk-Dran-Taschentuch (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "45TPOgfUbfFv6SIEgWAgGj",
+        "include": true,
+        "episode_num": 14,
+        "title": "Folge 14: Namenstag für alle (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3FHVFy0puddIy7i1MQbmXY",
+        "include": true,
+        "episode_num": 13,
+        "title": "Folge 13: Bei Katze und Hund geht es oft rund (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4oIPPpWb8X00qpFoqtFZ6S",
+        "include": true,
+        "episode_num": 12,
+        "title": "Folge 12: Duell unterm Kirschbaum (Das Original Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3OsfiTVaxZzsxWuKzGJG7G",
+        "include": true,
+        "episode_num": 11,
+        "title": "Folge 11: Fia und der Hühnerfloh (Das Original Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0wOHF2tUPB5y4mHeSw85j1",
+        "include": false,
+        "episode_num": null,
+        "title": "Das Liederalbum zur TV-Serie",
+        "exclude_reason": "Music/songs album, not Hörspiel episodes"
+      },
+      {
+        "spotify_album_id": "6uh9nJgSIgyU01uGXGY6OR",
+        "include": true,
+        "episode_num": 9,
+        "title": "Folge 9: Überraschung für Pettersson (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4sLtTKx4qappPepQW6KlLC",
+        "include": true,
+        "episode_num": 10,
+        "title": "Folge 10: Findus und das eigene Fahrrad (Das Original Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6rjEFCIx3HbZEAZwrtzejQ",
+        "include": false,
+        "episode_num": null,
+        "title": "Findus erklärt die Welt: Tiere entdecken in Wald und Wiese (Das Original-Hörspiel zum Naturbuch)",
+        "exclude_reason": "Spinoff series - educational/non-fiction series, not main episode run"
+      },
+      {
+        "spotify_album_id": "7AzE84tzTbyQuiAU13sQom",
+        "include": false,
+        "episode_num": null,
+        "title": "Findus erklärt die Welt: In der Natur mit Pettersson und Findus (Das Original-Hörspiel zum Naturbuch)",
+        "exclude_reason": "Spinoff series - educational/non-fiction series, not main episode run"
+      },
+      {
+        "spotify_album_id": "3mAnEL8nYwVzYBklo7Nsd9",
+        "include": false,
+        "episode_num": null,
+        "title": "Pettersson und Findus. Schau mal, was ich kann, Pettersson!",
+        "exclude_reason": "Audiobook/single story, not numbered episode in main series"
+      },
+      {
+        "spotify_album_id": "5YhSLWGEtrOS6sYLnFEhE3",
+        "include": false,
+        "episode_num": null,
+        "title": "Pettersson und Findus (Das Original-Hörspiel zum Kinofilm)",
+        "exclude_reason": "Movie adaptation, not numbered episode"
+      },
+      {
+        "spotify_album_id": "0tyZwkknvmSxHkCThlrsHj",
+        "include": false,
+        "episode_num": null,
+        "title": "Neues von Pettersson und Findus (Das Original-Hörspiel zum Kinofilm)",
+        "exclude_reason": "Movie adaptation, not numbered episode"
+      },
+      {
+        "spotify_album_id": "0IKwVZoH75CCN7opPEChDL",
+        "include": false,
+        "episode_num": null,
+        "title": "Morgen, Findus, wird's was geben! (Das Original-Hörspiel zum Kinofilm)",
+        "exclude_reason": "Movie adaptation, not numbered episode"
+      },
+      {
+        "spotify_album_id": "7MsUEZeCBzvqmYMYh5EJtQ",
+        "include": false,
+        "episode_num": null,
+        "title": "Kuddelmuddel bei Pettersson und Findus (Das Original-Hörspiel zum Kinofilm)",
+        "exclude_reason": "Movie adaptation, not numbered episode"
+      },
+      {
+        "spotify_album_id": "5DGEyjSlULxrHlVYGt1NkX",
+        "include": true,
+        "episode_num": 8,
+        "title": "Folge 8: Der Weihnachtsmann kommt - Teil 2 (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2ALteAq5xwlimsetoK9E5y",
+        "include": true,
+        "episode_num": 7,
+        "title": "Folge 7: Der Weihnachtsmann kommt - Teil 1 (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "48vL216dRDPOoAHGdccO4y",
+        "include": true,
+        "episode_num": 6,
+        "title": "Folge 6: Schatzsuche + zwei weitere Geschichten (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5ggsRAlwYpxKZrFcn791tX",
+        "include": true,
+        "episode_num": 5,
+        "title": "Folge 5: Wie Findus zu Pettersson kam + zwei weitere Geschichten (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1wOqPQTwDu2GneJqChLQV4",
+        "include": true,
+        "episode_num": 4,
+        "title": "Folge 4: Die Elchjagd + zwei weitere Geschichten (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4L8sq9jBYuW1pVeIUteUk7",
+        "include": true,
+        "episode_num": 3,
+        "title": "Folge 3: Aufruhr im Gemüsebeet + zwei weitere Geschichten (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7cztXAIeIdjj7gHHIaIXQh",
+        "include": true,
+        "episode_num": 2,
+        "title": "Folge 2: Ein Feuerwerk für den Fuchs + zwei weitere Geschichten (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1Rl4Sd1z3aNzJ3iDeyT79v",
+        "include": true,
+        "episode_num": 1,
+        "title": "Folge 1: Eine Geburtstagstorte für die Katze + zwei weitere Geschichten (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2i7QtmDxxUUfY80C4vJLSg",
+        "include": false,
+        "episode_num": null,
+        "title": "Mein Adventskalender-Hörspiel",
+        "exclude_reason": "Advent calendar with 24+ short parts, not main episode run"
+      },
+      {
+        "spotify_album_id": "1v80UCutPCY7iipL2wTAQc",
+        "include": false,
+        "episode_num": null,
+        "title": "Pettersson und Findus. Das schönste Weihnachten überhaupt (Das Originalhörspiel zum Kinofilm)",
+        "exclude_reason": "Movie adaptation, not numbered episode"
+      },
+      {
+        "spotify_album_id": "4L4nMdP6xEdJOBvNcTTSUS",
+        "include": false,
+        "episode_num": null,
+        "title": "English Edition #1 (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": "English language version, different from main German series"
+      },
+      {
+        "spotify_album_id": "5MUDszZjUZ3nM41dUAgu7V",
+        "include": false,
+        "episode_num": null,
+        "title": "Pettersson und Findus. Findus zieht um / Pettersson kriegt Weihnachtsbesuch",
+        "exclude_reason": "Compilation of earlier releases (Findus zieht um + Pettersson kriegt Weihnachtsbesuch)"
+      },
+      {
+        "spotify_album_id": "5iraXLnDhlWR0ikKnJUqid",
+        "include": false,
+        "episode_num": null,
+        "title": "Pettersson und Findus. Kleiner Quälgeist - große Freundschaft (Filmhörspiel)",
+        "exclude_reason": "Movie adaptation, not numbered episode"
+      },
+      {
+        "spotify_album_id": "78x2X30ZogObYin6H88nD8",
+        "include": false,
+        "episode_num": null,
+        "title": "Pettersson und Findus. Findus zieht um",
+        "exclude_reason": "Earlier release - duplicate story covered in Folge 5 (Wie Findus zu Pettersson kam)"
+      },
+      {
+        "spotify_album_id": "0VzP09hIIf9hXOLxW5gNkQ",
+        "include": false,
+        "episode_num": null,
+        "title": "Pettersson und Findus. Findus zieht um (Das Original-Hörspiel zum Kinofilm)",
+        "exclude_reason": "Movie adaptation, not numbered episode"
+      },
+      {
+        "spotify_album_id": "3BltN1TN5sPZbBGlnHY6aM",
+        "include": false,
+        "episode_num": null,
+        "title": "Kuddelmuddel bei Pettersson und Findus (Das Liederalbum zum Kinofilm)",
+        "exclude_reason": "Music/songs album, not Hörspiel episodes"
+      },
+      {
+        "spotify_album_id": "1G0XLgrKaGgyfZasYV2GL4",
+        "include": false,
+        "episode_num": null,
+        "title": "Schneeballschlacht und Winterspaß",
+        "exclude_reason": "Music/songs album, not Hörspiel episodes"
+      },
+      {
+        "spotify_album_id": "5Xhwclz0kD81yrmXZxOpFw",
+        "include": false,
+        "episode_num": null,
+        "title": "Winterzauberlieder",
+        "exclude_reason": "Music/songs album, not Hörspiel episodes"
+      },
+      {
+        "spotify_album_id": "4x3gJUyNxhtGV1glqezZwd",
+        "include": false,
+        "episode_num": null,
+        "title": "Pettersson und Findus. Wie Findus zu Pettersson kam",
+        "exclude_reason": "Earlier release - duplicate story covered in Folge 5"
+      },
+      {
+        "spotify_album_id": "2fyWLWypJ2aCm1IpBpX0Ry",
+        "include": false,
+        "episode_num": null,
+        "title": "Reisefieberlieder",
+        "exclude_reason": "Music/songs album, not Hörspiel episodes"
+      },
+      {
+        "spotify_album_id": "4VK7kXVsdXgjMScbJ0N5nQ",
+        "include": false,
+        "episode_num": null,
+        "title": "Wie Findus zu Pettersson kam / Eine Geburtstagstorte für die Katze",
+        "exclude_reason": "Compilation of earlier releases"
+      },
+      {
+        "spotify_album_id": "6CY9b2zZQJGXHPbfHCgNgL",
+        "include": false,
+        "episode_num": null,
+        "title": "Unsere Lieder",
+        "exclude_reason": "Music/songs album, not Hörspiel episodes"
+      },
+      {
+        "spotify_album_id": "10b3l8yuTNShsm8PCVO5Op",
+        "include": false,
+        "episode_num": null,
+        "title": "Pettersson und Findus. Das Musical",
+        "exclude_reason": "Musical/theater recording, not Hörspiel episodes"
+      },
+      {
+        "spotify_album_id": "3Lilp7kBnfW69AiEbneCTR",
+        "include": false,
+        "episode_num": null,
+        "title": "Ein Feuerwerk für den Fuchs/Findus und der Hahn im Korb",
+        "exclude_reason": "Compilation of earlier releases"
+      },
+      {
+        "spotify_album_id": "4fP1C8vVJow7ZiKdIl28Ze",
+        "include": false,
+        "episode_num": null,
+        "title": "Pettersson und Findus. Findus und der Hahn im Korb",
+        "exclude_reason": "Earlier release - duplicate story"
+      },
+      {
+        "spotify_album_id": "53bdVgRrHNdkWJ3jm3kBlo",
+        "include": false,
+        "episode_num": null,
+        "title": "Pettersson und Findus. Pettersson zeltet",
+        "exclude_reason": "Earlier release - duplicate story"
+      },
+      {
+        "spotify_album_id": "6kNZoQ5dWHBciJx7N46GL8",
+        "include": false,
+        "episode_num": null,
+        "title": "Pettersson und Findus. Aufruhr im Gemüsebeet / Pettersson zeltet",
+        "exclude_reason": "Compilation of earlier releases"
+      },
+      {
+        "spotify_album_id": "4AyYKFbtodIKdWeuaIAgJF",
+        "include": false,
+        "episode_num": null,
+        "title": "Aufruhr im Gemüsebeet",
+        "exclude_reason": "Earlier release - duplicate story covered in Folge 3"
+      },
+      {
+        "spotify_album_id": "7f1sQsUOnd2LrGpOLckLlp",
+        "include": false,
+        "episode_num": null,
+        "title": "Pettersson und Findus. Pettersson kriegt Weihnachtsbesuch",
+        "exclude_reason": "Earlier release - duplicate story"
+      },
+      {
+        "spotify_album_id": "0xZAa4YMdVdorJeNYi2nvE",
+        "include": false,
+        "episode_num": null,
+        "title": "Pettersson und Findus. Armer Pettersson",
+        "exclude_reason": "Earlier release - duplicate story"
+      },
+      {
+        "spotify_album_id": "3vIXEWbyVllp6VsRSMXWkW",
+        "include": false,
+        "episode_num": null,
+        "title": "Pettersson und Findus. Ein Feuerwerk für den Fuchs",
+        "exclude_reason": "Earlier release - duplicate story covered in Folge 2"
+      },
+      {
+        "spotify_album_id": "6HxS2jiPL3dMyBaz788M5j",
+        "include": false,
+        "episode_num": null,
+        "title": "Eine Geburtstagstorte für die Katze",
+        "exclude_reason": "Earlier release - duplicate story covered in Folge 1"
+      },
+      {
+        "spotify_album_id": "1AtqTNrTDfqtsmYnSbU7G8",
+        "include": false,
+        "episode_num": null,
+        "title": "Sommer-Sonnen-Spaß",
+        "exclude_reason": "Single track, likely promotional/song release"
+      }
+    ],
+    "age_note": "Suitable from 3+",
+    "curator_notes": "Main series consists of 16 numbered episodes (Folge 1-16) from the TV series, released 2019-2022. Earlier individual story releases from 1984-2014 are excluded as duplicates since their content is included in the numbered episodes. The 'Findus erklärt die Welt' spinoff series (10 albums) is excluded as it's an educational non-fiction series. Multiple movie adaptations and music albums are also excluded. No Retro-Archiv or Junior variants found for this series."
+  }
+}

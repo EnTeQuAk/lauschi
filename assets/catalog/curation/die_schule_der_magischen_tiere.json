@@ -1,0 +1,740 @@
+{
+  "query": "Die Schule der magischen Tiere",
+  "model": "kimi-k2.5",
+  "curated_at": "2026-02-19T22:26:44.567821+00:00",
+  "series": {
+    "id": "die_schule_der_magischen_tiere",
+    "title": "Die Schule der magischen Tiere",
+    "aliases": [
+      "Die Schule der magischen Tiere ermittelt",
+      "Endlich Ferien"
+    ],
+    "keywords": [
+      "Die Schule der magischen Tiere"
+    ],
+    "spotify_artist_ids": [
+      "1BElEHaU2xaZg7FOGsSird",
+      "6wlMx6MhWCynm8yVU0K3V3",
+      "05iCN3BdeaMyUYHXiEp761"
+    ],
+    "episode_pattern": "^(?:(\\d+):|Die Schule der magischen Tiere (?:ermittelt - Hörspiele |ermittelt Neuausgabe |\\d+: | - Endlich Ferien \\d+:))",
+    "albums": [
+      {
+        "spotify_album_id": "2XgghqqSSYMgqzIYWTSTbZ",
+        "include": true,
+        "episode_num": 16,
+        "title": "16: Land unter!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6BcR1yeaOQUj3mNzLBQ0QQ",
+        "include": false,
+        "episode_num": null,
+        "title": "Die Schule der magischen Tiere 4 - Soundtrack zum Film",
+        "exclude_reason": "Soundtrack - not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "1hhNtSsFWuqeNsV1gXiiQV",
+        "include": false,
+        "episode_num": null,
+        "title": "Die Schule der magischen Tiere 4 - Hörspiel zum Kinofilm",
+        "exclude_reason": "Film adaptation - separate from main book series"
+      },
+      {
+        "spotify_album_id": "0wJI1LC9ILBeqfdmmbtgOY",
+        "include": false,
+        "episode_num": null,
+        "title": "Die Schule der magischen Tiere ermittelt Neuausgabe 7: Das Biber-Rätsel",
+        "exclude_reason": "Different artist - ermittelt series handled separately"
+      },
+      {
+        "spotify_album_id": "6J0lMf0VTKlMOFdOWBH6cx",
+        "include": false,
+        "episode_num": null,
+        "title": "Die Schule der magischen Tiere ermittelt Neuausgabe 1: Der grüne Glibber-Brief",
+        "exclude_reason": "Different artist - ermittelt series handled separately"
+      },
+      {
+        "spotify_album_id": "5qC7Jr1oiwlwp663Uoi0Ng",
+        "include": true,
+        "episode_num": 15,
+        "title": "15: Vierundzwanzig",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4sfLgQS9ZmLZnDeo3sVWHX",
+        "include": false,
+        "episode_num": null,
+        "title": "Die Schule der magischen Tiere 15: Vierundzwanzig",
+        "exclude_reason": "Hörbuch format (50 chapters) - prefer compact Hörspiel version"
+      },
+      {
+        "spotify_album_id": "7bB2Qm2ldjkV4UCgZSx6Id",
+        "include": false,
+        "episode_num": null,
+        "title": "Die Schule der magischen Tiere 3 - Hörspiel zum Kinofilm",
+        "exclude_reason": "Film adaptation - separate from main book series"
+      },
+      {
+        "spotify_album_id": "6ngoE6dWovkpBQxb8gNdsV",
+        "include": false,
+        "episode_num": null,
+        "title": "Die Schule der magischen Tiere 3 - Soundtrack zum Film",
+        "exclude_reason": "Soundtrack - not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "0DrAfOmmmC81uvhTQpcpeQ",
+        "include": false,
+        "episode_num": null,
+        "title": "Die Schule der magischen Tiere 3: Das Hörbuch zum Film",
+        "exclude_reason": "Audiobook film adaptation - not a Hörspiel"
+      },
+      {
+        "spotify_album_id": "6QqN7eIdQxZRaEuOCKE2BP",
+        "include": false,
+        "episode_num": null,
+        "title": "Endlich Ferien 09: Elisa und Silber",
+        "exclude_reason": "Different artist - Endlich Ferien series handled separately"
+      },
+      {
+        "spotify_album_id": "3Q8v6eUrInqM28X8wq2KMV",
+        "include": false,
+        "episode_num": null,
+        "title": "Die Schule der magischen Tiere - Endlich Ferien 9: Elisa und Silber",
+        "exclude_reason": "Different artist - Endlich Ferien series handled separately"
+      },
+      {
+        "spotify_album_id": "5J3K0ilNR7ZPSnbtgvT2AP",
+        "include": false,
+        "episode_num": null,
+        "title": "Die Schule der magischen Tiere - Endlich Ferien: Meine große Ferienbox 2",
+        "exclude_reason": "Box set compilation"
+      },
+      {
+        "spotify_album_id": "0dOaOf0H2jCv6p3PfA6X67",
+        "include": false,
+        "episode_num": null,
+        "title": "Die Schule der magischen Tiere - Endlich Ferien: Meine große Ferienbox",
+        "exclude_reason": "Box set compilation"
+      },
+      {
+        "spotify_album_id": "1hJPZNkKT3NeK6SK4rTPIm",
+        "include": true,
+        "episode_num": 14,
+        "title": "14: Ach du Schreck!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0yeWnbJQEyxJr0a5beHXdH",
+        "include": false,
+        "episode_num": null,
+        "title": "Die Schule der magischen Tiere - Soundtrack zum Film (Die Karaoke-Versionen)",
+        "exclude_reason": "Soundtrack/karaoke - not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "40ykQ1s1aXHBvqY01icOgH",
+        "include": false,
+        "episode_num": null,
+        "title": "Die Schule der magischen Tiere ermittelt - Hörspiele 6: Die Plätzchenfalle",
+        "exclude_reason": "Different artist - ermittelt series handled separately"
+      },
+      {
+        "spotify_album_id": "5hMaiEVIAR1R5niMgkovTH",
+        "include": false,
+        "episode_num": null,
+        "title": "Die Schule der magischen Tiere 14: Ach du Schreck!",
+        "exclude_reason": "Hörbuch format (47 chapters) - prefer compact Hörspiel version"
+      },
+      {
+        "spotify_album_id": "4cAtFVlC8CUbMOZhKA66T6",
+        "include": false,
+        "episode_num": null,
+        "title": "Endlich Ferien 08: Franka & Cooper",
+        "exclude_reason": "Different artist - Endlich Ferien series handled separately"
+      },
+      {
+        "spotify_album_id": "0KzItGmx8zWKwE5GIRPtEp",
+        "include": false,
+        "episode_num": null,
+        "title": "Die Schule der magischen Tiere - Endlich Ferien 8: Franka und Cooper",
+        "exclude_reason": "Different artist - Endlich Ferien series handled separately"
+      },
+      {
+        "spotify_album_id": "2BV1llH2yEJHA0sd1v79XS",
+        "include": false,
+        "episode_num": null,
+        "title": "Die Schule der magischen Tiere ermittelt - Hörspiele 5: Der Gurkenschurke",
+        "exclude_reason": "Different artist - ermittelt series handled separately"
+      },
+      {
+        "spotify_album_id": "5nJA9iloM84ePXu7kMBpka",
+        "include": true,
+        "episode_num": 13,
+        "title": "13: Bravo, bravissimo!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7evmK57SAtpWhMdQ1hzF7C",
+        "include": false,
+        "episode_num": null,
+        "title": "Die Schule der magischen Tiere 13: Bravo, bravissimo!",
+        "exclude_reason": "Hörbuch format (49 chapters) - prefer compact Hörspiel version"
+      },
+      {
+        "spotify_album_id": "1zvDDIx3HUSCBGfHkwJhY4",
+        "include": false,
+        "episode_num": null,
+        "title": "Die Schule der magischen Tiere 2 - Soundtrack zum Film",
+        "exclude_reason": "Soundtrack - not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "2vqyWQHCQWqDOHjDIGIOWf",
+        "include": false,
+        "episode_num": null,
+        "title": "Die Schule der magischen Tiere 2 - Score zum Film",
+        "exclude_reason": "Film score - not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "57SIUrP27UFwFxKKWXEmuJ",
+        "include": false,
+        "episode_num": null,
+        "title": "Die Schule der magischen Tiere 2 - Hörspiel zum Kinofilm",
+        "exclude_reason": "Film adaptation - separate from main book series"
+      },
+      {
+        "spotify_album_id": "04BuA44dPX7sScp7gVKvg4",
+        "include": false,
+        "episode_num": null,
+        "title": "Die Schule der magischen Tiere: Mister Morrisons gesammeltes Tierwissen",
+        "exclude_reason": "Knowledge/companion book - not a story episode"
+      },
+      {
+        "spotify_album_id": "4k6ih8cBIMbq0Fpx6WwPni",
+        "include": false,
+        "episode_num": null,
+        "title": "Die Schule der magischen Tiere 2: Das Hörbuch zum Film",
+        "exclude_reason": "Audiobook film adaptation - not a Hörspiel"
+      },
+      {
+        "spotify_album_id": "39iuzjoFbMjXjmR6Ugids1",
+        "include": false,
+        "episode_num": null,
+        "title": "Endlich Ferien 07: Max und Muriel",
+        "exclude_reason": "Different artist - Endlich Ferien series handled separately"
+      },
+      {
+        "spotify_album_id": "3C2NQOAQTkmx0CqjF8spI3",
+        "include": false,
+        "episode_num": null,
+        "title": "Die Schule der magischen Tiere - Endlich Ferien 7: Max und Muriel",
+        "exclude_reason": "Different artist - Endlich Ferien series handled separately"
+      },
+      {
+        "spotify_album_id": "4cnVJNwU7zxqoWhdXfTQVE",
+        "include": false,
+        "episode_num": null,
+        "title": "Die Schule der magischen Tiere ermittelt - Hörspiele 4: Der Flötenschreck",
+        "exclude_reason": "Different artist - ermittelt series handled separately"
+      },
+      {
+        "spotify_album_id": "5KAiz0MNnhq5gGko9knR76",
+        "include": true,
+        "episode_num": 12,
+        "title": "12: Voll das Chaos!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5XehQkbCWMxgWuFL5H8QaQ",
+        "include": false,
+        "episode_num": null,
+        "title": "Die Schule der magischen Tiere 12: Voll das Chaos!",
+        "exclude_reason": "Hörbuch format (49 chapters) - prefer compact Hörspiel version"
+      },
+      {
+        "spotify_album_id": "6YSNaBEYTNfNZvITjkYMUR",
+        "include": false,
+        "episode_num": null,
+        "title": "Die Schule der magischen Tiere: Das Hörbuch zum Film",
+        "exclude_reason": "Audiobook film adaptation - not a Hörspiel"
+      },
+      {
+        "spotify_album_id": "4IAKTxNpOZi0LoP5YXzaUF",
+        "include": false,
+        "episode_num": null,
+        "title": "Die Schule der magischen Tiere - Soundtrack zum Film",
+        "exclude_reason": "Soundtrack - not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "7c4Gw71g1Q89U6oBKHtMIt",
+        "include": false,
+        "episode_num": null,
+        "title": "Die Schule der magischen Tiere - Score zum Film",
+        "exclude_reason": "Film score - not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "7AiahzWnYQyp0s5do79qtd",
+        "include": false,
+        "episode_num": null,
+        "title": "Die Schule der magischen Tiere - Hörspiel zum Film",
+        "exclude_reason": "Film adaptation - separate from main book series"
+      },
+      {
+        "spotify_album_id": "6aoLiV4Ljy1lf4OjO3NsOh",
+        "include": false,
+        "episode_num": null,
+        "title": "Endlich Ferien 06: Hatice und Mette-Maja",
+        "exclude_reason": "Different artist - Endlich Ferien series handled separately"
+      },
+      {
+        "spotify_album_id": "3b5wd28RfW3CwslIUBt2Q9",
+        "include": false,
+        "episode_num": null,
+        "title": "Die Schule der magischen Tiere - Endlich Ferien 6: Hatice und Mette-Maja",
+        "exclude_reason": "Different artist - Endlich Ferien series handled separately"
+      },
+      {
+        "spotify_album_id": "4GSCVM2I65Axk4SnLG7uwP",
+        "include": false,
+        "episode_num": null,
+        "title": "Die Schule der magischen Tiere ermittelt - Hörspiele 3: Der Kokosnuss-Klau",
+        "exclude_reason": "Different artist - ermittelt series handled separately"
+      },
+      {
+        "spotify_album_id": "35GBDxpgWrAQDk8v2zywMX",
+        "include": true,
+        "episode_num": 11,
+        "title": "11: Wilder, wilder Wald!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2PnEr61BvPlvOwTuXIIbLK",
+        "include": false,
+        "episode_num": null,
+        "title": "Die Schule der magischen Tiere 11: Wilder, wilder Wald!",
+        "exclude_reason": "Hörbuch format (52 chapters) - prefer compact Hörspiel version"
+      },
+      {
+        "spotify_album_id": "6w6QEuBt1MHOuxC2N7QN2s",
+        "include": true,
+        "episode_num": null,
+        "title": "Eingeschneit! Ein Winterabenteuer",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5xLcIgxQauHyKrJ1zTQPNE",
+        "include": false,
+        "episode_num": null,
+        "title": "Endlich Ferien 05: Benni und Henrietta",
+        "exclude_reason": "Different artist - Endlich Ferien series handled separately"
+      },
+      {
+        "spotify_album_id": "0IuqwNz9RuQAMVnMEwOUv9",
+        "include": false,
+        "episode_num": null,
+        "title": "Endlich Ferien 04: Helene und Karajan",
+        "exclude_reason": "Different artist - Endlich Ferien series handled separately"
+      },
+      {
+        "spotify_album_id": "6vPp5wHskGPP5uVMvuvXoA",
+        "include": false,
+        "episode_num": null,
+        "title": "Die Schule der magischen Tiere - Endlich Ferien 5: Benni und Henrietta",
+        "exclude_reason": "Different artist - Endlich Ferien series handled separately"
+      },
+      {
+        "spotify_album_id": "7m215CftaAegMzq41SVA2H",
+        "include": false,
+        "episode_num": null,
+        "title": "Die Schule der magischen Tiere ermittelt - Hörspiele 2: Der Hausschuh-Dieb",
+        "exclude_reason": "Different artist - ermittelt series handled separately"
+      },
+      {
+        "spotify_album_id": "19ETAfHVmfLdNCblyzxnEx",
+        "include": true,
+        "episode_num": 10,
+        "title": "10: Hin und weg!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0zM7iOCSUdMIXwgVnkwBS4",
+        "include": false,
+        "episode_num": null,
+        "title": "Die Schule der magischen Tiere: Eingeschneit! Ein Winterabenteuer",
+        "exclude_reason": "Hörbuch format (53 chapters) - prefer compact Hörspiel version"
+      },
+      {
+        "spotify_album_id": "4WIXp1CtcNtjy6ST6PYDU5",
+        "include": true,
+        "episode_num": 9,
+        "title": "09: Versteinert!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7wOZOFofAgQj5RkgkDsP3u",
+        "include": true,
+        "episode_num": 8,
+        "title": "08: Voll verknallt!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "59I8Hl9YYx3RuiXgNQxZEj",
+        "include": true,
+        "episode_num": 7,
+        "title": "07: Wo ist Mr. M?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3o1rRndcuuKj3OdeS0bxeU",
+        "include": false,
+        "episode_num": null,
+        "title": "Die Schule der magischen Tiere - Endlich Ferien 4: Helene und Karajan",
+        "exclude_reason": "Different artist - Endlich Ferien series handled separately"
+      },
+      {
+        "spotify_album_id": "7qRSZOL23yGru3xymVdZJH",
+        "include": false,
+        "episode_num": null,
+        "title": "Endlich Ferien 03: Henry und Leander",
+        "exclude_reason": "Different artist - Endlich Ferien series handled separately"
+      },
+      {
+        "spotify_album_id": "0tax3ZStMyaU8rak9TJ6cs",
+        "include": false,
+        "episode_num": null,
+        "title": "Endlich Ferien 02: Silas und Rick",
+        "exclude_reason": "Different artist - Endlich Ferien series handled separately"
+      },
+      {
+        "spotify_album_id": "6y5OBVbcnhU6BbEXCX9XoA",
+        "include": false,
+        "episode_num": null,
+        "title": "Endlich Ferien 01: Rabbat und Ida",
+        "exclude_reason": "Different artist - Endlich Ferien series handled separately"
+      },
+      {
+        "spotify_album_id": "5AVlKonmf9X6D2IRJJrbpU",
+        "include": false,
+        "episode_num": null,
+        "title": "Die Schule der magischen Tiere - Hörspiele: Witze!",
+        "exclude_reason": "Joke collection - not a story episode"
+      },
+      {
+        "spotify_album_id": "3KUKz9KVvHLnFZ5t7oAZi3",
+        "include": false,
+        "episode_num": null,
+        "title": "Die Schule der magischen Tiere 10: Hin und weg!",
+        "exclude_reason": "Hörbuch format (52 chapters) - prefer compact Hörspiel version"
+      },
+      {
+        "spotify_album_id": "4wtQMMmhkeYEpsQMbY3FH2",
+        "include": true,
+        "episode_num": 6,
+        "title": "06: Nass und nasser",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3DaVkFWDLPfpcyD3oc6Jp1",
+        "include": true,
+        "episode_num": 5,
+        "title": "05: Top oder Flop!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "756UFNiaRWDFiIvXdAfrKQ",
+        "include": true,
+        "episode_num": 4,
+        "title": "04: Abgefahren!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3QLNq1tgXJB0JBaKqasK0i",
+        "include": false,
+        "episode_num": null,
+        "title": "04: Abgefahren!",
+        "exclude_reason": "Duplicate - same as 756UFNiaRWDFiIvXdAfrKQ"
+      },
+      {
+        "spotify_album_id": "0G0b3Kc6qzItvpk7TglhZD",
+        "include": false,
+        "episode_num": null,
+        "title": "Die Schule der magischen Tiere - Endlich Ferien 3: Henry und Leander",
+        "exclude_reason": "Different artist - Endlich Ferien series handled separately"
+      },
+      {
+        "spotify_album_id": "7fyfp4rylXTnWvq59LYDNX",
+        "include": true,
+        "episode_num": 3,
+        "title": "03: Licht aus!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5TfoKo78yKBCWbLqboT9pl",
+        "include": false,
+        "episode_num": null,
+        "title": "03: Licht aus!",
+        "exclude_reason": "Duplicate - same as 7fyfp4rylXTnWvq59LYDNX"
+      },
+      {
+        "spotify_album_id": "23K1bd6MNQRR7WPXZHeH4V",
+        "include": true,
+        "episode_num": 2,
+        "title": "02: Voller Löcher!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1isQiIubSAe8uOvzDfAF3H",
+        "include": false,
+        "episode_num": null,
+        "title": "02: Voller Löcher!",
+        "exclude_reason": "Duplicate - same as 23K1bd6MNQRR7WPXZHeH4V"
+      },
+      {
+        "spotify_album_id": "6ipOuyo0NLmFm4WhGPRsUH",
+        "include": true,
+        "episode_num": 1,
+        "title": "01: Die Schule der magischen Tiere",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "21JyQm4gA1T6JPP9D2M6n1",
+        "include": false,
+        "episode_num": null,
+        "title": "01: Die Schule der magischen Tiere",
+        "exclude_reason": "Duplicate - same as 6ipOuyo0NLmFm4WhGPRsUH"
+      },
+      {
+        "spotify_album_id": "3K0akNWosBxlTDxYfn8qVo",
+        "include": false,
+        "episode_num": null,
+        "title": "Die Schule der magischen Tiere 9: Versteinert!",
+        "exclude_reason": "Hörbuch format (51 chapters) - prefer compact Hörspiel version"
+      },
+      {
+        "spotify_album_id": "0EucFZEiJuJ3psm31E6RF6",
+        "include": false,
+        "episode_num": null,
+        "title": "Die Schule der magischen Tiere - Endlich Ferien 2: Silas und Rick",
+        "exclude_reason": "Different artist - Endlich Ferien series handled separately"
+      },
+      {
+        "spotify_album_id": "3R5QGeXiLeYbk9uD4zg12C",
+        "include": false,
+        "episode_num": null,
+        "title": "Die Schule der magischen Tiere - Endlich Ferien 1: Rabbat und Ida",
+        "exclude_reason": "Different artist - Endlich Ferien series handled separately"
+      },
+      {
+        "spotify_album_id": "1VJmk9GkZgexLAJoRddZhb",
+        "include": false,
+        "episode_num": null,
+        "title": "Die Schule der magischen Tiere 8: Voll verknallt!",
+        "exclude_reason": "Hörbuch format (52 chapters) - prefer compact Hörspiel version"
+      },
+      {
+        "spotify_album_id": "0Knp5SXB3RfeYYVKyhvZut",
+        "include": false,
+        "episode_num": null,
+        "title": "Die Schule der magischen Tiere 7: Wo ist Mr. M?",
+        "exclude_reason": "Hörbuch format (50 chapters) - prefer compact Hörspiel version"
+      },
+      {
+        "spotify_album_id": "6VNkVrHo8xbPjjcOsRMNoS",
+        "include": false,
+        "episode_num": null,
+        "title": "Die Schule der magischen Tiere 6: Nass und nasser!",
+        "exclude_reason": "Hörbuch format (53 chapters) - prefer compact Hörspiel version"
+      },
+      {
+        "spotify_album_id": "3A3oKFpoF2e9x5tvHeX7XD",
+        "include": false,
+        "episode_num": null,
+        "title": "Die Schule der magischen Tiere 5: Top oder Flop!",
+        "exclude_reason": "Hörbuch format (49 chapters) - prefer compact Hörspiel version"
+      },
+      {
+        "spotify_album_id": "5SCmXMIOsHl3OCxc9LA4mT",
+        "include": false,
+        "episode_num": null,
+        "title": "Die Schule der magischen Tiere 4: Abgefahren!",
+        "exclude_reason": "Hörbuch format (51 chapters) - prefer compact Hörspiel version"
+      },
+      {
+        "spotify_album_id": "28sNOspzIKNdISUaBebYOF",
+        "include": false,
+        "episode_num": null,
+        "title": "Die Schule der magischen Tiere 3: Licht aus!",
+        "exclude_reason": "Hörbuch format (51 chapters) - prefer compact Hörspiel version"
+      },
+      {
+        "spotify_album_id": "202llxp8Bi5Nnm8oh3STBy",
+        "include": false,
+        "episode_num": null,
+        "title": "Die Schule der magischen Tiere 2: Voller Löcher!",
+        "exclude_reason": "Hörbuch format (52 chapters) - prefer compact Hörspiel version"
+      },
+      {
+        "spotify_album_id": "34qi1Frkim1V7vaCWczIs1",
+        "include": false,
+        "episode_num": null,
+        "title": "Die Schule der magischen Tiere 1: Die Schule der magischen Tiere",
+        "exclude_reason": "Hörbuch format (52 chapters) - prefer compact Hörspiel version"
+      },
+      {
+        "spotify_album_id": "7BuR28nL7HxvGDOugWfdwy",
+        "include": false,
+        "episode_num": null,
+        "title": "Lernzeit Kinderlieder",
+        "exclude_reason": "Generic compilation - not part of series"
+      },
+      {
+        "spotify_album_id": "28MvQgeYZjBj7xCl5sWnRs",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderlieder Herbst 2025",
+        "exclude_reason": "Generic compilation - not part of series"
+      },
+      {
+        "spotify_album_id": "4lpEBRYp9HnTCKhbRJJCY7",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderlieder Halloween Hits",
+        "exclude_reason": "Generic compilation - not part of series"
+      },
+      {
+        "spotify_album_id": "0wJI1LC9ILBeqfdmmbtgOY",
+        "include": true,
+        "episode_num": 7,
+        "title": "Die Schule der magischen Tiere ermittelt Neuausgabe 7: Das Biber-Rätsel",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6J0lMf0VTKlMOFdOWBH6cx",
+        "include": true,
+        "episode_num": 1,
+        "title": "Die Schule der magischen Tiere ermittelt Neuausgabe 1: Der grüne Glibber-Brief",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "40ykQ1s1aXHBvqY01icOgH",
+        "include": true,
+        "episode_num": 6,
+        "title": "Die Schule der magischen Tiere ermittelt - Hörspiele 6: Die Plätzchenfalle",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2BV1llH2yEJHA0sd1v79XS",
+        "include": true,
+        "episode_num": 5,
+        "title": "Die Schule der magischen Tiere ermittelt - Hörspiele 5: Der Gurkenschurke",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4cnVJNwU7zxqoWhdXfTQVE",
+        "include": true,
+        "episode_num": 4,
+        "title": "Die Schule der magischen Tiere ermittelt - Hörspiele 4: Der Flötenschreck",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4GSCVM2I65Axk4SnLG7uwP",
+        "include": true,
+        "episode_num": 3,
+        "title": "Die Schule der magischen Tiere ermittelt - Hörspiele 3: Der Kokosnuss-Klau",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7m215CftaAegMzq41SVA2H",
+        "include": true,
+        "episode_num": 2,
+        "title": "Die Schule der magischen Tiere ermittelt - Hörspiele 2: Der Hausschuh-Dieb",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3Q8v6eUrInqM28X8wq2KMV",
+        "include": true,
+        "episode_num": 9,
+        "title": "Die Schule der magischen Tiere - Endlich Ferien 9: Elisa und Silber",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5J3K0ilNR7ZPSnbtgvT2AP",
+        "include": false,
+        "episode_num": null,
+        "title": "Die Schule der magischen Tiere - Endlich Ferien: Meine große Ferienbox 2",
+        "exclude_reason": "Box set compilation of episodes 4-6"
+      },
+      {
+        "spotify_album_id": "0dOaOf0H2jCv6p3PfA6X67",
+        "include": false,
+        "episode_num": null,
+        "title": "Die Schule der magischen Tiere - Endlich Ferien: Meine große Ferienbox",
+        "exclude_reason": "Box set compilation of episodes 1-3"
+      },
+      {
+        "spotify_album_id": "0KzItGmx8zWKwE5GIRPtEp",
+        "include": true,
+        "episode_num": 8,
+        "title": "Die Schule der magischen Tiere - Endlich Ferien 8: Franka und Cooper",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3C2NQOAQTkmx0CqjF8spI3",
+        "include": true,
+        "episode_num": 7,
+        "title": "Die Schule der magischen Tiere - Endlich Ferien 7: Max und Muriel",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3b5wd28RfW3CwslIUBt2Q9",
+        "include": true,
+        "episode_num": 6,
+        "title": "Die Schule der magischen Tiere - Endlich Ferien 6: Hatice und Mette-Maja",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6vPp5wHskGPP5uVMvuvXoA",
+        "include": true,
+        "episode_num": 5,
+        "title": "Die Schule der magischen Tiere - Endlich Ferien 5: Benni und Henrietta",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3o1rRndcuuKj3OdeS0bxeU",
+        "include": true,
+        "episode_num": 4,
+        "title": "Die Schule der magischen Tiere - Endlich Ferien 4: Helene und Karajan",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0G0b3Kc6qzItvpk7TglhZD",
+        "include": true,
+        "episode_num": 3,
+        "title": "Die Schule der magischen Tiere - Endlich Ferien 3: Henry und Leander",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0EucFZEiJuJ3psm31E6RF6",
+        "include": true,
+        "episode_num": 2,
+        "title": "Die Schule der magischen Tiere - Endlich Ferien 2: Silas und Rick",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3R5QGeXiLeYbk9uD4zg12C",
+        "include": true,
+        "episode_num": 1,
+        "title": "Die Schule der magischen Tiere - Endlich Ferien 1: Rabbat und Ida",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5AVlKonmf9X6D2IRJJrbpU",
+        "include": false,
+        "episode_num": null,
+        "title": "Die Schule der magischen Tiere - Hörspiele: Witze!",
+        "exclude_reason": "Joke collection - not a story episode"
+      }
+    ],
+    "age_note": "Suitable from 6+",
+    "curator_notes": "Series spans 3 Spotify artists: main series (1BElEHaU2xaZg7FOGsSird), ermittelt spinoff (6wlMx6MhWCynm8yVU0K3V3), and Endlich Ferien spinoff (05iCN3BdeaMyUYHXiEp761). Main series has both Hörspiel (compact ~20-25 tracks) and Hörbuch (full ~50 tracks) formats per episode - included only the Hörspiel versions as canonical. Spinoff series are included as part of this catalog. Film adaptations, soundtracks, box sets, joke collections, and audiobook versions excluded."
+  }
+}

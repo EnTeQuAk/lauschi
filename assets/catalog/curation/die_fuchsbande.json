@@ -1,0 +1,364 @@
+{
+  "query": "Die Fuchsbande",
+  "model": "kimi-k2.5",
+  "curated_at": "2026-02-19T23:03:26.819580+00:00",
+  "series": {
+    "id": "die_fuchsbande",
+    "title": "Die Fuchsbande",
+    "aliases": [],
+    "keywords": [
+      "Fuchsbande"
+    ],
+    "spotify_artist_ids": [
+      "325gkGGHH2WrswRh3qC3e9"
+    ],
+    "episode_pattern": "(?:Folge|^0*)(\\d+)",
+    "albums": [
+      {
+        "spotify_album_id": "3aVyy451oaHxEKQGnPavDS",
+        "include": true,
+        "episode_num": 47,
+        "title": "Folge 47: Fall 93: Das duftende Tauschhaus/Fall 94: Die mantellosen Bäume",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "13aL2RJmpYzx7tWPAJqJ2N",
+        "include": true,
+        "episode_num": 46,
+        "title": "Folge 46: Fall 91: Die betupfte Decke/Fall 92: Das lilafarbene M",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0L1NK6AjgqqQvCtLsQiXdP",
+        "include": true,
+        "episode_num": 45,
+        "title": "Folge 45: Fall 89: Das vergeigte Konzert/Fall 90: Die springende Schildkröte",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6V6e37krDGrmRps28xyUAf",
+        "include": true,
+        "episode_num": 44,
+        "title": "Folge 44: Fall 87: Der geknickte Quittenbaum/Fall 88: Die unkrumme Bank",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4Gmyak6J9oQtoflhHOimeK",
+        "include": true,
+        "episode_num": 43,
+        "title": "Folge 43: Fall 85: Das Blaue vom Himmel/Fall 86: Die verlorenen Körner",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5h6FzG4gBtJm9WxdMZlgP2",
+        "include": true,
+        "episode_num": 42,
+        "title": "Folge 42: Fall 83: Die verwandelte Brille/Fall 84: Das abwesende Maskottchen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2eYkjmcdloz260ZkKcr0i8",
+        "include": false,
+        "episode_num": null,
+        "title": "Klangreise: Übernachtung auf dem Heuboden (ASMR)",
+        "exclude_reason": "ASMR spin-off, not part of main episode series"
+      },
+      {
+        "spotify_album_id": "0wM3T4qAFPGfPpEmy7SJxE",
+        "include": true,
+        "episode_num": 41,
+        "title": "Folge 41: Fall 81: Die leere Tasse/Fall 82: Der vertrüffelte Hund",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5eazh99SjgVmjVYZp2SCUk",
+        "include": true,
+        "episode_num": 40,
+        "title": "Folge 40: Fall 79: Die herzigen Birnen/Fall 80: Der trockene Napf",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "28Xxpd1vBm9DXaTWNx3pkn",
+        "include": true,
+        "episode_num": 39,
+        "title": "Folge 39: Fall 77: Die verschleppte Schleppe/Fall 78: Der gefiederte Vergessling",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1YfMrQjspDYj3akVCM8QnA",
+        "include": true,
+        "episode_num": 38,
+        "title": "Folge 38: Fall 75: Die fliegenden Tropfen/Fall 76: Der langsame Dieb",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2RJ1C1NBREfqFr7AjitFSU",
+        "include": true,
+        "episode_num": 37,
+        "title": "Folge 37: Fall 73: Die Löcher im Käse/Fall 74: Die verschwatzte Frau Bär",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3P31ecc5LD8v2EVOyddfeV",
+        "include": true,
+        "episode_num": 36,
+        "title": "Folge 36: Fall 71: Die verschlossenen Adventslieder/Fall 72: Die stibitzten Skistöcke",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3c2FO8D3s9xYjDTe4xwhz2",
+        "include": true,
+        "episode_num": 35,
+        "title": "Folge 35: Fall 69: Die vertrödelte Kiste/Fall 70: Das murmelnde Haus",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5C0bPf3OCqUVMi79RrIa55",
+        "include": true,
+        "episode_num": 34,
+        "title": "Folge 34: Fall 67: Die lange Leiter/Fall 68: Der hohle Teig",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1U7VPr80aQpaDmtsUO4wOe",
+        "include": true,
+        "episode_num": 33,
+        "title": "Folge 33: Fall 65: Die turbulente Reise/Fall 66: Die verschmierte Post",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "62ZPIJn5ilIGueqUuXp5F2",
+        "include": true,
+        "episode_num": 32,
+        "title": "Folge 32: Fall 63: Das wilde Wort/Fall 64: Der Hausi-Geburtstag",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "10c375nG0zJpAv24rpRX8o",
+        "include": true,
+        "episode_num": 31,
+        "title": "Folge 31: Fall 61: Die abgebrochene Scheibe/Fall 62: Der freundliche Vogel",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0viZZVceJCZfJWxJlj2oWR",
+        "include": true,
+        "episode_num": 30,
+        "title": "Folge 30: Fall 59: Die stinkige Tonne/Fall 60: Das unbekannte Ticket",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7Ayud3aAxc7aWQmDH4ujtc",
+        "include": true,
+        "episode_num": 29,
+        "title": "Folge 29: Fall 57: Die abgehauenen Tücher/Fall 58: Die frechen Perlendiebe",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "36mDrpl6HUcixJGk3UMn8i",
+        "include": true,
+        "episode_num": 28,
+        "title": "Folge 28: Fall 55: Die beerige Erdtorte/Fall 56: Der entmützte Detektiv",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "58AJmCvnLhYfFsh3BWSJLG",
+        "include": true,
+        "episode_num": 27,
+        "title": "Folge 27: Fall 53: Die gefressenen Würstchen/Fall 54: Die matschige Krone",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "39Xi8HCPOjj7pn8y76CNwM",
+        "include": true,
+        "episode_num": 26,
+        "title": "Folge 26: Fall 51: Das endlose Handtuch / Fall 52: Der leuchtende Baum",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3RQQUQqqlWObaTqwcfkA7t",
+        "include": true,
+        "episode_num": 25,
+        "title": "Folge 25: Fall 49: Der gestörte Schlaf / Fall 50: Das vergessene Versteck",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0wYj4EYmOSx6eUpFvlo44i",
+        "include": true,
+        "episode_num": 24,
+        "title": "Folge 24: Fall 47: Das gekaufte Geld / Fall 48: Die kaputte Kamera",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5Lgonbj5oL1uhPBnOmsd36",
+        "include": true,
+        "episode_num": 23,
+        "title": "Folge 23: Fall 45: Die Pommesblume/Fall 46: Die hüpfende Füchsin",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "55t1uHj914MXQfQADVS4rr",
+        "include": true,
+        "episode_num": 22,
+        "title": "Folge 22: Fall 43: Das unheimliche Geräusch/Fall 44: Die große Kleckerei",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1n3ntc2mflurvW9A0OLy6H",
+        "include": true,
+        "episode_num": 21,
+        "title": "021/Fall 41: Die Walnuss-Nachricht/Fall 42: Der doppelte Hund",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0FSwqtGu8CggSXVAXMjQ5I",
+        "include": true,
+        "episode_num": 20,
+        "title": "020/Fall 39: Die offenen Türen / Fall 40: Der blättrige Besen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4HZlFQEYy16LzPTZaHpFiA",
+        "include": true,
+        "episode_num": 19,
+        "title": "019/Fall 37: Die unvollständige Puppe/Fall 38: Die froschigen Streifen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1Y5yIVPtNNQFBZutVOMZns",
+        "include": true,
+        "episode_num": 18,
+        "title": "018/Fall 35: Die sportliche Medaille/Fall 36: Das angeschlossene Schloss",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "338XHbl933gNWeGt4QvY8B",
+        "include": true,
+        "episode_num": 17,
+        "title": "017/Fall 33: Der bebrillte Schwan / Fall 34: Der giftgrüne Matsch (018)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0838VGfsNQ8G1TdX5kwbo1",
+        "include": true,
+        "episode_num": 16,
+        "title": "016/Fall 31: Die geknickten Bilder/Fall 32: Das rätselhafte Verschwinden",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "10Af55AXkVf2V42KZvtCa1",
+        "include": true,
+        "episode_num": 15,
+        "title": "015/Fall 29: Der unsichtbare Pferdekopf/Fall 30: Der kratzige Kratzer",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3XacAQ1uUgL2X0cImRtpAr",
+        "include": true,
+        "episode_num": 14,
+        "title": "014/Fall 27: Der sportliche Fisch / Fall 28: Die krautige Vertopfung",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5cbjFAQ9M1RnSoqHI85BIJ",
+        "include": true,
+        "episode_num": 13,
+        "title": "013/Fall 25: Der geschmolzene Schlüssel / Fall 26: Das glitzernde Brot",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2rN03tmPl4n3BsYaY2yych",
+        "include": true,
+        "episode_num": 12,
+        "title": "012/Fall 23: Das räuberische Treffen / Fall 24: Das verirrte Buch",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5rMpAIF68vhjwNA7ybu8NF",
+        "include": true,
+        "episode_num": 11,
+        "title": "011/Fall 21: Der zerzauste Sessel / Fall 22: Die verwehten Kissen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6grmYJDhx6Awm7oVxDqWe8",
+        "include": true,
+        "episode_num": 10,
+        "title": "010/Fall 19: Das Loch in der Tür/Fall 20: Der verfuchste Hase",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "19Dxbu9wkb6fFyHuq6vHnC",
+        "include": true,
+        "episode_num": 9,
+        "title": "009/Fall 17: Die Sockenklaumaschine/Fall 18: Die neuen Haare",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4OSY4YdaBRGGAldoKfCiWF",
+        "include": true,
+        "episode_num": 8,
+        "title": "008/Fall 15: Die verlassene Hundehütte / Fall 16: Die halbe Flöte",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6JhSrAOjc8dkoCZ6LFXJt4",
+        "include": true,
+        "episode_num": 7,
+        "title": "007/Fall 13: Die gerissene Seite / Fall 14: Der Melonenschwund",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0Vly4FeiiQFpyRlnihDALR",
+        "include": true,
+        "episode_num": 6,
+        "title": "006/Fall 11: Die seltsame Schatzkarte/Fall 12: Das eintönige Mittagessen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5tK88CMbWw0QpjNvNC7WhL",
+        "include": true,
+        "episode_num": 5,
+        "title": "005/Fall 9: Die kurzen Blumen/Fall 10: Der verrückte Roller",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5MR55umz0Hk0Gz2iSemVy8",
+        "include": true,
+        "episode_num": 4,
+        "title": "004/Fall 7: Die leeren Nikolausstiefel/Fall 8: Der verschmückte Weihnachtsbaum",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2HpZLorxjwfhJ7sDyRtRgd",
+        "include": true,
+        "episode_num": 3,
+        "title": "003/Fall 5: Das geheimnisvolle Geschenk / Fall 6: Das gerupfte Bäumchen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3GDCT2cAeYOQByty9GQHHQ",
+        "include": true,
+        "episode_num": 2,
+        "title": "002/Fall 3: Der verschwundene Apfel / Fall 4: Der dicke Schmutz",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3VxXxgKlzJYoxKQHmikX6w",
+        "include": true,
+        "episode_num": 1,
+        "title": "001/Fall 1: Der Skandal im Hof / Fall 2: Die Spur des Riesen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "15jmKkyEY06OFIe4SD51fW",
+        "include": false,
+        "episode_num": null,
+        "title": "Singt alle mit! Bekannte Kinderlieder in der Fuchsbande-Version",
+        "exclude_reason": "Sing-along album, not Hörspiel episodes"
+      }
+    ],
+    "age_note": "Suitable from 5+",
+    "curator_notes": "Series uses 'Fall' numbering (each episode contains 2 cases). Naming convention changed from 'XXX/Fall' to 'Folge XX: Fall' starting with episode 22. All 47 episodes included from single artist. No Retro-Archiv or Junior variants found for this series."
+  }
+}

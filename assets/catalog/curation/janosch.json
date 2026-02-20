@@ -1,0 +1,469 @@
+{
+  "query": "Janosch",
+  "model": "kimi-k2.5",
+  "curated_at": "2026-02-20T01:32:57.253729+00:00",
+  "series": {
+    "id": "janosch",
+    "title": "Janosch",
+    "aliases": [
+      "Tiger und Bär",
+      "Oh, wie schön ist Panama"
+    ],
+    "keywords": [
+      "Janosch",
+      "Tiger",
+      "Bär",
+      "Panama"
+    ],
+    "spotify_artist_ids": [
+      "2QnEjtjHZPLkj6dYDmSigw",
+      "3nlL14buDHDauNHCqjQedM"
+    ],
+    "episode_pattern": "Folge (\\d+)",
+    "albums": [
+      {
+        "spotify_album_id": "3D1GniTqigBPXw5PbqBvzk",
+        "include": false,
+        "episode_num": null,
+        "title": "Dzień dobry, Świnko!",
+        "exclude_reason": "Polish language version, not German"
+      },
+      {
+        "spotify_album_id": "6MMgH6fDluJtqn20I9Ewrn",
+        "include": false,
+        "episode_num": null,
+        "title": "Tygryskowi potrzebny jest rower",
+        "exclude_reason": "Polish language version, not German"
+      },
+      {
+        "spotify_album_id": "7xWq9Pv83nVAh4Q0in2laJ",
+        "include": false,
+        "episode_num": null,
+        "title": "Miś i Tygrysek przechodzą przez ulicę",
+        "exclude_reason": "Polish language version, not German"
+      },
+      {
+        "spotify_album_id": "3AyjPnMdKGhn1MxqselMcG",
+        "include": false,
+        "episode_num": null,
+        "title": "Ja cię wyleczę, powiedział Miś",
+        "exclude_reason": "Polish language version, not German"
+      },
+      {
+        "spotify_album_id": "7p9soyfjtUKK5rWdzcLVhC",
+        "include": false,
+        "episode_num": null,
+        "title": "Miś i Tygrysek. Wyprawa po skarb",
+        "exclude_reason": "Polish language version, not German"
+      },
+      {
+        "spotify_album_id": "4XYlrafMlRIfSBAEpMmlGU",
+        "include": false,
+        "episode_num": null,
+        "title": "Miś i Tygrysek. Poczta Misiowo-Tygryskowa",
+        "exclude_reason": "Polish language version, not German"
+      },
+      {
+        "spotify_album_id": "6va8AuQKH9r0XArwCGpTC3",
+        "include": false,
+        "episode_num": null,
+        "title": "Miś i Tygrysek. Wielkie urodziny u Tygryska",
+        "exclude_reason": "Polish language version, not German"
+      },
+      {
+        "spotify_album_id": "7KTOelTnZhtxTmSrka7mQV",
+        "include": false,
+        "episode_num": null,
+        "title": "Komum, finnum fjársjóð",
+        "exclude_reason": "Icelandic language version, not German"
+      },
+      {
+        "spotify_album_id": "6Q5AUvk9Cd5DYfo7Xle2uE",
+        "include": false,
+        "episode_num": null,
+        "title": "Ferðin til Panama",
+        "exclude_reason": "Icelandic language version, not German"
+      },
+      {
+        "spotify_album_id": "2qBfAEGEt1LKgOb5u4Cz7J",
+        "include": false,
+        "episode_num": null,
+        "title": "Bréf til tígrisdýrsins",
+        "exclude_reason": "Icelandic language version, not German"
+      },
+      {
+        "spotify_album_id": "4RSmewlNcv7Tcf5Ln50hp6",
+        "include": false,
+        "episode_num": null,
+        "title": "Miś i Tygrysek. Ach, jaka piękna jest Panama!",
+        "exclude_reason": "Polish language version, not German"
+      },
+      {
+        "spotify_album_id": "24Ancu9LlnFOEgpP71LFc8",
+        "include": false,
+        "episode_num": null,
+        "title": "Tule terveeksi, pikku tiikeri",
+        "exclude_reason": "Finnish language version, not German"
+      },
+      {
+        "spotify_album_id": "4cLTI9rtiPd1cabiviLcCp",
+        "include": false,
+        "episode_num": null,
+        "title": "Postia tiikerille",
+        "exclude_reason": "Finnish language version, not German"
+      },
+      {
+        "spotify_album_id": "4EUX80csDcTuD6V7bDQVwL",
+        "include": false,
+        "episode_num": null,
+        "title": "Oi ihana Panama",
+        "exclude_reason": "Finnish language version, not German"
+      },
+      {
+        "spotify_album_id": "7jNdKOO9CdJbiaedVquSdu",
+        "include": false,
+        "episode_num": null,
+        "title": "Aarretta etsimässä",
+        "exclude_reason": "Finnish language version, not German"
+      },
+      {
+        "spotify_album_id": "1cAIno2b8EXEJcjSsr4E0h",
+        "include": false,
+        "episode_num": null,
+        "title": "Tiikerin jymyjuhlat",
+        "exclude_reason": "Finnish language version, not German"
+      },
+      {
+        "spotify_album_id": "4pBIlfgdKfOFZP7zfFQr3b",
+        "include": false,
+        "episode_num": null,
+        "title": "Pikku tiikeri tarvitsee polkupyörän",
+        "exclude_reason": "Finnish language version, not German"
+      },
+      {
+        "spotify_album_id": "4GimQ6XbUvCIYYPkcUKwDJ",
+        "include": false,
+        "episode_num": null,
+        "title": "Pikku karhu ja pikku tiikeri kaupungin kohinassa",
+        "exclude_reason": "Finnish language version, not German"
+      },
+      {
+        "spotify_album_id": "7xU5jZ6ZjpsJmlDx08Ln6I",
+        "include": false,
+        "episode_num": null,
+        "title": "Hyvää päivää, pikku possu",
+        "exclude_reason": "Finnish language version, not German"
+      },
+      {
+        "spotify_album_id": "7GS8zG5t5MIIIOPkr1OmJW",
+        "include": false,
+        "episode_num": null,
+        "title": "Grande festa per Tigre",
+        "exclude_reason": "Italian language version, not German"
+      },
+      {
+        "spotify_album_id": "53Drmzi7fj7JsTZQ21f62N",
+        "include": false,
+        "episode_num": null,
+        "title": "Troviamo un tesoro",
+        "exclude_reason": "Italian language version, not German"
+      },
+      {
+        "spotify_album_id": "6Nt6vkzZpzWyPrLZgAJ8E1",
+        "include": false,
+        "episode_num": null,
+        "title": "Tigre e Orso in città",
+        "exclude_reason": "Italian language version, not German"
+      },
+      {
+        "spotify_album_id": "3Q4AoO2PjXbRTECuqsLC3c",
+        "include": false,
+        "episode_num": null,
+        "title": "Ti guarisco io, disse Orso",
+        "exclude_reason": "Italian language version, not German"
+      },
+      {
+        "spotify_album_id": "1f752SBPegmNi4YYF5k13g",
+        "include": false,
+        "episode_num": null,
+        "title": "Posta per Tigre",
+        "exclude_reason": "Italian language version, not German"
+      },
+      {
+        "spotify_album_id": "1WgVGEKgjFANAFIBP61AJf",
+        "include": false,
+        "episode_num": null,
+        "title": "Piccolo Tigre e la bicicletta",
+        "exclude_reason": "Italian language version, not German"
+      },
+      {
+        "spotify_album_id": "13Ik02nEHnJENdUI0aGJHR",
+        "include": false,
+        "episode_num": null,
+        "title": "Oh, com'è bella Panama",
+        "exclude_reason": "Italian language version, not German"
+      },
+      {
+        "spotify_album_id": "67BP3ebtmFSm4qpAGMuqeV",
+        "include": false,
+        "episode_num": null,
+        "title": "Buongiorno, Piccolo Maialino",
+        "exclude_reason": "Italian language version, not German"
+      },
+      {
+        "spotify_album_id": "1Mn6AIFjgVdvuFu1F4AiDx",
+        "include": false,
+        "episode_num": null,
+        "title": "Oh, wie schön ist Panama - Das Original-Liederalbum (Instrumental-Versionen zum Mitsingen)",
+        "exclude_reason": "Sing-along album, not Hörspiel"
+      },
+      {
+        "spotify_album_id": "72PZZ0r6olFzzJzPdKTIGX",
+        "include": false,
+        "episode_num": null,
+        "title": "Best of Janosch - Das Leben ist schön!",
+        "exclude_reason": "Best of compilation"
+      },
+      {
+        "spotify_album_id": "64CZQ7tFkckRrAzoqufxci",
+        "include": false,
+        "episode_num": null,
+        "title": "Janoschs Schönste Zahnputzlieder – Richtig Zähneputzen mit Tiger und Bär",
+        "exclude_reason": "Sing-along/tooth brushing songs, not Hörspiel"
+      },
+      {
+        "spotify_album_id": "4jJ5CtnE47zyDxONU0KK18",
+        "include": false,
+        "episode_num": null,
+        "title": "Janoschs Schönste Winter - und Weihnachtslieder",
+        "exclude_reason": "Sing-along album, not Hörspiel"
+      },
+      {
+        "spotify_album_id": "2XPa5ccswP7n9JFgzW4r1l",
+        "include": true,
+        "episode_num": 4,
+        "title": "Folge 4: Komm, wir finden einen Schatz",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3LyfzXhN5ExLhPqaasYd7Z",
+        "include": true,
+        "episode_num": 3,
+        "title": "Folge 3: Ich mach dich gesund, sagte der Bär",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1Sd7bF2ZKQW6H0yJRRLxnk",
+        "include": true,
+        "episode_num": 1,
+        "title": "Oh, wie schön ist Panama",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0UdbLbzP72CouY45FhiJan",
+        "include": true,
+        "episode_num": 2,
+        "title": "Folge 2: Post für den Tiger",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7DystyZetX5Muhtvoq6ja7",
+        "include": false,
+        "episode_num": null,
+        "title": "Komm, wir finden einen Schatz (Das Original-Hörspiel zum Kinofilm)",
+        "exclude_reason": "Movie adaptation, duplicate of Folge 4"
+      },
+      {
+        "spotify_album_id": "6USHIjpMLCTjj6q0kR6E6s",
+        "include": false,
+        "episode_num": null,
+        "title": "Das Beste von Tiger & Bär",
+        "exclude_reason": "Best of compilation"
+      },
+      {
+        "spotify_album_id": "5d6o83IUBjdmvZ3v6opygs",
+        "include": false,
+        "episode_num": null,
+        "title": "Wigald Boning liest Janosch - Riesenparty für den Tiger & drei weitere Geschichten [Väter sprechen Janosch, Folge 4 (Ungekürzt)]",
+        "exclude_reason": "Celebrity reading series, different narrator"
+      },
+      {
+        "spotify_album_id": "7GJcP3Tsu9aVsLu5i4I0Tt",
+        "include": false,
+        "episode_num": null,
+        "title": "Til Schweiger liest Janosch - Oh, wie schön ist Panama & zwei weitere Geschichten [Väter sprechen Janosch, Folge 1 (Ungekürzt)]",
+        "exclude_reason": "Celebrity reading series, different narrator"
+      },
+      {
+        "spotify_album_id": "2ADIAMDHdqzdwnqqlI2s19",
+        "include": false,
+        "episode_num": null,
+        "title": "Günther Jauch liest Janosch - Post für den Tiger & zwei weitere Geschichten [Väter sprechen Janosch, Folge 2 (Ungekürzt)]",
+        "exclude_reason": "Celebrity reading series, different narrator"
+      },
+      {
+        "spotify_album_id": "1NYB6fQ8okVNr3D9owIQTC",
+        "include": false,
+        "episode_num": null,
+        "title": "Janosch - Oh, wie schön ist Panama (Das Original-Hörspiel zum Kinofilm)",
+        "exclude_reason": "Movie adaptation, duplicate of Folge 1"
+      },
+      {
+        "spotify_album_id": "1QOnsX9Q2sJsirArxxfMhf",
+        "include": false,
+        "episode_num": null,
+        "title": "Janosch - Cholonek oder der liebe Gott aus Lehm, der Janosch für Erwachsene (ungekürzt)",
+        "exclude_reason": "Adult audiobook, not children's Hörspiel"
+      },
+      {
+        "spotify_album_id": "1xES9AShcC0ssT0DQIktP4",
+        "include": false,
+        "episode_num": null,
+        "title": "Petit Tigre a besoin d'un vélo",
+        "exclude_reason": "French language version, not German"
+      },
+      {
+        "spotify_album_id": "6v8OYvQcbSuUhlMONn5Efi",
+        "include": false,
+        "episode_num": null,
+        "title": "Petit Tigre, Petit Ours et la circulation routière",
+        "exclude_reason": "French language version, not German"
+      },
+      {
+        "spotify_album_id": "612Uc5iQrrQbkbfUi63Bai",
+        "include": false,
+        "episode_num": null,
+        "title": "Une grande fête pour Petit Tigre",
+        "exclude_reason": "French language version, not German"
+      },
+      {
+        "spotify_album_id": "0K3KAo6x2AiYQfPYt7hKf9",
+        "include": false,
+        "episode_num": null,
+        "title": "Bonjour, Petit Cochon",
+        "exclude_reason": "French language version, not German"
+      },
+      {
+        "spotify_album_id": "2mopVgGyLlS3NcInzwnprh",
+        "include": false,
+        "episode_num": null,
+        "title": "Je vais te soigner, dit Petit Ours",
+        "exclude_reason": "French language version, not German"
+      },
+      {
+        "spotify_album_id": "3PrtVDYsh5kySoNCyc6VDq",
+        "include": false,
+        "episode_num": null,
+        "title": "Du courrier pour Petit Tigre",
+        "exclude_reason": "French language version, not German"
+      },
+      {
+        "spotify_album_id": "21vAVbXD19ykKvYQTlYfUU",
+        "include": false,
+        "episode_num": null,
+        "title": "Viens, allons trouver un trésor",
+        "exclude_reason": "French language version, not German"
+      },
+      {
+        "spotify_album_id": "0EC4SOpmhj7u66fqZ6Dzq4",
+        "include": false,
+        "episode_num": null,
+        "title": "Ah, comme c'est charmant, le Panama",
+        "exclude_reason": "French language version, not German"
+      },
+      {
+        "spotify_album_id": "0NvbWgQ7zI99PxlrzHHFIo",
+        "include": false,
+        "episode_num": null,
+        "title": "Oh, wie schön doch Freunde sind! (Nach einer Figurenwelt von Janosch)",
+        "exclude_reason": "Compilation of multiple stories (58 tracks)"
+      },
+      {
+        "spotify_album_id": "6a5vQQdFrDg21WhcM5yON0",
+        "include": false,
+        "episode_num": null,
+        "title": "Jetzt wird geschlafen, Freunde! Gutenachtgeschichten mit Tiger und Bär. Teil 3 (Nach einer Figurenwelt von Janosch)",
+        "exclude_reason": "Bedtime stories collection, not numbered episodes"
+      },
+      {
+        "spotify_album_id": "5yZwgSjFQklIZjxBk0x5A4",
+        "include": false,
+        "episode_num": null,
+        "title": "Jetzt wird geschlafen, Freunde! Gutenachtgeschichten mit Tiger und Bär. Teil 2 (Nach einer Figurenwelt von Janosch)",
+        "exclude_reason": "Bedtime stories collection, not numbered episodes"
+      },
+      {
+        "spotify_album_id": "48ggaHb1KvtbMcGWdgTB3o",
+        "include": false,
+        "episode_num": null,
+        "title": "Jetzt wird geschlafen, Freunde! Gutenachtgeschichten mit Tiger und Bär. Teil 1 (Nach einer Figurenwelt von Janosch)",
+        "exclude_reason": "Bedtime stories collection, not numbered episodes"
+      },
+      {
+        "spotify_album_id": "0ooDkuZxUQ3VfE8FCvIhI9",
+        "include": false,
+        "episode_num": null,
+        "title": "Der kleine Tiger und das wahre Glück (Nach einer Figurenwelt von Janosch)",
+        "exclude_reason": "Spinoff story collection, not main numbered series"
+      },
+      {
+        "spotify_album_id": "2CPVFCOQqUGY9ftcYmKP0N",
+        "include": false,
+        "episode_num": null,
+        "title": "Tiger und Bär, es weihnachtet sehr! (Nach einer Figurenwelt von Janosch)",
+        "exclude_reason": "Christmas special collection, not main numbered series"
+      },
+      {
+        "spotify_album_id": "3iRiP9FzYHeACQ9c8cq0S9",
+        "include": false,
+        "episode_num": null,
+        "title": "Zusammen ist man stark und eine weitere Geschichte (Nach einer Figurenwelt von Janosch)",
+        "exclude_reason": "Spinoff story collection, not main numbered series"
+      },
+      {
+        "spotify_album_id": "7I11up1C7Qa2QxK1slYkUT",
+        "include": false,
+        "episode_num": null,
+        "title": "Als der Tiger einmal der Bär sein wollte (Nach einer Figurenwelt von Janosch)",
+        "exclude_reason": "Spinoff story collection, not main numbered series"
+      },
+      {
+        "spotify_album_id": "0k1ayoWNLZxATYmLPQnhf7",
+        "include": false,
+        "episode_num": null,
+        "title": "Der kleine Tiger und der große Mut (Nach einer Figurenwelt von Janosch)",
+        "exclude_reason": "Spinoff story collection, not main numbered series"
+      },
+      {
+        "spotify_album_id": "42Dyn025uXpqiR1JcVkAig",
+        "include": false,
+        "episode_num": null,
+        "title": "Mit dir macht das Leben Spaß, aber sowas von! (Nach einer Figurenwelt von Janosch)",
+        "exclude_reason": "Compilation of multiple stories (57 tracks)"
+      },
+      {
+        "spotify_album_id": "0yExmhvcv40mdtsPeq4EMW",
+        "include": false,
+        "episode_num": null,
+        "title": "Der kleine Tiger wünscht sich Tigerfreunde (Nach einer Figurenwelt von Janosch)",
+        "exclude_reason": "Spinoff story collection, not main numbered series"
+      },
+      {
+        "spotify_album_id": "14PJnw8auRd0DUccvYVRGu",
+        "include": false,
+        "episode_num": null,
+        "title": "Als Tiger und Bär beinahe das Beste verpassten (Nach einer Figurenwelt von Janosch)",
+        "exclude_reason": "Spinoff story collection, not main numbered series"
+      },
+      {
+        "spotify_album_id": "0DBtedQ8MznLrkNDXfQPBV",
+        "include": false,
+        "episode_num": null,
+        "title": "Oh, wie schön ist Panama (Lieder aus dem Musical)",
+        "exclude_reason": "Musical songs, not Hörspiel"
+      }
+    ],
+    "age_note": "Suitable from 3+",
+    "curator_notes": "The main Janosch Hörspiel series consists of 4 numbered episodes (Folge 1-4) released by Floff. The artist 'Tiger und Bär' contains newer spinoff stories based on Janosch's characters but these are not part of the classic numbered series. Foreign language versions (Polish, Finnish, Italian, French, Icelandic) are excluded. The 'Väter sprechen Janosch' series features celebrity narrators (Til Schweiger, Günther Jauch, Wigald Boning) reading the same stories but are excluded as they represent an alternate narration, not the original Hörspiel production."
+  }
+}

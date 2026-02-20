@@ -1,0 +1,326 @@
+{
+  "query": "Michael Ende",
+  "model": "kimi-k2.5",
+  "curated_at": "2026-02-20T01:28:31.300190+00:00",
+  "series": {
+    "id": "michael_ende",
+    "title": "Michael Ende",
+    "aliases": [],
+    "keywords": [
+      "Michael Ende",
+      "Momo",
+      "Jim Knopf",
+      "Die unendliche Geschichte",
+      "Der Wunschpunsch"
+    ],
+    "spotify_artist_ids": [
+      "1VORulhv2aMemo1kSvxdVX"
+    ],
+    "episode_pattern": null,
+    "albums": [
+      {
+        "spotify_album_id": "2OJxlcuEHJOtEp0PAMDdeY",
+        "include": true,
+        "episode_num": null,
+        "title": "Momo – Das Hörspiel zum Kinofilm (Das Hörspiel zum Film)",
+        "exclude_reason": "Film tie-in Hörspiel, not part of numbered series"
+      },
+      {
+        "spotify_album_id": "5ZSqHZinNuGiEvhRuIpTxi",
+        "include": true,
+        "episode_num": null,
+        "title": "Momo - Das Hörspiel",
+        "exclude_reason": "Full novel adaptation, not episodic series"
+      },
+      {
+        "spotify_album_id": "5VGtysEgrsioLtEYdf1fiu",
+        "include": false,
+        "episode_num": null,
+        "title": "Momo en de tijdspaarders",
+        "exclude_reason": "Dutch language version"
+      },
+      {
+        "spotify_album_id": "1zrUuet13zT0U6zVE4DGeh",
+        "include": true,
+        "episode_num": null,
+        "title": "Jim Knopf - Hörspiele: Jim Knopf und die Wilde 13 - Das Hörspiel",
+        "exclude_reason": "Full novel adaptation, not episodic series"
+      },
+      {
+        "spotify_album_id": "4D3freTvvr9R3IY9ffoPJE",
+        "include": true,
+        "episode_num": null,
+        "title": "Jim Knopf - Hörspiele: Jim Knopf und Lukas der Lokomotivführer - Das Hörspiel",
+        "exclude_reason": "Full novel adaptation, not episodic series"
+      },
+      {
+        "spotify_album_id": "1OYQLxTOg3IhOi7gR31QHk",
+        "include": true,
+        "episode_num": null,
+        "title": "Jim Knopf und Lukas – Auf zu neuen Ufern",
+        "exclude_reason": "Full novel adaptation, not episodic series"
+      },
+      {
+        "spotify_album_id": "2wFuB4iNXrE6FlOkrJAHtq",
+        "include": true,
+        "episode_num": null,
+        "title": "Lenchens Geheimnis",
+        "exclude_reason": "Full novel adaptation, not episodic series"
+      },
+      {
+        "spotify_album_id": "01ZSl1I4n9DRLCD6loDGTA",
+        "include": false,
+        "episode_num": null,
+        "title": "Het oneindige verhaal",
+        "exclude_reason": "Dutch language version"
+      },
+      {
+        "spotify_album_id": "1DdJ8dfyR3tCNKFObDv1EC",
+        "include": true,
+        "episode_num": null,
+        "title": "Jim Knopf und Lukas auf großer Reise",
+        "exclude_reason": "Full novel adaptation, not episodic series"
+      },
+      {
+        "spotify_album_id": "2mdVzm7cYhifVGhBJEiyiZ",
+        "include": true,
+        "episode_num": null,
+        "title": "Rodrigo Raubein und Knirps, sein Knappe",
+        "exclude_reason": "Full novel adaptation, not episodic series"
+      },
+      {
+        "spotify_album_id": "3uEIZnPLCL7oyzAv1LDLbX",
+        "include": true,
+        "episode_num": null,
+        "title": "Das Traumfresserchen / Das kleine Lumpenkasperle",
+        "exclude_reason": "Short story collection, not episodic series"
+      },
+      {
+        "spotify_album_id": "2WsIzNKGcuYJxvrcgmSv2p",
+        "include": true,
+        "episode_num": null,
+        "title": "Der Teddy und die Tiere und weitere Geschichten",
+        "exclude_reason": "Short story collection, not episodic series"
+      },
+      {
+        "spotify_album_id": "4T219OxthZeYAtVEcLtd16",
+        "include": true,
+        "episode_num": null,
+        "title": "Das Schnurpsenbuch",
+        "exclude_reason": "Full novel adaptation, not episodic series"
+      },
+      {
+        "spotify_album_id": "735iwIhG7zQyNE4LSpBAq7",
+        "include": true,
+        "episode_num": null,
+        "title": "Jim Knopf findet's raus (Geschichten von Himmelsforschern, Halbdrachen und Flugmaschinen)",
+        "exclude_reason": "Full novel adaptation, not episodic series"
+      },
+      {
+        "spotify_album_id": "0BA4qY3cOoHd1VpGpsyZWl",
+        "include": false,
+        "episode_num": null,
+        "title": "Das große Michael-Ende-Hörbuch (Otto Mellies liest Märchen, Erzählungen und Gedichte)",
+        "exclude_reason": "Compilation audiobook - box set with 75 tracks"
+      },
+      {
+        "spotify_album_id": "11wArUgNLB4hEeDHzd2t2M",
+        "include": true,
+        "episode_num": null,
+        "title": "Tranquilla Trampeltreu und weitere Fabeln von Michael Ende (Tranquilla Trampeltreu, Der Lindwurm und der Schmetterling und Norbert Nackendick)",
+        "exclude_reason": "Fable collection, not episodic series"
+      },
+      {
+        "spotify_album_id": "7piDNWYSJ11gomnKKNuQfR",
+        "include": false,
+        "episode_num": null,
+        "title": "Jim Knopf und Lukas der Lokomotivführer - Kinderoper",
+        "exclude_reason": "Opera/musical adaptation, not Hörspiel"
+      },
+      {
+        "spotify_album_id": "58B517SVoupqnL3LazpOtc",
+        "include": true,
+        "episode_num": null,
+        "title": "Filemon Faltenreich + Der Lindwurm und der Schmetterling",
+        "exclude_reason": "Short fables, not episodic series"
+      },
+      {
+        "spotify_album_id": "5MjawExCW8GQ3V1b2mQzch",
+        "include": true,
+        "episode_num": null,
+        "title": "Jim Knopf - Hörspiele: Jim Knopf und die Wilde 13 - Das Hörspiel",
+        "exclude_reason": "Full novel adaptation, not episodic series"
+      },
+      {
+        "spotify_album_id": "4iyysgUrEoLyQytonklJXk",
+        "include": true,
+        "episode_num": null,
+        "title": "Jim Knopf - Hörspiele: Jim Knopf und Lukas der Lokomotivführer - Das Hörspiel",
+        "exclude_reason": "Full novel adaptation, not episodic series"
+      },
+      {
+        "spotify_album_id": "0P5PProFj9QrFq7A1SOiz5",
+        "include": true,
+        "episode_num": null,
+        "title": "Die Zauberschule und andere Geschichten",
+        "exclude_reason": "Short story collection, not episodic series"
+      },
+      {
+        "spotify_album_id": "2mwM863HbGmuQifNg5tUbo",
+        "include": false,
+        "episode_num": null,
+        "title": "Englisch lernen mit Jim Knopf und Lukas dem Lokomotivführer",
+        "exclude_reason": "Educational language learning content"
+      },
+      {
+        "spotify_album_id": "00jYXBJOOOxN12Gk9CTvKm",
+        "include": true,
+        "episode_num": null,
+        "title": "Momo",
+        "exclude_reason": "Full novel adaptation, not episodic series"
+      },
+      {
+        "spotify_album_id": "5TxGfagtpgnubzckeYL1cp",
+        "include": true,
+        "episode_num": null,
+        "title": "Michael Ende: Der Spiegel im Spiegel",
+        "exclude_reason": "Short story collection, not episodic series"
+      },
+      {
+        "spotify_album_id": "6iqicOtTGvLXFaMzjIkaRl",
+        "include": true,
+        "episode_num": null,
+        "title": "Das kleine Lumpenkasperle",
+        "exclude_reason": "Short story, not episodic series"
+      },
+      {
+        "spotify_album_id": "4SV29ZWSvIrBkByNCZyMxP",
+        "include": true,
+        "episode_num": null,
+        "title": "Das Traumfresserchen",
+        "exclude_reason": "Short story, not episodic series"
+      },
+      {
+        "spotify_album_id": "79uUbEl40eBlQBOhe4vzFt",
+        "include": true,
+        "episode_num": null,
+        "title": "Der Wunschpunsch",
+        "exclude_reason": "Full novel adaptation, not episodic series"
+      },
+      {
+        "spotify_album_id": "0sLc0qizQEf4qulTzzGxQv",
+        "include": false,
+        "episode_num": null,
+        "title": "Der satanarchäolügenialkohöllische Wunschpunsch - Die Lesung",
+        "exclude_reason": "Audiobook reading, not Hörspiel"
+      },
+      {
+        "spotify_album_id": "3qWpx1DiKpZcYkedfIa4AI",
+        "include": true,
+        "episode_num": null,
+        "title": "Der satanarchäolügenialkohöllische Wunschpunsch - Das WDR-Hörspiel",
+        "exclude_reason": "Full novel adaptation, not episodic series"
+      },
+      {
+        "spotify_album_id": "4eTEB1b216vcQjXuBjA6Ph",
+        "include": true,
+        "episode_num": null,
+        "title": "Der satanarchäolügenialkohöllische Wunschpunsch - Das Hörspiel",
+        "exclude_reason": "Full novel adaptation, not episodic series"
+      },
+      {
+        "spotify_album_id": "0w0dWXwFkuT8KyHURubwZ9",
+        "include": true,
+        "episode_num": null,
+        "title": "Die unendliche Geschichte",
+        "exclude_reason": "Full novel adaptation, not episodic series"
+      },
+      {
+        "spotify_album_id": "08P62isNX9WTGaZ0bhUNZD",
+        "include": false,
+        "episode_num": null,
+        "title": "Sagan endalausa",
+        "exclude_reason": "Icelandic language version"
+      },
+      {
+        "spotify_album_id": "7HnjeGFb2qv3Mjg0KP5fEE",
+        "include": true,
+        "episode_num": null,
+        "title": "Die unendliche Geschichte - Das Hörspiel",
+        "exclude_reason": "Full novel adaptation, not episodic series"
+      },
+      {
+        "spotify_album_id": "00M2jdXrUG9yEEqoxbfDv4",
+        "include": true,
+        "episode_num": null,
+        "title": "Die unendliche Geschichte",
+        "exclude_reason": "Full novel adaptation, not episodic series"
+      },
+      {
+        "spotify_album_id": "4KQ7CvGTbdgwBJnxSFjLly",
+        "include": true,
+        "episode_num": null,
+        "title": "Momo",
+        "exclude_reason": "Full novel adaptation, not episodic series"
+      },
+      {
+        "spotify_album_id": "3MpO7ItzjK8ADRMq3q9nmt",
+        "include": true,
+        "episode_num": null,
+        "title": "Jim Knopf und die Wilde 13",
+        "exclude_reason": "Full novel adaptation, not episodic series"
+      },
+      {
+        "spotify_album_id": "3bbFly6zBqFp6Sp5jk2n1V",
+        "include": true,
+        "episode_num": null,
+        "title": "Jim Knopf und Lukas der Lokomotivführer",
+        "exclude_reason": "Full novel adaptation, not episodic series"
+      },
+      {
+        "spotify_album_id": "1lAe5qe6Yg1IcxcYXJrFcZ",
+        "include": false,
+        "episode_num": null,
+        "title": "Mómó",
+        "exclude_reason": "Icelandic language version"
+      },
+      {
+        "spotify_album_id": "7AtJuvI4t0u0kSPrNm5vui",
+        "include": false,
+        "episode_num": null,
+        "title": "Jim Knopf: Jim Knopf und die Wilde 13 - Die Komplettlesung",
+        "exclude_reason": "Audiobook reading, not Hörspiel"
+      },
+      {
+        "spotify_album_id": "0F4rgB9OVSiKgUAHf3mtWB",
+        "include": true,
+        "episode_num": null,
+        "title": "Jim Knopf: Jim Knopf und die Wilde 13",
+        "exclude_reason": "Full novel adaptation, not episodic series"
+      },
+      {
+        "spotify_album_id": "6pVdlRnrh2SRptYqGtzo1r",
+        "include": true,
+        "episode_num": null,
+        "title": "Jim Knopf: Jim Knopf und Lukas der Lokomotivführer (Teil 1 - 3)",
+        "exclude_reason": "Full novel adaptation, not episodic series"
+      },
+      {
+        "spotify_album_id": "7DxOdYCQsIXeAe7c4h6i3Q",
+        "include": true,
+        "episode_num": null,
+        "title": "Jim Knopf: Jim Knopf und Lukas der Lokomotivführer",
+        "exclude_reason": "Full novel adaptation, not episodic series"
+      },
+      {
+        "spotify_album_id": "43W6kOwvk93bjMazyDLaPc",
+        "include": false,
+        "episode_num": null,
+        "title": "Jim Knopf und die Wilde 13 - Die ungekürzte Lesung",
+        "exclude_reason": "Audiobook reading, not Hörspiel"
+      }
+    ],
+    "age_note": "Suitable from 6+. Michael Ende's works are classic children's literature with imaginative fantasy themes. Some stories (like Momo) have philosophical depth better appreciated by slightly older children, while Jim Knopf offers adventure suitable for younger listeners. The Wunschpunsch has mild magical peril.",
+    "curator_notes": "Michael Ende is a celebrated German author of children's fantasy literature, not a traditional episodic Hörspiel series. This catalog includes his major works: Jim Knopf (2 novels), Momo, Die unendliche Geschichte (The Neverending Story), Der Wunschpunsch, and various short stories. Multiple versions exist for major works - the 2023 Silberfisch releases are the most recent unabridged Hörspiel adaptations. No Retro-Archiv or Junior variants were found - this is a single-artist catalog representing the author's complete audiobook/Hörspiel works."
+  }
+}

@@ -1,0 +1,252 @@
+{
+  "query": "Bobo Siebenschläfer",
+  "model": "kimi-k2.5",
+  "curated_at": "2026-02-20T00:18:24.296540+00:00",
+  "series": {
+    "id": "bobo_siebenschlaefer",
+    "title": "Bobo Siebenschläfer",
+    "aliases": [],
+    "keywords": [
+      "Bobo Siebenschläfer"
+    ],
+    "spotify_artist_ids": [
+      "5LBMERk5Gvsq80NL5eJ6LG"
+    ],
+    "episode_pattern": null,
+    "albums": [
+      {
+        "spotify_album_id": "6ZNvpoQhlExcEN3BKGBiKp",
+        "include": true,
+        "episode_num": null,
+        "title": "Bobo Siebenschläfer. So schön ist der Winter!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6LIQo2kAZ6jQi6joZGGvk6",
+        "include": true,
+        "episode_num": null,
+        "title": "Bobo Siebenschläfer ist krank",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3BuwFgAzbTEYdrPUzyhx5I",
+        "include": true,
+        "episode_num": null,
+        "title": "Bobo Siebenschläfer hat Langeweile",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2XOAww2En5h6NCrzsZJDUP",
+        "include": true,
+        "episode_num": null,
+        "title": "Bobo & Hasi. Mit Geschichten für ganz Kleine durch das Jahr",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "18wzwNtCCG1Dm0JQQwwgBB",
+        "include": false,
+        "episode_num": null,
+        "title": "Bobo Siebenschläfers schönste Kinderlieder",
+        "exclude_reason": "Song collection, not Hörspiel"
+      },
+      {
+        "spotify_album_id": "1EYUMen7iiXKhT02J9TyRp",
+        "include": false,
+        "episode_num": null,
+        "title": "Bobo Siebenschläfer. Die schönsten Klassiker",
+        "exclude_reason": "Compilation/Best of"
+      },
+      {
+        "spotify_album_id": "0WPtItNkTG6V9UC0IEAjXz",
+        "include": true,
+        "episode_num": null,
+        "title": "Bobo Siebenschläfer. Ganz schön mutig!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0c1fb6c2eHajLNCtGTLHFL",
+        "include": true,
+        "episode_num": null,
+        "title": "Staffel 2: Die neuen Abenteuer von Bobo (Das Hörspiel zur Kinder TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7jW2CtSVvpAwzyTOt6iEiD",
+        "include": true,
+        "episode_num": null,
+        "title": "Bobo Siebenschläfer hat Geburtstag!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4FJFVUgtsFKmWuw5rZLrds",
+        "include": true,
+        "episode_num": null,
+        "title": "Bobo & Hasi. Geschichten für ganz Kleine",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2RHTXFfmjVASNZQv3zo0S4",
+        "include": true,
+        "episode_num": null,
+        "title": "Bobo Siebenschläfer ist stinksauer",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "24MGYU7aedP2BvsdBCB6bv",
+        "include": true,
+        "episode_num": null,
+        "title": "Bobo Siebenschläfer. Viel Spaß bei Oma und Opa!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7Hzm53zdzLVOm1X2KMSgsw",
+        "include": true,
+        "episode_num": null,
+        "title": "Bobo Siebenschläfer kann schon Rad fahren",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7vNysu0sRWRrECMvridHXx",
+        "include": true,
+        "episode_num": null,
+        "title": "Bobo Siebenschläfer. Hurra, es schneit!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1ahMwO7LuVeSksLCeaXM1b",
+        "include": true,
+        "episode_num": null,
+        "title": "Bobo Siebenschläfer. Zusammen sind wir stark!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2YQpRCaMdow99YQ9eDBXVl",
+        "include": false,
+        "episode_num": null,
+        "title": "Mit Bobo Siebenschläfer durch das Jahr",
+        "exclude_reason": "Box set with 49 tracks - compilation of multiple stories"
+      },
+      {
+        "spotify_album_id": "2HFm5NNCZflhos7AKhFdl4",
+        "include": true,
+        "episode_num": null,
+        "title": "Bobo Siebenschläfer feiert Weihnachten",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5Q4F65rrVfqyybStpSH6oY",
+        "include": true,
+        "episode_num": null,
+        "title": "Bobo Siebenschläfer. Drinnen ist was los!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4YsbS9T41XTiBhyeAjMpwb",
+        "include": true,
+        "episode_num": null,
+        "title": "Bobo Siebenschläfer. Draußen ist es schön!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2C2bDnpt0JMzNR4Zj9pRDE",
+        "include": true,
+        "episode_num": null,
+        "title": "Bobo Siebenschläfer (Geschichten für ganz Kleine)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5NW0sNH3fmGLlrvdXYPYRK",
+        "include": true,
+        "episode_num": null,
+        "title": "Bobo Siebenschläfer. Ist doch gar nicht schlimm",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6xgUC1vMangXyptqdOQEyf",
+        "include": true,
+        "episode_num": null,
+        "title": "Bobo Siebenschläfer bekommt ein Geschwisterchen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "78th61j7u6UZQLymHEIk16",
+        "include": true,
+        "episode_num": null,
+        "title": "Bobo Siebenschläfer. Viel Spaß im Kindergarten!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "69dle41jVKEJpj209ZGKVx",
+        "include": true,
+        "episode_num": null,
+        "title": "Fröhliche Weihnachten, Bobo Siebenschläfer!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "10uHfzeVvFwJ6ReyK208vL",
+        "include": true,
+        "episode_num": null,
+        "title": "Bobo Siebenschläfer. Bobo auf dem Dachboden und weitere Folgen (Band 4)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4y3767TU7oTRJmoaMVStsc",
+        "include": false,
+        "episode_num": null,
+        "title": "Das Beste von Bobo Siebenschläfer",
+        "exclude_reason": "Best of compilation"
+      },
+      {
+        "spotify_album_id": "7zbmd9CVLDDfJhirWlmB1D",
+        "include": true,
+        "episode_num": null,
+        "title": "Bobo Siebenschläfer. Bobo beim Kinderarzt und weitere Folgen (Band 3)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3my9uC0PhUQHjsB7Ik10by",
+        "include": true,
+        "episode_num": null,
+        "title": "Bobo Siebenschläfer. Bobo kann nicht einschlafen und weitere Folgen (Band 2)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5AXhEPo2sYFw1aP2J9C3jG",
+        "include": true,
+        "episode_num": null,
+        "title": "Bobo Siebenschläfer. Bobo besucht den Zoo und weitere Folgen (Band 1)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3LQvO2miZ3MJvQ1A0s2xbf",
+        "include": true,
+        "episode_num": null,
+        "title": "Bobo Siebenschläfer wird nicht müde",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4HNcJXn6oHWHi3jcqlCI6E",
+        "include": true,
+        "episode_num": null,
+        "title": "Bobo Siebenschläfer macht munter weiter",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4Jn5thCSaI4j6nM2d2nGq5",
+        "include": true,
+        "episode_num": null,
+        "title": "Bobo Siebenschläfer (Geschichten für ganz Kleine)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0jg0zXIpovGxlE46IHIOLr",
+        "include": true,
+        "episode_num": null,
+        "title": "Bobo Siebenschläfer ist wieder da",
+        "exclude_reason": null
+      }
+    ],
+    "age_note": "Suitable from 3+",
+    "curator_notes": "Bobo Siebenschläfer is a popular German children's Hörspiel series about a little dormouse. The series has two distinct product lines: (1) Individual story albums by JUMBO Verlag with 12-19 tracks each - these are the main audiobook stories, and (2) TV series audio adaptations released as 'Band 1-4' and 'Staffel 2' by WDR mediagroup. The series does not use sequential episode numbers; each album is a standalone story. The 'Bobo & Hasi' spinoff is included as it features the same character. Excluded compilations: 'Die schönsten Klassiker', 'Das Beste von', song collection 'schönste Kinderlieder', and the 49-track box set 'Mit Bobo Siebenschläfer durch das Jahr'."
+  }
+}

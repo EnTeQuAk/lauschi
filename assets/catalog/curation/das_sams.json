@@ -1,0 +1,119 @@
+{
+  "query": "Das Sams",
+  "model": "kimi-k2.5",
+  "curated_at": "2026-02-20T01:25:41.606798+00:00",
+  "series": {
+    "id": "das_sams",
+    "title": "Das Sams",
+    "aliases": [],
+    "keywords": [
+      "Das Sams"
+    ],
+    "spotify_artist_ids": [
+      "5XxY429tXrkPUdlOZbmNg0"
+    ],
+    "episode_pattern": "Das Sams (\\d+)\\.",
+    "albums": [
+      {
+        "spotify_album_id": "1sLoetsPK1ZP36QVqiX4eA",
+        "include": true,
+        "episode_num": 12,
+        "title": "Das Sams 12. Das Mini-Sams ist weg",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6sUBnKxutUBRKsIK74VNi6",
+        "include": true,
+        "episode_num": 11,
+        "title": "Das Sams 11. Das Sams und die große Weihnachtssuche",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1JjkQ53xpIzLDRyeL7Yo5D",
+        "include": true,
+        "episode_num": 10,
+        "title": "Das Sams 10. Das Sams und der blaue Drache",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4KeOh5uVjGcNx0nDKQTY4f",
+        "include": true,
+        "episode_num": 6,
+        "title": "Das Sams 6. Onkel Alwin und das Sams",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0ygMkaldUnRqyDWh5NenDi",
+        "include": true,
+        "episode_num": 4,
+        "title": "Das Sams 4. Ein Sams für Martin Taschenbier",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5SsYiuXWqN0fxPKp47YTgY",
+        "include": true,
+        "episode_num": 9,
+        "title": "Das Sams 9. Das Sams feiert Weihnachten",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "40pHFqjf9m00ckHNLHpeeS",
+        "include": true,
+        "episode_num": 1,
+        "title": "Das Sams 1. Eine Woche voller Samstage",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5ghsOkrgV3X91sFPXatcGt",
+        "include": true,
+        "episode_num": 8,
+        "title": "Das Sams 8. Ein Sams zu viel",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3DvTzkRN5lFGEcF2HJVZI7",
+        "include": false,
+        "episode_num": null,
+        "title": "Ein Taucheranzug für das Sams und eine weitere Geschichte",
+        "exclude_reason": "Short story collection (Kurzhörspiel), not main episode series"
+      },
+      {
+        "spotify_album_id": "2MiRyV93MmCSqgGNV6ULyL",
+        "include": false,
+        "episode_num": null,
+        "title": "Das Sams 4. Ein Sams für Martin Taschenbier",
+        "exclude_reason": "Duplicate: older 1996 version, keeping 2018 version (0ygMkaldUnRqyDWh5NenDi)"
+      },
+      {
+        "spotify_album_id": "76RNK8qPfpJoPpW1W5qvtp",
+        "include": true,
+        "episode_num": 3,
+        "title": "Das Sams 3. Neue Punkte für das Sams",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1wqVcEMkS80HriPRDMgcIi",
+        "include": true,
+        "episode_num": 2,
+        "title": "Das Sams 2. Am Samstag kam das Sams zurück",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5bHodA8YdOQZIt4nuJ6TMS",
+        "include": false,
+        "episode_num": null,
+        "title": "Das Sams 2. Am Samstag kam das Sams zurück",
+        "exclude_reason": "Duplicate: unnumbered 1980 version with 61 tracks, keeping numbered 1980-03-01 version (1wqVcEMkS80HriPRDMgcIi)"
+      },
+      {
+        "spotify_album_id": "2xto6MS3O5kFfJ9ro7CEhG",
+        "include": false,
+        "episode_num": null,
+        "title": "Das Sams 1. Eine Woche voller Samstage",
+        "exclude_reason": "Duplicate: older 1973 version, keeping 2017 version (40pHFqjf9m00ckHNLHpeeS)"
+      }
+    ],
+    "age_note": "Suitable from 5+",
+    "curator_notes": "Classic German children's Hörspiel series by Paul Maar. Episodes 5 and 7 appear to be missing from Spotify. The series uses numbered episodes (Folge 1-12). Some episodes have been re-recorded over the years; the 2015-2024 versions are preferred for audio quality. Albums from Paul Maar artist page are duplicates of the main 'Das Sams' artist and have been excluded as duplicates."
+  }
+}

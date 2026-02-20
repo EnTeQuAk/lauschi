@@ -1,0 +1,57 @@
+{
+  "query": "Gespensterjäger",
+  "model": "kimi-k2.5",
+  "curated_at": "2026-02-19T23:26:11.432736+00:00",
+  "series": {
+    "id": "gespensterjaeger",
+    "title": "Gespensterjäger",
+    "aliases": [],
+    "keywords": [
+      "Gespensterjäger"
+    ],
+    "spotify_artist_ids": [
+      "4icYuK6RKqj5ALhxuJHDGU",
+      "5HQzBHnczgis11u7lSLVbt"
+    ],
+    "episode_pattern": "(?:Band|Folge)\\s+(\\d+)",
+    "albums": [
+      {
+        "spotify_album_id": "63kFf1A3s8xHXBvO8OI1Eh",
+        "include": true,
+        "episode_num": 1,
+        "title": "Gespensterjäger auf eisiger Spur (Band 1)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4zGRFuXnpQ1pa5sdLZX5rC",
+        "include": true,
+        "episode_num": 2,
+        "title": "Gespensterjäger im Feuerspuk (Band 2)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "44TsRLSeURcJhuXBDRokRs",
+        "include": true,
+        "episode_num": 3,
+        "title": "Gespensterjäger in der Gruselburg (Band 3)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5ZDlWq3WNOeqLZUAALQC1A",
+        "include": true,
+        "episode_num": 4,
+        "title": "Gespensterjäger in großer Gefahr (Band 4)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5Am9JediFNxH5GbROyLCIa",
+        "include": true,
+        "episode_num": 5,
+        "title": "Folge 5: Gespensterjäger und der Weihnachtsspuk",
+        "exclude_reason": null
+      }
+    ],
+    "age_note": "Spooky themes with ghosts and supernatural elements, recommended 6+",
+    "curator_notes": "Series by Cornelia Funke. Episodes 1-4 released under Cornelia Funke artist profile (Jumbo Verlag, 2009-2010). Episode 5+ released under Gespensterjäger artist profile. Episodes appear to use 'Band' for older releases and 'Folge' for newer releases."
+  }
+}

@@ -1,0 +1,483 @@
+{
+  "query": "Globi",
+  "model": "kimi-k2.5",
+  "curated_at": "2026-02-20T01:47:40.391252+00:00",
+  "series": {
+    "id": "globi",
+    "title": "Globi",
+    "aliases": [],
+    "keywords": [
+      "Globi"
+    ],
+    "spotify_artist_ids": [
+      "7p5EwRiUqxJxnOCcULTHex"
+    ],
+    "episode_pattern": null,
+    "albums": [
+      {
+        "spotify_album_id": "4PbdrkQe0dv5FnbEyWggV4",
+        "include": true,
+        "episode_num": null,
+        "title": "Globi bei der Müllabfuhr",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4clNonr2AwXYUAs2YRCCMa",
+        "include": true,
+        "episode_num": null,
+        "title": "Globi im Museum",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6GTlIPORwGsq7jOJYAr6Ni",
+        "include": true,
+        "episode_num": null,
+        "title": "Globis geniale Abenteuer",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6WFEGs6yXjb4CjAQXnLhG9",
+        "include": true,
+        "episode_num": null,
+        "title": "Globi bei den Yaks",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0iea8eZQQVm42silbH8jQ0",
+        "include": true,
+        "episode_num": null,
+        "title": "Globis verrückte Abenteuer",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "72ZZf9Dwd5HK1LpiGDXFWU",
+        "include": true,
+        "episode_num": null,
+        "title": "Globi und die Ozeane",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "34G9F88TjQSVIbcyVJcaej",
+        "include": true,
+        "episode_num": null,
+        "title": "Globis neue Abenteuer bei der Post",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1c8Z4K6eL8W7ge82vui60L",
+        "include": true,
+        "episode_num": null,
+        "title": "Globi und Roger (Swiss Premium Edition)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6jC2FhlxMkALbVvUtDUAjx",
+        "include": true,
+        "episode_num": null,
+        "title": "Globi auf der Alp",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1pZxBw7aI2w7A0UwqjSwSU",
+        "include": true,
+        "episode_num": null,
+        "title": "Globi im Spital",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1dcU8FSRxcjHTxoxxXGg6Q",
+        "include": true,
+        "episode_num": null,
+        "title": "Globis Abenteuer in Rom",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2ep0147eMV2Yhr4Hosce7b",
+        "include": true,
+        "episode_num": null,
+        "title": "Globi und die Tiere im Zoo",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1hZ2GIaR5VepLWMAyLF7nV",
+        "include": true,
+        "episode_num": null,
+        "title": "Globi und die verrückte Maschine",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "41VqgN1klE0qxhvq1u7bsw",
+        "include": false,
+        "episode_num": null,
+        "title": "Globi Hits, Vol. 3",
+        "exclude_reason": "Music compilation (song hits), not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "4yqHwhEj1d66XNSbGlegCi",
+        "include": true,
+        "episode_num": null,
+        "title": "Globi und der Goldraub",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "71BotQUx1JCF7C3LO8Dy3b",
+        "include": true,
+        "episode_num": null,
+        "title": "Globi im alten China",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2mLPUdQhGvoaq0zdm1fL0u",
+        "include": true,
+        "episode_num": null,
+        "title": "Globi und die Weltraumschnecken",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2v3ug9JryR97PJp4IgN5R2",
+        "include": true,
+        "episode_num": null,
+        "title": "Globi, der schlaue Bauer",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2S756Uzitm5Ib1HFdQ7NoP",
+        "include": true,
+        "episode_num": null,
+        "title": "Globi beim Fernsehen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4RiUCnIqY7lobBDq6uBVrP",
+        "include": true,
+        "episode_num": null,
+        "title": "Globi und die Pirateninsel",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5tZTKiHqSLVu8NeXGrqEn4",
+        "include": true,
+        "episode_num": null,
+        "title": "Globi in der Schule",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6dhdNuHAPTaGmJwbr0rfYP",
+        "include": true,
+        "episode_num": null,
+        "title": "Globi am Flughafen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2QKhSSyzazQ6sqArQ19HeU",
+        "include": true,
+        "episode_num": null,
+        "title": "Globis grosses Buch der Schweizer Sagen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "57sLvP15933q13CycyM4aD",
+        "include": true,
+        "episode_num": null,
+        "title": "Globi und der Polarforscher",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1SqvChpsdiYGlHGuFJN0UQ",
+        "include": true,
+        "episode_num": null,
+        "title": "Globi im Reich der Tiere",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4dggjNBFB8vlRYStTambBm",
+        "include": true,
+        "episode_num": null,
+        "title": "Globi bei den Kelten",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1WY5vzoJaRDp9ug84ds3HH",
+        "include": false,
+        "episode_num": null,
+        "title": "Globi Hits, Vol. 2",
+        "exclude_reason": "Music compilation (song hits), not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "4mSSqcyF1hDv4PJLrXB9Cj",
+        "include": true,
+        "episode_num": null,
+        "title": "Globi bei den Nashörnern",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2Cjv0TjDrHmB5OGkuVO4tc",
+        "include": true,
+        "episode_num": null,
+        "title": "Globis Alpenreise",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0ytkd1XrNDTs4y2LHXokLJ",
+        "include": true,
+        "episode_num": null,
+        "title": "Globi treibt Sport",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4IToTumizupxfDaUHjpSLE",
+        "include": true,
+        "episode_num": null,
+        "title": "Globi im Märchenreich",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4lJwtDjHujwAEBy8SqdMlV",
+        "include": true,
+        "episode_num": null,
+        "title": "Globi beim Roten Kreuz",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6L2BSxqN5tmYNBT3Zeillf",
+        "include": true,
+        "episode_num": null,
+        "title": "Globi und die Insel der Riesenschmetterlinge",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "43lwkoyuStPoX474e2vGDT",
+        "include": true,
+        "episode_num": null,
+        "title": "Globi erlebt Paris",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6J5ORIUHZKeKIuKoCvjPtI",
+        "include": true,
+        "episode_num": null,
+        "title": "Globis Abenteuer auf dem Meeresgrunde",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2w0g5ShBSv5OwZDkljTIV8",
+        "include": true,
+        "episode_num": null,
+        "title": "Globi und der Schattenräuber",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4f4dG39B7juTYfjpNG2cqE",
+        "include": true,
+        "episode_num": null,
+        "title": "Globi für alle Fälle",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5A7uJujjqzuL0SRWfgcEaa",
+        "include": true,
+        "episode_num": null,
+        "title": "Globis Zoo",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0Ajc1QR7nxI2UlqVi3ClXh",
+        "include": true,
+        "episode_num": null,
+        "title": "Globi will ins Schlaraffenland",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3NKtGA4AW3EQIPUXTTIUCz",
+        "include": false,
+        "episode_num": null,
+        "title": "Globi Hits",
+        "exclude_reason": "Music compilation (song hits), not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "4xxN4heQblartUNrRnQaps",
+        "include": true,
+        "episode_num": null,
+        "title": "Globi und die Bahn",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "56eoYy0goIcDKuDCULVvPy",
+        "include": true,
+        "episode_num": null,
+        "title": "Globi und Panda reisen um die Welt",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3SFoqqzLuByytPQdlUnrXj",
+        "include": true,
+        "episode_num": null,
+        "title": "Globi bei der Rettungsflugwacht",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0KSvzSon5zbXHy2GZBnood",
+        "include": true,
+        "episode_num": null,
+        "title": "Globi wird Filmstar",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "162LBRbsMrNesoCf0syA9W",
+        "include": true,
+        "episode_num": null,
+        "title": "Globi im Europa-Park",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "32HAkQxqRNUYagySX2w2yG",
+        "include": true,
+        "episode_num": null,
+        "title": "Globi der Sportreporter",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4LQuvhhwO3fDnZLaWCXfRY",
+        "include": true,
+        "episode_num": null,
+        "title": "Hotel Globi",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0DesUwDXsNRatAiMHT8xxq",
+        "include": true,
+        "episode_num": null,
+        "title": "Globi an der Tour de Suisse",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7pGMJ5eRW6xEABksEk7Lxy",
+        "include": false,
+        "episode_num": null,
+        "title": "Globis fröhlichi Liedli",
+        "exclude_reason": "Music compilation (59 children's songs), not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "1XCSAO9VOytaTbUmmcu2ql",
+        "include": true,
+        "episode_num": null,
+        "title": "Globi bei der Post",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "43xOrrfbAGRK9PRd5lYL0L",
+        "include": true,
+        "episode_num": null,
+        "title": "Globi bei den Höhlenbewohnern",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "31c3r3aTn0dCvVuNIg99Ui",
+        "include": true,
+        "episode_num": null,
+        "title": "Wie Globi Ritter Wurde",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5hEzv2njsvJ4akLYPX6Rky",
+        "include": true,
+        "episode_num": null,
+        "title": "Globis abenteuerliche Schweizer Reise",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "48CuenqaDfqbXBc9EUG0i7",
+        "include": true,
+        "episode_num": null,
+        "title": "Globi und der Madagaskar Vogel",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2x8k00adLQuwTW6vpeG5pA",
+        "include": false,
+        "episode_num": null,
+        "title": "De Globi singt für d Chinde",
+        "exclude_reason": "Music album (13 children's songs), not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "0p2uob6RwqWZpIiS16P4A6",
+        "include": true,
+        "episode_num": null,
+        "title": "Globi hilft der Polizei",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6arvX5w8gFKFDMENMruDc7",
+        "include": true,
+        "episode_num": null,
+        "title": "Globi im Nationalpark",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "413zv8F6OrRwtiDj9xKYTa",
+        "include": true,
+        "episode_num": null,
+        "title": "Globi bei der Feuerwehr",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5qqixGMJLMaKCcUYBlVf4q",
+        "include": true,
+        "episode_num": null,
+        "title": "Wie Globi Bauer wurde",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4o2o3YKh5eHU9yWb7U6ilm",
+        "include": true,
+        "episode_num": null,
+        "title": "Globis Geburtstag",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3hmkXJRz6VkJJv17nJis7n",
+        "include": true,
+        "episode_num": null,
+        "title": "Globis Abenteuer im Weltraum",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "17Yv4AS1QIWl1sHLMi8VmP",
+        "include": true,
+        "episode_num": null,
+        "title": "Globi und Wilhelm Tell",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1UmglmUCRG1GD1mM2q9qh6",
+        "include": true,
+        "episode_num": null,
+        "title": "Globi der Seefahrer",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5IFKlSP1lKSBhAGBNUCudS",
+        "include": true,
+        "episode_num": null,
+        "title": "Globi und Kasperli",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3AdPdaMae0ucTtFLVHkzkB",
+        "include": true,
+        "episode_num": null,
+        "title": "Globi im Wilden Westen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6eStapLJLfAur9s45b1Les",
+        "include": true,
+        "episode_num": null,
+        "title": "Freund Globi im Urwald",
+        "exclude_reason": null
+      }
+    ],
+    "age_note": "Suitable from 3+",
+    "curator_notes": "Classic Swiss children's Hörspiel series featuring the iconic blue parrot mascot Globi. Unlike German series with numbered 'Folge' episodes, each Globi album is a self-contained adventure with a unique title. Published by Globi Verlag with Swiss German (Zurich dialect) narration. The series has no Retro-Archiv or Junior variants on Spotify."
+  }
+}

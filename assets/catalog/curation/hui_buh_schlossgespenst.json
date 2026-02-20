@@ -1,0 +1,563 @@
+{
+  "query": "Hui Buh das Schlossgespenst",
+  "model": "kimi-k2.5",
+  "curated_at": "2026-02-19T23:13:06.865230+00:00",
+  "series": {
+    "id": "hui_buh_schlossgespenst",
+    "title": "Hui Buh das Schlossgespenst",
+    "aliases": [
+      "HUI BUH neue Welt"
+    ],
+    "keywords": [
+      "Hui Buh"
+    ],
+    "spotify_artist_ids": [
+      "1vjNjfkax0s9GD3jviAaZl",
+      "4qobZpBtoZ58xPbLByIWzD"
+    ],
+    "episode_pattern": "^(\\d{2,3})\\/",
+    "albums": [
+      {
+        "spotify_album_id": "6hM2gw1GFIcspfwrH3sJ58",
+        "include": true,
+        "episode_num": 1,
+        "title": "01/Hui Buh das Schlossgespenst",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0i1t1KrSG8LhJxmBGhoH1p",
+        "include": true,
+        "episode_num": 2,
+        "title": "02/in neuen Abenteuern",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6J2zZR6UWUh8zaEkQH4RLx",
+        "include": true,
+        "episode_num": 3,
+        "title": "03/spukt lustig weiter",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "74bHvYpczicscazbPO3Wfs",
+        "include": true,
+        "episode_num": 4,
+        "title": "04/und das Geheimnis im Burgbrunnen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6gr16PuHmwEaNbbfOtrV1j",
+        "include": true,
+        "episode_num": 5,
+        "title": "05/und die große Spukschau",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6TxEsTwwLcfG5TFsPFB1Tw",
+        "include": true,
+        "episode_num": 6,
+        "title": "06/fährt Geisterkarussell",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2plqQfyYRpuyThLNXv5PVh",
+        "include": true,
+        "episode_num": 7,
+        "title": "07/und der schaurige Punkt",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2UtMg4ESudRQTlur0XedwB",
+        "include": true,
+        "episode_num": 8,
+        "title": "08/und der Gruseltanz",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5G7sGunLB2FBDw8DmMrFz8",
+        "include": true,
+        "episode_num": 9,
+        "title": "09/und die Geisterjäger",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2XRZCH4ef3jVrAlarT2Nz9",
+        "include": true,
+        "episode_num": 10,
+        "title": "10/und das verschwundene Schloss",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1p878fGxYdifRIVAZol6mI",
+        "include": true,
+        "episode_num": 11,
+        "title": "11/in der alten Poltermühle",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2sxhMKovG8OpbxYI7HdqWM",
+        "include": true,
+        "episode_num": 12,
+        "title": "12/und das unheimliche Feuerross",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6TJCr4oiWURZZFujslMcOm",
+        "include": true,
+        "episode_num": 13,
+        "title": "13/und die geraubte Ahnfrau",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5AYVJmUzqF4SPQhApaToKN",
+        "include": true,
+        "episode_num": 14,
+        "title": "14/und die unheilvolle Burgfehde",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0n2s1KsOANl0gHPNNol1Ep",
+        "include": true,
+        "episode_num": 15,
+        "title": "15/im dunklen Mitternachtswald",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1lj4xaAUmIoV9zXCEZl0x5",
+        "include": true,
+        "episode_num": 16,
+        "title": "16/und die schauerliche Verwünschung",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6vg3kAocPQKE0FoTCRvIEC",
+        "include": true,
+        "episode_num": 17,
+        "title": "17/und das wilde Geisterheer",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "56w0jsstxiY9OroqYZuRWo",
+        "include": true,
+        "episode_num": 18,
+        "title": "18/und der rabenschwarze Dämon",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0GAYWsZ2YG5kZe6PQVdb9X",
+        "include": true,
+        "episode_num": 19,
+        "title": "19/und die Schreckensnacht im Burgturm",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5goDnwMahSCx4QMnaIR8vD",
+        "include": true,
+        "episode_num": 20,
+        "title": "20/in der Teufelsschlucht",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5oRBoQA21q6UXsNe8hyKRU",
+        "include": true,
+        "episode_num": 21,
+        "title": "21/in der Gruselgruft",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2Kix6MB0NrFH4irSf1TpWJ",
+        "include": true,
+        "episode_num": 22,
+        "title": "22/und die Irrlichter im Moor",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3axpjYTWFlPweGpOa7ktjy",
+        "include": true,
+        "episode_num": 23,
+        "title": "23/und das furchtbare Phantom",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6HdhtheEVHFC955BpUEEri",
+        "include": true,
+        "episode_num": 24,
+        "title": "01/Der verfluchte Geheimgang",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2w8RkpuEsAex0hhah5ycqr",
+        "include": true,
+        "episode_num": 25,
+        "title": "02/Entführung in die Geisterwelt",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7ITVHZFyOWwPhSLuWIoBcA",
+        "include": true,
+        "episode_num": 26,
+        "title": "03/Das mysteriöse Geisterbuch",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1HwvH2IB4GDfJ12fo3W4cW",
+        "include": true,
+        "episode_num": 27,
+        "title": "04/Der Schatten des Gespensterjägers",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0RuUL1zIqxYOl40laz0a6M",
+        "include": true,
+        "episode_num": 28,
+        "title": "05/Die magischen Spukschuhe",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6AIrMWgw6Pw0Ozp48mRsEQ",
+        "include": true,
+        "episode_num": 29,
+        "title": "06/Botschaft des Bösen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "313KcX6CekDVwu0eTnXDUa",
+        "include": true,
+        "episode_num": 30,
+        "title": "07/Das unheimliche Internat",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6wZExOPpx1K41meVvhkDPd",
+        "include": true,
+        "episode_num": 31,
+        "title": "08/Im Bann des Schwarzspukers",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6BGPHZzF6VB80ORitC3PpK",
+        "include": true,
+        "episode_num": 32,
+        "title": "09/Adolars Rückkehr",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0jEiJqv4y86K8FRwU70ORl",
+        "include": true,
+        "episode_num": 33,
+        "title": "10/Geheimnis um Aquabacus",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0qKPtLeVREJAAfWIqkmB7n",
+        "include": true,
+        "episode_num": 34,
+        "title": "11/Das verlorene Geistertal",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0aCq0V6Mt0ja0IoqEioLd6",
+        "include": true,
+        "episode_num": 35,
+        "title": "12/Zurück im Mittelalter",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "30DmuKiKQJP8Oh2km1n2GK",
+        "include": true,
+        "episode_num": 36,
+        "title": "13/Die verschwundene Weihnacht",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "703NisjVYaEnU2OcCuHcJa",
+        "include": true,
+        "episode_num": 37,
+        "title": "14/Abenteuer in der Geisterbibliothek",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0xWLSpgq77YM7Mq4sVJsui",
+        "include": true,
+        "episode_num": 38,
+        "title": "15/Das verzauberte Schwert",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0hB2BppXYgRqu14pFpsiSH",
+        "include": true,
+        "episode_num": 39,
+        "title": "16/Der grauenvolle Geburtstag",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6m0bsc33yjySUaAYyvsnzH",
+        "include": true,
+        "episode_num": 40,
+        "title": "17/Der Meisterdetektiv",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4cWbndiVHtwTaxwZ1X5yOA",
+        "include": true,
+        "episode_num": 41,
+        "title": "18/Der Fluch der Geisterinsel",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0h1qmZHdLxZ0BKICTaGBMH",
+        "include": true,
+        "episode_num": 42,
+        "title": "19/Das Rätsel im Spukschloss",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1ke38JzX357KefIxLHInmz",
+        "include": true,
+        "episode_num": 43,
+        "title": "20/Der Schatz im Drachenmoor",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3nwaiDs437e62B4qjeSCre",
+        "include": true,
+        "episode_num": 44,
+        "title": "21/Die verspukte Maske",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5tDdUrVMakl3qXmA7hcpjc",
+        "include": true,
+        "episode_num": 45,
+        "title": "22/Der Geist des Pharao",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6fngavq2T4Z7aSKYElSqRk",
+        "include": true,
+        "episode_num": 46,
+        "title": "23/Die Jagd nach dem Drachen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1NTbIQZib2cpl50gPwuHqU",
+        "include": true,
+        "episode_num": 47,
+        "title": "24/Spurlos verschwunden",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "21tJ6Ld4xzk0m8e8YndjXi",
+        "include": true,
+        "episode_num": 48,
+        "title": "25/Chaos auf Schloss Burgeck",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3u220MX9vWVVAeCXN5K5vl",
+        "include": true,
+        "episode_num": 49,
+        "title": "026/Die kaiserliche Urkunde",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "66egHfWRms4JuOJJK8mT9r",
+        "include": true,
+        "episode_num": 50,
+        "title": "027/Das Monster von Burgeck",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4cyDb7ci8MJLVsnjwac2Pa",
+        "include": true,
+        "episode_num": 51,
+        "title": "028/Die verrückte Spieluhr",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4FEGo9x2J4mH9JGJzl57c0",
+        "include": true,
+        "episode_num": 52,
+        "title": "029/Der Tag der Ahnen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1mhTHmI0kOhNAQKAQ3y6iZ",
+        "include": true,
+        "episode_num": 53,
+        "title": "030/Die fantastische Geisterjagd",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2jGZqDXVg42camfZJCdL3Z",
+        "include": true,
+        "episode_num": 54,
+        "title": "031/Die vermaledeiten Marionetten",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6gqUpfphrJ3FifSlABvgbj",
+        "include": true,
+        "episode_num": 55,
+        "title": "032/Schlossgespenst gesucht!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "46pU6dIEXk9plAQd9WRnS5",
+        "include": true,
+        "episode_num": 56,
+        "title": "Folge 33: Das Geisterkistenrennen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "29YMBCOSKeZ8fS91xtfAbt",
+        "include": true,
+        "episode_num": 57,
+        "title": "Folge 34: Der Elemente-Kristall",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "29RwT9EFM0KwKj58A5SOxy",
+        "include": true,
+        "episode_num": 58,
+        "title": "Folge 35: Der verflixte achte Wochentag",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "61QIdMlh5XYnyGebAaV1ww",
+        "include": true,
+        "episode_num": 59,
+        "title": "Folge 36: Die blauen Büffel",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6xK1T3x0PgZrvpKiENf48W",
+        "include": true,
+        "episode_num": 60,
+        "title": "Folge 37: Die magische Karte",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0soSVlJbtjWh2K9Hi7YMLh",
+        "include": true,
+        "episode_num": 61,
+        "title": "Folge 38: Die listige Lüge",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4hddjtY4tZhAM2am3PCQRR",
+        "include": true,
+        "episode_num": 62,
+        "title": "Folge 39: Die Spinnenbeschwörung",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6jAkAc50v45ZtN9wEMryh2",
+        "include": true,
+        "episode_num": 63,
+        "title": "Folge 40: Die vertrackte Hausgeist-Lizenz",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6kFsG7TfDHFW8rJcVu7xYT",
+        "include": true,
+        "episode_num": 64,
+        "title": "Folge 41: Verschollen im Tristland",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6uf7BVrQkn8gym4TOGHodK",
+        "include": true,
+        "episode_num": 65,
+        "title": "Folge 42: Willkommen im Spukhotel",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5oRBXh1v0C28NVwQb2z8Pf",
+        "include": true,
+        "episode_num": 66,
+        "title": "Folge 43: Die falsche Sophie",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1gRtSsGe1oXT3BlVbPjACY",
+        "include": true,
+        "episode_num": 67,
+        "title": "Folge 44: Das geheimnisvolle Geistermädchen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4dfHKaqMsf1aWxlUd9l6LE",
+        "include": true,
+        "episode_num": 68,
+        "title": "Folge 45: Der künstliche König",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5ldUInhbwwtOAfI3DTKVDM",
+        "include": true,
+        "episode_num": 69,
+        "title": "Folge 46: Die abenteuerliche Weltenwanderung",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1ZtRfgcJc12aiokjnZU0oy",
+        "include": true,
+        "episode_num": 70,
+        "title": "Folge 47: Spuk im verlorenen Schulgarten",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5xs7IAzpFVpqNCG7huoxsQ",
+        "include": true,
+        "episode_num": 71,
+        "title": "Folge 48: Ein echtes Gruseltalent",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0RleVfMyttZoqg7A0f6anm",
+        "include": false,
+        "episode_num": null,
+        "title": "Folge 37: Die magische Karte (Kopfhörer-Hörspiel)",
+        "exclude_reason": "Alternative 3D audio version - duplicate of Folge 37"
+      },
+      {
+        "spotify_album_id": "2fmuncGiCNfHdHeFmfO3YU",
+        "include": false,
+        "episode_num": null,
+        "title": "Grusel-Geschichten",
+        "exclude_reason": "Box set / compilation - 349 tracks containing multiple episodes"
+      },
+      {
+        "spotify_album_id": "1nHKbhw1vSUI996P2duncc",
+        "include": false,
+        "episode_num": null,
+        "title": "Adventskalender - Tausend vertückte Türen",
+        "exclude_reason": "Advent calendar special - not a numbered episode"
+      },
+      {
+        "spotify_album_id": "56oDZguAZ9l5bT0dqubjla",
+        "include": false,
+        "episode_num": null,
+        "title": "Hui Buh und das Hexenschloss (Hörspiel zum Kinofilm)",
+        "exclude_reason": "Movie tie-in audiobook, not a numbered episode"
+      },
+      {
+        "spotify_album_id": "4wxvwPk6zfBP8T8vyM4Aan",
+        "include": false,
+        "episode_num": null,
+        "title": "Hui Buh - Das Schlossgespenst (Hörspiel zum Kinofilm)",
+        "exclude_reason": "Movie tie-in audiobook, not a numbered episode"
+      },
+      {
+        "spotify_album_id": "4yRfkwCw90yK9Gbgdbq3ey",
+        "include": false,
+        "episode_num": null,
+        "title": "Live-Hörspiel: Der schwebende Lollländer",
+        "exclude_reason": "Live performance recording, not a numbered episode"
+      }
+    ],
+    "age_note": "Mild ghostly themes and gentle humor, suitable from 5+",
+    "curator_notes": "Series spans two Spotify artists: 'Hui Buh, das Schlossgespenst' (classic episodes 1-23, 1973-1983) and 'HUI BUH neue Welt' (modern era episodes 24-48+, 2008-present). Spinoff 'Der kleine Hui Buh' is a separate children's series for younger audiences (not included here)."
+  }
+}

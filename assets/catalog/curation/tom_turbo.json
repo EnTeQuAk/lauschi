@@ -1,0 +1,20 @@
+{
+  "query": "Tom Turbo",
+  "model": "kimi-k2.5",
+  "curated_at": "2026-02-20T02:04:57.264315+00:00",
+  "series": {
+    "id": "tom_turbo",
+    "title": "Tom Turbo",
+    "aliases": [],
+    "keywords": [],
+    "spotify_artist_ids": [],
+    "episode_pattern": null,
+    "albums": [],
+    "age_note": "Suitable from 5+",
+    "curator_notes": "Series not found on Spotify. Extensive searches were conducted for 'Tom Turbo', 'Tom Turbo Retro-Archiv', 'Tom Turbo Junior', 'Tom Turbo Der Fahrrad-Detektiv', 'Tom Turbo Thomas Brezina', and many other variations. The only related artist found was Thomas Brezina (creator), but his profile only contains audiobooks (Knickerbocker4immer series, self-help books), not the Tom Turbo Hörspiel episodes. The series may not be available on Spotify or may be distributed under a different naming convention."
+  },
+  "review": {
+    "status": "rejected",
+    "notes": "Stub: no dedicated Spotify artist. Content exists only under author 'Thomas Brezina' without series-specific tagging."
+  }
+}

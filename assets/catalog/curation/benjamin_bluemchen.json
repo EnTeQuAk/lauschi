@@ -1,9 +1,8 @@
 {
-  "models": [
-    "kimi-k2.5",
-    "claude-sonnet-4-6"
-  ],
-  "a": {
+  "query": "Benjamin Blümchen",
+  "model": "kimi-k2.5",
+  "curated_at": null,
+  "series": {
     "id": "benjamin_bluemchen",
     "title": "Benjamin Blümchen",
     "aliases": [],
@@ -1906,6 +1905,10 @@
     ],
     "curator_notes": "Classic DACH children's Hörspiel series about Benjamin the elephant since 1977. Includes 168 main numbered episodes. Excluded: Gute-Nacht-Geschichten (36 sleep stories), Find's raus mit Benjamin (14 educational episodes), Benjamin Minis (7 short episodes), 20+ Liederzoo music albums, ASMR albums, English learning, movie adaptations, and various compilations. Note: Episode 39 and 120 exist as music albums (Lieder), not main episodes. Folge 100-101 are 2-parter. Several Sonderedition re-releases exist."
   },
-  "b": null,
-  "disagreements": []
+  "review": {
+    "status": "approved",
+    "reviewed_at": "2026-02-19T21:16:35.289663+00:00",
+    "overrides": [],
+    "notes": "Should add the \"Gute Nacht Geschichten\" elsewhere, as a separate album or so"
+  }
 }

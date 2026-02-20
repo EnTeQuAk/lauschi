@@ -1,0 +1,1220 @@
+{
+  "query": "Feuerwehrmann Sam",
+  "model": "kimi-k2.5",
+  "curated_at": "2026-02-20T00:32:45.393822+00:00",
+  "series": {
+    "id": "feuerwehrmann_sam",
+    "title": "Feuerwehrmann Sam",
+    "aliases": [
+      "Fireman Sam"
+    ],
+    "keywords": [
+      "Feuerwehrmann Sam"
+    ],
+    "spotify_artist_ids": [
+      "4qhaHyCtCaFugTqT9LzuKp"
+    ],
+    "episode_pattern": "Folge\\s+(\\d+)",
+    "albums": [
+      {
+        "spotify_album_id": "37F3AfJG0wyEJSSi2Q0ZtG",
+        "include": true,
+        "episode_num": 252,
+        "title": "Folge 252: Das Teig-Monster",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0W1CgG4nhNMI2WDBbcggkl",
+        "include": true,
+        "episode_num": 251,
+        "title": "Folge 251: Moose und der Maulwurf",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5Z5pIJ0xLrZSl33EkcZiIZ",
+        "include": true,
+        "episode_num": 250,
+        "title": "Folge 250: Der Segelunterricht",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "06wwFmcEm4FeWVcnsvDqvC",
+        "include": true,
+        "episode_num": 249,
+        "title": "Folge 249: Großvatertag",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2Gjn0CJao7WOQ4euLf23mJ",
+        "include": true,
+        "episode_num": 248,
+        "title": "Folge 248: Die Wildtier-Zeichnung",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6JMyV5GHcDxYyOMd7Ctzsj",
+        "include": true,
+        "episode_num": 247,
+        "title": "Folge 247: Das Mamakrele",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "78lhlMrqMMpByQwAfjLz39",
+        "include": true,
+        "episode_num": 246,
+        "title": "Folge 246: Die Drachen-Katastrophe",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "04bTRH0M0udbhVy7yPaeOF",
+        "include": true,
+        "episode_num": 245,
+        "title": "Folge 245: Das unheimliche Leuchten",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3U7Zrt4MzLdPsSyQ25ULm5",
+        "include": true,
+        "episode_num": 244,
+        "title": "Folge 244: Die wilde Schafherde",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6K4xkeqrWbXRZWS8D6cMSV",
+        "include": true,
+        "episode_num": 243,
+        "title": "Folge 243: Wo ist Norris?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2Zbg88ORFOTps2KSMzeXYo",
+        "include": true,
+        "episode_num": 242,
+        "title": "Folge 242: Die neue Feuerwache",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "30S5K2o7dh6TkpmvK0h85R",
+        "include": true,
+        "episode_num": 241,
+        "title": "Folge 241: Zurück in die Steinzeit",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "16E6fVnAmV0neRQtkdFG2r",
+        "include": true,
+        "episode_num": 240,
+        "title": "Folge 240: Buddler reißt aus",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4gK20xfoUKhU5YMvVfuBBb",
+        "include": true,
+        "episode_num": 239,
+        "title": "Folge 239: Samtpfötchens List",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3bMrcMSL7iPkEK8BfnW528",
+        "include": true,
+        "episode_num": 238,
+        "title": "Folge 238: Der König von Pontypandy",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2OsXpaPLLFibajPKewLAOD",
+        "include": true,
+        "episode_num": 237,
+        "title": "Folge 237: Experten bei der Arbeit",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3vtDv8YzaMwnrdzSPjX7AZ",
+        "include": true,
+        "episode_num": 236,
+        "title": "Folge 236: Der furchtlose Vogel",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5x11Ge8up4l42CcxQpb0pE",
+        "include": true,
+        "episode_num": 235,
+        "title": "Folge 235: Sternensucher des Jahres",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1sqZQJ5eENVXMLpAam4saP",
+        "include": true,
+        "episode_num": 234,
+        "title": "Folge 234: Eine wilde Wanderung",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7r4APCSm3nT7jDdrO1LqPN",
+        "include": true,
+        "episode_num": 233,
+        "title": "Folge 233: Auf nach Pontypandy",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1rhUlxh3cUy0lsgBGhVbiy",
+        "include": true,
+        "episode_num": 232,
+        "title": "Folge 232: Das Pontypandy-Kürbis-Phantom Teil 2",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5KivccLQYckNc3O7Ah971G",
+        "include": true,
+        "episode_num": 231,
+        "title": "Folge 231: Das Pontypandy-Kürbis-Phantom Teil 1",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0xUEofYyhLVWbLZV4wCnIG",
+        "include": true,
+        "episode_num": 230,
+        "title": "Folge 230: Normans witzige Welt der Erwachsenen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4IW3Wc7hva3ytaIv3oP7wo",
+        "include": true,
+        "episode_num": 229,
+        "title": "Folge 229: Annies Tierparade",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4gsLi0r3Mhb5SUEp095Qs3",
+        "include": true,
+        "episode_num": 228,
+        "title": "Folge 228: Der Fisch-Dieb",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0wuK1rzdpZBWtpyMIdLeER",
+        "include": true,
+        "episode_num": 227,
+        "title": "Folge 227: Eine Party für Peter",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0yYkFnM4UyyS8B2pSonRaA",
+        "include": true,
+        "episode_num": 226,
+        "title": "Folge 226: Die Sieben Wunder von Pontypandy",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3iiroQToGVmqtw0jrMBstS",
+        "include": true,
+        "episode_num": 225,
+        "title": "Folge 225: Versteckspiele",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4zScwURzdKlQj37O7U7C9O",
+        "include": true,
+        "episode_num": 224,
+        "title": "Folge 224: Peter und der James-Bot",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4dQsznmalHHUOyGrqrq3nW",
+        "include": true,
+        "episode_num": 223,
+        "title": "Folge 223: Verloren ohne Kompass",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "06comWT0uH6nDB0Jwy8eE1",
+        "include": true,
+        "episode_num": 222,
+        "title": "Folge 222: Gefangen im Schlamm",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7uOFQ12RUQgaZzOCpYEJ1r",
+        "include": true,
+        "episode_num": 221,
+        "title": "Folge 221: Eine echte Sensation",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5EwB27o1e2AR6blEMx4eu2",
+        "include": true,
+        "episode_num": 220,
+        "title": "Folge 220: Panik beim Picknick",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1M5WgU0PWb1ELP1Kfo0RLj",
+        "include": true,
+        "episode_num": 219,
+        "title": "Folge 219: Hunde gegen Katzen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0GiBmSyhJawvP3snIctket",
+        "include": true,
+        "episode_num": 218,
+        "title": "Folge 218: Wo ist Samtpfötchen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "41axWuGtFQ1TuTKB3eRfTU",
+        "include": true,
+        "episode_num": 217,
+        "title": "Folge 217: Die Biber sind los",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3DJTzLepC6aqMNLb3yrMbo",
+        "include": true,
+        "episode_num": 216,
+        "title": "Folge 216: Die Campingkocher-Katastrophe",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "60z47IJus4akedl882X6ML",
+        "include": true,
+        "episode_num": 215,
+        "title": "Folge 215: Die beste Bücherei der Welt",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "415uRayez0RGpQk0go0647",
+        "include": true,
+        "episode_num": 214,
+        "title": "Folge 214: Chaos auf dem Bauernmarkt",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "48ygk0tGBVG1hbNed8Y0VN",
+        "include": true,
+        "episode_num": 213,
+        "title": "Folge 213: Der Foto-Wettbewerb",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0F50GOpAtqW4z166Fu5uau",
+        "include": true,
+        "episode_num": 212,
+        "title": "Folge 212: Der Dino-Knochen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2nry2HsT2qUV5DdZpgry6b",
+        "include": true,
+        "episode_num": 211,
+        "title": "Folge 211: Theater zum Mittag",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5rf7AKp33BvpQpxlYvITB1",
+        "include": true,
+        "episode_num": 210,
+        "title": "Folge 210: Gefährliche Strömung",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6tCYKPJe61HnkrnRupv2e0",
+        "include": true,
+        "episode_num": 209,
+        "title": "Folge 209: Die Kegelrobben-Sichtung",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2GBWEpe9zWLuo8L9fiIwAy",
+        "include": true,
+        "episode_num": 208,
+        "title": "Folge 208: Die Wildschweine sind los",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "63vGkv5W3JmGWgyz4TizcL",
+        "include": true,
+        "episode_num": 207,
+        "title": "Folge 207: Gefährliches Lagerfeuer",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "58ATTC1zovJETs0QXNnff1",
+        "include": true,
+        "episode_num": 206,
+        "title": "Folge 206: Ein Fest für Hauptfeuerwehrmann Steele",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3DYCXvaXPreG1FryUtFbCw",
+        "include": true,
+        "episode_num": 205,
+        "title": "Folge 205: Der Werfuchs",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7o52MrMoXFAq9w2Ozfsswo",
+        "include": true,
+        "episode_num": 204,
+        "title": "Folge 204: Die Gokart-Challenge",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0QJjIMNKtrpc6eBVjRKEJj",
+        "include": true,
+        "episode_num": 203,
+        "title": "Folge 203: Der Aufrechte Oktopus",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5jmh9qnfT2YrzMYfCUJtMR",
+        "include": true,
+        "episode_num": 202,
+        "title": "Folge 202: Das Back-Debakel",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0nqRH79Plj8ldQR6MEAivz",
+        "include": true,
+        "episode_num": 201,
+        "title": "Folge 201: Wer fliegt FireSwift?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1tFZpeO1on7CYnZidqnErb",
+        "include": true,
+        "episode_num": 200,
+        "title": "Folge 200: Prinz in Gefahr",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1a01vVxVezc231do6PhyWb",
+        "include": true,
+        "episode_num": 199,
+        "title": "Folge 199: Die Kapitänsmütze",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4D8ow3I5PdPUyBC325ijYa",
+        "include": true,
+        "episode_num": 198,
+        "title": "Folge 198: Die verrückte Hut-Parade",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "69tEggCncIZA8jKZI4mb7N",
+        "include": true,
+        "episode_num": 197,
+        "title": "Folge 197: Dino-Abenteuer-Kumpel",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2tQNI3jk7z20kbUuK4RzFn",
+        "include": true,
+        "episode_num": 196,
+        "title": "Folge 196: Wettkampf der Vlogger",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3iYblA2WKjM6iylvaaQceE",
+        "include": true,
+        "episode_num": 195,
+        "title": "Folge 195: Der Duft muss in die Luft",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "20tUtMXpw3CFvSzG21IB2C",
+        "include": true,
+        "episode_num": 194,
+        "title": "Folge 194: Die Wilden Männer in Gefahr",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1IHD0CcmSyzf8Zmv2Zidh0",
+        "include": true,
+        "episode_num": 193,
+        "title": "Folge 193: James hebt ab",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3zvnfjR5T05pGBQpIs51T5",
+        "include": true,
+        "episode_num": 190,
+        "title": "Folge 190: Der Segeltörn",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "66xrOAqKhw15Dx2ecEmDk3",
+        "include": true,
+        "episode_num": 192,
+        "title": "Folge 192: Das Pontypandy-Wunderland - Teil 2",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "141lf9qXaMEcOavkR5Wpsx",
+        "include": true,
+        "episode_num": 191,
+        "title": "Folge 191: Das Pontypandy-Wunderland - Teil 1",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "20dTlGXhPcLXncECSBqkUG",
+        "include": true,
+        "episode_num": 189,
+        "title": "Folge 189: Gefangen in der Grotte",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7CAdXmaYfllzWPIWNiWghT",
+        "include": true,
+        "episode_num": 188,
+        "title": "Folge 188: Die neue Uniform",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1Gh6Iee8btz9LHe1nFN51S",
+        "include": true,
+        "episode_num": 187,
+        "title": "Folge 187: Der Spaß-Spurt",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0UOmvidJSF9Lmzre8nnJhF",
+        "include": false,
+        "episode_num": null,
+        "title": "Der Ausflug zum Leuchtturm (Neue Geschichten aus Pontypandy)",
+        "exclude_reason": "Multi-story compilation album (24 tracks, multiple unnumbered stories)"
+      },
+      {
+        "spotify_album_id": "6aptJwKvVWqRfuYS4djsUB",
+        "include": true,
+        "episode_num": 185,
+        "title": "Folge 185: Polizistin Sarah",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6jvtcwH0glVNYtGWTicniA",
+        "include": true,
+        "episode_num": 186,
+        "title": "Folge 186: Die Waldschlaf-Challenge",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1j3g8oncWatS8nP7uPOvGd",
+        "include": true,
+        "episode_num": 184,
+        "title": "Folge 184: Absturz an den Klippen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2SIIN63RbUiTEWlDKUH2xn",
+        "include": true,
+        "episode_num": 183,
+        "title": "Folge 183: Der Super-Roller",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6DnQdinlCtLKAnmQdtp4hZ",
+        "include": true,
+        "episode_num": 182,
+        "title": "Folge 182: Norman und die Mond-Menschen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4U56GSfWbxQcbUBA6Af83h",
+        "include": true,
+        "episode_num": 181,
+        "title": "Folge 181: Brand am Bienen-Hotel",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6opD0faPzGIuQFH0jVHy3A",
+        "include": true,
+        "episode_num": 180,
+        "title": "Folge 180: Radio Mandy",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2sT83iDa2YISAgUXIeEgwk",
+        "include": true,
+        "episode_num": 179,
+        "title": "Folge 179: Die große Müllsammel-Aktion",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "63ThcrxWR91A2HDc4IUdfO",
+        "include": true,
+        "episode_num": 178,
+        "title": "Folge 178: Das Windskate-Fiasko",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1iYK9sdZHlBtb7K8j0GzZ4",
+        "include": true,
+        "episode_num": 177,
+        "title": "Folge 177: Der ausgefuchste Fuchs",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1HFHgmyRz5FPiy7joXkTHJ",
+        "include": false,
+        "episode_num": null,
+        "title": "Feuerwehrmann Sam - Geschichtensammlung 5",
+        "exclude_reason": "Story collection compilation (multiple stories, no episode numbers)"
+      },
+      {
+        "spotify_album_id": "3aBpft3YjZsu1iQquM87lz",
+        "include": false,
+        "episode_num": null,
+        "title": "Feuerwehrmann Sam - Geschichtensammlung 4",
+        "exclude_reason": "Story collection compilation (multiple stories, no episode numbers)"
+      },
+      {
+        "spotify_album_id": "0WavQdelKECNntKH9Ynmol",
+        "include": true,
+        "episode_num": 176,
+        "title": "Folge 176: Das große Reifenrollen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2cqGqu7v3O5RB8j3R84RSO",
+        "include": true,
+        "episode_num": 175,
+        "title": "Folge 175: Feuer im Veterinär-Zentrum",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6tYwp00Q39UNG3MShRNff6",
+        "include": true,
+        "episode_num": 174,
+        "title": "Folge 174: Paddel-Probleme",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7g9bjcqnIBEiO2OjAGqArM",
+        "include": true,
+        "episode_num": 173,
+        "title": "Folge 173: In der Falle",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7A38tGJg9RlPM7uTT6mqcq",
+        "include": true,
+        "episode_num": 172,
+        "title": "Folge 172: Hund gegen Schaf",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3JF6vOztSrc8pbFofQPxrM",
+        "include": true,
+        "episode_num": 171,
+        "title": "Folge 171: Gefährliche Gezeiten",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1YTKjyK73Xjz4KY7Z0AZ7E",
+        "include": false,
+        "episode_num": null,
+        "title": "Feuerwehrmann Sam - Geschichtensammlung 3",
+        "exclude_reason": "Story collection compilation (multiple stories, no episode numbers)"
+      },
+      {
+        "spotify_album_id": "4P8gtQTBDwwBZzwONFOMie",
+        "include": false,
+        "episode_num": null,
+        "title": "Feuerwehrmann Sam - Geschichtensammlung 2",
+        "exclude_reason": "Story collection compilation (multiple stories, no episode numbers)"
+      },
+      {
+        "spotify_album_id": "1zmYsNl03wrpwBcUnVupU3",
+        "include": false,
+        "episode_num": null,
+        "title": "Feuerwehrmann Sam - Norman macht die Pferde scheu",
+        "exclude_reason": "Standalone story without episode number (duplicate of Folge 117)"
+      },
+      {
+        "spotify_album_id": "1ZEE4iXQ0CGWkAAUS8YZIY",
+        "include": false,
+        "episode_num": null,
+        "title": "Feuerwehrmann Sam - Norman auf magischer Mission",
+        "exclude_reason": "Standalone story without episode number (duplicate of Folge 134)"
+      },
+      {
+        "spotify_album_id": "6vPVMABaTlBFL2Bqc9Kfu4",
+        "include": false,
+        "episode_num": null,
+        "title": "Feuerwehrmann Sam - Ein großartiger Rettungshund",
+        "exclude_reason": "Standalone story without episode number"
+      },
+      {
+        "spotify_album_id": "21D8coxkQMDNX6mMeMR50u",
+        "include": false,
+        "episode_num": null,
+        "title": "Feuerwehrmann Sam - Ein feuriges Konzert",
+        "exclude_reason": "Standalone story without episode number"
+      },
+      {
+        "spotify_album_id": "0wXF2MwDq38jlTPoR5wdnu",
+        "include": true,
+        "episode_num": 170,
+        "title": "Folge 170: Feuer auf dem Wasser",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4Z0FHWWUOBjQQ9o8tmnpA6",
+        "include": false,
+        "episode_num": null,
+        "title": "Feuerwehrmann Sam - Geschichtensammlung 1",
+        "exclude_reason": "Story collection compilation (multiple stories, no episode numbers)"
+      },
+      {
+        "spotify_album_id": "6pEqTgweO8kv2HLmH8Gwd3",
+        "include": false,
+        "episode_num": null,
+        "title": "Feuerwehrmann Sam - Norman und der Pinguin",
+        "exclude_reason": "Standalone story without episode number (duplicate of Folge 123)"
+      },
+      {
+        "spotify_album_id": "2tPASdk1nWphGxCJJwMgpx",
+        "include": false,
+        "episode_num": null,
+        "title": "Feuerwehrmann Sam - Ein sensationelles Fußballspiel",
+        "exclude_reason": "Standalone story without episode number"
+      },
+      {
+        "spotify_album_id": "464jJhDCyjwCZIXZoVHZq4",
+        "include": false,
+        "episode_num": null,
+        "title": "Feuerwehrmann Sam - Der rollende Riesenkürbis",
+        "exclude_reason": "Standalone story without episode number (duplicate of Folge 136)"
+      },
+      {
+        "spotify_album_id": "6y9ihfDcD6uPo1JIdBDIuf",
+        "include": false,
+        "episode_num": null,
+        "title": "Feuerwehrmann Sam - Das Kanurennen",
+        "exclude_reason": "Standalone story without episode number"
+      },
+      {
+        "spotify_album_id": "1BlQtnLxcCLtibqhLCPGHt",
+        "include": true,
+        "episode_num": 169,
+        "title": "Folge 169: Die Jagd nach dem Fleckenrochen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1sbldtXstF6mUaqkrJ8rMM",
+        "include": true,
+        "episode_num": 168,
+        "title": "Folge 168: Gefahr im Watt",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0999ZOMJD1bl57apcdvQ0x",
+        "include": true,
+        "episode_num": 167,
+        "title": "Folge 167: Die gruselige Kutschfahrt",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5yQrvJKvnAPM3SBn38M0S6",
+        "include": true,
+        "episode_num": 166,
+        "title": "Folge 166: Das Monster der Pontypandy-Berge",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0xZ1sZki88tjfva1PgWB5K",
+        "include": true,
+        "episode_num": 165,
+        "title": "Folge 165: Das doppelte Feuerwerk",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3EWJnScBCIzXay7knKL6rE",
+        "include": true,
+        "episode_num": 164,
+        "title": "Folge 164: Stehpaddel-SOS",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6XvtChrSZHaShdB4jV1J6M",
+        "include": true,
+        "episode_num": 163,
+        "title": "Folge 163: Die Wand der Champions",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3VEnG2Liy6jPXmlA2OpoaB",
+        "include": true,
+        "episode_num": 162,
+        "title": "Folge 162: Der neue Polizeihubschrauber",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4bXAMar21APzoLLmpm6HHj",
+        "include": true,
+        "episode_num": 161,
+        "title": "Folge 161: Das Pfadfinder-Fest",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2Ug5eZCfd6h0MICPLExyOx",
+        "include": true,
+        "episode_num": 160,
+        "title": "Folge 160: Erbsen mit Rauchgeschmack",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2Xt6NBMEleI4bdW4ZSOdjO",
+        "include": true,
+        "episode_num": 159,
+        "title": "Folge 159: Ein tolles Team",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4iGTJaGTbuPGSxPIh54J2m",
+        "include": true,
+        "episode_num": 158,
+        "title": "Folge 158: Der Pizza-Wettbewerb",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1KPZ42CTskjeT7bkm2AYqN",
+        "include": true,
+        "episode_num": 157,
+        "title": "Folge 157: Chaos beim Autowaschen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1pnb30umFpN0dQ95F7Mhp1",
+        "include": true,
+        "episode_num": 156,
+        "title": "Folge 156: Erste Hilfe in den Bergen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4Ru8lLxLljK4yDiaSe90kE",
+        "include": true,
+        "episode_num": 155,
+        "title": "Folge 155: Das Disco-Desaster",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2ReuGv05aHQfhaGMRVLXXK",
+        "include": true,
+        "episode_num": 154,
+        "title": "Folge 154: Hilfspolizist James",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4izbafvqZOP83F4kXC0tlL",
+        "include": true,
+        "episode_num": 153,
+        "title": "Folge 153: Die karibische Grillparty",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6EdAX7CdmpLAcGYEvU1YYH",
+        "include": true,
+        "episode_num": 152,
+        "title": "Folge 152: Das fliegende Sandwich",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6NQ9zUtwkzKxy4VUyBA6xO",
+        "include": true,
+        "episode_num": 151,
+        "title": "Folge 151: Ein wirklich scharfer Snack",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4XucuQLjMJqHgeqNz5dW8l",
+        "include": true,
+        "episode_num": 150,
+        "title": "Folge 150: Gefährliche Wanderung",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0cpJv62L1QpC162y7Ne3AL",
+        "include": false,
+        "episode_num": null,
+        "title": "Folgen 99-103: In Pontypandy ist was los",
+        "exclude_reason": "Multi-episode box set (Folgen 99-103)"
+      },
+      {
+        "spotify_album_id": "5qxCHxsm8kop6kfXFHOW2a",
+        "include": false,
+        "episode_num": null,
+        "title": "Folgen 95-98: Norman außer Rand und Band",
+        "exclude_reason": "Multi-episode box set (Folgen 95-98)"
+      },
+      {
+        "spotify_album_id": "5ne82AUuRJl4NyCU3uS9qh",
+        "include": false,
+        "episode_num": null,
+        "title": "Folgen 90-94: Eine Insel voller Abenteuer",
+        "exclude_reason": "Multi-episode box set (Folgen 90-94)"
+      },
+      {
+        "spotify_album_id": "1EXLM5k7KSi6l8F9szjxJ5",
+        "include": false,
+        "episode_num": null,
+        "title": "Folgen 9-12: Allzeit Bereit! (Classic)",
+        "exclude_reason": "Multi-episode box set (Folgen 9-12)"
+      },
+      {
+        "spotify_album_id": "4OOmGIIdLczaUbE427cxIS",
+        "include": false,
+        "episode_num": null,
+        "title": "Folgen 85-89: Auf dünnem Eis",
+        "exclude_reason": "Multi-episode box set (Folgen 85-89)"
+      },
+      {
+        "spotify_album_id": "1EG4yoXuDQWJ25tw265Agq",
+        "include": false,
+        "episode_num": null,
+        "title": "Folgen 79-84: Mann über Bord",
+        "exclude_reason": "Multi-episode box set (Folgen 79-84)"
+      },
+      {
+        "spotify_album_id": "2U8MxkhxVnGoyRblkqnByi",
+        "include": false,
+        "episode_num": null,
+        "title": "Folgen 73-78: Einsatz in den Bergen",
+        "exclude_reason": "Multi-episode box set (Folgen 73-78)"
+      },
+      {
+        "spotify_album_id": "3beyGC4fGZmRamxrMK61Gf",
+        "include": false,
+        "episode_num": null,
+        "title": "Folgen 68-72: Abenteuer im Schnee",
+        "exclude_reason": "Multi-episode box set (Folgen 68-72)"
+      },
+      {
+        "spotify_album_id": "2yU9mnjVLKcvzPRhi4z3x0",
+        "include": false,
+        "episode_num": null,
+        "title": "Folgen 63-67: Der tapfere Retter",
+        "exclude_reason": "Multi-episode box set (Folgen 63-67)"
+      },
+      {
+        "spotify_album_id": "2VlUqfUjoEUHbfuvzvnVpr",
+        "include": false,
+        "episode_num": null,
+        "title": "Folgen 6-10: Das Baby im Schafspelz",
+        "exclude_reason": "Multi-episode box set (Folgen 6-10)"
+      },
+      {
+        "spotify_album_id": "0FOWyGYKHMX1VIUnjRjeiT",
+        "include": false,
+        "episode_num": null,
+        "title": "Folgen 58-62: Helden auf dem Wasser",
+        "exclude_reason": "Multi-episode box set (Folgen 58-62)"
+      },
+      {
+        "spotify_album_id": "5aqyShbA1hsPDNVttJuw2b",
+        "include": false,
+        "episode_num": null,
+        "title": "Folgen 53-57: In Pontypandy wird's wild",
+        "exclude_reason": "Multi-episode box set (Folgen 53-57)"
+      },
+      {
+        "spotify_album_id": "7355SbiqgE174gDorShQwB",
+        "include": false,
+        "episode_num": null,
+        "title": "Folgen 5-8: Unser Held von Nebenan (Classic)",
+        "exclude_reason": "Multi-episode box set (Folgen 5-8)"
+      },
+      {
+        "spotify_album_id": "77cHyKvSD8o93l8tXedWqO",
+        "include": false,
+        "episode_num": null,
+        "title": "Folgen 48-52: Tag der offenen Tür",
+        "exclude_reason": "Multi-episode box set (Folgen 48-52)"
+      },
+      {
+        "spotify_album_id": "2LEbXQicfYrqS1vEoRmUF3",
+        "include": false,
+        "episode_num": null,
+        "title": "Folgen 43-47: Der Retter von Pontypandy",
+        "exclude_reason": "Multi-episode box set (Folgen 43-47)"
+      },
+      {
+        "spotify_album_id": "0YXWqkjeORwhnKaR1kH9iv",
+        "include": false,
+        "episode_num": null,
+        "title": "Folgen 38-42: Abenteuer in Pontypandy",
+        "exclude_reason": "Multi-episode box set (Folgen 38-42)"
+      },
+      {
+        "spotify_album_id": "7eaz8Dx0TnogCu3gJItlpY",
+        "include": false,
+        "episode_num": null,
+        "title": "Folgen 32-37: Wildes Gewässer",
+        "exclude_reason": "Multi-episode box set (Folgen 32-37)"
+      },
+      {
+        "spotify_album_id": "5JeXJrNtHijlLampKpQTlm",
+        "include": false,
+        "episode_num": null,
+        "title": "Folgen 27-31: Der Große Knall",
+        "exclude_reason": "Multi-episode box set (Folgen 27-31)"
+      },
+      {
+        "spotify_album_id": "2RUPXJsHkWalzQNu77wQw6",
+        "include": false,
+        "episode_num": null,
+        "title": "Folgen 22-26: Rettung in letzter Sekunde (Classic)",
+        "exclude_reason": "Multi-episode box set (Folgen 22-26)"
+      },
+      {
+        "spotify_album_id": "1Nw1VCWhRZagz4vEhcGiix",
+        "include": false,
+        "episode_num": null,
+        "title": "Folgen 21-26: Blitz Und Donner",
+        "exclude_reason": "Multi-episode box set (Folgen 21-26)"
+      },
+      {
+        "spotify_album_id": "0Sak04Zg8ln8RmFmEcit7J",
+        "include": false,
+        "episode_num": null,
+        "title": "Folgen 17-21: Winter in Pontypandy (Classic)",
+        "exclude_reason": "Multi-episode box set (Folgen 17-21)"
+      },
+      {
+        "spotify_album_id": "2Q6SuXlWX52V1ZfJVP8bOf",
+        "include": false,
+        "episode_num": null,
+        "title": "Folgen 16-20: Falscher Alarm",
+        "exclude_reason": "Multi-episode box set (Folgen 16-20)"
+      },
+      {
+        "spotify_album_id": "1wUjPOdKRUFgiMKaZJC4Oq",
+        "include": false,
+        "episode_num": null,
+        "title": "Folgen 13-16: Feueralarm! (Classic)",
+        "exclude_reason": "Multi-episode box set (Folgen 13-16)"
+      },
+      {
+        "spotify_album_id": "69jZJwrPmf1oHOPvGoO6d6",
+        "include": false,
+        "episode_num": null,
+        "title": "Folgen 129-132: Tiere in Pontypandy",
+        "exclude_reason": "Multi-episode box set (Folgen 129-132)"
+      },
+      {
+        "spotify_album_id": "5kOhofQNkkJjyVonLWOBxU",
+        "include": false,
+        "episode_num": null,
+        "title": "Folgen 124-128: Der Schatz von Pontypandy Pete",
+        "exclude_reason": "Multi-episode box set (Folgen 124-128)"
+      },
+      {
+        "spotify_album_id": "7CnaHEH3uWN1V1FUEaibnR",
+        "include": false,
+        "episode_num": null,
+        "title": "Folgen 119-123: Der Tag des Pinguins",
+        "exclude_reason": "Multi-episode box set (Folgen 119-123)"
+      },
+      {
+        "spotify_album_id": "4I3CycQpzxoaeP7nvyyYHu",
+        "include": false,
+        "episode_num": null,
+        "title": "Folgen 114-118: Tierische Rettung",
+        "exclude_reason": "Multi-episode box set (Folgen 114-118)"
+      },
+      {
+        "spotify_album_id": "6u4mFm99zkDJakves2Lx13",
+        "include": false,
+        "episode_num": null,
+        "title": "Folgen 11-15: Der Retter in der Not",
+        "exclude_reason": "Multi-episode box set (Folgen 11-15)"
+      },
+      {
+        "spotify_album_id": "19OVubypJMI2WL4Gjy24ch",
+        "include": false,
+        "episode_num": null,
+        "title": "Folgen 109-113: Sams Geburtstag",
+        "exclude_reason": "Multi-episode box set (Folgen 109-113)"
+      },
+      {
+        "spotify_album_id": "1DlaPAJ3Q5qF7FjZ33BqNZ",
+        "include": false,
+        "episode_num": null,
+        "title": "Folgen 104-108: Wettlauf gegen die Zeit",
+        "exclude_reason": "Multi-episode box set (Folgen 104-108)"
+      },
+      {
+        "spotify_album_id": "4BaKKIlFqyyLWtfFazdR0l",
+        "include": false,
+        "episode_num": null,
+        "title": "Folgen 1-5: Der Neue Held Von Nebenan",
+        "exclude_reason": "Multi-episode box set (Folgen 1-5)"
+      },
+      {
+        "spotify_album_id": "3mM5mRKpZezaQsXgwfpdl9",
+        "include": false,
+        "episode_num": null,
+        "title": "Folgen 1-4: Wasser Marsch (Classic)",
+        "exclude_reason": "Multi-episode box set (Folgen 1-4)"
+      },
+      {
+        "spotify_album_id": "0VBdgWiZqjW5gDlfGxswwE",
+        "include": false,
+        "episode_num": null,
+        "title": "Pontypandy in Gefahr (Das Original-Hörspiel zum Film)",
+        "exclude_reason": "Movie soundtrack/audio drama (not series episode)"
+      },
+      {
+        "spotify_album_id": "5iEePg4agH8pazHapKdKXX",
+        "include": false,
+        "episode_num": null,
+        "title": "Plötzlich Filmheld! (Das Original-Hörspiel zum Film)",
+        "exclude_reason": "Movie soundtrack/audio drama (not series episode)"
+      },
+      {
+        "spotify_album_id": "7o1PM9GGVCecg4PTntd15l",
+        "include": false,
+        "episode_num": null,
+        "title": "Helden fallen nicht vom Himmel (Das Original-Hörspiel zum Kinofilm)",
+        "exclude_reason": "Movie soundtrack/audio drama (not series episode)"
+      },
+      {
+        "spotify_album_id": "7Boajq9PTe7MTi3s4kADaJ",
+        "include": false,
+        "episode_num": null,
+        "title": "Achtung Außerirdische (Das Original-Hörspiel zum Film)",
+        "exclude_reason": "Movie soundtrack/audio drama (not series episode)"
+      },
+      {
+        "spotify_album_id": "7nXTyIrXr9AjuCVvwJ4rn4",
+        "include": false,
+        "episode_num": null,
+        "title": "Helden im Sturm (Das Original-Hörspiel zum Film)",
+        "exclude_reason": "Movie soundtrack/audio drama (not series episode)"
+      },
+      {
+        "spotify_album_id": "3nLacrpjWOhSy5jnVkiLOs",
+        "include": true,
+        "episode_num": 149,
+        "title": "Folge 149: Die gefährliche Floßfahrt",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7gCB6ImIUSAijSjJ1s0d9t",
+        "include": true,
+        "episode_num": 148,
+        "title": "Folge 148: Das Bruderwochenende",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6yHrwNYTawGsMiuH1CsEGx",
+        "include": true,
+        "episode_num": 147,
+        "title": "Folge 147: Die Seilrutsche",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7DPTqIObbQL9DdLIZR6Uj1",
+        "include": true,
+        "episode_num": 146,
+        "title": "Folge 146: Die Ukulele Band",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1D4VQG9lJwIOuBB1sAvpM3",
+        "include": true,
+        "episode_num": 145,
+        "title": "Folge 145: Abenteuer auf Dinosaurier Eiland",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5ay9U4jrE5T5cZ16RL6emo",
+        "include": true,
+        "episode_num": 144,
+        "title": "Folge 144: Meeresschildkröte in Not",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0GDieIkGo8BqZMT87xDf1d",
+        "include": true,
+        "episode_num": 143,
+        "title": "Folge 143: Eine zündende Werbung",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2ItbHqbE66gG1OFrOATgoQ",
+        "include": true,
+        "episode_num": 142,
+        "title": "Folge 142: Norman, der Starreporter",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6HwMfc9RVnPJCxKQrj0cm9",
+        "include": true,
+        "episode_num": 141,
+        "title": "Folge 141: Hauptfeuerwehrmann Steele führt Regie",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4goY9YacRefA0dQwRQ52cr",
+        "include": true,
+        "episode_num": 140,
+        "title": "Folge 140: Dilys gibt Gas",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6zQ4JlXmf0ZWlaS7xx1Fmr",
+        "include": true,
+        "episode_num": 139,
+        "title": "Folge 139: Die jungen Retter in Gefahr",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7HlDwSDCsjF1Yqdl0O4qae",
+        "include": true,
+        "episode_num": 138,
+        "title": "Folge 138: Die Rätsel-Löser",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6hvtquSQzrHNEDOWK83ZnX",
+        "include": true,
+        "episode_num": 137,
+        "title": "Folge 137: Der Prinz in Pontypandy",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6rlxZDmFKxDF8OPXEnGO1G",
+        "include": true,
+        "episode_num": 136,
+        "title": "Folge 136: Der rollende Riesenkürbis",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4UpiBoRSvrtwgMIMmIYP9N",
+        "include": true,
+        "episode_num": 135,
+        "title": "Folge 135: Norman sieht Gespenster",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5UZyRWX0xLhS8fV38lNivN",
+        "include": true,
+        "episode_num": 134,
+        "title": "Folge 134: Norman auf magischer Mission",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6mfg3Xg6TJRXF2Cqr576yj",
+        "include": true,
+        "episode_num": 133,
+        "title": "Folge 133: Monster-Alarm",
+        "exclude_reason": null
+      }
+    ],
+    "age_note": "Suitable from 3+",
+    "curator_notes": "Main series runs as individual numbered episodes (Folge NNN). Multiple box sets exist that compile episodes - these are excluded. Several movie audio dramas also exist and are excluded. SAGA Egmont publishes standalone story versions without episode numbers that duplicate numbered episodes - these are excluded to avoid duplication."
+  }
+}

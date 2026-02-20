@@ -1,0 +1,344 @@
+{
+  "query": "Prinzessin Lillifee",
+  "model": "kimi-k2.5",
+  "curated_at": "2026-02-20T00:37:53.153289+00:00",
+  "series": {
+    "id": "prinzessin_lillifee",
+    "title": "Prinzessin Lillifee",
+    "aliases": [],
+    "keywords": [
+      "Prinzessin Lillifee",
+      "Lillifee"
+    ],
+    "spotify_artist_ids": [
+      "78iNrogmY4Ru7d7PLtwD4b"
+    ],
+    "episode_pattern": "(?:Folge|folge|^\\d{3}/|^\\d{2}/)\\s*(\\d+)",
+    "albums": [
+      {
+        "spotify_album_id": "3brWJZfRWLek5yBSoB4Ob8",
+        "include": true,
+        "episode_num": null,
+        "title": "Mein zauberhaftes Tierhotel: Folge 9+10",
+        "exclude_reason": "Box set containing episodes 9 and 10 - treating as compilation"
+      },
+      {
+        "spotify_album_id": "4GyWsfA2a3K6o2XCBSVB4C",
+        "include": true,
+        "episode_num": null,
+        "title": "Im Garten der Düfte",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6yk2Q451QJ0oEsyG1M2lha",
+        "include": true,
+        "episode_num": null,
+        "title": "Der erste Feenball",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5795kgm8AWi8gDxVeGKNMQ",
+        "include": true,
+        "episode_num": null,
+        "title": "Das verzauberte Märchenbuch",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7ErywAfIpgxcATLch1ibCI",
+        "include": true,
+        "episode_num": null,
+        "title": "Mein zauberhaftes Tierhotel: Folge 7+8",
+        "exclude_reason": "Box set containing episodes 7 and 8 - treating as compilation"
+      },
+      {
+        "spotify_album_id": "3XMG0CL51WoTeQlqJ9XClA",
+        "include": true,
+        "episode_num": null,
+        "title": "Mein zauberhaftes Tierhotel: Folge 5+6",
+        "exclude_reason": "Box set containing episodes 5 and 6 - treating as compilation"
+      },
+      {
+        "spotify_album_id": "6cKFwdiGTdfdFhoeXczK0N",
+        "include": true,
+        "episode_num": null,
+        "title": "Mein zauberhaftes Tierhotel: Folge 3+4",
+        "exclude_reason": "Box set containing episodes 3 and 4 - treating as compilation"
+      },
+      {
+        "spotify_album_id": "1SW5OuXPjqEL9Rr5ss19iQ",
+        "include": true,
+        "episode_num": null,
+        "title": "Mein zauberhaftes Tierhotel: Folge 1+2",
+        "exclude_reason": "Box set containing episodes 1 and 2 - treating as compilation"
+      },
+      {
+        "spotify_album_id": "6OMaPht0GUas8cWaQv4XZ5",
+        "include": true,
+        "episode_num": null,
+        "title": "Der Schmetterlingspalast",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1BDF8UTWY6wpxLzF6um2xQ",
+        "include": true,
+        "episode_num": null,
+        "title": "Prinzessin Lillifee - Ein Wintermärchen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4J7VLI47aJNd2vQEdbfdDO",
+        "include": true,
+        "episode_num": 10,
+        "title": "Folge 10: Gute-Nacht-Geschichten Folge 19+20 - Jule und das Einhorn / Schatzsuche im Dschungel",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3tGpNAkUdb8klG1Xp3Q769",
+        "include": true,
+        "episode_num": 9,
+        "title": "009/Gute-Nacht-Geschichten Folge 17+18 - Das Schmetterlingsballett/Der fliegende Teppich",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "44U1ys8TklWml8UhtDQJre",
+        "include": true,
+        "episode_num": 8,
+        "title": "008/Gute-Nacht-Geschichten Folge 15+16 - In der Sternenbäckerei/Das Zirkuswunder",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2369mWFODN1JyhO01kWXlW",
+        "include": true,
+        "episode_num": 7,
+        "title": "007/Gute-Nacht-Geschichten Folge 13+14 - Der Traum der Hexe Alba/Das Lied der Delfine",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7MnVBiXp6c3qagFgjHTHvE",
+        "include": true,
+        "episode_num": 6,
+        "title": "006/Gute-Nacht-Geschichten Folge 11+12 - Die glitzernden Steine/Die Wunschfrüchte",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "27AUH86wpGn1nsUPAxHVze",
+        "include": true,
+        "episode_num": null,
+        "title": "Prinzessin Lillifee und die Zaubermuschel",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0OTSfglUsVhlvbNKedHpzZ",
+        "include": true,
+        "episode_num": 5,
+        "title": "005/Gute-Nacht-Geschichten Folge 9+10 - Das Bunte-Punkte-Fieber/Der Schrumpfzauber",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4HsZMXmPWh2jsr4ykFbKQY",
+        "include": true,
+        "episode_num": 4,
+        "title": "004/Gute-Nacht-Geschichten Folge 7+8 - Das Eisballett/Die goldene Brücke",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2PgSaJ7MbnMrEQLwHmnVNk",
+        "include": true,
+        "episode_num": 3,
+        "title": "003/Gute-Nacht-Geschichten Folge 5+6 - Das liebe Gespenst/Rosinchens Lächeln",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "71WcJA6wwiYgb3wCQhk4Rl",
+        "include": true,
+        "episode_num": null,
+        "title": "Prinzessin Lillifee in der Tierklinik",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2mh0PBRCJtDNKKa7CJsRWv",
+        "include": true,
+        "episode_num": 2,
+        "title": "002/Gute-Nacht-Geschichten Folge 3+4 - Tanz der Einhörner/Das verlorene Ei",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2TsDWy0PLSFuatYx5XBgk6",
+        "include": true,
+        "episode_num": 1,
+        "title": "001/Gute-Nacht-Geschichten Folge 1+2 - Die verzauberten Seerosen/Die goldene Perle",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4kYgEnvdxqb0wQip42Xa9f",
+        "include": true,
+        "episode_num": null,
+        "title": "Sucht den verlorenen Stern",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4IGALmBQk9LhZ8hvnFRtHJ",
+        "include": true,
+        "episode_num": null,
+        "title": "Und der fliegende Elefant",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6q0oy7sCC2NIlrWjlBNDkI",
+        "include": true,
+        "episode_num": null,
+        "title": "Rettet das Einhornparadies",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0izufZdiaKstK8Mht2k7tv",
+        "include": true,
+        "episode_num": null,
+        "title": "Und der Feenball",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3y9jloTirKL9ZU7wkpOnRn",
+        "include": true,
+        "episode_num": null,
+        "title": "Vorhang auf für Prinzessin Lillifee",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3ZYrlaczw1qMYuXnmL43k5",
+        "include": true,
+        "episode_num": 6,
+        "title": "06/Das Hörspiel zur TV-Serie",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6ujIiSFu9K2ZqptykIDmx1",
+        "include": true,
+        "episode_num": 5,
+        "title": "05/Das Hörspiel zur TV-Serie",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7mdhhDvpdqWJKjT9lYsybh",
+        "include": true,
+        "episode_num": 4,
+        "title": "04/Das Hörspiel zur TV-Serie",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "62Pu6eKfUPRn4aZwcsmONE",
+        "include": true,
+        "episode_num": null,
+        "title": "Und der Bergkristall",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "07jkUJ5t1WjdEPECuSRWDw",
+        "include": true,
+        "episode_num": 3,
+        "title": "03/Das Hörspiel zur TV-Serie",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "08aIC0yrgsL7KbawTYYAT7",
+        "include": true,
+        "episode_num": 2,
+        "title": "02/Das Hörspiel zur TV-Serie",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3kRGRFPWydYA5fVvtkosm1",
+        "include": true,
+        "episode_num": 1,
+        "title": "01/Das Hörspiel zur TV-Serie",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2cZrWzKe4U716qJWDXUsaz",
+        "include": true,
+        "episode_num": null,
+        "title": "Das kleine Einhorn (Original Hörspiel zum Kinofilm)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5YHPFHIvKNVJ23qYeSyeNz",
+        "include": true,
+        "episode_num": null,
+        "title": "Und der kleine Drache",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3Z5vhRGwTCDM062HPEDf3i",
+        "include": false,
+        "episode_num": null,
+        "title": "Der große Feenball (Zauberhafter Liederschatz)",
+        "exclude_reason": "Music/song collection, not Hörspiel"
+      },
+      {
+        "spotify_album_id": "4ZM4DgqJK88KWWpKyvWHTU",
+        "include": true,
+        "episode_num": null,
+        "title": "Und das kleine Reh",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2QiEpgmt8VrYg3GlcV4Sl5",
+        "include": true,
+        "episode_num": null,
+        "title": "Prinzessin Lillifee (Original Hörspiel zum Kinofilm)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6i3wCjdTRF2dHjF8JaftYW",
+        "include": false,
+        "episode_num": null,
+        "title": "Sonnenscheinparty (Sommerlieder)",
+        "exclude_reason": "Music/song collection, not Hörspiel"
+      },
+      {
+        "spotify_album_id": "2bnX3LzCb5oZltT32IHuWf",
+        "include": true,
+        "episode_num": null,
+        "title": "Und der kleine Delfin",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5Vdkk661wIB1r81chcBf5w",
+        "include": true,
+        "episode_num": null,
+        "title": "Die kleine Ballerina",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "12TT6OcOHRaM9HfWlfppxN",
+        "include": true,
+        "episode_num": null,
+        "title": "Und das Einhorn",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2DZprT3FAovltjzEGmq3Rx",
+        "include": true,
+        "episode_num": null,
+        "title": "Und die kleine Seejungfrau",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3GI2BdTgbQs4LnFSym3ji5",
+        "include": true,
+        "episode_num": null,
+        "title": "Prinzessin Lillifee",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4BanBOHGPk6AehgEszqnIP",
+        "include": true,
+        "episode_num": null,
+        "title": "Hat ein Geheimnis",
+        "exclude_reason": null
+      }
+    ],
+    "age_note": "Suitable from 3+",
+    "curator_notes": "The Prinzessin Lillifee series has multiple sub-series: the main numbered episodes (01-06 TV series, 001-010 Gute-Nacht-Geschichten), and various special albums with unique titles. The 'Mein zauberhaftes Tierhotel' series (2023-2025) contains double-episode releases. Two music-only albums were excluded. No Retro-Archiv or Junior variants found for this series."
+  }
+}

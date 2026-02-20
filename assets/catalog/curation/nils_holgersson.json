@@ -1,0 +1,497 @@
+{
+  "query": "Nils Holgersson",
+  "model": "kimi-k2.5",
+  "curated_at": "2026-02-20T01:24:03.208305+00:00",
+  "series": {
+    "id": "nils_holgersson",
+    "title": "Nils Holgersson",
+    "aliases": [],
+    "keywords": [
+      "Nils Holgersson"
+    ],
+    "spotify_artist_ids": [
+      "6vS1r2PgQlby3jeU4KpDds"
+    ],
+    "episode_pattern": "Folge\\s+(\\d+)",
+    "albums": [
+      {
+        "spotify_album_id": "66vsTLmia6vLXLF6gFRWdB",
+        "include": true,
+        "episode_num": 1,
+        "title": "Der Junge (Nils Holgersson, Folge 1)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3W2LHfo9WDnXCtxVYVtFqU",
+        "include": true,
+        "episode_num": 2,
+        "title": "Akka von Kebnekajse (Nils Holgersson, Folge 2)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5hPMwnXawT2rYpFgIqShBB",
+        "include": true,
+        "episode_num": 3,
+        "title": "Wildvogelleben (Nils Holgersson, Folge 3)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5MjPuwhrzTEiskaWeXCXNQ",
+        "include": true,
+        "episode_num": 4,
+        "title": "Glimminghaus (Nils Holgersson, Folge 4)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4xhgrwvHOEa56boBG6D1Yw",
+        "include": true,
+        "episode_num": 5,
+        "title": "Der große Kranichtanz auf dem Kullaberge (Nils Holgersson, Folge 5)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7hkVuFHNz3N9El2mN4IFXS",
+        "include": true,
+        "episode_num": 6,
+        "title": "Im Regenwetter (Nils Holgersson, Folge 6)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6bAzZ9afGCoDjAn87nUDfi",
+        "include": true,
+        "episode_num": 7,
+        "title": "Die Treppe mit den drei Stufen (Nils Holgersson, Folge 7)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1GHRSYNUeLzRFyyk8JGmoQ",
+        "include": true,
+        "episode_num": 8,
+        "title": "Am Rönneberger Bach (Nils Holgersson, Folge 8)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4tXcbteD2x0tYdNsKkpR7A",
+        "include": true,
+        "episode_num": 9,
+        "title": "Karlskrona (Nils Holgersson, Folge 9)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "25dfKlAdcIk5I7I1myALR8",
+        "include": true,
+        "episode_num": 10,
+        "title": "Die Reise nach Öland (Nils Holgersson, Folge 10)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2dXVDUdrD3mHmOr9V7jo9u",
+        "include": true,
+        "episode_num": 11,
+        "title": "Die Südspitze von Öland (Nils Holgersson, Folge 11)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "517ttqFHUNBqj4y2Ce1WWc",
+        "include": true,
+        "episode_num": 12,
+        "title": "Die kleine Karlsinsel (Nils Holgersson, Folge 12)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4bskiSi1RxENyPyTrzh9Eg",
+        "include": true,
+        "episode_num": 13,
+        "title": "Zwei Städte (Nils Holgersson, Folge 13)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6lSeG7UwZhxNnBdGWct4GV",
+        "include": true,
+        "episode_num": 14,
+        "title": "Die Sage von Samlaand (Nils Holgersson, Folge 14)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1Q15BdwbSF5xK8MNi3lciA",
+        "include": true,
+        "episode_num": 15,
+        "title": "Die Krähen (Nils Holgersson, Folge 15)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0wGu3R9P9CKI6mPojz0p4J",
+        "include": true,
+        "episode_num": 16,
+        "title": "Die alte Bauerfrau (Nils Holgersson, Folge 16)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1nD8jzqU5hVNeP7H0WoJjv",
+        "include": true,
+        "episode_num": 17,
+        "title": "Vom Taberg bis Husquarna (Nils Holgersson, Folge 17)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2FegipZBZivwknjvVvzDSe",
+        "include": true,
+        "episode_num": 18,
+        "title": "Der große Vogelsee (Nils Holgersson, Folge 18)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1uc4h6zXqx3pQucVLdYMJi",
+        "include": true,
+        "episode_num": 19,
+        "title": "Die Wahrsagung (Nils Holgersson, Folge 19)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5YcQUCvYO97wZRAU4dyXkE",
+        "include": true,
+        "episode_num": 20,
+        "title": "Die Bahn aus Fries (Nils Holgersson, Folge 20)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5v20c8VCIZ1RCJW9d59lBV",
+        "include": true,
+        "episode_num": 21,
+        "title": "Die Geschichte von Karr und Graufell (Nils Holgersson, Folge 21)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7gwI5xstKOhVy92WuQl5tM",
+        "include": true,
+        "episode_num": 22,
+        "title": "Der wunderschöne Garten (Nils Holgersson, Folge 22)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "46PTzGESyJ3QFDqE9ZNfJt",
+        "include": true,
+        "episode_num": 23,
+        "title": "In Närke (Nils Holgersson, Folge 23)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2v7DmqeXoPlnzVYphwl3MH",
+        "include": true,
+        "episode_num": 24,
+        "title": "Der Eisbruch (Nils Holgersson, Folge 24)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5pnQdlovJfZuRQV0xRwetH",
+        "include": true,
+        "episode_num": 25,
+        "title": "Die Erbteilung (Nils Holgersson, Folge 25)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3314DPvNKuu4TTpbtWAu0U",
+        "include": true,
+        "episode_num": 26,
+        "title": "Im Bergwerkdistrikt (Nils Holgersson, Folge 26)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7D44TRD3W6iTZglHujbNX1",
+        "include": true,
+        "episode_num": 27,
+        "title": "Das Eisenwerk (Nils Holgersson, Folge 27)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1b1yPVSrJ055cTTWRcoaqb",
+        "include": true,
+        "episode_num": 28,
+        "title": "Der Dalelf (Nils Holgersson, Folge 28)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2aMXk62ArMn1p5IfAWbHFl",
+        "include": true,
+        "episode_num": 29,
+        "title": "Das Bruderteil (Nils Holgersson, Folge 29)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2LSMeiBPJ5wlUtpSStIAXh",
+        "include": true,
+        "episode_num": 30,
+        "title": "Der Walpurgisabend (Nils Holgersson, Folge 30)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5wdk0qQmLHmrGqRJ6PkPx9",
+        "include": true,
+        "episode_num": 31,
+        "title": "Bei den Kirchen (Nils Holgersson, Folge 31)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0emdfHOuW9aARJWB1YfvgR",
+        "include": true,
+        "episode_num": 32,
+        "title": "Die Überschwemmung (Nils Holgersson, Folge 32)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4oRJle2M5hAVHxwnZYUWsx",
+        "include": true,
+        "episode_num": 33,
+        "title": "Die Sage von Uppland (Nils Holgersson, Folge 33)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0Lq9R5WZio85Zpag32hfxr",
+        "include": true,
+        "episode_num": 34,
+        "title": "In Upsala (Nils Holgersson, Folge 34)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4wdYYbQ9982GhDWSpeGi98",
+        "include": true,
+        "episode_num": 35,
+        "title": "Daunenfein (Nils Holgersson, Folge 35)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2J5FMXnHlhFdPoTUUN8MAu",
+        "include": true,
+        "episode_num": 36,
+        "title": "Stockholm (Nils Holgersson, Folge 36)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7C7jOhMwbkKlO5wxKJ8Qnr",
+        "include": true,
+        "episode_num": 37,
+        "title": "Der Adler Gorgo (Nils Holgersson, Folge 37)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7whKZ4S3EZ2uw1qMRfAjSp",
+        "include": true,
+        "episode_num": 38,
+        "title": "Über Gästrikland dahin (Nils Holgersson, Folge 38)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5WDjSW2uZhTsaNFOOYTtSP",
+        "include": true,
+        "episode_num": 39,
+        "title": "Ein Tag in Hälsingeland (Nils Holgersson, Folge 39)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7fqWsnl2dHfnTLTseQp5pF",
+        "include": true,
+        "episode_num": 40,
+        "title": "In Medelpad (Nils Holgersson, Folge 40)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "02mIDoULZ4uh6fCBdM5RZF",
+        "include": true,
+        "episode_num": 41,
+        "title": "Ein Morgen in Ångermanland (Nils Holgersson, Folge 41)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7h2q1HgA3JRxY5VQdz0asj",
+        "include": true,
+        "episode_num": 42,
+        "title": "Västerbotten und Lappland (Nils Holgersson, Folge 42)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0vDYVvNBCZx3TL2Eay9OsX",
+        "include": true,
+        "episode_num": 43,
+        "title": "Das Gänsemädchen Aase und der kleine Mads (Nils Holgersson, Folge 43)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4IwLE4HrK7oM4MbKHY0e9V",
+        "include": true,
+        "episode_num": 44,
+        "title": "Bei den Lappen (Nils Holgersson, Folge 44)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2tsMh1TjqohgFCDAKbjHKj",
+        "include": true,
+        "episode_num": 45,
+        "title": "Gen Süden! Gen Süden! (Nils Holgersson, Folge 45)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3Oj1GWbUCyjAkHXlGYPUpk",
+        "include": true,
+        "episode_num": 46,
+        "title": "Die Sage vom Härjetal (Nils Holgersson, Folge 46)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1K8drSaj51ZerBtoXFXEiz",
+        "include": true,
+        "episode_num": 47,
+        "title": "Värmland und Dalsland (Nils Holgersson, Folge 47)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "02NYrWJUhhW4mtYIY87MAw",
+        "include": true,
+        "episode_num": 48,
+        "title": "Ein kleiner Herrenhof (Nils Holgersson, Folge 48)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0yOP1kB0FCZctCG4TtmP5W",
+        "include": true,
+        "episode_num": 49,
+        "title": "Das Gold auf der Schäre (Nils Holgersson, Folge 49)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1mwHiHoBL6sxITUk60Em2J",
+        "include": true,
+        "episode_num": 50,
+        "title": "Silber im Meer (Nils Holgersson, Folge 50)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5dvwDwsG32uK00LTyCs0Yn",
+        "include": true,
+        "episode_num": 51,
+        "title": "Ein großer Herrenhof (Nils Holgersson, Folge 51)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "34ViYOqSsJrygMlZlg26oU",
+        "include": true,
+        "episode_num": 52,
+        "title": "Die Reise nach Bemmenhög (Nils Holgersson, Folge 52)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7ppjruUtRlaYndCrekf0YC",
+        "include": true,
+        "episode_num": 53,
+        "title": "Bei Holger Nielsens (Nils Holgersson, Folge 53)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5sBvy0x8HkWpNBUn7lTJDB",
+        "include": true,
+        "episode_num": 54,
+        "title": "Der Abschied von den Wildgänsen (Nils Holgersson, Folge 54)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "34iSu7bGyplAIi1gM07wCr",
+        "include": false,
+        "episode_num": null,
+        "title": "Nils Holgersson (Erster Teil)",
+        "exclude_reason": "Audiobook compilation - 263 chapter tracks, complete first part of the novel"
+      },
+      {
+        "spotify_album_id": "2IMvaFLNCQDk9SmBvRDKmr",
+        "include": false,
+        "episode_num": null,
+        "title": "Nils Holgersson (Zweiter Teil)",
+        "exclude_reason": "Audiobook compilation - 259 chapter tracks, complete second part of the novel"
+      },
+      {
+        "spotify_album_id": "6uOO5zAtFbGEm0o3A7N7UT",
+        "include": false,
+        "episode_num": null,
+        "title": "Nils Holgersson (Die wunderbare Reise des kleinen Nils Holgersson mit den Wildgänsen)",
+        "exclude_reason": "Complete audiobook box set - 526 tracks, contains entire novel"
+      },
+      {
+        "spotify_album_id": "3iTBrFan4v2EqG384uDaIo",
+        "include": false,
+        "episode_num": null,
+        "title": "Folge 1: Die wunderbare Reise des kleinen Nils Holgersson mit den Wildgänsen",
+        "exclude_reason": "Duplicate - older 2022 release, prefer 2024-2025 numbered episodes"
+      },
+      {
+        "spotify_album_id": "6AJi8OodgIHZPYA3xVsq7g",
+        "include": false,
+        "episode_num": null,
+        "title": "Folge 2: Die wunderbare Reise des kleinen Nils Holgersson mit den Wildgänsen",
+        "exclude_reason": "Duplicate - older 2022 release, prefer 2024-2025 numbered episodes"
+      },
+      {
+        "spotify_album_id": "1fIr2Y9ZO1gfbTMFNMWIIT",
+        "include": false,
+        "episode_num": null,
+        "title": "Folge 3: Die wunderbare Reise des kleinen Nils Holgersson mit den Wildgänsen",
+        "exclude_reason": "Duplicate - older 2022 release, prefer 2024-2025 numbered episodes"
+      },
+      {
+        "spotify_album_id": "3Q5QmJihsYz5nDmsb1UsDe",
+        "include": false,
+        "episode_num": null,
+        "title": "Folge 4: Die wunderbare Reise des kleinen Nils Holgersson mit den Wildgänsen",
+        "exclude_reason": "Duplicate - older 2022 release, prefer 2024-2025 numbered episodes"
+      },
+      {
+        "spotify_album_id": "2GnJPUE7alvEH0RDFHHmuN",
+        "include": false,
+        "episode_num": null,
+        "title": "01/Der Wunsch vom Fliegen (CGI)",
+        "exclude_reason": "CGI TV series audio - different format, 50 tracks with titelsong and multi-part episodes"
+      },
+      {
+        "spotify_album_id": "6g1GybQZRvihbcvxgqnL84",
+        "include": false,
+        "episode_num": null,
+        "title": "02/Das Wettfliegen (CGI)",
+        "exclude_reason": "CGI TV series audio - different format, 43 tracks with titelsong and multi-part episodes"
+      },
+      {
+        "spotify_album_id": "1gLOYr7IrnapGNgwutPM5S",
+        "include": false,
+        "episode_num": null,
+        "title": "03/Die Heldenfeder (CGI)",
+        "exclude_reason": "CGI TV series audio - different format, 50 tracks with titelsong and multi-part episodes"
+      },
+      {
+        "spotify_album_id": "1Km5ZZwVXu8ugO5d6DJNJ6",
+        "include": false,
+        "episode_num": null,
+        "title": "04/Fuchs in der Falle (CGI)",
+        "exclude_reason": "CGI TV series audio - different format, 43 tracks with titelsong and multi-part episodes"
+      },
+      {
+        "spotify_album_id": "0cOuHfpR4RjzORaFKBTwr0",
+        "include": false,
+        "episode_num": null,
+        "title": "Nils Holgersson (Piano Arrangement)",
+        "exclude_reason": "Music arrangement, not Hörspiel"
+      },
+      {
+        "spotify_album_id": "7p3H4e83Zqrzq3JHEgttyA",
+        "include": false,
+        "episode_num": null,
+        "title": "Nils Holgersson (Jazz Edition)",
+        "exclude_reason": "Music arrangement, not Hörspiel"
+      },
+      {
+        "spotify_album_id": "5ZpxwGr0AAY721g06cZkYF",
+        "include": false,
+        "episode_num": null,
+        "title": "Nils Holgersson (Flöten Arrangement)",
+        "exclude_reason": "Music arrangement, not Hörspiel"
+      }
+    ],
+    "age_note": "Suitable from 5+",
+    "curator_notes": "Series has three distinct formats on Spotify: (1) 54 classic radio play episodes (2024-2025, Lauscher Hörbücher) - these are the canonical Hörspiel episodes with proper episode numbers, (2) 4-part audiobook releases (2022, All Ears GmbH) - excluded as duplicates, (3) CGI TV series audio (2017-2018, Europa/Sony) - excluded as different format. The 2024-2025 releases represent the complete classic radio play series based on Selma Lagerlöf's novel."
+  }
+}

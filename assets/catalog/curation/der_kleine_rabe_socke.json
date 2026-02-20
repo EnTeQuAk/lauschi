@@ -1,0 +1,330 @@
+{
+  "query": "Der kleine Rabe Socke",
+  "model": "kimi-k2.5",
+  "curated_at": "2026-02-19T23:54:25.281313+00:00",
+  "series": {
+    "id": "der_kleine_rabe_socke",
+    "title": "Der kleine Rabe Socke",
+    "aliases": [],
+    "keywords": [
+      "Der kleine Rabe Socke",
+      "Alles"
+    ],
+    "spotify_artist_ids": [
+      "6NdYPh29DHFBbiYzcK7Nb0"
+    ],
+    "episode_pattern": "Alles ([^!]+)!",
+    "albums": [
+      {
+        "spotify_album_id": "4sisLEShJplT9VQrRelb99",
+        "include": true,
+        "episode_num": null,
+        "title": "Alles Freunde! (Der kleine Rabe Socke) [Freundschaftsgeschichten vom kleinen Raben Socke]",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0nnORLROe3heC59K96RQuO",
+        "include": true,
+        "episode_num": null,
+        "title": "Alles deine Schuld! (Der kleine Rabe Socke) [Und weitere Geschichten: Alles schlapp!, Alles gewaschen!]",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5rLgyFUrNHZ8xnaEWSSQ71",
+        "include": false,
+        "episode_num": null,
+        "title": "Alles Socke! (Alles erlaubt?, Alles Eis!, Alles gefunden!, Alles zu spät!, Alles echt wahr!, Alles nass!, Alles Bitte-danke!, Alles verlaufen!) (Der kleine Rabe Socke) [Das Beste vom kleinen Raben Socke zum 25. Geburtstag]",
+        "exclude_reason": "Box set / compilation: 25-year anniversary collection containing 8 stories"
+      },
+      {
+        "spotify_album_id": "5Blrw5UfocVrlzAoxRJQsf",
+        "include": true,
+        "episode_num": null,
+        "title": "Alles schläft? (Alles ohne Ende!, Alles Monster!, Alles verbummelt!, Alles besser!) (Der kleine Rabe Socke) [Gute-Nacht-Geschichten vom kleinen Raben Socke]",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "14E7VcuVdeHNJrN4qs3ofY",
+        "include": false,
+        "episode_num": null,
+        "title": "Der kleine Rabe Socke - Suche nach dem verlorenen Schatz",
+        "exclude_reason": "Audiobook: Film novelization with 48 chapters"
+      },
+      {
+        "spotify_album_id": "3xpjkVPiJfySiX0B9bH6S2",
+        "include": false,
+        "episode_num": null,
+        "title": "Der kleine Rabe Socke - Lesungen: Alles Geschichten vom kleinen Raben Socke",
+        "exclude_reason": "Audiobook reading (Lesung), not Hörspiel"
+      },
+      {
+        "spotify_album_id": "2cv0Xx00r0rGvIt8TBWdd2",
+        "include": false,
+        "episode_num": null,
+        "title": "Suche nach dem verlorenen Schatz (Der kleine Rabe Socke) [Das Original-Hörbuch zum Film]",
+        "exclude_reason": "Audiobook: Film novelization"
+      },
+      {
+        "spotify_album_id": "6uS4A6adOkQRBtfN8B0wnE",
+        "include": true,
+        "episode_num": null,
+        "title": "Alles verknallt!, Alles wach?, Alles gelernt! (Der kleine Rabe Socke)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6TDRew6FCdoLc4rmWtkSGs",
+        "include": false,
+        "episode_num": null,
+        "title": "Der kleine Rabe Socke 2 - Das große Rennen - Hörspiel zum Film",
+        "exclude_reason": "Movie tie-in Hörspiel"
+      },
+      {
+        "spotify_album_id": "2ISiO0pXLgO7uTdUnEFjMn",
+        "include": false,
+        "episode_num": null,
+        "title": "Der kleine Rabe Socke - Hörspiel zum Film",
+        "exclude_reason": "Movie tie-in Hörspiel"
+      },
+      {
+        "spotify_album_id": "4AboRuzwmUiuqS9noZmcQ1",
+        "include": true,
+        "episode_num": null,
+        "title": "Alles Weihnachten!: Alles Advent!, Alles gebacken!, Alles verschenkt! (Der kleine Rabe Socke) [Drei Geschichten vom kleinen Raben Socke]",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "06Oc8eYyPKyXMGBwUCBUV7",
+        "include": false,
+        "episode_num": null,
+        "title": "Sockes Flugschule, Die Waldhochzeit, Der Riesenschreck (Der kleine Rabe Socke - Hörspiele zur TV Serie 13)",
+        "exclude_reason": "TV series compilation: 3 short episodes bundled"
+      },
+      {
+        "spotify_album_id": "3FrgaEqgvo0sqA7Ru0QVYK",
+        "include": false,
+        "episode_num": null,
+        "title": "Ferngesteuert, Der Laden der allertollsten Dinge, Freundschaft mit Hindernissen (Der kleine Rabe Socke - Hörspiele zur TV Serie 14)",
+        "exclude_reason": "TV series compilation: 3 short episodes bundled"
+      },
+      {
+        "spotify_album_id": "0eF1MO4hXD7EE0cqD8DW8o",
+        "include": false,
+        "episode_num": null,
+        "title": "Die Mutprobe, Ein echter Krimi, Der geteilte Wald (Der kleine Rabe Socke - Hörspiele zur TV Serie 16)",
+        "exclude_reason": "TV series compilation: 3 short episodes bundled"
+      },
+      {
+        "spotify_album_id": "4MF3vRrimefhW3x9RK9I1V",
+        "include": false,
+        "episode_num": null,
+        "title": "Der Onkel aus der Südsee, Der große Streichewettbewerb, Rollentausch, Der Schatzkistentag (Der kleine Rabe Socke - Hörspiele zur TV Serie 17)",
+        "exclude_reason": "TV series compilation: 4 short episodes bundled"
+      },
+      {
+        "spotify_album_id": "6KnamYDPG0Wr82roCnku3U",
+        "include": false,
+        "episode_num": null,
+        "title": "Das Waldlied, Allerbeste Freunde, Die Geburtstagsretter (Der kleine Rabe Socke - Hörspiele zur TV Serie 15)",
+        "exclude_reason": "TV series compilation: 3 short episodes bundled"
+      },
+      {
+        "spotify_album_id": "0Csm87ayVVBtIeP4gl2hvP",
+        "include": false,
+        "episode_num": null,
+        "title": "Socke aus dem All, Der Hypnotiseur, Streithähne (Der kleine Rabe Socke - Hörspiele zur TV Serie 12)",
+        "exclude_reason": "TV series compilation: 3 short episodes bundled"
+      },
+      {
+        "spotify_album_id": "4ohBnL1iSjWMTQaLNA7bvZ",
+        "include": false,
+        "episode_num": null,
+        "title": "Neues Ufer, Die verfluchte Teekanne, Der große Sockini (Der kleine Rabe Socke - Hörspiele zur TV Serie 9)",
+        "exclude_reason": "TV series compilation: 3 short episodes bundled"
+      },
+      {
+        "spotify_album_id": "0oqKdiDNslYUoUiRYUdDks",
+        "include": false,
+        "episode_num": null,
+        "title": "Meisterdetektive, Der Pechvogel, Frau Dachs hat Geburtstag (Der kleine Rabe Socke - Hörspiele zur TV Serie 11)",
+        "exclude_reason": "TV series compilation: 3 short episodes bundled"
+      },
+      {
+        "spotify_album_id": "045UjvaNf9898ZWtNxdL7s",
+        "include": false,
+        "episode_num": null,
+        "title": "Das Hofturnier, Die Waldprüfung, Bruder-Alarm! (Der kleine Rabe Socke - Hörspiele zur TV Serie 10)",
+        "exclude_reason": "TV series compilation: 3 short episodes bundled"
+      },
+      {
+        "spotify_album_id": "5YufFI1LNYMovd5wWKJ4CU",
+        "include": false,
+        "episode_num": null,
+        "title": "Suppenzauber, Gestrandet, Die Ringelsocke ist futsch! (Der kleine Rabe Socke - Hörspiele zur TV Serie 6)",
+        "exclude_reason": "TV series compilation: 3 short episodes bundled"
+      },
+      {
+        "spotify_album_id": "58IfNovyr5Sr55wgMLWIoI",
+        "include": false,
+        "episode_num": null,
+        "title": "Rennfahrer, Diamantenfieber, Die Rasselbande (Der kleine Rabe Socke - Hörspiele zur TV Serie 7)",
+        "exclude_reason": "TV series compilation: 3 short episodes bundled"
+      },
+      {
+        "spotify_album_id": "76HrKCFyQhY87r2IWXnLDB",
+        "include": false,
+        "episode_num": null,
+        "title": "Die Sportskanone, Der Honigmond, Der sprechende Busch (Der kleine Rabe Socke - Hörspiele zur TV Serie 5)",
+        "exclude_reason": "TV series compilation: 3 short episodes bundled"
+      },
+      {
+        "spotify_album_id": "3vxL29iewsOnpuzmvy0B18",
+        "include": false,
+        "episode_num": null,
+        "title": "Das Geburtstagsgeschenk, Das Superfernrohr, Der Erfinderwettbewerb (Der kleine Rabe Socke - Hörspiele zur TV Serie 8)",
+        "exclude_reason": "TV series compilation: 3 short episodes bundled"
+      },
+      {
+        "spotify_album_id": "1JgEBUElVoNgUOuoT34lwc",
+        "include": false,
+        "episode_num": null,
+        "title": "Der kleine Rabe Socke - Lesungen: Das große Buch vom kleinen Raben Socke",
+        "exclude_reason": "Audiobook reading (Lesung), not Hörspiel"
+      },
+      {
+        "spotify_album_id": "795XA2uiADFHOKNkttriJX",
+        "include": false,
+        "episode_num": null,
+        "title": "Ritter Sockenherz, Mission: Dreirad, Der falsche Pilz (Der kleine Rabe Socke - Hörspiele zur TV Serie 3)",
+        "exclude_reason": "TV series compilation: 3 short episodes bundled"
+      },
+      {
+        "spotify_album_id": "1i3DeKgyCaMEwpmrgnXkiK",
+        "include": false,
+        "episode_num": null,
+        "title": "Piraten Ahoi!, Die Fußballwaldmeisterschaft, Das goldene Amulett (Der kleine Rabe Socke - Hörspiele zur TV Serie 1)",
+        "exclude_reason": "TV series compilation: 3 short episodes bundled"
+      },
+      {
+        "spotify_album_id": "6VrIYTSUOGSsKWMTdeW8gE",
+        "include": false,
+        "episode_num": null,
+        "title": "Frau Dachs macht Urlaub, Ein Tanzkleid für Frau Dachs, Rette sich, wer kann! (Der kleine Rabe Socke - Hörspiele zur TV Serie 4)",
+        "exclude_reason": "TV series compilation: 3 short episodes bundled"
+      },
+      {
+        "spotify_album_id": "2vSecCqEUJilZo28l0vTIL",
+        "include": false,
+        "episode_num": null,
+        "title": "Die Wunscherfüllkiste, Der Waldgeist, Haltet den Dieb! (Der kleine Rabe Socke - Hörspiele zur TV Serie 2)",
+        "exclude_reason": "TV series compilation: 3 short episodes bundled"
+      },
+      {
+        "spotify_album_id": "2Dxffa8HllZkXEFNMo9tFv",
+        "include": true,
+        "episode_num": null,
+        "title": "Alles verschenkt!, Alles Winter!, Alles gebacken!, Alles taut! (Der kleine Rabe Socke)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6CPEwK18zBZafonlXexQYK",
+        "include": true,
+        "episode_num": null,
+        "title": "Alles verzankt!, Alles zu voll!, Alles nass! (Der kleine Rabe Socke)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0joEbvSRUXOYhoWfDJdXPa",
+        "include": true,
+        "episode_num": null,
+        "title": "Alles vermurkst!, Alles geheim!, Alles saust um die Wette! (Der kleine Rabe Socke)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4Bye9UYKH5eYH6Glm1EYdO",
+        "include": true,
+        "episode_num": null,
+        "title": "Alles Bitte-danke!, Alles Eis!, Socke will alles können und zwar ruckzuck! (Der kleine Rabe Socke)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0kZJGLsehU5T1xyjZPurOZ",
+        "include": true,
+        "episode_num": null,
+        "title": "Alles mutig!, Alles für dich!, Alles getröstet! (Der kleine Rabe Socke)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2GOKRO5HpGlMwgePYhAcxT",
+        "include": true,
+        "episode_num": null,
+        "title": "Alles meins!, Alles zurückgegeben!, Alles fliegt! (Der kleine Rabe Socke)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5Tx1COK2E4QTwd0ye0rknb",
+        "include": true,
+        "episode_num": null,
+        "title": "Weihnachtsgeschichten vom kleinen Raben Socke: Alles Advent!, Alles glitzert!, Alles in Eile!, Alles weg! (Der kleine Rabe Socke)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6tbKtNfAd40rvPJVTNXylf",
+        "include": true,
+        "episode_num": null,
+        "title": "Alles rabenstark!, Alles aufgeräumt!, Alles kaputt! (Der kleine Rabe Socke)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3vsiwgXS4uLS7tNt1PvJxS",
+        "include": true,
+        "episode_num": null,
+        "title": "Alles gefunden!, Alles gemerkt!, Alles in Ordnung! (Der kleine Rabe Socke)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6EEHTIM7lx5WoOQ083pffv",
+        "include": true,
+        "episode_num": null,
+        "title": "Alles echt wahr!, Macht ja nix! (Der kleine Rabe Socke)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2HajrwUcwFczd5ovmqUta9",
+        "include": true,
+        "episode_num": null,
+        "title": "Alles Freunde!, Alles wieder gut! (Der kleine Rabe Socke)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1643B3HHyNmb3tn458wQrK",
+        "include": true,
+        "episode_num": null,
+        "title": "Alles gefärbt!, Alles wächst!, Alles verwünscht! (Der kleine Rabe Socke)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2FAg04g5btUgSUExkIOi6r",
+        "include": true,
+        "episode_num": null,
+        "title": "Alles Schule!: Alles vorbereitet!, Alles aufgeweckt!, Alles eingeschult!, Alles aus und vorbei!, Alles zusammen! (Der kleine Rabe Socke)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2mRHZRtlJm1UFloiMQwtyw",
+        "include": true,
+        "episode_num": null,
+        "title": "Alles erlaubt?, Alles Urlaub! (Der kleine Rabe Socke)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1OJtnmkxVTdYFJ1pwLssPi",
+        "include": true,
+        "episode_num": null,
+        "title": "Alles Frühling!: Alles Freunde!, Alles wächst!, Alles gefärbt! (Der kleine Rabe Socke) [Drei Geschichten vom kleinen Raben Socke]",
+        "exclude_reason": null
+      }
+    ],
+    "age_note": "Suitable from 3+",
+    "curator_notes": "Series has two distinct product lines: 1) Main 'Alles X!' book-based episodes (included) - these are the core Hörspiele based on the popular children's books by Nele Moost; 2) TV series episodes (excluded) - these are shorter 3-episode bundles from the animated TV adaptation. Also excluded: movie tie-ins, audiobook readings (Lesungen), and the 25-year anniversary box set. The 'Alles X!' episodes follow the classic picture book stories and are the primary content parents expect."
+  }
+}
