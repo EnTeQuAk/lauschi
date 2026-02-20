@@ -712,7 +712,9 @@ async def main_async(args: argparse.Namespace) -> None:
     total_splits = 0
     total_added = 0
 
-    for series_id in series_ids:
+    for i, series_id in enumerate(series_ids):
+        if i > 0:
+            console.print("\n")
         console.print(Panel(
             f"[bold]{series_id}[/]\nModel: {args.model} · Timeout: {args.timeout}s",
             title="🔍 reviewing",
