@@ -54,6 +54,22 @@ class MediaSessionHandler extends BaseAudioHandler with SeekHandler {
     onPause?.call();
   }
 
+  @override
+  Future<void> onTaskRemoved() async {
+    // Android: user swiped app away from recents. Pause playback gracefully.
+    Log.info(_tag, 'Task removed — pausing playback');
+    onPause?.call();
+    await super.onTaskRemoved();
+  }
+
+  @override
+  Future<void> onNotificationDeleted() async {
+    // Android: user dismissed the media notification.
+    Log.info(_tag, 'Notification dismissed — pausing playback');
+    onPause?.call();
+    await super.onNotificationDeleted();
+  }
+
   /// Sync notification state from our [PlaybackState].
   void updateFromAppState(app.PlaybackState appState) {
     final track = appState.track;
