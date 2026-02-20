@@ -8,6 +8,11 @@ class Groups extends Table {
   IntColumn get sortOrder => integer().withDefault(const Constant(0))();
   DateTimeColumn get createdAt => dateTime().withDefault(currentDateAndTime)();
 
+  /// Content type: 'hoerspiel' (default), 'music', 'audiobook'.
+  /// Affects playback behaviour (auto-advance, shuffle, progress tracking).
+  TextColumn get contentType =>
+      text().withDefault(const Constant('hoerspiel'))();
+
   @override
   Set<Column<Object>> get primaryKey => {id};
 }

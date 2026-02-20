@@ -278,6 +278,7 @@ class _GroupGridItem extends ConsumerWidget {
       episodeCount: episodes.length,
       coverUrl: group.coverUrl,
       progress: progress,
+      contentType: group.contentType,
       onTap: onTap,
     );
   }
