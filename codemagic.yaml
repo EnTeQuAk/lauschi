@@ -49,6 +49,7 @@ workflows:
       - name: Build iOS
         script: |
           flutter build ipa --release \
+            --build-number=$PROJECT_BUILD_NUMBER \
             --dart-define-from-file=$CM_BUILD_DIR/.env \
             --export-options-plist=/Users/builder/export_options.plist
 
