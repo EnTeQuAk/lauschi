@@ -76,6 +76,10 @@ run = "uv run scripts/catalog-report.py"
 description = "CLI for editing curations (add/remove/toggle/approve/search)"
 run = "uv run scripts/catalog-edit.py"
 
+[tasks.catalog-review-ai]
+description = "AI-assisted review of curated series (splits, gap-filling, dedup)"
+run = "uv run scripts/review-series.py"
+
 [tasks.catalog-titles]
 description = "Quick artist discovery + optional AI YAML snippet"
 run = "uv run scripts/discover-titles.py"
