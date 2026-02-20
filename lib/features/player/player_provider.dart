@@ -1,5 +1,6 @@
 import 'dart:async' show StreamSubscription, Timer, unawaited;
 
+import 'package:lauschi/core/database/app_database.dart' as db;
 import 'package:lauschi/core/database/card_repository.dart';
 import 'package:lauschi/core/database/group_repository.dart';
 import 'package:lauschi/core/log.dart';
@@ -242,26 +243,55 @@ class PlayerNotifier extends _$PlayerNotifier {
     );
 
     try {
-      // If we have a saved position, resume at that track + offset.
-      if (card != null &&
-          card.lastTrackUri != null &&
-          card.lastPositionMs > 0) {
-        await _api!.play(
-          spotifyUri,
-          deviceId: deviceId,
-          offsetUri: card.lastTrackUri,
-          positionMs: card.lastPositionMs,
-        );
-      } else {
-        await _api!.play(spotifyUri, deviceId: deviceId);
-      }
+      await _playOnDevice(spotifyUri, deviceId, card);
       state = state.copyWith(isLoading: false);
+    } on SpotifyDeviceNotFoundException {
+      // Device stale — reconnect the SDK and retry once.
+      Log.warn(_tag, 'Device not found — reconnecting');
+      await _bridge!.reconnect();
+      final newDeviceId = await _bridge!.waitForDevice();
+      if (newDeviceId != null) {
+        try {
+          await _playOnDevice(spotifyUri, newDeviceId, card);
+          state = state.copyWith(isLoading: false);
+        } on Exception catch (e) {
+          Log.error(_tag, 'Retry after reconnect failed', exception: e);
+          state = state.copyWith(
+            isLoading: false,
+            error: 'Wiedergabe fehlgeschlagen',
+          );
+        }
+      } else {
+        Log.error(_tag, 'Reconnect timed out — no device');
+        state = state.copyWith(
+          isLoading: false,
+          error: 'Spotify-Verbindung verloren',
+        );
+      }
     } on Exception catch (e) {
       Log.error(_tag, 'Play failed', exception: e);
       state = state.copyWith(
         isLoading: false,
         error: 'Wiedergabe fehlgeschlagen',
       );
+    }
+  }
+
+  /// Send play command to Spotify API on the given device.
+  Future<void> _playOnDevice(
+    String spotifyUri,
+    String deviceId,
+    db.AudioCard? card,
+  ) async {
+    if (card != null && card.lastTrackUri != null && card.lastPositionMs > 0) {
+      await _api!.play(
+        spotifyUri,
+        deviceId: deviceId,
+        offsetUri: card.lastTrackUri,
+        positionMs: card.lastPositionMs,
+      );
+    } else {
+      await _api!.play(spotifyUri, deviceId: deviceId);
     }
   }
 

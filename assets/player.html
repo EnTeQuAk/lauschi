@@ -55,7 +55,14 @@
 
       player.addListener('not_ready', function(data) {
         post('not_ready', { device_id: data.device_id });
-        post_log('Player not ready');
+        post_log('Player not ready — attempting reconnect');
+        // Re-register the device with Spotify's servers.
+        player.connect().then(function(success) {
+          post_log('Reconnect attempt: ' + success);
+          if (!success) {
+            post('error', { type: 'reconnect', message: 'reconnect failed' });
+          }
+        });
       });
 
       player.addListener('player_state_changed', function(state) {
@@ -157,6 +164,22 @@
 
     set_volume: function(volume) {
       if (player) player.setVolume(volume);
+    },
+
+    // Re-register the SDK player with Spotify. Called by Dart when
+    // the device_id goes stale (404 on play).
+    reconnect: function() {
+      if (player) {
+        post_log('reconnect called');
+        player.connect().then(function(success) {
+          post_log('reconnect result: ' + success);
+          if (!success) {
+            post('error', { type: 'reconnect', message: 'reconnect failed' });
+          }
+        });
+      } else {
+        post('error', { type: 'reconnect', message: 'no player instance' });
+      }
     },
 
     disconnect: function() {
