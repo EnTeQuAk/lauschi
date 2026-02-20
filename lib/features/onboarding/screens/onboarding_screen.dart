@@ -109,10 +109,10 @@ class _WelcomePage extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Icon(
-            Icons.headphones_rounded,
-            size: 80,
-            color: AppColors.primary,
+          Image.asset(
+            'assets/images/branding/lauschi-mascot.png',
+            width: 160,
+            height: 160,
           ),
           const SizedBox(height: AppSpacing.xl),
           const Text(

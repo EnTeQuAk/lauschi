@@ -406,10 +406,10 @@ class _EmptyState extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Icon(
-              Icons.library_music_rounded,
-              size: 72,
-              color: AppColors.primarySoft,
+            Image.asset(
+              'assets/images/branding/lauschi-mascot.png',
+              width: 140,
+              height: 140,
             ),
             const SizedBox(height: AppSpacing.lg),
             const Text(
