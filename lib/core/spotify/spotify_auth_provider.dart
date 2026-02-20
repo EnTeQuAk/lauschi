@@ -95,27 +95,39 @@ class SpotifyAuthNotifier extends _$SpotifyAuthNotifier {
     Log.info(_tag, 'Logged out');
   }
 
-  /// Update tokens from an external source (e.g., bridge token refresh).
-  /// Keeps all providers in sync without triggering a full reload.
-  void updateTokens(SpotifyTokens tokens) {
-    state = AuthAuthenticated(tokens);
-    Log.debug(_tag, 'Tokens updated externally');
-  }
+  /// In-flight refresh future — serializes concurrent refresh attempts.
+  Future<String?>? _refreshFuture;
 
   /// Get a valid access token, refreshing if needed.
   /// Returns null if not authenticated.
+  ///
+  /// Serialized: concurrent callers share a single refresh request
+  /// to prevent token race conditions between bridge and API.
   Future<String?> validAccessToken() async {
+    // If a refresh is already in flight, wait for it.
+    if (_refreshFuture != null) return _refreshFuture;
+
     final current = state;
     if (current is! AuthAuthenticated) return null;
 
+    // Fast path: token still valid.
+    if (!current.tokens.isExpired) return current.tokens.accessToken;
+
+    // Slow path: needs refresh. Serialize concurrent callers.
+    _refreshFuture = _doRefresh(current.tokens);
     try {
-      final token = await _auth.validAccessToken(current.tokens);
-      // If tokens were refreshed, the new ones are in secure storage.
-      // Reload to update state.
-      if (current.tokens.isExpired) {
-        final fresh = await _auth.loadStored();
-        if (fresh != null) state = AuthAuthenticated(fresh);
-      }
+      return await _refreshFuture;
+    } finally {
+      _refreshFuture = null;
+    }
+  }
+
+  Future<String?> _doRefresh(SpotifyTokens tokens) async {
+    try {
+      final token = await _auth.validAccessToken(tokens);
+      // Reload refreshed tokens from storage to update state.
+      final fresh = await _auth.loadStored();
+      if (fresh != null) state = AuthAuthenticated(fresh);
       return token;
     } on Exception catch (e) {
       Log.error(_tag, 'Token refresh failed', exception: e);

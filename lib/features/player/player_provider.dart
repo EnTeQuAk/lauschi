@@ -48,13 +48,7 @@ MediaSessionHandler mediaSessionHandler(Ref ref) {
 
 @Riverpod(keepAlive: true)
 SpotifyPlayerBridge spotifyPlayerBridge(Ref ref) {
-  final bridge =
-      SpotifyPlayerBridge()
-        // Keep all token consumers in sync when the bridge refreshes tokens.
-        ..onTokenRefreshed = (tokens) {
-          ref.read(spotifyAuthProvider.notifier).updateTokens(tokens);
-        };
-
+  final bridge = SpotifyPlayerBridge();
   ref.onDispose(bridge.dispose);
   return bridge;
 }
@@ -117,8 +111,14 @@ class PlayerNotifier extends _$PlayerNotifier {
       return;
     }
 
-    final auth = ref.read(spotifyAuthClientProvider);
-    await _bridge!.init(auth: auth, tokens: authState.tokens);
+    final authNotifier = ref.read(spotifyAuthProvider.notifier);
+    await _bridge!.init(
+      getValidToken: () async {
+        final token = await authNotifier.validAccessToken();
+        if (token == null) throw StateError('Not authenticated');
+        return token;
+      },
+    );
     Log.info(_tag, 'Bridge initialized');
   }
 
