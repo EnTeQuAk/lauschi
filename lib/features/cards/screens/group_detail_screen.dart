@@ -34,7 +34,7 @@ class GroupDetailScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final groupAsync = ref.watch(groupByIdProvider(groupId));
     final episodesAsync = ref.watch(groupEpisodesProvider(groupId));
-    final nextAsync = ref.watch(groupNextUnheardProvider(groupId));
+    final nextUnheard = ref.watch(groupNextUnheardProvider(groupId));
     final playerState = ref.watch(playerProvider);
     final playerNotifier = ref.read(playerProvider.notifier);
     final isOnline = ref.watch(isOnlineProvider);
@@ -106,7 +106,7 @@ class GroupDetailScreen extends ConsumerWidget {
                   if (episodes.isEmpty) {
                     return const _EmptyGroupState();
                   }
-                  final nextId = nextAsync.whenOrNull(data: (c) => c?.id);
+                  final nextId = nextUnheard?.id;
                   return _EpisodeGrid(
                     episodes: episodes,
                     nextUnheardId: nextId,
@@ -429,10 +429,14 @@ final groupByIdProvider = StreamProvider.family<db.CardGroup?, String>((
   return ref.watch(groupRepositoryProvider).watchById(groupId);
 });
 
-/// First unheard card in a group.
-final groupNextUnheardProvider = FutureProvider.family<db.AudioCard?, String>((
+/// First unheard card in a group — reactive to episode changes.
+final groupNextUnheardProvider = Provider.family<db.AudioCard?, String>((
   ref,
   groupId,
 ) {
-  return ref.watch(groupRepositoryProvider).nextUnheard(groupId);
+  final episodes = ref.watch(groupEpisodesProvider(groupId)).value ?? [];
+  for (final ep in episodes) {
+    if (!ep.isHeard) return ep;
+  }
+  return null;
 });
