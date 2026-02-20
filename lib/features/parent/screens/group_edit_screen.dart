@@ -422,6 +422,18 @@ class _EpisodeReorderList extends ConsumerWidget {
     return ReorderableListView.builder(
       padding: const EdgeInsets.only(bottom: AppSpacing.xxl),
       buildDefaultDragHandles: false,
+      proxyDecorator: (child, index, animation) {
+        return AnimatedBuilder(
+          animation: animation,
+          builder: (context, child) => Material(
+            elevation: 4,
+            shadowColor: Colors.black26,
+            borderRadius: const BorderRadius.all(Radius.circular(8)),
+            child: child,
+          ),
+          child: child,
+        );
+      },
       onReorder: (oldIndex, newIndex) {
         final insertAt = newIndex > oldIndex ? newIndex - 1 : newIndex;
         final reordered = List<db.AudioCard>.from(episodes);
@@ -475,6 +487,12 @@ class _EpisodeTile extends ConsumerWidget {
                   ? CachedNetworkImage(
                     imageUrl: card.coverUrl!,
                     fit: BoxFit.cover,
+                    memCacheWidth: 80, // 40px @ 2x
+                    memCacheHeight: 80,
+                    fadeInDuration: Duration.zero,
+                    placeholder: (_, _) => const ColoredBox(
+                      color: AppColors.surfaceDim,
+                    ),
                   )
                   : const ColoredBox(
                     color: AppColors.surfaceDim,
