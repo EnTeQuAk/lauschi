@@ -65,6 +65,12 @@ class SpotifyAuth {
       'SPOTIFY_CLIENT_ID must be set via --dart-define',
     );
 
+    // Prevent concurrent login attempts (rapid button taps).
+    if (_loginCompleter != null && !_loginCompleter!.isCompleted) {
+      Log.warn(_tag, 'Login already in progress, ignoring');
+      return _loginCompleter!.future;
+    }
+
     final pkce = _generatePkce();
     final state = _randomBase64(16);
 
@@ -84,9 +90,12 @@ class SpotifyAuth {
 
     Log.info(_tag, 'Opening browser for OAuth');
 
+    // inAppBrowserView uses SFSafariViewController on iOS, Custom Tabs on
+    // Android. More reliable than externalApplication for OAuth — shares
+    // Safari cookies and handles custom-scheme redirects cleanly.
     final launched = await launchUrl(
       authUrl,
-      mode: LaunchMode.externalApplication,
+      mode: LaunchMode.inAppBrowserView,
     );
 
     if (!launched) {
