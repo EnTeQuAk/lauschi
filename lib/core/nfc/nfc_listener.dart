@@ -41,31 +41,12 @@ class NfcListener extends _$NfcListener {
 
     _listening = true;
     Log.info(_tag, 'NFC listener started');
-    _listen();
-  }
 
-  void _listen() {
-    if (!_listening) return;
-
-    final nfc = ref.read(nfcServiceProvider);
-    unawaited(
-      nfc.startScan(
-        onTagScanned: (tagUid) async {
-          await _handleTag(tagUid);
-          // Restart listening for the next tag.
-          if (_listening) _listen();
-        },
-        onError: (error) {
-          Log.warn(_tag, 'Scan error', data: {'error': error});
-          // Restart listening after error.
-          if (_listening) {
-            Future<void>.delayed(
-              const Duration(seconds: 1),
-              () { if (_listening) _listen(); },
-            );
-          }
-        },
-      ),
+    await nfc.startContinuousScan(
+      onTagScanned: (tagUid) => unawaited(_handleTag(tagUid)),
+      onError: (error) {
+        Log.warn(_tag, 'Scan error', data: {'error': error});
+      },
     );
   }
 

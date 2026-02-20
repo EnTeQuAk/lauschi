@@ -90,8 +90,9 @@ class NfcService {
   // NFC hardware interaction
   // ---------------------------------------------------------------------------
 
-  /// Start an NFC scan session. Calls [onTagScanned] with the tag's
-  /// hardware UID (hex string). The session auto-stops after one scan.
+  /// One-shot scan: discover a single tag, then stop the session.
+  ///
+  /// Used by the pairing dialog where we want exactly one tag.
   Future<void> startScan({
     required void Function(String tagUid) onTagScanned,
     void Function(String error)? onError,
@@ -103,7 +104,6 @@ class NfcService {
 
     unawaited(
       NfcManager.instance.startSession(
-        // Discover both ISO 14443 (NTAG, Mifare) and ISO 15693 (iCode SLIX).
         pollingOptions: {NfcPollingOption.iso14443, NfcPollingOption.iso15693},
         onDiscovered: (tag) async {
           final uid = _extractUid(tag);
@@ -112,9 +112,40 @@ class NfcService {
             unawaited(NfcManager.instance.stopSession());
             return;
           }
-          Log.info(_tag, 'Tag scanned', data: {'uid': uid});
+          Log.info(_tag, 'Tag scanned (one-shot)', data: {'uid': uid});
           onTagScanned(uid);
           unawaited(NfcManager.instance.stopSession());
+        },
+      ),
+    );
+  }
+
+  /// Continuous reader mode: keeps the session open and fires [onTagScanned]
+  /// for every tag discovered. Does NOT stop between scans — this prevents
+  /// Android's default tag dispatch from taking over (screen flash, etc.).
+  ///
+  /// Call [stopScan] to end the session.
+  Future<void> startContinuousScan({
+    required void Function(String tagUid) onTagScanned,
+    void Function(String error)? onError,
+  }) async {
+    if (!await isAvailable) {
+      onError?.call('NFC nicht verfügbar');
+      return;
+    }
+
+    unawaited(
+      NfcManager.instance.startSession(
+        pollingOptions: {NfcPollingOption.iso14443, NfcPollingOption.iso15693},
+        onDiscovered: (tag) async {
+          final uid = _extractUid(tag);
+          if (uid == null) {
+            Log.warn(_tag, 'Tag UID not readable');
+            return;
+          }
+          Log.info(_tag, 'Tag scanned', data: {'uid': uid});
+          onTagScanned(uid);
+          // Session stays open — reader mode remains active.
         },
       ),
     );
