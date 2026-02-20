@@ -64,8 +64,7 @@ class BrowseCatalogScreen extends ConsumerWidget {
               childAspectRatio: 0.75,
             ),
             itemCount: series.length,
-            itemBuilder: (context, index) =>
-                _SeriesCard(series: series[index]),
+            itemBuilder: (context, index) => _SeriesCard(series: series[index]),
           );
         },
       ),
@@ -83,30 +82,31 @@ class _SeriesCard extends ConsumerWidget {
     final coverMap = ref.watch(_seriesCoverMapProvider).value ?? {};
     final firstAlbumId =
         series.albums.isNotEmpty ? series.albums.first.spotifyId : null;
-    final coverUrl =
-        firstAlbumId != null ? coverMap[firstAlbumId] : null;
+    final coverUrl = firstAlbumId != null ? coverMap[firstAlbumId] : null;
 
     return GestureDetector(
-      onTap: () => context.push(
-        AppRoutes.parentCatalogSeries(series.id),
-      ),
+      onTap:
+          () => context.push(
+            AppRoutes.parentCatalogSeries(series.id),
+          ),
       child: Column(
         children: [
           Expanded(
             child: ClipRRect(
               borderRadius: const BorderRadius.all(AppRadius.card),
-              child: coverUrl != null
-                  ? CachedNetworkImage(
-                      imageUrl: coverUrl,
-                      fit: BoxFit.cover,
-                      width: double.infinity,
-                      height: double.infinity,
-                      placeholder: (_, _) =>
-                          _Placeholder(title: series.title),
-                      errorWidget: (_, _, _) =>
-                          _Placeholder(title: series.title),
-                    )
-                  : _Placeholder(title: series.title),
+              child:
+                  coverUrl != null
+                      ? CachedNetworkImage(
+                        imageUrl: coverUrl,
+                        fit: BoxFit.cover,
+                        width: double.infinity,
+                        height: double.infinity,
+                        placeholder:
+                            (_, _) => _Placeholder(title: series.title),
+                        errorWidget:
+                            (_, _, _) => _Placeholder(title: series.title),
+                      )
+                      : _Placeholder(title: series.title),
             ),
           ),
           const SizedBox(height: AppSpacing.xs),
@@ -184,8 +184,7 @@ class _CatalogSeriesDetailScreenState
         _selected.addAll(
           series.albums
               .where(
-                (a) =>
-                    !_existingUris.contains('spotify:album:${a.spotifyId}'),
+                (a) => !_existingUris.contains('spotify:album:${a.spotifyId}'),
               )
               .map((a) => a.spotifyId),
         );
@@ -220,12 +219,13 @@ class _CatalogSeriesDetailScreenState
       final groupRepo = ref.read(groupRepositoryProvider);
       final cardRepo = ref.read(cardRepositoryProvider);
       final groups = await groupRepo.getAll();
-      var groupId = groups
-          .where(
-            (g) => g.title.toLowerCase() == series.title.toLowerCase(),
-          )
-          .firstOrNull
-          ?.id;
+      var groupId =
+          groups
+              .where(
+                (g) => g.title.toLowerCase() == series.title.toLowerCase(),
+              )
+              .firstOrNull
+              ?.id;
 
       if (groupId == null) {
         final firstAlbum = albums.isNotEmpty ? albums.first : null;
@@ -242,9 +242,8 @@ class _CatalogSeriesDetailScreenState
         if (_existingUris.contains(uri)) continue;
 
         // Extract episode number from catalog data
-        final catalogAlbum = series.albums
-            .where((a) => a.spotifyId == album.id)
-            .firstOrNull;
+        final catalogAlbum =
+            series.albums.where((a) => a.spotifyId == album.id).firstOrNull;
 
         final cardId = await cardRepo.insert(
           title: album.name,
@@ -297,12 +296,14 @@ class _CatalogSeriesDetailScreenState
     final catalogAsync = ref.watch(catalogServiceProvider);
 
     return catalogAsync.when(
-      loading: () => const Scaffold(
-        body: Center(child: CircularProgressIndicator()),
-      ),
-      error: (e, _) => Scaffold(
-        body: Center(child: Text('Fehler: $e')),
-      ),
+      loading:
+          () => const Scaffold(
+            body: Center(child: CircularProgressIndicator()),
+          ),
+      error:
+          (e, _) => Scaffold(
+            body: Center(child: Text('Fehler: $e')),
+          ),
       data: (catalog) {
         final series = _findSeries(catalog);
         if (series == null) {
@@ -312,11 +313,10 @@ class _CatalogSeriesDetailScreenState
           );
         }
 
-        final albums = series.albums.toList()
-          ..sort(
-            (a, b) =>
-                (a.episode ?? 999999).compareTo(b.episode ?? 999999),
-          );
+        final albums =
+            series.albums.toList()..sort(
+              (a, b) => (a.episode ?? 999999).compareTo(b.episode ?? 999999),
+            );
 
         // Pre-select all non-existing albums on first build
         if (_selected.isEmpty && _selectAll) {
@@ -329,13 +329,15 @@ class _CatalogSeriesDetailScreenState
           }
         }
 
-        final selectableCount = albums
-            .where(
-              (a) => !_existingUris.contains(
-                'spotify:album:${a.spotifyId}',
-              ),
-            )
-            .length;
+        final selectableCount =
+            albums
+                .where(
+                  (a) =>
+                      !_existingUris.contains(
+                        'spotify:album:${a.spotifyId}',
+                      ),
+                )
+                .length;
 
         return Scaffold(
           backgroundColor: AppColors.parentBackground,
@@ -377,30 +379,32 @@ class _CatalogSeriesDetailScreenState
               );
             },
           ),
-          bottomNavigationBar: _selected.isNotEmpty
-              ? SafeArea(
-                  child: Padding(
-                    padding: const EdgeInsets.all(AppSpacing.md),
-                    child: FilledButton.icon(
-                      onPressed:
-                          _isAdding ? null : () => _addSelected(series),
-                      icon: _isAdding
-                          ? const SizedBox(
-                              width: 16,
-                              height: 16,
-                              child: CircularProgressIndicator(
-                                strokeWidth: 2,
-                              ),
-                            )
-                          : const Icon(Icons.add_rounded),
-                      label: Text(
-                        '${_selected.length} Folgen hinzufügen',
-                        style: const TextStyle(fontFamily: 'Nunito'),
+          bottomNavigationBar:
+              _selected.isNotEmpty
+                  ? SafeArea(
+                    child: Padding(
+                      padding: const EdgeInsets.all(AppSpacing.md),
+                      child: FilledButton.icon(
+                        onPressed:
+                            _isAdding ? null : () => _addSelected(series),
+                        icon:
+                            _isAdding
+                                ? const SizedBox(
+                                  width: 16,
+                                  height: 16,
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 2,
+                                  ),
+                                )
+                                : const Icon(Icons.add_rounded),
+                        label: Text(
+                          '${_selected.length} Folgen hinzufügen',
+                          style: const TextStyle(fontFamily: 'Nunito'),
+                        ),
                       ),
                     ),
-                  ),
-                )
-              : null,
+                  )
+                  : null,
         );
       },
     );
@@ -425,29 +429,29 @@ class _AlbumTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: alreadyAdded
-          ? const Icon(Icons.check_circle, color: AppColors.success)
-          : Checkbox(value: isSelected, onChanged: (_) => onChanged()),
+      leading:
+          alreadyAdded
+              ? const Icon(Icons.check_circle, color: AppColors.success)
+              : Checkbox(value: isSelected, onChanged: (_) => onChanged()),
       title: Text(
         album.title,
         style: TextStyle(
           fontFamily: 'Nunito',
           fontSize: 14,
-          color: alreadyAdded
-              ? AppColors.textSecondary
-              : AppColors.textPrimary,
+          color: alreadyAdded ? AppColors.textSecondary : AppColors.textPrimary,
         ),
       ),
-      subtitle: album.episode != null
-          ? Text(
-              'Folge ${album.episode}',
-              style: const TextStyle(
-                fontFamily: 'Nunito',
-                fontSize: 12,
-                color: AppColors.textSecondary,
-              ),
-            )
-          : null,
+      subtitle:
+          album.episode != null
+              ? Text(
+                'Folge ${album.episode}',
+                style: const TextStyle(
+                  fontFamily: 'Nunito',
+                  fontSize: 12,
+                  color: AppColors.textSecondary,
+                ),
+              )
+              : null,
       enabled: !alreadyAdded,
       onTap: alreadyAdded ? null : onChanged,
     );
@@ -484,44 +488,45 @@ class _Placeholder extends StatelessWidget {
 /// Batch-fetches cover images for all curated series. Returns a map of
 /// album ID → image URL. Spotify allows 20 IDs per request, so this
 /// batches efficiently instead of N individual calls.
-final _seriesCoverMapProvider =
-    FutureProvider.autoDispose<Map<String, String>>((ref) async {
-  final api = ref.watch(spotifyApiProvider);
-  if (!api.hasToken) return {};
+final _seriesCoverMapProvider = FutureProvider.autoDispose<Map<String, String>>(
+  (ref) async {
+    final api = ref.watch(spotifyApiProvider);
+    if (!api.hasToken) return {};
 
-  final catalogAsync = ref.watch(catalogServiceProvider);
-  final catalog = catalogAsync.value;
-  if (catalog == null) return {};
+    final catalogAsync = ref.watch(catalogServiceProvider);
+    final catalog = catalogAsync.value;
+    if (catalog == null) return {};
 
-  // Collect first album ID from each curated series
-  final albumIds = <String>[];
-  for (final series in catalog.all) {
-    if (series.hasCuratedAlbums) {
-      albumIds.add(series.albums.first.spotifyId);
-    }
-  }
-
-  if (albumIds.isEmpty) return {};
-
-  // Fetch in batches of 20 (Spotify API limit)
-  final coverMap = <String, String>{};
-  for (var i = 0; i < albumIds.length; i += 20) {
-    final batch = albumIds.sublist(
-      i,
-      i + 20 > albumIds.length ? albumIds.length : i + 20,
-    );
-    try {
-      final albums = await api.getAlbums(batch);
-      for (final album in albums) {
-        final url = album.imageUrl;
-        if (url != null) {
-          coverMap[album.id] = url;
-        }
+    // Collect first album ID from each curated series
+    final albumIds = <String>[];
+    for (final series in catalog.all) {
+      if (series.hasCuratedAlbums) {
+        albumIds.add(series.albums.first.spotifyId);
       }
-    } on Exception {
-      // Skip failed batch, show placeholders
     }
-  }
 
-  return coverMap;
-});
+    if (albumIds.isEmpty) return {};
+
+    // Fetch in batches of 20 (Spotify API limit)
+    final coverMap = <String, String>{};
+    for (var i = 0; i < albumIds.length; i += 20) {
+      final batch = albumIds.sublist(
+        i,
+        i + 20 > albumIds.length ? albumIds.length : i + 20,
+      );
+      try {
+        final albums = await api.getAlbums(batch);
+        for (final album in albums) {
+          final url = album.imageUrl;
+          if (url != null) {
+            coverMap[album.id] = url;
+          }
+        }
+      } on Exception {
+        // Skip failed batch, show placeholders
+      }
+    }
+
+    return coverMap;
+  },
+);
