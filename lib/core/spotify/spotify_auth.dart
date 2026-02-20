@@ -90,13 +90,21 @@ class SpotifyAuth {
 
     Log.info(_tag, 'Opening browser for OAuth');
 
-    // inAppBrowserView uses SFSafariViewController on iOS, Custom Tabs on
-    // Android. More reliable than externalApplication for OAuth — shares
-    // Safari cookies and handles custom-scheme redirects cleanly.
-    final launched = await launchUrl(
+    // Try in-app browser first (SFSafariViewController / Custom Tabs) — better
+    // UX, shares cookies.  Falls back to external browser (Safari / Chrome) if
+    // the in-app view can't be presented (e.g., scene-based iOS lifecycle where
+    // registrar.viewController is nil).
+    var launched = await launchUrl(
       authUrl,
       mode: LaunchMode.inAppBrowserView,
     );
+    if (!launched) {
+      Log.warn(_tag, 'inAppBrowserView failed, falling back to external');
+      launched = await launchUrl(
+        authUrl,
+        mode: LaunchMode.externalApplication,
+      );
+    }
 
     if (!launched) {
       _loginCompleter = null;
