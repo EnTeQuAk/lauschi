@@ -113,6 +113,24 @@ class SpotifyPlayerBridge {
 
     await controller.setNavigationDelegate(
       NavigationDelegate(
+        onNavigationRequest: (request) {
+          final uri = Uri.tryParse(request.url);
+          final host = uri?.host ?? '';
+          // Allow the player HTML host and Spotify SDK CDN.
+          const allowed = {
+            'tuneloopbot.webshox.org',
+            'sdk.scdn.co',
+          };
+          if (allowed.contains(host) || request.url == 'about:blank') {
+            return NavigationDecision.navigate;
+          }
+          Log.warn(
+            _tag,
+            'Blocked navigation',
+            data: {'url': request.url},
+          );
+          return NavigationDecision.prevent;
+        },
         onPageFinished: (_) => Log.info(_tag, 'Player page loaded'),
         onWebResourceError: (err) {
           Log.error(
