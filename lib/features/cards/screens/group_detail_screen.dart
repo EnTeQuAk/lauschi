@@ -4,7 +4,9 @@ import 'package:go_router/go_router.dart';
 import 'package:lauschi/core/connectivity/connectivity_provider.dart';
 import 'package:lauschi/core/database/app_database.dart' as db;
 import 'package:lauschi/core/database/group_repository.dart';
+import 'package:lauschi/core/nfc/nfc_pair_dialog.dart';
 import 'package:lauschi/core/router/app_router.dart';
+import 'package:lauschi/core/settings/debug_settings.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
 import 'package:lauschi/features/cards/widgets/audio_card.dart';
 import 'package:lauschi/features/player/player_provider.dart';
@@ -36,17 +38,30 @@ class GroupDetailScreen extends ConsumerWidget {
     final playerState = ref.watch(playerProvider);
     final playerNotifier = ref.read(playerProvider.notifier);
     final isOnline = ref.watch(isOnlineProvider);
+    final nfcEnabled =
+        ref.watch(debugSettingsProvider).whenOrNull(data: (s) => s.nfcEnabled) ??
+        false;
 
     return Scaffold(
       body: SafeArea(
         child: Column(
           children: [
-            // Header with back button
+            // Header with back button + optional NFC pair action
             groupAsync.when(
               data:
                   (group) => _GroupHeader(
                     title: group?.title ?? '',
                     onBack: () => context.pop(),
+                    onNfcPair:
+                        nfcEnabled && group != null
+                            ? () => showNfcPairDialog(
+                              context,
+                              ref: ref,
+                              targetType: 'group',
+                              targetId: group.id,
+                              targetLabel: group.title,
+                            )
+                            : null,
                   ),
               loading: () => _GroupHeader(title: '', onBack: context.pop),
               error: (_, _) => _GroupHeader(title: '', onBack: context.pop),
@@ -156,10 +171,17 @@ class GroupDetailScreen extends ConsumerWidget {
 }
 
 class _GroupHeader extends StatelessWidget {
-  const _GroupHeader({required this.title, required this.onBack});
+  const _GroupHeader({
+    required this.title,
+    required this.onBack,
+    this.onNfcPair,
+  });
 
   final String title;
   final VoidCallback onBack;
+
+  /// If non-null, shows an NFC pair button in the header.
+  final VoidCallback? onNfcPair;
 
   @override
   Widget build(BuildContext context) {
@@ -197,6 +219,17 @@ class _GroupHeader extends StatelessWidget {
               ),
             ),
           ),
+          if (onNfcPair != null)
+            IconButton(
+              onPressed: onNfcPair,
+              icon: const Icon(Icons.nfc_rounded),
+              iconSize: 22,
+              style: IconButton.styleFrom(
+                minimumSize: const Size(44, 44),
+                foregroundColor: AppColors.textSecondary,
+              ),
+              tooltip: 'NFC-Tag verknüpfen',
+            ),
         ],
       ),
     );
