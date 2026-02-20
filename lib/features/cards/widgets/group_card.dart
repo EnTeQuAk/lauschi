@@ -177,15 +177,34 @@ class _StackedArt extends StatelessWidget {
           left: 6,
           top: 6,
           child: Container(
-            padding: const EdgeInsets.all(5),
+            padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
             decoration: BoxDecoration(
               color: AppColors.surface.withValues(alpha: 0.88),
-              shape: BoxShape.circle,
+              borderRadius: const BorderRadius.all(AppRadius.pill),
             ),
-            child: Icon(
-              isMusic ? Icons.music_note_rounded : Icons.layers_rounded,
-              size: 12,
-              color: AppColors.primary,
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(
+                  isMusic
+                      ? Icons.music_note_rounded
+                      : Icons.auto_stories_rounded,
+                  size: 10,
+                  color: AppColors.primary,
+                ),
+                if (!isMusic) ...[
+                  const SizedBox(width: 2),
+                  const Text(
+                    'Serie',
+                    style: TextStyle(
+                      fontFamily: 'Nunito',
+                      fontSize: 9,
+                      fontWeight: FontWeight.w700,
+                      color: AppColors.primary,
+                    ),
+                  ),
+                ],
+              ],
             ),
           ),
         ),
