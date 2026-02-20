@@ -1,0 +1,56 @@
+workflows:
+  ios-release:
+    name: iOS Release
+    instance_type: mac_mini_m2
+    max_build_duration: 30
+    environment:
+      flutter: 3.41.1
+      xcode: latest
+      cocoapods: default
+      groups:
+        - app-store-credentials
+        - app-env
+    triggering:
+      events:
+        - tag
+      tag_patterns:
+        - pattern: 'v*'
+          include: true
+    scripts:
+      - name: Set up code signing
+        script: |
+          app-store-connect fetch-signing-files "app.lauschi.lauschi" \
+            --type IOS_APP_STORE \
+            --create
+          keychain initialize
+          keychain add-certificates
+          xcode-project use-profiles
+
+      - name: Write .env file
+        script: |
+          cat <<EOF > $CM_BUILD_DIR/.env
+          SPOTIFY_CLIENT_ID=$SPOTIFY_CLIENT_ID
+          SENTRY_DSN=$SENTRY_DSN
+          SENTRY_ENVIRONMENT=$SENTRY_ENVIRONMENT
+          EOF
+
+      - name: Install dependencies
+        script: flutter pub get
+
+      - name: Run code generation
+        script: dart run build_runner build --delete-conflicting-outputs
+
+      - name: Build iOS
+        script: |
+          flutter build ipa --release \
+            --dart-define-from-file=$CM_BUILD_DIR/.env \
+            --export-options-plist=/Users/builder/export_options.plist
+
+    artifacts:
+      - build/ios/ipa/*.ipa
+
+    publishing:
+      app_store_connect:
+        auth: integration
+        submit_to_testflight: true
+        expire_build_submitted_for_review: true

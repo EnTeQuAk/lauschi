@@ -68,3 +68,5 @@ sentry-wizard
 
 # catalog validation cache
 .cache/
+ios_distribution_private_key
+ios_distribution_private_key.pub
