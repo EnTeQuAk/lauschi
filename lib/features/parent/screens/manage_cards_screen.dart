@@ -14,16 +14,16 @@ import 'package:lauschi/core/theme/app_theme.dart';
 
 const _tag = 'ManageCards';
 
-/// Manage existing cards: view, reorder, assign to groups, delete.
+/// All cards grouped by their series. Ungrouped cards in a separate section.
 class ManageCardsScreen extends ConsumerWidget {
   const ManageCardsScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final cardsAsync = ref.watch(allCardsProvider);
-    final ungroupedCount =
-        ref.watch(ungroupedCardsProvider).whenOrNull(data: (c) => c.length) ??
-        0;
+    final groupsAsync = ref.watch(allGroupsProvider);
+    final ungroupedAsync = ref.watch(ungroupedCardsProvider);
+    final totalCards =
+        ref.watch(allCardsProvider).whenOrNull(data: (c) => c.length) ?? 0;
 
     return Scaffold(
       backgroundColor: AppColors.parentBackground,
@@ -38,29 +38,313 @@ class ManageCardsScreen extends ConsumerWidget {
           ),
         ],
       ),
-      body: cardsAsync.when(
-        data:
-            (cards) =>
-                cards.isEmpty
-                    ? _EmptyState(
-                      onAdd: () => context.push(AppRoutes.parentAddCard),
-                    )
-                    : Column(
-                      children: [
-                        if (ungroupedCount > 0)
-                          _AutoSortBanner(ungroupedCount: ungroupedCount),
-                        Expanded(child: _CardList(cards: cards)),
-                      ],
-                    ),
-        loading: () => const Center(child: CircularProgressIndicator()),
-        error:
-            (_, _) => const Center(
-              child: Text('Fehler beim Laden der Karten.'),
+      body:
+          totalCards == 0
+              ? _EmptyState(onAdd: () => context.push(AppRoutes.parentAddCard))
+              : _GroupedCardList(
+                groupsAsync: groupsAsync,
+                ungroupedAsync: ungroupedAsync,
+              ),
+    );
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Main list: series sections + ungrouped section
+// ---------------------------------------------------------------------------
+
+class _GroupedCardList extends ConsumerWidget {
+  const _GroupedCardList({
+    required this.groupsAsync,
+    required this.ungroupedAsync,
+  });
+
+  final AsyncValue<List<db.CardGroup>> groupsAsync;
+  final AsyncValue<List<db.AudioCard>> ungroupedAsync;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final groups = groupsAsync.whenOrNull(data: (g) => g) ?? [];
+    final ungrouped = ungroupedAsync.whenOrNull(data: (c) => c) ?? [];
+
+    return CustomScrollView(
+      slivers: [
+        // Auto-sort banner for ungrouped cards
+        if (ungrouped.isNotEmpty)
+          SliverToBoxAdapter(
+            child: _AutoSortBanner(ungroupedCount: ungrouped.length),
+          ),
+
+        // Series sections
+        for (final group in groups)
+          _GroupSection(group: group),
+
+        // Ungrouped cards at the bottom
+        if (ungrouped.isNotEmpty) ...[
+          SliverToBoxAdapter(
+            child: _SectionHeader(
+              title: 'Ohne Serie',
+              subtitle: '${ungrouped.length} Karten',
+              icon: Icons.layers_clear_rounded,
             ),
+          ),
+          SliverList.builder(
+            itemCount: ungrouped.length,
+            itemBuilder: (context, index) => _CardTile(
+              card: ungrouped[index],
+              showGroupAssign: true,
+            ),
+          ),
+        ],
+
+        // Bottom padding
+        const SliverPadding(padding: EdgeInsets.only(bottom: AppSpacing.xxl)),
+      ],
+    );
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Series section: header + episode list
+// ---------------------------------------------------------------------------
+
+class _GroupSection extends ConsumerWidget {
+  const _GroupSection({required this.group});
+
+  final db.CardGroup group;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final cardsAsync = ref.watch(_groupCardsProvider(group.id));
+    final cards = cardsAsync.whenOrNull(data: (c) => c) ?? [];
+
+    return SliverMainAxisGroup(
+      slivers: [
+        SliverToBoxAdapter(
+          child: _SectionHeader(
+            title: group.title,
+            subtitle: '${cards.length} Folgen',
+            coverUrl: group.coverUrl,
+            icon:
+                group.contentType == 'music'
+                    ? Icons.music_note_rounded
+                    : Icons.auto_stories_rounded,
+            onTap: () => context.push(AppRoutes.parentGroupEdit(group.id)),
+          ),
+        ),
+        SliverList.builder(
+          itemCount: cards.length,
+          itemBuilder: (context, index) => _CardTile(card: cards[index]),
+        ),
+      ],
+    );
+  }
+}
+
+/// Cards for a group — watches the stream so it stays in sync.
+final _groupCardsProvider =
+    StreamProvider.family<List<db.AudioCard>, String>((ref, groupId) {
+  return ref.watch(groupRepositoryProvider).watchCards(groupId);
+});
+
+// ---------------------------------------------------------------------------
+// Section header (series or "Ohne Serie")
+// ---------------------------------------------------------------------------
+
+class _SectionHeader extends StatelessWidget {
+  const _SectionHeader({
+    required this.title,
+    required this.subtitle,
+    required this.icon,
+    this.coverUrl,
+    this.onTap,
+  });
+
+  final String title;
+  final String subtitle;
+  final String? coverUrl;
+  final IconData icon;
+  final VoidCallback? onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.fromLTRB(
+          AppSpacing.screenH,
+          AppSpacing.lg,
+          AppSpacing.screenH,
+          AppSpacing.sm,
+        ),
+        child: Row(
+          children: [
+            // Cover or icon
+            ClipRRect(
+              borderRadius: const BorderRadius.all(Radius.circular(6)),
+              child: SizedBox(
+                width: 40,
+                height: 40,
+                child:
+                    coverUrl != null
+                        ? CachedNetworkImage(
+                          imageUrl: coverUrl!,
+                          fit: BoxFit.cover,
+                        )
+                        : ColoredBox(
+                          color: AppColors.primarySoft.withValues(alpha: 0.3),
+                          child: Icon(icon, size: 20, color: AppColors.primary),
+                        ),
+              ),
+            ),
+            const SizedBox(width: AppSpacing.md),
+            // Title + count
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      fontFamily: 'Nunito',
+                      fontSize: 15,
+                      fontWeight: FontWeight.w800,
+                      color: AppColors.textPrimary,
+                    ),
+                  ),
+                  Text(
+                    subtitle,
+                    style: const TextStyle(
+                      fontFamily: 'Nunito',
+                      fontSize: 12,
+                      color: AppColors.textSecondary,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            if (onTap != null)
+              const Icon(
+                Icons.chevron_right_rounded,
+                color: AppColors.textSecondary,
+                size: 20,
+              ),
+          ],
+        ),
       ),
     );
   }
 }
+
+// ---------------------------------------------------------------------------
+// Individual card tile (compact)
+// ---------------------------------------------------------------------------
+
+class _CardTile extends ConsumerWidget {
+  const _CardTile({required this.card, this.showGroupAssign = false});
+
+  final db.AudioCard card;
+
+  /// Show group-assign action (for ungrouped cards).
+  final bool showGroupAssign;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isHeard = card.isHeard;
+
+    return ListTile(
+      dense: true,
+      visualDensity: VisualDensity.compact,
+      contentPadding: const EdgeInsets.symmetric(
+        horizontal: AppSpacing.screenH,
+      ),
+      leading: ClipRRect(
+        borderRadius: const BorderRadius.all(Radius.circular(4)),
+        child: SizedBox(
+          width: 40,
+          height: 40,
+          child:
+              card.coverUrl != null
+                  ? Opacity(
+                    opacity: isHeard ? 0.5 : 1.0,
+                    child: CachedNetworkImage(
+                      imageUrl: card.coverUrl!,
+                      fit: BoxFit.cover,
+                    ),
+                  )
+                  : ColoredBox(
+                    color: AppColors.surfaceDim,
+                    child: Icon(
+                      Icons.music_note_rounded,
+                      size: 18,
+                      color:
+                          isHeard
+                              ? AppColors.textSecondary
+                              : AppColors.textPrimary,
+                    ),
+                  ),
+        ),
+      ),
+      title: Text(
+        card.customTitle ?? card.title,
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+        style: TextStyle(
+          fontFamily: 'Nunito',
+          fontWeight: FontWeight.w600,
+          fontSize: 14,
+          color: isHeard ? AppColors.textSecondary : AppColors.textPrimary,
+        ),
+      ),
+      subtitle:
+          card.episodeNumber != null
+              ? Text(
+                'Folge ${card.episodeNumber}',
+                style: const TextStyle(
+                  fontFamily: 'Nunito',
+                  fontSize: 12,
+                  color: AppColors.textSecondary,
+                ),
+              )
+              : null,
+      trailing: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          if (isHeard)
+            const Padding(
+              padding: EdgeInsets.only(right: 4),
+              child: Icon(
+                Icons.check_circle_rounded,
+                size: 16,
+                color: AppColors.success,
+              ),
+            ),
+          if (showGroupAssign)
+            IconButton(
+              onPressed: () => _showGroupPicker(context, ref, card),
+              icon: const Icon(Icons.layers_rounded, size: 20),
+              color: AppColors.primary,
+              tooltip: 'Serie zuweisen',
+              visualDensity: VisualDensity.compact,
+            ),
+          IconButton(
+            onPressed: () => _confirmDelete(context, ref, card),
+            icon: const Icon(Icons.delete_outline_rounded, size: 20),
+            color: AppColors.error,
+            tooltip: 'Entfernen',
+            visualDensity: VisualDensity.compact,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Empty state
+// ---------------------------------------------------------------------------
 
 class _EmptyState extends StatelessWidget {
   const _EmptyState({required this.onAdd});
@@ -99,334 +383,8 @@ class _EmptyState extends StatelessWidget {
   }
 }
 
-class _CardList extends ConsumerWidget {
-  const _CardList({required this.cards});
-
-  final List<db.AudioCard> cards;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return ReorderableListView.builder(
-      padding: const EdgeInsets.only(bottom: AppSpacing.xxl),
-      buildDefaultDragHandles: false,
-      onReorder: (oldIndex, newIndex) {
-        final insertAt = newIndex > oldIndex ? newIndex - 1 : newIndex;
-        final reordered = List<db.AudioCard>.from(cards);
-        final item = reordered.removeAt(oldIndex);
-        reordered.insert(insertAt, item);
-        unawaited(
-          ref
-              .read(cardRepositoryProvider)
-              .reorder(
-                reordered.map((c) => c.id).toList(),
-              ),
-        );
-      },
-      itemCount: cards.length,
-      itemBuilder: (context, index) {
-        final card = cards[index];
-        return _CardTile(
-          key: ValueKey(card.id),
-          card: card,
-          index: index,
-          onDelete: () => _confirmDelete(context, ref, card),
-          onAssignGroup: () => _showGroupPicker(context, ref, card),
-        );
-      },
-    );
-  }
-
-  void _confirmDelete(BuildContext context, WidgetRef ref, db.AudioCard card) {
-    unawaited(
-      showDialog<void>(
-        context: context,
-        builder:
-            (ctx) => AlertDialog(
-              title: const Text('Karte entfernen?'),
-              content: Text(
-                '„${card.customTitle ?? card.title}" wird aus der Sammlung entfernt.',
-              ),
-              actions: [
-                TextButton(
-                  onPressed: () => Navigator.of(ctx).pop(),
-                  child: const Text('Abbrechen'),
-                ),
-                FilledButton(
-                  onPressed: () {
-                    Navigator.of(ctx).pop();
-                    unawaited(ref.read(cardRepositoryProvider).delete(card.id));
-                    ScaffoldMessenger.of(context)
-                      ..clearSnackBars()
-                      ..showSnackBar(
-                        SnackBar(
-                          content: Text(
-                            '${card.customTitle ?? card.title} entfernt',
-                          ),
-                          duration: const Duration(seconds: 2),
-                          behavior: SnackBarBehavior.floating,
-                        ),
-                      );
-                  },
-                  style: FilledButton.styleFrom(
-                    backgroundColor: AppColors.error,
-                  ),
-                  child: const Text('Entfernen'),
-                ),
-              ],
-            ),
-      ),
-    );
-  }
-
-  void _showGroupPicker(
-    BuildContext context,
-    WidgetRef ref,
-    db.AudioCard card,
-  ) {
-    unawaited(
-      showModalBottomSheet<void>(
-        context: context,
-        builder: (ctx) => _GroupPickerSheet(card: card),
-      ),
-    );
-  }
-}
-
-class _CardTile extends StatelessWidget {
-  const _CardTile({
-    required this.card,
-    required this.index,
-    required this.onDelete,
-    required this.onAssignGroup,
-    super.key,
-  });
-
-  final db.AudioCard card;
-  final int index;
-  final VoidCallback onDelete;
-  final VoidCallback onAssignGroup;
-
-  @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      tileColor: AppColors.parentSurface,
-      leading: ClipRRect(
-        borderRadius: const BorderRadius.all(Radius.circular(6)),
-        child: SizedBox(
-          width: 48,
-          height: 48,
-          child:
-              card.coverUrl != null
-                  ? CachedNetworkImage(
-                    imageUrl: card.coverUrl!,
-                    fit: BoxFit.cover,
-                  )
-                  : const ColoredBox(
-                    color: AppColors.surfaceDim,
-                    child: Icon(Icons.music_note_rounded),
-                  ),
-        ),
-      ),
-      title: Text(
-        card.customTitle ?? card.title,
-        maxLines: 1,
-        overflow: TextOverflow.ellipsis,
-        style: const TextStyle(
-          fontFamily: 'Nunito',
-          fontWeight: FontWeight.w600,
-          fontSize: 15,
-        ),
-      ),
-      subtitle: Text(
-        card.cardType,
-        style: const TextStyle(
-          fontFamily: 'Nunito',
-          fontSize: 13,
-          color: AppColors.textSecondary,
-        ),
-      ),
-      trailing: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          IconButton(
-            onPressed: onAssignGroup,
-            icon: const Icon(Icons.layers_rounded),
-            color: AppColors.primary,
-            tooltip: 'Serie zuweisen',
-          ),
-          IconButton(
-            onPressed: onDelete,
-            icon: const Icon(Icons.delete_outline_rounded),
-            color: AppColors.error,
-            tooltip: 'Entfernen',
-          ),
-          ReorderableDragStartListener(
-            index: index,
-            child: const Icon(
-              Icons.drag_handle_rounded,
-              color: AppColors.textSecondary,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-/// Bottom sheet for picking or removing a group assignment.
-class _GroupPickerSheet extends ConsumerWidget {
-  const _GroupPickerSheet({required this.card});
-
-  final db.AudioCard card;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final groupsAsync = ref.watch(allGroupsProvider);
-
-    return SafeArea(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          // Handle
-          Container(
-            margin: const EdgeInsets.only(top: 8, bottom: 4),
-            width: 40,
-            height: 4,
-            decoration: const BoxDecoration(
-              color: AppColors.surfaceDim,
-              borderRadius: BorderRadius.all(Radius.circular(2)),
-            ),
-          ),
-          const Padding(
-            padding: EdgeInsets.fromLTRB(
-              AppSpacing.screenH,
-              AppSpacing.sm,
-              AppSpacing.screenH,
-              AppSpacing.md,
-            ),
-            child: Text(
-              'Serie zuweisen',
-              style: TextStyle(
-                fontFamily: 'Nunito',
-                fontSize: 17,
-                fontWeight: FontWeight.w700,
-              ),
-            ),
-          ),
-
-          // Remove from group option (if currently assigned)
-          if (card.groupId != null)
-            ListTile(
-              leading: const Icon(
-                Icons.cancel_outlined,
-                color: AppColors.textSecondary,
-              ),
-              title: const Text(
-                'Aus Serie entfernen',
-                style: TextStyle(fontFamily: 'Nunito'),
-              ),
-              onTap: () {
-                Navigator.of(context).pop();
-                unawaited(
-                  ref.read(cardRepositoryProvider).removeFromGroup(card.id),
-                );
-              },
-            ),
-
-          // Group list
-          groupsAsync.when(
-            data:
-                (groups) =>
-                    groups.isEmpty
-                        ? Padding(
-                          padding: const EdgeInsets.fromLTRB(
-                            AppSpacing.screenH,
-                            AppSpacing.sm,
-                            AppSpacing.screenH,
-                            AppSpacing.lg,
-                          ),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: [
-                              const Text(
-                                'Noch keine Serien vorhanden.',
-                                style: TextStyle(
-                                  fontFamily: 'Nunito',
-                                  color: AppColors.textSecondary,
-                                ),
-                              ),
-                              const SizedBox(height: AppSpacing.md),
-                              FilledButton.icon(
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                  unawaited(
-                                    context.push(AppRoutes.parentManageGroups),
-                                  );
-                                },
-                                icon: const Icon(Icons.add_rounded),
-                                label: const Text('Serie erstellen'),
-                              ),
-                            ],
-                          ),
-                        )
-                        : ListView.builder(
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemCount: groups.length,
-                          itemBuilder: (context, index) {
-                            final group = groups[index];
-                            final isAssigned = card.groupId == group.id;
-                            return ListTile(
-                              leading: Icon(
-                                Icons.layers_rounded,
-                                color:
-                                    isAssigned
-                                        ? AppColors.primary
-                                        : AppColors.textSecondary,
-                              ),
-                              title: Text(
-                                group.title,
-                                style: const TextStyle(fontFamily: 'Nunito'),
-                              ),
-                              trailing:
-                                  isAssigned
-                                      ? const Icon(
-                                        Icons.check_rounded,
-                                        color: AppColors.primary,
-                                      )
-                                      : null,
-                              onTap: () {
-                                Navigator.of(context).pop();
-                                unawaited(
-                                  ref
-                                      .read(cardRepositoryProvider)
-                                      .assignToGroup(
-                                        cardId: card.id,
-                                        groupId: group.id,
-                                      ),
-                                );
-                              },
-                            );
-                          },
-                        ),
-            loading:
-                () => const Padding(
-                  padding: EdgeInsets.all(AppSpacing.lg),
-                  child: CircularProgressIndicator(),
-                ),
-            error: (_, _) => const SizedBox.shrink(),
-          ),
-
-          const SizedBox(height: AppSpacing.md),
-        ],
-      ),
-    );
-  }
-}
-
 // ---------------------------------------------------------------------------
-// Auto-sort banner — shown when ungrouped cards exist
+// Auto-sort banner
 // ---------------------------------------------------------------------------
 
 class _AutoSortBanner extends ConsumerWidget {
@@ -485,15 +443,209 @@ class _AutoSortBanner extends ConsumerWidget {
 }
 
 // ---------------------------------------------------------------------------
+// Shared actions
+// ---------------------------------------------------------------------------
+
+void _confirmDelete(BuildContext context, WidgetRef ref, db.AudioCard card) {
+  unawaited(
+    showDialog<void>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('Karte entfernen?'),
+        content: Text(
+          '„${card.customTitle ?? card.title}" wird aus der Sammlung entfernt.',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(ctx).pop(),
+            child: const Text('Abbrechen'),
+          ),
+          FilledButton(
+            onPressed: () {
+              Navigator.of(ctx).pop();
+              unawaited(ref.read(cardRepositoryProvider).delete(card.id));
+              ScaffoldMessenger.of(context)
+                ..clearSnackBars()
+                ..showSnackBar(
+                  SnackBar(
+                    content: Text(
+                      '${card.customTitle ?? card.title} entfernt',
+                    ),
+                    duration: const Duration(seconds: 2),
+                    behavior: SnackBarBehavior.floating,
+                  ),
+                );
+            },
+            style: FilledButton.styleFrom(
+              backgroundColor: AppColors.error,
+            ),
+            child: const Text('Entfernen'),
+          ),
+        ],
+      ),
+    ),
+  );
+}
+
+void _showGroupPicker(
+  BuildContext context,
+  WidgetRef ref,
+  db.AudioCard card,
+) {
+  unawaited(
+    showModalBottomSheet<void>(
+      context: context,
+      builder: (ctx) => _GroupPickerSheet(card: card),
+    ),
+  );
+}
+
+// ---------------------------------------------------------------------------
+// Group picker bottom sheet
+// ---------------------------------------------------------------------------
+
+class _GroupPickerSheet extends ConsumerWidget {
+  const _GroupPickerSheet({required this.card});
+
+  final db.AudioCard card;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final groupsAsync = ref.watch(allGroupsProvider);
+
+    return SafeArea(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            margin: const EdgeInsets.only(top: 8, bottom: 4),
+            width: 40,
+            height: 4,
+            decoration: const BoxDecoration(
+              color: AppColors.surfaceDim,
+              borderRadius: BorderRadius.all(Radius.circular(2)),
+            ),
+          ),
+          const Padding(
+            padding: EdgeInsets.fromLTRB(
+              AppSpacing.screenH,
+              AppSpacing.sm,
+              AppSpacing.screenH,
+              AppSpacing.md,
+            ),
+            child: Text(
+              'Serie zuweisen',
+              style: TextStyle(
+                fontFamily: 'Nunito',
+                fontSize: 17,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+          ),
+          if (card.groupId != null)
+            ListTile(
+              leading: const Icon(
+                Icons.cancel_outlined,
+                color: AppColors.textSecondary,
+              ),
+              title: const Text(
+                'Aus Serie entfernen',
+                style: TextStyle(fontFamily: 'Nunito'),
+              ),
+              onTap: () {
+                Navigator.of(context).pop();
+                unawaited(
+                  ref.read(cardRepositoryProvider).removeFromGroup(card.id),
+                );
+              },
+            ),
+          groupsAsync.when(
+            data: (groups) => groups.isEmpty
+                ? Padding(
+                    padding: const EdgeInsets.fromLTRB(
+                      AppSpacing.screenH,
+                      AppSpacing.sm,
+                      AppSpacing.screenH,
+                      AppSpacing.lg,
+                    ),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        const Text(
+                          'Noch keine Serien vorhanden.',
+                          style: TextStyle(
+                            fontFamily: 'Nunito',
+                            color: AppColors.textSecondary,
+                          ),
+                        ),
+                        const SizedBox(height: AppSpacing.md),
+                        FilledButton.icon(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                            unawaited(
+                              context.push(AppRoutes.parentManageGroups),
+                            );
+                          },
+                          icon: const Icon(Icons.add_rounded),
+                          label: const Text('Serie erstellen'),
+                        ),
+                      ],
+                    ),
+                  )
+                : ListView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: groups.length,
+                    itemBuilder: (context, index) {
+                      final group = groups[index];
+                      final isAssigned = card.groupId == group.id;
+                      return ListTile(
+                        leading: Icon(
+                          Icons.layers_rounded,
+                          color: isAssigned
+                              ? AppColors.primary
+                              : AppColors.textSecondary,
+                        ),
+                        title: Text(
+                          group.title,
+                          style: const TextStyle(fontFamily: 'Nunito'),
+                        ),
+                        trailing: isAssigned
+                            ? const Icon(
+                                Icons.check_rounded,
+                                color: AppColors.primary,
+                              )
+                            : null,
+                        onTap: () {
+                          Navigator.of(context).pop();
+                          unawaited(
+                            ref.read(cardRepositoryProvider).assignToGroup(
+                              cardId: card.id,
+                              groupId: group.id,
+                            ),
+                          );
+                        },
+                      );
+                    },
+                  ),
+            loading: () => const Padding(
+              padding: EdgeInsets.all(AppSpacing.lg),
+              child: CircularProgressIndicator(),
+            ),
+            error: (_, _) => const SizedBox.shrink(),
+          ),
+          const SizedBox(height: AppSpacing.md),
+        ],
+      ),
+    );
+  }
+}
+
+// ---------------------------------------------------------------------------
 // Retroactive series sorting
 // ---------------------------------------------------------------------------
 
-/// Runs catalog matching (keyword + stored artist IDs) against all ungrouped
-/// cards and assigns matches to their series groups.
-///
-/// Cards added before schema v4 have no stored artist IDs and fall back to
-/// keyword-only matching — albums whose titles omit the series name (e.g.
-/// "Folge 38: Eile mit Weile" added in an older build) will not be matched.
 Future<void> _runRetroactiveSort(BuildContext context, WidgetRef ref) async {
   final catalog = ref.read(catalogServiceProvider).value;
   if (catalog == null) {
@@ -505,21 +657,19 @@ Future<void> _runRetroactiveSort(BuildContext context, WidgetRef ref) async {
     return;
   }
 
-  // Show loading dialog
   unawaited(
     showDialog<void>(
       context: context,
       barrierDismissible: false,
-      builder:
-          (_) => const AlertDialog(
-            content: Row(
-              children: [
-                CircularProgressIndicator(),
-                SizedBox(width: 20),
-                Text('Karten werden sortiert…'),
-              ],
-            ),
-          ),
+      builder: (_) => const AlertDialog(
+        content: Row(
+          children: [
+            CircularProgressIndicator(),
+            SizedBox(width: 20),
+            Text('Karten werden sortiert…'),
+          ],
+        ),
+      ),
     ),
   );
 
@@ -528,13 +678,10 @@ Future<void> _runRetroactiveSort(BuildContext context, WidgetRef ref) async {
     final groupRepo = ref.read(groupRepositoryProvider);
     final ungrouped = await cardRepo.getUngrouped();
 
-    // Keyword-only match (no artist IDs in stored cards)
     final grouped = <String, String>{}; // seriesTitle → groupId
     var matchCount = 0;
 
     for (final card in ungrouped) {
-      // Parse stored artist IDs so phase-2 matching fires for albums
-      // whose titles omit the series name (e.g. "Folge 38: Eile mit Weile").
       final artistIds =
           card.spotifyArtistIds
               ?.split(',')
@@ -568,31 +715,29 @@ Future<void> _runRetroactiveSort(BuildContext context, WidgetRef ref) async {
       },
     );
 
-    if (context.mounted) Navigator.of(context).pop(); // close loading dialog
+    if (context.mounted) Navigator.of(context).pop();
 
     if (context.mounted) {
-      final msg =
-          matchCount == 0
-              ? 'Keine Karten konnten zugeordnet werden.\n'
-                  'Tipp: Karten ohne Serienname im Titel (z.B. „Folge 38: Eile mit Weile") '
-                  'müssen manuell einer Serie zugewiesen werden.'
-              : '$matchCount Karten zu ${grouped.length} '
-                  '${grouped.length == 1 ? 'Serie' : 'Serien'} sortiert.';
+      final msg = matchCount == 0
+          ? 'Keine Karten konnten zugeordnet werden.\n'
+              'Tipp: Karten ohne Serienname im Titel müssen '
+              'manuell einer Serie zugewiesen werden.'
+          : '$matchCount Karten zu ${grouped.length} '
+              '${grouped.length == 1 ? 'Serie' : 'Serien'} sortiert.';
 
       unawaited(
         showDialog<void>(
           context: context,
-          builder:
-              (_) => AlertDialog(
-                title: const Text('Serien einordnen'),
-                content: Text(msg),
-                actions: [
-                  FilledButton(
-                    onPressed: () => Navigator.of(context).pop(),
-                    child: const Text('OK'),
-                  ),
-                ],
+          builder: (_) => AlertDialog(
+            title: const Text('Serien einordnen'),
+            content: Text(msg),
+            actions: [
+              FilledButton(
+                onPressed: () => Navigator.of(context).pop(),
+                child: const Text('OK'),
               ),
+            ],
+          ),
         ),
       );
     }
