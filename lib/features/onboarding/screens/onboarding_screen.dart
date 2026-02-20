@@ -45,7 +45,9 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
   Future<void> _complete() async {
     await ref.read(onboardingCompleteProvider.notifier).markComplete();
     if (mounted) {
-      context.go(AppRoutes.kidHome);
+      // Go to catalog browser first — the parent should add content
+      // before seeing an empty home screen.
+      context.go(AppRoutes.parentCatalog);
     }
   }
 
