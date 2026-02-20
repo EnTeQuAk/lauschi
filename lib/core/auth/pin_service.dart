@@ -1,3 +1,4 @@
+import 'dart:async' show Timer;
 import 'dart:isolate';
 
 import 'package:bcrypt/bcrypt.dart';
@@ -53,13 +54,44 @@ class PinService {
 @Riverpod(keepAlive: true)
 PinService pinService(Ref ref) => PinService();
 
+/// How long a parent session stays active without interaction.
+const _sessionTimeout = Duration(minutes: 15);
+
 /// Whether the user is currently authenticated in parent mode.
-/// Resets when the app is closed. Not persisted.
+/// Resets when the app is closed or after [_sessionTimeout] of inactivity.
 @Riverpod(keepAlive: true)
 class ParentAuth extends _$ParentAuth {
-  @override
-  bool build() => false;
+  Timer? _expiryTimer;
 
-  void authenticate() => state = true;
-  void deauthenticate() => state = false;
+  @override
+  bool build() {
+    ref.onDispose(() => _expiryTimer?.cancel());
+    return false;
+  }
+
+  void authenticate() {
+    _resetTimer();
+    state = true;
+  }
+
+  void deauthenticate() {
+    _expiryTimer?.cancel();
+    state = false;
+  }
+
+  /// Call on meaningful user interaction in parent mode to extend the session.
+  void touch() {
+    if (!state) return;
+    _resetTimer();
+  }
+
+  void _resetTimer() {
+    _expiryTimer?.cancel();
+    _expiryTimer = Timer(_sessionTimeout, () {
+      if (state) {
+        Log.info(_tag, 'Parent session expired after inactivity');
+        state = false;
+      }
+    });
+  }
 }
