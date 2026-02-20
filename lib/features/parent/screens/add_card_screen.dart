@@ -11,6 +11,7 @@ import 'package:lauschi/core/database/group_repository.dart';
 import 'package:lauschi/core/log.dart';
 import 'package:lauschi/core/router/app_router.dart';
 import 'package:lauschi/core/spotify/spotify_api.dart';
+import 'package:lauschi/core/spotify/spotify_auth_provider.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
 import 'package:lauschi/features/player/player_provider.dart';
 
@@ -751,6 +752,58 @@ class _AddCardScreenState extends ConsumerState<AddCardScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final authState = ref.watch(spotifyAuthProvider);
+    if (authState is! AuthAuthenticated) {
+      return Scaffold(
+        backgroundColor: AppColors.parentBackground,
+        appBar: AppBar(
+          backgroundColor: AppColors.parentBackground,
+          title: const Text('Hörspiel hinzufügen'),
+        ),
+        body: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(AppSpacing.screenH),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Icon(
+                  Icons.music_off_rounded,
+                  size: 48,
+                  color: AppColors.textSecondary,
+                ),
+                const SizedBox(height: AppSpacing.md),
+                const Text(
+                  'Spotify nicht verbunden',
+                  style: TextStyle(
+                    fontFamily: 'Nunito',
+                    fontSize: 18,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+                const SizedBox(height: AppSpacing.sm),
+                const Text(
+                  'Verbinde Spotify in den Einstellungen, um '
+                  'Hörspiele und Musik hinzuzufügen.',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontFamily: 'Nunito',
+                    fontSize: 14,
+                    color: AppColors.textSecondary,
+                  ),
+                ),
+                const SizedBox(height: AppSpacing.lg),
+                FilledButton.icon(
+                  onPressed: () => context.push(AppRoutes.parentSettings),
+                  icon: const Icon(Icons.settings_rounded),
+                  label: const Text('Einstellungen'),
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+    }
+
     // Detect series in results (only in general add mode)
     final detectedSeries =
         widget.autoAssignGroupId == null && _results.isNotEmpty
