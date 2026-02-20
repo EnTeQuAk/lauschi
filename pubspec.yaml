@@ -49,6 +49,7 @@ flutter:
   assets:
     - assets/player.html
     - assets/catalog/series.yaml
+    - assets/images/branding/
   fonts:
     - family: Nunito
       fonts:
