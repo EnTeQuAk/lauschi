@@ -207,12 +207,13 @@ catalog for "lauschi", a privacy-first kids audio player.
 ## Your job
 
 Given a series name, use your tools to:
-1. Search Spotify for the correct artist.
-2. Check if the series spans multiple artists — many DACH series have a main
-   artist plus a "Retro-Archiv" or "Junior" variant.  Search for those too.
-3. Fetch the full discography for each relevant artist.
-4. Classify every album: include (episode) or exclude (box set, duplicate, etc.).
-5. For ambiguous albums, call get_album_details to check track count and names.
+1. Search Spotify for the correct artist (one search is usually enough).
+2. Fetch the full discography for the artist.
+3. Classify every album: include (episode) or exclude (box set, duplicate, etc.).
+4. For ambiguous albums, call get_album_details to check track count and names.
+
+Do NOT search for "Junior", "Retro-Archiv", or other variant artists — those
+are curated separately.  Focus only on the primary artist for this series.
 
 ## Include
 Individual episodes: usually 1-5 tracks, 20-60 min.
@@ -251,6 +252,14 @@ class Deps:
     spotify: SpotifyClient
     no_cache: bool = False
 
+    def __post_init__(self) -> None:
+        # Track tool calls to short-circuit repeated requests within a run.
+        # When kimi calls the same tool with the same args, return the cached
+        # result immediately instead of hitting the API again.
+        self.seen_searches: dict[str, list[dict]] = {}
+        self.seen_albums: dict[str, list[dict]] = {}
+        self.seen_details: dict[str, dict] = {}
+
 
 def build_agent(model_name: str, api_key: str) -> Agent[Deps, CuratedSeries]:
     provider = OpenAIProvider(base_url=_OPENCODE_BASE_URL, api_key=api_key)
@@ -265,7 +274,12 @@ def build_agent(model_name: str, api_key: str) -> Agent[Deps, CuratedSeries]:
     @agent.tool
     def search_artists(ctx: RunContext[Deps], query: str) -> list[dict]:
         """Search Spotify for artists. Returns id, name, followers, genres."""
+        if query in ctx.deps.seen_searches:
+            console.print(f"  [dim]🔍 search_artists({query!r}) → "
+                          f"(cached, {len(ctx.deps.seen_searches[query])} results)[/]")
+            return ctx.deps.seen_searches[query]
         results = ctx.deps.spotify.search_artists(query)
+        ctx.deps.seen_searches[query] = results
         names = ", ".join(f"{a['name']} ({a['followers']:,})" for a in results[:5])
         console.print(f"  [dim]🔍 search_artists({query!r}) → {len(results)} "
                        f"results: {names}[/]")
@@ -275,8 +289,13 @@ def build_agent(model_name: str, api_key: str) -> Agent[Deps, CuratedSeries]:
     def get_artist_albums(ctx: RunContext[Deps], artist_id: str) -> list[dict]:
         """Fetch full discography for a Spotify artist.
         Returns list of {id, name, release_date, total_tracks}."""
+        if artist_id in ctx.deps.seen_albums:
+            console.print(f"  [dim]📀 get_artist_albums({artist_id[:8]}…) → "
+                          f"(cached, {len(ctx.deps.seen_albums[artist_id])} albums)[/]")
+            return ctx.deps.seen_albums[artist_id]
         albums = ctx.deps.spotify.artist_albums(artist_id,
                                                 use_cache=not ctx.deps.no_cache)
+        ctx.deps.seen_albums[artist_id] = albums
         console.print(f"  [dim]📀 get_artist_albums({artist_id[:8]}…) → "
                        f"{len(albums)} albums[/]")
         return albums
@@ -285,7 +304,12 @@ def build_agent(model_name: str, api_key: str) -> Agent[Deps, CuratedSeries]:
     def get_album_details(ctx: RunContext[Deps], album_id: str) -> dict:
         """Full album details: release_date, total_tracks, track names, label.
         Use for ambiguous albums — possible box sets or duplicates."""
+        if album_id in ctx.deps.seen_details:
+            console.print(f"  [dim]🔎 get_album_details({album_id[:8]}…) → "
+                          f"(cached)[/]")
+            return ctx.deps.seen_details[album_id]
         details = ctx.deps.spotify.album_details(album_id)
+        ctx.deps.seen_details[album_id] = details
         name = details.get("name", "?")[:40]
         tracks = details.get("total_tracks", "?")
         console.print(f"  [dim]🔎 get_album_details({album_id[:8]}…) → "
@@ -302,11 +326,8 @@ async def run_curation(model_name: str, api_key: str, query: str,
     agent = build_agent(model_name, api_key)
     prompt = (
         f"Curate the DACH Hörspiel series: {query!r}.\n\n"
-        "Start by searching for the right Spotify artist. Also search for\n"
-        "related artists (e.g. 'SERIES Retro-Archiv', 'SERIES Junior') since\n"
-        "many DACH series span multiple Spotify artists.\n\n"
-        "Fetch the full discography for each relevant artist, then classify\n"
-        "every album."
+        "Search for the primary Spotify artist, fetch their discography, then\n"
+        "classify every album.  Do NOT search for Junior/Retro-Archiv variants."
     )
 
     last_err: Exception | None = None
