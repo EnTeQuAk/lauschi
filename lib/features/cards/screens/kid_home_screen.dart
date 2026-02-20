@@ -32,7 +32,17 @@ class KidHomeScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final groupsAsync = ref.watch(allGroupsProvider);
     final ungroupedAsync = ref.watch(ungroupedCardsProvider);
-    final playerState = ref.watch(playerProvider);
+    // Only rebuild for play state / track changes, not position updates.
+    final playerState = ref.watch(
+      playerProvider.select(
+        (s) => (
+          isPlaying: s.isPlaying,
+          isReady: s.isReady,
+          hasTrack: s.track != null,
+          error: s.error,
+        ),
+      ),
+    );
     final playerNotifier = ref.read(playerProvider.notifier);
     final isOnline = ref.watch(isOnlineProvider);
 
@@ -146,7 +156,7 @@ class KidHomeScreen extends ConsumerWidget {
                   ungrouped: ungrouped,
                   activeUri: playerNotifier.activeContextUri,
                   isPlaying: playerState.isPlaying,
-                  isActive: playerState.track != null,
+                  isActive: playerState.hasTrack,
                   onCardTap: playerState.isReady
                       ? (card) => playerNotifier.playCard(card.providerUri)
                       : null,
@@ -180,12 +190,17 @@ class KidHomeScreen extends ConsumerWidget {
                     child: child,
                   ),
               child:
-                  playerState.track != null
-                      ? NowPlayingBar(
-                        key: const ValueKey('now-playing'),
-                        state: playerState,
-                        onTap: () => context.push(AppRoutes.player),
-                        onTogglePlay: playerNotifier.togglePlay,
+                  playerState.hasTrack
+                      ? Consumer(
+                        builder: (context, ref, _) {
+                          final fullState = ref.watch(playerProvider);
+                          return NowPlayingBar(
+                            key: const ValueKey('now-playing'),
+                            state: fullState,
+                            onTap: () => context.push(AppRoutes.player),
+                            onTogglePlay: playerNotifier.togglePlay,
+                          );
+                        },
                       )
                       : const SizedBox.shrink(),
             ),
