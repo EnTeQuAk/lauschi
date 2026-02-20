@@ -22,7 +22,7 @@ workflows:
       - name: Register test devices & fetch ad-hoc signing
         script: |
           # Register the iPad if not already known.
-          app-store-connect add-device \
+          app-store-connect register-device \
             --name "iPad Christopher" \
             --platform IOS \
             --udid "00008101-000A59413651003A" \
