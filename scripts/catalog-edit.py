@@ -7,26 +7,27 @@
 catalog-edit.py — CLI for editing curation JSONs.
 
 Headless companion to review-curation.py TUI. Suitable for scripted or
-AI-assisted review workflows.
+AI-assisted review workflows. All edits are non-destructive — they write
+to review.overrides, preserving the original AI curation.
 
 Usage
 -----
   # Add a missing album (fetches from Spotify, extracts episode number)
   mise exec -- uv run scripts/catalog-edit.py add fuenf_freunde ALBUM_ID
 
-  # Remove an album
-  mise exec -- uv run scripts/catalog-edit.py remove fuenf_freunde ALBUM_ID
+  # Exclude an album (non-destructive override with reason)
+  mise exec -- uv run scripts/catalog-edit.py exclude fuenf_freunde ALBUM_ID "Sub-series: JUNIOR"
 
-  # Toggle include/exclude
+  # Toggle include/exclude (non-destructive override)
   mise exec -- uv run scripts/catalog-edit.py toggle fuenf_freunde ALBUM_ID
 
   # Set episode number
   mise exec -- uv run scripts/catalog-edit.py set-episode fuenf_freunde ALBUM_ID 42
 
-  # Approve a series (writes to series.yaml)
+  # Approve a series
   mise exec -- uv run scripts/catalog-edit.py approve fuenf_freunde
 
-  # Show series summary
+  # Show series summary (with overrides applied)
   mise exec -- uv run scripts/catalog-edit.py show fuenf_freunde
 
   # Search Spotify for an album by name (to find IDs for gap-filling)
@@ -101,19 +102,55 @@ def extract_episode(pattern: str | None, title: str) -> int | None:
     return None
 
 
+# ── Helpers ───────────────────────────────────────────────────────────────────
+
+def _effective_albums(data: dict) -> list[dict]:
+    """Apply review overrides on top of the AI decisions."""
+    albums = data.get("series", {}).get("albums", [])
+    overrides = {o["album_id"]: o
+                 for o in data.get("review", {}).get("overrides", [])}
+    result = []
+    for a in albums:
+        a = dict(a)  # copy
+        aid = a["spotify_album_id"]
+        if aid in overrides:
+            ov = overrides[aid]
+            a["include"] = ov["action"] == "include"
+            if not a["include"]:
+                a["exclude_reason"] = ov.get("reason", "Reviewer override")
+        result.append(a)
+    return result
+
+
+def _set_override(data: dict, album_id: str, action: str, reason: str = "") -> None:
+    """Add or update a review override."""
+    review = data.setdefault("review", {})
+    overrides = review.setdefault("overrides", [])
+    for ov in overrides:
+        if ov["album_id"] == album_id:
+            ov["action"] = action
+            if reason:
+                ov["reason"] = reason
+            return
+    overrides.append({"album_id": album_id, "action": action, "reason": reason})
+
+
 # ── Commands ──────────────────────────────────────────────────────────────────
 
 def cmd_show(series_id: str) -> None:
     data = load_curation(series_id)
     series = data["series"]
-    albums = series.get("albums", [])
+    albums = _effective_albums(data)
     included = [a for a in albums if a.get("include")]
     excluded = [a for a in albums if not a.get("include")]
     eps = sorted(a["episode_num"] for a in included if a.get("episode_num") is not None)
     status = data.get("review", {}).get("status", "pending")
+    num_overrides = len(data.get("review", {}).get("overrides", []))
 
     print(f"Series: {series['title']} ({series['id']})")
     print(f"Status: {status}")
+    if num_overrides:
+        print(f"Overrides: {num_overrides}")
     print(f"Artists: {', '.join(series.get('spotify_artist_ids', []))}")
     print(f"Pattern: {series.get('episode_pattern', '—')}")
     print(f"Included: {len(included)}, Excluded: {len(excluded)}")
@@ -162,31 +199,35 @@ def cmd_add(series_id: str, album_id: str) -> None:
     print(f"Added: {title}{ep_str}  [{album_id}]")
 
 
-def cmd_remove(series_id: str, album_id: str) -> None:
+def cmd_exclude(series_id: str, album_id: str, reason: str = "") -> None:
     data = load_curation(series_id)
-    series = data["series"]
-    before = len(series.get("albums", []))
-    series["albums"] = [a for a in series.get("albums", []) if a["spotify_album_id"] != album_id]
-    after = len(series["albums"])
-    if before == after:
+    # Verify album exists
+    albums = {a["spotify_album_id"]: a for a in data["series"].get("albums", [])}
+    if album_id not in albums:
         print(f"Not found: {album_id}")
         return
+    _set_override(data, album_id, "exclude", reason or "Reviewer override")
     save_curation(series_id, data)
-    print(f"Removed {album_id}")
+    print(f"Excluded: {albums[album_id]['title']}  [{album_id}]")
+    if reason:
+        print(f"  Reason: {reason}")
 
 
 def cmd_toggle(series_id: str, album_id: str) -> None:
     data = load_curation(series_id)
-    for a in data["series"].get("albums", []):
-        if a["spotify_album_id"] == album_id:
-            a["include"] = not a["include"]
-            if not a["include"] and not a.get("exclude_reason"):
-                a["exclude_reason"] = "Reviewer override"
-            save_curation(series_id, data)
-            state = "included" if a["include"] else "excluded"
-            print(f"Toggled {a['title']} → {state}")
-            return
-    print(f"Not found: {album_id}")
+    albums = {a["spotify_album_id"]: a for a in data["series"].get("albums", [])}
+    if album_id not in albums:
+        print(f"Not found: {album_id}")
+        return
+    # Check effective state to determine toggle direction
+    effective = {a["spotify_album_id"]: a for a in _effective_albums(data)}
+    currently_included = effective[album_id].get("include", False)
+    new_action = "exclude" if currently_included else "include"
+    _set_override(data, album_id, new_action,
+                  "Reviewer override" if new_action == "exclude" else "")
+    save_curation(series_id, data)
+    state = "excluded" if new_action == "exclude" else "included"
+    print(f"Toggled {albums[album_id]['title']} → {state}")
 
 
 def cmd_set_episode(series_id: str, album_id: str, episode_num: int) -> None:
@@ -249,9 +290,10 @@ def main() -> None:
     p.add_argument("series_id")
     p.add_argument("album_id")
 
-    p = sub.add_parser("remove", help="Remove album")
+    p = sub.add_parser("exclude", help="Exclude album (non-destructive override)")
     p.add_argument("series_id")
     p.add_argument("album_id")
+    p.add_argument("reason", nargs="?", default="", help="Reason for exclusion")
 
     p = sub.add_parser("toggle", help="Toggle include/exclude")
     p.add_argument("series_id")
@@ -278,8 +320,8 @@ def main() -> None:
         cmd_show(args.series_id)
     elif args.command == "add":
         cmd_add(args.series_id, args.album_id)
-    elif args.command == "remove":
-        cmd_remove(args.series_id, args.album_id)
+    elif args.command == "exclude":
+        cmd_exclude(args.series_id, args.album_id, args.reason)
     elif args.command == "toggle":
         cmd_toggle(args.series_id, args.album_id)
     elif args.command == "set-episode":
