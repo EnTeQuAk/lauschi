@@ -11,7 +11,7 @@ workflows:
         - app-store-credentials
         - app-env
     integrations:
-      app_store_connect: Codemagic
+      app_store_connect: Lauschi
     triggering:
       events:
         - push
