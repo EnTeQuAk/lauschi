@@ -59,17 +59,10 @@ class ParentDashboardScreen extends ConsumerWidget {
           ),
           const Divider(indent: 56),
           _SettingsTile(
-            icon: Icons.auto_stories_rounded,
-            title: 'Aus Katalog hinzufügen',
+            icon: Icons.add_rounded,
+            title: 'Hörspiel hinzufügen',
             subtitle: _catalogSubtitle(ref),
             onTap: () => context.push(AppRoutes.parentCatalog),
-          ),
-          const Divider(indent: 56),
-          _SettingsTile(
-            icon: Icons.search_rounded,
-            title: 'Bei Spotify suchen',
-            subtitle: 'Für Inhalte außerhalb des Katalogs',
-            onTap: () => context.push(AppRoutes.parentAddCard),
           ),
 
           const SizedBox(height: AppSpacing.lg),
