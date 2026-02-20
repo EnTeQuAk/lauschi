@@ -235,10 +235,23 @@ class Deps:
         self._lookup_count: int = 0
 
 
+def _effective_albums(curation: dict) -> list[dict]:
+    """Apply review overrides on top of the AI decisions."""
+    albums = list(curation.get("series", {}).get("albums", []))
+    overrides = {o["album_id"]: o
+                 for o in curation.get("review", {}).get("overrides", [])}
+    for a in albums:
+        if a["spotify_album_id"] in overrides:
+            ov = overrides[a["spotify_album_id"]]
+            a = dict(a)
+            a["include"] = ov["action"] == "include"
+    return albums
+
+
 def _analyze_series(curation: dict) -> dict[str, Any]:
     """Pre-compute issues for the system prompt context."""
     series = curation["series"]
-    albums = series.get("albums", [])
+    albums = _effective_albums(curation)
     included = [a for a in albums if a.get("include")]
     excluded = [a for a in albums if not a.get("include")]
     pattern = series.get("episode_pattern")
@@ -481,6 +494,7 @@ def build_agent(model_name: str, api_key: str) -> Agent[Deps, ReviewResult]:
 def _build_prompt(curation: dict) -> str:
     analysis = _analyze_series(curation)
     series = curation["series"]
+    review = curation.get("review", {})
 
     lines = [
         f"Review the series: **{series['title']}** (`{series['id']}`)",
@@ -494,6 +508,25 @@ def _build_prompt(curation: dict) -> str:
     if analysis.get("duplicates"):
         lines.append(f"Duplicate episodes: {len(analysis['duplicates'])} "
                      f"(episodes {[d['episode'] for d in analysis['duplicates']]})")
+
+    # Include previous review context on re-review
+    prev_overrides = review.get("overrides", [])
+    prev_splits = review.get("splits", [])
+    prev_notes = review.get("notes", "")
+    if prev_overrides or prev_splits or prev_notes:
+        lines.append("")
+        lines.append("## Previous review decisions (already applied)")
+        lines.append("Build on these — don't redo work that's already done.")
+        if prev_overrides:
+            lines.append(f"Overrides: {len(prev_overrides)} "
+                         f"({sum(1 for o in prev_overrides if o['action'] == 'exclude')} excluded, "
+                         f"{sum(1 for o in prev_overrides if o['action'] == 'include')} included)")
+        if prev_splits:
+            for s in prev_splits:
+                lines.append(f"Split: {s['new_title']} ({s['new_id']}): "
+                             f"{len(s['album_ids'])} albums")
+        if prev_notes:
+            lines.append(f"Notes: {prev_notes[:500]}")
 
     lines.append("")
     lines.append("Call `show_series` to see all albums, then make your decisions.")
