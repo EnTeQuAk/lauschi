@@ -91,3 +91,24 @@ run = "uv run scripts/discover-titles.py"
 [tasks.cache-clear]
 description = "Clear Spotify API disk cache"
 run = "python3 -c \"import sys; sys.path.insert(0, 'scripts'); from spotify_cache import clear_cache; n = clear_cache(); print(f'Cleared {n} entries')\""
+
+[tasks.ios-install]
+description = "Install ad-hoc IPA on USB-connected iPad via pymobiledevice3"
+run = """
+#!/usr/bin/env bash
+set -euo pipefail
+IPA="${1:-}"
+if [ -z "$IPA" ]; then
+  echo "Usage: mise run ios-install <path-to-ipa>"
+  echo ""
+  echo "Download the IPA from Codemagic artifacts, then:"
+  echo "  mise run ios-install ~/Downloads/lauschi.ipa"
+  exit 1
+fi
+echo "Connected devices:"
+pymobiledevice3 usbmux list --no-color 2>/dev/null | grep -E 'DeviceName|UniqueDeviceID' || idevice_id -l
+echo ""
+echo "Installing $IPA..."
+pymobiledevice3 apps install "$IPA"
+echo "Done."
+"""
