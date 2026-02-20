@@ -6,6 +6,7 @@ import 'package:lauschi/features/cards/screens/kid_home_screen.dart';
 import 'package:lauschi/features/onboarding/screens/onboarding_provider.dart';
 import 'package:lauschi/features/onboarding/screens/onboarding_screen.dart';
 import 'package:lauschi/features/parent/screens/add_card_screen.dart';
+import 'package:lauschi/features/parent/screens/browse_catalog_screen.dart';
 import 'package:lauschi/features/parent/screens/group_edit_screen.dart';
 import 'package:lauschi/features/parent/screens/manage_cards_screen.dart';
 import 'package:lauschi/features/parent/screens/manage_groups_screen.dart';
@@ -40,6 +41,9 @@ abstract final class AppRoutes {
   static String parentGroupEdit(String groupId) => '/parent/groups/$groupId';
   static const parentSettings = '/parent/settings';
   static const parentNfcTags = '/parent/nfc-tags';
+  static const parentCatalog = '/parent/catalog';
+  static String parentCatalogSeries(String seriesId) =>
+      '/parent/catalog/$seriesId';
   static const pinEntry = '/pin';
 }
 
@@ -118,6 +122,19 @@ GoRouter appRouter(Ref ref) {
           GoRoute(
             path: 'nfc-tags',
             builder: (context, state) => const NfcTagsScreen(),
+          ),
+          GoRoute(
+            path: 'catalog',
+            builder: (context, state) => const BrowseCatalogScreen(),
+            routes: [
+              GoRoute(
+                path: ':seriesId',
+                builder: (context, state) {
+                  final seriesId = state.pathParameters['seriesId']!;
+                  return CatalogSeriesDetailScreen(seriesId: seriesId);
+                },
+              ),
+            ],
           ),
         ],
       ),
