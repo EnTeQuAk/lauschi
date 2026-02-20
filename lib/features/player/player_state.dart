@@ -44,6 +44,8 @@ class PlaybackState {
     this.trackNumber = 0,
     this.nextTracksCount = 0,
     this.error,
+    this.nextEpisodeTitle,
+    this.nextEpisodeCoverUrl,
   });
 
   /// Spotify Web Playback SDK is connected and has a device ID.
@@ -78,6 +80,16 @@ class PlaybackState {
   /// Last error message, if any.
   final String? error;
 
+  /// Title of the next episode about to auto-play. Shown briefly during
+  /// the advance delay. Null when no advance is pending.
+  final String? nextEpisodeTitle;
+
+  /// Cover art URL of the next episode (for non-reading kids).
+  final String? nextEpisodeCoverUrl;
+
+  /// Whether an auto-advance to the next episode is pending.
+  bool get isAdvancing => nextEpisodeTitle != null;
+
   /// Normalized progress 0.0–1.0 for progress bar.
   double get progress =>
       durationMs > 0 ? (positionMs / durationMs).clamp(0.0, 1.0) : 0.0;
@@ -99,6 +111,9 @@ class PlaybackState {
     int? trackNumber,
     int? nextTracksCount,
     String? error,
+    String? nextEpisodeTitle,
+    String? nextEpisodeCoverUrl,
+    bool clearNextEpisode = false,
   }) {
     return PlaybackState(
       isPlaying: isPlaying ?? this.isPlaying,
@@ -111,6 +126,14 @@ class PlaybackState {
       trackNumber: trackNumber ?? this.trackNumber,
       nextTracksCount: nextTracksCount ?? this.nextTracksCount,
       error: error,
+      nextEpisodeTitle:
+          clearNextEpisode
+              ? null
+              : (nextEpisodeTitle ?? this.nextEpisodeTitle),
+      nextEpisodeCoverUrl:
+          clearNextEpisode
+              ? null
+              : (nextEpisodeCoverUrl ?? this.nextEpisodeCoverUrl),
     );
   }
 }

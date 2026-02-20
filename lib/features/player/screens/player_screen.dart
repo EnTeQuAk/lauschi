@@ -102,6 +102,43 @@ class _PlayerScreenState extends ConsumerState<PlayerScreen>
                 ),
                 child: _TrackInfo(track: track),
               ),
+              // Auto-advance indicator: skip icon + next cover thumbnail
+              if (state.isAdvancing)
+                Padding(
+                  padding: const EdgeInsets.only(top: AppSpacing.md),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Icon(
+                        Icons.skip_next_rounded,
+                        size: 24,
+                        color: AppColors.primary,
+                      ),
+                      const SizedBox(width: AppSpacing.sm),
+                      ClipRRect(
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(6)),
+                        child: SizedBox(
+                          width: 40,
+                          height: 40,
+                          child:
+                              state.nextEpisodeCoverUrl != null
+                                  ? CachedNetworkImage(
+                                    imageUrl: state.nextEpisodeCoverUrl!,
+                                    fit: BoxFit.cover,
+                                  )
+                                  : const ColoredBox(
+                                    color: AppColors.surfaceDim,
+                                    child: Icon(
+                                      Icons.music_note_rounded,
+                                      size: 20,
+                                    ),
+                                  ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               const SizedBox(height: AppSpacing.lg),
               // Progress bar with interpolated position
               Padding(

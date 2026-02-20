@@ -1,6 +1,7 @@
 import 'dart:async' show StreamSubscription, Timer, unawaited;
 
 import 'package:lauschi/core/database/card_repository.dart';
+import 'package:lauschi/core/database/group_repository.dart';
 import 'package:lauschi/core/log.dart';
 import 'package:lauschi/core/spotify/spotify_api.dart';
 import 'package:lauschi/core/spotify/spotify_auth_provider.dart';
@@ -71,6 +72,11 @@ class PlayerNotifier extends _$PlayerNotifier {
   String? _activeContextUri;
   String? get activeContextUri => _activeContextUri;
 
+  /// Group ID for auto-advance. When set, completing an episode
+  /// auto-plays the next unheard episode in the series.
+  String? _activeGroupId;
+  Timer? _advanceTimer;
+
   @override
   PlaybackState build() {
     _bridge = ref.watch(spotifyPlayerBridgeProvider);
@@ -95,6 +101,7 @@ class PlayerNotifier extends _$PlayerNotifier {
     ref.onDispose(() {
       unawaited(_subscription?.cancel());
       _positionSaveTimer?.cancel();
+      _advanceTimer?.cancel();
     });
 
     return const PlaybackState();
@@ -195,12 +202,21 @@ class PlayerNotifier extends _$PlayerNotifier {
   }
 
   /// Resume playback for a card, restoring saved position.
-  Future<void> playCard(String spotifyUri) async {
-    // Cancel position save timer — new SDK events will restart it.
+  ///
+  /// When [groupId] is set, completing this episode auto-advances to the
+  /// next unheard episode in the series.
+  Future<void> playCard(String spotifyUri, {String? groupId}) async {
+    // Cancel any pending auto-advance and position save timer.
+    _advanceTimer?.cancel();
     _positionSaveTimer?.cancel();
     _activeContextUri = spotifyUri;
-    // ignore: avoid_redundant_argument_values, null clears any previous error
-    state = state.copyWith(isLoading: true, error: null);
+    _activeGroupId = groupId;
+    state = state.copyWith(
+      isLoading: true,
+      // ignore: avoid_redundant_argument_values, null clears previous error
+      error: null,
+      clearNextEpisode: true,
+    );
 
     final deviceId = state.deviceId;
     if (deviceId == null || _api == null) {
@@ -269,9 +285,46 @@ class PlayerNotifier extends _$PlayerNotifier {
       if (newState.nextTracksCount == 0 &&
           newState.durationMs > 0 &&
           newState.positionMs > newState.durationMs * 0.9) {
-        unawaited(_markAlbumHeard());
+        unawaited(_onAlbumCompleted());
       }
     }
+  }
+
+  /// Mark the current episode heard, then auto-advance if in a series.
+  Future<void> _onAlbumCompleted() async {
+    await _markAlbumHeard();
+
+    if (_activeGroupId == null) return;
+
+    final groups = ref.read(groupRepositoryProvider);
+    final nextCard = await groups.nextUnheard(_activeGroupId!);
+
+    if (nextCard == null) {
+      Log.info(_tag, 'Series finished — no more episodes');
+      return;
+    }
+
+    Log.info(
+      _tag,
+      'Auto-advance',
+      data: {
+        'groupId': _activeGroupId!,
+        'nextCard': nextCard.title,
+        'nextUri': nextCard.providerUri,
+      },
+    );
+
+    // Brief pause before advancing so the transition feels intentional.
+    _advanceTimer?.cancel();
+    _advanceTimer = Timer(const Duration(seconds: 3), () {
+      unawaited(playCard(nextCard.providerUri, groupId: _activeGroupId));
+    });
+
+    // Signal the UI to show the next episode preview during the delay.
+    state = state.copyWith(
+      nextEpisodeTitle: nextCard.customTitle ?? nextCard.title,
+      nextEpisodeCoverUrl: nextCard.coverUrl,
+    );
   }
 
   void _startPositionSave() {
