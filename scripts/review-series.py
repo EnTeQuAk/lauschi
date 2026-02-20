@@ -6,7 +6,6 @@
 #   "pydantic>=2.0",
 #   "requests",
 #   "rich",
-#   "httpx",
 # ]
 # ///
 """
@@ -40,7 +39,6 @@ from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
-import httpx
 import requests
 from pydantic import BaseModel, Field
 from pydantic_ai import Agent, RunContext
@@ -187,12 +185,12 @@ product, or a different era — those should be their own series, not mixed in.
 
 Before excluding an album as a "duplicate", verify it actually IS the same
 content. Use `album_details` to compare release dates, track counts, and track
-names. Use `web_search` if you need cultural context about whether something
-is a standalone release, a special, or genuinely a duplicate.
+names. If you need cultural context (is this a standalone special? a different
+era?), use `wikipedia_lookup` first — German Wikipedia has excellent Hörspiel
+coverage. Fall back to `web_search` only if Wikipedia doesn't have it.
 
-One web search per question is enough. If the first search doesn't answer it,
-the information probably isn't easily available — flag it in `notes` for human
-review and move on. Do NOT rephrase and retry web searches.
+You have a maximum of 2 lookups total (wikipedia + web combined). One lookup
+per question — if it doesn't answer it, flag in `notes` and move on.
 
 If you're not sure whether something is a duplicate or distinct content,
 flag it in `notes` for human review instead of excluding it. Wrong excludes
@@ -227,12 +225,12 @@ class Deps:
 
     _MAX_SEARCHES: int = 30
 
-    _MAX_WEB_SEARCHES: int = 5
+    _MAX_LOOKUPS: int = 2
 
     def __post_init__(self) -> None:
         self._search_cache: dict[str, list[dict]] = {}
         self._search_count: int = 0
-        self._web_search_count: int = 0
+        self._lookup_count: int = 0
 
 
 def _analyze_series(curation: dict) -> dict[str, Any]:
@@ -353,21 +351,66 @@ def build_agent(model_name: str, api_key: str) -> Agent[Deps, ReviewResult]:
         return info
 
     @agent.tool
+    def wikipedia_lookup(ctx: RunContext[Deps], query: str) -> str:
+        """Look up a series, album, or Hörspiel on German Wikipedia. Returns
+        the article extract if found. Use this to verify episode lists,
+        release history, and whether something is a standalone special or
+        part of a series. Prefer this over web_search for factual info."""
+        if ctx.deps._lookup_count >= ctx.deps._MAX_LOOKUPS:
+            console.print(f"  [dim]📖 wikipedia_lookup({query!r}) → limit reached[/]")
+            return "Lookup limit reached. Flag uncertainty in notes and move on."
+        ctx.deps._lookup_count += 1
+        try:
+            # Search for the best matching article
+            headers = {"User-Agent": "lauschi-catalog-review/1.0 "
+                       "(https://github.com/EnTeQuAk/lauschi)"}
+            r = requests.get(
+                "https://de.wikipedia.org/w/api.php",
+                headers=headers,
+                params={"action": "query", "list": "search",
+                        "srsearch": query, "srlimit": 3,
+                        "format": "json"},
+                timeout=10,
+            )
+            r.raise_for_status()
+            hits = r.json().get("query", {}).get("search", [])
+            if not hits:
+                console.print(f"  [dim]📖 wikipedia_lookup({query!r}) → no article[/]")
+                return "No Wikipedia article found."
+            # Fetch the extract of the top result
+            title = hits[0]["title"]
+            r = requests.get(
+                "https://de.wikipedia.org/w/api.php",
+                headers=headers,
+                params={"action": "query", "titles": title,
+                        "prop": "extracts", "exintro": False,
+                        "explaintext": True, "exchars": 3000,
+                        "format": "json"},
+                timeout=10,
+            )
+            r.raise_for_status()
+            pages = r.json().get("query", {}).get("pages", {})
+            extract = next(iter(pages.values())).get("extract", "")
+            console.print(f"  [dim]📖 wikipedia_lookup({query!r}) → {title}[/]")
+            return f"Wikipedia: {title}\n\n{extract}"
+        except Exception as e:
+            console.print(f"  [dim]📖 wikipedia_lookup({query!r}) → error: {e}[/]")
+            return f"Wikipedia lookup failed: {e}"
+
+    @agent.tool
     def web_search(ctx: RunContext[Deps], query: str) -> str:
-        """Search the web for information about an album, series, or Hörspiel.
-        Use this when you need cultural context to decide whether something is
-        a standalone special, a different era, or a duplicate. Returns a short
-        summary of search results."""
-        if ctx.deps._web_search_count >= ctx.deps._MAX_WEB_SEARCHES:
+        """Search the web as a fallback when Wikipedia doesn't have what you
+        need. Shares the lookup limit with wikipedia_lookup."""
+        if ctx.deps._lookup_count >= ctx.deps._MAX_LOOKUPS:
             console.print(f"  [dim]🌐 web_search({query!r}) → limit reached[/]")
-            return "Web search limit reached. Note uncertainty and move on."
-        ctx.deps._web_search_count += 1
+            return "Lookup limit reached. Flag uncertainty in notes and move on."
+        ctx.deps._lookup_count += 1
         brave_key = os.environ.get("BRAVE_API_KEY", "")
         if not brave_key:
             console.print(f"  [dim]🌐 web_search({query!r}) → no API key[/]")
             return "BRAVE_API_KEY not set. Cannot search the web."
         try:
-            r = httpx.get(
+            r = requests.get(
                 "https://api.search.brave.com/res/v1/web/search",
                 headers={"X-Subscription-Token": brave_key,
                          "Accept": "application/json"},
