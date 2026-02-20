@@ -425,12 +425,13 @@ class _EpisodeReorderList extends ConsumerWidget {
       proxyDecorator: (child, index, animation) {
         return AnimatedBuilder(
           animation: animation,
-          builder: (context, child) => Material(
-            elevation: 4,
-            shadowColor: Colors.black26,
-            borderRadius: const BorderRadius.all(Radius.circular(8)),
-            child: child,
-          ),
+          builder:
+              (context, child) => Material(
+                elevation: 4,
+                shadowColor: Colors.black26,
+                borderRadius: const BorderRadius.all(Radius.circular(8)),
+                child: child,
+              ),
           child: child,
         );
       },
@@ -490,9 +491,10 @@ class _EpisodeTile extends ConsumerWidget {
                     memCacheWidth: 80, // 40px @ 2x
                     memCacheHeight: 80,
                     fadeInDuration: Duration.zero,
-                    placeholder: (_, _) => const ColoredBox(
-                      color: AppColors.surfaceDim,
-                    ),
+                    placeholder:
+                        (_, _) => const ColoredBox(
+                          color: AppColors.surfaceDim,
+                        ),
                   )
                   : const ColoredBox(
                     color: AppColors.surfaceDim,
@@ -537,19 +539,20 @@ class _EpisodeTile extends ConsumerWidget {
                   _deleteCard(context, ref);
               }
             },
-            itemBuilder: (_) => const [
-              PopupMenuItem(
-                value: 'remove',
-                child: Text('Aus Serie entfernen'),
-              ),
-              PopupMenuItem(
-                value: 'delete',
-                child: Text(
-                  'Karte löschen',
-                  style: TextStyle(color: AppColors.error),
-                ),
-              ),
-            ],
+            itemBuilder:
+                (_) => const [
+                  PopupMenuItem(
+                    value: 'remove',
+                    child: Text('Aus Serie entfernen'),
+                  ),
+                  PopupMenuItem(
+                    value: 'delete',
+                    child: Text(
+                      'Karte löschen',
+                      style: TextStyle(color: AppColors.error),
+                    ),
+                  ),
+                ],
           ),
           ReorderableDragStartListener(
             index: index,

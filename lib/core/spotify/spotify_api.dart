@@ -195,8 +195,7 @@ class SpotifyApi {
       ),
     );
 
-    final playlists =
-        resp?.data?['playlists'] as Map<String, dynamic>? ?? {};
+    final playlists = resp?.data?['playlists'] as Map<String, dynamic>? ?? {};
     final items = (playlists['items'] as List<dynamic>?) ?? [];
     final total = playlists['total'] as int? ?? 0;
 
@@ -523,9 +522,10 @@ class SpotifyPlaylistDetail {
       name: json['name'] as String,
       uri: json['uri'] as String,
       ownerName: owner['display_name'] as String? ?? '',
-      imageUrl: images.isNotEmpty
-          ? (images.first as Map<String, dynamic>)['url'] as String?
-          : null,
+      imageUrl:
+          images.isNotEmpty
+              ? (images.first as Map<String, dynamic>)['url'] as String?
+              : null,
       totalTracks: (tracksData['total'] as int?) ?? tracks.length,
       tracks: tracks,
     );

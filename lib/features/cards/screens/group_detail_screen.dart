@@ -39,7 +39,9 @@ class GroupDetailScreen extends ConsumerWidget {
     final playerNotifier = ref.read(playerProvider.notifier);
     final isOnline = ref.watch(isOnlineProvider);
     final nfcEnabled =
-        ref.watch(debugSettingsProvider).whenOrNull(data: (s) => s.nfcEnabled) ??
+        ref
+            .watch(debugSettingsProvider)
+            .whenOrNull(data: (s) => s.nfcEnabled) ??
         false;
 
     return Scaffold(

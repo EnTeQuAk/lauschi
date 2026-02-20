@@ -22,7 +22,9 @@ class ParentDashboardScreen extends ConsumerWidget {
     final cardsAsync = ref.watch(allCardsProvider);
     final cardCount = cardsAsync.whenOrNull(data: (cards) => cards.length) ?? 0;
     final nfcEnabled =
-        ref.watch(debugSettingsProvider).whenOrNull(data: (s) => s.nfcEnabled) ??
+        ref
+            .watch(debugSettingsProvider)
+            .whenOrNull(data: (s) => s.nfcEnabled) ??
         false;
 
     return Scaffold(
