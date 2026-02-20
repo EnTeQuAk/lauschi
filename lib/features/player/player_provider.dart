@@ -314,10 +314,12 @@ class PlayerNotifier extends _$PlayerNotifier {
       // Save immediately on pause
       unawaited(_savePosition());
 
-      // Detect album completion: paused on the last track, near the end.
+      // Detect album completion: paused on the last track, within 5s of end.
+      // Using a fixed threshold instead of percentage — 90% of a 60-min
+      // Hörspiel would cut off 6 minutes of content.
       if (newState.nextTracksCount == 0 &&
           newState.durationMs > 0 &&
-          newState.positionMs > newState.durationMs * 0.9) {
+          newState.positionMs > newState.durationMs - 5000) {
         unawaited(_onAlbumCompleted());
       }
     }
