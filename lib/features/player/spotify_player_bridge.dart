@@ -365,6 +365,16 @@ class SpotifyPlayerBridge {
     await controller.runJavaScript('window.lauschi.toggle_play()');
   }
 
+  /// Pause via the local SDK player (idempotent — safe to call when paused).
+  Future<void> pause() async {
+    await controller.runJavaScript('window.lauschi.pause()');
+  }
+
+  /// Resume via the local SDK player (idempotent — safe to call when playing).
+  Future<void> resume() async {
+    await controller.runJavaScript('window.lauschi.resume()');
+  }
+
   /// Next track via local SDK.
   Future<void> nextTrack() async {
     await controller.runJavaScript('window.lauschi.next_track()');
