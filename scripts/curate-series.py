@@ -270,6 +270,17 @@ async def run_curation(model_name: str, api_key: str, query: str,
         except Exception as e:
             last_err = e
             err_str = str(e)
+            # Log full error details for debugging proxy issues
+            console.print(f"[dim red]{type(e).__name__}: {err_str[:500]}[/]")
+            body = getattr(e, 'body', None)
+            if body is not None:
+                console.print(f"[dim red]body: {body}[/]")
+            response = getattr(e, 'response', None)
+            if response is not None:
+                resp_text = getattr(response, 'text', None)
+                if resp_text and "<!DOCTYPE" in resp_text:
+                    console.print(f"[dim red]HTML response ({len(resp_text)} bytes):\n"
+                                  f"{resp_text[:1000]}[/]")
             if ("<!DOCTYPE" in err_str or "500" in err_str) and attempt < _MAX_RETRIES:
                 console.print(f"[yellow]Attempt {attempt}/{_MAX_RETRIES} failed "
                               f"(proxy error), retrying in {_RETRY_DELAY}s…[/]")
