@@ -365,8 +365,51 @@ class _AddCardScreenState extends ConsumerState<AddCardScreen> {
   }
 
   // -------------------------------------------------------------------------
-  // Results list
+  // Results area (banner headers + scrollable results)
   // -------------------------------------------------------------------------
+
+  /// Wraps batch banner, series cards, and search results into a single
+  /// scrollable column so the keyboard can't cause overflow.
+  Widget _buildResultsArea({
+    required List<CatalogSeries> detectedSeries,
+    String? batchSeries,
+  }) {
+    final headers = <Widget>[
+      // Batch-add banner — autoAssign mode only
+      if (batchSeries != null)
+        _BatchAddBanner(
+          seriesTitle: batchSeries,
+          count: _results.where((a) => !_addedUris.contains(a.uri)).length,
+          onAddAll: () => unawaited(_handleAddAll(batchSeries)),
+        ),
+
+      // Series cards — general add mode
+      ...detectedSeries.map(
+        (series) => _SeriesCard(
+          series: series,
+          matchCount:
+              _catalogMatches
+                  .whereType<CatalogMatch>()
+                  .where((m) => m.series.id == series.id)
+                  .length,
+          onAdd:
+              () =>
+                  series.hasCuratedAlbums
+                      ? unawaited(_addSeriesFromCatalog(series))
+                      : unawaited(_addSeriesFromSearch(series)),
+        ),
+      ),
+    ];
+
+    if (headers.isEmpty) return _buildResultsList();
+
+    return Column(
+      children: [
+        ...headers,
+        Expanded(child: _buildResultsList()),
+      ],
+    );
+  }
 
   Widget _buildResultsList() {
     if (_isSearching) {
@@ -799,34 +842,13 @@ class _AddCardScreenState extends ConsumerState<AddCardScreen> {
             ),
           ),
 
-          // Batch-add banner — autoAssign mode only
-          if (batchSeries case final seriesTitle?)
-            _BatchAddBanner(
-              seriesTitle: seriesTitle,
-              count: _results.where((a) => !_addedUris.contains(a.uri)).length,
-              onAddAll: () => unawaited(_handleAddAll(seriesTitle)),
+          // Results (includes batch banner and series cards as headers)
+          Expanded(
+            child: _buildResultsArea(
+              batchSeries: batchSeries,
+              detectedSeries: detectedSeries,
             ),
-
-          // Series cards — general add mode
-          if (detectedSeries.isNotEmpty)
-            ...detectedSeries.map(
-              (series) => _SeriesCard(
-                series: series,
-                matchCount:
-                    _catalogMatches
-                        .whereType<CatalogMatch>()
-                        .where((m) => m.series.id == series.id)
-                        .length,
-                onAdd:
-                    () =>
-                        series.hasCuratedAlbums
-                            ? unawaited(_addSeriesFromCatalog(series))
-                            : unawaited(_addSeriesFromSearch(series)),
-              ),
-            ),
-
-          // Results
-          Expanded(child: _buildResultsList()),
+          ),
         ],
       ),
     );
