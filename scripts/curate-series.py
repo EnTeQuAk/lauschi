@@ -98,13 +98,19 @@ class SpotifyClient:
             return r.json()
 
     def search_artists(self, query: str, limit: int = 8) -> list[dict]:
+        cache_key = f"search_{query.lower().replace(' ', '_')}_{limit}"
+        cache = CACHE_DIR / f"{cache_key}.json"
+        if cache.exists():
+            return json.loads(cache.read_text())
         data = self._get("search", q=query, type="artist", market="DE", limit=limit)
-        return [
+        result = [
             {"id": a["id"], "name": a["name"],
              "followers": a["followers"]["total"],
              "genres": a.get("genres", [])}
             for a in data.get("artists", {}).get("items", [])
         ]
+        cache.write_text(json.dumps(result, ensure_ascii=False, indent=2))
+        return result
 
     def artist_albums(self, artist_id: str, use_cache: bool = True) -> list[dict]:
         cache = CACHE_DIR / f"{artist_id}.json"
