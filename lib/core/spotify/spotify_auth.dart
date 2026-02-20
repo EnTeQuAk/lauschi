@@ -90,27 +90,23 @@ class SpotifyAuth {
 
     Log.info(_tag, 'Opening browser for OAuth: $authUrl');
 
-    // canLaunchUrl is a useful diagnostic even though launchUrl doesn't
-    // require it — logs whether the OS thinks it can handle the URL at all.
-    final canLaunch = await canLaunchUrl(authUrl);
-    Log.info(_tag, 'canLaunchUrl: $canLaunch');
-
-    // Try in-app browser first (SFSafariViewController / Custom Tabs) — better
-    // UX, shares cookies.  Falls back to external browser (Safari / Chrome) if
-    // the in-app view can't be presented (e.g., scene-based iOS lifecycle where
-    // registrar.viewController is nil).
-    var launched = await launchUrl(
-      authUrl,
-      mode: LaunchMode.inAppBrowserView,
-    );
-    Log.info(_tag, 'inAppBrowserView: $launched');
-
-    if (!launched) {
-      launched = await launchUrl(
-        authUrl,
-        mode: LaunchMode.externalApplication,
-      );
-      Log.info(_tag, 'externalApplication: $launched');
+    // Try each launch mode in order. Both false returns AND exceptions
+    // trigger the next fallback — url_launcher on iOS with scene-based
+    // lifecycle can throw PlatformException even when SFSafariViewController
+    // is actually presented.
+    var launched = false;
+    for (final mode in [
+      LaunchMode.inAppBrowserView,
+      LaunchMode.externalApplication,
+      LaunchMode.platformDefault,
+    ]) {
+      try {
+        launched = await launchUrl(authUrl, mode: mode);
+        Log.info(_tag, '${mode.name}: $launched');
+        if (launched) break;
+      } on Exception catch (e) {
+        Log.warn(_tag, '${mode.name} threw: $e');
+      }
     }
 
     if (!launched) {
