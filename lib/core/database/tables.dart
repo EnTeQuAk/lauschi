@@ -17,6 +17,26 @@ class Groups extends Table {
   Set<Column<Object>> get primaryKey => {id};
 }
 
+@DataClassName('NfcTag')
+class NfcTags extends Table {
+  /// Auto-incrementing primary key.
+  IntColumn get id => integer().autoIncrement()();
+
+  /// Hardware UID of the NFC tag (hex string). Unique per physical tag.
+  TextColumn get tagUid => text().unique()();
+
+  /// What this tag points to: 'group' or 'card'.
+  TextColumn get targetType => text()();
+
+  /// ID of the group or card this tag triggers.
+  TextColumn get targetId => text()();
+
+  /// User-provided label (e.g. "Yakari-Figur").
+  TextColumn get label => text().nullable()();
+
+  DateTimeColumn get createdAt => dateTime().withDefault(currentDateAndTime)();
+}
+
 @DataClassName('AudioCard')
 class Cards extends Table {
   TextColumn get id => text()();

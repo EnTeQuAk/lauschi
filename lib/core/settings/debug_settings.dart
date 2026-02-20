@@ -10,6 +10,7 @@ const _tag = 'DebugSettings';
 const _keyReplay = 'debug.replay_enabled';
 const _keyMaskText = 'debug.mask_all_text';
 const _keyMaskImages = 'debug.mask_all_images';
+const _keyNfcEnabled = 'debug.nfc_enabled';
 
 /// User-controlled Sentry diagnostics preferences.
 ///
@@ -20,16 +21,19 @@ class DebugSettings {
     required this.replayEnabled,
     required this.maskAllText,
     required this.maskAllImages,
+    required this.nfcEnabled,
   });
 
   /// Load from SharedPreferences. Defaults:
   /// - replayEnabled: true in debug builds, false in release
   /// - maskAllText: true (privacy-first)
   /// - maskAllImages: true (privacy-first)
+  /// - nfcEnabled: false (experimental)
   factory DebugSettings.fromPrefs(SharedPreferences prefs) => DebugSettings(
     replayEnabled: prefs.getBool(_keyReplay) ?? kDebugMode,
     maskAllText: prefs.getBool(_keyMaskText) ?? true,
     maskAllImages: prefs.getBool(_keyMaskImages) ?? true,
+    nfcEnabled: prefs.getBool(_keyNfcEnabled) ?? false,
   );
 
   /// Whether session replay is captured at all.
@@ -42,20 +46,26 @@ class DebugSettings {
   /// Whether network/asset images are replaced with blocks in replay frames.
   final bool maskAllImages;
 
+  /// Whether NFC tag reading/writing is enabled. Experimental.
+  final bool nfcEnabled;
+
   DebugSettings copyWith({
     bool? replayEnabled,
     bool? maskAllText,
     bool? maskAllImages,
+    bool? nfcEnabled,
   }) => DebugSettings(
     replayEnabled: replayEnabled ?? this.replayEnabled,
     maskAllText: maskAllText ?? this.maskAllText,
     maskAllImages: maskAllImages ?? this.maskAllImages,
+    nfcEnabled: nfcEnabled ?? this.nfcEnabled,
   );
 
   Future<void> saveTo(SharedPreferences prefs) async {
     await prefs.setBool(_keyReplay, replayEnabled);
     await prefs.setBool(_keyMaskText, maskAllText);
     await prefs.setBool(_keyMaskImages, maskAllImages);
+    await prefs.setBool(_keyNfcEnabled, nfcEnabled);
   }
 }
 

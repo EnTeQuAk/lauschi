@@ -92,6 +92,20 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                   ? (v) => _update(settings.copyWith(maskAllImages: v))
                   : null,
         ),
+
+        const SizedBox(height: AppSpacing.lg),
+
+        // ── Experimental ─────────────────────────────────────────────────────
+        const _SectionHeader(title: 'Experimentell'),
+        _SwitchTile(
+          icon: Icons.nfc_rounded,
+          title: 'NFC-Tags',
+          subtitle:
+              'Hörspiele und Serien mit NFC-Tags verknüpfen. '
+              'Kind hält Tag ans Gerät → Wiedergabe startet.',
+          value: settings.nfcEnabled,
+          onChanged: (v) => _update(settings.copyWith(nfcEnabled: v)),
+        ),
       ],
     );
   }

@@ -6,7 +6,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'app_database.g.dart';
 
-@DriftDatabase(tables: [Cards, Groups])
+@DriftDatabase(tables: [Cards, Groups, NfcTags])
 class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
 
@@ -16,7 +16,7 @@ class AppDatabase extends _$AppDatabase {
 
   /// Bump when schema changes. See [migration] for upgrade steps.
   @override
-  int get schemaVersion => 6;
+  int get schemaVersion => 7;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -42,6 +42,9 @@ class AppDatabase extends _$AppDatabase {
       }
       if (from < 6) {
         await m.addColumn(groups, groups.contentType);
+      }
+      if (from < 7) {
+        await m.createTable(nfcTags);
       }
     },
   );
