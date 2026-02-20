@@ -55,6 +55,13 @@ flutter:
         - asset: fonts/Nunito-Italic-Variable.ttf
           style: italic
 
+# WORKAROUND: nfc_manager 4.1.1 passes null IntentFilter in
+# registerReceiver, crashing on Android 14+. Local patch adds the
+# ACTION_ADAPTER_STATE_CHANGED filter. Remove when upstream fixes.
+dependency_overrides:
+  nfc_manager:
+    path: packages/nfc_manager
+
 sentry:
   upload_debug_symbols: true
   upload_source_maps: true
