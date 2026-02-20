@@ -419,12 +419,12 @@ final groupEpisodesProvider = StreamProvider.family<List<db.AudioCard>, String>(
   },
 );
 
-/// The group metadata for a given ID.
-final groupByIdProvider = FutureProvider.family<db.CardGroup?, String>((
+/// The group metadata for a given ID — reactive to DB changes.
+final groupByIdProvider = StreamProvider.family<db.CardGroup?, String>((
   ref,
   groupId,
 ) {
-  return ref.watch(groupRepositoryProvider).getById(groupId);
+  return ref.watch(groupRepositoryProvider).watchById(groupId);
 });
 
 /// First unheard card in a group.
