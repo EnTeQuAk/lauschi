@@ -107,7 +107,7 @@ class ParentDashboardScreen extends ConsumerWidget {
           _SettingsTile(
             icon: Icons.lock_rounded,
             title: 'PIN ändern',
-            onTap: () => unawaited(context.push(AppRoutes.pinEntry)),
+            onTap: () => unawaited(context.push(AppRoutes.pinChange)),
           ),
           // NFC tags — only visible when enabled in settings
           if (nfcEnabled) ...[
