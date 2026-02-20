@@ -6,6 +6,7 @@
 #   "pydantic>=2.0",
 #   "requests",
 #   "rich",
+#   "httpx",
 # ]
 # ///
 """
@@ -39,6 +40,7 @@ from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
+import httpx
 import requests
 from pydantic import BaseModel, Field
 from pydantic_ai import Agent, RunContext
@@ -94,7 +96,7 @@ class SpotifyClient:
             for a in r.json().get("albums", {}).get("items", [])
         ]
 
-    def album_details(self, album_id: str) -> dict | None:
+    def album_details(self, album_id: str, *, include_tracks: bool = False) -> dict | None:
         r = requests.get(
             f"https://api.spotify.com/v1/albums/{album_id}",
             headers={"Authorization": f"Bearer {self._token}"},
@@ -104,11 +106,18 @@ class SpotifyClient:
         if not r.ok:
             return None
         data = r.json()
-        return {
+        result: dict[str, Any] = {
             "id": data["id"], "name": data["name"],
             "total_tracks": data.get("total_tracks", 0),
             "release_date": data.get("release_date", ""),
         }
+        if include_tracks:
+            tracks = data.get("tracks", {}).get("items", [])
+            result["tracks"] = [
+                {"name": t["name"], "duration_ms": t.get("duration_ms", 0)}
+                for t in tracks
+            ]
+        return result
 
 
 # ── Output models ──────────────────────────────────────────────────────────────
@@ -174,10 +183,17 @@ product, or a different era — those should be their own series, not mixed in.
    different target age, different branding — these are signals that it's a
    separate product. Pick a title and ID that makes sense for the split series.
 
-## Filling gaps
+## Verifying before excluding
 
-If there are gaps in episode numbering, use `search_spotify` to find the missing
-album. If it exists, use `add_album`. If it doesn't exist on Spotify, note it.
+Before excluding an album as a "duplicate", verify it actually IS the same
+content. Use `album_details` to compare release dates, track counts, and track
+names. Use `web_search` if you need cultural context about whether something
+is a standalone release, a special, or genuinely a duplicate.
+
+If you're not sure whether something is a duplicate or distinct content,
+flag it in `notes` for human review instead of excluding it. Wrong excludes
+are much worse than missed excludes — a human can easily exclude in the TUI,
+but wrong excludes erode trust in the pipeline.
 
 ## Gap-filling
 
@@ -207,9 +223,12 @@ class Deps:
 
     _MAX_SEARCHES: int = 30
 
+    _MAX_WEB_SEARCHES: int = 10
+
     def __post_init__(self) -> None:
         self._search_cache: dict[str, list[dict]] = {}
         self._search_count: int = 0
+        self._web_search_count: int = 0
 
 
 def _analyze_series(curation: dict) -> dict[str, Any]:
@@ -314,6 +333,58 @@ def build_agent(model_name: str, api_key: str) -> Agent[Deps, ReviewResult]:
         ctx.deps._search_cache[query] = results
         console.print(f"  [dim]🔍 search_spotify({query!r}) → {len(results)} results[/]")
         return results
+
+    @agent.tool
+    def album_details(ctx: RunContext[Deps], album_id: str) -> dict | str:
+        """Get detailed info about a Spotify album: release date, track count,
+        and track names. Use this to verify whether two albums are actually
+        the same content or different releases."""
+        info = ctx.deps.spotify.album_details(album_id, include_tracks=True)
+        if not info:
+            console.print(f"  [dim]📀 album_details({album_id[:8]}…) → not found[/]")
+            return f"Not found: {album_id}"
+        console.print(f"  [dim]📀 album_details({album_id[:8]}…) → "
+                      f"{info['name']} ({info['release_date']}, "
+                      f"{info['total_tracks']} tracks)[/]")
+        return info
+
+    @agent.tool
+    def web_search(ctx: RunContext[Deps], query: str) -> str:
+        """Search the web for information about an album, series, or Hörspiel.
+        Use this when you need cultural context to decide whether something is
+        a standalone special, a different era, or a duplicate. Returns a short
+        summary of search results."""
+        if ctx.deps._web_search_count >= ctx.deps._MAX_WEB_SEARCHES:
+            console.print(f"  [dim]🌐 web_search({query!r}) → limit reached[/]")
+            return "Web search limit reached. Note uncertainty and move on."
+        ctx.deps._web_search_count += 1
+        brave_key = os.environ.get("BRAVE_API_KEY", "")
+        if not brave_key:
+            console.print(f"  [dim]🌐 web_search({query!r}) → no API key[/]")
+            return "BRAVE_API_KEY not set. Cannot search the web."
+        try:
+            r = httpx.get(
+                "https://api.search.brave.com/res/v1/web/search",
+                headers={"X-Subscription-Token": brave_key,
+                         "Accept": "application/json"},
+                params={"q": query, "count": 5, "country": "DE",
+                        "search_lang": "de"},
+                timeout=10,
+            )
+            r.raise_for_status()
+            results = r.json().get("web", {}).get("results", [])
+            snippets = []
+            for item in results[:5]:
+                title = item.get("title", "")
+                snippet = item.get("description", "")
+                snippets.append(f"- {title}: {snippet}")
+            summary = "\n".join(snippets) if snippets else "No results found."
+            console.print(f"  [dim]🌐 web_search({query!r}) → "
+                          f"{len(results)} results[/]")
+            return summary
+        except Exception as e:
+            console.print(f"  [dim]🌐 web_search({query!r}) → error: {e}[/]")
+            return f"Search failed: {e}"
 
     @agent.tool
     def add_album(ctx: RunContext[Deps], album_id: str) -> str:
