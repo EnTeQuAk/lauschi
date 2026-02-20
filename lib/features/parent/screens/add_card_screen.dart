@@ -44,6 +44,7 @@ class _AddCardScreenState extends ConsumerState<AddCardScreen> {
   List<CatalogMatch?> _catalogMatches = [];
   bool _isSearching = false;
   final _addedUris = <String>{};
+  final _createdSeriesTitles = <String>{};
   db.CardGroup? _autoGroup;
 
   // Snackbar debounce — batches rapid additions into a single notification.
@@ -71,8 +72,14 @@ class _AddCardScreenState extends ConsumerState<AddCardScreen> {
 
   Future<void> _loadExistingUris() async {
     final all = await ref.read(cardRepositoryProvider).getAll();
+    final groups = await ref.read(groupRepositoryProvider).getAll();
     if (mounted) {
-      setState(() => _addedUris.addAll(all.map((c) => c.providerUri)));
+      setState(() {
+        _addedUris.addAll(all.map((c) => c.providerUri));
+        _createdSeriesTitles.addAll(
+          groups.map((g) => g.title.toLowerCase()),
+        );
+      });
     }
   }
 
@@ -385,19 +392,25 @@ class _AddCardScreenState extends ConsumerState<AddCardScreen> {
 
       // Series cards — general add mode
       ...detectedSeries.map(
-        (series) => _SeriesCard(
-          series: series,
-          matchCount:
-              _catalogMatches
-                  .whereType<CatalogMatch>()
-                  .where((m) => m.series.id == series.id)
-                  .length,
-          onAdd:
-              () =>
-                  series.hasCuratedAlbums
-                      ? unawaited(_addSeriesFromCatalog(series))
-                      : unawaited(_addSeriesFromSearch(series)),
-        ),
+        (series) {
+          final exists = _createdSeriesTitles.contains(
+            series.title.toLowerCase(),
+          );
+          return _SeriesCard(
+            series: series,
+            matchCount:
+                _catalogMatches
+                    .whereType<CatalogMatch>()
+                    .where((m) => m.series.id == series.id)
+                    .length,
+            alreadyCreated: exists,
+            onAdd:
+                () =>
+                    series.hasCuratedAlbums
+                        ? unawaited(_addSeriesFromCatalog(series))
+                        : unawaited(_addSeriesFromSearch(series)),
+          );
+        },
       ),
     ];
 
@@ -535,6 +548,7 @@ class _AddCardScreenState extends ConsumerState<AddCardScreen> {
   Future<void> _addSeriesFromCatalog(CatalogSeries series) async {
     final groupId = await _findOrCreateGroup(series.title);
     if (!mounted) return;
+    setState(() => _createdSeriesTitles.add(series.title.toLowerCase()));
 
     final sw = Stopwatch()..start();
     var added = 0;
@@ -665,6 +679,7 @@ class _AddCardScreenState extends ConsumerState<AddCardScreen> {
   /// album data). Creates the group and adds matching albums.
   Future<void> _addSeriesFromSearch(CatalogSeries series) async {
     final groupId = await _findOrCreateGroup(series.title);
+    setState(() => _createdSeriesTitles.add(series.title.toLowerCase()));
 
     var count = 0;
     for (var i = 0; i < _results.length; i++) {
@@ -930,6 +945,7 @@ class _SeriesCard extends StatelessWidget {
     required this.series,
     required this.matchCount,
     required this.onAdd,
+    this.alreadyCreated = false,
   });
 
   final CatalogSeries series;
@@ -938,12 +954,15 @@ class _SeriesCard extends StatelessWidget {
   final int matchCount;
   final VoidCallback onAdd;
 
+  /// Whether a group for this series already exists.
+  final bool alreadyCreated;
+
   @override
   Widget build(BuildContext context) {
     final hasAlbums = series.hasCuratedAlbums;
     final subtitle =
         hasAlbums
-            ? '${series.albums.length} Folgen im Katalog'
+            ? '${series.albums.length} Folgen gefunden'
             : '$matchCount ${matchCount == 1 ? 'Treffer' : 'Treffer'} in Ergebnissen';
 
     return Container(
@@ -960,8 +979,10 @@ class _SeriesCard extends StatelessWidget {
           horizontal: AppSpacing.md,
           vertical: AppSpacing.xs,
         ),
-        leading: const Icon(
-          Icons.library_music_rounded,
+        leading: Icon(
+          alreadyCreated
+              ? Icons.check_circle_rounded
+              : Icons.library_music_rounded,
           color: AppColors.primary,
           size: 28,
         ),
@@ -975,25 +996,27 @@ class _SeriesCard extends StatelessWidget {
           ),
         ),
         subtitle: Text(
-          subtitle,
+          alreadyCreated ? 'Serie bereits angelegt' : subtitle,
           style: const TextStyle(
             fontFamily: 'Nunito',
             fontSize: 12,
             color: AppColors.primary,
           ),
         ),
-        trailing: FilledButton(
-          onPressed: onAdd,
-          style: FilledButton.styleFrom(
-            padding: const EdgeInsets.symmetric(
-              horizontal: AppSpacing.md,
-              vertical: AppSpacing.xs,
-            ),
-            minimumSize: Size.zero,
-            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-          ),
-          child: const Text('Serie anlegen'),
-        ),
+        trailing: alreadyCreated
+            ? null
+            : FilledButton(
+                onPressed: onAdd,
+                style: FilledButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: AppSpacing.md,
+                    vertical: AppSpacing.xs,
+                  ),
+                  minimumSize: Size.zero,
+                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                ),
+                child: const Text('Serie anlegen'),
+              ),
       ),
     );
   }
