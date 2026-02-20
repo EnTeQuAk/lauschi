@@ -677,15 +677,15 @@ def print_result(result: ReviewResult) -> None:
             lines.append(f"✅ {len(includes)} re-included")
     if splits:
         for s in splits:
-            lines.append(f"✂️  Split → {s.new_title} ({s.new_id}): "
+            lines.append(f"✂️  Split → {s.new_title} (`{s.new_id}`): "
                          f"{len(s.album_ids)} albums")
     if added:
         lines.append(f"➕ {len(added)} added")
     if result.notes:
-        lines.append(f"📝 {result.notes}")
+        lines.append(f"\n📝 {result.notes}")
 
     console.print(Panel(
-        Markdown("\n".join(lines)),
+        Markdown("\n\n".join(lines)),
         title=f"Review: {result.series_id}",
         border_style="cyan",
     ))
