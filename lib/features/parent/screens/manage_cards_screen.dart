@@ -116,32 +116,29 @@ class _GroupSection extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final cardsAsync = ref.watch(_groupCardsProvider(group.id));
-    final cards = cardsAsync.whenOrNull(data: (c) => c) ?? [];
+    final cardCount = cardsAsync.whenOrNull(data: (c) => c.length) ?? 0;
 
-    return SliverMainAxisGroup(
-      slivers: [
-        SliverToBoxAdapter(
-          child: _SectionHeader(
-            title: group.title,
-            subtitle: '${cards.length} Folgen',
-            coverUrl: group.coverUrl,
-            icon:
-                group.contentType == 'music'
-                    ? Icons.music_note_rounded
-                    : Icons.auto_stories_rounded,
-            onTap: () => context.push(AppRoutes.parentGroupEdit(group.id)),
-          ),
-        ),
-        SliverList.builder(
-          itemCount: cards.length,
-          itemBuilder: (context, index) => _CardTile(card: cards[index]),
-        ),
-      ],
+    final countLabel =
+        group.contentType == 'music'
+            ? '$cardCount Titel'
+            : '$cardCount Folgen';
+
+    return SliverToBoxAdapter(
+      child: _SectionHeader(
+        title: group.title,
+        subtitle: countLabel,
+        coverUrl: group.coverUrl,
+        icon:
+            group.contentType == 'music'
+                ? Icons.music_note_rounded
+                : Icons.auto_stories_rounded,
+        onTap: () => context.push(AppRoutes.parentGroupEdit(group.id)),
+      ),
     );
   }
 }
 
-/// Cards for a group — watches the stream so it stays in sync.
+/// Cards for a group — watches the stream so count stays in sync.
 final _groupCardsProvider =
     StreamProvider.family<List<db.AudioCard>, String>((ref, groupId) {
   return ref.watch(groupRepositoryProvider).watchCards(groupId);
