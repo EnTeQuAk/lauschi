@@ -128,7 +128,7 @@ Given a series name, use your tools to:
 1. Search Spotify for the correct artist (one search is usually enough).
 2. Fetch the full discography for the artist.
 3. Classify every album: include (episode) or exclude (box set, duplicate, etc.).
-4. For ambiguous albums, call get_album_details to check track count and names.
+4. For ambiguous albums, call get_album_details with multiple IDs at once (batching saves time).
 
 Do NOT search for "Junior", "Retro-Archiv", or other variant artists — those
 are curated separately.  Focus only on the primary artist for this series.
@@ -211,28 +211,34 @@ def build_agent(model_name: str, api_key: str) -> Agent[Deps, CuratedSeries]:
             console.print(f"  [dim]📀 get_artist_albums({artist_id[:8]}…) → "
                           f"(cached, {len(ctx.deps.seen_albums[artist_id])} albums)[/]")
             return ctx.deps.seen_albums[artist_id]
-        albums = ctx.deps.spotify.artist_albums(artist_id,
-                                                use_cache=not ctx.deps.no_cache)
+        albums = ctx.deps.spotify.artist_albums(artist_id)
         ctx.deps.seen_albums[artist_id] = albums
         console.print(f"  [dim]📀 get_artist_albums({artist_id[:8]}…) → "
                        f"{len(albums)} albums[/]")
         return albums
 
     @agent.tool
-    def get_album_details(ctx: RunContext[Deps], album_id: str) -> dict:
+    def get_album_details(
+        ctx: RunContext[Deps], album_ids: list[str],
+    ) -> list[dict]:
         """Full album details: release_date, total_tracks, track names, label.
-        Use for ambiguous albums — possible box sets or duplicates."""
-        if album_id in ctx.deps.seen_details:
+        Use for ambiguous albums — possible box sets or duplicates.
+        Pass multiple IDs at once to save time."""
+        results = []
+        for album_id in album_ids:
+            if album_id in ctx.deps.seen_details:
+                console.print(f"  [dim]🔎 get_album_details({album_id[:8]}…) → "
+                              f"(cached)[/]")
+                results.append(ctx.deps.seen_details[album_id])
+                continue
+            details = ctx.deps.spotify.album_details(album_id)
+            ctx.deps.seen_details[album_id] = details
+            name = details.get("name", "?")[:40]
+            tracks = details.get("total_tracks", "?")
             console.print(f"  [dim]🔎 get_album_details({album_id[:8]}…) → "
-                          f"(cached)[/]")
-            return ctx.deps.seen_details[album_id]
-        details = ctx.deps.spotify.album_details(album_id)
-        ctx.deps.seen_details[album_id] = details
-        name = details.get("name", "?")[:40]
-        tracks = details.get("total_tracks", "?")
-        console.print(f"  [dim]🔎 get_album_details({album_id[:8]}…) → "
-                       f"{tracks} tracks — {name}[/]")
-        return details
+                           f"{tracks} tracks — {name}[/]")
+            results.append(details)
+        return results
 
     return agent
 
