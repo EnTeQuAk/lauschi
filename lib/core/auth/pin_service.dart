@@ -11,12 +11,19 @@ part 'pin_service.g.dart';
 const _tag = 'PinService';
 const _pinHashKey = 'pin_hash';
 
+const _defaultStorage = FlutterSecureStorage(
+
+  iOptions: IOSOptions(
+    accessibility: KeychainAccessibility.first_unlock_this_device,
+  ),
+);
+
 /// Manages the parent-mode PIN (set, verify, check existence).
 ///
 /// PIN is stored as a bcrypt hash in secure storage.
 class PinService {
   PinService({FlutterSecureStorage? storage})
-    : _storage = storage ?? const FlutterSecureStorage();
+    : _storage = storage ?? _defaultStorage;
 
   final FlutterSecureStorage _storage;
 

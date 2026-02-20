@@ -17,6 +17,13 @@ const _expiryKey = 'spotify_token_expiry';
 const _pendingVerifierKey = 'spotify_pending_verifier';
 const _pendingStateKey = 'spotify_pending_state';
 
+const _defaultStorage = FlutterSecureStorage(
+
+  iOptions: IOSOptions(
+    accessibility: KeychainAccessibility.first_unlock_this_device,
+  ),
+);
+
 /// Token set returned from Spotify OAuth.
 class SpotifyTokens {
   const SpotifyTokens({
@@ -46,7 +53,7 @@ class SpotifyAuth {
   SpotifyAuth({
     FlutterSecureStorage? storage,
     Dio? dio,
-  }) : _storage = storage ?? const FlutterSecureStorage(),
+  }) : _storage = storage ?? _defaultStorage,
        _dio = dio ?? Dio();
 
   final FlutterSecureStorage _storage;
