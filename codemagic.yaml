@@ -50,7 +50,7 @@ workflows:
         script: |
           flutter build ipa --release \
             --dart-define-from-file=$CM_BUILD_DIR/.env \
-            --export-options-plist=$CM_EXPORT_OPTIONS_PLIST
+            --export-options-plist=/Users/builder/export_options.plist
 
     artifacts:
       - build/ios/ipa/*.ipa
