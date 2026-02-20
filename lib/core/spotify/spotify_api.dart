@@ -349,6 +349,7 @@ class SpotifyAlbum {
     required this.artistIds,
     required this.imageUrl,
     required this.totalTracks,
+    this.albumType,
     this.releaseDate,
     this.tracks,
   });
@@ -385,6 +386,7 @@ class SpotifyAlbum {
               ? (images.first as Map<String, dynamic>)['url'] as String?
               : null,
       totalTracks: json['total_tracks'] as int? ?? 0,
+      albumType: json['album_type'] as String?,
       releaseDate: json['release_date'] as String?,
       tracks: tracks,
     );
@@ -400,6 +402,9 @@ class SpotifyAlbum {
 
   final String? imageUrl;
   final int totalTracks;
+
+  /// 'album', 'single', or 'compilation'.
+  final String? albumType;
   final String? releaseDate;
   final List<SpotifyTrack>? tracks;
 
