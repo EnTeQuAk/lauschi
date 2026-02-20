@@ -56,6 +56,8 @@ console = Console()
 
 REPO_ROOT    = Path(__file__).parent.parent
 CURATION_DIR = REPO_ROOT / "assets" / "catalog" / "curation"
+CACHE_DIR    = REPO_ROOT / ".cache" / "spotify_artists"
+CACHE_DIR.mkdir(parents=True, exist_ok=True)
 
 _OPENCODE_BASE_URL = "https://opencode.ai/zen/v1"
 _DEFAULT_MODEL     = "kimi-k2.5"
@@ -82,6 +84,10 @@ class SpotifyClient:
         self._token = r.json()["access_token"]
 
     def search_albums(self, query: str, limit: int = 10) -> list[dict]:
+        cache_key = f"search_albums_{query.lower().replace(' ', '_')}_{limit}"
+        cache = CACHE_DIR / f"{cache_key}.json"
+        if cache.exists():
+            return json.loads(cache.read_text())
         r = requests.get(
             "https://api.spotify.com/v1/search",
             headers={"Authorization": f"Bearer {self._token}"},
@@ -89,23 +95,30 @@ class SpotifyClient:
             timeout=10,
         )
         r.raise_for_status()
-        return [
+        result = [
             {"id": a["id"], "name": a["name"],
              "total_tracks": a.get("total_tracks", 0),
              "artists": ", ".join(art["name"] for art in a.get("artists", []))}
             for a in r.json().get("albums", {}).get("items", [])
         ]
+        cache.write_text(json.dumps(result, ensure_ascii=False, indent=2))
+        return result
 
     def album_details(self, album_id: str, *, include_tracks: bool = False) -> dict | None:
-        r = requests.get(
-            f"https://api.spotify.com/v1/albums/{album_id}",
-            headers={"Authorization": f"Bearer {self._token}"},
-            params={"market": "DE"},
-            timeout=10,
-        )
-        if not r.ok:
-            return None
-        data = r.json()
+        cache = CACHE_DIR / f"album_{album_id}.json"
+        if cache.exists():
+            data = json.loads(cache.read_text())
+        else:
+            r = requests.get(
+                f"https://api.spotify.com/v1/albums/{album_id}",
+                headers={"Authorization": f"Bearer {self._token}"},
+                params={"market": "DE"},
+                timeout=10,
+            )
+            if not r.ok:
+                return None
+            data = r.json()
+            cache.write_text(json.dumps(data, ensure_ascii=False, indent=2))
         result: dict[str, Any] = {
             "id": data["id"], "name": data["name"],
             "total_tracks": data.get("total_tracks", 0),
