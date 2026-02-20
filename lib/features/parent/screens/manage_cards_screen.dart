@@ -510,23 +510,15 @@ class _GroupPickerSheet extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final groupsAsync = ref.watch(allGroupsProvider);
 
+    // Drag handle is provided by BottomSheetThemeData.showDragHandle.
     return SafeArea(
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Container(
-            margin: const EdgeInsets.only(top: 8, bottom: 4),
-            width: 40,
-            height: 4,
-            decoration: const BoxDecoration(
-              color: AppColors.surfaceDim,
-              borderRadius: BorderRadius.all(Radius.circular(2)),
-            ),
-          ),
           const Padding(
             padding: EdgeInsets.fromLTRB(
               AppSpacing.screenH,
-              AppSpacing.sm,
+              0,
               AppSpacing.screenH,
               AppSpacing.md,
             ),
@@ -590,41 +582,63 @@ class _GroupPickerSheet extends ConsumerWidget {
                       ],
                     ),
                   )
-                : ListView.builder(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: groups.length,
-                    itemBuilder: (context, index) {
-                      final group = groups[index];
-                      final isAssigned = card.groupId == group.id;
-                      return ListTile(
-                        leading: Icon(
-                          Icons.layers_rounded,
-                          color: isAssigned
-                              ? AppColors.primary
-                              : AppColors.textSecondary,
-                        ),
-                        title: Text(
-                          group.title,
-                          style: const TextStyle(fontFamily: 'Nunito'),
-                        ),
-                        trailing: isAssigned
-                            ? const Icon(
-                                Icons.check_rounded,
-                                color: AppColors.primary,
-                              )
-                            : null,
-                        onTap: () {
-                          Navigator.of(context).pop();
-                          unawaited(
-                            ref.read(cardRepositoryProvider).assignToGroup(
-                              cardId: card.id,
-                              groupId: group.id,
+                : Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      ListView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: groups.length,
+                        itemBuilder: (context, index) {
+                          final group = groups[index];
+                          final isAssigned = card.groupId == group.id;
+                          return ListTile(
+                            leading: Icon(
+                              Icons.layers_rounded,
+                              color: isAssigned
+                                  ? AppColors.primary
+                                  : AppColors.textSecondary,
                             ),
+                            title: Text(
+                              group.title,
+                              style: const TextStyle(fontFamily: 'Nunito'),
+                            ),
+                            trailing: isAssigned
+                                ? const Icon(
+                                    Icons.check_rounded,
+                                    color: AppColors.primary,
+                                  )
+                                : null,
+                            onTap: () {
+                              Navigator.of(context).pop();
+                              unawaited(
+                                ref
+                                    .read(cardRepositoryProvider)
+                                    .assignToGroup(
+                                      cardId: card.id,
+                                      groupId: group.id,
+                                    ),
+                              );
+                            },
                           );
                         },
-                      );
-                    },
+                      ),
+                      const Divider(height: 1),
+                      ListTile(
+                        leading: const Icon(
+                          Icons.add_rounded,
+                          color: AppColors.primary,
+                        ),
+                        title: const Text(
+                          'Neue Serie erstellen',
+                          style: TextStyle(
+                            fontFamily: 'Nunito',
+                            color: AppColors.primary,
+                          ),
+                        ),
+                        onTap: () => _createAndAssign(context, ref, card),
+                      ),
+                    ],
                   ),
             loading: () => const Padding(
               padding: EdgeInsets.all(AppSpacing.lg),
@@ -637,6 +651,66 @@ class _GroupPickerSheet extends ConsumerWidget {
       ),
     );
   }
+}
+
+// ---------------------------------------------------------------------------
+// Create series and assign card
+// ---------------------------------------------------------------------------
+
+void _createAndAssign(
+  BuildContext context,
+  WidgetRef ref,
+  db.AudioCard card,
+) {
+  final controller = TextEditingController();
+  unawaited(
+    showDialog<void>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('Neue Serie'),
+        content: TextField(
+          controller: controller,
+          autofocus: true,
+          decoration: const InputDecoration(
+            hintText: 'Name der Serie',
+          ),
+          onSubmitted: (_) async {
+            final title = controller.text.trim();
+            if (title.isEmpty) return;
+            Navigator.of(ctx).pop();
+            Navigator.of(context).pop(); // close bottom sheet
+            final groupId = await ref
+                .read(groupRepositoryProvider)
+                .insert(title: title);
+            await ref
+                .read(cardRepositoryProvider)
+                .assignToGroup(cardId: card.id, groupId: groupId);
+          },
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(ctx).pop(),
+            child: const Text('Abbrechen'),
+          ),
+          FilledButton(
+            onPressed: () async {
+              final title = controller.text.trim();
+              if (title.isEmpty) return;
+              Navigator.of(ctx).pop();
+              Navigator.of(context).pop(); // close bottom sheet
+              final groupId = await ref
+                  .read(groupRepositoryProvider)
+                  .insert(title: title);
+              await ref
+                  .read(cardRepositoryProvider)
+                  .assignToGroup(cardId: card.id, groupId: groupId);
+            },
+            child: const Text('Erstellen'),
+          ),
+        ],
+      ),
+    ),
+  );
 }
 
 // ---------------------------------------------------------------------------
