@@ -26,10 +26,10 @@ mise exec -- uv run scripts/catalog-edit.py artist-albums ARTIST_ID "Folge 8"
 # Add a missing album (fetches from Spotify, extracts episode number)
 mise exec -- uv run scripts/catalog-edit.py add SERIES_ID ALBUM_ID
 
-# Remove an album
-mise exec -- uv run scripts/catalog-edit.py remove SERIES_ID ALBUM_ID
+# Exclude an album (non-destructive override with reason)
+mise exec -- uv run scripts/catalog-edit.py exclude SERIES_ID ALBUM_ID "reason"
 
-# Toggle include/exclude
+# Toggle include/exclude (non-destructive override)
 mise exec -- uv run scripts/catalog-edit.py toggle SERIES_ID ALBUM_ID
 
 # Set episode number on an album
