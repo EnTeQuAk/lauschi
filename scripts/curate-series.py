@@ -5,6 +5,7 @@
 #   "pydantic-ai>=1.62.0",
 #   "pydantic>=2.0",
 #   "requests",
+#   "diskcache",
 #   "rich",
 # ]
 # ///
@@ -35,13 +36,11 @@ import json
 import os
 import re
 import sys
-import time
 from dataclasses import dataclass
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
-import requests
 from pydantic import BaseModel, Field, field_validator
 from pydantic_ai import Agent, RunContext
 from pydantic_ai.models.openai import OpenAIChatModel
@@ -55,104 +54,17 @@ from rich.table import Table
 console = Console()
 
 REPO_ROOT    = Path(__file__).parent.parent
-CACHE_DIR    = REPO_ROOT / ".cache" / "spotify_artists"
 CURATION_DIR = REPO_ROOT / "assets" / "catalog" / "curation"
-CACHE_DIR.mkdir(parents=True, exist_ok=True)
 CURATION_DIR.mkdir(parents=True, exist_ok=True)
+
+# Shared cached Spotify client (see spotify_cache.py)
+sys.path.insert(0, str(Path(__file__).parent))
+from spotify_cache import SpotifyClient  # noqa: E402
 
 _OPENCODE_BASE_URL = "https://opencode.ai/zen/v1"
 _DEFAULT_MODEL     = "kimi-k2.5"
 _MAX_RETRIES       = 3
 _RETRY_DELAY       = 5
-
-
-# ── Spotify client ─────────────────────────────────────────────────────────────
-
-class SpotifyClient:
-    def __init__(self) -> None:
-        cid  = os.environ.get("SPOTIFY_CLIENT_ID", "")
-        csec = os.environ.get("SPOTIFY_CLIENT_SECRET", "")
-        if not cid or not csec:
-            console.print("[red]SPOTIFY_CLIENT_ID / SPOTIFY_CLIENT_SECRET not set.[/]")
-            sys.exit(1)
-        r = requests.post(
-            "https://accounts.spotify.com/api/token",
-            data={"grant_type": "client_credentials",
-                  "client_id": cid, "client_secret": csec},
-            timeout=10,
-        )
-        r.raise_for_status()
-        self._token = r.json()["access_token"]
-
-    def _get(self, url: str, **params: Any) -> dict:
-        while True:
-            r = requests.get(
-                url if url.startswith("http") else f"https://api.spotify.com/v1/{url}",
-                headers={"Authorization": f"Bearer {self._token}"},
-                params=params, timeout=20,
-            )
-            if r.status_code == 429:
-                time.sleep(int(r.headers.get("Retry-After", "2")))
-                continue
-            r.raise_for_status()
-            return r.json()
-
-    def search_artists(self, query: str, limit: int = 8) -> list[dict]:
-        cache_key = f"search_{query.lower().replace(' ', '_')}_{limit}"
-        cache = CACHE_DIR / f"{cache_key}.json"
-        if cache.exists():
-            return json.loads(cache.read_text())
-        data = self._get("search", q=query, type="artist", market="DE", limit=limit)
-        result = [
-            {"id": a["id"], "name": a["name"],
-             "followers": a["followers"]["total"],
-             "genres": a.get("genres", [])}
-            for a in data.get("artists", {}).get("items", [])
-        ]
-        cache.write_text(json.dumps(result, ensure_ascii=False, indent=2))
-        return result
-
-    def artist_albums(self, artist_id: str, use_cache: bool = True) -> list[dict]:
-        cache = CACHE_DIR / f"{artist_id}.json"
-        if use_cache and cache.exists():
-            raw = json.loads(cache.read_text())
-        else:
-            raw = []
-            url = f"https://api.spotify.com/v1/artists/{artist_id}/albums"
-            p: dict = {"market": "DE", "limit": 50,
-                       "album_type": "album,single,compilation"}
-            while url:
-                data = self._get(url, **p)
-                raw.extend(data.get("items", []))
-                url = data.get("next") or ""
-                p = {}
-                time.sleep(0.05)
-            cache.write_text(json.dumps(raw, ensure_ascii=False, indent=2))
-        return [
-            {"id": a["id"], "name": a["name"],
-             "release_date": a.get("release_date", ""),
-             "total_tracks": a.get("total_tracks", 0)}
-            for a in raw
-        ]
-
-    def album_details(self, album_id: str) -> dict:
-        cache = CACHE_DIR / f"album_{album_id}.json"
-        if cache.exists():
-            data = json.loads(cache.read_text())
-        else:
-            time.sleep(0.05)
-            try:
-                data = self._get(f"albums/{album_id}", market="DE")
-            except requests.HTTPError:
-                return {"error": f"Album {album_id} not found"}
-            cache.write_text(json.dumps(data, ensure_ascii=False, indent=2))
-        return {
-            "id": data["id"], "name": data["name"],
-            "release_date": data.get("release_date", ""),
-            "total_tracks": data.get("total_tracks", 0),
-            "label": data.get("label", ""),
-            "tracks": [t["name"] for t in data.get("tracks", {}).get("items", [])],
-        }
 
 
 # ── Pydantic output models ─────────────────────────────────────────────────────

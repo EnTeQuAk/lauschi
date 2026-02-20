@@ -87,3 +87,7 @@ run = "uv run scripts/review-series.py"
 [tasks.catalog-titles]
 description = "Quick artist discovery + optional AI YAML snippet"
 run = "uv run scripts/discover-titles.py"
+
+[tasks.cache-clear]
+description = "Clear Spotify API disk cache"
+run = "python3 -c \"import sys; sys.path.insert(0, 'scripts'); from spotify_cache import clear_cache; n = clear_cache(); print(f'Cleared {n} entries')\""
