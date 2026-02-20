@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # /// script
 # requires-python = ">=3.11"
-# dependencies = ["pydantic>=2.0", "requests"]
+# dependencies = ["pydantic>=2.0", "requests", "diskcache"]
 # ///
 """
 catalog-edit.py — CLI for editing curation JSONs.
@@ -37,44 +37,27 @@ from __future__ import annotations
 
 import argparse
 import json
-import os
 import re
 import sys
 from datetime import UTC, datetime
 from pathlib import Path
 
-import requests
-
 REPO_ROOT = Path(__file__).parent.parent
 CURATION_DIR = REPO_ROOT / "assets" / "catalog" / "curation"
 SERIES_YAML = REPO_ROOT / "assets" / "catalog" / "series.yaml"
 
+# Shared cached Spotify client (see spotify_cache.py)
+sys.path.insert(0, str(Path(__file__).parent))
+from spotify_cache import SpotifyClient  # noqa: E402
 
-def _spotify_token() -> str:
-    cid = os.environ.get("SPOTIFY_CLIENT_ID", "")
-    csec = os.environ.get("SPOTIFY_CLIENT_SECRET", "")
-    if not cid or not csec:
-        print("ERROR: SPOTIFY_CLIENT_ID/SECRET not set", file=sys.stderr)
-        sys.exit(1)
-    r = requests.post(
-        "https://accounts.spotify.com/api/token",
-        data={"grant_type": "client_credentials",
-              "client_id": cid, "client_secret": csec},
-        timeout=10,
-    )
-    r.raise_for_status()
-    return r.json()["access_token"]
+# Lazily initialized — only commands that need Spotify create it
+_spotify: SpotifyClient | None = None
 
-
-def _spotify_get(token: str, url: str, **params: str | int) -> dict:
-    r = requests.get(
-        url if url.startswith("http") else f"https://api.spotify.com/v1/{url}",
-        headers={"Authorization": f"Bearer {token}"},
-        params=params,
-        timeout=10,
-    )
-    r.raise_for_status()
-    return r.json()
+def _get_spotify() -> SpotifyClient:
+    global _spotify  # noqa: PLW0603
+    if _spotify is None:
+        _spotify = SpotifyClient()
+    return _spotify
 
 
 def load_curation(series_id: str) -> dict:
@@ -182,8 +165,10 @@ def cmd_add(series_id: str, album_id: str) -> None:
         print(f"Already exists: {album_id}")
         return
 
-    token = _spotify_token()
-    info = _spotify_get(token, f"albums/{album_id}", market="DE")
+    info = _get_spotify().album_details(album_id)
+    if "error" in info:
+        print(f"ERROR: {info['error']}", file=sys.stderr)
+        return
     title = info["name"]
     episode_num = extract_episode(series.get("episode_pattern"), title)
 
@@ -251,25 +236,14 @@ def cmd_approve(series_id: str) -> None:
 
 
 def cmd_search(query: str) -> None:
-    token = _spotify_token()
-    data = _spotify_get(token, "search", q=query, type="album", market="DE", limit=10)
-    for item in data.get("albums", {}).get("items", []):
-        artists = ", ".join(a["name"] for a in item.get("artists", []))
-        print(f"  {item['id']}  {item['name']}  ({item.get('total_tracks', '?')} tracks)  by {artists}")
+    results = _get_spotify().search_albums(query)
+    for item in results:
+        print(f"  {item['id']}  {item['name']}  ({item.get('total_tracks', '?')} tracks)  {item.get('artists', '')}")
 
 
 def cmd_search_artist_albums(artist_id: str, query: str = "") -> None:
     """List all albums for an artist, optionally filtered."""
-    token = _spotify_token()
-    albums = []
-    url = f"https://api.spotify.com/v1/artists/{artist_id}/albums"
-    params: dict = {"market": "DE", "limit": 50, "album_type": "album,single,compilation"}
-    while url:
-        data = _spotify_get(token, url, **params)
-        albums.extend(data.get("items", []))
-        url = data.get("next", "")
-        params = {}
-
+    albums = _get_spotify().artist_albums(artist_id)
     for a in albums:
         name = a["name"]
         if query and query.lower() not in name.lower():

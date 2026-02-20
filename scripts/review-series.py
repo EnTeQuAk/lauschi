@@ -5,6 +5,7 @@
 #   "pydantic-ai>=1.62.0",
 #   "pydantic>=2.0",
 #   "requests",
+#   "diskcache",
 #   "rich",
 # ]
 # ///
@@ -32,14 +33,12 @@ import json
 import os
 import re
 import sys
-import time
 from collections import Counter
 from dataclasses import dataclass, field
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
-import requests
 from pydantic import BaseModel, Field
 from pydantic_ai import Agent, RunContext
 from pydantic_ai.messages import ModelResponse, TextPart, ThinkingPart
@@ -56,81 +55,15 @@ console = Console()
 
 REPO_ROOT    = Path(__file__).parent.parent
 CURATION_DIR = REPO_ROOT / "assets" / "catalog" / "curation"
-CACHE_DIR    = REPO_ROOT / ".cache" / "spotify_artists"
-CACHE_DIR.mkdir(parents=True, exist_ok=True)
+
+# Shared cached Spotify client (see spotify_cache.py)
+sys.path.insert(0, str(Path(__file__).parent))
+from spotify_cache import SpotifyClient  # noqa: E402
 
 _OPENCODE_BASE_URL = "https://opencode.ai/zen/v1"
 _DEFAULT_MODEL     = "kimi-k2.5"
 _MAX_RETRIES       = 3
 _RETRY_DELAY       = 5
-
-
-# ── Spotify helpers ────────────────────────────────────────────────────────────
-
-class SpotifyClient:
-    def __init__(self) -> None:
-        cid  = os.environ.get("SPOTIFY_CLIENT_ID", "")
-        csec = os.environ.get("SPOTIFY_CLIENT_SECRET", "")
-        if not cid or not csec:
-            console.print("[red]SPOTIFY_CLIENT_ID / SPOTIFY_CLIENT_SECRET not set.[/]")
-            sys.exit(1)
-        r = requests.post(
-            "https://accounts.spotify.com/api/token",
-            data={"grant_type": "client_credentials",
-                  "client_id": cid, "client_secret": csec},
-            timeout=10,
-        )
-        r.raise_for_status()
-        self._token = r.json()["access_token"]
-
-    def search_albums(self, query: str, limit: int = 10) -> list[dict]:
-        cache_key = f"search_albums_{query.lower().replace(' ', '_')}_{limit}"
-        cache = CACHE_DIR / f"{cache_key}.json"
-        if cache.exists():
-            return json.loads(cache.read_text())
-        r = requests.get(
-            "https://api.spotify.com/v1/search",
-            headers={"Authorization": f"Bearer {self._token}"},
-            params={"q": query, "type": "album", "market": "DE", "limit": limit},
-            timeout=10,
-        )
-        r.raise_for_status()
-        result = [
-            {"id": a["id"], "name": a["name"],
-             "total_tracks": a.get("total_tracks", 0),
-             "artists": ", ".join(art["name"] for art in a.get("artists", []))}
-            for a in r.json().get("albums", {}).get("items", [])
-        ]
-        cache.write_text(json.dumps(result, ensure_ascii=False, indent=2))
-        return result
-
-    def album_details(self, album_id: str, *, include_tracks: bool = False) -> dict | None:
-        cache = CACHE_DIR / f"album_{album_id}.json"
-        if cache.exists():
-            data = json.loads(cache.read_text())
-        else:
-            r = requests.get(
-                f"https://api.spotify.com/v1/albums/{album_id}",
-                headers={"Authorization": f"Bearer {self._token}"},
-                params={"market": "DE"},
-                timeout=10,
-            )
-            if not r.ok:
-                return None
-            data = r.json()
-            cache.write_text(json.dumps(data, ensure_ascii=False, indent=2))
-        result: dict[str, Any] = {
-            "id": data["id"], "name": data["name"],
-            "total_tracks": data.get("total_tracks", 0),
-            "release_date": data.get("release_date", ""),
-        }
-        if include_tracks:
-            tracks = data.get("tracks", {}).get("items", [])
-            result["tracks"] = [
-                {"name": t["name"], "duration_ms": t.get("duration_ms", 0)}
-                for t in tracks
-            ]
-        return result
 
 
 # ── Output models ──────────────────────────────────────────────────────────────
@@ -369,8 +302,8 @@ def build_agent(model_name: str, api_key: str) -> Agent[Deps, ReviewResult]:
         """Get detailed info about a Spotify album: release date, track count,
         and track names. Use this to verify whether two albums are actually
         the same content or different releases."""
-        info = ctx.deps.spotify.album_details(album_id, include_tracks=True)
-        if not info:
+        info = ctx.deps.spotify.album_details(album_id)
+        if "error" in info:
             console.print(f"  [dim]📀 album_details({album_id[:8]}…) → not found[/]")
             return f"Not found: {album_id}"
         console.print(f"  [dim]📀 album_details({album_id[:8]}…) → "
@@ -473,7 +406,7 @@ def build_agent(model_name: str, api_key: str) -> Agent[Deps, ReviewResult]:
             return f"Already exists: {album_id}"
 
         info = ctx.deps.spotify.album_details(album_id)
-        if not info:
+        if "error" in info:
             console.print(f"  [dim]➕ add_album({album_id[:8]}…) → not found[/]")
             return f"Not found: {album_id}"
 
@@ -659,7 +592,7 @@ def apply_review(series_id: str, result: ReviewResult) -> None:
             if album_id in existing_ids:
                 continue
             info = spotify.album_details(album_id)
-            if not info:
+            if "error" in info:
                 continue
             episode_num = None
             if pattern:
