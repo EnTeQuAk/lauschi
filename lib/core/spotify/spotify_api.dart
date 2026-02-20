@@ -154,7 +154,7 @@ class SpotifyApi {
     return SpotifySearchResult(
       albums:
           items
-              .cast<Map<String, dynamic>>()
+              .whereType<Map<String, dynamic>>()
               .map(SpotifyAlbum.fromJson)
               .toList(),
       total: total,
@@ -194,7 +194,7 @@ class SpotifyApi {
     return SpotifyPlaylistSearchResult(
       playlists:
           items
-              .cast<Map<String, dynamic>>()
+              .whereType<Map<String, dynamic>>()
               .map(SpotifyPlaylist.fromJson)
               .toList(),
       total: total,
@@ -316,7 +316,7 @@ class SpotifyAlbum {
   factory SpotifyAlbum.fromJson(Map<String, dynamic> json) {
     final images = json['images'] as List<dynamic>? ?? [];
     final artistsRaw = json['artists'] as List<dynamic>? ?? [];
-    final artistMaps = artistsRaw.cast<Map<String, dynamic>>();
+    final artistMaps = artistsRaw.whereType<Map<String, dynamic>>();
 
     // Parse tracks if present (album detail endpoint includes them)
     List<SpotifyTrack>? tracks;
@@ -325,7 +325,7 @@ class SpotifyAlbum {
       final items = (tracksData['items'] as List<dynamic>?) ?? [];
       tracks =
           items
-              .cast<Map<String, dynamic>>()
+              .whereType<Map<String, dynamic>>()
               .map(SpotifyTrack.fromJson)
               .toList();
     }
