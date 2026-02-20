@@ -10,6 +10,11 @@ workflows:
       groups:
         - app-store-credentials
         - app-env
+      ios_signing:
+        distribution_type: app_store
+        bundle_identifier: app.lauschi.lauschi
+      integrations:
+        app_store_connect: Codemagic
     triggering:
       events:
         - tag
