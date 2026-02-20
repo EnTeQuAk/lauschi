@@ -79,7 +79,37 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               'Sentry zeichnet Bildschirminhalte zur Fehleranalyse auf. '
               'Standardmäßig aktiv in Debug-Builds.',
           value: settings.replayEnabled,
-          onChanged: (v) => _update(settings.copyWith(replayEnabled: v)),
+          onChanged: (v) async {
+            if (v) {
+              // Show consent dialog before enabling screen recording.
+              final confirmed = await showDialog<bool>(
+                context: context,
+                builder:
+                    (ctx) => AlertDialog(
+                      title: const Text('Fehlerdiagnose aktivieren?'),
+                      content: const Text(
+                        'Bei Fehlern wird eine anonymisierte '
+                        'Bildschirmaufzeichnung erstellt und an Sentry '
+                        '(EU-Server) gesendet. Texte und Bilder werden '
+                        'standardmäßig maskiert.\n\n'
+                        'Du kannst dies jederzeit wieder deaktivieren.',
+                      ),
+                      actions: [
+                        TextButton(
+                          onPressed: () => Navigator.pop(ctx, false),
+                          child: const Text('Abbrechen'),
+                        ),
+                        FilledButton(
+                          onPressed: () => Navigator.pop(ctx, true),
+                          child: const Text('Aktivieren'),
+                        ),
+                      ],
+                    ),
+              );
+              if (confirmed != true || !mounted) return;
+            }
+            await _update(settings.copyWith(replayEnabled: v));
+          },
         ),
         const Divider(indent: 56),
         _SwitchTile(
