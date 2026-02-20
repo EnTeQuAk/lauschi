@@ -55,6 +55,18 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
         if (_changed)
           _RestartBanner(onDismiss: () => setState(() => _changed = false)),
 
+        // ── Mascot ──────────────────────────────────────────────────────────
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: AppSpacing.lg),
+          child: Center(
+            child: Image.asset(
+              'assets/images/branding/lauschi-mascot.png',
+              width: 120,
+              height: 120,
+            ),
+          ),
+        ),
+
         // ── App version ──────────────────────────────────────────────────────
         const _SectionHeader(title: 'App'),
         const _InfoTile(

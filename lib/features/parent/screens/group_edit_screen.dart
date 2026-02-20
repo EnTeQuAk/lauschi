@@ -54,6 +54,91 @@ class _GroupEditScreenState extends ConsumerState<GroupEditScreen> {
     _initialized = true;
   }
 
+  void _confirmDeleteAllCards(BuildContext context) {
+    unawaited(
+      showDialog<void>(
+        context: context,
+        builder:
+            (ctx) => AlertDialog(
+              title: const Text('Alle Folgen löschen?'),
+              content: const Text(
+                'Alle Hörspiel-Karten in dieser Serie werden unwiderruflich '
+                'entfernt. Die Serie selbst bleibt bestehen.',
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.of(ctx).pop(),
+                  child: const Text('Abbrechen'),
+                ),
+                FilledButton(
+                  onPressed: () async {
+                    Navigator.of(ctx).pop();
+                    final count = await ref
+                        .read(cardRepositoryProvider)
+                        .deleteByGroup(widget.groupId);
+                    if (context.mounted) {
+                      ScaffoldMessenger.of(context)
+                        ..clearSnackBars()
+                        ..showSnackBar(
+                          SnackBar(
+                            content: Text(
+                              '$count ${count == 1 ? 'Karte' : 'Karten'} '
+                              'entfernt',
+                            ),
+                            behavior: SnackBarBehavior.floating,
+                          ),
+                        );
+                    }
+                  },
+                  style: FilledButton.styleFrom(
+                    backgroundColor: AppColors.error,
+                  ),
+                  child: const Text('Alle löschen'),
+                ),
+              ],
+            ),
+      ),
+    );
+  }
+
+  void _confirmDeleteGroup(BuildContext context) {
+    unawaited(
+      showDialog<void>(
+        context: context,
+        builder:
+            (ctx) => AlertDialog(
+              title: const Text('Serie löschen?'),
+              content: const Text(
+                'Die Serie und alle zugehörigen Karten werden '
+                'unwiderruflich entfernt.',
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.of(ctx).pop(),
+                  child: const Text('Abbrechen'),
+                ),
+                FilledButton(
+                  onPressed: () async {
+                    Navigator.of(ctx).pop();
+                    await ref
+                        .read(cardRepositoryProvider)
+                        .deleteByGroup(widget.groupId);
+                    await ref
+                        .read(groupRepositoryProvider)
+                        .delete(widget.groupId);
+                    if (context.mounted) context.pop();
+                  },
+                  style: FilledButton.styleFrom(
+                    backgroundColor: AppColors.error,
+                  ),
+                  child: const Text('Serie löschen'),
+                ),
+              ],
+            ),
+      ),
+    );
+  }
+
   Future<void> _save() async {
     final title = _titleController.text.trim();
     if (title.isEmpty) return;
@@ -131,6 +216,27 @@ class _GroupEditScreenState extends ConsumerState<GroupEditScreen> {
               onPressed: _save,
               child: const Text('Speichern'),
             ),
+          PopupMenuButton<String>(
+            onSelected: (action) {
+              switch (action) {
+                case 'delete_cards':
+                  _confirmDeleteAllCards(context);
+                case 'delete_group':
+                  _confirmDeleteGroup(context);
+              }
+            },
+            itemBuilder:
+                (_) => [
+                  const PopupMenuItem(
+                    value: 'delete_cards',
+                    child: Text('Alle Folgen löschen'),
+                  ),
+                  const PopupMenuItem(
+                    value: 'delete_group',
+                    child: Text('Serie löschen'),
+                  ),
+                ],
+          ),
         ],
       ),
       floatingActionButton: FloatingActionButton.extended(

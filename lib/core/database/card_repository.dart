@@ -160,6 +160,20 @@ class CardRepository {
     await _db.delete(_db.cards).go();
   }
 
+  /// Delete all cards in a group.
+  Future<int> deleteByGroup(String groupId) async {
+    final count =
+        await (_db.delete(_db.cards)
+              ..where((t) => t.groupId.equals(groupId)))
+            .go();
+    Log.info(
+      _tag,
+      'Deleted cards by group',
+      data: {'groupId': groupId, 'count': '$count'},
+    );
+    return count;
+  }
+
   /// Assign a card to a group with optional episode number.
   Future<void> assignToGroup({
     required String cardId,
