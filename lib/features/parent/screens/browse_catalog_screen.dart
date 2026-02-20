@@ -80,12 +80,11 @@ class _SeriesCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final firstAlbum =
-        series.albums.isNotEmpty ? series.albums.first : null;
-    final coverAsync =
-        firstAlbum != null
-            ? ref.watch(_albumImageProvider(firstAlbum.spotifyId))
-            : const AsyncValue<String?>.data(null);
+    final coverMap = ref.watch(_seriesCoverMapProvider).value ?? {};
+    final firstAlbumId =
+        series.albums.isNotEmpty ? series.albums.first.spotifyId : null;
+    final coverUrl =
+        firstAlbumId != null ? coverMap[firstAlbumId] : null;
 
     return GestureDetector(
       onTap: () => context.push(
@@ -96,23 +95,18 @@ class _SeriesCard extends ConsumerWidget {
           Expanded(
             child: ClipRRect(
               borderRadius: const BorderRadius.all(AppRadius.card),
-              child: coverAsync.when(
-                data: (url) =>
-                    url != null
-                        ? CachedNetworkImage(
-                          imageUrl: url,
-                          fit: BoxFit.cover,
-                          width: double.infinity,
-                          height: double.infinity,
-                          placeholder: (_, _) =>
-                              _Placeholder(title: series.title),
-                          errorWidget: (_, _, _) =>
-                              _Placeholder(title: series.title),
-                        )
-                        : _Placeholder(title: series.title),
-                loading: () => _Placeholder(title: series.title),
-                error: (_, _) => _Placeholder(title: series.title),
-              ),
+              child: coverUrl != null
+                  ? CachedNetworkImage(
+                      imageUrl: coverUrl,
+                      fit: BoxFit.cover,
+                      width: double.infinity,
+                      height: double.infinity,
+                      placeholder: (_, _) =>
+                          _Placeholder(title: series.title),
+                      errorWidget: (_, _, _) =>
+                          _Placeholder(title: series.title),
+                    )
+                  : _Placeholder(title: series.title),
             ),
           ),
           const SizedBox(height: AppSpacing.xs),
@@ -478,16 +472,47 @@ class _Placeholder extends StatelessWidget {
   }
 }
 
-/// Fetches album cover image URL from Spotify. Cached per album ID.
-final _albumImageProvider =
-    FutureProvider.family.autoDispose<String?, String>((ref, albumId) async {
+/// Batch-fetches cover images for all curated series. Returns a map of
+/// album ID → image URL. Spotify allows 20 IDs per request, so this
+/// batches efficiently instead of N individual calls.
+final _seriesCoverMapProvider =
+    FutureProvider.autoDispose<Map<String, String>>((ref) async {
   final api = ref.watch(spotifyApiProvider);
-  if (!api.hasToken) return null;
+  if (!api.hasToken) return {};
 
-  try {
-    final album = await api.getAlbum(albumId);
-    return album?.imageUrl;
-  } on Exception {
-    return null;
+  final catalogAsync = ref.watch(catalogServiceProvider);
+  final catalog = catalogAsync.value;
+  if (catalog == null) return {};
+
+  // Collect first album ID from each curated series
+  final albumIds = <String>[];
+  for (final series in catalog.all) {
+    if (series.hasCuratedAlbums) {
+      albumIds.add(series.albums.first.spotifyId);
+    }
   }
+
+  if (albumIds.isEmpty) return {};
+
+  // Fetch in batches of 20 (Spotify API limit)
+  final coverMap = <String, String>{};
+  for (var i = 0; i < albumIds.length; i += 20) {
+    final batch = albumIds.sublist(
+      i,
+      i + 20 > albumIds.length ? albumIds.length : i + 20,
+    );
+    try {
+      final albums = await api.getAlbums(batch);
+      for (final album in albums) {
+        final url = album.imageUrl;
+        if (url != null) {
+          coverMap[album.id] = url;
+        }
+      }
+    } on Exception {
+      // Skip failed batch, show placeholders
+    }
+  }
+
+  return coverMap;
 });
