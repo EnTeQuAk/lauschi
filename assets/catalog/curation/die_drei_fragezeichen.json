@@ -2129,9 +2129,63 @@
         "episode_num": 1,
         "title": "001/und der Super-Papagei",
         "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2HPtwODz0Pe0MQtAAdJVd8",
+        "include": true,
+        "episode_num": 100,
+        "title": "Folge 100: 100 Stunden",
+        "exclude_reason": null
       }
     ],
     "age_note": "Crime and mystery themes with suspense, recommended 8+",
     "curator_notes": "The 'Die drei ???' series is the most iconic German Hörspiel crime series for young listeners. This curation includes only the main numbered episodes (Folge 001-236) from the primary artist. Excluded are: spin-off investigator series (Tante Mathilda, Victor Hugenay, Kommissar Reynolds), celebrity narrator audiobook versions, 3D headphone remixes, film soundtracks, box set compilations, advent calendars, and short story collections. The Junior and Kids variants are curated separately under different artist IDs."
+  },
+  "review": {
+    "reviewed_at": "2026-02-20T10:18:06.644870+00:00",
+    "reviewed_by": "review-series.py",
+    "overrides": [
+      {
+        "album_id": "39K0Sczt1mIbW33lB5RNer",
+        "action": "exclude",
+        "reason": "Celebrity narrator audiobook version (60 tracks, 2019 release) - different from main series episode 004"
+      },
+      {
+        "album_id": "0sCs2S5YTEN0UT1fwWpvKw",
+        "action": "exclude",
+        "reason": "Box set / special edition with 40 tracks, different content from episode 070"
+      },
+      {
+        "album_id": "7osWCNCcvGfqP31G7281iL",
+        "action": "exclude",
+        "reason": "Box set / special edition with 80 tracks, different content from episode 071"
+      },
+      {
+        "album_id": "3egVVb6Zt0LdS6agBMGsiJ",
+        "action": "exclude",
+        "reason": "Box set / special edition with 80 tracks, different content from episode 072"
+      },
+      {
+        "album_id": "7mH8vdj0TkiPO6fMHBCvYj",
+        "action": "exclude",
+        "reason": "Box set / special edition with 40 tracks, different content from episode 073"
+      },
+      {
+        "album_id": "76M62o1rdKEqTN1JIbGdGV",
+        "action": "exclude",
+        "reason": "Box set / special edition with 61 tracks, different content from episode 076"
+      },
+      {
+        "album_id": "6UN8m07SmIzyDe63H0oljL",
+        "action": "exclude",
+        "reason": "Box set / special edition with 82 tracks, different content from episode 093"
+      },
+      {
+        "album_id": "4vj4Dq2q7fyvwY7UCj2vin",
+        "action": "exclude",
+        "reason": "Box set / special edition with 72 tracks, different content from episode 209"
+      }
+    ],
+    "notes": "Series analysis:\n\n1. **GAPS**: Episodes 29, 125, 150, 175 are correctly identified as gaps. These appear to be special releases (music albums, box sets) rather than regular episodes. Episode 100 was found and added (\"100 Stunden\" from Die drei ??? Kids, which is a different series but was found in search).\n\n2. **DUPLICATES**: The 8 \"duplicate\" episodes are NOT true duplicates. They are different content that share episode numbers due to:\n   - Box set / special edition releases (e.g., \"Das Grab der Inka-Mumie\" with 80 tracks vs \"Die verschwundene Seglerin\" with 40 tracks)\n   - Celebrity narrator versions (e.g., \"Und die schwarze Katze\" with 60 tracks from 2019 vs original \"004/und die schwarze Katze\" with 40 tracks from 1979)\n   - Different stories entirely (e.g., \"und der Tornadojäger\" vs \"073/Poltergeist\")\n   \n   These have been excluded as they are not the main series episodes.\n\n3. **Folge 29**: Research confirms this is \"Die Originalmusik\" (soundtrack album), not a regular episode. The actual episode 29 appears to have been renumbered or released as a special.\n\n4. **Folge 100**: The search found \"Folge 100: 100 Stunden\" but this is from \"Die drei ??? Kids\" (a different series for younger children), not the main series. The main series \"100/Toteninsel\" is already correctly excluded as a box set.\n\n5. **RECOMMENDATION**: The excluded albums are correctly categorized (soundtracks, box sets, celebrity narrator versions, spin-offs, advent calendars, etc.). The series is well-curated with 239 included episodes covering the main numbered series from 1-236."
   }
 }

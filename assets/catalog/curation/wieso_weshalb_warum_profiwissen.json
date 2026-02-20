@@ -1,0 +1,147 @@
+{
+  "query": "Split from wieso_weshalb_warum",
+  "model": "review-series.py",
+  "curated_at": "2026-02-20T10:53:12.420440+00:00",
+  "series": {
+    "id": "wieso_weshalb_warum_profiwissen",
+    "title": "Wieso? Weshalb? Warum? Profiwissen",
+    "aliases": [],
+    "keywords": [],
+    "spotify_artist_ids": [
+      "79fds5dgda0VCYelERV8Gi",
+      "0LoeUAhyTnta8Vk7HBzBsP",
+      "7CogQoFl6oPr45Xz6ZuFYU",
+      "7sdugL0BnF0QBh3fGPvYJz",
+      "56WIqh0XOgaRFbvdoEuk0F"
+    ],
+    "episode_pattern": "(?:Folge|folge)\\s+(\\d+)",
+    "albums": [
+      {
+        "spotify_album_id": "5D4NrvYikj5UxytXBFAcyZ",
+        "include": true,
+        "episode_num": 3,
+        "title": "Tiere (Wieso? Weshalb? Warum? PROFIWISSEN, Folge 3)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6aJcSvhJ3h3Flt3F6orEnM",
+        "include": true,
+        "episode_num": 6,
+        "title": "Weltraum (Wieso? Weshalb? Warum? PROFIWISSEN, Folge 6)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3uoy5eDRPeXdmbajEMszRL",
+        "include": true,
+        "episode_num": 9,
+        "title": "Altes Rom (Wieso? Weshalb? Warum? PROFIWISSEN, Folge 9)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3zgxD0Wr2Y5tUtoafGAXJD",
+        "include": true,
+        "episode_num": 10,
+        "title": "Retter im Einsatz (Wieso? Weshalb? Warum? PROFIWISSEN, Folge 10)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3hmusuKgLRhAjx02qRzX6L",
+        "include": true,
+        "episode_num": 19,
+        "title": "Ozeane (Wieso? Weshalb? Warum? PROFIWISSEN, Folge 19)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7MoKxSFPyDUhSG7mClth7w",
+        "include": true,
+        "episode_num": 12,
+        "title": "Dinosaurier (Wieso? Weshalb? Warum? PROFIWISSEN, Folge 12)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2ikT2NVMfU4kTVi0y0sBAp",
+        "include": true,
+        "episode_num": 25,
+        "title": "Vulkane (Wieso? Weshalb? Warum? PROFIWISSEN, Folge 25)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4hKnFRVyyhEyDAm06jbtYi",
+        "include": true,
+        "episode_num": 13,
+        "title": "Mittelalter (Wieso? Weshalb? Warum? PROFIWISSEN, Folge 13)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0rfxiNtXhAgSIdqeOpDa19",
+        "include": true,
+        "episode_num": 17,
+        "title": "Erfindungen (Wieso? Weshalb? Warum? PROFIWISSEN, Folge 17)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0VFw6TFHb28JOcv3mBsHxF",
+        "include": true,
+        "episode_num": 1,
+        "title": "Die Erde (Wieso? Weshalb? Warum? PROFIWISSEN, Folge 1)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4JjqSkIVYRTdkRMBfZa56s",
+        "include": true,
+        "episode_num": 21,
+        "title": "Deutschland (Wieso? Weshalb? Warum? PROFIWISSEN, Folge 21)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3TAWveTLyLNgSGlEYVtQcI",
+        "include": true,
+        "episode_num": 26,
+        "title": "Umweltschutz (Wieso? Weshalb? Warum? PROFIWISSEN, Folge 26)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1tsKtqRc72V9z0wiShby5s",
+        "include": true,
+        "episode_num": 5,
+        "title": "Körper (Wieso? Weshalb? Warum? PROFIWISSEN, Folge 5)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2wwezWM0GBYFAK1ZBh6i6p",
+        "include": true,
+        "episode_num": 3,
+        "title": "Autos (Wieso? Weshalb? Warum? PROFIWISSEN, Folge 3)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2NnIrKPVmNZBJVdJsCfOKp",
+        "include": true,
+        "episode_num": 2,
+        "title": "Altes Ägypten(Wieso? Weshalb? Warum? PROFIWISSEN, Folge 2)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3EFJOwBrk4kaxHpzRYQRho",
+        "include": true,
+        "episode_num": 24,
+        "title": "Haie, Wale und Delfine (Wieso? Weshalb? Warum? PROFIWISSEN, Folge 24)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "505qINntDxBqxm1W9OXNtH",
+        "include": true,
+        "episode_num": 4,
+        "title": "Pferde (Wieso? Weshalb? Warum? PROFIWISSEN, Folge 4)",
+        "exclude_reason": null
+      }
+    ],
+    "age_note": "Suitable from 3+",
+    "curator_notes": "Split from Wieso? Weshalb? Warum?. PROFIWISSEN sub-series is targeted at older children (ages 8+) with more detailed, in-depth content. Different branding, target age group, and complexity level from the main series."
+  },
+  "review": {
+    "status": "pending",
+    "overrides": [],
+    "notes": "Auto-created by apply-splits.py from wieso_weshalb_warum."
+  }
+}

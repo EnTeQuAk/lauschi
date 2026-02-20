@@ -1,0 +1,52 @@
+{
+  "query": "Split from lauras_stern",
+  "model": "review-series.py",
+  "curated_at": "2026-02-20T10:53:12.407887+00:00",
+  "series": {
+    "id": "lauras_stern_tv_serie",
+    "title": "Lauras Stern - Tonspur der TV-Serie",
+    "aliases": [],
+    "keywords": [],
+    "spotify_artist_ids": [
+      "0xY8w0o3cSH3gzx4G4h8qD"
+    ],
+    "episode_pattern": "(?:[Ff]olge|[Tt]eil|[Bb]and|Erstleser)\\s+(\\d+)",
+    "albums": [
+      {
+        "spotify_album_id": "03APgvGiNeJPPMMObuwZdB",
+        "include": true,
+        "episode_num": 10,
+        "title": "Lauras Stern - Tonspur der TV-Serie, Teil 10: Fabelhafte Gutenacht-Geschichten",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "46BdFm6jEmZj8odIugzIuv",
+        "include": true,
+        "episode_num": 11,
+        "title": "Lauras Stern - Tonspur der TV-Serie, Teil 11: Abenteuerliche Gutenacht-Geschichten",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0AWAEwrd5UChH51lnUHT1D",
+        "include": true,
+        "episode_num": 9,
+        "title": "Glitzernde Gutenacht-Geschichten, Teil 9",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0HbQdPgMltCnwwZ5bedqUA",
+        "include": true,
+        "episode_num": 12,
+        "title": "Lauras Stern, Band 12: Freundschaftliche Gutenacht-Geschichten",
+        "exclude_reason": null
+      }
+    ],
+    "age_note": "Suitable from 3+",
+    "curator_notes": "Split from Lauras Stern. TV series soundtracks and Gutenacht-Geschichten are different products from the original Hörspiel series. These are audio tracks from the TV show with different episode structure (11 short tracks vs 8-9 book chapters). Parents would expect these as a separate series entry."
+  },
+  "review": {
+    "status": "pending",
+    "overrides": [],
+    "notes": "Auto-created by apply-splits.py from lauras_stern."
+  }
+}

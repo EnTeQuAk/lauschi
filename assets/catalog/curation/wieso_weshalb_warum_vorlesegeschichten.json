@@ -1,0 +1,49 @@
+{
+  "query": "Split from wieso_weshalb_warum",
+  "model": "review-series.py",
+  "curated_at": "2026-02-20T10:53:12.422420+00:00",
+  "series": {
+    "id": "wieso_weshalb_warum_vorlesegeschichten",
+    "title": "Wieso? Weshalb? Warum? Meine Vorlesegeschichten",
+    "aliases": [],
+    "keywords": [],
+    "spotify_artist_ids": [
+      "79fds5dgda0VCYelERV8Gi",
+      "0LoeUAhyTnta8Vk7HBzBsP",
+      "7CogQoFl6oPr45Xz6ZuFYU",
+      "7sdugL0BnF0QBh3fGPvYJz",
+      "56WIqh0XOgaRFbvdoEuk0F"
+    ],
+    "episode_pattern": "(?:Folge|folge)\\s+(\\d+)",
+    "albums": [
+      {
+        "spotify_album_id": "4craGbCLchGdKewnQYCGo2",
+        "include": true,
+        "episode_num": 1,
+        "title": "Was erleben wir Tag für Tag? (Wieso? Weshalb? Warum? Meine Vorlesegeschichten, Folge 1)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0NiJ11SM4QQzAbrEGRVXIf",
+        "include": true,
+        "episode_num": 2,
+        "title": "Was passiert in Wald und Wiese? (Wieso? Weshalb? Warum? Meine Vorlesegeschichten, Folge 2)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "20idnrDkDmTHirWuVDbEA8",
+        "include": true,
+        "episode_num": 3,
+        "title": "Wer ist hier im Einsatz? (Wieso? Weshalb? Warum? Meine Vorlesegeschichten, Folge 3)",
+        "exclude_reason": null
+      }
+    ],
+    "age_note": "Suitable from 3+",
+    "curator_notes": "Split from Wieso? Weshalb? Warum?. Meine Vorlesegeschichten is a distinct sub-series with read-aloud stories format, different from the factual/explanatory content of the main series. Released in 2024, this is a newer format targeting parents reading to children."
+  },
+  "review": {
+    "status": "pending",
+    "overrides": [],
+    "notes": "Auto-created by apply-splits.py from wieso_weshalb_warum."
+  }
+}

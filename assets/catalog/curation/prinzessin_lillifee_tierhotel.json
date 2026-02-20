@@ -1,0 +1,59 @@
+{
+  "query": "Split from prinzessin_lillifee",
+  "model": "review-series.py",
+  "curated_at": "2026-02-20T10:53:12.410879+00:00",
+  "series": {
+    "id": "prinzessin_lillifee_tierhotel",
+    "title": "Prinzessin Lillifee: Mein zauberhaftes Tierhotel",
+    "aliases": [],
+    "keywords": [],
+    "spotify_artist_ids": [
+      "78iNrogmY4Ru7d7PLtwD4b"
+    ],
+    "episode_pattern": "(?:Folge|folge|^\\d{3}/|^\\d{2}/)\\s*(\\d+)",
+    "albums": [
+      {
+        "spotify_album_id": "1SW5OuXPjqEL9Rr5ss19iQ",
+        "include": true,
+        "episode_num": null,
+        "title": "Mein zauberhaftes Tierhotel: Folge 1+2",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3XMG0CL51WoTeQlqJ9XClA",
+        "include": true,
+        "episode_num": null,
+        "title": "Mein zauberhaftes Tierhotel: Folge 5+6",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7ErywAfIpgxcATLch1ibCI",
+        "include": true,
+        "episode_num": null,
+        "title": "Mein zauberhaftes Tierhotel: Folge 7+8",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3brWJZfRWLek5yBSoB4Ob8",
+        "include": true,
+        "episode_num": null,
+        "title": "Mein zauberhaftes Tierhotel: Folge 9+10",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6cKFwdiGTdfdFhoeXczK0N",
+        "include": true,
+        "episode_num": null,
+        "title": "Mein zauberhaftes Tierhotel: Folge 3+4",
+        "exclude_reason": null
+      }
+    ],
+    "age_note": "Suitable from 3+",
+    "curator_notes": "Split from Prinzessin Lillifee. This is a distinct spin-off series 'Mein zauberhaftes Tierhotel' with its own episodic numbering (Folge 1+2 through 9+10). It's a different product focused on a magical pet hotel, not the main Prinzessin Lillifee fairy stories."
+  },
+  "review": {
+    "status": "pending",
+    "overrides": [],
+    "notes": "Auto-created by apply-splits.py from prinzessin_lillifee."
+  }
+}

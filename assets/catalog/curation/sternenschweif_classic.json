@@ -1,0 +1,460 @@
+{
+  "query": "Split from sternenschweif",
+  "model": "review-series.py",
+  "curated_at": "2026-02-20T10:53:12.413745+00:00",
+  "series": {
+    "id": "sternenschweif_classic",
+    "title": "Sternenschweif (Klassik)",
+    "aliases": [],
+    "keywords": [],
+    "spotify_artist_ids": [
+      "79iLUmzekfn37nPHuM09uq",
+      "4Cwiot3PlavNCGx2GPgd8R",
+      "3qDaERZWilLiDqilVaRhoq"
+    ],
+    "episode_pattern": "(?:[Tt]eil|[Bb]and|[Ff]olge)\\s+(\\d+)",
+    "albums": [
+      {
+        "spotify_album_id": "43ZrhsG11yJCrK01FSiHX1",
+        "include": true,
+        "episode_num": 13,
+        "title": "Teil 13: Im Zauberwald",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "618eWRxSEYBPylGFygZ2Bu",
+        "include": true,
+        "episode_num": 25,
+        "title": "Teil 25: Fest in der Einhornschule (ungekürzt)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "51RcGlvQIVtZbh7zxui3xy",
+        "include": true,
+        "episode_num": 41,
+        "title": "Teil 41: Verzauberte Herzen (ungekürzt)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5PD3PHaabR798YWuKS52Rh",
+        "include": true,
+        "episode_num": 39,
+        "title": "Teil 39: Geheimnisvolle Prophezeiung",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3Fdp4Z0CHz2ZS12shFdrHg",
+        "include": true,
+        "episode_num": 23,
+        "title": "Teil 23: Zauberhaftes Winterfest",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2cx8GgKV3CAYU7AmwrXypu",
+        "include": true,
+        "episode_num": 15,
+        "title": "Teil 15: Sturmwind in Gefahr",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6zQzPov1rQ8XwPJTejA04W",
+        "include": true,
+        "episode_num": 19,
+        "title": "Teil 19: Ferien im Palast",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4LYUYEtAneK1rOfkJ4wYoS",
+        "include": true,
+        "episode_num": 29,
+        "title": "Teil 29: Die goldene Muschel",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1h65KZCUkTzm1X9jQ7naf9",
+        "include": true,
+        "episode_num": 41,
+        "title": "Teil 41: Das magische Buch",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0JEnFsh8Sy4sO1TY3x2NJ0",
+        "include": true,
+        "episode_num": 4,
+        "title": "Teil 4: Saphiras großer Tag",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6rdIAzOA7kjjsvSoLETUhS",
+        "include": true,
+        "episode_num": 23,
+        "title": "Teil 23: Liebeszauber",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3610G7w18dTXm49VDFFT5G",
+        "include": true,
+        "episode_num": 31,
+        "title": "Teil 31: Wolke und der verflixte Zaubertrank",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1QHYmlvMp5zRO2UkJYESQc",
+        "include": true,
+        "episode_num": 40,
+        "title": "Teil 40: Ein aufregendes Sommerfest",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4lDWGE67MpuRQiUhHwADzx",
+        "include": true,
+        "episode_num": 1,
+        "title": "Teil 1: In der Einhornschule",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3cjHg6kSo83EasgInATFlW",
+        "include": true,
+        "episode_num": 3,
+        "title": "Teil 3: Magische Freundschaft",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6OautboSKViVObO9NuVi0z",
+        "include": true,
+        "episode_num": 28,
+        "title": "Teil 28: Schatz der Sterne",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3Ef3LI9Xysr1L3hwllvrua",
+        "include": true,
+        "episode_num": 28,
+        "title": "Teil 28: Zauberhafter Sommer",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6aCtSS4033DzfEXMjSKOAC",
+        "include": true,
+        "episode_num": 32,
+        "title": "Teil 32: Lauras Rettung",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3PuVtB3msHiSV0gjN1JAwn",
+        "include": true,
+        "episode_num": 35,
+        "title": "Teil 35: Der Schatz der Schiffbrüchigen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1D8FEbGY4GjPnLMbeZXj9F",
+        "include": true,
+        "episode_num": 20,
+        "title": "Teil 20: Ein Liebesbrief für Wolke",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "04fMuw9NhGFfVxQg1NK8qb",
+        "include": true,
+        "episode_num": 40,
+        "title": "Teil 40: Ein Fohlen für Laura (Ungekürzt)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3lSTY9l1O63XP7qghdUfPW",
+        "include": true,
+        "episode_num": 29,
+        "title": "Teil 29: Manege frei für Wolke",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1a44r1RVx0dCxluDzaTCg7",
+        "include": true,
+        "episode_num": 38,
+        "title": "Teil 38: Freunde für immer",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2C4JGLf9ZNOv3RDIOLeeTA",
+        "include": true,
+        "episode_num": 12,
+        "title": "Teil 12: Wolkes neue Freunde (Ungekürzt)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4MSxumcq59Ecb8pR8w4yiF",
+        "include": true,
+        "episode_num": 11,
+        "title": "Teil 11: Ein magisches Fest (Ungekürzt)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0oBXyduOs9LkAeAyXVGfpb",
+        "include": true,
+        "episode_num": 5,
+        "title": "Teil 5: Bezaubernde Gefährten",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1tWnWEViK8cq8Jo19VyIF9",
+        "include": true,
+        "episode_num": 33,
+        "title": "Teil 33: Geheimnisvolles Glitzern",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2Tas15aBGmhh355uvDh4OD",
+        "include": true,
+        "episode_num": 42,
+        "title": "Teil 42: Das fantastische Zaubertunier",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3vCD11Hwx3Cp2jfxt8eT5p",
+        "include": true,
+        "episode_num": 17,
+        "title": "Teil 17: Im Elfenland",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1nhWSiSQPwK9yPKwMSXSEz",
+        "include": true,
+        "episode_num": 10,
+        "title": "Teil 10: Kopf hoch Saphira!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6oH1K4xo82TFzzMfQrfL5T",
+        "include": true,
+        "episode_num": 26,
+        "title": "Teil 26: Im Zeichen des Lichts",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6jg8hotIxXfuYH1ck84lCd",
+        "include": true,
+        "episode_num": 37,
+        "title": "Teil 37: Zirkus der Träume",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7x2E3U5Xx3G5buHRhl3nTt",
+        "include": true,
+        "episode_num": 34,
+        "title": "Teil 34: Das magische Elfenfeuer",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6VR8WzSIqarvIXjVdhdNOl",
+        "include": true,
+        "episode_num": 30,
+        "title": "Teil 30: Funkenzauber",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3SPIYtG0JWQnLzre2vqZbw",
+        "include": true,
+        "episode_num": 37,
+        "title": "Teil 37: Das große Schulquiz",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7Mj0M1Wj50LTnCmAAJAk7u",
+        "include": true,
+        "episode_num": 30,
+        "title": "Teil 30: Im Tal der Drachen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3vGsRaGoo5l45Cl3p2Uwpu",
+        "include": true,
+        "episode_num": 31,
+        "title": "Teil 31: Die Magie der Sterne",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3uybNvPAbosRmXuVVeElxK",
+        "include": true,
+        "episode_num": 42,
+        "title": "Teil 42: Ein neuer Freund (ungekürzt)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3e3q2tr2JGFNsFV8Z7bCEC",
+        "include": true,
+        "episode_num": 24,
+        "title": "Teil 24: Geheimnis der Nacht",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "71kwSNpAzwPkpljWTA4cRM",
+        "include": true,
+        "episode_num": 8,
+        "title": "Teil 8: Sturmwinds Geheimnis",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "21qmaVUwmR6obZ2SzsGgqe",
+        "include": true,
+        "episode_num": 7,
+        "title": "Teil 7: Wirbel um Stella",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "64SPA0XxJq0hmQzxP9SMCS",
+        "include": true,
+        "episode_num": 32,
+        "title": "Teil 32: Magische Schatzsuche",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1PFApZUhduHZEVb4JAIim5",
+        "include": true,
+        "episode_num": 36,
+        "title": "Teil 36: Das magische Tuch",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2I9qW79A61DhwvXeZoIY9X",
+        "include": true,
+        "episode_num": 38,
+        "title": "Teil 38: Ausflug zum Eispalast",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4N7zg4tbfnzcDFvoBJll0I",
+        "include": true,
+        "episode_num": 14,
+        "title": "Teil 14: Der magische Garten",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5wGWICjhXu3K7WHXox2LwY",
+        "include": true,
+        "episode_num": 18,
+        "title": "Teil 18: Bei den Trollen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5nis1Fx7Wkm7FVxHlG0nDq",
+        "include": true,
+        "episode_num": 21,
+        "title": "Teil 21: Magische Kräfte",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0gcdTgF1rA0PSF6oiGRGkP",
+        "include": true,
+        "episode_num": 26,
+        "title": "Teil 26: Beste Freundinnen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6UZsALbH3ULW5dKfiHSu4C",
+        "include": true,
+        "episode_num": 33,
+        "title": "Teil 33: Abenteuer im Nebelwald",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5cudL18ZMGaGRAgExkAylf",
+        "include": true,
+        "episode_num": 34,
+        "title": "Teil 34: Himmelsfreunde",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1NzVCsPfCAhSJqOtbJog2f",
+        "include": true,
+        "episode_num": 35,
+        "title": "Teil 35: Der silberne Stern",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1fmLd085iw57cN8xAraSnp",
+        "include": true,
+        "episode_num": 16,
+        "title": "Teil 16: Wolke und die Waldgeister",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1NwqPhrTdRvEMYPI7Ps2JY",
+        "include": true,
+        "episode_num": 27,
+        "title": "Teil 27: Die Zauberquelle",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3F0tY1MeBP6NQ6RZX2gg7J",
+        "include": true,
+        "episode_num": 2,
+        "title": "Teil 2: Der Einhornprinz",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4Ck4b5HoKTbGLp6vNGyAuc",
+        "include": true,
+        "episode_num": 22,
+        "title": "Teil 22: Im Land der Einhörner",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3KcdyluMWMv86hSXlxtpRB",
+        "include": true,
+        "episode_num": 36,
+        "title": "Teil 36: Spuk im Zaubergarten",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1HBSqiyZ0QaSG7I2iJ1Yf3",
+        "include": true,
+        "episode_num": 4,
+        "title": "Teil 4: Lauras Zauberritt",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2t3GEMB75w77tNZdSTIciz",
+        "include": true,
+        "episode_num": 25,
+        "title": "Teil 25: Freundschaftszauber",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1IdFUqSIsThb7aKUWRKVii",
+        "include": true,
+        "episode_num": 6,
+        "title": "Teil 6: Wolke in Not",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3o1yBwHpL0nmpLBdire3GG",
+        "include": true,
+        "episode_num": 39,
+        "title": "Teil 39: Funkelnder Wasserzauber (Ungekürzt)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1iNwO7MrtAOMV6OGXJkVNV",
+        "include": true,
+        "episode_num": 27,
+        "title": "Teil 27: Spuk im Zauberwald",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5Ti7YRT45kqPnpfCS92kiY",
+        "include": true,
+        "episode_num": 9,
+        "title": "Teil 9: Ein zauberhaftes Team",
+        "exclude_reason": null
+      }
+    ],
+    "age_note": null,
+    "curator_notes": "Split from Sternenschweif. Original ungekürzt Hörspiele (2008-2019) mit älterer Sprecherbesetzung und längerer Spielzeit (~70 Minuten). Diese Episoden 1-42 sind komplette andere Produktionen als die neuen Neuaufnahmen ab 2020."
+  },
+  "review": {
+    "status": "pending",
+    "overrides": [],
+    "notes": "Auto-created by apply-splits.py from sternenschweif."
+  }
+}

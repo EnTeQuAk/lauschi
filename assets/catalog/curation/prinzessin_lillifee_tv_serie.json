@@ -1,0 +1,66 @@
+{
+  "query": "Split from prinzessin_lillifee",
+  "model": "review-series.py",
+  "curated_at": "2026-02-20T10:53:12.410121+00:00",
+  "series": {
+    "id": "prinzessin_lillifee_tv_serie",
+    "title": "Prinzessin Lillifee (TV-Serie)",
+    "aliases": [],
+    "keywords": [],
+    "spotify_artist_ids": [
+      "78iNrogmY4Ru7d7PLtwD4b"
+    ],
+    "episode_pattern": "(?:Folge|folge|^\\d{3}/|^\\d{2}/)\\s*(\\d+)",
+    "albums": [
+      {
+        "spotify_album_id": "08aIC0yrgsL7KbawTYYAT7",
+        "include": true,
+        "episode_num": 2,
+        "title": "02/Das Hörspiel zur TV-Serie",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "07jkUJ5t1WjdEPECuSRWDw",
+        "include": true,
+        "episode_num": 3,
+        "title": "03/Das Hörspiel zur TV-Serie",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3kRGRFPWydYA5fVvtkosm1",
+        "include": true,
+        "episode_num": 1,
+        "title": "01/Das Hörspiel zur TV-Serie",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6ujIiSFu9K2ZqptykIDmx1",
+        "include": true,
+        "episode_num": 5,
+        "title": "05/Das Hörspiel zur TV-Serie",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7mdhhDvpdqWJKjT9lYsybh",
+        "include": true,
+        "episode_num": 4,
+        "title": "04/Das Hörspiel zur TV-Serie",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3ZYrlaczw1qMYuXnmL43k5",
+        "include": true,
+        "episode_num": 6,
+        "title": "06/Das Hörspiel zur TV-Serie",
+        "exclude_reason": null
+      }
+    ],
+    "age_note": "Suitable from 3+",
+    "curator_notes": "Split from Prinzessin Lillifee. These are TV episode audiobooks (Das Hörspiel zur TV-Serie, episodes 01-06), a separate product from Gute-Nacht-Geschichten. Parents would expect them as a distinct series entry. Each album has 32-34 tracks of episode audio without the bedtime music/lullabies that characterize the Gute-Nacht-Geschichten series."
+  },
+  "review": {
+    "status": "pending",
+    "overrides": [],
+    "notes": "Auto-created by apply-splits.py from prinzessin_lillifee."
+  }
+}

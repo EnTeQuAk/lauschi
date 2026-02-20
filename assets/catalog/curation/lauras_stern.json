@@ -195,5 +195,50 @@
     ],
     "age_note": "Suitable from 3+",
     "curator_notes": "Main series artist 'Lauras Stern'. No Retro-Archiv or Junior variants found on Spotify. Series uses inconsistent numbering (Folge/Teil/Band) across releases. Includes Erstleser (early reader) spinoffs which are simplified versions of stories. Many movie soundtracks and song albums excluded - series has had multiple film adaptations. TV series 'Tonspur' episodes included as they follow the same episode numbering scheme."
+  },
+  "review": {
+    "reviewed_at": "2026-02-20T10:27:16.070003+00:00",
+    "reviewed_by": "review-series.py",
+    "overrides": [
+      {
+        "album_id": "2m5U5mKGVufzo6waGyEhTR",
+        "action": "include",
+        "reason": "Laura und die kleine Robbe appears to be episode 4 of the Erstleser series (Band 4: Laura und die kleine Robbe). Single release without episode number in title but belongs to the series."
+      },
+      {
+        "album_id": "03APgvGiNeJPPMMObuwZdB",
+        "action": "exclude",
+        "reason": "Split to lauras_stern_tv_serie"
+      },
+      {
+        "album_id": "46BdFm6jEmZj8odIugzIuv",
+        "action": "exclude",
+        "reason": "Split to lauras_stern_tv_serie"
+      },
+      {
+        "album_id": "0AWAEwrd5UChH51lnUHT1D",
+        "action": "exclude",
+        "reason": "Split to lauras_stern_tv_serie"
+      },
+      {
+        "album_id": "0HbQdPgMltCnwwZ5bedqUA",
+        "action": "exclude",
+        "reason": "Split to lauras_stern_tv_serie"
+      }
+    ],
+    "splits": [
+      {
+        "new_id": "lauras_stern_tv_serie",
+        "new_title": "Lauras Stern - Tonspur der TV-Serie",
+        "album_ids": [
+          "0AWAEwrd5UChH51lnUHT1D",
+          "46BdFm6jEmZj8odIugzIuv",
+          "03APgvGiNeJPPMMObuwZdB",
+          "0HbQdPgMltCnwwZ5bedqUA"
+        ],
+        "reason": "TV series soundtracks and Gutenacht-Geschichten are different products from the original Hörspiel series. These are audio tracks from the TV show with different episode structure (11 short tracks vs 8-9 book chapters). Parents would expect these as a separate series entry."
+      }
+    ],
+    "notes": "GAP ANALYSIS: Episodes 2, 3, 4, 8 are missing from Spotify. Searches for 'Lauras Stern Folge 2/3/4', 'Band 2/3/4/8', and known titles from the book series (Laura und das kleine Kätzchen, Laura und der Traumfänger, Laura und das Seepferdchen, Laura und das Einhorn) did not return matches. These episodes appear to be genuinely unavailable on Spotify.\n\nDUPLICATE RESOLUTION: Episode 9 - 'Lauras Piratenschatz' (Erstleser) and 'Glitzernde Gutenacht-Geschichten' (TV series) are different content. The TV series version is being split to the new series. Episode 11 - 'Laura und die Osterüberraschung' (Erstleser) and 'Abenteuerliche Gutenacht-Geschichten' (TV series) are different content. The TV series version is being split to the new series.\n\nSERIES MIXING NOTE: The current series includes both 'Original Hörspiele' (Folge 1, 5, 7) and 'Erstleser' adaptations (Folge 6, 9, 11). These have the same episode numbering and are both book-based Hörspiele, so they work together as one series. The TV series soundtracks are being split as they are fundamentally different products (shorter format, different content structure, explicitly labeled as TV series)."
   }
 }

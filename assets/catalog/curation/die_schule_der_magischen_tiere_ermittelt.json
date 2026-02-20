@@ -1,0 +1,75 @@
+{
+  "query": "Split from die_schule_der_magischen_tiere",
+  "model": "review-series.py",
+  "curated_at": "2026-02-20T10:53:12.403511+00:00",
+  "series": {
+    "id": "die_schule_der_magischen_tiere_ermittelt",
+    "title": "Die Schule der magischen Tiere: Ermittelt",
+    "aliases": [],
+    "keywords": [],
+    "spotify_artist_ids": [
+      "1BElEHaU2xaZg7FOGsSird",
+      "6wlMx6MhWCynm8yVU0K3V3",
+      "05iCN3BdeaMyUYHXiEp761"
+    ],
+    "episode_pattern": "^(?:(\\d+):|Die Schule der magischen Tiere (?:ermittelt - Hörspiele |ermittelt Neuausgabe |\\d+: | - Endlich Ferien \\d+:))",
+    "albums": [
+      {
+        "spotify_album_id": "0wJI1LC9ILBeqfdmmbtgOY",
+        "include": true,
+        "episode_num": 7,
+        "title": "Die Schule der magischen Tiere ermittelt Neuausgabe 7: Das Biber-Rätsel",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "40ykQ1s1aXHBvqY01icOgH",
+        "include": true,
+        "episode_num": 6,
+        "title": "Die Schule der magischen Tiere ermittelt - Hörspiele 6: Die Plätzchenfalle",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6J0lMf0VTKlMOFdOWBH6cx",
+        "include": true,
+        "episode_num": 1,
+        "title": "Die Schule der magischen Tiere ermittelt Neuausgabe 1: Der grüne Glibber-Brief",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4cnVJNwU7zxqoWhdXfTQVE",
+        "include": true,
+        "episode_num": 4,
+        "title": "Die Schule der magischen Tiere ermittelt - Hörspiele 4: Der Flötenschreck",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2BV1llH2yEJHA0sd1v79XS",
+        "include": true,
+        "episode_num": 5,
+        "title": "Die Schule der magischen Tiere ermittelt - Hörspiele 5: Der Gurkenschurke",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4GSCVM2I65Axk4SnLG7uwP",
+        "include": true,
+        "episode_num": 3,
+        "title": "Die Schule der magischen Tiere ermittelt - Hörspiele 3: Der Kokosnuss-Klau",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7m215CftaAegMzq41SVA2H",
+        "include": true,
+        "episode_num": 2,
+        "title": "Die Schule der magischen Tiere ermittelt - Hörspiele 2: Der Hausschuh-Dieb",
+        "exclude_reason": null
+      }
+    ],
+    "age_note": "Suitable from 6+",
+    "curator_notes": "Split from Die Schule der magischen Tiere. Spin-off detective series for early readers (Erstleser). Mini-krimis with shorter episodes. Different format and target audience than main series."
+  },
+  "review": {
+    "status": "pending",
+    "overrides": [],
+    "notes": "Auto-created by apply-splits.py from die_schule_der_magischen_tiere."
+  }
+}

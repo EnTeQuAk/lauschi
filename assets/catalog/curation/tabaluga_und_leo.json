@@ -1,0 +1,32 @@
+{
+  "query": "Split from tabaluga",
+  "model": "review-series.py",
+  "curated_at": "2026-02-20T10:53:12.416784+00:00",
+  "series": {
+    "id": "tabaluga_und_leo",
+    "title": "Tabaluga und Leo",
+    "aliases": [],
+    "keywords": [],
+    "spotify_artist_ids": [
+      "4M0PZyOPSvjzFEBRg3G8xA",
+      "5W3s4beu23rOlseCbVOp4l"
+    ],
+    "episode_pattern": "(?:Folge |^\\d{2}/|/)(\\d+)",
+    "albums": [
+      {
+        "spotify_album_id": "5wWLRm03RuYzbBKKgjFl2g",
+        "include": true,
+        "episode_num": null,
+        "title": "Tabaluga und Leo",
+        "exclude_reason": null
+      }
+    ],
+    "age_note": "Suitable from 4+",
+    "curator_notes": "Split from Tabaluga. Spinoff series featuring Leo character, distinct from main numbered Tabaluga series"
+  },
+  "review": {
+    "status": "pending",
+    "overrides": [],
+    "notes": "Auto-created by apply-splits.py from tabaluga."
+  }
+}

@@ -1,0 +1,77 @@
+{
+  "query": "Split from die_wilden_huehner",
+  "model": "review-series.py",
+  "curated_at": "2026-02-20T10:53:12.404472+00:00",
+  "series": {
+    "id": "die_wilden_kueken",
+    "title": "Die Wilden Küken",
+    "aliases": [],
+    "keywords": [],
+    "spotify_artist_ids": [
+      "7FFCbo48YA1o0mhUE66DjO",
+      "5UfG709fnZ9mPNZShrAiVh",
+      "5HQzBHnczgis11u7lSLVbt",
+      "4P5tVOqHcQ7j5ZZjczglZk",
+      "5HJazOmTpfruUyrjLKnJou"
+    ],
+    "episode_pattern": "(?:Folge|Die Wilden Küken)\\s+(\\d+)",
+    "albums": [
+      {
+        "spotify_album_id": "2Xek5ycEA6xYIZg7PVFO9O",
+        "include": true,
+        "episode_num": 9,
+        "title": "Die Wilden Küken 9. Im Bernsteinfieber (Gekürzte Lesung)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1pSfvahwo4lz82q5EdeCLQ",
+        "include": true,
+        "episode_num": 6,
+        "title": "Die Wilden Küken 6. Ab ins Abenteuer! (Gekürzte Lesung)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "55ByQxTTLXBaO1w3d5mmvf",
+        "include": true,
+        "episode_num": 3,
+        "title": "Die Wilden Küken 3. Endlich Ferien! (Gekürzte Lesung)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2G9U8COeagDotEZFOGD7HF",
+        "include": true,
+        "episode_num": 10,
+        "title": "Die Wilden Küken 10. Let's dance! (Gekürzte Lesung)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6xGNK2dzNkK1Ul49lAELeS",
+        "include": true,
+        "episode_num": 4,
+        "title": "Die Wilden Küken 4. Es spukt! (Gekürzte Lesung)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1EKeuU4PM5UGiKXthq8pDW",
+        "include": true,
+        "episode_num": 2,
+        "title": "Die Wilden Küken 2. Eisalarm (Gekürzte Lesung)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4QgYSZMtOxm8ZYFllIzd16",
+        "include": true,
+        "episode_num": 8,
+        "title": "Die Wilden Küken 8. Auf der Alm (Gekürzte Lesung)",
+        "exclude_reason": null
+      }
+    ],
+    "age_note": "Suitable from 8+",
+    "curator_notes": "Split from Die wilden Hühner. Die Wilden Küken is a spin-off series with different characters (the younger siblings) and a different format (shortened readings/Lesungen vs full Hörspiele). Parents would see these as a distinct product line from the main 'Die Wilden Hühner' series. Episodes 2-6, 8-10 of this series are present."
+  },
+  "review": {
+    "status": "pending",
+    "overrides": [],
+    "notes": "Auto-created by apply-splits.py from die_wilden_huehner."
+  }
+}

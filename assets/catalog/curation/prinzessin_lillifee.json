@@ -340,5 +340,143 @@
     ],
     "age_note": "Suitable from 3+",
     "curator_notes": "The Prinzessin Lillifee series has multiple sub-series: the main numbered episodes (01-06 TV series, 001-010 Gute-Nacht-Geschichten), and various special albums with unique titles. The 'Mein zauberhaftes Tierhotel' series (2023-2025) contains double-episode releases. Two music-only albums were excluded. No Retro-Archiv or Junior variants found for this series."
+  },
+  "review": {
+    "reviewed_at": "2026-02-20T10:29:21.128968+00:00",
+    "reviewed_by": "review-series.py",
+    "overrides": [
+      {
+        "album_id": "2TsDWy0PLSFuatYx5XBgk6",
+        "action": "include",
+        "reason": "NOT A DUPLICATE - This is Gute-Nacht-Geschichten Folge 1+2, a bedtime story album with calming music and lullabies (31 tracks, 2019). Completely different product from the TV-Serie album which has 34 episode audio tracks (2012). Both should exist as different products in different series."
+      },
+      {
+        "album_id": "2mh0PBRCJtDNKKa7CJsRWv",
+        "action": "include",
+        "reason": "NOT A DUPLICATE - Gute-Nacht-Geschichten Folge 3+4 (bedtime stories with songs, 32 tracks) vs TV-Serie Folge 02 (episode audio, 32 tracks). Different content, different target use case."
+      },
+      {
+        "album_id": "2PgSaJ7MbnMrEQLwHmnVNk",
+        "action": "include",
+        "reason": "NOT A DUPLICATE - Gute-Nacht-Geschichten Folge 5+6 vs TV-Serie Folge 03. Different product types."
+      },
+      {
+        "album_id": "4HsZMXmPWh2jsr4ykFbKQY",
+        "action": "include",
+        "reason": "NOT A DUPLICATE - Gute-Nacht-Geschichten Folge 7+8 vs TV-Serie Folge 04. Different product types."
+      },
+      {
+        "album_id": "0OTSfglUsVhlvbNKedHpzZ",
+        "action": "include",
+        "reason": "NOT A DUPLICATE - Gute-Nacht-Geschichten Folge 9+10 vs TV-Serie Folge 05. Different product types."
+      },
+      {
+        "album_id": "7MnVBiXp6c3qagFgjHTHvE",
+        "action": "include",
+        "reason": "NOT A DUPLICATE - Gute-Nacht-Geschichten Folge 11+12 vs TV-Serie Folge 06. Different product types."
+      },
+      {
+        "album_id": "08aIC0yrgsL7KbawTYYAT7",
+        "action": "exclude",
+        "reason": "Split to prinzessin_lillifee_tv_serie"
+      },
+      {
+        "album_id": "07jkUJ5t1WjdEPECuSRWDw",
+        "action": "exclude",
+        "reason": "Split to prinzessin_lillifee_tv_serie"
+      },
+      {
+        "album_id": "3kRGRFPWydYA5fVvtkosm1",
+        "action": "exclude",
+        "reason": "Split to prinzessin_lillifee_tv_serie"
+      },
+      {
+        "album_id": "6ujIiSFu9K2ZqptykIDmx1",
+        "action": "exclude",
+        "reason": "Split to prinzessin_lillifee_tv_serie"
+      },
+      {
+        "album_id": "7mdhhDvpdqWJKjT9lYsybh",
+        "action": "exclude",
+        "reason": "Split to prinzessin_lillifee_tv_serie"
+      },
+      {
+        "album_id": "3ZYrlaczw1qMYuXnmL43k5",
+        "action": "exclude",
+        "reason": "Split to prinzessin_lillifee_tv_serie"
+      },
+      {
+        "album_id": "1SW5OuXPjqEL9Rr5ss19iQ",
+        "action": "exclude",
+        "reason": "Split to prinzessin_lillifee_tierhotel"
+      },
+      {
+        "album_id": "3XMG0CL51WoTeQlqJ9XClA",
+        "action": "exclude",
+        "reason": "Split to prinzessin_lillifee_tierhotel"
+      },
+      {
+        "album_id": "7ErywAfIpgxcATLch1ibCI",
+        "action": "exclude",
+        "reason": "Split to prinzessin_lillifee_tierhotel"
+      },
+      {
+        "album_id": "3brWJZfRWLek5yBSoB4Ob8",
+        "action": "exclude",
+        "reason": "Split to prinzessin_lillifee_tierhotel"
+      },
+      {
+        "album_id": "6cKFwdiGTdfdFhoeXczK0N",
+        "action": "exclude",
+        "reason": "Split to prinzessin_lillifee_tierhotel"
+      },
+      {
+        "album_id": "2QiEpgmt8VrYg3GlcV4Sl5",
+        "action": "exclude",
+        "reason": "Split to prinzessin_lillifee_kinofilme"
+      },
+      {
+        "album_id": "2cZrWzKe4U716qJWDXUsaz",
+        "action": "exclude",
+        "reason": "Split to prinzessin_lillifee_kinofilme"
+      }
+    ],
+    "splits": [
+      {
+        "new_id": "prinzessin_lillifee_tv_serie",
+        "new_title": "Prinzessin Lillifee (TV-Serie)",
+        "album_ids": [
+          "3kRGRFPWydYA5fVvtkosm1",
+          "08aIC0yrgsL7KbawTYYAT7",
+          "07jkUJ5t1WjdEPECuSRWDw",
+          "7mdhhDvpdqWJKjT9lYsybh",
+          "6ujIiSFu9K2ZqptykIDmx1",
+          "3ZYrlaczw1qMYuXnmL43k5"
+        ],
+        "reason": "These are TV episode audiobooks (Das Hörspiel zur TV-Serie, episodes 01-06), a separate product from Gute-Nacht-Geschichten. Parents would expect them as a distinct series entry. Each album has 32-34 tracks of episode audio without the bedtime music/lullabies that characterize the Gute-Nacht-Geschichten series."
+      },
+      {
+        "new_id": "prinzessin_lillifee_tierhotel",
+        "new_title": "Prinzessin Lillifee: Mein zauberhaftes Tierhotel",
+        "album_ids": [
+          "1SW5OuXPjqEL9Rr5ss19iQ",
+          "6cKFwdiGTdfdFhoeXczK0N",
+          "3XMG0CL51WoTeQlqJ9XClA",
+          "7ErywAfIpgxcATLch1ibCI",
+          "3brWJZfRWLek5yBSoB4Ob8"
+        ],
+        "reason": "This is a distinct spin-off series 'Mein zauberhaftes Tierhotel' with its own episodic numbering (Folge 1+2 through 9+10). It's a different product focused on a magical pet hotel, not the main Prinzessin Lillifee fairy stories."
+      },
+      {
+        "new_id": "prinzessin_lillifee_kinofilme",
+        "new_title": "Prinzessin Lillifee (Kinofilme)",
+        "album_ids": [
+          "2QiEpgmt8VrYg3GlcV4Sl5",
+          "2cZrWzKe4U716qJWDXUsaz"
+        ],
+        "reason": "These are full movie audiobooks (Hörspiel zum Kinofilm) - 'Prinzessin Lillifee' (2009) and 'Das kleine Einhorn' (2011). They are 43-track feature-length audiobooks, not episodic content. Parents would expect these as separate movie entries, not mixed with episodic series."
+      }
+    ],
+    "notes": "The 6 detected 'duplicates' are actually pairs of completely different products: (1) Gute-Nacht-Geschichten (bedtime stories with calming songs/lullabies, 2019) and (2) TV-Serie Hörspiele (episode audio from TV show, 2012). They share episode numbers but are different content types for different use cases.\n\nSplit into 4 series for parent clarity:\n1. prinzessin_lillifee - Main series with Gute-Nacht-Geschichten (ep 1-10) and standalone story albums\n2. prinzessin_lillifee_tv_serie - TV episode audiobooks (ep 01-06)\n3. prinzessin_lillifee_tierhotel - Spin-off series 'Mein zauberhaftes Tierhotel' (5 albums, ep 1+2 through 9+10)\n4. prinzessin_lillifee_kinofilme - Full movie audiobooks (2 Kinofilm Hörspiele)\n\nThe 2 already-excluded albums (music collections) remain correctly excluded."
   }
 }

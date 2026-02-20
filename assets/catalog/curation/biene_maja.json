@@ -553,5 +553,339 @@
     ],
     "age_note": "Suitable from 3+",
     "curator_notes": "This series spans two main Spotify artists: 'Die Biene Maja' (7GfaHcpmNcrcHoyGnOBsAz) and 'Die Biene Maja' (7rETIyymYr7alw77vGZnpl). The first artist contains the classic 1976/1977 Europa episodes (1-15) and CGI movie box sets. The second artist contains newer Lauscher Hörbücher releases (episodes 1-19). Note: There are overlapping episode numbers between the two artists - the 2023/2025 releases from Lauscher Hörbücher are new recordings/reinterpretations, not duplicates of the classic Europa episodes. The CGI albums (marked with 'CGI' in title) are box sets containing multiple stories and should be excluded. The 'Die Biene Maja und ihre Abenteuer' albums are audiobook compilations, not Hörspiel episodes."
+  },
+  "review": {
+    "reviewed_at": "2026-02-20T10:14:32.472969+00:00",
+    "reviewed_by": "review-series.py",
+    "overrides": [
+      {
+        "album_id": "02RBowcBUf1tdMjztIy4G5",
+        "action": "include",
+        "reason": "Episode 18 is legitimate content, keep in base series"
+      },
+      {
+        "album_id": "5SaAlaSVXD2nxI52NbZLzf",
+        "action": "include",
+        "reason": "Episode 19 is legitimate content, keep in base series"
+      },
+      {
+        "album_id": "7uAVSr8QyzjpjmZRJt0bY9",
+        "action": "exclude",
+        "reason": "Split to biene_maja_klassik"
+      },
+      {
+        "album_id": "51V03ZPJ91nBLNJ7iP9g4o",
+        "action": "exclude",
+        "reason": "Split to biene_maja_klassik"
+      },
+      {
+        "album_id": "3PMOEl2R7oqqL5kiRT7h2w",
+        "action": "exclude",
+        "reason": "Split to biene_maja_klassik"
+      },
+      {
+        "album_id": "3cehJgGlcIPTuNKI8wDsR2",
+        "action": "exclude",
+        "reason": "Split to biene_maja_klassik"
+      },
+      {
+        "album_id": "7IFKNhSolczHxX9AoozUBZ",
+        "action": "exclude",
+        "reason": "Split to biene_maja_klassik"
+      },
+      {
+        "album_id": "3vxuclJbCOp1HGeg6Rl9hf",
+        "action": "exclude",
+        "reason": "Split to biene_maja_klassik"
+      },
+      {
+        "album_id": "54zXsMPC1UbvjS2zLLR1eP",
+        "action": "exclude",
+        "reason": "Split to biene_maja_klassik"
+      },
+      {
+        "album_id": "14NZvaavDNQKIxEkjeQXqj",
+        "action": "exclude",
+        "reason": "Split to biene_maja_klassik"
+      },
+      {
+        "album_id": "1DNzHc4uEk33W88Nw8j9G8",
+        "action": "exclude",
+        "reason": "Split to biene_maja_klassik"
+      },
+      {
+        "album_id": "1KT1hrgeecibGerVbSftXb",
+        "action": "exclude",
+        "reason": "Split to biene_maja_klassik"
+      },
+      {
+        "album_id": "5XGNl84HBzLU1WPZeSUzZM",
+        "action": "exclude",
+        "reason": "Split to biene_maja_klassik"
+      },
+      {
+        "album_id": "566vH5dm9S6oaExyeYYbSf",
+        "action": "exclude",
+        "reason": "Split to biene_maja_klassik"
+      },
+      {
+        "album_id": "7IWaaCsBw7d1H7mWiD33IB",
+        "action": "exclude",
+        "reason": "Split to biene_maja_klassik"
+      },
+      {
+        "album_id": "42cyl3CWY1bEhZPhBGeuhA",
+        "action": "exclude",
+        "reason": "Split to biene_maja_klassik"
+      },
+      {
+        "album_id": "7MU7lEVgwi1M5OYZzxxyih",
+        "action": "exclude",
+        "reason": "Split to biene_maja_klassik"
+      },
+      {
+        "album_id": "54uoLi7XfOCXlU9VhcpFA4",
+        "action": "exclude",
+        "reason": "Split to biene_maja_2023"
+      },
+      {
+        "album_id": "3yDjqIsxRjtX58BcjXRxtr",
+        "action": "exclude",
+        "reason": "Split to biene_maja_2023"
+      },
+      {
+        "album_id": "1BFF4yotZskiMPs1OGZUfB",
+        "action": "exclude",
+        "reason": "Split to biene_maja_2023"
+      },
+      {
+        "album_id": "2o4ClxySgbVf4I2QM9k7Cl",
+        "action": "exclude",
+        "reason": "Split to biene_maja_2023"
+      },
+      {
+        "album_id": "1CV3qxoaeXiUXtWvw1azge",
+        "action": "exclude",
+        "reason": "Split to biene_maja_2023"
+      },
+      {
+        "album_id": "1xNbBlw1dUwsUCitEEeN9n",
+        "action": "exclude",
+        "reason": "Split to biene_maja_2023"
+      },
+      {
+        "album_id": "4ETGxDs2H7PFHiP0isVJcV",
+        "action": "exclude",
+        "reason": "Split to biene_maja_2023"
+      },
+      {
+        "album_id": "41C1VeN0kNAVMHcHFwK62E",
+        "action": "exclude",
+        "reason": "Split to biene_maja_2023"
+      },
+      {
+        "album_id": "3krEzMFEOV141SmbDY0ynT",
+        "action": "exclude",
+        "reason": "Split to biene_maja_2023"
+      },
+      {
+        "album_id": "5IeGF6y1MiKV9AmzVck1ya",
+        "action": "exclude",
+        "reason": "Split to biene_maja_2023"
+      },
+      {
+        "album_id": "4rjSbfJIqysTcZFDg67BQq",
+        "action": "exclude",
+        "reason": "Split to biene_maja_2023"
+      },
+      {
+        "album_id": "4ty7FV6jZKS7Ke6zS0vZ1A",
+        "action": "exclude",
+        "reason": "Split to biene_maja_2023"
+      },
+      {
+        "album_id": "1xQonUPRwzG90tiFiyUleI",
+        "action": "exclude",
+        "reason": "Split to biene_maja_2023"
+      },
+      {
+        "album_id": "1dgFNr059h2LDlq7NfOALy",
+        "action": "exclude",
+        "reason": "Split to biene_maja_2023"
+      },
+      {
+        "album_id": "5zlX8b32cXfgLS1DvgS0yT",
+        "action": "exclude",
+        "reason": "Split to biene_maja_2023"
+      },
+      {
+        "album_id": "5R2V97bFngS719a68SXkxo",
+        "action": "exclude",
+        "reason": "Split to biene_maja_2023"
+      },
+      {
+        "album_id": "7jTXOBZ97oGi6fydPU1Uir",
+        "action": "exclude",
+        "reason": "Split to biene_maja_2023"
+      },
+      {
+        "album_id": "0jipYkuPDUHbHY33fSIaOO",
+        "action": "exclude",
+        "reason": "Split to biene_maja_2025"
+      },
+      {
+        "album_id": "2d5UWFyv64CeMllhjh5BUq",
+        "action": "exclude",
+        "reason": "Split to biene_maja_2025"
+      },
+      {
+        "album_id": "0M1vdfDl1X76KJZQ5pooC3",
+        "action": "exclude",
+        "reason": "Split to biene_maja_2025"
+      },
+      {
+        "album_id": "5Ln0yHOvJ8C01UPegyrGIl",
+        "action": "exclude",
+        "reason": "Split to biene_maja_2025"
+      },
+      {
+        "album_id": "7u6PRHF7q46B0Gayw9EWc9",
+        "action": "exclude",
+        "reason": "Split to biene_maja_2025"
+      },
+      {
+        "album_id": "7jfuKJ8OqZasQCfXDZYRl3",
+        "action": "exclude",
+        "reason": "Split to biene_maja_2025"
+      },
+      {
+        "album_id": "71JRsRgUcYB7fzyFcSja5X",
+        "action": "exclude",
+        "reason": "Split to biene_maja_2025"
+      },
+      {
+        "album_id": "1QReKaPzXixEvytf0XmjbH",
+        "action": "exclude",
+        "reason": "Split to biene_maja_2025"
+      },
+      {
+        "album_id": "3yi3ai09ghYucJ22e9iv41",
+        "action": "exclude",
+        "reason": "Split to biene_maja_2025"
+      },
+      {
+        "album_id": "5DnrVhHvHlpBN9qZxqYyLx",
+        "action": "exclude",
+        "reason": "Split to biene_maja_2025"
+      },
+      {
+        "album_id": "2zSLUkpvaBTxzcTVGlmn3j",
+        "action": "exclude",
+        "reason": "Split to biene_maja_2025"
+      },
+      {
+        "album_id": "0qddwDedChapDiAzKsc8Ch",
+        "action": "exclude",
+        "reason": "Split to biene_maja_2025"
+      },
+      {
+        "album_id": "7zgRdCqMmWvTuIwLga3oNv",
+        "action": "exclude",
+        "reason": "Split to biene_maja_2025"
+      },
+      {
+        "album_id": "5IzCr2UkhnznseM39BUPbr",
+        "action": "exclude",
+        "reason": "Split to biene_maja_2025"
+      },
+      {
+        "album_id": "65R5sGgc2w9v7LCfgEgQC4",
+        "action": "exclude",
+        "reason": "Split to biene_maja_2025"
+      },
+      {
+        "album_id": "4YonJZbMGIWhjUQBaYhJfN",
+        "action": "exclude",
+        "reason": "Split to biene_maja_2025"
+      },
+      {
+        "album_id": "3Pmsg7evoSKX2SjAyAYEme",
+        "action": "exclude",
+        "reason": "Split to biene_maja_2025"
+      }
+    ],
+    "splits": [
+      {
+        "new_id": "biene_maja_klassik",
+        "new_title": "Biene Maja (Klassik)",
+        "album_ids": [
+          "3cehJgGlcIPTuNKI8wDsR2",
+          "42cyl3CWY1bEhZPhBGeuhA",
+          "7IWaaCsBw7d1H7mWiD33IB",
+          "7IFKNhSolczHxX9AoozUBZ",
+          "7uAVSr8QyzjpjmZRJt0bY9",
+          "566vH5dm9S6oaExyeYYbSf",
+          "5XGNl84HBzLU1WPZeSUzZM",
+          "7MU7lEVgwi1M5OYZzxxyih",
+          "51V03ZPJ91nBLNJ7iP9g4o",
+          "1KT1hrgeecibGerVbSftXb",
+          "1DNzHc4uEk33W88Nw8j9G8",
+          "14NZvaavDNQKIxEkjeQXqj",
+          "3vxuclJbCOp1HGeg6Rl9hf",
+          "54zXsMPC1UbvjS2zLLR1eP",
+          "3PMOEl2R7oqqL5kiRT7h2w"
+        ],
+        "reason": "Classic 1976-1977 original Hörspiel. Each album contains multiple stories (box-set style, 25-30 tracks), fundamentally different from modern single-episode releases. Different production era warrants separate series."
+      },
+      {
+        "new_id": "biene_maja_2023",
+        "new_title": "Biene Maja (2023)",
+        "album_ids": [
+          "5zlX8b32cXfgLS1DvgS0yT",
+          "3krEzMFEOV141SmbDY0ynT",
+          "1BFF4yotZskiMPs1OGZUfB",
+          "5R2V97bFngS719a68SXkxo",
+          "4ty7FV6jZKS7Ke6zS0vZ1A",
+          "1xQonUPRwzG90tiFiyUleI",
+          "4rjSbfJIqysTcZFDg67BQq",
+          "41C1VeN0kNAVMHcHFwK62E",
+          "1CV3qxoaeXiUXtWvw1azge",
+          "2o4ClxySgbVf4I2QM9k7Cl",
+          "5IeGF6y1MiKV9AmzVck1ya",
+          "1xNbBlw1dUwsUCitEEeN9n",
+          "4ETGxDs2H7PFHiP0isVJcV",
+          "1dgFNr059h2LDlq7NfOALy",
+          "7jTXOBZ97oGi6fydPU1Uir",
+          "54uoLi7XfOCXlU9VhcpFA4",
+          "3yDjqIsxRjtX58BcjXRxtr"
+        ],
+        "reason": "Modern 2023-2025 Europa/Sony Hörspiel production. Single-episode format (5-6 tracks per album), different voice cast and production style from classic version. 'Die Biene Maja' branding distinguishes it as separate product."
+      },
+      {
+        "new_id": "biene_maja_2025",
+        "new_title": "Biene Maja (2025)",
+        "album_ids": [
+          "3yi3ai09ghYucJ22e9iv41",
+          "0jipYkuPDUHbHY33fSIaOO",
+          "71JRsRgUcYB7fzyFcSja5X",
+          "4YonJZbMGIWhjUQBaYhJfN",
+          "5DnrVhHvHlpBN9qZxqYyLx",
+          "2d5UWFyv64CeMllhjh5BUq",
+          "3Pmsg7evoSKX2SjAyAYEme",
+          "7u6PRHF7q46B0Gayw9EWc9",
+          "5IzCr2UkhnznseM39BUPbr",
+          "0qddwDedChapDiAzKsc8Ch",
+          "65R5sGgc2w9v7LCfgEgQC4",
+          "0M1vdfDl1X76KJZQ5pooC3",
+          "7jfuKJ8OqZasQCfXDZYRl3",
+          "7zgRdCqMmWvTuIwLga3oNv",
+          "5Ln0yHOvJ8C01UPegyrGIl",
+          "1QReKaPzXixEvytf0XmjbH",
+          "2zSLUkpvaBTxzcTVGlmn3j"
+        ],
+        "reason": "2025 Europa release. 'Biene Maja' branding (without 'Die'), different from 2023 'Die Biene Maja' releases. Same single-episode format but different release wave/series."
+      }
+    ],
+    "notes": "Series had duplicate episodes due to THREE distinct productions being mixed together: (1) Classic 1976-1977 multi-story albums, (2) 2023 'Die Biene Maja' single-episode series, (3) 2025 'Biene Maja' single-episode series. Split into separate series as parents would view these as different products (different eras, formats, voice casts). Note: Episodes 1-15 of the classic series appear to use 'Teil' numbering (01/02 format) which may need pattern adjustment for that series. Episodes 18-19 appear to be from 2025 production continuing the series."
   }
 }

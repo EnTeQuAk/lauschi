@@ -1,0 +1,39 @@
+{
+  "query": "Split from tabaluga",
+  "model": "review-series.py",
+  "curated_at": "2026-02-20T10:53:12.417650+00:00",
+  "series": {
+    "id": "tabaluga_film_hoerspiel",
+    "title": "Tabaluga (Film-Hörspiele)",
+    "aliases": [],
+    "keywords": [],
+    "spotify_artist_ids": [
+      "4M0PZyOPSvjzFEBRg3G8xA",
+      "5W3s4beu23rOlseCbVOp4l"
+    ],
+    "episode_pattern": "(?:Folge |^\\d{2}/|/)(\\d+)",
+    "albums": [
+      {
+        "spotify_album_id": "5aLSAfjjLWa1sgoeW1DAzz",
+        "include": true,
+        "episode_num": null,
+        "title": "Tabaluga: Ungekürzte Version (Das Original-Hörspiel zum Film)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "77POHjj5tE6PN3fNWjbwoz",
+        "include": true,
+        "episode_num": null,
+        "title": "Tabaluga (Das Original-Hörspiel zum Kinofilm)",
+        "exclude_reason": null
+      }
+    ],
+    "age_note": "Suitable from 4+",
+    "curator_notes": "Split from Tabaluga. Film adaptation Hörspiele (abridged and unabridged versions), separate product from the episodic series"
+  },
+  "review": {
+    "status": "pending",
+    "overrides": [],
+    "notes": "Auto-created by apply-splits.py from tabaluga."
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "query": "Split from prinzessin_lillifee",
+  "model": "review-series.py",
+  "curated_at": "2026-02-20T10:53:12.411607+00:00",
+  "series": {
+    "id": "prinzessin_lillifee_kinofilme",
+    "title": "Prinzessin Lillifee (Kinofilme)",
+    "aliases": [],
+    "keywords": [],
+    "spotify_artist_ids": [
+      "78iNrogmY4Ru7d7PLtwD4b"
+    ],
+    "episode_pattern": "(?:Folge|folge|^\\d{3}/|^\\d{2}/)\\s*(\\d+)",
+    "albums": [
+      {
+        "spotify_album_id": "2QiEpgmt8VrYg3GlcV4Sl5",
+        "include": true,
+        "episode_num": null,
+        "title": "Prinzessin Lillifee (Original Hörspiel zum Kinofilm)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2cZrWzKe4U716qJWDXUsaz",
+        "include": true,
+        "episode_num": null,
+        "title": "Das kleine Einhorn (Original Hörspiel zum Kinofilm)",
+        "exclude_reason": null
+      }
+    ],
+    "age_note": "Suitable from 3+",
+    "curator_notes": "Split from Prinzessin Lillifee. These are full movie audiobooks (Hörspiel zum Kinofilm) - 'Prinzessin Lillifee' (2009) and 'Das kleine Einhorn' (2011). They are 43-track feature-length audiobooks, not episodic content. Parents would expect these as separate movie entries, not mixed with episodic series."
+  },
+  "review": {
+    "status": "pending",
+    "overrides": [],
+    "notes": "Auto-created by apply-splits.py from prinzessin_lillifee."
+  }
+}

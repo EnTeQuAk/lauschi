@@ -1,0 +1,53 @@
+{
+  "query": "Split from hanni_und_nanni",
+  "model": "review-series.py",
+  "curated_at": "2026-02-20T10:53:12.405846+00:00",
+  "series": {
+    "id": "hanni_und_nanni_neue_abenteuer",
+    "title": "Hanni und Nanni: Neue Abenteuer",
+    "aliases": [],
+    "keywords": [],
+    "spotify_artist_ids": [
+      "3iiABQlNuezpR3DcrlyPoA",
+      "4zZ6gJs5QRc7WpCZC6UjQF"
+    ],
+    "episode_pattern": "(?:Folge\\s+)?(\\d+)",
+    "albums": [
+      {
+        "spotify_album_id": "4xrdTvOrQTFEGke8945KNt",
+        "include": true,
+        "episode_num": 1,
+        "title": "Folge 1: Warum denn ausgerechnet Internat Lindenhof? (Neue Abenteuer)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6zZk7LkH1m6YoWWm03YLiE",
+        "include": true,
+        "episode_num": 2,
+        "title": "Folge 2: Freundinnen für immer! (Neue Abenteuer)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2AtMEM0eThrrAFZgsVdI2t",
+        "include": true,
+        "episode_num": 3,
+        "title": "Folge 3: Ein heimlicher Gast auf Lindenhof (Neue Abenteuer)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6XTedYExfvjpVlgsqHg8Lh",
+        "include": true,
+        "episode_num": 4,
+        "title": "Folge 4: Immer Ärger mit Elli (Neue Abenteuer)",
+        "exclude_reason": null
+      }
+    ],
+    "age_note": "Suitable from 5+",
+    "curator_notes": "Split from Hanni und Nanni. These are modern 2025-2026 re-recordings labeled 'Neue Abenteuer' with different voice cast, different track structure (22 tracks with intro/outro vs 40 short parts), and modern production. They are distinct products that should be a separate series entry."
+  },
+  "review": {
+    "status": "pending",
+    "overrides": [],
+    "notes": "Auto-created by apply-splits.py from hanni_und_nanni."
+  }
+}

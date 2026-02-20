@@ -1,0 +1,74 @@
+{
+  "query": "Split from tabaluga",
+  "model": "review-series.py",
+  "curated_at": "2026-02-20T10:53:12.415870+00:00",
+  "series": {
+    "id": "tabaluga_neu",
+    "title": "Tabaluga (Neuauflage 2021+)",
+    "aliases": [],
+    "keywords": [],
+    "spotify_artist_ids": [
+      "4M0PZyOPSvjzFEBRg3G8xA",
+      "5W3s4beu23rOlseCbVOp4l"
+    ],
+    "episode_pattern": "(?:Folge |^\\d{2}/|/)(\\d+)",
+    "albums": [
+      {
+        "spotify_album_id": "0IklRy7YgVQGESlc4nmy1E",
+        "include": true,
+        "episode_num": 6,
+        "title": "Folge 6: Wirbelwind auf dem Bauernhof",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4rP8iu8oRrYsR91ELChdG7",
+        "include": true,
+        "episode_num": 2,
+        "title": "Folge 2: Am wilden Meer",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3lqNB64CRZVTacJYx5QT1H",
+        "include": true,
+        "episode_num": 5,
+        "title": "Folge 5: Im Eisbären-Land",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3FiJp9SBLabeDIN21MyJ3S",
+        "include": true,
+        "episode_num": 7,
+        "title": "Folge 7: Schneesturm auf dem Weihnachtsmarkt",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6hWbLvmZuYNxByx9zaceSu",
+        "include": true,
+        "episode_num": 4,
+        "title": "Folge 4: Im stürmischen Wald",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "52BaPmadnpTkDhNSP87luz",
+        "include": true,
+        "episode_num": 1,
+        "title": "Folge 1: Die große Stadt",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "31I8XXIgxv7MdAX6WdygeU",
+        "include": true,
+        "episode_num": 3,
+        "title": "Folge 3: In den eisigen Bergen",
+        "exclude_reason": null
+      }
+    ],
+    "age_note": "Suitable from 4+",
+    "curator_notes": "Split from Tabaluga. 2021+ re-recording series with new voice cast, modern production, 25-29 tracks per album (single episode), includes new theme songs"
+  },
+  "review": {
+    "status": "pending",
+    "overrides": [],
+    "notes": "Auto-created by apply-splits.py from tabaluga."
+  }
+}

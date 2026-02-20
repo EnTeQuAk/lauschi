@@ -1,0 +1,45 @@
+{
+  "query": "Split from bibi_blocksberg",
+  "model": "review-series.py",
+  "curated_at": "2026-02-20T10:53:12.391412+00:00",
+  "series": {
+    "id": "bibi_blocksberg_kinofilme",
+    "title": "Bibi Blocksberg - Die Kinofilme",
+    "aliases": [],
+    "keywords": [],
+    "spotify_artist_ids": [
+      "3t2iKODSDyzoDJw7AsD99u"
+    ],
+    "episode_pattern": "[Ff]olge\\s+(\\d+)",
+    "albums": [
+      {
+        "spotify_album_id": "1BsPIjY5OGVilHg51ZURXI",
+        "include": true,
+        "episode_num": null,
+        "title": "Bibi Blocksberg: Das große Hexentreffen (Das Original-Hörspiel zum Kinofilm)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5MuK38H2p9v1O7mnVUMRTP",
+        "include": true,
+        "episode_num": null,
+        "title": "Hörspiel zum 2. Kinofilm: und das Geheimnis der blauen Eulen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1LueDXY6cF4HllLN8HfeqW",
+        "include": true,
+        "episode_num": null,
+        "title": "Das Original Hörspiel zum Kinofilm",
+        "exclude_reason": null
+      }
+    ],
+    "age_note": "",
+    "curator_notes": "Split from Bibi Blocksberg. Kinofilm Hörspiele are standalone movie adaptations, not part of the regular episode numbering. Parents would expect these as separate entries from the main series."
+  },
+  "review": {
+    "status": "pending",
+    "overrides": [],
+    "notes": "Auto-created by apply-splits.py from bibi_blocksberg."
+  }
+}

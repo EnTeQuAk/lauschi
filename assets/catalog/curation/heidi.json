@@ -183,5 +183,99 @@
     ],
     "age_note": "Suitable from 3+",
     "curator_notes": "Two distinct productions: Classic 1977/1978 series (episodes 1-10) and CGI 2015-2016 series (episodes 1-13). Episodes from the CGI series are numbered 101-113 to distinguish from the classic series. Musical soundtrack excluded."
+  },
+  "review": {
+    "reviewed_at": "2026-02-20T10:25:21.755216+00:00",
+    "reviewed_by": "review-series.py",
+    "overrides": [
+      {
+        "album_id": "5EjZ1RjwyNbgjAYS7UtcOH",
+        "action": "exclude",
+        "reason": "Split to heidi_cgi"
+      },
+      {
+        "album_id": "66wmm6hrAuT6OX4FRrAhXJ",
+        "action": "exclude",
+        "reason": "Split to heidi_cgi"
+      },
+      {
+        "album_id": "6SnyRipyoLYS2MIvsx3Xoc",
+        "action": "exclude",
+        "reason": "Split to heidi_cgi"
+      },
+      {
+        "album_id": "7B2f4GMd62pwVO160b6Jka",
+        "action": "exclude",
+        "reason": "Split to heidi_cgi"
+      },
+      {
+        "album_id": "1NQb8SZGASwRTZz6elYlcC",
+        "action": "exclude",
+        "reason": "Split to heidi_cgi"
+      },
+      {
+        "album_id": "6h3slvubJGxkelMTQTmdGs",
+        "action": "exclude",
+        "reason": "Split to heidi_cgi"
+      },
+      {
+        "album_id": "1cVQryR5G01un8agbLFJGx",
+        "action": "exclude",
+        "reason": "Split to heidi_cgi"
+      },
+      {
+        "album_id": "5lordaKcBxHKDP582ZLmMb",
+        "action": "exclude",
+        "reason": "Split to heidi_cgi"
+      },
+      {
+        "album_id": "67UX8QIZxMDuJkCGtd91Dx",
+        "action": "exclude",
+        "reason": "Split to heidi_cgi"
+      },
+      {
+        "album_id": "6oY60aBfm9evnuoMqrJbiH",
+        "action": "exclude",
+        "reason": "Split to heidi_cgi"
+      },
+      {
+        "album_id": "6fJGXnRQZprvNpQVS5r7n0",
+        "action": "exclude",
+        "reason": "Split to heidi_cgi"
+      },
+      {
+        "album_id": "7zbLiVaNJu3HBK4pi8HUnr",
+        "action": "exclude",
+        "reason": "Split to heidi_cgi"
+      },
+      {
+        "album_id": "31m0UdSsHngj3M9H5ZZDxO",
+        "action": "exclude",
+        "reason": "Split to heidi_cgi"
+      }
+    ],
+    "splits": [
+      {
+        "new_id": "heidi_cgi",
+        "new_title": "Heidi (CGI)",
+        "album_ids": [
+          "6h3slvubJGxkelMTQTmdGs",
+          "5EjZ1RjwyNbgjAYS7UtcOH",
+          "31m0UdSsHngj3M9H5ZZDxO",
+          "7B2f4GMd62pwVO160b6Jka",
+          "66wmm6hrAuT6OX4FRrAhXJ",
+          "6fJGXnRQZprvNpQVS5r7n0",
+          "67UX8QIZxMDuJkCGtd91Dx",
+          "1cVQryR5G01un8agbLFJGx",
+          "5lordaKcBxHKDP582ZLmMb",
+          "7zbLiVaNJu3HBK4pi8HUnr",
+          "6oY60aBfm9evnuoMqrJbiH",
+          "6SnyRipyoLYS2MIvsx3Xoc",
+          "1NQb8SZGASwRTZz6elYlcC"
+        ],
+        "reason": "CGI Hörspiel series based on 2015 CGI TV series - different production era, different voice cast, different track structure (38-40 tracks vs 25-35 for classic). These are distinct products that parents would recognize as separate shows."
+      }
+    ],
+    "notes": "The series contains two clearly distinct productions: (1) Classic Heidi Hörspiel from 1977 with episodes 1-10, and (2) CGI Heidi Hörspiel from 2015 with episodes 101-113. The CGI version has a different structure (38-40 tracks per episode vs 25-35 for classic), different release dates (2015 vs 1977), and is based on a different TV series (CGI animated vs classic). Parents would see these as separate products. The classic series has gaps 11-100 which appear to be unfilled episodes - searched but no results found on Spotify. The excluded 'Heidi - Musical Highlights' is correctly excluded as it's a soundtrack, not a Hörspiel."
   }
 }

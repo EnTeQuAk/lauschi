@@ -1,0 +1,101 @@
+{
+  "query": "Split from bibi_blocksberg",
+  "model": "review-series.py",
+  "curated_at": "2026-02-20T10:53:12.395432+00:00",
+  "series": {
+    "id": "bibi_blocksberg_kampf_kartoffelbrei",
+    "title": "Bibi Blocksberg - Kampf um Kartoffelbrei",
+    "aliases": [],
+    "keywords": [],
+    "spotify_artist_ids": [
+      "3t2iKODSDyzoDJw7AsD99u"
+    ],
+    "episode_pattern": "[Ff]olge\\s+(\\d+)",
+    "albums": [
+      {
+        "spotify_album_id": "2m337lLnqHXhZZOCusT4ZX",
+        "include": true,
+        "episode_num": null,
+        "title": "Kampf um Kartoffelbrei (Special) - Teil 10: Die verhexte Fledermaus",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5bBhXVErYFrcqFsygEaH4Z",
+        "include": true,
+        "episode_num": null,
+        "title": "Kampf um Kartoffelbrei (Special) - Teil 5: Der Wirbelsturm",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2vS11F2lZ3gt85jebic2q6",
+        "include": true,
+        "episode_num": null,
+        "title": "Kampf um Kartoffelbrei (Special) - Teil 9: Karla in Gefahr",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4ugqQGYYrWYSwYDgR69Xid",
+        "include": true,
+        "episode_num": null,
+        "title": "Kampf um Kartoffelbrei (Special) - Teil 3: Hexerei aus der Ferne",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1luiyb5yyfntu7pGgNghv1",
+        "include": true,
+        "episode_num": null,
+        "title": "Kampf um Kartoffelbrei (Special) - Teil 7: Mutige Junghexen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5Q1BcpSXzvQA7QIB5ff1UV",
+        "include": true,
+        "episode_num": null,
+        "title": "Kampf um Kartoffelbrei (Special) - Teil 11: Das Hex-Duell",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6ufbMbSRG5Ru2TDwt4ogsW",
+        "include": true,
+        "episode_num": null,
+        "title": "Kampf um Kartoffelbrei (Special) - Teil 4: Eine Falle für Malicia",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "52MciMhichwTXMlwvkYikQ",
+        "include": true,
+        "episode_num": null,
+        "title": "Kampf um Kartoffelbrei (Special) - Teil 1: Malicias Rache",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0FpTHkAiviemFeIrZKOmNC",
+        "include": true,
+        "episode_num": null,
+        "title": "Kampf um Kartoffelbrei (Special) - Teil 2: Auf heißer Spur",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7CDNI7CgMnR438Rrg8l2Dq",
+        "include": true,
+        "episode_num": null,
+        "title": "Kampf um Kartoffelbrei (Special) - Teil 8: Mania greift ein",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1w5Jm0gKU6e6l5WB1v9hPn",
+        "include": true,
+        "episode_num": null,
+        "title": "Kampf um Kartoffelbrei (Special) - Teil 6: Die geheime Mission",
+        "exclude_reason": null
+      }
+    ],
+    "age_note": "",
+    "curator_notes": "Split from Bibi Blocksberg. Special 11-part story arc \"Kampf um Kartoffelbrei\" that is distinct from regular numbered episodes. Works as a standalone mini-series."
+  },
+  "review": {
+    "status": "pending",
+    "overrides": [],
+    "notes": "Auto-created by apply-splits.py from bibi_blocksberg."
+  }
+}

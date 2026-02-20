@@ -1778,8 +1778,110 @@
   },
   "review": {
     "status": "approved",
-    "reviewed_at": "2026-02-19T21:32:15.489407+00:00",
-    "overrides": [],
-    "notes": ""
+    "reviewed_at": "2026-02-20T10:13:37.117104+00:00",
+    "overrides": [
+      {
+        "album_id": "1BsPIjY5OGVilHg51ZURXI",
+        "action": "exclude",
+        "reason": "Split to bibi_blocksberg_kinofilme"
+      },
+      {
+        "album_id": "5MuK38H2p9v1O7mnVUMRTP",
+        "action": "exclude",
+        "reason": "Split to bibi_blocksberg_kinofilme"
+      },
+      {
+        "album_id": "1LueDXY6cF4HllLN8HfeqW",
+        "action": "exclude",
+        "reason": "Split to bibi_blocksberg_kinofilme"
+      },
+      {
+        "album_id": "2m337lLnqHXhZZOCusT4ZX",
+        "action": "exclude",
+        "reason": "Split to bibi_blocksberg_kampf_kartoffelbrei"
+      },
+      {
+        "album_id": "5bBhXVErYFrcqFsygEaH4Z",
+        "action": "exclude",
+        "reason": "Split to bibi_blocksberg_kampf_kartoffelbrei"
+      },
+      {
+        "album_id": "2vS11F2lZ3gt85jebic2q6",
+        "action": "exclude",
+        "reason": "Split to bibi_blocksberg_kampf_kartoffelbrei"
+      },
+      {
+        "album_id": "4ugqQGYYrWYSwYDgR69Xid",
+        "action": "exclude",
+        "reason": "Split to bibi_blocksberg_kampf_kartoffelbrei"
+      },
+      {
+        "album_id": "1luiyb5yyfntu7pGgNghv1",
+        "action": "exclude",
+        "reason": "Split to bibi_blocksberg_kampf_kartoffelbrei"
+      },
+      {
+        "album_id": "5Q1BcpSXzvQA7QIB5ff1UV",
+        "action": "exclude",
+        "reason": "Split to bibi_blocksberg_kampf_kartoffelbrei"
+      },
+      {
+        "album_id": "6ufbMbSRG5Ru2TDwt4ogsW",
+        "action": "exclude",
+        "reason": "Split to bibi_blocksberg_kampf_kartoffelbrei"
+      },
+      {
+        "album_id": "52MciMhichwTXMlwvkYikQ",
+        "action": "exclude",
+        "reason": "Split to bibi_blocksberg_kampf_kartoffelbrei"
+      },
+      {
+        "album_id": "0FpTHkAiviemFeIrZKOmNC",
+        "action": "exclude",
+        "reason": "Split to bibi_blocksberg_kampf_kartoffelbrei"
+      },
+      {
+        "album_id": "7CDNI7CgMnR438Rrg8l2Dq",
+        "action": "exclude",
+        "reason": "Split to bibi_blocksberg_kampf_kartoffelbrei"
+      },
+      {
+        "album_id": "1w5Jm0gKU6e6l5WB1v9hPn",
+        "action": "exclude",
+        "reason": "Split to bibi_blocksberg_kampf_kartoffelbrei"
+      }
+    ],
+    "notes": "Gap analysis:\n- Folge 62: Confirmed not available on Spotify after multiple searches. This is a genuine gap.\n- Folges 100, 132, 148, 149, 150: Found and adding the extended versions which include bonus content. These are the primary releases for these episodes.\n\nExcluded duplicates verification:\n- The excluded albums for episodes 100, 132, 148, 149, 150 were incorrectly marked as duplicates. These are actually the main releases with bonus tracks, not duplicates of other editions. They have been added back.\n\nKinofilm albums:\n- Three Kinofilm Hörspiele albums identified and proposed for split. These are adaptations of the movies \"Das große Hexentreffen\" (2002 and 2025 releases) and \"und das Geheimnis der blauen Eulen\" (2004).\n\nRemaining excluded albums appear correct:\n- Soundtracks, single songs, audiobooks, ASMR, educational content, spin-off short stories, advent calendars, musicals, and compilation box sets are appropriately excluded.",
+    "reviewed_by": "review-series.py",
+    "splits": [
+      {
+        "new_id": "bibi_blocksberg_kinofilme",
+        "new_title": "Bibi Blocksberg - Die Kinofilme",
+        "album_ids": [
+          "1BsPIjY5OGVilHg51ZURXI",
+          "1LueDXY6cF4HllLN8HfeqW",
+          "5MuK38H2p9v1O7mnVUMRTP"
+        ],
+        "reason": "Kinofilm Hörspiele are standalone movie adaptations, not part of the regular episode numbering. Parents would expect these as separate entries from the main series."
+      },
+      {
+        "new_id": "bibi_blocksberg_kampf_kartoffelbrei",
+        "new_title": "Bibi Blocksberg - Kampf um Kartoffelbrei",
+        "album_ids": [
+          "2m337lLnqHXhZZOCusT4ZX",
+          "5Q1BcpSXzvQA7QIB5ff1UV",
+          "52MciMhichwTXMlwvkYikQ",
+          "0FpTHkAiviemFeIrZKOmNC",
+          "4ugqQGYYrWYSwYDgR69Xid",
+          "6ufbMbSRG5Ru2TDwt4ogsW",
+          "5bBhXVErYFrcqFsygEaH4Z",
+          "1w5Jm0gKU6e6l5WB1v9hPn",
+          "1luiyb5yyfntu7pGgNghv1",
+          "7CDNI7CgMnR438Rrg8l2Dq",
+          "2vS11F2lZ3gt85jebic2q6"
+        ],
+        "reason": "Special 11-part story arc \"Kampf um Kartoffelbrei\" that is distinct from regular numbered episodes. Works as a standalone mini-series."
+      }
+    ]
   }
 }

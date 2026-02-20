@@ -234,5 +234,105 @@
     ],
     "age_note": "Suitable from 5+",
     "curator_notes": "Two distinct eras on the same artist: 1) 'Episode 01-17' are newer episodes with Fritz Fuchs (2021-present), 2) 'Löwenzahn CLASSICS Folge 01-14' are classic episodes with Peter Lustig (2023 re-releases). No Retro-Archiv or Junior variants found for this series. All albums are individual episodes split into multiple tracks (Teil 1-17), not box sets."
+  },
+  "review": {
+    "reviewed_at": "2026-02-20T10:28:24.569985+00:00",
+    "reviewed_by": "review-series.py",
+    "overrides": [
+      {
+        "album_id": "5E8xDbQMUOh6Imi9E8XktW",
+        "action": "exclude",
+        "reason": "Split to loewenzahn_classics"
+      },
+      {
+        "album_id": "05Sngq3UX7WZRrqiZduut5",
+        "action": "exclude",
+        "reason": "Split to loewenzahn_classics"
+      },
+      {
+        "album_id": "1628LG4tGMNiyVtvYKN0nA",
+        "action": "exclude",
+        "reason": "Split to loewenzahn_classics"
+      },
+      {
+        "album_id": "2bneBzGrch4nsyfc7ksXgn",
+        "action": "exclude",
+        "reason": "Split to loewenzahn_classics"
+      },
+      {
+        "album_id": "2vlCznueqZebgaAEqpYaAd",
+        "action": "exclude",
+        "reason": "Split to loewenzahn_classics"
+      },
+      {
+        "album_id": "6Zb8gnLDF54v6StxWFvHft",
+        "action": "exclude",
+        "reason": "Split to loewenzahn_classics"
+      },
+      {
+        "album_id": "1TjAlLPhQX8GXy2q1SG6hs",
+        "action": "exclude",
+        "reason": "Split to loewenzahn_classics"
+      },
+      {
+        "album_id": "0zc0kqB4o3oXGwYBX1HSaD",
+        "action": "exclude",
+        "reason": "Split to loewenzahn_classics"
+      },
+      {
+        "album_id": "3N5CbahYQ5qK2TAFg6KXWM",
+        "action": "exclude",
+        "reason": "Split to loewenzahn_classics"
+      },
+      {
+        "album_id": "7IRNGg0uop1vW8IkNDD44J",
+        "action": "exclude",
+        "reason": "Split to loewenzahn_classics"
+      },
+      {
+        "album_id": "19VqJKWcLjycds5IUqARM7",
+        "action": "exclude",
+        "reason": "Split to loewenzahn_classics"
+      },
+      {
+        "album_id": "4CG6cUoxLhe4cvNn4NgzQZ",
+        "action": "exclude",
+        "reason": "Split to loewenzahn_classics"
+      },
+      {
+        "album_id": "1ip1jv0F4yc6pSLaNhMqdB",
+        "action": "exclude",
+        "reason": "Split to loewenzahn_classics"
+      },
+      {
+        "album_id": "1ziY9K7tSTZvASsQ7xWze1",
+        "action": "exclude",
+        "reason": "Split to loewenzahn_classics"
+      }
+    ],
+    "splits": [
+      {
+        "new_id": "loewenzahn_classics",
+        "new_title": "Löwenzahn CLASSICS mit Peter Lustig",
+        "album_ids": [
+          "3N5CbahYQ5qK2TAFg6KXWM",
+          "1ip1jv0F4yc6pSLaNhMqdB",
+          "6Zb8gnLDF54v6StxWFvHft",
+          "7IRNGg0uop1vW8IkNDD44J",
+          "2bneBzGrch4nsyfc7ksXgn",
+          "5E8xDbQMUOh6Imi9E8XktW",
+          "1TjAlLPhQX8GXy2q1SG6hs",
+          "05Sngq3UX7WZRrqiZduut5",
+          "2vlCznueqZebgaAEqpYaAd",
+          "0zc0kqB4o3oXGwYBX1HSaD",
+          "4CG6cUoxLhe4cvNn4NgzQZ",
+          "1628LG4tGMNiyVtvYKN0nA",
+          "1ziY9K7tSTZvASsQ7xWze1",
+          "19VqJKWcLjycds5IUqARM7"
+        ],
+        "reason": "These are the CLASSICS re-releases featuring Peter Lustig. They are distinct from the newer episodes (Episodes 1-17) which feature a different protagonist (Fritz Fuchs). The CLASSICS have different episode titles, different track counts, and are clearly marketed as a separate product line for fans of the original TV series with Peter Lustig."
+      }
+    ],
+    "notes": "This series contains two distinct products that should be split:\n\n1. **Löwenzahn CLASSICS (14 albums)**: Re-releases of the original Hörspiele featuring Peter Lustig, released 2023. These have different titles (e.g., 'Peter und der Tanz der Vampire' vs 'Abenteuer Feuerland'), longer track counts (16-17 tracks vs 13 tracks), and are clearly branded as CLASSICS.\n\n2. **New Löwenzahn episodes (17 albums)**: Modern episodes featuring Fritz Fuchs as the protagonist, released 2021-2026. These are numbered Episode 01-17 and have different story content.\n\nThe two versions share episode numbers but have completely different content - they are NOT duplicates. A parent looking for the classic Peter Lustig episodes would be confused to find Fritz Fuchs episodes mixed in, and vice versa.\n\nEpisodes 15-17 in the main series feature Fritz Fuchs (not Peter Lustig), confirming this is the modern continuation of the series."
   }
 }

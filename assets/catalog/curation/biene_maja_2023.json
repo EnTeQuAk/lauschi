@@ -1,0 +1,144 @@
+{
+  "query": "Split from biene_maja",
+  "model": "review-series.py",
+  "curated_at": "2026-02-20T10:53:12.397825+00:00",
+  "series": {
+    "id": "biene_maja_2023",
+    "title": "Biene Maja (2023)",
+    "aliases": [],
+    "keywords": [],
+    "spotify_artist_ids": [
+      "7GfaHcpmNcrcHoyGnOBsAz",
+      "7rETIyymYr7alw77vGZnpl"
+    ],
+    "episode_pattern": "(?:Folge|Teil)\\s+(\\d+)",
+    "albums": [
+      {
+        "spotify_album_id": "54uoLi7XfOCXlU9VhcpFA4",
+        "include": true,
+        "episode_num": 16,
+        "title": "Die Flucht (Die Biene Maja, Folge 16)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3yDjqIsxRjtX58BcjXRxtr",
+        "include": true,
+        "episode_num": 17,
+        "title": "Die Heimkehr (Die Biene Maja, Folge 17)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1BFF4yotZskiMPs1OGZUfB",
+        "include": true,
+        "episode_num": 3,
+        "title": "Der Waldsee und seine Leute (Die Biene Maja, Folge 3)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2o4ClxySgbVf4I2QM9k7Cl",
+        "include": true,
+        "episode_num": 10,
+        "title": "Hannibals Kampf mit dem Menschen - Teil 2 (Die Biene Maja, Folge 10)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1CV3qxoaeXiUXtWvw1azge",
+        "include": true,
+        "episode_num": 9,
+        "title": "Hannibals Kampf mit dem Menschen - Teil 1 (Die Biene Maja, Folge 9)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1xNbBlw1dUwsUCitEEeN9n",
+        "include": true,
+        "episode_num": 12,
+        "title": "Die Wunder der Nacht - Teil 2 (Die Biene Maja, Folge 12)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4ETGxDs2H7PFHiP0isVJcV",
+        "include": true,
+        "episode_num": 13,
+        "title": "Die Elfenfahrt (Die Biene Maja, Folge 13)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "41C1VeN0kNAVMHcHFwK62E",
+        "include": true,
+        "episode_num": 8,
+        "title": "Die Wanze und der Schmetterling (Die Biene Maja, Folge 8)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3krEzMFEOV141SmbDY0ynT",
+        "include": true,
+        "episode_num": 2,
+        "title": "Peppis Rosenhaus (Die Biene Maja, Folge 2)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5IeGF6y1MiKV9AmzVck1ya",
+        "include": true,
+        "episode_num": 11,
+        "title": "Die Wunder der Nacht - Teil 1 (Die Biene Maja, Folge 11)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4rjSbfJIqysTcZFDg67BQq",
+        "include": true,
+        "episode_num": 7,
+        "title": "Majas Gefangenschaft bei der Spinne (Die Biene Maja, Folge 7)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4ty7FV6jZKS7Ke6zS0vZ1A",
+        "include": true,
+        "episode_num": 5,
+        "title": "Der Grashüpfer (Die Biene Maja, Folge 5)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1xQonUPRwzG90tiFiyUleI",
+        "include": true,
+        "episode_num": 6,
+        "title": "Puck (Die Biene Maja, Folge 6)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1dgFNr059h2LDlq7NfOALy",
+        "include": true,
+        "episode_num": 14,
+        "title": "Der Dichter Alois Siebenpunkt (Die Biene Maja, Folge 14)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5zlX8b32cXfgLS1DvgS0yT",
+        "include": true,
+        "episode_num": 1,
+        "title": "Majas Flucht aus der Heimatstadt (Die Biene Maja, Folge 1)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5R2V97bFngS719a68SXkxo",
+        "include": true,
+        "episode_num": 4,
+        "title": "Iffi und Kurt (Die Biene Maja, Folge 4)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7jTXOBZ97oGi6fydPU1Uir",
+        "include": true,
+        "episode_num": 15,
+        "title": "Die Räuberburg (Die Biene Maja, Folge 15)",
+        "exclude_reason": null
+      }
+    ],
+    "age_note": "Suitable from 3+",
+    "curator_notes": "Split from Biene Maja. Modern 2023-2025 Europa/Sony Hörspiel production. Single-episode format (5-6 tracks per album), different voice cast and production style from classic version. 'Die Biene Maja' branding distinguishes it as separate product."
+  },
+  "review": {
+    "status": "pending",
+    "overrides": [],
+    "notes": "Auto-created by apply-splits.py from biene_maja."
+  }
+}

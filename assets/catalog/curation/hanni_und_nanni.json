@@ -721,5 +721,65 @@
     ],
     "age_note": "Suitable from 5+",
     "curator_notes": "Series spans two Spotify artists: 'Hanni und Nanni' (main, 52k followers) and 'Hanni & Nanni' (9k followers). The second artist only has a music single which is excluded. The main artist contains the complete Hörspiel series (episodes 1-80 plus a new 'Neue Abenteuer' sub-series). Episode numbering has varied formats over the years: early episodes use 'NN/' prefix (e.g., '068/'), mid-series uses 'Folge N:', and recent episodes use 'Folge N:' format. The 'Klassiker' albums are re-releases of the original 12 episodes from 1972-1976 and are excluded as duplicates. An Adventskalender (Christmas calendar) with 24 short daily stories is also excluded as it's not part of the main episode run. A movie tie-in audiobook 'Mehr als beste Freunde' is also excluded."
+  },
+  "review": {
+    "reviewed_at": "2026-02-20T10:24:24.657640+00:00",
+    "reviewed_by": "review-series.py",
+    "overrides": [
+      {
+        "album_id": "4CUufLD10OrD2yuk3PJkYG",
+        "action": "exclude",
+        "reason": "This is the original 1986 classic version of episode 1. The modern 2025 'Neue Abenteuer' re-recording (4xrdTvOrQTFEGke8945KNt) is being kept as the primary version for the main series, and this classic version should be excluded as a duplicate of the same episode content."
+      },
+      {
+        "album_id": "3ujRGehOcxUD9j9SYCFgAj",
+        "action": "exclude",
+        "reason": "This is the original 1986 classic version of episode 2. The modern 2025 'Neue Abenteuer' re-recording (6zZk7LkH1m6YoWWm03YLiE) is being kept as the primary version for the main series, and this classic version should be excluded as a duplicate of the same episode content."
+      },
+      {
+        "album_id": "5cSal1otXLIaRfDpocF2RH",
+        "action": "exclude",
+        "reason": "This is the original 1986 classic version of episode 3. The modern 2025 'Neue Abenteuer' re-recording (2AtMEM0eThrrAFZgsVdI2t) is being kept as the primary version for the main series, and this classic version should be excluded as a duplicate of the same episode content."
+      },
+      {
+        "album_id": "3cVoL42B6Tk0XfENDvESrw",
+        "action": "exclude",
+        "reason": "This is the original 1986 classic version of episode 4. The modern 2025 'Neue Abenteuer' re-recording (6XTedYExfvjpVlgsqHg8Lh) is being kept as the primary version for the main series, and this classic version should be excluded as a duplicate of the same episode content."
+      },
+      {
+        "album_id": "4xrdTvOrQTFEGke8945KNt",
+        "action": "exclude",
+        "reason": "Split to hanni_und_nanni_neue_abenteuer"
+      },
+      {
+        "album_id": "6zZk7LkH1m6YoWWm03YLiE",
+        "action": "exclude",
+        "reason": "Split to hanni_und_nanni_neue_abenteuer"
+      },
+      {
+        "album_id": "2AtMEM0eThrrAFZgsVdI2t",
+        "action": "exclude",
+        "reason": "Split to hanni_und_nanni_neue_abenteuer"
+      },
+      {
+        "album_id": "6XTedYExfvjpVlgsqHg8Lh",
+        "action": "exclude",
+        "reason": "Split to hanni_und_nanni_neue_abenteuer"
+      }
+    ],
+    "splits": [
+      {
+        "new_id": "hanni_und_nanni_neue_abenteuer",
+        "new_title": "Hanni und Nanni: Neue Abenteuer",
+        "album_ids": [
+          "4xrdTvOrQTFEGke8945KNt",
+          "6zZk7LkH1m6YoWWm03YLiE",
+          "2AtMEM0eThrrAFZgsVdI2t",
+          "6XTedYExfvjpVlgsqHg8Lh"
+        ],
+        "reason": "These are modern 2025-2026 re-recordings labeled 'Neue Abenteuer' with different voice cast, different track structure (22 tracks with intro/outro vs 40 short parts), and modern production. They are distinct products that should be a separate series entry."
+      }
+    ],
+    "notes": "The series has two distinct eras: 1) Original 1986-1990s classic recordings (episodes 1-68 with 40 short track parts), and 2) Modern 2025-2026 'Neue Abenteuer' re-recordings (episodes 1-4 so far with 22 tracks including intro/outro). I propose splitting the modern re-recordings into a separate series 'Hanni und Nanni: Neue Abenteuer' since they are a different product with different voice cast and production style. For the main series, I'm excluding the classic versions of episodes 1-4 as duplicates since the modern versions are being kept in the new split series. Episodes 5-68 remain as the classic versions in the main series, and episodes 69-80 are already modern productions that continue the series naturally."
   }
 }

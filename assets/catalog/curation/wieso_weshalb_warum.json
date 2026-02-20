@@ -1187,5 +1187,654 @@
     ],
     "age_note": "Suitable from 3+",
     "curator_notes": "The 'Wieso? Weshalb? Warum?' series spans multiple sub-series targeted at different age groups: main series (ages 4-7), JUNIOR (ages 3-5, shorter episodes), PROFIWISSEN (ages 6-10, in-depth topics), ERSTLESER (early readers, longer content), and Meine Vorlesegeschichten (read-aloud stories). All sub-series are included as they form one cohesive educational brand. Some special episodes like 'Wir entdecken Deutschland' and 'Wir entdecken die Bibel' lack episode numbers but are valid individual releases."
+  },
+  "review": {
+    "reviewed_at": "2026-02-20T10:43:23.712954+00:00",
+    "reviewed_by": "review-series.py",
+    "overrides": [
+      {
+        "album_id": "0QRQm1v2kjuYl5ChlAr0BL",
+        "action": "exclude",
+        "reason": "Split to wieso_weshalb_warum_junior"
+      },
+      {
+        "album_id": "3n89fkumFJzz271wSwq1NI",
+        "action": "exclude",
+        "reason": "Split to wieso_weshalb_warum_junior"
+      },
+      {
+        "album_id": "3XoNliBbtfzY8DTZhVYuZV",
+        "action": "exclude",
+        "reason": "Split to wieso_weshalb_warum_junior"
+      },
+      {
+        "album_id": "5q3LMwzRLM4ZuOLwle09eM",
+        "action": "exclude",
+        "reason": "Split to wieso_weshalb_warum_junior"
+      },
+      {
+        "album_id": "3yNMJXjQQ0rWAymj53Aq5B",
+        "action": "exclude",
+        "reason": "Split to wieso_weshalb_warum_junior"
+      },
+      {
+        "album_id": "1Xzti3LZXioCsFxqMMBb55",
+        "action": "exclude",
+        "reason": "Split to wieso_weshalb_warum_junior"
+      },
+      {
+        "album_id": "6UfcMvEeQnqnGpqHKTgnNA",
+        "action": "exclude",
+        "reason": "Split to wieso_weshalb_warum_junior"
+      },
+      {
+        "album_id": "0qmAUmosvU4odac7Ib0Zz5",
+        "action": "exclude",
+        "reason": "Split to wieso_weshalb_warum_junior"
+      },
+      {
+        "album_id": "204WlPSjnEBiHfrf2NcMWR",
+        "action": "exclude",
+        "reason": "Split to wieso_weshalb_warum_junior"
+      },
+      {
+        "album_id": "2jI9RAovci4pN9XTmb2Spa",
+        "action": "exclude",
+        "reason": "Split to wieso_weshalb_warum_junior"
+      },
+      {
+        "album_id": "1gVkgmYgRRD0pj0U6FBG6L",
+        "action": "exclude",
+        "reason": "Split to wieso_weshalb_warum_junior"
+      },
+      {
+        "album_id": "5zf5CvMoEPxPP8oNRrQ8wv",
+        "action": "exclude",
+        "reason": "Split to wieso_weshalb_warum_junior"
+      },
+      {
+        "album_id": "5fodAVOk3T7rrjvPXusfvD",
+        "action": "exclude",
+        "reason": "Split to wieso_weshalb_warum_junior"
+      },
+      {
+        "album_id": "3ztvcaTl4iJYWkyISZ7M6v",
+        "action": "exclude",
+        "reason": "Split to wieso_weshalb_warum_junior"
+      },
+      {
+        "album_id": "1dAzaXeUBYj25OqNgIGmG2",
+        "action": "exclude",
+        "reason": "Split to wieso_weshalb_warum_junior"
+      },
+      {
+        "album_id": "5cHtCSRyTYJZiKQ0qGmUEy",
+        "action": "exclude",
+        "reason": "Split to wieso_weshalb_warum_junior"
+      },
+      {
+        "album_id": "7aFBdUmTglMh5OAId7goSM",
+        "action": "exclude",
+        "reason": "Split to wieso_weshalb_warum_junior"
+      },
+      {
+        "album_id": "2pLXJc6saebrCxLsgQbj4p",
+        "action": "exclude",
+        "reason": "Split to wieso_weshalb_warum_junior"
+      },
+      {
+        "album_id": "7BFAWgAumC9mAAR931HUtO",
+        "action": "exclude",
+        "reason": "Split to wieso_weshalb_warum_junior"
+      },
+      {
+        "album_id": "2JktIbXeoqcn9lRMrPOpMG",
+        "action": "exclude",
+        "reason": "Split to wieso_weshalb_warum_junior"
+      },
+      {
+        "album_id": "2QJTkqFO9ONZIibz5AwGz9",
+        "action": "exclude",
+        "reason": "Split to wieso_weshalb_warum_junior"
+      },
+      {
+        "album_id": "5mY9S1Qwlah7AXdBERsn1q",
+        "action": "exclude",
+        "reason": "Split to wieso_weshalb_warum_junior"
+      },
+      {
+        "album_id": "35AzVNMYJ0pcXugh1N7EeD",
+        "action": "exclude",
+        "reason": "Split to wieso_weshalb_warum_junior"
+      },
+      {
+        "album_id": "01wPgiL6OuLdTej8MuMAaf",
+        "action": "exclude",
+        "reason": "Split to wieso_weshalb_warum_junior"
+      },
+      {
+        "album_id": "0O5fBbwzurNKIcb8cufXwm",
+        "action": "exclude",
+        "reason": "Split to wieso_weshalb_warum_junior"
+      },
+      {
+        "album_id": "6T7WqBAZw1aPpoqyMko3bT",
+        "action": "exclude",
+        "reason": "Split to wieso_weshalb_warum_junior"
+      },
+      {
+        "album_id": "7sTtq8pp7ShgVgjzlId6Xe",
+        "action": "exclude",
+        "reason": "Split to wieso_weshalb_warum_junior"
+      },
+      {
+        "album_id": "4I2ewHD1HR4Y3iKL87w1pC",
+        "action": "exclude",
+        "reason": "Split to wieso_weshalb_warum_junior"
+      },
+      {
+        "album_id": "1zlWB5lTNlGkXk9aovuNhx",
+        "action": "exclude",
+        "reason": "Split to wieso_weshalb_warum_junior"
+      },
+      {
+        "album_id": "4F9A0kKe2tBiB3cbFuhOpD",
+        "action": "exclude",
+        "reason": "Split to wieso_weshalb_warum_junior"
+      },
+      {
+        "album_id": "37FlFXt4WP5xwe7ViMbdY6",
+        "action": "exclude",
+        "reason": "Split to wieso_weshalb_warum_junior"
+      },
+      {
+        "album_id": "5hRuRqx5WLvq6CYoe18CxJ",
+        "action": "exclude",
+        "reason": "Split to wieso_weshalb_warum_junior"
+      },
+      {
+        "album_id": "1io7r4BSeXf7d50e1cR5AK",
+        "action": "exclude",
+        "reason": "Split to wieso_weshalb_warum_junior"
+      },
+      {
+        "album_id": "7tSZ55ZvLmrZu0udtUGyHe",
+        "action": "exclude",
+        "reason": "Split to wieso_weshalb_warum_junior"
+      },
+      {
+        "album_id": "0ILxiFEuWxYy1IVQRiufMV",
+        "action": "exclude",
+        "reason": "Split to wieso_weshalb_warum_junior"
+      },
+      {
+        "album_id": "4FikmmRrBni6uTVOOpFADE",
+        "action": "exclude",
+        "reason": "Split to wieso_weshalb_warum_junior"
+      },
+      {
+        "album_id": "7lY7Q5D8KbHw8Uq4chL38W",
+        "action": "exclude",
+        "reason": "Split to wieso_weshalb_warum_junior"
+      },
+      {
+        "album_id": "0EAnLt86iauYM7w90ufFgH",
+        "action": "exclude",
+        "reason": "Split to wieso_weshalb_warum_junior"
+      },
+      {
+        "album_id": "1F656MaS0mhT18F4BT2RFL",
+        "action": "exclude",
+        "reason": "Split to wieso_weshalb_warum_junior"
+      },
+      {
+        "album_id": "5jHZRceH8uoQEIGtHJ4wfr",
+        "action": "exclude",
+        "reason": "Split to wieso_weshalb_warum_junior"
+      },
+      {
+        "album_id": "0ir17MpHVslgFI40bT1NFh",
+        "action": "exclude",
+        "reason": "Split to wieso_weshalb_warum_junior"
+      },
+      {
+        "album_id": "7j0qrGG3KKwywEWEaFG8Gx",
+        "action": "exclude",
+        "reason": "Split to wieso_weshalb_warum_junior"
+      },
+      {
+        "album_id": "4aJ5gxIUJycvKhPBiiNpem",
+        "action": "exclude",
+        "reason": "Split to wieso_weshalb_warum_junior"
+      },
+      {
+        "album_id": "72SMHfW7AKarbag2uwItXL",
+        "action": "exclude",
+        "reason": "Split to wieso_weshalb_warum_junior"
+      },
+      {
+        "album_id": "1XjNR9Kav1cQ5X0SrCAwv7",
+        "action": "exclude",
+        "reason": "Split to wieso_weshalb_warum_junior"
+      },
+      {
+        "album_id": "3d9MDMbHDJdQdxPPrAxWr9",
+        "action": "exclude",
+        "reason": "Split to wieso_weshalb_warum_junior"
+      },
+      {
+        "album_id": "50AtidafqpRFoS0DPt4HJ8",
+        "action": "exclude",
+        "reason": "Split to wieso_weshalb_warum_junior"
+      },
+      {
+        "album_id": "6HohXs3FQ5ajfsmJPokMD3",
+        "action": "exclude",
+        "reason": "Split to wieso_weshalb_warum_junior"
+      },
+      {
+        "album_id": "6iOA39AnSL1Cc9mmHStjMj",
+        "action": "exclude",
+        "reason": "Split to wieso_weshalb_warum_junior"
+      },
+      {
+        "album_id": "6wwy5qNXtNv1U8zGtvVi66",
+        "action": "exclude",
+        "reason": "Split to wieso_weshalb_warum_junior"
+      },
+      {
+        "album_id": "4zUcSds6jotTsotWyE6u3E",
+        "action": "exclude",
+        "reason": "Split to wieso_weshalb_warum_junior"
+      },
+      {
+        "album_id": "0zyklUecdmBkUqKQyjobbC",
+        "action": "exclude",
+        "reason": "Split to wieso_weshalb_warum_junior"
+      },
+      {
+        "album_id": "6ab5JjhiWFa06RvxlK3UIc",
+        "action": "exclude",
+        "reason": "Split to wieso_weshalb_warum_junior"
+      },
+      {
+        "album_id": "1emKCQxJyCP57rsSSnxPBJ",
+        "action": "exclude",
+        "reason": "Split to wieso_weshalb_warum_junior"
+      },
+      {
+        "album_id": "7CEVzJZMZXwa4tiX9OT9ld",
+        "action": "exclude",
+        "reason": "Split to wieso_weshalb_warum_junior"
+      },
+      {
+        "album_id": "3Ll8hgpkmPvRdjgQ8cpH8j",
+        "action": "exclude",
+        "reason": "Split to wieso_weshalb_warum_junior"
+      },
+      {
+        "album_id": "2H6EoA8iIXGjIy4bAfcpNY",
+        "action": "exclude",
+        "reason": "Split to wieso_weshalb_warum_junior"
+      },
+      {
+        "album_id": "66gueEgbrr2mRl5hudeMUo",
+        "action": "exclude",
+        "reason": "Split to wieso_weshalb_warum_junior"
+      },
+      {
+        "album_id": "0B2eoD3hlVjMhgPn0Gj4ll",
+        "action": "exclude",
+        "reason": "Split to wieso_weshalb_warum_junior"
+      },
+      {
+        "album_id": "5100EVI0XorxLunKTiyvkW",
+        "action": "exclude",
+        "reason": "Split to wieso_weshalb_warum_junior"
+      },
+      {
+        "album_id": "7wwaBc0hoV2PKHX4SRQMSz",
+        "action": "exclude",
+        "reason": "Split to wieso_weshalb_warum_junior"
+      },
+      {
+        "album_id": "0S7iTpMAD9zjbPVmwUAQTi",
+        "action": "exclude",
+        "reason": "Split to wieso_weshalb_warum_junior"
+      },
+      {
+        "album_id": "3r1pFPWOhvbZLHiXkvqziG",
+        "action": "exclude",
+        "reason": "Split to wieso_weshalb_warum_junior"
+      },
+      {
+        "album_id": "3iupva6Blzpc0coPBOLYC3",
+        "action": "exclude",
+        "reason": "Split to wieso_weshalb_warum_junior"
+      },
+      {
+        "album_id": "1ESUpWc4Tc10nAiMgLkcaR",
+        "action": "exclude",
+        "reason": "Split to wieso_weshalb_warum_junior"
+      },
+      {
+        "album_id": "5D4NrvYikj5UxytXBFAcyZ",
+        "action": "exclude",
+        "reason": "Split to wieso_weshalb_warum_profiwissen"
+      },
+      {
+        "album_id": "6aJcSvhJ3h3Flt3F6orEnM",
+        "action": "exclude",
+        "reason": "Split to wieso_weshalb_warum_profiwissen"
+      },
+      {
+        "album_id": "3uoy5eDRPeXdmbajEMszRL",
+        "action": "exclude",
+        "reason": "Split to wieso_weshalb_warum_profiwissen"
+      },
+      {
+        "album_id": "3zgxD0Wr2Y5tUtoafGAXJD",
+        "action": "exclude",
+        "reason": "Split to wieso_weshalb_warum_profiwissen"
+      },
+      {
+        "album_id": "3hmusuKgLRhAjx02qRzX6L",
+        "action": "exclude",
+        "reason": "Split to wieso_weshalb_warum_profiwissen"
+      },
+      {
+        "album_id": "7MoKxSFPyDUhSG7mClth7w",
+        "action": "exclude",
+        "reason": "Split to wieso_weshalb_warum_profiwissen"
+      },
+      {
+        "album_id": "2ikT2NVMfU4kTVi0y0sBAp",
+        "action": "exclude",
+        "reason": "Split to wieso_weshalb_warum_profiwissen"
+      },
+      {
+        "album_id": "4hKnFRVyyhEyDAm06jbtYi",
+        "action": "exclude",
+        "reason": "Split to wieso_weshalb_warum_profiwissen"
+      },
+      {
+        "album_id": "0rfxiNtXhAgSIdqeOpDa19",
+        "action": "exclude",
+        "reason": "Split to wieso_weshalb_warum_profiwissen"
+      },
+      {
+        "album_id": "0VFw6TFHb28JOcv3mBsHxF",
+        "action": "exclude",
+        "reason": "Split to wieso_weshalb_warum_profiwissen"
+      },
+      {
+        "album_id": "4JjqSkIVYRTdkRMBfZa56s",
+        "action": "exclude",
+        "reason": "Split to wieso_weshalb_warum_profiwissen"
+      },
+      {
+        "album_id": "3TAWveTLyLNgSGlEYVtQcI",
+        "action": "exclude",
+        "reason": "Split to wieso_weshalb_warum_profiwissen"
+      },
+      {
+        "album_id": "1tsKtqRc72V9z0wiShby5s",
+        "action": "exclude",
+        "reason": "Split to wieso_weshalb_warum_profiwissen"
+      },
+      {
+        "album_id": "2wwezWM0GBYFAK1ZBh6i6p",
+        "action": "exclude",
+        "reason": "Split to wieso_weshalb_warum_profiwissen"
+      },
+      {
+        "album_id": "2NnIrKPVmNZBJVdJsCfOKp",
+        "action": "exclude",
+        "reason": "Split to wieso_weshalb_warum_profiwissen"
+      },
+      {
+        "album_id": "3EFJOwBrk4kaxHpzRYQRho",
+        "action": "exclude",
+        "reason": "Split to wieso_weshalb_warum_profiwissen"
+      },
+      {
+        "album_id": "505qINntDxBqxm1W9OXNtH",
+        "action": "exclude",
+        "reason": "Split to wieso_weshalb_warum_profiwissen"
+      },
+      {
+        "album_id": "7v5xwVrCLQoJZpryltbMF3",
+        "action": "exclude",
+        "reason": "Split to wieso_weshalb_warum_erstleser"
+      },
+      {
+        "album_id": "7f70cV1g4qlRZVHkSElmm1",
+        "action": "exclude",
+        "reason": "Split to wieso_weshalb_warum_erstleser"
+      },
+      {
+        "album_id": "0S0M8RbZgQUVHB2NJexwBS",
+        "action": "exclude",
+        "reason": "Split to wieso_weshalb_warum_erstleser"
+      },
+      {
+        "album_id": "7nmazapbnldQJN9qOUXwDX",
+        "action": "exclude",
+        "reason": "Split to wieso_weshalb_warum_erstleser"
+      },
+      {
+        "album_id": "4nhwS9ztoA3OxsqQ7IVI2w",
+        "action": "exclude",
+        "reason": "Split to wieso_weshalb_warum_erstleser"
+      },
+      {
+        "album_id": "0Hc7NANGrr24Z3YM8z0i9p",
+        "action": "exclude",
+        "reason": "Split to wieso_weshalb_warum_erstleser"
+      },
+      {
+        "album_id": "41a2ZVOBGfP1yQ9TGCZg1M",
+        "action": "exclude",
+        "reason": "Split to wieso_weshalb_warum_erstleser"
+      },
+      {
+        "album_id": "43E1rRbWsqJ3TthwimXvvS",
+        "action": "exclude",
+        "reason": "Split to wieso_weshalb_warum_erstleser"
+      },
+      {
+        "album_id": "5FBdee2s7NNUDgnBj22bv7",
+        "action": "exclude",
+        "reason": "Split to wieso_weshalb_warum_erstleser"
+      },
+      {
+        "album_id": "2I6tuy3ML4PyAaurlppW6B",
+        "action": "exclude",
+        "reason": "Split to wieso_weshalb_warum_erstleser"
+      },
+      {
+        "album_id": "1Bph3iCCrgEyemGXR5lYN9",
+        "action": "exclude",
+        "reason": "Split to wieso_weshalb_warum_erstleser"
+      },
+      {
+        "album_id": "3utAvGFi6JySY5c8vXT5Tc",
+        "action": "exclude",
+        "reason": "Split to wieso_weshalb_warum_erstleser"
+      },
+      {
+        "album_id": "6lQWCJ7mo7ioMZSrZUKfxQ",
+        "action": "exclude",
+        "reason": "Split to wieso_weshalb_warum_erstleser"
+      },
+      {
+        "album_id": "6wiQGmYF0rOCbqQGpQqYi0",
+        "action": "exclude",
+        "reason": "Split to wieso_weshalb_warum_erstleser"
+      },
+      {
+        "album_id": "4PJKSQEqcKSag3dKxjj2yD",
+        "action": "exclude",
+        "reason": "Split to wieso_weshalb_warum_erstleser"
+      },
+      {
+        "album_id": "4uarYt8XVesrFlF5vEXqHI",
+        "action": "exclude",
+        "reason": "Split to wieso_weshalb_warum_erstleser"
+      },
+      {
+        "album_id": "450rh9RVDMe0muWgUkYMKQ",
+        "action": "exclude",
+        "reason": "Split to wieso_weshalb_warum_erstleser"
+      },
+      {
+        "album_id": "4craGbCLchGdKewnQYCGo2",
+        "action": "exclude",
+        "reason": "Split to wieso_weshalb_warum_vorlesegeschichten"
+      },
+      {
+        "album_id": "0NiJ11SM4QQzAbrEGRVXIf",
+        "action": "exclude",
+        "reason": "Split to wieso_weshalb_warum_vorlesegeschichten"
+      },
+      {
+        "album_id": "20idnrDkDmTHirWuVDbEA8",
+        "action": "exclude",
+        "reason": "Split to wieso_weshalb_warum_vorlesegeschichten"
+      }
+    ],
+    "splits": [
+      {
+        "new_id": "wieso_weshalb_warum_junior",
+        "new_title": "Wieso? Weshalb? Warum? junior",
+        "album_ids": [
+          "1ESUpWc4Tc10nAiMgLkcaR",
+          "1zlWB5lTNlGkXk9aovuNhx",
+          "7aFBdUmTglMh5OAId7goSM",
+          "6ab5JjhiWFa06RvxlK3UIc",
+          "6wwy5qNXtNv1U8zGtvVi66",
+          "35AzVNMYJ0pcXugh1N7EeD",
+          "7CEVzJZMZXwa4tiX9OT9ld",
+          "3Ll8hgpkmPvRdjgQ8cpH8j",
+          "3n89fkumFJzz271wSwq1NI",
+          "4FikmmRrBni6uTVOOpFADE",
+          "3ztvcaTl4iJYWkyISZ7M6v",
+          "4zUcSds6jotTsotWyE6u3E",
+          "5mY9S1Qwlah7AXdBERsn1q",
+          "3yNMJXjQQ0rWAymj53Aq5B",
+          "7j0qrGG3KKwywEWEaFG8Gx",
+          "1gVkgmYgRRD0pj0U6FBG6L",
+          "2H6EoA8iIXGjIy4bAfcpNY",
+          "50AtidafqpRFoS0DPt4HJ8",
+          "7tSZ55ZvLmrZu0udtUGyHe",
+          "0qmAUmosvU4odac7Ib0Zz5",
+          "4F9A0kKe2tBiB3cbFuhOpD",
+          "1Xzti3LZXioCsFxqMMBb55",
+          "1F656MaS0mhT18F4BT2RFL",
+          "0zyklUecdmBkUqKQyjobbC",
+          "6UfcMvEeQnqnGpqHKTgnNA",
+          "0QRQm1v2kjuYl5ChlAr0BL",
+          "1dAzaXeUBYj25OqNgIGmG2",
+          "5cHtCSRyTYJZiKQ0qGmUEy",
+          "0B2eoD3hlVjMhgPn0Gj4ll",
+          "4I2ewHD1HR4Y3iKL87w1pC",
+          "0ir17MpHVslgFI40bT1NFh",
+          "5zf5CvMoEPxPP8oNRrQ8wv",
+          "0ILxiFEuWxYy1IVQRiufMV",
+          "5q3LMwzRLM4ZuOLwle09eM",
+          "66gueEgbrr2mRl5hudeMUo",
+          "204WlPSjnEBiHfrf2NcMWR",
+          "4aJ5gxIUJycvKhPBiiNpem",
+          "5fodAVOk3T7rrjvPXusfvD",
+          "5jHZRceH8uoQEIGtHJ4wfr",
+          "01wPgiL6OuLdTej8MuMAaf",
+          "3XoNliBbtfzY8DTZhVYuZV",
+          "1XjNR9Kav1cQ5X0SrCAwv7",
+          "2jI9RAovci4pN9XTmb2Spa",
+          "2pLXJc6saebrCxLsgQbj4p",
+          "6HohXs3FQ5ajfsmJPokMD3",
+          "3iupva6Blzpc0coPBOLYC3",
+          "7lY7Q5D8KbHw8Uq4chL38W",
+          "0O5fBbwzurNKIcb8cufXwm",
+          "37FlFXt4WP5xwe7ViMbdY6",
+          "2QJTkqFO9ONZIibz5AwGz9",
+          "0EAnLt86iauYM7w90ufFgH",
+          "5100EVI0XorxLunKTiyvkW",
+          "7BFAWgAumC9mAAR931HUtO",
+          "7wwaBc0hoV2PKHX4SRQMSz",
+          "0S7iTpMAD9zjbPVmwUAQTi",
+          "5hRuRqx5WLvq6CYoe18CxJ",
+          "72SMHfW7AKarbag2uwItXL",
+          "6iOA39AnSL1Cc9mmHStjMj",
+          "1io7r4BSeXf7d50e1cR5AK",
+          "6T7WqBAZw1aPpoqyMko3bT",
+          "2JktIbXeoqcn9lRMrPOpMG",
+          "3r1pFPWOhvbZLHiXkvqziG",
+          "1emKCQxJyCP57rsSSnxPBJ",
+          "7sTtq8pp7ShgVgjzlId6Xe",
+          "3d9MDMbHDJdQdxPPrAxWr9"
+        ],
+        "reason": "JUNIOR sub-series is targeted at younger children (ages 2-4) with shorter, simpler content. Different branding, target age group, and format from the main series. Parents would expect this to be a separate series entry."
+      },
+      {
+        "new_id": "wieso_weshalb_warum_profiwissen",
+        "new_title": "Wieso? Weshalb? Warum? Profiwissen",
+        "album_ids": [
+          "0VFw6TFHb28JOcv3mBsHxF",
+          "2NnIrKPVmNZBJVdJsCfOKp",
+          "2wwezWM0GBYFAK1ZBh6i6p",
+          "5D4NrvYikj5UxytXBFAcyZ",
+          "505qINntDxBqxm1W9OXNtH",
+          "1tsKtqRc72V9z0wiShby5s",
+          "6aJcSvhJ3h3Flt3F6orEnM",
+          "3uoy5eDRPeXdmbajEMszRL",
+          "3zgxD0Wr2Y5tUtoafGAXJD",
+          "7MoKxSFPyDUhSG7mClth7w",
+          "4hKnFRVyyhEyDAm06jbtYi",
+          "0rfxiNtXhAgSIdqeOpDa19",
+          "3hmusuKgLRhAjx02qRzX6L",
+          "4JjqSkIVYRTdkRMBfZa56s",
+          "3EFJOwBrk4kaxHpzRYQRho",
+          "2ikT2NVMfU4kTVi0y0sBAp",
+          "3TAWveTLyLNgSGlEYVtQcI"
+        ],
+        "reason": "PROFIWISSEN sub-series is targeted at older children (ages 8+) with more detailed, in-depth content. Different branding, target age group, and complexity level from the main series."
+      },
+      {
+        "new_id": "wieso_weshalb_warum_erstleser",
+        "new_title": "Wieso? Weshalb? Warum? Erstleser",
+        "album_ids": [
+          "7f70cV1g4qlRZVHkSElmm1",
+          "4uarYt8XVesrFlF5vEXqHI",
+          "4nhwS9ztoA3OxsqQ7IVI2w",
+          "6wiQGmYF0rOCbqQGpQqYi0",
+          "4PJKSQEqcKSag3dKxjj2yD",
+          "450rh9RVDMe0muWgUkYMKQ",
+          "0Hc7NANGrr24Z3YM8z0i9p",
+          "41a2ZVOBGfP1yQ9TGCZg1M",
+          "7v5xwVrCLQoJZpryltbMF3",
+          "43E1rRbWsqJ3TthwimXvvS",
+          "7nmazapbnldQJN9qOUXwDX",
+          "5FBdee2s7NNUDgnBj22bv7",
+          "6lQWCJ7mo7ioMZSrZUKfxQ",
+          "2I6tuy3ML4PyAaurlppW6B",
+          "1Bph3iCCrgEyemGXR5lYN9",
+          "0S0M8RbZgQUVHB2NJexwBS",
+          "3utAvGFi6JySY5c8vXT5Tc"
+        ],
+        "reason": "ERSTLESER sub-series is specifically for beginning readers with adapted content. Different target group (children learning to read) and distinct branding from the main series."
+      },
+      {
+        "new_id": "wieso_weshalb_warum_vorlesegeschichten",
+        "new_title": "Wieso? Weshalb? Warum? Meine Vorlesegeschichten",
+        "album_ids": [
+          "4craGbCLchGdKewnQYCGo2",
+          "0NiJ11SM4QQzAbrEGRVXIf",
+          "20idnrDkDmTHirWuVDbEA8"
+        ],
+        "reason": "Meine Vorlesegeschichten is a distinct sub-series with read-aloud stories format, different from the factual/explanatory content of the main series. Released in 2024, this is a newer format targeting parents reading to children."
+      }
+    ],
+    "notes": "This series contains multiple distinct product lines from Ravensburger that share episode numbering within their respective lines but are clearly different products: \n\n1. Main series (Wieso? Weshalb? Warum?) - 60+ mainline episodes\n2. JUNIOR (ages 2-4) - 81 episodes, shorter content\n3. PROFIWISSEN (ages 8+) - deeper content for older kids\n4. ERSTLESER - for beginning readers\n5. Meine Vorlesegeschichten - read-aloud stories (2024 release)\n\nThe 'duplicate episodes' flagged are not duplicates - they're completely different content from different sub-series that happen to share episode numbers. Each sub-series has its own separate episode sequence.\n\nGaps [31, 46, 49, 62, 70, 78] were searched but not found on Spotify - these episodes likely don't exist as audio releases.\n\nTwo albums without episode numbers are included: 'Wir entdecken Deutschland' and 'Wir entdecken die Bibel' - these appear to be standalone specials and should remain in the main series.\n\nNote: The title 'Der Bauernhof (Wieso? Weshalb? Warum? JUNIOR, Folge 1)' and 'Alles über den Bauernhof (Wieso? Weshalb? Warum? Folge 3)' have similar topics but are completely different content - this is expected as sub-series often cover similar topics at different age levels."
   }
 }

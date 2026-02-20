@@ -1,0 +1,122 @@
+{
+  "query": "Split from loewenzahn",
+  "model": "review-series.py",
+  "curated_at": "2026-02-20T10:53:12.408828+00:00",
+  "series": {
+    "id": "loewenzahn_classics",
+    "title": "Löwenzahn CLASSICS mit Peter Lustig",
+    "aliases": [],
+    "keywords": [],
+    "spotify_artist_ids": [
+      "0p0BKNqJuryRzJj2yrZmNp"
+    ],
+    "episode_pattern": "(?:Episode|Folge)\\s+(\\d+)",
+    "albums": [
+      {
+        "spotify_album_id": "5E8xDbQMUOh6Imi9E8XktW",
+        "include": true,
+        "episode_num": 6,
+        "title": "Löwenzahn CLASSICS: Folge 06 - Peter und das Biest vom Bärensee",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "05Sngq3UX7WZRrqiZduut5",
+        "include": true,
+        "episode_num": 8,
+        "title": "Löwenzahn CLASSICS: Folge 08 - Peter jagt den Dieb von Bärstadt",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1628LG4tGMNiyVtvYKN0nA",
+        "include": true,
+        "episode_num": 12,
+        "title": "Löwenzahn CLASSICS: Folge 12 - Reise ins Abenteuer Teil 2",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2bneBzGrch4nsyfc7ksXgn",
+        "include": true,
+        "episode_num": 5,
+        "title": "Löwenzahn CLASSICS: Folge 05 - Peter und die Wunderlampe",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2vlCznueqZebgaAEqpYaAd",
+        "include": true,
+        "episode_num": 9,
+        "title": "Löwenzahn CLASSICS: Folge 09 - Peter stürmt die Berggipfel",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6Zb8gnLDF54v6StxWFvHft",
+        "include": true,
+        "episode_num": 3,
+        "title": "Löwenzahn CLASSICS: Folge 03 - Peter kauft 'ne Eisenbahn",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1TjAlLPhQX8GXy2q1SG6hs",
+        "include": true,
+        "episode_num": 7,
+        "title": "Löwenzahn CLASSICS: Folge 07 - Peter und das Heulen der Wölfe",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0zc0kqB4o3oXGwYBX1HSaD",
+        "include": true,
+        "episode_num": 10,
+        "title": "Löwenzahn CLASSICS: Folge 10 - Peter spielt den Wetterfrosch",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3N5CbahYQ5qK2TAFg6KXWM",
+        "include": true,
+        "episode_num": 1,
+        "title": "Löwenzahn CLASSICS: Folge 01 - Peter und der Tanz der Vampire",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7IRNGg0uop1vW8IkNDD44J",
+        "include": true,
+        "episode_num": 4,
+        "title": "Löwenzahn CLASSICS: Folge 04 - Der Schatz der alten Römer",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "19VqJKWcLjycds5IUqARM7",
+        "include": true,
+        "episode_num": 14,
+        "title": "Löwenzahn CLASSICS: Folge 14 - Peter geht zur Feuerwehr",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4CG6cUoxLhe4cvNn4NgzQZ",
+        "include": true,
+        "episode_num": 11,
+        "title": "Löwenzahn CLASSICS: Folge 11 - Reise ins Abenteuer Teil 1",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1ip1jv0F4yc6pSLaNhMqdB",
+        "include": true,
+        "episode_num": 2,
+        "title": "Löwenzahn CLASSICS: Folge 02 - Peter und der Müllwichtel",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1ziY9K7tSTZvASsQ7xWze1",
+        "include": true,
+        "episode_num": 13,
+        "title": "Löwenzahn CLASSICS: Folge 13 - Peter will 'ne Minikuh",
+        "exclude_reason": null
+      }
+    ],
+    "age_note": "Suitable from 5+",
+    "curator_notes": "Split from Löwenzahn. These are the CLASSICS re-releases featuring Peter Lustig. They are distinct from the newer episodes (Episodes 1-17) which feature a different protagonist (Fritz Fuchs). The CLASSICS have different episode titles, different track counts, and are clearly marketed as a separate product line for fans of the original TV series with Peter Lustig."
+  },
+  "review": {
+    "status": "pending",
+    "overrides": [],
+    "notes": "Auto-created by apply-splits.py from loewenzahn."
+  }
+}

@@ -1,0 +1,74 @@
+{
+  "query": "Split from tabaluga",
+  "model": "review-series.py",
+  "curated_at": "2026-02-20T10:53:12.414914+00:00",
+  "series": {
+    "id": "tabaluga_klassik",
+    "title": "Tabaluga (Klassik-Serie 1997)",
+    "aliases": [],
+    "keywords": [],
+    "spotify_artist_ids": [
+      "4M0PZyOPSvjzFEBRg3G8xA",
+      "5W3s4beu23rOlseCbVOp4l"
+    ],
+    "episode_pattern": "(?:Folge |^\\d{2}/|/)(\\d+)",
+    "albums": [
+      {
+        "spotify_album_id": "3f9YEzfwGbt52kNH7QMrrg",
+        "include": true,
+        "episode_num": 6,
+        "title": "06/Ein friedlicher Überfall",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5Ig0Mmb6pCWMGcrGeK9blg",
+        "include": true,
+        "episode_num": 5,
+        "title": "05/Drachen weinen nicht",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6jETrm2u1F369py7bv2vxK",
+        "include": true,
+        "episode_num": 4,
+        "title": "04/Der Bessere gewinnt",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2ZOZddzoAe6Avydf93Cwu5",
+        "include": true,
+        "episode_num": 1,
+        "title": "01/Das große Ereignis",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0IsukZuqX2H7A58SOH39xO",
+        "include": true,
+        "episode_num": 2,
+        "title": "02/Ein ganz heißes Ding",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3bZNkrAEioFfUCbVZ7s803",
+        "include": true,
+        "episode_num": 7,
+        "title": "07/Einer spielt falsch",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7528UKeBiYNKUkfwSLUG3n",
+        "include": true,
+        "episode_num": 3,
+        "title": "03/Ein Drache zuviel",
+        "exclude_reason": null
+      }
+    ],
+    "age_note": "Suitable from 4+",
+    "curator_notes": "Split from Tabaluga. 1997 original Hörspiel series with 40 tracks per album (2 episodes per release), different voice cast and production era from 2021+ series"
+  },
+  "review": {
+    "status": "pending",
+    "overrides": [],
+    "notes": "Auto-created by apply-splits.py from tabaluga."
+  }
+}

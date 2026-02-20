@@ -1,0 +1,89 @@
+{
+  "query": "Split from die_schule_der_magischen_tiere",
+  "model": "review-series.py",
+  "curated_at": "2026-02-20T10:53:12.402557+00:00",
+  "series": {
+    "id": "die_schule_der_magischen_tiere_endlich_ferien",
+    "title": "Die Schule der magischen Tiere: Endlich Ferien",
+    "aliases": [],
+    "keywords": [],
+    "spotify_artist_ids": [
+      "1BElEHaU2xaZg7FOGsSird",
+      "6wlMx6MhWCynm8yVU0K3V3",
+      "05iCN3BdeaMyUYHXiEp761"
+    ],
+    "episode_pattern": "^(?:(\\d+):|Die Schule der magischen Tiere (?:ermittelt - Hörspiele |ermittelt Neuausgabe |\\d+: | - Endlich Ferien \\d+:))",
+    "albums": [
+      {
+        "spotify_album_id": "3o1rRndcuuKj3OdeS0bxeU",
+        "include": true,
+        "episode_num": 4,
+        "title": "Die Schule der magischen Tiere - Endlich Ferien 4: Helene und Karajan",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3Q8v6eUrInqM28X8wq2KMV",
+        "include": true,
+        "episode_num": 9,
+        "title": "Die Schule der magischen Tiere - Endlich Ferien 9: Elisa und Silber",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6vPp5wHskGPP5uVMvuvXoA",
+        "include": true,
+        "episode_num": 5,
+        "title": "Die Schule der magischen Tiere - Endlich Ferien 5: Benni und Henrietta",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3b5wd28RfW3CwslIUBt2Q9",
+        "include": true,
+        "episode_num": 6,
+        "title": "Die Schule der magischen Tiere - Endlich Ferien 6: Hatice und Mette-Maja",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0KzItGmx8zWKwE5GIRPtEp",
+        "include": true,
+        "episode_num": 8,
+        "title": "Die Schule der magischen Tiere - Endlich Ferien 8: Franka und Cooper",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3C2NQOAQTkmx0CqjF8spI3",
+        "include": true,
+        "episode_num": 7,
+        "title": "Die Schule der magischen Tiere - Endlich Ferien 7: Max und Muriel",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0G0b3Kc6qzItvpk7TglhZD",
+        "include": true,
+        "episode_num": 3,
+        "title": "Die Schule der magischen Tiere - Endlich Ferien 3: Henry und Leander",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0EucFZEiJuJ3psm31E6RF6",
+        "include": true,
+        "episode_num": 2,
+        "title": "Die Schule der magischen Tiere - Endlich Ferien 2: Silas und Rick",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3R5QGeXiLeYbk9uD4zg12C",
+        "include": true,
+        "episode_num": 1,
+        "title": "Die Schule der magischen Tiere - Endlich Ferien 1: Rabbat und Ida",
+        "exclude_reason": null
+      }
+    ],
+    "age_note": "Suitable from 6+",
+    "curator_notes": "Split from Die Schule der magischen Tiere. Spin-off series about holiday adventures with the magical animals. Separate product line from main series - 9 episodes following the Endlich Ferien books."
+  },
+  "review": {
+    "status": "pending",
+    "overrides": [],
+    "notes": "Auto-created by apply-splits.py from die_schule_der_magischen_tiere."
+  }
+}

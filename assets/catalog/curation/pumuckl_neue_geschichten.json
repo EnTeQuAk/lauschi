@@ -1,0 +1,164 @@
+{
+  "query": "Split from pumuckl",
+  "model": "review-series.py",
+  "curated_at": "2026-02-20T10:53:12.412508+00:00",
+  "series": {
+    "id": "pumuckl_neue_geschichten",
+    "title": "Neue Geschichten vom Pumuckl",
+    "aliases": [],
+    "keywords": [],
+    "spotify_artist_ids": [
+      "1lhceMHrxr0jC943AuAhhh"
+    ],
+    "episode_pattern": "^(?:\\d+|[Dd]er\\s+\\w+.*):\\s*(.+)$",
+    "albums": [
+      {
+        "spotify_album_id": "1dFekBqxbDUn4oJuy0Se07",
+        "include": true,
+        "episode_num": 15,
+        "title": "15: Pumuckl und die eingeworfene Scheibe (Neue Geschichten vom Pumuckl)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6Gh01XkNx5zCy6YpF2TqNk",
+        "include": true,
+        "episode_num": 2,
+        "title": "02: Pumuckl wird verschenkt (Neue Geschichten vom Pumuckl)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5noRHJMN1Q8stRHv2Hhoqx",
+        "include": true,
+        "episode_num": 5,
+        "title": "05: Eder ist an allem schuld (Neue Geschichten vom Pumuckl)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "28hNtwEfL5ZFWZZrr5oiA2",
+        "include": true,
+        "episode_num": 11,
+        "title": "11: Pumuckl und die Spinne (Neue Geschichten vom Pumuckl)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4WDHP7CsuBG0GAcxoVCUjs",
+        "include": true,
+        "episode_num": 12,
+        "title": "12: Pumuckl will Skifahren (Neue Geschichten vom Pumuckl)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1aTk0FeiimvscYkptrCl6K",
+        "include": true,
+        "episode_num": 6,
+        "title": "06: Pumuckl und die Geburtstagsüberraschung (Neue Geschichten vom Pumuckl)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1iT5NytGG3gXo4zflAF99l",
+        "include": true,
+        "episode_num": 4,
+        "title": "04: Der verflixte Kaugummi (Neue Geschichten vom Pumuckl)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4nEh8IfJHLsFTw5VNjzkb1",
+        "include": true,
+        "episode_num": 20,
+        "title": "20: Pumuckl und der krumme Weihnachtsbaum (Neue Geschichten vom Pumuckl)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0YJdenrKvzzgniqlbeOuxg",
+        "include": true,
+        "episode_num": 18,
+        "title": "18: Pumuckl und der Schluckauf (Neue Geschichten vom Pumuckl)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4ifhQ2uMVkPvCWowXQON05",
+        "include": true,
+        "episode_num": 3,
+        "title": "03: Der alte Eder (Neue Geschichten vom Pumuckl)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0gsZ6ZcNNy7ewIGiLGrhAt",
+        "include": true,
+        "episode_num": 19,
+        "title": "19: Pumuckl und das Geräusch (Neue Geschichten vom Pumuckl)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4hxqwvbnzGpvCYV8dSq3tX",
+        "include": true,
+        "episode_num": 17,
+        "title": "17: Pumuckl geht Campen (Neue Geschichten vom Pumuckl)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6vewGeULWJmBGLUsEKjufI",
+        "include": true,
+        "episode_num": 7,
+        "title": "07: Pumuckl geht Angeln (Neue Geschichten vom Pumuckl)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3nrmZu2O1BHCeDWQBipGSz",
+        "include": true,
+        "episode_num": 9,
+        "title": "09: Werkstatt in Gefahr (Neue Geschichten vom Pumuckl)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3uE5b9Ky4hPqMwqGMbt94q",
+        "include": true,
+        "episode_num": 1,
+        "title": "01: Koboldsgesetz (Neue Geschichten vom Pumuckl)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3ocbUpSMT1A8PnqDWDOkPf",
+        "include": true,
+        "episode_num": 10,
+        "title": "10: Pumuckl und das Pferd vom Nil (Neue Geschichten vom Pumuckl)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6aMoxSSwgJiPsBqcanGlm1",
+        "include": true,
+        "episode_num": 14,
+        "title": "14: Pumuckl und der Geisterjäger (Neue Geschichten vom Pumuckl)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6L66DV2OXCopakZdAQRdYx",
+        "include": true,
+        "episode_num": 13,
+        "title": "13: Pumuckl feiert Silvester (Neue Geschichten vom Pumuckl)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1WiMMZmOiXbElhKsABYhoe",
+        "include": true,
+        "episode_num": 8,
+        "title": "08: Pumuckl wird verzaubert (Neue Geschichten vom Pumuckl)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "65qfQzOWCI8Ag9U1xemgiB",
+        "include": true,
+        "episode_num": 16,
+        "title": "16: Der kleine Flori (Neue Geschichten vom Pumuckl)",
+        "exclude_reason": null
+      }
+    ],
+    "age_note": "Suitable from 3+",
+    "curator_notes": "Split from Pumuckl. New production series from 2023-2025 with Kai Taschner as Pumuckl (Hans Clarin's successor), distinct from the classic 1980s original series with different voice cast and production era"
+  },
+  "review": {
+    "status": "pending",
+    "overrides": [],
+    "notes": "Auto-created by apply-splits.py from pumuckl."
+  }
+}

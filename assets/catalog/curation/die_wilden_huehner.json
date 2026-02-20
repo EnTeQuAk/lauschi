@@ -165,5 +165,68 @@
     ],
     "age_note": "Suitable from 8+",
     "curator_notes": "Series spans multiple artists: 'Die Wilden Hühner' (main Hörspiel series, 2022-2023), 'Die Wilden Küken' (spinoff series for younger children, 2010-2014), and various Cornelia Funke artist entries. The main series has 5 numbered episodes (Folge 1-5) plus the film adaptation 'und das Leben' as episode 6. 'Die Wilden Küken' is a separate spinoff series with 7 episodes (numbered 2-10, missing 1, 5, 7). Note: Episodes appear duplicated across multiple artist IDs due to various collaborations credited on Spotify."
+  },
+  "review": {
+    "reviewed_at": "2026-02-20T10:23:00.150766+00:00",
+    "reviewed_by": "review-series.py",
+    "overrides": [
+      {
+        "album_id": "042KKQSpmrV8yjtf34reWq",
+        "action": "exclude",
+        "reason": "This is a film adaptation Hörspiel, not part of the main numbered series. The title explicitly states 'Das Original-Hörspiel zum Film' and it has different content structure (Kapitel format) compared to the main series Folgen."
+      },
+      {
+        "album_id": "2Xek5ycEA6xYIZg7PVFO9O",
+        "action": "exclude",
+        "reason": "Split to die_wilden_kueken"
+      },
+      {
+        "album_id": "1pSfvahwo4lz82q5EdeCLQ",
+        "action": "exclude",
+        "reason": "Split to die_wilden_kueken"
+      },
+      {
+        "album_id": "55ByQxTTLXBaO1w3d5mmvf",
+        "action": "exclude",
+        "reason": "Split to die_wilden_kueken"
+      },
+      {
+        "album_id": "2G9U8COeagDotEZFOGD7HF",
+        "action": "exclude",
+        "reason": "Split to die_wilden_kueken"
+      },
+      {
+        "album_id": "6xGNK2dzNkK1Ul49lAELeS",
+        "action": "exclude",
+        "reason": "Split to die_wilden_kueken"
+      },
+      {
+        "album_id": "1EKeuU4PM5UGiKXthq8pDW",
+        "action": "exclude",
+        "reason": "Split to die_wilden_kueken"
+      },
+      {
+        "album_id": "4QgYSZMtOxm8ZYFllIzd16",
+        "action": "exclude",
+        "reason": "Split to die_wilden_kueken"
+      }
+    ],
+    "splits": [
+      {
+        "new_id": "die_wilden_kueken",
+        "new_title": "Die Wilden Küken",
+        "album_ids": [
+          "1EKeuU4PM5UGiKXthq8pDW",
+          "55ByQxTTLXBaO1w3d5mmvf",
+          "6xGNK2dzNkK1Ul49lAELeS",
+          "1pSfvahwo4lz82q5EdeCLQ",
+          "4QgYSZMtOxm8ZYFllIzd16",
+          "2Xek5ycEA6xYIZg7PVFO9O",
+          "2G9U8COeagDotEZFOGD7HF"
+        ],
+        "reason": "Die Wilden Küken is a spin-off series with different characters (the younger siblings) and a different format (shortened readings/Lesungen vs full Hörspiele). Parents would see these as a distinct product line from the main 'Die Wilden Hühner' series. Episodes 2-6, 8-10 of this series are present."
+      }
+    ],
+    "notes": "Gap at episode 7: No 'Folge 7' found in search for either 'Die wilden Hühner' or 'Die Wilden Küken' series. Episode 7 may not be available on Spotify.\n\nThe 'Die Wilden Küken' albums are gekürzte Lesungen (shortened readings) of a spin-off book series about the younger siblings of the original Wilden Hühner characters. These are clearly a different product from the main Hörspiel series and should be split into their own series.\n\nThe film adaptation Hörspiel 'Die Wilden Hühner und das Leben' was incorrectly included as episode 6. It should be excluded as it's a film tie-in, not a regular series episode.\n\nThe main 'Die Wilden Hühner' series (Folge 1-5) uses a consistent format with 'Teil X' tracks and the 'Wilde Hühner' titelsong, released 2022-2023. This is the modern Hörspiel production that parents would expect when looking for the series."
   }
 }

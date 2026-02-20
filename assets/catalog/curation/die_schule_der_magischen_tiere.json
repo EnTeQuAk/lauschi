@@ -736,5 +736,129 @@
     ],
     "age_note": "Suitable from 6+",
     "curator_notes": "Series spans 3 Spotify artists: main series (1BElEHaU2xaZg7FOGsSird), ermittelt spinoff (6wlMx6MhWCynm8yVU0K3V3), and Endlich Ferien spinoff (05iCN3BdeaMyUYHXiEp761). Main series has both Hörspiel (compact ~20-25 tracks) and Hörbuch (full ~50 tracks) formats per episode - included only the Hörspiel versions as canonical. Spinoff series are included as part of this catalog. Film adaptations, soundtracks, box sets, joke collections, and audiobook versions excluded."
+  },
+  "review": {
+    "reviewed_at": "2026-02-20T10:21:44.490327+00:00",
+    "reviewed_by": "review-series.py",
+    "overrides": [
+      {
+        "album_id": "3R5QGeXiLeYbk9uD4zg12C",
+        "action": "exclude",
+        "reason": "Endlich Ferien spin-off series - different product from main series"
+      },
+      {
+        "album_id": "6J0lMf0VTKlMOFdOWBH6cx",
+        "action": "exclude",
+        "reason": "ermittelt spin-off series - different product (mini-krimi for first readers)"
+      },
+      {
+        "album_id": "0EucFZEiJuJ3psm31E6RF6",
+        "action": "exclude",
+        "reason": "Endlich Ferien spin-off series - different product from main series"
+      },
+      {
+        "album_id": "7m215CftaAegMzq41SVA2H",
+        "action": "exclude",
+        "reason": "ermittelt spin-off series - different product (mini-krimi for first readers)"
+      },
+      {
+        "album_id": "0G0b3Kc6qzItvpk7TglhZD",
+        "action": "exclude",
+        "reason": "Endlich Ferien spin-off series - different product from main series"
+      },
+      {
+        "album_id": "4GSCVM2I65Axk4SnLG7uwP",
+        "action": "exclude",
+        "reason": "ermittelt spin-off series - different product (mini-krimi for first readers)"
+      },
+      {
+        "album_id": "3o1rRndcuuKj3OdeS0bxeU",
+        "action": "exclude",
+        "reason": "Endlich Ferien spin-off series - different product from main series"
+      },
+      {
+        "album_id": "4cnVJNwU7zxqoWhdXfTQVE",
+        "action": "exclude",
+        "reason": "ermittelt spin-off series - different product (mini-krimi for first readers)"
+      },
+      {
+        "album_id": "6vPp5wHskGPP5uVMvuvXoA",
+        "action": "exclude",
+        "reason": "Endlich Ferien spin-off series - different product from main series"
+      },
+      {
+        "album_id": "2BV1llH2yEJHA0sd1v79XS",
+        "action": "exclude",
+        "reason": "ermittelt spin-off series - different product (mini-krimi for first readers)"
+      },
+      {
+        "album_id": "3b5wd28RfW3CwslIUBt2Q9",
+        "action": "exclude",
+        "reason": "Endlich Ferien spin-off series - different product from main series"
+      },
+      {
+        "album_id": "40ykQ1s1aXHBvqY01icOgH",
+        "action": "exclude",
+        "reason": "ermittelt spin-off series - different product (mini-krimi for first readers)"
+      },
+      {
+        "album_id": "3C2NQOAQTkmx0CqjF8spI3",
+        "action": "exclude",
+        "reason": "Endlich Ferien spin-off series - different product from main series"
+      },
+      {
+        "album_id": "0wJI1LC9ILBeqfdmmbtgOY",
+        "action": "exclude",
+        "reason": "ermittelt spin-off series - different product (mini-krimi for first readers)"
+      },
+      {
+        "album_id": "0KzItGmx8zWKwE5GIRPtEp",
+        "action": "exclude",
+        "reason": "Endlich Ferien spin-off series - different product from main series"
+      },
+      {
+        "album_id": "3Q8v6eUrInqM28X8wq2KMV",
+        "action": "exclude",
+        "reason": "Endlich Ferien spin-off series - different product from main series"
+      },
+      {
+        "album_id": "6w6QEuBt1MHOuxC2N7QN2s",
+        "action": "exclude",
+        "reason": "Standalone special episode (Eingeschneit) - not part of numbered main series"
+      }
+    ],
+    "splits": [
+      {
+        "new_id": "die_schule_der_magischen_tiere_endlich_ferien",
+        "new_title": "Die Schule der magischen Tiere: Endlich Ferien",
+        "album_ids": [
+          "3R5QGeXiLeYbk9uD4zg12C",
+          "0EucFZEiJuJ3psm31E6RF6",
+          "0G0b3Kc6qzItvpk7TglhZD",
+          "3o1rRndcuuKj3OdeS0bxeU",
+          "6vPp5wHskGPP5uVMvuvXoA",
+          "3b5wd28RfW3CwslIUBt2Q9",
+          "3C2NQOAQTkmx0CqjF8spI3",
+          "0KzItGmx8zWKwE5GIRPtEp",
+          "3Q8v6eUrInqM28X8wq2KMV"
+        ],
+        "reason": "Spin-off series about holiday adventures with the magical animals. Separate product line from main series - 9 episodes following the Endlich Ferien books."
+      },
+      {
+        "new_id": "die_schule_der_magischen_tiere_ermittelt",
+        "new_title": "Die Schule der magischen Tiere: Ermittelt",
+        "album_ids": [
+          "6J0lMf0VTKlMOFdOWBH6cx",
+          "7m215CftaAegMzq41SVA2H",
+          "4GSCVM2I65Axk4SnLG7uwP",
+          "4cnVJNwU7zxqoWhdXfTQVE",
+          "2BV1llH2yEJHA0sd1v79XS",
+          "40ykQ1s1aXHBvqY01icOgH",
+          "0wJI1LC9ILBeqfdmmbtgOY"
+        ],
+        "reason": "Spin-off detective series for early readers (Erstleser). Mini-krimis with shorter episodes. Different format and target audience than main series."
+      }
+    ],
+    "notes": "Series structure: Three distinct product lines were mixed together:\n\n1. MAIN SERIES: Episodes 1-16 (kept in original series)\n2. ENDLICH FERIEN: Spin-off holiday series - 9 episodes now split to separate series\n3. ERMITTELT: Detective spin-off for early readers - 7 episodes now split to separate series\n\nThe ermittelt series has two formats:\n- Old format: \"Hörspiele 2-6\" (episodes 2-6)\n- New format: \"Neuausgabe 1, 7\" (2025 re-releases, episodes 1 and 7)\n\nGaps noted:\n- Endlich Ferien: episodes 1-9 complete, episode 10 does not exist yet (confirmed via search)\n- Ermittelt: episodes 1-7 available (1 and 7 are Neuausgabe format, 2-6 are Hörspiele format)\n- Main series: episodes 1-16 complete\n- Eingeschneit: standalone special episode excluded (not part of numbered series)\n\nExcluded albums from main series are all spin-offs or standalone specials that don't belong in the core numbered series."
   }
 }

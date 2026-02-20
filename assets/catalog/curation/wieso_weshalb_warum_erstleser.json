@@ -1,0 +1,147 @@
+{
+  "query": "Split from wieso_weshalb_warum",
+  "model": "review-series.py",
+  "curated_at": "2026-02-20T10:53:12.421434+00:00",
+  "series": {
+    "id": "wieso_weshalb_warum_erstleser",
+    "title": "Wieso? Weshalb? Warum? Erstleser",
+    "aliases": [],
+    "keywords": [],
+    "spotify_artist_ids": [
+      "79fds5dgda0VCYelERV8Gi",
+      "0LoeUAhyTnta8Vk7HBzBsP",
+      "7CogQoFl6oPr45Xz6ZuFYU",
+      "7sdugL0BnF0QBh3fGPvYJz",
+      "56WIqh0XOgaRFbvdoEuk0F"
+    ],
+    "episode_pattern": "(?:Folge|folge)\\s+(\\d+)",
+    "albums": [
+      {
+        "spotify_album_id": "7v5xwVrCLQoJZpryltbMF3",
+        "include": true,
+        "episode_num": 9,
+        "title": "Das alte Ägypten (Wieso? Weshalb? Warum? ERSTLESER, Folge 9)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7f70cV1g4qlRZVHkSElmm1",
+        "include": true,
+        "episode_num": 1,
+        "title": "Dinosaurier (Wieso? Weshalb? Warum? ERSTLESER, Folge 1)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0S0M8RbZgQUVHB2NJexwBS",
+        "include": true,
+        "episode_num": 16,
+        "title": "Gefährliche Tiere (Wieso? Weshalb? Warum? ERSTLESER, Folge 16)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7nmazapbnldQJN9qOUXwDX",
+        "include": true,
+        "episode_num": 11,
+        "title": "Detektive und Ermittler (Wieso? Weshalb? Warum? ERSTLESER, Folge 11)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4nhwS9ztoA3OxsqQ7IVI2w",
+        "include": true,
+        "episode_num": 3,
+        "title": "Wale und Delfine (Wieso? Weshalb? Warum? ERSTLESER, Folge 3)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0Hc7NANGrr24Z3YM8z0i9p",
+        "include": true,
+        "episode_num": 7,
+        "title": "Fußball (Wieso? Weshalb? Warum? ERSTLESER, Folge 7)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "41a2ZVOBGfP1yQ9TGCZg1M",
+        "include": true,
+        "episode_num": 8,
+        "title": "Ozeane (Wieso? Weshalb? Warum? ERSTLESER, Folge 8)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "43E1rRbWsqJ3TthwimXvvS",
+        "include": true,
+        "episode_num": 10,
+        "title": "In der Natur (Wieso? Weshalb? Warum? ERSTLESER, Folge 10)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5FBdee2s7NNUDgnBj22bv7",
+        "include": true,
+        "episode_num": 12,
+        "title": "Haustiere (Wieso? Weshalb? Warum? ERSTLESER, Folge 12)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2I6tuy3ML4PyAaurlppW6B",
+        "include": true,
+        "episode_num": 14,
+        "title": "Roboter (Wieso? Weshalb? Warum? ERSTLESER, Folge 14)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1Bph3iCCrgEyemGXR5lYN9",
+        "include": true,
+        "episode_num": 15,
+        "title": "Mein Körper (Wieso? Weshalb? Warum? ERSTLESER, Folge 15)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3utAvGFi6JySY5c8vXT5Tc",
+        "include": true,
+        "episode_num": 17,
+        "title": "Im Wald (Wieso? Weshalb? Warum? ERSTLESER, Folge 17)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6lQWCJ7mo7ioMZSrZUKfxQ",
+        "include": true,
+        "episode_num": 13,
+        "title": "Umweltschutz (Wieso? Weshalb? Warum? ERSTLESER, Folge 13)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6wiQGmYF0rOCbqQGpQqYi0",
+        "include": true,
+        "episode_num": 4,
+        "title": "Weltraum (Wieso? Weshalb? Warum? ERSTLESER, Folge 4)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4PJKSQEqcKSag3dKxjj2yD",
+        "include": true,
+        "episode_num": 5,
+        "title": "Unsere Erde (Wieso? Weshalb? Warum? ERSTLESER, Folge 5)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4uarYt8XVesrFlF5vEXqHI",
+        "include": true,
+        "episode_num": 2,
+        "title": "Vulkane (Wieso? Weshalb? Warum? ERSTLESER, Folge 2)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "450rh9RVDMe0muWgUkYMKQ",
+        "include": true,
+        "episode_num": 6,
+        "title": "Pferde (Wieso? Weshalb? Warum? ERSTLESER, Folge 6)",
+        "exclude_reason": null
+      }
+    ],
+    "age_note": "Suitable from 3+",
+    "curator_notes": "Split from Wieso? Weshalb? Warum?. ERSTLESER sub-series is specifically for beginning readers with adapted content. Different target group (children learning to read) and distinct branding from the main series."
+  },
+  "review": {
+    "status": "pending",
+    "overrides": [],
+    "notes": "Auto-created by apply-splits.py from wieso_weshalb_warum."
+  }
+}

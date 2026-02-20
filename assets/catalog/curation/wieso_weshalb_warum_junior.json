@@ -1,0 +1,483 @@
+{
+  "query": "Split from wieso_weshalb_warum",
+  "model": "review-series.py",
+  "curated_at": "2026-02-20T10:53:12.419363+00:00",
+  "series": {
+    "id": "wieso_weshalb_warum_junior",
+    "title": "Wieso? Weshalb? Warum? junior",
+    "aliases": [],
+    "keywords": [],
+    "spotify_artist_ids": [
+      "79fds5dgda0VCYelERV8Gi",
+      "0LoeUAhyTnta8Vk7HBzBsP",
+      "7CogQoFl6oPr45Xz6ZuFYU",
+      "7sdugL0BnF0QBh3fGPvYJz",
+      "56WIqh0XOgaRFbvdoEuk0F"
+    ],
+    "episode_pattern": "(?:Folge|folge)\\s+(\\d+)",
+    "albums": [
+      {
+        "spotify_album_id": "0QRQm1v2kjuYl5ChlAr0BL",
+        "include": true,
+        "episode_num": 33,
+        "title": "Tiere bei uns (Wieso? Weshalb? Warum? JUNIOR, Folge 33)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3n89fkumFJzz271wSwq1NI",
+        "include": true,
+        "episode_num": 10,
+        "title": "Die Jahreszeiten (Wieso? Weshalb? Warum? JUNIOR, Folge 10)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3XoNliBbtfzY8DTZhVYuZV",
+        "include": true,
+        "episode_num": 55,
+        "title": "Wer arbeitet auf der Baustelle? (Wieso? Weshalb? Warum? JUNIOR, Folge 55)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5q3LMwzRLM4ZuOLwle09eM",
+        "include": true,
+        "episode_num": 43,
+        "title": "Wie helfe ich der Umwelt? (Wieso? Weshalb? Warum? JUNIOR, Folge 43)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3yNMJXjQQ0rWAymj53Aq5B",
+        "include": true,
+        "episode_num": 17,
+        "title": "Am Meer (Wieso? Weshalb? Warum? JUNIOR, Folge 17)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1Xzti3LZXioCsFxqMMBb55",
+        "include": true,
+        "episode_num": 27,
+        "title": "Wir feiern Geburtstag (Wieso? Weshalb? Warum? JUNIOR, Folge 27)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6UfcMvEeQnqnGpqHKTgnNA",
+        "include": true,
+        "episode_num": 30,
+        "title": "Wir gehen in den Zoo (Wieso? Weshalb? Warum? JUNIOR, Folge 30)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0qmAUmosvU4odac7Ib0Zz5",
+        "include": true,
+        "episode_num": 25,
+        "title": "Die Dinosaurier (Wieso? Weshalb? Warum? JUNIOR, Folge 25)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "204WlPSjnEBiHfrf2NcMWR",
+        "include": true,
+        "episode_num": 50,
+        "title": "Wir gehen einkaufen (Wieso? Weshalb? Warum? JUNIOR, Folge 50)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2jI9RAovci4pN9XTmb2Spa",
+        "include": true,
+        "episode_num": 57,
+        "title": "Tiere im Meer (Wieso? Weshalb? Warum? JUNIOR, Folge 57)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1gVkgmYgRRD0pj0U6FBG6L",
+        "include": true,
+        "episode_num": 19,
+        "title": "Was macht die Prinzessin? (Wieso? Weshalb? Warum? JUNIOR, Folge 19)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5zf5CvMoEPxPP8oNRrQ8wv",
+        "include": true,
+        "episode_num": 41,
+        "title": "Mein Hund (Wieso? Weshalb? Warum? JUNIOR, Folge 41)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5fodAVOk3T7rrjvPXusfvD",
+        "include": true,
+        "episode_num": 52,
+        "title": "Zähne putzen, Pipi machen (Wieso? Weshalb? Warum? JUNIOR, Folge 52)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3ztvcaTl4iJYWkyISZ7M6v",
+        "include": true,
+        "episode_num": 14,
+        "title": "Was ich alles kann (Wieso? Weshalb? Warum? JUNIOR, Folge 14)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1dAzaXeUBYj25OqNgIGmG2",
+        "include": true,
+        "episode_num": 34,
+        "title": "Der Traktor (Wieso? Weshalb? Warum? JUNIOR, Folge 34)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5cHtCSRyTYJZiKQ0qGmUEy",
+        "include": true,
+        "episode_num": 35,
+        "title": "Im Streichelzoo (Wieso? Weshalb? Warum? JUNIOR, Folge 35)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7aFBdUmTglMh5OAId7goSM",
+        "include": true,
+        "episode_num": 3,
+        "title": "Der Flughafen (Wieso? Weshalb? Warum? JUNIOR, Folge 3)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2pLXJc6saebrCxLsgQbj4p",
+        "include": true,
+        "episode_num": 58,
+        "title": "Was machen wir im Sommer? (Wieso? Weshalb? Warum? JUNIOR, Folge 58)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7BFAWgAumC9mAAR931HUtO",
+        "include": true,
+        "episode_num": 66,
+        "title": "Helfen, teilen, sich vertragen (Wieso? Weshalb? Warum? JUNIOR, Folge 66)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2JktIbXeoqcn9lRMrPOpMG",
+        "include": true,
+        "episode_num": 77,
+        "title": "Tiere im Wald (Wieso? Weshalb? Warum? JUNIOR, Folge 77)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2QJTkqFO9ONZIibz5AwGz9",
+        "include": true,
+        "episode_num": 63,
+        "title": "Unterwegs mit Bus und Bahn (Wieso? Weshalb? Warum? JUNIOR, Folge 63)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5mY9S1Qwlah7AXdBERsn1q",
+        "include": true,
+        "episode_num": 16,
+        "title": "Die Müllabfuhr (Wieso? Weshalb? Warum? JUNIOR, Folge 16)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "35AzVNMYJ0pcXugh1N7EeD",
+        "include": true,
+        "episode_num": 6,
+        "title": "Der Wald (Wieso? Weshalb? Warum? JUNIOR, Folge 6)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "01wPgiL6OuLdTej8MuMAaf",
+        "include": true,
+        "episode_num": 54,
+        "title": "Was machen wir an Ostern? (Wieso? Weshalb? Warum? JUNIOR, Folge 54)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0O5fBbwzurNKIcb8cufXwm",
+        "include": true,
+        "episode_num": 47,
+        "title": "Sonne, Wind und Regen (Wieso? Weshalb? Warum? JUNIOR, Folge 47)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6T7WqBAZw1aPpoqyMko3bT",
+        "include": true,
+        "episode_num": 76,
+        "title": "Bohrer, Lampe, Spülmaschine (Wieso? Weshalb? Warum? JUNIOR, Folge 76)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7sTtq8pp7ShgVgjzlId6Xe",
+        "include": true,
+        "episode_num": 81,
+        "title": "Der Kran. (Wieso? Weshalb? Warum? junior, Folge 81)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4I2ewHD1HR4Y3iKL87w1pC",
+        "include": true,
+        "episode_num": 38,
+        "title": "Der Bagger (Wieso? Weshalb? Warum? JUNIOR, Folge 38)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1zlWB5lTNlGkXk9aovuNhx",
+        "include": true,
+        "episode_num": 2,
+        "title": "Die Feuerwehr (Wieso? Weshalb? Warum? JUNIOR, Folge 2)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4F9A0kKe2tBiB3cbFuhOpD",
+        "include": true,
+        "episode_num": 26,
+        "title": "Der Hubschrauber (Wieso? Weshalb? Warum? JUNIOR, Folge 26)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "37FlFXt4WP5xwe7ViMbdY6",
+        "include": true,
+        "episode_num": 48,
+        "title": "Ampel, Straße und Verkehr (Wieso? Weshalb? Warum? JUNIOR, Folge 48)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5hRuRqx5WLvq6CYoe18CxJ",
+        "include": true,
+        "episode_num": 72,
+        "title": "Sonne, Mond und Sterne (Wieso? Weshalb? Warum? JUNIOR, Folge 72)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1io7r4BSeXf7d50e1cR5AK",
+        "include": true,
+        "episode_num": 75,
+        "title": "Im Krankenhaus (Wieso? Weshalb? Warum? JUNIOR, Folge 75)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7tSZ55ZvLmrZu0udtUGyHe",
+        "include": true,
+        "episode_num": 24,
+        "title": "Mein Kindergarten (Wieso? Weshalb? Warum? JUNIOR, Folge 24)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0ILxiFEuWxYy1IVQRiufMV",
+        "include": true,
+        "episode_num": 42,
+        "title": "In den Bergen (Wieso? Weshalb? Warum? JUNIOR, Folge 42)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4FikmmRrBni6uTVOOpFADE",
+        "include": true,
+        "episode_num": 11,
+        "title": "Autos und Laster (Wieso? Weshalb? Warum? JUNIOR, Folge 11)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7lY7Q5D8KbHw8Uq4chL38W",
+        "include": true,
+        "episode_num": 61,
+        "title": "Was machen wir im Herbst? (Wieso? Weshalb? Warum? JUNIOR, Folge 61)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0EAnLt86iauYM7w90ufFgH",
+        "include": true,
+        "episode_num": 64,
+        "title": "Komm mit zum Zahnarzt (Wieso? Weshalb? Warum? JUNIOR, Folge 64)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1F656MaS0mhT18F4BT2RFL",
+        "include": true,
+        "episode_num": 29,
+        "title": "Der Pinguin (Wieso? Weshalb? Warum? JUNIOR, Folge 29)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5jHZRceH8uoQEIGtHJ4wfr",
+        "include": true,
+        "episode_num": 53,
+        "title": "Was essen wir? (Wieso? Weshalb? Warum? JUNIOR, Folge 53)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0ir17MpHVslgFI40bT1NFh",
+        "include": true,
+        "episode_num": 39,
+        "title": "Mama, Papa, Oma, Opa (Wieso? Weshalb? Warum? JUNIOR, Folge 39)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7j0qrGG3KKwywEWEaFG8Gx",
+        "include": true,
+        "episode_num": 18,
+        "title": "Die Polizei (Wieso? Weshalb? Warum? JUNIOR, Folge 18)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4aJ5gxIUJycvKhPBiiNpem",
+        "include": true,
+        "episode_num": 51,
+        "title": "Der Lastwagen (Wieso? Weshalb? Warum? JUNIOR, Folge 51)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "72SMHfW7AKarbag2uwItXL",
+        "include": true,
+        "episode_num": 73,
+        "title": "Tiere der Welt (Wieso? Weshalb? Warum? JUNIOR, Folge 73)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1XjNR9Kav1cQ5X0SrCAwv7",
+        "include": true,
+        "episode_num": 56,
+        "title": "Heute, morgen, jetzt und gleich (Wieso? Weshalb? Warum? JUNIOR, Folge 56)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3d9MDMbHDJdQdxPPrAxWr9",
+        "include": true,
+        "episode_num": null,
+        "title": "Wieso? Weshalb? Warum? junior. Tanken, waschen, reparieren",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "50AtidafqpRFoS0DPt4HJ8",
+        "include": true,
+        "episode_num": 23,
+        "title": "Die Rettungsfahrzeuge (Wieso? Weshalb? Warum? JUNIOR, Folge 23)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6HohXs3FQ5ajfsmJPokMD3",
+        "include": true,
+        "episode_num": 58,
+        "title": "Was machen wir im Winter? (Wieso? Weshalb? Warum? JUNIOR, Folge 58)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6iOA39AnSL1Cc9mmHStjMj",
+        "include": true,
+        "episode_num": 74,
+        "title": "Die Müllfahrzeuge (Wieso? Weshalb? Warum? JUNIOR, Folge 74)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6wwy5qNXtNv1U8zGtvVi66",
+        "include": true,
+        "episode_num": 5,
+        "title": "Das bin Ich & Das bist Du (Wieso? Weshalb? Warum? JUNIOR, Folge 5)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4zUcSds6jotTsotWyE6u3E",
+        "include": true,
+        "episode_num": 15,
+        "title": "Unsere Tierkinder (Wieso? Weshalb? Warum? JUNIOR, Folge 15)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0zyklUecdmBkUqKQyjobbC",
+        "include": true,
+        "episode_num": 29,
+        "title": "Wir sind Geschwister (Wieso? Weshalb? Warum? JUNIOR, Folge 29)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6ab5JjhiWFa06RvxlK3UIc",
+        "include": true,
+        "episode_num": 4,
+        "title": "Die Ritterburg (Wieso? Weshalb? Warum? JUNIOR, Folge 4)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1emKCQxJyCP57rsSSnxPBJ",
+        "include": true,
+        "episode_num": 80,
+        "title": "Mein erstes Fahrrad (Wieso? Weshalb? Warum? JUNIOR, Folge 80)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7CEVzJZMZXwa4tiX9OT9ld",
+        "include": true,
+        "episode_num": 7,
+        "title": "Die Baustelle (Wieso? Weshalb? Warum? JUNIOR, Folge 7)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3Ll8hgpkmPvRdjgQ8cpH8j",
+        "include": true,
+        "episode_num": 9,
+        "title": "Die Eisenbahn (Wieso? Weshalb? Warum? JUNIOR, Folge 9)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2H6EoA8iIXGjIy4bAfcpNY",
+        "include": true,
+        "episode_num": 22,
+        "title": "Was wächst da? (Wieso? Weshalb? Warum? JUNIOR, Folge 22)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "66gueEgbrr2mRl5hudeMUo",
+        "include": true,
+        "episode_num": 44,
+        "title": "Was machen wir an Weihnachten? (Wieso? Weshalb? Warum? JUNIOR, Folge 44)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0B2eoD3hlVjMhgPn0Gj4ll",
+        "include": true,
+        "episode_num": 36,
+        "title": "Was kriecht und krabbelt da? (Wieso? Weshalb? Warum? JUNIOR, Folge 36)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5100EVI0XorxLunKTiyvkW",
+        "include": true,
+        "episode_num": 65,
+        "title": "Was macht der Polizist (Wieso? Weshalb? Warum? JUNIOR, Folge 65)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7wwaBc0hoV2PKHX4SRQMSz",
+        "include": true,
+        "episode_num": 68,
+        "title": "Was macht der Fußballer? (Wieso? Weshalb? Warum? JUNIOR, Folge 68)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0S7iTpMAD9zjbPVmwUAQTi",
+        "include": true,
+        "episode_num": 71,
+        "title": "Turnen, tanzen, Musik machen (Wieso? Weshalb? Warum? JUNIOR, Folge 71)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3r1pFPWOhvbZLHiXkvqziG",
+        "include": true,
+        "episode_num": 79,
+        "title": "Kämmen, schneiden, Haare waschen (Wieso? Weshalb? Warum? JUNIOR, Folge 79)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3iupva6Blzpc0coPBOLYC3",
+        "include": true,
+        "episode_num": 59,
+        "title": "Was machen wir im Frühling? (Wieso? Weshalb? Warum? JUNIOR, Folge 59)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1ESUpWc4Tc10nAiMgLkcaR",
+        "include": true,
+        "episode_num": 1,
+        "title": "Der Bauernhof (Wieso? Weshalb? Warum? JUNIOR, Folge 1)",
+        "exclude_reason": null
+      }
+    ],
+    "age_note": "Suitable from 3+",
+    "curator_notes": "Split from Wieso? Weshalb? Warum?. JUNIOR sub-series is targeted at younger children (ages 2-4) with shorter, simpler content. Different branding, target age group, and format from the main series. Parents would expect this to be a separate series entry."
+  },
+  "review": {
+    "status": "pending",
+    "overrides": [],
+    "notes": "Auto-created by apply-splits.py from wieso_weshalb_warum."
+  }
+}

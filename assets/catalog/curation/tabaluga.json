@@ -1169,5 +1169,239 @@
     ],
     "age_note": "Suitable from 4+",
     "curator_notes": "The Tabaluga series spans two distinct production eras: 1) The classic Europa Hörspiele (1997-2005) with episodes 01-26, each album containing two stories; and 2) The modern reboot (2021-2023) with episodes 1-7 as individual releases. Peter Maffay's catalog contains numerous Tabaluga music albums, musical recordings, and soundtracks that are not part of the Hörspiel series. The 'Tabaluga und Leo' (2003) album is a spinoff collaboration and not part of the numbered episode run."
+  },
+  "review": {
+    "reviewed_at": "2026-02-20T10:37:00.551370+00:00",
+    "reviewed_by": "review-series.py",
+    "overrides": [
+      {
+        "album_id": "0wGZGHCV3P2k3eevStskPh",
+        "action": "exclude",
+        "reason": "Episode 8 from 1997 series - keeping only the 2021+ version in the main series after split"
+      },
+      {
+        "album_id": "0mqDO8tsKNUKwL0qAJvLrG",
+        "action": "exclude",
+        "reason": "Episode 9 from 1997 series - keeping only the 2021+ version in the main series after split"
+      },
+      {
+        "album_id": "2dfKfTjrl7EWvl8Reuaq6e",
+        "action": "exclude",
+        "reason": "Episode 10 from 1997 series - keeping only the 2021+ version in the main series after split"
+      },
+      {
+        "album_id": "6NRfTkUzc2D8OmUWywPQQC",
+        "action": "exclude",
+        "reason": "Episode 11 from 1997 series - keeping only the 2021+ version in the main series after split"
+      },
+      {
+        "album_id": "1Y8Ge8mhBYpD4TDTAUmHDs",
+        "action": "exclude",
+        "reason": "Episode 12 from 1997 series - keeping only the 2021+ version in the main series after split"
+      },
+      {
+        "album_id": "1MvnFrYW82humwTiVLTMFF",
+        "action": "exclude",
+        "reason": "Episode 13 from 1997 series - keeping only the 2021+ version in the main series after split"
+      },
+      {
+        "album_id": "19CgePnwY4TjmWNnLrEwUr",
+        "action": "exclude",
+        "reason": "Episode 14 from 1997 series - keeping only the 2021+ version in the main series after split"
+      },
+      {
+        "album_id": "5tNiC6qAdRXh8nDgJ8SVVn",
+        "action": "exclude",
+        "reason": "Episode 15 from 1997 series - keeping only the 2021+ version in the main series after split"
+      },
+      {
+        "album_id": "7hpyd2OwN4XqmFwwBgflgc",
+        "action": "exclude",
+        "reason": "Episode 16 from 1997 series - keeping only the 2021+ version in the main series after split"
+      },
+      {
+        "album_id": "03h8ke7wkwJggyn7NHpSJK",
+        "action": "exclude",
+        "reason": "Episode 17 from 1997 series - keeping only the 2021+ version in the main series after split"
+      },
+      {
+        "album_id": "7tDAdslWs2SW7F6Dbei5SJ",
+        "action": "exclude",
+        "reason": "Episode 18 from 1997 series - keeping only the 2021+ version in the main series after split"
+      },
+      {
+        "album_id": "5upyrxZZeqwyzerMxR48y8",
+        "action": "exclude",
+        "reason": "Episode 19 from 1997 series - keeping only the 2021+ version in the main series after split"
+      },
+      {
+        "album_id": "0TuWvNDRNYujlNDiyyVQS5",
+        "action": "exclude",
+        "reason": "Episode 20 from 1997 series - keeping only the 2021+ version in the main series after split"
+      },
+      {
+        "album_id": "5Vc3Y6KmQ4ErOpBjyg6Zuh",
+        "action": "exclude",
+        "reason": "Episode 21 from 1997 series - keeping only the 2021+ version in the main series after split"
+      },
+      {
+        "album_id": "0QjDBlgKUPNPtgjDdrMfMJ",
+        "action": "exclude",
+        "reason": "Episode 22 from 1997 series - keeping only the 2021+ version in the main series after split"
+      },
+      {
+        "album_id": "1fz9kWDOCav3a3C9LcwfeN",
+        "action": "exclude",
+        "reason": "Episode 23 from 1997 series - keeping only the 2021+ version in the main series after split"
+      },
+      {
+        "album_id": "179HKdiuNlQBmMyBiPo4II",
+        "action": "exclude",
+        "reason": "Episode 24 from 1997 series - keeping only the 2021+ version in the main series after split"
+      },
+      {
+        "album_id": "5TWOWpWProsNkD8QVC2Hhy",
+        "action": "exclude",
+        "reason": "Episode 25 from 1997 series - keeping only the 2021+ version in the main series after split"
+      },
+      {
+        "album_id": "5JQbV8c9ZqipQvNkIOhojx",
+        "action": "exclude",
+        "reason": "Episode 26 from 1997 series - keeping only the 2021+ version in the main series after split"
+      },
+      {
+        "album_id": "3f9YEzfwGbt52kNH7QMrrg",
+        "action": "exclude",
+        "reason": "Split to tabaluga_klassik"
+      },
+      {
+        "album_id": "5Ig0Mmb6pCWMGcrGeK9blg",
+        "action": "exclude",
+        "reason": "Split to tabaluga_klassik"
+      },
+      {
+        "album_id": "6jETrm2u1F369py7bv2vxK",
+        "action": "exclude",
+        "reason": "Split to tabaluga_klassik"
+      },
+      {
+        "album_id": "2ZOZddzoAe6Avydf93Cwu5",
+        "action": "exclude",
+        "reason": "Split to tabaluga_klassik"
+      },
+      {
+        "album_id": "0IsukZuqX2H7A58SOH39xO",
+        "action": "exclude",
+        "reason": "Split to tabaluga_klassik"
+      },
+      {
+        "album_id": "3bZNkrAEioFfUCbVZ7s803",
+        "action": "exclude",
+        "reason": "Split to tabaluga_klassik"
+      },
+      {
+        "album_id": "7528UKeBiYNKUkfwSLUG3n",
+        "action": "exclude",
+        "reason": "Split to tabaluga_klassik"
+      },
+      {
+        "album_id": "0IklRy7YgVQGESlc4nmy1E",
+        "action": "exclude",
+        "reason": "Split to tabaluga_neu"
+      },
+      {
+        "album_id": "4rP8iu8oRrYsR91ELChdG7",
+        "action": "exclude",
+        "reason": "Split to tabaluga_neu"
+      },
+      {
+        "album_id": "3lqNB64CRZVTacJYx5QT1H",
+        "action": "exclude",
+        "reason": "Split to tabaluga_neu"
+      },
+      {
+        "album_id": "3FiJp9SBLabeDIN21MyJ3S",
+        "action": "exclude",
+        "reason": "Split to tabaluga_neu"
+      },
+      {
+        "album_id": "6hWbLvmZuYNxByx9zaceSu",
+        "action": "exclude",
+        "reason": "Split to tabaluga_neu"
+      },
+      {
+        "album_id": "52BaPmadnpTkDhNSP87luz",
+        "action": "exclude",
+        "reason": "Split to tabaluga_neu"
+      },
+      {
+        "album_id": "31I8XXIgxv7MdAX6WdygeU",
+        "action": "exclude",
+        "reason": "Split to tabaluga_neu"
+      },
+      {
+        "album_id": "5wWLRm03RuYzbBKKgjFl2g",
+        "action": "exclude",
+        "reason": "Split to tabaluga_und_leo"
+      },
+      {
+        "album_id": "5aLSAfjjLWa1sgoeW1DAzz",
+        "action": "exclude",
+        "reason": "Split to tabaluga_film_hoerspiel"
+      },
+      {
+        "album_id": "77POHjj5tE6PN3fNWjbwoz",
+        "action": "exclude",
+        "reason": "Split to tabaluga_film_hoerspiel"
+      }
+    ],
+    "splits": [
+      {
+        "new_id": "tabaluga_klassik",
+        "new_title": "Tabaluga (Klassik-Serie 1997)",
+        "album_ids": [
+          "2ZOZddzoAe6Avydf93Cwu5",
+          "0IsukZuqX2H7A58SOH39xO",
+          "7528UKeBiYNKUkfwSLUG3n",
+          "6jETrm2u1F369py7bv2vxK",
+          "5Ig0Mmb6pCWMGcrGeK9blg",
+          "3f9YEzfwGbt52kNH7QMrrg",
+          "3bZNkrAEioFfUCbVZ7s803"
+        ],
+        "reason": "1997 original Hörspiel series with 40 tracks per album (2 episodes per release), different voice cast and production era from 2021+ series"
+      },
+      {
+        "new_id": "tabaluga_neu",
+        "new_title": "Tabaluga (Neuauflage 2021+)",
+        "album_ids": [
+          "52BaPmadnpTkDhNSP87luz",
+          "4rP8iu8oRrYsR91ELChdG7",
+          "31I8XXIgxv7MdAX6WdygeU",
+          "6hWbLvmZuYNxByx9zaceSu",
+          "3lqNB64CRZVTacJYx5QT1H",
+          "0IklRy7YgVQGESlc4nmy1E",
+          "3FiJp9SBLabeDIN21MyJ3S"
+        ],
+        "reason": "2021+ re-recording series with new voice cast, modern production, 25-29 tracks per album (single episode), includes new theme songs"
+      },
+      {
+        "new_id": "tabaluga_und_leo",
+        "new_title": "Tabaluga und Leo",
+        "album_ids": [
+          "5wWLRm03RuYzbBKKgjFl2g"
+        ],
+        "reason": "Spinoff series featuring Leo character, distinct from main numbered Tabaluga series"
+      },
+      {
+        "new_id": "tabaluga_film_hoerspiel",
+        "new_title": "Tabaluga (Film-Hörspiele)",
+        "album_ids": [
+          "77POHjj5tE6PN3fNWjbwoz",
+          "5aLSAfjjLWa1sgoeW1DAzz"
+        ],
+        "reason": "Film adaptation Hörspiele (abridged and unabridged versions), separate product from the episodic series"
+      }
+    ],
+    "notes": "This series contains TWO distinct Hörspiel productions: 1) Original 1997 series (40 tracks per album, 2 episodes each, different voice cast) and 2) 2021+ re-recording series (25-29 tracks per album, single episodes, new voice cast with modern production). These are clearly different products that parents would want to choose between. Also found: Tabaluga und Leo spinoff series (2003) and two film adaptation Hörspiele (2018) - all should be separate series entries. After splitting, episodes 8-26 from the 1997 series are excluded since only episodes 1-7 overlap with the 2021+ series. The 1997 series episodes 8-26 don't have 2021+ equivalents in the current data, but keeping them would create confusion with duplicate episode numbers across different productions."
   }
 }
