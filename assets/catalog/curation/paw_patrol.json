@@ -1,0 +1,3405 @@
+{
+  "query": "PAW Patrol",
+  "model": "kimi-k2.5",
+  "curated_at": "2026-02-20T15:39:57.040113+00:00",
+  "series": {
+    "id": "paw_patrol",
+    "title": "PAW Patrol",
+    "aliases": [
+      "Paw Patrol"
+    ],
+    "keywords": [
+      "PAW Patrol",
+      "Paw Patrol"
+    ],
+    "spotify_artist_ids": [
+      "1JPhbKU3boL67fftU3U1ED"
+    ],
+    "episode_pattern": "^Folge (\\d+):",
+    "albums": [
+      {
+        "spotify_album_id": "6GVTXL5lcHb2Y1GZfZ9yff",
+        "include": true,
+        "episode_num": 431,
+        "title": "Folge 431: Ein abenteuerliches Buggy-Rennen (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "04O5T197F5lNbsxNc4uaVj",
+        "include": true,
+        "episode_num": 430,
+        "title": "Folge 430: Rasende Roboter-Handtasche außer Kontrolle (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3kZUF59ZR98pB4tp3WiJSH",
+        "include": true,
+        "episode_num": 429,
+        "title": "Folge 429: Monster-Truck-Chaos in der Abenteuerbucht (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4FglsDiC6svUfs2gXMpQHc",
+        "include": true,
+        "episode_num": 428,
+        "title": "Folge 428: Der schönste Schatz der Abenteuerbucht (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1ZFCer4GJYoPSfTEjzl9sR",
+        "include": true,
+        "episode_num": 427,
+        "title": "Folge 427: Alex hat einen Traum (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6RpNzFXA40HXZh8M1qJGRj",
+        "include": true,
+        "episode_num": 426,
+        "title": "Folge 426: Das Wüstenkonzert (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3wB2FyVKz2ISQ1OaJhyDzC",
+        "include": true,
+        "episode_num": 425,
+        "title": "Folge 425: Das verirrte Karibu-Baby (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7esXmdL7A8iQyxXlplXAv9",
+        "include": true,
+        "episode_num": 424,
+        "title": "Folge 424: Der Eishockey-Wettkampf (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7eAnlCZ9WEoSy63N5eP1mP",
+        "include": true,
+        "episode_num": 423,
+        "title": "Folge 423: Chargers Weihnachtsabenteuer (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5UAOfVVSUUgVKwGLcCThwn",
+        "include": true,
+        "episode_num": 422,
+        "title": "Folge 422: Die Tollpatschs im Wettstreit (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7yOm9sMDFxvYi1gYMd61C5",
+        "include": true,
+        "episode_num": 421,
+        "title": "Folge 421: Die Mäuse-Invasion (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6K4uL5D571nElw77DZp4qy",
+        "include": false,
+        "episode_num": null,
+        "title": "A Paw Patrol Christmas",
+        "exclude_reason": "Christmas music album (not Hörspiel), contains songs not episodes"
+      },
+      {
+        "spotify_album_id": "0t6KNeNmktDmSsYA94xMjn",
+        "include": true,
+        "episode_num": 420,
+        "title": "Folge 420: Capybara in Gefahr (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0NclGXaEx5I5WsOp8AIZxu",
+        "include": true,
+        "episode_num": 419,
+        "title": "Folge 419: Die Besserwisser-Drohnen-Reflektoren (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0cYaywA2Q2GMvqNzJW4Hvb",
+        "include": true,
+        "episode_num": 418,
+        "title": "Folge 418: Onkel Herbert und der Unterwasser-Schatz (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3fM459immuARx3eN3ZBNr2",
+        "include": true,
+        "episode_num": 417,
+        "title": "Folge 417: Der Reisende Reinhard im Dschungel (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5m7n1T1cULatdjSnAlJqS9",
+        "include": true,
+        "episode_num": 416,
+        "title": "Folge 416: Rollentausch mit Hindernissen (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7LwoYJxsiJpUErucZBfwOt",
+        "include": true,
+        "episode_num": 415,
+        "title": "Folge 415: Die abenteuerliche Rettung der Flunder (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "343fgOCRZwlIIjsCgToyqx",
+        "include": true,
+        "episode_num": 414,
+        "title": "Folge 414: Der Super-Schluckauf (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "61kWtlwqarY8LgIYLbNIje",
+        "include": true,
+        "episode_num": 413,
+        "title": "Folge 413: Die Super-Königin (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3zWZfHojnD0dgXoi31FpzU",
+        "include": true,
+        "episode_num": 412,
+        "title": "Folge 412: Die Superhunde und die Gepardin (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4p7YyHOh6Ts7BaaU1iFFC9",
+        "include": true,
+        "episode_num": 411,
+        "title": "Folge 411: Die Superhunde in der eisigen Abenteuerbucht (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0lwbd7AwgfVlNtOSZHmggt",
+        "include": true,
+        "episode_num": 410,
+        "title": "Folge 410: Das vernebelte Drachenfest (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0mIhPSSy2Po3tI0vaEiotH",
+        "include": true,
+        "episode_num": 409,
+        "title": "Folge 409: Die Besserwisser-Piñata (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3G5iUwHRozPOgxbmleJX41",
+        "include": true,
+        "episode_num": 408,
+        "title": "Folge 408: Eine Kuckucksuhr für die Abenteuerbucht",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5i5eHulsaZknqq1SjARdbe",
+        "include": true,
+        "episode_num": 407,
+        "title": "Folge 407: Schrott aus dem All",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "24LhZS5nlrLNM9TOoXjXsF",
+        "include": true,
+        "episode_num": 406,
+        "title": "Folge 406: Ein Windrad hebt ab",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0PeUEkaHwo73u4xlUZDTPy",
+        "include": true,
+        "episode_num": 405,
+        "title": "Folge 405: Libertys Bergrettung",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3yEGIS2e7qVWWQcbB6khjp",
+        "include": true,
+        "episode_num": 404,
+        "title": "Folge 404: Bürgermeister Besserwisser in der Patsche (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3XU60msQLQXA2EDYHAOOCn",
+        "include": true,
+        "episode_num": 403,
+        "title": "Folge 403: Auf der Suche nach der Goldader (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3sHsLlLg9jepw5kmFAjUhz",
+        "include": true,
+        "episode_num": 402,
+        "title": "Folge 402: Die Dschungel-Helfer retten das Lila-Nili-Pferd (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1iWiPGH7dflhkQFLSFThhX",
+        "include": true,
+        "episode_num": 401,
+        "title": "Folge 401: Die Dschungel-Helfer retten Piraten (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7FslDAKxwNWlMi2MsLkTsC",
+        "include": true,
+        "episode_num": 400,
+        "title": "Folge 400: Die Superhunde und der Bürgermeister des Universums (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2MvlEMQ7FyrLOJUCAI41ha",
+        "include": true,
+        "episode_num": 399,
+        "title": "Folge 399: Farbe weg, alles weg! (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "00UKcEyw3uJz7iZ0wK6Pzq",
+        "include": true,
+        "episode_num": 398,
+        "title": "Folge 398: Die Digi-Tal-Nachbarn (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4FCBUPrtttDJ7pw5GMRMA1",
+        "include": true,
+        "episode_num": 397,
+        "title": "Folge 397: Der Autokino-Abend (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4WD8pTOSouHjBa9NcN00mF",
+        "include": true,
+        "episode_num": 396,
+        "title": "Folge 396: Das Eisbärenjunge (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5spySvjwlUgAsEEKAoOJw6",
+        "include": true,
+        "episode_num": 395,
+        "title": "Folge 395: Die Faultier-Rettung (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5iJHALBGdPWMQWD1agOMU0",
+        "include": true,
+        "episode_num": 394,
+        "title": "Folge 394: Henrietta hebt ab",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1KllRcNfV6nZux3Wll9eSF",
+        "include": true,
+        "episode_num": 393,
+        "title": "Folge 393: Die Rettung des Hilfsbürgermeisters",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7E9fP7hgvgpir1K17hqARS",
+        "include": false,
+        "episode_num": null,
+        "title": "Psi Patrol: U lekarza",
+        "exclude_reason": "Foreign language release (Polish)"
+      },
+      {
+        "spotify_album_id": "2niEET14yJiVuViSSqx6H8",
+        "include": false,
+        "episode_num": null,
+        "title": "Psi Patrol: Przygody z dziadkiem",
+        "exclude_reason": "Foreign language release (Polish)"
+      },
+      {
+        "spotify_album_id": "4aWnri5R5uNdDg1BuNI4PC",
+        "include": false,
+        "episode_num": null,
+        "title": "Psi Patrol: Pieski ratują królewskich przyjaciół!",
+        "exclude_reason": "Foreign language release (Polish)"
+      },
+      {
+        "spotify_album_id": "3VQu3ZRl8acW4kro9RRMuB",
+        "include": false,
+        "episode_num": null,
+        "title": "Psi Patrol: Chase jedzie na ratunek",
+        "exclude_reason": "Foreign language release (Polish)"
+      },
+      {
+        "spotify_album_id": "13Vm7LrWTdkJMYRv5QTtjD",
+        "include": true,
+        "episode_num": 392,
+        "title": "Folge 392: Die verrückten Wasserskifahrer",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4SJtgf0sNvp4GflM5YoTV2",
+        "include": true,
+        "episode_num": 391,
+        "title": "Folge 391: Die Dschungel-Helfer retten die Riesenameisen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3o2bCMl9EVQduPKdiCWY7q",
+        "include": true,
+        "episode_num": 390,
+        "title": "Folge 390: Die Dschungel-Helfer retten das goldene Schnuffinchen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0nsojsK3srwEYZxckqZMBY",
+        "include": true,
+        "episode_num": 389,
+        "title": "Folge 389: Die Dschungel-Helfer in der Eiszeit",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5rGFcyiKptKILe3HLTo8n9",
+        "include": true,
+        "episode_num": 388,
+        "title": "Folge 388: Der versteckte Dschungel",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4Av56pik3skCW4XpfUNv4O",
+        "include": true,
+        "episode_num": 387,
+        "title": "Folge 387: Wer hat das sauberste Auto?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4ZpcOc9EzdzygqyAW3Byk8",
+        "include": true,
+        "episode_num": 386,
+        "title": "Folge 386: Charger besucht die Fellfreunde",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0beEGWylYXFtwWOVq3nmRJ",
+        "include": true,
+        "episode_num": 385,
+        "title": "Folge 385: Die Muschel des Silberkalmars",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4CTYwWUmf5culNs9tuIHYo",
+        "include": true,
+        "episode_num": 384,
+        "title": "Folge 384: Die Aqua-Hunde retten das Riff",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4DTIh48rUUlaeyvaP3Qptd",
+        "include": true,
+        "episode_num": 383,
+        "title": "Folge 383: Der gestohlene Wal-Patroller",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0Dcrk2gEHyUSkCakCZjNyf",
+        "include": true,
+        "episode_num": 382,
+        "title": "Folge 382: Die lila Perle von Wufflantis",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6n3tH5RXUqfHGgYmNIfn5V",
+        "include": true,
+        "episode_num": 381,
+        "title": "Folge 381: Das Wufflantis-Abenteuerbucht-Rennen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1vmANw7l4WjAhpuGYTk38E",
+        "include": true,
+        "episode_num": 380,
+        "title": "Folge 380: Zu viele Eddies und Emmys",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7iUZbLfRMEmr4Yw0e4TV76",
+        "include": true,
+        "episode_num": 379,
+        "title": "Folge 379: Die Rettung der Weltraum-Steinchen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6ls7SOxs3C3Vg00ibKhUFk",
+        "include": true,
+        "episode_num": 378,
+        "title": "Folge 378: Elefanten-Baby in Not",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0vCDVB2pVPkw58gLVTlLPn",
+        "include": true,
+        "episode_num": 377,
+        "title": "Folge 377: Mini-T-Rex allein in der Wildnis",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0pEQ22TWFnnHSooI5YiR6d",
+        "include": true,
+        "episode_num": 376,
+        "title": "Folge 376: Seiltanz und Schlittenfahren",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3sMlr2asIpVOLhpSAK4zEu",
+        "include": true,
+        "episode_num": 375,
+        "title": "Folge 375: Die verschwundene Jukebox",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1a1iQ73kpzAqbLQ8gkp9je",
+        "include": true,
+        "episode_num": 374,
+        "title": "Folge 374: Das schwimmende Wufflantis",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2GrnJLZiZEz5SnVsOALVVu",
+        "include": true,
+        "episode_num": 373,
+        "title": "Folge 373: Ein Bürgermeister hebt ab",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3O789Dh3IyLAwR6u0Y1N0Q",
+        "include": true,
+        "episode_num": 372,
+        "title": "Folge 372: Die Strauße sind los",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0uxD4oQy81ABjV7AUVCJvg",
+        "include": true,
+        "episode_num": 371,
+        "title": "Folge 371: Kutsche in Seenot",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5pXN4grnPq5FVPp1o3zgCi",
+        "include": true,
+        "episode_num": 370,
+        "title": "Folge 370: Der Riesen-Aal",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "470IRhUtnI6ohbOFjmPWhV",
+        "include": true,
+        "episode_num": 368,
+        "title": "Folge 368: Die Rettung der Wind-Gleiterinnen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3HLO6cM2FXDddNtmz5MOvH",
+        "include": true,
+        "episode_num": 369,
+        "title": "Folge 369: Der begehrte Pokal",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "31xCM2SKwWoZTXF8v5WL8T",
+        "include": true,
+        "episode_num": 367,
+        "title": "Folge 367: Rohre auf Abwegen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7BlAMSbphB2uIAuNPf9CJh",
+        "include": true,
+        "episode_num": 366,
+        "title": "Folge 366: Die gestohlenen Lautsprecher",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4PMoXiLJNpRjiZXSeSjnUG",
+        "include": true,
+        "episode_num": 365,
+        "title": "Folge 365: Die Mini-Bürgermeisterin",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7MQm8ItCOIsapM9WqGPL59",
+        "include": true,
+        "episode_num": 364,
+        "title": "Folge 364: Flora, der tanzende Flamingo",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6dAP7Qm6dNYiQjkbwAXQae",
+        "include": true,
+        "episode_num": 363,
+        "title": "Folge 363: Eine Stadt ohne Empfang",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7b67QJg1cI0ezxK9udIIyl",
+        "include": true,
+        "episode_num": 362,
+        "title": "Folge 362: Die skifahrende Hütte",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2BHfwFB9sGmy9TqvTEVoNP",
+        "include": true,
+        "episode_num": 361,
+        "title": "Folge 361: Ryders erster Hubschrauber",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0JpeV2DZwLlZrWPy7qbCl5",
+        "include": true,
+        "episode_num": 360,
+        "title": "Folge 360: Rettung aus der Höhle",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "72NPsYuFyfaM3zsNruyqGe",
+        "include": true,
+        "episode_num": 359,
+        "title": "Folge 359: Die Trucker-Hunde retten die Brücke",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3rHsZ4vTIxJ0xBSQTACEnU",
+        "include": true,
+        "episode_num": 358,
+        "title": "Folge 358: Rubble und das Gespenst",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6zjwIAmmSD7DIOhz3ihOtY",
+        "include": true,
+        "episode_num": 357,
+        "title": "Folge 357: Ein Yeti auf der Kirmes",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2gEz6BSHDFvmVl1s7BadVj",
+        "include": true,
+        "episode_num": 356,
+        "title": "Folge 356: Al, der Trucker-Hund",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "51vgvV2keljoElfc0MQ4Lf",
+        "include": true,
+        "episode_num": 355,
+        "title": "Folge 355: Der reisende Reinhard als Bauer",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5ygcPY4ATLbjGu6HK9eTS1",
+        "include": true,
+        "episode_num": 354,
+        "title": "Folge 354: Die Küken sind los",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3uz1LFrlOKaBGpQQ3nCaEM",
+        "include": true,
+        "episode_num": 353,
+        "title": "Folge 353: Ein Tresor für den Schlüssel",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1SQFLHdWsBQ9vDW3yDg5xq",
+        "include": true,
+        "episode_num": 352,
+        "title": "Folge 352: Das Brüllen der Katzen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2CwTR40lq4V41oxwBFFQNg",
+        "include": true,
+        "episode_num": 351,
+        "title": "Folge 351: Die verschwundenen Gemälde",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "42NYoslGz9GsATphj2N2up",
+        "include": true,
+        "episode_num": 350,
+        "title": "Folge 350: Die Fellfreunde retten die Zahnfee",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7lAjXeNaoxbQppMwhQ8jgy",
+        "include": true,
+        "episode_num": 349,
+        "title": "Folge 349: Die goldene Löwenmaske",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "66ev4UwZrvDHS2F1W2KpbA",
+        "include": true,
+        "episode_num": 348,
+        "title": "Folge 348: Super Raketen-Rettung mit der Katzen-Bande",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4CAyjAFoqtpuLvnIdpmzd5",
+        "include": true,
+        "episode_num": 347,
+        "title": "Folge 347: Der Sandskulpturen-Wettbewerb",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1cpJkZPrTbqG6ER7tpcdbx",
+        "include": true,
+        "episode_num": 346,
+        "title": "Folge 346: Eine Puppe für Zottelaffe",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2qUltMlKVQPVVtN3ePkVfF",
+        "include": true,
+        "episode_num": 345,
+        "title": "Folge 345: Die Fellfreunde und die Katzen-Bande",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6ti6ccjz2NwqRYexE9eETu",
+        "include": true,
+        "episode_num": 344,
+        "title": "Folge 344: Alle Pfoten halten zusammen!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0r5Jyx3xqFrEfXk7PZVioP",
+        "include": true,
+        "episode_num": 343,
+        "title": "Folge 343: Der Bell-Bell-Boogie Tanzwettbewerb",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1o8WzcN6RfNufcPWGhbRhP",
+        "include": true,
+        "episode_num": 342,
+        "title": "Folge 342: Liberty findet einen neuen Freund",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "329ZkL40kXD2d8XI106ETI",
+        "include": true,
+        "episode_num": 341,
+        "title": "Folge 341: Die Bessi-Bärchen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4JAuCuU5PmL9McDFZcHZJU",
+        "include": true,
+        "episode_num": 340,
+        "title": "Folge 340: Wally allein in der Stadt",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0Gq1Pul6iKxBuH6oBFZiDw",
+        "include": true,
+        "episode_num": 339,
+        "title": "Folge 339: Katies mobiler Waschsalon",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2FutSCBPdP7Ypi1bAPxXcz",
+        "include": true,
+        "episode_num": 338,
+        "title": "Folge 338: Ein Schwimmtier in Not",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5XF6c3G9ahG339fHjVUSou",
+        "include": true,
+        "episode_num": 337,
+        "title": "Folge 337: Mit Hilfe von Jaguar-Kraft",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7GZl8zkXnWlfvSQcOfITfd",
+        "include": true,
+        "episode_num": 336,
+        "title": "Folge 336: Mit Hilfe von Löwen-Kraft",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1Lujc90ePYsi8U7dcIbJNT",
+        "include": true,
+        "episode_num": 335,
+        "title": "Folge 335: Mit Hilfe von Tiger-Kraft",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4hSRC6VEBXXlevY2C3ijY7",
+        "include": true,
+        "episode_num": 334,
+        "title": "Folge 334: Mit Hilfe von Geparden-Kraft",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2KjtT4VRdtDwjXdwEONxhF",
+        "include": true,
+        "episode_num": 333,
+        "title": "Folge 333: Das frostige Gewächshaus",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3tEFbIHPhqTfpRT7rlfcZ6",
+        "include": true,
+        "episode_num": 332,
+        "title": "Folge 332: Babysitter Besserwisser",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1KS8XCPq9pwb6ZYLRNwe1T",
+        "include": true,
+        "episode_num": 331,
+        "title": "Folge 331: Der freche Tintenfisch",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7jB6IzqLTYsJIFvM8MIne2",
+        "include": true,
+        "episode_num": 330,
+        "title": "Folge 330: Die schwebende Tanzfläche",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "51WDyeGvXyCEMhiRxdHMOO",
+        "include": true,
+        "episode_num": 329,
+        "title": "Folge 329: Stoppt die Gepardin!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3DEcsbNOQEruLcR13tKjZx",
+        "include": true,
+        "episode_num": 328,
+        "title": "Folge 328: Ein Clown zu viel",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1zX8VFoFE9cyyDp0x9pGw6",
+        "include": true,
+        "episode_num": 327,
+        "title": "Folge 327: Doppelter Rubble",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1mv0vdij0ZaedVzZX4Nbsn",
+        "include": true,
+        "episode_num": 326,
+        "title": "Folge 326: Leucht-Party in der Abenteuer-Bucht",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6bFu0Ar1NpsHQyn0uldIhe",
+        "include": true,
+        "episode_num": 325,
+        "title": "Folge 325: Das Gespenst Autschi-Pfote",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4hu5n2TSYACw94hEaROnWB",
+        "include": true,
+        "episode_num": 324,
+        "title": "Folge 324: Stau am Biberdamm",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4lalPD6g07F7KIetGPQXtG",
+        "include": true,
+        "episode_num": 323,
+        "title": "Folge 323: Der Frosch-Spring-Wettbewerb",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "00Dsp60UY3wfgTnX0qqoc1",
+        "include": true,
+        "episode_num": 322,
+        "title": "Folge 322: Hai an Land",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5kzno8CS9MesG2Ga9YPlAD",
+        "include": true,
+        "episode_num": 321,
+        "title": "Folge 321: Die Hühnertulpe",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7mxwCN9UM5QvDFFLcrZ4jJ",
+        "include": true,
+        "episode_num": 320,
+        "title": "Folge 320: Das königliche Portrait",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "56zasgnqGeLpTP3XdSiG5P",
+        "include": true,
+        "episode_num": 319,
+        "title": "Folge 319: Der Jumbo-Meister",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4FE3jLfFaXAy8a7eAc4iAU",
+        "include": true,
+        "episode_num": 318,
+        "title": "Folge 318: Der Fußfisch",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3eJycq7g8MXAPzpdxyAuOu",
+        "include": true,
+        "episode_num": 317,
+        "title": "Folge 317: Die bellenden Chaos-Kätzchen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3NQEC2wVznnuJQU5WwcXuV",
+        "include": true,
+        "episode_num": 316,
+        "title": "Folge 316: Schnell wie eine Rakete",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6w5QmVXbAOsN5l44tQJ6BQ",
+        "include": true,
+        "episode_num": 315,
+        "title": "Folge 315: Die Suche nach dem Polar-Schatz",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "71daILUQLlF1y7Wr9dTJqZ",
+        "include": true,
+        "episode_num": 314,
+        "title": "Folge 314: Der Knochen des Excalibell",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7BlPThH3F3SPfewzlyZaZx",
+        "include": true,
+        "episode_num": 313,
+        "title": "Folge 313: Sparks, der eisspeiende Drache",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0i1h2MSyzqKvslNtWuQpRw",
+        "include": true,
+        "episode_num": 312,
+        "title": "Folge 312: Aufregende Seilrutsche",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2GS4wxOvLIcKJGUlXoAMdG",
+        "include": true,
+        "episode_num": 311,
+        "title": "Folge 311: Der Wirbelstaub-Express",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0FlGstuXogNinTpeQyTk7K",
+        "include": true,
+        "episode_num": 310,
+        "title": "Folge 310: Drachenbabys in Gefahr",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "43MqexKhAgFKhJrvKPR2JG",
+        "include": true,
+        "episode_num": 309,
+        "title": "Folge 309: Das Ritter-Turnier",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2LGGqHsVOavIiaxSbmXSJS",
+        "include": true,
+        "episode_num": 308,
+        "title": "Folge 308: Ein Jodler in Not",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0xkyUOXpAK40go3mmIZYJG",
+        "include": true,
+        "episode_num": 307,
+        "title": "Folge 307: Bienenalarm",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "71YDI9ND6Gh0VTLhKMra3G",
+        "include": true,
+        "episode_num": 306,
+        "title": "Folge 306: Der Schlafkessel",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4otS06rJK1RWDIKwWtqB7I",
+        "include": true,
+        "episode_num": 305,
+        "title": "Folge 305: Die Monsterschnabel-Insel",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "50jBCYcz0DOBCOyv6sbZpJ",
+        "include": true,
+        "episode_num": 304,
+        "title": "Folge 304: Die Rätselbox",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "35jLaRNEyTa3bEFTNpHZmO",
+        "include": true,
+        "episode_num": 303,
+        "title": "Folge 303: Bauer Alfreds verrückter Traum",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6cYX1qZbDxE9NAAnmaWPnu",
+        "include": true,
+        "episode_num": 302,
+        "title": "Folge 302: Der Super-Schüttler",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4gZ5xNXYRabBLHMB0STfD0",
+        "include": true,
+        "episode_num": 301,
+        "title": "Folge 301: Der gestohlene Drachenzahn",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3VxL578V4Txs687xHiN2dg",
+        "include": true,
+        "episode_num": 300,
+        "title": "Folge 300: Die Lavafels-Insel",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7dUfSRoe0XTpIA0Cwr0ewn",
+        "include": true,
+        "episode_num": 299,
+        "title": "Folge 299: Die Schildkröteninsel",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "20afb3NJwQ1z6jet7WfxAp",
+        "include": true,
+        "episode_num": 298,
+        "title": "Folge 298: Jahrmarkt in Gefahr",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6cAiJyqfs4Gr4bdZ8FNDdN",
+        "include": true,
+        "episode_num": 297,
+        "title": "Folge 297: Der Fototermin",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6rjFAO7waOTDZA7gwSNykf",
+        "include": true,
+        "episode_num": 296,
+        "title": "Folge 296: Zauberin in Not",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4dAuCXZ86nToTDO0HnfZQp",
+        "include": true,
+        "episode_num": 295,
+        "title": "Folge 295: Schoko-Hase Besserwisser",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0iMYSOXnbMPqjBHa9f5Pjn",
+        "include": true,
+        "episode_num": 294,
+        "title": "Folge 294: Kuhrettung im Schneesturm",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4ilRqrfO1GPAcfV0BPwxHe",
+        "include": true,
+        "episode_num": 293,
+        "title": "Folge 293: Hühner auf Abwegen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7jquNGYqSscrNvgmYt34dz",
+        "include": true,
+        "episode_num": 292,
+        "title": "Folge 292: Das Sportfest",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "645i9GIBsNxWDHDkGYEvzc",
+        "include": true,
+        "episode_num": 291,
+        "title": "Folge 291: Der neue Sportplatz",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0Nl00fdbZ1PsBoSnSvs36O",
+        "include": true,
+        "episode_num": 290,
+        "title": "Folge 290: Wilder Ritt auf dem Dino",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "18bkEoa7ij3BLiaj18GNzL",
+        "include": true,
+        "episode_num": 289,
+        "title": "Folge 289: Ein T-Rex hat Zahnweh",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1fHUevRQQ8GOlVT8Lvbr4j",
+        "include": true,
+        "episode_num": 288,
+        "title": "Folge 288: Der Tulpenwettbewerb",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1CpJ6iy2YKOLEMRI9kjjBm",
+        "include": true,
+        "episode_num": 287,
+        "title": "Folge 287: Eine bärenstarke Rettung",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6JeYkBLTfekBPSYdvcVmQj",
+        "include": true,
+        "episode_num": 286,
+        "title": "Folge 286: Ein Dino in der Abenteuerbucht",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2AsMrisXRBpMuCMdNlfhmH",
+        "include": true,
+        "episode_num": 285,
+        "title": "Folge 285: Das Film-Fest",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5WBL5OSA6Ab6McWcGFuTKs",
+        "include": true,
+        "episode_num": 284,
+        "title": "Folge 284: Der Robosaurus",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1ntQVW9F4RDC5DCWEcTVR4",
+        "include": true,
+        "episode_num": 283,
+        "title": "Folge 283: Das schreckhafte Pony",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2E4buojvUAtCSVgamS2KPq",
+        "include": true,
+        "episode_num": 282,
+        "title": "Folge 282: Der große Geysir",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3IU1UwcaJhFuWKd7KpPQ9d",
+        "include": true,
+        "episode_num": 281,
+        "title": "Folge 281: Die Goldkehlchen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5tLzGlUCcAjBBvP0eMqOHF",
+        "include": true,
+        "episode_num": 280,
+        "title": "Folge 280: Der Schulbus",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "38m4WL5BOc36f6wI3lSQzX",
+        "include": true,
+        "episode_num": 279,
+        "title": "Folge 279: Rettung für T-Rex",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5pR6pZ6adjYL141p6CQvi7",
+        "include": true,
+        "episode_num": 278,
+        "title": "Folge 278: Der verletzte Flugsaurier",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6T4C5KKKoVXVQvERTh1B52",
+        "include": true,
+        "episode_num": 277,
+        "title": "Folge 277: Ein Fellfreund im Schafspelz",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7xs3SICgYHqJkyjXzGCyYb",
+        "include": true,
+        "episode_num": 276,
+        "title": "Folge 276: Die Eisbärenzählung",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1Jym8X5JEw7RTukofyp8ep",
+        "include": true,
+        "episode_num": 275,
+        "title": "Folge 275: Der kleine Raumfahrer",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6YpRIMheduk3f2HWyRDkhK",
+        "include": true,
+        "episode_num": 274,
+        "title": "Folge 274: Die Stinkblume",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2I8Zt2AVIczhtqAxYHl88A",
+        "include": true,
+        "episode_num": 273,
+        "title": "Folge 273: Die drei kleinen Schweinchen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5RZFP9sDdCB6gFbfImWUld",
+        "include": true,
+        "episode_num": 272,
+        "title": "Folge 272: Besuch von einem Drachen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1I814HtEGwc76I5gPri7Dn",
+        "include": true,
+        "episode_num": 271,
+        "title": "Folge 271: Die verschwundenen Dino-Eier",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4SOLuJUJNaCXISyLCa53qZ",
+        "include": true,
+        "episode_num": 270,
+        "title": "Folge 270: Robo-Hund spielt verrückt",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3ZlszuC8DjkgFJeivJdfW3",
+        "include": true,
+        "episode_num": 269,
+        "title": "Folge 269: Draufgänger Dany X",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7qp1APjYjyyxeCZHNIb2hZ",
+        "include": true,
+        "episode_num": 268,
+        "title": "Folge 268: Die Flusspferde",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6HztwsuRbMX1YZSj0gK4IM",
+        "include": true,
+        "episode_num": 267,
+        "title": "Folge 267: Super-Rubble",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4GbzaVANZNXDrje9MtQR4V",
+        "include": true,
+        "episode_num": 266,
+        "title": "Folge 266: Yumi in Gefahr",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3x1PNoLo4QpqwdCtAxHQnb",
+        "include": true,
+        "episode_num": 265,
+        "title": "Folge 265: Die Fledermaus-Party",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5afX63etDIgeSuHjo7bNhi",
+        "include": true,
+        "episode_num": 264,
+        "title": "Folge 264: Ein Tag auf der Ranch",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1Yhs3AQgqbnAd270RZRHAx",
+        "include": true,
+        "episode_num": 263,
+        "title": "Folge 263: Der falsche Eisbär",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2KSqA0jhgLUiYd2ffsYWOu",
+        "include": true,
+        "episode_num": 262,
+        "title": "Folge 262: Ein Riesenrad macht sich selbständig",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "71TsQOcovJ6d8HB9zarN4C",
+        "include": true,
+        "episode_num": 261,
+        "title": "Folge 261: Außer Kontrolle",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4HNBjQz1caM6w7gA0FZXZa",
+        "include": true,
+        "episode_num": 260,
+        "title": "Folge 260: Der Jahrmarkt",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6AQ7whi2GcCDBBmucZDYZo",
+        "include": true,
+        "episode_num": 259,
+        "title": "Folge 259: Übernachtung mit Hindernissen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1jDbSOf1SQjkQfS2Pv6eoQ",
+        "include": true,
+        "episode_num": 258,
+        "title": "Folge 258: Die Fellfreunde retten ein Wal-Baby",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5oTjSeLj5CEFxbQ6IQs6LS",
+        "include": true,
+        "episode_num": 257,
+        "title": "Folge 257: Das Stinktier",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5B1nV8oWZOk7OAz4TofGxe",
+        "include": true,
+        "episode_num": 256,
+        "title": "Folge 256: Ein Spielzeug aus dem All",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5d5DT8kPH9meaIxuI2kysX",
+        "include": true,
+        "episode_num": 255,
+        "title": "Folge 255: Das Riesengemüse",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6wxVCOs51oRy2g6VHDedqC",
+        "include": true,
+        "episode_num": 254,
+        "title": "Folge 254: Die Kriechtiere",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2cHZ6nGs1pR0sBEhmjQMKF",
+        "include": true,
+        "episode_num": 253,
+        "title": "Folge 253: Der verspielte Drache",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0KZoVYBh5ljhjpHuZxgifg",
+        "include": true,
+        "episode_num": 252,
+        "title": "Folge 252: Der Chili-Kochwettbewerb",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0PcDQvzkWp81fRdMx7mLlv",
+        "include": true,
+        "episode_num": 251,
+        "title": "Folge 251: Der Wetter-Zeppelin",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1xd0eDtBR7HJZF7iE4GizE",
+        "include": true,
+        "episode_num": 250,
+        "title": "Folge 250: Flugzeug in Not",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "561cz0aV669rwVnjqiq3kf",
+        "include": true,
+        "episode_num": 249,
+        "title": "Folge 249: Einsatz auf der Vulkaninsel",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2IMHlRjE4BBS3bExFyOS3O",
+        "include": true,
+        "episode_num": 248,
+        "title": "Folge 248: Müllalarm im Meer",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6Nw7RSDAJue3d09B1hDo9z",
+        "include": true,
+        "episode_num": 247,
+        "title": "Folge 247: Das Sperrmüll-Monster",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3RoSkCygSkUwlnEMhohpEx",
+        "include": true,
+        "episode_num": 246,
+        "title": "Folge 246: Eine Party für Alex",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2E2KXs02INiqnNIaMPapgk",
+        "include": true,
+        "episode_num": 245,
+        "title": "Folge 245: Baby Besserwisser",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0jl4P6DXtldzr9QhNjocma",
+        "include": true,
+        "episode_num": 244,
+        "title": "Folge 244: Bauer Alex braucht Hilfe",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1iV875y8kOaDaA8075GzAF",
+        "include": true,
+        "episode_num": 243,
+        "title": "Folge 243: Eine schöne Abkühlung",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5t83FHyNXwsA1Vu2iD0YNO",
+        "include": true,
+        "episode_num": 242,
+        "title": "Folge 242: Der Hühnchen-Tag",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0t7DV96DamvRjSkthzZHKr",
+        "include": true,
+        "episode_num": 241,
+        "title": "Folge 241: Lukas Stern in Not",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0YICKGhhtz0JrKJ8mtccPl",
+        "include": true,
+        "episode_num": 240,
+        "title": "Folge 240: Die Moto Patrol und Bürgermeisterin Schlechtherz",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0RipeduUTeuE0GFJsrWomi",
+        "include": true,
+        "episode_num": 239,
+        "title": "Folge 239: Danny X surft durch die Wolken",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3RifNKRRR0xbvW73VZuoE7",
+        "include": true,
+        "episode_num": 238,
+        "title": "Folge 238: Katzi hat sich verirrt",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6UkDscBVtm2rgDseffx8NX",
+        "include": true,
+        "episode_num": 237,
+        "title": "Folge 237: Stellvertreter Besserwisser",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3p7T8KLPXnYwiNfmpV2q89",
+        "include": true,
+        "episode_num": 236,
+        "title": "Folge 236: Der Stein aus dem All",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4VrTLUW4D61ViOdFFDueT8",
+        "include": true,
+        "episode_num": 235,
+        "title": "Folge 235: Draufgänger-Vogel-X",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5sgYddeiQxbADN3qty8gl7",
+        "include": true,
+        "episode_num": 234,
+        "title": "Folge 234: Der Pflück-Roboter",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2zg6OSEW654QFXzZCcZJkr",
+        "include": true,
+        "episode_num": 233,
+        "title": "Folge 233: Die Moto Patrol rettet die Chaos-Kätzchen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3d9MfLJmNDD8srlhZiyLL9",
+        "include": true,
+        "episode_num": 232,
+        "title": "Folge 232: Die Moto Patrol rettet Donuts",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3uKWsGb9xAehO4YO8CM3fv",
+        "include": true,
+        "episode_num": 231,
+        "title": "Folge 231: Das Windsurf-Rennen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2aSDyYxUvoBtHJewLp3r6W",
+        "include": true,
+        "episode_num": 230,
+        "title": "Folge 230: Die schwebende Hüpfburg",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7eaWJvvmBCti8vcy3mvvcC",
+        "include": true,
+        "episode_num": 229,
+        "title": "Folge 229: Der geschrumpfte Marshall",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6ky8T8NCONjj9k10Fzuau3",
+        "include": true,
+        "episode_num": 228,
+        "title": "Folge 228: Die Pluster-Kätzchen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5mX4mn2UBkGmCLA0I8P2Cy",
+        "include": true,
+        "episode_num": 227,
+        "title": "Folge 227: Eine Rüstung für die Prinzessin",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0zrMbxc856noxlHUkmhB6Z",
+        "include": true,
+        "episode_num": 226,
+        "title": "Folge 226: Das Müll-Chaos",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "207WUGhrKUCSQa7QE0LUtC",
+        "include": true,
+        "episode_num": 225,
+        "title": "Folge 225: Der erste Einsatz der Moto Patrol",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5rFAi4Ml4VVMGotX3iSlNt",
+        "include": true,
+        "episode_num": 224,
+        "title": "Folge 224: Bauernhof ohne Bauern",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2EyHh7Jzv3iTBzwVSbd15T",
+        "include": true,
+        "episode_num": 223,
+        "title": "Folge 223: Die Bärenfamilie",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "49ckfggZvGiSitkeZ20LeA",
+        "include": true,
+        "episode_num": 222,
+        "title": "Folge 222: Die Hunde retten ein Wüstenschiff",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3GVQjetXu6A727yy0Pd1a2",
+        "include": true,
+        "episode_num": 221,
+        "title": "Folge 221: Die Hunde retten Königin Gack-Gack",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6Ak5Hh7uRGlgoSeyUlnXgu",
+        "include": true,
+        "episode_num": 220,
+        "title": "Folge 220: Frau Fröhlichs Haus versinkt",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2wJDyJnOL9GFbmBKfNpo6N",
+        "include": true,
+        "episode_num": 219,
+        "title": "Folge 219: Die Kuckucksuhr",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5y6y6h11iFL2cglKF0X0CH",
+        "include": true,
+        "episode_num": 218,
+        "title": "Folge 218: Die Paw Patrol hilft dem Weihnachts-Elf",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6QprGfBcCM1LcJsmKqxYnT",
+        "include": true,
+        "episode_num": 217,
+        "title": "Folge 217: Die Regenbogenkartoffel",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3aknEWj4nrio3WxyUI9izr",
+        "include": true,
+        "episode_num": 216,
+        "title": "Folge 216: Das Kreidebild",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5phdmJ9IPW8x7Jn0vGnqXK",
+        "include": true,
+        "episode_num": 215,
+        "title": "Folge 215: Der Rodeo-Wettbewerb",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1piKVD6Few7E5Rtcuj0rxx",
+        "include": true,
+        "episode_num": 214,
+        "title": "Folge 214: Zwei Bürgermeister in Not",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1qgvn8z0LeeHSnMijjOxXO",
+        "include": true,
+        "episode_num": 213,
+        "title": "Folge 213: Eine Überraschung für Ryder",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5wQeJFOps8OCOLAz6f0y9q",
+        "include": true,
+        "episode_num": 212,
+        "title": "Folge 212: Frau Fröhlich, der Flitzezahn",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2GSTe9ZoezekHK1E5VHfEN",
+        "include": true,
+        "episode_num": 211,
+        "title": "Folge 211: Onkel Herberts moderne Hütte",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "64KshrNiKudwfaT3oJDMaJ",
+        "include": true,
+        "episode_num": 210,
+        "title": "Folge 210: Onkel Herbert und die Goldmine",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3DYIf4fPeppivJwycY95ae",
+        "include": true,
+        "episode_num": 209,
+        "title": "Folge 209: Der goldene Stadt-Schlüssel",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0C1QWeJ5n0Z5QEAzgRyMp7",
+        "include": true,
+        "episode_num": 208,
+        "title": "Folge 208: Muffins auf Reisen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7BliUFmDYzpNnG7vvSPlBP",
+        "include": true,
+        "episode_num": 207,
+        "title": "Folge 207: Die mutigen Fallschirmspringer",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0nHnHC5ODqcGovMGxjzEv6",
+        "include": true,
+        "episode_num": 206,
+        "title": "Folge 206: Der Pizza-Turm",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4TCHZORZNYzOIgO3PN6UZj",
+        "include": true,
+        "episode_num": 205,
+        "title": "Folge 205: Ein Auto für Lotta",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2aGGpLOYOSDoue56jt9dT4",
+        "include": true,
+        "episode_num": 204,
+        "title": "Folge 204: Das Gurkenchaos",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6qULn8PcrEZdxs6lQHcjVf",
+        "include": true,
+        "episode_num": 203,
+        "title": "Folge 203: Die verschneite Insel",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0uJbUng9SKudDOyHcDryA4",
+        "include": true,
+        "episode_num": 202,
+        "title": "Folge 202: Marshall die Vogelscheuche",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7CdXvnJz2xDLFILKABAedb",
+        "include": true,
+        "episode_num": 201,
+        "title": "Folge 201: Ein störrischer Esel",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "23nbQetIqXcYFenRmLxqS5",
+        "include": true,
+        "episode_num": 200,
+        "title": "Folge 200: Der trockene Ententeich",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5ndvatgdXAgHvTYWLwrf88",
+        "include": true,
+        "episode_num": 199,
+        "title": "Folge 199: Die Schneeschuh-Wanderung",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5eTmHZcPAJibQM6JrwdO2P",
+        "include": true,
+        "episode_num": 198,
+        "title": "Folge 198: Alex und das Raketen-Bike",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "34ebyqq1ft8ah4TrNocdA9",
+        "include": true,
+        "episode_num": 197,
+        "title": "Folge 197: Die Halloween-Party",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3WX8uKFHvmqMP2BiIfFrI6",
+        "include": true,
+        "episode_num": 196,
+        "title": "Folge 196: Das fahrerlose Schneemobil",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "64cbBOzfXf428VLhXcGio2",
+        "include": true,
+        "episode_num": 195,
+        "title": "Folge 195: Die Müllplage",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1AFNXEwxiE62lkrVixcEZN",
+        "include": true,
+        "episode_num": 194,
+        "title": "Folge 194: Das entlaufene Känguru",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4eyqIspmFFYt5XXoIE9VeJ",
+        "include": true,
+        "episode_num": 193,
+        "title": "Folge 193: Die Grauhörnchen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0V1GO2MGZls6kJFzpfM1dv",
+        "include": true,
+        "episode_num": 192,
+        "title": "Folge 192: Der verwirrte Entdecker",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3KKAYIWJkg55v2vslHgQnZ",
+        "include": true,
+        "episode_num": 191,
+        "title": "Folge 191: Everest und der Polarwolf",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2qYdqb1bncDgMwSnNN6RAh",
+        "include": true,
+        "episode_num": 190,
+        "title": "Folge 190: Die riesige Höhlenspinne",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4ME83IQkoKyMVWZdqWTp4w",
+        "include": true,
+        "episode_num": 189,
+        "title": "Folge 189: Die Riesenballon Parade",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5yCfW1TwZcp2qqa87vpFaI",
+        "include": true,
+        "episode_num": 188,
+        "title": "Folge 188: Das Schlamm-Monster",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5zIZzj3W15oJHQZDw8byLE",
+        "include": true,
+        "episode_num": 187,
+        "title": "Folge 187: Familie Fledermaus in Gefahr",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "069qwscmhtCmpg6qhCUmYa",
+        "include": true,
+        "episode_num": 186,
+        "title": "Folge 186: Henriettas Ei",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "55ZtBmGHHpF582g01TkgeP",
+        "include": true,
+        "episode_num": 185,
+        "title": "Folge 185: Der schlafende Zottelaffe",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6aSBmcSDkNI9OHiTvyoLHq",
+        "include": true,
+        "episode_num": 184,
+        "title": "Folge 184: Ziegen-Yoga",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5bq1iI9zkVUqET5vTzqexu",
+        "include": true,
+        "episode_num": 183,
+        "title": "Folge 183: Das Lagerfeuerkonzert",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0MbKHsWsUUfpPXfSB0mMeh",
+        "include": true,
+        "episode_num": 182,
+        "title": "Folge 182: Bürgermeister Besserwisser in Not",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4MxLeaJKjhNfeCXwwrsuaS",
+        "include": true,
+        "episode_num": 181,
+        "title": "Folge 181: Das Büchermobil",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1cOTdfMvQTo2IYVKeR9955",
+        "include": true,
+        "episode_num": 180,
+        "title": "Folge 180: Die gestohlene Henrietta-Statue",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "71qhMREB5erLdyazFsrfPg",
+        "include": true,
+        "episode_num": 179,
+        "title": "Folge 179: Der Schmetterlingsbusch",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6hxFJL6OxsAYm8xH6Cdgyw",
+        "include": false,
+        "episode_num": null,
+        "title": "Rasend schnelle Rettung (Das Special)",
+        "exclude_reason": "Special with 15 tracks - likely a compilation/box set, not a single episode"
+      },
+      {
+        "spotify_album_id": "5QkDNVrRxI7cHsfm8knoSI",
+        "include": true,
+        "episode_num": 178,
+        "title": "Folge 178: Das Seifenkistenrennen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6YZX3kZ4oKhl06FC5DzTn7",
+        "include": true,
+        "episode_num": 177,
+        "title": "Folge 177: Drei Vögel auf Reisen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2vFiNfVAFWbRzdcKUB1HqT",
+        "include": true,
+        "episode_num": 176,
+        "title": "Folge 176: Der Backomat 3000",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1RPGKu0g3SQZoEfFlmoCus",
+        "include": true,
+        "episode_num": 175,
+        "title": "Folge 175: Der Robo-Kellner 3000",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6TrCCpHb4tQHNmwbDTRgQy",
+        "include": true,
+        "episode_num": 174,
+        "title": "Folge 174: Drei Super-Bösewichte in der Abenteuerbucht",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2hAM8F6Cxc4DVuZSoApXNw",
+        "include": true,
+        "episode_num": 173,
+        "title": "Folge 173: Verirrt im Dschungel",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6jUCa3KMGypUoMQWo5XXm6",
+        "include": true,
+        "episode_num": 172,
+        "title": "Folge 172: Mars oder Antarktis?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6CIm27zmTi5BOuGbqFFN46",
+        "include": true,
+        "episode_num": 171,
+        "title": "Folge 171: Die schwebenden Äffchen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0COQ9SSvpoL8GNmQM7qZ5z",
+        "include": true,
+        "episode_num": 170,
+        "title": "Folge 170: Die Bürgermeisterwahl",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7jvkmSOT2PRFh3KJj7s7N3",
+        "include": true,
+        "episode_num": 169,
+        "title": "Folge 169: Die Leuchtturm-Rakete",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6Jeet3QczFG79POxBwVzoT",
+        "include": true,
+        "episode_num": 168,
+        "title": "Folge 168: Die Besserwisser-Klone",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "01C8WavDsPxclbRTQEFAtY",
+        "include": true,
+        "episode_num": 167,
+        "title": "Folge 167: Die verschwundenen Medaillen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2iwswCIXREveHcyXXINQuj",
+        "include": true,
+        "episode_num": 166,
+        "title": "Folge 166: Das olympischer Feuer",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3lqvRWiSCfADpZJgpxZtH0",
+        "include": true,
+        "episode_num": 165,
+        "title": "Folge 165: Die Straußenbabys",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "03ZY1WYWGvq2Z24e5L8fyw",
+        "include": true,
+        "episode_num": 164,
+        "title": "Folge 164: Die Stinkblasen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4nvyZrdoo1O4wu65DznU8m",
+        "include": true,
+        "episode_num": 163,
+        "title": "Folge 163: Das Froschteich-Gespenst",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0ZfbLEkyHK1IRZQ0bHf5TI",
+        "include": true,
+        "episode_num": 162,
+        "title": "Folge 162: Der Paw-Patrol-Rettungskurs",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7j3d1ZCiXyymONH6HEEmYX",
+        "include": true,
+        "episode_num": 161,
+        "title": "Folge 161: Frisbee außer Kontrolle",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "58qjH4rGZ6AKBMZmPmx6DJ",
+        "include": true,
+        "episode_num": 160,
+        "title": "Folge 160: Der Yeti aus der Nachbarstadt",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5cRgRZpZxwPRZMTpGyG6hi",
+        "include": true,
+        "episode_num": 159,
+        "title": "Folge 159: Tollpatsch gegen Tollpatsch",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5l8X76C6DKf7qa5O5ykroA",
+        "include": true,
+        "episode_num": 158,
+        "title": "Folge 158: Wüstenpiraten",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "31xuJquHglmJYaMd75iiGZ",
+        "include": true,
+        "episode_num": 157,
+        "title": "Folge 157: Alex und der Ahornsirup",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0o7p22jfU3Yf2deMGuxAke",
+        "include": true,
+        "episode_num": 156,
+        "title": "Folge 156: Moni, die Seekuh",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6qDY2Pgapvlhy0RTsRjjUQ",
+        "include": true,
+        "episode_num": 155,
+        "title": "Folge 155: Der Affen-Naut",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "62HGyyUjvBBM5Pi4MGtLgZ",
+        "include": true,
+        "episode_num": 154,
+        "title": "Folge 154: Die Bergtour",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3Gx0KTJUigciiCLRydDSH1",
+        "include": true,
+        "episode_num": 153,
+        "title": "Folge 153: Die Handtaschendiebe",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "16SBqeJfSrySZhzpp3q74u",
+        "include": true,
+        "episode_num": 152,
+        "title": "Folge 152: Der gestohlene Honig",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "22Plzz7VzGW6Ju8prVMjoh",
+        "include": true,
+        "episode_num": 151,
+        "title": "Folge 151: Einsatz auf der Zugbrücke",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5ZjpOAbEjuNL4C1L9WtEm0",
+        "include": true,
+        "episode_num": 150,
+        "title": "Folge 150: Der Melonenwettbewerb",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6RcLjsslmNSrFAiEhohFYA",
+        "include": true,
+        "episode_num": 147,
+        "title": "Folge 147: Nächtliche Abenteuer im Museum",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6KaKkcjNSFBxuyZFYjGUZP",
+        "include": true,
+        "episode_num": 149,
+        "title": "Folge 149: Der kaputte Leuchtturm",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "04zouaJnmTBF3IY7cwCGms",
+        "include": true,
+        "episode_num": 146,
+        "title": "Folge 146: Die wilde Stadtrundfahrt",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "50jCYEYBYqakIwMjSajREn",
+        "include": true,
+        "episode_num": 148,
+        "title": "Folge 148: Pinguine im Dschungel",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2PmQuaVHQ6IdZYBcA7eqOd",
+        "include": true,
+        "episode_num": 145,
+        "title": "Folge 145: Der Handydieb",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1K6411jILe4z6QT5M9LIiA",
+        "include": true,
+        "episode_num": 144,
+        "title": "Folge 144: Der Hitzestrahl",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "64v9lKphZodJfLiXNe1oGn",
+        "include": true,
+        "episode_num": 143,
+        "title": "Folge 143: Die verschwundene Sternwarte",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0kJOF8gSPZ5pPKmh8ijAWh",
+        "include": true,
+        "episode_num": 142,
+        "title": "Folge 142: Die Goldknochen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3vDPChkfdk9GJyJ19PL0OM",
+        "include": true,
+        "episode_num": 141,
+        "title": "Folge 141: Das Sumpfmonster",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "50kciioPFnzKSyk3SGY8la",
+        "include": true,
+        "episode_num": 140,
+        "title": "Folge 140: Der Besserwisser-Roller",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5KcMOyqoMiAO1vLfEUdrUS",
+        "include": true,
+        "episode_num": 139,
+        "title": "Folge 139: Riesen-Tatze",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7y4NjWwr1BuhbOR5OxCRXp",
+        "include": true,
+        "episode_num": 138,
+        "title": "Folge 138: Oskar, der Strauß",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "17I3XrQeN4xQdPMqmY6fGn",
+        "include": true,
+        "episode_num": 137,
+        "title": "Folge 137: Das Kätzchen-Rettungsteam",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0qavl2xgXeiDnME5x1hfrj",
+        "include": true,
+        "episode_num": 136,
+        "title": "Folge 136: Bärenhunger",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3zwJFhLIJ2l7YvNaMg2cSI",
+        "include": true,
+        "episode_num": 135,
+        "title": "Folge 135: Das spezielle Mittagessen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5F7GnycIG7BDkI23EI4EVO",
+        "include": true,
+        "episode_num": 134,
+        "title": "Folge 134: Die Goldsuche",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "73xp1LOnAsh50kU74i2aD4",
+        "include": true,
+        "episode_num": 133,
+        "title": "Folge 133: Rüsselchens Rettung",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "45KLM0LSrh2jadSUlCHeI0",
+        "include": true,
+        "episode_num": 132,
+        "title": "Folge 132: Die weißen Tiger",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "427rjJiheEKU3f1Veo4lTS",
+        "include": true,
+        "episode_num": 131,
+        "title": "Folge 131: Die Entführung der Königs-Kätzchen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3a4MDEfD1dg5wmWfw61Lh3",
+        "include": true,
+        "episode_num": 130,
+        "title": "Folge 130: Die Riesen-Kuppel",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1C3KZxHOF1VpOIiwVkajKn",
+        "include": true,
+        "episode_num": 129,
+        "title": "Folge 129: Bertholds Roboter",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4cwownpS5WEXwmkWh6FfCH",
+        "include": true,
+        "episode_num": 128,
+        "title": "Folge 128: Der Sternschnuppen-Regen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6qbWBzXcnOPYxJK4xpuziv",
+        "include": true,
+        "episode_num": 127,
+        "title": "Folge 127: Der Super-Besserwisser",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6X5ooXW0ShGCb67gCFwjoD",
+        "include": true,
+        "episode_num": 126,
+        "title": "Folge 126: Die goldene Statue",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1VzDNclYDF6FZ1IJ9JCcfp",
+        "include": true,
+        "episode_num": 125,
+        "title": "Folge 125: Berthold mit dem Froststrahl",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5CWZkRh7sFRWMnTDzKipYZ",
+        "include": true,
+        "episode_num": 124,
+        "title": "Folge 124: Das Riesenhuhn",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1X6SLYNHwNhYsr20wvuZ72",
+        "include": true,
+        "episode_num": 123,
+        "title": "Folge 123: Tiere im Schloss",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5gx0s5qLz39eERgL74r1vW",
+        "include": true,
+        "episode_num": 122,
+        "title": "Folge 122: Ein königliches Konzert",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2xvkVFsM5sNUR1hm8lw70y",
+        "include": true,
+        "episode_num": 121,
+        "title": "Folge 121: Der Filmdreh",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1SI1btu5l7S7uJdueXhVfr",
+        "include": true,
+        "episode_num": 120,
+        "title": "Folge 120: Die Überschwemmung",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0XeodOOWbmXMhPi6zX0sEn",
+        "include": true,
+        "episode_num": 119,
+        "title": "Folge 119: Der Unterwasser-Vulkan",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "65ELYwLwd6kHmGqgkClZUd",
+        "include": true,
+        "episode_num": 118,
+        "title": "Folge 118: Ein Wal braucht Hilfe",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3yR4rqXwTxtza4UjtIKhI4",
+        "include": true,
+        "episode_num": 117,
+        "title": "Folge 117: Das versunkene Piratenschiff",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6s9qr5Og4OjaBGPCQOCNq3",
+        "include": true,
+        "episode_num": 116,
+        "title": "Folge 116: Die Super-Zwillinge",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6oX5pNu1Kgzrz2Udy4mcTH",
+        "include": true,
+        "episode_num": 115,
+        "title": "Folge 115: Berthold und die Superkätzchen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6hCVDuhHEAxO4ycLH9PGYh",
+        "include": false,
+        "episode_num": null,
+        "title": "Die Super-Hunde (Das Special)",
+        "exclude_reason": "Special/compilation release (17 tracks, not a numbered episode)"
+      },
+      {
+        "spotify_album_id": "6chkVSMcD1lgqiEuFKSFht",
+        "include": true,
+        "episode_num": 114,
+        "title": "Folge 114: Die wilde Abfahrt",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3VthUVbqgIwDT1uM9dITDM",
+        "include": true,
+        "episode_num": 113,
+        "title": "Folge 113: Jake hat Geburtstag",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1nPpF7XiGjF3gZNnW3ybhy",
+        "include": true,
+        "episode_num": 112,
+        "title": "Folge 112: Die Katzenshow",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4ncLeazZ1oxZA0W0W8s7TH",
+        "include": true,
+        "episode_num": 111,
+        "title": "Folge 111: Eine eisige Rettung",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "14cwoh3vb44viPGqsDmmrf",
+        "include": true,
+        "episode_num": 110,
+        "title": "Folge 110: Danny X und sein Flusspferd",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2hwwmnG5QsKV7Jbgi2zkfZ",
+        "include": true,
+        "episode_num": 109,
+        "title": "Folge 109: Francois, der Pinguin",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0W8Jjf7B9F117t61Vi7yN8",
+        "include": true,
+        "episode_num": 108,
+        "title": "Folge 108: Die Schaf-Schermaschine",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4v5uuYJ0W5RypvlqXNKj1Y",
+        "include": true,
+        "episode_num": 107,
+        "title": "Folge 107: Die Schildkröten-Eier",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2DjKQVFugxBPyPtHEP7CCt",
+        "include": true,
+        "episode_num": 106,
+        "title": "Folge 106: Frau Frosch-Bürgermeisterin",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4GvsWoTGCXkDIqUIib7GNt",
+        "include": true,
+        "episode_num": 105,
+        "title": "Folge 105: Paket in Gefahr",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2pcHIUXjUG6eZvMUdsBhi0",
+        "include": true,
+        "episode_num": 104,
+        "title": "Folge 104: Flugkatze in Not",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4mRuHMQzi8Kqnb8TZGSwEG",
+        "include": true,
+        "episode_num": 103,
+        "title": "Folge 103: Affen-Alarm",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7bbwGxRqLa6kvl7OX4YwQg",
+        "include": true,
+        "episode_num": 102,
+        "title": "Folge 102: Auf Safari",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3VwbrNvOHv2Ov8CScGjj2W",
+        "include": true,
+        "episode_num": 101,
+        "title": "Folge 101: Das Schlossgespenst",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0qUGkKwrKPQqiLTRVR3lU4",
+        "include": true,
+        "episode_num": 100,
+        "title": "Folge 100: Die traurige Prinzessin",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5pzQNvrsCjqxBzlh21swLA",
+        "include": true,
+        "episode_num": 99,
+        "title": "Folge 99: Die Suche nach der Krone",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4aUETaaUUUeICP1nBhEmaj",
+        "include": true,
+        "episode_num": 98,
+        "title": "Folge 98: Die Fellfreunde retten Wufflantis",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "627YK6cUUfZoQfsH1MTuyo",
+        "include": true,
+        "episode_num": 97,
+        "title": "Folge 97: Das Ein-Leopard-Löwe-Horn",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4qCKzzG2FUc2wIidx2Xk07",
+        "include": true,
+        "episode_num": 96,
+        "title": "Folge 96: Die eingefrorene Flunder",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3pxO8OPfKc38Ox6629HEda",
+        "include": true,
+        "episode_num": 95,
+        "title": "Folge 95: Der Piratenzauber",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2cLn8CCZS4JUtcEyiDlRHm",
+        "include": true,
+        "episode_num": 94,
+        "title": "Folge 94: Künstler in Not",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0HYuWaFRI1Vp3VA33mvR9y",
+        "include": true,
+        "episode_num": 93,
+        "title": "Folge 93: Der seltsame Hai",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "15RdvBZx64XTQlwjGFQpKw",
+        "include": true,
+        "episode_num": 92,
+        "title": "Folge 92: Das Tintenfisch-Baby",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6IHTEidXJyCn44ze0KOrSx",
+        "include": true,
+        "episode_num": 91,
+        "title": "Folge 91: Der Magnet",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4IKdUctf6etANWkUJOcLnD",
+        "include": true,
+        "episode_num": 90,
+        "title": "Folge 90: Die Riesenpflanze",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1arjwIi8Lwp0VAsb8sSMTZ",
+        "include": true,
+        "episode_num": 89,
+        "title": "Folge 89: Die Winterwunder-Show",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2OmqkFXKXGmzNOeiM6MzrT",
+        "include": true,
+        "episode_num": 88,
+        "title": "Folge 88: Die Nacht des magischen Meer-Mondes",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3Uxc97CaAiw0HuyPFXnLjc",
+        "include": true,
+        "episode_num": 87,
+        "title": "Folge 87: Der sprechende Papagei",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0Tit3uQAAA9fe4cKIWduZs",
+        "include": true,
+        "episode_num": 86,
+        "title": "Folge 86: Hier kommt Tracker",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "45VYNvXAelYJIJ2nek4GAI",
+        "include": true,
+        "episode_num": 85,
+        "title": "Folge 85: Der Freundschaftstag",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2Bs1pPoN6DOjWQ4n3qzGR3",
+        "include": true,
+        "episode_num": 84,
+        "title": "Folge 84: Fliegende Fellfreunde",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3XMIvZCWkiZbUqe9R5dvS5",
+        "include": true,
+        "episode_num": 83,
+        "title": "Folge 83: Der verlorene Zahn",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0rq6JBufW6rLgqRZot405k",
+        "include": true,
+        "episode_num": 82,
+        "title": "Folge 82: Die Mini Patrol",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "458ESrGGER2HhpnV9hVXUa",
+        "include": true,
+        "episode_num": 81,
+        "title": "Folge 81: Das Glückshalsband",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6PCQrb3PJBDSWiU6RHmXxY",
+        "include": true,
+        "episode_num": 80,
+        "title": "Folge 80: Das Fußballspiel",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1iTj7MYjTAfgB5jlw6OqW0",
+        "include": true,
+        "episode_num": 79,
+        "title": "Folge 79: Der Paw Patroller ist weg",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5Zt83ozj0aJiIIgijMUFgj",
+        "include": true,
+        "episode_num": 78,
+        "title": "Folge 78: Im Goldrausch",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6Th4ypICABmvXfQDlszBwT",
+        "include": true,
+        "episode_num": 77,
+        "title": "Folge 77: François, der Seiltänzer",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "269Hg55WRs0xvmBLgcbfO6",
+        "include": true,
+        "episode_num": 76,
+        "title": "Folge 76: Der Flaschengeist",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0VKa6hHMEToUmiEpAzHmZk",
+        "include": true,
+        "episode_num": 75,
+        "title": "Folge 75: Kätzchen-Chaos",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2O9TBkeQ1N1koVS5blchhQ",
+        "include": true,
+        "episode_num": 74,
+        "title": "Folge 74: Die Elefanten-Familie",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0YEZlHoxgNnQISExZ2oAWO",
+        "include": true,
+        "episode_num": 73,
+        "title": "Folge 73: Die Meerfellfreunde",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3K6oayJIWk0HkWMVV5TfZJ",
+        "include": true,
+        "episode_num": 72,
+        "title": "Folge 72: Der Bienenumzug",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "650TjQcqgEvlA8tsgmn2NH",
+        "include": true,
+        "episode_num": 71,
+        "title": "Folge 71: Der Papagei",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6TRh57qNywHHI3gCw91zhY",
+        "include": true,
+        "episode_num": 70,
+        "title": "Folge 70: Rettet die Rehe",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1Lh9wAnZBgZ6XhSZMO4CFt",
+        "include": true,
+        "episode_num": 69,
+        "title": "Folge 69: Marshall allein zu Haus",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3fymQLaB2CWMMFC6nplpmG",
+        "include": true,
+        "episode_num": 68,
+        "title": "Folge 68: Maiskolben vom Grill",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6ka6ESJDd8WUoRe0eU9xR9",
+        "include": true,
+        "episode_num": 67,
+        "title": "Folge 67: Der Talentwettbewerb",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "19wJ1EEwxmNDkCP3Ry6dMl",
+        "include": true,
+        "episode_num": 66,
+        "title": "Folge 66: Hochzeit in Gefahr",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1oHHKyFlAqbl4miOkPmxLK",
+        "include": true,
+        "episode_num": 65,
+        "title": "Folge 65: Ein Ass in der Luft",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6vEcZoBlHD5PIy7X7gTs8q",
+        "include": true,
+        "episode_num": 64,
+        "title": "Folge 64: Das Basketballspiel",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6L9F37UsJd9NmKkkHo2LB7",
+        "include": true,
+        "episode_num": 63,
+        "title": "Folge 63: Die Kältewelle",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1QQWLrmmvJQuiH7HwRci4v",
+        "include": true,
+        "episode_num": 62,
+        "title": "Folge 62: Der Schafhüte-Wettbewerb",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1WmUolDvYkK3yD90zNOar0",
+        "include": true,
+        "episode_num": 61,
+        "title": "Folge 61: Einsatz im Dschungel",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "27RMMYVdn7oyzM5iKXl8Dz",
+        "include": true,
+        "episode_num": 60,
+        "title": "Folge 60: Ein neuer Fellfreund",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "373wrbPmE7TdB8l3fLZfL8",
+        "include": true,
+        "episode_num": 58,
+        "title": "Folge 58: Das Ritterspiel",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3eKpF8kQSdk3mD5hCIAWcs",
+        "include": true,
+        "episode_num": 57,
+        "title": "Folge 57: Geisterstunde",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5PhVjiOktE3e47EgW0OLVj",
+        "include": true,
+        "episode_num": 56,
+        "title": "Folge 56: Biberprobleme",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "635WS6PIMMK2JyRMfAqdnw",
+        "include": true,
+        "episode_num": 55,
+        "title": "Folge 55: Auf Tauchstation",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0zoINKsKFuQdnxB64jpHHg",
+        "include": true,
+        "episode_num": 54,
+        "title": "Folge 54: Die Parade",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0B7qXyr1CHX01NYrUkkRlF",
+        "include": true,
+        "episode_num": 53,
+        "title": "Folge 53: Jake in der Klemme",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6GTd4P8pyQNCiM7caPsgQG",
+        "include": true,
+        "episode_num": 52,
+        "title": "Folge 52: Der fliegende Frosch",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4AvXEQugiNZopBUXrHm5Sn",
+        "include": true,
+        "episode_num": 51,
+        "title": "Folge 51: Der Besucher aus dem All",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4CmxFDOM3iEixbD805bGS6",
+        "include": true,
+        "episode_num": 50,
+        "title": "Folge 50: Der Delfin-Freund",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3OaDwG2kZ38HsGvO1i1Hc0",
+        "include": true,
+        "episode_num": 49,
+        "title": "Folge 49: Pinguine an Bord",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6fnH1FacOdxohcYcJhXuv6",
+        "include": true,
+        "episode_num": 48,
+        "title": "Folge 48: Der Piratenschatz",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "56xbnLFJ52biIk4xG243KI",
+        "include": true,
+        "episode_num": 47,
+        "title": "Folge 47: Der Kuchenback-Wettbewerb",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5HcGgiM7M6OdxWAimjtTn8",
+        "include": true,
+        "episode_num": 46,
+        "title": "Folge 46: Das große Rennen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2qgAdU0oU7alIPI7YsgASW",
+        "include": true,
+        "episode_num": 45,
+        "title": "Folge 45: Ryder in Not",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6QPDFdlf8YodEUiieNzzH0",
+        "include": true,
+        "episode_num": 44,
+        "title": "Folge 44: Der Leuchtturm-Boogie",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6kqwyrfvMoFitFZEthEARH",
+        "include": true,
+        "episode_num": 43,
+        "title": "Folge 43: Cousin Francois",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2LSIWgYnrD6y2dnQMfhuFV",
+        "include": true,
+        "episode_num": 42,
+        "title": "Folge 42: Die Riesenbohnen-Ranke",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2TdJalvJsOEDbt8cW0ToAv",
+        "include": true,
+        "episode_num": 41,
+        "title": "Folge 41: Die Schildkröten-Krise",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1O7gJUnsB9G2k3WgXKol9U",
+        "include": true,
+        "episode_num": 40,
+        "title": "Folge 40: Die Pfotenfinder",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3QCaTxot4x05GkoHUgVVRH",
+        "include": true,
+        "episode_num": 39,
+        "title": "Folge 39: Der Wackelzahn",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0h7k6PUFXtfWYXnOchWGCP",
+        "include": true,
+        "episode_num": 38,
+        "title": "Folge 38: Der Flederfreund",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2id7Fprh1py0tumhJG7tVE",
+        "include": true,
+        "episode_num": 37,
+        "title": "Folge 37: Der kleine Tut",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4KFcJEe2pScfsI3Un9q2Q9",
+        "include": true,
+        "episode_num": 36,
+        "title": "Folge 36: Großes Affentheater",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6RbGPa8NHEmtQ78Fa2GDX9",
+        "include": true,
+        "episode_num": 35,
+        "title": "Folge 35: Ryders Roboterhund",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2yGgIK7bUZGrmSzNiVdpjo",
+        "include": true,
+        "episode_num": 34,
+        "title": "Folge 34: Der Super-Fellfreund",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "11RQtdZITRKnzeEsjjRQrV",
+        "include": true,
+        "episode_num": 33,
+        "title": "Folge 33: Die Ostereiersuche",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4QEifrqqrsgHfjGNJgTYbs",
+        "include": true,
+        "episode_num": 32,
+        "title": "Folge 32: Der Hundezirkus",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "03YbuF9SHUJ8D9tvQO3kcn",
+        "include": true,
+        "episode_num": 31,
+        "title": "Folge 31: Fellfreunde auf dem Trockenen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "67xLoLZqlfUNzASlh8sZXu",
+        "include": true,
+        "episode_num": 30,
+        "title": "Folge 30: Der Stromausfall",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "72T4CSvXtaO5URxA1aUZUD",
+        "include": true,
+        "episode_num": 29,
+        "title": "Folge 29: Alex erster Schultag",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0dprwQq09sfdEjG8IppGwT",
+        "include": true,
+        "episode_num": 28,
+        "title": "Folge 28: Alex auf Rettungsmission",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6n7KhNFWeYdS7Ph7DxsHpX",
+        "include": true,
+        "episode_num": 27,
+        "title": "Folge 27: Kühe tanzen aus der Reihe",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2OgzddofZu77SHgyDiu6NS",
+        "include": true,
+        "episode_num": 26,
+        "title": "Folge 26: Großvater über Bord",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "49DggPUJAR5JtKanhBuBUb",
+        "include": true,
+        "episode_num": 25,
+        "title": "Folge 25: Der Ölteppich",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3IYcMGWqAJkO0I4MZ7rs7L",
+        "include": true,
+        "episode_num": 24,
+        "title": "Folge 24: Die Hundeschau",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2su1y9XdsYXRXl13esrlYH",
+        "include": true,
+        "episode_num": 23,
+        "title": "Folge 23: Das Kaninchen-Problem",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2GdEAYE2VftpSyxY3kwomi",
+        "include": true,
+        "episode_num": 22,
+        "title": "Folge 22: Die Walross-Rettung",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0H5JIyqSIEhe0r8IYKIXIh",
+        "include": true,
+        "episode_num": 21,
+        "title": "Folge 21: Rubble, der Fundhund",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1rXo9NX76tam0QgVsgFJK4",
+        "include": true,
+        "episode_num": 20,
+        "title": "Folge 20: Die Paw Patrol rettet Weihnachten",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6feotUwykvfUoBygReNCUR",
+        "include": true,
+        "episode_num": 19,
+        "title": "Folge 19: Das Geisterschiff",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5K3VeXSoSxNZSJFTA4Sb54",
+        "include": true,
+        "episode_num": 18,
+        "title": "Folge 18: Rettung aus höchster Not",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6PTEULkmAthcFGWOtc9W7X",
+        "include": true,
+        "episode_num": 17,
+        "title": "Folge 17: Leckerlis auf Eis",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6gpYs7Bq16hRlJZoFAJslx",
+        "include": true,
+        "episode_num": 16,
+        "title": "Folge 16: Schneller als die Feuerwehr",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6e956Oamdjl92k7E3db7JM",
+        "include": true,
+        "episode_num": 15,
+        "title": "Folge 15: Der Boxenstopp",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "47XhsA8ITrNO5tTuZaFpDo",
+        "include": true,
+        "episode_num": 14,
+        "title": "Folge 14: Hunde retten Huhn",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4BYfNpV1FwL1HtnqTgLEFN",
+        "include": true,
+        "episode_num": 13,
+        "title": "Folge 13: Was für ein Zirkus",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "51CIeZ1G1QbQ2JQ4MbbxfN",
+        "include": true,
+        "episode_num": 12,
+        "title": "Folge 12: Das Schneemonster",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4lqv61LqX9Mk6foMgmJ9XY",
+        "include": true,
+        "episode_num": 11,
+        "title": "Folge 11: Hunde im Schnee",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "08CnuVv1FvEopNZn3GJ6DL",
+        "include": true,
+        "episode_num": 10,
+        "title": "Folge 10: Die Ballon-Wettfahrt",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0yKibx3gZbJaKBpIrd6w4F",
+        "include": true,
+        "episode_num": 9,
+        "title": "Folge 09: Die Gänse kommen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0iIo1pFjOAbNyaGyO1QqPz",
+        "include": true,
+        "episode_num": 8,
+        "title": "Folge 08: Hunde im Nebel",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5daft41krlGPv0MgFXkxSV",
+        "include": true,
+        "episode_num": 7,
+        "title": "Folge 07: Der Fellfreunde Boogie",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5pq2YIoNXzOtccf0blZA5W",
+        "include": true,
+        "episode_num": 6,
+        "title": "Folge 06: Die Zugrettung",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1hYHIgKHemMLE7D6RtStwD",
+        "include": true,
+        "episode_num": 5,
+        "title": "Folge 05: Die Katz-A-Strophe",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "457S17j8AoZ2feZdolSaa4",
+        "include": true,
+        "episode_num": 4,
+        "title": "Folge 04: Das Riesenbaby",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0S8n0RnRlCluEFs7gZON3l",
+        "include": true,
+        "episode_num": 3,
+        "title": "Folge 03: Die Rettung der Meeresschildkröten",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4rajqkIApuSN6Hsiimkq0Y",
+        "include": true,
+        "episode_num": 2,
+        "title": "Folge 02: Das große Herbstfest",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4KjJ2pofHyuSDaKtDqvuE9",
+        "include": true,
+        "episode_num": 1,
+        "title": "Folge 01: Rocky will nicht baden",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0PK1uxPFBwae4QpeCC10WQ",
+        "include": false,
+        "episode_num": null,
+        "title": "The Meow Meow Song (Skye's Music Party)",
+        "exclude_reason": "Single music track (1 track) - not a Hörspiel"
+      },
+      {
+        "spotify_album_id": "7d2Ken2gkhL0mhRamBq3kF",
+        "include": false,
+        "episode_num": null,
+        "title": "Birthday Bonanza (Skye's Music Party)",
+        "exclude_reason": "Single music track (1 track) - not a Hörspiel"
+      },
+      {
+        "spotify_album_id": "653HtQ6YHknzW6VmVRxB4x",
+        "include": false,
+        "episode_num": null,
+        "title": "Ha Ha Halloween (Skye's Music Party)",
+        "exclude_reason": "Single music track (1 track) - not a Hörspiel"
+      },
+      {
+        "spotify_album_id": "38ShrOxSgZ1oTyNTIQfzyy",
+        "include": false,
+        "episode_num": null,
+        "title": "Dress Up in Your Best Costume (Skye's Music Party)",
+        "exclude_reason": "Single music track (1 track) - not a Hörspiel"
+      },
+      {
+        "spotify_album_id": "6BS7n4TwchS0qzqyLeKD2g",
+        "include": false,
+        "episode_num": null,
+        "title": "Puppy Campers (Skye's Music Party)",
+        "exclude_reason": "Single music track (1 track) - not a Hörspiel"
+      },
+      {
+        "spotify_album_id": "4dfHyaL4vsh9nLHNwemWFR",
+        "include": false,
+        "episode_num": null,
+        "title": "Bettina the Cow Song (Skye's Music Party)",
+        "exclude_reason": "Single music track (1 track) - not a Hörspiel"
+      },
+      {
+        "spotify_album_id": "0RBFWobKwHYzCYjmpXUkOg",
+        "include": false,
+        "episode_num": null,
+        "title": "Robo – Dog to the Rescue (Skye's Music Party)",
+        "exclude_reason": "Single music track (1 track) - not a Hörspiel"
+      },
+      {
+        "spotify_album_id": "0hzEfYo7Kv2216PWZjt0RZ",
+        "include": false,
+        "episode_num": null,
+        "title": "Dino Rescue (Skye's Music Party)",
+        "exclude_reason": "Single music track (1 track) - not a Hörspiel"
+      },
+      {
+        "spotify_album_id": "1OVfGSKiik4Y4Jl3GboFro",
+        "include": false,
+        "episode_num": null,
+        "title": "Mighty Song (Skye's Music Party)",
+        "exclude_reason": "Single music track (1 track) - not a Hörspiel"
+      },
+      {
+        "spotify_album_id": "2Nz4f8WAtKaBYN61twvifM",
+        "include": false,
+        "episode_num": null,
+        "title": "Upcycle Song (Skye's Music Party)",
+        "exclude_reason": "Single music track (1 track) - not a Hörspiel"
+      },
+      {
+        "spotify_album_id": "2FUFtGiSyAC04IZjvZye1U",
+        "include": false,
+        "episode_num": null,
+        "title": "Trouble (Skye's Music Party)",
+        "exclude_reason": "Single music track (1 track) - not a Hörspiel"
+      },
+      {
+        "spotify_album_id": "2oWb9nbMrjK6usC657LhZ6",
+        "include": false,
+        "episode_num": null,
+        "title": "Fun With Friends (Skye's Music Party)",
+        "exclude_reason": "Single music track (1 track) - not a Hörspiel"
+      },
+      {
+        "spotify_album_id": "6RLQqsnnyqg2w2j5TaSwsW",
+        "include": false,
+        "episode_num": null,
+        "title": "Chick Chick Chickaletta (Skye's Music Party)",
+        "exclude_reason": "Single music track (1 track) - not a Hörspiel"
+      },
+      {
+        "spotify_album_id": "3yEM9kI0kPNKm7GUHW1qBA",
+        "include": false,
+        "episode_num": null,
+        "title": "Food Song (Skye's Music Party)",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "4dGfF2a1WSQuxGrpzt9Ctu",
+        "include": false,
+        "episode_num": null,
+        "title": "Everest is the Best (Skye's Music Party)",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "3jQfgmOjjIaMDHu5kJNe3e",
+        "include": false,
+        "episode_num": null,
+        "title": "Skye's Pup Pup Boogie (Skye's Music Party)",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "0k5MKGh0dENMjjUpylu7OX",
+        "include": false,
+        "episode_num": null,
+        "title": "Fly With Me (Skye's Music Party)",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "3dTT0nEKTMPHjmnLGvvsHs",
+        "include": false,
+        "episode_num": null,
+        "title": "Bark to the Beat (with blackbear) [From PAW Patrol: The Mighty Movie]",
+        "exclude_reason": "Single music track (1 track), soundtrack song, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "4iRlmKBFtO8PstAVN015GA",
+        "include": false,
+        "episode_num": null,
+        "title": "PAW Patrol Pup Pup Boogie (Sped Up)",
+        "exclude_reason": "Sped up version, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "3G8PRlDmEEaPmNOA1jWlPH",
+        "include": false,
+        "episode_num": null,
+        "title": "PAW Patrol Opening Theme (Sped Up)",
+        "exclude_reason": "Sped up version, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "18OOpmlvd5nJW2Pd79yIWQ",
+        "include": false,
+        "episode_num": null,
+        "title": "PAW Patrol Official Theme Song & More",
+        "exclude_reason": "Music compilation (theme songs), not Hörspiel episodes"
+      },
+      {
+        "spotify_album_id": "5mLoYL8Lf3jmgBgGliN2WD",
+        "include": false,
+        "episode_num": null,
+        "title": "Happy PAW-lidays!",
+        "exclude_reason": "Compilation (48 tracks), not an individual episode"
+      },
+      {
+        "spotify_album_id": "21oy0fEMPXYzgvO50g4P9y",
+        "include": false,
+        "episode_num": null,
+        "title": "Nick Jr.'s Holly Jolly Jams",
+        "exclude_reason": "Multi-artist compilation (Nick Jr.), not a PAW Patrol Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "1y5O5De0TbSrfni4eREuoX",
+        "include": false,
+        "episode_num": null,
+        "title": "Canciones Infantiles En Inglés",
+        "exclude_reason": "Foreign language compilation (Spanish), not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "3bLup5PCGxhefVrYx1ZNE8",
+        "include": false,
+        "episode_num": null,
+        "title": "Futuras Estrellas De Rock | Rock para niños",
+        "exclude_reason": "Foreign language compilation (Spanish), not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "7e921AmXkBZDsnGKJdujtP",
+        "include": false,
+        "episode_num": null,
+        "title": "Vamos a Aprender Inglés",
+        "exclude_reason": "Foreign language compilation (Spanish), not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "5S19x0Squ8BfXwlDUX7b05",
+        "include": false,
+        "episode_num": null,
+        "title": "Kids Party: Música para niños en inglés",
+        "exclude_reason": "Foreign language compilation (Spanish), not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "02Q433KTfSD5dujkNFDDL9",
+        "include": false,
+        "episode_num": null,
+        "title": "Nick Jr.'s Friendship Songs!",
+        "exclude_reason": "Multi-artist compilation (Nick Jr.), not a PAW Patrol Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "5M8ck1PPV4yV94VDGLcFWM",
+        "include": false,
+        "episode_num": null,
+        "title": "Los Niños También Hablan Inglés",
+        "exclude_reason": "Foreign language compilation (Spanish), not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "4EWD80PgMwN4pjDIrqrwWr",
+        "include": false,
+        "episode_num": null,
+        "title": "Feliz Cumpleaños!",
+        "exclude_reason": "Foreign language compilation (Spanish), not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "2LZmMpXuzO838mzpDLCYHp",
+        "include": false,
+        "episode_num": null,
+        "title": "Castillos de Arena",
+        "exclude_reason": "Foreign language compilation (Spanish), not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "6jFJ2tQXqnnOxyJAjWBBy2",
+        "include": false,
+        "episode_num": null,
+        "title": "De Papás Rockeros Con Amor",
+        "exclude_reason": "Foreign language compilation (Spanish), not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "1eqMLycOAbdlsCmp5U976C",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderparty Hits 2025",
+        "exclude_reason": "Multi-artist compilation, not a PAW Patrol Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "6ja4RcoTBtNONbN7mHm7wO",
+        "include": false,
+        "episode_num": null,
+        "title": "Kid's Dance Party",
+        "exclude_reason": "Multi-artist compilation, not a PAW Patrol Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "1BzZc5fIULkOZKCPvSU1Hv",
+        "include": false,
+        "episode_num": null,
+        "title": "Juguemos En Inglés | Música Para Niños",
+        "exclude_reason": "Foreign language compilation (Spanish), not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "20Xs5DtbsZTZdRtHyakcuC",
+        "include": false,
+        "episode_num": null,
+        "title": "Música Infantil Alegre",
+        "exclude_reason": "Foreign language compilation (Spanish), not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "0tvP7yvN7x4ZBOCR9DBZhe",
+        "include": false,
+        "episode_num": null,
+        "title": "Musik aus Kinderserien und Kinderfilmen",
+        "exclude_reason": "Multi-artist compilation, not a PAW Patrol Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "4onHgemvSpYShqtWsFwcKz",
+        "include": false,
+        "episode_num": null,
+        "title": "Classic Tunes Just For Kids!",
+        "exclude_reason": "Multi-artist compilation, not a PAW Patrol Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "5VTjS05vVrOlgC9OOf65mj",
+        "include": false,
+        "episode_num": null,
+        "title": "Fiesta Infantil Divertida",
+        "exclude_reason": "Foreign language compilation (Spanish), not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "45tHzP6O4uNCTeZLvY0oQB",
+        "include": false,
+        "episode_num": null,
+        "title": "Jugando Y Aprendiendo Inglés: Música Para Niños",
+        "exclude_reason": "Foreign language compilation (Spanish), not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "2DyL5KDj1xGTdfPhapMgMh",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinder Rock Hits",
+        "exclude_reason": "Multi-artist compilation, not a PAW Patrol Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "4FyDiIL8wqdSzJSlTg0guV",
+        "include": false,
+        "episode_num": null,
+        "title": "Kids Hits",
+        "exclude_reason": "Multi-artist compilation, not a PAW Patrol Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "64gk4uyYZfQmNZRYnhtS6n",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderlieder Kita Hits",
+        "exclude_reason": "Multi-artist compilation, not a PAW Patrol Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "2fYlfNE7a6Wa3fC6rvP8gs",
+        "include": false,
+        "episode_num": null,
+        "title": "Deck The Pups",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "2AVHemrcjj2uPUhQ9UP3fq",
+        "include": false,
+        "episode_num": null,
+        "title": "Wayne (Remix)",
+        "exclude_reason": "Single music track (1 track), remix - not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "0Uor3ORL4JbWvdDvIr3drm",
+        "include": false,
+        "episode_num": null,
+        "title": "Corn Juice (Deluxe Version)",
+        "exclude_reason": "12 tracks, deluxe version - not a Hörspiel episode, likely compilation or music release"
+      }
+    ],
+    "age_note": "Suitable from 3+",
+    "curator_notes": "German Hörspiel adaptation of the popular animated TV series. Episodes follow the format 'Folge XXX: [Episode Title]' with occasional special releases like 'A Paw Patrol Christmas'. Some earlier episodes lack the '(Das Original-Hörspiel zur TV-Serie)' suffix. Features the adventures of Ryder and his team of rescue dogs in Adventure Bay."
+  }
+}
