@@ -504,7 +504,7 @@ def _build_prompt(curation: dict) -> str:
 
 async def review_one(
     model_name: str, api_key: str, series_id: str,
-    spotify: SpotifyClient, timeout: int,
+    spotify: SpotifyClient, timeout: int, *, force: bool = False,
 ) -> tuple[ReviewResult, list] | None:
     path = CURATION_DIR / f"{series_id}.json"
     if not path.exists():
@@ -521,6 +521,11 @@ async def review_one(
     # Skip rejected stubs
     if curation.get("review", {}).get("status") == "rejected":
         console.print(f"[dim]Skipping {series_id} (rejected stub)[/]")
+        return None
+
+    # Skip already-reviewed series unless --force
+    if not force and curation.get("review", {}).get("reviewed_at"):
+        console.print(f"[dim]Skipping {series_id} (already reviewed)[/]")
         return None
 
     # Quick check: any issues?
@@ -728,6 +733,7 @@ async def main_async(args: argparse.Namespace) -> None:
         try:
             outcome = await review_one(
                 args.model, api_key, series_id, spotify, args.timeout,
+                force=args.force,
             )
         except Exception as e:
             console.print(f"[red]  Failed: {e}[/]")
@@ -765,6 +771,8 @@ def main() -> None:
     group.add_argument("--all", action="store_true", help="Review all series")
     ap.add_argument("--model", default=_DEFAULT_MODEL)
     ap.add_argument("--timeout", type=int, default=300)
+    ap.add_argument("--force", action="store_true",
+                    help="Re-review already-reviewed series")
     args = ap.parse_args()
     asyncio.run(main_async(args))
 
