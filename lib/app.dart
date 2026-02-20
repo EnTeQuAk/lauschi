@@ -12,6 +12,7 @@ import 'package:lauschi/core/spotify/spotify_auth_provider.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
 import 'package:lauschi/features/onboarding/screens/onboarding_provider.dart';
 import 'package:lauschi/features/player/player_provider.dart';
+import 'package:lauschi/features/splash/splash_overlay.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class LauschiApp extends ConsumerStatefulWidget {
@@ -32,6 +33,9 @@ class _LauschiAppState extends ConsumerState<LauschiApp>
 
   bool _dataMigrationsRun = false;
 
+  /// Flips once the first real frame is ready — triggers splash fade-out.
+  bool _splashReady = false;
+
   @override
   void initState() {
     super.initState();
@@ -40,6 +44,11 @@ class _LauschiAppState extends ConsumerState<LauschiApp>
       ref.read(onboardingCompleteProvider.notifier).checkAsync(),
     );
     unawaited(_initDeepLinks());
+    // Dismiss splash after the first frame is painted — app content
+    // is already rendering behind the overlay.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) setState(() => _splashReady = true);
+    });
   }
 
   Future<void> _initDeepLinks() async {
@@ -145,6 +154,10 @@ class _LauschiAppState extends ConsumerState<LauschiApp>
                   child: _WebViewHost(),
                 ),
               ),
+            // Pixel-identical to the native splash. Fades out once the
+            // first frame has been painted — no flicker between native
+            // splash and Flutter content.
+            Positioned.fill(child: SplashOverlay(ready: _splashReady)),
           ],
         );
       },
