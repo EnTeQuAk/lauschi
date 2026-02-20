@@ -45,6 +45,7 @@ abstract final class AppRoutes {
   static String parentCatalogSeries(String seriesId) =>
       '/parent/catalog/$seriesId';
   static const pinEntry = '/pin';
+  static const pinChange = '/pin/change';
 }
 
 @Riverpod(keepAlive: true)
@@ -86,6 +87,10 @@ GoRouter appRouter(Ref ref) {
       GoRoute(
         path: AppRoutes.pinEntry,
         builder: (context, state) => const PinScreen(),
+      ),
+      GoRoute(
+        path: AppRoutes.pinChange,
+        builder: (context, state) => const PinScreen(isSetup: true),
       ),
       GoRoute(
         path: AppRoutes.parentDashboard,
