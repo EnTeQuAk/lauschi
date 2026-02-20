@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lauschi/core/database/card_repository.dart';
 import 'package:lauschi/core/database/data_migrations.dart';
 import 'package:lauschi/core/log.dart';
+import 'package:lauschi/core/nfc/nfc_listener.dart';
 import 'package:lauschi/core/router/app_router.dart';
 import 'package:lauschi/core/spotify/spotify_auth_provider.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
@@ -99,8 +100,10 @@ class _LauschiAppState extends ConsumerState<LauschiApp>
   @override
   Widget build(BuildContext context) {
     final router = ref.watch(appRouterProvider);
-
     final authState = ref.watch(spotifyAuthProvider);
+
+    // Activate NFC listener (no-op if disabled in settings or no hardware).
+    ref.watch(nfcListenerProvider);
 
     // Run data migrations once after auth is established.
     if (authState is AuthAuthenticated && !_dataMigrationsRun) {

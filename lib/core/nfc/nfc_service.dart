@@ -1,0 +1,145 @@
+import 'dart:async' show unawaited;
+import 'dart:io' show Platform;
+
+import 'package:drift/drift.dart';
+import 'package:lauschi/core/database/app_database.dart' as db;
+import 'package:lauschi/core/database/app_database.dart' show appDatabaseProvider;
+import 'package:lauschi/core/log.dart';
+import 'package:nfc_manager/nfc_manager.dart';
+import 'package:nfc_manager/nfc_manager_android.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+part 'nfc_service.g.dart';
+
+const _tag = 'NfcService';
+
+/// Manages NFC tag ↔ content mappings using hardware UIDs.
+///
+/// UID-based approach: we read the tag's unique hardware ID and map it
+/// to a group or card in the local database. No NDEF write needed — works
+/// with any NFC chip type (NTAG, iCode SLIX, Mifare, etc.).
+class NfcService {
+  NfcService(this._db);
+
+  final db.AppDatabase _db;
+
+  /// Whether this device has NFC hardware and it's enabled.
+  Future<bool> get isAvailable async {
+    final availability = await NfcManager.instance.checkAvailability();
+    return availability == NfcAvailability.enabled;
+  }
+
+  // ---------------------------------------------------------------------------
+  // Tag mappings
+  // ---------------------------------------------------------------------------
+
+  /// All stored tag mappings.
+  Future<List<db.NfcTag>> getAll() {
+    return _db.select(_db.nfcTags).get();
+  }
+
+  /// Watch all mappings (for reactive UI).
+  Stream<List<db.NfcTag>> watchAll() {
+    return _db.select(_db.nfcTags).watch();
+  }
+
+  /// Look up what a tag UID maps to. Returns null for unknown tags.
+  Future<db.NfcTag?> resolve(String tagUid) {
+    return (_db.select(_db.nfcTags)
+          ..where((t) => t.tagUid.equals(tagUid)))
+        .getSingleOrNull();
+  }
+
+  /// Store a tag mapping (scan tag → store UID → content link).
+  ///
+  /// If the UID already exists, updates the target.
+  Future<void> writeMapping({
+    required String tagUid,
+    required String targetType,
+    required String targetId,
+    String? label,
+  }) async {
+    await _db.into(_db.nfcTags).insertOnConflictUpdate(
+      db.NfcTagsCompanion.insert(
+        tagUid: tagUid,
+        targetType: targetType,
+        targetId: targetId,
+        label: Value(label),
+      ),
+    );
+    Log.info(
+      _tag,
+      'Tag mapped',
+      data: {
+        'uid': tagUid,
+        'targetType': targetType,
+        'targetId': targetId,
+      },
+    );
+  }
+
+  /// Delete a tag mapping.
+  Future<void> deleteMapping(String tagUid) async {
+    await (_db.delete(_db.nfcTags)
+          ..where((t) => t.tagUid.equals(tagUid)))
+        .go();
+    Log.info(_tag, 'Tag mapping deleted', data: {'uid': tagUid});
+  }
+
+  // ---------------------------------------------------------------------------
+  // NFC hardware interaction
+  // ---------------------------------------------------------------------------
+
+  /// Start an NFC scan session. Calls [onTagScanned] with the tag's
+  /// hardware UID (hex string). The session auto-stops after one scan.
+  Future<void> startScan({
+    required void Function(String tagUid) onTagScanned,
+    void Function(String error)? onError,
+  }) async {
+    if (!await isAvailable) {
+      onError?.call('NFC nicht verfügbar');
+      return;
+    }
+
+    unawaited(
+      NfcManager.instance.startSession(
+        // Discover both ISO 14443 (NTAG, Mifare) and ISO 15693 (iCode SLIX).
+        pollingOptions: {NfcPollingOption.iso14443, NfcPollingOption.iso15693},
+        onDiscovered: (tag) async {
+          final uid = _extractUid(tag);
+          if (uid == null) {
+            onError?.call('Tag-UID nicht lesbar');
+            unawaited(NfcManager.instance.stopSession());
+            return;
+          }
+          Log.info(_tag, 'Tag scanned', data: {'uid': uid});
+          onTagScanned(uid);
+          unawaited(NfcManager.instance.stopSession());
+        },
+      ),
+    );
+  }
+
+  /// Stop any active NFC scan session.
+  Future<void> stopScan() async {
+    await NfcManager.instance.stopSession();
+  }
+
+  /// Extract the hardware UID from an NFC tag as a hex string.
+  static String? _extractUid(NfcTag tag) {
+    if (!Platform.isAndroid) return null;
+
+    final androidTag = NfcTagAndroid.from(tag);
+    if (androidTag == null) return null;
+
+    final id = androidTag.id;
+    if (id.isEmpty) return null;
+
+    return id.map((b) => b.toRadixString(16).padLeft(2, '0')).join(':');
+  }
+}
+
+@Riverpod(keepAlive: true)
+NfcService nfcService(Ref ref) {
+  return NfcService(ref.watch(appDatabaseProvider));
+}

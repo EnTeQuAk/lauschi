@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:lauschi/core/auth/pin_service.dart';
 import 'package:lauschi/core/database/card_repository.dart';
 import 'package:lauschi/core/router/app_router.dart';
+import 'package:lauschi/core/settings/debug_settings.dart';
 import 'package:lauschi/core/spotify/spotify_auth_provider.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
 
@@ -20,6 +21,9 @@ class ParentDashboardScreen extends ConsumerWidget {
     final authState = ref.watch(spotifyAuthProvider);
     final cardsAsync = ref.watch(allCardsProvider);
     final cardCount = cardsAsync.whenOrNull(data: (cards) => cards.length) ?? 0;
+    final nfcEnabled =
+        ref.watch(debugSettingsProvider).whenOrNull(data: (s) => s.nfcEnabled) ??
+        false;
 
     return Scaffold(
       backgroundColor: AppColors.parentBackground,
@@ -94,6 +98,16 @@ class ParentDashboardScreen extends ConsumerWidget {
             title: 'PIN ändern',
             onTap: () => unawaited(context.push(AppRoutes.pinEntry)),
           ),
+          // NFC tags — only visible when enabled in settings
+          if (nfcEnabled) ...[
+            const Divider(indent: 56),
+            _SettingsTile(
+              icon: Icons.nfc_rounded,
+              title: 'NFC-Tags',
+              subtitle: 'Tags mit Hörspielen verknüpfen',
+              onTap: () => context.push(AppRoutes.parentNfcTags),
+            ),
+          ],
           const Divider(indent: 56),
           _SettingsTile(
             icon: Icons.info_outline_rounded,

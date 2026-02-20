@@ -21,6 +21,7 @@ dependencies:
   flutter_riverpod: ^3.2.1
   flutter_secure_storage: ^10.0.0
   go_router: ^17.1.0
+  nfc_manager: ^4.1.1
   riverpod_annotation: ^4.0.2
   sentry_flutter: ^9.13.0
   shared_preferences: ^2.5.3

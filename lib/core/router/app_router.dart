@@ -9,6 +9,7 @@ import 'package:lauschi/features/parent/screens/add_card_screen.dart';
 import 'package:lauschi/features/parent/screens/group_edit_screen.dart';
 import 'package:lauschi/features/parent/screens/manage_cards_screen.dart';
 import 'package:lauschi/features/parent/screens/manage_groups_screen.dart';
+import 'package:lauschi/features/parent/screens/nfc_tags_screen.dart';
 import 'package:lauschi/features/parent/screens/parent_dashboard_screen.dart';
 import 'package:lauschi/features/parent/screens/pin_screen.dart';
 import 'package:lauschi/features/parent/screens/settings_screen.dart';
@@ -38,6 +39,7 @@ abstract final class AppRoutes {
   static const parentManageGroups = '/parent/groups';
   static String parentGroupEdit(String groupId) => '/parent/groups/$groupId';
   static const parentSettings = '/parent/settings';
+  static const parentNfcTags = '/parent/nfc-tags';
   static const pinEntry = '/pin';
 }
 
@@ -112,6 +114,10 @@ GoRouter appRouter(Ref ref) {
           GoRoute(
             path: 'settings',
             builder: (context, state) => const SettingsScreen(),
+          ),
+          GoRoute(
+            path: 'nfc-tags',
+            builder: (context, state) => const NfcTagsScreen(),
           ),
         ],
       ),
