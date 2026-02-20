@@ -88,7 +88,12 @@ class SpotifyAuth {
       'state': state,
     });
 
-    Log.info(_tag, 'Opening browser for OAuth');
+    Log.info(_tag, 'Opening browser for OAuth: $authUrl');
+
+    // canLaunchUrl is a useful diagnostic even though launchUrl doesn't
+    // require it — logs whether the OS thinks it can handle the URL at all.
+    final canLaunch = await canLaunchUrl(authUrl);
+    Log.info(_tag, 'canLaunchUrl: $canLaunch');
 
     // Try in-app browser first (SFSafariViewController / Custom Tabs) — better
     // UX, shares cookies.  Falls back to external browser (Safari / Chrome) if
@@ -98,12 +103,14 @@ class SpotifyAuth {
       authUrl,
       mode: LaunchMode.inAppBrowserView,
     );
+    Log.info(_tag, 'inAppBrowserView: $launched');
+
     if (!launched) {
-      Log.warn(_tag, 'inAppBrowserView failed, falling back to external');
       launched = await launchUrl(
         authUrl,
         mode: LaunchMode.externalApplication,
       );
+      Log.info(_tag, 'externalApplication: $launched');
     }
 
     if (!launched) {

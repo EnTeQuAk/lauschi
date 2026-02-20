@@ -53,7 +53,8 @@ Future<void> main() async {
       options
         ..dsn = dsn
         ..environment = env
-        ..tracesSampleRate = isDev ? 1.0 : 0.2
+        // TODO: reduce to 0.2 once iOS OAuth is stable
+        ..tracesSampleRate = 1.0
         // Structured logs — visible in Sentry Logs tab.
         ..enableLogs = true
         // Session replay — respects user preference; error captures always on.
