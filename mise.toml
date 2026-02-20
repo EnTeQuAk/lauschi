@@ -68,6 +68,14 @@ run = "uv run scripts/curate-series.py"
 description = "Review AI-curated series and write approved entries to series.yaml"
 run = "uv run scripts/review-curation.py"
 
+[tasks.catalog-report]
+description = "Analyze all curations and report issues (gaps, dupes, suspicious)"
+run = "uv run scripts/catalog-report.py"
+
+[tasks.catalog-edit]
+description = "CLI for editing curations (add/remove/toggle/approve/search)"
+run = "uv run scripts/catalog-edit.py"
+
 [tasks.catalog-titles]
 description = "Quick artist discovery + optional AI YAML snippet"
 run = "uv run scripts/discover-titles.py"
