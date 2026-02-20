@@ -1,3 +1,5 @@
+import 'dart:async' show Timer;
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -328,11 +330,30 @@ class _GroupGridItem extends ConsumerWidget {
   }
 }
 
-class _ErrorBanner extends StatelessWidget {
+class _ErrorBanner extends StatefulWidget {
   const _ErrorBanner({required this.message, required this.onDismiss});
 
   final String message;
   final VoidCallback onDismiss;
+
+  @override
+  State<_ErrorBanner> createState() => _ErrorBannerState();
+}
+
+class _ErrorBannerState extends State<_ErrorBanner> {
+  Timer? _timer;
+
+  @override
+  void initState() {
+    super.initState();
+    _timer = Timer(const Duration(seconds: 8), widget.onDismiss);
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -353,7 +374,7 @@ class _ErrorBanner extends StatelessWidget {
           const SizedBox(width: AppSpacing.sm),
           Expanded(
             child: Text(
-              message,
+              widget.message,
               style: const TextStyle(
                 fontFamily: 'Nunito',
                 fontSize: 14,
@@ -362,7 +383,7 @@ class _ErrorBanner extends StatelessWidget {
             ),
           ),
           IconButton(
-            onPressed: onDismiss,
+            onPressed: widget.onDismiss,
             icon: const Icon(Icons.close_rounded, size: 18),
             color: AppColors.error,
             padding: EdgeInsets.zero,
