@@ -38,6 +38,7 @@ class GroupRepository {
   Future<String> insert({
     required String title,
     String? coverUrl,
+    String contentType = 'hoerspiel',
   }) async {
     final id = _uuid.v4();
 
@@ -57,19 +58,25 @@ class GroupRepository {
             title: title,
             coverUrl: Value(coverUrl),
             sortOrder: Value(nextOrder),
+            contentType: Value(contentType),
           ),
         );
 
-    Log.info(_tag, 'Group created', data: {'id': id, 'title': title});
+    Log.info(
+      _tag,
+      'Group created',
+      data: {'id': id, 'title': title, 'contentType': contentType},
+    );
     return id;
   }
 
-  /// Update a group's title and/or cover.
+  /// Update a group's title, cover, and/or content type.
   Future<void> update({
     required String id,
     String? title,
     String? coverUrl,
     bool clearCoverUrl = false,
+    String? contentType,
   }) async {
     await (_db.update(_db.groups)..where((t) => t.id.equals(id))).write(
       GroupsCompanion(
@@ -80,6 +87,8 @@ class GroupRepository {
                 : coverUrl != null
                 ? Value(coverUrl)
                 : const Value.absent(),
+        contentType:
+            contentType != null ? Value(contentType) : const Value.absent(),
       ),
     );
     Log.info(

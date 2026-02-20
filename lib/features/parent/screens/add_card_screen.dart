@@ -16,6 +16,9 @@ import 'package:lauschi/features/player/player_provider.dart';
 
 const _tag = 'AddCard';
 
+/// Search mode: albums (Hörspiele) or playlists (Musik).
+enum _SearchMode { album, playlist }
+
 /// Search Spotify and add albums as cards to the collection.
 ///
 /// When a catalog series is detected, the card is auto-assigned to that
@@ -35,7 +38,9 @@ class AddCardScreen extends ConsumerStatefulWidget {
 class _AddCardScreenState extends ConsumerState<AddCardScreen> {
   final _searchController = TextEditingController();
   Timer? _debounce;
+  _SearchMode _searchMode = _SearchMode.album;
   List<SpotifyAlbum> _results = [];
+  List<SpotifyPlaylist> _playlistResults = [];
   List<CatalogMatch?> _catalogMatches = [];
   bool _isSearching = false;
   final _addedUris = <String>{};
@@ -96,36 +101,61 @@ class _AddCardScreenState extends ConsumerState<AddCardScreen> {
   Future<void> _search(String query) async {
     setState(() => _isSearching = true);
     try {
-      final result = await ref.read(spotifyApiProvider).searchAlbums(query);
-      if (!mounted) return;
-      final catalog = ref.read(catalogServiceProvider).value;
-      final matches =
-          catalog != null
-              ? result.albums
-                  .map(
-                    (a) => catalog.match(a.name, albumArtistIds: a.artistIds),
-                  )
-                  .toList()
-              : List<CatalogMatch?>.filled(result.albums.length, null);
-      final catalogHits = matches.whereType<CatalogMatch>().length;
-      Log.info(
-        _tag,
-        'Search',
-        data: {
-          'query': query,
-          'results': result.albums.length,
-          'catalogHits': catalogHits,
-        },
-      );
-      setState(() {
-        _results = result.albums;
-        _catalogMatches = matches;
-        _isSearching = false;
-      });
+      if (_searchMode == _SearchMode.playlist) {
+        await _searchPlaylists(query);
+      } else {
+        await _searchAlbums(query);
+      }
     } on Exception catch (e) {
       Log.error(_tag, 'Search failed', exception: e);
       if (mounted) setState(() => _isSearching = false);
     }
+  }
+
+  Future<void> _searchAlbums(String query) async {
+    final result = await ref.read(spotifyApiProvider).searchAlbums(query);
+    if (!mounted) return;
+    final catalog = ref.read(catalogServiceProvider).value;
+    final matches =
+        catalog != null
+            ? result.albums
+                .map(
+                  (a) => catalog.match(a.name, albumArtistIds: a.artistIds),
+                )
+                .toList()
+            : List<CatalogMatch?>.filled(result.albums.length, null);
+    final catalogHits = matches.whereType<CatalogMatch>().length;
+    Log.info(
+      _tag,
+      'Search',
+      data: {
+        'query': query,
+        'results': result.albums.length,
+        'catalogHits': catalogHits,
+      },
+    );
+    setState(() {
+      _results = result.albums;
+      _playlistResults = [];
+      _catalogMatches = matches;
+      _isSearching = false;
+    });
+  }
+
+  Future<void> _searchPlaylists(String query) async {
+    final result = await ref.read(spotifyApiProvider).searchPlaylists(query);
+    if (!mounted) return;
+    Log.info(
+      _tag,
+      'Search (playlists)',
+      data: {'query': query, 'results': '${result.playlists.length}'},
+    );
+    setState(() {
+      _playlistResults = result.playlists;
+      _results = [];
+      _catalogMatches = [];
+      _isSearching = false;
+    });
   }
 
   // -------------------------------------------------------------------------
@@ -293,6 +323,117 @@ class _AddCardScreenState extends ConsumerState<AddCardScreen> {
           ),
         );
     });
+  }
+
+  Future<void> _addPlaylist(SpotifyPlaylist playlist) async {
+    await ref
+        .read(cardRepositoryProvider)
+        .insertIfAbsent(
+          title: playlist.name,
+          providerUri: playlist.uri,
+          cardType: 'playlist',
+          coverUrl: playlist.imageUrl,
+          totalTracks: playlist.totalTracks,
+        );
+    if (!mounted) return;
+    setState(() => _addedUris.add(playlist.uri));
+    ScaffoldMessenger.of(context)
+      ..clearSnackBars()
+      ..showSnackBar(
+        SnackBar(
+          content: Text('${playlist.name} hinzugefügt'),
+          duration: const Duration(seconds: 2),
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+  }
+
+  void _setSearchMode(_SearchMode mode) {
+    if (mode == _searchMode) return;
+    setState(() {
+      _searchMode = mode;
+      _results = [];
+      _playlistResults = [];
+      _catalogMatches = [];
+    });
+    // Re-search with current query in new mode
+    final query = _searchController.text.trim();
+    if (query.isNotEmpty) {
+      _debounce?.cancel();
+      unawaited(_search(query));
+    }
+  }
+
+  // -------------------------------------------------------------------------
+  // Results list
+  // -------------------------------------------------------------------------
+
+  Widget _buildResultsList() {
+    if (_isSearching) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
+    final hasQuery = _searchController.text.isNotEmpty;
+
+    if (_searchMode == _SearchMode.playlist) {
+      if (_playlistResults.isEmpty) {
+        return Center(
+          child: Text(
+            hasQuery ? 'Keine Ergebnisse.' : 'Suche nach Playlists auf Spotify.',
+            style: const TextStyle(
+              fontFamily: 'Nunito',
+              fontSize: 15,
+              color: AppColors.textSecondary,
+            ),
+          ),
+        );
+      }
+      return ListView.builder(
+        itemCount: _playlistResults.length,
+        padding: const EdgeInsets.only(bottom: AppSpacing.xxl),
+        itemBuilder: (context, index) {
+          final playlist = _playlistResults[index];
+          return _PlaylistResultTile(
+            playlist: playlist,
+            isAdded: _addedUris.contains(playlist.uri),
+            onAdd: () => unawaited(_addPlaylist(playlist)),
+          );
+        },
+      );
+    }
+
+    if (_results.isEmpty) {
+      return Center(
+        child: Text(
+          hasQuery
+              ? 'Keine Ergebnisse.'
+              : 'Suche nach Hörspielen, Hörbüchern oder Alben.',
+          style: const TextStyle(
+            fontFamily: 'Nunito',
+            fontSize: 15,
+            color: AppColors.textSecondary,
+          ),
+        ),
+      );
+    }
+
+    return ListView.builder(
+      itemCount: _results.length,
+      padding: const EdgeInsets.only(bottom: AppSpacing.xxl),
+      cacheExtent: 500,
+      itemBuilder: (context, index) {
+        final album = _results[index];
+        final match =
+            index < _catalogMatches.length ? _catalogMatches[index] : null;
+        return _SearchResultTile(
+          album: album,
+          isAdded: _addedUris.contains(album.uri),
+          catalogMatch: match,
+          onAdd: () => unawaited(_handleAddTap(album, match)),
+          onTap: () => unawaited(_showAlbumDetail(album, match)),
+        );
+      },
+    );
   }
 
   // -------------------------------------------------------------------------
@@ -561,7 +702,11 @@ class _AddCardScreenState extends ConsumerState<AddCardScreen> {
       backgroundColor: AppColors.parentBackground,
       appBar: AppBar(
         backgroundColor: AppColors.parentBackground,
-        title: const Text('Hörspiel hinzufügen'),
+        title: Text(
+          _searchMode == _SearchMode.playlist
+              ? 'Musik hinzufügen'
+              : 'Hörspiel hinzufügen',
+        ),
       ),
       body: Column(
         children: [
@@ -599,6 +744,41 @@ class _AddCardScreenState extends ConsumerState<AddCardScreen> {
               ),
             ),
 
+          // Search mode toggle (only in general add mode)
+          if (widget.autoAssignGroupId == null)
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppSpacing.screenH,
+                vertical: AppSpacing.xs,
+              ),
+              child: SegmentedButton<_SearchMode>(
+                segments: const [
+                  ButtonSegment(
+                    value: _SearchMode.album,
+                    icon: Icon(Icons.auto_stories_rounded, size: 18),
+                    label: Text('Hörspiele'),
+                  ),
+                  ButtonSegment(
+                    value: _SearchMode.playlist,
+                    icon: Icon(Icons.music_note_rounded, size: 18),
+                    label: Text('Musik'),
+                  ),
+                ],
+                selected: {_searchMode},
+                onSelectionChanged: (s) => _setSearchMode(s.first),
+                style: const ButtonStyle(
+                  textStyle: WidgetStatePropertyAll(
+                    TextStyle(
+                      fontFamily: 'Nunito',
+                      fontSize: 13,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  visualDensity: VisualDensity.compact,
+                ),
+              ),
+            ),
+
           // Search field
           Padding(
             padding: const EdgeInsets.symmetric(
@@ -609,9 +789,12 @@ class _AddCardScreenState extends ConsumerState<AddCardScreen> {
               controller: _searchController,
               onChanged: _onSearchChanged,
               autofocus: true,
-              decoration: const InputDecoration(
-                hintText: 'Suche auf Spotify...',
-                prefixIcon: Icon(Icons.search_rounded),
+              decoration: InputDecoration(
+                hintText:
+                    _searchMode == _SearchMode.playlist
+                        ? 'Playlists auf Spotify suchen...'
+                        : 'Suche auf Spotify...',
+                prefixIcon: const Icon(Icons.search_rounded),
               ),
             ),
           ),
@@ -643,44 +826,7 @@ class _AddCardScreenState extends ConsumerState<AddCardScreen> {
             ),
 
           // Results
-          Expanded(
-            child:
-                _isSearching
-                    ? const Center(child: CircularProgressIndicator())
-                    : _results.isEmpty
-                    ? Center(
-                      child: Text(
-                        _searchController.text.isEmpty
-                            ? 'Suche nach Hörspielen, Hörbüchern oder Alben.'
-                            : 'Keine Ergebnisse.',
-                        style: const TextStyle(
-                          fontFamily: 'Nunito',
-                          fontSize: 15,
-                          color: AppColors.textSecondary,
-                        ),
-                      ),
-                    )
-                    : ListView.builder(
-                      itemCount: _results.length,
-                      padding: const EdgeInsets.only(bottom: AppSpacing.xxl),
-                      cacheExtent: 500,
-                      itemBuilder: (context, index) {
-                        final album = _results[index];
-                        final match =
-                            index < _catalogMatches.length
-                                ? _catalogMatches[index]
-                                : null;
-                        return _SearchResultTile(
-                          album: album,
-                          isAdded: _addedUris.contains(album.uri),
-                          catalogMatch: match,
-                          onAdd: () => unawaited(_handleAddTap(album, match)),
-                          onTap:
-                              () => unawaited(_showAlbumDetail(album, match)),
-                        );
-                      },
-                    ),
-          ),
+          Expanded(child: _buildResultsList()),
         ],
       ),
     );
@@ -945,6 +1091,92 @@ class _SearchResultTile extends StatelessWidget {
                       ],
                     ),
                   ],
+                ],
+              ),
+            ),
+            trailing,
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _PlaylistResultTile extends StatelessWidget {
+  const _PlaylistResultTile({
+    required this.playlist,
+    required this.isAdded,
+    required this.onAdd,
+  });
+
+  final SpotifyPlaylist playlist;
+  final bool isAdded;
+  final VoidCallback onAdd;
+
+  @override
+  Widget build(BuildContext context) {
+    final cover = ClipRRect(
+      borderRadius: const BorderRadius.all(Radius.circular(6)),
+      child: SizedBox(
+        width: 56,
+        height: 56,
+        child:
+            playlist.imageUrl != null
+                ? CachedNetworkImage(
+                  imageUrl: playlist.imageUrl!,
+                  fit: BoxFit.cover,
+                  memCacheWidth: 112,
+                )
+                : const ColoredBox(
+                  color: AppColors.surfaceDim,
+                  child: Icon(Icons.music_note_rounded),
+                ),
+      ),
+    );
+
+    final trailing =
+        isAdded
+            ? const Icon(Icons.check_rounded, color: AppColors.success)
+            : IconButton(
+              onPressed: onAdd,
+              icon: const Icon(Icons.add_rounded),
+              color: AppColors.primary,
+            );
+
+    return InkWell(
+      onTap: onAdd,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        child: Row(
+          children: [
+            cover,
+            const SizedBox(width: 16),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    playlist.name,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      fontFamily: 'Nunito',
+                      fontWeight: FontWeight.w600,
+                      fontSize: 15,
+                    ),
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    '${playlist.ownerName} · ${playlist.totalTracks} Titel',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      fontFamily: 'Nunito',
+                      fontSize: 13,
+                      color: AppColors.textSecondary,
+                    ),
+                  ),
                 ],
               ),
             ),

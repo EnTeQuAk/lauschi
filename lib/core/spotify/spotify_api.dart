@@ -161,6 +161,46 @@ class SpotifyApi {
     );
   }
 
+  /// Search Spotify catalog for playlists.
+  Future<SpotifyPlaylistSearchResult> searchPlaylists(
+    String query, {
+    int limit = 20,
+    int offset = 0,
+  }) async {
+    Log.info(
+      _tag,
+      'GET /search (playlists)',
+      data: {'query': query, 'limit': '$limit'},
+    );
+
+    final resp = await _request(
+      () => _dio.get<Map<String, dynamic>>(
+        '/search',
+        queryParameters: {
+          'q': query,
+          'type': 'playlist',
+          'market': SpotifyConfig.market,
+          'limit': limit,
+          'offset': offset,
+        },
+      ),
+    );
+
+    final playlists =
+        resp?.data?['playlists'] as Map<String, dynamic>? ?? {};
+    final items = (playlists['items'] as List<dynamic>?) ?? [];
+    final total = playlists['total'] as int? ?? 0;
+
+    return SpotifyPlaylistSearchResult(
+      playlists:
+          items
+              .cast<Map<String, dynamic>>()
+              .map(SpotifyPlaylist.fromJson)
+              .toList(),
+      total: total,
+    );
+  }
+
   /// Get album details including track listing.
   Future<SpotifyAlbum?> getAlbum(String albumId) async {
     Log.info(_tag, 'GET /albums/$albumId');
@@ -324,6 +364,52 @@ class SpotifyAlbum {
   final List<SpotifyTrack>? tracks;
 
   String get artistNames => artists.join(', ');
+}
+
+class SpotifyPlaylistSearchResult {
+  const SpotifyPlaylistSearchResult({
+    required this.playlists,
+    required this.total,
+  });
+
+  final List<SpotifyPlaylist> playlists;
+  final int total;
+}
+
+class SpotifyPlaylist {
+  const SpotifyPlaylist({
+    required this.id,
+    required this.name,
+    required this.uri,
+    required this.ownerName,
+    required this.imageUrl,
+    required this.totalTracks,
+  });
+
+  factory SpotifyPlaylist.fromJson(Map<String, dynamic> json) {
+    final images = json['images'] as List<dynamic>? ?? [];
+    final owner = json['owner'] as Map<String, dynamic>? ?? {};
+
+    return SpotifyPlaylist(
+      id: json['id'] as String,
+      name: json['name'] as String,
+      uri: json['uri'] as String,
+      ownerName: owner['display_name'] as String? ?? '',
+      imageUrl:
+          images.isNotEmpty
+              ? (images.first as Map<String, dynamic>)['url'] as String?
+              : null,
+      totalTracks:
+          (json['tracks'] as Map<String, dynamic>?)?['total'] as int? ?? 0,
+    );
+  }
+
+  final String id;
+  final String name;
+  final String uri;
+  final String ownerName;
+  final String? imageUrl;
+  final int totalTracks;
 }
 
 class SpotifyTrack {

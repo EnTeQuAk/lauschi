@@ -15,6 +15,7 @@ class GroupCard extends StatefulWidget {
     this.coverUrl,
     this.nextEpisodeTitle,
     this.progress = 0,
+    this.contentType = 'hoerspiel',
   });
 
   final String title;
@@ -27,6 +28,9 @@ class GroupCard extends StatefulWidget {
 
   /// Series progress 0.0–1.0 (episodes heard / total). Red bar at bottom.
   final double progress;
+
+  /// Content type: 'hoerspiel' or 'music'. Affects badge icon/label.
+  final String contentType;
 
   @override
   State<GroupCard> createState() => _GroupCardState();
@@ -57,10 +61,13 @@ class _GroupCardState extends State<GroupCard>
 
   @override
   Widget build(BuildContext context) {
-    final label =
-        widget.episodeCount == 1
-            ? '${widget.title}, 1 Folge'
-            : '${widget.title}, ${widget.episodeCount} Folgen';
+    final countLabel =
+        widget.contentType == 'music'
+            ? '${widget.episodeCount} Titel'
+            : widget.episodeCount == 1
+            ? '1 Folge'
+            : '${widget.episodeCount} Folgen';
+    final label = '${widget.title}, $countLabel';
 
     return Semantics(
       label: label,
@@ -87,6 +94,7 @@ class _GroupCardState extends State<GroupCard>
                 child: _StackedArt(
                   coverUrl: widget.coverUrl,
                   progress: widget.progress,
+                  isMusic: widget.contentType == 'music',
                 ),
               ),
               const SizedBox(height: 6),
@@ -105,9 +113,11 @@ class _GroupCardState extends State<GroupCard>
                   ),
                 ),
               ),
-              // Episode count
+              // Episode/track count
               Text(
-                widget.episodeCount == 1
+                widget.contentType == 'music'
+                    ? '${widget.episodeCount} Titel'
+                    : widget.episodeCount == 1
                     ? '1 Folge'
                     : '${widget.episodeCount} Folgen',
                 maxLines: 1,
@@ -128,10 +138,11 @@ class _GroupCardState extends State<GroupCard>
 
 /// Card art with a subtle stack effect beneath it.
 class _StackedArt extends StatelessWidget {
-  const _StackedArt({this.coverUrl, this.progress = 0});
+  const _StackedArt({this.coverUrl, this.progress = 0, this.isMusic = false});
 
   final String? coverUrl;
   final double progress;
+  final bool isMusic;
 
   @override
   Widget build(BuildContext context) {
@@ -161,35 +172,20 @@ class _StackedArt extends StatelessWidget {
             child: _cover(coverUrl),
           ),
         ),
-        // "Series" indicator dot in top-left
+        // Content type badge in top-left
         Positioned(
           left: 6,
           top: 6,
           child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
+            padding: const EdgeInsets.all(5),
             decoration: BoxDecoration(
               color: AppColors.surface.withValues(alpha: 0.88),
-              borderRadius: const BorderRadius.all(AppRadius.pill),
+              shape: BoxShape.circle,
             ),
-            child: const Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Icon(
-                  Icons.layers_rounded,
-                  size: 10,
-                  color: AppColors.primary,
-                ),
-                SizedBox(width: 2),
-                Text(
-                  'Serie',
-                  style: TextStyle(
-                    fontFamily: 'Nunito',
-                    fontSize: 9,
-                    fontWeight: FontWeight.w700,
-                    color: AppColors.primary,
-                  ),
-                ),
-              ],
+            child: Icon(
+              isMusic ? Icons.music_note_rounded : Icons.layers_rounded,
+              size: 12,
+              color: AppColors.primary,
             ),
           ),
         ),

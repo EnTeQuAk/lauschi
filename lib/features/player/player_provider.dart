@@ -296,7 +296,11 @@ class PlayerNotifier extends _$PlayerNotifier {
 
     if (_activeGroupId == null) return;
 
+    // Only auto-advance for Hörspiel groups, not music.
     final groups = ref.read(groupRepositoryProvider);
+    final group = await groups.getById(_activeGroupId!);
+    if (group == null || group.contentType != 'hoerspiel') return;
+
     final nextCard = await groups.nextUnheard(_activeGroupId!);
 
     if (nextCard == null) {
