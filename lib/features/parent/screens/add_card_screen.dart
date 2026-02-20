@@ -852,86 +852,106 @@ class _SearchResultTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
+    final cover = ClipRRect(
+      borderRadius: const BorderRadius.all(Radius.circular(6)),
+      child: SizedBox(
+        width: 56,
+        height: 56,
+        child:
+            album.imageUrl != null
+                ? CachedNetworkImage(
+                  imageUrl: album.imageUrl!,
+                  fit: BoxFit.cover,
+                  memCacheWidth: 112,
+                )
+                : const ColoredBox(
+                  color: AppColors.surfaceDim,
+                  child: Icon(Icons.music_note_rounded),
+                ),
+      ),
+    );
+
+    final trailing =
+        isAdded
+            ? const Icon(Icons.check_rounded, color: AppColors.success)
+            : IconButton(
+              onPressed: onAdd,
+              icon: const Icon(Icons.add_rounded),
+              color: AppColors.primary,
+            );
+
+    // Custom row layout instead of ListTile to keep the cover vertically
+    // centered regardless of subtitle height (two-line vs three-line).
+    return InkWell(
       onTap: onTap,
-      leading: ClipRRect(
-        borderRadius: const BorderRadius.all(Radius.circular(6)),
-        child: SizedBox(
-          width: 56,
-          height: 56,
-          child:
-              album.imageUrl != null
-                  ? CachedNetworkImage(
-                    imageUrl: album.imageUrl!,
-                    fit: BoxFit.cover,
-                    memCacheWidth: 112,
-                  )
-                  : const ColoredBox(
-                    color: AppColors.surfaceDim,
-                    child: Icon(Icons.music_note_rounded),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        child: Row(
+          children: [
+            cover,
+            const SizedBox(width: 16),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    album.name,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      fontFamily: 'Nunito',
+                      fontWeight: FontWeight.w600,
+                      fontSize: 15,
+                    ),
                   ),
-        ),
-      ),
-      title: Text(
-        album.name,
-        maxLines: 1,
-        overflow: TextOverflow.ellipsis,
-        style: const TextStyle(
-          fontFamily: 'Nunito',
-          fontWeight: FontWeight.w600,
-          fontSize: 15,
-        ),
-      ),
-      subtitle: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(
-            '${album.artistNames} · ${album.totalTracks} Titel',
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: const TextStyle(
-              fontFamily: 'Nunito',
-              fontSize: 13,
-              color: AppColors.textSecondary,
-            ),
-          ),
-          if (catalogMatch != null) ...[
-            const SizedBox(height: 2),
-            Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const Icon(
-                  Icons.layers_rounded,
-                  size: 11,
-                  color: AppColors.primary,
-                ),
-                const SizedBox(width: 3),
-                Text(
-                  catalogMatch!.episodeNumber != null
-                      ? '${catalogMatch!.series.title} · Folge ${catalogMatch!.episodeNumber}'
-                      : catalogMatch!.series.title,
-                  style: const TextStyle(
-                    fontFamily: 'Nunito',
-                    fontSize: 11,
-                    color: AppColors.primary,
-                    fontWeight: FontWeight.w600,
+                  const SizedBox(height: 2),
+                  Text(
+                    '${album.artistNames} · ${album.totalTracks} Titel',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      fontFamily: 'Nunito',
+                      fontSize: 13,
+                      color: AppColors.textSecondary,
+                    ),
                   ),
-                ),
-              ],
-            ),
-          ],
-        ],
-      ),
-      isThreeLine: catalogMatch != null,
-      trailing:
-          isAdded
-              ? const Icon(Icons.check_rounded, color: AppColors.success)
-              : IconButton(
-                onPressed: onAdd,
-                icon: const Icon(Icons.add_rounded),
-                color: AppColors.primary,
+                  if (catalogMatch != null) ...[
+                    const SizedBox(height: 2),
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Icon(
+                          Icons.layers_rounded,
+                          size: 11,
+                          color: AppColors.primary,
+                        ),
+                        const SizedBox(width: 3),
+                        Flexible(
+                          child: Text(
+                            catalogMatch!.episodeNumber != null
+                                ? '${catalogMatch!.series.title} · Folge ${catalogMatch!.episodeNumber}'
+                                : catalogMatch!.series.title,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(
+                              fontFamily: 'Nunito',
+                              fontSize: 11,
+                              color: AppColors.primary,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ],
               ),
+            ),
+            trailing,
+          ],
+        ),
+      ),
     );
   }
 }
