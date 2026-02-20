@@ -34,6 +34,12 @@ class GroupRepository {
       ..where((t) => t.id.equals(id))).getSingleOrNull();
   }
 
+  /// Watch a single group by ID. Emits null if not found.
+  Stream<CardGroup?> watchById(String id) {
+    return (_db.select(_db.groups)
+      ..where((t) => t.id.equals(id))).watchSingleOrNull();
+  }
+
   /// Insert a new group. Returns the generated ID.
   Future<String> insert({
     required String title,
