@@ -6,6 +6,15 @@ import 'package:lauschi/core/spotify/spotify_config.dart';
 
 const _tag = 'SpotifyApi';
 
+/// Thrown when Spotify returns 404 "Device not found" — the SDK player
+/// device_id is stale and needs re-registration.
+class SpotifyDeviceNotFoundException implements Exception {
+  const SpotifyDeviceNotFoundException(this.message);
+  final String message;
+  @override
+  String toString() => 'SpotifyDeviceNotFoundException: $message';
+}
+
 /// Spotify Web API client.
 ///
 /// Handles playback control and catalog search. Token management is external —
@@ -284,6 +293,15 @@ class SpotifyApi {
           'body': '${e.response?.data}',
         },
       );
+
+      // 404 on player endpoints = stale device_id.
+      if (status == 404) {
+        final body = e.response?.data;
+        final message =
+            body is Map ? '${(body['error'] as Map?)?['message']}' : '$body';
+        throw SpotifyDeviceNotFoundException(message);
+      }
+
       rethrow;
     }
   }

@@ -303,6 +303,36 @@ class SpotifyPlayerBridge {
   // JS commands (used by player SDK locally, not via Web API)
   // ---------------------------------------------------------------------------
 
+  /// Re-register the SDK player with Spotify's servers.
+  /// Call when the device_id goes stale (404 on play).
+  /// The SDK will fire 'ready' with a new device_id on success.
+  Future<void> reconnect() async {
+    Log.info(_tag, 'Requesting SDK reconnect');
+    try {
+      await controller.runJavaScript('window.lauschi.reconnect()');
+    } on Exception catch (e) {
+      Log.error(_tag, 'Reconnect failed', exception: e);
+    }
+  }
+
+  /// Wait for the device to become ready (up to [timeout]).
+  /// Returns the device_id or null if not ready in time.
+  Future<String?> waitForDevice({
+    Duration timeout = const Duration(seconds: 8),
+  }) async {
+    if (_state.deviceId != null) return _state.deviceId;
+
+    try {
+      final readyState = await _stateController.stream
+          .where((s) => s.deviceId != null)
+          .first
+          .timeout(timeout);
+      return readyState.deviceId;
+    } on Exception {
+      return null;
+    }
+  }
+
   /// Toggle play/pause via the local SDK player.
   Future<void> togglePlay() async {
     await controller.runJavaScript('window.lauschi.toggle_play()');
