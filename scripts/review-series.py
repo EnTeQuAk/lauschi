@@ -513,6 +513,11 @@ async def review_one(
 
     curation = json.loads(path.read_text())
 
+    # Skip files without series data (old dual-model format or broken)
+    if "series" not in curation:
+        console.print(f"[dim]Skipping {series_id} (no series data — old format?)[/]")
+        return None
+
     # Skip rejected stubs
     if curation.get("review", {}).get("status") == "rejected":
         console.print(f"[dim]Skipping {series_id} (rejected stub)[/]")
