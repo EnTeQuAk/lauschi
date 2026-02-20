@@ -70,15 +70,24 @@ class SpotifyPlayerBridge {
     _controller = WebViewController.fromPlatformCreationParams(
       params,
       onPermissionRequest: (request) {
-        // Grant PROTECTED_MEDIA_ID so Android WebView exposes Widevine via EME.
+        // Only grant PROTECTED_MEDIA_ID (Widevine DRM). Reject everything else.
+        const allowed = {'protectedMediaId'};
+        final requested = request.types.map((t) => t.name).toSet();
         Log.info(
           _tag,
           'Permission request',
-          data: {
-            'types': '${request.types.map((t) => t.name).toList()}',
-          },
+          data: {'types': '$requested'},
         );
-        unawaited(request.grant());
+        if (requested.any(allowed.contains)) {
+          unawaited(request.grant());
+        } else {
+          Log.warn(
+            _tag,
+            'Rejected permission request',
+            data: {'types': '$requested'},
+          );
+          unawaited(request.deny());
+        }
       },
     );
 
