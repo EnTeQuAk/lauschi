@@ -61,7 +61,12 @@ class _LauschiAppState extends ConsumerState<LauschiApp>
     Log.info('DeepLink', 'Received', data: {'uri': '$uri'});
     if (uri.scheme == 'lauschi' && uri.host == 'callback') {
       final auth = ref.read(spotifyAuthClientProvider);
-      await auth.handleCallback(uri);
+      final tokens = await auth.handleCallback(uri);
+      // If tokens were recovered from storage (app was killed during OAuth),
+      // update the auth state directly since no login() future is waiting.
+      if (tokens != null) {
+        ref.read(spotifyAuthProvider.notifier).authenticateWith(tokens);
+      }
     }
   }
 
