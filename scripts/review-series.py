@@ -42,11 +42,13 @@ from typing import Any
 import requests
 from pydantic import BaseModel, Field
 from pydantic_ai import Agent, RunContext
+from pydantic_ai.messages import ModelResponse, TextPart, ThinkingPart
 from pydantic_ai.models.openai import OpenAIChatModel
 from pydantic_ai.providers.openai import OpenAIProvider
 from pydantic_ai.usage import UsageLimits
 from rich import box
 from rich.console import Console
+from rich.markdown import Markdown
 from rich.panel import Panel
 from rich.table import Table
 
@@ -503,7 +505,7 @@ def _build_prompt(curation: dict) -> str:
 async def review_one(
     model_name: str, api_key: str, series_id: str,
     spotify: SpotifyClient, timeout: int,
-) -> ReviewResult | None:
+) -> tuple[ReviewResult, list] | None:
     path = CURATION_DIR / f"{series_id}.json"
     if not path.exists():
         console.print(f"[red]Not found: {path}[/]")
@@ -525,26 +527,38 @@ async def review_one(
 
     if not has_issues:
         console.print(f"[dim]  No issues found for {series_id}[/]")
-        return ReviewResult(series_id=series_id)
+        return ReviewResult(series_id=series_id), []
 
     deps = Deps(spotify=spotify, series_id=series_id, curation=curation)
     agent = build_agent(model_name, api_key)
     prompt = _build_prompt(curation)
 
+    async def _run() -> tuple[ReviewResult, list]:
+        async with agent.iter(
+            prompt, deps=deps,
+            usage_limits=UsageLimits(request_limit=100),
+        ) as run:
+            async for node in run:
+                if not hasattr(node, 'model_response'):
+                    continue
+                for part in node.model_response.parts:
+                    text = getattr(part, 'content', None)
+                    if not isinstance(text, str) or len(text.strip()) <= 80:
+                        continue
+                    kind = getattr(part, 'part_kind', '')
+                    label = "💭 reasoning" if kind == "thinking" else "💭"
+                    console.print(Panel(
+                        Markdown(text.strip()), border_style="dim",
+                        title=label, padding=(0, 1),
+                    ))
+            result = run.result.output
+            result.added_albums = [a["spotify_album_id"] for a in deps.added_albums]
+            return result, run.result.all_messages()
+
     last_err: Exception | None = None
     for attempt in range(1, _MAX_RETRIES + 1):
         try:
-            result_run = await asyncio.wait_for(
-                agent.run(
-                    prompt, deps=deps,
-                    usage_limits=UsageLimits(request_limit=100),
-                ),
-                timeout=timeout,
-            )
-            result = result_run.output
-            # Merge added albums
-            result.added_albums = [a["spotify_album_id"] for a in deps.added_albums]
-            return result
+            return await asyncio.wait_for(_run(), timeout=timeout)
         except asyncio.TimeoutError:
             raise TimeoutError(f"Timed out after {timeout}s") from None
         except Exception as e:
@@ -620,6 +634,30 @@ def apply_review(series_id: str, result: ReviewResult) -> None:
 
 # ── Display ────────────────────────────────────────────────────────────────────
 
+def print_reasoning(messages: list) -> None:
+    """Print the model's initial assessment and final review reasoning.
+
+    Skips short fragments (tool call confirmations) — only shows the
+    substantive thinking at the start and end.
+    """
+    texts: list[str] = []
+    for msg in messages:
+        if not isinstance(msg, ModelResponse):
+            continue
+        for part in msg.parts:
+            if isinstance(part, TextPart) and part.content.strip():
+                text = part.content.strip()
+                # Skip short tool-call acknowledgments
+                if len(text) > 80:
+                    texts.append(text)
+    if not texts:
+        return
+    # First substantive block = initial assessment, last = final review
+    to_show = [texts[0]] if len(texts) == 1 else [texts[0], texts[-1]]
+    for text in to_show:
+        console.print(f"  [dim italic]💭 {text}[/]")
+
+
 def print_result(result: ReviewResult) -> None:
     overrides = result.overrides
     splits = result.splits
@@ -644,10 +682,10 @@ def print_result(result: ReviewResult) -> None:
     if added:
         lines.append(f"➕ {len(added)} added")
     if result.notes:
-        lines.append(f"📝 {result.notes[:100]}")
+        lines.append(f"📝 {result.notes}")
 
     console.print(Panel(
-        "\n".join(lines),
+        Markdown("\n".join(lines)),
         title=f"Review: {result.series_id}",
         border_style="cyan",
     ))
@@ -681,16 +719,17 @@ async def main_async(args: argparse.Namespace) -> None:
         ))
 
         try:
-            result = await review_one(
+            outcome = await review_one(
                 args.model, api_key, series_id, spotify, args.timeout,
             )
         except Exception as e:
             console.print(f"[red]  Failed: {e}[/]")
             continue
 
-        if result is None:
+        if outcome is None:
             continue
 
+        result, _messages = outcome
         print_result(result)
 
         if result.overrides or result.splits or result.added_albums:
