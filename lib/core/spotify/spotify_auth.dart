@@ -14,6 +14,8 @@ const _tag = 'SpotifyAuth';
 const _tokenKey = 'spotify_access_token';
 const _refreshKey = 'spotify_refresh_token';
 const _expiryKey = 'spotify_token_expiry';
+const _pendingVerifierKey = 'spotify_pending_verifier';
+const _pendingStateKey = 'spotify_pending_state';
 
 /// Token set returned from Spotify OAuth.
 class SpotifyTokens {
@@ -78,6 +80,13 @@ class SpotifyAuth {
     _pendingState = state;
     _loginCompleter = Completer<SpotifyTokens>();
 
+    // Persist PKCE state so we can complete the flow if the app is killed
+    // while the browser is open. Cleaned up in handleCallback/finally.
+    await Future.wait([
+      _storage.write(key: _pendingVerifierKey, value: pkce.verifier),
+      _storage.write(key: _pendingStateKey, value: state),
+    ]);
+
     final authUrl = Uri.https('accounts.spotify.com', '/authorize', {
       'client_id': SpotifyConfig.clientId,
       'response_type': 'code',
@@ -120,16 +129,29 @@ class SpotifyAuth {
   /// Handle the OAuth callback deep link.
   ///
   /// Called by the app's deep link handler when `lauschi://callback` is received.
-  Future<void> handleCallback(Uri uri) async {
-    final completer = _loginCompleter;
-    if (completer == null || completer.isCompleted) {
+  /// Works both when the app is still alive (in-memory completer) and after
+  /// the app was killed during the browser flow (recovers from stored state).
+  Future<SpotifyTokens?> handleCallback(Uri uri) async {
+    // Try in-memory state first, fall back to persisted state (app was killed).
+    var verifier = _pendingVerifier;
+    var expectedState = _pendingState;
+
+    if (verifier == null || expectedState == null) {
+      verifier = await _storage.read(key: _pendingVerifierKey);
+      expectedState = await _storage.read(key: _pendingStateKey);
+      if (verifier != null) {
+        Log.info(_tag, 'Recovered pending OAuth from storage (app was killed)');
+      }
+    }
+
+    if (verifier == null || expectedState == null) {
       Log.warn(_tag, 'Received callback but no login pending');
-      return;
+      return null;
     }
 
     try {
       // Verify state
-      if (uri.queryParameters['state'] != _pendingState) {
+      if (uri.queryParameters['state'] != expectedState) {
         throw StateError('OAuth state mismatch — possible CSRF');
       }
 
@@ -146,15 +168,22 @@ class SpotifyAuth {
       }
 
       Log.info(_tag, 'Code received, exchanging for tokens');
-      final tokens = await _exchangeCode(code, _pendingVerifier!);
-      completer.complete(tokens);
+      final tokens = await _exchangeCode(code, verifier);
+      _loginCompleter?.complete(tokens);
+      return tokens;
     } on Exception catch (e) {
       Log.error(_tag, 'Callback handling failed', exception: e);
-      completer.completeError(e);
+      _loginCompleter?.completeError(e);
+      return null;
     } finally {
       _loginCompleter = null;
       _pendingVerifier = null;
       _pendingState = null;
+      // Clean up persisted PKCE state.
+      await Future.wait([
+        _storage.delete(key: _pendingVerifierKey),
+        _storage.delete(key: _pendingStateKey),
+      ]);
     }
   }
 

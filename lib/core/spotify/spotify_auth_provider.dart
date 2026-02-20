@@ -88,6 +88,13 @@ class SpotifyAuthNotifier extends _$SpotifyAuthNotifier {
     }
   }
 
+  /// Set authenticated state from externally-obtained tokens.
+  /// Used when recovering OAuth flow after app kill.
+  void authenticateWith(SpotifyTokens tokens) {
+    state = AuthAuthenticated(tokens);
+    Log.info(_tag, 'Authenticated via recovered callback');
+  }
+
   /// Clear tokens and return to unauthenticated state.
   Future<void> logout() async {
     await _auth.logout();
