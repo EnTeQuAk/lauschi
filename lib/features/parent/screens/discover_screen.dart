@@ -6,6 +6,7 @@ import 'package:lauschi/core/ard/ard_api.dart';
 import 'package:lauschi/core/ard/ard_image.dart';
 import 'package:lauschi/core/ard/ard_models.dart';
 import 'package:lauschi/core/ard/featured_shows.dart';
+import 'package:lauschi/core/log.dart';
 import 'package:lauschi/core/router/app_router.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
 import 'package:lauschi/features/parent/widgets/featured_section.dart';
@@ -79,7 +80,10 @@ class DiscoverScreen extends ConsumerWidget {
                       child: CircularProgressIndicator(),
                     ),
                   ),
-                  error: (_, _) => const SizedBox.shrink(),
+                  error: (e, _) {
+                    Log.error('Discover', 'Featured items failed', exception: e);
+                    return const SizedBox.shrink();
+                  },
                   data: (featured) {
                     if (featured.isEmpty) return const SizedBox.shrink();
 

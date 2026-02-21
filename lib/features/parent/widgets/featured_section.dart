@@ -11,6 +11,52 @@ import 'package:lauschi/core/theme/app_theme.dart';
 
 const _tag = 'FeaturedSection';
 
+/// How recently an item must be published to show the "Neu" badge.
+const _newBadgeMaxAge = Duration(days: 14);
+
+// ── Shared add logic ────────────────────────────────────────────────────────
+
+/// Add all parts of a featured item to the collection.
+Future<void> _addFeaturedItem(
+  BuildContext context,
+  WidgetRef ref,
+  FeaturedItem item,
+) async {
+  final existingUris = ref.read(existingCardUrisProvider);
+  if (item.parts.every((p) => existingUris.contains(p.providerUri))) return;
+
+  final importer = ref.read(contentImporterProvider.notifier);
+  final cards = item.parts
+      .where((p) => p.bestAudioUrl != null)
+      .map(_ardPendingCard)
+      .toList();
+
+  try {
+    final result = await importer.importToGroup(
+      groupTitle: item.title,
+      groupCoverUrl: ardImageUrl(item.imageUrl),
+      cards: cards,
+    );
+
+    if (context.mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            '${result.added} Folgen zu ${item.title} hinzugefügt',
+          ),
+        ),
+      );
+    }
+  } on Exception catch (e) {
+    Log.error(_tag, 'Failed to add featured item', exception: e);
+    if (context.mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Fehler: $e')),
+      );
+    }
+  }
+}
+
 // ── Hero card ───────────────────────────────────────────────────────────────
 
 /// Large hero card for the newest featured item. Full-width cover image
@@ -25,9 +71,11 @@ class FeaturedHeroCard extends ConsumerWidget {
     final imageUrl = ardImageUrl(item.imageUrl, width: 800);
     final daysLeft = _daysUntilExpiry(item.endDate);
     final existingUris = ref.watch(existingCardUrisProvider);
+    final isImporting = ref.watch(contentImporterProvider);
     final allAdded = item.parts.every(
       (p) => existingUris.contains(p.providerUri),
     );
+    final isNew = DateTime.now().difference(item.publishDate) < _newBadgeMaxAge;
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: AppSpacing.screenH),
@@ -63,27 +111,28 @@ class FeaturedHeroCard extends ConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  // "Neu" badge
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: AppSpacing.sm,
-                      vertical: 2,
-                    ),
-                    decoration: BoxDecoration(
-                      color: AppColors.accent,
-                      borderRadius: BorderRadius.circular(4),
-                    ),
-                    child: const Text(
-                      '🌟 Neu',
-                      style: TextStyle(
-                        fontFamily: 'Nunito',
-                        fontSize: 10,
-                        fontWeight: FontWeight.w700,
-                        color: AppColors.textOnPrimary,
+                  // "Neu" badge — only for recently published items
+                  if (isNew)
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: AppSpacing.sm,
+                        vertical: 2,
+                      ),
+                      decoration: BoxDecoration(
+                        color: AppColors.accent,
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                      child: const Text(
+                        '🌟 Neu',
+                        style: TextStyle(
+                          fontFamily: 'Nunito',
+                          fontSize: 10,
+                          fontWeight: FontWeight.w700,
+                          color: AppColors.textOnPrimary,
+                        ),
                       ),
                     ),
-                  ),
-                  const SizedBox(height: AppSpacing.xs),
+                  if (isNew) const SizedBox(height: AppSpacing.xs),
 
                   // Title
                   Text(
@@ -125,7 +174,10 @@ class FeaturedHeroCard extends ConsumerWidget {
                         )
                       else
                         _AddButton(
-                          onPressed: () => _addAll(context, ref),
+                          onPressed: isImporting
+                              ? null
+                              : () => _addFeaturedItem(context, ref, item),
+                          isLoading: isImporting,
                         ),
                     ],
                   ),
@@ -136,39 +188,6 @@ class FeaturedHeroCard extends ConsumerWidget {
         ),
       ),
     );
-  }
-
-  Future<void> _addAll(BuildContext context, WidgetRef ref) async {
-    final importer = ref.read(contentImporterProvider.notifier);
-    final cards = item.parts
-        .where((p) => p.bestAudioUrl != null)
-        .map(_ardPendingCard)
-        .toList();
-
-    try {
-      final result = await importer.importToGroup(
-        groupTitle: item.title,
-        groupCoverUrl: ardImageUrl(item.imageUrl),
-        cards: cards,
-      );
-
-      if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
-              '${result.added} Folgen zu ${item.title} hinzugefügt',
-            ),
-          ),
-        );
-      }
-    } on Exception catch (e) {
-      Log.error(_tag, 'Failed to add featured item', exception: e);
-      if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Fehler: $e')),
-        );
-      }
-    }
   }
 
   String _heroSubtitle(FeaturedItem item) {
@@ -241,7 +260,7 @@ class _FeaturedTile extends ConsumerWidget {
     );
 
     return GestureDetector(
-      onTap: () => _addAll(context, ref),
+      onTap: allAdded ? null : () => _addFeaturedItem(context, ref, item),
       child: SizedBox(
         width: 130,
         child: Column(
@@ -324,42 +343,6 @@ class _FeaturedTile extends ConsumerWidget {
     );
   }
 
-  Future<void> _addAll(BuildContext context, WidgetRef ref) async {
-    final existingUris = ref.read(existingCardUrisProvider);
-    if (item.parts.every((p) => existingUris.contains(p.providerUri))) return;
-
-    final importer = ref.read(contentImporterProvider.notifier);
-    final cards = item.parts
-        .where((p) => p.bestAudioUrl != null)
-        .map(_ardPendingCard)
-        .toList();
-
-    try {
-      final result = await importer.importToGroup(
-        groupTitle: item.title,
-        groupCoverUrl: ardImageUrl(item.imageUrl),
-        cards: cards,
-      );
-
-      if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
-              '${result.added} Folgen zu ${item.title} hinzugefügt',
-            ),
-          ),
-        );
-      }
-    } on Exception catch (e) {
-      Log.error(_tag, 'Failed to add featured item', exception: e);
-      if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Fehler: $e')),
-        );
-      }
-    }
-  }
-
   String _tileSubtitle(FeaturedItem item) {
     if (item.isMultiPart) {
       return '${item.parts.length} Teile · ${_formatDuration(item.totalDurationSeconds)}';
@@ -371,8 +354,9 @@ class _FeaturedTile extends ConsumerWidget {
 // ── Shared widgets ──────────────────────────────────────────────────────────
 
 class _AddButton extends StatelessWidget {
-  const _AddButton({required this.onPressed});
-  final VoidCallback onPressed;
+  const _AddButton({required this.onPressed, this.isLoading = false});
+  final VoidCallback? onPressed;
+  final bool isLoading;
 
   @override
   Widget build(BuildContext context) {
@@ -380,7 +364,16 @@ class _AddButton extends StatelessWidget {
       height: 28,
       child: FilledButton.icon(
         onPressed: onPressed,
-        icon: const Icon(Icons.add_rounded, size: 16),
+        icon: isLoading
+            ? const SizedBox(
+                width: 14,
+                height: 14,
+                child: CircularProgressIndicator(
+                  strokeWidth: 2,
+                  color: Colors.white,
+                ),
+              )
+            : const Icon(Icons.add_rounded, size: 16),
         label: const Text(
           'Hinzufügen',
           style: TextStyle(fontFamily: 'Nunito', fontSize: 12),
