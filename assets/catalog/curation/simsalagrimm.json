@@ -1,0 +1,425 @@
+{
+  "query": "SimsalaGrimm",
+  "model": "kimi-k2.5",
+  "curated_at": "2026-02-20T23:57:16.868768+00:00",
+  "series": {
+    "id": "simsalagrimm",
+    "title": "SimsalaGrimm",
+    "aliases": [],
+    "keywords": [],
+    "spotify_artist_ids": [
+      "6suxlS58YpxGJzRcqvZvCZ"
+    ],
+    "episode_pattern": null,
+    "albums": [
+      {
+        "spotify_album_id": "1zGdC94Bwk9ROqdjnESULu",
+        "include": true,
+        "episode_num": null,
+        "title": "Der dreiste Dieb (Die neuen Abenteuer von Yoyo und Doc Croc)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5BQhs3Iab8PNDxBf6YK5N9",
+        "include": true,
+        "episode_num": null,
+        "title": "Der Bann der Königstöchter (Die neuen Abenteuer von Yoyo und Doc Croc)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4VewEsx3ydUyW1jmLoARfU",
+        "include": true,
+        "episode_num": null,
+        "title": "Die Wichtelmänner (Die neuen Abenteuer von Yoyo und Doc Croc)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2HhDXIbwKTcrYi4U8tjMHU",
+        "include": true,
+        "episode_num": null,
+        "title": "Das verwunschene Schloss (Die neuen Abenteuer von Yoyo und Doc Croc)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "28UmM9X1fFNXFaop5toLTO",
+        "include": true,
+        "episode_num": null,
+        "title": "Der Baum des Lebens (Die neuen Abenteuer von Yoyo und Doc Croc)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5hrpmHr2hVnzzxRPPwnugJ",
+        "include": true,
+        "episode_num": null,
+        "title": "Der Trommler (Das Original-Hörspiel zur TV Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3ZeiT2EX5VCZ7SgFo7tpU6",
+        "include": true,
+        "episode_num": null,
+        "title": "Der Bärenhäuter (Das Original-Hörspiel zur TV Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2FXQkiH9L4eWt5nzy6PQaY",
+        "include": true,
+        "episode_num": null,
+        "title": "Die vier kunstreichen Brüder (Das Original-Hörspiel zur TV Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6foXUYniZwzQeGFenkMcxQ",
+        "include": true,
+        "episode_num": null,
+        "title": "Der kleine Muck (Das Original-Hörspiel zur TV Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1wdwfJXdzmNLHzRXyTEjYn",
+        "include": true,
+        "episode_num": null,
+        "title": "Die drei kleinen Schweinchen (Das Original-Hörspiel zur TV Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "79SdArwHRJaUpv1CeQaZQi",
+        "include": true,
+        "episode_num": null,
+        "title": "Die Nachtigall (Das Original-Hörspiel zur TV Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5bidRISmrpsjLaPzcx0nhh",
+        "include": true,
+        "episode_num": null,
+        "title": "Des Kaisers neue Kleider (Das Original-Hörspiel zur TV Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5iwdyz1TOaavw2QgFeFoHz",
+        "include": true,
+        "episode_num": null,
+        "title": "Der Eisenhans (Das Original-Hörspiel zur TV Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3ENrDzBfBh9F8Doj0S3EU5",
+        "include": true,
+        "episode_num": null,
+        "title": "Der alte Sultan (Das Original-Hörspiel zur TV Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5BD5cSCXywyohLQc4M4Y2c",
+        "include": true,
+        "episode_num": null,
+        "title": "Der Hase und der Igel ((Das Original-Hörspiel zur TV Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4GGfQHF7ycGbXRP7U92Rhl",
+        "include": true,
+        "episode_num": null,
+        "title": "Goldlöckchen und die drei Bären (Das Original-Hörspiel zur TV Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7vTaEsmc2n9WQkzbpoJlqV",
+        "include": true,
+        "episode_num": null,
+        "title": "Der Zaubererwettkampf (Das Original-Hörspiel zur TV Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3yWVXMSJX7UIE96f9iumC0",
+        "include": true,
+        "episode_num": null,
+        "title": "Das Löweneckerchen (Das Original-Hörspiel zur TV Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5QlE8a6MKutroh9etJFOK6",
+        "include": true,
+        "episode_num": null,
+        "title": "Allerleirauh (Das Original-Hörspiel zur TV Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3jXmpltnbuD343Gyclqsm6",
+        "include": true,
+        "episode_num": null,
+        "title": "Kalif Storch (Das Original-Hörspiel zur TV Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "694ME0OII5GrlvEPeVDFS5",
+        "include": true,
+        "episode_num": null,
+        "title": "Die zertanzten Schuhe (Das Original-Hörspiel zur TV Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1HwPt3jNPBFVFR9YyXlN5j",
+        "include": true,
+        "episode_num": null,
+        "title": "Jorinde und Joringel (Das Original-Hörspiel zur TV Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6ElA8pzlMiBhPBZHp622D1",
+        "include": true,
+        "episode_num": null,
+        "title": "Hans und die Bohnenranke (Das Original-Hörspiel zur TV Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1sE7ADCUwuFEIpJXAcApyZ",
+        "include": true,
+        "episode_num": null,
+        "title": "Die Gänsemagd (Das Original-Hörspiel zur TV Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6sXoxxUPrMWtlLJREuYrIJ",
+        "include": true,
+        "episode_num": null,
+        "title": "Der treue Johannes (Das Original-Hörspiel zur TV Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "768DMhNGlB4DKYnaMzSop1",
+        "include": true,
+        "episode_num": null,
+        "title": "Die Gänsehirtin am Brunnen (Das Original-Hörspiel zur TV Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3vkzIQxRpWEpohGIYUFOHm",
+        "include": true,
+        "episode_num": null,
+        "title": "Das blaue Licht (Das Original-Hörspiel zur TV Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6TT5G93sJJiZfjK7fJUemM",
+        "include": true,
+        "episode_num": null,
+        "title": "Dornröschen (Das Original-Hörspiel zur TV Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7l4n2lgy9LLXlTr6hBWB1W",
+        "include": true,
+        "episode_num": null,
+        "title": "Der Meisterdieb (Das Original-Hörspiel zur TV Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4tAe8jktORs6KMDY0PUAkH",
+        "include": true,
+        "episode_num": null,
+        "title": "Schneeweißchen und Rosenrot (Das Original-Hörspiel zur TV Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4VkChm6USIZ6TE2PiFHrE0",
+        "include": true,
+        "episode_num": null,
+        "title": "Die drei Federn (Das Original-Hörspiel zur TV Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4OnluNbhuuqER9ld5OQi3U",
+        "include": true,
+        "episode_num": null,
+        "title": "Hans im Glück (Das Original-Hörspiel zur TV Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0PsWqVIMtv4dDorsNbDfnB",
+        "include": true,
+        "episode_num": null,
+        "title": "Die kleine Meerjungfrau (Das Original-Hörspiel zur TV Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7C8DTvd9pscSgyHbg2xqip",
+        "include": true,
+        "episode_num": null,
+        "title": "Frau Holle (Das Original-Hörspiel zur TV Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5ImYxQdTYYjtIChqwkpL9h",
+        "include": true,
+        "episode_num": null,
+        "title": "Die sechs Schwäne (Das Original-Hörspiel zur TV Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3QZX2QkTvdJyGR33Gg77xV",
+        "include": true,
+        "episode_num": null,
+        "title": "Die sechs Diener (Das Original-Hörspiel zur TV Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5cPNQ63oqUjhbkOpTJ3kgS",
+        "include": true,
+        "episode_num": null,
+        "title": "Die Bremer Stadtmusikanten (Das Original-Hörspiel zur TV Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4LVXlqq2R1OKJNteI7GViP",
+        "include": true,
+        "episode_num": null,
+        "title": "Die Kristallkugel (Das Original-Hörspiel zur TV Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5ZsxJDTyrGbG8EEHHeQ3II",
+        "include": true,
+        "episode_num": null,
+        "title": "Aladin und die Wunderlampe (Das Original-Hörspiel zur TV Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1sMHhPhJNAvVosGqZVeXdE",
+        "include": true,
+        "episode_num": null,
+        "title": "Von einem, der auszog, das Fürchten zu lernen (Das Original-Hörspiel zur TV Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1XW4tezcotft8Bqrzwhs9z",
+        "include": true,
+        "episode_num": null,
+        "title": "Pinocchio (Das Original-Hörspiel zur TV Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3ATNe34X9t6TSSFsTS4iUF",
+        "include": true,
+        "episode_num": null,
+        "title": "Die sieben Raben (Die neuen Abenteuer von Yoyo und Doc Croc)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6yau8ZuEC10YlSMTcHXtVy",
+        "include": true,
+        "episode_num": null,
+        "title": "Die Schöne und das Biest (Das Original-Hörspiel zur TV Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1nI8WIDlCmBpKfModxxuRe",
+        "include": true,
+        "episode_num": null,
+        "title": "Der Teufel mit den drei goldenen Haaren (Das Original-Hörspiel zur TV Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2uzfigtPsihCaSbVH2SubH",
+        "include": true,
+        "episode_num": null,
+        "title": "Der Däumling (Das Original-Hörspiel zur TV Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "27mAmcmg7afA5WcdtdCVva",
+        "include": true,
+        "episode_num": null,
+        "title": "Brüderchen und Schwesterchen (Das Original-Hörspiel zur TV Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5KrWscRPZb5JyhKJJfzZW8",
+        "include": true,
+        "episode_num": null,
+        "title": "König Drosselbart (Das Original-Hörspiel zur TV Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2bLDELbqiKq74sD6S5ijTM",
+        "include": true,
+        "episode_num": null,
+        "title": "Hänsel und Gretel (Das Original-Hörspiel zur TV Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4r2S61lzte2O8SYzVPjwuP",
+        "include": true,
+        "episode_num": null,
+        "title": "Tischlein deck dich (Das Original-Hörspiel zur TV Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0UrTJsSerUDjRGsnIrd5jg",
+        "include": true,
+        "episode_num": null,
+        "title": "Rumpelstilzchen (Das Original-Hörspiel zur TV Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6NhytVZqKbuCxND763QN7P",
+        "include": true,
+        "episode_num": null,
+        "title": "Rotkäppchen (Das Original-Hörspiel zur TV Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2Pyai52lUMoF8b6rXzxCxq",
+        "include": true,
+        "episode_num": null,
+        "title": "Der Froschkönig (Das Original-Hörspiel zur TV Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "639DsNEchZzU1zzkVasT4c",
+        "include": true,
+        "episode_num": null,
+        "title": "Aschenputtel (Das Original-Hörspiel zur TV Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6c2LzQMXgjnWpklxzOk1Wi",
+        "include": true,
+        "episode_num": null,
+        "title": "Schneewittchen (Das Original-Hörspiel zur TV Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5tgUXCQatMxGFwsfM3vcgT",
+        "include": true,
+        "episode_num": null,
+        "title": "Rapunzel (Das Original-Hörspiel zur TV Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5EVm8ixxCIR4LWeglvxAte",
+        "include": true,
+        "episode_num": null,
+        "title": "Der gestiefelte Kater (Das Original-Hörspiel zur TV Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4HJdh4hL23IaY3fHrX3fs5",
+        "include": true,
+        "episode_num": null,
+        "title": "Der Wolf und die sieben Geißlein (Das Original-Hörspiel zur TV Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4ofQtSnkWGNRPwCPGo9zMw",
+        "include": true,
+        "episode_num": null,
+        "title": "Das tapfere Schneiderlein (Das Original-Hörspiel zur TV Serie)",
+        "exclude_reason": null
+      }
+    ],
+    "age_note": "Suitable from 3+",
+    "curator_notes": "Contains two sub-series: 'Das Original-Hörspiel zur TV Serie' (classic fairy tales) and 'Die neuen Abenteuer von Yoyo und Doc Croc' (new adventures with the main characters). Episodes are identified by fairy tale title rather than numbers."
+  }
+}

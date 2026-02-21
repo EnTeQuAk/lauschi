@@ -1,0 +1,166 @@
+{
+  "query": "Käpt'n Sharky",
+  "model": "kimi-k2.5",
+  "curated_at": "2026-02-20T23:43:44.848062+00:00",
+  "series": {
+    "id": "kaeptn_sharky",
+    "title": "Käpt'n Sharky",
+    "aliases": [],
+    "keywords": [],
+    "spotify_artist_ids": [
+      "5TfrI6jiBpIpWRsrEXVtFN"
+    ],
+    "episode_pattern": "(?:[Ff]olge|[Tt]eil|[Uu]nd|Band)\\s*(\\d+)|^(?:Der|Die|Das)\\s+|Abenteuer|Bei|Im|Rettet|Schiffbruch",
+    "albums": [
+      {
+        "spotify_album_id": "6THE7nOBqv4VApqZaBqpYv",
+        "include": true,
+        "episode_num": 1,
+        "title": "Und das Geheimnis der Schatzinsel",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3QjMLTSTJUGmvKW5QOeuBg",
+        "include": true,
+        "episode_num": 2,
+        "title": "Und das Seeungeheuer",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4tRZAXAn9L8hrStrQhtN0K",
+        "include": true,
+        "episode_num": 3,
+        "title": "Und die Gefängnisinsel",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "44ZvKsa8rNCl12XKacb8lY",
+        "include": true,
+        "episode_num": 4,
+        "title": "Und der Riesenkrake",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6ul0mzqzEIiRCffZ6yL2WB",
+        "include": true,
+        "episode_num": 5,
+        "title": "Abenteuer in der Felsenhöhle",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1n5RrSVTOKc2SyAxWabYTF",
+        "include": true,
+        "episode_num": 6,
+        "title": "Schiffbruch vor der einsamen Insel",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1X0hFua1foJiF2onOAY0m3",
+        "include": true,
+        "episode_num": 7,
+        "title": "Rettet den kleinen Wal",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "58xoXeJbK7LxBSEwXltZNA",
+        "include": true,
+        "episode_num": 8,
+        "title": "Bei den Wikingern",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1eEKK5fA6KDqdvh5UVM1kw",
+        "include": true,
+        "episode_num": 9,
+        "title": "Der Dolch des Sultans",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7GW9HzwhMgHW6JFpYCBMLg",
+        "include": true,
+        "episode_num": 10,
+        "title": "Im Wilden Westen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0cIwVs1OraMkspjOrRSL82",
+        "include": false,
+        "episode_num": null,
+        "title": "Käpt'n Sharkys Liederschatz: Abenteuerliche Piratenlieder",
+        "exclude_reason": "Song compilation/album, not a story episode"
+      },
+      {
+        "spotify_album_id": "2XD3RM4MrYXTQ9QCywbcxk",
+        "include": true,
+        "episode_num": 11,
+        "title": "Das Geheimnis der versunkenen Stadt",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7vB5A1XQrRUEPiy9IYuzXV",
+        "include": true,
+        "episode_num": 12,
+        "title": "Der Schatz in der Tiefsee",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1bojQWyl825Zu8fS6eAJzy",
+        "include": true,
+        "episode_num": null,
+        "title": "Käpt'n Sharky (Das Original-Hörspiel zum Kinofilm)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0Kzq3v6MxXJM8xWhSBNYtn",
+        "include": true,
+        "episode_num": 13,
+        "title": "Die geheimnisvolle Nebelinsel",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6wiUBliPe76YAVpNEdidpY",
+        "include": true,
+        "episode_num": 14,
+        "title": "Das Geheimnis der Schildkrötenkönigin",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3Wc7F4CfGptPJ0Qco73M0O",
+        "include": true,
+        "episode_num": 15,
+        "title": "Der Piratenkönig",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4vvnLAcDcKHyV0s1ySUF7k",
+        "include": true,
+        "episode_num": 16,
+        "title": "Das magische Schiff",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2EVBpZ4P7Q5glzjAvwRcAe",
+        "include": true,
+        "episode_num": 17,
+        "title": "Der Schatz der Piratenkönige",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5tv1LrhhZoe3GkzhJWdllY",
+        "include": true,
+        "episode_num": 18,
+        "title": "Der geheimnisvolle Smaragdeisberg",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4dZuxyW7kGtMrjLaIF3HUg",
+        "include": true,
+        "episode_num": 19,
+        "title": "Der schwarze Korsar",
+        "exclude_reason": null
+      }
+    ],
+    "age_note": "Suitable from 4+",
+    "curator_notes": "Popular German children's pirate audio series based on the book character by author Jutta Langreuter and illustrator Silvio Neuendorf. Series naming evolved from 'Und...' format (episodes 1-4) to location-based titles (episodes 8-10) to modern 'Der/Die/Das' titles (episodes 11-19). The 2018 movie adaptation is included as a special non-numbered release. Each episode is a complete adventure with songs interspersed throughout. Publisher changed from Sony Music/Coppenrath to EUROPA/Sony Music Family Entertainment in 2018. All episodes have many short chapter tracks which is normal for this series format."
+  }
+}

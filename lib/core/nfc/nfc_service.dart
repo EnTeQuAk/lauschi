@@ -66,17 +66,19 @@ class NfcService {
       targetId: targetId,
       label: Value(label),
     );
-    await _db.into(_db.nfcTags).insert(
-      companion,
-      onConflict: DoUpdate(
-        (old) => db.NfcTagsCompanion(
-          targetType: Value(targetType),
-          targetId: Value(targetId),
-          label: Value(label),
-        ),
-        target: [_db.nfcTags.tagUid],
-      ),
-    );
+    await _db
+        .into(_db.nfcTags)
+        .insert(
+          companion,
+          onConflict: DoUpdate(
+            (old) => db.NfcTagsCompanion(
+              targetType: Value(targetType),
+              targetId: Value(targetId),
+              label: Value(label),
+            ),
+            target: [_db.nfcTags.tagUid],
+          ),
+        );
     Log.info(
       _tag,
       'Tag mapped',
@@ -175,7 +177,8 @@ class NfcService {
       id = NfcTagAndroid.from(tag)?.id;
     } else if (Platform.isIOS) {
       // NTAG215/NTAG213 stickers are MiFare Ultralight on iOS.
-      id = MiFareIos.from(tag)?.identifier ??
+      id =
+          MiFareIos.from(tag)?.identifier ??
           Iso7816Ios.from(tag)?.identifier ??
           Iso15693Ios.from(tag)?.identifier;
     } else {

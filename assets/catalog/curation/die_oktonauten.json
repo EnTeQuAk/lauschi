@@ -1,0 +1,201 @@
+{
+  "query": "Die Oktonauten",
+  "model": "kimi-k2.5",
+  "curated_at": "2026-02-20T23:40:54.454996+00:00",
+  "series": {
+    "id": "die_oktonauten",
+    "title": "Die Oktonauten",
+    "aliases": [],
+    "keywords": [],
+    "spotify_artist_ids": [
+      "27RREF7hiYNQZZIdyaXH0d"
+    ],
+    "episode_pattern": "^(?:(?:Folge|folge)\\s+)?(\\d+)",
+    "albums": [
+      {
+        "spotify_album_id": "3nKOzkF6bVE8YMWX7XkIsX",
+        "include": true,
+        "episode_num": 26,
+        "title": "Folge 26: Die Oktonauten und die Monarchfalter",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6y9nIEiAGRbYczAJJmpbjr",
+        "include": true,
+        "episode_num": 25,
+        "title": "Folge 25: Die Oktonauten und der Alligator-Hai-Kampf",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3iVnOK7rsZVBnVcDg1qpUU",
+        "include": true,
+        "episode_num": 24,
+        "title": "Folge 24: Die Oktonauten und die Warane",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5pRw4YATMAzxYCLMnMIyih",
+        "include": true,
+        "episode_num": 23,
+        "title": "Folge 23: Die Oktonauten und das Geheimnis unter dem Schnee",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5DKjJtYyVwkW60Q5wo78A4",
+        "include": true,
+        "episode_num": 22,
+        "title": "Folge 22: Die Oktonauten und der Rotfuchs",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4hRYwysjhV4QHRfu1YCEF4",
+        "include": true,
+        "episode_num": 21,
+        "title": "Folge 21: Die Oktonauten und das Geheimnis der Langflossenaale",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2vWYh7ABUcTVRJhIudKBt2",
+        "include": true,
+        "episode_num": 20,
+        "title": "Folge 20: Die Oktonauten und das Baumstumpfhotel",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6FLZyKl26H2TyaS1qG7avG",
+        "include": true,
+        "episode_num": 19,
+        "title": "Folge 19: Die Oktonauten und die Flughunde",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1c6QoGlu3uAjvEzrj5OIvB",
+        "include": true,
+        "episode_num": 18,
+        "title": "Folge 18: Die Oktonauten und der Riesen-Weta",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "76teUFYkVeDAxAaoHRSxh3",
+        "include": true,
+        "episode_num": 17,
+        "title": "Folge 17: Die Oktonauten und das Hurrikan-Abenteuer",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5kCHaTXzbktZ5o1KDWZWGu",
+        "include": true,
+        "episode_num": 16,
+        "title": "Folge 16: Die Oktonauten und der Raupenumzug",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "74jLqoruA8E103qCJvlkAZ",
+        "include": true,
+        "episode_num": 15,
+        "title": "Folge 15: Die Oktonauten und der sibirische Salamander",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2YiVZUmuOVlTtc5vRuu0ax",
+        "include": true,
+        "episode_num": 14,
+        "title": "Folge 14: Die Oktonauten und das Abenteuer an der Skelettküste",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1X3hW9lvsi5PBovs3MssQc",
+        "include": true,
+        "episode_num": 13,
+        "title": "13/und die große Weihnachtsrettung",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "46PU878o53atAH9Cv3o9Rv",
+        "include": true,
+        "episode_num": 12,
+        "title": "12/und die Riesenkrabbe",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0YzUEBOMqa11MVDcHPsa0V",
+        "include": true,
+        "episode_num": 11,
+        "title": "11/und der Papageifisch",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "32QP8zChbHMp3x76ccvPaJ",
+        "include": true,
+        "episode_num": 10,
+        "title": "10/und das Korallenriff",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2y7ZCvzmUCnp4Zyf7sJwbn",
+        "include": true,
+        "episode_num": 9,
+        "title": "09/und das Delphinbaby",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5Zd3tXnCZheUEqL8OrDtmu",
+        "include": true,
+        "episode_num": 8,
+        "title": "08/und die Seepferdchen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "459WaQS05EtMDN8jtZ4zeB",
+        "include": true,
+        "episode_num": 7,
+        "title": "07/und der Vampirtintenfisch",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7xqad1hCA84jtglSKCZuXT",
+        "include": true,
+        "episode_num": 6,
+        "title": "06/und die flinken Fächerfische",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5xmekr9L0Hbue1lNLlk7NU",
+        "include": true,
+        "episode_num": 5,
+        "title": "05/und die Lederschildkröte",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "33IR5tAd3TAjJ0iZTA1UNF",
+        "include": true,
+        "episode_num": 4,
+        "title": "04/und die Einsiedlerkrebse",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6eE4tYCcs8iq6E4W8WMbPd",
+        "include": true,
+        "episode_num": 3,
+        "title": "03/und der Walross-Chef",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7qNwCsPPMVdv5Evns2bZZx",
+        "include": true,
+        "episode_num": 2,
+        "title": "02/und der Riesentintenfisch",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1X7h4lPVBsYNot2kZJz1Jr",
+        "include": true,
+        "episode_num": 1,
+        "title": "01/und der Walhai",
+        "exclude_reason": null
+      }
+    ],
+    "age_note": "Suitable from 3+",
+    "curator_notes": "Format change mid-series: Episodes 1-14 (2013-2017) were released as 4-story compilations under EUROPA mini/EUROPA with 40 tracks each. Episodes 15-26 (2024-2025) switched to single-episode format with 'Folge NN:' naming. All 26 releases included as canonical episodes despite early albums containing multiple stories."
+  }
+}

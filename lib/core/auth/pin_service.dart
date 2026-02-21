@@ -12,7 +12,6 @@ const _tag = 'PinService';
 const _pinHashKey = 'pin_hash';
 
 const _defaultStorage = FlutterSecureStorage(
-
   iOptions: IOSOptions(
     accessibility: KeychainAccessibility.first_unlock_this_device,
   ),

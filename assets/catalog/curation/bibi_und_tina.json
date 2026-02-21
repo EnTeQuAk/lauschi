@@ -1,23 +1,18 @@
 {
-  "models": [
-    "kimi-k2.5",
-    "claude-sonnet-4-6"
-  ],
-  "a": {
+  "query": "Bibi und Tina",
+  "model": "kimi-k2.5",
+  "curated_at": "2026-02-21T00:09:33.414735+00:00",
+  "series": {
     "id": "bibi_und_tina",
     "title": "Bibi und Tina",
     "aliases": [
-      "Bibi and Tina"
+      "Bibi & Tina"
     ],
-    "keywords": [
-      "bibi",
-      "tina"
-    ],
+    "keywords": [],
     "spotify_artist_ids": [
-      "2x8vG4f0HYXzMEo3xNsoiI",
-      "1zQTd1JAq5aqv69thaT3on"
+      "2x8vG4f0HYXzMEo3xNsoiI"
     ],
-    "episode_pattern": "[Ff]olge\\s+(\\d+)",
+    "episode_pattern": "^Folge (\\d+):",
     "albums": [
       {
         "spotify_album_id": "7gL6vfKtGmPEb8g4IIxnDK",
@@ -38,14 +33,14 @@
         "include": false,
         "episode_num": null,
         "title": "Weihnachtsfolgen",
-        "exclude_reason": "compilation"
+        "exclude_reason": "Compilation - contains multiple episodes"
       },
       {
         "spotify_album_id": "2VRKzheMmCpMFOf3Qnh5PM",
         "include": false,
         "episode_num": null,
         "title": "BFF Talk - Talk 8: Schöne Feste",
-        "exclude_reason": "spinoff"
+        "exclude_reason": "Spin-off talk series, not main Hörspiel episodes"
       },
       {
         "spotify_album_id": "1TcB1OzZXXVUC1buuuOaYy",
@@ -59,7 +54,7 @@
         "include": false,
         "episode_num": null,
         "title": "BFF Talk - Talk 7: Mal woanders",
-        "exclude_reason": "spinoff"
+        "exclude_reason": "Spin-off talk series, not main Hörspiel episodes"
       },
       {
         "spotify_album_id": "28DI3KDxqneh0msAtf9fUx",
@@ -73,7 +68,7 @@
         "include": false,
         "episode_num": null,
         "title": "Unsere Playlist",
-        "exclude_reason": "compilation"
+        "exclude_reason": "Music playlist, not Hörspiel episodes"
       },
       {
         "spotify_album_id": "0vGHt4BFAMuatJl7pyNgFf",
@@ -87,7 +82,7 @@
         "include": false,
         "episode_num": null,
         "title": "BFF Talk - Talk 6: Coole Berufe",
-        "exclude_reason": "spinoff"
+        "exclude_reason": "Spin-off talk series, not main Hörspiel episodes"
       },
       {
         "spotify_album_id": "23VR1tjp3mDDQnWWFNw8MD",
@@ -108,7 +103,7 @@
         "include": false,
         "episode_num": null,
         "title": "BFF Talk - Talk 5: Unsere Lieblingszeit",
-        "exclude_reason": "spinoff"
+        "exclude_reason": "Spin-off talk series, not main Hörspiel episodes"
       },
       {
         "spotify_album_id": "28fdGuKwFG2bZ0GF1Z2gD4",
@@ -122,7 +117,7 @@
         "include": false,
         "episode_num": null,
         "title": "BFF Talk - Talk 4: Welt der Pferde",
-        "exclude_reason": "spinoff"
+        "exclude_reason": "Spin-off talk series, not main Hörspiel episodes"
       },
       {
         "spotify_album_id": "4S7phLqKTdzOSsiRIv9Fel",
@@ -136,7 +131,7 @@
         "include": false,
         "episode_num": null,
         "title": "BFF Talk - Talk 3: Unsere Umwelt",
-        "exclude_reason": "spinoff"
+        "exclude_reason": "Spin-off talk series, not main Hörspiel episodes"
       },
       {
         "spotify_album_id": "0o15vdVe6wkcSW618EvFwU",
@@ -157,14 +152,14 @@
         "include": false,
         "episode_num": null,
         "title": "Folge 112: Geheimnis hinter dem Wasserfall",
-        "exclude_reason": "re-release"
+        "exclude_reason": "Duplicate episode - extended version with 35 tracks, standard 20-track version already included"
       },
       {
         "spotify_album_id": "7xvhuQtPWUS9vJYaqz6kUx",
         "include": false,
         "episode_num": null,
         "title": "BFF Talk - Talk 2: Rund ums Essen",
-        "exclude_reason": "spinoff"
+        "exclude_reason": "Spin-off talk series, not main Hörspiel episodes"
       },
       {
         "spotify_album_id": "2jTYXrpqS5ueXl6FEYxHLP",
@@ -185,7 +180,7 @@
         "include": false,
         "episode_num": null,
         "title": "BFF Talk - Talk 1: Starke Gefühle",
-        "exclude_reason": "spinoff"
+        "exclude_reason": "Spin-off talk series, not main Hörspiel episodes"
       },
       {
         "spotify_album_id": "2gwMqqJvoNWGKxlkfdpIm3",
@@ -213,49 +208,49 @@
         "include": false,
         "episode_num": null,
         "title": "Adventskalender: Nick, der Schlittenhund",
-        "exclude_reason": "spinoff"
+        "exclude_reason": "Advent calendar special, not numbered episode"
       },
       {
         "spotify_album_id": "6yhEqWx0bC8DQcj8bkgMYz",
         "include": false,
         "episode_num": null,
         "title": "Hörbuch 5. Kinofilm: Einfach Anders",
-        "exclude_reason": "audiobook"
+        "exclude_reason": "Movie audiobook, not numbered episode"
       },
       {
         "spotify_album_id": "762Nb1p3l4wOFZln6B3ZTC",
         "include": false,
         "episode_num": null,
         "title": "Das Weihnachtsalbum Deluxe",
-        "exclude_reason": "soundtrack"
+        "exclude_reason": "Christmas music album with karaoke versions"
       },
       {
         "spotify_album_id": "76KD1nCJUd0p3tm6cAgPnJ",
-        "include": true,
-        "episode_num": 107,
+        "include": false,
+        "episode_num": null,
         "title": "Folge 107: Club der geheimen Reiter",
-        "exclude_reason": null
+        "exclude_reason": "Episode 107 already included in progress (episodes 106-122 already covered)"
       },
       {
         "spotify_album_id": "6LQB8YBw8bDbjR71XTvBbU",
         "include": false,
         "episode_num": null,
         "title": "Hörspiel 5. Kinofilm: Einfach Anders",
-        "exclude_reason": "spinoff"
+        "exclude_reason": "Kinofilm (movie adaptation), not regular series episode"
       },
       {
         "spotify_album_id": "57NP74TWpA3PpsqZSgaPXX",
         "include": false,
         "episode_num": null,
         "title": "Bibi und Tina - Einfach Anders (Soundtrack zum 5. Kinofilm)",
-        "exclude_reason": "soundtrack"
+        "exclude_reason": "Soundtrack, not Hörspiel episode"
       },
       {
         "spotify_album_id": "0fhI9pv1NMQgRhsbJh9BMo",
         "include": false,
         "episode_num": null,
         "title": "Klangreise an der alten Mühle (ASMR)",
-        "exclude_reason": "spinoff"
+        "exclude_reason": "ASMR release, not regular Hörspiel episode"
       },
       {
         "spotify_album_id": "383rx34bgcdY9mqZ8Y2UZy",
@@ -269,7 +264,7 @@
         "include": false,
         "episode_num": null,
         "title": "Klangreise auf dem Martinshof (ASMR)",
-        "exclude_reason": "spinoff"
+        "exclude_reason": "ASMR release, not regular Hörspiel episode"
       },
       {
         "spotify_album_id": "0ECtH4m6CxepjvNgPJDpGK",
@@ -283,14 +278,14 @@
         "include": false,
         "episode_num": null,
         "title": "Das Weihnachtsalbum",
-        "exclude_reason": "soundtrack"
+        "exclude_reason": "Christmas album, not regular episode"
       },
       {
         "spotify_album_id": "45knWsAQP7LZtEv22lUnBt",
         "include": false,
         "episode_num": null,
         "title": "Hörbuch: Ein Monster im Wald (ungekürzt)",
-        "exclude_reason": "audiobook"
+        "exclude_reason": "Hörbuch (audiobook), not Hörspiel episode"
       },
       {
         "spotify_album_id": "4AabKAlId6VRQkZqdWDFYn",
@@ -304,7 +299,7 @@
         "include": false,
         "episode_num": null,
         "title": "Klangreise Nachts im Schloss (ASMR)",
-        "exclude_reason": "spinoff"
+        "exclude_reason": "ASMR release, not regular Hörspiel episode"
       },
       {
         "spotify_album_id": "0XfCKe1sBByUpHdDb5ZNkR",
@@ -318,14 +313,14 @@
         "include": false,
         "episode_num": null,
         "title": "Getrennt auf heißer Spur! (Hörspiel-Special)",
-        "exclude_reason": "spinoff"
+        "exclude_reason": "Hörspiel-Special, not regular numbered episode"
       },
       {
         "spotify_album_id": "4sFrwcBUX6ml3Y5Kw03FiE",
         "include": false,
         "episode_num": null,
         "title": "Klangreise im Falkensteiner Forst (ASMR)",
-        "exclude_reason": "spinoff"
+        "exclude_reason": "ASMR release, not regular Hörspiel episode"
       },
       {
         "spotify_album_id": "7o2yMBFo3Kis2tfSeZD0rH",
@@ -353,7 +348,7 @@
         "include": false,
         "episode_num": null,
         "title": "Hörbuch: Der mysteriöse Fremde (ungekürzt)",
-        "exclude_reason": "audiobook"
+        "exclude_reason": "Hörbuch (audiobook), not Hörspiel episode"
       },
       {
         "spotify_album_id": "4YVzJURFAew027JVKeFSeZ",
@@ -367,35 +362,35 @@
         "include": false,
         "episode_num": null,
         "title": "Hörbuch zur Serie: Wahrheit oder Pflicht (Teil 2)",
-        "exclude_reason": "audiobook"
+        "exclude_reason": "Hörbuch (audiobook), not Hörspiel episode"
       },
       {
         "spotify_album_id": "4kHwhMXDWsgSkw4Sv9fQRI",
         "include": false,
         "episode_num": null,
         "title": "Hörbuch zur Serie: Endlich wieder Ferien (Teil 1)",
-        "exclude_reason": "audiobook"
+        "exclude_reason": "Hörbuch (audiobook), not Hörspiel episode"
       },
       {
         "spotify_album_id": "58mGKv5lX9zh0pGthVsBBu",
         "include": false,
         "episode_num": null,
         "title": "Soundtrack zur Serie (Staffel 1) [feat. Peter Plate, Ulf Leo Sommer]",
-        "exclude_reason": "soundtrack"
+        "exclude_reason": "Soundtrack, not Hörspiel episode"
       },
       {
         "spotify_album_id": "33gyhGObYDetHFSZFwCIwN",
         "include": false,
         "episode_num": null,
         "title": "Hörspiele zur Serie (Staffel 1, Episode 6-10)",
-        "exclude_reason": "box set"
+        "exclude_reason": "Compilation/box set of multiple episodes (Staffel 1, Ep 6-10)"
       },
       {
         "spotify_album_id": "3pFqrFzvHWjArK7h9Cxmp1",
         "include": false,
         "episode_num": null,
         "title": "Hörspiele zur Serie (Staffel 1, Episode 1-5)",
-        "exclude_reason": "box set"
+        "exclude_reason": "Compilation/box set of multiple episodes (Staffel 1, Ep 1-5)"
       },
       {
         "spotify_album_id": "62CE0aYSuYhTvQdXfYsUHo",
@@ -416,7 +411,7 @@
         "include": false,
         "episode_num": null,
         "title": "Hörspiel-Special: Viktoria und Sarina auf dem Martinshof",
-        "exclude_reason": "spinoff"
+        "exclude_reason": "Hörspiel-Special, not regular numbered episode"
       },
       {
         "spotify_album_id": "6CjvjtftFwRBvtUgs76cBa",
@@ -437,14 +432,14 @@
         "include": false,
         "episode_num": null,
         "title": "Hörbuch: Im Land der weißen Pferde (Ungekürzt)",
-        "exclude_reason": "audiobook"
+        "exclude_reason": "Hörbuch (audiobook), not Hörspiel episode"
       },
       {
         "spotify_album_id": "6H98FjCV3V4I3qaPw3gKb7",
         "include": false,
         "episode_num": null,
         "title": "Live Hörspiel: Zoff!",
-        "exclude_reason": "spinoff"
+        "exclude_reason": "Live performance, not a numbered episode (53 tracks indicates special event recording)"
       },
       {
         "spotify_album_id": "3TNwLmVlMD5FH9lfreRTop",
@@ -479,7 +474,7 @@
         "include": false,
         "episode_num": null,
         "title": "Hörbuch: Ein heißer Sommer (Ungekürzt)",
-        "exclude_reason": "audiobook"
+        "exclude_reason": "Full audiobook (Hörbuch ungekürzt), not a Hörspiel episode - 89 tracks"
       },
       {
         "spotify_album_id": "4fuUzEkHyXlkdgba5YKwMP",
@@ -507,7 +502,7 @@
         "include": false,
         "episode_num": null,
         "title": "Hörbuch: Das Fohlen im Schnee (ungekürzt)",
-        "exclude_reason": "audiobook"
+        "exclude_reason": "Full audiobook (Hörbuch ungekürzt), not a Hörspiel episode - 100 tracks"
       },
       {
         "spotify_album_id": "69Ku8m3rCjG0shgu6KaYUz",
@@ -528,21 +523,21 @@
         "include": false,
         "episode_num": null,
         "title": "Hörspiel 4. Kinofilm: Tohuwabohu total",
-        "exclude_reason": "spinoff"
+        "exclude_reason": "Movie adaptation (4th film), not a numbered episode"
       },
       {
         "spotify_album_id": "7uNs8wJ1jWqPyB0nnCGAFz",
         "include": false,
         "episode_num": null,
         "title": "Bibi und Tina: Tohuwabohu total (Der Original-Soundtrack zum Kinofilm)",
-        "exclude_reason": "soundtrack"
+        "exclude_reason": "Movie soundtrack, not a Hörspiel episode"
       },
       {
         "spotify_album_id": "3UHoF3vObUcNtZVQrQkIpC",
         "include": false,
         "episode_num": null,
         "title": "Hörbuch: Holger verliebt sich",
-        "exclude_reason": "audiobook"
+        "exclude_reason": "Full audiobook (Hörbuch), not a Hörspiel episode - 73 tracks"
       },
       {
         "spotify_album_id": "6u7mLxgAMQth1wLf3mwnil",
@@ -570,14 +565,14 @@
         "include": false,
         "episode_num": null,
         "title": "Hörspiel zum 3. Kinofilm - Mädchen gegen Jungs",
-        "exclude_reason": "spinoff"
+        "exclude_reason": "Movie adaptation (3rd film), not a numbered episode"
       },
       {
         "spotify_album_id": "5clF0uaquF9YZuu2oAosvd",
         "include": false,
         "episode_num": null,
         "title": "Bibi und Tina: Mädchen gegen Jungs (Der Original-Soundtrack zum Kinofilm)",
-        "exclude_reason": "soundtrack"
+        "exclude_reason": "Movie soundtrack, not a Hörspiel episode"
       },
       {
         "spotify_album_id": "7dy2QpTUYDZKWbOObkFAjk",
@@ -591,7 +586,7 @@
         "include": false,
         "episode_num": null,
         "title": "Hörbuch: Der weiße Mustang (Ungekürzt)",
-        "exclude_reason": "audiobook"
+        "exclude_reason": "Full audiobook (Hörbuch ungekürzt), not a Hörspiel episode - 87 tracks"
       },
       {
         "spotify_album_id": "1es77ykh54uGjsw4x28jpL",
@@ -612,14 +607,14 @@
         "include": false,
         "episode_num": null,
         "title": "Das Original-Hörspiel zum Kinofilm 2 - VOLL VERHEXT!",
-        "exclude_reason": "spinoff"
+        "exclude_reason": "Movie adaptation (2nd film), not a numbered episode"
       },
       {
         "spotify_album_id": "5CXxYkRdKPyE7tWGmqZZOP",
         "include": false,
         "episode_num": null,
         "title": "Bibi und Tina: VOLL VERHEXT! (Der Original-Soundtrack zum Kinofilm)",
-        "exclude_reason": "soundtrack"
+        "exclude_reason": "Movie soundtrack, not a Hörspiel episode"
       },
       {
         "spotify_album_id": "0l2yMvgqySd4CKXg6wJzEk",
@@ -633,7 +628,7 @@
         "include": false,
         "episode_num": null,
         "title": "Hörbuch: Indianerpferde in Gefahr (Ungekürzt)",
-        "exclude_reason": "audiobook"
+        "exclude_reason": "Full audiobook (Hörspiel ungekürzt), not a Hörspiel episode - 92 tracks"
       },
       {
         "spotify_album_id": "3RglA97ZtNqv8bUzazdXj6",
@@ -647,14 +642,14 @@
         "include": false,
         "episode_num": null,
         "title": "Das Original-Hörspiel zum Kinofilm",
-        "exclude_reason": "spinoff"
+        "exclude_reason": "Movie adaptation (1st film), not a numbered episode"
       },
       {
         "spotify_album_id": "6QmuVg6QPfIvjKGvXYwt21",
         "include": false,
         "episode_num": null,
         "title": "Bibi und Tina (Der Original-Soundtrack zum Kinofilm)",
-        "exclude_reason": "soundtrack"
+        "exclude_reason": "Soundtrack - movie songs and score, not a Hörspiel episode"
       },
       {
         "spotify_album_id": "45dOZ8312a7NnlgJJsymXA",
@@ -668,7 +663,7 @@
         "include": false,
         "episode_num": null,
         "title": "Die falschen Weihnachtsmänner (Der Adventskalender zum Hören)",
-        "exclude_reason": "spinoff"
+        "exclude_reason": "Advent calendar special format, not a regular episode"
       },
       {
         "spotify_album_id": "7eUwxkCrTYX7q9pXYTEqJB",
@@ -682,7 +677,7 @@
         "include": false,
         "episode_num": null,
         "title": "Hörbuch: Der Tiger von Rotenbrunn (Ungekürzt)",
-        "exclude_reason": "audiobook"
+        "exclude_reason": "Unabridged audiobook (Hörbuch), not a Hörspiel episode"
       },
       {
         "spotify_album_id": "0hJ3FhFzOFJhJF9qeX1TEK",
@@ -703,7 +698,7 @@
         "include": false,
         "episode_num": null,
         "title": "Hörbuch: Die geheimnisvolle Köchin (Ungekürzt)",
-        "exclude_reason": "audiobook"
+        "exclude_reason": "Unabridged audiobook (Hörbuch), not a Hörspiel episode"
       },
       {
         "spotify_album_id": "6b2ivtQlkdEZ6okJlYqntO",
@@ -731,7 +726,7 @@
         "include": false,
         "episode_num": null,
         "title": "Ferienspaß mit Bibi und Tina (inkl. dem Lied \"Sommer, Sonne, Reiterglück\")",
-        "exclude_reason": "compilation"
+        "exclude_reason": "Compilation containing episodes 10 and 58, not an individual episode"
       },
       {
         "spotify_album_id": "1KF1Iwp8eqVtMVcovyUPKU",
@@ -745,7 +740,7 @@
         "include": false,
         "episode_num": null,
         "title": "Hörbuch: Der wilde Hengst (Ungekürzt)",
-        "exclude_reason": "audiobook"
+        "exclude_reason": "Unabridged audiobook (Hörbuch), not a Hörspiel episode"
       },
       {
         "spotify_album_id": "2Xj7eMbRzBIBgtqmpTRgai",
@@ -766,7 +761,7 @@
         "include": false,
         "episode_num": null,
         "title": "Hörbuch: Die ungarischen Reiter (Ungekürzt)",
-        "exclude_reason": "audiobook"
+        "exclude_reason": "Unabridged audiobook (Hörbuch), not a Hörspiel episode"
       },
       {
         "spotify_album_id": "7MmGDWg8mBqZmxgQfAFaGx",
@@ -787,7 +782,7 @@
         "include": false,
         "episode_num": null,
         "title": "Hörbuch: Schatten über dem Martinshof (Ungekürzt)",
-        "exclude_reason": "audiobook"
+        "exclude_reason": "Unabridged audiobook (Hörbuch), not a Hörspiel episode"
       },
       {
         "spotify_album_id": "4TQySSH6brQcwlR2g0ulid",
@@ -878,7 +873,7 @@
         "include": false,
         "episode_num": null,
         "title": "Pferdestarke Hits für Kids",
-        "exclude_reason": "compilation"
+        "exclude_reason": "Compilation - not a Hörspiel episode"
       },
       {
         "spotify_album_id": "4xDNgPactkeSja2irHu1y4",
@@ -1243,500 +1238,9 @@
         "episode_num": 4,
         "title": "Folge 4: Das Zirkuspony",
         "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "66bp9XyvvYa6SY20IqoP4Z",
-        "include": false,
-        "episode_num": null,
-        "title": "Endlich wieder Weihnachten (feat. Katharina Hirschberg, Harriet Herbig-Matten)",
-        "exclude_reason": "compilation"
-      },
-      {
-        "spotify_album_id": "0G8rzCUMLNwdDc4C7v271W",
-        "include": false,
-        "episode_num": null,
-        "title": "Up, Up, Up (Nobody's Perfect) [feat. Lina Larissa Strahl] [Remix 2021]",
-        "exclude_reason": "compilation"
-      },
-      {
-        "spotify_album_id": "2Pj8LkvxnNSJOOK5njz3UL",
-        "include": false,
-        "episode_num": null,
-        "title": "A Friend for Felix",
-        "exclude_reason": "non-German"
-      },
-      {
-        "spotify_album_id": "2BImj8mwc97mlp0koaksuN",
-        "include": false,
-        "episode_num": null,
-        "title": "Internship with the Vet",
-        "exclude_reason": "non-German"
-      },
-      {
-        "spotify_album_id": "0cXNaKKiGL9ypTEpm5vE8x",
-        "include": false,
-        "episode_num": null,
-        "title": "Wolves in the Puszta",
-        "exclude_reason": "non-German"
-      },
-      {
-        "spotify_album_id": "53pxtRms59GtWdTjVnwdT4",
-        "include": false,
-        "episode_num": null,
-        "title": "The Cuddly Pony",
-        "exclude_reason": "non-German"
-      },
-      {
-        "spotify_album_id": "3PBhpuFzK1mgIsbH8pHy9L",
-        "include": false,
-        "episode_num": null,
-        "title": "The Stud Farm in England",
-        "exclude_reason": "non-German"
-      },
-      {
-        "spotify_album_id": "7EzRK1Yc1JRRMoPLbtMR0r",
-        "include": false,
-        "episode_num": null,
-        "title": "The Little Horseshoe",
-        "exclude_reason": "non-German"
-      },
-      {
-        "spotify_album_id": "18DhGjEB1FrfyOEww8rgWb",
-        "include": false,
-        "episode_num": null,
-        "title": "The Vacation Surprise",
-        "exclude_reason": "non-German"
-      },
-      {
-        "spotify_album_id": "3M63XprSfGKEqPPxiAwOxx",
-        "include": false,
-        "episode_num": null,
-        "title": "The Horse at School",
-        "exclude_reason": "non-German"
-      },
-      {
-        "spotify_album_id": "2JVjUv5EJNLxYUTqxARRdL",
-        "include": false,
-        "episode_num": null,
-        "title": "Roger's Promise",
-        "exclude_reason": "non-German"
-      },
-      {
-        "spotify_album_id": "6el7v43s1i7mymHV1AI6KL",
-        "include": false,
-        "episode_num": null,
-        "title": "The Little Fawn",
-        "exclude_reason": "non-German"
-      },
-      {
-        "spotify_album_id": "0uQSDHvMsbbPxIPi0zlEBh",
-        "include": false,
-        "episode_num": null,
-        "title": "The Flying Saddle",
-        "exclude_reason": "non-German"
-      },
-      {
-        "spotify_album_id": "4QegKZaOWdnns5n2oUUzLw",
-        "include": false,
-        "episode_num": null,
-        "title": "Felix Runs Away",
-        "exclude_reason": "non-German"
-      },
-      {
-        "spotify_album_id": "4Z7LzklHx7HaBVIV5LOSc3",
-        "include": false,
-        "episode_num": null,
-        "title": "The Admirer",
-        "exclude_reason": "non-German"
-      },
-      {
-        "spotify_album_id": "3fNqcB6hKfP3oTzk2qN43h",
-        "include": false,
-        "episode_num": null,
-        "title": "The Talking Horse",
-        "exclude_reason": "non-German"
-      },
-      {
-        "spotify_album_id": "3aqow7ddSTsWaXwckYLxhQ",
-        "include": false,
-        "episode_num": null,
-        "title": "A Serious Suspicion",
-        "exclude_reason": "non-German"
-      },
-      {
-        "spotify_album_id": "3p6ZTwhaK1SV6Fd5i1RSR0",
-        "include": false,
-        "episode_num": null,
-        "title": "The Christmas Market",
-        "exclude_reason": "non-German"
-      },
-      {
-        "spotify_album_id": "0h8mq9BMJEn8NpjEbjTbTW",
-        "include": false,
-        "episode_num": null,
-        "title": "The Big Storm",
-        "exclude_reason": "non-German"
-      },
-      {
-        "spotify_album_id": "5gLCNmA4kxSfIb0etlsYi5",
-        "include": false,
-        "episode_num": null,
-        "title": "Dad Learns to Ride",
-        "exclude_reason": "non-German"
-      },
-      {
-        "spotify_album_id": "3EtGGLCgdw2aM8vv1e7HRC",
-        "include": false,
-        "episode_num": null,
-        "title": "Riding Forbidden",
-        "exclude_reason": "non-German"
-      },
-      {
-        "spotify_album_id": "0l0QDEeoB7UBCA9XerL5Gd",
-        "include": false,
-        "episode_num": null,
-        "title": "The Forest Fire",
-        "exclude_reason": "non-German"
-      },
-      {
-        "spotify_album_id": "62aNZqwIQzyR3YTLw2gkjq",
-        "include": false,
-        "episode_num": null,
-        "title": "The Love Herb",
-        "exclude_reason": "non-German"
-      },
-      {
-        "spotify_album_id": "4EcP5frPJnUtptcQSgXIHr",
-        "include": false,
-        "episode_num": null,
-        "title": "Friendship Day",
-        "exclude_reason": "non-German"
-      },
-      {
-        "spotify_album_id": "5hLsKr9sV3kTi1XSPH2YNG",
-        "include": false,
-        "episode_num": null,
-        "title": "The Wild Foal",
-        "exclude_reason": "non-German"
-      },
-      {
-        "spotify_album_id": "3KgQwYawE8kBb6HYarofNU",
-        "include": false,
-        "episode_num": null,
-        "title": "Full Moon Over Falkenstein",
-        "exclude_reason": "non-German"
-      },
-      {
-        "spotify_album_id": "1lvOXCP2y98PuAvnNdLF4G",
-        "include": false,
-        "episode_num": null,
-        "title": "Mission Alex",
-        "exclude_reason": "non-German"
-      },
-      {
-        "spotify_album_id": "7MFMgIsS1OjAso6WcdGyEL",
-        "include": false,
-        "episode_num": null,
-        "title": "Wild Geese Alarm",
-        "exclude_reason": "non-German"
-      },
-      {
-        "spotify_album_id": "795Y7n956Lbsi2Jho4RP2k",
-        "include": false,
-        "episode_num": null,
-        "title": "The Secret of the Old Mill",
-        "exclude_reason": "non-German"
-      },
-      {
-        "spotify_album_id": "4Uw5TAAUBveYG2QYMu3OvA",
-        "include": false,
-        "episode_num": null,
-        "title": "The Future of Falkenstein",
-        "exclude_reason": "non-German"
-      },
-      {
-        "spotify_album_id": "0pGTVvURtCF1pSLE1wXd7O",
-        "include": false,
-        "episode_num": null,
-        "title": "Freddy Falls in Love",
-        "exclude_reason": "non-German"
-      },
-      {
-        "spotify_album_id": "5STVb65VTYTiaeJR0ZzYWs",
-        "include": false,
-        "episode_num": null,
-        "title": "The Horse Carnival",
-        "exclude_reason": "non-German"
-      },
-      {
-        "spotify_album_id": "2VdzxEMAkmROXHscNpsWXJ",
-        "include": false,
-        "episode_num": null,
-        "title": "Mikosh Returns",
-        "exclude_reason": "non-German"
-      },
-      {
-        "spotify_album_id": "3NER0niNM37OHlLj5JGaK4",
-        "include": false,
-        "episode_num": null,
-        "title": "Everyone Love Cuddles",
-        "exclude_reason": "non-German"
-      },
-      {
-        "spotify_album_id": "5n5Ld7u6PjWIMu99Ja6GNY",
-        "include": false,
-        "episode_num": null,
-        "title": "The Wild Horses - Part 2",
-        "exclude_reason": "non-German"
-      },
-      {
-        "spotify_album_id": "7gIj8OGGvXSyu6PTOP8OFr",
-        "include": false,
-        "episode_num": null,
-        "title": "The Wild Horses - Part 1",
-        "exclude_reason": "non-German"
-      },
-      {
-        "spotify_album_id": "7yZNJTJ76GeVKBbolzVpHz",
-        "include": false,
-        "episode_num": null,
-        "title": "Dad's Pony",
-        "exclude_reason": "non-German"
-      },
-      {
-        "spotify_album_id": "7mCfw3tODEVDJeDkkD0S25",
-        "include": false,
-        "episode_num": null,
-        "title": "The Fall Tournament",
-        "exclude_reason": "non-German"
-      },
-      {
-        "spotify_album_id": "4oCWBaxuFXRdpjhoigbqil",
-        "include": false,
-        "episode_num": null,
-        "title": "Mom Wins",
-        "exclude_reason": "non-German"
-      },
-      {
-        "spotify_album_id": "1J4qDvN2WZmZa6lvRer9VM",
-        "include": false,
-        "episode_num": null,
-        "title": "The Wild Bunch",
-        "exclude_reason": "non-German"
-      },
-      {
-        "spotify_album_id": "3LpehqXf0RpvlgugjRGNGv",
-        "include": false,
-        "episode_num": null,
-        "title": "The Scavenger Hunt",
-        "exclude_reason": "non-German"
-      },
-      {
-        "spotify_album_id": "3gtwSOH82kgsVhGdeySP49",
-        "include": false,
-        "episode_num": null,
-        "title": "The Campsite",
-        "exclude_reason": "non-German"
-      },
-      {
-        "spotify_album_id": "53xIXmEFhK430rqnRPRViG",
-        "include": false,
-        "episode_num": null,
-        "title": "Amadeus Doesn't Feel Well",
-        "exclude_reason": "non-German"
-      },
-      {
-        "spotify_album_id": "0QkyMUZyIqGF9ALPoMvceo",
-        "include": false,
-        "episode_num": null,
-        "title": "The Foal",
-        "exclude_reason": "non-German"
-      },
-      {
-        "spotify_album_id": "757hubhWaK7bO3RWfEFVL0",
-        "include": false,
-        "episode_num": null,
-        "title": "Easter Holiday",
-        "exclude_reason": "non-German"
-      },
-      {
-        "spotify_album_id": "7eW9asec4EBO19Q1WJUlAs",
-        "include": false,
-        "episode_num": null,
-        "title": "Alone in the Castle",
-        "exclude_reason": "non-German"
-      },
-      {
-        "spotify_album_id": "134wXhBSG7v2ABOK1nQdcX",
-        "include": false,
-        "episode_num": null,
-        "title": "Hannah's Animal Haven",
-        "exclude_reason": "non-German"
-      },
-      {
-        "spotify_album_id": "5pBpbNRkhE9SlxH7vMOYTb",
-        "include": false,
-        "episode_num": null,
-        "title": "Raccoons on the Loose",
-        "exclude_reason": "non-German"
-      },
-      {
-        "spotify_album_id": "4AEod70nIwRKOYGbmcIx9V",
-        "include": false,
-        "episode_num": null,
-        "title": "Save the Beavers",
-        "exclude_reason": "non-German"
-      },
-      {
-        "spotify_album_id": "02WidBZKkXdljUIcTuzC9u",
-        "include": false,
-        "episode_num": null,
-        "title": "The Mysterious Treasure Hunt",
-        "exclude_reason": "non-German"
-      },
-      {
-        "spotify_album_id": "0vexaHZxtKxJhFcP8b7TWT",
-        "include": false,
-        "episode_num": null,
-        "title": "The Surprise Party",
-        "exclude_reason": "non-German"
-      },
-      {
-        "spotify_album_id": "5ozWdwGv0mK8ZOAAZuozGJ",
-        "include": false,
-        "episode_num": null,
-        "title": "Christmas Eve",
-        "exclude_reason": "non-German"
-      },
-      {
-        "spotify_album_id": "6hr6bBmioMZCoCvED6fu8g",
-        "include": false,
-        "episode_num": null,
-        "title": "Lost in the Snow",
-        "exclude_reason": "non-German"
-      },
-      {
-        "spotify_album_id": "5dABPXwUFovBxKYYeWNkIF",
-        "include": false,
-        "episode_num": null,
-        "title": "The Bewitched Trail Ride",
-        "exclude_reason": "non-German"
-      },
-      {
-        "spotify_album_id": "1RjQQbtXYIc6J7P58nNdeg",
-        "include": false,
-        "episode_num": null,
-        "title": "Visitors from Spain",
-        "exclude_reason": "non-German"
-      },
-      {
-        "spotify_album_id": "1kN2fypef3OGnLOutbXlvu",
-        "include": false,
-        "episode_num": null,
-        "title": "The Pumpkin Festival",
-        "exclude_reason": "non-German"
-      },
-      {
-        "spotify_album_id": "7CCl3SkJPeLrjhAAaBOvx1",
-        "include": false,
-        "episode_num": null,
-        "title": "The Haunted Forest",
-        "exclude_reason": "non-German"
-      },
-      {
-        "spotify_album_id": "6aQvEzE6Zy3QYA0Ty45Fe3",
-        "include": false,
-        "episode_num": null,
-        "title": "The Ghost Horse",
-        "exclude_reason": "non-German"
-      },
-      {
-        "spotify_album_id": "73UWst8YCS5c2MsRclGtdb",
-        "include": false,
-        "episode_num": null,
-        "title": "An Uninvited Guest",
-        "exclude_reason": "non-German"
-      },
-      {
-        "spotify_album_id": "7cKZ7UJ8IlcW8E5iBQKzrF",
-        "include": false,
-        "episode_num": null,
-        "title": "Tina In Danger",
-        "exclude_reason": "non-German"
-      },
-      {
-        "spotify_album_id": "6QawDBkgeYIg0Aw8h0ZRSr",
-        "include": false,
-        "episode_num": null,
-        "title": "The Lipizzaners",
-        "exclude_reason": "non-German"
-      },
-      {
-        "spotify_album_id": "1eu9V0JX4InC1yQ2pobXnr",
-        "include": false,
-        "episode_num": null,
-        "title": "The Horse Thief",
-        "exclude_reason": "non-German"
-      },
-      {
-        "spotify_album_id": "5aRVTUNGnq0fIN0BNEXiDb",
-        "include": false,
-        "episode_num": null,
-        "title": "The Farewell",
-        "exclude_reason": "non-German"
-      },
-      {
-        "spotify_album_id": "3CMLMv5AA9jhRRa7fqyHry",
-        "include": false,
-        "episode_num": null,
-        "title": "The Circus Pony",
-        "exclude_reason": "non-German"
-      },
-      {
-        "spotify_album_id": "4MTtTQxTmC6JeOKvjYxJia",
-        "include": false,
-        "episode_num": null,
-        "title": "The Super Ponies",
-        "exclude_reason": "non-German"
-      },
-      {
-        "spotify_album_id": "4t6XCmuQZ6GSYILF8EP3y9",
-        "include": false,
-        "episode_num": null,
-        "title": "A Fake Friend",
-        "exclude_reason": "non-German"
-      },
-      {
-        "spotify_album_id": "35e3DLaiw7WtvmBhl9rdGp",
-        "include": false,
-        "episode_num": null,
-        "title": "Alex at Boarding School",
-        "exclude_reason": "non-German"
-      },
-      {
-        "spotify_album_id": "2QApnNSqSSXFaTGuS5vnm7",
-        "include": false,
-        "episode_num": null,
-        "title": "The Vet",
-        "exclude_reason": "non-German"
-      },
-      {
-        "spotify_album_id": "54ixFaNhWLvz7ia35fc5Ni",
-        "include": false,
-        "episode_num": null,
-        "title": "The Millionaire",
-        "exclude_reason": "non-German"
-      },
-      {
-        "spotify_album_id": "3noJ0xzOT6bcHsIAwWaZSI",
-        "include": false,
-        "episode_num": null,
-        "title": "The Horses' Birthday",
-        "exclude_reason": "non-German"
       }
     ],
-    "curator_notes": "Classic DACH Hörspiel series running since 1991 with 122+ main episodes. Spinoffs excluded: BFF Talk podcast series (8 episodes), Kinofilm audio adaptations (5 movies), ASMR Klangreisen (4 releases), Advent calendar, Live Hörspiel, Viktoria und Sarina Special, and various audiobook novels. English versions available under separate 'Bibi and Tina' artist. Episode 112 had duplicate releases - kept standard 20-track version, excluded extended 35-track re-release."
-  },
-  "b": null,
-  "disagreements": []
+    "age_note": "Suitable from 5+",
+    "curator_notes": "Long-running series (episodes 100+) with spinoff podcast format 'BFF Talk' (separate numbering), seasonal specials (Weihnachtsfolgen, Adventskalender), and movie tie-ins (Kinofilm-Hörbücher). Note occasional out-of-sequence episodes (e.g., Folge 106 appearing after 111)."
+  }
 }

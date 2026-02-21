@@ -1,0 +1,334 @@
+{
+  "query": "Der kleine Hui Buh",
+  "model": "kimi-k2.5",
+  "curated_at": "2026-02-21T00:00:37.410758+00:00",
+  "series": {
+    "id": "der_kleine_hui_buh",
+    "title": "Der kleine Hui Buh",
+    "aliases": [],
+    "keywords": [],
+    "spotify_artist_ids": [
+      "5uXwgEQqIIIMsyi0LlRZDn"
+    ],
+    "episode_pattern": "(?:[Ff]olge\\s+|^0?)(\\d+)",
+    "albums": [
+      {
+        "spotify_album_id": "5lmnZ84aWnQHdRLHr0siGW",
+        "include": true,
+        "episode_num": 44,
+        "title": "Folge 44: Der rostrote Ritter",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6uR8J2c8mjWxZiBuQQxUJJ",
+        "include": true,
+        "episode_num": 43,
+        "title": "Folge 43: Die Höhle der verspukten Tiere",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6ljkzQ7vtgh8PL7CIiXmtl",
+        "include": true,
+        "episode_num": 42,
+        "title": "Folge 42: Magie schadet nie/Der Rasselschlamassel",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0KSkzezM1Bo8OQK60fQEK5",
+        "include": false,
+        "episode_num": null,
+        "title": "Klangreise durch die Geheimzentrale (ASMR)",
+        "exclude_reason": "ASMR/soundscape release, not a story episode"
+      },
+      {
+        "spotify_album_id": "49OU24RHke1UjdRZi97KII",
+        "include": true,
+        "episode_num": 41,
+        "title": "Folge 41: Haus der Rätsel/Maulwurfalarm",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1VGm3cUAX7dLlEmGD2sC7H",
+        "include": true,
+        "episode_num": 40,
+        "title": "Folge 40: Tanz der Kürbisse/Schlossgespenst für einen Tag",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "38g3DrdwzhmjqgEu3imRnp",
+        "include": true,
+        "episode_num": 39,
+        "title": "Folge 39: Die verflixte Blitzhitze/Übernachtungsparty mit Hindernissen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5UNDbWbuAikt4Goew1hKuR",
+        "include": true,
+        "episode_num": 38,
+        "title": "Folge 38: Floßfahrt mit Pfötchen/Ein richtiges Gespenst",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4vOfK57TouKmctI5nZPUaR",
+        "include": true,
+        "episode_num": 37,
+        "title": "Folge 37: Überraschung beim Baumcamping/Lachen macht lustig",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "28u5Q44KWICoGERZIcBwsZ",
+        "include": true,
+        "episode_num": 36,
+        "title": "Folge 36: Rettet die Hexenbesen/Der Rückwärts-Tag",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3s1lFtMdo0PgYrzJHUbRLm",
+        "include": true,
+        "episode_num": 35,
+        "title": "Folge 35: Flori will nicht umziehen/Wer spukt denn da?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5gFSnduh16pM9Ho0kzj0kM",
+        "include": true,
+        "episode_num": 34,
+        "title": "Folge 34: Das Adventsrätsel/Auf zur Fledermausturmkammer",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5QZTHIcDSL1KHBLuLZObSK",
+        "include": true,
+        "episode_num": 33,
+        "title": "Folge 33: Gemeine Geisterjäger/Der unsichtbare Floh",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "20qWR1yU6GGKFvNB9QZUZk",
+        "include": true,
+        "episode_num": 32,
+        "title": "Folge 32: Der magische Musiktag/Widersinn und Streiterei",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1gyDyidPuc047od8trpwPf",
+        "include": true,
+        "episode_num": 31,
+        "title": "Folge 31: Spuk in der alten Villa/Ben kann das schon",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7MNveWVsmrTc6JXg4iSZD7",
+        "include": true,
+        "episode_num": 30,
+        "title": "Folge 30: Gemeinsam drachenstark/Glückstag mit Getüm",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4Ig5MdmOs3SkXelDQeK55l",
+        "include": true,
+        "episode_num": 29,
+        "title": "Folge 29: Doppelgemoppel/Die geheime Etage 7 ½",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6y1hsOKbzOXmWXMQ2ihVoC",
+        "include": true,
+        "episode_num": 28,
+        "title": "Folge 28: Klein und oho/Der verflixte 29. Februar",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4sKxejQ3o4wGklqI6ueT6u",
+        "include": true,
+        "episode_num": 27,
+        "title": "Folge 27: Tierisch tolle Schutzgeister/Voll vertauscht!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5jTAIeE1zoZOagT0ERsUjX",
+        "include": true,
+        "episode_num": 26,
+        "title": "Folge 26: Der müffelnde Mief/Geteiltes Heimweh",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5w60lgIhGQ5GRMWf84ZhYu",
+        "include": true,
+        "episode_num": 25,
+        "title": "Folge 25: Das mutigste Kind / Das blubbernde Seeungeheuer",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1OODq9rkLdqcNLGiQgBQWO",
+        "include": true,
+        "episode_num": 24,
+        "title": "Folge 24: Hugo, der Hexenschüler/Der große Krötenregen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5HGwoRXaBD2uPE4LQP1eRF",
+        "include": true,
+        "episode_num": 23,
+        "title": "Folge 23: Spuk in der Geisterbahn/Die rätselhafte Verwandlung",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6j0c8F2jBqu5NYTc0i69kF",
+        "include": true,
+        "episode_num": 22,
+        "title": "Folge 22: Ein Piratentier für Polly/Die verwünschte Wünscherei",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6qEqQVhPS90cV4xVlKlJiU",
+        "include": true,
+        "episode_num": 21,
+        "title": "Folge 21: Das verschwundene Storchennest/Die Grusel-AG",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6xNGMmWiQBOAxYWqwaRuDV",
+        "include": true,
+        "episode_num": 20,
+        "title": "020/Die Geisterstunde / Lotte zieht aus",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1b740fVDcZLeGA25tWRNCB",
+        "include": true,
+        "episode_num": 19,
+        "title": "019/Die wunderliche Oma/Der Wunschring",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5odmWOIPQ52uCHCwV2NxDl",
+        "include": true,
+        "episode_num": 18,
+        "title": "018/Die kleine Wut-Ursel / Der verzauberte Hexenschuss",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5riVCvMeKuOBRJuHO9sPul",
+        "include": true,
+        "episode_num": 17,
+        "title": "017/Das Quartett der magischen Wesen / Ein fürchterlicher Irrtum",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5HgiVlPw1lD5ENMuC8sko7",
+        "include": true,
+        "episode_num": 16,
+        "title": "016/Kunterbunter Osterspuk / Die lustige Bildersuche",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "47kL63hrfC1v8tfryl3JIv",
+        "include": true,
+        "episode_num": 15,
+        "title": "015/Dicke Freunde / Das verzwickte Geburtstagsgeschenk",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4FSYmRSLOlz1XEiHxBaEF1",
+        "include": true,
+        "episode_num": 14,
+        "title": "014/Der verrückte Zeugnistag / Das Fest im Dunkeln",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "73egLUxqrNFTAYBzAvc1Vy",
+        "include": true,
+        "episode_num": 13,
+        "title": "013/Der verlorene Besen / Das Theater der Kuscheltiere",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7dUbw9VsA01tCOd1e3BGoC",
+        "include": true,
+        "episode_num": 12,
+        "title": "012/Der verschollene Ritterschatz / Polly, das Piratenmädchen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "29Jjbj35GmKiEZoCBpCUVf",
+        "include": true,
+        "episode_num": 11,
+        "title": "011/Das verwickelte Klassenzimmer / Freitag, der 13.",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "30ts0v21MUVuhfSoE73B9E",
+        "include": true,
+        "episode_num": 10,
+        "title": "010/Überraschung für Hedda Hex/Yoshi ist weg!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1UJvJvpco0ILxqXTrg61Hh",
+        "include": true,
+        "episode_num": 9,
+        "title": "009/Der kleine Geisterjäger / Der weltbeste Detektiv",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7uCBJhL6XHdIMKVfMMCoPI",
+        "include": true,
+        "episode_num": 8,
+        "title": "008/Der verlorene Schlüssel/Die geistreiche Geisterbahn",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6cqSJ9M3rvGDAvYB3KmALa",
+        "include": true,
+        "episode_num": 7,
+        "title": "007/Die geschrumpfte Hexe / Monster unter dem Bett?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1UPnh2ASrmzYBIok4eQIe8",
+        "include": true,
+        "episode_num": 6,
+        "title": "006/Verspuktes Weihnachten / Schreck zu Silvester",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0J7ZIK47nv24HWDt0nnPv2",
+        "include": true,
+        "episode_num": 5,
+        "title": "005/Schatzjagd im Museum / Magische Meisterschaft",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6clL0UIKJBW4jSi0ABL4Bb",
+        "include": true,
+        "episode_num": 4,
+        "title": "004/Der blubbernde Brotteig/Alarm in der Geheimzentrale",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "15yvR5VTMofEujK2Q2itI9",
+        "include": true,
+        "episode_num": 3,
+        "title": "003/Die wilde Koboldjagd/Der fluchende Papagei",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7bw5jglJ7loXOhSv4Hu2Xe",
+        "include": true,
+        "episode_num": 2,
+        "title": "002/Hui Buh und seine Rasselkette/Halloween-Party",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2UmBBDJFEUnyOJ4JHb10uE",
+        "include": true,
+        "episode_num": 1,
+        "title": "001/Die verschwundene Stunde/Sven will zur Feuerwehr",
+        "exclude_reason": null
+      }
+    ],
+    "age_note": "Suitable from 5+",
+    "curator_notes": "Spinoff/prequel to 'Hui Buh, das Schlossgespenst'. Episode numbering format changed from 'NNN/' prefix (episodes 1-20) to 'Folge N:' format (episodes 21+). All 44 story episodes included; ASMR soundscape release excluded."
+  }
+}

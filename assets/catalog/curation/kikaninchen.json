@@ -1,0 +1,523 @@
+{
+  "query": "Kikaninchen",
+  "model": "kimi-k2.5",
+  "curated_at": "2026-02-20T23:59:41.767723+00:00",
+  "series": {
+    "id": "kikaninchen",
+    "title": "Kikaninchen",
+    "aliases": [],
+    "keywords": [],
+    "spotify_artist_ids": [
+      "0QOJGCTrdDQS6Qz9dsvies"
+    ],
+    "episode_pattern": null,
+    "albums": [
+      {
+        "spotify_album_id": "0WVwwMzM3cAM7hvrN1wRZi",
+        "include": false,
+        "episode_num": null,
+        "title": "02: Mein Geschichtenkissen! Mehr lustige Hörspiele",
+        "exclude_reason": "Kurzhörspiele - short story collection without episode numbers, not serialized episodes"
+      },
+      {
+        "spotify_album_id": "1Oaegae5n9x5W5TFOigXOJ",
+        "include": false,
+        "episode_num": null,
+        "title": "Kikaninchen Party Mix! (Instrumentals)",
+        "exclude_reason": "Music album - instrumental songs, not Hörspiel"
+      },
+      {
+        "spotify_album_id": "3RaeuzdeKE0XfGnSkJX6JP",
+        "include": false,
+        "episode_num": null,
+        "title": "Kikaninchen Party Mix!",
+        "exclude_reason": "Music album - song remixes, not Hörspiel"
+      },
+      {
+        "spotify_album_id": "2SzNx4uJq0rrXePKKfSLpz",
+        "include": false,
+        "episode_num": null,
+        "title": "Die Mischung macht's! Das 4. Album",
+        "exclude_reason": "Music album - children's songs, not Hörspiel"
+      },
+      {
+        "spotify_album_id": "4KcPjlVMPi0qzbH7HXRTJr",
+        "include": false,
+        "episode_num": null,
+        "title": "Die Welt ist bunt!",
+        "exclude_reason": "Music album - children's songs, not Hörspiel"
+      },
+      {
+        "spotify_album_id": "5ovLo8jvg2X3dPoQsM4sNc",
+        "include": false,
+        "episode_num": null,
+        "title": "01: Mein Geschichtenkissen! 10 lustige Hörspiele",
+        "exclude_reason": "Kurzhörspiele - short story collection without episode numbers, not serialized episodes"
+      },
+      {
+        "spotify_album_id": "0wAtIEjr3t6IUCdDxxR6RF",
+        "include": false,
+        "episode_num": null,
+        "title": "Wir tanzen, spielen, singen Lieder! - Das 2. Album",
+        "exclude_reason": "Music album - children's songs, not Hörspiel"
+      },
+      {
+        "spotify_album_id": "3XGodaK7gDSCt7MoYKb20y",
+        "include": false,
+        "episode_num": null,
+        "title": "Dibedibedab!",
+        "exclude_reason": "Music album - children's songs, not Hörspiel"
+      },
+      {
+        "spotify_album_id": "1IkegOqvSrR3ik693R06Fe",
+        "include": false,
+        "episode_num": null,
+        "title": "Ich muss los",
+        "exclude_reason": "Single - song release, not Hörspiel"
+      },
+      {
+        "spotify_album_id": "34bpj9Ne9z4DnTzmi7Ijq4",
+        "include": false,
+        "episode_num": null,
+        "title": "Komm mit ans Meer",
+        "exclude_reason": "Single - song release, not Hörspiel"
+      },
+      {
+        "spotify_album_id": "6ZtCoyBN7DFELAOTDpkkYm",
+        "include": false,
+        "episode_num": null,
+        "title": "Viel Geburtstag zum Glück",
+        "exclude_reason": "Single - song release, not Hörspiel"
+      },
+      {
+        "spotify_album_id": "6iYLXPUm3AuZJY04SsvCvl",
+        "include": false,
+        "episode_num": null,
+        "title": "Mutmachlied - Ich hab keine Angst",
+        "exclude_reason": "Single - song release, not Hörspiel"
+      },
+      {
+        "spotify_album_id": "7fi9obzUOWBqN1rMIf47qa",
+        "include": false,
+        "episode_num": null,
+        "title": "Der Bestimmer & Trotzlied",
+        "exclude_reason": "Single - song release, not Hörspiel"
+      },
+      {
+        "spotify_album_id": "1S0q8v2gauobfbyWFn8S3l",
+        "include": false,
+        "episode_num": null,
+        "title": "Händewaschlied & Gesund und munter",
+        "exclude_reason": "Single - song release, not Hörspiel"
+      },
+      {
+        "spotify_album_id": "74sFy5LZoqhhx4SgV6PETh",
+        "include": false,
+        "episode_num": null,
+        "title": "Weihnachtszauber & Weihnachtsbäckerin",
+        "exclude_reason": "Single - song release, not Hörspiel"
+      },
+      {
+        "spotify_album_id": "7aAF5jigHlkMMgp9riwvUc",
+        "include": false,
+        "episode_num": null,
+        "title": "Party (Discokugel-Mix)",
+        "exclude_reason": "Single - song release, not Hörspiel"
+      },
+      {
+        "spotify_album_id": "5QJNF0VpKESRLIOzwnS9Dj",
+        "include": false,
+        "episode_num": null,
+        "title": "2000er Kinderlieder",
+        "exclude_reason": "Compilation - various artists song collection"
+      },
+      {
+        "spotify_album_id": "4bCmYIzlX9z5kLOduax442",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinder Party Silvester",
+        "exclude_reason": "Compilation - various artists song collection"
+      },
+      {
+        "spotify_album_id": "7iUivI2kXhdDgkh3YqmFW9",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderfasching 2024/2025",
+        "exclude_reason": "Compilation - various artists song collection"
+      },
+      {
+        "spotify_album_id": "4uG1ldCsAls8XCUwc6RqjN",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderlieder Haustiere",
+        "exclude_reason": "Compilation - various artists song collection"
+      },
+      {
+        "spotify_album_id": "3lXAfLPV773iZuvDrOgt4J",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderlieder für Weihnachten",
+        "exclude_reason": "Compilation - various artists song collection"
+      },
+      {
+        "spotify_album_id": "1wAZV90RKoldQA0onHAUnN",
+        "include": false,
+        "episode_num": null,
+        "title": "Ballermann Hits für Kinder",
+        "exclude_reason": "Compilation - various artists song collection"
+      },
+      {
+        "spotify_album_id": "4MpPn0EmkYtMeSZMYB0hzA",
+        "include": false,
+        "episode_num": null,
+        "title": "Halloweenlieder für Kinder",
+        "exclude_reason": "Compilation - various artists song collection"
+      },
+      {
+        "spotify_album_id": "3EaNDv7HIvbnhwe3iQYKWr",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderhits",
+        "exclude_reason": "Compilation - various artists song collection"
+      },
+      {
+        "spotify_album_id": "5lU9vjSzaHKNgoXu39lkvU",
+        "include": false,
+        "episode_num": null,
+        "title": "Weltraum & Universum Kinderlieder",
+        "exclude_reason": "Compilation - various artists song collection"
+      },
+      {
+        "spotify_album_id": "6wT8kqjYsQJH1n4c4NgpxL",
+        "include": false,
+        "episode_num": null,
+        "title": "Eules Lieblingslieder zum Einschlafen",
+        "exclude_reason": "Compilation - various artists song collection"
+      },
+      {
+        "spotify_album_id": "44JnsXPxNwNotZD68sdj3h",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderlieder Basteln und Malen",
+        "exclude_reason": "Compilation - various artists song collection"
+      },
+      {
+        "spotify_album_id": "0wnK5nCPPJloiVFjQZ7ulz",
+        "include": false,
+        "episode_num": null,
+        "title": "Badelieder für Kinder",
+        "exclude_reason": "Compilation - various artists song collection"
+      },
+      {
+        "spotify_album_id": "5UF3Y76JnlLjTMlnP5VPBC",
+        "include": false,
+        "episode_num": null,
+        "title": "Die schönsten Kinderlieder - Aus dem Kindergarten",
+        "exclude_reason": "Compilation - various artists song collection"
+      },
+      {
+        "spotify_album_id": "0C7ehYm80OmfqpGWEDb0UG",
+        "include": false,
+        "episode_num": null,
+        "title": "Coole Musik für Kinder",
+        "exclude_reason": "Compilation - various artists song collection"
+      },
+      {
+        "spotify_album_id": "5Glhu7GcVwFNX0iHbANP8w",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderdisco, Kinderparty, Kinder Tanzmusik",
+        "exclude_reason": "Compilation - various artists song collection"
+      },
+      {
+        "spotify_album_id": "1EIdGx6IbW9OQrNww5NUwn",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderlieder Bettfertig machen",
+        "exclude_reason": "Compilation - various artists song collection"
+      },
+      {
+        "spotify_album_id": "3lY99ZhnZRner6YbYTlFti",
+        "include": false,
+        "episode_num": null,
+        "title": "Kindergeburtstag",
+        "exclude_reason": "Compilation - various artists song collection"
+      },
+      {
+        "spotify_album_id": "0xFBe0ueeTXhVYYzOv3MGm",
+        "include": false,
+        "episode_num": null,
+        "title": "Krankheit Kinderlieder - Gute Besserung!",
+        "exclude_reason": "Compilation - various artists song collection"
+      },
+      {
+        "spotify_album_id": "2f333YIjypEgyadvS64yAD",
+        "include": false,
+        "episode_num": null,
+        "title": "Kindergeburtstag 2025",
+        "exclude_reason": "Compilation - various artists song collection"
+      },
+      {
+        "spotify_album_id": "1WIPEWHBNBRN6f6haQkvpA",
+        "include": false,
+        "episode_num": null,
+        "title": "Die schönsten Kinderlieder - Zum Spielen und Bewegen",
+        "exclude_reason": "Compilation - various artists song collection"
+      },
+      {
+        "spotify_album_id": "5KUILDW3d8J6I7vvU6A0xK",
+        "include": false,
+        "episode_num": null,
+        "title": "Pipi Kacka & Pupsen Kinderlieder",
+        "exclude_reason": "Compilation - various artists song collection"
+      },
+      {
+        "spotify_album_id": "34R8vEsRc80sSjYBr9nX7o",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderlieder zum Mitmachen",
+        "exclude_reason": "Compilation - various artists song collection"
+      },
+      {
+        "spotify_album_id": "0tvP7yvN7x4ZBOCR9DBZhe",
+        "include": false,
+        "episode_num": null,
+        "title": "Musik aus Kinderserien und Kinderfilmen",
+        "exclude_reason": "Compilation - various artists song collection"
+      },
+      {
+        "spotify_album_id": "2JqTmyGHMpfutXxBEjHpTj",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Kinder",
+        "exclude_reason": "Compilation - various artists song collection"
+      },
+      {
+        "spotify_album_id": "7iBE1j3WYZJm0KJXWhARpI",
+        "include": false,
+        "episode_num": null,
+        "title": "Kindergarten Klassiker",
+        "exclude_reason": "Compilation - various artists song collection"
+      },
+      {
+        "spotify_album_id": "7IM4wT3Lo3aM8FSlCzDjl3",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderturnen Lieder",
+        "exclude_reason": "Compilation - various artists song collection"
+      },
+      {
+        "spotify_album_id": "3UDWuvmJEkDruudYxOnKjj",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderlieder Dinos & Reptilien",
+        "exclude_reason": "Compilation - various artists song collection"
+      },
+      {
+        "spotify_album_id": "5Exe4EisVEoiW5SkCy9DEm",
+        "include": false,
+        "episode_num": null,
+        "title": "Schulstart Kindermusik 2024",
+        "exclude_reason": "Compilation - various artists song collection"
+      },
+      {
+        "spotify_album_id": "5yvRNsDHwykuh3SGVMD3ll",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderlieder zum Einschlafen",
+        "exclude_reason": "Compilation - various artists song collection"
+      },
+      {
+        "spotify_album_id": "64i398RejmDP7tmsEHjoVc",
+        "include": false,
+        "episode_num": null,
+        "title": "Die schönsten Kinderlieder - Zum Mitsingen",
+        "exclude_reason": "Compilation - various artists song collection"
+      },
+      {
+        "spotify_album_id": "4mn7AjePRGuyHZhcYIMTxK",
+        "include": false,
+        "episode_num": null,
+        "title": "Ostern Kinderlieder",
+        "exclude_reason": "Compilation - various artists song collection"
+      },
+      {
+        "spotify_album_id": "6k8nU0I0c3aawfYfwKulCV",
+        "include": false,
+        "episode_num": null,
+        "title": "Töpfchen, Pipi & Kacka Kindermusik",
+        "exclude_reason": "Compilation - various artists song collection"
+      },
+      {
+        "spotify_album_id": "28G0rDtcOWe4TTQm4OvOti",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderlieder Herbstmusik",
+        "exclude_reason": "Compilation - various artists song collection"
+      },
+      {
+        "spotify_album_id": "46EWNig7maCWoC4iiwYyfw",
+        "include": false,
+        "episode_num": null,
+        "title": "Karneval Hits für Kinder",
+        "exclude_reason": "Compilation - various artists song collection"
+      },
+      {
+        "spotify_album_id": "2qZnBoxoe9wrglwG9QuIQ6",
+        "include": false,
+        "episode_num": null,
+        "title": "Kindergeburtstag",
+        "exclude_reason": "Compilation - various artists song collection"
+      },
+      {
+        "spotify_album_id": "3EalTkxa8eG1UrKiSGwV3i",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderlieder zum Trösten",
+        "exclude_reason": "Compilation - various artists song collection"
+      },
+      {
+        "spotify_album_id": "64gk4uyYZfQmNZRYnhtS6n",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderlieder Kita Hits",
+        "exclude_reason": "Compilation - various artists song collection"
+      },
+      {
+        "spotify_album_id": "2Asl0maJNkueD2rta2pN2P",
+        "include": false,
+        "episode_num": null,
+        "title": "Die schönsten Kinderlieder - Zum Tanzen",
+        "exclude_reason": "Compilation - various artists song collection"
+      },
+      {
+        "spotify_album_id": "4sz93MNb9vBs3bfEnfLVjL",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderlieder Ostern 2025",
+        "exclude_reason": "Compilation - various artists song collection"
+      },
+      {
+        "spotify_album_id": "3F4mSG7LuahTFPrLJw04r2",
+        "include": false,
+        "episode_num": null,
+        "title": "Sommer Hits 2025 für Kinder",
+        "exclude_reason": "Compilation - various artists song collection"
+      },
+      {
+        "spotify_album_id": "7lZCbY0MEq6Xid98rlMGHR",
+        "include": false,
+        "episode_num": null,
+        "title": "Osterlieder für Kinder 2022",
+        "exclude_reason": "Compilation - various artists song collection"
+      },
+      {
+        "spotify_album_id": "103EXochAKZq2sqqPTwI6s",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderlieder für Zuhause",
+        "exclude_reason": "Compilation - various artists song collection"
+      },
+      {
+        "spotify_album_id": "5PR6eOfa1KpZRcWIMSt3CU",
+        "include": false,
+        "episode_num": null,
+        "title": "Tierlieder für Kinder - Karussell",
+        "exclude_reason": "Compilation - various artists song collection"
+      },
+      {
+        "spotify_album_id": "2tSo78B9hkFJNd10lo7hno",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderlieder Jahreszeiten",
+        "exclude_reason": "Compilation - various artists song collection"
+      },
+      {
+        "spotify_album_id": "2o1qrBcT658xd9cpQ5vg6e",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderlieder Halloween 2025",
+        "exclude_reason": "Compilation - various artists song collection"
+      },
+      {
+        "spotify_album_id": "4lpEBRYp9HnTCKhbRJJCY7",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderlieder Halloween Hits",
+        "exclude_reason": "Compilation - various artists song collection"
+      },
+      {
+        "spotify_album_id": "5NtEPsly9XFpqVZwdVmAbo",
+        "include": false,
+        "episode_num": null,
+        "title": "Lustige Tierlieder",
+        "exclude_reason": "Compilation - various artists song collection"
+      },
+      {
+        "spotify_album_id": "79aqRrTYyyYMxcEEEBTK4K",
+        "include": false,
+        "episode_num": null,
+        "title": "2000er Kinder Hits",
+        "exclude_reason": "Compilation - various artists song collection"
+      },
+      {
+        "spotify_album_id": "7GhR70PPbpO5aK5zr3Cxb9",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderlieder Laternenumzug",
+        "exclude_reason": "Compilation - various artists song collection"
+      },
+      {
+        "spotify_album_id": "1ao7z6aiAhXi6QlGjscYGB",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderlieder Laterne Laufen",
+        "exclude_reason": "Compilation - various artists song collection"
+      },
+      {
+        "spotify_album_id": "5wYrVlsoxHIwvFJdST6iYA",
+        "include": false,
+        "episode_num": null,
+        "title": "60 Minuten Kinderturnen",
+        "exclude_reason": "Compilation - various artists song collection"
+      },
+      {
+        "spotify_album_id": "2hQsP1oSVdV4PppfnpdQUj",
+        "include": false,
+        "episode_num": null,
+        "title": "TOP 30 Kinder Mitmachlieder",
+        "exclude_reason": "Compilation - various artists song collection"
+      },
+      {
+        "spotify_album_id": "2SGkwF7zBCMA2fdE3hL1cL",
+        "include": false,
+        "episode_num": null,
+        "title": "Zähneputzen Kinderlieder - Karussell",
+        "exclude_reason": "Compilation - various artists song collection"
+      },
+      {
+        "spotify_album_id": "1KhueBlNWU5jncA8PNcdmU",
+        "include": false,
+        "episode_num": null,
+        "title": "Zähneputzen Kindermusik",
+        "exclude_reason": "Compilation - various artists song collection"
+      },
+      {
+        "spotify_album_id": "3LMyE3ScrNlCzZ2LLUgCDl",
+        "include": false,
+        "episode_num": null,
+        "title": "Prinzessinnen Lieder",
+        "exclude_reason": "Compilation - various artists song collection"
+      },
+      {
+        "spotify_album_id": "30B7ctJLIM08X0H8OTHqZU",
+        "include": false,
+        "episode_num": null,
+        "title": "Fußball Songs für Kinder",
+        "exclude_reason": "Compilation - various artists song collection"
+      }
+    ],
+    "age_note": "Suitable from 3+",
+    "curator_notes": "IMPORTANT: Kikaninchen is NOT a traditional Hörspiel series with numbered episodes. It is a children's music character from German TV channel KiKA (Kinderkanal). The discography consists entirely of: (1) Original song albums (4 main albums: Dibedibedab!, Wir tanzen spielen singen Lieder, Die Welt ist bunt, Die Mischung macht's), (2) Two 'Mein Geschichtenkissen' collections containing 10-19 short stories (Kurzhörspiele) without episode numbers, and (3) Dozens of compilation albums featuring various artists. For a Hörspiel-focused player like lauschi, this series has no suitable content - there are no serialized Hörspiel episodes. The 'Geschichtenkissen' albums are the closest but are short story collections (3-8 min stories) rather than numbered episodes in a series."
+  }
+}

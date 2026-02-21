@@ -18,7 +18,6 @@ const _pendingVerifierKey = 'spotify_pending_verifier';
 const _pendingStateKey = 'spotify_pending_state';
 
 const _defaultStorage = FlutterSecureStorage(
-
   iOptions: IOSOptions(
     accessibility: KeychainAccessibility.first_unlock_this_device,
   ),

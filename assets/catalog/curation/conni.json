@@ -1,18 +1,19 @@
 {
-  "models": [
-    "kimi-k2.5",
-    "kimi-k2.5"
-  ],
-  "a": {
+  "query": "Conni",
+  "model": "kimi-k2.5",
+  "curated_at": "2026-02-21T00:10:51.978167+00:00",
+  "series": {
     "id": "conni",
     "title": "Conni",
-    "aliases": [],
+    "aliases": [
+      "Meine Freundin Conni"
+    ],
     "keywords": [
-      "conni"
+      "Conni",
+      "Meine Freundin Conni"
     ],
     "spotify_artist_ids": [
-      "0jRC2uXx4hEpqNrBDJdY7l",
-      "0HerMOOFZXxIF3Yg9BVl0W"
+      "0jRC2uXx4hEpqNrBDJdY7l"
     ],
     "episode_pattern": null,
     "albums": [
@@ -34,7 +35,7 @@
         "spotify_album_id": "4237MIZ5g9WgpccGcUZsJR",
         "include": true,
         "episode_num": null,
-        "title": "Conni und die Stecken-Ponys",
+        "title": "Conni und die Stecken-Ponys (Abenteuerspaß mit Conni)",
         "exclude_reason": null
       },
       {
@@ -55,21 +56,21 @@
         "spotify_album_id": "3L5aTC0QByzt577gJOQ2Vu",
         "include": true,
         "episode_num": null,
-        "title": "Conni und das Filmprojekt",
+        "title": "Conni und das Filmprojekt (Abenteuerspaß mit Conni)",
         "exclude_reason": null
       },
       {
         "spotify_album_id": "5xvFAhcAmSz5HI0mLN5Czb",
         "include": true,
         "episode_num": null,
-        "title": "Conni und der Segelausflug",
+        "title": "Conni und der Segelausflug (Abenteuerspaß mit Conni)",
         "exclude_reason": null
       },
       {
         "spotify_album_id": "5X3up0Wo8zzker74Yp8sGc",
         "include": true,
         "episode_num": null,
-        "title": "Conni im Ferienlager",
+        "title": "Conni im Ferienlager (Abenteuerspaß mit Conni)",
         "exclude_reason": null
       },
       {
@@ -130,17 +131,17 @@
       },
       {
         "spotify_album_id": "74jcsHGvfrzBOOq3YEXlje",
-        "include": false,
+        "include": true,
         "episode_num": null,
         "title": "Conni und die Gefühle - Wut, Trauer, Emotionen, Hörspiele ab 3",
-        "exclude_reason": "compilation"
+        "exclude_reason": null
       },
       {
         "spotify_album_id": "2zSws0RSXUEGGAI25n9ZLC",
         "include": false,
         "episode_num": null,
         "title": "Conni Pferdegeschichten - Tiere, Ponys, Hörspiele ab 5",
-        "exclude_reason": "compilation"
+        "exclude_reason": "Box set: Compilation of 4 pony-themed episodes (83 tracks)"
       },
       {
         "spotify_album_id": "2jOoq32zr0DQQKNAMzikwa",
@@ -237,15 +238,15 @@
         "spotify_album_id": "1gLDg8oM8htWRtvHCV6I6p",
         "include": false,
         "episode_num": null,
-        "title": "Der große Adventskalender",
-        "exclude_reason": "Adventskalender - 24-day countdown format"
+        "title": "Der große Adventskalender (Meine Freundin Conni - ab 6) [24 Tage mit Conni]",
+        "exclude_reason": "Box set: Advent calendar compilation with 24 chapters (51 tracks)"
       },
       {
         "spotify_album_id": "1sR881Q74a7AeBuWBuyqzJ",
-        "include": false,
+        "include": true,
         "episode_num": null,
         "title": "Conni kann nicht einschlafen / Conni macht das Seepferdchen (neu)",
-        "exclude_reason": "re-release - newer version exists elsewhere"
+        "exclude_reason": null
       },
       {
         "spotify_album_id": "1wbReKxgl64UkHW5NvPA9P",
@@ -256,10 +257,10 @@
       },
       {
         "spotify_album_id": "7EEQA8jYCeVlw1VpBd4AuO",
-        "include": false,
+        "include": true,
         "episode_num": null,
         "title": "Conni geht zum Kinderarzt (neu)/Conni besucht Oma und Opa",
-        "exclude_reason": "re-release - original versions exist"
+        "exclude_reason": null
       },
       {
         "spotify_album_id": "4wciXGoYzpa1ww7YHeY9cf",
@@ -270,10 +271,10 @@
       },
       {
         "spotify_album_id": "4pdsCieLNlgbOZjSj9RFkf",
-        "include": false,
+        "include": true,
         "episode_num": null,
         "title": "Conni kommt in die Schule (neu) / Conni backt Pfannkuchen",
-        "exclude_reason": "re-release - original version exists"
+        "exclude_reason": null
       },
       {
         "spotify_album_id": "28dCHB6cb4qO4sq8CxPXCO",
@@ -291,10 +292,10 @@
       },
       {
         "spotify_album_id": "7k5CN9iWpWDryol1Ly2K2l",
-        "include": false,
+        "include": true,
         "episode_num": null,
         "title": "Conni kommt in den Kindergarten (neu) / Conni geht aufs Töpfchen",
-        "exclude_reason": "re-release - original version exists"
+        "exclude_reason": null
       },
       {
         "spotify_album_id": "5QXDGFK88eka7M0Kz17WcW",
@@ -308,7 +309,7 @@
         "include": false,
         "episode_num": null,
         "title": "Conni & Co 2 - Das Geheimnis des T-Rex - Das Original-Hörspiel zum Kinofilm",
-        "exclude_reason": "spinoff series - Conni & Co is a separate series for older kids"
+        "exclude_reason": "Spinoff: Movie tie-in from the Conni & Co film series (different artist curated separately)"
       },
       {
         "spotify_album_id": "4c2D6uwta4L4Sz9iHYKP23",
@@ -329,7 +330,7 @@
         "include": false,
         "episode_num": null,
         "title": "Conni & Co - Das Original-Hörspiel zum Kinofilm",
-        "exclude_reason": "spinoff series - Conni & Co is a separate series for older kids"
+        "exclude_reason": "Spinoff: Movie tie-in from the Conni & Co film series (different artist curated separately)"
       },
       {
         "spotify_album_id": "2WIMJaF4y9bC6YbwHLpiaN",
@@ -659,969 +660,9 @@
         "episode_num": null,
         "title": "Conni feiert Weihnachten / Conni fährt Ski",
         "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "7fri4wnVnvvPw9s4wgauYK",
-        "include": false,
-        "episode_num": null,
-        "title": "Abenteuerspaß mit Conni (Intro / Radio Edit)",
-        "exclude_reason": "single/radio edit - not a full episode"
-      },
-      {
-        "spotify_album_id": "6PQ5wA9fjtJlZWJtHvmaPG",
-        "include": false,
-        "episode_num": null,
-        "title": "Connis bunter Adventskalender",
-        "exclude_reason": "Adventskalender - 24-day countdown format"
-      },
-      {
-        "spotify_album_id": "4gmnIveXdaKc10YQDlIPtE",
-        "include": false,
-        "episode_num": null,
-        "title": "Meine Freundin Conni - Connis neuer Adventskalender",
-        "exclude_reason": "Adventskalender - 24-day countdown format"
-      },
-      {
-        "spotify_album_id": "77Pk8wTrRgF2O1K3YLqyMW",
-        "include": false,
-        "episode_num": null,
-        "title": "Conni macht Mut in Zeiten von Corona",
-        "exclude_reason": "special one-off release - pandemic themed"
-      },
-      {
-        "spotify_album_id": "1ka0WcZa7nzi002PmkmXuU",
-        "include": false,
-        "episode_num": null,
-        "title": "Connis großer Adventskalender",
-        "exclude_reason": "Adventskalender - 24-day countdown format"
-      },
-      {
-        "spotify_album_id": "2hYa0yhcMJKFKulcR4tbHM",
-        "include": false,
-        "episode_num": null,
-        "title": "Geheimnis um Kater Mau - Hörspiel zum Kinofilm",
-        "exclude_reason": "movie tie-in - different format/label"
-      },
-      {
-        "spotify_album_id": "3wz17ZY7Jal2s37fh4Ymnj",
-        "include": false,
-        "episode_num": null,
-        "title": "Sing' mit Conni!",
-        "exclude_reason": "music/sing-album - not a Hörspiel"
-      },
-      {
-        "spotify_album_id": "6NA30cusjh4rD41CgW5vJp",
-        "include": false,
-        "episode_num": null,
-        "title": "10: Conni im Advent / Conni fährt Schlittschuh / Conni lässt Drachen steigen / Conni und der fiese Schnupfen (Vier Hörspiele zur TV-Serie)",
-        "exclude_reason": "TV series compilation - 4 episodes in one"
-      },
-      {
-        "spotify_album_id": "6XjK6aOYmvosQIFH5gvtBx",
-        "include": false,
-        "episode_num": null,
-        "title": "09: Conni und der Hundebesuch / Conni wird Clown / Conni feiert Fasching / Conni und der Dreck-weg-Tag (Vier Hörspiele zur TV-Serie)",
-        "exclude_reason": "TV series compilation - 4 episodes in one"
-      },
-      {
-        "spotify_album_id": "4YXrojnF0rcPIRZZW9ulIv",
-        "include": false,
-        "episode_num": null,
-        "title": "08: Conni übernachtet bei Julia / Conni geht nicht mit Fremden mit / Conni auf der Baustelle / Conni macht Flohmarkt (Vier Hörspiele zur TV-Serie)",
-        "exclude_reason": "TV series compilation - 4 episodes in one"
-      },
-      {
-        "spotify_album_id": "1lixrGKO2AL3rj9cPdz9yY",
-        "include": false,
-        "episode_num": null,
-        "title": "07: Conni beim Frisör / Conni auf Waldsafari / Conni auf der Burg / Conni und das Froschkonzert (Vier Hörspiele zur TV-Serie)",
-        "exclude_reason": "TV series compilation - 4 episodes in one"
-      },
-      {
-        "spotify_album_id": "4Lb4xi9uAhIIx12OP6tFQb",
-        "include": false,
-        "episode_num": null,
-        "title": "Connis Lieblingswitze: Lachen, bis die Streifen wackeln",
-        "exclude_reason": "joke book - not a Hörspiel episode"
-      },
-      {
-        "spotify_album_id": "1W6W3lzAROoVfrWLCI3bkI",
-        "include": false,
-        "episode_num": null,
-        "title": "06: Conni lernt reiten / Conni am Strand / Conni in den Bergen / Conni macht Musik (Vier Hörspiele zur TV-Serie)",
-        "exclude_reason": "TV series compilation - 4 episodes in one"
-      },
-      {
-        "spotify_album_id": "3PbhJbzYqlWkjlCF7yv2DV",
-        "include": false,
-        "episode_num": null,
-        "title": "05: Conni fährt Ski / Conni und der Osterhase / Conni geht zum Kinderarzt / Conni spielt Fußball (Vier Hörspiele zur TV-Serie)",
-        "exclude_reason": "TV series compilation - 4 episodes in one"
-      },
-      {
-        "spotify_album_id": "35I8KIdJsStUqtbbDR0uUe",
-        "include": false,
-        "episode_num": null,
-        "title": "04: Conni hat Geburtstag / Conni backt Pizza / Conni geht in den Zoo / Conni geht verloren (Vier Hörspiele zur TV-Serie)",
-        "exclude_reason": "TV series compilation - 4 episodes in one"
-      },
-      {
-        "spotify_album_id": "3626UDwiaF1YhpqqSn1Deh",
-        "include": false,
-        "episode_num": null,
-        "title": "03: Conni tanzt / Conni lernt die Uhrzeit / Conni lernt Rad fahren / Conni lernt backen (Vier Hörspiele zur TV-Serie)",
-        "exclude_reason": "TV series compilation - 4 episodes in one"
-      },
-      {
-        "spotify_album_id": "4TFu59xSkMtgXQwtcpPOtk",
-        "include": false,
-        "episode_num": null,
-        "title": "02: Conni auf dem Bauernhof / Conni schläft im Kindergarten / Conni geht zum Zahnarzt / Connis erster Flug (Vier Hörspiele zur TV-Serie)",
-        "exclude_reason": "TV series compilation - 4 episodes in one"
-      },
-      {
-        "spotify_album_id": "0IhcdN1UcvPR3TXSSmN6tZ",
-        "include": false,
-        "episode_num": null,
-        "title": "01: Conni zieht um / Conni bekommt eine Katze / Conni macht das Seepferdchen / Conni geht zelten (Vier Hörspiele zur TV-Serie)",
-        "exclude_reason": "TV series compilation - 4 episodes in one"
-      },
-      {
-        "spotify_album_id": "6ldqnwRlLHxc5qAUCfLm2P",
-        "include": false,
-        "episode_num": null,
-        "title": "Hier kommt Conni!",
-        "exclude_reason": "song collection - not a Hörspiel"
       }
     ],
-    "curator_notes": "Conni is a unique series that does not use numbered episodes. Instead, each release is a named story (e.g., 'Conni feiert Geburtstag'). Albums typically contain 1-2 complete stories.\n\nKey exclusions:\n1. Adventskalender (Christmas countdown audiobooks with 40+ tracks)\n2. TV series compilations labeled 'Vier Hörspiele zur TV-Serie' - these are TV episode collections, not the original book-based Hörspiele\n3. Conni & Co spinoff series (separate artist - movie tie-ins for older kids)\n4. 'Neu' re-releases - newer versions of classic episodes that already exist in the catalog\n5. Compilations like 'Conni Pferdegeschichten' and 'Conni und die Gefühle'\n6. Special releases: joke book, sing-along album, pandemic special, movie tie-ins\n\nThe series spans from 2002 to 2026 with consistent format: individual story releases with episode titles rather than numbers. Main artist 'Conni' (0jRC2uXx4hEpqNrBDJdY7l) is primary, with 'Meine Freundin Conni' (0HerMOOFZXxIF3Yg9BVl0W) containing related but distinct content (TV compilations, special releases)."
-  },
-  "b": {
-    "id": "conni",
-    "title": "Conni",
-    "aliases": [
-      "Meine Freundin Conni"
-    ],
-    "keywords": [
-      "conni"
-    ],
-    "spotify_artist_ids": [
-      "0jRC2uXx4hEpqNrBDJdY7l",
-      "0HerMOOFZXxIF3Yg9BVl0W",
-      "67lx3bWESrs7ijsD1KGpND"
-    ],
-    "episode_pattern": null,
-    "albums": [
-      {
-        "spotify_album_id": "2WDjf0PzITBCuoEsY2xIUC",
-        "include": true,
-        "episode_num": null,
-        "title": "Conni sagt Stopp! / Ein Tag in der Schule",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "2Zjjj73OxxEl4DmzgRq11J",
-        "include": true,
-        "episode_num": null,
-        "title": "Conni und der neue Lehrer",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "4237MIZ5g9WgpccGcUZsJR",
-        "include": true,
-        "episode_num": null,
-        "title": "Conni und die Stecken-Ponys",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "4ElLuCLd9TsZBn4umPSAhh",
-        "include": true,
-        "episode_num": null,
-        "title": "Conni und das Fußballcamp",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "52uyq2UDlvzQFRKfIOW1Yg",
-        "include": true,
-        "episode_num": null,
-        "title": "Klar kann Conni das! / Conni lernt teilen, vertrauen und sich vertragen",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "3L5aTC0QByzt577gJOQ2Vu",
-        "include": true,
-        "episode_num": null,
-        "title": "Conni und das Filmprojekt",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "5xvFAhcAmSz5HI0mLN5Czb",
-        "include": true,
-        "episode_num": null,
-        "title": "Conni und der Segelausflug",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "5X3up0Wo8zzker74Yp8sGc",
-        "include": true,
-        "episode_num": null,
-        "title": "Conni im Ferienlager",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "0DUEOkW7SljUOcb3JFX9ce",
-        "include": true,
-        "episode_num": null,
-        "title": "Conni und der beste Spürhund der Welt",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "4Cs7KoZs3KqwJRWN7Yzq7C",
-        "include": true,
-        "episode_num": null,
-        "title": "Conni und der Weltkindertag / Conni in der Verkehrsschule",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "2jS07C2ZHnkonYyJu8Z4Qe",
-        "include": true,
-        "episode_num": null,
-        "title": "Conni und das Abenteuer in der Wildnis",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "3gjO1rpjBZKESAipgCyV7y",
-        "include": true,
-        "episode_num": null,
-        "title": "Conni und ihr kleiner Bruder / Unser Körper",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "1fE3BDdcwmRHVWexhv6w64",
-        "include": true,
-        "episode_num": null,
-        "title": "Weihnachten mit Conni",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "6wumMrm3pGPUEhaCBBn9BE",
-        "include": true,
-        "episode_num": null,
-        "title": "Conni macht Geschenke / Conni erlebt die Jahreszeiten",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "1ZuSmHKzZWJwxNN8RgQCCd",
-        "include": true,
-        "episode_num": null,
-        "title": "Conni und die wilden Pferde",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "0fADlaJbXr3szYriJmYDuT",
-        "include": true,
-        "episode_num": null,
-        "title": "Conni und das geklaute Kaninchen",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "74jcsHGvfrzBOOq3YEXlje",
-        "include": true,
-        "episode_num": null,
-        "title": "Conni und die Gefühle - Wut, Trauer, Emotionen",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "2zSws0RSXUEGGAI25n9ZLC",
-        "include": false,
-        "episode_num": null,
-        "title": "Conni Pferdegeschichten",
-        "exclude_reason": "compilation"
-      },
-      {
-        "spotify_album_id": "2jOoq32zr0DQQKNAMzikwa",
-        "include": true,
-        "episode_num": null,
-        "title": "Conni im Sommer / Conni zieht um",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "1JjdVw2Cr9L95pm1bWHu3L",
-        "include": true,
-        "episode_num": null,
-        "title": "Conni und die Jungs in geheimer Mission",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "6ogxxoxP612Vgw0esx4yGI",
-        "include": true,
-        "episode_num": null,
-        "title": "Conni und das Hausboot-Abenteuer",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "6JKZNohHLo2xRaGJIuIWzz",
-        "include": true,
-        "episode_num": null,
-        "title": "Conni traut sich was / Conni bastelt für ihre Freunde / Connis Weihnachtsbäckerei",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "3k9DsmXi1WIQnHXE0scKeI",
-        "include": true,
-        "episode_num": null,
-        "title": "Conni und die Ponyspiele",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "79Gdn1l8jneDVEsfZWa25K",
-        "include": true,
-        "episode_num": null,
-        "title": "Conni kümmert sich um die Umwelt / Conni entdeckt die Bücher",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "3zBN5XO9sO1LzBbZBJl46L",
-        "include": true,
-        "episode_num": null,
-        "title": "Conni und der zauberhafte Schulzirkus",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "6ImzUlpz1RpGf2esnvREdR",
-        "include": true,
-        "episode_num": null,
-        "title": "Conni hat Kummer / Conni lernt die Uhrzeit",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "7kJrUS6nYFlgghJLOVpLhl",
-        "include": true,
-        "episode_num": null,
-        "title": "Conni und der Nikolaus / Conni im Schnee",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "15U5OqpCkT0yinVTiQloa7",
-        "include": true,
-        "episode_num": null,
-        "title": "Conni geht auf Schatzsuche",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "4aHq7p3puiQ6nhjbi8rKsr",
-        "include": true,
-        "episode_num": null,
-        "title": "Conni und das Baumhaus",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "6YsKPmCJQXbXhlQjB4FyAH",
-        "include": true,
-        "episode_num": null,
-        "title": "Conni geht zum Kinderturnen / Conni und der Wackelzahn",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "4v9KmXCKuj7wfhaKIKyXbq",
-        "include": true,
-        "episode_num": null,
-        "title": "Conni und die Ponys im Schnee",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "1gLDg8oM8htWRtvHCV6I6p",
-        "include": false,
-        "episode_num": null,
-        "title": "Der große Adventskalender",
-        "exclude_reason": "compilation"
-      },
-      {
-        "spotify_album_id": "1sR881Q74a7AeBuWBuyqzJ",
-        "include": true,
-        "episode_num": null,
-        "title": "Conni kann nicht einschlafen / Conni macht das Seepferdchen",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "1wbReKxgl64UkHW5NvPA9P",
-        "include": true,
-        "episode_num": null,
-        "title": "Conni und die Reise ans Meer",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "7EEQA8jYCeVlw1VpBd4AuO",
-        "include": true,
-        "episode_num": null,
-        "title": "Conni geht zum Kinderarzt / Conni besucht Oma und Opa",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "4wciXGoYzpa1ww7YHeY9cf",
-        "include": true,
-        "episode_num": null,
-        "title": "Conni und die Nacht im Museum",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "4pdsCieLNlgbOZjSj9RFkf",
-        "include": true,
-        "episode_num": null,
-        "title": "Conni kommt in die Schule / Conni backt Pfannkuchen",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "28dCHB6cb4qO4sq8CxPXCO",
-        "include": true,
-        "episode_num": null,
-        "title": "Conni und die Nixen",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "0GzYF1VmHG0WRZHtqIKzRh",
-        "include": true,
-        "episode_num": null,
-        "title": "Conni und das große Bergabenteuer",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "7k5CN9iWpWDryol1Ly2K2l",
-        "include": true,
-        "episode_num": null,
-        "title": "Conni kommt in den Kindergarten / Conni geht aufs Töpfchen",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "5QXDGFK88eka7M0Kz17WcW",
-        "include": true,
-        "episode_num": null,
-        "title": "Conni geht zur Zahnärztin / Conni ist wütend",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "5UX4VwXIZXBXRAqhIJoniL",
-        "include": false,
-        "episode_num": null,
-        "title": "Conni & Co 2 - Das Geheimnis des T-Rex",
-        "exclude_reason": "spinoff"
-      },
-      {
-        "spotify_album_id": "4c2D6uwta4L4Sz9iHYKP23",
-        "include": true,
-        "episode_num": null,
-        "title": "Conni hilft Papa / Conni streitet sich mit Julia",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "5jX9DhZywmVK1O0xDNGb4M",
-        "include": true,
-        "episode_num": null,
-        "title": "Conni und die Katzenliebe",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "4NZQhiCZxqI4fkeyUkLxrZ",
-        "include": false,
-        "episode_num": null,
-        "title": "Conni & Co - Das Original-Hörspiel zum Kinofilm",
-        "exclude_reason": "spinoff"
-      },
-      {
-        "spotify_album_id": "2WIMJaF4y9bC6YbwHLpiaN",
-        "include": true,
-        "episode_num": null,
-        "title": "Conni und das Ponyabenteuer",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "4MeMBjjwZSdgxYIw4fVAGE",
-        "include": true,
-        "episode_num": null,
-        "title": "Conni löst einen kniffligen Fall",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "6bZnwwe52KE9uDlVNQhnyz",
-        "include": true,
-        "episode_num": null,
-        "title": "Conni geht einkaufen / Conni und der Läusealarm",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "397ZOD1pfFtqshQxQu50Ez",
-        "include": true,
-        "episode_num": null,
-        "title": "Conni und das Familienfest",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "0iBRIlra70CvpZqAWLy6f3",
-        "include": true,
-        "episode_num": null,
-        "title": "Conni geht zum Film",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "41dBKxUELeeAjjjkOiBWG3",
-        "include": true,
-        "episode_num": null,
-        "title": "Conni und die wilden Tiere",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "4LPNAlDbVNqq85GZhZfWvZ",
-        "include": true,
-        "episode_num": null,
-        "title": "Conni und das Klassencamp",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "0cyN9sgcNOwPtUy1yJKxur",
-        "include": true,
-        "episode_num": null,
-        "title": "Conni und das Kinderfest / Conni im Zirkus",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "6ZnRupQp50O0zveMaLomR7",
-        "include": true,
-        "episode_num": null,
-        "title": "Conni bekommt Taschengeld / Conni verkleidet sich",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "0fqIKHAdtkunIb3aLGmlur",
-        "include": true,
-        "episode_num": null,
-        "title": "Conni und die große Eiszeit",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "4OMuGT7rxhO8aL7qFduWlt",
-        "include": true,
-        "episode_num": null,
-        "title": "Conni und das neue Fohlen",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "7rp7JoyIEbKkQJZVyMWRmX",
-        "include": true,
-        "episode_num": null,
-        "title": "Conni übernachtet bei Julia / Conni geht nicht mit Fremden mit",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "5liUjMK6lhxhhomT8TQdl1",
-        "include": true,
-        "episode_num": null,
-        "title": "Conni und die Burg der Vampire",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "7rX64Cz9KeVTmnOIDbjOaE",
-        "include": true,
-        "episode_num": null,
-        "title": "Conni und der Ferienzirkus",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "5NQnB6rbmKJnaLrfWLo3Ou",
-        "include": true,
-        "episode_num": null,
-        "title": "Conni macht einen Ausflug / Conni geht auf Reisen",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "0z1pUoeWigaCgv0v9kNrjv",
-        "include": true,
-        "episode_num": null,
-        "title": "Conni und ihr Lieblingspony / Conni läuft Laterne",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "3WEe5kEwBqO30saEP2gwMJ",
-        "include": true,
-        "episode_num": null,
-        "title": "Conni und die Detektive",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "4vzFwQy0JuSDYdi9mPH5Tn",
-        "include": true,
-        "episode_num": null,
-        "title": "Conni rettet die Tiere",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "5dTJuEH52RrYl9Ua2C2z0s",
-        "include": true,
-        "episode_num": null,
-        "title": "Conni ist krank / Conni beim Frisör",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "3yS17cHZEUHaAginhlcoLI",
-        "include": true,
-        "episode_num": null,
-        "title": "Conni geht verloren / Conni in den Bergen",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "4wYMDuA1bHymwPjtGvtrrq",
-        "include": true,
-        "episode_num": null,
-        "title": "Conni und die verflixte 13",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "7bgRhxk0Wcs7oizTAeYcLz",
-        "include": true,
-        "episode_num": null,
-        "title": "Conni und der große Schnee",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "5gv1E25oITGWxH6obxHsN3",
-        "include": true,
-        "episode_num": null,
-        "title": "Conni und der Dinoknochen",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "0GM4GkcrfqOryANGzKrkDg",
-        "include": true,
-        "episode_num": null,
-        "title": "Conni und das tanzende Pony",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "0G1zkjmGnFXyBU1C4xZcpI",
-        "include": true,
-        "episode_num": null,
-        "title": "Conni und das Hochzeitsfest",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "3c0VRzvEeyayNJh9J90Ut4",
-        "include": true,
-        "episode_num": null,
-        "title": "Conni in der großen Stadt",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "3qt1PJtPWPV4jBMVjcFBjt",
-        "include": true,
-        "episode_num": null,
-        "title": "Conni und die Jungs von nebenan",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "6ZIoGb4bzIuaP5TJCnV33H",
-        "include": true,
-        "episode_num": null,
-        "title": "Conni und das ganz spezielle Weihnachtsfest",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "5WquYCc7K7Y5HkWgK7RzjS",
-        "include": true,
-        "episode_num": null,
-        "title": "Conni und das Geheimnis der Koi",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "6wvTEh9THKTLiJnICAc8St",
-        "include": true,
-        "episode_num": null,
-        "title": "Conni schläft im Kindergarten / Conni geht in den Zoo",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "5UkoCFXGVib8TIc8cvKtfq",
-        "include": true,
-        "episode_num": null,
-        "title": "Conni lernt backen / Conni hilft Mama",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "119PGdOBd93ZGfMANNdrfx",
-        "include": true,
-        "episode_num": null,
-        "title": "Conni und der verschwundene Hund",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "6VetbqWxcISujb5SIxpP8c",
-        "include": true,
-        "episode_num": null,
-        "title": "Conni rettet Oma",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "7yK7672w2xS4aRzH20NfXy",
-        "include": true,
-        "episode_num": null,
-        "title": "Conni und der Liebesbrief",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "0OcPFMWbBfyKyQZIpo4XL5",
-        "include": true,
-        "episode_num": null,
-        "title": "Conni reist ans Mittelmeer",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "2hoOCW7MRJ1Ih2PbxZZUSP",
-        "include": true,
-        "episode_num": null,
-        "title": "Conni geht auf Klassenfahrt",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "3oxwMgfDroFPQ9wtCZefJI",
-        "include": true,
-        "episode_num": null,
-        "title": "Conni feiert Geburtstag",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "3tnNeblQQtCWFJlQ0Sc8jW",
-        "include": true,
-        "episode_num": null,
-        "title": "Conni auf dem Reiterhof",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "1VMqmYWDBd8BuaipziZiRO",
-        "include": true,
-        "episode_num": null,
-        "title": "Connis erster Flug / Conni geht zum Zahnarzt",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "19PVNV21Bjo1hmG9ESBuyI",
-        "include": true,
-        "episode_num": null,
-        "title": "Conni und der Osterhase / Conni spielt Fußball",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "5kUOu4vvIuay0jHJ5rAlOi",
-        "include": true,
-        "episode_num": null,
-        "title": "Conni macht Musik",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "7owOHfGlu89elRiCmWSJRZ",
-        "include": true,
-        "episode_num": null,
-        "title": "Conni im Krankenhaus / Conni tanzt",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "0XlODQ0luJjmX0tCLwFb0a",
-        "include": true,
-        "episode_num": null,
-        "title": "Conni geht zelten / Conni lernt reiten",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "2Ico90Gpnd5EjFmOWcAT7I",
-        "include": true,
-        "episode_num": null,
-        "title": "Conni bekommt eine Katze / Conni hat Geburtstag",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "0XiViEkOLyhtXaZrnKvmPt",
-        "include": true,
-        "episode_num": null,
-        "title": "Conni backt Pizza / Conni lernt Rad fahren",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "3MJtb4tIcyxbd7PIm5ASJ9",
-        "include": true,
-        "episode_num": null,
-        "title": "Conni auf dem Bauernhof / Conni und das neue Baby",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "3mlmTInv2J5T5cy0gJeFds",
-        "include": true,
-        "episode_num": null,
-        "title": "Conni feiert Weihnachten / Conni fährt Ski",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "7fri4wnVnvvPw9s4wgauYK",
-        "include": false,
-        "episode_num": null,
-        "title": "Abenteuerspaß mit Conni",
-        "exclude_reason": "single"
-      },
-      {
-        "spotify_album_id": "6PQ5wA9fjtJlZWJtHvmaPG",
-        "include": false,
-        "episode_num": null,
-        "title": "Connis bunter Adventskalender",
-        "exclude_reason": "compilation"
-      },
-      {
-        "spotify_album_id": "4gmnIveXdaKc10YQDlIPtE",
-        "include": false,
-        "episode_num": null,
-        "title": "Connis neuer Adventskalender",
-        "exclude_reason": "compilation"
-      },
-      {
-        "spotify_album_id": "77Pk8wTrRgF2O1K3YLqyMW",
-        "include": true,
-        "episode_num": null,
-        "title": "Conni macht Mut in Zeiten von Corona",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "1ka0WcZa7nzi002PmkmXuU",
-        "include": false,
-        "episode_num": null,
-        "title": "Connis großer Adventskalender",
-        "exclude_reason": "compilation"
-      },
-      {
-        "spotify_album_id": "2hYa0yhcMJKFKulcR4tbHM",
-        "include": false,
-        "episode_num": null,
-        "title": "Geheimnis um Kater Mau",
-        "exclude_reason": "spinoff"
-      },
-      {
-        "spotify_album_id": "3wz17ZY7Jal2s37fh4Ymnj",
-        "include": false,
-        "episode_num": null,
-        "title": "Sing' mit Conni!",
-        "exclude_reason": "soundtrack"
-      },
-      {
-        "spotify_album_id": "6NA30cusjh4rD41CgW5vJp",
-        "include": false,
-        "episode_num": null,
-        "title": "10: Conni im Advent / Conni fährt Schlittschuh / Conni lässt Drachen steigen / Conni und der fiese Schnupfen",
-        "exclude_reason": "compilation"
-      },
-      {
-        "spotify_album_id": "6XjK6aOYmvosQIFH5gvtBx",
-        "include": false,
-        "episode_num": null,
-        "title": "09: Conni und der Hundebesuch / Conni wird Clown / Conni feiert Fasching / Conni und der Dreck-weg-Tag",
-        "exclude_reason": "compilation"
-      },
-      {
-        "spotify_album_id": "4YXrojnF0rcPIRZZW9ulIv",
-        "include": false,
-        "episode_num": null,
-        "title": "08: Conni übernachtet bei Julia / Conni geht nicht mit Fremden mit / Conni auf der Baustelle / Conni macht Flohmarkt",
-        "exclude_reason": "compilation"
-      },
-      {
-        "spotify_album_id": "1lixrGKO2AL3rj9cPdz9yY",
-        "include": false,
-        "episode_num": null,
-        "title": "07: Conni beim Frisör / Conni auf Waldsafari / Conni auf der Burg / Conni und das Froschkonzert",
-        "exclude_reason": "compilation"
-      },
-      {
-        "spotify_album_id": "4Lb4xi9uAhIIx12OP6tFQb",
-        "include": false,
-        "episode_num": null,
-        "title": "Connis Lieblingswitze",
-        "exclude_reason": "audiobook"
-      },
-      {
-        "spotify_album_id": "1W6W3lzAROoVfrWLCI3bkI",
-        "include": false,
-        "episode_num": null,
-        "title": "06: Conni lernt reiten / Conni am Strand / Conni in den Bergen / Conni macht Musik",
-        "exclude_reason": "compilation"
-      },
-      {
-        "spotify_album_id": "3PbhJbzYqlWkjlCF7yv2DV",
-        "include": false,
-        "episode_num": null,
-        "title": "05: Conni fährt Ski / Conni und der Osterhase / Conni geht zum Kinderarzt / Conni spielt Fußball",
-        "exclude_reason": "compilation"
-      },
-      {
-        "spotify_album_id": "35I8KIdJsStUqtbbDR0uUe",
-        "include": false,
-        "episode_num": null,
-        "title": "04: Conni hat Geburtstag / Conni backt Pizza / Conni geht in den Zoo / Conni geht verloren",
-        "exclude_reason": "compilation"
-      },
-      {
-        "spotify_album_id": "3626UDwiaF1YhpqqSn1Deh",
-        "include": false,
-        "episode_num": null,
-        "title": "03: Conni tanzt / Conni lernt die Uhrzeit / Conni lernt Rad fahren / Conni lernt backen",
-        "exclude_reason": "compilation"
-      },
-      {
-        "spotify_album_id": "4TFu59xSkMtgXQwtcpPOtk",
-        "include": false,
-        "episode_num": null,
-        "title": "02: Conni auf dem Bauernhof / Conni schläft im Kindergarten / Conni geht zum Zahnarzt / Connis erster Flug",
-        "exclude_reason": "compilation"
-      },
-      {
-        "spotify_album_id": "0IhcdN1UcvPR3TXSSmN6tZ",
-        "include": false,
-        "episode_num": null,
-        "title": "01: Conni zieht um / Conni bekommt eine Katze / Conni macht das Seepferdchen / Conni geht zelten",
-        "exclude_reason": "compilation"
-      },
-      {
-        "spotify_album_id": "6ldqnwRlLHxc5qAUCfLm2P",
-        "include": false,
-        "episode_num": null,
-        "title": "Hier kommt Conni!",
-        "exclude_reason": "compilation"
-      }
-    ],
-    "curator_notes": "Series spans multiple Spotify artists: 'Conni' (main Hörspiel series), 'Meine Freundin Conni' (TV-based compilations and special content), and 'Meine Freundin Conni - ab 3' (minimal, appears to duplicate content). Excluded 'Conni & Co' artist as it is a separate spin-off series for ages 10+ with numbered chapter books (1-18), distinct from the main Conni picture-book Hörspiele series. The main series uses narrative episode titles without numbering; episodes are identified by their story names. Compilations excluded include: Adventskalender releases (Christmas countdown specials), Pferdegeschichten (horse story compilation), TV-series 4-packs, and joke/song albums. Movie adaptations (Conni & Co films, Geheimnis um Kater Mau) excluded as they are spin-off/special content. Duplicate versions with '(neu)' suffix represent re-recorded 2017-2019 versions and are kept as they are the modern productions; older 2002-2012 versions of the same stories are excluded as duplicates where applicable."
-  },
-  "disagreements": [
-    {
-      "album_id": "1sR881Q74a7AeBuWBuyqzJ",
-      "album_title": "Conni kann nicht einschlafen / Conni macht das Seepferdchen (neu)",
-      "issue": "include: A=False B=True"
-    },
-    {
-      "album_id": "4pdsCieLNlgbOZjSj9RFkf",
-      "album_title": "Conni kommt in die Schule (neu) / Conni backt Pfannkuchen",
-      "issue": "include: A=False B=True"
-    },
-    {
-      "album_id": "74jcsHGvfrzBOOq3YEXlje",
-      "album_title": "Conni und die Gefühle - Wut, Trauer, Emotionen, Hörspiele ab 3",
-      "issue": "include: A=False B=True"
-    },
-    {
-      "album_id": "77Pk8wTrRgF2O1K3YLqyMW",
-      "album_title": "Conni macht Mut in Zeiten von Corona",
-      "issue": "include: A=False B=True"
-    },
-    {
-      "album_id": "7EEQA8jYCeVlw1VpBd4AuO",
-      "album_title": "Conni geht zum Kinderarzt (neu)/Conni besucht Oma und Opa",
-      "issue": "include: A=False B=True"
-    },
-    {
-      "album_id": "7k5CN9iWpWDryol1Ly2K2l",
-      "album_title": "Conni kommt in den Kindergarten (neu) / Conni geht aufs Töpfchen",
-      "issue": "include: A=False B=True"
-    }
-  ]
+    "age_note": "Suitable from 3+",
+    "curator_notes": "Main series 'Meine Freundin Conni' episodes. Excluded: 2 Conni & Co movie tie-ins (different artist), 2 box sets (Adventskalender, Pferdegeschichten compilation). Many releases are double-episodes with two stories in one album."
+  }
 }
