@@ -258,10 +258,10 @@ class _EpisodeGrid extends StatelessWidget {
       builder: (context, constraints) {
         final columns =
             constraints.maxWidth < 600
-                ? 3
+                ? 2
                 : constraints.maxWidth < 900
-                ? 4
-                : 5;
+                ? 3
+                : 4;
 
         return GridView.builder(
           padding: const EdgeInsets.fromLTRB(
@@ -294,6 +294,7 @@ class _EpisodeGrid extends StatelessWidget {
                   isHeard: card.isHeard,
                   progress: _albumProgress(card),
                   kidMode: true,
+                  episodeNumber: card.episodeNumber,
                   onTap: () => onCardTap(card),
                 ),
                 // "Weiter" badge on next unheard episode

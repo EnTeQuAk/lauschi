@@ -19,6 +19,7 @@ class AudioCard extends StatefulWidget {
     this.isHeard = false,
     this.progress = 0,
     this.kidMode = false,
+    this.episodeNumber,
   });
 
   final String title;
@@ -34,8 +35,11 @@ class AudioCard extends StatefulWidget {
   final double progress;
   final VoidCallback onTap;
 
-  /// Kid-facing mode: image-only, no title text.
+  /// Kid-facing mode: image-only with episode label overlay, no title text.
   final bool kidMode;
+
+  /// Episode number from the catalog (shown as overlay in kid mode).
+  final int? episodeNumber;
 
   @override
   State<AudioCard> createState() => _AudioCardState();
@@ -140,6 +144,17 @@ class _AudioCardState extends State<AudioCard>
               right: 0,
               bottom: 0,
               child: _ProgressBar(progress: widget.progress),
+            ),
+          // Episode label in kid mode — number + cleaned title.
+          if (widget.kidMode)
+            Positioned(
+              left: 0,
+              right: 0,
+              bottom: widget.progress > 0 ? 4 : 0,
+              child: _EpisodeLabel(
+                number: widget.episodeNumber,
+                title: widget.title,
+              ),
             ),
         ],
       ),
@@ -372,5 +387,81 @@ class _ProgressBar extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+/// Episode label at the bottom of kid-mode tiles.
+///
+/// Shows episode number (if available) and a cleaned-up title.
+/// Strips "Folge N:" prefixes and "(Das Original-Hörspiel...)" suffixes
+/// since those are redundant noise for kids.
+class _EpisodeLabel extends StatelessWidget {
+  const _EpisodeLabel({required this.title, this.number});
+
+  final String title;
+  final int? number;
+
+  @override
+  Widget build(BuildContext context) {
+    final cleanTitle = _cleanTitle(title, number);
+
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 6),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [
+            Colors.transparent,
+            Colors.black.withAlpha(180),
+          ],
+        ),
+        borderRadius: const BorderRadius.only(
+          bottomLeft: Radius.circular(8),
+          bottomRight: Radius.circular(8),
+        ),
+      ),
+      child: Text(
+        number != null ? '$number · $cleanTitle' : cleanTitle,
+        textAlign: TextAlign.center,
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+        style: const TextStyle(
+          fontFamily: 'Nunito',
+          fontWeight: FontWeight.w800,
+          fontSize: 12,
+          color: Colors.white,
+          height: 1.2,
+        ),
+      ),
+    );
+  }
+
+  /// Strip boilerplate from Spotify album titles.
+  ///
+  /// "Folge 38: Eile mit Weile (Das Original-Hörspiel zur TV-Serie)"
+  ///  → "Eile mit Weile"
+  static String _cleanTitle(String raw, int? episodeNumber) {
+    var t = raw;
+
+    // Strip parenthetical suffixes: (Das Original-Hörspiel...), (Hörspiel)
+    t = t.replaceAll(RegExp(r'\s*\([^)]*[Hh]örspiel[^)]*\)\s*$'), '');
+    // Also: (Original Motion Picture Soundtrack), etc.
+    t = t.replaceAll(RegExp(r'\s*\([^)]*[Ss]oundtrack[^)]*\)\s*$'), '');
+
+    // Strip "Folge N: " or "Folge N - " prefix (we show number separately).
+    t = t.replaceAll(
+      RegExp(r'^[Ff]olge\s+\d+\s*[:\-–—]\s*'),
+      '',
+    );
+    // Also "Episode N: " for English-titled content.
+    t = t.replaceAll(
+      RegExp(r'^[Ee]pisode\s+\d+\s*[:\-–—]\s*'),
+      '',
+    );
+
+    t = t.trim();
+    // If cleaning removed everything, fall back to original.
+    return t.isEmpty ? raw : t;
   }
 }
