@@ -7,6 +7,8 @@ workflows:
       flutter: 3.41.1
       xcode: latest
       cocoapods: default
+      vars:
+        AUDIO_SESSION_MICROPHONE: "0"
       groups:
         - app-store-credentials
         - app-env
@@ -66,6 +68,8 @@ workflows:
       flutter: 3.41.1
       xcode: latest
       cocoapods: default
+      vars:
+        AUDIO_SESSION_MICROPHONE: "0"
       groups:
         - app-store-credentials
         - app-env
