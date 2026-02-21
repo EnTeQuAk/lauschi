@@ -85,8 +85,9 @@ class ArdApi {
     bool publishedOnly = true,
   }) async {
     // All dynamic values passed as GraphQL variables to prevent injection.
+    // programSetId is Int in the ARD schema (IntFilter), not String.
     final data = await _graphql('''
-      query Items(\$first: Int!, \$after: Cursor, \$programSetId: String!) {
+      query Items(\$first: Int!, \$after: Cursor, \$programSetId: Int!) {
         items(
           first: \$first,
           after: \$after,
@@ -103,7 +104,7 @@ class ArdApi {
       }
     ''', variables: {
       'first': first,
-      'programSetId': programSetId,
+      'programSetId': int.parse(programSetId),
       if (after != null) 'after': after,
     });
 
