@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lauschi/core/ard/ard_api.dart';
+import 'package:lauschi/core/ard/ard_image.dart';
 import 'package:lauschi/core/ard/ard_models.dart';
 import 'package:lauschi/core/router/app_router.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
@@ -84,7 +85,7 @@ class _ShowCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final imageUrl = _sizedImageUrl(show.imageUrl, width: 300);
+    final imageUrl = ardImageUrl(show.imageUrl, width: 300);
 
     return GestureDetector(
       onTap: () => context.push(AppRoutes.parentDiscoverShow(show.id)),
@@ -154,13 +155,9 @@ class _Placeholder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final hue = (title.hashCode % 360).abs().toDouble();
-    return Container(
-      width: double.infinity,
-      height: double.infinity,
-      decoration: BoxDecoration(
-        color: HSLColor.fromAHSL(1, hue, 0.3, 0.25).toColor(),
-        borderRadius: const BorderRadius.all(AppRadius.card),
-      ),
+    // No borderRadius here — parent ClipRRect handles clipping.
+    return ColoredBox(
+      color: HSLColor.fromAHSL(1, hue, 0.3, 0.25).toColor(),
       child: Center(
         child: Icon(
           Icons.radio_rounded,
@@ -170,12 +167,6 @@ class _Placeholder extends StatelessWidget {
       ),
     );
   }
-}
-
-/// Replace `{width}` placeholder in ARD image URLs with actual pixel width.
-String? _sizedImageUrl(String? url, {int width = 400}) {
-  if (url == null) return null;
-  return url.replaceAll('{width}', '$width');
 }
 
 final _kidsShowsProvider = FutureProvider.autoDispose<List<ArdProgramSet>>(

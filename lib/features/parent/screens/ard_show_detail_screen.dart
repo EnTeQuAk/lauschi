@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lauschi/core/ard/ard_api.dart';
+import 'package:lauschi/core/ard/ard_image.dart';
 import 'package:lauschi/core/ard/ard_models.dart';
 import 'package:lauschi/core/database/card_repository.dart';
 import 'package:lauschi/core/database/group_repository.dart';
@@ -29,7 +30,9 @@ class ArdShowDetailScreen extends ConsumerStatefulWidget {
 
 class _ArdShowDetailScreenState extends ConsumerState<ArdShowDetailScreen> {
   final _existingUris = <String>{};
+  final _addingUris = <String>{};
   bool _isAddingAll = false;
+  bool _existingLoaded = false;
 
   @override
   void initState() {
@@ -42,45 +45,66 @@ class _ArdShowDetailScreenState extends ConsumerState<ArdShowDetailScreen> {
     if (mounted) {
       setState(() {
         _existingUris.addAll(cards.map((c) => c.providerUri));
+        _existingLoaded = true;
       });
     }
   }
 
   /// Add a single episode as a card.
   Future<void> _addEpisode(ArdItem item, {String? groupId}) async {
-    final cardRepo = ref.read(cardRepositoryProvider);
+    if (item.bestAudioUrl == null) return;
+    if (_addingUris.contains(item.providerUri)) return;
 
-    final cardId = await cardRepo.insertIfAbsent(
-      title: item.title,
-      providerUri: item.providerUri,
-      cardType: 'episode',
-      provider: 'ard_audiothek',
-      coverUrl: _sizedImageUrl(item.imageUrl),
-    );
+    setState(() => _addingUris.add(item.providerUri));
 
-    await cardRepo.updateArdFields(
-      cardId: cardId,
-      audioUrl: item.bestAudioUrl,
-      durationMs: item.durationMs,
-      availableUntil: item.endDate,
-      groupId: groupId,
-      episodeNumber: item.episodeNumber,
-    );
+    try {
+      final cardRepo = ref.read(cardRepositoryProvider);
 
-    if (mounted) {
-      setState(() => _existingUris.add(item.providerUri));
+      final cardId = await cardRepo.insertIfAbsent(
+        title: item.title,
+        providerUri: item.providerUri,
+        cardType: 'episode',
+        provider: 'ard_audiothek',
+        coverUrl: ardImageUrl(item.imageUrl),
+      );
+
+      await cardRepo.updateArdFields(
+        cardId: cardId,
+        audioUrl: item.bestAudioUrl,
+        durationMs: item.durationMs,
+        availableUntil: item.endDate,
+        groupId: groupId,
+        episodeNumber: item.episodeNumber,
+      );
+
+      if (mounted) {
+        setState(() => _existingUris.add(item.providerUri));
+      }
+
+      Log.info(_tag, 'Added episode', data: {'title': item.title});
+    } on Exception catch (e) {
+      Log.error(_tag, 'Failed to add episode', exception: e);
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Fehler: $e')),
+        );
+      }
+    } finally {
+      if (mounted) {
+        setState(() => _addingUris.remove(item.providerUri));
+      }
     }
-
-    Log.info(_tag, 'Added episode', data: {'title': item.title});
   }
 
   /// Add all episodes from the show, creating a group.
+  /// Also assigns already-added episodes to the group.
   Future<void> _addAll(ArdProgramSet show, List<ArdItem> items) async {
     if (_isAddingAll) return;
     setState(() => _isAddingAll = true);
 
     try {
       final groups = ref.read(groupRepositoryProvider);
+      final cardRepo = ref.read(cardRepositoryProvider);
 
       // Find or create group.
       final existing = await groups.findByTitle(show.title);
@@ -88,18 +112,43 @@ class _ArdShowDetailScreenState extends ConsumerState<ArdShowDetailScreen> {
           existing?.id ??
           await groups.insert(
             title: show.title,
-            coverUrl: _sizedImageUrl(show.imageUrl),
+            coverUrl: ardImageUrl(show.imageUrl),
           );
 
-      // Update group with ARD provider info.
+      // Update group cover.
       await groups.update(
         id: groupId,
-        coverUrl: _sizedImageUrl(show.imageUrl),
+        coverUrl: ardImageUrl(show.imageUrl),
       );
 
+      // Load all pages if the first page indicated more exist.
+      var allItems = items;
+      final episodesPage = ref.read(_showEpisodesProvider(widget.showId));
+      final page = episodesPage.whenOrNull(data: (d) => d);
+      if (page != null && page.hasNextPage) {
+        allItems = await _loadAllEpisodes(show.id);
+      }
+
       var added = 0;
-      for (final item in items) {
-        if (_existingUris.contains(item.providerUri)) continue;
+      for (final item in allItems) {
+        if (item.bestAudioUrl == null) continue;
+
+        if (_existingUris.contains(item.providerUri)) {
+          // Already added — assign to group if not already.
+          final existingCards = await cardRepo.getAll();
+          final card = existingCards
+              .where((c) => c.providerUri == item.providerUri)
+              .firstOrNull;
+          if (card != null && card.groupId != groupId) {
+            await cardRepo.updateArdFields(
+              cardId: card.id,
+              groupId: groupId,
+              episodeNumber: item.episodeNumber,
+            );
+          }
+          continue;
+        }
+
         await _addEpisode(item, groupId: groupId);
         added++;
       }
@@ -129,6 +178,24 @@ class _ArdShowDetailScreenState extends ConsumerState<ArdShowDetailScreen> {
     }
   }
 
+  /// Load all episode pages for a show.
+  Future<List<ArdItem>> _loadAllEpisodes(String showId) async {
+    final api = ref.read(ardApiProvider);
+    final allItems = <ArdItem>[];
+    String? cursor;
+
+    do {
+      final page = await api.getItems(
+        programSetId: showId,
+        after: cursor,
+      );
+      allItems.addAll(page.items);
+      cursor = page.hasNextPage ? page.endCursor : null;
+    } while (cursor != null);
+
+    return allItems;
+  }
+
   @override
   Widget build(BuildContext context) {
     final showAsync = ref.watch(_showDetailProvider(widget.showId));
@@ -137,20 +204,26 @@ class _ArdShowDetailScreenState extends ConsumerState<ArdShowDetailScreen> {
     return Scaffold(
       backgroundColor: AppColors.parentBackground,
       body: showAsync.when(
-        loading:
-            () => const Scaffold(
-              body: Center(child: CircularProgressIndicator()),
-            ),
+        loading: () => const Center(child: CircularProgressIndicator()),
         error:
-            (e, _) => Scaffold(
-              appBar: AppBar(),
-              body: Center(child: Text('Fehler: $e')),
+            (e, _) => Column(
+              children: [
+                AppBar(backgroundColor: AppColors.parentBackground),
+                Expanded(child: Center(child: Text('Fehler: $e'))),
+              ],
             ),
         data: (show) {
           if (show == null) {
-            return Scaffold(
-              appBar: AppBar(),
-              body: const Center(child: Text('Sendung nicht gefunden.')),
+            return Column(
+              children: [
+                AppBar(
+                  backgroundColor: AppColors.parentBackground,
+                  title: const Text('Nicht gefunden'),
+                ),
+                const Expanded(
+                  child: Center(child: Text('Sendung nicht gefunden.')),
+                ),
+              ],
             );
           }
 
@@ -166,22 +239,41 @@ class _ArdShowDetailScreenState extends ConsumerState<ArdShowDetailScreen> {
                     (e, _) => SliverFillRemaining(
                       child: Center(child: Text('Fehler: $e')),
                     ),
-                data:
-                    (page) => SliverList(
-                      delegate: SliverChildBuilderDelegate(
-                        (context, index) {
-                          final item = page.items[index];
-                          final alreadyAdded =
-                              _existingUris.contains(item.providerUri);
-                          return _EpisodeTile(
-                            item: item,
-                            alreadyAdded: alreadyAdded,
-                            onAdd: () => _addEpisode(item),
+                data: (page) {
+                  final items = page.items;
+                  final playable =
+                      items.where((i) => i.bestAudioUrl != null).toList();
+
+                  return SliverList(
+                    delegate: SliverChildBuilderDelegate(
+                      (context, index) {
+                        // Show truncation notice at the end.
+                        if (index == playable.length && page.hasNextPage) {
+                          return _TruncationNotice(
+                            shown: playable.length,
+                            total: page.totalCount,
                           );
-                        },
-                        childCount: page.items.length,
-                      ),
+                        }
+
+                        final item = playable[index];
+                        final alreadyAdded =
+                            _existingUris.contains(item.providerUri);
+                        final isAdding =
+                            _addingUris.contains(item.providerUri);
+
+                        return _EpisodeTile(
+                          item: item,
+                          alreadyAdded: alreadyAdded,
+                          isAdding: isAdding,
+                          enabled: _existingLoaded && !_isAddingAll,
+                          onAdd: () => _addEpisode(item),
+                        );
+                      },
+                      childCount:
+                          playable.length + (page.hasNextPage ? 1 : 0),
                     ),
+                  );
+                },
               ),
             ],
           );
@@ -196,18 +288,28 @@ class _ArdShowDetailScreenState extends ConsumerState<ArdShowDetailScreen> {
     AsyncValue<ArdItemPage> episodesAsync,
   ) {
     final show = showAsync.whenOrNull(data: (d) => d);
-    final episodes = episodesAsync.whenOrNull(data: (d) => d.items);
-    if (show == null || episodes == null || episodes.isEmpty) return null;
+    final page = episodesAsync.whenOrNull(data: (d) => d);
+    if (show == null || page == null || page.items.isEmpty) return null;
+    if (!_existingLoaded) return null;
 
+    final playable = page.items.where((i) => i.bestAudioUrl != null);
     final addable =
-        episodes.where((e) => !_existingUris.contains(e.providerUri)).length;
-    if (addable == 0) return null;
+        playable.where((e) => !_existingUris.contains(e.providerUri)).length;
+
+    // Use totalCount from API when there are more pages.
+    final totalLabel =
+        page.hasNextPage ? 'Alle ${page.totalCount}' : '$addable';
+
+    if (addable == 0 && !page.hasNextPage) return null;
 
     return SafeArea(
       child: Padding(
         padding: const EdgeInsets.all(AppSpacing.md),
         child: FilledButton.icon(
-          onPressed: _isAddingAll ? null : () => _addAll(show, episodes),
+          onPressed:
+              _isAddingAll
+                  ? null
+                  : () => _addAll(show, page.items),
           icon:
               _isAddingAll
                   ? const SizedBox(
@@ -217,7 +319,7 @@ class _ArdShowDetailScreenState extends ConsumerState<ArdShowDetailScreen> {
                   )
                   : const Icon(Icons.add_rounded),
           label: Text(
-            '$addable Folgen hinzufügen',
+            '$totalLabel Folgen hinzufügen',
             style: const TextStyle(fontFamily: 'Nunito'),
           ),
         ),
@@ -234,7 +336,7 @@ class _ShowHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final imageUrl = _sizedImageUrl(show.imageUrl, width: 600);
+    final imageUrl = ardImageUrl(show.imageUrl, width: 600);
 
     return SliverAppBar(
       backgroundColor: AppColors.parentBackground,
@@ -269,11 +371,15 @@ class _EpisodeTile extends StatelessWidget {
   const _EpisodeTile({
     required this.item,
     required this.alreadyAdded,
+    required this.isAdding,
+    required this.enabled,
     required this.onAdd,
   });
 
   final ArdItem item;
   final bool alreadyAdded;
+  final bool isAdding;
+  final bool enabled;
   final VoidCallback onAdd;
 
   @override
@@ -285,10 +391,16 @@ class _EpisodeTile extends StatelessWidget {
       leading:
           alreadyAdded
               ? const Icon(Icons.check_circle, color: AppColors.success)
-              : IconButton(
-                icon: const Icon(Icons.add_circle_outline_rounded),
-                onPressed: onAdd,
-              ),
+              : isAdding
+                  ? const SizedBox(
+                    width: 24,
+                    height: 24,
+                    child: CircularProgressIndicator(strokeWidth: 2),
+                  )
+                  : IconButton(
+                    icon: const Icon(Icons.add_circle_outline_rounded),
+                    onPressed: enabled ? onAdd : null,
+                  ),
       title: Text(
         item.title,
         style: TextStyle(
@@ -324,8 +436,33 @@ class _EpisodeTile extends StatelessWidget {
           ],
         ],
       ),
-      enabled: !alreadyAdded,
-      onTap: alreadyAdded ? null : onAdd,
+      enabled: enabled && !alreadyAdded && !isAdding,
+      onTap: enabled && !alreadyAdded && !isAdding ? onAdd : null,
+    );
+  }
+}
+
+// ── Truncation notice ───────────────────────────────────────────────────────
+
+class _TruncationNotice extends StatelessWidget {
+  const _TruncationNotice({required this.shown, required this.total});
+  final int shown;
+  final int total;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(AppSpacing.md),
+      child: Text(
+        '$shown von $total Folgen angezeigt. '
+        'Über „Alle hinzufügen" werden alle Folgen geladen.',
+        style: const TextStyle(
+          fontFamily: 'Nunito',
+          fontSize: 12,
+          color: AppColors.textSecondary,
+        ),
+        textAlign: TextAlign.center,
+      ),
     );
   }
 }
@@ -376,11 +513,6 @@ int? _daysUntilExpiry(DateTime? endDate) {
   final days = endDate.difference(DateTime.now()).inDays;
   if (days < 0) return null; // Already expired
   return days;
-}
-
-String? _sizedImageUrl(String? url, {int width = 400}) {
-  if (url == null) return null;
-  return url.replaceAll('{width}', '$width');
 }
 
 // ── Providers ───────────────────────────────────────────────────────────────
