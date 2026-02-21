@@ -8,7 +8,7 @@ import 'package:sentry_flutter/sentry_flutter.dart';
 
 part 'app_database.g.dart';
 
-@DriftDatabase(tables: [Cards, Groups, NfcTags])
+@DriftDatabase(tables: [Cards, Groups, NfcTags, ShowSubscriptions])
 class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
 
@@ -18,7 +18,7 @@ class AppDatabase extends _$AppDatabase {
 
   /// Bump when schema changes. See [migration] for upgrade steps.
   @override
-  int get schemaVersion => 7;
+  int get schemaVersion => 8;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -49,6 +49,16 @@ class AppDatabase extends _$AppDatabase {
         }
         if (from < 7) {
           await m.createTable(nfcTags);
+        }
+        if (from < 8) {
+          // Multi-provider support: expiration, direct audio, sync.
+          await m.addColumn(cards, cards.availableUntil);
+          await m.addColumn(cards, cards.audioUrl);
+          await m.addColumn(cards, cards.durationMs);
+          await m.addColumn(groups, groups.provider);
+          await m.addColumn(groups, groups.externalShowId);
+          await m.addColumn(groups, groups.lastSyncedAt);
+          await m.createTable(showSubscriptions);
         }
         Log.info('Database', 'Migration complete');
       } on Exception catch (e, stack) {
