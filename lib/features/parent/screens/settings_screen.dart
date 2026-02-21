@@ -260,28 +260,34 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
 
 // ── Supporting widgets ──────────────────────────────────────────────────────
 
-class _ProviderRow extends StatelessWidget {
+class _ProviderRow extends ConsumerWidget {
   const _ProviderRow();
 
   @override
-  Widget build(BuildContext context) {
-    return const Padding(
-      padding: EdgeInsets.symmetric(horizontal: AppSpacing.screenH),
+  Widget build(BuildContext context, WidgetRef ref) {
+    final spotifyConnected =
+        ref.watch(spotifyAuthProvider) is AuthAuthenticated;
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.screenH),
       child: Row(
         children: [
           Expanded(
             child: _ProviderChip(
               svgAsset: 'assets/images/icons/spotify.svg',
               label: 'Spotify',
-              color: Color(0xFF1DB954),
+              color: const Color(0xFF1DB954),
+              active: spotifyConnected,
             ),
           ),
-          SizedBox(width: AppSpacing.sm),
-          Expanded(
+          const SizedBox(width: AppSpacing.sm),
+          const Expanded(
             child: _ProviderChip(
               icon: Icons.radio_rounded,
               label: 'ARD Audiothek',
               color: Color(0xFF003D7A),
+              // ARD is always available (no auth required).
+              active: true,
             ),
           ),
         ],
@@ -296,24 +302,28 @@ class _ProviderChip extends StatelessWidget {
     required this.color,
     this.svgAsset,
     this.icon,
+    this.active = false,
   });
 
   final String label;
   final Color color;
   final String? svgAsset;
   final IconData? icon;
+  final bool active;
 
   @override
   Widget build(BuildContext context) {
+    final effectiveColor = active ? color : AppColors.textSecondary;
+
     return Container(
       padding: const EdgeInsets.symmetric(
         horizontal: AppSpacing.md,
         vertical: AppSpacing.sm + 2,
       ),
       decoration: BoxDecoration(
-        color: color.withAlpha(20),
+        color: effectiveColor.withAlpha(active ? 20 : 10),
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: color.withAlpha(50)),
+        border: Border.all(color: effectiveColor.withAlpha(active ? 50 : 25)),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -323,10 +333,10 @@ class _ProviderChip extends StatelessWidget {
               svgAsset!,
               width: 20,
               height: 20,
-              colorFilter: ColorFilter.mode(color, BlendMode.srcIn),
+              colorFilter: ColorFilter.mode(effectiveColor, BlendMode.srcIn),
             )
           else if (icon != null)
-            Icon(icon, size: 20, color: color),
+            Icon(icon, size: 20, color: effectiveColor),
           const SizedBox(width: AppSpacing.xs),
           Flexible(
             child: Text(
@@ -336,7 +346,7 @@ class _ProviderChip extends StatelessWidget {
                 fontFamily: 'Nunito',
                 fontWeight: FontWeight.w700,
                 fontSize: 13,
-                color: color,
+                color: effectiveColor,
               ),
             ),
           ),
