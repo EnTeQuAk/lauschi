@@ -76,11 +76,12 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
           title: 'Version',
           value: '$_appVersion ($_buildFlavour)',
         ),
-        const _InfoTile(
-          icon: Icons.music_note_rounded,
-          title: 'Musik',
-          value: 'Powered by Spotify',
-        ),
+
+        const SizedBox(height: AppSpacing.lg),
+
+        // ── Providers ────────────────────────────────────────────────────────
+        const _SectionHeader(title: 'Inhalte bereitgestellt von'),
+        const _ProviderRow(),
 
         const SizedBox(height: AppSpacing.lg),
 
@@ -258,6 +259,92 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
 }
 
 // ── Supporting widgets ──────────────────────────────────────────────────────
+
+class _ProviderRow extends StatelessWidget {
+  const _ProviderRow();
+
+  @override
+  Widget build(BuildContext context) {
+    return const Padding(
+      padding: EdgeInsets.symmetric(horizontal: AppSpacing.screenH),
+      child: Row(
+        children: [
+          Expanded(
+            child: _ProviderChip(
+              svgAsset: 'assets/images/icons/spotify.svg',
+              label: 'Spotify',
+              color: Color(0xFF1DB954),
+            ),
+          ),
+          SizedBox(width: AppSpacing.sm),
+          Expanded(
+            child: _ProviderChip(
+              icon: Icons.radio_rounded,
+              label: 'ARD Audiothek',
+              color: Color(0xFF003D7A),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _ProviderChip extends StatelessWidget {
+  const _ProviderChip({
+    required this.label,
+    required this.color,
+    this.svgAsset,
+    this.icon,
+  });
+
+  final String label;
+  final Color color;
+  final String? svgAsset;
+  final IconData? icon;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppSpacing.md,
+        vertical: AppSpacing.sm + 2,
+      ),
+      decoration: BoxDecoration(
+        color: color.withAlpha(20),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: color.withAlpha(50)),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          if (svgAsset != null)
+            SvgPicture.asset(
+              svgAsset!,
+              width: 20,
+              height: 20,
+              colorFilter: ColorFilter.mode(color, BlendMode.srcIn),
+            )
+          else if (icon != null)
+            Icon(icon, size: 20, color: color),
+          const SizedBox(width: AppSpacing.xs),
+          Flexible(
+            child: Text(
+              label,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                fontFamily: 'Nunito',
+                fontWeight: FontWeight.w700,
+                fontSize: 13,
+                color: color,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
 
 class _SupportCard extends StatelessWidget {
   const _SupportCard();
