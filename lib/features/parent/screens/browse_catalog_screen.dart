@@ -1,77 +1,1102 @@
+import 'dart:async' show Timer, unawaited;
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lauschi/core/catalog/catalog_service.dart';
+import 'package:lauschi/core/database/app_database.dart' as db;
 import 'package:lauschi/core/database/card_repository.dart';
 import 'package:lauschi/core/database/content_importer.dart';
+import 'package:lauschi/core/database/group_repository.dart';
 import 'package:lauschi/core/log.dart';
 import 'package:lauschi/core/router/app_router.dart';
+import 'package:lauschi/core/spotify/spotify_api.dart';
+import 'package:lauschi/core/spotify/spotify_auth_provider.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
 import 'package:lauschi/features/player/player_provider.dart';
 
 const _tag = 'BrowseCatalog';
 
-// ── Browse catalog grid ─────────────────────────────────────────────────────
+// ── Unified browse + search screen ──────────────────────────────────────────
 
-/// Curated series grid. Shows all series with albums in the catalog.
-/// Parents tap a series to see episodes and add cards.
-class BrowseCatalogScreen extends ConsumerWidget {
-  const BrowseCatalogScreen({super.key});
+/// Curated catalog grid with inline Spotify search.
+///
+/// Default view shows the curated series grid with a search bar at the top.
+/// When the user types a query, the grid is replaced by live Spotify results.
+/// This replaces the old separate AddCardScreen for the general add flow.
+///
+/// When [autoAssignGroupId] is set (via GroupEditScreen FAB), every added
+/// card is silently assigned to that group.
+class BrowseCatalogScreen extends ConsumerStatefulWidget {
+  const BrowseCatalogScreen({super.key, this.autoAssignGroupId});
+
+  final String? autoAssignGroupId;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<BrowseCatalogScreen> createState() =>
+      _BrowseCatalogScreenState();
+}
+
+class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen> {
+  final _searchController = TextEditingController();
+  final _searchFocusNode = FocusNode();
+  Timer? _debounce;
+
+  // Search state
+  _SearchMode _searchMode = _SearchMode.album;
+  List<SpotifyAlbum> _albumResults = [];
+  List<SpotifyPlaylist> _playlistResults = [];
+  List<CatalogMatch?> _catalogMatches = [];
+  bool _isSearching = false;
+  bool _hasSearched = false;
+  int _searchGeneration = 0;
+
+  // Add state
+  final _addedUris = <String>{};
+  final _createdSeriesTitles = <String>{};
+  db.CardGroup? _autoGroup;
+
+  // Snackbar batching
+  Timer? _snackTimer;
+  int _pendingAdded = 0;
+  final _pendingAssignedCardIds = <String>[];
+  String _lastSeriesTitle = '';
+
+  bool get _isSearchActive => _searchController.text.trim().isNotEmpty;
+  bool get _isAutoAssignMode => widget.autoAssignGroupId != null;
+
+  @override
+  void initState() {
+    super.initState();
+    unawaited(_loadExistingUris());
+    if (_isAutoAssignMode) {
+      unawaited(_loadAutoGroup());
+    }
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    _searchFocusNode.dispose();
+    _debounce?.cancel();
+    _snackTimer?.cancel();
+    super.dispose();
+  }
+
+  Future<void> _loadExistingUris() async {
+    final all = await ref.read(cardRepositoryProvider).getAll();
+    final groups = await ref.read(groupRepositoryProvider).getAll();
+    if (mounted) {
+      setState(() {
+        _addedUris.addAll(all.map((c) => c.providerUri));
+        _createdSeriesTitles.addAll(
+          groups.map((g) => g.title.toLowerCase()),
+        );
+      });
+    }
+  }
+
+  Future<void> _loadAutoGroup() async {
+    final group = await ref
+        .read(groupRepositoryProvider)
+        .getById(widget.autoAssignGroupId!);
+    if (mounted) setState(() => _autoGroup = group);
+  }
+
+  // ---------------------------------------------------------------------------
+  // Search
+  // ---------------------------------------------------------------------------
+
+  void _onSearchChanged(String query) {
+    _debounce?.cancel();
+    if (query.trim().isEmpty) {
+      setState(() {
+        _albumResults = [];
+        _playlistResults = [];
+        _catalogMatches = [];
+        _isSearching = false;
+        _hasSearched = false;
+      });
+      return;
+    }
+    _debounce = Timer(const Duration(milliseconds: 400), () async {
+      await _search(query.trim());
+    });
+  }
+
+  Future<void> _search(String query) async {
+    setState(() => _isSearching = true);
+    try {
+      if (_searchMode == _SearchMode.playlist) {
+        await _searchPlaylists(query);
+      } else {
+        await _searchAlbums(query);
+      }
+    } on Exception catch (e) {
+      Log.error(_tag, 'Search failed', exception: e);
+      if (mounted) setState(() => _isSearching = false);
+    }
+  }
+
+  Future<void> _searchAlbums(String query) async {
+    final gen = ++_searchGeneration;
+    final result = await ref.read(spotifyApiProvider).searchAlbums(query);
+    if (!mounted || gen != _searchGeneration) return;
+    final catalog = ref.read(catalogServiceProvider).value;
+    final matches =
+        catalog != null
+            ? result.albums
+                .map(
+                  (a) => catalog.match(a.name, albumArtistIds: a.artistIds),
+                )
+                .toList()
+            : List<CatalogMatch?>.filled(result.albums.length, null);
+    final catalogHits = matches.whereType<CatalogMatch>().length;
+    Log.info(
+      _tag,
+      'Search',
+      data: {
+        'query': query,
+        'results': '${result.albums.length}',
+        'catalogHits': '$catalogHits',
+      },
+    );
+    setState(() {
+      _albumResults = result.albums;
+      _playlistResults = [];
+      _catalogMatches = matches;
+      _isSearching = false;
+      _hasSearched = true;
+    });
+  }
+
+  Future<void> _searchPlaylists(String query) async {
+    final gen = ++_searchGeneration;
+    final result = await ref.read(spotifyApiProvider).searchPlaylists(query);
+    if (!mounted || gen != _searchGeneration) return;
+    Log.info(
+      _tag,
+      'Search (playlists)',
+      data: {'query': query, 'results': '${result.playlists.length}'},
+    );
+    setState(() {
+      _playlistResults = result.playlists;
+      _albumResults = [];
+      _catalogMatches = [];
+      _isSearching = false;
+      _hasSearched = true;
+    });
+  }
+
+  void _setSearchMode(_SearchMode mode) {
+    if (mode == _searchMode) return;
+    _searchGeneration++; // Invalidate in-flight requests for old mode
+    setState(() {
+      _searchMode = mode;
+      _albumResults = [];
+      _playlistResults = [];
+      _catalogMatches = [];
+      _hasSearched = false;
+    });
+    final query = _searchController.text.trim();
+    if (query.isNotEmpty) {
+      _debounce?.cancel();
+      unawaited(_search(query));
+    }
+  }
+
+  void _clearSearch() {
+    _searchController.clear();
+    _searchFocusNode.unfocus();
+    setState(() {
+      _albumResults = [];
+      _playlistResults = [];
+      _catalogMatches = [];
+      _isSearching = false;
+      _hasSearched = false;
+    });
+  }
+
+  // ---------------------------------------------------------------------------
+  // Add logic
+  // ---------------------------------------------------------------------------
+
+  Future<void> _handleAddTap(SpotifyAlbum album, CatalogMatch? match) async {
+    if (_isAutoAssignMode) {
+      await _addAndAssign(album, widget.autoAssignGroupId!, match);
+      return;
+    }
+
+    if (match != null) {
+      final groupId = await _findOrCreateGroup(match.series.title);
+      await _addAndAssign(album, groupId, match, showUndo: true);
+      return;
+    }
+
+    await _addOnly(album);
+  }
+
+  Future<void> _handleAddAll(String seriesTitle) async {
+    final groupId = _isAutoAssignMode
+        ? widget.autoAssignGroupId!
+        : await _findOrCreateGroup(seriesTitle);
+    if (!mounted) return;
+    var count = 0;
+    for (var i = 0; i < _albumResults.length; i++) {
+      final album = _albumResults[i];
+      if (_addedUris.contains(album.uri)) continue;
+      final match =
+          i < _catalogMatches.length ? _catalogMatches[i] : null;
+      // Compares by title (not ID) because batchSeries is title-based.
+      if (match?.series.title != seriesTitle) continue;
+      await _addAndAssign(album, groupId, match, silent: true);
+      count++;
+    }
+    if (mounted && count > 0) {
+      ScaffoldMessenger.of(context)
+        ..clearSnackBars()
+        ..showSnackBar(
+          SnackBar(
+            content: Text('$count Folgen zu »$seriesTitle« hinzugefügt'),
+            duration: const Duration(seconds: 3),
+            behavior: SnackBarBehavior.floating,
+          ),
+        );
+    }
+  }
+
+  Future<String> _findOrCreateGroup(String seriesTitle) async {
+    final groupRepo = ref.read(groupRepositoryProvider);
+    final existing = await groupRepo.findByTitle(seriesTitle);
+    if (existing != null) return existing.id;
+    return groupRepo.insert(title: seriesTitle);
+  }
+
+  Future<void> _addAndAssign(
+    SpotifyAlbum album,
+    String groupId,
+    CatalogMatch? match, {
+    bool showUndo = false,
+    bool silent = false,
+  }) async {
+    final cardId = await ref
+        .read(cardRepositoryProvider)
+        .insertIfAbsent(
+          title: album.name,
+          providerUri: album.uri,
+          cardType: 'album',
+          coverUrl: album.imageUrl,
+          spotifyArtistIds: album.artistIds,
+          totalTracks: album.totalTracks,
+        );
+    await ref
+        .read(cardRepositoryProvider)
+        .assignToGroup(
+          cardId: cardId,
+          groupId: groupId,
+          episodeNumber: match?.episodeNumber,
+        );
+    if (!mounted) return;
+    setState(() => _addedUris.add(album.uri));
+
+    if (silent) return;
+
+    if (showUndo) {
+      _pendingAssignedCardIds.add(cardId);
+      _lastSeriesTitle = match?.series.title ?? '';
+      _snackTimer?.cancel();
+      _snackTimer = Timer(const Duration(milliseconds: 500), () {
+        if (!mounted) return;
+        final ids = List<String>.of(_pendingAssignedCardIds);
+        _pendingAssignedCardIds.clear();
+        final label =
+            ids.length == 1
+                ? 'Zu »$_lastSeriesTitle« hinzugefügt'
+                : '${ids.length} Folgen zu »$_lastSeriesTitle« hinzugefügt';
+        ScaffoldMessenger.of(context)
+          ..clearSnackBars()
+          ..showSnackBar(
+            SnackBar(
+              content: Text(label),
+              behavior: SnackBarBehavior.floating,
+              action: SnackBarAction(
+                label: 'Rückgängig',
+                onPressed: () {
+                  final repo = ref.read(cardRepositoryProvider);
+                  for (final id in ids) {
+                    unawaited(repo.removeFromGroup(id));
+                  }
+                },
+              ),
+            ),
+          );
+      });
+    } else {
+      _pendingAdded++;
+      _snackTimer?.cancel();
+      _snackTimer = Timer(const Duration(milliseconds: 500), () {
+        if (!mounted) return;
+        final n = _pendingAdded;
+        _pendingAdded = 0;
+        final label =
+            n == 1 ? '${album.name} hinzugefügt' : '$n Folgen hinzugefügt';
+        ScaffoldMessenger.of(context)
+          ..clearSnackBars()
+          ..showSnackBar(
+            SnackBar(
+              content: Text(label),
+              duration: const Duration(seconds: 2),
+              behavior: SnackBarBehavior.floating,
+            ),
+          );
+      });
+    }
+  }
+
+  Future<void> _addOnly(SpotifyAlbum album) async {
+    await ref
+        .read(cardRepositoryProvider)
+        .insertIfAbsent(
+          title: album.name,
+          providerUri: album.uri,
+          cardType: 'album',
+          coverUrl: album.imageUrl,
+          spotifyArtistIds: album.artistIds,
+          totalTracks: album.totalTracks,
+        );
+    if (!mounted) return;
+    setState(() => _addedUris.add(album.uri));
+    _pendingAdded++;
+    _snackTimer?.cancel();
+    _snackTimer = Timer(const Duration(milliseconds: 500), () {
+      if (!mounted) return;
+      final n = _pendingAdded;
+      _pendingAdded = 0;
+      ScaffoldMessenger.of(context)
+        ..clearSnackBars()
+        ..showSnackBar(
+          SnackBar(
+            content: Text(
+              n == 1 ? '${album.name} hinzugefügt' : '$n Folgen hinzugefügt',
+            ),
+            duration: const Duration(seconds: 2),
+            behavior: SnackBarBehavior.floating,
+          ),
+        );
+    });
+  }
+
+  Future<void> _addPlaylist(SpotifyPlaylist playlist) async {
+    await ref
+        .read(cardRepositoryProvider)
+        .insertIfAbsent(
+          title: playlist.name,
+          providerUri: playlist.uri,
+          cardType: 'playlist',
+          coverUrl: playlist.imageUrl,
+          totalTracks: playlist.totalTracks,
+        );
+    if (!mounted) return;
+    setState(() => _addedUris.add(playlist.uri));
+    ScaffoldMessenger.of(context)
+      ..clearSnackBars()
+      ..showSnackBar(
+        SnackBar(
+          content: Text('${playlist.name} hinzugefügt'),
+          duration: const Duration(seconds: 2),
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+  }
+
+  // ---------------------------------------------------------------------------
+  // Series detection & bulk add
+  // ---------------------------------------------------------------------------
+
+  List<CatalogSeries> _detectedSeries() {
+    final counts = <String, int>{};
+    final seriesMap = <String, CatalogSeries>{};
+    for (var i = 0; i < _albumResults.length; i++) {
+      final match =
+          i < _catalogMatches.length ? _catalogMatches[i] : null;
+      if (match == null) continue;
+      final sid = match.series.id;
+      counts[sid] = (counts[sid] ?? 0) + 1;
+      seriesMap[sid] = match.series;
+    }
+    if (counts.isEmpty) return [];
+    final sorted =
+        counts.keys.toList()
+          ..sort((a, b) => counts[b]!.compareTo(counts[a]!));
+    return sorted.map((id) => seriesMap[id]!).toList();
+  }
+
+  Future<void> _addSeriesFromCatalog(CatalogSeries series) async {
+    final groupId = await _findOrCreateGroup(series.title);
+    if (!mounted) return;
+    setState(() => _createdSeriesTitles.add(series.title.toLowerCase()));
+
+    final sw = Stopwatch()..start();
+    var added = 0;
+    var failed = 0;
+    final albumIds = series.albums.map((a) => a.spotifyId).toList();
+    final totalCount = albumIds.length;
+    var progressCount = 0;
+    final progressNotifier = ValueNotifier<double>(0);
+
+    unawaited(
+      showDialog<void>(
+        context: context,
+        barrierDismissible: false,
+        builder:
+            (_) => ValueListenableBuilder<double>(
+              valueListenable: progressNotifier,
+              builder:
+                  (_, progress, _) => AlertDialog(
+                    content: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        LinearProgressIndicator(value: progress),
+                        const SizedBox(height: AppSpacing.md),
+                        Text(
+                          '${(progress * 100).round()}% — '
+                          '$progressCount von $totalCount Folgen',
+                          style: const TextStyle(
+                            fontFamily: 'Nunito',
+                            fontSize: 14,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+            ),
+      ),
+    );
+
+    try {
+      for (var i = 0; i < albumIds.length; i += 20) {
+        final batch = albumIds.sublist(
+          i,
+          (i + 20).clamp(0, albumIds.length),
+        );
+        List<SpotifyAlbum> albums;
+        try {
+          albums = await ref.read(spotifyApiProvider).getAlbums(batch);
+        } on Exception catch (e) {
+          Log.error(
+            _tag,
+            'Batch fetch failed',
+            exception: e,
+            data: {'batch': '${i ~/ 20 + 1}', 'ids': batch.length},
+          );
+          failed += batch.length;
+          progressCount += batch.length;
+          if (mounted) progressNotifier.value = progressCount / totalCount;
+          continue;
+        }
+
+        for (final album in albums) {
+          final catalogAlbum =
+              series.albums
+                  .where((a) => a.spotifyId == album.id)
+                  .firstOrNull;
+          final cardId = await ref
+              .read(cardRepositoryProvider)
+              .insertIfAbsent(
+                title: album.name,
+                providerUri: album.uri,
+                cardType: 'album',
+                coverUrl: album.imageUrl,
+                spotifyArtistIds: album.artistIds,
+                totalTracks: album.totalTracks,
+              );
+          await ref
+              .read(cardRepositoryProvider)
+              .assignToGroup(
+                cardId: cardId,
+                groupId: groupId,
+                episodeNumber: catalogAlbum?.episode,
+              );
+          added++;
+          if (mounted) setState(() => _addedUris.add(album.uri));
+        }
+
+        failed += batch.length - albums.length;
+        progressCount += batch.length;
+        if (mounted) progressNotifier.value = progressCount / totalCount;
+      }
+    } on Exception catch (e) {
+      Log.error(_tag, 'Series bulk add failed', exception: e);
+    }
+
+    sw.stop();
+    Log.info(
+      _tag,
+      'Series bulk add complete',
+      data: {
+        'series': series.id,
+        'catalogAlbums': totalCount,
+        'added': added,
+        'failed': failed,
+        'durationMs': sw.elapsedMilliseconds,
+      },
+    );
+
+    if (mounted) Navigator.of(context).pop();
+    // progressNotifier is a local ValueNotifier — GC handles cleanup
+    // after the dialog's listener detaches. Explicit dispose() races
+    // with the pop animation.
+    if (mounted) unawaited(context.push(AppRoutes.parentGroupEdit(groupId)));
+  }
+
+  Future<void> _addSeriesFromSearch(CatalogSeries series) async {
+    final groupId = await _findOrCreateGroup(series.title);
+    if (!mounted) return;
+    setState(() => _createdSeriesTitles.add(series.title.toLowerCase()));
+
+    var count = 0;
+    for (var i = 0; i < _albumResults.length; i++) {
+      final album = _albumResults[i];
+      if (_addedUris.contains(album.uri)) continue;
+      final match =
+          i < _catalogMatches.length ? _catalogMatches[i] : null;
+      if (match?.series.id != series.id) continue;
+
+      final cardId = await ref
+          .read(cardRepositoryProvider)
+          .insertIfAbsent(
+            title: album.name,
+            providerUri: album.uri,
+            cardType: 'album',
+            coverUrl: album.imageUrl,
+            spotifyArtistIds: album.artistIds,
+            totalTracks: album.totalTracks,
+          );
+      await ref
+          .read(cardRepositoryProvider)
+          .assignToGroup(
+            cardId: cardId,
+            groupId: groupId,
+            episodeNumber: match?.episodeNumber,
+          );
+      if (mounted) setState(() => _addedUris.add(album.uri));
+      count++;
+    }
+
+    Log.info(
+      _tag,
+      'Series search add',
+      data: {'series': series.id, 'added': count},
+    );
+
+    if (mounted) unawaited(context.push(AppRoutes.parentGroupEdit(groupId)));
+  }
+
+  // ---------------------------------------------------------------------------
+  // Album & playlist detail sheets
+  // ---------------------------------------------------------------------------
+
+  Future<void> _showAlbumDetail(
+    SpotifyAlbum album,
+    CatalogMatch? match,
+  ) async {
+    if (!mounted) return;
+    final isAdded = _addedUris.contains(album.uri);
+    await showModalBottomSheet<void>(
+      context: context,
+      isScrollControlled: true,
+      useSafeArea: true,
+      builder:
+          (ctx) => _AlbumDetailSheet(
+            album: album,
+            catalogMatch: match,
+            isAdded: isAdded,
+            onAdd: () {
+              Navigator.of(ctx).pop();
+              unawaited(_handleAddTap(album, match));
+            },
+          ),
+    );
+  }
+
+  Future<void> _showPlaylistDetail(SpotifyPlaylist playlist) async {
+    if (!mounted) return;
+    final isAdded = _addedUris.contains(playlist.uri);
+    await showModalBottomSheet<void>(
+      context: context,
+      isScrollControlled: true,
+      useSafeArea: true,
+      builder:
+          (ctx) => _PlaylistDetailSheet(
+            playlist: playlist,
+            isAdded: isAdded,
+            onAdd: () {
+              Navigator.of(ctx).pop();
+              unawaited(_addPlaylist(playlist));
+            },
+          ),
+    );
+  }
+
+  // ---------------------------------------------------------------------------
+  // Build
+  // ---------------------------------------------------------------------------
+
+  @override
+  Widget build(BuildContext context) {
+    final authState = ref.watch(spotifyAuthProvider);
     final catalogAsync = ref.watch(catalogServiceProvider);
+
+    // Spotify not connected — show connection prompt
+    if (authState is! AuthAuthenticated) {
+      return _SpotifyNotConnected(
+        isAutoAssignMode: _isAutoAssignMode,
+      );
+    }
+
+    // Detect series in results (only in general add mode)
+    final detectedSeries =
+        !_isAutoAssignMode && _albumResults.isNotEmpty
+            ? _detectedSeries()
+            : <CatalogSeries>[];
+
+    // In autoAssign mode, offer batch add when all results match one series
+    String? batchSeries;
+    if (_isAutoAssignMode && _albumResults.isNotEmpty) {
+      String? title;
+      var allMatch = true;
+      for (var i = 0; i < _albumResults.length; i++) {
+        if (_addedUris.contains(_albumResults[i].uri)) continue;
+        final match =
+            i < _catalogMatches.length ? _catalogMatches[i] : null;
+        if (match == null) {
+          allMatch = false;
+          break;
+        }
+        title ??= match.series.title;
+        if (title != match.series.title) {
+          allMatch = false;
+          break;
+        }
+      }
+      if (allMatch) batchSeries = title;
+    }
 
     return Scaffold(
       backgroundColor: AppColors.parentBackground,
       appBar: AppBar(
         backgroundColor: AppColors.parentBackground,
-        title: const Text('Katalog'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.search_rounded),
-            tooltip: 'Bei Spotify suchen',
-            onPressed: () => context.push(AppRoutes.parentAddCard),
+        title: Text(
+          _isAutoAssignMode
+              ? 'Folge hinzufügen'
+              : 'Hörspiel hinzufügen',
+        ),
+      ),
+      body: Column(
+        children: [
+          // Auto-assign mode banner
+          if (_isAutoAssignMode)
+            _AutoAssignBanner(groupTitle: _autoGroup?.title),
+
+          // Search mode toggle (only in general add mode)
+          if (!_isAutoAssignMode)
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppSpacing.screenH,
+                vertical: AppSpacing.xs,
+              ),
+              child: SegmentedButton<_SearchMode>(
+                segments: const [
+                  ButtonSegment(
+                    value: _SearchMode.album,
+                    icon: Icon(Icons.auto_stories_rounded, size: 18),
+                    label: Text('Hörspiele'),
+                  ),
+                  ButtonSegment(
+                    value: _SearchMode.playlist,
+                    icon: Icon(Icons.music_note_rounded, size: 18),
+                    label: Text('Musik'),
+                  ),
+                ],
+                selected: {_searchMode},
+                onSelectionChanged: (s) => _setSearchMode(s.first),
+                style: const ButtonStyle(
+                  textStyle: WidgetStatePropertyAll(
+                    TextStyle(
+                      fontFamily: 'Nunito',
+                      fontSize: 13,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  visualDensity: VisualDensity.compact,
+                ),
+              ),
+            ),
+
+          // Search field
+          Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: AppSpacing.screenH,
+              vertical: AppSpacing.sm,
+            ),
+            child: TextField(
+              controller: _searchController,
+              focusNode: _searchFocusNode,
+              onChanged: _onSearchChanged,
+              decoration: InputDecoration(
+                hintText:
+                    _searchMode == _SearchMode.playlist
+                        ? 'Playlists auf Spotify suchen…'
+                        : 'Hörspiel auf Spotify suchen…',
+                prefixIcon: const Icon(Icons.search_rounded),
+                suffixIcon:
+                    _isSearchActive
+                        ? IconButton(
+                          onPressed: _clearSearch,
+                          icon: const Icon(Icons.close_rounded),
+                        )
+                        : null,
+              ),
+            ),
+          ),
+
+          // Content area: curated grid (default) or search results.
+          // Show grid until search actually fires (avoids blank flash during debounce).
+          Expanded(
+            child:
+                _isSearching || _hasSearched
+                    ? _buildSearchResults(
+                      detectedSeries: detectedSeries,
+                      batchSeries: batchSeries,
+                    )
+                    : catalogAsync.when(
+                      loading:
+                          () => const Center(
+                            child: CircularProgressIndicator(),
+                          ),
+                      error: (e, _) => Center(child: Text('Fehler: $e')),
+                      data: _buildCuratedGrid,
+                    ),
           ),
         ],
       ),
-      body: catalogAsync.when(
-        loading: () => const Center(child: CircularProgressIndicator()),
-        error: (e, _) => Center(child: Text('Fehler: $e')),
-        data: (catalog) {
-          final series =
-              catalog.all.where((s) => s.hasCuratedAlbums).toList()
-                ..sort((a, b) => a.title.compareTo(b.title));
+    );
+  }
 
-          if (series.isEmpty) {
-            return const Center(
-              child: Text(
-                'Noch keine Serien im Katalog.',
-                style: TextStyle(color: AppColors.textSecondary),
-              ),
-            );
-          }
+  // ---------------------------------------------------------------------------
+  // Curated grid (default view)
+  // ---------------------------------------------------------------------------
 
-          return GridView.builder(
-            padding: const EdgeInsets.all(AppSpacing.md),
+  Widget _buildCuratedGrid(CatalogService catalog) {
+    final series =
+        catalog.all.where((s) => s.hasCuratedAlbums).toList()
+          ..sort((a, b) => a.title.compareTo(b.title));
+
+    if (series.isEmpty) {
+      return const Center(
+        child: Text(
+          'Noch keine Serien im Katalog.',
+          style: TextStyle(color: AppColors.textSecondary),
+        ),
+      );
+    }
+
+    return CustomScrollView(
+      slivers: [
+        // Section header
+        const SliverToBoxAdapter(
+          child: Padding(
+            padding: EdgeInsets.fromLTRB(
+              AppSpacing.screenH,
+              AppSpacing.xs,
+              AppSpacing.screenH,
+              AppSpacing.sm,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Beliebte Hörspiele',
+                  style: TextStyle(
+                    fontFamily: 'Nunito',
+                    fontSize: 16,
+                    fontWeight: FontWeight.w700,
+                    color: AppColors.textPrimary,
+                  ),
+                ),
+                SizedBox(height: 2),
+                Text(
+                  'Tippe auf eine Serie zum Hinzufügen',
+                  style: TextStyle(
+                    fontFamily: 'Nunito',
+                    fontSize: 13,
+                    color: AppColors.textSecondary,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+
+        // Grid
+        SliverPadding(
+          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
+          sliver: SliverGrid(
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 3,
               mainAxisSpacing: AppSpacing.md,
               crossAxisSpacing: AppSpacing.md,
               childAspectRatio: 0.75,
             ),
-            itemCount: series.length,
-            itemBuilder: (context, index) => _SeriesCard(series: series[index]),
+            delegate: SliverChildBuilderDelegate(
+              (context, index) => _CuratedSeriesCard(series: series[index]),
+              childCount: series.length,
+            ),
+          ),
+        ),
+
+        // Bottom padding
+        const SliverPadding(padding: EdgeInsets.only(bottom: AppSpacing.xxl)),
+      ],
+    );
+  }
+
+  // ---------------------------------------------------------------------------
+  // Search results
+  // ---------------------------------------------------------------------------
+
+  Widget _buildSearchResults({
+    required List<CatalogSeries> detectedSeries,
+    String? batchSeries,
+  }) {
+    final headers = <Widget>[
+      if (batchSeries != null)
+        _BatchAddBanner(
+          seriesTitle: batchSeries,
+          count:
+              _albumResults.where((a) => !_addedUris.contains(a.uri)).length,
+          onAddAll: () => unawaited(_handleAddAll(batchSeries)),
+        ),
+      ...detectedSeries.map(
+        (series) {
+          final exists = _createdSeriesTitles.contains(
+            series.title.toLowerCase(),
+          );
+          return _DetectedSeriesCard(
+            series: series,
+            matchCount:
+                _catalogMatches
+                    .whereType<CatalogMatch>()
+                    .where((m) => m.series.id == series.id)
+                    .length,
+            alreadyCreated: exists,
+            onAdd:
+                () =>
+                    series.hasCuratedAlbums
+                        ? unawaited(_addSeriesFromCatalog(series))
+                        : unawaited(_addSeriesFromSearch(series)),
           );
         },
+      ),
+    ];
+
+    if (_isSearching) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
+    if (_searchMode == _SearchMode.playlist) {
+      if (_playlistResults.isEmpty && _hasSearched) {
+        return const Center(
+          child: Text(
+            'Keine Ergebnisse.',
+            style: TextStyle(
+              fontFamily: 'Nunito',
+              fontSize: 15,
+              color: AppColors.textSecondary,
+            ),
+          ),
+        );
+      }
+      return ListView.builder(
+        itemCount: _playlistResults.length,
+        padding: const EdgeInsets.only(bottom: AppSpacing.xxl),
+        itemBuilder: (context, index) {
+          final playlist = _playlistResults[index];
+          return _PlaylistResultTile(
+            playlist: playlist,
+            isAdded: _addedUris.contains(playlist.uri),
+            onAdd: () => unawaited(_addPlaylist(playlist)),
+            onTap: () => unawaited(_showPlaylistDetail(playlist)),
+          );
+        },
+      );
+    }
+
+    if (_albumResults.isEmpty && _hasSearched) {
+      return const Center(
+        child: Text(
+          'Keine Ergebnisse.',
+          style: TextStyle(
+            fontFamily: 'Nunito',
+            fontSize: 15,
+            color: AppColors.textSecondary,
+          ),
+        ),
+      );
+    }
+
+    if (headers.isEmpty) {
+      return ListView.builder(
+        itemCount: _albumResults.length,
+        padding: const EdgeInsets.only(bottom: AppSpacing.xxl),
+        cacheExtent: 500,
+        itemBuilder: (context, index) => _buildAlbumTile(index),
+      );
+    }
+
+    return Column(
+      children: [
+        ...headers,
+        Expanded(
+          child: ListView.builder(
+            itemCount: _albumResults.length,
+            padding: const EdgeInsets.only(bottom: AppSpacing.xxl),
+            cacheExtent: 500,
+            itemBuilder: (context, index) => _buildAlbumTile(index),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildAlbumTile(int index) {
+    final album = _albumResults[index];
+    final match =
+        index < _catalogMatches.length ? _catalogMatches[index] : null;
+    return _SearchResultTile(
+      album: album,
+      isAdded: _addedUris.contains(album.uri),
+      catalogMatch: match,
+      onAdd: () => unawaited(_handleAddTap(album, match)),
+      onTap: () => unawaited(_showAlbumDetail(album, match)),
+    );
+  }
+}
+
+// ── Search mode ─────────────────────────────────────────────────────────────
+
+enum _SearchMode { album, playlist }
+
+// ── Spotify not connected ───────────────────────────────────────────────────
+
+class _SpotifyNotConnected extends ConsumerWidget {
+  const _SpotifyNotConnected({required this.isAutoAssignMode});
+
+  final bool isAutoAssignMode;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Scaffold(
+      backgroundColor: AppColors.parentBackground,
+      appBar: AppBar(
+        backgroundColor: AppColors.parentBackground,
+        title: Text(
+          isAutoAssignMode ? 'Folge hinzufügen' : 'Hörspiel hinzufügen',
+        ),
+      ),
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(AppSpacing.screenH),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Icon(
+                Icons.music_off_rounded,
+                size: 48,
+                color: AppColors.textSecondary,
+              ),
+              const SizedBox(height: AppSpacing.md),
+              const Text(
+                'Spotify nicht verbunden',
+                style: TextStyle(
+                  fontFamily: 'Nunito',
+                  fontSize: 18,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+              const SizedBox(height: AppSpacing.sm),
+              const Text(
+                'Verbinde Spotify in den Einstellungen, um '
+                'Hörspiele und Musik hinzuzufügen.',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontFamily: 'Nunito',
+                  fontSize: 14,
+                  color: AppColors.textSecondary,
+                ),
+              ),
+              const SizedBox(height: AppSpacing.lg),
+              FilledButton.icon(
+                onPressed: () => context.push(AppRoutes.parentSettings),
+                icon: const Icon(Icons.settings_rounded),
+                label: const Text('Einstellungen'),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
 }
 
-class _SeriesCard extends ConsumerWidget {
-  const _SeriesCard({required this.series});
+// ── Auto-assign banner ──────────────────────────────────────────────────────
+
+class _AutoAssignBanner extends StatelessWidget {
+  const _AutoAssignBanner({this.groupTitle});
+
+  final String? groupTitle;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      color: AppColors.primary.withValues(alpha: 0.1),
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppSpacing.screenH,
+        vertical: AppSpacing.sm,
+      ),
+      child: Row(
+        children: [
+          const Icon(
+            Icons.layers_rounded,
+            size: 16,
+            color: AppColors.primary,
+          ),
+          const SizedBox(width: AppSpacing.xs),
+          Expanded(
+            child: Text(
+              groupTitle != null
+                  ? 'Folgen werden direkt zu »$groupTitle« hinzugefügt'
+                  : 'Folgen werden direkt zur Serie hinzugefügt',
+              style: const TextStyle(
+                fontFamily: 'Nunito',
+                fontSize: 13,
+                color: AppColors.primary,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// ── Curated series card ─────────────────────────────────────────────────────
+
+class _CuratedSeriesCard extends ConsumerWidget {
+  const _CuratedSeriesCard({required this.series});
 
   final CatalogSeries series;
 
@@ -84,9 +1109,7 @@ class _SeriesCard extends ConsumerWidget {
 
     return GestureDetector(
       onTap:
-          () => context.push(
-            AppRoutes.parentCatalogSeries(series.id),
-          ),
+          () => context.push(AppRoutes.parentCatalogSeries(series.id)),
       child: Column(
         children: [
           Expanded(
@@ -194,11 +1217,9 @@ class _CatalogSeriesDetailScreenState
     }
 
     try {
-      // Fetch album details from Spotify API (provider-specific step).
       final albumIds = _selected.toList();
       final albums = await api.getAlbums(albumIds);
 
-      // Build PendingCards from Spotify album data.
       final cards = <PendingCard>[];
       for (final album in albums) {
         final catalogAlbum =
@@ -233,7 +1254,9 @@ class _CatalogSeriesDetailScreenState
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('${result.added} Folgen zu ${series.title} hinzugefügt'),
+            content: Text(
+              '${result.added} Folgen zu ${series.title} hinzugefügt',
+            ),
           ),
         );
         setState(() {
@@ -281,9 +1304,6 @@ class _CatalogSeriesDetailScreenState
               (a, b) => (a.episode ?? 999999).compareTo(b.episode ?? 999999),
             );
 
-        // Pre-select all non-existing albums on first build.
-        // Guard on cardsLoaded to avoid selecting everything while
-        // existingUris is still empty (stream not yet emitted).
         if (_selected.isEmpty && _selectAll && cardsLoaded) {
           for (final album in albums) {
             if (!existingUris.contains(
@@ -376,7 +1396,7 @@ class _CatalogSeriesDetailScreenState
   }
 }
 
-// ── Album tile ──────────────────────────────────────────────────────────────
+// ── Album tile (series detail) ──────────────────────────────────────────────
 
 class _AlbumTile extends StatelessWidget {
   const _AlbumTile({
@@ -423,7 +1443,814 @@ class _AlbumTile extends StatelessWidget {
   }
 }
 
+// ── Detected series card (search results) ───────────────────────────────────
+
+class _DetectedSeriesCard extends StatelessWidget {
+  const _DetectedSeriesCard({
+    required this.series,
+    required this.matchCount,
+    required this.onAdd,
+    this.alreadyCreated = false,
+  });
+
+  final CatalogSeries series;
+  final int matchCount;
+  final VoidCallback onAdd;
+  final bool alreadyCreated;
+
+  @override
+  Widget build(BuildContext context) {
+    final hasAlbums = series.hasCuratedAlbums;
+    final subtitle =
+        hasAlbums
+            ? '${series.albums.length} Folgen gefunden'
+            : '$matchCount ${matchCount == 1 ? 'Treffer' : 'Treffer'} in Ergebnissen';
+
+    return Container(
+      margin: const EdgeInsets.symmetric(
+        horizontal: AppSpacing.screenH,
+        vertical: AppSpacing.xs,
+      ),
+      decoration: BoxDecoration(
+        color: AppColors.primary.withValues(alpha: 0.08),
+        borderRadius: const BorderRadius.all(AppRadius.card),
+      ),
+      child: ListTile(
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: AppSpacing.md,
+          vertical: AppSpacing.xs,
+        ),
+        leading: Icon(
+          alreadyCreated
+              ? Icons.check_circle_rounded
+              : Icons.library_music_rounded,
+          color: AppColors.primary,
+          size: 28,
+        ),
+        title: Text(
+          series.title,
+          style: const TextStyle(
+            fontFamily: 'Nunito',
+            fontWeight: FontWeight.w700,
+            fontSize: 15,
+            color: AppColors.primary,
+          ),
+        ),
+        subtitle: Text(
+          alreadyCreated ? 'Serie bereits angelegt' : subtitle,
+          style: const TextStyle(
+            fontFamily: 'Nunito',
+            fontSize: 12,
+            color: AppColors.primary,
+          ),
+        ),
+        trailing:
+            alreadyCreated
+                ? null
+                : FilledButton(
+                  onPressed: onAdd,
+                  style: FilledButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: AppSpacing.md,
+                      vertical: AppSpacing.xs,
+                    ),
+                    minimumSize: Size.zero,
+                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  ),
+                  child: const Text('Serie anlegen'),
+                ),
+      ),
+    );
+  }
+}
+
+// ── Batch-add banner ────────────────────────────────────────────────────────
+
+class _BatchAddBanner extends StatelessWidget {
+  const _BatchAddBanner({
+    required this.seriesTitle,
+    required this.count,
+    required this.onAddAll,
+  });
+
+  final String seriesTitle;
+  final int count;
+  final VoidCallback onAddAll;
+
+  @override
+  Widget build(BuildContext context) {
+    if (count == 0) return const SizedBox.shrink();
+    return Container(
+      margin: const EdgeInsets.symmetric(
+        horizontal: AppSpacing.screenH,
+        vertical: AppSpacing.xs,
+      ),
+      decoration: BoxDecoration(
+        color: AppColors.primary.withValues(alpha: 0.08),
+        borderRadius: const BorderRadius.all(AppRadius.card),
+      ),
+      child: ListTile(
+        dense: true,
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: AppSpacing.md,
+          vertical: AppSpacing.xs,
+        ),
+        leading: const Icon(
+          Icons.layers_rounded,
+          color: AppColors.primary,
+          size: 20,
+        ),
+        title: Text(
+          count == 1
+              ? 'Zur Serie »$seriesTitle« hinzufügen'
+              : 'Alle $count Folgen zu »$seriesTitle« hinzufügen',
+          style: const TextStyle(
+            fontFamily: 'Nunito',
+            fontWeight: FontWeight.w700,
+            fontSize: 14,
+            color: AppColors.primary,
+          ),
+        ),
+        trailing: FilledButton(
+          onPressed: onAddAll,
+          style: FilledButton.styleFrom(
+            padding: const EdgeInsets.symmetric(
+              horizontal: AppSpacing.md,
+              vertical: AppSpacing.xs,
+            ),
+            minimumSize: Size.zero,
+            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+          ),
+          child: Text(count == 1 ? 'Hinzufügen' : 'Alle hinzufügen'),
+        ),
+      ),
+    );
+  }
+}
+
+// ── Search result tile ──────────────────────────────────────────────────────
+
+class _SearchResultTile extends StatelessWidget {
+  const _SearchResultTile({
+    required this.album,
+    required this.isAdded,
+    required this.onAdd,
+    required this.onTap,
+    this.catalogMatch,
+  });
+
+  final SpotifyAlbum album;
+  final bool isAdded;
+  final CatalogMatch? catalogMatch;
+  final VoidCallback onAdd;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final cover = ClipRRect(
+      borderRadius: const BorderRadius.all(Radius.circular(6)),
+      child: SizedBox(
+        width: 56,
+        height: 56,
+        child:
+            album.imageUrl != null
+                ? CachedNetworkImage(
+                  imageUrl: album.imageUrl!,
+                  fit: BoxFit.cover,
+                  memCacheWidth: 112,
+                )
+                : const ColoredBox(
+                  color: AppColors.surfaceDim,
+                  child: Icon(Icons.music_note_rounded),
+                ),
+      ),
+    );
+
+    final trailing =
+        isAdded
+            ? const Icon(Icons.check_rounded, color: AppColors.success)
+            : IconButton(
+              onPressed: onAdd,
+              icon: const Icon(Icons.add_rounded),
+              color: AppColors.primary,
+            );
+
+    return InkWell(
+      onTap: onTap,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        child: Row(
+          children: [
+            cover,
+            const SizedBox(width: 16),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    album.name,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      fontFamily: 'Nunito',
+                      fontWeight: FontWeight.w600,
+                      fontSize: 15,
+                    ),
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    '${album.artistNames} · ${album.totalTracks} Titel',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      fontFamily: 'Nunito',
+                      fontSize: 13,
+                      color: AppColors.textSecondary,
+                    ),
+                  ),
+                  if (catalogMatch != null) ...[
+                    const SizedBox(height: 2),
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Icon(
+                          Icons.layers_rounded,
+                          size: 11,
+                          color: AppColors.primary,
+                        ),
+                        const SizedBox(width: 3),
+                        Flexible(
+                          child: Text(
+                            catalogMatch!.episodeNumber != null
+                                ? '${catalogMatch!.series.title} · '
+                                    'Folge ${catalogMatch!.episodeNumber}'
+                                : catalogMatch!.series.title,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(
+                              fontFamily: 'Nunito',
+                              fontSize: 11,
+                              color: AppColors.primary,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ],
+              ),
+            ),
+            trailing,
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// ── Playlist result tile ────────────────────────────────────────────────────
+
+class _PlaylistResultTile extends StatelessWidget {
+  const _PlaylistResultTile({
+    required this.playlist,
+    required this.isAdded,
+    required this.onAdd,
+    required this.onTap,
+  });
+
+  final SpotifyPlaylist playlist;
+  final bool isAdded;
+  final VoidCallback onAdd;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final cover = ClipRRect(
+      borderRadius: const BorderRadius.all(Radius.circular(6)),
+      child: SizedBox(
+        width: 56,
+        height: 56,
+        child:
+            playlist.imageUrl != null
+                ? CachedNetworkImage(
+                  imageUrl: playlist.imageUrl!,
+                  fit: BoxFit.cover,
+                  memCacheWidth: 112,
+                )
+                : const ColoredBox(
+                  color: AppColors.surfaceDim,
+                  child: Icon(Icons.music_note_rounded),
+                ),
+      ),
+    );
+
+    final trailing =
+        isAdded
+            ? const Icon(Icons.check_rounded, color: AppColors.success)
+            : IconButton(
+              onPressed: onAdd,
+              icon: const Icon(Icons.add_rounded),
+              color: AppColors.primary,
+            );
+
+    return InkWell(
+      onTap: onTap,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        child: Row(
+          children: [
+            cover,
+            const SizedBox(width: 16),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    playlist.name,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      fontFamily: 'Nunito',
+                      fontWeight: FontWeight.w600,
+                      fontSize: 15,
+                    ),
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    '${playlist.ownerName} · ${playlist.totalTracks} Titel',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      fontFamily: 'Nunito',
+                      fontSize: 13,
+                      color: AppColors.textSecondary,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            trailing,
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// ── Album detail bottom sheet ───────────────────────────────────────────────
+
+class _AlbumDetailSheet extends ConsumerStatefulWidget {
+  const _AlbumDetailSheet({
+    required this.album,
+    required this.isAdded,
+    required this.onAdd,
+    this.catalogMatch,
+  });
+
+  final SpotifyAlbum album;
+  final bool isAdded;
+  final CatalogMatch? catalogMatch;
+  final VoidCallback onAdd;
+
+  @override
+  ConsumerState<_AlbumDetailSheet> createState() => _AlbumDetailSheetState();
+}
+
+class _AlbumDetailSheetState extends ConsumerState<_AlbumDetailSheet> {
+  List<SpotifyTrack>? _tracks;
+  bool _loading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    unawaited(_loadTracks());
+  }
+
+  Future<void> _loadTracks() async {
+    try {
+      final detail = await ref
+          .read(spotifyApiProvider)
+          .getAlbum(widget.album.id);
+      if (!mounted) return;
+      setState(() {
+        _tracks = detail?.tracks;
+        _loading = false;
+      });
+    } on Exception catch (e) {
+      Log.error(_tag, 'Failed to load album detail', exception: e);
+      if (mounted) setState(() => _loading = false);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return DraggableScrollableSheet(
+      initialChildSize: 0.6,
+      minChildSize: 0.3,
+      maxChildSize: 0.9,
+      expand: false,
+      builder: (context, scrollController) {
+        return Column(
+          children: [
+            Container(
+              margin: const EdgeInsets.only(top: 8, bottom: 4),
+              width: 40,
+              height: 4,
+              decoration: const BoxDecoration(
+                color: AppColors.surfaceDim,
+                borderRadius: BorderRadius.all(Radius.circular(2)),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(
+                AppSpacing.screenH,
+                AppSpacing.sm,
+                AppSpacing.screenH,
+                AppSpacing.md,
+              ),
+              child: Row(
+                children: [
+                  ClipRRect(
+                    borderRadius: const BorderRadius.all(Radius.circular(8)),
+                    child: SizedBox(
+                      width: 64,
+                      height: 64,
+                      child:
+                          widget.album.imageUrl != null
+                              ? CachedNetworkImage(
+                                imageUrl: widget.album.imageUrl!,
+                                fit: BoxFit.cover,
+                              )
+                              : const ColoredBox(
+                                color: AppColors.surfaceDim,
+                                child: Icon(Icons.music_note_rounded),
+                              ),
+                    ),
+                  ),
+                  const SizedBox(width: AppSpacing.md),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          widget.album.name,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                            fontFamily: 'Nunito',
+                            fontWeight: FontWeight.w700,
+                            fontSize: 16,
+                          ),
+                        ),
+                        const SizedBox(height: 2),
+                        Text(
+                          widget.album.artistNames,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                            fontFamily: 'Nunito',
+                            fontSize: 13,
+                            color: AppColors.textSecondary,
+                          ),
+                        ),
+                        if (widget.catalogMatch != null) ...[
+                          const SizedBox(height: 4),
+                          Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const Icon(
+                                Icons.layers_rounded,
+                                size: 12,
+                                color: AppColors.primary,
+                              ),
+                              const SizedBox(width: 3),
+                              Text(
+                                widget.catalogMatch!.series.title,
+                                style: const TextStyle(
+                                  fontFamily: 'Nunito',
+                                  fontSize: 12,
+                                  color: AppColors.primary,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ],
+                    ),
+                  ),
+                  const SizedBox(width: AppSpacing.sm),
+                  if (widget.isAdded)
+                    const Icon(Icons.check_rounded, color: AppColors.success)
+                  else
+                    FilledButton(
+                      onPressed: widget.onAdd,
+                      style: FilledButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: AppSpacing.md,
+                          vertical: AppSpacing.xs,
+                        ),
+                        minimumSize: Size.zero,
+                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      ),
+                      child: const Text('Hinzufügen'),
+                    ),
+                ],
+              ),
+            ),
+            const Divider(height: 1),
+            Expanded(
+              child:
+                  _loading
+                      ? const Center(child: CircularProgressIndicator())
+                      : _tracks == null || _tracks!.isEmpty
+                      ? const Center(
+                        child: Text(
+                          'Keine Titel verfügbar.',
+                          style: TextStyle(
+                            fontFamily: 'Nunito',
+                            color: AppColors.textSecondary,
+                          ),
+                        ),
+                      )
+                      : ListView.builder(
+                        controller: scrollController,
+                        padding: const EdgeInsets.only(
+                          bottom: AppSpacing.xxl,
+                          top: AppSpacing.xs,
+                        ),
+                        itemCount: _tracks!.length,
+                        itemBuilder: (context, index) {
+                          final track = _tracks![index];
+                          return ListTile(
+                            dense: true,
+                            leading: SizedBox(
+                              width: 24,
+                              child: Text(
+                                '${track.trackNumber}',
+                                textAlign: TextAlign.center,
+                                style: const TextStyle(
+                                  fontFamily: 'Nunito',
+                                  fontSize: 13,
+                                  color: AppColors.textSecondary,
+                                ),
+                              ),
+                            ),
+                            title: Text(
+                              track.name,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(
+                                fontFamily: 'Nunito',
+                                fontSize: 14,
+                              ),
+                            ),
+                            trailing: Text(
+                              _formatDuration(track.durationMs),
+                              style: const TextStyle(
+                                fontFamily: 'Nunito',
+                                fontSize: 13,
+                                color: AppColors.textSecondary,
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+}
+
+// ── Playlist detail bottom sheet ────────────────────────────────────────────
+
+class _PlaylistDetailSheet extends ConsumerStatefulWidget {
+  const _PlaylistDetailSheet({
+    required this.playlist,
+    required this.isAdded,
+    required this.onAdd,
+  });
+
+  final SpotifyPlaylist playlist;
+  final bool isAdded;
+  final VoidCallback onAdd;
+
+  @override
+  ConsumerState<_PlaylistDetailSheet> createState() =>
+      _PlaylistDetailSheetState();
+}
+
+class _PlaylistDetailSheetState extends ConsumerState<_PlaylistDetailSheet> {
+  List<SpotifyTrack>? _tracks;
+  bool _loading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    unawaited(_loadTracks());
+  }
+
+  Future<void> _loadTracks() async {
+    try {
+      final detail = await ref
+          .read(spotifyApiProvider)
+          .getPlaylist(widget.playlist.id);
+      if (!mounted) return;
+      setState(() {
+        _tracks = detail?.tracks;
+        _loading = false;
+      });
+    } on Exception catch (e) {
+      Log.error(_tag, 'Failed to load playlist detail', exception: e);
+      if (mounted) setState(() => _loading = false);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return DraggableScrollableSheet(
+      initialChildSize: 0.6,
+      minChildSize: 0.3,
+      maxChildSize: 0.9,
+      expand: false,
+      builder: (context, scrollController) {
+        return Column(
+          children: [
+            Container(
+              margin: const EdgeInsets.only(top: 8, bottom: 4),
+              width: 40,
+              height: 4,
+              decoration: const BoxDecoration(
+                color: AppColors.surfaceDim,
+                borderRadius: BorderRadius.all(Radius.circular(2)),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(
+                AppSpacing.screenH,
+                AppSpacing.sm,
+                AppSpacing.screenH,
+                AppSpacing.md,
+              ),
+              child: Row(
+                children: [
+                  ClipRRect(
+                    borderRadius: const BorderRadius.all(Radius.circular(8)),
+                    child: SizedBox(
+                      width: 64,
+                      height: 64,
+                      child:
+                          widget.playlist.imageUrl != null
+                              ? CachedNetworkImage(
+                                imageUrl: widget.playlist.imageUrl!,
+                                fit: BoxFit.cover,
+                              )
+                              : const ColoredBox(
+                                color: AppColors.surfaceDim,
+                                child: Icon(Icons.music_note_rounded),
+                              ),
+                    ),
+                  ),
+                  const SizedBox(width: AppSpacing.md),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          widget.playlist.name,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                            fontFamily: 'Nunito',
+                            fontWeight: FontWeight.w700,
+                            fontSize: 16,
+                          ),
+                        ),
+                        const SizedBox(height: 2),
+                        Text(
+                          '${widget.playlist.ownerName} · '
+                          '${widget.playlist.totalTracks} Titel',
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                            fontFamily: 'Nunito',
+                            fontSize: 13,
+                            color: AppColors.textSecondary,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(width: AppSpacing.sm),
+                  if (widget.isAdded)
+                    const Icon(Icons.check_rounded, color: AppColors.success)
+                  else
+                    FilledButton(
+                      onPressed: widget.onAdd,
+                      style: FilledButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: AppSpacing.md,
+                          vertical: AppSpacing.xs,
+                        ),
+                        minimumSize: Size.zero,
+                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      ),
+                      child: const Text('Hinzufügen'),
+                    ),
+                ],
+              ),
+            ),
+            const Divider(height: 1),
+            Expanded(
+              child:
+                  _loading
+                      ? const Center(child: CircularProgressIndicator())
+                      : _tracks == null || _tracks!.isEmpty
+                      ? const Center(
+                        child: Text(
+                          'Keine Titel verfügbar.',
+                          style: TextStyle(
+                            fontFamily: 'Nunito',
+                            color: AppColors.textSecondary,
+                          ),
+                        ),
+                      )
+                      : ListView.builder(
+                        controller: scrollController,
+                        padding: const EdgeInsets.only(
+                          bottom: AppSpacing.xxl,
+                          top: AppSpacing.xs,
+                        ),
+                        itemCount: _tracks!.length,
+                        itemBuilder: (context, index) {
+                          final track = _tracks![index];
+                          return ListTile(
+                            dense: true,
+                            leading: SizedBox(
+                              width: 24,
+                              child: Text(
+                                '${index + 1}',
+                                textAlign: TextAlign.center,
+                                style: const TextStyle(
+                                  fontFamily: 'Nunito',
+                                  fontSize: 13,
+                                  color: AppColors.textSecondary,
+                                ),
+                              ),
+                            ),
+                            title: Text(
+                              track.name,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(
+                                fontFamily: 'Nunito',
+                                fontSize: 14,
+                              ),
+                            ),
+                            subtitle:
+                                track.artistNames != null
+                                    ? Text(
+                                      track.artistNames!,
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: const TextStyle(
+                                        fontFamily: 'Nunito',
+                                        fontSize: 12,
+                                        color: AppColors.textSecondary,
+                                      ),
+                                    )
+                                    : null,
+                            trailing: Text(
+                              _formatDuration(track.durationMs),
+                              style: const TextStyle(
+                                fontFamily: 'Nunito',
+                                fontSize: 13,
+                                color: AppColors.textSecondary,
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+}
+
 // ── Shared ───────────────────────────────────────────────────────────────────
+
+String _formatDuration(int ms) {
+  final minutes = ms ~/ 60000;
+  final seconds = (ms % 60000) ~/ 1000;
+  return '$minutes:${seconds.toString().padLeft(2, '0')}';
+}
 
 class _Placeholder extends StatelessWidget {
   const _Placeholder({required this.title});
@@ -450,9 +2277,7 @@ class _Placeholder extends StatelessWidget {
   }
 }
 
-/// Batch-fetches cover images for all curated series. Returns a map of
-/// album ID → image URL. Spotify allows 20 IDs per request, so this
-/// batches efficiently instead of N individual calls.
+/// Batch-fetches cover images for all curated series.
 final _seriesCoverMapProvider = FutureProvider.autoDispose<Map<String, String>>(
   (ref) async {
     final api = ref.watch(spotifyApiProvider);
@@ -462,7 +2287,6 @@ final _seriesCoverMapProvider = FutureProvider.autoDispose<Map<String, String>>(
     final catalog = catalogAsync.value;
     if (catalog == null) return {};
 
-    // Collect first album ID from each curated series
     final albumIds = <String>[];
     for (final series in catalog.all) {
       if (series.hasCuratedAlbums) {
@@ -472,7 +2296,6 @@ final _seriesCoverMapProvider = FutureProvider.autoDispose<Map<String, String>>(
 
     if (albumIds.isEmpty) return {};
 
-    // Fetch in batches of 20 (Spotify API limit)
     final coverMap = <String, String>{};
     for (var i = 0; i < albumIds.length; i += 20) {
       final batch = albumIds.sublist(

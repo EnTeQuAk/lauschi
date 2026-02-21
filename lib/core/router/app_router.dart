@@ -5,7 +5,6 @@ import 'package:lauschi/features/cards/screens/group_detail_screen.dart';
 import 'package:lauschi/features/cards/screens/kid_home_screen.dart';
 import 'package:lauschi/features/onboarding/screens/onboarding_provider.dart';
 import 'package:lauschi/features/onboarding/screens/onboarding_screen.dart';
-import 'package:lauschi/features/parent/screens/add_card_screen.dart';
 import 'package:lauschi/features/parent/screens/ard_show_detail_screen.dart';
 import 'package:lauschi/features/parent/screens/browse_catalog_screen.dart';
 import 'package:lauschi/features/parent/screens/discover_screen.dart';
@@ -108,7 +107,7 @@ GoRouter appRouter(Ref ref) {
           GoRoute(
             path: 'add-card',
             builder:
-                (context, state) => AddCardScreen(
+                (context, state) => BrowseCatalogScreen(
                   autoAssignGroupId: state.uri.queryParameters['groupId'],
                 ),
           ),
