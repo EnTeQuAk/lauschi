@@ -53,7 +53,11 @@ abstract final class AppRoutes {
 }
 
 @Riverpod(keepAlive: true)
-GoRouter appRouter(Ref ref) {
+GoRouter appRouter(Ref ref) => createRouter(ref);
+
+/// Creates the app router. Extracted so tests can override
+/// [initialLocation] without duplicating route definitions.
+GoRouter createRouter(Ref ref, {String initialLocation = AppRoutes.kidHome}) {
   // Re-evaluate redirects when auth or onboarding state changes.
   final refreshNotifier = _RouterRefreshNotifier();
   ref
@@ -62,7 +66,7 @@ GoRouter appRouter(Ref ref) {
     ..onDispose(refreshNotifier.dispose);
 
   return GoRouter(
-    initialLocation: AppRoutes.kidHome,
+    initialLocation: initialLocation,
     debugLogDiagnostics: true,
     refreshListenable: refreshNotifier,
     redirect: (context, state) => _globalRedirect(ref, state),

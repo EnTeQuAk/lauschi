@@ -92,6 +92,17 @@ run = "uv run scripts/discover-titles.py"
 description = "Clear Spotify API disk cache"
 run = "python3 -c \"import sys; sys.path.insert(0, 'scripts'); from spotify_cache import clear_cache; n = clear_cache(); print(f'Cleared {n} entries')\""
 
+[tasks.coverage]
+description = "Run tests with coverage and print summary"
+run = """
+flutter test --coverage --dart-define-from-file=.env
+dart run tool/coverage_summary.dart
+"""
+
+[tasks.test-integration]
+description = "Run integration tests on connected device"
+run = "flutter test integration_test/ --dart-define-from-file=.env"
+
 [tasks.ios-install]
 description = "Install ad-hoc IPA on USB-connected iPad via pymobiledevice3"
 run = """

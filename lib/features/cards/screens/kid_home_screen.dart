@@ -75,7 +75,7 @@ class KidHomeScreen extends ConsumerWidget {
                     ),
                   ),
                   IconButton(
-                    onPressed: () => context.push(AppRoutes.pinEntry),
+                    onPressed: () => context.push(AppRoutes.parentDashboard),
                     icon: const Icon(Icons.settings_rounded),
                     iconSize: 22,
                     style: IconButton.styleFrom(
@@ -436,7 +436,7 @@ class _EmptyState extends StatelessWidget {
             ),
             const SizedBox(height: AppSpacing.xl),
             FilledButton.icon(
-              onPressed: () => context.push(AppRoutes.pinEntry),
+              onPressed: () => context.push(AppRoutes.parentDashboard),
               icon: const Icon(Icons.add_rounded),
               label: const Text('Hörspiel hinzufügen'),
             ),
