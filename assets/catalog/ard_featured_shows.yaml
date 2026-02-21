@@ -1,0 +1,22 @@
+# Curated ARD Audiothek shows known for high-quality kids radio drama.
+#
+# These are professional radio drama adaptations of classic children's
+# literature — voice actors, Foley, original scores. Content parents
+# would pay Audible for, but free on ARD.
+#
+# Add new show IDs as they're discovered. min_duration_seconds filters
+# out trailers and short promos.
+
+featured_shows:
+  - id: "8758580"       # Spielraum – Hörspiel (SWR Kultur)
+    min_duration_seconds: 1200
+  - id: "73442282"      # Mikado Hörspiele (NDR)
+    min_duration_seconds: 1200
+  - id: "58715068"      # Geschichten für Kinder (BR)
+    min_duration_seconds: 600
+  - id: "94878292"      # Kakadu – Kinderhörspiel (DLF Kultur)
+    min_duration_seconds: 1200
+  - id: "76725818"      # Die Märchen der ARD
+    min_duration_seconds: 1200
+  - id: "36244846"      # MausHörspiel lang (WDR)
+    min_duration_seconds: 1200

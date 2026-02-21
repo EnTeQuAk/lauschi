@@ -50,6 +50,7 @@ flutter:
   assets:
     - assets/player.html
     - assets/catalog/series.yaml
+    - assets/catalog/ard_featured_shows.yaml
     - assets/images/branding/
   fonts:
     - family: Nunito

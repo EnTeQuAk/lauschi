@@ -5,17 +5,20 @@ import 'package:go_router/go_router.dart';
 import 'package:lauschi/core/ard/ard_api.dart';
 import 'package:lauschi/core/ard/ard_image.dart';
 import 'package:lauschi/core/ard/ard_models.dart';
+import 'package:lauschi/core/ard/featured_shows.dart';
 import 'package:lauschi/core/router/app_router.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
+import 'package:lauschi/features/parent/widgets/featured_section.dart';
 
-/// Browse ARD Audiothek kids content. Shows a grid of available shows
-/// that parents can tap to see episodes and add them.
+/// Browse ARD Audiothek kids content. Featured items on top, then the
+/// full kids show grid below.
 class DiscoverScreen extends ConsumerWidget {
   const DiscoverScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final showsAsync = ref.watch(_kidsShowsProvider);
+    final featuredAsync = ref.watch(featuredItemsProvider);
 
     return Scaffold(
       backgroundColor: AppColors.parentBackground,
@@ -45,7 +48,11 @@ class DiscoverScreen extends ConsumerWidget {
                   ),
                   const SizedBox(height: AppSpacing.sm),
                   TextButton(
-                    onPressed: () => ref.invalidate(_kidsShowsProvider),
+                    onPressed: () {
+                      ref
+                        ..invalidate(_kidsShowsProvider)
+                        ..invalidate(featuredItemsProvider);
+                    },
                     child: const Text('Erneut versuchen'),
                   ),
                 ],
@@ -61,16 +68,83 @@ class DiscoverScreen extends ConsumerWidget {
             );
           }
 
-          return GridView.builder(
-            padding: const EdgeInsets.all(AppSpacing.md),
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 3,
-              mainAxisSpacing: AppSpacing.md,
-              crossAxisSpacing: AppSpacing.md,
-              childAspectRatio: 0.7,
-            ),
-            itemCount: shows.length,
-            itemBuilder: (context, index) => _ShowCard(show: shows[index]),
+          return CustomScrollView(
+            slivers: [
+              // Featured section (loads independently)
+              SliverToBoxAdapter(
+                child: featuredAsync.when(
+                  loading: () => const Padding(
+                    padding: EdgeInsets.all(AppSpacing.lg),
+                    child: Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                  ),
+                  error: (_, _) => const SizedBox.shrink(),
+                  data: (featured) {
+                    if (featured.isEmpty) return const SizedBox.shrink();
+
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // Hero card — newest featured item
+                        FeaturedHeroCard(item: featured.first),
+                        const SizedBox(height: AppSpacing.lg),
+
+                        // Horizontal scroll — remaining items
+                        if (featured.length > 1)
+                          FeaturedScrollSection(
+                            items: featured.sublist(1),
+                          ),
+                        const SizedBox(height: AppSpacing.lg),
+                      ],
+                    );
+                  },
+                ),
+              ),
+
+              // Section header
+              const SliverToBoxAdapter(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: AppSpacing.screenH,
+                    vertical: AppSpacing.sm,
+                  ),
+                  child: Text(
+                    'ALLE SENDUNGEN',
+                    style: TextStyle(
+                      fontFamily: 'Nunito',
+                      fontSize: 12,
+                      fontWeight: FontWeight.w700,
+                      letterSpacing: 0.8,
+                      color: AppColors.textSecondary,
+                    ),
+                  ),
+                ),
+              ),
+
+              // Show grid
+              SliverPadding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: AppSpacing.md,
+                ),
+                sliver: SliverGrid(
+                  gridDelegate:
+                      const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 3,
+                    mainAxisSpacing: AppSpacing.md,
+                    crossAxisSpacing: AppSpacing.md,
+                    childAspectRatio: 0.7,
+                  ),
+                  delegate: SliverChildBuilderDelegate(
+                    (context, index) => _ShowCard(show: shows[index]),
+                    childCount: shows.length,
+                  ),
+                ),
+              ),
+
+              // Bottom padding
+              const SliverPadding(padding: EdgeInsets.only(bottom: AppSpacing.xl)),
+            ],
           );
         },
       ),
@@ -155,7 +229,6 @@ class _Placeholder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final hue = (title.hashCode % 360).abs().toDouble();
-    // No borderRadius here — parent ClipRRect handles clipping.
     return ColoredBox(
       color: HSLColor.fromAHSL(1, hue, 0.3, 0.25).toColor(),
       child: Center(
