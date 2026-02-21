@@ -3,6 +3,7 @@ import 'dart:async' show unawaited;
 import 'package:flutter/foundation.dart' show kDebugMode;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lauschi/core/settings/debug_settings.dart';
 import 'package:lauschi/core/spotify/spotify_auth_provider.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
@@ -283,7 +284,7 @@ class _SupportCard extends StatelessWidget {
             ),
             const SizedBox(height: AppSpacing.sm),
             const Text(
-              'lauschi ist Open Source',
+              'lauschi ist ein Herzensprojekt',
               style: TextStyle(
                 fontFamily: 'Nunito',
                 fontWeight: FontWeight.w800,
@@ -305,25 +306,52 @@ class _SupportCard extends StatelessWidget {
               ),
             ),
             const SizedBox(height: AppSpacing.md),
-            Row(
-              children: [
-                Expanded(
-                  child: _SupportButton(
-                    icon: Icons.coffee_rounded,
-                    label: 'Kaffee spendieren',
-                    onTap: () => _open(_buyMeACoffee),
+            SizedBox(
+              width: double.infinity,
+              child: FilledButton.icon(
+                onPressed: () => _open(_buyMeACoffee),
+                icon: const Icon(Icons.coffee_rounded, size: 18),
+                label: const Text(
+                  'Kaffee spendieren',
+                  style: TextStyle(fontFamily: 'Nunito', fontSize: 14),
+                ),
+                style: FilledButton.styleFrom(
+                  backgroundColor: AppColors.primary,
+                  foregroundColor: AppColors.textOnPrimary,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  padding: const EdgeInsets.symmetric(vertical: 14),
+                ),
+              ),
+            ),
+            const SizedBox(height: AppSpacing.sm),
+            SizedBox(
+              width: double.infinity,
+              child: OutlinedButton.icon(
+                onPressed: () => _open(_gitHub),
+                icon: SvgPicture.asset(
+                  'assets/images/icons/github.svg',
+                  width: 18,
+                  height: 18,
+                  colorFilter: const ColorFilter.mode(
+                    AppColors.primary,
+                    BlendMode.srcIn,
                   ),
                 ),
-                const SizedBox(width: AppSpacing.sm),
-                Expanded(
-                  child: _SupportButton(
-                    icon: Icons.code_rounded,
-                    label: 'GitHub',
-                    outlined: true,
-                    onTap: () => _open(_gitHub),
-                  ),
+                label: const Text(
+                  'GitHub',
+                  style: TextStyle(fontFamily: 'Nunito', fontSize: 14),
                 ),
-              ],
+                style: OutlinedButton.styleFrom(
+                  foregroundColor: AppColors.primary,
+                  side: const BorderSide(color: AppColors.primary),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  padding: const EdgeInsets.symmetric(vertical: 14),
+                ),
+              ),
             ),
           ],
         ),
@@ -333,58 +361,6 @@ class _SupportCard extends StatelessWidget {
 
   void _open(Uri url) {
     unawaited(launchUrl(url, mode: LaunchMode.externalApplication));
-  }
-}
-
-class _SupportButton extends StatelessWidget {
-  const _SupportButton({
-    required this.icon,
-    required this.label,
-    required this.onTap,
-    this.outlined = false,
-  });
-
-  final IconData icon;
-  final String label;
-  final VoidCallback onTap;
-  final bool outlined;
-
-  @override
-  Widget build(BuildContext context) {
-    if (outlined) {
-      return OutlinedButton.icon(
-        onPressed: onTap,
-        icon: Icon(icon, size: 18),
-        label: Text(
-          label,
-          style: const TextStyle(fontFamily: 'Nunito', fontSize: 13),
-        ),
-        style: OutlinedButton.styleFrom(
-          foregroundColor: AppColors.primary,
-          side: const BorderSide(color: AppColors.primary),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
-          ),
-          padding: const EdgeInsets.symmetric(vertical: 12),
-        ),
-      );
-    }
-    return FilledButton.icon(
-      onPressed: onTap,
-      icon: Icon(icon, size: 18),
-      label: Text(
-        label,
-        style: const TextStyle(fontFamily: 'Nunito', fontSize: 13),
-      ),
-      style: FilledButton.styleFrom(
-        backgroundColor: AppColors.primary,
-        foregroundColor: AppColors.textOnPrimary,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
-        padding: const EdgeInsets.symmetric(vertical: 12),
-      ),
-    );
   }
 }
 
