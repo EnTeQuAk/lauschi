@@ -205,9 +205,7 @@ class _GroupList extends ConsumerWidget {
                     await ref
                         .read(cardRepositoryProvider)
                         .deleteByGroup(group.id);
-                    await ref
-                        .read(groupRepositoryProvider)
-                        .delete(group.id);
+                    await ref.read(groupRepositoryProvider).delete(group.id);
                   },
                   style: FilledButton.styleFrom(
                     backgroundColor: AppColors.error,

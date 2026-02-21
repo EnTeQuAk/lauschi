@@ -164,8 +164,7 @@ class CardRepository {
   Future<int> deleteByGroup(String groupId) async {
     final count =
         await (_db.delete(_db.cards)
-              ..where((t) => t.groupId.equals(groupId)))
-            .go();
+          ..where((t) => t.groupId.equals(groupId))).go();
     Log.info(
       _tag,
       'Deleted cards by group',
@@ -269,8 +268,9 @@ final ungroupedCardsProvider = StreamProvider<List<AudioCard>>((ref) {
 
 /// Per-group card counts and heard progress, derived from allCardsProvider.
 /// Avoids N+1 queries when rendering the kid home grid.
-final groupProgressProvider =
-    Provider<Map<String, ({int total, int heard})>>((ref) {
+final groupProgressProvider = Provider<Map<String, ({int total, int heard})>>((
+  ref,
+) {
   final cards = ref.watch(allCardsProvider).value ?? [];
   final result = <String, ({int total, int heard})>{};
   for (final card in cards) {

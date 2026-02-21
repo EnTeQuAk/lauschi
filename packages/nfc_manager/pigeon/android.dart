@@ -4,11 +4,11 @@ import 'package:pigeon/pigeon.dart';
   PigeonOptions(
     dartPackageName: 'nfc_manager',
     dartOut: 'lib/src/nfc_manager_android/pigeon.g.dart',
-    kotlinOut: 'android/src/main/kotlin/dev/flutter/plugins/nfcmanager/Pigeon.kt',
+    kotlinOut:
+        'android/src/main/kotlin/dev/flutter/plugins/nfcmanager/Pigeon.kt',
     kotlinOptions: KotlinOptions(package: 'dev.flutter.plugins.nfcmanager'),
   ),
 )
-
 @FlutterApi()
 abstract final class FlutterApiPigeon {
   void onTagDiscovered(TagPigeon tag);
@@ -23,7 +23,10 @@ abstract final class HostApiPigeon {
   void nfcAdapterEnableReaderMode({required List<ReaderFlagPigeon> flags});
   void nfcAdapterDisableReaderMode();
   NdefMessagePigeon? ndefGetNdefMessage({required String handle});
-  void ndefWriteNdefMessage({required String handle, required NdefMessagePigeon message});
+  void ndefWriteNdefMessage({
+    required String handle,
+    required NdefMessagePigeon message,
+  });
   bool ndefMakeReadOnly({required String handle});
   int nfcAGetMaxTransceiveLength({required String handle});
   int nfcAGetTimeout({required String handle});
@@ -40,30 +43,87 @@ abstract final class HostApiPigeon {
   int isoDepGetMaxTransceiveLength({required String handle});
   int isoDepGetTimeout({required String handle});
   void isoDepSetTimeout({required String handle, required int timeout});
-  Uint8List isoDepTransceive({required String handle, required Uint8List bytes});
+  Uint8List isoDepTransceive({
+    required String handle,
+    required Uint8List bytes,
+  });
   int mifareClassicGetMaxTransceiveLength({required String handle});
   int mifareClassicGetTimeout({required String handle});
   void mifareClassicSetTimeout({required String handle, required int timeout});
-  int mifareClassicBlockToSector({required String handle, required int blockIndex});
-  int mifareClassicGetBlockCountInSector({required String handle, required int sectorIndex});
-  int mifareClassicSectorToBlock({required String handle, required int sectorIndex});
-  bool mifareClassicAuthenticateSectorWithKeyA({required String handle, required int sectorIndex, required Uint8List key});
-  bool mifareClassicAuthenticateSectorWithKeyB({required String handle, required int sectorIndex, required Uint8List key});
-  void mifareClassicIncrement({required String handle, required int blockIndex, required int value});
-  void mifareClassicDecrement({required String handle, required int blockIndex, required int value});
-  Uint8List mifareClassicReadBlock({required String handle, required int blockIndex});
-  void mifareClassicWriteBlock({required String handle, required int blockIndex, required Uint8List data});
+  int mifareClassicBlockToSector({
+    required String handle,
+    required int blockIndex,
+  });
+  int mifareClassicGetBlockCountInSector({
+    required String handle,
+    required int sectorIndex,
+  });
+  int mifareClassicSectorToBlock({
+    required String handle,
+    required int sectorIndex,
+  });
+  bool mifareClassicAuthenticateSectorWithKeyA({
+    required String handle,
+    required int sectorIndex,
+    required Uint8List key,
+  });
+  bool mifareClassicAuthenticateSectorWithKeyB({
+    required String handle,
+    required int sectorIndex,
+    required Uint8List key,
+  });
+  void mifareClassicIncrement({
+    required String handle,
+    required int blockIndex,
+    required int value,
+  });
+  void mifareClassicDecrement({
+    required String handle,
+    required int blockIndex,
+    required int value,
+  });
+  Uint8List mifareClassicReadBlock({
+    required String handle,
+    required int blockIndex,
+  });
+  void mifareClassicWriteBlock({
+    required String handle,
+    required int blockIndex,
+    required Uint8List data,
+  });
   void mifareClassicRestore({required String handle, required int blockIndex});
   void mifareClassicTransfer({required String handle, required int blockIndex});
-  Uint8List mifareClassicTransceive({required String handle, required Uint8List bytes});
+  Uint8List mifareClassicTransceive({
+    required String handle,
+    required Uint8List bytes,
+  });
   int mifareUltralightGetMaxTransceiveLength({required String handle});
   int mifareUltralightGetTimeout({required String handle});
-  void mifareUltralightSetTimeout({required String handle, required int timeout});
-  Uint8List mifareUltralightReadPages({required String handle, required int pageOffset});
-  void mifareUltralightWritePage({required String handle, required int pageOffset, required Uint8List data});
-  Uint8List mifareUltralightTransceive({required String handle, required Uint8List bytes});
-  void ndefFormatableFormat({required String handle, required NdefMessagePigeon firstMessage});
-  void ndefFormatableFormatReadOnly({required String handle, required NdefMessagePigeon firstMessage});
+  void mifareUltralightSetTimeout({
+    required String handle,
+    required int timeout,
+  });
+  Uint8List mifareUltralightReadPages({
+    required String handle,
+    required int pageOffset,
+  });
+  void mifareUltralightWritePage({
+    required String handle,
+    required int pageOffset,
+    required Uint8List data,
+  });
+  Uint8List mifareUltralightTransceive({
+    required String handle,
+    required Uint8List bytes,
+  });
+  void ndefFormatableFormat({
+    required String handle,
+    required NdefMessagePigeon firstMessage,
+  });
+  void ndefFormatableFormatReadOnly({
+    required String handle,
+    required NdefMessagePigeon firstMessage,
+  });
 }
 
 final class TagPigeon {
@@ -113,37 +173,25 @@ final class NdefPigeon {
 }
 
 final class NfcAPigeon {
-  const NfcAPigeon({
-    required this.atqa,
-    required this.sak,
-  });
+  const NfcAPigeon({required this.atqa, required this.sak});
   final Uint8List atqa;
   final int sak;
 }
 
 final class NfcBPigeon {
-  const NfcBPigeon({
-    required this.applicationData,
-    required this.protocolInfo,
-  });
+  const NfcBPigeon({required this.applicationData, required this.protocolInfo});
   final Uint8List applicationData;
   final Uint8List protocolInfo;
 }
 
 final class NfcFPigeon {
-  const NfcFPigeon({
-    required this.manufacturer,
-    required this.systemCode,
-  });
+  const NfcFPigeon({required this.manufacturer, required this.systemCode});
   final Uint8List manufacturer;
   final Uint8List systemCode;
 }
 
 final class NfcVPigeon {
-  const NfcVPigeon({
-    required this.dsfId,
-    required this.responseFlags,
-  });
+  const NfcVPigeon({required this.dsfId, required this.responseFlags});
   final int dsfId;
   final int responseFlags;
 }
@@ -173,25 +221,18 @@ final class MifareClassicPigeon {
 }
 
 final class MifareUltralightPigeon {
-  const MifareUltralightPigeon({
-    required this.type,
-  });
+  const MifareUltralightPigeon({required this.type});
   final MifareUltralightTypePigeon type;
 }
 
 final class NfcBarcodePigeon {
-  const NfcBarcodePigeon({
-    required this.type,
-    required this.barcode,
-  });
+  const NfcBarcodePigeon({required this.type, required this.barcode});
   final NfcBarcodeTypePigeon type;
   final Uint8List barcode;
 }
 
 final class NdefMessagePigeon {
-  const NdefMessagePigeon({
-    required this.records,
-  });
+  const NdefMessagePigeon({required this.records});
   final List<NdefRecordPigeon> records;
 }
 
@@ -218,12 +259,7 @@ enum ReaderFlagPigeon {
   skipNdefCheck,
 }
 
-enum AdapterStatePigeon {
-  off,
-  turningOn,
-  on,
-  turningOff,
-}
+enum AdapterStatePigeon { off, turningOn, on, turningOff }
 
 enum TypeNameFormatPigeon {
   empty,
@@ -235,20 +271,8 @@ enum TypeNameFormatPigeon {
   unchanged,
 }
 
-enum NfcBarcodeTypePigeon {
-  kovio,
-  unknown,
-}
+enum NfcBarcodeTypePigeon { kovio, unknown }
 
-enum MifareClassicTypePigeon {
-  classic,
-  plus,
-  pro,
-  unknown,
-}
+enum MifareClassicTypePigeon { classic, plus, pro, unknown }
 
-enum MifareUltralightTypePigeon {
-  ultralight,
-  ultralightC,
-  unknown,
-}
+enum MifareUltralightTypePigeon { ultralight, ultralightC, unknown }

@@ -100,7 +100,7 @@ class _FakePlayerNotifier extends PlayerNotifier {
 
 class _FakeOnboarding extends OnboardingComplete {
   @override
-  bool? build() => true; // Already completed
+  bool build() => true; // Already completed
 }
 
 class _FakeParentAuth extends ParentAuth {

@@ -31,6 +31,7 @@ class SpotifyPlayerBridge {
     if (c == null) throw StateError('Bridge not initialized');
     return c;
   }
+
   PlaybackState _state = const PlaybackState();
 
   /// Stream of playback state changes.
@@ -301,7 +302,9 @@ class SpotifyPlayerBridge {
     if (_getValidToken == null) return;
     Log.info(_tag, 'Initializing SDK player with token');
     final token = await _freshToken();
-    await controller.runJavaScript('window.lauschi.init(${json.encode(token)})');
+    await controller.runJavaScript(
+      'window.lauschi.init(${json.encode(token)})',
+    );
   }
 
   Future<void> _deliverFreshToken() async {

@@ -160,19 +160,19 @@ Our catalog matches 43 of 166 Hörspiele (26%). Zero music coverage.
 
 ### Hörspiele — kids series (3-10)
 
-- [ ] PAW Patrol
+- [x] PAW Patrol
 - [ ] Jan & Henry
-- [ ] Die Oktonauten
+- [x] Die Oktonauten
 - [ ] Käpt'n Sharky
 - [ ] Max
 - [ ] Eule
 - [ ] Die kleine Schnecke Monika Häuschen
-- [ ] SimsalaGrimm
+- [x] SimsalaGrimm
 - [ ] Lieselotte Filmhörspiele
 - [ ] Meine Freundin Conni
-- [ ] Kikaninchen
+- [x] Kikaninchen
 - [ ] Willi wills wissen
-- [ ] Der kleine Hui Buh
+- [x] Der kleine Hui Buh
 - [ ] Jan & Henry
 
 ### Hörspiele — kids/tween (6-12)

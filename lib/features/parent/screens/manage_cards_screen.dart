@@ -494,8 +494,7 @@ void _confirmDeleteGroup(
   db.CardGroup group,
   int cardCount,
 ) {
-  final label =
-      cardCount == 1 ? '1 Karte' : '$cardCount Karten';
+  final label = cardCount == 1 ? '1 Karte' : '$cardCount Karten';
   unawaited(
     showDialog<void>(
       context: context,

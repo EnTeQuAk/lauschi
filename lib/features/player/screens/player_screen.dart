@@ -169,8 +169,7 @@ class _InterpolatedProgressState extends ConsumerState<_InterpolatedProgress>
     final state = ref.read(playerProvider);
 
     // Snap to server position on large drift or pause.
-    if ((state.positionMs - _position.value).abs() > 2000 ||
-        !state.isPlaying) {
+    if ((state.positionMs - _position.value).abs() > 2000 || !state.isPlaying) {
       _position.value = state.positionMs;
       _lastTickTime = DateTime.now();
       return;
@@ -191,14 +190,15 @@ class _InterpolatedProgressState extends ConsumerState<_InterpolatedProgress>
     );
     return ValueListenableBuilder<int>(
       valueListenable: _position,
-      builder: (context, positionMs, _) => _ProgressBar(
-        positionMs: positionMs,
-        durationMs: durationMs,
-        onSeek: (ms) {
-          _position.value = ms;
-          widget.onSeek(ms);
-        },
-      ),
+      builder:
+          (context, positionMs, _) => _ProgressBar(
+            positionMs: positionMs,
+            durationMs: durationMs,
+            onSeek: (ms) {
+              _position.value = ms;
+              widget.onSeek(ms);
+            },
+          ),
     );
   }
 }

@@ -148,18 +148,15 @@ GoRouter appRouter(Ref ref) {
 }
 
 String? _globalRedirect(Ref ref, GoRouterState state) {
-  final onboardingState = ref.read(onboardingCompleteProvider);
+  final onboardingDone = ref.read(onboardingCompleteProvider);
   final isOnboarding = state.matchedLocation == AppRoutes.onboarding;
 
-  // Still loading from SharedPreferences — don't redirect yet.
-  if (onboardingState == null) return null;
-
   // Redirect to onboarding if not completed
-  if (!onboardingState && !isOnboarding) {
+  if (!onboardingDone && !isOnboarding) {
     return AppRoutes.onboarding;
   }
   // Don't stay on onboarding if already completed
-  if (onboardingState && isOnboarding) {
+  if (onboardingDone && isOnboarding) {
     return AppRoutes.kidHome;
   }
 
