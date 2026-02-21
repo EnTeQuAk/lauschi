@@ -1,0 +1,206 @@
+{
+  "query": "Split from die_schlumpfe",
+  "model": "review-series.py",
+  "curated_at": "2026-02-21T05:01:09.882710+00:00",
+  "series": {
+    "id": "die_schlumpfe_europa",
+    "title": "Die Schlümpfe (EUROPA Anthologie)",
+    "aliases": [],
+    "keywords": [],
+    "spotify_artist_ids": [
+      "0ONNMDruuhqjpTB9uRhbYs"
+    ],
+    "episode_pattern": "Folge\\s+(\\d+)",
+    "albums": [
+      {
+        "spotify_album_id": "03YSG980Jls0yZ8kVdOtcS",
+        "include": true,
+        "episode_num": 17,
+        "title": "Folge 17: Blüte zieht aus",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2PamhIIkxUEfNYswLoruH2",
+        "include": true,
+        "episode_num": 1,
+        "title": "Folge 1: Ein tollpatschiger Held",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7hwuIkBoYtRG16DE5ClPeo",
+        "include": true,
+        "episode_num": 26,
+        "title": "Folge 26: Wollen wir wetten?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "323Uz36BPQn0PsqVKAnPfD",
+        "include": true,
+        "episode_num": 21,
+        "title": "Folge 21: Die Schlumpfdiva",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1o4a6OJ5ENcfsu59zdjpEa",
+        "include": true,
+        "episode_num": 22,
+        "title": "Folge 22: Der magische Kürbis",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4S5nRTGrXoU6VIdg3if5HL",
+        "include": true,
+        "episode_num": 4,
+        "title": "Folge 4: Mein Schlumpf, der Held",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3GSN1dzwUvdKzYXI6aoLnN",
+        "include": true,
+        "episode_num": 20,
+        "title": "Folge 20: Die fliegenden Schlümpfe",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2MrQz8NwuH96ubXo4plybL",
+        "include": true,
+        "episode_num": 15,
+        "title": "Folge 15: Der Gast, der nicht gehen wollte",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5knSY3nl6mTL5Zl9hOhMm1",
+        "include": true,
+        "episode_num": 16,
+        "title": "Folge 16: Ogerliebe",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4lhwJXQtgjJF1WYHOGc0uN",
+        "include": true,
+        "episode_num": 24,
+        "title": "Folge 24: Schlumpfige Weihnachten",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6Ts4JNHicpgwrqKZ5AQ2IF",
+        "include": true,
+        "episode_num": 11,
+        "title": "Folge 11: Der Laborassistent",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "74vhZGHIMJzMBWPHt9ibAE",
+        "include": true,
+        "episode_num": 8,
+        "title": "Folge 8: Gargaschlumpf",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0rKKL584q3GAAvy3zYZBcQ",
+        "include": true,
+        "episode_num": 7,
+        "title": "Folge 7: Ein schlumpfiger Kindergarten",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4AVOhPoLFZoBxl0qlQazBd",
+        "include": true,
+        "episode_num": 12,
+        "title": "Folge 12: Der doppelte Papa Schlumpf",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3qKKWSQcKfecrfM7QIUZys",
+        "include": true,
+        "episode_num": 18,
+        "title": "Folge 18: Okey Dokey!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6NaSxEeldWBI4uahBDlyor",
+        "include": true,
+        "episode_num": 3,
+        "title": "Folge 3: Wer ist heftiger?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0Hji0C3fP2Vxoke0x593MD",
+        "include": true,
+        "episode_num": 9,
+        "title": "Folge 9: Sturm verliert ihr Mojo",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0EiLKoOMJwvrCwYrusBiTx",
+        "include": true,
+        "episode_num": 19,
+        "title": "Folge 19: Baby Sensei",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1z5eT8gtOv4Jf6eS1CtsZm",
+        "include": true,
+        "episode_num": 10,
+        "title": "Folge 10: Die Schlumpfshow",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "30PyLsUW7zm2sRJpWS3VL2",
+        "include": true,
+        "episode_num": 13,
+        "title": "Folge 13: Ihr seid gefeuert!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6fQLD8MTbcyK5vF3zEkTh8",
+        "include": true,
+        "episode_num": 2,
+        "title": "Folge 2: Ein unwiderschlumpfliches Lächeln",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1I0LEec7rsYlMjuwIvSAZs",
+        "include": true,
+        "episode_num": 5,
+        "title": "Folge 5: Schlumpf Fu",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "01ek7vgiYOT77OYG7GIUAT",
+        "include": true,
+        "episode_num": 6,
+        "title": "Folge 6: Die Plümpfe",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6YFro5aX51QJxFnEQjbCUx",
+        "include": true,
+        "episode_num": 25,
+        "title": "Folge 25: Die Sarsaparillo-Jagd",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2cD99DptS2to8bMstweM1k",
+        "include": true,
+        "episode_num": 14,
+        "title": "Folge 14: Schlumpfige Manieren",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2YRaUWgQXr7elOkWUKvbtm",
+        "include": true,
+        "episode_num": 23,
+        "title": "Folge 23: Schlumpf in die Zukunft",
+        "exclude_reason": null
+      }
+    ],
+    "age_note": "Suitable from 3+",
+    "curator_notes": "Split from Die Schlümpfe. EUROPA/Sony Music anthology series (2022-2024) with multi-story format, different from I.M.P.S. S.A. series (2020) which has single-story format. Both series share episode numbers 1-20 but have completely different content. Episodes 21-26 only exist in EUROPA series. The two series should be separated as they are different products with different content, format, and target different listening preferences (anthology vs single narrative)."
+  },
+  "review": {
+    "status": "pending",
+    "overrides": [],
+    "notes": "Auto-created by apply-splits.py from die_schlumpfe."
+  }
+}

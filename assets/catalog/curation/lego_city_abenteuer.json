@@ -892,5 +892,621 @@
     ],
     "age_note": "Suitable from 5+",
     "curator_notes": "Based on the LEGO City franchise; continuous episode numbering from 77+ suggests this is a later season or continuation of earlier numbering"
+  },
+  "review": {
+    "reviewed_at": "2026-02-21T04:11:36.109123+00:00",
+    "reviewed_by": "review-series.py",
+    "overrides": [
+      {
+        "album_id": "2Kk0GJfbOp1S1xYQCvPfRJ",
+        "action": "exclude",
+        "reason": "Split to lego_city_abenteuer_kurz"
+      },
+      {
+        "album_id": "3svrZyjOpVSvCeI8vcJAh6",
+        "action": "exclude",
+        "reason": "Split to lego_city_abenteuer_kurz"
+      },
+      {
+        "album_id": "5NBUCTJYScYRWXMdmzYCbh",
+        "action": "exclude",
+        "reason": "Split to lego_city_abenteuer_kurz"
+      },
+      {
+        "album_id": "347rtyF5FFUlDJlWZyNlm6",
+        "action": "exclude",
+        "reason": "Split to lego_city_abenteuer_kurz"
+      },
+      {
+        "album_id": "4ge3rxHYZ6RaYHDJFKOBVG",
+        "action": "exclude",
+        "reason": "Split to lego_city_abenteuer_kurz"
+      },
+      {
+        "album_id": "2Q3MXeNezVMnWCVfj6elii",
+        "action": "exclude",
+        "reason": "Split to lego_city_abenteuer_kurz"
+      },
+      {
+        "album_id": "7AkmRYlxCjDpG6KsodqD9g",
+        "action": "exclude",
+        "reason": "Split to lego_city_abenteuer_kurz"
+      },
+      {
+        "album_id": "405hGzqJ4qpjolu2FQjb82",
+        "action": "exclude",
+        "reason": "Split to lego_city_abenteuer_kurz"
+      },
+      {
+        "album_id": "3imxYG6y8VsVx4LyUlkfOf",
+        "action": "exclude",
+        "reason": "Split to lego_city_abenteuer_kurz"
+      },
+      {
+        "album_id": "3s7veQQEXlEubQTmok5pRb",
+        "action": "exclude",
+        "reason": "Split to lego_city_abenteuer_kurz"
+      },
+      {
+        "album_id": "3izXpNSk7XOIGmPkzIVKdr",
+        "action": "exclude",
+        "reason": "Split to lego_city_abenteuer_kurz"
+      },
+      {
+        "album_id": "0hIs9baPRW8O9rIxNbAQOP",
+        "action": "exclude",
+        "reason": "Split to lego_city_abenteuer_kurz"
+      },
+      {
+        "album_id": "5l4pjtQCAIw7kth4UpTPlg",
+        "action": "exclude",
+        "reason": "Split to lego_city_abenteuer_kurz"
+      },
+      {
+        "album_id": "4kRxK0muyaQnoRfnNZ9rBj",
+        "action": "exclude",
+        "reason": "Split to lego_city_abenteuer_kurz"
+      },
+      {
+        "album_id": "7H1Nx8JkzZkiNcEkxUYeWm",
+        "action": "exclude",
+        "reason": "Split to lego_city_abenteuer_kurz"
+      },
+      {
+        "album_id": "0bnOTGPdvEJhHUCRnCuiMH",
+        "action": "exclude",
+        "reason": "Split to lego_city_abenteuer_kurz"
+      },
+      {
+        "album_id": "0nnfNrhRREdzxjjEIecQvy",
+        "action": "exclude",
+        "reason": "Split to lego_city_abenteuer_kurz"
+      },
+      {
+        "album_id": "7doUB96lJhzeIwrITknB1x",
+        "action": "exclude",
+        "reason": "Split to lego_city_abenteuer_kurz"
+      },
+      {
+        "album_id": "0afzIpWaKqXNgGZYOK3urq",
+        "action": "exclude",
+        "reason": "Split to lego_city_abenteuer_kurz"
+      },
+      {
+        "album_id": "4DQt3jPBquJQXX9v3fLPc9",
+        "action": "exclude",
+        "reason": "Split to lego_city_abenteuer_kurz"
+      },
+      {
+        "album_id": "5bQKNIBPQzGXL6DP87E9la",
+        "action": "exclude",
+        "reason": "Split to lego_city_abenteuer_kurz"
+      },
+      {
+        "album_id": "3LrjBkJ9YOCrLPhuPM4U0D",
+        "action": "exclude",
+        "reason": "Split to lego_city_abenteuer_kurz"
+      },
+      {
+        "album_id": "1XgsscB8HcqUZsXRo6kKaO",
+        "action": "exclude",
+        "reason": "Split to lego_city_abenteuer_kurz"
+      },
+      {
+        "album_id": "42bhTSOpjgevmPnspAUcIB",
+        "action": "exclude",
+        "reason": "Split to lego_city_abenteuer_kurz"
+      },
+      {
+        "album_id": "1FKo6rTIST1l9BxIYmgULC",
+        "action": "exclude",
+        "reason": "Split to lego_city_abenteuer_kurz"
+      },
+      {
+        "album_id": "0sGkQKp8NU6OgtqFQP0RND",
+        "action": "exclude",
+        "reason": "Split to lego_city_abenteuer_kurz"
+      },
+      {
+        "album_id": "0ocedFC0do9mHJlACnW2ML",
+        "action": "exclude",
+        "reason": "Split to lego_city_abenteuer_kurz"
+      },
+      {
+        "album_id": "7fYL2nxfaphJWBtvCCCcnq",
+        "action": "exclude",
+        "reason": "Split to lego_city_abenteuer_kurz"
+      },
+      {
+        "album_id": "5oUBfXu3QxE53qLReVTLSa",
+        "action": "exclude",
+        "reason": "Split to lego_city_abenteuer_kurz"
+      },
+      {
+        "album_id": "3MLKOcApZcJKFSmuJfL1Z3",
+        "action": "exclude",
+        "reason": "Split to lego_city_abenteuer_kurz"
+      },
+      {
+        "album_id": "4SygfBWhlHUihHA4PFqH8I",
+        "action": "exclude",
+        "reason": "Split to lego_city_abenteuer_kurz"
+      },
+      {
+        "album_id": "0zqvTv7NvBBJQoZh79sGB6",
+        "action": "exclude",
+        "reason": "Split to lego_city_abenteuer_kurz"
+      },
+      {
+        "album_id": "2ZeMBBUjICk35KElaLZJ8T",
+        "action": "exclude",
+        "reason": "Split to lego_city_abenteuer_kurz"
+      },
+      {
+        "album_id": "59JnARUo1xJGW0ZgTiaLjS",
+        "action": "exclude",
+        "reason": "Split to lego_city_abenteuer_kurz"
+      },
+      {
+        "album_id": "6k27sps2YAEQ6SyOjKhQXs",
+        "action": "exclude",
+        "reason": "Split to lego_city_abenteuer_kurz"
+      },
+      {
+        "album_id": "1tidAlvbhGE8Xxou1kVVOb",
+        "action": "exclude",
+        "reason": "Split to lego_city_abenteuer_kurz"
+      },
+      {
+        "album_id": "6eF0i2mklkMQ23hpcMGJx1",
+        "action": "exclude",
+        "reason": "Split to lego_city_abenteuer_kurz"
+      },
+      {
+        "album_id": "6URZ5RhRScOSTQwqzLZxfJ",
+        "action": "exclude",
+        "reason": "Split to lego_city_abenteuer_kurz"
+      },
+      {
+        "album_id": "6l4t01KngGRcuRq1OTfIwi",
+        "action": "exclude",
+        "reason": "Split to lego_city_abenteuer_kurz"
+      },
+      {
+        "album_id": "2eqgeYqPXKlOWe5S7VL4Fq",
+        "action": "exclude",
+        "reason": "Split to lego_city_abenteuer_kurz"
+      },
+      {
+        "album_id": "2sbSDWSjPfPbDYEcJCmotS",
+        "action": "exclude",
+        "reason": "Split to lego_city_abenteuer_kurz"
+      },
+      {
+        "album_id": "6YNQ1yPeS9j9MlJwdilF4z",
+        "action": "exclude",
+        "reason": "Split to lego_city_abenteuer_kurz"
+      },
+      {
+        "album_id": "1q5gP3E3swTZBOZCt5FJpd",
+        "action": "exclude",
+        "reason": "Split to lego_city_abenteuer_kurz"
+      },
+      {
+        "album_id": "3aRIM31laKkJ65yvcuqkah",
+        "action": "exclude",
+        "reason": "Split to lego_city_abenteuer_kurz"
+      },
+      {
+        "album_id": "2tEFFmE3H2Iw7zRRJTwSF9",
+        "action": "exclude",
+        "reason": "Split to lego_city_abenteuer_kurz"
+      },
+      {
+        "album_id": "1fKYB9wRWnLfSEvteGTCh6",
+        "action": "exclude",
+        "reason": "Split to lego_city_abenteuer_kurz"
+      },
+      {
+        "album_id": "3W90ekKGxosP1jpfB446bZ",
+        "action": "exclude",
+        "reason": "Split to lego_city_abenteuer_kurz"
+      },
+      {
+        "album_id": "09mUGYJj798rMUVpT7SgHs",
+        "action": "exclude",
+        "reason": "Split to lego_city_abenteuer_kurz"
+      },
+      {
+        "album_id": "3vmck7O3g75bkGasy7cAc2",
+        "action": "exclude",
+        "reason": "Split to lego_city_abenteuer_kurz"
+      },
+      {
+        "album_id": "2gWv7kfvOBlllP8W2WLsO9",
+        "action": "exclude",
+        "reason": "Split to lego_city_abenteuer_kurz"
+      },
+      {
+        "album_id": "4ot46UTRhO1ccATzrDm6Zz",
+        "action": "exclude",
+        "reason": "Split to lego_city_abenteuer_kurz"
+      },
+      {
+        "album_id": "6DtSyDx1w6oavhz2gMRgD8",
+        "action": "exclude",
+        "reason": "Split to lego_city_abenteuer_kurz"
+      },
+      {
+        "album_id": "2oXJDyhXjetVZ1eXQVoxqS",
+        "action": "exclude",
+        "reason": "Split to lego_city_abenteuer_kurz"
+      },
+      {
+        "album_id": "42BE5wTum5s04aMPyeCVts",
+        "action": "exclude",
+        "reason": "Split to lego_city_abenteuer_kurz"
+      },
+      {
+        "album_id": "0s99cOICTeP4d2kWnE2lyR",
+        "action": "exclude",
+        "reason": "Split to lego_city_abenteuer_kurz"
+      },
+      {
+        "album_id": "6RW4rA0VqsfbPYPzAqUDEL",
+        "action": "exclude",
+        "reason": "Split to lego_city_abenteuer_kurz"
+      },
+      {
+        "album_id": "6kPEOkUea6OZbAsa9M3zaE",
+        "action": "exclude",
+        "reason": "Split to lego_city_abenteuer_kurz"
+      },
+      {
+        "album_id": "2ETapVy6ZyIvRVfvoD3SkU",
+        "action": "exclude",
+        "reason": "Split to lego_city_abenteuer_kurz"
+      },
+      {
+        "album_id": "58aSgoMQKnPSsTNLl9ZQvH",
+        "action": "exclude",
+        "reason": "Split to lego_city_abenteuer_kurz"
+      },
+      {
+        "album_id": "3M31SiJRGPvx6nW7Dzov9d",
+        "action": "exclude",
+        "reason": "Split to lego_city_abenteuer_kurz"
+      },
+      {
+        "album_id": "1QRc01yRnAeU3oeLIFURyo",
+        "action": "exclude",
+        "reason": "Split to lego_city_abenteuer_kurz"
+      },
+      {
+        "album_id": "74w5AyoZL2C4sLmNTlTc76",
+        "action": "exclude",
+        "reason": "Split to lego_city_abenteuer_kurz"
+      },
+      {
+        "album_id": "2f3PNski7XLe53zvExxEyI",
+        "action": "exclude",
+        "reason": "Split to lego_city_abenteuer_kurz"
+      },
+      {
+        "album_id": "7Lm7hO993di7k5TbDbWoeM",
+        "action": "exclude",
+        "reason": "Split to lego_city_abenteuer_kurz"
+      },
+      {
+        "album_id": "7fDfr0sEPhS40nlJjJiz8o",
+        "action": "exclude",
+        "reason": "Split to lego_city_abenteuer_kurz"
+      },
+      {
+        "album_id": "49lZUXk1P7dWX5DsETia97",
+        "action": "exclude",
+        "reason": "Split to lego_city_abenteuer_kurz"
+      },
+      {
+        "album_id": "42bB5t5s4XCw0fv7hSa4uY",
+        "action": "exclude",
+        "reason": "Split to lego_city_abenteuer_kurz"
+      },
+      {
+        "album_id": "6rYdYLkOpnLRM7BF2yqqsu",
+        "action": "exclude",
+        "reason": "Split to lego_city_abenteuer_kurz"
+      },
+      {
+        "album_id": "1bVvVVwihs0hotcfTpDkqR",
+        "action": "exclude",
+        "reason": "Split to lego_city_abenteuer_kurz"
+      },
+      {
+        "album_id": "2blStCTDDNzjHUWs2QSGBs",
+        "action": "exclude",
+        "reason": "Split to lego_city_abenteuer_kurz"
+      },
+      {
+        "album_id": "6r3fFPXnAYqhVjQD8BdaQ0",
+        "action": "exclude",
+        "reason": "Split to lego_city_abenteuer_kurz"
+      },
+      {
+        "album_id": "77EnzdkU4njBCKD4Avhix6",
+        "action": "exclude",
+        "reason": "Split to lego_city_abenteuer_kurz"
+      },
+      {
+        "album_id": "5wMqwDTRVd7CdOo0jP3KP5",
+        "action": "exclude",
+        "reason": "Split to lego_city_abenteuer_kurz"
+      },
+      {
+        "album_id": "20jF7D4kqwF8E6zU7rtwsb",
+        "action": "exclude",
+        "reason": "Split to lego_city_abenteuer_kurz"
+      },
+      {
+        "album_id": "6zRtE3Me7U3MN6qzcly1Xv",
+        "action": "exclude",
+        "reason": "Split to lego_city_abenteuer_kurz"
+      },
+      {
+        "album_id": "05doppNybeiwJ8jazbXtgd",
+        "action": "exclude",
+        "reason": "Split to lego_city_abenteuer_kurz"
+      },
+      {
+        "album_id": "0WuL1k3dbx3snANIrgtLum",
+        "action": "exclude",
+        "reason": "Split to lego_city_abenteuer_kurz"
+      },
+      {
+        "album_id": "77nnkAVvh0QA49zpYSs2im",
+        "action": "exclude",
+        "reason": "Split to lego_city_abenteuer_kurz"
+      },
+      {
+        "album_id": "0mqvtCTVpXKdbMMjRcPY69",
+        "action": "exclude",
+        "reason": "Split to lego_city_abenteuer_kurz"
+      },
+      {
+        "album_id": "07JZ9vsL7jVdWRIhNINB8T",
+        "action": "exclude",
+        "reason": "Split to lego_city_abenteuer_kurz"
+      },
+      {
+        "album_id": "6vqfnzJbrrMSrRyGvGxaGz",
+        "action": "exclude",
+        "reason": "Split to lego_city_abenteuer_kurz"
+      },
+      {
+        "album_id": "2M3gOfdAPXqK1z6MezVyK6",
+        "action": "exclude",
+        "reason": "Split to lego_city_abenteuer_kurz"
+      },
+      {
+        "album_id": "782mmhRxq034u3s0oqQsTY",
+        "action": "exclude",
+        "reason": "Split to lego_city_abenteuer_kurz"
+      },
+      {
+        "album_id": "5xDe2ey1NZT2Q3JUQe7Ui4",
+        "action": "exclude",
+        "reason": "Split to lego_city_abenteuer_kurz"
+      },
+      {
+        "album_id": "1Ozl4N09OmrggQ0X4awdiA",
+        "action": "exclude",
+        "reason": "Split to lego_city_abenteuer_kurz"
+      },
+      {
+        "album_id": "0i4G1pnA26ZjHkH9dCIA8H",
+        "action": "exclude",
+        "reason": "Split to lego_city_abenteuer_kurz"
+      },
+      {
+        "album_id": "7kDBgiq85tziKpD6HGYJcN",
+        "action": "exclude",
+        "reason": "Split to lego_city_abenteuer_kurz"
+      },
+      {
+        "album_id": "4pgokh5T1grLQY9B44ieVl",
+        "action": "exclude",
+        "reason": "Split to lego_city_abenteuer_kurz"
+      },
+      {
+        "album_id": "616d2Ee1kFtBfy2CGwYRiW",
+        "action": "exclude",
+        "reason": "Split to lego_city_abenteuer_kurz"
+      },
+      {
+        "album_id": "78LTHuBDFmPiBXSyFV3CxX",
+        "action": "exclude",
+        "reason": "Split to lego_city_abenteuer_kurz"
+      },
+      {
+        "album_id": "6pA24su8FnNl91p2Qiqtcq",
+        "action": "exclude",
+        "reason": "Split to lego_city_abenteuer_kurz"
+      },
+      {
+        "album_id": "7lB60VMUfjGoCNDLGceo6V",
+        "action": "exclude",
+        "reason": "Split to lego_city_abenteuer_kurz"
+      },
+      {
+        "album_id": "1GLJp9QXeOLKS89hlKV2P6",
+        "action": "exclude",
+        "reason": "Split to lego_city_abenteuer_kurz"
+      },
+      {
+        "album_id": "77COVc0JYUndmlbFizznGh",
+        "action": "exclude",
+        "reason": "Split to lego_city_abenteuer_kurz"
+      },
+      {
+        "album_id": "1QHPwZZVpzfOQ1TDt65JV2",
+        "action": "exclude",
+        "reason": "Split to lego_city_abenteuer_kurz"
+      },
+      {
+        "album_id": "2L3jPtqbH9eV0Nmsd3QSbK",
+        "action": "exclude",
+        "reason": "Split to lego_city_abenteuer_kurz"
+      },
+      {
+        "album_id": "38AXSyfLnFWAGhirgeKhrD",
+        "action": "exclude",
+        "reason": "Split to lego_city_abenteuer_kurz"
+      },
+      {
+        "album_id": "6mAffXeHyQ3FqzVHKOnAj0",
+        "action": "exclude",
+        "reason": "Split to lego_city_abenteuer_kurz"
+      },
+      {
+        "album_id": "5tDSg5IeF7sM5pT9MvoQie",
+        "action": "exclude",
+        "reason": "Split to lego_city_abenteuer_kurz"
+      },
+      {
+        "album_id": "504OpLC6lAgwNwBEoijIQj",
+        "action": "exclude",
+        "reason": "Split to lego_city_abenteuer_kurz"
+      }
+    ],
+    "splits": [
+      {
+        "new_id": "lego_city_abenteuer_kurz",
+        "new_title": "LEGO City Abenteuer (Kompakt)",
+        "album_ids": [
+          "42BE5wTum5s04aMPyeCVts",
+          "7kDBgiq85tziKpD6HGYJcN",
+          "0ocedFC0do9mHJlACnW2ML",
+          "782mmhRxq034u3s0oqQsTY",
+          "5l4pjtQCAIw7kth4UpTPlg",
+          "3W90ekKGxosP1jpfB446bZ",
+          "2Q3MXeNezVMnWCVfj6elii",
+          "6zRtE3Me7U3MN6qzcly1Xv",
+          "1XgsscB8HcqUZsXRo6kKaO",
+          "2M3gOfdAPXqK1z6MezVyK6",
+          "5xDe2ey1NZT2Q3JUQe7Ui4",
+          "4DQt3jPBquJQXX9v3fLPc9",
+          "5oUBfXu3QxE53qLReVTLSa",
+          "0i4G1pnA26ZjHkH9dCIA8H",
+          "1Ozl4N09OmrggQ0X4awdiA",
+          "2ZeMBBUjICk35KElaLZJ8T",
+          "1FKo6rTIST1l9BxIYmgULC",
+          "6mAffXeHyQ3FqzVHKOnAj0",
+          "05doppNybeiwJ8jazbXtgd",
+          "616d2Ee1kFtBfy2CGwYRiW",
+          "1q5gP3E3swTZBOZCt5FJpd",
+          "4kRxK0muyaQnoRfnNZ9rBj",
+          "78LTHuBDFmPiBXSyFV3CxX",
+          "2Kk0GJfbOp1S1xYQCvPfRJ",
+          "77COVc0JYUndmlbFizznGh",
+          "7Lm7hO993di7k5TbDbWoeM",
+          "3s7veQQEXlEubQTmok5pRb",
+          "49lZUXk1P7dWX5DsETia97",
+          "0WuL1k3dbx3snANIrgtLum",
+          "405hGzqJ4qpjolu2FQjb82",
+          "6rYdYLkOpnLRM7BF2yqqsu",
+          "3vmck7O3g75bkGasy7cAc2",
+          "6k27sps2YAEQ6SyOjKhQXs",
+          "6URZ5RhRScOSTQwqzLZxfJ",
+          "2gWv7kfvOBlllP8W2WLsO9",
+          "2L3jPtqbH9eV0Nmsd3QSbK",
+          "0s99cOICTeP4d2kWnE2lyR",
+          "6RW4rA0VqsfbPYPzAqUDEL",
+          "4pgokh5T1grLQY9B44ieVl",
+          "2oXJDyhXjetVZ1eXQVoxqS",
+          "7doUB96lJhzeIwrITknB1x",
+          "7lB60VMUfjGoCNDLGceo6V",
+          "09mUGYJj798rMUVpT7SgHs",
+          "4ge3rxHYZ6RaYHDJFKOBVG",
+          "1QRc01yRnAeU3oeLIFURyo",
+          "3LrjBkJ9YOCrLPhuPM4U0D",
+          "1fKYB9wRWnLfSEvteGTCh6",
+          "42bB5t5s4XCw0fv7hSa4uY",
+          "2sbSDWSjPfPbDYEcJCmotS",
+          "5wMqwDTRVd7CdOo0jP3KP5",
+          "74w5AyoZL2C4sLmNTlTc76",
+          "3izXpNSk7XOIGmPkzIVKdr",
+          "0hIs9baPRW8O9rIxNbAQOP",
+          "504OpLC6lAgwNwBEoijIQj",
+          "3M31SiJRGPvx6nW7Dzov9d",
+          "7fYL2nxfaphJWBtvCCCcnq",
+          "5tDSg5IeF7sM5pT9MvoQie",
+          "7AkmRYlxCjDpG6KsodqD9g",
+          "0mqvtCTVpXKdbMMjRcPY69",
+          "3aRIM31laKkJ65yvcuqkah",
+          "6kPEOkUea6OZbAsa9M3zaE",
+          "1tidAlvbhGE8Xxou1kVVOb",
+          "2eqgeYqPXKlOWe5S7VL4Fq",
+          "2blStCTDDNzjHUWs2QSGBs",
+          "07JZ9vsL7jVdWRIhNINB8T",
+          "77EnzdkU4njBCKD4Avhix6",
+          "20jF7D4kqwF8E6zU7rtwsb",
+          "6r3fFPXnAYqhVjQD8BdaQ0",
+          "38AXSyfLnFWAGhirgeKhrD",
+          "5bQKNIBPQzGXL6DP87E9la",
+          "7fDfr0sEPhS40nlJjJiz8o",
+          "6l4t01KngGRcuRq1OTfIwi",
+          "1QHPwZZVpzfOQ1TDt65JV2",
+          "3svrZyjOpVSvCeI8vcJAh6",
+          "58aSgoMQKnPSsTNLl9ZQvH",
+          "6vqfnzJbrrMSrRyGvGxaGz",
+          "1bVvVVwihs0hotcfTpDkqR",
+          "5NBUCTJYScYRWXMdmzYCbh",
+          "6eF0i2mklkMQ23hpcMGJx1",
+          "2f3PNski7XLe53zvExxEyI",
+          "77nnkAVvh0QA49zpYSs2im",
+          "0zqvTv7NvBBJQoZh79sGB6",
+          "1GLJp9QXeOLKS89hlKV2P6",
+          "0nnfNrhRREdzxjjEIecQvy",
+          "2tEFFmE3H2Iw7zRRJTwSF9",
+          "59JnARUo1xJGW0ZgTiaLjS",
+          "0afzIpWaKqXNgGZYOK3urq",
+          "0bnOTGPdvEJhHUCRnCuiMH",
+          "6DtSyDx1w6oavhz2gMRgD8",
+          "7H1Nx8JkzZkiNcEkxUYeWm",
+          "347rtyF5FFUlDJlWZyNlm6",
+          "3MLKOcApZcJKFSmuJfL1Z3",
+          "0sGkQKp8NU6OgtqFQP0RND",
+          "2ETapVy6ZyIvRVfvoD3SkU",
+          "42bhTSOpjgevmPnspAUcIB",
+          "4ot46UTRhO1ccATzrDm6Zz",
+          "6pA24su8FnNl91p2Qiqtcq",
+          "6YNQ1yPeS9j9MlJwdilF4z",
+          "3imxYG6y8VsVx4LyUlkfOf",
+          "4SygfBWhlHUihHA4PFqH8I"
+        ],
+        "reason": "Separate series with simpler format 'Folge X: Title' (vs 'LEGO City: Folge X - Theme - Title'). Shorter episodes (3-15 tracks vs 9-12), different structure, and separate episode numbering. Episodes 11-20 conflicted with this series. Parent would see this as a different product."
+      }
+    ],
+    "notes": "The split separates two distinct LEGO City audio series: (1) 'LEGO City: Folge X - Theme' which has episodes 1-23 in the main series, and (2) 'Folge X: Title' (Kompakt series) which has episodes 11-106. The 'Kompakt' series has shorter episodes (fewer tracks, no intro/outro music) and a different naming convention. Previously excluded episodes 24 and 25 are included in the new series via the split."
   }
 }

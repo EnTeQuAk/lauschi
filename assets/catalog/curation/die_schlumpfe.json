@@ -609,5 +609,177 @@
     ],
     "age_note": "Suitable from 3+",
     "curator_notes": "Two distinct Hörspiel series exist: (1) 2020 Europa series (Folge 1-20) - classic stories, (2) 2022-2025 Europa series (Folge 1-26) - modern CGI-style adventures. Both use 'Folge N' numbering. The newer 2022-2025 series is preferred as it represents the current ongoing production. All other releases are music albums (Schlumpf hits from various decades), movie soundtracks, or audiobooks - not part of the episodic Hörspiel series."
+  },
+  "review": {
+    "reviewed_at": "2026-02-21T04:46:36.717701+00:00",
+    "reviewed_by": "review-series.py",
+    "overrides": [
+      {
+        "album_id": "03YSG980Jls0yZ8kVdOtcS",
+        "action": "exclude",
+        "reason": "Split to die_schlumpfe_europa"
+      },
+      {
+        "album_id": "2PamhIIkxUEfNYswLoruH2",
+        "action": "exclude",
+        "reason": "Split to die_schlumpfe_europa"
+      },
+      {
+        "album_id": "7hwuIkBoYtRG16DE5ClPeo",
+        "action": "exclude",
+        "reason": "Split to die_schlumpfe_europa"
+      },
+      {
+        "album_id": "323Uz36BPQn0PsqVKAnPfD",
+        "action": "exclude",
+        "reason": "Split to die_schlumpfe_europa"
+      },
+      {
+        "album_id": "1o4a6OJ5ENcfsu59zdjpEa",
+        "action": "exclude",
+        "reason": "Split to die_schlumpfe_europa"
+      },
+      {
+        "album_id": "4S5nRTGrXoU6VIdg3if5HL",
+        "action": "exclude",
+        "reason": "Split to die_schlumpfe_europa"
+      },
+      {
+        "album_id": "3GSN1dzwUvdKzYXI6aoLnN",
+        "action": "exclude",
+        "reason": "Split to die_schlumpfe_europa"
+      },
+      {
+        "album_id": "2MrQz8NwuH96ubXo4plybL",
+        "action": "exclude",
+        "reason": "Split to die_schlumpfe_europa"
+      },
+      {
+        "album_id": "5knSY3nl6mTL5Zl9hOhMm1",
+        "action": "exclude",
+        "reason": "Split to die_schlumpfe_europa"
+      },
+      {
+        "album_id": "4lhwJXQtgjJF1WYHOGc0uN",
+        "action": "exclude",
+        "reason": "Split to die_schlumpfe_europa"
+      },
+      {
+        "album_id": "6Ts4JNHicpgwrqKZ5AQ2IF",
+        "action": "exclude",
+        "reason": "Split to die_schlumpfe_europa"
+      },
+      {
+        "album_id": "74vhZGHIMJzMBWPHt9ibAE",
+        "action": "exclude",
+        "reason": "Split to die_schlumpfe_europa"
+      },
+      {
+        "album_id": "0rKKL584q3GAAvy3zYZBcQ",
+        "action": "exclude",
+        "reason": "Split to die_schlumpfe_europa"
+      },
+      {
+        "album_id": "4AVOhPoLFZoBxl0qlQazBd",
+        "action": "exclude",
+        "reason": "Split to die_schlumpfe_europa"
+      },
+      {
+        "album_id": "3qKKWSQcKfecrfM7QIUZys",
+        "action": "exclude",
+        "reason": "Split to die_schlumpfe_europa"
+      },
+      {
+        "album_id": "6NaSxEeldWBI4uahBDlyor",
+        "action": "exclude",
+        "reason": "Split to die_schlumpfe_europa"
+      },
+      {
+        "album_id": "0Hji0C3fP2Vxoke0x593MD",
+        "action": "exclude",
+        "reason": "Split to die_schlumpfe_europa"
+      },
+      {
+        "album_id": "0EiLKoOMJwvrCwYrusBiTx",
+        "action": "exclude",
+        "reason": "Split to die_schlumpfe_europa"
+      },
+      {
+        "album_id": "1z5eT8gtOv4Jf6eS1CtsZm",
+        "action": "exclude",
+        "reason": "Split to die_schlumpfe_europa"
+      },
+      {
+        "album_id": "30PyLsUW7zm2sRJpWS3VL2",
+        "action": "exclude",
+        "reason": "Split to die_schlumpfe_europa"
+      },
+      {
+        "album_id": "6fQLD8MTbcyK5vF3zEkTh8",
+        "action": "exclude",
+        "reason": "Split to die_schlumpfe_europa"
+      },
+      {
+        "album_id": "1I0LEec7rsYlMjuwIvSAZs",
+        "action": "exclude",
+        "reason": "Split to die_schlumpfe_europa"
+      },
+      {
+        "album_id": "01ek7vgiYOT77OYG7GIUAT",
+        "action": "exclude",
+        "reason": "Split to die_schlumpfe_europa"
+      },
+      {
+        "album_id": "6YFro5aX51QJxFnEQjbCUx",
+        "action": "exclude",
+        "reason": "Split to die_schlumpfe_europa"
+      },
+      {
+        "album_id": "2cD99DptS2to8bMstweM1k",
+        "action": "exclude",
+        "reason": "Split to die_schlumpfe_europa"
+      },
+      {
+        "album_id": "2YRaUWgQXr7elOkWUKvbtm",
+        "action": "exclude",
+        "reason": "Split to die_schlumpfe_europa"
+      }
+    ],
+    "splits": [
+      {
+        "new_id": "die_schlumpfe_europa",
+        "new_title": "Die Schlümpfe (EUROPA Anthologie)",
+        "album_ids": [
+          "2PamhIIkxUEfNYswLoruH2",
+          "6fQLD8MTbcyK5vF3zEkTh8",
+          "6NaSxEeldWBI4uahBDlyor",
+          "4S5nRTGrXoU6VIdg3if5HL",
+          "1I0LEec7rsYlMjuwIvSAZs",
+          "01ek7vgiYOT77OYG7GIUAT",
+          "0rKKL584q3GAAvy3zYZBcQ",
+          "74vhZGHIMJzMBWPHt9ibAE",
+          "0Hji0C3fP2Vxoke0x593MD",
+          "1z5eT8gtOv4Jf6eS1CtsZm",
+          "6Ts4JNHicpgwrqKZ5AQ2IF",
+          "4AVOhPoLFZoBxl0qlQazBd",
+          "30PyLsUW7zm2sRJpWS3VL2",
+          "2cD99DptS2to8bMstweM1k",
+          "2MrQz8NwuH96ubXo4plybL",
+          "5knSY3nl6mTL5Zl9hOhMm1",
+          "03YSG980Jls0yZ8kVdOtcS",
+          "3qKKWSQcKfecrfM7QIUZys",
+          "0EiLKoOMJwvrCwYrusBiTx",
+          "3GSN1dzwUvdKzYXI6aoLnN",
+          "323Uz36BPQn0PsqVKAnPfD",
+          "1o4a6OJ5ENcfsu59zdjpEa",
+          "2YRaUWgQXr7elOkWUKvbtm",
+          "4lhwJXQtgjJF1WYHOGc0uN",
+          "6YFro5aX51QJxFnEQjbCUx",
+          "7hwuIkBoYtRG16DE5ClPeo"
+        ],
+        "reason": "EUROPA/Sony Music anthology series (2022-2024) with multi-story format, different from I.M.P.S. S.A. series (2020) which has single-story format. Both series share episode numbers 1-20 but have completely different content. Episodes 21-26 only exist in EUROPA series. The two series should be separated as they are different products with different content, format, and target different listening preferences (anthology vs single narrative)."
+      }
+    ],
+    "notes": "CRITICAL FINDING: This series contains TWO COMPLETELY DIFFERENT Hörspiel series:\n\n1. I.M.P.S. S.A. series (2020): Episodes 1-20, single story per episode, ~15 parts, total runtime ~20-25 minutes\n2. EUROPA/Sony Music series (2022-2024): Episodes 1-26, anthology format with 4-5 stories per episode, 20+ tracks, total runtime ~1 hour\n\nBoth series use 'Folge X' numbering but have DIFFERENT episode titles and content. For every episode 1-20, there are TWO different albums with different stories - they are NOT duplicates but entirely different productions.\n\nEpisodes 21-26 exist only in the EUROPA series (2024 releases).\n\nThe split separates the EUROPA anthology series which is a modern multi-story compilation format aimed at contemporary audiences, from the classic I.M.P.S. series which follows traditional single-narrative radio play format. Parents would expect these as separate browsing experiences.\n\nNo albums need exclusion - all content is valid, just needs proper series separation. The original series (die_schlumpfe) will retain the I.M.P.S. albums plus episodes 21-26 which are EUROPA-only."
   }
 }

@@ -1,0 +1,724 @@
+{
+  "query": "Split from lego_city_abenteuer",
+  "model": "review-series.py",
+  "curated_at": "2026-02-21T05:01:09.887614+00:00",
+  "series": {
+    "id": "lego_city_abenteuer_kurz",
+    "title": "LEGO City Abenteuer (Kompakt)",
+    "aliases": [],
+    "keywords": [],
+    "spotify_artist_ids": [
+      "7lWAti8HlNyw39Z5OI92Ep"
+    ],
+    "episode_pattern": "^Folge (\\d+):",
+    "albums": [
+      {
+        "spotify_album_id": "2Kk0GJfbOp1S1xYQCvPfRJ",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 32: Gauner Duke”, . ",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3svrZyjOpVSvCeI8vcJAh6",
+        "include": true,
+        "episode_num": 82,
+        "title": "Folge 82: König Fendrich – Teil 2",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5NBUCTJYScYRWXMdmzYCbh",
+        "include": true,
+        "episode_num": 86,
+        "title": "Folge 86: Die Stadt spielt Völkerball",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "347rtyF5FFUlDJlWZyNlm6",
+        "include": true,
+        "episode_num": 99,
+        "title": "Folge 99: Gefängnisausbruch 2.0",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4ge3rxHYZ6RaYHDJFKOBVG",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 52: Harl und Poppy",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2Q3MXeNezVMnWCVfj6elii",
+        "include": true,
+        "episode_num": 17,
+        "title": "Folge 17: Die Mars-Mission beginnt",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7AkmRYlxCjDpG6KsodqD9g",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 66: Waghalsiges Fahren",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "405hGzqJ4qpjolu2FQjb82",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 38: Kein Kinderspiel”, . ",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3imxYG6y8VsVx4LyUlkfOf",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 24: Das Monster-Rennen”, .  ",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3s7veQQEXlEubQTmok5pRb",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 35: Der Schatz von Kapitän Nasenklappe”, . ",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3izXpNSk7XOIGmPkzIVKdr",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 60: Alles sicher",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0hIs9baPRW8O9rIxNbAQOP",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 61: Das Hindernisrennen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5l4pjtQCAIw7kth4UpTPlg",
+        "include": true,
+        "episode_num": 15,
+        "title": "Folge 15: Buster",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4kRxK0muyaQnoRfnNZ9rBj",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 30: Zurück zur Schule”,  ",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7H1Nx8JkzZkiNcEkxUYeWm",
+        "include": true,
+        "episode_num": 98,
+        "title": "Folge 98: Der Autosammler schlägt wieder zu",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0bnOTGPdvEJhHUCRnCuiMH",
+        "include": true,
+        "episode_num": 96,
+        "title": "Folge 96: Battle Royale",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0nnfNrhRREdzxjjEIecQvy",
+        "include": true,
+        "episode_num": 92,
+        "title": "Folge 92: No Limits",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7doUB96lJhzeIwrITknB1x",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 49: Alles nochmal neu",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0afzIpWaKqXNgGZYOK3urq",
+        "include": true,
+        "episode_num": 95,
+        "title": "Folge 95: Dschungel vs. Stadt",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4DQt3jPBquJQXX9v3fLPc9",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 22: Der Kuchenmacher”,  ",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5bQKNIBPQzGXL6DP87E9la",
+        "include": true,
+        "episode_num": 78,
+        "title": "Folge 78: Grizzled und Grizzled-er",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3LrjBkJ9YOCrLPhuPM4U0D",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 54: Grünes Licht",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1XgsscB8HcqUZsXRo6kKaO",
+        "include": true,
+        "episode_num": 19,
+        "title": "Folge 19: Die Tür der Türen - Teil 2",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "42bhTSOpjgevmPnspAUcIB",
+        "include": true,
+        "episode_num": 103,
+        "title": "Folge 103: Eine spezielle Mission",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1FKo6rTIST1l9BxIYmgULC",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 26: Die Nachteule schlägt wieder zu”, . ",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0sGkQKp8NU6OgtqFQP0RND",
+        "include": true,
+        "episode_num": 101,
+        "title": "Folge 101: Die letzten Donuts",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0ocedFC0do9mHJlACnW2ML",
+        "include": true,
+        "episode_num": 13,
+        "title": "Folge 13: Fröhliche Polizeihnachten",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7fYL2nxfaphJWBtvCCCcnq",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 64: Wer ist Ludmilla Ersatz?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5oUBfXu3QxE53qLReVTLSa",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 23: Dukes neuer Partner”, . ",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3MLKOcApZcJKFSmuJfL1Z3",
+        "include": true,
+        "episode_num": 100,
+        "title": "Folge 100: Broever",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4SygfBWhlHUihHA4PFqH8I",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 25: Dem Mega-Oktopus auf der Spur”, .  ",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0zqvTv7NvBBJQoZh79sGB6",
+        "include": true,
+        "episode_num": 90,
+        "title": "Folge 90: Der Meteoritensturm",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2ZeMBBUjICk35KElaLZJ8T",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 26: Annes Traum”, . ",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "59JnARUo1xJGW0ZgTiaLjS",
+        "include": true,
+        "episode_num": 94,
+        "title": "Folge 94: Der Autosammler schlägt zu",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6k27sps2YAEQ6SyOjKhQXs",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 41: Hank sei Dank”,  ",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1tidAlvbhGE8Xxou1kVVOb",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 70: Die Wexler-Deflektor-Theorie",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6eF0i2mklkMQ23hpcMGJx1",
+        "include": true,
+        "episode_num": 87,
+        "title": "Folge 87: Das versunkene Piratenschiff",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6URZ5RhRScOSTQwqzLZxfJ",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 42: Der Held der Stadt”,  ",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6l4t01KngGRcuRq1OTfIwi",
+        "include": true,
+        "episode_num": 80,
+        "title": "Folge 80: Wer ist Schaf Wheeler?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2eqgeYqPXKlOWe5S7VL4Fq",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 71: Billy in Höchstform",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2sbSDWSjPfPbDYEcJCmotS",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 57: Stunt City",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6YNQ1yPeS9j9MlJwdilF4z",
+        "include": true,
+        "episode_num": 106,
+        "title": "Folge 106: Dunkle Geheimnisse",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1q5gP3E3swTZBOZCt5FJpd",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 29: Daisys Bande”, . ",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3aRIM31laKkJ65yvcuqkah",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 68: Eisiger Hirnfrost",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2tEFFmE3H2Iw7zRRJTwSF9",
+        "include": true,
+        "episode_num": 93,
+        "title": "Folge 93: Die Gefängnis-Ausbruch-Challenge",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1fKYB9wRWnLfSEvteGTCh6",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 55: Meine coole Tante Freya",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3W90ekKGxosP1jpfB446bZ",
+        "include": true,
+        "episode_num": 16,
+        "title": "Folge 16: Shirley Sauber singt",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "09mUGYJj798rMUVpT7SgHs",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 51: Duke-Zeit",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3vmck7O3g75bkGasy7cAc2",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 40: Wettrennen gegen die Polizei”,  ",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2gWv7kfvOBlllP8W2WLsO9",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 43: Shirley, die Müll-Polizistin”,  ",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4ot46UTRhO1ccATzrDm6Zz",
+        "include": true,
+        "episode_num": 104,
+        "title": "Folge 104: Ein Schurke kommt selten allein",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6DtSyDx1w6oavhz2gMRgD8",
+        "include": true,
+        "episode_num": 97,
+        "title": "Folge 97: Rettet die Aliens",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2oXJDyhXjetVZ1eXQVoxqS",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 48: Das Geschäft boomt!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "42BE5wTum5s04aMPyeCVts",
+        "include": true,
+        "episode_num": 11,
+        "title": "Folge 11: Die kleine Carol",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0s99cOICTeP4d2kWnE2lyR",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 45: Ein klasse Einsatz”,  ",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6RW4rA0VqsfbPYPzAqUDEL",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 46: Wir sind Nummer 1”, . ",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6kPEOkUea6OZbAsa9M3zaE",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 69: Zum Filmen geboren",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2ETapVy6ZyIvRVfvoD3SkU",
+        "include": true,
+        "episode_num": 102,
+        "title": "Folge 102: Das Duck Duo",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "58aSgoMQKnPSsTNLl9ZQvH",
+        "include": true,
+        "episode_num": 83,
+        "title": "Folge 83: Der Slush-Van",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3M31SiJRGPvx6nW7Dzov9d",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 63: Streit im Rathaus",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1QRc01yRnAeU3oeLIFURyo",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 53: Klein ganz Groß",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "74w5AyoZL2C4sLmNTlTc76",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 59: Ein Streich für den Bürgermeister",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2f3PNski7XLe53zvExxEyI",
+        "include": true,
+        "episode_num": 88,
+        "title": "Folge 88: Der Banküberfall",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7Lm7hO993di7k5TbDbWoeM",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 34: Das Quaken”,  ",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7fDfr0sEPhS40nlJjJiz8o",
+        "include": true,
+        "episode_num": 79,
+        "title": "Folge 79: Freya und die Hauptsache",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "49lZUXk1P7dWX5DsETia97",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 36: Brickmuda Siebeneck”,  ",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "42bB5t5s4XCw0fv7hSa4uY",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 56: Die stehende Kuh des Flachlands",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6rYdYLkOpnLRM7BF2yqqsu",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 39: Versprecher und Verbrecher”,  ",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1bVvVVwihs0hotcfTpDkqR",
+        "include": true,
+        "episode_num": 85,
+        "title": "Folge 85: Der \"Aller-Extremste\"",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2blStCTDDNzjHUWs2QSGBs",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 72: Zwei glorreiche Schildkröten",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6r3fFPXnAYqhVjQD8BdaQ0",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 76: Shirley Super-Sauber",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "77EnzdkU4njBCKD4Avhix6",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 74: Mr. Mercato kauft einen Bauernhof",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5wMqwDTRVd7CdOo0jP3KP5",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 58: Von Vätern und Söhnen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "20jF7D4kqwF8E6zU7rtwsb",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 75: Das ist Harls Land",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6zRtE3Me7U3MN6qzcly1Xv",
+        "include": true,
+        "episode_num": 18,
+        "title": "Folge 18: Die Tür der Türen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "05doppNybeiwJ8jazbXtgd",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 27: Ungewöhnliche Rettungsmethoden”,  ",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0WuL1k3dbx3snANIrgtLum",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 37: Weihnachtsparty mit Hindernissen”,  ",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "77nnkAVvh0QA49zpYSs2im",
+        "include": true,
+        "episode_num": 89,
+        "title": "Folge 89: Das Kanonenrennen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0mqvtCTVpXKdbMMjRcPY69",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 67: Ein geteiltes Haus",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "07JZ9vsL7jVdWRIhNINB8T",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 73: Ein Tag mit Dread",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6vqfnzJbrrMSrRyGvGxaGz",
+        "include": true,
+        "episode_num": 84,
+        "title": "Folge 84: Der \"flammende Luftstunt 2.0\"",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2M3gOfdAPXqK1z6MezVyK6",
+        "include": true,
+        "episode_num": 20,
+        "title": "Folge 20: Hinter Gittern",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "782mmhRxq034u3s0oqQsTY",
+        "include": true,
+        "episode_num": 14,
+        "title": "Folge 14: Der Meisterverbrecher",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5xDe2ey1NZT2Q3JUQe7Ui4",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 21: Jäger des verlorenen Bartes”,  ",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1Ozl4N09OmrggQ0X4awdiA",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 25: Harl-Hubbs-Tag”,  ",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0i4G1pnA26ZjHkH9dCIA8H",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 24: Silberstreif”,  ",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7kDBgiq85tziKpD6HGYJcN",
+        "include": true,
+        "episode_num": 12,
+        "title": "Folge 12: Wer fliegt zum Mars?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4pgokh5T1grLQY9B44ieVl",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 47: Wylde Wex”, ",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "616d2Ee1kFtBfy2CGwYRiW",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 28: Der Namenlose mit Namen”,  ",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "78LTHuBDFmPiBXSyFV3CxX",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 31: Die Spaß-Rede”,  ",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6pA24su8FnNl91p2Qiqtcq",
+        "include": true,
+        "episode_num": 105,
+        "title": "Folge 105: Alles Schrott, oder?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7lB60VMUfjGoCNDLGceo6V",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 50: Licht. Kamera. Grizzled.",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1GLJp9QXeOLKS89hlKV2P6",
+        "include": true,
+        "episode_num": 91,
+        "title": "Folge 91: Die Filmpremiere",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "77COVc0JYUndmlbFizznGh",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 33: Wheelers Geburtstag”,  ",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1QHPwZZVpzfOQ1TDt65JV2",
+        "include": true,
+        "episode_num": 81,
+        "title": "Folge 81: König Fendrich – Teil 1",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2L3jPtqbH9eV0Nmsd3QSbK",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 44: Vorurteile über Reißzähne”, . ",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "38AXSyfLnFWAGhirgeKhrD",
+        "include": true,
+        "episode_num": 77,
+        "title": "Folge 77: Ja, nein, vielleicht",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6mAffXeHyQ3FqzVHKOnAj0",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 27: Hochspannung im Motorrad-Sattel",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5tDSg5IeF7sM5pT9MvoQie",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 65: Krise auf der Mondbasis",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "504OpLC6lAgwNwBEoijIQj",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 62: Eine grüne Stadt",
+        "exclude_reason": null
+      }
+    ],
+    "age_note": "Suitable from 5+",
+    "curator_notes": "Split from LEGO City Abenteuer. Separate series with simpler format 'Folge X: Title' (vs 'LEGO City: Folge X - Theme - Title'). Shorter episodes (3-15 tracks vs 9-12), different structure, and separate episode numbering. Episodes 11-20 conflicted with this series. Parent would see this as a different product."
+  },
+  "review": {
+    "status": "pending",
+    "overrides": [],
+    "notes": "Auto-created by apply-splits.py from lego_city_abenteuer."
+  }
+}
