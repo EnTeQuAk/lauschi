@@ -8,7 +8,9 @@ import 'package:lauschi/core/spotify/spotify_api.dart';
 import 'package:lauschi/core/spotify/spotify_auth_provider.dart';
 import 'package:lauschi/features/player/direct_player.dart';
 import 'package:lauschi/features/player/media_session_handler.dart';
+import 'package:lauschi/features/player/player_backend.dart';
 import 'package:lauschi/features/player/player_state.dart';
+import 'package:lauschi/features/player/spotify_backend.dart';
 import 'package:lauschi/features/player/spotify_player_bridge.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
@@ -61,9 +63,11 @@ class PlayerNotifier extends _$PlayerNotifier {
   SpotifyApi? _api;
   MediaSessionHandler? _mediaSession;
   StreamSubscription<PlaybackState>? _subscription;
-  StreamSubscription<PlaybackState>? _directSubscription;
+  StreamSubscription<PlaybackState>? _backendSubscription;
   Timer? _positionSaveTimer;
-  DirectPlayer? _directPlayer;
+
+  /// Active playback backend. Set by [playCard], used by control methods.
+  PlayerBackend? _activeBackend;
 
   Timer? _advanceTimer;
 
@@ -90,10 +94,10 @@ class PlayerNotifier extends _$PlayerNotifier {
 
     ref.onDispose(() {
       unawaited(_subscription?.cancel());
-      unawaited(_directSubscription?.cancel());
+      unawaited(_backendSubscription?.cancel());
       _positionSaveTimer?.cancel();
       _advanceTimer?.cancel();
-      unawaited(_directPlayer?.dispose());
+      unawaited(_activeBackend?.dispose());
     });
 
     return const PlaybackState();
@@ -146,55 +150,35 @@ class PlayerNotifier extends _$PlayerNotifier {
     }
   }
 
-  /// Whether the currently active card uses direct playback (non-SDK).
-  bool get _isDirectPlayback =>
-      _directPlayer != null && state.activeCardId != null;
-
   /// Pause playback (idempotent — safe to call when already paused).
   Future<void> pause() async {
     _advanceTimer?.cancel();
-    if (_isDirectPlayback) {
-      await _directPlayer!.pause();
-    } else {
-      await _bridgeCommand('pause', () => _bridge!.pause());
-    }
+    await _backendCommand('pause', (b) => b.pause());
   }
 
   /// Resume playback (idempotent — safe to call when already playing).
   Future<void> resume() async {
-    if (_isDirectPlayback) {
-      await _directPlayer!.resume();
-    } else {
-      await _bridgeCommand('resume', () => _bridge!.resume());
-    }
+    await _backendCommand('resume', (b) => b.resume());
   }
 
   /// Toggle play/pause.
   Future<void> togglePlay() async {
     _advanceTimer?.cancel();
-    if (_isDirectPlayback) {
-      if (state.isPlaying) {
-        await _directPlayer!.pause();
-      } else {
-        await _directPlayer!.resume();
-      }
+    if (state.isPlaying) {
+      await _backendCommand('pause', (b) => b.pause());
     } else {
-      await _bridgeCommand('toggle', () => _bridge!.togglePlay());
+      await _backendCommand('resume', (b) => b.resume());
     }
   }
 
-  /// Skip to next track. For direct playback (single-file), this is a no-op.
+  /// Skip to next track. No-op for single-file backends.
   Future<void> nextTrack() async {
-    if (!_isDirectPlayback) {
-      await _bridgeCommand('next', () => _bridge!.nextTrack());
-    }
+    await _backendCommand('next', (b) => b.nextTrack());
   }
 
-  /// Skip to previous track. For direct playback (single-file), this is a no-op.
+  /// Skip to previous track. No-op for single-file backends.
   Future<void> prevTrack() async {
-    if (!_isDirectPlayback) {
-      await _bridgeCommand('prev', () => _bridge!.prevTrack());
-    }
+    await _backendCommand('prev', (b) => b.prevTrack());
   }
 
   /// Clear any error state.
@@ -206,32 +190,21 @@ class PlayerNotifier extends _$PlayerNotifier {
 
   /// Seek to position in milliseconds.
   Future<void> seek(int positionMs) async {
-    if (_isDirectPlayback) {
-      await _directPlayer?.seek(positionMs);
-    } else {
-      await _bridgeCommand('seek', () => _bridge!.seek(positionMs));
-    }
+    await _backendCommand('seek', (b) => b.seek(positionMs));
   }
 
-  /// Execute a bridge command with error handling and device recovery.
-  ///
-  /// If the bridge isn't ready, reconnects and retries once.
-  Future<void> _bridgeCommand(
+  /// Delegate a command to the active backend with error handling.
+  Future<void> _backendCommand(
     String name,
-    Future<void> Function() command,
+    Future<void> Function(PlayerBackend) command,
   ) async {
-    if (_bridge == null) return;
+    final backend = _activeBackend;
+    if (backend == null) return;
     try {
-      await command();
+      await command(backend);
     } on Exception catch (e) {
-      Log.error(_tag, '$name failed, attempting reconnect', exception: e);
-      try {
-        await _bridge!.reconnect();
-        await command();
-      } on Exception catch (retryError) {
-        Log.error(_tag, '$name retry failed', exception: retryError);
-        state = state.copyWith(error: 'Steuerung fehlgeschlagen');
-      }
+      Log.error(_tag, '$name failed', exception: e);
+      state = state.copyWith(error: 'Steuerung fehlgeschlagen');
     }
   }
 
@@ -273,24 +246,20 @@ class PlayerNotifier extends _$PlayerNotifier {
       clearNextEpisode: true,
     );
 
-    // Stop the other player backend before switching. Prevents dual playback
+    // Stop the previous backend before switching. Prevents dual playback
     // and stale state from the previous backend bleeding into position saves.
-    if (card.provider != 'spotify') {
-      await _directPlayer?.stop();
-    }
-    if (card.provider == 'spotify') {
-      // Clear direct player reference so _isDirectPlayback returns false.
-      unawaited(_directSubscription?.cancel());
-      _directSubscription = null;
-      await _directPlayer?.stop();
-      _directPlayer = null;
-    }
+    await _activeBackend?.stop();
+    unawaited(_backendSubscription?.cancel());
+    _backendSubscription = null;
 
     switch (card.provider) {
       case 'spotify':
+        _activeBackend = SpotifyBackend(_bridge!);
         await _playSpotify(card);
       case 'ard_audiothek':
-        await _playDirect(card);
+        final player = DirectPlayer();
+        _activeBackend = player;
+        await _playDirect(card, player);
       // Future: case 'apple_music':
       default:
         Log.error(
@@ -384,7 +353,7 @@ class PlayerNotifier extends _$PlayerNotifier {
   /// Play via DirectPlayer (just_audio) for HTTP audio URLs.
   ///
   /// Used for ARD Audiothek and any future non-SDK provider.
-  Future<void> _playDirect(db.AudioCard card) async {
+  Future<void> _playDirect(db.AudioCard card, DirectPlayer player) async {
     if (card.audioUrl == null || card.audioUrl!.isEmpty) {
       Log.error(_tag, 'No audio URL', data: {'cardId': card.id});
       state = state.copyWith(
@@ -399,11 +368,8 @@ class PlayerNotifier extends _$PlayerNotifier {
       await _bridge?.pause();
     }
 
-    _directPlayer ??= DirectPlayer();
-
     // Subscribe to direct player state (replaces Spotify bridge events).
-    unawaited(_directSubscription?.cancel());
-    _directSubscription = _directPlayer!.stateStream.listen((directState) {
+    _backendSubscription = player.stateStream.listen((directState) {
       state = directState;
       _onStateChange(directState);
     });
@@ -427,7 +393,7 @@ class PlayerNotifier extends _$PlayerNotifier {
     );
 
     try {
-      await _directPlayer!.play(
+      await player.play(
         audioUrl: card.audioUrl!,
         trackInfo: trackInfo,
         positionMs: card.lastPositionMs,

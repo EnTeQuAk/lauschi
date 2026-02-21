@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lauschi/core/catalog/catalog_service.dart';
+import 'package:lauschi/core/catalog/retroactive_sorter.dart';
 import 'package:lauschi/core/database/app_database.dart' as db;
 import 'package:lauschi/core/database/card_repository.dart';
 import 'package:lauschi/core/database/group_repository.dart';
@@ -968,53 +969,16 @@ Future<void> _runRetroactiveSort(BuildContext context, WidgetRef ref) async {
   );
 
   try {
-    final cardRepo = ref.read(cardRepositoryProvider);
-    final groupRepo = ref.read(groupRepositoryProvider);
-    final ungrouped = await cardRepo.getUngrouped();
-
-    final grouped = <String, String>{}; // seriesTitle → groupId
-    final groupedCounts = <String, int>{}; // seriesTitle → card count
-    var matchCount = 0;
-
-    for (final card in ungrouped) {
-      final artistIds =
-          card.spotifyArtistIds
-              ?.split(',')
-              .where((s) => s.isNotEmpty)
-              .toList() ??
-          const [];
-      final match = catalog.match(card.title, albumArtistIds: artistIds);
-      if (match == null) continue;
-
-      final title = match.series.title;
-      if (!grouped.containsKey(title)) {
-        final existing = await groupRepo.findByTitle(title);
-        grouped[title] = existing?.id ?? await groupRepo.insert(title: title);
-      }
-
-      await cardRepo.assignToGroup(
-        cardId: card.id,
-        groupId: grouped[title]!,
-        episodeNumber: match.episodeNumber,
-      );
-      groupedCounts[title] = (groupedCounts[title] ?? 0) + 1;
-      matchCount++;
-    }
-
-    Log.info(
-      _tag,
-      'Retroactive sort complete',
-      data: {
-        'ungrouped': ungrouped.length,
-        'matched': matchCount,
-        'series': grouped.length,
-      },
+    final result = await runRetroactiveSort(
+      catalog: catalog,
+      cardRepo: ref.read(cardRepositoryProvider),
+      groupRepo: ref.read(groupRepositoryProvider),
     );
 
     if (context.mounted) Navigator.of(context).pop();
 
     if (context.mounted) {
-      if (matchCount == 0) {
+      if (!result.hasMatches) {
         unawaited(
           showDialog<void>(
             context: context,
@@ -1041,9 +1005,9 @@ Future<void> _runRetroactiveSort(BuildContext context, WidgetRef ref) async {
             context: context,
             builder:
                 (_) => _SortResultDialog(
-                  seriesMatches: groupedCounts,
-                  seriesGroupIds: grouped,
-                  totalMatched: matchCount,
+                  seriesMatches: result.seriesMatches,
+                  seriesGroupIds: result.seriesGroupIds,
+                  totalMatched: result.totalMatched,
                 ),
           ),
         );

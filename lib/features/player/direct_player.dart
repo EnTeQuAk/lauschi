@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:just_audio/just_audio.dart' as ja;
 import 'package:lauschi/core/log.dart';
+import 'package:lauschi/features/player/player_backend.dart';
 import 'package:lauschi/features/player/player_state.dart';
 
 const _tag = 'DirectPlayer';
@@ -10,7 +11,7 @@ const _tag = 'DirectPlayer';
 ///
 /// Used for ARD Audiothek and any future non-SDK provider (SRF, local files).
 /// No DRM, no SDK, no WebView — just a URL and a player.
-class DirectPlayer {
+class DirectPlayer extends PlayerBackend {
   ja.AudioPlayer? _player;
   final _stateController = StreamController<PlaybackState>.broadcast();
   StreamSubscription<ja.PlayerState>? _playerStateSub;
@@ -24,6 +25,7 @@ class DirectPlayer {
   bool _isPlaying = false;
 
   /// Stream of playback state changes, matching the Spotify bridge contract.
+  @override
   Stream<PlaybackState> get stateStream => _stateController.stream;
 
   /// Initialize or reuse the audio player.
@@ -61,23 +63,28 @@ class DirectPlayer {
     }
   }
 
+  @override
   Future<void> pause() async {
     await _player?.pause();
   }
 
+  @override
   Future<void> resume() async {
     await _player?.play();
   }
 
+  @override
   Future<void> seek(int positionMs) async {
     await _player?.seek(Duration(milliseconds: positionMs));
   }
 
+  @override
   Future<void> stop() async {
     await _player?.stop();
   }
 
   /// Release resources. Call when switching to a different player backend.
+  @override
   Future<void> dispose() async {
     await _playerStateSub?.cancel();
     await _durationSub?.cancel();
