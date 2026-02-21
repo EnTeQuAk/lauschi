@@ -1216,9 +1216,39 @@ class _CatalogSeriesDetailScreenState
       return;
     }
 
+    // Progress state for the modal.
+    final progressNotifier = ValueNotifier<(int, int)>((0, _selected.length));
+    final statusNotifier = ValueNotifier<String>('Lade Album-Daten…');
+
+    if (mounted) {
+      unawaited(
+        showDialog<void>(
+          context: context,
+          barrierDismissible: false,
+          builder: (_) => _AddProgressDialog(
+            progress: progressNotifier,
+            status: statusNotifier,
+          ),
+        ),
+      );
+    }
+
     try {
       final albumIds = _selected.toList();
-      final albums = await api.getAlbums(albumIds);
+      final total = albumIds.length;
+
+      // Spotify allows max 20 IDs per request — batch in chunks.
+      final albums = <SpotifyAlbum>[];
+      for (var i = 0; i < albumIds.length; i += 20) {
+        final chunk = albumIds.sublist(
+          i,
+          (i + 20).clamp(0, albumIds.length),
+        );
+        albums.addAll(await api.getAlbums(chunk));
+        progressNotifier.value = (albums.length, total);
+      }
+
+      statusNotifier.value = 'Speichere…';
 
       final cards = <PendingCard>[];
       for (final album in albums) {
@@ -1252,6 +1282,7 @@ class _CatalogSeriesDetailScreenState
       );
 
       if (mounted) {
+        Navigator.of(context).pop(); // dismiss dialog
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(
@@ -1267,11 +1298,15 @@ class _CatalogSeriesDetailScreenState
     } on Exception catch (e) {
       Log.error(_tag, 'Failed to add cards', exception: e);
       if (mounted) {
+        Navigator.of(context).pop(); // dismiss dialog
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Fehler: $e')),
         );
         setState(() => _isAdding = false);
       }
+    } finally {
+      progressNotifier.dispose();
+      statusNotifier.dispose();
     }
   }
 
@@ -1303,6 +1338,10 @@ class _CatalogSeriesDetailScreenState
             series.albums.toList()..sort(
               (a, b) => (a.episode ?? 999999).compareTo(b.episode ?? 999999),
             );
+
+        final albumIds = albums.map((a) => a.spotifyId).toList();
+        final coverMap =
+            ref.watch(_albumCoversProvider(albumIds)).value ?? {};
 
         if (_selected.isEmpty && _selectAll && cardsLoaded) {
           for (final album in albums) {
@@ -1350,6 +1389,7 @@ class _CatalogSeriesDetailScreenState
 
               return _AlbumTile(
                 album: album,
+                coverUrl: coverMap[album.spotifyId],
                 alreadyAdded: alreadyAdded,
                 isSelected: isSelected,
                 onChanged: () {
@@ -1404,30 +1444,59 @@ class _AlbumTile extends StatelessWidget {
     required this.alreadyAdded,
     required this.isSelected,
     required this.onChanged,
+    this.coverUrl,
   });
 
   final CatalogAlbum album;
   final bool alreadyAdded;
   final bool isSelected;
   final VoidCallback onChanged;
+  final String? coverUrl;
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      // Uniform leading: checkbox and check icon share the same
-      // allocated width so text stays aligned.
-      leading: SizedBox(
-        width: 48,
-        height: 48,
-        child: Center(
-          child:
-              alreadyAdded
-                  ? const Icon(Icons.check_circle, color: AppColors.success)
-                  : Checkbox(
-                    value: isSelected,
-                    onChanged: (_) => onChanged(),
-                  ),
-        ),
+      leading: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          SizedBox(
+            width: 32,
+            height: 32,
+            child: Center(
+              child:
+                  alreadyAdded
+                      ? const Icon(Icons.check_circle, color: AppColors.success)
+                      : Checkbox(
+                        value: isSelected,
+                        onChanged: (_) => onChanged(),
+                      ),
+            ),
+          ),
+          const SizedBox(width: 8),
+          ClipRRect(
+            borderRadius: const BorderRadius.all(Radius.circular(4)),
+            child:
+                coverUrl != null
+                    ? CachedNetworkImage(
+                      imageUrl: coverUrl!,
+                      width: 44,
+                      height: 44,
+                      fit: BoxFit.cover,
+                    )
+                    : const SizedBox(
+                      width: 44,
+                      height: 44,
+                      child: ColoredBox(
+                        color: AppColors.surfaceDim,
+                        child: Icon(
+                          Icons.album_rounded,
+                          size: 20,
+                          color: AppColors.textSecondary,
+                        ),
+                      ),
+                    ),
+          ),
+        ],
       ),
       title: Text(
         album.title,
@@ -2288,6 +2357,36 @@ class _Placeholder extends StatelessWidget {
   }
 }
 
+/// Fetches album covers for all episodes in a single catalog series.
+///
+/// Returns a map of Spotify album ID → image URL, fetched in batches of 20.
+final _albumCoversProvider =
+    FutureProvider.autoDispose.family<Map<String, String>, List<String>>(
+  (ref, albumIds) async {
+    final api = ref.watch(spotifyApiProvider);
+    if (!api.hasToken || albumIds.isEmpty) return {};
+
+    final coverMap = <String, String>{};
+    for (var i = 0; i < albumIds.length; i += 20) {
+      final batch = albumIds.sublist(
+        i,
+        (i + 20).clamp(0, albumIds.length),
+      );
+      try {
+        final albums = await api.getAlbums(batch);
+        for (final album in albums) {
+          if (album.imageUrl != null) {
+            coverMap[album.id] = album.imageUrl!;
+          }
+        }
+      } on Exception {
+        // Skip failed batch, show placeholders.
+      }
+    }
+    return coverMap;
+  },
+);
+
 /// Batch-fetches cover images for all curated series.
 final _seriesCoverMapProvider = FutureProvider.autoDispose<Map<String, String>>(
   (ref) async {
@@ -2329,3 +2428,69 @@ final _seriesCoverMapProvider = FutureProvider.autoDispose<Map<String, String>>(
     return coverMap;
   },
 );
+
+/// Modal dialog showing batch-add progress.
+class _AddProgressDialog extends StatelessWidget {
+  const _AddProgressDialog({required this.progress, required this.status});
+
+  /// (loaded, total) pair.
+  final ValueNotifier<(int, int)> progress;
+  final ValueNotifier<String> status;
+
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+      child: Padding(
+        padding: const EdgeInsets.all(AppSpacing.xl),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ValueListenableBuilder<String>(
+              valueListenable: status,
+              builder: (_, text, _) => Text(
+                text,
+                style: const TextStyle(
+                  fontFamily: 'Nunito',
+                  fontWeight: FontWeight.w700,
+                  fontSize: 15,
+                ),
+              ),
+            ),
+            const SizedBox(height: AppSpacing.md),
+            ValueListenableBuilder<(int, int)>(
+              valueListenable: progress,
+              builder: (_, pair, _) {
+                final (loaded, total) = pair;
+                final fraction = total > 0 ? loaded / total : 0.0;
+                return Column(
+                  children: [
+                    ClipRRect(
+                      borderRadius: const BorderRadius.all(AppRadius.pill),
+                      child: LinearProgressIndicator(
+                        value: fraction,
+                        minHeight: 6,
+                        backgroundColor: AppColors.surfaceDim,
+                        valueColor: const AlwaysStoppedAnimation<Color>(
+                          AppColors.primary,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: AppSpacing.sm),
+                    Text(
+                      '$loaded von $total',
+                      style: const TextStyle(
+                        fontFamily: 'Nunito',
+                        fontSize: 13,
+                        color: AppColors.textSecondary,
+                      ),
+                    ),
+                  ],
+                );
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}

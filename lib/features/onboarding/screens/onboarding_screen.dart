@@ -45,9 +45,9 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
   Future<void> _complete() async {
     await ref.read(onboardingCompleteProvider.notifier).markComplete();
     if (mounted) {
-      // Go to catalog browser first — the parent should add content
-      // before seeing an empty home screen.
-      context.go(AppRoutes.parentCatalog);
+      // Kid home's empty state has a clear "Hörspiel hinzufügen" CTA —
+      // no need to dump parents into settings behind another PIN prompt.
+      context.go(AppRoutes.kidHome);
     }
   }
 
@@ -163,13 +163,13 @@ class _ConnectPage extends ConsumerWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           const Icon(
-            Icons.music_note_rounded,
+            Icons.headphones_rounded,
             size: 64,
             color: AppColors.primary,
           ),
           const SizedBox(height: AppSpacing.xl),
           const Text(
-            'Verbinde deinen\nMusik-Dienst',
+            'Inhalte entdecken',
             textAlign: TextAlign.center,
             style: TextStyle(
               fontFamily: 'Nunito',
@@ -180,11 +180,15 @@ class _ConnectPage extends ConsumerWidget {
           ),
           const SizedBox(height: AppSpacing.md),
           const Text(
-            'Spotify Premium wird benötigt.',
+            'Verbinde Spotify für tausende Hörspiele '
+            'und Hörbücher.\n'
+            'Kostenlose Inhalte der ARD Audiothek '
+            'sind auch ohne Abo verfügbar.',
             textAlign: TextAlign.center,
             style: TextStyle(
               fontFamily: 'Nunito',
               fontSize: 14,
+              height: 1.4,
               color: AppColors.textSecondary,
             ),
           ),
