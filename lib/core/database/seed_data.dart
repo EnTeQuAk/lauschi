@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:lauschi/core/database/card_repository.dart';
+import 'package:lauschi/core/database/group_repository.dart';
 import 'package:lauschi/core/log.dart';
 import 'package:lauschi/core/spotify/spotify_api.dart';
 
@@ -69,4 +70,67 @@ Future<void> seedTestContent({
   }
 
   Log.info(_tag, 'Seed complete', data: {'added': '$added'});
+}
+
+/// ARD Audiothek test items for development.
+///
+/// These are real, publicly available episodes from the kids category.
+/// Audio URLs are direct CDN links (no auth, no DRM).
+const _ardSeedItems = [
+  (
+    title: 'Luigi und Gladiator (1) – Die komplette Hörgeschichte!',
+    providerUri: 'ard:item:89204038',
+    audioUrl:
+        'https://rbbmediapmdp-a.akamaihd.net/content/e1/18/e118f7f0-33d5-4beb-96d0-6c2b9047faef/03313a09-585c-4da1-b81c-f11e3630249b_adf83b2c-2e2b-4e36-8a74-a6bca7c05c42.mp3',
+    coverUrl:
+        'https://api.ardmediathek.de/image-service/images/urn:ard:image:cf4b6c76016e6585?w=400',
+    durationMs: 3504 * 1000, // 58 min
+    showTitle: 'Ohrenbär',
+  ),
+];
+
+/// Populate the card collection with test ARD Audiothek content.
+///
+/// Creates a group and inserts cards with direct audio URLs.
+/// Idempotent — skips items already in the collection.
+/// Only available in debug builds.
+Future<void> seedArdTestContent({
+  required CardRepository cards,
+  required GroupRepository groups,
+}) async {
+  if (!kDebugMode) return;
+
+  Log.info(_tag, 'Seeding ARD test content');
+
+  String? groupId;
+  var added = 0;
+
+  for (final item in _ardSeedItems) {
+    // Create group from show title on first item.
+    groupId ??= await groups.findByTitle(item.showTitle).then(
+          (g) async => g?.id ?? await groups.insert(title: item.showTitle),
+        );
+
+    await cards.insertIfAbsent(
+      title: item.title,
+      providerUri: item.providerUri,
+      cardType: 'episode',
+      provider: 'ard_audiothek',
+      coverUrl: item.coverUrl,
+    );
+
+    // Set ARD-specific fields that insertIfAbsent doesn't handle.
+    final card = await cards.getByProviderUri(item.providerUri);
+    if (card != null && card.audioUrl == null) {
+      await cards.updateArdFields(
+        cardId: card.id,
+        audioUrl: item.audioUrl,
+        durationMs: item.durationMs,
+        groupId: groupId,
+      );
+      added++;
+    }
+  }
+
+  Log.info(_tag, 'ARD seed complete', data: {'added': '$added'});
 }
