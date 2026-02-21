@@ -9,6 +9,7 @@ import 'package:lauschi/core/theme/app_theme.dart';
 import 'package:lauschi/features/onboarding/screens/onboarding_provider.dart';
 import 'package:lauschi/features/player/player_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 // Version is injected at build time via --dart-define=APP_VERSION.
 // Falls back to pubspec version for local dev.
@@ -79,6 +80,11 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
           title: 'Musik',
           value: 'Powered by Spotify',
         ),
+
+        const SizedBox(height: AppSpacing.lg),
+
+        // ── Support ──────────────────────────────────────────────────────────
+        const _SupportCard(),
 
         const SizedBox(height: AppSpacing.lg),
 
@@ -251,6 +257,136 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
 }
 
 // ── Supporting widgets ──────────────────────────────────────────────────────
+
+class _SupportCard extends StatelessWidget {
+  const _SupportCard();
+
+  static final _buyMeACoffee = Uri.parse('https://buymeacoffee.com/cgrebs');
+  static final _gitHub = Uri.parse('https://github.com/EnTeQuAk/lauschi');
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.screenH),
+      child: Container(
+        decoration: BoxDecoration(
+          color: AppColors.primaryPale,
+          borderRadius: BorderRadius.circular(16),
+        ),
+        padding: const EdgeInsets.all(AppSpacing.lg),
+        child: Column(
+          children: [
+            const Icon(
+              Icons.favorite_rounded,
+              color: AppColors.primary,
+              size: 28,
+            ),
+            const SizedBox(height: AppSpacing.sm),
+            const Text(
+              'lauschi ist Open Source',
+              style: TextStyle(
+                fontFamily: 'Nunito',
+                fontWeight: FontWeight.w800,
+                fontSize: 17,
+                color: AppColors.primary,
+              ),
+            ),
+            const SizedBox(height: AppSpacing.xs),
+            const Text(
+              'Kostenlos, werbefrei und ohne Abo. '
+              'Wenn dir lauschi gefällt, kannst du '
+              'die Entwicklung unterstützen.',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontFamily: 'Nunito',
+                fontSize: 13,
+                height: 1.4,
+                color: AppColors.textSecondary,
+              ),
+            ),
+            const SizedBox(height: AppSpacing.md),
+            Row(
+              children: [
+                Expanded(
+                  child: _SupportButton(
+                    icon: Icons.coffee_rounded,
+                    label: 'Kaffee spendieren',
+                    onTap: () => _open(_buyMeACoffee),
+                  ),
+                ),
+                const SizedBox(width: AppSpacing.sm),
+                Expanded(
+                  child: _SupportButton(
+                    icon: Icons.code_rounded,
+                    label: 'GitHub',
+                    outlined: true,
+                    onTap: () => _open(_gitHub),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _open(Uri url) {
+    unawaited(launchUrl(url, mode: LaunchMode.externalApplication));
+  }
+}
+
+class _SupportButton extends StatelessWidget {
+  const _SupportButton({
+    required this.icon,
+    required this.label,
+    required this.onTap,
+    this.outlined = false,
+  });
+
+  final IconData icon;
+  final String label;
+  final VoidCallback onTap;
+  final bool outlined;
+
+  @override
+  Widget build(BuildContext context) {
+    if (outlined) {
+      return OutlinedButton.icon(
+        onPressed: onTap,
+        icon: Icon(icon, size: 18),
+        label: Text(
+          label,
+          style: const TextStyle(fontFamily: 'Nunito', fontSize: 13),
+        ),
+        style: OutlinedButton.styleFrom(
+          foregroundColor: AppColors.primary,
+          side: const BorderSide(color: AppColors.primary),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+          padding: const EdgeInsets.symmetric(vertical: 12),
+        ),
+      );
+    }
+    return FilledButton.icon(
+      onPressed: onTap,
+      icon: Icon(icon, size: 18),
+      label: Text(
+        label,
+        style: const TextStyle(fontFamily: 'Nunito', fontSize: 13),
+      ),
+      style: FilledButton.styleFrom(
+        backgroundColor: AppColors.primary,
+        foregroundColor: AppColors.textOnPrimary,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+        ),
+        padding: const EdgeInsets.symmetric(vertical: 12),
+      ),
+    );
+  }
+}
 
 class _RestartBanner extends StatelessWidget {
   const _RestartBanner({required this.onDismiss});
