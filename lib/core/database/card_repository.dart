@@ -221,6 +221,29 @@ class CardRepository {
     );
   }
 
+  /// Set ARD-specific fields after initial insert (audio URL, duration, group).
+  Future<void> updateArdFields({
+    required String cardId,
+    String? audioUrl,
+    int? durationMs,
+    DateTime? availableUntil,
+    String? groupId,
+    int? episodeNumber,
+  }) async {
+    await (_db.update(_db.cards)..where((t) => t.id.equals(cardId))).write(
+      CardsCompanion(
+        audioUrl: audioUrl != null ? Value(audioUrl) : const Value.absent(),
+        durationMs: durationMs != null ? Value(durationMs) : const Value.absent(),
+        availableUntil: availableUntil != null
+            ? Value(availableUntil)
+            : const Value.absent(),
+        groupId: groupId != null ? Value(groupId) : const Value.absent(),
+        episodeNumber:
+            episodeNumber != null ? Value(episodeNumber) : const Value.absent(),
+      ),
+    );
+  }
+
   /// Set totalTracks for a card (used by data migration backfill).
   Future<void> updateTotalTracks({
     required String cardId,
