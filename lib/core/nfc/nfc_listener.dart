@@ -76,18 +76,12 @@ class NfcListener extends _$NfcListener {
       final groups = ref.read(groupRepositoryProvider);
       final nextCard = await groups.nextUnheard(mapping.targetId);
       if (nextCard != null) {
-        await player.playCard(
-          nextCard.providerUri,
-          groupId: mapping.targetId,
-        );
+        await player.playCard(nextCard.id);
       } else {
         // All heard — play from the beginning (first episode).
         final allCards = await groups.watchCards(mapping.targetId).first;
         if (allCards.isNotEmpty) {
-          await player.playCard(
-            allCards.first.providerUri,
-            groupId: mapping.targetId,
-          );
+          await player.playCard(allCards.first.id);
         }
       }
     } else {
@@ -95,7 +89,7 @@ class NfcListener extends _$NfcListener {
       final cards = ref.read(cardRepositoryProvider);
       final card = await cards.getById(mapping.targetId);
       if (card != null) {
-        await player.playCard(card.providerUri);
+        await player.playCard(card.id);
       }
     }
   }

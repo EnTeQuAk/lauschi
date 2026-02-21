@@ -161,7 +161,7 @@ class KidHomeScreen extends ConsumerWidget {
                   isActive: playerState.hasTrack,
                   onCardTap:
                       playerState.isReady
-                          ? (card) => playerNotifier.playCard(card.providerUri)
+                          ? (card) => playerNotifier.playCard(card.id)
                           : null,
                   onGroupTap:
                       (group) => context.push(AppRoutes.groupDetail(group.id)),

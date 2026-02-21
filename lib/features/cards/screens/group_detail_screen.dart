@@ -114,10 +114,7 @@ class GroupDetailScreen extends ConsumerWidget {
                     isPlaying: playerState.isPlaying,
                     isActive: playerState.track != null,
                     onCardTap:
-                        (card) => playerNotifier.playCard(
-                          card.providerUri,
-                          groupId: groupId,
-                        ),
+                        (card) => playerNotifier.playCard(card.id),
                   );
                 },
                 loading: () => const Center(child: CircularProgressIndicator()),

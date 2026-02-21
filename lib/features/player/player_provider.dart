@@ -62,8 +62,12 @@ class PlayerNotifier extends _$PlayerNotifier {
   StreamSubscription<PlaybackState>? _subscription;
   Timer? _positionSaveTimer;
 
+  /// ID of the card currently being played.
+  String? _activeCardId;
+  String? get activeCardId => _activeCardId;
+
   /// URI of the album/context currently being played.
-  /// Used to highlight the active card in the grid.
+  /// Used to highlight the active card in the grid and for position saving.
   String? _activeContextUri;
   String? get activeContextUri => _activeContextUri;
 
@@ -205,14 +209,32 @@ class PlayerNotifier extends _$PlayerNotifier {
 
   /// Resume playback for a card, restoring saved position.
   ///
-  /// When [groupId] is set, completing this episode auto-advances to the
-  /// next unheard episode in the series.
-  Future<void> playCard(String spotifyUri, {String? groupId}) async {
+  /// Looks up the card by ID, branches on provider, and restores resume
+  /// state. Group ID for auto-advance comes from the card's groupId field.
+  Future<void> playCard(String cardId) async {
     // Cancel any pending auto-advance and position save timer.
     _advanceTimer?.cancel();
     _positionSaveTimer?.cancel();
-    _activeContextUri = spotifyUri;
-    _activeGroupId = groupId;
+
+    final cards = ref.read(cardRepositoryProvider);
+    final card = await cards.getById(cardId);
+    if (card == null) {
+      Log.error(_tag, 'Card not found', data: {'cardId': cardId});
+      return;
+    }
+
+    // Check content expiration before attempting playback.
+    if (card.availableUntil != null &&
+        card.availableUntil!.isBefore(DateTime.now())) {
+      state = state.copyWith(
+        error: 'Diese Geschichte ist leider nicht mehr verfügbar',
+      );
+      return;
+    }
+
+    _activeCardId = cardId;
+    _activeContextUri = card.providerUri;
+    _activeGroupId = card.groupId;
     state = state.copyWith(
       isLoading: true,
       // ignore: avoid_redundant_argument_values, null clears previous error
@@ -220,6 +242,25 @@ class PlayerNotifier extends _$PlayerNotifier {
       clearNextEpisode: true,
     );
 
+    switch (card.provider) {
+      case 'spotify':
+        await _playSpotify(card);
+      // Future providers: 'ard_audiothek', 'apple_music'
+      default:
+        Log.error(
+          _tag,
+          'Unsupported provider',
+          data: {'provider': card.provider},
+        );
+        state = state.copyWith(
+          isLoading: false,
+          error: 'Anbieter nicht unterstützt: ${card.provider}',
+        );
+    }
+  }
+
+  /// Play via Spotify Web Playback SDK.
+  Future<void> _playSpotify(db.AudioCard card) async {
     final deviceId = state.deviceId;
     if (deviceId == null || _api == null) {
       Log.error(_tag, 'Cannot play — no device ID');
@@ -230,21 +271,19 @@ class PlayerNotifier extends _$PlayerNotifier {
       return;
     }
 
-    final cards = ref.read(cardRepositoryProvider);
-    final card = await cards.getByProviderUri(spotifyUri);
-
     Log.info(
       _tag,
       'Playing card',
       data: {
-        'uri': spotifyUri,
-        'resumeTrack': card?.lastTrackUri ?? 'none',
-        'resumeMs': '${card?.lastPositionMs ?? 0}',
+        'uri': card.providerUri,
+        'provider': card.provider,
+        'resumeTrack': card.lastTrackUri ?? 'none',
+        'resumeMs': '${card.lastPositionMs}',
       },
     );
 
     try {
-      await _playOnDevice(spotifyUri, deviceId, card);
+      await _playOnDevice(card.providerUri, deviceId, card);
       state = state.copyWith(isLoading: false);
     } on SpotifyDeviceNotFoundException {
       // Device stale — reconnect the SDK and retry once.
@@ -253,7 +292,7 @@ class PlayerNotifier extends _$PlayerNotifier {
       final newDeviceId = await _bridge!.waitForDevice();
       if (newDeviceId != null) {
         try {
-          await _playOnDevice(spotifyUri, newDeviceId, card);
+          await _playOnDevice(card.providerUri, newDeviceId, card);
           state = state.copyWith(isLoading: false);
         } on Exception catch (e) {
           Log.error(_tag, 'Retry after reconnect failed', exception: e);
@@ -347,14 +386,14 @@ class PlayerNotifier extends _$PlayerNotifier {
       data: {
         'groupId': _activeGroupId!,
         'nextCard': nextCard.title,
-        'nextUri': nextCard.providerUri,
+        'nextId': nextCard.id,
       },
     );
 
     // Brief pause before advancing so the transition feels intentional.
     _advanceTimer?.cancel();
     _advanceTimer = Timer(const Duration(seconds: 3), () {
-      unawaited(playCard(nextCard.providerUri, groupId: _activeGroupId));
+      unawaited(playCard(nextCard.id));
     });
 
     // Signal the UI to show the next episode preview during the delay.
@@ -374,17 +413,14 @@ class PlayerNotifier extends _$PlayerNotifier {
   }
 
   Future<void> _savePosition() async {
-    final uri = _activeContextUri;
+    final cardId = _activeCardId;
     final track = state.track;
-    if (uri == null || track == null || state.positionMs <= 0) return;
+    if (cardId == null || track == null || state.positionMs <= 0) return;
 
     try {
       final cards = ref.read(cardRepositoryProvider);
-      final card = await cards.getByProviderUri(uri);
-      if (card == null) return;
-
       await cards.savePosition(
-        cardId: card.id,
+        cardId: cardId,
         trackUri: track.uri,
         trackNumber: state.trackNumber,
         positionMs: state.positionMs,
@@ -396,12 +432,12 @@ class PlayerNotifier extends _$PlayerNotifier {
 
   /// Mark the currently-playing album as heard.
   Future<void> _markAlbumHeard() async {
-    final uri = _activeContextUri;
-    if (uri == null) return;
+    final cardId = _activeCardId;
+    if (cardId == null) return;
 
     try {
       final cards = ref.read(cardRepositoryProvider);
-      final card = await cards.getByProviderUri(uri);
+      final card = await cards.getById(cardId);
       if (card == null || card.isHeard) return;
 
       await cards.markHeard(card.id);
