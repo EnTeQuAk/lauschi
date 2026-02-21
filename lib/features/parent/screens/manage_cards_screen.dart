@@ -11,6 +11,7 @@ import 'package:lauschi/core/database/group_repository.dart';
 import 'package:lauschi/core/log.dart';
 import 'package:lauschi/core/router/app_router.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
+import 'package:lauschi/features/parent/widgets/provider_badge.dart';
 
 const _tag = 'ManageCards';
 
@@ -345,6 +346,11 @@ class _CardTile extends ConsumerWidget {
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
+          if (card.provider != 'spotify')
+            Padding(
+              padding: const EdgeInsets.only(right: 4),
+              child: ProviderBadge(provider: card.provider),
+            ),
           if (isHeard)
             const Padding(
               padding: EdgeInsets.only(right: 4),
