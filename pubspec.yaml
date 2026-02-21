@@ -9,6 +9,9 @@ environment:
 dependencies:
   app_links: ^7.0.0
   audio_service: ^0.18.18
+  # Pin to 0.2.x where AUDIO_SESSION_MICROPHONE defaults to 0 (disabled).
+  # 0.1.x defaults to 1 (enabled), causing App Store rejection ITMS-90683.
+  audio_session: ^0.2.2
   bcrypt: ^1.1.3
   cached_network_image: ^3.4.1
   connectivity_plus: ^7.0.0
@@ -22,7 +25,7 @@ dependencies:
   flutter_secure_storage: ^10.0.0
   flutter_svg: ^2.2.3
   go_router: ^17.1.0
-  just_audio: ^0.9.43
+  just_audio: ^0.10.5
   nfc_manager: ^4.1.1
   riverpod_annotation: ^4.0.2
   sentry_flutter: ^9.13.0
