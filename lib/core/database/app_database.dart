@@ -18,7 +18,7 @@ class AppDatabase extends _$AppDatabase {
 
   /// Bump when schema changes. See [migration] for upgrade steps.
   @override
-  int get schemaVersion => 8;
+  int get schemaVersion => 9;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -57,8 +57,15 @@ class AppDatabase extends _$AppDatabase {
           await m.addColumn(cards, cards.durationMs);
           await m.addColumn(groups, groups.provider);
           await m.addColumn(groups, groups.externalShowId);
-          await m.addColumn(groups, groups.lastSyncedAt);
+          // v8 also added groups.lastSyncedAt — removed in v9 (sync
+          // state belongs in ShowSubscriptions). Column stays in SQLite
+          // on existing devices but is not referenced by Drift.
           await m.createTable(showSubscriptions);
+        }
+        if (from < 9) {
+          // Removed groups.lastSyncedAt from Dart model — sync state
+          // lives exclusively in ShowSubscriptions. No physical column
+          // drop needed; SQLite ignores the orphaned column.
         }
         Log.info('Database', 'Migration complete');
       } on Exception catch (e, stack) {

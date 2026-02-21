@@ -54,17 +54,18 @@ class Groups extends Table {
       text().withDefault(const Constant('hoerspiel'))();
 
   /// Provider for this group's content. Null for mixed/manual groups.
-  /// Used to determine sync behaviour and show provider badges.
+  /// Used to determine playback behaviour and show provider badges.
   /// Values: 'spotify', 'ard_audiothek', 'apple_music'.
   TextColumn get provider => text().nullable()();
 
-  /// External show ID for sync. For ARD: programSet numeric ID.
+  /// External show ID — content identity FK. For ARD: programSet numeric ID.
   /// For Apple Music (future): show/station ID.
   /// Null for manually-curated groups.
+  ///
+  /// This is the identity link ("this group = ARD show X"), NOT sync state.
+  /// All sync automation (lastSyncedAt, maxEpisodes, etc.) lives in
+  /// ShowSubscriptions.
   TextColumn get externalShowId => text().nullable()();
-
-  /// When this group was last synced with its external show.
-  DateTimeColumn get lastSyncedAt => dateTime().nullable()();
 
   @override
   Set<Column<Object>> get primaryKey => {id};
