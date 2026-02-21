@@ -118,30 +118,16 @@ class KidHomeScreen extends ConsumerWidget {
                 ),
               ),
 
-            // Connecting indicator (bridge loading after Spotify login)
+            // Connecting indicator — subtle, doesn't take prime real estate.
             if (!playerState.isReady && isOnline)
               const Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: AppSpacing.screenH,
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                      width: 14,
-                      height: 14,
-                      child: CircularProgressIndicator(strokeWidth: 2),
-                    ),
-                    SizedBox(width: AppSpacing.xs),
-                    Text(
-                      'Verbinde…',
-                      style: TextStyle(
-                        fontFamily: 'Nunito',
-                        fontSize: 13,
-                        color: AppColors.textSecondary,
-                      ),
-                    ),
-                  ],
+                padding: EdgeInsets.only(bottom: AppSpacing.xs),
+                child: SizedBox(
+                  height: 2,
+                  child: LinearProgressIndicator(
+                    backgroundColor: Colors.transparent,
+                    color: AppColors.primary,
+                  ),
                 ),
               ),
 

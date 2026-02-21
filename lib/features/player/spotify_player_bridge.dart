@@ -238,7 +238,9 @@ class SpotifyPlayerBridge {
           'SDK error',
           data: {'type': errType, 'message': errMsg},
         );
-        _updateState(_state.copyWith(error: '$errType: $errMsg'));
+        _updateState(
+          _state.copyWith(error: _userFriendlyError(errType, errMsg)),
+        );
 
       case 'log':
         Log.debug('js', _sanitize('${payload['message']}'));
@@ -393,6 +395,21 @@ class SpotifyPlayerBridge {
   /// Seek to position via local SDK.
   Future<void> seek(int positionMs) async {
     await controller.runJavaScript('window.lauschi.seek($positionMs)');
+  }
+
+  /// Map raw SDK error types to kid-parent-friendly messages.
+  String _userFriendlyError(String type, String message) {
+    // Spotify SDK error types: auth, account, playback, network
+    if (type == 'auth' || message.contains('Authentication')) {
+      return 'Spotify-Verbindung abgelaufen — bitte neu verbinden';
+    }
+    if (type == 'account') {
+      return 'Spotify-Konto-Problem — bitte Abo prüfen';
+    }
+    if (type == 'network' || message.contains('network')) {
+      return 'Keine Verbindung zu Spotify';
+    }
+    return 'Wiedergabe fehlgeschlagen';
   }
 
   /// Disconnect and clean up.

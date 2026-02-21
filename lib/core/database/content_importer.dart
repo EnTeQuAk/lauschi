@@ -53,7 +53,7 @@ class ImportResult {
 ///
 /// Handles find-or-create group, insert cards (skipping existing),
 /// and state tracking. Screens build [PendingCard] lists from their
-/// provider-specific models and call [importToGroup] or [importSingle].
+/// provider-specific models and call [importToGroup].
 ///
 /// Per-item loading state (importingUris) is UI state and stays in screens.
 /// This notifier handles only domain operations and batch progress.
@@ -64,13 +64,6 @@ class ContentImporter extends _$ContentImporter {
 
   CardRepository get _cardRepo => ref.read(cardRepositoryProvider);
   GroupRepository get _groupRepo => ref.read(groupRepositoryProvider);
-
-  /// Import a single card, independent of any group.
-  /// Returns the inserted card ID.
-  Future<void> importSingle(PendingCard card) async {
-    await _insertCard(card);
-    Log.info(_tag, 'Imported', data: {'title': card.title});
-  }
 
   /// Import cards into a group, creating it if needed.
   ///

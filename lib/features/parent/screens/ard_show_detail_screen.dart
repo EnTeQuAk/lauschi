@@ -29,16 +29,18 @@ class _ArdShowDetailScreenState extends ConsumerState<ArdShowDetailScreen> {
   /// This is UI state (which button shows a spinner), not domain state.
   final _addingUris = <String>{};
 
-  /// Add a single episode as a card.
-  Future<void> _addEpisode(ArdItem item) async {
+  /// Add a single episode, auto-grouping under the show title.
+  Future<void> _addEpisode(ArdItem item, ArdProgramSet show) async {
     if (item.bestAudioUrl == null) return;
     if (_addingUris.contains(item.providerUri)) return;
 
     setState(() => _addingUris.add(item.providerUri));
 
     try {
-      await ref.read(contentImporterProvider.notifier).importSingle(
-        _ardPendingCard(item),
+      await ref.read(contentImporterProvider.notifier).importToGroup(
+        groupTitle: show.title,
+        groupCoverUrl: ardImageUrl(show.imageUrl),
+        cards: [_ardPendingCard(item)],
       );
     } on Exception catch (e) {
       if (mounted) {
@@ -182,7 +184,7 @@ class _ArdShowDetailScreenState extends ConsumerState<ArdShowDetailScreen> {
                           alreadyAdded: alreadyAdded,
                           isAdding: isAdding,
                           enabled: cardsLoaded && !isImporting,
-                          onAdd: () => _addEpisode(item),
+                          onAdd: () => _addEpisode(item, show),
                         );
                       },
                       childCount:
@@ -324,19 +326,28 @@ class _EpisodeTile extends StatelessWidget {
     final multiPart = _multiPartRegex.firstMatch(item.title);
 
     return ListTile(
-      leading:
-          alreadyAdded
-              ? const Icon(Icons.check_circle, color: AppColors.success)
-              : isAdding
-                  ? const SizedBox(
-                    width: 24,
-                    height: 24,
-                    child: CircularProgressIndicator(strokeWidth: 2),
-                  )
-                  : IconButton(
-                    icon: const Icon(Icons.add_circle_outline_rounded),
-                    onPressed: enabled ? onAdd : null,
-                  ),
+      // Uniform leading size: all states use a 24×24 icon inside a
+      // fixed 48×48 box to keep text alignment consistent.
+      leading: SizedBox(
+        width: 48,
+        height: 48,
+        child: Center(
+          child:
+              alreadyAdded
+                  ? const Icon(Icons.check_circle, color: AppColors.success)
+                  : isAdding
+                      ? const SizedBox(
+                        width: 24,
+                        height: 24,
+                        child: CircularProgressIndicator(strokeWidth: 2),
+                      )
+                      : IconButton(
+                        icon: const Icon(Icons.add_circle_outline_rounded),
+                        onPressed: enabled ? onAdd : null,
+                        padding: EdgeInsets.zero,
+                      ),
+        ),
+      ),
       title: Text(
         item.title,
         style: TextStyle(
