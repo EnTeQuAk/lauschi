@@ -1,6 +1,7 @@
 import 'dart:async' show unawaited;
 
 import 'package:flutter/material.dart';
+import 'package:flutter_reorderable_grid_view/widgets/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lauschi/core/database/app_database.dart' as db;
@@ -135,6 +136,10 @@ class _EmptyState extends StatelessWidget {
   }
 }
 
+/// Reorderable grid of series tiles using flutter_reorderable_grid_view.
+///
+/// Tiles shift with animation as you drag (iOS home screen style).
+/// Long press to start dragging, release to drop.
 class _GroupGrid extends ConsumerStatefulWidget {
   const _GroupGrid({required this.groups});
 
@@ -145,23 +150,36 @@ class _GroupGrid extends ConsumerStatefulWidget {
 }
 
 class _GroupGridState extends ConsumerState<_GroupGrid> {
-  int? _dragFromIndex;
-  int? _hoverIndex;
+  final _scrollController = ScrollController();
+  final _gridViewKey = GlobalKey();
 
-  void _reorder(int from, int to) {
-    if (from == to) return;
-    final reordered = List<db.CardGroup>.from(widget.groups);
-    final item = reordered.removeAt(from);
-    reordered.insert(to, item);
-    unawaited(
-      ref
-          .read(groupRepositoryProvider)
-          .reorder(reordered.map((g) => g.id).toList()),
-    );
+  late List<db.CardGroup> _order;
+
+  @override
+  void initState() {
+    super.initState();
+    _order = List.of(widget.groups);
+  }
+
+  @override
+  void didUpdateWidget(covariant _GroupGrid old) {
+    super.didUpdateWidget(old);
+    _order = List.of(widget.groups);
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    final children = [
+      for (final group in _order)
+        _GroupTile(key: ValueKey(group.id), group: group),
+    ];
+
     return LayoutBuilder(
       builder: (context, constraints) {
         final columns =
@@ -171,46 +189,45 @@ class _GroupGridState extends ConsumerState<_GroupGrid> {
                 ? 4
                 : 5;
 
-        return GridView.builder(
-          padding: const EdgeInsets.symmetric(
-            horizontal: AppSpacing.screenH,
-            vertical: AppSpacing.md,
+        return ReorderableBuilder<db.CardGroup>(
+          scrollController: _scrollController,
+          longPressDelay: const Duration(milliseconds: 300),
+          onReorder: (reorderFn) {
+            setState(() {
+              _order = reorderFn(_order);
+            });
+            unawaited(
+              ref
+                  .read(groupRepositoryProvider)
+                  .reorder(_order.map((g) => g.id).toList()),
+            );
+          },
+          dragChildBoxDecoration: BoxDecoration(
+            borderRadius: const BorderRadius.all(AppRadius.card),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withAlpha(40),
+                blurRadius: 12,
+                offset: const Offset(0, 4),
+              ),
+            ],
           ),
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: columns,
-            crossAxisSpacing: 12,
-            mainAxisSpacing: 16,
-            // Same as parent browse catalog: 1:1 image + text below
-            childAspectRatio: 0.72,
-          ),
-          itemCount: widget.groups.length,
-          itemBuilder: (context, index) {
-            final group = widget.groups[index];
-            return _DraggableGroupTile(
-              key: ValueKey(group.id),
-              group: group,
-              index: index,
-              isDragSource: _dragFromIndex == index,
-              isHoverTarget: _hoverIndex == index,
-              onDragStarted: () => setState(() => _dragFromIndex = index),
-              onDragEnd: () => setState(() {
-                _dragFromIndex = null;
-                _hoverIndex = null;
-              }),
-              onHover: () {
-                if (_hoverIndex != index) setState(() => _hoverIndex = index);
-              },
-              onHoverExit: () {
-                if (_hoverIndex == index) setState(() => _hoverIndex = null);
-              },
-              onAccept: (fromIndex) {
-                _reorder(fromIndex, index);
-                setState(() {
-                  _dragFromIndex = null;
-                  _hoverIndex = null;
-                });
-              },
-              onTap: () => context.push(AppRoutes.parentGroupEdit(group.id)),
+          children: children,
+          builder: (children) {
+            return GridView(
+              key: _gridViewKey,
+              controller: _scrollController,
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppSpacing.screenH,
+                vertical: AppSpacing.md,
+              ),
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: columns,
+                crossAxisSpacing: 12,
+                mainAxisSpacing: 16,
+                childAspectRatio: 0.72,
+              ),
+              children: children,
             );
           },
         );
@@ -219,82 +236,22 @@ class _GroupGridState extends ConsumerState<_GroupGrid> {
   }
 }
 
-class _DraggableGroupTile extends ConsumerWidget {
-  const _DraggableGroupTile({
-    required this.group,
-    required this.index,
-    required this.isDragSource,
-    required this.isHoverTarget,
-    required this.onDragStarted,
-    required this.onDragEnd,
-    required this.onHover,
-    required this.onHoverExit,
-    required this.onAccept,
-    required this.onTap,
-    super.key,
-  });
+class _GroupTile extends ConsumerWidget {
+  const _GroupTile({required this.group, super.key});
 
   final db.CardGroup group;
-  final int index;
-  final bool isDragSource;
-  final bool isHoverTarget;
-  final VoidCallback onDragStarted;
-  final VoidCallback onDragEnd;
-  final VoidCallback onHover;
-  final VoidCallback onHoverExit;
-  final void Function(int fromIndex) onAccept;
-  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final episodesAsync = ref.watch(groupEpisodesProvider(group.id));
     final count = episodesAsync.whenOrNull(data: (e) => e.length) ?? 0;
 
-    final tile = GroupCard(
+    return GroupCard(
       title: group.title,
       episodeCount: count,
       coverUrl: group.coverUrl,
       contentType: group.contentType,
-      onTap: onTap,
-    );
-
-    return DragTarget<int>(
-      onWillAcceptWithDetails: (details) {
-        onHover();
-        return details.data != index;
-      },
-      onLeave: (_) => onHoverExit(),
-      onAcceptWithDetails: (details) => onAccept(details.data),
-      builder: (context, accepted, rejected) {
-        return LongPressDraggable<int>(
-          data: index,
-          onDragStarted: onDragStarted,
-          onDragEnd: (_) => onDragEnd(),
-          onDraggableCanceled: (_, _) => onDragEnd(),
-          feedback: Material(
-            elevation: 8,
-            color: Colors.transparent,
-            borderRadius: const BorderRadius.all(AppRadius.card),
-            child: SizedBox(
-              width: 120,
-              height: 150,
-              child: tile,
-            ),
-          ),
-          childWhenDragging: Opacity(opacity: 0.3, child: tile),
-          child: AnimatedContainer(
-            duration: const Duration(milliseconds: 150),
-            decoration: BoxDecoration(
-              borderRadius: const BorderRadius.all(AppRadius.card),
-              border:
-                  isHoverTarget
-                      ? Border.all(color: AppColors.primary, width: 2)
-                      : null,
-            ),
-            child: tile,
-          ),
-        );
-      },
+      onTap: () => context.push(AppRoutes.parentGroupEdit(group.id)),
     );
   }
 }

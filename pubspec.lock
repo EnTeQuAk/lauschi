@@ -419,6 +419,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_reorderable_grid_view:
+    dependency: "direct main"
+    description:
+      name: flutter_reorderable_grid_view
+      sha256: "713e516c4bb4cd7127b01b794acca425b8209fae81ca703f591d54631bc232a1"
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.5.3"
   flutter_riverpod:
     dependency: "direct main"
     description:
