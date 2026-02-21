@@ -17,15 +17,15 @@ abstract final class AppColors {
   static const accent = Color(0xFFD4845A);
   static const accentPale = Color(0xFFFAEEE6);
 
-  // Surfaces — warm cream
-  static const background = Color(0xFFF6F3EE);
+  // Surfaces — warm cream, matched to mascot illustration background
+  static const background = Color(0xFFF0EDE0);
   static const surface = Color(0xFFFFFFFF);
-  static const surfaceDim = Color(0xFFEDEAE4);
-  static const surfaceTinted = Color(0xFFEDF5F0);
+  static const surfaceDim = Color(0xFFE7E3CE);
+  static const surfaceTinted = Color(0xFFE8F2EB);
 
-  // Parent mode surfaces — cooler stone
-  static const parentBackground = Color(0xFFF0EEEB);
-  static const parentSurface = Color(0xFFFAF9F7);
+  // Parent mode surfaces — slightly cooler variant
+  static const parentBackground = Color(0xFFEAE8DD);
+  static const parentSurface = Color(0xFFF4F3EF);
 
   // Text
   static const textPrimary = Color(0xFF1A1E1C);
