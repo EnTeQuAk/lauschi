@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lauschi/core/database/app_database.dart' as db;
+import 'package:lauschi/core/database/card_repository.dart';
 import 'package:lauschi/core/database/group_repository.dart';
 import 'package:lauschi/core/router/app_router.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
@@ -183,26 +184,35 @@ class _GroupList extends ConsumerWidget {
         builder:
             (ctx) => AlertDialog(
               title: const Text('Serie entfernen?'),
-              content: Text(
-                '„${group.title}" wird gelöscht. '
-                'Die enthaltenen Karten bleiben erhalten.',
-              ),
+              content: Text('„${group.title}" löschen?'),
               actions: [
                 TextButton(
                   onPressed: () => Navigator.of(ctx).pop(),
                   child: const Text('Abbrechen'),
                 ),
-                FilledButton(
+                OutlinedButton(
                   onPressed: () {
                     Navigator.of(ctx).pop();
                     unawaited(
                       ref.read(groupRepositoryProvider).delete(group.id),
                     );
                   },
+                  child: const Text('Nur Serie'),
+                ),
+                FilledButton(
+                  onPressed: () async {
+                    Navigator.of(ctx).pop();
+                    await ref
+                        .read(cardRepositoryProvider)
+                        .deleteByGroup(group.id);
+                    await ref
+                        .read(groupRepositoryProvider)
+                        .delete(group.id);
+                  },
                   style: FilledButton.styleFrom(
                     backgroundColor: AppColors.error,
                   ),
-                  child: const Text('Löschen'),
+                  child: const Text('Serie + Karten'),
                 ),
               ],
             ),
