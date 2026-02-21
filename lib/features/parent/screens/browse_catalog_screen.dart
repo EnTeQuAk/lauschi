@@ -1218,7 +1218,9 @@ class _CatalogSeriesDetailScreenState
 
     // Progress state for the modal.
     final progressNotifier = ValueNotifier<(int, int)>((0, _selected.length));
-    final statusNotifier = ValueNotifier<String>('Lade Album-Daten…');
+    final statusNotifier = ValueNotifier<String>(
+      'Lade ${series.title}…',
+    );
 
     if (mounted) {
       unawaited(
@@ -1248,7 +1250,7 @@ class _CatalogSeriesDetailScreenState
         progressNotifier.value = (albums.length, total);
       }
 
-      statusNotifier.value = 'Speichere…';
+      statusNotifier.value = 'Speichere ${series.title}…';
 
       final cards = <PendingCard>[];
       for (final album in albums) {
@@ -1339,9 +1341,9 @@ class _CatalogSeriesDetailScreenState
               (a, b) => (a.episode ?? 999999).compareTo(b.episode ?? 999999),
             );
 
-        final albumIds = albums.map((a) => a.spotifyId).toList();
+        final coverKey = albums.map((a) => a.spotifyId).join(',');
         final coverMap =
-            ref.watch(_albumCoversProvider(albumIds)).value ?? {};
+            ref.watch(_albumCoversProvider(coverKey)).value ?? {};
 
         if (_selected.isEmpty && _selectAll && cardsLoaded) {
           for (final album in albums) {
@@ -2359,13 +2361,15 @@ class _Placeholder extends StatelessWidget {
 
 /// Fetches album covers for all episodes in a single catalog series.
 ///
-/// Returns a map of Spotify album ID → image URL, fetched in batches of 20.
+/// Keyed on a comma-joined string of album IDs. Dart lists don't have
+/// deep equality, so a list key would restart the fetch on every rebuild.
 final _albumCoversProvider =
-    FutureProvider.autoDispose.family<Map<String, String>, List<String>>(
-  (ref, albumIds) async {
+    FutureProvider.autoDispose.family<Map<String, String>, String>(
+  (ref, joinedIds) async {
     final api = ref.watch(spotifyApiProvider);
-    if (!api.hasToken || albumIds.isEmpty) return {};
+    if (!api.hasToken || joinedIds.isEmpty) return {};
 
+    final albumIds = joinedIds.split(',');
     final coverMap = <String, String>{};
     for (var i = 0; i < albumIds.length; i += 20) {
       final batch = albumIds.sublist(
