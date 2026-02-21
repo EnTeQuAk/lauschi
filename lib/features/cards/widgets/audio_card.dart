@@ -18,6 +18,7 @@ class AudioCard extends StatefulWidget {
     this.isPaused = false,
     this.isHeard = false,
     this.progress = 0,
+    this.kidMode = false,
   });
 
   final String title;
@@ -32,6 +33,9 @@ class AudioCard extends StatefulWidget {
   /// at the bottom of the card. Not shown when 0 or when fully heard.
   final double progress;
   final VoidCallback onTap;
+
+  /// Kid-facing mode: image-only, no title text.
+  final bool kidMode;
 
   @override
   State<AudioCard> createState() => _AudioCardState();
@@ -98,73 +102,76 @@ class _AudioCardState extends State<AudioCard>
                 scale: _scaleAnimation.value,
                 child: child,
               ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              // Album art
-              AspectRatio(
-                aspectRatio: 1,
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.all(AppRadius.card),
-                    border:
-                        (widget.isPlaying || widget.isPaused)
-                            ? Border.all(
-                              color:
-                                  widget.isPlaying
-                                      ? AppColors.primary
-                                      : AppColors.primarySoft,
-                              width: 3,
-                            )
-                            : null,
-                  ),
-                  clipBehavior: Clip.antiAlias,
-                  child: Stack(
-                    fit: StackFit.expand,
-                    children: [
-                      _CoverImage(url: widget.coverUrl),
-                      // Heard overlay dims the cover unless actively playing
-                      if (widget.isHeard &&
-                          !widget.isPlaying &&
-                          !widget.isPaused)
-                        const _HeardOverlay(),
-                      if (widget.isPlaying) const _PlayBadge(),
-                      if (widget.isPaused) const _PauseBadge(),
-                      if (widget.isHeard &&
-                          !widget.isPlaying &&
-                          !widget.isPaused)
-                        const _HeardBadge(),
-                      // Netflix-style progress bar at bottom
-                      if (widget.progress > 0 && !widget.isHeard)
-                        Positioned(
-                          left: 0,
-                          right: 0,
-                          bottom: 0,
-                          child: _ProgressBar(progress: widget.progress),
-                        ),
-                    ],
-                  ),
-                ),
-              ),
-              const SizedBox(height: 6),
-              Expanded(
-                child: Text(
-                  widget.title,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                    fontFamily: 'Nunito',
-                    fontWeight: FontWeight.w700,
-                    fontSize: 13,
-                    height: 1.2,
-                    color: AppColors.textPrimary,
-                  ),
-                ),
-              ),
-            ],
-          ),
+          child: _buildCard(),
         ),
       ),
+    );
+  }
+
+  Widget _artWithOverlays() {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: const BorderRadius.all(AppRadius.card),
+        border:
+            (widget.isPlaying || widget.isPaused)
+                ? Border.all(
+                  color:
+                      widget.isPlaying
+                          ? AppColors.primary
+                          : AppColors.primarySoft,
+                  width: 3,
+                )
+                : null,
+      ),
+      clipBehavior: Clip.antiAlias,
+      child: Stack(
+        fit: StackFit.expand,
+        children: [
+          _CoverImage(url: widget.coverUrl),
+          if (widget.isHeard && !widget.isPlaying && !widget.isPaused)
+            const _HeardOverlay(),
+          if (widget.isPlaying) const _PlayBadge(),
+          if (widget.isPaused) const _PauseBadge(),
+          if (widget.isHeard && !widget.isPlaying && !widget.isPaused)
+            const _HeardBadge(),
+          if (widget.progress > 0 && !widget.isHeard)
+            Positioned(
+              left: 0,
+              right: 0,
+              bottom: 0,
+              child: _ProgressBar(progress: widget.progress),
+            ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildCard() {
+    if (widget.kidMode) {
+      // Image-only: the art IS the card.
+      return _artWithOverlays();
+    }
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        AspectRatio(aspectRatio: 1, child: _artWithOverlays()),
+        const SizedBox(height: 6),
+        Expanded(
+          child: Text(
+            widget.title,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+            style: const TextStyle(
+              fontFamily: 'Nunito',
+              fontWeight: FontWeight.w700,
+              fontSize: 13,
+              height: 1.2,
+              color: AppColors.textPrimary,
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

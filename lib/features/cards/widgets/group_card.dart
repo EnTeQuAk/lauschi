@@ -16,6 +16,7 @@ class GroupCard extends StatefulWidget {
     this.nextEpisodeTitle,
     this.progress = 0,
     this.contentType = 'hoerspiel',
+    this.kidMode = false,
   });
 
   final String title;
@@ -31,6 +32,9 @@ class GroupCard extends StatefulWidget {
 
   /// Content type: 'hoerspiel' or 'music'. Affects badge icon/label.
   final String contentType;
+
+  /// Kid-facing mode: image-only with stacked art, no title/count text.
+  final bool kidMode;
 
   @override
   State<GroupCard> createState() => _GroupCardState();
@@ -84,52 +88,57 @@ class _GroupCardState extends State<GroupCard>
           builder:
               (context, child) =>
                   Transform.scale(scale: _scaleAnimation.value, child: child),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              // Stacked card art
-              AspectRatio(
-                aspectRatio: 1,
-                child: _StackedArt(
-                  coverUrl: widget.coverUrl,
-                  progress: widget.progress,
-                  isMusic: widget.contentType == 'music',
-                ),
-              ),
-              const SizedBox(height: 6),
-              // Title
-              Flexible(
-                child: Text(
-                  widget.title,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                    fontFamily: 'Nunito',
-                    fontWeight: FontWeight.w800,
-                    fontSize: 13,
-                    height: 1.2,
-                    color: AppColors.textPrimary,
+          child:
+              widget.kidMode
+                  ? _StackedArt(
+                    coverUrl: widget.coverUrl,
+                    progress: widget.progress,
+                    isMusic: widget.contentType == 'music',
+                    showBadge: false,
+                  )
+                  : Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      AspectRatio(
+                        aspectRatio: 1,
+                        child: _StackedArt(
+                          coverUrl: widget.coverUrl,
+                          progress: widget.progress,
+                          isMusic: widget.contentType == 'music',
+                        ),
+                      ),
+                      const SizedBox(height: 6),
+                      Flexible(
+                        child: Text(
+                          widget.title,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                            fontFamily: 'Nunito',
+                            fontWeight: FontWeight.w800,
+                            fontSize: 13,
+                            height: 1.2,
+                            color: AppColors.textPrimary,
+                          ),
+                        ),
+                      ),
+                      Text(
+                        widget.contentType == 'music'
+                            ? '${widget.episodeCount} Titel'
+                            : widget.episodeCount == 1
+                            ? '1 Folge'
+                            : '${widget.episodeCount} Folgen',
+                        maxLines: 1,
+                        style: const TextStyle(
+                          fontFamily: 'Nunito',
+                          fontWeight: FontWeight.w600,
+                          fontSize: 11,
+                          color: AppColors.textSecondary,
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-              ),
-              // Episode/track count
-              Text(
-                widget.contentType == 'music'
-                    ? '${widget.episodeCount} Titel'
-                    : widget.episodeCount == 1
-                    ? '1 Folge'
-                    : '${widget.episodeCount} Folgen',
-                maxLines: 1,
-                style: const TextStyle(
-                  fontFamily: 'Nunito',
-                  fontWeight: FontWeight.w600,
-                  fontSize: 11,
-                  color: AppColors.textSecondary,
-                ),
-              ),
-            ],
-          ),
         ),
       ),
     );
@@ -138,11 +147,17 @@ class _GroupCardState extends State<GroupCard>
 
 /// Card art with a subtle stack effect beneath it.
 class _StackedArt extends StatelessWidget {
-  const _StackedArt({this.coverUrl, this.progress = 0, this.isMusic = false});
+  const _StackedArt({
+    this.coverUrl,
+    this.progress = 0,
+    this.isMusic = false,
+    this.showBadge = true,
+  });
 
   final String? coverUrl;
   final double progress;
   final bool isMusic;
+  final bool showBadge;
 
   @override
   Widget build(BuildContext context) {
@@ -172,8 +187,8 @@ class _StackedArt extends StatelessWidget {
             child: _cover(coverUrl),
           ),
         ),
-        // Content type badge in top-left
-        Positioned(
+        // Content type badge in top-left (hidden in kid mode)
+        if (showBadge) Positioned(
           left: 6,
           top: 6,
           child: Container(

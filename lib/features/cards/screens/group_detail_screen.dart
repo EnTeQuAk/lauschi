@@ -274,7 +274,7 @@ class _EpisodeGrid extends StatelessWidget {
             crossAxisCount: columns,
             crossAxisSpacing: 12,
             mainAxisSpacing: 16,
-            childAspectRatio: 0.7,
+
           ),
           itemCount: episodes.length,
           itemBuilder: (context, index) {
@@ -293,6 +293,7 @@ class _EpisodeGrid extends StatelessWidget {
                   isPaused: isCurrentCard && !isPlaying,
                   isHeard: card.isHeard,
                   progress: _albumProgress(card),
+                  kidMode: true,
                   onTap: () => onCardTap(card),
                 ),
                 // "Weiter" badge on next unheard episode
