@@ -619,13 +619,31 @@ class _EpisodeTile extends ConsumerWidget {
         ),
       ),
       subtitle:
-          card.isHeard
-              ? const Text(
-                '✓ gehört',
-                style: TextStyle(
-                  fontFamily: 'Nunito',
-                  fontSize: 12,
-                  color: AppColors.success,
+          (card.episodeNumber != null || card.isHeard)
+              ? Text.rich(
+                TextSpan(
+                  children: [
+                    if (card.episodeNumber != null)
+                      TextSpan(
+                        text: 'Folge ${card.episodeNumber}',
+                        style: const TextStyle(
+                          fontFamily: 'Nunito',
+                          fontSize: 12,
+                          color: AppColors.textSecondary,
+                        ),
+                      ),
+                    if (card.episodeNumber != null && card.isHeard)
+                      const TextSpan(text: '  ·  '),
+                    if (card.isHeard)
+                      const TextSpan(
+                        text: '✓ gehört',
+                        style: TextStyle(
+                          fontFamily: 'Nunito',
+                          fontSize: 12,
+                          color: AppColors.success,
+                        ),
+                      ),
+                  ],
                 ),
               )
               : null,
