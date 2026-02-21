@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lauschi/core/ard/ard_api.dart';
 import 'package:lauschi/core/ard/ard_image.dart';
 import 'package:lauschi/core/ard/ard_models.dart';
+import 'package:lauschi/core/ard/ard_providers.dart';
 import 'package:lauschi/core/database/card_repository.dart';
 import 'package:lauschi/core/database/content_importer.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
@@ -59,7 +60,7 @@ class _ArdShowDetailScreenState extends ConsumerState<ArdShowDetailScreen> {
     // Load all pages if needed.
     var allItems = items;
     final page = ref.read(
-      _showEpisodesProvider(widget.showId),
+      ardShowEpisodesProvider(widget.showId),
     ).whenOrNull(data: (d) => d);
     if (page != null && page.hasNextPage) {
       allItems = await _loadAllEpisodes(show.id);
@@ -115,8 +116,8 @@ class _ArdShowDetailScreenState extends ConsumerState<ArdShowDetailScreen> {
     final existingUris = ref.watch(existingCardUrisProvider);
     final cardsLoaded = ref.watch(allCardsProvider).hasValue;
     final isImporting = ref.watch(contentImporterProvider);
-    final showAsync = ref.watch(_showDetailProvider(widget.showId));
-    final episodesAsync = ref.watch(_showEpisodesProvider(widget.showId));
+    final showAsync = ref.watch(ardShowDetailProvider(widget.showId));
+    final episodesAsync = ref.watch(ardShowEpisodesProvider(widget.showId));
 
     return Scaffold(
       backgroundColor: AppColors.parentBackground,
@@ -449,15 +450,3 @@ int? _daysUntilExpiry(DateTime? endDate) {
   if (days < 0) return null;
   return days;
 }
-
-// ── Providers ───────────────────────────────────────────────────────────────
-
-final _showDetailProvider =
-    FutureProvider.autoDispose.family<ArdProgramSet?, String>(
-  (ref, showId) => ref.watch(ardApiProvider).getProgramSet(showId),
-);
-
-final _showEpisodesProvider =
-    FutureProvider.autoDispose.family<ArdItemPage, String>(
-  (ref, showId) => ref.watch(ardApiProvider).getItems(programSetId: showId),
-);

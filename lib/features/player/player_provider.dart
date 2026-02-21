@@ -65,18 +65,6 @@ class PlayerNotifier extends _$PlayerNotifier {
   Timer? _positionSaveTimer;
   DirectPlayer? _directPlayer;
 
-  /// ID of the card currently being played.
-  String? _activeCardId;
-  String? get activeCardId => _activeCardId;
-
-  /// URI of the album/context currently being played.
-  /// Used to highlight the active card in the grid and for position saving.
-  String? _activeContextUri;
-  String? get activeContextUri => _activeContextUri;
-
-  /// Group ID for auto-advance. When set, completing an episode
-  /// auto-plays the next unheard episode in the series.
-  String? _activeGroupId;
   Timer? _advanceTimer;
 
   @override
@@ -134,7 +122,7 @@ class PlayerNotifier extends _$PlayerNotifier {
   /// Play a raw Spotify URI (album, playlist, or track).
   ///
   /// Prefer [playCard] which handles provider branching, expiration checks,
-  /// and resume state. This method does not set [_activeCardId], so position
+  /// and resume state. This method does not set `activeCardId`, so position
   /// saving and mark-heard will not work.
   @Deprecated('Use playCard(cardId) instead')
   Future<void> play(String spotifyUri) async {
@@ -144,7 +132,11 @@ class PlayerNotifier extends _$PlayerNotifier {
       return;
     }
 
-    _activeContextUri = spotifyUri;
+    state = state.copyWith(
+      activeContextUri: spotifyUri,
+      clearActiveCard: true,
+      clearActiveGroupId: true,
+    );
     Log.info(_tag, 'Playing', data: {'uri': spotifyUri});
 
     try {
@@ -155,7 +147,8 @@ class PlayerNotifier extends _$PlayerNotifier {
   }
 
   /// Whether the currently active card uses direct playback (non-SDK).
-  bool get _isDirectPlayback => _directPlayer != null && _activeCardId != null;
+  bool get _isDirectPlayback =>
+      _directPlayer != null && state.activeCardId != null;
 
   /// Pause playback (idempotent — safe to call when already paused).
   Future<void> pause() async {
@@ -261,7 +254,7 @@ class PlayerNotifier extends _$PlayerNotifier {
     // Check content expiration before attempting playback.
     if (card.availableUntil != null &&
         card.availableUntil!.isBefore(DateTime.now())) {
-      // Don't set _activeCardId — prevents stale state from leaking into
+      // Don't set activeCardId — prevents stale state from leaking into
       // position saves or mark-heard operations.
       state = state.copyWith(
         error: 'Diese Geschichte ist leider nicht mehr verfügbar',
@@ -270,10 +263,10 @@ class PlayerNotifier extends _$PlayerNotifier {
     }
 
     // Set active state only after validation passes.
-    _activeCardId = cardId;
-    _activeContextUri = card.providerUri;
-    _activeGroupId = card.groupId;
     state = state.copyWith(
+      activeCardId: cardId,
+      activeContextUri: card.providerUri,
+      activeGroupId: card.groupId,
       isLoading: true,
       // ignore: avoid_redundant_argument_values, null clears previous error
       error: null,
@@ -480,14 +473,15 @@ class PlayerNotifier extends _$PlayerNotifier {
   Future<void> _onAlbumCompleted() async {
     await _markAlbumHeard();
 
-    if (_activeGroupId == null) return;
+    final groupId = state.activeGroupId;
+    if (groupId == null) return;
 
     // Only auto-advance for Hörspiel groups, not music.
     final groups = ref.read(groupRepositoryProvider);
-    final group = await groups.getById(_activeGroupId!);
+    final group = await groups.getById(groupId);
     if (group == null || group.contentType != 'hoerspiel') return;
 
-    final nextCard = await groups.nextUnheard(_activeGroupId!);
+    final nextCard = await groups.nextUnheard(groupId);
 
     if (nextCard == null) {
       Log.info(_tag, 'Series finished — no more episodes');
@@ -498,7 +492,7 @@ class PlayerNotifier extends _$PlayerNotifier {
       _tag,
       'Auto-advance',
       data: {
-        'groupId': _activeGroupId!,
+        'groupId': groupId,
         'nextCard': nextCard.title,
         'nextId': nextCard.id,
       },
@@ -527,7 +521,7 @@ class PlayerNotifier extends _$PlayerNotifier {
   }
 
   Future<void> _savePosition() async {
-    final cardId = _activeCardId;
+    final cardId = state.activeCardId;
     final track = state.track;
     if (cardId == null || track == null || state.positionMs <= 0) return;
 
@@ -546,7 +540,7 @@ class PlayerNotifier extends _$PlayerNotifier {
 
   /// Mark the currently-playing album as heard.
   Future<void> _markAlbumHeard() async {
-    final cardId = _activeCardId;
+    final cardId = state.activeCardId;
     if (cardId == null) return;
 
     try {

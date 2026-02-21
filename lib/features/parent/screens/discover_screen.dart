@@ -2,9 +2,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:lauschi/core/ard/ard_api.dart';
 import 'package:lauschi/core/ard/ard_image.dart';
 import 'package:lauschi/core/ard/ard_models.dart';
+import 'package:lauschi/core/ard/ard_providers.dart';
 import 'package:lauschi/core/ard/featured_shows.dart';
 import 'package:lauschi/core/log.dart';
 import 'package:lauschi/core/router/app_router.dart';
@@ -18,7 +18,7 @@ class DiscoverScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final showsAsync = ref.watch(_kidsShowsProvider);
+    final showsAsync = ref.watch(ardKidsShowsProvider);
     final featuredAsync = ref.watch(featuredItemsProvider);
 
     return Scaffold(
@@ -51,7 +51,7 @@ class DiscoverScreen extends ConsumerWidget {
                   TextButton(
                     onPressed: () {
                       ref
-                        ..invalidate(_kidsShowsProvider)
+                        ..invalidate(ardKidsShowsProvider)
                         ..invalidate(featuredItemsProvider);
                     },
                     child: const Text('Erneut versuchen'),
@@ -245,7 +245,3 @@ class _Placeholder extends StatelessWidget {
     );
   }
 }
-
-final _kidsShowsProvider = FutureProvider.autoDispose<List<ArdProgramSet>>(
-  (ref) => ref.watch(ardApiProvider).getKidsShows(),
-);

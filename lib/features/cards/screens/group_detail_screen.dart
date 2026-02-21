@@ -110,7 +110,7 @@ class GroupDetailScreen extends ConsumerWidget {
                   return _EpisodeGrid(
                     episodes: episodes,
                     nextUnheardId: nextId,
-                    activeUri: playerNotifier.activeContextUri,
+                    activeUri: playerState.activeContextUri,
                     isPlaying: playerState.isPlaying,
                     isActive: playerState.track != null,
                     onCardTap:
