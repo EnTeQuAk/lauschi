@@ -803,6 +803,7 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen> {
     }
 
     return CustomScrollView(
+      key: const PageStorageKey('curated-grid'),
       slivers: [
         // Section header
         const SliverToBoxAdapter(
