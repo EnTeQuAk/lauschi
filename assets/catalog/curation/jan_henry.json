@@ -1,0 +1,61 @@
+{
+  "query": "Jan & Henry",
+  "model": "kimi-k2.5",
+  "curated_at": "2026-02-21T00:19:42.635609+00:00",
+  "series": {
+    "id": "jan_henry",
+    "title": "Jan & Henry",
+    "aliases": [],
+    "keywords": [],
+    "spotify_artist_ids": [
+      "24NUVkHRlXU796XzBvT7Ao"
+    ],
+    "episode_pattern": "^(\\d{3})/",
+    "albums": [
+      {
+        "spotify_album_id": "4O7MeazH8gqizDJ5b31QNp",
+        "include": true,
+        "episode_num": 1,
+        "title": "001/8 Geschichten und 2 Lieder",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "04remc8aH270L6rKTlf4yN",
+        "include": true,
+        "episode_num": 2,
+        "title": "002/8 Rätsel und 2 Lieder",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4AbMtIG2INm5Tk6Cl7iVEC",
+        "include": true,
+        "episode_num": 3,
+        "title": "003/8 Rätsel und 2 Lieder",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2AhvBrGMAb6NEeoSCLWUFX",
+        "include": true,
+        "episode_num": 4,
+        "title": "004/9 Rätsel und 1 Lied",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6JRoV6QKB5DOA5h5UvB1Of",
+        "include": true,
+        "episode_num": 5,
+        "title": "005/10 lustige Miträtsel-Geschichten",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "386WgT9PKtqJjecYnFFtvB",
+        "include": true,
+        "episode_num": 6,
+        "title": "006/9 lustige Miträtsel-Geschichten und 1 Lied",
+        "exclude_reason": null
+      }
+    ],
+    "age_note": "Suitable from 3+",
+    "curator_notes": "Children's Hörspiel series with short stories featuring Jan & Henry. Each album contains multiple short stories (8-10 per album) with songs. The series uses a 3-digit episode numbering format (001, 002, etc.) in album titles. All 6 albums are individual episodes - no box sets or duplicates found."
+  }
+}

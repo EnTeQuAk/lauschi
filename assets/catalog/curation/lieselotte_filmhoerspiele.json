@@ -1,0 +1,112 @@
+{
+  "query": "Lieselotte Filmhörspiele",
+  "model": "kimi-k2.5",
+  "curated_at": "2026-02-21T00:28:14.876641+00:00",
+  "series": {
+    "id": "lieselotte_filmhoerspiele",
+    "title": "Lieselotte Filmhörspiele",
+    "aliases": [],
+    "keywords": [
+      "Lieselotte"
+    ],
+    "spotify_artist_ids": [
+      "0kZFM6sDiKBxladrJ55iaq"
+    ],
+    "episode_pattern": "[Ff]olge\\s+(\\d+)",
+    "albums": [
+      {
+        "spotify_album_id": "6nZ7xb0LbO95nwcZLFSTrG",
+        "include": true,
+        "episode_num": 1,
+        "title": "Folge 1: Lieselotte die Postkuh (Vier Hörspiele)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "576DtcWsgcrixgAEO32VKg",
+        "include": true,
+        "episode_num": 2,
+        "title": "Folge 2: Lieselotte feiert Geburtstag (Vier Hörspiele)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0nqFOsyob2k9m7c3BdtLWB",
+        "include": true,
+        "episode_num": 3,
+        "title": "Folge 3: Gute Nacht, Lieselotte (Vier Hörspiele)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2xofPu71EzhSdlmf1LXByD",
+        "include": true,
+        "episode_num": 4,
+        "title": "Folge 4: Lieselotte ist fleißig (Vier Hörspiele)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1IEVVldlBnKlsnjepiaNkm",
+        "include": true,
+        "episode_num": 5,
+        "title": "Folge 5: Gute Besserung, Lieselotte (Vier Hörspiele)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2LaevvZXwIT0DqvRqyeqgy",
+        "include": true,
+        "episode_num": 6,
+        "title": "Folge 6: Ein Sommer mit Lieselotte (Vier Hörspiele)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "77FIqdI8WdMZJ1qFbHABy6",
+        "include": true,
+        "episode_num": 7,
+        "title": "Folge 7: Lieselottes verrückte Ideen (Vier Hörspiele)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4tDiZ0XhODWcF7s9VKDU5s",
+        "include": true,
+        "episode_num": 8,
+        "title": "Folge 8: Ferien mit Lieselotte (Vier Hörspiele)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7ozUEAzfANLEdLhOEonZuK",
+        "include": true,
+        "episode_num": 9,
+        "title": "Folge 9: Lieselotte bleibt am Ball (Vier Hörspiele)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3WAcdcbqtHjmBlXAsIjkcY",
+        "include": true,
+        "episode_num": 10,
+        "title": "Folge 10: Ein bunter Herbst mit Lieselotte (Vier Hörspiele)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0ZA9WzfB7IhDAeQoMLqALm",
+        "include": true,
+        "episode_num": 11,
+        "title": "Folge 11: Lieselotte im Krimifieber (Vier Hörspiele)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4hKvflLiijsknfFcR7LJZv",
+        "include": true,
+        "episode_num": 12,
+        "title": "Folge 12: Weihnachtszeit mit Lieselotte (Vier Hörspiele)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "53Sgp83SKTv2Vk3qPD6gHh",
+        "include": true,
+        "episode_num": 13,
+        "title": "Folge 13: Frühlingszeit mit Lieselotte (Vier Hörspiele)",
+        "exclude_reason": null
+      }
+    ],
+    "age_note": "Suitable from 3+",
+    "curator_notes": "Each album contains 4 Hörspiele based on the popular children's books by Alexander Steffensmeier. Gentle, humorous stories about a cow living like a human. All 13 episodes represent the complete main series."
+  }
+}

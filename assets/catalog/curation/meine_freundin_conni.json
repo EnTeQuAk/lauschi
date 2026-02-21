@@ -1,0 +1,147 @@
+{
+  "query": "Meine Freundin Conni",
+  "model": "kimi-k2.5",
+  "curated_at": "2026-02-21T00:29:20.077238+00:00",
+  "series": {
+    "id": "meine_freundin_conni",
+    "title": "Meine Freundin Conni",
+    "aliases": [],
+    "keywords": [
+      "Conni"
+    ],
+    "spotify_artist_ids": [
+      "0HerMOOFZXxIF3Yg9BVl0W"
+    ],
+    "episode_pattern": "^(\\d+):",
+    "albums": [
+      {
+        "spotify_album_id": "6PQ5wA9fjtJlZWJtHvmaPG",
+        "include": false,
+        "episode_num": null,
+        "title": "Connis bunter Adventskalender (Meine Freundin Conni - ab 6) [24 Tage bis Weihnachten | Ein tolles Adventskalender-Hörbuch zum Verkürzen der Wartezeit bis Heiligabend]",
+        "exclude_reason": "Adventskalender compilation - 50 tracks, not an episode"
+      },
+      {
+        "spotify_album_id": "4gmnIveXdaKc10YQDlIPtE",
+        "include": false,
+        "episode_num": null,
+        "title": "Meine Freundin Conni - Connis neuer Adventskalender (Meine Freundin Conni - ab 6) [24 Tage bis Weihnachten. Ein fröhlich-buntes Adventskalenderhörbuch zum Verkürzen der Wartezeit bis Heiligabend]",
+        "exclude_reason": "Adventskalender compilation - 44 tracks, not an episode"
+      },
+      {
+        "spotify_album_id": "77Pk8wTrRgF2O1K3YLqyMW",
+        "include": true,
+        "episode_num": null,
+        "title": "Conni macht Mut in Zeiten von Corona (Meine Freundin Conni - ab 3) [Eine Conni-Geschichte mit kindgerechtem Sachwissen rund um das Thema Corona]",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1ka0WcZa7nzi002PmkmXuU",
+        "include": false,
+        "episode_num": null,
+        "title": "Connis großer Adventskalender (Meine Freundin Conni - ab 6) [24 Tage bis Weihnachten. Ein tolles Adventskalenderhörbuch zum Verkürzen der Wartezeit bis Heiligabend]",
+        "exclude_reason": "Adventskalender compilation - 48 tracks, not an episode"
+      },
+      {
+        "spotify_album_id": "2hYa0yhcMJKFKulcR4tbHM",
+        "include": false,
+        "episode_num": null,
+        "title": "Geheimnis um Kater Mau - Hörspiel zum Kinofilm",
+        "exclude_reason": "Movie tie-in audiobook - 42 tracks, not an episode"
+      },
+      {
+        "spotify_album_id": "3wz17ZY7Jal2s37fh4Ymnj",
+        "include": false,
+        "episode_num": null,
+        "title": "Sing' mit Conni!",
+        "exclude_reason": "Music/sing-along album - 15 songs"
+      },
+      {
+        "spotify_album_id": "6NA30cusjh4rD41CgW5vJp",
+        "include": true,
+        "episode_num": 10,
+        "title": "10: Conni im Advent / Conni fährt Schlittschuh / Conni lässt Drachen steigen / Conni und der fiese Schnupfen (Vier Hörspiele zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6XjK6aOYmvosQIFH5gvtBx",
+        "include": true,
+        "episode_num": 9,
+        "title": "09: Conni und der Hundebesuch / Conni wird Clown / Conni feiert Fasching / Conni und der Dreck-weg-Tag (Vier Hörspiele zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4YXrojnF0rcPIRZZW9ulIv",
+        "include": true,
+        "episode_num": 8,
+        "title": "08: Conni übernachtet bei Julia / Conni geht nicht mit Fremden mit / Conni auf der Baustelle / Conni macht Flohmarkt (Vier Hörspiele zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1lixrGKO2AL3rj9cPdz9yY",
+        "include": true,
+        "episode_num": 7,
+        "title": "07: Conni beim Frisör / Conni auf Waldsafari / Conni auf der Burg / Conni und das Froschkonzert (Vier Hörspiele zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4Lb4xi9uAhIIx12OP6tFQb",
+        "include": false,
+        "episode_num": null,
+        "title": "Connis Lieblingswitze: Lachen, bis die Streifen wackeln (Meine Freundin Conni - ab 6)",
+        "exclude_reason": "Joke book compilation - 10 tracks, not an episode"
+      },
+      {
+        "spotify_album_id": "1W6W3lzAROoVfrWLCI3bkI",
+        "include": true,
+        "episode_num": 6,
+        "title": "06: Conni lernt reiten / Conni am Strand / Conni in den Bergen / Conni macht Musik (Vier Hörspiele zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3PbhJbzYqlWkjlCF7yv2DV",
+        "include": true,
+        "episode_num": 5,
+        "title": "05: Conni fährt Ski / Conni und der Osterhase / Conni geht zum Kinderarzt / Conni spielt Fußball (Vier Hörspiele zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "35I8KIdJsStUqtbbDR0uUe",
+        "include": true,
+        "episode_num": 4,
+        "title": "04: Conni hat Geburtstag / Conni backt Pizza / Conni geht in den Zoo / Conni geht verloren (Vier Hörspiele zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3626UDwiaF1YhpqqSn1Deh",
+        "include": true,
+        "episode_num": 3,
+        "title": "03: Conni tanzt / Conni lernt die Uhrzeit / Conni lernt Rad fahren / Conni lernt backen (Vier Hörspiele zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4TFu59xSkMtgXQwtcpPOtk",
+        "include": true,
+        "episode_num": 2,
+        "title": "02: Conni auf dem Bauernhof / Conni schläft im Kindergarten / Conni geht zum Zahnarzt / Connis erster Flug (Vier Hörspiele zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0IhcdN1UcvPR3TXSSmN6tZ",
+        "include": true,
+        "episode_num": 1,
+        "title": "01: Conni zieht um / Conni bekommt eine Katze / Conni macht das Seepferdchen / Conni geht zelten (Vier Hörspiele zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6ldqnwRlLHxc5qAUCfLm2P",
+        "include": false,
+        "episode_num": null,
+        "title": "Hier kommt Conni!",
+        "exclude_reason": "Music album - 14 songs, not Hörspiel episodes"
+      }
+    ],
+    "age_note": "Suitable from 3+",
+    "curator_notes": "Main series consists of 10 numbered episodes (01-10), each containing 4 Hörspiele based on the TV series. The Corona special is a standalone release without episode number. Adventskalender releases, joke books, music albums, and movie tie-ins are excluded as they are not part of the main Hörspiel episode series."
+  }
+}

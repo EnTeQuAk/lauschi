@@ -1,0 +1,632 @@
+{
+  "query": "Die kleine Schnecke Monika Häuschen",
+  "model": "kimi-k2.5",
+  "curated_at": "2026-02-21T00:27:18.607620+00:00",
+  "series": {
+    "id": "kleine_schnecke_monika_haeschen",
+    "title": "Die kleine Schnecke Monika Häuschen",
+    "aliases": [
+      "Die kleine Schnecke Monika Häuschen"
+    ],
+    "keywords": [
+      "Monika Häuschen"
+    ],
+    "spotify_artist_ids": [
+      "7oP5DXnOMb2Wbe5Yt1aDi9"
+    ],
+    "episode_pattern": "^(\\d+):",
+    "albums": [
+      {
+        "spotify_album_id": "1HX5xC1m8FtGXUzmyXeQeV",
+        "include": true,
+        "episode_num": 79,
+        "title": "79: Warum haben Hühner einen Kamm?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3CUVPPfoJrZlmfHL4HcSiP",
+        "include": true,
+        "episode_num": 78,
+        "title": "78: Warum haben Schafe Locken?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0BKnzAcWuizQ8IdxSsIFBN",
+        "include": true,
+        "episode_num": 77,
+        "title": "77: Warum hat der Feuersalamander Kulleraugen?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "203sbKAMSSvpeYs9HQEAlW",
+        "include": true,
+        "episode_num": 76,
+        "title": "76: Warum hat der Luchs Pinselohren?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2Vj8BZ9pMmz6xHNySCXIfQ",
+        "include": true,
+        "episode_num": 75,
+        "title": "75: Warum haben Schwäne einen langen Hals?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0LiBM6o4d1hFcWmUIZBVeE",
+        "include": true,
+        "episode_num": 74,
+        "title": "74: Warum sind Quallen durchsichtig?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0ZBocPTsJLM5Gc3evQplis",
+        "include": true,
+        "episode_num": 73,
+        "title": "73: Warum hat der Kugelspringer einen Katapult?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2HFi7WQDBKYYgQGEt8H9RA",
+        "include": false,
+        "episode_num": null,
+        "title": "Schulanfang - Hörspiele zum Schulstart mit Monika Häuschen",
+        "exclude_reason": "Compilation/box set - 72 tracks, contains multiple episodes"
+      },
+      {
+        "spotify_album_id": "3tRHNYfSj9eIgg2JZfX0OW",
+        "include": false,
+        "episode_num": null,
+        "title": "Sommerferien - Sommer Hörspiele mit Monika Häuschen",
+        "exclude_reason": "Compilation/box set - 93 tracks, contains multiple episodes"
+      },
+      {
+        "spotify_album_id": "1T6qr90d5xEPwSleh0eZBU",
+        "include": false,
+        "episode_num": null,
+        "title": "Sommer - Geschichten mit Monika Häuschen",
+        "exclude_reason": "Compilation/box set - 78 tracks, contains multiple episodes"
+      },
+      {
+        "spotify_album_id": "5kSPHIuzIOfO0P5LMECSnC",
+        "include": true,
+        "episode_num": 72,
+        "title": "72: Warum pfeift der Ziesel?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2kydCoKXKMdKvvHDbWZFaJ",
+        "include": false,
+        "episode_num": null,
+        "title": "Frühlingszeit - Frühlingshörspiele mit Monika Häuschen",
+        "exclude_reason": "Compilation/box set - 83 tracks, contains multiple episodes"
+      },
+      {
+        "spotify_album_id": "0hzVusoyeO5soeoXzR1pOG",
+        "include": false,
+        "episode_num": null,
+        "title": "Frühling - Geschichten mit Monika Häuschen",
+        "exclude_reason": "Compilation/box set - 88 tracks, contains multiple episodes"
+      },
+      {
+        "spotify_album_id": "0gr49gh2CQ7jRz2z3vRZzq",
+        "include": true,
+        "episode_num": 71,
+        "title": "71: Warum klaut die Elster Glänzendes?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3ghYKNwYQMkl311gsRKjj6",
+        "include": true,
+        "episode_num": 70,
+        "title": "70: Warum haben Einhornkäfer ein Horn?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2GvNvxPLOI407Dmh7b5mKi",
+        "include": false,
+        "episode_num": null,
+        "title": "Herbstzeit - Herbst Hörspiele mit Monika Häuschen",
+        "exclude_reason": "Compilation/box set - 63 tracks, contains multiple episodes"
+      },
+      {
+        "spotify_album_id": "4tQHa5pPSND27lG4xoRKKh",
+        "include": false,
+        "episode_num": null,
+        "title": "Herbst - Geschichten mit Monika Häuschen",
+        "exclude_reason": "Compilation/box set - 79 tracks, contains multiple episodes"
+      },
+      {
+        "spotify_album_id": "0udCl8R6INKFmb0RS0mroa",
+        "include": true,
+        "episode_num": 69,
+        "title": "69: Warum sind Regenbogen bunt?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4o51TynFkkSqnC4aOoa9To",
+        "include": true,
+        "episode_num": 68,
+        "title": "68: Warum blinzeln Blindschleichen?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6r9E2U9VHLocCFyXXUT7cH",
+        "include": true,
+        "episode_num": 67,
+        "title": "67: Warum wandern Wanderratten?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "61wKiQ2c9m3NDSvbFAxQow",
+        "include": true,
+        "episode_num": 66,
+        "title": "66: Warum wälzen sich Wildschweine im Dreck?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "40dONDg6lcgkwRXW70kURz",
+        "include": true,
+        "episode_num": 65,
+        "title": "65: Warum gehen Krabben seitwärts?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2a7NCGyeCfdk2Pr3Egd2eD",
+        "include": true,
+        "episode_num": 64,
+        "title": "64: Warum haben Blumen Läuse?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1bvkF74EondPeAwg5Mzrza",
+        "include": true,
+        "episode_num": 63,
+        "title": "63: Warum schlafen Pferde so wenig?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6ymTEm0HzVhM8VG8dti3jI",
+        "include": true,
+        "episode_num": 62,
+        "title": "62: Warum sind Füchse so schlau?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "49TqarhbGJNXeURHFSNd6T",
+        "include": true,
+        "episode_num": 61,
+        "title": "61: Warum klopfen Klopfkäfer?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2O3tnd1LoYRjZc1LtxkXBr",
+        "include": true,
+        "episode_num": 60,
+        "title": "60: Warum kauen Kühe immerzu?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7mOel8fv2IuuoP0eLtx4g6",
+        "include": true,
+        "episode_num": 59,
+        "title": "59: Warum verlieren Eidechsen ihren Schwanz?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3CDd0fvCOGCodhrUlzuKHc",
+        "include": true,
+        "episode_num": 58,
+        "title": "58: Warum gräbt der Dachs Tunnel?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4AxIgYaGnj1MgDEux8ljqf",
+        "include": true,
+        "episode_num": 57,
+        "title": "57: Warum krächzen Krähen?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6jbL7enxYICr1B9mmsG9FN",
+        "include": true,
+        "episode_num": 56,
+        "title": "56: Warum gehen Wasserläufer nicht unter?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "28FrVzhi3fzo7z7jxAo3Ca",
+        "include": true,
+        "episode_num": 55,
+        "title": "55: Warum sind Kuckuckskinder so frech?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3vjVxHfA2A8LpPh6Sl9Kp1",
+        "include": true,
+        "episode_num": 54,
+        "title": "54: Warum frieren Zitronenfalter nicht?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5Q0FoueJ53SN6x5otFg1di",
+        "include": true,
+        "episode_num": 53,
+        "title": "53: Warum waschen Waschbären?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "77C1N7RtbsHNVmz5hvGJDE",
+        "include": true,
+        "episode_num": 52,
+        "title": "52: Warum haben Muscheln Perlen?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2seMCO32sJSgO4r8F2IgLy",
+        "include": true,
+        "episode_num": 51,
+        "title": "51: Warum mag der Distelfink Disteln?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6HeC9YHkQyrj1H7ODXoCrm",
+        "include": true,
+        "episode_num": 50,
+        "title": "50: Warum haben Rehe einen weißen Po?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5bEXI90azF1obPCryKHvQt",
+        "include": true,
+        "episode_num": 49,
+        "title": "49: Warum haben Nacktschnecken kein Haus?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4GM70AlareK9nG8C5Xb31F",
+        "include": true,
+        "episode_num": 48,
+        "title": "48: Warum haben Prachtkäfer einen Feuermelder?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "54Fs1qpjC9NugkwvZZRxKP",
+        "include": true,
+        "episode_num": 47,
+        "title": "47: Warum haben Schildkröten keine Zähne?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4d6HOdtoyeSaTrcqkP0tqZ",
+        "include": true,
+        "episode_num": 46,
+        "title": "46: Warum verreisen Gänse im Winter?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0XxewYcejD4YoPu22uaeYb",
+        "include": true,
+        "episode_num": 45,
+        "title": "45: Warum schimpfen Spatzen?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7mkVLrbZ1R6Rica10ugDRf",
+        "include": false,
+        "episode_num": null,
+        "title": "Monikas Gartenparty - Das Liederalbum",
+        "exclude_reason": "Music/songs album, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "4tlVCuAsPh67tmlnefpD3m",
+        "include": true,
+        "episode_num": 44,
+        "title": "44: Warum bauen Biber Dämme?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6bOMcZByyTGPGKVEYGp3JC",
+        "include": true,
+        "episode_num": 43,
+        "title": "43: Warum naschen Hornissen keinen Kuchen?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3FQ2v5djtGqKl0xTqCOTIX",
+        "include": true,
+        "episode_num": 42,
+        "title": "42: Warum wedeln Hunde mit dem Schwanz?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7DFAl2buCnJX3oXi3NOX5X",
+        "include": true,
+        "episode_num": 41,
+        "title": "41: Warum haben Ohrenkriecher eine Zange?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2WVJfPvygR3D08zuxnsHFq",
+        "include": true,
+        "episode_num": 40,
+        "title": "40: Warum stinkt der Iltis?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1Pib5aDKvQsFGrKJ5N2CvO",
+        "include": true,
+        "episode_num": 39,
+        "title": "39: Warum gurren Tauben?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6WOOUlVco7KzF07KhRUvTB",
+        "include": true,
+        "episode_num": 38,
+        "title": "38: Warum torkeln Taumelkäfer?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1FBxm3v11F66t91vtfbyrc",
+        "include": true,
+        "episode_num": 37,
+        "title": "37: Warum hamstern Hamster?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3L9r4OEtPR7ltsEWIEokCn",
+        "include": true,
+        "episode_num": 36,
+        "title": "36: Warum tanzen Spitzmäuse Polonaise?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6FealcrGfqYhJGOkvIaAnu",
+        "include": true,
+        "episode_num": 35,
+        "title": "35: Warum haben Hirschkäfer ein Geweih?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1a9NcZnMpMHJE3MFjILZSe",
+        "include": true,
+        "episode_num": 34,
+        "title": "34: Warum verbuddeln Eichhörnchen Nüsse?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1OAbzHjEUstb0ldNWY581E",
+        "include": true,
+        "episode_num": 33,
+        "title": "33: Warum haben Igel Stacheln?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0g19f0H48SxThZoKGMcP2U",
+        "include": true,
+        "episode_num": 32,
+        "title": "32: Warum haben Regenwürmer keine Nase?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6zFoX37oDqCWN1xFJEFTl2",
+        "include": true,
+        "episode_num": 31,
+        "title": "31: Warum haben Kröten Warzen?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6269V56mJWPsEeQyF1AILG",
+        "include": true,
+        "episode_num": 30,
+        "title": "30: Warum kugeln sich Kugelasseln?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "20oXGHaz7Jo5YwRCREEAsc",
+        "include": true,
+        "episode_num": 29,
+        "title": "29: Warum schmecken Kirschen süß?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "21ZbvzB3JEepZMGQqysV13",
+        "include": true,
+        "episode_num": 28,
+        "title": "28: Warum sind Schmetterlinge bunt?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3dL9qFlxd3Sccg9lFK8d4i",
+        "include": true,
+        "episode_num": 27,
+        "title": "27: Warum sind Raupen so verfressen?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1IisrIbhakNpHJL5x8nWFc",
+        "include": true,
+        "episode_num": 26,
+        "title": "26: Warum klopft der Specht?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3Ai2pAmst2Iof9NGPihLxi",
+        "include": true,
+        "episode_num": 25,
+        "title": "25: Warum fliegen Libellen rückwärts?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0wI27pNcfD9m3VnHlCQeiV",
+        "include": true,
+        "episode_num": 24,
+        "title": "24: Warum laufen Fliegen an der Decke?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "76iI3iyUogM5yiKWuMUVnL",
+        "include": true,
+        "episode_num": 23,
+        "title": "23: Warum haben Hasen lange Ohren?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "17qd1nZOADf9GAeiZsRPwo",
+        "include": true,
+        "episode_num": 22,
+        "title": "22: Warum buddeln Maulwürfe Hügel?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1V66rTbzAigubHNX8LgYl5",
+        "include": true,
+        "episode_num": 21,
+        "title": "21: Warum tanzen Bienen?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "21d2sWpm8NF26OU1crq37r",
+        "include": true,
+        "episode_num": 20,
+        "title": "20: Warum schießen Bombardierkäfer?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1vqjnVRhLPW2Lz27wHsQMx",
+        "include": true,
+        "episode_num": 19,
+        "title": "19: Warum fliegen Eulen lautlos?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6bvvLdHmUUEVRMuDMuN5tn",
+        "include": true,
+        "episode_num": 18,
+        "title": "18: Warum häuten sich Schlangen?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3RTAeQQddqf8Wo4Nrggrqi",
+        "include": true,
+        "episode_num": 17,
+        "title": "17: Warum flattern Motten ins Licht?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5n2VU0P5DR28jBPsjjiWb1",
+        "include": true,
+        "episode_num": 16,
+        "title": "16: Warum klappern Störche?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6QbwH0cO53Q5LLv3PtMROS",
+        "include": true,
+        "episode_num": 15,
+        "title": "15: Warum haben Schnecken Häuser?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "252txYb6S3aHON7GaHwl8t",
+        "include": true,
+        "episode_num": 14,
+        "title": "14: Warum brennen Brennnesseln?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4ejXBeKHo5tkqa53aNfWCy",
+        "include": true,
+        "episode_num": 13,
+        "title": "13: Warum pupsen Fische?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2aqzDde9QYF9oAgwTxgDLb",
+        "include": true,
+        "episode_num": 12,
+        "title": "12: Warum stechen Mücken?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3Wf46pylZdb0cKQjdJReP5",
+        "include": true,
+        "episode_num": 11,
+        "title": "11: Warum hopsen Grashüpfer?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "77982WeUjCZe5dVMbcLQK6",
+        "include": true,
+        "episode_num": 10,
+        "title": "10: Warum schlafen Siebenschläfer so lang?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4t16j4dbHRipofmvVAm27J",
+        "include": true,
+        "episode_num": 9,
+        "title": "09: Warum weben Spinnen Netze?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4Hz2NzAvRkhei7ikZY565U",
+        "include": true,
+        "episode_num": 8,
+        "title": "08: Warum haben Ameisen eine Königin?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5VdcpEsTNZlZclrFQFpbbv",
+        "include": true,
+        "episode_num": 7,
+        "title": "07: Warum schlafen Fledermäuse mit dem Kopf nach unten?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4bDvFPCOPpe9ieTM5Yymda",
+        "include": true,
+        "episode_num": 6,
+        "title": "06: Warum mögen Mistkäfer Mist?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3IhohUlP1fYtsmhe075j2g",
+        "include": true,
+        "episode_num": 4,
+        "title": "04: Warum sind am Himmel Wolken?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3i7Br0FCVAgLDU11mhW8vc",
+        "include": true,
+        "episode_num": 3,
+        "title": "03: Warum leuchten Glühwürmchen?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2PnU1x11eIh8SIyuC5FwPM",
+        "include": true,
+        "episode_num": 2,
+        "title": "02: Warum haben Gänse Federn?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0aSD30f6SiKSH7iBmqMm5K",
+        "include": true,
+        "episode_num": 1,
+        "title": "01: Warum stolpern Tausendfüßler nicht?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3DSLB9jRkpszgyfVJvxJmT",
+        "include": true,
+        "episode_num": 5,
+        "title": "05: Warum haben Marienkäfer Punkte?",
+        "exclude_reason": null
+      }
+    ],
+    "age_note": "Suitable from 3+",
+    "curator_notes": "79 individual episodes numbered 1-79 (note: episode 5 was released out of order in 2008). Excluded 7 compilation albums (seasonal collections with 60+ tracks each) and 1 song album. The series uses a 'Warum...?' naming pattern for each episode, teaching children about nature and animals. Very gentle educational content suitable for preschoolers."
+  }
+}

@@ -1,22 +1,18 @@
 {
-  "models": [
-    "kimi-k2.5",
-    "claude-sonnet-4-6"
-  ],
-  "a": {
+  "query": "TKKG",
+  "model": "kimi-k2.5",
+  "curated_at": "2026-02-21T00:17:59.055306+00:00",
+  "series": {
     "id": "tkkg",
     "title": "TKKG",
     "aliases": [
-      "TKKG Retro-Archiv"
+      "Ein Fall für TKKG"
     ],
-    "keywords": [
-      "tkkg"
-    ],
+    "keywords": [],
     "spotify_artist_ids": [
-      "61qDotnjM0jnY5lkfOP7ve",
-      "0i38tQX5j4gZ0KS3eCMoIl"
+      "61qDotnjM0jnY5lkfOP7ve"
     ],
-    "episode_pattern": "(?:Folge |^\\d{3}/)(\\d+)",
+    "episode_pattern": "^Folge (\\d+):",
     "albums": [
       {
         "spotify_album_id": "0G8CFanH1SrSfRgdOHy8HC",
@@ -30,21 +26,21 @@
         "include": false,
         "episode_num": null,
         "title": "Eiskalte Fälle",
-        "exclude_reason": "compilation"
+        "exclude_reason": "Compilation/box set (393 tracks)"
       },
       {
         "spotify_album_id": "0ya2o75ZmbcCCKTngDFS0O",
-        "include": true,
+        "include": false,
         "episode_num": null,
-        "title": "Die Weihnachtsgeiseln",
-        "exclude_reason": null
+        "title": "Die Weihnachtsgeiseln (Adventskalender)",
+        "exclude_reason": "Advent calendar special release"
       },
       {
         "spotify_album_id": "6TVkdO4G6qxIB4t6VSgsn7",
         "include": false,
         "episode_num": null,
         "title": "Gruselige Fälle",
-        "exclude_reason": "compilation"
+        "exclude_reason": "Compilation/box set (437 tracks)"
       },
       {
         "spotify_album_id": "1c8tRETLo5PYcz0BaLpjJx",
@@ -65,13 +61,13 @@
         "include": false,
         "episode_num": null,
         "title": "Urlaubs-Fälle",
-        "exclude_reason": "compilation"
+        "exclude_reason": "Compilation/box set (380 tracks)"
       },
       {
         "spotify_album_id": "3VxdE9j9mip6Lmi5o0lDxo",
         "include": true,
         "episode_num": 236,
-        "title": "Folge 236: Schatten aus der Unterwelt",
+        "title": "Folge 236: Schatten aus der Unterwelt (Das Hörspiel zur Live-Tour)",
         "exclude_reason": null
       },
       {
@@ -118,10 +114,10 @@
       },
       {
         "spotify_album_id": "4J6f92iCMn6Vt537vnYIJJ",
-        "include": true,
+        "include": false,
         "episode_num": null,
-        "title": "Auch Gauner feiern Weihnachten",
-        "exclude_reason": null
+        "title": "Auch Gauner feiern Weihnachten (Adventskalender)",
+        "exclude_reason": "Advent calendar special release"
       },
       {
         "spotify_album_id": "1wFG3EuNbzvdnRa9ldvdPj",
@@ -188,10 +184,10 @@
       },
       {
         "spotify_album_id": "70yAbYpe9FH4XgwDk0rmeE",
-        "include": true,
+        "include": false,
         "episode_num": null,
-        "title": "Schreckliche Weihnacht überall",
-        "exclude_reason": null
+        "title": "Schreckliche Weihnacht überall (Adventskalender)",
+        "exclude_reason": "Advent calendar special release"
       },
       {
         "spotify_album_id": "7mhVkGevfl8GCCZsYH7ch2",
@@ -216,114 +212,114 @@
       },
       {
         "spotify_album_id": "6QOwlbBlHs6Cxs8aB6kgGL",
-        "include": true,
+        "include": false,
         "episode_num": null,
-        "title": "Morgen kommt das Weihnachtsgrauen",
-        "exclude_reason": null
+        "title": "Morgen kommt das Weihnachtsgrauen (Adventskalender)",
+        "exclude_reason": "Advent calendar special release"
       },
       {
         "spotify_album_id": "4hcEstENZX32EUjk7ehyiL",
         "include": true,
         "episode_num": 217,
-        "title": "Folge 217: Tödliche Klarinette",
+        "title": "217/Tödliche Klarinette",
         "exclude_reason": null
       },
       {
         "spotify_album_id": "5FvGyMLEy4vIasPH8E0ELE",
         "include": false,
-        "episode_num": 216,
-        "title": "Folge 216: Das Geheimnis im Jagdschloss (Kopfhörer-Hörspiel)",
-        "exclude_reason": "duplicate"
+        "episode_num": null,
+        "title": "216/Das Geheimnis im Jagdschloss (Kopfhörer-Hörspiel)",
+        "exclude_reason": "Alternative headphone-mix version of episode 216 - duplicate content"
       },
       {
         "spotify_album_id": "4Q2dNebUPEFTWBlD4gxuKL",
         "include": true,
         "episode_num": 216,
-        "title": "Folge 216: Das Geheimnis im Jagdschloss",
+        "title": "216/Das Geheimnis im Jagdschloss",
         "exclude_reason": null
       },
       {
         "spotify_album_id": "1RNnc029KEtPfTRx7ZUQ2g",
         "include": true,
         "episode_num": 215,
-        "title": "Folge 215: Verbrechen im Moorsteiner Wald",
+        "title": "215/Verbrechen im Moorsteiner Wald",
         "exclude_reason": null
       },
       {
         "spotify_album_id": "3PncQqKj6wsDOpBTK9HXhV",
         "include": true,
         "episode_num": 214,
-        "title": "Folge 214: Diamantenrausch auf der A9",
+        "title": "214/Diamantenrausch auf der A9",
         "exclude_reason": null
       },
       {
         "spotify_album_id": "16V0thHq3uD87lNEbxRRs6",
         "include": true,
         "episode_num": 213,
-        "title": "Folge 213: Das unheimliche Dorf",
+        "title": "213/Das unheimliche Dorf",
         "exclude_reason": null
       },
       {
         "spotify_album_id": "5JePYOyA6XhEaukPbQwlCI",
         "include": true,
         "episode_num": 212,
-        "title": "Folge 212: Tyrannei Kommando Eins",
+        "title": "212/Tyrannei Kommando Eins",
         "exclude_reason": null
       },
       {
         "spotify_album_id": "2iMSyHHEwiZ3og3WrDFiUj",
         "include": true,
         "episode_num": 211,
-        "title": "Folge 211: Geiselnahme im Villenviertel",
+        "title": "211/Geiselnahme im Villenviertel",
         "exclude_reason": null
       },
       {
         "spotify_album_id": "5f9cgdn1nSYN0EdsPztwQn",
-        "include": true,
+        "include": false,
         "episode_num": null,
-        "title": "Jede Legende hat ihren Anfang",
-        "exclude_reason": null
+        "title": "Jede Legende hat ihren Anfang (Hörspiel zum Kinofilm 2019)",
+        "exclude_reason": "Movie tie-in special, not numbered series episode"
       },
       {
         "spotify_album_id": "1rWuaRKYr1DGZ6wzq0SgAb",
         "include": true,
         "episode_num": 210,
-        "title": "Folge 210: Raubzug im Casino",
+        "title": "210/Raubzug im Casino",
         "exclude_reason": null
       },
       {
         "spotify_album_id": "2wLBVzlRA3dcDqhu9Uxdcc",
         "include": true,
         "episode_num": 209,
-        "title": "Folge 209: Drohbriefe von Unbekannt",
+        "title": "209/Drohbriefe von Unbekannt",
         "exclude_reason": null
       },
       {
         "spotify_album_id": "6yQhG36kGFjmCWNIq05qsR",
-        "include": true,
+        "include": false,
         "episode_num": null,
-        "title": "Das Geheimnis um TKKG",
-        "exclude_reason": null
+        "title": "Das Geheimnis um TKKG (Neuaufnahme)",
+        "exclude_reason": "Re-recording of episode 1, outside numbered range 192-216"
       },
       {
         "spotify_album_id": "12JCZMzqKa1UnttQOTbKYl",
         "include": true,
         "episode_num": 208,
-        "title": "Folge 208: Geheimnis im Tresor",
+        "title": "208/Geheimnis im Tresor",
         "exclude_reason": null
       },
       {
         "spotify_album_id": "3im4BSgNZoZUZMrBVnqPT0",
-        "include": true,
+        "include": false,
         "episode_num": null,
         "title": "Ein fast perfektes Weihnachtsmenü",
-        "exclude_reason": null
+        "exclude_reason": "Special episode without number in title - doesn't match episode pattern"
       },
       {
         "spotify_album_id": "6IuKwwxl6rpnj9nYZjfoa2",
         "include": true,
         "episode_num": 207,
-        "title": "Folge 207: Doppelte Entführung",
+        "title": "207/Doppelte Entführung",
         "exclude_reason": null
       },
       {
@@ -331,1432 +327,759 @@
         "include": false,
         "episode_num": null,
         "title": "Intro - Fall der Woche",
-        "exclude_reason": "standalone"
+        "exclude_reason": "Single-track promo/intro (35 seconds), not a full episode"
       },
       {
         "spotify_album_id": "4XZXbwQnj4ucfX65Gpgd2M",
         "include": true,
         "episode_num": 206,
-        "title": "Folge 206: Achtung, UFO-Kult!",
+        "title": "206/Achtung, UFO-Kult!",
         "exclude_reason": null
       },
       {
         "spotify_album_id": "1PEY35jHKZezCkE0EbYGjv",
         "include": true,
         "episode_num": 205,
-        "title": "Folge 205: Teuflische Kaffeefahrt",
+        "title": "205/Teuflische Kaffeefahrt",
         "exclude_reason": null
       },
       {
         "spotify_album_id": "2HHyk7w3vEopXwNNiq5aNX",
         "include": true,
         "episode_num": 204,
-        "title": "Folge 204: Verschwörung auf hoher See",
+        "title": "204/Verschwörung auf hoher See",
         "exclude_reason": null
       },
       {
         "spotify_album_id": "0W8SgAXgJVSRtgrbw6Th5V",
         "include": true,
         "episode_num": 203,
-        "title": "Folge 203: Der Räuber mit der Weihnachtsmaske",
+        "title": "203/Der Räuber mit der Weihnachtsmaske",
         "exclude_reason": null
       },
       {
         "spotify_album_id": "2URUpf8ElYaZxNgiWEapKo",
         "include": true,
         "episode_num": 202,
-        "title": "Folge 202: Ein Paradies für Diebe",
+        "title": "202/Ein Paradies für Diebe",
         "exclude_reason": null
       },
       {
         "spotify_album_id": "4Tch4Zq90nImDlQbLjNb2L",
         "include": true,
         "episode_num": 201,
-        "title": "Folge 201: Vom Goldschatz besessen",
+        "title": "201/Vom Goldschatz besessen",
         "exclude_reason": null
       },
       {
         "spotify_album_id": "40AzKKVoE6d4TxqlZ2N4Fr",
         "include": true,
         "episode_num": 200,
-        "title": "Folge 200: Der große Coup",
+        "title": "200/Der große Coup",
         "exclude_reason": null
       },
       {
         "spotify_album_id": "1C1AXO3YHL4KVeQTHbK0tH",
         "include": true,
         "episode_num": 199,
-        "title": "Folge 199: Verfolgungsjagd vor Mitternacht",
+        "title": "199/Verfolgungsjagd vor Mitternacht",
         "exclude_reason": null
       },
       {
         "spotify_album_id": "5k0cgRXinvmrHqwHGtFB0x",
         "include": true,
         "episode_num": 198,
-        "title": "Folge 198: Der Golem vom Dunkelsee",
+        "title": "198/Der Golem vom Dunkelsee",
         "exclude_reason": null
       },
       {
         "spotify_album_id": "34NTZ398LKn30D8SN8RwZ1",
         "include": true,
         "episode_num": 197,
-        "title": "Folge 197: Bei Anpfiff Übergabe",
+        "title": "197/Bei Anpfiff Übergabe",
         "exclude_reason": null
       },
       {
         "spotify_album_id": "2fojM7wYwYuliNzYTmFzOX",
         "include": true,
         "episode_num": 196,
-        "title": "Folge 196: Tatort Wagenburg",
+        "title": "196/Tatort Wagenburg",
         "exclude_reason": null
       },
       {
         "spotify_album_id": "1O2InxIny6VBypt5DB3gTU",
         "include": true,
         "episode_num": 195,
-        "title": "Folge 195: Dem Sonnenkönig auf der Spur",
+        "title": "195/Dem Sonnenkönig auf der Spur",
         "exclude_reason": null
       },
       {
         "spotify_album_id": "4cNiU8PZr45LNg7kzGLipx",
         "include": true,
         "episode_num": 194,
-        "title": "Folge 194: Der Friedhof der Namenlosen",
+        "title": "194/Der Friedhof der Namenlosen",
         "exclude_reason": null
       },
       {
         "spotify_album_id": "1WkgLbhl2Qigtc55DXP93S",
         "include": true,
         "episode_num": 193,
-        "title": "Folge 193: Das Weihnachts-Phantom",
+        "title": "193/Das Weihnachts-Phantom",
         "exclude_reason": null
       },
       {
         "spotify_album_id": "0NyIaGxbQlRPnA201NEbkE",
         "include": true,
         "episode_num": 192,
-        "title": "Folge 192: Feuer auf Gut Ribbeck!",
+        "title": "192/Feuer auf Gut Ribbeck!",
         "exclude_reason": null
       },
       {
         "spotify_album_id": "1kZIlUYCKUvmfEHXku1ter",
         "include": true,
         "episode_num": 191,
-        "title": "Folge 191: Nord-Nordwest zum Hexenplatz",
+        "title": "191/Nord-Nordwest zum Hexenplatz",
         "exclude_reason": null
       },
       {
         "spotify_album_id": "5CabKO4dpZJ0wUwX8MMDk6",
         "include": true,
         "episode_num": 190,
-        "title": "Folge 190: Der eiskalte Clown",
+        "title": "190/Der eiskalte Clown",
         "exclude_reason": null
       },
       {
         "spotify_album_id": "7aMulTBM9qpGtoT0GUoAsZ",
         "include": true,
         "episode_num": 189,
-        "title": "Folge 189: Iwan, der Schreckliche",
+        "title": "189/Iwan, der Schreckliche",
         "exclude_reason": null
       },
       {
         "spotify_album_id": "3ZJPztovzVLCZ5wMyErFyd",
         "include": true,
         "episode_num": 188,
-        "title": "Folge 188: Die blauen Schafe von Artelsbach",
+        "title": "188/Die blauen Schafe von Artelsbach",
         "exclude_reason": null
       },
       {
         "spotify_album_id": "7MNjtmClWBiJvqK7LDVDdH",
         "include": true,
         "episode_num": 187,
-        "title": "Folge 187: Ausspioniert!",
+        "title": "187/Ausspioniert!",
         "exclude_reason": null
       },
       {
         "spotify_album_id": "4dOQ5SfUGPEX5BrkvnGnSM",
         "include": true,
         "episode_num": 186,
-        "title": "Folge 186: Die schlafende Chinesin",
+        "title": "186/Die schlafende Chinesin",
         "exclude_reason": null
       },
       {
         "spotify_album_id": "4ExVTdTtEh9QMKG6F0ilIA",
         "include": true,
         "episode_num": 185,
-        "title": "Folge 185: Der unsichtbare Dieb",
+        "title": "185/der unsichtbare Dieb",
         "exclude_reason": null
       },
       {
         "spotify_album_id": "7qglq750T0LjXZbsDzEeSn",
         "include": true,
         "episode_num": 184,
-        "title": "Folge 184: Die ewige Finsternis",
+        "title": "184/Die ewige Finsternis",
         "exclude_reason": null
       },
       {
         "spotify_album_id": "2kUywGimNzj3YRKAkwVf3S",
         "include": true,
         "episode_num": 183,
-        "title": "Folge 183: Blindgänger im Villenviertel",
+        "title": "183/Blindgänger im Villenviertel",
         "exclude_reason": null
       },
       {
         "spotify_album_id": "3hz4bWxTDtHzDwKTRmOcDQ",
         "include": true,
         "episode_num": 182,
-        "title": "Folge 182: Im Bann des Übersinnlichen",
+        "title": "182/Im Bann des Übersinnlichen",
         "exclude_reason": null
       },
       {
         "spotify_album_id": "1rYzkmCLyYvGllBZ3y2AGV",
         "include": true,
         "episode_num": 181,
-        "title": "Folge 181: Der vertauschte Koffer",
+        "title": "181/Der vertauschte Koffer",
         "exclude_reason": null
       },
       {
         "spotify_album_id": "7adgwW3gVPH7l2mzfgzC6t",
         "include": true,
         "episode_num": 180,
-        "title": "Folge 180: Alarm im Raubtierhaus",
+        "title": "180/Alarm im Raubtierhaus",
         "exclude_reason": null
       },
       {
         "spotify_album_id": "5H9JYToGoYk8mGnUkCX3Z9",
         "include": true,
         "episode_num": 179,
-        "title": "Folge 179: Abzocke im Online-Chat",
+        "title": "179/Abzocke im Online-Chat",
         "exclude_reason": null
       },
       {
         "spotify_album_id": "4LrP9x8HI2f0wkRgN5VLMe",
         "include": true,
         "episode_num": 178,
-        "title": "Folge 178: Hai-Alarm im Aquapark",
+        "title": "178/Hai-Alarm im Aquapark",
         "exclude_reason": null
       },
       {
         "spotify_album_id": "5D6dTe3cuMxZtHhKYf2Nph",
         "include": true,
         "episode_num": 177,
-        "title": "Folge 177: Die Spur der Wölfin",
+        "title": "177/Die Spur der Wölfin",
         "exclude_reason": null
       },
       {
         "spotify_album_id": "4cs4K4fFEFFgz3gtobHW9S",
         "include": true,
         "episode_num": 176,
-        "title": "Folge 176: Verbrechen im Rampenlicht",
+        "title": "176/Verbrechen im Rampenlicht",
         "exclude_reason": null
       },
       {
         "spotify_album_id": "7z37XBrYgYo7DCs9dFeHvq",
         "include": true,
         "episode_num": 175,
-        "title": "Folge 175: Nachtwanderung mit Schrecken",
+        "title": "175/Nachtwanderung mit Schrecken",
         "exclude_reason": null
       },
       {
         "spotify_album_id": "37jFIur7xvS8bjE8CeXyWA",
         "include": true,
         "episode_num": 174,
-        "title": "Folge 174: Doppelgänger auf der Rennbahn",
+        "title": "174/Doppelgänger auf der Rennbahn",
         "exclude_reason": null
       },
       {
         "spotify_album_id": "6RlfZAsHvD4G00fxBiWeN1",
         "include": true,
         "episode_num": 173,
-        "title": "Folge 173: Die Skelettbande",
+        "title": "173/Die Skelettbande",
         "exclude_reason": null
       },
       {
         "spotify_album_id": "2z4tH8k3YDSgSB8QQqrkfG",
         "include": true,
         "episode_num": 172,
-        "title": "Folge 172: Das Geheimnis der Moorleiche",
+        "title": "172/Das Geheimnis der Moorleiche",
         "exclude_reason": null
       },
       {
         "spotify_album_id": "2nJDDgf2DvDDtxiTVwyfhW",
         "include": true,
         "episode_num": 171,
-        "title": "Folge 171: Das lebende Gemälde",
+        "title": "171/Das lebende Gemälde",
         "exclude_reason": null
       },
       {
         "spotify_album_id": "0zpxGRczKxY7teFkuOitzO",
         "include": true,
         "episode_num": 170,
-        "title": "Folge 170: Schock im Schnee",
+        "title": "170/Schock im Schnee",
         "exclude_reason": null
       },
       {
         "spotify_album_id": "64DTYY344b4JLlsHlpUG7r",
         "include": true,
         "episode_num": 169,
-        "title": "Folge 169: Tatort Dschungel",
+        "title": "169/Tatort Dschungel",
         "exclude_reason": null
       },
       {
         "spotify_album_id": "4w7Qr51Uw16dBHDcfzgvHk",
         "include": true,
         "episode_num": 168,
-        "title": "Folge 168: Millionencoup im Stadion",
+        "title": "168/Millionencoup im Stadion",
         "exclude_reason": null
       },
       {
         "spotify_album_id": "7mu7o53PrOlRVxErUufaSL",
         "include": true,
         "episode_num": 167,
-        "title": "Folge 167: Der Unsichtbare",
+        "title": "167/Der Unsichtbare",
         "exclude_reason": null
       },
       {
         "spotify_album_id": "6zI9fZd9Fk9LeUwM7uoWSq",
         "include": true,
         "episode_num": 166,
-        "title": "Folge 166: Das Mädchen mit der Kristallkugel",
+        "title": "166/Das Mädchen mit der Kristallkugel",
         "exclude_reason": null
       },
       {
         "spotify_album_id": "0eav6341Txr3YF4aAmJ2O2",
         "include": true,
         "episode_num": 165,
-        "title": "Folge 165: Advent mit Knall-Effekt",
+        "title": "165/Advent mit Knall-Effekt",
         "exclude_reason": null
       },
       {
         "spotify_album_id": "7Dh3Sr5DdK6OT2M7FBUwhg",
         "include": true,
         "episode_num": 164,
-        "title": "Folge 164: Operation Hexen-Graffiti",
+        "title": "164/Operation Hexen-Graffiti",
         "exclude_reason": null
       },
       {
         "spotify_album_id": "6nFRXqUzqgusdraaxsOGqa",
         "include": true,
         "episode_num": 163,
-        "title": "Folge 163: Die Makler-Mafia",
+        "title": "163/Die Makler-Mafia",
         "exclude_reason": null
       },
       {
         "spotify_album_id": "4rSBDuSHYujCYFhrazbtnA",
         "include": true,
         "episode_num": 162,
-        "title": "Folge 162: Gefahr für Oskar!",
+        "title": "162/Gefahr für Oskar!",
         "exclude_reason": null
       },
       {
         "spotify_album_id": "6dneQXVs3r2JnZZxcwLtyK",
         "include": true,
         "episode_num": 161,
-        "title": "Folge 161: Ein Yeti in der Millionenstadt",
+        "title": "161/Ein Yeti in der Millionenstadt",
         "exclude_reason": null
       },
       {
         "spotify_album_id": "7DPQuaR0bI58tJzkSQMllp",
         "include": true,
         "episode_num": 160,
-        "title": "Folge 160: Das Grauen naht um Zwölf",
+        "title": "160/Das Grauen naht um Zwölf",
         "exclude_reason": null
       },
       {
         "spotify_album_id": "4qR8In8uET1hBWHPGmhaWO",
         "include": true,
         "episode_num": 159,
-        "title": "Folge 159: Böses Spiel im Sommercamp",
+        "title": "159/Böses Spiel im Sommercamp",
         "exclude_reason": null
       },
       {
         "spotify_album_id": "3OQqrEZzRYgYDcBIqsTeXS",
         "include": true,
         "episode_num": 158,
-        "title": "Folge 158: Trainer unter Verdacht",
+        "title": "158/Trainer unter Verdacht",
         "exclude_reason": null
       },
       {
         "spotify_album_id": "55nP0alEiObRF2c151bhTv",
         "include": true,
         "episode_num": 157,
-        "title": "Folge 157: Oskar und die sieben Zwerge",
+        "title": "157/Oskar und die sieben Zwerge",
         "exclude_reason": null
       },
       {
         "spotify_album_id": "20WDNq4KvOibx87TFa2eXP",
         "include": true,
         "episode_num": 156,
-        "title": "Folge 156: Erpresser fahren Achterbahn",
+        "title": "156/Erpresser fahren Achterbahn",
         "exclude_reason": null
       },
       {
         "spotify_album_id": "5XPVfzwtpBFF9CrmLb8Ilm",
         "include": true,
         "episode_num": 155,
-        "title": "Folge 155: Gefangen im Spukhaus",
+        "title": "155/Gefangen im Spukhaus",
         "exclude_reason": null
       },
       {
         "spotify_album_id": "0K30SpThDKymGkKlRgtUv2",
         "include": true,
         "episode_num": 154,
-        "title": "Folge 154: Das Geheimnis der Burgruine",
+        "title": "154/Das Geheimnis der Burgruine",
         "exclude_reason": null
       },
       {
         "spotify_album_id": "4olYXMWX664H8ZJHZbXmAT",
         "include": true,
         "episode_num": 153,
-        "title": "Folge 153: Es geschah in einer Regennacht",
+        "title": "153/Es geschah in einer Regennacht",
         "exclude_reason": null
       },
       {
         "spotify_album_id": "5j81oYcn0kptiSEPrEHmkF",
         "include": true,
         "episode_num": 152,
-        "title": "Folge 152: Max und Anna, ein diebisches Paar",
+        "title": "152/Max und Anna, ein diebisches Paar",
         "exclude_reason": null
       },
       {
         "spotify_album_id": "7CLvIAy7Nzo03EQYWKa0yn",
         "include": true,
         "episode_num": 151,
-        "title": "Folge 151: Gekauftes Spiel",
+        "title": "151/Gekauftes Spiel",
         "exclude_reason": null
       },
       {
         "spotify_album_id": "0ZqyFeMXxCyIJvYptGlnn1",
         "include": true,
         "episode_num": 150,
-        "title": "Folge 150: Heiße Nächte im Dezember",
+        "title": "150/Heiße Nächte im Dezember",
         "exclude_reason": null
       },
       {
         "spotify_album_id": "1OWuX6xSnnC3oebl45X28K",
         "include": true,
         "episode_num": 149,
-        "title": "Folge 149: Tims gefährlichster Gegner",
+        "title": "149/Tims gefährlichster Gegner",
         "exclude_reason": null
       },
       {
         "spotify_album_id": "0nFRzugvW1NVT1DUDxpQdb",
         "include": true,
         "episode_num": 148,
-        "title": "Folge 148: Fieser Trick beim Finale",
+        "title": "148/Fieser Trick beim Finale",
         "exclude_reason": null
       },
       {
         "spotify_album_id": "642OtfJ54JziKQWOYbyiEa",
         "include": true,
         "episode_num": 147,
-        "title": "Folge 147: Hölle ohne Hintertür",
+        "title": "147/Hölle ohne Hintertür",
         "exclude_reason": null
       },
       {
         "spotify_album_id": "74Qcbtr7f0KP3VpEgaWoaS",
         "include": true,
         "episode_num": 146,
-        "title": "Folge 146: Nonstop in die Raketenfalle",
+        "title": "146/Nonstop in die Raketenfalle",
         "exclude_reason": null
       },
       {
         "spotify_album_id": "3vAwRpp0YGKwWzLxctXHXe",
         "include": true,
         "episode_num": 145,
-        "title": "Folge 145: Hinterhalt am schwarzen Fels",
+        "title": "145/Hinterhalt am schwarzen Fels",
         "exclude_reason": null
       },
       {
         "spotify_album_id": "1DL2rSYjJIWqFpmGIRitMZ",
         "include": true,
         "episode_num": 144,
-        "title": "Folge 144: Schreckensnacht im Schlangenmaul",
+        "title": "144/Schreckensnacht im Schlangenmaul",
         "exclude_reason": null
       },
       {
         "spotify_album_id": "6WKU3Zj4uxvrJnY5Kc03A0",
         "include": true,
         "episode_num": 143,
-        "title": "Folge 143: Das unheimliche Haus",
+        "title": "143/Das unheimliche Haus",
         "exclude_reason": null
       },
       {
         "spotify_album_id": "5SZxeVgh5JUHEgew4IKLsx",
         "include": true,
         "episode_num": 142,
-        "title": "Folge 142: Bankräuber mit Supertrick",
+        "title": "142/Bankräuber mit Supertrick",
         "exclude_reason": null
       },
       {
         "spotify_album_id": "34ZBbN1LTl2c2Qxzj2JwF1",
         "include": true,
         "episode_num": 141,
-        "title": "Folge 141: Todesbiss der schwarzen Mamba",
+        "title": "141/Todesbiss der schwarzen Mamba",
         "exclude_reason": null
       },
       {
         "spotify_album_id": "7BTjGCqexmQ947HDHR5e8J",
         "include": true,
         "episode_num": 140,
-        "title": "Folge 140: Draculas Erben",
+        "title": "140/Draculas Erben",
         "exclude_reason": null
       },
       {
         "spotify_album_id": "7pRJLfr0wOiudzUjSqitzN",
         "include": true,
         "episode_num": 139,
-        "title": "Folge 139: Oskar jagt die Drogendealer",
+        "title": "139/Oskar jagt die Drogendealer",
         "exclude_reason": null
       },
       {
         "spotify_album_id": "78gbDWHGzUfxISjEQjhXXg",
         "include": true,
         "episode_num": 138,
-        "title": "Folge 138: Raubzug mit Bumerang",
+        "title": "138/Raubzug mit Bumerang",
         "exclude_reason": null
       },
       {
         "spotify_album_id": "3S3RsaMPC1zpjYh9ibwLhb",
         "include": true,
         "episode_num": 137,
-        "title": "Folge 137: Verschleppt ins Tal Diabolo",
+        "title": "137/Verschleppt ins Tal Diabolo",
         "exclude_reason": null
       },
       {
         "spotify_album_id": "6Jw6ALN4jEqyhtHPuSGD7e",
         "include": true,
         "episode_num": 136,
-        "title": "Folge 136: Argentinische Entführung",
+        "title": "136/Argentinische Entführung",
         "exclude_reason": null
       },
       {
         "spotify_album_id": "5GyWEEFbhvsUPk9pVR61p8",
         "include": true,
         "episode_num": 135,
-        "title": "Folge 135: Der Meisterdieb und seine Feinde",
+        "title": "135/Der Meisterdieb und seine Feinde",
         "exclude_reason": null
       },
       {
         "spotify_album_id": "1xOMCIhM742LDNn6Av7SaY",
         "include": true,
         "episode_num": 134,
-        "title": "Folge 134: Wer stoppt die Weihnachts-Gangster",
+        "title": "134/Wer stoppt die Weihnachts-Gangster",
         "exclude_reason": null
       },
       {
         "spotify_album_id": "6u0Bbe6ewDB23wwN0XbU2J",
         "include": true,
         "episode_num": 133,
-        "title": "Folge 133: Auf vier Pfoten zur Millionenbeute",
+        "title": "133/Auf vier Pfoten zur Millionenbeute",
         "exclude_reason": null
       },
       {
         "spotify_album_id": "7C5cT8kDPUKAiyV39QC9y6",
         "include": true,
         "episode_num": 132,
-        "title": "Folge 132: Homejacker machen Überstunden",
+        "title": "132/Homejacker machen Überstunden",
         "exclude_reason": null
       },
       {
         "spotify_album_id": "3Hto454teGDtP3LANx45nV",
         "include": true,
         "episode_num": 131,
-        "title": "Folge 131: Stundenlohn für flotte Gangster",
+        "title": "131/Stundenlohn für flotte Gangster",
         "exclude_reason": null
       },
       {
         "spotify_album_id": "0readhKQChO0CavM03TBsG",
         "include": true,
         "episode_num": 130,
-        "title": "Folge 130: Die gefährliche Zeugin verschwindet",
+        "title": "130/Die gefährliche Zeugin verschwindet",
         "exclude_reason": null
       },
       {
         "spotify_album_id": "1TjNjBs1qKh8atmJe9JBcz",
         "include": true,
         "episode_num": 129,
-        "title": "Folge 129: Der Erpresser fährt bis Endstation",
+        "title": "129/Der Erpresser fährt bis Endstation",
         "exclude_reason": null
       },
       {
         "spotify_album_id": "5jjQAVPbdRAvDxeCdg8xsL",
         "include": true,
         "episode_num": 128,
-        "title": "Folge 128: Die Gehilfen des Terrors",
+        "title": "128/Die Gehilfen des Terrors",
         "exclude_reason": null
       },
       {
         "spotify_album_id": "4HNxicEEVUbZHI4GvvBEVH",
         "include": true,
         "episode_num": 127,
-        "title": "Folge 127: Im Schlauchboot durch die Unterwelt",
+        "title": "127/Im Schlauchboot durch die Unterwelt",
         "exclude_reason": null
       },
       {
         "spotify_album_id": "59XpRNxoOO21j2bfXr4u8v",
         "include": true,
         "episode_num": 126,
-        "title": "Folge 126: Teddy Talers Höllenfahrt",
+        "title": "126/Teddy Talers Höllenfahrt",
         "exclude_reason": null
       },
       {
         "spotify_album_id": "6HtJ1gsoOlPlMHl6BBIedU",
         "include": true,
         "episode_num": 125,
-        "title": "Folge 125: Der Mörder aus einer anderen Zeit",
+        "title": "125/Der Mörder aus einer anderen Zeit",
         "exclude_reason": null
       },
       {
         "spotify_album_id": "3i8iFxVoBzO7HLAmH5WTc8",
         "include": true,
         "episode_num": 124,
-        "title": "Folge 124: Vergebliche Suche nach Gaby",
+        "title": "124/Vergebliche Suche nach Gaby",
         "exclude_reason": null
       },
       {
         "spotify_album_id": "0Uw592E81r73YlcfdrXTqe",
         "include": true,
         "episode_num": 123,
-        "title": "Folge 123: Mordkomplott im Luxus-Klo",
+        "title": "123/Mordkomplott im Luxus-Klo",
         "exclude_reason": null
       },
       {
         "spotify_album_id": "0ZQupaN55cZsgjnaZc3ce8",
         "include": true,
         "episode_num": 122,
-        "title": "Folge 122: Der Goldschatz, der vom Himmel fiel",
+        "title": "122/Der Goldschatz, der vom Himmel fiel",
         "exclude_reason": null
       },
       {
         "spotify_album_id": "3af1Ne9SXRGDBsyhn1OcbX",
         "include": true,
         "episode_num": 121,
-        "title": "Folge 121: Ein cooler Typ aus der Hölle",
+        "title": "121/Ein cooler Typ aus der Hölle",
         "exclude_reason": null
       },
       {
         "spotify_album_id": "6MZ8GjwkBao0glkAguCYpx",
         "include": true,
         "episode_num": 120,
-        "title": "Folge 120: Bei Anruf Angst",
+        "title": "120/Bei Anruf Angst",
         "exclude_reason": null
       },
       {
         "spotify_album_id": "6u7TXxm1pFVUceAkdl5EMo",
         "include": true,
         "episode_num": 119,
-        "title": "Folge 119: Frische Spur nach 70 Jahren",
+        "title": "119/Frische Spur nach 70 Jahren",
         "exclude_reason": null
       },
       {
         "spotify_album_id": "5TX9govv5QXwFLZT2fiHSe",
         "include": true,
         "episode_num": 118,
-        "title": "Folge 118: Im Kaufhaus ist der Teufel los",
+        "title": "118/Im Kaufhaus ist der Teufel los",
         "exclude_reason": null
       },
       {
         "spotify_album_id": "2NlUe7bw93isGjrvmXneYt",
         "include": true,
         "episode_num": 117,
-        "title": "Folge 117: Im Schloß der schlafenden Vampire",
+        "title": "117/Im Schloß der schlafenden Vampire",
         "exclude_reason": null
       },
       {
         "spotify_album_id": "1qnXN4G8JKVo2cBe3YiBYu",
         "include": true,
         "episode_num": 116,
-        "title": "Folge 116: Klassenfahrt zur Hexenburg",
+        "title": "116/Klassenfahrt zur Hexenburg",
         "exclude_reason": null
       },
       {
         "spotify_album_id": "3HLVIwjC3e7nR0blSiR0Cf",
         "include": true,
         "episode_num": 115,
-        "title": "Folge 115: Der Diamant im Bauch der Kobra",
+        "title": "115/Der Diamant im Bauch der Kobra",
         "exclude_reason": null
       },
       {
         "spotify_album_id": "1EOt95N1umfsGDDi2RGyLx",
         "include": true,
         "episode_num": 114,
-        "title": "Folge 114: Die Sekte Satans",
+        "title": "114/Die Sekte Satans",
         "exclude_reason": null
       },
       {
         "spotify_album_id": "47XIAkJhFj1O5J6bFF061G",
         "include": true,
         "episode_num": 113,
-        "title": "Folge 113: Mit heißer Nadel Jagd auf Kids",
+        "title": "113/Mit heißer Nadel Jagd auf Kids",
         "exclude_reason": null
       },
       {
         "spotify_album_id": "0hvicgoCbgvXmwjV2FhPOK",
         "include": true,
         "episode_num": 112,
-        "title": "Folge 112: Bombenspaß bei Kies & Knete",
+        "title": "112/Bombenspaß bei Kies & Knete",
         "exclude_reason": null
       },
       {
         "spotify_album_id": "7v5o8fgiM0AUoibGLX7mNR",
         "include": true,
         "episode_num": 111,
-        "title": "Folge 111: Die tödliche Falle",
+        "title": "111/Die tödliche Falle",
         "exclude_reason": null
       },
       {
         "spotify_album_id": "7aMc9Dk7FhceVhhSRvGVKi",
         "include": true,
         "episode_num": 110,
-        "title": "Folge 110: Das Phantom im Schokoladenmuseum",
+        "title": "110/Das Phantom im Schokoladenmuseum",
         "exclude_reason": null
       },
       {
         "spotify_album_id": "0Av7I4rxIH4l2iy4eonNqQ",
         "include": true,
         "episode_num": 109,
-        "title": "Folge 109: Mörderspiel im Burghotel",
+        "title": "109/Mörderspiel im Burghotel",
         "exclude_reason": null
       },
       {
         "spotify_album_id": "5UowH6UQ4hHv0pDp7XC73F",
         "include": true,
         "episode_num": 108,
-        "title": "Folge 108: Das Konzert bei den Ratten",
+        "title": "108/Das Konzert bei den Ratten",
         "exclude_reason": null
       },
       {
         "spotify_album_id": "20Ei5hMuzN4aIaubhwZGCh",
         "include": true,
         "episode_num": 107,
-        "title": "Folge 107: Lösegeld für einen Irrtum",
+        "title": "107/Lösegeld für einen Irrtum",
         "exclude_reason": null
       },
       {
         "spotify_album_id": "6vx49wKEFKejjPiqtr6PZV",
         "include": true,
         "episode_num": 106,
-        "title": "Folge 106: Mädchenraub im Ferienhaus",
+        "title": "106/Mädchenraub im Ferienhaus",
         "exclude_reason": null
       },
       {
         "spotify_album_id": "1rFO6xC24qh08d1wCvKDC8",
         "include": true,
         "episode_num": 105,
-        "title": "Folge 105: Vermißte Kids und Killerpflanzen",
+        "title": "105/Vermißte Kids und Killerpflanzen",
         "exclude_reason": null
       },
       {
         "spotify_album_id": "5YwL93GA7APpy21xMum8Wt",
         "include": true,
         "episode_num": 104,
-        "title": "Folge 104: Im Wettbüro des Teufels",
+        "title": "104/Im Wettbüro des Teufels",
         "exclude_reason": null
       },
       {
         "spotify_album_id": "0Bgt28WUbkcFYGYFZDkVMk",
         "include": true,
         "episode_num": 103,
-        "title": "Folge 103: Mörderischer Stammbaum",
+        "title": "103/Mörderischer Stammbaum",
         "exclude_reason": null
       },
       {
         "spotify_album_id": "6b6XofBfdNQOrTQ5OYNzxI",
         "include": true,
         "episode_num": 102,
-        "title": "Folge 102: Angst auf der Autobahn",
+        "title": "102/Angst auf der Autobahn",
         "exclude_reason": null
       },
       {
         "spotify_album_id": "2jU1HQIl8BvRK2k5xd1rnf",
         "include": true,
         "episode_num": 101,
-        "title": "Folge 101: Opfer fliegen 1. Klasse",
+        "title": "101/Opfer fliegen 1. Klasse",
         "exclude_reason": null
       },
       {
         "spotify_album_id": "2roFEQcxTR8srR0sWgm456",
         "include": true,
         "episode_num": 100,
-        "title": "Folge 100: Fieser Trick mit Nr. 100",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "7GEeLJHM26JEPsMphuGdpv",
-        "include": true,
-        "episode_num": 99,
-        "title": "Folge 99: Hilflos in eisiger Nacht",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "5XIQ7snWep9Ve5R6TEAbKe",
-        "include": true,
-        "episode_num": 98,
-        "title": "Folge 98: Die Haie vom Lotus-Garten",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "62ubTJeNMqXACrW43uK1fV",
-        "include": true,
-        "episode_num": 97,
-        "title": "Folge 97: Die Hand an den Sternen",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "3xv5DyV1HzdZOtHkRwGOul",
-        "include": true,
-        "episode_num": 96,
-        "title": "Folge 96: Die Entführung des Popstars",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "4JuBG4ko46TyAF2R1A0APA",
-        "include": true,
-        "episode_num": 95,
-        "title": "Folge 95: U-Bahn des Schreckens",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "0in2tMW0QlYkCN4xZGMKFw",
-        "include": true,
-        "episode_num": 94,
-        "title": "Folge 94: In dunkler Nacht am Marmor-Grab",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "2rwdnrSrnLwwNt3fVB4dj5",
-        "include": true,
-        "episode_num": 93,
-        "title": "Folge 93: Die Opfer mit der kühlen Schnauze",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "2XWTTxWMfvyYmCOIgSDCbX",
-        "include": true,
-        "episode_num": 92,
-        "title": "Folge 92: Der grausame Rächer",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "4NP8OOY8jxn9vVrc2YHMnY",
-        "include": true,
-        "episode_num": 91,
-        "title": "Folge 91: Crash-Kids riskieren ihr Leben",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "1eLwikBnqjNWSaczaR5cgO",
-        "include": true,
-        "episode_num": 90,
-        "title": "Folge 90: Schmuggler reisen unerkannt",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "3MnUfnTrRAtu2NQzUS2QSK",
-        "include": true,
-        "episode_num": 89,
-        "title": "Folge 89: Feind aus der Vergangenheit",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "0t5UTq7hP9bwyfOQVwo4t6",
-        "include": true,
-        "episode_num": 88,
-        "title": "Folge 88: Kampf um das Zauberschwert \"Drachenauge\"",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "0jDEX8MeGHhO2y6YnG6hSc",
-        "include": true,
-        "episode_num": 87,
-        "title": "Folge 87: Der böse Geist vom Waisenhaus",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "4LR2bwS219DfsOZCXUtf9W",
-        "include": true,
-        "episode_num": 86,
-        "title": "Folge 86: Die Schatzsucher-Mafia schlägt zu",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "6wQkT3EBgw4lzKjjK4RLje",
-        "include": true,
-        "episode_num": 85,
-        "title": "Folge 85: Freiheit für gequälte Tiere",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "0pqrBK8Iyz8zrFEhdLXUXb",
-        "include": true,
-        "episode_num": 84,
-        "title": "Folge 84: Dynamit im Kofferraum",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "0aCNZDvswOwzDT0tMmzc0y",
-        "include": true,
-        "episode_num": 83,
-        "title": "Folge 83: Hilfe! Gaby in Gefahr",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "69eO2hzbouPoPBrcDf4JWx",
-        "include": true,
-        "episode_num": 82,
-        "title": "Folge 82: Spuk aus dem Jenseits",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "2TjBhMvnNmCpvITGAS9p6v",
-        "include": true,
-        "episode_num": 81,
-        "title": "Folge 81: Horror-Trip im Luxusauto",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "03jgLfxIX1vVDXMn7tjW0e",
-        "include": true,
-        "episode_num": 80,
-        "title": "Folge 80: Weißes Gift im Nachtexpress",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "3MUa6rKq5BGATlYUMD14jO",
-        "include": true,
-        "episode_num": 79,
-        "title": "Folge 79: Ein Toter braucht Hilfe",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "4pngmVzpD9i8f4F3cjobAU",
-        "include": true,
-        "episode_num": 78,
-        "title": "Folge 78: Heißer Draht nach Paradiso",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "0rp0SCiA1hcrCJqiiG9dNO",
-        "include": true,
-        "episode_num": 77,
-        "title": "Folge 77: Der erpresste Erpresser",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "6Ju9fXwVzHhLjpzbMzMti5",
-        "include": true,
-        "episode_num": 76,
-        "title": "Folge 76: Die Goldgräber-Bande",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "1C0atYAGpLJLcxdSu6iQZJ",
-        "include": true,
-        "episode_num": 75,
-        "title": "Folge 75: Lösegeld am Henkersberg",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "1qwf1F06HyFYSvQpcGNuU0",
-        "include": true,
-        "episode_num": 74,
-        "title": "Folge 74: Im Schattenreich des Dr. Mubase",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "2pjIisAo6RrFZe4fgoAJNe",
-        "include": true,
-        "episode_num": 73,
-        "title": "Folge 73: Herr der Schlangeninsel",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "280pPhAMoxhHFqrBe7TopM",
-        "include": true,
-        "episode_num": 72,
-        "title": "Folge 72: Taschengeld für ein Gespenst",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "5SWVBdSwIh4erbo6Hw3WO8",
-        "include": true,
-        "episode_num": 71,
-        "title": "Folge 71: Stimme aus der Unterwelt",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "3vHzoGBo7WHbIbIEhVyp8H",
-        "include": true,
-        "episode_num": 70,
-        "title": "Folge 70: Wer hat Tims Mutter entführt?",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "4li0i9hTORZh4lb2pvH7H4",
-        "include": true,
-        "episode_num": 69,
-        "title": "Folge 69: Achtung! Die \"Monsters\" kommen",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "5lkSDRBNtYBR7jXqLgGIPM",
-        "include": true,
-        "episode_num": 68,
-        "title": "Folge 68: Rauschgift-Razzia im Internat",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "6d7ve3mWIxMyLtvmrDe3oN",
-        "include": true,
-        "episode_num": 67,
-        "title": "Folge 67: Hinterhalt im Eulenforst",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "2dH5NcZY7KT82TjA3mR0IL",
-        "include": true,
-        "episode_num": 66,
-        "title": "Folge 66: Gauner mit der \"Goldenen Hand\"",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "2ubE3axmR41kSXAjEcluEz",
-        "include": true,
-        "episode_num": 65,
-        "title": "Folge 65: Sklaven für Wutawia",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "2IRabdIB4ipjSfWGfJJz1p",
-        "include": true,
-        "episode_num": 64,
-        "title": "Folge 64: Schwarze Pest aus Indien",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "2bOBGz1gR4iSubZIpQXAYP",
-        "include": true,
-        "episode_num": 63,
-        "title": "Folge 63: Die Falle am Fuchsbach",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "3qSQqJtFmTznYTrNBqPyyw",
-        "include": true,
-        "episode_num": 62,
-        "title": "Folge 62: Terror aus dem \"Pulverfaß\"",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "6gkTtqPnKizQNP2Wku47ye",
-        "include": true,
-        "episode_num": 61,
-        "title": "Folge 61: Im Schatten des Dämons",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "1m43QTxE0cdGCpSaFED1mb",
-        "include": true,
-        "episode_num": 60,
-        "title": "Folge 60: Der Teufel vom Waiga-See",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "49t3y9iAQqThpImvvQos0s",
-        "include": true,
-        "episode_num": 59,
-        "title": "Folge 59: Trickdieb auf Burg Drachenstein",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "44DE85CejNlCyUQOK1DMym",
-        "include": true,
-        "episode_num": 58,
-        "title": "Folge 58: Der doppelte Pedro",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "75Sbt9YzxwmT50cdOpQuwi",
-        "include": true,
-        "episode_num": 57,
-        "title": "Folge 57: Jagt das rote Geisterauto!",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "1Og3x45AhCqdmif9zWopbY",
-        "include": true,
-        "episode_num": 56,
-        "title": "Folge 56: Todesgruß vom Gelben Drachen",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "2Lm9p4iJstI3iwOD8oEZMo",
-        "include": true,
-        "episode_num": 55,
-        "title": "Folge 55: Der Mörder aus dem Schauerwald",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "2tQjarBMugwtJGLPISSqkx",
-        "include": true,
-        "episode_num": 54,
-        "title": "Folge 54: Alarm! Klößchen ist verschwunden",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "4qoN8RkWifzeVqzLIGBGBL",
-        "include": true,
-        "episode_num": 53,
-        "title": "Folge 53: Schüsse aus der Rosenhecke",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "3GwBNJd3vbi33MkAOgWhWL",
-        "include": true,
-        "episode_num": 52,
-        "title": "Folge 52: Überfall im Hafen",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "4WOjS2gDgi6sCFNN2xbXz1",
-        "include": true,
-        "episode_num": 51,
-        "title": "Folge 51: Gangster auf der Gartenparty",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "1CAidQFFQWvxTFUZZ94TEm",
-        "include": true,
-        "episode_num": 50,
-        "title": "Folge 50: Spion auf der Flucht",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "517mEgMBkbNEOKvbKkAQVy",
-        "include": true,
-        "episode_num": 49,
-        "title": "Folge 49: Bombe an Bord",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "4WgadnXmyPlFzQ6GyHUqRw",
-        "include": true,
-        "episode_num": 48,
-        "title": "Folge 48: Bestien der Finsternis",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "1d38ND8yadbLTLEhehVWRp",
-        "include": true,
-        "episode_num": 47,
-        "title": "Folge 47: Todesfracht im Jaguar",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "6epiNHYc23EgElvraBVTUB",
-        "include": true,
-        "episode_num": 46,
-        "title": "Folge 46: Hotel in Flammen",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "1KNZFZQYNPJOlX3sxrBOSE",
-        "include": true,
-        "episode_num": 45,
-        "title": "Folge 45: Unternehmen Grüne Hölle",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "6L8cRmK9LrR4OYbwIb4prW",
-        "include": true,
-        "episode_num": 44,
-        "title": "Folge 44: Um Mitternacht am schwarzen Fluß",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "6LlaB9vjnahov25yQWlGfG",
-        "include": true,
-        "episode_num": 43,
-        "title": "Folge 43: Gefangen in der Schreckenskammer",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "5ww0350exp0oCRS9arplvu",
-        "include": true,
-        "episode_num": 42,
-        "title": "Folge 42: Anschlag auf den Silberpfeil",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "0Ebu2fMGeXFXX9uJdLPxPO",
-        "include": true,
-        "episode_num": 41,
-        "title": "Folge 41: Heißes Gold im Silbersee",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "07xFaDO6M3YzpSE5FrEJUj",
-        "include": true,
-        "episode_num": 40,
-        "title": "Folge 40: Duell im Morgengrauen",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "50ns4wTGElvzJtYF7J6TYS",
-        "include": true,
-        "episode_num": 39,
-        "title": "Folge 39: Die Gift-Party",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "2w7g51yGAlnfRpsbmanami",
-        "include": true,
-        "episode_num": 38,
-        "title": "Folge 38: Die weiße Schmuggler-Yacht",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "3AoA7wKNOW7rmtpzSCijcR",
-        "include": true,
-        "episode_num": 36,
-        "title": "Folge 36: Das Geschenk des Bösen",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "3PE3WIY7dTLhAS6WzTb2gx",
-        "include": true,
-        "episode_num": 35,
-        "title": "Folge 35: Die Nacht des Überfalls",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "0r50DZDZPJdUgqprZH8Uiz",
-        "include": true,
-        "episode_num": 34,
-        "title": "Folge 34: Vampir der Autobahn",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "0dfv6DKH5AQmscC7xXTENC",
-        "include": true,
-        "episode_num": 33,
-        "title": "Folge 33: Wer raubte das Millionenpferd?",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "4PjUBvlQ01A9LRfZ27reQb",
-        "include": true,
-        "episode_num": 32,
-        "title": "Folge 32: Wilddiebe im Teufelsmoor",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "1nEMgpdr0RTPYPdAmeblSx",
-        "include": true,
-        "episode_num": 31,
-        "title": "Folge 31: Die Entführung in der Mondscheingasse",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "28C564LrC7JsVlHe3e0Btv",
-        "include": true,
-        "episode_num": 30,
-        "title": "Folge 30: Die Mafia kommt zur Geisterstunde",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "2Sg92NzoOMzEuQIpgIhgOO",
-        "include": true,
-        "episode_num": 29,
-        "title": "Folge 29: Hundediebe kennen keine Gnade",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "4QGudxuEAcnfuNllrivq5W",
-        "include": true,
-        "episode_num": 28,
-        "title": "Folge 28: Verrat im Höllental",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "34KfrLQf8eqtIlHPiniXgN",
-        "include": true,
-        "episode_num": 27,
-        "title": "Folge 27: Banditen im Palasthotel",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "6QeaqV74RWxGdh0J4QBIww",
-        "include": true,
-        "episode_num": 26,
-        "title": "Folge 26: Das Geiseldrama",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "5fIqw30fRsl0RNHAamxD0h",
-        "include": true,
-        "episode_num": 25,
-        "title": "Folge 25: Die Stunde der schwarzen Maske",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "0BdEwpfNwNkJUTwxIXJo5Z",
-        "include": true,
-        "episode_num": 24,
-        "title": "Folge 24: Gefährliche Diamanten",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "26dIpIYfi9fSeEeoHfRRqR",
-        "include": true,
-        "episode_num": 23,
-        "title": "Folge 23: Kampf der Spione",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "7gHX31YKrpfWBFTlTjWpzt",
-        "include": true,
-        "episode_num": 22,
-        "title": "Folge 22: In den Klauen des Tigers",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "4CUF3gCdwhOg1EdpSaIH2y",
-        "include": true,
-        "episode_num": 21,
-        "title": "Folge 21: Die Rache des Bombenlegers",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "6KmOIZoB1FWJrYwSLMQVKH",
-        "include": true,
-        "episode_num": 18,
-        "title": "Folge 18: Hexenjagd in Lerchenbach",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "028hFwVAqF3qtl2rqM5nlD",
-        "include": true,
-        "episode_num": 17,
-        "title": "Folge 17: Die Doppelgängerin",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "2z2U3d7vEXBmQm8IBg0mFj",
-        "include": true,
-        "episode_num": 16,
-        "title": "Folge 16: X7 antwortet nicht",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "3xr2gj74ceKjRFScuN0uWS",
-        "include": true,
-        "episode_num": 15,
-        "title": "Folge 15: Ufos in Bad Finkenstein",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "2Tnj8gSYW5FKa9qcyG46uS",
-        "include": true,
-        "episode_num": 14,
-        "title": "Folge 14: Der Schlangenmensch",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "1pSX9vO6inD71umv5SoDxV",
-        "include": true,
-        "episode_num": 13,
-        "title": "Folge 13: Die Bettelmönche aus Atlantis",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "2KaWF3eANzWbtnpEHuxHVh",
-        "include": true,
-        "episode_num": 12,
-        "title": "Folge 12: Nachts, wenn der Feuerteufel kommt",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "4yeVIdrGglPUWEl86T2Sgz",
-        "include": true,
-        "episode_num": 11,
-        "title": "Folge 11: Die Falschmünzer vom Mäuseweg",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "7egcWhxwfDEyfW1iddazLc",
-        "include": true,
-        "episode_num": 10,
-        "title": "Folge 10: Alarm im Zirkus Sarani!",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "6fv4ajGQ8VOEWkPGCBM8Bk",
-        "include": true,
-        "episode_num": 9,
-        "title": "Folge 9: Abenteuer im Ferienlager",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "6nDOtfqoFRO3cEbvn0dA7F",
-        "include": true,
-        "episode_num": 8,
-        "title": "Folge 8: Auf der Spur der Vogeljäger",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "1lHBw6I0KkJIJy7K3azKp0",
-        "include": true,
-        "episode_num": 7,
-        "title": "Folge 7: Rätsel um die alte Villa",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "5f3BW9l3gt2IceokHZ6nhB",
-        "include": true,
-        "episode_num": 6,
-        "title": "Folge 6: Angst in der 9a",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "6L5QghMB2McNx1mlxvA9jY",
-        "include": true,
-        "episode_num": 5,
-        "title": "Folge 5: Das Phantom auf dem Feuerstuhl",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "7C0OqMlXzeiZIB4TZsygY7",
-        "include": true,
-        "episode_num": 4,
-        "title": "Folge 4: Das Paket mit dem Totenkopf",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "4AoqWaIGkLmowNAfQZieas",
-        "include": true,
-        "episode_num": 3,
-        "title": "Folge 3: Das leere Grab im Moor",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "6Qq9RYcZ4nZfD4IiHRF78v",
-        "include": true,
-        "episode_num": 2,
-        "title": "Folge 2: Der blinde Hellseher",
-        "exclude_reason": null
-      },
-      {
-        "spotify_album_id": "699XT7D0ROiM2lVjwHAHg9",
-        "include": true,
-        "episode_num": 1,
-        "title": "Folge 1: Die Jagd nach den Millionendieben",
+        "title": "100/Fieser Trick mit Nr. 100",
         "exclude_reason": null
       }
     ],
-    "curator_notes": "TKKG is a long-running German children's detective Hörspiel series. The series spans two Spotify artists: 'TKKG' (modern episodes 100-239) and 'TKKG Retro-Archiv' (classic episodes 1-99). Episode numbering uses 'NNN/' format for episodes 1-199 and 'Folge N:' format for episodes 200+. Excluded: 'TKKG Junior' artist (separate spinoff series for younger children with its own episode numbering 1-41), compilation albums ('Eiskalte Fälle', 'Gruselige Fälle', 'Urlaubs-Fälle'), and duplicate Kopfhörer-Hörspiel version of episode 216. Special releases like Adventskalender and the movie tie-in are included as standalone episodes. Note: Episode 37 is missing from the Retro-Archiv (gap between 36 and 38)."
-  },
-  "b": null,
-  "disagreements": []
+    "age_note": "Recommended 8+",
+    "curator_notes": "Long-running detective series with regular numbered episodes plus special formats including Adventskalender (Christmas countdown stories), themed compilation albums (Eiskalte/Gruselige/Urlaubs-Fälle), and occasional variant numbering (e.g., '217/Tödliche Klarinette'). Some episodes tie into live tours."
+  }
 }
