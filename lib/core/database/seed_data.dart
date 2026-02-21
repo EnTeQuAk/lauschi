@@ -111,25 +111,17 @@ Future<void> seedArdTestContent({
           (g) async => g?.id ?? await groups.insert(title: item.showTitle),
         );
 
-    await cards.insertIfAbsent(
+    // insertArdEpisode uses insertIfAbsent internally — only count new inserts.
+    final existing = await cards.getByProviderUri(item.providerUri);
+    await cards.insertArdEpisode(
       title: item.title,
       providerUri: item.providerUri,
-      cardType: 'episode',
-      provider: 'ard_audiothek',
+      audioUrl: item.audioUrl,
       coverUrl: item.coverUrl,
+      durationMs: item.durationMs,
+      groupId: groupId,
     );
-
-    // Set ARD-specific fields that insertIfAbsent doesn't handle.
-    final card = await cards.getByProviderUri(item.providerUri);
-    if (card != null && card.audioUrl == null) {
-      await cards.updateArdFields(
-        cardId: card.id,
-        audioUrl: item.audioUrl,
-        durationMs: item.durationMs,
-        groupId: groupId,
-      );
-      added++;
-    }
+    if (existing == null) added++;
   }
 
   Log.info(_tag, 'ARD seed complete', data: {'added': '$added'});
