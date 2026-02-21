@@ -1104,9 +1104,16 @@ class _CuratedSeriesCard extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final coverMap = ref.watch(_seriesCoverMapProvider).value ?? {};
+    final existingUris = ref.watch(existingCardUrisProvider);
     final firstAlbumId =
         series.albums.isNotEmpty ? series.albums.first.spotifyId : null;
     final coverUrl = firstAlbumId != null ? coverMap[firstAlbumId] : null;
+
+    final total = series.albums.length;
+    final added = series.albums
+        .where((a) => existingUris.contains('spotify:album:${a.spotifyId}'))
+        .length;
+    final allAdded = added == total && total > 0;
 
     return GestureDetector(
       onTap:
@@ -1114,21 +1121,64 @@ class _CuratedSeriesCard extends ConsumerWidget {
       child: Column(
         children: [
           Expanded(
-            child: ClipRRect(
-              borderRadius: const BorderRadius.all(AppRadius.card),
-              child:
-                  coverUrl != null
-                      ? CachedNetworkImage(
-                        imageUrl: coverUrl,
-                        fit: BoxFit.cover,
-                        width: double.infinity,
-                        height: double.infinity,
-                        placeholder:
-                            (_, _) => _Placeholder(title: series.title),
-                        errorWidget:
-                            (_, _, _) => _Placeholder(title: series.title),
-                      )
-                      : _Placeholder(title: series.title),
+            child: Stack(
+              children: [
+                Positioned.fill(
+                  child: ClipRRect(
+                    borderRadius: const BorderRadius.all(AppRadius.card),
+                    child:
+                        coverUrl != null
+                            ? CachedNetworkImage(
+                              imageUrl: coverUrl,
+                              fit: BoxFit.cover,
+                              width: double.infinity,
+                              height: double.infinity,
+                              placeholder:
+                                  (_, _) => _Placeholder(title: series.title),
+                              errorWidget:
+                                  (_, _, _) =>
+                                      _Placeholder(title: series.title),
+                            )
+                            : _Placeholder(title: series.title),
+                  ),
+                ),
+                // Badge: check when fully added, count when partially added
+                if (added > 0)
+                  Positioned(
+                    right: 4,
+                    top: 4,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 5,
+                        vertical: 2,
+                      ),
+                      decoration: BoxDecoration(
+                        color:
+                            allAdded
+                                ? AppColors.success
+                                : AppColors.primary,
+                        borderRadius:
+                            const BorderRadius.all(AppRadius.pill),
+                      ),
+                      child:
+                          allAdded
+                              ? const Icon(
+                                Icons.check_rounded,
+                                size: 12,
+                                color: Colors.white,
+                              )
+                              : Text(
+                                '$added/$total',
+                                style: const TextStyle(
+                                  fontFamily: 'Nunito',
+                                  fontSize: 9,
+                                  fontWeight: FontWeight.w800,
+                                  color: Colors.white,
+                                ),
+                              ),
+                    ),
+                  ),
+              ],
             ),
           ),
           const SizedBox(height: AppSpacing.xs),
@@ -1144,11 +1194,15 @@ class _CuratedSeriesCard extends ConsumerWidget {
             textAlign: TextAlign.center,
           ),
           Text(
-            '${series.albums.length} Folgen',
-            style: const TextStyle(
+            allAdded
+                ? '✓ Hinzugefügt'
+                : added > 0
+                    ? '$added von $total Folgen'
+                    : '$total Folgen',
+            style: TextStyle(
               fontFamily: 'Nunito',
               fontSize: 10,
-              color: AppColors.textSecondary,
+              color: allAdded ? AppColors.success : AppColors.textSecondary,
             ),
             textAlign: TextAlign.center,
           ),
