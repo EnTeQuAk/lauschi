@@ -9,8 +9,8 @@ import 'package:lauschi/features/onboarding/screens/onboarding_provider.dart';
 /// "Ready" = onboarding provider resolved (SharedPreferences loaded) AND
 /// a minimum display time of 600ms has passed.
 ///
-/// Native splash is plain cream — this overlay adds the mascot and
-/// fades out smoothly once the app content is fully loaded behind it.
+/// Native splash is plain cream — this overlay adds the mascot + wordmark
+/// and fades out smoothly once the app content is fully loaded behind it.
 class SplashOverlay extends ConsumerStatefulWidget {
   const SplashOverlay({super.key});
 
@@ -53,10 +53,8 @@ class _SplashOverlayState extends ConsumerState<SplashOverlay>
 
   void _maybeDismiss() {
     if (!_minTimePassed) return;
-    // Check if onboarding state has resolved (not null).
     final onboarding = ref.read(onboardingCompleteProvider);
     if (onboarding == null) return;
-    // App is ready — fade out.
     unawaited(_fade.forward());
   }
 
@@ -67,7 +65,6 @@ class _SplashOverlayState extends ConsumerState<SplashOverlay>
     // Watch onboarding state to trigger dismiss when it resolves.
     final onboarding = ref.watch(onboardingCompleteProvider);
     if (onboarding != null) {
-      // Schedule dismiss check after this frame.
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (mounted) _maybeDismiss();
       });
@@ -77,12 +74,29 @@ class _SplashOverlayState extends ConsumerState<SplashOverlay>
       child: FadeTransition(
         opacity: ReverseAnimation(_fade),
         child: Container(
-          color: const Color(0xFFF2EDE4),
+          color: const Color(0xFFF6F3EE),
           alignment: Alignment.center,
-          child: Image.asset(
-            'assets/images/branding/lauschi-mascot.png',
-            width: 120,
-            height: 120,
+          child: const Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Image(
+                image: AssetImage('assets/images/branding/lauschi-mascot.png'),
+                width: 120,
+                height: 120,
+              ),
+              SizedBox(height: 16),
+              Text(
+                'lauschi',
+                style: TextStyle(
+                  fontFamily: 'Nunito',
+                  fontSize: 28,
+                  fontWeight: FontWeight.w800,
+                  color: Color(0xFF2D7A54),
+                  letterSpacing: -0.5,
+                  decoration: TextDecoration.none,
+                ),
+              ),
+            ],
           ),
         ),
       ),

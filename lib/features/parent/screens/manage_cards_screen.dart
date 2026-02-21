@@ -155,6 +155,7 @@ class _GroupSection extends ConsumerWidget {
                 ? Icons.music_note_rounded
                 : Icons.auto_stories_rounded,
         onTap: () => context.push(AppRoutes.parentGroupEdit(group.id)),
+        onDelete: () => _confirmDeleteGroup(context, ref, group, cardCount),
       ),
     );
   }
@@ -179,6 +180,7 @@ class _SectionHeader extends StatelessWidget {
     required this.icon,
     this.coverUrl,
     this.onTap,
+    this.onDelete,
     super.key,
   });
 
@@ -187,6 +189,7 @@ class _SectionHeader extends StatelessWidget {
   final String? coverUrl;
   final IconData icon;
   final VoidCallback? onTap;
+  final VoidCallback? onDelete;
 
   @override
   Widget build(BuildContext context) {
@@ -247,6 +250,14 @@ class _SectionHeader extends StatelessWidget {
                 ],
               ),
             ),
+            if (onDelete != null)
+              IconButton(
+                onPressed: onDelete,
+                icon: const Icon(Icons.delete_outline_rounded, size: 20),
+                color: AppColors.error,
+                tooltip: 'Löschen',
+                visualDensity: VisualDensity.compact,
+              ),
             if (onTap != null)
               const Icon(
                 Icons.chevron_right_rounded,
@@ -476,6 +487,60 @@ class _AutoSortBanner extends ConsumerWidget {
 // ---------------------------------------------------------------------------
 // Shared actions
 // ---------------------------------------------------------------------------
+
+void _confirmDeleteGroup(
+  BuildContext context,
+  WidgetRef ref,
+  db.CardGroup group,
+  int cardCount,
+) {
+  final label =
+      cardCount == 1 ? '1 Karte' : '$cardCount Karten';
+  unawaited(
+    showDialog<void>(
+      context: context,
+      builder:
+          (ctx) => AlertDialog(
+            title: const Text('Serie löschen?'),
+            content: Text(
+              '„${group.title}" und $label werden '
+              'unwiderruflich entfernt.',
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.of(ctx).pop(),
+                child: const Text('Abbrechen'),
+              ),
+              FilledButton(
+                onPressed: () async {
+                  Navigator.of(ctx).pop();
+                  final count = await ref
+                      .read(cardRepositoryProvider)
+                      .deleteByGroup(group.id);
+                  await ref.read(groupRepositoryProvider).delete(group.id);
+                  if (context.mounted) {
+                    ScaffoldMessenger.of(context)
+                      ..clearSnackBars()
+                      ..showSnackBar(
+                        SnackBar(
+                          content: Text(
+                            '${group.title} + $count Karten entfernt',
+                          ),
+                          behavior: SnackBarBehavior.floating,
+                        ),
+                      );
+                  }
+                },
+                style: FilledButton.styleFrom(
+                  backgroundColor: AppColors.error,
+                ),
+                child: const Text('Löschen'),
+              ),
+            ],
+          ),
+    ),
+  );
+}
 
 void _confirmDelete(BuildContext context, WidgetRef ref, db.AudioCard card) {
   unawaited(
