@@ -65,10 +65,18 @@ class FeaturedItem {
   /// Publisher name (e.g., "SWR Kultur").
   final String? publisher;
 
-  ArdItem get newest => parts.first;
-  String? get imageUrl => newest.imageUrl;
-  DateTime get publishDate => newest.publishDate;
-  DateTime? get endDate => newest.endDate;
+  /// The primary (first) part — used for display metadata.
+  ArdItem get primary => parts.first;
+  String? get imageUrl => primary.imageUrl;
+  DateTime get publishDate => primary.publishDate;
+
+  /// Earliest expiry across all parts. If any part expires, the
+  /// whole item should be treated as expiring then.
+  DateTime? get endDate {
+    final dates = parts.map((p) => p.endDate).whereType<DateTime>();
+    if (dates.isEmpty) return null;
+    return dates.reduce((a, b) => a.isBefore(b) ? a : b);
+  }
 
   /// Total duration across all parts.
   int get totalDurationSeconds =>
@@ -125,33 +133,33 @@ List<FeaturedItem> _groupMultiPart(List<ArdItem> items) {
 Future<List<FeaturedItem>> _fetchFeaturedItems(ArdApi api) async {
   final configYaml = await rootBundle.loadString(_configPath);
   final config = FeaturedShowsConfig.fromYaml(configYaml);
-  final cutoff = DateTime.now().subtract(_maxAge);
+  final now = DateTime.now();
+  final cutoff = now.subtract(_maxAge);
 
-  final allItems = <ArdItem>[];
+  // Fetch all shows in parallel — they're independent.
+  final results = await Future.wait(
+    config.shows.map((show) async {
+      try {
+        final page = await api.getItems(
+          programSetId: show.id,
+          first: _itemsPerShow,
+        );
 
-  for (final show in config.shows) {
-    try {
-      final page = await api.getItems(
-        programSetId: show.id,
-        first: _itemsPerShow,
-      );
+        return page.items.where((item) =>
+          item.duration >= show.minDurationSeconds &&
+          item.publishDate.isAfter(cutoff) &&
+          item.bestAudioUrl != null &&
+          (item.endDate == null || item.endDate!.isAfter(now)),
+        ).toList();
+      } on Exception catch (e) {
+        // Skip shows that fail — don't let one bad show break all.
+        Log.error(_tag, 'Failed to fetch show ${show.id}', exception: e);
+        return <ArdItem>[];
+      }
+    }),
+  );
 
-      final filtered = page.items.where((item) =>
-        item.duration >= show.minDurationSeconds &&
-        item.publishDate.isAfter(cutoff) &&
-        item.bestAudioUrl != null,
-      );
-
-      allItems.addAll(filtered);
-    } on Exception catch (e) {
-      // Skip shows that fail to load — don't let one bad show break all.
-      Log.error(
-        _tag,
-        'Failed to fetch show ${show.id}',
-        exception: e,
-      );
-    }
-  }
+  final allItems = results.expand((items) => items).toList();
 
   Log.info(
     _tag,
@@ -164,7 +172,7 @@ Future<List<FeaturedItem>> _fetchFeaturedItems(ArdApi api) async {
 
 // ── Provider ────────────────────────────────────────────────────────────────
 
-@riverpod
+@Riverpod(keepAlive: true)
 Future<List<FeaturedItem>> featuredItems(Ref ref) {
   final api = ref.watch(ardApiProvider);
   return _fetchFeaturedItems(api);
