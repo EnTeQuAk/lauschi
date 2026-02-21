@@ -22,7 +22,9 @@ class ShowSubscriptions extends Table {
   TextColumn get coverUrl => text().nullable()();
 
   /// Linked Group ID in the Groups table.
-  TextColumn get groupId => text().references(Groups, #id)();
+  /// Cascade delete: removing a group removes its subscriptions.
+  TextColumn get groupId =>
+      text().references(Groups, #id, onDelete: KeyAction.cascade)();
 
   /// Max episodes to keep. Null = all published.
   /// For rolling shows (Betthupferl, Sandmännchen), cap at e.g. 20.

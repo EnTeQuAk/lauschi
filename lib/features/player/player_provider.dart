@@ -126,9 +126,12 @@ class PlayerNotifier extends _$PlayerNotifier {
     Log.info(_tag, 'Bridge initialized');
   }
 
-  /// Play a Spotify URI (album, playlist, or track).
+  /// Play a raw Spotify URI (album, playlist, or track).
   ///
-  /// Uses the Web API to start playback on the WebView SDK device.
+  /// Prefer [playCard] which handles provider branching, expiration checks,
+  /// and resume state. This method does not set [_activeCardId], so position
+  /// saving and mark-heard will not work.
+  @Deprecated('Use playCard(cardId) instead')
   Future<void> play(String spotifyUri) async {
     final deviceId = state.deviceId;
     if (deviceId == null || _api == null) {
@@ -226,12 +229,15 @@ class PlayerNotifier extends _$PlayerNotifier {
     // Check content expiration before attempting playback.
     if (card.availableUntil != null &&
         card.availableUntil!.isBefore(DateTime.now())) {
+      // Don't set _activeCardId — prevents stale state from leaking into
+      // position saves or mark-heard operations.
       state = state.copyWith(
         error: 'Diese Geschichte ist leider nicht mehr verfügbar',
       );
       return;
     }
 
+    // Set active state only after validation passes.
     _activeCardId = cardId;
     _activeContextUri = card.providerUri;
     _activeGroupId = card.groupId;
