@@ -137,7 +137,8 @@
     "curator_notes": "Split from Biene Maja. Modern 2023-2025 Europa/Sony Hörspiel production. Single-episode format (5-6 tracks per album), different voice cast and production style from classic version. 'Die Biene Maja' branding distinguishes it as separate product."
   },
   "review": {
-    "status": "pending",
+    "status": "approved",
+    "reviewed_at": "2026-02-21T05:11:54.459354+00:00",
     "overrides": [],
     "notes": "Auto-created by apply-splits.py from biene_maja."
   }

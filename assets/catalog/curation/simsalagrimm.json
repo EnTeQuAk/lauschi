@@ -421,5 +421,11 @@
     ],
     "age_note": "Suitable from 3+",
     "curator_notes": "Contains two sub-series: 'Das Original-Hörspiel zur TV Serie' (classic fairy tales) and 'Die neuen Abenteuer von Yoyo und Doc Croc' (new adventures with the main characters). Episodes are identified by fairy tale title rather than numbers."
+  },
+  "review": {
+    "status": "approved",
+    "reviewed_at": "2026-02-21T05:30:53.391235+00:00",
+    "overrides": [],
+    "notes": ""
   }
 }

@@ -134,5 +134,11 @@
     ],
     "age_note": "Suitable from 5+",
     "curator_notes": "Clean episode run of 12 individual Folgen (each with two sub-stories). Each episode has 20-25 chapters (~45-55 min total). Four Sammelbox collections contain the same episodes in bundled form and are excluded as duplicates. One movie tie-in audio excluded as non-series content."
+  },
+  "review": {
+    "status": "approved",
+    "reviewed_at": "2026-02-21T05:31:44.858952+00:00",
+    "overrides": [],
+    "notes": ""
   }
 }

@@ -123,7 +123,8 @@
     "curator_notes": "Split from Biene Maja. Classic 1976-1977 original Hörspiel. Each album contains multiple stories (box-set style, 25-30 tracks), fundamentally different from modern single-episode releases. Different production era warrants separate series."
   },
   "review": {
-    "status": "pending",
+    "status": "approved",
+    "reviewed_at": "2026-02-21T05:12:11.057371+00:00",
     "overrides": [],
     "notes": "Auto-created by apply-splits.py from biene_maja."
   }

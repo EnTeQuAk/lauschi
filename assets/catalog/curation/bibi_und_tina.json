@@ -1242,5 +1242,11 @@
     ],
     "age_note": "Suitable from 5+",
     "curator_notes": "Long-running series (episodes 100+) with spinoff podcast format 'BFF Talk' (separate numbering), seasonal specials (Weihnachtsfolgen, Adventskalender), and movie tie-ins (Kinofilm-Hörbücher). Note occasional out-of-sequence episodes (e.g., Folge 106 appearing after 111)."
+  },
+  "review": {
+    "status": "approved",
+    "reviewed_at": "2026-02-21T05:11:47.850351+00:00",
+    "overrides": [],
+    "notes": ""
   }
 }

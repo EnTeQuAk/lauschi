@@ -330,5 +330,11 @@
     ],
     "age_note": "Suitable from 5+",
     "curator_notes": "Spinoff/prequel to 'Hui Buh, das Schlossgespenst'. Episode numbering format changed from 'NNN/' prefix (episodes 1-20) to 'Folge N:' format (episodes 21+). All 44 story episodes included; ASMR soundscape release excluded."
+  },
+  "review": {
+    "status": "approved",
+    "reviewed_at": "2026-02-21T05:13:55.244359+00:00",
+    "overrides": [],
+    "notes": ""
   }
 }

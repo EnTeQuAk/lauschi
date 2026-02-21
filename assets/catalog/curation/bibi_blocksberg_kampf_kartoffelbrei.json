@@ -94,7 +94,8 @@
     "curator_notes": "Split from Bibi Blocksberg. Special 11-part story arc \"Kampf um Kartoffelbrei\" that is distinct from regular numbered episodes. Works as a standalone mini-series."
   },
   "review": {
-    "status": "pending",
+    "status": "approved",
+    "reviewed_at": "2026-02-21T05:11:19.734797+00:00",
     "overrides": [],
     "notes": "Auto-created by apply-splits.py from bibi_blocksberg."
   }

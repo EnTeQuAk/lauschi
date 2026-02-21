@@ -246,5 +246,11 @@
     ],
     "age_note": "Suitable from 5+",
     "curator_notes": "This series has a complex release history with both Hörspiele (audio plays) and Hörbücher (audiobooks). The Hörspiele are the proper episodes with multiple stories per album (TV series adaptations from 2020-2021), while the older releases (2014-2020) with 45-51 'Kapitel' tracks are audiobooks read by the author. The Erstleser series are early reader adaptations. Included are: (1) the 2020-2021 TV series Hörspiele (Teil 1-12), (2) the 2019-2022 Hörspiel re-releases (Teil 1-4, 7), and (3) the Erstleser spin-offs. Excluded are audiobooks (marked as 'Gekürzt' or with chapter-based tracks) and soundtracks."
+  },
+  "review": {
+    "status": "approved",
+    "reviewed_at": "2026-02-21T05:29:51.368803+00:00",
+    "overrides": [],
+    "notes": ""
   }
 }

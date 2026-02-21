@@ -493,5 +493,11 @@
     ],
     "age_note": "Suitable from 5+",
     "curator_notes": "Series has three distinct formats on Spotify: (1) 54 classic radio play episodes (2024-2025, Lauscher Hörbücher) - these are the canonical Hörspiel episodes with proper episode numbers, (2) 4-part audiobook releases (2022, All Ears GmbH) - excluded as duplicates, (3) CGI TV series audio (2017-2018, Europa/Sony) - excluded as different format. The 2024-2025 releases represent the complete classic radio play series based on Selma Lagerlöf's novel."
+  },
+  "review": {
+    "status": "approved",
+    "reviewed_at": "2026-02-21T05:29:28.014578+00:00",
+    "overrides": [],
+    "notes": ""
   }
 }

@@ -38,7 +38,8 @@
     "curator_notes": "Split from Bibi Blocksberg. Kinofilm Hörspiele are standalone movie adaptations, not part of the regular episode numbering. Parents would expect these as separate entries from the main series."
   },
   "review": {
-    "status": "pending",
+    "status": "approved",
+    "reviewed_at": "2026-02-21T05:11:26.400193+00:00",
     "overrides": [],
     "notes": "Auto-created by apply-splits.py from bibi_blocksberg."
   }

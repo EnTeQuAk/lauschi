@@ -360,5 +360,11 @@
     ],
     "age_note": "Suitable from 5+",
     "curator_notes": "Series uses 'Fall' numbering (each episode contains 2 cases). Naming convention changed from 'XXX/Fall' to 'Folge XX: Fall' starting with episode 22. All 47 episodes included from single artist. No Retro-Archiv or Junior variants found for this series."
+  },
+  "review": {
+    "status": "approved",
+    "reviewed_at": "2026-02-21T05:21:30.651563+00:00",
+    "overrides": [],
+    "notes": ""
   }
 }

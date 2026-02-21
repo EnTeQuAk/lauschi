@@ -248,5 +248,11 @@
     ],
     "age_note": "Suitable from 3+",
     "curator_notes": "Bobo Siebenschläfer is a popular German children's Hörspiel series about a little dormouse. The series has two distinct product lines: (1) Individual story albums by JUMBO Verlag with 12-19 tracks each - these are the main audiobook stories, and (2) TV series audio adaptations released as 'Band 1-4' and 'Staffel 2' by WDR mediagroup. The series does not use sequential episode numbers; each album is a standalone story. The 'Bobo & Hasi' spinoff is included as it features the same character. Excluded compilations: 'Die schönsten Klassiker', 'Das Beste von', song collection 'schönste Kinderlieder', and the 49-track box set 'Mit Bobo Siebenschläfer durch das Jahr'."
+  },
+  "review": {
+    "status": "approved",
+    "reviewed_at": "2026-02-21T05:12:43.066146+00:00",
+    "overrides": [],
+    "notes": ""
   }
 }

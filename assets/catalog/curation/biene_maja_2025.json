@@ -137,7 +137,8 @@
     "curator_notes": "Split from Biene Maja. 2025 Europa release. 'Biene Maja' branding (without 'Die'), different from 2023 'Die Biene Maja' releases. Same single-episode format but different release wave/series."
   },
   "review": {
-    "status": "pending",
+    "status": "approved",
+    "reviewed_at": "2026-02-21T05:12:02.994288+00:00",
     "overrides": [],
     "notes": "Auto-created by apply-splits.py from biene_maja."
   }

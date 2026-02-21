@@ -326,5 +326,102 @@
     ],
     "age_note": "Suitable from 3+",
     "curator_notes": "Series has two distinct product lines: 1) Main 'Alles X!' book-based episodes (included) - these are the core Hörspiele based on the popular children's books by Nele Moost; 2) TV series episodes (excluded) - these are shorter 3-episode bundles from the animated TV adaptation. Also excluded: movie tie-ins, audiobook readings (Lesungen), and the 25-year anniversary box set. The 'Alles X!' episodes follow the classic picture book stories and are the primary content parents expect."
+  },
+  "review": {
+    "status": "approved",
+    "reviewed_at": "2026-02-21T05:18:37.892898+00:00",
+    "overrides": [
+      {
+        "album_id": "5rLgyFUrNHZ8xnaEWSSQ71",
+        "include": true,
+        "reason": ""
+      },
+      {
+        "album_id": "3vxL29iewsOnpuzmvy0B18",
+        "include": true,
+        "reason": ""
+      },
+      {
+        "album_id": "045UjvaNf9898ZWtNxdL7s",
+        "include": true,
+        "reason": ""
+      },
+      {
+        "album_id": "6KnamYDPG0Wr82roCnku3U",
+        "include": true,
+        "reason": ""
+      },
+      {
+        "album_id": "4MF3vRrimefhW3x9RK9I1V",
+        "include": true,
+        "reason": ""
+      },
+      {
+        "album_id": "0eF1MO4hXD7EE0cqD8DW8o",
+        "include": true,
+        "reason": ""
+      },
+      {
+        "album_id": "76HrKCFyQhY87r2IWXnLDB",
+        "include": true,
+        "reason": ""
+      },
+      {
+        "album_id": "2vSecCqEUJilZo28l0vTIL",
+        "include": true,
+        "reason": ""
+      },
+      {
+        "album_id": "3FrgaEqgvo0sqA7Ru0QVYK",
+        "include": true,
+        "reason": ""
+      },
+      {
+        "album_id": "6VrIYTSUOGSsKWMTdeW8gE",
+        "include": true,
+        "reason": ""
+      },
+      {
+        "album_id": "0oqKdiDNslYUoUiRYUdDks",
+        "include": true,
+        "reason": ""
+      },
+      {
+        "album_id": "4ohBnL1iSjWMTQaLNA7bvZ",
+        "include": true,
+        "reason": ""
+      },
+      {
+        "album_id": "1i3DeKgyCaMEwpmrgnXkiK",
+        "include": true,
+        "reason": ""
+      },
+      {
+        "album_id": "58IfNovyr5Sr55wgMLWIoI",
+        "include": true,
+        "reason": ""
+      },
+      {
+        "album_id": "795XA2uiADFHOKNkttriJX",
+        "include": true,
+        "reason": ""
+      },
+      {
+        "album_id": "0Csm87ayVVBtIeP4gl2hvP",
+        "include": true,
+        "reason": ""
+      },
+      {
+        "album_id": "06Oc8eYyPKyXMGBwUCBUV7",
+        "include": true,
+        "reason": ""
+      },
+      {
+        "album_id": "5YufFI1LNYMovd5wWKJ4CU",
+        "include": true,
+        "reason": ""
+      }
+    ],
+    "notes": ""
   }
 }

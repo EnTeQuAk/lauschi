@@ -559,5 +559,11 @@
     ],
     "age_note": "Mild ghostly themes and gentle humor, suitable from 5+",
     "curator_notes": "Series spans two Spotify artists: 'Hui Buh, das Schlossgespenst' (classic episodes 1-23, 1973-1983) and 'HUI BUH neue Welt' (modern era episodes 24-48+, 2008-present). Spinoff 'Der kleine Hui Buh' is a separate children's series for younger audiences (not included here)."
+  },
+  "review": {
+    "status": "approved",
+    "reviewed_at": "2026-02-21T05:22:11.711610+00:00",
+    "overrides": [],
+    "notes": ""
   }
 }

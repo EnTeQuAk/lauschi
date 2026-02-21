@@ -218,5 +218,11 @@
     ],
     "age_note": "Suitable from 5+",
     "curator_notes": "Episodes 1-2 use 00N/ prefix with double stories (45 tracks each). Episodes 3+ use Folge N: format. Some episodes contain double stories separated by '/'. Episodes 29-43 not present in API response but episode 44 exists. Recent episodes (2025-2026) have streamlined track counts (15-20) vs earlier episodes (28-33). All releases from EUROPA/Sony Music Family Entertainment."
+  },
+  "review": {
+    "status": "approved",
+    "reviewed_at": "2026-02-21T05:21:58.119643+00:00",
+    "overrides": [],
+    "notes": ""
   }
 }

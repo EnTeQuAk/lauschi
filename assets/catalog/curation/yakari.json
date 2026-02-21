@@ -290,5 +290,17 @@
     ],
     "age_note": "Suitable from 3+",
     "curator_notes": "Complete series of 38 episodes based on the Franco-Belgian comic about a young Sioux boy who can communicate with animals. All episodes follow a consistent 'Folge X' numbering scheme. Excluded the film tie-in which is separate from the TV series canon."
+  },
+  "review": {
+    "status": "approved",
+    "reviewed_at": "2026-02-21T05:13:45.827433+00:00",
+    "overrides": [
+      {
+        "album_id": "4RXvw183oOMKNGp3pqrzrS",
+        "include": true,
+        "reason": ""
+      }
+    ],
+    "notes": ""
   }
 }

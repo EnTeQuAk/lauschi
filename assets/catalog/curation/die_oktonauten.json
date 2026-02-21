@@ -197,5 +197,11 @@
     ],
     "age_note": "Suitable from 3+",
     "curator_notes": "Format change mid-series: Episodes 1-14 (2013-2017) were released as 4-story compilations under EUROPA mini/EUROPA with 40 tracks each. Episodes 15-26 (2024-2025) switched to single-episode format with 'Folge NN:' naming. All 26 releases included as canonical episodes despite early albums containing multiple stories."
+  },
+  "review": {
+    "status": "approved",
+    "reviewed_at": "2026-02-21T05:21:35.161996+00:00",
+    "overrides": [],
+    "notes": ""
   }
 }

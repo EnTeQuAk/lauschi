@@ -390,5 +390,11 @@
     ],
     "age_note": "Suitable from 4+",
     "curator_notes": "Main artist 'Ritter Rost' (6zn86iqNCkQZqsBvEv6oBO) contains the complete series. The related artist 'Burgfräulein Bö' (5q3QcfVaQH2pgpLXYkLK5a) is a spinoff character with only a party hits album (excluded as it's a music compilation). Jörg Hilbert (3k7tSWqbvtK0jzAyeaERwg) is the creator but his albums are other series. The series has three distinct release formats: 1) Classic episodes 1-15 (2007-2013) with 'NN/Title' naming, 2) TV series episodes (2014-2017) with 'Hörspiel zur TV-Serie NN/Title' naming containing multiple short stories per album, 3) Modern episodes 16-21 (2023-2024) with 'Folge NN: Title' naming. Radio Schrottland albums (2024-2025) are a separate radio-show format and excluded. Multiple English-language releases exist and are excluded as they are separate localizations."
+  },
+  "review": {
+    "status": "approved",
+    "reviewed_at": "2026-02-21T05:30:30.521510+00:00",
+    "overrides": [],
+    "notes": ""
   }
 }

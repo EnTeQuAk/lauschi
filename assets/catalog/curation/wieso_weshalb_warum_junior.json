@@ -476,7 +476,8 @@
     "curator_notes": "Split from Wieso? Weshalb? Warum?. JUNIOR sub-series is targeted at younger children (ages 2-4) with shorter, simpler content. Different branding, target age group, and format from the main series. Parents would expect this to be a separate series entry."
   },
   "review": {
-    "status": "pending",
+    "status": "approved",
+    "reviewed_at": "2026-02-21T05:31:35.186486+00:00",
     "overrides": [],
     "notes": "Auto-created by apply-splits.py from wieso_weshalb_warum."
   }

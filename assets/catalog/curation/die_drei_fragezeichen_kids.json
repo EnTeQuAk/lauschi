@@ -858,5 +858,57 @@
     ],
     "age_note": "Suitable from 5+",
     "curator_notes": "Junior spinoff of the main \"Die drei ???\" series featuring child versions of the detectives. Format includes regular numbered episodes (Folge X), shorter \"Mini-Fälle\" side stories (Mini-Fall X), themed compilation albums (Magische/Grusel-/Sommer-Fälle), and annual Adventskalender Christmas specials. Episode numbering continues sequentially across the main series."
+  },
+  "review": {
+    "status": "approved",
+    "reviewed_at": "2026-02-21T05:20:45.423003+00:00",
+    "overrides": [
+      {
+        "album_id": "0Pg0kbjNl7PC22ghcSqKih",
+        "include": true,
+        "reason": ""
+      },
+      {
+        "album_id": "5ZcAMixtzUYEBZNVSrixNE",
+        "include": true,
+        "reason": ""
+      },
+      {
+        "album_id": "4KFElrzg5yWmppwtZ84UzG",
+        "include": true,
+        "reason": ""
+      },
+      {
+        "album_id": "2Xn2j4vYeYALVmoDj6NT5D",
+        "include": true,
+        "reason": ""
+      },
+      {
+        "album_id": "5o3ryPeYmpRkmgEv4hnDmJ",
+        "include": true,
+        "reason": ""
+      },
+      {
+        "album_id": "5MXAyx7ZeQGGbHdR1HEbtU",
+        "include": true,
+        "reason": ""
+      },
+      {
+        "album_id": "7d8GIfIRWUNIZZXc5bjsrT",
+        "include": true,
+        "reason": ""
+      },
+      {
+        "album_id": "0tuslnSb2vi63lqnROhlSl",
+        "include": true,
+        "reason": ""
+      },
+      {
+        "album_id": "4SVQrvQkXzYC1nU7DfDJx2",
+        "include": true,
+        "reason": ""
+      }
+    ],
+    "notes": ""
   }
 }

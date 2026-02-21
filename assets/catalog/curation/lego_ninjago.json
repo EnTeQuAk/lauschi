@@ -2019,5 +2019,11 @@
     ],
     "age_note": "Recommended 8+",
     "curator_notes": "Mixed formats: Main German Hörspiel series uses 'Folge XXX:' numbering (currently 200+ episodes). Also includes 'Quest for the Lost Powers' spinoff sub-series (4 books) and occasional 'Band XX' book-based entries. Action-themed content with martial arts and fantasy elements."
+  },
+  "review": {
+    "status": "approved",
+    "reviewed_at": "2026-02-21T05:28:56.236211+00:00",
+    "overrides": [],
+    "notes": ""
   }
 }

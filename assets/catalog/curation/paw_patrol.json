@@ -3401,5 +3401,11 @@
     ],
     "age_note": "Suitable from 3+",
     "curator_notes": "German Hörspiel adaptation of the popular animated TV series. Episodes follow the format 'Folge XXX: [Episode Title]' with occasional special releases like 'A Paw Patrol Christmas'. Some earlier episodes lack the '(Das Original-Hörspiel zur TV-Serie)' suffix. Features the adventures of Ryder and his team of rescue dogs in Adventure Bay."
+  },
+  "review": {
+    "status": "approved",
+    "reviewed_at": "2026-02-21T05:29:37.044885+00:00",
+    "overrides": [],
+    "notes": ""
   }
 }

@@ -480,5 +480,11 @@
     ],
     "age_note": "Suitable from 4+",
     "curator_notes": "Two distinct series exist: 1) Main 'Die Olchis' family adventure series (the troll-like creatures from Schmuddelfing), and 2) 'Olchi-Detektive' spinoff featuring detective/mystery stories. The Olchi-Detektive albums are excluded here as they belong to a separate series with numbered episodes (1-20). Main series albums don't have episode numbers - each is a standalone adventure story."
+  },
+  "review": {
+    "status": "approved",
+    "reviewed_at": "2026-02-21T05:21:38.051786+00:00",
+    "overrides": [],
+    "notes": ""
   }
 }
