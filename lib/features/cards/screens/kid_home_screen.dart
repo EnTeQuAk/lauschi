@@ -259,8 +259,7 @@ class _HomeGrid extends StatelessWidget {
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: columns,
             crossAxisSpacing: 12,
-            mainAxisSpacing: 16,
-            childAspectRatio: 0.68,
+            mainAxisSpacing: 12,
           ),
           itemCount: itemCount,
           itemBuilder: (context, index) {
@@ -283,6 +282,7 @@ class _HomeGrid extends StatelessWidget {
               isPaused: isCurrentCard && !isPlaying,
               isHeard: card.isHeard,
               progress: _albumProgress(card),
+              kidMode: true,
               onTap: onCardTap != null ? () => onCardTap!(card) : () {},
             );
           },
@@ -313,6 +313,7 @@ class _GroupGridItem extends ConsumerWidget {
       coverUrl: group.coverUrl,
       progress: progress,
       contentType: group.contentType,
+      kidMode: true,
       onTap: onTap,
     );
   }
