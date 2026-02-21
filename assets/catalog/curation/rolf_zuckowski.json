@@ -1,0 +1,925 @@
+{
+  "query": "Rolf Zuckowski",
+  "model": "kimi-k2.5",
+  "curated_at": "2026-02-21T01:48:23.733180+00:00",
+  "series": {
+    "id": "rolf_zuckowski",
+    "title": "Rolf Zuckowski",
+    "aliases": [],
+    "keywords": [
+      "Rolf Zuckowski",
+      "Rolf"
+    ],
+    "spotify_artist_ids": [
+      "2qn4hIXsvRUyFoboMi31XB"
+    ],
+    "episode_pattern": null,
+    "albums": [
+      {
+        "spotify_album_id": "5jFoc0eAgpmnwnv9wBpv1L",
+        "include": false,
+        "episode_num": null,
+        "title": "Karneval & Fasching – Spaßlieder mit Rolf Zuckowski",
+        "exclude_reason": "Compilation - seasonal song collection, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "7wT87VXTDPC58cBufEOlVo",
+        "include": false,
+        "episode_num": null,
+        "title": "Weihnachten und Winter mit Rolf Zuckowski",
+        "exclude_reason": "Compilation - Christmas song collection, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "4ThoiOZmkF8ZLIatJDyajl",
+        "include": false,
+        "episode_num": null,
+        "title": "Laterne Laufen mit Rolf Zuckowski",
+        "exclude_reason": "Compilation - seasonal song collection, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "0nroBLPYLLMvUdVrjwu3SK",
+        "include": false,
+        "episode_num": null,
+        "title": "Rolfs Hasengeschichte - Die Lieder (Instrumentals)",
+        "exclude_reason": "Instrumental versions of songs, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "2hWAtt3HLVokT3Usbqlx1D",
+        "include": false,
+        "episode_num": null,
+        "title": "Ein bisschen Mut, ein bisschen Glück",
+        "exclude_reason": "Audiobook/biography with 185 spoken chapters, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "6Ayw2onb8b7M5rMBy8vbgJ",
+        "include": false,
+        "episode_num": null,
+        "title": "Rolf Zuckowski präsentiert: Reiten ist mehr",
+        "exclude_reason": "Music album with songs about horses, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "3ZZ0Bfd3QJAEsqF2MeJaLb",
+        "include": false,
+        "episode_num": null,
+        "title": "Rolfs neue Vogelhochzeit",
+        "exclude_reason": "Complete musical/theatrical work, not an individual episode of a series"
+      },
+      {
+        "spotify_album_id": "4TOQUUWEZeQ9ZNnfFDR0M0",
+        "include": false,
+        "episode_num": null,
+        "title": "Schule ist mehr - 14 Lieder für die Grundschulzeit",
+        "exclude_reason": "Music album with school songs, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "16IzmPeth4GOmsRk7haYQz",
+        "include": false,
+        "episode_num": null,
+        "title": "3 Klassiker für Kinder",
+        "exclude_reason": "Classical music compilation including Peter and the Wolf, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "4y0ZKgr9xOkwBbCwI3Wo5b",
+        "include": false,
+        "episode_num": null,
+        "title": "leiseStärke",
+        "exclude_reason": "Music album, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "4x5GjyI5mjuNwVTVRm5rF9",
+        "include": false,
+        "episode_num": null,
+        "title": "In der Weihnachtsbäckerei",
+        "exclude_reason": "Compilation - Christmas songs with instrumental versions, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "55cDtS0CsN9WPskqZ321i7",
+        "include": false,
+        "episode_num": null,
+        "title": "Dein kleines Leben",
+        "exclude_reason": "Music album, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "2GmcoK6qYfjXtxXEYe4LFf",
+        "include": false,
+        "episode_num": null,
+        "title": "Sehnsucht nach Weihnachten",
+        "exclude_reason": "Compilation - Christmas songs, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "5VOBTWkOx6AdqqEiVdDkDC",
+        "include": false,
+        "episode_num": null,
+        "title": "Mit Kindern singen - Rolfs Gitarrenschule",
+        "exclude_reason": "Instructional guitar lessons album, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "5TCb6pHDGzNKuU0VGYFGi6",
+        "include": false,
+        "episode_num": null,
+        "title": "Rolfs Familien-Sommerfest",
+        "exclude_reason": "Music album, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "0OkVwlzwtpFmexlBkqT09H",
+        "include": false,
+        "episode_num": null,
+        "title": "Leben ist mehr",
+        "exclude_reason": "Music album, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "60hOaInymmfKbZXFARP70V",
+        "include": false,
+        "episode_num": null,
+        "title": "Rolfs Kinderfrühling",
+        "exclude_reason": "Music album, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "5LggEmMa37HjvjXWnFJ67d",
+        "include": false,
+        "episode_num": null,
+        "title": "Orchesterspaß für Ohrenspitzer",
+        "exclude_reason": "Classical music/orchestra album for children, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "3PJGcfbcK3H3FANJGrm8nY",
+        "include": false,
+        "episode_num": null,
+        "title": "Hat alles seine Zeit",
+        "exclude_reason": "Music album, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "5hOZsxFiOXO9ZqPCKei3wf",
+        "include": false,
+        "episode_num": null,
+        "title": "Heia - Rolfs kleine Nachtmusik",
+        "exclude_reason": "Music album (lullabies), not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "1UA1gc2chJwHZwkBZtXkhM",
+        "include": false,
+        "episode_num": null,
+        "title": "Nobbi und die Sonnenkinder",
+        "exclude_reason": "Complete Hörspiel story with narration and songs, but not an individual episode of a numbered series"
+      },
+      {
+        "spotify_album_id": "3r0nObzCQpX0qmv8wnn00y",
+        "include": false,
+        "episode_num": null,
+        "title": "Die bayerische Vogelhochzeit",
+        "exclude_reason": "Complete musical/theatrical work (Bavarian version), not an individual episode"
+      },
+      {
+        "spotify_album_id": "2BoE5JRnuUIYw02JNnvOrK",
+        "include": false,
+        "episode_num": null,
+        "title": "...und ganz doll live!",
+        "exclude_reason": "Live concert album, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "7mJZnWMAHzHpGqaMfXYx7U",
+        "include": false,
+        "episode_num": null,
+        "title": "Rot + Grün - Schau mal, hör mal, mach mal mit!",
+        "exclude_reason": "Educational traffic safety album, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "3nYNwdW3Bf6W1CC8P7bA8c",
+        "include": false,
+        "episode_num": null,
+        "title": "Rolfs Hasengeschichte",
+        "exclude_reason": "Complete Hörspiel story with narration and songs, but not an individual episode of a numbered series"
+      },
+      {
+        "spotify_album_id": "7wMwoa7qToshciBvIMWYoX",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinder werden groß",
+        "exclude_reason": "Music album, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "6k2BeDglatFxLz346YpVUi",
+        "include": false,
+        "episode_num": null,
+        "title": "Der kleine Tag - Die Orchester-Playbacks",
+        "exclude_reason": "Instrumental/orchestra playback versions, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "0zAswLWCBWrzJjqy07cJmA",
+        "include": false,
+        "episode_num": null,
+        "title": "Der kleine Tag",
+        "exclude_reason": "Complete musical/theatrical work, not an individual episode of a numbered series"
+      },
+      {
+        "spotify_album_id": "31HUOn29YBC9kJlpaKm5BF",
+        "include": false,
+        "episode_num": null,
+        "title": "Tage voller Glücksminuten",
+        "exclude_reason": "Music album, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "6XE9dU4oy4eTS8LCx4Q5TQ",
+        "include": false,
+        "episode_num": null,
+        "title": "Tiere brauchen Freunde",
+        "exclude_reason": "Music album with animal songs, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "2LmMH14BnYYZtJGd7VJbGu",
+        "include": false,
+        "episode_num": null,
+        "title": "Stille Nächte - helles Licht",
+        "exclude_reason": "Compilation album (12 tracks) - not an individual episode"
+      },
+      {
+        "spotify_album_id": "34fvEGFsxX9vl6phTn23XS",
+        "include": false,
+        "episode_num": null,
+        "title": "Rolfs Liederbüchermaus",
+        "exclude_reason": "Song compilation (18 tracks) - not an individual episode"
+      },
+      {
+        "spotify_album_id": "0ijBGSXUC6LCpKF0RDbXZE",
+        "include": false,
+        "episode_num": null,
+        "title": "Freunde wie wir",
+        "exclude_reason": "Song compilation (14 tracks) - not an individual episode"
+      },
+      {
+        "spotify_album_id": "01JrN7TzqiE7Vs1JNJ3Mkl",
+        "include": false,
+        "episode_num": null,
+        "title": "Rolfs Vogelhochzeit (Das Original in der Urfassung)",
+        "exclude_reason": "Full original production (23 tracks) - not an individual episode"
+      },
+      {
+        "spotify_album_id": "4SIMTfYVduuhrzev72aZR5",
+        "include": false,
+        "episode_num": null,
+        "title": "Sing mit uns - Rolfs Vogelhochzeit",
+        "exclude_reason": "Sing-along version (24 tracks) - not an individual episode"
+      },
+      {
+        "spotify_album_id": "38fU1VW61DMdWabqL8psOZ",
+        "include": false,
+        "episode_num": null,
+        "title": "Im Kindergarten",
+        "exclude_reason": "Song compilation (12 tracks) - not an individual episode"
+      },
+      {
+        "spotify_album_id": "2QbFKs4vPbE7LYV5ubQLs6",
+        "include": false,
+        "episode_num": null,
+        "title": "Du brauchst ein Lied",
+        "exclude_reason": "Song compilation (14 tracks) - not an individual episode"
+      },
+      {
+        "spotify_album_id": "3jOa5x2ON65krbdYaF201a",
+        "include": false,
+        "episode_num": null,
+        "title": "Die vier Jahreszeiten des kleinen Bären - Das große Abenteuer Musik - Folge 1",
+        "exclude_reason": "Classical music compilation (Vivaldi) - not a Rolf Zuckowski episode"
+      },
+      {
+        "spotify_album_id": "5YDUq3kcfZ8VaAOK61rPO7",
+        "include": false,
+        "episode_num": null,
+        "title": "Claras Traum vom Nussknacker und Mäusekönig - Das große Abenteuer Musik - Folge 4",
+        "exclude_reason": "Classical music compilation (Tchaikovsky) - not a Rolf Zuckowski episode"
+      },
+      {
+        "spotify_album_id": "2ecEZ0qYMnrR8W2K4ZtxFv",
+        "include": false,
+        "episode_num": null,
+        "title": "Dezemberträume",
+        "exclude_reason": "Christmas/winter album (15 tracks) - not an individual episode"
+      },
+      {
+        "spotify_album_id": "09au3ViAkjIjJA4dEjIJTp",
+        "include": false,
+        "episode_num": null,
+        "title": "Rolfs neue Schulweg-Hitparade",
+        "exclude_reason": "Hit compilation (17 tracks) - not an individual episode"
+      },
+      {
+        "spotify_album_id": "3qeiWEKBADWXGc0KvCHZoh",
+        "include": false,
+        "episode_num": null,
+        "title": "Ein armes Tier ist das Klavier - Das große Abenteuer Musik - Folge 2",
+        "exclude_reason": "Classical music compilation (piano works) - not a Rolf Zuckowski episode"
+      },
+      {
+        "spotify_album_id": "2oZxj8dbEssIgvAbuN9tjd",
+        "include": false,
+        "episode_num": null,
+        "title": "Nahaufnahme",
+        "exclude_reason": "Song compilation (11 tracks) - not an individual episode"
+      },
+      {
+        "spotify_album_id": "7mHmWhkbgakknf8jMbQy9o",
+        "include": false,
+        "episode_num": null,
+        "title": "Das Geheimnis der Oper - Das große Abenteuer Musik - Folge 3",
+        "exclude_reason": "Classical music compilation (opera excerpts) - not a Rolf Zuckowski episode"
+      },
+      {
+        "spotify_album_id": "0sT2WiLEsIpsHIEXHYcdno",
+        "include": false,
+        "episode_num": null,
+        "title": "Starke Kinder",
+        "exclude_reason": "Song compilation (11 tracks) - not an individual episode"
+      },
+      {
+        "spotify_album_id": "7h4CEzgecVSP9JwpFepdx6",
+        "include": false,
+        "episode_num": null,
+        "title": "Winterkinder ...auf der Suche nach Weihnachten",
+        "exclude_reason": "Christmas story/album (13 tracks) - not an individual episode"
+      },
+      {
+        "spotify_album_id": "3oB7vNBAGRl0zEEJcHVPWf",
+        "include": false,
+        "episode_num": null,
+        "title": "Frag mir doch kein Loch in'n Bauch",
+        "exclude_reason": "Song compilation (13 tracks) - not an individual episode"
+      },
+      {
+        "spotify_album_id": "3L9WTwVlenGgsZCLagSk5k",
+        "include": false,
+        "episode_num": null,
+        "title": "Zeit für Kinder - Zeit für uns",
+        "exclude_reason": "Song compilation (10 tracks) - not an individual episode"
+      },
+      {
+        "spotify_album_id": "2iRhk3WF3O2GHGPGKkbP3q",
+        "include": false,
+        "episode_num": null,
+        "title": "Was Spaß macht...",
+        "exclude_reason": "Song compilation (11 tracks) - not an individual episode"
+      },
+      {
+        "spotify_album_id": "4cldmq2op9lG0YwfdqkTv8",
+        "include": false,
+        "episode_num": null,
+        "title": "Wir warten auf Weihnachten",
+        "exclude_reason": "Christmas album (12 tracks) - not an individual episode"
+      },
+      {
+        "spotify_album_id": "4Nt3B9Pvy7LwfAOKFy8cQO",
+        "include": false,
+        "episode_num": null,
+        "title": "Neues von Radio Lollipop (Lieder, die wie Brücken sind)",
+        "exclude_reason": "Song compilation (12 tracks) - not an individual episode"
+      },
+      {
+        "spotify_album_id": "7fRHiKDTXZe772cYMPkIaf",
+        "include": false,
+        "episode_num": null,
+        "title": "Radio Lollipop",
+        "exclude_reason": "Song compilation (19 tracks) - not an individual episode"
+      },
+      {
+        "spotify_album_id": "0BcffkvT0nBQHRaonzoWeQ",
+        "include": false,
+        "episode_num": null,
+        "title": "Es schneit, es schneit - unsere schönsten Winterlieder",
+        "exclude_reason": "Winter song compilation (14 tracks) - not an individual episode"
+      },
+      {
+        "spotify_album_id": "5OUYlSJ273MLmNALTRrLkp",
+        "include": false,
+        "episode_num": null,
+        "title": "Mein Lebensliederbuch",
+        "exclude_reason": "Career-spanning compilation (20 tracks) - not an individual episode"
+      },
+      {
+        "spotify_album_id": "3EkatvT4rP38Jvts9DdVjl",
+        "include": false,
+        "episode_num": null,
+        "title": "Rolfs fröhlicher Familientag",
+        "exclude_reason": "Song compilation (14 tracks) - not an individual episode"
+      },
+      {
+        "spotify_album_id": "7duiIBtjekHk6YkKLudwaT",
+        "include": false,
+        "episode_num": null,
+        "title": "Dann traut Euch - 7 klingende Hochzeitsgrüße",
+        "exclude_reason": "Wedding-themed compilation (8 tracks) - not an individual episode"
+      },
+      {
+        "spotify_album_id": "3KPnD2Hx1NVpqNrBpGVTEw",
+        "include": false,
+        "episode_num": null,
+        "title": "Ich schaff das schon",
+        "exclude_reason": "Song compilation (16 tracks) - not an individual episode"
+      },
+      {
+        "spotify_album_id": "4nxhBjEJN4KZpPYn553mWt",
+        "include": false,
+        "episode_num": null,
+        "title": "Rolfs Top 30 Weihnachts-Instrumental-Playbacks",
+        "exclude_reason": "Instrumental playback compilation (30 tracks) - not an individual episode"
+      },
+      {
+        "spotify_album_id": "7lNjgPujRDW1nmd8bxevFW",
+        "include": false,
+        "episode_num": null,
+        "title": "Rolfs Liederkalender / Die Jahresuhr",
+        "exclude_reason": "Compilation spanning 26 tracks - not an individual episode"
+      },
+      {
+        "spotify_album_id": "5lOLrv3sXBpIv6WF7rRt9x",
+        "include": false,
+        "episode_num": null,
+        "title": "Meine Heimat - unser blauer Planet",
+        "exclude_reason": "Song compilation (20 tracks) - not an individual episode"
+      },
+      {
+        "spotify_album_id": "7E74An1fIUfGtgLjATSn9n",
+        "include": false,
+        "episode_num": null,
+        "title": "Rolfs Top 30 Instrumental-Playbacks",
+        "exclude_reason": "Compilation: Instrumental playbacks, 30 tracks"
+      },
+      {
+        "spotify_album_id": "1cnvkIhX3Y90hey74K3DAl",
+        "include": false,
+        "episode_num": null,
+        "title": "Rolfs bunter Adventskalender",
+        "exclude_reason": "Compilation: Advent calendar format, 24 tracks"
+      },
+      {
+        "spotify_album_id": "6yWDhurBL3quArg4JJ7WgH",
+        "include": false,
+        "episode_num": null,
+        "title": "Sommerkinder",
+        "exclude_reason": "Album: 14 tracks, not an episode format"
+      },
+      {
+        "spotify_album_id": "7fWEgGHHsu029Gpkq9Aqlv",
+        "include": false,
+        "episode_num": null,
+        "title": "Das große Abenteuer Musik mit Rolf Zuckowski",
+        "exclude_reason": "Compilation: 29 tracks, collection/best of"
+      },
+      {
+        "spotify_album_id": "3GZS2xlld1uWgPYV34Hu7e",
+        "include": false,
+        "episode_num": null,
+        "title": "Rolfs bunte Liederreise",
+        "exclude_reason": "Compilation: 24 tracks, collection format"
+      },
+      {
+        "spotify_album_id": "6GHNge5hq86fWkTskhQau8",
+        "include": false,
+        "episode_num": null,
+        "title": "So eine Gaudi",
+        "exclude_reason": "Album: 14 tracks, not an episode format"
+      },
+      {
+        "spotify_album_id": "0D8kfAP5rNqwaGabe1epFD",
+        "include": false,
+        "episode_num": null,
+        "title": "Oma liebt Opapa",
+        "exclude_reason": "Album: 16 tracks, not an episode format"
+      },
+      {
+        "spotify_album_id": "61oMmc8WpIbCTQjMfJ0WqZ",
+        "include": false,
+        "episode_num": null,
+        "title": "Elbkinder",
+        "exclude_reason": "Album: 14 tracks, not an episode format"
+      },
+      {
+        "spotify_album_id": "4zGRevN8nf4f80OF8SX6jq",
+        "include": false,
+        "episode_num": null,
+        "title": "Der Spielmann - Das Beste aus 20 Jahren",
+        "exclude_reason": "Compilation: Best of, 32 tracks"
+      },
+      {
+        "spotify_album_id": "7IrWAAxCy0noDnV41yogM0",
+        "include": false,
+        "episode_num": null,
+        "title": "12 Bunte Liedergeschichten",
+        "exclude_reason": "Compilation: 12 tracks, collection of stories"
+      },
+      {
+        "spotify_album_id": "2Aonqnurfvzsw9COPdDJYr",
+        "include": false,
+        "episode_num": null,
+        "title": "Die schönsten Kinderlieder - Winter- und Weihnachtszeit",
+        "exclude_reason": "Compilation: 50 tracks, multi-artist collection"
+      },
+      {
+        "spotify_album_id": "1thXhZrNPCba7BfRAzjZzw",
+        "include": false,
+        "episode_num": null,
+        "title": "與寶貝一起聽：古典名曲",
+        "exclude_reason": "Foreign language release (Chinese)"
+      },
+      {
+        "spotify_album_id": "0jdcMh0rE514bnNG6CD65R",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderland",
+        "exclude_reason": "Album: 12 tracks, not an episode format"
+      },
+      {
+        "spotify_album_id": "51ShamVwqIflIVPN59O9mB",
+        "include": false,
+        "episode_num": null,
+        "title": "Christmas Instrumental Music",
+        "exclude_reason": "Compilation: 66 tracks, instrumental Christmas music"
+      },
+      {
+        "spotify_album_id": "6zCvatIx3ETHRgWFMtVHSb",
+        "include": false,
+        "episode_num": null,
+        "title": "Rolf Zuckowski präsentiert: Zum Leben geboren",
+        "exclude_reason": "Album: 18 tracks, not an episode format"
+      },
+      {
+        "spotify_album_id": "0DoJd1TdUviTujXxtyhKWZ",
+        "include": false,
+        "episode_num": null,
+        "title": "Die schönsten Kinderlieder - Zum Geburtstag",
+        "exclude_reason": "Compilation: 20 tracks, multi-artist collection"
+      },
+      {
+        "spotify_album_id": "3lXAfLPV773iZuvDrOgt4J",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderlieder für Weihnachten",
+        "exclude_reason": "Compilation: 40 tracks, multi-artist collection"
+      },
+      {
+        "spotify_album_id": "6UmFPG27emOwQUcvKXeMOu",
+        "include": false,
+        "episode_num": null,
+        "title": "Die schönsten Kinderlieder - Zur guten Nacht",
+        "exclude_reason": "Compilation: 20 tracks, multi-artist collection"
+      },
+      {
+        "spotify_album_id": "5XyArrsFg8f8KCrSvQbCfG",
+        "include": false,
+        "episode_num": null,
+        "title": "Ruhige Kinderlieder",
+        "exclude_reason": "Compilation: 23 tracks, multi-artist collection"
+      },
+      {
+        "spotify_album_id": "7FDiUlzugRHywm7AlngGAz",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlager Weihnachten 2021",
+        "exclude_reason": "Compilation: 27 tracks, Schlager Christmas, multi-artist"
+      },
+      {
+        "spotify_album_id": "7uLD3kZfuMheE1fmYziGsk",
+        "include": false,
+        "episode_num": null,
+        "title": "Trauerfeier & Beerdigung",
+        "exclude_reason": "Compilation: 30 tracks, funeral music, not children's content"
+      },
+      {
+        "spotify_album_id": "4VYmV7gKulbWcvEfZo9sNA",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlagerhits Weihnachten",
+        "exclude_reason": "Compilation: 26 tracks, Schlager Christmas, multi-artist"
+      },
+      {
+        "spotify_album_id": "4IVOo5VNteCR6y7o3EEHre",
+        "include": false,
+        "episode_num": null,
+        "title": "Rolf Zuckowski präs.: Cosmo und Azura - Das dunkle Geheimnis der Sonne",
+        "exclude_reason": "Album: 23 tracks, not an episode format (appears to be a story album)"
+      },
+      {
+        "spotify_album_id": "6wT8kqjYsQJH1n4c4NgpxL",
+        "include": false,
+        "episode_num": null,
+        "title": "Eules Lieblingslieder zum Einschlafen",
+        "exclude_reason": "Compilation: 29 tracks, sleep songs, multi-artist"
+      },
+      {
+        "spotify_album_id": "6kvYdhqiAabOFKtVJwO4cS",
+        "include": false,
+        "episode_num": null,
+        "title": "Tiere sind unsere besten Freunde",
+        "exclude_reason": "Compilation: 18 tracks, multi-artist collection"
+      },
+      {
+        "spotify_album_id": "1X0rH3w9O5ic3Fd1q1ZDaR",
+        "include": false,
+        "episode_num": null,
+        "title": "Weihnachten für Kinder",
+        "exclude_reason": "Compilation: 20 tracks, multi-artist collection"
+      },
+      {
+        "spotify_album_id": "5UF3Y76JnlLjTMlnP5VPBC",
+        "include": false,
+        "episode_num": null,
+        "title": "Die schönsten Kinderlieder - Aus dem Kindergarten",
+        "exclude_reason": "Compilation: 19 tracks, multi-artist collection"
+      },
+      {
+        "spotify_album_id": "0C7ehYm80OmfqpGWEDb0UG",
+        "include": false,
+        "episode_num": null,
+        "title": "Coole Musik für Kinder",
+        "exclude_reason": "Compilation: 56 tracks, multi-artist collection"
+      },
+      {
+        "spotify_album_id": "6MJSEKv6GYpkWp7PzBTvzb",
+        "include": false,
+        "episode_num": null,
+        "title": "Canto Family 3",
+        "exclude_reason": "Album: 19 tracks, not an episode format"
+      },
+      {
+        "spotify_album_id": "1EIdGx6IbW9OQrNww5NUwn",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderlieder Bettfertig machen",
+        "exclude_reason": "Compilation: 38 tracks, multi-artist collection"
+      },
+      {
+        "spotify_album_id": "3lY99ZhnZRner6YbYTlFti",
+        "include": false,
+        "episode_num": null,
+        "title": "Kindergeburtstag",
+        "exclude_reason": "Compilation - multi-artist children's party mix, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "69OemuWFT5mjFXFL3dM8vB",
+        "include": false,
+        "episode_num": null,
+        "title": "Erinnerungen an die Große Show für kleine Leute",
+        "exclude_reason": "Music album - songs from a TV show, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "5xFtVlQrxJhaOqEvPrBZ7h",
+        "include": false,
+        "episode_num": null,
+        "title": "Instrumentales para niños",
+        "exclude_reason": "Foreign language release (Spanish) - instrumental compilation"
+      },
+      {
+        "spotify_album_id": "2107fgNqPfrnjjI9me1r1F",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderlieder zum Lächeln",
+        "exclude_reason": "Compilation - 15-track children's songs collection"
+      },
+      {
+        "spotify_album_id": "1WIPEWHBNBRN6f6haQkvpA",
+        "include": false,
+        "episode_num": null,
+        "title": "Die schönsten Kinderlieder - Zum Spielen und Bewegen",
+        "exclude_reason": "Compilation - 20-track children's song collection"
+      },
+      {
+        "spotify_album_id": "0VteDYsCMdtlznNzO9w0DV",
+        "include": false,
+        "episode_num": null,
+        "title": "Rolf Zuckowski präsentiert: Du kleines großes Wunder",
+        "exclude_reason": "Music album - 12-track song album, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "5m0I6omKJFr8neVnLSToxM",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderlieder Ostern",
+        "exclude_reason": "Compilation - 27-track Easter children's songs collection"
+      },
+      {
+        "spotify_album_id": "2JqTmyGHMpfutXxBEjHpTj",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Kinder",
+        "exclude_reason": "Compilation - 41-track lullaby collection"
+      },
+      {
+        "spotify_album_id": "7ipcUVStWt1VUYF8DIYwIk",
+        "include": false,
+        "episode_num": null,
+        "title": "Los Clásicos del Ballet",
+        "exclude_reason": "Foreign language release (Spanish) - ballet classics compilation"
+      },
+      {
+        "spotify_album_id": "5DiwmXP655Au175zSb98uQ",
+        "include": false,
+        "episode_num": null,
+        "title": "The Hanging Christmas Tree 2014",
+        "exclude_reason": "Compilation - 70-track Christmas collection, not a Hörspiel"
+      },
+      {
+        "spotify_album_id": "6DeF6nCz9IHPIye99G7ldy",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderland (Instrumentals)",
+        "exclude_reason": "Instrumental compilation - 12-track instrumental versions"
+      },
+      {
+        "spotify_album_id": "6RPZOWnGDzJWoSh49K15MU",
+        "include": false,
+        "episode_num": null,
+        "title": "Herbstmusik für Kinder",
+        "exclude_reason": "Compilation - 41-track autumn music collection"
+      },
+      {
+        "spotify_album_id": "3IzS7TRTeBYuTmhHMTgS3O",
+        "include": false,
+        "episode_num": null,
+        "title": "Das silberne Segel",
+        "exclude_reason": "Music album - 15-track song album, appears to be a musical/theater production, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "23XW4xRyhFS4AsYfTvCYwq",
+        "include": false,
+        "episode_num": null,
+        "title": "Weihnachten mit den Fidelen Oberfranken, Vol. 2",
+        "exclude_reason": "Compilation - 54-track Christmas collection by a different artist group"
+      },
+      {
+        "spotify_album_id": "5yvRNsDHwykuh3SGVMD3ll",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderlieder zum Einschlafen",
+        "exclude_reason": "Compilation - 37-track lullaby collection"
+      },
+      {
+        "spotify_album_id": "64i398RejmDP7tmsEHjoVc",
+        "include": false,
+        "episode_num": null,
+        "title": "Die schönsten Kinderlieder - Zum Mitsingen",
+        "exclude_reason": "Compilation - 18-track sing-along collection"
+      },
+      {
+        "spotify_album_id": "13vhsywBHN5uXF3uAq8Se5",
+        "include": false,
+        "episode_num": null,
+        "title": "Weihnachtsmedley",
+        "exclude_reason": "Music medley - 7-track Christmas song medley, not a Hörspiel"
+      },
+      {
+        "spotify_album_id": "5yE7gniJvXKKNFWJEwMOuc",
+        "include": false,
+        "episode_num": null,
+        "title": "Die schönsten Kinderlieder - Zu Weihnachten",
+        "exclude_reason": "Compilation - 15-track Christmas song collection"
+      },
+      {
+        "spotify_album_id": "7gDPWc5m2xCuKUfx9RMnrD",
+        "include": false,
+        "episode_num": null,
+        "title": "Die schönsten Kinderlieder - Die Klassiker",
+        "exclude_reason": "Compilation - 24-track classic children's songs collection"
+      },
+      {
+        "spotify_album_id": "2qZnBoxoe9wrglwG9QuIQ6",
+        "include": false,
+        "episode_num": null,
+        "title": "Kindergeburtstag",
+        "exclude_reason": "Compilation - 33-track children's party mix, duplicate concept"
+      },
+      {
+        "spotify_album_id": "6AmzwVQIedMTJatPElxFdH",
+        "include": false,
+        "episode_num": null,
+        "title": "Deutsche Weihnachtslieder (Instrumental Playlist)",
+        "exclude_reason": "Compilation - 40-track instrumental Christmas playlist"
+      },
+      {
+        "spotify_album_id": "3woQ1wyRDKKk8ciav6EO0C",
+        "include": false,
+        "episode_num": null,
+        "title": "Weihnachten mit den fidelen Oberfranken (Weihnachtslieder Instrumental)",
+        "exclude_reason": "Compilation - 20-track instrumental Christmas collection by different artist"
+      },
+      {
+        "spotify_album_id": "5VM2OjyrJm7p5VfB4cRgU3",
+        "include": false,
+        "episode_num": null,
+        "title": "Ostern 2025",
+        "exclude_reason": "Compilation - 28-track Easter collection"
+      },
+      {
+        "spotify_album_id": "2Asl0maJNkueD2rta2pN2P",
+        "include": false,
+        "episode_num": null,
+        "title": "Die schönsten Kinderlieder - Zum Tanzen",
+        "exclude_reason": "Compilation - 24-track dance collection"
+      },
+      {
+        "spotify_album_id": "4sz93MNb9vBs3bfEnfLVjL",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderlieder Ostern 2025",
+        "exclude_reason": "Compilation - 29-track Easter song collection"
+      },
+      {
+        "spotify_album_id": "4IoVWjYP9aw1eIpiYDOUsT",
+        "include": false,
+        "episode_num": null,
+        "title": "Querschnitt durch das Kinderklassik-Repertoire",
+        "exclude_reason": "Compilation - 20-track children's classical music collection"
+      },
+      {
+        "spotify_album_id": "7lZCbY0MEq6Xid98rlMGHR",
+        "include": false,
+        "episode_num": null,
+        "title": "Osterlieder für Kinder 2022",
+        "exclude_reason": "Compilation - 41-track Easter song collection"
+      },
+      {
+        "spotify_album_id": "6pXX5QaUEReX9rhAD5Ko13",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderlieder Advent 2024",
+        "exclude_reason": "Compilation - 26-track Advent song collection"
+      },
+      {
+        "spotify_album_id": "7BuR28nL7HxvGDOugWfdwy",
+        "include": false,
+        "episode_num": null,
+        "title": "Lernzeit Kinderlieder",
+        "exclude_reason": "Compilation - 35-track learning songs collection"
+      },
+      {
+        "spotify_album_id": "5RUkwrq96VgY2lWkcBmHUE",
+        "include": false,
+        "episode_num": null,
+        "title": "Futuros Genios: Música Clásica Para Niños",
+        "exclude_reason": "Foreign language release (Spanish) - classical music for children compilation"
+      },
+      {
+        "spotify_album_id": "2o1qrBcT658xd9cpQ5vg6e",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderlieder Halloween 2025",
+        "exclude_reason": "Compilation - 31 tracks, various artists Halloween songs collection, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "79aqRrTYyyYMxcEEEBTK4K",
+        "include": false,
+        "episode_num": null,
+        "title": "2000er Kinder Hits",
+        "exclude_reason": "Compilation - 20 tracks, various artists hits collection from 2000s, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "5kNd03fxpzXrAEPs4juDO5",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderkonzert",
+        "exclude_reason": "Concert/live recording - 16 tracks of instrumental/concert music, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "7GhR70PPbpO5aK5zr3Cxb9",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderlieder Laternenumzug",
+        "exclude_reason": "Compilation - 22 tracks, various artists lantern festival songs collection, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "1ao7z6aiAhXi6QlGjscYGB",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderlieder Laterne Laufen",
+        "exclude_reason": "Compilation - 35 tracks, various artists lantern songs collection, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "2SGkwF7zBCMA2fdE3hL1cL",
+        "include": false,
+        "episode_num": null,
+        "title": "Zähneputzen Kinderlieder - Karussell",
+        "exclude_reason": "Compilation - 24 tracks, various artists tooth brushing songs collection, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "1KhueBlNWU5jncA8PNcdmU",
+        "include": false,
+        "episode_num": null,
+        "title": "Zähneputzen Kindermusik",
+        "exclude_reason": "Compilation - 23 tracks, various artists tooth brushing music collection, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "7fodmIaG6dpCnxTxP7yzZN",
+        "include": false,
+        "episode_num": null,
+        "title": "In der Weihnachtsbäckerei",
+        "exclude_reason": "Compilation - 20 tracks, various artists Christmas songs collection, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "0XGurMak3ifiMRyHfQTzOA",
+        "include": false,
+        "episode_num": null,
+        "title": "Calm and Happy Babies",
+        "exclude_reason": "Compilation - 31 tracks, various artists lullaby/instrumental collection, not a Hörspiel episode"
+      }
+    ],
+    "age_note": "Suitable from 3+",
+    "curator_notes": "German children's music legend (b. 1947) known for seasonal songs, educational music, and musical storytelling. Not a traditional Hörspiel series but rather musical albums with narrative elements. Features recurring themes like 'Rolfs...' seasonal collections (Vogelhochzeit, Hasengeschichte, Kinderfrühling, etc.), school songs, and holiday classics like 'In der Weihnachtsbäckerei'. Some albums are full musical stories (Der kleine Tag, Nobbi und die Sonnenkinder), others are song collections. Mix of original songs, instrumentals, and live recordings."
+  }
+}

@@ -1,0 +1,1253 @@
+{
+  "query": "Volker Rosin",
+  "model": "kimi-k2.5",
+  "curated_at": "2026-02-21T01:56:29.974464+00:00",
+  "series": {
+    "id": "volker_rosin",
+    "title": "Volker Rosin",
+    "aliases": [],
+    "keywords": [
+      "Volker Rosin"
+    ],
+    "spotify_artist_ids": [
+      "4LDZtk1nfyhIx4bzDDHoBf"
+    ],
+    "episode_pattern": null,
+    "albums": [
+      {
+        "spotify_album_id": "7keVRV96wJ9iL1vOEzlcJu",
+        "include": false,
+        "episode_num": null,
+        "title": "Après Ski Hits für Kids",
+        "exclude_reason": "Compilation - various artists hits collection"
+      },
+      {
+        "spotify_album_id": "5XFutBFpGrFRhhqwRfAiY0",
+        "include": false,
+        "episode_num": null,
+        "title": "Beatles für Kinder (Remastered 2024)",
+        "exclude_reason": "Music compilation - Beatles covers, not Hörspiel"
+      },
+      {
+        "spotify_album_id": "0nIkAvX7mu0uLYEkCeapdE",
+        "include": false,
+        "episode_num": null,
+        "title": "Tierische Kinderdisco",
+        "exclude_reason": "Music compilation/disco album"
+      },
+      {
+        "spotify_album_id": "1mQYlLBCph4KW4rvnrcs9z",
+        "include": false,
+        "episode_num": null,
+        "title": "Ich wünsch dir schöne Träume - Die schönsten Hits von Volker Rosin zum Einschlafen und Träumen im Spieluhrensound",
+        "exclude_reason": "Compilation - 'best of' hits collection"
+      },
+      {
+        "spotify_album_id": "1hs2Yi5Xdc1Ps2KvQQ1BlY",
+        "include": false,
+        "episode_num": null,
+        "title": "Das Disco Krokodil - Die Sommer-Edition",
+        "exclude_reason": "Music album"
+      },
+      {
+        "spotify_album_id": "0s2PJDyQ7vhjWBqgQu1ge1",
+        "include": false,
+        "episode_num": null,
+        "title": "Das Disco Krokodil",
+        "exclude_reason": "Music album"
+      },
+      {
+        "spotify_album_id": "7HsVuKUaXzblmF5eQaAqtS",
+        "include": false,
+        "episode_num": null,
+        "title": "Let's Party - Die schönsten Hits aus der Sonnentherme",
+        "exclude_reason": "Compilation - hits collection"
+      },
+      {
+        "spotify_album_id": "06eZoUAMH8lMEpshxRfHj2",
+        "include": false,
+        "episode_num": null,
+        "title": "Tanzfieber!",
+        "exclude_reason": "Music album"
+      },
+      {
+        "spotify_album_id": "6haEyE4IHRrzdi0eerSkWl",
+        "include": false,
+        "episode_num": null,
+        "title": "Volle Kraft voraus",
+        "exclude_reason": "Music album"
+      },
+      {
+        "spotify_album_id": "5I1xV9wDPzDHUyN4GwlnH2",
+        "include": false,
+        "episode_num": null,
+        "title": "Der blaue Hund will tanzen",
+        "exclude_reason": "Music album"
+      },
+      {
+        "spotify_album_id": "31SYFMw6kTMSeSrgfHi1Ey",
+        "include": false,
+        "episode_num": null,
+        "title": "Der blaue Hund will tanzen (Live)",
+        "exclude_reason": "Live music album"
+      },
+      {
+        "spotify_album_id": "5fmCT5pOmaEcdWuAvvnS8a",
+        "include": false,
+        "episode_num": null,
+        "title": "Kunterbunte Jahreszeiten",
+        "exclude_reason": "Music album"
+      },
+      {
+        "spotify_album_id": "51o2sE4r1HQuTPpXf9Tr0z",
+        "include": false,
+        "episode_num": null,
+        "title": "Alle Kinder tanzen",
+        "exclude_reason": "Music album"
+      },
+      {
+        "spotify_album_id": "5ziXA04XS51BV1nhjqRWu4",
+        "include": false,
+        "episode_num": null,
+        "title": "Turnen macht Spaß 2",
+        "exclude_reason": "Music album"
+      },
+      {
+        "spotify_album_id": "5iQe009BChZJiR4Gvw1iOa",
+        "include": false,
+        "episode_num": null,
+        "title": "Tierisch in Bewegung",
+        "exclude_reason": "Music album"
+      },
+      {
+        "spotify_album_id": "5fyHv95Srub6wiaVac0KkR",
+        "include": false,
+        "episode_num": null,
+        "title": "Der Nikolaus will tanzen",
+        "exclude_reason": "Music album"
+      },
+      {
+        "spotify_album_id": "5Tm70NTILWHVT2Y1iAHNse",
+        "include": false,
+        "episode_num": null,
+        "title": "Tanzen macht Spaß",
+        "exclude_reason": "Music album"
+      },
+      {
+        "spotify_album_id": "6k3LaJlVHocXcqrdV6aiHX",
+        "include": false,
+        "episode_num": null,
+        "title": "Minidisco International",
+        "exclude_reason": "Music album"
+      },
+      {
+        "spotify_album_id": "2I1nnVpaVCWiFJ3cG5rdUu",
+        "include": false,
+        "episode_num": null,
+        "title": "Dezember Disco - Die Weihnachtsparty zum Tanzen und Träumen",
+        "exclude_reason": "Music album"
+      },
+      {
+        "spotify_album_id": "34PrK0cbxMsYRunUvZ5m9y",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderdisco - Das Original",
+        "exclude_reason": "Music compilation"
+      },
+      {
+        "spotify_album_id": "5qPPUjm7UZn6uqwm0zgnrU",
+        "include": false,
+        "episode_num": null,
+        "title": "Jambo Mambo",
+        "exclude_reason": "Music album"
+      },
+      {
+        "spotify_album_id": "74LZgF7HQkRQRDrBYikhHV",
+        "include": false,
+        "episode_num": null,
+        "title": "Arkadaşlar elele - Lasst uns heute Freunde sein",
+        "exclude_reason": "Music album"
+      },
+      {
+        "spotify_album_id": "6ZqwJPm9qZquY92PZietKq",
+        "include": false,
+        "episode_num": null,
+        "title": "Live!",
+        "exclude_reason": "Live music album"
+      },
+      {
+        "spotify_album_id": "1QGQir0xgVijQ0srNQuBOw",
+        "include": false,
+        "episode_num": null,
+        "title": "Flitze Flattermann",
+        "exclude_reason": "Music album - songs collection"
+      },
+      {
+        "spotify_album_id": "40kaxR72UOThUN0Qp34kuX",
+        "include": false,
+        "episode_num": null,
+        "title": "Cinderella - Das Musical!",
+        "exclude_reason": "Musical soundtrack album"
+      },
+      {
+        "spotify_album_id": "1tLg5rIm68ro1TWD0Cre4E",
+        "include": false,
+        "episode_num": null,
+        "title": "Unglaubliche Geschichten von Milli und Molli",
+        "exclude_reason": "Story collection with songs - not episodic Hörspiel series"
+      },
+      {
+        "spotify_album_id": "750F28vWYz9m50cxSpBQtp",
+        "include": false,
+        "episode_num": null,
+        "title": "Affenschrille Hitbananen 2",
+        "exclude_reason": "Music compilation"
+      },
+      {
+        "spotify_album_id": "0usnfP6OACQXsJ2HtLFrx1",
+        "include": false,
+        "episode_num": null,
+        "title": "Discobär & Hexentanz",
+        "exclude_reason": "Music album"
+      },
+      {
+        "spotify_album_id": "2A6wIe1cUgiyg7kQApcOoB",
+        "include": false,
+        "episode_num": null,
+        "title": "Schöne Bescherung",
+        "exclude_reason": "Music album"
+      },
+      {
+        "spotify_album_id": "0uLfusn9QCffSu5GtZ4KxM",
+        "include": false,
+        "episode_num": null,
+        "title": "Hoppelhase Hans",
+        "exclude_reason": "Music album"
+      },
+      {
+        "spotify_album_id": "1yUkT5YLGeaabuswsanxMM",
+        "include": false,
+        "episode_num": null,
+        "title": "24 Türchen",
+        "exclude_reason": "Music album - Christmas song compilation, not Hörspiel"
+      },
+      {
+        "spotify_album_id": "630ipLhnfKB792fsCuVUrT",
+        "include": false,
+        "episode_num": null,
+        "title": "Hejo Weihnachtsmann",
+        "exclude_reason": "Music album - Christmas song compilation, not Hörspiel"
+      },
+      {
+        "spotify_album_id": "6MC3GBNto0QTQmHuHNAjQd",
+        "include": false,
+        "episode_num": null,
+        "title": "Turnen macht Spaß",
+        "exclude_reason": "Music album - children's song compilation, not Hörspiel"
+      },
+      {
+        "spotify_album_id": "23WcTORw3s9VIABw1CLVIp",
+        "include": false,
+        "episode_num": null,
+        "title": "The Beatles für Kinder",
+        "exclude_reason": "Music album - children's song compilation, not Hörspiel"
+      },
+      {
+        "spotify_album_id": "1oJXxo8cQXroevXAqOrAhD",
+        "include": false,
+        "episode_num": null,
+        "title": "Heut' ist Partytime",
+        "exclude_reason": "Music album - children's song compilation, not Hörspiel"
+      },
+      {
+        "spotify_album_id": "6BPUbiMCOj0WDsITUEJ89A",
+        "include": false,
+        "episode_num": null,
+        "title": "Hallo, kleiner Kuschelbär",
+        "exclude_reason": "Music album - children's song compilation, not Hörspiel"
+      },
+      {
+        "spotify_album_id": "5CR8hZVrX8rTT2L2ZgCAb8",
+        "include": false,
+        "episode_num": null,
+        "title": "Das Kamel tanzt gern Cha Cha Cha",
+        "exclude_reason": "Music album - children's song compilation, not Hörspiel"
+      },
+      {
+        "spotify_album_id": "1NH3oGHuam4rtIUkxVyMO3",
+        "include": false,
+        "episode_num": null,
+        "title": "Roby und das Geheimnis der Magie",
+        "exclude_reason": "Music album - children's song compilation (Roby concept album), not Hörspiel"
+      },
+      {
+        "spotify_album_id": "2Q8czElTs337X1yp2Hs1hG",
+        "include": false,
+        "episode_num": null,
+        "title": "Der Frosch im roten Cabrio",
+        "exclude_reason": "Music album - children's song compilation, not Hörspiel"
+      },
+      {
+        "spotify_album_id": "34jYhTS33lMWh9jnALH2wD",
+        "include": false,
+        "episode_num": null,
+        "title": "Affenschrille Hitbananen",
+        "exclude_reason": "Music album - remix compilation, not Hörspiel"
+      },
+      {
+        "spotify_album_id": "3P7nLHXs3QdtdtwqRVmXkX",
+        "include": false,
+        "episode_num": null,
+        "title": "Roby und die Piraten",
+        "exclude_reason": "Music album - children's song compilation (Roby concept album), not Hörspiel"
+      },
+      {
+        "spotify_album_id": "7s12ZIxevpjzGssWRLxvWW",
+        "include": false,
+        "episode_num": null,
+        "title": "Das Nilpferd mit dem Dudelsack",
+        "exclude_reason": "Music album - children's song compilation, not Hörspiel"
+      },
+      {
+        "spotify_album_id": "0Z7tuVehu5CkWf9dK7WRPB",
+        "include": false,
+        "episode_num": null,
+        "title": "Oldies für Kinder",
+        "exclude_reason": "Music album - children's song compilation, not Hörspiel"
+      },
+      {
+        "spotify_album_id": "2YgCMkbWTMbcI3lMZ0v5RS",
+        "include": false,
+        "episode_num": null,
+        "title": "Typisch Volker Rosin",
+        "exclude_reason": "Music album - children's song compilation with remixes, not Hörspiel"
+      },
+      {
+        "spotify_album_id": "2Ig2DcjXSNYcCb7VK6oCuP",
+        "include": false,
+        "episode_num": null,
+        "title": "Sicher ist Sicher",
+        "exclude_reason": "Music album - children's song compilation, not Hörspiel"
+      },
+      {
+        "spotify_album_id": "38I4JBWRrXO5HYk5rYAtyt",
+        "include": false,
+        "episode_num": null,
+        "title": "Das singende Känguruh",
+        "exclude_reason": "Music album - children's song compilation, not Hörspiel"
+      },
+      {
+        "spotify_album_id": "6B0qhLVBcwQVY1RhWGGHDC",
+        "include": false,
+        "episode_num": null,
+        "title": "WeihnaWeihnachts Träumechts Träume",
+        "exclude_reason": "Music album - Christmas song compilation, not Hörspiel"
+      },
+      {
+        "spotify_album_id": "3vuw6dxw90ST9tlNLl1oXf",
+        "include": false,
+        "episode_num": null,
+        "title": "Der Gorilla mit der Sonnenbrille",
+        "exclude_reason": "Music album - children's song compilation, not Hörspiel"
+      },
+      {
+        "spotify_album_id": "5HGhxRXIhlT3hhfQDgqycV",
+        "include": false,
+        "episode_num": null,
+        "title": "Weihnacht im Schnee",
+        "exclude_reason": "Music album - Christmas song compilation, not Hörspiel"
+      },
+      {
+        "spotify_album_id": "3SsQsRf91YqXunSIbDyHQf",
+        "include": false,
+        "episode_num": null,
+        "title": "Gummibärchen und Spaghetti",
+        "exclude_reason": "Music album - children's song compilation, not Hörspiel"
+      },
+      {
+        "spotify_album_id": "5rfbCBwFt727Bjlz2ZC4pO",
+        "include": false,
+        "episode_num": null,
+        "title": "Itzibitz die Liedermaus",
+        "exclude_reason": "Music album - children's song compilation, not Hörspiel"
+      },
+      {
+        "spotify_album_id": "0oeo2XmBV2vxp2GktFkUv1",
+        "include": false,
+        "episode_num": null,
+        "title": "Mit Spaß und Fantasie",
+        "exclude_reason": "Music album - children's song compilation, not Hörspiel"
+      },
+      {
+        "spotify_album_id": "0F6INiz4Gj6XBq6ArFQYMp",
+        "include": false,
+        "episode_num": null,
+        "title": "Vorfahrt für Kinder",
+        "exclude_reason": "Music album - children's song compilation, not Hörspiel"
+      },
+      {
+        "spotify_album_id": "551go8oDb7nBipn1nx6J90",
+        "include": false,
+        "episode_num": null,
+        "title": "Das ist unsere Welt",
+        "exclude_reason": "Music album - children's song compilation, not Hörspiel"
+      },
+      {
+        "spotify_album_id": "5Nqdgxz61bxtpETCoQrSmR",
+        "include": false,
+        "episode_num": null,
+        "title": "Winterzeit Weihnachtszeit",
+        "exclude_reason": "Music album - Christmas song compilation, not Hörspiel"
+      },
+      {
+        "spotify_album_id": "75HvA8lJIVQnhXt0zhAxpK",
+        "include": false,
+        "episode_num": null,
+        "title": "Volkers bunte Liederkiste",
+        "exclude_reason": "Music album - children's song compilation, not Hörspiel"
+      },
+      {
+        "spotify_album_id": "51jy8aj88HXi7xlT26mokr",
+        "include": false,
+        "episode_num": null,
+        "title": "Volkers Liederwiese",
+        "exclude_reason": "Music album - children's song compilation, not Hörspiel"
+      },
+      {
+        "spotify_album_id": "0lEBTInxLvhmnGCxxWJbBG",
+        "include": false,
+        "episode_num": null,
+        "title": "Best Of!",
+        "exclude_reason": "Compilation/Best Of - 25 track greatest hits, not Hörspiel"
+      },
+      {
+        "spotify_album_id": "1UMCJ3Ds6rMeRLvEJwWw2H",
+        "include": false,
+        "episode_num": null,
+        "title": "KiKA Tanzalarm! Das Beste von Volker Rosin",
+        "exclude_reason": "Compilation/Best Of - 21 track greatest hits, not Hörspiel"
+      },
+      {
+        "spotify_album_id": "0lesbmpNRlFOXagwE2HOin",
+        "include": false,
+        "episode_num": null,
+        "title": "Tanz mit mir! Seine schönsten Hits",
+        "exclude_reason": "Compilation/Best Of - 21 track greatest hits, not Hörspiel"
+      },
+      {
+        "spotify_album_id": "0HnB2INxHg3WpAiczHZjui",
+        "include": false,
+        "episode_num": null,
+        "title": "Volker Rosin - Liederbox Vol. 2",
+        "exclude_reason": "Box set / compilation (43 tracks, Liederbox = song box)"
+      },
+      {
+        "spotify_album_id": "2lVtSLJKTiqmbEeLlLSV6W",
+        "include": false,
+        "episode_num": null,
+        "title": "Schnuller Disco",
+        "exclude_reason": "Compilation - unrelated children's music"
+      },
+      {
+        "spotify_album_id": "25j8WsyGPIFV6ISE2Ssgts",
+        "include": false,
+        "episode_num": null,
+        "title": "Komm lass uns tanzen - Das Beste aus der Kinderdisco",
+        "exclude_reason": "Compilation ('Best of')"
+      },
+      {
+        "spotify_album_id": "6nud5wQAgOSW1dNAWWiNpK",
+        "include": false,
+        "episode_num": null,
+        "title": "Volker Rosin - Liederbox Vol. 1",
+        "exclude_reason": "Box set / compilation (44 tracks, Liederbox = song box)"
+      },
+      {
+        "spotify_album_id": "2w1GpapewuvarRvXfIuDma",
+        "include": false,
+        "episode_num": null,
+        "title": "Die Biene Maja - Meine Lieder",
+        "exclude_reason": "Different franchise (Maya the Bee), not Volker Rosin series"
+      },
+      {
+        "spotify_album_id": "5QJNF0VpKESRLIOzwnS9Dj",
+        "include": false,
+        "episode_num": null,
+        "title": "2000er Kinderlieder",
+        "exclude_reason": "Multi-artist compilation (2000s children's songs)"
+      },
+      {
+        "spotify_album_id": "3ZW1VGN8aK1LVBx8ezMltH",
+        "include": false,
+        "episode_num": null,
+        "title": "Ballermann Hits für Kids",
+        "exclude_reason": "Multi-artist compilation"
+      },
+      {
+        "spotify_album_id": "23LTcqCcdDBiPyOii9AMCs",
+        "include": false,
+        "episode_num": null,
+        "title": "Hoch hinaus .... mit der Maus",
+        "exclude_reason": "Different show (Die Sendung mit der Maus)"
+      },
+      {
+        "spotify_album_id": "5iujiFtavYZvn5a7nTsJ2H",
+        "include": false,
+        "episode_num": null,
+        "title": "Baby aktiv - Die schönsten Lieder für einen lebhaften Tag mit meinem Baby",
+        "exclude_reason": "Compilation"
+      },
+      {
+        "spotify_album_id": "2yvmXEe8TcDeD5HqZHsVEd",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderlieder 2000er Teens",
+        "exclude_reason": "Multi-artist compilation"
+      },
+      {
+        "spotify_album_id": "2H40D0gNFlfHpHyDfTaHjQ",
+        "include": false,
+        "episode_num": null,
+        "title": "Minidisco Hits - Die beste Faschings-Party für Kinder",
+        "exclude_reason": "Compilation (40 tracks, party compilation)"
+      },
+      {
+        "spotify_album_id": "2Y5n0XbagKz96oFiSbsAgN",
+        "include": false,
+        "episode_num": null,
+        "title": "Der Pirat (Party Remix 2023)",
+        "exclude_reason": "Remix single, not a Hörspiel (only 2 tracks)"
+      },
+      {
+        "spotify_album_id": "4bCmYIzlX9z5kLOduax442",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinder Party Silvester",
+        "exclude_reason": "Seasonal compilation (36 tracks)"
+      },
+      {
+        "spotify_album_id": "6Xqz2Iw4EbV3UDZD978xj2",
+        "include": false,
+        "episode_num": null,
+        "title": "Disco Kinder 2 - Die Party geht weiter",
+        "exclude_reason": "Compilation series"
+      },
+      {
+        "spotify_album_id": "6BePkiATJdhX0iy7ww2tiY",
+        "include": false,
+        "episode_num": null,
+        "title": "Silvesterparty für Kinder",
+        "exclude_reason": "Seasonal compilation (28 tracks)"
+      },
+      {
+        "spotify_album_id": "7iUivI2kXhdDgkh3YqmFW9",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderfasching 2024/2025",
+        "exclude_reason": "Seasonal compilation (25 tracks)"
+      },
+      {
+        "spotify_album_id": "0DoJd1TdUviTujXxtyhKWZ",
+        "include": false,
+        "episode_num": null,
+        "title": "Die schönsten Kinderlieder - Zum Geburtstag",
+        "exclude_reason": "Themed compilation"
+      },
+      {
+        "spotify_album_id": "4uG1ldCsAls8XCUwc6RqjN",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderlieder Haustiere",
+        "exclude_reason": "Themed compilation (39 tracks)"
+      },
+      {
+        "spotify_album_id": "3lXAfLPV773iZuvDrOgt4J",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderlieder für Weihnachten",
+        "exclude_reason": "Seasonal compilation (40 tracks)"
+      },
+      {
+        "spotify_album_id": "6UmFPG27emOwQUcvKXeMOu",
+        "include": false,
+        "episode_num": null,
+        "title": "Die schönsten Kinderlieder - Zur guten Nacht",
+        "exclude_reason": "Themed compilation"
+      },
+      {
+        "spotify_album_id": "5XyArrsFg8f8KCrSvQbCfG",
+        "include": false,
+        "episode_num": null,
+        "title": "Ruhige Kinderlieder",
+        "exclude_reason": "Themed compilation"
+      },
+      {
+        "spotify_album_id": "6yyGvzVrtpe4KguwgzZteM",
+        "include": false,
+        "episode_num": null,
+        "title": "Mini Disco Hits - Die beliebtesten Partylieder für Kinder",
+        "exclude_reason": "Compilation (41 tracks, party songs)"
+      },
+      {
+        "spotify_album_id": "4wNXsBSSSwRUCA8Q986Tpr",
+        "include": false,
+        "episode_num": null,
+        "title": "Best of Après Ski 2023",
+        "exclude_reason": "Compilation ('Best of', 40 tracks)"
+      },
+      {
+        "spotify_album_id": "1wAZV90RKoldQA0onHAUnN",
+        "include": false,
+        "episode_num": null,
+        "title": "Ballermann Hits für Kinder",
+        "exclude_reason": "Multi-artist compilation (63 tracks)"
+      },
+      {
+        "spotify_album_id": "3Fk93glmEzWkBw70UW8iex",
+        "include": false,
+        "episode_num": null,
+        "title": "Xtreme jeck 2023 powered by Xtreme Sound",
+        "exclude_reason": "Carnival party compilation (40 tracks)"
+      },
+      {
+        "spotify_album_id": "4MpPn0EmkYtMeSZMYB0hzA",
+        "include": false,
+        "episode_num": null,
+        "title": "Halloweenlieder für Kinder",
+        "exclude_reason": "Seasonal compilation (47 tracks)"
+      },
+      {
+        "spotify_album_id": "3EaNDv7HIvbnhwe3iQYKWr",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderhits",
+        "exclude_reason": "Generic compilation (48 tracks)"
+      },
+      {
+        "spotify_album_id": "4vVJIPp0WMYsHrwPLtFvnC",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderlieder Fasching 2025/2026",
+        "exclude_reason": "Seasonal compilation (50 tracks)"
+      },
+      {
+        "spotify_album_id": "0h4kLSiNf5PRJ9DIowGasV",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinder Faschingsparty",
+        "exclude_reason": "Seasonal compilation (35 tracks)"
+      },
+      {
+        "spotify_album_id": "5lU9vjSzaHKNgoXu39lkvU",
+        "include": false,
+        "episode_num": null,
+        "title": "Weltraum & Universum Kinderlieder",
+        "exclude_reason": "Themed compilation (33 tracks)"
+      },
+      {
+        "spotify_album_id": "6S0cKUirQIj0dpOwK8L81g",
+        "include": false,
+        "episode_num": null,
+        "title": "¡Hora de Divertirse!: Música para Niños | 33 tracks | 2024-06-21 | Foreign language (Spanish) compilation",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7KxQZVMSGTqrFFLbyvAHTj",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlagerwinter 2011 | 18 tracks | 2011-01-01 | Various artists compilation",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1eqMLycOAbdlsCmp5U976C",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderparty Hits 2025 | 22 tracks | 2025-09-19 | Various artists compilation",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3OeN32QKt0QpU1KiwKmeOl",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderlieder Karneval | 27 tracks | 2022-11-10 | Various artists compilation",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0wnK5nCPPJloiVFjQZ7ulz",
+        "include": false,
+        "episode_num": null,
+        "title": "Badelieder für Kinder | 35 tracks | 2023-06-14 | Various artists compilation",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5UF3Y76JnlLjTMlnP5VPBC",
+        "include": false,
+        "episode_num": null,
+        "title": "Die schönsten Kinderlieder - Aus dem Kindergarten | 19 tracks | 2014-01-01 | Various artists compilation",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "71LrE6VZ61GtC8sB40zjRv",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderlieder Party | 32 tracks | 2024-11-15 | Various artists compilation",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0C7ehYm80OmfqpGWEDb0UG",
+        "include": false,
+        "episode_num": null,
+        "title": "Coole Musik für Kinder | 56 tracks | 2024-08-12 | Various artists compilation",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5Glhu7GcVwFNX0iHbANP8w",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderdisco, Kinderparty, Kinder Tanzmusik | 33 tracks | 2021-04-09 | Various artists compilation",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6TqsasJgHFMdfBqXcqupHQ",
+        "include": false,
+        "episode_num": null,
+        "title": "Quatschlieder für Kinder | 30 tracks | 2025-05-09 | Various artists compilation",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1EIdGx6IbW9OQrNww5NUwn",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderlieder Bettfertig machen | 38 tracks | 2024-11-01 | Various artists compilation",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0UW3UAmYnvS3JisWG0jpqU",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinder Tanzlieder | 35 tracks | 2025-09-05 | Various artists compilation",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2fbsb5dyrzag8SZO2jUZrf",
+        "include": false,
+        "episode_num": null,
+        "title": "Best of Karneval 2023 Powered by Xtreme Sound | 40 tracks | 2023-02-10 | Various artists compilation",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3lY99ZhnZRner6YbYTlFti",
+        "include": false,
+        "episode_num": null,
+        "title": "Kindergeburtstag | 25 tracks | 2019-11-15 | Various artists compilation",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4KYofjO4H4QPQ3q6WRhfAr",
+        "include": false,
+        "episode_num": null,
+        "title": "Einschlaflieder für Kinder | 25 tracks | 2024-11-15 | Various artists compilation",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "02k0Bt1ENRR7gaH7jLPljb",
+        "include": false,
+        "episode_num": null,
+        "title": "Elsewhere Junior I - a Collection of Cosmic Children's Songs | 13 tracks | 2020-02-21 | Various artists compilation",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3HCC8mDLcgozmUmaHQKhti",
+        "include": false,
+        "episode_num": null,
+        "title": "Kids Beach Club | 20 tracks | 2009-06-12 | Various artists compilation",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7cfpd3M5DdB8JGU1aAwrEH",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderlieder Après Ski | 39 tracks | 2024-12-20 | Various artists compilation",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0xFBe0ueeTXhVYYzOv3MGm",
+        "include": false,
+        "episode_num": null,
+        "title": "Krankheit Kinderlieder - Gute Besserung! | 46 tracks | 2023-09-01 | Various artists compilation",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2f333YIjypEgyadvS64yAD",
+        "include": false,
+        "episode_num": null,
+        "title": "Kindergeburtstag 2025 | 69 tracks | 2024-06-07 | Various artists compilation",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1WIPEWHBNBRN6f6haQkvpA",
+        "include": false,
+        "episode_num": null,
+        "title": "Die schönsten Kinderlieder - Zum Spielen und Bewegen | 20 tracks | 2014-01-01 | Various artists compilation",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3hV7Fn5Sl6gFn207KmjPRo",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderlieder Winter 2025/2026 | 30 tracks | 2025-11-10 | Various artists compilation",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "34R8vEsRc80sSjYBr9nX7o",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderlieder zum Mitmachen | 55 tracks | 2024-06-25 | Various artists compilation",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0tvP7yvN7x4ZBOCR9DBZhe",
+        "include": false,
+        "episode_num": null,
+        "title": "Musik aus Kinderserien und Kinderfilmen | 19 tracks | 2025-05-09 | Soundtrack compilation",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5pvpOwJYGK5SQfUGpOJPvX",
+        "include": false,
+        "episode_num": null,
+        "title": "Gute Nacht Lieder für Kinder | 19 tracks | 2025-12-12 | Various artists compilation",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1t932k4QzsiPR62Y2YYV72",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderlieder Rock | 19 tracks | 2024-12-30 | Various artists compilation",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "34YvQH16OJcBffIZZzQUm6",
+        "include": false,
+        "episode_num": null,
+        "title": "Mallorca Opening 2023 Powered by Xtreme Sound | 40 tracks | 2023-04-14 | Various artists compilation",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5m0I6omKJFr8neVnLSToxM",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderlieder Ostern | 27 tracks | 2020-07-03 | Various artists compilation",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2JqTmyGHMpfutXxBEjHpTj",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Kinder | 41 tracks | 2023-06-14 | Various artists compilation",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7iBE1j3WYZJm0KJXWhARpI",
+        "include": false,
+        "episode_num": null,
+        "title": "Kindergarten Klassiker | 40 tracks | 2025-04-18 | Various artists compilation",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7IM4wT3Lo3aM8FSlCzDjl3",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderturnen Lieder",
+        "exclude_reason": "Compilation - 37 tracks, not individual Hörspiel episodes"
+      },
+      {
+        "spotify_album_id": "3UDWuvmJEkDruudYxOnKjj",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderlieder Dinos & Reptilien",
+        "exclude_reason": "Compilation - 20 tracks, not individual Hörspiel episodes"
+      },
+      {
+        "spotify_album_id": "6RPZOWnGDzJWoSh49K15MU",
+        "include": false,
+        "episode_num": null,
+        "title": "Herbstmusik für Kinder",
+        "exclude_reason": "Compilation - 41 tracks, not individual Hörspiel episodes"
+      },
+      {
+        "spotify_album_id": "5BSH5NlxBzVbxAJpOVDHQ7",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderlieder zum Entspannen",
+        "exclude_reason": "Compilation - 35 tracks, not individual Hörspiel episodes"
+      },
+      {
+        "spotify_album_id": "5Exe4EisVEoiW5SkCy9DEm",
+        "include": false,
+        "episode_num": null,
+        "title": "Schulstart Kindermusik 2024",
+        "exclude_reason": "Compilation - 43 tracks, not individual Hörspiel episodes"
+      },
+      {
+        "spotify_album_id": "5yvRNsDHwykuh3SGVMD3ll",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderlieder zum Einschlafen",
+        "exclude_reason": "Compilation - 37 tracks, not individual Hörspiel episodes"
+      },
+      {
+        "spotify_album_id": "64i398RejmDP7tmsEHjoVc",
+        "include": false,
+        "episode_num": null,
+        "title": "Die schönsten Kinderlieder - Zum Mitsingen",
+        "exclude_reason": "Compilation - 18 tracks, not individual Hörspiel episodes"
+      },
+      {
+        "spotify_album_id": "4mn7AjePRGuyHZhcYIMTxK",
+        "include": false,
+        "episode_num": null,
+        "title": "Ostern Kinderlieder",
+        "exclude_reason": "Compilation - 43 tracks, not individual Hörspiel episodes"
+      },
+      {
+        "spotify_album_id": "0SipTsZwlzEWJEOT9WNhQk",
+        "include": false,
+        "episode_num": null,
+        "title": "Silvesterparty 2023 Powered by Xtreme Sound",
+        "exclude_reason": "Compilation - 40 tracks, not individual Hörspiel episodes"
+      },
+      {
+        "spotify_album_id": "1bN78ZGgCJHKboeyaWy7tP",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinder Disco Hits",
+        "exclude_reason": "Compilation - 35 tracks, not individual Hörspiel episodes"
+      },
+      {
+        "spotify_album_id": "2DyL5KDj1xGTdfPhapMgMh",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinder Rock Hits",
+        "exclude_reason": "Compilation - 30 tracks, not individual Hörspiel episodes"
+      },
+      {
+        "spotify_album_id": "03sKkwafpOZVZflxgnw7rV",
+        "include": false,
+        "episode_num": null,
+        "title": "Top 20 Karneval Hits für Kids",
+        "exclude_reason": "Compilation - 20 tracks, not individual Hörspiel episodes"
+      },
+      {
+        "spotify_album_id": "7GSKbjpKEDD65DerpvIDIY",
+        "include": false,
+        "episode_num": null,
+        "title": "Sternenträumer-Lieder",
+        "exclude_reason": "Music compilation - 14 song tracks, not Hörspiel episodes"
+      },
+      {
+        "spotify_album_id": "5yE7gniJvXKKNFWJEwMOuc",
+        "include": false,
+        "episode_num": null,
+        "title": "Die schönsten Kinderlieder - Zu Weihnachten",
+        "exclude_reason": "Music compilation - 15 Christmas songs, not Hörspiel episodes"
+      },
+      {
+        "spotify_album_id": "28G0rDtcOWe4TTQm4OvOti",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderlieder Herbstmusik",
+        "exclude_reason": "Compilation - 43 tracks, not individual Hörspiel episodes"
+      },
+      {
+        "spotify_album_id": "3HeOo5rTqm3kQJBiwRivcX",
+        "include": false,
+        "episode_num": null,
+        "title": "Best Of 2025 Kindermusik",
+        "exclude_reason": "Compilation/Best of - 27 tracks, not individual Hörspiel episodes"
+      },
+      {
+        "spotify_album_id": "46EWNig7maCWoC4iiwYyfw",
+        "include": false,
+        "episode_num": null,
+        "title": "Karneval Hits für Kinder",
+        "exclude_reason": "Compilation - 34 tracks, not individual Hörspiel episodes"
+      },
+      {
+        "spotify_album_id": "2qZnBoxoe9wrglwG9QuIQ6",
+        "include": false,
+        "episode_num": null,
+        "title": "Kindergeburtstag",
+        "exclude_reason": "Compilation - 33 tracks, not individual Hörspiel episodes"
+      },
+      {
+        "spotify_album_id": "41GmfjFC7UCeW3Su5Gi9lX",
+        "include": false,
+        "episode_num": null,
+        "title": "Mallorca Warm Up 2023 powered by Xtreme Sound",
+        "exclude_reason": "Compilation - 40 tracks, not individual Hörspiel episodes"
+      },
+      {
+        "spotify_album_id": "1zLjrazjOda9IwHTxNDHR1",
+        "include": false,
+        "episode_num": null,
+        "title": "Ferien Hits für Kids",
+        "exclude_reason": "Compilation - 32 tracks, not individual Hörspiel episodes"
+      },
+      {
+        "spotify_album_id": "5VM2OjyrJm7p5VfB4cRgU3",
+        "include": false,
+        "episode_num": null,
+        "title": "Ostern 2025",
+        "exclude_reason": "Compilation - 28 tracks, not individual Hörspiel episodes"
+      },
+      {
+        "spotify_album_id": "64gk4uyYZfQmNZRYnhtS6n",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderlieder Kita Hits",
+        "exclude_reason": "Compilation - 30 tracks, not individual Hörspiel episodes"
+      },
+      {
+        "spotify_album_id": "2Asl0maJNkueD2rta2pN2P",
+        "include": false,
+        "episode_num": null,
+        "title": "Die schönsten Kinderlieder - Zum Tanzen",
+        "exclude_reason": "Music compilation - 24 song tracks, not Hörspiel episodes"
+      },
+      {
+        "spotify_album_id": "4sz93MNb9vBs3bfEnfLVjL",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderlieder Ostern 2025",
+        "exclude_reason": "Compilation - 29 tracks, not individual Hörspiel episodes"
+      },
+      {
+        "spotify_album_id": "0yD6SMxYW46hSvJoKB0bJp",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderlieder Oktoberfest 2025",
+        "exclude_reason": "Compilation - 27 tracks, not individual Hörspiel episodes"
+      },
+      {
+        "spotify_album_id": "4mxZJAbCxIRFIpTpkiiwNd",
+        "include": false,
+        "episode_num": null,
+        "title": "Mallotze Hits Après Ski 2023",
+        "exclude_reason": "Compilation - 40 tracks, not individual Hörspiel episodes"
+      },
+      {
+        "spotify_album_id": "3F4mSG7LuahTFPrLJw04r2",
+        "include": false,
+        "episode_num": null,
+        "title": "Sommer Hits 2025 für Kinder",
+        "exclude_reason": "Compilation - 30 tracks, not individual Hörspiel episodes"
+      },
+      {
+        "spotify_album_id": "0FgSCJUjzka5UuXG9L8YuA",
+        "include": false,
+        "episode_num": null,
+        "title": "Frühling & Ostern Kinderlieder",
+        "exclude_reason": "Compilation - 30 tracks, not individual Hörspiel episodes"
+      },
+      {
+        "spotify_album_id": "7lZCbY0MEq6Xid98rlMGHR",
+        "include": false,
+        "episode_num": null,
+        "title": "Osterlieder für Kinder 2022",
+        "exclude_reason": "Compilation - 41 tracks, not individual Hörspiel episodes"
+      },
+      {
+        "spotify_album_id": "103EXochAKZq2sqqPTwI6s",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderlieder für Zuhause",
+        "exclude_reason": "Compilation - 31 tracks, not individual Hörspiel episodes"
+      },
+      {
+        "spotify_album_id": "6pXX5QaUEReX9rhAD5Ko13",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderlieder Advent 2024",
+        "exclude_reason": "Compilation: 26 children's song tracks, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "77fEBE6x2KI140VHrTLk2l",
+        "include": false,
+        "episode_num": null,
+        "title": "Lieder zur Einschulung",
+        "exclude_reason": "Compilation: 40 children's song tracks, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "5PR6eOfa1KpZRcWIMSt3CU",
+        "include": false,
+        "episode_num": null,
+        "title": "Tierlieder für Kinder - Karussell",
+        "exclude_reason": "Compilation: 43 animal song tracks, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "2tSo78B9hkFJNd10lo7hno",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderlieder Jahreszeiten",
+        "exclude_reason": "Compilation: 39 children's song tracks about seasons, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "28MvQgeYZjBj7xCl5sWnRs",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderlieder Herbst 2025",
+        "exclude_reason": "Compilation: 26 autumn children's song tracks, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "2H1NzulehT2xuLEMk58k9n",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderdisco Hits 2024",
+        "exclude_reason": "Compilation: 32 children's disco hit tracks, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "2o1qrBcT658xd9cpQ5vg6e",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderlieder Halloween 2025",
+        "exclude_reason": "Compilation: 31 Halloween children's song tracks, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "3nlvdBCjVrT3HN25cMMPbs",
+        "include": false,
+        "episode_num": null,
+        "title": "DJ Cashi präsentiert Mallora Closing 2022 powered by Xtreme Sound",
+        "exclude_reason": "Adult party music compilation, not a children's Hörspiel"
+      },
+      {
+        "spotify_album_id": "4lpEBRYp9HnTCKhbRJJCY7",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderlieder Halloween Hits",
+        "exclude_reason": "Compilation: 24 Halloween children's song tracks, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "5NtEPsly9XFpqVZwdVmAbo",
+        "include": false,
+        "episode_num": null,
+        "title": "Lustige Tierlieder",
+        "exclude_reason": "Compilation: 53 funny animal song tracks, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "26F94PzUaS6SI2vU4aP7Km",
+        "include": false,
+        "episode_num": null,
+        "title": "Wozu sind Kriege da?",
+        "exclude_reason": "Single track: 1 track, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "79aqRrTYyyYMxcEEEBTK4K",
+        "include": false,
+        "episode_num": null,
+        "title": "2000er Kinder Hits",
+        "exclude_reason": "Compilation: 20 children's hit tracks from 2000s, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "7GhR70PPbpO5aK5zr3Cxb9",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderlieder Laternenumzug",
+        "exclude_reason": "Compilation: 22 lantern parade children's song tracks, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "5V3QBMhCNPsyQcHkOIZL05",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderlieder 60 Minuten Abendroutine",
+        "exclude_reason": "Compilation: 20 children's song tracks for evening routine, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "2gK5fAVZSfmqshqdZoHmSp",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderlieder Spielen",
+        "exclude_reason": "Compilation: 42 children's play song tracks, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "4narxIuenWEzjyPP7R9JUx",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlager geil 2022 Powered by Xtreme Sound",
+        "exclude_reason": "Adult schlager music compilation, not a children's Hörspiel"
+      },
+      {
+        "spotify_album_id": "1ao7z6aiAhXi6QlGjscYGB",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderlieder Laterne Laufen",
+        "exclude_reason": "Compilation: 35 lantern walk children's song tracks, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "0MPWCi6KGm9n1MROe0UczK",
+        "include": false,
+        "episode_num": null,
+        "title": "Ich bin ein Star im Dschungel 2023 powered by Xtreme Sound",
+        "exclude_reason": "Adult reality TV music compilation, not a children's Hörspiel"
+      },
+      {
+        "spotify_album_id": "5wYrVlsoxHIwvFJdST6iYA",
+        "include": false,
+        "episode_num": null,
+        "title": "60 Minuten Kinderturnen",
+        "exclude_reason": "Compilation: 21 children's gymnastics song tracks, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "2bX56pDEgtEFfq1w6E4Qpc",
+        "include": false,
+        "episode_num": null,
+        "title": "Après Ski Closing 2023 powered by Xtreme Sound",
+        "exclude_reason": "Adult après-ski party music compilation, not a children's Hörspiel"
+      },
+      {
+        "spotify_album_id": "2hQsP1oSVdV4PppfnpdQUj",
+        "include": false,
+        "episode_num": null,
+        "title": "TOP 30 Kinder Mitmachlieder",
+        "exclude_reason": "Compilation: 30 children's sing-along song tracks, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "2SGkwF7zBCMA2fdE3hL1cL",
+        "include": false,
+        "episode_num": null,
+        "title": "Zähneputzen Kinderlieder - Karussell",
+        "exclude_reason": "Compilation: 24 teeth-brushing children's song tracks, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "3LMyE3ScrNlCzZ2LLUgCDl",
+        "include": false,
+        "episode_num": null,
+        "title": "Prinzessinnen Lieder",
+        "exclude_reason": "Compilation: 17 princess song tracks, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "17HjkKOUBerocGnkKqrjRs",
+        "include": false,
+        "episode_num": null,
+        "title": "Halloween Party 2022 Powered by Xtreme Sound",
+        "exclude_reason": "Adult Halloween party music compilation, not a children's Hörspiel"
+      },
+      {
+        "spotify_album_id": "2cFaz8NuQ85DlSmhyPea6e",
+        "include": false,
+        "episode_num": null,
+        "title": "Einschlafmusik für Babys",
+        "exclude_reason": "Compilation: 30 baby sleep music tracks, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "30B7ctJLIM08X0H8OTHqZU",
+        "include": false,
+        "episode_num": null,
+        "title": "Fußball Songs für Kinder",
+        "exclude_reason": "Compilation: 24 football children's song tracks, not a Hörspiel episode"
+      }
+    ],
+    "age_note": "Suitable from 3+",
+    "curator_notes": "German children's music artist known for dance and movement songs. Not a serialized Hörspiel series but rather music albums for kids' parties and activities. Includes themed collections (seasons, animals, holidays), live recordings, and musicals like 'Cinderella'. Popular in German kindergartens and children's discos."
+  }
+}

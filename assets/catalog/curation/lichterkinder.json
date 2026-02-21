@@ -1,0 +1,523 @@
+{
+  "query": "Lichterkinder",
+  "model": "kimi-k2.5",
+  "curated_at": "2026-02-21T02:24:03.080783+00:00",
+  "series": {
+    "id": "lichterkinder",
+    "title": "Lichterkinder",
+    "aliases": [],
+    "keywords": [],
+    "spotify_artist_ids": [
+      "5poyNTy0YyDwAMSYBJ7zgv"
+    ],
+    "episode_pattern": "(?:[Ff]olge)\\s+(\\d+)",
+    "albums": [
+      {
+        "spotify_album_id": "1dnfyzPLmuVgfIItWSE72Q",
+        "include": true,
+        "episode_num": 1,
+        "title": "Vom Sternenreich zur Erde (Folge 1)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5CemxfBqKEH4OX4krsatrS",
+        "include": true,
+        "episode_num": 2,
+        "title": "Die Blumenwiese (Folge 2)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6887KyFpui5wQei7j9DwRK",
+        "include": false,
+        "episode_num": null,
+        "title": "Lernland - Das kleine 1 X 1",
+        "exclude_reason": "Educational song collection, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "0zO1LmmiglbIObqbWq205h",
+        "include": false,
+        "episode_num": null,
+        "title": "Lernland - Unsere Umwelt und Natur",
+        "exclude_reason": "Educational song collection, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "5ZOt9xY0T7vU2azsA776MO",
+        "include": false,
+        "episode_num": null,
+        "title": "Lernland - Große, bunte Welt",
+        "exclude_reason": "Educational song collection, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "41kMb9JFlL86sy4dWzmZ1r",
+        "include": false,
+        "episode_num": null,
+        "title": "Lernland - Wir bleiben gesund!",
+        "exclude_reason": "Educational song collection, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "72ZcIi7F9cp0xLw7IWiAZH",
+        "include": false,
+        "episode_num": null,
+        "title": "Lernland - Rechnen von 0 - 10",
+        "exclude_reason": "Educational song collection, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "5xOp4GkvjOD44eEZhCkEjs",
+        "include": false,
+        "episode_num": null,
+        "title": "Weihnacht auch für Dich",
+        "exclude_reason": "Holiday song collection, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "3agsvbAKO6RN0lE1cHQy6g",
+        "include": false,
+        "episode_num": null,
+        "title": "Oster- Und Frühlingslieder",
+        "exclude_reason": "Seasonal song collection, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "7hgin2CjPsub0wtvqDzgti",
+        "include": false,
+        "episode_num": null,
+        "title": "Weihnachts- und Winterlieder 3",
+        "exclude_reason": "Seasonal song collection, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "22AeDrURNR2FcuCaX7UOnj",
+        "include": false,
+        "episode_num": null,
+        "title": "Spiel- und Bewegungslieder 2",
+        "exclude_reason": "Activity song collection, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "6u4m4or1sXWoWDKZTjK8Ue",
+        "include": false,
+        "episode_num": null,
+        "title": "Halloween Lieder für Kinder",
+        "exclude_reason": "Holiday song collection, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "68HlRUNLMY75Oe7xh6laOZ",
+        "include": false,
+        "episode_num": null,
+        "title": "Laternen- und Herbstlieder 2",
+        "exclude_reason": "Seasonal song collection, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "7ydW3l2fcQbXoz2KpSZefA",
+        "include": false,
+        "episode_num": null,
+        "title": "Sommer- und Ferienlieder",
+        "exclude_reason": "Seasonal song collection, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "3xFDlqhWYFKhUWh8idaNje",
+        "include": false,
+        "episode_num": null,
+        "title": "Weihnachts- und Winterlieder 2",
+        "exclude_reason": "Seasonal song collection, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "3djtRPKNSUoytpyOc0hY3F",
+        "include": false,
+        "episode_num": null,
+        "title": "Tierische Tierlieder",
+        "exclude_reason": "Song compilation, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "3kTGJmOVMtSQYWhASUsaxL",
+        "include": false,
+        "episode_num": null,
+        "title": "Lern- und Spaßlieder",
+        "exclude_reason": "Song compilation, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "0BdNoLS8Z42JjfbkOCQVPW",
+        "include": false,
+        "episode_num": null,
+        "title": "Video Mixe",
+        "exclude_reason": "Video/DJ mix compilation, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "2IWE2VDOZIIbN7wTVPZF8R",
+        "include": false,
+        "episode_num": null,
+        "title": "Tanz- und Partylieder",
+        "exclude_reason": "Dance song collection, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "12tbwMFeUIvYg3dxKbCb8N",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder",
+        "exclude_reason": "Sleep song collection, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "7jZ5EaEDOwMrXcBc8TE971",
+        "include": false,
+        "episode_num": null,
+        "title": "Traditionelle Kinderlieder",
+        "exclude_reason": "Song compilation, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "0pKBO2kSYKw8WBCLkfHOJn",
+        "include": false,
+        "episode_num": null,
+        "title": "Weihnachts- und Winterlieder",
+        "exclude_reason": "Seasonal song collection, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "5VPCIMdoP27hoQnlxZAeFF",
+        "include": false,
+        "episode_num": null,
+        "title": "Spiel- und Bewegungslieder auf Weltreise",
+        "exclude_reason": "Activity song collection, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "4ypWe56VOMJFu2hu8DNQ4I",
+        "include": false,
+        "episode_num": null,
+        "title": "Gemeinsam sind wir stark (Spiel-, Spaß- Und Lernlieder)",
+        "exclude_reason": "Song compilation, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "0gnt66NSZgvaV1t5754XCb",
+        "include": false,
+        "episode_num": null,
+        "title": "Spiel - und Bewegungslieder",
+        "exclude_reason": "Activity song collection, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "7CIBgDr7rnEI1YeoMLO7Gn",
+        "include": false,
+        "episode_num": null,
+        "title": "Laternen- und Herbstlieder",
+        "exclude_reason": "Seasonal song collection, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "3E4iiMHJc1cW4l9vKHlaFd",
+        "include": false,
+        "episode_num": null,
+        "title": "Beste Freunde Wau Wau Wuff",
+        "exclude_reason": "Single release, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "0kF7fM8vmTN9gLaJrrMswy",
+        "include": false,
+        "episode_num": null,
+        "title": "Kleines Boot (Little Blue)",
+        "exclude_reason": "Single release, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "1kVpGv8zJDHdDTMV8xLhEK",
+        "include": false,
+        "episode_num": null,
+        "title": "Lumi sagt dir \"Gute Nacht\"",
+        "exclude_reason": "Single release, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "5peX5Az2uY33pTNme4lqPJ",
+        "include": false,
+        "episode_num": null,
+        "title": "Alle Leut' - Mitmachversion",
+        "exclude_reason": "Single release, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "26YDULSuduNLLYmcytjIa5",
+        "include": false,
+        "episode_num": null,
+        "title": "Springen, Springen, Tanzen, Singen!",
+        "exclude_reason": "Single release, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "7t2edIQrtCNpyEE2j9RedY",
+        "include": false,
+        "episode_num": null,
+        "title": "Schmetterling Flatter Flatter",
+        "exclude_reason": "Single release, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "0kxTIHh46XaEDlH2Klz9o3",
+        "include": false,
+        "episode_num": null,
+        "title": "Müll, Müll, Müll",
+        "exclude_reason": "Single release, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "4ZM9rOwNk2fwO7pY3OHqU5",
+        "include": false,
+        "episode_num": null,
+        "title": "Schnupfennase",
+        "exclude_reason": "Single release, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "0nYs9VS7WTha2RzkZfGVbA",
+        "include": false,
+        "episode_num": null,
+        "title": "Fri-Fra-Freudelied",
+        "exclude_reason": "Single release, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "28QIfv16nr5RjEB1a8tMik",
+        "include": false,
+        "episode_num": null,
+        "title": "Das Gegenteil Lied",
+        "exclude_reason": "Single release, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "07c6iENskRZ9tgsNAtnmKM",
+        "include": false,
+        "episode_num": null,
+        "title": "Wirbelwind",
+        "exclude_reason": "Single release, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "3dkeLaDuXHS2m4s59tB6uQ",
+        "include": false,
+        "episode_num": null,
+        "title": "So viele Wunder",
+        "exclude_reason": "Single release, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "1J5GmpWmQ6QRqXFdCKA6pJ",
+        "include": false,
+        "episode_num": null,
+        "title": "Schaukel",
+        "exclude_reason": "Single release, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "6VcMWLLuEfw6vRz3FQTNUs",
+        "include": false,
+        "episode_num": null,
+        "title": "Drehwurm",
+        "exclude_reason": "Single release, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "6yo4slJgja0g18qkzEBQnn",
+        "include": false,
+        "episode_num": null,
+        "title": "Die Welt ist ein Spielplatz",
+        "exclude_reason": "Single release, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "37nAC8HX9MYeqTO5Nap17A",
+        "include": false,
+        "episode_num": null,
+        "title": "O-O-Osterei!",
+        "exclude_reason": "Single release, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "3UkMov9jrw0Dfxq4t94dsb",
+        "include": false,
+        "episode_num": null,
+        "title": "Banane - Das Obstlied",
+        "exclude_reason": "Single release, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "3TafPai4fyZ8z3gMsPEvA7",
+        "include": false,
+        "episode_num": null,
+        "title": "Die Hände rauf und runter",
+        "exclude_reason": "Single release, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "7oirPyCIbWAgszYyJHV70X",
+        "include": false,
+        "episode_num": null,
+        "title": "Kleine Monster",
+        "exclude_reason": "Single release, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "3ifLvqkm7CmdL3Mtd4iFF0",
+        "include": false,
+        "episode_num": null,
+        "title": "Millionen Sterne",
+        "exclude_reason": "Single release, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "6Lpw4JQjmv4viAAPwXmhah",
+        "include": false,
+        "episode_num": null,
+        "title": "Zugvögel (Und sie ziehen wieder über das Land)",
+        "exclude_reason": "Single release, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "7iFhisJ0IceOTBUU4ZdOyF",
+        "include": false,
+        "episode_num": null,
+        "title": "Kuscheltier Tanz",
+        "exclude_reason": "Single release, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "7MOstpjqCCqLl5QFufgSdf",
+        "include": false,
+        "episode_num": null,
+        "title": "Sommertag",
+        "exclude_reason": "Single release, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "6QrmAWr7nhCAGPsRXA57pP",
+        "include": false,
+        "episode_num": null,
+        "title": "Wir lieben Eis",
+        "exclude_reason": "Single release, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "5HKRmva6BPdwMbPHSbQO2c",
+        "include": false,
+        "episode_num": null,
+        "title": "Wir fahren ans Meer",
+        "exclude_reason": "Single release, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "3SaGHEuVHXZeM7Srw6G5X8",
+        "include": false,
+        "episode_num": null,
+        "title": "Kommt alle raus!",
+        "exclude_reason": "Single release, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "53drjKlKy6Q0qADAG3EiyO",
+        "include": false,
+        "episode_num": null,
+        "title": "Moin Moin",
+        "exclude_reason": "Single release, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "6BAsSrA5ABC2CMFzrIMh87",
+        "include": false,
+        "episode_num": null,
+        "title": "Kleine Zauberer",
+        "exclude_reason": "Single release, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "1UTP8MFfeXlzfTUCiCw5px",
+        "include": false,
+        "episode_num": null,
+        "title": "Ballon Song",
+        "exclude_reason": "Single release, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "4CYKXBWOcu6GETCqDhpmS6",
+        "include": false,
+        "episode_num": null,
+        "title": "Sonnenblumen brauchen Frieden",
+        "exclude_reason": "Single release, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "166mSttrNtwWPo6rRZ6nwT",
+        "include": false,
+        "episode_num": null,
+        "title": "Twinkle Twinkle Little Star",
+        "exclude_reason": "Single release, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "2e7k8wlkIdSP8CTBawKPoQ",
+        "include": false,
+        "episode_num": null,
+        "title": "Funkel, funkel kleiner Stern",
+        "exclude_reason": "Single release, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "26Le5i5CIZDtfrwJOmS7jJ",
+        "include": false,
+        "episode_num": null,
+        "title": "Guck Guck",
+        "exclude_reason": "Single release, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "1IcefeYqVAZPc8SVfHM82H",
+        "include": false,
+        "episode_num": null,
+        "title": "Hände waschen-aber richtig!",
+        "exclude_reason": "Single release, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "4BAqt6oMndGvkvPoHeWGxP",
+        "include": false,
+        "episode_num": null,
+        "title": "Zooparty",
+        "exclude_reason": "Single release, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "3URVwoGfzTg4ZGGEMsIpiU",
+        "include": false,
+        "episode_num": null,
+        "title": "Putz Putz Blitzeblank (Zahnputzlied)",
+        "exclude_reason": "Single release, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "2CrcnJGOxi0noTubR1aTRl",
+        "include": false,
+        "episode_num": null,
+        "title": "Flieger",
+        "exclude_reason": "Single release, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "493yxmYN20CVjV3WDt4yHc",
+        "include": false,
+        "episode_num": null,
+        "title": "Superhelden",
+        "exclude_reason": "Single release, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "2DG6fL9Dq4vDqjId7zKHdA",
+        "include": false,
+        "episode_num": null,
+        "title": "Liki & die Tonies",
+        "exclude_reason": "Single release, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "6gcJDucIQXnL3d9X4tLs9S",
+        "include": false,
+        "episode_num": null,
+        "title": "Party Zuhause",
+        "exclude_reason": "Single release, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "0fLae6oQB3JvGnOKnhYLcQ",
+        "include": false,
+        "episode_num": null,
+        "title": "So viele Gesichter",
+        "exclude_reason": "Single release, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "33JHjLJn8hhEoganO3WG7T",
+        "include": false,
+        "episode_num": null,
+        "title": "Guck mal diese Biene da Summ Summ",
+        "exclude_reason": "Single release, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "6JjxvAn9dpudW6Pd0RqvBe",
+        "include": false,
+        "episode_num": null,
+        "title": "The Body Part Blues",
+        "exclude_reason": "Single release, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "27NH7a64Bx7yYheTzlOPRW",
+        "include": false,
+        "episode_num": null,
+        "title": "Lichterkinder",
+        "exclude_reason": "Music single with karaoke, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "3ePvI6Nt8T6tLHXLc624w7",
+        "include": false,
+        "episode_num": null,
+        "title": "Lichterkinder",
+        "exclude_reason": "Dance/EDM release from Kontor Records, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "7AMwSMtYpqxQ4m5UqNigXl",
+        "include": false,
+        "episode_num": null,
+        "title": "Kontor Top of the Clubs - The Sequel Vol. 02 Mix (DJ Mix)",
+        "exclude_reason": "DJ mix compilation, not Hörspiel episode"
+      }
+    ],
+    "age_note": "Suitable from 3+",
+    "curator_notes": "Lichterkinder is a new Hörspiel series (2025) following Liki and the star children on their adventures. Only 2 episodes have been released so far. The artist's extensive back-catalog consists primarily of educational song collections ('Lernland'), seasonal compilations, and children's activity songs - these are excluded as they are not narrative audio dramas. Episodes use 'Folge N' numbering with internal chapters labeled 'Teil N'."
+  }
+}

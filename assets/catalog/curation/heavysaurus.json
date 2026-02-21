@@ -1,0 +1,355 @@
+{
+  "query": "Heavysaurus",
+  "model": "kimi-k2.5",
+  "curated_at": "2026-02-21T02:30:29.510114+00:00",
+  "series": {
+    "id": "heavysaurus",
+    "title": "Heavysaurus",
+    "aliases": [],
+    "keywords": [],
+    "spotify_artist_ids": [
+      "6uyCfgv8FWIc2mifriVXqw"
+    ],
+    "episode_pattern": "[Ff]olge\\s*(\\d+)",
+    "albums": [
+      {
+        "spotify_album_id": "0QHMsII5PMwdxiFhsJEM2c",
+        "include": true,
+        "episode_num": 4,
+        "title": "Folge 4: Die Hexenmeister des Metal",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4bZByUwY1ehEydrDzXz3PM",
+        "include": true,
+        "episode_num": 3,
+        "title": "Folge 3: Heavysaurus auf der Flucht",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2ZeEa0GkJT20v2NxoOcczX",
+        "include": true,
+        "episode_num": 2,
+        "title": "Folge 2: Auf großer Tour",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1iYgyGfFy75dWJVEnGJHpj",
+        "include": true,
+        "episode_num": 1,
+        "title": "Folge 1: Der Kuss des Kometen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6gy5c5J9Fy22W3efKBGTVT",
+        "include": false,
+        "episode_num": null,
+        "title": "Metal",
+        "exclude_reason": "Music album, not Hörspiel"
+      },
+      {
+        "spotify_album_id": "0c9kyV9SXhc8Ndi6kksl6e",
+        "include": false,
+        "episode_num": null,
+        "title": "Pommesgabel - Reload",
+        "exclude_reason": "Music album, not Hörspiel"
+      },
+      {
+        "spotify_album_id": "4yP7jzVMUKYVO0FqZcGdck",
+        "include": false,
+        "episode_num": null,
+        "title": "Pommesgabel",
+        "exclude_reason": "Music album, not Hörspiel"
+      },
+      {
+        "spotify_album_id": "5c2D6GQmHUdDuRmW2sQgXP",
+        "include": false,
+        "episode_num": null,
+        "title": "Retter der Welt",
+        "exclude_reason": "Music album, not Hörspiel"
+      },
+      {
+        "spotify_album_id": "2eFaTolnyk33kTBPNnHHmu",
+        "include": false,
+        "episode_num": null,
+        "title": "Das Album - Rock'n'Rarrr Music",
+        "exclude_reason": "Music album (10 short Hörspiel intro parts but primarily songs)"
+      },
+      {
+        "spotify_album_id": "0cWMNxi2Sen5jAvfnygeUv",
+        "include": false,
+        "episode_num": null,
+        "title": "Wie kann man so stinken",
+        "exclude_reason": "Music single"
+      },
+      {
+        "spotify_album_id": "3smugWopUwH2o8BmiRjrhb",
+        "include": false,
+        "episode_num": null,
+        "title": "Pattaja Hai",
+        "exclude_reason": "Music single/EP"
+      },
+      {
+        "spotify_album_id": "48ryyKExSgaiD43BOZgxjv",
+        "include": false,
+        "episode_num": null,
+        "title": "Irosaurus",
+        "exclude_reason": "Music single/EP"
+      },
+      {
+        "spotify_album_id": "2PFwlOHB9tOt8DGNHBotS8",
+        "include": false,
+        "episode_num": null,
+        "title": "Unkka Dunkka",
+        "exclude_reason": "Music single/EP"
+      },
+      {
+        "spotify_album_id": "7Ii8oeaDX91kcIZUXhURDw",
+        "include": false,
+        "episode_num": null,
+        "title": "Das weltbeste Versteck",
+        "exclude_reason": "Music single"
+      },
+      {
+        "spotify_album_id": "71ODqAcyej7HwA6Zae3br4",
+        "include": false,
+        "episode_num": null,
+        "title": "Metal um die Welt",
+        "exclude_reason": "Music single"
+      },
+      {
+        "spotify_album_id": "5x9hTBStYE8KWcSICsuQeU",
+        "include": false,
+        "episode_num": null,
+        "title": "Trotzdem beste Freunde",
+        "exclude_reason": "Music single"
+      },
+      {
+        "spotify_album_id": "5HfACRccX4Sg0nKdj6hrlM",
+        "include": false,
+        "episode_num": null,
+        "title": "Heavy Metal Weihnachten",
+        "exclude_reason": "Music single"
+      },
+      {
+        "spotify_album_id": "0h5fmJ4j0vpBIdV3GSk70H",
+        "include": false,
+        "episode_num": null,
+        "title": "Heavy Halloween",
+        "exclude_reason": "Music single/EP"
+      },
+      {
+        "spotify_album_id": "0Ie5t9xq6DH5yaYw9V3JC2",
+        "include": false,
+        "episode_num": null,
+        "title": "Der haarige Kobold",
+        "exclude_reason": "Music single"
+      },
+      {
+        "spotify_album_id": "5XXXXuCV28h4U1xlmQYj8Y",
+        "include": false,
+        "episode_num": null,
+        "title": "Pommesgabel",
+        "exclude_reason": "Music single - duplicate track from album"
+      },
+      {
+        "spotify_album_id": "4tfpNVyHa51Mdhn9GkSZ8n",
+        "include": false,
+        "episode_num": null,
+        "title": "Der Freundschafts-Song",
+        "exclude_reason": "Music single/EP"
+      },
+      {
+        "spotify_album_id": "5noOnaEGrU9gKrugDSd6L7",
+        "include": false,
+        "episode_num": null,
+        "title": "Laser Ninja",
+        "exclude_reason": "Music single"
+      },
+      {
+        "spotify_album_id": "6wvHCNiE8AEbcRjy1ReNAJ",
+        "include": false,
+        "episode_num": null,
+        "title": "Flugsaurier",
+        "exclude_reason": "Music single"
+      },
+      {
+        "spotify_album_id": "1JdYttU4TEe9ysfRhkTPXk",
+        "include": false,
+        "episode_num": null,
+        "title": "Luna - unser Hund",
+        "exclude_reason": "Music single"
+      },
+      {
+        "spotify_album_id": "09v44X9Jfqgqe9UgWVXCVn",
+        "include": false,
+        "episode_num": null,
+        "title": "Dinofreunde",
+        "exclude_reason": "Music single"
+      },
+      {
+        "spotify_album_id": "746p3zUw2cGWsJ41L29KEt",
+        "include": false,
+        "episode_num": null,
+        "title": "Zuhause so viel Spaß",
+        "exclude_reason": "Music single"
+      },
+      {
+        "spotify_album_id": "5hxJFWsONRuCdZmmbnzGaD",
+        "include": false,
+        "episode_num": null,
+        "title": "Tanzen, Tanzen, Tanzen",
+        "exclude_reason": "Music single"
+      },
+      {
+        "spotify_album_id": "69X8Gwk0dyJowlxfkInIPj",
+        "include": false,
+        "episode_num": null,
+        "title": "Wir wollen mobbingfrei!!",
+        "exclude_reason": "Music single"
+      },
+      {
+        "spotify_album_id": "6ffjXFYaDX5OeD6L6Yp611",
+        "include": false,
+        "episode_num": null,
+        "title": "Das letzte Mammut (feat. Doro)",
+        "exclude_reason": "Music single"
+      },
+      {
+        "spotify_album_id": "0hFQDsxghntg50i2KxPNY9",
+        "include": false,
+        "episode_num": null,
+        "title": "Was willst du mal werden (feat. Kärbholz)",
+        "exclude_reason": "Music single"
+      },
+      {
+        "spotify_album_id": "68GL3CdnWC5b0A1Yz2vtOP",
+        "include": false,
+        "episode_num": null,
+        "title": "Ugala Bugala",
+        "exclude_reason": "Music single"
+      },
+      {
+        "spotify_album_id": "13nKLGq917o60cz2v2JRuT",
+        "include": false,
+        "episode_num": null,
+        "title": "Raumschiff Juranoid",
+        "exclude_reason": "Music single"
+      },
+      {
+        "spotify_album_id": "1VtUraPUGJ4sDdfKMawLUF",
+        "include": false,
+        "episode_num": null,
+        "title": "Schatzsuche",
+        "exclude_reason": "Music single"
+      },
+      {
+        "spotify_album_id": "3tjjvgAQBlCpLsUBuCLeMT",
+        "include": false,
+        "episode_num": null,
+        "title": "Rarrr",
+        "exclude_reason": "Music single"
+      },
+      {
+        "spotify_album_id": "43zourIImExUy2TU6LVXTS",
+        "include": false,
+        "episode_num": null,
+        "title": "Yeah, Heavysaurus!",
+        "exclude_reason": "Music single"
+      },
+      {
+        "spotify_album_id": "5k944SzSswXpFrGHd34ora",
+        "include": false,
+        "episode_num": null,
+        "title": "Für immer frei / Aus fremden Federn",
+        "exclude_reason": "Various artist compilation - not a Heavysaurus Hörspiel"
+      },
+      {
+        "spotify_album_id": "1OYiTcjwFGkaQG59QTXype",
+        "include": false,
+        "episode_num": null,
+        "title": "Für immer frei (Unsere Zeit Edition)",
+        "exclude_reason": "Various artist compilation - not a Heavysaurus Hörspiel"
+      },
+      {
+        "spotify_album_id": "1vz04rtEc1oiOlp2ukc7Fy",
+        "include": false,
+        "episode_num": null,
+        "title": "Bin gut drauf",
+        "exclude_reason": "Music single/EP"
+      },
+      {
+        "spotify_album_id": "2ATJ87Movz9HC62z0Ez9Ea",
+        "include": false,
+        "episode_num": null,
+        "title": "Katz'n'Roll",
+        "exclude_reason": "Music EP - various artists"
+      },
+      {
+        "spotify_album_id": "6BePkiATJdhX0iy7ww2tiY",
+        "include": false,
+        "episode_num": null,
+        "title": "Silvesterparty für Kinder",
+        "exclude_reason": "Various artist compilation playlist"
+      },
+      {
+        "spotify_album_id": "1Wa1HetZnaOXCto8xG1b1f",
+        "include": false,
+        "episode_num": null,
+        "title": "Moderne Kinderlieder | Neue Kindermusik Hits",
+        "exclude_reason": "Various artist compilation playlist"
+      },
+      {
+        "spotify_album_id": "4vVJIPp0WMYsHrwPLtFvnC",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderlieder Fasching 2025/2026",
+        "exclude_reason": "Various artist compilation playlist"
+      },
+      {
+        "spotify_album_id": "0UW3UAmYnvS3JisWG0jpqU",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinder Tanzlieder",
+        "exclude_reason": "Various artist compilation playlist"
+      },
+      {
+        "spotify_album_id": "5lSVt0Usami2ArbKwHkFXf",
+        "include": false,
+        "episode_num": null,
+        "title": "Top 20 Hits für Kids",
+        "exclude_reason": "Various artist compilation playlist"
+      },
+      {
+        "spotify_album_id": "2DyL5KDj1xGTdfPhapMgMh",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinder Rock Hits",
+        "exclude_reason": "Various artist compilation playlist"
+      },
+      {
+        "spotify_album_id": "3r0JlBmwxVjiqbQnJmeO9Y",
+        "include": false,
+        "episode_num": null,
+        "title": "Schulanfang 2025 Kinderlieder",
+        "exclude_reason": "Various artist compilation playlist"
+      },
+      {
+        "spotify_album_id": "3HeOo5rTqm3kQJBiwRivcX",
+        "include": false,
+        "episode_num": null,
+        "title": "Best Of 2025 Kindermusik",
+        "exclude_reason": "Various artist compilation playlist (Best Of)"
+      },
+      {
+        "spotify_album_id": "7BuR28nL7HxvGDOugWfdwy",
+        "include": false,
+        "episode_num": null,
+        "title": "Lernzeit Kinderlieder",
+        "exclude_reason": "Various artist compilation playlist"
+      }
+    ],
+    "age_note": "Suitable from 5+",
+    "curator_notes": "Heavysaurus started as a children's metal band (the German counterpart to Finnish Hevisaurus). The Hörspiel series launched in 2025 with 4 episodes released so far. The discography contains many music albums and singles which are excluded - only the 'Folge X' releases are proper Hörspiele. Note: The 'Für immer frei' releases are by various artists on the WE LOVE MUSIC label, featuring one Heavysaurus track each ('Dinofreunde'), but are not Heavysaurus albums."
+  }
+}
