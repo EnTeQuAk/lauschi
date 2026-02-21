@@ -244,6 +244,41 @@ class CardRepository {
     );
   }
 
+  /// Insert an ARD Audiothek episode as a card in a single transaction.
+  ///
+  /// Combines insertIfAbsent + updateArdFields atomically — if either
+  /// step fails, neither is committed. Prevents half-inserted cards
+  /// with no audioUrl.
+  Future<String> insertArdEpisode({
+    required String title,
+    required String providerUri,
+    required String audioUrl,
+    String? coverUrl,
+    int? durationMs,
+    DateTime? availableUntil,
+    String? groupId,
+    int? episodeNumber,
+  }) async {
+    return _db.transaction(() async {
+      final id = await insertIfAbsent(
+        title: title,
+        providerUri: providerUri,
+        cardType: 'episode',
+        provider: 'ard_audiothek',
+        coverUrl: coverUrl,
+      );
+      await updateArdFields(
+        cardId: id,
+        audioUrl: audioUrl,
+        durationMs: durationMs,
+        availableUntil: availableUntil,
+        groupId: groupId,
+        episodeNumber: episodeNumber,
+      );
+      return id;
+    });
+  }
+
   /// Set totalTracks for a card (used by data migration backfill).
   Future<void> updateTotalTracks({
     required String cardId,

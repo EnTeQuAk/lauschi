@@ -60,17 +60,11 @@ class _ArdShowDetailScreenState extends ConsumerState<ArdShowDetailScreen> {
     try {
       final cardRepo = ref.read(cardRepositoryProvider);
 
-      final cardId = await cardRepo.insertIfAbsent(
+      await cardRepo.insertArdEpisode(
         title: item.title,
         providerUri: item.providerUri,
-        cardType: 'episode',
-        provider: 'ard_audiothek',
+        audioUrl: item.bestAudioUrl!,
         coverUrl: ardImageUrl(item.imageUrl),
-      );
-
-      await cardRepo.updateArdFields(
-        cardId: cardId,
-        audioUrl: item.bestAudioUrl,
         durationMs: item.durationMs,
         availableUntil: item.endDate,
         groupId: groupId,
@@ -135,10 +129,7 @@ class _ArdShowDetailScreenState extends ConsumerState<ArdShowDetailScreen> {
 
         if (_existingUris.contains(item.providerUri)) {
           // Already added — assign to group if not already.
-          final existingCards = await cardRepo.getAll();
-          final card = existingCards
-              .where((c) => c.providerUri == item.providerUri)
-              .firstOrNull;
+          final card = await cardRepo.getByProviderUri(item.providerUri);
           if (card != null && card.groupId != groupId) {
             await cardRepo.updateArdFields(
               cardId: card.id,

@@ -134,13 +134,14 @@ class GroupRepository {
   }
 
   /// Find a group by exact title (case-insensitive). Returns null if not found.
+  /// Find a group by title (case-insensitive).
+  ///
+  /// Uses Dart-side comparison because SQLite's LOWER() is ASCII-only
+  /// and won't handle German umlauts (Ä, Ö, Ü) correctly.
   Future<CardGroup?> findByTitle(String title) async {
     final lower = title.toLowerCase();
     final all = await getAll();
-    for (final g in all) {
-      if (g.title.toLowerCase() == lower) return g;
-    }
-    return null;
+    return all.where((g) => g.title.toLowerCase() == lower).firstOrNull;
   }
 
   /// Watch cards belonging to a group, ordered by episodeNumber then sortOrder.
