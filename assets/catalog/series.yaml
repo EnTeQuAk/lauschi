@@ -1166,7 +1166,6 @@ series:
   - Die drei ???
   keywords:
   - drei ???
-  - drei fragezeichen
   spotify_artist_ids:
   - 3meJIgRw7YleJrmbpbJK6S
   episode_pattern: (?:^(\d{1,3})/|[Ff]olge\s+(\d+))
