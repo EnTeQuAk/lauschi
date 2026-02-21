@@ -342,3 +342,12 @@ final groupProgressProvider = Provider<Map<String, ({int total, int heard})>>((
   }
   return result;
 });
+
+/// Set of provider URIs already in the collection.
+///
+/// Reactive — updates automatically when cards are added or removed from
+/// any screen. Replaces manual _existingUris bookkeeping in browse screens.
+final existingCardUrisProvider = Provider<Set<String>>((ref) {
+  final cards = ref.watch(allCardsProvider).value ?? [];
+  return cards.map((c) => c.providerUri).toSet();
+});
