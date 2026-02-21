@@ -41,6 +41,8 @@ dev_dependencies:
   drift_dev: ^2.23.1
   flutter_test:
     sdk: flutter
+  integration_test:
+    sdk: flutter
   mocktail: ^1.0.4
   riverpod_generator: ^4.0.3
   sentry_dart_plugin: ^3.2.1
@@ -53,6 +55,7 @@ flutter:
     - assets/catalog/series.yaml
     - assets/catalog/ard_featured_shows.yaml
     - assets/images/branding/
+    - assets/images/icons/
   fonts:
     - family: Nunito
       fonts:
