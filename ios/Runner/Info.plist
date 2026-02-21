@@ -71,6 +71,7 @@
 	<false/>
 	<key>NFCReaderUsageDescription</key>
 	<string>lauschi liest NFC-Tags, um Hörspiele und Musik abzuspielen.</string>
+
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>
