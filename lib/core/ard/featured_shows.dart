@@ -147,11 +147,12 @@ Future<List<FeaturedItem>> _fetchFeaturedItems(ArdApi api) async {
           first: _itemsPerShow,
         );
 
+        // endDate is the editorial broadcast window, NOT content removal.
+        // Audio URLs remain accessible on CDN after endDate passes.
         return page.items.where((item) =>
           item.duration >= show.minDurationSeconds &&
           item.publishDate.isAfter(cutoff) &&
-          item.bestAudioUrl != null &&
-          (item.endDate == null || item.endDate!.isAfter(now)),
+          item.bestAudioUrl != null
         ).toList();
       } on Exception catch (e) {
         // Skip shows that fail — don't let one bad show break all.
