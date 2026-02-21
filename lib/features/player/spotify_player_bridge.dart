@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart'
     show TargetPlatform, defaultTargetPlatform;
+import 'package:flutter/services.dart' show PlatformException;
 import 'package:lauschi/core/log.dart';
 import 'package:lauschi/core/spotify/spotify_config.dart';
 import 'package:lauschi/features/player/player_state.dart';
@@ -304,16 +305,14 @@ class SpotifyPlayerBridge {
     if (_getValidToken == null) return;
     Log.info(_tag, 'Initializing SDK player with token');
     final token = await _freshToken();
-    await controller.runJavaScript(
-      'window.lauschi.init(${json.encode(token)})',
-    );
+    await _runJs('window.lauschi.init(${json.encode(token)})');
   }
 
   Future<void> _deliverFreshToken() async {
     if (_getValidToken == null) return;
     try {
       final token = await _freshToken();
-      await controller.runJavaScript(
+      await _runJs(
         'window.lauschi.deliver_token(${json.encode(token)})',
       );
     } on Exception catch (e) {
@@ -326,6 +325,16 @@ class SpotifyPlayerBridge {
     final getter = _getValidToken;
     if (getter == null) throw StateError('Bridge not initialized');
     return getter();
+  }
+
+  /// Run JS on the WebView, catching PlatformException when the WebView
+  /// isn't ready or has been torn down (e.g. app backgrounded on iOS).
+  Future<void> _runJs(String js) async {
+    try {
+      await controller.runJavaScript(js);
+    } on PlatformException catch (e) {
+      Log.warn(_tag, 'JS eval failed (WebView not ready?): ${e.code}');
+    }
   }
 
   void _updateState(PlaybackState newState) {
@@ -342,11 +351,7 @@ class SpotifyPlayerBridge {
   /// The SDK will fire 'ready' with a new device_id on success.
   Future<void> reconnect() async {
     Log.info(_tag, 'Requesting SDK reconnect');
-    try {
-      await controller.runJavaScript('window.lauschi.reconnect()');
-    } on Exception catch (e) {
-      Log.error(_tag, 'Reconnect failed', exception: e);
-    }
+    await _runJs('window.lauschi.reconnect()');
   }
 
   /// Wait for the device to become ready (up to [timeout]).
@@ -369,32 +374,32 @@ class SpotifyPlayerBridge {
 
   /// Toggle play/pause via the local SDK player.
   Future<void> togglePlay() async {
-    await controller.runJavaScript('window.lauschi.toggle_play()');
+    await _runJs('window.lauschi.toggle_play()');
   }
 
   /// Pause via the local SDK player (idempotent — safe to call when paused).
   Future<void> pause() async {
-    await controller.runJavaScript('window.lauschi.pause()');
+    await _runJs('window.lauschi.pause()');
   }
 
   /// Resume via the local SDK player (idempotent — safe to call when playing).
   Future<void> resume() async {
-    await controller.runJavaScript('window.lauschi.resume()');
+    await _runJs('window.lauschi.resume()');
   }
 
   /// Next track via local SDK.
   Future<void> nextTrack() async {
-    await controller.runJavaScript('window.lauschi.next_track()');
+    await _runJs('window.lauschi.next_track()');
   }
 
   /// Previous track via local SDK.
   Future<void> prevTrack() async {
-    await controller.runJavaScript('window.lauschi.prev_track()');
+    await _runJs('window.lauschi.prev_track()');
   }
 
   /// Seek to position via local SDK.
   Future<void> seek(int positionMs) async {
-    await controller.runJavaScript('window.lauschi.seek($positionMs)');
+    await _runJs('window.lauschi.seek($positionMs)');
   }
 
   /// Map raw SDK error types to kid-parent-friendly messages.
