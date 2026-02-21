@@ -64,6 +64,13 @@ class ParentDashboardScreen extends ConsumerWidget {
             subtitle: _catalogSubtitle(ref),
             onTap: () => context.push(AppRoutes.parentCatalog),
           ),
+          const Divider(indent: 56),
+          _SettingsTile(
+            icon: Icons.explore_rounded,
+            title: 'Entdecken',
+            subtitle: 'Kostenlose Hörspiele der ARD Audiothek',
+            onTap: () => context.push(AppRoutes.parentDiscover),
+          ),
 
           const SizedBox(height: AppSpacing.lg),
 

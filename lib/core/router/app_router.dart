@@ -6,7 +6,9 @@ import 'package:lauschi/features/cards/screens/kid_home_screen.dart';
 import 'package:lauschi/features/onboarding/screens/onboarding_provider.dart';
 import 'package:lauschi/features/onboarding/screens/onboarding_screen.dart';
 import 'package:lauschi/features/parent/screens/add_card_screen.dart';
+import 'package:lauschi/features/parent/screens/ard_show_detail_screen.dart';
 import 'package:lauschi/features/parent/screens/browse_catalog_screen.dart';
+import 'package:lauschi/features/parent/screens/discover_screen.dart';
 import 'package:lauschi/features/parent/screens/group_edit_screen.dart';
 import 'package:lauschi/features/parent/screens/manage_cards_screen.dart';
 import 'package:lauschi/features/parent/screens/manage_groups_screen.dart';
@@ -44,6 +46,9 @@ abstract final class AppRoutes {
   static const parentCatalog = '/parent/catalog';
   static String parentCatalogSeries(String seriesId) =>
       '/parent/catalog/$seriesId';
+  static const parentDiscover = '/parent/discover';
+  static String parentDiscoverShow(String showId) =>
+      '/parent/discover/$showId';
   static const pinEntry = '/pin';
   static const pinChange = '/pin/change';
 }
@@ -137,6 +142,19 @@ GoRouter appRouter(Ref ref) {
                 builder: (context, state) {
                   final seriesId = state.pathParameters['seriesId']!;
                   return CatalogSeriesDetailScreen(seriesId: seriesId);
+                },
+              ),
+            ],
+          ),
+          GoRoute(
+            path: 'discover',
+            builder: (context, state) => const DiscoverScreen(),
+            routes: [
+              GoRoute(
+                path: ':showId',
+                builder: (context, state) {
+                  final showId = state.pathParameters['showId']!;
+                  return ArdShowDetailScreen(showId: showId);
                 },
               ),
             ],
