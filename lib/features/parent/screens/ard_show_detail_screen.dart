@@ -1,5 +1,3 @@
-import 'dart:async' show unawaited;
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -29,26 +27,8 @@ class ArdShowDetailScreen extends ConsumerStatefulWidget {
 }
 
 class _ArdShowDetailScreenState extends ConsumerState<ArdShowDetailScreen> {
-  final _existingUris = <String>{};
   final _addingUris = <String>{};
   bool _isAddingAll = false;
-  bool _existingLoaded = false;
-
-  @override
-  void initState() {
-    super.initState();
-    unawaited(_loadExisting());
-  }
-
-  Future<void> _loadExisting() async {
-    final cards = await ref.read(cardRepositoryProvider).getAll();
-    if (mounted) {
-      setState(() {
-        _existingUris.addAll(cards.map((c) => c.providerUri));
-        _existingLoaded = true;
-      });
-    }
-  }
 
   /// Add a single episode as a card.
   Future<void> _addEpisode(ArdItem item, {String? groupId}) async {
@@ -71,9 +51,8 @@ class _ArdShowDetailScreenState extends ConsumerState<ArdShowDetailScreen> {
         episodeNumber: item.episodeNumber,
       );
 
-      if (mounted) {
-        setState(() => _existingUris.add(item.providerUri));
-      }
+      // No manual _existingUris.add() — the Drift stream backing
+      // existingCardUrisProvider updates automatically on insert.
 
       Log.info(_tag, 'Added episode', data: {'title': item.title});
     } on Exception catch (e) {
@@ -82,9 +61,9 @@ class _ArdShowDetailScreenState extends ConsumerState<ArdShowDetailScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Fehler: $e')),
         );
-      }
-    } finally {
-      if (mounted) {
+        // Only clear adding state on error — on success, the URI stays in
+        // _addingUris until the Drift stream updates existingCardUrisProvider.
+        // This prevents a double-tap window between insert and stream emission.
         setState(() => _addingUris.remove(item.providerUri));
       }
     }
@@ -127,7 +106,7 @@ class _ArdShowDetailScreenState extends ConsumerState<ArdShowDetailScreen> {
       for (final item in allItems) {
         if (item.bestAudioUrl == null) continue;
 
-        if (_existingUris.contains(item.providerUri)) {
+        if (ref.read(existingCardUrisProvider).contains(item.providerUri)) {
           // Already added — assign to group if not already.
           final card = await cardRepo.getByProviderUri(item.providerUri);
           if (card != null && card.groupId != groupId) {
@@ -189,6 +168,8 @@ class _ArdShowDetailScreenState extends ConsumerState<ArdShowDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final existingUris = ref.watch(existingCardUrisProvider);
+    final cardsLoaded = ref.watch(allCardsProvider).hasValue;
     final showAsync = ref.watch(_showDetailProvider(widget.showId));
     final episodesAsync = ref.watch(_showEpisodesProvider(widget.showId));
 
@@ -248,7 +229,7 @@ class _ArdShowDetailScreenState extends ConsumerState<ArdShowDetailScreen> {
 
                         final item = playable[index];
                         final alreadyAdded =
-                            _existingUris.contains(item.providerUri);
+                            existingUris.contains(item.providerUri);
                         final isAdding =
                             _addingUris.contains(item.providerUri);
 
@@ -256,7 +237,7 @@ class _ArdShowDetailScreenState extends ConsumerState<ArdShowDetailScreen> {
                           item: item,
                           alreadyAdded: alreadyAdded,
                           isAdding: isAdding,
-                          enabled: _existingLoaded && !_isAddingAll,
+                          enabled: cardsLoaded && !_isAddingAll,
                           onAdd: () => _addEpisode(item),
                         );
                       },
@@ -270,22 +251,29 @@ class _ArdShowDetailScreenState extends ConsumerState<ArdShowDetailScreen> {
           );
         },
       ),
-      bottomNavigationBar: _buildAddAllBar(showAsync, episodesAsync),
+      bottomNavigationBar: _buildAddAllBar(
+        showAsync,
+        episodesAsync,
+        existingUris: existingUris,
+        cardsLoaded: cardsLoaded,
+      ),
     );
   }
 
   Widget? _buildAddAllBar(
     AsyncValue<ArdProgramSet?> showAsync,
-    AsyncValue<ArdItemPage> episodesAsync,
-  ) {
+    AsyncValue<ArdItemPage> episodesAsync, {
+    required Set<String> existingUris,
+    required bool cardsLoaded,
+  }) {
     final show = showAsync.whenOrNull(data: (d) => d);
     final page = episodesAsync.whenOrNull(data: (d) => d);
     if (show == null || page == null || page.items.isEmpty) return null;
-    if (!_existingLoaded) return null;
+    if (!cardsLoaded) return null;
 
     final playable = page.items.where((i) => i.bestAudioUrl != null);
     final addable =
-        playable.where((e) => !_existingUris.contains(e.providerUri)).length;
+        playable.where((e) => !existingUris.contains(e.providerUri)).length;
 
     // Use totalCount from API when there are more pages.
     final totalLabel =

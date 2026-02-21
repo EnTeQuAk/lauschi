@@ -1,5 +1,3 @@
-import 'dart:async' show unawaited;
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -153,24 +151,8 @@ class CatalogSeriesDetailScreen extends ConsumerStatefulWidget {
 class _CatalogSeriesDetailScreenState
     extends ConsumerState<CatalogSeriesDetailScreen> {
   final _selected = <String>{};
-  final _existingUris = <String>{};
   bool _selectAll = true;
   bool _isAdding = false;
-
-  @override
-  void initState() {
-    super.initState();
-    unawaited(_loadExisting());
-  }
-
-  Future<void> _loadExisting() async {
-    final cards = await ref.read(cardRepositoryProvider).getAll();
-    if (mounted) {
-      setState(() {
-        _existingUris.addAll(cards.map((c) => c.providerUri));
-      });
-    }
-  }
 
   CatalogSeries? _findSeries(CatalogService catalog) {
     final matches = catalog.all.where((s) => s.id == widget.seriesId);
@@ -181,10 +163,11 @@ class _CatalogSeriesDetailScreenState
     setState(() {
       _selectAll = !_selectAll;
       if (_selectAll) {
+        final uris = ref.read(existingCardUrisProvider);
         _selected.addAll(
           series.albums
               .where(
-                (a) => !_existingUris.contains('spotify:album:${a.spotifyId}'),
+                (a) => !uris.contains('spotify:album:${a.spotifyId}'),
               )
               .map((a) => a.spotifyId),
         );
@@ -236,10 +219,13 @@ class _CatalogSeriesDetailScreenState
         Log.info(_tag, 'Created group: ${series.title}');
       }
 
+      // Each album in the batch has a unique URI, so stale reads from the
+      // provider between iterations can't cause duplicates. insertIfAbsent
+      // is the safety net regardless.
       var added = 0;
       for (final album in albums) {
         final uri = album.uri;
-        if (_existingUris.contains(uri)) continue;
+        if (ref.read(existingCardUrisProvider).contains(uri)) continue;
 
         // Extract episode number from catalog data
         final catalogAlbum =
@@ -259,7 +245,8 @@ class _CatalogSeriesDetailScreenState
           episodeNumber: catalogAlbum?.episode,
         );
 
-        _existingUris.add(uri);
+        // No manual _existingUris.add() — existingCardUrisProvider
+        // updates automatically via Drift stream on insert.
         added++;
       }
 
@@ -293,6 +280,8 @@ class _CatalogSeriesDetailScreenState
 
   @override
   Widget build(BuildContext context) {
+    final existingUris = ref.watch(existingCardUrisProvider);
+    final cardsLoaded = ref.watch(allCardsProvider).hasValue;
     final catalogAsync = ref.watch(catalogServiceProvider);
 
     return catalogAsync.when(
@@ -318,10 +307,12 @@ class _CatalogSeriesDetailScreenState
               (a, b) => (a.episode ?? 999999).compareTo(b.episode ?? 999999),
             );
 
-        // Pre-select all non-existing albums on first build
-        if (_selected.isEmpty && _selectAll) {
+        // Pre-select all non-existing albums on first build.
+        // Guard on cardsLoaded to avoid selecting everything while
+        // existingUris is still empty (stream not yet emitted).
+        if (_selected.isEmpty && _selectAll && cardsLoaded) {
           for (final album in albums) {
-            if (!_existingUris.contains(
+            if (!existingUris.contains(
               'spotify:album:${album.spotifyId}',
             )) {
               _selected.add(album.spotifyId);
@@ -333,7 +324,7 @@ class _CatalogSeriesDetailScreenState
             albums
                 .where(
                   (a) =>
-                      !_existingUris.contains(
+                      !existingUris.contains(
                         'spotify:album:${a.spotifyId}',
                       ),
                 )
@@ -360,7 +351,7 @@ class _CatalogSeriesDetailScreenState
             itemBuilder: (context, index) {
               final album = albums[index];
               final uri = 'spotify:album:${album.spotifyId}';
-              final alreadyAdded = _existingUris.contains(uri);
+              final alreadyAdded = existingUris.contains(uri);
               final isSelected = _selected.contains(album.spotifyId);
 
               return _AlbumTile(
