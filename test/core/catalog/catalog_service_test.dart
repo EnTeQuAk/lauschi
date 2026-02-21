@@ -564,7 +564,7 @@ void main() {
       expect(r, isNotNull);
       expect(r!.series.id, 'die_fuchsbande');
       expect(r.source, CatalogMatchSource.artistId);
-      expect(r.episodeNumber, 19); // Fall 19, not album 010
+      expect(r.episodeNumber, 10); // album number prefix, not Fall 19
     });
 
     test('Fünf Freunde matched via artist ID', () {
@@ -691,7 +691,7 @@ void main() {
         'Der Kleine Rabe Socke - Das Hörbuch zum Kinofilm',
       );
       expect(r, isNotNull);
-      expect(r!.series.id, 'kleiner_rabe_socke');
+      expect(r!.series.id, 'der_kleine_rabe_socke');
     });
 
     test('Peppa Wutz matches by keyword', () {
@@ -791,9 +791,10 @@ void main() {
     });
 
     test('series without curated albums has empty list', () {
-      final yakari = catalog.all.where((s) => s.id == 'yakari').first;
-      expect(yakari.hasCuratedAlbums, isFalse);
-      expect(yakari.albums, isEmpty);
+      final ddf =
+          catalog.all.where((s) => s.id == 'die_drei_fragezeichen').first;
+      expect(ddf.hasCuratedAlbums, isFalse);
+      expect(ddf.albums, isEmpty);
     });
   });
 }
