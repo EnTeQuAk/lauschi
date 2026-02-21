@@ -42,6 +42,7 @@ class KidHomeScreen extends ConsumerWidget {
           isReady: s.isReady,
           hasTrack: s.track != null,
           error: s.error,
+          activeContextUri: s.activeContextUri,
         ),
       ),
     );
@@ -156,7 +157,7 @@ class KidHomeScreen extends ConsumerWidget {
                 return _HomeGrid(
                   groups: groups,
                   ungrouped: ungrouped,
-                  activeUri: playerNotifier.activeContextUri,
+                  activeUri: playerState.activeContextUri,
                   isPlaying: playerState.isPlaying,
                   isActive: playerState.hasTrack,
                   onCardTap:

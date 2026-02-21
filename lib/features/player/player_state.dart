@@ -46,6 +46,9 @@ class PlaybackState {
     this.error,
     this.nextEpisodeTitle,
     this.nextEpisodeCoverUrl,
+    this.activeCardId,
+    this.activeContextUri,
+    this.activeGroupId,
   });
 
   /// Spotify Web Playback SDK is connected and has a device ID.
@@ -87,6 +90,17 @@ class PlaybackState {
   /// Cover art URL of the next episode (for non-reading kids).
   final String? nextEpisodeCoverUrl;
 
+  /// ID of the card currently being played.
+  final String? activeCardId;
+
+  /// URI of the album/context currently being played. Used to highlight
+  /// the active card in the grid.
+  final String? activeContextUri;
+
+  /// Group ID for auto-advance. When set, completing an episode
+  /// auto-plays the next unheard episode in the series.
+  final String? activeGroupId;
+
   /// Whether an auto-advance to the next episode is pending.
   bool get isAdvancing => nextEpisodeTitle != null;
 
@@ -114,6 +128,12 @@ class PlaybackState {
     String? nextEpisodeTitle,
     String? nextEpisodeCoverUrl,
     bool clearNextEpisode = false,
+    String? activeCardId,
+    bool clearActiveCard = false,
+    String? activeContextUri,
+    bool clearActiveContextUri = false,
+    String? activeGroupId,
+    bool clearActiveGroupId = false,
   }) {
     return PlaybackState(
       isPlaying: isPlaying ?? this.isPlaying,
@@ -132,6 +152,13 @@ class PlaybackState {
           clearNextEpisode
               ? null
               : (nextEpisodeCoverUrl ?? this.nextEpisodeCoverUrl),
+      activeCardId:
+          clearActiveCard ? null : (activeCardId ?? this.activeCardId),
+      activeContextUri: clearActiveContextUri
+          ? null
+          : (activeContextUri ?? this.activeContextUri),
+      activeGroupId:
+          clearActiveGroupId ? null : (activeGroupId ?? this.activeGroupId),
     );
   }
 }
