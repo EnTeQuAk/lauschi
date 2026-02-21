@@ -1,0 +1,385 @@
+{
+  "query": "Kira Kolumna",
+  "model": "kimi-k2.5",
+  "curated_at": "2026-02-21T01:12:35.463943+00:00",
+  "series": {
+    "id": "kira_kolumna",
+    "title": "Kira Kolumna",
+    "aliases": [],
+    "keywords": [
+      "Kira Kolumna"
+    ],
+    "spotify_artist_ids": [
+      "4ZRVadQQ7rbyhiGZurqb72"
+    ],
+    "episode_pattern": "Folge\\s+(\\d+)",
+    "albums": [
+      {
+        "spotify_album_id": "595gEqmaV0wPZMK5eHtAcZ",
+        "include": true,
+        "episode_num": 1,
+        "title": "Folge 1: Umzugsalarm",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5DnYmi6fd40Oa90wkYBdSB",
+        "include": true,
+        "episode_num": 2,
+        "title": "Folge 2: Plötzlich beliebt",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4ujlKTV88alArWDsXk28vO",
+        "include": true,
+        "episode_num": 3,
+        "title": "Folge 3: Verpeilte Weihnachten",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "53CytEROJg5DSsBoOwJtTt",
+        "include": true,
+        "episode_num": 4,
+        "title": "Folge 4: On-Off Liebeschaos",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6vbVgJp6sgQSGH0eqfUD5D",
+        "include": true,
+        "episode_num": 5,
+        "title": "Folge 5: Klima-Krach",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5RwPN2CcgKjvQVkwHZJxUL",
+        "include": true,
+        "episode_num": 6,
+        "title": "Folge 6: Sommer in Südberg",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2nKTvmhupcSt4JyeUfOAEO",
+        "include": true,
+        "episode_num": 7,
+        "title": "Folge 7: Im falschen Film",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4ThbSHQQK9JXNHu26u2S3Y",
+        "include": true,
+        "episode_num": 8,
+        "title": "Folge 8: Spuk im Kopf",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "51gI9I7dq4aWjW23iJ9J5O",
+        "include": true,
+        "episode_num": 9,
+        "title": "Folge 9: Eingeschneit",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2damPCCR4il8zV9ovdzYog",
+        "include": true,
+        "episode_num": 10,
+        "title": "Folge 10: Abgetaucht",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0uyqCK77dtNKSQYZG3ZRdp",
+        "include": true,
+        "episode_num": 11,
+        "title": "Folge 11: Übergekocht",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5eJeEWDOdCUAobgKGrsjIr",
+        "include": true,
+        "episode_num": 12,
+        "title": "Folge 12: Abgefahren",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4MA00fk8v4bb1HGE7ocoT5",
+        "include": true,
+        "episode_num": 13,
+        "title": "Folge 13: Echt spooky",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0UqNGH1rlfAzzq5rvCTFvl",
+        "include": true,
+        "episode_num": 14,
+        "title": "Folge 14: Missverstanden",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5y1oQMPMmiymA5ZsEBirXG",
+        "include": true,
+        "episode_num": 15,
+        "title": "Folge 15: Offline in Barcelona",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1O6N7JBNqsTRTmKWigRbsH",
+        "include": true,
+        "episode_num": 16,
+        "title": "Folge 16: Mutterseelenallein",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6TIZiizzWAfVE6IdTnmcz0",
+        "include": true,
+        "episode_num": 17,
+        "title": "Folge 17: Nein heißt Nein",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0Q7GLr4NukdcgJc7SMeqEt",
+        "include": true,
+        "episode_num": 18,
+        "title": "Folge 18: Schöne Bescherung",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4l1onpGHe1LG7YD16Jj3sI",
+        "include": true,
+        "episode_num": 19,
+        "title": "Folge 19: Gerüchteküche",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1WDNZtcsiS5dekYRtjIbX6",
+        "include": true,
+        "episode_num": 20,
+        "title": "Folge 20: Gamingfieber",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5NmGEFUekda0KxSVy0ccFo",
+        "include": true,
+        "episode_num": 21,
+        "title": "Folge 21: Urlaubschaos",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "31rkwhnOhsxNdgOCvpz5D2",
+        "include": true,
+        "episode_num": 22,
+        "title": "Folge 22: Sturmfrei",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6Wun51ULWYOqCzA1HZTItF",
+        "include": true,
+        "episode_num": 23,
+        "title": "Folge 23: Patchwork-Stress",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0B5O2tVTKB0BCBRtLox33y",
+        "include": true,
+        "episode_num": 24,
+        "title": "Folge 24: Undercover",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4lD4qSpD1pNkkk3z1RUeXP",
+        "include": true,
+        "episode_num": 25,
+        "title": "Folge 25: Angeleint",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1PHHVFBxAzGr446XrLXN22",
+        "include": true,
+        "episode_num": null,
+        "title": "Kira Kolumna Reportage: Sind Graffitis auch Kunst?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4mAmABL4joBoxBBHmY8rpy",
+        "include": true,
+        "episode_num": null,
+        "title": "Kira Kolumna Reportage: Sind Schüler gute Schauspieler?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5CaYhXdPcKJ29ZxPeLrCj3",
+        "include": true,
+        "episode_num": null,
+        "title": "Kira Kolumna Reportage: Ist die Arche nur für Noah?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5jTxzJkVyR82kuIErXGFnI",
+        "include": true,
+        "episode_num": null,
+        "title": "Kira Kolumna Reportage: Machen Influencer immer Urlaub?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0vkXDgYItzxh7c3MlbfK8r",
+        "include": true,
+        "episode_num": null,
+        "title": "Kira Kolumna Reportage: Kann ein Rummel ein Zuhause sein?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3ati0teMU57rPOYoBmCEGT",
+        "include": true,
+        "episode_num": null,
+        "title": "Kira Kolumna Reportage: Match auf dem Eis - und in echt?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2zbVyfOLhlR6VjVeXEOVpc",
+        "include": true,
+        "episode_num": null,
+        "title": "Kira Kolumna Reportage: Große Story, nichts dahinter?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4D6gyifVPiPiVrvaLiCgQR",
+        "include": true,
+        "episode_num": null,
+        "title": "Kira Kolumna Reportage: Ist E-Sport auch Sport?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1woE4NCtJqa0DRE9BkxxZP",
+        "include": true,
+        "episode_num": null,
+        "title": "Kira Kolumna Reportage: Campen ohne Eltern - Freiheit pur?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4yKoYmOnw7nuhNhqVrI84w",
+        "include": true,
+        "episode_num": null,
+        "title": "Kira Kolumna Reportage: Playlist an – und ich bin DJ?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5cgeLp9ZvcjcBfuLSWluBV",
+        "include": true,
+        "episode_num": null,
+        "title": "Kira Kolumna Reportage: Plötzlich Patchwork – voll das Chaos?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3qdTJbmfukxTeKk0YZur7H",
+        "include": true,
+        "episode_num": null,
+        "title": "Kira Kolumna Reportage: Der eigene Roller - endlich unabhängig?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "67zrGxcINeNDhjVJhNSkyh",
+        "include": true,
+        "episode_num": null,
+        "title": "Kira Kolumna Reportage: Im Tierheim - wer rettet hier wen?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3hFrMthztGPiBeedZoMyIS",
+        "include": false,
+        "episode_num": null,
+        "title": "Contigo en la playa",
+        "exclude_reason": "Single - song release, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "5leJQ968o7oSTFxvHnW22b",
+        "include": false,
+        "episode_num": null,
+        "title": "Du bist nicht allein",
+        "exclude_reason": "Single - song release, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "70MCiK7ryz6P6sOdE8Oeqp",
+        "include": false,
+        "episode_num": null,
+        "title": "Nein heißt Nein",
+        "exclude_reason": "Single - song release, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "1AY6mmAzSs7fZ1AQWS3Yf2",
+        "include": false,
+        "episode_num": null,
+        "title": "Christmas Bells",
+        "exclude_reason": "Single - song release, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "36LvpBENdcrdQEJ9BP1knT",
+        "include": false,
+        "episode_num": null,
+        "title": "So wie es scheint",
+        "exclude_reason": "Single - song release, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "0d4qjkzW1nQ5imdDqdljfq",
+        "include": false,
+        "episode_num": null,
+        "title": "Im Gamingfieber",
+        "exclude_reason": "Single - song release, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "7A0txOabBIcZyyGw1wUufn",
+        "include": false,
+        "episode_num": null,
+        "title": "Chill ma' Mama",
+        "exclude_reason": "Single/EP - song compilation, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "3AdYKNC3hw8pZIDRcOYZLs",
+        "include": false,
+        "episode_num": null,
+        "title": "Party-Alarm",
+        "exclude_reason": "Single/EP - song compilation, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "06Z0SxsC8jbFvRQ5XqurgW",
+        "include": false,
+        "episode_num": null,
+        "title": "Perfekt unperfekt",
+        "exclude_reason": "Single/EP - song compilation, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "6xXTgkopWeQvvqYY0zGk8z",
+        "include": false,
+        "episode_num": null,
+        "title": "Zerrissen",
+        "exclude_reason": "Single/EP - song compilation, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "7LfyxdUyGNaFKQAjgJFRYe",
+        "include": false,
+        "episode_num": null,
+        "title": "Kein zurück",
+        "exclude_reason": "Single/EP - song compilation, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "0mpQ5C7eKK6LO3orOJXAuE",
+        "include": false,
+        "episode_num": null,
+        "title": "What?! Schon Weihnachten?!",
+        "exclude_reason": "Single - song release, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "0Rllb5e7Pgtgy1tQXJgNu1",
+        "include": false,
+        "episode_num": null,
+        "title": "Mixtape",
+        "exclude_reason": "Compilation - collection of songs, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "7a2dmAy38GmlaKpQLgdRpU",
+        "include": false,
+        "episode_num": null,
+        "title": "Folge 139: Chaos am Flughafen",
+        "exclude_reason": "Bibi Blocksberg episode (Folge 139), not Kira Kolumna series"
+      }
+    ],
+    "age_note": "Recommended 8+",
+    "curator_notes": "Series includes 25 main episodes (Folge 1-25) plus 13 documentary-style 'Reportage' spin-offs. Excluded singles/EPs are theme songs and music releases, not Hörspiel content. One album 'Folge 139: Chaos am Flughafen' is actually a Bibi Blocksberg episode misattributed to this artist."
+  }
+}

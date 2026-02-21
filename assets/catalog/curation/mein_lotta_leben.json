@@ -1,0 +1,226 @@
+{
+  "query": "Mein Lotta-Leben",
+  "model": "kimi-k2.5",
+  "curated_at": "2026-02-21T01:10:46.137056+00:00",
+  "series": {
+    "id": "mein_lotta_leben",
+    "title": "Mein Lotta-Leben",
+    "aliases": [
+      "Lotta aus der Krachmacherstraße"
+    ],
+    "keywords": [
+      "Mein Lotta-Leben"
+    ],
+    "spotify_artist_ids": [
+      "2G50OTOFPIR57gZ59mFnNR"
+    ],
+    "episode_pattern": "(?:[Bb]and)\\s+(\\d+)",
+    "albums": [
+      {
+        "spotify_album_id": "6rQQ03rhMvwbosdMOeWWjG",
+        "include": true,
+        "episode_num": 22,
+        "title": "Mein Lotta-Leben. Muh mir das Lied von der Kuh (Band 22)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1erfv1chbHuyxUL9LVmFjb",
+        "include": true,
+        "episode_num": 21,
+        "title": "Mein Lotta-Leben. Sei kein Trottel, Axolotl (Band 21)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6ETa0oAaoxBeZop1NS0249",
+        "include": true,
+        "episode_num": 16,
+        "title": "Mein Lotta-Leben. Eine Schildkröte geht flöten",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0MTYoJYgdGqkiH7DKDFvCh",
+        "include": true,
+        "episode_num": 20,
+        "title": "Mein Lotta-Leben. Immer dem Panda nach (Band 20)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0VckDsByfzQSGeK7Ffc4Mq",
+        "include": true,
+        "episode_num": 19,
+        "title": "Mein Lotta-Leben. Hier taucht der Papagei (Band 19)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4aEyBogrHvkO04tPcMD83z",
+        "include": false,
+        "episode_num": null,
+        "title": "Mein Lotta-Leben. Alles Tschaka mit Alpaka! (Das Original-Hörspiel zum Film)",
+        "exclude_reason": "Film tie-in adaptation, not main series episode"
+      },
+      {
+        "spotify_album_id": "0sJuDp7VcQ9DmyfGhy8mG0",
+        "include": true,
+        "episode_num": 15,
+        "title": "Mein Lotta-Leben. Alles Tschaka mit Alpaka!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4su5e4o15jIsX8dk9OWqpL",
+        "include": true,
+        "episode_num": 18,
+        "title": "Mein Lotta-Leben. Im Zeichen des Tapirs (Band 18)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3o5TTxZ5cQQnxdiJn829Mz",
+        "include": true,
+        "episode_num": 17,
+        "title": "Mein Lotta-Leben. Je Otter desto flotter (Band 17)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4k92wFaQui4xApsv7vgrE9",
+        "include": true,
+        "episode_num": 14,
+        "title": "Mein Lotta-Leben. Das letzte Eichhorn",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7gQ4xAxPIs2GFbCJ7dBvyk",
+        "include": false,
+        "episode_num": null,
+        "title": "Mein Lotta-Leben. Alles Bingo mit Flamingo! (Das Original-Hörspiel zum Film)",
+        "exclude_reason": "Film tie-in adaptation, not main series episode"
+      },
+      {
+        "spotify_album_id": "1TCZXNPM0V2153HeeBnOxC",
+        "include": true,
+        "episode_num": 13,
+        "title": "Mein Lotta-Leben. Alles Bingo mit Flamingo!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4pvUBJ0yTlotRk2FV13yca",
+        "include": true,
+        "episode_num": 12,
+        "title": "Mein Lotta-Leben. Da lachen ja die Hunde (Band 14)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4gAn9ddhWvlz8giAwZTAnO",
+        "include": true,
+        "episode_num": 11,
+        "title": "Mein Lotta-Leben. Wenn die Frösche zweimal quaken (Band 13)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2yDACbwVSxvD2AIu1vvmEa",
+        "include": true,
+        "episode_num": 10,
+        "title": "Mein Lotta-Leben. Eine Natter macht die Flatter (Band 12)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1YvLYyshJUUcuQrMR7pDUf",
+        "include": true,
+        "episode_num": 9,
+        "title": "Mein Lotta-Leben. Volle Kanne Koala (Band 11)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3uVplLq8q0kMpqcP5fftwi",
+        "include": true,
+        "episode_num": 8,
+        "title": "Mein Lotta-Leben. Süßer die Esel nie singen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0YYBHf9dTWGc4gAkwgtZSS",
+        "include": true,
+        "episode_num": 7,
+        "title": "Mein Lotta-Leben. Der Schuh des Känguru (Band 10)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0AXRorlpClstHkKBxiYohb",
+        "include": true,
+        "episode_num": 6,
+        "title": "Mein Lotta-Leben. Das reinste Katzentheater (Band 9)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4fYahkgR6yOnO1GX8Dtx37",
+        "include": true,
+        "episode_num": 5,
+        "title": "Mein Lotta-Leben. Kein Drama ohne Lama (Band 8)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "29em4DU4vM5VvsAvd7WF3w",
+        "include": true,
+        "episode_num": 4,
+        "title": "Mein Lotta-Leben. Und täglich grüßt der Camembär (Band 7)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3NtIP54i0dBV4uObfnhTyh",
+        "include": true,
+        "episode_num": 3,
+        "title": "Mein Lotta-Leben. Den Letzten knutschen die Elche! (Band 6)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7KpVmFQJfczUJYcszUga2X",
+        "include": true,
+        "episode_num": 2,
+        "title": "Mein Lotta-Leben. Ich glaub, meine Kröte pfeift! (Band 5)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6NlDhQavkFEM8dmSgHUMdX",
+        "include": true,
+        "episode_num": null,
+        "title": "Mein Lotta-Leben. Lotta feiert Weihnachten",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7Jm3O6BCcPSd2meDCq9hig",
+        "include": true,
+        "episode_num": 1,
+        "title": "Mein Lotta-Leben. Daher weht der Hase! (Band 4)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3CpGRPzCSsoajmwIFhuOnR",
+        "include": true,
+        "episode_num": 1,
+        "title": "Mein Lotta-Leben. Wie belämmert ist das denn? (Band 2)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7JyZyFN5c5VuNIaDgAfDbh",
+        "include": true,
+        "episode_num": 1,
+        "title": "Mein Lotta-Leben. Hier steckt der Wurm drin! (Band 3)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6MIfxvQecERNQiWnjt3UQb",
+        "include": true,
+        "episode_num": 1,
+        "title": "Mein Lotta-Leben. Alles voller Kaninchen (Band 1)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4uz8eXbsb92VC0SS2HMMaO",
+        "include": true,
+        "episode_num": 15,
+        "title": "Mein Lotta-Leben. Wer den Wal hat (Band 15)",
+        "exclude_reason": null
+      }
+    ],
+    "age_note": "Suitable from 6+",
+    "curator_notes": "Series based on books by Alice Pantermüller. Main character Lotta is a quirky schoolgirl with a vivid imagination. Episodes 1-3 have conflicting numbering in titles vs release order - Band 1/2/3 were released out of order. Episode 16 (Eine Schildkröte geht flöten) lacks explicit Band number but follows Band 15 chronologically. Two film tie-in adaptations excluded as they are separate adaptations, not main series episodes. Christmas special (Lotta feiert Weihnachten) included as bonus content without episode number."
+  }
+}

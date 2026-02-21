@@ -1,0 +1,250 @@
+{
+  "query": "Petronella Apfelmus",
+  "model": "kimi-k2.5",
+  "curated_at": "2026-02-21T01:18:11.898324+00:00",
+  "series": {
+    "id": "petronella_apfelmus",
+    "title": "Petronella Apfelmus",
+    "aliases": [],
+    "keywords": [],
+    "spotify_artist_ids": [
+      "7x0Gb1gpe2xRXsp6qXL3xC"
+    ],
+    "episode_pattern": "(?:[Tt]eil|[Bb]and)\\s+(\\d+)",
+    "albums": [
+      {
+        "spotify_album_id": "1RUpQ5bcRAxKoJ2IqzDpzB",
+        "include": true,
+        "episode_num": null,
+        "title": "Erstleser Teil 4: Spargelzahn zieht um",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7cWtxTcosezzDYGly4sgyH",
+        "include": true,
+        "episode_num": 4,
+        "title": "Teil 4: Zauberhut und Bienenstich",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7a0cCpsKO6Uux6eFFZns9S",
+        "include": true,
+        "episode_num": null,
+        "title": "Erstleser Teil 3: Krawall im Hühnerstall",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6SmOg0QDpFVyMaCKrfxpzR",
+        "include": true,
+        "episode_num": 3,
+        "title": "Teil 3: Schneeballschlacht und Wichtelstreiche",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0pyNGAv1Gw7GsC5fC5ZBDG",
+        "include": true,
+        "episode_num": 12,
+        "title": "Teil 12: Eine seltsame Aushilfe, Diebesjagd!, Hexische Beförderung (Hörspiele zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2UO9cEOsZltdLqiTlLxPDN",
+        "include": true,
+        "episode_num": 11,
+        "title": "Teil 11: Eine abenteuerliche Nacht, Der komische Cousin, Die Mondglockenblume (Hörspiele zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "51xrQDuxKHKT4FB0993k4V",
+        "include": true,
+        "episode_num": 9,
+        "title": "Teil 9: Alles singt, Des Wichtels Gespür für Wasser, Das Geschichtengerät (Hörspiele zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2EQ9WTnV9yhLbMJ6jdDiee",
+        "include": true,
+        "episode_num": 10,
+        "title": "Teil 10: Die verflogene Einladung, Der große Fund, Die Zauberäpfel (Hörspiele zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5Q1psKbqPKYqW9dHwXoiSz",
+        "include": true,
+        "episode_num": 8,
+        "title": "Teil 8: Das Stinkeparfüm, Der Zaubersauberbesen, Der verlorene Ring, Die Doppelgängerin (Hörspiele zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6SJJSnB8mbOkIO50hTIOC5",
+        "include": true,
+        "episode_num": 7,
+        "title": "Teil 7: Hexenschnupfen, Fürchten sich Heckenschrate?, Der größte Wichtel der Welt (Hörspiele zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0C1wwnIVWTjtsfNKICN9gK",
+        "include": true,
+        "episode_num": 6,
+        "title": "Teil 6: Energie aus der Dose, Das blaue Wunder, Die Zauberprüfung (Hörspiele zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3OA6geEzvBlfwXQPzUAkEZ",
+        "include": true,
+        "episode_num": 5,
+        "title": "Teil 5: Was ist nur mit Dornwald los?, Blick in die Zukunft, Hilda in der Falle (Hörspiele zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0hj2baHLWGAChZFOULHMS5",
+        "include": true,
+        "episode_num": 4,
+        "title": "Teil 4: Verhexte Bäckerei, Das Band der Freundschaft, Hexengeburtstag, Aufprall mit Folgen (Hörspiele zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1cx3GIKlloCu7MrTD8oCA8",
+        "include": true,
+        "episode_num": 3,
+        "title": "Teil 3: Rettet Amanda!, Vollmondparty, Hatschi (Hörspiele zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0RzSILSbaxVqxhAck58KmJ",
+        "include": false,
+        "episode_num": null,
+        "title": "Zaubertricks und Maulwurfshügel [Petronella Apfelmus, Band 8 (Gekürzt)]",
+        "exclude_reason": "Audiobook (Gekürzt) - 50 tracks, chapters format, not Hörspiel"
+      },
+      {
+        "spotify_album_id": "5BCDZehG1Ir8cokNvw6Lio",
+        "include": true,
+        "episode_num": 2,
+        "title": "Teil 2: Das Überraschungs-Picknick, Der Spielverderber, Selfie mit Heckenschrat (Hörspiele zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0GxgRepTAKICCgnjxXabnn",
+        "include": true,
+        "episode_num": 1,
+        "title": "Teil 1: Der Oberhexenbesen, Papa ist geschrumpft, Verwichtelte Freundschaft (Hörspiele zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2F2C0NL9tgW68hFLzw2m6P",
+        "include": true,
+        "episode_num": null,
+        "title": "Erstleser Teil 2: Wer schleicht denn da durchs Erdbeerbeet (Ungekürzt)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7Jug2Gbe7g8n56ju02jxdF",
+        "include": false,
+        "episode_num": null,
+        "title": "Hexenfest und Waldgeflüster [Petronella Apfelmus, Band 7 (Gekürzt)]",
+        "exclude_reason": "Audiobook (Gekürzt) - 50 tracks, chapters format, not Hörspiel"
+      },
+      {
+        "spotify_album_id": "1wizSwFwBNIKcg7y8dJ5cP",
+        "include": true,
+        "episode_num": 2,
+        "title": "Teil 2: Zauberschlaf und Knallfroschchaos",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6cin4nc6W4kYZEXVT8cTxp",
+        "include": true,
+        "episode_num": 1,
+        "title": "Teil 1: Verhext und festgeklebt",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7hCY4leb1YXRBYimJcPbke",
+        "include": true,
+        "episode_num": 7,
+        "title": "Teil 7: Hexenfest und Waldgeflüster",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6lCPOXDdwoXnSSczQwvhVM",
+        "include": false,
+        "episode_num": null,
+        "title": "Schnattergans und Hexenhaus [Petronella Apfelmus, Band 6 (gekürzt)]",
+        "exclude_reason": "Audiobook (gekürzt) - 49 tracks, chapters format, not Hörspiel"
+      },
+      {
+        "spotify_album_id": "07Dc8nBiT1UNW2KOtildc6",
+        "include": true,
+        "episode_num": 6,
+        "title": "Teil 6: Schnattergans und Hexenhaus",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6qkSBAcFajJuDCPI1Cw11d",
+        "include": false,
+        "episode_num": null,
+        "title": "Hexenbuch und Schnüffelnase [Petronella Apfelmus, Band 5 (Gekürzt)]",
+        "exclude_reason": "Audiobook (Gekürzt) - 51 tracks, chapters format, not Hörspiel"
+      },
+      {
+        "spotify_album_id": "2ynxC5LbwWaM30a4j7c38y",
+        "include": true,
+        "episode_num": null,
+        "title": "Erstleser Teil 1: Überraschungsfest für Lucius",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1Qb9CKyizqDPVArVUH97ya",
+        "include": true,
+        "episode_num": 5,
+        "title": "Teil 5: Hexenbuch und Schnüffelnase",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2WfVlbOy5QSvDN86IfyUc0",
+        "include": false,
+        "episode_num": null,
+        "title": "Zauberhut und Bienenstich (Petronella Apfelmus, Band 4)",
+        "exclude_reason": "Audiobook - 46 tracks, chapters format, not Hörspiel"
+      },
+      {
+        "spotify_album_id": "2dQgSW8D64YrX7uEWezMnE",
+        "include": false,
+        "episode_num": null,
+        "title": "Schneeballschlacht und Wichtelstreiche (Petronella Apfelmus, Teil 3)",
+        "exclude_reason": "Audiobook - 47 tracks, chapters format, not Hörspiel"
+      },
+      {
+        "spotify_album_id": "5HIqmG8hpiPsdWWyLl2gWg",
+        "include": false,
+        "episode_num": null,
+        "title": "Zauberschlaf und Knallfroschchaos (Petronella Apfelmus, Teil 2)",
+        "exclude_reason": "Audiobook - 51 tracks, chapters format, not Hörspiel"
+      },
+      {
+        "spotify_album_id": "1xBkFrYGpf5VpNipeRk3xG",
+        "include": false,
+        "episode_num": null,
+        "title": "Verhext und festgeklebt (Petronella Apfelmus, Teil 1)",
+        "exclude_reason": "Audiobook - 45 tracks, chapters format, not Hörspiel"
+      },
+      {
+        "spotify_album_id": "5vSWgE1gyzqDSI28a2Mz1l",
+        "include": false,
+        "episode_num": null,
+        "title": "Petronella Applewitch (Original Television Theme)",
+        "exclude_reason": "Soundtrack - theme music only"
+      },
+      {
+        "spotify_album_id": "4l512YCayXLhHU0lRoISCZ",
+        "include": false,
+        "episode_num": null,
+        "title": "Petronella Apfelmus (Original Soundtrack zur TV-Serie)",
+        "exclude_reason": "Soundtrack"
+      }
+    ],
+    "age_note": "Suitable from 5+",
+    "curator_notes": "This series has a complex release history with both Hörspiele (audio plays) and Hörbücher (audiobooks). The Hörspiele are the proper episodes with multiple stories per album (TV series adaptations from 2020-2021), while the older releases (2014-2020) with 45-51 'Kapitel' tracks are audiobooks read by the author. The Erstleser series are early reader adaptations. Included are: (1) the 2020-2021 TV series Hörspiele (Teil 1-12), (2) the 2019-2022 Hörspiel re-releases (Teil 1-4, 7), and (3) the Erstleser spin-offs. Excluded are audiobooks (marked as 'Gekürzt' or with chapter-based tracks) and soundtracks."
+  }
+}

@@ -1,0 +1,420 @@
+{
+  "query": "Die Punkies",
+  "model": "kimi-k2.5",
+  "curated_at": "2026-02-21T01:14:15.094081+00:00",
+  "series": {
+    "id": "die_punkies",
+    "title": "Die Punkies",
+    "aliases": [],
+    "keywords": [
+      "Punkies"
+    ],
+    "spotify_artist_ids": [
+      "7w6oOCMwHFwDBPxeH7wQ2A"
+    ],
+    "episode_pattern": "Folge\\s+(\\d+)",
+    "albums": [
+      {
+        "spotify_album_id": "1pEI00p47VN97ZJXcvoJdJ",
+        "include": true,
+        "episode_num": 1,
+        "title": "Folge 1: Bühne frei für die Punkies!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5Xtjq4riihC8sdLnjLuMyB",
+        "include": true,
+        "episode_num": 2,
+        "title": "Folge 2: Gitarrendieb on tour!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "07VTWP2ZVlB566JX7snHif",
+        "include": true,
+        "episode_num": 3,
+        "title": "Folge 3: Gig auf der Geisterinsel!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5iv5zqKACFX20gyfzIXaFf",
+        "include": true,
+        "episode_num": 4,
+        "title": "Folge 4: Bens Comeback!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3cJ0OvAYfTCYZyjSdAF26v",
+        "include": true,
+        "episode_num": 5,
+        "title": "Folge 5: Video Stars!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0pAFnv9tPUi5gRmbVo7CGb",
+        "include": true,
+        "episode_num": 6,
+        "title": "Folge 6: Die Jagd nach der Masken-Band!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3lmGt8EDWouq6ZLWqgH9b3",
+        "include": true,
+        "episode_num": 7,
+        "title": "Folge 7: Into the Wild!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2UsXJOldhn0rLSSZGIKpjZ",
+        "include": true,
+        "episode_num": 8,
+        "title": "Folge 8: Der perfekte Deal!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "79YH6zLMoSrSmOLG3M4dV7",
+        "include": true,
+        "episode_num": 9,
+        "title": "Folge 9: Operation Love Song!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "69TqOEcUP0GYEVGrhGnUcC",
+        "include": true,
+        "episode_num": 10,
+        "title": "Folge 10: Die perfekte Hymne!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7qMKbPPplU6E0NRZ0cLC6D",
+        "include": true,
+        "episode_num": 11,
+        "title": "Folge 11: White Noise!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7sHyAM098n0ygGall7MnIa",
+        "include": true,
+        "episode_num": 12,
+        "title": "Folge 12: Farm Festival",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3LLW2YMtugTvqbg7QzCNTh",
+        "include": true,
+        "episode_num": 13,
+        "title": "Folge 13: Big Moon!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "72FohU7O3g0vlUDHzff4vY",
+        "include": true,
+        "episode_num": 14,
+        "title": "Folge 14: Burning Heart Boyz!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1yyI40KHaUvmMCPJ54Wdwm",
+        "include": true,
+        "episode_num": 15,
+        "title": "Folge 15: Ultra! Mega! Giga!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6Dco2pUeWYng3a9TM3fsla",
+        "include": true,
+        "episode_num": 16,
+        "title": "Folge 16: Hai Life!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1A4PCDEgMGrpAOx0x2hVTy",
+        "include": true,
+        "episode_num": 17,
+        "title": "Folge 17: Heroes!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1gfXqJGwlTPetODBpM20jR",
+        "include": true,
+        "episode_num": 18,
+        "title": "Folge 18: Reboot, Baby!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6K6rbJGE7Wz7TpkOkwwIvU",
+        "include": true,
+        "episode_num": 19,
+        "title": "Folge 19: Kiez-Mucke!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "66RdbeDXTmjz3Pti89ZssN",
+        "include": true,
+        "episode_num": 20,
+        "title": "Folge 20: Ein Fall für A.B.L.L.N.!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6jXTQ0dQFStPJnRYvuBlV5",
+        "include": true,
+        "episode_num": 21,
+        "title": "Folge 21: Punkies Ahoi!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "615EudJwtgaBE2lSApuHws",
+        "include": true,
+        "episode_num": 22,
+        "title": "Folge 22: Echter Punk!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3dIVNR8nTLCPTXawAiGDzh",
+        "include": true,
+        "episode_num": 23,
+        "title": "Folge 23: Virtual World Tour!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1gncb065yKRVKIQmgoP0HG",
+        "include": true,
+        "episode_num": 24,
+        "title": "Folge 24: Swamp Beats!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3pdBvNzY0f0GCutM8JBWvk",
+        "include": true,
+        "episode_num": 25,
+        "title": "Folge 25: Für eine Handvoll Eiscreme! (Special Guest: Johannes Oerding)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4hc6amUaJ2GEn4y0gHRTS7",
+        "include": true,
+        "episode_num": 26,
+        "title": "Folge 26: Crazy Catering!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6ycM65LFZ9eK87IT5uzoC5",
+        "include": true,
+        "episode_num": 27,
+        "title": "Folge 27: Stay tuned!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5SoeyPq6kIsPFy2w9ano5f",
+        "include": true,
+        "episode_num": 28,
+        "title": "Folge 28: Les Moustiques!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4AI7Xb8tinUc2EQNkIDSp5",
+        "include": true,
+        "episode_num": 29,
+        "title": "Folge 29: Free as a Bird!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1FaJcn0s62OunIgVdW4ZQP",
+        "include": true,
+        "episode_num": 30,
+        "title": "Folge 30: Camp Harmony! (feat. JORIS)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7ok1jXG43VR4SSFhklVcWy",
+        "include": true,
+        "episode_num": 31,
+        "title": "Folge 31: Steam-Punkies!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0tYFATPSznHRAuoQKf7SX6",
+        "include": true,
+        "episode_num": 32,
+        "title": "Folge 32: Postcards from Paradise!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4EpZ5PWLFWmBXVib2btVI6",
+        "include": true,
+        "episode_num": 33,
+        "title": "Folge 33: Sister's Act! (feat. Antje Schomaker)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "49XVZV6XBDmok9WsJT3WQy",
+        "include": true,
+        "episode_num": 34,
+        "title": "Folge 34: Forever Young!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3wnO6ZE1XlGOcIzOenbaRD",
+        "include": true,
+        "episode_num": 35,
+        "title": "Folge 35: Sweet Dreams!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5kYby5x0a0U9x9tXicPwqz",
+        "include": true,
+        "episode_num": 36,
+        "title": "Folge 36: Ghost! (feat. Paula Carolina)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1lbR6oR2r6dPnxhtJxlc5w",
+        "include": true,
+        "episode_num": 37,
+        "title": "Folge 37: Dancing Dragon!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "17ZHonokanCp3g8Q9SoZMy",
+        "include": true,
+        "episode_num": 38,
+        "title": "Folge 38: Mix Up!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0QhcEDtv1kXvVbTHN7AAXN",
+        "include": true,
+        "episode_num": 39,
+        "title": "Folge 39: Hyggelig Hellraiser!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7KUB142vdGwowc0MoqHuDZ",
+        "include": true,
+        "episode_num": 40,
+        "title": "Folge 40: Merch-Mania!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3tJzWwxYLbLCj6mJo7aq31",
+        "include": true,
+        "episode_num": 41,
+        "title": "Folge 41: Well Good!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0QjPvBxHar9xu1LfX6UDZk",
+        "include": true,
+        "episode_num": 42,
+        "title": "Folge 42: King Bling!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0J5lHc5vtWb9WyUrSfUhhn",
+        "include": true,
+        "episode_num": 43,
+        "title": "Folge 43: Serving Secrets!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "11dfFb6945OEuvmJGDxOX3",
+        "include": true,
+        "episode_num": 44,
+        "title": "Folge 44: Punkies Pur!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1R7Po5TTaaDXALoxNKv1bH",
+        "include": true,
+        "episode_num": 45,
+        "title": "Folge 45: Tunnelblick!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5qqN2V88cf6QRtSmmC33Eh",
+        "include": false,
+        "episode_num": null,
+        "title": "Folge 103: Europa-Express!",
+        "exclude_reason": "Spinoff from Teufelskicker series, not main Die Punkies storyline"
+      },
+      {
+        "spotify_album_id": "5LuyQnxIzCcTgpJdDf8EQT",
+        "include": false,
+        "episode_num": null,
+        "title": "Adventskalender - Zero X-Mas!",
+        "exclude_reason": "Advent calendar special with 59 tracks - box set format, not standard episode"
+      },
+      {
+        "spotify_album_id": "0OdGF27fiUI7nCbrHg3jWH",
+        "include": false,
+        "episode_num": null,
+        "title": "Nur die Musik - Vol. 1",
+        "exclude_reason": "Music compilation - songs only, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "47uetJOiM8n9bdVcmtcBRz",
+        "include": false,
+        "episode_num": null,
+        "title": "Nur die Musik - Vol. 2",
+        "exclude_reason": "Music compilation - songs only, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "1KGh8ZbEemCN5nw3to7xD6",
+        "include": false,
+        "episode_num": null,
+        "title": "Kurz-Hörspiel: Aylin - All Eyes On Me",
+        "exclude_reason": "Short story / Kurzhörspiel without episode number in main series"
+      },
+      {
+        "spotify_album_id": "23ACus5XSCEIQM0GPJF2a1",
+        "include": false,
+        "episode_num": null,
+        "title": "Kurz-Hörspiel: Nikolas - Drei süße Pinguine",
+        "exclude_reason": "Short story / Kurzhörspiel without episode number in main series"
+      },
+      {
+        "spotify_album_id": "68qbGY44zh4zA653uqpu0R",
+        "include": false,
+        "episode_num": null,
+        "title": "Dreamin' of Jolie",
+        "exclude_reason": "Single release - song only, not Hörspiel"
+      },
+      {
+        "spotify_album_id": "5rx1iOMdxYnHonVwN7soTB",
+        "include": false,
+        "episode_num": null,
+        "title": "Hand in Hand",
+        "exclude_reason": "Single release - song only, not Hörspiel"
+      },
+      {
+        "spotify_album_id": "75DkpyKDNVHPlsl2Cj4E3Q",
+        "include": false,
+        "episode_num": null,
+        "title": "Blankenese",
+        "exclude_reason": "Single release - song only, not Hörspiel"
+      },
+      {
+        "spotify_album_id": "6RuiiEPeHT09KQR8LoYfdI",
+        "include": false,
+        "episode_num": null,
+        "title": "Wie wir war'n (feat. Antje Schomaker)",
+        "exclude_reason": "Single release - song only, not Hörspiel"
+      },
+      {
+        "spotify_album_id": "2ij0X6RbJmZ8BewhUfGLCr",
+        "include": false,
+        "episode_num": null,
+        "title": "Vive la France!",
+        "exclude_reason": "EP release - songs only, not Hörspiel"
+      },
+      {
+        "spotify_album_id": "5yjyDVY3tOsgXhaTQd1GtW",
+        "include": false,
+        "episode_num": null,
+        "title": "Mein Weg",
+        "exclude_reason": "Single release - song only, not Hörspiel"
+      }
+    ],
+    "age_note": "Suitable from 6+",
+    "curator_notes": "Die Punkies is a music-themed Hörspiel series about a teenage band. Main series runs Folge 1-45. Note: Folge 103 is actually a Teufelskicker crossover/spinoff and should be excluded. Music compilations (Nur die Musik Vol. 1 & 2) and singles are excluded as they contain only songs, not Hörspiel content. The Adventskalender is a special Christmas calendar release with 24 mini-stories, excluded as box set format."
+  }
+}

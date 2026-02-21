@@ -1,0 +1,163 @@
+{
+  "query": "Woodwalkers",
+  "model": "kimi-k2.5",
+  "curated_at": "2026-02-21T01:19:17.655707+00:00",
+  "series": {
+    "id": "woodwalkers",
+    "title": "Woodwalkers",
+    "aliases": [
+      "Woodwalkers - Die Rückkehr"
+    ],
+    "keywords": [
+      "Woodwalkers"
+    ],
+    "spotify_artist_ids": [
+      "0yss9NnZei0eVpmhXpKj6p"
+    ],
+    "episode_pattern": "(?:Band|Staffel \\d+, Band)\\s+(\\d+)",
+    "albums": [
+      {
+        "spotify_album_id": "48fwCgY7WPOsB2oPDV5U9Y",
+        "include": false,
+        "episode_num": null,
+        "title": "Woodwalkers 2 (Das Original-Hörspiel zum Kinofilm)",
+        "exclude_reason": "Movie soundtrack adaptation, not main series episode"
+      },
+      {
+        "spotify_album_id": "4F7oyhm8PlQVgVIViUJGiF",
+        "include": false,
+        "episode_num": null,
+        "title": "Seawalkers - Filmstars unter Wasser - Das Hörspiel",
+        "exclude_reason": "Spinoff series (Seawalkers), not main Woodwalkers series"
+      },
+      {
+        "spotify_album_id": "1PK7ePBqP2fcGUhQqOzkcR",
+        "include": true,
+        "episode_num": 12,
+        "title": "Woodwalkers - Die Rückkehr. Zeit der Entscheidung - Das Hörspiel (Staffel 2, Band 6)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "01uMNmCf9BhSIc5GWZyZhR",
+        "include": false,
+        "episode_num": null,
+        "title": "Seawalkers - Ein Riese des Meeres - Das Hörspiel",
+        "exclude_reason": "Spinoff series (Seawalkers), not main Woodwalkers series"
+      },
+      {
+        "spotify_album_id": "0VN7CzBtRTbni9xNjYSGAR",
+        "include": true,
+        "episode_num": 11,
+        "title": "Woodwalkers - Die Rückkehr. Rivalen im Revier - Das Hörspiel (Staffel 2, Band 5)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5EcebJXJQixqRWarEpurNk",
+        "include": false,
+        "episode_num": null,
+        "title": "Seawalkers - Wilde Wellen - Das Hörspiel",
+        "exclude_reason": "Spinoff series (Seawalkers), not main Woodwalkers series"
+      },
+      {
+        "spotify_album_id": "0tmMOcyZUriJGdmG3VRW2c",
+        "include": true,
+        "episode_num": 10,
+        "title": "Woodwalkers - Die Rückkehr. Der Club der Fabeltiere - Das Hörspiel (Staffel 2, Band 4)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "43ozADIGVMwxuSsqj96q6E",
+        "include": false,
+        "episode_num": null,
+        "title": "Seawalkers - Rettung für Shari - Das Hörspiel",
+        "exclude_reason": "Spinoff series (Seawalkers), not main Woodwalkers series"
+      },
+      {
+        "spotify_album_id": "6PzVYSk3L4eK63POzGPULL",
+        "include": true,
+        "episode_num": 9,
+        "title": "Woodwalkers - Die Rückkehr. Das Grollen der Löwin - Das Hörspiel (Staffel 2, Band 3)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7zRXVUu8cYiMeGrly7vDZ8",
+        "include": false,
+        "episode_num": null,
+        "title": "Woodwalkers (Das Original-Hörspiel zum Kinofilm)",
+        "exclude_reason": "Movie soundtrack adaptation, not main series episode"
+      },
+      {
+        "spotify_album_id": "4TrtcEaslIlGAd9n0ch81z",
+        "include": false,
+        "episode_num": null,
+        "title": "Seawalkers - Gefährliche Gestalten - Das Hörspiel",
+        "exclude_reason": "Spinoff series (Seawalkers), not main Woodwalkers series"
+      },
+      {
+        "spotify_album_id": "7c67MJkQOwdYVKF99xUJmZ",
+        "include": true,
+        "episode_num": 8,
+        "title": "Woodwalkers - Die Rückkehr. Herr der Gestalten - Das Hörspiel (Staffel 2, Band 2)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3akuBfI0xnmcKuTDc0NHmi",
+        "include": true,
+        "episode_num": 7,
+        "title": "Woodwalkers - Die Rückkehr. Das Vermächtnis der Wandler - Das Hörspiel (Staffel 2, Band 1)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "38cpTcQn6kTGyw9Ttn3mhA",
+        "include": true,
+        "episode_num": 6,
+        "title": "Woodwalkers - Tag der Rache - Das Hörspiel",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3cWBxST748bHGGNlT0Jqfw",
+        "include": true,
+        "episode_num": 5,
+        "title": "Woodwalkers - Feindliche Spuren - Das Hörspiel",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2P7opcdyWfFWcR1nG3zVmq",
+        "include": true,
+        "episode_num": 4,
+        "title": "Woodwalkers - Fremde Wildnis – Das Hörspiel",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3PlNkGHk30RsvmoAZtzcQa",
+        "include": true,
+        "episode_num": 3,
+        "title": "Woodwalkers - Hollys Geheimnis – Das Hörspiel",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3nV5gBed3BUwAkYeLnsvqu",
+        "include": true,
+        "episode_num": 2,
+        "title": "Woodwalkers - Gefährliche Freundschaft – Das Hörspiel",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4NqWK4luxlC88GtQ48Kg9o",
+        "include": true,
+        "episode_num": 1,
+        "title": "Woodwalkers - Carags Verwandlung – Das Hörspiel",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "066gsXUYr19OIlXuo9OSrk",
+        "include": false,
+        "episode_num": null,
+        "title": "Woodwalkers Song",
+        "exclude_reason": "Single song track, not an episode"
+      }
+    ],
+    "age_note": "Suitable from 8+",
+    "curator_notes": "The Woodwalkers artist page contains both the main Woodwalkers series and the Seawalkers spinoff series. Seawalkers albums have been excluded as they are a separate spinoff series. The main series has two seasons: Season 1 (Band 1-6) and Season 2 'Die Rückkehr' (Band 1-6). Two movie soundtrack albums are also excluded as they are adaptations of the films rather than the book-based Hörspiel episodes."
+  }
+}

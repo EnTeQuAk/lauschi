@@ -1,0 +1,299 @@
+{
+  "query": "Kati & Azuro",
+  "model": "kimi-k2.5",
+  "curated_at": "2026-02-21T01:25:16.686754+00:00",
+  "series": {
+    "id": "kati_azuro",
+    "title": "Kati & Azuro",
+    "aliases": [],
+    "keywords": [],
+    "spotify_artist_ids": [
+      "7c489FVO1pmK6pD8tGFcwV"
+    ],
+    "episode_pattern": "(?:Folge\\s+)?(\\d+)",
+    "albums": [
+      {
+        "spotify_album_id": "6z5zhS3Z8veXYB6ZMvxutF",
+        "include": true,
+        "episode_num": 1,
+        "title": "01/Rettet Azuro!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5q9zlOqgeDs53s2oY5DuRw",
+        "include": true,
+        "episode_num": 2,
+        "title": "02/Azuro startet durch",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2UAvm1IN0ibLZkOp2bzPvH",
+        "include": true,
+        "episode_num": 3,
+        "title": "03/Versteck am Hexenpfad",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0zWDq7dXYxzVBvbnfgbAiX",
+        "include": true,
+        "episode_num": 4,
+        "title": "04/Rätsel um Serafina",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7hLwwfQkaYdaxsfKiU4boC",
+        "include": true,
+        "episode_num": 5,
+        "title": "05/Kati auf der Flucht",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1NfgKhOwOGBhw7tuiuWDRb",
+        "include": true,
+        "episode_num": 6,
+        "title": "06/Eiskalt erwischt",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4IB5Tv02UXD6CmoKLopkxJ",
+        "include": true,
+        "episode_num": 7,
+        "title": "07/Der stumme Zeuge",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "03kv3VajFQ6xFUGBld9K8L",
+        "include": true,
+        "episode_num": 8,
+        "title": "08/Fohlen in Gefahr",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4BgvvnyPTZQXAyms0wnxhY",
+        "include": true,
+        "episode_num": 9,
+        "title": "09/Das Geheimnis der Fledermaushöhle",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0UvFSwaBnStf8nDx6L6emD",
+        "include": true,
+        "episode_num": 10,
+        "title": "10/Der Fall \"Georgie\"",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7COucPMyCVQRL6xIjCA9qm",
+        "include": true,
+        "episode_num": 11,
+        "title": "11/Gefangen im Schnee",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7iSWa02iREVSviGPff5l5u",
+        "include": true,
+        "episode_num": 12,
+        "title": "12/Brandgefährlich",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1isxKskbnqD5Ma7TC32O62",
+        "include": true,
+        "episode_num": 13,
+        "title": "13/Die Rache des Drachen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4Zd1Yf8OZ9MkFYKHPgQiof",
+        "include": true,
+        "episode_num": 14,
+        "title": "14/Der Fluch der Donnerhexe",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5CiiSWUD2lFxqttZrqFhg6",
+        "include": true,
+        "episode_num": 15,
+        "title": "15/Spuren im Schnee",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5dj9W8YALOneADYPNDp04D",
+        "include": true,
+        "episode_num": 16,
+        "title": "16/Der letzte Beweis",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2ozxd0lAc7UwvoHtBqodGL",
+        "include": true,
+        "episode_num": 17,
+        "title": "017/Gefährliche Dreharbeiten",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7sL95D1IIwglsIGffpr6hl",
+        "include": true,
+        "episode_num": 18,
+        "title": "018/Alarm auf der Weihnachtsfeier",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6cptP1uy54mU7q4TL4C1c5",
+        "include": true,
+        "episode_num": 19,
+        "title": "019/Irrlicht im Moor",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6TWdbrgTSizxnQrXlH2hyw",
+        "include": true,
+        "episode_num": 20,
+        "title": "020/Geheimnis unterm Eulennest",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4MdHQ4W2PXmoSKAUZL0ZbN",
+        "include": true,
+        "episode_num": 21,
+        "title": "021/Jagd auf den Spion",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4WIz5zNTgfHdE49uh8AZnA",
+        "include": true,
+        "episode_num": 22,
+        "title": "022/Der Geisterreiter",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2XgAFHfOwB8avNjUDZYxUk",
+        "include": true,
+        "episode_num": 23,
+        "title": "023/Azuros großer Auftritt",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5aHQvuoqmPnlC7GoT1RjTP",
+        "include": true,
+        "episode_num": 24,
+        "title": "024/Giftige Rache",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5oKz9pnEWLFW3kHwf43wdx",
+        "include": true,
+        "episode_num": 25,
+        "title": "025/Ein Monster im Schneewald",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "79AZBcG4ZMmLWwnlfNKeyE",
+        "include": true,
+        "episode_num": 26,
+        "title": "026/Der Tattoo-Mann",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3MzNpYhoabgNFTCe4wABvi",
+        "include": true,
+        "episode_num": 27,
+        "title": "027/Die schwarze Lippe",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4pPseqkf7FNN8Kioe1U78b",
+        "include": true,
+        "episode_num": 28,
+        "title": "028/Aufs Glatteis geführt",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2QPk6dbvH0KKsHBY3TM9lE",
+        "include": true,
+        "episode_num": 29,
+        "title": "029/Die grüne Grotte",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0tLO11wQ2fAaDsPteNKxmm",
+        "include": true,
+        "episode_num": 30,
+        "title": "Folge 30: Der schwarze Panther",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6DByZ7Cm3SnucCJFNEvfQN",
+        "include": true,
+        "episode_num": 31,
+        "title": "Folge 31: Das schlaue Pferd",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6nAhAa0dKtkopOOXl8mqPX",
+        "include": true,
+        "episode_num": 32,
+        "title": "Folge 32: Im Schein des blauen Mondes",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5OLLVvm9FlecOVOacvnNFd",
+        "include": true,
+        "episode_num": 33,
+        "title": "Folge 33: Ein riskanter Ritt",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5DdS0ZeEtnZWRk8LhUrbKf",
+        "include": true,
+        "episode_num": 34,
+        "title": "Folge 34: Drama am Set",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7l5gZ8FZVviQyz0qVuGOWI",
+        "include": true,
+        "episode_num": 35,
+        "title": "Folge 35: Falsches Spiel",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7EUxFoNAkwTlOQvXkV02Sr",
+        "include": true,
+        "episode_num": 36,
+        "title": "Folge 36: Ausgeliefert",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "275D2F2AaMkcaAWIp6yfFH",
+        "include": true,
+        "episode_num": 37,
+        "title": "Folge 37: Voller Einsatz für Fee",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6V4ZBU9HgBKbyJQgbvl40m",
+        "include": true,
+        "episode_num": 38,
+        "title": "Folge 38: Im Bann der Shiva",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "166lPdvWVyIGsTkJjn9Hge",
+        "include": true,
+        "episode_num": 39,
+        "title": "Folge 39: Der Sturm",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5jyiCwAngI0zDsbuTTD2hv",
+        "include": true,
+        "episode_num": 40,
+        "title": "Folge 40: Ein genialer Plan",
+        "exclude_reason": null
+      }
+    ],
+    "age_note": "Suitable from 5+",
+    "curator_notes": "Horse-themed adventure series. Episode naming changed from NN/Title format (episodes 1-29) to Folge NN: Title format (episodes 30-40) starting in 2021. All 40 individual episodes included - no box sets or duplicates detected."
+  }
+}

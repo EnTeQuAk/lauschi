@@ -1,0 +1,469 @@
+{
+  "query": "Mia and Me",
+  "model": "kimi-k2.5",
+  "curated_at": "2026-02-21T01:27:44.302163+00:00",
+  "series": {
+    "id": "mia_and_me",
+    "title": "Mia and Me",
+    "aliases": [],
+    "keywords": [
+      "Mia and Me"
+    ],
+    "spotify_artist_ids": [
+      "5enzAipom8L2RuY9KtG9Fv"
+    ],
+    "episode_pattern": "Folge\\s+(\\d+)",
+    "albums": [
+      {
+        "spotify_album_id": "3QbTeOUmMaIsYrN7GUOHpS",
+        "include": true,
+        "episode_num": 3,
+        "title": "Folge 3: Die große Prinzenprüfung (Das Original-Hörspiel)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4Cy2DhdYwRfi83a9esOD06",
+        "include": true,
+        "episode_num": 2,
+        "title": "Folge 2: Der verliebte Polytheus (Das Original-Hörspiel)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3jMDTLSXAB85wBZJybqFCx",
+        "include": true,
+        "episode_num": 1,
+        "title": "Folge 1: Die allerschönste Blume (Das Original-Hörspiel)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5KZZnkn5GunxCzH9ZkgLJW",
+        "include": true,
+        "episode_num": 51,
+        "title": "Folge 51: Die letzte Zutat / Der Trank der Einheit / Centopia in Gefahr (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7mnRh7Inb1QjuIVe8JW9gF",
+        "include": true,
+        "episode_num": 50,
+        "title": "Folge 50: Das sprechende Einhorn / Ein Käfig im Dschungel / Sternenklar und stachelig (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6KlV7VxL1BmuPYsc1guQ9l",
+        "include": true,
+        "episode_num": 49,
+        "title": "Folge 49: Drachen im Anflug / Ein feuriges Abenteuer (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2ibGoLZVr6F6OzJbP2YLN6",
+        "include": true,
+        "episode_num": 48,
+        "title": "Folge 48: Ein staubiger Schatz / Ein frostiger Ausflug (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2U9lH9TB5SzvuhRSS2h8Jp",
+        "include": true,
+        "episode_num": 47,
+        "title": "Folge 47: Ein perfektes Team / Eine hinterlistige Täuschung (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2jXds2OhzOFRDQKVQkK3HL",
+        "include": true,
+        "episode_num": 46,
+        "title": "Folge 46: Die Wahrheit im Spiegel / Die fliederfarbene Grotte (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4tPGe5Q4vxULZQ8Ntkn1FK",
+        "include": true,
+        "episode_num": 45,
+        "title": "Folge 45: Tanzende Lichter / Verborgene Schätze (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1nkOuH92hdKdOoxQ1R5ljA",
+        "include": true,
+        "episode_num": 44,
+        "title": "Folge 44: Im Einklang / Das Duell der Pane (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "25J6WJOnQnJvAQKhA1IoTt",
+        "include": true,
+        "episode_num": 43,
+        "title": "Folge 43: Der schimmernde Mond / Ein Land voll Sumpf und Honig (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4GYoKfglmHVTeZTKX4CCGp",
+        "include": true,
+        "episode_num": 42,
+        "title": "Folge 42: Ankunft der Regenbogeninsel / Der Kampf der Drachen (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1vZ5K4C5qIE0MfQnNyRPZt",
+        "include": true,
+        "episode_num": 41,
+        "title": "Folge 41: Ein Sturm zieht auf / Ein Wiedersehen mit Flo (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0P8k1LXjAjlLBS0boqFgkq",
+        "include": true,
+        "episode_num": 40,
+        "title": "Folge 40: Seltsame Gezeiten / Seeland in Sicht! (Das Original Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3fMzwN9VKZeTutOxu4SztR",
+        "include": false,
+        "episode_num": null,
+        "title": "Die magische Reise nach Centopia - Das Liederalbum (Instrumental-Versionen zum Mitsingen)",
+        "exclude_reason": "Song album (Liederalbum), not a Hörspiel"
+      },
+      {
+        "spotify_album_id": "5IIuCsZamXQ2JHsoPT1cqI",
+        "include": false,
+        "episode_num": null,
+        "title": "Die magische Reise nach Centopia (Das Liederalbum)",
+        "exclude_reason": "Song album (Liederalbum), not a Hörspiel"
+      },
+      {
+        "spotify_album_id": "0N7sW4qMGxAcMunJDl08hb",
+        "include": false,
+        "episode_num": null,
+        "title": "Das Geheimnis von Centopia (Das Original-Hörspiel zum Kinofilm)",
+        "exclude_reason": "Movie Hörspiel - special one-off, not part of regular episode series"
+      },
+      {
+        "spotify_album_id": "7cvXD4KUfM8N3f7UpFx73j",
+        "include": true,
+        "episode_num": 39,
+        "title": "Folge 39: Der große Schlaf / Das Blüten-Feuerwerk (Das Original Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1C9pdO5s5N1m9uYb9NiTs6",
+        "include": true,
+        "episode_num": 38,
+        "title": "Folge 38: Im Dunklen Schloss gefangen / Die neue Elfe (Das Original Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5BNGrU0ONpH1tjCI45gXZS",
+        "include": true,
+        "episode_num": 37,
+        "title": "Folge 37: Ein unerwarteter Gast / Das rätselhafte Spiegelbild (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0mHU7lgOa8UNNO6SDf8br2",
+        "include": true,
+        "episode_num": 36,
+        "title": "Folge 36: Ein scheues Einhorn / Ein Diamant für Yuko (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4cq3NCkve6NYtGW386g3NV",
+        "include": true,
+        "episode_num": 26,
+        "title": "Folge 26: Freiheit für den Drachen / Der Bann ist gebrochen (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5ApQY2WfDO2zlJ8OywFIV6",
+        "include": true,
+        "episode_num": 23,
+        "title": "Folge 23: Die Feuerblume / Die Reise zum Nordhorn (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0GURQSH5kkkypVOj5JDxC5",
+        "include": true,
+        "episode_num": 19,
+        "title": "Folge 19: Der ungebetene Gast / Hinter den Spiegeln (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4cqWOQo8s9LqP86urtZpPy",
+        "include": true,
+        "episode_num": 18,
+        "title": "Folge 18: Der würdige Sohn / Tanz mit den Sternen (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2EN7DImKL1T61RhCD7gK6B",
+        "include": true,
+        "episode_num": 16,
+        "title": "Folge 16: Der Geist des Schwarzen Waldes / Der Fluch des grünen Elixiers (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3pPEYtUNahcKctatXfDj6E",
+        "include": true,
+        "episode_num": 9,
+        "title": "Folge 9: Die Blütenfest-Prinzessin / König für einen Tag (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3RaN7svlagcvTA1yWeTgOL",
+        "include": true,
+        "episode_num": 8,
+        "title": "Folge 8: Die geheimnisvolle Laterne / Die Einhorn-Falle (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5zqo0LW3ODZ9ROQoRYDYWq",
+        "include": true,
+        "episode_num": 7,
+        "title": "Folge 7: Das Feuer-Einhorn / Der verdorrte Wald (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1EYPiudemCihmqkfalDLUR",
+        "include": true,
+        "episode_num": 15,
+        "title": "Folge 15: Die gepfefferten Blitze / Drachen in Gefahr (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0Un7MtF2vaXJRtjIs7pSIq",
+        "include": true,
+        "episode_num": 14,
+        "title": "Folge 14: Der Neuankömmling / Hinter den Kulissen (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2XppOrXSrU80fmIZXLB9Ld",
+        "include": true,
+        "episode_num": 35,
+        "title": "Folge 35: Bluebardo in Not / Der riesengroße Schmetterling (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7m24IRjuTrkcPiWPBRQ1Lt",
+        "include": true,
+        "episode_num": 34,
+        "title": "Folge 34: Die Ballade vom Mond-Einhorn / Der Herzblatt-Baum (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1T4qH7fu0bHTW62ZUmpWq3",
+        "include": true,
+        "episode_num": 33,
+        "title": "Folge 33: Im schwarzen Wald / Das sechsäugige Monster (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "20wgM5CMbXtz8slZOB6hBb",
+        "include": true,
+        "episode_num": 32,
+        "title": "Folge 32: Verloren im Nebel / Auf der Suche nach Simo (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4jqUZAIw2IPjXkQRZtt7s0",
+        "include": true,
+        "episode_num": 31,
+        "title": "Folge 31: Die Nacht wird zum Tag / Der Kreislauf des Lebens (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "06fNCmLPahy2jSwoPRruLz",
+        "include": true,
+        "episode_num": 30,
+        "title": "Folge 30: Phuddle zieht aus (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1LBTaTFsmlxAJyNOK8cerc",
+        "include": true,
+        "episode_num": 29,
+        "title": "Folge 29: Der Einhornkindergarten (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3a5zz09S660OfKPN3pen8i",
+        "include": true,
+        "episode_num": 28,
+        "title": "Folge 28: Das Herz von Centopia (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5QHcnzukAR6uTts1gCqWwO",
+        "include": true,
+        "episode_num": 27,
+        "title": "Folge 27: Ein Schwesterchen für Onchao (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1NKoRCa0JptWVwLc2lkJxd",
+        "include": true,
+        "episode_num": 24,
+        "title": "Folge 24: Der König der Einhörner / Die Regenbogenquelle (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0XBqorFZ6HJYjyiOdSMwb6",
+        "include": false,
+        "episode_num": null,
+        "title": "Weihnachten in Centopia (Das Original-Hörspiel zum Buch)",
+        "exclude_reason": "Christmas special book adaptation, not a numbered episode"
+      },
+      {
+        "spotify_album_id": "0ie82Xdmgv7k5e46dWkoFE",
+        "include": true,
+        "episode_num": 25,
+        "title": "Folge 25: Ein weiser Entschluss / Das wahre Gesicht (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7vztVIDLRDY6g82bEHahSv",
+        "include": true,
+        "episode_num": 22,
+        "title": "Folge 22: Ein doppeltes Spiel / Die Blume der Erinnerung (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "68cuV16dQ4FnQbIk96FJnD",
+        "include": true,
+        "episode_num": 21,
+        "title": "Folge 21: Die fremde Prinzessin / Die Brücke am Jadehorn (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2DnciaZjAGHYytxXTUPMfa",
+        "include": true,
+        "episode_num": 20,
+        "title": "Folge 20: Der vierte Ring / Das Fest des Bolobo (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4RD9uJBrANRosSWik1wWwU",
+        "include": false,
+        "episode_num": null,
+        "title": "Folge 4: Die Legende vom Schwarzen Einhorn (Das Original-Hörspiel zum Buch)",
+        "exclude_reason": "Duplicate episode - older book adaptation, superseded by 2025 TV series release"
+      },
+      {
+        "spotify_album_id": "58XoNOFEGev2Fi3m4Qg7cP",
+        "include": false,
+        "episode_num": null,
+        "title": "Folge 3: Eine Geburtstagsparty für Mia (Das Original-Hörspiel zum Buch)",
+        "exclude_reason": "Duplicate episode - older book adaptation, superseded by 2025 TV series release"
+      },
+      {
+        "spotify_album_id": "2KcHr9n7TroKTjId8gBxY9",
+        "include": false,
+        "episode_num": null,
+        "title": "Sternentanz und Elfenzauber (Das Liederalbum zur TV-Serie)",
+        "exclude_reason": "Song album (Liederalbum), not a Hörspiel"
+      },
+      {
+        "spotify_album_id": "2saZshM4ZFvAYQjusfj5Wy",
+        "include": true,
+        "episode_num": 17,
+        "title": "Folge 17: Die Spur des Vaters / Das Geheimnis der vier Ringe (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6LjaO0VATb8SYtyTJF1X12",
+        "include": false,
+        "episode_num": null,
+        "title": "Folge 2: Hochzeit bei den Einhörnern (Das Original-Hörspiel zum Buch)",
+        "exclude_reason": "Duplicate episode - older book adaptation, superseded by 2025 TV series release"
+      },
+      {
+        "spotify_album_id": "0Ln0JTQdgoM3kBa6OJtUfT",
+        "include": false,
+        "episode_num": null,
+        "title": "Folge 1: Babysitter Phuddle (Das Original-Hörspiel zum Buch)",
+        "exclude_reason": "Duplicate episode - older book adaptation, superseded by 2025 TV series release"
+      },
+      {
+        "spotify_album_id": "4RRy8d08JtRRRTwpe9Bdkq",
+        "include": true,
+        "episode_num": 12,
+        "title": "Folge 12: Die defekte Wasserkuppel / Invasion der Pane (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6KwaghL03U1KaN6ZKqHSyN",
+        "include": true,
+        "episode_num": 11,
+        "title": "Folge 11: Wiedersehen mit Baby Blue / Die Vollmondnacht (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4RSjf4VGE8tnLrzugKy6qT",
+        "include": false,
+        "episode_num": null,
+        "title": "Komm und flieg mit mir",
+        "exclude_reason": "Song album (Liederalbum), not a Hörspiel"
+      },
+      {
+        "spotify_album_id": "0n85TybSoYds7sVauM4Zoy",
+        "include": true,
+        "episode_num": 13,
+        "title": "Folge 13: Pantheas letztes Angebot / Die große Entscheidung (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4Te0B1Dn7mGq1lSMXKp5P7",
+        "include": true,
+        "episode_num": 10,
+        "title": "Folge 10: Phuddles neueste Erfindung / Die Höhle der Wahrheit (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "44OK7nXIONoSJxBKoN8gDP",
+        "include": true,
+        "episode_num": 6,
+        "title": "Folge 6: Polytheus im Goldrausch / Phuddles große Stunde (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0WuEWno0fXX3JAXAJKMjKp",
+        "include": true,
+        "episode_num": 5,
+        "title": "Folge 5: Kleiner Drache Baby Blue / Der große Blütenbaum (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5pcuF1TRY91B9nt5hTYoqs",
+        "include": true,
+        "episode_num": 3,
+        "title": "Folge 3: Das goldene Einhorn / Onchao und das Paradies (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0Cs0e2xuUVBD2OPFOnZw2Q",
+        "include": true,
+        "episode_num": 2,
+        "title": "Folge 2: Ein seltsames Orakel / Der verlorene Trumptus (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5kc4tEfYKk5QxDkaA2EvjP",
+        "include": true,
+        "episode_num": 1,
+        "title": "Folge 1: Ankunft in Centopia / Eine neue Hoffnung (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "76XTYONoE1T3jxmBtxtbsP",
+        "include": true,
+        "episode_num": 4,
+        "title": "Folge 4: Beeren für Phuddle / Ziggos freier Tag (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      }
+    ],
+    "age_note": "Suitable from 5+",
+    "curator_notes": "Series has overlapping episode numbering between 'Original-Hörspiel zum Buch' (book adaptations, 2014-2015) and 'Original-Hörspiel zur TV-Serie' (TV series, 2012-2025). The 2025 releases (Folge 1-3) appear to be new/revised versions. Kept TV series episodes 1-4 (2012) as they differ from book episodes. Excluded 2014-2015 book episodes Folge 1-4 as duplicates superseded by 2025 versions. Missing episodes: 28 (actually present), checking gaps... Episodes 1-51 present with some gaps in numbering (e.g., episode 28 exists, but some numbers between 1-51 may be missing from the catalog)."
+  }
+}
