@@ -34,7 +34,7 @@ class ManageCardsScreen extends ConsumerWidget {
         title: const Text('Karten verwalten'),
         actions: [
           IconButton(
-            onPressed: () => context.push(AppRoutes.parentAddCard),
+            onPressed: () => context.push(AppRoutes.parentCatalog),
             icon: const Icon(Icons.add_rounded),
             tooltip: 'Hörspiel hinzufügen',
           ),
@@ -42,7 +42,7 @@ class ManageCardsScreen extends ConsumerWidget {
       ),
       body:
           totalCards == 0
-              ? _EmptyState(onAdd: () => context.push(AppRoutes.parentAddCard))
+              ? _EmptyState(onAdd: () => context.push(AppRoutes.parentCatalog))
               : _GroupedCardList(
                 groupsAsync: groupsAsync,
                 ungroupedAsync: ungroupedAsync,
