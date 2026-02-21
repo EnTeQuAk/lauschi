@@ -1,14 +1,23 @@
-# lauschi
+<p align="center">
+  <img src="assets/images/branding/lauschi-logo.png" alt="lauschi" width="200">
+  <p align="center">A calm audio player for kids. No algorithm, no rabbit holes.</p>
+</p>
 
-A kids audio player for Spotify (Apple Music planned). Parents curate content as visual cards; kids tap a card and audio starts. No algorithm, no recommendations, no rabbit holes.
+# What's lauschi?
 
-Built with Flutter. DACH-market focus initially (Hörspiele, Kindermusik), internationalizable.
+lauschi wraps Spotify (Apple Music planned) behind a curated,
+card-based interface for children. Parents build visual content
+cards — kid taps a card, audio starts. No recommendations, no
+autoplay, no screen time spiral.
 
-**Privacy-first**: all data local, no cloud, no analytics beyond opt-in Sentry crash reporting.
+Built with Flutter. DACH-market focus (Hörspiele, Kindermusik),
+internationalizable. All data stays on-device.
 
 ## Status
 
-MVP functional on Android. Grouping, catalog matching, parent/kid modes working. Catalog curation pipeline covers 50+ DACH Hörspiel series with 2400+ curated albums.
+MVP functional on Android and iOS. Grouping, catalog matching,
+NFC tag support, parent/kid modes working. Catalog curation
+pipeline covers 125 DACH Hörspiel and music series.
 
 ## Setup
 
