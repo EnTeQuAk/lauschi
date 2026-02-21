@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lauschi/core/catalog/catalog_service.dart';
 import 'package:lauschi/core/database/card_repository.dart';
-import 'package:lauschi/core/database/group_repository.dart';
+import 'package:lauschi/core/database/content_importer.dart';
 import 'package:lauschi/core/log.dart';
 import 'package:lauschi/core/router/app_router.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
@@ -194,72 +194,46 @@ class _CatalogSeriesDetailScreenState
     }
 
     try {
-      // Fetch album details for selected IDs (batched by Spotify API)
+      // Fetch album details from Spotify API (provider-specific step).
       final albumIds = _selected.toList();
       final albums = await api.getAlbums(albumIds);
 
-      // Find or create group for the series
-      final groupRepo = ref.read(groupRepositoryProvider);
-      final cardRepo = ref.read(cardRepositoryProvider);
-      final groups = await groupRepo.getAll();
-      var groupId =
-          groups
-              .where(
-                (g) => g.title.toLowerCase() == series.title.toLowerCase(),
-              )
-              .firstOrNull
-              ?.id;
-
-      if (groupId == null) {
-        final firstAlbum = albums.isNotEmpty ? albums.first : null;
-        groupId = await groupRepo.insert(
-          title: series.title,
-          coverUrl: firstAlbum?.imageUrl,
-        );
-        Log.info(_tag, 'Created group: ${series.title}');
-      }
-
-      // Each album in the batch has a unique URI, so stale reads from the
-      // provider between iterations can't cause duplicates. insertIfAbsent
-      // is the safety net regardless.
-      var added = 0;
+      // Build PendingCards from Spotify album data.
+      final cards = <PendingCard>[];
       for (final album in albums) {
-        final uri = album.uri;
-        if (ref.read(existingCardUrisProvider).contains(uri)) continue;
-
-        // Extract episode number from catalog data
         final catalogAlbum =
             series.albums.where((a) => a.spotifyId == album.id).firstOrNull;
 
-        final cardId = await cardRepo.insert(
+        cards.add(PendingCard(
           title: album.name,
-          providerUri: uri,
-          coverUrl: album.imageUrl,
+          providerUri: album.uri,
           cardType: 'album',
+          provider: 'spotify',
+          coverUrl: album.imageUrl,
+          episodeNumber: catalogAlbum?.episode,
           spotifyArtistIds: album.artistIds,
           totalTracks: album.totalTracks,
-        );
-        await cardRepo.assignToGroup(
-          cardId: cardId,
-          groupId: groupId,
-          episodeNumber: catalogAlbum?.episode,
-        );
-
-        // No manual _existingUris.add() — existingCardUrisProvider
-        // updates automatically via Drift stream on insert.
-        added++;
+        ));
       }
+
+      final importer = ref.read(contentImporterProvider.notifier);
+      final firstAlbum = albums.isNotEmpty ? albums.first : null;
+      final result = await importer.importToGroup(
+        groupTitle: series.title,
+        groupCoverUrl: firstAlbum?.imageUrl,
+        cards: cards,
+      );
 
       Log.info(
         _tag,
-        'Added $added cards to ${series.title}',
-        data: {'seriesId': series.id, 'count': added},
+        'Added ${result.added} cards to ${series.title}',
+        data: {'seriesId': series.id, 'count': result.added},
       );
 
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('$added Folgen zu ${series.title} hinzugefügt'),
+            content: Text('${result.added} Folgen zu ${series.title} hinzugefügt'),
           ),
         );
         setState(() {
