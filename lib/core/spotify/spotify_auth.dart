@@ -185,6 +185,8 @@ class SpotifyAuth {
       _loginCompleter = null;
       _pendingVerifier = null;
       _pendingState = null;
+      // Close the in-app browser that was opened for OAuth.
+      unawaited(closeInAppWebView());
       // Clean up persisted PKCE state.
       await Future.wait([
         _storage.delete(key: _pendingVerifierKey),

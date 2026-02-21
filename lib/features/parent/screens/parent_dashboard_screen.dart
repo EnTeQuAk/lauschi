@@ -13,9 +13,9 @@ import 'package:lauschi/core/theme/app_theme.dart';
 
 String _catalogSubtitle(WidgetRef ref) {
   final catalog = ref.watch(catalogServiceProvider).value;
-  if (catalog == null) return 'Kuratierte Serien durchstöbern';
+  if (catalog == null) return 'Serien und Hörspiele durchstöbern';
   final count = catalog.all.where((s) => s.hasCuratedAlbums).length;
-  return '$count kuratierte Serien';
+  return '$count Serien + ARD Audiothek';
 }
 
 /// Parent mode dashboard — editorial settings UI behind PIN gate.
