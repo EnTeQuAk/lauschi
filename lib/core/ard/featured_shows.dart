@@ -1,5 +1,3 @@
-import 'dart:async' show Timer;
-
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:lauschi/core/ard/ard_api.dart';
 import 'package:lauschi/core/ard/ard_models.dart';
@@ -175,21 +173,8 @@ Future<List<FeaturedItem>> _fetchFeaturedItems(ArdApi api) async {
 
 // ── Provider ────────────────────────────────────────────────────────────────
 
-/// How long to cache featured items before re-fetching.
-const _cacheMaxAge = Duration(hours: 24);
-
-@Riverpod(keepAlive: true)
+@riverpod
 Future<List<FeaturedItem>> featuredItems(Ref ref) async {
   final api = ref.watch(ardApiProvider);
-  final items = await _fetchFeaturedItems(api);
-
-  // Re-fetch after 24 hours. Timer fires once, invalidateSelf triggers
-  // a new fetch on next read.
-  final timer = Timer(_cacheMaxAge, () {
-    Log.info(_tag, 'Cache expired, invalidating featured items');
-    ref.invalidateSelf();
-  });
-  ref.onDispose(timer.cancel);
-
-  return items;
+  return _fetchFeaturedItems(api);
 }
