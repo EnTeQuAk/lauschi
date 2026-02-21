@@ -1414,10 +1414,21 @@ class _AlbumTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading:
-          alreadyAdded
-              ? const Icon(Icons.check_circle, color: AppColors.success)
-              : Checkbox(value: isSelected, onChanged: (_) => onChanged()),
+      // Uniform leading: checkbox and check icon share the same
+      // allocated width so text stays aligned.
+      leading: SizedBox(
+        width: 48,
+        height: 48,
+        child: Center(
+          child:
+              alreadyAdded
+                  ? const Icon(Icons.check_circle, color: AppColors.success)
+                  : Checkbox(
+                    value: isSelected,
+                    onChanged: (_) => onChanged(),
+                  ),
+        ),
+      ),
       title: Text(
         album.title,
         style: TextStyle(
