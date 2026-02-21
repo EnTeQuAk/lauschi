@@ -280,6 +280,19 @@ class PlayerNotifier extends _$PlayerNotifier {
       clearNextEpisode: true,
     );
 
+    // Stop the other player backend before switching. Prevents dual playback
+    // and stale state from the previous backend bleeding into position saves.
+    if (card.provider != 'spotify') {
+      await _directPlayer?.stop();
+    }
+    if (card.provider == 'spotify') {
+      // Clear direct player reference so _isDirectPlayback returns false.
+      unawaited(_directSubscription?.cancel());
+      _directSubscription = null;
+      await _directPlayer?.stop();
+      _directPlayer = null;
+    }
+
     switch (card.provider) {
       case 'spotify':
         await _playSpotify(card);

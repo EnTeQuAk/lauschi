@@ -84,17 +84,16 @@ class ArdApi {
     String? after,
     bool publishedOnly = true,
   }) async {
-    final filterParts = <String>[
-      'programSetId: { equalTo: "$programSetId" }',
-      if (publishedOnly) 'isPublished: { equalTo: true }',
-    ];
-
+    // All dynamic values passed as GraphQL variables to prevent injection.
     final data = await _graphql('''
-      query Items(\$first: Int!, \$after: Cursor) {
+      query Items(\$first: Int!, \$after: Cursor, \$programSetId: String!) {
         items(
           first: \$first,
           after: \$after,
-          filter: { ${filterParts.join(', ')} },
+          filter: {
+            programSetId: { equalTo: \$programSetId },
+            isPublished: { equalTo: true }
+          },
           orderBy: PUBLISH_DATE_DESC
         ) {
           nodes { $_itemFields }
@@ -104,6 +103,7 @@ class ArdApi {
       }
     ''', variables: {
       'first': first,
+      'programSetId': programSetId,
       if (after != null) 'after': after,
     });
 
