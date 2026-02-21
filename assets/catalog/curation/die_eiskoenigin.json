@@ -1,0 +1,61 @@
+{
+  "query": "Die Eiskönigin",
+  "model": "kimi-k2.5",
+  "curated_at": "2026-02-21T00:32:14.489938+00:00",
+  "series": {
+    "id": "die_eiskoenigin",
+    "title": "Die Eiskönigin",
+    "aliases": [],
+    "keywords": [],
+    "spotify_artist_ids": [
+      "3wwXLyeqdnLlTqFwXlBQZ1"
+    ],
+    "episode_pattern": null,
+    "albums": [
+      {
+        "spotify_album_id": "5KF1EEo9C8m0w481zxRDdB",
+        "include": true,
+        "episode_num": null,
+        "title": "Die Eiskönigin - Völlig Unverfroren (Hörspiel zum Disney Film)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6vMHeySikVuG0MHC93aKCs",
+        "include": true,
+        "episode_num": null,
+        "title": "Die Eiskönigin 2 (Hörspiel zum Disney Film)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2izlb9M2kaJWx0OWoaeUd4",
+        "include": true,
+        "episode_num": null,
+        "title": "Die Eiskönigin - Zauber der Polarlichter (Hörspiel zum TV-Special)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7bNsN4pIWSqhqVJXe6cLjB",
+        "include": true,
+        "episode_num": null,
+        "title": "Die Eiskönigin: Olaf taut auf (Hörspiel zum Special)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "12OIEraQegwzRjeV0tyrUY",
+        "include": true,
+        "episode_num": null,
+        "title": "Die Eiskönigin - Partyfieber (Hörspiel zum Kurzfilm)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1AzroGa7OMBqJu9hSOoIJU",
+        "include": true,
+        "episode_num": null,
+        "title": "Es war einmal ein Schneemann (Hörspiel zum Kurzfilm)",
+        "exclude_reason": null
+      }
+    ],
+    "age_note": "",
+    "curator_notes": ""
+  }
+}

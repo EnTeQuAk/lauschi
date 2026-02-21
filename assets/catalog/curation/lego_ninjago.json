@@ -1,0 +1,2023 @@
+{
+  "query": "LEGO Ninjago",
+  "model": "kimi-k2.5",
+  "curated_at": "2026-02-21T00:52:14.244135+00:00",
+  "series": {
+    "id": "lego_ninjago",
+    "title": "LEGO Ninjago",
+    "aliases": [
+      "Ninjago"
+    ],
+    "keywords": [],
+    "spotify_artist_ids": [
+      "3YVNhnRJA4fODe4IyUIeWN"
+    ],
+    "episode_pattern": "Folge (\\d+):",
+    "albums": [
+      {
+        "spotify_album_id": "4JXnkHvPnkrr0SXsPdakyI",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 258: Zusammengekracht",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "020IqRRYCyUgJqm21nhVrI",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 257: Auf Wunsch der Drachen-Majestät",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1CXXuV2aXs7MShIoiTmVpZ",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 256: Unerfüllte Wünsche",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5st0wPoi8G9VPYrqrBjrAV",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 255: Das Versprechen von Ras",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3DVgjgpm27qFFSTmfryEsu",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 254: Zane und die Kapsel",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4x6t3oHWy7H1EO7OaLcFct",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 253: Die Geisterlande",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7scrkWolYddkB7qUoUgc1o",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 252: Der Zyklop",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1rMEiWnY9qh0hzzVGso3Oy",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 251: Die Verschwundenen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2BCErjuYUNAT9UUDgx5YA4",
+        "include": false,
+        "episode_num": null,
+        "title": "Quest for the Lost Powers - Zane (Book 02)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "13d5UjyE3UH8vycBQHFQUJ",
+        "include": false,
+        "episode_num": null,
+        "title": "Quest for the Lost Powers - Kai (Book 01)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0YXHPkogHH1CWBl0c6Ygt1",
+        "include": false,
+        "episode_num": null,
+        "title": "Quest for the Lost Powers - Jay (Book 04)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7uvU8NzkEHr52mTMbMHH6p",
+        "include": false,
+        "episode_num": null,
+        "title": "Quest for the Lost Powers - Cole (Book 03)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "023810jqzo6KhdGI6aPq8G",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 250: Elemente des Verrats",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1mFaL29fQLGr0hBJymHpOY",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 249: Das letzte Spiel",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "30kzzlBwlLroLCAPIiHGSs",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 248: Hinweise und Verdächtige",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0LKusiciuJ0ZM0LKKCbr7o",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 247: Das Schwert",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3A7XKbxvohHOpixuxtajrS",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 246: Wahrheit und Lügen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0k3dLsYOAA50xsd04bTQEL",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 245: Zusammenhalt und Zweifel",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1TwO7vbobZ3MPKG1ivx9BK",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 244: Alte und neue Verbindungen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0G5LiZgDz4L6RbxLbFtAmF",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 243: Das Festmahl vor dem Turnier",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0qnGcwcWNqVyDNesdN3nwK",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 242: Einladung zum Turnier der Quellen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "73XeJuzwalpmUEzw2xIyKt",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 241: Der Quelldrache der Bewegung",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1ZLKe78Pbntyr9Oe609kgh",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 240: Das Blutmondritual",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7JATqQ7sRk560cyvVhrx1H",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 239: Der Wald der Geister",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6TeNRdtmDHPOnHqeBz2IRE",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 238: Geheimnisse in Wyldness",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7zmkgeP4hrHl3XFjzmUzBs",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 237: Der dritte Drachenzahn-Ninja",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1Nfdnv7DiCyMVqqzntXaZH",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 236: Auf nach Mysterium!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1HH9DjjFayOELOP0Z12WaW",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 235: Eine echte Familie",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5RpUp2872IiX4VDIfR9iVf",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 234: Die Macht aus dem Osten",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0giRBlxI03hwYTq7U1tC2I",
+        "include": true,
+        "episode_num": null,
+        "title": "Gift für die Giftnattern (Band 20)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5xb8cfjlAI7a8KBZrSd4MX",
+        "include": true,
+        "episode_num": 233,
+        "title": "Folge 233: Jenseits der Vision",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0Xs562Ed9oZiJpquAvtpJN",
+        "include": true,
+        "episode_num": 232,
+        "title": "Folge 232: Gong der Zerstörung",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "522dDkTjwxvbFdSeuf0Q5o",
+        "include": true,
+        "episode_num": 231,
+        "title": "Folge 231: Der Blutmond",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2gbGN1XbC32PV0XDf1rCvL",
+        "include": false,
+        "episode_num": null,
+        "title": "Versteck der Würgeboas (Band 19)",
+        "exclude_reason": "Band release (numbered book/album series), not individual episode"
+      },
+      {
+        "spotify_album_id": "7j6wv7ozB20sw4jckzspqc",
+        "include": false,
+        "episode_num": null,
+        "title": "Angriff der Beißvipern (Band 18)",
+        "exclude_reason": "Band release (numbered book/album series), not individual episode"
+      },
+      {
+        "spotify_album_id": "3qpdKYGQvf8ckaoFIiwsuN",
+        "include": false,
+        "episode_num": null,
+        "title": "Geheimnisse der Hypnokobras (Band 17)",
+        "exclude_reason": "Band release (numbered book/album series), not individual episode"
+      },
+      {
+        "spotify_album_id": "17tRlnrqOOSIotTh1rcUUm",
+        "include": false,
+        "episode_num": null,
+        "title": "Zane (Band 16)",
+        "exclude_reason": "Band release (character-focused album), not individual episode"
+      },
+      {
+        "spotify_album_id": "6poNalcbMRyZ0iZsIkNBKZ",
+        "include": false,
+        "episode_num": null,
+        "title": "Cole (Band 15)",
+        "exclude_reason": "Band release (character-focused album), not individual episode"
+      },
+      {
+        "spotify_album_id": "3Ll8S5AVgFTAvAcmbidEXi",
+        "include": false,
+        "episode_num": null,
+        "title": "Jay (Band 14)",
+        "exclude_reason": "Band release (character-focused album), not individual episode"
+      },
+      {
+        "spotify_album_id": "5J0LZC2cYuT4TyUOUby2c0",
+        "include": false,
+        "episode_num": null,
+        "title": "Kai (Band 13)",
+        "exclude_reason": "Band release (character-focused album), not individual episode"
+      },
+      {
+        "spotify_album_id": "3zXgQ4R6spaMrOgypAkylZ",
+        "include": true,
+        "episode_num": 230,
+        "title": "Folge 230: Die innere Kraft",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0WJmFincxtVlveLENVjv8M",
+        "include": true,
+        "episode_num": 229,
+        "title": "Folge 229: Wir sind alle Drachen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5fNhdIwKVode1Eal5uOuna",
+        "include": true,
+        "episode_num": 227,
+        "title": "Folge 227: Die Verwaltung",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "41YkJN0Re0rPY1LTySEUns",
+        "include": true,
+        "episode_num": 228,
+        "title": "Folge 228: Die absolute Macht",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "536fEWwS7N9GqmNeh0V6mZ",
+        "include": true,
+        "episode_num": 226,
+        "title": "Folge 226: Land der verlorenen Dinge",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4PsnlkEy9x9bvTGjankUIp",
+        "include": true,
+        "episode_num": 225,
+        "title": "Folge 225: Der unmögliche Pfad",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6d82fKzSi1eAjeqrJDjDHs",
+        "include": true,
+        "episode_num": 224,
+        "title": "Folge 224: Der letzte Djinn",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3TYKn5pxVJAqHAyGEHmlcU",
+        "include": true,
+        "episode_num": 223,
+        "title": "Folge 223: Wenn einer lacht…",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4x7n5unDn0U12Rm2o4Rvse",
+        "include": true,
+        "episode_num": 222,
+        "title": "Folge 222: Die Riesenkrabbe",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1OJRmj2JbbOjAP0HEZdFSF",
+        "include": true,
+        "episode_num": 220,
+        "title": "Folge 220: Der Kampf um das Imperium-Kloster",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "08H48pViZ5tYyxjHyCsmFY",
+        "include": true,
+        "episode_num": 219,
+        "title": "Folge 219: Die innere Ruhe",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1rTuTR00yJkmzMOQIsUl0B",
+        "include": true,
+        "episode_num": 221,
+        "title": "Folge 221: Der Tempel der Drachenenergie",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4W0xs5Y1nxIDA4lBHURomg",
+        "include": true,
+        "episode_num": 218,
+        "title": "Folge 218: Ich bin die Gefahr!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4TQOW1xNutxlG9KZmafsDH",
+        "include": true,
+        "episode_num": 217,
+        "title": "Folge 217: Wyldfyre",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0u646Z4AwyhZMaC3cMALSL",
+        "include": true,
+        "episode_num": 216,
+        "title": "Folge 216: Rückkehr nach Imperium",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2Tktwr7bO8M1nGFNsd4pMy",
+        "include": true,
+        "episode_num": 215,
+        "title": "Folge 215: Die Schicksalsschreibenden",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4sY0yjOZPsPsCxxy5lQ7z4",
+        "include": true,
+        "episode_num": 214,
+        "title": "Folge 214: Jenseits des Irrsinns",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "02CRqnWtPWEJEQJXu6mCIc",
+        "include": true,
+        "episode_num": 213,
+        "title": "Folge 213: Der Crossroads-Jahrmarkt",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0TUBDvsh1fvuDUPhHmEAxp",
+        "include": true,
+        "episode_num": 212,
+        "title": "Folge 212: Die Verschmelzung: Teil 2",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6XhNdlMKCh2WNq1Mj7AKsE",
+        "include": true,
+        "episode_num": 211,
+        "title": "Folge 211: Die Verschmelzung: Teil 1",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2Bk5NTnnENWOFZ2wWbUbNj",
+        "include": true,
+        "episode_num": 210,
+        "title": "Folge 210: Wurzeln",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4ExX0YGxMTJRYKz8ZojbhE",
+        "include": true,
+        "episode_num": 209,
+        "title": "Folge 209: Die Drachen-Form",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3DAPtm9XiGT3QBxv3ZoAZO",
+        "include": true,
+        "episode_num": 208,
+        "title": "Folge 208: Eine Frage des Vertrauens",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2ipdcuczaTdjjtqF5cS7lI",
+        "include": true,
+        "episode_num": 207,
+        "title": "Folge 207: Notrufe",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7013ZwJVGuxpQo76byRmz4",
+        "include": true,
+        "episode_num": 206,
+        "title": "Folge 206: Was zusammenpasst",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0IqoCjbMYjZQn9wptWeXOa",
+        "include": true,
+        "episode_num": 205,
+        "title": "Folge 205: Ein Zufluchtsort",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1in1l8ezGCHAaK2eFY2CBs",
+        "include": true,
+        "episode_num": 204,
+        "title": "Folge 204: Die Rückkehr des Eiskaisers",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3a3uRYAuHgY5tMNH19lt5E",
+        "include": true,
+        "episode_num": 203,
+        "title": "Folge 203: Gib niemals auf",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1XKYRvgn2phRhUqSZXytJH",
+        "include": true,
+        "episode_num": 202,
+        "title": "Folge 202: Mutig, aber unklug",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0VROz1nlD1sRz5LtVON37L",
+        "include": true,
+        "episode_num": 201,
+        "title": "Folge 201: Oni-Unterricht",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2cqZdlxccEEZM93kJGhjeN",
+        "include": true,
+        "episode_num": 200,
+        "title": "Folge 200: Christofarn",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1dxgVOnZ9JCqNUVIYvUfz1",
+        "include": true,
+        "episode_num": 199,
+        "title": "Folge 199: Diamanten-Drama",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6Wfp25u75AOjrRRwWTFGWP",
+        "include": true,
+        "episode_num": 198,
+        "title": "Folge 198: Rückkehr ins Auge des Urwalds",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4HiIQ1weyhxWvVvglQCao9",
+        "include": true,
+        "episode_num": 197,
+        "title": "Folge 197: Die Wiederkehr des Königs",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "69jTgqbWzskWnbGIXFXkLR",
+        "include": true,
+        "episode_num": 196,
+        "title": "Folge 196: In der Dunkelheit",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3pSV9Ej9x1ZitOO2Tqbcqg",
+        "include": true,
+        "episode_num": 195,
+        "title": "Folge 195: Der Fall des Klosters",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2frACT7uSt3DlbxyS3vB3U",
+        "include": true,
+        "episode_num": 194,
+        "title": "Folge 194: Die Diamant-Spinnen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2FK9Cr0UfS4nBDaZYjO1Hz",
+        "include": true,
+        "episode_num": 193,
+        "title": "Folge 193: Schatten der Vergangenheit",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4Bn466TnKYyMQDdB5AuyEK",
+        "include": true,
+        "episode_num": 192,
+        "title": "Folge 192: Der Rat des Diamantkönigs",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "437nTpqRlwwI7HcVpaTZvH",
+        "include": true,
+        "episode_num": 191,
+        "title": "Folge 191: Der fünfte Schurke",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5reakizsNkDGD3f1w79r6K",
+        "include": true,
+        "episode_num": 190,
+        "title": "Folge 190: Nützliche Gefühle",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0MEIKNcVyeaxIfXxacX2Vf",
+        "include": true,
+        "episode_num": 189,
+        "title": "Folge 189: Flucht in die Wüste",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2Ry9fwuZLhpMrDliv44LuD",
+        "include": true,
+        "episode_num": 188,
+        "title": "Folge 188: Frust im Gefängnis",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5oeh7EAcfE3yW0xdAnvFZp",
+        "include": true,
+        "episode_num": 187,
+        "title": "Folge 187: Die Ninja vor Gericht",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "67xQ7WDjeurqmxnyQ4l2zi",
+        "include": true,
+        "episode_num": 186,
+        "title": "Folge 186: Ein verhängnisvolles Versprechen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1MKm7jKOJcJ4ds2eLMJKS8",
+        "include": true,
+        "episode_num": 185,
+        "title": "Folge 185: Die Gesuchten 1, 2, 3, 4 und 5!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "00IS1DC3uMPVNh4A5Qc5Uc",
+        "include": true,
+        "episode_num": 184,
+        "title": "Folge 184: Ein geheimes Problem",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1uVNfy6htCAcqIELco7vdX",
+        "include": true,
+        "episode_num": 183,
+        "title": "Folge 183: Nyas Gestalt",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1yDHEGLYhLja5zPwNg4qsq",
+        "include": true,
+        "episode_num": 182,
+        "title": "Folge 182: Der Ruf der Heimat",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2BoQnP1O64KWsgLPRlNKUz",
+        "include": true,
+        "episode_num": 181,
+        "title": "Folge 181: Abschied vom Meer",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0CdU5pZkMbUNZ1T5rKkCHU",
+        "include": false,
+        "episode_num": null,
+        "title": "Meister der Spiele (Band 12)",
+        "exclude_reason": "Compilation/Band release - not an individual numbered episode"
+      },
+      {
+        "spotify_album_id": "0KBvcNIHJiO0wb9huD5ENP",
+        "include": false,
+        "episode_num": null,
+        "title": "Die rätselhafte Pyramide (Band 11)",
+        "exclude_reason": "Compilation/Band release - not an individual numbered episode"
+      },
+      {
+        "spotify_album_id": "4CpuzzRjr2rrKLe0Bdb4L2",
+        "include": false,
+        "episode_num": null,
+        "title": "Die Stärke der Ninja (Band 10)",
+        "exclude_reason": "Compilation/Band release - not an individual numbered episode"
+      },
+      {
+        "spotify_album_id": "4ZjeFKZeRq0g7MuSYd9yhN",
+        "include": false,
+        "episode_num": null,
+        "title": "Missionen für Helden (Band 09)",
+        "exclude_reason": "Compilation/Band release - not an individual numbered episode"
+      },
+      {
+        "spotify_album_id": "2IvJsTmwos9DT2plJXgduy",
+        "include": false,
+        "episode_num": null,
+        "title": "Garmadons Rückkehr (Band 08)",
+        "exclude_reason": "Compilation/Band release - not an individual numbered episode"
+      },
+      {
+        "spotify_album_id": "6glVKtZK7el5mjTCBILm7J",
+        "include": false,
+        "episode_num": null,
+        "title": "Jagd nach den Oni-Masken (Band 07)",
+        "exclude_reason": "Compilation/Band release - not an individual numbered episode"
+      },
+      {
+        "spotify_album_id": "4wTjKv2WS7F3ucbp7LHPMh",
+        "include": false,
+        "episode_num": null,
+        "title": "Diebe der Zeit (Band 06)",
+        "exclude_reason": "Compilation/Band release - not an individual numbered episode"
+      },
+      {
+        "spotify_album_id": "1gYUr7w8czT6Eaz9vF4HmG",
+        "include": false,
+        "episode_num": null,
+        "title": "Rückkehr der bösen Geister (Band 05)",
+        "exclude_reason": "Compilation/Band release - not an individual numbered episode"
+      },
+      {
+        "spotify_album_id": "5tl1wOPXUgpTo1hQRejFHh",
+        "include": false,
+        "episode_num": null,
+        "title": "Im Bann des Dschinns (Band 04)",
+        "exclude_reason": "Compilation/Band release - not an individual numbered episode"
+      },
+      {
+        "spotify_album_id": "34gwL7BIESnEEhF1VQ9Evt",
+        "include": false,
+        "episode_num": null,
+        "title": "Nadakhan und die Luftpiraten (Band 03)",
+        "exclude_reason": "Compilation/Band release - not an individual numbered episode"
+      },
+      {
+        "spotify_album_id": "6EJxxIDcWahMAKZuT1nM8Z",
+        "include": true,
+        "episode_num": 180,
+        "title": "Folge 180: Gezeitenwende",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "30NufZxwGOyBuiu8Aqf5Ea",
+        "include": true,
+        "episode_num": 179,
+        "title": "Folge 179: Nyad",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6NYwE6FbGVz8vwdj5ggFud",
+        "include": true,
+        "episode_num": 178,
+        "title": "Folge 178: Ninjago unter Wasser",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5KD4qKz0UJa7ITtY1gWZ11",
+        "include": true,
+        "episode_num": 177,
+        "title": "Folge 177: Die Ruhe vor dem Sturm",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4TgSJWaTubprti7AqzSZ7h",
+        "include": true,
+        "episode_num": 176,
+        "title": "Folge 176: Meisterin des Meeres",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "02GxMPSublKqTIYDGaSAmq",
+        "include": true,
+        "episode_num": 175,
+        "title": "Folge 175: Die Zeitungsbotin",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5OTWnvaBes6ARXl3s4S8La",
+        "include": true,
+        "episode_num": 174,
+        "title": "Folge 174: Das Rätsel der Sphinx",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "69wMgajIADxH4z7KRO5Ddx",
+        "include": true,
+        "episode_num": 173,
+        "title": "Folge 173: Das Sturm-Amulett",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4MhfiUfMEKMHAoW8VTh6DH",
+        "include": true,
+        "episode_num": 172,
+        "title": "Folge 172: Die Geschichte von Benthomaar",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5D9mVt6UTUwmFG49h8LiUX",
+        "include": true,
+        "episode_num": 171,
+        "title": "Folge 171: Befreiung aus Merlopia",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5j5idLOHL3Rw0o4cMmcjaS",
+        "include": false,
+        "episode_num": null,
+        "title": "Morros Geister (Band 02)",
+        "exclude_reason": "Compilation/Band release - not an individual numbered episode"
+      },
+      {
+        "spotify_album_id": "5fR6IoNjTkrBoZ4WlgZYIa",
+        "include": true,
+        "episode_num": 170,
+        "title": "Folge 170: Lang lebe der König!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7Gl7YNWWQBOUeEkBbgXWTy",
+        "include": true,
+        "episode_num": 169,
+        "title": "Folge 169: Ärger mit Kalmaar",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6r6lYXfLcGDoMGA2XsGj9G",
+        "include": true,
+        "episode_num": 168,
+        "title": "Folge 168: Fünfzehntausend Meter tief",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3wgLoQAXaBeNcwFiwhx6Fx",
+        "include": true,
+        "episode_num": 167,
+        "title": "Folge 167: Auf Tauchstation",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7d3Kjf9sVuCBzSWjnkqExW",
+        "include": true,
+        "episode_num": 166,
+        "title": "Folge 166: Der Ruf der Tiefe",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0zM34T4thayir7djODbgmX",
+        "include": true,
+        "episode_num": 165,
+        "title": "Folge 165: Ein Wasserproblem",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3Y38Wh1Rn4dHbobVqSsYjH",
+        "include": true,
+        "episode_num": 164,
+        "title": "Folge 164: Der Zahn der Wojira",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1HpsHkWdYoRQEnIsF1x5zy",
+        "include": true,
+        "episode_num": 163,
+        "title": "Folge 163: Ein Geschenk namens Jay",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6SfBl3B1UfRSroQqjASDtS",
+        "include": true,
+        "episode_num": 162,
+        "title": "Folge 162: Die Hüter des Amuletts",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "53dIy1n5hiwf5DEZGM07se",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 161: Die geheime Insel",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5r2lPmHvduhqrSVP2ttVzL",
+        "include": false,
+        "episode_num": null,
+        "title": "Meister der Elemente (Band 01)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1BeJgCkXE0A9bvqOEHFxJ8",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 160: Der Sohn von Lilly",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1QxL135Zcpt9NIbAP5cPNj",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 159: Die Oblies schlagen zurück",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3QOeGr68Jcbjye8HFIqmDq",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 158: Der Aufstieg",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5kd4P1NS34ySBYsznSpbG9",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 157: Die Schutz-Höhle",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1BfmMOZa58hYrzDBmKJWjP",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 156: Meister geben niemals auf",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1ryJjTpyVGB3ol7FN25GVY",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 155: Der Gigant-Drache",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6drWOBnjqz82GgkNFiNzyN",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 154: Cole und sein Element",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "67aqSMNwFwjrToEQkeyM3g",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 153: Höhlen-Party",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3mIVhgkJxjqDT9KYiWxyfl",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 152: Der tiefe Fall",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4mQuAO9gRJvjLpXMp28M1Q",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 151: Der Totenkopf-Zauberer",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3FdwXaBdc4fqUxMevKsn0T",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 150: Die Prüfung des Mino",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7h2UhbZ8X0NjtGuaSWsELY",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 149: Königin Murtessa",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4Ne9kTJHic2Fqpd1Um5n4G",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 148: Die doppelten Klingen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "31Og2We4ciYonKebMxaLga",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 147: Die schlechteste Rettungsaktion aller Zeiten",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "29DQ3kYErFI4MNniZXqyBp",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 146: In der Finsternis",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1xpdLnQaF0IxrHYGVttf6V",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 145: Shintaro",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3wpLnlaMcnLJ4v1xXKe3oC",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 144: Game Over",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "79y0vyBRAc6qLvxyERZClq",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 143: Der Tempel des Irrsinns",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7xzZDM1M20IVDAs4Q7MS5f",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 142: Unagamis Portal",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5yA43OPSXFnjR2gF5lUkWw",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 141: Zane spielt Detektiv",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "64aK2XxdFd60X80wuSW60q",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 140: Terra Dronica",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5J74yG1SLJHSZzf3VmxhJe",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 139: Das Fünf-Milliarden-Wettrennen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6GC54VYaKxqoHbBPFPyVj3",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 138: Der 5. Rennwagen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0x1d2WNnKw9KVV4TjOEUvt",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 137: Der Tanzwettbewerb",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "48kqe9GUL1ELqoS42Kbjwl",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 136: Im Labyrinth des Roten Drachen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4gVRc9157V3afaiArO8Lq2",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 135: Die Klippen der Panik",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7IGJ76S9hv7Kn9FbwtdOxl",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 134: Im Wald der Verzweiflung",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2XmmYreiCpfIieDamknRgo",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 133: Ich bin Okino",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "34J9fyIhcOihJHTvwv0k4b",
+        "include": true,
+        "episode_num": 132,
+        "title": "Folge 132: Jay, der Superstar",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3rMvfg7tSd3ldaboneQuNx",
+        "include": true,
+        "episode_num": 131,
+        "title": "Folge 131: Level 13",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "16VSng1D4vAzJm7gQZ5Bjg",
+        "include": true,
+        "episode_num": 130,
+        "title": "Folge 130: Mayers Insel",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1W4TuZOcgen9yFkU3HXvl2",
+        "include": true,
+        "episode_num": 129,
+        "title": "Folge 129: Möchtest du das Prime Empire betreten?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3PQ1Jy2EoBVTnaeHhNLruV",
+        "include": false,
+        "episode_num": null,
+        "title": "Special: Tag der Erinnerungen",
+        "exclude_reason": "Compilation/special with 16 tracks - likely a collection of episodes or special content, not an individual episode"
+      },
+      {
+        "spotify_album_id": "5X3r456Tdkr0FggvBbJzH8",
+        "include": true,
+        "episode_num": 99,
+        "title": "Folge 99: Faule Ninja",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2nvjSshJu63oIlVkXxmkzd",
+        "include": true,
+        "episode_num": 98,
+        "title": "Folge 98: Der Tornado der Schöpfung",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3U4yKhenNUQjo39UGYv36q",
+        "include": true,
+        "episode_num": 97,
+        "title": "Folge 97: Der Sturz",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5LT69UReNaaueuwIYIaA4k",
+        "include": true,
+        "episode_num": 96,
+        "title": "Folge 96: Zusammenarbeit",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0gsNisbVP3FR28SMSUAv41",
+        "include": true,
+        "episode_num": 95,
+        "title": "Folge 95: Eine dunkle Gefahr",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "36yIJzo9AUt4b1HbllMibL",
+        "include": true,
+        "episode_num": 94,
+        "title": "Folge 94: Lloyds Kraft",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3ZYjLnn2Q7dFG7A7lqeED6",
+        "include": true,
+        "episode_num": 93,
+        "title": "Folge 93: Das Drachennest",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "672UhJweyyRLohusDaAFBq",
+        "include": true,
+        "episode_num": 92,
+        "title": "Folge 92: Die Lügen des Eisen-Barons",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7c96ptlfsriHEOQNBBhW83",
+        "include": true,
+        "episode_num": 91,
+        "title": "Folge 91: Die doppelte Harumi",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4Z19BvT6IqtkMCtDY6gBT6",
+        "include": true,
+        "episode_num": 90,
+        "title": "Folge 90: Das Oni-Land",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "213VrEGLVdTRVRVk8KX5rR",
+        "include": true,
+        "episode_num": 89,
+        "title": "Folge 89: Vertrauen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2M8lbbde10tGEZEREQ0Jd5",
+        "include": true,
+        "episode_num": 88,
+        "title": "Folge 88: Wie man einen Drachen baut",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3ROEGvggfyy4gP6pol8bfI",
+        "include": true,
+        "episode_num": 87,
+        "title": "Folge 87: Drachen anlocken",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4BrCagsnKKqjNUHErIYV7x",
+        "include": true,
+        "episode_num": 86,
+        "title": "Folge 86: Bei den Drachenjägern",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3EGvyckssqbAIJgDgDu9ed",
+        "include": true,
+        "episode_num": 85,
+        "title": "Folge 85: Gib niemals auf",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3gRQWAS36YmzYd4quwfqyA",
+        "include": true,
+        "episode_num": 84,
+        "title": "Folge 84: Kleines Ninjago, großer Ärger",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6oNoNZQE8yBIWpOrvrnaZ5",
+        "include": true,
+        "episode_num": 83,
+        "title": "Folge 83: Die wahre Macht",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5IVYF5naYafrz5L7JwBzjM",
+        "include": true,
+        "episode_num": 82,
+        "title": "Folge 82: Die Zeremonie",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0Rw2k4f6SpF2Epe0Kadesx",
+        "include": true,
+        "episode_num": 81,
+        "title": "Folge 81: Die dritte Maske",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4dZIm6Vrni0dslQzDSIw6F",
+        "include": true,
+        "episode_num": 80,
+        "title": "Folge 80: Im Auge des Urwalds",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7bHNtNKITEbpZulS8FAmHP",
+        "include": true,
+        "episode_num": 79,
+        "title": "Folge 79: Die Ruhe vor dem Sturm",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "57PpKYgzKfBGvL7rygmaf4",
+        "include": true,
+        "episode_num": 78,
+        "title": "Folge 78: Jake Schlangenschleim",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "48DVKD3hItO2G255LXfvPG",
+        "include": true,
+        "episode_num": 77,
+        "title": "Folge 77: Die Oni und die Drachen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1aXg8BtkU2kUqT1gTCYVOx",
+        "include": true,
+        "episode_num": 76,
+        "title": "Folge 76: Prinzessin Harumi",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3ZoRyjEdZw6DJWkh78eMZq",
+        "include": true,
+        "episode_num": 75,
+        "title": "Folge 75: Die Maske der Täuschung",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "12eVFtwcs6YkqMk6HLBe5B",
+        "include": true,
+        "episode_num": 74,
+        "title": "Folge 74: Reise in die Vergangenheit",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6IhR1xiUjQbYhpOCc6Bfqm",
+        "include": true,
+        "episode_num": 73,
+        "title": "Folge 73: Zwei wie Feuer und Wasser",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "69DGS6zeqkwFoWNqzmB5fh",
+        "include": true,
+        "episode_num": 72,
+        "title": "Folge 72: Familientreffen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4iMB7cKL5khSYRuiEPASYH",
+        "include": false,
+        "episode_num": 128,
+        "title": "Folge 128: Zanes Erwachen",
+        "exclude_reason": "Episode 128 already included in collection (range 75-233)"
+      },
+      {
+        "spotify_album_id": "2qYHtFqNj3fsTqqjTZVli8",
+        "include": false,
+        "episode_num": 127,
+        "title": "Folge 127: Gemeinsam gegen den Eis-Kaiser",
+        "exclude_reason": "Episode 127 already included in collection (range 75-233)"
+      },
+      {
+        "spotify_album_id": "4KBpaKlLzl0ALA9X6LRh9g",
+        "include": false,
+        "episode_num": 126,
+        "title": "Folge 126: Ein unerwarteter Freund",
+        "exclude_reason": "Episode 126 already included in collection (range 75-233)"
+      },
+      {
+        "spotify_album_id": "7oE2E8sEfiH7ZVhC41W59G",
+        "include": false,
+        "episode_num": 125,
+        "title": "Folge 125: Vex und der Eis-Kaiser",
+        "exclude_reason": "Episode 125 already included in collection (range 75-233)"
+      },
+      {
+        "spotify_album_id": "2t7q2dAJs3mamHr6qEysk4",
+        "include": false,
+        "episode_num": 124,
+        "title": "Folge 124: Pixal gibt niemals auf",
+        "exclude_reason": "Episode 124 already included in collection (range 75-233)"
+      },
+      {
+        "spotify_album_id": "1pR9xISqxizcVKt6KIzrsp",
+        "include": false,
+        "episode_num": 123,
+        "title": "Folge 123: Mein Feind, mein Freund",
+        "exclude_reason": "Episode 123 already included in collection (range 75-233)"
+      },
+      {
+        "spotify_album_id": "1hv2OFyZo8uugWheVxMTLV",
+        "include": false,
+        "episode_num": 122,
+        "title": "Folge 122: Akitas Vergangenheit",
+        "exclude_reason": "Episode 122 already included in collection (range 75-233)"
+      },
+      {
+        "spotify_album_id": "4RM5RmHpYiXQlB8umsEzCn",
+        "include": false,
+        "episode_num": 121,
+        "title": "Folge 121: Das Geheimnis des Wolfes",
+        "exclude_reason": "Episode 121 already included in collection (range 75-233)"
+      },
+      {
+        "spotify_album_id": "5sDsTYGzW5qbX9vSpcuAra",
+        "include": false,
+        "episode_num": 120,
+        "title": "Folge 120: Krag, der sanfte Riese",
+        "exclude_reason": "Episode 120 already included in collection (range 75-233)"
+      },
+      {
+        "spotify_album_id": "3W0Aw1O8NBVG5zrmsbfYLB",
+        "include": false,
+        "episode_num": 119,
+        "title": "Folge 119: Der Baum der Reisenden",
+        "exclude_reason": "Episode 119 already included in collection (range 75-233)"
+      },
+      {
+        "spotify_album_id": "54pqmPePWjATj2O6pGB5o2",
+        "include": false,
+        "episode_num": 118,
+        "title": "Folge 118: Nachricht von Zane",
+        "exclude_reason": "Episode 118 already included in collection (range 75-233)"
+      },
+      {
+        "spotify_album_id": "5yiqqQUtXNGw2ghglZ7L3l",
+        "include": false,
+        "episode_num": 117,
+        "title": "Folge 117: Der schlimmste Ninja",
+        "exclude_reason": "Episode 117 already included in collection (range 75-233)"
+      },
+      {
+        "spotify_album_id": "7sLD4G3LcuqRoM91VbFhqj",
+        "include": false,
+        "episode_num": 116,
+        "title": "Folge 116: Ein geheimnisvoller Freund",
+        "exclude_reason": "Episode 116 already included in collection (range 75-233)"
+      },
+      {
+        "spotify_album_id": "35mP71BwMIpMgfOngVfqJu",
+        "include": false,
+        "episode_num": 115,
+        "title": "Folge 115: Der Feuermacher",
+        "exclude_reason": "Episode 115 already included in collection (range 75-233)"
+      },
+      {
+        "spotify_album_id": "72RMUxb9IWyPVaUSYKZFOB",
+        "include": false,
+        "episode_num": 114,
+        "title": "Folge 114: Das Niemandsland",
+        "exclude_reason": "Episode 114 already included in collection (range 75-233)"
+      },
+      {
+        "spotify_album_id": "014czKlD2Wbws3114iGNz2",
+        "include": false,
+        "episode_num": 113,
+        "title": "Folge 113: Meister Wus Entscheidung",
+        "exclude_reason": "Episode 113 already included in collection (range 75-233)"
+      },
+      {
+        "spotify_album_id": "5TyfFkhuSQGk7W25Cqltbm",
+        "include": false,
+        "episode_num": 112,
+        "title": "Folge 112: Aspheeras Rache",
+        "exclude_reason": "Episode 112 already included in collection (range 75-233)"
+      },
+      {
+        "spotify_album_id": "1o83ac6hqV2fB8VLUYhC4F",
+        "include": false,
+        "episode_num": 111,
+        "title": "Folge 111: Der Club der Entdecker",
+        "exclude_reason": "Episode 111 already included in collection (range 75-233)"
+      },
+      {
+        "spotify_album_id": "0u0qAhojmu4rNkJlAPafqk",
+        "include": false,
+        "episode_num": 110,
+        "title": "Folge 110: Schlangen im Kloster",
+        "exclude_reason": "Episode 110 already included in collection (range 75-233)"
+      },
+      {
+        "spotify_album_id": "4pJmQjb25OViI9LSn0cbHP",
+        "include": false,
+        "episode_num": 109,
+        "title": "Folge 109: Gebrochene Versprechen",
+        "exclude_reason": "Episode 109 already included in collection (range 75-233)"
+      },
+      {
+        "spotify_album_id": "7AOACqYNiqsiQCGtcY7gEF",
+        "include": false,
+        "episode_num": 108,
+        "title": "Folge 108: Schlangen-Geschichte",
+        "exclude_reason": "Episode 108 already included in collection (range 75-233)"
+      },
+      {
+        "spotify_album_id": "2EFqtfj1lLWZZmiGgKUEdC",
+        "include": false,
+        "episode_num": 107,
+        "title": "Folge 107: Die verbotene Schriftrolle",
+        "exclude_reason": "Episode 107 already included in collection (range 75-233)"
+      },
+      {
+        "spotify_album_id": "2HhZvIDINqTmZplupl3fR7",
+        "include": false,
+        "episode_num": 106,
+        "title": "Folge 106: Schlangastrophe",
+        "exclude_reason": "Episode 106 already included in collection (range 75-233)"
+      },
+      {
+        "spotify_album_id": "4cn6uk2k1IcaOtMAMcDHLn",
+        "include": false,
+        "episode_num": 105,
+        "title": "Folge 105: Ninja gegen Lava",
+        "exclude_reason": "Episode 105 already included in collection (range 75-233)"
+      },
+      {
+        "spotify_album_id": "3WBp2FExvGrmoBBbH8bXdu",
+        "include": false,
+        "episode_num": 104,
+        "title": "Folge 104: Der mutige Zeitungsjunge",
+        "exclude_reason": "Episode 104 already included in collection (range 75-233)"
+      },
+      {
+        "spotify_album_id": "6SN7ARKRRe2iFN6eoZIZId",
+        "include": false,
+        "episode_num": 103,
+        "title": "Folge 103: Rätsel in der Pyramide",
+        "exclude_reason": "Episode 103 already included in collection (range 75-233)"
+      },
+      {
+        "spotify_album_id": "4L2fswYxPDv4CQwIfAJnBT",
+        "include": false,
+        "episode_num": 102,
+        "title": "Folge 102: Gestrandet in der Wüste",
+        "exclude_reason": "Episode 102 already included in collection (range 75-233)"
+      },
+      {
+        "spotify_album_id": "1tiRdsuBOPine1WobFgXX5",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 101: Ein sandiger Start",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4IcwvLoi7hqpfeOo89GCay",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 100: Nichts los in Ninjago",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6ZvCPzRguOIlyJnwqCm0qy",
+        "include": false,
+        "episode_num": null,
+        "title": "Das Hörspiel zum TV-Special",
+        "exclude_reason": "Compilation/TV special with 16 tracks"
+      },
+      {
+        "spotify_album_id": "7imT3Q79bPMw2ZfA1Mn9sw",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 71: Jede Menge Geheimnisse",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2MP84TzGY2rMVbQjYSaDTV",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 70: Im Siegesrausch",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3KZEH60eTKnsRs2hp4bT0P",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 69: Die zweite Zeitklinge",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1i3j3lyGGoNJKT21HI8EXQ",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 68: Metalldiebe",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7FrtmqUWyyGMwoTw11fi6R",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 67: Geschwister",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "28fAlRsvJwqxaaRujQkAra",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 66: Das große Schlüpfen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2VId6WKIcIUYYUYy0B3qEQ",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 65: Meister der Zeit",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3RZyedpLS3UwqylxQS0MXq",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 64: Der allmächtige Nadakhan",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "75tFoVk1jPxBnBASDdpDxN",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 63: Das Ninja-Ersatzteam",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1FgmcXgYBxsS2vHcXMOr1E",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 62: Der alte Leuchtturm",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2Iyyd93HskkTjqaeEq1Anw",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 61: Wunschverschwendung",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6xC2AI0PLvfQF8YoENZzQe",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 60: Nadakhans wahrer Plan",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "37h6TCH3e563xiNPfIEYEk",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 59: Das Gift der schwarzen Witwe",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6OyVXejymvNj4JI3BrJq4Y",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 58: Das Luftschiff des Unglücks",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7fLJeGvT72heDdqnJ5jwTM",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 57: Das Vermächtnis des Dschinns",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "49iCJQbA2u3qR3TPbnNTys",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 56: Ronan auf Ninja-Suche",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "63PkqBg9GTBKr39w8BS7d6",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 55: Der Geist aus der Teekanne",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "76wCMT8ATCoxPxTWgEDS56",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 54: Die verfluchte Welt",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4VomBQcJTElM6C4yHmGkCQ",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 53: Der Weltenkristall",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3foBu1YcqhThYJIvYrOa5D",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 52: Die drei Prüfungen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5ZhStqT7V4qxHZfpIuFwSr",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 51: Falsches Spiel",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "71GsZ57OPZyUnkchgfLtQa",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 50: Das Schwert der Prophezeiung",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1SgHRIuGJkTN1XFLaRrlNT",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 49: Zyklon-Go",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0PbcP9CiFn0UfGbZUJnMDi",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 48: Sensei Yangs Prüfung",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4i83fUygaAV3OVrqm6g3JQ",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 47: Die Stadt über dem Wasser",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1gOmiukoVR4jcxUAaN3Lpc",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 46: Geistergeschichte",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2dqgawwVpZDqZupD9D4vOV",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 45: Stürmischer Wind",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0J04jcMPSWb7JQojDNVGWO",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 44: Der Pfad der Ältesten",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5DNEwMPDwkN2QUxJmvmrVO",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 43: Hilfe von Pythor",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3hZK0EI0xgM6uhGdKAInBy",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 42: Der Tag des Drachen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2eFJw5ky8g5JonqgF2z0W3",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 41: Das letzte Element",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1v3A5jipDHxtXVzM8jMXm3",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 40: Die Geschichte der Anacondrai",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3JUwaJlKr6cXsKkUm24VoL",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 39: Der Spion",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "50ETCVdJ66qPWjl2SLHIoo",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 38: Ninja auf Rollen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0bIBdFQHsNYdiwIJ5hki6P",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 37: Kenne deine Feinde",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1cJQKFFXQy8PA2ujW0yX9E",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 36: Elementare Schwierigkeiten",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "14ErscHSXxlKG5cySPJN8Z",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 35: Die Einladung",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4uwlyYKA9BnNoLBum6Ihfu",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 34: Der Goldene Meister",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5tUJaNnEMGCFSAqprQXScU",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 33: Die Ninja im Weltall",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4fLLYQv7LbalKnmlWQP7of",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 32: Projekt Arcturus",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5dGL1BD3AqTKfNfds05NDO",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 31: Die Computerwelt",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6dDokwBvGp78G14REiYnSI",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 30: Die Legende des Goldenen Meisters",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0JXlee6joYS33IHXyLQo2q",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 29: Das innere Gleichgewicht",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7jwmJ1RbmcUo8iXDwGWJQ6",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 28: Die Kunst nicht zu kämpfen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "40Sfmg8RjnVSdlgReOKi67",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 27: Das neue Ninjago",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5M3fAvZomn1bTd0vLxfB25",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 26: Der ultimative Spinjitzu-Meister",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5uvykopkK8em34gZfHgmyh",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 25: Garmadons neue Maschine",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5vWkQKO5lmAXel7hBOH0TA",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 24: Die dunkle Uhr",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5sRK7nI4A6k6SG1hM4kxb1",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 23: Der Tempel des Lichts",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2WdWo0uBqBMtgw3JZ1UPbW",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 22: Die Reise zum Tempel des Lichts",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1ypAHTDqrnYlprAhLW4dWe",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 21: Die Steinsamurai",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3jNloFLRPTFldJsmJGWTsP",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 20: Lloyds Mutter Misako",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1LFPIaK4r029FGDjzwROqU",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 19: Die Zeitreise",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1A72S5WjfNcNOsrjoJQb3v",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 18: Wieder Jung!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0RkBBpl3v3D1FBzEvizE7l",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 17: Das Ninjaball-Rennen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "61wrYMceNYUEzmluiSRTeb",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 16: Die falschen Ninja",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "19T41Q9xSss59YB9KK5R9U",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 15: Piraten gegen Ninja",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6N71XlgvzmD0oCALmSuFVK",
+        "include": true,
+        "episode_num": 14,
+        "title": "Folge 14: Finsternis zieht herauf",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "56vdeZJz53l5wz9ckGRguX",
+        "include": true,
+        "episode_num": 13,
+        "title": "Folge 13: Rettung in letzter Sekunde",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0GzKcEfuxjL7C0TBVcjRVj",
+        "include": true,
+        "episode_num": 12,
+        "title": "Folge 12: Das böse Erwachen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5P6M8BRCZ7Az0Do8dZl8SR",
+        "include": true,
+        "episode_num": 11,
+        "title": "Folge 11: Die vierte Reißzahnklinge",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "619Ig2Lh7ZW0lyu1oO5aL4",
+        "include": true,
+        "episode_num": 10,
+        "title": "Folge 10: Der grüne Ninja",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4o18AG1E2C7VvDQ0jQdj3g",
+        "include": true,
+        "episode_num": 9,
+        "title": "Folge 09: Der Talentwettbewerb",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "51QFssCvmDzG9TmMxCVKv4",
+        "include": true,
+        "episode_num": 8,
+        "title": "Folge 08: Die erste Reißzahnklinge",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4kqJqdaaUKJcVCQQ7iNr8r",
+        "include": true,
+        "episode_num": 7,
+        "title": "Folge 07: Tick Tock",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0uFkCoIAIwXMIW0x21kVoN",
+        "include": true,
+        "episode_num": 6,
+        "title": "Folge 06: Die verlorene Stadt",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3Msowsn4tcVUvUCtaREXqO",
+        "include": true,
+        "episode_num": 5,
+        "title": "Folge 05: Die Vereinigung der Schlangen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7kw9s443LSmpJXrpshffXk",
+        "include": true,
+        "episode_num": 4,
+        "title": "Folge 04: Traue niemals einer Schlange",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3URkF0tU5UkZoPKdnUBOtP",
+        "include": true,
+        "episode_num": 1,
+        "title": "Folge 01: Der Aufstieg der Schlangen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3fvGYVM6bj5aBjSlL0etP5",
+        "include": true,
+        "episode_num": 3,
+        "title": "Folge 03: Familienbande",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4BBab7xQ5piFh3ir6IZCxS",
+        "include": true,
+        "episode_num": 2,
+        "title": "Folge 02: Der Pfad des Falken",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "289a5IcWQI0ROnou0dBhF7",
+        "include": false,
+        "episode_num": null,
+        "title": "Brick Adventures, 2: School for Crooks (Unabridged)",
+        "exclude_reason": "Foreign language release (English)"
+      },
+      {
+        "spotify_album_id": "17uuhmpRjgujI2pQZJrSOy",
+        "include": false,
+        "episode_num": null,
+        "title": "Brick Adventures, 1: Brother/Sister Squad (Unabridged)",
+        "exclude_reason": "Foreign language release (English)"
+      }
+    ],
+    "age_note": "Recommended 8+",
+    "curator_notes": "Mixed formats: Main German Hörspiel series uses 'Folge XXX:' numbering (currently 200+ episodes). Also includes 'Quest for the Lost Powers' spinoff sub-series (4 books) and occasional 'Band XX' book-based entries. Action-themed content with martial arts and fantasy elements."
+  }
+}

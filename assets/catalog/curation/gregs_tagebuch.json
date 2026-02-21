@@ -1,0 +1,159 @@
+{
+  "query": "Gregs Tagebuch",
+  "model": "kimi-k2.5",
+  "curated_at": "2026-02-21T00:36:50.016104+00:00",
+  "series": {
+    "id": "gregs_tagebuch",
+    "title": "Gregs Tagebuch",
+    "aliases": [],
+    "keywords": [],
+    "spotify_artist_ids": [
+      "2Xl8Eqgt8a9DsTohLDwZD3"
+    ],
+    "episode_pattern": "[Ff]olge\\s+(\\d+)",
+    "albums": [
+      {
+        "spotify_album_id": "45w1WUB1tmIAVqhcgfxjiW",
+        "include": true,
+        "episode_num": 1,
+        "title": "Folge 1: Von Idioten umzingelt!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5Xxn9H63f1kPpDBWGYgiDA",
+        "include": true,
+        "episode_num": 2,
+        "title": "Folge 2: Gibt's Probleme?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2yCrvP5EYRHJxAPDH95z4L",
+        "include": true,
+        "episode_num": 3,
+        "title": "Folge 3: Jetzt reicht's!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6VuHqE9aFfWdpfkh4xYDrj",
+        "include": true,
+        "episode_num": 4,
+        "title": "Folge 4: Ich war's nicht!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0qeVW5m87PMbTAXpaZC808",
+        "include": true,
+        "episode_num": 5,
+        "title": "Folge 5: Geht's noch?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0wkMAbcXIRaR3eUwtYvuB4",
+        "include": true,
+        "episode_num": 6,
+        "title": "Folge 6: Keine Panik!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6MW54aosDyCcXfUDtOWzNf",
+        "include": true,
+        "episode_num": 7,
+        "title": "Folge 7: Dumm gelaufen!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7DRyzfIG18FFUZvbAPGjnx",
+        "include": true,
+        "episode_num": 8,
+        "title": "Folge 8: Echt übel!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2tJvgp3EBTJ8zI2yp0tUJ4",
+        "include": true,
+        "episode_num": 9,
+        "title": "Folge 9: Böse Falle!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6FJoSJGB1pz2ZhVfEJS8tS",
+        "include": true,
+        "episode_num": 10,
+        "title": "Folge 10: So ein Mist!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3a0FZDI18G3i533JkhqVnV",
+        "include": true,
+        "episode_num": 11,
+        "title": "Folge 11: Alles Käse!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1TxGlWS4M2UR7n5hQ8iPx8",
+        "include": true,
+        "episode_num": 12,
+        "title": "Folge 12: Und tschüss!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0xdwwx786jlAeCnuzMQDue",
+        "include": true,
+        "episode_num": 13,
+        "title": "Folge 13: Eiskalt erwischt! (Hörspiel)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2bbieSyzoCiyqooqgIsH9s",
+        "include": true,
+        "episode_num": 14,
+        "title": "Folge 14: Voll daneben! (Hörspiel)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3VxxaBgVYj1ILyhtdIa8X1",
+        "include": true,
+        "episode_num": 15,
+        "title": "Folge 15: Halt mal die Luft an!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "44QlG6KeJsYA5Kr1Rb4sUp",
+        "include": true,
+        "episode_num": 16,
+        "title": "Folge 16: Volltreffer!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7JIRvHTqzMw0lKUQoWHjOD",
+        "include": true,
+        "episode_num": 17,
+        "title": "Folge 17: Voll aufgedreht!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5HtHi5hOsIGei03gHjaZhG",
+        "include": true,
+        "episode_num": 18,
+        "title": "Folge 18: Kein Plan von nix",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6yQJ1CyAlvZy8ptGTpTH1P",
+        "include": true,
+        "episode_num": 19,
+        "title": "Folge 19: So ein Schlamassel!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "61YmRmJt713HXgbnuQrAiK",
+        "include": true,
+        "episode_num": 20,
+        "title": "Folge 20: Bock auf Party?",
+        "exclude_reason": null
+      }
+    ],
+    "age_note": "Suitable from 6+",
+    "curator_notes": ""
+  }
+}

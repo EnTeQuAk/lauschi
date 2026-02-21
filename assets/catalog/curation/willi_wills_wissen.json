@@ -1,0 +1,138 @@
+{
+  "query": "Willi wills wissen",
+  "model": "kimi-k2.5",
+  "curated_at": "2026-02-21T00:30:29.167769+00:00",
+  "series": {
+    "id": "willi_wills_wissen",
+    "title": "Willi wills wissen",
+    "aliases": [],
+    "keywords": [],
+    "spotify_artist_ids": [
+      "3euYhX3kx2U3iIKuzbeXv7"
+    ],
+    "episode_pattern": "Folge (\\d+)",
+    "albums": [
+      {
+        "spotify_album_id": "6Lljinrd7oSFWrUGCXf3wv",
+        "include": true,
+        "episode_num": 1,
+        "title": "Folge 1: Wie backt der Bäcker? / Wie macht man Schokolade?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "734YvnWqjjrenLqgX366u7",
+        "include": true,
+        "episode_num": 2,
+        "title": "Folge 2: Die Tiere auf dem Bauernhof / Die Ponys auf dem Pferdehof",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2c0jlc60GzkqAImFUv39D4",
+        "include": true,
+        "episode_num": 3,
+        "title": "Folge 3: Sicher im Verkehr / Auf dem Bahnhof",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1LOHJZ8LvwhU0nMmH4AsY2",
+        "include": true,
+        "episode_num": 4,
+        "title": "Folge 4: Sonne, Mond und Sterne / Bei den Astronauten",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5XSAQtXltHPMBDgor185Rp",
+        "include": true,
+        "episode_num": 5,
+        "title": "Folge 5: Im Zoo unterwegs / Mit dem Zirkus unterwegs",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0wR0ydYQqqPzdpojPRXzvI",
+        "include": true,
+        "episode_num": 6,
+        "title": "Folge 6: Bei der Polizei / Den Verbrechern auf der Spur",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1JeB4VuIHbk8yw36pzS1sv",
+        "include": true,
+        "episode_num": 7,
+        "title": "Folge 7: Bei den Rittern / Bei den Römern",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0KWQyGK1jrR6QkaLUeMVT6",
+        "include": true,
+        "episode_num": 8,
+        "title": "Folge 8: Wie siehts aus im Krankenhaus? / Was macht der Zahnarzt?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2DqXqFJPSxEcS29eFUQxlD",
+        "include": true,
+        "episode_num": 9,
+        "title": "Folge 9: Bei den Pfadfindern / Abenteuer Schnitzeljagd",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1ExRfvtE9HTQQS3JxxJKDF",
+        "include": true,
+        "episode_num": 10,
+        "title": "Folge 10: Das Wetter / Beim Förster im Wald",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5XarAQ01JpbxFuYQhxrXOd",
+        "include": true,
+        "episode_num": 11,
+        "title": "Folge 11: Auf dem Flughafen / Bei der Feuerwehr",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4ATpy5cx5dm4pIGZeJhN4F",
+        "include": true,
+        "episode_num": 12,
+        "title": "Folge 12: Wie kommen die Babys auf die Welt? / Was mein Körper alles kann",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4rio26DIXTtb8w9TRBgbEb",
+        "include": false,
+        "episode_num": null,
+        "title": "Sammelbox 1, Folgen 1-3",
+        "exclude_reason": "Box set/compilation (contains Folgen 1-3, 57 tracks)"
+      },
+      {
+        "spotify_album_id": "0o8Kzl2tQyNHnQu4hWjK1E",
+        "include": false,
+        "episode_num": null,
+        "title": "Sammelbox 2, Folgen 4-6",
+        "exclude_reason": "Box set/compilation (contains Folgen 4-6, 65 tracks)"
+      },
+      {
+        "spotify_album_id": "3Yok1m4nE8bMgWhDC8kxI7",
+        "include": false,
+        "episode_num": null,
+        "title": "Sammelbox 3, Folgen 7-9",
+        "exclude_reason": "Box set/compilation (contains Folgen 7-9, 62 tracks)"
+      },
+      {
+        "spotify_album_id": "6UNXmwPKGYG29HU2sasS9v",
+        "include": false,
+        "episode_num": null,
+        "title": "Sammelbox 4, Folgen 10-12",
+        "exclude_reason": "Box set/compilation (contains Folgen 10-12, 61 tracks)"
+      },
+      {
+        "spotify_album_id": "4XmAFEMILsf5kSnwyFrH7E",
+        "include": false,
+        "episode_num": null,
+        "title": "Willi und die Wunder dieser Welt (Hörspiel zum Kinofilm)",
+        "exclude_reason": "Movie adaptation (not part of regular episode series)"
+      }
+    ],
+    "age_note": "Suitable from 5+",
+    "curator_notes": "Clean episode run of 12 individual Folgen (each with two sub-stories). Each episode has 20-25 chapters (~45-55 min total). Four Sammelbox collections contain the same episodes in bundled form and are excluded as duplicates. One movie tie-in audio excluded as non-series content."
+  }
+}

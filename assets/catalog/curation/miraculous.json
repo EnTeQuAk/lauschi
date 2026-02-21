@@ -1,0 +1,558 @@
+{
+  "query": "Miraculous",
+  "model": "kimi-k2.5",
+  "curated_at": "2026-02-21T01:02:42.236660+00:00",
+  "series": {
+    "id": "miraculous",
+    "title": "Miraculous - Geschichten von Ladybug und Cat Noir (Hörspiel zur TV-Serie)",
+    "aliases": [],
+    "keywords": [],
+    "spotify_artist_ids": [
+      "0g12RW7N9VQmkjkcQreys3"
+    ],
+    "episode_pattern": null,
+    "albums": [
+      {
+        "spotify_album_id": "1fNvqAQQPrdFwp1i24aJk4",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 65: Die schlafende Meerjungfrau/ Stier aus Stein (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "68eBZdVC5LI5ZMygwwv3r7",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 64: Climatiqueen / Enthüllungen (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "52RGlb90xgw4mojcdy0Zds",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 63: Daddycop / Adriens Großeltern (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4bTEUC7yhZBMQZvNa7QrNv",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 62: Illustrhater / Sublimation (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "554FFfpB5evmkMz5yaz7yH",
+        "include": true,
+        "episode_num": null,
+        "title": "Miraculous World London: Am Rande der Zeit (Das Original-Hörspiel zum TV-Special)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "38qSrRvNFDh5dSnyzMBZFp",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 61: Anpassung - Der finale Tag (Teil 1+2) [Das Original-Hörspiel zur TV-Serie]",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "30bSmwlSuccq89DiunaBLv",
+        "include": true,
+        "episode_num": null,
+        "title": "Action (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7atyZ5j8YiyRJZKPOEr4vG",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 60: Geheime Absprachen (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7otNv1uDwJIcyEx93V2Soo",
+        "include": true,
+        "episode_num": null,
+        "title": "Miraculous World - Paris: Geschichten von Shadybug und Claw Noir (Das Original-Hörspiel zum TV-Special)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7iWQOHQ6nJETHFVSgwafNN",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 59: Enthüllung / Konfrontation (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0QnWlEW1WdLcZNYBuy1wm1",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 58: Emotionen / Überheblichkeit (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1oooDgHAp4zoj0hYZLqkZs",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 57: Schutz / Verehrung (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6GGRfa1mXJFFZXwEQ5WXUX",
+        "include": true,
+        "episode_num": null,
+        "title": "Miraculous 56: Verhöhnung / Intuition (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6Yb6KGsWKeAj9SVdnpsNTg",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 55: Perfektion / Auswanderung (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "64bGDegegxf3sfm1odWeAj",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 54: Übertragung-Die Entscheidung der Kwamis (1) / Verpuffung-Die Entscheidung der Kwamis [2] [Das Original-Hörspiel zur TV-Serie]",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6nRSPz7NFpuUxv1XjCr9cF",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 53: Wiedersehen / Illusion / Hochstimmung (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6B2ShClwVMDZinnmjL6Owf",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 52: Entschlossenheit / Leidenschaft (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0OUfUtJjgJ2CYbV3XWK8tn",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 51: Zerstörung / Jubel (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "10AWhtV4nqLoojjZzaXdRa",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 50: Evolution / Multiplikation (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2oSLrJHhOrpWgmlFcPZGLb",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 49: Shadow Moths Falle - Teil 1+2 (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1jtv3dTaSBzQQOl9ndwVXM",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 48: Zweite Chance / Cat Noir 2.0 / Torjäger (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5MJ9qn5btULJONQNS2c5eb",
+        "include": false,
+        "episode_num": null,
+        "title": "Miraculous: Ladybug & Chat Noir, Le Film - Audio Play",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6rSlKi1Dd1lYLVfA8mEfIk",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 47: Zu kompliziert / Aus der Ruhe gebracht / Streit um Marinette (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1rznWaNDsYTW4sLEVcRDKT",
+        "include": false,
+        "episode_num": null,
+        "title": "Miraculous: Ladybug & Cat Noir, the Movie - Audio Play",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4DxuyzZPi6z0muYlVPdVuY",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 46: Eifersucht / Kindheitsträume (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4DoWMrP0a9L8Qc25k3w4yd",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 45: Eine neue Ladybug / Liebeserklärung (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7natJa38jGM0PSDh4lDfpZ",
+        "include": false,
+        "episode_num": null,
+        "title": "Miraculous: Ladybug & Cat Noir, Der Film - Soundtrack zum Film",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5T7IhscjjfFspyxSgPYFyV",
+        "include": false,
+        "episode_num": null,
+        "title": "Miraculous: Ladybug & Cat Noir, Der Film - Original Score",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0SXKn1DvrpmJ3dSCXZ4xrN",
+        "include": true,
+        "episode_num": null,
+        "title": "Miraculous: Ladybug & Cat Noir, Der Film - Das Original-Hörspiel",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6DEwEwSpsiqEN7Yldabs5L",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 44: Optigami / Eine Falle für Ladybug (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0XefKDlZNJZsqQEb76bh65",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 43: Schuldgefühle / Der große Streit (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6S6oroXIYw35H8djxTcOCf",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 42: Der Collector kehrt zurück / Projekt Oxygen (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7F6j2J8Um3q3VHOdqoEaJ8",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 41: Willkommen in Paris / Chloé sieht gelb (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6rqcsyt1pkr5OS6jMHQFwD",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 40: Nichts zu lachen / Vom Master zum Monster (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3DkBzBUXQvjzyzwix1iSVy",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 39: Zu viele Geheimnisse / Mr. Pigeon (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1nLc0NZ4afjVJI21VtJagt",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 38: Wahrheit / Lügen (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2lJqde5tiMRkHKWkJQQiqQ",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 37: Kampf der Miraculous - Teil 1+2 (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4n27gYenJ2kxrzUkDioIRo",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 36: Ladybug gegen Cat Blanc / Falsches Spiel / Marinette unter Verdacht (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "33I18rW6R775UFvB95nQSW",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 35: Ein Schurke aus der Zukunft / Die Überraschungsparty / Das Wachsfiguren-Museum (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2C03sb9HeIJNaNzGqSgQa4",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 34: Der Freundschaftstag / Die Kwami-Jägerin (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7fviQTgbkeZa0glBUmkz4e",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 33: Fehler der Vergangenheit / Gamer 2.0 (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2rBteywHUgN3Jvw4fuMIEY",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 32: Das Miraculous der Schlange/ Zugfahrt ins All (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4yTqvXk2bd7Ac80PC497Rj",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 31: Eine neue Verbündete / Gestohlene Kräfte (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7i6kwQVR0YXI54ccQVJIu6",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 30: Bakerix / Reflekdoll (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2R7xZsusc67Bmg6tScWr52",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 29: Stormy Weather 2 / Ladybug ist sprachlos (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7mr3Jo35HHlJn9HSSSMzGa",
+        "include": true,
+        "episode_num": null,
+        "title": "Shanghai - Die Legende von Lady Dragon (Das Original-Hörspiel zum TV-Special)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3mbW2WWGG1cr430vc2JApd",
+        "include": true,
+        "episode_num": null,
+        "title": "Marinette, die Weihnachtselfe (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7DOoXghlhouUkbo4yd0Ndi",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 28: Die Filmpremiere / Verliebt in Cat Noir (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6W2eveWAMn8mw02Ukc2rtm",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 27: Gegen die Zeit / Vergissmeinnicht (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3zI973MbFwxHfS4qBofQJb",
+        "include": true,
+        "episode_num": null,
+        "title": "New York - United Heroez (Das Original-Hörspiel zum Film-Special)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "11TseHgkgkVlol0veNEhuG",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 26: Tag der Helden - Teil 1+2 (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4604CIjRj2XDPRIPH2DE9b",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 25: Sandboy / Lila gibt nicht auf (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6M2YIef0t51Zxj4TNtjhiC",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 24: Volles Risiko / Im Netz der Spinne (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "00yV3MfJzhy7avCEulx7q9",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 23: Kampf der Königinnen - Teil 1 und 2 (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "53mNKsLKsrdnwaczie05EA",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 22: Reverser / Frozer (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2aYaDuZ5ZM4xYZQIl18lMu",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 21: Die Meerjungfrau / Troublemaker (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7FQaAwaZfPcK3iUc6cb4tH",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 20: Zombizou / Captain Hardrock (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3jbcaedrtsJZ84JDGLHCeJ",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 19: Der Videodreh / Gorizilla (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5eDwKLmCLCOMb2TqnRuBSH",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 18: Der Glaciator / Außer Rand und Band (Das Original Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4IR5oizmmXqXbtgj0upIgW",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 17: Das Riesenbaby / Doch kein Superheld (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3tPXXXFwrrNOzphEAPZLJj",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 16: Befana / Robostus (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0SfXsKcHRg8TnJXOSDFWge",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 15: Riposte / Party mit Folgen (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7Jb9OFj6vZWjyWYbB1drk0",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 14: Der Collector / Prime Queen (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4yLm33iOkdTawIH4JBPbP6",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 13: Aller Anfang ist schwer - Teil 1 + 2 (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5ffalwLSyAuM1Bg0zb3ZZ0",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 12: Die Spielshow / Volpina (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1A87bIu0nqPZFiLorFEmZu",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 11: Der Superfan / Tikki ist krank (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3KNpMwcGBTYet4b3AMvqS6",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 9: Eine ebenbürtige Gegnerin / Ladybug in Nöten (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5r5LTTpRq9GPWFtjbtJf5e",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 10: Reflekta / Rockstars (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "00mmZIBSqUDDNGFQboZ02U",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 8: Der Gamer / Animan (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6gL8KBH7U8FRKKEPQ7NIgA",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 7: Der Mime / Kung Food (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1pE3I6Rb3nAenCTbeDePNq",
+        "include": true,
+        "episode_num": null,
+        "title": "Eine böse Weihnachtsüberraschung (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0n6hBLGU0bGkm2sTxgbAwN",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 6: Der Horrificator / Darkblade (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "48hIWhnvLfYPZN498uTNw4",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 5: Der Betrüger / Der Valentinstag (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "64iuZQAHikpZOK5PYokdjn",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 4: Der Racheplan / Rogercop (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "434yjrpTXVmNUgDiOR0sjl",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 1: Stürmisches Wetter / Der Bubbler (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1kscHWX69a4r4gBvoqEnSk",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 3: Timebreaker / Der Taubenmann (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1Vij7JywO1f3XkQliaqAK5",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 2: Lady WiFi / Der Pharao (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      }
+    ],
+    "age_note": "",
+    "curator_notes": ""
+  }
+}

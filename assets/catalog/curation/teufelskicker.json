@@ -1,0 +1,973 @@
+{
+  "query": "Teufelskicker",
+  "model": "kimi-k2.5",
+  "curated_at": "2026-02-21T00:41:32.025802+00:00",
+  "series": {
+    "id": "teufelskicker",
+    "title": "Teufelskicker",
+    "aliases": [],
+    "keywords": [
+      "Teufelskicker"
+    ],
+    "spotify_artist_ids": [
+      "752p3IcSA76CVOvqoGcFWH"
+    ],
+    "episode_pattern": "Folge (\\\\d+):",
+    "albums": [
+      {
+        "spotify_album_id": "5JaN1TSdJl9EaQIJYMGBqp",
+        "include": true,
+        "episode_num": 109,
+        "title": "Folge 109: Respekt!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7EAfAZUuUTCmwcaAV7ALSX",
+        "include": true,
+        "episode_num": 108,
+        "title": "Folge 108: 1 x anders!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "00dYJcPc2GIhupBJDOdUbe",
+        "include": true,
+        "episode_num": 107,
+        "title": "Folge 107: Ganz oben!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "78Q9ISlGqhfVCgyK6RNWV0",
+        "include": true,
+        "episode_num": 106,
+        "title": "Folge 106: Klick-Konter!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3iw3GPJ9k1H6i4YezilNGa",
+        "include": true,
+        "episode_num": 105,
+        "title": "Folge 105: Unfair Play!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3dOORH8u2XkL1MwnYqwtig",
+        "include": true,
+        "episode_num": 104,
+        "title": "Folge 104: Tick-Tack-Taktik!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5qqN2V88cf6QRtSmmC33Eh",
+        "include": true,
+        "episode_num": 103,
+        "title": "Folge 103: Europa-Express!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "34hIb66KUmsVPXg9fDtudi",
+        "include": false,
+        "episode_num": null,
+        "title": "Wissen zur EM 2024 - Folge 5: Favoriten und Geheimtipps",
+        "exclude_reason": "Supplementary knowledge spin-off, not main Hörspiel episode series"
+      },
+      {
+        "spotify_album_id": "7fCZW8vbTTkQ3rjeyVpZJW",
+        "include": false,
+        "episode_num": null,
+        "title": "Wissen zur EM 2024 - Folge 4: Regeländerungen und Kurioses",
+        "exclude_reason": "Supplementary knowledge spin-off, not main Hörspiel episode series"
+      },
+      {
+        "spotify_album_id": "2wAAqBryuhdVqva5HnPAUL",
+        "include": false,
+        "episode_num": null,
+        "title": "Wissen zur EM 2024 - Folge 3: Das Eigentor",
+        "exclude_reason": "Supplementary knowledge spin-off, not main Hörspiel episode series"
+      },
+      {
+        "spotify_album_id": "3AobuV6r3DyKL8qsgmdgGi",
+        "include": false,
+        "episode_num": null,
+        "title": "Wissen zur EM 2024 - Folge 2: Überraschungen der EM-Geschichte",
+        "exclude_reason": "Supplementary knowledge spin-off, not main Hörspiel episode series"
+      },
+      {
+        "spotify_album_id": "3VjRGwNViaZnjdhOs3tC8S",
+        "include": false,
+        "episode_num": null,
+        "title": "Wissen zur EM 2024 - Folge 1: Die EM-Stadien und ihre Namen",
+        "exclude_reason": "Supplementary knowledge spin-off, not main Hörspiel episode series"
+      },
+      {
+        "spotify_album_id": "6gcNKNN6znEwe34GfSIuOT",
+        "include": true,
+        "episode_num": 102,
+        "title": "Folge 102: Kick off!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4DHELx8YLzAOaaqiCQjRHE",
+        "include": true,
+        "episode_num": 101,
+        "title": "Folge 101: Der doppelte Norberger!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6Xo32dANA3ZO7PNyED2uKu",
+        "include": true,
+        "episode_num": 100,
+        "title": "Folge 100: Blau-Gelb 100!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6G6RcNLJ6N21nOxOxuTg8P",
+        "include": false,
+        "episode_num": null,
+        "title": "Frauen-WM-Wissen 05 - Favoriten und Geheimtipps",
+        "exclude_reason": "Supplementary knowledge spin-off, not main Hörspiel episode series"
+      },
+      {
+        "spotify_album_id": "0Ka13m5enZ0FtgzFkKeEwK",
+        "include": false,
+        "episode_num": null,
+        "title": "Frauen-WM-Wissen 04 - Deutsche Legenden",
+        "exclude_reason": "Supplementary knowledge spin-off, not main Hörspiel episode series"
+      },
+      {
+        "spotify_album_id": "2Cg2pCV2WPXZRBXjsoVICZ",
+        "include": false,
+        "episode_num": null,
+        "title": "Frauen-WM-Wissen 03 - (Der lange Weg zur) Gleichberechtigung",
+        "exclude_reason": "Supplementary knowledge spin-off, not main Hörspiel episode series"
+      },
+      {
+        "spotify_album_id": "2bSWLKPljqhhuKO6avVPTt",
+        "include": false,
+        "episode_num": null,
+        "title": "Frauen-WM-Wissen 02 - Legenden und Rekorde",
+        "exclude_reason": "Supplementary knowledge spin-off, not main Hörspiel episode series"
+      },
+      {
+        "spotify_album_id": "0KgZch2JpidNVDv58PPjAq",
+        "include": false,
+        "episode_num": null,
+        "title": "Frauen-WM-Wissen 01 - Die Anfänge",
+        "exclude_reason": "Supplementary knowledge spin-off, not main Hörspiel episode series"
+      },
+      {
+        "spotify_album_id": "2AHj3w9jBzSaVytHhDShk1",
+        "include": true,
+        "episode_num": 99,
+        "title": "Folge 99: Teufelskickerin in Down Under!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3ui72v9JxFG3MCmqKdLf7M",
+        "include": true,
+        "episode_num": 98,
+        "title": "Folge 98: Game Over!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6Y9MIwIRK5SSpAG0tOvKOQ",
+        "include": true,
+        "episode_num": 97,
+        "title": "Folge 97: Bärenstark!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5cSkvZqWfHz0XnvN8u8AJH",
+        "include": true,
+        "episode_num": 96,
+        "title": "Folge 96: Tausendundein Tor!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0ryiNUJnDR1r5JOuuobpO5",
+        "include": true,
+        "episode_num": 95,
+        "title": "Folge 95: Touchdown für die Teufelskicker!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1gzTWSYvIpUtFeErHkurzv",
+        "include": true,
+        "episode_num": 94,
+        "title": "Folge 94: Eltern-Pressing!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5drJ7dWS8BwBYeN6iW2LPm",
+        "include": true,
+        "episode_num": 93,
+        "title": "Folge 93: Alle Balla-Balla!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "50SMlwI6DkvrX8yELJkB1S",
+        "include": true,
+        "episode_num": 92,
+        "title": "Folge 92: Auszeit!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7u4Mr0PKftRzVKIK85YWP6",
+        "include": true,
+        "episode_num": 91,
+        "title": "Folge 91: Hunniklau und Alutreffer!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1eLm6PuZAMbXFvmHsGMhGG",
+        "include": true,
+        "episode_num": 90,
+        "title": "Folge 90: Der Unentschieden-Fluch!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0Earlnp1hudWRpWZtchZQ3",
+        "include": false,
+        "episode_num": null,
+        "title": "EM-Wissen 07 - Trainer, Schiedsrichter und Kapitäne!",
+        "exclude_reason": "EM-Wissen informational series, not episode"
+      },
+      {
+        "spotify_album_id": "1CK5OkoDEjYUVTwy1vJXdz",
+        "include": false,
+        "episode_num": null,
+        "title": "EM-Wissen 06 - Technische Hilfsmittel und Ausrüstung!",
+        "exclude_reason": "EM-Wissen informational series, not episode"
+      },
+      {
+        "spotify_album_id": "6tA8PxoNRheUcURTAvK9Qk",
+        "include": false,
+        "episode_num": null,
+        "title": "EM-Wissen 05 - Rekorde und Legenden!",
+        "exclude_reason": "EM-Wissen informational series, not episode"
+      },
+      {
+        "spotify_album_id": "2dpOLqCm0FODnqMWcM5LoC",
+        "include": false,
+        "episode_num": null,
+        "title": "EM-Wissen 04 - Regelwerk und Neuerungen!",
+        "exclude_reason": "EM-Wissen informational series, not episode"
+      },
+      {
+        "spotify_album_id": "2K0MtpwfBc8QwODAxXQLbe",
+        "include": false,
+        "episode_num": null,
+        "title": "EM-Wissen 03 - Der Henri Delaunay Pokal!",
+        "exclude_reason": "EM-Wissen informational series, not episode"
+      },
+      {
+        "spotify_album_id": "0CCzcdyi1y6d5xcNytC8it",
+        "include": false,
+        "episode_num": null,
+        "title": "EM-Wissen 02 - Die Geschichte der EM - Teil 2! (1992 - 2016)",
+        "exclude_reason": "EM-Wissen informational series, not episode"
+      },
+      {
+        "spotify_album_id": "4xrCJyGPtrZO4CFCAGYyVL",
+        "include": false,
+        "episode_num": null,
+        "title": "EM-Wissen 01 - Die Geschichte der EM - Teil 1! (1960 - 1988)",
+        "exclude_reason": "EM-Wissen informational series, not episode"
+      },
+      {
+        "spotify_album_id": "6vlrgWQfNXRqA6ztr3Wabo",
+        "include": true,
+        "episode_num": 89,
+        "title": "Folge 89: Sieges-Serie!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4WgXFqg2ZGjix4ueqcP6Kp",
+        "include": true,
+        "episode_num": 88,
+        "title": "Folge 88: Ei! Ei! Eigentor!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1paNSMAQAmRwMcMaEjMfTW",
+        "include": true,
+        "episode_num": 87,
+        "title": "087/Viva Futebol!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2rau02XML01zofCgkRXS4K",
+        "include": true,
+        "episode_num": 86,
+        "title": "086/Blau-Gelb in Bayern!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1J9uBMdBHlWEYbDg8dCOI7",
+        "include": true,
+        "episode_num": 85,
+        "title": "085/Der Strafraum-Streuner!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3IhfPNfCXe5nOGx4W9GgcH",
+        "include": true,
+        "episode_num": 84,
+        "title": "084/Titel, Tore, Tulpen!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4Ongb5xmPnc3yy0AzMYKbr",
+        "include": true,
+        "episode_num": 83,
+        "title": "083/König von Europa!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2cgCO7OqNXdVhsBrY4TK3l",
+        "include": true,
+        "episode_num": 82,
+        "title": "082/Das Triple!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3YxBE9UASbHnNsWXYzbSvi",
+        "include": true,
+        "episode_num": 81,
+        "title": "081/Gras fressen!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "23K6hnDSowgEUzSaSqRKj6",
+        "include": true,
+        "episode_num": 80,
+        "title": "080/Der Kommerzclub!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1lkOxJfWr4cCrVYnTJQXuk",
+        "include": true,
+        "episode_num": 79,
+        "title": "079/Hexenkessel!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2des8gFC9pc7dlV6NQeMW5",
+        "include": true,
+        "episode_num": 78,
+        "title": "078/Hitzeschlacht!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "66hQhdSiM1RlR5Uubg1ZAo",
+        "include": true,
+        "episode_num": 77,
+        "title": "077/Sprung an die Spitze!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2pDqsEKAKDO89uNAq2FVmg",
+        "include": true,
+        "episode_num": 76,
+        "title": "076/Echt galaktisch!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "05QU9GuE9n3nQwI1CIlXoK",
+        "include": true,
+        "episode_num": 75,
+        "title": "075/Kampf der Maskottchen!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "20zZwhpufLApmCOglWj6FU",
+        "include": true,
+        "episode_num": 74,
+        "title": "074/Die Teufels-Bienen!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0UB7JlT2W2gqc4Wcogaql0",
+        "include": true,
+        "episode_num": 73,
+        "title": "073/Der Kanu-Kick!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5KaD5R05rcjpEOzyQcLnH0",
+        "include": false,
+        "episode_num": null,
+        "title": "WM-Wissen: WM-Pokal!",
+        "exclude_reason": "WM-Wissen informational series, not episode"
+      },
+      {
+        "spotify_album_id": "5y4lSHalrfGa2kbJ7KRZe9",
+        "include": false,
+        "episode_num": null,
+        "title": "WM-Wissen: GOAT - Greatest of All Time!",
+        "exclude_reason": "WM-Wissen informational series, not episode"
+      },
+      {
+        "spotify_album_id": "1lDJbS8KXSBT9Vg8TX1By0",
+        "include": false,
+        "episode_num": null,
+        "title": "WM-Wissen: Die größten Spiele der WM!",
+        "exclude_reason": "WM-Wissen informational series, not episode"
+      },
+      {
+        "spotify_album_id": "2lEqatiajLXg8GT3sNQp3W",
+        "include": false,
+        "episode_num": null,
+        "title": "WM-Wissen: Prägende Spieler der WM!",
+        "exclude_reason": "WM-Wissen informational series, not episode"
+      },
+      {
+        "spotify_album_id": "7izBVcBEz0sEEbwdzEl7Nt",
+        "include": false,
+        "episode_num": null,
+        "title": "WM-Wissen: Schiedsrichter!",
+        "exclude_reason": "WM-Wissen informational series, not episode"
+      },
+      {
+        "spotify_album_id": "2zuAih8GSVlZ63tDlBPSBn",
+        "include": false,
+        "episode_num": null,
+        "title": "WM-Wissen: Rückennummern!",
+        "exclude_reason": "WM-Wissen informational series, not episode"
+      },
+      {
+        "spotify_album_id": "7Cemw8kYG0Jn407sPbLycS",
+        "include": false,
+        "episode_num": null,
+        "title": "WM-Wissen: Spitznamen!",
+        "exclude_reason": "Bonus/WM-Wissen special episode, not a main series episode"
+      },
+      {
+        "spotify_album_id": "1ivSgFdQFTNUz15Et8htrF",
+        "include": false,
+        "episode_num": null,
+        "title": "WM-Wissen: Technische Hilfsmittel!",
+        "exclude_reason": "Bonus/WM-Wissen special episode, not a main series episode"
+      },
+      {
+        "spotify_album_id": "0ybqT8AibGFEYfHEm29yNR",
+        "include": false,
+        "episode_num": null,
+        "title": "WM-Wissen: Abseits!",
+        "exclude_reason": "Bonus/WM-Wissen special episode, not a main series episode"
+      },
+      {
+        "spotify_album_id": "036GNQLwnsQjeNvTSiw3u6",
+        "include": false,
+        "episode_num": null,
+        "title": "WM-Wissen: Rote Karte!",
+        "exclude_reason": "Bonus/WM-Wissen special episode, not a main series episode"
+      },
+      {
+        "spotify_album_id": "5CuDtjb8hv1Wmlp4pvL88g",
+        "include": true,
+        "episode_num": 72,
+        "title": "072/Freundschaftsspiel!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4RzsDQDwJSqCUcY2bYfN6x",
+        "include": true,
+        "episode_num": 71,
+        "title": "071/Die Rückkehr der Beach Kings!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "07iHCSeUplUVXzOBJf7LPD",
+        "include": true,
+        "episode_num": 70,
+        "title": "070/Duell bei Flutlicht!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2HoDAArtgFHAILNQd3zlc0",
+        "include": true,
+        "episode_num": 69,
+        "title": "069/Die guten Taten!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1ki6VGlzszWMNlpaZ8dIcf",
+        "include": true,
+        "episode_num": 68,
+        "title": "068/Das Juwel vom Rummelplatz",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "43zlcyiAhiu5sT8TcuqSsu",
+        "include": true,
+        "episode_num": 67,
+        "title": "067/Paula im Abseits!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7A859yxPxu8ttsfe8sR4Dj",
+        "include": true,
+        "episode_num": 66,
+        "title": "066/Labrador, noch ein Tor!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3w92RMUHnL11vho6ZCGVJh",
+        "include": true,
+        "episode_num": 65,
+        "title": "065/Die Kicker der Tafelrunde!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1etyQu2e9CqgciAUnHh9mr",
+        "include": true,
+        "episode_num": 64,
+        "title": "064/Punktspiel oder Popstar?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7KxvNkcKzrZ8HPUZMeMvLo",
+        "include": true,
+        "episode_num": 63,
+        "title": "063/Sauber gespielt!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3Cw52UAt3Fm8S4ELagfRpF",
+        "include": true,
+        "episode_num": 62,
+        "title": "062/Das Wunder von Bert!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "36JABCgbZB3BVMxAzwbJwN",
+        "include": true,
+        "episode_num": 61,
+        "title": "061/Das Abstiegsgespenst!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "25oihruzo6w6Y1rgnpkBdz",
+        "include": true,
+        "episode_num": 60,
+        "title": "060/Ein heißer Ritt!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0NL4nf0oO7X5rDOWImkBgd",
+        "include": true,
+        "episode_num": 59,
+        "title": "059/Arbeitssieg!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5dO3rB1UrSYtakm7n8t8Yc",
+        "include": true,
+        "episode_num": 58,
+        "title": "58/Heja Blau-Gelb!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "44rSkI4OlgLvhQCJoVxMaX",
+        "include": true,
+        "episode_num": 57,
+        "title": "57/Quiz-Duell!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2VeDR9yy1YOIBu3ZS0lcog",
+        "include": true,
+        "episode_num": 56,
+        "title": "56/Der Doppelpass!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0WfeB1BRH97mTuccXOPOMW",
+        "include": true,
+        "episode_num": 55,
+        "title": "55/Umwelt-Foul!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0qn1MSZ7Cr2SsB3PpUMBGw",
+        "include": true,
+        "episode_num": 54,
+        "title": "54/Der Ballflüsterer!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6TvD8NhdxRXnSiYPAtuAAG",
+        "include": true,
+        "episode_num": 53,
+        "title": "53/Zoff bei Zeche 04",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4SCfd0k6WWEjjW006AQlii",
+        "include": true,
+        "episode_num": 52,
+        "title": "52/Hallen-Duell!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6OKIRJBJg2cmqlwWLKRW1e",
+        "include": true,
+        "episode_num": 51,
+        "title": "51/Schiri in Not!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1Ds45eGoWi4Tl4rEnMhYTv",
+        "include": true,
+        "episode_num": 50,
+        "title": "50/Ballzauber!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4Jxbfe27vxDkK2clLYV24w",
+        "include": true,
+        "episode_num": 49,
+        "title": "49/Kapitän über Bord!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1UNpIgyTaf90aMAMncsMHQ",
+        "include": true,
+        "episode_num": 48,
+        "title": "48/Der Elfer-Elvis!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6rDQJE9ck8vaUtJtJidsbf",
+        "include": true,
+        "episode_num": 47,
+        "title": "47/13:0 für die Teufelskicker!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5M6bmTQkOPDj5IjCNx8kZ2",
+        "include": true,
+        "episode_num": 46,
+        "title": "46/Eigentor für Moritz!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2nZzQu8dYh46WsRircOKlN",
+        "include": true,
+        "episode_num": 45,
+        "title": "45/Mission TK!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4v444romYP4I67iipydvVE",
+        "include": true,
+        "episode_num": 44,
+        "title": "44/Wo ist Tasman?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7ps2HLzpSgeXZ0AH7oVLUw",
+        "include": true,
+        "episode_num": 43,
+        "title": "43/Die Beach-Kings",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4Z7tet0BsoDqJ5QDRLSkPd",
+        "include": true,
+        "episode_num": 42,
+        "title": "42/König der Keeper!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6AVu010Wg6nXqx2vH1Ddv1",
+        "include": true,
+        "episode_num": 41,
+        "title": "41/Rettet Blau-Gelb!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7zF1ZutkRSh5Bv1sBhqJDt",
+        "include": true,
+        "episode_num": 40,
+        "title": "40/Spiel mir das Lied vom Tor!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4b1pcgpRJsMlVjxDyfMjQu",
+        "include": true,
+        "episode_num": 39,
+        "title": "39/Gipfelstürmer!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0MRR2CDugcKU7gjoVffnyY",
+        "include": true,
+        "episode_num": 38,
+        "title": "38/Catrina bleibt am Ball!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "18WD2wUaUQCUJirGQQRzEX",
+        "include": true,
+        "episode_num": 37,
+        "title": "37/Der Super-Coach!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6vS9TEVd5w8Q9C8gom13XB",
+        "include": true,
+        "episode_num": 36,
+        "title": "36/Geisterspiel!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4RgbcThUqAw0h32YR9Y5Me",
+        "include": true,
+        "episode_num": 35,
+        "title": "35/Blau-Gelb gegen die Teufelskicker!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7LJNekuvXpQ0RwEzGJ5RHr",
+        "include": true,
+        "episode_num": 34,
+        "title": "34/Freundschaft in Gefahr!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "01GYa7vw7QN9z56J9UMgTV",
+        "include": true,
+        "episode_num": 33,
+        "title": "33/Falsche Pfiffe!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "16KJKzh73v61tSWpdJkvUw",
+        "include": true,
+        "episode_num": 32,
+        "title": "32/Sammelfieber!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4Mln0EPmYMpOYb0n6k7fGr",
+        "include": true,
+        "episode_num": 31,
+        "title": "31/Kicken auf Kufen!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2rwTyR8MwSZGb5qkjLFPBl",
+        "include": true,
+        "episode_num": 30,
+        "title": "30/Vampire im Feriencamp!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0LBt1WOiDtHtvKIyIAqVRx",
+        "include": true,
+        "episode_num": 29,
+        "title": "29/Mädchen-Alarm!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0nORGwfy8HE4P0Nql0vCRX",
+        "include": true,
+        "episode_num": 28,
+        "title": "28/Jäger des verlorenen Pokals!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3o3C8H64WepbNNqoxsEHAN",
+        "include": true,
+        "episode_num": 27,
+        "title": "27/Seitenwechsel!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "20MbwmLBfqFVgBKsGIPv2s",
+        "include": true,
+        "episode_num": 26,
+        "title": "26/SOS aus Schweinesand!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5hku5O0Jxaq1mHWSeCAyqi",
+        "include": true,
+        "episode_num": 25,
+        "title": "25/1, 2, 3, Winter-Hexerei!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3SB0Lo8oiiV7jO064XQBiJ",
+        "include": true,
+        "episode_num": 24,
+        "title": "24/Geheimakte Blau-Gelb!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7lUIGAfVcEhpeMr9lQlCuG",
+        "include": true,
+        "episode_num": 23,
+        "title": "23/Im Untergrund!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6FehK2LwfLpkmEceQLMxtr",
+        "include": true,
+        "episode_num": 22,
+        "title": "22/Die Teufels-Kocher!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2TOdlIYpgKL2ondY5PFwjE",
+        "include": true,
+        "episode_num": 21,
+        "title": "21/Moritz startet durch!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "77NdaE8yof08XhDmw9nRis",
+        "include": true,
+        "episode_num": 20,
+        "title": "20/Doping im Spiel?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0MHITjskfFt5hY5cQ4jre2",
+        "include": true,
+        "episode_num": 19,
+        "title": "19/Viel Wirbel um Schorschi!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1hGrKMtCIOQZwzm8jmC26F",
+        "include": true,
+        "episode_num": 18,
+        "title": "18/Spielerin im Abseits",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7nnNXSA029Ltl5NUYnVL0x",
+        "include": true,
+        "episode_num": 17,
+        "title": "17/Der Milch-Millionär!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2ugi710MAHIItEkXMc2McO",
+        "include": true,
+        "episode_num": 16,
+        "title": "16/Verpasste Chance!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7gWIY1RwwctCejCWkQHPUr",
+        "include": true,
+        "episode_num": 15,
+        "title": "15/Spuk im Vereinsheim!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2NZYi0hdlvfUq3DKiYgUoL",
+        "include": true,
+        "episode_num": 14,
+        "title": "14/Falsches Spiel im Turnier",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2Mgda45RwkfKH0miVxeCv3",
+        "include": true,
+        "episode_num": 13,
+        "title": "13/Sieg um jeden Preis!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "65TwHbA3gM5clivKaS2pFy",
+        "include": true,
+        "episode_num": 12,
+        "title": "12/Teufelskicker und Revolverheld",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4l6cdtofiNyKtW4s58UvUs",
+        "include": true,
+        "episode_num": 11,
+        "title": "11/Der Teufel im Wald",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7qIkGBFX2sJHQLp55751Kg",
+        "include": true,
+        "episode_num": 10,
+        "title": "10/Teufelskicker - Pokal in Gefahr",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1bmXUhmEpHi04ZzrVWT9ts",
+        "include": true,
+        "episode_num": 9,
+        "title": "09/Talent gesichtet",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5wZ8Zot5cQ0uCKUXgXdeNd",
+        "include": true,
+        "episode_num": 8,
+        "title": "08/Doppelter Einsatz für Moritz!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3I0YsYvf1mgbTUEgvSG2nk",
+        "include": true,
+        "episode_num": 7,
+        "title": "07/La Ola mit Opa",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3uSWlXEduQcIjq8YMY0VzL",
+        "include": true,
+        "episode_num": 6,
+        "title": "06/Ein unheimlich starker Gegner",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1UtkDOJ1GA5z40PZZP46sX",
+        "include": true,
+        "episode_num": 5,
+        "title": "05/Torschuss mit Folgen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "07JwaKx5NWKukkzGMFqHGB",
+        "include": true,
+        "episode_num": 4,
+        "title": "04/Stürmer gesucht!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5fQhUZ97h0lTPahnrkjvMJ",
+        "include": true,
+        "episode_num": 3,
+        "title": "03/Holt euch den Cup!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0tu53HVgwKwV3RruxcUCOz",
+        "include": true,
+        "episode_num": 2,
+        "title": "02/Eine knallharte Saison",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "60tm3XQSABh0iPsyuTXbv9",
+        "include": true,
+        "episode_num": 1,
+        "title": "01/Moritz macht das Spiel",
+        "exclude_reason": null
+      }
+    ],
+    "age_note": "Suitable from 5+",
+    "curator_notes": "Long-running football-themed series about a youth team. Includes special spinoff miniseries with tournament knowledge episodes (EM 2024, Frauen-WM), which follow different numbering and naming conventions."
+  }
+}

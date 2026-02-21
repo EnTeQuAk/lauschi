@@ -1,0 +1,1165 @@
+{
+  "query": "SpongeBob Schwammkopf",
+  "model": "kimi-k2.5",
+  "curated_at": "2026-02-21T00:58:26.102983+00:00",
+  "series": {
+    "id": "spongebob_schwammkopf",
+    "title": "SpongeBob Schwammkopf",
+    "aliases": [
+      "SpongeBob SquarePants"
+    ],
+    "keywords": [
+      "SpongeBob Schwammkopf",
+      "SpongeBob"
+    ],
+    "spotify_artist_ids": [
+      "4nzfncntC1DiwIFMARUT2w"
+    ],
+    "episode_pattern": "^Folge (\\d+):",
+    "albums": [
+      {
+        "spotify_album_id": "4ZS6ypHuLbFakwNSMaP7N6",
+        "include": true,
+        "episode_num": 258,
+        "title": "Folge 258: Tango-Revanche (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4NlIfIAcQ2i4olCFaBjnzE",
+        "include": true,
+        "episode_num": 257,
+        "title": "Folge 257: Der Haustier-Stein (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7arQuSR6jqwiGf3wBAIXl7",
+        "include": true,
+        "episode_num": 256,
+        "title": "Folge 256: Mama Krabs (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6IbOASJsjHNLwLgkzyNXFC",
+        "include": true,
+        "episode_num": 255,
+        "title": "Folge 255: SpongeBob Lachkopf (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7HoVM5Xhub0nRDUUrZuLPG",
+        "include": true,
+        "episode_num": 254,
+        "title": "Folge 254: Der Erdapfel-Eimer (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2FgCzN3USDgdqVcBG4b5OU",
+        "include": true,
+        "episode_num": 253,
+        "title": "Folge 253: Die Fantasie-Kiste (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0eU4qQZZdx2q2u9d6ZwPhx",
+        "include": true,
+        "episode_num": 252,
+        "title": "Folge 252: Comic oder Klarinette (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3ZMmdF2EXfNhYBxa1lGIRh",
+        "include": true,
+        "episode_num": 251,
+        "title": "Folge 251: Falsche Sardellen (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3h0zgQH6nEW92nIkCxZACu",
+        "include": true,
+        "episode_num": 250,
+        "title": "Folge 250: Ajax gegen Hoops (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6lu4XmXv6ZOR8xTiFsNQs6",
+        "include": true,
+        "episode_num": 249,
+        "title": "Folge 249: Harte Schale, weicher Kern (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0VqVvtJnnAm2qg3NLk57xm",
+        "include": true,
+        "episode_num": 248,
+        "title": "Folge 248: Plankton lernt Karate (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0YLmcAcYeXQsVDm8UqgoiK",
+        "include": true,
+        "episode_num": 247,
+        "title": "Folge 247: Sandy, hilf uns! (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4QjO3YHjrNIidgQFHTJd96",
+        "include": true,
+        "episode_num": 246,
+        "title": "Folge 246: Manege frei (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4QmEwPkbl6XhCzR7NPt1i6",
+        "include": true,
+        "episode_num": 245,
+        "title": "Folge 245: SpongeBobs Weihnachtsreise (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6dFCZf68O94YJT63IPq9Xi",
+        "include": false,
+        "episode_num": null,
+        "title": "Weihnachten unter Wasser XXL-Edition",
+        "exclude_reason": "Compilation/box set (25 tracks, XXL-Edition)"
+      },
+      {
+        "spotify_album_id": "47tzI1OFOXzivfyj2dhtbi",
+        "include": true,
+        "episode_num": 244,
+        "title": "Folge 244: Allergie-Attacke (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2uRKeVM7WXdTqUcIS3cGBH",
+        "include": true,
+        "episode_num": 243,
+        "title": "Folge 243: Die Muschelplage (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2UlfHiN3H01LABR00vRX7u",
+        "include": true,
+        "episode_num": 242,
+        "title": "Folge 242: Der Eisbuden-Pate (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4oRXaysrjCunCHDreoDTGo",
+        "include": true,
+        "episode_num": 241,
+        "title": "Folge 241: Thaddäus und der Pool (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4f9Yq0dV6iyRwDPyQNlg41",
+        "include": true,
+        "episode_num": 240,
+        "title": "Folge 240: Garys Spielehaus (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4loKJOvcqGLsd7DH66XHUC",
+        "include": true,
+        "episode_num": 239,
+        "title": "Folge 239: Pfannenwender des Himmels (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6yU6z0j0rHSDVRpiUsNfsm",
+        "include": true,
+        "episode_num": 238,
+        "title": "Folge 238: Ein phänomenaler Spaß (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "49cPatozAiqzdGkIiQ6gvN",
+        "include": true,
+        "episode_num": 237,
+        "title": "Folge 237: Krabbenburger sind zum Essen da (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7JClYF1KuKFrpJtBG1RyuB",
+        "include": true,
+        "episode_num": 236,
+        "title": "Folge 236: Die Klarinettenwidrigkeit (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4WtU8TkYQr3rj8zdrpN0pJ",
+        "include": true,
+        "episode_num": 235,
+        "title": "Folge 235: Das Freundejubiläum (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "72XiMGOZsNNUrzQWINvoeL",
+        "include": true,
+        "episode_num": 234,
+        "title": "Folge 234: Sir Seeigel und Schneck Scheiter (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3suEjhyj1esS3CxSx36pUM",
+        "include": false,
+        "episode_num": null,
+        "title": "Simsalabim",
+        "exclude_reason": "Not an episode - no episode number, title doesn't match pattern"
+      },
+      {
+        "spotify_album_id": "520MZA2KE2PcP82qO59NoK",
+        "include": true,
+        "episode_num": 233,
+        "title": "Folge 233: Heiß gegrillte Nüsse (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5UnhEPXd6VKYI7pZnuBmY9",
+        "include": true,
+        "episode_num": 232,
+        "title": "Folge 232: Fahrrad-Fahrtraining (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6C5OmXKULiKxw4od3yIU0J",
+        "include": true,
+        "episode_num": 231,
+        "title": "Folge 231: Kokoskrabbenburger (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2Zg3gx8rofCyuq5LceRMGU",
+        "include": true,
+        "episode_num": 230,
+        "title": "Folge 230: Augen auf im Straßenverkehr (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4ieMuP36CE43YhwJECknN4",
+        "include": true,
+        "episode_num": 229,
+        "title": "Folge 229: Das Avocado-Dilemma (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0rK6ZBtNHqOfHcl20cxs5q",
+        "include": true,
+        "episode_num": 228,
+        "title": "Folge 228: Die falsche Zahnfee (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3OwpJdYo4fH41OcdbP4gAn",
+        "include": true,
+        "episode_num": 227,
+        "title": "Folge 227: Tag des Baumes (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2VdlwQ63HchCHsmoPJ2rcs",
+        "include": true,
+        "episode_num": 226,
+        "title": "Folge 226: Karen und Fleckchen (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4JFv5J6iaEJzFWD6cXOpYe",
+        "include": true,
+        "episode_num": 225,
+        "title": "Folge 225: Salziger Schwamm (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4kXXQKL9XIanhAtS5mYxKV",
+        "include": true,
+        "episode_num": 224,
+        "title": "Folge 224: Plankton und die Zauberbohne (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1Xr8Vl1t9VqhQ9ZEMNPP6P",
+        "include": true,
+        "episode_num": 223,
+        "title": "Folge 223: Fischmaels Abenteuer (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "65PDN9iqOPdplHTL9pdOuj",
+        "include": true,
+        "episode_num": 222,
+        "title": "Folge 222: Die Bikini-Bottom-Parade (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4bfnY7pRXUOk195kTta0VG",
+        "include": true,
+        "episode_num": 221,
+        "title": "Folge 221: Ein blumiger Bösewicht (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3i3llyWtJkz47CdRK8qKZn",
+        "include": true,
+        "episode_num": 220,
+        "title": "Folge 220: Willkommen in Wandhausen (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2avMFBt8XeY5dTyQUKd90F",
+        "include": true,
+        "episode_num": 219,
+        "title": "Folge 219: Die Landrattenplage (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3cSwxpwJt1jmpEHyn2EO4m",
+        "include": true,
+        "episode_num": 218,
+        "title": "Folge 218: Flug ins Paradies (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1XbWlohPDCrHUzmlShV8HB",
+        "include": true,
+        "episode_num": 217,
+        "title": "Folge 217: Captain Winzling (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1jV5RgsA2SwO2wf1MSJeJB",
+        "include": true,
+        "episode_num": 216,
+        "title": "Folge 216: Patrick, der Postbote (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4fUQe2MaMAbbxoOMCcaBHN",
+        "include": true,
+        "episode_num": 215,
+        "title": "Folge 215: Schnucki-Putz (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2pLiEZAD4AR394iriP5wl4",
+        "include": true,
+        "episode_num": 214,
+        "title": "Folge 214: Kaufhaus Hochnas (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3akgQFhVollQN76BEXZcKc",
+        "include": true,
+        "episode_num": 213,
+        "title": "Folge 213: Burger-Truck (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6H3t03jzVzkjM3PtczsirN",
+        "include": true,
+        "episode_num": 212,
+        "title": "Folge 212: Böser Bube Blubberbernd (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "474Kl1UvtPdxphyjFGJ2jy",
+        "include": false,
+        "episode_num": null,
+        "title": "Ragga Ding Dong!",
+        "exclude_reason": "Compilation/music release - 20 tracks, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "6QI9tVsS88OIsWKpsbPb0F",
+        "include": true,
+        "episode_num": 211,
+        "title": "Folge 211: Die Schwammhasser (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7rTtaHTzJmf1nkV121C7Dw",
+        "include": true,
+        "episode_num": 210,
+        "title": "Folge 210: Dr. Krabtons Wundersaft für alles (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "78rAiLxXiLvOkCcrBmUStH",
+        "include": false,
+        "episode_num": null,
+        "title": "Stein zu Stein",
+        "exclude_reason": "Not a Hörspiel episode - no episode number pattern, appears to be music/song release"
+      },
+      {
+        "spotify_album_id": "4ovHn7AfEVKFPGayo7JDXl",
+        "include": true,
+        "episode_num": 209,
+        "title": "Folge 209: Der ferngesteuerte Fahrschüler (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "72QUC1KCmsFqwZARN6CnUM",
+        "include": true,
+        "episode_num": 208,
+        "title": "Folge 208: C.H.U.M.S (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5HVxAJrILHsF4TLF44mtnV",
+        "include": true,
+        "episode_num": 207,
+        "title": "Folge 207: Etwas Fischiges kommt daher (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4sYuXejeounlH8x2jH4KUU",
+        "include": true,
+        "episode_num": 206,
+        "title": "Folge 206: Hunde streicheln (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "58ETTF4hfSrVif0uJR3nA5",
+        "include": true,
+        "episode_num": 205,
+        "title": "Folge 205: Die Tauben Eislöffel (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3U7Sx51ZfRu8pDJeflzW53",
+        "include": true,
+        "episode_num": 204,
+        "title": "Folge 204: Thaddäus Fiebertraum (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5h7pR4OyBCyR2PdDukOkNx",
+        "include": true,
+        "episode_num": 203,
+        "title": "Folge 203: Unter dem Zelt (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1bSmx4JivXqih69m4EXMFy",
+        "include": true,
+        "episode_num": 202,
+        "title": "Folge 202: Liebe unter Verschluss (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0Dg6uhKGyoiRfYkDE8gUQC",
+        "include": true,
+        "episode_num": 201,
+        "title": "Folge 201: Ein Platz für Haustiere (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "61BUxPbM0YYkzVOWh4NRgl",
+        "include": false,
+        "episode_num": null,
+        "title": "Fische haben keine Beine (Garys Songs)",
+        "exclude_reason": "Music album (song collection), not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "0dArW3w4aXDPHDJNvuXg3d",
+        "include": false,
+        "episode_num": null,
+        "title": "Sandys Rodeo Show",
+        "exclude_reason": "Music album (song collection), not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "7wgBK6xxvfzqGE3T2OLY35",
+        "include": false,
+        "episode_num": null,
+        "title": "Wie ein Schwamm",
+        "exclude_reason": "Music album with 27 tracks (song collection + instrumentals), not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "4NuiuZxmMrPItU9ZeEZkal",
+        "include": false,
+        "episode_num": null,
+        "title": "Radio Bikini Bottom",
+        "exclude_reason": "Music album (song collection), not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "057a8SOAiGmjqRgEILP0b1",
+        "include": false,
+        "episode_num": null,
+        "title": "Schwammtastisch",
+        "exclude_reason": "Music album (song collection), not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "2b6UlYURVhpiOT8tdfHOEm",
+        "include": false,
+        "episode_num": null,
+        "title": "X-Mas Edition (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": "Compilation with 17 tracks containing multiple Hörspiele (Weihnachten unter Wasser + Spongebobs Weihnachten), not a single episode"
+      },
+      {
+        "spotify_album_id": "2IvIxEMeBA75bzxKfd16nI",
+        "include": false,
+        "episode_num": null,
+        "title": "Quallendisco XXL-Version",
+        "exclude_reason": "Music album (song collection), not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "0texS4jktUkIVaTkLG46oO",
+        "include": false,
+        "episode_num": null,
+        "title": "Quallendisco",
+        "exclude_reason": "Music album (song collection), not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "6tnWalBmzvZ4PlMyG2WUNT",
+        "include": false,
+        "episode_num": null,
+        "title": "Das Gelbe vom Schwamm",
+        "exclude_reason": "Music album (song collection), not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "0izQAMLjkPWgR1ydonihwO",
+        "include": false,
+        "episode_num": null,
+        "title": "Tief im Ozean",
+        "exclude_reason": "Music album (song collection), not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "0Bfoxt7OgHDMlSMtc4IobI",
+        "include": false,
+        "episode_num": null,
+        "title": "Weihnachten unter Wasser",
+        "exclude_reason": "Music album with 25 tracks including karaoke/mitsing versions, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "51qkp1oYlVbW1XwFseNrYf",
+        "include": false,
+        "episode_num": null,
+        "title": "SpongeBob - Der Meister grillt",
+        "exclude_reason": "Music album (song collection), not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "4GkruCW03tDxYluUETbmta",
+        "include": false,
+        "episode_num": null,
+        "title": "SpongeBob - Das schwammose Album",
+        "exclude_reason": "Music album (song collection), not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "4gCwkSd4SrqmmrTTKmQv7U",
+        "include": false,
+        "episode_num": null,
+        "title": "SpongeBob Das SuperBob Album",
+        "exclude_reason": "Music album (song collection), not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "2fvfcRfXhyDZBgeUwHdsr2",
+        "include": false,
+        "episode_num": null,
+        "title": "Mein Gedudel",
+        "exclude_reason": "Music album (song collection), not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "1wCVUHGRowbpDa3Xyq7Abt",
+        "include": false,
+        "episode_num": null,
+        "title": "Folge 50 - Jubiläumsedition (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": "Compilation with 27 tracks (Jubiläumsedition/special edition), not a standard episode"
+      },
+      {
+        "spotify_album_id": "46RI8kpxobLChuu8dzq9KZ",
+        "include": true,
+        "episode_num": 49,
+        "title": "Folge 49 (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3bLNaZY3rptsJ7JgiFH1DK",
+        "include": true,
+        "episode_num": 48,
+        "title": "Folge 48 (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0ZHjrq91Wou45uCIYcxzVd",
+        "include": false,
+        "episode_num": null,
+        "title": "SpongeBob - BOBstar",
+        "exclude_reason": "Music album (song collection), not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "6Ufl82mCu4Yl7YYIIeir3T",
+        "include": true,
+        "episode_num": 47,
+        "title": "Folge 47 (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "21hJvd9caAnVGvgRXptw65",
+        "include": true,
+        "episode_num": 46,
+        "title": "Folge 46 (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "39vbpDFNremDeQg9DvPzvo",
+        "include": false,
+        "episode_num": null,
+        "title": "SpongeBob - Das blaue Album",
+        "exclude_reason": "Music album (song collection), not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "3Kbtljgb2wf6AfBTsyVA57",
+        "include": true,
+        "episode_num": 45,
+        "title": "Folge 45 (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0UgPaS64Qm7fAVmqjzVY4M",
+        "include": true,
+        "episode_num": 44,
+        "title": "Folge 44 (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7yCa4XyUlTDIggdiH29Q58",
+        "include": false,
+        "episode_num": null,
+        "title": "BOBmusik - Das gelbe Winter-Album",
+        "exclude_reason": "Music album (song collection), not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "2ZjeOwCcwnUYcKYtXKSyNe",
+        "include": true,
+        "episode_num": 43,
+        "title": "Folge 43 (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5xvaDkQnS65jEKSoSHdKbD",
+        "include": true,
+        "episode_num": 42,
+        "title": "Folge 42 (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7fZoTCsfgq9vRNiUgWzSks",
+        "include": false,
+        "episode_num": null,
+        "title": "BOBmusik - Das gelbe Album",
+        "exclude_reason": "Music album (song collection), not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "6dWlK1uwBJ00MIxJYasN1W",
+        "include": true,
+        "episode_num": 41,
+        "title": "Folge 41 (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7Bdf48hOoBhDDo3GC3kOc3",
+        "include": true,
+        "episode_num": 40,
+        "title": "Folge 40 (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4TvEmdduObLVhs7QLGT9Gy",
+        "include": true,
+        "episode_num": 39,
+        "title": "Folge 39 (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1fL3ryDnHg0NoFABhWbLo4",
+        "include": true,
+        "episode_num": 38,
+        "title": "Folge 38 (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1P4MlShJf0wnQiSqMV4mQl",
+        "include": true,
+        "episode_num": 37,
+        "title": "Folge 37 (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0lsAbCR7MoQwIabAgXztCu",
+        "include": true,
+        "episode_num": 36,
+        "title": "Folge 36 (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1gRdNhTKH5DVfJ7yX6ttPh",
+        "include": true,
+        "episode_num": 35,
+        "title": "Folge 35: Die Geburtstagsfolge (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "79OuctWGlz3pMRKnVbdK9k",
+        "include": true,
+        "episode_num": 34,
+        "title": "Folge 34 (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0oGAXk6FQJBCojlPlDhg06",
+        "include": true,
+        "episode_num": 33,
+        "title": "Folge 33 (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0iSfp9SFF44P7ikD5gsFEe",
+        "include": true,
+        "episode_num": 32,
+        "title": "Folge 32 (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0bvn5IXL4M8E95HfNPQi5B",
+        "include": true,
+        "episode_num": 31,
+        "title": "Folge 31 (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3ZvTtNwsE2yTdaKG13tKyq",
+        "include": true,
+        "episode_num": 30,
+        "title": "Folge 30 (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2YWIlh3n37xfs2a9QUZGu3",
+        "include": true,
+        "episode_num": 29,
+        "title": "Folge 29 (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6WYlWxx7IUu5UogWYtFhKa",
+        "include": true,
+        "episode_num": 28,
+        "title": "Folge 28 (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3xqtYyHsO6bOnc5U3VM8G9",
+        "include": true,
+        "episode_num": 27,
+        "title": "Folge 27 (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4gJCxYknlZimcoUiqTewrr",
+        "include": true,
+        "episode_num": 26,
+        "title": "Folge 26 (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3mg95sBbJ3azk6RAWyO7Io",
+        "include": true,
+        "episode_num": 24,
+        "title": "Folge 24 (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2ugP99IcPSWRuw2mb5B4dj",
+        "include": true,
+        "episode_num": 23,
+        "title": "Folge 23 (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2akPqOvdUJ3YkzMtJH0r71",
+        "include": true,
+        "episode_num": 9,
+        "title": "Folge 9 (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1Bzo08TAXH2roCpgXq0pUg",
+        "include": true,
+        "episode_num": 8,
+        "title": "Folge 8 (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0MHymKMwbjXbJOf6BC5hTf",
+        "include": true,
+        "episode_num": 7,
+        "title": "Folge 7 (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0gD4wj0Mpl4vsFQ7krFUY5",
+        "include": true,
+        "episode_num": 6,
+        "title": "Folge 6 (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2LOCzKFtYhh6DpQun3vXzb",
+        "include": true,
+        "episode_num": 5,
+        "title": "Folge 5 (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5E2MPVgopE79T0nNbOfoYk",
+        "include": true,
+        "episode_num": 4,
+        "title": "Folge 4 (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2sgTXAgMMGWD7n6hiZ8iXa",
+        "include": true,
+        "episode_num": 3,
+        "title": "Folge 3 (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4pXm3XgtruLkNegjY3cctN",
+        "include": true,
+        "episode_num": 22,
+        "title": "Folge 22 (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "59H7N54bqvtcdr6LMIXf7e",
+        "include": true,
+        "episode_num": 21,
+        "title": "Folge 21 (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5stb4pDAHKFhiCjfpLSeuP",
+        "include": true,
+        "episode_num": 20,
+        "title": "Folge 20 (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3VdvCZpZWIq3Zb0zBB21uD",
+        "include": true,
+        "episode_num": 2,
+        "title": "Folge 2 (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3QXFVb9jpcNA69el9PKXt4",
+        "include": true,
+        "episode_num": 19,
+        "title": "Folge 19 (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1XVvGxW7XtyQkdD8aJIhfm",
+        "include": true,
+        "episode_num": 18,
+        "title": "Folge 18 (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "76vhxkAIrZpEv1p8OlUJ70",
+        "include": true,
+        "episode_num": 17,
+        "title": "Folge 17 (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "65W73YQWlVfXCPDpm0ByMB",
+        "include": true,
+        "episode_num": 16,
+        "title": "Folge 16 (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "39f3YjEa0EZAnqXrUJTFPb",
+        "include": true,
+        "episode_num": 15,
+        "title": "Folge 15 (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "26RsUMzYlVc2Zr5u3NfXcP",
+        "include": true,
+        "episode_num": 14,
+        "title": "Folge 14 (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "43nva2OiJRR1x5v1Z65ymR",
+        "include": true,
+        "episode_num": 13,
+        "title": "Folge 13 (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0I5DDEtkC0ujGTJlINUn6v",
+        "include": true,
+        "episode_num": 12,
+        "title": "Folge 12 (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "43sQbnUtsLldpybSEScvAV",
+        "include": true,
+        "episode_num": 11,
+        "title": "Folge 11 (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3x8YjkSI0jYjvkOxOYjJTH",
+        "include": true,
+        "episode_num": 10,
+        "title": "Folge 10 (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "11KL4d6rpEGS7r55FmCUPM",
+        "include": true,
+        "episode_num": 1,
+        "title": "Folge 1 (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1xUooh5Fo2EbsCJtW5PSYi",
+        "include": true,
+        "episode_num": 25,
+        "title": "Folge 25 (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "41zAzJPEwtTyoWHF0GXEXM",
+        "include": false,
+        "episode_num": null,
+        "title": "Shaker Shaker",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel"
+      },
+      {
+        "spotify_album_id": "1PiupR2TG7dCErVYfRCLPn",
+        "include": false,
+        "episode_num": null,
+        "title": "Schneller als du",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel"
+      },
+      {
+        "spotify_album_id": "3J5pSsGkW0UUiDYYGNJld7",
+        "include": false,
+        "episode_num": null,
+        "title": "Aftershave kommt gleich",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel"
+      },
+      {
+        "spotify_album_id": "700pqfbyipYbnGIN34KRG3",
+        "include": false,
+        "episode_num": null,
+        "title": "Popo - Positiv",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel"
+      },
+      {
+        "spotify_album_id": "7gXUSz4A0hYsvwe5r9NXhR",
+        "include": false,
+        "episode_num": null,
+        "title": "Was hast du bloß den Hai'n gesagt",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel"
+      },
+      {
+        "spotify_album_id": "7t2VGC0jwgBg5HCYT5flYC",
+        "include": false,
+        "episode_num": null,
+        "title": "Gary Gary, Baden!",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel"
+      },
+      {
+        "spotify_album_id": "2j9bJnDQDqQxRhk2ha88u2",
+        "include": false,
+        "episode_num": null,
+        "title": "Im Gefrierraum",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel"
+      },
+      {
+        "spotify_album_id": "2sQG6CLhGrS2jJcRCPaSbz",
+        "include": false,
+        "episode_num": null,
+        "title": "Dein Lachen ist Musik (feat. Fargo)",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel"
+      },
+      {
+        "spotify_album_id": "2fEqOhuI65f1HijZ9Dxadd",
+        "include": false,
+        "episode_num": null,
+        "title": "Krosse Krabbe Pizza (XXL-Version)",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel"
+      },
+      {
+        "spotify_album_id": "6XF96Y6tBOkz9nM9qiAHhi",
+        "include": false,
+        "episode_num": null,
+        "title": "In den Urlaub",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel"
+      },
+      {
+        "spotify_album_id": "3x73JLopgkpVbUi02EUWrg",
+        "include": false,
+        "episode_num": null,
+        "title": "Wale am Buffet",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel"
+      },
+      {
+        "spotify_album_id": "5XW4BrNsPvWvxape8YdTHU",
+        "include": false,
+        "episode_num": null,
+        "title": "Bell' mal WAU",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel"
+      },
+      {
+        "spotify_album_id": "1JCwQtdPLXYi9NOxSWyXEp",
+        "include": false,
+        "episode_num": null,
+        "title": "Cheerleader (Ski-Lieder)",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel"
+      },
+      {
+        "spotify_album_id": "3vpDdcyX3thEamDtFxgi6X",
+        "include": false,
+        "episode_num": null,
+        "title": "Hinterher!",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel"
+      },
+      {
+        "spotify_album_id": "2aw430qR21Uh6cwuPbORBP",
+        "include": false,
+        "episode_num": null,
+        "title": "Ich heb ab",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel"
+      },
+      {
+        "spotify_album_id": "1MuUN21qB6AcgK392pSprA",
+        "include": false,
+        "episode_num": null,
+        "title": "Kommt doch rein",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel"
+      },
+      {
+        "spotify_album_id": "1Zv3mpu5iIj3THnsCt8Jua",
+        "include": false,
+        "episode_num": null,
+        "title": "Du kriegst die Formel nie",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel"
+      },
+      {
+        "spotify_album_id": "24ZzCs4XAZATcbEFgcK6cB",
+        "include": false,
+        "episode_num": null,
+        "title": "Weil ich ein Burgerbrater bin",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel"
+      },
+      {
+        "spotify_album_id": "2iaoeenBWJeIJKUcbbI60n",
+        "include": false,
+        "episode_num": null,
+        "title": "Da kommt ein U-Boot",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel"
+      },
+      {
+        "spotify_album_id": "4FbAkILWtxySH7cXW5VMuY",
+        "include": false,
+        "episode_num": null,
+        "title": "Schnee in Bikini Bottom",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "0nLutaSFsEAsC6VJMYXUJl",
+        "include": false,
+        "episode_num": null,
+        "title": "So ein schöner Schwamm (Das Schwammlied)",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "2t6WhER2O9iT23HiyYudIx",
+        "include": false,
+        "episode_num": null,
+        "title": "Hummer",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "2cQ2Uv4KuPSac1DnqWUB0O",
+        "include": false,
+        "episode_num": null,
+        "title": "Lecker Lecker",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "0m4g56vhk4eprsoUjhg4I7",
+        "include": false,
+        "episode_num": null,
+        "title": "Ab in den Sommer",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "6SIKWQJhr0xNBiSE2oGvpV",
+        "include": false,
+        "episode_num": null,
+        "title": "Wenn ich grill - SpongeBobs BBQ-Hits",
+        "exclude_reason": "Music compilation (BBQ-Hits), not Hörspiel episodes"
+      },
+      {
+        "spotify_album_id": "2xTefeOzdCRD831Uj9yGMc",
+        "include": false,
+        "episode_num": null,
+        "title": "Bob Hits - Das allerbeste Album",
+        "exclude_reason": "Music compilation (23 tracks, \"Hits\"), not Hörspiel episodes"
+      },
+      {
+        "spotify_album_id": "3WC4sMPs1yTwu6rukwUu4R",
+        "include": false,
+        "episode_num": null,
+        "title": "Das grüne Album",
+        "exclude_reason": "Music compilation (13 tracks, various songs), not Hörspiel episodes"
+      },
+      {
+        "spotify_album_id": "1th4MeioVzA26q1IspLN62",
+        "include": false,
+        "episode_num": null,
+        "title": "SpongeBob präsentiert neue Weihnachts-Hits",
+        "exclude_reason": "Music compilation (15 tracks, \"Hits\"), not Hörspiel episodes"
+      },
+      {
+        "spotify_album_id": "71gE4PBnh9RJVkTjuRt5Y6",
+        "include": false,
+        "episode_num": null,
+        "title": "Super Splash 1 - Summer Fun Party",
+        "exclude_reason": "Multi-artist compilation (18 tracks, \"Party\"), not Hörspiel episodes"
+      },
+      {
+        "spotify_album_id": "0O7uYeyQgGzTQ3By4P8Jmb",
+        "include": false,
+        "episode_num": null,
+        "title": "Ole ohne Kohle: Mein Mixtape für Malle",
+        "exclude_reason": "Music compilation (21 tracks, \"Mixtape\"), not Hörspiel episodes"
+      },
+      {
+        "spotify_album_id": "02BL8mSma5cUEPo2t0acBG",
+        "include": false,
+        "episode_num": null,
+        "title": "Die neue Schlagerparty Vol. 8",
+        "exclude_reason": "Multi-artist compilation (40 tracks, \"Schlagerparty\"), not Hörspiel episodes"
+      },
+      {
+        "spotify_album_id": "0BTr84QGpGuQHfEjJVNdSZ",
+        "include": false,
+        "episode_num": null,
+        "title": "Weihnachts-Hits für Kids",
+        "exclude_reason": "Multi-artist compilation (20 tracks, \"Hits\"), not Hörspiel episodes"
+      }
+    ],
+    "age_note": "Suitable from 5+",
+    "curator_notes": "German audio dramas based on the popular Nickelodeon TV series. Episodes follow the 'Folge X: Titel' format. Occasional special releases like 'Weihnachten unter Wasser XXL-Edition' and 'Simsalabim' exist outside the main numbering scheme. Episode numbers are in the 200s+ range, indicating a long-running series with extensive back catalog."
+  }
+}

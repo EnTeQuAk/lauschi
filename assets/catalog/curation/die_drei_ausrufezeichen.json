@@ -1,0 +1,813 @@
+{
+  "query": "Die drei !!!",
+  "model": "kimi-k2.5",
+  "curated_at": "2026-02-21T00:35:46.300467+00:00",
+  "series": {
+    "id": "die_drei_ausrufezeichen",
+    "title": "Die drei !!!",
+    "aliases": [
+      "Die drei Ausrufezeichen",
+      "The Three Exclamation Marks"
+    ],
+    "keywords": [],
+    "spotify_artist_ids": [
+      "2Jc4AEeBTE47KwuKgYOtcL"
+    ],
+    "episode_pattern": "^Folge (\\d+):",
+    "albums": [
+      {
+        "spotify_album_id": "4B2rycF4ptpOfkDLhVQdCm",
+        "include": false,
+        "episode_num": null,
+        "title": "Verliebte Fälle",
+        "exclude_reason": "Compilation - 350 tracks, not a single episode"
+      },
+      {
+        "spotify_album_id": "0ySVT7gHzNNOepIa4InW7O",
+        "include": true,
+        "episode_num": 96,
+        "title": "Folge 96: Abenteuer Afrika",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2m78VS4hYSz3iLdNEVJZ9I",
+        "include": true,
+        "episode_num": 95,
+        "title": "Folge 95: Falle im alten Kino",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7rOiqNA8gO1qWLEUTvXAun",
+        "include": false,
+        "episode_num": null,
+        "title": "Adventskalender - Zauberhafte Eiswelt",
+        "exclude_reason": "Adventskalender (special compilation format)"
+      },
+      {
+        "spotify_album_id": "3KA6lz77Fq1sMQRnGhSUjp",
+        "include": false,
+        "episode_num": null,
+        "title": "Die gruseligsten Fälle",
+        "exclude_reason": "Compilation - 390 tracks, not a single episode"
+      },
+      {
+        "spotify_album_id": "3p0eAPMrp79UFTGRYtFFOl",
+        "include": true,
+        "episode_num": 94,
+        "title": "Folge 94: Unheimliches Meeresleuchten",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4mYateqqljvBE5ASbbsxx9",
+        "include": true,
+        "episode_num": 93,
+        "title": "Folge 93: Abenteuer-Küsse",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6DQlcEORK2iSsPErB58Enp",
+        "include": false,
+        "episode_num": null,
+        "title": "Sommer-Abenteuer",
+        "exclude_reason": "Compilation - 364 tracks, not a single episode"
+      },
+      {
+        "spotify_album_id": "1IksQVlojtgy0J6822BMeD",
+        "include": true,
+        "episode_num": 92,
+        "title": "Folge 92: Geheimnis am Fluss",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4hegbgngXPTokZ3Z4tR7IS",
+        "include": true,
+        "episode_num": 91,
+        "title": "Folge 91: Geburtstagsdiebe",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "51Oqg9PlgcN7xRVJEgzu5h",
+        "include": true,
+        "episode_num": 90,
+        "title": "Folge 90: Mission Gipfelglück",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6r5Z1GCgD8diUD9inajKvd",
+        "include": false,
+        "episode_num": null,
+        "title": "Adventskalender - Wirbel im Weihnachtshotel",
+        "exclude_reason": "Adventskalender (special compilation format)"
+      },
+      {
+        "spotify_album_id": "0qnvqGEWUPfievg2l7D6U9",
+        "include": false,
+        "episode_num": null,
+        "title": "Kims Tagebuch - Happy Halloween (Hörbuch)",
+        "exclude_reason": "Different series - Kims Tagebuch, not Die drei !!!"
+      },
+      {
+        "spotify_album_id": "6lJLEeb1XlFXhnmPc5Wi1t",
+        "include": true,
+        "episode_num": 89,
+        "title": "Folge 89: Der Fluch der Fee",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5BrBj3ptD3M91uAfZ5N9Ws",
+        "include": true,
+        "episode_num": 88,
+        "title": "Folge 88: Die Krimi-Verschwörung",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "50WblRxJHvT2M8RtGgBzOn",
+        "include": true,
+        "episode_num": 87,
+        "title": "Folge 87: Geheimnisvoller Liebestrank",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "17ZoX7E5FoPkz5xUvC5pJp",
+        "include": true,
+        "episode_num": 86,
+        "title": "Folge 86: Rätselhafter Raub",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3p9JnVWaakuFyDyPev6dUj",
+        "include": true,
+        "episode_num": 85,
+        "title": "Folge 85: Ein Fall mit Herz und Huf",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4ZbwSV67s5f4nwn1UYzwGE",
+        "include": false,
+        "episode_num": null,
+        "title": "Adventskalender/Weihnachtsponys in Gefahr",
+        "exclude_reason": "Adventskalender (special compilation format)"
+      },
+      {
+        "spotify_album_id": "5HUoaRTkFG7FOtFeMsEZEO",
+        "include": true,
+        "episode_num": 84,
+        "title": "Folge 84: Luftballonküsse",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0logTHRSKGE37uVdSlf6O8",
+        "include": true,
+        "episode_num": 83,
+        "title": "Folge 83: Voller Einsatz für die Erde",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6HUsj30bF5HtJzwNZLzoY0",
+        "include": false,
+        "episode_num": null,
+        "title": "Die Ponyverschwörung",
+        "exclude_reason": "Different series title, not matching episode pattern"
+      },
+      {
+        "spotify_album_id": "5cePM34PH7BFRY77i3dtIW",
+        "include": true,
+        "episode_num": 82,
+        "title": "Folge 82: Das Konfetti-Komplott",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6JZmsJOFeOkn683w1Qzdj3",
+        "include": true,
+        "episode_num": 81,
+        "title": "Folge 81: Geheimnis im Spukhotel",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2S6DeiIPdkQPIQi5JQRqtD",
+        "include": false,
+        "episode_num": null,
+        "title": "Adventskalender/Geheimnisse zur Weihnachtszeit",
+        "exclude_reason": "Adventskalender (special compilation format)"
+      },
+      {
+        "spotify_album_id": "41H3IW5sFwwpFPbLGmlLJW",
+        "include": true,
+        "episode_num": 80,
+        "title": "Folge 80: Ein echt schöner Fall",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7doQH1kPe6v73TSoYGU6QY",
+        "include": true,
+        "episode_num": 79,
+        "title": "Folge 79: Vier Pfoten in Gefahr",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0CZ4okIufmxtgXVUF6cM0I",
+        "include": true,
+        "episode_num": 78,
+        "title": "Folge 78: Das Bienengeheimnis",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5y9tQvy4LtFqV8b4VXsLzk",
+        "include": true,
+        "episode_num": 77,
+        "title": "Folge 77: Achtung, Gaunerzeichen!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5mssqxVqhwbVQg96w8dqq6",
+        "include": true,
+        "episode_num": 76,
+        "title": "Folge 76: #Falscher Ruhm",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3trwiTOpImrBHlfRFL2jqB",
+        "include": false,
+        "episode_num": null,
+        "title": "Adventskalender/Die Marzipan-Mission",
+        "exclude_reason": "Adventskalender (compilation format, 24-day structure)"
+      },
+      {
+        "spotify_album_id": "3msSCztCTvvNWx91aL66Df",
+        "include": true,
+        "episode_num": 75,
+        "title": "Folge 75: Tatort Hollywood",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4RYRHaRZLSj1rptGaegXat",
+        "include": true,
+        "episode_num": 74,
+        "title": "Folge 74: Rätsel der Vergangenheit",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4AgcyMrB11xPCCTjRzfHGL",
+        "include": true,
+        "episode_num": 73,
+        "title": "Folge 73: Legende der Einhörner",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1dZCFF0MmS9aZEs4HbthCw",
+        "include": true,
+        "episode_num": 72,
+        "title": "Folge 72: Kuss der Meerjungfrau",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6Vroxjn7WABCFMVWImdefS",
+        "include": true,
+        "episode_num": 71,
+        "title": "071/Gefahr in den Ruinen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "63f1Nl6tYYA2dNdTCzFF9R",
+        "include": true,
+        "episode_num": 70,
+        "title": "070/Gefährliches Spiel",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5Eznzlc1K2lCAekaQwBGOB",
+        "include": true,
+        "episode_num": 69,
+        "title": "069/Nacht der Wölfe",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "02JfnORmf7rsQLSptYAt6a",
+        "include": true,
+        "episode_num": 68,
+        "title": "068/Gefahr im Netz",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2e5ncFY5iOyLdUZgjI9bo5",
+        "include": true,
+        "episode_num": 67,
+        "title": "067/Tatort Geisterbahn",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "05rlDFdI1cqe2VnM5A67S2",
+        "include": true,
+        "episode_num": 66,
+        "title": "066/Tanz der Herzen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2QKlQRf0Cfe5T34w6B5DfQ",
+        "include": true,
+        "episode_num": 65,
+        "title": "065/Heuler in Not",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4DgY9rIEtwpNXuKJJkjDY2",
+        "include": true,
+        "episode_num": 64,
+        "title": "064/Der Graffiti-Code",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1tiSNbq6kgALcPNOIZHu67",
+        "include": true,
+        "episode_num": 63,
+        "title": "063/Flammen in der Nacht",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6sY5T9eROTkGXkprYS1JIc",
+        "include": false,
+        "episode_num": null,
+        "title": "Adventskalender - Wintertraum in Gefahr",
+        "exclude_reason": "Adventskalender (compilation format, 24-day structure)"
+      },
+      {
+        "spotify_album_id": "1jObrioJhKRNVPlxlG7B9Z",
+        "include": true,
+        "episode_num": 62,
+        "title": "062/Spuk am Himmel",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3s2ROvBMTI2rwW8RHkCsRg",
+        "include": false,
+        "episode_num": null,
+        "title": "Das Original Hörspiel zum Kinofilm",
+        "exclude_reason": "Movie tie-in / special release, not regular episode"
+      },
+      {
+        "spotify_album_id": "55j61hrwSlDok7oaxxM1Iy",
+        "include": true,
+        "episode_num": 61,
+        "title": "061/Der Fall Dornröschen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7jbBsUDn1hWNVyrRHxMV9B",
+        "include": true,
+        "episode_num": 60,
+        "title": "060/Liebes-Chaos",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4NteeZLRxYHyizQtckB6lk",
+        "include": true,
+        "episode_num": 59,
+        "title": "059/Das geheime Parfüm",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1RlL8kNAhx5buOGBbW0cfV",
+        "include": true,
+        "episode_num": 58,
+        "title": "058/Gorilla in Not",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0tygMEWC5NzVMpQXXpNiY7",
+        "include": true,
+        "episode_num": 57,
+        "title": "057/Tatort Kreuzfahrt",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3rBGGGFl6s04ev8TG3nklf",
+        "include": true,
+        "episode_num": 56,
+        "title": "056/Geheimnis im Düstermoor",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7cAODGObTkR9Swz0YSABD6",
+        "include": true,
+        "episode_num": 55,
+        "title": "055/Wildpferd in Gefahr",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7e78EvusAQMZ3L2Und3Jbg",
+        "include": true,
+        "episode_num": 54,
+        "title": "054/Klappe und Action!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6WsVyCSywp7O3aKjAzVcGp",
+        "include": true,
+        "episode_num": 53,
+        "title": "053/Hochzeitsfieber",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6FlKoWXZmRuIG9Zc7J1tUZ",
+        "include": true,
+        "episode_num": 52,
+        "title": "052/Das rote Phantom",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5mdP79ob1KSHwk16l1KAco",
+        "include": true,
+        "episode_num": 51,
+        "title": "051/Krimi-Dinner",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6rfILMiUOyyGgF8dhQ8Uht",
+        "include": false,
+        "episode_num": null,
+        "title": "050/Freundinnen in Gefahr",
+        "exclude_reason": "Box set - contains 3 episodes (Verlorenes Herz, Spuren der Vergangenheit, Gefährliche Täuschung)"
+      },
+      {
+        "spotify_album_id": "3jO56T2HsEqKgmGYuCEhKZ",
+        "include": true,
+        "episode_num": 49,
+        "title": "049/Skandal auf dem Laufsteg",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4MZYMMJfqI2qcOcEmN9mCs",
+        "include": true,
+        "episode_num": null,
+        "title": "048/Die Maske der Königin",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0weLXrClaVQeAPO2KK8m81",
+        "include": true,
+        "episode_num": null,
+        "title": "047/Unter Verdacht",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0yjbXYX1UtB8r0c1CFWhSG",
+        "include": true,
+        "episode_num": null,
+        "title": "046/Filmstar in Gefahr",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1i5YX8hEf27Ep62GEfkUzF",
+        "include": false,
+        "episode_num": null,
+        "title": "Adventskalender - Weihnachtsmann gesucht",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5337c71ghTYTKz3sJBYeAK",
+        "include": false,
+        "episode_num": null,
+        "title": "Adventskalender - Das Weihnachtsrätsel",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4zlWM9OKrtiCgSusljX1E7",
+        "include": true,
+        "episode_num": null,
+        "title": "045/Tatort Geisterhaus",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5LM81629FwKwJHfJcGPgK2",
+        "include": true,
+        "episode_num": null,
+        "title": "044/Skandal im Café Lomo!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7bkvVdlj8wiw4Li61BZR2m",
+        "include": true,
+        "episode_num": null,
+        "title": "043/Nixensommer",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4CpizsYamWYUBHZJoQPwdv",
+        "include": true,
+        "episode_num": null,
+        "title": "042/Geheimnis der alten Villa",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4Ni50L1zXoIIkS3z2h0xh8",
+        "include": true,
+        "episode_num": null,
+        "title": "041/Im Bann des Flamenco",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3Y7SbC7xEqmh6beaCAUjFd",
+        "include": false,
+        "episode_num": null,
+        "title": "Adventskalender - Geheimnis im Schnee",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5QezttqJ1VP5sVhV5VtwoT",
+        "include": true,
+        "episode_num": null,
+        "title": "040/Achtung, Spionage!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5gaFsWM21HaKWgA0DG0jiN",
+        "include": true,
+        "episode_num": null,
+        "title": "039/Verliebte Weihnachten",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1FSMHiv7d9grmjqUe1a5hj",
+        "include": true,
+        "episode_num": null,
+        "title": "038/Stylist in Gefahr",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6Xm4s3aGPU17e9sgGEA8aZ",
+        "include": true,
+        "episode_num": null,
+        "title": "037/Mission Pferdeshow",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2NrsEPrTragOn3GQ0PMVOF",
+        "include": true,
+        "episode_num": null,
+        "title": "036/SOS per GPS",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6Mlom2t82WwqRBz9roHK4K",
+        "include": true,
+        "episode_num": null,
+        "title": "035/Diebe in der Lagune",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6dgraZML3CQZkRuoFQkzJk",
+        "include": false,
+        "episode_num": null,
+        "title": "Adventskalender - Eisprinzessin in Not",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "37z4HkHnOAQzBxw5ylAN9d",
+        "include": true,
+        "episode_num": null,
+        "title": "034/Brandgefährlich!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "41wMgMO7LpxY8o4Rj55oBq",
+        "include": true,
+        "episode_num": null,
+        "title": "033/Küsse im Schnee",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0ooKSw6J3b9n4bympkkxzu",
+        "include": true,
+        "episode_num": null,
+        "title": "032/Party des Grauens",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4Y4lAWfYSWTFMgXzpPoKXI",
+        "include": true,
+        "episode_num": null,
+        "title": "031/Betrug in den Charts",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "16a0epT9yt2SeLGhsoYM4a",
+        "include": true,
+        "episode_num": null,
+        "title": "030/Falsches Spiel im Internat",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1WA6KmaDHQFXKYB5chNZe2",
+        "include": true,
+        "episode_num": null,
+        "title": "029/Panik im Freizeitpark",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5hS6afCS6iR3fyeyjixu5I",
+        "include": false,
+        "episode_num": null,
+        "title": "Adventskalender - Engel in Gefahr",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7DiWGxMXtXR4k4dkW2cJRz",
+        "include": true,
+        "episode_num": null,
+        "title": "028/Achtung, Promihochzeit!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5MqALpg2JaeqGuFhWE0MFg",
+        "include": true,
+        "episode_num": null,
+        "title": "027/Vampire in der Nacht",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1OvCArBEfWgap3VxZxbp4I",
+        "include": true,
+        "episode_num": null,
+        "title": "026/Tatort Filmset",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5dysYAhcB4km5RFMet1K3J",
+        "include": true,
+        "episode_num": null,
+        "title": "025/Herzklopfen!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5soXodzTvagM8nZldvbpDD",
+        "include": true,
+        "episode_num": null,
+        "title": "024/Fußballstar in Gefahr",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6LEQ8cVptVomMqdVJrlVkf",
+        "include": true,
+        "episode_num": 23,
+        "title": "023/Undercover im Netz",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1dqdcXxrnsPQW8TtyL6q7A",
+        "include": true,
+        "episode_num": 22,
+        "title": "022/Jagd im Untergrund",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1m7fs7cHNbqjk1CsnhI9St",
+        "include": true,
+        "episode_num": 21,
+        "title": "021/Skandal auf der Rennbahn",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1Lx6empB7IEYcSM9dtuqhf",
+        "include": true,
+        "episode_num": 20,
+        "title": "020/Beutejagd am Geistersee",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3vOk5Z9ZRAQMstB9EGFYfk",
+        "include": true,
+        "episode_num": 19,
+        "title": "019/Teuflisches Handy",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6dRGnn4E13yRucYoVRlmHJ",
+        "include": true,
+        "episode_num": 18,
+        "title": "018/VIP-Alarm",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6zVqNpHvSHW3h3n6Q9O0Cy",
+        "include": true,
+        "episode_num": 17,
+        "title": "017/Gefährliche Fracht",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0oHjNLbrtdonacpPnOFSpi",
+        "include": true,
+        "episode_num": 16,
+        "title": "016/Total verknallt!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2cfvgwipV1K4CLPnXjN5Ve",
+        "include": true,
+        "episode_num": 15,
+        "title": "015/Duell der Topmodels",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5bEe20BiXHLJHxRO6fXpBa",
+        "include": true,
+        "episode_num": 14,
+        "title": "014/Spuk am See",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1pRyPquecHFLXzvrVRz0ng",
+        "include": true,
+        "episode_num": 13,
+        "title": "013/Gefahr im Reitstall",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5TAMugD2iYsUOzMLVAX4uu",
+        "include": true,
+        "episode_num": 12,
+        "title": "012/Popstar in Not",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6ZA4CK35JLBed0CAr7xA11",
+        "include": true,
+        "episode_num": 11,
+        "title": "011/Kuss-Alarm!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3c9r0kBQLOrsJd8OxXJfXa",
+        "include": true,
+        "episode_num": 10,
+        "title": "010/Tanz der Hexen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3P8DkaKa07qqvuO08Dd93o",
+        "include": true,
+        "episode_num": 9,
+        "title": "009/Im Bann des Tarots",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5O9rNnNzU7IblnCHUTZU7h",
+        "include": true,
+        "episode_num": 8,
+        "title": "008/Vorsicht Strandhaie",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2LH2tPzRlGGd8UzCUW9A2s",
+        "include": true,
+        "episode_num": 7,
+        "title": "007/Skaterfieber",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "70yIrzDIuYc0O4FPWqIKny",
+        "include": true,
+        "episode_num": 6,
+        "title": "006/Skandal auf Sendung",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3WcaA1PuJm9n9c7IumaErj",
+        "include": true,
+        "episode_num": 5,
+        "title": "005/Tatort Paris",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4piCvDiOy2C7x0mCMcahGE",
+        "include": true,
+        "episode_num": 4,
+        "title": "004/Gefahr im Fitness-Studio",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5cKrcMBy6bZdhG34G4P3cS",
+        "include": true,
+        "episode_num": 3,
+        "title": "003/Gefährlicher Chat",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2DuT0qcP3FnhEqOByZP0kq",
+        "include": true,
+        "episode_num": 2,
+        "title": "002/Betrug beim Casting",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3un4woLD6j6kwAwZmSkPYw",
+        "include": true,
+        "episode_num": 1,
+        "title": "001/Die Handy-Falle",
+        "exclude_reason": null
+      }
+    ],
+    "age_note": "Recommended 8+",
+    "curator_notes": "Spin-off of 'Die drei ???' targeting a younger, primarily female audience. Features three girls solving mysteries. Includes special editions like Adventskalender and character spin-offs (e.g., 'Kims Tagebuch'). Episode numbering starts from 1 and is consistent in 'Folge X: Title' format."
+  }
+}

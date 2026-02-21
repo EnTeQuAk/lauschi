@@ -1,0 +1,613 @@
+{
+  "query": "Die Schlümpfe",
+  "model": "kimi-k2.5",
+  "curated_at": "2026-02-21T01:05:09.609564+00:00",
+  "series": {
+    "id": "die_schlumpfe",
+    "title": "Die Schlümpfe",
+    "aliases": [],
+    "keywords": [
+      "Schlümpfe",
+      "Schlumpf",
+      "Schlumpfine",
+      "Papa Schlumpf",
+      "Schlumpfhausen"
+    ],
+    "spotify_artist_ids": [
+      "0ONNMDruuhqjpTB9uRhbYs"
+    ],
+    "episode_pattern": "Folge\\s+(\\d+)",
+    "albums": [
+      {
+        "spotify_album_id": "7hwuIkBoYtRG16DE5ClPeo",
+        "include": true,
+        "episode_num": 26,
+        "title": "Folge 26: Wollen wir wetten?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6YFro5aX51QJxFnEQjbCUx",
+        "include": true,
+        "episode_num": 25,
+        "title": "Folge 25: Die Sarsaparillo-Jagd",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4lhwJXQtgjJF1WYHOGc0uN",
+        "include": true,
+        "episode_num": 24,
+        "title": "Folge 24: Schlumpfige Weihnachten",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2YRaUWgQXr7elOkWUKvbtm",
+        "include": true,
+        "episode_num": 23,
+        "title": "Folge 23: Schlumpf in die Zukunft",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1o4a6OJ5ENcfsu59zdjpEa",
+        "include": true,
+        "episode_num": 22,
+        "title": "Folge 22: Der magische Kürbis",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "323Uz36BPQn0PsqVKAnPfD",
+        "include": true,
+        "episode_num": 21,
+        "title": "Folge 21: Die Schlumpfdiva",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3GSN1dzwUvdKzYXI6aoLnN",
+        "include": true,
+        "episode_num": 20,
+        "title": "Folge 20: Die fliegenden Schlümpfe",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0EiLKoOMJwvrCwYrusBiTx",
+        "include": true,
+        "episode_num": 19,
+        "title": "Folge 19: Baby Sensei",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3qKKWSQcKfecrfM7QIUZys",
+        "include": true,
+        "episode_num": 18,
+        "title": "Folge 18: Okey Dokey!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "03YSG980Jls0yZ8kVdOtcS",
+        "include": true,
+        "episode_num": 17,
+        "title": "Folge 17: Blüte zieht aus",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5knSY3nl6mTL5Zl9hOhMm1",
+        "include": true,
+        "episode_num": 16,
+        "title": "Folge 16: Ogerliebe",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2MrQz8NwuH96ubXo4plybL",
+        "include": true,
+        "episode_num": 15,
+        "title": "Folge 15: Der Gast, der nicht gehen wollte",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2cD99DptS2to8bMstweM1k",
+        "include": true,
+        "episode_num": 14,
+        "title": "Folge 14: Schlumpfige Manieren",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "30PyLsUW7zm2sRJpWS3VL2",
+        "include": true,
+        "episode_num": 13,
+        "title": "Folge 13: Ihr seid gefeuert!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4AVOhPoLFZoBxl0qlQazBd",
+        "include": true,
+        "episode_num": 12,
+        "title": "Folge 12: Der doppelte Papa Schlumpf",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6Ts4JNHicpgwrqKZ5AQ2IF",
+        "include": true,
+        "episode_num": 11,
+        "title": "Folge 11: Der Laborassistent",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1z5eT8gtOv4Jf6eS1CtsZm",
+        "include": true,
+        "episode_num": 10,
+        "title": "Folge 10: Die Schlumpfshow",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0Hji0C3fP2Vxoke0x593MD",
+        "include": true,
+        "episode_num": 9,
+        "title": "Folge 9: Sturm verliert ihr Mojo",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "74vhZGHIMJzMBWPHt9ibAE",
+        "include": true,
+        "episode_num": 8,
+        "title": "Folge 8: Gargaschlumpf",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0rKKL584q3GAAvy3zYZBcQ",
+        "include": true,
+        "episode_num": 7,
+        "title": "Folge 7: Ein schlumpfiger Kindergarten",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "01ek7vgiYOT77OYG7GIUAT",
+        "include": true,
+        "episode_num": 6,
+        "title": "Folge 6: Die Plümpfe",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1I0LEec7rsYlMjuwIvSAZs",
+        "include": true,
+        "episode_num": 5,
+        "title": "Folge 5: Schlumpf Fu",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4S5nRTGrXoU6VIdg3if5HL",
+        "include": true,
+        "episode_num": 4,
+        "title": "Folge 4: Mein Schlumpf, der Held",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6NaSxEeldWBI4uahBDlyor",
+        "include": true,
+        "episode_num": 3,
+        "title": "Folge 3: Wer ist heftiger?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6fQLD8MTbcyK5vF3zEkTh8",
+        "include": true,
+        "episode_num": 2,
+        "title": "Folge 2: Ein unwiderschlumpfliches Lächeln",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2PamhIIkxUEfNYswLoruH2",
+        "include": true,
+        "episode_num": 1,
+        "title": "Folge 1: Ein tollpatschiger Held",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2kxFmDF5dydiOCKFH2ijsz",
+        "include": true,
+        "episode_num": 9,
+        "title": "Folge 9: Der freche Geist",
+        "exclude_reason": "Duplicate episode number - older 2020 series, prefer newer 2023-2025 episodes"
+      },
+      {
+        "spotify_album_id": "78imwjhQfMhp1Hnhep9ASh",
+        "include": true,
+        "episode_num": 8,
+        "title": "Folge 8: Der Schlumpf, der alles mag",
+        "exclude_reason": "Duplicate episode number - older 2020 series, prefer newer 2023-2025 episodes"
+      },
+      {
+        "spotify_album_id": "2bZY7BOt9Xo0NSWaA8xmiH",
+        "include": true,
+        "episode_num": 7,
+        "title": "Folge 7: Unten! Ganz unten!",
+        "exclude_reason": "Duplicate episode number - older 2020 series, prefer newer 2023-2025 episodes"
+      },
+      {
+        "spotify_album_id": "6yvUkCgUrjdslKvHLfdAfg",
+        "include": true,
+        "episode_num": 6,
+        "title": "Folge 6: Die Schlümpfe in der Mine",
+        "exclude_reason": "Duplicate episode number - older 2020 series, prefer newer 2023-2025 episodes"
+      },
+      {
+        "spotify_album_id": "6o1DX4goYgIF61oOQrpvFZ",
+        "include": true,
+        "episode_num": 5,
+        "title": "Folge 5: Die wundervolle Pflanze",
+        "exclude_reason": "Duplicate episode number - older 2020 series, prefer newer 2023-2025 episodes"
+      },
+      {
+        "spotify_album_id": "3cJErcioeJA3SzIEmWdDvg",
+        "include": true,
+        "episode_num": 4,
+        "title": "Folge 4: Jokeys Reise",
+        "exclude_reason": "Duplicate episode number - older 2020 series, prefer newer 2023-2025 episodes"
+      },
+      {
+        "spotify_album_id": "3i4sII6KEcoqHyS2yFVJyU",
+        "include": true,
+        "episode_num": 3,
+        "title": "Folge 3: Die Wassersucher",
+        "exclude_reason": "Duplicate episode number - older 2020 series, prefer newer 2023-2025 episodes"
+      },
+      {
+        "spotify_album_id": "4KfM86ZxYZao5tqqOk1ENS",
+        "include": true,
+        "episode_num": 2,
+        "title": "Folge 2: Die unsichtbare Pfeife",
+        "exclude_reason": "Duplicate episode number - older 2020 series, prefer newer 2023-2025 episodes"
+      },
+      {
+        "spotify_album_id": "39e9AXlk6nQ6nLsZDll613",
+        "include": true,
+        "episode_num": 20,
+        "title": "Folge 20: Blümchen ist verschwunden",
+        "exclude_reason": "Duplicate episode number - older 2020 series, prefer newer 2023-2025 episodes"
+      },
+      {
+        "spotify_album_id": "2eMjO7p7ZDQVz0YjpTLZp9",
+        "include": true,
+        "episode_num": 1,
+        "title": "Folge 1: Das Buch, das alles sagt",
+        "exclude_reason": "Duplicate episode number - older 2020 series, prefer newer 2023-2025 episodes"
+      },
+      {
+        "spotify_album_id": "7rMpaXtiMOc1vSwOkfClPj",
+        "include": true,
+        "episode_num": 19,
+        "title": "Folge 19: Die drei Kerne",
+        "exclude_reason": "Duplicate episode number - older 2020 series, prefer newer 2023-2025 episodes"
+      },
+      {
+        "spotify_album_id": "070exhjgYDaq2EvyNf1fhA",
+        "include": true,
+        "episode_num": 18,
+        "title": "Folge 18: Die Hexenschülerin",
+        "exclude_reason": "Duplicate episode number - older 2020 series, prefer newer 2023-2025 episodes"
+      },
+      {
+        "spotify_album_id": "3Wt2rG4hm051Au1P1W9Cci",
+        "include": true,
+        "episode_num": 17,
+        "title": "Folge 17: Gargamel verkleidet sich",
+        "exclude_reason": "Duplicate episode number - older 2020 series, prefer newer 2023-2025 episodes"
+      },
+      {
+        "spotify_album_id": "1ImJM1ylufGHY8JAZuX65e",
+        "include": true,
+        "episode_num": 16,
+        "title": "Folge 16: Sparakel und Pitipus",
+        "exclude_reason": "Duplicate episode number - older 2020 series, prefer newer 2023-2025 episodes"
+      },
+      {
+        "spotify_album_id": "7ap6j7cgyAW5n7gKRdA82h",
+        "include": true,
+        "episode_num": 15,
+        "title": "Folge 15: Das Ei des Tirilirulis",
+        "exclude_reason": "Duplicate episode number - older 2020 series, prefer newer 2023-2025 episodes"
+      },
+      {
+        "spotify_album_id": "6YP4B0VNbXvVQeHzlhq5Jy",
+        "include": true,
+        "episode_num": 14,
+        "title": "Folge 14: Ritter Norbert Nulltalent",
+        "exclude_reason": "Duplicate episode number - older 2020 series, prefer newer 2023-2025 episodes"
+      },
+      {
+        "spotify_album_id": "1bb3h2wVqhmjvPKZZYI12q",
+        "include": true,
+        "episode_num": 13,
+        "title": "Folge 13: Eine Kette für Schlumpfine",
+        "exclude_reason": "Duplicate episode number - older 2020 series, prefer newer 2023-2025 episodes"
+      },
+      {
+        "spotify_album_id": "6KUZd9v2JnOB3JE9S7A9Q3",
+        "include": true,
+        "episode_num": 12,
+        "title": "Folge 12: Die Entdeckerschlümpfe",
+        "exclude_reason": "Duplicate episode number - older 2020 series, prefer newer 2023-2025 episodes"
+      },
+      {
+        "spotify_album_id": "6tL1mRFStmjyKZq2dus0Jw",
+        "include": true,
+        "episode_num": 11,
+        "title": "Folge 11: Die traurige Zauberweide",
+        "exclude_reason": "Duplicate episode number - older 2020 series, prefer newer 2023-2025 episodes"
+      },
+      {
+        "spotify_album_id": "4WH7pG6caE8Hi7eTwAm9of",
+        "include": true,
+        "episode_num": 10,
+        "title": "Folge 10: Ein Geschenk für Yolanda",
+        "exclude_reason": "Duplicate episode number - older 2020 series, prefer newer 2023-2025 episodes"
+      },
+      {
+        "spotify_album_id": "2HOKCeVoNCJp8DHeOAA3Sc",
+        "include": false,
+        "episode_num": null,
+        "title": "Die Schlümpfe - Geschichtensammlung 6",
+        "exclude_reason": "Box set / compilation - Geschichtensammlung (story collection)"
+      },
+      {
+        "spotify_album_id": "4ZdJvLVDTwxk9JefV1qYQE",
+        "include": false,
+        "episode_num": null,
+        "title": "Die Schlümpfe - Geschichtensammlung 5",
+        "exclude_reason": "Box set / compilation - Geschichtensammlung (story collection)"
+      },
+      {
+        "spotify_album_id": "5VYbNu16WI8P6qeeMsx9ZA",
+        "include": false,
+        "episode_num": null,
+        "title": "Die Schlümpfe - Geschichtensammlung 4",
+        "exclude_reason": "Box set / compilation - Geschichtensammlung (story collection)"
+      },
+      {
+        "spotify_album_id": "0pAQU8xFJeo3NsS0lvrCYz",
+        "include": false,
+        "episode_num": null,
+        "title": "Die Schlümpfe - Geschichtensammlung 3",
+        "exclude_reason": "Box set / compilation - Geschichtensammlung (story collection)"
+      },
+      {
+        "spotify_album_id": "6LdlZUUVnq2bediSj7HQRJ",
+        "include": false,
+        "episode_num": null,
+        "title": "Die Schlümpfe - Geschichtensammlung 2",
+        "exclude_reason": "Box set / compilation - Geschichtensammlung (story collection)"
+      },
+      {
+        "spotify_album_id": "1d69EaJYf5AuPtiC1l5Bc7",
+        "include": false,
+        "episode_num": null,
+        "title": "Die Schlümpfe - Geschichtensammlung 1",
+        "exclude_reason": "Box set / compilation - Geschichtensammlung (story collection)"
+      },
+      {
+        "spotify_album_id": "0zfboFewkRpO8Y8z4LmlVl",
+        "include": false,
+        "episode_num": null,
+        "title": "Die Schlümpfe - Schlumpfgeschichten",
+        "exclude_reason": "Audiobook - 44 chapters, not episodic Hörspiel format"
+      },
+      {
+        "spotify_album_id": "1mWrypc8clAhz238Ut7uve",
+        "include": false,
+        "episode_num": null,
+        "title": "Die Schlümpfe - 3-Minuten-Gutenachtgeschichten",
+        "exclude_reason": "Short stories / Kurzhörspiele - bedtime stories, not main series episodes"
+      },
+      {
+        "spotify_album_id": "1ooBnJhLYlX4elrDYJ5xmA",
+        "include": false,
+        "episode_num": null,
+        "title": "Hey Mister DJ!",
+        "exclude_reason": "Music album - Schlumpf hits, not Hörspiel"
+      },
+      {
+        "spotify_album_id": "680A52IEs8f9MfrTTUoFFD",
+        "include": false,
+        "episode_num": null,
+        "title": "Das verlorene Dorf (Das Original-Hörspiel zum Kinofilm)",
+        "exclude_reason": "Movie soundtrack - Kinofilm Hörspiel, not series episode"
+      },
+      {
+        "spotify_album_id": "1raHQ5JyFWy5001ghvqCHp",
+        "include": false,
+        "episode_num": null,
+        "title": "Das verschlumpfte Album",
+        "exclude_reason": "Music album - Schlumpf songs, not Hörspiel"
+      },
+      {
+        "spotify_album_id": "0qP7VeHHHrrw6fM5umiV1e",
+        "include": false,
+        "episode_num": null,
+        "title": "Die Schlümpfe 2 (Das Original-Hörspiel zum Kinofilm)",
+        "exclude_reason": "Movie soundtrack - Kinofilm Hörspiel, not series episode"
+      },
+      {
+        "spotify_album_id": "2tZgJuVAbqmuHuUQXGiJGw",
+        "include": false,
+        "episode_num": null,
+        "title": "Die Schlümpfe (Das Original-Hörspiel zum Kinofilm)",
+        "exclude_reason": "Movie soundtrack - Kinofilm Hörspiel, not series episode"
+      },
+      {
+        "spotify_album_id": "5GDFUh4vZFYXzUtoOb93VS",
+        "include": false,
+        "episode_num": null,
+        "title": "Die Hits der Schlümpfe",
+        "exclude_reason": "Music compilation - Schlumpf hits, not Hörspiel"
+      },
+      {
+        "spotify_album_id": "4NlhNuJUqwB4b8TmZ7NQSh",
+        "include": false,
+        "episode_num": null,
+        "title": "Hokus Pokus Schlumpfibus",
+        "exclude_reason": "Music album - Schlumpf songs, not Hörspiel"
+      },
+      {
+        "spotify_album_id": "4o88JkfkEiPolhxoWnnuvy",
+        "include": false,
+        "episode_num": null,
+        "title": "Schabernack im Schlumpfenschloss",
+        "exclude_reason": "Music album - Schlumpf songs, not Hörspiel"
+      },
+      {
+        "spotify_album_id": "1OyjqbqlYcm8vVeixeG8eK",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlumpfhausen sucht den Superschlumpf",
+        "exclude_reason": "Music album - Schlumpf songs, not Hörspiel"
+      },
+      {
+        "spotify_album_id": "6ebRnLrr6yVNAZv2MSd5z4",
+        "include": false,
+        "episode_num": null,
+        "title": "Wir singen Hey Ho!",
+        "exclude_reason": "Music album - Schlumpf songs, not Hörspiel"
+      },
+      {
+        "spotify_album_id": "1NQ7HEA5NvPnzAHxWCxSkY",
+        "include": false,
+        "episode_num": null,
+        "title": "Die Fete!",
+        "exclude_reason": "Music album - Schlumpf songs, not Hörspiel"
+      },
+      {
+        "spotify_album_id": "6JDTdwhxScNacMVNNtt4MC",
+        "include": false,
+        "episode_num": null,
+        "title": "Total abgespaced!",
+        "exclude_reason": "Music album - Schlumpf songs, not Hörspiel"
+      },
+      {
+        "spotify_album_id": "2innAfnvFsH8elh80H9ClV",
+        "include": false,
+        "episode_num": null,
+        "title": "Eiskalt erwischt!",
+        "exclude_reason": "Music album - Schlumpf songs, not Hörspiel"
+      },
+      {
+        "spotify_album_id": "4EPx0iu7RttyfMuSHsisop",
+        "include": false,
+        "episode_num": null,
+        "title": "Super Sommer",
+        "exclude_reason": "Music album - Schlumpf songs, not Hörspiel"
+      },
+      {
+        "spotify_album_id": "0QyF7jxg5xFAczcWiH1V4A",
+        "include": false,
+        "episode_num": null,
+        "title": "Jetzt knallt's!",
+        "exclude_reason": "Music album - Schlumpf songs, not Hörspiel"
+      },
+      {
+        "spotify_album_id": "7GvN6zyNhoiM5u5UfOWRh5",
+        "include": false,
+        "episode_num": null,
+        "title": "Oh Du Schlumpfige!",
+        "exclude_reason": "Music album - Schlumpf songs, not Hörspiel"
+      },
+      {
+        "spotify_album_id": "2MqP9zfi9xuW1APwJu3iBd",
+        "include": false,
+        "episode_num": null,
+        "title": "Fette Fete!",
+        "exclude_reason": "Music album - Schlumpf songs, not Hörspiel"
+      },
+      {
+        "spotify_album_id": "2Cw2AmaQ149LDrEJMW5Y7h",
+        "include": false,
+        "episode_num": null,
+        "title": "Irre Galaktisch!",
+        "exclude_reason": "Music album - Schlumpf songs, not Hörspiel"
+      },
+      {
+        "spotify_album_id": "0yxw80slgTlwZeu10MIw3v",
+        "include": false,
+        "episode_num": null,
+        "title": "Balla Balla",
+        "exclude_reason": "Music album - Schlumpf songs, not Hörspiel"
+      },
+      {
+        "spotify_album_id": "5gdIWy7HKvpF6XmxLvJQPI",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlumpfen-Polonäse",
+        "exclude_reason": "Music single - Schlumpf song, not Hörspiel"
+      },
+      {
+        "spotify_album_id": "4YTPjOmCxYmjHtUuuSBkXU",
+        "include": false,
+        "episode_num": null,
+        "title": "Echo Schlumpf",
+        "exclude_reason": "Music single - Schlumpf song, not Hörspiel"
+      },
+      {
+        "spotify_album_id": "3oZSUzkqjUPTqS6akdx7XE",
+        "include": false,
+        "episode_num": null,
+        "title": "Der kleine Schlumpfensheriff",
+        "exclude_reason": "Music single - Schlumpf song, not Hörspiel"
+      },
+      {
+        "spotify_album_id": "5XJnsfizQgDeJmzFFElPQF",
+        "include": false,
+        "episode_num": null,
+        "title": "Die Schlumpfen-Revue",
+        "exclude_reason": "Music single - Schlumpf song, not Hörspiel"
+      },
+      {
+        "spotify_album_id": "7zqUBxwsCAMFFnTL0JedP1",
+        "include": false,
+        "episode_num": null,
+        "title": "10 Kleine Schlümpfe",
+        "exclude_reason": "Music single - Schlumpf song, not Hörspiel"
+      },
+      {
+        "spotify_album_id": "0qT5FGIP7IW1tyASjoyLQi",
+        "include": false,
+        "episode_num": null,
+        "title": "Babyschlumpf",
+        "exclude_reason": "Music single - Schlumpf song, not Hörspiel"
+      },
+      {
+        "spotify_album_id": "7pw8hmaxBi5fodwfC0o9UJ",
+        "include": false,
+        "episode_num": null,
+        "title": "Die schlumpfigsten Hits",
+        "exclude_reason": "Music compilation - Schlumpf hits, not Hörspiel"
+      },
+      {
+        "spotify_album_id": "6bfjD1ABxUTr6yLGqaRO1Y",
+        "include": false,
+        "episode_num": null,
+        "title": "Die Hits der Schlümpfe Vol.2",
+        "exclude_reason": "Music compilation - Schlumpf hits, not Hörspiel"
+      },
+      {
+        "spotify_album_id": "2tfwAc9ihQ9sttPaJZ2gdW",
+        "include": false,
+        "episode_num": null,
+        "title": "Die Hits der Schlümpfe",
+        "exclude_reason": "Music compilation - Schlumpf hits, not Hörspiel"
+      },
+      {
+        "spotify_album_id": "1WIPEWHBNBRN6f6haQkvpA",
+        "include": false,
+        "episode_num": null,
+        "title": "Die schönsten Kinderlieder - Zum Spielen und Bewegen",
+        "exclude_reason": "Music compilation - children's songs, not Hörspiel"
+      },
+      {
+        "spotify_album_id": "1n7p2kLsMD8Z398KTfQS1W",
+        "include": false,
+        "episode_num": null,
+        "title": "Das blaue Album",
+        "exclude_reason": "Music album - Schlumpf songs with instrumental versions, not Hörspiel"
+      }
+    ],
+    "age_note": "Suitable from 3+",
+    "curator_notes": "Two distinct Hörspiel series exist: (1) 2020 Europa series (Folge 1-20) - classic stories, (2) 2022-2025 Europa series (Folge 1-26) - modern CGI-style adventures. Both use 'Folge N' numbering. The newer 2022-2025 series is preferred as it represents the current ongoing production. All other releases are music albums (Schlumpf hits from various decades), movie soundtracks, or audiobooks - not part of the episodic Hörspiel series."
+  }
+}
