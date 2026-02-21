@@ -170,6 +170,13 @@ class ArdApi {
 
       return body['data'] as Map<String, dynamic>?;
     } on DioException catch (e) {
+      // Connection errors (no internet, DNS failure) are expected in
+      // offline/airplane mode — log at warn, not error.
+      if (e.type == DioExceptionType.connectionError ||
+          e.type == DioExceptionType.connectionTimeout) {
+        Log.warn(_tag, 'Network unavailable', data: {'url': e.requestOptions.uri.host});
+        throw const ArdApiException('Keine Internetverbindung', isNetworkError: true);
+      }
       Log.error(_tag, 'Request failed', exception: e);
       throw ArdApiException(
         e.message ?? 'Network error',
@@ -190,10 +197,18 @@ class ArdApi {
 
 /// Exception thrown by the ARD Audiothek API client.
 class ArdApiException implements Exception {
-  const ArdApiException(this.message, {this.statusCode});
+  const ArdApiException(
+    this.message, {
+    this.statusCode,
+    this.isNetworkError = false,
+  });
 
   final String message;
   final int? statusCode;
+
+  /// True for transient connectivity issues (DNS, timeout).
+  /// Callers can suppress Sentry reporting for these.
+  final bool isNetworkError;
 
   @override
   String toString() => 'ArdApiException: $message (status: $statusCode)';

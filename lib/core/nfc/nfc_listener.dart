@@ -42,12 +42,17 @@ class NfcListener extends _$NfcListener {
     _listening = true;
     Log.info(_tag, 'NFC listener started');
 
-    await nfc.startContinuousScan(
-      onTagScanned: (tagUid) => unawaited(_handleTag(tagUid)),
-      onError: (error) {
-        Log.warn(_tag, 'Scan error', data: {'error': error});
-      },
-    );
+    try {
+      await nfc.startContinuousScan(
+        onTagScanned: (tagUid) => unawaited(_handleTag(tagUid)),
+        onError: (error) {
+          Log.warn(_tag, 'Scan error', data: {'error': error});
+        },
+      );
+    } on Exception catch (e) {
+      _listening = false;
+      Log.error(_tag, 'Failed to start NFC scan', exception: e);
+    }
   }
 
   Future<void> _handleTag(String tagUid) async {

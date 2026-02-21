@@ -208,6 +208,11 @@ class SpotifyAuth {
       );
       return _saveAndReturn(resp.data!, fallbackRefreshToken: refreshToken);
     } on DioException catch (e) {
+      if (e.type == DioExceptionType.connectionError ||
+          e.type == DioExceptionType.connectionTimeout) {
+        Log.warn(_tag, 'Token refresh failed — no network');
+        throw const SpotifyAuthException('Keine Internetverbindung');
+      }
       Log.error(
         _tag,
         'Token refresh failed',
@@ -287,6 +292,11 @@ class SpotifyAuth {
       Log.info(_tag, 'Token exchange success');
       return _saveAndReturn(resp.data!);
     } on DioException catch (e) {
+      if (e.type == DioExceptionType.connectionError ||
+          e.type == DioExceptionType.connectionTimeout) {
+        Log.warn(_tag, 'Token exchange failed — no network');
+        throw const SpotifyAuthException('Keine Internetverbindung');
+      }
       Log.error(
         _tag,
         'Token exchange failed',
@@ -336,4 +346,13 @@ class SpotifyAuth {
       List<int>.generate(byteLength, (_) => rand.nextInt(256)),
     ).replaceAll('=', '');
   }
+}
+
+/// Non-fatal auth error (network issues, user-facing).
+class SpotifyAuthException implements Exception {
+  const SpotifyAuthException(this.message);
+  final String message;
+
+  @override
+  String toString() => 'SpotifyAuthException: $message';
 }
