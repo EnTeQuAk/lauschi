@@ -1,0 +1,18 @@
+{
+  "query": "Schlau wie Vier",
+  "model": "kimi-k2.5",
+  "curated_at": "2026-02-21T03:07:05.177366+00:00",
+  "series": {
+    "id": "schlau_wie_vier",
+    "title": "Schlau wie Vier",
+    "aliases": [],
+    "keywords": [],
+    "spotify_artist_ids": [
+      "2a5yLTCUCibDJdUVnH7kLP"
+    ],
+    "episode_pattern": null,
+    "albums": [],
+    "age_note": "Recommended 8+",
+    "curator_notes": "EDU Hörspiel series about a group of friends using knowledge to solve mysteries. Educational detective series."
+  }
+}

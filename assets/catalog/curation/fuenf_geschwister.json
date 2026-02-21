@@ -1,0 +1,607 @@
+{
+  "query": "5 Geschwister",
+  "model": "kimi-k2.5",
+  "curated_at": "2026-02-21T02:57:18.973027+00:00",
+  "series": {
+    "id": "fuenf_geschwister",
+    "title": "5 Geschwister",
+    "aliases": [],
+    "keywords": [],
+    "spotify_artist_ids": [
+      "6k51vTPqkkOG4SpZwtZS1s"
+    ],
+    "episode_pattern": "^0?(\\d+):",
+    "albums": [
+      {
+        "spotify_album_id": "6erqym9G4q35OVX4ihzw5L",
+        "include": true,
+        "episode_num": null,
+        "title": "Geheime Botschaft",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0p8YZqJKQMCmnooMtgaOtM",
+        "include": false,
+        "episode_num": null,
+        "title": "5 Geschwister Bundle 1: Folgen 1-10",
+        "exclude_reason": "Box set/compilation - Folgen 1-10"
+      },
+      {
+        "spotify_album_id": "5IvJy1Du9wegfIZQpmih6q",
+        "include": false,
+        "episode_num": null,
+        "title": "01: Der Fahrraddieb",
+        "exclude_reason": "Duplicate episode (remake; original series starts at 01: Auf der Abenteuerburg)"
+      },
+      {
+        "spotify_album_id": "4l4pf9JgOg4M9troLqOoCs",
+        "include": true,
+        "episode_num": null,
+        "title": "Nachricht eines Fremden",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3FLrbCNWZmti3qBQCCLbSb",
+        "include": true,
+        "episode_num": null,
+        "title": "49: Spuren der Erinnerung",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0NnGiKnhoVA3j87qXVi6tb",
+        "include": true,
+        "episode_num": null,
+        "title": "48: Der maskierte Schatten",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5vEDk1NCRxNuaqvnjMHFMl",
+        "include": true,
+        "episode_num": null,
+        "title": "47: Zugfahrt ins Ungewisse",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "62KxthV552kdBu6RuO2AM9",
+        "include": true,
+        "episode_num": null,
+        "title": "46: Die verborgene Grotte",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "184qx6wssBodcro3DkMVuC",
+        "include": true,
+        "episode_num": null,
+        "title": "45: Schmutziges Feuer",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0GLYVwdBPom9Lea8h9VvRp",
+        "include": false,
+        "episode_num": null,
+        "title": "Gefährlich rieselt der Schnee",
+        "exclude_reason": "Box set/compilation - 26-track release (collected episodes)"
+      },
+      {
+        "spotify_album_id": "0GLBbIANjLK4coMS9Tvtnv",
+        "include": true,
+        "episode_num": null,
+        "title": "Der letzte Schrei",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2t7k6gPHQ934PgOyY2Qtq8",
+        "include": false,
+        "episode_num": null,
+        "title": "5 Geschwister Soundtrack, Vol. 5",
+        "exclude_reason": "Soundtrack"
+      },
+      {
+        "spotify_album_id": "1VDkIolCoTSvAHyVzKeyh5",
+        "include": true,
+        "episode_num": null,
+        "title": "43: Der tasmanische Schatz",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1P5NGkWiGduvsYN6B4sSYJ",
+        "include": false,
+        "episode_num": null,
+        "title": "5 Geschwister Soundtrack, Vol. 4",
+        "exclude_reason": "Soundtrack"
+      },
+      {
+        "spotify_album_id": "0QpTAjRnKrIA2maG00hd5f",
+        "include": true,
+        "episode_num": null,
+        "title": "42: Das Geheimnis in der Tiefe",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6jdqQEjM8yoqRwt5Dj1UHN",
+        "include": false,
+        "episode_num": null,
+        "title": "5 Geschwister Soundtrack, Vol. 3",
+        "exclude_reason": "Soundtrack"
+      },
+      {
+        "spotify_album_id": "0BMvPYjPHcT61lEzALZXPK",
+        "include": false,
+        "episode_num": null,
+        "title": "5 Geschwister Soundtrack, Vol. 2",
+        "exclude_reason": "Soundtrack"
+      },
+      {
+        "spotify_album_id": "486S6qD5rZbmD3FgjFnozf",
+        "include": true,
+        "episode_num": null,
+        "title": "41: Im finsteren Schlossgarten",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1SmJpmfdkm5Cpy06CxsJtf",
+        "include": true,
+        "episode_num": null,
+        "title": "40: Schreck im Tonstudio",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3n3UEDzrXoyJlomWioM8gA",
+        "include": false,
+        "episode_num": null,
+        "title": "Adventskalender Tag 24 - Gefährlich rieselt der Schnee",
+        "exclude_reason": "Adventskalender - box set fragments"
+      },
+      {
+        "spotify_album_id": "09FrU6vuKgmbjJ8HZSuTB0",
+        "include": false,
+        "episode_num": null,
+        "title": "Adventskalender Tag 23 - Gefährlich rieselt der Schnee",
+        "exclude_reason": "Adventskalender - box set fragments"
+      },
+      {
+        "spotify_album_id": "4alR3SUYdJYdntgO3D4KcY",
+        "include": false,
+        "episode_num": null,
+        "title": "Adventskalender Tag 22 - Gefährlich rieselt der Schnee",
+        "exclude_reason": "Adventskalender - box set fragments"
+      },
+      {
+        "spotify_album_id": "5NkvlPcXXqjwsLwog9wc9Y",
+        "include": false,
+        "episode_num": null,
+        "title": "Adventskalender Tag 21 - Gefährlich rieselt der Schnee",
+        "exclude_reason": "Adventskalender - box set fragments"
+      },
+      {
+        "spotify_album_id": "0vj1sriSgobSS5wMuHMPe3",
+        "include": false,
+        "episode_num": null,
+        "title": "Adventskalender Tag 20 - Gefährlich rieselt der Schnee",
+        "exclude_reason": "Adventskalender - box set fragments"
+      },
+      {
+        "spotify_album_id": "3IPVM58dYp1mCewkVvSpYR",
+        "include": false,
+        "episode_num": null,
+        "title": "Adventskalender Tag 19 - Gefährlich rieselt der Schnee",
+        "exclude_reason": "Adventskalender - box set fragments"
+      },
+      {
+        "spotify_album_id": "2LXqbUF9hJvfu6czCBCjhR",
+        "include": false,
+        "episode_num": null,
+        "title": "Adventskalender Tag 18 - Gefährlich rieselt der Schnee",
+        "exclude_reason": "Adventskalender - box set fragments"
+      },
+      {
+        "spotify_album_id": "0G8mI5ypPOJ0yQYevcaBpd",
+        "include": false,
+        "episode_num": null,
+        "title": "Adventskalender Tag 17 - Gefährlich rieselt der Schnee",
+        "exclude_reason": "Adventskalender - box set fragments"
+      },
+      {
+        "spotify_album_id": "0itjeKvfolNCsyC6ijojO3",
+        "include": false,
+        "episode_num": null,
+        "title": "Adventskalender Tag 16 - Gefährlich rieselt der Schnee",
+        "exclude_reason": "Adventskalender - box set fragments"
+      },
+      {
+        "spotify_album_id": "5mdZbt4vmtzQzo2lKMgYQ4",
+        "include": false,
+        "episode_num": null,
+        "title": "Adventskalender Tag 15 - Gefährlich rieselt der Schnee",
+        "exclude_reason": "Adventskalender - box set fragments"
+      },
+      {
+        "spotify_album_id": "2d0WPbN4RMBqhcBzSbPDkd",
+        "include": false,
+        "episode_num": null,
+        "title": "Adventskalender Tag 14 - Gefährlich rieselt der Schnee",
+        "exclude_reason": "Adventskalender - box set fragments"
+      },
+      {
+        "spotify_album_id": "1EscjkKbyAo4NYbf90ixYG",
+        "include": false,
+        "episode_num": null,
+        "title": "Adventskalender Tag 13 - Gefährlich rieselt der Schnee",
+        "exclude_reason": "Adventskalender - box set fragments"
+      },
+      {
+        "spotify_album_id": "62OLof2Op6ESIP1uLfkGa0",
+        "include": false,
+        "episode_num": null,
+        "title": "Adventskalender Tag 12 - Gefährlich rieselt der Schnee",
+        "exclude_reason": "Adventskalender - box set fragments"
+      },
+      {
+        "spotify_album_id": "4IASsJDCPZTfJwO27sO3Iy",
+        "include": false,
+        "episode_num": null,
+        "title": "Adventskalender Tag 11 - Gefährlich rieselt der Schnee",
+        "exclude_reason": "Adventskalender - box set fragments"
+      },
+      {
+        "spotify_album_id": "5sC5V6YjrdxD46tcLVnjE5",
+        "include": false,
+        "episode_num": null,
+        "title": "Adventskalender Tag 10 - Gefährlich rieselt der Schnee",
+        "exclude_reason": "Adventskalender - box set fragments"
+      },
+      {
+        "spotify_album_id": "3ANRZdoLW5mBdkfG75sOIs",
+        "include": false,
+        "episode_num": null,
+        "title": "Adventskalender Tag 9 - Gefährlich rieselt der Schnee",
+        "exclude_reason": "Adventskalender - box set fragments"
+      },
+      {
+        "spotify_album_id": "1YHOifsY6LEYlX2J4B5m4c",
+        "include": false,
+        "episode_num": null,
+        "title": "Adventskalender Tag 8 - Gefährlich rieselt der Schnee",
+        "exclude_reason": "Adventskalender - box set fragments"
+      },
+      {
+        "spotify_album_id": "2GBcmkzGwM2YBPbaN6ZfRh",
+        "include": false,
+        "episode_num": null,
+        "title": "Adventskalender Tag 7 - Gefährlich rieselt der Schnee",
+        "exclude_reason": "Adventskalender - box set fragments"
+      },
+      {
+        "spotify_album_id": "5R6XWgntgd1mYjQUbpW9uv",
+        "include": false,
+        "episode_num": null,
+        "title": "Adventskalender Tag 6 - Gefährlich rieselt der Schnee",
+        "exclude_reason": "Adventskalender - box set fragments"
+      },
+      {
+        "spotify_album_id": "7lQpPDRMP7aXNkiaAkDBVv",
+        "include": false,
+        "episode_num": null,
+        "title": "Adventskalender Tag 5 - Gefährlich rieselt der Schnee",
+        "exclude_reason": "Adventskalender - box set fragments"
+      },
+      {
+        "spotify_album_id": "2pk4lx6dvWSynFOSkCwvgT",
+        "include": false,
+        "episode_num": null,
+        "title": "Adventskalender Tag 4 - Gefährlich rieselt der Schnee",
+        "exclude_reason": "Adventskalender - box set fragments"
+      },
+      {
+        "spotify_album_id": "7cm9cCsYb400TfEIYJc5s3",
+        "include": false,
+        "episode_num": null,
+        "title": "Adventskalender Tag 3 - Gefährlich rieselt der Schnee",
+        "exclude_reason": "Adventskalender - box set fragments"
+      },
+      {
+        "spotify_album_id": "674EXmLtqAtzR5COcIpe1F",
+        "include": false,
+        "episode_num": null,
+        "title": "Adventskalender Tag 2 - Gefährlich rieselt der Schnee",
+        "exclude_reason": "Adventskalender - box set fragments"
+      },
+      {
+        "spotify_album_id": "1BWCIktK5rCq52WW8mdowr",
+        "include": false,
+        "episode_num": null,
+        "title": "Adventskalender Tag 1 - Gefährlich rieselt der Schnee",
+        "exclude_reason": "Adventskalender - box set fragments"
+      },
+      {
+        "spotify_album_id": "3TIpIwiW2r5sQTQX0OgBk7",
+        "include": true,
+        "episode_num": null,
+        "title": "39: Die geheimnisvolle Abtei",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4tVC2ix4FpYyslhAZuQxlJ",
+        "include": true,
+        "episode_num": null,
+        "title": "38: Der verschollene Baron",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1W2DeTMOK6MSgO0ERNHupF",
+        "include": true,
+        "episode_num": null,
+        "title": "37: Düstere Vergangenheit",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0p4ultB6xnh6Tb7fKeObPT",
+        "include": true,
+        "episode_num": null,
+        "title": "36: Rückkehr zur Abenteuerburg",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7HmxTiJDoeLvNysoaDEG7p",
+        "include": true,
+        "episode_num": null,
+        "title": "35: Im Herzen Afrikas",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0sD9ii5q4W9lGS63oz9Mgo",
+        "include": true,
+        "episode_num": null,
+        "title": "34: Im Haus der 4 Sinne",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3gKPnMGRTW1CPsZ5aYvuMt",
+        "include": true,
+        "episode_num": null,
+        "title": "33: Das Erbe des Juweliers",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7vdqAY8oKKrubF41cRyCkH",
+        "include": true,
+        "episode_num": null,
+        "title": "32: In der verlorenen Stadt",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3FtEAxJrXH70Jx0RzLgRmW",
+        "include": true,
+        "episode_num": null,
+        "title": "31: Im Urwald der Träume",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3WzHcoH7hj0ThpYxoA5ASV",
+        "include": true,
+        "episode_num": null,
+        "title": "30: Das Geheimnis der Maya",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "29so8IxFLG34UUbc2rNFaT",
+        "include": true,
+        "episode_num": null,
+        "title": "29: Das Wunder von Rio",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0l21sHXcdpuH3NAXpJJ1J7",
+        "include": true,
+        "episode_num": null,
+        "title": "28: Tappen im Dunkeln",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2n6E6AfaEsJv1K43QG9IMa",
+        "include": true,
+        "episode_num": null,
+        "title": "27: Die Jagd im Hotel",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4fOiVIvtmX7cNQ243jzs9X",
+        "include": true,
+        "episode_num": null,
+        "title": "26: Das Gold des Piraten",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3ah8MNLVdMN6xf77ZYDIgT",
+        "include": true,
+        "episode_num": null,
+        "title": "25: Zurück in die Steinzeit",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5pZf1SgsUlsOCxl3oSJ1R2",
+        "include": false,
+        "episode_num": null,
+        "title": "5 Geschwister Soundtrack",
+        "exclude_reason": "Soundtrack"
+      },
+      {
+        "spotify_album_id": "4VRQbtLOPfOU6TXfg1hujm",
+        "include": false,
+        "episode_num": null,
+        "title": "Verschollen in Fernost (5-Geschwister-Jubiläums-Box)",
+        "exclude_reason": "Box set/compilation - Jubiläums-Box"
+      },
+      {
+        "spotify_album_id": "1YPrwJjDPhZTEFeSfTUf2A",
+        "include": true,
+        "episode_num": null,
+        "title": "24: Im Netz der Spinne",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0N29DCVIYigPJ6x3PAX0h2",
+        "include": true,
+        "episode_num": null,
+        "title": "23: Die Symphonie des Schreckens",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2p7GrP39BXeBEinGWWEuSZ",
+        "include": true,
+        "episode_num": null,
+        "title": "22: Im Wilden Westen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6EtYZ9InbHFeo7dVZuuIhX",
+        "include": true,
+        "episode_num": null,
+        "title": "21: Falsches Spiel zu Weihnachten",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7LYc1LLsZbiOd3dfu7ZaBC",
+        "include": true,
+        "episode_num": null,
+        "title": "20: Angriff auf die Sternwarte",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7eApjiNkWhSBSFaiG9lNzb",
+        "include": true,
+        "episode_num": null,
+        "title": "19: Der Schatten im ewigen Eis",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0spHlH6wYoFU7Ux1DBJkXw",
+        "include": true,
+        "episode_num": null,
+        "title": "18: Luthers Vermächtnis",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "24kpbCXapezjPRqgb7XyCx",
+        "include": true,
+        "episode_num": null,
+        "title": "17: Der verborgene Gegenspieler",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2PEr01Cx5a0ILQqYMIWnHm",
+        "include": true,
+        "episode_num": null,
+        "title": "16: Auf dem düsteren Landgut",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5TMO2xljifMowusplssGCP",
+        "include": true,
+        "episode_num": null,
+        "title": "15: Gefahr auf dem Jahrmarkt",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2VNkAK4sR5sxn6YcIPonxP",
+        "include": true,
+        "episode_num": null,
+        "title": "14: Im unterirdischen Labyrinth",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1lMxDzwDEks3RVwyP9cIaI",
+        "include": true,
+        "episode_num": null,
+        "title": "13: Die vergessene Insel",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6TZIqpP6UuDN7Hlos6wfnD",
+        "include": true,
+        "episode_num": null,
+        "title": "12: Im verbotenen Grab",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7DqCBml3xHxw7XYZsZ81O4",
+        "include": true,
+        "episode_num": null,
+        "title": "11: Im mysteriösen Leuchtturm",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "45MRPKRHkau4SmNgcuhnEg",
+        "include": true,
+        "episode_num": null,
+        "title": "10: Im seltsamen Patrizierhaus",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4DpWGBHpEyvJ23PrCzDw98",
+        "include": true,
+        "episode_num": null,
+        "title": "09: Im merkwürdigen Jagdschloss",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "10Gi6wU6MiRZraDpwCsAyj",
+        "include": true,
+        "episode_num": null,
+        "title": "08: Im ungewöhnlichen Pfarrhaus",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1hThcbUJ1eSqy3Xh8xd1K3",
+        "include": true,
+        "episode_num": null,
+        "title": "07: In der sonderbaren Villa",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5bD9nYG3UQfOHGwists8F2",
+        "include": true,
+        "episode_num": null,
+        "title": "06: Im verlassenen Kloster",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5j5qsb636sBQIcv2lPg3BV",
+        "include": true,
+        "episode_num": null,
+        "title": "05: Im rätselhaften Herrenhaus",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5Q20LwM42ECSPKFpI13bpk",
+        "include": true,
+        "episode_num": null,
+        "title": "04: Im geheimnisvollen Palazzo",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4xUkMge2gbrb3CM7HzCLhV",
+        "include": true,
+        "episode_num": null,
+        "title": "03: Im unheimlichen Schloss",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3PEi6aG3teyB7tm4Pan37v",
+        "include": true,
+        "episode_num": null,
+        "title": "02: Lösen das Geheimnis der Abenteuerburg",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1UcA02mGWEzVAtsHAYDIwT",
+        "include": true,
+        "episode_num": null,
+        "title": "01: Auf der Abenteuerburg",
+        "exclude_reason": null
+      }
+    ],
+    "age_note": "Mystery-adventure series with mild tension; suitable from 6+",
+    "curator_notes": "Note: Album '01: Der Fahrraddieb' (2026) appears to be a duplicate/remake. The original series begins with '01: Auf der Abenteuerburg' (1989) which precedes to '02: Lösen das Geheimnis der Abenteuerburg'. Note: 'Geheime Botschaft' and 'Nachricht eines Fremden' are short-form releases without episode numbers (2026). 'Der letzte Schrei' (10 tracks, ~30min) is without episode number. The series follows classic episode format with ~10-25 tracks per episode, 45-75min runtime."
+  }
+}

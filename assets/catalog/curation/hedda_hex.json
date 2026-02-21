@@ -1,0 +1,222 @@
+{
+  "query": "Hedda Hex",
+  "model": "kimi-k2.5",
+  "curated_at": "2026-02-21T02:50:56.678037+00:00",
+  "series": {
+    "id": "hedda_hex",
+    "title": "Hedda Hex",
+    "aliases": [],
+    "keywords": [],
+    "spotify_artist_ids": [
+      "2vVBGzMrm9HuNYh9iZ6NV9"
+    ],
+    "episode_pattern": "^(?:.*Folge\\s+|\\d{0,2})(\\d+)",
+    "albums": [
+      {
+        "spotify_album_id": "2rhftYQVIreF2G64iYUWpi",
+        "include": true,
+        "episode_num": null,
+        "title": "001/Tolle neue Freunde/Wutz mit Wums",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "49fnOiukWOcM8h0krtQEKP",
+        "include": true,
+        "episode_num": null,
+        "title": "002/Das verhexte Regenbogenfell/Übelriech und blätterlos",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7Dvap7RS58mkwwQpjSCrfh",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 3: Der Tipi-Wettbewerb/Das lustige Bootsrodeln",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3paxLDHgDXL3eMtmFwxFb2",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 4: Der zauberhafte Kastentrick/Der verhagelte Tag",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "22IXmwnDDVl33MFlMhWkkx",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 5: Das magische Geschenk/Die Biber sind los!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6JnWJgA3i1O1RtfynhgJUM",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 6: Das große Hexenfest/Zu viel Onkel",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3vd3vdCOu2vZyBokEWDUk7",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 7: Die verhexte Nachtwanderung/Die magische Rutsche",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "72L06yxlM4p4nepCpqUxPF",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 8: Das große Rennen/Eins, drei, viele Hexen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7v0PNvaNJl1w17CndyBxFo",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 9: Leinen los! / Eine lebendige Geschichte",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "145iTNjuXgEzkClNOwYRWX",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 10: Kuhmistalarm in Honighausen/Die verschwundenen Autos",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6UwxfegYLsDKGf0IvgPleb",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 11: Rettet die Kröten!/Die Jünger-Älter-Schnitzeljagd",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6mgSJ0R94yK2KUrdiYkyTg",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 12: Das verrückte Familientreffen/Das magische Zauberfestival",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2K5XVECy1rrwEO1v9v6DN9",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 13: Das Recycling-Theater/Superstar Ahima",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "35sy0g7eVKdGIGueB8APk9",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 14: Wilde Pferdejagd/Freunde für immer",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2RZwCnOzhnSSMa3PYkKDJj",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 15: Geht nicht gibt's nicht/Dieb mit Maske",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0pwLo4k5ZTDlIY3w8NVZG4",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 16: Das Geheimnis des Phönix",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0jGGxjZJPzko8bHNVwmzTG",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 17: Ein L aus Liebe",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0hHELeXT0VfJemlPa0MFU8",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 18: Hui Buh rettet Halloween",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1eE8Yp0yGaz8e2FRO1TkMO",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 19: Die kleine Hexe Sunao",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0wngYBwbE1UHVroeHqcN1a",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 20: Der magische Luxfux",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3OFbo5kk4bniqHFRaL3HAi",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 21: Das fantastische Wunschmobil",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "72Q6Q4xF1Ea2NniW8WvcBD",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 22: Gemeinsam hext es sich besser",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6cdPxbJ9E0QPqTDxTccu85",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 23: Wassergeister spucken besser",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "33d6ACB2AzK8PyA8FFVbU0",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 24: Viele Pfoten in Not",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3u2jVmqtuCyWwvmguVg7Pk",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 25: An die Töpfe, fertig ... Chaos!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1SVTVUhMKMw1IIaw7VUI8Q",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 26: Der geheimnisvolle Wusch",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6W7XhDjsTZ8wi4MMfmVZhU",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 27: Das rotglühende Wutmonsterchen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "33MsZOnghSY1ejyawaRJBd",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 28: Das wild verhexte Weihnachten",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5lmnZ84aWnQHdRLHr0siGW",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 44: Der rostrote Ritter",
+        "exclude_reason": null
+      }
+    ],
+    "age_note": "Suitable from 5+",
+    "curator_notes": "Episodes 1-2 use 00N/ prefix with double stories (45 tracks each). Episodes 3+ use Folge N: format. Some episodes contain double stories separated by '/'. Episodes 29-43 not present in API response but episode 44 exists. Recent episodes (2025-2026) have streamlined track counts (15-20) vs earlier episodes (28-33). All releases from EUROPA/Sony Music Family Entertainment."
+  }
+}

@@ -1,0 +1,152 @@
+{
+  "query": "Michel aus Lönneberga",
+  "model": "kimi-k2.5",
+  "curated_at": "2026-02-21T02:38:23.262591+00:00",
+  "series": {
+    "id": "michel_aus_loenneberga",
+    "title": "Michel aus Lönneberga",
+    "aliases": [],
+    "keywords": [],
+    "spotify_artist_ids": [
+      "3xFKIRYMdkGq0n2DQIXP9V"
+    ],
+    "episode_pattern": null,
+    "albums": [
+      {
+        "spotify_album_id": "6azYLKCDMEHzYiSaEy4gBa",
+        "include": true,
+        "episode_num": null,
+        "title": "Als Michel den Kopf in die Suppenschüssel steckte (Das Hörspiel.)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5x0XiseSkEH7zhrOV7egtm",
+        "include": true,
+        "episode_num": null,
+        "title": "Als Michel ein \"lustiges Leben führte\" (Das Hörspiel.)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1Io3dsrg2ftR6w465hnWZD",
+        "include": true,
+        "episode_num": null,
+        "title": "Als Michel \"Das große Aufräumen von Katthult\" veranstaltete",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6tSsPRRQ8fLu6q2P0lLnim",
+        "include": true,
+        "episode_num": null,
+        "title": "Als Michel sein hundertstes Holzmännchen schnitzte",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3YHyYlMNv6q65c3ZzRPIyi",
+        "include": true,
+        "episode_num": null,
+        "title": "Als Michel eine Heldentat vollbrachte",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4DfJ9tmo5GGiti1mcn7Fi6",
+        "include": true,
+        "episode_num": null,
+        "title": "Als Michel versuchte, Linas Backenzahn zu ziehen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "65T1b3OwnE6uie50f47PqC",
+        "include": true,
+        "episode_num": null,
+        "title": "Michel aus Lönneberga. Wintergeschichten",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "59EVR2Soq8YpDqxX9P05qj",
+        "include": true,
+        "episode_num": null,
+        "title": "Michel aus Lönneberga 1. Michel in der Suppenschüssel",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3ZKGlKTnqrYQnsjrba0a6H",
+        "include": true,
+        "episode_num": null,
+        "title": "Michel aus Lönneberga 2. Michel muss mehr Männchen machen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "51zkGY77ycVnHvJVzOxTRQ",
+        "include": false,
+        "episode_num": null,
+        "title": "Michel aus Lönneberga 2. Michel muss mehr Männchen. Hörspielklassiker",
+        "exclude_reason": "Abridged Hörspielklassiker — longer unabridged version available"
+      },
+      {
+        "spotify_album_id": "1bSXuTSPqtOGheTglRzgyj",
+        "include": true,
+        "episode_num": null,
+        "title": "Michel aus Lönneberga 3. Michel bringt die Welt in Ordnung",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6Om6x3cAbuYz4fLOX5Pxo5",
+        "include": false,
+        "episode_num": null,
+        "title": "Michel aus Lönneberga 3. Michel bringt die Welt in Ordnung. Hörspielklassiker",
+        "exclude_reason": "Abridged Hörspielklassiker — longer unabridged version available"
+      },
+      {
+        "spotify_album_id": "26xSieq1whEkCKaSfZgwwr",
+        "include": false,
+        "episode_num": null,
+        "title": "Alles von Michel aus Lönneberga",
+        "exclude_reason": "Box set — 120 track compilation of all three books (Alles)"
+      },
+      {
+        "spotify_album_id": "78F4CRmrqiYCHpIwUpU8tY",
+        "include": false,
+        "episode_num": null,
+        "title": "Michel aus Lönneberga. Die große Hörbuchbox",
+        "exclude_reason": "Box set — compilation of multiple stories (Hörbuchbox)"
+      },
+      {
+        "spotify_album_id": "3XOw4trhdnP6D6qIfWzy0b",
+        "include": false,
+        "episode_num": null,
+        "title": "Immer dieser Michel. Hörspielklassiker",
+        "exclude_reason": "Retro-Archiv 1963 radio play — older vintage recording"
+      },
+      {
+        "spotify_album_id": "3yitvAGljBh32M3h6BjsBB",
+        "include": false,
+        "episode_num": null,
+        "title": "Pippi, Michel und Lotta. Astrid Lindgren für Kleine",
+        "exclude_reason": "Crossover compilation — features Pippi Langstrumpf and other characters"
+      },
+      {
+        "spotify_album_id": "4LdzXTHhwOWSpLDOkC8QKv",
+        "include": false,
+        "episode_num": null,
+        "title": "Idas Sommerlied",
+        "exclude_reason": "Single song — not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "4w1x81xX4lNI2qxqjQCx0U",
+        "include": false,
+        "episode_num": null,
+        "title": "Michel war ein Lausejunge",
+        "exclude_reason": "Single song — not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "7iBE1j3WYZJm0KJXWhARpI",
+        "include": false,
+        "episode_num": null,
+        "title": "Kindergarten Klassiker",
+        "exclude_reason": "Generic children's music compilation — not Michel aus Lönneberga series"
+      }
+    ],
+    "age_note": "Suitable from 5+",
+    "curator_notes": "Two parallel release families: (1) 1990 numbered series (Folge 1-3) with unabridged Hörspiele, and (2) 2022-2023 \"Als Michel...\" individual story releases. Kept both as they represent different listening experiences. Wintergeschichten (2023) is a seasonal special. Two \"Hörspielklassiker\" versions from 1990/1970 are shorter abridged versions—excluded in favor of the full versions. 1963 \"Immer dieser Michel\" is a vintage radio play (Retro-Archiv). Crossover compilation with Pippi Langstrumpf excluded."
+  }
+}
