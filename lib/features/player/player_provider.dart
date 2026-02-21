@@ -412,7 +412,11 @@ class PlayerNotifier extends _$PlayerNotifier {
   /// Sync media session notification. Detect album completion.
   void _onStateChange(PlaybackState newState) {
     // Keep screen on while audio plays; release on pause/stop.
-    unawaited(WakelockPlus.toggle(enable: newState.isPlaying));
+    // Wakelock requires a foreground activity — catches
+    // NoActivityException when the app is backgrounded.
+    unawaited(
+      WakelockPlus.toggle(enable: newState.isPlaying).catchError((_) {}),
+    );
 
     // Update lock screen / notification controls.
     _mediaSession?.updateFromAppState(newState);

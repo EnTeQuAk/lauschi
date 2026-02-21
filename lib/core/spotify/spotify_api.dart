@@ -307,6 +307,14 @@ class SpotifyApi {
         return _request(fn);
       }
 
+      // Connection errors (no internet, DNS failure) are transient —
+      // don't spam Sentry.
+      if (e.type == DioExceptionType.connectionError ||
+          e.type == DioExceptionType.connectionTimeout) {
+        Log.warn(_tag, 'Network unavailable');
+        return null;
+      }
+
       Log.error(
         _tag,
         'API error',
