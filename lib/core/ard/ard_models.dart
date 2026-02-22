@@ -62,17 +62,17 @@ class ArdItem {
     final programSet = json['programSet'] as Map<String, dynamic>?;
 
     final audioList = json['audios'] as List<dynamic>? ?? [];
-    final audios = audioList
-        .map((a) => ArdAudio.fromJson(a as Map<String, dynamic>))
-        .toList();
+    final audios =
+        audioList
+            .map((a) => ArdAudio.fromJson(a as Map<String, dynamic>))
+            .toList();
 
     return ArdItem(
       id: '${json['id']}',
       title: json['title'] as String? ?? '',
       synopsis: json['synopsis'] as String?,
       duration: json['duration'] as int? ?? 0,
-      publishDate:
-          _tryParseDateTime(json['publishDate']) ?? DateTime.now(),
+      publishDate: _tryParseDateTime(json['publishDate']) ?? DateTime.now(),
       episodeNumber: json['episodeNumber'] as int?,
       isPublished: json['isPublished'] as bool? ?? true,
       endDate: _tryParseDateTime(json['endDate']),

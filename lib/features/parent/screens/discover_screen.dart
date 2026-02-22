@@ -74,14 +74,19 @@ class DiscoverScreen extends ConsumerWidget {
               // Featured section (loads independently)
               SliverToBoxAdapter(
                 child: featuredAsync.when(
-                  loading: () => const Padding(
-                    padding: EdgeInsets.all(AppSpacing.lg),
-                    child: Center(
-                      child: CircularProgressIndicator(),
-                    ),
-                  ),
+                  loading:
+                      () => const Padding(
+                        padding: EdgeInsets.all(AppSpacing.lg),
+                        child: Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                      ),
                   error: (e, _) {
-                    Log.error('Discover', 'Featured items failed', exception: e);
+                    Log.error(
+                      'Discover',
+                      'Featured items failed',
+                      exception: e,
+                    );
                     return const SizedBox.shrink();
                   },
                   data: (featured) {
@@ -132,8 +137,7 @@ class DiscoverScreen extends ConsumerWidget {
                   horizontal: AppSpacing.md,
                 ),
                 sliver: SliverGrid(
-                  gridDelegate:
-                      const SliverGridDelegateWithFixedCrossAxisCount(
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 3,
                     mainAxisSpacing: AppSpacing.md,
                     crossAxisSpacing: AppSpacing.md,
@@ -147,7 +151,9 @@ class DiscoverScreen extends ConsumerWidget {
               ),
 
               // Bottom padding
-              const SliverPadding(padding: EdgeInsets.only(bottom: AppSpacing.xl)),
+              const SliverPadding(
+                padding: EdgeInsets.only(bottom: AppSpacing.xl),
+              ),
             ],
           );
         },
@@ -179,8 +185,7 @@ class _ShowCard extends StatelessWidget {
                         fit: BoxFit.cover,
                         width: double.infinity,
                         height: double.infinity,
-                        placeholder:
-                            (_, _) => _Placeholder(title: show.title),
+                        placeholder: (_, _) => _Placeholder(title: show.title),
                         errorWidget:
                             (_, _, _) => _Placeholder(title: show.title),
                       )

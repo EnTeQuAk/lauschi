@@ -233,10 +233,12 @@ class CardRepository {
     await (_db.update(_db.cards)..where((t) => t.id.equals(cardId))).write(
       CardsCompanion(
         audioUrl: audioUrl != null ? Value(audioUrl) : const Value.absent(),
-        durationMs: durationMs != null ? Value(durationMs) : const Value.absent(),
-        availableUntil: availableUntil != null
-            ? Value(availableUntil)
-            : const Value.absent(),
+        durationMs:
+            durationMs != null ? Value(durationMs) : const Value.absent(),
+        availableUntil:
+            availableUntil != null
+                ? Value(availableUntil)
+                : const Value.absent(),
         groupId: groupId != null ? Value(groupId) : const Value.absent(),
         episodeNumber:
             episodeNumber != null ? Value(episodeNumber) : const Value.absent(),

@@ -6,7 +6,8 @@ abstract final class ArdConfig {
   static const kidsCategoryId = '42914714';
 
   /// Image service base URL. Append `?w={width}` for dynamic sizing.
-  static const imageServiceBase = 'https://api.ardmediathek.de/image-service/images';
+  static const imageServiceBase =
+      'https://api.ardmediathek.de/image-service/images';
 
   /// Build a sized image URL from an ARD image URN.
   static String imageUrl(String urn, {int width = 400}) {

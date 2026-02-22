@@ -154,9 +154,10 @@ class PlaybackState {
               : (nextEpisodeCoverUrl ?? this.nextEpisodeCoverUrl),
       activeCardId:
           clearActiveCard ? null : (activeCardId ?? this.activeCardId),
-      activeContextUri: clearActiveContextUri
-          ? null
-          : (activeContextUri ?? this.activeContextUri),
+      activeContextUri:
+          clearActiveContextUri
+              ? null
+              : (activeContextUri ?? this.activeContextUri),
       activeGroupId:
           clearActiveGroupId ? null : (activeGroupId ?? this.activeGroupId),
     );

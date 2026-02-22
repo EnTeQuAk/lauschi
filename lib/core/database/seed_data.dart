@@ -107,7 +107,9 @@ Future<void> seedArdTestContent({
 
   for (final item in _ardSeedItems) {
     // Create group from show title on first item.
-    groupId ??= await groups.findByTitle(item.showTitle).then(
+    groupId ??= await groups
+        .findByTitle(item.showTitle)
+        .then(
           (g) async => g?.id ?? await groups.insert(title: item.showTitle),
         );
 

@@ -45,10 +45,7 @@ Future<SortResult> runRetroactiveSort({
 
   for (final card in ungrouped) {
     final artistIds =
-        card.spotifyArtistIds
-            ?.split(',')
-            .where((s) => s.isNotEmpty)
-            .toList() ??
+        card.spotifyArtistIds?.split(',').where((s) => s.isNotEmpty).toList() ??
         const [];
     final match = catalog.match(card.title, albumArtistIds: artistIds);
     if (match == null) continue;

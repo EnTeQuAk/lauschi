@@ -26,10 +26,11 @@ Future<void> _addFeaturedItem(
   if (item.parts.every((p) => existingUris.contains(p.providerUri))) return;
 
   final importer = ref.read(contentImporterProvider.notifier);
-  final cards = item.parts
-      .where((p) => p.bestAudioUrl != null)
-      .map(_ardPendingCard)
-      .toList();
+  final cards =
+      item.parts
+          .where((p) => p.bestAudioUrl != null)
+          .map(_ardPendingCard)
+          .toList();
 
   try {
     final result = await importer.importToGroup(
@@ -163,8 +164,7 @@ class FeaturedHeroCard extends ConsumerWidget {
                   // Bottom row: expiry + add button
                   Row(
                     children: [
-                      if (daysLeft != null)
-                        _ExpiryChip(daysLeft: daysLeft),
+                      if (daysLeft != null) _ExpiryChip(daysLeft: daysLeft),
                       const Spacer(),
                       if (allAdded)
                         const Icon(
@@ -174,9 +174,10 @@ class FeaturedHeroCard extends ConsumerWidget {
                         )
                       else
                         _AddButton(
-                          onPressed: isImporting
-                              ? null
-                              : () => _addFeaturedItem(context, ref, item),
+                          onPressed:
+                              isImporting
+                                  ? null
+                                  : () => _addFeaturedItem(context, ref, item),
                           isLoading: isImporting,
                         ),
                     ],
@@ -235,9 +236,10 @@ class FeaturedScrollSection extends ConsumerWidget {
             padding: const EdgeInsets.symmetric(horizontal: AppSpacing.screenH),
             itemCount: items.length,
             separatorBuilder: (_, _) => const SizedBox(width: AppSpacing.md),
-            itemBuilder: (context, index) => _FeaturedTile(
-              item: items[index],
-            ),
+            itemBuilder:
+                (context, index) => _FeaturedTile(
+                  item: items[index],
+                ),
           ),
         ),
       ],
@@ -332,9 +334,10 @@ class _FeaturedTile extends ConsumerWidget {
                   fontFamily: 'Nunito',
                   fontSize: 10,
                   fontWeight: FontWeight.w600,
-                  color: daysLeft <= 14
-                      ? AppColors.warning
-                      : AppColors.textSecondary,
+                  color:
+                      daysLeft <= 14
+                          ? AppColors.warning
+                          : AppColors.textSecondary,
                 ),
               ),
           ],
@@ -364,16 +367,17 @@ class _AddButton extends StatelessWidget {
       height: 28,
       child: FilledButton.icon(
         onPressed: onPressed,
-        icon: isLoading
-            ? const SizedBox(
-                width: 14,
-                height: 14,
-                child: CircularProgressIndicator(
-                  strokeWidth: 2,
-                  color: Colors.white,
-                ),
-              )
-            : const Icon(Icons.add_rounded, size: 16),
+        icon:
+            isLoading
+                ? const SizedBox(
+                  width: 14,
+                  height: 14,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2,
+                    color: Colors.white,
+                  ),
+                )
+                : const Icon(Icons.add_rounded, size: 16),
         label: const Text(
           'Hinzufügen',
           style: TextStyle(fontFamily: 'Nunito', fontSize: 12),

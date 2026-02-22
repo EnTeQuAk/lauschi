@@ -113,8 +113,7 @@ class GroupDetailScreen extends ConsumerWidget {
                     activeUri: playerState.activeContextUri,
                     isPlaying: playerState.isPlaying,
                     isActive: playerState.track != null,
-                    onCardTap:
-                        (card) => playerNotifier.playCard(card.id),
+                    onCardTap: (card) => playerNotifier.playCard(card.id),
                   );
                 },
                 loading: () => const Center(child: CircularProgressIndicator()),
@@ -274,7 +273,6 @@ class _EpisodeGrid extends StatelessWidget {
             crossAxisCount: columns,
             crossAxisSpacing: 12,
             mainAxisSpacing: 16,
-
           ),
           itemCount: episodes.length,
           itemBuilder: (context, index) {

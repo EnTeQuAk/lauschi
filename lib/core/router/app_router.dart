@@ -46,8 +46,7 @@ abstract final class AppRoutes {
   static String parentCatalogSeries(String seriesId) =>
       '/parent/catalog/$seriesId';
   static const parentDiscover = '/parent/discover';
-  static String parentDiscoverShow(String showId) =>
-      '/parent/discover/$showId';
+  static String parentDiscoverShow(String showId) => '/parent/discover/$showId';
   static const pinEntry = '/pin';
   static const pinChange = '/pin/change';
 }
