@@ -405,6 +405,8 @@ async def verify_one(
     series_id: str,
     spotify: SpotifyClient,
     timeout: int,
+    *,
+    force: bool = False,
 ) -> VerifyResult | None:
     path = CURATION_DIR / f"{series_id}.json"
     if not path.exists():
@@ -423,14 +425,15 @@ async def verify_one(
         console.print(f"[dim]Skipping {series_id} (not yet AI-reviewed)[/]")
         return None
 
-    # Skip already verified/approved
-    status = review.get("status")
-    if status in ("approved", "ai_verified"):
-        console.print(f"[dim]Skipping {series_id} (already {status})[/]")
-        return None
+    if not force:
+        # Skip already verified/approved
+        status = review.get("status")
+        if status in ("approved", "ai_verified"):
+            console.print(f"[dim]Skipping {series_id} (already {status})[/]")
+            return None
 
-    # Skip rejected
-    if status == "rejected":
+    # Skip rejected (even with --force, rejected = human decision)
+    if review.get("status") == "rejected":
         console.print(f"[dim]Skipping {series_id} (rejected)[/]")
         return None
 
@@ -535,13 +538,21 @@ def _print_result(series_id: str, result: VerifyResult, action: str) -> None:
     if result.concerns:
         console.print(f"  Concerns: {result.concerns[:200]}")
 
-    for v in result.override_verdicts:
-        agree_icon = "👍" if v.agree else "👎"
-        console.print(f"  Override {v.album_id[:8]}…: {agree_icon} {v.reason}")
+    agreed_ov = [v for v in result.override_verdicts if v.agree]
+    disagreed_ov = [v for v in result.override_verdicts if not v.agree]
+    if agreed_ov:
+        console.print(f"  Overrides agreed: {len(agreed_ov)}")
+    for v in disagreed_ov[:5]:
+        console.print(f"  👎 Override {v.album_id[:8]}…: {v.reason}")
+    if len(disagreed_ov) > 5:
+        console.print(f"  … and {len(disagreed_ov) - 5} more disagreements")
 
-    for v in result.split_verdicts:
-        agree_icon = "👍" if v.agree else "👎"
-        console.print(f"  Split {v.new_id}: {agree_icon} {v.reason}")
+    agreed_sp = [v for v in result.split_verdicts if v.agree]
+    disagreed_sp = [v for v in result.split_verdicts if not v.agree]
+    if agreed_sp:
+        console.print(f"  Splits agreed: {len(agreed_sp)}")
+    for v in disagreed_sp:
+        console.print(f"  👎 Split {v.new_id}: {v.reason}")
 
 
 async def main() -> None:
@@ -551,6 +562,7 @@ async def main() -> None:
         help="Series ID to verify (omit for --all)",
     )
     parser.add_argument("--all", action="store_true", help="Verify all pending")
+    parser.add_argument("--force", action="store_true", help="Re-verify already approved")
     parser.add_argument("--dry-run", action="store_true", help="Don't write files")
     parser.add_argument(
         "--model", default=_VERIFY_MODEL,
@@ -586,6 +598,7 @@ async def main() -> None:
         try:
             result = await verify_one(
                 args.model, api_key, sid, spotify, args.timeout,
+                force=args.force,
             )
             if result is None:
                 skipped += 1
