@@ -7,23 +7,15 @@ library;
 import 'package:audio_service/audio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_test/flutter_test.dart';
-import 'package:integration_test/integration_test.dart';
 import 'package:lauschi/app.dart';
 import 'package:lauschi/features/player/media_session_handler.dart';
 import 'package:lauschi/features/player/player_provider.dart';
+import 'package:patrol/patrol.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 /// The initialized media handler, available after [initServices].
 late MediaSessionHandler mediaHandler;
 var _initialized = false;
-
-/// Initialize the integration test binding.
-///
-/// Call once at the top of each test file's `main()`.
-IntegrationTestWidgetsFlutterBinding ensureBinding() {
-  return IntegrationTestWidgetsFlutterBinding.ensureInitialized();
-}
 
 /// One-time init for platform services that need a running engine.
 Future<void> initServices() async {
@@ -42,8 +34,10 @@ Future<void> initServices() async {
 ///
 /// Uses explicit frame pumping instead of `pumpAndSettle` which hangs
 /// when the app has ongoing async work (WebView init, connectivity, etc).
+///
+/// Pass [scope] to wrap the app in a custom [ProviderScope] with overrides.
 Future<void> pumpApp(
-  WidgetTester tester, {
+  PatrolIntegrationTester $, {
   Map<String, Object> prefs = const {},
   ProviderScope Function(Widget child)? scope,
 }) async {
@@ -63,25 +57,19 @@ Future<void> pumpApp(
     widget = ProviderScope(overrides: baseOverrides, child: app);
   }
 
-  await tester.pumpWidget(widget);
+  await $.pumpWidget(widget);
 
   // Pump a few frames to let providers resolve and the router settle.
   // Don't use pumpAndSettle — the app has ongoing async work that
   // prevents it from ever "settling".
   for (var i = 0; i < 10; i++) {
-    await tester.pump(const Duration(milliseconds: 200));
+    await $.pump(const Duration(milliseconds: 200));
   }
 }
 
 /// Pump several frames to let navigation and providers settle.
-Future<void> pumpFrames(WidgetTester tester, {int count = 10}) async {
+Future<void> pumpFrames(PatrolIntegrationTester $, {int count = 10}) async {
   for (var i = 0; i < count; i++) {
-    await tester.pump(const Duration(milliseconds: 200));
+    await $.pump(const Duration(milliseconds: 200));
   }
 }
-
-/// Find a widget by text content.
-Finder byText(String text) => find.text(text);
-
-/// Find a widget by icon.
-Finder byIcon(IconData icon) => find.byIcon(icon);

@@ -78,3 +78,6 @@ sentry-wizard
 .cache/
 ios_distribution_private_key
 ios_distribution_private_key.pub
+
+# Patrol generated bundle
+integration_test/test_bundle.dart

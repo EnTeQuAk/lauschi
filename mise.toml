@@ -106,8 +106,8 @@ dart run tool/coverage_summary.dart
 """
 
 [tasks.test-integration]
-description = "Run integration tests on connected device"
-run = "flutter test integration_test/ --dart-define-from-file=.env"
+description = "Run integration tests on connected device via Patrol"
+run = "patrol test --dart-define-from-file=.env"
 
 [tasks.ios-install]
 description = "Install ad-hoc IPA on USB-connected iPad via pymobiledevice3"

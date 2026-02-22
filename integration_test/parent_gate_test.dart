@@ -2,30 +2,25 @@
 library;
 
 import 'package:flutter_test/flutter_test.dart';
+import 'package:patrol/patrol.dart';
 
 import 'helpers.dart';
 
 void main() {
-  ensureBinding();
+  patrolTest('parent icon navigates to PIN entry', ($) async {
+    await pumpApp($, prefs: {'onboarding_complete': true});
 
-  testWidgets('parent icon navigates to PIN entry', (tester) async {
-    await pumpApp(tester, prefs: {'onboarding_complete': true});
-
-    // Kid home screen should show "Meine Hörspiele".
-    expect(byText('Meine Hörspiele'), findsOneWidget);
+    expect($('Meine Hörspiele'), findsOneWidget);
 
     // Find the parent-mode button by its tooltip.
     final parentButton = find.byTooltip('Eltern-Bereich');
     expect(parentButton, findsOneWidget);
 
-    await tester.tap(parentButton);
-    // Pump frames for navigation transition.
-    for (var i = 0; i < 10; i++) {
-      await tester.pump(const Duration(milliseconds: 100));
-    }
+    await $.tester.tap(parentButton);
+    await pumpFrames($);
 
     // PIN screen shows digit buttons (0-9).
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('5'), findsOneWidget);
+    expect($('0'), findsOneWidget);
+    expect($('5'), findsOneWidget);
   });
 }
