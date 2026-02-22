@@ -46,6 +46,7 @@ class GroupRepository {
     String? coverUrl,
     String contentType = 'hoerspiel',
   }) async {
+    final trimmedTitle = title.trim();
     final id = _uuid.v4();
 
     final maxOrder =
@@ -61,7 +62,7 @@ class GroupRepository {
         .insert(
           GroupsCompanion.insert(
             id: id,
-            title: title,
+            title: trimmedTitle,
             coverUrl: Value(coverUrl),
             sortOrder: Value(nextOrder),
             contentType: Value(contentType),
@@ -139,9 +140,11 @@ class GroupRepository {
   /// Uses Dart-side comparison because SQLite's LOWER() is ASCII-only
   /// and won't handle German umlauts (Ä, Ö, Ü) correctly.
   Future<CardGroup?> findByTitle(String title) async {
-    final lower = title.toLowerCase();
+    final normalized = title.trim().toLowerCase();
     final all = await getAll();
-    return all.where((g) => g.title.toLowerCase() == lower).firstOrNull;
+    return all
+        .where((g) => g.title.trim().toLowerCase() == normalized)
+        .firstOrNull;
   }
 
   /// Watch cards belonging to a group, ordered by episodeNumber then sortOrder.
