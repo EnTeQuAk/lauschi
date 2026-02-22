@@ -555,7 +555,7 @@
     "curator_notes": "This series spans two main Spotify artists: 'Die Biene Maja' (7GfaHcpmNcrcHoyGnOBsAz) and 'Die Biene Maja' (7rETIyymYr7alw77vGZnpl). The first artist contains the classic 1976/1977 Europa episodes (1-15) and CGI movie box sets. The second artist contains newer Lauscher Hörbücher releases (episodes 1-19). Note: There are overlapping episode numbers between the two artists - the 2023/2025 releases from Lauscher Hörbücher are new recordings/reinterpretations, not duplicates of the classic Europa episodes. The CGI albums (marked with 'CGI' in title) are box sets containing multiple stories and should be excluded. The 'Die Biene Maja und ihre Abenteuer' albums are audiobook compilations, not Hörspiel episodes."
   },
   "review": {
-    "reviewed_at": "2026-02-20T10:14:32.472969+00:00",
+    "reviewed_at": "2026-02-22T13:09:08.138283+00:00",
     "reviewed_by": "review-series.py",
     "overrides": [
       {
@@ -817,7 +817,7 @@
     "splits": [
       {
         "new_id": "biene_maja_klassik",
-        "new_title": "Biene Maja (Klassik)",
+        "new_title": "Die Biene Maja (Klassik)",
         "album_ids": [
           "3cehJgGlcIPTuNKI8wDsR2",
           "42cyl3CWY1bEhZPhBGeuhA",
@@ -835,11 +835,11 @@
           "54zXsMPC1UbvjS2zLLR1eP",
           "3PMOEl2R7oqqL5kiRT7h2w"
         ],
-        "reason": "Classic 1976-1977 original Hörspiel. Each album contains multiple stories (box-set style, 25-30 tracks), fundamentally different from modern single-episode releases. Different production era warrants separate series."
+        "reason": "Classic 1976-1977 Europa/Sony Hörspiel with multi-story format (each album contains 4 stories). Different production era, format, and content from modern single-episode series."
       },
       {
         "new_id": "biene_maja_2023",
-        "new_title": "Biene Maja (2023)",
+        "new_title": "Die Biene Maja (2023)",
         "album_ids": [
           "5zlX8b32cXfgLS1DvgS0yT",
           "3krEzMFEOV141SmbDY0ynT",
@@ -857,9 +857,11 @@
           "1dgFNr059h2LDlq7NfOALy",
           "7jTXOBZ97oGi6fydPU1Uir",
           "54uoLi7XfOCXlU9VhcpFA4",
-          "3yDjqIsxRjtX58BcjXRxtr"
+          "3yDjqIsxRjtX58BcjXRxtr",
+          "02RBowcBUf1tdMjztIy4G5",
+          "5SaAlaSVXD2nxI52NbZLzf"
         ],
-        "reason": "Modern 2023-2025 Europa/Sony Hörspiel production. Single-episode format (5-6 tracks per album), different voice cast and production style from classic version. 'Die Biene Maja' branding distinguishes it as separate product."
+        "reason": "2023 junge Lauscher production - single-episode format with 19 episodes. Different voice cast, production studio, and episode structure from 2025 series (splits some stories into Teil 1/2)."
       },
       {
         "new_id": "biene_maja_2025",
@@ -883,9 +885,290 @@
           "1QReKaPzXixEvytf0XmjbH",
           "2zSLUkpvaBTxzcTVGlmn3j"
         ],
-        "reason": "2025 Europa release. 'Biene Maja' branding (without 'Die'), different from 2023 'Die Biene Maja' releases. Same single-episode format but different release wave/series."
+        "reason": "2025 Lauscher Hörbücher production - single-episode format with 17 episodes. Different voice cast, production studio, and episode structure from 2023 series (combines split stories into single longer episodes)."
       }
     ],
-    "notes": "Series had duplicate episodes due to THREE distinct productions being mixed together: (1) Classic 1976-1977 multi-story albums, (2) 2023 'Die Biene Maja' single-episode series, (3) 2025 'Biene Maja' single-episode series. Split into separate series as parents would view these as different products (different eras, formats, voice casts). Note: Episodes 1-15 of the classic series appear to use 'Teil' numbering (01/02 format) which may need pattern adjustment for that series. Episodes 18-19 appear to be from 2025 production continuing the series."
+    "notes": "Series had duplicate episodes due to THREE distinct productions being mixed together: (1) Classic 1976-1977 multi-story albums, (2) 2023 'Die Biene Maja' single-episode series, (3) 2025 'Biene Maja' single-episode series. Split into separate series as parents would view these as different products (different eras, formats, voice casts). Note: Episodes 1-15 of the classic series appear to use 'Teil' numbering (01/02 format) which may need pattern adjustment for that series. Episodes 18-19 appear to be from 2025 production continuing the series.\nSuccessfully split three distinct Biene Maja productions into separate series: (1) Classic 1976-1977 multi-story albums by Europa/Sony, (2) 2023 single-episode series by junge Lauscher with 19 episodes, (3) 2025 single-episode series by Lauscher Hörbücher with 17 episodes. The 2023 and 2025 series have different episode orderings and content - they are not just re-numberings but different productions with different voice casts and episode structures. The classic series has a completely different format with multiple stories per album. After splits, biene_maja parent series will be empty - all content moved to appropriate sub-series.",
+    "verification": {
+      "model": "minimax-m2.5",
+      "verified_at": "2026-02-22T12:09:26.821841+00:00",
+      "approve": true,
+      "concerns": "The first AI correctly identified that this series contains three distinct productions and split them appropriately. The included albums in the base series (episodes 1-19) represent various releases but are essentially placeholder entries - in practice, each of the three splits (klassik, 2023, 2025) would be the actual useful content for parents. This is a valid curation approach where the base series serves as a fallback/container but the real value is in the split series. No critical issues found.",
+      "override_verdicts": [
+        {
+          "album_id": "02RBowcB",
+          "agree": true,
+          "reason": "Episode 18 'Die Schlacht der Bienen und Hornissen' is legitimate content from either 2023 or 2025 production, correctly kept in base series by first AI reviewer. No split needed here."
+        },
+        {
+          "album_id": "5SaAlaSV",
+          "agree": true,
+          "reason": "Episode 19 'Die Freundin der Königin' is legitimate content, correctly kept in base series. The first AI initially included these but correctly recognized these represent newer production continuing the overall numbering."
+        },
+        {
+          "album_id": "7uAVSr8Q",
+          "agree": true,
+          "reason": "Correctly excluded from main biene_maja series, should go to biene_maja_klassik (classic 1976-1977 series). Episode has numeric '05/' prefix consistent with classic series."
+        },
+        {
+          "album_id": "51V03ZPJ",
+          "agree": true,
+          "reason": "Correctly excluded, should split to biene_maja_klassik. Has '09/Der Frühling ist da' which matches classic series numbering format."
+        },
+        {
+          "album_id": "3PMOEl2R",
+          "agree": true,
+          "reason": "Correctly excluded, should be in biene_maja_klassik. Classic series format with '15/Spuk' prefix."
+        },
+        {
+          "album_id": "3cehJgGl",
+          "agree": true,
+          "reason": "Correctly excluded for split to biene_maja_klassik. '01/Maja lernt fliegen' matches classic series episode."
+        },
+        {
+          "album_id": "7IFKNhSo",
+          "agree": true,
+          "reason": "Correctly excluded for biene_maja_klassik."
+        },
+        {
+          "album_id": "3vxuclJb",
+          "agree": true,
+          "reason": "Correctly excluded for biene_maja_klassik."
+        },
+        {
+          "album_id": "54zXsMPC",
+          "agree": true,
+          "reason": "Correctly excluded for biene_maja_klassik."
+        },
+        {
+          "album_id": "14NZvaav",
+          "agree": true,
+          "reason": "Correctly excluded for biene_maja_klassik."
+        },
+        {
+          "album_id": "1DNzHc4u",
+          "agree": true,
+          "reason": "Correctly excluded for biene_maja_klassik."
+        },
+        {
+          "album_id": "1KT1hrge",
+          "agree": true,
+          "reason": "Correctly excluded for biene_maja_klassik."
+        },
+        {
+          "album_id": "5XGNl84H",
+          "agree": true,
+          "reason": "Correctly excluded for biene_maja_klassik."
+        },
+        {
+          "album_id": "566vH5dm",
+          "agree": true,
+          "reason": "Correctly excluded for biene_maja_klassik."
+        },
+        {
+          "album_id": "7IWaaCsB",
+          "agree": true,
+          "reason": "Correctly excluded for biene_maja_klassik."
+        },
+        {
+          "album_id": "42cyl3CW",
+          "agree": true,
+          "reason": "Correctly excluded for biene_maja_klassik."
+        },
+        {
+          "album_id": "7MU7lEVg",
+          "agree": true,
+          "reason": "Correctly excluded for biene_maja_klassik."
+        },
+        {
+          "album_id": "54uoLi7X",
+          "agree": true,
+          "reason": "Correctly excluded from base, should go to biene_maja_2023 (Die Biene Maja, Folge 16)."
+        },
+        {
+          "album_id": "3yDjqIsx",
+          "agree": true,
+          "reason": "Correctly excluded for biene_maja_2023 (Episode 17)."
+        },
+        {
+          "album_id": "1BFF4yot",
+          "agree": true,
+          "reason": "Correctly excluded for biene_maja_2023 (Episode 3 with 'Die Biene Maja' branding)."
+        },
+        {
+          "album_id": "2o4ClxyS",
+          "agree": true,
+          "reason": "Correctly excluded for biene_maja_2023 (Episode 10, part 2)."
+        },
+        {
+          "album_id": "1CV3qxoa",
+          "agree": true,
+          "reason": "Correctly excluded for biene_maja_2023 (Episode 9, part 1)."
+        },
+        {
+          "album_id": "1xNbBlw1",
+          "agree": true,
+          "reason": "Correctly excluded for biene_maja_2023 (Episode 12)."
+        },
+        {
+          "album_id": "4ETGxDs2",
+          "agree": true,
+          "reason": "Correctly excluded for biene_maja_2023 (Episode 13)."
+        },
+        {
+          "album_id": "41C1VeN0",
+          "agree": true,
+          "reason": "Correctly excluded for biene_maja_2023 (Episode 8)."
+        },
+        {
+          "album_id": "3krEzMFE",
+          "agree": true,
+          "reason": "Correctly excluded for biene_maja_2023 (Episode 2)."
+        },
+        {
+          "album_id": "5IeGF6y1",
+          "agree": true,
+          "reason": "Correctly excluded for biene_maja_2023 (Episode 11, part 1)."
+        },
+        {
+          "album_id": "4rjSbfJI",
+          "agree": true,
+          "reason": "Correctly excluded for biene_maja_2023 (Episode 7)."
+        },
+        {
+          "album_id": "4ty7FV6j",
+          "agree": true,
+          "reason": "Correctly excluded for biene_maja_2023 (Episode 5)."
+        },
+        {
+          "album_id": "1xQonUPR",
+          "agree": true,
+          "reason": "Correctly excluded for biene_maja_2023 (Episode 6)."
+        },
+        {
+          "album_id": "1dgFNr05",
+          "agree": true,
+          "reason": "Correctly excluded for biene_maja_2023 (Episode 14)."
+        },
+        {
+          "album_id": "5zlX8b32",
+          "agree": true,
+          "reason": "Correctly excluded for biene_maja_2023 (Episode 1 with 'Die Biene Maja' branding)."
+        },
+        {
+          "album_id": "5R2V97bF",
+          "agree": true,
+          "reason": "Correctly excluded for biene_maja_2023 (Episode 4)."
+        },
+        {
+          "album_id": "7jTXOBZ9",
+          "agree": true,
+          "reason": "Correctly excluded for biene_maja_2023 (Episode 15)."
+        },
+        {
+          "album_id": "0jipYkuP",
+          "agree": true,
+          "reason": "Correctly excluded from main, should be in biene_maja_2025 (Biene Maja, Folge 2 without 'Die')."
+        },
+        {
+          "album_id": "2d5UWFyv",
+          "agree": true,
+          "reason": "Correctly excluded for biene_maja_2025 (Episode 6)."
+        },
+        {
+          "album_id": "0M1vdfDl",
+          "agree": true,
+          "reason": "Correctly excluded for biene_maja_2025 (Episode 12)."
+        },
+        {
+          "album_id": "5Ln0yHOv",
+          "agree": true,
+          "reason": "Correctly excluded for biene_maja_2025 (Episode 15)."
+        },
+        {
+          "album_id": "7u6PRHF7",
+          "agree": true,
+          "reason": "Correctly excluded for biene_maja_2025 (Episode 8)."
+        },
+        {
+          "album_id": "7jfuKJ8O",
+          "agree": true,
+          "reason": "Correctly excluded for biene_maja_2025 (Episode 13)."
+        },
+        {
+          "album_id": "71JRsRgU",
+          "agree": true,
+          "reason": "Correctly excluded for biene_maja_2025 (Episode 3)."
+        },
+        {
+          "album_id": "1QReKaPz",
+          "agree": true,
+          "reason": "Correctly excluded for biene_maja_2025 (Episode 16)."
+        },
+        {
+          "album_id": "3yi3ai09",
+          "agree": true,
+          "reason": "Correctly excluded for biene_maja_2025 (Episode 1)."
+        },
+        {
+          "album_id": "5DnrVhHv",
+          "agree": true,
+          "reason": "Correctly excluded for biene_maja_2025 (Episode 5)."
+        },
+        {
+          "album_id": "2zSLUkpv",
+          "agree": true,
+          "reason": "Correctly excluded for biene_maja_2025 (Episode 17)."
+        },
+        {
+          "album_id": "0qddwDed",
+          "agree": true,
+          "reason": "Correctly excluded for biene_maja_2025 (Episode 10)."
+        },
+        {
+          "album_id": "7zgRdCqM",
+          "agree": true,
+          "reason": "Correctly excluded for biene_maja_2025 (Episode 14)."
+        },
+        {
+          "album_id": "5IzCr2Uk",
+          "agree": true,
+          "reason": "Correctly excluded for biene_maja_2025 (Episode 9)."
+        },
+        {
+          "album_id": "65R5sGgc",
+          "agree": true,
+          "reason": "Correctly excluded for biene_maja_2025 (Episode 11)."
+        },
+        {
+          "album_id": "4YonJZbM",
+          "agree": true,
+          "reason": "Correctly excluded for biene_maja_2025 (Episode 4)."
+        },
+        {
+          "album_id": "3Pmsg7ev",
+          "agree": true,
+          "reason": "Correctly excluded for biene_maja_2025 (Episode 7)."
+        }
+      ],
+      "split_verdicts": [
+        {
+          "new_id": "biene_maja_klassik",
+          "agree": true,
+          "reason": "Classic 1976-1977 series. These multi-story box sets (25-30 tracks) are fundamentally different from modern single-episode releases (5-6 tracks). Different production era, format, and numbering (Folge 1-19 with multiple stories per album). Correct to separate."
+        },
+        {
+          "new_id": "biene_maja_2023",
+          "agree": true,
+          "reason": "Modern 2023-2024 production with 'Die Biene Maja' branding. Single-episode format (5-6 tracks), different voice cast from classic. Correctly identified as separate product line from 1976 series and 2025 releases."
+        },
+        {
+          "new_id": "biene_maja_2025",
+          "agree": true,
+          "reason": "2025 release maintaining 'Biene Maja' branding (without 'Die'). Single-episode format matching 2023 style but different release wave. Correct to split as separate series."
+        }
+      ]
+    },
+    "status": "approved"
   }
 }

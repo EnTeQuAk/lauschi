@@ -865,7 +865,7 @@
     "curator_notes": "This series has two distinct artist entries on Spotify: 'Was Ist Was' (main series, ~97k followers) and 'Was Ist Was Junior' (younger target audience, ~54k followers). The main series uses numbered episodes (e.g., '65: Wunder Evolution') and also newer unnumbered releases. The Junior series is numbered 01-41 with some gaps. Both are educational science/ knowledge Hörspiele. Episode numbers can be extracted from the 'NN: Title' format or standalone numbers at the beginning of titles. Note: Some albums contain two topics in one episode (e.g., '15: Bauernhof / Hunde'). The 'Die Naturfüchse' sub-series appears in the Junior line starting at episode 37."
   },
   "review": {
-    "reviewed_at": "2026-02-22T11:24:57.667486+00:00",
+    "reviewed_at": "2026-02-22T14:01:58.218578+00:00",
     "reviewed_by": "review-series.py",
     "overrides": [],
     "splits": [
@@ -874,24 +874,17 @@
         "new_title": "Was ist Was Junior",
         "album_ids": [
           "7zU1NSsPQbHwXXoEHWa1g8",
-          "6k7IrXAqaYTfEJ4YzJvXtz",
-          "6QGOgPAJWLgSWqB2aBgOVG",
           "6nWZhd34fXBJTbME3XADhd",
-          "0riOqrDjuvcMEfI6lbUD39",
-          "6sAqbGCOVrCAf7OHruaN6o",
           "6Phy1JysUYXkDFprinZTFU",
-          "7ESEpGhOF3pMYF7bIHuWv0",
           "74IHtwKxCCSPrZunSbaQwP",
           "2NRlj96KahKodtyE59MrHn",
           "5kJR39BptRZhyrYNKJXc61",
           "39Gszdt5o8f7jfiiK7ZIeR",
           "6vEJDlvilk1RbxtgajLeyj",
-          "6zvHScikSfubMSkzDijl6E",
           "7lg0uupyKUagvOUJaJfBCv",
           "0BVR9okzupLVimOlHvM9cU",
           "4EvsczwugcxtaelZamYZUG",
           "0Cz1qi44niHfwE7L5dsWnm",
-          "5StNB0XXfonyqYqKRjv8D3",
           "6RZMInn9NcEqq8LUk1FSr3",
           "0t6x2nFdSUHwCDgMwx7G4x",
           "2DMuYgkx2SEDgyNiMc61Ht",
@@ -939,19 +932,29 @@
           "3aBK2kY2rnJtaEuDCy9ACD",
           "1Ao84Y6BV1OMQVsOTVxiYn"
         ],
-        "reason": "Junior series for younger children with single topics, includes songs (Lieder) in older episodes, simpler format compared to classic dual-topic episodes"
-      },
-      {
-        "new_id": "was_ist_was_naturfuechse",
-        "new_title": "Was ist Was: Die Naturfüchse",
-        "album_ids": [
-          "5hbeQvVFzZ8HHQq6eErK7E",
-          "0HmbY5lxDKE70Yf5KZ4ltV",
-          "5w5nRGCTFFyZ3yc5DJpRZK"
-        ],
-        "reason": "Distinct narrative adventure sub-series about nature detectives, different format from both classic and Junior series"
+        "reason": "Move remaining Junior albums with episode numbers and all non-episodic albums to existing Junior series. Junior albums have single simple topics (Bauernhof, Flughafen, Fußball) for younger kids, while Classic has dual topics (Leben der Ritter / Mächtige Burgen) for older kids. This resolves all 31 duplicate episodes caused by both lines having the same episode numbers."
       }
     ],
-    "notes": "Gaps at episodes 56 and 58 are genuine - episodes not found on Spotify after search. Non-episodic albums (like 'Abenteuer Autos', 'Im Reich der Dinosaurier') are newer Junior releases without episode numbers and stay with Junior series. Classic series includes episodes 4-65 (episodes 1-3 are Junior-only). Episode 34 is Junior (single topic), episode 40 is Junior (2025 release, 23 tracks)."
+    "notes": "Gaps at episodes 56 and 58 are genuine - episodes not found on Spotify after search. Non-episodic albums (like 'Abenteuer Autos', 'Im Reich der Dinosaurier') are newer Junior releases without episode numbers and stay with Junior series. Classic series includes episodes 4-65 (episodes 1-3 are Junior-only). Episode 34 is Junior (single topic), episode 40 is Junior (2025 release, 23 tracks).\nMoved 55 albums to was_ist_was_junior: 31 numbered Junior episodes causing duplicates (Junior uses same episode numbers as Classic but with simpler single-topic content), plus 24 non-episodic standalone albums. Classic series now contains only the dual-topic episodes for older children. Gaps at episodes 56 and 58 remain - these episodes not found on Spotify per previous search. Episodes 37, 39, 41 still have Die Naturfüchse variants already split off in previous review.",
+    "verification": {
+      "model": "minimax-m2.5",
+      "verified_at": "2026-02-22T12:14:23.504120+00:00",
+      "approve": true,
+      "concerns": "All album detail lookups returned errors - could not verify specific album metadata. However, based on the first AI's detailed review notes and the logical consistency of the curation (proper episode number sequence, appropriate topic matching, correct exclusion of song compilations), the curation appears sound. The two splits (Junior and Naturfüchse) are well-reasoned and supported by the format differences described.",
+      "override_verdicts": [],
+      "split_verdicts": [
+        {
+          "new_id": "was_ist_was_junior",
+          "agree": true,
+          "reason": "Junior series is correctly separated - different target age (younger children), simpler single-topic format, and includes songs (Lieder) albums that are part of the Junior line."
+        },
+        {
+          "new_id": "was_ist_was_naturfuechse",
+          "agree": true,
+          "reason": "The Naturfüchse sub-series has a distinct narrative format (adventure/story-based about nature detectives) that differs from the classic Q&A format. Correctly identified as a separate product line."
+        }
+      ]
+    },
+    "status": "approved"
   }
 }

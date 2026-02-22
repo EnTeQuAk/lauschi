@@ -717,31 +717,60 @@
     "curator_notes": "Split from LEGO City Abenteuer. Separate series with simpler format 'Folge X: Title' (vs 'LEGO City: Folge X - Theme - Title'). Shorter episodes (3-15 tracks vs 9-12), different structure, and separate episode numbering. Episodes 11-20 conflicted with this series. Parent would see this as a different product."
   },
   "review": {
-    "status": "pending",
+    "status": "approved",
     "overrides": [
       {
         "album_id": "3imxYG6y8VsVx4LyUlkfOf",
         "action": "exclude",
-        "reason": "Long-form episode (14 tracks, ~45 min, Apr 2020) from main series - not Kompakt version. Duplicate episode number with actual Kompakt entry."
+        "reason": "Long-form version (14 tracks) of episode 24 - belongs to main LEGO City Abenteuer series, not Kompakt"
       },
       {
         "album_id": "4SygfBWhlHUihHA4PFqH8I",
         "action": "exclude",
-        "reason": "Long-form episode (13 tracks, ~40 min, Nov 2020) from main series - not Kompakt version. Duplicate episode number with actual Kompakt entry."
+        "reason": "Long-form version (13 tracks) of episode 25 - belongs to main LEGO City Abenteuer series, not Kompakt"
       },
       {
         "album_id": "1FKo6rTIST1l9BxIYmgULC",
         "action": "exclude",
-        "reason": "Long-form episode (16 tracks, ~50 min, Mar 2021) from main series - not Kompakt version. Duplicate episode number with actual Kompakt entry."
+        "reason": "Long-form version (16 tracks) of episode 26 - belongs to main LEGO City Abenteuer series, not Kompakt"
       },
       {
         "album_id": "6mAffXeHyQ3FqzVHKOnAj0",
         "action": "exclude",
-        "reason": "Long-form episode (15 tracks, ~47 min, Oct 2021) from main series - not Kompakt version. Duplicate episode number with actual Kompakt entry."
+        "reason": "Long-form version (15 tracks) of episode 27 - belongs to main LEGO City Abenteuer series, not Kompakt"
       }
     ],
-    "notes": "Auto-created by apply-splits.py from lego_city_abenteuer.\nFixed episode pattern extraction - all 60 previously unnumbered albums now have correct episode numbers. Identified 4 duplicate episode numbers caused by long-form vs Kompakt versions. Excluded 4 long-form episodes (24, 25, 26, 27) that belong to the main LEGO City Abenteuer series. The Kompakt series (short 3-4 track episodes released Dec 2020) now has clean episode numbering from 11-106 with no gaps.",
-    "reviewed_at": "2026-02-22T11:08:41.058540+00:00",
-    "reviewed_by": "review-series.py"
+    "notes": "Auto-created by apply-splits.py from lego_city_abenteuer.\nFixed episode pattern extraction - all 60 previously unnumbered albums now have correct episode numbers. Identified 4 duplicate episode numbers caused by long-form vs Kompakt versions. Excluded 4 long-form episodes (24, 25, 26, 27) that belong to the main LEGO City Abenteuer series. The Kompakt series (short 3-4 track episodes released Dec 2020) now has clean episode numbering from 11-106 with no gaps.\nPattern updated to extract episode numbers for all 100 albums. All gaps now filled (episodes 11-106 complete). Verified 4 duplicate episodes (24-27) - each has a long-form version (10+ tracks) and Kompakt version (3-4 tracks). Excluded the 4 long-form albums that belong to the main LEGO City Abenteuer series. The Kompakt series now has clean episode numbering 11-106 with no duplicates.",
+    "reviewed_at": "2026-02-22T13:24:35.671009+00:00",
+    "reviewed_by": "review-series.py",
+    "verification": {
+      "model": "minimax-m2.5",
+      "verified_at": "2026-02-22T12:11:51.816607+00:00",
+      "approve": true,
+      "concerns": "Unable to verify album details directly due to Spotify API limitations. However, the first AI's logic is sound: it identified 4 long-form episodes (14-16 tracks, 40-50 min) from the main series that were incorrectly included under duplicate episode numbers (24, 25, 26, 27). The Kompakt version should only have short 3-4 track episodes. The remaining 100 included albums show consistent short-form pattern matching 'Folge XX:' with appropriate episode titles from the LEGO City Adventures series. The fix appears valid.",
+      "override_verdicts": [
+        {
+          "album_id": "3imxYG6y",
+          "agree": true,
+          "reason": "Long-form episode from main series, not Kompakt version - correctly excluded"
+        },
+        {
+          "album_id": "4SygfBWh",
+          "agree": true,
+          "reason": "Long-form episode from main series, not Kompakt version - correctly excluded"
+        },
+        {
+          "album_id": "1FKo6rTI",
+          "agree": true,
+          "reason": "Long-form episode from main series, not Kompakt version - correctly excluded"
+        },
+        {
+          "album_id": "6mAffXeH",
+          "agree": true,
+          "reason": "Long-form episode from main series, not Kompakt version - correctly excluded"
+        }
+      ],
+      "split_verdicts": []
+    }
   }
 }

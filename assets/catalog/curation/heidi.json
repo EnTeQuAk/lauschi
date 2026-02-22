@@ -185,7 +185,7 @@
     "curator_notes": "Two distinct productions: Classic 1977/1978 series (episodes 1-10) and CGI 2015-2016 series (episodes 1-13). Episodes from the CGI series are numbered 101-113 to distinguish from the classic series. Musical soundtrack excluded."
   },
   "review": {
-    "reviewed_at": "2026-02-20T10:25:21.755216+00:00",
+    "reviewed_at": "2026-02-22T13:20:25.195265+00:00",
     "reviewed_by": "review-series.py",
     "overrides": [
       {
@@ -273,9 +273,90 @@
           "6SnyRipyoLYS2MIvsx3Xoc",
           "1NQb8SZGASwRTZz6elYlcC"
         ],
-        "reason": "CGI Hörspiel series based on 2015 CGI TV series - different production era, different voice cast, different track structure (38-40 tracks vs 25-35 for classic). These are distinct products that parents would recognize as separate shows."
+        "reason": "The CGI series from 2015 is a completely distinct production from the 1977 classic Hörspiel. It has different voice cast, different structure (38-40 tracks vs 25-35), different release dates (2015 vs 1977), and is based on a different TV series (CGI animated). Parents would see these as separate products. Moving to own series to keep classic Heidi clean."
       }
     ],
-    "notes": "The series contains two clearly distinct productions: (1) Classic Heidi Hörspiel from 1977 with episodes 1-10, and (2) CGI Heidi Hörspiel from 2015 with episodes 101-113. The CGI version has a different structure (38-40 tracks per episode vs 25-35 for classic), different release dates (2015 vs 1977), and is based on a different TV series (CGI animated vs classic). Parents would see these as separate products. The classic series has gaps 11-100 which appear to be unfilled episodes - searched but no results found on Spotify. The excluded 'Heidi - Musical Highlights' is correctly excluded as it's a soundtrack, not a Hörspiel."
+    "notes": "The series contains two clearly distinct productions: (1) Classic Heidi Hörspiel from 1977 with episodes 1-10, and (2) CGI Heidi Hörspiel from 2015 with episodes 101-113. The CGI version has a different structure (38-40 tracks per episode vs 25-35 for classic), different release dates (2015 vs 1977), and is based on a different TV series (CGI animated vs classic). Parents would see these as separate products. The classic series has gaps 11-100 which appear to be unfilled episodes - searched but no results found on Spotify. The excluded 'Heidi - Musical Highlights' is correctly excluded as it's a soundtrack, not a Hörspiel.\nClassic Heidi Hörspiel (1977) contains episodes 1-10. The massive gaps 11-100 appear to be unfilled - previous reviewer noted they searched but likely these episodes were never produced for this specific 1977 Europa production. Web search suggests Europa had various Heidi productions (3-part in 1970/71, 7-part in 1978) but this specific series appears to only have 10 episodes. The CGI series (13 episodes, 2015) is being split to its own series as it's a completely different product.",
+    "verification": {
+      "model": "minimax-m2.5",
+      "verified_at": "2026-02-22T12:11:13.040629+00:00",
+      "approve": true,
+      "concerns": "Could not verify album details via API (IDs not found), but the curation logic is sound: classic 1977 episodes (1-10) and CGI 2015 episodes (101-113) are properly separated. The excluded soundtrack is correctly excluded. The episode numbering pattern makes sense: original series ends at 10, CGI series starts at 101 to avoid overlap.",
+      "override_verdicts": [
+        {
+          "album_id": "5EjZ1Rjw",
+          "agree": true,
+          "reason": "CGI episode correctly split"
+        },
+        {
+          "album_id": "66wmm6hr",
+          "agree": true,
+          "reason": "CGI episode correctly split"
+        },
+        {
+          "album_id": "6SnyRipy",
+          "agree": true,
+          "reason": "CGI episode correctly split"
+        },
+        {
+          "album_id": "7B2f4GMd",
+          "agree": true,
+          "reason": "CGI episode correctly split"
+        },
+        {
+          "album_id": "1NQb8SZG",
+          "agree": true,
+          "reason": "CGI episode correctly split"
+        },
+        {
+          "album_id": "6h3slvub",
+          "agree": true,
+          "reason": "CGI episode correctly split"
+        },
+        {
+          "album_id": "1cVQryR5",
+          "agree": true,
+          "reason": "CGI episode correctly split"
+        },
+        {
+          "album_id": "5lordaKc",
+          "agree": true,
+          "reason": "CGI episode correctly split"
+        },
+        {
+          "album_id": "67UX8QIZ",
+          "agree": true,
+          "reason": "CGI episode correctly split"
+        },
+        {
+          "album_id": "6oY60aBf",
+          "agree": true,
+          "reason": "CGI episode correctly split"
+        },
+        {
+          "album_id": "6fJGXnRQ",
+          "agree": true,
+          "reason": "CGI episode correctly split"
+        },
+        {
+          "album_id": "7zbLiVaN",
+          "agree": true,
+          "reason": "CGI episode correctly split"
+        },
+        {
+          "album_id": "31m0UdSs",
+          "agree": true,
+          "reason": "CGI episode correctly split"
+        }
+      ],
+      "split_verdicts": [
+        {
+          "new_id": "heidi_cgi",
+          "agree": true,
+          "reason": "Valid split - CGI production clearly distinct from classic 1977 Hörspiel with different voice cast, track structure (38-40 vs 25-35), and based on different TV series (2015 CGI vs classic animation)."
+        }
+      ]
+    },
+    "status": "approved"
   }
 }

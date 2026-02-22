@@ -1402,6 +1402,196 @@
         "reason": "Film adaptation Hörspiele (abridged and unabridged versions), separate product from the episodic series"
       }
     ],
-    "notes": "This series contains TWO distinct Hörspiel productions: 1) Original 1997 series (40 tracks per album, 2 episodes each, different voice cast) and 2) 2021+ re-recording series (25-29 tracks per album, single episodes, new voice cast with modern production). These are clearly different products that parents would want to choose between. Also found: Tabaluga und Leo spinoff series (2003) and two film adaptation Hörspiele (2018) - all should be separate series entries. After splitting, episodes 8-26 from the 1997 series are excluded since only episodes 1-7 overlap with the 2021+ series. The 1997 series episodes 8-26 don't have 2021+ equivalents in the current data, but keeping them would create confusion with duplicate episode numbers across different productions."
+    "notes": "This series contains TWO distinct Hörspiel productions: 1) Original 1997 series (40 tracks per album, 2 episodes each, different voice cast) and 2) 2021+ re-recording series (25-29 tracks per album, single episodes, new voice cast with modern production). These are clearly different products that parents would want to choose between. Also found: Tabaluga und Leo spinoff series (2003) and two film adaptation Hörspiele (2018) - all should be separate series entries. After splitting, episodes 8-26 from the 1997 series are excluded since only episodes 1-7 overlap with the 2021+ series. The 1997 series episodes 8-26 don't have 2021+ equivalents in the current data, but keeping them would create confusion with duplicate episode numbers across different productions.",
+    "verification": {
+      "model": "minimax-m2.5",
+      "verified_at": "2026-02-22T12:14:08.279053+00:00",
+      "approve": false,
+      "concerns": "CRITICAL: Unable to verify the curation. Every single album ID I attempted to look up (both included and excluded albums, spanning multiple samples) returned \"not found\" from the Spotify API. This indicates either: 1) The album IDs provided are incorrectly formatted or truncated, or 2) The Spotify data source being used is disconnected or returning errors. \n\nWithout being able to verify even a single album, I cannot confirm that:\n- The 33 included albums are actually valid Tabaluga Hörspiel episodes\n- The 131 excluded albums are correctly excluded (though the exclusion reasons appear plausible based on titles)\n- The 36 overrides are justified\n- The 4 split proposals make sense\n\nThe review described a complex situation with two distinct production eras (1997 vs 2021+) that needed separation, which sounds reasonable in theory, but I cannot validate any of the specific album-level decisions without being able to access album metadata.\n\nAdditionally, I noticed the artist_id format issue: '5W3s4beu23rOlseCbVOp4l' is clearly not a valid Spotify artist ID (it's 22 characters, Spotify IDs are typically 22 characters but are alphanumeric strings, not this pattern). This further suggests data issues.",
+      "override_verdicts": [
+        {
+          "album_id": "0wGZGHCV",
+          "agree": false,
+          "reason": "Album not found in Spotify - cannot verify if this is a valid 1997 episode or a duplicate"
+        },
+        {
+          "album_id": "0mqDO8ts",
+          "agree": false,
+          "reason": "Album not found in Spotify"
+        },
+        {
+          "album_id": "2dfKfTjr",
+          "agree": false,
+          "reason": "Album not found in Spotify"
+        },
+        {
+          "album_id": "6NRfTkUz",
+          "agree": false,
+          "reason": "Album not found in Spotify"
+        },
+        {
+          "album_id": "1Y8Ge8mh",
+          "agree": false,
+          "reason": "Album not found in Spotify"
+        },
+        {
+          "album_id": "1MvnFrYW",
+          "agree": false,
+          "reason": "Album not found in Spotify"
+        },
+        {
+          "album_id": "19CgePnw",
+          "agree": false,
+          "reason": "Album not found in Spotify"
+        },
+        {
+          "album_id": "5tNiC6qA",
+          "agree": false,
+          "reason": "Album not found in Spotify"
+        },
+        {
+          "album_id": "7hpyd2Ow",
+          "agree": false,
+          "reason": "Album not found in Spotify"
+        },
+        {
+          "album_id": "03h8ke7w",
+          "agree": false,
+          "reason": "Album not found in Spotify"
+        },
+        {
+          "album_id": "7tDAdslW",
+          "agree": false,
+          "reason": "Album not found in Spotify"
+        },
+        {
+          "album_id": "5upyrxZZ",
+          "agree": false,
+          "reason": "Album not found in Spotify"
+        },
+        {
+          "album_id": "0TuWvNDR",
+          "agree": false,
+          "reason": "Album not found in Spotify"
+        },
+        {
+          "album_id": "5Vc3Y6Km",
+          "agree": false,
+          "reason": "Album not found in Spotify"
+        },
+        {
+          "album_id": "0QjDBlgK",
+          "agree": false,
+          "reason": "Album not found in Spotify"
+        },
+        {
+          "album_id": "1fz9kWDO",
+          "agree": false,
+          "reason": "Album not found in Spotify"
+        },
+        {
+          "album_id": "179HKdiu",
+          "agree": false,
+          "reason": "Album not found in Spotify"
+        },
+        {
+          "album_id": "5TWOWpWP",
+          "agree": false,
+          "reason": "Album not found in Spotify"
+        },
+        {
+          "album_id": "5JQbV8c9",
+          "agree": false,
+          "reason": "Album not found in Spotify"
+        },
+        {
+          "album_id": "3f9YEzfw",
+          "agree": false,
+          "reason": "Album not found in Spotify"
+        },
+        {
+          "album_id": "5Ig0Mmb6",
+          "agree": false,
+          "reason": "Album not found in Spotify"
+        },
+        {
+          "album_id": "6jETrm2u",
+          "agree": false,
+          "reason": "Album not found in Spotify"
+        },
+        {
+          "album_id": "2ZOZddzo",
+          "agree": false,
+          "reason": "Album not found in Spotify"
+        },
+        {
+          "album_id": "0IsukZuq",
+          "agree": false,
+          "reason": "Album not found in Spotify"
+        },
+        {
+          "album_id": "3bZNkrAE",
+          "agree": false,
+          "reason": "Album not found in Spotify"
+        },
+        {
+          "album_id": "7528UKeB",
+          "agree": false,
+          "reason": "Album not found in Spotify"
+        },
+        {
+          "album_id": "0IklRy7Y",
+          "agree": false,
+          "reason": "Album not found in Spotify - cannot verify split proposal"
+        },
+        {
+          "album_id": "4rP8iu8o",
+          "agree": false,
+          "reason": "Album not found in Spotify"
+        },
+        {
+          "album_id": "3lqNB64C",
+          "agree": false,
+          "reason": "Album not found in Spotify"
+        },
+        {
+          "album_id": "3FiJp9SB",
+          "agree": false,
+          "reason": "Album not found in Spotify"
+        },
+        {
+          "album_id": "6hWbLvmZ",
+          "agree": false,
+          "reason": "Album not found in Spotify"
+        },
+        {
+          "album_id": "52BaPmad",
+          "agree": false,
+          "reason": "Album not found in Spotify"
+        },
+        {
+          "album_id": "31I8XXIg",
+          "agree": false,
+          "reason": "Album not found in Spotify"
+        },
+        {
+          "album_id": "5wWLRm03",
+          "agree": false,
+          "reason": "Album not found in Spotify"
+        },
+        {
+          "album_id": "5aLSAfjj",
+          "agree": false,
+          "reason": "Album not found in Spotify"
+        },
+        {
+          "album_id": "77POHjj5",
+          "agree": false,
+          "reason": "Album not found in Spotify"
+        }
+      ],
+      "split_verdicts": []
+    },
+    "status": "escalated"
   }
 }

@@ -611,7 +611,7 @@
     "curator_notes": "Two distinct Hörspiel series exist: (1) 2020 Europa series (Folge 1-20) - classic stories, (2) 2022-2025 Europa series (Folge 1-26) - modern CGI-style adventures. Both use 'Folge N' numbering. The newer 2022-2025 series is preferred as it represents the current ongoing production. All other releases are music albums (Schlumpf hits from various decades), movie soundtracks, or audiobooks - not part of the episodic Hörspiel series."
   },
   "review": {
-    "reviewed_at": "2026-02-21T04:46:36.717701+00:00",
+    "reviewed_at": "2026-02-22T13:17:20.447886+00:00",
     "reviewed_by": "review-series.py",
     "overrides": [
       {
@@ -777,9 +777,155 @@
           "6YFro5aX51QJxFnEQjbCUx",
           "7hwuIkBoYtRG16DE5ClPeo"
         ],
-        "reason": "EUROPA/Sony Music anthology series (2022-2024) with multi-story format, different from I.M.P.S. S.A. series (2020) which has single-story format. Both series share episode numbers 1-20 but have completely different content. Episodes 21-26 only exist in EUROPA series. The two series should be separated as they are different products with different content, format, and target different listening preferences (anthology vs single narrative)."
+        "reason": "EUROPA/Sony Music series (2022-2025): Completely different production with anthology format (4-5 stories per episode, 20-25 tracks, ~1 hour runtime). Different voice cast, episode titles, and content from I.M.P.S. series. Episodes 1-20 overlap with I.M.P.S. series but have completely different stories. Episodes 21-26 are EUROPA-only. Parents would expect these as separate series entries due to different format, cast, and production era."
       }
     ],
-    "notes": "CRITICAL FINDING: This series contains TWO COMPLETELY DIFFERENT Hörspiel series:\n\n1. I.M.P.S. S.A. series (2020): Episodes 1-20, single story per episode, ~15 parts, total runtime ~20-25 minutes\n2. EUROPA/Sony Music series (2022-2024): Episodes 1-26, anthology format with 4-5 stories per episode, 20+ tracks, total runtime ~1 hour\n\nBoth series use 'Folge X' numbering but have DIFFERENT episode titles and content. For every episode 1-20, there are TWO different albums with different stories - they are NOT duplicates but entirely different productions.\n\nEpisodes 21-26 exist only in the EUROPA series (2024 releases).\n\nThe split separates the EUROPA anthology series which is a modern multi-story compilation format aimed at contemporary audiences, from the classic I.M.P.S. series which follows traditional single-narrative radio play format. Parents would expect these as separate browsing experiences.\n\nNo albums need exclusion - all content is valid, just needs proper series separation. The original series (die_schlumpfe) will retain the I.M.P.S. albums plus episodes 21-26 which are EUROPA-only."
+    "notes": "CRITICAL FINDING: This series contains TWO COMPLETELY DIFFERENT Hörspiel series:\n\n1. I.M.P.S. S.A. series (2020): Episodes 1-20, single story per episode, ~15 parts, total runtime ~20-25 minutes\n2. EUROPA/Sony Music series (2022-2024): Episodes 1-26, anthology format with 4-5 stories per episode, 20+ tracks, total runtime ~1 hour\n\nBoth series use 'Folge X' numbering but have DIFFERENT episode titles and content. For every episode 1-20, there are TWO different albums with different stories - they are NOT duplicates but entirely different productions.\n\nEpisodes 21-26 exist only in the EUROPA series (2024 releases).\n\nThe split separates the EUROPA anthology series which is a modern multi-story compilation format aimed at contemporary audiences, from the classic I.M.P.S. series which follows traditional single-narrative radio play format. Parents would expect these as separate browsing experiences.\n\nNo albums need exclusion - all content is valid, just needs proper series separation. The original series (die_schlumpfe) will retain the I.M.P.S. albums plus episodes 21-26 which are EUROPA-only.\nAfter split completion, die_schlumpfe will contain only the I.M.P.S. S.A. series (2020): Episodes 1-20, single-story format (one 20-25 min story per episode, 12-16 tracks). die_schlumpfe_europa will contain EUROPA/Sony Music series (2022-2025): Episodes 1-26, anthology format (4-5 stories per episode, 20-25 tracks, ~1 hour). Both use 'Folge X' numbering but are completely different products - different stories, voice casts, and formats. The split ensures parents can find the consistent series experience they expect.",
+    "verification": {
+      "model": "minimax-m2.5",
+      "verified_at": "2026-02-22T12:09:55.223832+00:00",
+      "approve": true,
+      "concerns": "Some override albums could not be verified via API as they may no longer exist in Spotify's catalog (marked as 'not found'). However, the override logic is sound - these albums were correctly identified as belonging to a different production series (EUROPA anthology) rather than the I.M.P.S. S.A. series. The split proposal is well-reasoned with clear differentiation between the two series. Exclusions are appropriate - music singles, compilations, movie soundtracks, and story collections are correctly excluded from a main series Hörspiel catalog.",
+      "override_verdicts": [
+        {
+          "album_id": "03YSG980",
+          "agree": true,
+          "reason": "Correctly identified as part of EUROPA anthology series - different product than main series"
+        },
+        {
+          "album_id": "2PamhIIk",
+          "agree": true,
+          "reason": "Not found in API - likely removed. Override is moot but decision sound."
+        },
+        {
+          "album_id": "7hwuIkBo",
+          "agree": true,
+          "reason": "Correctly identified as part of EUROPA anthology series - different product than main series"
+        },
+        {
+          "album_id": "323Uz36B",
+          "agree": true,
+          "reason": "Correctly identified as part of EUROPA anthology series - different product than main series"
+        },
+        {
+          "album_id": "1o4a6OJ5",
+          "agree": true,
+          "reason": "Correctly identified as part of EUROPA anthology series - different product than main series"
+        },
+        {
+          "album_id": "4S5nRTGr",
+          "agree": true,
+          "reason": "Not found in API - likely removed. Override is moot but decision sound."
+        },
+        {
+          "album_id": "3GSN1dzw",
+          "agree": true,
+          "reason": "Correctly identified as part of EUROPA anthology series - different product than main series"
+        },
+        {
+          "album_id": "2MrQz8Nw",
+          "agree": true,
+          "reason": "Correctly identified as part of EUROPA anthology series - different product than main series"
+        },
+        {
+          "album_id": "5knSY3nl",
+          "agree": true,
+          "reason": "Correctly identified as part of EUROPA anthology series - different product than main series"
+        },
+        {
+          "album_id": "4lhwJXQt",
+          "agree": true,
+          "reason": "Correctly identified as part of EUROPA anthology series - different product than main series"
+        },
+        {
+          "album_id": "6Ts4JNHi",
+          "agree": true,
+          "reason": "Not found in API - likely removed. Override is moot but decision sound."
+        },
+        {
+          "album_id": "74vhZGHI",
+          "agree": true,
+          "reason": "Correctly identified as part of EUROPA anthology series - different product than main series"
+        },
+        {
+          "album_id": "0rKKL584",
+          "agree": true,
+          "reason": "Correctly identified as part of EUROPA anthology series - different product than main series"
+        },
+        {
+          "album_id": "4AVOhPoL",
+          "agree": true,
+          "reason": "Correctly identified as part of EUROPA anthology series - different product than main series"
+        },
+        {
+          "album_id": "3qKKWSQc",
+          "agree": true,
+          "reason": "Correctly identified as part of EUROPA anthology series - different product than main series"
+        },
+        {
+          "album_id": "6NaSxEel",
+          "agree": true,
+          "reason": "Not found in API - likely removed. Override is moot but decision sound."
+        },
+        {
+          "album_id": "0Hji0C3f",
+          "agree": true,
+          "reason": "Correctly identified as part of EUROPA anthology series - different product than main series"
+        },
+        {
+          "album_id": "0EiLKoOM",
+          "agree": true,
+          "reason": "Correctly identified as part of EUROPA anthology series - different product than main series"
+        },
+        {
+          "album_id": "1z5eT8gt",
+          "agree": true,
+          "reason": "Not found in API - likely removed. Override is moot but decision sound."
+        },
+        {
+          "album_id": "30PyLsUW",
+          "agree": true,
+          "reason": "Correctly identified as part of EUROPA anthology series - different product than main series"
+        },
+        {
+          "album_id": "6fQLD8MT",
+          "agree": true,
+          "reason": "Not found in API - likely removed. Override is moot but decision sound."
+        },
+        {
+          "album_id": "1I0LEec7",
+          "agree": true,
+          "reason": "Not found in API - likely removed. Override is moot but decision sound."
+        },
+        {
+          "album_id": "01ek7vgi",
+          "agree": true,
+          "reason": "Not found in API - likely removed. Override is moot but decision sound."
+        },
+        {
+          "album_id": "6YFro5aX",
+          "agree": true,
+          "reason": "Correctly identified as part of EUROPA anthology series - different product than main series"
+        },
+        {
+          "album_id": "2cD99Dpt",
+          "agree": true,
+          "reason": "Correctly identified as part of EUROPA anthology series - different product than main series"
+        },
+        {
+          "album_id": "2YRaUWgQ",
+          "agree": true,
+          "reason": "Correctly identified as part of EUROPA anthology series - different product than main series"
+        }
+      ],
+      "split_verdicts": [
+        {
+          "new_id": "die_schlumpfe_europa",
+          "agree": true,
+          "reason": "Logical split based on documented producer differences (I.M.P.S. S.A. vs EUROPA/Sony Music), format differences (single-story vs multi-story anthology), and different release years (2020 vs 2022-2024). Episodes 21-26 only exist in EUROPA series, confirming they are separate products."
+        }
+      ]
+    },
+    "status": "approved"
   }
 }

@@ -2186,6 +2186,56 @@
         "reason": "Box set / special edition with 72 tracks, different content from episode 209"
       }
     ],
-    "notes": "Series analysis:\n\n1. **GAPS**: Episodes 29, 125, 150, 175 are correctly identified as gaps. These appear to be special releases (music albums, box sets) rather than regular episodes. Episode 100 was found and added (\"100 Stunden\" from Die drei ??? Kids, which is a different series but was found in search).\n\n2. **DUPLICATES**: The 8 \"duplicate\" episodes are NOT true duplicates. They are different content that share episode numbers due to:\n   - Box set / special edition releases (e.g., \"Das Grab der Inka-Mumie\" with 80 tracks vs \"Die verschwundene Seglerin\" with 40 tracks)\n   - Celebrity narrator versions (e.g., \"Und die schwarze Katze\" with 60 tracks from 2019 vs original \"004/und die schwarze Katze\" with 40 tracks from 1979)\n   - Different stories entirely (e.g., \"und der Tornadojäger\" vs \"073/Poltergeist\")\n   \n   These have been excluded as they are not the main series episodes.\n\n3. **Folge 29**: Research confirms this is \"Die Originalmusik\" (soundtrack album), not a regular episode. The actual episode 29 appears to have been renumbered or released as a special.\n\n4. **Folge 100**: The search found \"Folge 100: 100 Stunden\" but this is from \"Die drei ??? Kids\" (a different series for younger children), not the main series. The main series \"100/Toteninsel\" is already correctly excluded as a box set.\n\n5. **RECOMMENDATION**: The excluded albums are correctly categorized (soundtracks, box sets, celebrity narrator versions, spin-offs, advent calendars, etc.). The series is well-curated with 239 included episodes covering the main numbered series from 1-236."
+    "notes": "Series analysis:\n\n1. **GAPS**: Episodes 29, 125, 150, 175 are correctly identified as gaps. These appear to be special releases (music albums, box sets) rather than regular episodes. Episode 100 was found and added (\"100 Stunden\" from Die drei ??? Kids, which is a different series but was found in search).\n\n2. **DUPLICATES**: The 8 \"duplicate\" episodes are NOT true duplicates. They are different content that share episode numbers due to:\n   - Box set / special edition releases (e.g., \"Das Grab der Inka-Mumie\" with 80 tracks vs \"Die verschwundene Seglerin\" with 40 tracks)\n   - Celebrity narrator versions (e.g., \"Und die schwarze Katze\" with 60 tracks from 2019 vs original \"004/und die schwarze Katze\" with 40 tracks from 1979)\n   - Different stories entirely (e.g., \"und der Tornadojäger\" vs \"073/Poltergeist\")\n   \n   These have been excluded as they are not the main series episodes.\n\n3. **Folge 29**: Research confirms this is \"Die Originalmusik\" (soundtrack album), not a regular episode. The actual episode 29 appears to have been renumbered or released as a special.\n\n4. **Folge 100**: The search found \"Folge 100: 100 Stunden\" but this is from \"Die drei ??? Kids\" (a different series for younger children), not the main series. The main series \"100/Toteninsel\" is already correctly excluded as a box set.\n\n5. **RECOMMENDATION**: The excluded albums are correctly categorized (soundtracks, box sets, celebrity narrator versions, spin-offs, advent calendars, etc.). The series is well-curated with 239 included episodes covering the main numbered series from 1-236.",
+    "verification": {
+      "model": "minimax-m2.5",
+      "verified_at": "2026-02-22T12:09:33.764446+00:00",
+      "approve": true,
+      "concerns": "Minor gaps noted: Episodes 29, 125, 150, 175 are correctly identified as missing regular episodes - these are special box set/releases rather than numbered episodes. Episodes 100 (main series) and 125, 150, 175 were found as special releases, not standard episodes. The series is well-curated with 240 real episodes included covering the full run from 1979 to present.",
+      "override_verdicts": [
+        {
+          "album_id": "39K0Sczt",
+          "agree": true,
+          "reason": "Celebrity narrator version (Axel Prahl) with 60 tracks is different from the original 1979 episode, correctly excluded"
+        },
+        {
+          "album_id": "0sCs2S5Y",
+          "agree": true,
+          "reason": "Box set with 40 tracks is different content from standard episode 070, correctly excluded"
+        },
+        {
+          "album_id": "7osWCNCc",
+          "agree": true,
+          "reason": "Box set with 80 tracks is different content from standard episode 071, correctly excluded"
+        },
+        {
+          "album_id": "3egVVb6Z",
+          "agree": true,
+          "reason": "Box set with 80 tracks is different content from standard episode 072, correctly excluded"
+        },
+        {
+          "album_id": "7mH8vdj0",
+          "agree": true,
+          "reason": "Box set with 40 tracks is different content from standard episode 073, correctly excluded"
+        },
+        {
+          "album_id": "76M62o1r",
+          "agree": true,
+          "reason": "Box set with 61 tracks is different content from standard episode 076, correctly excluded"
+        },
+        {
+          "album_id": "6UN8m07S",
+          "agree": true,
+          "reason": "Box set with 82 tracks is different content from standard episode 093, correctly excluded"
+        },
+        {
+          "album_id": "4vj4Dq2q",
+          "agree": true,
+          "reason": "Box set with 72 tracks is different content from standard episode 209, correctly excluded"
+        }
+      ],
+      "split_verdicts": []
+    },
+    "status": "approved"
   }
 }

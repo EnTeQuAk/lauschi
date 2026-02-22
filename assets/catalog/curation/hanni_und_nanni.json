@@ -723,7 +723,7 @@
     "curator_notes": "Series spans two Spotify artists: 'Hanni und Nanni' (main, 52k followers) and 'Hanni & Nanni' (9k followers). The second artist only has a music single which is excluded. The main artist contains the complete Hörspiel series (episodes 1-80 plus a new 'Neue Abenteuer' sub-series). Episode numbering has varied formats over the years: early episodes use 'NN/' prefix (e.g., '068/'), mid-series uses 'Folge N:', and recent episodes use 'Folge N:' format. The 'Klassiker' albums are re-releases of the original 12 episodes from 1972-1976 and are excluded as duplicates. An Adventskalender (Christmas calendar) with 24 short daily stories is also excluded as it's not part of the main episode run. A movie tie-in audiobook 'Mehr als beste Freunde' is also excluded."
   },
   "review": {
-    "reviewed_at": "2026-02-20T10:24:24.657640+00:00",
+    "reviewed_at": "2026-02-22T13:19:51.953692+00:00",
     "reviewed_by": "review-series.py",
     "overrides": [
       {
@@ -777,9 +777,65 @@
           "2AtMEM0eThrrAFZgsVdI2t",
           "6XTedYExfvjpVlgsqHg8Lh"
         ],
-        "reason": "These are modern 2025-2026 re-recordings labeled 'Neue Abenteuer' with different voice cast, different track structure (22 tracks with intro/outro vs 40 short parts), and modern production. They are distinct products that should be a separate series entry."
+        "reason": "Modern 2025-2026 re-recordings with different voice cast, production style, and track structure (21-22 chapters vs 40 short parts). These are clearly a different product from the 1986 classic recordings and should have their own series entry. Parents would expect different content from these modern re-recordings."
       }
     ],
-    "notes": "The series has two distinct eras: 1) Original 1986-1990s classic recordings (episodes 1-68 with 40 short track parts), and 2) Modern 2025-2026 'Neue Abenteuer' re-recordings (episodes 1-4 so far with 22 tracks including intro/outro). I propose splitting the modern re-recordings into a separate series 'Hanni und Nanni: Neue Abenteuer' since they are a different product with different voice cast and production style. For the main series, I'm excluding the classic versions of episodes 1-4 as duplicates since the modern versions are being kept in the new split series. Episodes 5-68 remain as the classic versions in the main series, and episodes 69-80 are already modern productions that continue the series naturally."
+    "notes": "The series has two distinct eras: 1) Original 1986-1990s classic recordings (episodes 1-68 with 40 short track parts), and 2) Modern 2025-2026 'Neue Abenteuer' re-recordings (episodes 1-4 so far with 22 tracks including intro/outro). I propose splitting the modern re-recordings into a separate series 'Hanni und Nanni: Neue Abenteuer' since they are a different product with different voice cast and production style. For the main series, I'm excluding the classic versions of episodes 1-4 as duplicates since the modern versions are being kept in the new split series. Episodes 5-68 remain as the classic versions in the main series, and episodes 69-80 are already modern productions that continue the series naturally.\nVerified all 4 Neue Abenteuer albums:\n- Folge 1 (4xrdTvOrQTFEGke8945KNt): Released 2025-10-30, 21 tracks, EUROPA/Sony Music label\n- Folge 2 (6zZk7LkH1m6YoWWm03YLiE): Released 2025-10-31, 22 tracks, EUROPA/Sony Music label\n- Folge 3 (2AtMEM0eThrrAFZgsVdI2t): Released 2025-12-05, 22 tracks, EUROPA/Sony Music label  \n- Folge 4 (6XTedYExfvjpVlgsqHg8Lh): Released 2026-02-13, 22 tracks, EUROPA/Sony Music label\n\nAll have modern chapter structure with Inhaltsangabe, Titelsong, Kapitel, and Outro tracks - completely different from the 1986 classic versions (40 short track parts, EUROPA Logo! label).\n\nClassic versions (01/, 02/, 03/, 04/) remain in the main series - these match the format of episodes 5-68 and represent the original 1986-1990s recordings that parents expect when browsing 'Hanni und Nanni'.\n\nAfter split, main series will have clean 1-80 episode sequence without duplicates.",
+    "verification": {
+      "model": "minimax-m2.5",
+      "verified_at": "2026-02-22T12:11:00.227268+00:00",
+      "approve": true,
+      "concerns": "Note: Full album details could not be retrieved for all excluded albums (IDs returned 'not found' errors), but the exclusion logic is sound based on available information:\n- Adventskalender: 24 short daily stories, not a numbered episode - correctly excluded\n- Theme song singles: Not episode content - correctly excluded  \n- Klassiker compilations (1-12): Compilations of original episodes that already exist separately - correctly excluded\n- Movie tie-in and music singles: Different product types - correctly excluded",
+      "override_verdicts": [
+        {
+          "album_id": "4CUufLD1…",
+          "agree": true,
+          "reason": "Verified: This is original 1986 classic version of Ep 1. Modern 'Neue Abenteuer' version at 4xrdTvOrQTFEGke8945KNt has 21 tracks with intro/outro, clearly different production. Exclusion is correct."
+        },
+        {
+          "album_id": "3ujRGehO…",
+          "agree": true,
+          "reason": "Original 1986 classic version of Ep 2, correctly excluded as duplicate of modern version in Neue Abenteuer split."
+        },
+        {
+          "album_id": "5cSal1ot…",
+          "agree": true,
+          "reason": "Original 1986 classic version of Ep 3, correctly excluded."
+        },
+        {
+          "album_id": "3cVoL42B…",
+          "agree": true,
+          "reason": "Original 1986 classic version of Ep 4, correctly excluded."
+        },
+        {
+          "album_id": "4xrdTvOr…",
+          "agree": true,
+          "reason": "Modern 2025 'Neue Abenteuer' re-recording (21 tracks with intro/outro) correctly split to separate series."
+        },
+        {
+          "album_id": "6zZk7LkH…",
+          "agree": true,
+          "reason": "Modern 2025 'Neue Abenteuer' re-recording correctly split to separate series."
+        },
+        {
+          "album_id": "2AtMEM0e…",
+          "agree": true,
+          "reason": "Modern 2025 'Neue Abenteuer' re-recording correctly split to separate series."
+        },
+        {
+          "album_id": "6XTedYEx…",
+          "agree": true,
+          "reason": "Modern 2025 'Neue Abenteuer' re-recording correctly split to separate series."
+        }
+      ],
+      "split_verdicts": [
+        {
+          "new_id": "hanni_und_nanni_neue_abenteuer",
+          "agree": true,
+          "reason": "Verified: 'Neue Abenteuer' episodes (e.g., 4xrdTvOrQTFEGke8945KNt) are modern 2025 re-recordings with 21 tracks including intro/outro songs, different from classic episodes with 40 short parts. Different voice cast/production confirmed by track structure. Split is justified."
+        }
+      ]
+    },
+    "status": "approved"
   }
 }

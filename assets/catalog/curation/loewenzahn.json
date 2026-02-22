@@ -236,7 +236,7 @@
     "curator_notes": "Two distinct eras on the same artist: 1) 'Episode 01-17' are newer episodes with Fritz Fuchs (2021-present), 2) 'Löwenzahn CLASSICS Folge 01-14' are classic episodes with Peter Lustig (2023 re-releases). No Retro-Archiv or Junior variants found for this series. All albums are individual episodes split into multiple tracks (Teil 1-17), not box sets."
   },
   "review": {
-    "reviewed_at": "2026-02-20T10:28:24.569985+00:00",
+    "reviewed_at": "2026-02-22T13:25:00.575730+00:00",
     "reviewed_by": "review-series.py",
     "overrides": [
       {
@@ -330,9 +330,95 @@
           "1ziY9K7tSTZvASsQ7xWze1",
           "19VqJKWcLjycds5IUqARM7"
         ],
-        "reason": "These are the CLASSICS re-releases featuring Peter Lustig. They are distinct from the newer episodes (Episodes 1-17) which feature a different protagonist (Fritz Fuchs). The CLASSICS have different episode titles, different track counts, and are clearly marketed as a separate product line for fans of the original TV series with Peter Lustig."
+        "reason": "14 CLASSICS albums featuring Peter Lustig (released 2023) are distinct from the modern Löwenzahn series featuring Fritz Fuchs (released 2021-2026). Different protagonists, different stories, different track counts (17 vs 13 tracks), and explicit 'CLASSICS' branding. Parents would see these as two different products."
       }
     ],
-    "notes": "This series contains two distinct products that should be split:\n\n1. **Löwenzahn CLASSICS (14 albums)**: Re-releases of the original Hörspiele featuring Peter Lustig, released 2023. These have different titles (e.g., 'Peter und der Tanz der Vampire' vs 'Abenteuer Feuerland'), longer track counts (16-17 tracks vs 13 tracks), and are clearly branded as CLASSICS.\n\n2. **New Löwenzahn episodes (17 albums)**: Modern episodes featuring Fritz Fuchs as the protagonist, released 2021-2026. These are numbered Episode 01-17 and have different story content.\n\nThe two versions share episode numbers but have completely different content - they are NOT duplicates. A parent looking for the classic Peter Lustig episodes would be confused to find Fritz Fuchs episodes mixed in, and vice versa.\n\nEpisodes 15-17 in the main series feature Fritz Fuchs (not Peter Lustig), confirming this is the modern continuation of the series."
+    "notes": "This series contains two distinct products that should be split:\n\n1. **Löwenzahn CLASSICS (14 albums)**: Re-releases of the original Hörspiele featuring Peter Lustig, released 2023. These have different titles (e.g., 'Peter und der Tanz der Vampire' vs 'Abenteuer Feuerland'), longer track counts (16-17 tracks vs 13 tracks), and are clearly branded as CLASSICS.\n\n2. **New Löwenzahn episodes (17 albums)**: Modern episodes featuring Fritz Fuchs as the protagonist, released 2021-2026. These are numbered Episode 01-17 and have different story content.\n\nThe two versions share episode numbers but have completely different content - they are NOT duplicates. A parent looking for the classic Peter Lustig episodes would be confused to find Fritz Fuchs episodes mixed in, and vice versa.\n\nEpisodes 15-17 in the main series feature Fritz Fuchs (not Peter Lustig), confirming this is the modern continuation of the series.",
+    "verification": {
+      "model": "minimax-m2.5",
+      "verified_at": "2026-02-22T12:12:26.352456+00:00",
+      "approve": true,
+      "concerns": "",
+      "override_verdicts": [
+        {
+          "album_id": "5E8xDbQM…",
+          "agree": true,
+          "reason": "Löwenzahn CLASSICS with Peter Lustig - correctly split to separate series"
+        },
+        {
+          "album_id": "05Sngq3U…",
+          "agree": true,
+          "reason": "Löwenzahn CLASSICS with Peter Lustig - correctly split to separate series"
+        },
+        {
+          "album_id": "1628LG4t…",
+          "agree": true,
+          "reason": "Löwenzahn CLASSICS with Peter Lustig - correctly split to separate series"
+        },
+        {
+          "album_id": "2bneBzGr…",
+          "agree": true,
+          "reason": "Löwenzahn CLASSICS with Peter Lustig - correctly split to separate series"
+        },
+        {
+          "album_id": "2vlCznue…",
+          "agree": true,
+          "reason": "Löwenzahn CLASSICS with Peter Lustig - correctly split to separate series"
+        },
+        {
+          "album_id": "6Zb8gnLD…",
+          "agree": true,
+          "reason": "Löwenzahn CLASSICS with Peter Lustig - correctly split to separate series"
+        },
+        {
+          "album_id": "1TjAlLPh…",
+          "agree": true,
+          "reason": "Löwenzahn CLASSICS with Peter Lustig - correctly split to separate series"
+        },
+        {
+          "album_id": "0zc0kqB4…",
+          "agree": true,
+          "reason": "Löwenzahn CLASSICS with Peter Lustig - correctly split to separate series"
+        },
+        {
+          "album_id": "3N5CbahY…",
+          "agree": true,
+          "reason": "Löwenzahn CLASSICS with Peter Lustig - correctly split to separate series"
+        },
+        {
+          "album_id": "7IRNGg0u…",
+          "agree": true,
+          "reason": "Löwenzahn CLASSICS with Peter Lustig - correctly split to separate series"
+        },
+        {
+          "album_id": "19VqJKWc…",
+          "agree": true,
+          "reason": "Löwenzahn CLASSICS with Peter Lustig - correctly split to separate series"
+        },
+        {
+          "album_id": "4CG6cUox…",
+          "agree": true,
+          "reason": "Löwenzahn CLASSICS with Peter Lustig - correctly split to separate series"
+        },
+        {
+          "album_id": "1ip1jv0F…",
+          "agree": true,
+          "reason": "Löwenzahn CLASSICS with Peter Lustig - correctly split to separate series"
+        },
+        {
+          "album_id": "1ziY9K7t…",
+          "agree": true,
+          "reason": "Löwenzahn CLASSICS with Peter Lustig - correctly split to separate series"
+        }
+      ],
+      "split_verdicts": [
+        {
+          "new_id": "loewenzahn_classics",
+          "agree": true,
+          "reason": "Valid split - CLASSICS series with Peter Lustig is a distinct product from modern Fritz Fuchs episodes. They share episode numbers but have completely different content and protagonist."
+        }
+      ]
+    },
+    "status": "approved"
   }
 }

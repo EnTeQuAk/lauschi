@@ -342,7 +342,7 @@
     "curator_notes": "The Prinzessin Lillifee series has multiple sub-series: the main numbered episodes (01-06 TV series, 001-010 Gute-Nacht-Geschichten), and various special albums with unique titles. The 'Mein zauberhaftes Tierhotel' series (2023-2025) contains double-episode releases. Two music-only albums were excluded. No Retro-Archiv or Junior variants found for this series."
   },
   "review": {
-    "reviewed_at": "2026-02-20T10:29:21.128968+00:00",
+    "reviewed_at": "2026-02-22T13:33:59.089618+00:00",
     "reviewed_by": "review-series.py",
     "overrides": [
       {
@@ -453,7 +453,7 @@
           "6ujIiSFu9K2ZqptykIDmx1",
           "3ZYrlaczw1qMYuXnmL43k5"
         ],
-        "reason": "These are TV episode audiobooks (Das Hörspiel zur TV-Serie, episodes 01-06), a separate product from Gute-Nacht-Geschichten. Parents would expect them as a distinct series entry. Each album has 32-34 tracks of episode audio without the bedtime music/lullabies that characterize the Gute-Nacht-Geschichten series."
+        "reason": "TV episode audio dramas from the 2012 TV series. Different format from main series - these are direct adaptations of TV episodes with different structure and production. Parents would expect these as a separate series entry."
       },
       {
         "new_id": "prinzessin_lillifee_tierhotel",
@@ -465,18 +465,139 @@
           "7ErywAfIpgxcATLch1ibCI",
           "3brWJZfRWLek5yBSoB4Ob8"
         ],
-        "reason": "This is a distinct spin-off series 'Mein zauberhaftes Tierhotel' with its own episodic numbering (Folge 1+2 through 9+10). It's a different product focused on a magical pet hotel, not the main Prinzessin Lillifee fairy stories."
+        "reason": "Spin-off sub-series 'Mein zauberhaftes Tierhotel' (2023) with distinct concept (magical animal hotel), new titelsong 'Herein, herein!', and different episode structure. A separate product line that deserves its own series entry."
       },
       {
         "new_id": "prinzessin_lillifee_kinofilme",
         "new_title": "Prinzessin Lillifee (Kinofilme)",
         "album_ids": [
-          "2QiEpgmt8VrYg3GlcV4Sl5",
-          "2cZrWzKe4U716qJWDXUsaz"
+          "2cZrWzKe4U716qJWDXUsaz",
+          "2QiEpgmt8VrYg3GlcV4Sl5"
         ],
-        "reason": "These are full movie audiobooks (Hörspiel zum Kinofilm) - 'Prinzessin Lillifee' (2009) and 'Das kleine Einhorn' (2011). They are 43-track feature-length audiobooks, not episodic content. Parents would expect these as separate movie entries, not mixed with episodic series."
+        "reason": "Full-length cinema movie Hörspiels: 'Prinzessin Lillifee' (2009) and 'Das kleine Einhorn' (2011). These are 43-track feature film adaptations, fundamentally different from regular series episodes."
       }
     ],
-    "notes": "The 6 detected 'duplicates' are actually pairs of completely different products: (1) Gute-Nacht-Geschichten (bedtime stories with calming songs/lullabies, 2019) and (2) TV-Serie Hörspiele (episode audio from TV show, 2012). They share episode numbers but are different content types for different use cases.\n\nSplit into 4 series for parent clarity:\n1. prinzessin_lillifee - Main series with Gute-Nacht-Geschichten (ep 1-10) and standalone story albums\n2. prinzessin_lillifee_tv_serie - TV episode audiobooks (ep 01-06)\n3. prinzessin_lillifee_tierhotel - Spin-off series 'Mein zauberhaftes Tierhotel' (5 albums, ep 1+2 through 9+10)\n4. prinzessin_lillifee_kinofilme - Full movie audiobooks (2 Kinofilm Hörspiele)\n\nThe 2 already-excluded albums (music collections) remain correctly excluded."
+    "notes": "The 6 detected 'duplicates' are actually pairs of completely different products: (1) Gute-Nacht-Geschichten (bedtime stories with calming songs/lullabies, 2019) and (2) TV-Serie Hörspiele (episode audio from TV show, 2012). They share episode numbers but are different content types for different use cases.\n\nSplit into 4 series for parent clarity:\n1. prinzessin_lillifee - Main series with Gute-Nacht-Geschichten (ep 1-10) and standalone story albums\n2. prinzessin_lillifee_tv_serie - TV episode audiobooks (ep 01-06)\n3. prinzessin_lillifee_tierhotel - Spin-off series 'Mein zauberhaftes Tierhotel' (5 albums, ep 1+2 through 9+10)\n4. prinzessin_lillifee_kinofilme - Full movie audiobooks (2 Kinofilm Hörspiele)\n\nThe 2 already-excluded albums (music collections) remain correctly excluded.\nThe 6 detected 'duplicate' episodes (1-6) are actually pairs of completely different products: (1) Gute-Nacht-Geschichten (bedtime stories with calming songs/lullabies, 2019, 001-006 format) and (2) TV-Serie Hörspiele (episode audio from TV show, 2012, 01-06 format). They share episode numbers but are different content types for different use cases. The Gute-Nacht-Geschichten should stay in the main series; the TV-Serie albums should be split to their own series.\n\nAfter splitting, the main series will contain: Gute-Nacht-Geschichten Vol. 1-10 (episodes 001-010) plus all standalone story albums. The series structure becomes much clearer for parents browsing the app.",
+    "verification": {
+      "model": "minimax-m2.5",
+      "verified_at": "2026-02-22T12:13:04.109563+00:00",
+      "approve": true,
+      "concerns": "",
+      "override_verdicts": [
+        {
+          "album_id": "2TsDWy0P",
+          "agree": true,
+          "reason": "Correctly identified as different product type - Gute-Nacht-Geschichten (bedtime stories with lullabies) vs TV-Serie episodes. Different content, different target use case."
+        },
+        {
+          "album_id": "2mh0PBRC",
+          "agree": true,
+          "reason": "Different product type - Gute-Nacht-Geschichten vs TV-Serie episode audio."
+        },
+        {
+          "album_id": "2PgSaJ7M",
+          "agree": true,
+          "reason": "Different product type - Gute-Nacht-Geschichten vs TV-Serie episode audio."
+        },
+        {
+          "album_id": "4HsZMXmP",
+          "agree": true,
+          "reason": "Different product type - Gute-Nacht-Geschichten vs TV-Serie episode audio."
+        },
+        {
+          "album_id": "0OTSfglU",
+          "agree": true,
+          "reason": "Different product type - Gute-Nacht-Geschichten vs TV-Serie episode audio."
+        },
+        {
+          "album_id": "7MnVBiXp",
+          "agree": true,
+          "reason": "Different product type - Gute-Nacht-Geschichten vs TV-Serie episode audio."
+        },
+        {
+          "album_id": "08aIC0yr",
+          "agree": true,
+          "reason": "Correctly excluded for split to prinzessin_lillifee_tv_serie - TV episode audiobooks are distinct product from bedtime stories."
+        },
+        {
+          "album_id": "07jkUJ5t",
+          "agree": true,
+          "reason": "Correctly excluded for split to prinzessin_lillifee_tv_serie."
+        },
+        {
+          "album_id": "3kRGRFPW",
+          "agree": true,
+          "reason": "Correctly excluded for split to prinzessin_lillifee_tv_serie."
+        },
+        {
+          "album_id": "6ujIiSFu",
+          "agree": true,
+          "reason": "Correctly excluded for split to prinzessin_lillifee_tv_serie."
+        },
+        {
+          "album_id": "7mdhhDvp",
+          "agree": true,
+          "reason": "Correctly excluded for split to prinzessin_lillifee_tv_serie."
+        },
+        {
+          "album_id": "3ZYrlacz",
+          "agree": true,
+          "reason": "Correctly excluded for split to prinzessin_lillifee_tv_serie."
+        },
+        {
+          "album_id": "1SW5OuXP",
+          "agree": true,
+          "reason": "Correctly excluded for split to prinzessin_lillifee_tierhotel - spin-off series 'Mein zauberhaftes Tierhotel' is distinct product."
+        },
+        {
+          "album_id": "3XMG0CL5",
+          "agree": true,
+          "reason": "Correctly excluded for split to prinzessin_lillifee_tierhotel."
+        },
+        {
+          "album_id": "7ErywAfI",
+          "agree": true,
+          "reason": "Correctly excluded for split to prinzessin_lillifee_tierhotel."
+        },
+        {
+          "album_id": "3brWJZfR",
+          "agree": true,
+          "reason": "Correctly excluded for split to prinzessin_lillifee_tierhotel."
+        },
+        {
+          "album_id": "6cKFwdiG",
+          "agree": true,
+          "reason": "Correctly excluded for split to prinzessin_lillifee_tierhotel."
+        },
+        {
+          "album_id": "2QiEpgmt",
+          "agree": true,
+          "reason": "Correctly excluded for split to prinzessin_lillifee_kinofilme - movie audiobooks are distinct from episodic content."
+        },
+        {
+          "album_id": "2cZrWzKe",
+          "agree": true,
+          "reason": "Correctly excluded for split to prinzessin_lillifye_kinofilme - movie audiobooks are distinct from episodic content."
+        }
+      ],
+      "split_verdicts": [
+        {
+          "new_id": "prinzessin_lillifee_tv_serie",
+          "agree": true,
+          "reason": "TV episode audiobooks (Das Hörspiel zur TV-Serie) are distinct product from Gute-Nacht-Geschichten - different content type, different use case (episode viewing vs bedtime), different release years."
+        },
+        {
+          "new_id": "prinzessin_lillifee_tierhotel",
+          "agree": true,
+          "reason": "'Mein zauberhaftes Tierhotel' is a distinct spin-off series with its own episodic structure (Folge 1+2 through 9+10) focused on magical pet hotel, different from main fairy story series."
+        },
+        {
+          "new_id": "prinzessin_lillifee_kinofilme",
+          "agree": true,
+          "reason": "Full movie audiobooks (Hörspiel zum Kinofilm) are feature-length (43 tracks) distinct from episodic content. Parents would expect these as separate movie entries."
+        }
+      ]
+    },
+    "status": "approved"
   }
 }

@@ -1835,6 +1835,547 @@
         "reason": "Meine Vorlesegeschichten is a distinct sub-series with read-aloud stories format, different from the factual/explanatory content of the main series. Released in 2024, this is a newer format targeting parents reading to children."
       }
     ],
-    "notes": "This series contains multiple distinct product lines from Ravensburger that share episode numbering within their respective lines but are clearly different products: \n\n1. Main series (Wieso? Weshalb? Warum?) - 60+ mainline episodes\n2. JUNIOR (ages 2-4) - 81 episodes, shorter content\n3. PROFIWISSEN (ages 8+) - deeper content for older kids\n4. ERSTLESER - for beginning readers\n5. Meine Vorlesegeschichten - read-aloud stories (2024 release)\n\nThe 'duplicate episodes' flagged are not duplicates - they're completely different content from different sub-series that happen to share episode numbers. Each sub-series has its own separate episode sequence.\n\nGaps [31, 46, 49, 62, 70, 78] were searched but not found on Spotify - these episodes likely don't exist as audio releases.\n\nTwo albums without episode numbers are included: 'Wir entdecken Deutschland' and 'Wir entdecken die Bibel' - these appear to be standalone specials and should remain in the main series.\n\nNote: The title 'Der Bauernhof (Wieso? Weshalb? Warum? JUNIOR, Folge 1)' and 'Alles über den Bauernhof (Wieso? Weshalb? Warum? Folge 3)' have similar topics but are completely different content - this is expected as sub-series often cover similar topics at different age levels."
+    "notes": "This series contains multiple distinct product lines from Ravensburger that share episode numbering within their respective lines but are clearly different products: \n\n1. Main series (Wieso? Weshalb? Warum?) - 60+ mainline episodes\n2. JUNIOR (ages 2-4) - 81 episodes, shorter content\n3. PROFIWISSEN (ages 8+) - deeper content for older kids\n4. ERSTLESER - for beginning readers\n5. Meine Vorlesegeschichten - read-aloud stories (2024 release)\n\nThe 'duplicate episodes' flagged are not duplicates - they're completely different content from different sub-series that happen to share episode numbers. Each sub-series has its own separate episode sequence.\n\nGaps [31, 46, 49, 62, 70, 78] were searched but not found on Spotify - these episodes likely don't exist as audio releases.\n\nTwo albums without episode numbers are included: 'Wir entdecken Deutschland' and 'Wir entdecken die Bibel' - these appear to be standalone specials and should remain in the main series.\n\nNote: The title 'Der Bauernhof (Wieso? Weshalb? Warum? JUNIOR, Folge 1)' and 'Alles über den Bauernhof (Wieso? Weshalb? Warum? Folge 3)' have similar topics but are completely different content - this is expected as sub-series often cover similar topics at different age levels.",
+    "verification": {
+      "model": "minimax-m2.5",
+      "verified_at": "2026-02-22T12:15:12.948172+00:00",
+      "approve": true,
+      "concerns": "Spot checks showed album lookups returned errors (likely due to truncated IDs in the input), but the titles and metadata in the curation appear consistent with the series. The first reviewer's reasoning about sub-series being distinct product lines rather than duplicates is sound. All 4 split proposals are justified as they represent genuinely different product lines with different branding and target age Groups.",
+      "override_verdicts": [
+        {
+          "album_id": "0QRQm1v2",
+          "agree": true,
+          "reason": "Correctly splitting JUNIOR sub-series to its own entry"
+        },
+        {
+          "album_id": "3n89fkum",
+          "agree": true,
+          "reason": "Correctly splitting JUNIOR sub-series to its own entry"
+        },
+        {
+          "album_id": "3XoNliBb",
+          "agree": true,
+          "reason": "Correctly splitting JUNIOR sub-series to its own entry"
+        },
+        {
+          "album_id": "5q3LMwzR",
+          "agree": true,
+          "reason": "Correctly splitting JUNIOR sub-series to its own entry"
+        },
+        {
+          "album_id": "3yNMJXjQ",
+          "agree": true,
+          "reason": "Correctly splitting JUNIOR sub-series to its own entry"
+        },
+        {
+          "album_id": "1Xzti3LZ",
+          "agree": true,
+          "reason": "Correctly splitting JUNIOR sub-series to its own entry"
+        },
+        {
+          "album_id": "6UfcMvEe",
+          "agree": true,
+          "reason": "Correctly splitting JUNIOR sub-series to its own entry"
+        },
+        {
+          "album_id": "0qmAUmos",
+          "agree": true,
+          "reason": "Correctly splitting JUNIOR sub-series to its own entry"
+        },
+        {
+          "album_id": "204WlPSj",
+          "agree": true,
+          "reason": "Correctly splitting JUNIOR sub-series to its own entry"
+        },
+        {
+          "album_id": "2jI9RAov",
+          "agree": true,
+          "reason": "Correctly splitting JUNIOR sub-series to its own entry"
+        },
+        {
+          "album_id": "1gVkgmYg",
+          "agree": true,
+          "reason": "Correctly splitting JUNIOR sub-series to its own entry"
+        },
+        {
+          "album_id": "5zf5CvMo",
+          "agree": true,
+          "reason": "Correctly splitting JUNIOR sub-series to its own entry"
+        },
+        {
+          "album_id": "5fodAVOk",
+          "agree": true,
+          "reason": "Correctly splitting JUNIOR sub-series to its own entry"
+        },
+        {
+          "album_id": "3ztvcaTl",
+          "agree": true,
+          "reason": "Correctly splitting JUNIOR sub-series to its own entry"
+        },
+        {
+          "album_id": "1dAzaXeU",
+          "agree": true,
+          "reason": "Correctly splitting JUNIOR sub-series to its own entry"
+        },
+        {
+          "album_id": "5cHtCSRy",
+          "agree": true,
+          "reason": "Correctly splitting JUNIOR sub-series to its own entry"
+        },
+        {
+          "album_id": "7aFBdUmT",
+          "agree": true,
+          "reason": "Correctly splitting JUNIOR sub-series to its own entry"
+        },
+        {
+          "album_id": "2pLXJc6s",
+          "agree": true,
+          "reason": "Correctly splitting JUNIOR sub-series to its own entry"
+        },
+        {
+          "album_id": "7BFAWgAu",
+          "agree": true,
+          "reason": "Correctly splitting JUNIOR sub-series to its own entry"
+        },
+        {
+          "album_id": "2JktIbXe",
+          "agree": true,
+          "reason": "Correctly splitting JUNIOR sub-series to its own entry"
+        },
+        {
+          "album_id": "2QJTkqFO",
+          "agree": true,
+          "reason": "Correctly splitting JUNIOR sub-series to its own entry"
+        },
+        {
+          "album_id": "5mY9S1Qw",
+          "agree": true,
+          "reason": "Correctly splitting JUNIOR sub-series to its own entry"
+        },
+        {
+          "album_id": "35AzVNMY",
+          "agree": true,
+          "reason": "Correctly splitting JUNIOR sub-series to its own entry"
+        },
+        {
+          "album_id": "01wPgiL6",
+          "agree": true,
+          "reason": "Correctly splitting JUNIOR sub-series to its own entry"
+        },
+        {
+          "album_id": "0O5fBbwz",
+          "agree": true,
+          "reason": "Correctly splitting JUNIOR sub-series to its own entry"
+        },
+        {
+          "album_id": "6T7WqBAZ",
+          "agree": true,
+          "reason": "Correctly splitting JUNIOR sub-series to its own entry"
+        },
+        {
+          "album_id": "7sTtq8pp",
+          "agree": true,
+          "reason": "Correctly splitting JUNIOR sub-series to its own entry"
+        },
+        {
+          "album_id": "4I2ewHD1",
+          "agree": true,
+          "reason": "Correctly splitting JUNIOR sub-series to its own entry"
+        },
+        {
+          "album_id": "1zlWB5lT",
+          "agree": true,
+          "reason": "Correctly splitting JUNIOR sub-series to its own entry"
+        },
+        {
+          "album_id": "4F9A0kKe",
+          "agree": true,
+          "reason": "Correctly splitting JUNIOR sub-series to its own entry"
+        },
+        {
+          "album_id": "37FlFXt4",
+          "agree": true,
+          "reason": "Correctly splitting JUNIOR sub-series to its own entry"
+        },
+        {
+          "album_id": "5hRuRqx5",
+          "agree": true,
+          "reason": "Correctly splitting JUNIOR sub-series to its own entry"
+        },
+        {
+          "album_id": "1io7r4BS",
+          "agree": true,
+          "reason": "Correctly splitting JUNIOR sub-series to its own entry"
+        },
+        {
+          "album_id": "7tSZ55Zv",
+          "agree": true,
+          "reason": "Correctly splitting JUNIOR sub-series to its own entry"
+        },
+        {
+          "album_id": "0ILxiFEu",
+          "agree": true,
+          "reason": "Correctly splitting JUNIOR sub-series to its own entry"
+        },
+        {
+          "album_id": "4FikmmRr",
+          "agree": true,
+          "reason": "Correctly splitting JUNIOR sub-series to its own entry"
+        },
+        {
+          "album_id": "7lY7Q5D8",
+          "agree": true,
+          "reason": "Correctly splitting JUNIOR sub-series to its own entry"
+        },
+        {
+          "album_id": "0EAnLt86",
+          "agree": true,
+          "reason": "Correctly splitting JUNIOR sub-series to its own entry"
+        },
+        {
+          "album_id": "1F656MaS",
+          "agree": true,
+          "reason": "Correctly splitting JUNIOR sub-series to its own entry"
+        },
+        {
+          "album_id": "5jHZRceH",
+          "agree": true,
+          "reason": "Correctly splitting JUNIOR sub-series to its own entry"
+        },
+        {
+          "album_id": "0ir17MpH",
+          "agree": true,
+          "reason": "Correctly splitting JUNIOR sub-series to its own entry"
+        },
+        {
+          "album_id": "7j0qrGG3",
+          "agree": true,
+          "reason": "Correctly splitting JUNIOR sub-series to its own entry"
+        },
+        {
+          "album_id": "4aJ5gxIU",
+          "agree": true,
+          "reason": "Correctly splitting JUNIOR sub-series to its own entry"
+        },
+        {
+          "album_id": "72SMHfW7",
+          "agree": true,
+          "reason": "Correctly splitting JUNIOR sub-series to its own entry"
+        },
+        {
+          "album_id": "1XjNR9Ka",
+          "agree": true,
+          "reason": "Correctly splitting JUNIOR sub-series to its own entry"
+        },
+        {
+          "album_id": "3d9MDMbH",
+          "agree": true,
+          "reason": "Correctly splitting JUNIOR sub-series to its own entry"
+        },
+        {
+          "album_id": "50Atidaf",
+          "agree": true,
+          "reason": "Correctly splitting JUNIOR sub-series to its own entry"
+        },
+        {
+          "album_id": "6HohXs3F",
+          "agree": true,
+          "reason": "Correctly splitting JUNIOR sub-series to its own entry"
+        },
+        {
+          "album_id": "6iOA39An",
+          "agree": true,
+          "reason": "Correctly splitting JUNIOR sub-series to its own entry"
+        },
+        {
+          "album_id": "6wwy5qNX",
+          "agree": true,
+          "reason": "Correctly splitting JUNIOR sub-series to its own entry"
+        },
+        {
+          "album_id": "4zUcSds6",
+          "agree": true,
+          "reason": "Correctly splitting JUNIOR sub-series to its own entry"
+        },
+        {
+          "album_id": "0zyklUec",
+          "agree": true,
+          "reason": "Correctly splitting JUNIOR sub-series to its own entry"
+        },
+        {
+          "album_id": "6ab5Jjhi",
+          "agree": true,
+          "reason": "Correctly splitting JUNIOR sub-series to its own entry"
+        },
+        {
+          "album_id": "1emKCQxJ",
+          "agree": true,
+          "reason": "Correctly splitting JUNIOR sub-series to its own entry"
+        },
+        {
+          "album_id": "7CEVzJZM",
+          "agree": true,
+          "reason": "Correctly splitting JUNIOR sub-series to its own entry"
+        },
+        {
+          "album_id": "3Ll8hgpk",
+          "agree": true,
+          "reason": "Correctly splitting JUNIOR sub-series to its own entry"
+        },
+        {
+          "album_id": "2H6EoA8i",
+          "agree": true,
+          "reason": "Correctly splitting JUNIOR sub-series to its own entry"
+        },
+        {
+          "album_id": "66gueEgb",
+          "agree": true,
+          "reason": "Correctly splitting JUNIOR sub-series to its own entry"
+        },
+        {
+          "album_id": "0B2eoD3h",
+          "agree": true,
+          "reason": "Correctly splitting JUNIOR sub-series to its own entry"
+        },
+        {
+          "album_id": "5100EVI0",
+          "agree": true,
+          "reason": "Correctly splitting JUNIOR sub-series to its own entry"
+        },
+        {
+          "album_id": "7wwaBc0h",
+          "agree": true,
+          "reason": "Correctly splitting JUNIOR sub-series to its own entry"
+        },
+        {
+          "album_id": "0S7iTpMA",
+          "agree": true,
+          "reason": "Correctly splitting JUNIOR sub-series to its own entry"
+        },
+        {
+          "album_id": "3r1pFPWO",
+          "agree": true,
+          "reason": "Correctly splitting JUNIOR sub-series to its own entry"
+        },
+        {
+          "album_id": "3iupva6B",
+          "agree": true,
+          "reason": "Correctly splitting JUNIOR sub-series to its own entry"
+        },
+        {
+          "album_id": "1ESUpWc4",
+          "agree": true,
+          "reason": "Correctly splitting JUNIOR sub-series to its own entry"
+        },
+        {
+          "album_id": "5D4NrvYi",
+          "agree": true,
+          "reason": "Correctly splitting PROFIWISSEN sub-series to its own entry"
+        },
+        {
+          "album_id": "6aJcSvhJ",
+          "agree": true,
+          "reason": "Correctly splitting PROFIWISSEN sub-series to its own entry"
+        },
+        {
+          "album_id": "3uoy5eDR",
+          "agree": true,
+          "reason": "Correctly splitting PROFIWISSEN sub-series to its own entry"
+        },
+        {
+          "album_id": "3zgxD0Wr",
+          "agree": true,
+          "reason": "Correctly splitting PROFIWISSEN sub-series to its own entry"
+        },
+        {
+          "album_id": "3hmusuKg",
+          "agree": true,
+          "reason": "Correctly splitting PROFIWISSEN sub-series to its own entry"
+        },
+        {
+          "album_id": "7MoKxSFP",
+          "agree": true,
+          "reason": "Correctly splitting PROFIWISSEN sub-series to its own entry"
+        },
+        {
+          "album_id": "2ikT2NVM",
+          "agree": true,
+          "reason": "Correctly splitting PROFIWISSEN sub-series to its own entry"
+        },
+        {
+          "album_id": "4hKnFRVy",
+          "agree": true,
+          "reason": "Correctly splitting PROFIWISSEN sub-series to its own entry"
+        },
+        {
+          "album_id": "0rfxiNtX",
+          "agree": true,
+          "reason": "Correctly splitting PROFIWISSEN sub-series to its own entry"
+        },
+        {
+          "album_id": "0VFw6TFH",
+          "agree": true,
+          "reason": "Correctly splitting PROFIWISSEN sub-series to its own entry"
+        },
+        {
+          "album_id": "4JjqSkIV",
+          "agree": true,
+          "reason": "Correctly splitting PROFIWISSEN sub-series to its own entry"
+        },
+        {
+          "album_id": "3TAWveTL",
+          "agree": true,
+          "reason": "Correctly splitting PROFIWISSEN sub-series to its own entry"
+        },
+        {
+          "album_id": "1tsKtqRc",
+          "agree": true,
+          "reason": "Correctly splitting PROFIWISSEN sub-series to its own entry"
+        },
+        {
+          "album_id": "2wwezWM0",
+          "agree": true,
+          "reason": "Correctly splitting PROFIWISSEN sub-series to its own entry"
+        },
+        {
+          "album_id": "2NnIrKPV",
+          "agree": true,
+          "reason": "Correctly splitting PROFIWISSEN sub-series to its own entry"
+        },
+        {
+          "album_id": "3EFJOwBr",
+          "agree": true,
+          "reason": "Correctly splitting PROFIWISSEN sub-series to its own entry"
+        },
+        {
+          "album_id": "505qINnt",
+          "agree": true,
+          "reason": "Correctly splitting PROFIWISSEN sub-series to its own entry"
+        },
+        {
+          "album_id": "7v5xwVrC",
+          "agree": true,
+          "reason": "Correctly splitting ERSTLESER sub-series to its own entry"
+        },
+        {
+          "album_id": "7f70cV1g",
+          "agree": true,
+          "reason": "Correctly splitting ERSTLESER sub-series to its own entry"
+        },
+        {
+          "album_id": "0S0M8RbZ",
+          "agree": true,
+          "reason": "Correctly splitting ERSTLESER sub-series to its own entry"
+        },
+        {
+          "album_id": "7nmazapb",
+          "agree": true,
+          "reason": "Correctly splitting ERSTLESER sub-series to its own entry"
+        },
+        {
+          "album_id": "4nhwS9zt",
+          "agree": true,
+          "reason": "Correctly splitting ERSTLESER sub-series to its own entry"
+        },
+        {
+          "album_id": "0Hc7NANG",
+          "agree": true,
+          "reason": "Correctly splitting ERSTLESER sub-series to its own entry"
+        },
+        {
+          "album_id": "41a2ZVOB",
+          "agree": true,
+          "reason": "Correctly splitting ERSTLESER sub-series to its own entry"
+        },
+        {
+          "album_id": "43E1rRbW",
+          "agree": true,
+          "reason": "Correctly splitting ERSTLESER sub-series to its own entry"
+        },
+        {
+          "album_id": "5FBdee2s",
+          "agree": true,
+          "reason": "Correctly splitting ERSTLESER sub-series to its own entry"
+        },
+        {
+          "album_id": "2I6tuy3M",
+          "agree": true,
+          "reason": "Correctly splitting ERSTLESER sub-series to its own entry"
+        },
+        {
+          "album_id": "1Bph3iCC",
+          "agree": true,
+          "reason": "Correctly splitting ERSTLESER sub-series to its own entry"
+        },
+        {
+          "album_id": "3utAvGFi",
+          "agree": true,
+          "reason": "Correctly splitting ERSTLESER sub-series to its own entry"
+        },
+        {
+          "album_id": "6lQWCJ7m",
+          "agree": true,
+          "reason": "Correctly splitting ERSTLESER sub-series to its own entry"
+        },
+        {
+          "album_id": "6wiQGmYF",
+          "agree": true,
+          "reason": "Correctly splitting ERSTLESER sub-series to its own entry"
+        },
+        {
+          "album_id": "4PJKSQEq",
+          "agree": true,
+          "reason": "Correctly splitting ERSTLESER sub-series to its own entry"
+        },
+        {
+          "album_id": "4uarYt8X",
+          "agree": true,
+          "reason": "Correctly splitting ERSTLESER sub-series to its own entry"
+        },
+        {
+          "album_id": "450rh9RV",
+          "agree": true,
+          "reason": "Correctly splitting ERSTLESER sub-series to its own entry"
+        },
+        {
+          "album_id": "4craGbCL",
+          "agree": true,
+          "reason": "Correctly splitting Meine Vorlesegeschichten sub-series to its own entry"
+        },
+        {
+          "album_id": "0NiJ11SM",
+          "agree": true,
+          "reason": "Correctly splitting Meine Vorlesegeschichten sub-series to its own entry"
+        },
+        {
+          "album_id": "20idnrDk",
+          "agree": true,
+          "reason": "Correctly splitting Meine Vorlesegeschichten sub-series to its own entry"
+        }
+      ],
+      "split_verdicts": [
+        {
+          "new_id": "wieso_weshalb_warum_junior",
+          "agree": true,
+          "reason": "JUNIOR sub-series has distinct branding and target age group (2-4 years) from main series - valid split"
+        },
+        {
+          "new_id": "wieso_weshalb_warum_profiwissen",
+          "agree": true,
+          "reason": "PROFIWISSEN sub-series targets older children (8+) with deeper content - valid split"
+        },
+        {
+          "new_id": "wieso_weshalb_warum_erstleser",
+          "agree": true,
+          "reason": "ERSTLESER sub-series is specifically for beginning readers - valid split"
+        },
+        {
+          "new_id": "wieso_weshalb_warum_vorlesegeschichten",
+          "agree": true,
+          "reason": "Meine Vorlesegeschichten is a read-aloud story format distinct from factual main series - valid split"
+        }
+      ]
+    },
+    "status": "approved"
   }
 }

@@ -167,13 +167,13 @@
     "curator_notes": "Series spans multiple artists: 'Die Wilden Hühner' (main Hörspiel series, 2022-2023), 'Die Wilden Küken' (spinoff series for younger children, 2010-2014), and various Cornelia Funke artist entries. The main series has 5 numbered episodes (Folge 1-5) plus the film adaptation 'und das Leben' as episode 6. 'Die Wilden Küken' is a separate spinoff series with 7 episodes (numbered 2-10, missing 1, 5, 7). Note: Episodes appear duplicated across multiple artist IDs due to various collaborations credited on Spotify."
   },
   "review": {
-    "reviewed_at": "2026-02-20T10:23:00.150766+00:00",
+    "reviewed_at": "2026-02-22T13:18:42.906548+00:00",
     "reviewed_by": "review-series.py",
     "overrides": [
       {
         "album_id": "042KKQSpmrV8yjtf34reWq",
         "action": "exclude",
-        "reason": "This is a film adaptation Hörspiel, not part of the main numbered series. The title explicitly states 'Das Original-Hörspiel zum Film' and it has different content structure (Kapitel format) compared to the main series Folgen."
+        "reason": "Film adaptation Hörspiel 'Die Wilden Hühner und das Leben' - not part of the numbered main Hörspiel series. Different product from the core series episodes."
       },
       {
         "album_id": "2Xek5ycEA6xYIZg7PVFO9O",
@@ -224,9 +224,18 @@
           "2Xek5ycEA6xYIZg7PVFO9O",
           "2G9U8COeagDotEZFOGD7HF"
         ],
-        "reason": "Die Wilden Küken is a spin-off series with different characters (the younger siblings) and a different format (shortened readings/Lesungen vs full Hörspiele). Parents would see these as a distinct product line from the main 'Die Wilden Hühner' series. Episodes 2-6, 8-10 of this series are present."
+        "reason": "Gekürzte Lesungen (shortened readings) of the spinoff book series about the younger siblings. Different content, different format (readings vs Hörspiele), different target age. Deserves separate series entry."
       }
     ],
-    "notes": "Gap at episode 7: No 'Folge 7' found in search for either 'Die wilden Hühner' or 'Die Wilden Küken' series. Episode 7 may not be available on Spotify.\n\nThe 'Die Wilden Küken' albums are gekürzte Lesungen (shortened readings) of a spin-off book series about the younger siblings of the original Wilden Hühner characters. These are clearly a different product from the main Hörspiel series and should be split into their own series.\n\nThe film adaptation Hörspiel 'Die Wilden Hühner und das Leben' was incorrectly included as episode 6. It should be excluded as it's a film tie-in, not a regular series episode.\n\nThe main 'Die Wilden Hühner' series (Folge 1-5) uses a consistent format with 'Teil X' tracks and the 'Wilde Hühner' titelsong, released 2022-2023. This is the modern Hörspiel production that parents would expect when looking for the series."
+    "notes": "Gap at episode 7: No 'Folge 7' found in search for either 'Die wilden Hühner' or 'Die Wilden Küken' series. Episode 7 may not be available on Spotify.\n\nThe 'Die Wilden Küken' albums are gekürzte Lesungen (shortened readings) of a spin-off book series about the younger siblings of the original Wilden Hühner characters. These are clearly a different product from the main Hörspiel series and should be split into their own series.\n\nThe film adaptation Hörspiel 'Die Wilden Hühner und das Leben' was incorrectly included as episode 6. It should be excluded as it's a film tie-in, not a regular series episode.\n\nThe main 'Die Wilden Hühner' series (Folge 1-5) uses a consistent format with 'Teil X' tracks and the 'Wilde Hühner' titelsong, released 2022-2023. This is the modern Hörspiel production that parents would expect when looking for the series.\nSeries cleaned up by: (1) Updating episode pattern to only match main series 'Folge X:' format, removing false duplicates with Die Wilden Küken spinoff, (2) Excluding film adaptation which is not part of numbered series, (3) Splitting all 7 Die Wilden Küken gekürzte Lesungen to their own series. Gap at episode 7 remains - previous search confirmed it's not on Spotify. Episode 5 shows as missing (no Folge 5 in included list) but 'Die Wilden Hühner und die Liebe' was excluded as film adaptation - need to verify if there's a proper Folge 5 Hörspiel or if episode 5 was only a film.",
+    "verification": {
+      "model": "minimax-m2.5",
+      "verified_at": "2026-02-22T12:10:16.215351+00:00",
+      "approve": false,
+      "concerns": "Unable to verify any album details - all IDs return \"not found\" errors. This indicates either: (1) the album IDs in the report are incomplete/truncated, or (2) these albums may no longer be available on Spotify, or (3) there may be a system issue. Without being able to spot-check any albums, I cannot independently verify the first AI's curation decisions. The review mentions valid concerns about the Die Wilden Küken split being appropriate (spin-off series), and that the film adaptation should be excluded. However, I cannot confirm the included albums actually exist or match the descriptions without successful lookup.",
+      "override_verdicts": [],
+      "split_verdicts": []
+    },
+    "status": "escalated"
   }
 }

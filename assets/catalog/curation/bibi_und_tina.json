@@ -1245,8 +1245,15 @@
   },
   "review": {
     "status": "approved",
-    "reviewed_at": "2026-02-21T05:11:47.850351+00:00",
-    "overrides": [],
-    "notes": ""
+    "reviewed_at": "2026-02-22T13:06:50.900169+00:00",
+    "overrides": [
+      {
+        "album_id": "76KD1nCJUd0p3tm6cAgPnJ",
+        "action": "include",
+        "reason": "Regular episode 107 that fills the gap - incorrectly excluded by AI with wrong reasoning about already being included"
+      }
+    ],
+    "notes": "Gap at episode 107 was due to incorrect AI exclusion. Album 'Folge 107: Club der geheimen Reiter' (76KD1nCJUd0p3tm6cAgPnJ) is a regular episode with 29 tracks from Kiddinx Studios/WM Germany (2022-10-14) and should be included. The excluded album 'Folge 112: Geheimnis hinter dem Wasserfall' (1fYepwf4xbMtfvVbXjA7zB) is correctly excluded - it's a 35-track version of the same episode 112 that is already included (20-track version). The 35-track version breaks chapters into smaller pieces but is the same content.",
+    "reviewed_by": "review-series.py"
   }
 }

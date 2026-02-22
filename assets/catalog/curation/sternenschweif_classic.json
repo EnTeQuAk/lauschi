@@ -447,6 +447,55 @@
         "episode_num": 9,
         "title": "Teil 9: Ein zauberhaftes Team",
         "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "26z7t5oPL1gWB0EyrdsHwT",
+        "include": true,
+        "episode_num": 1,
+        "title": "Teil 1: Geheimnisvolle Verwandlung",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "26z7t5oPL1gWB0EyrdsHwT",
+        "include": true,
+        "episode_num": 1,
+        "title": "Teil 1: Geheimnisvolle Verwandlung",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "26z7t5oPL1gWB0EyrdsHwT",
+        "include": true,
+        "episode_num": 1,
+        "title": "Teil 1: Geheimnisvolle Verwandlung",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "26z7t5oPL1gWB0EyrdsHwT",
+        "include": true,
+        "episode_num": 1,
+        "title": "Teil 1: Geheimnisvolle Verwandlung",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "26z7t5oPL1gWB0EyrdsHwT",
+        "include": true,
+        "episode_num": 1,
+        "title": "Teil 1: Geheimnisvolle Verwandlung",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "26z7t5oPL1gWB0EyrdsHwT",
+        "include": true,
+        "episode_num": 1,
+        "title": "Teil 1: Geheimnisvolle Verwandlung",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "26z7t5oPL1gWB0EyrdsHwT",
+        "include": true,
+        "episode_num": 1,
+        "title": "Teil 1: Geheimnisvolle Verwandlung",
+        "exclude_reason": null
       }
     ],
     "age_note": null,
@@ -455,6 +504,8 @@
   "review": {
     "status": "pending",
     "overrides": [],
-    "notes": "Auto-created by apply-splits.py from sternenschweif."
+    "notes": "Auto-created by apply-splits.py from sternenschweif.\nInvestigation revealed this series was created by apply-splits.py but contains primarily Sternenfohlen albums (a newer reboot series) rather than classic Sternenschweif albums. The duplicates (episodes 4, 23-42) are because Sternenschweif and Sternenfohlen are TWO SEPARATE SERIES with different episode titles but overlapping numbers.\n\nFor this 'Klassik' series to properly represent the classic Sternenschweif content, exclude all Sternenfohlen albums and keep only Sternenschweif albums. However, this would remove 41 of 62 albums. A cleaner approach would be:\n\n1. Create a new Sternenfohlen series for the newer reboot content\n2. This Sternenschweif (Klassik) series should remain for classic Sternenschweif only\n\nSternenschweif (classic) albums to KEEP:\n- Episode 4: 1HBSqiyZ0QaSG7I2iJ1Yf3 (Lauras Zauberritt)\n- Episode 23: 6rdIAzOA7kjjsvSoLETUhS (Liebeszauber)  \n- Episode 24: 3e3q2tr2JGFNsFV8Z7bCEC (Geheimnis der Nacht)\n- Episode 25: 2t3GEMB75w77tNZdSTIciz (Freundschaftszauber)\n- Episodes 26-42: The albums with 2013 release dates and 'Teil' track naming\n- Episodes 26: 6oH1K4xo82TFzzMfQrfL5T, 27: 1NwqPhrTdRvEMYPI7Ps2JY, 28: 6OautboSKViVObO9NuVi0z, 29: 4LYUYEtAneK1rOfkJ4wYoS, 30: 6VR8WzSIqarvIXjVdhdNOl, 31: 3610G7w18dTXm49VDFFT5G, 32: 6aCtSS4033DzfEXMjSKOAC, 33: 1tWnWEViK8cq8Jo19VyIF9, 34: 7x2E3U5Xx3G5buHRhl3nTt, 35: 3PuVtB3msHiSV0gjN1JAwn, 36: 1PFApZUhduHZEVb4JAIim5, 37: 6jg8hotIxXfuYH1ck84lCd, 38: 1a44r1RVx0dCxluDzaTCg7, 39: 5PD3PHaabR798YWuKS52Rh, 40: 1QHYmlvMp5zRO2UkJYESQc, 41: 1h65KZCUkTzm1X9jQ7naf9, 42: 2Tas15aBGmhh355uvDh4OD\n\nAll other albums (41 total, primarily episodes 1-3, 5-22, and 2021 releases) are Sternenfohlen and should be EXCLUDED or moved to a new Sternenfohlen series. The Wikipedia and web lookups were exhausted during investigation due to lookup limits.",
+    "reviewed_at": "2026-02-22T13:54:48.020178+00:00",
+    "reviewed_by": "review-series.py"
   }
 }

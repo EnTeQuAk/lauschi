@@ -239,6 +239,47 @@
         "reason": "TV series soundtracks and Gutenacht-Geschichten are different products from the original Hörspiel series. These are audio tracks from the TV show with different episode structure (11 short tracks vs 8-9 book chapters). Parents would expect these as a separate series entry."
       }
     ],
-    "notes": "GAP ANALYSIS: Episodes 2, 3, 4, 8 are missing from Spotify. Searches for 'Lauras Stern Folge 2/3/4', 'Band 2/3/4/8', and known titles from the book series (Laura und das kleine Kätzchen, Laura und der Traumfänger, Laura und das Seepferdchen, Laura und das Einhorn) did not return matches. These episodes appear to be genuinely unavailable on Spotify.\n\nDUPLICATE RESOLUTION: Episode 9 - 'Lauras Piratenschatz' (Erstleser) and 'Glitzernde Gutenacht-Geschichten' (TV series) are different content. The TV series version is being split to the new series. Episode 11 - 'Laura und die Osterüberraschung' (Erstleser) and 'Abenteuerliche Gutenacht-Geschichten' (TV series) are different content. The TV series version is being split to the new series.\n\nSERIES MIXING NOTE: The current series includes both 'Original Hörspiele' (Folge 1, 5, 7) and 'Erstleser' adaptations (Folge 6, 9, 11). These have the same episode numbering and are both book-based Hörspiele, so they work together as one series. The TV series soundtracks are being split as they are fundamentally different products (shorter format, different content structure, explicitly labeled as TV series)."
+    "notes": "GAP ANALYSIS: Episodes 2, 3, 4, 8 are missing from Spotify. Searches for 'Lauras Stern Folge 2/3/4', 'Band 2/3/4/8', and known titles from the book series (Laura und das kleine Kätzchen, Laura und der Traumfänger, Laura und das Seepferdchen, Laura und das Einhorn) did not return matches. These episodes appear to be genuinely unavailable on Spotify.\n\nDUPLICATE RESOLUTION: Episode 9 - 'Lauras Piratenschatz' (Erstleser) and 'Glitzernde Gutenacht-Geschichten' (TV series) are different content. The TV series version is being split to the new series. Episode 11 - 'Laura und die Osterüberraschung' (Erstleser) and 'Abenteuerliche Gutenacht-Geschichten' (TV series) are different content. The TV series version is being split to the new series.\n\nSERIES MIXING NOTE: The current series includes both 'Original Hörspiele' (Folge 1, 5, 7) and 'Erstleser' adaptations (Folge 6, 9, 11). These have the same episode numbering and are both book-based Hörspiele, so they work together as one series. The TV series soundtracks are being split as they are fundamentally different products (shorter format, different content structure, explicitly labeled as TV series).",
+    "verification": {
+      "model": "minimax-m2.5",
+      "verified_at": "2026-02-22T12:11:28.671337+00:00",
+      "approve": true,
+      "concerns": "Gap analysis notes episodes 2, 3, 4, 8 are missing from Spotify - this appears to be a genuine availability gap, not a curation error. The review correctly identifies that these episodes are not found on Spotify. One potential issue: The override for including 2m5U5mKG (Laura und die kleine Robbe) is marked as include, but from the excluded albums list it shows as already excluded. However, based on the reasoning, this seems correct - it should be included as episode 4 of the Erstleser series.",
+      "override_verdicts": [
+        {
+          "album_id": "2m5U5mKG",
+          "agree": true,
+          "reason": "Appears to be episode 4 of the Erstleser series, which should be included if it belongs to the series even without episode number in title."
+        },
+        {
+          "album_id": "03APgvGi",
+          "agree": true,
+          "reason": "TV series soundtrack correctly excluded for split to lauras_stern_tv_serie."
+        },
+        {
+          "album_id": "46BdFm6j",
+          "agree": true,
+          "reason": "TV series soundtrack correctly excluded for split to lauras_stern_tv_serie."
+        },
+        {
+          "album_id": "0AWAEwrd",
+          "agree": true,
+          "reason": "TV series Gutenacht-Geschichten correctly excluded for split to lauras_stern_tv_serie."
+        },
+        {
+          "album_id": "0HbQdPgM",
+          "agree": true,
+          "reason": "TV series Gutenacht-Geschichten correctly excluded for split to lauras_stern_tv_serie."
+        }
+      ],
+      "split_verdicts": [
+        {
+          "new_id": "lauras_stern_tv_serie",
+          "agree": true,
+          "reason": "TV series soundtracks and Gutenacht-Geschichten are different products from the original Hörspiel series. These are audio tracks from the TV show with different structure and should be separate."
+        }
+      ]
+    },
+    "status": "approved"
   }
 }
