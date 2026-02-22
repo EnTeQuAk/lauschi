@@ -155,5 +155,11 @@
     ],
     "age_note": "Suitable from 6+",
     "curator_notes": ""
+  },
+  "review": {
+    "reviewed_at": "2026-02-22T14:31:10.024848+00:00",
+    "reviewed_by": "review-series.py",
+    "overrides": [],
+    "notes": "Auto-approved: no gaps or duplicates found."
   }
 }

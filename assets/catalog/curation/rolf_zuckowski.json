@@ -921,5 +921,11 @@
     ],
     "age_note": "Suitable from 3+",
     "curator_notes": "German children's music legend (b. 1947) known for seasonal songs, educational music, and musical storytelling. Not a traditional Hörspiel series but rather musical albums with narrative elements. Features recurring themes like 'Rolfs...' seasonal collections (Vogelhochzeit, Hasengeschichte, Kinderfrühling, etc.), school songs, and holiday classics like 'In der Weihnachtsbäckerei'. Some albums are full musical stories (Der kleine Tag, Nobbi und die Sonnenkinder), others are song collections. Mix of original songs, instrumentals, and live recordings."
+  },
+  "review": {
+    "reviewed_at": "2026-02-22T14:31:10.085584+00:00",
+    "reviewed_by": "review-series.py",
+    "overrides": [],
+    "notes": "Auto-approved: no gaps or duplicates found."
   }
 }

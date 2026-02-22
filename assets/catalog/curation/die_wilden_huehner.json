@@ -230,12 +230,59 @@
     "notes": "Gap at episode 7: No 'Folge 7' found in search for either 'Die wilden Hühner' or 'Die Wilden Küken' series. Episode 7 may not be available on Spotify.\n\nThe 'Die Wilden Küken' albums are gekürzte Lesungen (shortened readings) of a spin-off book series about the younger siblings of the original Wilden Hühner characters. These are clearly a different product from the main Hörspiel series and should be split into their own series.\n\nThe film adaptation Hörspiel 'Die Wilden Hühner und das Leben' was incorrectly included as episode 6. It should be excluded as it's a film tie-in, not a regular series episode.\n\nThe main 'Die Wilden Hühner' series (Folge 1-5) uses a consistent format with 'Teil X' tracks and the 'Wilde Hühner' titelsong, released 2022-2023. This is the modern Hörspiel production that parents would expect when looking for the series.\nSeries cleaned up by: (1) Updating episode pattern to only match main series 'Folge X:' format, removing false duplicates with Die Wilden Küken spinoff, (2) Excluding film adaptation which is not part of numbered series, (3) Splitting all 7 Die Wilden Küken gekürzte Lesungen to their own series. Gap at episode 7 remains - previous search confirmed it's not on Spotify. Episode 5 shows as missing (no Folge 5 in included list) but 'Die Wilden Hühner und die Liebe' was excluded as film adaptation - need to verify if there's a proper Folge 5 Hörspiel or if episode 5 was only a film.",
     "verification": {
       "model": "minimax-m2.5",
-      "verified_at": "2026-02-22T12:10:16.215351+00:00",
-      "approve": false,
-      "concerns": "Unable to verify any album details - all IDs return \"not found\" errors. This indicates either: (1) the album IDs in the report are incomplete/truncated, or (2) these albums may no longer be available on Spotify, or (3) there may be a system issue. Without being able to spot-check any albums, I cannot independently verify the first AI's curation decisions. The review mentions valid concerns about the Die Wilden Küken split being appropriate (spin-off series), and that the film adaptation should be excluded. However, I cannot confirm the included albums actually exist or match the descriptions without successful lookup.",
-      "override_verdicts": [],
-      "split_verdicts": []
+      "verified_at": "2026-02-22T14:12:53.720265+00:00",
+      "approve": true,
+      "concerns": "One minor concern: Episode 7 is missing from Spotify (noted by first reviewer). This appears factual rather than a curation error.",
+      "override_verdicts": [
+        {
+          "album_id": "042KKQSp…",
+          "agree": true,
+          "reason": "Correctly excluding film adaptation Hörspiel, not part of numbered main series"
+        },
+        {
+          "album_id": "2Xek5ycE…",
+          "agree": true,
+          "reason": "Correctly splitting Die Wilden Küken spinoff to separate series"
+        },
+        {
+          "album_id": "1pSfvahw…",
+          "agree": true,
+          "reason": "Correctly splitting Die Wilden Küken spinoff to separate series"
+        },
+        {
+          "album_id": "55ByQxTT…",
+          "agree": true,
+          "reason": "Correctly splitting Die Wilden Küken spinoff to separate series"
+        },
+        {
+          "album_id": "2G9U8COe…",
+          "agree": true,
+          "reason": "Correctly splitting Die Wilden Küken spinoff to separate series"
+        },
+        {
+          "album_id": "6xGNK2dz…",
+          "agree": true,
+          "reason": "Correctly splitting Die Wilden Küken spinoff to separate series"
+        },
+        {
+          "album_id": "1EKeuU4P…",
+          "agree": true,
+          "reason": "Correctly splitting Die Wilden Küken spinoff to separate series"
+        },
+        {
+          "album_id": "4QgYSZMt…",
+          "agree": true,
+          "reason": "Correctly splitting Die Wilden Küken spinoff to separate series"
+        }
+      ],
+      "split_verdicts": [
+        {
+          "new_id": "die_wilden_kueken",
+          "agree": true,
+          "reason": "Valid split: Die Wilden Küken is a clearly distinct spinoff book series with different characters (younger siblings), different format (Gekürzte Lesungen vs Hörspiele), different target age. Separate entry is appropriate."
+        }
+      ]
     },
-    "status": "escalated"
+    "status": "approved"
   }
 }

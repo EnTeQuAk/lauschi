@@ -432,5 +432,11 @@
     ],
     "age_note": "Suitable from 3+",
     "curator_notes": "Main series consists of 16 numbered episodes (Folge 1-16) from the TV series, released 2019-2022. Earlier individual story releases from 1984-2014 are excluded as duplicates since their content is included in the numbered episodes. The 'Findus erklärt die Welt' spinoff series (10 albums) is excluded as it's an educational non-fiction series. Multiple movie adaptations and music albums are also excluded. No Retro-Archiv or Junior variants found for this series."
+  },
+  "review": {
+    "reviewed_at": "2026-02-22T14:31:10.073472+00:00",
+    "reviewed_by": "review-series.py",
+    "overrides": [],
+    "notes": "Auto-approved: no gaps or duplicates found."
   }
 }

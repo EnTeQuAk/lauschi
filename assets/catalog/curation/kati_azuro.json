@@ -295,5 +295,11 @@
     ],
     "age_note": "Suitable from 5+",
     "curator_notes": "Horse-themed adventure series. Episode naming changed from NN/Title format (episodes 1-29) to Folge NN: Title format (episodes 30-40) starting in 2021. All 40 individual episodes included - no box sets or duplicates detected."
+  },
+  "review": {
+    "reviewed_at": "2026-02-22T14:31:10.039409+00:00",
+    "reviewed_by": "review-series.py",
+    "overrides": [],
+    "notes": "Auto-approved: no gaps or duplicates found."
   }
 }

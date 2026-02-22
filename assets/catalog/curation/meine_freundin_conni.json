@@ -143,5 +143,11 @@
     ],
     "age_note": "Suitable from 3+",
     "curator_notes": "Main series consists of 10 numbered episodes (01-10), each containing 4 Hörspiele based on the TV series. The Corona special is a standalone release without episode number. Adventskalender releases, joke books, music albums, and movie tie-ins are excluded as they are not part of the main Hörspiel episode series."
+  },
+  "review": {
+    "reviewed_at": "2026-02-22T14:31:10.062507+00:00",
+    "reviewed_by": "review-series.py",
+    "overrides": [],
+    "notes": "Auto-approved: no gaps or duplicates found."
   }
 }

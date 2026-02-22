@@ -325,5 +325,11 @@
     ],
     "age_note": "Recommended 8+",
     "curator_notes": "TKKG Junior is the kid-friendly spinoff of the classic TKKG crime series. The main artist 'TKKG Junior' contains all numbered episodes (Folge 1-41). The regular 'TKKG' artist contains the original teen/adult series (episodes 1-239) which is a separate series with darker themes. The 'TKKG - Junior Investigators' artist contains English-language versions and should be excluded as non-German content. The 'TKKG Retro-Archiv' contains classic episodes from the original series (episodes 1-99) and belongs to the main TKKG series, not Junior. Note: Episode 20 was released out of order (2021-01-28) after episode 19 (2021-11-26), likely a re-release or correction. Episode 'Die Fußball-Lüge' appears to be a special episode released between Folge 33 and 34 without a number."
+  },
+  "review": {
+    "reviewed_at": "2026-02-22T14:38:11.174957+00:00",
+    "reviewed_by": "review-series.py",
+    "overrides": [],
+    "notes": "Auto-approved: no gaps or duplicates found."
   }
 }

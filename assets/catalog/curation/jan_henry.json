@@ -57,5 +57,11 @@
     ],
     "age_note": "Suitable from 3+",
     "curator_notes": "Children's Hörspiel series with short stories featuring Jan & Henry. Each album contains multiple short stories (8-10 per album) with songs. The series uses a 3-digit episode numbering format (001, 002, etc.) in album titles. All 6 albums are individual episodes - no box sets or duplicates found."
+  },
+  "review": {
+    "reviewed_at": "2026-02-22T14:31:10.035124+00:00",
+    "reviewed_by": "review-series.py",
+    "overrides": [],
+    "notes": "Auto-approved: no gaps or duplicates found."
   }
 }

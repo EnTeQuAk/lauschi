@@ -248,5 +248,11 @@
     ],
     "age_note": "Suitable from 4+",
     "curator_notes": "This is the 'Max' Hörspiel series about a young boy's everyday adventures. The series ran from 2012-2016 with 16 numbered episodes. Early albums (01-02, 06-07, 10-12) contain two shorter stories each; later albums (03-09, 13-14) contain single longer stories split into more parts. Albums 15-16 return to the two-story format. All episodes are published by Karussell."
+  },
+  "review": {
+    "reviewed_at": "2026-02-22T14:31:10.060301+00:00",
+    "reviewed_by": "review-series.py",
+    "overrides": [],
+    "notes": "Auto-approved: no gaps or duplicates found."
   }
 }

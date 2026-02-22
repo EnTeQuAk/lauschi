@@ -278,5 +278,11 @@
     ],
     "age_note": "Suitable from 4+",
     "curator_notes": "The series exists in two versions: classic (2012) and CGI (2015-2016). The CGI versions are more recent and are kept. Episodes 1-12 were re-released as CGI versions; episodes 13-15 only exist in the classic format. Episode numbering follows the format 'NN/Title' with optional '(CGI)' suffix."
+  },
+  "review": {
+    "reviewed_at": "2026-02-22T14:38:11.181766+00:00",
+    "reviewed_by": "review-series.py",
+    "overrides": [],
+    "notes": "Auto-approved: no gaps or duplicates found."
   }
 }

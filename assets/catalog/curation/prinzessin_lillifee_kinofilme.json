@@ -33,6 +33,8 @@
   "review": {
     "status": "pending",
     "overrides": [],
-    "notes": "Auto-created by apply-splits.py from prinzessin_lillifee."
+    "notes": "Auto-created by apply-splits.py from prinzessin_lillifee.\nAuto-approved: no gaps or duplicates found.",
+    "reviewed_at": "2026-02-22T14:31:10.077370+00:00",
+    "reviewed_by": "review-series.py"
   }
 }

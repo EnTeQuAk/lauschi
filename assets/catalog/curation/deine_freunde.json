@@ -1128,5 +1128,11 @@
     ],
     "age_note": "Suitable from 3+",
     "curator_notes": "German children's music group. Releases alternate between numbered concept albums/episodes (01-04) and standalone music albums. Has extensive spinoff content: instrumental versions, live recordings, Christmas album, and singles. Some albums licensed to Disney Jr. collaborations."
+  },
+  "review": {
+    "reviewed_at": "2026-02-22T14:24:28.273298+00:00",
+    "reviewed_by": "review-series.py",
+    "overrides": [],
+    "notes": "Auto-approved: no gaps or duplicates found."
   }
 }

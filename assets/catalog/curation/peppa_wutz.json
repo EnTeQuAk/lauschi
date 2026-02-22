@@ -573,5 +573,11 @@
     ],
     "age_note": "Suitable from 3+",
     "curator_notes": "Main series under 'Peppa Pig Hörspiele' (46iD7xFc8ubzILibDQ7fL7) contains 62 episodes. Early releases (Folge 1-17) were issued as 6-story compilations with 20 tracks each - these are excluded as box sets. The series transitioned to single-episode format from Folge 18 onwards (8 tracks each). Two secondary artists exist with only music compilations and story collections - all excluded as duplicates or non-Hörspiel content."
+  },
+  "review": {
+    "reviewed_at": "2026-02-22T14:31:10.071269+00:00",
+    "reviewed_by": "review-series.py",
+    "overrides": [],
+    "notes": "Auto-approved: no gaps or duplicates found."
   }
 }

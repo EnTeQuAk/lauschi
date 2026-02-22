@@ -304,5 +304,11 @@
     ],
     "age_note": "Suitable from 5+",
     "curator_notes": "The Hexe Lilli series has a complex release history with multiple sub-lines: (1) Main numbered episodes 1-24 with standard format (~40 tracks), (2) EUROPA mini/primo releases - shorter compilations with 2 stories per album, no episode numbers, (3) Erstlesergeschichten (beginner reader stories) - a separate educational line for young readers. Only the main numbered episodes are included. Note: Episode 9 exists in two versions - the main '009/und das magische Schwert' and an Erstlesergeschichten version which is excluded."
+  },
+  "review": {
+    "reviewed_at": "2026-02-22T14:31:10.033090+00:00",
+    "reviewed_by": "review-series.py",
+    "overrides": [],
+    "notes": "Auto-approved: no gaps or duplicates found."
   }
 }

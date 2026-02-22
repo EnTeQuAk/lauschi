@@ -628,5 +628,11 @@
     ],
     "age_note": "Suitable from 3+",
     "curator_notes": "79 individual episodes numbered 1-79 (note: episode 5 was released out of order in 2008). Excluded 7 compilation albums (seasonal collections with 60+ tracks each) and 1 song album. The series uses a 'Warum...?' naming pattern for each episode, teaching children about nature and animals. Very gentle educational content suitable for preschoolers."
+  },
+  "review": {
+    "reviewed_at": "2026-02-22T14:31:10.043947+00:00",
+    "reviewed_by": "review-series.py",
+    "overrides": [],
+    "notes": "Auto-approved: no gaps or duplicates found."
   }
 }

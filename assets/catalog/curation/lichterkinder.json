@@ -519,5 +519,11 @@
     ],
     "age_note": "Suitable from 3+",
     "curator_notes": "Lichterkinder is a new Hörspiel series (2025) following Liki and the star children on their adventures. Only 2 episodes have been released so far. The artist's extensive back-catalog consists primarily of educational song collections ('Lernland'), seasonal compilations, and children's activity songs - these are excluded as they are not narrative audio dramas. Episodes use 'Folge N' numbering with internal chapters labeled 'Teil N'."
+  },
+  "review": {
+    "reviewed_at": "2026-02-22T14:31:10.053911+00:00",
+    "reviewed_by": "review-series.py",
+    "overrides": [],
+    "notes": "Auto-approved: no gaps or duplicates found."
   }
 }

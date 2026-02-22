@@ -143,5 +143,11 @@
     ],
     "age_note": "Suitable from 6+",
     "curator_notes": "Classic Franco-Belgian comic adaptations as German Hörspiele. The numbered series (01-12) dates from 2002. New episodes released 2023-2025 continue the series without explicit numbering in album titles. All from Karussell label. Two other Spotify artists named 'Lucky Luke' are unrelated music producers (slap house/EDM)."
+  },
+  "review": {
+    "reviewed_at": "2026-02-22T14:31:10.058938+00:00",
+    "reviewed_by": "review-series.py",
+    "overrides": [],
+    "notes": "Auto-approved: no gaps or duplicates found."
   }
 }

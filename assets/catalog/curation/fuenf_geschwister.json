@@ -603,5 +603,11 @@
     ],
     "age_note": "Mystery-adventure series with mild tension; suitable from 6+",
     "curator_notes": "Note: Album '01: Der Fahrraddieb' (2026) appears to be a duplicate/remake. The original series begins with '01: Auf der Abenteuerburg' (1989) which precedes to '02: Lösen das Geheimnis der Abenteuerburg'. Note: 'Geheime Botschaft' and 'Nachricht eines Fremden' are short-form releases without episode numbers (2026). 'Der letzte Schrei' (10 tracks, ~30min) is without episode number. The series follows classic episode format with ~10-25 tracks per episode, 45-75min runtime."
+  },
+  "review": {
+    "reviewed_at": "2026-02-22T14:31:10.014792+00:00",
+    "reviewed_by": "review-series.py",
+    "overrides": [],
+    "notes": "Auto-approved: no gaps or duplicates found."
   }
 }

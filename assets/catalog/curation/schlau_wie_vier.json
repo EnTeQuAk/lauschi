@@ -14,5 +14,11 @@
     "albums": [],
     "age_note": "Recommended 8+",
     "curator_notes": "EDU Hörspiel series about a group of friends using knowledge to solve mysteries. Educational detective series."
+  },
+  "review": {
+    "reviewed_at": "2026-02-22T14:33:11.150638+00:00",
+    "reviewed_by": "review-series.py",
+    "overrides": [],
+    "notes": "Auto-approved: no gaps or duplicates found."
   }
 }

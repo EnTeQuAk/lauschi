@@ -556,5 +556,11 @@
     ],
     "age_note": "Suitable from 3+",
     "curator_notes": "This is the primary 'Eule findet den Beat' music-Hörspiel series. The artist has released 4 main episodes (2014-2022) that are full Musik-Hörspiele with stories and songs. Each episode has companion 'Die Songs' albums and instrumental versions which are excluded as they are not Hörspiele. The artist also appears on many various-artists compilation albums which are excluded. Age guidance: 3+ - gentle educational content about music and emotions."
+  },
+  "review": {
+    "reviewed_at": "2026-02-22T14:26:44.398726+00:00",
+    "reviewed_by": "review-series.py",
+    "overrides": [],
+    "notes": "Auto-approved: no gaps or duplicates found."
   }
 }

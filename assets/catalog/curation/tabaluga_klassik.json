@@ -69,6 +69,8 @@
   "review": {
     "status": "pending",
     "overrides": [],
-    "notes": "Auto-created by apply-splits.py from tabaluga."
+    "notes": "Auto-created by apply-splits.py from tabaluga.\nAuto-approved: no gaps or duplicates found.",
+    "reviewed_at": "2026-02-22T14:38:11.167278+00:00",
+    "reviewed_by": "review-series.py"
   }
 }

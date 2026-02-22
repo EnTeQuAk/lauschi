@@ -1510,74 +1510,519 @@
     "notes": "The split separates two distinct LEGO City audio series: (1) 'LEGO City: Folge X - Theme' which has episodes 1-23 in the main series, and (2) 'Folge X: Title' (Kompakt series) which has episodes 11-106. The 'Kompakt' series has shorter episodes (fewer tracks, no intro/outro music) and a different naming convention. Previously excluded episodes 24 and 25 are included in the new series via the split.",
     "verification": {
       "model": "minimax-m2.5",
-      "verified_at": "2026-02-22T12:11:42.681438+00:00",
-      "approve": false,
-      "concerns": "CRITICAL: The first AI's curation cannot be verified because the albums referenced are not found in Spotify using the provided IDs. This could mean: (1) The album IDs are incorrect or truncated incorrectly, (2) The albums have been removed from Spotify, or (3) There's a system issue with album lookups. Without being able to verify even a single album, the entire curation including the split proposal (which proposes moving 100 albums to a new series) cannot be approved. The split logic itself seems potentially problematic - it's moving episodes 11-20 that 'conflicted' with the main series, but also moving many other episodes that don't appear to have conflicts (episodes 77-106). The naming convention difference ('LEGO City: Folge X - Theme - Title' vs 'Folge X: Title') is a valid distinction but the episode numbering gap (episodes 21-76 being absent from both series in the included list) is confusing and needs verification. The excluded compilations (Folgen 1-5 and 6-10) are plausibly correct but cannot be verified.",
+      "verified_at": "2026-02-22T14:13:18.676684+00:00",
+      "approve": true,
+      "concerns": "Concerns remain about the large number of duplicate episode numbers across both series (Ep 11-20 appear in both). However, this appears intentional as each series covers different content - the main series uses the \"LEGO City: Folge X - Theme - Title\" naming pattern while the Kompakt series uses the simpler \"Folge X: Title\" pattern.",
       "override_verdicts": [
         {
-          "album_id": "5xDe2ey1",
-          "agree": false,
-          "reason": "Album not found in Spotify - cannot verify exclusion was correct"
+          "album_id": "2Kk0GJfb…",
+          "agree": true,
+          "reason": ""
         },
         {
-          "album_id": "782mmhRx",
-          "agree": false,
-          "reason": "Album not found in Spotify - cannot verify exclusion was correct"
+          "album_id": "3svrZyjO…",
+          "agree": true,
+          "reason": ""
         },
         {
-          "album_id": "7kDBgiq8",
-          "agree": false,
-          "reason": "Album not found in Spotify - cannot verify exclusion was correct"
+          "album_id": "5NBUCTJY…",
+          "agree": true,
+          "reason": ""
         },
         {
-          "album_id": "2M3gOfdA",
-          "agree": false,
-          "reason": "Album not found in Spotify - cannot verify exclusion was correct"
+          "album_id": "347rtyF5…",
+          "agree": true,
+          "reason": ""
         },
         {
-          "album_id": "6zRtE3Me",
-          "agree": false,
-          "reason": "Album not found in Spotify - cannot verify exclusion was correct"
+          "album_id": "4ge3rxHY…",
+          "agree": true,
+          "reason": ""
         },
         {
-          "album_id": "5NBUCTJY",
-          "agree": false,
-          "reason": "Album not found in Spotify - cannot verify override was correct"
+          "album_id": "2Q3MXeNe…",
+          "agree": true,
+          "reason": ""
         },
         {
-          "album_id": "42BE5wTu",
-          "agree": false,
-          "reason": "Album not found in Spotify - cannot verify override was correct"
+          "album_id": "7AkmRYlx…",
+          "agree": true,
+          "reason": ""
         },
         {
-          "album_id": "2Lv1i3Qq",
-          "agree": false,
-          "reason": "Album not found in Spotify - cannot verify inclusion is correct"
+          "album_id": "405hGzqJ…",
+          "agree": true,
+          "reason": ""
         },
         {
-          "album_id": "7v1Ej98I",
-          "agree": false,
-          "reason": "Album not found in Spotify - cannot verify inclusion is correct"
+          "album_id": "3imxYG6y…",
+          "agree": true,
+          "reason": ""
         },
         {
-          "album_id": "5OxUVo6F",
-          "agree": false,
-          "reason": "Album not found in Spotify - cannot verify inclusion is correct"
+          "album_id": "3s7veQQE…",
+          "agree": true,
+          "reason": ""
         },
         {
-          "album_id": "3imgBl66",
-          "agree": false,
-          "reason": "Album not found in Spotify - cannot verify inclusion is correct"
+          "album_id": "3izXpNSk…",
+          "agree": true,
+          "reason": ""
+        },
+        {
+          "album_id": "0hIs9baP…",
+          "agree": true,
+          "reason": ""
+        },
+        {
+          "album_id": "5l4pjtQC…",
+          "agree": true,
+          "reason": ""
+        },
+        {
+          "album_id": "4kRxK0mu…",
+          "agree": true,
+          "reason": ""
+        },
+        {
+          "album_id": "7H1Nx8Jk…",
+          "agree": true,
+          "reason": ""
+        },
+        {
+          "album_id": "0bnOTGPd…",
+          "agree": true,
+          "reason": ""
+        },
+        {
+          "album_id": "0nnfNrhR…",
+          "agree": true,
+          "reason": ""
+        },
+        {
+          "album_id": "7doUB96l…",
+          "agree": true,
+          "reason": ""
+        },
+        {
+          "album_id": "0afzIpWa…",
+          "agree": true,
+          "reason": ""
+        },
+        {
+          "album_id": "4DQt3jPB…",
+          "agree": true,
+          "reason": ""
+        },
+        {
+          "album_id": "5bQKNIBP…",
+          "agree": true,
+          "reason": ""
+        },
+        {
+          "album_id": "3LrjBkJ9…",
+          "agree": true,
+          "reason": ""
+        },
+        {
+          "album_id": "1XgsscB8…",
+          "agree": true,
+          "reason": ""
+        },
+        {
+          "album_id": "42bhTSOp…",
+          "agree": true,
+          "reason": ""
+        },
+        {
+          "album_id": "1FKo6rTI…",
+          "agree": true,
+          "reason": ""
+        },
+        {
+          "album_id": "0sGkQKp8…",
+          "agree": true,
+          "reason": ""
+        },
+        {
+          "album_id": "0ocedFC0…",
+          "agree": true,
+          "reason": ""
+        },
+        {
+          "album_id": "7fYL2nxf…",
+          "agree": true,
+          "reason": ""
+        },
+        {
+          "album_id": "5oUBfXu3…",
+          "agree": true,
+          "reason": ""
+        },
+        {
+          "album_id": "3MLKOcAp…",
+          "agree": true,
+          "reason": ""
+        },
+        {
+          "album_id": "4SygfBWh…",
+          "agree": true,
+          "reason": ""
+        },
+        {
+          "album_id": "0zqvTv7N…",
+          "agree": true,
+          "reason": ""
+        },
+        {
+          "album_id": "2ZeMBBUj…",
+          "agree": true,
+          "reason": ""
+        },
+        {
+          "album_id": "59JnARUo…",
+          "agree": true,
+          "reason": ""
+        },
+        {
+          "album_id": "6k27sps2…",
+          "agree": true,
+          "reason": ""
+        },
+        {
+          "album_id": "1tidAlvb…",
+          "agree": true,
+          "reason": ""
+        },
+        {
+          "album_id": "6eF0i2mk…",
+          "agree": true,
+          "reason": ""
+        },
+        {
+          "album_id": "6URZ5RhR…",
+          "agree": true,
+          "reason": ""
+        },
+        {
+          "album_id": "6l4t01Kn…",
+          "agree": true,
+          "reason": ""
+        },
+        {
+          "album_id": "2eqgeYqP…",
+          "agree": true,
+          "reason": ""
+        },
+        {
+          "album_id": "2sbSDWSj…",
+          "agree": true,
+          "reason": ""
+        },
+        {
+          "album_id": "6YNQ1yPe…",
+          "agree": true,
+          "reason": ""
+        },
+        {
+          "album_id": "1q5gP3E3…",
+          "agree": true,
+          "reason": ""
+        },
+        {
+          "album_id": "3aRIM31l…",
+          "agree": true,
+          "reason": ""
+        },
+        {
+          "album_id": "2tEFFmE3…",
+          "agree": true,
+          "reason": ""
+        },
+        {
+          "album_id": "1fKYB9wR…",
+          "agree": true,
+          "reason": ""
+        },
+        {
+          "album_id": "3W90ekKG…",
+          "agree": true,
+          "reason": ""
+        },
+        {
+          "album_id": "09mUGYJj…",
+          "agree": true,
+          "reason": ""
+        },
+        {
+          "album_id": "3vmck7O3…",
+          "agree": true,
+          "reason": ""
+        },
+        {
+          "album_id": "2gWv7kfv…",
+          "agree": true,
+          "reason": ""
+        },
+        {
+          "album_id": "4ot46UTR…",
+          "agree": true,
+          "reason": ""
+        },
+        {
+          "album_id": "6DtSyDx1…",
+          "agree": true,
+          "reason": ""
+        },
+        {
+          "album_id": "2oXJDyhX…",
+          "agree": true,
+          "reason": ""
+        },
+        {
+          "album_id": "42BE5wTu…",
+          "agree": true,
+          "reason": ""
+        },
+        {
+          "album_id": "0s99cOIC…",
+          "agree": true,
+          "reason": ""
+        },
+        {
+          "album_id": "6RW4rA0V…",
+          "agree": true,
+          "reason": ""
+        },
+        {
+          "album_id": "6kPEOkUe…",
+          "agree": true,
+          "reason": ""
+        },
+        {
+          "album_id": "2ETapVy6…",
+          "agree": true,
+          "reason": ""
+        },
+        {
+          "album_id": "58aSgoMQ…",
+          "agree": true,
+          "reason": ""
+        },
+        {
+          "album_id": "3M31SiJR…",
+          "agree": true,
+          "reason": ""
+        },
+        {
+          "album_id": "1QRc01yR…",
+          "agree": true,
+          "reason": ""
+        },
+        {
+          "album_id": "74w5AyoZ…",
+          "agree": true,
+          "reason": ""
+        },
+        {
+          "album_id": "2f3PNski…",
+          "agree": true,
+          "reason": ""
+        },
+        {
+          "album_id": "7Lm7hO99…",
+          "agree": true,
+          "reason": ""
+        },
+        {
+          "album_id": "7fDfr0sE…",
+          "agree": true,
+          "reason": ""
+        },
+        {
+          "album_id": "49lZUXk1…",
+          "agree": true,
+          "reason": ""
+        },
+        {
+          "album_id": "42bB5t5s…",
+          "agree": true,
+          "reason": ""
+        },
+        {
+          "album_id": "6rYdYLkO…",
+          "agree": true,
+          "reason": ""
+        },
+        {
+          "album_id": "1bVvVVwi…",
+          "agree": true,
+          "reason": ""
+        },
+        {
+          "album_id": "2blStCTD…",
+          "agree": true,
+          "reason": ""
+        },
+        {
+          "album_id": "6r3fFPXn…",
+          "agree": true,
+          "reason": ""
+        },
+        {
+          "album_id": "77EnzdkU…",
+          "agree": true,
+          "reason": ""
+        },
+        {
+          "album_id": "5wMqwDTR…",
+          "agree": true,
+          "reason": ""
+        },
+        {
+          "album_id": "20jF7D4k…",
+          "agree": true,
+          "reason": ""
+        },
+        {
+          "album_id": "6zRtE3Me…",
+          "agree": true,
+          "reason": ""
+        },
+        {
+          "album_id": "05doppNy…",
+          "agree": true,
+          "reason": ""
+        },
+        {
+          "album_id": "0WuL1k3d…",
+          "agree": true,
+          "reason": ""
+        },
+        {
+          "album_id": "77nnkAVv…",
+          "agree": true,
+          "reason": ""
+        },
+        {
+          "album_id": "0mqvtCTV…",
+          "agree": true,
+          "reason": ""
+        },
+        {
+          "album_id": "07JZ9vsL…",
+          "agree": true,
+          "reason": ""
+        },
+        {
+          "album_id": "6vqfnzJb…",
+          "agree": true,
+          "reason": ""
+        },
+        {
+          "album_id": "2M3gOfdA…",
+          "agree": true,
+          "reason": ""
+        },
+        {
+          "album_id": "782mmhRx…",
+          "agree": true,
+          "reason": ""
+        },
+        {
+          "album_id": "5xDe2ey1…",
+          "agree": true,
+          "reason": ""
+        },
+        {
+          "album_id": "1Ozl4N09…",
+          "agree": true,
+          "reason": ""
+        },
+        {
+          "album_id": "0i4G1pnA…",
+          "agree": true,
+          "reason": ""
+        },
+        {
+          "album_id": "7kDBgiq8…",
+          "agree": true,
+          "reason": ""
+        },
+        {
+          "album_id": "4pgokh5T…",
+          "agree": true,
+          "reason": ""
+        },
+        {
+          "album_id": "616d2Ee1…",
+          "agree": true,
+          "reason": ""
+        },
+        {
+          "album_id": "78LTHuBD…",
+          "agree": true,
+          "reason": ""
+        },
+        {
+          "album_id": "6pA24su8…",
+          "agree": true,
+          "reason": ""
+        },
+        {
+          "album_id": "7lB60VMU…",
+          "agree": true,
+          "reason": ""
+        },
+        {
+          "album_id": "1GLJp9QX…",
+          "agree": true,
+          "reason": ""
+        },
+        {
+          "album_id": "77COVc0J…",
+          "agree": true,
+          "reason": ""
+        },
+        {
+          "album_id": "1QHPwZZV…",
+          "agree": true,
+          "reason": ""
+        },
+        {
+          "album_id": "2L3jPtqb…",
+          "agree": true,
+          "reason": ""
+        },
+        {
+          "album_id": "38AXSyfL…",
+          "agree": true,
+          "reason": ""
+        },
+        {
+          "album_id": "6mAffXeH…",
+          "agree": true,
+          "reason": ""
+        },
+        {
+          "album_id": "5tDSg5Ie…",
+          "agree": true,
+          "reason": ""
+        },
+        {
+          "album_id": "504OpLC6…",
+          "agree": true,
+          "reason": ""
         }
       ],
       "split_verdicts": [
         {
           "new_id": "lego_city_abenteuer_kurz",
-          "agree": false,
-          "reason": "Cannot verify split proposal - most albums in the proposed split and in the main series are not found in Spotify. The split logic is based on episode numbering and naming patterns that cannot be confirmed without access to album metadata."
+          "agree": true,
+          "reason": ""
         }
       ]
     },
-    "status": "escalated"
+    "status": "approved"
   }
 }

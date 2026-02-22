@@ -465,5 +465,11 @@
     ],
     "age_note": "Suitable from 3+",
     "curator_notes": "The main Janosch Hörspiel series consists of 4 numbered episodes (Folge 1-4) released by Floff. The artist 'Tiger und Bär' contains newer spinoff stories based on Janosch's characters but these are not part of the classic numbered series. Foreign language versions (Polish, Finnish, Italian, French, Icelandic) are excluded. The 'Väter sprechen Janosch' series features celebrity narrators (Til Schweiger, Günther Jauch, Wigald Boning) reading the same stories but are excluded as they represent an alternate narration, not the original Hörspiel production."
+  },
+  "review": {
+    "reviewed_at": "2026-02-22T14:31:10.036528+00:00",
+    "reviewed_by": "review-series.py",
+    "overrides": [],
+    "notes": "Auto-approved: no gaps or duplicates found."
   }
 }

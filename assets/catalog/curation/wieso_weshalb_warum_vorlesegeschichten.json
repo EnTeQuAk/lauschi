@@ -44,6 +44,8 @@
   "review": {
     "status": "pending",
     "overrides": [],
-    "notes": "Auto-created by apply-splits.py from wieso_weshalb_warum."
+    "notes": "Auto-created by apply-splits.py from wieso_weshalb_warum.\nAuto-approved: no gaps or duplicates found.",
+    "reviewed_at": "2026-02-22T14:38:11.186930+00:00",
+    "reviewed_by": "review-series.py"
   }
 }

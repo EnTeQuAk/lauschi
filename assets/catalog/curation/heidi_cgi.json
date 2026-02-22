@@ -110,6 +110,8 @@
   "review": {
     "status": "pending",
     "overrides": [],
-    "notes": "Auto-created by apply-splits.py from heidi."
+    "notes": "Auto-created by apply-splits.py from heidi.\nAuto-approved: no gaps or duplicates found.",
+    "reviewed_at": "2026-02-22T14:31:10.031741+00:00",
+    "reviewed_by": "review-series.py"
   }
 }

@@ -416,5 +416,11 @@
     ],
     "age_note": "Suitable from 6+",
     "curator_notes": "Die Punkies is a music-themed Hörspiel series about a teenage band. Main series runs Folge 1-45. Note: Folge 103 is actually a Teufelskicker crossover/spinoff and should be excluded. Music compilations (Nur die Musik Vol. 1 & 2) and singles are excluded as they contain only songs, not Hörspiel content. The Adventskalender is a special Christmas calendar release with 24 mini-stories, excluded as box set format."
+  },
+  "review": {
+    "reviewed_at": "2026-02-22T14:26:04.248295+00:00",
+    "reviewed_by": "review-series.py",
+    "overrides": [],
+    "notes": "Auto-approved: no gaps or duplicates found."
   }
 }

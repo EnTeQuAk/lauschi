@@ -69,5 +69,11 @@
     ],
     "age_note": "Suitable from 5+",
     "curator_notes": "The series is based on Astrid Lindgren's classic Swedish children's books 'Vi på Saltkråkan'. The main artist 'Ferien auf Saltkrokan' only has 2 albums - one compilation box set (excluded) and one Christmas special (included). The actual episodes are found under 'Astrid Lindgren Deutsch' which contains the numbered releases (1-2) and individual story releases (3-6). No Retro-Archiv or Junior variants exist for this series."
+  },
+  "review": {
+    "reviewed_at": "2026-02-22T14:26:44.400397+00:00",
+    "reviewed_by": "review-series.py",
+    "overrides": [],
+    "notes": "Auto-approved: no gaps or duplicates found."
   }
 }

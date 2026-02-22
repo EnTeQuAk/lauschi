@@ -883,5 +883,11 @@
     ],
     "age_note": "Suitable from 3+",
     "curator_notes": "Primarily Kinderlieder (children's songs) rather than narrative Hörspiele — includes themed compilations (sleep songs, Christmas songs, seasons). Note the 'Neues aus der Milchzahnstrasse / Bahnhof Bauch' entries which are the artist's popular storytelling format; Detlev Jöcker is also known for Singemaus character albums and the 'Bahnhof Bauch' universe."
+  },
+  "review": {
+    "reviewed_at": "2026-02-22T14:25:14.799747+00:00",
+    "reviewed_by": "review-series.py",
+    "overrides": [],
+    "notes": "Auto-approved: no gaps or duplicates found."
   }
 }

@@ -519,5 +519,11 @@
     ],
     "age_note": "Suitable from 3+",
     "curator_notes": "IMPORTANT: Kikaninchen is NOT a traditional Hörspiel series with numbered episodes. It is a children's music character from German TV channel KiKA (Kinderkanal). The discography consists entirely of: (1) Original song albums (4 main albums: Dibedibedab!, Wir tanzen spielen singen Lieder, Die Welt ist bunt, Die Mischung macht's), (2) Two 'Mein Geschichtenkissen' collections containing 10-19 short stories (Kurzhörspiele) without episode numbers, and (3) Dozens of compilation albums featuring various artists. For a Hörspiel-focused player like lauschi, this series has no suitable content - there are no serialized Hörspiel episodes. The 'Geschichtenkissen' albums are the closest but are short story collections (3-8 min stories) rather than numbered episodes in a series."
+  },
+  "review": {
+    "reviewed_at": "2026-02-22T14:31:10.040852+00:00",
+    "reviewed_by": "review-series.py",
+    "overrides": [],
+    "notes": "Auto-approved: no gaps or duplicates found."
   }
 }

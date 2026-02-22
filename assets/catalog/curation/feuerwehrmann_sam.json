@@ -1216,5 +1216,11 @@
     ],
     "age_note": "Suitable from 3+",
     "curator_notes": "Main series runs as individual numbered episodes (Folge NNN). Multiple box sets exist that compile episodes - these are excluded. Several movie audio dramas also exist and are excluded. SAGA Egmont publishes standalone story versions without episode numbers that duplicate numbered episodes - these are excluded to avoid duplication."
+  },
+  "review": {
+    "reviewed_at": "2026-02-22T14:26:44.402063+00:00",
+    "reviewed_by": "review-series.py",
+    "overrides": [],
+    "notes": "Auto-approved: no gaps or duplicates found."
   }
 }

@@ -861,5 +861,11 @@
     ],
     "age_note": "Suitable from 5+",
     "curator_notes": "Main series runs 1-98 (no episode 100 yet). Note: There is a separate PLAYMOBIL Hörspiele artist (6MxC9BIArt5BknNwpkTxFe) with spinoff series: Novelmore, PIRATES, Adventures of Ayuma, Horses Of Waterfall, Wiltopia, Dino Rise - these are distinct toy lines with their own storylines and not part of the core Die Playmos series. Some short stories without episode numbers were released in 2015 and 2019 but excluded as they don't fit the main numbered series."
+  },
+  "review": {
+    "reviewed_at": "2026-02-22T14:26:04.246595+00:00",
+    "reviewed_by": "review-series.py",
+    "overrides": [],
+    "notes": "Auto-approved: no gaps or duplicates found."
   }
 }

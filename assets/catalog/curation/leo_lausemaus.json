@@ -934,5 +934,11 @@
     ],
     "age_note": "Suitable from 3+",
     "curator_notes": "Leo Lausemaus has two distinct release formats on Spotify: 1) Recent individual episodes (2025) numbered 01-104, each containing a single story with 4-5 tracks. 2) Classic CD box sets (2007-2024) labeled 'Folge 1-21', each containing 4 stories with 23-32 tracks including songs. The curator includes all 104 individual episodes (new format) and excludes all box sets to avoid duplication. The series teaches social-emotional skills for preschoolers through relatable everyday situations."
+  },
+  "review": {
+    "reviewed_at": "2026-02-22T14:31:10.052242+00:00",
+    "reviewed_by": "review-series.py",
+    "overrides": [],
+    "notes": "Auto-approved: no gaps or duplicates found."
   }
 }

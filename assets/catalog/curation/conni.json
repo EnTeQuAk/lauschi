@@ -664,5 +664,11 @@
     ],
     "age_note": "Suitable from 3+",
     "curator_notes": "Main series 'Meine Freundin Conni' episodes. Excluded: 2 Conni & Co movie tie-ins (different artist), 2 box sets (Adventskalender, Pferdegeschichten compilation). Many releases are double-episodes with two stories in one album."
+  },
+  "review": {
+    "reviewed_at": "2026-02-22T14:23:46.637896+00:00",
+    "reviewed_by": "review-series.py",
+    "overrides": [],
+    "notes": "Auto-approved: no gaps or duplicates found."
   }
 }

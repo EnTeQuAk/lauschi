@@ -29,5 +29,11 @@
     ],
     "age_note": "Suitable from 6+",
     "curator_notes": "Ronja Räubertochter is a complete single-story Hörspiel (not an episodic series). Unlike typical DACH Hörspiel series with numbered episodes (Folge 1, 2, 3...), this is Astrid Lindgren's classic novel adapted as a complete radio play. The 1982 Oetinger AUDIO production (34 tracks) is the canonical German Hörspiel version. An unabridged audiobook reading (100 tracks) is excluded as it's a different format. No 'Retro-Archiv' or 'Junior' variants exist as this is a standalone classic release. The Swedish version 'Ronja Rövardotter' exists under the separate 'Astrid Lindgren' artist but is not part of the German DACH curation."
+  },
+  "review": {
+    "reviewed_at": "2026-02-22T14:31:10.087185+00:00",
+    "reviewed_by": "review-series.py",
+    "overrides": [],
+    "notes": "Auto-approved: no gaps or duplicates found."
   }
 }

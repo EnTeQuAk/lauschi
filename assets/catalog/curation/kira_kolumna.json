@@ -381,5 +381,11 @@
     ],
     "age_note": "Recommended 8+",
     "curator_notes": "Series includes 25 main episodes (Folge 1-25) plus 13 documentary-style 'Reportage' spin-offs. Excluded singles/EPs are theme songs and music releases, not Hörspiel content. One album 'Folge 139: Chaos am Flughafen' is actually a Bibi Blocksberg episode misattributed to this artist."
+  },
+  "review": {
+    "reviewed_at": "2026-02-22T14:31:10.042389+00:00",
+    "reviewed_by": "review-series.py",
+    "overrides": [],
+    "notes": "Auto-approved: no gaps or duplicates found."
   }
 }

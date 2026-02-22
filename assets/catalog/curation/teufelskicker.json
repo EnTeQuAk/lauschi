@@ -969,5 +969,11 @@
     ],
     "age_note": "Suitable from 5+",
     "curator_notes": "Long-running football-themed series about a youth team. Includes special spinoff miniseries with tournament knowledge episodes (EM 2024, Frauen-WM), which follow different numbering and naming conventions."
+  },
+  "review": {
+    "reviewed_at": "2026-02-22T14:38:11.171271+00:00",
+    "reviewed_by": "review-series.py",
+    "overrides": [],
+    "notes": "Auto-approved: no gaps or duplicates found."
   }
 }

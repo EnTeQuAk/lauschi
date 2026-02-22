@@ -1081,5 +1081,11 @@
     ],
     "age_note": "Recommended 8+",
     "curator_notes": "Long-running detective series with regular numbered episodes plus special formats including Adventskalender (Christmas countdown stories), themed compilation albums (Eiskalte/Gruselige/Urlaubs-Fälle), and occasional variant numbering (e.g., '217/Tödliche Klarinette'). Some episodes tie into live tours."
+  },
+  "review": {
+    "reviewed_at": "2026-02-22T14:38:11.173092+00:00",
+    "reviewed_by": "review-series.py",
+    "overrides": [],
+    "notes": "Auto-approved: no gaps or duplicates found."
   }
 }

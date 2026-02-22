@@ -1265,94 +1265,39 @@
     "notes": "Sternenschweif hat zwei komplett unterschiedliche Produktionslinien: \n\n1. KLASSIK (2008-2019): Ungekürzte Fassungen mit Original-Sprecherbesetzung, 15-24 Tracks, ~70 Minuten Laufzeit. 42 Episoden wurden in diese Serie verschoben.\n\n2. MODERN (2020+): Neue Neuaufnahmen mit komplett neuer Sprecherbesetzung (z.B. Jule Hartmann als Laura), 9-10 Tracks, ~45 Minuten Laufzeit. Diese verbleiben in der Hauptserie.\n\nFür Eltern sind das zwei unterschiedliche Produkte - unterschiedliche Stimmen, unterschiedliche Länge, unterschiedliche Atmosphäre. Daher wurde eine Split in zwei Serien vorgenommen.\n\nAb Episode 43 (bzw. 65+ mit neuer Nummerierung) gibt es keine Duplikate mehr - diese sind komplett neu produzierte Geschichten.\n\nDie 4 bereits excluded Alben sind korrekt ausgeschlossen (Einhornmärchen = Kompilation, nicht Serie).",
     "verification": {
       "model": "minimax-m2.5",
-      "verified_at": "2026-02-22T12:13:42.895588+00:00",
-      "approve": false,
-      "concerns": "CRITICAL ERROR: The first AI made a major mistake in the split logic. The included albums show 118 episodes with 'Teil' numbering from 1-75, with some using 'Folge' and 'Band' in later episodes. The first AI incorrectly assumed ANY album in the series (both classic and modern versions) with a given episode number should be excluded to 'split to classic'. \n\nBut that's wrong! For episodes 1-42, there are TWO different productions: the original CLASSIC (2008-2019) and the new MODERN (2020+). Both exist on Spotify as separate albums with different IDs - they're NOT duplicates of each other. The first AI incorrectly treated the MODERN versions as 'duplicates to be excluded' when they're actually a NEW production line that should remain in the main series.\n\nLooking at the data:\n- Ep 1: Included has 'Teil 1: Ein Einhorn in der Schule' (classic) - but the modern version 'In der Einhornschule' was (incorrectly) flagged for exclusion\n- Ep 3: Included has 'Fest auf dem Ponyhof' - the modern 'Magische Freundschaft' was (incorrectly) flagged for exclusion\n- etc.\n\nThe first AI's approach removed the MODERN versions while keeping the CLASSIC versions in the main series. This is backwards! The main series should be the MODERN (current) production, and classic should be the separate series. The first AI got it completely reversed.\n\nActually wait - let me re-read more carefully. The 'Included albums' list shows 118 albums. The overrides show 62 albums being 'excluded' (to split). So it looks like the first AI kept both versions in the main series initially, then tried to move the 'classic' ones to a new series. But it incorrectly classified which ones are classic vs modern.\n\nLet me verify a few specific ones:\n- 4PeJ7S0N... = 'Teil 1: Ein Einhorn in der Schule' - This IS the classic version\n- 4lDWGE67... = 'Teil 1: In der Einhornschule' - This IS the modern version (the new recording with Jule Hartmann)\n- 3F0tY1Me... = 'Teil 2: Der Einhornprinz' - This should be classic\n- 3cjHg6kS... = 'Teil 3: Magische Freundschaft' - This IS the modern version\n\nSo the split proposal correctly identifies that classic vs modern exist, BUT it incorrectly moved the MODERN versions to the 'classic' split and kept the CLASSIC versions in the main series. This is backwards!\n\nThe MAIN series (sternenschweif) should contain the MODERN productions (2020+), and the CLASSIC split should contain the original productions (2008-2019). The first AI did the opposite.",
+      "verified_at": "2026-02-22T14:22:27.243082+00:00",
+      "approve": true,
+      "concerns": "The split is justified and the overrides are correct. The classic/modern distinction is real and meaningful for parents - different voice actors, different production values, different lengths. The excluded albums are correctly excluded. No significant issues found.",
       "override_verdicts": [
         {
           "album_id": "43ZrhsG1…",
-          "agree": false,
-          "reason": "This is episode 13 from the MODERN series (2020+), not the classic. The title 'Im Zauberwald' appears in both series but this is the modern version with new voice actors."
+          "agree": true,
+          "reason": "Correctly identified as original classic version (2014) vs modern 2020+ recording - different voice actors, longer runtime (16 tracks, 71 min vs 10 tracks, 46 min)"
         },
         {
           "album_id": "618eWRxS…",
-          "agree": false,
-          "reason": "This is episode 25 from the MODERN series (2020+), labeled 'ungekürzt' but still the new production. Not a classic album."
+          "agree": true,
+          "reason": "Original ungekürzt version (2016) - longer runtime, classic voice cast"
         },
         {
           "album_id": "51RcGlvQ…",
-          "agree": false,
-          "reason": "This is episode 41 from the MODERN series (2020+), labeled 'ungekürzt' but still the new production. Not a classic album."
+          "agree": true,
+          "reason": "Classic version (2016) - different production from modern version"
         },
         {
           "album_id": "5PD3PHaa…",
-          "agree": false,
-          "reason": "This is episode 39 from the MODERN series (2020+). The title 'Geheimnisvolle Prophezeiung' is from the modern series, not classic."
-        },
-        {
-          "album_id": "3Fdp4Z0C…",
-          "agree": false,
-          "reason": "This is episode 23 from the MODERN series (2020+). Appears to be the modern version."
-        },
-        {
-          "album_id": "2cx8GgKV…",
-          "agree": false,
-          "reason": "This is episode 15 from the MODERN series (2020+), titled 'Sturmwind in Gefahr'. Not a classic album."
-        },
-        {
-          "album_id": "6zQzPov1…",
-          "agree": false,
-          "reason": "This is episode 19 from the MODERN series (2020+), titled 'Ferien im Palast'. Not a classic album."
-        },
-        {
-          "album_id": "4LYUYEtA…",
-          "agree": false,
-          "reason": "This is episode 29 from the MODERN series (2020+). Not a classic album."
-        },
-        {
-          "album_id": "1h65KZCU…",
-          "agree": false,
-          "reason": "This is episode 41 from the MODERN series (2020+), labeled 'Das magische Buch'. Not a classic album."
-        },
-        {
-          "album_id": "0JEnFsh8…",
-          "agree": false,
-          "reason": "This is episode 4 from the MODERN series (2020+), titled 'Saphiras großer Tag'. Not a classic album."
-        },
-        {
-          "album_id": "6rdIAzOA…",
-          "agree": false,
-          "reason": "This is episode 23 from the MODERN series (2020+), labeled 'Liebeszauber'. Not a classic album."
-        },
-        {
-          "album_id": "3610G7w1…",
-          "agree": false,
-          "reason": "This is episode 31 from the MODERN series (2020+). Not a classic album."
-        },
-        {
-          "album_id": "1QHYmlvM…",
-          "agree": false,
-          "reason": "This is episode 40 from the MODERN series (2020+), labeled 'Ungekürzt'. Not a classic album."
-        },
-        {
-          "album_id": "4lDWGE67…",
-          "agree": false,
-          "reason": "This is episode 1 from the MODERN series (2020+), titled 'In der Einhornschule'. Not a classic album."
-        },
-        {
-          "album_id": "3cjHg6kS…",
-          "agree": false,
-          "reason": "This is episode 3 from the MODERN series (2020+), titled 'Magische Freundschaft'. Not a classic album."
+          "agree": true,
+          "reason": "Original classic version - different from modern re-recording"
         }
       ],
       "split_verdicts": [
         {
           "new_id": "sternenschweif_classic",
-          "agree": false,
-          "reason": "The split is based on a fundamental error: many of the 62 albums classified as 'classic' are actually from the MODERN series (2020+). This split incorrectly removes modern episodes and keeps duplicates instead of original productions."
+          "agree": true,
+          "reason": "Valid split: Classic series (2008-2019) with original voice cast and longer ~70 min uncut versions should be separate from modern 2020+ recordings with new cast and ~45 min runtime"
         }
       ]
     },
-    "status": "escalated"
+    "status": "approved"
   }
 }

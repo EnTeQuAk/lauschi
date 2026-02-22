@@ -159,5 +159,11 @@
     ],
     "age_note": "Suitable from 8+",
     "curator_notes": "The Woodwalkers artist page contains both the main Woodwalkers series and the Seawalkers spinoff series. Seawalkers albums have been excluded as they are a separate spinoff series. The main series has two seasons: Season 1 (Band 1-6) and Season 2 'Die Rückkehr' (Band 1-6). Two movie soundtrack albums are also excluded as they are adaptations of the films rather than the book-based Hörspiel episodes."
+  },
+  "review": {
+    "reviewed_at": "2026-02-22T14:38:11.188837+00:00",
+    "reviewed_by": "review-series.py",
+    "overrides": [],
+    "notes": "Auto-approved: no gaps or duplicates found."
   }
 }

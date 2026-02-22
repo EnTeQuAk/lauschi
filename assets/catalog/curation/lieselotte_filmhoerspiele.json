@@ -108,5 +108,11 @@
     ],
     "age_note": "Suitable from 3+",
     "curator_notes": "Each album contains 4 Hörspiele based on the popular children's books by Alexander Steffensmeier. Gentle, humorous stories about a cow living like a human. All 13 episodes represent the complete main series."
+  },
+  "review": {
+    "reviewed_at": "2026-02-22T14:31:10.055380+00:00",
+    "reviewed_by": "review-series.py",
+    "overrides": [],
+    "notes": "Auto-approved: no gaps or duplicates found."
   }
 }

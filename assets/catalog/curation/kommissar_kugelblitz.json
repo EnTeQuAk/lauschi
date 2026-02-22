@@ -377,5 +377,11 @@
     ],
     "age_note": "Recommended 8+",
     "curator_notes": "The series has two distinct formats: 1) Classic numbered episodes (Folge 1-17) from 2011 with shorter runtime and multiple short cases per episode, and 2) Modern releases from 2017+ with longer-form stories organized by location/theme (Kugelblitz in [City], Der Fall [Name]). The modern releases use 'Fall' numbering within each album for chapter organization rather than episode numbers. Note: Episodes 10-17 use a different naming format with 'KK' abbreviation and interactive quiz elements. No Retro-Archiv or Junior variants found on Spotify."
+  },
+  "review": {
+    "reviewed_at": "2026-02-22T14:31:10.045544+00:00",
+    "reviewed_by": "review-series.py",
+    "overrides": [],
+    "notes": "Auto-approved: no gaps or duplicates found."
   }
 }

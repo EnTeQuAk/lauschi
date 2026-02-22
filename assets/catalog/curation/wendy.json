@@ -710,5 +710,11 @@
     ],
     "age_note": "Suitable from 5+",
     "curator_notes": "Main Wendy Hörspiel series running since 1994. Note: There is a separate TV-series adaptation with its own numbering (Folge 1-12) which has been excluded as it's a different product line. The main series has episodes 1-86 with some gaps (episodes 19-20 appear out of sequence in the discography). All main series episodes follow the 'Folge N: Title' pattern and are individual releases, not box sets."
+  },
+  "review": {
+    "reviewed_at": "2026-02-22T14:38:11.180042+00:00",
+    "reviewed_by": "review-series.py",
+    "overrides": [],
+    "notes": "Auto-approved: no gaps or duplicates found."
   }
 }

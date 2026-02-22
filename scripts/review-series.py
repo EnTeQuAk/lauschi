@@ -563,8 +563,10 @@ async def review_one(
     )
 
     if not has_issues:
-        console.print(f"[dim]  No issues found for {series_id}[/]")
-        return ReviewResult(series_id=series_id), []
+        console.print(f"[dim]  No issues found for {series_id} — marking reviewed[/]")
+        result = ReviewResult(series_id=series_id, notes="Auto-approved: no gaps or duplicates found.")
+        apply_review(series_id, result)
+        return result, []
 
     deps = Deps(spotify=spotify, series_id=series_id, curation=curation)
     agent = build_agent(model_name, api_key)

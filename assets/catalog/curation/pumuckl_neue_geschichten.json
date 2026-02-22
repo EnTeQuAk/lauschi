@@ -159,6 +159,8 @@
   "review": {
     "status": "pending",
     "overrides": [],
-    "notes": "Auto-created by apply-splits.py from pumuckl."
+    "notes": "Auto-created by apply-splits.py from pumuckl.\nAuto-approved: no gaps or duplicates found.",
+    "reviewed_at": "2026-02-22T14:31:10.081914+00:00",
+    "reviewed_by": "review-series.py"
   }
 }

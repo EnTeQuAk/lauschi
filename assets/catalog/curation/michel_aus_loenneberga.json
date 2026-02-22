@@ -148,5 +148,11 @@
     ],
     "age_note": "Suitable from 5+",
     "curator_notes": "Two parallel release families: (1) 1990 numbered series (Folge 1-3) with unabridged Hörspiele, and (2) 2022-2023 \"Als Michel...\" individual story releases. Kept both as they represent different listening experiences. Wintergeschichten (2023) is a seasonal special. Two \"Hörspielklassiker\" versions from 1990/1970 are shorter abridged versions—excluded in favor of the full versions. 1963 \"Immer dieser Michel\" is a vintage radio play (Retro-Archiv). Crossover compilation with Pippi Langstrumpf excluded."
+  },
+  "review": {
+    "reviewed_at": "2026-02-22T14:31:10.066207+00:00",
+    "reviewed_by": "review-series.py",
+    "overrides": [],
+    "notes": "Auto-approved: no gaps or duplicates found."
   }
 }

@@ -322,5 +322,11 @@
     ],
     "age_note": "Suitable from 6+. Michael Ende's works are classic children's literature with imaginative fantasy themes. Some stories (like Momo) have philosophical depth better appreciated by slightly older children, while Jim Knopf offers adventure suitable for younger listeners. The Wunschpunsch has mild magical peril.",
     "curator_notes": "Michael Ende is a celebrated German author of children's fantasy literature, not a traditional episodic Hörspiel series. This catalog includes his major works: Jim Knopf (2 novels), Momo, Die unendliche Geschichte (The Neverending Story), Der Wunschpunsch, and various short stories. Multiple versions exist for major works - the 2023 Silberfisch releases are the most recent unabridged Hörspiel adaptations. No Retro-Archiv or Junior variants were found - this is a single-artist catalog representing the author's complete audiobook/Hörspiel works."
+  },
+  "review": {
+    "reviewed_at": "2026-02-22T14:31:10.064767+00:00",
+    "reviewed_by": "review-series.py",
+    "overrides": [],
+    "notes": "Auto-approved: no gaps or duplicates found."
   }
 }

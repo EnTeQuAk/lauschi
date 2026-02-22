@@ -311,5 +311,11 @@
     ],
     "age_note": "Suitable from 5+",
     "curator_notes": "Unicorn-themed fantasy series for children. All 42 episodes (Teil 1-42) are individual Hörspiel episodes with 12-17 tracks each. Episode numbering follows consistent 'Teil N' pattern. Some episodes marked as 'ungekürzt' (unabridged) - these are the canonical versions."
+  },
+  "review": {
+    "reviewed_at": "2026-02-22T14:38:11.161998+00:00",
+    "reviewed_by": "review-series.py",
+    "overrides": [],
+    "notes": "Auto-approved: no gaps or duplicates found."
   }
 }

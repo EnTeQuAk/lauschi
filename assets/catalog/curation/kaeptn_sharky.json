@@ -162,5 +162,11 @@
     ],
     "age_note": "Suitable from 4+",
     "curator_notes": "Popular German children's pirate audio series based on the book character by author Jutta Langreuter and illustrator Silvio Neuendorf. Series naming evolved from 'Und...' format (episodes 1-4) to location-based titles (episodes 8-10) to modern 'Der/Die/Das' titles (episodes 11-19). The 2018 movie adaptation is included as a special non-numbered release. Each episode is a complete adventure with songs interspersed throughout. Publisher changed from Sony Music/Coppenrath to EUROPA/Sony Music Family Entertainment in 2018. All episodes have many short chapter tracks which is normal for this series format."
+  },
+  "review": {
+    "reviewed_at": "2026-02-22T14:31:10.038024+00:00",
+    "reviewed_by": "review-series.py",
+    "overrides": [],
+    "notes": "Auto-approved: no gaps or duplicates found."
   }
 }

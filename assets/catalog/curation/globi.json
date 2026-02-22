@@ -479,5 +479,11 @@
     ],
     "age_note": "Suitable from 3+",
     "curator_notes": "Classic Swiss children's Hörspiel series featuring the iconic blue parrot mascot Globi. Unlike German series with numbered 'Folge' episodes, each Globi album is a self-contained adventure with a unique title. Published by Globi Verlag with Swiss German (Zurich dialect) narration. The series has no Retro-Archiv or Junior variants on Spotify."
+  },
+  "review": {
+    "reviewed_at": "2026-02-22T14:31:10.023413+00:00",
+    "reviewed_by": "review-series.py",
+    "overrides": [],
+    "notes": "Auto-approved: no gaps or duplicates found."
   }
 }

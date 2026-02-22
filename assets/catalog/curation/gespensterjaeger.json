@@ -53,5 +53,11 @@
     ],
     "age_note": "Spooky themes with ghosts and supernatural elements, recommended 6+",
     "curator_notes": "Series by Cornelia Funke. Episodes 1-4 released under Cornelia Funke artist profile (Jumbo Verlag, 2009-2010). Episode 5+ released under Gespensterjäger artist profile. Episodes appear to use 'Band' for older releases and 'Folge' for newer releases."
+  },
+  "review": {
+    "reviewed_at": "2026-02-22T14:31:10.016271+00:00",
+    "reviewed_by": "review-series.py",
+    "overrides": [],
+    "notes": "Auto-approved: no gaps or duplicates found."
   }
 }

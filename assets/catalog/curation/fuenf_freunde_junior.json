@@ -117,5 +117,11 @@
     ],
     "age_note": "Suitable from 5+",
     "curator_notes": "Junior spinoff series for younger listeners. Each episode contains two short stories (indicated by the / separator in titles). The main Fünf Freunde series (artist 1hD52edfn6aNsK3fb5c2OT) is a separate series with 169+ episodes for older children."
+  },
+  "review": {
+    "reviewed_at": "2026-02-22T14:31:10.013231+00:00",
+    "reviewed_by": "review-series.py",
+    "overrides": [],
+    "notes": "Auto-approved: no gaps or duplicates found."
   }
 }

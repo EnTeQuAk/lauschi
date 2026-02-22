@@ -113,5 +113,11 @@
     ],
     "age_note": "Suitable from 5+",
     "curator_notes": "Classic Otfried Preußler series with 4 main stories: the original trilogy (1962, 1969, 2012) plus 'Die Mondrakete' (2018). Multiple versions exist across artists - the 1962/1969 originals are the classic radio play versions, while the 2012 Silberfisch versions are modern remakes. The 'Mondrakete' episode is a newer addition not from the original book trilogy. Excluded movie tie-in and soundtrack content. All duplicates marked - kept the most iconic/original versions."
+  },
+  "review": {
+    "reviewed_at": "2026-02-22T14:31:10.083255+00:00",
+    "reviewed_by": "review-series.py",
+    "overrides": [],
+    "notes": "Auto-approved: no gaps or duplicates found."
   }
 }

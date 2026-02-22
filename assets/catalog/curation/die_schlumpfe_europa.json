@@ -201,6 +201,8 @@
   "review": {
     "status": "pending",
     "overrides": [],
-    "notes": "Auto-created by apply-splits.py from die_schlumpfe."
+    "notes": "Auto-created by apply-splits.py from die_schlumpfe.\nAuto-approved: no gaps or duplicates found.",
+    "reviewed_at": "2026-02-22T14:26:04.250491+00:00",
+    "reviewed_by": "review-series.py"
   }
 }

@@ -351,5 +351,11 @@
     ],
     "age_note": "Suitable from 5+",
     "curator_notes": "Heavysaurus started as a children's metal band (the German counterpart to Finnish Hevisaurus). The Hörspiel series launched in 2025 with 4 episodes released so far. The discography contains many music albums and singles which are excluded - only the 'Folge X' releases are proper Hörspiele. Note: The 'Für immer frei' releases are by various artists on the WE LOVE MUSIC label, featuring one Heavysaurus track each ('Dinofreunde'), but are not Heavysaurus albums."
+  },
+  "review": {
+    "reviewed_at": "2026-02-22T14:31:10.028845+00:00",
+    "reviewed_by": "review-series.py",
+    "overrides": [],
+    "notes": "Auto-approved: no gaps or duplicates found."
   }
 }
