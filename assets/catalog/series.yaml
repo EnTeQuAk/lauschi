@@ -5258,14 +5258,55 @@ series:
 - id: fuenf_freunde_junior
   title: Fünf Freunde Junior
   aliases:
-  - Fünf Freunde Junior
-  - 5 Freunde Junior
+  - Fünf Freunde Junior - Doppelhörspiele
   keywords:
-  - fünf freunde junior
-  - 5 freunde junior
+  - Fünf Freunde Junior
   spotify_artist_ids:
   - 4olmFseR6mODuZ27j4VPAm
-  episode_pattern: '[Ff]olge\s+(\d+)'
+  episode_pattern: Folge\s+(\d+)
+  albums:
+  - id: 3Fqjzgjdz2pMkXZv5zxC7w
+    episode: 1
+    title: 'Folge 1: Der unsichtbare Dieb/Den Räubern auf der Spur'
+  - id: 3V8U4AIoa8bsy9jp5rch37
+    episode: 2
+    title: 'Folge 2: Die mysteriöse Flaschenpost/Unser Timmy ist der Beste'
+  - id: 5JNcvxZfg8XMlWGJzWgk7j
+    episode: 3
+    title: 'Folge 3: Timmy, der Meisterdetektiv/Der vermisste Hund'
+  - id: 7GxRAFTyieFbSfckKERMz6
+    episode: 4
+    title: 'Folge 4: Das geheimnisvolle Geräusch/Der verlorene Schatz'
+  - id: 3ACIu8O5UG4LmGEtQvZvSZ
+    episode: 5
+    title: 'Folge 5: Das Geburtstags-Abenteuer/Gefahr auf den Klippen'
+  - id: 7B9FMWWnKUvw9OiocDNTjq
+    episode: 6
+    title: 'Folge 6: Die Suche nach dem Rennpferd/Der verschwundene Preis'
+  - id: 0OjE759Y2cRxDw5swOhcAr
+    episode: 7
+    title: 'Folge 7: Das Ungeheuer von Lorness/Die entführten Tierbabys'
+  - id: 3YH6YhIY9Th83qmZgp2pUU
+    episode: 8
+    title: 'Folge 8: Die verschwundenen Weihnachtspäckchen/Das Geheimnis der alten Villa'
+  - id: 4tMi8DnCyjcqKqqLrc0Bv2
+    episode: 9
+    title: 'Folge 9: Rettung für Timmy/Sternenfreunde mit Spürnase'
+  - id: 0B8IOrwsCr7bCJqBUPLxve
+    episode: 10
+    title: 'Folge 10: Ein aufregender Waldausflug/Die gestohlene Buchseite'
+  - id: 1JlRwuEZDs2GG9DhTd5tVH
+    episode: 11
+    title: 'Folge 11: Die geraubte Rose/Die verdächtigen Vogelzähler'
+  - id: 7wvJ0aLi32ansitRPiQj6v
+    episode: 12
+    title: 'Folge 12: Die große Schatzsuche/Die rätselhaften Futterdiebe'
+  - id: 2KbGh2hEpcWNatUBZrKNRm
+    episode: 13
+    title: 'Folge 13: Der Schneemann-Wettbewerb/Wal in Not'
+  - id: 4f3TFDAeTRa7MHCBsqFJFk
+    episode: 14
+    title: 'Folge 14: Der Dinosaurierknochen/Das Hundeturnier'
 - id: die_playmos
   title: Die Playmos
   aliases:
@@ -5975,8 +6016,8 @@ series:
   - Lucky Luke
   spotify_artist_ids:
   - 3GhvVhdZylZUmxABM30UeP
-  episode_pattern: ^(?:(\d{2}):\s*|Ein Cowboy in Paris|Fackeln im Baumwollfeld|Rantanplans Arche|Letzte
-    Runde für die Daltons|Das gelobte Land|Meine Onkel, die Daltons)
+  episode_pattern: ^(?:(\d{2}):\s*|Ein Cowboy in Paris|Fackeln im Baumwollfeld|Rantanplans 
+    Arche|Letzte Runde für die Daltons|Das gelobte Land|Meine Onkel, die Daltons)
   albums:
   - id: 3kQiCwi4N1CtcdT4zmsIb0
     episode: 1
@@ -6034,22 +6075,82 @@ series:
     title: Meine Onkel, die Daltons
 - id: michael_ende
   title: Michael Ende
-  aliases:
-  - Momo
-  - Die unendliche Geschichte
-  - Jim Knopf und Lukas der Lokomotivführer
-  - Jim Knopf und die Wilde 13
-  - Der Wunschpunsch
-  - Das Traumfresserchen
   keywords:
-  - michael ende
-  - jim knopf
-  - unendliche geschichte
-  - wunschpunsch
-  - traumfresserchen
-  - momo
+  - Michael Ende
+  - Momo
+  - Jim Knopf
+  - Die unendliche Geschichte
+  - Der Wunschpunsch
   spotify_artist_ids:
   - 1VORulhv2aMemo1kSvxdVX
+  albums:
+  - id: 4T219OxthZeYAtVEcLtd16
+    title: Das Schnurpsenbuch
+  - id: 4SV29ZWSvIrBkByNCZyMxP
+    title: Das Traumfresserchen
+  - id: 3uEIZnPLCL7oyzAv1LDLbX
+    title: Das Traumfresserchen / Das kleine Lumpenkasperle
+  - id: 6iqicOtTGvLXFaMzjIkaRl
+    title: Das kleine Lumpenkasperle
+  - id: 2WsIzNKGcuYJxvrcgmSv2p
+    title: Der Teddy und die Tiere und weitere Geschichten
+  - id: 79uUbEl40eBlQBOhe4vzFt
+    title: Der Wunschpunsch
+  - id: 4eTEB1b216vcQjXuBjA6Ph
+    title: Der satanarchäolügenialkohöllische Wunschpunsch - Das Hörspiel
+  - id: 3qWpx1DiKpZcYkedfIa4AI
+    title: Der satanarchäolügenialkohöllische Wunschpunsch - Das WDR-Hörspiel
+  - id: 0P5PProFj9QrFq7A1SOiz5
+    title: Die Zauberschule und andere Geschichten
+  - id: 0w0dWXwFkuT8KyHURubwZ9
+    title: Die unendliche Geschichte
+  - id: 00M2jdXrUG9yEEqoxbfDv4
+    title: Die unendliche Geschichte
+  - id: 7HnjeGFb2qv3Mjg0KP5fEE
+    title: Die unendliche Geschichte - Das Hörspiel
+  - id: 58B517SVoupqnL3LazpOtc
+    title: Filemon Faltenreich + Der Lindwurm und der Schmetterling
+  - id: 4D3freTvvr9R3IY9ffoPJE
+    title: 'Jim Knopf - Hörspiele: Jim Knopf und Lukas der Lokomotivführer - Das Hörspiel'
+  - id: 4iyysgUrEoLyQytonklJXk
+    title: 'Jim Knopf - Hörspiele: Jim Knopf und Lukas der Lokomotivführer - Das Hörspiel'
+  - id: 1zrUuet13zT0U6zVE4DGeh
+    title: 'Jim Knopf - Hörspiele: Jim Knopf und die Wilde 13 - Das Hörspiel'
+  - id: 5MjawExCW8GQ3V1b2mQzch
+    title: 'Jim Knopf - Hörspiele: Jim Knopf und die Wilde 13 - Das Hörspiel'
+  - id: 735iwIhG7zQyNE4LSpBAq7
+    title: Jim Knopf findet's raus (Geschichten von Himmelsforschern, Halbdrachen und Flugmaschinen)
+  - id: 1DdJ8dfyR3tCNKFObDv1EC
+    title: Jim Knopf und Lukas auf großer Reise
+  - id: 3bbFly6zBqFp6Sp5jk2n1V
+    title: Jim Knopf und Lukas der Lokomotivführer
+  - id: 1OYQLxTOg3IhOi7gR31QHk
+    title: Jim Knopf und Lukas – Auf zu neuen Ufern
+  - id: 3MpO7ItzjK8ADRMq3q9nmt
+    title: Jim Knopf und die Wilde 13
+  - id: 7DxOdYCQsIXeAe7c4h6i3Q
+    title: 'Jim Knopf: Jim Knopf und Lukas der Lokomotivführer'
+  - id: 6pVdlRnrh2SRptYqGtzo1r
+    title: 'Jim Knopf: Jim Knopf und Lukas der Lokomotivführer (Teil 1 - 3)'
+  - id: 0F4rgB9OVSiKgUAHf3mtWB
+    title: 'Jim Knopf: Jim Knopf und die Wilde 13'
+  - id: 2wFuB4iNXrE6FlOkrJAHtq
+    title: Lenchens Geheimnis
+  - id: 5TxGfagtpgnubzckeYL1cp
+    title: 'Michael Ende: Der Spiegel im Spiegel'
+  - id: 00jYXBJOOOxN12Gk9CTvKm
+    title: Momo
+  - id: 4KQ7CvGTbdgwBJnxSFjLly
+    title: Momo
+  - id: 5ZSqHZinNuGiEvhRuIpTxi
+    title: Momo - Das Hörspiel
+  - id: 2OJxlcuEHJOtEp0PAMDdeY
+    title: Momo – Das Hörspiel zum Kinofilm (Das Hörspiel zum Film)
+  - id: 2mdVzm7cYhifVGhBJEiyiZ
+    title: Rodrigo Raubein und Knirps, sein Knappe
+  - id: 11wArUgNLB4hEeDHzd2t2M
+    title: Tranquilla Trampeltreu und weitere Fabeln von Michael Ende (Tranquilla Trampeltreu, Der 
+      Lindwurm und der Schmetterling und Norbert Nackendick)
 - id: gespensterjager
   title: Gespensterjäger
   aliases:
@@ -8025,8 +8126,8 @@ series:
   episode_pattern: Alles ([^!]+)!
   albums:
   - id: 4Bye9UYKH5eYH6Glm1EYdO
-    title: Alles Bitte-danke!, Alles Eis!, Socke will alles können und zwar ruckzuck! (Der kleine Rabe
-      Socke)
+    title: Alles Bitte-danke!, Alles Eis!, Socke will alles können und zwar ruckzuck! (Der kleine 
+      Rabe Socke)
   - id: 4sisLEShJplT9VQrRelb99
     title: Alles Freunde! (Der kleine Rabe Socke) [Freundschaftsgeschichten vom kleinen Raben Socke]
   - id: 2HajrwUcwFczd5ovmqUta9
@@ -8038,9 +8139,9 @@ series:
     title: 'Alles Schule!: Alles vorbereitet!, Alles aufgeweckt!, Alles eingeschult!, Alles aus und vorbei!,
       Alles zusammen! (Der kleine Rabe Socke)'
   - id: 5rLgyFUrNHZ8xnaEWSSQ71
-    title: Alles Socke! (Alles erlaubt?, Alles Eis!, Alles gefunden!, Alles zu spät!, Alles echt wahr!,
-      Alles nass!, Alles Bitte-danke!, Alles verlaufen!) (Der kleine Rabe Socke) [Das Beste vom kleinen
-      Raben Socke zum 25. Geburtstag]
+    title: Alles Socke! (Alles erlaubt?, Alles Eis!, Alles gefunden!, Alles zu spät!, Alles echt 
+      wahr!, Alles nass!, Alles Bitte-danke!, Alles verlaufen!) (Der kleine Rabe Socke) [Das Beste 
+      vom kleinen Raben Socke zum 25. Geburtstag]
   - id: 4AboRuzwmUiuqS9noZmcQ1
     title: 'Alles Weihnachten!: Alles Advent!, Alles gebacken!, Alles verschenkt! (Der kleine Rabe Socke)
       [Drei Geschichten vom kleinen Raben Socke]'
@@ -8062,8 +8163,8 @@ series:
   - id: 6tbKtNfAd40rvPJVTNXylf
     title: Alles rabenstark!, Alles aufgeräumt!, Alles kaputt! (Der kleine Rabe Socke)
   - id: 5Blrw5UfocVrlzAoxRJQsf
-    title: Alles schläft? (Alles ohne Ende!, Alles Monster!, Alles verbummelt!, Alles besser!) (Der kleine
-      Rabe Socke) [Gute-Nacht-Geschichten vom kleinen Raben Socke]
+    title: Alles schläft? (Alles ohne Ende!, Alles Monster!, Alles verbummelt!, Alles besser!) (Der 
+      kleine Rabe Socke) [Gute-Nacht-Geschichten vom kleinen Raben Socke]
   - id: 6uS4A6adOkQRBtfN8B0wnE
     title: Alles verknallt!, Alles wach?, Alles gelernt! (Der kleine Rabe Socke)
   - id: 0joEbvSRUXOYhoWfDJdXPa
@@ -8073,56 +8174,56 @@ series:
   - id: 6CPEwK18zBZafonlXexQYK
     title: Alles verzankt!, Alles zu voll!, Alles nass! (Der kleine Rabe Socke)
   - id: 3vxL29iewsOnpuzmvy0B18
-    title: Das Geburtstagsgeschenk, Das Superfernrohr, Der Erfinderwettbewerb (Der kleine Rabe Socke -
-      Hörspiele zur TV Serie 8)
+    title: Das Geburtstagsgeschenk, Das Superfernrohr, Der Erfinderwettbewerb (Der kleine Rabe Socke
+      - Hörspiele zur TV Serie 8)
   - id: 045UjvaNf9898ZWtNxdL7s
-    title: Das Hofturnier, Die Waldprüfung, Bruder-Alarm! (Der kleine Rabe Socke - Hörspiele zur TV Serie
-      10)
+    title: Das Hofturnier, Die Waldprüfung, Bruder-Alarm! (Der kleine Rabe Socke - Hörspiele zur TV 
+      Serie 10)
   - id: 6KnamYDPG0Wr82roCnku3U
-    title: Das Waldlied, Allerbeste Freunde, Die Geburtstagsretter (Der kleine Rabe Socke - Hörspiele
-      zur TV Serie 15)
+    title: Das Waldlied, Allerbeste Freunde, Die Geburtstagsretter (Der kleine Rabe Socke - 
+      Hörspiele zur TV Serie 15)
   - id: 4MF3vRrimefhW3x9RK9I1V
-    title: Der Onkel aus der Südsee, Der große Streichewettbewerb, Rollentausch, Der Schatzkistentag (Der
-      kleine Rabe Socke - Hörspiele zur TV Serie 17)
+    title: Der Onkel aus der Südsee, Der große Streichewettbewerb, Rollentausch, Der Schatzkistentag
+      (Der kleine Rabe Socke - Hörspiele zur TV Serie 17)
   - id: 0eF1MO4hXD7EE0cqD8DW8o
-    title: Die Mutprobe, Ein echter Krimi, Der geteilte Wald (Der kleine Rabe Socke - Hörspiele zur TV
-      Serie 16)
+    title: Die Mutprobe, Ein echter Krimi, Der geteilte Wald (Der kleine Rabe Socke - Hörspiele zur 
+      TV Serie 16)
   - id: 76HrKCFyQhY87r2IWXnLDB
-    title: Die Sportskanone, Der Honigmond, Der sprechende Busch (Der kleine Rabe Socke - Hörspiele zur
-      TV Serie 5)
+    title: Die Sportskanone, Der Honigmond, Der sprechende Busch (Der kleine Rabe Socke - Hörspiele 
+      zur TV Serie 5)
   - id: 2vSecCqEUJilZo28l0vTIL
-    title: Die Wunscherfüllkiste, Der Waldgeist, Haltet den Dieb! (Der kleine Rabe Socke - Hörspiele zur
-      TV Serie 2)
+    title: Die Wunscherfüllkiste, Der Waldgeist, Haltet den Dieb! (Der kleine Rabe Socke - Hörspiele
+      zur TV Serie 2)
   - id: 3FrgaEqgvo0sqA7Ru0QVYK
-    title: Ferngesteuert, Der Laden der allertollsten Dinge, Freundschaft mit Hindernissen (Der kleine
-      Rabe Socke - Hörspiele zur TV Serie 14)
+    title: Ferngesteuert, Der Laden der allertollsten Dinge, Freundschaft mit Hindernissen (Der 
+      kleine Rabe Socke - Hörspiele zur TV Serie 14)
   - id: 6VrIYTSUOGSsKWMTdeW8gE
-    title: Frau Dachs macht Urlaub, Ein Tanzkleid für Frau Dachs, Rette sich, wer kann! (Der kleine Rabe
-      Socke - Hörspiele zur TV Serie 4)
+    title: Frau Dachs macht Urlaub, Ein Tanzkleid für Frau Dachs, Rette sich, wer kann! (Der kleine 
+      Rabe Socke - Hörspiele zur TV Serie 4)
   - id: 0oqKdiDNslYUoUiRYUdDks
-    title: Meisterdetektive, Der Pechvogel, Frau Dachs hat Geburtstag (Der kleine Rabe Socke - Hörspiele
-      zur TV Serie 11)
+    title: Meisterdetektive, Der Pechvogel, Frau Dachs hat Geburtstag (Der kleine Rabe Socke - 
+      Hörspiele zur TV Serie 11)
   - id: 4ohBnL1iSjWMTQaLNA7bvZ
-    title: Neues Ufer, Die verfluchte Teekanne, Der große Sockini (Der kleine Rabe Socke - Hörspiele zur
-      TV Serie 9)
+    title: Neues Ufer, Die verfluchte Teekanne, Der große Sockini (Der kleine Rabe Socke - Hörspiele
+      zur TV Serie 9)
   - id: 1i3DeKgyCaMEwpmrgnXkiK
-    title: Piraten Ahoi!, Die Fußballwaldmeisterschaft, Das goldene Amulett (Der kleine Rabe Socke - Hörspiele
-      zur TV Serie 1)
+    title: Piraten Ahoi!, Die Fußballwaldmeisterschaft, Das goldene Amulett (Der kleine Rabe Socke -
+      Hörspiele zur TV Serie 1)
   - id: 58IfNovyr5Sr55wgMLWIoI
-    title: Rennfahrer, Diamantenfieber, Die Rasselbande (Der kleine Rabe Socke - Hörspiele zur TV Serie
-      7)
+    title: Rennfahrer, Diamantenfieber, Die Rasselbande (Der kleine Rabe Socke - Hörspiele zur TV 
+      Serie 7)
   - id: 795XA2uiADFHOKNkttriJX
     title: 'Ritter Sockenherz, Mission: Dreirad, Der falsche Pilz (Der kleine Rabe Socke - Hörspiele zur
       TV Serie 3)'
   - id: 0Csm87ayVVBtIeP4gl2hvP
-    title: Socke aus dem All, Der Hypnotiseur, Streithähne (Der kleine Rabe Socke - Hörspiele zur TV Serie
-      12)
+    title: Socke aus dem All, Der Hypnotiseur, Streithähne (Der kleine Rabe Socke - Hörspiele zur TV
+      Serie 12)
   - id: 06Oc8eYyPKyXMGBwUCBUV7
-    title: Sockes Flugschule, Die Waldhochzeit, Der Riesenschreck (Der kleine Rabe Socke - Hörspiele zur
-      TV Serie 13)
+    title: Sockes Flugschule, Die Waldhochzeit, Der Riesenschreck (Der kleine Rabe Socke - Hörspiele
+      zur TV Serie 13)
   - id: 5YufFI1LNYMovd5wWKJ4CU
-    title: Suppenzauber, Gestrandet, Die Ringelsocke ist futsch! (Der kleine Rabe Socke - Hörspiele zur
-      TV Serie 6)
+    title: Suppenzauber, Gestrandet, Die Ringelsocke ist futsch! (Der kleine Rabe Socke - Hörspiele 
+      zur TV Serie 6)
   - id: 5Tx1COK2E4QTwd0ye0rknb
     title: 'Weihnachtsgeschichten vom kleinen Raben Socke: Alles Advent!, Alles glitzert!, Alles in Eile!,
       Alles weg! (Der kleine Rabe Socke)'
@@ -12424,7 +12525,8 @@ series:
   title: Käpt'n Sharky
   spotify_artist_ids:
   - 5TfrI6jiBpIpWRsrEXVtFN
-  episode_pattern: (?:[Ff]olge|[Tt]eil|[Uu]nd|Band)\s*(\d+)|^(?:Der|Die|Das)\s+|Abenteuer|Bei|Im|Rettet|Schiffbruch
+  episode_pattern: 
+    (?:[Ff]olge|[Tt]eil|[Uu]nd|Band)\s*(\d+)|^(?:Der|Die|Das)\s+|Abenteuer|Bei|Im|Rettet|Schiffbruch
   albums:
   - id: 6THE7nOBqv4VApqZaBqpYv
     episode: 1
@@ -13093,8 +13195,8 @@ series:
     title: '10: Conni im Advent / Conni fährt Schlittschuh / Conni lässt Drachen steigen / Conni und der
       fiese Schnupfen (Vier Hörspiele zur TV-Serie)'
   - id: 77Pk8wTrRgF2O1K3YLqyMW
-    title: Conni macht Mut in Zeiten von Corona (Meine Freundin Conni - ab 3) [Eine Conni-Geschichte mit
-      kindgerechtem Sachwissen rund um das Thema Corona]
+    title: Conni macht Mut in Zeiten von Corona (Meine Freundin Conni - ab 3) [Eine Conni-Geschichte
+      mit kindgerechtem Sachwissen rund um das Thema Corona]
 - id: michel_aus_loenneberga
   title: Michel aus Lönneberga
   spotify_artist_ids:
@@ -14056,7 +14158,8 @@ series:
     title: Woodwalkers - Tag der Rache - Das Hörspiel
   - id: 3akuBfI0xnmcKuTDc0NHmi
     episode: 7
-    title: Woodwalkers - Die Rückkehr. Das Vermächtnis der Wandler - Das Hörspiel (Staffel 2, Band 1)
+    title: Woodwalkers - Die Rückkehr. Das Vermächtnis der Wandler - Das Hörspiel (Staffel 2, Band 
+      1)
   - id: 7c67MJkQOwdYVKF99xUJmZ
     episode: 8
     title: Woodwalkers - Die Rückkehr. Herr der Gestalten - Das Hörspiel (Staffel 2, Band 2)
@@ -14823,3 +14926,325 @@ series:
     title: Weihnachtszauber & Weihnachtsbäckerin
   - id: 0wAtIEjr3t6IUCdDxxR6RF
     title: Wir tanzen, spielen, singen Lieder! - Das 2. Album
+- id: die_feriendetektive
+  title: Die Feriendetektive
+  keywords:
+  - Feriendetektive
+  spotify_artist_ids:
+  - 6tHZTAngDiw6fp501k9V7b
+  episode_pattern: '[Ff]olge\s+(\d+)'
+  albums:
+  - id: 3E4X7sXdAVJ5Xji8vxxBpT
+    episode: 1
+    title: 'Folge 1: Schatzsuche auf Mallorca'
+  - id: 4c70dgYEyOQ94CtcLn1UqR
+    episode: 2
+    title: 'Folge 2: Der Dieb von Venedig'
+  - id: 0hgdKUt3k4tnSRd2bNqMvO
+    episode: 3
+    title: 'Folge 3: Geisterjagd in Palma'
+  - id: 1EPJiVzt6rV5TLCrQhzwQ3
+    episode: 4
+    title: 'Folge 4: Das Geheimnis des Pharao'
+  - id: 3olsQvwQFiJmD2ecISdrd4
+    episode: 5
+    title: 'Folge 5: Das Phantom im Bergsee'
+  - id: 1zK738Tg5DSuSxuOEo26VY
+    episode: 6
+    title: 'Folge 6: Insel der Strandpiraten'
+  - id: 62OuQTbWVNLJBRpvE3Y1qc
+    episode: 7
+    title: 'Folge 7: Die Zauberpalme'
+  - id: 7lKmNtxw3YyLq6rGiFB0u3
+    episode: 8
+    title: 'Folge 8: Im Tal der Wikinger'
+  - id: 5ptn82PI0g9ruZKJkIHNJg
+    episode: 9
+    title: 'Folge 9: Jagd durch Berlin'
+  - id: 4riDKAA92t0Forki7t0Un9
+    episode: 10
+    title: 'Folge 10: Fluch der Maya'
+  - id: 78HYPfxTMVxYk4fUFgiQJD
+    episode: 11
+    title: 'Folge 11: Das Rätsel des Sultans'
+  - id: 5gwhuE4WmKm2T2nWjb6nto
+    episode: 12
+    title: 'Folge 12: Griechen, Götter und Ganoven'
+- id: die_schule_der_magischen_tiere_ermittelt
+  title: 'Die Schule der magischen Tiere: Ermittelt'
+  spotify_artist_ids:
+  - 1BElEHaU2xaZg7FOGsSird
+  - 6wlMx6MhWCynm8yVU0K3V3
+  - 05iCN3BdeaMyUYHXiEp761
+  episode_pattern: '^(?:(\d+):|Die Schule der magischen Tiere (?:ermittelt - Hörspiele |ermittelt Neuausgabe
+    |\d+: | - Endlich Ferien \d+:))'
+  albums:
+  - id: 6J0lMf0VTKlMOFdOWBH6cx
+    episode: 1
+    title: 'Die Schule der magischen Tiere ermittelt Neuausgabe 1: Der grüne Glibber-Brief'
+  - id: 7m215CftaAegMzq41SVA2H
+    episode: 2
+    title: 'Die Schule der magischen Tiere ermittelt - Hörspiele 2: Der Hausschuh-Dieb'
+  - id: 4GSCVM2I65Axk4SnLG7uwP
+    episode: 3
+    title: 'Die Schule der magischen Tiere ermittelt - Hörspiele 3: Der Kokosnuss-Klau'
+  - id: 4cnVJNwU7zxqoWhdXfTQVE
+    episode: 4
+    title: 'Die Schule der magischen Tiere ermittelt - Hörspiele 4: Der Flötenschreck'
+  - id: 2BV1llH2yEJHA0sd1v79XS
+    episode: 5
+    title: 'Die Schule der magischen Tiere ermittelt - Hörspiele 5: Der Gurkenschurke'
+  - id: 40ykQ1s1aXHBvqY01icOgH
+    episode: 6
+    title: 'Die Schule der magischen Tiere ermittelt - Hörspiele 6: Die Plätzchenfalle'
+  - id: 0wJI1LC9ILBeqfdmmbtgOY
+    episode: 7
+    title: 'Die Schule der magischen Tiere ermittelt Neuausgabe 7: Das Biber-Rätsel'
+- id: die_wilden_kerle
+  title: Die wilden Kerle
+  keywords:
+  - Die wilden Kerle
+  spotify_artist_ids:
+  - 7LzUjEdyDaURYTFAljHQbH
+  episode_pattern:
+  - '[Ff]olge\s+(\d+)'
+  - '[Dd]ie wilden Kerle (\d+)'
+  albums:
+  - id: 1MCPvn8C6lADwUZUIdpwZf
+    episode: 1
+    title: Folge 1 (Das Original-Hörspiel zur TV-Serie)
+  - id: 0GjyUZEIUEAen2PIrJHYfZ
+    episode: 2
+    title: Folge 2 (Das Original-Hörspiel zur TV-Serie)
+  - id: 4DDtmLJu9KugqZD9dVlttV
+    episode: 3
+    title: Folge 3 (Das Original-Hörspiel zur TV-Serie)
+  - id: 4q6WI4v86KmItLlunD16Li
+    episode: 4
+    title: Folge 4 (Das Original-Hörspiel zur TV-Serie)
+  - id: 1jdxNyab18HxJLDOf5cuSe
+    episode: 5
+    title: Folge 5 (Das Original-Hörspiel zur TV-Serie)
+  - id: 20OltTYEGDw6C4bLNBOlvb
+    episode: 6
+    title: Folge 6 (Das Original-Hörspiel zur TV-Serie)
+  - id: 2GDyu3rI9cYTEmftuQMGOV
+    episode: 7
+    title: Folge 7 (Das Original-Hörspiel zur TV-Serie)
+  - id: 7Jo9EbErkBRye6JATUtAyu
+    episode: 8
+    title: 'Folge 8: (Das Original-Hörspiel zur TV-Serie)'
+  - id: 0VkJ2F2bzTq7RJtMzotbiP
+    episode: 9
+    title: Folge 9 (Das Original-Hörspiel zur TV-Serie)
+  - id: 7CmUZc3T0CEpwZZeC5HBtJ
+    episode: 10
+    title: Folge 10 (Das Original-Hörspiel zur TV-Serie)
+  - id: 2LkAMvDTt31IBjllQWmbVy
+    episode: 11
+    title: Folge 11 (Das Original-Hörspiel zur TV-Serie)
+  - id: 5hsAPUiKaWWgYbFkpdqn76
+    episode: 12
+    title: Folge 12 (Das Original-Hörspiel zur TV-Serie)
+- id: loewenzahn_classics
+  title: Löwenzahn CLASSICS mit Peter Lustig
+  spotify_artist_ids:
+  - 0p0BKNqJuryRzJj2yrZmNp
+  episode_pattern: (?:Episode|Folge)\s+(\d+)
+  albums:
+  - id: 3N5CbahYQ5qK2TAFg6KXWM
+    episode: 1
+    title: 'Löwenzahn CLASSICS: Folge 01 - Peter und der Tanz der Vampire'
+  - id: 1ip1jv0F4yc6pSLaNhMqdB
+    episode: 2
+    title: 'Löwenzahn CLASSICS: Folge 02 - Peter und der Müllwichtel'
+  - id: 6Zb8gnLDF54v6StxWFvHft
+    episode: 3
+    title: "Löwenzahn CLASSICS: Folge 03 - Peter kauft 'ne Eisenbahn"
+  - id: 7IRNGg0uop1vW8IkNDD44J
+    episode: 4
+    title: 'Löwenzahn CLASSICS: Folge 04 - Der Schatz der alten Römer'
+  - id: 2bneBzGrch4nsyfc7ksXgn
+    episode: 5
+    title: 'Löwenzahn CLASSICS: Folge 05 - Peter und die Wunderlampe'
+  - id: 5E8xDbQMUOh6Imi9E8XktW
+    episode: 6
+    title: 'Löwenzahn CLASSICS: Folge 06 - Peter und das Biest vom Bärensee'
+  - id: 1TjAlLPhQX8GXy2q1SG6hs
+    episode: 7
+    title: 'Löwenzahn CLASSICS: Folge 07 - Peter und das Heulen der Wölfe'
+  - id: 05Sngq3UX7WZRrqiZduut5
+    episode: 8
+    title: 'Löwenzahn CLASSICS: Folge 08 - Peter jagt den Dieb von Bärstadt'
+  - id: 2vlCznueqZebgaAEqpYaAd
+    episode: 9
+    title: 'Löwenzahn CLASSICS: Folge 09 - Peter stürmt die Berggipfel'
+  - id: 0zc0kqB4o3oXGwYBX1HSaD
+    episode: 10
+    title: 'Löwenzahn CLASSICS: Folge 10 - Peter spielt den Wetterfrosch'
+  - id: 4CG6cUoxLhe4cvNn4NgzQZ
+    episode: 11
+    title: 'Löwenzahn CLASSICS: Folge 11 - Reise ins Abenteuer Teil 1'
+  - id: 1628LG4tGMNiyVtvYKN0nA
+    episode: 12
+    title: 'Löwenzahn CLASSICS: Folge 12 - Reise ins Abenteuer Teil 2'
+  - id: 1ziY9K7tSTZvASsQ7xWze1
+    episode: 13
+    title: "Löwenzahn CLASSICS: Folge 13 - Peter will 'ne Minikuh"
+  - id: 19VqJKWcLjycds5IUqARM7
+    episode: 14
+    title: 'Löwenzahn CLASSICS: Folge 14 - Peter geht zur Feuerwehr'
+- id: max
+  title: Max
+  keywords:
+  - Max
+  spotify_artist_ids:
+  - 6GAMZ3hkA2y52fMzSXeADA
+  episode_pattern: '^(\d{1,2}):'
+  albums:
+  - id: 49nUO377cOLR2qA5OAhFw8
+    episode: 1
+    title: '01: Max kommt in die Schule / Max lernt schwimmen'
+  - id: 5u1ZnRAOvBGCimCgkaNqtN
+    episode: 2
+    title: '02: Max geht nicht mit Fremden mit / Max übernachtet bei Pauline'
+  - id: 3ZxCMMBSjucVLCfHAWLyIx
+    episode: 3
+    title: '03: Max und der voll fies gemeine Klau'
+  - id: 7aASaRiWuOzN2O8nxQG3cE
+    episode: 4
+    title: '04: Max und die klasse Klassenfahrt'
+  - id: 3bOLV0O0hjqjLaHcCP46LM
+    episode: 5
+    title: '05: Max und der Geisterspuk'
+  - id: 65DoWJFsaTEhcQQsF5twEY
+    episode: 6
+    title: '06: Max freut sich auf Weihnachten / Max fährt zu Oma und Opa'
+  - id: 1LhWs9F0ApLODoKrICtLbu
+    episode: 7
+    title: '07: Max baut ein Piratenschiff / Max wünscht sich ein Kaninchen'
+  - id: 2xqnCrTi7U9T8X52QcosA8
+    episode: 8
+    title: '08: Max und die überirdischen Kicker'
+  - id: 0d5boxIIiEI7pFuoMez741
+    episode: 9
+    title: '09: Max und die Nacht ohne Zelt'
+  - id: 2klKqRsaaIoY333LwlC8yY
+    episode: 10
+    title: '10: Max im Winter / Max und der Wackelzahn'
+  - id: 2L76V56sf24aLPTMNlMAic
+    episode: 11
+    title: '11: Max geht in den Kindergarten / Max geht zum Kinderarzt'
+  - id: 54UOQDeH0nruELkVfKlAal
+    episode: 12
+    title: '12: Max lernt Rad fahren / Max kocht Spaghetti'
+  - id: 6WHOYoOR5rgjbi4SZYMXq7
+    episode: 13
+    title: '13: Max und der faire Wettkampf'
+  - id: 77bxVF5C6NrhTAABf4Wnim
+    episode: 14
+    title: '14: Max und das gelungene Weihnachten'
+  - id: 6WMre5YPteSPFrwK4nSigZ
+    episode: 15
+    title: '15: Max im Krankenhaus / Max und der Läusealarm'
+  - id: 6HxEhlIyl9q5olUtA7Z15a
+    episode: 16
+    title: '16: Max macht Ferien / Max hat keine Angst im Dunkeln'
+- id: prinzessin_lillifee_kinofilme
+  title: Prinzessin Lillifee (Kinofilme)
+  spotify_artist_ids:
+  - 78iNrogmY4Ru7d7PLtwD4b
+  episode_pattern: (?:Folge|folge|^\d{3}/|^\d{2}/)\s*(\d+)
+  albums:
+  - id: 2cZrWzKe4U716qJWDXUsaz
+    title: Das kleine Einhorn (Original Hörspiel zum Kinofilm)
+  - id: 2QiEpgmt8VrYg3GlcV4Sl5
+    title: Prinzessin Lillifee (Original Hörspiel zum Kinofilm)
+- id: prinzessin_lillifee_tierhotel
+  title: 'Prinzessin Lillifee: Mein zauberhaftes Tierhotel'
+  spotify_artist_ids:
+  - 78iNrogmY4Ru7d7PLtwD4b
+  episode_pattern: (?:Folge|folge|^\d{3}/|^\d{2}/)\s*(\d+)
+  albums:
+  - id: 1SW5OuXPjqEL9Rr5ss19iQ
+    title: 'Mein zauberhaftes Tierhotel: Folge 1+2'
+  - id: 6cKFwdiGTdfdFhoeXczK0N
+    title: 'Mein zauberhaftes Tierhotel: Folge 3+4'
+  - id: 3XMG0CL51WoTeQlqJ9XClA
+    title: 'Mein zauberhaftes Tierhotel: Folge 5+6'
+  - id: 7ErywAfIpgxcATLch1ibCI
+    title: 'Mein zauberhaftes Tierhotel: Folge 7+8'
+  - id: 3brWJZfRWLek5yBSoB4Ob8
+    title: 'Mein zauberhaftes Tierhotel: Folge 9+10'
+- id: prinzessin_lillifee_tv_serie
+  title: Prinzessin Lillifee (TV-Serie)
+  spotify_artist_ids:
+  - 78iNrogmY4Ru7d7PLtwD4b
+  episode_pattern: (?:Folge|folge|^\d{3}/|^\d{2}/)\s*(\d+)
+  albums:
+  - id: 3kRGRFPWydYA5fVvtkosm1
+    episode: 1
+    title: 01/Das Hörspiel zur TV-Serie
+  - id: 08aIC0yrgsL7KbawTYYAT7
+    episode: 2
+    title: 02/Das Hörspiel zur TV-Serie
+  - id: 07jkUJ5t1WjdEPECuSRWDw
+    episode: 3
+    title: 03/Das Hörspiel zur TV-Serie
+  - id: 7mdhhDvpdqWJKjT9lYsybh
+    episode: 4
+    title: 04/Das Hörspiel zur TV-Serie
+  - id: 6ujIiSFu9K2ZqptykIDmx1
+    episode: 5
+    title: 05/Das Hörspiel zur TV-Serie
+  - id: 3ZYrlaczw1qMYuXnmL43k5
+    episode: 6
+    title: 06/Das Hörspiel zur TV-Serie
+- id: tabaluga_klassik
+  title: Tabaluga (Klassik-Serie 1997)
+  spotify_artist_ids:
+  - 4M0PZyOPSvjzFEBRg3G8xA
+  - 5W3s4beu23rOlseCbVOp4l
+  episode_pattern: (?:Folge |^\d{2}/|/)(\d+)
+  albums:
+  - id: 2ZOZddzoAe6Avydf93Cwu5
+    episode: 1
+    title: 01/Das große Ereignis
+  - id: 0IsukZuqX2H7A58SOH39xO
+    episode: 2
+    title: 02/Ein ganz heißes Ding
+  - id: 7528UKeBiYNKUkfwSLUG3n
+    episode: 3
+    title: 03/Ein Drache zuviel
+  - id: 6jETrm2u1F369py7bv2vxK
+    episode: 4
+    title: 04/Der Bessere gewinnt
+  - id: 5Ig0Mmb6pCWMGcrGeK9blg
+    episode: 5
+    title: 05/Drachen weinen nicht
+  - id: 3f9YEzfwGbt52kNH7QMrrg
+    episode: 6
+    title: 06/Ein friedlicher Überfall
+  - id: 3bZNkrAEioFfUCbVZ7s803
+    episode: 7
+    title: 07/Einer spielt falsch
+- id: wieso_weshalb_warum_vorlesegeschichten
+  title: Wieso? Weshalb? Warum? Meine Vorlesegeschichten
+  spotify_artist_ids:
+  - 79fds5dgda0VCYelERV8Gi
+  - 0LoeUAhyTnta8Vk7HBzBsP
+  - 7CogQoFl6oPr45Xz6ZuFYU
+  - 7sdugL0BnF0QBh3fGPvYJz
+  - 56WIqh0XOgaRFbvdoEuk0F
+  episode_pattern: (?:Folge|folge)\s+(\d+)
+  albums:
+  - id: 4craGbCLchGdKewnQYCGo2
+    episode: 1
+    title: Was erleben wir Tag für Tag? (Wieso? Weshalb? Warum? Meine Vorlesegeschichten, Folge 1)
+  - id: 0NiJ11SM4QQzAbrEGRVXIf
+    episode: 2
+    title: Was passiert in Wald und Wiese? (Wieso? Weshalb? Warum? Meine Vorlesegeschichten, Folge 
+      2)
+  - id: 20idnrDkDmTHirWuVDbEA8
+    episode: 3
+    title: Wer ist hier im Einsatz? (Wieso? Weshalb? Warum? Meine Vorlesegeschichten, Folge 3)

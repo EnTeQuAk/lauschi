@@ -1,0 +1,262 @@
+{
+  "query": "Die wilden Kerle",
+  "model": "kimi-k2.5",
+  "curated_at": "2026-02-22T23:15:11.791347+00:00",
+  "series": {
+    "id": "die_wilden_kerle",
+    "title": "Die wilden Kerle",
+    "aliases": [],
+    "keywords": [
+      "Die wilden Kerle"
+    ],
+    "spotify_artist_ids": [
+      "7LzUjEdyDaURYTFAljHQbH"
+    ],
+    "episode_pattern": [
+      "[Ff]olge\\s+(\\d+)",
+      "[Dd]ie wilden Kerle (\\d+)"
+    ],
+    "albums": [
+      {
+        "spotify_album_id": "1MCPvn8C6lADwUZUIdpwZf",
+        "include": true,
+        "episode_num": 1,
+        "title": "Folge 1 (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0GjyUZEIUEAen2PIrJHYfZ",
+        "include": true,
+        "episode_num": 2,
+        "title": "Folge 2 (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4DDtmLJu9KugqZD9dVlttV",
+        "include": true,
+        "episode_num": 3,
+        "title": "Folge 3 (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4q6WI4v86KmItLlunD16Li",
+        "include": true,
+        "episode_num": 4,
+        "title": "Folge 4 (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1jdxNyab18HxJLDOf5cuSe",
+        "include": true,
+        "episode_num": 5,
+        "title": "Folge 5 (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "20OltTYEGDw6C4bLNBOlvb",
+        "include": true,
+        "episode_num": 6,
+        "title": "Folge 6 (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2GDyu3rI9cYTEmftuQMGOV",
+        "include": true,
+        "episode_num": 7,
+        "title": "Folge 7 (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7Jo9EbErkBRye6JATUtAyu",
+        "include": true,
+        "episode_num": 8,
+        "title": "Folge 8: (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0VkJ2F2bzTq7RJtMzotbiP",
+        "include": true,
+        "episode_num": 9,
+        "title": "Folge 9 (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7CmUZc3T0CEpwZZeC5HBtJ",
+        "include": true,
+        "episode_num": 10,
+        "title": "Folge 10 (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2LkAMvDTt31IBjllQWmbVy",
+        "include": true,
+        "episode_num": 11,
+        "title": "Folge 11 (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5hsAPUiKaWWgYbFkpdqn76",
+        "include": true,
+        "episode_num": 12,
+        "title": "Folge 12 (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7cDXblqIkxAlHtJreCIhJM",
+        "include": true,
+        "episode_num": 101,
+        "title": "Die wilden Kerle 1 - Das Hörspiel zum Kinofilm",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6Eh2X2jkK8r0CgNoqwlK6T",
+        "include": true,
+        "episode_num": 102,
+        "title": "Die wilden Kerle 2 - Das Hörspiel zum Kinofilm",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3nTkcLdH1KjzqOIGoJViUX",
+        "include": true,
+        "episode_num": 103,
+        "title": "Die wilden Kerle 3 - Das Hörspiel zum Kinofilm",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0oor5oxHJ1KY6LPd6qFMFp",
+        "include": true,
+        "episode_num": 104,
+        "title": "Die wilden Kerle 4 - Das Hörspiel zum Kinofilm",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6ApbcIU0QIfa62wyTtZ6sh",
+        "include": true,
+        "episode_num": 105,
+        "title": "Die wilden Kerle 5 - Das Hörspiel zum Kinofilm",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4E9cx6NUilcrRmloODyd7t",
+        "include": true,
+        "episode_num": 106,
+        "title": "Die wilden Kerle 6 - Die Legende lebt - Das Hörspiel zum Kinofilm",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0idXUzmjcWMeDnVgSTWjqy",
+        "include": false,
+        "episode_num": null,
+        "title": "Die wilden Kerle",
+        "exclude_reason": "Movie soundtrack (songs), not a Hörspiel"
+      },
+      {
+        "spotify_album_id": "5JErjkhvYDv8XJLhsJmFUB",
+        "include": false,
+        "episode_num": null,
+        "title": "Die wilden Kerle",
+        "exclude_reason": "Duplicate of 0idXUzmjcWMeDnVgSTWjqy; movie soundtrack (songs), not a Hörspiel"
+      }
+    ],
+    "age_note": "Suitable from 5+",
+    "curator_notes": "Series contains two distinct sub-series: TV series episodes (Folge 1-12, released 2020, Edelkids) and movie Hörspiele (parts 1-6, released 2021, LEONINE Audio). TV episodes contain 2-3 complete stories per album; movie Hörspiele are chapter-based audiobook adaptations. Assigned episode numbers 1-12 for TV series and 101-106 for movie Hörspiele to preserve ordering. Two 2003 soundtrack albums excluded as they contain songs from the movie, not narrative Hörspiele."
+  },
+  "review": {
+    "reviewed_at": "2026-02-22T23:15:43.971067+00:00",
+    "reviewed_by": "review-series.py",
+    "overrides": [
+      {
+        "album_id": "6Eh2X2jkK8r0CgNoqwlK6T",
+        "action": "exclude",
+        "reason": "Split to die_wilden_kerle_kinofilme"
+      },
+      {
+        "album_id": "4E9cx6NUilcrRmloODyd7t",
+        "action": "exclude",
+        "reason": "Split to die_wilden_kerle_kinofilme"
+      },
+      {
+        "album_id": "6ApbcIU0QIfa62wyTtZ6sh",
+        "action": "exclude",
+        "reason": "Split to die_wilden_kerle_kinofilme"
+      },
+      {
+        "album_id": "0oor5oxHJ1KY6LPd6qFMFp",
+        "action": "exclude",
+        "reason": "Split to die_wilden_kerle_kinofilme"
+      },
+      {
+        "album_id": "7cDXblqIkxAlHtJreCIhJM",
+        "action": "exclude",
+        "reason": "Split to die_wilden_kerle_kinofilme"
+      },
+      {
+        "album_id": "3nTkcLdH1KjzqOIGoJViUX",
+        "action": "exclude",
+        "reason": "Split to die_wilden_kerle_kinofilme"
+      }
+    ],
+    "splits": [
+      {
+        "new_id": "die_wilden_kerle_kinofilme",
+        "new_title": "Die wilden Kerle (Kinofilm-Hörspiele)",
+        "album_ids": [
+          "7cDXblqIkxAlHtJreCIhJM",
+          "6Eh2X2jkK8r0CgNoqwlK6T",
+          "3nTkcLdH1KjzqOIGoJViUX",
+          "0oor5oxHJ1KY6LPd6qFMFp",
+          "6ApbcIU0QIfa62wyTtZ6sh",
+          "4E9cx6NUilcrRmloODyd7t"
+        ],
+        "reason": "The movie Hörspiele (Die wilden Kerle 1-6) are based on the live-action films and are a different product from the TV series Hörspiele (Folge 1-12). They have different target audiences (slightly older kids for the movies), different production styles (live-action vs animated), and different numbering systems. From a parent's perspective, these would be confusing mixed together - a parent looking for TV series episodes would not expect to find movie adaptations mixed in. Splitting them into separate series provides a clearer browsing experience."
+      }
+    ],
+    "notes": "The series was mixing two distinct products: (1) TV series Hörspiele (Folge 1-12, animated, original storytelling) and (2) Movie Hörspiele (Die wilden Kerle 1-6, live-action film adaptations). These have been split into separate series for clarity. The excluded items are correctly identified as movie soundtracks (songs), not Hörspiele.",
+    "verification": {
+      "model": "minimax-m2.5",
+      "verified_at": "2026-02-22T23:16:46.766960+00:00",
+      "approve": true,
+      "concerns": "",
+      "override_verdicts": [
+        {
+          "album_id": "6Eh2X2jkK8r0CgNoqwlK6T",
+          "agree": true,
+          "reason": "Movie Hörspiel correctly identified as different product from TV series - clearly labeled 'Das Hörspiel zum Kinofilm' with different label (LEONINE Audio vs Edelkids) and different numbering (1-6 vs Folge 1-12). Appropriate to split."
+        },
+        {
+          "album_id": "4E9cx6NUilcrRmloODyd7t",
+          "agree": true,
+          "reason": "Movie Hörspiel correctly identified as different product from TV series - clearly labeled 'Das Hörspiel zum Kinofilm' with different label and different target demographic (film adaptations are for slightly older kids). Appropriate to split."
+        },
+        {
+          "album_id": "6ApbcIU0QIfa62wyTtZ6sh",
+          "agree": true,
+          "reason": "Movie Hörspiel (part 5) - appropriate to split as it's a Kinofilm adaptation, not original TV series content."
+        },
+        {
+          "album_id": "0oor5oxHJ1KY6LPd6qFMFp",
+          "agree": true,
+          "reason": "Movie Hörspiel (part 4) - appropriate to split as it's a Kinofilm adaptation. The track structure shows chapters numbered 01-25 with uniform durations typical of movie adaptations."
+        },
+        {
+          "album_id": "7cDXblqIkxAlHtJreCIhJM",
+          "agree": true,
+          "reason": "Movie Hörspiel correctly identified as different product - labeled 'Das Hörspiel zum Kinofilm', released 2021 by LEONINE Audio, vs TV series 'Folge 1-12' from Edelkids. Different production (live-action film adaptation vs animated TV series). Appropriate to split."
+        },
+        {
+          "album_id": "3nTkcLdH1KjzqOIGoJViUX",
+          "agree": true,
+          "reason": "Movie Hörspiel (part 3) - appropriate to split as Kinofilm adaptation. All 6 movie Hörspiele (parts 1-6) share the same release date (2021-10-29) and label (LEONINE Audio), confirming they are a distinct product line from the TV series."
+        }
+      ],
+      "split_verdicts": [
+        {
+          "new_id": "die_wilden_kerle_kinofilme",
+          "agree": true,
+          "reason": "Good split: The 6 movie Hörspiele (Die wilden Kerle 1-6) are clearly distinct from the 12 TV series episodes (Folge 1-12). They have different: (1) Source material - live-action films vs animated TV series, (2) Labels - LEONINE Audio vs Edelkids, (3) Release timing - all 2021 vs 2020, (4) Numbering - 1-6 vs Folge 1-12, (5) Subtitle style - 'Das Hörspiel zum Kinofilm' vs 'Das Original-Hörspiel zur TV-Serie'. This would indeed be confusing for parents browsing for episodes. Valid split."
+        }
+      ]
+    },
+    "status": "approved"
+  }
+}

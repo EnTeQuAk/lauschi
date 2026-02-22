@@ -583,7 +583,8 @@ def print_summary(series: CuratedSeries) -> None:
     eps = [a.episode_num for a in inc if a.episode_num is not None]
 
     from rich.markup import escape
-    pattern = escape(series.episode_pattern or "(none)")
+    ep_pat = series.episode_pattern or "(none)"
+    pattern = escape(str(ep_pat))
     console.print(Panel(
         f"[bold]{escape(series.title)}[/]  [dim]{series.id}[/]\n"
         f"Artists: {', '.join(series.spotify_artist_ids)}\n"
