@@ -1,0 +1,73 @@
+{
+  "query": "Split from benjamin_bluemchen",
+  "model": "review-series.py",
+  "curated_at": "2026-02-22T22:49:33.759072+00:00",
+  "series": {
+    "id": "benjamin_bluemhen_minis",
+    "title": "Benjamin Blümchen Minis",
+    "aliases": [],
+    "keywords": [],
+    "spotify_artist_ids": [
+      "1l6d0RIxTL3JytlLGvWzYe"
+    ],
+    "episode_pattern": "[Ff]olge\\s+(\\d+)",
+    "albums": [
+      {
+        "spotify_album_id": "3PnaYpicNEwuo4Gv2SJ5N8",
+        "include": true,
+        "episode_num": 1,
+        "title": "Benjamin Minis - Folge 1: Hallo, Lea!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "72zDeiWHQEPFyFNlTqDEJi",
+        "include": true,
+        "episode_num": 5,
+        "title": "Benjamin Minis - Folge 5: Endlich Schnee!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0MN49nhoq9kCwtW8y4jEMV",
+        "include": true,
+        "episode_num": 4,
+        "title": "Benjamin Minis - Folge 4: Geburtstag im Zoo",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5ymm9RXqHRg6SxYgM2Cc3A",
+        "include": true,
+        "episode_num": 6,
+        "title": "Benjamin Minis - Folge 6: Eine verrückte Zahnputzgeschichte",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7AhVdEAC0mQspr8a3crPHk",
+        "include": true,
+        "episode_num": 2,
+        "title": "Benjamin Minis - Folge 2: Keine Angst im Dunkeln",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4QCzgi6ctPLnBzbpXm02BT",
+        "include": true,
+        "episode_num": 3,
+        "title": "Benjamin Minis - Folge 3: Das erste Fahrrad",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "373A10PBGMIleibQAAtKUO",
+        "include": true,
+        "episode_num": 7,
+        "title": "Benjamin Minis - Folge 7: Müllalarm im Zoo",
+        "exclude_reason": null
+      }
+    ],
+    "age_note": null,
+    "curator_notes": "Split from Benjamin Blümchen. Short-form spinoff series for younger children (3-5) with simpler stories and shorter duration"
+  },
+  "review": {
+    "status": "pending",
+    "overrides": [],
+    "notes": "Auto-created by apply-splits.py from benjamin_bluemchen."
+  }
+}

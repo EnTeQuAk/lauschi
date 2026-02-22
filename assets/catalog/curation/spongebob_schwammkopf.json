@@ -15,7 +15,10 @@
     "spotify_artist_ids": [
       "4nzfncntC1DiwIFMARUT2w"
     ],
-    "episode_pattern": "^Folge (\\d+):",
+    "episode_pattern": [
+      "^Folge (\\d+):",
+      "^Folge (\\d+) \\("
+    ],
     "albums": [
       {
         "spotify_album_id": "4ZS6ypHuLbFakwNSMaP7N6",
@@ -1161,5 +1164,21 @@
     ],
     "age_note": "Suitable from 5+",
     "curator_notes": "German audio dramas based on the popular Nickelodeon TV series. Episodes follow the 'Folge X: Titel' format. Occasional special releases like 'Weihnachten unter Wasser XXL-Edition' and 'Simsalabim' exist outside the main numbering scheme. Episode numbers are in the 200s+ range, indicating a long-running series with extensive back catalog."
+  },
+  "review": {
+    "reviewed_at": "2026-02-22T22:52:20.650950+00:00",
+    "reviewed_by": "kimi-k2.5",
+    "overrides": [],
+    "splits": [],
+    "notes": "Episodes 50-200 genuinely missing from Spotify (verified via search). All 56 exclusions correct (music/compilations). Pattern updated to handle both naming conventions.",
+    "status": "approved",
+    "verification": {
+      "model": "minimax-m2.5",
+      "verified_at": "2026-02-22T22:52:28.982259+00:00",
+      "approve": true,
+      "concerns": "",
+      "override_verdicts": [],
+      "split_verdicts": []
+    }
   }
 }

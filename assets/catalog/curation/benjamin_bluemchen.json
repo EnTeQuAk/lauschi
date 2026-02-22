@@ -1908,7 +1908,423 @@
   "review": {
     "status": "approved",
     "reviewed_at": "2026-02-22T13:00:59.453098+00:00",
-    "overrides": [],
+    "overrides": [
+      {
+        "album_id": "1ZjAixYm8T5nH3eYC4KXDn",
+        "action": "exclude",
+        "reason": "Split to benjamin_bluemchen_gute_nacht_geschichten"
+      },
+      {
+        "album_id": "3X3VYRdhraDuIIYp1OGNeM",
+        "action": "exclude",
+        "reason": "Split to benjamin_bluemchen_gute_nacht_geschichten"
+      },
+      {
+        "album_id": "1XEgnkoYMJWVdgXLHyxtiR",
+        "action": "exclude",
+        "reason": "Split to benjamin_bluemchen_gute_nacht_geschichten"
+      },
+      {
+        "album_id": "2fiFlD2ujQz6E4s52D60sC",
+        "action": "exclude",
+        "reason": "Split to benjamin_bluemchen_gute_nacht_geschichten"
+      },
+      {
+        "album_id": "7rn6tf64uofISHlWtOksU1",
+        "action": "exclude",
+        "reason": "Split to benjamin_bluemchen_gute_nacht_geschichten"
+      },
+      {
+        "album_id": "2fb6qUSV8TUQoW8G50da7P",
+        "action": "exclude",
+        "reason": "Split to benjamin_bluemchen_gute_nacht_geschichten"
+      },
+      {
+        "album_id": "27upXzmCmVNjJsMRmD7bOv",
+        "action": "exclude",
+        "reason": "Split to benjamin_bluemchen_gute_nacht_geschichten"
+      },
+      {
+        "album_id": "30f4zKTJOXMSyynihrW8E5",
+        "action": "exclude",
+        "reason": "Split to benjamin_bluemchen_gute_nacht_geschichten"
+      },
+      {
+        "album_id": "6u9Vz8ky2X27v8m2KBe2f9",
+        "action": "exclude",
+        "reason": "Split to benjamin_bluemchen_gute_nacht_geschichten"
+      },
+      {
+        "album_id": "2jBNdNjnkWyWhqYCdw44FW",
+        "action": "exclude",
+        "reason": "Split to benjamin_bluemchen_gute_nacht_geschichten"
+      },
+      {
+        "album_id": "7qDYRuMu9XgqaaMt0bxUAG",
+        "action": "exclude",
+        "reason": "Split to benjamin_bluemchen_gute_nacht_geschichten"
+      },
+      {
+        "album_id": "4rKGBbiC5kNqgzXCwNQUSu",
+        "action": "exclude",
+        "reason": "Split to benjamin_bluemchen_gute_nacht_geschichten"
+      },
+      {
+        "album_id": "4Mw3LGGUNoS8UqxLGQyVz4",
+        "action": "exclude",
+        "reason": "Split to benjamin_bluemchen_gute_nacht_geschichten"
+      },
+      {
+        "album_id": "4fmih7v3hLOwJk0Wmmav2R",
+        "action": "exclude",
+        "reason": "Split to benjamin_bluemchen_gute_nacht_geschichten"
+      },
+      {
+        "album_id": "7g5j2uYgt2iKbCnOoaNbLB",
+        "action": "exclude",
+        "reason": "Split to benjamin_bluemchen_gute_nacht_geschichten"
+      },
+      {
+        "album_id": "5erZoyJ22F2XI13RydIXmk",
+        "action": "exclude",
+        "reason": "Split to benjamin_bluemchen_gute_nacht_geschichten"
+      },
+      {
+        "album_id": "0Hk61KJfCPFrCuq2CsRKal",
+        "action": "exclude",
+        "reason": "Split to benjamin_bluemchen_gute_nacht_geschichten"
+      },
+      {
+        "album_id": "2W3XvoHpwNONqyRBTgzj2X",
+        "action": "exclude",
+        "reason": "Split to benjamin_bluemchen_gute_nacht_geschichten"
+      },
+      {
+        "album_id": "4vl7h8Wkqj8JYHpacb7Y9v",
+        "action": "exclude",
+        "reason": "Split to benjamin_bluemchen_gute_nacht_geschichten"
+      },
+      {
+        "album_id": "0CpO06kRKI1Bmxaq1tdODi",
+        "action": "exclude",
+        "reason": "Split to benjamin_bluemchen_gute_nacht_geschichten"
+      },
+      {
+        "album_id": "22IyszbjSWQ9PHD7UEjalx",
+        "action": "exclude",
+        "reason": "Split to benjamin_bluemchen_gute_nacht_geschichten"
+      },
+      {
+        "album_id": "43Gr4JRHBiPEYZD4B5rAH8",
+        "action": "exclude",
+        "reason": "Split to benjamin_bluemchen_gute_nacht_geschichten"
+      },
+      {
+        "album_id": "5hfoUCzelAJ8TEeheK4v58",
+        "action": "exclude",
+        "reason": "Split to benjamin_bluemchen_gute_nacht_geschichten"
+      },
+      {
+        "album_id": "47v1qzw9NhmSxoxnc1y2YZ",
+        "action": "exclude",
+        "reason": "Split to benjamin_bluemchen_gute_nacht_geschichten"
+      },
+      {
+        "album_id": "7I7qLmUxgIcljxBOzb0YlE",
+        "action": "exclude",
+        "reason": "Split to benjamin_bluemchen_gute_nacht_geschichten"
+      },
+      {
+        "album_id": "0nitnuUS2XZxyT82P5Zq4s",
+        "action": "exclude",
+        "reason": "Split to benjamin_bluemchen_gute_nacht_geschichten"
+      },
+      {
+        "album_id": "3CUqrbDq54UZ1J0mHGznle",
+        "action": "exclude",
+        "reason": "Split to benjamin_bluemchen_gute_nacht_geschichten"
+      },
+      {
+        "album_id": "3U00CUyWGu4Aav1I4kEMRm",
+        "action": "exclude",
+        "reason": "Split to benjamin_bluemchen_gute_nacht_geschichten"
+      },
+      {
+        "album_id": "2VZdKhtpBNHZOlFKwNijDo",
+        "action": "exclude",
+        "reason": "Split to benjamin_bluemchen_gute_nacht_geschichten"
+      },
+      {
+        "album_id": "6wsUgHGmV2M61ooQpM5StQ",
+        "action": "exclude",
+        "reason": "Split to benjamin_bluemchen_gute_nacht_geschichten"
+      },
+      {
+        "album_id": "0y7BgWCMzJfHpdFDKuQxb4",
+        "action": "exclude",
+        "reason": "Split to benjamin_bluemchen_gute_nacht_geschichten"
+      },
+      {
+        "album_id": "2r1WsIxAgbenRBDW5Ok16y",
+        "action": "exclude",
+        "reason": "Split to benjamin_bluemchen_gute_nacht_geschichten"
+      },
+      {
+        "album_id": "12HAZnjCSumqoi7VNw1Srz",
+        "action": "exclude",
+        "reason": "Split to benjamin_bluemchen_gute_nacht_geschichten"
+      },
+      {
+        "album_id": "2xx69IjNiel4mrcn7EI2IW",
+        "action": "exclude",
+        "reason": "Split to benjamin_bluemchen_gute_nacht_geschichten"
+      },
+      {
+        "album_id": "58sCMP2uMJZUCYtyqI5ZN2",
+        "action": "exclude",
+        "reason": "Split to benjamin_bluemchen_gute_nacht_geschichten"
+      },
+      {
+        "album_id": "3PnaYpicNEwuo4Gv2SJ5N8",
+        "action": "exclude",
+        "reason": "Split to benjamin_bluemhen_minis"
+      },
+      {
+        "album_id": "72zDeiWHQEPFyFNlTqDEJi",
+        "action": "exclude",
+        "reason": "Split to benjamin_bluemhen_minis"
+      },
+      {
+        "album_id": "0MN49nhoq9kCwtW8y4jEMV",
+        "action": "exclude",
+        "reason": "Split to benjamin_bluemhen_minis"
+      },
+      {
+        "album_id": "5ymm9RXqHRg6SxYgM2Cc3A",
+        "action": "exclude",
+        "reason": "Split to benjamin_bluemhen_minis"
+      },
+      {
+        "album_id": "7AhVdEAC0mQspr8a3crPHk",
+        "action": "exclude",
+        "reason": "Split to benjamin_bluemhen_minis"
+      },
+      {
+        "album_id": "4QCzgi6ctPLnBzbpXm02BT",
+        "action": "exclude",
+        "reason": "Split to benjamin_bluemhen_minis"
+      },
+      {
+        "album_id": "373A10PBGMIleibQAAtKUO",
+        "action": "exclude",
+        "reason": "Split to benjamin_bluemhen_minis"
+      },
+      {
+        "album_id": "3ANkD069p7sujMWGFYL7Gk",
+        "action": "exclude",
+        "reason": "Split to benjamin_bluemchen_finds_raus"
+      },
+      {
+        "album_id": "1U5WPQvOaUen0rEUXSF2xF",
+        "action": "exclude",
+        "reason": "Split to benjamin_bluemchen_finds_raus"
+      },
+      {
+        "album_id": "2rgYh2I7zLKUf6IcrbrvsP",
+        "action": "exclude",
+        "reason": "Split to benjamin_bluemchen_finds_raus"
+      },
+      {
+        "album_id": "3TjPqzJLI3RvEMAfBWoXus",
+        "action": "exclude",
+        "reason": "Split to benjamin_bluemchen_finds_raus"
+      },
+      {
+        "album_id": "3Rr99zTIYQ15YEITCS0tNS",
+        "action": "exclude",
+        "reason": "Split to benjamin_bluemchen_finds_raus"
+      },
+      {
+        "album_id": "2Ck5U56StYxqFpecUB4Js4",
+        "action": "exclude",
+        "reason": "Split to benjamin_bluemchen_finds_raus"
+      },
+      {
+        "album_id": "6GIYDPQ87bC5lxq1P9aKeW",
+        "action": "exclude",
+        "reason": "Split to benjamin_bluemchen_finds_raus"
+      },
+      {
+        "album_id": "6I1iPM5ON3k2nPDa4dWVdz",
+        "action": "exclude",
+        "reason": "Split to benjamin_bluemchen_finds_raus"
+      },
+      {
+        "album_id": "5iOHGdKsVr0aUmDAOMkIIG",
+        "action": "exclude",
+        "reason": "Split to benjamin_bluemchen_finds_raus"
+      },
+      {
+        "album_id": "4BoMFkcqYNlQEzIRVA5O0v",
+        "action": "exclude",
+        "reason": "Split to benjamin_bluemchen_finds_raus"
+      },
+      {
+        "album_id": "37hOJLiFhOgMF5Oo4aFQSR",
+        "action": "exclude",
+        "reason": "Split to benjamin_bluemchen_finds_raus"
+      },
+      {
+        "album_id": "5WZUcUwjAPQtneLG6HYlFU",
+        "action": "exclude",
+        "reason": "Split to benjamin_bluemchen_finds_raus"
+      },
+      {
+        "album_id": "4oURlGd6tLuF6C7VLqba2z",
+        "action": "exclude",
+        "reason": "Split to benjamin_bluemchen_finds_raus"
+      },
+      {
+        "album_id": "5pDlWwNtOK3CheIcs1stBR",
+        "action": "exclude",
+        "reason": "Split to benjamin_bluemchen_finds_raus"
+      },
+      {
+        "album_id": "1F8rP3XGQwHQx3YsSyztIq",
+        "action": "exclude",
+        "reason": "Split to benjamin_bluemchen_liederzoo"
+      },
+      {
+        "album_id": "3poA2gABzJKIdWgqd93B7n",
+        "action": "exclude",
+        "reason": "Split to benjamin_bluemchen_liederzoo"
+      },
+      {
+        "album_id": "0WkRJlaXKMmO40Qzt2T2S1",
+        "action": "exclude",
+        "reason": "Split to benjamin_bluemchen_liederzoo"
+      },
+      {
+        "album_id": "572Jjtpckxvd7Hf0nRo8KQ",
+        "action": "exclude",
+        "reason": "Split to benjamin_bluemchen_liederzoo"
+      },
+      {
+        "album_id": "5eE3bos99SlobyGrDPfnCV",
+        "action": "exclude",
+        "reason": "Split to benjamin_bluemchen_liederzoo"
+      },
+      {
+        "album_id": "5OdQSnhLbnPUkAtdr7T1zy",
+        "action": "exclude",
+        "reason": "Split to benjamin_bluemchen_liederzoo"
+      },
+      {
+        "album_id": "4qHZSba4P6wvhvVe0W6KgD",
+        "action": "exclude",
+        "reason": "Split to benjamin_bluemchen_liederzoo"
+      },
+      {
+        "album_id": "4FTopXYnqEsGuurUqxw2km",
+        "action": "exclude",
+        "reason": "Split to benjamin_bluemchen_liederzoo"
+      },
+      {
+        "album_id": "13WWvqshej7zcA8XEtR5nh",
+        "action": "exclude",
+        "reason": "Split to benjamin_bluemchen_liederzoo"
+      },
+      {
+        "album_id": "47LNFSvQwtQGxx65mz2pOD",
+        "action": "exclude",
+        "reason": "Split to benjamin_bluemchen_liederzoo"
+      },
+      {
+        "album_id": "6ajqHWKSkNPhFp83LxNn3r",
+        "action": "exclude",
+        "reason": "Split to benjamin_bluemchen_liederzoo"
+      },
+      {
+        "album_id": "6hrmIjqpbF2YQesR1jFyRY",
+        "action": "exclude",
+        "reason": "Split to benjamin_bluemchen_liederzoo"
+      },
+      {
+        "album_id": "0nViSLRhVDCBs5V6NOyXt3",
+        "action": "exclude",
+        "reason": "Split to benjamin_bluemchen_liederzoo"
+      },
+      {
+        "album_id": "5wpfkw1DTwhEieYemKe012",
+        "action": "exclude",
+        "reason": "Split to benjamin_bluemchen_liederzoo"
+      },
+      {
+        "album_id": "6NxgnnpyGsisWWr4TT0NyI",
+        "action": "exclude",
+        "reason": "Split to benjamin_bluemchen_liederzoo"
+      },
+      {
+        "album_id": "4HkEFBWpnJbQXzIrbdNBFN",
+        "action": "exclude",
+        "reason": "Split to benjamin_bluemchen_liederzoo"
+      },
+      {
+        "album_id": "6ZxKdVwlDjiqhhZ0bZkiEt",
+        "action": "exclude",
+        "reason": "Split to benjamin_bluemchen_liederzoo"
+      },
+      {
+        "album_id": "0XxFWYXKk8sDDmri9EymSI",
+        "action": "exclude",
+        "reason": "Split to benjamin_bluemchen_liederzoo"
+      },
+      {
+        "album_id": "2CrEduucAluk3PcyJY4VPD",
+        "action": "exclude",
+        "reason": "Split to benjamin_bluemchen_liederzoo"
+      },
+      {
+        "album_id": "1HzZozAWXQnSwPBpHRWgCZ",
+        "action": "exclude",
+        "reason": "Split to benjamin_bluemchen_liederzoo"
+      },
+      {
+        "album_id": "26Y1xFtGOmKzFJrOGpvAOD",
+        "action": "exclude",
+        "reason": "Split to benjamin_bluemchen_liederzoo"
+      },
+      {
+        "album_id": "7sEPIy8rDtPKO8RXzq7mNN",
+        "action": "exclude",
+        "reason": "Split to benjamin_bluemchen_liederzoo"
+      },
+      {
+        "album_id": "1JeXqGMIdSS2qE5nFXxoGJ",
+        "action": "exclude",
+        "reason": "Split to benjamin_bluemchen_liederzoo"
+      },
+      {
+        "album_id": "6MoJaPKuivI4cmJoPUbxYL",
+        "action": "exclude",
+        "reason": "Split to benjamin_bluemchen_liederzoo"
+      },
+      {
+        "album_id": "30ODH6Ybwjw6YNfBnVKiMk",
+        "action": "exclude",
+        "reason": "Split to benjamin_bluemchen_liederzoo"
+      },
+      {
+        "album_id": "306zG4cWQdfxopt4L69GVJ",
+        "action": "exclude",
+        "reason": "Split to benjamin_bluemchen_liederzoo"
+      },
+      {
+        "album_id": "5exzwTqbr33UIODgVVSy0m",
+        "action": "exclude",
+        "reason": "Split to benjamin_bluemchen_liederzoo"
+      }
+    ],
     "notes": "Should add the \"Gute Nacht Geschichten\" elsewhere, as a separate album or so\nGaps [39, 67, 71, 74] investigated: Episode 39 may be genuinely unavailable on Spotify. Episodes 67, 71, 74 are numbering quirks - those numbers were used for 'Meine schönsten Lieder', 'Alle meine Freunde', and 'singt Weihnachtslieder' albums (already excluded as singalongs). Main series intentionally skips these numbers. No action needed on gaps.\n\nSplit recommendations:\n1. 'Gute-Nacht-Geschichten' (35 albums) - bedtime story spinoff, different format\n2. 'Benjamin Minis' (7 albums) - short-form for younger kids  \n3. 'Find's raus' (14 albums) - educational non-fiction spinoff\n4. 'Liederzoo' (26 albums) - song albums, distinct content type\n\nRemaining excluded albums are correctly categorized: compilations, movie adaptation, singles, ASMR/ambient, language learning, and special editions. The main series now contains clean story episodes only.",
     "reviewed_by": "review-series.py",
     "splits": [

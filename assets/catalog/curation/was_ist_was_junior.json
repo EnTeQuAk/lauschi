@@ -1,0 +1,431 @@
+{
+  "query": "Split from was_ist_was",
+  "model": "review-series.py",
+  "curated_at": "2026-02-22T22:49:33.788194+00:00",
+  "series": {
+    "id": "was_ist_was_junior",
+    "title": "Was ist Was Junior",
+    "aliases": [],
+    "keywords": [],
+    "spotify_artist_ids": [
+      "7zNPHpOB4uBduLjmEZzzpy",
+      "4MpuODBeOH8gBHqVZtXa7U"
+    ],
+    "episode_pattern": "^(?:\\d+|(?:Folge|Teil|Band|Episode)\\s+(\\d+))",
+    "albums": [
+      {
+        "spotify_album_id": "0X4JI7QmYwuuVCb5I07F07",
+        "include": true,
+        "episode_num": null,
+        "title": "Erforsche den Mars",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5LjUOjX8lMXLUdmdDPCHXY",
+        "include": true,
+        "episode_num": 31,
+        "title": "31: Komm mit zum Ballett",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2jNtGtRu27I5bd78LXliBp",
+        "include": true,
+        "episode_num": 25,
+        "title": "25: Die Schule geht los!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3agfnkHCJpThKqifXWXdnc",
+        "include": true,
+        "episode_num": 29,
+        "title": "29: Im Straßenverkehr",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "41ftyT0OJgcCT0j0azquPu",
+        "include": true,
+        "episode_num": null,
+        "title": "Komm mit zum Mond",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "47ujRWJ1Wp54k0K0si9zwS",
+        "include": true,
+        "episode_num": null,
+        "title": "Feuerwehr - Wasser marsch!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0t6x2nFdSUHwCDgMwx7G4x",
+        "include": true,
+        "episode_num": 21,
+        "title": "21: LKW, Bagger, Traktoren",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3jNX8WISj8wszIINYtyDTX",
+        "include": true,
+        "episode_num": 38,
+        "title": "38: Wie funktioniert das? Technik zu Hause",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1lO1BiLb0LUwd4eBFFohwv",
+        "include": true,
+        "episode_num": null,
+        "title": "Erlebnis Eisenbahn",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2nnIfqKLIdvMt8VAswR5OW",
+        "include": true,
+        "episode_num": null,
+        "title": "Abenteuer Autos",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5D5N8N5L8xZuyekKaShS6Z",
+        "include": true,
+        "episode_num": null,
+        "title": "Reise ins alte Ägypten",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "39Gszdt5o8f7jfiiK7ZIeR",
+        "include": true,
+        "episode_num": 12,
+        "title": "12: Fußball",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6RZMInn9NcEqq8LUk1FSr3",
+        "include": true,
+        "episode_num": 20,
+        "title": "20: Im Zoo",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7lQrCnw1MNLhT1hYFpPffG",
+        "include": true,
+        "episode_num": null,
+        "title": "Europa - gemeinsam stark",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6MZIdnOywVGazEVvtqniDl",
+        "include": true,
+        "episode_num": 36,
+        "title": "36: Juhu, die Schule fängt an!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2NRlj96KahKodtyE59MrHn",
+        "include": true,
+        "episode_num": 10,
+        "title": "10: Unsere Erde",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0BVR9okzupLVimOlHvM9cU",
+        "include": true,
+        "episode_num": 16,
+        "title": "16: Indianer",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6Phy1JysUYXkDFprinZTFU",
+        "include": true,
+        "episode_num": 7,
+        "title": "07: Flughafen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3KOtyyImGlWMpPe50K4yfG",
+        "include": true,
+        "episode_num": 34,
+        "title": "34: Wir entdecken die Nacht",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "38oiSdnPruvBiUFjhzJnxs",
+        "include": true,
+        "episode_num": 27,
+        "title": "27: Die Jahreszeiten",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5DVziK4DkGYvunDdB3TzvO",
+        "include": true,
+        "episode_num": 28,
+        "title": "28: Wir bekommen ein Haustier",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6nWZhd34fXBJTbME3XADhd",
+        "include": true,
+        "episode_num": 4,
+        "title": "04: Bauernhof",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2o5Ek9PzxH4I43wroFYCh2",
+        "include": true,
+        "episode_num": null,
+        "title": "Ausgestorbene Tiere",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6b8ZVsGlkah0rjbdy24Vz6",
+        "include": true,
+        "episode_num": null,
+        "title": "Eulen - Jäger der Nacht",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4068cGBruMVv6XblSOzNS6",
+        "include": true,
+        "episode_num": null,
+        "title": "Haie - bedrohte Jäger",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6vEJDlvilk1RbxtgajLeyj",
+        "include": true,
+        "episode_num": 13,
+        "title": "13: Piraten",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4MEPgEmCKDKlNLlKbxNj4O",
+        "include": true,
+        "episode_num": null,
+        "title": "Entdecke Deutschland",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0sjwwzNMoyxii5ZhpwqN1b",
+        "include": true,
+        "episode_num": null,
+        "title": "Abenteuer Tauchen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5SHLaS8960huctAEgfAIJj",
+        "include": true,
+        "episode_num": 26,
+        "title": "26: Wir machen Musik",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5qUDeUmj3UJ1UNpl6bx4K6",
+        "include": true,
+        "episode_num": 30,
+        "title": "30: Bienen, Wespen, Hummeln",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "699xV9wlNV7S4LleKgjcqc",
+        "include": true,
+        "episode_num": null,
+        "title": "Versunkene Schätze entdecken",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6MkPg2rnwWsLBsilNsyYO2",
+        "include": true,
+        "episode_num": 33,
+        "title": "33: Die spannende Welt der Insekten",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2QuZPXo10JgLaNuVD48VhY",
+        "include": true,
+        "episode_num": null,
+        "title": "Fußball - 1, 2, 3 ... Tor!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2DMuYgkx2SEDgyNiMc61Ht",
+        "include": true,
+        "episode_num": 22,
+        "title": "22: Wale & Delfine",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7lh5cQdVwuYhF51NxGaplT",
+        "include": true,
+        "episode_num": null,
+        "title": "Die Welt der Pferde",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5t55j01JtyejnxcBQjJzsE",
+        "include": true,
+        "episode_num": 23,
+        "title": "23: Altes Ägypten",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4YniqHlWM9rex1P2OdSO8S",
+        "include": true,
+        "episode_num": null,
+        "title": "Kometen und Asteroiden",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5iP0ftHF0tsXICTKEsZpxk",
+        "include": true,
+        "episode_num": null,
+        "title": "Planeten und Raumfahrt",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4EvsczwugcxtaelZamYZUG",
+        "include": true,
+        "episode_num": 17,
+        "title": "17: Das Meer",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5w5nRGCTFFyZ3yc5DJpRZK",
+        "include": true,
+        "episode_num": 41,
+        "title": "41: Die Naturfüchse: Im Einsatz für Tiere",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3yytUILoYBNP8CzBYFsxlI",
+        "include": true,
+        "episode_num": null,
+        "title": "Polizei",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0wh8YXXxiGVuhnBlhtYuhJ",
+        "include": true,
+        "episode_num": null,
+        "title": "Im Reich der Dinosaurier",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6ghcuRhPzPQMatSEtzK95B",
+        "include": true,
+        "episode_num": null,
+        "title": "Pyramiden",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3xfq1AJQkvIaOE2FML9JKF",
+        "include": true,
+        "episode_num": 32,
+        "title": "32: Wir feiern Weihnachten",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0Cz1qi44niHfwE7L5dsWnm",
+        "include": true,
+        "episode_num": 18,
+        "title": "18: Das Wetter",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1Ao84Y6BV1OMQVsOTVxiYn",
+        "include": true,
+        "episode_num": null,
+        "title": "Was war los im alten Rom?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0HmYbeJgkiKZJl2rKR5Lcs",
+        "include": true,
+        "episode_num": null,
+        "title": "Entdecke die Erde",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5kJR39BptRZhyrYNKJXc61",
+        "include": true,
+        "episode_num": 11,
+        "title": "11: Im Wald",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4advuDqie5MZL7wSEQdFg8",
+        "include": true,
+        "episode_num": 40,
+        "title": "40: Retter im Einsatz",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3aBK2kY2rnJtaEuDCy9ACD",
+        "include": true,
+        "episode_num": null,
+        "title": "Vulkane",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7K9Vi9tL3AWpnoDinnaXgo",
+        "include": true,
+        "episode_num": 35,
+        "title": "35: Geheimnisse unter der Erde",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7zU1NSsPQbHwXXoEHWa1g8",
+        "include": true,
+        "episode_num": 1,
+        "title": "01: Ritterburg",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5hbeQvVFzZ8HHQq6eErK7E",
+        "include": true,
+        "episode_num": 37,
+        "title": "37: Die Naturfüchse: Entdeckung im Wald",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "74IHtwKxCCSPrZunSbaQwP",
+        "include": true,
+        "episode_num": 9,
+        "title": "09: Mein Körper",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5Cwab1QkXDKbSKUxShYWzY",
+        "include": true,
+        "episode_num": null,
+        "title": "Korallenriffe",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0HmbY5lxDKE70Yf5KZ4ltV",
+        "include": true,
+        "episode_num": 39,
+        "title": "39: Die Naturfüchse: Ölspur im Badesee",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "75gQMhqUBYCsOnYcN91E2z",
+        "include": true,
+        "episode_num": 24,
+        "title": "24: Am Hafen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7lg0uupyKUagvOUJaJfBCv",
+        "include": true,
+        "episode_num": 15,
+        "title": "15: Ein Baby kommt zur Welt",
+        "exclude_reason": null
+      }
+    ],
+    "age_note": "Suitable from 5+",
+    "curator_notes": "Split from Was ist Was. Move remaining Junior albums with episode numbers and all non-episodic albums to existing Junior series. Junior albums have single simple topics (Bauernhof, Flughafen, Fußball) for younger kids, while Classic has dual topics (Leben der Ritter / Mächtige Burgen) for older kids. This resolves all 31 duplicate episodes caused by both lines having the same episode numbers."
+  },
+  "review": {
+    "status": "pending",
+    "overrides": [],
+    "notes": "Auto-created by apply-splits.py from was_ist_was."
+  }
+}

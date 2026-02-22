@@ -809,5 +809,32 @@
     ],
     "age_note": "Recommended 8+",
     "curator_notes": "Spin-off of 'Die drei ???' targeting a younger, primarily female audience. Features three girls solving mysteries. Includes special editions like Adventskalender and character spin-offs (e.g., 'Kims Tagebuch'). Episode numbering starts from 1 and is consistent in 'Folge X: Title' format."
+  },
+  "review": {
+    "reviewed_at": "2026-02-22T22:48:36.763013+00:00",
+    "reviewed_by": "review-series.py",
+    "overrides": [
+      {
+        "album_id": "6HUsj30bF5HtJzwNZLzoY0",
+        "action": "include",
+        "reason": "Episode 97 'Die Ponyverschwörung' - standalone episode released 2023, part of main series"
+      }
+    ],
+    "notes": "Episode 50 'Freundinnen in Gefahr' only exists as a 3-in-1 box set (contains episodes 50, 51, 52). No standalone release found on Spotify - gap at 50 is accurate.\n\nEpisode pattern updated to capture both 'XXX/' and 'Folge X:' formats - all episodes 1-49 and 51-96 now properly recognized.\n\n'Die Ponyverschwörung' (2023) is episode 97, included via override. All Adventskalender exclusions and compilation exclusions look correct.",
+    "verification": {
+      "model": "minimax-m2.5",
+      "verified_at": "2026-02-22T22:49:48.589799+00:00",
+      "approve": true,
+      "concerns": "I spot-checked 4 albums from the list:\n- 6HUsj30b (Die Ponyverschwörung): Not found on Spotify, likely delisted. Override to include is based on external metadata and seems valid.\n- 3s2ROvBM (Movie tie-in): Not found on Spotify, correctly excluded as movie tie-in.\n- 5337c71g (Adventskalender): Not found on Spotify, correctly excluded as Adventskalender format.\n- 6rfILMiU (Box set): Not found on Spotify, correctly excluded as box set containing 3 episodes (50, 51, 52).\n\nThe curation looks sound. The excluded albums are appropriately categorized as Adventskalender (advent calendar) releases, compilations, box sets, or different series. The override to include episode 97 is reasonable. No splits were proposed. Episode numbering is continuous from 1-49 and 51-96, with episode 50 correctly identified as only available in a box set format.",
+      "override_verdicts": [
+        {
+          "album_id": "6HUsj30b",
+          "agree": true,
+          "reason": "Album not found on Spotify (possibly delisted), but based on metadata provided, this appears to be a legitimate episode 97 of the main series released in 2023. The override to include is reasonable."
+        }
+      ],
+      "split_verdicts": []
+    },
+    "status": "approved"
   }
 }

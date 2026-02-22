@@ -1,0 +1,122 @@
+{
+  "query": "Split from benjamin_bluemchen",
+  "model": "review-series.py",
+  "curated_at": "2026-02-22T22:49:33.767966+00:00",
+  "series": {
+    "id": "benjamin_bluemchen_finds_raus",
+    "title": "Find's raus mit Benjamin Blümchen",
+    "aliases": [],
+    "keywords": [],
+    "spotify_artist_ids": [
+      "1l6d0RIxTL3JytlLGvWzYe"
+    ],
+    "episode_pattern": "[Ff]olge\\s+(\\d+)",
+    "albums": [
+      {
+        "spotify_album_id": "3ANkD069p7sujMWGFYL7Gk",
+        "include": true,
+        "episode_num": null,
+        "title": "Find's raus mit Benjamin: Baustelle",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1U5WPQvOaUen0rEUXSF2xF",
+        "include": true,
+        "episode_num": null,
+        "title": "Find's raus mit Benjamin: Bauernhof",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2rgYh2I7zLKUf6IcrbrvsP",
+        "include": true,
+        "episode_num": null,
+        "title": "Find's raus mit Benjamin: Dinosaurier",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3TjPqzJLI3RvEMAfBWoXus",
+        "include": true,
+        "episode_num": null,
+        "title": "Find's raus mit Benjamin: Feuerwehr",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3Rr99zTIYQ15YEITCS0tNS",
+        "include": true,
+        "episode_num": null,
+        "title": "Find's raus mit Benjamin: Flughafen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2Ck5U56StYxqFpecUB4Js4",
+        "include": true,
+        "episode_num": 12,
+        "title": "Find's raus mit Benjamin - Folge 12: Meer",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6GIYDPQ87bC5lxq1P9aKeW",
+        "include": true,
+        "episode_num": 13,
+        "title": "Find's raus mit Benjamin - Folge 13: Regenwald",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6I1iPM5ON3k2nPDa4dWVdz",
+        "include": true,
+        "episode_num": null,
+        "title": "Find's raus mit Benjamin: Jahreszeiten",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5iOHGdKsVr0aUmDAOMkIIG",
+        "include": true,
+        "episode_num": null,
+        "title": "Find's raus mit Benjamin: Müll",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4BoMFkcqYNlQEzIRVA5O0v",
+        "include": true,
+        "episode_num": null,
+        "title": "Find's raus mit Benjamin: Wetter",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "37hOJLiFhOgMF5Oo4aFQSR",
+        "include": true,
+        "episode_num": null,
+        "title": "Find's raus mit Benjamin: Wald",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5WZUcUwjAPQtneLG6HYlFU",
+        "include": true,
+        "episode_num": null,
+        "title": "Find's raus mit Benjamin: Straßenverkehr",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4oURlGd6tLuF6C7VLqba2z",
+        "include": true,
+        "episode_num": 14,
+        "title": "Find's raus mit Benjamin - Folge 14: Eisenbahn",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5pDlWwNtOK3CheIcs1stBR",
+        "include": true,
+        "episode_num": null,
+        "title": "Find's raus mit Benjamin: Weltraum",
+        "exclude_reason": null
+      }
+    ],
+    "age_note": null,
+    "curator_notes": "Split from Benjamin Blümchen. Educational non-fiction spinoff series about topics like nature, vehicles, seasons - different format from story episodes"
+  },
+  "review": {
+    "status": "pending",
+    "overrides": [],
+    "notes": "Auto-created by apply-splits.py from benjamin_bluemchen."
+  }
+}
