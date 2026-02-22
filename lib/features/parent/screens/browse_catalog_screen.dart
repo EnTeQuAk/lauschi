@@ -880,8 +880,18 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen> {
           final exists = _createdSeriesTitles.contains(
             series.title.toLowerCase(),
           );
+          // Cover priority: curated YAML → first matching album art.
+          final firstMatchIdx = _catalogMatches.indexWhere(
+            (m) => m != null && m.series.id == series.id,
+          );
+          final coverUrl =
+              series.coverUrl ??
+              (firstMatchIdx >= 0 && firstMatchIdx < _albumResults.length
+                  ? _albumResults[firstMatchIdx].imageUrl
+                  : null);
           return _DetectedSeriesCard(
             series: series,
+            coverUrl: coverUrl,
             matchCount:
                 _catalogMatches
                     .whereType<CatalogMatch>()
@@ -1099,7 +1109,10 @@ class _CuratedSeriesCard extends ConsumerWidget {
     final existingUris = ref.watch(existingCardUrisProvider);
     final firstAlbumId =
         series.albums.isNotEmpty ? series.albums.first.spotifyId : null;
-    final coverUrl = firstAlbumId != null ? coverMap[firstAlbumId] : null;
+    // Curated cover_url from YAML takes priority over album art.
+    final coverUrl =
+        series.coverUrl ??
+        (firstAlbumId != null ? coverMap[firstAlbumId] : null);
 
     final total = series.albums.length;
     final added =
@@ -1594,10 +1607,12 @@ class _DetectedSeriesCard extends StatelessWidget {
     required this.series,
     required this.matchCount,
     required this.onAdd,
+    this.coverUrl,
     this.alreadyCreated = false,
   });
 
   final CatalogSeries series;
+  final String? coverUrl;
   final int matchCount;
   final VoidCallback onAdd;
   final bool alreadyCreated;
@@ -1607,8 +1622,31 @@ class _DetectedSeriesCard extends StatelessWidget {
     final hasAlbums = series.hasCuratedAlbums;
     final subtitle =
         hasAlbums
-            ? '${series.albums.length} Folgen gefunden'
-            : '$matchCount ${matchCount == 1 ? 'Treffer' : 'Treffer'} in Ergebnissen';
+            ? '${series.albums.length} Folgen verfügbar'
+            : '$matchCount ${matchCount == 1 ? 'Treffer' : 'Treffer'}';
+
+    final cover = ClipRRect(
+      borderRadius: const BorderRadius.all(Radius.circular(8)),
+      child: SizedBox(
+        width: 56,
+        height: 56,
+        child:
+            coverUrl != null
+                ? CachedNetworkImage(
+                  imageUrl: coverUrl!,
+                  fit: BoxFit.cover,
+                  memCacheWidth: 112,
+                )
+                : ColoredBox(
+                  color: AppColors.primary.withValues(alpha: 0.12),
+                  child: const Icon(
+                    Icons.library_music_rounded,
+                    color: AppColors.primary,
+                    size: 28,
+                  ),
+                ),
+      ),
+    );
 
     return Container(
       margin: const EdgeInsets.symmetric(
@@ -1619,50 +1657,60 @@ class _DetectedSeriesCard extends StatelessWidget {
         color: AppColors.primary.withValues(alpha: 0.08),
         borderRadius: const BorderRadius.all(AppRadius.card),
       ),
-      child: ListTile(
-        contentPadding: const EdgeInsets.symmetric(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
           horizontal: AppSpacing.md,
-          vertical: AppSpacing.xs,
+          vertical: AppSpacing.sm,
         ),
-        leading: Icon(
-          alreadyCreated
-              ? Icons.check_circle_rounded
-              : Icons.library_music_rounded,
-          color: AppColors.primary,
-          size: 28,
-        ),
-        title: Text(
-          series.title,
-          style: const TextStyle(
-            fontFamily: 'Nunito',
-            fontWeight: FontWeight.w700,
-            fontSize: 15,
-            color: AppColors.primary,
-          ),
-        ),
-        subtitle: Text(
-          alreadyCreated ? 'Serie bereits angelegt' : subtitle,
-          style: const TextStyle(
-            fontFamily: 'Nunito',
-            fontSize: 12,
-            color: AppColors.primary,
-          ),
-        ),
-        trailing:
-            alreadyCreated
-                ? null
-                : FilledButton(
-                  onPressed: onAdd,
-                  style: FilledButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: AppSpacing.md,
-                      vertical: AppSpacing.xs,
+        child: Row(
+          children: [
+            cover,
+            const SizedBox(width: AppSpacing.md),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    series.title,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      fontFamily: 'Nunito',
+                      fontWeight: FontWeight.w700,
+                      fontSize: 15,
+                      color: AppColors.primary,
                     ),
-                    minimumSize: Size.zero,
-                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                   ),
-                  child: const Text('Serie anlegen'),
+                  const SizedBox(height: 2),
+                  Text(
+                    alreadyCreated ? 'Serie bereits angelegt' : subtitle,
+                    style: const TextStyle(
+                      fontFamily: 'Nunito',
+                      fontSize: 12,
+                      color: AppColors.primary,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            if (alreadyCreated)
+              const Icon(Icons.check_circle_rounded, color: AppColors.success)
+            else
+              FilledButton(
+                onPressed: onAdd,
+                style: FilledButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: AppSpacing.md,
+                    vertical: AppSpacing.xs,
+                  ),
+                  minimumSize: Size.zero,
+                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                 ),
+                child: const Text('Serie anlegen'),
+              ),
+          ],
+        ),
       ),
     );
   }
