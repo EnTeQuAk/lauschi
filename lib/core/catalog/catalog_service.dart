@@ -27,6 +27,7 @@ class CatalogSeries {
     required this.aliases,
     required this.keywords,
     required this.spotifyArtistIds,
+    this.coverUrl,
     this.episodePattern,
     this.albums = const [],
   });
@@ -48,6 +49,10 @@ class CatalogSeries {
   /// Pass them to `CatalogService.match()` via the `albumArtistIds` parameter
   /// so phase-2 matching can fire for albums with no series name in their title.
   final List<String> spotifyArtistIds;
+
+  /// Curated cover image URL for this series.
+  /// Typically the Spotify artist image or a hand-picked cover.
+  final String? coverUrl;
 
   /// Regex with one capture group for the episode number.
   final String? episodePattern;
@@ -149,6 +154,7 @@ class CatalogService {
           aliases: aliases,
           keywords: keywords,
           spotifyArtistIds: artistIds,
+          coverUrl: map['cover_url'] as String?,
           episodePattern: map['episode_pattern'] as String?,
           albums: albums,
         ),
