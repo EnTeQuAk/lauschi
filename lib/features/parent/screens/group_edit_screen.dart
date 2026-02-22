@@ -126,7 +126,13 @@ class _GroupEditScreenState extends ConsumerState<GroupEditScreen> {
                     await ref
                         .read(groupRepositoryProvider)
                         .delete(widget.groupId);
-                    if (context.mounted) context.pop();
+                    if (context.mounted) {
+                      if (context.canPop()) {
+                        context.pop();
+                      } else {
+                        context.go(AppRoutes.parentManageCards);
+                      }
+                    }
                   },
                   style: FilledButton.styleFrom(
                     backgroundColor: AppColors.error,
