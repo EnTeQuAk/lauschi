@@ -147,13 +147,22 @@ flag it in `notes` for human review instead of excluding it. Wrong excludes
 are much worse than missed excludes — a human can easily exclude in the TUI,
 but wrong excludes erode trust in the pipeline.
 
+## Episode pattern fixes
+
+If the current `episode_pattern` doesn't match all title formats (causing false
+gaps where albums are included but have no episode number), use
+`update_episode_pattern` to add patterns. Many series changed naming conventions
+over time, e.g. older episodes use "001/Title" while newer ones use "Folge 1: Title".
+Provide a list of patterns tried in order: `["^(\\d{3})/", "^Folge (\\d+):"]`.
+This also re-extracts episode numbers for all existing albums automatically.
+
 ## Gap-filling
 
-If there are gaps in episode numbering, try ONE search to find each missing
-episode. If the first search doesn't return an obvious match, the episode is
-probably not on Spotify. Note it and move on. Do NOT retry the same gap with
-different query variations — Spotify's search is simple and rephrasing won't
-help. Maximum 2 search attempts per gap.
+If there are real gaps in episode numbering (not just pattern mismatches), try
+ONE search to find each missing episode. If the first search doesn't return an
+obvious match, the episode is probably not on Spotify. Note it and move on.
+Do NOT retry the same gap with different query variations — Spotify's search is
+simple and rephrasing won't help. Maximum 2 search attempts per gap.
 
 ## Rules
 
@@ -426,6 +435,50 @@ def build_agent(model_name: str, api_key: str) -> Agent[Deps, ReviewResult]:
         ep_str = f" (episode {episode_num})" if episode_num else ""
         console.print(f"  [dim]➕ add_album({album_id[:8]}…) → {info['name']}{ep_str}[/]")
         return f"Added: {info['name']}{ep_str}"
+
+    @agent.tool
+    def update_episode_pattern(
+        ctx: RunContext[Deps], patterns: list[str],
+    ) -> str:
+        """Update the episode pattern(s) for this series. Use when the current
+        pattern doesn't match all title formats. Each pattern must have exactly
+        one capture group for the episode number. Patterns are tried in order.
+
+        Example: ["^(\\d{3})/", "^Folge (\\d+):"] for a series that changed
+        naming conventions mid-run.
+
+        This also re-extracts episode numbers for all existing albums."""
+        # Validate
+        for p in patterns:
+            try:
+                c = re.compile(p)
+            except re.error as e:
+                return f"Invalid pattern {p!r}: {e}"
+            if c.groups != 1:
+                return f"Pattern {p!r} must have exactly 1 capture group, got {c.groups}"
+
+        # Store (single string if only one pattern, list otherwise)
+        new_pattern: str | list[str] = patterns[0] if len(patterns) == 1 else patterns
+        old_pattern = ctx.deps.curation["series"].get("episode_pattern")
+        ctx.deps.curation["series"]["episode_pattern"] = new_pattern
+
+        # Re-extract episode numbers for all albums
+        updated = 0
+        for album in ctx.deps.curation["series"].get("albums", []):
+            ep = extract_episode(new_pattern, album["title"])
+            if ep is not None and album.get("episode_num") != ep:
+                album["episode_num"] = ep
+                updated += 1
+
+        old_str = old_pattern or "none"
+        console.print(
+            f"  [dim]📐 update_episode_pattern → {new_pattern} "
+            f"(was {old_str}, re-numbered {updated} albums)[/]",
+        )
+        return (
+            f"Pattern updated to {new_pattern}. "
+            f"Re-extracted episode numbers for {updated} albums."
+        )
 
     return agent
 
