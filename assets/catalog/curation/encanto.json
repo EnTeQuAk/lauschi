@@ -1,0 +1,62 @@
+{
+  "query": "Encanto Hörspiel",
+  "model": "kimi-k2.5",
+  "curated_at": "2026-02-22T23:20:08.518387+00:00",
+  "series": {
+    "id": "encanto",
+    "title": "Encanto Hörspiel",
+    "aliases": [],
+    "keywords": [],
+    "spotify_artist_ids": [
+      "5L4dszSpZyKqRPlZmHm5Nn"
+    ],
+    "episode_pattern": null,
+    "albums": [
+      {
+        "spotify_album_id": "7gFZDNvI531qwn5kJncBJg",
+        "include": true,
+        "episode_num": 1,
+        "title": "Encanto (Hörspiel zum Disney Film)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6Bk6mr3zjr4oSJ7ngUOs3Y",
+        "include": false,
+        "episode_num": null,
+        "title": "Brunos andere Gabe (Disney Encanto)",
+        "exclude_reason": "Audiobook (Hörbuch) with chapters, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "4rJa7yCRSev3pV7IiA0gmL",
+        "include": false,
+        "episode_num": null,
+        "title": "Geheimnis im Regenwald (Disney Encanto)",
+        "exclude_reason": "Audiobook (Hörbuch) with chapters, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "3orByHyG2YaKwPBM9D6LNU",
+        "include": false,
+        "episode_num": null,
+        "title": "Willkommen in Casita! (Disney Encanto)",
+        "exclude_reason": "Audiobook (Hörbuch) with chapters, not a Hörspiel episode"
+      }
+    ],
+    "age_note": "Suitable from 5+",
+    "curator_notes": "Note: Found a second artist 'Encanto Hörbücher' (4LpkayLXnEBnp7UVEwXqg9) that releases Disney Encanto audiobooks - these are Hörbücher (read-along books with chapters), not Hörspiele. Primary artist 'Encanto' contains the official movie Hörspiel adaptation. This is a single-story film adaptation, not a multi-episode series."
+  },
+  "review": {
+    "reviewed_at": "2026-02-22T23:46:51.971925+00:00",
+    "reviewed_by": "review-series.py",
+    "overrides": [],
+    "notes": "Auto-approved: no gaps or duplicates found.",
+    "verification": {
+      "model": "minimax-m2.5",
+      "verified_at": "2026-02-22T23:47:22.255545+00:00",
+      "approve": true,
+      "concerns": "The included album \"Encanto (Hörspiel zum Disney Film)\" has 19 tracks, all titled as \"Kapitel\" (chapter) with the same name \"Encanto\" - this is characteristic of an audiobook structure, not a typical Hörspiel with distinct episode titles. However, it is labeled \"Walt Disney Records\" (music label) rather than \"Disney Publishing Worldwide\" (the label for the excluded audiobooks), and it's the main soundtrack/narration album. Given this is the only German Encanto audio content available and it's from Disney's official records, keeping it is reasonable for a children's audio catalog.",
+      "override_verdicts": [],
+      "split_verdicts": []
+    },
+    "status": "approved"
+  }
+}

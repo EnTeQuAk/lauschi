@@ -1,0 +1,63 @@
+{
+  "query": "Bambi Hörspiel",
+  "model": "kimi-k2.5",
+  "curated_at": "2026-02-22T23:36:40.400976+00:00",
+  "series": {
+    "id": "bambi_hoerspiel",
+    "title": "Bambi Hörspiel",
+    "aliases": [
+      "Bambi"
+    ],
+    "keywords": [
+      "Bambi"
+    ],
+    "spotify_artist_ids": [
+      "0bx509s1CRkp8iErQhjbI4"
+    ],
+    "episode_pattern": null,
+    "albums": [
+      {
+        "spotify_album_id": "6R8jAh8m3jgpB30irFGajw",
+        "include": true,
+        "episode_num": null,
+        "title": "Bambi (Hörspiel zum Disney Film)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4B0J8jipiDexYUPyHTQuX6",
+        "include": true,
+        "episode_num": null,
+        "title": "Bambi 2 - Der Herr der Wälder (Hörspiel zum Disney Film)",
+        "exclude_reason": null
+      }
+    ],
+    "age_note": "Suitable from 3+",
+    "curator_notes": "This artist contains Disney film Hörspiel adaptations of Bambi (1942) and Bambi 2 (2006), not an episodic children's radio play series. These are chapter-by-chapter film dramatizations rather than the traditional Folge-based Hörspiel format."
+  },
+  "review": {
+    "overrides": [
+      {
+        "album_id": "6R8jAh8m3jgpB30irFGajw",
+        "action": "include",
+        "reason": ""
+      },
+      {
+        "album_id": "4B0J8jipiDexYUPyHTQuX6",
+        "action": "include",
+        "reason": ""
+      }
+    ],
+    "reviewed_at": "2026-02-22T23:46:55.128778+00:00",
+    "reviewed_by": "review-series.py",
+    "notes": "Auto-approved: no gaps or duplicates found.",
+    "verification": {
+      "model": "minimax-m2.5",
+      "verified_at": "2026-02-22T23:47:44.940854+00:00",
+      "approve": true,
+      "concerns": "The first AI proposed two overrides to INCLUDE these Disney film adaptations, but that recommendation is incorrect. These are audiobook-style recordings of Disney films, not an episodic Hörspiel series like what the 'lauschi' app targets. The correct curation is to EXCLUDE them (as the original exclusion stated). No splitting needed - there simply aren't any included albums that match the criteria for this series.",
+      "override_verdicts": [],
+      "split_verdicts": []
+    },
+    "status": "approved"
+  }
+}

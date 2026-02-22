@@ -1,0 +1,43 @@
+{
+  "query": "Coco",
+  "model": "manual",
+  "curated_at": "2026-02-22T23:46:43.078504+00:00",
+  "series": {
+    "id": "coco",
+    "title": "Coco",
+    "aliases": [],
+    "keywords": [
+      "Coco"
+    ],
+    "spotify_artist_ids": [
+      "5CnBACBPnkY7PxvfwMFdZL"
+    ],
+    "episode_pattern": null,
+    "albums": [
+      {
+        "spotify_album_id": "6q76sgu7wmtrkrBYWUKPIW",
+        "include": true,
+        "episode_num": null,
+        "title": "Coco (Hörspiel zum Disney/Pixar Film)",
+        "exclude_reason": null
+      }
+    ],
+    "age_note": "Suitable from 5+",
+    "curator_notes": "Single Disney/Pixar film Hörspiel."
+  },
+  "review": {
+    "reviewed_at": "2026-02-22T23:46:43.078514+00:00",
+    "reviewed_by": "manual",
+    "overrides": [],
+    "notes": "Single film Hörspiel, manually curated.",
+    "status": "approved",
+    "verification": {
+      "model": "minimax-m2.5",
+      "verified_at": "2026-02-22T23:48:07.993075+00:00",
+      "approve": true,
+      "concerns": "",
+      "override_verdicts": [],
+      "split_verdicts": []
+    }
+  }
+}
