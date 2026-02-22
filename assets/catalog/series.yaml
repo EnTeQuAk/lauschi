@@ -14074,3 +14074,632 @@ series:
   - id: 1PK7ePBqP2fcGUhQqOzkcR
     episode: 12
     title: Woodwalkers - Die Rückkehr. Zeit der Entscheidung - Das Hörspiel (Staffel 2, Band 6)
+- id: die_drei_ausrufezeichen
+  title: Die drei !!!
+  aliases:
+  - Die drei Ausrufezeichen
+  - The Three Exclamation Marks
+  spotify_artist_ids:
+  - 2Jc4AEeBTE47KwuKgYOtcL
+  episode_pattern: '^Folge (\d+):'
+  albums:
+  - id: 3un4woLD6j6kwAwZmSkPYw
+    episode: 1
+    title: 001/Die Handy-Falle
+  - id: 2DuT0qcP3FnhEqOByZP0kq
+    episode: 2
+    title: 002/Betrug beim Casting
+  - id: 5cKrcMBy6bZdhG34G4P3cS
+    episode: 3
+    title: 003/Gefährlicher Chat
+  - id: 4piCvDiOy2C7x0mCMcahGE
+    episode: 4
+    title: 004/Gefahr im Fitness-Studio
+  - id: 3WcaA1PuJm9n9c7IumaErj
+    episode: 5
+    title: 005/Tatort Paris
+  - id: 70yIrzDIuYc0O4FPWqIKny
+    episode: 6
+    title: 006/Skandal auf Sendung
+  - id: 2LH2tPzRlGGd8UzCUW9A2s
+    episode: 7
+    title: 007/Skaterfieber
+  - id: 5O9rNnNzU7IblnCHUTZU7h
+    episode: 8
+    title: 008/Vorsicht Strandhaie
+  - id: 3P8DkaKa07qqvuO08Dd93o
+    episode: 9
+    title: 009/Im Bann des Tarots
+  - id: 3c9r0kBQLOrsJd8OxXJfXa
+    episode: 10
+    title: 010/Tanz der Hexen
+  - id: 6ZA4CK35JLBed0CAr7xA11
+    episode: 11
+    title: 011/Kuss-Alarm!
+  - id: 5TAMugD2iYsUOzMLVAX4uu
+    episode: 12
+    title: 012/Popstar in Not
+  - id: 1pRyPquecHFLXzvrVRz0ng
+    episode: 13
+    title: 013/Gefahr im Reitstall
+  - id: 5bEe20BiXHLJHxRO6fXpBa
+    episode: 14
+    title: 014/Spuk am See
+  - id: 2cfvgwipV1K4CLPnXjN5Ve
+    episode: 15
+    title: 015/Duell der Topmodels
+  - id: 0oHjNLbrtdonacpPnOFSpi
+    episode: 16
+    title: 016/Total verknallt!
+  - id: 6zVqNpHvSHW3h3n6Q9O0Cy
+    episode: 17
+    title: 017/Gefährliche Fracht
+  - id: 6dRGnn4E13yRucYoVRlmHJ
+    episode: 18
+    title: 018/VIP-Alarm
+  - id: 3vOk5Z9ZRAQMstB9EGFYfk
+    episode: 19
+    title: 019/Teuflisches Handy
+  - id: 1Lx6empB7IEYcSM9dtuqhf
+    episode: 20
+    title: 020/Beutejagd am Geistersee
+  - id: 1m7fs7cHNbqjk1CsnhI9St
+    episode: 21
+    title: 021/Skandal auf der Rennbahn
+  - id: 1dqdcXxrnsPQW8TtyL6q7A
+    episode: 22
+    title: 022/Jagd im Untergrund
+  - id: 6LEQ8cVptVomMqdVJrlVkf
+    episode: 23
+    title: 023/Undercover im Netz
+  - id: 3jO56T2HsEqKgmGYuCEhKZ
+    episode: 49
+    title: 049/Skandal auf dem Laufsteg
+  - id: 5mdP79ob1KSHwk16l1KAco
+    episode: 51
+    title: 051/Krimi-Dinner
+  - id: 6FlKoWXZmRuIG9Zc7J1tUZ
+    episode: 52
+    title: 052/Das rote Phantom
+  - id: 6WsVyCSywp7O3aKjAzVcGp
+    episode: 53
+    title: 053/Hochzeitsfieber
+  - id: 7e78EvusAQMZ3L2Und3Jbg
+    episode: 54
+    title: 054/Klappe und Action!
+  - id: 7cAODGObTkR9Swz0YSABD6
+    episode: 55
+    title: 055/Wildpferd in Gefahr
+  - id: 3rBGGGFl6s04ev8TG3nklf
+    episode: 56
+    title: 056/Geheimnis im Düstermoor
+  - id: 0tygMEWC5NzVMpQXXpNiY7
+    episode: 57
+    title: 057/Tatort Kreuzfahrt
+  - id: 1RlL8kNAhx5buOGBbW0cfV
+    episode: 58
+    title: 058/Gorilla in Not
+  - id: 4NteeZLRxYHyizQtckB6lk
+    episode: 59
+    title: 059/Das geheime Parfüm
+  - id: 7jbBsUDn1hWNVyrRHxMV9B
+    episode: 60
+    title: 060/Liebes-Chaos
+  - id: 55j61hrwSlDok7oaxxM1Iy
+    episode: 61
+    title: 061/Der Fall Dornröschen
+  - id: 1jObrioJhKRNVPlxlG7B9Z
+    episode: 62
+    title: 062/Spuk am Himmel
+  - id: 1tiSNbq6kgALcPNOIZHu67
+    episode: 63
+    title: 063/Flammen in der Nacht
+  - id: 4DgY9rIEtwpNXuKJJkjDY2
+    episode: 64
+    title: 064/Der Graffiti-Code
+  - id: 2QKlQRf0Cfe5T34w6B5DfQ
+    episode: 65
+    title: 065/Heuler in Not
+  - id: 05rlDFdI1cqe2VnM5A67S2
+    episode: 66
+    title: 066/Tanz der Herzen
+  - id: 2e5ncFY5iOyLdUZgjI9bo5
+    episode: 67
+    title: 067/Tatort Geisterbahn
+  - id: 02JfnORmf7rsQLSptYAt6a
+    episode: 68
+    title: 068/Gefahr im Netz
+  - id: 5Eznzlc1K2lCAekaQwBGOB
+    episode: 69
+    title: 069/Nacht der Wölfe
+  - id: 63f1Nl6tYYA2dNdTCzFF9R
+    episode: 70
+    title: 070/Gefährliches Spiel
+  - id: 6Vroxjn7WABCFMVWImdefS
+    episode: 71
+    title: 071/Gefahr in den Ruinen
+  - id: 1dZCFF0MmS9aZEs4HbthCw
+    episode: 72
+    title: 'Folge 72: Kuss der Meerjungfrau'
+  - id: 4AgcyMrB11xPCCTjRzfHGL
+    episode: 73
+    title: 'Folge 73: Legende der Einhörner'
+  - id: 4RYRHaRZLSj1rptGaegXat
+    episode: 74
+    title: 'Folge 74: Rätsel der Vergangenheit'
+  - id: 3msSCztCTvvNWx91aL66Df
+    episode: 75
+    title: 'Folge 75: Tatort Hollywood'
+  - id: 5mssqxVqhwbVQg96w8dqq6
+    episode: 76
+    title: 'Folge 76: #Falscher Ruhm'
+  - id: 5y9tQvy4LtFqV8b4VXsLzk
+    episode: 77
+    title: 'Folge 77: Achtung, Gaunerzeichen!'
+  - id: 0CZ4okIufmxtgXVUF6cM0I
+    episode: 78
+    title: 'Folge 78: Das Bienengeheimnis'
+  - id: 7doQH1kPe6v73TSoYGU6QY
+    episode: 79
+    title: 'Folge 79: Vier Pfoten in Gefahr'
+  - id: 41H3IW5sFwwpFPbLGmlLJW
+    episode: 80
+    title: 'Folge 80: Ein echt schöner Fall'
+  - id: 6JZmsJOFeOkn683w1Qzdj3
+    episode: 81
+    title: 'Folge 81: Geheimnis im Spukhotel'
+  - id: 5cePM34PH7BFRY77i3dtIW
+    episode: 82
+    title: 'Folge 82: Das Konfetti-Komplott'
+  - id: 0logTHRSKGE37uVdSlf6O8
+    episode: 83
+    title: 'Folge 83: Voller Einsatz für die Erde'
+  - id: 5HUoaRTkFG7FOtFeMsEZEO
+    episode: 84
+    title: 'Folge 84: Luftballonküsse'
+  - id: 3p9JnVWaakuFyDyPev6dUj
+    episode: 85
+    title: 'Folge 85: Ein Fall mit Herz und Huf'
+  - id: 17ZoX7E5FoPkz5xUvC5pJp
+    episode: 86
+    title: 'Folge 86: Rätselhafter Raub'
+  - id: 50WblRxJHvT2M8RtGgBzOn
+    episode: 87
+    title: 'Folge 87: Geheimnisvoller Liebestrank'
+  - id: 5BrBj3ptD3M91uAfZ5N9Ws
+    episode: 88
+    title: 'Folge 88: Die Krimi-Verschwörung'
+  - id: 6lJLEeb1XlFXhnmPc5Wi1t
+    episode: 89
+    title: 'Folge 89: Der Fluch der Fee'
+  - id: 51Oqg9PlgcN7xRVJEgzu5h
+    episode: 90
+    title: 'Folge 90: Mission Gipfelglück'
+  - id: 4hegbgngXPTokZ3Z4tR7IS
+    episode: 91
+    title: 'Folge 91: Geburtstagsdiebe'
+  - id: 1IksQVlojtgy0J6822BMeD
+    episode: 92
+    title: 'Folge 92: Geheimnis am Fluss'
+  - id: 4mYateqqljvBE5ASbbsxx9
+    episode: 93
+    title: 'Folge 93: Abenteuer-Küsse'
+  - id: 3p0eAPMrp79UFTGRYtFFOl
+    episode: 94
+    title: 'Folge 94: Unheimliches Meeresleuchten'
+  - id: 2m78VS4hYSz3iLdNEVJZ9I
+    episode: 95
+    title: 'Folge 95: Falle im alten Kino'
+  - id: 0ySVT7gHzNNOepIa4InW7O
+    episode: 96
+    title: 'Folge 96: Abenteuer Afrika'
+  - id: 5soXodzTvagM8nZldvbpDD
+    title: 024/Fußballstar in Gefahr
+  - id: 5dysYAhcB4km5RFMet1K3J
+    title: 025/Herzklopfen!
+  - id: 1OvCArBEfWgap3VxZxbp4I
+    title: 026/Tatort Filmset
+  - id: 5MqALpg2JaeqGuFhWE0MFg
+    title: 027/Vampire in der Nacht
+  - id: 7DiWGxMXtXR4k4dkW2cJRz
+    title: 028/Achtung, Promihochzeit!
+  - id: 1WA6KmaDHQFXKYB5chNZe2
+    title: 029/Panik im Freizeitpark
+  - id: 16a0epT9yt2SeLGhsoYM4a
+    title: 030/Falsches Spiel im Internat
+  - id: 4Y4lAWfYSWTFMgXzpPoKXI
+    title: 031/Betrug in den Charts
+  - id: 0ooKSw6J3b9n4bympkkxzu
+    title: 032/Party des Grauens
+  - id: 41wMgMO7LpxY8o4Rj55oBq
+    title: 033/Küsse im Schnee
+  - id: 37z4HkHnOAQzBxw5ylAN9d
+    title: 034/Brandgefährlich!
+  - id: 6Mlom2t82WwqRBz9roHK4K
+    title: 035/Diebe in der Lagune
+  - id: 2NrsEPrTragOn3GQ0PMVOF
+    title: 036/SOS per GPS
+  - id: 6Xm4s3aGPU17e9sgGEA8aZ
+    title: 037/Mission Pferdeshow
+  - id: 1FSMHiv7d9grmjqUe1a5hj
+    title: 038/Stylist in Gefahr
+  - id: 5gaFsWM21HaKWgA0DG0jiN
+    title: 039/Verliebte Weihnachten
+  - id: 5QezttqJ1VP5sVhV5VtwoT
+    title: 040/Achtung, Spionage!
+  - id: 4Ni50L1zXoIIkS3z2h0xh8
+    title: 041/Im Bann des Flamenco
+  - id: 4CpizsYamWYUBHZJoQPwdv
+    title: 042/Geheimnis der alten Villa
+  - id: 7bkvVdlj8wiw4Li61BZR2m
+    title: 043/Nixensommer
+  - id: 5LM81629FwKwJHfJcGPgK2
+    title: 044/Skandal im Café Lomo!
+  - id: 4zlWM9OKrtiCgSusljX1E7
+    title: 045/Tatort Geisterhaus
+  - id: 0yjbXYX1UtB8r0c1CFWhSG
+    title: 046/Filmstar in Gefahr
+  - id: 0weLXrClaVQeAPO2KK8m81
+    title: 047/Unter Verdacht
+  - id: 4MZYMMJfqI2qcOcEmN9mCs
+    title: 048/Die Maske der Königin
+  - id: 6HUsj30bF5HtJzwNZLzoY0
+    title: Die Ponyverschwörung
+- id: spongebob_schwammkopf
+  title: SpongeBob Schwammkopf
+  aliases:
+  - SpongeBob SquarePants
+  keywords:
+  - SpongeBob Schwammkopf
+  - SpongeBob
+  spotify_artist_ids:
+  - 4nzfncntC1DiwIFMARUT2w
+  episode_pattern:
+  - '^Folge (\d+):'
+  - ^Folge (\d+) \(
+  albums:
+  - id: 11KL4d6rpEGS7r55FmCUPM
+    episode: 1
+    title: Folge 1 (Das Original-Hörspiel zur TV-Serie)
+  - id: 3VdvCZpZWIq3Zb0zBB21uD
+    episode: 2
+    title: Folge 2 (Das Original-Hörspiel zur TV-Serie)
+  - id: 2sgTXAgMMGWD7n6hiZ8iXa
+    episode: 3
+    title: Folge 3 (Das Original-Hörspiel zur TV-Serie)
+  - id: 5E2MPVgopE79T0nNbOfoYk
+    episode: 4
+    title: Folge 4 (Das Original-Hörspiel zur TV-Serie)
+  - id: 2LOCzKFtYhh6DpQun3vXzb
+    episode: 5
+    title: Folge 5 (Das Original-Hörspiel zur TV-Serie)
+  - id: 0gD4wj0Mpl4vsFQ7krFUY5
+    episode: 6
+    title: Folge 6 (Das Original-Hörspiel zur TV-Serie)
+  - id: 0MHymKMwbjXbJOf6BC5hTf
+    episode: 7
+    title: Folge 7 (Das Original-Hörspiel zur TV-Serie)
+  - id: 1Bzo08TAXH2roCpgXq0pUg
+    episode: 8
+    title: Folge 8 (Das Original-Hörspiel zur TV-Serie)
+  - id: 2akPqOvdUJ3YkzMtJH0r71
+    episode: 9
+    title: Folge 9 (Das Original-Hörspiel zur TV-Serie)
+  - id: 3x8YjkSI0jYjvkOxOYjJTH
+    episode: 10
+    title: Folge 10 (Das Original-Hörspiel zur TV-Serie)
+  - id: 43sQbnUtsLldpybSEScvAV
+    episode: 11
+    title: Folge 11 (Das Original-Hörspiel zur TV-Serie)
+  - id: 0I5DDEtkC0ujGTJlINUn6v
+    episode: 12
+    title: Folge 12 (Das Original-Hörspiel zur TV-Serie)
+  - id: 43nva2OiJRR1x5v1Z65ymR
+    episode: 13
+    title: Folge 13 (Das Original-Hörspiel zur TV-Serie)
+  - id: 26RsUMzYlVc2Zr5u3NfXcP
+    episode: 14
+    title: Folge 14 (Das Original-Hörspiel zur TV-Serie)
+  - id: 39f3YjEa0EZAnqXrUJTFPb
+    episode: 15
+    title: Folge 15 (Das Original-Hörspiel zur TV-Serie)
+  - id: 65W73YQWlVfXCPDpm0ByMB
+    episode: 16
+    title: Folge 16 (Das Original-Hörspiel zur TV-Serie)
+  - id: 76vhxkAIrZpEv1p8OlUJ70
+    episode: 17
+    title: Folge 17 (Das Original-Hörspiel zur TV-Serie)
+  - id: 1XVvGxW7XtyQkdD8aJIhfm
+    episode: 18
+    title: Folge 18 (Das Original-Hörspiel zur TV-Serie)
+  - id: 3QXFVb9jpcNA69el9PKXt4
+    episode: 19
+    title: Folge 19 (Das Original-Hörspiel zur TV-Serie)
+  - id: 5stb4pDAHKFhiCjfpLSeuP
+    episode: 20
+    title: Folge 20 (Das Original-Hörspiel zur TV-Serie)
+  - id: 59H7N54bqvtcdr6LMIXf7e
+    episode: 21
+    title: Folge 21 (Das Original-Hörspiel zur TV-Serie)
+  - id: 4pXm3XgtruLkNegjY3cctN
+    episode: 22
+    title: Folge 22 (Das Original-Hörspiel zur TV-Serie)
+  - id: 2ugP99IcPSWRuw2mb5B4dj
+    episode: 23
+    title: Folge 23 (Das Original-Hörspiel zur TV-Serie)
+  - id: 3mg95sBbJ3azk6RAWyO7Io
+    episode: 24
+    title: Folge 24 (Das Original-Hörspiel zur TV-Serie)
+  - id: 1xUooh5Fo2EbsCJtW5PSYi
+    episode: 25
+    title: Folge 25 (Das Original-Hörspiel zur TV-Serie)
+  - id: 4gJCxYknlZimcoUiqTewrr
+    episode: 26
+    title: Folge 26 (Das Original-Hörspiel zur TV-Serie)
+  - id: 3xqtYyHsO6bOnc5U3VM8G9
+    episode: 27
+    title: Folge 27 (Das Original-Hörspiel zur TV-Serie)
+  - id: 6WYlWxx7IUu5UogWYtFhKa
+    episode: 28
+    title: Folge 28 (Das Original-Hörspiel zur TV-Serie)
+  - id: 2YWIlh3n37xfs2a9QUZGu3
+    episode: 29
+    title: Folge 29 (Das Original-Hörspiel zur TV-Serie)
+  - id: 3ZvTtNwsE2yTdaKG13tKyq
+    episode: 30
+    title: Folge 30 (Das Original-Hörspiel zur TV-Serie)
+  - id: 0bvn5IXL4M8E95HfNPQi5B
+    episode: 31
+    title: Folge 31 (Das Original-Hörspiel zur TV-Serie)
+  - id: 0iSfp9SFF44P7ikD5gsFEe
+    episode: 32
+    title: Folge 32 (Das Original-Hörspiel zur TV-Serie)
+  - id: 0oGAXk6FQJBCojlPlDhg06
+    episode: 33
+    title: Folge 33 (Das Original-Hörspiel zur TV-Serie)
+  - id: 79OuctWGlz3pMRKnVbdK9k
+    episode: 34
+    title: Folge 34 (Das Original-Hörspiel zur TV-Serie)
+  - id: 1gRdNhTKH5DVfJ7yX6ttPh
+    episode: 35
+    title: 'Folge 35: Die Geburtstagsfolge (Das Original-Hörspiel zur TV-Serie)'
+  - id: 0lsAbCR7MoQwIabAgXztCu
+    episode: 36
+    title: Folge 36 (Das Original-Hörspiel zur TV-Serie)
+  - id: 1P4MlShJf0wnQiSqMV4mQl
+    episode: 37
+    title: Folge 37 (Das Original-Hörspiel zur TV-Serie)
+  - id: 1fL3ryDnHg0NoFABhWbLo4
+    episode: 38
+    title: Folge 38 (Das Original-Hörspiel zur TV-Serie)
+  - id: 4TvEmdduObLVhs7QLGT9Gy
+    episode: 39
+    title: Folge 39 (Das Original-Hörspiel zur TV-Serie)
+  - id: 7Bdf48hOoBhDDo3GC3kOc3
+    episode: 40
+    title: Folge 40 (Das Original-Hörspiel zur TV-Serie)
+  - id: 6dWlK1uwBJ00MIxJYasN1W
+    episode: 41
+    title: Folge 41 (Das Original-Hörspiel zur TV-Serie)
+  - id: 5xvaDkQnS65jEKSoSHdKbD
+    episode: 42
+    title: Folge 42 (Das Original-Hörspiel zur TV-Serie)
+  - id: 2ZjeOwCcwnUYcKYtXKSyNe
+    episode: 43
+    title: Folge 43 (Das Original-Hörspiel zur TV-Serie)
+  - id: 0UgPaS64Qm7fAVmqjzVY4M
+    episode: 44
+    title: Folge 44 (Das Original-Hörspiel zur TV-Serie)
+  - id: 3Kbtljgb2wf6AfBTsyVA57
+    episode: 45
+    title: Folge 45 (Das Original-Hörspiel zur TV-Serie)
+  - id: 21hJvd9caAnVGvgRXptw65
+    episode: 46
+    title: Folge 46 (Das Original-Hörspiel zur TV-Serie)
+  - id: 6Ufl82mCu4Yl7YYIIeir3T
+    episode: 47
+    title: Folge 47 (Das Original-Hörspiel zur TV-Serie)
+  - id: 3bLNaZY3rptsJ7JgiFH1DK
+    episode: 48
+    title: Folge 48 (Das Original-Hörspiel zur TV-Serie)
+  - id: 46RI8kpxobLChuu8dzq9KZ
+    episode: 49
+    title: Folge 49 (Das Original-Hörspiel zur TV-Serie)
+  - id: 0Dg6uhKGyoiRfYkDE8gUQC
+    episode: 201
+    title: 'Folge 201: Ein Platz für Haustiere (Das Original-Hörspiel zur TV-Serie)'
+  - id: 1bSmx4JivXqih69m4EXMFy
+    episode: 202
+    title: 'Folge 202: Liebe unter Verschluss (Das Original-Hörspiel zur TV-Serie)'
+  - id: 5h7pR4OyBCyR2PdDukOkNx
+    episode: 203
+    title: 'Folge 203: Unter dem Zelt (Das Original-Hörspiel zur TV-Serie)'
+  - id: 3U7Sx51ZfRu8pDJeflzW53
+    episode: 204
+    title: 'Folge 204: Thaddäus Fiebertraum (Das Original-Hörspiel zur TV-Serie)'
+  - id: 58ETTF4hfSrVif0uJR3nA5
+    episode: 205
+    title: 'Folge 205: Die Tauben Eislöffel (Das Original-Hörspiel zur TV-Serie)'
+  - id: 4sYuXejeounlH8x2jH4KUU
+    episode: 206
+    title: 'Folge 206: Hunde streicheln (Das Original-Hörspiel zur TV-Serie)'
+  - id: 5HVxAJrILHsF4TLF44mtnV
+    episode: 207
+    title: 'Folge 207: Etwas Fischiges kommt daher (Das Original-Hörspiel zur TV-Serie)'
+  - id: 72QUC1KCmsFqwZARN6CnUM
+    episode: 208
+    title: 'Folge 208: C.H.U.M.S (Das Original-Hörspiel zur TV-Serie)'
+  - id: 4ovHn7AfEVKFPGayo7JDXl
+    episode: 209
+    title: 'Folge 209: Der ferngesteuerte Fahrschüler (Das Original-Hörspiel zur TV-Serie)'
+  - id: 7rTtaHTzJmf1nkV121C7Dw
+    episode: 210
+    title: 'Folge 210: Dr. Krabtons Wundersaft für alles (Das Original-Hörspiel zur TV-Serie)'
+  - id: 6QI9tVsS88OIsWKpsbPb0F
+    episode: 211
+    title: 'Folge 211: Die Schwammhasser (Das Original-Hörspiel zur TV-Serie)'
+  - id: 6H3t03jzVzkjM3PtczsirN
+    episode: 212
+    title: 'Folge 212: Böser Bube Blubberbernd (Das Original-Hörspiel zur TV-Serie)'
+  - id: 3akgQFhVollQN76BEXZcKc
+    episode: 213
+    title: 'Folge 213: Burger-Truck (Das Original-Hörspiel zur TV-Serie)'
+  - id: 2pLiEZAD4AR394iriP5wl4
+    episode: 214
+    title: 'Folge 214: Kaufhaus Hochnas (Das Original-Hörspiel zur TV-Serie)'
+  - id: 4fUQe2MaMAbbxoOMCcaBHN
+    episode: 215
+    title: 'Folge 215: Schnucki-Putz (Das Original-Hörspiel zur TV-Serie)'
+  - id: 1jV5RgsA2SwO2wf1MSJeJB
+    episode: 216
+    title: 'Folge 216: Patrick, der Postbote (Das Original-Hörspiel zur TV-Serie)'
+  - id: 1XbWlohPDCrHUzmlShV8HB
+    episode: 217
+    title: 'Folge 217: Captain Winzling (Das Original-Hörspiel zur TV-Serie)'
+  - id: 3cSwxpwJt1jmpEHyn2EO4m
+    episode: 218
+    title: 'Folge 218: Flug ins Paradies (Das Original-Hörspiel zur TV-Serie)'
+  - id: 2avMFBt8XeY5dTyQUKd90F
+    episode: 219
+    title: 'Folge 219: Die Landrattenplage (Das Original-Hörspiel zur TV-Serie)'
+  - id: 3i3llyWtJkz47CdRK8qKZn
+    episode: 220
+    title: 'Folge 220: Willkommen in Wandhausen (Das Original-Hörspiel zur TV-Serie)'
+  - id: 4bfnY7pRXUOk195kTta0VG
+    episode: 221
+    title: 'Folge 221: Ein blumiger Bösewicht (Das Original-Hörspiel zur TV-Serie)'
+  - id: 65PDN9iqOPdplHTL9pdOuj
+    episode: 222
+    title: 'Folge 222: Die Bikini-Bottom-Parade (Das Original-Hörspiel zur TV-Serie)'
+  - id: 1Xr8Vl1t9VqhQ9ZEMNPP6P
+    episode: 223
+    title: 'Folge 223: Fischmaels Abenteuer (Das Original-Hörspiel zur TV-Serie)'
+  - id: 4kXXQKL9XIanhAtS5mYxKV
+    episode: 224
+    title: 'Folge 224: Plankton und die Zauberbohne (Das Original-Hörspiel zur TV-Serie)'
+  - id: 4JFv5J6iaEJzFWD6cXOpYe
+    episode: 225
+    title: 'Folge 225: Salziger Schwamm (Das Original-Hörspiel zur TV-Serie)'
+  - id: 2VdlwQ63HchCHsmoPJ2rcs
+    episode: 226
+    title: 'Folge 226: Karen und Fleckchen (Das Original-Hörspiel zur TV-Serie)'
+  - id: 3OwpJdYo4fH41OcdbP4gAn
+    episode: 227
+    title: 'Folge 227: Tag des Baumes (Das Original-Hörspiel zur TV-Serie)'
+  - id: 0rK6ZBtNHqOfHcl20cxs5q
+    episode: 228
+    title: 'Folge 228: Die falsche Zahnfee (Das Original-Hörspiel zur TV-Serie)'
+  - id: 4ieMuP36CE43YhwJECknN4
+    episode: 229
+    title: 'Folge 229: Das Avocado-Dilemma (Das Original-Hörspiel zur TV-Serie)'
+  - id: 2Zg3gx8rofCyuq5LceRMGU
+    episode: 230
+    title: 'Folge 230: Augen auf im Straßenverkehr (Das Original-Hörspiel zur TV-Serie)'
+  - id: 6C5OmXKULiKxw4od3yIU0J
+    episode: 231
+    title: 'Folge 231: Kokoskrabbenburger (Das Original-Hörspiel zur TV-Serie)'
+  - id: 5UnhEPXd6VKYI7pZnuBmY9
+    episode: 232
+    title: 'Folge 232: Fahrrad-Fahrtraining (Das Original-Hörspiel zur TV-Serie)'
+  - id: 520MZA2KE2PcP82qO59NoK
+    episode: 233
+    title: 'Folge 233: Heiß gegrillte Nüsse (Das Original-Hörspiel zur TV-Serie)'
+  - id: 72XiMGOZsNNUrzQWINvoeL
+    episode: 234
+    title: 'Folge 234: Sir Seeigel und Schneck Scheiter (Das Original-Hörspiel zur TV-Serie)'
+  - id: 4WtU8TkYQr3rj8zdrpN0pJ
+    episode: 235
+    title: 'Folge 235: Das Freundejubiläum (Das Original-Hörspiel zur TV-Serie)'
+  - id: 7JClYF1KuKFrpJtBG1RyuB
+    episode: 236
+    title: 'Folge 236: Die Klarinettenwidrigkeit (Das Original-Hörspiel zur TV-Serie)'
+  - id: 49cPatozAiqzdGkIiQ6gvN
+    episode: 237
+    title: 'Folge 237: Krabbenburger sind zum Essen da (Das Original-Hörspiel zur TV-Serie)'
+  - id: 6yU6z0j0rHSDVRpiUsNfsm
+    episode: 238
+    title: 'Folge 238: Ein phänomenaler Spaß (Das Original-Hörspiel zur TV-Serie)'
+  - id: 4loKJOvcqGLsd7DH66XHUC
+    episode: 239
+    title: 'Folge 239: Pfannenwender des Himmels (Das Original-Hörspiel zur TV-Serie)'
+  - id: 4f9Yq0dV6iyRwDPyQNlg41
+    episode: 240
+    title: 'Folge 240: Garys Spielehaus (Das Original-Hörspiel zur TV-Serie)'
+  - id: 4oRXaysrjCunCHDreoDTGo
+    episode: 241
+    title: 'Folge 241: Thaddäus und der Pool (Das Original-Hörspiel zur TV-Serie)'
+  - id: 2UlfHiN3H01LABR00vRX7u
+    episode: 242
+    title: 'Folge 242: Der Eisbuden-Pate (Das Original-Hörspiel zur TV-Serie)'
+  - id: 2uRKeVM7WXdTqUcIS3cGBH
+    episode: 243
+    title: 'Folge 243: Die Muschelplage (Das Original-Hörspiel zur TV-Serie)'
+  - id: 47tzI1OFOXzivfyj2dhtbi
+    episode: 244
+    title: 'Folge 244: Allergie-Attacke (Das Original-Hörspiel zur TV-Serie)'
+  - id: 4QmEwPkbl6XhCzR7NPt1i6
+    episode: 245
+    title: 'Folge 245: SpongeBobs Weihnachtsreise (Das Original-Hörspiel zur TV-Serie)'
+  - id: 4QjO3YHjrNIidgQFHTJd96
+    episode: 246
+    title: 'Folge 246: Manege frei (Das Original-Hörspiel zur TV-Serie)'
+  - id: 0YLmcAcYeXQsVDm8UqgoiK
+    episode: 247
+    title: 'Folge 247: Sandy, hilf uns! (Das Original-Hörspiel zur TV-Serie)'
+  - id: 0VqVvtJnnAm2qg3NLk57xm
+    episode: 248
+    title: 'Folge 248: Plankton lernt Karate (Das Original-Hörspiel zur TV-Serie)'
+  - id: 6lu4XmXv6ZOR8xTiFsNQs6
+    episode: 249
+    title: 'Folge 249: Harte Schale, weicher Kern (Das Original-Hörspiel zur TV-Serie)'
+  - id: 3h0zgQH6nEW92nIkCxZACu
+    episode: 250
+    title: 'Folge 250: Ajax gegen Hoops (Das Original-Hörspiel zur TV-Serie)'
+  - id: 3ZMmdF2EXfNhYBxa1lGIRh
+    episode: 251
+    title: 'Folge 251: Falsche Sardellen (Das Original-Hörspiel zur TV-Serie)'
+  - id: 0eU4qQZZdx2q2u9d6ZwPhx
+    episode: 252
+    title: 'Folge 252: Comic oder Klarinette (Das Original-Hörspiel zur TV-Serie)'
+  - id: 2FgCzN3USDgdqVcBG4b5OU
+    episode: 253
+    title: 'Folge 253: Die Fantasie-Kiste (Das Original-Hörspiel zur TV-Serie)'
+  - id: 7HoVM5Xhub0nRDUUrZuLPG
+    episode: 254
+    title: 'Folge 254: Der Erdapfel-Eimer (Das Original-Hörspiel zur TV-Serie)'
+  - id: 6IbOASJsjHNLwLgkzyNXFC
+    episode: 255
+    title: 'Folge 255: SpongeBob Lachkopf (Das Original-Hörspiel zur TV-Serie)'
+  - id: 7arQuSR6jqwiGf3wBAIXl7
+    episode: 256
+    title: 'Folge 256: Mama Krabs (Das Original-Hörspiel zur TV-Serie)'
+  - id: 4NlIfIAcQ2i4olCFaBjnzE
+    episode: 257
+    title: 'Folge 257: Der Haustier-Stein (Das Original-Hörspiel zur TV-Serie)'
+  - id: 4ZS6ypHuLbFakwNSMaP7N6
+    episode: 258
+    title: 'Folge 258: Tango-Revanche (Das Original-Hörspiel zur TV-Serie)'
+- id: jan_henry
+  title: Jan & Henry
+  spotify_artist_ids:
+  - 24NUVkHRlXU796XzBvT7Ao
+  episode_pattern: ^(\d{3})/
+  albums:
+  - id: 4O7MeazH8gqizDJ5b31QNp
+    episode: 1
+    title: 001/8 Geschichten und 2 Lieder
+  - id: 04remc8aH270L6rKTlf4yN
+    episode: 2
+    title: 002/8 Rätsel und 2 Lieder
+  - id: 4AbMtIG2INm5Tk6Cl7iVEC
+    episode: 3
+    title: 003/8 Rätsel und 2 Lieder
+  - id: 2AhvBrGMAb6NEeoSCLWUFX
+    episode: 4
+    title: 004/9 Rätsel und 1 Lied
+  - id: 6JRoV6QKB5DOA5h5UvB1Of
+    episode: 5
+    title: 005/10 lustige Miträtsel-Geschichten
+  - id: 386WgT9PKtqJjecYnFFtvB
+    episode: 6
+    title: 006/9 lustige Miträtsel-Geschichten und 1 Lied
