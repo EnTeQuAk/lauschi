@@ -14,6 +14,10 @@ workflows:
         - app-env
     integrations:
       app_store_connect: Lauschi
+    cache:
+      cache_paths:
+        - $HOME/.pub-cache
+        - $HOME/.cocoapods/repos
     triggering:
       events:
         - push
@@ -75,6 +79,10 @@ workflows:
         - app-env
     integrations:
       app_store_connect: Lauschi
+    cache:
+      cache_paths:
+        - $HOME/.pub-cache
+        - $HOME/.cocoapods/repos
     triggering:
       events:
         - push
@@ -124,3 +132,52 @@ workflows:
         auth: integration
         submit_to_testflight: true
         expire_build_submitted_for_review: true
+
+  android-release:
+    name: Android Release
+    instance_type: linux_x2
+    max_build_duration: 30
+    environment:
+      flutter: 3.41.1
+      java: 17
+      groups:
+        - app-env
+      android_signing:
+        - keystore_reference: release_keystore
+    cache:
+      cache_paths:
+        - $HOME/.pub-cache
+        - $HOME/.gradle/caches
+    triggering:
+      events:
+        - push
+        - tag
+      branch_patterns:
+        - pattern: main
+          include: true
+      tag_patterns:
+        - pattern: 'v*'
+          include: true
+    scripts:
+      - name: Write .env file
+        script: |
+          cat <<EOF > $CM_BUILD_DIR/.env
+          SPOTIFY_CLIENT_ID=$SPOTIFY_CLIENT_ID
+          SENTRY_DSN=$SENTRY_DSN
+          SENTRY_ENVIRONMENT=$SENTRY_ENVIRONMENT
+          EOF
+
+      - name: Install dependencies
+        script: flutter pub get
+
+      - name: Run code generation
+        script: dart run build_runner build --delete-conflicting-outputs
+
+      - name: Build Android APK
+        script: |
+          flutter build apk --release \
+            --build-number=$PROJECT_BUILD_NUMBER \
+            --dart-define-from-file=$CM_BUILD_DIR/.env
+
+    artifacts:
+      - build/app/outputs/flutter-apk/app-release.apk
