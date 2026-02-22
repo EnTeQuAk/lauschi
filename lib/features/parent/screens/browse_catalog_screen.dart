@@ -388,15 +388,20 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen> {
   }
 
   Future<void> _addPlaylist(SpotifyPlaylist playlist) async {
-    await ref
-        .read(cardRepositoryProvider)
-        .insertIfAbsent(
+    await ref.read(contentImporterProvider.notifier).importToGroup(
+      groupTitle: playlist.name,
+      groupCoverUrl: playlist.imageUrl,
+      cards: [
+        PendingCard(
           title: playlist.name,
           providerUri: playlist.uri,
           cardType: 'playlist',
+          provider: 'spotify',
           coverUrl: playlist.imageUrl,
           totalTracks: playlist.totalTracks,
-        );
+        ),
+      ],
+    );
     if (!mounted) return;
     setState(() => _addedUris.add(playlist.uri));
     ScaffoldMessenger.of(context)
@@ -1104,7 +1109,24 @@ class _CuratedSeriesCard extends ConsumerWidget {
     final allAdded = added == total && total > 0;
 
     return GestureDetector(
-      onTap: () => context.push(AppRoutes.parentCatalogSeries(series.id)),
+      onTap: () {
+        if (allAdded) {
+          // All episodes already added — find the group and navigate there.
+          final groups = ref.read(allGroupsProvider).value ?? [];
+          final matchingGroup = groups.where(
+            (g) => g.title.toLowerCase() == series.title.toLowerCase(),
+          );
+          if (matchingGroup.isNotEmpty) {
+            unawaited(
+              context.push(
+                AppRoutes.parentGroupEdit(matchingGroup.first.id),
+              ),
+            );
+            return;
+          }
+        }
+        unawaited(context.push(AppRoutes.parentCatalogSeries(series.id)));
+      },
       child: Column(
         children: [
           Expanded(
