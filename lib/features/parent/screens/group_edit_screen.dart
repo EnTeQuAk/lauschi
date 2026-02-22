@@ -10,6 +10,7 @@ import 'package:lauschi/core/database/group_repository.dart';
 import 'package:lauschi/core/router/app_router.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
 import 'package:lauschi/features/cards/screens/group_detail_screen.dart';
+import 'package:lauschi/features/player/player_provider.dart';
 
 /// Parent edit screen for a single series group.
 ///
@@ -211,6 +212,17 @@ class _GroupEditScreenState extends ConsumerState<GroupEditScreen> {
     final episodeCovers =
         episodes.map((e) => e.coverUrl).whereType<String>().toSet().toList();
 
+    // Collect unique artist IDs from group's cards for artist image covers.
+    final artistIds =
+        episodes
+            .map((e) => e.spotifyArtistIds)
+            .whereType<String>()
+            .expand((ids) => ids.split(','))
+            .map((id) => id.trim())
+            .where((id) => id.isNotEmpty)
+            .toSet()
+            .toList();
+
     return Scaffold(
       backgroundColor: AppColors.parentBackground,
       appBar: AppBar(
@@ -279,6 +291,7 @@ class _GroupEditScreenState extends ConsumerState<GroupEditScreen> {
                 _CoverPicker(
                   controller: _coverController,
                   episodeCovers: episodeCovers,
+                  artistIds: artistIds,
                   onChanged: () => setState(() => _dirty = true),
                   onAutoSave: _save,
                 ),
@@ -347,11 +360,12 @@ class _GroupEditScreenState extends ConsumerState<GroupEditScreen> {
 // Cover picker: shows current cover, episode cover chips, and a URL fallback.
 // ---------------------------------------------------------------------------
 
-class _CoverPicker extends StatefulWidget {
+class _CoverPicker extends ConsumerStatefulWidget {
   const _CoverPicker({
     required this.controller,
     required this.episodeCovers,
     required this.onChanged,
+    this.artistIds = const [],
     this.onAutoSave,
   });
 
@@ -359,6 +373,9 @@ class _CoverPicker extends StatefulWidget {
 
   /// Distinct cover URLs already present in the group's episodes.
   final List<String> episodeCovers;
+
+  /// Spotify artist IDs to fetch artist images from.
+  final List<String> artistIds;
 
   /// Called when any cover value changes (marks the form dirty).
   final VoidCallback onChanged;
@@ -368,11 +385,47 @@ class _CoverPicker extends StatefulWidget {
   final Future<void> Function()? onAutoSave;
 
   @override
-  State<_CoverPicker> createState() => _CoverPickerState();
+  ConsumerState<_CoverPicker> createState() => _CoverPickerState();
 }
 
-class _CoverPickerState extends State<_CoverPicker> {
+class _CoverPickerState extends ConsumerState<_CoverPicker> {
   String get _currentUrl => widget.controller.text.trim();
+  final _artistImages = <String>[];
+  bool _artistImagesFetched = false;
+
+  @override
+  void initState() {
+    super.initState();
+    unawaited(_fetchArtistImages());
+  }
+
+  @override
+  void didUpdateWidget(_CoverPicker oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.artistIds != widget.artistIds) {
+      _artistImagesFetched = false;
+      _artistImages.clear();
+      unawaited(_fetchArtistImages());
+    }
+  }
+
+  Future<void> _fetchArtistImages() async {
+    if (widget.artistIds.isEmpty || _artistImagesFetched) return;
+    _artistImagesFetched = true;
+
+    final api = ref.read(spotifyApiProvider);
+
+    for (final id in widget.artistIds) {
+      try {
+        final url = await api.getArtistImage(id);
+        if (url != null && mounted) {
+          setState(() => _artistImages.add(url));
+        }
+      } on Exception {
+        // Artist image fetch is best-effort.
+      }
+    }
+  }
 
   void _pickCover(String url) {
     widget.controller.text = url;
@@ -453,52 +506,64 @@ class _CoverPickerState extends State<_CoverPicker> {
           ],
         ),
 
+        // Artist image covers
+        if (_artistImages.isNotEmpty)
+          _coverChipRow('Vom Künstler', _artistImages),
+
         // Episode cover chips
-        if (widget.episodeCovers.isNotEmpty) ...[
-          const SizedBox(height: AppSpacing.sm),
-          const Text(
-            'Von Folgen übernehmen',
-            style: TextStyle(
-              fontFamily: 'Nunito',
-              fontSize: 11,
-              color: AppColors.textSecondary,
-            ),
+        if (widget.episodeCovers.isNotEmpty)
+          _coverChipRow('Von Folgen', widget.episodeCovers),
+      ],
+    );
+  }
+
+  Widget _coverChipRow(String label, List<String> urls) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const SizedBox(height: AppSpacing.sm),
+        Text(
+          label,
+          style: const TextStyle(
+            fontFamily: 'Nunito',
+            fontSize: 11,
+            color: AppColors.textSecondary,
           ),
-          const SizedBox(height: 4),
-          SizedBox(
-            height: 52,
-            child: ListView.separated(
-              scrollDirection: Axis.horizontal,
-              itemCount: widget.episodeCovers.length,
-              separatorBuilder: (_, _) => const SizedBox(width: 6),
-              itemBuilder: (context, index) {
-                final url = widget.episodeCovers[index];
-                final isSelected = _currentUrl == url;
-                return GestureDetector(
-                  onTap: () => _pickCover(url),
-                  child: Container(
-                    width: 52,
-                    height: 52,
-                    decoration: BoxDecoration(
-                      borderRadius: const BorderRadius.all(AppRadius.card),
-                      border:
-                          isSelected
-                              ? Border.all(color: AppColors.primary, width: 2.5)
-                              : null,
-                    ),
-                    child: ClipRRect(
-                      borderRadius: const BorderRadius.all(AppRadius.card),
-                      child: CachedNetworkImage(
-                        imageUrl: url,
-                        fit: BoxFit.cover,
-                      ),
+        ),
+        const SizedBox(height: 4),
+        SizedBox(
+          height: 52,
+          child: ListView.separated(
+            scrollDirection: Axis.horizontal,
+            itemCount: urls.length,
+            separatorBuilder: (_, _) => const SizedBox(width: 6),
+            itemBuilder: (context, index) {
+              final url = urls[index];
+              final isSelected = _currentUrl == url;
+              return GestureDetector(
+                onTap: () => _pickCover(url),
+                child: Container(
+                  width: 52,
+                  height: 52,
+                  decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.all(AppRadius.card),
+                    border:
+                        isSelected
+                            ? Border.all(color: AppColors.primary, width: 2.5)
+                            : null,
+                  ),
+                  child: ClipRRect(
+                    borderRadius: const BorderRadius.all(AppRadius.card),
+                    child: CachedNetworkImage(
+                      imageUrl: url,
+                      fit: BoxFit.cover,
                     ),
                   ),
-                );
-              },
-            ),
+                ),
+              );
+            },
           ),
-        ],
+        ),
       ],
     );
   }
