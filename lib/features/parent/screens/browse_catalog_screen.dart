@@ -1770,14 +1770,13 @@ class _SearchResultTile extends StatelessWidget {
       ),
     );
 
-    final trailing =
-        isAdded
-            ? const Icon(Icons.check_rounded, color: AppColors.success)
-            : IconButton(
-              onPressed: onAdd,
-              icon: const Icon(Icons.add_rounded),
-              color: AppColors.primary,
-            );
+    // Already-added cards can still be tapped to reassign to current group.
+    final trailing = IconButton(
+      onPressed: onAdd,
+      tooltip: isAdded ? 'Erneut zuweisen' : 'Hinzufügen',
+      icon: Icon(isAdded ? Icons.check_rounded : Icons.add_rounded),
+      color: isAdded ? AppColors.success : AppColors.primary,
+    );
 
     return InkWell(
       onTap: onTap,
