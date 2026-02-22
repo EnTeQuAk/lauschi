@@ -718,7 +718,30 @@
   },
   "review": {
     "status": "pending",
-    "overrides": [],
-    "notes": "Auto-created by apply-splits.py from lego_city_abenteuer."
+    "overrides": [
+      {
+        "album_id": "3imxYG6y8VsVx4LyUlkfOf",
+        "action": "exclude",
+        "reason": "Long-form episode (14 tracks, ~45 min, Apr 2020) from main series - not Kompakt version. Duplicate episode number with actual Kompakt entry."
+      },
+      {
+        "album_id": "4SygfBWhlHUihHA4PFqH8I",
+        "action": "exclude",
+        "reason": "Long-form episode (13 tracks, ~40 min, Nov 2020) from main series - not Kompakt version. Duplicate episode number with actual Kompakt entry."
+      },
+      {
+        "album_id": "1FKo6rTIST1l9BxIYmgULC",
+        "action": "exclude",
+        "reason": "Long-form episode (16 tracks, ~50 min, Mar 2021) from main series - not Kompakt version. Duplicate episode number with actual Kompakt entry."
+      },
+      {
+        "album_id": "6mAffXeHyQ3FqzVHKOnAj0",
+        "action": "exclude",
+        "reason": "Long-form episode (15 tracks, ~47 min, Oct 2021) from main series - not Kompakt version. Duplicate episode number with actual Kompakt entry."
+      }
+    ],
+    "notes": "Auto-created by apply-splits.py from lego_city_abenteuer.\nFixed episode pattern extraction - all 60 previously unnumbered albums now have correct episode numbers. Identified 4 duplicate episode numbers caused by long-form vs Kompakt versions. Excluded 4 long-form episodes (24, 25, 26, 27) that belong to the main LEGO City Abenteuer series. The Kompakt series (short 3-4 track episodes released Dec 2020) now has clean episode numbering from 11-106 with no gaps.",
+    "reviewed_at": "2026-02-22T11:08:41.058540+00:00",
+    "reviewed_by": "review-series.py"
   }
 }

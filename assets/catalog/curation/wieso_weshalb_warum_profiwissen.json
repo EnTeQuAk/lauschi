@@ -134,6 +134,13 @@
         "episode_num": 4,
         "title": "Pferde (Wieso? Weshalb? Warum? PROFIWISSEN, Folge 4)",
         "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0PWNXFERql77QAetGLJYMf",
+        "include": true,
+        "episode_num": 15,
+        "title": "Fußball (Wieso? Weshalb? Warum? PROFIWISSEN, Folge 15)",
+        "exclude_reason": null
       }
     ],
     "age_note": "Suitable from 3+",
@@ -142,6 +149,8 @@
   "review": {
     "status": "pending",
     "overrides": [],
-    "notes": "Auto-created by apply-splits.py from wieso_weshalb_warum."
+    "notes": "Auto-created by apply-splits.py from wieso_weshalb_warum.\nGap-filling: Added 'Fußball (Folge 15)' which was found on Spotify.\n\nDuplicate episode 3 investigation: Found two albums both labeled as Folge 3:\n- 'Autos' (2015, 17 tracks) - appears to be the original Band 3\n- 'Tiere' (2021, 23 tracks) - newer release also labeled Folge 3\n\nThese are NOT duplicates - they have completely different content (cars vs animals). This appears to be a publisher renumbering issue where the series was reissued with different episode numbers. Both albums should be kept as they contain distinct content. The human reviewer should verify with JUMBO Verlag which numbering is current, or if these represent different editions/releases.\n\nRemaining gaps (not found on Spotify): 7, 8, 11, 14, 16, 18, 20, 22, 23. Multiple searches attempted but these episodes do not appear to be available on Spotify.",
+    "reviewed_at": "2026-02-22T11:29:28.895534+00:00",
+    "reviewed_by": "review-series.py"
   }
 }

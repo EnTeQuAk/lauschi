@@ -12,6 +12,8 @@
 #                       Artist-ID matching fires AFTER keyword matching and
 #                       catches albums whose titles omit the series name entirely
 #                       (e.g. TKKG "140/Draculas Erben", Die drei ??? "116/Cobra").
+#   cover_url           curated cover image URL (typically Spotify artist image).
+#                       Optional — used as series tile artwork in browse/search.
 #   episode_pattern     regex (one capture group) extracting the episode number.
 #                       Omit for standalone (non-numbered) series.
 #
@@ -2108,7 +2110,8 @@ series:
   - lauras stern
   spotify_artist_ids:
   - 0xY8w0o3cSH3gzx4G4h8qD
-  episode_pattern: (?:[Ff]olge\s+(\d+)|[Bb]and\s+(\d+)|[Tt]eil\s+(\d+)|Lauras?\s+Stern[,\s]*(\d{1,2}))
+  episode_pattern: 
+    (?:[Ff]olge\s+(\d+)|[Bb]and\s+(\d+)|[Tt]eil\s+(\d+)|Lauras?\s+Stern[,\s]*(\d{1,2}))
 - id: tom_turbo
   title: Tom Turbo
   aliases:
@@ -2641,14 +2644,135 @@ series:
   episode_pattern: (?:[Ff]olge\s+(\d+)|^(\d{3})/)
 - id: asterix
   title: Asterix
-  aliases:
-  - Asterix
-  - Asterix und Obelix
   keywords:
-  - asterix
+  - Asterix
   spotify_artist_ids:
   - 55dz39BSDTWYbBFVZRj72b
-  episode_pattern: ^(\d{1,2}):\s
+  episode_pattern: '^(\d+):'
+  albums:
+  - id: 3cMI5Kfy8sIWn5gBbwZfIl
+    episode: 1
+    title: '01: Asterix der Gallier'
+  - id: 2vbXxZSstQB0YiQP38Uno4
+    episode: 2
+    title: '02: Asterix und Kleopatra'
+  - id: 7J5Wl79hVANm6hACyxr30w
+    episode: 3
+    title: '03: Asterix als Gladiator'
+  - id: 3ReWwZddwx9jvkxnBhaWX4
+    episode: 4
+    title: '04: Der Kampf der Häuptlinge'
+  - id: 6aMxJp4Hdi14ITvcOycOyE
+    episode: 5
+    title: '05: Die goldene Sichel'
+  - id: 7ChvfAuETcNZ818E4h9m30
+    episode: 6
+    title: '06: Tour De France'
+  - id: 5pJpXKAPgl20w0TZpMfmK5
+    episode: 7
+    title: '07: Asterix und die Goten'
+  - id: 3T6NXNEnipIGYYwczV2YOT
+    episode: 8
+    title: '08: Asterix bei den Briten'
+  - id: 6uos5ZakxcYgzHvaXfsza3
+    episode: 9
+    title: '09: Asterix und die Normannen'
+  - id: 059Dk8ReLqKxpZUU3dEOGM
+    episode: 10
+    title: '10: Asterix als Legionär'
+  - id: 35oDyjvfowZ8QFgNT5UKBr
+    episode: 11
+    title: '11: Asterix und der Arvernerschild'
+  - id: 42t97Gk0LCtyHIQNVae6NA
+    episode: 12
+    title: '12: Asterix bei den Olympischen Spielen'
+  - id: 1Gg3SkZZJyIzjlnfpf8BDi
+    episode: 13
+    title: '13: Asterix und der Kupferkessel'
+  - id: 4uMOdahQOonHsoUHr2JK34
+    episode: 14
+    title: '14: Asterix in Spanien'
+  - id: 4Ikq0EIVYuAgNSN691o0YH
+    episode: 15
+    title: '15: Streit um Asterix'
+  - id: 6cY6YDevg6md9VpPtqEghZ
+    episode: 16
+    title: '16: Asterix bei den Schweizern'
+  - id: 2TAgKAAfgIaRhslwoWqEN1
+    episode: 17
+    title: '17: Die Trabantenstadt'
+  - id: 2e1oblKeyiKlBTaKFVdk3l
+    episode: 18
+    title: '18: Die Lorbeeren des Cäsar'
+  - id: 4m6xuqkTB4twbidcmygJwR
+    episode: 19
+    title: '19: Der Seher'
+  - id: 43UF0mVUWpoh2Zqx2bisvv
+    episode: 20
+    title: '20: Asterix auf Korsika'
+  - id: 7uAPDGxmcrhzCVqMeWU2E1
+    episode: 21
+    title: '21: Das Geschenk Cäsars'
+  - id: 74e8inuOZY5abyH2hoj4qs
+    episode: 22
+    title: '22: Die große Überfahrt'
+  - id: 5RIU9cvkoI9ArwsPu6NtP9
+    episode: 23
+    title: '23: Obelix GmbH & Co. KG'
+  - id: 3AV3PSud9LfuQv3oP8yZV1
+    episode: 24
+    title: '24: Asterix bei den Belgiern'
+  - id: 5GNBdlc9wYqzFo3txG8TTE
+    episode: 25
+    title: '25: Der große Graben'
+  - id: 2fT2wcicCe7sXhQBiKTkPV
+    episode: 26
+    title: '26: Die Odyssee'
+  - id: 2JW8o93xhBdvFix8VM6BcG
+    episode: 27
+    title: '27: Der Sohn des Asterix'
+  - id: 7o8lHa9KyLrQmdJSKqpoQC
+    episode: 28
+    title: '28: Asterix im Morgenland'
+  - id: 58RCOoFsYBDfhVOrvWdYOY
+    episode: 29
+    title: '29: Asterix und Maestria'
+  - id: 0zQ5SgloZdA5CaBcC0TMec
+    episode: 30
+    title: '30: Obelix auf Kreuzfahrt'
+  - id: 4NOaEdhZJPIPIw7UlvPprG
+    episode: 31
+    title: '31: Asterix und Latraviata'
+  - id: 2vLhCA6PV0W0gK3egjW5o9
+    episode: 32
+    title: '32: Asterix plaudert aus der Schule'
+  - id: 1JERvjvC27ciO2xDMs7cq7
+    episode: 33
+    title: '33: Gallien in Gefahr'
+  - id: 6Vx0vK5VcR2cCknyapllBw
+    episode: 34
+    title: '34: Asterix & Obelix feiern Geburtstag'
+  - id: 2pGSPUtNWNhdpky1fYxMPD
+    episode: 35
+    title: '35: Asterix bei den Pikten'
+  - id: 1te20zvwrYLiT7FLPy2yeN
+    episode: 36
+    title: '36: Der Papyrus des Cäsar'
+  - id: 1qAf38FEbsBPopGn7NYT1P
+    episode: 37
+    title: '37: Asterix in Italien'
+  - id: 69GsPW0ekc7AXnc5zCP3CH
+    episode: 38
+    title: '38: Die Tochter des Vercingetorix'
+  - id: 4hxu6Gmh28aHojCcTFGXGt
+    episode: 39
+    title: '39: Asterix und der Greif'
+  - id: 2ZqMGWvlljUKos4t9S3j6v
+    episode: 40
+    title: '40: Die weisse Iris'
+  - id: 0iXw4Qg5jVG6RZjSLgwJG4
+    episode: 41
+    title: '41: Asterix in Lusitanien'
 - id: lucky_luke
   title: Lucky Luke
   aliases:
@@ -3298,25 +3422,28 @@ series:
   episode_pattern: Alles ([^!]+)!
   albums:
   - id: 4Bye9UYKH5eYH6Glm1EYdO
-    title: Alles Bitte-danke!, Alles Eis!, Socke will alles können und zwar ruckzuck! (Der kleine Rabe Socke)
+    title: Alles Bitte-danke!, Alles Eis!, Socke will alles können und zwar ruckzuck! (Der kleine 
+      Rabe Socke)
   - id: 4sisLEShJplT9VQrRelb99
     title: Alles Freunde! (Der kleine Rabe Socke) [Freundschaftsgeschichten vom kleinen Raben Socke]
   - id: 2HajrwUcwFczd5ovmqUta9
     title: Alles Freunde!, Alles wieder gut! (Der kleine Rabe Socke)
   - id: 1OJtnmkxVTdYFJ1pwLssPi
-    title: 'Alles Frühling!: Alles Freunde!, Alles wächst!, Alles gefärbt! (Der kleine Rabe Socke) [Drei Geschichten vom kleinen
-      Raben Socke]'
+    title: 'Alles Frühling!: Alles Freunde!, Alles wächst!, Alles gefärbt! (Der kleine Rabe Socke) [Drei
+      Geschichten vom kleinen Raben Socke]'
   - id: 2FAg04g5btUgSUExkIOi6r
-    title: 'Alles Schule!: Alles vorbereitet!, Alles aufgeweckt!, Alles eingeschult!, Alles aus und vorbei!, Alles zusammen!
-      (Der kleine Rabe Socke)'
+    title: 'Alles Schule!: Alles vorbereitet!, Alles aufgeweckt!, Alles eingeschult!, Alles aus und vorbei!,
+      Alles zusammen! (Der kleine Rabe Socke)'
   - id: 5rLgyFUrNHZ8xnaEWSSQ71
-    title: Alles Socke! (Alles erlaubt?, Alles Eis!, Alles gefunden!, Alles zu spät!, Alles echt wahr!, Alles nass!, Alles
-      Bitte-danke!, Alles verlaufen!) (Der kleine Rabe Socke) [Das Beste vom kleinen Raben Socke zum 25. Geburtstag]
+    title: Alles Socke! (Alles erlaubt?, Alles Eis!, Alles gefunden!, Alles zu spät!, Alles echt 
+      wahr!, Alles nass!, Alles Bitte-danke!, Alles verlaufen!) (Der kleine Rabe Socke) [Das Beste 
+      vom kleinen Raben Socke zum 25. Geburtstag]
   - id: 4AboRuzwmUiuqS9noZmcQ1
-    title: 'Alles Weihnachten!: Alles Advent!, Alles gebacken!, Alles verschenkt! (Der kleine Rabe Socke) [Drei Geschichten
-      vom kleinen Raben Socke]'
+    title: 'Alles Weihnachten!: Alles Advent!, Alles gebacken!, Alles verschenkt! (Der kleine Rabe Socke)
+      [Drei Geschichten vom kleinen Raben Socke]'
   - id: 0nnORLROe3heC59K96RQuO
-    title: 'Alles deine Schuld! (Der kleine Rabe Socke) [Und weitere Geschichten: Alles schlapp!, Alles gewaschen!]'
+    title: 'Alles deine Schuld! (Der kleine Rabe Socke) [Und weitere Geschichten: Alles schlapp!, Alles
+      gewaschen!]'
   - id: 6EEHTIM7lx5WoOQ083pffv
     title: Alles echt wahr!, Macht ja nix! (Der kleine Rabe Socke)
   - id: 2mRHZRtlJm1UFloiMQwtyw
@@ -3332,8 +3459,8 @@ series:
   - id: 6tbKtNfAd40rvPJVTNXylf
     title: Alles rabenstark!, Alles aufgeräumt!, Alles kaputt! (Der kleine Rabe Socke)
   - id: 5Blrw5UfocVrlzAoxRJQsf
-    title: Alles schläft? (Alles ohne Ende!, Alles Monster!, Alles verbummelt!, Alles besser!) (Der kleine Rabe Socke) [Gute-Nacht-Geschichten
-      vom kleinen Raben Socke]
+    title: Alles schläft? (Alles ohne Ende!, Alles Monster!, Alles verbummelt!, Alles besser!) (Der 
+      kleine Rabe Socke) [Gute-Nacht-Geschichten vom kleinen Raben Socke]
   - id: 6uS4A6adOkQRBtfN8B0wnE
     title: Alles verknallt!, Alles wach?, Alles gelernt! (Der kleine Rabe Socke)
   - id: 0joEbvSRUXOYhoWfDJdXPa
@@ -3343,47 +3470,59 @@ series:
   - id: 6CPEwK18zBZafonlXexQYK
     title: Alles verzankt!, Alles zu voll!, Alles nass! (Der kleine Rabe Socke)
   - id: 3vxL29iewsOnpuzmvy0B18
-    title: Das Geburtstagsgeschenk, Das Superfernrohr, Der Erfinderwettbewerb (Der kleine Rabe Socke - Hörspiele zur TV Serie
-      8)
+    title: Das Geburtstagsgeschenk, Das Superfernrohr, Der Erfinderwettbewerb (Der kleine Rabe Socke
+      - Hörspiele zur TV Serie 8)
   - id: 045UjvaNf9898ZWtNxdL7s
-    title: Das Hofturnier, Die Waldprüfung, Bruder-Alarm! (Der kleine Rabe Socke - Hörspiele zur TV Serie 10)
+    title: Das Hofturnier, Die Waldprüfung, Bruder-Alarm! (Der kleine Rabe Socke - Hörspiele zur TV 
+      Serie 10)
   - id: 6KnamYDPG0Wr82roCnku3U
-    title: Das Waldlied, Allerbeste Freunde, Die Geburtstagsretter (Der kleine Rabe Socke - Hörspiele zur TV Serie 15)
+    title: Das Waldlied, Allerbeste Freunde, Die Geburtstagsretter (Der kleine Rabe Socke - 
+      Hörspiele zur TV Serie 15)
   - id: 4MF3vRrimefhW3x9RK9I1V
-    title: Der Onkel aus der Südsee, Der große Streichewettbewerb, Rollentausch, Der Schatzkistentag (Der kleine Rabe Socke
-      - Hörspiele zur TV Serie 17)
+    title: Der Onkel aus der Südsee, Der große Streichewettbewerb, Rollentausch, Der Schatzkistentag
+      (Der kleine Rabe Socke - Hörspiele zur TV Serie 17)
   - id: 0eF1MO4hXD7EE0cqD8DW8o
-    title: Die Mutprobe, Ein echter Krimi, Der geteilte Wald (Der kleine Rabe Socke - Hörspiele zur TV Serie 16)
+    title: Die Mutprobe, Ein echter Krimi, Der geteilte Wald (Der kleine Rabe Socke - Hörspiele zur 
+      TV Serie 16)
   - id: 76HrKCFyQhY87r2IWXnLDB
-    title: Die Sportskanone, Der Honigmond, Der sprechende Busch (Der kleine Rabe Socke - Hörspiele zur TV Serie 5)
+    title: Die Sportskanone, Der Honigmond, Der sprechende Busch (Der kleine Rabe Socke - Hörspiele 
+      zur TV Serie 5)
   - id: 2vSecCqEUJilZo28l0vTIL
-    title: Die Wunscherfüllkiste, Der Waldgeist, Haltet den Dieb! (Der kleine Rabe Socke - Hörspiele zur TV Serie 2)
+    title: Die Wunscherfüllkiste, Der Waldgeist, Haltet den Dieb! (Der kleine Rabe Socke - Hörspiele
+      zur TV Serie 2)
   - id: 3FrgaEqgvo0sqA7Ru0QVYK
-    title: Ferngesteuert, Der Laden der allertollsten Dinge, Freundschaft mit Hindernissen (Der kleine Rabe Socke - Hörspiele
-      zur TV Serie 14)
+    title: Ferngesteuert, Der Laden der allertollsten Dinge, Freundschaft mit Hindernissen (Der 
+      kleine Rabe Socke - Hörspiele zur TV Serie 14)
   - id: 6VrIYTSUOGSsKWMTdeW8gE
-    title: Frau Dachs macht Urlaub, Ein Tanzkleid für Frau Dachs, Rette sich, wer kann! (Der kleine Rabe Socke - Hörspiele
-      zur TV Serie 4)
+    title: Frau Dachs macht Urlaub, Ein Tanzkleid für Frau Dachs, Rette sich, wer kann! (Der kleine 
+      Rabe Socke - Hörspiele zur TV Serie 4)
   - id: 0oqKdiDNslYUoUiRYUdDks
-    title: Meisterdetektive, Der Pechvogel, Frau Dachs hat Geburtstag (Der kleine Rabe Socke - Hörspiele zur TV Serie 11)
+    title: Meisterdetektive, Der Pechvogel, Frau Dachs hat Geburtstag (Der kleine Rabe Socke - 
+      Hörspiele zur TV Serie 11)
   - id: 4ohBnL1iSjWMTQaLNA7bvZ
-    title: Neues Ufer, Die verfluchte Teekanne, Der große Sockini (Der kleine Rabe Socke - Hörspiele zur TV Serie 9)
+    title: Neues Ufer, Die verfluchte Teekanne, Der große Sockini (Der kleine Rabe Socke - Hörspiele
+      zur TV Serie 9)
   - id: 1i3DeKgyCaMEwpmrgnXkiK
-    title: Piraten Ahoi!, Die Fußballwaldmeisterschaft, Das goldene Amulett (Der kleine Rabe Socke - Hörspiele zur TV Serie
-      1)
+    title: Piraten Ahoi!, Die Fußballwaldmeisterschaft, Das goldene Amulett (Der kleine Rabe Socke -
+      Hörspiele zur TV Serie 1)
   - id: 58IfNovyr5Sr55wgMLWIoI
-    title: Rennfahrer, Diamantenfieber, Die Rasselbande (Der kleine Rabe Socke - Hörspiele zur TV Serie 7)
+    title: Rennfahrer, Diamantenfieber, Die Rasselbande (Der kleine Rabe Socke - Hörspiele zur TV 
+      Serie 7)
   - id: 795XA2uiADFHOKNkttriJX
-    title: 'Ritter Sockenherz, Mission: Dreirad, Der falsche Pilz (Der kleine Rabe Socke - Hörspiele zur TV Serie 3)'
+    title: 'Ritter Sockenherz, Mission: Dreirad, Der falsche Pilz (Der kleine Rabe Socke - Hörspiele zur
+      TV Serie 3)'
   - id: 0Csm87ayVVBtIeP4gl2hvP
-    title: Socke aus dem All, Der Hypnotiseur, Streithähne (Der kleine Rabe Socke - Hörspiele zur TV Serie 12)
+    title: Socke aus dem All, Der Hypnotiseur, Streithähne (Der kleine Rabe Socke - Hörspiele zur TV
+      Serie 12)
   - id: 06Oc8eYyPKyXMGBwUCBUV7
-    title: Sockes Flugschule, Die Waldhochzeit, Der Riesenschreck (Der kleine Rabe Socke - Hörspiele zur TV Serie 13)
+    title: Sockes Flugschule, Die Waldhochzeit, Der Riesenschreck (Der kleine Rabe Socke - Hörspiele
+      zur TV Serie 13)
   - id: 5YufFI1LNYMovd5wWKJ4CU
-    title: Suppenzauber, Gestrandet, Die Ringelsocke ist futsch! (Der kleine Rabe Socke - Hörspiele zur TV Serie 6)
+    title: Suppenzauber, Gestrandet, Die Ringelsocke ist futsch! (Der kleine Rabe Socke - Hörspiele 
+      zur TV Serie 6)
   - id: 5Tx1COK2E4QTwd0ye0rknb
-    title: 'Weihnachtsgeschichten vom kleinen Raben Socke: Alles Advent!, Alles glitzert!, Alles in Eile!, Alles weg! (Der
-      kleine Rabe Socke)'
+    title: 'Weihnachtsgeschichten vom kleinen Raben Socke: Alles Advent!, Alles glitzert!, Alles in Eile!,
+      Alles weg! (Der kleine Rabe Socke)'
 - id: die_oktonauten
   title: Die Oktonauten
   spotify_artist_ids:
@@ -5753,7 +5892,8 @@ series:
     title: 'Folge 399: Farbe weg, alles weg! (Das Original-Hörspiel zur TV-Serie)'
   - id: 7FslDAKxwNWlMi2MsLkTsC
     episode: 400
-    title: 'Folge 400: Die Superhunde und der Bürgermeister des Universums (Das Original-Hörspiel zur TV-Serie)'
+    title: 'Folge 400: Die Superhunde und der Bürgermeister des Universums (Das Original-Hörspiel zur
+      TV-Serie)'
   - id: 1iWiPGH7dflhkQFLSFThhX
     episode: 401
     title: 'Folge 401: Die Dschungel-Helfer retten Piraten (Das Original-Hörspiel zur TV-Serie)'
@@ -5855,13 +5995,15 @@ series:
   albums:
   - id: 0GxgRepTAKICCgnjxXabnn
     episode: 1
-    title: 'Teil 1: Der Oberhexenbesen, Papa ist geschrumpft, Verwichtelte Freundschaft (Hörspiele zur TV-Serie)'
+    title: 'Teil 1: Der Oberhexenbesen, Papa ist geschrumpft, Verwichtelte Freundschaft (Hörspiele zur
+      TV-Serie)'
   - id: 6cin4nc6W4kYZEXVT8cTxp
     episode: 1
     title: 'Teil 1: Verhext und festgeklebt'
   - id: 5BCDZehG1Ir8cokNvw6Lio
     episode: 2
-    title: 'Teil 2: Das Überraschungs-Picknick, Der Spielverderber, Selfie mit Heckenschrat (Hörspiele zur TV-Serie)'
+    title: 'Teil 2: Das Überraschungs-Picknick, Der Spielverderber, Selfie mit Heckenschrat (Hörspiele
+      zur TV-Serie)'
   - id: 1wizSwFwBNIKcg7y8dJ5cP
     episode: 2
     title: 'Teil 2: Zauberschlaf und Knallfroschchaos'
@@ -5873,7 +6015,8 @@ series:
     title: 'Teil 3: Schneeballschlacht und Wichtelstreiche'
   - id: 0hj2baHLWGAChZFOULHMS5
     episode: 4
-    title: 'Teil 4: Verhexte Bäckerei, Das Band der Freundschaft, Hexengeburtstag, Aufprall mit Folgen (Hörspiele zur TV-Serie)'
+    title: 'Teil 4: Verhexte Bäckerei, Das Band der Freundschaft, Hexengeburtstag, Aufprall mit Folgen
+      (Hörspiele zur TV-Serie)'
   - id: 7cWtxTcosezzDYGly4sgyH
     episode: 4
     title: 'Teil 4: Zauberhut und Bienenstich'
@@ -5882,7 +6025,8 @@ series:
     title: 'Teil 5: Hexenbuch und Schnüffelnase'
   - id: 3OA6geEzvBlfwXQPzUAkEZ
     episode: 5
-    title: 'Teil 5: Was ist nur mit Dornwald los?, Blick in die Zukunft, Hilda in der Falle (Hörspiele zur TV-Serie)'
+    title: 'Teil 5: Was ist nur mit Dornwald los?, Blick in die Zukunft, Hilda in der Falle (Hörspiele
+      zur TV-Serie)'
   - id: 0C1wwnIVWTjtsfNKICN9gK
     episode: 6
     title: 'Teil 6: Energie aus der Dose, Das blaue Wunder, Die Zauberprüfung (Hörspiele zur TV-Serie)'
@@ -5894,10 +6038,12 @@ series:
     title: 'Teil 7: Hexenfest und Waldgeflüster'
   - id: 6SJJSnB8mbOkIO50hTIOC5
     episode: 7
-    title: 'Teil 7: Hexenschnupfen, Fürchten sich Heckenschrate?, Der größte Wichtel der Welt (Hörspiele zur TV-Serie)'
+    title: 'Teil 7: Hexenschnupfen, Fürchten sich Heckenschrate?, Der größte Wichtel der Welt (Hörspiele
+      zur TV-Serie)'
   - id: 5Q1psKbqPKYqW9dHwXoiSz
     episode: 8
-    title: 'Teil 8: Das Stinkeparfüm, Der Zaubersauberbesen, Der verlorene Ring, Die Doppelgängerin (Hörspiele zur TV-Serie)'
+    title: 'Teil 8: Das Stinkeparfüm, Der Zaubersauberbesen, Der verlorene Ring, Die Doppelgängerin (Hörspiele
+      zur TV-Serie)'
   - id: 51xrQDuxKHKT4FB0993k4V
     episode: 9
     title: 'Teil 9: Alles singt, Des Wichtels Gespür für Wasser, Das Geschichtengerät (Hörspiele zur TV-Serie)'
@@ -5906,7 +6052,8 @@ series:
     title: 'Teil 10: Die verflogene Einladung, Der große Fund, Die Zauberäpfel (Hörspiele zur TV-Serie)'
   - id: 2UO9cEOsZltdLqiTlLxPDN
     episode: 11
-    title: 'Teil 11: Eine abenteuerliche Nacht, Der komische Cousin, Die Mondglockenblume (Hörspiele zur TV-Serie)'
+    title: 'Teil 11: Eine abenteuerliche Nacht, Der komische Cousin, Die Mondglockenblume (Hörspiele zur
+      TV-Serie)'
   - id: 0pyNGAv1Gw7GsC5fC5ZBDG
     episode: 12
     title: 'Teil 12: Eine seltsame Aushilfe, Diebesjagd!, Hexische Beförderung (Hörspiele zur TV-Serie)'

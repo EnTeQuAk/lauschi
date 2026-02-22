@@ -322,6 +322,21 @@
         "reason": "Standalone children's book adaptation (Der goldene Hinkelstein, 2020) - NOT part of the numbered Asterix Hörspiel series. The AI mistakenly assigned episode 32, but this is a different product entirely based on a 1967 special story. Keep the actual episode 32: Asterix plaudert aus der Schule (2vLhCA6PV0W0gK3egjW5o9)."
       }
     ],
-    "notes": "The duplicate episode 32 has been resolved: 'Der goldene Hinkelstein' is a standalone special release (originally a 1967 picture book with accompanying record) that is not part of the main numbered Hörspiel series. The actual episode 32 'Asterix plaudert aus der Schule' (2019) should remain as the canonical episode 32. The series otherwise looks complete with episodes 1-41 all present.\nThe duplicate flag for episode 32 was correct - there was a conflict. I verified that 'Asterix plaudert aus der Schule' (album 2vLhCA6PV0W0gK3egjW5o9) is the correct episode 32 with 15 tracks in proper audio drama format. The other album 'Der goldene Hinkelstein' (album 1ujvJk1h8yqceFlJmtZd7d) is a 2020 standalone children's book adaptation with 10 tracks - it should not be part of this series. Series now has clean episode 1-41 numbering."
+    "notes": "The duplicate episode 32 has been resolved: 'Der goldene Hinkelstein' is a standalone special release (originally a 1967 picture book with accompanying record) that is not part of the main numbered Hörspiel series. The actual episode 32 'Asterix plaudert aus der Schule' (2019) should remain as the canonical episode 32. The series otherwise looks complete with episodes 1-41 all present.\nThe duplicate flag for episode 32 was correct - there was a conflict. I verified that 'Asterix plaudert aus der Schule' (album 2vLhCA6PV0W0gK3egjW5o9) is the correct episode 32 with 15 tracks in proper audio drama format. The other album 'Der goldene Hinkelstein' (album 1ujvJk1h8yqceFlJmtZd7d) is a 2020 standalone children's book adaptation with 10 tracks - it should not be part of this series. Series now has clean episode 1-41 numbering.",
+    "verification": {
+      "model": "minimax-m2.5",
+      "verified_at": "2026-02-22T10:40:17.485673+00:00",
+      "approve": true,
+      "concerns": "",
+      "override_verdicts": [
+        {
+          "album_id": "1ujvJk1h…",
+          "agree": true,
+          "reason": "Correctly excluded - 'Der goldene Hinkelstein' (2020) is a standalone children's book adaptation with 10 tracks, not part of the main 41-episode numbered Hörspiel series. The actual episode 32 is 'Asterix plaudert aus der Schule' with 15 track audio drama format."
+        }
+      ],
+      "split_verdicts": []
+    },
+    "status": "approved"
   }
 }
