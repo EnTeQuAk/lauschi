@@ -6016,8 +6016,8 @@ series:
   - Lucky Luke
   spotify_artist_ids:
   - 3GhvVhdZylZUmxABM30UeP
-  episode_pattern: ^(?:(\d{2}):\s*|Ein Cowboy in Paris|Fackeln im Baumwollfeld|Rantanplans Arche|Letzte
-    Runde für die Daltons|Das gelobte Land|Meine Onkel, die Daltons)
+  episode_pattern: ^(?:(\d{2}):\s*|Ein Cowboy in Paris|Fackeln im Baumwollfeld|Rantanplans 
+    Arche|Letzte Runde für die Daltons|Das gelobte Land|Meine Onkel, die Daltons)
   albums:
   - id: 3kQiCwi4N1CtcdT4zmsIb0
     episode: 1
@@ -6149,8 +6149,8 @@ series:
   - id: 2mdVzm7cYhifVGhBJEiyiZ
     title: Rodrigo Raubein und Knirps, sein Knappe
   - id: 11wArUgNLB4hEeDHzd2t2M
-    title: Tranquilla Trampeltreu und weitere Fabeln von Michael Ende (Tranquilla Trampeltreu, Der Lindwurm
-      und der Schmetterling und Norbert Nackendick)
+    title: Tranquilla Trampeltreu und weitere Fabeln von Michael Ende (Tranquilla Trampeltreu, Der 
+      Lindwurm und der Schmetterling und Norbert Nackendick)
 - id: gespensterjager
   title: Gespensterjäger
   aliases:
@@ -8126,8 +8126,8 @@ series:
   episode_pattern: Alles ([^!]+)!
   albums:
   - id: 4Bye9UYKH5eYH6Glm1EYdO
-    title: Alles Bitte-danke!, Alles Eis!, Socke will alles können und zwar ruckzuck! (Der kleine Rabe
-      Socke)
+    title: Alles Bitte-danke!, Alles Eis!, Socke will alles können und zwar ruckzuck! (Der kleine 
+      Rabe Socke)
   - id: 4sisLEShJplT9VQrRelb99
     title: Alles Freunde! (Der kleine Rabe Socke) [Freundschaftsgeschichten vom kleinen Raben Socke]
   - id: 2HajrwUcwFczd5ovmqUta9
@@ -8139,9 +8139,9 @@ series:
     title: 'Alles Schule!: Alles vorbereitet!, Alles aufgeweckt!, Alles eingeschult!, Alles aus und vorbei!,
       Alles zusammen! (Der kleine Rabe Socke)'
   - id: 5rLgyFUrNHZ8xnaEWSSQ71
-    title: Alles Socke! (Alles erlaubt?, Alles Eis!, Alles gefunden!, Alles zu spät!, Alles echt wahr!,
-      Alles nass!, Alles Bitte-danke!, Alles verlaufen!) (Der kleine Rabe Socke) [Das Beste vom kleinen
-      Raben Socke zum 25. Geburtstag]
+    title: Alles Socke! (Alles erlaubt?, Alles Eis!, Alles gefunden!, Alles zu spät!, Alles echt 
+      wahr!, Alles nass!, Alles Bitte-danke!, Alles verlaufen!) (Der kleine Rabe Socke) [Das Beste 
+      vom kleinen Raben Socke zum 25. Geburtstag]
   - id: 4AboRuzwmUiuqS9noZmcQ1
     title: 'Alles Weihnachten!: Alles Advent!, Alles gebacken!, Alles verschenkt! (Der kleine Rabe Socke)
       [Drei Geschichten vom kleinen Raben Socke]'
@@ -8163,8 +8163,8 @@ series:
   - id: 6tbKtNfAd40rvPJVTNXylf
     title: Alles rabenstark!, Alles aufgeräumt!, Alles kaputt! (Der kleine Rabe Socke)
   - id: 5Blrw5UfocVrlzAoxRJQsf
-    title: Alles schläft? (Alles ohne Ende!, Alles Monster!, Alles verbummelt!, Alles besser!) (Der kleine
-      Rabe Socke) [Gute-Nacht-Geschichten vom kleinen Raben Socke]
+    title: Alles schläft? (Alles ohne Ende!, Alles Monster!, Alles verbummelt!, Alles besser!) (Der 
+      kleine Rabe Socke) [Gute-Nacht-Geschichten vom kleinen Raben Socke]
   - id: 6uS4A6adOkQRBtfN8B0wnE
     title: Alles verknallt!, Alles wach?, Alles gelernt! (Der kleine Rabe Socke)
   - id: 0joEbvSRUXOYhoWfDJdXPa
@@ -8174,56 +8174,56 @@ series:
   - id: 6CPEwK18zBZafonlXexQYK
     title: Alles verzankt!, Alles zu voll!, Alles nass! (Der kleine Rabe Socke)
   - id: 3vxL29iewsOnpuzmvy0B18
-    title: Das Geburtstagsgeschenk, Das Superfernrohr, Der Erfinderwettbewerb (Der kleine Rabe Socke -
-      Hörspiele zur TV Serie 8)
+    title: Das Geburtstagsgeschenk, Das Superfernrohr, Der Erfinderwettbewerb (Der kleine Rabe Socke
+      - Hörspiele zur TV Serie 8)
   - id: 045UjvaNf9898ZWtNxdL7s
-    title: Das Hofturnier, Die Waldprüfung, Bruder-Alarm! (Der kleine Rabe Socke - Hörspiele zur TV Serie
-      10)
+    title: Das Hofturnier, Die Waldprüfung, Bruder-Alarm! (Der kleine Rabe Socke - Hörspiele zur TV 
+      Serie 10)
   - id: 6KnamYDPG0Wr82roCnku3U
-    title: Das Waldlied, Allerbeste Freunde, Die Geburtstagsretter (Der kleine Rabe Socke - Hörspiele
-      zur TV Serie 15)
+    title: Das Waldlied, Allerbeste Freunde, Die Geburtstagsretter (Der kleine Rabe Socke - 
+      Hörspiele zur TV Serie 15)
   - id: 4MF3vRrimefhW3x9RK9I1V
-    title: Der Onkel aus der Südsee, Der große Streichewettbewerb, Rollentausch, Der Schatzkistentag (Der
-      kleine Rabe Socke - Hörspiele zur TV Serie 17)
+    title: Der Onkel aus der Südsee, Der große Streichewettbewerb, Rollentausch, Der Schatzkistentag
+      (Der kleine Rabe Socke - Hörspiele zur TV Serie 17)
   - id: 0eF1MO4hXD7EE0cqD8DW8o
-    title: Die Mutprobe, Ein echter Krimi, Der geteilte Wald (Der kleine Rabe Socke - Hörspiele zur TV
-      Serie 16)
+    title: Die Mutprobe, Ein echter Krimi, Der geteilte Wald (Der kleine Rabe Socke - Hörspiele zur 
+      TV Serie 16)
   - id: 76HrKCFyQhY87r2IWXnLDB
-    title: Die Sportskanone, Der Honigmond, Der sprechende Busch (Der kleine Rabe Socke - Hörspiele zur
-      TV Serie 5)
+    title: Die Sportskanone, Der Honigmond, Der sprechende Busch (Der kleine Rabe Socke - Hörspiele 
+      zur TV Serie 5)
   - id: 2vSecCqEUJilZo28l0vTIL
-    title: Die Wunscherfüllkiste, Der Waldgeist, Haltet den Dieb! (Der kleine Rabe Socke - Hörspiele zur
-      TV Serie 2)
+    title: Die Wunscherfüllkiste, Der Waldgeist, Haltet den Dieb! (Der kleine Rabe Socke - Hörspiele
+      zur TV Serie 2)
   - id: 3FrgaEqgvo0sqA7Ru0QVYK
-    title: Ferngesteuert, Der Laden der allertollsten Dinge, Freundschaft mit Hindernissen (Der kleine
-      Rabe Socke - Hörspiele zur TV Serie 14)
+    title: Ferngesteuert, Der Laden der allertollsten Dinge, Freundschaft mit Hindernissen (Der 
+      kleine Rabe Socke - Hörspiele zur TV Serie 14)
   - id: 6VrIYTSUOGSsKWMTdeW8gE
-    title: Frau Dachs macht Urlaub, Ein Tanzkleid für Frau Dachs, Rette sich, wer kann! (Der kleine Rabe
-      Socke - Hörspiele zur TV Serie 4)
+    title: Frau Dachs macht Urlaub, Ein Tanzkleid für Frau Dachs, Rette sich, wer kann! (Der kleine 
+      Rabe Socke - Hörspiele zur TV Serie 4)
   - id: 0oqKdiDNslYUoUiRYUdDks
-    title: Meisterdetektive, Der Pechvogel, Frau Dachs hat Geburtstag (Der kleine Rabe Socke - Hörspiele
-      zur TV Serie 11)
+    title: Meisterdetektive, Der Pechvogel, Frau Dachs hat Geburtstag (Der kleine Rabe Socke - 
+      Hörspiele zur TV Serie 11)
   - id: 4ohBnL1iSjWMTQaLNA7bvZ
-    title: Neues Ufer, Die verfluchte Teekanne, Der große Sockini (Der kleine Rabe Socke - Hörspiele zur
-      TV Serie 9)
+    title: Neues Ufer, Die verfluchte Teekanne, Der große Sockini (Der kleine Rabe Socke - Hörspiele
+      zur TV Serie 9)
   - id: 1i3DeKgyCaMEwpmrgnXkiK
-    title: Piraten Ahoi!, Die Fußballwaldmeisterschaft, Das goldene Amulett (Der kleine Rabe Socke - Hörspiele
-      zur TV Serie 1)
+    title: Piraten Ahoi!, Die Fußballwaldmeisterschaft, Das goldene Amulett (Der kleine Rabe Socke -
+      Hörspiele zur TV Serie 1)
   - id: 58IfNovyr5Sr55wgMLWIoI
-    title: Rennfahrer, Diamantenfieber, Die Rasselbande (Der kleine Rabe Socke - Hörspiele zur TV Serie
-      7)
+    title: Rennfahrer, Diamantenfieber, Die Rasselbande (Der kleine Rabe Socke - Hörspiele zur TV 
+      Serie 7)
   - id: 795XA2uiADFHOKNkttriJX
     title: 'Ritter Sockenherz, Mission: Dreirad, Der falsche Pilz (Der kleine Rabe Socke - Hörspiele zur
       TV Serie 3)'
   - id: 0Csm87ayVVBtIeP4gl2hvP
-    title: Socke aus dem All, Der Hypnotiseur, Streithähne (Der kleine Rabe Socke - Hörspiele zur TV Serie
-      12)
+    title: Socke aus dem All, Der Hypnotiseur, Streithähne (Der kleine Rabe Socke - Hörspiele zur TV
+      Serie 12)
   - id: 06Oc8eYyPKyXMGBwUCBUV7
-    title: Sockes Flugschule, Die Waldhochzeit, Der Riesenschreck (Der kleine Rabe Socke - Hörspiele zur
-      TV Serie 13)
+    title: Sockes Flugschule, Die Waldhochzeit, Der Riesenschreck (Der kleine Rabe Socke - Hörspiele
+      zur TV Serie 13)
   - id: 5YufFI1LNYMovd5wWKJ4CU
-    title: Suppenzauber, Gestrandet, Die Ringelsocke ist futsch! (Der kleine Rabe Socke - Hörspiele zur
-      TV Serie 6)
+    title: Suppenzauber, Gestrandet, Die Ringelsocke ist futsch! (Der kleine Rabe Socke - Hörspiele 
+      zur TV Serie 6)
   - id: 5Tx1COK2E4QTwd0ye0rknb
     title: 'Weihnachtsgeschichten vom kleinen Raben Socke: Alles Advent!, Alles glitzert!, Alles in Eile!,
       Alles weg! (Der kleine Rabe Socke)'
@@ -12525,7 +12525,8 @@ series:
   title: Käpt'n Sharky
   spotify_artist_ids:
   - 5TfrI6jiBpIpWRsrEXVtFN
-  episode_pattern: (?:[Ff]olge|[Tt]eil|[Uu]nd|Band)\s*(\d+)|^(?:Der|Die|Das)\s+|Abenteuer|Bei|Im|Rettet|Schiffbruch
+  episode_pattern: 
+    (?:[Ff]olge|[Tt]eil|[Uu]nd|Band)\s*(\d+)|^(?:Der|Die|Das)\s+|Abenteuer|Bei|Im|Rettet|Schiffbruch
   albums:
   - id: 6THE7nOBqv4VApqZaBqpYv
     episode: 1
@@ -13194,8 +13195,8 @@ series:
     title: '10: Conni im Advent / Conni fährt Schlittschuh / Conni lässt Drachen steigen / Conni und der
       fiese Schnupfen (Vier Hörspiele zur TV-Serie)'
   - id: 77Pk8wTrRgF2O1K3YLqyMW
-    title: Conni macht Mut in Zeiten von Corona (Meine Freundin Conni - ab 3) [Eine Conni-Geschichte mit
-      kindgerechtem Sachwissen rund um das Thema Corona]
+    title: Conni macht Mut in Zeiten von Corona (Meine Freundin Conni - ab 3) [Eine Conni-Geschichte
+      mit kindgerechtem Sachwissen rund um das Thema Corona]
 - id: michel_aus_loenneberga
   title: Michel aus Lönneberga
   spotify_artist_ids:
@@ -14157,7 +14158,8 @@ series:
     title: Woodwalkers - Tag der Rache - Das Hörspiel
   - id: 3akuBfI0xnmcKuTDc0NHmi
     episode: 7
-    title: Woodwalkers - Die Rückkehr. Das Vermächtnis der Wandler - Das Hörspiel (Staffel 2, Band 1)
+    title: Woodwalkers - Die Rückkehr. Das Vermächtnis der Wandler - Das Hörspiel (Staffel 2, Band 
+      1)
   - id: 7c67MJkQOwdYVKF99xUJmZ
     episode: 8
     title: Woodwalkers - Die Rückkehr. Herr der Gestalten - Das Hörspiel (Staffel 2, Band 2)
@@ -15241,7 +15243,8 @@ series:
     title: Was erleben wir Tag für Tag? (Wieso? Weshalb? Warum? Meine Vorlesegeschichten, Folge 1)
   - id: 0NiJ11SM4QQzAbrEGRVXIf
     episode: 2
-    title: Was passiert in Wald und Wiese? (Wieso? Weshalb? Warum? Meine Vorlesegeschichten, Folge 2)
+    title: Was passiert in Wald und Wiese? (Wieso? Weshalb? Warum? Meine Vorlesegeschichten, Folge 
+      2)
   - id: 20idnrDkDmTHirWuVDbEA8
     episode: 3
     title: Wer ist hier im Einsatz? (Wieso? Weshalb? Warum? Meine Vorlesegeschichten, Folge 3)
@@ -15378,3 +15381,529 @@ series:
     title: Bambi (Hörspiel zum Disney Film)
   - id: 4B0J8jipiDexYUPyHTQuX6
     title: Bambi 2 - Der Herr der Wälder (Hörspiel zum Disney Film)
+- id: boss_baby
+  title: Boss Baby
+  keywords:
+  - Boss Baby
+  spotify_artist_ids:
+  - 7gGr5h1uarWBQGiv2mkTpl
+  episode_pattern: '[Ff]olge\s+(\d+)'
+  albums:
+  - id: 2tkm4y5PTg3ON2gYACWIUd
+    episode: 1
+    title: 'Folge 1: Scooter Buskie (Das Original-Hörspiel zur TV-Serie)'
+  - id: 6Y0b8exhgh8IQ5SPKJDmGZ
+    episode: 2
+    title: 'Folge 2: Familienspaßabend (Das Original-Hörspiel zur TV-Serie)'
+  - id: 4HjrX2Zn9QfRlSaAp02hKG
+    episode: 3
+    title: 'Folge 3: Kleine Miss Fleischklops (Das Original-Hörspiel zur TV-Serie)'
+  - id: 1JFkZiGM6NiMPuFLjck7aG
+    episode: 4
+    title: 'Folge 4: Der Boss-Sitter (Das Original-Hörspiel zur TV-Serie)'
+  - id: 28XzByhZx3IUxfcG7jskEa
+    episode: 5
+    title: 'Folge 5: Der Firmentag (Das Original-Hörspiel zur TV-Serie)'
+  - id: 4d9JjwT5STT0U1PMbgvPcF
+    episode: 6
+    title: 'Folge 6: Katzencops (Das Original-Hörspiel zur TV-Serie)'
+- id: drachenzaehmen_leicht_gemacht
+  title: Drachenzähmen leicht gemacht
+  aliases:
+  - How to Train Your Dragon
+  - Dragons
+  keywords:
+  - Drachenzähmen leicht gemacht
+  spotify_artist_ids:
+  - 2Ce2nZgndLDkajvDy4msQi
+  episode_pattern: (?:Teil|Teil\s+)(\d+)
+  albums:
+  - id: 1jwHXBQdqJb9ILFDf3NPzP
+    episode: 1
+    title: Drachenzähmen leicht gemacht (Das Original-Hörspiel zum Kinofilm)
+  - id: 48axOMWHpYmXZLH1BATfLO
+    episode: 2
+    title: Drachenzähmen leicht gemacht 2 (Das Original-Hörspiel zum Kinofilm)
+  - id: 58TLbfTManCWgskqrKrwnF
+    episode: 3
+    title: Drachenzähmen leicht gemacht 3 (Das Original-Hörspiel zum Kinofilm)
+  - id: 6bDEtcCNZmHK6oPWSYmVjW
+    episode: 4
+    title: Die guten alten Zeiten (Das Original-Hörspiel zum Film-Special)
+- id: dragons_hoerspiel
+  title: Dragons Hörspiel
+  aliases:
+  - Dragons - Die Reiter von Berk
+  - Dragons - Die Wächter von Berk
+  - Dragons - Auf zu neuen Ufern
+  - Dragons - Die jungen Drachenretter
+  keywords:
+  - Dragons
+  - Drachen
+  - Hicks
+  - Ohnezahn
+  - Berk
+  spotify_artist_ids:
+  - 1z8ytficgBWsoYigwE2QVM
+  - 1zo1vxkpoT8JMJYdHv2zsa
+  - 6N8M6C5nd7mfTIaihfVSeu
+  - 4flLF0QDCVMtQCc7JJ94gt
+  episode_pattern: Folge\s+(\d+)
+  albums:
+  - id: 5vzJSKKX9qjr9F3M8GIesk
+    episode: 1
+    title: 'Folge 1: Die Drachen Akademie von Berk / Der arbeitslose Wikinger (Das Original Hörspiel zur
+      TV-Serie)'
+  - id: 7yWDzUIA1Dd5ppGBzQoJ59
+    episode: 2
+    title: 'Folge 2: Der Sturm / Fackel (Das Original Hörspiel zur TV-Serie)'
+  - id: 1EJcBLABQhuHtmh5TaXD1w
+    episode: 3
+    title: 'Folge 3: Ein Drache für Haudrauf / Der Falschspieler (Das Original-Hörspiel zur TV-Serie)'
+  - id: 0HcGZAnpPjDTjL1CF2FW4k
+    episode: 3
+    title: 'Folge 3: Waka Chaka! / Sieg oder Niederlage + Dragons: Das Drachenauge - Teil 1 (Das Original-Hörspiel
+      zur TV-Serie)'
+  - id: 5KliHcJPdIcgK8RktYjQSu
+    episode: 4
+    title: 'Folge 4: Alvin der Heimtückische / Die Schatzkarte (Das Original-Hörspiel zur TV-Serie)'
+  - id: 4wXCnGNE2F3hyjQCx5CLij
+    episode: 5
+    title: 'Folge 5: Alvins teuflischer Plan (Das Original Hörspiel zur TV-Serie)'
+  - id: 0j04QxxpmifOzm8BvoD94V
+    episode: 6
+    title: 'Folge 6: Die Drachenblume / Die Tauwetter-Festspiele (Das Original-Hörspiel zur TV-Serie)'
+  - id: 1dihgkHrTFKUloh759NHZc
+    episode: 7
+    title: 'Folge 7: Thors Blitze / Drachengroll (Das Original-Hörspiel zur TV-Serie)'
+  - id: 3zBFsPakjtQlgYR555iW6p
+    episode: 8
+    title: 'Folge 8: Dagur der Durchgeknallte / Freunde in der Not (Das Original-Hörspiel zur TV-Serie)'
+  - id: 32cvtWmKapU2rfwLnh4lSA
+    episode: 9
+    title: 'Folge 9: Die geheimnisvolle Kiste / Fischbeins Herausforderung (Das Original-Hörspiel Zur
+      TV-Serie)'
+  - id: 5jnTEO9e7feGBdDG1NRKVj
+    episode: 10
+    title: 'Folge 10: Familienbande (Das Original Hörspiel zur TV-Serie)'
+  - id: 6aP2GsaCtnS9YzGM9Ve88P
+    episode: 11
+    title: 'Folge 11: Das Drachenflugverbot / Gronckel Eisen (Das Original Hörspiel zur TV-Serie)'
+  - id: 2VBqDPr1EnxGZIGPi5imQN
+    episode: 12
+    title: 'Folge 12: Die Insel der Drachen / Ein geheimnisvoller Tunnel (Das Original-Hörspiel zur TV-Serie)'
+  - id: 5OuL6pVStRVbYpRxvSESvH
+    episode: 13
+    title: 'Folge 13: Die Feuerwurm Insel / Orendels Feuer (Das Original-Hörspiel zur TV-Serie)'
+  - id: 0GJXtWm7YmE4OwIc8wz9xz
+    episode: 14
+    title: 'Folge 14: Der Wettkampf / Reviertreue (Das Original-Hörspiel zur TV-Serie)'
+  - id: 63Rp4FmHmC0vXW9WglsLwH
+    episode: 15
+    title: 'Folge 15: Der Skrill (Das Original-Hörspiel zur TV-Serie)'
+  - id: 7HkmtCWkffdaWfbLrBV47Y
+    episode: 16
+    title: 'Folge 16: Feuerwetter / Gustavs Feuerprobe (Das Original Hörspiel zur TV-Serie)'
+  - id: 4TeBxQv1DrCwcG0agGna7c
+    episode: 17
+    title: 'Folge 17: Raffnuss die Drachenzähmerin / Eingefroren (Das Original-Hörspiel zur TV-Serie)'
+  - id: 6P3w5WzIn2wddy4fq6ZeAP
+    episode: 18
+    title: 'Folge 18: Drachentausch / Die Aal-Insel(Das Original Hörspiel zur TV-Serie)'
+  - id: 3lSO9cPQjIHtQQPPEvCCnt
+    episode: 19
+    title: 'Folge 19: Händler Johanns Lieferung / Bing! Bamm! Bumm! (Das Original-Hörspiel zur TV-Serie)'
+  - id: 3umNlw3fM2zfNrhkaWhib1
+    episode: 20
+    title: 'Folge 20: Verbannt 1+2 (Das Original-Hörspiel zur TV-Serie)'
+  - id: 5JCiwS24VRK28tVoY6gR8G
+    episode: 21
+    title: 'Folge 21: Das Drachenauge - Teil 1+2 (Das Original-Hörspiel zur TV-Serie)'
+  - id: 6dpWONJPX2wXxARU5umOrK
+    episode: 22
+    title: 'Folge 22: Gefährliche Gesänge / Drachenbasis (Das Original-Hörspiel zur TV-Serie)'
+  - id: 3jXG7Kn1ytZHcFv6SrVZlw
+    episode: 23
+    title: 'Folge 23: Thor Knochenbrecher / Gustav ist zurück (Das Original-Hörspiel zur TV-Serie)'
+  - id: 7dCZyBK3mFg4dUGKXz8y60
+    episode: 24
+    title: 'Folge 24: Thorstonton / Aufspürer-Klasse (Das Original-Hörspiel zur TV-Serie)'
+  - id: 2kLgSZBhC5BGcN9FUj7wye
+    episode: 25
+    title: 'Folge 25: Die dunklen Klippen / Heidruns Rückkehr 1+2 (Das Original-Hörspiel zur TV-Serie)'
+  - id: 6VREfRwKR9uj3L6m5uPdMN
+    episode: 26
+    title: 'Folge 26: Schneller Stachel in Not / Absoluter Albtraum (Das Original-Hörspiel zur TV-Serie)'
+  - id: 1JzoffQlHInYCSJffntLgl
+    episode: 27
+    title: 'Folge 27: Astrids Team / Die Drachenjäger 1+2 (Das Original-Hörspiel zur TV-Serie)'
+  - id: 5MGwbGGAJfQZwnOWgNvak8
+    episode: 28
+    title: 'Folge 28: Die Werwolf-Flügler / Die Hochzeitsaxt (Das Original-Hörspiel zur TV-Serie)'
+  - id: 3s1M3w9qGq2oOXc5X0deWY
+    episode: 29
+    title: 'Folge 29: Lebenslange Schuld / Die Schneegeist-Jagd (Das Original-Hörspiel zur TV-Serie)'
+  - id: 5WWwOGNbD4HCYrE1QSYcfd
+    episode: 30
+    title: 'Folge 30: Die Verteidigung (Das Original-Hörspiel zur TV-Serie)'
+  - id: 4nDoD2xOpPRwdMlyisPHl7
+    episode: 31
+    title: 'Folge 31: Der Loki Tag / Die Rückkehr des Skrills (Das Original-Hörspiel zur TV-Serie)'
+  - id: 7uSGwGD02WRY6wO8u3HeCR
+    episode: 32
+    title: 'Folge 32: Kampf um das Drachenauge 1+2 (Das Original-Hörspiel zur TV-Serie)'
+  - id: 1Aq9udF7avDwZ6owjdVcJF
+    episode: 33
+    title: 'Folge 33: Der neue Dragur / Der Höhlenbrecher (Das Original-Hörspiel zur TV-Serie)'
+  - id: 61qjJZK6zLyPGqJZdcHmtY
+    episode: 34
+    title: 'Folge 34: Ein wahrer Anführer / Der Klügere gibt nach (Das Original-Hörspiel zur TV-Serie)'
+  - id: 1IHmaHzOAbztQ1Z4jThRdt
+    episode: 35
+    title: 'Folge 35: Die Grimm-Egel / Heidruns Entscheidung (Das Original-Hörspiel zur TV-Serie)'
+  - id: 69m3wRJl9Cfa16QI9CWprb
+    episode: 36
+    title: 'Folge 36: Der Büffelstachel / Die Drachenauktion (Das Original-Hörspiel zur TV-Serie)'
+  - id: 6QzmxREfmaTEx0wgTjulOu
+    episode: 37
+    title: 'Folge 37: Der schreiende Tod-Singer / Die Drachenkämpfe (Das Original-Hörspiel zur TV-Serie)'
+  - id: 6PGFVjGQapw7ew2wqVxuLR
+    episode: 38
+    title: 'Folge 38: Die Katastrophalen Kiesklopse / Dagurs Wahrheit (Das Original-Hörspiel zur TV-Serie)'
+  - id: 4aIx2y3iOASpQTTafKsuJX
+    episode: 39
+    title: 'Folge 39: Die Beschützer des Flügels 1 + 2 (Das Original-Hörspiel zur TV-Serie)'
+  - id: 21r8gjwjulJjwq9ZpMoK3g
+    episode: 40
+    title: 'Folge 40: Graffnuss / Ein geheimnisvoller Jäger (Das Original-Hörspiel zur TV-Serie)'
+  - id: 505lBSAoqQDb3XW8z5gPul
+    episode: 41
+    title: 'Folge 41: Rotzbakke der Anführer / Dagurs Rückkehr (Das Original-Hörspiel zur TV-Serie)'
+  - id: 6mi1areOyCA5O0QDc5MO5Y
+    episode: 42
+    title: 'Folge 42: Der Tiefseespalter / Der längste Tag (Das Original-Hörspiel zur TV-Serie)'
+  - id: 57WEb10gtVpXvueiAjTCBD
+    episode: 43
+    title: 'Folge 43: Goldrausch / Das Eruptodon-Ei (Das Original-Hörspiel zur TV-Serie)'
+  - id: 4DZ4kaelVtawyp59wtoZa5
+    episode: 44
+    title: 'Folge 44: Zwillingserleuchtung / Geblendet (Das Original-Hörspiel zur TV-Serie)'
+  - id: 1L4c5aiZTICQBktY0qTQr6
+    episode: 45
+    title: 'Folge 45: Der große Plan 1+2 (Das Original-Hörspiel zur TV-Serie)'
+  - id: 3MOTX0tIEc81tvFoQCGTlF
+    episode: 46
+    title: 'Folge 46: Der Vulkanausbruch / Der Sandspucker (Das Original-Hörspiel zur TV-Serie)'
+  - id: 7p5hasi5uFVugQ7T5Q0JiG
+    episode: 47
+    title: 'Folge 47: Der tapferste Berserker / Rotzbakkes Engel (Das Original-Hörspiel zur TV-Serie)'
+  - id: 3VmRBxcAn7HUAan1i8ueqU
+    episode: 48
+    title: 'Folge 48: Die letzte Ruhestätte / Die Rückkehr von Thor Knochenbrecher (Das Original Hörspiel
+      zur TV-Serie)'
+  - id: 010chFNvvwOu8EZBOy4scP
+    episode: 49
+    title: 'Folge 49: Hicks Geheimnis / Der große Kampf 1+2 (Das Original Hörspiel zur TV-Serie)'
+  - id: 0cP584fOThYUplTGrYkzYU
+    episode: 50
+    title: 'Folge 50: Schnuffnuss / Kein Drache bleibt zurück (Das Original-Hörspiel zur TV-Serie)'
+  - id: 4ZYfB27vtWJj91EUwqFfjB
+    episode: 51
+    title: 'Folge 51: Immer auf der Suche / Händler Johann (Das Original-Hörspiel zur TV-Serie)'
+  - id: 5fezqr6EnqtH3c3RAVfvDF
+    episode: 52
+    title: 'Folge 52: Der Verräter / Weidenrinde (Das Original-Hörspiel zur TV-Serie)'
+  - id: 5cafdspCINb56kUWO3uRbO
+    episode: 53
+    title: 'Folge 53: Die Stellvertreterin / Der treue Orden der Ingermans (Das Original-Hörspiel zur
+      TV-Serie)'
+  - id: 2SNjVXuJgo59fawBfnW87k
+    episode: 54
+    title: 'Folge 54: Der Geschwister Test / Liebe verleiht Flügel (Das Original-Hörspiel zur TV-Serie)'
+  - id: 7pNPWZQvmYwt80FlxnzMhS
+    episode: 55
+    title: 'Folge 55: Flügelnuss / Das Buch der Rekorde (Das Original-Hörspiel zur TV-Serie)'
+  - id: 2BDdZRUbfAlzQkTBOnCCro
+    episode: 56
+    title: 'Folge 56: Die Familie Feuerschweif / Die dunkelste Nacht (Das Original-Hörspiel zur TV-Serie)'
+  - id: 07fWpKRdBLc8WmQlAkzQDz
+    episode: 57
+    title: 'Folge 57: Die Wächter von Vanagrad / Der König der Drachen - Teil 1+2 (Das Original-Hörspiel
+      zur TV-Serie)'
+  - id: 7BB0ldQAVRCFUKu9TtHqXm
+    title: Buch der Drachen (Das Original-Hörspiel zum Film-Special)
+  - id: 16eIcgl9Ua9OeJkHtyrYQP
+    title: Das große Drachenrennen (Das Original-Hörspiel zum Film-Special)
+  - id: 3q8UBUC6MoyH6Li4rnSAKS
+    title: Ein Geschenk von Nachtschatten (Das Original-Hörspiel zum Film-Special)
+- id: kung_fu_panda
+  title: Kung Fu Panda
+  keywords:
+  - Kung Fu Panda
+  spotify_artist_ids:
+  - 3kEm8MAvD7TnYMrimnl3D7
+  albums:
+  - id: 1w9WsZdN20ukpFnMuTZcVm
+    episode: 1
+    title: Kung Fu Panda (Das Original-Hörspiel zum Kinofilm)
+  - id: 5VsrikqDGUUKEp9NE1YIJE
+    episode: 2
+    title: Kung Fu Panda 2 (Das Original-Hörspiel zum Kinofilm)
+  - id: 1X3UxZYXPd5B2f75CIO4An
+    episode: 3
+    title: Kung Fu Panda 3 (Das Original-Hörspiel zum Kinofilm)
+  - id: 649m2rYKrlEfSfyCEQstz7
+    episode: 4
+    title: Kung Fu Panda 4 (Das Original-Hörspiel zum Kinofilm)
+  - id: 7oNef7yw3RyZLhYBeNiBkZ
+    title: Ein schlagfertiges Winterfest (Das Original-Hörspiel zum Film Special)
+- id: shrek_hoerspiel
+  title: Shrek Hörspiel
+  keywords:
+  - Shrek
+  spotify_artist_ids:
+  - 6tXBGsG3uptJvoMwytNeAc
+  albums:
+  - id: 0sT6GEnFvlhaVpJo0yGhJu
+    episode: 1
+    title: Shrek (Das Original Hörspiel zum Kinofilm)
+  - id: 4nBoUUz1F6rG9dOpI2LZr9
+    episode: 2
+    title: Shrek 2 (Das Original Hörspiel zum Kinofilm)
+  - id: 2sWHl9Byk7jaLh2zBMWVyG
+    episode: 3
+    title: Shrek der Dritte (Das Original-Hörspiel zum Kinofilm)
+  - id: 7Fn3EYb5k2YK7XUDRvXzkW
+    episode: 4
+    title: Für immer Shrek (Das Original-Hörspiel zum Kinofilm)
+- id: spirit_hoerspiel
+  title: Spirit Hörspiel
+  aliases:
+  - 'Spirit: wild und frei'
+  - Spirit Frei und ungezähmt
+  spotify_artist_ids:
+  - 0a7ReNgiORz9sEajzbbmqw
+  episode_pattern: '[Ff]olge\s+(\d+)'
+  albums:
+  - id: 3c9nP0D0TZR6mECsGCxpGR
+    episode: 1
+    title: 'Folge 1: Neue Freunde / Vertrauen ist alles (Das Original-Hörspiel zur TV-Serie)'
+  - id: 5RsV1c2KEDtvZsAWqwxCEZ
+    episode: 2
+    title: 'Folge 2: Die rätselhafte Karte / Der Konkurrenzkampf (Das Original-Hörspiel zur TV-Serie)'
+  - id: 3A9rABEK9lKjK7q2zncGB9
+    episode: 3
+    title: 'Folge 3: Ein Pferd für Turo / Überraschung! (Das Original-Hörspiel zur TV-Serie)'
+  - id: 6MuZLGv80D6QuukzmUAHNA
+    episode: 4
+    title: 'Folge 4: Die Fiesta / Drei Detektivinnen (Das Original-Hörspiel zur TV-Serie)'
+  - id: 4xrRIYNnj2pEoTJTlGL7x7
+    episode: 5
+    title: 'Folge 5: Luckys super-toller Cousin Julian / Die Kürbis-Schnitzeljagd (Das Original-Hörspiel
+      zur TV-Serie)'
+  - id: 6xfqnlR2LqU8BQlqV3JVWU
+    episode: 6
+    title: 'Folge 6: Der Schneesturm / Das große Rennen (Das Original-Hörspiel zur TV-Serie)'
+  - id: 0bZcRq1pZ67YWVJkuRRB83
+    episode: 7
+    title: 'Folge 7: Ein langer Weg nach Hause / Gefahr bei den Wildpferden (Das Original-Hörspiel zur
+      TV-Serie)'
+  - id: 7JrfLqw0eW7eXLz69Tay45
+    episode: 8
+    title: 'Folge 8: Der Indianer / Auf Fossilienjagd (Das Original-Hörspiel zur TV-Serie)'
+  - id: 7l0HD1wYJhbYM3cqA5QpeV
+    episode: 9
+    title: 'Folge 9: Das Erdbeben / Goldrausch (Das Original-Hörspiel zur TV-Serie)'
+  - id: 2ienEFQqULyDFfMQrL05t0
+    episode: 10
+    title: 'Folge 10: Der Berglöwe / Luckys erster Job (Das Original-Hörspiel zur TV-Serie)'
+  - id: 712nV41RtjrUZEmHVK91C4
+    episode: 11
+    title: 'Folge 11: Luckys Geburtstag / Das Theaterstück (Das Original-Hörspiel zur TV-Serie)'
+  - id: 1hb04Gb7ERFUDj2QaUVqyy
+    episode: 12
+    title: 'Folge 12: Tante Cora muss bleiben / Lucky und der Zirkus (Teil 1 & 2) [Das Original-Hörspiel
+      zur TV-Serie]'
+  - id: 7mA3ExbZMjkz1WOmrckHrn
+    episode: 13
+    title: 'Folge 13: Lucky, die Zirkusartistin / Der geheimnisvolle Bandit (Das Original-Hörspiel zur
+      TV-Serie)'
+  - id: 4xHy0STdmZkQN6mYy8MxoF
+    episode: 14
+    title: 'Folge 14: Die letzte Vorstellung / Zu viele Veränderungen (Das Original-Hörspiel zur TV-Serie)'
+  - id: 1Kr8SHEzpXEXg9n8yddDe9
+    episode: 15
+    title: 'Folge 15: Cowboy-Leben / Ein aufregender Campingausflug'
+  - id: 30j7wI9emrYZJ2jfW3hg0t
+    episode: 16
+    title: 'Folge 16: Die große Trockenheit / Wo sind die Pferde (Das Original Hörspiel zur TV-Serie)'
+  - id: 7JpTtIlf1ma7ogn0XFuo8T
+    episode: 17
+    title: 'Folge 17: Der große Sandsturm / Gute Vorsätze (Das Original-Hörspiel zur TV-Serie)'
+  - id: 5b5C1QoqVXwMLXJO1VfNTa
+    episode: 18
+    title: 'Folge 18: Lucky, die Gaunerin / Hochzeit mit Hindernissen (Das Original-Hörspiel zur TV-Serie)'
+  - id: 5i3TVLbZRKIquqBETvjMtD
+    episode: 19
+    title: 'Folge 19: Die Entführung / Der Heißluftballon (Das Original-Hörspiel zur TV-Serie)'
+  - id: 1peT0kfTTrIQni77l02cJw
+    episode: 20
+    title: 'Folge 20: April, April! / Große Schwester Lucky (Das Original-Hörspiel zur TV-Serie)'
+  - id: 5fBpjIOPy7S34NyoZYZp9B
+    episode: 21
+    title: 'Folge 21: Auf dünnem Eis / Nett sein ist alles (Das Original-Hörspiel zur TV-Serie)'
+  - id: 0CJB44yVgSiWwIOSlpsZT0
+    episode: 22
+    title: 'Folge 22: Das Wildnis Abenteuer / Ein lautes Willkommen (Das Original-Hörspiel zur TV-Serie)'
+  - id: 7I5vw1SOZUjaGpukYy9BzI
+    episode: 23
+    title: 'Folge 23: Der Dressur-Wettbewerb / Lucky, Polly und der Wolf (Das Original-Hörspiel zur TV-Serie)'
+  - id: 2yaJhjcxVZA8JqlDJOBSXP
+    episode: 24
+    title: 'Folge 24: Der Berufetag / Lucky in der Stadt / Auf zum Gezeitenhof (Das Original-Hörspiel
+      zur TV-Serie)'
+  - id: 6iP199Zx9VvyUV63EipEFP
+    episode: 25
+    title: 'Folge 25: Wildwest-Fohlen-Sommer-Freiluft-Camp - Teil 1+2 (Das Original-Hörspiel zur TV-Serie)'
+  - id: 2Y0p4XwrUEN6yB21eyBYqH
+    episode: 26
+    title: 'Folge 26: Boomerang in Gefahr / Das Geheimnis des goldenen Einhorns (Das Original-Hörspiel
+      zur TV-Serie)'
+  - id: 5HJPbnx9cWjRbNT4EBjmyx
+    episode: 27
+    title: 'Folge 27: Großer Gouverneur / Fest aller Feste (Das Original-Hörspiel zur TV-Serie)'
+  - id: 03DT8yWmPXKjxUGaE444rk
+    episode: 28
+    title: 'Folge 28: Die Reitakademie-Palomino-Fels / Die Qual der Wahl (Das Original-Hörspiel zur TV-Serie)'
+  - id: 1njbgBhIZr335ueOkWuRft
+    episode: 29
+    title: 'Folge 29: Zu viel Ehrgeiz / Willkommen zurück, Otter (Das Original-Hörspiel zur TV-Serie)'
+  - id: 1YayHmyYGRAtn6w5HE9kFK
+    episode: 30
+    title: 'Folge 30: Elternbesuch / Zurück an die Startlinie (Das Original-Hörspiel zur TV-Serie)'
+  - id: 3rkMs8sVd0JiAWnmzjRHZh
+    episode: 31
+    title: 'Folge 31: Die Freundschafts-Lektion / Der Hammer der Gerechtigkeit / Die Rennbahn-Rivalin
+      (Das Original-Hörspiel zur TV-Serie)'
+  - id: 3QpmvYJqxTt8j6UwgGeeYu
+    episode: 32
+    title: 'Folge 32: Der Valentinstagsschreck / Opas Schatz / Achtung, Schlamm! (Das Original-Hörspiel
+      zur TV-Serie)'
+  - id: 4ODmpsy3Xaw6NDkfJRGo1m
+    episode: 33
+    title: 'Folge 33: Das Haus im Rosemead-Tal - Teil 1 + 2 (Das Original-Hörspiel zur TV-Serie)'
+  - id: 4sTySe6HuHPDfc8cBODIh5
+    title: Frei und ungezähmt (Das Original-Hörspiel zum Kinofilm)
+  - id: 3DOAT13yWO6anvcLKBRpKu
+    title: Halloween - Special (Das Original-Hörspiel zum Special)
+  - id: 67JRSD51ZaaBJhUmzk9fx7
+    title: Weihnachten in Miradero (Das Original-Hörspiel zum Weihnachts-Special)
+  - id: 53CZ3AeaUBb6Vm6aL01Qz6
+    title: Weihnachts-Spirit (Das Original-Hörspiel zur TV-Serie)
+- id: madagascar_hoerspiel
+  title: Madagascar Hörspiel
+  keywords:
+  - Madagascar
+  spotify_artist_ids:
+  - 5AeHyxHY3brfBwt10hNqnt
+  albums:
+  - id: 1T4jGoUmgMhk9iqg3xJNiy
+    title: Flucht durch Europa (Das Original-Hörspiel zum Kinofilm)
+  - id: 4XoNDBJY8BW1krmxamQ1iC
+    title: Fröhliches Madagascar (Das Original-Hörspiel zum Film-Special)
+  - id: 2JbYveq3PE8sQwjFJ6c8d6
+    title: Madagascar (Das Original-Hörspiel zum Kinofilm)
+  - id: 055FPaP50BDiPvsnrl26cK
+    title: Madagascar 2 (Das Original-Hörspiel zum Kinofilm)
+- id: trolljaeger_hoerspiel
+  title: Trolljäger
+  aliases:
+  - Trolljäger Hörspiel
+  keywords:
+  - Trolljäger
+  spotify_artist_ids:
+  - 6yfyZLHnUqC8JrSix1SHkw
+  episode_pattern: Folge\s+(\d+)
+  albums:
+  - id: 3d8lmMbk6ALoUP0MsFfFbY
+    episode: 1
+    title: 'Folge 1: Das Amulett (Das Original-Hörspiel zur TV-Serie)'
+  - id: 3FdHEAKAFW2lv7SDvdIsPd
+    episode: 2
+    title: 'Folge 2: Der erste Schlag (Das Original-Hörspiel zur TV-Serie)'
+  - id: 1Oehh738b3D1iTSIdoocsA
+    episode: 3
+    title: 'Folge 3: Waka Chaka / Sieg oder Niederlage (Das Original-Hörspiel zur TV-Serie)'
+  - id: 3eQcPU46IGCFfKBGAB6g4p
+    episode: 4
+    title: 'Folge 4: Die Jagd nach dem Gestaltwandler / Abenteuerliches Babysitting (Das Original-Hörspiel
+      zur TV-Serie)'
+  - id: 4BODjuQ8d4sJmKvotxj7ZM
+    episode: 5
+    title: 'Folge 5: Endlich Sechzehn / Der junge Atlas (Das Original-Hörspiel zur TV-Serie)'
+  - id: 71i1jc7Y1ckPTjIiwoeRWg
+    episode: 6
+    title: 'Folge 6: Rezept für ein Desaster / Klara in Gefahr (Das Original-Hörspiel zur TV-Serie)'
+  - id: 4eLUUuvA06UUzVYizrU5Md
+    episode: 7
+    title: 'Folge 7: Der Kampf der zwei Brücken / Die Rückkehr des Trolljägers (Das Original-Hörspiel
+      zur TV-Serie)'
+  - id: 03AxLpXLJnIPefl0JbbRBG
+    episode: 8
+    title: 'Folge 8: Schlammschlacht / Der Geburtsstein (Das Original-Hörspiel zur TV-Serie)'
+  - id: 6cU3k0eNHMFIWL0M66GECs
+    episode: 9
+    title: 'Folge 9: Blinkys großes Abenteuer / Der zerschmetterte König (Das Original-Hörspiel zur TV-Serie)'
+  - id: 4VpGQ9J0heSmY7DCR1hZHI
+    episode: 10
+    title: 'Folge 10: Der Fluch / Völlig verrückt (Das Original-Hörspiel zur TV-Serie)'
+  - id: 2SOuZQ9C4rJZ1MGsG3Toxb
+    episode: 11
+    title: 'Folge 11: Party Monster / Außerhalb der Zeit (Das Original-Hörspiel zur TV-Serie)'
+  - id: 04ECZYlmGSwdKMz66oDdBr
+    episode: 12
+    title: 'Folge 12: Flügelmann / Angors Angriff (Das Original-Hörspiel zur TV-Serie)'
+  - id: 3zFmueNXWsuhl1Pxzr8YER
+    episode: 13
+    title: 'Folge 13: Eine erinnerungswürdige Nacht / Kampf gegen Angor Rot (Das Original-Hörspiel zur
+      TV-Serie)'
+  - id: 5ldLmS5mp9OxiyiCUKRfDL
+    episode: 14
+    title: 'Folge 14: Flucht aus dem Düsterland / Der Schädelbrecher (Das Original-Hörspiel zur TV-Serie)'
+  - id: 3SwhBXepPu8I0HtwIpnOYq
+    episode: 15
+    title: 'Folge 15: In Ottos Gewalt / Kanjig AAARRRGGHH!!! (Das Original-Hörspiel zur TV-Serie)'
+  - id: 0bDbAzWEnLHS8ASodlBAdw
+    episode: 16
+    title: 'Folge 16: Wieder zu Hause / Knall Bumm Peng (Das Original-Hörspiel zur TV-Serie)'
+  - id: 4cxxRZaHnwlcMNezpJgATT
+    episode: 17
+    title: 'Folge 17: Held mit tausend Gesichtern / Der Grässliche (Das Original-Hörspiel zur TV-Serie)'
+  - id: 2eqSq8tcIvd5GTg6cL3McS
+    episode: 18
+    title: 'Folge 18: Monzterkiller / Nachsitzen am Sonntag (Das Original-Hörspiel zur TV-Serie)'
+  - id: 3pM4vfRv6vYVopZCo2MdSf
+    episode: 19
+    title: 'Folge 19: Die Zeitreise / Das Urteil / In der Halle des Gumm Gumm Königs (Das Original-Hörspiel
+      zur TV-Serie)'
+  - id: 2WbogpNt2OUeLkOMr5jNZY
+    episode: 20
+    title: 'Folge 20: Nachtpatrouille / Verbrecherjagd in Arcadia (Das Original-Hörspiel zur TV-Serie)'
+  - id: 2WbogpNt2OUeLkOMr5jNZY
+    episode: 20
+    title: 'Folge 20: Nachtpatrouille / Verbrecherjagd in Arcadia (Das Original-Hörspiel zur TV-Serie)'
+  - id: 68t1b5WEIUyVsadOxpnd74
+    episode: 21
+    title: 'Folge 21: Schlechter Kaffee / Date mit einer Zauberin (Das Original-Hörspiel zur TV-Serie)'
+  - id: 4gVViDSx59KpAeTFnCenLm
+    episode: 22
+    title: 'Folge 22: Klaras Exorzismus / Elterliche Führung (Das Original-Hörspiel zur TV-Serie)'
+  - id: 1coMybgXkS3V0HHmSH5a2b
+    episode: 23
+    title: 'Folge 23: Der Schwur / Bei der Ehre Merlins (Das Original-Hörspiel zur TV-Serie)'
+  - id: 1YiwA9MJM6dnjvZfbHl7Xx
+    episode: 24
+    title: 'Folge 24: In guten Händen / Jims Entscheidung (Das Original-Hörspiel zur TV-Serie)'
+  - id: 7ykTg35l0oEIJjpNWC1Qz0
+    episode: 25
+    title: 'Folge 25: Jimjäger / Der ewige Ritter - Teil 1 & 2 (Das Original-Hörspiel zur TV-Serie)'

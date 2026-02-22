@@ -1,0 +1,181 @@
+{
+  "query": "Split from dragons_hoerspiel",
+  "model": "review-series.py",
+  "curated_at": "2026-02-22T23:56:56.872957+00:00",
+  "series": {
+    "id": "dragons_rescue_riders",
+    "title": "Dragons: Die jungen Drachenretter",
+    "aliases": [],
+    "keywords": [],
+    "spotify_artist_ids": [
+      "1z8ytficgBWsoYigwE2QVM",
+      "1zo1vxkpoT8JMJYdHv2zsa",
+      "6N8M6C5nd7mfTIaihfVSeu",
+      "4flLF0QDCVMtQCc7JJ94gt"
+    ],
+    "episode_pattern": "Folge\\s+(\\d+)",
+    "albums": [
+      {
+        "spotify_album_id": "5IEdV0DSIAkltqXj04kBRn",
+        "include": true,
+        "episode_num": 8,
+        "title": "Folge 8: Ausgefinkt / Sturzflügler (Das Original-Hörspiel zur Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0SmoQE4WDZ8XxrxSKAZsBF",
+        "include": true,
+        "episode_num": 11,
+        "title": "Folge 11: Heiß, heiß, heiß / Hannahr muss helfen (Das Original-Hörspiel zur Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6bcFOTp09UiHQ68v1z06sH",
+        "include": true,
+        "episode_num": 18,
+        "title": "Folge 18: Der Flug des Stinkflüglers / Der Schafswettbewerb (Das Original-Hörspiel zur Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0ho3fLFscTZkfA2MoXeMUH",
+        "include": true,
+        "episode_num": 19,
+        "title": "Folge 19: Die kleinen Flitzer / Ein Tag ohne Drachen (Das Original-Hörspiel zur Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4gUuUiKFHLMZrYswOD05vK",
+        "include": true,
+        "episode_num": 10,
+        "title": "Folge 10: Schatzsuche / Aller Anfang ist schwer (Das Original-Hörspiel zur Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "64OHVQaUnZvy100C572KTI",
+        "include": true,
+        "episode_num": 12,
+        "title": "Folge 12: König Bubsler / Der Mechano-Multi-Drache (Das Original-Hörspiel zur Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1DWRhSidEuQ90j56iHnZoJ",
+        "include": true,
+        "episode_num": 15,
+        "title": "Folge 15: Die Geschichte von Schnubbel und Leyla / Auf Babysuche (Das Original-Hörspiel zur Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3ey5lTcsB2udh6k21VaUEl",
+        "include": true,
+        "episode_num": 20,
+        "title": "Folge 20: Mission mit Mama / Rückkehr in die versunkene Stadt (Das Original-Hörspiel zur Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5joOIjLOcOhfcpfB0mqH4D",
+        "include": true,
+        "episode_num": 1,
+        "title": "Folge 1: Das Nest / Die Labyrinth-Höhlen (Das Original-Hörspiel zur Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5gLq8BD5czkSWem3NvpKuA",
+        "include": true,
+        "episode_num": 3,
+        "title": "Folge 3: Das Belzium-Wettrennen / Eiszeit (Das Original-Hörspiel zur Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1ZURBt0Z34pIcXCh2PKoJk",
+        "include": true,
+        "episode_num": 14,
+        "title": "Folge 14: Wo ist Häuptling Duggard? / Kristallklar (Das Original-Hörspiel zur Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0DI9cqgRb1hhvWbDoib5XW",
+        "include": true,
+        "episode_num": 6,
+        "title": "Folge 6: Festgeklebt / Feuerwüter (Das Original-Hörspiel zur Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3zDmemJAy3mSe6swx9SXwF",
+        "include": true,
+        "episode_num": 5,
+        "title": "Folge 5: Eierdiebe / Mama Schnitti (Das Original-Hörspiel zur Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3SdSY41ae4OoOoVmqi2jrt",
+        "include": true,
+        "episode_num": 13,
+        "title": "Folge 13: Wo ist Elbone? / Neuer Häuptling (Das Original-Hörspiel zur Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0lA7to8qZJTtk4vCDSLngD",
+        "include": true,
+        "episode_num": 9,
+        "title": "Folge 9: Mecha-Plage / Erholung auf der Insel (Das Original-Hörspiel zur Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7hBKKxsVqg6voaW8v8SGBv",
+        "include": true,
+        "episode_num": 16,
+        "title": "Folge 16: Der Zwillingsbruder / Die Suche nach der versunkenen Stadt (Das Original-Hörspiel zur Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5VMQ8Xa4jIWNaTRoJ8vuaG",
+        "include": true,
+        "episode_num": 17,
+        "title": "Folge 17: Ein bunter Gast / Der unglaubliche Bubsler (Das Original-Hörspiel zur Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1jtoPgCOYVpT2Jrj7wp5Qh",
+        "include": true,
+        "episode_num": 2,
+        "title": "Folge 2: Phantomschwinge / Der Feuerteufel (Das Original-Hörspiel zur Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2i3Q05RZ4WFblINlHMyGxC",
+        "include": true,
+        "episode_num": 21,
+        "title": "Folge 21: Mein Drachenwächter / Eine glubstastische Reise (Das Original-Hörspiel zur Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3lzc0ElQFxKeNwEj0jSgiT",
+        "include": true,
+        "episode_num": 22,
+        "title": "Folge 22: Der Drache aus dem Wasser / Der Tag des Nests (Das Original-Hörspiel zur Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5UVqeX2PWlpVnvFhewhexu",
+        "include": true,
+        "episode_num": 4,
+        "title": "Folge 4: Krank / Das Riesenei (Das Original-Hörspiel zur Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6SNge21eBdq0tECtlO8O1F",
+        "include": true,
+        "episode_num": 7,
+        "title": "Folge 7: Grummelgard - Teil 1+2 (Das Original-Hörspiel zur Serie)",
+        "exclude_reason": null
+      }
+    ],
+    "age_note": "Recommended 6+ - Fantasy adventure with dragons, mild action scenes and Vikings",
+    "curator_notes": "Split from Dragons Hörspiel. These are episodes from 'Dragons: Rescue Riders' (Die jungen Drachenretter), a separate spin-off series for younger children featuring different characters (Schnubbel and Leyla) and a different setting. The albums have 'Das Original-Hörspiel zur Serie' in the title (without 'TV'), released from 2021-2024, distinct from the main 'Dragons' TV series (2014-2019) with 'zur TV-Serie' in titles."
+  },
+  "review": {
+    "status": "pending",
+    "overrides": [],
+    "notes": "Auto-created by apply-splits.py from dragons_hoerspiel."
+  }
+}

@@ -1,0 +1,235 @@
+{
+  "query": "Trolljäger Hörspiel",
+  "model": "kimi-k2.5",
+  "curated_at": "2026-02-22T23:54:30.813919+00:00",
+  "series": {
+    "id": "trolljaeger_hoerspiel",
+    "title": "Trolljäger",
+    "aliases": [
+      "Trolljäger Hörspiel"
+    ],
+    "keywords": [
+      "Trolljäger"
+    ],
+    "spotify_artist_ids": [
+      "6yfyZLHnUqC8JrSix1SHkw"
+    ],
+    "episode_pattern": "Folge\\s+(\\d+)",
+    "albums": [
+      {
+        "spotify_album_id": "3d8lmMbk6ALoUP0MsFfFbY",
+        "include": true,
+        "episode_num": 1,
+        "title": "Folge 1: Das Amulett (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3FdHEAKAFW2lv7SDvdIsPd",
+        "include": true,
+        "episode_num": 2,
+        "title": "Folge 2: Der erste Schlag (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1Oehh738b3D1iTSIdoocsA",
+        "include": true,
+        "episode_num": 3,
+        "title": "Folge 3: Waka Chaka / Sieg oder Niederlage (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0HcGZAnpPjDTjL1CF2FW4k",
+        "include": false,
+        "episode_num": null,
+        "title": "Folge 3: Waka Chaka! / Sieg oder Niederlage + Dragons: Das Drachenauge - Teil 1 (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": "Duplicate of Folge 3 with bonus Dragons content - superseded by clean 15-track version"
+      },
+      {
+        "spotify_album_id": "3eQcPU46IGCFfKBGAB6g4p",
+        "include": true,
+        "episode_num": 4,
+        "title": "Folge 4: Die Jagd nach dem Gestaltwandler / Abenteuerliches Babysitting (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4BODjuQ8d4sJmKvotxj7ZM",
+        "include": true,
+        "episode_num": 5,
+        "title": "Folge 5: Endlich Sechzehn / Der junge Atlas (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "71i1jc7Y1ckPTjIiwoeRWg",
+        "include": true,
+        "episode_num": 6,
+        "title": "Folge 6: Rezept für ein Desaster / Klara in Gefahr (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4eLUUuvA06UUzVYizrU5Md",
+        "include": true,
+        "episode_num": 7,
+        "title": "Folge 7: Der Kampf der zwei Brücken / Die Rückkehr des Trolljägers (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "03AxLpXLJnIPefl0JbbRBG",
+        "include": true,
+        "episode_num": 8,
+        "title": "Folge 8: Schlammschlacht / Der Geburtsstein (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6cU3k0eNHMFIWL0M66GECs",
+        "include": true,
+        "episode_num": 9,
+        "title": "Folge 9: Blinkys großes Abenteuer / Der zerschmetterte König (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4VpGQ9J0heSmY7DCR1hZHI",
+        "include": true,
+        "episode_num": 10,
+        "title": "Folge 10: Der Fluch / Völlig verrückt (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2SOuZQ9C4rJZ1MGsG3Toxb",
+        "include": true,
+        "episode_num": 11,
+        "title": "Folge 11: Party Monster / Außerhalb der Zeit (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "04ECZYlmGSwdKMz66oDdBr",
+        "include": true,
+        "episode_num": 12,
+        "title": "Folge 12: Flügelmann / Angors Angriff (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3zFmueNXWsuhl1Pxzr8YER",
+        "include": true,
+        "episode_num": 13,
+        "title": "Folge 13: Eine erinnerungswürdige Nacht / Kampf gegen Angor Rot (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5ldLmS5mp9OxiyiCUKRfDL",
+        "include": true,
+        "episode_num": 14,
+        "title": "Folge 14: Flucht aus dem Düsterland / Der Schädelbrecher (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3SwhBXepPu8I0HtwIpnOYq",
+        "include": true,
+        "episode_num": 15,
+        "title": "Folge 15: In Ottos Gewalt / Kanjig AAARRRGGHH!!! (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0bDbAzWEnLHS8ASodlBAdw",
+        "include": true,
+        "episode_num": 16,
+        "title": "Folge 16: Wieder zu Hause / Knall Bumm Peng (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4cxxRZaHnwlcMNezpJgATT",
+        "include": true,
+        "episode_num": 17,
+        "title": "Folge 17: Held mit tausend Gesichtern / Der Grässliche (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2eqSq8tcIvd5GTg6cL3McS",
+        "include": true,
+        "episode_num": 18,
+        "title": "Folge 18: Monzterkiller / Nachsitzen am Sonntag (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3pM4vfRv6vYVopZCo2MdSf",
+        "include": true,
+        "episode_num": 19,
+        "title": "Folge 19: Die Zeitreise / Das Urteil / In der Halle des Gumm Gumm Königs (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2WbogpNt2OUeLkOMr5jNZY",
+        "include": true,
+        "episode_num": 20,
+        "title": "Folge 20: Nachtpatrouille / Verbrecherjagd in Arcadia (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2WbogpNt2OUeLkOMr5jNZY",
+        "include": true,
+        "episode_num": 20,
+        "title": "Folge 20: Nachtpatrouille / Verbrecherjagd in Arcadia (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "68t1b5WEIUyVsadOxpnd74",
+        "include": true,
+        "episode_num": 21,
+        "title": "Folge 21: Schlechter Kaffee / Date mit einer Zauberin (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4gVViDSx59KpAeTFnCenLm",
+        "include": true,
+        "episode_num": 22,
+        "title": "Folge 22: Klaras Exorzismus / Elterliche Führung (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1coMybgXkS3V0HHmSH5a2b",
+        "include": true,
+        "episode_num": 23,
+        "title": "Folge 23: Der Schwur / Bei der Ehre Merlins (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1YiwA9MJM6dnjvZfbHl7Xx",
+        "include": true,
+        "episode_num": 24,
+        "title": "Folge 24: In guten Händen / Jims Entscheidung (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7ykTg35l0oEIJjpNWC1Qz0",
+        "include": true,
+        "episode_num": 25,
+        "title": "Folge 25: Jimjäger / Der ewige Ritter - Teil 1 & 2 (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2HbqJeQcWMmNOheAftjRkm",
+        "include": false,
+        "episode_num": null,
+        "title": "Folge 33: Der neue Dragur / Der Höhlenbrecher + Trolljäger: Das Amulett (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": "Mislabeled compilation - contains Dragons crossover content and duplicate of Folge 1; not a real episode 33"
+      }
+    ],
+    "age_note": "Recommended 8+",
+    "curator_notes": "Episodes 1-25 of the original Netflix series 'Trollhunters/Trolljäger' by Guillermo del Toro. Each album contains 2-3 TV episodes adapted as audio drama. Duplicate Folge 3 with bonus Dragons content excluded in favor of clean version. Mislabeled 'Folge 33' is a Dragons crossover compilation with duplicate Folge 1 content - excluded."
+  },
+  "review": {
+    "reviewed_at": "2026-02-22T23:59:05.974146+00:00",
+    "reviewed_by": "kimi-k2.5",
+    "overrides": [],
+    "splits": [],
+    "notes": "No issues found. 25 TV episodes + 1 bonus Dragons content.",
+    "status": "approved",
+    "verification": {
+      "model": "minimax-m2.5",
+      "verified_at": "2026-02-22T23:59:15.673950+00:00",
+      "approve": true,
+      "concerns": "Minor duplication note: Episode 20 appears twice in the included list (both entries are identical - \"Folge 20: Nachtpatrouille / Verbrecherjagd in Arcadia\" [2WbogpNt2OUeLkOMr5jNZY]). This appears to be a listing error where the episode was duplicated in the source data, not a critical issue since it's the same album.",
+      "override_verdicts": [],
+      "split_verdicts": []
+    }
+  }
+}

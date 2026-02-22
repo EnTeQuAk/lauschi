@@ -1,0 +1,99 @@
+{
+  "query": "Shrek Hörspiel",
+  "model": "kimi-k2.5",
+  "curated_at": "2026-02-22T23:54:55.798054+00:00",
+  "series": {
+    "id": "shrek_hoerspiel",
+    "title": "Shrek Hörspiel",
+    "aliases": [],
+    "keywords": [
+      "Shrek"
+    ],
+    "spotify_artist_ids": [
+      "6tXBGsG3uptJvoMwytNeAc"
+    ],
+    "episode_pattern": null,
+    "albums": [
+      {
+        "spotify_album_id": "0sT6GEnFvlhaVpJo0yGhJu",
+        "include": true,
+        "episode_num": 1,
+        "title": "Shrek (Das Original Hörspiel zum Kinofilm)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4nBoUUz1F6rG9dOpI2LZr9",
+        "include": true,
+        "episode_num": 2,
+        "title": "Shrek 2 (Das Original Hörspiel zum Kinofilm)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2sWHl9Byk7jaLh2zBMWVyG",
+        "include": true,
+        "episode_num": 3,
+        "title": "Shrek der Dritte (Das Original-Hörspiel zum Kinofilm)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7Fn3EYb5k2YK7XUDRvXzkW",
+        "include": true,
+        "episode_num": 4,
+        "title": "Für immer Shrek (Das Original-Hörspiel zum Kinofilm)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5IRCVhB6seUYsDSO80ZE3P",
+        "include": false,
+        "episode_num": null,
+        "title": "The Story Of Shrek",
+        "exclude_reason": "Compilation/summary, not a full film adaptation"
+      },
+      {
+        "spotify_album_id": "7jb7uI4BlItGh87QySyCfo",
+        "include": false,
+        "episode_num": null,
+        "title": "Faded",
+        "exclude_reason": "Music album by different artist"
+      },
+      {
+        "spotify_album_id": "0eOeNSFOh27lcnXTYxytTF",
+        "include": false,
+        "episode_num": null,
+        "title": "Read Between the Lines",
+        "exclude_reason": "Music album by different artist"
+      },
+      {
+        "spotify_album_id": "39VPSSLspgKDOJdMjH2B1T",
+        "include": false,
+        "episode_num": null,
+        "title": "M.I.C. (Make It Count)",
+        "exclude_reason": "Music album by different artist"
+      },
+      {
+        "spotify_album_id": "2YiMlEGHdbQ5GicvsacPzn",
+        "include": false,
+        "episode_num": null,
+        "title": "Randomizer",
+        "exclude_reason": "Music album by different artist"
+      }
+    ],
+    "age_note": "Suitable from 5+",
+    "curator_notes": "The Shrek artist profile contains both the Edelkids film Hörspiel adaptations and unrelated music releases. Only the 4 film adaptations (Shrek, Shrek 2, Shrek der Dritte, Für immer Shrek) are included as numbered episodes. Each album represents a complete movie adaptation split into 20-21 parts with intro/outro."
+  },
+  "review": {
+    "reviewed_at": "2026-02-22T23:56:48.825357+00:00",
+    "reviewed_by": "review-series.py",
+    "overrides": [],
+    "notes": "Auto-approved: no gaps or duplicates found.",
+    "verification": {
+      "model": "minimax-m2.5",
+      "verified_at": "2026-02-22T23:58:00.445515+00:00",
+      "approve": true,
+      "concerns": "One minor note: \"Für immer Shrek\" shows release_date \"2004\" but is actually Shrek 3 (2007). This is likely a data error in Spotify's metadata, not a selection error - the album is clearly the correct Shrek 3 audio drama. The curation is otherwise correct.",
+      "override_verdicts": [],
+      "split_verdicts": []
+    },
+    "status": "approved"
+  }
+}

@@ -1,0 +1,71 @@
+{
+  "query": "Kung Fu Panda Hörspiel",
+  "model": "kimi-k2.5",
+  "curated_at": "2026-02-22T23:53:13.455258+00:00",
+  "series": {
+    "id": "kung_fu_panda",
+    "title": "Kung Fu Panda",
+    "aliases": [],
+    "keywords": [
+      "Kung Fu Panda"
+    ],
+    "spotify_artist_ids": [
+      "3kEm8MAvD7TnYMrimnl3D7"
+    ],
+    "episode_pattern": null,
+    "albums": [
+      {
+        "spotify_album_id": "1w9WsZdN20ukpFnMuTZcVm",
+        "include": true,
+        "episode_num": 1,
+        "title": "Kung Fu Panda (Das Original-Hörspiel zum Kinofilm)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5VsrikqDGUUKEp9NE1YIJE",
+        "include": true,
+        "episode_num": 2,
+        "title": "Kung Fu Panda 2 (Das Original-Hörspiel zum Kinofilm)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7oNef7yw3RyZLhYBeNiBkZ",
+        "include": true,
+        "episode_num": null,
+        "title": "Ein schlagfertiges Winterfest (Das Original-Hörspiel zum Film Special)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1X3UxZYXPd5B2f75CIO4An",
+        "include": true,
+        "episode_num": 3,
+        "title": "Kung Fu Panda 3 (Das Original-Hörspiel zum Kinofilm)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "649m2rYKrlEfSfyCEQstz7",
+        "include": true,
+        "episode_num": 4,
+        "title": "Kung Fu Panda 4 (Das Original-Hörspiel zum Kinofilm)",
+        "exclude_reason": null
+      }
+    ],
+    "age_note": "Recommended 6+",
+    "curator_notes": "Primary artist contains the movie Hörspiele (film audio plays) for Kung Fu Panda 1-4 plus a holiday special. These are feature-length adaptations (~90-120 min) divided into chapters. Note: 'Kung Fu Panda - Der Drachenritter' (artist: 4MjNlyWzBgFgnfzr4cTncV) is a separate spinoff series with 11 episodic Hörspiele (Folge 1-11) based on the Netflix series."
+  },
+  "review": {
+    "reviewed_at": "2026-02-22T23:56:12.949074+00:00",
+    "reviewed_by": "review-series.py",
+    "overrides": [],
+    "notes": "Auto-approved: no gaps or duplicates found.",
+    "verification": {
+      "model": "minimax-m2.5",
+      "verified_at": "2026-02-22T23:57:44.509475+00:00",
+      "approve": true,
+      "concerns": "",
+      "override_verdicts": [],
+      "split_verdicts": []
+    },
+    "status": "approved"
+  }
+}

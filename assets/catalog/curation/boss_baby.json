@@ -1,0 +1,92 @@
+{
+  "query": "Boss Baby Hörspiel",
+  "model": "kimi-k2.5",
+  "curated_at": "2026-02-22T23:53:47.268475+00:00",
+  "series": {
+    "id": "boss_baby",
+    "title": "Boss Baby",
+    "aliases": [],
+    "keywords": [
+      "Boss Baby"
+    ],
+    "spotify_artist_ids": [
+      "7gGr5h1uarWBQGiv2mkTpl"
+    ],
+    "episode_pattern": "[Ff]olge\\s+(\\d+)",
+    "albums": [
+      {
+        "spotify_album_id": "2tkm4y5PTg3ON2gYACWIUd",
+        "include": true,
+        "episode_num": 1,
+        "title": "Folge 1: Scooter Buskie (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6Y0b8exhgh8IQ5SPKJDmGZ",
+        "include": true,
+        "episode_num": 2,
+        "title": "Folge 2: Familienspaßabend (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4HjrX2Zn9QfRlSaAp02hKG",
+        "include": true,
+        "episode_num": 3,
+        "title": "Folge 3: Kleine Miss Fleischklops (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1JFkZiGM6NiMPuFLjck7aG",
+        "include": true,
+        "episode_num": 4,
+        "title": "Folge 4: Der Boss-Sitter (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "28XzByhZx3IUxfcG7jskEa",
+        "include": true,
+        "episode_num": 5,
+        "title": "Folge 5: Der Firmentag (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4d9JjwT5STT0U1PMbgvPcF",
+        "include": true,
+        "episode_num": 6,
+        "title": "Folge 6: Katzencops (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3OV5JFU3opOY2YsPjGyzn1",
+        "include": false,
+        "episode_num": null,
+        "title": "Boss Baby (Das Original-Hörspiel zum Kinofilm)",
+        "exclude_reason": "Movie tie-in Hörspiel, not a numbered episode of the TV series (25 tracks, full film adaptation)"
+      },
+      {
+        "spotify_album_id": "4UQkuojWTQouFUEH2KEeer",
+        "include": false,
+        "episode_num": null,
+        "title": "Boss Baby 2 - Schluss mit Kindergarten (Das Original Hörspiel zum Kinofilm)",
+        "exclude_reason": "Movie tie-in Hörspiel, not a numbered episode of the TV series (23 tracks, full film adaptation)"
+      }
+    ],
+    "age_note": "Suitable from 5+",
+    "curator_notes": "TV series Hörspiele based on the DreamWorks Animation series. Six numbered episodes released in 2021. The two movie Hörspiele (2017 original film and 2021 sequel) are excluded as they are full film adaptations, not episodic content. Episode 6 has 20 tracks (longer than others) but is still a standard TV episode adaptation."
+  },
+  "review": {
+    "reviewed_at": "2026-02-22T23:56:14.546740+00:00",
+    "reviewed_by": "review-series.py",
+    "overrides": [],
+    "notes": "Auto-approved: no gaps or duplicates found.",
+    "verification": {
+      "model": "minimax-m2.5",
+      "verified_at": "2026-02-22T23:57:14.994549+00:00",
+      "approve": true,
+      "concerns": "The current set contains only 6 episodes (Folge 1-6), all from 2021 (April-August). The Boss Baby TV series has many more episodes beyond episode 6. However, the first reviewer's notes indicate \"Auto-approved: no gaps or duplicates found\" — suggesting this was a focused curation job (perhaps just the first season or available albums at time of review), not a claim to have captured the entire series. Since the included albums are correctly matching the \"Folge X\" German numbering pattern and are clearly TV series tie-in Hörspiele (not movie tie-ins), and the two excluded albums are correctly identified as movie tie-ins (not TV series episodes), the curation is correct for what was attempted. A note for future consideration: There are likely more episodes (Folge 7+) in the Boss Baby German audio series that could be added in a future update.",
+      "override_verdicts": [],
+      "split_verdicts": []
+    },
+    "status": "approved"
+  }
+}
