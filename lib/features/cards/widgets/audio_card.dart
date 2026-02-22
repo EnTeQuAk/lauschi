@@ -21,6 +21,7 @@ class AudioCard extends StatefulWidget {
     this.progress = 0,
     this.kidMode = false,
     this.episodeNumber,
+    this.showEpisodeTitles = false,
   });
 
   final String title;
@@ -41,6 +42,9 @@ class AudioCard extends StatefulWidget {
 
   /// Episode number from the catalog (shown as overlay in kid mode).
   final int? episodeNumber;
+
+  /// Whether to show cleaned title alongside episode number in kid mode.
+  final bool showEpisodeTitles;
 
   @override
   State<AudioCard> createState() => _AudioCardState();
@@ -155,6 +159,7 @@ class _AudioCardState extends State<AudioCard>
               child: _EpisodeLabel(
                 number: widget.episodeNumber,
                 title: widget.title,
+                showTitle: widget.showEpisodeTitles,
               ),
             ),
         ],
@@ -397,18 +402,37 @@ class _ProgressBar extends StatelessWidget {
 /// Strips "Folge N:" prefixes and "(Das Original-Hörspiel...)" suffixes
 /// since those are redundant noise for kids.
 class _EpisodeLabel extends StatelessWidget {
-  const _EpisodeLabel({required this.title, this.number});
+  const _EpisodeLabel({
+    required this.title,
+    this.number,
+    this.showTitle = false,
+  });
 
   final String title;
 
   /// Curated episode number from catalog. Takes priority over parsed.
   final int? number;
 
+  /// Whether to show the cleaned title alongside the number.
+  final bool showTitle;
+
   @override
   Widget build(BuildContext context) {
     // Curated number > parsed from title > nothing.
     final effectiveNumber = number ?? parseEpisodeNumber(title);
-    final cleanTitle = cleanEpisodeTitle(title, episodeNumber: effectiveNumber);
+
+    // Nothing to show: no number and titles are hidden.
+    if (effectiveNumber == null && !showTitle) return const SizedBox.shrink();
+
+    String label;
+    if (showTitle) {
+      final cleanTitle =
+          cleanEpisodeTitle(title, episodeNumber: effectiveNumber);
+      label =
+          effectiveNumber != null ? '$effectiveNumber · $cleanTitle' : cleanTitle;
+    } else {
+      label = '$effectiveNumber';
+    }
 
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 6),
@@ -427,7 +451,7 @@ class _EpisodeLabel extends StatelessWidget {
         ),
       ),
       child: Text(
-        effectiveNumber != null ? '$effectiveNumber · $cleanTitle' : cleanTitle,
+        label,
         textAlign: TextAlign.center,
         maxLines: 1,
         overflow: TextOverflow.ellipsis,

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lauschi/core/settings/debug_settings.dart';
+import 'package:lauschi/core/settings/kid_settings.dart';
 import 'package:lauschi/core/spotify/spotify_auth_provider.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
 import 'package:lauschi/features/onboarding/screens/onboarding_provider.dart';
@@ -75,6 +76,20 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
           icon: Icons.info_outline_rounded,
           title: 'Version',
           value: '$_appVersion ($_buildFlavour)',
+        ),
+
+        const SizedBox(height: AppSpacing.lg),
+
+        // ── Kindansicht ──────────────────────────────────────────────────────
+        const _SectionHeader(title: 'Kindansicht'),
+        _SwitchTile(
+          icon: Icons.text_fields_rounded,
+          title: 'Episodentitel anzeigen',
+          subtitle: 'Titel neben Episodennummer auf Kacheln zeigen',
+          value:
+              ref.watch(showEpisodeTitlesProvider).value ?? false,
+          onChanged: (_) =>
+              ref.read(showEpisodeTitlesProvider.notifier).toggle(),
         ),
 
         const SizedBox(height: AppSpacing.lg),
