@@ -5,12 +5,12 @@
 
 # What's lauschi?
 
-lauschi wraps Spotify (Apple Music planned) behind a curated,
-card-based interface for children. Parents build visual content
-cards — kid taps a card, audio starts. No recommendations, no
-autoplay, no screen time spiral.
+lauschi wraps audio providers behind a curated, card-based interface
+for children. Parents build visual content cards — kid taps a card,
+audio starts. No recommendations, no autoplay, no screen time spiral.
 
-Built with Flutter. DACH-market focus (Hörspiele, Kindermusik),
+Currently supports **Spotify** and **ARD Audiothek** (free, no account
+needed). Built with Flutter. DACH-market focus (Hörspiele, Kindermusik),
 internationalizable. All data stays on-device.
 
 ## Status
@@ -38,14 +38,18 @@ Configuration lives in `.env` (gitignored), loaded by mise tasks via
 `--dart-define-from-file=.env`:
 
 ```
-SPOTIFY_CLIENT_ID=...           # required — Spotify Developer Dashboard
+SPOTIFY_CLIENT_ID=...           # required for Spotify — Developer Dashboard
 SENTRY_DSN=...                  # optional — error tracking
 SENTRY_ENVIRONMENT=development
 ```
 
-The Spotify client ID is public (PKCE flow, no client secret). Create a
-Spotify app at https://developer.spotify.com/dashboard, add `lauschi://callback`
-as a redirect URI, and copy the client ID.
+**ARD Audiothek** works out of the box — no credentials, no account, free
+public broadcaster content. The app uses the ARD Audiothek GraphQL API
+(`api.ardaudiothek.de`) to browse and stream children's audio content directly.
+
+**Spotify** requires a client ID (PKCE flow, no client secret). Create a
+Spotify app at https://developer.spotify.com/dashboard, add
+`lauschi://callback` as a redirect URI, and copy the client ID.
 
 For catalog curation tools (optional, not needed to build/run the app):
 
@@ -59,9 +63,11 @@ BRAVE_API_KEY=...               # for catalog review web search
 - **Flutter + Dart** — iOS and Android from one codebase
 - **Riverpod 3** — state management
 - **Drift** — local SQLite with schema migrations
-- **Spotify Web Playback SDK** — audio via hidden WebView (EME/DRM).
+- **Spotify Web Playback SDK** — Spotify audio via hidden WebView (EME/DRM).
   The SDK's `player.html` is hosted externally (requires HTTPS origin for
   Widevine). See `lib/core/spotify/spotify_config.dart` for the URL.
+- **ARD Audiothek GraphQL API** + **just_audio** — free streaming of public
+  broadcaster content (no account required)
 - **go_router** — navigation with parent PIN gate
 - **very_good_analysis** — strict linting
 - **Sentry** — crash reporting + session replay (EU region)
