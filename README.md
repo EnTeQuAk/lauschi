@@ -97,7 +97,10 @@ catalog-review-ai    ← AI reviews: excludes junk, proposes splits, fills gaps
 catalog-apply-splits ← executes split proposals into new curation JSONs
         │
         ▼
-catalog-review (TUI) ← human approves/rejects → writes back to series.yaml
+catalog-verify       ← second model verifies; auto-approves on agreement
+        │
+        ▼
+catalog-review (TUI) ← human reviews disagreements → writes to series.yaml
 ```
 
 ### Adding new series
@@ -107,15 +110,19 @@ catalog-review (TUI) ← human approves/rejects → writes back to series.yaml
    - id: paw_patrol
      title: PAW Patrol
      keywords: ["PAW Patrol"]
+     aliases: ["Paw Patrol - Das Hörspiel"]
      spotify_artist_ids: ["..."]
      episode_pattern: "Folge (\\d+)"
    ```
+
+   Series can have multiple `keywords` and `aliases` for fuzzy matching.
+   `episode_pattern` is a regex with one capture group for the episode number.
 
 2. Run AI curation to discover albums:
    ```bash
    mise run catalog-curate -- --series "PAW Patrol"
    ```
-   This creates `assets/catalog/curation/paw_patrol.json` with all albums classified as include/exclude.
+   Creates `assets/catalog/curation/paw_patrol.json` with all albums classified as include/exclude.
 
 3. Run AI review:
    ```bash
@@ -129,7 +136,15 @@ catalog-review (TUI) ← human approves/rejects → writes back to series.yaml
    mise run catalog-apply-splits -- --apply   # create new JSONs
    ```
 
-5. Human review in TUI:
+5. Verify with a second model:
+   ```bash
+   mise run catalog-verify -- paw_patrol
+   ```
+   A second model (minimax-m2.5) independently verifies the review decisions.
+   When both models agree, the series is auto-approved and written to
+   `series.yaml`. Disagreements are flagged for human review.
+
+6. Human review (for disagreements or manual inspection):
    ```bash
    mise run catalog-review                    # all series
    mise run catalog-review -- paw_patrol      # specific series
