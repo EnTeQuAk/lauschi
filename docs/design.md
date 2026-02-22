@@ -11,7 +11,7 @@
 - redan.ai: editorial restraint, warm stone neutrals
 
 ### What we're NOT
-- tiini's hot pink + gray (functional but sterile)
+- Hot pink + gray (functional but sterile)
 - Spotify's dark density
 - Over-colorful toy-store energy
 - Flat, characterless Material defaults

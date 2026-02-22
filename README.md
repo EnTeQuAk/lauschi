@@ -34,13 +34,23 @@ mise run dev                    # run on connected device
 
 ### Environment
 
-Secrets live in `.env` (gitignored), loaded by mise:
+Configuration lives in `.env` (gitignored), loaded by mise tasks via
+`--dart-define-from-file=.env`:
 
 ```
-SPOTIFY_CLIENT_ID=...
-SPOTIFY_CLIENT_SECRET=...
-SENTRY_DSN=...                  # optional
-OPENCODE_API_KEY=...            # for AI curation tools
+SPOTIFY_CLIENT_ID=...           # required — Spotify Developer Dashboard
+SENTRY_DSN=...                  # optional — error tracking
+SENTRY_ENVIRONMENT=development
+```
+
+The Spotify client ID is public (PKCE flow, no client secret). Create a
+Spotify app at https://developer.spotify.com/dashboard, add `lauschi://callback`
+as a redirect URI, and copy the client ID.
+
+For catalog curation tools (optional, not needed to build/run the app):
+
+```
+OPENCODE_API_KEY=...            # for AI curation scripts
 BRAVE_API_KEY=...               # for catalog review web search
 ```
 
@@ -49,7 +59,9 @@ BRAVE_API_KEY=...               # for catalog review web search
 - **Flutter + Dart** — iOS and Android from one codebase
 - **Riverpod 3** — state management
 - **Drift** — local SQLite with schema migrations
-- **Spotify Web Playback SDK** — audio via hidden WebView (EME/DRM)
+- **Spotify Web Playback SDK** — audio via hidden WebView (EME/DRM).
+  The SDK's `player.html` is hosted externally (requires HTTPS origin for
+  Widevine). See `lib/core/spotify/spotify_config.dart` for the URL.
 - **go_router** — navigation with parent PIN gate
 - **very_good_analysis** — strict linting
 - **Sentry** — crash reporting + session replay (EU region)
@@ -191,8 +203,65 @@ mise run dev                    # flutter run with .env
 mise run test                   # flutter test
 mise run analyze                # flutter analyze
 mise run setup                  # pub get + codegen
+mise run check                  # format + analyze + test (CI equivalent)
 ```
+
+### Building for Android
+
+Prerequisites:
+- Android SDK (install via `mise install` or Android Studio)
+- Java 17 (installed by mise)
+- A connected Android device or emulator with API 24+
+
+```bash
+# Debug APK
+mise run build                  # builds APK with codegen + .env
+
+# Install on connected device
+flutter install --debug
+
+# Or run directly
+mise run dev
+```
+
+The debug APK lands in `build/app/outputs/flutter-apk/app-debug.apk`.
+
+For release builds, you'll need a signing key configured in
+`android/app/build.gradle`. See the
+[Flutter Android deployment docs](https://docs.flutter.dev/deployment/android).
+
+### Testing on Android
+
+```bash
+# Run all tests
+mise run test
+
+# Run a single test file
+flutter test test/core/catalog/catalog_service_test.dart --dart-define-from-file=.env
+
+# Run with coverage
+flutter test --coverage --dart-define-from-file=.env
+```
+
+Tests don't require a device — they run on the Dart VM. Integration tests
+(Patrol) require a connected device or emulator.
+
+### iOS
+
+iOS builds require macOS with Xcode. The project uses Codemagic for CI/CD on
+iOS. Local iOS development works with `flutter run` on a Mac with Xcode
+installed and an iOS 14.0+ device/simulator.
+
+## Contributing
+
+1. Fork the repo and create a branch from `main`
+2. `mise install && mise run setup`
+3. Make your changes, run `mise run check` to verify
+4. Open a PR — CI runs format, analyze, test, and debug build
+
+Keep commits focused and messages in imperative mood ("Fix bug" not "Fixed
+bug"). See the project's `analysis_options.yaml` for lint rules.
 
 ## License
 
-MIT
+MIT — see [LICENSE](LICENSE)
