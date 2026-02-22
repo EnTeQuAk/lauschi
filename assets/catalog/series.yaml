@@ -5975,8 +5975,8 @@ series:
   - Lucky Luke
   spotify_artist_ids:
   - 3GhvVhdZylZUmxABM30UeP
-  episode_pattern: ^(?:(\d{2}):\s*|Ein Cowboy in Paris|Fackeln im Baumwollfeld|Rantanplans 
-    Arche|Letzte Runde für die Daltons|Das gelobte Land|Meine Onkel, die Daltons)
+  episode_pattern: ^(?:(\d{2}):\s*|Ein Cowboy in Paris|Fackeln im Baumwollfeld|Rantanplans Arche|Letzte
+    Runde für die Daltons|Das gelobte Land|Meine Onkel, die Daltons)
   albums:
   - id: 3kQiCwi4N1CtcdT4zmsIb0
     episode: 1
@@ -8025,8 +8025,8 @@ series:
   episode_pattern: Alles ([^!]+)!
   albums:
   - id: 4Bye9UYKH5eYH6Glm1EYdO
-    title: Alles Bitte-danke!, Alles Eis!, Socke will alles können und zwar ruckzuck! (Der kleine 
-      Rabe Socke)
+    title: Alles Bitte-danke!, Alles Eis!, Socke will alles können und zwar ruckzuck! (Der kleine Rabe
+      Socke)
   - id: 4sisLEShJplT9VQrRelb99
     title: Alles Freunde! (Der kleine Rabe Socke) [Freundschaftsgeschichten vom kleinen Raben Socke]
   - id: 2HajrwUcwFczd5ovmqUta9
@@ -8038,9 +8038,9 @@ series:
     title: 'Alles Schule!: Alles vorbereitet!, Alles aufgeweckt!, Alles eingeschult!, Alles aus und vorbei!,
       Alles zusammen! (Der kleine Rabe Socke)'
   - id: 5rLgyFUrNHZ8xnaEWSSQ71
-    title: Alles Socke! (Alles erlaubt?, Alles Eis!, Alles gefunden!, Alles zu spät!, Alles echt 
-      wahr!, Alles nass!, Alles Bitte-danke!, Alles verlaufen!) (Der kleine Rabe Socke) [Das Beste 
-      vom kleinen Raben Socke zum 25. Geburtstag]
+    title: Alles Socke! (Alles erlaubt?, Alles Eis!, Alles gefunden!, Alles zu spät!, Alles echt wahr!,
+      Alles nass!, Alles Bitte-danke!, Alles verlaufen!) (Der kleine Rabe Socke) [Das Beste vom kleinen
+      Raben Socke zum 25. Geburtstag]
   - id: 4AboRuzwmUiuqS9noZmcQ1
     title: 'Alles Weihnachten!: Alles Advent!, Alles gebacken!, Alles verschenkt! (Der kleine Rabe Socke)
       [Drei Geschichten vom kleinen Raben Socke]'
@@ -8062,8 +8062,8 @@ series:
   - id: 6tbKtNfAd40rvPJVTNXylf
     title: Alles rabenstark!, Alles aufgeräumt!, Alles kaputt! (Der kleine Rabe Socke)
   - id: 5Blrw5UfocVrlzAoxRJQsf
-    title: Alles schläft? (Alles ohne Ende!, Alles Monster!, Alles verbummelt!, Alles besser!) (Der 
-      kleine Rabe Socke) [Gute-Nacht-Geschichten vom kleinen Raben Socke]
+    title: Alles schläft? (Alles ohne Ende!, Alles Monster!, Alles verbummelt!, Alles besser!) (Der kleine
+      Rabe Socke) [Gute-Nacht-Geschichten vom kleinen Raben Socke]
   - id: 6uS4A6adOkQRBtfN8B0wnE
     title: Alles verknallt!, Alles wach?, Alles gelernt! (Der kleine Rabe Socke)
   - id: 0joEbvSRUXOYhoWfDJdXPa
@@ -8073,56 +8073,56 @@ series:
   - id: 6CPEwK18zBZafonlXexQYK
     title: Alles verzankt!, Alles zu voll!, Alles nass! (Der kleine Rabe Socke)
   - id: 3vxL29iewsOnpuzmvy0B18
-    title: Das Geburtstagsgeschenk, Das Superfernrohr, Der Erfinderwettbewerb (Der kleine Rabe Socke
-      - Hörspiele zur TV Serie 8)
+    title: Das Geburtstagsgeschenk, Das Superfernrohr, Der Erfinderwettbewerb (Der kleine Rabe Socke -
+      Hörspiele zur TV Serie 8)
   - id: 045UjvaNf9898ZWtNxdL7s
-    title: Das Hofturnier, Die Waldprüfung, Bruder-Alarm! (Der kleine Rabe Socke - Hörspiele zur TV 
-      Serie 10)
+    title: Das Hofturnier, Die Waldprüfung, Bruder-Alarm! (Der kleine Rabe Socke - Hörspiele zur TV Serie
+      10)
   - id: 6KnamYDPG0Wr82roCnku3U
-    title: Das Waldlied, Allerbeste Freunde, Die Geburtstagsretter (Der kleine Rabe Socke - 
-      Hörspiele zur TV Serie 15)
+    title: Das Waldlied, Allerbeste Freunde, Die Geburtstagsretter (Der kleine Rabe Socke - Hörspiele
+      zur TV Serie 15)
   - id: 4MF3vRrimefhW3x9RK9I1V
-    title: Der Onkel aus der Südsee, Der große Streichewettbewerb, Rollentausch, Der Schatzkistentag
-      (Der kleine Rabe Socke - Hörspiele zur TV Serie 17)
+    title: Der Onkel aus der Südsee, Der große Streichewettbewerb, Rollentausch, Der Schatzkistentag (Der
+      kleine Rabe Socke - Hörspiele zur TV Serie 17)
   - id: 0eF1MO4hXD7EE0cqD8DW8o
-    title: Die Mutprobe, Ein echter Krimi, Der geteilte Wald (Der kleine Rabe Socke - Hörspiele zur 
-      TV Serie 16)
+    title: Die Mutprobe, Ein echter Krimi, Der geteilte Wald (Der kleine Rabe Socke - Hörspiele zur TV
+      Serie 16)
   - id: 76HrKCFyQhY87r2IWXnLDB
-    title: Die Sportskanone, Der Honigmond, Der sprechende Busch (Der kleine Rabe Socke - Hörspiele 
-      zur TV Serie 5)
+    title: Die Sportskanone, Der Honigmond, Der sprechende Busch (Der kleine Rabe Socke - Hörspiele zur
+      TV Serie 5)
   - id: 2vSecCqEUJilZo28l0vTIL
-    title: Die Wunscherfüllkiste, Der Waldgeist, Haltet den Dieb! (Der kleine Rabe Socke - Hörspiele
-      zur TV Serie 2)
+    title: Die Wunscherfüllkiste, Der Waldgeist, Haltet den Dieb! (Der kleine Rabe Socke - Hörspiele zur
+      TV Serie 2)
   - id: 3FrgaEqgvo0sqA7Ru0QVYK
-    title: Ferngesteuert, Der Laden der allertollsten Dinge, Freundschaft mit Hindernissen (Der 
-      kleine Rabe Socke - Hörspiele zur TV Serie 14)
+    title: Ferngesteuert, Der Laden der allertollsten Dinge, Freundschaft mit Hindernissen (Der kleine
+      Rabe Socke - Hörspiele zur TV Serie 14)
   - id: 6VrIYTSUOGSsKWMTdeW8gE
-    title: Frau Dachs macht Urlaub, Ein Tanzkleid für Frau Dachs, Rette sich, wer kann! (Der kleine 
-      Rabe Socke - Hörspiele zur TV Serie 4)
+    title: Frau Dachs macht Urlaub, Ein Tanzkleid für Frau Dachs, Rette sich, wer kann! (Der kleine Rabe
+      Socke - Hörspiele zur TV Serie 4)
   - id: 0oqKdiDNslYUoUiRYUdDks
-    title: Meisterdetektive, Der Pechvogel, Frau Dachs hat Geburtstag (Der kleine Rabe Socke - 
-      Hörspiele zur TV Serie 11)
+    title: Meisterdetektive, Der Pechvogel, Frau Dachs hat Geburtstag (Der kleine Rabe Socke - Hörspiele
+      zur TV Serie 11)
   - id: 4ohBnL1iSjWMTQaLNA7bvZ
-    title: Neues Ufer, Die verfluchte Teekanne, Der große Sockini (Der kleine Rabe Socke - Hörspiele
-      zur TV Serie 9)
+    title: Neues Ufer, Die verfluchte Teekanne, Der große Sockini (Der kleine Rabe Socke - Hörspiele zur
+      TV Serie 9)
   - id: 1i3DeKgyCaMEwpmrgnXkiK
-    title: Piraten Ahoi!, Die Fußballwaldmeisterschaft, Das goldene Amulett (Der kleine Rabe Socke -
-      Hörspiele zur TV Serie 1)
+    title: Piraten Ahoi!, Die Fußballwaldmeisterschaft, Das goldene Amulett (Der kleine Rabe Socke - Hörspiele
+      zur TV Serie 1)
   - id: 58IfNovyr5Sr55wgMLWIoI
-    title: Rennfahrer, Diamantenfieber, Die Rasselbande (Der kleine Rabe Socke - Hörspiele zur TV 
-      Serie 7)
+    title: Rennfahrer, Diamantenfieber, Die Rasselbande (Der kleine Rabe Socke - Hörspiele zur TV Serie
+      7)
   - id: 795XA2uiADFHOKNkttriJX
     title: 'Ritter Sockenherz, Mission: Dreirad, Der falsche Pilz (Der kleine Rabe Socke - Hörspiele zur
       TV Serie 3)'
   - id: 0Csm87ayVVBtIeP4gl2hvP
-    title: Socke aus dem All, Der Hypnotiseur, Streithähne (Der kleine Rabe Socke - Hörspiele zur TV
-      Serie 12)
+    title: Socke aus dem All, Der Hypnotiseur, Streithähne (Der kleine Rabe Socke - Hörspiele zur TV Serie
+      12)
   - id: 06Oc8eYyPKyXMGBwUCBUV7
-    title: Sockes Flugschule, Die Waldhochzeit, Der Riesenschreck (Der kleine Rabe Socke - Hörspiele
-      zur TV Serie 13)
+    title: Sockes Flugschule, Die Waldhochzeit, Der Riesenschreck (Der kleine Rabe Socke - Hörspiele zur
+      TV Serie 13)
   - id: 5YufFI1LNYMovd5wWKJ4CU
-    title: Suppenzauber, Gestrandet, Die Ringelsocke ist futsch! (Der kleine Rabe Socke - Hörspiele 
-      zur TV Serie 6)
+    title: Suppenzauber, Gestrandet, Die Ringelsocke ist futsch! (Der kleine Rabe Socke - Hörspiele zur
+      TV Serie 6)
   - id: 5Tx1COK2E4QTwd0ye0rknb
     title: 'Weihnachtsgeschichten vom kleinen Raben Socke: Alles Advent!, Alles glitzert!, Alles in Eile!,
       Alles weg! (Der kleine Rabe Socke)'
@@ -12424,8 +12424,7 @@ series:
   title: Käpt'n Sharky
   spotify_artist_ids:
   - 5TfrI6jiBpIpWRsrEXVtFN
-  episode_pattern: 
-    (?:[Ff]olge|[Tt]eil|[Uu]nd|Band)\s*(\d+)|^(?:Der|Die|Das)\s+|Abenteuer|Bei|Im|Rettet|Schiffbruch
+  episode_pattern: (?:[Ff]olge|[Tt]eil|[Uu]nd|Band)\s*(\d+)|^(?:Der|Die|Das)\s+|Abenteuer|Bei|Im|Rettet|Schiffbruch
   albums:
   - id: 6THE7nOBqv4VApqZaBqpYv
     episode: 1
@@ -13094,8 +13093,8 @@ series:
     title: '10: Conni im Advent / Conni fährt Schlittschuh / Conni lässt Drachen steigen / Conni und der
       fiese Schnupfen (Vier Hörspiele zur TV-Serie)'
   - id: 77Pk8wTrRgF2O1K3YLqyMW
-    title: Conni macht Mut in Zeiten von Corona (Meine Freundin Conni - ab 3) [Eine Conni-Geschichte
-      mit kindgerechtem Sachwissen rund um das Thema Corona]
+    title: Conni macht Mut in Zeiten von Corona (Meine Freundin Conni - ab 3) [Eine Conni-Geschichte mit
+      kindgerechtem Sachwissen rund um das Thema Corona]
 - id: michel_aus_loenneberga
   title: Michel aus Lönneberga
   spotify_artist_ids:
@@ -14057,8 +14056,7 @@ series:
     title: Woodwalkers - Tag der Rache - Das Hörspiel
   - id: 3akuBfI0xnmcKuTDc0NHmi
     episode: 7
-    title: Woodwalkers - Die Rückkehr. Das Vermächtnis der Wandler - Das Hörspiel (Staffel 2, Band 
-      1)
+    title: Woodwalkers - Die Rückkehr. Das Vermächtnis der Wandler - Das Hörspiel (Staffel 2, Band 1)
   - id: 7c67MJkQOwdYVKF99xUJmZ
     episode: 8
     title: Woodwalkers - Die Rückkehr. Herr der Gestalten - Das Hörspiel (Staffel 2, Band 2)
@@ -14703,3 +14701,125 @@ series:
   - id: 386WgT9PKtqJjecYnFFtvB
     episode: 6
     title: 006/9 lustige Miträtsel-Geschichten und 1 Lied
+- id: schlau_wie_vier
+  title: Schlau wie Vier
+  spotify_artist_ids:
+  - 2a5yLTCUCibDJdUVnH7kLP
+  episode_pattern: ^(?:[Ff]olge\s+)?0*(\d+)[:\/]
+  albums:
+  - id: 03JwmytRdgEtD4zBzDp3VM
+    title: '001/Dinosaurier: Der geheimnisvolle Knochen'
+  - id: 114VxMAhav1yFG2QtHya3F
+    title: '002/Wildpferde: Reise in die Mongolei'
+  - id: 6rZLMc3sNjNhVAZKJvMoBR
+    title: '003/Das Alte Ägypten: Ein Tag beim Kinderpharao'
+  - id: 61aAY0eaB2hC5WfNAPkmGk
+    title: '004/Der Mars: Abenteuer im Weltall'
+  - id: 2uwNureJwaN9oaLLYTsgQy
+    title: '005/Delfine: Die Welt der Meerestiere'
+  - id: 2zwPWL29ncJ6k7yESdmJEU
+    title: 006/Ritter und Burgen. Reise ins Mittelalter
+  - id: 3nQiQOUycJdEQDYcQvInmv
+    title: 007/Safari. Abenteuer in der afrikanischen Savanne
+  - id: 3szCyNfmhaytBtjJD0sv6x
+    title: 008/Fußball. Dem Kick auf der Spur
+  - id: 2AsXalki2P3ldXiFHsMbzM
+    title: 009/Antarktis. Das Leben im ewigen Eis
+  - id: 3PSTHBueYba996CqereaqW
+    title: 010/Fliegen. Ein Wunder der Technik
+  - id: 6TMTRo2Mt1zWQPpQ18sqoG
+    title: 011/Wikinger. Bootsbauer und Seeräuber
+  - id: 3CXsbfeBsTYuCZcziEKtVn
+    title: 012/Hunde und Wölfe. Unsere Haustiere und ihre wilden Verwandten
+  - id: 1gDrXj1I9WsBRpt1GBPTKA
+    title: 013/Vulkane. Expedition ins Innere der Erde
+  - id: 0j3cvUlPM3o0YGKu5VZw7e
+    title: 014/Superbauten. Die höchsten Gebäude der Welt
+  - id: 2rX41HR7CmF6FWTPY21Jdk
+    title: 015/Könige und Schlösser. Das Leben bei Hofe
+  - id: 5aAD29KXMqptGhYPz4UYGy
+    title: 016/Die Entstehung der Arten. Darwin auf Galapagos
+  - id: 6CEhSQxvk2RdwHll2qG386
+    title: 017/Haie. Die Könige der Ozeane
+  - id: 3FpwehwL5FtqI2PNzVtwhR
+    title: 018/Altes Rom. Abenteuer in der Antike
+  - id: 59LoGeJYf25cLLR8ay8ww6
+    title: 019/Ötzi. Geheimnisse aus der Steinzeit
+  - id: 26B3850ECjX2MHBipYqa1h
+    title: 020/Indigene Völker Amerikas. Eine Reise zu den Wampanoag
+  - id: 4BFF3CUa4ttbe3hBD12LrI
+    title: 021/Polizei & Detektive - Auf Verbrecherjagd
+  - id: 1VXEGgOROUoYzECXTRruij
+    title: 'Folge 22: Koalas, Kängurus und Krokodile - Versteckspiel in Australien'
+  - id: 7v9FeeDd6LKCd5u0aFVqFo
+    title: 'Folge 23: Autos - eine Erfindung bewegt die Welt'
+  - id: 4r0ZkRv0Kp96B16Y9yWWtr
+    title: 'Folge 24: Wald & Dschungel - Rettung für das bedrohte Paradies'
+  - id: 79mNy553s7oxvI6MVgvbc0
+    title: 'Folge 25: Medien. Vom Buchdruck bis zum Internet'
+  - id: 71hUj6jrkBzjmS1CWamBnd
+    title: 'Folge 26: Katzen und Raubkatzen. Schmusetiere und wilde Jäger'
+  - id: 6E03LrU3nlpVdsu06KI9Ch
+    title: 'Folge 27: Auswanderung und Flucht. Auf in eine neue Heimat!'
+  - id: 71YRBJN3RILku1YgPedCXu
+    title: 'Folge 28: U-Boote und Tiefsee. Tauchfahrt ins Ungewisse'
+  - id: 4dmZbHX8FmncCDao0daHb6
+    title: 'Folge 29: Menschenaffen. Im Reich der Orang-Utans'
+  - id: 3tevz629g8BOMrKoQgUZXC
+    title: 'Folge 30: Piraten. Auf Schatzsuche in der Karibik'
+  - id: 0YHqrzttDfMh7GLeW5o3Xc
+    title: 'Folge 31: Eiszeit. Das rätselhafte Mammut'
+  - id: 5KONvdeh2R5hsA5fgPozvo
+    title: 'Folge 32: Höhlen. Gefangen im unterirdischen Labyrinth'
+  - id: 5WSvefaVYkglPjWpPTw4At
+    title: 'Folge 33: Krokodile & Echsen. Ein geheimnisvoller Gast'
+  - id: 5b862gqDzzvmeCCPMPH0cq
+    title: 'Folge 34: Abenteuer Wüste. Verirrt in der Sahara'
+  - id: 5rIB4ZTtXPjVA6JJo8mLA1
+    title: 'Folge 35: Kunst & Künstler. Ein echter Picasso?'
+  - id: 5zYZcBluy9l2e4IKLpBKt6
+    title: 'Folge 36: Raumfahrt. Der Wettlauf zum Mond'
+  - id: 2zdkG3b4NuYOA78LFmJ0HA
+    title: 'Folge 37: Bären. Den Tierdieben auf der Spur'
+  - id: 2l7SAgv1FyClSd8VKWnIS2
+    title: 'Folge 38: Olympische Spiele. Wer holt Gold?'
+  - id: 447I6DaCCDseHoq4IQShtk
+    title: 'Folge 39: Medizingeschichte. Eine rätselhafte Krankheit'
+  - id: 4SGF1CCcdwh6LSEPouFf6V
+    title: 'Folge 40: Zukunft. Die Welt in 100 Jahren'
+- id: kikaninchen
+  title: Kikaninchen
+  spotify_artist_ids:
+  - 0QOJGCTrdDQS6Qz9dsvies
+  episode_pattern: ^0?(\d+):\s*Mein Geschichtenkissen!
+  albums:
+  - id: 5ovLo8jvg2X3dPoQsM4sNc
+    title: '01: Mein Geschichtenkissen! 10 lustige Hörspiele'
+  - id: 0WVwwMzM3cAM7hvrN1wRZi
+    title: '02: Mein Geschichtenkissen! Mehr lustige Hörspiele'
+  - id: 7fi9obzUOWBqN1rMIf47qa
+    title: Der Bestimmer & Trotzlied
+  - id: 3XGodaK7gDSCt7MoYKb20y
+    title: Dibedibedab!
+  - id: 2SzNx4uJq0rrXePKKfSLpz
+    title: Die Mischung macht's! Das 4. Album
+  - id: 4KcPjlVMPi0qzbH7HXRTJr
+    title: Die Welt ist bunt!
+  - id: 1S0q8v2gauobfbyWFn8S3l
+    title: Händewaschlied & Gesund und munter
+  - id: 1IkegOqvSrR3ik693R06Fe
+    title: Ich muss los
+  - id: 3RaeuzdeKE0XfGnSkJX6JP
+    title: Kikaninchen Party Mix!
+  - id: 34bpj9Ne9z4DnTzmi7Ijq4
+    title: Komm mit ans Meer
+  - id: 6iYLXPUm3AuZJY04SsvCvl
+    title: Mutmachlied - Ich hab keine Angst
+  - id: 7aAF5jigHlkMMgp9riwvUc
+    title: Party (Discokugel-Mix)
+  - id: 6ZtCoyBN7DFELAOTDpkkYm
+    title: Viel Geburtstag zum Glück
+  - id: 74sFy5LZoqhhx4SgV6PETh
+    title: Weihnachtszauber & Weihnachtsbäckerin
+  - id: 0wAtIEjr3t6IUCdDxxR6RF
+    title: Wir tanzen, spielen, singen Lieder! - Das 2. Album
