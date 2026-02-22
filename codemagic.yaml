@@ -144,7 +144,7 @@ workflows:
         - app-env
         - firebase-distribution-credentials
       android_signing:
-        - keystore_reference: release_keystore
+        - keystore: release_keystore
     cache:
       cache_paths:
         - $HOME/.pub-cache
