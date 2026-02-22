@@ -26,10 +26,6 @@ class _LauschiAppState extends ConsumerState<LauschiApp>
   late final AppLinks _appLinks;
   StreamSubscription<Uri>? _linkSub;
 
-  /// Whether playback was active when the app went to background.
-  /// Used to auto-resume on foreground.
-  bool _wasPlayingBeforePause = false;
-
   bool _dataMigrationsRun = false;
 
   @override
@@ -79,30 +75,9 @@ class _LauschiAppState extends ConsumerState<LauschiApp>
     }
   }
 
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    final player = ref.read(playerProvider.notifier);
-    final playback = ref.read(playerProvider);
-
-    switch (state) {
-      case AppLifecycleState.paused || AppLifecycleState.inactive:
-        // App going to background — pause if playing, remember state.
-        if (playback.isPlaying) {
-          _wasPlayingBeforePause = true;
-          Log.info('Lifecycle', 'Pausing playback (app backgrounded)');
-          unawaited(player.pause());
-        }
-      case AppLifecycleState.resumed:
-        // App returning to foreground — resume if we paused it.
-        if (_wasPlayingBeforePause) {
-          _wasPlayingBeforePause = false;
-          Log.info('Lifecycle', 'Resuming playback (app foregrounded)');
-          unawaited(player.resume());
-        }
-      case AppLifecycleState.detached || AppLifecycleState.hidden:
-        break;
-    }
-  }
+  // No didChangeAppLifecycleState — audio_service + MediaSessionHandler
+  // handle background playback. Pausing on inactive/paused killed audio on
+  // screen lock, notification pulldown, and rotation. See #103.
 
   @override
   void dispose() {
