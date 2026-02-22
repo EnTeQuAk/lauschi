@@ -56,7 +56,13 @@ class GroupDetailScreen extends ConsumerWidget {
               data:
                   (group) => _GroupHeader(
                     title: group?.title ?? '',
-                    onBack: () => context.pop(),
+                    onBack: () {
+                      if (context.canPop()) {
+                        context.pop();
+                      } else {
+                        context.go(AppRoutes.kidHome);
+                      }
+                    },
                     onNfcPair:
                         nfcEnabled && group != null
                             ? () => showNfcPairDialog(
@@ -68,8 +74,26 @@ class GroupDetailScreen extends ConsumerWidget {
                             )
                             : null,
                   ),
-              loading: () => _GroupHeader(title: '', onBack: context.pop),
-              error: (_, _) => _GroupHeader(title: '', onBack: context.pop),
+              loading: () => _GroupHeader(
+                title: '',
+                onBack: () {
+                  if (context.canPop()) {
+                    context.pop();
+                  } else {
+                    context.go(AppRoutes.kidHome);
+                  }
+                },
+              ),
+              error: (_, _) => _GroupHeader(
+                title: '',
+                onBack: () {
+                  if (context.canPop()) {
+                    context.pop();
+                  } else {
+                    context.go(AppRoutes.kidHome);
+                  }
+                },
+              ),
             ),
 
             // Offline indicator
