@@ -695,46 +695,46 @@ class _GroupPickerSheet extends ConsumerWidget {
                           children: [
                             Flexible(
                               child: ListView.builder(
-                              shrinkWrap: true,
-                              itemCount: groups.length,
-                              itemBuilder: (context, index) {
-                                final group = groups[index];
-                                final isAssigned = card.groupId == group.id;
-                                return ListTile(
-                                  leading: Icon(
-                                    Icons.layers_rounded,
-                                    color:
-                                        isAssigned
-                                            ? AppColors.primary
-                                            : AppColors.textSecondary,
-                                  ),
-                                  title: Text(
-                                    group.title,
-                                    style: const TextStyle(
-                                      fontFamily: 'Nunito',
+                                shrinkWrap: true,
+                                itemCount: groups.length,
+                                itemBuilder: (context, index) {
+                                  final group = groups[index];
+                                  final isAssigned = card.groupId == group.id;
+                                  return ListTile(
+                                    leading: Icon(
+                                      Icons.layers_rounded,
+                                      color:
+                                          isAssigned
+                                              ? AppColors.primary
+                                              : AppColors.textSecondary,
                                     ),
-                                  ),
-                                  trailing:
-                                      isAssigned
-                                          ? const Icon(
-                                            Icons.check_rounded,
-                                            color: AppColors.primary,
-                                          )
-                                          : null,
-                                  onTap: () {
-                                    Navigator.of(context).pop();
-                                    unawaited(
-                                      ref
-                                          .read(cardRepositoryProvider)
-                                          .assignToGroup(
-                                            cardId: card.id,
-                                            groupId: group.id,
-                                          ),
-                                    );
-                                  },
-                                );
-                              },
-                            ),
+                                    title: Text(
+                                      group.title,
+                                      style: const TextStyle(
+                                        fontFamily: 'Nunito',
+                                      ),
+                                    ),
+                                    trailing:
+                                        isAssigned
+                                            ? const Icon(
+                                              Icons.check_rounded,
+                                              color: AppColors.primary,
+                                            )
+                                            : null,
+                                    onTap: () {
+                                      Navigator.of(context).pop();
+                                      unawaited(
+                                        ref
+                                            .read(cardRepositoryProvider)
+                                            .assignToGroup(
+                                              cardId: card.id,
+                                              groupId: group.id,
+                                            ),
+                                      );
+                                    },
+                                  );
+                                },
+                              ),
                             ),
                             const Divider(height: 1),
                             ListTile(

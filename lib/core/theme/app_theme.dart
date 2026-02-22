@@ -65,7 +65,11 @@ abstract final class AppSpacing {
 /// Column count for kid-facing grids (series tiles, episode tiles).
 /// Fewer columns = bigger tiles = easier to tap for small fingers.
 int kidGridColumns(double width) =>
-    width < 600 ? 2 : width < 1100 ? 3 : 4;
+    width < 600
+        ? 2
+        : width < 1100
+        ? 3
+        : 4;
 
 // ---------------------------------------------------------------------------
 // Radii — rounded organic feel

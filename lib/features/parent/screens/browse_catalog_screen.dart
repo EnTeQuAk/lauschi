@@ -388,20 +388,22 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen> {
   }
 
   Future<void> _addPlaylist(SpotifyPlaylist playlist) async {
-    await ref.read(contentImporterProvider.notifier).importToGroup(
-      groupTitle: playlist.name,
-      groupCoverUrl: playlist.imageUrl,
-      cards: [
-        PendingCard(
-          title: playlist.name,
-          providerUri: playlist.uri,
-          cardType: 'playlist',
-          provider: 'spotify',
-          coverUrl: playlist.imageUrl,
-          totalTracks: playlist.totalTracks,
-        ),
-      ],
-    );
+    await ref
+        .read(contentImporterProvider.notifier)
+        .importToGroup(
+          groupTitle: playlist.name,
+          groupCoverUrl: playlist.imageUrl,
+          cards: [
+            PendingCard(
+              title: playlist.name,
+              providerUri: playlist.uri,
+              cardType: 'playlist',
+              provider: 'spotify',
+              coverUrl: playlist.imageUrl,
+              totalTracks: playlist.totalTracks,
+            ),
+          ],
+        );
     if (!mounted) return;
     setState(() => _addedUris.add(playlist.uri));
     ScaffoldMessenger.of(context)

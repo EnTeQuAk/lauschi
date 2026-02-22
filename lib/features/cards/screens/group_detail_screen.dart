@@ -44,8 +44,7 @@ class GroupDetailScreen extends ConsumerWidget {
             .watch(debugSettingsProvider)
             .whenOrNull(data: (s) => s.nfcEnabled) ??
         false;
-    final showTitles =
-        ref.watch(showEpisodeTitlesProvider).value ?? false;
+    final showTitles = ref.watch(showEpisodeTitlesProvider).value ?? false;
 
     return Scaffold(
       body: SafeArea(
@@ -74,26 +73,28 @@ class GroupDetailScreen extends ConsumerWidget {
                             )
                             : null,
                   ),
-              loading: () => _GroupHeader(
-                title: '',
-                onBack: () {
-                  if (context.canPop()) {
-                    context.pop();
-                  } else {
-                    context.go(AppRoutes.kidHome);
-                  }
-                },
-              ),
-              error: (_, _) => _GroupHeader(
-                title: '',
-                onBack: () {
-                  if (context.canPop()) {
-                    context.pop();
-                  } else {
-                    context.go(AppRoutes.kidHome);
-                  }
-                },
-              ),
+              loading:
+                  () => _GroupHeader(
+                    title: '',
+                    onBack: () {
+                      if (context.canPop()) {
+                        context.pop();
+                      } else {
+                        context.go(AppRoutes.kidHome);
+                      }
+                    },
+                  ),
+              error:
+                  (_, _) => _GroupHeader(
+                    title: '',
+                    onBack: () {
+                      if (context.canPop()) {
+                        context.pop();
+                      } else {
+                        context.go(AppRoutes.kidHome);
+                      }
+                    },
+                  ),
             ),
 
             // Offline indicator

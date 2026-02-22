@@ -426,10 +426,14 @@ class _EpisodeLabel extends StatelessWidget {
 
     String label;
     if (showTitle) {
-      final cleanTitle =
-          cleanEpisodeTitle(title, episodeNumber: effectiveNumber);
+      final cleanTitle = cleanEpisodeTitle(
+        title,
+        episodeNumber: effectiveNumber,
+      );
       label =
-          effectiveNumber != null ? '$effectiveNumber · $cleanTitle' : cleanTitle;
+          effectiveNumber != null
+              ? '$effectiveNumber · $cleanTitle'
+              : cleanTitle;
     } else {
       label = '$effectiveNumber';
     }
