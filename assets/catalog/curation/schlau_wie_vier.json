@@ -1,7 +1,7 @@
 {
   "query": "Schlau wie Vier",
   "model": "kimi-k2.5",
-  "curated_at": "2026-02-21T03:07:05.177366+00:00",
+  "curated_at": "2026-02-22T23:07:26.799688+00:00",
   "series": {
     "id": "schlau_wie_vier",
     "title": "Schlau wie Vier",
@@ -10,24 +10,305 @@
     "spotify_artist_ids": [
       "2a5yLTCUCibDJdUVnH7kLP"
     ],
-    "episode_pattern": null,
-    "albums": [],
-    "age_note": "Recommended 8+",
-    "curator_notes": "EDU Hörspiel series about a group of friends using knowledge to solve mysteries. Educational detective series."
+    "episode_pattern": "^(?:[Ff]olge\\s+)?0*(\\d+)[:\\/]",
+    "albums": [
+      {
+        "spotify_album_id": "4SGF1CCcdwh6LSEPouFf6V",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 40: Zukunft. Die Welt in 100 Jahren",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "447I6DaCCDseHoq4IQShtk",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 39: Medizingeschichte. Eine rätselhafte Krankheit",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2l7SAgv1FyClSd8VKWnIS2",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 38: Olympische Spiele. Wer holt Gold?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2zdkG3b4NuYOA78LFmJ0HA",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 37: Bären. Den Tierdieben auf der Spur",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5zYZcBluy9l2e4IKLpBKt6",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 36: Raumfahrt. Der Wettlauf zum Mond",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5rIB4ZTtXPjVA6JJo8mLA1",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 35: Kunst & Künstler. Ein echter Picasso?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5b862gqDzzvmeCCPMPH0cq",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 34: Abenteuer Wüste. Verirrt in der Sahara",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5WSvefaVYkglPjWpPTw4At",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 33: Krokodile & Echsen. Ein geheimnisvoller Gast",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5KONvdeh2R5hsA5fgPozvo",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 32: Höhlen. Gefangen im unterirdischen Labyrinth",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0YHqrzttDfMh7GLeW5o3Xc",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 31: Eiszeit. Das rätselhafte Mammut",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3tevz629g8BOMrKoQgUZXC",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 30: Piraten. Auf Schatzsuche in der Karibik",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4dmZbHX8FmncCDao0daHb6",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 29: Menschenaffen. Im Reich der Orang-Utans",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "71YRBJN3RILku1YgPedCXu",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 28: U-Boote und Tiefsee. Tauchfahrt ins Ungewisse",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6E03LrU3nlpVdsu06KI9Ch",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 27: Auswanderung und Flucht. Auf in eine neue Heimat!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "71hUj6jrkBzjmS1CWamBnd",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 26: Katzen und Raubkatzen. Schmusetiere und wilde Jäger",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "79mNy553s7oxvI6MVgvbc0",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 25: Medien. Vom Buchdruck bis zum Internet",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4r0ZkRv0Kp96B16Y9yWWtr",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 24: Wald & Dschungel - Rettung für das bedrohte Paradies",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7v9FeeDd6LKCd5u0aFVqFo",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 23: Autos - eine Erfindung bewegt die Welt",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1VXEGgOROUoYzECXTRruij",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 22: Koalas, Kängurus und Krokodile - Versteckspiel in Australien",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4BFF3CUa4ttbe3hBD12LrI",
+        "include": true,
+        "episode_num": null,
+        "title": "021/Polizei & Detektive - Auf Verbrecherjagd",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "26B3850ECjX2MHBipYqa1h",
+        "include": true,
+        "episode_num": null,
+        "title": "020/Indigene Völker Amerikas. Eine Reise zu den Wampanoag",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "59LoGeJYf25cLLR8ay8ww6",
+        "include": true,
+        "episode_num": null,
+        "title": "019/Ötzi. Geheimnisse aus der Steinzeit",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3FpwehwL5FtqI2PNzVtwhR",
+        "include": true,
+        "episode_num": null,
+        "title": "018/Altes Rom. Abenteuer in der Antike",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6CEhSQxvk2RdwHll2qG386",
+        "include": true,
+        "episode_num": null,
+        "title": "017/Haie. Die Könige der Ozeane",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5aAD29KXMqptGhYPz4UYGy",
+        "include": true,
+        "episode_num": null,
+        "title": "016/Die Entstehung der Arten. Darwin auf Galapagos",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2rX41HR7CmF6FWTPY21Jdk",
+        "include": true,
+        "episode_num": null,
+        "title": "015/Könige und Schlösser. Das Leben bei Hofe",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0j3cvUlPM3o0YGKu5VZw7e",
+        "include": true,
+        "episode_num": null,
+        "title": "014/Superbauten. Die höchsten Gebäude der Welt",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1gDrXj1I9WsBRpt1GBPTKA",
+        "include": true,
+        "episode_num": null,
+        "title": "013/Vulkane. Expedition ins Innere der Erde",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3CXsbfeBsTYuCZcziEKtVn",
+        "include": true,
+        "episode_num": null,
+        "title": "012/Hunde und Wölfe. Unsere Haustiere und ihre wilden Verwandten",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6TMTRo2Mt1zWQPpQ18sqoG",
+        "include": true,
+        "episode_num": null,
+        "title": "011/Wikinger. Bootsbauer und Seeräuber",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3PSTHBueYba996CqereaqW",
+        "include": true,
+        "episode_num": null,
+        "title": "010/Fliegen. Ein Wunder der Technik",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2AsXalki2P3ldXiFHsMbzM",
+        "include": true,
+        "episode_num": null,
+        "title": "009/Antarktis. Das Leben im ewigen Eis",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3szCyNfmhaytBtjJD0sv6x",
+        "include": true,
+        "episode_num": null,
+        "title": "008/Fußball. Dem Kick auf der Spur",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3nQiQOUycJdEQDYcQvInmv",
+        "include": true,
+        "episode_num": null,
+        "title": "007/Safari. Abenteuer in der afrikanischen Savanne",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2zwPWL29ncJ6k7yESdmJEU",
+        "include": true,
+        "episode_num": null,
+        "title": "006/Ritter und Burgen. Reise ins Mittelalter",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2uwNureJwaN9oaLLYTsgQy",
+        "include": true,
+        "episode_num": null,
+        "title": "005/Delfine: Die Welt der Meerestiere",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "61aAY0eaB2hC5WfNAPkmGk",
+        "include": true,
+        "episode_num": null,
+        "title": "004/Der Mars: Abenteuer im Weltall",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6rZLMc3sNjNhVAZKJvMoBR",
+        "include": true,
+        "episode_num": null,
+        "title": "003/Das Alte Ägypten: Ein Tag beim Kinderpharao",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "114VxMAhav1yFG2QtHya3F",
+        "include": true,
+        "episode_num": null,
+        "title": "002/Wildpferde: Reise in die Mongolei",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "03JwmytRdgEtD4zBzDp3VM",
+        "include": true,
+        "episode_num": null,
+        "title": "001/Dinosaurier: Der geheimnisvolle Knochen",
+        "exclude_reason": null
+      }
+    ],
+    "age_note": "Suitable from 5+",
+    "curator_notes": "Educational children's series covering diverse topics (history, nature, science, culture). Two naming patterns detected: older episodes (1-21) use 'NNN/' prefix, newer episodes (22-40) use 'Folge N:' format. All episodes are individual releases with no box sets or duplicates found."
   },
   "review": {
-    "reviewed_at": "2026-02-22T14:33:11.150638+00:00",
+    "reviewed_at": "2026-02-22T23:08:25.809531+00:00",
     "reviewed_by": "review-series.py",
     "overrides": [],
     "notes": "Auto-approved: no gaps or duplicates found.",
     "verification": {
       "model": "minimax-m2.5",
-      "verified_at": "2026-02-22T15:19:12.170131+00:00",
-      "approve": false,
-      "concerns": "No albums found at all. The series has 0 included and 0 excluded albums, which means no content was found on Spotify for this series. The first AI auto-approved with \"no gaps or duplicates found\" but this seems incorrect - there should be some albums to review. The Wikipedia lookup shows \"Wie schlau ist Deutschland?\" which is a different show than \"Schlau wie Vier\" - this may be a different series entirely or the series may simply not exist on Spotify. This needs human attention to verify whether the series exists and whether the artist ID is correct.",
+      "verified_at": "2026-02-22T23:09:00.714772+00:00",
+      "approve": true,
+      "concerns": "Unable to verify album details due to incomplete Spotify IDs in source data. However, title inspection shows consistent pattern: \"Folge X: [Topic] - [Subtitle]\" matching the series format. Episodes 1-21 use varied naming (some with \"Folge\" prefix, some without) while 22-40 consistently use \"Folge X:\" format, which aligns with typical release evolution. Topics are educational (dinosaurs, Egypt, Mars, dolphins, knights, Vikings, etc.) matching the series' child-friendly educational theme. No other series ID visible in titles. Excluded albums list is empty, suggesting no compilations or box sets were removed.",
       "override_verdicts": [],
       "split_verdicts": []
     },
-    "status": "escalated"
+    "status": "approved"
   }
 }
