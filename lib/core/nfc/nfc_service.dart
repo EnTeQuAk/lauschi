@@ -115,7 +115,7 @@ class NfcService {
     unawaited(
       NfcManager.instance.startSession(
         pollingOptions: {NfcPollingOption.iso14443, NfcPollingOption.iso15693},
-        onDiscovered: (tag) async {
+        onDiscovered: (tag) {
           final uid = _extractUid(tag);
           if (uid == null) {
             onError?.call('Tag-UID nicht lesbar');
@@ -147,7 +147,7 @@ class NfcService {
     unawaited(
       NfcManager.instance.startSession(
         pollingOptions: {NfcPollingOption.iso14443, NfcPollingOption.iso15693},
-        onDiscovered: (tag) async {
+        onDiscovered: (tag) {
           final uid = _extractUid(tag);
           if (uid == null) {
             Log.warn(_tag, 'Tag UID not readable');

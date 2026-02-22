@@ -260,7 +260,7 @@ class CardRepository {
     DateTime? availableUntil,
     String? groupId,
     int? episodeNumber,
-  }) async {
+  }) {
     return _db.transaction(() async {
       final id = await insertIfAbsent(
         title: title,

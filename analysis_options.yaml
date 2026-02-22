@@ -4,6 +4,9 @@ analyzer:
   errors:
     missing_required_param: error
     missing_return: error
+    # Make fixme noisier than todo so they stand out.
+    fixme: warning
+    todo: info
   exclude:
     - "**/*.g.dart"
     - "**/*.freezed.dart"
@@ -11,11 +14,13 @@ analyzer:
 
 linter:
   rules:
-    # Relax rules that conflict with our patterns
-    public_member_api_docs: false # not needed for an app (not a library)
-    lines_longer_than_80_chars: false # 80 is too aggressive; formatter handles it
+    # New rules not yet in VGA
+    avoid_futureor_void: true
+    unnecessary_async: true
+    unsafe_variance: true
+    # Relaxed rules
+    public_member_api_docs: false # app, not library
+    lines_longer_than_80_chars: false # formatter handles it
     flutter_style_todos: false # we use TODO(#issue) not TODO(username)
-    # Riverpod 3's StreamProvider.family / FutureProvider.family return internal
-    # types (StreamProviderFamily etc.) that are not exported from the public API,
-    # so we can't annotate manual family providers with the correct type.
+    # Riverpod codegen returns unexported types for family providers.
     specify_nonobvious_property_types: false

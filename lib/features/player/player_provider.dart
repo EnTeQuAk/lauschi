@@ -38,7 +38,7 @@ SpotifyApi spotifyApi(Ref ref) {
 
   // Wire 401 → refresh → retry. When the API gets a 401, it asks the
   // auth notifier for a fresh token and retries the request once.
-  api.onTokenExpired = () async {
+  api.onTokenExpired = () {
     return ref.read(spotifyAuthProvider.notifier).validAccessToken();
   };
 

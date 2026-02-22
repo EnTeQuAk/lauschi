@@ -342,7 +342,7 @@ class SpotifyPlayerBridge {
     }
   }
 
-  Future<String> _freshToken() async {
+  Future<String> _freshToken() {
     final getter = _getValidToken;
     if (getter == null) throw StateError('Bridge not initialized');
     return getter();

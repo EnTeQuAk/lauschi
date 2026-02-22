@@ -178,7 +178,7 @@ Future<List<FeaturedItem>> _fetchFeaturedItems(ArdApi api) async {
 // ── Provider ────────────────────────────────────────────────────────────────
 
 @riverpod
-Future<List<FeaturedItem>> featuredItems(Ref ref) async {
+Future<List<FeaturedItem>> featuredItems(Ref ref) {
   final api = ref.watch(ardApiProvider);
   return _fetchFeaturedItems(api);
 }
