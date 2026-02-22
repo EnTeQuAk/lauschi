@@ -29,7 +29,7 @@ Spotify's policy prohibits "the sale of a Streaming SDA" and "e-commerce
 initiated via a Streaming SDA."
 
 lauschi is:
-- Free and open source (MIT license)
+- Free and open source (GPL-3.0 license)
 - No in-app purchases, subscriptions, or monetization
 - No advertising
 - Distributed via GitHub and potentially app stores (free)

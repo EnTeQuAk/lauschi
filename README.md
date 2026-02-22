@@ -264,4 +264,4 @@ bug"). See the project's `analysis_options.yaml` for lint rules.
 
 ## License
 
-MIT — see [LICENSE](LICENSE)
+Copyright © 2025-2026 Christopher Grebs. Licensed under [GPL-3.0](LICENSE).
