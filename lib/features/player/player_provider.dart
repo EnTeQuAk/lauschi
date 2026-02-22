@@ -36,6 +36,12 @@ SpotifyApi spotifyApi(Ref ref) {
     api.updateToken(authState.tokens.accessToken);
   }
 
+  // Wire 401 → refresh → retry. When the API gets a 401, it asks the
+  // auth notifier for a fresh token and retries the request once.
+  api.onTokenExpired = () async {
+    return ref.read(spotifyAuthProvider.notifier).validAccessToken();
+  };
+
   return api;
 }
 
@@ -279,16 +285,45 @@ class PlayerNotifier extends _$PlayerNotifier {
 
   /// Play via Spotify Web Playback SDK.
   Future<void> _playSpotify(db.AudioCard card) async {
-    final deviceId = state.deviceId;
-    if (deviceId == null || _api == null) {
-      Log.error(_tag, 'Cannot play — no device ID');
+    // Proactively refresh the token before attempting playback.
+    // Avoids a 401 → refresh → retry round-trip on every play after expiry.
+    final authNotifier = ref.read(spotifyAuthProvider.notifier);
+    final token = await authNotifier.validAccessToken();
+    if (token == null) {
+      Log.error(_tag, 'Cannot play — not authenticated');
       state = state.copyWith(
         isLoading: false,
-        error: 'Spotify nicht verbunden',
+        error: 'Spotify nicht verbunden — bitte neu anmelden',
       );
       return;
     }
+    _api?.updateToken(token);
 
+    final deviceId = state.deviceId;
+    if (deviceId == null || _api == null) {
+      // No device — try reconnecting the SDK before giving up.
+      Log.warn(_tag, 'No device ID — attempting reconnect');
+      await _bridge!.reconnect();
+      final newDeviceId = await _bridge!.waitForDevice();
+      if (newDeviceId == null || _api == null) {
+        Log.error(_tag, 'Cannot play — no device ID after reconnect');
+        state = state.copyWith(
+          isLoading: false,
+          error: 'Spotify nicht verbunden',
+        );
+        return;
+      }
+      return _playOnDeviceWithRetry(card, newDeviceId);
+    }
+
+    return _playOnDeviceWithRetry(card, deviceId);
+  }
+
+  /// Send play command with one reconnect retry on device-not-found.
+  Future<void> _playOnDeviceWithRetry(
+    db.AudioCard card,
+    String deviceId,
+  ) async {
     Log.info(
       _tag,
       'Playing card',
