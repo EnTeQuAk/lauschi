@@ -17,7 +17,7 @@ internationalizable. All data stays on-device.
 
 MVP functional on Android and iOS. Grouping, catalog matching,
 NFC tag support, parent/kid modes working. Catalog curation
-pipeline covers 125 DACH Hörspiel and music series.
+pipeline covers ~120 DACH Hörspiel and music series.
 
 ## Setup
 
