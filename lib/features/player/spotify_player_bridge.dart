@@ -24,6 +24,7 @@ class SpotifyPlayerBridge {
   /// Wired to the auth notifier's validAccessToken() to serialize refreshes.
   Future<String> Function()? _getValidToken;
 
+  bool _disposed = false;
   WebViewController? _controller;
 
   /// Access the WebView controller. Only available after [init].
@@ -289,10 +290,25 @@ class SpotifyPlayerBridge {
       }
     }
 
+    // Suppress stale position updates from the Spotify SDK on iOS.
+    // The SDK sometimes fires events with slightly older positions,
+    // causing the progress bar to jitter (30→31→32→30→31…).
+    // Accept the update only if position moves forward, same track is
+    // playing, or the track changed (seek/skip).
+    final sameTrack =
+        track?.uri == _state.track?.uri && trackNum == _state.trackNumber;
+    final positionWentBack = sameTrack && posMs < _state.positionMs;
+    // Allow small backward jumps (<2s) — these are rounding/buffering noise.
+    // Only suppress larger jumps that cause visible jitter.
+    final effectivePos =
+        positionWentBack && (_state.positionMs - posMs) < 2000
+            ? _state.positionMs
+            : posMs;
+
     _updateState(
       _state.copyWith(
         isPlaying: !paused,
-        positionMs: posMs,
+        positionMs: effectivePos,
         durationMs: durMs,
         trackNumber: trackNum,
         nextTracksCount: nextCount,
@@ -330,6 +346,7 @@ class SpotifyPlayerBridge {
   /// Run JS on the WebView, catching PlatformException when the WebView
   /// isn't ready or has been torn down (e.g. app backgrounded on iOS).
   Future<void> _runJs(String js) async {
+    if (_disposed || _controller == null) return;
     try {
       await controller.runJavaScript(js);
     } on PlatformException catch (e) {
@@ -419,6 +436,7 @@ class SpotifyPlayerBridge {
 
   /// Disconnect and clean up.
   Future<void> dispose() async {
+    _disposed = true;
     Log.info(_tag, 'Disposing bridge');
     try {
       if (_controller != null) {
