@@ -693,9 +693,9 @@ class _GroupPickerSheet extends ConsumerWidget {
                         : Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            ListView.builder(
+                            Flexible(
+                              child: ListView.builder(
                               shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
                               itemCount: groups.length,
                               itemBuilder: (context, index) {
                                 final group = groups[index];
@@ -734,6 +734,7 @@ class _GroupPickerSheet extends ConsumerWidget {
                                   },
                                 );
                               },
+                            ),
                             ),
                             const Divider(height: 1),
                             ListTile(
