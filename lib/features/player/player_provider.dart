@@ -216,6 +216,9 @@ class PlayerNotifier extends _$PlayerNotifier {
     // Cancel any pending auto-advance and position save timer.
     _advanceTimer?.cancel();
     _positionSaveTimer?.cancel();
+    // Reset play time tracking for the new card.
+    _playTimeMs = 0;
+    _playStartedAt = null;
 
     final cards = ref.read(cardRepositoryProvider);
     final card = await cards.getById(cardId);
@@ -425,8 +428,12 @@ class PlayerNotifier extends _$PlayerNotifier {
       _startPositionSave();
     } else {
       _positionSaveTimer?.cancel();
-      // Save immediately on pause
-      unawaited(_savePosition());
+      _updatePlayTime();
+      _playStartedAt = null;
+      // Save immediately on pause (if threshold met).
+      if (_playTimeMs >= _minPlayTimeMs) {
+        unawaited(_savePosition());
+      }
 
       // Detect album completion: paused on the last track, within 5s of end.
       // Using a fixed threshold instead of percentage — 90% of a 60-min
@@ -481,13 +488,35 @@ class PlayerNotifier extends _$PlayerNotifier {
     );
   }
 
+  /// Cumulative play time for the current card. Reset on card change.
+  int _playTimeMs = 0;
+  DateTime? _playStartedAt;
+
+  /// Minimum play time before saving position (prevents brief taps from
+  /// marking episodes as "in progress").
+  static const _minPlayTimeMs = 30000; // 30 seconds
+
   void _startPositionSave() {
     _positionSaveTimer?.cancel();
-    // Save every 10 seconds while playing
+    _playStartedAt = DateTime.now();
+    // Save every 10 seconds while playing (if threshold met).
     _positionSaveTimer = Timer.periodic(
       const Duration(seconds: 10),
-      (_) => unawaited(_savePosition()),
+      (_) {
+        _updatePlayTime();
+        if (_playTimeMs >= _minPlayTimeMs) {
+          unawaited(_savePosition());
+        }
+      },
     );
+  }
+
+  void _updatePlayTime() {
+    if (_playStartedAt != null) {
+      _playTimeMs +=
+          DateTime.now().difference(_playStartedAt!).inMilliseconds;
+      _playStartedAt = DateTime.now();
+    }
   }
 
   Future<void> _savePosition() async {
