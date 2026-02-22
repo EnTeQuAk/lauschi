@@ -57,6 +57,9 @@ abstract final class AppSpacing {
   // Touch targets
   static const minTouchTarget = 48.0;
   static const kidTouchTarget = 64.0;
+
+  // Bottom padding to clear a FAB (56dp FAB + 16dp margin + 8dp buffer).
+  static const fabClearance = 80.0;
 }
 
 // ---------------------------------------------------------------------------

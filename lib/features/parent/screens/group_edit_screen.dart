@@ -526,7 +526,7 @@ class _EpisodeReorderList extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return ReorderableListView.builder(
-      padding: const EdgeInsets.only(bottom: AppSpacing.xxl),
+      padding: const EdgeInsets.only(bottom: AppSpacing.fabClearance),
       buildDefaultDragHandles: false,
       proxyDecorator: (child, index, animation) {
         return AnimatedBuilder(
