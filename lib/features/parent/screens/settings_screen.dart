@@ -86,10 +86,9 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
           icon: Icons.text_fields_rounded,
           title: 'Episodentitel anzeigen',
           subtitle: 'Titel neben Episodennummer auf Kacheln zeigen',
-          value:
-              ref.watch(showEpisodeTitlesProvider).value ?? false,
-          onChanged: (_) =>
-              ref.read(showEpisodeTitlesProvider.notifier).toggle(),
+          value: ref.watch(showEpisodeTitlesProvider).value ?? false,
+          onChanged:
+              (_) => ref.read(showEpisodeTitlesProvider.notifier).toggle(),
         ),
 
         const SizedBox(height: AppSpacing.lg),

@@ -513,8 +513,7 @@ class PlayerNotifier extends _$PlayerNotifier {
 
   void _updatePlayTime() {
     if (_playStartedAt != null) {
-      _playTimeMs +=
-          DateTime.now().difference(_playStartedAt!).inMilliseconds;
+      _playTimeMs += DateTime.now().difference(_playStartedAt!).inMilliseconds;
       _playStartedAt = DateTime.now();
     }
   }
