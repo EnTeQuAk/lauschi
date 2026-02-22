@@ -2198,13 +2198,431 @@ series:
 - id: tkkg
   title: TKKG
   aliases:
-  - TKKG
-  keywords:
-  - tkkg
+  - Ein Fall für TKKG
   spotify_artist_ids:
   - 61qDotnjM0jnY5lkfOP7ve
-  - 0i38tQX5j4gZ0KS3eCMoIl
-  episode_pattern: (?:^(\d{1,3})/|[Ff]olge\s+(\d+))
+  episode_pattern: '^Folge (\d+):'
+  albums:
+  - id: 2roFEQcxTR8srR0sWgm456
+    episode: 100
+    title: 100/Fieser Trick mit Nr. 100
+  - id: 2jU1HQIl8BvRK2k5xd1rnf
+    episode: 101
+    title: 101/Opfer fliegen 1. Klasse
+  - id: 6b6XofBfdNQOrTQ5OYNzxI
+    episode: 102
+    title: 102/Angst auf der Autobahn
+  - id: 0Bgt28WUbkcFYGYFZDkVMk
+    episode: 103
+    title: 103/Mörderischer Stammbaum
+  - id: 5YwL93GA7APpy21xMum8Wt
+    episode: 104
+    title: 104/Im Wettbüro des Teufels
+  - id: 1rFO6xC24qh08d1wCvKDC8
+    episode: 105
+    title: 105/Vermißte Kids und Killerpflanzen
+  - id: 6vx49wKEFKejjPiqtr6PZV
+    episode: 106
+    title: 106/Mädchenraub im Ferienhaus
+  - id: 20Ei5hMuzN4aIaubhwZGCh
+    episode: 107
+    title: 107/Lösegeld für einen Irrtum
+  - id: 5UowH6UQ4hHv0pDp7XC73F
+    episode: 108
+    title: 108/Das Konzert bei den Ratten
+  - id: 0Av7I4rxIH4l2iy4eonNqQ
+    episode: 109
+    title: 109/Mörderspiel im Burghotel
+  - id: 7aMc9Dk7FhceVhhSRvGVKi
+    episode: 110
+    title: 110/Das Phantom im Schokoladenmuseum
+  - id: 7v5o8fgiM0AUoibGLX7mNR
+    episode: 111
+    title: 111/Die tödliche Falle
+  - id: 0hvicgoCbgvXmwjV2FhPOK
+    episode: 112
+    title: 112/Bombenspaß bei Kies & Knete
+  - id: 47XIAkJhFj1O5J6bFF061G
+    episode: 113
+    title: 113/Mit heißer Nadel Jagd auf Kids
+  - id: 1EOt95N1umfsGDDi2RGyLx
+    episode: 114
+    title: 114/Die Sekte Satans
+  - id: 3HLVIwjC3e7nR0blSiR0Cf
+    episode: 115
+    title: 115/Der Diamant im Bauch der Kobra
+  - id: 1qnXN4G8JKVo2cBe3YiBYu
+    episode: 116
+    title: 116/Klassenfahrt zur Hexenburg
+  - id: 2NlUe7bw93isGjrvmXneYt
+    episode: 117
+    title: 117/Im Schloß der schlafenden Vampire
+  - id: 5TX9govv5QXwFLZT2fiHSe
+    episode: 118
+    title: 118/Im Kaufhaus ist der Teufel los
+  - id: 6u7TXxm1pFVUceAkdl5EMo
+    episode: 119
+    title: 119/Frische Spur nach 70 Jahren
+  - id: 6MZ8GjwkBao0glkAguCYpx
+    episode: 120
+    title: 120/Bei Anruf Angst
+  - id: 3af1Ne9SXRGDBsyhn1OcbX
+    episode: 121
+    title: 121/Ein cooler Typ aus der Hölle
+  - id: 0ZQupaN55cZsgjnaZc3ce8
+    episode: 122
+    title: 122/Der Goldschatz, der vom Himmel fiel
+  - id: 0Uw592E81r73YlcfdrXTqe
+    episode: 123
+    title: 123/Mordkomplott im Luxus-Klo
+  - id: 3i8iFxVoBzO7HLAmH5WTc8
+    episode: 124
+    title: 124/Vergebliche Suche nach Gaby
+  - id: 6HtJ1gsoOlPlMHl6BBIedU
+    episode: 125
+    title: 125/Der Mörder aus einer anderen Zeit
+  - id: 59XpRNxoOO21j2bfXr4u8v
+    episode: 126
+    title: 126/Teddy Talers Höllenfahrt
+  - id: 4HNxicEEVUbZHI4GvvBEVH
+    episode: 127
+    title: 127/Im Schlauchboot durch die Unterwelt
+  - id: 5jjQAVPbdRAvDxeCdg8xsL
+    episode: 128
+    title: 128/Die Gehilfen des Terrors
+  - id: 1TjNjBs1qKh8atmJe9JBcz
+    episode: 129
+    title: 129/Der Erpresser fährt bis Endstation
+  - id: 0readhKQChO0CavM03TBsG
+    episode: 130
+    title: 130/Die gefährliche Zeugin verschwindet
+  - id: 3Hto454teGDtP3LANx45nV
+    episode: 131
+    title: 131/Stundenlohn für flotte Gangster
+  - id: 7C5cT8kDPUKAiyV39QC9y6
+    episode: 132
+    title: 132/Homejacker machen Überstunden
+  - id: 6u0Bbe6ewDB23wwN0XbU2J
+    episode: 133
+    title: 133/Auf vier Pfoten zur Millionenbeute
+  - id: 1xOMCIhM742LDNn6Av7SaY
+    episode: 134
+    title: 134/Wer stoppt die Weihnachts-Gangster
+  - id: 5GyWEEFbhvsUPk9pVR61p8
+    episode: 135
+    title: 135/Der Meisterdieb und seine Feinde
+  - id: 6Jw6ALN4jEqyhtHPuSGD7e
+    episode: 136
+    title: 136/Argentinische Entführung
+  - id: 3S3RsaMPC1zpjYh9ibwLhb
+    episode: 137
+    title: 137/Verschleppt ins Tal Diabolo
+  - id: 78gbDWHGzUfxISjEQjhXXg
+    episode: 138
+    title: 138/Raubzug mit Bumerang
+  - id: 7pRJLfr0wOiudzUjSqitzN
+    episode: 139
+    title: 139/Oskar jagt die Drogendealer
+  - id: 7BTjGCqexmQ947HDHR5e8J
+    episode: 140
+    title: 140/Draculas Erben
+  - id: 34ZBbN1LTl2c2Qxzj2JwF1
+    episode: 141
+    title: 141/Todesbiss der schwarzen Mamba
+  - id: 5SZxeVgh5JUHEgew4IKLsx
+    episode: 142
+    title: 142/Bankräuber mit Supertrick
+  - id: 6WKU3Zj4uxvrJnY5Kc03A0
+    episode: 143
+    title: 143/Das unheimliche Haus
+  - id: 1DL2rSYjJIWqFpmGIRitMZ
+    episode: 144
+    title: 144/Schreckensnacht im Schlangenmaul
+  - id: 3vAwRpp0YGKwWzLxctXHXe
+    episode: 145
+    title: 145/Hinterhalt am schwarzen Fels
+  - id: 74Qcbtr7f0KP3VpEgaWoaS
+    episode: 146
+    title: 146/Nonstop in die Raketenfalle
+  - id: 642OtfJ54JziKQWOYbyiEa
+    episode: 147
+    title: 147/Hölle ohne Hintertür
+  - id: 0nFRzugvW1NVT1DUDxpQdb
+    episode: 148
+    title: 148/Fieser Trick beim Finale
+  - id: 1OWuX6xSnnC3oebl45X28K
+    episode: 149
+    title: 149/Tims gefährlichster Gegner
+  - id: 0ZqyFeMXxCyIJvYptGlnn1
+    episode: 150
+    title: 150/Heiße Nächte im Dezember
+  - id: 7CLvIAy7Nzo03EQYWKa0yn
+    episode: 151
+    title: 151/Gekauftes Spiel
+  - id: 5j81oYcn0kptiSEPrEHmkF
+    episode: 152
+    title: 152/Max und Anna, ein diebisches Paar
+  - id: 4olYXMWX664H8ZJHZbXmAT
+    episode: 153
+    title: 153/Es geschah in einer Regennacht
+  - id: 0K30SpThDKymGkKlRgtUv2
+    episode: 154
+    title: 154/Das Geheimnis der Burgruine
+  - id: 5XPVfzwtpBFF9CrmLb8Ilm
+    episode: 155
+    title: 155/Gefangen im Spukhaus
+  - id: 20WDNq4KvOibx87TFa2eXP
+    episode: 156
+    title: 156/Erpresser fahren Achterbahn
+  - id: 55nP0alEiObRF2c151bhTv
+    episode: 157
+    title: 157/Oskar und die sieben Zwerge
+  - id: 3OQqrEZzRYgYDcBIqsTeXS
+    episode: 158
+    title: 158/Trainer unter Verdacht
+  - id: 4qR8In8uET1hBWHPGmhaWO
+    episode: 159
+    title: 159/Böses Spiel im Sommercamp
+  - id: 7DPQuaR0bI58tJzkSQMllp
+    episode: 160
+    title: 160/Das Grauen naht um Zwölf
+  - id: 6dneQXVs3r2JnZZxcwLtyK
+    episode: 161
+    title: 161/Ein Yeti in der Millionenstadt
+  - id: 4rSBDuSHYujCYFhrazbtnA
+    episode: 162
+    title: 162/Gefahr für Oskar!
+  - id: 6nFRXqUzqgusdraaxsOGqa
+    episode: 163
+    title: 163/Die Makler-Mafia
+  - id: 7Dh3Sr5DdK6OT2M7FBUwhg
+    episode: 164
+    title: 164/Operation Hexen-Graffiti
+  - id: 0eav6341Txr3YF4aAmJ2O2
+    episode: 165
+    title: 165/Advent mit Knall-Effekt
+  - id: 6zI9fZd9Fk9LeUwM7uoWSq
+    episode: 166
+    title: 166/Das Mädchen mit der Kristallkugel
+  - id: 7mu7o53PrOlRVxErUufaSL
+    episode: 167
+    title: 167/Der Unsichtbare
+  - id: 4w7Qr51Uw16dBHDcfzgvHk
+    episode: 168
+    title: 168/Millionencoup im Stadion
+  - id: 64DTYY344b4JLlsHlpUG7r
+    episode: 169
+    title: 169/Tatort Dschungel
+  - id: 0zpxGRczKxY7teFkuOitzO
+    episode: 170
+    title: 170/Schock im Schnee
+  - id: 2nJDDgf2DvDDtxiTVwyfhW
+    episode: 171
+    title: 171/Das lebende Gemälde
+  - id: 2z4tH8k3YDSgSB8QQqrkfG
+    episode: 172
+    title: 172/Das Geheimnis der Moorleiche
+  - id: 6RlfZAsHvD4G00fxBiWeN1
+    episode: 173
+    title: 173/Die Skelettbande
+  - id: 37jFIur7xvS8bjE8CeXyWA
+    episode: 174
+    title: 174/Doppelgänger auf der Rennbahn
+  - id: 7z37XBrYgYo7DCs9dFeHvq
+    episode: 175
+    title: 175/Nachtwanderung mit Schrecken
+  - id: 4cs4K4fFEFFgz3gtobHW9S
+    episode: 176
+    title: 176/Verbrechen im Rampenlicht
+  - id: 5D6dTe3cuMxZtHhKYf2Nph
+    episode: 177
+    title: 177/Die Spur der Wölfin
+  - id: 4LrP9x8HI2f0wkRgN5VLMe
+    episode: 178
+    title: 178/Hai-Alarm im Aquapark
+  - id: 5H9JYToGoYk8mGnUkCX3Z9
+    episode: 179
+    title: 179/Abzocke im Online-Chat
+  - id: 7adgwW3gVPH7l2mzfgzC6t
+    episode: 180
+    title: 180/Alarm im Raubtierhaus
+  - id: 1rYzkmCLyYvGllBZ3y2AGV
+    episode: 181
+    title: 181/Der vertauschte Koffer
+  - id: 3hz4bWxTDtHzDwKTRmOcDQ
+    episode: 182
+    title: 182/Im Bann des Übersinnlichen
+  - id: 2kUywGimNzj3YRKAkwVf3S
+    episode: 183
+    title: 183/Blindgänger im Villenviertel
+  - id: 7qglq750T0LjXZbsDzEeSn
+    episode: 184
+    title: 184/Die ewige Finsternis
+  - id: 4ExVTdTtEh9QMKG6F0ilIA
+    episode: 185
+    title: 185/der unsichtbare Dieb
+  - id: 4dOQ5SfUGPEX5BrkvnGnSM
+    episode: 186
+    title: 186/Die schlafende Chinesin
+  - id: 7MNjtmClWBiJvqK7LDVDdH
+    episode: 187
+    title: 187/Ausspioniert!
+  - id: 3ZJPztovzVLCZ5wMyErFyd
+    episode: 188
+    title: 188/Die blauen Schafe von Artelsbach
+  - id: 7aMulTBM9qpGtoT0GUoAsZ
+    episode: 189
+    title: 189/Iwan, der Schreckliche
+  - id: 5CabKO4dpZJ0wUwX8MMDk6
+    episode: 190
+    title: 190/Der eiskalte Clown
+  - id: 1kZIlUYCKUvmfEHXku1ter
+    episode: 191
+    title: 191/Nord-Nordwest zum Hexenplatz
+  - id: 0NyIaGxbQlRPnA201NEbkE
+    episode: 192
+    title: 192/Feuer auf Gut Ribbeck!
+  - id: 1WkgLbhl2Qigtc55DXP93S
+    episode: 193
+    title: 193/Das Weihnachts-Phantom
+  - id: 4cNiU8PZr45LNg7kzGLipx
+    episode: 194
+    title: 194/Der Friedhof der Namenlosen
+  - id: 1O2InxIny6VBypt5DB3gTU
+    episode: 195
+    title: 195/Dem Sonnenkönig auf der Spur
+  - id: 2fojM7wYwYuliNzYTmFzOX
+    episode: 196
+    title: 196/Tatort Wagenburg
+  - id: 34NTZ398LKn30D8SN8RwZ1
+    episode: 197
+    title: 197/Bei Anpfiff Übergabe
+  - id: 5k0cgRXinvmrHqwHGtFB0x
+    episode: 198
+    title: 198/Der Golem vom Dunkelsee
+  - id: 1C1AXO3YHL4KVeQTHbK0tH
+    episode: 199
+    title: 199/Verfolgungsjagd vor Mitternacht
+  - id: 40AzKKVoE6d4TxqlZ2N4Fr
+    episode: 200
+    title: 200/Der große Coup
+  - id: 4Tch4Zq90nImDlQbLjNb2L
+    episode: 201
+    title: 201/Vom Goldschatz besessen
+  - id: 2URUpf8ElYaZxNgiWEapKo
+    episode: 202
+    title: 202/Ein Paradies für Diebe
+  - id: 0W8SgAXgJVSRtgrbw6Th5V
+    episode: 203
+    title: 203/Der Räuber mit der Weihnachtsmaske
+  - id: 2HHyk7w3vEopXwNNiq5aNX
+    episode: 204
+    title: 204/Verschwörung auf hoher See
+  - id: 1PEY35jHKZezCkE0EbYGjv
+    episode: 205
+    title: 205/Teuflische Kaffeefahrt
+  - id: 4XZXbwQnj4ucfX65Gpgd2M
+    episode: 206
+    title: 206/Achtung, UFO-Kult!
+  - id: 6IuKwwxl6rpnj9nYZjfoa2
+    episode: 207
+    title: 207/Doppelte Entführung
+  - id: 12JCZMzqKa1UnttQOTbKYl
+    episode: 208
+    title: 208/Geheimnis im Tresor
+  - id: 2wLBVzlRA3dcDqhu9Uxdcc
+    episode: 209
+    title: 209/Drohbriefe von Unbekannt
+  - id: 1rWuaRKYr1DGZ6wzq0SgAb
+    episode: 210
+    title: 210/Raubzug im Casino
+  - id: 2iMSyHHEwiZ3og3WrDFiUj
+    episode: 211
+    title: 211/Geiselnahme im Villenviertel
+  - id: 5JePYOyA6XhEaukPbQwlCI
+    episode: 212
+    title: 212/Tyrannei Kommando Eins
+  - id: 16V0thHq3uD87lNEbxRRs6
+    episode: 213
+    title: 213/Das unheimliche Dorf
+  - id: 3PncQqKj6wsDOpBTK9HXhV
+    episode: 214
+    title: 214/Diamantenrausch auf der A9
+  - id: 1RNnc029KEtPfTRx7ZUQ2g
+    episode: 215
+    title: 215/Verbrechen im Moorsteiner Wald
+  - id: 4Q2dNebUPEFTWBlD4gxuKL
+    episode: 216
+    title: 216/Das Geheimnis im Jagdschloss
+  - id: 4hcEstENZX32EUjk7ehyiL
+    episode: 217
+    title: 217/Tödliche Klarinette
+  - id: 1JBdOPbN661RjpdWNm9Xfo
+    episode: 218
+    title: 'Folge 218: Schutzgeld für Dämonen'
+  - id: 65b6rQAtUIFQAySC4lDKpL
+    episode: 219
+    title: 'Folge 219: Terror frei Haus'
+  - id: 7mhVkGevfl8GCCZsYH7ch2
+    episode: 220
+    title: 'Folge 220: Attentat am Gämsengrat'
+  - id: 47aNHa9s0fPkdWInnNmgNe
+    episode: 221
+    title: 'Folge 221: Beim Raubzug helfen Ahnungslose'
+  - id: 2rCVsuxWrsy9SZjUUOIwek
+    episode: 222
+    title: 'Folge 222: Roter Drache 222'
+  - id: 1IAUjWyGg7xD7DoYhBReb2
+    episode: 223
+    title: 'Folge 223: Betrüger Super Sauber'
+  - id: 4r0RiXY8OwasAI0D6wDtWg
+    episode: 224
+    title: 'Folge 224: Bilderdiebe haben kein Gesicht'
+  - id: 3HdsHQ8A2N5qxIV8nBJ1ep
+    episode: 225
+    title: 'Folge 225: Tanz mit der Giftschlange'
+  - id: 4FHfFcYa1kkdJcPwVBfurR
+    episode: 226
+    title: 'Folge 226: Der Täter ist unter uns'
+  - id: 4nbBHXEO1IHvP7gBCW1I8T
+    episode: 227
+    title: 'Folge 227: Zwei für Zwölf'
+  - id: 4U1BMpYgIMEeuUgt5XY3qe
+    episode: 228
+    title: 'Folge 228: Das Geld, das niemand wollte'
+  - id: 1wFG3EuNbzvdnRa9ldvdPj
+    episode: 229
+    title: 'Folge 229: Auf den Schwingen des Totenvogels'
+  - id: 0fAjtQp9fFhA4pmFaiYHFt
+    episode: 230
+    title: 'Folge 230: Die Tesla-Verschwörung'
+  - id: 59BLZAmLAZBmciKqzS7dHr
+    episode: 231
+    title: 'Folge 231: Knackis streicheln mit der Faust'
+  - id: 2H6V3f2vVJgDmXndKZ3t9G
+    episode: 232
+    title: 'Folge 232: Drohnenaugen in der Nacht'
+  - id: 4Ap6nXxaE59ovi8EhaL4AX
+    episode: 233
+    title: 'Folge 233: Räuberwald'
+  - id: 4bxGkYguxRRpjZiZHgfFVs
+    episode: 234
+    title: 'Folge 234: Im Auftrag des Bösen'
+  - id: 3Icjh5l2VKAati316gML06
+    episode: 235
+    title: 'Folge 235: Ein Gruselfest für ein Vermögen'
+  - id: 3VxdE9j9mip6Lmi5o0lDxo
+    episode: 236
+    title: 'Folge 236: Schatten aus der Unterwelt (Das Hörspiel zur Live-Tour)'
+  - id: 2R2VWZ4Ngrp9FFYKMIryTm
+    episode: 237
+    title: 'Folge 237: K.I. Kriminelle Illusion'
+  - id: 1c8tRETLo5PYcz0BaLpjJx
+    episode: 238
+    title: 'Folge 238: Nur Tote schlafen länger'
+  - id: 0G8CFanH1SrSfRgdOHy8HC
+    episode: 239
+    title: 'Folge 239: Vollgas ins Verderben'
 - id: bibi_und_tina
   title: Bibi und Tina
   aliases:
@@ -2849,26 +3267,235 @@ series:
 - id: conni
   title: Conni
   aliases:
-  - Conni
   - Meine Freundin Conni
   keywords:
-  - conni
+  - Conni
+  - Meine Freundin Conni
   spotify_artist_ids:
   - 0jRC2uXx4hEpqNrBDJdY7l
-  - 0HerMOOFZXxIF3Yg9BVl0W
-  episode_pattern: ^(\d+):\s
+  albums:
+  - id: 3MJtb4tIcyxbd7PIm5ASJ9
+    title: Conni auf dem Bauernhof / Conni und das neue Baby
+  - id: 3tnNeblQQtCWFJlQ0Sc8jW
+    title: Conni auf dem Reiterhof
+  - id: 0XiViEkOLyhtXaZrnKvmPt
+    title: Conni backt Pizza / Conni lernt Rad fahren
+  - id: 6ZnRupQp50O0zveMaLomR7
+    title: Conni bekommt Taschengeld / Conni verkleidet sich
+  - id: 2Ico90Gpnd5EjFmOWcAT7I
+    title: Conni bekommt eine Katze / Conni hat Geburtstag
+  - id: 3oxwMgfDroFPQ9wtCZefJI
+    title: Conni feiert Geburtstag
+  - id: 3mlmTInv2J5T5cy0gJeFds
+    title: Conni feiert Weihnachten / Conni fährt Ski
+  - id: 2hoOCW7MRJ1Ih2PbxZZUSP
+    title: Conni geht auf Klassenfahrt
+  - id: 15U5OqpCkT0yinVTiQloa7
+    title: Conni geht auf Schatzsuche
+  - id: 6bZnwwe52KE9uDlVNQhnyz
+    title: Conni geht einkaufen / Conni und der Läusealarm
+  - id: 3yS17cHZEUHaAginhlcoLI
+    title: Conni geht verloren / Conni in den Bergen
+  - id: 0XlODQ0luJjmX0tCLwFb0a
+    title: Conni geht zelten / Conni lernt reiten
+  - id: 0iBRIlra70CvpZqAWLy6f3
+    title: Conni geht zum Film
+  - id: 7EEQA8jYCeVlw1VpBd4AuO
+    title: Conni geht zum Kinderarzt (neu)/Conni besucht Oma und Opa
+  - id: 6YsKPmCJQXbXhlQjB4FyAH
+    title: Conni geht zum Kinderturnen / Conni und der Wackelzahn
+  - id: 5QXDGFK88eka7M0Kz17WcW
+    title: Conni geht zur Zahnärztin / Conni ist wütend
+  - id: 6ImzUlpz1RpGf2esnvREdR
+    title: Conni hat Kummer / Conni lernt die Uhrzeit
+  - id: 4c2D6uwta4L4Sz9iHYKP23
+    title: Conni hilft Papa / Conni streitet sich mit Julia
+  - id: 5X3up0Wo8zzker74Yp8sGc
+    title: Conni im Ferienlager (Abenteuerspaß mit Conni)
+  - id: 7owOHfGlu89elRiCmWSJRZ
+    title: Conni im Krankenhaus / Conni tanzt
+  - id: 2jOoq32zr0DQQKNAMzikwa
+    title: Conni im Sommer / Conni zieht um
+  - id: 3c0VRzvEeyayNJh9J90Ut4
+    title: Conni in der großen Stadt
+  - id: 5dTJuEH52RrYl9Ua2C2z0s
+    title: Conni ist krank / Conni beim Frisör
+  - id: 1sR881Q74a7AeBuWBuyqzJ
+    title: Conni kann nicht einschlafen / Conni macht das Seepferdchen (neu)
+  - id: 7k5CN9iWpWDryol1Ly2K2l
+    title: Conni kommt in den Kindergarten (neu) / Conni geht aufs Töpfchen
+  - id: 4pdsCieLNlgbOZjSj9RFkf
+    title: Conni kommt in die Schule (neu) / Conni backt Pfannkuchen
+  - id: 79Gdn1l8jneDVEsfZWa25K
+    title: Conni kümmert sich um die Umwelt / Conni entdeckt die Bücher
+  - id: 5UkoCFXGVib8TIc8cvKtfq
+    title: Conni lernt backen / Conni hilft Mama
+  - id: 4MeMBjjwZSdgxYIw4fVAGE
+    title: Conni löst einen kniffligen Fall
+  - id: 6wumMrm3pGPUEhaCBBn9BE
+    title: Conni macht Geschenke / Conni erlebt die Jahreszeiten
+  - id: 5kUOu4vvIuay0jHJ5rAlOi
+    title: Conni macht Musik
+  - id: 5NQnB6rbmKJnaLrfWLo3Ou
+    title: Conni macht einen Ausflug / Conni geht auf Reisen
+  - id: 0OcPFMWbBfyKyQZIpo4XL5
+    title: Conni reist ans Mittelmeer
+  - id: 6VetbqWxcISujb5SIxpP8c
+    title: Conni rettet Oma
+  - id: 4vzFwQy0JuSDYdi9mPH5Tn
+    title: Conni rettet die Tiere
+  - id: 2WDjf0PzITBCuoEsY2xIUC
+    title: Conni sagt Stopp! / Ein Tag in der Schule
+  - id: 6wvTEh9THKTLiJnICAc8St
+    title: Conni schläft im Kindergarten / Conni geht in den Zoo
+  - id: 6JKZNohHLo2xRaGJIuIWzz
+    title: Conni traut sich was / Conni bastelt für ihre Freunde / Connis Weihnachtsbäckerei
+  - id: 2jS07C2ZHnkonYyJu8Z4Qe
+    title: Conni und das Abenteuer in der Wildnis
+  - id: 4aHq7p3puiQ6nhjbi8rKsr
+    title: Conni und das Baumhaus
+  - id: 397ZOD1pfFtqshQxQu50Ez
+    title: Conni und das Familienfest
+  - id: 3L5aTC0QByzt577gJOQ2Vu
+    title: Conni und das Filmprojekt (Abenteuerspaß mit Conni)
+  - id: 4ElLuCLd9TsZBn4umPSAhh
+    title: Conni und das Fußballcamp
+  - id: 5WquYCc7K7Y5HkWgK7RzjS
+    title: Conni und das Geheimnis der Koi
+  - id: 6ogxxoxP612Vgw0esx4yGI
+    title: Conni und das Hausboot-Abenteuer
+  - id: 0G1zkjmGnFXyBU1C4xZcpI
+    title: Conni und das Hochzeitsfest
+  - id: 0cyN9sgcNOwPtUy1yJKxur
+    title: Conni und das Kinderfest / Conni im Zirkus
+  - id: 4LPNAlDbVNqq85GZhZfWvZ
+    title: Conni und das Klassencamp
+  - id: 2WIMJaF4y9bC6YbwHLpiaN
+    title: Conni und das Ponyabenteuer
+  - id: 6ZIoGb4bzIuaP5TJCnV33H
+    title: Conni und das ganz spezielle Weihnachtsfest
+  - id: 0fADlaJbXr3szYriJmYDuT
+    title: Conni und das geklaute Kaninchen
+  - id: 0GzYF1VmHG0WRZHtqIKzRh
+    title: Conni und das große Bergabenteuer
+  - id: 4OMuGT7rxhO8aL7qFduWlt
+    title: Conni und das neue Fohlen
+  - id: 0GM4GkcrfqOryANGzKrkDg
+    title: Conni und das tanzende Pony
+  - id: 5gv1E25oITGWxH6obxHsN3
+    title: Conni und der Dinoknochen
+  - id: 7rX64Cz9KeVTmnOIDbjOaE
+    title: Conni und der Ferienzirkus
+  - id: 7yK7672w2xS4aRzH20NfXy
+    title: Conni und der Liebesbrief
+  - id: 7kJrUS6nYFlgghJLOVpLhl
+    title: Conni und der Nikolaus / Conni im Schnee
+  - id: 19PVNV21Bjo1hmG9ESBuyI
+    title: Conni und der Osterhase / Conni spielt Fußball
+  - id: 5xvFAhcAmSz5HI0mLN5Czb
+    title: Conni und der Segelausflug (Abenteuerspaß mit Conni)
+  - id: 4Cs7KoZs3KqwJRWN7Yzq7C
+    title: Conni und der Weltkindertag / Conni in der Verkehrsschule
+  - id: 0DUEOkW7SljUOcb3JFX9ce
+    title: Conni und der beste Spürhund der Welt
+  - id: 7bgRhxk0Wcs7oizTAeYcLz
+    title: Conni und der große Schnee
+  - id: 2Zjjj73OxxEl4DmzgRq11J
+    title: Conni und der neue Lehrer
+  - id: 119PGdOBd93ZGfMANNdrfx
+    title: Conni und der verschwundene Hund
+  - id: 3zBN5XO9sO1LzBbZBJl46L
+    title: Conni und der zauberhafte Schulzirkus
+  - id: 5liUjMK6lhxhhomT8TQdl1
+    title: Conni und die Burg der Vampire
+  - id: 3WEe5kEwBqO30saEP2gwMJ
+    title: Conni und die Detektive
+  - id: 74jcsHGvfrzBOOq3YEXlje
+    title: Conni und die Gefühle - Wut, Trauer, Emotionen, Hörspiele ab 3
+  - id: 1JjdVw2Cr9L95pm1bWHu3L
+    title: Conni und die Jungs in geheimer Mission
+  - id: 3qt1PJtPWPV4jBMVjcFBjt
+    title: Conni und die Jungs von nebenan
+  - id: 5jX9DhZywmVK1O0xDNGb4M
+    title: Conni und die Katzenliebe
+  - id: 4wciXGoYzpa1ww7YHeY9cf
+    title: Conni und die Nacht im Museum
+  - id: 28dCHB6cb4qO4sq8CxPXCO
+    title: Conni und die Nixen
+  - id: 4v9KmXCKuj7wfhaKIKyXbq
+    title: Conni und die Ponys im Schnee
+  - id: 3k9DsmXi1WIQnHXE0scKeI
+    title: Conni und die Ponyspiele
+  - id: 1wbReKxgl64UkHW5NvPA9P
+    title: Conni und die Reise ans Meer
+  - id: 4237MIZ5g9WgpccGcUZsJR
+    title: Conni und die Stecken-Ponys (Abenteuerspaß mit Conni)
+  - id: 0fqIKHAdtkunIb3aLGmlur
+    title: Conni und die große Eiszeit
+  - id: 4wYMDuA1bHymwPjtGvtrrq
+    title: Conni und die verflixte 13
+  - id: 1ZuSmHKzZWJwxNN8RgQCCd
+    title: Conni und die wilden Pferde
+  - id: 41dBKxUELeeAjjjkOiBWG3
+    title: Conni und die wilden Tiere
+  - id: 0z1pUoeWigaCgv0v9kNrjv
+    title: Conni und ihr Lieblingspony / Conni läuft Laterne
+  - id: 3gjO1rpjBZKESAipgCyV7y
+    title: Conni und ihr kleiner Bruder / Unser Körper
+  - id: 7rp7JoyIEbKkQJZVyMWRmX
+    title: Conni übernachtet bei Julia / Conni geht nicht mit Fremden mit
+  - id: 1VMqmYWDBd8BuaipziZiRO
+    title: Connis erster Flug / Conni geht zum Zahnarzt
+  - id: 52uyq2UDlvzQFRKfIOW1Yg
+    title: Klar kann Conni das! / Conni lernt teilen, vertrauen und sich vertragen
+  - id: 1fE3BDdcwmRHVWexhv6w64
+    title: Weihnachten mit Conni
 - id: pippi_langstrumpf
   title: Pippi Langstrumpf
-  aliases:
-  - Pippi Langstrumpf
-  - Pippi Långstrump
   keywords:
-  - pippi
-  - langstrumpf
-  - pippi långstrump
+  - Pippi Langstrumpf
   spotify_artist_ids:
   - 56X4yBwPoibTkKAaQ8sTJQ
-  episode_pattern: Pippi\s+Lang[sz]trum[pf]+\s+(\d+)[.\s]
+  - 7sRF5KPi10c3pueaKGmArz
+  episode_pattern: ^Pippi Langstrumpf (\d+)
+  albums:
+  - id: 1F9iktKsHF3zVHRFDYbuXj
+    episode: 1
+    title: Pippi Langstrumpf 1
+  - id: 5ygygpGYvNKTV1RR9BjETd
+    episode: 2
+    title: Pippi Langstrumpf 2. Pippi Langstrumpf geht an Bord
+  - id: 1bFjnWuG1m3RDDeiffLaHP
+    episode: 3
+    title: Pippi Langstrumpf 3. Pippi in Taka-Tuka-Land. Hörspielklassiker
+  - id: 0ijAKTeuSot2sbqabvyVkY
+    title: Hier kommt Pippi Langstrumpf! (Der kunterbunte Hörbuchschatz)
+  - id: 3G92S1YIPBK32v5xwDwo6X
+    title: Pippi Langstrumpf (Hörspiel zum Film)
+  - id: 4pVPUbWYRVvJfqmNuHYqWo
+    title: Pippi Langstrumpf bekommt feinen Besuch und andere Abenteuer
+  - id: 7jUnDPc9RZS887Q7OOKYxG
+    title: Pippi Langstrumpf findet einen Spunk und andere Abenteuer
+  - id: 31GIMLgEXtaAHpUF3ZpcJ9
+    title: Pippi Langstrumpf geht einkaufen und andere Abenteuer
+  - id: 3QsTCxfG72lKMCtIxdgSNL
+    title: Pippi Langstrumpf geht in den Zirkus und andere Abenteuer
+  - id: 2xKk1pD8sG7KCpvuoGK7mT
+    title: Pippi Langstrumpf geht in die Schule und andere Abenteuer
+  - id: 1qlwK1FCtvNcg60DKUhqM1
+    title: Pippi Langstrumpf macht einen Ausflug
+  - id: 6bCDp732XNWBKCTQA5l15r
+    title: Pippi Langstrumpf will nicht groß werden und andere Abenteuer
+  - id: 4VjgjeIgk71Rt8WHIShMvK
+    title: Pippi Langstrumpf. Kunterbunte Geschichten
+  - id: 1nF4extpjLxaPbtiwZRPff
+    title: Pippi außer Rand und Band (Hörspiel zum Film)
+  - id: 2HCUIbXoWJeHxjPkzQ1mUY
+    title: Pippi geht von Bord (Hörspiel zum Film)
+  - id: 63bgrgmu9TpmbbYFz7hP0x
+    title: Pippi im Taka-Tuka-Land (Hörspiel zum Film)
+  - id: 2fBFXKeZqgKCy4H8VBLEWe
+    title: Pippi plündert den Weihnachtsbaum und eine weitere Geschichte
 - id: pettersson_und_findus
   title: Pettersson und Findus
   aliases:
@@ -2892,14 +3519,373 @@ series:
 - id: feuerwehrmann_sam
   title: Feuerwehrmann Sam
   aliases:
-  - Feuerwehrmann Sam
   - Fireman Sam
   keywords:
-  - feuerwehrmann sam
-  - fireman sam
+  - Feuerwehrmann Sam
   spotify_artist_ids:
   - 4qhaHyCtCaFugTqT9LzuKp
-  episode_pattern: '[Ff]olge\s+(\d+)'
+  episode_pattern: Folge\s+(\d+)
+  albums:
+  - id: 6mfg3Xg6TJRXF2Cqr576yj
+    episode: 133
+    title: 'Folge 133: Monster-Alarm'
+  - id: 5UZyRWX0xLhS8fV38lNivN
+    episode: 134
+    title: 'Folge 134: Norman auf magischer Mission'
+  - id: 4UpiBoRSvrtwgMIMmIYP9N
+    episode: 135
+    title: 'Folge 135: Norman sieht Gespenster'
+  - id: 6rlxZDmFKxDF8OPXEnGO1G
+    episode: 136
+    title: 'Folge 136: Der rollende Riesenkürbis'
+  - id: 6hvtquSQzrHNEDOWK83ZnX
+    episode: 137
+    title: 'Folge 137: Der Prinz in Pontypandy'
+  - id: 7HlDwSDCsjF1Yqdl0O4qae
+    episode: 138
+    title: 'Folge 138: Die Rätsel-Löser'
+  - id: 6zQ4JlXmf0ZWlaS7xx1Fmr
+    episode: 139
+    title: 'Folge 139: Die jungen Retter in Gefahr'
+  - id: 4goY9YacRefA0dQwRQ52cr
+    episode: 140
+    title: 'Folge 140: Dilys gibt Gas'
+  - id: 6HwMfc9RVnPJCxKQrj0cm9
+    episode: 141
+    title: 'Folge 141: Hauptfeuerwehrmann Steele führt Regie'
+  - id: 2ItbHqbE66gG1OFrOATgoQ
+    episode: 142
+    title: 'Folge 142: Norman, der Starreporter'
+  - id: 0GDieIkGo8BqZMT87xDf1d
+    episode: 143
+    title: 'Folge 143: Eine zündende Werbung'
+  - id: 5ay9U4jrE5T5cZ16RL6emo
+    episode: 144
+    title: 'Folge 144: Meeresschildkröte in Not'
+  - id: 1D4VQG9lJwIOuBB1sAvpM3
+    episode: 145
+    title: 'Folge 145: Abenteuer auf Dinosaurier Eiland'
+  - id: 7DPTqIObbQL9DdLIZR6Uj1
+    episode: 146
+    title: 'Folge 146: Die Ukulele Band'
+  - id: 6yHrwNYTawGsMiuH1CsEGx
+    episode: 147
+    title: 'Folge 147: Die Seilrutsche'
+  - id: 7gCB6ImIUSAijSjJ1s0d9t
+    episode: 148
+    title: 'Folge 148: Das Bruderwochenende'
+  - id: 3nLacrpjWOhSy5jnVkiLOs
+    episode: 149
+    title: 'Folge 149: Die gefährliche Floßfahrt'
+  - id: 4XucuQLjMJqHgeqNz5dW8l
+    episode: 150
+    title: 'Folge 150: Gefährliche Wanderung'
+  - id: 6NQ9zUtwkzKxy4VUyBA6xO
+    episode: 151
+    title: 'Folge 151: Ein wirklich scharfer Snack'
+  - id: 6EdAX7CdmpLAcGYEvU1YYH
+    episode: 152
+    title: 'Folge 152: Das fliegende Sandwich'
+  - id: 4izbafvqZOP83F4kXC0tlL
+    episode: 153
+    title: 'Folge 153: Die karibische Grillparty'
+  - id: 2ReuGv05aHQfhaGMRVLXXK
+    episode: 154
+    title: 'Folge 154: Hilfspolizist James'
+  - id: 4Ru8lLxLljK4yDiaSe90kE
+    episode: 155
+    title: 'Folge 155: Das Disco-Desaster'
+  - id: 1pnb30umFpN0dQ95F7Mhp1
+    episode: 156
+    title: 'Folge 156: Erste Hilfe in den Bergen'
+  - id: 1KPZ42CTskjeT7bkm2AYqN
+    episode: 157
+    title: 'Folge 157: Chaos beim Autowaschen'
+  - id: 4iGTJaGTbuPGSxPIh54J2m
+    episode: 158
+    title: 'Folge 158: Der Pizza-Wettbewerb'
+  - id: 2Xt6NBMEleI4bdW4ZSOdjO
+    episode: 159
+    title: 'Folge 159: Ein tolles Team'
+  - id: 2Ug5eZCfd6h0MICPLExyOx
+    episode: 160
+    title: 'Folge 160: Erbsen mit Rauchgeschmack'
+  - id: 4bXAMar21APzoLLmpm6HHj
+    episode: 161
+    title: 'Folge 161: Das Pfadfinder-Fest'
+  - id: 3VEnG2Liy6jPXmlA2OpoaB
+    episode: 162
+    title: 'Folge 162: Der neue Polizeihubschrauber'
+  - id: 6XvtChrSZHaShdB4jV1J6M
+    episode: 163
+    title: 'Folge 163: Die Wand der Champions'
+  - id: 3EWJnScBCIzXay7knKL6rE
+    episode: 164
+    title: 'Folge 164: Stehpaddel-SOS'
+  - id: 0xZ1sZki88tjfva1PgWB5K
+    episode: 165
+    title: 'Folge 165: Das doppelte Feuerwerk'
+  - id: 5yQrvJKvnAPM3SBn38M0S6
+    episode: 166
+    title: 'Folge 166: Das Monster der Pontypandy-Berge'
+  - id: 0999ZOMJD1bl57apcdvQ0x
+    episode: 167
+    title: 'Folge 167: Die gruselige Kutschfahrt'
+  - id: 1sbldtXstF6mUaqkrJ8rMM
+    episode: 168
+    title: 'Folge 168: Gefahr im Watt'
+  - id: 1BlQtnLxcCLtibqhLCPGHt
+    episode: 169
+    title: 'Folge 169: Die Jagd nach dem Fleckenrochen'
+  - id: 0wXF2MwDq38jlTPoR5wdnu
+    episode: 170
+    title: 'Folge 170: Feuer auf dem Wasser'
+  - id: 3JF6vOztSrc8pbFofQPxrM
+    episode: 171
+    title: 'Folge 171: Gefährliche Gezeiten'
+  - id: 7A38tGJg9RlPM7uTT6mqcq
+    episode: 172
+    title: 'Folge 172: Hund gegen Schaf'
+  - id: 7g9bjcqnIBEiO2OjAGqArM
+    episode: 173
+    title: 'Folge 173: In der Falle'
+  - id: 6tYwp00Q39UNG3MShRNff6
+    episode: 174
+    title: 'Folge 174: Paddel-Probleme'
+  - id: 2cqGqu7v3O5RB8j3R84RSO
+    episode: 175
+    title: 'Folge 175: Feuer im Veterinär-Zentrum'
+  - id: 0WavQdelKECNntKH9Ynmol
+    episode: 176
+    title: 'Folge 176: Das große Reifenrollen'
+  - id: 1iYK9sdZHlBtb7K8j0GzZ4
+    episode: 177
+    title: 'Folge 177: Der ausgefuchste Fuchs'
+  - id: 63ThcrxWR91A2HDc4IUdfO
+    episode: 178
+    title: 'Folge 178: Das Windskate-Fiasko'
+  - id: 2sT83iDa2YISAgUXIeEgwk
+    episode: 179
+    title: 'Folge 179: Die große Müllsammel-Aktion'
+  - id: 6opD0faPzGIuQFH0jVHy3A
+    episode: 180
+    title: 'Folge 180: Radio Mandy'
+  - id: 4U56GSfWbxQcbUBA6Af83h
+    episode: 181
+    title: 'Folge 181: Brand am Bienen-Hotel'
+  - id: 6DnQdinlCtLKAnmQdtp4hZ
+    episode: 182
+    title: 'Folge 182: Norman und die Mond-Menschen'
+  - id: 2SIIN63RbUiTEWlDKUH2xn
+    episode: 183
+    title: 'Folge 183: Der Super-Roller'
+  - id: 1j3g8oncWatS8nP7uPOvGd
+    episode: 184
+    title: 'Folge 184: Absturz an den Klippen'
+  - id: 6aptJwKvVWqRfuYS4djsUB
+    episode: 185
+    title: 'Folge 185: Polizistin Sarah'
+  - id: 6jvtcwH0glVNYtGWTicniA
+    episode: 186
+    title: 'Folge 186: Die Waldschlaf-Challenge'
+  - id: 1Gh6Iee8btz9LHe1nFN51S
+    episode: 187
+    title: 'Folge 187: Der Spaß-Spurt'
+  - id: 7CAdXmaYfllzWPIWNiWghT
+    episode: 188
+    title: 'Folge 188: Die neue Uniform'
+  - id: 20dTlGXhPcLXncECSBqkUG
+    episode: 189
+    title: 'Folge 189: Gefangen in der Grotte'
+  - id: 3zvnfjR5T05pGBQpIs51T5
+    episode: 190
+    title: 'Folge 190: Der Segeltörn'
+  - id: 141lf9qXaMEcOavkR5Wpsx
+    episode: 191
+    title: 'Folge 191: Das Pontypandy-Wunderland - Teil 1'
+  - id: 66xrOAqKhw15Dx2ecEmDk3
+    episode: 192
+    title: 'Folge 192: Das Pontypandy-Wunderland - Teil 2'
+  - id: 1IHD0CcmSyzf8Zmv2Zidh0
+    episode: 193
+    title: 'Folge 193: James hebt ab'
+  - id: 20tUtMXpw3CFvSzG21IB2C
+    episode: 194
+    title: 'Folge 194: Die Wilden Männer in Gefahr'
+  - id: 3iYblA2WKjM6iylvaaQceE
+    episode: 195
+    title: 'Folge 195: Der Duft muss in die Luft'
+  - id: 2tQNI3jk7z20kbUuK4RzFn
+    episode: 196
+    title: 'Folge 196: Wettkampf der Vlogger'
+  - id: 69tEggCncIZA8jKZI4mb7N
+    episode: 197
+    title: 'Folge 197: Dino-Abenteuer-Kumpel'
+  - id: 4D8ow3I5PdPUyBC325ijYa
+    episode: 198
+    title: 'Folge 198: Die verrückte Hut-Parade'
+  - id: 1a01vVxVezc231do6PhyWb
+    episode: 199
+    title: 'Folge 199: Die Kapitänsmütze'
+  - id: 1tFZpeO1on7CYnZidqnErb
+    episode: 200
+    title: 'Folge 200: Prinz in Gefahr'
+  - id: 0nqRH79Plj8ldQR6MEAivz
+    episode: 201
+    title: 'Folge 201: Wer fliegt FireSwift?'
+  - id: 5jmh9qnfT2YrzMYfCUJtMR
+    episode: 202
+    title: 'Folge 202: Das Back-Debakel'
+  - id: 0QJjIMNKtrpc6eBVjRKEJj
+    episode: 203
+    title: 'Folge 203: Der Aufrechte Oktopus'
+  - id: 7o52MrMoXFAq9w2Ozfsswo
+    episode: 204
+    title: 'Folge 204: Die Gokart-Challenge'
+  - id: 3DYCXvaXPreG1FryUtFbCw
+    episode: 205
+    title: 'Folge 205: Der Werfuchs'
+  - id: 58ATTC1zovJETs0QXNnff1
+    episode: 206
+    title: 'Folge 206: Ein Fest für Hauptfeuerwehrmann Steele'
+  - id: 63vGkv5W3JmGWgyz4TizcL
+    episode: 207
+    title: 'Folge 207: Gefährliches Lagerfeuer'
+  - id: 2GBWEpe9zWLuo8L9fiIwAy
+    episode: 208
+    title: 'Folge 208: Die Wildschweine sind los'
+  - id: 6tCYKPJe61HnkrnRupv2e0
+    episode: 209
+    title: 'Folge 209: Die Kegelrobben-Sichtung'
+  - id: 5rf7AKp33BvpQpxlYvITB1
+    episode: 210
+    title: 'Folge 210: Gefährliche Strömung'
+  - id: 2nry2HsT2qUV5DdZpgry6b
+    episode: 211
+    title: 'Folge 211: Theater zum Mittag'
+  - id: 0F50GOpAtqW4z166Fu5uau
+    episode: 212
+    title: 'Folge 212: Der Dino-Knochen'
+  - id: 48ygk0tGBVG1hbNed8Y0VN
+    episode: 213
+    title: 'Folge 213: Der Foto-Wettbewerb'
+  - id: 415uRayez0RGpQk0go0647
+    episode: 214
+    title: 'Folge 214: Chaos auf dem Bauernmarkt'
+  - id: 60z47IJus4akedl882X6ML
+    episode: 215
+    title: 'Folge 215: Die beste Bücherei der Welt'
+  - id: 3DJTzLepC6aqMNLb3yrMbo
+    episode: 216
+    title: 'Folge 216: Die Campingkocher-Katastrophe'
+  - id: 41axWuGtFQ1TuTKB3eRfTU
+    episode: 217
+    title: 'Folge 217: Die Biber sind los'
+  - id: 0GiBmSyhJawvP3snIctket
+    episode: 218
+    title: 'Folge 218: Wo ist Samtpfötchen'
+  - id: 1M5WgU0PWb1ELP1Kfo0RLj
+    episode: 219
+    title: 'Folge 219: Hunde gegen Katzen'
+  - id: 5EwB27o1e2AR6blEMx4eu2
+    episode: 220
+    title: 'Folge 220: Panik beim Picknick'
+  - id: 7uOFQ12RUQgaZzOCpYEJ1r
+    episode: 221
+    title: 'Folge 221: Eine echte Sensation'
+  - id: 06comWT0uH6nDB0Jwy8eE1
+    episode: 222
+    title: 'Folge 222: Gefangen im Schlamm'
+  - id: 4dQsznmalHHUOyGrqrq3nW
+    episode: 223
+    title: 'Folge 223: Verloren ohne Kompass'
+  - id: 4zScwURzdKlQj37O7U7C9O
+    episode: 224
+    title: 'Folge 224: Peter und der James-Bot'
+  - id: 3iiroQToGVmqtw0jrMBstS
+    episode: 225
+    title: 'Folge 225: Versteckspiele'
+  - id: 0yYkFnM4UyyS8B2pSonRaA
+    episode: 226
+    title: 'Folge 226: Die Sieben Wunder von Pontypandy'
+  - id: 0wuK1rzdpZBWtpyMIdLeER
+    episode: 227
+    title: 'Folge 227: Eine Party für Peter'
+  - id: 4gsLi0r3Mhb5SUEp095Qs3
+    episode: 228
+    title: 'Folge 228: Der Fisch-Dieb'
+  - id: 4IW3Wc7hva3ytaIv3oP7wo
+    episode: 229
+    title: 'Folge 229: Annies Tierparade'
+  - id: 0xUEofYyhLVWbLZV4wCnIG
+    episode: 230
+    title: 'Folge 230: Normans witzige Welt der Erwachsenen'
+  - id: 5KivccLQYckNc3O7Ah971G
+    episode: 231
+    title: 'Folge 231: Das Pontypandy-Kürbis-Phantom Teil 1'
+  - id: 1rhUlxh3cUy0lsgBGhVbiy
+    episode: 232
+    title: 'Folge 232: Das Pontypandy-Kürbis-Phantom Teil 2'
+  - id: 7r4APCSm3nT7jDdrO1LqPN
+    episode: 233
+    title: 'Folge 233: Auf nach Pontypandy'
+  - id: 1sqZQJ5eENVXMLpAam4saP
+    episode: 234
+    title: 'Folge 234: Eine wilde Wanderung'
+  - id: 5x11Ge8up4l42CcxQpb0pE
+    episode: 235
+    title: 'Folge 235: Sternensucher des Jahres'
+  - id: 3vtDv8YzaMwnrdzSPjX7AZ
+    episode: 236
+    title: 'Folge 236: Der furchtlose Vogel'
+  - id: 2OsXpaPLLFibajPKewLAOD
+    episode: 237
+    title: 'Folge 237: Experten bei der Arbeit'
+  - id: 3bMrcMSL7iPkEK8BfnW528
+    episode: 238
+    title: 'Folge 238: Der König von Pontypandy'
+  - id: 4gK20xfoUKhU5YMvVfuBBb
+    episode: 239
+    title: 'Folge 239: Samtpfötchens List'
+  - id: 16E6fVnAmV0neRQtkdFG2r
+    episode: 240
+    title: 'Folge 240: Buddler reißt aus'
+  - id: 30S5K2o7dh6TkpmvK0h85R
+    episode: 241
+    title: 'Folge 241: Zurück in die Steinzeit'
+  - id: 2Zbg88ORFOTps2KSMzeXYo
+    episode: 242
+    title: 'Folge 242: Die neue Feuerwache'
+  - id: 6K4xkeqrWbXRZWS8D6cMSV
+    episode: 243
+    title: 'Folge 243: Wo ist Norris?'
+  - id: 3U7Zrt4MzLdPsSyQ25ULm5
+    episode: 244
+    title: 'Folge 244: Die wilde Schafherde'
+  - id: 04bTRH0M0udbhVy7yPaeOF
+    episode: 245
+    title: 'Folge 245: Das unheimliche Leuchten'
+  - id: 78lhlMrqMMpByQwAfjLz39
+    episode: 246
+    title: 'Folge 246: Die Drachen-Katastrophe'
+  - id: 6JMyV5GHcDxYyOMd7Ctzsj
+    episode: 247
+    title: 'Folge 247: Das Mamakrele'
+  - id: 2Gjn0CJao7WOQ4euLf23mJ
+    episode: 248
+    title: 'Folge 248: Die Wildtier-Zeichnung'
+  - id: 06wwFmcEm4FeWVcnsvDqvC
+    episode: 249
+    title: 'Folge 249: Großvatertag'
+  - id: 5Z5pIJ0xLrZSl33EkcZiIZ
+    episode: 250
+    title: 'Folge 250: Der Segelunterricht'
+  - id: 0W1CgG4nhNMI2WDBbcggkl
+    episode: 251
+    title: 'Folge 251: Moose und der Maulwurf'
+  - id: 37F3AfJG0wyEJSSi2Q0ZtG
+    episode: 252
+    title: 'Folge 252: Das Teig-Monster'
 - id: biene_maja
   title: Biene Maja
   aliases:
@@ -3283,14 +4269,84 @@ series:
   - Die Olchis
 - id: hexe_lilli
   title: Hexe Lilli
-  aliases:
-  - Hexe Lilli
-  - Die Hexe Lilli
   keywords:
-  - hexe lilli
+  - Hexe Lilli
   spotify_artist_ids:
   - 2IYME9b8x0ptqROxrDvAQ0
-  episode_pattern: ^(\d{2,3})/
+  episode_pattern: ^(?:Folge |0*)(\d+)
+  albums:
+  - id: 17r2Acz7jO4CK7HH8vPB2k
+    episode: 1
+    title: 001/stellt die Schule auf den Kopf
+  - id: 2AAyaocf5n35vHhq43ATco
+    episode: 2
+    title: 002/macht Zauberquatsch
+  - id: 054SUxjV0tHsBlyvUviVoI
+    episode: 3
+    title: 003/und der Zirkuszauber
+  - id: 76ZUfDiykUU2cf6CHoQ1f0
+    episode: 4
+    title: 004/bei den Piraten
+  - id: 53dBXzbp9pMtV3CDIQHg42
+    episode: 5
+    title: 005/wird Detektivin
+  - id: 0yRsVFvmnWtOHXbZwJvGYn
+    episode: 6
+    title: 006/im Fußballfieber
+  - id: 6Jv639ZVhVhh3BNVPkBbTx
+    episode: 7
+    title: 007/und das Geheimnis der Mumie
+  - id: 1sWKeCpY1qmEOdbcBFM6U3
+    episode: 8
+    title: 008/und das Geheimnis der versunkenen Welt
+  - id: 4oRQ541UL1v7v1qHUFcQL9
+    episode: 9
+    title: 009/und das magische Schwert
+  - id: 0G3RqtyGOgxi4RV1vu8Wyc
+    episode: 10
+    title: 010/auf Schloss Dracula
+  - id: 6wCQWfFLjfH2Uz5BhwkM94
+    episode: 11
+    title: 011/auf der Jagd nach dem verlorenen Schatz
+  - id: 0Oi22ZgzENBxjA05147yDS
+    episode: 12
+    title: 012/und der Ritter auf Zeitreise
+  - id: 76WUFNebRsO94dGXDryN7B
+    episode: 13
+    title: 013/und der schreckhafte Wikinger
+  - id: 5bt9jrIAYM5pCxX41xBuq2
+    episode: 14
+    title: 014/im Land der Dinosaurier
+  - id: 3rGIlBMmHO0hCZG1WHuvN0
+    episode: 15
+    title: 015/fliegt zum Mond
+  - id: 4ix6YihDNef0CrY6yqAZAp
+    episode: 16
+    title: 016/in Lilliput
+  - id: 5whlUoCMRXmZleNGecPS2h
+    episode: 17
+    title: 017/und Hektors verzwickte Drachenprüfung
+  - id: 7Js7yHJKNpYOy4maCeMXEY
+    episode: 18
+    title: 018/im Wunderland
+  - id: 2DEG7Y2G3U2ndY7KlMhT22
+    episode: 19
+    title: 019/wird Prinzessin
+  - id: 6eJm7ua5kKKJN1lJu6QWOg
+    episode: 20
+    title: 020/und das leuchtende Einhorn
+  - id: 0lTuJ5StmzABahhbeAQUSb
+    episode: 21
+    title: 021/auf der Ponyinsel
+  - id: 0SkX4W1bURosTGQ6IDMOy7
+    episode: 22
+    title: 022/und der Weihnachtszauber
+  - id: 4WO6LcJf1nMV9oUnff4CKA
+    episode: 23
+    title: 023/und die verzauberte Klassenfahrt
+  - id: 2F4qbEk1JH1nj4E89882JI
+    episode: 24
+    title: 'Folge 24: auf magischer Rettungsmission'
 - id: lauras_stern
   title: Lauras Stern
   aliases:
@@ -3433,11 +4489,123 @@ series:
   aliases:
   - Kommissar Kugelblitz
   keywords:
-  - kommissar kugelblitz
-  - kugelblitz
+  - Kommissar Kugelblitz
+  - Kugelblitz
   spotify_artist_ids:
   - 2c0sDbsWQXZc2Ljq735WgV
-  episode_pattern: '[Ff]olge\s+(\d+)'
+  episode_pattern: (?:Folge|Fall)\s+(\d+)
+  albums:
+  - id: 3XaE6tpyg9wQpK0MOpQcnK
+    episode: 1
+    title: Folge 1 - Die rote Socke
+  - id: 3rJJBDxGmMcQeTVQVDxq6O
+    episode: 2
+    title: Folge 2 - Die orangefarbene Maske
+  - id: 18RmT3WdLAXXHZCrfpjbju
+    episode: 3
+    title: Folge 3 - Der gelbe Juwelenkoffer
+  - id: 5DCjg6as20C5i1Qhx9lYvD
+    episode: 4
+    title: Folge 4 - Der grüne Papagei
+  - id: 4qd87CiYfHxNaNZOZCbNLb
+    episode: 5
+    title: Folge 5 - Der lila Leierkasten
+  - id: 3jwQZlgpSPrSxUrj4oZWRC
+    episode: 6
+    title: Folge 6 - Das blaue Zimmer
+  - id: 4RlibXo2zBGkC1l7xh3xR4
+    episode: 7
+    title: Folge 7 - Der schwarze Geist
+  - id: 2OeWg46R4B05IXw0JAXcJj
+    episode: 8
+    title: Folge 8 - Das rosa Nilpferd
+  - id: 2JKavuDqgVeNlMTPzzQKJ6
+    episode: 9
+    title: Folge 9 - Die schneeweiße Katze
+  - id: 1MBpYgGrXWpJqYDB6Z3XP3
+    episode: 10
+    title: Folge 10 - Der goldene Drache
+  - id: 39QJJgkNbOFNrcgUJkkJE8
+    episode: 11
+    title: Folge 11 - Der Jade-Elefant
+  - id: 5f8kqlu2MLc0nntQ6F3xxg
+    episode: 12
+    title: Folge 12 - Der Fall Koralle
+  - id: 3CV2CW7yWJ682lO7pdjmW8
+    episode: 13
+    title: Folge 13 - Kürbisgeist und Silberspray
+  - id: 6xZYdnmOLRlz4Vlq35jOXR
+    episode: 14
+    title: Folge 14 - Der Fall Kobra
+  - id: 3vQTtZU5EN1ib8Q3KRjgOn
+    episode: 15
+    title: Folge 15 - Rauchsignale
+  - id: 5p5SsVbOmcaJCFZaxOflJC
+    episode: 16
+    title: Folge 16 - Nashornjägern auf der Spur
+  - id: 1dP1knLDuLvDaLdPwtHBXm
+    episode: 17
+    title: Folge 17 - KK fischt im Internet
+  - id: 55ITdCmKdzpL23deLCSwFB
+    title: Alarm in Windhuk
+  - id: 1w11l4b6TBgDj1cx8pstmY
+    title: Auf Gaunerjagd durch Deutschland
+  - id: 6jOpbkUZQp2oZ2A7l6juZF
+    title: Das Geheimnis der gefiederten Schlange
+  - id: 4N77PwFUHPIE6qKoZwvq1C
+    title: Das Geheimnis von Spooky Hill
+  - id: 00l4724PhRgQfkoCgSYmNr
+    title: Der Fall Giftnudel
+  - id: 4UtKU8tIOdxpr5LtybPQAm
+    title: Der Fall Kiwi
+  - id: 3nX9eDNwNKTmtdea4QIHUw
+    title: Der Fall Rhinozeros
+  - id: 3Ik8gPVRTcFU55PVMwu4sP
+    title: Der Fall Shanghai
+  - id: 39IfFPvrOQ3ImEKTGUXzKs
+    title: Der Fall Wüstenkönig
+  - id: 3PwPv84ivTvcy0kHxLG3ae
+    title: Die Akte 2013
+  - id: 42RwFcOdxyKgDMabNWOLlL
+    title: Die Moskito-Bande
+  - id: 0aXrCMRvN7F2PTJZeHaQ8i
+    title: Die Nikolaus-Bande (Der Adventskalender)
+  - id: 3XW5PmFIq9AhIbmXKV7Cjg
+    title: Kommissar Kugelblitz in Berlin
+  - id: 5boocn7mGH6zphNOLX7A61
+    title: Kommissar Kugelblitz in Wien
+  - id: 07lAvUvijAgZqYuG5k9Ra0
+    title: Kugelblitz als Weihnachtsmann
+  - id: 0Q2wkx9R5UDUweTaK4aXnb
+    title: Kugelblitz in Amsterdam
+  - id: 7zeUeWFJU9uanvpv0mfVUL
+    title: Kugelblitz in Barcelona
+  - id: 6hF9zznEzRkbHHgJO5KMPI
+    title: Kugelblitz in Hamburg
+  - id: 6jeLDNwSWLfTF3diCCTjyt
+    title: Kugelblitz in London
+  - id: 75xFoEfwSYDtjWzuViymPN
+    title: Kugelblitz in München
+  - id: 2NMb6ZAm4TDd0WHB6bLG9l
+    title: Kugelblitz in New York
+  - id: 4JYlGrNG3eRBEBqT1yMPgb
+    title: Kugelblitz in Paris
+  - id: 59wjR1gCmVzl44pOxhMVhM
+    title: Kugelblitz in Spanien
+  - id: 7zx28IjvxZDxkuTDx4Zpd0
+    title: Kugelblitz in Sydney
+  - id: 3pH7UbF2X7wEctx4rg87Ft
+    title: Kugelblitz in Venedig
+  - id: 5lxI2ZoC7FpkDyASfnhaU1
+    title: Piraten der Wüste
+  - id: 4pbnqH5lWntFfE8EZLdubC
+    title: Schnee auf Mallorca
+  - id: 5hqpaijDgptIIO2vMxG7wM
+    title: Tote trinken keine Cola
+  - id: 5e0OYpymgepB33NPactKvp
+    title: Unter Hochspannung
+  - id: 5qBAXGuN3WJ5TWe0mZ0DCK
+    title: Vermisst am Mississippi
 - id: nils_holgersson
   title: Nils Holgersson
   keywords:
@@ -3672,14 +4840,58 @@ series:
 - id: wickie
   title: Wickie und die starken Männer
   aliases:
-  - Wickie und die starken Männer
   - Wickie
   keywords:
-  - wickie und die starken
-  - wickie
+  - Wickie
   spotify_artist_ids:
   - 7fMJUFfMkaB6tT8Dte6tgF
-  episode_pattern: ^(\d{2,3})/
+  episode_pattern: ^(?:\d{2})/(.+?)(?:\s*\(CGI\))?$
+  albums:
+  - id: 6CIMPRkR2vOuJfFIDgZCpD
+    episode: 1
+    title: 01/Wasser auf die Mühlen (CGI)
+  - id: 0bYKBtwukDkGX1pIscACVB
+    episode: 2
+    title: 02/Die Königin der Winde (CGI)
+  - id: 2tU47IvruPorwTXemNvtPm
+    episode: 3
+    title: 03/Tanz mit dem Wolf (CGI)
+  - id: 1Pa9rFvXXrJtWh0uzuYOq7
+    episode: 4
+    title: 04/Der Donnergott (CGI)
+  - id: 541fqlrrZtVsg9KC7lUMra
+    episode: 5
+    title: 05/Thors Urteil (CGI)
+  - id: 0FTkpZ3ZBHTMX3BXXUdv3E
+    episode: 6
+    title: 06/Das Drachenbootrennen (CGI)
+  - id: 2kpxd3X4dl9BrNSOiCXK9N
+    episode: 7
+    title: 07/Thors Hammer (CGI)
+  - id: 3mfCuDzB1d2gMaQDk95H8n
+    episode: 8
+    title: 08/Der falsche Druide (CGI)
+  - id: 3Y2o8ZoqYDjNOTt8Bvn81R
+    episode: 9
+    title: 09/Nächtlicher Diebstahl (CGI)
+  - id: 05H6JvPTDlRpMnk5XqcwBe
+    episode: 10
+    title: 10/Olympische Spiele (CGI)
+  - id: 60G01rHe6aphE5Uex6gOPL
+    episode: 11
+    title: 11/Svens Schiffbruch (CGI)
+  - id: 01MSgNKzQsCisg5Z1mQlw5
+    episode: 12
+    title: 12/Aufstand in Flake (CGI)
+  - id: 1C4RG6Sxo0n7XIr26CkLlX
+    episode: 13
+    title: 13/Wer anderen eine Grube gräbt
+  - id: 77cmsm4GF4KBVLvt6UQNLj
+    episode: 14
+    title: 14/Die zwei Kampfhähne
+  - id: 1Jxl7OKYepVoYiX5GDQ5ws
+    episode: 15
+    title: 15/Das goldene Schwert
 - id: prinzessin_lillifee
   title: Prinzessin Lillifee
   keywords:
@@ -3913,12 +5125,136 @@ series:
 - id: tkkg_junior
   title: TKKG Junior
   aliases:
-  - TKKG Junior
-  keywords:
-  - tkkg junior
+  - TKKG
   spotify_artist_ids:
   - 1ZFGYimyLnfKewOL84ABEp
-  episode_pattern: '[Ff]olge\s+(\d+)'
+  episode_pattern: Folge\s+(\d+)
+  albums:
+  - id: 25Lgg3wsQK2vEdZ8ZHzBpk
+    episode: 1
+    title: 'Folge 1: Auf frischer Tat ertappt'
+  - id: 27mSixIRk3Zy1KMC9nB2q8
+    episode: 2
+    title: 'Folge 2: Vorsicht: Bissig!'
+  - id: 79jRrfka8Brt6xchEv5znY
+    episode: 3
+    title: 'Folge 3: Giftige Schokolade'
+  - id: 4gxLcGuGTjg0x5TaKg5wUv
+    episode: 4
+    title: 'Folge 4: Der Rote Retter'
+  - id: 16jlhWNeeHd8gkYc8VnbwL
+    episode: 5
+    title: 'Folge 5: Die Dino-Diebe'
+  - id: 7L1ff3KpjaBiN4VjKsSW77
+    episode: 6
+    title: 'Folge 6: Bei Anruf Abzocke'
+  - id: 6hWSl69rSnN7SCXEHmwxYO
+    episode: 7
+    title: 'Folge 7: Zwischen Gauklern und Ganoven'
+  - id: 3P519xjxIxC3urJyHFgiNU
+    episode: 8
+    title: 'Folge 8: Der verborgene Schatz'
+  - id: 3iUKVnEu73MbJuw2YoHMf9
+    episode: 9
+    title: 'Folge 9: Gepanschter Punsch'
+  - id: 3IkC0qo70BxhdEY9yiq6hp
+    episode: 10
+    title: 'Folge 10: Nachts im Gruselpark'
+  - id: 7aLmxTQSge7CvcARscxnsf
+    episode: 11
+    title: 'Folge 11: Rote Karte für Betrüger'
+  - id: 24Vjhr2bcKNIB9HU5K7wyC
+    episode: 12
+    title: 'Folge 12: Schmierige Angelegenheiten'
+  - id: 26Jy8CTLFGGfJ01nHjxyIa
+    episode: 13
+    title: 'Folge 13: Das verpfuschte Gemälde'
+  - id: 3jfRKkHZP5LiCU1PtQhLGe
+    episode: 14
+    title: 'Folge 14: Eisige Diamanten'
+  - id: 4cSlie55GGnPBITKW6MXpS
+    episode: 15
+    title: 'Folge 15: In den Fängen der Felsenbande'
+  - id: 06bJRz6jPvvRsWebFcbdDX
+    episode: 16
+    title: 'Folge 16: Trügerischer Paddelspaß'
+  - id: 0Uq6DhPmc1t2pY5W5JQvLV
+    episode: 17
+    title: 'Folge 17: Oskar in der Falle'
+  - id: 57AP2ocYivnyE8gOphlo88
+    episode: 18
+    title: 'Folge 18: Stimmen aus dem Jenseits'
+  - id: 1vAGWhovVVW8B0lN1ZJQyu
+    episode: 19
+    title: 'Folge 19: Verschollen im Stollen'
+  - id: 3aXWIKKrVzxy8gDCzALvHd
+    episode: 20
+    title: 'Folge 20: Die gestohlene Stimme'
+  - id: 2tDx5pm5ufHbJQYZ1d8DW1
+    episode: 21
+    title: 'Folge 21: Der Fluch der Mumie'
+  - id: 2ah3Yrl31piiEpImwUOFMz
+    episode: 22
+    title: 'Folge 22: Abenteuer im Safari-Park'
+  - id: 6iJrNTDDo5c06dKJItVNBT
+    episode: 23
+    title: 'Folge 23: Schmugglerbande voraus!'
+  - id: 3Qbaz5marjzUKUETIsHRMb
+    episode: 24
+    title: 'Folge 24: Das doppelte Klößchen'
+  - id: 3MhJSDkdsjI8OvnR0R3FCU
+    episode: 25
+    title: 'Folge 25: Heiße Spur im Nebelhafen'
+  - id: 67r2UajK4x4mMVjaOdxN1a
+    episode: 26
+    title: 'Folge 26: Achtung, Fahrraddiebe!'
+  - id: 68xkgGJRu8P6eLmc9aFKcX
+    episode: 27
+    title: 'Folge 27: Abrechnung in der Westernstadt'
+  - id: 4CHcJTNK9dX20aYCmuMnHt
+    episode: 28
+    title: 'Folge 28: Tatort Zirkus'
+  - id: 7KTfnret5Jfbwm12IPoljZ
+    episode: 29
+    title: 'Folge 29: Die Geisterjagd'
+  - id: 28sOOpaso1blCfrpkJmxyM
+    episode: 30
+    title: 'Folge 30: Kletterhalle in Gefahr'
+  - id: 3Z9XItCfJXDFYAGnDsNwZ8
+    episode: 31
+    title: 'Folge 31: Zu viele Alibis'
+  - id: 0xmOpshH8sf9wmOo244O7i
+    episode: 32
+    title: 'Folge 32: Ein rätselhafter Einbruch'
+  - id: 53L3Vbbe3ORDxK9kEEe0xR
+    episode: 33
+    title: 'Folge 33: Wirbel um die Wilde Wespe'
+  - id: 0hj5M9EN6PW9tSGJyFxfjM
+    episode: 34
+    title: 'Folge 34: Die Jagd nach dem Phantom'
+  - id: 3lgKAQ5pKOML2JcRN614nS
+    episode: 35
+    title: 'Folge 35: Die Schoko Erpressung'
+  - id: 0wYSY2sulGJmsjkegeXMBG
+    episode: 36
+    title: 'Folge 36: Der rätselhafte Brandstifter'
+  - id: 2BrjU4YxXKk94EZSPAoTef
+    episode: 37
+    title: 'Folge 37: Das Geheimnis der Pirateninsel'
+  - id: 7KiAZ80qM1e9Avl5kfCP1L
+    episode: 38
+    title: 'Folge 38: Schock im Bienenstock'
+  - id: 16yGOlp7y0MOBmWlQBty8B
+    episode: 39
+    title: 'Folge 39: Spuk im Stadttheater'
+  - id: 7gv1RtZNt5gnOCGeUdPIWA
+    episode: 40
+    title: 'Folge 40: Alarm im Aquarium'
+  - id: 2vK0c28H8JXfPe4UdfJsTH
+    episode: 41
+    title: 'Folge 41: Aliens im Anflug'
+  - id: 2NOjKvA3XxO7J3TauLYxUK
+    title: Die Fußball-Lüge
 - id: fuenf_freunde_junior
   title: Fünf Freunde Junior
   aliases:
@@ -3933,22 +5269,575 @@ series:
 - id: die_playmos
   title: Die Playmos
   aliases:
-  - Die Playmos
-  - Playmos
+  - Die Playmos - Das Original Playmobil Hörspiel
   keywords:
-  - playmos
+  - Playmos
+  - Playmobil
   spotify_artist_ids:
   - 1QIbeCbJNuFMKhZMY1rey8
-  episode_pattern: '[Ff]olge\s+(\d+)'
+  - 5vzZ64hj1w4cJX8gz31o03
+  episode_pattern: Folge (\d+)
+  albums:
+  - id: 1z65BHFwnZ2F6phMTDLlWH
+    episode: 1
+    title: 'Folge 1: Der Schatz der Teufelsinsel (Das Original Playmobil Hörspiel)'
+  - id: 2Ws3x3Of7kNA4cFSoxCFeT
+    episode: 2
+    title: 'Folge 2: Angriff der Drachenritter (Das Original Playmobil Hörspiel)'
+  - id: 1bOY5eTHniFXtDOjG6tcWA
+    episode: 3
+    title: 'Folge 3: Die Dinos kommen (Das Original Playmobil Hörspiel)'
+  - id: 1ahtAwYe3o6zDSQEYkEbTD
+    episode: 4
+    title: 'Folge 4: Chaos in der Herrmannstrasse (Das Original Playmobil Hörspiel)'
+  - id: 1idLo8OV5Rnm424EizckOX
+    episode: 5
+    title: 'Folge 5: Gefahr für Rom (Das Original Playmobil Hörspiel)'
+  - id: 62HwacGi2meq4x1bYfC06n
+    episode: 6
+    title: 'Folge 6: Abenteuer auf dem Eichenhof (Das Original Playmobil Hörspiel)'
+  - id: 0kTvWIGjxJnyIHCHdwGJnD
+    episode: 7
+    title: 'Folge 7: Das große Spiel (Das Original Playmobil Hörspiel)'
+  - id: 6xhJZhNdbrcXEFAfkRXoZI
+    episode: 8
+    title: 'Folge 8: Das Turnier auf der Königsritterburg (Das Original Playmobil Hörspiel)'
+  - id: 03pOhZPJN41ymAuPyP3giQ
+    episode: 9
+    title: 'Folge 9: Manege frei für die Playmos (Das Original Playmobil Hörspiel)'
+  - id: 5evLoiU7E4CD9EjnXRnGbY
+    episode: 10
+    title: 'Folge 10: Die geheimnisvolle Sphinx (Das Original Playmobil Hörspiel)'
+  - id: 5OU8A5ZOLh6OcfOrVPbTN0
+    episode: 11
+    title: 'Folge 11: Alarm im Hafen (Das Original Playmobil Hörspiel)'
+  - id: 7ub4G11NH0JvgJnRrZymxF
+    episode: 12
+    title: 'Folge 12: Im Reich der Feen (Das Original Playmobil Hörspiel)'
+  - id: 3uvsdVoRelrlI9BsMbriA1
+    episode: 13
+    title: 'Folge 13: Das Licht aus dem Drachenland (Das Original Playmobil Hörspiel)'
+  - id: 3qDz9oN5zG6AHVcxQWK8ax
+    episode: 14
+    title: 'Folge 14: Gefahr für den König der Tiere (Das Original Playmobil Hörspiel)'
+  - id: 0EUmJe54MmelhrIaT905q5
+    episode: 15
+    title: 'Folge 15: Der Schatz im Dschungeltempel (Das Original Playmobil Hörspiel)'
+  - id: 3CvyE1TAQK5tA8BrQICQ8N
+    episode: 16
+    title: 'Folge 16: Die Rückkehr der Piraten (Das Original Playmobil Hörspiel)'
+  - id: 55NLTyIR39Gj9z67lbQQlO
+    episode: 17
+    title: 'Folge 17: Rettet den Dinopark! (Das Original Playmobil Hörspiel)'
+  - id: 5WP4t0zCfN4CoCb5Cs0RPV
+    episode: 18
+    title: 'Folge 18: Der Schatz des Archimedes (Das Original Playmobil Hörspiel)'
+  - id: 2tsbS9Copc1AZwphlLklXX
+    episode: 19
+    title: 'Folge 19: Jagd auf Dr. Devil (Das Original Playmobil Hörspiel)'
+  - id: 7Jj0ZyEqxCZyAuRxMbg8O7
+    episode: 20
+    title: 'Folge 20: Die Schlacht der Löwenritter (Das Original Playmobil Hörspiel)'
+  - id: 3ffwsMn1s5UG6jpENsY3iu
+    episode: 21
+    title: 'Folge 21: Die Reise zu Häuptling Schlanker Bär (Das Original Playmobil Hörspiel)'
+  - id: 0xQjugUkpkZ4ov13xQmsk4
+    episode: 22
+    title: 'Folge 22: Gespenstig gruselige Geisterpiraten (Das Original Playmobil Hörspiel)'
+  - id: 2xOlwXKOqiAHEXjrgopF23
+    episode: 23
+    title: 'Folge 23: Die Playmos in geheimer Mission (Das Original Playmobil Hörspiel)'
+  - id: 41T7dUHQEWVc6ZZDm61LzY
+    episode: 24
+    title: 'Folge 24: Die Ritter sind los! (Das Original Playmobil Hörspiel)'
+  - id: 5TBxfEuwRcxRBzYBhYTRp8
+    episode: 25
+    title: 'Folge 25: Gefahr im Weltall (Das Original Playmobil Hörspiel)'
+  - id: 4tKHbQeq8LbVbXkgzqS3dR
+    episode: 26
+    title: 'Folge 26: Wettrennen um die Schatzinsel (Das Original Playmobil Hörspiel)'
+  - id: 6zrCuqyvuceleFebSkzKID
+    episode: 27
+    title: 'Folge 27: Reise in die Steinzeit (Das Original Playmobil Hörspiel)'
+  - id: 0GwbngHDRFjIPFoq1UQHbt
+    episode: 28
+    title: 'Folge 28: Den Bankräubern auf der Spur (Das Original Playmobil Hörspiel)'
+  - id: 1xrN8zIOQiGY6rrieWlG3l
+    episode: 29
+    title: 'Folge 29: Wirbel um Planet Zentauri (Das Original Playmobil Hörspiel)'
+  - id: 3tL1J27hmmq2C0vjqmIcjc
+    episode: 30
+    title: 'Folge 30: Bei den Dinos (Das Original Playmobil Hörspiel)'
+  - id: 5yRF3T39VLB1OrpcqbTPCD
+    episode: 31
+    title: 'Folge 31: Nächtlicher Angriff der Mega Masters (Das Original Playmobil Hörspiel)'
+  - id: 4ydWc5rbm7pImxfs5s5GSE
+    episode: 32
+    title: 'Folge 32: Überfall auf den Goldtransport (Das Original Playmobil Hörspiel)'
+  - id: 74OXYL4cabXwiOaUpFsZ1S
+    episode: 33
+    title: 'Folge 33: Piratenschlacht auf hoher See (Das Original Playmobil Hörspiel)'
+  - id: 0WlrKxFR3kOOn89LGVHf91
+    episode: 34
+    title: 'Folge 34: Der Ball im Prinzessinnen-Schloss (Das Original Playmobil Hörspiel)'
+  - id: 4iDr2nHnDwqOwEDm3V4ifl
+    episode: 35
+    title: 'Folge 35: Streit im Wilden Westen (Das Original Playmobil Hörspiel)'
+  - id: 3EZ9aTSyMya7hVqAZ4BqDE
+    episode: 36
+    title: 'Folge 36: Im Bann des Kometen (Das Original Playmobil Hörspiel)'
+  - id: 1xMWd36JtE4GzIZjJPJp37
+    episode: 37
+    title: 'Folge 37: Die Entführung der Einhörner (Das Original Playmobil Hörspiel)'
+  - id: 2IoI7mQu91nKDY4s8eldS9
+    episode: 38
+    title: 'Folge 38: Das Geheimnis des Drachenfeuers (Das Original Playmobil Hörspiel)'
+  - id: 2CCSMILCNWGeYe3CVBrHbt
+    episode: 39
+    title: 'Folge 39: Mit der Küstenwache auf Verbrecherjagd (Das Original Playmobil Hörspiel)'
+  - id: 5q0ViF4QqbdB8Y60IZpQWh
+    episode: 40
+    title: 'Folge 40: Auf der Jagd nach dem goldenen Schlüssel (Das Original Playmobil Hörspiel)'
+  - id: 5fkUryxXgXYJQKCoVPzdIy
+    episode: 41
+    title: 'Folge 41: Sondereinsatz Geldtransport! (Das Original Playmobil Hörspiel)'
+  - id: 3QbUTqWVyqgibqXySExnaq
+    episode: 42
+    title: 'Folge 42: Großbrand in der Feuerwache (Das Original Playmobil Hörspiel)'
+  - id: 2FQUesYJOEOW54kIF5BpUB
+    episode: 43
+    title: 'Folge 43: Wirbel um den Weihnachtsmann (Das Original Playmobil Hörspiel)'
+  - id: 2bgFsJOC5SinK1ARGA20pf
+    episode: 44
+    title: 'Folge 44: Spezialeinsatz im Freizeitpark (Das Original Playmobil Hörspiel)'
+  - id: 4RTlbcwSedCC8o4WCu8EnV
+    episode: 45
+    title: 'Folge 45: Ritter außer Rand und Band (Das Original Playmobil Hörspiel)'
+  - id: 5gP28gLRE2d534USNXuKID
+    episode: 46
+    title: 'Folge 46: Die Playmos ermitteln (Das Original Playmobil Hörspiel)'
+  - id: 6Vf5iBuu43GZ5q8VzI6sos
+    episode: 47
+    title: 'Folge 47: Flucht vor den Piraten (Das Original Playmobil Hörspiel)'
+  - id: 2N623zMFqa76a6EBf14d9o
+    episode: 48
+    title: 'Folge 48: Raketenstart ins All (Das Original Playmobil Hörspiel)'
+  - id: 6AydeCw4Rn2wxrpS2FHx3C
+    episode: 49
+    title: 'Folge 49: Sabotage auf dem Reiterhof (Das Original Playmobil Hörspiel)'
+  - id: 5jwf2foaFvsqStpWBDjtcu
+    episode: 50
+    title: 'Folge 50: Die heiße Spur der Drachen (Das Original Playmobil Hörspiel)'
+  - id: 5pjV2Z0zZZnmkItpbgPhe2
+    episode: 51
+    title: 'Folge 51: Im Fussballfieber! (Das Original Playmobil Hörspiel)'
+  - id: 4W4yWRjuTn2Pj1J8VrIhXt
+    episode: 52
+    title: 'Folge 52: Der Schatz der Pyramide (Das Original Playmobil Hörspiel)'
+  - id: 1H98GYKS3pnV9Q1vihiFwi
+    episode: 53
+    title: 'Folge 53: Geheime Schatzsuche auf der Galeere (Das Original Playmobil Hörspiel)'
+  - id: 0JkbQzJXds0Ug6aIMRdEke
+    episode: 54
+    title: 'Folge 54: Angriff der Eispiraten (Das Original Playmobil Hörspiel)'
+  - id: 2JXkyvImC6Jmyq9GT7KE08
+    episode: 55
+    title: 'Folge 55: Die Belagerung der Löwenritterburg (Das Original Playmobil Hörspiel)'
+  - id: 0ttj5uXcQuQP1dWiCCcrAd
+    episode: 56
+    title: 'Folge 56: Flucht vor dem T-Rex (Das Original Playmobil Hörspiel)'
+  - id: 3Tb3kIavA0OOkO3DjASKll
+    episode: 57
+    title: 'Folge 57: Wasser Marsch bei der Feuerwehr (Das Original Playmobil Hörspiel)'
+  - id: 6lCWwsUqG6aykn99yzW5jm
+    episode: 58
+    title: 'Folge 58: Wettkampf der Drachenreiter (Das Original Playmobil Hörspiel)'
+  - id: 3ttXkDjXnYHCaJKddmRZXN
+    episode: 59
+    title: 'Folge 59: Auf Verfolgungsjagd mit den Top Agents (Das Original Playmobil Hörspiel)'
+  - id: 2VvVPT1aURHhZL4KsgGC0y
+    episode: 60
+    title: 'Folge 60: Die magische Fussballmeisterschaft (Das Original Playmobil Hörspiel)'
+  - id: 5Xfne3twpRswp7UTRlUEFr
+    episode: 61
+    title: 'Folge 61: Eine Insel voller Abenteuer (Das Original Playmobil Hörspiel)'
+  - id: 4LfqwqmVl4W4WCZaRiMZNR
+    episode: 62
+    title: 'Folge 62: Der falsche Feuerwehrmann (Das Original Playmobil Hörspiel)'
+  - id: 7dleW3I7Vjjsc3dATD0Kil
+    episode: 63
+    title: 'Folge 63: Der verschwundene Kristall (Das Original Playmobil Hörspiel)'
+  - id: 1fYFzhaxMqDKrB6hcgINER
+    episode: 64
+    title: 'Folge 64: Leben auf dem Mars (Das Original Playmobil Hörspiel)'
+  - id: 63rcz9RnzCdZzWwsQoZL5r
+    episode: 65
+    title: 'Folge 65: Die Top Agents auf hoher See (Das Original Playmobil Hörspiel)'
+  - id: 1ZdgP9BgMnFbun3q5rANiw
+    episode: 66
+    title: 'Folge 66: Detektive auf dem Campingplatz (Das Original Playmobil Hörspiel)'
+  - id: 1EAhoWF50GV3hvvDYRM5dD
+    episode: 67
+    title: 'Folge 67: Viele Piraten und eine Schatzkarte (Das Original Playmobil Hörspiel)'
+  - id: 44NEvICKAei0XPim6jLLi7
+    episode: 68
+    title: 'Folge 68: Ein Fall für das Sondereinsatzkommando (Das Original Playmobil Hörspiel)'
+  - id: 4HN0xnLhkzpz7ySSkqyhuQ
+    episode: 69
+    title: 'Folge 69: Die Macht der Kürbislaterne (Das Original Playmobil Hörspiel)'
+  - id: 0ot4bdZsPZhekrAqYt5TGT
+    episode: 70
+    title: 'Folge 70: Die Würfel sind gefallen (Das Original Playmobil Hörspiel)'
+  - id: 5MLMemOz7sEyS0UJE3iPxo
+    episode: 71
+    title: 'Folge 71: Das dramatische Finale (Das Original Playmobil Hörspiel)'
+  - id: 2YHRuwyqzbyUSCLvYt3GkP
+    episode: 72
+    title: 'Folge 72: Ein Geheimcode für die Galaxy Police (Das Original Playmobil Hörspiel)'
+  - id: 1urY4MVHavvMR0Usc0lZfr
+    episode: 73
+    title: 'Folge 73: Spurensuche im Zoo (Das Original Playmobil Hörspiel)'
+  - id: 4BcZwqCFTteCdgGHB2CSGb
+    episode: 74
+    title: 'Folge 74: Falsches Spiel im Polizeigefängnis (Das Original Playmobil Hörspiel)'
+  - id: 5gmloJVpUH5d1ZmWoYQI2p
+    episode: 75
+    title: 'Folge 75: Dem Betrüger auf der Spur (Das Original Playmobil Hörspiel)'
+  - id: 0a8FPP8481bERYIRiGqvDt
+    episode: 76
+    title: 'Folge 76: Auf Einsatz mit der Galaxy Police (Das Original Playmobil Hörspiel)'
+  - id: 4qa6HzKnwJE1hF7JjoykcX
+    episode: 77
+    title: 'Folge 77: Schmuggler im Hafen (Das Original Playmobil Hörspiel)'
+  - id: 5bRRUmK6N3LFfJCvcqj6y5
+    episode: 78
+    title: 'Folge 78: Auf Mission mit dem SWAT-Team (Das Original Playmobil Hörspiel)'
+  - id: 1M65hIi5IF5MfByYKrYYll
+    episode: 79
+    title: 'Folge 79: Das Rätsel um die Stunt-Show (Das Original Playmobil Hörspiel)'
+  - id: 6trn9YyD4LKMF0VrXoIa7m
+    episode: 80
+    title: 'Folge 80: Der verschwundene Hengst (Das Original Playmobil Hörspiel)'
+  - id: 6lNZz0SrE42wbq3f44enfl
+    episode: 81
+    title: 'Folge 81: Prinzessin in Not (Das Original Playmobil Hörspiel)'
+  - id: 7f6Thnu098F8uBMNliFG7B
+    episode: 82
+    title: 'Folge 82: Drei Rettungseinsätze und ein Dieb (Das Original Playmobil Hörspiel)'
+  - id: 6TXhylURWat9Bq6rTgUztZ
+    episode: 83
+    title: 'Folge 83: Von Doppelgängern und Agenten (Das Original Playmobil Hörspiel)'
+  - id: 2pffqhSOiXIz6u7PH5eixd
+    episode: 84
+    title: 'Folge 84: Das seltsame Haus (Das Original Playmobil Hörspiel)'
+  - id: 7f6Y4efuTdFlJQd04M7biT
+    episode: 85
+    title: 'Folge 85: Dreiste Diebe beim SWAT-Team (Das Original Playmobil Hörspiel)'
+  - id: 7agXCYGSZKwaCKxEGw6UWa
+    episode: 86
+    title: 'Folge 86: Red Firestar, Superheld (Das Original Playmobil Hörspiel)'
+  - id: 4LqDW7Zu1uQuPtI70xdOWY
+    episode: 87
+    title: 'Folge 87: Verschwörung im Olymp (Das Original Playmobil Hörspiel) [Ungekürzt]'
+  - id: 7DTJ53KFdONizDlV6a1Toz
+    episode: 88
+    title: 'Folge 88: Wo ist Stürmer Leon Blitz? (Das Original Playmobil Hörspiel)'
+  - id: 62LQT2YCJhkM0ZiR9Qedi6
+    episode: 89
+    title: 'Folge 89: Der Ninja und der goldene Drache (Das Original Playmobil Hörspiel)'
+  - id: 2FRP9tZxFb6QmCAjZlyuhv
+    episode: 90
+    title: 'Folge 90: Die rätselhaften Einbrüche (Das Original Playmobil Hörspiel)'
+  - id: 0QtZ1viObjibZ9nstJsf4R
+    episode: 91
+    title: 'Folge 91: Der erste Fall von Mato Meisterdetektiv (Das Original Playmobil Hörspiel)'
+  - id: 35YGgF6hVWWt7CceFsOyeK
+    episode: 92
+    title: 'Folge 92: Im geheimen Tal der Dinosaurier (Das Original Playmobil Hörspiel)'
+  - id: 0Z2qCjC3LnGisIgOxSR8x7
+    episode: 93
+    title: 'Folge 93: Der verschwundene Kommissar (Das Original Playmobil Hörspiel)'
+  - id: 00lKBlAEgLFIUiTz2r7BuT
+    episode: 94
+    title: 'Folge 94: Rettung für Captain Tolle (Das Original Playmobil Hörspiel)'
+  - id: 6Hz4UqocMYRS12R0gfBTDV
+    episode: 95
+    title: 'Folge 95: Perlenraub im Strandhotel (Das Original Playmobil Hörspiel)'
+  - id: 3ht2YOWVZE3ujVaRVcmf2B
+    episode: 96
+    title: 'Folge 96: Das geheime Buch (Das Original Playmobil Hörspiel)'
+  - id: 0pVaUzN0eLK95xvbVMLoai
+    episode: 97
+    title: 'Folge 97: Die Schule der Superhelden (Das Original Playmobil Hörspiel)'
+  - id: 7IhqeWCTS3e8gjzXaeteDJ
+    episode: 98
+    title: 'Folge 98: Das gestohlene Ei (Das Original Playmobil Hörspiel)'
 - id: wendy
   title: Wendy
-  aliases:
-  - Wendy
   keywords:
-  - wendy
+  - Wendy
   spotify_artist_ids:
   - 7bq6y10LXuxWmZ7Q1E9mwr
-  episode_pattern: (?:[Ff]olge\s+(\d+)|^(\d{3})/)
+  episode_pattern: Folge (\d+)
+  albums:
+  - id: 0pazNbqfU0aZQVWd1rh7VZ
+    episode: 1
+    title: 'Folge 1: Angst um Lindenhöhe'
+  - id: 1znxrHaWj5lKxn0YKnobRM
+    episode: 2
+    title: 'Folge 2: Wendy muss gewinnen'
+  - id: 5lntN1XiTkWVl3U9C96Bgz
+    episode: 3
+    title: 'Folge 3: Meine Freundin Penny'
+  - id: 65IHyHOwbnrs4aqN6xwh0d
+    episode: 4
+    title: 'Folge 4: Der Pferdedieb'
+  - id: 55rTvxqnrjTTDYns8qPv3x
+    episode: 5
+    title: 'Folge 5: Nur ein bisschen Gift'
+  - id: 2NinD4qWpkTyboopf6KAEq
+    episode: 6
+    title: 'Folge 6: Das Fohlen "Trolle"'
+  - id: 4SSpzLm45ukKU0JR7SeIW5
+    episode: 7
+    title: 'Folge 7: "Ravenna" gehört mir!'
+  - id: 0YsvCtqXhcmzQWh2kbXBC6
+    episode: 8
+    title: 'Folge 8: Die geheimnisvolle Reiterin'
+  - id: 4Su2jMSfZfkK42pz1OtyId
+    episode: 9
+    title: 'Folge 9: Glaub an dich, Petra!'
+  - id: 20KAubXB5SiTVGP94dftaf
+    episode: 10
+    title: 'Folge 10: Esters Pferd'
+  - id: 1aCeDxarQFCICHAmFPoSoJ
+    episode: 11
+    title: 'Folge 11: "Max", der Kobold'
+  - id: 5tLafI7jinfIpbaDdGmBfL
+    episode: 12
+    title: 'Folge 12: Geheimnis um "Coltano"'
+  - id: 4iDss8rqvx0RPURPL7pHPZ
+    episode: 13
+    title: 'Folge 13: Alexa sorgt für Wirbel'
+  - id: 6TIwBLrs2n0IIHh2OjWQiB
+    episode: 14
+    title: 'Folge 14: Streit um "Axis"'
+  - id: 0vHipUtBil57XgqLq29lqk
+    episode: 15
+    title: 'Folge 15: Vanessa macht eine Fehler'
+  - id: 4RwwSWwRKIVmc0aMj5uhJy
+    episode: 16
+    title: 'Folge 16: Wendy in Amerika'
+  - id: 6ceKIl37Pjdr4Uu7YKly6P
+    episode: 17
+    title: 'Folge 17: Ein Araber auf Lindenhöhe'
+  - id: 1x2KPtrDujgx4v5xtnjGpZ
+    episode: 18
+    title: 'Folge 18: Feuer auf Lindenhöhe'
+  - id: 43YTCN0zTl4uFjeIcqfetX
+    episode: 19
+    title: 'Folge 19: Einzug auf Rosenborg'
+  - id: 12aqg0K2Cc6s4iGL9ssMQu
+    episode: 20
+    title: 'Folge 20: Die Pferde vom Zirkus Rombasti'
+  - id: 3owltlPioYi0ySy6kJbjxG
+    episode: 21
+    title: 'Folge 21: Ein Pferd namens Bardi'
+  - id: 7EY4nMElUz3KGeoMnIVmNu
+    episode: 22
+    title: 'Folge 22: Wendy verliebt sich'
+  - id: 2iIRjUcAqb6dpKAqP5A4jk
+    episode: 23
+    title: 'Folge 23: Das Osterfeuer'
+  - id: 2IRb1Buzohr6Sm4fLhHcOW
+    episode: 24
+    title: 'Folge 24: Das tanzende Pferd'
+  - id: 7wBR8VpwQVTryF0Z2MoT0i
+    episode: 25
+    title: 'Folge 25: Das Weihnachtsfohlen'
+  - id: 6z3MwCtNFfKIo9bkDQp0l8
+    episode: 26
+    title: 'Folge 26: Die Geburtstagsparty'
+  - id: 44MSrCv5rQUel2ApZoGC7u
+    episode: 27
+    title: 'Folge 27: Der Wanderritt'
+  - id: 29PtG0GCKrOMS4ABgPkEr0
+    episode: 28
+    title: 'Folge 28: Die Seehundstation'
+  - id: 1oJHfJu3e7tYq1yHNM67Pm
+    episode: 29
+    title: 'Folge 29: Der Gnadenhof'
+  - id: 5FWRZu9C8e41Wo8CQX2j0E
+    episode: 30
+    title: 'Folge 30: Der Liebesbrief'
+  - id: 47yGYJbYIsc2wsUE7B6ton
+    episode: 31
+    title: 'Folge 31: Die Wiener Hofreitschule'
+  - id: 5ZZubRbl5hdF2IIF7WMlKi
+    episode: 32
+    title: 'Folge 32: Die neue Tierärztin'
+  - id: 2W0n8H93s79Mge6luIObTh
+    episode: 33
+    title: 'Folge 33: Ein Telegramm aus Amerika'
+  - id: 7xJktkiYmSBDUNcLYdEX90
+    episode: 34
+    title: 'Folge 34: Besuch aus Island'
+  - id: 14LGCZbltQEfWpWh2PhK8V
+    episode: 35
+    title: 'Folge 35: Wo ist Dixie?'
+  - id: 6h0XbwKakaY7oib0gNhrTb
+    episode: 36
+    title: 'Folge 36: Das Filmpferd'
+  - id: 3oW0B9JlKRcVeZ3BRQycpo
+    episode: 37
+    title: 'Folge 37: Chaos auf der Western-Ranch'
+  - id: 0ordtibdlzZq6pb4vnvM9d
+    episode: 38
+    title: 'Folge 38: Der Austauschschüler'
+  - id: 3J9ZToXj9nEc5XxwCsbKhd
+    episode: 39
+    title: 'Folge 39: Rettung fürs Tierheim'
+  - id: 089Cu2gSazVxEhTUnm5hMU
+    episode: 40
+    title: 'Folge 40: Gefahr für "Avalon"'
+  - id: 1Yi2CPz5E7MFhzr7PJno4m
+    episode: 41
+    title: 'Folge 41: Ärger in der Schule'
+  - id: 6eXr9xOaceOebB0LtZsmfm
+    episode: 42
+    title: 'Folge 42: Eine böse Überraschung'
+  - id: 4hBZXIOdiivhpzUtkDpirD
+    episode: 43
+    title: 'Folge 43: Verliebt in einen Fußballstar'
+  - id: 7cy0mynVOhKVoRGmfBA1Ai
+    episode: 44
+    title: 'Folge 44: Nicht um jeden Preis'
+  - id: 3tA25F7UZnCLuJ55VZBtyW
+    episode: 45
+    title: 'Folge 45: Der Traumtyp'
+  - id: 29BY3QkYwXbOWDvvjHIDAN
+    episode: 46
+    title: 'Folge 46: Das Schulpraktikum'
+  - id: 4dpinbIijgil2pcMjaJqob
+    episode: 47
+    title: 'Folge 47: Sorge um "Wirbelwind"'
+  - id: 3jGb9LIfkhxJJwIcAGjUy4
+    episode: 48
+    title: 'Folge 48: Die neue Freundin'
+  - id: 06cSQLBwcK57LlZzgHtsNo
+    episode: 49
+    title: 'Folge 49: Das große Springturnier'
+  - id: 3hmIxKpLXU3Obz6t1oTUMB
+    episode: 50
+    title: 'Folge 50: Verschwörung im Internat'
+  - id: 5ndqLbN5NvHQrqeqc0Zo6e
+    episode: 51
+    title: 'Folge 51: Der Pferdeflüsterer'
+  - id: 5ZCRahhhksRUAmoeL6Dsqg
+    episode: 52
+    title: 'Folge 52: Eine Boygroup auf Rosenborg'
+  - id: 7uv1UYScvHpqGrobErOnQm
+    episode: 53
+    title: 'Folge 53: Im Land der Fjordpferde'
+  - id: 2I94rC2hViJuAKJGEbM9J6
+    episode: 54
+    title: 'Folge 54: Sturm über Rosenborg'
+  - id: 1gSrUE0Jjc4t2kEUg0ySDu
+    episode: 55
+    title: 'Folge 55: Rodeo auf der Western-Ranch'
+  - id: 3xZ8DMP2qh788Zzj7CMGi8
+    episode: 56
+    title: 'Folge 56: Ärger beim Voltigieren'
+  - id: 2kwTvMwcXYViZZ3KtQwnte
+    episode: 57
+    title: 'Folge 57: Das Reiterspiele-Fest'
+  - id: 5FoZDNM6k4zvJswuaVnDIx
+    episode: 58
+    title: 'Folge 58: Silberauge in Not'
+  - id: 1YGb6mNat3nJS5XthmgvpW
+    episode: 59
+    title: 'Folge 59: Rettet das Café Blu!'
+  - id: 3nQ1EINs3mXgnp0u6ykkm4
+    episode: 60
+    title: 'Folge 60: Der Zauber Irlands'
+  - id: 1J67EGaeV17NaK0MzyeUKy
+    episode: 61
+    title: 'Folge 61: Freunde in Not'
+  - id: 02Pqsv3ft5Ul7tFSzpbytN
+    episode: 62
+    title: 'Folge 62: Die heimliche Prinzessin'
+  - id: 6iwjpiUgzYl6Hoh4APF9Em
+    episode: 63
+    title: 'Folge 63: Oliver verliebt sich'
+  - id: 4uAxalA23v1l3Kbk53LyQe
+    episode: 64
+    title: 'Folge 64: Friesen in Gefahr'
+  - id: 7hLKyiBOrhpRFX4joxPsjp
+    episode: 65
+    title: 'Folge 65: Der Giftalarm'
+  - id: 5hdNCu97KNbxthQGUliiLg
+    episode: 66
+    title: 'Folge 66: In Südfrankreich'
+  - id: 2gsE16xG54cFk0R724Y9rI
+    episode: 67
+    title: 'Folge 67: Ein Trakehner auf Rosenborg'
+  - id: 6M2CmFAPHihFpy8C268PYx
+    episode: 68
+    title: 'Folge 68: Auf dem Pferdemarkt'
+  - id: 7pyXeK14GyBtIPM4HBPtSw
+    episode: 69
+    title: 'Folge 69: Abenteuer in der Piratenbucht'
+  - id: 4eLpOEgYkkQ6w3VtmpsRbP
+    episode: 70
+    title: 'Folge 70: Fotoshooting mit Hindernissen'
+  - id: 4ejkmqrpDawcWCoSajyqyJ
+    episode: 71
+    title: 'Folge 71: Auf der Curly Horse Ranch'
+  - id: 5iNIXV03Gms6JNKHxuGn6U
+    episode: 72
+    title: 'Folge 72: Diebstahl auf Rosenborg'
+  - id: 17FbzckcUuYuWKm89qoXCz
+    episode: 73
+    title: 'Folge 73: Die Überschwemmung'
+  - id: 4UwV8qH5oNqVsisY12tWXN
+    episode: 74
+    title: 'Folge 74: Weihnachten auf Rosenborg'
+  - id: 541xwMB50Vt4USITCTi7wX
+    episode: 75
+    title: 'Folge 75: Ein Rivale zum Verlieben'
+  - id: 1hMNJvR00p8NhrPuf04rXb
+    episode: 76
+    title: 'Folge 76: Onyx in Gefahr'
+  - id: 4c9arnUSv3PXdFmlJ3saKx
+    episode: 77
+    title: 'Folge 77: Die Pechsträhne'
+  - id: 1kDcVtycT1JY94xVXJV0SB
+    episode: 78
+    title: 'Folge 78: Kampf ums Heu'
+  - id: 1TK0xO1azvMixXssOFUfcu
+    episode: 79
+    title: 'Folge 79: Besuch aus Norwegen'
+  - id: 1xjbBVazPp2ZIFHWXKrB9W
+    episode: 80
+    title: 'Folge 80: Die Influencerin'
+  - id: 18AGUxGwO8LJHQRfWkUnUk
+    episode: 81
+    title: 'Folge 81: Schluss mit Mobbing'
+  - id: 3Zmpqbc3V6jhTuU2vvcWAk
+    episode: 82
+    title: 'Folge 82: Stress mit Vanessa'
+  - id: 7KbPiSCSwpOSqdpB4cUuqA
+    episode: 83
+    title: 'Folge 83: Abenteuer in den Alpen'
+  - id: 5kkNFQNoaVcS37doHpWk61
+    episode: 84
+    title: 'Folge 84: Der wilde Mustang'
+  - id: 2635p71FRd7v5E2IRJEgaf
+    episode: 85
+    title: 'Folge 85: Reitshow in Gefahr'
+  - id: 03a0TDeawKdnzrYpph0RFK
+    episode: 86
+    title: 'Folge 86: Mathestress für Wendy'
 - id: asterix
   title: Asterix
   keywords:
@@ -4082,13 +5971,67 @@ series:
     title: '41: Asterix in Lusitanien'
 - id: lucky_luke
   title: Lucky Luke
-  aliases:
-  - Lucky Luke
   keywords:
-  - lucky luke
+  - Lucky Luke
   spotify_artist_ids:
   - 3GhvVhdZylZUmxABM30UeP
-  episode_pattern: ^(\d{1,2}):\s
+  episode_pattern: ^(?:(\d{2}):\s*|Ein Cowboy in Paris|Fackeln im Baumwollfeld|Rantanplans 
+    Arche|Letzte Runde für die Daltons|Das gelobte Land|Meine Onkel, die Daltons)
+  albums:
+  - id: 3kQiCwi4N1CtcdT4zmsIb0
+    episode: 1
+    title: '01: Die Geister-Ranch'
+  - id: 2UzHu8YzzgPEl3Tu0M2tOk
+    episode: 2
+    title: '02: Tortillas für die Daltons'
+  - id: 3s564niuWHK7b8rRG98juf
+    episode: 3
+    title: '03: Calamity Jane'
+  - id: 2FpWX2dbZmMqrfnq1DPUCC
+    episode: 4
+    title: '04: Das Greenhorn'
+  - id: 7IqoXcyRjx2PezJpftuZ8s
+    episode: 5
+    title: '05: Der Daily Star'
+  - id: 0LpoDglCowib9F0eNJmWkK
+    episode: 6
+    title: '06: Goldrausch!'
+  - id: 64v86ciDGKkzPzerXnlGxo
+    episode: 7
+    title: '07: Billy The Kid'
+  - id: 5Mtp45Jf6D4iTE78ThChvR
+    episode: 8
+    title: "08: Die Brücke am Ol' Man River"
+  - id: 3ZPvThCvT69sgjjeFLATlU
+    episode: 9
+    title: '09: High Noon in Hadley City'
+  - id: 0jXMBrCLsKj9XhsJ1XaGdX
+    episode: 10
+    title: '10: Die Daltons bewähren sich'
+  - id: 37t74XtyCdOacCyHqZMhML
+    episode: 11
+    title: '11: Familienkrieg in Painful Gulch'
+  - id: 7w3XDlom9Rlc3QurGyEVrF
+    episode: 12
+    title: '12: Nitroglyzerin'
+  - id: 3yF60oT5BfXgrYLoDbKKc7
+    episode: 13
+    title: Ein Cowboy in Paris
+  - id: 7HJMJLEdm9xUMgxmTPn5O0
+    episode: 14
+    title: Fackeln im Baumwollfeld
+  - id: 6VeuSxAfgWS8FTGiFBuWPH
+    episode: 15
+    title: Rantanplans Arche
+  - id: 32syfV4pdF2Yz1rrpKt05x
+    episode: 16
+    title: Letzte Runde für die Daltons
+  - id: 4pXjQUG6945UedZN8lnwKQ
+    episode: 17
+    title: Das gelobte Land
+  - id: 3bCEupD1fuTOixFOTpTrLo
+    episode: 18
+    title: Meine Onkel, die Daltons
 - id: michael_ende
   title: Michael Ende
   aliases:
@@ -4120,13 +6063,34 @@ series:
 - id: die_wilden_huehner
   title: Die wilden Hühner
   aliases:
-  - Die wilden Hühner
   - Die Wilden Hühner
+  - Die Wilden Küken
   keywords:
-  - wilden hühner
-  - wilden huhner
+  - Die Wilden Hühner
+  - Die Wilden Küken
   spotify_artist_ids:
   - 7FFCbo48YA1o0mhUE66DjO
+  - 5UfG709fnZ9mPNZShrAiVh
+  - 5HQzBHnczgis11u7lSLVbt
+  - 4P5tVOqHcQ7j5ZZjczglZk
+  - 5HJazOmTpfruUyrjLKnJou
+  episode_pattern: (?:Folge|Die Wilden Küken)\s+(\d+)
+  albums:
+  - id: 4y9FLwcqRKYl5gbzn4LQ6Z
+    episode: 1
+    title: 'Folge 1: Die Wilden Hühner'
+  - id: 0LqDlXMMrLugwAUsVFlMrJ
+    episode: 2
+    title: 'Folge 2: Auf Klassenfahrt'
+  - id: 0XE0bMlL3xOIfIbkwfqvw5
+    episode: 3
+    title: 'Folge 3: Fuchsalarm'
+  - id: 17vdiC3MN9ccbaiy8kdp7V
+    episode: 4
+    title: 'Folge 4: Und das Glück der Erde (Ungekürzt)'
+  - id: 1RHxV47cUq6KD3Bdo0tKs1
+    episode: 5
+    title: 'Folge 5: Und die Liebe'
 - id: bullerbue
   title: Bullerbü
   aliases:
@@ -4154,16 +6118,30 @@ series:
 - id: janosch
   title: Janosch
   aliases:
+  - Tiger und Bär
   - Oh, wie schön ist Panama
-  - Der kleine Tiger
-  - Janosch
-  - Tigerente
   keywords:
-  - oh wie schön ist panama
-  - tigerente
-  - janosch
+  - Janosch
+  - Tiger
+  - Bär
+  - Panama
   spotify_artist_ids:
   - 2QnEjtjHZPLkj6dYDmSigw
+  - 3nlL14buDHDauNHCqjQedM
+  episode_pattern: Folge (\d+)
+  albums:
+  - id: 1Sd7bF2ZKQW6H0yJRRLxnk
+    episode: 1
+    title: Oh, wie schön ist Panama
+  - id: 0UdbLbzP72CouY45FhiJan
+    episode: 2
+    title: 'Folge 2: Post für den Tiger'
+  - id: 3LyfzXhN5ExLhPqaasYd7Z
+    episode: 3
+    title: 'Folge 3: Ich mach dich gesund, sagte der Bär'
+  - id: 2XPa5ccswP7n9JFgzW4r1l
+    episode: 4
+    title: 'Folge 4: Komm, wir finden einen Schatz'
 - id: lassemaja
   title: Detektivbüro LasseMaja
   aliases:
@@ -4180,13 +6158,14 @@ series:
 - id: tabaluga
   title: Tabaluga
   aliases:
-  - Tabaluga
   - Tabaluga und Leo
+  - Tabaluga und Lilli
   keywords:
-  - tabaluga
+  - Tabaluga
   spotify_artist_ids:
   - 4M0PZyOPSvjzFEBRg3G8xA
   - 5W3s4beu23rOlseCbVOp4l
+  episode_pattern: (?:Folge |^\d{2}/|/)(\d+)
 - id: bobo_siebenschlaefer
   title: Bobo Siebenschläfer
   keywords:
@@ -4254,12 +6233,324 @@ series:
     title: 'Staffel 2: Die neuen Abenteuer von Bobo (Das Hörspiel zur Kinder TV-Serie)'
 - id: leo_lausemaus
   title: Leo Lausemaus
-  aliases:
-  - Leo Lausemaus
   keywords:
-  - leo lausemaus
+  - Leo Lausemaus
   spotify_artist_ids:
   - 6b9DQDp0xKeYM2vdK9pAE6
+  episode_pattern: '[Ff]olge\s+(\d+)'
+  albums:
+  - id: 5MH59A26cYgXMXRyOkc1iD
+    episode: 1
+    title: 'Folge 01: Regeln sind blöd!'
+  - id: 2JqfBhvr9BdncnscEC1Mra
+    episode: 2
+    title: 'Folge 02: Tadaaaam!'
+  - id: 1VZB61PsRVbR0ErG9jP44R
+    episode: 3
+    title: 'Folge 03: Das Algenmonster'
+  - id: 2DdvNZEK8TySlQS5y3m5E3
+    episode: 4
+    title: 'Folge 04: Die Schatzsuche'
+  - id: 7sAtjCVWEBod736PKKPUqT
+    episode: 5
+    title: 'Folge 05: Jungs sind besser als Mädchen!'
+  - id: 3XK1aQNLTZcoQH3CCerC71
+    episode: 6
+    title: 'Folge 06: Das gehört mir!'
+  - id: 1Uw3h7urmrl0hQYEID0fOq
+    episode: 7
+    title: 'Folge 07: Ich will gewinnen!'
+  - id: 0hRBucwmMblcQ2GDjEAz2v
+    episode: 8
+    title: 'Folge 08: Wer einmal lügt?'
+  - id: 18qAdHDVKiantYfE7Ueyno
+    episode: 9
+    title: 'Folge 09: Der Helfer-Tag'
+  - id: 7kb7UbGpSWIbpFMduQQFPn
+    episode: 10
+    title: 'Folge 10: Babysitter? Nein Danke!'
+  - id: 61sVa8n3jJwmzApfSHu32n
+    episode: 11
+    title: 'Folge 11: Ich will ein Haustier!'
+  - id: 4Vg5HIkSPuRHlXcTML58np
+    episode: 12
+    title: 'Folge 12: Das war keine Absicht!'
+  - id: 5duPJN3HRwCvuMyxOPCzZn
+    episode: 13
+    title: 'Folge 13: Beste Freunde'
+  - id: 50W2WML56LTWAaZ6xSAkuZ
+    episode: 14
+    title: 'Folge 14: Bitte lächeln!'
+  - id: 59OM9eZcPvHnGExDjl2rwN
+    episode: 15
+    title: 'Folge 15: Das Schatten-Monster'
+  - id: 38FVy2nmVK32Q39Zukk9wD
+    episode: 16
+    title: 'Folge 16: Didis Lieblingsspielzeug'
+  - id: 0HtxVZHLDPGvZIhOl8jhjZ
+    episode: 17
+    title: 'Folge 17: Igitt, Gemüse!'
+  - id: 4oNLeFWqbYsknBu6PgkCT6
+    episode: 18
+    title: 'Folge 18: Die Übernachtungsparty'
+  - id: 6TdkeMZLqRLb1uHhky4nOv
+    episode: 19
+    title: 'Folge 19: Papas Werkstatt'
+  - id: 5Q75MUZy9PSTnqiTIZIPBq
+    episode: 20
+    title: 'Folge 20: Wo ist Teddy?'
+  - id: 0KnPAG3bE4CwsTVef5tAbh
+    episode: 21
+    title: 'Folge 21: Für immer wütend!'
+  - id: 4uxjfSUjQmmxemnEqWyJIw
+    episode: 22
+    title: 'Folge 22: Das Kostüm'
+  - id: 2GIuP6K5Xwb1p6lVnRcrcm
+    episode: 23
+    title: 'Folge 23: Der Schnupfen'
+  - id: 5q6S8FUIU33aBZqHJziyhI
+    episode: 24
+    title: 'Folge 24: Das Feuerwehrauto'
+  - id: 6VeikohjbhcByuQzsplavd
+    episode: 25
+    title: 'Folge 25: Das Regen-Picknick'
+  - id: 3PVhaRlGZMTt8bz8U9yfvV
+    episode: 26
+    title: 'Folge 26: Das Geburtstags-Konzert'
+  - id: 2MVidXCAZVDMS5Fy6gh1BU
+    episode: 27
+    title: 'Folge 27: Ich bin noch nicht müde!'
+  - id: 637umZ1OZ1R7CgBipFs0it
+    episode: 28
+    title: 'Folge 28: Endlich Ferien!'
+  - id: 3CLKycRHKddDGy9VsLJ6Yk
+    episode: 29
+    title: 'Folge 29: Die Turnstunde'
+  - id: 6HrbkLfTA9r8Kwzxxfr42B
+    episode: 30
+    title: 'Folge 30: Ein Pirat kennt keine Angst!'
+  - id: 7CglHaTxm5XYmmc8C4xHbW
+    episode: 31
+    title: 'Folge 31: Besuch von Billy!'
+  - id: 6CWy72YKZtJJXDqbuEErWX
+    episode: 32
+    title: 'Folge 32: Hilfe! Ein Drache!'
+  - id: 0JCMbDDHs79uqnxGqElXvl
+    episode: 33
+    title: 'Folge 33: Das Sommerfest'
+  - id: 50nhw21cxh5MfVoUSSdcEH
+    episode: 34
+    title: 'Folge 34: Ich hab was gefunden!'
+  - id: 4oWBr6S7lN9cz57tuXO9BA
+    episode: 35
+    title: 'Folge 35: Das Frechdachs-Spiel'
+  - id: 1hNEEtWRx12NSBqrT4pWN5
+    episode: 36
+    title: 'Folge 36: Lecker! Kekse!'
+  - id: 2MOwFXrwt7yvHXkbYzOfVQ
+    episode: 37
+    title: 'Folge 37: Ich helfe dir, Mama!'
+  - id: 2a4iQGahmiDST9yqi3KX8P
+    episode: 38
+    title: 'Folge 38: Ich mag die Natur!'
+  - id: 7dHB8a0MuhrstjhZtGmRB5
+    episode: 39
+    title: 'Folge 39: Hurra! Es hat geschneit!'
+  - id: 2hd8uL6SZWavPvm4KDfacZ
+    episode: 40
+    title: 'Folge 40: Helfen macht Spaß!'
+  - id: 3UKaVZ0OctAwUofIFzY1LS
+    episode: 41
+    title: 'Folge 41: Es tut mir leid!'
+  - id: 45Tkx1l09PuQF3qFC2HBI7
+    episode: 42
+    title: 'Folge 42: Das ist lustig!'
+  - id: 0EuMDrK9YKOSeQn2A8IeHl
+    episode: 43
+    title: 'Folge 43: Wir gehen zelten!'
+  - id: 3hjkp5ib96HNZvP7HAFl8R
+    episode: 44
+    title: 'Folge 44: Ich will nicht zum Friseur!'
+  - id: 6hDAyMBwhq96ml1MU3nOG5
+    episode: 45
+    title: 'Folge 45: Heute bin ich ein Faulpelz!'
+  - id: 77BmGJkRAejRThjOoVP4ld
+    episode: 46
+    title: 'Folge 46: Ich will endlich groß sein!'
+  - id: 1gprUehvum5HbB7yV1V3Wm
+    episode: 47
+    title: 'Folge 47: Versprochen ist versprochen!'
+  - id: 6EJ80Et0Q1DiSoZjpjvpqZ
+    episode: 48
+    title: 'Folge 48: Mama hat Geburtstag!'
+  - id: 5XGL9CVazojUuU2EgCaTf9
+    episode: 49
+    title: 'Folge 49: Das Puppentheater'
+  - id: 5zOUcRAo47e8KvtMiFEQW2
+    episode: 50
+    title: 'Folge 50: Klein zu sein ist blöd'
+  - id: 17pp9gAcyAGd7KuIJmaeN3
+    episode: 51
+    title: 'Folge 51: Ich räume später auf!'
+  - id: 45yBLw4roI1CM9sCI0H70v
+    episode: 52
+    title: 'Folge 52: Ich will nicht Schlittschuhlaufen!'
+  - id: 0srNDvvx99mXzXqBk1QBzC
+    episode: 53
+    title: 'Folge 53: Mein eigenes Zimmer'
+  - id: 1KXjzLusSDBJYbOzHQIQ3q
+    episode: 54
+    title: 'Folge 54: Jetzt und nicht später!'
+  - id: 7KVa5gdD6afFmpk2ijNJJM
+    episode: 55
+    title: 'Folge 55: Warten ist doof'
+  - id: 2jZmxJ9WCw89HrvcEfg4dg
+    episode: 56
+    title: 'Folge 56: Halloween'
+  - id: 4RIjib0kt3nj5iEdQbEr8i
+    episode: 57
+    title: 'Folge 57: Mein erster Wackelzahn'
+  - id: 6DY3gOqxGbZ9VlVd6Vn21V
+    episode: 58
+    title: 'Folge 58: Schlechte Laune'
+  - id: 5EtWqYzoOjfl0sAWPdUkOa
+    episode: 59
+    title: 'Folge 59: Spaß im Winter'
+  - id: 45j0ygcNR2AuPrZclCMIfT
+    episode: 60
+    title: 'Folge 60: "Entschuldigung" sagen ist nicht schwer!'
+  - id: 4POR6GIS8Px4NhQwug5B24
+    episode: 61
+    title: 'Folge 61: Ihr habt sie lieber als mich!'
+  - id: 37xuePgd040zlqSvkAXjI3
+    episode: 62
+    title: 'Folge 62: Die Glücks-Brille'
+  - id: 3mFeFiVLXFORCVcj8Igeky
+    episode: 63
+    title: 'Folge 63: Zusammen macht es mehr Spaß!'
+  - id: 5JRDf1rdjEL39mLfAM0akg
+    episode: 64
+    title: 'Folge 64: Kunst ist überall'
+  - id: 7472OWF5f5uObTXkmNVYhO
+    episode: 65
+    title: 'Folge 65: Amelias Schatz'
+  - id: 4Efj95MyVD8SlkAhKM3rWu
+    episode: 66
+    title: 'Folge 66: Die Übernachtungsparty!'
+  - id: 5SThzETmuEbkIRRPUOgN5Q
+    episode: 67
+    title: 'Folge 67: Versuch es noch mal!'
+  - id: 3E0I7AHLgbJKiMzr94UifY
+    episode: 68
+    title: 'Folge 68: Anstrengen lohnt sich!'
+  - id: 3IkWYKTShvTJ22p6T4PSB8
+    episode: 69
+    title: 'Folge 69: Keine Angst vor Fehlern!'
+  - id: 7EHUut9cexe2XCGyoLgafg
+    episode: 70
+    title: 'Folge 70: Vertragen wir uns wieder!'
+  - id: 2SiCp9cAb0ZBXIDJwlL5PJ
+    episode: 71
+    title: 'Folge 71: Ich bin mutig!'
+  - id: 5zvz9T5ndtX6o7TBNRJ3B2
+    episode: 72
+    title: 'Folge 72: Papa ist der Beste!'
+  - id: 2W18qtmsWdsL0B2tjz5BDP
+    episode: 73
+    title: 'Folge 73: Probier mal was Neues'
+  - id: 43CVGPO8SiNgJf0MdldkQa
+    episode: 74
+    title: 'Folge 74: Wo ist mein Stift?'
+  - id: 4MyBYCpZVZqmFrNpuCpNJR
+    episode: 75
+    title: 'Folge 75: Unterschiede sind toll!'
+  - id: 7kIevH73igc6JXEtZfGaO5
+    episode: 76
+    title: 'Folge 76: Jeder braucht mal Hilfe'
+  - id: 6BccPeFKKEDRVAf5FS7Nuu
+    episode: 77
+    title: 'Folge 77: Sag auch mal "Nein"!'
+  - id: 5AnUgVs7cgKcWsygaVEX3C
+    episode: 78
+    title: "Folge 78: Gemeinsam geht's besser!"
+  - id: 4f1JA1rb3H0zCxjT7Hi5VK
+    episode: 79
+    title: 'Folge 79: Wünsch dir was!'
+  - id: 4M4JQUijw4AOsxQKbqJ3df
+    episode: 80
+    title: 'Folge 80: Mama kann zaubern'
+  - id: 3UDH9jg8nmSM0fGTsD2iel
+    episode: 81
+    title: 'Folge 81: Verkehrte Welt'
+  - id: 0ALBwxbD88gjv0UgCXdd7r
+    episode: 82
+    title: 'Folge 82: Echte Superhelden'
+  - id: 2vC50SPTfOvK7dEpKxdgAM
+    episode: 83
+    title: 'Folge 83: Sicherheit geht vor!'
+  - id: 6KDluveVArOOP6Qsnmv5hG
+    episode: 84
+    title: 'Folge 84: Lampenfieber'
+  - id: 5q8BVI1PtlxSxtkWdOhu2Y
+    episode: 85
+    title: 'Folge 85: Ferien für immer!'
+  - id: 6zT3sKPK4LOH1vKFGF5RNn
+    episode: 86
+    title: 'Folge 86: Von Beruf Kind'
+  - id: 4JkT1sqRI1hoddNvJtBttZ
+    episode: 87
+    title: 'Folge 87: Als Leo ein großer Bruder wurde'
+  - id: 2wEQWeHcolVaEDFx08lPJ0
+    episode: 88
+    title: 'Folge 88: Der Glücksbringer'
+  - id: 1Aw90vAwqOYRGnfLcXRFcc
+    episode: 89
+    title: 'Folge 89: Ein Korb voller Wut'
+  - id: 0vIZoThP4LHbYCK106VcbL
+    episode: 90
+    title: 'Folge 90: Ich bin unsichtbar!'
+  - id: 59ReVKdoXMO5Sy0EsMN3aV
+    episode: 91
+    title: 'Folge 91: Besondere Freunde'
+  - id: 6D4TkubPvjL62blpwnt9Z0
+    episode: 92
+    title: 'Folge 92: Die Fast-Wahrheit'
+  - id: 7Cx4Ka3CbJrNpWnli0jDsD
+    episode: 93
+    title: 'Folge 93: Ich mache es später!'
+  - id: 4tI2fgatCk5ZOELbH4facw
+    episode: 94
+    title: 'Folge 94: Gute Ratschläge'
+  - id: 0JHmeShMtFxwNHWONDfuwp
+    episode: 95
+    title: 'Folge 95: Leo hat immer recht!'
+  - id: 7Fv0Uql93vHNl8iyh8jp0T
+    episode: 96
+    title: 'Folge 96: Ich kann das auch!'
+  - id: 7xPGqcX6oIeO1dG7EKi2D2
+    episode: 97
+    title: 'Folge 97: Aufhören, wenn es am Schönsten ist'
+  - id: 0Kl2cg8NlRol7gBaBy2PKJ
+    episode: 98
+    title: 'Folge 98: Ich brauche keinen Mittagsschlaf mehr!'
+  - id: 1a8b6HQRDY3td3wYHXIjHz
+    episode: 99
+    title: 'Folge 99: Wir kümmern uns darum!'
+  - id: 6jpTvt1qnbwpcrlcdwnwG2
+    episode: 100
+    title: 'Folge 100: Es ist doch ein Geheimnis!'
+  - id: 1ZJeTpKWJDDw0ENkqsrlgI
+    episode: 101
+    title: 'Folge 101: Keine Küsschen mehr'
+  - id: 4LaobSZsMpoHOsxn58J7Iu
+    episode: 102
+    title: 'Folge 102: Seid nicht so laut!'
+  - id: 7aD0shF5yX1PLQKF68BsXn
+    episode: 103
+    title: 'Folge 103: Bist du schon wach?'
+  - id: 6AOJkBMN6aGSKly1utFvpJ
+    episode: 104
+    title: 'Folge 104: Die neue Knete'
 - id: sandmaennchen
   title: Sandmännchen
   aliases:
@@ -4284,15 +6575,150 @@ series:
   - 6NdYPh29DHFBbiYzcK7Nb0
 - id: peppa_wutz
   title: Peppa Wutz
-  aliases:
+  keywords:
   - Peppa Wutz
   - Peppa Pig
-  - Peppa Pig Hörspiele
-  keywords:
-  - peppa wutz
-  - peppa pig
   spotify_artist_ids:
   - 46iD7xFc8ubzILibDQ7fL7
+  - 58uwv9dYGClkxI0pzGUS00
+  - 63E3f5IDTnSrgADimAXrZX
+  episode_pattern: Folge\s+(\d+)
+  albums:
+  - id: 7aPZ3dKOdZNkptHna8NbGK
+    episode: 18
+    title: 'Folge 18: Opas kleine Lok'
+  - id: 3eru17M0QCuYu3BT98TXXV
+    episode: 19
+    title: 'Folge 19: Schatzsuche'
+  - id: 3HXGRKb2i9UqfvBGcMvSlw
+    episode: 20
+    title: 'Folge 20: Im Kindergarten'
+  - id: 1f2NVD9FEgNtIb36QXRyev
+    episode: 21
+    title: 'Folge 21: Ein schöner Abend'
+  - id: 6vwdXQYB3s0zjgTT1fsTvT
+    episode: 22
+    title: 'Folge 22: Matschepampe!'
+  - id: 6dyqbs8JKLDW5jZ38UWXPS
+    episode: 23
+    title: 'Folge 23: Beste Freunde'
+  - id: 1hFsiYohGbvTwTC4G5CJSw
+    episode: 24
+    title: 'Folge 24: Papa hängt ein Bild auf'
+  - id: 6C79VCUFek0lcYjU0M3gDQ
+    episode: 25
+    title: 'Folge 25: Schweinchen in der Mitte'
+  - id: 6Li2dccY8K9hSJnjEIJgJ0
+    episode: 26
+    title: 'Folge 26: Die Übernachtungsparty'
+  - id: 1PF6OqxkMDDw0dd0kJSQoa
+    episode: 27
+    title: 'Folge 27: Am Strand'
+  - id: 0lMbcIcEfRxXweuOjVBvc4
+    episode: 28
+    title: 'Folge 28: Der Fahrradausflug'
+  - id: 2v3FM8GLR3p1epbG0xNpJX
+    episode: 29
+    title: "Folge 29: Käpt'n Papa Wutz"
+  - id: 2FVJu9qqR95Q5DaZVNnHnu
+    episode: 30
+    title: 'Folge 30: Flohmarkt'
+  - id: 2oWAo7yaLvSHLG58uNBakJ
+    episode: 31
+    title: 'Folge 31: Seifenblasen'
+  - id: 217S1kAykPBrJFv9tt6jzf
+    episode: 32
+    title: 'Folge 32: Das Babyschweinchen'
+  - id: 3C6B15mWXNlgYq79lFriU8
+    episode: 33
+    title: 'Folge 33: Einkaufen'
+  - id: 3KZVE282lTNhGact5370Jy
+    episode: 34
+    title: 'Folge 34: Ein kalter Wintertag'
+  - id: 1yNHinZWYKEQ6LKsuEaMK4
+    episode: 35
+    title: 'Folge 35: Das neue Haus'
+  - id: 49XB25frLLnsSplWvLI8bE
+    episode: 36
+    title: 'Folge 36: Die fliegende Tierärztin'
+  - id: 29ONLX3nrTK7OpRal9bIk0
+    episode: 37
+    title: 'Folge 37: Opi Mümmels Saurierpark'
+  - id: 37iI8Qw5uQ3o8ho8wBNlbK
+    episode: 38
+    title: 'Folge 38: Der neue Dinosaurier von Schorsch'
+  - id: 2nOvNa4vZWTcH60dhKwmyc
+    episode: 39
+    title: 'Folge 39: In den Urlaub fliegen'
+  - id: 165vRMrorjTTV0NQMDpeNk
+    episode: 40
+    title: 'Folge 40: Gartenspiele'
+  - id: 4ubWC2mZVNiZLcUNuRSkDn
+    episode: 41
+    title: 'Folge 41: Peppas Zirkus'
+  - id: 30doiZYfEORpnA9s40ZRV6
+    episode: 42
+    title: 'Folge 42: Der Piratenschatz'
+  - id: 4LfeNc8mwrCuEvJDs0PXCB
+    episode: 43
+    title: 'Folge 43: Die Panda-Zwillinge'
+  - id: 4ExUA4LNNTSnrjNc9Ml1xm
+    episode: 44
+    title: 'Folge 44: Jede Menge Matschepfützen'
+  - id: 22WxczL7rpXKDBeqygVz6a
+    episode: 45
+    title: 'Folge 45: Superhelden'
+  - id: 70GwHym2K39RltsxdFpu40
+    episode: 46
+    title: 'Folge 46: Der vergrabene Schatz'
+  - id: 65vqM6YdioJQ2E7B8GRrae
+    episode: 47
+    title: 'Folge 47: Wenn wir groß sind'
+  - id: 6OU4MZ1R5pzFzVC1ynN5YB
+    episode: 48
+    title: 'Folge 48: Die Feuerwehr-Übung'
+  - id: 0za1p9smTQ2DeOJz7lka0f
+    episode: 49
+    title: 'Folge 49: Sachen suchen'
+  - id: 4aUpoFmZCc4Fe6pLQ32FVT
+    episode: 50
+    title: 'Folge 50: Eiscreme'
+  - id: 3r0qnm0gmROP4lcqbuZjHS
+    episode: 51
+    title: 'Folge 51: Mister Kartoffels Weihnachtsshow'
+  - id: 3Egk2aSnjf4UDnN8MCvlfI
+    episode: 52
+    title: 'Folge 52: Amerika'
+  - id: 1wU5GM9B8So2NGG2zCDW3j
+    episode: 53
+    title: "Folge 53: Schorsch' Töpfchen"
+  - id: 4Fzm3gQgCDoa6ZtXjwpmWK
+    episode: 54
+    title: 'Folge 54: Weihnachten mit Katinka Känguru'
+  - id: 1FYJ7t6lDfES5WyTwD1aD6
+    episode: 55
+    title: 'Folge 55: Das Spielhaus'
+  - id: 4Aqfe0llv0nzwVQ6Fhjind
+    episode: 56
+    title: 'Folge 56: Meerschweinchen'
+  - id: 0S3JeeJ0P3LNIeRouapYnM
+    episode: 57
+    title: 'Folge 57: Die Unterwasser-Party'
+  - id: 0fstGVsIKeMDYg0h7n5MPe
+    episode: 58
+    title: 'Folge 58: Die kribbel-krabbelige Safari'
+  - id: 69tjEGRzocVaKkqLDCgmsK
+    episode: 59
+    title: 'Folge 59: Hops, Hüpf, Spring!'
+  - id: 2g01wsgjE0A10gD1s4VOk8
+    episode: 60
+    title: 'Folge 60: Die Dinosaurier-Party!'
+  - id: 6WbTsXk5MZ4SCP1vjqmHbe
+    episode: 61
+    title: 'Folge 61: Ein Tag bei Dr. Hamster'
+  - id: 2rg8wLzb0qgkfhJEqB41iP
+    episode: 62
+    title: 'Folge 62: Ferien auf dem Kreuzfahrtschiff'
 - id: schule_magische_tiere
   title: Die Schule der magischen Tiere
   aliases:
@@ -4306,13 +6732,133 @@ series:
   - 6wlMx6MhWCynm8yVU0K3V3
 - id: globi
   title: Globi
-  aliases:
-  - Globi
-  - Globi der Globetrotter
   keywords:
-  - globi
+  - Globi
   spotify_artist_ids:
   - 7p5EwRiUqxJxnOCcULTHex
+  albums:
+  - id: 6eStapLJLfAur9s45b1Les
+    title: Freund Globi im Urwald
+  - id: 6dhdNuHAPTaGmJwbr0rfYP
+    title: Globi am Flughafen
+  - id: 0DesUwDXsNRatAiMHT8xxq
+    title: Globi an der Tour de Suisse
+  - id: 6jC2FhlxMkALbVvUtDUAjx
+    title: Globi auf der Alp
+  - id: 43xOrrfbAGRK9PRd5lYL0L
+    title: Globi bei den Höhlenbewohnern
+  - id: 4dggjNBFB8vlRYStTambBm
+    title: Globi bei den Kelten
+  - id: 4mSSqcyF1hDv4PJLrXB9Cj
+    title: Globi bei den Nashörnern
+  - id: 6WFEGs6yXjb4CjAQXnLhG9
+    title: Globi bei den Yaks
+  - id: 413zv8F6OrRwtiDj9xKYTa
+    title: Globi bei der Feuerwehr
+  - id: 4PbdrkQe0dv5FnbEyWggV4
+    title: Globi bei der Müllabfuhr
+  - id: 1XCSAO9VOytaTbUmmcu2ql
+    title: Globi bei der Post
+  - id: 3SFoqqzLuByytPQdlUnrXj
+    title: Globi bei der Rettungsflugwacht
+  - id: 2S756Uzitm5Ib1HFdQ7NoP
+    title: Globi beim Fernsehen
+  - id: 4lJwtDjHujwAEBy8SqdMlV
+    title: Globi beim Roten Kreuz
+  - id: 1UmglmUCRG1GD1mM2q9qh6
+    title: Globi der Seefahrer
+  - id: 32HAkQxqRNUYagySX2w2yG
+    title: Globi der Sportreporter
+  - id: 43lwkoyuStPoX474e2vGDT
+    title: Globi erlebt Paris
+  - id: 4f4dG39B7juTYfjpNG2cqE
+    title: Globi für alle Fälle
+  - id: 0p2uob6RwqWZpIiS16P4A6
+    title: Globi hilft der Polizei
+  - id: 162LBRbsMrNesoCf0syA9W
+    title: Globi im Europa-Park
+  - id: 4clNonr2AwXYUAs2YRCCMa
+    title: Globi im Museum
+  - id: 4IToTumizupxfDaUHjpSLE
+    title: Globi im Märchenreich
+  - id: 6arvX5w8gFKFDMENMruDc7
+    title: Globi im Nationalpark
+  - id: 1SqvChpsdiYGlHGuFJN0UQ
+    title: Globi im Reich der Tiere
+  - id: 1pZxBw7aI2w7A0UwqjSwSU
+    title: Globi im Spital
+  - id: 3AdPdaMae0ucTtFLVHkzkB
+    title: Globi im Wilden Westen
+  - id: 71BotQUx1JCF7C3LO8Dy3b
+    title: Globi im alten China
+  - id: 5tZTKiHqSLVu8NeXGrqEn4
+    title: Globi in der Schule
+  - id: 0ytkd1XrNDTs4y2LHXokLJ
+    title: Globi treibt Sport
+  - id: 5IFKlSP1lKSBhAGBNUCudS
+    title: Globi und Kasperli
+  - id: 56eoYy0goIcDKuDCULVvPy
+    title: Globi und Panda reisen um die Welt
+  - id: 1c8Z4K6eL8W7ge82vui60L
+    title: Globi und Roger (Swiss Premium Edition)
+  - id: 17Yv4AS1QIWl1sHLMi8VmP
+    title: Globi und Wilhelm Tell
+  - id: 4yqHwhEj1d66XNSbGlegCi
+    title: Globi und der Goldraub
+  - id: 48CuenqaDfqbXBc9EUG0i7
+    title: Globi und der Madagaskar Vogel
+  - id: 57sLvP15933q13CycyM4aD
+    title: Globi und der Polarforscher
+  - id: 2w0g5ShBSv5OwZDkljTIV8
+    title: Globi und der Schattenräuber
+  - id: 4xxN4heQblartUNrRnQaps
+    title: Globi und die Bahn
+  - id: 6L2BSxqN5tmYNBT3Zeillf
+    title: Globi und die Insel der Riesenschmetterlinge
+  - id: 72ZZf9Dwd5HK1LpiGDXFWU
+    title: Globi und die Ozeane
+  - id: 4RiUCnIqY7lobBDq6uBVrP
+    title: Globi und die Pirateninsel
+  - id: 2ep0147eMV2Yhr4Hosce7b
+    title: Globi und die Tiere im Zoo
+  - id: 2mLPUdQhGvoaq0zdm1fL0u
+    title: Globi und die Weltraumschnecken
+  - id: 1hZ2GIaR5VepLWMAyLF7nV
+    title: Globi und die verrückte Maschine
+  - id: 0Ajc1QR7nxI2UlqVi3ClXh
+    title: Globi will ins Schlaraffenland
+  - id: 0KSvzSon5zbXHy2GZBnood
+    title: Globi wird Filmstar
+  - id: 2v3ug9JryR97PJp4IgN5R2
+    title: Globi, der schlaue Bauer
+  - id: 6J5ORIUHZKeKIuKoCvjPtI
+    title: Globis Abenteuer auf dem Meeresgrunde
+  - id: 3hmkXJRz6VkJJv17nJis7n
+    title: Globis Abenteuer im Weltraum
+  - id: 1dcU8FSRxcjHTxoxxXGg6Q
+    title: Globis Abenteuer in Rom
+  - id: 2Cjv0TjDrHmB5OGkuVO4tc
+    title: Globis Alpenreise
+  - id: 4o2o3YKh5eHU9yWb7U6ilm
+    title: Globis Geburtstag
+  - id: 5A7uJujjqzuL0SRWfgcEaa
+    title: Globis Zoo
+  - id: 5hEzv2njsvJ4akLYPX6Rky
+    title: Globis abenteuerliche Schweizer Reise
+  - id: 6GTlIPORwGsq7jOJYAr6Ni
+    title: Globis geniale Abenteuer
+  - id: 2QKhSSyzazQ6sqArQ19HeU
+    title: Globis grosses Buch der Schweizer Sagen
+  - id: 34G9F88TjQSVIbcyVJcaej
+    title: Globis neue Abenteuer bei der Post
+  - id: 0iea8eZQQVm42silbH8jQ0
+    title: Globis verrückte Abenteuer
+  - id: 4LQuvhhwO3fDnZLaWCXfRY
+    title: Hotel Globi
+  - id: 5qqixGMJLMaKCcUYBlVf4q
+    title: Wie Globi Bauer wurde
+  - id: 31c3r3aTn0dCvVuNIg99Ui
+    title: Wie Globi Ritter Wurde
 - id: was_ist_was
   title: Was ist Was
   aliases:
@@ -4867,10 +7413,184 @@ series:
   title: Sternenschweif
   aliases:
   - Sternenschweif
+  - Sternenfohlen
+  - Sternenschweif - Sternchen
   keywords:
-  - sternenschweif
+  - Sternenschweif
   spotify_artist_ids:
   - 79iLUmzekfn37nPHuM09uq
+  - 4Cwiot3PlavNCGx2GPgd8R
+  - 3qDaERZWilLiDqilVaRhoq
+  episode_pattern: (?:[Tt]eil|[Bb]and|[Ff]olge)\s+(\d+)
+  albums:
+  - id: 4PeJ7S0Njod6b2xPg19mo7
+    episode: 1
+    title: 'Teil 1: Ein Einhorn in der Schule'
+  - id: 62XN52fjzBjzYihERmePkp
+    episode: 2
+    title: 'Teil 2: Die goldene Feder'
+  - id: 1diZg9wfrm8Y9dVVjPjpTG
+    episode: 3
+    title: 'Teil 3: Fest auf dem Ponyhof'
+  - id: 0DYKzQ5bEC8x9BAINAB3eo
+    episode: 4
+    title: 'Teil 4: Das Glückspferd'
+  - id: 1ovUOgSvAjx1zoz7evH7cc
+    episode: 5
+    title: 'Teil 5: Sternenschweifs Geheimnis'
+  - id: 0RkIrxojNhnosFGpI2VCmD
+    episode: 6
+    title: 'Teil 6: Freunde im Zauberreich'
+  - id: 69dc93AtL8oOwc3lCbv33s
+    episode: 7
+    title: 'Teil 7: Nacht der 1000 Sterne'
+  - id: 1MpR8hOIGsM1N6r42B8FKt
+    episode: 8
+    title: 'Teil 8: Die Macht des Einhorns'
+  - id: 1kqjYo81W1OfdwDDKzZGDS
+    episode: 9
+    title: 'Teil 9: Flug durch die Nacht'
+  - id: 4ZqCS50S3H3lZsY3K93bSD
+    episode: 10
+    title: 'Teil 10: Geheimnisvolles Fohlen'
+  - id: 4yrQWNCH6nDdr5ZhNDxFSw
+    episode: 11
+    title: 'Teil 11: Spuren im Zauberwald'
+  - id: 45L2X3quZMJ0eXFh0rhVC7
+    episode: 12
+    title: 'Teil 12: Mondscheinzauber'
+  - id: 5e3bsj6VnE2FrsYXzJZCOi
+    episode: 13
+    title: 'Teil 13: Magischer Sternenregen'
+  - id: 21YFuK4MiX6zmFqLu8Mi9l
+    episode: 14
+    title: 'Teil 14: Der goldene Schlüssel'
+  - id: 5E3oU0MigOgFQqK2tmHUwE
+    episode: 15
+    title: 'Teil 15: Das Geheimnis der Einhörner'
+  - id: 2AIwuTMnbh0cv2DsdvMCFP
+    episode: 16
+    title: 'Teil 16: Geheimnisvoller Zaubertrank'
+  - id: 05f1jj0YPuVBymIaJffdKI
+    episode: 17
+    title: 'Teil 17: Die magische Versammlung'
+  - id: 32Y6pcjg8UISazHlqSyWK2
+    episode: 18
+    title: 'Teil 18: Sommerzauber'
+  - id: 4N0wZhFcJSZm5TaOuGZWUn
+    episode: 19
+    title: 'Teil 19: Zauberhafte Freundschaft'
+  - id: 1gxjH3m2FH0YLaxTTzZZ1c
+    episode: 20
+    title: 'Teil 20: Geheimnisvolles Einhorn'
+  - id: 4YfXyG4LQWhpnOy41qAWEs
+    episode: 21
+    title: 'Teil 21: Die geheime Flaschenpost'
+  - id: 229m4zCvqm7QQ7xSKHTqay
+    episode: 22
+    title: 'Teil 22: Die Zwillingsfohlen'
+  - id: 2YZArlZUj7ko0mXWkfzX8X
+    episode: 24
+    title: 'Teil 24: Mondsteinzauber'
+  - id: 6gjWDLr0Cil9rXv5OhrQUy
+    episode: 43
+    title: 'Teil 43: Der Sternengeburtstag'
+  - id: 6nLaaggXZ3WLaF43ZirAKL
+    episode: 44
+    title: 'Teil 44: Zauber der Mondblumen'
+  - id: 7DvCQXtALnO3YEOho1opv5
+    episode: 45
+    title: 'Teil 45: Spur der Sterne'
+  - id: 29VnhiBroBzz2jBP5Rh7Ws
+    episode: 46
+    title: 'Teil 46: Das magische Wasser'
+  - id: 1WMbA9gVW9zcarCspBObxk
+    episode: 47
+    title: 'Teil 47: Traum der Sterne'
+  - id: 60GQW9YtLoxAgz4iOD0J03
+    episode: 48
+    title: 'Teil 48: Geheimnis der Mondsteine'
+  - id: 18tCSfjkG1vy0CIf1DY4LZ
+    episode: 49
+    title: 'Teil 49: Insel der Träume'
+  - id: 1LDX4J0tVkwhiw7CjYu7uS
+    episode: 50
+    title: 'Teil 50: Eine Freundin für Waldfee'
+  - id: 0X30PRYb4M9hdGcQB6EfAp
+    episode: 51
+    title: 'Teil 51: Goldener Winterzauber (ungekürzt)'
+  - id: 2ybX06jZfU3nn94zFDiKYT
+    episode: 52
+    title: 'Teil 52: Verwandlung in der Nacht (ungekürzt)'
+  - id: 4xHcwFhJFM5u7b2VLEXj9D
+    episode: 53
+    title: 'Teil 53: Magisches Einhornturnier'
+  - id: 5eoLY6uFOfHhRqeKf1iE6u
+    episode: 54
+    title: 'Teil 54: Magische Freunde'
+  - id: 1xin7hZAc4jCFcZGUweAXC
+    episode: 55
+    title: 'Teil 55: Geheimnis der Winterponys'
+  - id: 1MvZN4XmraGfBFP1R0TneX
+    episode: 56
+    title: 'Teil 56: Der Elfenzauber'
+  - id: 23zIOBWM0LGdtycXqtGCmZ
+    episode: 57
+    title: 'Teil 57: Das Geheimnis der Sonne'
+  - id: 7gmyYgKgXrmgonOndEUY7N
+    episode: 58
+    title: 'Teil 58: Ein Zuhause für Streuner'
+  - id: 73s7enFV2x5AwgbKd8bORs
+    episode: 59
+    title: 'Teil 59: Allerbeste Ponyfreunde'
+  - id: 6PBQKvGTCk04nhZ25AG7d2
+    episode: 60
+    title: 'Teil 60: Zauberfohlen'
+  - id: 4KCqE9HnuX1CCqutZpeGdh
+    episode: 61
+    title: 'Teil 61: Funkelnde Sternennacht'
+  - id: 0ypYKxLKjEse8TAWqim05F
+    episode: 62
+    title: 'Teil 62: Auf der Suche nach Nox'
+  - id: 0wyAKd14MIBVifJTYmWlmR
+    episode: 63
+    title: 'Teil 63: Das verwunschene Baumhaus'
+  - id: 4JTbPwR2x077GGhAyKNPo6
+    episode: 64
+    title: 'Teil 64: Im Tal der Wildpferde'
+  - id: 5uJU6SF2eFgNkMwK4myazh
+    episode: 65
+    title: 'Folge 65: Das verschwundene Tagebuch'
+  - id: 3qzatZOQ9ckEQesq0VToDv
+    episode: 66
+    title: 'Folge 66: Das Geheimnis der Bienen'
+  - id: 2TyA6jSngPjXapNgUBfGbd
+    episode: 67
+    title: 'Band 67: Die geheimnisvolle Flaschenpost'
+  - id: 2dITmja2XCZoubXH4MQ6Iv
+    episode: 68
+    title: 'Band 68: Alpaka in Not'
+  - id: 1dsbpMVoZOqMPYhrVpl9fI
+    episode: 69
+    title: 'Teil 69: Das Filmpony (ungekürzt)'
+  - id: 6qSdHCWu6ZWxVVOanmuSpT
+    episode: 70
+    title: 'Teil 70: Reise nach Arkadia (ungekürzt)'
+  - id: 7lYnMMmJ6HzRlHhLhFQzmH
+    episode: 71
+    title: 'Teil 71: Das verzauberte Bild'
+  - id: 007bIPe2qAmbnXxGmWUamJ
+    episode: 72
+    title: 'Teil 72: Das Geheimnis der Wölfe'
+  - id: 6yTCKBuS4dNqPBbFcpl9dW
+    episode: 73
+    title: 'Teil 73: Das Einhorn aus der Steinzeit'
+  - id: 4gqpAfjW8npgiSbCTDI71Y
+    episode: 74
+    title: 'Teil 74: Hilfe für Flocke'
+  - id: 5mWqJxP9v4n1EIX0tCXUF9
+    episode: 75
+    title: 'Teil 75: Das Regenbogen-Einhorn'
 - id: loewenzahn
   title: Löwenzahn
   keywords:
@@ -8997,3 +11717,2360 @@ series:
   - id: 3TAWveTLyLNgSGlEYVtQcI
     episode: 26
     title: Umweltschutz (Wieso? Weshalb? Warum? PROFIWISSEN, Folge 26)
+- id: lego_city_abenteuer
+  title: LEGO City Abenteuer
+  aliases:
+  - LEGO City Adventures
+  spotify_artist_ids:
+  - 7lWAti8HlNyw39Z5OI92Ep
+  episode_pattern: '^Folge (\d+):'
+  albums:
+  - id: 7v1Ej98IjaotwJcaWcoWwH
+    episode: 1
+    title: 'LEGO City: Folge 1 - Polizei - Der unheimliche Mister X'
+  - id: 5OxUVo6FLul7Mjwise5nvM
+    episode: 2
+    title: 'LEGO City: Folge 2 - Polizei - Stadt in Gefahr'
+  - id: 746hc4vaxwrBzI4UT4jRSn
+    episode: 3
+    title: 'LEGO City: Folge 3 - Feuerwehr - Auf der Spur des Roten Drachen'
+  - id: 6kSyYBxOHtMauNs5dsPd6x
+    episode: 4
+    title: 'LEGO City: Folge 4 - Zug - Alarm im LEGO City Express'
+  - id: 1O0IHH6pVTImC2yIE5avD3
+    episode: 5
+    title: 'LEGO City: Folge 5 - Raumfahrt - LUNA 1 antwortet nicht'
+  - id: 3ngKLboDjsx8LhBPo5sxs8
+    episode: 6
+    title: 'LEGO City: Folge 6 - Polizei - Die geheimnisvolle Höhle'
+  - id: 3imgBl66bdTHnBTAgdEcnU
+    episode: 7
+    title: 'LEGO City: Folge 7 - Feuerwehr - In letzter Sekunde'
+  - id: 6WYhYFLMfKIv6ZmUB2Dhtm
+    episode: 8
+    title: 'LEGO City: Folge 8 - Weihnachten - Angriff der Schneemänner'
+  - id: 1eZDAdZmJeDtIHzGUEPs6k
+    episode: 9
+    title: 'LEGO City: Folge 9 - Museum - Der Fluch des Goldenen Schädels'
+  - id: 3gkwsJlCOtOwdNUQ3s0jQy
+    episode: 10
+    title: 'LEGO City: Folge 10 - Küstenwache - Haie vor LEGO City'
+  - id: 2Lv1i3QqsMZowG9WR3yjfE
+    episode: 11
+    title: 'LEGO City: Folge 11 - Flughafen - SOS über den Wolken'
+  - id: 5iINh6qhzGr4sRzNL0lrso
+    episode: 12
+    title: 'LEGO City: Folge 12 - Polizei - In den Greifern der Motorradbande'
+  - id: 720GhdzAYOaf1sgonrNH72
+    episode: 13
+    title: 'LEGO City: Folge 13 - Arktis - Abenteuer im Packeis'
+  - id: 6Qfw9ITHwveogDwmmKzr2I
+    episode: 14
+    title: 'LEGO City: Folge 14 - Abriss-Experten - Wettlauf gegen die Zeit'
+  - id: 1E5vNiPDYTmFwgy4tko3hA
+    episode: 15
+    title: 'LEGO City: Folge 15 - Tiefsee - Expedition - Der Schatz aus der Tiefe'
+  - id: 7uIGc3hXpnMyFBMufBJvwf
+    episode: 16
+    title: 'LEGO City: Folge 16 - Feuerwehr - Brandgefährlicher Einsatz'
+  - id: 5cVHUuCdUJ9pK0yB6nc8Xb
+    episode: 17
+    title: 'LEGO City: Folge 17 - Vulkan - Am feuerspeienden Berg'
+  - id: 64I0e15NOY6wnw7FHFxPmI
+    episode: 18
+    title: 'LEGO City: Folge 18 - Polizei - Doppelter Einsatz'
+  - id: 3bmf47LdkcVgixbjl3F8lp
+    episode: 19
+    title: 'LEGO City: Folge 19 - Dschungel - Das Geheimnis des vergessenen Tempels'
+  - id: 5ZSLwaqveRltBWgVUborci
+    episode: 20
+    title: 'LEGO City: Folge 20 - Bergpolizei - Am Abgrund'
+  - id: 6UpxTGaHx3oTPcUeTj86Xp
+    episode: 21
+    title: 'LEGO City: Folge 21 - Arktis - Auf der Jagd nach dem weißen Gold'
+  - id: 0As6WtfaAP61uTSNME7Jet
+    episode: 22
+    title: 'LEGO City: Folge 22 - Luftpolizei - Der Coup des Jahrhunderts'
+  - id: 5OuS244mCL3yET4TcCmCeQ
+    episode: 23
+    title: 'LEGO City: Folge 23 - Weltraum - Auf der dunklen Seite des Mondes'
+- id: deine_freunde
+  title: Deine Freunde
+  spotify_artist_ids:
+  - 5e7w4jeuld5367jaczHkng
+  episode_pattern: '^(\d+):'
+  albums:
+  - id: 6U67cmpihNdVr6uqaKotXP
+    title: '01: Hausenheim Hood News'
+  - id: 4AqAXCI3UaiT1oY0aXVWcQ
+    title: '02: Kinderlalaland'
+  - id: 3TTsF4Q5qEwTsig5aeTOed
+    title: '03: Hamsterdam'
+  - id: 0OHQxJeF6IJUSw6drODNrL
+    title: '04: Der Lollimann'
+- id: detlev_joecker
+  title: Detlev Jöcker
+  spotify_artist_ids:
+  - 4UiTe5uwHKDUddmV8yQeY4
+- id: die_eiskoenigin
+  title: Die Eiskönigin
+  spotify_artist_ids:
+  - 3wwXLyeqdnLlTqFwXlBQZ1
+  albums:
+  - id: 12OIEraQegwzRjeV0tyrUY
+    title: Die Eiskönigin - Partyfieber (Hörspiel zum Kurzfilm)
+  - id: 5KF1EEo9C8m0w481zxRDdB
+    title: Die Eiskönigin - Völlig Unverfroren (Hörspiel zum Disney Film)
+  - id: 2izlb9M2kaJWx0OWoaeUd4
+    title: Die Eiskönigin - Zauber der Polarlichter (Hörspiel zum TV-Special)
+  - id: 6vMHeySikVuG0MHC93aKCs
+    title: Die Eiskönigin 2 (Hörspiel zum Disney Film)
+  - id: 7bNsN4pIWSqhqVJXe6cLjB
+    title: 'Die Eiskönigin: Olaf taut auf (Hörspiel zum Special)'
+  - id: 1AzroGa7OMBqJu9hSOoIJU
+    title: Es war einmal ein Schneemann (Hörspiel zum Kurzfilm)
+- id: die_punkies
+  title: Die Punkies
+  keywords:
+  - Punkies
+  spotify_artist_ids:
+  - 7w6oOCMwHFwDBPxeH7wQ2A
+  episode_pattern: Folge\s+(\d+)
+  albums:
+  - id: 1pEI00p47VN97ZJXcvoJdJ
+    episode: 1
+    title: 'Folge 1: Bühne frei für die Punkies!'
+  - id: 5Xtjq4riihC8sdLnjLuMyB
+    episode: 2
+    title: 'Folge 2: Gitarrendieb on tour!'
+  - id: 07VTWP2ZVlB566JX7snHif
+    episode: 3
+    title: 'Folge 3: Gig auf der Geisterinsel!'
+  - id: 5iv5zqKACFX20gyfzIXaFf
+    episode: 4
+    title: 'Folge 4: Bens Comeback!'
+  - id: 3cJ0OvAYfTCYZyjSdAF26v
+    episode: 5
+    title: 'Folge 5: Video Stars!'
+  - id: 0pAFnv9tPUi5gRmbVo7CGb
+    episode: 6
+    title: 'Folge 6: Die Jagd nach der Masken-Band!'
+  - id: 3lmGt8EDWouq6ZLWqgH9b3
+    episode: 7
+    title: 'Folge 7: Into the Wild!'
+  - id: 2UsXJOldhn0rLSSZGIKpjZ
+    episode: 8
+    title: 'Folge 8: Der perfekte Deal!'
+  - id: 79YH6zLMoSrSmOLG3M4dV7
+    episode: 9
+    title: 'Folge 9: Operation Love Song!'
+  - id: 69TqOEcUP0GYEVGrhGnUcC
+    episode: 10
+    title: 'Folge 10: Die perfekte Hymne!'
+  - id: 7qMKbPPplU6E0NRZ0cLC6D
+    episode: 11
+    title: 'Folge 11: White Noise!'
+  - id: 7sHyAM098n0ygGall7MnIa
+    episode: 12
+    title: 'Folge 12: Farm Festival'
+  - id: 3LLW2YMtugTvqbg7QzCNTh
+    episode: 13
+    title: 'Folge 13: Big Moon!'
+  - id: 72FohU7O3g0vlUDHzff4vY
+    episode: 14
+    title: 'Folge 14: Burning Heart Boyz!'
+  - id: 1yyI40KHaUvmMCPJ54Wdwm
+    episode: 15
+    title: 'Folge 15: Ultra! Mega! Giga!'
+  - id: 6Dco2pUeWYng3a9TM3fsla
+    episode: 16
+    title: 'Folge 16: Hai Life!'
+  - id: 1A4PCDEgMGrpAOx0x2hVTy
+    episode: 17
+    title: 'Folge 17: Heroes!'
+  - id: 1gfXqJGwlTPetODBpM20jR
+    episode: 18
+    title: 'Folge 18: Reboot, Baby!'
+  - id: 6K6rbJGE7Wz7TpkOkwwIvU
+    episode: 19
+    title: 'Folge 19: Kiez-Mucke!'
+  - id: 66RdbeDXTmjz3Pti89ZssN
+    episode: 20
+    title: 'Folge 20: Ein Fall für A.B.L.L.N.!'
+  - id: 6jXTQ0dQFStPJnRYvuBlV5
+    episode: 21
+    title: 'Folge 21: Punkies Ahoi!'
+  - id: 615EudJwtgaBE2lSApuHws
+    episode: 22
+    title: 'Folge 22: Echter Punk!'
+  - id: 3dIVNR8nTLCPTXawAiGDzh
+    episode: 23
+    title: 'Folge 23: Virtual World Tour!'
+  - id: 1gncb065yKRVKIQmgoP0HG
+    episode: 24
+    title: 'Folge 24: Swamp Beats!'
+  - id: 3pdBvNzY0f0GCutM8JBWvk
+    episode: 25
+    title: 'Folge 25: Für eine Handvoll Eiscreme! (Special Guest: Johannes Oerding)'
+  - id: 4hc6amUaJ2GEn4y0gHRTS7
+    episode: 26
+    title: 'Folge 26: Crazy Catering!'
+  - id: 6ycM65LFZ9eK87IT5uzoC5
+    episode: 27
+    title: 'Folge 27: Stay tuned!'
+  - id: 5SoeyPq6kIsPFy2w9ano5f
+    episode: 28
+    title: 'Folge 28: Les Moustiques!'
+  - id: 4AI7Xb8tinUc2EQNkIDSp5
+    episode: 29
+    title: 'Folge 29: Free as a Bird!'
+  - id: 1FaJcn0s62OunIgVdW4ZQP
+    episode: 30
+    title: 'Folge 30: Camp Harmony! (feat. JORIS)'
+  - id: 7ok1jXG43VR4SSFhklVcWy
+    episode: 31
+    title: 'Folge 31: Steam-Punkies!'
+  - id: 0tYFATPSznHRAuoQKf7SX6
+    episode: 32
+    title: 'Folge 32: Postcards from Paradise!'
+  - id: 4EpZ5PWLFWmBXVib2btVI6
+    episode: 33
+    title: "Folge 33: Sister's Act! (feat. Antje Schomaker)"
+  - id: 49XVZV6XBDmok9WsJT3WQy
+    episode: 34
+    title: 'Folge 34: Forever Young!'
+  - id: 3wnO6ZE1XlGOcIzOenbaRD
+    episode: 35
+    title: 'Folge 35: Sweet Dreams!'
+  - id: 5kYby5x0a0U9x9tXicPwqz
+    episode: 36
+    title: 'Folge 36: Ghost! (feat. Paula Carolina)'
+  - id: 1lbR6oR2r6dPnxhtJxlc5w
+    episode: 37
+    title: 'Folge 37: Dancing Dragon!'
+  - id: 17ZHonokanCp3g8Q9SoZMy
+    episode: 38
+    title: 'Folge 38: Mix Up!'
+  - id: 0QhcEDtv1kXvVbTHN7AAXN
+    episode: 39
+    title: 'Folge 39: Hyggelig Hellraiser!'
+  - id: 7KUB142vdGwowc0MoqHuDZ
+    episode: 40
+    title: 'Folge 40: Merch-Mania!'
+  - id: 3tJzWwxYLbLCj6mJo7aq31
+    episode: 41
+    title: 'Folge 41: Well Good!'
+  - id: 0QjPvBxHar9xu1LfX6UDZk
+    episode: 42
+    title: 'Folge 42: King Bling!'
+  - id: 0J5lHc5vtWb9WyUrSfUhhn
+    episode: 43
+    title: 'Folge 43: Serving Secrets!'
+  - id: 11dfFb6945OEuvmJGDxOX3
+    episode: 44
+    title: 'Folge 44: Punkies Pur!'
+  - id: 1R7Po5TTaaDXALoxNKv1bH
+    episode: 45
+    title: 'Folge 45: Tunnelblick!'
+- id: die_schlumpfe_europa
+  title: Die Schlümpfe (EUROPA Anthologie)
+  spotify_artist_ids:
+  - 0ONNMDruuhqjpTB9uRhbYs
+  episode_pattern: Folge\s+(\d+)
+  albums:
+  - id: 2PamhIIkxUEfNYswLoruH2
+    episode: 1
+    title: 'Folge 1: Ein tollpatschiger Held'
+  - id: 6fQLD8MTbcyK5vF3zEkTh8
+    episode: 2
+    title: 'Folge 2: Ein unwiderschlumpfliches Lächeln'
+  - id: 6NaSxEeldWBI4uahBDlyor
+    episode: 3
+    title: 'Folge 3: Wer ist heftiger?'
+  - id: 4S5nRTGrXoU6VIdg3if5HL
+    episode: 4
+    title: 'Folge 4: Mein Schlumpf, der Held'
+  - id: 1I0LEec7rsYlMjuwIvSAZs
+    episode: 5
+    title: 'Folge 5: Schlumpf Fu'
+  - id: 01ek7vgiYOT77OYG7GIUAT
+    episode: 6
+    title: 'Folge 6: Die Plümpfe'
+  - id: 0rKKL584q3GAAvy3zYZBcQ
+    episode: 7
+    title: 'Folge 7: Ein schlumpfiger Kindergarten'
+  - id: 74vhZGHIMJzMBWPHt9ibAE
+    episode: 8
+    title: 'Folge 8: Gargaschlumpf'
+  - id: 0Hji0C3fP2Vxoke0x593MD
+    episode: 9
+    title: 'Folge 9: Sturm verliert ihr Mojo'
+  - id: 1z5eT8gtOv4Jf6eS1CtsZm
+    episode: 10
+    title: 'Folge 10: Die Schlumpfshow'
+  - id: 6Ts4JNHicpgwrqKZ5AQ2IF
+    episode: 11
+    title: 'Folge 11: Der Laborassistent'
+  - id: 4AVOhPoLFZoBxl0qlQazBd
+    episode: 12
+    title: 'Folge 12: Der doppelte Papa Schlumpf'
+  - id: 30PyLsUW7zm2sRJpWS3VL2
+    episode: 13
+    title: 'Folge 13: Ihr seid gefeuert!'
+  - id: 2cD99DptS2to8bMstweM1k
+    episode: 14
+    title: 'Folge 14: Schlumpfige Manieren'
+  - id: 2MrQz8NwuH96ubXo4plybL
+    episode: 15
+    title: 'Folge 15: Der Gast, der nicht gehen wollte'
+  - id: 5knSY3nl6mTL5Zl9hOhMm1
+    episode: 16
+    title: 'Folge 16: Ogerliebe'
+  - id: 03YSG980Jls0yZ8kVdOtcS
+    episode: 17
+    title: 'Folge 17: Blüte zieht aus'
+  - id: 3qKKWSQcKfecrfM7QIUZys
+    episode: 18
+    title: 'Folge 18: Okey Dokey!'
+  - id: 0EiLKoOMJwvrCwYrusBiTx
+    episode: 19
+    title: 'Folge 19: Baby Sensei'
+  - id: 3GSN1dzwUvdKzYXI6aoLnN
+    episode: 20
+    title: 'Folge 20: Die fliegenden Schlümpfe'
+  - id: 323Uz36BPQn0PsqVKAnPfD
+    episode: 21
+    title: 'Folge 21: Die Schlumpfdiva'
+  - id: 1o4a6OJ5ENcfsu59zdjpEa
+    episode: 22
+    title: 'Folge 22: Der magische Kürbis'
+  - id: 2YRaUWgQXr7elOkWUKvbtm
+    episode: 23
+    title: 'Folge 23: Schlumpf in die Zukunft'
+  - id: 4lhwJXQtgjJF1WYHOGc0uN
+    episode: 24
+    title: 'Folge 24: Schlumpfige Weihnachten'
+  - id: 6YFro5aX51QJxFnEQjbCUx
+    episode: 25
+    title: 'Folge 25: Die Sarsaparillo-Jagd'
+  - id: 7hwuIkBoYtRG16DE5ClPeo
+    episode: 26
+    title: 'Folge 26: Wollen wir wetten?'
+- id: die_schule_der_magischen_tiere_endlich_ferien
+  title: 'Die Schule der magischen Tiere: Endlich Ferien'
+  spotify_artist_ids:
+  - 1BElEHaU2xaZg7FOGsSird
+  - 6wlMx6MhWCynm8yVU0K3V3
+  - 05iCN3BdeaMyUYHXiEp761
+  episode_pattern: '^(?:(\d+):|Die Schule der magischen Tiere (?:ermittelt - Hörspiele |ermittelt Neuausgabe
+    |\d+: | - Endlich Ferien \d+:))'
+  albums:
+  - id: 3R5QGeXiLeYbk9uD4zg12C
+    episode: 1
+    title: 'Die Schule der magischen Tiere - Endlich Ferien 1: Rabbat und Ida'
+  - id: 0EucFZEiJuJ3psm31E6RF6
+    episode: 2
+    title: 'Die Schule der magischen Tiere - Endlich Ferien 2: Silas und Rick'
+  - id: 0G0b3Kc6qzItvpk7TglhZD
+    episode: 3
+    title: 'Die Schule der magischen Tiere - Endlich Ferien 3: Henry und Leander'
+  - id: 3o1rRndcuuKj3OdeS0bxeU
+    episode: 4
+    title: 'Die Schule der magischen Tiere - Endlich Ferien 4: Helene und Karajan'
+  - id: 6vPp5wHskGPP5uVMvuvXoA
+    episode: 5
+    title: 'Die Schule der magischen Tiere - Endlich Ferien 5: Benni und Henrietta'
+  - id: 3b5wd28RfW3CwslIUBt2Q9
+    episode: 6
+    title: 'Die Schule der magischen Tiere - Endlich Ferien 6: Hatice und Mette-Maja'
+  - id: 3C2NQOAQTkmx0CqjF8spI3
+    episode: 7
+    title: 'Die Schule der magischen Tiere - Endlich Ferien 7: Max und Muriel'
+  - id: 0KzItGmx8zWKwE5GIRPtEp
+    episode: 8
+    title: 'Die Schule der magischen Tiere - Endlich Ferien 8: Franka und Cooper'
+  - id: 3Q8v6eUrInqM28X8wq2KMV
+    episode: 9
+    title: 'Die Schule der magischen Tiere - Endlich Ferien 9: Elisa und Silber'
+- id: eule_findet_den_beat
+  title: Eule findet den Beat
+  keywords:
+  - Eule findet den Beat
+  spotify_artist_ids:
+  - 59bf2D81aHzl0ot28xzQbk
+  albums:
+  - id: 0jet89yX7ilugi5WNk3bG7
+    episode: 1
+    title: Eule findet den Beat (Musik-Hörspiel)
+  - id: 03C4G0dGKUXaPRCw1iGIP9
+    episode: 2
+    title: Eule findet den Beat - Auf Europatour (Musik-Hörspiel)
+  - id: 0sBR6VO3ZRvqvrxhBPDECl
+    episode: 3
+    title: Eule findet den Beat - mit Gefühl (Musik-Hörspiel)
+  - id: 5cbOhNmUxxf2quWl9LlZCC
+    episode: 4
+    title: Eule findet den Beat - mit Instrumenten (Musik-Hörspiel)
+- id: ferien_auf_saltkrokan
+  title: Ferien auf Saltkrokan
+  aliases:
+  - Vi på Saltkråkan
+  keywords:
+  - Ferien auf Saltkrokan
+  spotify_artist_ids:
+  - 6Tgs4sCWBTcniX8YqJEhls
+  - 7sRF5KPi10c3pueaKGmArz
+  episode_pattern: (?:Ferien auf Saltkrokan)\s*(\d+)
+  albums:
+  - id: 3oG647uAQIqJpEx5FsQ7DN
+    episode: 1
+    title: Ferien auf Saltkrokan 1
+  - id: 1hRhF8gMRtiiamGSQnIOXE
+    episode: 2
+    title: Ferien auf Saltkrokan 2
+  - id: 00ew0iiHQFHE8Gs5VAhkE0
+    episode: 3
+    title: Ferien auf Saltkrokan. Ein Kaninchen für Pelle
+  - id: 70GaL8TOZZyXiQzHfX2LE6
+    episode: 4
+    title: Ferien auf Saltkrokan. Als Tjorven einen Seehund bekam
+  - id: 6hjritIbcYaqyPhXJubKH1
+    episode: 5
+    title: Ferien auf Saltkrokan. Pelle findet einen Wunschstein
+  - id: 7tQCdaErong5Q2slfWK9oo
+    episode: 6
+    title: Ferien auf Saltkrokan. Pelle feiert Weihnachten
+- id: fuenf_geschwister
+  title: 5 Geschwister
+  spotify_artist_ids:
+  - 6k51vTPqkkOG4SpZwtZS1s
+  episode_pattern: '^0?(\d+):'
+  albums:
+  - id: 1UcA02mGWEzVAtsHAYDIwT
+    title: '01: Auf der Abenteuerburg'
+  - id: 3PEi6aG3teyB7tm4Pan37v
+    title: '02: Lösen das Geheimnis der Abenteuerburg'
+  - id: 4xUkMge2gbrb3CM7HzCLhV
+    title: '03: Im unheimlichen Schloss'
+  - id: 5Q20LwM42ECSPKFpI13bpk
+    title: '04: Im geheimnisvollen Palazzo'
+  - id: 5j5qsb636sBQIcv2lPg3BV
+    title: '05: Im rätselhaften Herrenhaus'
+  - id: 5bD9nYG3UQfOHGwists8F2
+    title: '06: Im verlassenen Kloster'
+  - id: 1hThcbUJ1eSqy3Xh8xd1K3
+    title: '07: In der sonderbaren Villa'
+  - id: 10Gi6wU6MiRZraDpwCsAyj
+    title: '08: Im ungewöhnlichen Pfarrhaus'
+  - id: 4DpWGBHpEyvJ23PrCzDw98
+    title: '09: Im merkwürdigen Jagdschloss'
+  - id: 45MRPKRHkau4SmNgcuhnEg
+    title: '10: Im seltsamen Patrizierhaus'
+  - id: 7DqCBml3xHxw7XYZsZ81O4
+    title: '11: Im mysteriösen Leuchtturm'
+  - id: 6TZIqpP6UuDN7Hlos6wfnD
+    title: '12: Im verbotenen Grab'
+  - id: 1lMxDzwDEks3RVwyP9cIaI
+    title: '13: Die vergessene Insel'
+  - id: 2VNkAK4sR5sxn6YcIPonxP
+    title: '14: Im unterirdischen Labyrinth'
+  - id: 5TMO2xljifMowusplssGCP
+    title: '15: Gefahr auf dem Jahrmarkt'
+  - id: 2PEr01Cx5a0ILQqYMIWnHm
+    title: '16: Auf dem düsteren Landgut'
+  - id: 24kpbCXapezjPRqgb7XyCx
+    title: '17: Der verborgene Gegenspieler'
+  - id: 0spHlH6wYoFU7Ux1DBJkXw
+    title: '18: Luthers Vermächtnis'
+  - id: 7eApjiNkWhSBSFaiG9lNzb
+    title: '19: Der Schatten im ewigen Eis'
+  - id: 7LYc1LLsZbiOd3dfu7ZaBC
+    title: '20: Angriff auf die Sternwarte'
+  - id: 6EtYZ9InbHFeo7dVZuuIhX
+    title: '21: Falsches Spiel zu Weihnachten'
+  - id: 2p7GrP39BXeBEinGWWEuSZ
+    title: '22: Im Wilden Westen'
+  - id: 0N29DCVIYigPJ6x3PAX0h2
+    title: '23: Die Symphonie des Schreckens'
+  - id: 1YPrwJjDPhZTEFeSfTUf2A
+    title: '24: Im Netz der Spinne'
+  - id: 3ah8MNLVdMN6xf77ZYDIgT
+    title: '25: Zurück in die Steinzeit'
+  - id: 4fOiVIvtmX7cNQ243jzs9X
+    title: '26: Das Gold des Piraten'
+  - id: 2n6E6AfaEsJv1K43QG9IMa
+    title: '27: Die Jagd im Hotel'
+  - id: 0l21sHXcdpuH3NAXpJJ1J7
+    title: '28: Tappen im Dunkeln'
+  - id: 29so8IxFLG34UUbc2rNFaT
+    title: '29: Das Wunder von Rio'
+  - id: 3WzHcoH7hj0ThpYxoA5ASV
+    title: '30: Das Geheimnis der Maya'
+  - id: 3FtEAxJrXH70Jx0RzLgRmW
+    title: '31: Im Urwald der Träume'
+  - id: 7vdqAY8oKKrubF41cRyCkH
+    title: '32: In der verlorenen Stadt'
+  - id: 3gKPnMGRTW1CPsZ5aYvuMt
+    title: '33: Das Erbe des Juweliers'
+  - id: 0sD9ii5q4W9lGS63oz9Mgo
+    title: '34: Im Haus der 4 Sinne'
+  - id: 7HmxTiJDoeLvNysoaDEG7p
+    title: '35: Im Herzen Afrikas'
+  - id: 0p4ultB6xnh6Tb7fKeObPT
+    title: '36: Rückkehr zur Abenteuerburg'
+  - id: 1W2DeTMOK6MSgO0ERNHupF
+    title: '37: Düstere Vergangenheit'
+  - id: 4tVC2ix4FpYyslhAZuQxlJ
+    title: '38: Der verschollene Baron'
+  - id: 3TIpIwiW2r5sQTQX0OgBk7
+    title: '39: Die geheimnisvolle Abtei'
+  - id: 1SmJpmfdkm5Cpy06CxsJtf
+    title: '40: Schreck im Tonstudio'
+  - id: 486S6qD5rZbmD3FgjFnozf
+    title: '41: Im finsteren Schlossgarten'
+  - id: 0QpTAjRnKrIA2maG00hd5f
+    title: '42: Das Geheimnis in der Tiefe'
+  - id: 1VDkIolCoTSvAHyVzKeyh5
+    title: '43: Der tasmanische Schatz'
+  - id: 184qx6wssBodcro3DkMVuC
+    title: '45: Schmutziges Feuer'
+  - id: 62KxthV552kdBu6RuO2AM9
+    title: '46: Die verborgene Grotte'
+  - id: 5vEDk1NCRxNuaqvnjMHFMl
+    title: '47: Zugfahrt ins Ungewisse'
+  - id: 0NnGiKnhoVA3j87qXVi6tb
+    title: '48: Der maskierte Schatten'
+  - id: 3FLrbCNWZmti3qBQCCLbSb
+    title: '49: Spuren der Erinnerung'
+  - id: 0GLBbIANjLK4coMS9Tvtnv
+    title: Der letzte Schrei
+  - id: 6erqym9G4q35OVX4ihzw5L
+    title: Geheime Botschaft
+  - id: 4l4pf9JgOg4M9troLqOoCs
+    title: Nachricht eines Fremden
+- id: gespensterjaeger
+  title: Gespensterjäger
+  keywords:
+  - Gespensterjäger
+  spotify_artist_ids:
+  - 4icYuK6RKqj5ALhxuJHDGU
+  - 5HQzBHnczgis11u7lSLVbt
+  episode_pattern: (?:Band|Folge)\s+(\d+)
+  albums:
+  - id: 63kFf1A3s8xHXBvO8OI1Eh
+    episode: 1
+    title: Gespensterjäger auf eisiger Spur (Band 1)
+  - id: 4zGRFuXnpQ1pa5sdLZX5rC
+    episode: 2
+    title: Gespensterjäger im Feuerspuk (Band 2)
+  - id: 44TsRLSeURcJhuXBDRokRs
+    episode: 3
+    title: Gespensterjäger in der Gruselburg (Band 3)
+  - id: 5ZDlWq3WNOeqLZUAALQC1A
+    episode: 4
+    title: Gespensterjäger in großer Gefahr (Band 4)
+  - id: 5Am9JediFNxH5GbROyLCIa
+    episode: 5
+    title: 'Folge 5: Gespensterjäger und der Weihnachtsspuk'
+- id: gregs_tagebuch
+  title: Gregs Tagebuch
+  spotify_artist_ids:
+  - 2Xl8Eqgt8a9DsTohLDwZD3
+  episode_pattern: '[Ff]olge\s+(\d+)'
+  albums:
+  - id: 45w1WUB1tmIAVqhcgfxjiW
+    episode: 1
+    title: 'Folge 1: Von Idioten umzingelt!'
+  - id: 5Xxn9H63f1kPpDBWGYgiDA
+    episode: 2
+    title: "Folge 2: Gibt's Probleme?"
+  - id: 2yCrvP5EYRHJxAPDH95z4L
+    episode: 3
+    title: "Folge 3: Jetzt reicht's!"
+  - id: 6VuHqE9aFfWdpfkh4xYDrj
+    episode: 4
+    title: "Folge 4: Ich war's nicht!"
+  - id: 0qeVW5m87PMbTAXpaZC808
+    episode: 5
+    title: "Folge 5: Geht's noch?"
+  - id: 0wkMAbcXIRaR3eUwtYvuB4
+    episode: 6
+    title: 'Folge 6: Keine Panik!'
+  - id: 6MW54aosDyCcXfUDtOWzNf
+    episode: 7
+    title: 'Folge 7: Dumm gelaufen!'
+  - id: 7DRyzfIG18FFUZvbAPGjnx
+    episode: 8
+    title: 'Folge 8: Echt übel!'
+  - id: 2tJvgp3EBTJ8zI2yp0tUJ4
+    episode: 9
+    title: 'Folge 9: Böse Falle!'
+  - id: 6FJoSJGB1pz2ZhVfEJS8tS
+    episode: 10
+    title: 'Folge 10: So ein Mist!'
+  - id: 3a0FZDI18G3i533JkhqVnV
+    episode: 11
+    title: 'Folge 11: Alles Käse!'
+  - id: 1TxGlWS4M2UR7n5hQ8iPx8
+    episode: 12
+    title: 'Folge 12: Und tschüss!'
+  - id: 0xdwwx786jlAeCnuzMQDue
+    episode: 13
+    title: 'Folge 13: Eiskalt erwischt! (Hörspiel)'
+  - id: 2bbieSyzoCiyqooqgIsH9s
+    episode: 14
+    title: 'Folge 14: Voll daneben! (Hörspiel)'
+  - id: 3VxxaBgVYj1ILyhtdIa8X1
+    episode: 15
+    title: 'Folge 15: Halt mal die Luft an!'
+  - id: 44QlG6KeJsYA5Kr1Rb4sUp
+    episode: 16
+    title: 'Folge 16: Volltreffer!'
+  - id: 7JIRvHTqzMw0lKUQoWHjOD
+    episode: 17
+    title: 'Folge 17: Voll aufgedreht!'
+  - id: 5HtHi5hOsIGei03gHjaZhG
+    episode: 18
+    title: 'Folge 18: Kein Plan von nix'
+  - id: 6yQJ1CyAlvZy8ptGTpTH1P
+    episode: 19
+    title: 'Folge 19: So ein Schlamassel!'
+  - id: 61YmRmJt713HXgbnuQrAiK
+    episode: 20
+    title: 'Folge 20: Bock auf Party?'
+- id: hanni_und_nanni_neue_abenteuer
+  title: 'Hanni und Nanni: Neue Abenteuer'
+  spotify_artist_ids:
+  - 3iiABQlNuezpR3DcrlyPoA
+  - 4zZ6gJs5QRc7WpCZC6UjQF
+  episode_pattern: (?:Folge\s+)?(\d+)
+  albums:
+  - id: 4xrdTvOrQTFEGke8945KNt
+    episode: 1
+    title: 'Folge 1: Warum denn ausgerechnet Internat Lindenhof? (Neue Abenteuer)'
+  - id: 6zZk7LkH1m6YoWWm03YLiE
+    episode: 2
+    title: 'Folge 2: Freundinnen für immer! (Neue Abenteuer)'
+  - id: 2AtMEM0eThrrAFZgsVdI2t
+    episode: 3
+    title: 'Folge 3: Ein heimlicher Gast auf Lindenhof (Neue Abenteuer)'
+  - id: 6XTedYExfvjpVlgsqHg8Lh
+    episode: 4
+    title: 'Folge 4: Immer Ärger mit Elli (Neue Abenteuer)'
+- id: heavysaurus
+  title: Heavysaurus
+  spotify_artist_ids:
+  - 6uyCfgv8FWIc2mifriVXqw
+  episode_pattern: '[Ff]olge\s*(\d+)'
+  albums:
+  - id: 1iYgyGfFy75dWJVEnGJHpj
+    episode: 1
+    title: 'Folge 1: Der Kuss des Kometen'
+  - id: 2ZeEa0GkJT20v2NxoOcczX
+    episode: 2
+    title: 'Folge 2: Auf großer Tour'
+  - id: 4bZByUwY1ehEydrDzXz3PM
+    episode: 3
+    title: 'Folge 3: Heavysaurus auf der Flucht'
+  - id: 0QHMsII5PMwdxiFhsJEM2c
+    episode: 4
+    title: 'Folge 4: Die Hexenmeister des Metal'
+- id: heidi_cgi
+  title: Heidi (CGI)
+  spotify_artist_ids:
+  - 2kSiXgvssxAYOIvu4lwVGf
+  episode_pattern: ^(?:0?\d{1,2})/(.+?)(?:\s*\(CGI\))?$
+  albums:
+  - id: 6h3slvubJGxkelMTQTmdGs
+    episode: 101
+    title: 01/Die Reise zum Großvater (CGI)
+  - id: 5EjZ1RjwyNbgjAYS7UtcOH
+    episode: 102
+    title: 02/Freunde für immer (CGI)
+  - id: 31m0UdSsHngj3M9H5ZZDxO
+    episode: 103
+    title: 03/Ein Wolf im Dörfli (CGI)
+  - id: 7B2f4GMd62pwVO160b6Jka
+    episode: 104
+    title: 04/Peters Schatz (CGI)
+  - id: 66wmm6hrAuT6OX4FRrAhXJ
+    episode: 105
+    title: 05/Heidi vermisst die Berge (CGI)
+  - id: 6fJGXnRQZprvNpQVS5r7n0
+    episode: 106
+    title: 06/Das Versprechen (CGI)
+  - id: 67UX8QIZxMDuJkCGtd91Dx
+    episode: 107
+    title: 07/Heidi soll lesen lernen (CGI)
+  - id: 1cVQryR5G01un8agbLFJGx
+    episode: 108
+    title: 08/Wie zwei Schwestern (CGI)
+  - id: 5lordaKcBxHKDP582ZLmMb
+    episode: 109
+    title: 09/Heidi kehrt zurück (CGI)
+  - id: 7zbLiVaNJu3HBK4pi8HUnr
+    episode: 110
+    title: 10/Glöckchen wird geboren (CGI)
+  - id: 6oY60aBfm9evnuoMqrJbiH
+    episode: 111
+    title: 11/Clara kommt, aber nicht allein (CGI)
+  - id: 6SnyRipyoLYS2MIvsx3Xoc
+    episode: 112
+    title: 12/Der Sturm (CGI)
+  - id: 1NQb8SZGASwRTZz6elYlcC
+    episode: 113
+    title: 13/Das größte Glück (CGI)
+- id: kaeptn_sharky
+  title: Käpt'n Sharky
+  spotify_artist_ids:
+  - 5TfrI6jiBpIpWRsrEXVtFN
+  episode_pattern: 
+    (?:[Ff]olge|[Tt]eil|[Uu]nd|Band)\s*(\d+)|^(?:Der|Die|Das)\s+|Abenteuer|Bei|Im|Rettet|Schiffbruch
+  albums:
+  - id: 6THE7nOBqv4VApqZaBqpYv
+    episode: 1
+    title: Und das Geheimnis der Schatzinsel
+  - id: 3QjMLTSTJUGmvKW5QOeuBg
+    episode: 2
+    title: Und das Seeungeheuer
+  - id: 4tRZAXAn9L8hrStrQhtN0K
+    episode: 3
+    title: Und die Gefängnisinsel
+  - id: 44ZvKsa8rNCl12XKacb8lY
+    episode: 4
+    title: Und der Riesenkrake
+  - id: 6ul0mzqzEIiRCffZ6yL2WB
+    episode: 5
+    title: Abenteuer in der Felsenhöhle
+  - id: 1n5RrSVTOKc2SyAxWabYTF
+    episode: 6
+    title: Schiffbruch vor der einsamen Insel
+  - id: 1X0hFua1foJiF2onOAY0m3
+    episode: 7
+    title: Rettet den kleinen Wal
+  - id: 58xoXeJbK7LxBSEwXltZNA
+    episode: 8
+    title: Bei den Wikingern
+  - id: 1eEKK5fA6KDqdvh5UVM1kw
+    episode: 9
+    title: Der Dolch des Sultans
+  - id: 7GW9HzwhMgHW6JFpYCBMLg
+    episode: 10
+    title: Im Wilden Westen
+  - id: 2XD3RM4MrYXTQ9QCywbcxk
+    episode: 11
+    title: Das Geheimnis der versunkenen Stadt
+  - id: 7vB5A1XQrRUEPiy9IYuzXV
+    episode: 12
+    title: Der Schatz in der Tiefsee
+  - id: 0Kzq3v6MxXJM8xWhSBNYtn
+    episode: 13
+    title: Die geheimnisvolle Nebelinsel
+  - id: 6wiUBliPe76YAVpNEdidpY
+    episode: 14
+    title: Das Geheimnis der Schildkrötenkönigin
+  - id: 3Wc7F4CfGptPJ0Qco73M0O
+    episode: 15
+    title: Der Piratenkönig
+  - id: 4vvnLAcDcKHyV0s1ySUF7k
+    episode: 16
+    title: Das magische Schiff
+  - id: 2EVBpZ4P7Q5glzjAvwRcAe
+    episode: 17
+    title: Der Schatz der Piratenkönige
+  - id: 5tv1LrhhZoe3GkzhJWdllY
+    episode: 18
+    title: Der geheimnisvolle Smaragdeisberg
+  - id: 4dZuxyW7kGtMrjLaIF3HUg
+    episode: 19
+    title: Der schwarze Korsar
+  - id: 1bojQWyl825Zu8fS6eAJzy
+    title: Käpt'n Sharky (Das Original-Hörspiel zum Kinofilm)
+- id: kati_azuro
+  title: Kati & Azuro
+  spotify_artist_ids:
+  - 7c489FVO1pmK6pD8tGFcwV
+  episode_pattern: (?:Folge\s+)?(\d+)
+  albums:
+  - id: 6z5zhS3Z8veXYB6ZMvxutF
+    episode: 1
+    title: 01/Rettet Azuro!
+  - id: 5q9zlOqgeDs53s2oY5DuRw
+    episode: 2
+    title: 02/Azuro startet durch
+  - id: 2UAvm1IN0ibLZkOp2bzPvH
+    episode: 3
+    title: 03/Versteck am Hexenpfad
+  - id: 0zWDq7dXYxzVBvbnfgbAiX
+    episode: 4
+    title: 04/Rätsel um Serafina
+  - id: 7hLwwfQkaYdaxsfKiU4boC
+    episode: 5
+    title: 05/Kati auf der Flucht
+  - id: 1NfgKhOwOGBhw7tuiuWDRb
+    episode: 6
+    title: 06/Eiskalt erwischt
+  - id: 4IB5Tv02UXD6CmoKLopkxJ
+    episode: 7
+    title: 07/Der stumme Zeuge
+  - id: 03kv3VajFQ6xFUGBld9K8L
+    episode: 8
+    title: 08/Fohlen in Gefahr
+  - id: 4BgvvnyPTZQXAyms0wnxhY
+    episode: 9
+    title: 09/Das Geheimnis der Fledermaushöhle
+  - id: 0UvFSwaBnStf8nDx6L6emD
+    episode: 10
+    title: 10/Der Fall "Georgie"
+  - id: 7COucPMyCVQRL6xIjCA9qm
+    episode: 11
+    title: 11/Gefangen im Schnee
+  - id: 7iSWa02iREVSviGPff5l5u
+    episode: 12
+    title: 12/Brandgefährlich
+  - id: 1isxKskbnqD5Ma7TC32O62
+    episode: 13
+    title: 13/Die Rache des Drachen
+  - id: 4Zd1Yf8OZ9MkFYKHPgQiof
+    episode: 14
+    title: 14/Der Fluch der Donnerhexe
+  - id: 5CiiSWUD2lFxqttZrqFhg6
+    episode: 15
+    title: 15/Spuren im Schnee
+  - id: 5dj9W8YALOneADYPNDp04D
+    episode: 16
+    title: 16/Der letzte Beweis
+  - id: 2ozxd0lAc7UwvoHtBqodGL
+    episode: 17
+    title: 017/Gefährliche Dreharbeiten
+  - id: 7sL95D1IIwglsIGffpr6hl
+    episode: 18
+    title: 018/Alarm auf der Weihnachtsfeier
+  - id: 6cptP1uy54mU7q4TL4C1c5
+    episode: 19
+    title: 019/Irrlicht im Moor
+  - id: 6TWdbrgTSizxnQrXlH2hyw
+    episode: 20
+    title: 020/Geheimnis unterm Eulennest
+  - id: 4MdHQ4W2PXmoSKAUZL0ZbN
+    episode: 21
+    title: 021/Jagd auf den Spion
+  - id: 4WIz5zNTgfHdE49uh8AZnA
+    episode: 22
+    title: 022/Der Geisterreiter
+  - id: 2XgAFHfOwB8avNjUDZYxUk
+    episode: 23
+    title: 023/Azuros großer Auftritt
+  - id: 5aHQvuoqmPnlC7GoT1RjTP
+    episode: 24
+    title: 024/Giftige Rache
+  - id: 5oKz9pnEWLFW3kHwf43wdx
+    episode: 25
+    title: 025/Ein Monster im Schneewald
+  - id: 79AZBcG4ZMmLWwnlfNKeyE
+    episode: 26
+    title: 026/Der Tattoo-Mann
+  - id: 3MzNpYhoabgNFTCe4wABvi
+    episode: 27
+    title: 027/Die schwarze Lippe
+  - id: 4pPseqkf7FNN8Kioe1U78b
+    episode: 28
+    title: 028/Aufs Glatteis geführt
+  - id: 2QPk6dbvH0KKsHBY3TM9lE
+    episode: 29
+    title: 029/Die grüne Grotte
+  - id: 0tLO11wQ2fAaDsPteNKxmm
+    episode: 30
+    title: 'Folge 30: Der schwarze Panther'
+  - id: 6DByZ7Cm3SnucCJFNEvfQN
+    episode: 31
+    title: 'Folge 31: Das schlaue Pferd'
+  - id: 6nAhAa0dKtkopOOXl8mqPX
+    episode: 32
+    title: 'Folge 32: Im Schein des blauen Mondes'
+  - id: 5OLLVvm9FlecOVOacvnNFd
+    episode: 33
+    title: 'Folge 33: Ein riskanter Ritt'
+  - id: 5DdS0ZeEtnZWRk8LhUrbKf
+    episode: 34
+    title: 'Folge 34: Drama am Set'
+  - id: 7l5gZ8FZVviQyz0qVuGOWI
+    episode: 35
+    title: 'Folge 35: Falsches Spiel'
+  - id: 7EUxFoNAkwTlOQvXkV02Sr
+    episode: 36
+    title: 'Folge 36: Ausgeliefert'
+  - id: 275D2F2AaMkcaAWIp6yfFH
+    episode: 37
+    title: 'Folge 37: Voller Einsatz für Fee'
+  - id: 6V4ZBU9HgBKbyJQgbvl40m
+    episode: 38
+    title: 'Folge 38: Im Bann der Shiva'
+  - id: 166lPdvWVyIGsTkJjn9Hge
+    episode: 39
+    title: 'Folge 39: Der Sturm'
+  - id: 5jyiCwAngI0zDsbuTTD2hv
+    episode: 40
+    title: 'Folge 40: Ein genialer Plan'
+- id: kira_kolumna
+  title: Kira Kolumna
+  keywords:
+  - Kira Kolumna
+  spotify_artist_ids:
+  - 4ZRVadQQ7rbyhiGZurqb72
+  episode_pattern: Folge\s+(\d+)
+  albums:
+  - id: 595gEqmaV0wPZMK5eHtAcZ
+    episode: 1
+    title: 'Folge 1: Umzugsalarm'
+  - id: 5DnYmi6fd40Oa90wkYBdSB
+    episode: 2
+    title: 'Folge 2: Plötzlich beliebt'
+  - id: 4ujlKTV88alArWDsXk28vO
+    episode: 3
+    title: 'Folge 3: Verpeilte Weihnachten'
+  - id: 53CytEROJg5DSsBoOwJtTt
+    episode: 4
+    title: 'Folge 4: On-Off Liebeschaos'
+  - id: 6vbVgJp6sgQSGH0eqfUD5D
+    episode: 5
+    title: 'Folge 5: Klima-Krach'
+  - id: 5RwPN2CcgKjvQVkwHZJxUL
+    episode: 6
+    title: 'Folge 6: Sommer in Südberg'
+  - id: 2nKTvmhupcSt4JyeUfOAEO
+    episode: 7
+    title: 'Folge 7: Im falschen Film'
+  - id: 4ThbSHQQK9JXNHu26u2S3Y
+    episode: 8
+    title: 'Folge 8: Spuk im Kopf'
+  - id: 51gI9I7dq4aWjW23iJ9J5O
+    episode: 9
+    title: 'Folge 9: Eingeschneit'
+  - id: 2damPCCR4il8zV9ovdzYog
+    episode: 10
+    title: 'Folge 10: Abgetaucht'
+  - id: 0uyqCK77dtNKSQYZG3ZRdp
+    episode: 11
+    title: 'Folge 11: Übergekocht'
+  - id: 5eJeEWDOdCUAobgKGrsjIr
+    episode: 12
+    title: 'Folge 12: Abgefahren'
+  - id: 4MA00fk8v4bb1HGE7ocoT5
+    episode: 13
+    title: 'Folge 13: Echt spooky'
+  - id: 0UqNGH1rlfAzzq5rvCTFvl
+    episode: 14
+    title: 'Folge 14: Missverstanden'
+  - id: 5y1oQMPMmiymA5ZsEBirXG
+    episode: 15
+    title: 'Folge 15: Offline in Barcelona'
+  - id: 1O6N7JBNqsTRTmKWigRbsH
+    episode: 16
+    title: 'Folge 16: Mutterseelenallein'
+  - id: 6TIZiizzWAfVE6IdTnmcz0
+    episode: 17
+    title: 'Folge 17: Nein heißt Nein'
+  - id: 0Q7GLr4NukdcgJc7SMeqEt
+    episode: 18
+    title: 'Folge 18: Schöne Bescherung'
+  - id: 4l1onpGHe1LG7YD16Jj3sI
+    episode: 19
+    title: 'Folge 19: Gerüchteküche'
+  - id: 1WDNZtcsiS5dekYRtjIbX6
+    episode: 20
+    title: 'Folge 20: Gamingfieber'
+  - id: 5NmGEFUekda0KxSVy0ccFo
+    episode: 21
+    title: 'Folge 21: Urlaubschaos'
+  - id: 31rkwhnOhsxNdgOCvpz5D2
+    episode: 22
+    title: 'Folge 22: Sturmfrei'
+  - id: 6Wun51ULWYOqCzA1HZTItF
+    episode: 23
+    title: 'Folge 23: Patchwork-Stress'
+  - id: 0B5O2tVTKB0BCBRtLox33y
+    episode: 24
+    title: 'Folge 24: Undercover'
+  - id: 4lD4qSpD1pNkkk3z1RUeXP
+    episode: 25
+    title: 'Folge 25: Angeleint'
+  - id: 1woE4NCtJqa0DRE9BkxxZP
+    title: 'Kira Kolumna Reportage: Campen ohne Eltern - Freiheit pur?'
+  - id: 3qdTJbmfukxTeKk0YZur7H
+    title: 'Kira Kolumna Reportage: Der eigene Roller - endlich unabhängig?'
+  - id: 2zbVyfOLhlR6VjVeXEOVpc
+    title: 'Kira Kolumna Reportage: Große Story, nichts dahinter?'
+  - id: 67zrGxcINeNDhjVJhNSkyh
+    title: 'Kira Kolumna Reportage: Im Tierheim - wer rettet hier wen?'
+  - id: 4D6gyifVPiPiVrvaLiCgQR
+    title: 'Kira Kolumna Reportage: Ist E-Sport auch Sport?'
+  - id: 5CaYhXdPcKJ29ZxPeLrCj3
+    title: 'Kira Kolumna Reportage: Ist die Arche nur für Noah?'
+  - id: 0vkXDgYItzxh7c3MlbfK8r
+    title: 'Kira Kolumna Reportage: Kann ein Rummel ein Zuhause sein?'
+  - id: 5jTxzJkVyR82kuIErXGFnI
+    title: 'Kira Kolumna Reportage: Machen Influencer immer Urlaub?'
+  - id: 3ati0teMU57rPOYoBmCEGT
+    title: 'Kira Kolumna Reportage: Match auf dem Eis - und in echt?'
+  - id: 4yKoYmOnw7nuhNhqVrI84w
+    title: 'Kira Kolumna Reportage: Playlist an – und ich bin DJ?'
+  - id: 5cgeLp9ZvcjcBfuLSWluBV
+    title: 'Kira Kolumna Reportage: Plötzlich Patchwork – voll das Chaos?'
+  - id: 1PHHVFBxAzGr446XrLXN22
+    title: 'Kira Kolumna Reportage: Sind Graffitis auch Kunst?'
+  - id: 4mAmABL4joBoxBBHmY8rpy
+    title: 'Kira Kolumna Reportage: Sind Schüler gute Schauspieler?'
+- id: kleine_schnecke_monika_haeschen
+  title: Die kleine Schnecke Monika Häuschen
+  aliases:
+  - Die kleine Schnecke Monika Häuschen
+  keywords:
+  - Monika Häuschen
+  spotify_artist_ids:
+  - 7oP5DXnOMb2Wbe5Yt1aDi9
+  episode_pattern: '^(\d+):'
+  albums:
+  - id: 0aSD30f6SiKSH7iBmqMm5K
+    episode: 1
+    title: '01: Warum stolpern Tausendfüßler nicht?'
+  - id: 2PnU1x11eIh8SIyuC5FwPM
+    episode: 2
+    title: '02: Warum haben Gänse Federn?'
+  - id: 3i7Br0FCVAgLDU11mhW8vc
+    episode: 3
+    title: '03: Warum leuchten Glühwürmchen?'
+  - id: 3IhohUlP1fYtsmhe075j2g
+    episode: 4
+    title: '04: Warum sind am Himmel Wolken?'
+  - id: 3DSLB9jRkpszgyfVJvxJmT
+    episode: 5
+    title: '05: Warum haben Marienkäfer Punkte?'
+  - id: 4bDvFPCOPpe9ieTM5Yymda
+    episode: 6
+    title: '06: Warum mögen Mistkäfer Mist?'
+  - id: 5VdcpEsTNZlZclrFQFpbbv
+    episode: 7
+    title: '07: Warum schlafen Fledermäuse mit dem Kopf nach unten?'
+  - id: 4Hz2NzAvRkhei7ikZY565U
+    episode: 8
+    title: '08: Warum haben Ameisen eine Königin?'
+  - id: 4t16j4dbHRipofmvVAm27J
+    episode: 9
+    title: '09: Warum weben Spinnen Netze?'
+  - id: 77982WeUjCZe5dVMbcLQK6
+    episode: 10
+    title: '10: Warum schlafen Siebenschläfer so lang?'
+  - id: 3Wf46pylZdb0cKQjdJReP5
+    episode: 11
+    title: '11: Warum hopsen Grashüpfer?'
+  - id: 2aqzDde9QYF9oAgwTxgDLb
+    episode: 12
+    title: '12: Warum stechen Mücken?'
+  - id: 4ejXBeKHo5tkqa53aNfWCy
+    episode: 13
+    title: '13: Warum pupsen Fische?'
+  - id: 252txYb6S3aHON7GaHwl8t
+    episode: 14
+    title: '14: Warum brennen Brennnesseln?'
+  - id: 6QbwH0cO53Q5LLv3PtMROS
+    episode: 15
+    title: '15: Warum haben Schnecken Häuser?'
+  - id: 5n2VU0P5DR28jBPsjjiWb1
+    episode: 16
+    title: '16: Warum klappern Störche?'
+  - id: 3RTAeQQddqf8Wo4Nrggrqi
+    episode: 17
+    title: '17: Warum flattern Motten ins Licht?'
+  - id: 6bvvLdHmUUEVRMuDMuN5tn
+    episode: 18
+    title: '18: Warum häuten sich Schlangen?'
+  - id: 1vqjnVRhLPW2Lz27wHsQMx
+    episode: 19
+    title: '19: Warum fliegen Eulen lautlos?'
+  - id: 21d2sWpm8NF26OU1crq37r
+    episode: 20
+    title: '20: Warum schießen Bombardierkäfer?'
+  - id: 1V66rTbzAigubHNX8LgYl5
+    episode: 21
+    title: '21: Warum tanzen Bienen?'
+  - id: 17qd1nZOADf9GAeiZsRPwo
+    episode: 22
+    title: '22: Warum buddeln Maulwürfe Hügel?'
+  - id: 76iI3iyUogM5yiKWuMUVnL
+    episode: 23
+    title: '23: Warum haben Hasen lange Ohren?'
+  - id: 0wI27pNcfD9m3VnHlCQeiV
+    episode: 24
+    title: '24: Warum laufen Fliegen an der Decke?'
+  - id: 3Ai2pAmst2Iof9NGPihLxi
+    episode: 25
+    title: '25: Warum fliegen Libellen rückwärts?'
+  - id: 1IisrIbhakNpHJL5x8nWFc
+    episode: 26
+    title: '26: Warum klopft der Specht?'
+  - id: 3dL9qFlxd3Sccg9lFK8d4i
+    episode: 27
+    title: '27: Warum sind Raupen so verfressen?'
+  - id: 21ZbvzB3JEepZMGQqysV13
+    episode: 28
+    title: '28: Warum sind Schmetterlinge bunt?'
+  - id: 20oXGHaz7Jo5YwRCREEAsc
+    episode: 29
+    title: '29: Warum schmecken Kirschen süß?'
+  - id: 6269V56mJWPsEeQyF1AILG
+    episode: 30
+    title: '30: Warum kugeln sich Kugelasseln?'
+  - id: 6zFoX37oDqCWN1xFJEFTl2
+    episode: 31
+    title: '31: Warum haben Kröten Warzen?'
+  - id: 0g19f0H48SxThZoKGMcP2U
+    episode: 32
+    title: '32: Warum haben Regenwürmer keine Nase?'
+  - id: 1OAbzHjEUstb0ldNWY581E
+    episode: 33
+    title: '33: Warum haben Igel Stacheln?'
+  - id: 1a9NcZnMpMHJE3MFjILZSe
+    episode: 34
+    title: '34: Warum verbuddeln Eichhörnchen Nüsse?'
+  - id: 6FealcrGfqYhJGOkvIaAnu
+    episode: 35
+    title: '35: Warum haben Hirschkäfer ein Geweih?'
+  - id: 3L9r4OEtPR7ltsEWIEokCn
+    episode: 36
+    title: '36: Warum tanzen Spitzmäuse Polonaise?'
+  - id: 1FBxm3v11F66t91vtfbyrc
+    episode: 37
+    title: '37: Warum hamstern Hamster?'
+  - id: 6WOOUlVco7KzF07KhRUvTB
+    episode: 38
+    title: '38: Warum torkeln Taumelkäfer?'
+  - id: 1Pib5aDKvQsFGrKJ5N2CvO
+    episode: 39
+    title: '39: Warum gurren Tauben?'
+  - id: 2WVJfPvygR3D08zuxnsHFq
+    episode: 40
+    title: '40: Warum stinkt der Iltis?'
+  - id: 7DFAl2buCnJX3oXi3NOX5X
+    episode: 41
+    title: '41: Warum haben Ohrenkriecher eine Zange?'
+  - id: 3FQ2v5djtGqKl0xTqCOTIX
+    episode: 42
+    title: '42: Warum wedeln Hunde mit dem Schwanz?'
+  - id: 6bOMcZByyTGPGKVEYGp3JC
+    episode: 43
+    title: '43: Warum naschen Hornissen keinen Kuchen?'
+  - id: 4tlVCuAsPh67tmlnefpD3m
+    episode: 44
+    title: '44: Warum bauen Biber Dämme?'
+  - id: 0XxewYcejD4YoPu22uaeYb
+    episode: 45
+    title: '45: Warum schimpfen Spatzen?'
+  - id: 4d6HOdtoyeSaTrcqkP0tqZ
+    episode: 46
+    title: '46: Warum verreisen Gänse im Winter?'
+  - id: 54Fs1qpjC9NugkwvZZRxKP
+    episode: 47
+    title: '47: Warum haben Schildkröten keine Zähne?'
+  - id: 4GM70AlareK9nG8C5Xb31F
+    episode: 48
+    title: '48: Warum haben Prachtkäfer einen Feuermelder?'
+  - id: 5bEXI90azF1obPCryKHvQt
+    episode: 49
+    title: '49: Warum haben Nacktschnecken kein Haus?'
+  - id: 6HeC9YHkQyrj1H7ODXoCrm
+    episode: 50
+    title: '50: Warum haben Rehe einen weißen Po?'
+  - id: 2seMCO32sJSgO4r8F2IgLy
+    episode: 51
+    title: '51: Warum mag der Distelfink Disteln?'
+  - id: 77C1N7RtbsHNVmz5hvGJDE
+    episode: 52
+    title: '52: Warum haben Muscheln Perlen?'
+  - id: 5Q0FoueJ53SN6x5otFg1di
+    episode: 53
+    title: '53: Warum waschen Waschbären?'
+  - id: 3vjVxHfA2A8LpPh6Sl9Kp1
+    episode: 54
+    title: '54: Warum frieren Zitronenfalter nicht?'
+  - id: 28FrVzhi3fzo7z7jxAo3Ca
+    episode: 55
+    title: '55: Warum sind Kuckuckskinder so frech?'
+  - id: 6jbL7enxYICr1B9mmsG9FN
+    episode: 56
+    title: '56: Warum gehen Wasserläufer nicht unter?'
+  - id: 4AxIgYaGnj1MgDEux8ljqf
+    episode: 57
+    title: '57: Warum krächzen Krähen?'
+  - id: 3CDd0fvCOGCodhrUlzuKHc
+    episode: 58
+    title: '58: Warum gräbt der Dachs Tunnel?'
+  - id: 7mOel8fv2IuuoP0eLtx4g6
+    episode: 59
+    title: '59: Warum verlieren Eidechsen ihren Schwanz?'
+  - id: 2O3tnd1LoYRjZc1LtxkXBr
+    episode: 60
+    title: '60: Warum kauen Kühe immerzu?'
+  - id: 49TqarhbGJNXeURHFSNd6T
+    episode: 61
+    title: '61: Warum klopfen Klopfkäfer?'
+  - id: 6ymTEm0HzVhM8VG8dti3jI
+    episode: 62
+    title: '62: Warum sind Füchse so schlau?'
+  - id: 1bvkF74EondPeAwg5Mzrza
+    episode: 63
+    title: '63: Warum schlafen Pferde so wenig?'
+  - id: 2a7NCGyeCfdk2Pr3Egd2eD
+    episode: 64
+    title: '64: Warum haben Blumen Läuse?'
+  - id: 40dONDg6lcgkwRXW70kURz
+    episode: 65
+    title: '65: Warum gehen Krabben seitwärts?'
+  - id: 61wKiQ2c9m3NDSvbFAxQow
+    episode: 66
+    title: '66: Warum wälzen sich Wildschweine im Dreck?'
+  - id: 6r9E2U9VHLocCFyXXUT7cH
+    episode: 67
+    title: '67: Warum wandern Wanderratten?'
+  - id: 4o51TynFkkSqnC4aOoa9To
+    episode: 68
+    title: '68: Warum blinzeln Blindschleichen?'
+  - id: 0udCl8R6INKFmb0RS0mroa
+    episode: 69
+    title: '69: Warum sind Regenbogen bunt?'
+  - id: 3ghYKNwYQMkl311gsRKjj6
+    episode: 70
+    title: '70: Warum haben Einhornkäfer ein Horn?'
+  - id: 0gr49gh2CQ7jRz2z3vRZzq
+    episode: 71
+    title: '71: Warum klaut die Elster Glänzendes?'
+  - id: 5kSPHIuzIOfO0P5LMECSnC
+    episode: 72
+    title: '72: Warum pfeift der Ziesel?'
+  - id: 0ZBocPTsJLM5Gc3evQplis
+    episode: 73
+    title: '73: Warum hat der Kugelspringer einen Katapult?'
+  - id: 0LiBM6o4d1hFcWmUIZBVeE
+    episode: 74
+    title: '74: Warum sind Quallen durchsichtig?'
+  - id: 2Vj8BZ9pMmz6xHNySCXIfQ
+    episode: 75
+    title: '75: Warum haben Schwäne einen langen Hals?'
+  - id: 203sbKAMSSvpeYs9HQEAlW
+    episode: 76
+    title: '76: Warum hat der Luchs Pinselohren?'
+  - id: 0BKnzAcWuizQ8IdxSsIFBN
+    episode: 77
+    title: '77: Warum hat der Feuersalamander Kulleraugen?'
+  - id: 3CUVPPfoJrZlmfHL4HcSiP
+    episode: 78
+    title: '78: Warum haben Schafe Locken?'
+  - id: 1HX5xC1m8FtGXUzmyXeQeV
+    episode: 79
+    title: '79: Warum haben Hühner einen Kamm?'
+- id: lauras_stern_tv_serie
+  title: Lauras Stern - Tonspur der TV-Serie
+  spotify_artist_ids:
+  - 0xY8w0o3cSH3gzx4G4h8qD
+  episode_pattern: (?:[Ff]olge|[Tt]eil|[Bb]and|Erstleser)\s+(\d+)
+  albums:
+  - id: 0AWAEwrd5UChH51lnUHT1D
+    episode: 9
+    title: Glitzernde Gutenacht-Geschichten, Teil 9
+  - id: 03APgvGiNeJPPMMObuwZdB
+    episode: 10
+    title: 'Lauras Stern - Tonspur der TV-Serie, Teil 10: Fabelhafte Gutenacht-Geschichten'
+  - id: 46BdFm6jEmZj8odIugzIuv
+    episode: 11
+    title: 'Lauras Stern - Tonspur der TV-Serie, Teil 11: Abenteuerliche Gutenacht-Geschichten'
+  - id: 0HbQdPgMltCnwwZ5bedqUA
+    episode: 12
+    title: 'Lauras Stern, Band 12: Freundschaftliche Gutenacht-Geschichten'
+- id: lichterkinder
+  title: Lichterkinder
+  spotify_artist_ids:
+  - 5poyNTy0YyDwAMSYBJ7zgv
+  episode_pattern: (?:[Ff]olge)\s+(\d+)
+  albums:
+  - id: 1dnfyzPLmuVgfIItWSE72Q
+    episode: 1
+    title: Vom Sternenreich zur Erde (Folge 1)
+  - id: 5CemxfBqKEH4OX4krsatrS
+    episode: 2
+    title: Die Blumenwiese (Folge 2)
+- id: lieselotte_filmhoerspiele
+  title: Lieselotte Filmhörspiele
+  keywords:
+  - Lieselotte
+  spotify_artist_ids:
+  - 0kZFM6sDiKBxladrJ55iaq
+  episode_pattern: '[Ff]olge\s+(\d+)'
+  albums:
+  - id: 6nZ7xb0LbO95nwcZLFSTrG
+    episode: 1
+    title: 'Folge 1: Lieselotte die Postkuh (Vier Hörspiele)'
+  - id: 576DtcWsgcrixgAEO32VKg
+    episode: 2
+    title: 'Folge 2: Lieselotte feiert Geburtstag (Vier Hörspiele)'
+  - id: 0nqFOsyob2k9m7c3BdtLWB
+    episode: 3
+    title: 'Folge 3: Gute Nacht, Lieselotte (Vier Hörspiele)'
+  - id: 2xofPu71EzhSdlmf1LXByD
+    episode: 4
+    title: 'Folge 4: Lieselotte ist fleißig (Vier Hörspiele)'
+  - id: 1IEVVldlBnKlsnjepiaNkm
+    episode: 5
+    title: 'Folge 5: Gute Besserung, Lieselotte (Vier Hörspiele)'
+  - id: 2LaevvZXwIT0DqvRqyeqgy
+    episode: 6
+    title: 'Folge 6: Ein Sommer mit Lieselotte (Vier Hörspiele)'
+  - id: 77FIqdI8WdMZJ1qFbHABy6
+    episode: 7
+    title: 'Folge 7: Lieselottes verrückte Ideen (Vier Hörspiele)'
+  - id: 4tDiZ0XhODWcF7s9VKDU5s
+    episode: 8
+    title: 'Folge 8: Ferien mit Lieselotte (Vier Hörspiele)'
+  - id: 7ozUEAzfANLEdLhOEonZuK
+    episode: 9
+    title: 'Folge 9: Lieselotte bleibt am Ball (Vier Hörspiele)'
+  - id: 3WAcdcbqtHjmBlXAsIjkcY
+    episode: 10
+    title: 'Folge 10: Ein bunter Herbst mit Lieselotte (Vier Hörspiele)'
+  - id: 0ZA9WzfB7IhDAeQoMLqALm
+    episode: 11
+    title: 'Folge 11: Lieselotte im Krimifieber (Vier Hörspiele)'
+  - id: 4hKvflLiijsknfFcR7LJZv
+    episode: 12
+    title: 'Folge 12: Weihnachtszeit mit Lieselotte (Vier Hörspiele)'
+  - id: 53Sgp83SKTv2Vk3qPD6gHh
+    episode: 13
+    title: 'Folge 13: Frühlingszeit mit Lieselotte (Vier Hörspiele)'
+- id: meine_freundin_conni
+  title: Meine Freundin Conni
+  keywords:
+  - Conni
+  spotify_artist_ids:
+  - 0HerMOOFZXxIF3Yg9BVl0W
+  episode_pattern: '^(\d+):'
+  albums:
+  - id: 0IhcdN1UcvPR3TXSSmN6tZ
+    episode: 1
+    title: '01: Conni zieht um / Conni bekommt eine Katze / Conni macht das Seepferdchen / Conni geht
+      zelten (Vier Hörspiele zur TV-Serie)'
+  - id: 4TFu59xSkMtgXQwtcpPOtk
+    episode: 2
+    title: '02: Conni auf dem Bauernhof / Conni schläft im Kindergarten / Conni geht zum Zahnarzt / Connis
+      erster Flug (Vier Hörspiele zur TV-Serie)'
+  - id: 3626UDwiaF1YhpqqSn1Deh
+    episode: 3
+    title: '03: Conni tanzt / Conni lernt die Uhrzeit / Conni lernt Rad fahren / Conni lernt backen (Vier
+      Hörspiele zur TV-Serie)'
+  - id: 35I8KIdJsStUqtbbDR0uUe
+    episode: 4
+    title: '04: Conni hat Geburtstag / Conni backt Pizza / Conni geht in den Zoo / Conni geht verloren
+      (Vier Hörspiele zur TV-Serie)'
+  - id: 3PbhJbzYqlWkjlCF7yv2DV
+    episode: 5
+    title: '05: Conni fährt Ski / Conni und der Osterhase / Conni geht zum Kinderarzt / Conni spielt Fußball
+      (Vier Hörspiele zur TV-Serie)'
+  - id: 1W6W3lzAROoVfrWLCI3bkI
+    episode: 6
+    title: '06: Conni lernt reiten / Conni am Strand / Conni in den Bergen / Conni macht Musik (Vier Hörspiele
+      zur TV-Serie)'
+  - id: 1lixrGKO2AL3rj9cPdz9yY
+    episode: 7
+    title: '07: Conni beim Frisör / Conni auf Waldsafari / Conni auf der Burg / Conni und das Froschkonzert
+      (Vier Hörspiele zur TV-Serie)'
+  - id: 4YXrojnF0rcPIRZZW9ulIv
+    episode: 8
+    title: '08: Conni übernachtet bei Julia / Conni geht nicht mit Fremden mit / Conni auf der Baustelle
+      / Conni macht Flohmarkt (Vier Hörspiele zur TV-Serie)'
+  - id: 6XjK6aOYmvosQIFH5gvtBx
+    episode: 9
+    title: '09: Conni und der Hundebesuch / Conni wird Clown / Conni feiert Fasching / Conni und der Dreck-weg-Tag
+      (Vier Hörspiele zur TV-Serie)'
+  - id: 6NA30cusjh4rD41CgW5vJp
+    episode: 10
+    title: '10: Conni im Advent / Conni fährt Schlittschuh / Conni lässt Drachen steigen / Conni und der
+      fiese Schnupfen (Vier Hörspiele zur TV-Serie)'
+  - id: 77Pk8wTrRgF2O1K3YLqyMW
+    title: Conni macht Mut in Zeiten von Corona (Meine Freundin Conni - ab 3) [Eine Conni-Geschichte
+      mit kindgerechtem Sachwissen rund um das Thema Corona]
+- id: michel_aus_loenneberga
+  title: Michel aus Lönneberga
+  spotify_artist_ids:
+  - 3xFKIRYMdkGq0n2DQIXP9V
+  albums:
+  - id: 1Io3dsrg2ftR6w465hnWZD
+    title: Als Michel "Das große Aufräumen von Katthult" veranstaltete
+  - id: 6azYLKCDMEHzYiSaEy4gBa
+    title: Als Michel den Kopf in die Suppenschüssel steckte (Das Hörspiel.)
+  - id: 5x0XiseSkEH7zhrOV7egtm
+    title: Als Michel ein "lustiges Leben führte" (Das Hörspiel.)
+  - id: 3YHyYlMNv6q65c3ZzRPIyi
+    title: Als Michel eine Heldentat vollbrachte
+  - id: 6tSsPRRQ8fLu6q2P0lLnim
+    title: Als Michel sein hundertstes Holzmännchen schnitzte
+  - id: 4DfJ9tmo5GGiti1mcn7Fi6
+    title: Als Michel versuchte, Linas Backenzahn zu ziehen
+  - id: 59EVR2Soq8YpDqxX9P05qj
+    title: Michel aus Lönneberga 1. Michel in der Suppenschüssel
+  - id: 3ZKGlKTnqrYQnsjrba0a6H
+    title: Michel aus Lönneberga 2. Michel muss mehr Männchen machen
+  - id: 1bSXuTSPqtOGheTglRzgyj
+    title: Michel aus Lönneberga 3. Michel bringt die Welt in Ordnung
+  - id: 65T1b3OwnE6uie50f47PqC
+    title: Michel aus Lönneberga. Wintergeschichten
+- id: miraculous
+  title: Miraculous - Geschichten von Ladybug und Cat Noir (Hörspiel zur TV-Serie)
+  spotify_artist_ids:
+  - 0g12RW7N9VQmkjkcQreys3
+  albums:
+  - id: 30bSmwlSuccq89DiunaBLv
+    title: Action (Das Original-Hörspiel zur TV-Serie)
+  - id: 1pE3I6Rb3nAenCTbeDePNq
+    title: Eine böse Weihnachtsüberraschung (Das Original-Hörspiel zur TV-Serie)
+  - id: 5r5LTTpRq9GPWFtjbtJf5e
+    title: 'Folge 10: Reflekta / Rockstars (Das Original-Hörspiel zur TV-Serie)'
+  - id: 1A87bIu0nqPZFiLorFEmZu
+    title: 'Folge 11: Der Superfan / Tikki ist krank (Das Original-Hörspiel zur TV-Serie)'
+  - id: 5ffalwLSyAuM1Bg0zb3ZZ0
+    title: 'Folge 12: Die Spielshow / Volpina (Das Original-Hörspiel zur TV-Serie)'
+  - id: 4yLm33iOkdTawIH4JBPbP6
+    title: 'Folge 13: Aller Anfang ist schwer - Teil 1 + 2 (Das Original-Hörspiel zur TV-Serie)'
+  - id: 7Jb9OFj6vZWjyWYbB1drk0
+    title: 'Folge 14: Der Collector / Prime Queen (Das Original-Hörspiel zur TV-Serie)'
+  - id: 0SfXsKcHRg8TnJXOSDFWge
+    title: 'Folge 15: Riposte / Party mit Folgen (Das Original-Hörspiel zur TV-Serie)'
+  - id: 3tPXXXFwrrNOzphEAPZLJj
+    title: 'Folge 16: Befana / Robostus (Das Original-Hörspiel zur TV-Serie)'
+  - id: 4IR5oizmmXqXbtgj0upIgW
+    title: 'Folge 17: Das Riesenbaby / Doch kein Superheld (Das Original-Hörspiel zur TV-Serie)'
+  - id: 5eDwKLmCLCOMb2TqnRuBSH
+    title: 'Folge 18: Der Glaciator / Außer Rand und Band (Das Original Hörspiel zur TV-Serie)'
+  - id: 3jbcaedrtsJZ84JDGLHCeJ
+    title: 'Folge 19: Der Videodreh / Gorizilla (Das Original-Hörspiel zur TV-Serie)'
+  - id: 434yjrpTXVmNUgDiOR0sjl
+    title: 'Folge 1: Stürmisches Wetter / Der Bubbler (Das Original-Hörspiel zur TV-Serie)'
+  - id: 7FQaAwaZfPcK3iUc6cb4tH
+    title: 'Folge 20: Zombizou / Captain Hardrock (Das Original-Hörspiel zur TV-Serie)'
+  - id: 2aYaDuZ5ZM4xYZQIl18lMu
+    title: 'Folge 21: Die Meerjungfrau / Troublemaker (Das Original-Hörspiel zur TV-Serie)'
+  - id: 53mNKsLKsrdnwaczie05EA
+    title: 'Folge 22: Reverser / Frozer (Das Original-Hörspiel zur TV-Serie)'
+  - id: 00yV3MfJzhy7avCEulx7q9
+    title: 'Folge 23: Kampf der Königinnen - Teil 1 und 2 (Das Original-Hörspiel zur TV-Serie)'
+  - id: 6M2YIef0t51Zxj4TNtjhiC
+    title: 'Folge 24: Volles Risiko / Im Netz der Spinne (Das Original-Hörspiel zur TV-Serie)'
+  - id: 4604CIjRj2XDPRIPH2DE9b
+    title: 'Folge 25: Sandboy / Lila gibt nicht auf (Das Original-Hörspiel zur TV-Serie)'
+  - id: 11TseHgkgkVlol0veNEhuG
+    title: 'Folge 26: Tag der Helden - Teil 1+2 (Das Original-Hörspiel zur TV-Serie)'
+  - id: 6W2eveWAMn8mw02Ukc2rtm
+    title: 'Folge 27: Gegen die Zeit / Vergissmeinnicht (Das Original-Hörspiel zur TV-Serie)'
+  - id: 7DOoXghlhouUkbo4yd0Ndi
+    title: 'Folge 28: Die Filmpremiere / Verliebt in Cat Noir (Das Original-Hörspiel zur TV-Serie)'
+  - id: 2R7xZsusc67Bmg6tScWr52
+    title: 'Folge 29: Stormy Weather 2 / Ladybug ist sprachlos (Das Original-Hörspiel zur TV-Serie)'
+  - id: 1Vij7JywO1f3XkQliaqAK5
+    title: 'Folge 2: Lady WiFi / Der Pharao (Das Original-Hörspiel zur TV-Serie)'
+  - id: 7i6kwQVR0YXI54ccQVJIu6
+    title: 'Folge 30: Bakerix / Reflekdoll (Das Original-Hörspiel zur TV-Serie)'
+  - id: 4yTqvXk2bd7Ac80PC497Rj
+    title: 'Folge 31: Eine neue Verbündete / Gestohlene Kräfte (Das Original-Hörspiel zur TV-Serie)'
+  - id: 2rBteywHUgN3Jvw4fuMIEY
+    title: 'Folge 32: Das Miraculous der Schlange/ Zugfahrt ins All (Das Original-Hörspiel zur TV-Serie)'
+  - id: 7fviQTgbkeZa0glBUmkz4e
+    title: 'Folge 33: Fehler der Vergangenheit / Gamer 2.0 (Das Original-Hörspiel zur TV-Serie)'
+  - id: 2C03sb9HeIJNaNzGqSgQa4
+    title: 'Folge 34: Der Freundschaftstag / Die Kwami-Jägerin (Das Original-Hörspiel zur TV-Serie)'
+  - id: 33I18rW6R775UFvB95nQSW
+    title: 'Folge 35: Ein Schurke aus der Zukunft / Die Überraschungsparty / Das Wachsfiguren-Museum (Das
+      Original-Hörspiel zur TV-Serie)'
+  - id: 4n27gYenJ2kxrzUkDioIRo
+    title: 'Folge 36: Ladybug gegen Cat Blanc / Falsches Spiel / Marinette unter Verdacht (Das Original-Hörspiel
+      zur TV-Serie)'
+  - id: 2lJqde5tiMRkHKWkJQQiqQ
+    title: 'Folge 37: Kampf der Miraculous - Teil 1+2 (Das Original-Hörspiel zur TV-Serie)'
+  - id: 1nLc0NZ4afjVJI21VtJagt
+    title: 'Folge 38: Wahrheit / Lügen (Das Original-Hörspiel zur TV-Serie)'
+  - id: 3DkBzBUXQvjzyzwix1iSVy
+    title: 'Folge 39: Zu viele Geheimnisse / Mr. Pigeon (Das Original-Hörspiel zur TV-Serie)'
+  - id: 1kscHWX69a4r4gBvoqEnSk
+    title: 'Folge 3: Timebreaker / Der Taubenmann (Das Original-Hörspiel zur TV-Serie)'
+  - id: 6rqcsyt1pkr5OS6jMHQFwD
+    title: 'Folge 40: Nichts zu lachen / Vom Master zum Monster (Das Original-Hörspiel zur TV-Serie)'
+  - id: 7F6j2J8Um3q3VHOdqoEaJ8
+    title: 'Folge 41: Willkommen in Paris / Chloé sieht gelb (Das Original-Hörspiel zur TV-Serie)'
+  - id: 6S6oroXIYw35H8djxTcOCf
+    title: 'Folge 42: Der Collector kehrt zurück / Projekt Oxygen (Das Original-Hörspiel zur TV-Serie)'
+  - id: 0XefKDlZNJZsqQEb76bh65
+    title: 'Folge 43: Schuldgefühle / Der große Streit (Das Original-Hörspiel zur TV-Serie)'
+  - id: 6DEwEwSpsiqEN7Yldabs5L
+    title: 'Folge 44: Optigami / Eine Falle für Ladybug (Das Original-Hörspiel zur TV-Serie)'
+  - id: 4DoWMrP0a9L8Qc25k3w4yd
+    title: 'Folge 45: Eine neue Ladybug / Liebeserklärung (Das Original-Hörspiel zur TV-Serie)'
+  - id: 4DxuyzZPi6z0muYlVPdVuY
+    title: 'Folge 46: Eifersucht / Kindheitsträume (Das Original-Hörspiel zur TV-Serie)'
+  - id: 6rSlKi1Dd1lYLVfA8mEfIk
+    title: 'Folge 47: Zu kompliziert / Aus der Ruhe gebracht / Streit um Marinette (Das Original-Hörspiel
+      zur TV-Serie)'
+  - id: 1jtv3dTaSBzQQOl9ndwVXM
+    title: 'Folge 48: Zweite Chance / Cat Noir 2.0 / Torjäger (Das Original-Hörspiel zur TV-Serie)'
+  - id: 2oSLrJHhOrpWgmlFcPZGLb
+    title: 'Folge 49: Shadow Moths Falle - Teil 1+2 (Das Original-Hörspiel zur TV-Serie)'
+  - id: 64iuZQAHikpZOK5PYokdjn
+    title: 'Folge 4: Der Racheplan / Rogercop (Das Original-Hörspiel zur TV-Serie)'
+  - id: 10AWhtV4nqLoojjZzaXdRa
+    title: 'Folge 50: Evolution / Multiplikation (Das Original-Hörspiel zur TV-Serie)'
+  - id: 0OUfUtJjgJ2CYbV3XWK8tn
+    title: 'Folge 51: Zerstörung / Jubel (Das Original-Hörspiel zur TV-Serie)'
+  - id: 6B2ShClwVMDZinnmjL6Owf
+    title: 'Folge 52: Entschlossenheit / Leidenschaft (Das Original-Hörspiel zur TV-Serie)'
+  - id: 6nRSPz7NFpuUxv1XjCr9cF
+    title: 'Folge 53: Wiedersehen / Illusion / Hochstimmung (Das Original-Hörspiel zur TV-Serie)'
+  - id: 64bGDegegxf3sfm1odWeAj
+    title: 'Folge 54: Übertragung-Die Entscheidung der Kwamis (1) / Verpuffung-Die Entscheidung der Kwamis
+      [2] [Das Original-Hörspiel zur TV-Serie]'
+  - id: 6Yb6KGsWKeAj9SVdnpsNTg
+    title: 'Folge 55: Perfektion / Auswanderung (Das Original-Hörspiel zur TV-Serie)'
+  - id: 1oooDgHAp4zoj0hYZLqkZs
+    title: 'Folge 57: Schutz / Verehrung (Das Original-Hörspiel zur TV-Serie)'
+  - id: 0QnWlEW1WdLcZNYBuy1wm1
+    title: 'Folge 58: Emotionen / Überheblichkeit (Das Original-Hörspiel zur TV-Serie)'
+  - id: 7iWQOHQ6nJETHFVSgwafNN
+    title: 'Folge 59: Enthüllung / Konfrontation (Das Original-Hörspiel zur TV-Serie)'
+  - id: 48hIWhnvLfYPZN498uTNw4
+    title: 'Folge 5: Der Betrüger / Der Valentinstag (Das Original-Hörspiel zur TV-Serie)'
+  - id: 7atyZ5j8YiyRJZKPOEr4vG
+    title: 'Folge 60: Geheime Absprachen (Das Original-Hörspiel zur TV-Serie)'
+  - id: 38qSrRvNFDh5dSnyzMBZFp
+    title: 'Folge 61: Anpassung - Der finale Tag (Teil 1+2) [Das Original-Hörspiel zur TV-Serie]'
+  - id: 4bTEUC7yhZBMQZvNa7QrNv
+    title: 'Folge 62: Illustrhater / Sublimation (Das Original-Hörspiel zur TV-Serie)'
+  - id: 52RGlb90xgw4mojcdy0Zds
+    title: 'Folge 63: Daddycop / Adriens Großeltern (Das Original-Hörspiel zur TV-Serie)'
+  - id: 68eBZdVC5LI5ZMygwwv3r7
+    title: 'Folge 64: Climatiqueen / Enthüllungen (Das Original-Hörspiel zur TV-Serie)'
+  - id: 1fNvqAQQPrdFwp1i24aJk4
+    title: 'Folge 65: Die schlafende Meerjungfrau/ Stier aus Stein (Das Original-Hörspiel zur TV-Serie)'
+  - id: 0n6hBLGU0bGkm2sTxgbAwN
+    title: 'Folge 6: Der Horrificator / Darkblade (Das Original-Hörspiel zur TV-Serie)'
+  - id: 6gL8KBH7U8FRKKEPQ7NIgA
+    title: 'Folge 7: Der Mime / Kung Food (Das Original-Hörspiel zur TV-Serie)'
+  - id: 00mmZIBSqUDDNGFQboZ02U
+    title: 'Folge 8: Der Gamer / Animan (Das Original-Hörspiel zur TV-Serie)'
+  - id: 3KNpMwcGBTYet4b3AMvqS6
+    title: 'Folge 9: Eine ebenbürtige Gegnerin / Ladybug in Nöten (Das Original-Hörspiel zur TV-Serie)'
+  - id: 3mbW2WWGG1cr430vc2JApd
+    title: Marinette, die Weihnachtselfe (Das Original-Hörspiel zur TV-Serie)
+  - id: 6GGRfa1mXJFFZXwEQ5WXUX
+    title: 'Miraculous 56: Verhöhnung / Intuition (Das Original-Hörspiel zur TV-Serie)'
+  - id: 7otNv1uDwJIcyEx93V2Soo
+    title: 'Miraculous World - Paris: Geschichten von Shadybug und Claw Noir (Das Original-Hörspiel zum
+      TV-Special)'
+  - id: 554FFfpB5evmkMz5yaz7yH
+    title: 'Miraculous World London: Am Rande der Zeit (Das Original-Hörspiel zum TV-Special)'
+  - id: 0SXKn1DvrpmJ3dSCXZ4xrN
+    title: 'Miraculous: Ladybug & Cat Noir, Der Film - Das Original-Hörspiel'
+  - id: 3zI973MbFwxHfS4qBofQJb
+    title: New York - United Heroez (Das Original-Hörspiel zum Film-Special)
+  - id: 7mr3Jo35HHlJn9HSSSMzGa
+    title: Shanghai - Die Legende von Lady Dragon (Das Original-Hörspiel zum TV-Special)
+- id: pettersson_findus
+  title: Pettersson und Findus
+  aliases:
+  - Pettersson & Findus
+  keywords:
+  - Pettersson und Findus
+  spotify_artist_ids:
+  - 3YZqnPKdtP5qP4LSvrgx9i
+  episode_pattern: Folge (\d+)
+  albums:
+  - id: 1Rl4Sd1z3aNzJ3iDeyT79v
+    episode: 1
+    title: 'Folge 1: Eine Geburtstagstorte für die Katze + zwei weitere Geschichten (Das Original-Hörspiel
+      zur TV-Serie)'
+  - id: 7cztXAIeIdjj7gHHIaIXQh
+    episode: 2
+    title: 'Folge 2: Ein Feuerwerk für den Fuchs + zwei weitere Geschichten (Das Original-Hörspiel zur
+      TV-Serie)'
+  - id: 4L8sq9jBYuW1pVeIUteUk7
+    episode: 3
+    title: 'Folge 3: Aufruhr im Gemüsebeet + zwei weitere Geschichten (Das Original-Hörspiel zur TV-Serie)'
+  - id: 1wOqPQTwDu2GneJqChLQV4
+    episode: 4
+    title: 'Folge 4: Die Elchjagd + zwei weitere Geschichten (Das Original-Hörspiel zur TV-Serie)'
+  - id: 5ggsRAlwYpxKZrFcn791tX
+    episode: 5
+    title: 'Folge 5: Wie Findus zu Pettersson kam + zwei weitere Geschichten (Das Original-Hörspiel zur
+      TV-Serie)'
+  - id: 48vL216dRDPOoAHGdccO4y
+    episode: 6
+    title: 'Folge 6: Schatzsuche + zwei weitere Geschichten (Das Original-Hörspiel zur TV-Serie)'
+  - id: 2ALteAq5xwlimsetoK9E5y
+    episode: 7
+    title: 'Folge 7: Der Weihnachtsmann kommt - Teil 1 (Das Original-Hörspiel zur TV-Serie)'
+  - id: 5DGEyjSlULxrHlVYGt1NkX
+    episode: 8
+    title: 'Folge 8: Der Weihnachtsmann kommt - Teil 2 (Das Original-Hörspiel zur TV-Serie)'
+  - id: 6uh9nJgSIgyU01uGXGY6OR
+    episode: 9
+    title: 'Folge 9: Überraschung für Pettersson (Das Original-Hörspiel zur TV-Serie)'
+  - id: 4sLtTKx4qappPepQW6KlLC
+    episode: 10
+    title: 'Folge 10: Findus und das eigene Fahrrad (Das Original Hörspiel zur TV-Serie)'
+  - id: 3OsfiTVaxZzsxWuKzGJG7G
+    episode: 11
+    title: 'Folge 11: Fia und der Hühnerfloh (Das Original Hörspiel zur TV-Serie)'
+  - id: 4oIPPpWb8X00qpFoqtFZ6S
+    episode: 12
+    title: 'Folge 12: Duell unterm Kirschbaum (Das Original Hörspiel zur TV-Serie)'
+  - id: 3FHVFy0puddIy7i1MQbmXY
+    episode: 13
+    title: 'Folge 13: Bei Katze und Hund geht es oft rund (Das Original-Hörspiel zur TV-Serie)'
+  - id: 45TPOgfUbfFv6SIEgWAgGj
+    episode: 14
+    title: 'Folge 14: Namenstag für alle (Das Original-Hörspiel zur TV-Serie)'
+  - id: 74eWACIG45euHC11dV18gP
+    episode: 15
+    title: 'Folge 15: Das Denk-Dran-Taschentuch (Das Original-Hörspiel zur TV-Serie)'
+  - id: 10rq97uRicLHltvtdt3fCA
+    episode: 16
+    title: 'Folge 16: Der allerlängste Tag des Jahres (Das Original-Hörspiel zur TV-Serie)'
+- id: pumuckl_neue_geschichten
+  title: Neue Geschichten vom Pumuckl
+  spotify_artist_ids:
+  - 1lhceMHrxr0jC943AuAhhh
+  episode_pattern: ^(?:\d+|[Dd]er\s+\w+.*):\s*(.+)$
+  albums:
+  - id: 3uE5b9Ky4hPqMwqGMbt94q
+    episode: 1
+    title: '01: Koboldsgesetz (Neue Geschichten vom Pumuckl)'
+  - id: 6Gh01XkNx5zCy6YpF2TqNk
+    episode: 2
+    title: '02: Pumuckl wird verschenkt (Neue Geschichten vom Pumuckl)'
+  - id: 4ifhQ2uMVkPvCWowXQON05
+    episode: 3
+    title: '03: Der alte Eder (Neue Geschichten vom Pumuckl)'
+  - id: 1iT5NytGG3gXo4zflAF99l
+    episode: 4
+    title: '04: Der verflixte Kaugummi (Neue Geschichten vom Pumuckl)'
+  - id: 5noRHJMN1Q8stRHv2Hhoqx
+    episode: 5
+    title: '05: Eder ist an allem schuld (Neue Geschichten vom Pumuckl)'
+  - id: 1aTk0FeiimvscYkptrCl6K
+    episode: 6
+    title: '06: Pumuckl und die Geburtstagsüberraschung (Neue Geschichten vom Pumuckl)'
+  - id: 6vewGeULWJmBGLUsEKjufI
+    episode: 7
+    title: '07: Pumuckl geht Angeln (Neue Geschichten vom Pumuckl)'
+  - id: 1WiMMZmOiXbElhKsABYhoe
+    episode: 8
+    title: '08: Pumuckl wird verzaubert (Neue Geschichten vom Pumuckl)'
+  - id: 3nrmZu2O1BHCeDWQBipGSz
+    episode: 9
+    title: '09: Werkstatt in Gefahr (Neue Geschichten vom Pumuckl)'
+  - id: 3ocbUpSMT1A8PnqDWDOkPf
+    episode: 10
+    title: '10: Pumuckl und das Pferd vom Nil (Neue Geschichten vom Pumuckl)'
+  - id: 28hNtwEfL5ZFWZZrr5oiA2
+    episode: 11
+    title: '11: Pumuckl und die Spinne (Neue Geschichten vom Pumuckl)'
+  - id: 4WDHP7CsuBG0GAcxoVCUjs
+    episode: 12
+    title: '12: Pumuckl will Skifahren (Neue Geschichten vom Pumuckl)'
+  - id: 6L66DV2OXCopakZdAQRdYx
+    episode: 13
+    title: '13: Pumuckl feiert Silvester (Neue Geschichten vom Pumuckl)'
+  - id: 6aMoxSSwgJiPsBqcanGlm1
+    episode: 14
+    title: '14: Pumuckl und der Geisterjäger (Neue Geschichten vom Pumuckl)'
+  - id: 1dFekBqxbDUn4oJuy0Se07
+    episode: 15
+    title: '15: Pumuckl und die eingeworfene Scheibe (Neue Geschichten vom Pumuckl)'
+  - id: 65qfQzOWCI8Ag9U1xemgiB
+    episode: 16
+    title: '16: Der kleine Flori (Neue Geschichten vom Pumuckl)'
+  - id: 4hxqwvbnzGpvCYV8dSq3tX
+    episode: 17
+    title: '17: Pumuckl geht Campen (Neue Geschichten vom Pumuckl)'
+  - id: 0YJdenrKvzzgniqlbeOuxg
+    episode: 18
+    title: '18: Pumuckl und der Schluckauf (Neue Geschichten vom Pumuckl)'
+  - id: 0gsZ6ZcNNy7ewIGiLGrhAt
+    episode: 19
+    title: '19: Pumuckl und das Geräusch (Neue Geschichten vom Pumuckl)'
+  - id: 4nEh8IfJHLsFTw5VNjzkb1
+    episode: 20
+    title: '20: Pumuckl und der krumme Weihnachtsbaum (Neue Geschichten vom Pumuckl)'
+- id: raeuber_hotzenplotz
+  title: Räuber Hotzenplotz
+  aliases:
+  - Der Räuber Hotzenplotz
+  keywords:
+  - Räuber Hotzenplotz
+  - Hotzenplotz
+  spotify_artist_ids:
+  - 3qAWgxar5hLNcW4ybNvjSW
+  - 2AvETPAFFbhV737lBKXJj9
+  - 6OHFxwqdZpOuYMKrV0UHQ5
+  episode_pattern: ([1-4])
+  albums:
+  - id: 2zgCdgnOoep0XYcMhk65nx
+    episode: 1
+    title: 'Der Räuber Hotzenplotz 1: Der Räuber Hotzenplotz'
+  - id: 3Ik0ZUPEEaHJ7OKp78broi
+    episode: 2
+    title: 'Der Räuber Hotzenplotz 2: Neues vom Räuber Hotzenplotz (2. Band des Kinderbuch-Klassiker)'
+  - id: 1npSrVLIuwZEcpa6y5srif
+    episode: 3
+    title: 'Der Räuber Hotzenplotz 3: Der Räuber Hotzenplotz. Schluss mit der Räuberei (3. Band des Kinderbuch-Klassikers)'
+  - id: 36CwCR1wz682jxOLSUaUwh
+    episode: 4
+    title: Der Räuber Hotzenplotz und die Mondrakete
+- id: rolf_zuckowski
+  title: Rolf Zuckowski
+  keywords:
+  - Rolf Zuckowski
+  - Rolf
+  spotify_artist_ids:
+  - 2qn4hIXsvRUyFoboMi31XB
+- id: ronja_raeubertochter
+  title: Ronja Räubertochter
+  spotify_artist_ids:
+  - 7sRF5KPi10c3pueaKGmArz
+  albums:
+  - id: 5DcgKpZpZxkakLCxKU3tJy
+    title: Ronja Räubertochter
+- id: sternenfohlen
+  title: Sternenfohlen
+  keywords:
+  - Sternenfohlen
+  spotify_artist_ids:
+  - 4Cwiot3PlavNCGx2GPgd8R
+  episode_pattern: '[Tt]eil\s+(\d+)'
+  albums:
+  - id: 4lDWGE67MpuRQiUhHwADzx
+    episode: 1
+    title: 'Teil 1: In der Einhornschule'
+  - id: 3F0tY1MeBP6NQ6RZX2gg7J
+    episode: 2
+    title: 'Teil 2: Der Einhornprinz'
+  - id: 3cjHg6kSo83EasgInATFlW
+    episode: 3
+    title: 'Teil 3: Magische Freundschaft'
+  - id: 0JEnFsh8Sy4sO1TY3x2NJ0
+    episode: 4
+    title: 'Teil 4: Saphiras großer Tag'
+  - id: 0oBXyduOs9LkAeAyXVGfpb
+    episode: 5
+    title: 'Teil 5: Bezaubernde Gefährten'
+  - id: 1IdFUqSIsThb7aKUWRKVii
+    episode: 6
+    title: 'Teil 6: Wolke in Not'
+  - id: 21qmaVUwmR6obZ2SzsGgqe
+    episode: 7
+    title: 'Teil 7: Wirbel um Stella'
+  - id: 71kwSNpAzwPkpljWTA4cRM
+    episode: 8
+    title: 'Teil 8: Sturmwinds Geheimnis'
+  - id: 5Ti7YRT45kqPnpfCS92kiY
+    episode: 9
+    title: 'Teil 9: Ein zauberhaftes Team'
+  - id: 1nhWSiSQPwK9yPKwMSXSEz
+    episode: 10
+    title: 'Teil 10: Kopf hoch Saphira!'
+  - id: 4MSxumcq59Ecb8pR8w4yiF
+    episode: 11
+    title: 'Teil 11: Ein magisches Fest (Ungekürzt)'
+  - id: 2C4JGLf9ZNOv3RDIOLeeTA
+    episode: 12
+    title: 'Teil 12: Wolkes neue Freunde (Ungekürzt)'
+  - id: 43ZrhsG11yJCrK01FSiHX1
+    episode: 13
+    title: 'Teil 13: Im Zauberwald'
+  - id: 4N7zg4tbfnzcDFvoBJll0I
+    episode: 14
+    title: 'Teil 14: Der magische Garten'
+  - id: 2cx8GgKV3CAYU7AmwrXypu
+    episode: 15
+    title: 'Teil 15: Sturmwind in Gefahr'
+  - id: 1fmLd085iw57cN8xAraSnp
+    episode: 16
+    title: 'Teil 16: Wolke und die Waldgeister'
+  - id: 3vCD11Hwx3Cp2jfxt8eT5p
+    episode: 17
+    title: 'Teil 17: Im Elfenland'
+  - id: 5wGWICjhXu3K7WHXox2LwY
+    episode: 18
+    title: 'Teil 18: Bei den Trollen'
+  - id: 6zQzPov1rQ8XwPJTejA04W
+    episode: 19
+    title: 'Teil 19: Ferien im Palast'
+  - id: 1D8FEbGY4GjPnLMbeZXj9F
+    episode: 20
+    title: 'Teil 20: Ein Liebesbrief für Wolke'
+  - id: 4YfXyG4LQWhpnOy41qAWEs
+    episode: 21
+    title: 'Teil 21: Die geheime Flaschenpost'
+  - id: 229m4zCvqm7QQ7xSKHTqay
+    episode: 22
+    title: 'Teil 22: Die Zwillingsfohlen'
+  - id: 3Fdp4Z0CHz2ZS12shFdrHg
+    episode: 23
+    title: 'Teil 23: Zauberhaftes Winterfest'
+  - id: 2YZArlZUj7ko0mXWkfzX8X
+    episode: 24
+    title: 'Teil 24: Mondsteinzauber'
+  - id: 618eWRxSEYBPylGFygZ2Bu
+    episode: 25
+    title: 'Teil 25: Fest in der Einhornschule (ungekürzt)'
+  - id: 0gcdTgF1rA0PSF6oiGRGkP
+    episode: 26
+    title: 'Teil 26: Beste Freundinnen'
+  - id: 1iNwO7MrtAOMV6OGXJkVNV
+    episode: 27
+    title: 'Teil 27: Spuk im Zauberwald'
+  - id: 3Ef3LI9Xysr1L3hwllvrua
+    episode: 28
+    title: 'Teil 28: Zauberhafter Sommer'
+  - id: 3lSTY9l1O63XP7qghdUfPW
+    episode: 29
+    title: 'Teil 29: Manege frei für Wolke'
+  - id: 7Mj0M1Wj50LTnCmAAJAk7u
+    episode: 30
+    title: 'Teil 30: Im Tal der Drachen'
+  - id: 3610G7w18dTXm49VDFFT5G
+    episode: 31
+    title: 'Teil 31: Wolke und der verflixte Zaubertrank'
+  - id: 64SPA0XxJq0hmQzxP9SMCS
+    episode: 32
+    title: 'Teil 32: Magische Schatzsuche'
+  - id: 6UZsALbH3ULW5dKfiHSu4C
+    episode: 33
+    title: 'Teil 33: Abenteuer im Nebelwald'
+  - id: 7x2E3U5Xx3G5buHRhl3nTt
+    episode: 34
+    title: 'Teil 34: Das magische Elfenfeuer'
+  - id: 3PuVtB3msHiSV0gjN1JAwn
+    episode: 35
+    title: 'Teil 35: Der Schatz der Schiffbrüchigen'
+  - id: 3KcdyluMWMv86hSXlxtpRB
+    episode: 36
+    title: 'Teil 36: Spuk im Zaubergarten'
+  - id: 3SPIYtG0JWQnLzre2vqZbw
+    episode: 37
+    title: 'Teil 37: Das große Schulquiz'
+  - id: 2I9qW79A61DhwvXeZoIY9X
+    episode: 38
+    title: 'Teil 38: Ausflug zum Eispalast'
+  - id: 5PD3PHaabR798YWuKS52Rh
+    episode: 39
+    title: 'Teil 39: Geheimnisvolle Prophezeiung'
+  - id: 1QHYmlvMp5zRO2UkJYESQc
+    episode: 40
+    title: 'Teil 40: Ein aufregendes Sommerfest'
+  - id: 1h65KZCUkTzm1X9jQ7naf9
+    episode: 41
+    title: 'Teil 41: Das magische Buch'
+  - id: 2Tas15aBGmhh355uvDh4OD
+    episode: 42
+    title: 'Teil 42: Das fantastische Zaubertunier'
+- id: tabaluga_film_hoerspiel
+  title: Tabaluga (Film-Hörspiele)
+  spotify_artist_ids:
+  - 4M0PZyOPSvjzFEBRg3G8xA
+  - 5W3s4beu23rOlseCbVOp4l
+  episode_pattern: (?:Folge |^\d{2}/|/)(\d+)
+  albums:
+  - id: 77POHjj5tE6PN3fNWjbwoz
+    title: Tabaluga (Das Original-Hörspiel zum Kinofilm)
+  - id: 5aLSAfjjLWa1sgoeW1DAzz
+    title: 'Tabaluga: Ungekürzte Version (Das Original-Hörspiel zum Film)'
+- id: tabaluga_neu
+  title: Tabaluga (Neuauflage 2021+)
+  spotify_artist_ids:
+  - 4M0PZyOPSvjzFEBRg3G8xA
+  - 5W3s4beu23rOlseCbVOp4l
+  episode_pattern: (?:Folge |^\d{2}/|/)(\d+)
+  albums:
+  - id: 52BaPmadnpTkDhNSP87luz
+    episode: 1
+    title: 'Folge 1: Die große Stadt'
+  - id: 4rP8iu8oRrYsR91ELChdG7
+    episode: 2
+    title: 'Folge 2: Am wilden Meer'
+  - id: 31I8XXIgxv7MdAX6WdygeU
+    episode: 3
+    title: 'Folge 3: In den eisigen Bergen'
+  - id: 6hWbLvmZuYNxByx9zaceSu
+    episode: 4
+    title: 'Folge 4: Im stürmischen Wald'
+  - id: 3lqNB64CRZVTacJYx5QT1H
+    episode: 5
+    title: 'Folge 5: Im Eisbären-Land'
+  - id: 0IklRy7YgVQGESlc4nmy1E
+    episode: 6
+    title: 'Folge 6: Wirbelwind auf dem Bauernhof'
+  - id: 3FiJp9SBLabeDIN21MyJ3S
+    episode: 7
+    title: 'Folge 7: Schneesturm auf dem Weihnachtsmarkt'
+- id: tabaluga_und_leo
+  title: Tabaluga und Leo
+  spotify_artist_ids:
+  - 4M0PZyOPSvjzFEBRg3G8xA
+  - 5W3s4beu23rOlseCbVOp4l
+  episode_pattern: (?:Folge |^\d{2}/|/)(\d+)
+  albums:
+  - id: 5wWLRm03RuYzbBKKgjFl2g
+    title: Tabaluga und Leo
+- id: teufelskicker
+  title: Teufelskicker
+  keywords:
+  - Teufelskicker
+  spotify_artist_ids:
+  - 752p3IcSA76CVOvqoGcFWH
+  episode_pattern: 'Folge (\\d+):'
+  albums:
+  - id: 60tm3XQSABh0iPsyuTXbv9
+    episode: 1
+    title: 01/Moritz macht das Spiel
+  - id: 0tu53HVgwKwV3RruxcUCOz
+    episode: 2
+    title: 02/Eine knallharte Saison
+  - id: 5fQhUZ97h0lTPahnrkjvMJ
+    episode: 3
+    title: 03/Holt euch den Cup!
+  - id: 07JwaKx5NWKukkzGMFqHGB
+    episode: 4
+    title: 04/Stürmer gesucht!
+  - id: 1UtkDOJ1GA5z40PZZP46sX
+    episode: 5
+    title: 05/Torschuss mit Folgen
+  - id: 3uSWlXEduQcIjq8YMY0VzL
+    episode: 6
+    title: 06/Ein unheimlich starker Gegner
+  - id: 3I0YsYvf1mgbTUEgvSG2nk
+    episode: 7
+    title: 07/La Ola mit Opa
+  - id: 5wZ8Zot5cQ0uCKUXgXdeNd
+    episode: 8
+    title: 08/Doppelter Einsatz für Moritz!
+  - id: 1bmXUhmEpHi04ZzrVWT9ts
+    episode: 9
+    title: 09/Talent gesichtet
+  - id: 7qIkGBFX2sJHQLp55751Kg
+    episode: 10
+    title: 10/Teufelskicker - Pokal in Gefahr
+  - id: 4l6cdtofiNyKtW4s58UvUs
+    episode: 11
+    title: 11/Der Teufel im Wald
+  - id: 65TwHbA3gM5clivKaS2pFy
+    episode: 12
+    title: 12/Teufelskicker und Revolverheld
+  - id: 2Mgda45RwkfKH0miVxeCv3
+    episode: 13
+    title: 13/Sieg um jeden Preis!
+  - id: 2NZYi0hdlvfUq3DKiYgUoL
+    episode: 14
+    title: 14/Falsches Spiel im Turnier
+  - id: 7gWIY1RwwctCejCWkQHPUr
+    episode: 15
+    title: 15/Spuk im Vereinsheim!
+  - id: 2ugi710MAHIItEkXMc2McO
+    episode: 16
+    title: 16/Verpasste Chance!
+  - id: 7nnNXSA029Ltl5NUYnVL0x
+    episode: 17
+    title: 17/Der Milch-Millionär!
+  - id: 1hGrKMtCIOQZwzm8jmC26F
+    episode: 18
+    title: 18/Spielerin im Abseits
+  - id: 0MHITjskfFt5hY5cQ4jre2
+    episode: 19
+    title: 19/Viel Wirbel um Schorschi!
+  - id: 77NdaE8yof08XhDmw9nRis
+    episode: 20
+    title: 20/Doping im Spiel?
+  - id: 2TOdlIYpgKL2ondY5PFwjE
+    episode: 21
+    title: 21/Moritz startet durch!
+  - id: 6FehK2LwfLpkmEceQLMxtr
+    episode: 22
+    title: 22/Die Teufels-Kocher!
+  - id: 7lUIGAfVcEhpeMr9lQlCuG
+    episode: 23
+    title: 23/Im Untergrund!
+  - id: 3SB0Lo8oiiV7jO064XQBiJ
+    episode: 24
+    title: 24/Geheimakte Blau-Gelb!
+  - id: 5hku5O0Jxaq1mHWSeCAyqi
+    episode: 25
+    title: 25/1, 2, 3, Winter-Hexerei!
+  - id: 20MbwmLBfqFVgBKsGIPv2s
+    episode: 26
+    title: 26/SOS aus Schweinesand!
+  - id: 3o3C8H64WepbNNqoxsEHAN
+    episode: 27
+    title: 27/Seitenwechsel!
+  - id: 0nORGwfy8HE4P0Nql0vCRX
+    episode: 28
+    title: 28/Jäger des verlorenen Pokals!
+  - id: 0LBt1WOiDtHtvKIyIAqVRx
+    episode: 29
+    title: 29/Mädchen-Alarm!
+  - id: 2rwTyR8MwSZGb5qkjLFPBl
+    episode: 30
+    title: 30/Vampire im Feriencamp!
+  - id: 4Mln0EPmYMpOYb0n6k7fGr
+    episode: 31
+    title: 31/Kicken auf Kufen!
+  - id: 16KJKzh73v61tSWpdJkvUw
+    episode: 32
+    title: 32/Sammelfieber!
+  - id: 01GYa7vw7QN9z56J9UMgTV
+    episode: 33
+    title: 33/Falsche Pfiffe!
+  - id: 7LJNekuvXpQ0RwEzGJ5RHr
+    episode: 34
+    title: 34/Freundschaft in Gefahr!
+  - id: 4RgbcThUqAw0h32YR9Y5Me
+    episode: 35
+    title: 35/Blau-Gelb gegen die Teufelskicker!
+  - id: 6vS9TEVd5w8Q9C8gom13XB
+    episode: 36
+    title: 36/Geisterspiel!
+  - id: 18WD2wUaUQCUJirGQQRzEX
+    episode: 37
+    title: 37/Der Super-Coach!
+  - id: 0MRR2CDugcKU7gjoVffnyY
+    episode: 38
+    title: 38/Catrina bleibt am Ball!
+  - id: 4b1pcgpRJsMlVjxDyfMjQu
+    episode: 39
+    title: 39/Gipfelstürmer!
+  - id: 7zF1ZutkRSh5Bv1sBhqJDt
+    episode: 40
+    title: 40/Spiel mir das Lied vom Tor!
+  - id: 6AVu010Wg6nXqx2vH1Ddv1
+    episode: 41
+    title: 41/Rettet Blau-Gelb!
+  - id: 4Z7tet0BsoDqJ5QDRLSkPd
+    episode: 42
+    title: 42/König der Keeper!
+  - id: 7ps2HLzpSgeXZ0AH7oVLUw
+    episode: 43
+    title: 43/Die Beach-Kings
+  - id: 4v444romYP4I67iipydvVE
+    episode: 44
+    title: 44/Wo ist Tasman?
+  - id: 2nZzQu8dYh46WsRircOKlN
+    episode: 45
+    title: 45/Mission TK!
+  - id: 5M6bmTQkOPDj5IjCNx8kZ2
+    episode: 46
+    title: 46/Eigentor für Moritz!
+  - id: 6rDQJE9ck8vaUtJtJidsbf
+    episode: 47
+    title: 47/13:0 für die Teufelskicker!
+  - id: 1UNpIgyTaf90aMAMncsMHQ
+    episode: 48
+    title: 48/Der Elfer-Elvis!
+  - id: 4Jxbfe27vxDkK2clLYV24w
+    episode: 49
+    title: 49/Kapitän über Bord!
+  - id: 1Ds45eGoWi4Tl4rEnMhYTv
+    episode: 50
+    title: 50/Ballzauber!
+  - id: 6OKIRJBJg2cmqlwWLKRW1e
+    episode: 51
+    title: 51/Schiri in Not!
+  - id: 4SCfd0k6WWEjjW006AQlii
+    episode: 52
+    title: 52/Hallen-Duell!
+  - id: 6TvD8NhdxRXnSiYPAtuAAG
+    episode: 53
+    title: 53/Zoff bei Zeche 04
+  - id: 0qn1MSZ7Cr2SsB3PpUMBGw
+    episode: 54
+    title: 54/Der Ballflüsterer!
+  - id: 0WfeB1BRH97mTuccXOPOMW
+    episode: 55
+    title: 55/Umwelt-Foul!
+  - id: 2VeDR9yy1YOIBu3ZS0lcog
+    episode: 56
+    title: 56/Der Doppelpass!
+  - id: 44rSkI4OlgLvhQCJoVxMaX
+    episode: 57
+    title: 57/Quiz-Duell!
+  - id: 5dO3rB1UrSYtakm7n8t8Yc
+    episode: 58
+    title: 58/Heja Blau-Gelb!
+  - id: 0NL4nf0oO7X5rDOWImkBgd
+    episode: 59
+    title: 059/Arbeitssieg!
+  - id: 25oihruzo6w6Y1rgnpkBdz
+    episode: 60
+    title: 060/Ein heißer Ritt!
+  - id: 36JABCgbZB3BVMxAzwbJwN
+    episode: 61
+    title: 061/Das Abstiegsgespenst!
+  - id: 3Cw52UAt3Fm8S4ELagfRpF
+    episode: 62
+    title: 062/Das Wunder von Bert!
+  - id: 7KxvNkcKzrZ8HPUZMeMvLo
+    episode: 63
+    title: 063/Sauber gespielt!
+  - id: 1etyQu2e9CqgciAUnHh9mr
+    episode: 64
+    title: 064/Punktspiel oder Popstar?
+  - id: 3w92RMUHnL11vho6ZCGVJh
+    episode: 65
+    title: 065/Die Kicker der Tafelrunde!
+  - id: 7A859yxPxu8ttsfe8sR4Dj
+    episode: 66
+    title: 066/Labrador, noch ein Tor!
+  - id: 43zlcyiAhiu5sT8TcuqSsu
+    episode: 67
+    title: 067/Paula im Abseits!
+  - id: 1ki6VGlzszWMNlpaZ8dIcf
+    episode: 68
+    title: 068/Das Juwel vom Rummelplatz
+  - id: 2HoDAArtgFHAILNQd3zlc0
+    episode: 69
+    title: 069/Die guten Taten!
+  - id: 07iHCSeUplUVXzOBJf7LPD
+    episode: 70
+    title: 070/Duell bei Flutlicht!
+  - id: 4RzsDQDwJSqCUcY2bYfN6x
+    episode: 71
+    title: 071/Die Rückkehr der Beach Kings!
+  - id: 5CuDtjb8hv1Wmlp4pvL88g
+    episode: 72
+    title: 072/Freundschaftsspiel!
+  - id: 0UB7JlT2W2gqc4Wcogaql0
+    episode: 73
+    title: 073/Der Kanu-Kick!
+  - id: 20zZwhpufLApmCOglWj6FU
+    episode: 74
+    title: 074/Die Teufels-Bienen!
+  - id: 05QU9GuE9n3nQwI1CIlXoK
+    episode: 75
+    title: 075/Kampf der Maskottchen!
+  - id: 2pDqsEKAKDO89uNAq2FVmg
+    episode: 76
+    title: 076/Echt galaktisch!
+  - id: 66hQhdSiM1RlR5Uubg1ZAo
+    episode: 77
+    title: 077/Sprung an die Spitze!
+  - id: 2des8gFC9pc7dlV6NQeMW5
+    episode: 78
+    title: 078/Hitzeschlacht!
+  - id: 1lkOxJfWr4cCrVYnTJQXuk
+    episode: 79
+    title: 079/Hexenkessel!
+  - id: 23K6hnDSowgEUzSaSqRKj6
+    episode: 80
+    title: 080/Der Kommerzclub!
+  - id: 3YxBE9UASbHnNsWXYzbSvi
+    episode: 81
+    title: 081/Gras fressen!
+  - id: 2cgCO7OqNXdVhsBrY4TK3l
+    episode: 82
+    title: 082/Das Triple!
+  - id: 4Ongb5xmPnc3yy0AzMYKbr
+    episode: 83
+    title: 083/König von Europa!
+  - id: 3IhfPNfCXe5nOGx4W9GgcH
+    episode: 84
+    title: 084/Titel, Tore, Tulpen!
+  - id: 1J9uBMdBHlWEYbDg8dCOI7
+    episode: 85
+    title: 085/Der Strafraum-Streuner!
+  - id: 2rau02XML01zofCgkRXS4K
+    episode: 86
+    title: 086/Blau-Gelb in Bayern!
+  - id: 1paNSMAQAmRwMcMaEjMfTW
+    episode: 87
+    title: 087/Viva Futebol!
+  - id: 4WgXFqg2ZGjix4ueqcP6Kp
+    episode: 88
+    title: 'Folge 88: Ei! Ei! Eigentor!'
+  - id: 6vlrgWQfNXRqA6ztr3Wabo
+    episode: 89
+    title: 'Folge 89: Sieges-Serie!'
+  - id: 1eLm6PuZAMbXFvmHsGMhGG
+    episode: 90
+    title: 'Folge 90: Der Unentschieden-Fluch!'
+  - id: 7u4Mr0PKftRzVKIK85YWP6
+    episode: 91
+    title: 'Folge 91: Hunniklau und Alutreffer!'
+  - id: 50SMlwI6DkvrX8yELJkB1S
+    episode: 92
+    title: 'Folge 92: Auszeit!'
+  - id: 5drJ7dWS8BwBYeN6iW2LPm
+    episode: 93
+    title: 'Folge 93: Alle Balla-Balla!'
+  - id: 1gzTWSYvIpUtFeErHkurzv
+    episode: 94
+    title: 'Folge 94: Eltern-Pressing!'
+  - id: 0ryiNUJnDR1r5JOuuobpO5
+    episode: 95
+    title: 'Folge 95: Touchdown für die Teufelskicker!'
+  - id: 5cSkvZqWfHz0XnvN8u8AJH
+    episode: 96
+    title: 'Folge 96: Tausendundein Tor!'
+  - id: 6Y9MIwIRK5SSpAG0tOvKOQ
+    episode: 97
+    title: 'Folge 97: Bärenstark!'
+  - id: 3ui72v9JxFG3MCmqKdLf7M
+    episode: 98
+    title: 'Folge 98: Game Over!'
+  - id: 2AHj3w9jBzSaVytHhDShk1
+    episode: 99
+    title: 'Folge 99: Teufelskickerin in Down Under!'
+  - id: 6Xo32dANA3ZO7PNyED2uKu
+    episode: 100
+    title: 'Folge 100: Blau-Gelb 100!'
+  - id: 4DHELx8YLzAOaaqiCQjRHE
+    episode: 101
+    title: 'Folge 101: Der doppelte Norberger!'
+  - id: 6gcNKNN6znEwe34GfSIuOT
+    episode: 102
+    title: 'Folge 102: Kick off!'
+  - id: 5qqN2V88cf6QRtSmmC33Eh
+    episode: 103
+    title: 'Folge 103: Europa-Express!'
+  - id: 3dOORH8u2XkL1MwnYqwtig
+    episode: 104
+    title: 'Folge 104: Tick-Tack-Taktik!'
+  - id: 3iw3GPJ9k1H6i4YezilNGa
+    episode: 105
+    title: 'Folge 105: Unfair Play!'
+  - id: 78Q9ISlGqhfVCgyK6RNWV0
+    episode: 106
+    title: 'Folge 106: Klick-Konter!'
+  - id: 00dYJcPc2GIhupBJDOdUbe
+    episode: 107
+    title: 'Folge 107: Ganz oben!'
+  - id: 7EAfAZUuUTCmwcaAV7ALSX
+    episode: 108
+    title: 'Folge 108: 1 x anders!'
+  - id: 5JaN1TSdJl9EaQIJYMGBqp
+    episode: 109
+    title: 'Folge 109: Respekt!'
+- id: volker_rosin
+  title: Volker Rosin
+  keywords:
+  - Volker Rosin
+  spotify_artist_ids:
+  - 4LDZtk1nfyhIx4bzDDHoBf
+- id: wieso_weshalb_warum_erstleser
+  title: Wieso? Weshalb? Warum? Erstleser
+  spotify_artist_ids:
+  - 79fds5dgda0VCYelERV8Gi
+  - 0LoeUAhyTnta8Vk7HBzBsP
+  - 7CogQoFl6oPr45Xz6ZuFYU
+  - 7sdugL0BnF0QBh3fGPvYJz
+  - 56WIqh0XOgaRFbvdoEuk0F
+  episode_pattern: (?:Folge|folge)\s+(\d+)
+  albums:
+  - id: 7f70cV1g4qlRZVHkSElmm1
+    episode: 1
+    title: Dinosaurier (Wieso? Weshalb? Warum? ERSTLESER, Folge 1)
+  - id: 4uarYt8XVesrFlF5vEXqHI
+    episode: 2
+    title: Vulkane (Wieso? Weshalb? Warum? ERSTLESER, Folge 2)
+  - id: 4nhwS9ztoA3OxsqQ7IVI2w
+    episode: 3
+    title: Wale und Delfine (Wieso? Weshalb? Warum? ERSTLESER, Folge 3)
+  - id: 6wiQGmYF0rOCbqQGpQqYi0
+    episode: 4
+    title: Weltraum (Wieso? Weshalb? Warum? ERSTLESER, Folge 4)
+  - id: 4PJKSQEqcKSag3dKxjj2yD
+    episode: 5
+    title: Unsere Erde (Wieso? Weshalb? Warum? ERSTLESER, Folge 5)
+  - id: 450rh9RVDMe0muWgUkYMKQ
+    episode: 6
+    title: Pferde (Wieso? Weshalb? Warum? ERSTLESER, Folge 6)
+  - id: 0Hc7NANGrr24Z3YM8z0i9p
+    episode: 7
+    title: Fußball (Wieso? Weshalb? Warum? ERSTLESER, Folge 7)
+  - id: 41a2ZVOBGfP1yQ9TGCZg1M
+    episode: 8
+    title: Ozeane (Wieso? Weshalb? Warum? ERSTLESER, Folge 8)
+  - id: 7v5xwVrCLQoJZpryltbMF3
+    episode: 9
+    title: Das alte Ägypten (Wieso? Weshalb? Warum? ERSTLESER, Folge 9)
+  - id: 43E1rRbWsqJ3TthwimXvvS
+    episode: 10
+    title: In der Natur (Wieso? Weshalb? Warum? ERSTLESER, Folge 10)
+  - id: 7nmazapbnldQJN9qOUXwDX
+    episode: 11
+    title: Detektive und Ermittler (Wieso? Weshalb? Warum? ERSTLESER, Folge 11)
+  - id: 5FBdee2s7NNUDgnBj22bv7
+    episode: 12
+    title: Haustiere (Wieso? Weshalb? Warum? ERSTLESER, Folge 12)
+  - id: 6lQWCJ7mo7ioMZSrZUKfxQ
+    episode: 13
+    title: Umweltschutz (Wieso? Weshalb? Warum? ERSTLESER, Folge 13)
+  - id: 2I6tuy3ML4PyAaurlppW6B
+    episode: 14
+    title: Roboter (Wieso? Weshalb? Warum? ERSTLESER, Folge 14)
+  - id: 1Bph3iCCrgEyemGXR5lYN9
+    episode: 15
+    title: Mein Körper (Wieso? Weshalb? Warum? ERSTLESER, Folge 15)
+  - id: 0S0M8RbZgQUVHB2NJexwBS
+    episode: 16
+    title: Gefährliche Tiere (Wieso? Weshalb? Warum? ERSTLESER, Folge 16)
+  - id: 3utAvGFi6JySY5c8vXT5Tc
+    episode: 17
+    title: Im Wald (Wieso? Weshalb? Warum? ERSTLESER, Folge 17)
+- id: woodwalkers
+  title: Woodwalkers
+  aliases:
+  - Woodwalkers - Die Rückkehr
+  keywords:
+  - Woodwalkers
+  spotify_artist_ids:
+  - 0yss9NnZei0eVpmhXpKj6p
+  episode_pattern: (?:Band|Staffel \d+, Band)\s+(\d+)
+  albums:
+  - id: 4NqWK4luxlC88GtQ48Kg9o
+    episode: 1
+    title: Woodwalkers - Carags Verwandlung – Das Hörspiel
+  - id: 3nV5gBed3BUwAkYeLnsvqu
+    episode: 2
+    title: Woodwalkers - Gefährliche Freundschaft – Das Hörspiel
+  - id: 3PlNkGHk30RsvmoAZtzcQa
+    episode: 3
+    title: Woodwalkers - Hollys Geheimnis – Das Hörspiel
+  - id: 2P7opcdyWfFWcR1nG3zVmq
+    episode: 4
+    title: Woodwalkers - Fremde Wildnis – Das Hörspiel
+  - id: 3cWBxST748bHGGNlT0Jqfw
+    episode: 5
+    title: Woodwalkers - Feindliche Spuren - Das Hörspiel
+  - id: 38cpTcQn6kTGyw9Ttn3mhA
+    episode: 6
+    title: Woodwalkers - Tag der Rache - Das Hörspiel
+  - id: 3akuBfI0xnmcKuTDc0NHmi
+    episode: 7
+    title: Woodwalkers - Die Rückkehr. Das Vermächtnis der Wandler - Das Hörspiel (Staffel 2, Band 
+      1)
+  - id: 7c67MJkQOwdYVKF99xUJmZ
+    episode: 8
+    title: Woodwalkers - Die Rückkehr. Herr der Gestalten - Das Hörspiel (Staffel 2, Band 2)
+  - id: 6PzVYSk3L4eK63POzGPULL
+    episode: 9
+    title: Woodwalkers - Die Rückkehr. Das Grollen der Löwin - Das Hörspiel (Staffel 2, Band 3)
+  - id: 0tmMOcyZUriJGdmG3VRW2c
+    episode: 10
+    title: Woodwalkers - Die Rückkehr. Der Club der Fabeltiere - Das Hörspiel (Staffel 2, Band 4)
+  - id: 0VN7CzBtRTbni9xNjYSGAR
+    episode: 11
+    title: Woodwalkers - Die Rückkehr. Rivalen im Revier - Das Hörspiel (Staffel 2, Band 5)
+  - id: 1PK7ePBqP2fcGUhQqOzkcR
+    episode: 12
+    title: Woodwalkers - Die Rückkehr. Zeit der Entscheidung - Das Hörspiel (Staffel 2, Band 6)

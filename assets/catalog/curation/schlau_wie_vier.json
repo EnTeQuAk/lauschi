@@ -19,6 +19,15 @@
     "reviewed_at": "2026-02-22T14:33:11.150638+00:00",
     "reviewed_by": "review-series.py",
     "overrides": [],
-    "notes": "Auto-approved: no gaps or duplicates found."
+    "notes": "Auto-approved: no gaps or duplicates found.",
+    "verification": {
+      "model": "minimax-m2.5",
+      "verified_at": "2026-02-22T15:19:12.170131+00:00",
+      "approve": false,
+      "concerns": "No albums found at all. The series has 0 included and 0 excluded albums, which means no content was found on Spotify for this series. The first AI auto-approved with \"no gaps or duplicates found\" but this seems incorrect - there should be some albums to review. The Wikipedia lookup shows \"Wie schlau ist Deutschland?\" which is a different show than \"Schlau wie Vier\" - this may be a different series entirely or the series may simply not exist on Spotify. This needs human attention to verify whether the series exists and whether the artist ID is correct.",
+      "override_verdicts": [],
+      "split_verdicts": []
+    },
+    "status": "escalated"
   }
 }

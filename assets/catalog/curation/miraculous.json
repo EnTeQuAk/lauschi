@@ -559,6 +559,15 @@
     "reviewed_at": "2026-02-22T14:31:10.067617+00:00",
     "reviewed_by": "review-series.py",
     "overrides": [],
-    "notes": "Auto-approved: no gaps or duplicates found."
+    "notes": "Auto-approved: no gaps or duplicates found.",
+    "verification": {
+      "model": "minimax-m2.5",
+      "verified_at": "2026-02-22T15:17:06.047150+00:00",
+      "approve": true,
+      "concerns": "All looks correct. The excluded albums are correctly the instrumental/orchestral scores from the movie, not the original audiobook. The included albums follow a consistent pattern of German \"Das Original-Hörspiel zur TV-Serie\" releases for the Miraculous cartoon. No overrides or splits were proposed by the first reviewer.",
+      "override_verdicts": [],
+      "split_verdicts": []
+    },
+    "status": "approved"
   }
 }

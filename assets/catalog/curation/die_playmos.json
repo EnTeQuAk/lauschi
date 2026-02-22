@@ -866,6 +866,15 @@
     "reviewed_at": "2026-02-22T14:26:04.246595+00:00",
     "reviewed_by": "review-series.py",
     "overrides": [],
-    "notes": "Auto-approved: no gaps or duplicates found."
+    "notes": "Auto-approved: no gaps or duplicates found.",
+    "verification": {
+      "model": "minimax-m2.5",
+      "verified_at": "2026-02-22T15:09:17.528619+00:00",
+      "approve": true,
+      "concerns": "The included episodes 87 and 88 are noted as \"Ungekürzt\" (unabridged) in episode 87's title - this might indicate a different version but still appears to be the same series. The excluded items are all appropriate exclusions: short stories without episode numbers, box sets/compilations, and theme songs. All included albums follow the \"Folge X\" pattern consistently with \"Das Original Playmobil Hörspiel\" branding. No overrides or splits were proposed by the first reviewer.",
+      "override_verdicts": [],
+      "split_verdicts": []
+    },
+    "status": "approved"
   }
 }

@@ -59,10 +59,18 @@
     "curator_notes": "Split from Prinzessin Lillifee. These are TV episode audiobooks (Das Hörspiel zur TV-Serie, episodes 01-06), a separate product from Gute-Nacht-Geschichten. Parents would expect them as a distinct series entry. Each album has 32-34 tracks of episode audio without the bedtime music/lullabies that characterize the Gute-Nacht-Geschichten series."
   },
   "review": {
-    "status": "pending",
+    "status": "escalated",
     "overrides": [],
     "notes": "Auto-created by apply-splits.py from prinzessin_lillifee.\nAuto-approved: no gaps or duplicates found.",
     "reviewed_at": "2026-02-22T14:31:10.079919+00:00",
-    "reviewed_by": "review-series.py"
+    "reviewed_by": "review-series.py",
+    "verification": {
+      "model": "minimax-m2.5",
+      "verified_at": "2026-02-22T15:18:24.184737+00:00",
+      "approve": false,
+      "concerns": "Cannot verify the included albums - the album IDs provided appear to be incomplete (only 6 characters each). Spotify album IDs are typically 22 characters. The first AI's work cannot be verified without valid album IDs. This needs to be corrected before approval.",
+      "override_verdicts": [],
+      "split_verdicts": []
+    }
   }
 }

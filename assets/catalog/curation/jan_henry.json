@@ -62,6 +62,15 @@
     "reviewed_at": "2026-02-22T14:31:10.035124+00:00",
     "reviewed_by": "review-series.py",
     "overrides": [],
-    "notes": "Auto-approved: no gaps or duplicates found."
+    "notes": "Auto-approved: no gaps or duplicates found.",
+    "verification": {
+      "model": "minimax-m2.5",
+      "verified_at": "2026-02-22T15:13:08.516340+00:00",
+      "approve": false,
+      "concerns": "All included albums are returning \"not found\" errors from the album_details lookup. This indicates the album IDs may be truncated or incorrect. The IDs provided in the first reviewer's list (e.g., \"4O7MeazH…\") appear to be partial IDs. Need valid full Spotify album IDs to verify. Additionally, 0 excluded albums seems suspicious for a children's series that typically has compilations, special editions, or related content that should be excluded. Without being able to verify the actual album content, I cannot confirm the curation is correct.",
+      "override_verdicts": [],
+      "split_verdicts": []
+    },
+    "status": "escalated"
   }
 }

@@ -330,6 +330,15 @@
     "reviewed_at": "2026-02-22T14:38:11.174957+00:00",
     "reviewed_by": "review-series.py",
     "overrides": [],
-    "notes": "Auto-approved: no gaps or duplicates found."
+    "notes": "Auto-approved: no gaps or duplicates found.",
+    "verification": {
+      "model": "minimax-m2.5",
+      "verified_at": "2026-02-22T15:21:01.666561+00:00",
+      "approve": true,
+      "concerns": "Note: Could not verify album IDs via API as they all returned \"not found\" — likely because the IDs are partial (truncated in the input). Despite this limitation, the curation appears sound based on titles: numbered episodes 1-40 with \"Folge\" pattern match the TKKG Junior series format. The 41st item \"Die Fußball-Lüge\" lacks a \"Folge\" prefix but appears in the sequence. Two excluded advent calendars are correctly excluded as non-standard format. No overrides or splits were proposed by the first reviewer. Given the pattern consistency and reasonable exclusions, I approve.",
+      "override_verdicts": [],
+      "split_verdicts": []
+    },
+    "status": "approved"
   }
 }

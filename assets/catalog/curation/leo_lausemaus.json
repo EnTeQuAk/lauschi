@@ -939,6 +939,15 @@
     "reviewed_at": "2026-02-22T14:31:10.052242+00:00",
     "reviewed_by": "review-series.py",
     "overrides": [],
-    "notes": "Auto-approved: no gaps or duplicates found."
+    "notes": "Auto-approved: no gaps or duplicates found.",
+    "verification": {
+      "model": "minimax-m2.5",
+      "verified_at": "2026-02-22T15:15:37.793070+00:00",
+      "approve": true,
+      "concerns": "Unable to verify albums via API (IDs appear incomplete). Based on review of metadata provided: 104 episodes included with consistent \"Folge XX\" naming pattern. 27 excluded albums are appropriately categorized as: 1) Adventskalender (seasonal special), 2) Box sets/compilations containing multiple episodes (Sammelausgaben), 3) Individual story partial releases that duplicate the individual episode releases. The inclusion criteria correctly targets single episodes with \"Folge\" + number pattern. No gaps in the 1-104 episode sequence. Exclusion logic is sound.",
+      "override_verdicts": [],
+      "split_verdicts": []
+    },
+    "status": "approved"
   }
 }

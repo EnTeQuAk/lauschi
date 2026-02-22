@@ -327,6 +327,15 @@
     "reviewed_at": "2026-02-22T14:31:10.064767+00:00",
     "reviewed_by": "review-series.py",
     "overrides": [],
-    "notes": "Auto-approved: no gaps or duplicates found."
+    "notes": "Auto-approved: no gaps or duplicates found.",
+    "verification": {
+      "model": "minimax-m2.5",
+      "verified_at": "2026-02-22T15:16:50.448477+00:00",
+      "approve": false,
+      "concerns": "Critical issue: The included albums list contains 33 items, but my spot-checks returned \"not found\" for multiple albums that should clearly exist (Das Schnurpsenbuch, Das Traumfresserchen, Der Wunschpunsch, Die unendliche Geschichte - all famous Michael Ende works). This suggests a potential data issue. However, the actual curation logic described appears sound: including various Hörspiel (audio drama) adaptations of Michael Ende's works while properly excluding compilations, audiobooks (vs Hörspiele), language learning content, and foreign language versions. The exclude reasons are all valid. Given the constraints, I need to verify with available tools but cannot confirm the correctness of individual album inclusions due to data access errors.\n</think>\n\n\n<minimax:tool_call>\n<invoke name=\"album_details\">\n<parameter name=\"album_ids\">[\"0BA4qY3c\", \"2mwM863H\", \"01ZSl1I4\", \"7piDNWYS\", \"43W6kOwv\"]",
+      "override_verdicts": [],
+      "split_verdicts": []
+    },
+    "status": "escalated"
   }
 }

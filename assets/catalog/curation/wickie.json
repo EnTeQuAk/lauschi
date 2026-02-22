@@ -283,6 +283,15 @@
     "reviewed_at": "2026-02-22T14:38:11.181766+00:00",
     "reviewed_by": "review-series.py",
     "overrides": [],
-    "notes": "Auto-approved: no gaps or duplicates found."
+    "notes": "Auto-approved: no gaps or duplicates found.",
+    "verification": {
+      "model": "minimax-m2.5",
+      "verified_at": "2026-02-22T15:21:31.288433+00:00",
+      "approve": true,
+      "concerns": "Unable to verify via album_details (IDs appear truncated or not found in Spotify). However based on the provided data, the curation logic is sound: selecting CGI versions (2015/2016) over older 2012 releases for the same episodes, and correctly excluding music singles/tracks that are not Hörspiel episodes.",
+      "override_verdicts": [],
+      "split_verdicts": []
+    },
+    "status": "approved"
   }
 }

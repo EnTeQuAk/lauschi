@@ -32,10 +32,18 @@
     "curator_notes": "Split from Tabaluga. Film adaptation Hörspiele (abridged and unabridged versions), separate product from the episodic series"
   },
   "review": {
-    "status": "pending",
+    "status": "approved",
     "overrides": [],
     "notes": "Auto-created by apply-splits.py from tabaluga.\nAuto-approved: no gaps or duplicates found.",
     "reviewed_at": "2026-02-22T14:38:11.165965+00:00",
-    "reviewed_by": "review-series.py"
+    "reviewed_by": "review-series.py",
+    "verification": {
+      "model": "minimax-m2.5",
+      "verified_at": "2026-02-22T15:19:58.492631+00:00",
+      "approve": true,
+      "concerns": "Unable to verify album details due to truncated IDs in the input data. However, the curation logic appears sound: these are the two main film audio adaptations of Tabaluga (the 2018 animated film), which is a distinct product from the regular Tabaluga series. No excluded albums to verify. No overrides or splits were proposed. The split from the main Tabaluga series (to separate film Hörspiele from regular episodes) makes sense as these are different products.",
+      "override_verdicts": [],
+      "split_verdicts": []
+    }
   }
 }

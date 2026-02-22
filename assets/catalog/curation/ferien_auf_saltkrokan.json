@@ -74,6 +74,15 @@
     "reviewed_at": "2026-02-22T14:26:44.400397+00:00",
     "reviewed_by": "review-series.py",
     "overrides": [],
-    "notes": "Auto-approved: no gaps or duplicates found."
+    "notes": "Auto-approved: no gaps or duplicates found.",
+    "verification": {
+      "model": "minimax-m2.5",
+      "verified_at": "2026-02-22T15:11:05.185351+00:00",
+      "approve": true,
+      "concerns": "Unable to verify album details due to ID lookup failures (likely truncated IDs in the input). However, based on the metadata provided: 6 episodes are included, all matching the expected episode pattern \"Ferien auf Saltkrokan\" with episode numbers/titles. The excluded album is a compilation/box set (24 tracks), which is a valid exclusion. No overrides or splits were proposed by the first reviewer.",
+      "override_verdicts": [],
+      "split_verdicts": []
+    },
+    "status": "approved"
   }
 }

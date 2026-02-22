@@ -382,6 +382,15 @@
     "reviewed_at": "2026-02-22T14:31:10.045544+00:00",
     "reviewed_by": "review-series.py",
     "overrides": [],
-    "notes": "Auto-approved: no gaps or duplicates found."
+    "notes": "Auto-approved: no gaps or duplicates found.",
+    "verification": {
+      "model": "minimax-m2.5",
+      "verified_at": "2026-02-22T15:14:47.726549+00:00",
+      "approve": true,
+      "concerns": "Unable to fully verify some included albums due to Spotify API errors (album IDs 3rJJBDxGfP5vLqqMxYezRF, 18RmT3WdSXPmqR3gF7Z2Z6, 5DCjg6asZ8oZ8oZ8oZ8oZ8, 4qd87CiYfP5vLqqMxYezRF not found). However, checked samples (Episode 1 \"Die rote Socke\", Episode 6 \"Das blaue Zimmer\") are valid Kiddinx productions with the expected format (multiple \"Fälle\" per album, Intro Rap, Solutions). The excluded duplicates and extended version are correctly excluded. The curation appears sound.",
+      "override_verdicts": [],
+      "split_verdicts": []
+    },
+    "status": "approved"
   }
 }

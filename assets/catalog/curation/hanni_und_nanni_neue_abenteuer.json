@@ -46,10 +46,18 @@
     "curator_notes": "Split from Hanni und Nanni. These are modern 2025-2026 re-recordings labeled 'Neue Abenteuer' with different voice cast, different track structure (22 tracks with intro/outro vs 40 short parts), and modern production. They are distinct products that should be a separate series entry."
   },
   "review": {
-    "status": "pending",
+    "status": "approved",
     "overrides": [],
     "notes": "Auto-created by apply-splits.py from hanni_und_nanni.\nAuto-approved: no gaps or duplicates found.",
     "reviewed_at": "2026-02-22T14:31:10.027441+00:00",
-    "reviewed_by": "review-series.py"
+    "reviewed_by": "review-series.py",
+    "verification": {
+      "model": "minimax-m2.5",
+      "verified_at": "2026-02-22T15:12:14.757841+00:00",
+      "approve": true,
+      "concerns": "Unable to verify album metadata (Spotify lookups failed), but the titles and episode numbers appear correct for the \"Hanni und Nanni: Neue Abenteuer\" series. No overrides or splits were proposed by the first reviewer.",
+      "override_verdicts": [],
+      "split_verdicts": []
+    }
   }
 }

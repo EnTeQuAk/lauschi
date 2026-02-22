@@ -199,10 +199,18 @@
     "curator_notes": "Split from Die Schlümpfe. EUROPA/Sony Music anthology series (2022-2024) with multi-story format, different from I.M.P.S. S.A. series (2020) which has single-story format. Both series share episode numbers 1-20 but have completely different content. Episodes 21-26 only exist in EUROPA series. The two series should be separated as they are different products with different content, format, and target different listening preferences (anthology vs single narrative)."
   },
   "review": {
-    "status": "pending",
+    "status": "approved",
     "overrides": [],
     "notes": "Auto-created by apply-splits.py from die_schlumpfe.\nAuto-approved: no gaps or duplicates found.",
     "reviewed_at": "2026-02-22T14:26:04.250491+00:00",
-    "reviewed_by": "review-series.py"
+    "reviewed_by": "review-series.py",
+    "verification": {
+      "model": "minimax-m2.5",
+      "verified_at": "2026-02-22T15:10:23.378910+00:00",
+      "approve": true,
+      "concerns": "The included albums have sequential episode numbers (1-26) with proper \"Folge\" titles matching the Schlümpfe series. No excluded albums to validate. The artist ID (0ONNMDruuhqjpTB9uRhbYs) likely corresponds to EUROPA Audio, known for German audio productions. This appears to be a clean, well-curated collection of episodes 1-26.",
+      "override_verdicts": [],
+      "split_verdicts": []
+    }
   }
 }

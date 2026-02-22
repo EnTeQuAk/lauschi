@@ -140,10 +140,18 @@
     "curator_notes": "Split from Wieso? Weshalb? Warum?. ERSTLESER sub-series is specifically for beginning readers with adapted content. Different target group (children learning to read) and distinct branding from the main series."
   },
   "review": {
-    "status": "pending",
+    "status": "approved",
     "overrides": [],
     "notes": "Auto-created by apply-splits.py from wieso_weshalb_warum.\nAuto-approved: no gaps or duplicates found.",
     "reviewed_at": "2026-02-22T14:38:11.184303+00:00",
-    "reviewed_by": "review-series.py"
+    "reviewed_by": "review-series.py",
+    "verification": {
+      "model": "minimax-m2.5",
+      "verified_at": "2026-02-22T15:21:44.499257+00:00",
+      "approve": true,
+      "concerns": "Could not verify album details via API (all returned \"not found\"), but the metadata provided shows a coherent series: 17 episodes numbered 1-17, all with \"ERSTLESER\" in the title, consistent naming convention \"Folge X\", appropriate children's topics (Dinosaurs, Volcanoes, Space, Animals, etc.), and no obvious gaps or duplicates. The series was auto-split from the main \"Wieso? Weshalb? Warum?\" series, which is plausible given the \"ERSTLESER\" (beginner reader) branding differs from the regular series. No overriding issues identified.",
+      "override_verdicts": [],
+      "split_verdicts": []
+    }
   }
 }

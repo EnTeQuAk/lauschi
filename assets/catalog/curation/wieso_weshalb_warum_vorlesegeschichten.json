@@ -42,10 +42,18 @@
     "curator_notes": "Split from Wieso? Weshalb? Warum?. Meine Vorlesegeschichten is a distinct sub-series with read-aloud stories format, different from the factual/explanatory content of the main series. Released in 2024, this is a newer format targeting parents reading to children."
   },
   "review": {
-    "status": "pending",
+    "status": "escalated",
     "overrides": [],
     "notes": "Auto-created by apply-splits.py from wieso_weshalb_warum.\nAuto-approved: no gaps or duplicates found.",
     "reviewed_at": "2026-02-22T14:38:11.186930+00:00",
-    "reviewed_by": "review-series.py"
+    "reviewed_by": "review-series.py",
+    "verification": {
+      "model": "minimax-m2.5",
+      "verified_at": "2026-02-22T15:22:28.236123+00:00",
+      "approve": false,
+      "concerns": "The included album IDs appear truncated or malformed (4craGbCL..., 0NiJ11SM..., 20idnrDk...). I cannot verify these albums with the album_details tool because full Spotify album IDs are 22 characters. This is a critical validation failure — without valid album IDs, I cannot confirm these are legitimate episodes of the series. The curation cannot be approved until valid, complete Spotify album IDs are provided for verification.",
+      "override_verdicts": [],
+      "split_verdicts": []
+    }
   }
 }

@@ -82,10 +82,18 @@
     "curator_notes": "Split from Die Schule der magischen Tiere. Spin-off series about holiday adventures with the magical animals. Separate product line from main series - 9 episodes following the Endlich Ferien books."
   },
   "review": {
-    "status": "pending",
+    "status": "approved",
     "overrides": [],
     "notes": "Auto-created by apply-splits.py from die_schule_der_magischen_tiere.\nAuto-approved: no gaps or duplicates found.",
     "reviewed_at": "2026-02-22T14:26:04.252750+00:00",
-    "reviewed_by": "review-series.py"
+    "reviewed_by": "review-series.py",
+    "verification": {
+      "model": "minimax-m2.5",
+      "verified_at": "2026-02-22T15:10:39.747508+00:00",
+      "approve": true,
+      "concerns": "All 9 included albums are present with correct titles matching the \"Endlich Ferien\" sub-series of the \"Die Schule der magischen Tiere\" series. Episodes 1-9 are included (the original series has more episodes, but this sub-series focuses on the vacation/holiday stories). Titles follow the pattern \"Die Schule der magischen Tiere - Endlich Ferien X: [Character names]\", which is the correct format. No excluded albums to verify. There are no overrides or splits to review. The curation appears sound.",
+      "override_verdicts": [],
+      "split_verdicts": []
+    }
   }
 }

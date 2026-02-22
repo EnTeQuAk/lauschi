@@ -67,10 +67,18 @@
     "curator_notes": "Split from Tabaluga. 2021+ re-recording series with new voice cast, modern production, 25-29 tracks per album (single episode), includes new theme songs"
   },
   "review": {
-    "status": "pending",
+    "status": "approved",
     "overrides": [],
     "notes": "Auto-created by apply-splits.py from tabaluga.\nAuto-approved: no gaps or duplicates found.",
     "reviewed_at": "2026-02-22T14:38:11.168539+00:00",
-    "reviewed_by": "review-series.py"
+    "reviewed_by": "review-series.py",
+    "verification": {
+      "model": "minimax-m2.5",
+      "verified_at": "2026-02-22T15:20:14.345518+00:00",
+      "approve": true,
+      "concerns": "",
+      "override_verdicts": [],
+      "split_verdicts": []
+    }
   }
 }

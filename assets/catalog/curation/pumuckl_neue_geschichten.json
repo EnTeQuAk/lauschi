@@ -157,10 +157,18 @@
     "curator_notes": "Split from Pumuckl. New production series from 2023-2025 with Kai Taschner as Pumuckl (Hans Clarin's successor), distinct from the classic 1980s original series with different voice cast and production era"
   },
   "review": {
-    "status": "pending",
+    "status": "approved",
     "overrides": [],
     "notes": "Auto-created by apply-splits.py from pumuckl.\nAuto-approved: no gaps or duplicates found.",
     "reviewed_at": "2026-02-22T14:31:10.081914+00:00",
-    "reviewed_by": "review-series.py"
+    "reviewed_by": "review-series.py",
+    "verification": {
+      "model": "minimax-m2.5",
+      "verified_at": "2026-02-22T15:18:27.397768+00:00",
+      "approve": true,
+      "concerns": "",
+      "override_verdicts": [],
+      "split_verdicts": []
+    }
   }
 }

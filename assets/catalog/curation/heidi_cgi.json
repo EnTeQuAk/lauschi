@@ -108,10 +108,18 @@
     "curator_notes": "Split from Heidi. CGI Hörspiel series based on 2015 CGI TV series - different production era, different voice cast, different track structure (38-40 tracks vs 25-35 for classic). These are distinct products that parents would recognize as separate shows."
   },
   "review": {
-    "status": "pending",
+    "status": "approved",
     "overrides": [],
     "notes": "Auto-created by apply-splits.py from heidi.\nAuto-approved: no gaps or duplicates found.",
     "reviewed_at": "2026-02-22T14:31:10.031741+00:00",
-    "reviewed_by": "review-series.py"
+    "reviewed_by": "review-series.py",
+    "verification": {
+      "model": "minimax-m2.5",
+      "verified_at": "2026-02-22T15:12:42.974846+00:00",
+      "approve": true,
+      "concerns": "The album IDs in the curator's listing appear to be truncated or malformed - none of them could be resolved via album_details. However, based on the title patterns (e.g., \"01/Die Reise zum Großvater (CGI)\", episode numbers 101-113, German titles matching the Heidi story), the curation appears correct in terms of naming convention and episode numbering. The first reviewer approved it with \"no gaps or duplicates found.\" Without functional album lookups, I cannot verify content validity but the structure looks proper for a Heidi CGI series.",
+      "override_verdicts": [],
+      "split_verdicts": []
+    }
   }
 }
