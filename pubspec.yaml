@@ -45,9 +45,8 @@ dev_dependencies:
   drift_dev: ^2.23.1
   flutter_test:
     sdk: flutter
-  integration_test:
-    sdk: flutter
   mocktail: ^1.0.4
+  patrol: ^4.1.1
   riverpod_generator: ^4.0.3
   sentry_dart_plugin: ^3.2.1
   very_good_analysis: ^10.2.0
@@ -75,6 +74,12 @@ flutter:
 dependency_overrides:
   nfc_manager:
     path: packages/nfc_manager
+
+patrol:
+  app_name: lauschi
+  test_directory: integration_test
+  android:
+    package_name: app.lauschi.lauschi
 
 sentry:
   upload_debug_symbols: true
