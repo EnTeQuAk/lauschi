@@ -71,10 +71,13 @@ BRAVE_API_KEY=...               # for catalog review web search
 - **go_router** — navigation with parent PIN gate
 - **very_good_analysis** — strict linting
 - **Sentry** — crash reporting + session replay (EU region)
+- **AI-assisted catalog curation** — pydantic-ai scripts using kimi-k2.5
+  for discovery and review, minimax-m2.5 for independent verification.
+  Final approval is always human via a TUI review tool.
 
 ## Catalog curation
 
-The catalog is lauschi's core product. It ships as curated YAML in `assets/catalog/series.yaml`, backed by per-series curation data in `assets/catalog/curation/*.json`.
+The catalog ships as curated YAML in `assets/catalog/series.yaml`, backed by per-series curation data in `assets/catalog/curation/*.json`.
 
 ### Pipeline overview
 
