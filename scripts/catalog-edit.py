@@ -48,6 +48,7 @@ SERIES_YAML = REPO_ROOT / "assets" / "catalog" / "series.yaml"
 
 # Shared cached Spotify client (see spotify_cache.py)
 sys.path.insert(0, str(Path(__file__).parent))
+from episode_util import extract_episode  # noqa: E402
 from spotify_cache import SpotifyClient  # noqa: E402
 
 # Lazily initialized — only commands that need Spotify create it
@@ -72,17 +73,6 @@ def save_curation(series_id: str, data: dict) -> None:
     path = CURATION_DIR / f"{series_id}.json"
     path.write_text(json.dumps(data, indent=2, ensure_ascii=False))
 
-
-def extract_episode(pattern: str | None, title: str) -> int | None:
-    if not pattern:
-        return None
-    m = re.search(pattern, title)
-    if m and m.groups():
-        try:
-            return int(m.group(1))
-        except (ValueError, IndexError):
-            pass
-    return None
 
 
 # ── Helpers ───────────────────────────────────────────────────────────────────

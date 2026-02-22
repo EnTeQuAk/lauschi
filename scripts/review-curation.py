@@ -48,6 +48,9 @@ REPO_ROOT    = Path(__file__).parent.parent
 CURATION_DIR = REPO_ROOT / "assets" / "catalog" / "curation"
 SERIES_YAML  = REPO_ROOT / "assets" / "catalog" / "series.yaml"
 
+sys.path.insert(0, str(Path(__file__).parent))
+from episode_util import extract_episode  # noqa: E402
+
 # Spotify album ID: 22 alphanumeric chars, optionally wrapped in a URL
 _ALBUM_ID_RE = re.compile(
     r"(?:https?://open\.spotify\.com/album/)?([A-Za-z0-9]{22})"
@@ -118,7 +121,7 @@ class SeriesData(BaseModel):
     aliases: list[str] = []
     keywords: list[str] = []
     spotify_artist_ids: list[str] = []
-    episode_pattern: str | None = None
+    episode_pattern: str | list[str] | None = None
     albums: list[AlbumDecision] = []
     age_note: str = ""
     curator_notes: str = ""
@@ -730,13 +733,9 @@ class ReviewScreen(Screen):
                 )
                 return
 
-            # Extract episode number from title using the series pattern
-            episode_num = None
+            # Extract episode number from title using the series pattern(s)
             pattern = self._data.series.episode_pattern
-            if pattern:
-                ep_match = re.search(pattern, info["name"])
-                if ep_match:
-                    episode_num = int(ep_match.group(1))
+            episode_num = extract_episode(pattern, info["name"])
 
             self._data.series.albums.append(AlbumDecision(
                 spotify_album_id=album_id,

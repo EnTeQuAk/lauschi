@@ -39,6 +39,7 @@ from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
+import requests
 from pydantic import BaseModel, Field
 from pydantic_ai import Agent, RunContext
 from pydantic_ai.messages import ModelResponse, TextPart, ThinkingPart
@@ -58,6 +59,7 @@ CURATION_DIR = REPO_ROOT / "assets" / "catalog" / "curation"
 
 # Shared cached Spotify client (see spotify_cache.py)
 sys.path.insert(0, str(Path(__file__).parent))
+from episode_util import extract_episode  # noqa: E402
 from spotify_cache import SpotifyClient  # noqa: E402
 
 _OPENCODE_BASE_URL = "https://opencode.ai/zen/v1"
@@ -411,14 +413,7 @@ def build_agent(model_name: str, api_key: str) -> Agent[Deps, ReviewResult]:
             return f"Not found: {album_id}"
 
         pattern = ctx.deps.curation["series"].get("episode_pattern")
-        episode_num = None
-        if pattern:
-            m = re.search(pattern, info["name"])
-            if m and m.groups():
-                try:
-                    episode_num = int(m.group(1))
-                except (ValueError, IndexError):
-                    pass
+        episode_num = extract_episode(pattern, info["name"])
 
         new_album = {
             "spotify_album_id": album_id,
@@ -594,14 +589,7 @@ def apply_review(series_id: str, result: ReviewResult) -> None:
             info = spotify.album_details(album_id)
             if "error" in info:
                 continue
-            episode_num = None
-            if pattern:
-                m = re.search(pattern, info["name"])
-                if m and m.groups():
-                    try:
-                        episode_num = int(m.group(1))
-                    except (ValueError, IndexError):
-                        pass
+            episode_num = extract_episode(pattern, info["name"])
             data["series"]["albums"].append({
                 "spotify_album_id": album_id,
                 "include": True,

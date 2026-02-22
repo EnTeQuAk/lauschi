@@ -95,7 +95,7 @@ class CuratedSeries(BaseModel):
     aliases: list[str] = Field(default_factory=list)
     keywords: list[str] = Field(default_factory=list)
     spotify_artist_ids: list[str]
-    episode_pattern: str | None = None
+    episode_pattern: str | list[str] | None = None
     albums: list[AlbumDecision]
     age_note: str = Field(
         default="",
@@ -106,12 +106,16 @@ class CuratedSeries(BaseModel):
 
     @field_validator("episode_pattern")
     @classmethod
-    def _valid_pattern(cls, v: str | None) -> str | None:
+    def _valid_pattern(cls, v: str | list[str] | None) -> str | list[str] | None:
         if v is None:
             return None
-        c = re.compile(v)
-        if c.groups != 1:
-            raise ValueError(f"Must have exactly 1 capture group, got {c.groups}")
+        patterns = [v] if isinstance(v, str) else v
+        for p in patterns:
+            c = re.compile(p)
+            if c.groups != 1:
+                raise ValueError(
+                    f"Pattern {p!r}: must have exactly 1 capture group, got {c.groups}",
+                )
         return v
 
     def included(self) -> list[AlbumDecision]:
@@ -135,18 +139,22 @@ class SeriesMetadata(BaseModel):
     title: str
     aliases: list[str] = Field(default_factory=list)
     keywords: list[str] = Field(default_factory=list)
-    episode_pattern: str | None = None
+    episode_pattern: str | list[str] | None = None
     age_note: str = ""
     curator_notes: str = ""
 
     @field_validator("episode_pattern")
     @classmethod
-    def _valid_pattern(cls, v: str | None) -> str | None:
+    def _valid_pattern(cls, v: str | list[str] | None) -> str | list[str] | None:
         if v is None:
             return None
-        c = re.compile(v)
-        if c.groups != 1:
-            raise ValueError(f"Must have exactly 1 capture group, got {c.groups}")
+        patterns = [v] if isinstance(v, str) else v
+        for p in patterns:
+            c = re.compile(p)
+            if c.groups != 1:
+                raise ValueError(
+                    f"Pattern {p!r}: must have exactly 1 capture group, got {c.groups}",
+                )
         return v
 
 
@@ -306,7 +314,9 @@ provide:
 - title: display name (e.g., "PAW Patrol", "Die drei ???")
 - aliases: alternate names the series goes by (e.g., different languages)
 - keywords: only if the series name literally appears in album titles
-- episode_pattern: regex with exactly 1 capture group for the episode number
+- episode_pattern: regex (or list of regexes) with exactly 1 capture group each
+  for the episode number. Use a list when a series changed naming conventions,
+  e.g. ["^(\\d{3})/", "^Folge (\\d+):"] — tried in order, first match wins.
 - age_note: "Suitable from 3+", "Suitable from 5+", or "Recommended 8+"
 - curator_notes: anything noteworthy (spinoffs, format changes, etc.)
 
