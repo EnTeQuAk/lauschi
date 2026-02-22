@@ -25,16 +25,15 @@ class ShowSubscriptionRepository {
 
   /// Find a subscription by external show ID.
   Future<ShowSubscription?> getByExternalShowId(String externalShowId) {
-    return (_db.select(_db.showSubscriptions)
-          ..where((t) => t.externalShowId.equals(externalShowId)))
-        .getSingleOrNull();
+    return (_db.select(
+      _db.showSubscriptions,
+    )..where((t) => t.externalShowId.equals(externalShowId))).getSingleOrNull();
   }
 
   /// Find a subscription by linked group ID.
   Future<ShowSubscription?> getByGroupId(String groupId) {
     return (_db.select(_db.showSubscriptions)
-          ..where((t) => t.groupId.equals(groupId)))
-        .getSingleOrNull();
+      ..where((t) => t.groupId.equals(groupId))).getSingleOrNull();
   }
 
   /// Insert a new subscription. Returns the auto-generated ID.
@@ -78,15 +77,16 @@ class ShowSubscriptionRepository {
     required DateTime lastSyncedAt,
     DateTime? remoteLastItemAdded,
   }) async {
-    await (_db.update(_db.showSubscriptions)..where((t) => t.id.equals(id)))
-        .write(
-          ShowSubscriptionsCompanion(
-            lastSyncedAt: Value(lastSyncedAt),
-            remoteLastItemAdded: remoteLastItemAdded != null
+    await (_db.update(_db.showSubscriptions)
+      ..where((t) => t.id.equals(id))).write(
+      ShowSubscriptionsCompanion(
+        lastSyncedAt: Value(lastSyncedAt),
+        remoteLastItemAdded:
+            remoteLastItemAdded != null
                 ? Value(remoteLastItemAdded)
                 : const Value.absent(),
-          ),
-        );
+      ),
+    );
   }
 
   /// Update episode cap.
@@ -94,16 +94,16 @@ class ShowSubscriptionRepository {
     required int id,
     int? maxEpisodes,
   }) async {
-    await (_db.update(_db.showSubscriptions)..where((t) => t.id.equals(id)))
-        .write(
-          ShowSubscriptionsCompanion(maxEpisodes: Value(maxEpisodes)),
-        );
+    await (_db.update(_db.showSubscriptions)
+      ..where((t) => t.id.equals(id))).write(
+      ShowSubscriptionsCompanion(maxEpisodes: Value(maxEpisodes)),
+    );
   }
 
   /// Delete a subscription by ID.
   Future<void> delete(int id) async {
-    await (_db.delete(_db.showSubscriptions)..where((t) => t.id.equals(id)))
-        .go();
+    await (_db.delete(_db.showSubscriptions)
+      ..where((t) => t.id.equals(id))).go();
     Log.info(_tag, 'Subscription deleted', data: {'id': '$id'});
   }
 }

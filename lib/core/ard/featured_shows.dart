@@ -33,13 +33,14 @@ class FeaturedShowsConfig {
     final list = doc['featured_shows'] as YamlList;
 
     return FeaturedShowsConfig(
-      shows: list.map((entry) {
-        final map = entry as YamlMap;
-        return FeaturedShowEntry(
-          id: '${map['id']}',
-          minDurationSeconds: map['min_duration_seconds'] as int? ?? 1200,
-        );
-      }).toList(),
+      shows:
+          list.map((entry) {
+            final map = entry as YamlMap;
+            return FeaturedShowEntry(
+              id: '${map['id']}',
+              minDurationSeconds: map['min_duration_seconds'] as int? ?? 1200,
+            );
+          }).toList(),
     );
   }
 
@@ -79,8 +80,7 @@ class FeaturedItem {
   }
 
   /// Total duration across all parts.
-  int get totalDurationSeconds =>
-      parts.fold(0, (sum, p) => sum + p.duration);
+  int get totalDurationSeconds => parts.fold(0, (sum, p) => sum + p.duration);
 
   bool get isMultiPart => parts.length > 1;
 }
@@ -102,24 +102,25 @@ List<FeaturedItem> _groupMultiPart(List<ArdItem> items) {
   }
 
   return groups.entries.map((entry) {
-    // Sort parts by part number if multi-part, else by publish date.
-    final parts = entry.value
-      ..sort((a, b) {
-        final matchA = _multiPartRegex.firstMatch(a.title);
-        final matchB = _multiPartRegex.firstMatch(b.title);
-        if (matchA != null && matchB != null) {
-          return int.parse(matchA.group(2)!)
-              .compareTo(int.parse(matchB.group(2)!));
-        }
-        return b.publishDate.compareTo(a.publishDate);
-      });
+      // Sort parts by part number if multi-part, else by publish date.
+      final parts =
+          entry.value..sort((a, b) {
+            final matchA = _multiPartRegex.firstMatch(a.title);
+            final matchB = _multiPartRegex.firstMatch(b.title);
+            if (matchA != null && matchB != null) {
+              return int.parse(
+                matchA.group(2)!,
+              ).compareTo(int.parse(matchB.group(2)!));
+            }
+            return b.publishDate.compareTo(a.publishDate);
+          });
 
-    return FeaturedItem(
-      title: entry.key,
-      parts: parts,
-      publisher: publisherMap[entry.key],
-    );
-  }).toList()
+      return FeaturedItem(
+        title: entry.key,
+        parts: parts,
+        publisher: publisherMap[entry.key],
+      );
+    }).toList()
     ..sort((a, b) => b.publishDate.compareTo(a.publishDate));
 }
 
@@ -147,11 +148,14 @@ Future<List<FeaturedItem>> _fetchFeaturedItems(ArdApi api) async {
 
         // endDate is the editorial broadcast window, NOT content removal.
         // Audio URLs remain accessible on CDN after endDate passes.
-        return page.items.where((item) =>
-          item.duration >= show.minDurationSeconds &&
-          item.publishDate.isAfter(cutoff) &&
-          item.bestAudioUrl != null
-        ).toList();
+        return page.items
+            .where(
+              (item) =>
+                  item.duration >= show.minDurationSeconds &&
+                  item.publishDate.isAfter(cutoff) &&
+                  item.bestAudioUrl != null,
+            )
+            .toList();
       } on Exception catch (e) {
         // Skip shows that fail — don't let one bad show break all.
         Log.error(_tag, 'Failed to fetch show ${show.id}', exception: e);

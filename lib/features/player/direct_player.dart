@@ -125,19 +125,21 @@ class DirectPlayer extends PlayerBackend {
   void _emitState({String? error}) {
     if (_stateController.isClosed) return;
 
-    _stateController.add(PlaybackState(
-      isPlaying: _isPlaying,
-      isReady: true,
-      track: _currentTrack,
-      positionMs: _positionMs,
-      durationMs: _durationMs,
-      // Single-file audio: always track 1, no next tracks.
-      trackNumber: 1,
-      // Explicit zero: completion detection checks nextTracksCount == 0.
-      // ignore: avoid_redundant_argument_values
-      nextTracksCount: 0,
-      error: error,
-    ));
+    _stateController.add(
+      PlaybackState(
+        isPlaying: _isPlaying,
+        isReady: true,
+        track: _currentTrack,
+        positionMs: _positionMs,
+        durationMs: _durationMs,
+        // Single-file audio: always track 1, no next tracks.
+        trackNumber: 1,
+        // Explicit zero: completion detection checks nextTracksCount == 0.
+        // ignore: avoid_redundant_argument_values
+        nextTracksCount: 0,
+        error: error,
+      ),
+    );
   }
 
   /// Truncate URL for logging (don't log full CDN paths).

@@ -37,11 +37,13 @@ class _ArdShowDetailScreenState extends ConsumerState<ArdShowDetailScreen> {
     setState(() => _addingUris.add(item.providerUri));
 
     try {
-      await ref.read(contentImporterProvider.notifier).importToGroup(
-        groupTitle: show.title,
-        groupCoverUrl: ardImageUrl(show.imageUrl),
-        cards: [_ardPendingCard(item)],
-      );
+      await ref
+          .read(contentImporterProvider.notifier)
+          .importToGroup(
+            groupTitle: show.title,
+            groupCoverUrl: ardImageUrl(show.imageUrl),
+            cards: [_ardPendingCard(item)],
+          );
     } on Exception catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -61,9 +63,11 @@ class _ArdShowDetailScreenState extends ConsumerState<ArdShowDetailScreen> {
 
     // Load all pages if needed.
     var allItems = items;
-    final page = ref.read(
-      ardShowEpisodesProvider(widget.showId),
-    ).whenOrNull(data: (d) => d);
+    final page = ref
+        .read(
+          ardShowEpisodesProvider(widget.showId),
+        )
+        .whenOrNull(data: (d) => d);
     if (page != null && page.hasNextPage) {
       allItems = await _loadAllEpisodes(show.id);
     }
@@ -174,10 +178,10 @@ class _ArdShowDetailScreenState extends ConsumerState<ArdShowDetailScreen> {
                         }
 
                         final item = playable[index];
-                        final alreadyAdded =
-                            existingUris.contains(item.providerUri);
-                        final isAdding =
-                            _addingUris.contains(item.providerUri);
+                        final alreadyAdded = existingUris.contains(
+                          item.providerUri,
+                        );
+                        final isAdding = _addingUris.contains(item.providerUri);
 
                         return _EpisodeTile(
                           item: item,
@@ -187,8 +191,7 @@ class _ArdShowDetailScreenState extends ConsumerState<ArdShowDetailScreen> {
                           onAdd: () => _addEpisode(item, show),
                         );
                       },
-                      childCount:
-                          playable.length + (page.hasNextPage ? 1 : 0),
+                      childCount: playable.length + (page.hasNextPage ? 1 : 0),
                     ),
                   );
                 },
@@ -336,16 +339,16 @@ class _EpisodeTile extends StatelessWidget {
               alreadyAdded
                   ? const Icon(Icons.check_circle, color: AppColors.success)
                   : isAdding
-                      ? const SizedBox(
-                        width: 24,
-                        height: 24,
-                        child: CircularProgressIndicator(strokeWidth: 2),
-                      )
-                      : IconButton(
-                        icon: const Icon(Icons.add_circle_outline_rounded),
-                        onPressed: enabled ? onAdd : null,
-                        padding: EdgeInsets.zero,
-                      ),
+                  ? const SizedBox(
+                    width: 24,
+                    height: 24,
+                    child: CircularProgressIndicator(strokeWidth: 2),
+                  )
+                  : IconButton(
+                    icon: const Icon(Icons.add_circle_outline_rounded),
+                    onPressed: enabled ? onAdd : null,
+                    padding: EdgeInsets.zero,
+                  ),
         ),
       ),
       title: Text(

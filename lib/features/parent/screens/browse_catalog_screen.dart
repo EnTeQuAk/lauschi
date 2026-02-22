@@ -238,16 +238,16 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen> {
   }
 
   Future<void> _handleAddAll(String seriesTitle) async {
-    final groupId = _isAutoAssignMode
-        ? widget.autoAssignGroupId!
-        : await _findOrCreateGroup(seriesTitle);
+    final groupId =
+        _isAutoAssignMode
+            ? widget.autoAssignGroupId!
+            : await _findOrCreateGroup(seriesTitle);
     if (!mounted) return;
     var count = 0;
     for (var i = 0; i < _albumResults.length; i++) {
       final album = _albumResults[i];
       if (_addedUris.contains(album.uri)) continue;
-      final match =
-          i < _catalogMatches.length ? _catalogMatches[i] : null;
+      final match = i < _catalogMatches.length ? _catalogMatches[i] : null;
       // Compares by title (not ID) because batchSeries is title-based.
       if (match?.series.title != seriesTitle) continue;
       await _addAndAssign(album, groupId, match, silent: true);
@@ -418,8 +418,7 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen> {
     final counts = <String, int>{};
     final seriesMap = <String, CatalogSeries>{};
     for (var i = 0; i < _albumResults.length; i++) {
-      final match =
-          i < _catalogMatches.length ? _catalogMatches[i] : null;
+      final match = i < _catalogMatches.length ? _catalogMatches[i] : null;
       if (match == null) continue;
       final sid = match.series.id;
       counts[sid] = (counts[sid] ?? 0) + 1;
@@ -427,8 +426,7 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen> {
     }
     if (counts.isEmpty) return [];
     final sorted =
-        counts.keys.toList()
-          ..sort((a, b) => counts[b]!.compareTo(counts[a]!));
+        counts.keys.toList()..sort((a, b) => counts[b]!.compareTo(counts[a]!));
     return sorted.map((id) => seriesMap[id]!).toList();
   }
 
@@ -498,9 +496,7 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen> {
 
         for (final album in albums) {
           final catalogAlbum =
-              series.albums
-                  .where((a) => a.spotifyId == album.id)
-                  .firstOrNull;
+              series.albums.where((a) => a.spotifyId == album.id).firstOrNull;
           final cardId = await ref
               .read(cardRepositoryProvider)
               .insertIfAbsent(
@@ -559,8 +555,7 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen> {
     for (var i = 0; i < _albumResults.length; i++) {
       final album = _albumResults[i];
       if (_addedUris.contains(album.uri)) continue;
-      final match =
-          i < _catalogMatches.length ? _catalogMatches[i] : null;
+      final match = i < _catalogMatches.length ? _catalogMatches[i] : null;
       if (match?.series.id != series.id) continue;
 
       final cardId = await ref
@@ -668,8 +663,7 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen> {
       var allMatch = true;
       for (var i = 0; i < _albumResults.length; i++) {
         if (_addedUris.contains(_albumResults[i].uri)) continue;
-        final match =
-            i < _catalogMatches.length ? _catalogMatches[i] : null;
+        final match = i < _catalogMatches.length ? _catalogMatches[i] : null;
         if (match == null) {
           allMatch = false;
           break;
@@ -688,9 +682,7 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen> {
       appBar: AppBar(
         backgroundColor: AppColors.parentBackground,
         title: Text(
-          _isAutoAssignMode
-              ? 'Folge hinzufügen'
-              : 'Hörspiel hinzufügen',
+          _isAutoAssignMode ? 'Folge hinzufügen' : 'Hörspiel hinzufügen',
         ),
       ),
       body: Column(
@@ -875,8 +867,7 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen> {
       if (batchSeries != null)
         _BatchAddBanner(
           seriesTitle: batchSeries,
-          count:
-              _albumResults.where((a) => !_addedUris.contains(a.uri)).length,
+          count: _albumResults.where((a) => !_addedUris.contains(a.uri)).length,
           onAddAll: () => unawaited(_handleAddAll(batchSeries)),
         ),
       ...detectedSeries.map(
@@ -1110,14 +1101,14 @@ class _CuratedSeriesCard extends ConsumerWidget {
     final coverUrl = firstAlbumId != null ? coverMap[firstAlbumId] : null;
 
     final total = series.albums.length;
-    final added = series.albums
-        .where((a) => existingUris.contains('spotify:album:${a.spotifyId}'))
-        .length;
+    final added =
+        series.albums
+            .where((a) => existingUris.contains('spotify:album:${a.spotifyId}'))
+            .length;
     final allAdded = added == total && total > 0;
 
     return GestureDetector(
-      onTap:
-          () => context.push(AppRoutes.parentCatalogSeries(series.id)),
+      onTap: () => context.push(AppRoutes.parentCatalogSeries(series.id)),
       child: Column(
         children: [
           Expanded(
@@ -1153,12 +1144,8 @@ class _CuratedSeriesCard extends ConsumerWidget {
                         vertical: 2,
                       ),
                       decoration: BoxDecoration(
-                        color:
-                            allAdded
-                                ? AppColors.success
-                                : AppColors.primary,
-                        borderRadius:
-                            const BorderRadius.all(AppRadius.pill),
+                        color: allAdded ? AppColors.success : AppColors.primary,
+                        borderRadius: const BorderRadius.all(AppRadius.pill),
                       ),
                       child:
                           allAdded
@@ -1197,8 +1184,8 @@ class _CuratedSeriesCard extends ConsumerWidget {
             allAdded
                 ? '✓ Hinzugefügt'
                 : added > 0
-                    ? '$added von $total Folgen'
-                    : '$total Folgen',
+                ? '$added von $total Folgen'
+                : '$total Folgen',
             style: TextStyle(
               fontFamily: 'Nunito',
               fontSize: 10,
@@ -1282,10 +1269,11 @@ class _CatalogSeriesDetailScreenState
         showDialog<void>(
           context: context,
           barrierDismissible: false,
-          builder: (_) => _AddProgressDialog(
-            progress: progressNotifier,
-            status: statusNotifier,
-          ),
+          builder:
+              (_) => _AddProgressDialog(
+                progress: progressNotifier,
+                status: statusNotifier,
+              ),
         ),
       );
     }
@@ -1312,16 +1300,18 @@ class _CatalogSeriesDetailScreenState
         final catalogAlbum =
             series.albums.where((a) => a.spotifyId == album.id).firstOrNull;
 
-        cards.add(PendingCard(
-          title: album.name,
-          providerUri: album.uri,
-          cardType: 'album',
-          provider: 'spotify',
-          coverUrl: album.imageUrl,
-          episodeNumber: catalogAlbum?.episode,
-          spotifyArtistIds: album.artistIds,
-          totalTracks: album.totalTracks,
-        ));
+        cards.add(
+          PendingCard(
+            title: album.name,
+            providerUri: album.uri,
+            cardType: 'album',
+            provider: 'spotify',
+            coverUrl: album.imageUrl,
+            episodeNumber: catalogAlbum?.episode,
+            spotifyArtistIds: album.artistIds,
+            totalTracks: album.totalTracks,
+          ),
+        );
       }
 
       final importer = ref.read(contentImporterProvider.notifier);
@@ -1397,8 +1387,7 @@ class _CatalogSeriesDetailScreenState
             );
 
         final coverKey = albums.map((a) => a.spotifyId).join(',');
-        final coverMap =
-            ref.watch(_albumCoversProvider(coverKey)).value ?? {};
+        final coverMap = ref.watch(_albumCoversProvider(coverKey)).value ?? {};
 
         if (_selected.isEmpty && _selectAll && cardsLoaded) {
           for (final album in albums) {
@@ -2418,33 +2407,33 @@ class _Placeholder extends StatelessWidget {
 ///
 /// Keyed on a comma-joined string of album IDs. Dart lists don't have
 /// deep equality, so a list key would restart the fetch on every rebuild.
-final _albumCoversProvider =
-    FutureProvider.autoDispose.family<Map<String, String>, String>(
-  (ref, joinedIds) async {
-    final api = ref.watch(spotifyApiProvider);
-    if (!api.hasToken || joinedIds.isEmpty) return {};
+final _albumCoversProvider = FutureProvider.autoDispose
+    .family<Map<String, String>, String>(
+      (ref, joinedIds) async {
+        final api = ref.watch(spotifyApiProvider);
+        if (!api.hasToken || joinedIds.isEmpty) return {};
 
-    final albumIds = joinedIds.split(',');
-    final coverMap = <String, String>{};
-    for (var i = 0; i < albumIds.length; i += 20) {
-      final batch = albumIds.sublist(
-        i,
-        (i + 20).clamp(0, albumIds.length),
-      );
-      try {
-        final albums = await api.getAlbums(batch);
-        for (final album in albums) {
-          if (album.imageUrl != null) {
-            coverMap[album.id] = album.imageUrl!;
+        final albumIds = joinedIds.split(',');
+        final coverMap = <String, String>{};
+        for (var i = 0; i < albumIds.length; i += 20) {
+          final batch = albumIds.sublist(
+            i,
+            (i + 20).clamp(0, albumIds.length),
+          );
+          try {
+            final albums = await api.getAlbums(batch);
+            for (final album in albums) {
+              if (album.imageUrl != null) {
+                coverMap[album.id] = album.imageUrl!;
+              }
+            }
+          } on Exception {
+            // Skip failed batch, show placeholders.
           }
         }
-      } on Exception {
-        // Skip failed batch, show placeholders.
-      }
-    }
-    return coverMap;
-  },
-);
+        return coverMap;
+      },
+    );
 
 /// Batch-fetches cover images for all curated series.
 final _seriesCoverMapProvider = FutureProvider.autoDispose<Map<String, String>>(
@@ -2506,14 +2495,15 @@ class _AddProgressDialog extends StatelessWidget {
           children: [
             ValueListenableBuilder<String>(
               valueListenable: status,
-              builder: (_, text, _) => Text(
-                text,
-                style: const TextStyle(
-                  fontFamily: 'Nunito',
-                  fontWeight: FontWeight.w700,
-                  fontSize: 15,
-                ),
-              ),
+              builder:
+                  (_, text, _) => Text(
+                    text,
+                    style: const TextStyle(
+                      fontFamily: 'Nunito',
+                      fontWeight: FontWeight.w700,
+                      fontSize: 15,
+                    ),
+                  ),
             ),
             const SizedBox(height: AppSpacing.md),
             ValueListenableBuilder<(int, int)>(

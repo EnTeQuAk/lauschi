@@ -23,17 +23,20 @@ const _itemFields = '''
 /// See https://api.ardaudiothek.de/graphiql for the schema explorer.
 class ArdApi {
   ArdApi()
-      : _dio = Dio(BaseOptions(
+    : _dio = Dio(
+        BaseOptions(
           baseUrl: 'https://api.ardaudiothek.de',
           connectTimeout: const Duration(seconds: 10),
           receiveTimeout: const Duration(seconds: 15),
-        ));
+        ),
+      );
 
   final Dio _dio;
 
   /// Get all kids shows (programSets in "Für Kinder" category).
   Future<List<ArdProgramSet>> getKidsShows({int first = 100}) async {
-    final data = await _graphql('''
+    final data = await _graphql(
+      '''
       query KidsShows(\$first: Int!) {
         programSets(
           first: \$first,
@@ -51,7 +54,9 @@ class ArdApi {
           }
         }
       }
-    ''', variables: {'first': first});
+    ''',
+      variables: {'first': first},
+    );
 
     final nodes = _extractNodes(data, 'programSets');
     return nodes.map(ArdProgramSet.fromJson).toList();
@@ -61,7 +66,8 @@ class ArdApi {
   Future<ArdProgramSet?> getProgramSet(String id) async {
     // Raw strings don't support \$ which we need for GraphQL variables.
     // ignore: use_raw_strings
-    final data = await _graphql('''
+    final data = await _graphql(
+      '''
       query ProgramSet(\$id: ID!) {
         programSet(id: \$id) {
           id title synopsis numberOfElements
@@ -70,7 +76,9 @@ class ArdApi {
           publicationService { title }
         }
       }
-    ''', variables: {'id': id});
+    ''',
+      variables: {'id': id},
+    );
 
     final node = data?['programSet'] as Map<String, dynamic>?;
     if (node == null) return null;
@@ -86,7 +94,8 @@ class ArdApi {
   }) async {
     // All dynamic values passed as GraphQL variables to prevent injection.
     // programSetId is Int in the ARD schema (IntFilter), not String.
-    final data = await _graphql('''
+    final data = await _graphql(
+      '''
       query Items(\$first: Int!, \$after: Cursor, \$programSetId: Int!) {
         items(
           first: \$first,
@@ -102,15 +111,17 @@ class ArdApi {
           totalCount
         }
       }
-    ''', variables: {
-      'first': first,
-      'programSetId': int.parse(programSetId),
-      if (after != null) 'after': after,
-    });
+    ''',
+      variables: {
+        'first': first,
+        'programSetId': int.parse(programSetId),
+        if (after != null) 'after': after,
+      },
+    );
 
     final items = data?['items'] as Map<String, dynamic>? ?? {};
-    final nodes = (items['nodes'] as List<dynamic>? ?? [])
-        .cast<Map<String, dynamic>>();
+    final nodes =
+        (items['nodes'] as List<dynamic>? ?? []).cast<Map<String, dynamic>>();
     final pageInfo = items['pageInfo'] as Map<String, dynamic>? ?? {};
 
     return ArdItemPage(
@@ -123,7 +134,8 @@ class ArdApi {
 
   /// Search for kids items by title.
   Future<List<ArdItem>> searchItems(String query, {int first = 20}) async {
-    final data = await _graphql('''
+    final data = await _graphql(
+      '''
       query Search(\$query: String!, \$first: Int!) {
         items(
           first: \$first,
@@ -137,7 +149,9 @@ class ArdApi {
           nodes { $_itemFields }
         }
       }
-    ''', variables: {'query': query, 'first': first});
+    ''',
+      variables: {'query': query, 'first': first},
+    );
 
     final nodes = _extractNodes(data, 'items');
     return nodes.map(ArdItem.fromJson).toList();
@@ -174,8 +188,15 @@ class ArdApi {
       // offline/airplane mode — log at warn, not error.
       if (e.type == DioExceptionType.connectionError ||
           e.type == DioExceptionType.connectionTimeout) {
-        Log.warn(_tag, 'Network unavailable', data: {'url': e.requestOptions.uri.host});
-        throw const ArdApiException('Keine Internetverbindung', isNetworkError: true);
+        Log.warn(
+          _tag,
+          'Network unavailable',
+          data: {'url': e.requestOptions.uri.host},
+        );
+        throw const ArdApiException(
+          'Keine Internetverbindung',
+          isNetworkError: true,
+        );
       }
       Log.error(_tag, 'Request failed', exception: e);
       throw ArdApiException(

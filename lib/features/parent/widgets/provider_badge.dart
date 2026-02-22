@@ -14,7 +14,11 @@ class ProviderBadge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final (icon, color, label) = switch (provider) {
-      'spotify' => (Icons.music_note_rounded, const Color(0xFF1DB954), 'Spotify'),
+      'spotify' => (
+        Icons.music_note_rounded,
+        const Color(0xFF1DB954),
+        'Spotify',
+      ),
       'ard_audiothek' => (Icons.radio_rounded, const Color(0xFF003D7A), 'ARD'),
       'apple_music' => (Icons.apple_rounded, const Color(0xFFFA243C), 'Apple'),
       _ => (Icons.question_mark_rounded, AppColors.textSecondary, provider),
