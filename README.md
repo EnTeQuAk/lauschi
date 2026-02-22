@@ -6,7 +6,7 @@
 # What's lauschi?
 
 lauschi wraps audio providers behind a curated, card-based interface
-for children. Parents build visual content cards — kid taps a card,
+for children. Parents build visual content cards; kid taps a card,
 audio starts. No recommendations, no autoplay, no screen time spiral.
 
 Currently supports **Spotify** and **ARD Audiothek** (free, no account
@@ -38,12 +38,12 @@ Configuration lives in `.env` (gitignored), loaded by mise tasks via
 `--dart-define-from-file=.env`:
 
 ```
-SPOTIFY_CLIENT_ID=...           # required for Spotify — Developer Dashboard
-SENTRY_DSN=...                  # optional — error tracking
+SPOTIFY_CLIENT_ID=...           # required for Spotify (Developer Dashboard)
+SENTRY_DSN=...                  # optional, error tracking
 SENTRY_ENVIRONMENT=development
 ```
 
-**ARD Audiothek** works out of the box — no credentials, no account, free
+**ARD Audiothek** works out of the box with no credentials, no account. Free
 public broadcaster content. The app uses the ARD Audiothek GraphQL API
 (`api.ardaudiothek.de`) to browse and stream children's audio content directly.
 
@@ -60,26 +60,27 @@ BRAVE_API_KEY=...               # for catalog review web search
 
 ## Architecture
 
-- **Flutter + Dart** — iOS and Android from one codebase
-- **Riverpod 3** — state management
-- **Drift** — local SQLite with schema migrations
-- **Spotify Web Playback SDK** — Spotify audio via hidden WebView (EME/DRM).
+- **Flutter + Dart**: iOS and Android from one codebase
+- **Riverpod 3**: state management
+- **Drift**: local SQLite with schema migrations
+- **Spotify Web Playback SDK**: Spotify audio via hidden WebView (EME/DRM).
   The SDK's `player.html` is hosted externally (requires HTTPS origin for
   Widevine). See `lib/core/spotify/spotify_config.dart` for the URL.
-- **ARD Audiothek GraphQL API** + **just_audio** — free streaming of public
+- **ARD Audiothek GraphQL API** + **just_audio**: free streaming of public
   broadcaster content (no account required)
-- **go_router** — navigation with parent PIN gate
-- **very_good_analysis** — strict linting
-- **Sentry** — crash reporting + session replay (EU region)
-- **AI-assisted catalog curation** — pydantic-ai scripts using kimi-k2.5
+- **go_router**: navigation with parent PIN gate
+- **very_good_analysis**: strict linting
+- **Sentry**: crash reporting + session replay (EU region)
+- **AI-assisted catalog curation**: pydantic-ai scripts using kimi-k2.5
   for discovery and review, minimax-m2.5 for independent verification.
   Final approval is always human via a TUI review tool.
 
 ## Catalog curation
 
 The curation pipeline uses AI models to discover, classify, and cross-check
-album data from Spotify. This is a developer-side build tool — no AI runs
-in the app itself, and no AI-generated content is shown to kids. The models
+album data from Spotify. This is a developer-side build tool. No AI runs
+in the app itself, no AI-generated content is shown to kids, and neither
+ever will be. The models
 help sort through thousands of albums; a human reviews and approves the
 final result.
 
@@ -156,15 +157,15 @@ catalog-review (TUI) ← human reviews disagreements → writes to series.yaml
    mise run catalog-review -- paw_patrol      # specific series
    ```
    - Browse series, see AI decisions with overrides applied
-   - `t` — toggle an album's include/exclude
-   - `n` — add reviewer notes
-   - `a` — approve → writes to `series.yaml`
-   - `r` — reject
-   - `Tab` — next unreviewed series
+   - `t`: toggle an album's include/exclude
+   - `n`: add reviewer notes
+   - `a`: approve, writes to `series.yaml`
+   - `r`: reject
+   - `Tab`: next unreviewed series
 
 ### Reviewing existing series
 
-AI review is incremental — it skips already-reviewed series:
+AI review is incremental and skips already-reviewed series:
 
 ```bash
 mise run catalog-review-ai -- --all           # only reviews new/unreviewed
@@ -187,7 +188,7 @@ Splits are proposals in the JSON until `apply-splits` executes them. Each split 
 
 ### Non-destructive edits
 
-All manual and AI review edits go to `review.overrides` in the curation JSON — the original AI curation in `series.albums` is never mutated. This means:
+All manual and AI review edits go to `review.overrides` in the curation JSON. The original AI curation in `series.albums` is never mutated. This means:
 
 - Re-running curation produces a fresh base; overrides are preserved
 - Every decision has an audit trail
@@ -273,7 +274,7 @@ flutter test test/core/catalog/catalog_service_test.dart --dart-define-from-file
 flutter test --coverage --dart-define-from-file=.env
 ```
 
-Tests don't require a device — they run on the Dart VM. Integration tests
+Tests don't require a device and run on the Dart VM. Integration tests
 (Patrol) require a connected device or emulator.
 
 ### iOS
@@ -287,7 +288,7 @@ installed and an iOS 14.0+ device/simulator.
 1. Fork the repo and create a branch from `main`
 2. `mise install && mise run setup`
 3. Make your changes, run `mise run check` to verify
-4. Open a PR — CI runs format, analyze, test, and debug build
+4. Open a PR. CI runs format, analyze, test, and debug build.
 
 Keep commits focused and messages in imperative mood ("Fix bug" not "Fixed
 bug"). See the project's `analysis_options.yaml` for lint rules.
