@@ -135,7 +135,7 @@ workflows:
 
   android-release:
     name: Android Release
-    instance_type: linux_x2
+    instance_type: mac_mini_m2
     max_build_duration: 30
     environment:
       flutter: 3.41.1
