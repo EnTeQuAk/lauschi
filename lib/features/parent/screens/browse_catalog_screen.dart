@@ -947,18 +947,14 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen> {
       );
     }
 
-    return Column(
-      children: [
-        ...headers,
-        Expanded(
-          child: ListView.builder(
-            itemCount: _albumResults.length,
-            padding: const EdgeInsets.only(bottom: AppSpacing.xxl),
-            cacheExtent: 500,
-            itemBuilder: (context, index) => _buildAlbumTile(index),
-          ),
-        ),
-      ],
+    return ListView.builder(
+      itemCount: headers.length + _albumResults.length,
+      padding: const EdgeInsets.only(bottom: AppSpacing.xxl),
+      cacheExtent: 500,
+      itemBuilder: (context, index) {
+        if (index < headers.length) return headers[index];
+        return _buildAlbumTile(index - headers.length);
+      },
     );
   }
 

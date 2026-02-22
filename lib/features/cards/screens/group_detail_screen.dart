@@ -255,12 +255,7 @@ class _EpisodeGrid extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        final columns =
-            constraints.maxWidth < 600
-                ? 2
-                : constraints.maxWidth < 900
-                ? 3
-                : 4;
+        final columns = kidGridColumns(constraints.maxWidth);
 
         return GridView.builder(
           padding: const EdgeInsets.fromLTRB(
