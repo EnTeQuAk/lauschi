@@ -64,9 +64,8 @@ class ArdApi {
 
   /// Get a single programSet by ID.
   Future<ArdProgramSet?> getProgramSet(String id) async {
-    // Raw strings don't support \$ which we need for GraphQL variables.
-    // ignore: use_raw_strings
     final data = await _graphql(
+      // ignore: use_raw_strings, raw strings don't support \$ for GraphQL variables.
       '''
       query ProgramSet(\$id: ID!) {
         programSet(id: \$id) {
