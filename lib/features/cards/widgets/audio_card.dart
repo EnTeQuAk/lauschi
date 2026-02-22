@@ -400,11 +400,15 @@ class _EpisodeLabel extends StatelessWidget {
   const _EpisodeLabel({required this.title, this.number});
 
   final String title;
+
+  /// Curated episode number from catalog. Takes priority over parsed.
   final int? number;
 
   @override
   Widget build(BuildContext context) {
-    final cleanTitle = cleanEpisodeTitle(title, episodeNumber: number);
+    // Curated number > parsed from title > nothing.
+    final effectiveNumber = number ?? parseEpisodeNumber(title);
+    final cleanTitle = cleanEpisodeTitle(title, episodeNumber: effectiveNumber);
 
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 6),
@@ -423,7 +427,7 @@ class _EpisodeLabel extends StatelessWidget {
         ),
       ),
       child: Text(
-        number != null ? '$number · $cleanTitle' : cleanTitle,
+        effectiveNumber != null ? '$effectiveNumber · $cleanTitle' : cleanTitle,
         textAlign: TextAlign.center,
         maxLines: 1,
         overflow: TextOverflow.ellipsis,

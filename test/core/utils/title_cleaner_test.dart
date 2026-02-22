@@ -2,6 +2,78 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:lauschi/core/utils/title_cleaner.dart';
 
 void main() {
+  group('parseEpisodeNumber', () {
+    group('extracts from Folge prefix', () {
+      final cases = <(String, int)>[
+        ('Folge 1: Hexen gibt es doch', 1),
+        ('Folge 38: Eile mit Weile (Das Original-Hörspiel zur TV-Serie)', 38),
+        ('Folge 100: 100 Stunden', 100),
+        (
+          'Folge 396: Das Eisbärenjunge (Das Original-Hörspiel zur TV-Serie)',
+          396,
+        ),
+        ('Folge 15', 15),
+        (
+          'Folge 3 - Die Zauberlimonade (Das Original-Hörspiel zur TV-Serie)',
+          3,
+        ),
+      ];
+
+      for (final (input, expected) in cases) {
+        test('"$input" → $expected', () {
+          expect(parseEpisodeNumber(input), expected);
+        });
+      }
+    });
+
+    group('extracts from Episode prefix', () {
+      test('Episode 12: The Great Storm → 12', () {
+        expect(parseEpisodeNumber('Episode 12: The Great Storm'), 12);
+      });
+    });
+
+    group('extracts from NNN/ format', () {
+      final cases = <(String, int)>[
+        ('031/Rückkehr der Saurier', 31),
+        ('040/Brennendes Eis', 40),
+        ('04/und die Einsiedlerkrebse', 4),
+        ('001/Bob der Küchenmeister', 1),
+        ('140/Draculas Erben', 140),
+      ];
+
+      for (final (input, expected) in cases) {
+        test('"$input" → $expected', () {
+          expect(parseEpisodeNumber(input), expected);
+        });
+      }
+    });
+
+    group('returns null when no pattern matches', () {
+      final noMatch = [
+        'Der Anfang der Schlangen',
+        'Momo',
+        'heilt den Bürgermeister',
+        'Oh, wie schön ist Panama',
+        'Conni auf dem Bauernhof / Conni und das neue Baby',
+        'Die Olchis und der Geist der blauen Berge',
+        '1: Der Räuber Hotzenplotz',
+        'Golden Heart',
+        'Bobo Siebenschläfer. Großer Sommerspaß.',
+      ];
+
+      for (final title in noMatch) {
+        test('"$title" → null', () {
+          expect(parseEpisodeNumber(title), isNull);
+        });
+      }
+    });
+
+    test('does not match single digit without slash', () {
+      // "1: Der Räuber Hotzenplotz" — single digit + colon is not NNN/ format.
+      expect(parseEpisodeNumber('1: Der Räuber Hotzenplotz'), isNull);
+    });
+  });
+
   group('cleanEpisodeTitle', () {
     group('strips Hörspiel parenthetical suffixes', () {
       final cases = <(String, String)>[

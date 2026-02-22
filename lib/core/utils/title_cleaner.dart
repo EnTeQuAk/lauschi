@@ -27,6 +27,22 @@ String cleanEpisodeTitle(String raw, {int? episodeNumber}) {
   return t.isEmpty ? raw : t;
 }
 
+/// Try to extract an episode number from a title string.
+///
+/// Priority: "Folge N", "Episode N", leading "NNN/" (TKKG/Fünf Freunde).
+/// Returns null if no recognizable pattern found.
+int? parseEpisodeNumber(String title) {
+  for (final pattern in _numberPatterns) {
+    final match = pattern.firstMatch(title);
+    if (match != null) {
+      return int.tryParse(match.group(1)!);
+    }
+  }
+  return null;
+}
+
+// -- Private patterns --------------------------------------------------------
+
 // Suffix patterns to strip (order matters — more specific first).
 final _suffixPatterns = [
   // Parenthetical with "Hörspiel" anywhere inside.
@@ -44,3 +60,13 @@ final _suffixPatterns = [
 
 final _folgePrefix = RegExp(r'^[Ff]olge\s+\d+\s*[:\-–—]\s*');
 final _episodePrefix = RegExp(r'^[Ee]pisode\s+\d+\s*[:\-–—]\s*');
+
+// Patterns for extracting episode numbers from raw titles.
+final _numberPatterns = [
+  // "Folge 38: ..." or "Folge 38 - ..."
+  RegExp(r'^[Ff]olge\s+(\d+)'),
+  // "Episode 12: ..."
+  RegExp(r'^[Ee]pisode\s+(\d+)'),
+  // "031/Rückkehr der Saurier" (TKKG, Fünf Freunde, etc.)
+  RegExp(r'^(\d{2,3})/'),
+];
