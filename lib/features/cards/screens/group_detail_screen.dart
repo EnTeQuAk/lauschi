@@ -7,6 +7,7 @@ import 'package:lauschi/core/database/group_repository.dart';
 import 'package:lauschi/core/nfc/nfc_pair_dialog.dart';
 import 'package:lauschi/core/router/app_router.dart';
 import 'package:lauschi/core/settings/debug_settings.dart';
+import 'package:lauschi/core/settings/kid_settings.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
 import 'package:lauschi/features/cards/widgets/audio_card.dart';
 import 'package:lauschi/features/player/player_provider.dart';
@@ -43,6 +44,8 @@ class GroupDetailScreen extends ConsumerWidget {
             .watch(debugSettingsProvider)
             .whenOrNull(data: (s) => s.nfcEnabled) ??
         false;
+    final showTitles =
+        ref.watch(showEpisodeTitlesProvider).value ?? false;
 
     return Scaffold(
       body: SafeArea(
@@ -113,6 +116,7 @@ class GroupDetailScreen extends ConsumerWidget {
                     activeUri: playerState.activeContextUri,
                     isPlaying: playerState.isPlaying,
                     isActive: playerState.track != null,
+                    showEpisodeTitles: showTitles,
                     onCardTap: (card) => playerNotifier.playCard(card.id),
                   );
                 },
@@ -242,6 +246,7 @@ class _EpisodeGrid extends StatelessWidget {
     required this.isActive,
     required this.onCardTap,
     this.nextUnheardId,
+    this.showEpisodeTitles = false,
   });
 
   final List<db.AudioCard> episodes;
@@ -250,6 +255,7 @@ class _EpisodeGrid extends StatelessWidget {
   final bool isPlaying;
   final bool isActive;
   final void Function(db.AudioCard card) onCardTap;
+  final bool showEpisodeTitles;
 
   @override
   Widget build(BuildContext context) {
@@ -288,6 +294,7 @@ class _EpisodeGrid extends StatelessWidget {
                   progress: _albumProgress(card),
                   kidMode: true,
                   episodeNumber: card.episodeNumber,
+                  showEpisodeTitles: showEpisodeTitles,
                   onTap: () => onCardTap(card),
                 ),
                 // "Weiter" badge on next unheard episode
