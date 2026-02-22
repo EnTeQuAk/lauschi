@@ -61,6 +61,14 @@ app.*.map.json
 
 # Agent scaffolding
 .ralph/
+
+# Claude Code — local permissions are per-user, don't commit
+.claude/settings.local.json
+
+# Signing keys
+*.keystore
+*.keystore.old
+
 android/build/
 
 sentry.properties

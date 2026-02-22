@@ -1,0 +1,21 @@
+version = 1
+# Check skills into git so collaborators get them without running 'dotagents install'.
+gitignore = false
+agents = ["claude"]
+
+[trust]
+allow_all = true
+
+# Only pull skills relevant to this project. The source repo has many more
+# (React, Ruby, Python, Swift, React Native setup, etc.) — skip those.
+[[skills]]
+name = "sentry-fix-issues"
+source = "getsentry/sentry-agent-skills"
+
+[[skills]]
+name = "sentry-create-alert"
+source = "getsentry/sentry-agent-skills"
+
+[[skills]]
+name = "sentry-pr-code-review"
+source = "getsentry/sentry-agent-skills"
