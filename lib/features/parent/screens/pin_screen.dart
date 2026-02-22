@@ -153,7 +153,13 @@ class _PinScreenState extends ConsumerState<PinScreen>
             Align(
               alignment: Alignment.topLeft,
               child: TextButton(
-                onPressed: () => context.pop(),
+                onPressed: () {
+                  if (context.canPop()) {
+                    context.pop();
+                  } else {
+                    context.go(AppRoutes.kidHome);
+                  }
+                },
                 child: const Text('Abbrechen'),
               ),
             ),
