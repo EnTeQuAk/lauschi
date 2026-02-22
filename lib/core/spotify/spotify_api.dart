@@ -280,6 +280,23 @@ class SpotifyApi {
     return SpotifyPlaylistDetail.fromJson(resp!.data!);
   }
 
+  /// Get artist image URL. Returns the first (largest) image, or null.
+  Future<String?> getArtistImage(String artistId) async {
+    Log.info(_tag, 'GET /artists/$artistId (image)');
+
+    final resp = await _request(
+      () => _dio.get<Map<String, dynamic>>(
+        '/artists/$artistId',
+        queryParameters: {'fields': 'images'},
+      ),
+    );
+
+    if (resp?.data == null) return null;
+    final images = resp!.data!['images'] as List<dynamic>?;
+    if (images == null || images.isEmpty) return null;
+    return (images.first as Map<String, dynamic>)['url'] as String?;
+  }
+
   // ---------------------------------------------------------------------------
   // Request wrapper with error handling
   // ---------------------------------------------------------------------------
