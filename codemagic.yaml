@@ -142,6 +142,7 @@ workflows:
       java: 17
       groups:
         - app-env
+        - firebase-distribution-credentials
       android_signing:
         - keystore_reference: release_keystore
     cache:
@@ -181,3 +182,11 @@ workflows:
 
     artifacts:
       - build/app/outputs/flutter-apk/app-release.apk
+
+    publishing:
+      firebase:
+        firebase_service_account: $FIREBASE_DISTRIBUTION_SERVICE_ACCOUNT_JSON
+        android:
+          app_id: "1:596360821127:android:98e282cadc806e4c0dbb22"
+          groups:
+            - testers
