@@ -19,12 +19,17 @@ class SpotifyDeviceNotFoundException implements Exception {
 /// Spotify Web API client.
 ///
 /// Handles playback control and catalog search. Token management is external —
-/// call [updateToken] when the auth state changes.
+/// call [updateToken] when the auth state changes. Set [onTokenExpired] to
+/// enable automatic 401 → refresh → retry.
 class SpotifyApi {
   SpotifyApi() : _dio = Dio(BaseOptions(baseUrl: 'https://api.spotify.com/v1'));
 
   final Dio _dio;
   String? _accessToken;
+
+  /// Called when a 401 is received. Should refresh the token and return
+  /// the new access token, or null if refresh failed (triggers logout).
+  Future<String?> Function()? onTokenExpired;
 
   /// Update the access token used for API calls.
   void updateToken(String token) {
@@ -302,12 +307,25 @@ class SpotifyApi {
   // ---------------------------------------------------------------------------
 
   Future<Response<T>?> _request<T>(
-    Future<Response<T>> Function() fn,
-  ) async {
+    Future<Response<T>> Function() fn, {
+    bool isRetry = false,
+  }) async {
     try {
       return await fn();
     } on DioException catch (e) {
       final status = e.response?.statusCode;
+
+      // 401 Unauthorized — token expired mid-session. Refresh and retry once.
+      if (status == 401 && !isRetry && onTokenExpired != null) {
+        Log.warn(_tag, 'Token expired (401), refreshing');
+        final newToken = await onTokenExpired!();
+        if (newToken != null) {
+          updateToken(newToken);
+          return _request(fn, isRetry: true);
+        }
+        // Refresh failed — fall through to rethrow.
+        Log.error(_tag, 'Token refresh failed, cannot retry');
+      }
 
       if (status == 429) {
         // Rate limited — retry after delay

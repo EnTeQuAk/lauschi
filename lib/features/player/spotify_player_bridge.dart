@@ -331,9 +331,14 @@ class SpotifyPlayerBridge {
       await _runJs(
         'window.lauschi.deliver_token(${json.encode(token)})',
       );
+      Log.info(_tag, 'Delivered fresh token to SDK');
     } on Exception catch (e) {
       Log.error(_tag, 'Token delivery failed', exception: e);
-      _updateState(_state.copyWith(error: 'Token refresh failed'));
+      _updateState(
+        _state.copyWith(
+          error: 'Spotify-Verbindung abgelaufen — bitte neu verbinden',
+        ),
+      );
     }
   }
 
