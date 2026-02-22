@@ -77,6 +77,12 @@ BRAVE_API_KEY=...               # for catalog review web search
 
 ## Catalog curation
 
+The curation pipeline uses AI models to discover, classify, and cross-check
+album data from Spotify. This is a developer-side build tool — no AI runs
+in the app itself, and no AI-generated content is shown to kids. The models
+help sort through thousands of albums; a human reviews and approves the
+final result.
+
 The catalog ships as curated YAML in `assets/catalog/series.yaml`, backed by per-series curation data in `assets/catalog/curation/*.json`.
 
 ### Pipeline overview
