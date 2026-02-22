@@ -43,12 +43,13 @@ void main(List<String> args) {
     }
   }
 
-  final pct =
-      totalLines > 0 ? (100.0 * coveredLines / totalLines) : 0.0;
+  final pct = totalLines > 0 ? (100.0 * coveredLines / totalLines) : 0.0;
 
   print('');
-  print('Coverage: $coveredLines / $totalLines lines '
-      '(${pct.toStringAsFixed(1)}%)');
+  print(
+    'Coverage: $coveredLines / $totalLines lines '
+    '(${pct.toStringAsFixed(1)}%)',
+  );
   print('');
 
   // Filter out generated files for the per-file breakdown.
@@ -57,20 +58,22 @@ void main(List<String> args) {
   );
 
   // Worst coverage first.
-  final sorted = filtered.entries.toList()
-    ..sort((a, b) {
-      final aPct = a.value.$1 / a.value.$2;
-      final bPct = b.value.$1 / b.value.$2;
-      return aPct.compareTo(bPct);
-    });
+  final sorted =
+      filtered.entries.toList()..sort((a, b) {
+        final aPct = a.value.$1 / a.value.$2;
+        final bPct = b.value.$1 / b.value.$2;
+        return aPct.compareTo(bPct);
+      });
 
   print('Lowest coverage (non-generated):');
   for (final e in sorted.take(15)) {
     final (cov, tot) = e.value;
     final p = (100.0 * cov / tot).toStringAsFixed(1).padLeft(5);
     final short = e.key.replaceFirst('lib/', '');
-    print('  $p%  ${cov.toString().padLeft(4)}/${tot.toString().padRight(4)}'
-        '  $short');
+    print(
+      '  $p%  ${cov.toString().padLeft(4)}/${tot.toString().padRight(4)}'
+      '  $short',
+    );
   }
 
   print('');
@@ -79,8 +82,10 @@ void main(List<String> args) {
     final (cov, tot) = e.value;
     final p = (100.0 * cov / tot).toStringAsFixed(1).padLeft(5);
     final short = e.key.replaceFirst('lib/', '');
-    print('  $p%  ${cov.toString().padLeft(4)}/${tot.toString().padRight(4)}'
-        '  $short');
+    print(
+      '  $p%  ${cov.toString().padLeft(4)}/${tot.toString().padRight(4)}'
+      '  $short',
+    );
   }
   print('');
 }
