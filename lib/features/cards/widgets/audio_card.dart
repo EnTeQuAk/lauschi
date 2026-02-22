@@ -3,6 +3,7 @@ import 'dart:async' show unawaited;
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
+import 'package:lauschi/core/utils/title_cleaner.dart';
 
 /// A single card in the kid-mode grid.
 ///
@@ -403,7 +404,7 @@ class _EpisodeLabel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cleanTitle = _cleanTitle(title, number);
+    final cleanTitle = cleanEpisodeTitle(title, episodeNumber: number);
 
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 6),
@@ -435,33 +436,5 @@ class _EpisodeLabel extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  /// Strip boilerplate from Spotify album titles.
-  ///
-  /// "Folge 38: Eile mit Weile (Das Original-Hörspiel zur TV-Serie)"
-  ///  → "Eile mit Weile"
-  static String _cleanTitle(String raw, int? episodeNumber) {
-    var t = raw;
-
-    // Strip parenthetical suffixes: (Das Original-Hörspiel...), (Hörspiel)
-    t = t.replaceAll(RegExp(r'\s*\([^)]*[Hh]örspiel[^)]*\)\s*$'), '');
-    // Also: (Original Motion Picture Soundtrack), etc.
-    t = t.replaceAll(RegExp(r'\s*\([^)]*[Ss]oundtrack[^)]*\)\s*$'), '');
-
-    // Strip "Folge N: " or "Folge N - " prefix (we show number separately).
-    t = t.replaceAll(
-      RegExp(r'^[Ff]olge\s+\d+\s*[:\-–—]\s*'),
-      '',
-    );
-    // Also "Episode N: " for English-titled content.
-    t = t.replaceAll(
-      RegExp(r'^[Ee]pisode\s+\d+\s*[:\-–—]\s*'),
-      '',
-    );
-
-    t = t.trim();
-    // If cleaning removed everything, fall back to original.
-    return t.isEmpty ? raw : t;
   }
 }
