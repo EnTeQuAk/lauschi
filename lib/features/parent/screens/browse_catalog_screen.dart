@@ -840,20 +840,26 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen> {
         ),
 
         // Grid
-        SliverPadding(
-          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
-          sliver: SliverGrid(
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 3,
-              mainAxisSpacing: AppSpacing.md,
-              crossAxisSpacing: AppSpacing.md,
-              childAspectRatio: 0.75,
-            ),
-            delegate: SliverChildBuilderDelegate(
-              (context, index) => _CuratedSeriesCard(series: series[index]),
-              childCount: series.length,
-            ),
-          ),
+        SliverLayoutBuilder(
+          builder: (context, constraints) {
+            final columns = kidGridColumns(constraints.crossAxisExtent);
+            return SliverPadding(
+              padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
+              sliver: SliverGrid(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: columns,
+                  mainAxisSpacing: AppSpacing.md,
+                  crossAxisSpacing: AppSpacing.md,
+                  childAspectRatio: 0.75,
+                ),
+                delegate: SliverChildBuilderDelegate(
+                  (context, index) =>
+                      _CuratedSeriesCard(series: series[index]),
+                  childCount: series.length,
+                ),
+              ),
+            );
+          },
         ),
 
         // Bottom padding
