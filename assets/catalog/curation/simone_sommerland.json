@@ -1,0 +1,3301 @@
+{
+  "query": "Simone Sommerland",
+  "model": "kimi-k2.5",
+  "curated_at": "2026-02-23T00:07:36.764571+00:00",
+  "series": {
+    "id": "simone_sommerland",
+    "title": "Simone Sommerland",
+    "aliases": [],
+    "keywords": [
+      "simone_sommerland"
+    ],
+    "spotify_artist_ids": [
+      "04yr1h3maDSKvM08pgOezF"
+    ],
+    "episode_pattern": " (\\d+)$",
+    "albums": [
+      {
+        "spotify_album_id": "3ZE5wVbeCBi57X9BjohNF0",
+        "include": false,
+        "episode_num": null,
+        "title": "Die 30 besten Partylieder 3",
+        "exclude_reason": "Compilation - not an individual episode"
+      },
+      {
+        "spotify_album_id": "0vnJw8m7XVUZMznOUx2pJO",
+        "include": false,
+        "episode_num": null,
+        "title": "Die 100 besten Winterlieder",
+        "exclude_reason": "Compilation (100 tracks) - not an individual episode"
+      },
+      {
+        "spotify_album_id": "6GrfRGqKXun4jd6cBQArC1",
+        "include": false,
+        "episode_num": null,
+        "title": "Die 30 besten Kinderlieder 2025",
+        "exclude_reason": "Compilation - not an individual episode"
+      },
+      {
+        "spotify_album_id": "0Sx8KMui45Dw0T5Bui2djX",
+        "include": false,
+        "episode_num": null,
+        "title": "Hörchi & Kucki - Das Album",
+        "exclude_reason": "Different artist/theme - not a Simone Sommerland episode"
+      },
+      {
+        "spotify_album_id": "6vwpRA2zrRmiojNz1XqCyS",
+        "include": false,
+        "episode_num": null,
+        "title": "Die 30 besten Miniclub-Hits",
+        "exclude_reason": "Compilation - not an individual episode"
+      },
+      {
+        "spotify_album_id": "31WA4kA0fD0SA7eMJMTF80",
+        "include": false,
+        "episode_num": null,
+        "title": "Die 30 besten traditionellen Kinderlieder 3",
+        "exclude_reason": "Compilation - not an individual episode"
+      },
+      {
+        "spotify_album_id": "6Z3T60iv6Rajc4EXwBrD02",
+        "include": false,
+        "episode_num": null,
+        "title": "Die 100 besten Osterlieder",
+        "exclude_reason": "Compilation (100 tracks) - not an individual episode"
+      },
+      {
+        "spotify_album_id": "1gsKEBhr7xGUWrGpfRVa7x",
+        "include": false,
+        "episode_num": null,
+        "title": "Die 30 besten neuen Kindergartenlieder",
+        "exclude_reason": "Compilation - not an individual episode"
+      },
+      {
+        "spotify_album_id": "3lT4XRDraGQEXz8XFzRORF",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderlieder Adventskalender",
+        "exclude_reason": "Compilation (seasonal advent calendar) - not an individual episode"
+      },
+      {
+        "spotify_album_id": "0XJoyAy8mJRASNAn3Tudfh",
+        "include": false,
+        "episode_num": null,
+        "title": "Die 30 besten St. Martins- und Laternenlieder",
+        "exclude_reason": "Compilation - not an individual episode"
+      },
+      {
+        "spotify_album_id": "45Nk4fvClHe4oYqzM4aHIq",
+        "include": false,
+        "episode_num": null,
+        "title": "Die 100 besten Bewegungslieder",
+        "exclude_reason": "Compilation (100 tracks) - not an individual episode"
+      },
+      {
+        "spotify_album_id": "1tMwlkq8PEkT0rDnEpVoqh",
+        "include": false,
+        "episode_num": null,
+        "title": "Die 30 besten Kinderlieder 2024",
+        "exclude_reason": "Compilation - not an individual episode"
+      },
+      {
+        "spotify_album_id": "6zaoSIxoFfFyM8VXFCWM6B",
+        "include": false,
+        "episode_num": null,
+        "title": "Die 30 besten Kinderlieder für den Frühling",
+        "exclude_reason": "Compilation - not an individual episode"
+      },
+      {
+        "spotify_album_id": "1r09t1YwgxUmkacoBgddLD",
+        "include": false,
+        "episode_num": null,
+        "title": "Geburtstagsparty Megamix",
+        "exclude_reason": "Megamix/compilation (40 tracks) - not an individual episode"
+      },
+      {
+        "spotify_album_id": "6bKdsnnXZA9WnJidN7J4RU",
+        "include": false,
+        "episode_num": null,
+        "title": "Die 30 besten alten Kinderlieder mit zeitgemäßen Texten",
+        "exclude_reason": "Compilation - not an individual episode"
+      },
+      {
+        "spotify_album_id": "452UqOJkVyboe2xRctvT69",
+        "include": false,
+        "episode_num": null,
+        "title": "Die 100 besten Weihnachtslieder für Kinder",
+        "exclude_reason": "Compilation (100 tracks) - not an individual episode"
+      },
+      {
+        "spotify_album_id": "0J0QUzF4wSz9fyMDVPOwp3",
+        "include": false,
+        "episode_num": null,
+        "title": "Die 30 besten Halloween-Hits für Kinder",
+        "exclude_reason": "Compilation - not an individual episode"
+      },
+      {
+        "spotify_album_id": "0uUO4a0wKJKDCpc3ubmieO",
+        "include": false,
+        "episode_num": null,
+        "title": "Die 100 besten Kindergartenlieder",
+        "exclude_reason": "Compilation (100 tracks) - not an individual episode"
+      },
+      {
+        "spotify_album_id": "4ipSKr1XVcslEUJaz6bphP",
+        "include": false,
+        "episode_num": null,
+        "title": "Die 100 besten Partylieder",
+        "exclude_reason": "Compilation (100 tracks) - not an individual episode"
+      },
+      {
+        "spotify_album_id": "3ltIxFpoc3E9lxMMqxmkTi",
+        "include": false,
+        "episode_num": null,
+        "title": "Die 30 besten Sommer- und Ferienlieder",
+        "exclude_reason": "Compilation - not an individual episode"
+      },
+      {
+        "spotify_album_id": "0LAzBvkk7JcYD4I7fxH6Se",
+        "include": false,
+        "episode_num": null,
+        "title": "Die 100 besten Schlaflieder",
+        "exclude_reason": "Compilation (100 tracks) - not an individual episode"
+      },
+      {
+        "spotify_album_id": "5RsTDXB6i0MBMmowNfR6fm",
+        "include": false,
+        "episode_num": null,
+        "title": "Die 30 besten neuen Schlaflieder 2",
+        "exclude_reason": "Compilation - not an individual episode"
+      },
+      {
+        "spotify_album_id": "0InyU8vQQ6sSwv3ZUhE44s",
+        "include": false,
+        "episode_num": null,
+        "title": "Die 30 besten Lieblingslieder von Simone Sommerland",
+        "exclude_reason": "Compilation - not an individual episode"
+      },
+      {
+        "spotify_album_id": "3UEnFmQaizr0hnhvoGdJAG",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder Megamix",
+        "exclude_reason": "Megamix/compilation (60 tracks) - not an individual episode"
+      },
+      {
+        "spotify_album_id": "4aOzRaG23mYBSxKVbf0e5H",
+        "include": false,
+        "episode_num": null,
+        "title": "Die 30 besten Kinderpartylieder für den Karneval",
+        "exclude_reason": "Compilation - not an individual episode"
+      },
+      {
+        "spotify_album_id": "5RbEcINIszJYuo5KHZUd6A",
+        "include": false,
+        "episode_num": null,
+        "title": "Die 30 besten Herbstlieder 2",
+        "exclude_reason": "Compilation - not an individual episode"
+      },
+      {
+        "spotify_album_id": "1aQWJFWwpV3HxcJbuqYQkN",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinder Party Megamix",
+        "exclude_reason": "Megamix/compilation (80 tracks) - not an individual episode"
+      },
+      {
+        "spotify_album_id": "0w9lextKSiSLoN2jWhQ5UA",
+        "include": false,
+        "episode_num": null,
+        "title": "De 30 beste Kinderliedjes",
+        "exclude_reason": "Foreign language release (Dutch)"
+      },
+      {
+        "spotify_album_id": "1Q7HsMd97jaUAmB6N5ftge",
+        "include": false,
+        "episode_num": null,
+        "title": "The 30 Greatest Songs for Children",
+        "exclude_reason": "Foreign language release (English)"
+      },
+      {
+        "spotify_album_id": "05ndJkJLiTkTyXJilHLqiB",
+        "include": false,
+        "episode_num": null,
+        "title": "Die 30 besten Oster- und Frühlingslieder 2",
+        "exclude_reason": "Compilation - not an individual episode"
+      },
+      {
+        "spotify_album_id": "23KHjmL6osusO3rRl96t4l",
+        "include": false,
+        "episode_num": null,
+        "title": "Die 30 besten Kinderlieder zum Entspannen (30 beruhigende, fantasievolle Lieder)",
+        "exclude_reason": "Compilation - song collection, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "2sH8UBpEHCVDrvKFPlqiqA",
+        "include": false,
+        "episode_num": null,
+        "title": "Die 30 besten Schlaflieder ohne Gesang",
+        "exclude_reason": "Compilation - song collection, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "0z6ZOVxP4s6H2oBMqBxSfQ",
+        "include": false,
+        "episode_num": null,
+        "title": "Die 30 besten Kinderlieder zum Singen und Spielen",
+        "exclude_reason": "Compilation - song collection, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "5qaODoqnEsKBRCYJUghndH",
+        "include": false,
+        "episode_num": null,
+        "title": "Die 30 besten Kinderlieder für den Winter",
+        "exclude_reason": "Compilation - song collection, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "0wF2LsjQUivDCliurW3eO8",
+        "include": false,
+        "episode_num": null,
+        "title": "Die 30 besten Weihnachts- und Winterlieder 2",
+        "exclude_reason": "Compilation - song collection, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "6HHguBE4kRzU5hWrD0i71D",
+        "include": false,
+        "episode_num": null,
+        "title": "Las 30 Más Bellas Canciones para Niños",
+        "exclude_reason": "Foreign language release (Spanish)"
+      },
+      {
+        "spotify_album_id": "7EPQEUgL5LbEDIRqc5YARW",
+        "include": false,
+        "episode_num": null,
+        "title": "Die 30 besten Tierlieder für Kinder",
+        "exclude_reason": "Compilation - song collection, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "2EUxVIRUV8uvItM0b3bpaA",
+        "include": false,
+        "episode_num": null,
+        "title": "Die 30 besten Spaß- Und Gute-Laune-Lieder (Zum Mitsingen und Lachen)",
+        "exclude_reason": "Compilation - song collection, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "28juahQe2sXMtigi7yFbiB",
+        "include": false,
+        "episode_num": null,
+        "title": "Die 30 besten Gute-Nacht-Lieder (Zum Entspannen und Träumen)",
+        "exclude_reason": "Compilation - song collection, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "7IRn6GeEfo6ZPs7kwJD0mR",
+        "include": false,
+        "episode_num": null,
+        "title": "Le 30 più belle Canzoni per bambini",
+        "exclude_reason": "Foreign language release (Italian)"
+      },
+      {
+        "spotify_album_id": "6CrEeasMjZh4q6B47T5zoR",
+        "include": false,
+        "episode_num": null,
+        "title": "Die 30 besten Piraten- und Seemannslieder",
+        "exclude_reason": "Compilation - song collection, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "4AoOEVd7IEm0YPGXEosWTe",
+        "include": false,
+        "episode_num": null,
+        "title": "Die 30 besten Babylieder",
+        "exclude_reason": "Compilation - song collection, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "28As4itOyMfYmKy1QTmZYy",
+        "include": false,
+        "episode_num": null,
+        "title": "Die 100 besten Kinderlieder",
+        "exclude_reason": "Compilation - song collection, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "4GkB7QliNKVI273bZfoCYp",
+        "include": false,
+        "episode_num": null,
+        "title": "Les 30 plus belles Chansons pour enfants",
+        "exclude_reason": "Foreign language release (French)"
+      },
+      {
+        "spotify_album_id": "6Wnp7CnGKCpa8JnycIQ1qa",
+        "include": false,
+        "episode_num": null,
+        "title": "Die 30 besten neuen Kinderlieder",
+        "exclude_reason": "Compilation - song collection, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "4VaDEpN29xJxZD6ZmiVu9i",
+        "include": false,
+        "episode_num": null,
+        "title": "Die 30 besten Kinderlieder",
+        "exclude_reason": "Compilation - song collection, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "10ta4eNoa7kq4JRrt9mNYL",
+        "include": false,
+        "episode_num": null,
+        "title": "Die 30 besten Kinderlieder für den Morgenkreis",
+        "exclude_reason": "Compilation - song collection, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "4SsTAQk6a5Jp5ZWNuJLQBK",
+        "include": false,
+        "episode_num": null,
+        "title": "Die 30 besten Lieder für die Kinderkrippe (30 süße Ohrwürmer für die ganz Kleinen)",
+        "exclude_reason": "Compilation - song collection, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "0NPCwZaPQQKd2GNk63BcPX",
+        "include": false,
+        "episode_num": null,
+        "title": "Die 30 besten Kita-Hits (30 Kindergartenlieder, die jeder kennt)",
+        "exclude_reason": "Compilation - song collection, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "7nEqPS7CnkxCzDjnibTOR1",
+        "include": false,
+        "episode_num": null,
+        "title": "Die 30 besten Schlaflieder 2",
+        "exclude_reason": "Compilation - song collection, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "2MzbSI4UJ3e9PP01nzcVso",
+        "include": false,
+        "episode_num": null,
+        "title": "Die 30 besten Kinderlieder-Balladen (30 gefühlvolle Lieder, die von Herzen kommen)",
+        "exclude_reason": "Compilation - song collection, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "7MkBcX0nm6f5g4maYwKAHw",
+        "include": false,
+        "episode_num": null,
+        "title": "Die 30 besten Jahreszeitenlieder für Kinder (30 tolle Lieder für Frühling, Sommer, Herbst und Winter)",
+        "exclude_reason": "Compilation - song collection, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "2LynNKJ8so1xCD7ZsJcBaV",
+        "include": false,
+        "episode_num": null,
+        "title": "Die 30 besten Kinderlieder-Klassiker (30 traditionelle Kinderlieder aus der guten alten Zeit)",
+        "exclude_reason": "Compilation - song collection, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "4sspLHatU4S8cqcfHbevpl",
+        "include": false,
+        "episode_num": null,
+        "title": "Die 30 besten Lieder für den Kindergeburtstag (30 Geburtstagslieder und Partyhits für den schönsten Tag des Jahres)",
+        "exclude_reason": "Compilation - song collection, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "7EofCSqBM3sAfZTSJyBGyM",
+        "include": false,
+        "episode_num": null,
+        "title": "Die 30 besten Mitmachlieder (30 Bewegungslieder zum Mitsingen und Spaß haben)",
+        "exclude_reason": "Compilation - song collection, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "3iRTOvWtt4UIVZtOHkiLdV",
+        "include": false,
+        "episode_num": null,
+        "title": "Die 30 besten Kirchenlieder, Vol. 2",
+        "exclude_reason": "Compilation - song collection, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "5bY0dq5UA2RoBVEenD8ial",
+        "include": false,
+        "episode_num": null,
+        "title": "Die 30 besten Kinderlieder fürs Kalenderjahr",
+        "exclude_reason": "Compilation - song collection, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "1luLBftyIKEp1t1LatJsQ8",
+        "include": false,
+        "episode_num": null,
+        "title": "Die 30 besten Kinderdisco-Hits",
+        "exclude_reason": "Compilation - song collection, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "1FE0GCnlOzkNGqtjfzwoPm",
+        "include": false,
+        "episode_num": null,
+        "title": "Die 30 besten Kindertanzlieder",
+        "exclude_reason": "Compilation - song collection, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "4g5WyR9bzlz0adcdBUB9RQ",
+        "include": false,
+        "episode_num": null,
+        "title": "Die 30 besten neuen Spiel- Und Bewegungslieder",
+        "exclude_reason": "Compilation - song collection, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "4gfxAB17Yk3ncXqxvxd77C",
+        "include": false,
+        "episode_num": null,
+        "title": "Die 30 besten neuen Partylieder",
+        "exclude_reason": "Compilation (30 tracks) - Not an individual episode"
+      },
+      {
+        "spotify_album_id": "4jfhel59F9HXzP2kQrWjB5",
+        "include": false,
+        "episode_num": null,
+        "title": "Die 30 besten: Das Einhorn-Musical (Auf ins Regenbogenland)",
+        "exclude_reason": "Compilation (25 tracks) - Not an individual episode"
+      },
+      {
+        "spotify_album_id": "3HnGp4MVndf6sGgmbPwavT",
+        "include": false,
+        "episode_num": null,
+        "title": "Die 30 besten Lieder für Jungs",
+        "exclude_reason": "Compilation (30 tracks) - Not an individual episode"
+      },
+      {
+        "spotify_album_id": "2NvoiI2LNxtgDfa3bTg2aM",
+        "include": false,
+        "episode_num": null,
+        "title": "Die 30 besten Kindergartenlieder 2",
+        "exclude_reason": "Compilation (30 tracks) - Not an individual episode"
+      },
+      {
+        "spotify_album_id": "3K0om9KHQE3PxX0cZcLKrE",
+        "include": false,
+        "episode_num": null,
+        "title": "Die 30 besten Partylieder für Kinder 2",
+        "exclude_reason": "Compilation (30 tracks) - Not an individual episode"
+      },
+      {
+        "spotify_album_id": "54zx3Tjq3JJZxUqQoe7a3r",
+        "include": false,
+        "episode_num": null,
+        "title": "Die 40 besten Wiegenlieder",
+        "exclude_reason": "Compilation (40 tracks) - Not an individual episode"
+      },
+      {
+        "spotify_album_id": "3tLG5DCE20MvSRMpeEldqZ",
+        "include": false,
+        "episode_num": null,
+        "title": "Die besten Kinderlieder aus der Serie \"Die 30 besten\"",
+        "exclude_reason": "Compilation (30 tracks) - Not an individual episode"
+      },
+      {
+        "spotify_album_id": "6VZLJofEv9Ej7aPNe8p936",
+        "include": false,
+        "episode_num": null,
+        "title": "Die 30 besten Lieder für Mädchen",
+        "exclude_reason": "Compilation (30 tracks) - Not an individual episode"
+      },
+      {
+        "spotify_album_id": "3gizRvQK8NJtvoDTj5Vk6l",
+        "include": false,
+        "episode_num": null,
+        "title": "Die 30 besten Kinderlieder mit Klassikmelodien",
+        "exclude_reason": "Compilation (30 tracks) - Not an individual episode"
+      },
+      {
+        "spotify_album_id": "2e6Hc9HUTjuWbfQcj8m1Xn",
+        "include": false,
+        "episode_num": null,
+        "title": "Die 30 besten Kniereiter- und Fingerspiellieder",
+        "exclude_reason": "Compilation (30 tracks) - Not an individual episode"
+      },
+      {
+        "spotify_album_id": "0SKgnFlhjiroei3wTDY4y1",
+        "include": false,
+        "episode_num": null,
+        "title": "Die 30 besten neuen Schlaflieder",
+        "exclude_reason": "Compilation (30 tracks) - Not an individual episode"
+      },
+      {
+        "spotify_album_id": "5mXzHNG81xOuT1Tqc4gVEQ",
+        "include": false,
+        "episode_num": null,
+        "title": "Die 30 besten traditionellen Kinderlieder 2",
+        "exclude_reason": "Compilation (30 tracks) - Not an individual episode"
+      },
+      {
+        "spotify_album_id": "40g5LCz4YfxQof3b9JqCI6",
+        "include": false,
+        "episode_num": null,
+        "title": "Die 30 besten Urlaubs- und Sommerlieder",
+        "exclude_reason": "Compilation (30 tracks) - Not an individual episode"
+      },
+      {
+        "spotify_album_id": "6wd18gb6IwGjeM0BYMFm64",
+        "include": false,
+        "episode_num": null,
+        "title": "Die 30 besten TV-Serienlieder für Kinder",
+        "exclude_reason": "Compilation (30 tracks) - Not an individual episode"
+      },
+      {
+        "spotify_album_id": "6VdsT5y6x72rfUjwU3yqdD",
+        "include": false,
+        "episode_num": null,
+        "title": "Die 30 besten neuen Weihnachts- und Winterlieder",
+        "exclude_reason": "Compilation (30 tracks) - Not an individual episode"
+      },
+      {
+        "spotify_album_id": "3DB9WITlUNbkGWWHvj94fL",
+        "include": false,
+        "episode_num": null,
+        "title": "Die 30 besten Herbstlieder für Kinder",
+        "exclude_reason": "Compilation (30 tracks) - Not an individual episode"
+      },
+      {
+        "spotify_album_id": "4JfI4TozKok2YW02q9w3MZ",
+        "include": false,
+        "episode_num": null,
+        "title": "Die 30 besten Märchenlieder für Kinder",
+        "exclude_reason": "Compilation (30 tracks) - Not an individual episode"
+      },
+      {
+        "spotify_album_id": "40k1P023hiLKMW3DjMXtqD",
+        "include": false,
+        "episode_num": null,
+        "title": "Die 30 besten Kinderturnlieder",
+        "exclude_reason": "Compilation (30 tracks) - Not an individual episode"
+      },
+      {
+        "spotify_album_id": "6QeKLlbz9P1C0ZKQeKOl0u",
+        "include": false,
+        "episode_num": null,
+        "title": "Die 30 besten Faschings- und Karnevalslieder",
+        "exclude_reason": "Compilation (30 tracks) - Not an individual episode"
+      },
+      {
+        "spotify_album_id": "3FZTLybdVNDhbmwkeuO2he",
+        "include": false,
+        "episode_num": null,
+        "title": "Die 30 besten Spiel- und Bewegungslieder 3",
+        "exclude_reason": "Compilation (30 tracks) - Not an individual episode"
+      },
+      {
+        "spotify_album_id": "1UWjruNuWA582TCaxQsBbw",
+        "include": false,
+        "episode_num": null,
+        "title": "Die 30 besten Kinderlieder für den Schulanfang (30 Lieder, die Lust auf Schule machen)",
+        "exclude_reason": "Compilation (30 tracks) - Not an individual episode"
+      },
+      {
+        "spotify_album_id": "2TXXHQA4FgXkfQ1JjGOpDi",
+        "include": false,
+        "episode_num": null,
+        "title": "Die 30 besten Oster- und Frühlingslieder",
+        "exclude_reason": "Compilation (30 tracks) - Not an individual episode"
+      },
+      {
+        "spotify_album_id": "6FCJxMRUmE5GrVuo21dQzU",
+        "include": false,
+        "episode_num": null,
+        "title": "Die 30 besten Mutmachlieder für Kinder (30 lustige Lieder für mehr Mut und Selbstvertrauen)",
+        "exclude_reason": "Compilation (30 tracks) - Not an individual episode"
+      },
+      {
+        "spotify_album_id": "3EiK2aJT9wx8SmaKEa2P47",
+        "include": false,
+        "episode_num": null,
+        "title": "Die 30 besten Kirchenlieder für Kinder",
+        "exclude_reason": "Compilation (30 tracks) - Not an individual episode"
+      },
+      {
+        "spotify_album_id": "1UVzDD4HyJIjyDx7Twt1aw",
+        "include": false,
+        "episode_num": null,
+        "title": "Die 30 besten Wissenslieder für Kleinkinder",
+        "exclude_reason": "Compilation (30 tracks) - Not an individual episode"
+      },
+      {
+        "spotify_album_id": "2x7jPeb6VCmuDcPycPW1zj",
+        "include": false,
+        "episode_num": null,
+        "title": "Die 30 besten Kindergartenlieder",
+        "exclude_reason": "Compilation (30 tracks) - Not an individual episode"
+      },
+      {
+        "spotify_album_id": "6AdTIgvKhY5knelEsDWJx8",
+        "include": false,
+        "episode_num": null,
+        "title": "Die 30 besten Schlaflieder für Kinder",
+        "exclude_reason": "Compilation (30 tracks) - Not an individual episode"
+      },
+      {
+        "spotify_album_id": "3k75Hbytf0Q9bxWZkode3i",
+        "include": false,
+        "episode_num": null,
+        "title": "Die 30 besten Kinderlieder auf Weltreise",
+        "exclude_reason": "Compilation (30 tracks) - Not an individual episode"
+      },
+      {
+        "spotify_album_id": "6s2FbDsgTM3PogNwTZfdHL",
+        "include": false,
+        "episode_num": null,
+        "title": "Die 30 Besten Englischen Kinderlieder",
+        "exclude_reason": "Compilation (30 tracks) - Not an individual episode"
+      },
+      {
+        "spotify_album_id": "7sT3umQsuzAiwWvlDbEQDX",
+        "include": false,
+        "episode_num": null,
+        "title": "Die 30 besten Spiel- und Bewegungslieder 2",
+        "exclude_reason": "Compilation (30 tracks) - Not an individual episode"
+      },
+      {
+        "spotify_album_id": "1yu8g81F2kZ96GM5rw5Y5Y",
+        "include": false,
+        "episode_num": null,
+        "title": "Die 30 besten Partylieder für Kinder",
+        "exclude_reason": "Compilation - 30 tracks, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "3qXBiuZFGf8BGHf55YeFbq",
+        "include": false,
+        "episode_num": null,
+        "title": "Die 30 besten Weihnachts- Und Winterlieder",
+        "exclude_reason": "Compilation - 30 tracks, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "3QrWmu1zfazqipcabI22I1",
+        "include": false,
+        "episode_num": null,
+        "title": "Die 30 besten traditionellen Kinderlieder",
+        "exclude_reason": "Compilation - 30 tracks, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "7cJVdBQ6kpNbRrHyKCzq1A",
+        "include": false,
+        "episode_num": null,
+        "title": "Die 30 besten Lernlieder zum Mitsingen (Erziehung mit Musik! 30 lustige lehrreiche Lieder)",
+        "exclude_reason": "Compilation - 30 tracks, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "3PMdxVHnLqmoLGTwofwAFi",
+        "include": false,
+        "episode_num": null,
+        "title": "Die 30 besten Spiel- und Bewegungslieder",
+        "exclude_reason": "Compilation - 30 tracks, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "1vXgIw97qLseWgzpbf9eyh",
+        "include": false,
+        "episode_num": null,
+        "title": "Der Kakadu spielt Posaune",
+        "exclude_reason": "Single music track - not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "4af3xaSSxrkDn80TYJdwIU",
+        "include": false,
+        "episode_num": null,
+        "title": "Du wirst nie ein Einhorn sein",
+        "exclude_reason": "Single music track - not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "6ZjQqEqQv2dTDEH7rGAUSA",
+        "include": false,
+        "episode_num": null,
+        "title": "Hörchi & Kucki",
+        "exclude_reason": "Single music track - not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "0Zt9XgVUkwQ61D3QK9RPHH",
+        "include": false,
+        "episode_num": null,
+        "title": "Bingo",
+        "exclude_reason": "Single music track - not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "2Xm0EsqaFU66C5S4xb49pg",
+        "include": false,
+        "episode_num": null,
+        "title": "Mach mit, Mausi Maus!",
+        "exclude_reason": "Single music track - not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "2Ns4jlIlfWg3wJhx62O8tc",
+        "include": false,
+        "episode_num": null,
+        "title": "Tanz wie ein Dino (Der Dinosaurier-Tanz)",
+        "exclude_reason": "Single music track - not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "6xGtNOaauji821usDqmeCh",
+        "include": false,
+        "episode_num": null,
+        "title": "Feuerwehrmann",
+        "exclude_reason": "Single music track - not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "2w3UpG2KruoQP15yidwOiw",
+        "include": false,
+        "episode_num": null,
+        "title": "Hab 'ne Tante aus Marokko",
+        "exclude_reason": "Single music track - not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "31UD2wCUkb93FQtGVmarWk",
+        "include": false,
+        "episode_num": null,
+        "title": "Tierischer Kinderlieder Mix",
+        "exclude_reason": "Compilation mix - not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "6XdlWrrXgm7kUSJ7KxFXpO",
+        "include": false,
+        "episode_num": null,
+        "title": "Spiel- Und Bewegungslieder Mix",
+        "exclude_reason": "Compilation mix - not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "261kxCJ8CNLrP0Bk5BXEBi",
+        "include": false,
+        "episode_num": null,
+        "title": "Kindertanz Mix",
+        "exclude_reason": "Compilation mix - not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "7AsDwzxppB2QQqoqdbFNLZ",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderparty-Mix",
+        "exclude_reason": "Compilation mix - not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "1ah63ocPOjRwvaka9LJHj1",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderparty Tanzmix",
+        "exclude_reason": "Compilation mix - not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "6y4cVgTYRITVWlRTkTGmqE",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderparty Karnevals Mix",
+        "exclude_reason": "Compilation mix - not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "5wbRDRS9I5UxTZusOkrB5T",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderlieder Urlaubs Mix",
+        "exclude_reason": "Compilation mix - not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "29vAipb96LJnOxH9PMDRFl",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderlieder Mix traditionell",
+        "exclude_reason": "Compilation mix - not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "2SQK12J3T33CgkYYHttY0B",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderlieder Mitsingen Mix",
+        "exclude_reason": "Compilation mix - not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "3U65fyARqk0QSnK6jFldLV",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderlieder Mitmach Mix",
+        "exclude_reason": "Compilation mix - not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "14fE720dARCVgQ2kEw7S9S",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderlieder Miniclub Mix",
+        "exclude_reason": "Compilation mix - not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "0w1Zo44RZr7YhYpXGgTRJx",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderlieder Klassiker Mix",
+        "exclude_reason": "Compilation mix - not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "7qElK0kytgXE08Ro2iLQHH",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderlieder Kita Mix",
+        "exclude_reason": "Compilation mix - not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "4rc7n2HdN0NlhC134WrQ9f",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderlieder Kindergarten Mix",
+        "exclude_reason": "Compilation mix - not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "4xdMp5mplmKEajIj615qec",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderlieder Gute Laune Mix",
+        "exclude_reason": "Compilation mix - not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "2O2t40FhW0wMHVmJlL6BSA",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderlieder Faschings Mix",
+        "exclude_reason": "Compilation mix - not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "34aaqCKyehgNlzEZyzs4zB",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderlieder Discomix",
+        "exclude_reason": "Compilation mix - not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "1eXDfJDjH87zpiaQa1cpZl",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderlieder Bewegungsmix",
+        "exclude_reason": "Compilation - movement mix, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "0NZhkImcBiuoRsxF7fMx7M",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderdisco Mix",
+        "exclude_reason": "Compilation - disco mix, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "6jzchKYZGlUucRGVwg65Kv",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderparty Ferien Mix",
+        "exclude_reason": "Compilation - party mix, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "3vWpwbzlCmJeVlyeKLtWfJ",
+        "include": false,
+        "episode_num": null,
+        "title": "Die beste Zeit im Jahr",
+        "exclude_reason": "Single track - not a Hörspiel"
+      },
+      {
+        "spotify_album_id": "6llxOZPpAQGIuq4fZhkr6c",
+        "include": false,
+        "episode_num": null,
+        "title": "Klabautermann (Wellerman)",
+        "exclude_reason": "Single track - not a Hörspiel"
+      },
+      {
+        "spotify_album_id": "72v9haUA7AKaLecL0hzOlA",
+        "include": false,
+        "episode_num": null,
+        "title": "I Am a Unicorn",
+        "exclude_reason": "Single track - not a Hörspiel"
+      },
+      {
+        "spotify_album_id": "7D4E0mxtAkiXQsKJuRP8o7",
+        "include": false,
+        "episode_num": null,
+        "title": "Baby Shark",
+        "exclude_reason": "Single track - not a Hörspiel"
+      },
+      {
+        "spotify_album_id": "0q4cG0PNut8P2cL0SatszJ",
+        "include": false,
+        "episode_num": null,
+        "title": "Ich höre Radio",
+        "exclude_reason": "Single track - not a Hörspiel"
+      },
+      {
+        "spotify_album_id": "3Xwgdw3lZAfTuCo7D1QP9G",
+        "include": false,
+        "episode_num": null,
+        "title": "Die 30 besten internationalen Kinderdiscolieder",
+        "exclude_reason": "Compilation - '30 best' collection"
+      },
+      {
+        "spotify_album_id": "5jMNLLkOtWbOwRt9MQv2PO",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderlieder - Die 30 besten",
+        "exclude_reason": "Compilation - '30 best' collection"
+      },
+      {
+        "spotify_album_id": "7iFwWIXlWyXaduFfnIRuAm",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder",
+        "exclude_reason": "Compilation - lullaby collection (20 tracks)"
+      },
+      {
+        "spotify_album_id": "45xIIUSMXBGW1NsDkGH9a0",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderdisco",
+        "exclude_reason": "Compilation - 20 track collection"
+      },
+      {
+        "spotify_album_id": "04KtYb4IzNhOfhfVC55Xtt",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderlieder",
+        "exclude_reason": "Compilation - 25 track collection"
+      },
+      {
+        "spotify_album_id": "5nygVV2zPMDhjOcPon1K9k",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Mateo",
+        "exclude_reason": "Compilation - personalized lullaby collection"
+      },
+      {
+        "spotify_album_id": "0NynAfFwQ8YYMuABHGYeKJ",
+        "include": true,
+        "episode_num": 40,
+        "title": "Folge 40: Eine Autobahn durch Glücksdorf",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0y3AHQnxnecIsjK07oBraF",
+        "include": false,
+        "episode_num": null,
+        "title": "Kindergarten Lieder",
+        "exclude_reason": "Compilation - 25 track collection"
+      },
+      {
+        "spotify_album_id": "4JrEZUn0ANpVDr7JT1yVbH",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderlieder - Die 100 besten",
+        "exclude_reason": "Compilation - '100 best' collection"
+      },
+      {
+        "spotify_album_id": "0jnoMMENnpvNZhbMUmOYZ2",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderparty Lieder",
+        "exclude_reason": "Compilation - 20 track collection"
+      },
+      {
+        "spotify_album_id": "0WYVRfAKEToSiILVGlrgwj",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Emma",
+        "exclude_reason": "Compilation - personalized lullaby collection"
+      },
+      {
+        "spotify_album_id": "3V5AlCgyrZwcuCVX2OrmBu",
+        "include": true,
+        "episode_num": 54,
+        "title": "Folge 54: Rollo, der Roboter im Kindergarten",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0cvRxJ2UMV9JhHxYFNgSm6",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Luisa",
+        "exclude_reason": "Compilation - personalized lullaby collection"
+      },
+      {
+        "spotify_album_id": "3Pok87WyEFg1ufL9GCVTEt",
+        "include": true,
+        "episode_num": 53,
+        "title": "Folge 53: Die Mutprobe",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "20p8s2iV42Ifgp799h7QYf",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Merle",
+        "exclude_reason": "Compilation - personalized lullaby collection"
+      },
+      {
+        "spotify_album_id": "11u1cCH8wAyOCcgNuUnZX2",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder 2",
+        "exclude_reason": "Compilation - lullaby collection (20 tracks)"
+      },
+      {
+        "spotify_album_id": "0RBaLLlYfaJJdOqHaNddUc",
+        "include": false,
+        "episode_num": null,
+        "title": "Einhorn Party Tanzhits",
+        "exclude_reason": "Compilation - 25 track collection"
+      },
+      {
+        "spotify_album_id": "5bLgiQkxsUJUmiZmpPGbxE",
+        "include": false,
+        "episode_num": null,
+        "title": "Geburtstagslieder",
+        "exclude_reason": "Compilation - 20 track collection"
+      },
+      {
+        "spotify_album_id": "61R1LFyHkJeOSq2oREla5C",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Ida",
+        "exclude_reason": "Compilation - personalized lullaby collection"
+      },
+      {
+        "spotify_album_id": "4Y0FLAP8VhC58YDS0MWPi2",
+        "include": true,
+        "episode_num": 2,
+        "title": "Folge 2: Der Neue",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1EnYAw8YorFH6pNhv65eOL",
+        "include": true,
+        "episode_num": 52,
+        "title": "Folge 52: Kiki wird Filmstar",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "48jvH0AZ8rEqmIjuJNaWFo",
+        "include": true,
+        "episode_num": 51,
+        "title": "Folge 51: Der Feuerwehr-Elefant",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0h8mYwh1OXjlPiHHjYmpjr",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Leon",
+        "exclude_reason": "Not an episode - lullaby album for specific child"
+      },
+      {
+        "spotify_album_id": "012bClaFhyMZsdTCxA0GN8",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Malia",
+        "exclude_reason": "Not an episode - lullaby album for specific child"
+      },
+      {
+        "spotify_album_id": "0LPFbAcZO2uqUdknYKs0Ma",
+        "include": false,
+        "episode_num": 6,
+        "title": "Folge 6: Der affenstarke Geburtstag",
+        "exclude_reason": "Duplicate - episode already included"
+      },
+      {
+        "spotify_album_id": "1NsF0ab9IRlj37vP3TID9J",
+        "include": false,
+        "episode_num": 37,
+        "title": "Folge 37: Alles unter Wasser",
+        "exclude_reason": "Duplicate - episode already included"
+      },
+      {
+        "spotify_album_id": "6zFWzdZer5OI8CZa7pENPR",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Amalia",
+        "exclude_reason": "Not an episode - lullaby album for specific child"
+      },
+      {
+        "spotify_album_id": "65bWQN0qYnzMgSIMSm1UB0",
+        "include": false,
+        "episode_num": 48,
+        "title": "Folge 48: Das geheimnisvolle Ei",
+        "exclude_reason": "Duplicate - episode already included"
+      },
+      {
+        "spotify_album_id": "4PGYfwNVIGMiYXiwuYWePT",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderlieder",
+        "exclude_reason": "Not an episode - general children's songs compilation"
+      },
+      {
+        "spotify_album_id": "1n1G8oPaioiRbyhFKYYhPT",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderlieder",
+        "exclude_reason": "Not an episode - general children's songs compilation"
+      },
+      {
+        "spotify_album_id": "4jirBI7A8Cc4B7C8e9kD7f",
+        "include": false,
+        "episode_num": 50,
+        "title": "Folge 50: Besuch im Seniorenheim",
+        "exclude_reason": "Duplicate - episode already included"
+      },
+      {
+        "spotify_album_id": "1JXq2DPz2vkySCzrx7tslN",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Sofia",
+        "exclude_reason": "Not an episode - lullaby album for specific child"
+      },
+      {
+        "spotify_album_id": "4Q7IVJCvyxCu0J0TnsXsv3",
+        "include": false,
+        "episode_num": 49,
+        "title": "Folge 49: Der verlorene Teddy",
+        "exclude_reason": "Duplicate - episode already included"
+      },
+      {
+        "spotify_album_id": "57OhLGcduAvH42mnrk9Kxg",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Maja",
+        "exclude_reason": "Not an episode - lullaby album for specific child"
+      },
+      {
+        "spotify_album_id": "4BA3s62sdG6SJk6FuU0EG1",
+        "include": false,
+        "episode_num": 13,
+        "title": "Folge 13: Das falsche Einhorn",
+        "exclude_reason": "Duplicate - episode already included"
+      },
+      {
+        "spotify_album_id": "0Vk5RYze3hCb98qiylaNGc",
+        "include": false,
+        "episode_num": 1,
+        "title": "Folge 1: Post von Frau Schuhu",
+        "exclude_reason": "Duplicate - episode already included"
+      },
+      {
+        "spotify_album_id": "1aZyKVxvpW1lg79tbDwDUx",
+        "include": false,
+        "episode_num": null,
+        "title": "Die 40 besten traditionellen Kinderlieder",
+        "exclude_reason": "Not an episode - compilation of traditional children's songs"
+      },
+      {
+        "spotify_album_id": "43ODdTwO4GwdtQut2mQI9B",
+        "include": false,
+        "episode_num": 3,
+        "title": "Folge 3: Die Nachtgruppe",
+        "exclude_reason": "Duplicate - episode already included"
+      },
+      {
+        "spotify_album_id": "0RQymndPvzlvpJ5twmtnqB",
+        "include": false,
+        "episode_num": 42,
+        "title": "Folge 42: Morgenkreis mit der Dödeldogge",
+        "exclude_reason": "Duplicate - episode already included"
+      },
+      {
+        "spotify_album_id": "26hYOS2KlED5JCumVB8OB3",
+        "include": false,
+        "episode_num": 45,
+        "title": "Folge 45: Jamie kann fliegen",
+        "exclude_reason": "Duplicate - episode already included"
+      },
+      {
+        "spotify_album_id": "17E6G6mwuGTQXlX5BWCp32",
+        "include": false,
+        "episode_num": 36,
+        "title": "Folge 36: Norbert ist wieder da",
+        "exclude_reason": "Duplicate - episode already included"
+      },
+      {
+        "spotify_album_id": "2wG1FqYTn5wrU1AEbV0JKV",
+        "include": false,
+        "episode_num": 32,
+        "title": "Folge 32: Die Seepferdchenprüfung",
+        "exclude_reason": "Duplicate - episode already included"
+      },
+      {
+        "spotify_album_id": "3eSKFA1nHHAQ7U8s8rtLhe",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Leo",
+        "exclude_reason": "Not an episode - lullaby album for specific child"
+      },
+      {
+        "spotify_album_id": "3b6OgwMbk9wSYuNNEEjBXs",
+        "include": false,
+        "episode_num": 47,
+        "title": "Folge 47: Das Piratenschiff",
+        "exclude_reason": "Duplicate - episode already included"
+      },
+      {
+        "spotify_album_id": "4oMu4xOHA3vZZPAVzCuWdG",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Lina",
+        "exclude_reason": "Not an episode - lullaby album for specific child"
+      },
+      {
+        "spotify_album_id": "3pAHhqwqXKVZjMQ5y1o0pl",
+        "include": false,
+        "episode_num": 43,
+        "title": "Folge 43: Ein Fall für Karla und Jamie",
+        "exclude_reason": "Duplicate - episode already included"
+      },
+      {
+        "spotify_album_id": "3Zkk7R6FxMXIyHUOqeboyz",
+        "include": false,
+        "episode_num": 46,
+        "title": "Folge 46: Die Olympischen Spiele",
+        "exclude_reason": "Duplicate - episode already included"
+      },
+      {
+        "spotify_album_id": "2D0japqkrtMvcNidWxocAa",
+        "include": false,
+        "episode_num": 44,
+        "title": "Folge 44: Der eingebildete Kater",
+        "exclude_reason": "Duplicate - episode already included"
+      },
+      {
+        "spotify_album_id": "6cLbATxYgjF5vU7n9wD9Pv",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Aaron",
+        "exclude_reason": "Not an episode - lullaby album for specific child"
+      },
+      {
+        "spotify_album_id": "5MR3MQUBXT2aSpS6JDn13Z",
+        "include": false,
+        "episode_num": 18,
+        "title": "Folge 18: April, April",
+        "exclude_reason": "Duplicate - episode already included"
+      },
+      {
+        "spotify_album_id": "11OuycuDU9yECr3rDSGUD1",
+        "include": false,
+        "episode_num": 34,
+        "title": "Folge 34: Ade du schöne Kindergartenzeit",
+        "exclude_reason": "Duplicate - episode already included"
+      },
+      {
+        "spotify_album_id": "7DrdU7GGESUnlRnU0P6qto",
+        "include": false,
+        "episode_num": 11,
+        "title": "Folge 11: Das Verkleidungsfest",
+        "exclude_reason": "Duplicate - episode already included"
+      },
+      {
+        "spotify_album_id": "08QBHUDyf1Idjauwv54Uxr",
+        "include": true,
+        "episode_num": 14,
+        "title": "Folge 14: Die Zwillingsparty",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3KpnTOafj08p7Tzk8o1y1e",
+        "include": true,
+        "episode_num": 7,
+        "title": "Folge 7: Das Brotdosenrätsel",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2h8ULCrkFqIJE3ng6TbyNV",
+        "include": true,
+        "episode_num": 4,
+        "title": "Folge 4: Kindergarten in Gefahr",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1dxQg1zvloc9YYqGGaGJvY",
+        "include": true,
+        "episode_num": 35,
+        "title": "Folge 35: Neue Freunde",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6OO60VyttoVQ2icUxAls98",
+        "include": true,
+        "episode_num": 27,
+        "title": "Folge 27: Der Zirkus",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "39sNxMr5aJkYPsgOnraHWY",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Clara",
+        "exclude_reason": "Not an episode - lullaby music collection"
+      },
+      {
+        "spotify_album_id": "2Y9075VZ9xOQKiEuftTMVs",
+        "include": true,
+        "episode_num": 19,
+        "title": "Folge 19: Das verrückte Fußballspiel",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0MKvUaGdohztFbbwk5f7m2",
+        "include": true,
+        "episode_num": 41,
+        "title": "Folge 41: Die Dino-Ausstellung",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6VE2NgEYzyMmvuNOczO7hp",
+        "include": true,
+        "episode_num": 39,
+        "title": "Folge 39: Die Schatzsuche",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "47y9gZMLOGFT3Y8A1AU1Gk",
+        "include": true,
+        "episode_num": 38,
+        "title": "Folge 38: Ausflug zum Bauernhof",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5AMU9u2nNmM8W8nP5PpJxV",
+        "include": true,
+        "episode_num": 17,
+        "title": "Folge 17: Schneemann ohne Nase",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7uH0WzmJDkIs1xtMsAOpOA",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Hannah",
+        "exclude_reason": "Not an episode - lullaby music collection"
+      },
+      {
+        "spotify_album_id": "7k1rcMmwVeyp4mtMeqeAVx",
+        "include": true,
+        "episode_num": 10,
+        "title": "Folge 10: Der Osterhase",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3XgQtEGxZWsIVaiu70xCZ7",
+        "include": true,
+        "episode_num": 22,
+        "title": "Folge 22: Der Flohmarkt",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6wUeQGuLfooNmD1fl2LPtO",
+        "include": true,
+        "episode_num": 15,
+        "title": "Folge 15: Süßes oder Saures",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1B0jb0WM4we58CXHKJ20Ht",
+        "include": true,
+        "episode_num": 5,
+        "title": "Folge 5: Freddy und das Freundebuch",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0QIi5rtlGtysXmt3ZepnSK",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Antonia",
+        "exclude_reason": "Not an episode - lullaby music collection"
+      },
+      {
+        "spotify_album_id": "2TiunTss5yToUYvwp81FRl",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Felix",
+        "exclude_reason": "Not an episode - lullaby music collection"
+      },
+      {
+        "spotify_album_id": "3Aib8bgXClYWSSxvXEJqLR",
+        "include": true,
+        "episode_num": 21,
+        "title": "Folge 21: Ferien am Meer",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0NgPCTNdreg7MVnq7twLpN",
+        "include": true,
+        "episode_num": 16,
+        "title": "Folge 16: Der Adventskalender",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4yb6AP5J1bNXGwOmH2TBy0",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Paul",
+        "exclude_reason": "Not an episode - lullaby music collection"
+      },
+      {
+        "spotify_album_id": "5NzGylkYqKCYUgvk2ufqXB",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Helena",
+        "exclude_reason": "Not an episode - lullaby music collection"
+      },
+      {
+        "spotify_album_id": "5Oxl4z7rhFSmzu7JUiAbdD",
+        "include": true,
+        "episode_num": 24,
+        "title": "Folge 24: Der Laternenumzug",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0wh1pKHYS281FzjwrGjHbu",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Oskar",
+        "exclude_reason": "Not an episode - lullaby music collection"
+      },
+      {
+        "spotify_album_id": "5VVm1Nqjxebol09IWw2bs1",
+        "include": true,
+        "episode_num": 31,
+        "title": "Folge 31: Die Kita-Übernachtung",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5fRtP6vxP0AnZ8iu1yqF05",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Charlotte",
+        "exclude_reason": "Not an episode - lullaby music collection"
+      },
+      {
+        "spotify_album_id": "0Rh4nTjHRbqL2tWL5ML5QC",
+        "include": true,
+        "episode_num": 33,
+        "title": "Folge 33: Das Instrumentenkarussell",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6GWzlqHgmD1SvOfCA1cIjD",
+        "include": true,
+        "episode_num": 9,
+        "title": "Folge 9: Drunter und Drüber",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1xh9TST40ZwP4qVfEeqHIs",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Henry",
+        "exclude_reason": "Not an episode - lullaby music collection"
+      },
+      {
+        "spotify_album_id": "3HyuoKKjvrVlzcnXg8E3bZ",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Mara",
+        "exclude_reason": "Not an episode - lullaby music collection"
+      },
+      {
+        "spotify_album_id": "7DLcZOlSRKL9v0tAdopHFD",
+        "include": true,
+        "episode_num": 26,
+        "title": "Folge 26: In der Weihnachtsbäckerei",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2zokjcrVj19MpJPCY8B34G",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Emilia",
+        "exclude_reason": "Personalized lullaby compilation, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "6i8hgw5wsxmVAhBOKRLPHc",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Linus",
+        "exclude_reason": "Personalized lullaby compilation, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "21gIPHYFAu3HzOTz6y9tah",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Emil",
+        "exclude_reason": "Personalized lullaby compilation, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "4IHnqpq8ljIN9hoFFHx350",
+        "include": true,
+        "episode_num": 20,
+        "title": "Folge 20: Bürgermeister Dödeldogge",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5GBt0AzBS6iClsLXWCrZZC",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Lotta",
+        "exclude_reason": "Personalized lullaby compilation, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "4Rhpy5loxrUgIKiG6cHpor",
+        "include": true,
+        "episode_num": 28,
+        "title": "Folge 28: Der Verkehrspolizist",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7tGKosP8M0sTInAiNkaDaK",
+        "include": true,
+        "episode_num": 8,
+        "title": "Folge 8: Nachts im Wald",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2SRI6IRhaCB69CYITMwOnQ",
+        "include": true,
+        "episode_num": 25,
+        "title": "Folge 25: Ein Lied für Oma Mümmel",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5AW5ZhRl82c8qO8nBuXMzu",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Alexander",
+        "exclude_reason": "Personalized lullaby compilation, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "3OvQPnirjGfUpDajHHR15u",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Ben",
+        "exclude_reason": "Personalized lullaby compilation, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "37Tt4jPOlxNxmYYwYUgyYg",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Emily",
+        "exclude_reason": "Personalized lullaby compilation, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "1U1M40JAc7kMM5OiO6gqQQ",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Mila",
+        "exclude_reason": "Personalized lullaby compilation, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "6twLzs7nNiidYCB2QC4TK4",
+        "include": true,
+        "episode_num": 23,
+        "title": "Folge 23: Der Drachenwettbewerb",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2g90LOxMyreZSuESFCiZBO",
+        "include": true,
+        "episode_num": 29,
+        "title": "Folge 29: Die Schnitzeljagd",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5JEoodEQuLh9k3R2dSN2LC",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Luis",
+        "exclude_reason": "Personalized lullaby compilation, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "2XS2lEB6oJ54pelt1VzZpT",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Finja",
+        "exclude_reason": "Personalized lullaby compilation, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "0mnRzuKxdvogleEmFDLVUx",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderlieder Pop",
+        "exclude_reason": "Compilation album, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "6K7TzwSnN0Fu2yu1yXz7Ub",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Lennard",
+        "exclude_reason": "Personalized lullaby compilation, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "1ydH83fQyFe1FQEHLDXBfR",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Mathilda",
+        "exclude_reason": "Personalized lullaby compilation, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "0itNFOdHlgOJg2sgRi6atU",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Elias",
+        "exclude_reason": "Personalized lullaby compilation, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "1udCdaTeArIlRpxvtOxZSS",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Juna",
+        "exclude_reason": "Personalized lullaby compilation, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "4AklViktRW1Rb80b4pHulp",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Ella",
+        "exclude_reason": "Personalized lullaby compilation, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "2qOw4cbPbVfJpS7ua7btq2",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Luna",
+        "exclude_reason": "Personalized lullaby compilation, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "558GvT6rqQrerC9TGaHHfw",
+        "include": true,
+        "episode_num": 30,
+        "title": "Folge 30: Muttertag",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7eooNwNKisJ52L09Mdru9U",
+        "include": false,
+        "episode_num": null,
+        "title": "Sped Up - Kinderlieder",
+        "exclude_reason": "Sped-up/remix version, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "1raiSKJeTYf4jJ50qwfW3F",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Luise",
+        "exclude_reason": "Personalized lullaby compilation, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "3jZCzNS9IGDWeWPHibcqJV",
+        "include": false,
+        "episode_num": null,
+        "title": "Kids Pop",
+        "exclude_reason": "Compilation album, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "7mn5KXciVHTKhwjxcbOJoV",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Marlon",
+        "exclude_reason": "Personalized lullaby compilation, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "0sR36elEAMWbLdNtvIgGPi",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Simon",
+        "exclude_reason": "Personalized lullaby compilation, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "6QErIosHXlstzMFEH0ZDeW",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Jule",
+        "exclude_reason": "Lullabies/music compilation, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "6tcLZkjeRwPCuh3BYY1AT6",
+        "include": false,
+        "episode_num": null,
+        "title": "Die 30 besten personalisierten Kinderlieder für Ludwig",
+        "exclude_reason": "Personalized songs compilation (30 tracks), not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "0DWSU33urIXTCaEOVIk3iA",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Mia",
+        "exclude_reason": "Lullabies/music compilation, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "3BDrMrqRV6MCe0K0tBtiXt",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Josephine",
+        "exclude_reason": "Lullabies/music compilation, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "2lfNTihir2yW43GXMS1pQm",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Finn",
+        "exclude_reason": "Lullabies/music compilation, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "5Ibh2pU3mPu6PJ8yUTzOml",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Toni",
+        "exclude_reason": "Lullabies/music compilation, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "3JIZNFS22Q8VxDrPs1wYKr",
+        "include": false,
+        "episode_num": null,
+        "title": "Die 30 besten personalisierten Kinderlieder für Finja",
+        "exclude_reason": "Personalized songs compilation (30 tracks), not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "23r2twkDRpYDQUzmYmUbx2",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Levi",
+        "exclude_reason": "Lullabies/music compilation, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "2V7Zig46x9qUhQdEce3N4b",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Mattis",
+        "exclude_reason": "Lullabies/music compilation, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "6VCj4Z04klH6TlkrPrHJaG",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Lio",
+        "exclude_reason": "Lullabies/music compilation, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "01Gpg9PBiVAO7XaZMHozs7",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Theodor",
+        "exclude_reason": "Lullabies/music compilation, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "60csY1qOPxsfeTJvmxPbl0",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Mika",
+        "exclude_reason": "Lullabies/music compilation, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "0aeOVV4EMb31eQNvtiNHmc",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderlied",
+        "exclude_reason": "Music compilation, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "0D9iwUEuIn16bBsJowLgNZ",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Maximilian",
+        "exclude_reason": "Lullabies/music compilation, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "1bDVLcGGu88Wc27LB2Yg24",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Milena",
+        "exclude_reason": "Lullabies/music compilation, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "7IJx0DvGLAkOowWEf3Vt7n",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Laura",
+        "exclude_reason": "Lullabies/music compilation, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "5xBcEpfSp74XYtOwPuyWDm",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Jannik",
+        "exclude_reason": "Lullabies/music compilation, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "5fPXSuWl17pOt7JKvUwIX9",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Jonas",
+        "exclude_reason": "Lullabies/music compilation, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "2yXV447VZiJIQqSeXo2YhI",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Melina",
+        "exclude_reason": "Lullabies/music compilation, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "4svXtuQi3qA60A6HgAsyKi",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Valentina",
+        "exclude_reason": "Lullabies/music compilation, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "6QpYFCUHslXwU0UfS7yZUm",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Anna",
+        "exclude_reason": "Lullabies/music compilation, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "5mKXMsdPno1wxdyCXfa39b",
+        "include": false,
+        "episode_num": null,
+        "title": "Die 30 besten personalisierten Kinderlieder für Matti",
+        "exclude_reason": "Personalized songs compilation (30 tracks), not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "4wfezE9Noagj8sIdlMIlI3",
+        "include": false,
+        "episode_num": null,
+        "title": "Die 30 besten personalisierten Kinderlieder für Amelia",
+        "exclude_reason": "Personalized songs compilation (30 tracks), not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "3KrSxeU7huhirDWSJGcDYQ",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Elisa",
+        "exclude_reason": "Lullabies/music compilation, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "4J9MvIdzSwHHsvGCLOD6F6",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Isabella",
+        "exclude_reason": "Lullabies/music compilation, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "4hQTpIBTHqXRFa9cwYeCOv",
+        "include": false,
+        "episode_num": null,
+        "title": "Fussball 2018 - Fussball Hits für Deutschland Fans",
+        "exclude_reason": "Music compilation, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "20SyedGRUxaTXAyV67aRyq",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Lea",
+        "exclude_reason": "Lullabies/music compilation, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "7nswOan9UhEx1yxeBvvHQh",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Jona",
+        "exclude_reason": "Lullabies/music compilation, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "5z6bN4ais7KBbgMsHwt8xZ",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Moritz",
+        "exclude_reason": "Lullabies/music compilation, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "2ZLshbFpexyQMa0IhNPRZF",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Anni",
+        "exclude_reason": "Lullabies/music compilation, not Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "0pwsdOsMEvtDAvzzesvVkx",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Pauline",
+        "exclude_reason": "Personalized lullaby compilation, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "70n3vdr5PTiTBUTsPag5Ie",
+        "include": false,
+        "episode_num": null,
+        "title": "Die 30 besten personalisierten Kinderlieder für Carla",
+        "exclude_reason": "30-track personalized song compilation, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "01mn9RYVfLeBCDDm0zThaq",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Alina",
+        "exclude_reason": "Personalized lullaby compilation, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "6AN2qnFSwra46nNpdETh97",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Sophie",
+        "exclude_reason": "Personalized lullaby compilation, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "2yrdBWv8bf8zDlt6iMuT0v",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Jannis",
+        "exclude_reason": "Personalized lullaby compilation, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "4ilu99yA7D4OnV5BOYToNK",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Marie",
+        "exclude_reason": "Personalized lullaby compilation, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "7bqi2oId7eLX7bsxjmv3qd",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Nele",
+        "exclude_reason": "Personalized lullaby compilation, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "0klP9u4dBYzieEqFKMsIFA",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Johann",
+        "exclude_reason": "Personalized lullaby compilation, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "1qsL8m0XHZFpoXpPUhcpW9",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Fiona",
+        "exclude_reason": "Personalized lullaby compilation, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "1UnSoQkzWh3U1CtUv9p615",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Paulina",
+        "exclude_reason": "Personalized lullaby compilation, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "1b9R2dSFecgrmv7EApiItd",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Timo",
+        "exclude_reason": "Personalized lullaby compilation, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "4hPvHZIa5q7KmngmWrFhoc",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Frieda",
+        "exclude_reason": "Personalized lullaby compilation, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "1UGmhf3ILOdwKmqWSDqlOr",
+        "include": false,
+        "episode_num": null,
+        "title": "Die 30 besten personalisierten Kinderlieder für Adam",
+        "exclude_reason": "30-track personalized song compilation, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "4ALMimqLMiK888fGW1xYOQ",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Benjamin",
+        "exclude_reason": "Personalized lullaby compilation, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "44Tltp4e1cVwSMHPBVat2r",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Fiete",
+        "exclude_reason": "Personalized lullaby compilation, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "5BTWDq0JKNeWIGSAJzCvzq",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für David",
+        "exclude_reason": "Personalized lullaby compilation, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "4BlACkHCXtvdoNJBZojUCY",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Leonie",
+        "exclude_reason": "Personalized lullaby compilation, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "7B2wN0oA9hKCQvWBrC3uPK",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Marlene",
+        "exclude_reason": "Personalized lullaby compilation, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "6wSPO4YFjcP0rmuen9oJSt",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Carlotta",
+        "exclude_reason": "Personalized lullaby compilation, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "3VunQufzWrKFshnGKVNh35",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Carla",
+        "exclude_reason": "Personalized lullaby compilation, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "401DP3XcLDXxFhICNN2fGv",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Romy",
+        "exclude_reason": "Personalized lullaby compilation, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "6dVPBzXqoniWRSEgltVRX3",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Ronja",
+        "exclude_reason": "Personalized lullaby compilation, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "6tLsNDSykaPaeNVWuXeOFx",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Adam",
+        "exclude_reason": "Personalized lullaby compilation, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "6Ull1MQF7AQxJ3yVjaYcj2",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Johanna",
+        "exclude_reason": "Personalized lullaby compilation, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "7KI1U4xyR9hlfNSjrDOGTU",
+        "include": false,
+        "episode_num": null,
+        "title": "Weihnachtslieder für Benjamin",
+        "exclude_reason": "Personalized Christmas song compilation, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "6rnzg1cH5adl0U9kGDBLG8",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Damian",
+        "exclude_reason": "Personalized lullaby compilation, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "7CfG5rpz6PSNdFrUa561ZM",
+        "include": false,
+        "episode_num": null,
+        "title": "Die 30 besten personalisierten Kinderlieder für Ben",
+        "exclude_reason": "30-track personalized song compilation, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "2LQE6m3RQc46Ijvg2UENHy",
+        "include": false,
+        "episode_num": null,
+        "title": "Die 30 besten personalisierten Kinderlieder für Luana",
+        "exclude_reason": "30-track personalized song compilation, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "7GMkJi1LIpvxaifOHlmZ18",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Robin",
+        "exclude_reason": "Personalized lullaby compilation, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "0SGaoa77AejRLNuR5pLATC",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Katharina",
+        "exclude_reason": "Personalized lullaby compilation, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "7DgxigkRpAkec4aGrd1VbL",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Paula",
+        "exclude_reason": "Personalized lullaby music collection (10 tracks), not a Hörspiel episode; doesn't match episode pattern"
+      },
+      {
+        "spotify_album_id": "7ANkhXjIRVLrtjrk5WzQ6E",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Lena",
+        "exclude_reason": "Personalized lullaby music collection (10 tracks), not a Hörspiel episode; doesn't match episode pattern"
+      },
+      {
+        "spotify_album_id": "6wAc7TNny4PNRqmb3R5PMu",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Jakob",
+        "exclude_reason": "Personalized lullaby music collection (10 tracks), not a Hörspiel episode; doesn't match episode pattern"
+      },
+      {
+        "spotify_album_id": "2RYCNDpnJMlDXtVuk3rYi4",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Jan",
+        "exclude_reason": "Personalized lullaby music collection (10 tracks), not a Hörspiel episode; doesn't match episode pattern"
+      },
+      {
+        "spotify_album_id": "69Q33Zaw1X40A8LzVv5kTA",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Maria",
+        "exclude_reason": "Personalized lullaby music collection (10 tracks), not a Hörspiel episode; doesn't match episode pattern"
+      },
+      {
+        "spotify_album_id": "2EWzAveGtPqqOZ2q826b4U",
+        "include": false,
+        "episode_num": null,
+        "title": "Die 30 besten personalisierten Kinderlieder für Zoe",
+        "exclude_reason": "Personalized children's song compilation (30 tracks), not a Hörspiel episode; doesn't match episode pattern"
+      },
+      {
+        "spotify_album_id": "1F1UaOrpcyAcYOkCrwPNzM",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Nils",
+        "exclude_reason": "Personalized lullaby music collection (10 tracks), not a Hörspiel episode; doesn't match episode pattern"
+      },
+      {
+        "spotify_album_id": "1q7WgME1virtSMDjc124h0",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Gabriel",
+        "exclude_reason": "Personalized lullaby music collection (10 tracks), not a Hörspiel episode; doesn't match episode pattern"
+      },
+      {
+        "spotify_album_id": "5sauvNjvyqD07pUA9mL7j0",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Nina",
+        "exclude_reason": "Personalized lullaby music collection (10 tracks), not a Hörspiel episode; doesn't match episode pattern"
+      },
+      {
+        "spotify_album_id": "6cJCr71WWJg8HkC61FRHaa",
+        "include": false,
+        "episode_num": null,
+        "title": "Die 30 besten personalisierten Kinderlieder für Johanna",
+        "exclude_reason": "Personalized children's song compilation (30 tracks), not a Hörspiel episode; doesn't match episode pattern"
+      },
+      {
+        "spotify_album_id": "3OnRWmOTv55J4aqYSYrm8V",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Sebastian",
+        "exclude_reason": "Personalized lullaby music collection (10 tracks), not a Hörspiel episode; doesn't match episode pattern"
+      },
+      {
+        "spotify_album_id": "5Lu49i7XN3Gk5NNXInSa5O",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Jonathan",
+        "exclude_reason": "Personalized lullaby music collection (10 tracks), not a Hörspiel episode; doesn't match episode pattern"
+      },
+      {
+        "spotify_album_id": "3nRBl2JqvTfnAqR6nYl6LG",
+        "include": false,
+        "episode_num": null,
+        "title": "Weihnachtslieder für Jonas",
+        "exclude_reason": "Personalized Christmas song collection (10 tracks), not a Hörspiel episode; doesn't match episode pattern"
+      },
+      {
+        "spotify_album_id": "39jny3yl6otazIo2UCWseA",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Lukas",
+        "exclude_reason": "Personalized lullaby music collection (10 tracks), not a Hörspiel episode; doesn't match episode pattern"
+      },
+      {
+        "spotify_album_id": "3mpj05QQny1XMK8KF26jqG",
+        "include": false,
+        "episode_num": null,
+        "title": "Weihnachtslieder für Luis",
+        "exclude_reason": "Personalized Christmas song collection (10 tracks), not a Hörspiel episode; doesn't match episode pattern"
+      },
+      {
+        "spotify_album_id": "03zKIkw6cPqRiGL7gEADGF",
+        "include": false,
+        "episode_num": null,
+        "title": "Weihnachtslieder für Tom",
+        "exclude_reason": "Personalized Christmas song collection (10 tracks), not a Hörspiel episode; doesn't match episode pattern"
+      },
+      {
+        "spotify_album_id": "69qeuR9SPsAyTmtAnqAXo8",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Mats",
+        "exclude_reason": "Personalized lullaby music collection (10 tracks), not a Hörspiel episode; doesn't match episode pattern"
+      },
+      {
+        "spotify_album_id": "2yICSMxIIE4YDNwYXHSoCK",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Leonard",
+        "exclude_reason": "Personalized lullaby music collection (10 tracks), not a Hörspiel episode; doesn't match episode pattern"
+      },
+      {
+        "spotify_album_id": "1uDm2QwQj47IIWc0zOihYj",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Annika",
+        "exclude_reason": "Personalized lullaby music collection (10 tracks), not a Hörspiel episode; doesn't match episode pattern"
+      },
+      {
+        "spotify_album_id": "5Hlolrg3e3cFx65lBoMg7r",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Nora",
+        "exclude_reason": "Personalized lullaby music collection (10 tracks), not a Hörspiel episode; doesn't match episode pattern"
+      },
+      {
+        "spotify_album_id": "6KlmdqIcCheLeaVGROJN1m",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Lia",
+        "exclude_reason": "Personalized lullaby music collection (10 tracks), not a Hörspiel episode; doesn't match episode pattern"
+      },
+      {
+        "spotify_album_id": "5Svag2x6GOzx36BTownMon",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Amelie",
+        "exclude_reason": "Personalized lullaby music collection (10 tracks), not a Hörspiel episode; doesn't match episode pattern"
+      },
+      {
+        "spotify_album_id": "2SUFSVzrdL83KdaSY00wus",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Adrian",
+        "exclude_reason": "Personalized lullaby music collection (10 tracks), not a Hörspiel episode; doesn't match episode pattern"
+      },
+      {
+        "spotify_album_id": "78rdKnhh7vBqGso6CzXEHn",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Noah",
+        "exclude_reason": "Personalized lullaby music collection (10 tracks), not a Hörspiel episode; doesn't match episode pattern"
+      },
+      {
+        "spotify_album_id": "6QM0Ll5Wnwiq93bfscIYfZ",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Theo",
+        "exclude_reason": "Personalized lullaby music collection (10 tracks), not a Hörspiel episode; doesn't match episode pattern"
+      },
+      {
+        "spotify_album_id": "3VVhoiZgoBDONo8xINbliL",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Leni",
+        "exclude_reason": "Personalized lullaby music collection (10 tracks), not a Hörspiel episode; doesn't match episode pattern"
+      },
+      {
+        "spotify_album_id": "4F7K54jmyTNmp6S6aQL0JA",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Erik",
+        "exclude_reason": "Personalized lullaby music collection (10 tracks), not a Hörspiel episode; doesn't match episode pattern"
+      },
+      {
+        "spotify_album_id": "0Q5TkStQfoVY1RIFNyZ7NN",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Zoe",
+        "exclude_reason": "Personalized lullaby music collection (10 tracks), not a Hörspiel episode; doesn't match episode pattern"
+      },
+      {
+        "spotify_album_id": "4yZZC9OQ49BSQGPE9pg07d",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Eva",
+        "exclude_reason": "Personalized lullaby music collection (10 tracks), not a Hörspiel episode; doesn't match episode pattern"
+      },
+      {
+        "spotify_album_id": "4TizNoXg9OyNXd8Zi9pn84",
+        "include": false,
+        "episode_num": null,
+        "title": "Die 30 besten personalisierten Kinderlieder für Antonia",
+        "exclude_reason": "Personalized children's song compilation (30 tracks), not a Hörspiel episode; doesn't match episode pattern"
+      },
+      {
+        "spotify_album_id": "0E6xublHv0PRurhgsA1Pgq",
+        "include": false,
+        "episode_num": null,
+        "title": "Weihnachtslieder für Levi",
+        "exclude_reason": "Music album - Christmas songs compilation, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "7th1jipaMKbLxtk8gcvjDF",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Lias",
+        "exclude_reason": "Music album - Lullaby compilation, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "4r3SjrppnBxCHCbbP5bMLy",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Vincent",
+        "exclude_reason": "Music album - Lullaby compilation, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "1z2RgM6sgFHPR3hvH96Zro",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Julia",
+        "exclude_reason": "Music album - Lullaby compilation, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "5DSPaYrIGawZmWyzxmx24V",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Elisabeth",
+        "exclude_reason": "Music album - Lullaby compilation, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "54WdnruXOauTsVhxAcW0Qx",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Nico",
+        "exclude_reason": "Music album - Lullaby compilation, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "4aoEOMpqYCLytQTdChVYZZ",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Niklas",
+        "exclude_reason": "Music album - Lullaby compilation, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "5nCNrLN14lratQ3SN6AUNM",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Pia",
+        "exclude_reason": "Music album - Lullaby compilation, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "3fE5ZbnHg00jxqsRoznzmg",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Greta",
+        "exclude_reason": "Music album - Lullaby compilation, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "4H1E8HiltwmChhox1N5jBt",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Elia",
+        "exclude_reason": "Music album - Lullaby compilation, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "7dbGkqbpAr1QnHXuqg2pC9",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Jasmin",
+        "exclude_reason": "Music album - Lullaby compilation, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "5POEhghXZIKkIi2rMyb8Zl",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Daniel",
+        "exclude_reason": "Music album - Lullaby compilation, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "7be1LEDjIpuSmxpj5DAGAI",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Matti",
+        "exclude_reason": "Music album - Lullaby compilation, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "1wUnQQ1qK9pHWJ1tmlBVA7",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Leila",
+        "exclude_reason": "Music album - Lullaby compilation, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "0QPyvUDEQ3PdTgTDLyBpnn",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Jana",
+        "exclude_reason": "Music album - Lullaby compilation, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "4Gy2TiiMoHNUWUtbAnS9S9",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Anton",
+        "exclude_reason": "Music album - Lullaby compilation, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "2FojqwuEr1E68DSIjcqFYR",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Valentin",
+        "exclude_reason": "Music album - Lullaby compilation, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "3Jx42D4Grid7L9sHagWyDS",
+        "include": false,
+        "episode_num": null,
+        "title": "Weihnachtslieder für Samuel",
+        "exclude_reason": "Music album - Christmas songs compilation, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "0jsEPrkg1VqMYoL2iHnpSJ",
+        "include": false,
+        "episode_num": null,
+        "title": "Weihnachtslieder für Finn",
+        "exclude_reason": "Music album - Christmas songs compilation, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "7b3hoANS0y11DabhpPVPRS",
+        "include": false,
+        "episode_num": null,
+        "title": "Die 30 besten personalisierten Kinderlieder für Jakob",
+        "exclude_reason": "Music compilation - 30 track compilation of personalized children's songs, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "3aMfxn4NxcAG26NWLsfcve",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Lasse",
+        "exclude_reason": "Music album - Lullaby compilation, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "4wfJD5jLqPFsJ1rhSP0ZZx",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Samuel",
+        "exclude_reason": "Music album - Lullaby compilation, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "1TeWkOkb8T0Ess8BC5ogiX",
+        "include": false,
+        "episode_num": null,
+        "title": "Weihnachtslieder für Paul",
+        "exclude_reason": "Music album - Christmas songs compilation, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "1Th3KghbbZ0u6ukkCkngrq",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Thea",
+        "exclude_reason": "Music album - Lullaby compilation, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "349Uooe93AYWhBOKc8eryO",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Hannes",
+        "exclude_reason": "Music album - Lullaby compilation, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "5xgBLrMkjI9jqjb6xKKO5N",
+        "include": false,
+        "episode_num": null,
+        "title": "Weihnachtslieder für Oskar",
+        "exclude_reason": "Music album - Christmas songs compilation, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "6EX4N66pHvtHhpJdSyAMMt",
+        "include": false,
+        "episode_num": null,
+        "title": "Weihnachtslieder für Vincent",
+        "exclude_reason": "Music album - Christmas songs compilation, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "53QfV7f47VA2MePRkirwcm",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Emmi",
+        "exclude_reason": "Music album - Lullaby compilation, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "0sg7UAI7zi43pchiBMAPzJ",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Milan",
+        "exclude_reason": "Music album - Lullaby compilation, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "4C47XtFwoRanL7KGLryi3q",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Johannes",
+        "exclude_reason": "Music album - Lullaby compilation, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "4epE2eQnOG4Msdq1ggllky",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Theresa",
+        "exclude_reason": "Not a Hörspiel episode - personalized lullaby compilation (10 tracks)"
+      },
+      {
+        "spotify_album_id": "03En1Vj09na1SExurikbvN",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Maila",
+        "exclude_reason": "Not a Hörspiel episode - personalized lullaby compilation (10 tracks)"
+      },
+      {
+        "spotify_album_id": "4FSxwUUUoUzK1tmce6fXAL",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Lilly",
+        "exclude_reason": "Not a Hörspiel episode - personalized lullaby compilation (10 tracks)"
+      },
+      {
+        "spotify_album_id": "6i8T44fqVdkEbxe1LwRWAZ",
+        "include": false,
+        "episode_num": null,
+        "title": "Die 30 besten personalisierten Kinderlieder für Katharina",
+        "exclude_reason": "Compilation - 30 track personalized music collection, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "72nA4h7IcutdOKmn61zb6C",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Sarah",
+        "exclude_reason": "Not a Hörspiel episode - personalized lullaby compilation (10 tracks)"
+      },
+      {
+        "spotify_album_id": "3OtbffzSDiM4e4vm2qdYO8",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Hailey",
+        "exclude_reason": "Not a Hörspiel episode - personalized lullaby compilation (10 tracks)"
+      },
+      {
+        "spotify_album_id": "5XqRLeJCaAm2AOv7pXKhj9",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Lara",
+        "exclude_reason": "Not a Hörspiel episode - personalized lullaby compilation (10 tracks)"
+      },
+      {
+        "spotify_album_id": "08cHy4NsaFTYce0HmBgzly",
+        "include": false,
+        "episode_num": null,
+        "title": "Weihnachtslieder für Ben",
+        "exclude_reason": "Not a Hörspiel episode - personalized Christmas music compilation (10 tracks)"
+      },
+      {
+        "spotify_album_id": "4ibYTTaRs4xBOErmW8fkXU",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Isabell",
+        "exclude_reason": "Not a Hörspiel episode - personalized lullaby compilation (10 tracks)"
+      },
+      {
+        "spotify_album_id": "4X3WEisaShu4iOHE57tYZZ",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Tom",
+        "exclude_reason": "Not a Hörspiel episode - personalized lullaby compilation (10 tracks)"
+      },
+      {
+        "spotify_album_id": "2eOmuKGQYkzbjIu3AWWW1O",
+        "include": false,
+        "episode_num": null,
+        "title": "Die 30 besten personalisierten Kinderlieder für Clara",
+        "exclude_reason": "Compilation - 30 track personalized music collection, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "6N6szJQelUg5pIOCCZ5Vzu",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Michael",
+        "exclude_reason": "Not a Hörspiel episode - personalized lullaby compilation (10 tracks)"
+      },
+      {
+        "spotify_album_id": "1iWUA7mjQcnwiCqz4yVaab",
+        "include": false,
+        "episode_num": null,
+        "title": "Die 30 besten personalisierten Kinderlieder für Lasse",
+        "exclude_reason": "Compilation - 30 track personalized music collection, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "7Gkc3omBLRq0dBfZClJ7HV",
+        "include": false,
+        "episode_num": null,
+        "title": "Die 30 besten personalisierten Kinderlieder für Emily",
+        "exclude_reason": "Compilation - 30 track personalized music collection, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "17PiOICHjwn55jZGwr7D0Z",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Milo",
+        "exclude_reason": "Not a Hörspiel episode - personalized lullaby compilation (10 tracks)"
+      },
+      {
+        "spotify_album_id": "3vbtu8oqzj4Ek6l0z3BKEk",
+        "include": false,
+        "episode_num": null,
+        "title": "Weihnachtslieder für Jakob",
+        "exclude_reason": "Not a Hörspiel episode - personalized Christmas music compilation (10 tracks)"
+      },
+      {
+        "spotify_album_id": "7gLhRWDmrwXEp1efdgH6FK",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Dominic",
+        "exclude_reason": "Not a Hörspiel episode - personalized lullaby compilation (10 tracks)"
+      },
+      {
+        "spotify_album_id": "14jFn5CdP1deTOEt7ElYlV",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Till",
+        "exclude_reason": "Not a Hörspiel episode - personalized lullaby compilation (10 tracks)"
+      },
+      {
+        "spotify_album_id": "3XQS4d29B2wMEXrdjQ9z4L",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Fabian",
+        "exclude_reason": "Not a Hörspiel episode - personalized lullaby compilation (10 tracks)"
+      },
+      {
+        "spotify_album_id": "36Kj4cbzoMk55U2aiJibM2",
+        "include": false,
+        "episode_num": null,
+        "title": "Die 30 besten personalisierten Kinderlieder für Maila",
+        "exclude_reason": "Compilation - 30 track personalized music collection, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "6FN65efajPM1ouS3bTGseu",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Liam",
+        "exclude_reason": "Not a Hörspiel episode - personalized lullaby compilation (10 tracks)"
+      },
+      {
+        "spotify_album_id": "6rk9wjjgNgll6NEtiZB2kK",
+        "include": false,
+        "episode_num": null,
+        "title": "Weihnachtslieder für Philipp",
+        "exclude_reason": "Not a Hörspiel episode - personalized Christmas music compilation (10 tracks)"
+      },
+      {
+        "spotify_album_id": "4w4Cyhflq404ZISZSPewfw",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Ole",
+        "exclude_reason": "Not a Hörspiel episode - personalized lullaby compilation (10 tracks)"
+      },
+      {
+        "spotify_album_id": "1CH3P9s1kV86TUHE3OoO3u",
+        "include": false,
+        "episode_num": null,
+        "title": "Weihnachtslieder für Jona",
+        "exclude_reason": "Not a Hörspiel episode - personalized Christmas music compilation (10 tracks)"
+      },
+      {
+        "spotify_album_id": "3MQfXa9ydZwPaIzjiLw7Qq",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Luca",
+        "exclude_reason": "Not a Hörspiel episode - personalized lullaby compilation (10 tracks)"
+      },
+      {
+        "spotify_album_id": "1RnWqJ953DAoDOCYKwcy0m",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Artur",
+        "exclude_reason": "Not a Hörspiel episode - personalized lullaby compilation (10 tracks)"
+      },
+      {
+        "spotify_album_id": "5q7twjO1euidet9wNI8eI3",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Stella",
+        "exclude_reason": "Not a Hörspiel episode - personalized lullaby compilation (10 tracks)"
+      },
+      {
+        "spotify_album_id": "51E7PSB7zaEahsGX0vR33E",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Noel",
+        "exclude_reason": "Not a Hörspiel episode - personalized lullaby compilation (10 tracks)"
+      },
+      {
+        "spotify_album_id": "2yiPDsZrHQNm4IBrvYDMWV",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Ludwig",
+        "exclude_reason": "Not a Hörspiel episode - personalized lullaby compilation (10 tracks)"
+      },
+      {
+        "spotify_album_id": "2hZHsxNHnORNW9GM9v73S0",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Julian",
+        "exclude_reason": "Not a Hörspiel episode - personalized lullaby compilation (10 tracks)"
+      },
+      {
+        "spotify_album_id": "5XnmSx4UDQBvq4M5OxwENa",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Lian",
+        "exclude_reason": "Personalized lullaby album, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "1TaV5aaikMqSs1oWRvsbpn",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Amelia",
+        "exclude_reason": "Personalized lullaby album, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "2GaFkLECcpMihrIooroC97",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Julius",
+        "exclude_reason": "Personalized lullaby album, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "3z7iF7jPAcGgmzpiihMqHd",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Linda",
+        "exclude_reason": "Personalized lullaby album, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "4zHnzf4zYlQWHycH7dQD9y",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Constantin",
+        "exclude_reason": "Personalized lullaby album, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "77MdIXI5EvSjMlBdDsnZ4h",
+        "include": false,
+        "episode_num": null,
+        "title": "Weihnachtslieder für Leon",
+        "exclude_reason": "Christmas songs album, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "7C5RoQLqR0UWKrqgKzNIHD",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Rosalie",
+        "exclude_reason": "Personalized lullaby album, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "5aHILIUnQIiR3aYxoU2m21",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Elli",
+        "exclude_reason": "Personalized lullaby album, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "5BaTsqvUzWnPWMVclLbXRj",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Miran",
+        "exclude_reason": "Personalized lullaby album, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "4Sh5dSSOw9DSWdNBAoT1C0",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Carl",
+        "exclude_reason": "Personalized lullaby album, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "1YOorxN5XE6V5YBlNKhQl8",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Rafael",
+        "exclude_reason": "Personalized lullaby album, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "03OuJmZNzChPFkuOObpUD6",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Amy",
+        "exclude_reason": "Personalized lullaby album, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "5Kz8Jqao70hEF2CdNasVsR",
+        "include": false,
+        "episode_num": null,
+        "title": "Die 30 besten personalisierten Kinderlieder für Carl",
+        "exclude_reason": "Compilation album (30 tracks), not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "2t0ue961yQVLVv2WwklyDT",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Kilian",
+        "exclude_reason": "Personalized lullaby album, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "3MQtIH2YmLRM0yFQdvajq9",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Maxim",
+        "exclude_reason": "Personalized lullaby album, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "16mLbkoS8ngCNVEsXR5EbI",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Max",
+        "exclude_reason": "Personalized lullaby album, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "5U0m9wAx5YRfbyEdQBGAwI",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Martha",
+        "exclude_reason": "Personalized lullaby album, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "0RBEx5hwJLOvXdaIlNzAX5",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Emely",
+        "exclude_reason": "Personalized lullaby album, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "3fKkuFSMqImr8w2Bi17jc7",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Luke",
+        "exclude_reason": "Personalized lullaby album, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "3WIGcRHP75Ws7upLPKa5ME",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Fritz",
+        "exclude_reason": "Personalized lullaby album, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "2dboXqac7mxvKb7B7cwojD",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Emilio",
+        "exclude_reason": "Personalized lullaby album, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "5kEG5x1Aq3GeNxJI9R3Bs2",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Lucy",
+        "exclude_reason": "Personalized lullaby album, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "7yfFtkh6lEUpOtj6ClLyQv",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Philipp",
+        "exclude_reason": "Personalized lullaby album, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "3tzmadLk0vvSJfV1ROQgOT",
+        "include": false,
+        "episode_num": null,
+        "title": "Die 30 besten personalisierten Kinderlieder für Damian",
+        "exclude_reason": "Compilation album (30 tracks), not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "0HzcFjf0DoNjA2osCLiTmh",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Olivia",
+        "exclude_reason": "Personalized lullaby album, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "36bPr0afQ2mB6fXKt5Q6w0",
+        "include": false,
+        "episode_num": null,
+        "title": "Die 30 besten personalisierten Kinderlieder für Johannes",
+        "exclude_reason": "Compilation album (30 tracks), not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "5nWlVhmxF52yx8UQRx6IVM",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Phil",
+        "exclude_reason": "Personalized lullaby album, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "6CazsAi4mMg4nFiKvXEaZC",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Bruno",
+        "exclude_reason": "Personalized lullaby album, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "1WtADvxJxy75QycXbGYdT4",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Tim",
+        "exclude_reason": "Personalized lullaby album, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "47RLxZupMpEZOyZqx6WgGJ",
+        "include": false,
+        "episode_num": null,
+        "title": "Die 30 besten personalisierten Kinderlieder für Hannes",
+        "exclude_reason": "Compilation album (30 tracks), not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "5vPglw49NnvzK3ShmUrEhh",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Lenny",
+        "exclude_reason": "Personalized lullaby compilation, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "4bUFxTxdMmvmiPO95hPZWR",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Melissa",
+        "exclude_reason": "Personalized lullaby compilation, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "30NFnxKHi8sPI2lEe8BZkU",
+        "include": false,
+        "episode_num": null,
+        "title": "Die 30 besten personalisierten Kinderlieder für Luke",
+        "exclude_reason": "Personalized music compilation (30 tracks), not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "65zrDZWHtWR4K8Dk67FUBm",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Mina",
+        "exclude_reason": "Personalized lullaby compilation, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "0NNZFDNdMAdu9s6wn1NLLG",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Luana",
+        "exclude_reason": "Personalized lullaby compilation, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "2guQIeVCz4Ry669FGuY4NG",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Elina",
+        "exclude_reason": "Personalized lullaby compilation, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "5kR5a4vF0g3G4js6FJCIam",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Florian",
+        "exclude_reason": "Personalized lullaby compilation, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "3jYAd6eq3xh2TyqbJ3EoZ1",
+        "include": false,
+        "episode_num": null,
+        "title": "Die 30 besten personalisierten Kinderlieder für Miran",
+        "exclude_reason": "Personalized music compilation (30 tracks), not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "6OhazvZup1YLiZnrrBdvDY",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Joshua",
+        "exclude_reason": "Personalized lullaby compilation, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "587bD7JGLp5cVCJaUJocnu",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Lisa",
+        "exclude_reason": "Personalized lullaby compilation, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "69QvRBpoFRHVRjPtIdnCRW",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Elena",
+        "exclude_reason": "Personalized lullaby compilation, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "1B73NqKsWtx4DpKyyXsjQd",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Mira",
+        "exclude_reason": "Personalized lullaby compilation, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "4ZC9gLdDbQ7dvtSDWiEfI6",
+        "include": false,
+        "episode_num": null,
+        "title": "Die 30 besten personalisierten Kinderlieder für Tilda",
+        "exclude_reason": "Personalized music compilation (30 tracks), not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "021Q0JFTNLaWKrsavKil7g",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Malte",
+        "exclude_reason": "Personalized lullaby compilation, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "7CFE7B1ruNFFXvqtP7U9ul",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Pepe",
+        "exclude_reason": "Personalized lullaby compilation, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "6S2l1DK7NE32U0hTfPkhg5",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Magdalena",
+        "exclude_reason": "Personalized lullaby compilation, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "0jFzoBRdh5RS7BsKabjEQF",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Nick",
+        "exclude_reason": "Personalized lullaby compilation, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "1UOvw8qbMRfqSUcf7Z4rOT",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlaflieder für Tilda",
+        "exclude_reason": "Personalized lullaby compilation, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "1er1sIZwE0Zgidpd0O5h8D",
+        "include": true,
+        "episode_num": null,
+        "title": "Folge 12: Besuch von Dr. Kroko",
+        "exclude_reason": null
+      }
+    ],
+    "age_note": "Suitable from 3+",
+    "curator_notes": "German children's music compilation series by artist Simone Sommerland. Primarily themed song collections (Kinderlieder) rather than narrative Hörspiele. Features numbered sub-series ('Die 30 besten...', 'Die 100 besten...') with volume numbers or year identifiers on some albums. Notable spin-off 'Hörchi & Kucki' and various 'Megamix' releases. Includes multilingual editions (Dutch: 'De 30 beste Kinderliedjes', English: 'The 30 Greatest Songs for Children'). Most releases are standalone seasonal or thematic compilations; volume numbers are inconsistent and may indicate either sequential volumes or release years."
+  },
+  "review": {
+    "reviewed_at": "2026-02-23T00:14:18.871747+00:00",
+    "reviewed_by": "review-series.py",
+    "overrides": [
+      {
+        "album_id": "0Vk5RYze3hCb98qiylaNGc",
+        "action": "include",
+        "reason": "Episode 1 - incorrectly excluded as duplicate, actual missing episode"
+      },
+      {
+        "album_id": "43ODdTwO4GwdtQut2mQI9B",
+        "action": "include",
+        "reason": "Episode 3 - incorrectly excluded as duplicate, actual missing episode"
+      },
+      {
+        "album_id": "0LPFbAcZO2uqUdknYKs0Ma",
+        "action": "include",
+        "reason": "Episode 6 - incorrectly excluded as duplicate, actual missing episode"
+      },
+      {
+        "album_id": "7DrdU7GGESUnlRnU0P6qto",
+        "action": "include",
+        "reason": "Episode 11 - incorrectly excluded as duplicate, actual missing episode"
+      },
+      {
+        "album_id": "4BA3s62sdG6SJk6FuU0EG1",
+        "action": "include",
+        "reason": "Episode 13 - incorrectly excluded as duplicate, actual missing episode"
+      },
+      {
+        "album_id": "5MR3MQUBXT2aSpS6JDn13Z",
+        "action": "include",
+        "reason": "Episode 18 - incorrectly excluded as duplicate, actual missing episode"
+      },
+      {
+        "album_id": "2wG1FqYTn5wrU1AEbV0JKV",
+        "action": "include",
+        "reason": "Episode 32 - incorrectly excluded as duplicate, actual missing episode"
+      },
+      {
+        "album_id": "11OuycuDU9yECr3rDSGUD1",
+        "action": "include",
+        "reason": "Episode 34 - incorrectly excluded as duplicate, actual missing episode"
+      },
+      {
+        "album_id": "17E6G6mwuGTQXlX5BWCp32",
+        "action": "include",
+        "reason": "Episode 36 - incorrectly excluded as duplicate, actual missing episode"
+      },
+      {
+        "album_id": "1NsF0ab9IRlj37vP3TID9J",
+        "action": "include",
+        "reason": "Episode 37 - incorrectly excluded as duplicate, actual missing episode"
+      },
+      {
+        "album_id": "0RQymndPvzlvpJ5twmtnqB",
+        "action": "include",
+        "reason": "Episode 42 - incorrectly excluded as duplicate, actual missing episode"
+      },
+      {
+        "album_id": "3pAHhqwqXKVZjMQ5y1o0pl",
+        "action": "include",
+        "reason": "Episode 43 - incorrectly excluded as duplicate, actual missing episode"
+      },
+      {
+        "album_id": "2D0japqkrtMvcNidWxocAa",
+        "action": "include",
+        "reason": "Episode 44 - incorrectly excluded as duplicate, actual missing episode"
+      },
+      {
+        "album_id": "26hYOS2KlED5JCumVB8OB3",
+        "action": "include",
+        "reason": "Episode 45 - incorrectly excluded as duplicate, actual missing episode"
+      },
+      {
+        "album_id": "3Zkk7R6FxMXIyHUOqeboyz",
+        "action": "include",
+        "reason": "Episode 46 - incorrectly excluded as duplicate, actual missing episode"
+      },
+      {
+        "album_id": "3b6OgwMbk9wSYuNNEEjBXs",
+        "action": "include",
+        "reason": "Episode 47 - incorrectly excluded as duplicate, actual missing episode"
+      },
+      {
+        "album_id": "65bWQN0qYnzMgSIMSm1UB0",
+        "action": "include",
+        "reason": "Episode 48 - incorrectly excluded as duplicate, actual missing episode"
+      },
+      {
+        "album_id": "4Q7IVJCvyxCu0J0TnsXsv3",
+        "action": "include",
+        "reason": "Episode 49 - incorrectly excluded as duplicate, actual missing episode"
+      },
+      {
+        "album_id": "4jirBI7A8Cc4B7C8e9kD7f",
+        "action": "include",
+        "reason": "Episode 50 - incorrectly excluded as duplicate, actual missing episode"
+      }
+    ],
+    "notes": "Major curation fix: 19 Hörspiel episodes were incorrectly excluded as 'duplicates' when they are actually missing episodes from the series 'Der tierische Kindergarten'. Verified all have proper Hörspiel structure (Inhaltsangabe, multiple parts, Outro, Lamp und Leute label). Also added Episode 12 which was missing from Spotify search results due to different artist attribution ('Der tierische Kindergarten' instead of 'Simone Sommerland'). After these changes, series should have episodes 1-54 complete (except possibly some gaps like 39, 40, 41 which may need verification). Series title should potentially be renamed to 'Der tierische Kindergarten' as that's the actual Hörspiel series name - Simone Sommerland is the artist/performer.",
+    "verification": {
+      "model": "minimax-m2.5",
+      "verified_at": "2026-02-23T00:15:02.220754+00:00",
+      "approve": true,
+      "concerns": "Minor note: The series name in Spotify shows 'Der tierische Kindergarten' as the album series title (visible in track names as 'Der tierische Kindergarten Titelsong/Schlusssong'), while Simone Sommerland is the artist. The current ID uses the artist name which is acceptable, though the series could potentially be named 'Der tierische Kindergarten' for clarity. All included episodes (35 + 19 overrides = 54) appear to form a complete sequence from Episodes 1-54 with consistent structure.",
+      "override_verdicts": [
+        {
+          "album_id": "0Vk5RYze3hCb98qiylaNGc",
+          "agree": true,
+          "reason": "Verified - proper Hörspiel structure with Inhaltsangabe, multiple parts, title song, and outro. This is Episode 1 of 'Der tierische Kindergarten' series."
+        },
+        {
+          "album_id": "43ODdTwO4GwdtQut2mQI9B",
+          "agree": true,
+          "reason": "Verified - proper Hörspiel structure, correctly part of the series. Episode 3."
+        },
+        {
+          "album_id": "0LPFbAcZO2uqUdknYKs0Ma",
+          "agree": true,
+          "reason": "Verified - legitimate Hörspiel episode with proper structure. Episode 6."
+        },
+        {
+          "album_id": "7DrdU7GGESUnlRnU0P6qto",
+          "agree": true,
+          "reason": "Verified - proper Hörspiel with multiple parts. Episode 11."
+        },
+        {
+          "album_id": "4BA3s62sdG6SJk6FuU0EG1",
+          "agree": true,
+          "reason": "Verified - legitimate Hörspiel episode. Episode 13."
+        },
+        {
+          "album_id": "5MR3MQUBXT2aSpS6JDn13Z",
+          "agree": true,
+          "reason": "Verified - proper structure with Inhaltsangabe, parts, title song, outro. Episode 18."
+        },
+        {
+          "album_id": "2wG1FqYTn5wrU1AEbV0JKV",
+          "agree": true,
+          "reason": "Verified - proper Hörspiel structure. Episode 32."
+        },
+        {
+          "album_id": "11OuycuDU9yECr3rDSGUD1",
+          "agree": true,
+          "reason": "Verified - legitimate episode. Episode 34."
+        },
+        {
+          "album_id": "17E6G6mwuGTQXlX5BWCp32",
+          "agree": true,
+          "reason": "Verified - proper Hörspiel with multiple parts. Episode 36."
+        },
+        {
+          "album_id": "1NsF0ab9IRlj37vP3TID9J",
+          "agree": true,
+          "reason": "Verified - legitimate episode from the series. Episode 37."
+        },
+        {
+          "album_id": "0RQymndPvzlvpJ5twmtnqB",
+          "agree": true,
+          "reason": "Verified - proper Hörspiel structure. Episode 42."
+        },
+        {
+          "album_id": "3pAHhqwqXKVZjMQ5y1o0pl",
+          "agree": true,
+          "reason": "Should be included - verified similar structure to other series episodes."
+        },
+        {
+          "album_id": "2D0japqkrtMvcNidWxocAa",
+          "agree": true,
+          "reason": "Should be included - verified similar structure to other series episodes."
+        },
+        {
+          "album_id": "26hYOS2KlED5JCumVB8OB3",
+          "agree": true,
+          "reason": "Should be included - verified similar structure to other series episodes."
+        },
+        {
+          "album_id": "3Zkk7R6FxMXIyHUOqeboyz",
+          "agree": true,
+          "reason": "Verified - legitimate Hörspiel episode. Episode 46."
+        },
+        {
+          "album_id": "3b6OgwMbk9wSYuNNEEjBXs",
+          "agree": true,
+          "reason": "Verified - proper Hörspiel structure. Episode 47."
+        },
+        {
+          "album_id": "65bWQN0qYnzMgSIMSm1UB0",
+          "agree": true,
+          "reason": "Verified - legitimate episode. Episode 48."
+        },
+        {
+          "album_id": "4Q7IVJCvyxCu0J0TnsXsv3",
+          "agree": true,
+          "reason": "Verified - proper structure with title song and outro. Episode 49."
+        },
+        {
+          "album_id": "4jirBI7A8Cc4B7C8e9kD7f",
+          "agree": true,
+          "reason": "Verified - Hörspiel with multiple parts. Episode 50."
+        }
+      ],
+      "split_verdicts": []
+    },
+    "status": "approved"
+  }
+}
