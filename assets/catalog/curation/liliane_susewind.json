@@ -1,0 +1,47 @@
+{
+  "query": "Liliane Susewind",
+  "model": "kimi-k2.5",
+  "curated_at": "2026-02-23T00:41:15.179783+00:00",
+  "series": {
+    "id": "liliane_susewind",
+    "title": "Liliane Susewind",
+    "aliases": [],
+    "keywords": [],
+    "spotify_artist_ids": [
+      "0imTuUn6Ca6KAprEAS0nDI"
+    ],
+    "episode_pattern": null,
+    "albums": [
+      {
+        "spotify_album_id": "2iBIZAXOrVHC8YGjSZkBx9",
+        "include": true,
+        "episode_num": null,
+        "title": "Das Originalhörspiel zum Kinofilm",
+        "exclude_reason": null
+      }
+    ],
+    "age_note": "Suitable from 6+",
+    "curator_notes": "The primary artist contains only the movie tie-in.\n            The full book series is available as audiobook readings (Ungekürzte/Gekürzte Lesungen) under author Tanya Stewner (not a variant artist but the author).\n            Standard Hörspiel episodes with voice actors do not appear to be on Spotify under this series name. Audiobook versions are 15-30+ hour narrated books (gekürzt/ungekürzt), not the 20-60 min radio play format."
+  },
+  "review": {
+    "overrides": [
+      {
+        "album_id": "2iBIZAXOrVHC8YGjSZkBx9",
+        "action": "include",
+        "reason": ""
+      }
+    ],
+    "reviewed_at": "2026-02-23T00:47:26.916001+00:00",
+    "reviewed_by": "review-series.py",
+    "notes": "Auto-approved: no gaps or duplicates found.",
+    "verification": {
+      "model": "manual",
+      "verified_at": "2026-02-23T00:48:10.631806+00:00",
+      "approve": true,
+      "concerns": "Film Hörspiel, manually approved.",
+      "override_verdicts": [],
+      "split_verdicts": []
+    },
+    "status": "approved"
+  }
+}

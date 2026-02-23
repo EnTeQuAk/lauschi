@@ -1,0 +1,90 @@
+{
+  "query": "Tintenherz",
+  "model": "kimi-k2.5",
+  "curated_at": "2026-02-23T00:47:19.916331+00:00",
+  "series": {
+    "id": "tintenherz",
+    "title": "Tintenherz",
+    "aliases": [],
+    "keywords": [],
+    "spotify_artist_ids": [
+      "2NagFgkF6UwdOJLSiQuIYO"
+    ],
+    "episode_pattern": "[Tt]intenwelt\\s+(\\d+)",
+    "albums": [
+      {
+        "spotify_album_id": "4xyZrrVyYrxV8GtpmyYaVP",
+        "include": true,
+        "episode_num": null,
+        "title": "Tintenwelt 1. Tintenherz",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3WqRLKAJafg7TxxiEND11s",
+        "include": true,
+        "episode_num": null,
+        "title": "Tintenwelt 2. Tintenblut",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4yivihTlwDoHANerefxCGv",
+        "include": true,
+        "episode_num": null,
+        "title": "Tintenwelt 3. Tintentod",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1thqitXdUEsPzupYmczhc3",
+        "include": false,
+        "episode_num": null,
+        "title": "Tintenherz (Tintenwelt-Reihe, Band 1 [Ungekürzt])",
+        "exclude_reason": "Unabridged audiobook (333 tracks), not Hörspiel"
+      },
+      {
+        "spotify_album_id": "529PGFDHkfd8KJMKvAsoYL",
+        "include": false,
+        "episode_num": null,
+        "title": "Tintenherz [Tintenwelt-Reihe, Band 1 (Ungekürzt)]",
+        "exclude_reason": "Unabridged audiobook (72 tracks), not Hörspiel"
+      },
+      {
+        "spotify_album_id": "7Le3UT4ODatTq2Ji7n4FF3",
+        "include": false,
+        "episode_num": null,
+        "title": "Tintenblut (Tintenwelt-Reihe, Band 2 [Ungekürzt])",
+        "exclude_reason": "Unabridged audiobook (418 tracks), not Hörspiel"
+      },
+      {
+        "spotify_album_id": "0inwvDQyp490gYONEBaUzt",
+        "include": false,
+        "episode_num": null,
+        "title": "Tintentod (Tintenwelt-Reihe, Band 3 [Ungekürzt])",
+        "exclude_reason": "Unabridged audiobook (424 tracks), not Hörspiel"
+      },
+      {
+        "spotify_album_id": "7fo8mSqjTjKXNGn4QDcYMO",
+        "include": false,
+        "episode_num": null,
+        "title": "Die Farbe der Rache [Tintenwelt, Band 4 (Ungekürzt)]",
+        "exclude_reason": "Unabridged audiobook (174 tracks), not Hörspiel"
+      }
+    ],
+    "age_note": "Recommended 8+",
+    "curator_notes": "Tintenwelt (Inkworld) is a major DACH children's fantasy series by Cornelia Funke. These are full-cast Hörspiele (dramatized audiobooks) distinct from the unabridged narrated audiobooks. The three albums cover the original trilogy: Tintenherz (Inkheart), Tintenblut (Inkspell), and Tintentod (Inkdeath). Note: Additional Cornelia Funke series (Drachenreiter, Gespensterjäger, Wilden Hühner) are under artist Cornelia Funke and curated separately. This is the primary Tintenherz/Tintenwelt Hörspiel series only."
+  },
+  "review": {
+    "reviewed_at": "2026-02-23T00:47:30.093580+00:00",
+    "reviewed_by": "review-series.py",
+    "overrides": [],
+    "notes": "Auto-approved: no gaps or duplicates found.",
+    "verification": {
+      "model": "minimax-m2.5",
+      "verified_at": "2026-02-23T00:47:55.848539+00:00",
+      "approve": true,
+      "concerns": "",
+      "override_verdicts": [],
+      "split_verdicts": []
+    },
+    "status": "approved"
+  }
+}

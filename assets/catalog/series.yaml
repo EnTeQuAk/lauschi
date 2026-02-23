@@ -6016,8 +6016,8 @@ series:
   - Lucky Luke
   spotify_artist_ids:
   - 3GhvVhdZylZUmxABM30UeP
-  episode_pattern: ^(?:(\d{2}):\s*|Ein Cowboy in Paris|Fackeln im Baumwollfeld|Rantanplans 
-    Arche|Letzte Runde für die Daltons|Das gelobte Land|Meine Onkel, die Daltons)
+  episode_pattern: ^(?:(\d{2}):\s*|Ein Cowboy in Paris|Fackeln im Baumwollfeld|Rantanplans Arche|Letzte
+    Runde für die Daltons|Das gelobte Land|Meine Onkel, die Daltons)
   albums:
   - id: 3kQiCwi4N1CtcdT4zmsIb0
     episode: 1
@@ -6149,8 +6149,8 @@ series:
   - id: 2mdVzm7cYhifVGhBJEiyiZ
     title: Rodrigo Raubein und Knirps, sein Knappe
   - id: 11wArUgNLB4hEeDHzd2t2M
-    title: Tranquilla Trampeltreu und weitere Fabeln von Michael Ende (Tranquilla Trampeltreu, Der 
-      Lindwurm und der Schmetterling und Norbert Nackendick)
+    title: Tranquilla Trampeltreu und weitere Fabeln von Michael Ende (Tranquilla Trampeltreu, Der Lindwurm
+      und der Schmetterling und Norbert Nackendick)
 - id: gespensterjager
   title: Gespensterjäger
   aliases:
@@ -8126,8 +8126,8 @@ series:
   episode_pattern: Alles ([^!]+)!
   albums:
   - id: 4Bye9UYKH5eYH6Glm1EYdO
-    title: Alles Bitte-danke!, Alles Eis!, Socke will alles können und zwar ruckzuck! (Der kleine 
-      Rabe Socke)
+    title: Alles Bitte-danke!, Alles Eis!, Socke will alles können und zwar ruckzuck! (Der kleine Rabe
+      Socke)
   - id: 4sisLEShJplT9VQrRelb99
     title: Alles Freunde! (Der kleine Rabe Socke) [Freundschaftsgeschichten vom kleinen Raben Socke]
   - id: 2HajrwUcwFczd5ovmqUta9
@@ -8139,9 +8139,9 @@ series:
     title: 'Alles Schule!: Alles vorbereitet!, Alles aufgeweckt!, Alles eingeschult!, Alles aus und vorbei!,
       Alles zusammen! (Der kleine Rabe Socke)'
   - id: 5rLgyFUrNHZ8xnaEWSSQ71
-    title: Alles Socke! (Alles erlaubt?, Alles Eis!, Alles gefunden!, Alles zu spät!, Alles echt 
-      wahr!, Alles nass!, Alles Bitte-danke!, Alles verlaufen!) (Der kleine Rabe Socke) [Das Beste 
-      vom kleinen Raben Socke zum 25. Geburtstag]
+    title: Alles Socke! (Alles erlaubt?, Alles Eis!, Alles gefunden!, Alles zu spät!, Alles echt wahr!,
+      Alles nass!, Alles Bitte-danke!, Alles verlaufen!) (Der kleine Rabe Socke) [Das Beste vom kleinen
+      Raben Socke zum 25. Geburtstag]
   - id: 4AboRuzwmUiuqS9noZmcQ1
     title: 'Alles Weihnachten!: Alles Advent!, Alles gebacken!, Alles verschenkt! (Der kleine Rabe Socke)
       [Drei Geschichten vom kleinen Raben Socke]'
@@ -8163,8 +8163,8 @@ series:
   - id: 6tbKtNfAd40rvPJVTNXylf
     title: Alles rabenstark!, Alles aufgeräumt!, Alles kaputt! (Der kleine Rabe Socke)
   - id: 5Blrw5UfocVrlzAoxRJQsf
-    title: Alles schläft? (Alles ohne Ende!, Alles Monster!, Alles verbummelt!, Alles besser!) (Der 
-      kleine Rabe Socke) [Gute-Nacht-Geschichten vom kleinen Raben Socke]
+    title: Alles schläft? (Alles ohne Ende!, Alles Monster!, Alles verbummelt!, Alles besser!) (Der kleine
+      Rabe Socke) [Gute-Nacht-Geschichten vom kleinen Raben Socke]
   - id: 6uS4A6adOkQRBtfN8B0wnE
     title: Alles verknallt!, Alles wach?, Alles gelernt! (Der kleine Rabe Socke)
   - id: 0joEbvSRUXOYhoWfDJdXPa
@@ -8174,56 +8174,56 @@ series:
   - id: 6CPEwK18zBZafonlXexQYK
     title: Alles verzankt!, Alles zu voll!, Alles nass! (Der kleine Rabe Socke)
   - id: 3vxL29iewsOnpuzmvy0B18
-    title: Das Geburtstagsgeschenk, Das Superfernrohr, Der Erfinderwettbewerb (Der kleine Rabe Socke
-      - Hörspiele zur TV Serie 8)
+    title: Das Geburtstagsgeschenk, Das Superfernrohr, Der Erfinderwettbewerb (Der kleine Rabe Socke -
+      Hörspiele zur TV Serie 8)
   - id: 045UjvaNf9898ZWtNxdL7s
-    title: Das Hofturnier, Die Waldprüfung, Bruder-Alarm! (Der kleine Rabe Socke - Hörspiele zur TV 
-      Serie 10)
+    title: Das Hofturnier, Die Waldprüfung, Bruder-Alarm! (Der kleine Rabe Socke - Hörspiele zur TV Serie
+      10)
   - id: 6KnamYDPG0Wr82roCnku3U
-    title: Das Waldlied, Allerbeste Freunde, Die Geburtstagsretter (Der kleine Rabe Socke - 
-      Hörspiele zur TV Serie 15)
+    title: Das Waldlied, Allerbeste Freunde, Die Geburtstagsretter (Der kleine Rabe Socke - Hörspiele
+      zur TV Serie 15)
   - id: 4MF3vRrimefhW3x9RK9I1V
-    title: Der Onkel aus der Südsee, Der große Streichewettbewerb, Rollentausch, Der Schatzkistentag
-      (Der kleine Rabe Socke - Hörspiele zur TV Serie 17)
+    title: Der Onkel aus der Südsee, Der große Streichewettbewerb, Rollentausch, Der Schatzkistentag (Der
+      kleine Rabe Socke - Hörspiele zur TV Serie 17)
   - id: 0eF1MO4hXD7EE0cqD8DW8o
-    title: Die Mutprobe, Ein echter Krimi, Der geteilte Wald (Der kleine Rabe Socke - Hörspiele zur 
-      TV Serie 16)
+    title: Die Mutprobe, Ein echter Krimi, Der geteilte Wald (Der kleine Rabe Socke - Hörspiele zur TV
+      Serie 16)
   - id: 76HrKCFyQhY87r2IWXnLDB
-    title: Die Sportskanone, Der Honigmond, Der sprechende Busch (Der kleine Rabe Socke - Hörspiele 
-      zur TV Serie 5)
+    title: Die Sportskanone, Der Honigmond, Der sprechende Busch (Der kleine Rabe Socke - Hörspiele zur
+      TV Serie 5)
   - id: 2vSecCqEUJilZo28l0vTIL
-    title: Die Wunscherfüllkiste, Der Waldgeist, Haltet den Dieb! (Der kleine Rabe Socke - Hörspiele
-      zur TV Serie 2)
+    title: Die Wunscherfüllkiste, Der Waldgeist, Haltet den Dieb! (Der kleine Rabe Socke - Hörspiele zur
+      TV Serie 2)
   - id: 3FrgaEqgvo0sqA7Ru0QVYK
-    title: Ferngesteuert, Der Laden der allertollsten Dinge, Freundschaft mit Hindernissen (Der 
-      kleine Rabe Socke - Hörspiele zur TV Serie 14)
+    title: Ferngesteuert, Der Laden der allertollsten Dinge, Freundschaft mit Hindernissen (Der kleine
+      Rabe Socke - Hörspiele zur TV Serie 14)
   - id: 6VrIYTSUOGSsKWMTdeW8gE
-    title: Frau Dachs macht Urlaub, Ein Tanzkleid für Frau Dachs, Rette sich, wer kann! (Der kleine 
-      Rabe Socke - Hörspiele zur TV Serie 4)
+    title: Frau Dachs macht Urlaub, Ein Tanzkleid für Frau Dachs, Rette sich, wer kann! (Der kleine Rabe
+      Socke - Hörspiele zur TV Serie 4)
   - id: 0oqKdiDNslYUoUiRYUdDks
-    title: Meisterdetektive, Der Pechvogel, Frau Dachs hat Geburtstag (Der kleine Rabe Socke - 
-      Hörspiele zur TV Serie 11)
+    title: Meisterdetektive, Der Pechvogel, Frau Dachs hat Geburtstag (Der kleine Rabe Socke - Hörspiele
+      zur TV Serie 11)
   - id: 4ohBnL1iSjWMTQaLNA7bvZ
-    title: Neues Ufer, Die verfluchte Teekanne, Der große Sockini (Der kleine Rabe Socke - Hörspiele
-      zur TV Serie 9)
+    title: Neues Ufer, Die verfluchte Teekanne, Der große Sockini (Der kleine Rabe Socke - Hörspiele zur
+      TV Serie 9)
   - id: 1i3DeKgyCaMEwpmrgnXkiK
-    title: Piraten Ahoi!, Die Fußballwaldmeisterschaft, Das goldene Amulett (Der kleine Rabe Socke -
-      Hörspiele zur TV Serie 1)
+    title: Piraten Ahoi!, Die Fußballwaldmeisterschaft, Das goldene Amulett (Der kleine Rabe Socke - Hörspiele
+      zur TV Serie 1)
   - id: 58IfNovyr5Sr55wgMLWIoI
-    title: Rennfahrer, Diamantenfieber, Die Rasselbande (Der kleine Rabe Socke - Hörspiele zur TV 
-      Serie 7)
+    title: Rennfahrer, Diamantenfieber, Die Rasselbande (Der kleine Rabe Socke - Hörspiele zur TV Serie
+      7)
   - id: 795XA2uiADFHOKNkttriJX
     title: 'Ritter Sockenherz, Mission: Dreirad, Der falsche Pilz (Der kleine Rabe Socke - Hörspiele zur
       TV Serie 3)'
   - id: 0Csm87ayVVBtIeP4gl2hvP
-    title: Socke aus dem All, Der Hypnotiseur, Streithähne (Der kleine Rabe Socke - Hörspiele zur TV
-      Serie 12)
+    title: Socke aus dem All, Der Hypnotiseur, Streithähne (Der kleine Rabe Socke - Hörspiele zur TV Serie
+      12)
   - id: 06Oc8eYyPKyXMGBwUCBUV7
-    title: Sockes Flugschule, Die Waldhochzeit, Der Riesenschreck (Der kleine Rabe Socke - Hörspiele
-      zur TV Serie 13)
+    title: Sockes Flugschule, Die Waldhochzeit, Der Riesenschreck (Der kleine Rabe Socke - Hörspiele zur
+      TV Serie 13)
   - id: 5YufFI1LNYMovd5wWKJ4CU
-    title: Suppenzauber, Gestrandet, Die Ringelsocke ist futsch! (Der kleine Rabe Socke - Hörspiele 
-      zur TV Serie 6)
+    title: Suppenzauber, Gestrandet, Die Ringelsocke ist futsch! (Der kleine Rabe Socke - Hörspiele zur
+      TV Serie 6)
   - id: 5Tx1COK2E4QTwd0ye0rknb
     title: 'Weihnachtsgeschichten vom kleinen Raben Socke: Alles Advent!, Alles glitzert!, Alles in Eile!,
       Alles weg! (Der kleine Rabe Socke)'
@@ -12525,8 +12525,7 @@ series:
   title: Käpt'n Sharky
   spotify_artist_ids:
   - 5TfrI6jiBpIpWRsrEXVtFN
-  episode_pattern: 
-    (?:[Ff]olge|[Tt]eil|[Uu]nd|Band)\s*(\d+)|^(?:Der|Die|Das)\s+|Abenteuer|Bei|Im|Rettet|Schiffbruch
+  episode_pattern: (?:[Ff]olge|[Tt]eil|[Uu]nd|Band)\s*(\d+)|^(?:Der|Die|Das)\s+|Abenteuer|Bei|Im|Rettet|Schiffbruch
   albums:
   - id: 6THE7nOBqv4VApqZaBqpYv
     episode: 1
@@ -13195,8 +13194,8 @@ series:
     title: '10: Conni im Advent / Conni fährt Schlittschuh / Conni lässt Drachen steigen / Conni und der
       fiese Schnupfen (Vier Hörspiele zur TV-Serie)'
   - id: 77Pk8wTrRgF2O1K3YLqyMW
-    title: Conni macht Mut in Zeiten von Corona (Meine Freundin Conni - ab 3) [Eine Conni-Geschichte
-      mit kindgerechtem Sachwissen rund um das Thema Corona]
+    title: Conni macht Mut in Zeiten von Corona (Meine Freundin Conni - ab 3) [Eine Conni-Geschichte mit
+      kindgerechtem Sachwissen rund um das Thema Corona]
 - id: michel_aus_loenneberga
   title: Michel aus Lönneberga
   spotify_artist_ids:
@@ -14158,8 +14157,7 @@ series:
     title: Woodwalkers - Tag der Rache - Das Hörspiel
   - id: 3akuBfI0xnmcKuTDc0NHmi
     episode: 7
-    title: Woodwalkers - Die Rückkehr. Das Vermächtnis der Wandler - Das Hörspiel (Staffel 2, Band 
-      1)
+    title: Woodwalkers - Die Rückkehr. Das Vermächtnis der Wandler - Das Hörspiel (Staffel 2, Band 1)
   - id: 7c67MJkQOwdYVKF99xUJmZ
     episode: 8
     title: Woodwalkers - Die Rückkehr. Herr der Gestalten - Das Hörspiel (Staffel 2, Band 2)
@@ -15243,8 +15241,7 @@ series:
     title: Was erleben wir Tag für Tag? (Wieso? Weshalb? Warum? Meine Vorlesegeschichten, Folge 1)
   - id: 0NiJ11SM4QQzAbrEGRVXIf
     episode: 2
-    title: Was passiert in Wald und Wiese? (Wieso? Weshalb? Warum? Meine Vorlesegeschichten, Folge 
-      2)
+    title: Was passiert in Wald und Wiese? (Wieso? Weshalb? Warum? Meine Vorlesegeschichten, Folge 2)
   - id: 20idnrDkDmTHirWuVDbEA8
     episode: 3
     title: Wer ist hier im Einsatz? (Wieso? Weshalb? Warum? Meine Vorlesegeschichten, Folge 3)
@@ -16474,3 +16471,34 @@ series:
     title: Willi von der Wasserwacht
   - id: 73P1E9fLVAVo1SszMSTEDA
     title: Öffis, Öffis, Öffis (Wir sind die Öffis!)
+- id: der_grueffelo
+  title: Der Grüffelo
+  aliases:
+  - The Gruffalo
+  keywords:
+  - Grüffelo
+  - Gruffalo
+  spotify_artist_ids:
+  - 70uxO5NoIefz8njkqqOQbl
+  albums:
+  - id: 1dhRSkSFjhQ2q0QNJX0eia
+    title: Der Grüffelo (Das Original-Hörspiel zum Film)
+- id: tintenherz
+  title: Tintenherz
+  spotify_artist_ids:
+  - 2NagFgkF6UwdOJLSiQuIYO
+  episode_pattern: '[Tt]intenwelt\s+(\d+)'
+  albums:
+  - id: 4xyZrrVyYrxV8GtpmyYaVP
+    title: Tintenwelt 1. Tintenherz
+  - id: 3WqRLKAJafg7TxxiEND11s
+    title: Tintenwelt 2. Tintenblut
+  - id: 4yivihTlwDoHANerefxCGv
+    title: Tintenwelt 3. Tintentod
+- id: liliane_susewind
+  title: Liliane Susewind
+  spotify_artist_ids:
+  - 0imTuUn6Ca6KAprEAS0nDI
+  albums:
+  - id: 2iBIZAXOrVHC8YGjSZkBx9
+    title: Das Originalhörspiel zum Kinofilm
