@@ -853,8 +853,7 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen> {
                   childAspectRatio: 0.75,
                 ),
                 delegate: SliverChildBuilderDelegate(
-                  (context, index) =>
-                      _CuratedSeriesCard(series: series[index]),
+                  (context, index) => _CuratedSeriesCard(series: series[index]),
                   childCount: series.length,
                 ),
               ),
