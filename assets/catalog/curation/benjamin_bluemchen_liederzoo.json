@@ -1,0 +1,213 @@
+{
+  "query": "Split from benjamin_bluemchen",
+  "model": "review-series.py",
+  "curated_at": "2026-02-22T22:49:33.769141+00:00",
+  "series": {
+    "id": "benjamin_bluemchen_liederzoo",
+    "title": "Benjamin Blümchen Liederzoo",
+    "aliases": [],
+    "keywords": [],
+    "spotify_artist_ids": [
+      "1l6d0RIxTL3JytlLGvWzYe"
+    ],
+    "episode_pattern": "[Ff]olge\\s+(\\d+)",
+    "albums": [
+      {
+        "spotify_album_id": "1F8rP3XGQwHQx3YsSyztIq",
+        "include": true,
+        "episode_num": null,
+        "title": "Benjamin Blümchen Liederzoo: Hallo, Gulliver",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3poA2gABzJKIdWgqd93B7n",
+        "include": true,
+        "episode_num": null,
+        "title": "Benjamin Blümchen Liederzoo: Meine schönsten Filmlieder",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0WkRJlaXKMmO40Qzt2T2S1",
+        "include": true,
+        "episode_num": null,
+        "title": "Benjamin Blümchen Liederzoo: Lieder zum Liebhaben",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "572Jjtpckxvd7Hf0nRo8KQ",
+        "include": true,
+        "episode_num": null,
+        "title": "Benjamin Blümchen Liederzoo: Pass auf im Verkehr",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5eE3bos99SlobyGrDPfnCV",
+        "include": true,
+        "episode_num": null,
+        "title": "Benjamin Blümchen Liederzoo: Wi-Wa-Wetterlieder",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5OdQSnhLbnPUkAtdr7T1zy",
+        "include": true,
+        "episode_num": null,
+        "title": "Benjamin Blümchen Liederzoo: Lustige Ferienlieder",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4qHZSba4P6wvhvVe0W6KgD",
+        "include": true,
+        "episode_num": null,
+        "title": "Benjamin Blümchen Liederzoo: Winterlieder",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4FTopXYnqEsGuurUqxw2km",
+        "include": true,
+        "episode_num": null,
+        "title": "Benjamin Blümchen Liederzoo: Laterne, Sonne, Mond und Sterne",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "13WWvqshej7zcA8XEtR5nh",
+        "include": true,
+        "episode_num": null,
+        "title": "Benjamin Blümchen Liederzoo: Fußballfieber",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "47LNFSvQwtQGxx65mz2pOD",
+        "include": true,
+        "episode_num": null,
+        "title": "Benjamin Blümchen Liederzoo: Hallo, Bibi Blocksberg",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6ajqHWKSkNPhFp83LxNn3r",
+        "include": true,
+        "episode_num": null,
+        "title": "Benjamin Blümchen Liederzoo: Lieder zum Gesundwerden",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6hrmIjqpbF2YQesR1jFyRY",
+        "include": true,
+        "episode_num": null,
+        "title": "Benjamin Blümchen Liederzoo: Bunte Ostereier",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0nViSLRhVDCBs5V6NOyXt3",
+        "include": true,
+        "episode_num": null,
+        "title": "Benjamin Blümchen Liederzoo: Schule ist schön",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5wpfkw1DTwhEieYemKe012",
+        "include": true,
+        "episode_num": null,
+        "title": "Benjamin Blümchen Liederzoo: Friede, Freude, Eierkuchen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6NxgnnpyGsisWWr4TT0NyI",
+        "include": true,
+        "episode_num": null,
+        "title": "Benjamin Blümchen Liederzoo: 1x1 und ABC",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4HkEFBWpnJbQXzIrbdNBFN",
+        "include": true,
+        "episode_num": null,
+        "title": "Benjamin Blümchen singt Weihnachtslieder",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6ZxKdVwlDjiqhhZ0bZkiEt",
+        "include": true,
+        "episode_num": null,
+        "title": "Benjamin Blümchen Liederzoo: My Name is Benjamin",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0XxFWYXKk8sDDmri9EymSI",
+        "include": true,
+        "episode_num": null,
+        "title": "Benjamin Blümchen Liederzoo: Alle meine Abenteuer",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2CrEduucAluk3PcyJY4VPD",
+        "include": true,
+        "episode_num": null,
+        "title": "Benjamin Blümchen Liederzoo: Alle meine Tiere",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1HzZozAWXQnSwPBpHRWgCZ",
+        "include": true,
+        "episode_num": null,
+        "title": "Benjamin Blümchen Liederzoo: Heut' feiern wir",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "26Y1xFtGOmKzFJrOGpvAOD",
+        "include": true,
+        "episode_num": null,
+        "title": "Benjamin Blümchen Liederzoo: Sing mit, Törööö!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7sEPIy8rDtPKO8RXzq7mNN",
+        "include": true,
+        "episode_num": null,
+        "title": "Benjamin Blümchen Liederzoo: Alle meine Berufe",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1JeXqGMIdSS2qE5nFXxoGJ",
+        "include": true,
+        "episode_num": null,
+        "title": "Benjamin Blümchen Liederzoo: Schokolade, Zuckerstückchen ...",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6MoJaPKuivI4cmJoPUbxYL",
+        "include": true,
+        "episode_num": null,
+        "title": "Benjamin Blümchen Liederzoo: Guten Abend, gute Nacht",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "30ODH6Ybwjw6YNfBnVKiMk",
+        "include": true,
+        "episode_num": null,
+        "title": "Benjamin Blümchen Liederzoo: Was machst du?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "306zG4cWQdfxopt4L69GVJ",
+        "include": true,
+        "episode_num": null,
+        "title": "Benjamin Blümchen Liederzoo: Fröhliche Weihnachten",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5exzwTqbr33UIODgVVSy0m",
+        "include": true,
+        "episode_num": null,
+        "title": "Benjamin Blümchen Liederzoo: Geburtstagsparty",
+        "exclude_reason": null
+      }
+    ],
+    "age_note": null,
+    "curator_notes": "Split from Benjamin Blümchen. Music/song albums - completely different content type from story Hörspiele"
+  },
+  "review": {
+    "status": "pending",
+    "overrides": [],
+    "notes": "Auto-created by apply-splits.py from benjamin_bluemchen."
+  }
+}

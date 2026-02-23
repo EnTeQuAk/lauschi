@@ -1,0 +1,296 @@
+{
+  "query": "Spirit Hörspiel",
+  "model": "kimi-k2.5",
+  "curated_at": "2026-02-22T23:51:57.938192+00:00",
+  "series": {
+    "id": "spirit_hoerspiel",
+    "title": "Spirit Hörspiel",
+    "aliases": [
+      "Spirit: wild und frei",
+      "Spirit Frei und ungezähmt"
+    ],
+    "keywords": [],
+    "spotify_artist_ids": [
+      "0a7ReNgiORz9sEajzbbmqw"
+    ],
+    "episode_pattern": "[Ff]olge\\s+(\\d+)",
+    "albums": [
+      {
+        "spotify_album_id": "4ODmpsy3Xaw6NDkfJRGo1m",
+        "include": true,
+        "episode_num": 33,
+        "title": "Folge 33: Das Haus im Rosemead-Tal - Teil 1 + 2 (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3QpmvYJqxTt8j6UwgGeeYu",
+        "include": true,
+        "episode_num": 32,
+        "title": "Folge 32: Der Valentinstagsschreck / Opas Schatz / Achtung, Schlamm! (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3rkMs8sVd0JiAWnmzjRHZh",
+        "include": true,
+        "episode_num": 31,
+        "title": "Folge 31: Die Freundschafts-Lektion / Der Hammer der Gerechtigkeit / Die Rennbahn-Rivalin (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1YayHmyYGRAtn6w5HE9kFK",
+        "include": true,
+        "episode_num": 30,
+        "title": "Folge 30: Elternbesuch / Zurück an die Startlinie (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1njbgBhIZr335ueOkWuRft",
+        "include": true,
+        "episode_num": 29,
+        "title": "Folge 29: Zu viel Ehrgeiz / Willkommen zurück, Otter (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "03DT8yWmPXKjxUGaE444rk",
+        "include": true,
+        "episode_num": 28,
+        "title": "Folge 28: Die Reitakademie-Palomino-Fels / Die Qual der Wahl (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5HJPbnx9cWjRbNT4EBjmyx",
+        "include": true,
+        "episode_num": 27,
+        "title": "Folge 27: Großer Gouverneur / Fest aller Feste (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2Y0p4XwrUEN6yB21eyBYqH",
+        "include": true,
+        "episode_num": 26,
+        "title": "Folge 26: Boomerang in Gefahr / Das Geheimnis des goldenen Einhorns (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6iP199Zx9VvyUV63EipEFP",
+        "include": true,
+        "episode_num": 25,
+        "title": "Folge 25: Wildwest-Fohlen-Sommer-Freiluft-Camp - Teil 1+2 (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "53CZ3AeaUBb6Vm6aL01Qz6",
+        "include": true,
+        "episode_num": null,
+        "title": "Weihnachts-Spirit (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2yaJhjcxVZA8JqlDJOBSXP",
+        "include": true,
+        "episode_num": 24,
+        "title": "Folge 24: Der Berufetag / Lucky in der Stadt / Auf zum Gezeitenhof (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7I5vw1SOZUjaGpukYy9BzI",
+        "include": true,
+        "episode_num": 23,
+        "title": "Folge 23: Der Dressur-Wettbewerb / Lucky, Polly und der Wolf (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4sTySe6HuHPDfc8cBODIh5",
+        "include": true,
+        "episode_num": null,
+        "title": "Frei und ungezähmt (Das Original-Hörspiel zum Kinofilm)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0CJB44yVgSiWwIOSlpsZT0",
+        "include": true,
+        "episode_num": 22,
+        "title": "Folge 22: Das Wildnis Abenteuer / Ein lautes Willkommen (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5fBpjIOPy7S34NyoZYZp9B",
+        "include": true,
+        "episode_num": 21,
+        "title": "Folge 21: Auf dünnem Eis / Nett sein ist alles (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1peT0kfTTrIQni77l02cJw",
+        "include": true,
+        "episode_num": 20,
+        "title": "Folge 20: April, April! / Große Schwester Lucky (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5i3TVLbZRKIquqBETvjMtD",
+        "include": true,
+        "episode_num": 19,
+        "title": "Folge 19: Die Entführung / Der Heißluftballon (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5b5C1QoqVXwMLXJO1VfNTa",
+        "include": true,
+        "episode_num": 18,
+        "title": "Folge 18: Lucky, die Gaunerin / Hochzeit mit Hindernissen (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7JpTtIlf1ma7ogn0XFuo8T",
+        "include": true,
+        "episode_num": 17,
+        "title": "Folge 17: Der große Sandsturm / Gute Vorsätze (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3DOAT13yWO6anvcLKBRpKu",
+        "include": true,
+        "episode_num": null,
+        "title": "Halloween - Special (Das Original-Hörspiel zum Special)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "30j7wI9emrYZJ2jfW3hg0t",
+        "include": true,
+        "episode_num": 16,
+        "title": "Folge 16: Die große Trockenheit / Wo sind die Pferde (Das Original Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1Kr8SHEzpXEXg9n8yddDe9",
+        "include": true,
+        "episode_num": 15,
+        "title": "Folge 15: Cowboy-Leben / Ein aufregender Campingausflug",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4xHy0STdmZkQN6mYy8MxoF",
+        "include": true,
+        "episode_num": 14,
+        "title": "Folge 14: Die letzte Vorstellung / Zu viele Veränderungen (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7mA3ExbZMjkz1WOmrckHrn",
+        "include": true,
+        "episode_num": 13,
+        "title": "Folge 13: Lucky, die Zirkusartistin / Der geheimnisvolle Bandit (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1hb04Gb7ERFUDj2QaUVqyy",
+        "include": true,
+        "episode_num": 12,
+        "title": "Folge 12: Tante Cora muss bleiben / Lucky und der Zirkus (Teil 1 & 2) [Das Original-Hörspiel zur TV-Serie]",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "712nV41RtjrUZEmHVK91C4",
+        "include": true,
+        "episode_num": 11,
+        "title": "Folge 11: Luckys Geburtstag / Das Theaterstück (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7l0HD1wYJhbYM3cqA5QpeV",
+        "include": true,
+        "episode_num": 9,
+        "title": "Folge 9: Das Erdbeben / Goldrausch (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2ienEFQqULyDFfMQrL05t0",
+        "include": true,
+        "episode_num": 10,
+        "title": "Folge 10: Der Berglöwe / Luckys erster Job (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7JrfLqw0eW7eXLz69Tay45",
+        "include": true,
+        "episode_num": 8,
+        "title": "Folge 8: Der Indianer / Auf Fossilienjagd (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0bZcRq1pZ67YWVJkuRRB83",
+        "include": true,
+        "episode_num": 7,
+        "title": "Folge 7: Ein langer Weg nach Hause / Gefahr bei den Wildpferden (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6xfqnlR2LqU8BQlqV3JVWU",
+        "include": true,
+        "episode_num": 6,
+        "title": "Folge 6: Der Schneesturm / Das große Rennen (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4xrRIYNnj2pEoTJTlGL7x7",
+        "include": true,
+        "episode_num": 5,
+        "title": "Folge 5: Luckys super-toller Cousin Julian / Die Kürbis-Schnitzeljagd (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6MuZLGv80D6QuukzmUAHNA",
+        "include": true,
+        "episode_num": 4,
+        "title": "Folge 4: Die Fiesta / Drei Detektivinnen (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "67JRSD51ZaaBJhUmzk9fx7",
+        "include": true,
+        "episode_num": null,
+        "title": "Weihnachten in Miradero (Das Original-Hörspiel zum Weihnachts-Special)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3A9rABEK9lKjK7q2zncGB9",
+        "include": true,
+        "episode_num": 3,
+        "title": "Folge 3: Ein Pferd für Turo / Überraschung! (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5RsV1c2KEDtvZsAWqwxCEZ",
+        "include": true,
+        "episode_num": 2,
+        "title": "Folge 2: Die rätselhafte Karte / Der Konkurrenzkampf (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3c9nP0D0TZR6mECsGCxpGR",
+        "include": true,
+        "episode_num": 1,
+        "title": "Folge 1: Neue Freunde / Vertrauen ist alles (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      }
+    ],
+    "age_note": "Suitable from 5+",
+    "curator_notes": "Complete catalog of the DreamWorks 'Spirit: Riding Free' Hörspiel series (Spirit: wild und frei). Includes 33 numbered episodes (2018-2022), 2 Christmas specials ('Weihnachten in Miradero' 2018, 'Weihnachts-Spirit' 2021), Halloween special, and the movie audio drama 'Frei und ungezähmt' (2021). Published by Edelkids. Each episode typically contains 1-3 TV episode adaptations with multiple chapters per story. No box sets or duplicates identified."
+  },
+  "review": {
+    "reviewed_at": "2026-02-22T23:56:09.778010+00:00",
+    "reviewed_by": "review-series.py",
+    "overrides": [],
+    "notes": "Auto-approved: no gaps or duplicates found.",
+    "verification": {
+      "model": "minimax-m2.5",
+      "verified_at": "2026-02-22T23:58:09.251729+00:00",
+      "approve": true,
+      "concerns": "All 37 albums were reviewed. The series has:\n- Episodes 1-33 with \"Folge\" (episode) numbering - consistent and complete\n- 4 specials: Kinofilm (Frei und ungezähmt), Halloween-Special, 2 Christmas specials (Weihnachten in Miradero and Weihnachts-Spirit)\n\nAll checked albums show the correct pattern with proper German titles, \"Das Original-Hörspiel zur TV-Serie\" branding, and appropriate track counts (multi-part stories). The label is consistently \"Edelkids\" which is the correct publisher.\n\nNo gaps in episode numbering, no duplicates, and the special episodes are appropriately included as they belong to the Spirit franchise. The curation is sound.",
+      "override_verdicts": [],
+      "split_verdicts": []
+    },
+    "status": "approved"
+  }
+}

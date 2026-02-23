@@ -1,0 +1,300 @@
+{
+  "query": "Fredrik Vahle",
+  "model": "kimi-k2.5",
+  "curated_at": "2026-02-23T00:11:04.312403+00:00",
+  "series": {
+    "id": "fredrik_vahle",
+    "title": "Fredrik Vahle",
+    "aliases": [],
+    "keywords": [],
+    "spotify_artist_ids": [
+      "2QZ9OZXUiJ5x35gBpRObdK"
+    ],
+    "episode_pattern": null,
+    "albums": [
+      {
+        "spotify_album_id": "4zA73Jk5qTqX5CL4K7j0t6",
+        "include": false,
+        "episode_num": null,
+        "title": "Lebenslieder",
+        "exclude_reason": "Music album (15 tracks of songs), not a Hörspiel"
+      },
+      {
+        "spotify_album_id": "6HRAaAdB7ftlzwEYZr3jTi",
+        "include": false,
+        "episode_num": null,
+        "title": "Lilo Lausch liebt leise Lieder (Töne, Klänge und Gesänge zwischen laut und leise)",
+        "exclude_reason": "Music album (15 tracks of songs), not a Hörspiel"
+      },
+      {
+        "spotify_album_id": "2M8jfs37R3D6DKqQT5YH3x",
+        "include": false,
+        "episode_num": null,
+        "title": "Zugabe: Musiker interpretieren seine schönsten Lieder (Präsentiert von Fredrik Vahle)",
+        "exclude_reason": "Compilation/tribute album (17 tracks), not a Hörspiel"
+      },
+      {
+        "spotify_album_id": "7J0lPevKh2hXTm7Pk4zJxg",
+        "include": false,
+        "episode_num": null,
+        "title": "Baumelbaum",
+        "exclude_reason": "Music album (11 tracks of songs), not a Hörspiel"
+      },
+      {
+        "spotify_album_id": "7vH5IzNSN8fxfkbNURboh8",
+        "include": false,
+        "episode_num": null,
+        "title": "Alles ist Schwingung, alles ist Klang - Jahreszeitenlieder für Klein und Groß",
+        "exclude_reason": "Music album (21 seasonal songs), not a Hörspiel"
+      },
+      {
+        "spotify_album_id": "3gVx2fI6Qv7NzoNby3t6Fy",
+        "include": false,
+        "episode_num": null,
+        "title": "Weihnachtsfreude Glitzerschnee",
+        "exclude_reason": "Music album (16 Christmas songs), not a Hörspiel"
+      },
+      {
+        "spotify_album_id": "5A2csX4mwoQ5PhFgzNoi01",
+        "include": false,
+        "episode_num": null,
+        "title": "Lilo Lausch läuft leise",
+        "exclude_reason": "Music album (20 tracks of songs), not a Hörspiel"
+      },
+      {
+        "spotify_album_id": "4Z58PPLfqHUXrx50aMvez4",
+        "include": false,
+        "episode_num": null,
+        "title": "Durch den Wald",
+        "exclude_reason": "Music album (17 tracks of songs), not a Hörspiel"
+      },
+      {
+        "spotify_album_id": "3V3YK9mtCSt2LuLq9aOeoI",
+        "include": true,
+        "episode_num": null,
+        "title": "Tamaro (Eine Indianerballade mit Liedern und Geschichten)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "63fy22XNaOB32yFiDuNEx2",
+        "include": false,
+        "episode_num": null,
+        "title": "Fischbrötchen - Aus dem Leben einer naseweisen Schildkröte",
+        "exclude_reason": "Mixed music/story album with 26 tracks alternating stories and songs - primarily a music album"
+      },
+      {
+        "spotify_album_id": "2deyHlNFk7ApRuBYAZC1n4",
+        "include": true,
+        "episode_num": null,
+        "title": "Die fabelhafte Geschichte von Anne Kaffeekanne (ungekürzt)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5cH2iiLekaToiIoyeJOq5n",
+        "include": false,
+        "episode_num": null,
+        "title": "Die 100 schönsten Lieder von Fredrik Vahle",
+        "exclude_reason": "Box set/compilation (100 tracks) - best of collection"
+      },
+      {
+        "spotify_album_id": "0B4A42sccuYXzlitOw9m1K",
+        "include": false,
+        "episode_num": null,
+        "title": "Singen - das geht so!",
+        "exclude_reason": "Music album (18 tracks of songs), not a Hörspiel"
+      },
+      {
+        "spotify_album_id": "73KtajSW18Hvcm0W2v6RcT",
+        "include": false,
+        "episode_num": null,
+        "title": "Tiger Oma Samurai",
+        "exclude_reason": "Music album (14 tracks of songs), not a Hörspiel"
+      },
+      {
+        "spotify_album_id": "0TknSL5OZVl6o3OMiAQhzM",
+        "include": false,
+        "episode_num": null,
+        "title": "Zauberhände - Beruhigende und bewegende Lieder",
+        "exclude_reason": "Music album (26 tracks of songs), not a Hörspiel"
+      },
+      {
+        "spotify_album_id": "1SMwWnHOgNxDTwh7RUxwgY",
+        "include": false,
+        "episode_num": null,
+        "title": "Ping Pong Pinguin - Spiel- und Bewegungslieder",
+        "exclude_reason": "Music album (13 movement songs), not a Hörspiel"
+      },
+      {
+        "spotify_album_id": "4OEbi7MR7ePWha6CyMagLF",
+        "include": false,
+        "episode_num": null,
+        "title": "Katzentatzentanzfest",
+        "exclude_reason": "Music album (11 tracks of songs), not a Hörspiel"
+      },
+      {
+        "spotify_album_id": "6lnN5jx65sH3oZiqhY439O",
+        "include": false,
+        "episode_num": null,
+        "title": "Märchenlieder",
+        "exclude_reason": "Music album (9 fairy tale songs), not a Hörspiel"
+      },
+      {
+        "spotify_album_id": "0InvNMnJNADJeWg7EVbD5I",
+        "include": false,
+        "episode_num": null,
+        "title": "Flupp, der kleine Flipper - Lieder von Walen und Delfinen",
+        "exclude_reason": "Music album (19 tracks of songs), not a Hörspiel"
+      },
+      {
+        "spotify_album_id": "58tPFWbS8ESOm3x7SyKeQy",
+        "include": false,
+        "episode_num": null,
+        "title": "WinterWunderWeihnachtsWald",
+        "exclude_reason": "Music album (19 Christmas songs), not a Hörspiel"
+      },
+      {
+        "spotify_album_id": "3Dy9HqwqNsiQncsyWhO63i",
+        "include": false,
+        "episode_num": null,
+        "title": "In meinem Weihnachtswinterwald",
+        "exclude_reason": "Music album (18 Christmas songs), not a Hörspiel"
+      },
+      {
+        "spotify_album_id": "4mM7tLeID7J7ZkreUVQBQC",
+        "include": false,
+        "episode_num": null,
+        "title": "Gehupft wie gesprungen",
+        "exclude_reason": "Music album (24 tracks of songs), not a Hörspiel"
+      },
+      {
+        "spotify_album_id": "6At2D64cCtuwymOUmGy6DK",
+        "include": false,
+        "episode_num": null,
+        "title": "Anne Kaffeekanne - 12 Lieder zum Singen, Spielen und Tanzen",
+        "exclude_reason": "Music album (12 songs) - different from the unabridged story version"
+      },
+      {
+        "spotify_album_id": "6ss0OSP0GvJYm6JwvyeoGG",
+        "include": false,
+        "episode_num": null,
+        "title": "Kleine Hexe Luzi Lindwurm - Hexen-, Riesen-, Drachenlieder",
+        "exclude_reason": "Music album (15 tracks of songs), not a Hörspiel"
+      },
+      {
+        "spotify_album_id": "7HGzIi3sGrrFQVRI6nDDO5",
+        "include": false,
+        "episode_num": null,
+        "title": "Der Elefant",
+        "exclude_reason": "Music album (15 tracks of songs), not a Hörspiel"
+      },
+      {
+        "spotify_album_id": "0qxoimCF3mt2tLDtHX96bZ",
+        "include": false,
+        "episode_num": null,
+        "title": "Hupp Tsching PAU!",
+        "exclude_reason": "Music album (13 tracks of songs), not a Hörspiel"
+      },
+      {
+        "spotify_album_id": "3SCTnJq15lzXFyI0wlFLH5",
+        "include": false,
+        "episode_num": null,
+        "title": "Weihnachten mit Bockwurst",
+        "exclude_reason": "Music album (11 Christmas songs), not a Hörspiel"
+      },
+      {
+        "spotify_album_id": "6bM2VFUIn257vkNuaqPFQh",
+        "include": false,
+        "episode_num": null,
+        "title": "Ilse Bilse",
+        "exclude_reason": "Music album (17 tracks of songs), not a Hörspiel"
+      },
+      {
+        "spotify_album_id": "4nmDxe37byzNwqAuE6qAmK",
+        "include": false,
+        "episode_num": null,
+        "title": "Die Rübe",
+        "exclude_reason": "Music album (14 tracks of songs), not a Hörspiel"
+      },
+      {
+        "spotify_album_id": "32eHOrhwphCJ7ph41i1OYK",
+        "include": false,
+        "episode_num": null,
+        "title": "Der Spatz",
+        "exclude_reason": "Music album (13 tracks of songs), not a Hörspiel"
+      },
+      {
+        "spotify_album_id": "1aPiBTs3lIoPTBEi4W0a7E",
+        "include": false,
+        "episode_num": null,
+        "title": "Friedensmaler",
+        "exclude_reason": "Music album (14 tracks of songs), not a Hörspiel"
+      },
+      {
+        "spotify_album_id": "0nbXAjWq4cRCL3zHw1kAwq",
+        "include": false,
+        "episode_num": null,
+        "title": "Der Fuchs",
+        "exclude_reason": "Music album (16 tracks of songs), not a Hörspiel"
+      },
+      {
+        "spotify_album_id": "3UV82hjayq4uRGUkBbV8ti",
+        "include": false,
+        "episode_num": null,
+        "title": "Kommt ein Vogel geflogen. - Beliebte Kinderlieder zum Mitsingen, Spielen und Tanzen",
+        "exclude_reason": "Compilation album (18 popular children's songs), not a Hörspiel"
+      },
+      {
+        "spotify_album_id": "2FDtWJMsWUYK8Sy533nMcI",
+        "include": false,
+        "episode_num": null,
+        "title": "Kleine Helden im Wald (Ein musikalisches Naturerlebnis)",
+        "exclude_reason": "Mixed music/story album with 30 tracks including playbacks - primarily a music album with educational content"
+      },
+      {
+        "spotify_album_id": "2RyFc2NFkGlJ2k6uSM9uvY",
+        "include": false,
+        "episode_num": null,
+        "title": "Auf der Mauer, auf der Lauer ...",
+        "exclude_reason": "Music album (17 tracks of songs), not a Hörspiel"
+      },
+      {
+        "spotify_album_id": "2lLAheJJjArUkv8d8nnrYM",
+        "include": true,
+        "episode_num": null,
+        "title": "Das kleine Hörbuch zur Guten Nacht (Ungekürzte Lesung mit Musik)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5iTsQRKVvtPHIuTeIrZT1V",
+        "include": false,
+        "episode_num": null,
+        "title": "Endlich ist er da",
+        "exclude_reason": "Music album (15 tracks of songs), not a Hörspiel"
+      },
+      {
+        "spotify_album_id": "4KhB1oyZIF1xNusYcUG1K6",
+        "include": false,
+        "episode_num": null,
+        "title": "Zehn kleine Pinguine (Fröhliche Lieder und Geschichten über Pinguine, Eisbären und eine Schlittschuhgans)",
+        "exclude_reason": "Mixed music/story album with 21 tracks - primarily a music album with short stories"
+      }
+    ],
+    "age_note": "Suitable from 3+",
+    "curator_notes": "Fredrik Vahle is a German children's music artist and songwriter, not a traditional episodic Hörspiel series. His catalog consists primarily of music albums with three notable Hörspiel/audiobook releases: 'Tamaro' (an Indian ballad with narrative chapters), 'Die fabelhafte Geschichte von Anne Kaffeekanne' (unabridged audiobook), and 'Das kleine Hörbuch zur Guten Nacht' (bedtime reading with music). The included releases are standalone narrative works without episode numbers."
+  },
+  "review": {
+    "reviewed_at": "2026-02-23T00:14:23.831208+00:00",
+    "reviewed_by": "review-series.py",
+    "overrides": [],
+    "notes": "Auto-approved: no gaps or duplicates found.",
+    "verification": {
+      "model": "minimax-m2.5",
+      "verified_at": "2026-02-23T00:15:28.342184+00:00",
+      "approve": true,
+      "concerns": "",
+      "override_verdicts": [],
+      "split_verdicts": []
+    },
+    "status": "approved"
+  }
+}

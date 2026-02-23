@@ -1,0 +1,269 @@
+{
+  "query": "Split from benjamin_bluemchen",
+  "model": "review-series.py",
+  "curated_at": "2026-02-22T22:49:33.755001+00:00",
+  "series": {
+    "id": "benjamin_bluemchen_gute_nacht_geschichten",
+    "title": "Benjamin Blümchen: Gute-Nacht-Geschichten",
+    "aliases": [],
+    "keywords": [],
+    "spotify_artist_ids": [
+      "1l6d0RIxTL3JytlLGvWzYe"
+    ],
+    "episode_pattern": "[Ff]olge\\s+(\\d+)",
+    "albums": [
+      {
+        "spotify_album_id": "1ZjAixYm8T5nH3eYC4KXDn",
+        "include": true,
+        "episode_num": 19,
+        "title": "Gute-Nacht-Geschichten - Folge 19: Tiere der Nacht",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3X3VYRdhraDuIIYp1OGNeM",
+        "include": true,
+        "episode_num": 25,
+        "title": "Gute-Nacht-Geschichten - Folge 25: Der verschwundene Stern",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1XEgnkoYMJWVdgXLHyxtiR",
+        "include": true,
+        "episode_num": 32,
+        "title": "Gute-Nacht-Geschichten - Folge 32: Der Herbst ist da",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2fiFlD2ujQz6E4s52D60sC",
+        "include": true,
+        "episode_num": 33,
+        "title": "Gute-Nacht-Geschichten - Folge 33: Im Reisefieber",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7rn6tf64uofISHlWtOksU1",
+        "include": true,
+        "episode_num": 31,
+        "title": "Gute-Nacht-Geschichten - Folge 31: Alle meine Tierkinder",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2fb6qUSV8TUQoW8G50da7P",
+        "include": true,
+        "episode_num": 29,
+        "title": "Gute-Nacht-Geschichten - Folge 29: Im Kindergarten",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "27upXzmCmVNjJsMRmD7bOv",
+        "include": true,
+        "episode_num": 27,
+        "title": "Gute Nacht Geschichten - Folge 27: Krümel, der freche Hamster",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "30f4zKTJOXMSyynihrW8E5",
+        "include": true,
+        "episode_num": 13,
+        "title": "Gute Nacht Geschichten - Folge 13: Die Traumfee-Königin Karolila",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6u9Vz8ky2X27v8m2KBe2f9",
+        "include": true,
+        "episode_num": 23,
+        "title": "Gute-Nacht-Geschichten - Folge 23: Kleine Helden",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2jBNdNjnkWyWhqYCdw44FW",
+        "include": true,
+        "episode_num": 22,
+        "title": "Gute-Nacht-Geschichten - Folge 22: Gute Nacht im Zoo",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7qDYRuMu9XgqaaMt0bxUAG",
+        "include": true,
+        "episode_num": 5,
+        "title": "Gute-Nacht-Geschichten - Folge 5: Kuscheln mit dem Osterhasen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4rKGBbiC5kNqgzXCwNQUSu",
+        "include": true,
+        "episode_num": 3,
+        "title": "Gute-Nacht-Geschichten - Folge 3: Wüstenfüchse fliegen nicht",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4Mw3LGGUNoS8UqxLGQyVz4",
+        "include": true,
+        "episode_num": 21,
+        "title": "Gute-Nacht-Geschichten - Folge 21: Das fliegende Bett",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4fmih7v3hLOwJk0Wmmav2R",
+        "include": true,
+        "episode_num": 34,
+        "title": "Gute-Nacht-Geschichten - Folge 34: Hilfe, ich kann nicht schlafen!",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7g5j2uYgt2iKbCnOoaNbLB",
+        "include": true,
+        "episode_num": 8,
+        "title": "Gute Nacht Geschichten - Folge 8: Die kleine freche Sternschnuppe",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5erZoyJ22F2XI13RydIXmk",
+        "include": true,
+        "episode_num": 16,
+        "title": "Gute-Nacht-Geschichten - Folge 16: Meine liebsten Kuscheltiere",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0Hk61KJfCPFrCuq2CsRKal",
+        "include": true,
+        "episode_num": 30,
+        "title": "Gute-Nacht-Geschichten - Folge 30: Viele kleine Schäfchenwolken",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2W3XvoHpwNONqyRBTgzj2X",
+        "include": true,
+        "episode_num": 24,
+        "title": "Gute-Nacht-Geschichten - Folge 24: Der Traumwichtel",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4vl7h8Wkqj8JYHpacb7Y9v",
+        "include": true,
+        "episode_num": 7,
+        "title": "Gute-Nacht-Geschichten - Folge 7: A,B,C-Geschichten / 1,2,3-Geschichten",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0CpO06kRKI1Bmxaq1tdODi",
+        "include": true,
+        "episode_num": 10,
+        "title": "Gute-Nacht-Geschichten - Folge 10: Das Schoko-Fest beim Tortenkönig",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "22IyszbjSWQ9PHD7UEjalx",
+        "include": true,
+        "episode_num": 36,
+        "title": "Gute-Nacht-Geschichten - Folge 36: Die Zoomärchenstunde",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "43Gr4JRHBiPEYZD4B5rAH8",
+        "include": true,
+        "episode_num": 11,
+        "title": "Gute Nacht Geschichten - Folge 11: Badespaß im Zoo",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5hfoUCzelAJ8TEeheK4v58",
+        "include": true,
+        "episode_num": 17,
+        "title": "Gute Nacht Geschichten - Folge 17: Mondgeschichten",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "47v1qzw9NhmSxoxnc1y2YZ",
+        "include": true,
+        "episode_num": 12,
+        "title": "Gute-Nacht-Geschichten - Folge 12: Frühling, Sommer, Herbst und Winter",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7I7qLmUxgIcljxBOzb0YlE",
+        "include": true,
+        "episode_num": 14,
+        "title": "Gute-Nacht-Geschichten - Folge 14: Im Traumland",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0nitnuUS2XZxyT82P5Zq4s",
+        "include": true,
+        "episode_num": 35,
+        "title": "Gute-Nacht-Geschichten - Folge 35: Der mutige Löwe",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3CUqrbDq54UZ1J0mHGznle",
+        "include": true,
+        "episode_num": 26,
+        "title": "Gute Nacht Geschichten - Folge 26: Im Schneckentempo",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3U00CUyWGu4Aav1I4kEMRm",
+        "include": true,
+        "episode_num": 1,
+        "title": "Gute-Nacht-Geschichten - Folge 1: Wo ist Winnie Waschbär",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2VZdKhtpBNHZOlFKwNijDo",
+        "include": true,
+        "episode_num": 18,
+        "title": "Gute-Nacht-Geschichten - Folge 18: Die Pyjama-Party",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6wsUgHGmV2M61ooQpM5StQ",
+        "include": true,
+        "episode_num": 9,
+        "title": "Gute-Nacht-Geschichten - Folge 9: Fußballspaß im Zoo",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0y7BgWCMzJfHpdFDKuQxb4",
+        "include": true,
+        "episode_num": 2,
+        "title": "Gute-Nacht-Geschichten - Folge 2: Die Rauschemuschel",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2r1WsIxAgbenRBDW5Ok16y",
+        "include": true,
+        "episode_num": 28,
+        "title": "Gute Nacht Geschichten - Folge 28: Der Winterschlaf-Teddy",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "12HAZnjCSumqoi7VNw1Srz",
+        "include": true,
+        "episode_num": 4,
+        "title": "Gute-Nacht-Geschichten - Folge 4: Benjamin und die Glühwürmchen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2xx69IjNiel4mrcn7EI2IW",
+        "include": true,
+        "episode_num": 20,
+        "title": "Gute-Nacht-Geschichten - Folge 20: Das schnarchende Krokodil",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "58sCMP2uMJZUCYtyqI5ZN2",
+        "include": true,
+        "episode_num": 15,
+        "title": "Gute-Nacht-Geschichten - Folge 15: Die Märchennacht im Zoo",
+        "exclude_reason": null
+      }
+    ],
+    "age_note": null,
+    "curator_notes": "Split from Benjamin Blümchen. Bedtime story spinoff series with different format and purpose - shorter calming stories for sleep vs main adventure episodes"
+  },
+  "review": {
+    "status": "pending",
+    "overrides": [],
+    "notes": "Auto-created by apply-splits.py from benjamin_bluemchen."
+  }
+}

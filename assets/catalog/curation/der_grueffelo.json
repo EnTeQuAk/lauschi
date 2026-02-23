@@ -1,0 +1,46 @@
+{
+  "query": "Der Grüffelo",
+  "model": "kimi-k2.5",
+  "curated_at": "2026-02-23T00:41:48.167231+00:00",
+  "series": {
+    "id": "der_grueffelo",
+    "title": "Der Grüffelo",
+    "aliases": [
+      "The Gruffalo"
+    ],
+    "keywords": [
+      "Grüffelo",
+      "Gruffalo"
+    ],
+    "spotify_artist_ids": [
+      "70uxO5NoIefz8njkqqOQbl"
+    ],
+    "episode_pattern": null,
+    "albums": [
+      {
+        "spotify_album_id": "1dhRSkSFjhQ2q0QNJX0eia",
+        "include": true,
+        "episode_num": null,
+        "title": "Der Grüffelo (Das Original-Hörspiel zum Film)",
+        "exclude_reason": null
+      }
+    ],
+    "age_note": "Suitable from 3+",
+    "curator_notes": "Based on the classic picture book by Julia Donaldson/Axel Scheffler. This is the film tie-in Hörspiel (not a traditional episodic series). The album contains a single story split into 6 parts plus intro/outro. Spin-off/sequel 'Das Grüffelokind' is a separate artist on Spotify and not included here per curation guidelines."
+  },
+  "review": {
+    "reviewed_at": "2026-02-23T00:47:28.504152+00:00",
+    "reviewed_by": "review-series.py",
+    "overrides": [],
+    "notes": "Auto-approved: no gaps or duplicates found.",
+    "verification": {
+      "model": "minimax-m2.5",
+      "verified_at": "2026-02-23T00:47:48.274318+00:00",
+      "approve": true,
+      "concerns": "Only one album included - \"Der Grüffelo\" has many more audiobooks/audio plays beyond just the original film soundtrack. Could there be more albums in the series? I should verify this is not missing entries. However, the first reviewer's auto-approval suggests no gaps were found. Given this is the original film audio play and appears correctly included, I'll approve but note a minor observation.",
+      "override_verdicts": [],
+      "split_verdicts": []
+    },
+    "status": "approved"
+  }
+}

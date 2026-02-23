@@ -1,0 +1,80 @@
+{
+  "query": "Cars Hörspiel",
+  "model": "kimi-k2.5",
+  "curated_at": "2026-02-22T23:19:43.144654+00:00",
+  "series": {
+    "id": "cars_hoerspiel",
+    "title": "Cars Hörspiel",
+    "aliases": [],
+    "keywords": [
+      "Cars"
+    ],
+    "spotify_artist_ids": [
+      "6EVnssA6TgyEYmLOCvHcf2"
+    ],
+    "episode_pattern": [
+      "^0?(\\d+):\\s+Cars on the Road"
+    ],
+    "albums": [
+      {
+        "spotify_album_id": "2xgMAooTg3lXg0iXtBVkKn",
+        "include": true,
+        "episode_num": null,
+        "title": "Cars Toon - Hooks unglaubliche Geschichten (Hörspiel zur Disney/Pixar TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3tiQlltVeRlTlTF7L1gBrO",
+        "include": true,
+        "episode_num": null,
+        "title": "Cars 2 (Hörspiel zum Disney/Pixar Film)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3IKu3ye3WBXWNb7N2YCIaD",
+        "include": true,
+        "episode_num": null,
+        "title": "Cars (Hörspiel zum Disney/Pixar Film)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6hpOjp5hqmMLRE1SUscqXg",
+        "include": true,
+        "episode_num": 2,
+        "title": "02: Cars on the Road (Hörspiel zur Disney/Pixar TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3Nluan4dly6C8pnLRnWs4x",
+        "include": true,
+        "episode_num": 1,
+        "title": "01: Cars on the Road (Hörspiel zur Disney/Pixar TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5y3LLl8D0hASIw2rqotTsV",
+        "include": true,
+        "episode_num": null,
+        "title": "Cars 3 - Evolution (Hörspiel zum Disney/Pixar Film)",
+        "exclude_reason": null
+      }
+    ],
+    "age_note": "Suitable from 5+",
+    "curator_notes": "Film and TV series Hörspiele based on Disney/Pixar's Cars franchise. Cars on the Road (01-02) are numbered TV series episodes. Film Hörspiele are complete movie adaptations with chapter markers but no episode numbers."
+  },
+  "review": {
+    "reviewed_at": "2026-02-22T23:46:50.371828+00:00",
+    "reviewed_by": "review-series.py",
+    "overrides": [],
+    "notes": "Auto-approved: no gaps or duplicates found.",
+    "verification": {
+      "model": "minimax-m2.5",
+      "verified_at": "2026-02-22T23:47:11.982258+00:00",
+      "approve": true,
+      "concerns": "All 6 albums are German-language Disney/Pixar audio dramas (Hörspiele) matching the Cars franchise:\n- 2 \"Cars on the Road\" episodes (Ep 1 & 2 from the TV series)\n- The 3 feature films: Cars, Cars 2, Cars 3 - Evolution\n- 1 \"Cars Toon\" album (Hook's unbelievable stories)\n\nAll are from Walt Disney Records with appropriate chapter-based track listings.\nNo gaps in the numbered episodes (1-2 of Cars on the Road).\nNo issues found - curation is correct.",
+      "override_verdicts": [],
+      "split_verdicts": []
+    },
+    "status": "approved"
+  }
+}

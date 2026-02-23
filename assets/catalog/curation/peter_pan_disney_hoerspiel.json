@@ -1,0 +1,55 @@
+{
+  "query": "Peter Pan Disney Hörspiel",
+  "model": "kimi-k2.5",
+  "curated_at": "2026-02-22T23:37:32.463011+00:00",
+  "series": {
+    "id": "peter_pan_disney_hoerspiel",
+    "title": "Peter Pan Disney Hörspiel",
+    "aliases": [],
+    "keywords": [],
+    "spotify_artist_ids": [
+      "1w8v487udSKawC5Ix6aPsD"
+    ],
+    "episode_pattern": null,
+    "albums": [
+      {
+        "spotify_album_id": "5TutploonIXqeCGH83geK1",
+        "include": true,
+        "episode_num": 3,
+        "title": "Peter Pan & Wendy (Hörspiel zum Disney Real-Kinofilm)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2VkigkjqNDtIzxKestJAPv",
+        "include": true,
+        "episode_num": 2,
+        "title": "Peter Pan 2 - Neue Abenteuer in Nimmer Land (Hörspiel zum Disney Film)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0mNC5nenDBZ6AeLAELRyNH",
+        "include": true,
+        "episode_num": 1,
+        "title": "Peter Pan (Hörspiel zum Disney Film)",
+        "exclude_reason": null
+      }
+    ],
+    "age_note": "Suitable from 5+",
+    "curator_notes": "This series contains three Disney film Hörspiele: the classic 1953 animated film (2023 Hörspiel release), the 2002 sequel 'Return to Never Land' (Peter Pan 2), and the 2023 live-action remake 'Peter Pan & Wendy'. Each album is a complete audiobook adaptation of the respective film. For a related TV series, see artist ID 6KtoLRDglLoZUgfbAB1idL which contains 'Jake and the Never Land Pirates' episodes and classic book audiobooks - these are curated separately."
+  },
+  "review": {
+    "reviewed_at": "2026-02-22T23:46:56.704139+00:00",
+    "reviewed_by": "review-series.py",
+    "overrides": [],
+    "notes": "Auto-approved: no gaps or duplicates found.",
+    "verification": {
+      "model": "minimax-m2.5",
+      "verified_at": "2026-02-22T23:47:51.347582+00:00",
+      "approve": true,
+      "concerns": "All three albums are German-language Disney audiobooks based on their respective films. Episode 1 is the 1953 animated classic, Episode 2 is \"Return to Neverland\" (2002), and Episode 3 is the 2023 live-action remake. The tracks are chapters named appropriately. All from official Disney labels (Walt Disney Records, Disney Storytellers). No issues found.",
+      "override_verdicts": [],
+      "split_verdicts": []
+    },
+    "status": "approved"
+  }
+}

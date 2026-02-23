@@ -1,0 +1,69 @@
+{
+  "query": "Split from die_wilden_kerle",
+  "model": "review-series.py",
+  "curated_at": "2026-02-22T23:15:50.522416+00:00",
+  "series": {
+    "id": "die_wilden_kerle_kinofilme",
+    "title": "Die wilden Kerle (Kinofilm-Hörspiele)",
+    "aliases": [],
+    "keywords": [],
+    "spotify_artist_ids": [
+      "7LzUjEdyDaURYTFAljHQbH"
+    ],
+    "episode_pattern": [
+      "[Ff]olge\\s+(\\d+)",
+      "[Dd]ie wilden Kerle (\\d+)"
+    ],
+    "albums": [
+      {
+        "spotify_album_id": "6Eh2X2jkK8r0CgNoqwlK6T",
+        "include": true,
+        "episode_num": 102,
+        "title": "Die wilden Kerle 2 - Das Hörspiel zum Kinofilm",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4E9cx6NUilcrRmloODyd7t",
+        "include": true,
+        "episode_num": 106,
+        "title": "Die wilden Kerle 6 - Die Legende lebt - Das Hörspiel zum Kinofilm",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6ApbcIU0QIfa62wyTtZ6sh",
+        "include": true,
+        "episode_num": 105,
+        "title": "Die wilden Kerle 5 - Das Hörspiel zum Kinofilm",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0oor5oxHJ1KY6LPd6qFMFp",
+        "include": true,
+        "episode_num": 104,
+        "title": "Die wilden Kerle 4 - Das Hörspiel zum Kinofilm",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7cDXblqIkxAlHtJreCIhJM",
+        "include": true,
+        "episode_num": 101,
+        "title": "Die wilden Kerle 1 - Das Hörspiel zum Kinofilm",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3nTkcLdH1KjzqOIGoJViUX",
+        "include": true,
+        "episode_num": 103,
+        "title": "Die wilden Kerle 3 - Das Hörspiel zum Kinofilm",
+        "exclude_reason": null
+      }
+    ],
+    "age_note": "Suitable from 5+",
+    "curator_notes": "Split from Die wilden Kerle. The movie Hörspiele (Die wilden Kerle 1-6) are based on the live-action films and are a different product from the TV series Hörspiele (Folge 1-12). They have different target audiences (slightly older kids for the movies), different production styles (live-action vs animated), and different numbering systems. From a parent's perspective, these would be confusing mixed together - a parent looking for TV series episodes would not expect to find movie adaptations mixed in. Splitting them into separate series provides a clearer browsing experience."
+  },
+  "review": {
+    "status": "pending",
+    "overrides": [],
+    "notes": "Auto-created by apply-splits.py from die_wilden_kerle."
+  }
+}

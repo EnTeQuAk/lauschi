@@ -1,0 +1,286 @@
+{
+  "query": "EMMALU",
+  "model": "kimi-k2.5",
+  "curated_at": "2026-02-23T00:36:50.627770+00:00",
+  "series": {
+    "id": "emmalu",
+    "title": "EMMALU",
+    "aliases": [],
+    "keywords": [],
+    "spotify_artist_ids": [
+      "2qDDgS9myAvvFEjI4WzcKO"
+    ],
+    "episode_pattern": null,
+    "albums": [
+      {
+        "spotify_album_id": "7iLFUsQ7bwJCDenijWW3qI",
+        "include": false,
+        "episode_num": null,
+        "title": "Sing mit mir - Die schönsten Stadtlieder (Milo, das Müllautokind & seine Freunde)",
+        "exclude_reason": "Song compilation, not a Hörspiel (21 children's songs about city/vehicles)"
+      },
+      {
+        "spotify_album_id": "6pSxTURrEwQjlB9gAD6lRG",
+        "include": false,
+        "episode_num": null,
+        "title": "Sing mit mir - Die schönsten Fahrzeuglieder (Bagger Mats & seine Freunde)",
+        "exclude_reason": "Song compilation, not a Hörspiel (20 children's songs about vehicles)"
+      },
+      {
+        "spotify_album_id": "71XMisDnciHQ13cqDvV6ob",
+        "include": true,
+        "episode_num": null,
+        "title": "Willi von der Wasserwacht",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0y87LMEhMDLDPRKxE5GG7Z",
+        "include": true,
+        "episode_num": null,
+        "title": "Das Hundekacka-Lied",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0e9Gk5P09eqNB1FbKH12dT",
+        "include": true,
+        "episode_num": null,
+        "title": "Manni, die Müllpresse",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1uS7RTrNCgCxe6piQQkP5f",
+        "include": true,
+        "episode_num": null,
+        "title": "Pippa mit der Post",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "33MIhi7HLfUhL1o3Cu3VUT",
+        "include": true,
+        "episode_num": null,
+        "title": "Dr. Sperrmüll",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "22Qe3kgUKKlnSNXqMLOyuP",
+        "include": true,
+        "episode_num": null,
+        "title": "Rattenparty",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "73P1E9fLVAVo1SszMSTEDA",
+        "include": true,
+        "episode_num": null,
+        "title": "Öffis, Öffis, Öffis (Wir sind die Öffis!)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2Tp3VvZ3MTlY0JO7VPTXAg",
+        "include": true,
+        "episode_num": null,
+        "title": "Schorsch, der Schneepflug",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2SLQgluNcYhuOu1iuIRUmi",
+        "include": true,
+        "episode_num": null,
+        "title": "Das Stadt-ABC",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6Qt7DOfdkKXvJsY0qQX78z",
+        "include": true,
+        "episode_num": null,
+        "title": "Kira Kehrmaschine",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7rCR6y3fgyyGhaemHstC84",
+        "include": true,
+        "episode_num": null,
+        "title": "Billy Betonmischer (Drehen und mischen)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1CMyjEmi0BC2KUuuxVQ43N",
+        "include": true,
+        "episode_num": null,
+        "title": "Der Stau-Song",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2jYg6uNvuUBHXDgh72inN8",
+        "include": true,
+        "episode_num": null,
+        "title": "Das Kutschen-Lied (So unendlich frei)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1sb0oV8Qk7G84B9HMrKWly",
+        "include": true,
+        "episode_num": null,
+        "title": "Hubi, der Hubschrauber",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7t2I4cbF8ZoMCYzXIDVePf",
+        "include": true,
+        "episode_num": null,
+        "title": "Autos raten, das macht Spaß",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0aBawkXMTL0G5WdKplE7Bp",
+        "include": true,
+        "episode_num": null,
+        "title": "Das Fliegerlied (Über Wolken, über Berge)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6LnhKxnszqbSlb5RHoRyTJ",
+        "include": true,
+        "episode_num": null,
+        "title": "Sam Segelboot",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6mUD5oo04yR6wuvml9Tvbj",
+        "include": true,
+        "episode_num": null,
+        "title": "Drei Helden auf vier Rädern (Krankenwagen, Feuerwehr und Polizei)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4ttNVpNHEHRAdFC62GuhGk",
+        "include": true,
+        "episode_num": null,
+        "title": "Das Zug-Lied (Tuff-tuff-tut)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "13pMDead8waztgZvuaokZD",
+        "include": true,
+        "episode_num": null,
+        "title": "Kopf hoch, kleiner Kran! (Der große Kran und der kleine Kran)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5pQyHfMkEiRTMnfZ9UxDdh",
+        "include": true,
+        "episode_num": null,
+        "title": "Gustav, der Geländewagen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7hVD8WaORwez5bTQgZg8ru",
+        "include": true,
+        "episode_num": null,
+        "title": "Peter Pommesmann",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "58t94VcDu61kdqwwIP3zog",
+        "include": true,
+        "episode_num": null,
+        "title": "Die Walze Wilma",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5syNIwz1l3BTSOp9gs7qbx",
+        "include": true,
+        "episode_num": null,
+        "title": "Reisebus der Tiere (Wer sitzt da am Steuer?)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6x1aeBk19mMMXAvcAijtPx",
+        "include": true,
+        "episode_num": null,
+        "title": "Tollpatsch Weihnachtsmann",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5vp9JkQpfvGxFXdP5VD4GR",
+        "include": true,
+        "episode_num": null,
+        "title": "Bruno, der Brummi",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2TwhwiFMVtJf3C3korWCws",
+        "include": true,
+        "episode_num": null,
+        "title": "Ahoi, Piraten! (Das Piraten-Lied)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5Oc785f0mXetET1GjsrNfG",
+        "include": true,
+        "episode_num": null,
+        "title": "Das Astronauten-Lied (Karl, der Astronaut)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6saV4hcW4xFjtjbiV5xbwM",
+        "include": true,
+        "episode_num": null,
+        "title": "Der rote Traktor (Das Traktor-Lied)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "02UAh5DdjtxP9pRwSptYp1",
+        "include": true,
+        "episode_num": null,
+        "title": "Das Osterhasen-Lied (Hoppel, hoppel, 1-2-3)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2djhvNxqzbH3ZpCR186uN3",
+        "include": true,
+        "episode_num": null,
+        "title": "Der Bagger-Song (Jack & Mats)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1NZzOm6PbtMLK6oMsOWOcW",
+        "include": true,
+        "episode_num": null,
+        "title": "Kleiner Schneemann",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7ImuuIkpFHY599s4g9zvp7",
+        "include": true,
+        "episode_num": null,
+        "title": "Die Zahnfeuerwehr (Tatü-tata)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1QVju5VwknsJN2I5BVLGqR",
+        "include": true,
+        "episode_num": null,
+        "title": "Der Müllauto-Song (Tut-tut)",
+        "exclude_reason": null
+      }
+    ],
+    "age_note": "Suitable from 3+",
+    "curator_notes": "EMMALU is a children's music/song project (Family Screen GmbH), not a Hörspiel series. The artist produces individual children's songs about vehicles, city life, and characters, released as singles and song compilations. No episodic Hörspiel content found in this artist's discography."
+  },
+  "review": {
+    "reviewed_at": "2026-02-23T00:37:18.303329+00:00",
+    "reviewed_by": "review-series.py",
+    "overrides": [],
+    "notes": "Auto-approved: no gaps or duplicates found.",
+    "verification": {
+      "model": "minimax-m2.5",
+      "verified_at": "2026-02-23T00:38:21.970410+00:00",
+      "approve": true,
+      "concerns": "The two excluded albums are indeed compilations (20-21 tracks each, combining multiple individual tracks that are already present as separate albums in the included list). These are correctly excluded. The included albums all have single tracks with narrative vehicle-themed song titles consistent with the EMMALU series format (name + descriptive subtitle in parentheses). All are from the same label (Family Screen GmbH) and follow the pattern of vehicle/personification songs. No issues found.",
+      "override_verdicts": [],
+      "split_verdicts": []
+    },
+    "status": "approved"
+  }
+}

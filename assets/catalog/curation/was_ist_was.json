@@ -867,7 +867,298 @@
   "review": {
     "reviewed_at": "2026-02-22T14:01:58.218578+00:00",
     "reviewed_by": "review-series.py",
-    "overrides": [],
+    "overrides": [
+      {
+        "album_id": "0X4JI7QmYwuuVCb5I07F07",
+        "action": "exclude",
+        "reason": "Split to was_ist_was_junior"
+      },
+      {
+        "album_id": "5LjUOjX8lMXLUdmdDPCHXY",
+        "action": "exclude",
+        "reason": "Split to was_ist_was_junior"
+      },
+      {
+        "album_id": "2jNtGtRu27I5bd78LXliBp",
+        "action": "exclude",
+        "reason": "Split to was_ist_was_junior"
+      },
+      {
+        "album_id": "3agfnkHCJpThKqifXWXdnc",
+        "action": "exclude",
+        "reason": "Split to was_ist_was_junior"
+      },
+      {
+        "album_id": "41ftyT0OJgcCT0j0azquPu",
+        "action": "exclude",
+        "reason": "Split to was_ist_was_junior"
+      },
+      {
+        "album_id": "47ujRWJ1Wp54k0K0si9zwS",
+        "action": "exclude",
+        "reason": "Split to was_ist_was_junior"
+      },
+      {
+        "album_id": "0t6x2nFdSUHwCDgMwx7G4x",
+        "action": "exclude",
+        "reason": "Split to was_ist_was_junior"
+      },
+      {
+        "album_id": "3jNX8WISj8wszIINYtyDTX",
+        "action": "exclude",
+        "reason": "Split to was_ist_was_junior"
+      },
+      {
+        "album_id": "1lO1BiLb0LUwd4eBFFohwv",
+        "action": "exclude",
+        "reason": "Split to was_ist_was_junior"
+      },
+      {
+        "album_id": "2nnIfqKLIdvMt8VAswR5OW",
+        "action": "exclude",
+        "reason": "Split to was_ist_was_junior"
+      },
+      {
+        "album_id": "5D5N8N5L8xZuyekKaShS6Z",
+        "action": "exclude",
+        "reason": "Split to was_ist_was_junior"
+      },
+      {
+        "album_id": "39Gszdt5o8f7jfiiK7ZIeR",
+        "action": "exclude",
+        "reason": "Split to was_ist_was_junior"
+      },
+      {
+        "album_id": "6RZMInn9NcEqq8LUk1FSr3",
+        "action": "exclude",
+        "reason": "Split to was_ist_was_junior"
+      },
+      {
+        "album_id": "7lQrCnw1MNLhT1hYFpPffG",
+        "action": "exclude",
+        "reason": "Split to was_ist_was_junior"
+      },
+      {
+        "album_id": "6MZIdnOywVGazEVvtqniDl",
+        "action": "exclude",
+        "reason": "Split to was_ist_was_junior"
+      },
+      {
+        "album_id": "2NRlj96KahKodtyE59MrHn",
+        "action": "exclude",
+        "reason": "Split to was_ist_was_junior"
+      },
+      {
+        "album_id": "0BVR9okzupLVimOlHvM9cU",
+        "action": "exclude",
+        "reason": "Split to was_ist_was_junior"
+      },
+      {
+        "album_id": "6Phy1JysUYXkDFprinZTFU",
+        "action": "exclude",
+        "reason": "Split to was_ist_was_junior"
+      },
+      {
+        "album_id": "3KOtyyImGlWMpPe50K4yfG",
+        "action": "exclude",
+        "reason": "Split to was_ist_was_junior"
+      },
+      {
+        "album_id": "38oiSdnPruvBiUFjhzJnxs",
+        "action": "exclude",
+        "reason": "Split to was_ist_was_junior"
+      },
+      {
+        "album_id": "5DVziK4DkGYvunDdB3TzvO",
+        "action": "exclude",
+        "reason": "Split to was_ist_was_junior"
+      },
+      {
+        "album_id": "6nWZhd34fXBJTbME3XADhd",
+        "action": "exclude",
+        "reason": "Split to was_ist_was_junior"
+      },
+      {
+        "album_id": "2o5Ek9PzxH4I43wroFYCh2",
+        "action": "exclude",
+        "reason": "Split to was_ist_was_junior"
+      },
+      {
+        "album_id": "6b8ZVsGlkah0rjbdy24Vz6",
+        "action": "exclude",
+        "reason": "Split to was_ist_was_junior"
+      },
+      {
+        "album_id": "4068cGBruMVv6XblSOzNS6",
+        "action": "exclude",
+        "reason": "Split to was_ist_was_junior"
+      },
+      {
+        "album_id": "6vEJDlvilk1RbxtgajLeyj",
+        "action": "exclude",
+        "reason": "Split to was_ist_was_junior"
+      },
+      {
+        "album_id": "4MEPgEmCKDKlNLlKbxNj4O",
+        "action": "exclude",
+        "reason": "Split to was_ist_was_junior"
+      },
+      {
+        "album_id": "0sjwwzNMoyxii5ZhpwqN1b",
+        "action": "exclude",
+        "reason": "Split to was_ist_was_junior"
+      },
+      {
+        "album_id": "5SHLaS8960huctAEgfAIJj",
+        "action": "exclude",
+        "reason": "Split to was_ist_was_junior"
+      },
+      {
+        "album_id": "5qUDeUmj3UJ1UNpl6bx4K6",
+        "action": "exclude",
+        "reason": "Split to was_ist_was_junior"
+      },
+      {
+        "album_id": "699xV9wlNV7S4LleKgjcqc",
+        "action": "exclude",
+        "reason": "Split to was_ist_was_junior"
+      },
+      {
+        "album_id": "6MkPg2rnwWsLBsilNsyYO2",
+        "action": "exclude",
+        "reason": "Split to was_ist_was_junior"
+      },
+      {
+        "album_id": "2QuZPXo10JgLaNuVD48VhY",
+        "action": "exclude",
+        "reason": "Split to was_ist_was_junior"
+      },
+      {
+        "album_id": "2DMuYgkx2SEDgyNiMc61Ht",
+        "action": "exclude",
+        "reason": "Split to was_ist_was_junior"
+      },
+      {
+        "album_id": "7lh5cQdVwuYhF51NxGaplT",
+        "action": "exclude",
+        "reason": "Split to was_ist_was_junior"
+      },
+      {
+        "album_id": "5t55j01JtyejnxcBQjJzsE",
+        "action": "exclude",
+        "reason": "Split to was_ist_was_junior"
+      },
+      {
+        "album_id": "4YniqHlWM9rex1P2OdSO8S",
+        "action": "exclude",
+        "reason": "Split to was_ist_was_junior"
+      },
+      {
+        "album_id": "5iP0ftHF0tsXICTKEsZpxk",
+        "action": "exclude",
+        "reason": "Split to was_ist_was_junior"
+      },
+      {
+        "album_id": "4EvsczwugcxtaelZamYZUG",
+        "action": "exclude",
+        "reason": "Split to was_ist_was_junior"
+      },
+      {
+        "album_id": "5w5nRGCTFFyZ3yc5DJpRZK",
+        "action": "exclude",
+        "reason": "Split to was_ist_was_junior"
+      },
+      {
+        "album_id": "3yytUILoYBNP8CzBYFsxlI",
+        "action": "exclude",
+        "reason": "Split to was_ist_was_junior"
+      },
+      {
+        "album_id": "0wh8YXXxiGVuhnBlhtYuhJ",
+        "action": "exclude",
+        "reason": "Split to was_ist_was_junior"
+      },
+      {
+        "album_id": "6ghcuRhPzPQMatSEtzK95B",
+        "action": "exclude",
+        "reason": "Split to was_ist_was_junior"
+      },
+      {
+        "album_id": "3xfq1AJQkvIaOE2FML9JKF",
+        "action": "exclude",
+        "reason": "Split to was_ist_was_junior"
+      },
+      {
+        "album_id": "0Cz1qi44niHfwE7L5dsWnm",
+        "action": "exclude",
+        "reason": "Split to was_ist_was_junior"
+      },
+      {
+        "album_id": "1Ao84Y6BV1OMQVsOTVxiYn",
+        "action": "exclude",
+        "reason": "Split to was_ist_was_junior"
+      },
+      {
+        "album_id": "0HmYbeJgkiKZJl2rKR5Lcs",
+        "action": "exclude",
+        "reason": "Split to was_ist_was_junior"
+      },
+      {
+        "album_id": "5kJR39BptRZhyrYNKJXc61",
+        "action": "exclude",
+        "reason": "Split to was_ist_was_junior"
+      },
+      {
+        "album_id": "4advuDqie5MZL7wSEQdFg8",
+        "action": "exclude",
+        "reason": "Split to was_ist_was_junior"
+      },
+      {
+        "album_id": "3aBK2kY2rnJtaEuDCy9ACD",
+        "action": "exclude",
+        "reason": "Split to was_ist_was_junior"
+      },
+      {
+        "album_id": "7K9Vi9tL3AWpnoDinnaXgo",
+        "action": "exclude",
+        "reason": "Split to was_ist_was_junior"
+      },
+      {
+        "album_id": "7zU1NSsPQbHwXXoEHWa1g8",
+        "action": "exclude",
+        "reason": "Split to was_ist_was_junior"
+      },
+      {
+        "album_id": "5hbeQvVFzZ8HHQq6eErK7E",
+        "action": "exclude",
+        "reason": "Split to was_ist_was_junior"
+      },
+      {
+        "album_id": "74IHtwKxCCSPrZunSbaQwP",
+        "action": "exclude",
+        "reason": "Split to was_ist_was_junior"
+      },
+      {
+        "album_id": "5Cwab1QkXDKbSKUxShYWzY",
+        "action": "exclude",
+        "reason": "Split to was_ist_was_junior"
+      },
+      {
+        "album_id": "0HmbY5lxDKE70Yf5KZ4ltV",
+        "action": "exclude",
+        "reason": "Split to was_ist_was_junior"
+      },
+      {
+        "album_id": "75gQMhqUBYCsOnYcN91E2z",
+        "action": "exclude",
+        "reason": "Split to was_ist_was_junior"
+      },
+      {
+        "album_id": "7lg0uupyKUagvOUJaJfBCv",
+        "action": "exclude",
+        "reason": "Split to was_ist_was_junior"
+      }
+    ],
     "splits": [
       {
         "new_id": "was_ist_was_junior",

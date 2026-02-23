@@ -1,0 +1,162 @@
+{
+  "query": "Kim Possible Hörspiel",
+  "model": "kimi-k2.5",
+  "curated_at": "2026-02-22T23:36:23.071782+00:00",
+  "series": {
+    "id": "kim_possible_hoerspiel",
+    "title": "Kim Possible Hörspiel",
+    "aliases": [],
+    "keywords": [
+      "Kim Possible"
+    ],
+    "spotify_artist_ids": [
+      "4K0ahCZPDrpRDp5U1o42y5"
+    ],
+    "episode_pattern": "^(\\d+):",
+    "albums": [
+      {
+        "spotify_album_id": "56x8mxEL9Sg4Ipyti8sa94",
+        "include": true,
+        "episode_num": 1,
+        "title": "01: Schwer verknallt / Der neue Ron (Hörspiel zur Disney TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6UxI47uuw98h3XMXPVC6BI",
+        "include": true,
+        "episode_num": 2,
+        "title": "02: Wahnsinn zahlt sich nicht aus / Die Nummer eins (Hörspiel zur Disney TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1rDpNQjt0gBXe1jrW8IGE5",
+        "include": true,
+        "episode_num": 3,
+        "title": "03: Kim wird Trainerin / Mutantenjagd im Schnee (Hörspiel zur Disney TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5BiJ4uyQyc3WBf4HSPcf1K",
+        "include": true,
+        "episode_num": 4,
+        "title": "04: Die Orientierungswoche / Die goldenen Jahre (Hörspiel zur Disney TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2E5HCTFKJLuQUdVklAA4Im",
+        "include": true,
+        "episode_num": 5,
+        "title": "05: Ron, der Hauswirtschaftslehrer / Der Zwillingsfaktor (Hörspiel zur Disney TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2UOboSEAEnVRfUUJfsrM3R",
+        "include": true,
+        "episode_num": 6,
+        "title": "06: Halloween / Der kleine Prinz (Hörspiel zur Disney TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4xyrU5BS63cIkMlzwmn1z3",
+        "include": true,
+        "episode_num": 7,
+        "title": "07: Ein Affenzirkus / Kim als Hollywood-Heldin (Hörspiel zur Disney TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "784kiQZ61kcA9JoXL6RFFU",
+        "include": true,
+        "episode_num": 8,
+        "title": "08: Tierisch genial / Späte Rache (Hörspiel zur Disney TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6nBOEO0oLX40GAXUnRwq42",
+        "include": true,
+        "episode_num": 9,
+        "title": "09: Eine klebrige Angelegenheit / Das Lotus-Schwert (Hörspiel zur Disney TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0BEVOgAXHlWC2YRFrqKEhS",
+        "include": true,
+        "episode_num": 10,
+        "title": "10: Die Familienzusammenführung / Das Furchtlose Frettchen (Hörspiel zur Disney TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "20rnP22cnRWUirJBWJKp2i",
+        "include": true,
+        "episode_num": 11,
+        "title": "11: Billig währt am längsten / Showdown im Wilden Westen (Hörspiel zur Disney TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0cbSUW37YcE3CMq17MBFfX",
+        "include": true,
+        "episode_num": 12,
+        "title": "12: Der Ron-Faktor / Ausflug in die Geschichte (Hörspiel zur Disney TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "07w3nmL7zHUQ3FoBbeXio7",
+        "include": true,
+        "episode_num": 13,
+        "title": "13: Die Erkältung / Die Wahrheit tut weh / Der böse Ron (Hörspiel zur Disney TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2h7nUcnL6fDPF2iiI1qP7T",
+        "include": true,
+        "episode_num": 14,
+        "title": "14: Team Impossible / Ein ganzer Kerl (Hörspiel zur Disney TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0xr44IRukGuFossAiOHdZL",
+        "include": true,
+        "episode_num": 15,
+        "title": "15: Die Fahrprüfung / Das Affen-Amulett (Hörspiel zur Disney TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5wvmuqGpnLF1UXB9jcnTKb",
+        "include": true,
+        "episode_num": 16,
+        "title": "16: Mission zwischen den Zeiten: Gegenwart, Vergangenheit, und Zukunft (Hörspiel zur Disney TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0zdBTJ91RqFMZUA2mx8Wqu",
+        "include": false,
+        "episode_num": null,
+        "title": "Sklizeň 2012",
+        "exclude_reason": "Not a Kim Possible Hörspiel - Czech rap/hip-hop compilation by unrelated artist"
+      },
+      {
+        "spotify_album_id": "2rllSVOxPLf5nYQMxiPJ5D",
+        "include": false,
+        "episode_num": null,
+        "title": "Rave Alert",
+        "exclude_reason": "Not a Kim Possible Hörspiel - electronic/dance album by unrelated artist"
+      }
+    ],
+    "age_note": "Suitable from 5+",
+    "curator_notes": "Artist profile contains unrelated music releases (Czech rap/hip-hop and dance albums) that share the name 'Kim Possible' but are not part of the Disney Hörspiel series. Only the 16 numbered episodes (2023 release) are included. Episodes contain 2-3 TV episode adaptations each."
+  },
+  "review": {
+    "reviewed_at": "2026-02-22T23:46:58.320525+00:00",
+    "reviewed_by": "review-series.py",
+    "overrides": [],
+    "notes": "Auto-approved: no gaps or duplicates found.",
+    "verification": {
+      "model": "minimax-m2.5",
+      "verified_at": "2026-02-22T23:48:01.287200+00:00",
+      "approve": true,
+      "concerns": "",
+      "override_verdicts": [],
+      "split_verdicts": []
+    },
+    "status": "approved"
+  }
+}

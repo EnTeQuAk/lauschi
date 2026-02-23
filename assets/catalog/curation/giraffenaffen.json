@@ -1,0 +1,522 @@
+{
+  "query": "Giraffenaffen",
+  "model": "kimi-k2.5",
+  "curated_at": "2026-02-23T00:19:38.310519+00:00",
+  "series": {
+    "id": "giraffenaffen",
+    "title": "Giraffenaffen",
+    "aliases": [],
+    "keywords": [
+      "Giraffenaffen"
+    ],
+    "spotify_artist_ids": [
+      "2iofOsu4vMRmrbjuqGR6ex"
+    ],
+    "episode_pattern": [
+      "Giraffenaffen (\\d+)",
+      "Giraffenaffen (\\d+) -"
+    ],
+    "albums": [
+      {
+        "spotify_album_id": "3yRICOfCU3aESj5tqYOXnD",
+        "include": true,
+        "episode_num": 1,
+        "title": "Giraffenaffen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5vrbcnXTiRb9xoO61FYHp6",
+        "include": true,
+        "episode_num": 2,
+        "title": "Giraffenaffen 2",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5VZGaclaVcOskXydrnfbRd",
+        "include": true,
+        "episode_num": 3,
+        "title": "Giraffenaffen 3",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4NA5h5vfjAStxzWPqORxsl",
+        "include": true,
+        "episode_num": 4,
+        "title": "Giraffenaffen 4 - Winterzeit",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4Itat8oPtnebq6HeoSCThz",
+        "include": true,
+        "episode_num": 5,
+        "title": "Giraffenaffen 5",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4tKopKYEuPMRgidTB1c8RS",
+        "include": true,
+        "episode_num": 6,
+        "title": "Giraffenaffen 6",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6YZONXa0vRpQoqNBclZtIy",
+        "include": true,
+        "episode_num": 7,
+        "title": "Giraffenaffen 7 - Die große Geburtstagsfeier (Party mit Schlagerstars)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5kYWHjNbS4eEXayo7Emihd",
+        "include": true,
+        "episode_num": 8,
+        "title": "Giraffenaffen 8",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "20hBTS92YHvo2a1ctaNO4K",
+        "include": true,
+        "episode_num": 9,
+        "title": "Giraffenaffen 9 - Weltreise",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "50tVUAMgN0kZImV76WPr7M",
+        "include": false,
+        "episode_num": null,
+        "title": "Nö mit Ö",
+        "exclude_reason": "Spin-off/standalone project, separate storyline from main numbered series"
+      },
+      {
+        "spotify_album_id": "0wLvHZNHXf35ysGUMmlGaz",
+        "include": false,
+        "episode_num": null,
+        "title": "Giraffenaffen Winterlieder",
+        "exclude_reason": "Compilation - winter songs collection from various albums"
+      },
+      {
+        "spotify_album_id": "01SNosHxUjZGtd547wqY4l",
+        "include": false,
+        "episode_num": null,
+        "title": "Giraffenaffen Schlaflieder",
+        "exclude_reason": "Compilation - sleep songs collection from various albums"
+      },
+      {
+        "spotify_album_id": "7ic5JPyZp9sNkoBVz0LYBi",
+        "include": false,
+        "episode_num": null,
+        "title": "Party Hits",
+        "exclude_reason": "Themed compilation EP (5 tracks)"
+      },
+      {
+        "spotify_album_id": "1XMIFPEEukPvh1s9NDJnxB",
+        "include": false,
+        "episode_num": null,
+        "title": "Ostern",
+        "exclude_reason": "Themed compilation EP (5 tracks) - seasonal songs"
+      },
+      {
+        "spotify_album_id": "0PBvPhE8lbUxiuMKBlBxPq",
+        "include": false,
+        "episode_num": null,
+        "title": "Wir gehen wandern",
+        "exclude_reason": "Themed compilation EP (5 tracks)"
+      },
+      {
+        "spotify_album_id": "566dlGwEhIJYa8gbocEQg0",
+        "include": false,
+        "episode_num": null,
+        "title": "REISE",
+        "exclude_reason": "Themed compilation EP (5 tracks)"
+      },
+      {
+        "spotify_album_id": "55tRRYyEGb9hKwpHvH5ab6",
+        "include": false,
+        "episode_num": null,
+        "title": "Frühlingslieder",
+        "exclude_reason": "Themed compilation EP (4 tracks) - seasonal songs"
+      },
+      {
+        "spotify_album_id": "5pAUL8Vhjr9LtmtMb25kth",
+        "include": false,
+        "episode_num": null,
+        "title": "Es ist Sommer",
+        "exclude_reason": "Themed compilation EP (5 tracks) - seasonal songs"
+      },
+      {
+        "spotify_album_id": "5rkndVmD7Wmsw5GwkJMhqX",
+        "include": false,
+        "episode_num": null,
+        "title": "Licht aus",
+        "exclude_reason": "Single track release (part of Giraffenaffen 9)"
+      },
+      {
+        "spotify_album_id": "4u2bWPCYOYwLSMH8nrjFKe",
+        "include": false,
+        "episode_num": null,
+        "title": "Fantasie",
+        "exclude_reason": "Single track release (part of Giraffenaffen 9)"
+      },
+      {
+        "spotify_album_id": "70vUvEDVIRZkUS5awYRY6y",
+        "include": false,
+        "episode_num": null,
+        "title": "So wie du bist",
+        "exclude_reason": "Single track release (part of Giraffenaffen 9)"
+      },
+      {
+        "spotify_album_id": "1riqtFtj2nCQBKXKdsWFPA",
+        "include": false,
+        "episode_num": null,
+        "title": "Du wolltest doch die Welt retten",
+        "exclude_reason": "Single track release (part of Giraffenaffen 9)"
+      },
+      {
+        "spotify_album_id": "0tjFugr3lvDchnY359nQhb",
+        "include": false,
+        "episode_num": null,
+        "title": "Wenn ich groß bin",
+        "exclude_reason": "Single track release (part of Giraffenaffen 9)"
+      },
+      {
+        "spotify_album_id": "7AjBtdHDEo6GxvItm9cacY",
+        "include": false,
+        "episode_num": null,
+        "title": "Astronaut",
+        "exclude_reason": "Single/EP release (5 tracks) - songs from Giraffenaffen 8"
+      },
+      {
+        "spotify_album_id": "6bbBz7LX6QsXaeQ2pQXR5C",
+        "include": false,
+        "episode_num": null,
+        "title": "Let It Go",
+        "exclude_reason": "Single/EP release (4 tracks) - songs from Giraffenaffen 8"
+      },
+      {
+        "spotify_album_id": "69i4cUKV3HheXty7kXrYCc",
+        "include": false,
+        "episode_num": null,
+        "title": "Schön ist es auf der Welt zu sein",
+        "exclude_reason": "Single/EP release (3 tracks) - songs from Giraffenaffen 8"
+      },
+      {
+        "spotify_album_id": "5uqY8t3cDTkuk20u2OWEEO",
+        "include": false,
+        "episode_num": null,
+        "title": "Warum bin ich so fröhlich?",
+        "exclude_reason": "Single/EP release (2 tracks) - songs from Giraffenaffen 8"
+      },
+      {
+        "spotify_album_id": "59qukbAtRWUwwdKKxkV5Ez",
+        "include": false,
+        "episode_num": null,
+        "title": "Dir gehört mein Herz",
+        "exclude_reason": "Single track release (part of Giraffenaffen 8)"
+      },
+      {
+        "spotify_album_id": "5P2b3M986vZ8lZ0pedBPMa",
+        "include": false,
+        "episode_num": null,
+        "title": "So ein schöner Tag (Fliegerlied)",
+        "exclude_reason": "Single/EP release (4 tracks) - songs from Giraffenaffen 7"
+      },
+      {
+        "spotify_album_id": "0kQosSDLA1GSMB3oOMCHh4",
+        "include": false,
+        "episode_num": null,
+        "title": "Ich habe einen kleinen Papagei",
+        "exclude_reason": "Single/EP release (3 tracks) - songs from Giraffenaffen 7"
+      },
+      {
+        "spotify_album_id": "0ioeM2cNrzFty2ACoXhJwC",
+        "include": false,
+        "episode_num": null,
+        "title": "Der Gorilla mit der Sonnenbrille",
+        "exclude_reason": "Single track release (part of Giraffenaffen 7)"
+      },
+      {
+        "spotify_album_id": "06cxMAu5QUPlsydhTxvFTy",
+        "include": false,
+        "episode_num": null,
+        "title": "Kleine weisse Friedenstaube",
+        "exclude_reason": "Single track release (part of Giraffenaffen 7)"
+      },
+      {
+        "spotify_album_id": "0GMKclRSTSt8t1zYXDOET3",
+        "include": false,
+        "episode_num": null,
+        "title": "Ottokar hat Segelohren",
+        "exclude_reason": "Single track release (part of Giraffenaffen 6)"
+      },
+      {
+        "spotify_album_id": "136a0BlBM0VHv7hsRU1PZO",
+        "include": false,
+        "episode_num": null,
+        "title": "Wenn Du richtig glücklich bist",
+        "exclude_reason": "Single track release (part of Giraffenaffen 6)"
+      },
+      {
+        "spotify_album_id": "6UJ87xpeIikPr3SVNxfUF2",
+        "include": false,
+        "episode_num": null,
+        "title": "Und Alle! (Giraffenaffensong)",
+        "exclude_reason": "Single track release (part of Giraffenaffen 6)"
+      },
+      {
+        "spotify_album_id": "6Ci3S7Uqh75R4EfvkdkhEk",
+        "include": false,
+        "episode_num": null,
+        "title": "Die Gedanken sind frei",
+        "exclude_reason": "Single track release (part of Giraffenaffen 6)"
+      },
+      {
+        "spotify_album_id": "2agScj53Krj6QvpNrUoOHI",
+        "include": false,
+        "episode_num": null,
+        "title": "Guter Mond, Du gehst so stille",
+        "exclude_reason": "Single track release (part of Giraffenaffen 6)"
+      },
+      {
+        "spotify_album_id": "7tZPUskUr0F1ImQNWcz2sY",
+        "include": false,
+        "episode_num": null,
+        "title": "Manchmal hab' ich Wut",
+        "exclude_reason": "Single track release (part of Giraffenaffen 6)"
+      },
+      {
+        "spotify_album_id": "036c9qe2gffvnDLy00UFka",
+        "include": false,
+        "episode_num": null,
+        "title": "Kommt ein Vogel geflogen",
+        "exclude_reason": "Single track release (part of Giraffenaffen 3)"
+      },
+      {
+        "spotify_album_id": "53bLnCFKbjL04pG7904fZR",
+        "include": false,
+        "episode_num": null,
+        "title": "Hej, Pippi Langstrumpf",
+        "exclude_reason": "Single track release (part of Giraffenaffen 3)"
+      },
+      {
+        "spotify_album_id": "22alWVXKYNevvtOpMXjB5P",
+        "include": false,
+        "episode_num": null,
+        "title": "Giraffenaffenzeit",
+        "exclude_reason": "Single track release (part of Giraffenaffen 3)"
+      },
+      {
+        "spotify_album_id": "5B1NvoguoTzfsgBkAktnrn",
+        "include": false,
+        "episode_num": null,
+        "title": "BOAH ist das krass",
+        "exclude_reason": "DIKKA album (different artist) - miscategorized under this artist profile"
+      },
+      {
+        "spotify_album_id": "0ROAPtv4s0CYrFPyhLsEqW",
+        "include": false,
+        "episode_num": null,
+        "title": "BOAH ist das krass (Instrumental)",
+        "exclude_reason": "DIKKA album (different artist) - miscategorized under this artist profile"
+      },
+      {
+        "spotify_album_id": "6UEP6Q1MtM1nDElrYWuH3I",
+        "include": false,
+        "episode_num": null,
+        "title": "Winterliche Weihnachten mit DIKKA",
+        "exclude_reason": "DIKKA album (different artist) - miscategorized under this artist profile"
+      },
+      {
+        "spotify_album_id": "588aeglMHNDYgtF1eaeDBw",
+        "include": false,
+        "episode_num": null,
+        "title": "Deutsche Weihnachtslieder",
+        "exclude_reason": "Various artists compilation (34 tracks) - miscategorized under this artist profile"
+      },
+      {
+        "spotify_album_id": "2H40D0gNFlfHpHyDfTaHjQ",
+        "include": false,
+        "episode_num": null,
+        "title": "Minidisco Hits - Die beste Faschings-Party für Kinder",
+        "exclude_reason": "Various artists compilation (40 tracks) - miscategorized under this artist profile"
+      },
+      {
+        "spotify_album_id": "6BePkiATJdhX0iy7ww2tiY",
+        "include": false,
+        "episode_num": null,
+        "title": "Silvesterparty für Kinder",
+        "exclude_reason": "Various artists compilation (28 tracks) - miscategorized under this artist profile"
+      },
+      {
+        "spotify_album_id": "3O9czSZqp1TtCtyJhJZHo2",
+        "include": false,
+        "episode_num": null,
+        "title": "Fiesta En Inglés: Música Para Niños",
+        "exclude_reason": "Various artists compilation (32 tracks) - miscategorized under this artist profile"
+      },
+      {
+        "spotify_album_id": "6yyGvzVrtpe4KguwgzZteM",
+        "include": false,
+        "episode_num": null,
+        "title": "Mini Disco Hits - Die beliebtesten Partylieder für Kinder",
+        "exclude_reason": "Various artists compilation (41 tracks) - miscategorized under this artist profile"
+      },
+      {
+        "spotify_album_id": "1wAZV90RKoldQA0onHAUnN",
+        "include": false,
+        "episode_num": null,
+        "title": "Ballermann Hits für Kinder",
+        "exclude_reason": "Various artists compilation (63 tracks) - miscategorized under this artist profile"
+      },
+      {
+        "spotify_album_id": "5G8HgYykGKioclFbUPkVDW",
+        "include": false,
+        "episode_num": null,
+        "title": "Schwiizer Wiehnachte",
+        "exclude_reason": "Various artists compilation (79 tracks) - miscategorized under this artist profile"
+      },
+      {
+        "spotify_album_id": "0h4kLSiNf5PRJ9DIowGasV",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinder Faschingsparty",
+        "exclude_reason": "Various artists compilation (35 tracks) - miscategorized under this artist profile"
+      },
+      {
+        "spotify_album_id": "5lU9vjSzaHKNgoXu39lkvU",
+        "include": false,
+        "episode_num": null,
+        "title": "Weltraum & Universum Kinderlieder",
+        "exclude_reason": "Various artists compilation (33 tracks) - miscategorized under this artist profile"
+      },
+      {
+        "spotify_album_id": "6wT8kqjYsQJH1n4c4NgpxL",
+        "include": false,
+        "episode_num": null,
+        "title": "Eules Lieblingslieder zum Einschlafen",
+        "exclude_reason": "Various artists compilation (29 tracks) - miscategorized under this artist profile"
+      },
+      {
+        "spotify_album_id": "0C7ehYm80OmfqpGWEDb0UG",
+        "include": false,
+        "episode_num": null,
+        "title": "Coole Musik für Kinder",
+        "exclude_reason": "Various artists compilation (56 tracks) - miscategorized under this artist profile"
+      },
+      {
+        "spotify_album_id": "5pvpOwJYGK5SQfUGpOJPvX",
+        "include": false,
+        "episode_num": null,
+        "title": "Gute Nacht Lieder für Kinder",
+        "exclude_reason": "Various artists compilation (19 tracks) - miscategorized under this artist profile"
+      },
+      {
+        "spotify_album_id": "5m0I6omKJFr8neVnLSToxM",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderlieder Ostern",
+        "exclude_reason": "Various artists compilation (27 tracks) - miscategorized under this artist profile"
+      },
+      {
+        "spotify_album_id": "7iBE1j3WYZJm0KJXWhARpI",
+        "include": false,
+        "episode_num": null,
+        "title": "Kindergarten Klassiker",
+        "exclude_reason": "Various artists compilation (40 tracks) - miscategorized under this artist profile"
+      },
+      {
+        "spotify_album_id": "5lSVt0Usami2ArbKwHkFXf",
+        "include": false,
+        "episode_num": null,
+        "title": "Top 20 Hits für Kids",
+        "exclude_reason": "Various artists compilation (20 tracks) - miscategorized under this artist profile"
+      },
+      {
+        "spotify_album_id": "6RPZOWnGDzJWoSh49K15MU",
+        "include": false,
+        "episode_num": null,
+        "title": "Herbstmusik für Kinder",
+        "exclude_reason": "Various artists compilation (41 tracks) - miscategorized under this artist profile"
+      },
+      {
+        "spotify_album_id": "1bN78ZGgCJHKboeyaWy7tP",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinder Disco Hits",
+        "exclude_reason": "Various artists compilation (35 tracks) - miscategorized under this artist profile"
+      },
+      {
+        "spotify_album_id": "3HeOo5rTqm3kQJBiwRivcX",
+        "include": false,
+        "episode_num": null,
+        "title": "Best Of 2025 Kindermusik",
+        "exclude_reason": "Various artists compilation (27 tracks) - miscategorized under this artist profile"
+      },
+      {
+        "spotify_album_id": "5VM2OjyrJm7p5VfB4cRgU3",
+        "include": false,
+        "episode_num": null,
+        "title": "Ostern 2025",
+        "exclude_reason": "Various artists compilation (28 tracks) - miscategorized under this artist profile"
+      },
+      {
+        "spotify_album_id": "0FgSCJUjzka5UuXG9L8YuA",
+        "include": false,
+        "episode_num": null,
+        "title": "Frühling & Ostern Kinderlieder",
+        "exclude_reason": "Various artists compilation (30 tracks) - miscategorized under this artist profile"
+      },
+      {
+        "spotify_album_id": "2g29h6hw9QFgdGPBwFt2Ro",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderlieder Familie",
+        "exclude_reason": "Various artists compilation (49 tracks) - miscategorized under this artist profile"
+      },
+      {
+        "spotify_album_id": "103EXochAKZq2sqqPTwI6s",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderlieder für Zuhause",
+        "exclude_reason": "Various artists compilation (31 tracks) - miscategorized under this artist profile"
+      },
+      {
+        "spotify_album_id": "6pXX5QaUEReX9rhAD5Ko13",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderlieder Advent 2024",
+        "exclude_reason": "Various artists compilation (26 tracks) - miscategorized under this artist profile"
+      },
+      {
+        "spotify_album_id": "4lpEBRYp9HnTCKhbRJJCY7",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderlieder Halloween Hits",
+        "exclude_reason": "Various artists compilation (24 tracks) - miscategorized under this artist profile"
+      },
+      {
+        "spotify_album_id": "2gK5fAVZSfmqshqdZoHmSp",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderlieder Spielen",
+        "exclude_reason": "Various artists compilation (42 tracks) - miscategorized under this artist profile"
+      }
+    ],
+    "age_note": "Suitable from 3+",
+    "curator_notes": "Giraffenaffen is a musical children's series featuring story-songs. Each numbered album contains original songs with sing-along versions. Giraffenaffen 9 'Weltreise' features a proper Hörspiel-style story with 11 chapters. Many albums on this Spotify artist profile are miscategorized compilations from other artists (DIKKA, various artists collections) and should be ignored. 'Nö mit Ö' (2016) is a separate spin-off project with its own narrative. Albums 3-5 and 8 have high track counts due to including both regular and 'Sing mit' versions of each song."
+  },
+  "review": {
+    "reviewed_at": "2026-02-23T00:37:18.300604+00:00",
+    "reviewed_by": "review-series.py",
+    "overrides": [],
+    "notes": "Auto-approved: no gaps or duplicates found.",
+    "verification": {
+      "model": "minimax-m2.5",
+      "verified_at": "2026-02-23T00:37:44.097511+00:00",
+      "approve": true,
+      "concerns": "",
+      "override_verdicts": [],
+      "split_verdicts": []
+    },
+    "status": "approved"
+  }
+}

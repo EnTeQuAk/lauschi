@@ -1,0 +1,55 @@
+{
+  "query": "Bummelkasten",
+  "model": "kimi-k2.5",
+  "curated_at": "2026-02-23T00:09:42.983010+00:00",
+  "series": {
+    "id": "bummelkasten",
+    "title": "Bummelkasten",
+    "aliases": [],
+    "keywords": [],
+    "spotify_artist_ids": [
+      "3QTPj4dzAbanx0RJ20CW1S"
+    ],
+    "episode_pattern": null,
+    "albums": [
+      {
+        "spotify_album_id": "7CrKTi6XbZAHLoBf0BZhcx",
+        "include": false,
+        "episode_num": null,
+        "title": "Irgendwas Bestimmtes (Karaoke Version)",
+        "exclude_reason": "Karaoke version"
+      },
+      {
+        "spotify_album_id": "3rImMXX7l2IOsScd9vqHcB",
+        "include": true,
+        "episode_num": null,
+        "title": "Irgendwas Bestimmtes",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0H3oGP8jf2QVfLHzaj2NVG",
+        "include": true,
+        "episode_num": null,
+        "title": "D!E GÄNG",
+        "exclude_reason": null
+      }
+    ],
+    "age_note": "Suitable from 3+",
+    "curator_notes": "Bummelkasten is a German children's music band (part of Oetinger Media), not a Hörspiel (audio drama) series. Their catalog consists entirely of music albums with songs and skits, not narrative audio play episodes. There are no 'Folge' numbered episodes or Hörspiel content in this artist's discography. This artist should be handled as a music artist, not a Hörspiel series."
+  },
+  "review": {
+    "reviewed_at": "2026-02-23T00:14:22.242076+00:00",
+    "reviewed_by": "review-series.py",
+    "overrides": [],
+    "notes": "Auto-approved: no gaps or duplicates found.",
+    "verification": {
+      "model": "minimax-m2.5",
+      "verified_at": "2026-02-23T00:15:22.255374+00:00",
+      "approve": true,
+      "concerns": "",
+      "override_verdicts": [],
+      "split_verdicts": []
+    },
+    "status": "approved"
+  }
+}

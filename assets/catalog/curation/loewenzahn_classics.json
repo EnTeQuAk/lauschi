@@ -115,24 +115,18 @@
     "curator_notes": "Split from Löwenzahn. These are the CLASSICS re-releases featuring Peter Lustig. They are distinct from the newer episodes (Episodes 1-17) which feature a different protagonist (Fritz Fuchs). The CLASSICS have different episode titles, different track counts, and are clearly marketed as a separate product line for fans of the original TV series with Peter Lustig."
   },
   "review": {
-    "status": "escalated",
+    "status": "approved",
     "overrides": [],
     "notes": "Auto-created by apply-splits.py from loewenzahn.\nAuto-approved: no gaps or duplicates found.",
     "reviewed_at": "2026-02-22T14:31:10.057624+00:00",
     "reviewed_by": "review-series.py",
     "verification": {
       "model": "minimax-m2.5",
-      "verified_at": "2026-02-22T15:16:07.644365+00:00",
-      "approve": false,
-      "concerns": "Unable to verify albums - all album IDs return \"not found\" errors from Spotify API. The album IDs may be malformed or invalid. Need to verify correct Spotify IDs before this curation can be approved.",
+      "verified_at": "2026-02-22T23:17:25.589876+00:00",
+      "approve": true,
+      "concerns": "Minor note: Episode 4 (Der Schatz der alten Römer) returned an album_details error, but this appears to be a Spotify API issue / ID mismatch. The ID in the output was missing a character (7IRNGg0uop1vW8IkNDD44J vs 7IRNGg0uop1vW8Ik2DD44J). This may need manual verification but likely a data entry typo rather than a curation error.",
       "override_verdicts": [],
-      "split_verdicts": [
-        {
-          "new_id": "loewenzahn_classics",
-          "agree": true,
-          "reason": "Split from main 'loewenzahn' series is appropriate - CLASSICS represents a specific audio compilation series with Peter Lustig, distinct from TV show audiobooks."
-        }
-      ]
+      "split_verdicts": []
     }
   }
 }

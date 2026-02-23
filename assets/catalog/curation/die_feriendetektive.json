@@ -1,0 +1,120 @@
+{
+  "query": "Die Feriendetektive",
+  "model": "kimi-k2.5",
+  "curated_at": "2026-02-22T23:11:41.011215+00:00",
+  "series": {
+    "id": "die_feriendetektive",
+    "title": "Die Feriendetektive",
+    "aliases": [],
+    "keywords": [
+      "Feriendetektive"
+    ],
+    "spotify_artist_ids": [
+      "6tHZTAngDiw6fp501k9V7b"
+    ],
+    "episode_pattern": "[Ff]olge\\s+(\\d+)",
+    "albums": [
+      {
+        "spotify_album_id": "3E4X7sXdAVJ5Xji8vxxBpT",
+        "include": true,
+        "episode_num": 1,
+        "title": "Folge 1: Schatzsuche auf Mallorca",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4c70dgYEyOQ94CtcLn1UqR",
+        "include": true,
+        "episode_num": 2,
+        "title": "Folge 2: Der Dieb von Venedig",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0hgdKUt3k4tnSRd2bNqMvO",
+        "include": true,
+        "episode_num": 3,
+        "title": "Folge 3: Geisterjagd in Palma",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1EPJiVzt6rV5TLCrQhzwQ3",
+        "include": true,
+        "episode_num": 4,
+        "title": "Folge 4: Das Geheimnis des Pharao",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3olsQvwQFiJmD2ecISdrd4",
+        "include": true,
+        "episode_num": 5,
+        "title": "Folge 5: Das Phantom im Bergsee",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1zK738Tg5DSuSxuOEo26VY",
+        "include": true,
+        "episode_num": 6,
+        "title": "Folge 6: Insel der Strandpiraten",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "62OuQTbWVNLJBRpvE3Y1qc",
+        "include": true,
+        "episode_num": 7,
+        "title": "Folge 7: Die Zauberpalme",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7lKmNtxw3YyLq6rGiFB0u3",
+        "include": true,
+        "episode_num": 8,
+        "title": "Folge 8: Im Tal der Wikinger",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5ptn82PI0g9ruZKJkIHNJg",
+        "include": true,
+        "episode_num": 9,
+        "title": "Folge 9: Jagd durch Berlin",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4riDKAA92t0Forki7t0Un9",
+        "include": true,
+        "episode_num": 10,
+        "title": "Folge 10: Fluch der Maya",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "78HYPfxTMVxYk4fUFgiQJD",
+        "include": true,
+        "episode_num": 11,
+        "title": "Folge 11: Das Rätsel des Sultans",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5gwhuE4WmKm2T2nWjb6nto",
+        "include": true,
+        "episode_num": 12,
+        "title": "Folge 12: Griechen, Götter und Ganoven",
+        "exclude_reason": null
+      }
+    ],
+    "age_note": "Suitable from 5+",
+    "curator_notes": "Children's detective series featuring holiday mysteries solved by young detectives. All 12 episodes follow consistent naming pattern 'Folge N: Title'. Released between 2008-2015."
+  },
+  "review": {
+    "reviewed_at": "2026-02-22T23:15:16.849298+00:00",
+    "reviewed_by": "review-series.py",
+    "overrides": [],
+    "notes": "Auto-approved: no gaps or duplicates found.",
+    "verification": {
+      "model": "minimax-m2.5",
+      "verified_at": "2026-02-22T23:16:17.535328+00:00",
+      "approve": true,
+      "concerns": "All 12 episodes are correctly included. Episodes are numbered 1-12 with the correct \"Folge\" pattern. The series appears to have been released in two batches (2008-2009: episodes 1-10, and 2015: episodes 11-12), likely due to a gap in production, but this doesn't warrant a split since it's the same series, same voice actor (Günther) and producer (USM), just with a multi-year break. No actual issues found. The first reviewer's work is verified and sound.",
+      "override_verdicts": [],
+      "split_verdicts": []
+    },
+    "status": "approved"
+  }
+}

@@ -67,16 +67,16 @@
     "curator_notes": "Split from Tabaluga. 1997 original Hörspiel series with 40 tracks per album (2 episodes per release), different voice cast and production era from 2021+ series"
   },
   "review": {
-    "status": "escalated",
+    "status": "approved",
     "overrides": [],
     "notes": "Auto-created by apply-splits.py from tabaluga.\nAuto-approved: no gaps or duplicates found.",
     "reviewed_at": "2026-02-22T14:38:11.167278+00:00",
     "reviewed_by": "review-series.py",
     "verification": {
       "model": "minimax-m2.5",
-      "verified_at": "2026-02-22T15:20:05.881119+00:00",
-      "approve": false,
-      "concerns": "Unable to verify the albums: none of the 7 album IDs returned any data from Spotify. The IDs appear truncated (should be 22 characters). Please provide the full Spotify album IDs so I can verify the albums are real Tabaluga episodes. Without this data, I cannot confirm this is a valid curation.",
+      "verified_at": "2026-02-22T23:18:39.294290+00:00",
+      "approve": true,
+      "concerns": "The episode count appears incomplete. The original German \"Tabaluga\" series had many more than 7 episodes (likely 52 or 78 episodes across multiple seasons). Only episodes 1-7 from 1997 are included here. However, based on the series ID \"tabaluga_klassik\" and the 1997 date, this may represent only a subset (perhaps a specific sub-series or first season). The included albums are correct: proper episode titles, sequential numbering from 01-07, same label (EUROPA), consistent release dates in late 1997/early 1998. No issues with the included content.",
       "override_verdicts": [],
       "split_verdicts": []
     }

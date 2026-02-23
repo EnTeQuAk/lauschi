@@ -31,16 +31,16 @@
     "curator_notes": "Split from Prinzessin Lillifee. These are full movie audiobooks (Hörspiel zum Kinofilm) - 'Prinzessin Lillifee' (2009) and 'Das kleine Einhorn' (2011). They are 43-track feature-length audiobooks, not episodic content. Parents would expect these as separate movie entries, not mixed with episodic series."
   },
   "review": {
-    "status": "escalated",
+    "status": "approved",
     "overrides": [],
     "notes": "Auto-created by apply-splits.py from prinzessin_lillifee.\nAuto-approved: no gaps or duplicates found.",
     "reviewed_at": "2026-02-22T14:31:10.077370+00:00",
     "reviewed_by": "review-series.py",
     "verification": {
       "model": "minimax-m2.5",
-      "verified_at": "2026-02-22T15:18:03.053613+00:00",
-      "approve": false,
-      "concerns": "Included albums (2) cannot be verified — both album IDs returned \"not found\" when I tried to check their details. This could indicate:\n1. The album IDs in the curation are incorrect or stale\n2. These albums are no longer available on Spotify\n\nI cannot verify that the included content is actually correct without being able to retrieve album details. This needs human attention to verify the album IDs are correct or find the actual Spotify IDs for the Prinzessin Lillifee movie audiobooks.",
+      "verified_at": "2026-02-22T23:17:59.419095+00:00",
+      "approve": true,
+      "concerns": "",
       "override_verdicts": [],
       "split_verdicts": []
     }

@@ -1,0 +1,956 @@
+{
+  "query": "Sing Kinderlieder",
+  "model": "kimi-k2.5",
+  "curated_at": "2026-02-23T00:22:53.613543+00:00",
+  "series": {
+    "id": "sing_kinderlieder",
+    "title": "Sing Kinderlieder",
+    "aliases": [
+      "Sing mit mir"
+    ],
+    "keywords": [
+      "Sing Kinderlieder",
+      "Sing mit mir"
+    ],
+    "spotify_artist_ids": [
+      "0FaGQhzs7L0uIuUdjolB1n"
+    ],
+    "episode_pattern": "^Sing mit mir Kinderlieder (\\d+)",
+    "albums": [
+      {
+        "spotify_album_id": "7iLFUsQ7bwJCDenijWW3qI",
+        "include": false,
+        "episode_num": null,
+        "title": "Sing mit mir - Die schönsten Stadtlieder (Milo, das Müllautokind & seine Freunde)",
+        "exclude_reason": "Themed compilation (not matching episode pattern)"
+      },
+      {
+        "spotify_album_id": "4HTTK7caZ60GYVN8DWRajq",
+        "include": false,
+        "episode_num": null,
+        "title": "Tierischer Spaß",
+        "exclude_reason": "Not matching episode pattern"
+      },
+      {
+        "spotify_album_id": "7a9LjFa9J13rIwMMMfNf2J",
+        "include": false,
+        "episode_num": null,
+        "title": "Sing mit mir Schlaflieder (Instrumental)",
+        "exclude_reason": "Themed compilation (not matching episode pattern)"
+      },
+      {
+        "spotify_album_id": "2NJgYqFGrg01D8dE4sIDdm",
+        "include": false,
+        "episode_num": null,
+        "title": "Sing mit mir Schlaflieder",
+        "exclude_reason": "Themed compilation (not matching episode pattern)"
+      },
+      {
+        "spotify_album_id": "6pSxTURrEwQjlB9gAD6lRG",
+        "include": false,
+        "episode_num": null,
+        "title": "Sing mit mir - Die schönsten Fahrzeuglieder (Bagger Mats & seine Freunde)",
+        "exclude_reason": "Themed compilation (not matching episode pattern)"
+      },
+      {
+        "spotify_album_id": "3typ4tyA4ZNRVmYTVuAGaf",
+        "include": false,
+        "episode_num": null,
+        "title": "Sing mit mir - Faschings- und Partylieder",
+        "exclude_reason": "Themed compilation (not matching episode pattern)"
+      },
+      {
+        "spotify_album_id": "545vw5QOT10xxtw1UFa6X9",
+        "include": false,
+        "episode_num": null,
+        "title": "Sing mit mir - Die schönsten Herbstlieder",
+        "exclude_reason": "Themed compilation (not matching episode pattern)"
+      },
+      {
+        "spotify_album_id": "0Z0p71rVSs8B0bY99nwT0H",
+        "include": false,
+        "episode_num": null,
+        "title": "Tierisch gute Kinderlieder!",
+        "exclude_reason": "Not matching episode pattern"
+      },
+      {
+        "spotify_album_id": "2KDpfZkxaijQvyNclFDzUz",
+        "include": false,
+        "episode_num": null,
+        "title": "Mutausbruch",
+        "exclude_reason": "Not matching episode pattern"
+      },
+      {
+        "spotify_album_id": "7HFVqjUlQmIJ9C5zipdf2X",
+        "include": false,
+        "episode_num": null,
+        "title": "Papa Müsli, Vol. 1",
+        "exclude_reason": "Not matching episode pattern"
+      },
+      {
+        "spotify_album_id": "0RmtSJKviMJgFQnfbkuXJb",
+        "include": false,
+        "episode_num": null,
+        "title": "Sing Kinderlieder (Die 40 beliebtesten Kinderlieder zum Mitsingen)",
+        "exclude_reason": "Compilation (40 tracks, not matching episode pattern)"
+      },
+      {
+        "spotify_album_id": "3LiYJfLx7zzzOxWNDjGeY7",
+        "include": false,
+        "episode_num": null,
+        "title": "Sing mit mir Weihnachtslieder",
+        "exclude_reason": "Themed compilation (not matching episode pattern)"
+      },
+      {
+        "spotify_album_id": "5QBZjM8j374zr3irDKFtRZ",
+        "include": false,
+        "episode_num": null,
+        "title": "Sing mit mir Spiel- und Bewegungslieder",
+        "exclude_reason": "Themed compilation (not matching episode pattern)"
+      },
+      {
+        "spotify_album_id": "5SgiKSIJZIr6nhEoYNEIIY",
+        "include": true,
+        "episode_num": 4,
+        "title": "Sing mit mir Kinderlieder 4",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "04KtYb4IzNhOfhfVC55Xtt",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderlieder",
+        "exclude_reason": "Not matching episode pattern"
+      },
+      {
+        "spotify_album_id": "2Z1IZ5uLBTXFTrW4E38fsU",
+        "include": true,
+        "episode_num": 3,
+        "title": "Sing mit mir Kinderlieder 3",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4lTsgSv1tV6npPi0p7rTdN",
+        "include": true,
+        "episode_num": 2,
+        "title": "Sing mit mir Kinderlieder 2",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4gDvWioaiyrWrSmAWxLf6t",
+        "include": true,
+        "episode_num": 1,
+        "title": "Sing mit mir Kinderlieder",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "71XMisDnciHQ13cqDvV6ob",
+        "include": false,
+        "episode_num": null,
+        "title": "Willi von der Wasserwacht",
+        "exclude_reason": "Single track (not a Hörspiel episode)"
+      },
+      {
+        "spotify_album_id": "3bRpZtxTVTH5Jnc7tzEqGR",
+        "include": false,
+        "episode_num": null,
+        "title": "Weihnachten mit Kalle Klang",
+        "exclude_reason": "Not matching episode pattern"
+      },
+      {
+        "spotify_album_id": "6nQBdcxjiefaDyQ0Splzd4",
+        "include": false,
+        "episode_num": null,
+        "title": "Der Wartwurm",
+        "exclude_reason": "Single track (not a Hörspiel episode)"
+      },
+      {
+        "spotify_album_id": "1EqDJHsr8eiN4Pg4AYpOCf",
+        "include": false,
+        "episode_num": null,
+        "title": "Wellenreitersittich",
+        "exclude_reason": "Single track (not a Hörspiel episode)"
+      },
+      {
+        "spotify_album_id": "0Snj7vHwzz8rsT1CgW4ShA",
+        "include": false,
+        "episode_num": null,
+        "title": "Hey Freunde!",
+        "exclude_reason": "Single track (not a Hörspiel episode)"
+      },
+      {
+        "spotify_album_id": "2Kpch2FPO17plxd45tsWT0",
+        "include": false,
+        "episode_num": null,
+        "title": "Der Kakadu",
+        "exclude_reason": "Single track (not a Hörspiel episode)"
+      },
+      {
+        "spotify_album_id": "0y87LMEhMDLDPRKxE5GG7Z",
+        "include": false,
+        "episode_num": null,
+        "title": "Das Hundekacka-Lied",
+        "exclude_reason": "Single track (not a Hörspiel episode)"
+      },
+      {
+        "spotify_album_id": "0e9Gk5P09eqNB1FbKH12dT",
+        "include": false,
+        "episode_num": null,
+        "title": "Manni, die Müllpresse",
+        "exclude_reason": "Single track (not a Hörspiel episode)"
+      },
+      {
+        "spotify_album_id": "1uS7RTrNCgCxe6piQQkP5f",
+        "include": false,
+        "episode_num": null,
+        "title": "Pippa mit der Post",
+        "exclude_reason": "Single track (not a Hörspiel episode)"
+      },
+      {
+        "spotify_album_id": "33MIhi7HLfUhL1o3Cu3VUT",
+        "include": false,
+        "episode_num": null,
+        "title": "Dr. Sperrmüll",
+        "exclude_reason": "Single track (not a Hörspiel episode)"
+      },
+      {
+        "spotify_album_id": "22Qe3kgUKKlnSNXqMLOyuP",
+        "include": false,
+        "episode_num": null,
+        "title": "Rattenparty",
+        "exclude_reason": "Single track (not a Hörspiel episode)"
+      },
+      {
+        "spotify_album_id": "6wPEVaNd00Uu6p67d7Fd3M",
+        "include": false,
+        "episode_num": null,
+        "title": "Krickel-Krackel-Dackel",
+        "exclude_reason": "Single track (not a Hörspiel episode)"
+      },
+      {
+        "spotify_album_id": "73P1E9fLVAVo1SszMSTEDA",
+        "include": false,
+        "episode_num": null,
+        "title": "Öffis, Öffis, Öffis (Wir sind die Öffis!)",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode and doesn't match episode pattern"
+      },
+      {
+        "spotify_album_id": "5mFnRhGk15yAMIPqKFHlLX",
+        "include": false,
+        "episode_num": null,
+        "title": "Pyjama Fujiyama",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode and doesn't match episode pattern"
+      },
+      {
+        "spotify_album_id": "2Tp3VvZ3MTlY0JO7VPTXAg",
+        "include": false,
+        "episode_num": null,
+        "title": "Schorsch, der Schneepflug",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode and doesn't match episode pattern"
+      },
+      {
+        "spotify_album_id": "2SLQgluNcYhuOu1iuIRUmi",
+        "include": false,
+        "episode_num": null,
+        "title": "Das Stadt-ABC",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode and doesn't match episode pattern"
+      },
+      {
+        "spotify_album_id": "4LpexSh8ra5WrBrk4iX5Qj",
+        "include": false,
+        "episode_num": null,
+        "title": "Das Haus vom Nikolaus",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode and doesn't match episode pattern"
+      },
+      {
+        "spotify_album_id": "6Qt7DOfdkKXvJsY0qQX78z",
+        "include": false,
+        "episode_num": null,
+        "title": "Kira Kehrmaschine",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode and doesn't match episode pattern"
+      },
+      {
+        "spotify_album_id": "7rCR6y3fgyyGhaemHstC84",
+        "include": false,
+        "episode_num": null,
+        "title": "Billy Betonmischer (Drehen und mischen)",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode and doesn't match episode pattern"
+      },
+      {
+        "spotify_album_id": "0GbHWW55RZCni8Q6fE84tf",
+        "include": false,
+        "episode_num": null,
+        "title": "Kloalabär",
+        "exclude_reason": "Single music track (2 tracks), not a Hörspiel episode and doesn't match episode pattern"
+      },
+      {
+        "spotify_album_id": "2F6C1lgYZVmpoN0dMHDbUj",
+        "include": false,
+        "episode_num": null,
+        "title": "Leon, das Chamäleon",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode and doesn't match episode pattern"
+      },
+      {
+        "spotify_album_id": "6LaJko8YC9PqBLgIgAggNQ",
+        "include": false,
+        "episode_num": null,
+        "title": "Nein oder Ja",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode and doesn't match episode pattern"
+      },
+      {
+        "spotify_album_id": "1CMyjEmi0BC2KUuuxVQ43N",
+        "include": false,
+        "episode_num": null,
+        "title": "Der Stau-Song",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode and doesn't match episode pattern"
+      },
+      {
+        "spotify_album_id": "7FyNuaw1Afg1HRZEdqqeec",
+        "include": false,
+        "episode_num": null,
+        "title": "Der Vogel-Song",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode and doesn't match episode pattern"
+      },
+      {
+        "spotify_album_id": "4WXC2tQ68NFUIhAMiV1gMc",
+        "include": false,
+        "episode_num": null,
+        "title": "Die EM der Tiere",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode and doesn't match episode pattern"
+      },
+      {
+        "spotify_album_id": "0mQ5FF7bKlp0YJlOtktjTQ",
+        "include": false,
+        "episode_num": null,
+        "title": "Ich sehe was, was Du nicht siehst",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode and doesn't match episode pattern"
+      },
+      {
+        "spotify_album_id": "334pLnqgKIaCxeBMZM0pOR",
+        "include": false,
+        "episode_num": null,
+        "title": "Das Verstecklied",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode and doesn't match episode pattern"
+      },
+      {
+        "spotify_album_id": "0S6SiRAlvLyG1MEZpox92o",
+        "include": false,
+        "episode_num": null,
+        "title": "Koffer packen (Die Tiere machen Urlaub)",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode and doesn't match episode pattern"
+      },
+      {
+        "spotify_album_id": "7FlRK4AZhlUFFB3mB3sE6G",
+        "include": false,
+        "episode_num": null,
+        "title": "Großer Spaß",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode and doesn't match episode pattern"
+      },
+      {
+        "spotify_album_id": "0KmgwcAOoY8UdtPqkkerSR",
+        "include": false,
+        "episode_num": null,
+        "title": "Die Sonne scheint heut heller",
+        "exclude_reason": "Single music track (2 tracks), not a Hörspiel episode and doesn't match episode pattern"
+      },
+      {
+        "spotify_album_id": "6iwzsJXjaz6MkoGVJEVVUN",
+        "include": false,
+        "episode_num": null,
+        "title": "Von den Schultern bis zum Zeh",
+        "exclude_reason": "Single music track (2 tracks), not a Hörspiel episode and doesn't match episode pattern"
+      },
+      {
+        "spotify_album_id": "2YH18rpVuPXm5gbAjCGuFL",
+        "include": false,
+        "episode_num": null,
+        "title": "Sei kein Frosch",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode and doesn't match episode pattern"
+      },
+      {
+        "spotify_album_id": "25ovIDqEUG0Nabxjm4LZ7z",
+        "include": false,
+        "episode_num": null,
+        "title": "Der Schnarchitekt",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode and doesn't match episode pattern"
+      },
+      {
+        "spotify_album_id": "6eW2AsosMVFY5K61IprG6e",
+        "include": false,
+        "episode_num": null,
+        "title": "Alles ist doof",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode and doesn't match episode pattern"
+      },
+      {
+        "spotify_album_id": "1q3sKMsQetadXOjwI6Ftrr",
+        "include": false,
+        "episode_num": null,
+        "title": "Mäusetanz (Olé, olé)",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode and doesn't match episode pattern"
+      },
+      {
+        "spotify_album_id": "2jYg6uNvuUBHXDgh72inN8",
+        "include": false,
+        "episode_num": null,
+        "title": "Das Kutschen-Lied (So unendlich frei)",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode and doesn't match episode pattern"
+      },
+      {
+        "spotify_album_id": "1sb0oV8Qk7G84B9HMrKWly",
+        "include": false,
+        "episode_num": null,
+        "title": "Hubi, der Hubschrauber",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode and doesn't match episode pattern"
+      },
+      {
+        "spotify_album_id": "7t2I4cbF8ZoMCYzXIDVePf",
+        "include": false,
+        "episode_num": null,
+        "title": "Autos raten, das macht Spaß",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode and doesn't match episode pattern"
+      },
+      {
+        "spotify_album_id": "0aBawkXMTL0G5WdKplE7Bp",
+        "include": false,
+        "episode_num": null,
+        "title": "Das Fliegerlied (Über Wolken, über Berge)",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode and doesn't match episode pattern"
+      },
+      {
+        "spotify_album_id": "7KVEHYkz8Ra9Mlx5uBNjf8",
+        "include": false,
+        "episode_num": null,
+        "title": "Simsalabim",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode and doesn't match episode pattern"
+      },
+      {
+        "spotify_album_id": "6LnhKxnszqbSlb5RHoRyTJ",
+        "include": false,
+        "episode_num": null,
+        "title": "Sam Segelboot",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode and doesn't match episode pattern"
+      },
+      {
+        "spotify_album_id": "6YI0N6uPyTVm7cqqJEuJG0",
+        "include": false,
+        "episode_num": null,
+        "title": "Der Weihnachtsmann kommt (Eine Muh, eine Mäh)",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode and doesn't match episode pattern"
+      },
+      {
+        "spotify_album_id": "157sYRKxlVdvSi9ek8T5OY",
+        "include": false,
+        "episode_num": null,
+        "title": "Hallo, lieber Weihnachtsstern",
+        "exclude_reason": "Single music track (2 tracks), not a Hörspiel episode; doesn't match episode pattern"
+      },
+      {
+        "spotify_album_id": "5kWm9WSlos50cpezVzklqM",
+        "include": false,
+        "episode_num": null,
+        "title": "Kleine Igel schlafen gern",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode; doesn't match episode pattern"
+      },
+      {
+        "spotify_album_id": "6mUD5oo04yR6wuvml9Tvbj",
+        "include": false,
+        "episode_num": null,
+        "title": "Drei Helden auf vier Rädern (Krankenwagen, Feuerwehr und Polizei)",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode; doesn't match episode pattern"
+      },
+      {
+        "spotify_album_id": "4ttNVpNHEHRAdFC62GuhGk",
+        "include": false,
+        "episode_num": null,
+        "title": "Das Zug-Lied (Tuff-tuff-tut)",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode; doesn't match episode pattern"
+      },
+      {
+        "spotify_album_id": "13pMDead8waztgZvuaokZD",
+        "include": false,
+        "episode_num": null,
+        "title": "Kopf hoch, kleiner Kran! (Der große Kran und der kleine Kran)",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode; doesn't match episode pattern"
+      },
+      {
+        "spotify_album_id": "5pQyHfMkEiRTMnfZ9UxDdh",
+        "include": false,
+        "episode_num": null,
+        "title": "Gustav, der Geländewagen",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode; doesn't match episode pattern"
+      },
+      {
+        "spotify_album_id": "7hVD8WaORwez5bTQgZg8ru",
+        "include": false,
+        "episode_num": null,
+        "title": "Peter Pommesmann",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode; doesn't match episode pattern"
+      },
+      {
+        "spotify_album_id": "58t94VcDu61kdqwwIP3zog",
+        "include": false,
+        "episode_num": null,
+        "title": "Die Walze Wilma",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode; doesn't match episode pattern"
+      },
+      {
+        "spotify_album_id": "5syNIwz1l3BTSOp9gs7qbx",
+        "include": false,
+        "episode_num": null,
+        "title": "Reisebus der Tiere (Wer sitzt da am Steuer?)",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode; doesn't match episode pattern"
+      },
+      {
+        "spotify_album_id": "4qFKPtNDWb1XNq3pbNe3OO",
+        "include": false,
+        "episode_num": null,
+        "title": "Rudi Regenwurm",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode; doesn't match episode pattern"
+      },
+      {
+        "spotify_album_id": "6qkNjcnIQjVngc0OlPGBky",
+        "include": false,
+        "episode_num": null,
+        "title": "Monstertruck",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode; doesn't match episode pattern"
+      },
+      {
+        "spotify_album_id": "2pbtdzxVMs9WMIn2bS9j0i",
+        "include": false,
+        "episode_num": null,
+        "title": "Gabi Stapler",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode; doesn't match episode pattern"
+      },
+      {
+        "spotify_album_id": "2C9WtxdQXlkujzfXdaPMkS",
+        "include": false,
+        "episode_num": null,
+        "title": "Teekesselchen",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode; doesn't match episode pattern"
+      },
+      {
+        "spotify_album_id": "0Vur91pPWJYRDzJCmq2pOM",
+        "include": false,
+        "episode_num": null,
+        "title": "Der Mangoeisbär",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode; doesn't match episode pattern"
+      },
+      {
+        "spotify_album_id": "298vgf5nQ51luODxW79av2",
+        "include": false,
+        "episode_num": null,
+        "title": "Heulschrecke",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode; doesn't match episode pattern"
+      },
+      {
+        "spotify_album_id": "3UkaubwfnqJ2rGY7QWkx9z",
+        "include": false,
+        "episode_num": null,
+        "title": "Blaulichtwal",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode; doesn't match episode pattern"
+      },
+      {
+        "spotify_album_id": "1VQOQ7PTZ7C6oBfLxU51hC",
+        "include": false,
+        "episode_num": null,
+        "title": "Nikolaus, Nikolaus",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode; doesn't match episode pattern"
+      },
+      {
+        "spotify_album_id": "3b8yj1ZviXm8HVJxgtz33X",
+        "include": false,
+        "episode_num": null,
+        "title": "Papageinachtsmann",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode; doesn't match episode pattern"
+      },
+      {
+        "spotify_album_id": "5cMg5eK6J5WhcupFhfVTQx",
+        "include": false,
+        "episode_num": null,
+        "title": "Du gehörst dazu",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode; doesn't match episode pattern"
+      },
+      {
+        "spotify_album_id": "4hriYYPCIDhIN1InO25jLS",
+        "include": false,
+        "episode_num": null,
+        "title": "Trampolinosaurier",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode; doesn't match episode pattern"
+      },
+      {
+        "spotify_album_id": "6i8j2nTq96l2Y3ArxASuT5",
+        "include": false,
+        "episode_num": null,
+        "title": "Einhorn-Song",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode; doesn't match episode pattern"
+      },
+      {
+        "spotify_album_id": "5ulnRu0E3pDQmQRyteaks0",
+        "include": false,
+        "episode_num": null,
+        "title": "Aufräum-Superkraft",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode; doesn't match episode pattern"
+      },
+      {
+        "spotify_album_id": "1gd5vdalK8fyH9MvyJF2Rt",
+        "include": false,
+        "episode_num": null,
+        "title": "Party im Schneckenhaus",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode; doesn't match episode pattern"
+      },
+      {
+        "spotify_album_id": "5yuGXZ60SRQkqdNDz5dwHk",
+        "include": false,
+        "episode_num": null,
+        "title": "Säbelzahnputztiger",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode; doesn't match episode pattern"
+      },
+      {
+        "spotify_album_id": "1GIbrdBbRs1fRSOFBJprym",
+        "include": false,
+        "episode_num": null,
+        "title": "Der Flamingo-Song",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode; doesn't match episode pattern"
+      },
+      {
+        "spotify_album_id": "4uxjjtYSOFp2kFHsUPqXbS",
+        "include": false,
+        "episode_num": null,
+        "title": "Pelikan in der Achterbahn",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode; doesn't match episode pattern"
+      },
+      {
+        "spotify_album_id": "2P3OZpTktpxZh6MJFkbrQz",
+        "include": false,
+        "episode_num": null,
+        "title": "Susi Schmetterling",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode; doesn't match episode pattern"
+      },
+      {
+        "spotify_album_id": "3vtanYgPbgGQvD1SaPw3Pz",
+        "include": false,
+        "episode_num": null,
+        "title": "Das Lied der Klangbuchstaben",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode; doesn't match episode pattern"
+      },
+      {
+        "spotify_album_id": "5rm4HpXFmWi6lgMg6EcFpB",
+        "include": false,
+        "episode_num": null,
+        "title": "Das Lied vom Fehler",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode; doesn't match episode pattern"
+      },
+      {
+        "spotify_album_id": "1YelNpTECLKqjSy8LLv2f9",
+        "include": false,
+        "episode_num": null,
+        "title": "Das vier Fälle Lied - Teil 2",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode; doesn't match episode pattern"
+      },
+      {
+        "spotify_album_id": "7kVj5bFEPhaocFKyRj4LK6",
+        "include": false,
+        "episode_num": null,
+        "title": "Das vier Fälle Lied - Teil 1",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "2ghn5yKEudkZwG1rILhhW6",
+        "include": false,
+        "episode_num": null,
+        "title": "Mutausbruch",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "09EOpdRy4SjfwrmEG6nycW",
+        "include": false,
+        "episode_num": null,
+        "title": "Doppelt so hoch (Das Umarmungslied)",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "3ztExg6OkrHguA0FcvvhM9",
+        "include": false,
+        "episode_num": null,
+        "title": "Elsa, der rosa Elefant",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "1KjHPmo0wAwfWzimNT9EWR",
+        "include": false,
+        "episode_num": null,
+        "title": "Fang den Fuß",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "5wSRNIpadstnUYxdlEwh9M",
+        "include": false,
+        "episode_num": null,
+        "title": "Ich wünschte mir",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "0JQ4EUMkgZtaW8uF4ZJhKY",
+        "include": false,
+        "episode_num": null,
+        "title": "Erwin, das kleine Warzenschwein",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "0U8hIW22ZgQhrC9zZYWlk1",
+        "include": false,
+        "episode_num": null,
+        "title": "Ich mach Quatsch",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "6NtF29NS6sxJqPdSazBT9d",
+        "include": false,
+        "episode_num": null,
+        "title": "Die Zeitmaschine",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "2Y8kqgrRW0vyfqEQsVpJbY",
+        "include": false,
+        "episode_num": null,
+        "title": "Weihnachtsfieber",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "2LlxiO33bdoV6vhoRcWqqJ",
+        "include": false,
+        "episode_num": null,
+        "title": "Der Weihnachtsmann kommt bald",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "3UTXkaF3Dzvl0AmNEqJ38p",
+        "include": false,
+        "episode_num": null,
+        "title": "Brief an den Weihnachtsmann",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "6x1aeBk19mMMXAvcAijtPx",
+        "include": false,
+        "episode_num": null,
+        "title": "Tollpatsch Weihnachtsmann",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "40yYRnvXvAAIuQQlwupHVz",
+        "include": false,
+        "episode_num": null,
+        "title": "Wo ist es denn? (Das Suchlied)",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "6pEuqiuDtDwuUoLTEgYX1k",
+        "include": false,
+        "episode_num": null,
+        "title": "Wenn ich groß bin",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "5vp9JkQpfvGxFXdP5VD4GR",
+        "include": false,
+        "episode_num": null,
+        "title": "Bruno, der Brummi",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "46Pc2c8KysROt4lO8H2z10",
+        "include": false,
+        "episode_num": null,
+        "title": "Bum bum bum",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "0XX9wXQeHoy5hboe4OmbyY",
+        "include": false,
+        "episode_num": null,
+        "title": "Clowns und Akrobaten",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "06vBRGRs5JePMgF9ViFQpn",
+        "include": false,
+        "episode_num": null,
+        "title": "Der kleine Dino Mino",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "2TwhwiFMVtJf3C3korWCws",
+        "include": false,
+        "episode_num": null,
+        "title": "Ahoi, Piraten! (Das Piraten-Lied)",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "0Ki6wQKgZjQJx8H6h2ufKF",
+        "include": false,
+        "episode_num": null,
+        "title": "Ne Zukunft, die was kann (Der Klima Song)",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "62l5ygA1aR0WrFTbp1ZUWs",
+        "include": false,
+        "episode_num": null,
+        "title": "Die Buchstaben-Fee",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "5Oc785f0mXetET1GjsrNfG",
+        "include": false,
+        "episode_num": null,
+        "title": "Das Astronauten-Lied (Karl, der Astronaut)",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "6vrI0yYxlzgOK5nPLm27Oq",
+        "include": false,
+        "episode_num": null,
+        "title": "Das Lied vom ersten Schultag",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "1s2U5BQqCdzWyNW9BNI46o",
+        "include": false,
+        "episode_num": null,
+        "title": "Das Zahlenlied",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "5PJsy7IyZwKMSBPKCHeqDb",
+        "include": false,
+        "episode_num": null,
+        "title": "Der Tag möcht schlafen gehen",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "3BZOxxRXjEMkRqvQLcFegi",
+        "include": false,
+        "episode_num": null,
+        "title": "Geburtstagslied - Heute ist Dein Tag",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "6saV4hcW4xFjtjbiV5xbwM",
+        "include": false,
+        "episode_num": null,
+        "title": "Der rote Traktor (Das Traktor-Lied)",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "20DYYmgP6xRT9wjYoZgPLY",
+        "include": false,
+        "episode_num": null,
+        "title": "Pi-Pa-Pinguin",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "25iEMMfe6UmwgT3uLF41L0",
+        "include": false,
+        "episode_num": null,
+        "title": "Kommissar Tiger",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "2nIavmAWUem3qxXArqosic",
+        "include": false,
+        "episode_num": null,
+        "title": "Mit dem Rad",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "7fQvqi2VgQXHDGBny8SEOe",
+        "include": false,
+        "episode_num": null,
+        "title": "Ätschi Bätsch!",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "02UAh5DdjtxP9pRwSptYp1",
+        "include": false,
+        "episode_num": null,
+        "title": "Das Osterhasen-Lied (Hoppel, hoppel, 1-2-3)",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "6Zhks10AeD7KIldDmFwVy3",
+        "include": false,
+        "episode_num": null,
+        "title": "Kilimandscharo",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "52uqGB1i6B0UnBuvcUqayz",
+        "include": false,
+        "episode_num": null,
+        "title": "Dreh Dich im Kreis",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "4QoHnrOAd6HRoDI2Bw6oOx",
+        "include": false,
+        "episode_num": null,
+        "title": "Zähne putzen, Schlafi an",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "5xTazosTiWRrzCzBUkfzAC",
+        "include": false,
+        "episode_num": null,
+        "title": "Nudeltag",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "2djhvNxqzbH3ZpCR186uN3",
+        "include": false,
+        "episode_num": null,
+        "title": "Der Bagger-Song (Jack & Mats)",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "1NZzOm6PbtMLK6oMsOWOcW",
+        "include": false,
+        "episode_num": null,
+        "title": "Kleiner Schneemann",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "7ImuuIkpFHY599s4g9zvp7",
+        "include": false,
+        "episode_num": null,
+        "title": "Die Zahnfeuerwehr (Tatü-tata)",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "1QVju5VwknsJN2I5BVLGqR",
+        "include": false,
+        "episode_num": null,
+        "title": "Der Müllauto-Song (Tut-tut)",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode"
+      }
+    ],
+    "age_note": "Suitable from 3+",
+    "curator_notes": "Music/song series (not narrative Hörspiel). Features themed collections (vehicles, seasons, animals, sleep/Christmas/play songs) and character albums (Milo, Bagger Mats, Willi von der Wasserwacht, Kalle Klang, etc.). Main numbered sequence is 'Sing mit mir Kinderlieder' (vols. 1-4). Includes spinoffs like 'Papa Müsli'."
+  },
+  "review": {
+    "reviewed_at": "2026-02-23T00:37:18.294644+00:00",
+    "reviewed_by": "review-series.py",
+    "overrides": [],
+    "notes": "Auto-approved: no gaps or duplicates found.",
+    "verification": {
+      "model": "minimax-m2.5",
+      "verified_at": "2026-02-23T00:37:52.461521+00:00",
+      "approve": true,
+      "concerns": "",
+      "override_verdicts": [],
+      "split_verdicts": []
+    },
+    "status": "approved"
+  }
+}

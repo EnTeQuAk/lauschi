@@ -1,0 +1,814 @@
+{
+  "query": "3Berlin",
+  "model": "kimi-k2.5",
+  "curated_at": "2026-02-23T00:30:10.422299+00:00",
+  "series": {
+    "id": "drei_berlin",
+    "title": "3Berlin",
+    "aliases": [],
+    "keywords": [],
+    "spotify_artist_ids": [
+      "7eUEQQxUaukrKyzVjeWk1V"
+    ],
+    "episode_pattern": [
+      "Folge (\\d+)",
+      "Vol\\. (\\d+)"
+    ],
+    "albums": [
+      {
+        "spotify_album_id": "0g9RIR8AbTBTcMYHnPgD7l",
+        "include": false,
+        "episode_num": null,
+        "title": "Summ, Summ, Summ! - Die beliebtesten Weihnachtslieder, Vol. 2 (Instrumental-Version zum Mitsingen)",
+        "exclude_reason": "Song compilation (12 tracks, instrumental sing-along versions)"
+      },
+      {
+        "spotify_album_id": "52iNynDl0MewHssFZky8yX",
+        "include": false,
+        "episode_num": null,
+        "title": "Summ, Summ, Summ! - Die beliebtesten Weihnachtslieder, Vol. 2",
+        "exclude_reason": "Song compilation (12 tracks, Christmas songs)"
+      },
+      {
+        "spotify_album_id": "1hQfdyNKLKymEckXqq65F8",
+        "include": false,
+        "episode_num": null,
+        "title": "Summ, Summ, Summ! - Die beliebtesten Wissenslieder (Instrumental-Versionen zum Mitsingen)",
+        "exclude_reason": "Song compilation (12 tracks, instrumental sing-along versions)"
+      },
+      {
+        "spotify_album_id": "3ISqsMurUjDW5K7wDbQz62",
+        "include": false,
+        "episode_num": null,
+        "title": "Summ, Summ, Summ! - Die beliebtesten Wissenslieder",
+        "exclude_reason": "Song compilation (12 tracks, educational songs)"
+      },
+      {
+        "spotify_album_id": "2QNzuYCKRfhWhQtZIdNOcm",
+        "include": false,
+        "episode_num": null,
+        "title": "Summ, Summ, Summ! - Die beliebtesten Freundschaftslieder, Vol. 2 (Instrumental-Versionen zum Mitsingen)",
+        "exclude_reason": "Song compilation (12 tracks, instrumental sing-along versions)"
+      },
+      {
+        "spotify_album_id": "0NmrxmPhd1FQQujuHAAh5I",
+        "include": false,
+        "episode_num": null,
+        "title": "Summ, Summ, Summ! - Die beliebtesten Freundschaftslieder, Vol. 2",
+        "exclude_reason": "Song compilation (12 tracks, friendship songs)"
+      },
+      {
+        "spotify_album_id": "3EEktvSgLiTYfEx9MLPUa3",
+        "include": false,
+        "episode_num": null,
+        "title": "Summ, Summ, Summ! - Die beliebtesten Urlaubslieder (Instrumental-Versionen zum Mitsingen)",
+        "exclude_reason": "Song compilation (12 tracks, instrumental sing-along versions)"
+      },
+      {
+        "spotify_album_id": "2BUZL15xU7czyTTC1weXKT",
+        "include": false,
+        "episode_num": null,
+        "title": "Summ, Summ, Summ! - Die beliebtesten Urlaubslieder",
+        "exclude_reason": "Song compilation (12 tracks, holiday songs)"
+      },
+      {
+        "spotify_album_id": "6wWBEHr9hPkXzDhZZkJ7uB",
+        "include": false,
+        "episode_num": null,
+        "title": "Summ, Summ, Summ! - Die beliebtesten Schlaflieder, Vol. 3 (Instrumentalversion zum Mitsingen)",
+        "exclude_reason": "Song compilation (12 tracks, instrumental sing-along versions)"
+      },
+      {
+        "spotify_album_id": "0GUaZAZebsTIb4TMN4Pgtv",
+        "include": false,
+        "episode_num": null,
+        "title": "Summ, Summ, Summ! - Die beliebtesten Schlaflieder, Vol. 3",
+        "exclude_reason": "Song compilation (12 tracks, lullabies)"
+      },
+      {
+        "spotify_album_id": "5PSlZ8A9z332B25GhNtfno",
+        "include": false,
+        "episode_num": null,
+        "title": "Summ, Summ, Summ! - Die beliebtesten Schlaflieder Vol. 2 (Instrumental-Versionen zum Mitsingen)",
+        "exclude_reason": "Song compilation (12 tracks, instrumental sing-along versions)"
+      },
+      {
+        "spotify_album_id": "3kTg3tVI09SKqffmCoCPOz",
+        "include": false,
+        "episode_num": null,
+        "title": "Summ, Summ, Summ! - Die beliebtesten Schlaflieder Vol. 2",
+        "exclude_reason": "Song compilation (12 tracks, lullabies)"
+      },
+      {
+        "spotify_album_id": "0RkQKNWlDbAHrxt2ZNJbC1",
+        "include": false,
+        "episode_num": null,
+        "title": "Von Monsterstreiks und Kissenschlachten. Kinderlieder (Instrumental)",
+        "exclude_reason": "Song compilation (15 tracks, instrumental)"
+      },
+      {
+        "spotify_album_id": "2lGjBsdc5bJCQfEBXPE3lB",
+        "include": false,
+        "episode_num": null,
+        "title": "Von Monsterstreiks und Kissenschlachten. Kinderlieder",
+        "exclude_reason": "Song compilation (15 tracks)"
+      },
+      {
+        "spotify_album_id": "0Y3m4J4Y2CWZu1gVfH7cp0",
+        "include": false,
+        "episode_num": null,
+        "title": "Singen und Bewegen - Das Liederalbum (Instrumental-Versionen zum Mitsingen)",
+        "exclude_reason": "Song compilation (12 tracks, instrumental sing-along versions)"
+      },
+      {
+        "spotify_album_id": "6ii4F1GUDmCpKQKkd1OsXA",
+        "include": false,
+        "episode_num": null,
+        "title": "Singen und Bewegen - Das Liederalbum",
+        "exclude_reason": "Song compilation (12 tracks)"
+      },
+      {
+        "spotify_album_id": "3rXMf71NmuHDPnAOGSTja6",
+        "include": false,
+        "episode_num": null,
+        "title": "Wenn der helle Mond - Lieder zum Kuscheln & Einschlafen (Instrumental-Versionen zum Mitsingen)",
+        "exclude_reason": "Song compilation (12 tracks, lullabies, instrumental)"
+      },
+      {
+        "spotify_album_id": "1Mn6AIFjgVdvuFu1F4AiDx",
+        "include": false,
+        "episode_num": null,
+        "title": "Oh, wie schön ist Panama - Das Original-Liederalbum (Instrumental-Versionen zum Mitsingen)",
+        "exclude_reason": "Song compilation (24 tracks, instrumental)"
+      },
+      {
+        "spotify_album_id": "62dIe1rJb1UyaWJx1hkOxf",
+        "include": false,
+        "episode_num": null,
+        "title": "Lauras Stern - Das Liederalbum zum Kinofilm (Instrumental-Versionen zum Mitsingen)",
+        "exclude_reason": "Song compilation (24 tracks, movie soundtrack instrumental)"
+      },
+      {
+        "spotify_album_id": "3SgkU0Vff1e1IXD719xaSU",
+        "include": false,
+        "episode_num": null,
+        "title": "Frederick und seine Mäusefreunde - Das Liederalbum zu den Büchern (Instrumental-Versionen zum Mitsingen)",
+        "exclude_reason": "Song compilation (24 tracks, instrumental)"
+      },
+      {
+        "spotify_album_id": "28psAvSAP7JlI6mGLLVX9V",
+        "include": false,
+        "episode_num": null,
+        "title": "Summ, Summ, Summ! - Die beliebtesten Freundschaftslieder (Mitsing- und Instrumental-Versionen)",
+        "exclude_reason": "Song compilation (28 tracks, mitsing versions)"
+      },
+      {
+        "spotify_album_id": "4DnjceACsPXQRwf8wjgMHH",
+        "include": false,
+        "episode_num": null,
+        "title": "Oh, wie schön ist Panama - Das Original-Liederalbum",
+        "exclude_reason": "Song compilation (12 tracks)"
+      },
+      {
+        "spotify_album_id": "7r855N0wTZTFxyiFntXUsz",
+        "include": false,
+        "episode_num": null,
+        "title": "Lauras Stern - Das Liederalbum zum Kinofilm",
+        "exclude_reason": "Song compilation (12 tracks, movie soundtrack)"
+      },
+      {
+        "spotify_album_id": "6QBb4GTdgBPspEd1BGP6z8",
+        "include": false,
+        "episode_num": null,
+        "title": "Disney Junior Musik Kinderlieder (Folge 1)",
+        "exclude_reason": "Multi-artist music compilation (20 tracks), not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "21nyObBKjiIUtVXYmA4tVk",
+        "include": false,
+        "episode_num": null,
+        "title": "Frederick und seine Mäusefreunde - Das Liederalbum zu den Büchern",
+        "exclude_reason": "Song compilation (12 tracks)"
+      },
+      {
+        "spotify_album_id": "3cCHcl1mHw688ZrkT4buVo",
+        "include": false,
+        "episode_num": null,
+        "title": "Summ, Summ, Summ! - Die beliebtesten Tierlieder",
+        "exclude_reason": "Song compilation (24 tracks)"
+      },
+      {
+        "spotify_album_id": "31OSfM0b4gc984ZdQUri8S",
+        "include": false,
+        "episode_num": null,
+        "title": "Summ, Summ, Summ! - Die beliebtesten Freundschaftslieder",
+        "exclude_reason": "Song compilation (12 tracks)"
+      },
+      {
+        "spotify_album_id": "1dcmcplcx9WW6zFcIRHoJi",
+        "include": false,
+        "episode_num": null,
+        "title": "Summ, Summ, Summ! - Die beliebtesten Partylieder (inkl. Karaoke- und Instrumentalversionen aller Titel)",
+        "exclude_reason": "Song compilation with karaoke/instrumental versions (24 tracks)"
+      },
+      {
+        "spotify_album_id": "2kFx1qphLPx7LVBH0tZEwG",
+        "include": false,
+        "episode_num": null,
+        "title": "Wenn der helle Mond - Lieder zum Kuscheln & Einschlafen",
+        "exclude_reason": "Song compilation (12 tracks, lullabies)"
+      },
+      {
+        "spotify_album_id": "50UNy8GaxFNCH08gVVmsH4",
+        "include": true,
+        "episode_num": null,
+        "title": "Nicht von schlechten Eltern 2",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2ZEidqc9nE0UgHOE5KVtSs",
+        "include": true,
+        "episode_num": null,
+        "title": "Nicht von schlechten Eltern",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3R2ipwgqxdZkIUlvmGLbge",
+        "include": false,
+        "episode_num": null,
+        "title": "Summ, Summ, Summ! - Die beliebtesten Schlaflieder",
+        "exclude_reason": "Compilation of children's lullabies, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "6O6pb3uC4hFYMwFPiBkck3",
+        "include": false,
+        "episode_num": null,
+        "title": "Summ, Summ, Summ!: Die beliebtesten Spiel- und Bewegungslieder",
+        "exclude_reason": "Compilation of children's play/movement songs, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "6eDDX5gAtuCrsBtRIHpR4q",
+        "include": false,
+        "episode_num": null,
+        "title": "Summ, Summ, Summ! - Die beliebtesten Weihnachtslieder",
+        "exclude_reason": "Compilation of Christmas songs, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "6alaUHQkEXlwqoL6kJAjKm",
+        "include": true,
+        "episode_num": null,
+        "title": "Von Farbenfeen und Stinkesocken",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2fLIPz3DY2mvN6oYlZWHIZ",
+        "include": false,
+        "episode_num": null,
+        "title": "Die Schönsten und Besten - Partylieder für Kinder",
+        "exclude_reason": "Compilation of party songs, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "2QsRd5HesfRfpxcUW2BISr",
+        "include": false,
+        "episode_num": null,
+        "title": "Summ, Summ, Summ! - Die beliebtesten Kindergartenlieder",
+        "exclude_reason": "Compilation of kindergarten songs, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "6SUd6078b9X0fPlQuXi8nE",
+        "include": true,
+        "episode_num": null,
+        "title": "Big Bobby Car - Das Original-Liederalbum",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7KbYHsGNj9d2IIAKXTS6VM",
+        "include": true,
+        "episode_num": null,
+        "title": "Wir sind Raketen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7MZDk0Uq7Wj1sjfnRMKj9y",
+        "include": true,
+        "episode_num": null,
+        "title": "Ich lieb' die Weihnachtszeit",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3OuQSOwCSOnScbkeTFLgTt",
+        "include": true,
+        "episode_num": null,
+        "title": "Das bist du",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "01vOXgyRgMauZ26W0KNsRH",
+        "include": true,
+        "episode_num": null,
+        "title": "Cowgummi",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7senFonnIDQgispdySW745",
+        "include": true,
+        "episode_num": null,
+        "title": "Wofür brauch ich das nochmal?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1T3vhVfaBqTtM5AooReHMw",
+        "include": true,
+        "episode_num": null,
+        "title": "Ritter Rüdiger",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0WpzySmE1iv8ZrWXsgR4Qg",
+        "include": true,
+        "episode_num": null,
+        "title": "Schulfrei",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5gxh1whHX9qykSJb6dTcle",
+        "include": true,
+        "episode_num": null,
+        "title": "Privatverhext",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1Pp40Mngeiv80yr9qnG4py",
+        "include": true,
+        "episode_num": null,
+        "title": "Pyjama Party",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3Wj0D8aR3bdygqWpZLGtLW",
+        "include": true,
+        "episode_num": null,
+        "title": "Wiedersehen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5Be4uTHkxouM2LJWHKvziw",
+        "include": true,
+        "episode_num": null,
+        "title": "Pure Energie",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6dXgjpl5CmPuPY7fxRat0Y",
+        "include": true,
+        "episode_num": null,
+        "title": "So sein wie ich bin",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5wblU9JMPbXzwUEqaqNdf8",
+        "include": true,
+        "episode_num": null,
+        "title": "Du da oben (Original-Version)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5jqlhLjlGCyGvXVCJKwJ0e",
+        "include": true,
+        "episode_num": null,
+        "title": "Du da oben (Akustik-Version)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6Xwl0Icb4ZnxV2bLiX9Tu5",
+        "include": true,
+        "episode_num": null,
+        "title": "Hermann, das Leben ist schön",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "69taNaM1ThRnHOhGdZW94S",
+        "include": true,
+        "episode_num": null,
+        "title": "Hier auf dem Bauernhof",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "50WF24IiHnkwS6hgbBZQIH",
+        "include": true,
+        "episode_num": null,
+        "title": "Auf Balkonien",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6rsevZUG4O9MfQwOaGjbMR",
+        "include": true,
+        "episode_num": null,
+        "title": "Mit der Bahn",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7FpzmPcNIwl0zMUl742zRR",
+        "include": true,
+        "episode_num": null,
+        "title": "Wenn ich den See seh'",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1pZ8L9tUqDMJ813V5GKJ3c",
+        "include": true,
+        "episode_num": null,
+        "title": "Fühl dich frei",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5puThxD6C4mmmahSedyiGd",
+        "include": true,
+        "episode_num": null,
+        "title": "Abenteuer Weltall",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1WMinXW1SoQcCcjcI5dzuS",
+        "include": true,
+        "episode_num": null,
+        "title": "Happy Christmas - To You and Everyone",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0IZwlUg8IR46h7VFufZNHl",
+        "include": true,
+        "episode_num": null,
+        "title": "Happy Christmas - Pour Toi, Pour Nous, Pour Vous (Version Française)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "11umq9TNFtGYN9IMft97Vz",
+        "include": true,
+        "episode_num": null,
+        "title": "Happy Christmas - Para Todos por Igual",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5SKQvA0Tgq5dXHPVLIW1iH",
+        "include": true,
+        "episode_num": null,
+        "title": "Happy Christmas - Für Dich Und Alle Welt",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2YJ1Lb1ZqH07XOPyQUVQaU",
+        "include": true,
+        "episode_num": null,
+        "title": "Werft die Kissen in die Luft",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1Uho90ukKgTU3O1quDV6eo",
+        "include": true,
+        "episode_num": null,
+        "title": "Chill mal Chili",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3iSrgPUxen4cDfjdYdxOUu",
+        "include": true,
+        "episode_num": null,
+        "title": "Veggie Reggae (Dönermit)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6HNF1raANQ207kf4dIAsbB",
+        "include": true,
+        "episode_num": null,
+        "title": "Mach ich einfach morgen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0f5I1xJvzU8GqrggcHHuEF",
+        "include": true,
+        "episode_num": null,
+        "title": "Ein Hut, ein Stock, ein Regenschirm",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6zaIi89MZCZeZHpl7lojle",
+        "include": false,
+        "episode_num": null,
+        "title": "Summ, Summ, Summ! - Best Of",
+        "exclude_reason": "Compilation (Best Of, 24 tracks)"
+      },
+      {
+        "spotify_album_id": "1okXhtq0tnIFeeCK60mLoV",
+        "include": false,
+        "episode_num": null,
+        "title": "Party für alle",
+        "exclude_reason": "Compilation (20 tracks, no episode pattern)"
+      },
+      {
+        "spotify_album_id": "7p6V3YwfhFkOso6Oh6qS78",
+        "include": false,
+        "episode_num": null,
+        "title": "Gute Laune Lieder",
+        "exclude_reason": "Compilation (21 tracks, songs collection)"
+      },
+      {
+        "spotify_album_id": "3nftnFUhYkshVO8VIvoWy1",
+        "include": false,
+        "episode_num": null,
+        "title": "Unsere Stadt spricht alle Sprachen",
+        "exclude_reason": "Compilation (14 tracks, multi-language, not a Hörspiel episode)"
+      },
+      {
+        "spotify_album_id": "5XyArrsFg8f8KCrSvQbCfG",
+        "include": false,
+        "episode_num": null,
+        "title": "Ruhige Kinderlieder",
+        "exclude_reason": "Compilation (23 tracks, songs collection)"
+      },
+      {
+        "spotify_album_id": "5ZdDOhrHQCIkIrNgaQjoFi",
+        "include": false,
+        "episode_num": null,
+        "title": "Crash! Boom! Bang! (The Singles)",
+        "exclude_reason": "Compilation (The Singles, 7 tracks but clearly a singles compilation)"
+      },
+      {
+        "spotify_album_id": "3iDXJHdpT8UkdD9B9y5aNB",
+        "include": false,
+        "episode_num": null,
+        "title": "Popmusik für Kinder",
+        "exclude_reason": "Compilation (47 tracks)"
+      },
+      {
+        "spotify_album_id": "3EaNDv7HIvbnhwe3iQYKWr",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderhits",
+        "exclude_reason": "Compilation (48 tracks)"
+      },
+      {
+        "spotify_album_id": "6LnHevk4w0exUqwgDQrFh4",
+        "include": false,
+        "episode_num": null,
+        "title": "42 starke Kinderlieder für eine bessere Welt",
+        "exclude_reason": "Compilation (42 tracks, songs collection)"
+      },
+      {
+        "spotify_album_id": "44JnsXPxNwNotZD68sdj3h",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderlieder Basteln und Malen",
+        "exclude_reason": "Compilation (30 tracks, songs collection)"
+      },
+      {
+        "spotify_album_id": "0C7ehYm80OmfqpGWEDb0UG",
+        "include": false,
+        "episode_num": null,
+        "title": "Coole Musik für Kinder",
+        "exclude_reason": "Compilation (56 tracks)"
+      },
+      {
+        "spotify_album_id": "4uBms34SEzbHvBD4AjlEXU",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinder Radio Hits",
+        "exclude_reason": "Compilation (34 tracks)"
+      },
+      {
+        "spotify_album_id": "6TqsasJgHFMdfBqXcqupHQ",
+        "include": false,
+        "episode_num": null,
+        "title": "Quatschlieder für Kinder",
+        "exclude_reason": "Compilation (30 tracks, songs collection)"
+      },
+      {
+        "spotify_album_id": "5Glhu7GcVwFNX0iHbANP8w",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderdisco, Kinderparty, Kinder Tanzmusik",
+        "exclude_reason": "Compilation (33 tracks, music compilation)"
+      },
+      {
+        "spotify_album_id": "2jDmiY7mcEKARamrm0ipEF",
+        "include": false,
+        "episode_num": null,
+        "title": "Piraten-Lieder für Kinder, Vol. 2",
+        "exclude_reason": "Compilation (22 tracks, Vol. 2 is a song album volume, not an episode)"
+      },
+      {
+        "spotify_album_id": "2GER9wwJr4TdkFUVslAUrX",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderlieder Hip Hop",
+        "exclude_reason": "Compilation (32 tracks, songs collection)"
+      },
+      {
+        "spotify_album_id": "2f333YIjypEgyadvS64yAD",
+        "include": false,
+        "episode_num": null,
+        "title": "Kindergeburtstag 2025",
+        "exclude_reason": "Compilation (69 tracks, party music)"
+      },
+      {
+        "spotify_album_id": "2sCHzT02M2l7YQDv5Xru6J",
+        "include": false,
+        "episode_num": null,
+        "title": "GUTE LAUNE KINDER HITS - Zum Mitmachen, Singen und Tanzen",
+        "exclude_reason": "Compilation (40 tracks, songs collection)"
+      },
+      {
+        "spotify_album_id": "2DbanKF6mjjytuMEw8iTex",
+        "include": true,
+        "episode_num": null,
+        "title": "Rabatz",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5KUILDW3d8J6I7vvU6A0xK",
+        "include": false,
+        "episode_num": null,
+        "title": "Pipi Kacka & Pupsen Kinderlieder",
+        "exclude_reason": "Compilation (26 tracks, songs collection)"
+      },
+      {
+        "spotify_album_id": "5pvpOwJYGK5SQfUGpOJPvX",
+        "include": false,
+        "episode_num": null,
+        "title": "Gute Nacht Lieder für Kinder",
+        "exclude_reason": "Compilation (19 tracks, songs collection)"
+      },
+      {
+        "spotify_album_id": "7oNGWTBlXGzVSpbwEWGkjL",
+        "include": false,
+        "episode_num": null,
+        "title": "Schulstart Kinderlieder",
+        "exclude_reason": "Compilation (39 tracks, songs collection)"
+      },
+      {
+        "spotify_album_id": "7GHmQFQ3IHhei4giZJTOX3",
+        "include": false,
+        "episode_num": null,
+        "title": "Halloween Kinderparty (Lieder zum Mitsingen und Tanzen)",
+        "exclude_reason": "Compilation - themed party songs, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "02ecZEVRwMpuhktNNKjw4Y",
+        "include": true,
+        "episode_num": null,
+        "title": "Fliege hoch hinauf",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6k8nU0I0c3aawfYfwKulCV",
+        "include": false,
+        "episode_num": null,
+        "title": "Töpfchen, Pipi & Kacka Kindermusik",
+        "exclude_reason": "Compilation - 25 tracks, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "2DyL5KDj1xGTdfPhapMgMh",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinder Rock Hits",
+        "exclude_reason": "Compilation - 30 tracks, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "6gYXGydizKnRs5nWkd56iF",
+        "include": false,
+        "episode_num": null,
+        "title": "Gute Laune Kinder Hits, Vol. 3 - Zum Mitmachen, Singen und Tanzen",
+        "exclude_reason": "Compilation - multi-song compilation, not a Hörspiel series episode"
+      },
+      {
+        "spotify_album_id": "3r0JlBmwxVjiqbQnJmeO9Y",
+        "include": false,
+        "episode_num": null,
+        "title": "Schulanfang 2025 Kinderlieder",
+        "exclude_reason": "Compilation - themed song collection, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "2qZnBoxoe9wrglwG9QuIQ6",
+        "include": false,
+        "episode_num": null,
+        "title": "Kindergeburtstag",
+        "exclude_reason": "Compilation - 33 tracks, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "5VM2OjyrJm7p5VfB4cRgU3",
+        "include": false,
+        "episode_num": null,
+        "title": "Ostern 2025",
+        "exclude_reason": "Compilation - themed holiday songs, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "3EalTkxa8eG1UrKiSGwV3i",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderlieder zum Trösten",
+        "exclude_reason": "Compilation - 29 tracks, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "30USqal63wYX00fR7mUzGF",
+        "include": true,
+        "episode_num": null,
+        "title": "Tanzen und springen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2g29h6hw9QFgdGPBwFt2Ro",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderlieder Familie",
+        "exclude_reason": "Compilation - 49 tracks, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "1jfBbWXFrZ8fKsPfl01ZtV",
+        "include": true,
+        "episode_num": null,
+        "title": "Schön, dass du hier bist",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7BuR28nL7HxvGDOugWfdwy",
+        "include": false,
+        "episode_num": null,
+        "title": "Lernzeit Kinderlieder",
+        "exclude_reason": "Compilation - 35 tracks, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "77fEBE6x2KI140VHrTLk2l",
+        "include": false,
+        "episode_num": null,
+        "title": "Lieder zur Einschulung",
+        "exclude_reason": "Compilation - 40 tracks, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "26F94PzUaS6SI2vU4aP7Km",
+        "include": true,
+        "episode_num": null,
+        "title": "Wozu sind Kriege da?",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1fJ8NTsNYEXkNMxUtnjefK",
+        "include": true,
+        "episode_num": null,
+        "title": "Unsere Stadt spricht alle Sprachen",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2gK5fAVZSfmqshqdZoHmSp",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderlieder Spielen",
+        "exclude_reason": "Compilation - 42 tracks, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "5qSOlNXq8WQM0xPlheS77c",
+        "include": true,
+        "episode_num": null,
+        "title": "Sonne und Regen. So ist unser Leben",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2SGkwF7zBCMA2fdE3hL1cL",
+        "include": false,
+        "episode_num": null,
+        "title": "Zähneputzen Kinderlieder - Karussell",
+        "exclude_reason": "Compilation - 24 tracks, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "1KhueBlNWU5jncA8PNcdmU",
+        "include": false,
+        "episode_num": null,
+        "title": "Zähneputzen Kindermusik",
+        "exclude_reason": "Compilation - 23 tracks, not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "21CcdGznIMcDhlUw4unTbm",
+        "include": false,
+        "episode_num": null,
+        "title": "Gute Laune Kinder Hits, Vol. 2 - Zum Mitmachen, Singen und Tanzen",
+        "exclude_reason": "Compilation - multi-song compilation, not a Hörspiel series episode"
+      }
+    ],
+    "age_note": "Suitable from 3+",
+    "curator_notes": "Children's music label producing song collections (Summ, Summ, Summ! series), lullabies, and licensed property albums (Lauras Stern, Oh wie schön ist Panama, Frederick). Releases often include instrumental and karaoke versions for sing-alongs. Sub-series like Disney Junior Musik Kinderlieder use 'Folge' numbering, while collections use 'Vol.' numbering."
+  },
+  "review": {
+    "reviewed_at": "2026-02-23T00:37:18.308227+00:00",
+    "reviewed_by": "review-series.py",
+    "overrides": [],
+    "notes": "Auto-approved: no gaps or duplicates found.",
+    "verification": {
+      "model": "minimax-m2.5",
+      "verified_at": "2026-02-23T00:38:04.384318+00:00",
+      "approve": true,
+      "concerns": "",
+      "override_verdicts": [],
+      "split_verdicts": []
+    },
+    "status": "approved"
+  }
+}

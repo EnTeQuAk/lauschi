@@ -1,0 +1,895 @@
+{
+  "query": "Dragons Hörspiel",
+  "model": "kimi-k2.5",
+  "curated_at": "2026-02-22T23:50:37.889701+00:00",
+  "series": {
+    "id": "dragons_hoerspiel",
+    "title": "Dragons Hörspiel",
+    "aliases": [
+      "Dragons - Die Reiter von Berk",
+      "Dragons - Die Wächter von Berk",
+      "Dragons - Auf zu neuen Ufern",
+      "Dragons - Die jungen Drachenretter"
+    ],
+    "keywords": [
+      "Dragons",
+      "Drachen",
+      "Hicks",
+      "Ohnezahn",
+      "Berk"
+    ],
+    "spotify_artist_ids": [
+      "1z8ytficgBWsoYigwE2QVM",
+      "1zo1vxkpoT8JMJYdHv2zsa",
+      "6N8M6C5nd7mfTIaihfVSeu",
+      "4flLF0QDCVMtQCc7JJ94gt"
+    ],
+    "episode_pattern": "Folge\\s+(\\d+)",
+    "albums": [
+      {
+        "spotify_album_id": "32cvtWmKapU2rfwLnh4lSA",
+        "include": true,
+        "episode_num": 9,
+        "title": "Folge 9: Die geheimnisvolle Kiste / Fischbeins Herausforderung (Das Original-Hörspiel Zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5jnTEO9e7feGBdDG1NRKVj",
+        "include": true,
+        "episode_num": 10,
+        "title": "Folge 10: Familienbande (Das Original Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3zBFsPakjtQlgYR555iW6p",
+        "include": true,
+        "episode_num": 8,
+        "title": "Folge 8: Dagur der Durchgeknallte / Freunde in der Not (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1dihgkHrTFKUloh759NHZc",
+        "include": true,
+        "episode_num": 7,
+        "title": "Folge 7: Thors Blitze / Drachengroll (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0j04QxxpmifOzm8BvoD94V",
+        "include": true,
+        "episode_num": 6,
+        "title": "Folge 6: Die Drachenblume / Die Tauwetter-Festspiele (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4wXCnGNE2F3hyjQCx5CLij",
+        "include": true,
+        "episode_num": 5,
+        "title": "Folge 5: Alvins teuflischer Plan (Das Original Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5KliHcJPdIcgK8RktYjQSu",
+        "include": true,
+        "episode_num": 4,
+        "title": "Folge 4: Alvin der Heimtückische / Die Schatzkarte (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1EJcBLABQhuHtmh5TaXD1w",
+        "include": true,
+        "episode_num": 3,
+        "title": "Folge 3: Ein Drache für Haudrauf / Der Falschspieler (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7yWDzUIA1Dd5ppGBzQoJ59",
+        "include": true,
+        "episode_num": 2,
+        "title": "Folge 2: Der Sturm / Fackel (Das Original Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5vzJSKKX9qjr9F3M8GIesk",
+        "include": true,
+        "episode_num": 1,
+        "title": "Folge 1: Die Drachen Akademie von Berk / Der arbeitslose Wikinger (Das Original Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3umNlw3fM2zfNrhkaWhib1",
+        "include": true,
+        "episode_num": 20,
+        "title": "Folge 20: Verbannt 1+2 (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3lSO9cPQjIHtQQPPEvCCnt",
+        "include": true,
+        "episode_num": 19,
+        "title": "Folge 19: Händler Johanns Lieferung / Bing! Bamm! Bumm! (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6P3w5WzIn2wddy4fq6ZeAP",
+        "include": true,
+        "episode_num": 18,
+        "title": "Folge 18: Drachentausch / Die Aal-Insel(Das Original Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4TeBxQv1DrCwcG0agGna7c",
+        "include": true,
+        "episode_num": 17,
+        "title": "Folge 17: Raffnuss die Drachenzähmerin / Eingefroren (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7HkmtCWkffdaWfbLrBV47Y",
+        "include": true,
+        "episode_num": 16,
+        "title": "Folge 16: Feuerwetter / Gustavs Feuerprobe (Das Original Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "63Rp4FmHmC0vXW9WglsLwH",
+        "include": true,
+        "episode_num": 15,
+        "title": "Folge 15: Der Skrill (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0GJXtWm7YmE4OwIc8wz9xz",
+        "include": true,
+        "episode_num": 14,
+        "title": "Folge 14: Der Wettkampf / Reviertreue (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5OuL6pVStRVbYpRxvSESvH",
+        "include": true,
+        "episode_num": 13,
+        "title": "Folge 13: Die Feuerwurm Insel / Orendels Feuer (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2VBqDPr1EnxGZIGPi5imQN",
+        "include": true,
+        "episode_num": 12,
+        "title": "Folge 12: Die Insel der Drachen / Ein geheimnisvoller Tunnel (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6aP2GsaCtnS9YzGM9Ve88P",
+        "include": true,
+        "episode_num": 11,
+        "title": "Folge 11: Das Drachenflugverbot / Gronckel Eisen (Das Original Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "07fWpKRdBLc8WmQlAkzQDz",
+        "include": true,
+        "episode_num": 57,
+        "title": "Folge 57: Die Wächter von Vanagrad / Der König der Drachen - Teil 1+2 (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2BDdZRUbfAlzQkTBOnCCro",
+        "include": true,
+        "episode_num": 56,
+        "title": "Folge 56: Die Familie Feuerschweif / Die dunkelste Nacht (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7pNPWZQvmYwt80FlxnzMhS",
+        "include": true,
+        "episode_num": 55,
+        "title": "Folge 55: Flügelnuss / Das Buch der Rekorde (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2SNjVXuJgo59fawBfnW87k",
+        "include": true,
+        "episode_num": 54,
+        "title": "Folge 54: Der Geschwister Test / Liebe verleiht Flügel (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5cafdspCINb56kUWO3uRbO",
+        "include": true,
+        "episode_num": 53,
+        "title": "Folge 53: Die Stellvertreterin / Der treue Orden der Ingermans (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5fezqr6EnqtH3c3RAVfvDF",
+        "include": true,
+        "episode_num": 52,
+        "title": "Folge 52: Der Verräter / Weidenrinde (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4ZYfB27vtWJj91EUwqFfjB",
+        "include": true,
+        "episode_num": 51,
+        "title": "Folge 51: Immer auf der Suche / Händler Johann (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0cP584fOThYUplTGrYkzYU",
+        "include": true,
+        "episode_num": 50,
+        "title": "Folge 50: Schnuffnuss / Kein Drache bleibt zurück (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "010chFNvvwOu8EZBOy4scP",
+        "include": true,
+        "episode_num": 49,
+        "title": "Folge 49: Hicks Geheimnis / Der große Kampf 1+2 (Das Original Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3VmRBxcAn7HUAan1i8ueqU",
+        "include": true,
+        "episode_num": 48,
+        "title": "Folge 48: Die letzte Ruhestätte / Die Rückkehr von Thor Knochenbrecher (Das Original Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7p5hasi5uFVugQ7T5Q0JiG",
+        "include": true,
+        "episode_num": 47,
+        "title": "Folge 47: Der tapferste Berserker / Rotzbakkes Engel (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3MOTX0tIEc81tvFoQCGTlF",
+        "include": true,
+        "episode_num": 46,
+        "title": "Folge 46: Der Vulkanausbruch / Der Sandspucker (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1L4c5aiZTICQBktY0qTQr6",
+        "include": true,
+        "episode_num": 45,
+        "title": "Folge 45: Der große Plan 1+2 (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4DZ4kaelVtawyp59wtoZa5",
+        "include": true,
+        "episode_num": 44,
+        "title": "Folge 44: Zwillingserleuchtung / Geblendet (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "57WEb10gtVpXvueiAjTCBD",
+        "include": true,
+        "episode_num": 43,
+        "title": "Folge 43: Goldrausch / Das Eruptodon-Ei (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6mi1areOyCA5O0QDc5MO5Y",
+        "include": true,
+        "episode_num": 42,
+        "title": "Folge 42: Der Tiefseespalter / Der längste Tag (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "505lBSAoqQDb3XW8z5gPul",
+        "include": true,
+        "episode_num": 41,
+        "title": "Folge 41: Rotzbakke der Anführer / Dagurs Rückkehr (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "21r8gjwjulJjwq9ZpMoK3g",
+        "include": true,
+        "episode_num": 40,
+        "title": "Folge 40: Graffnuss / Ein geheimnisvoller Jäger (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4aIx2y3iOASpQTTafKsuJX",
+        "include": true,
+        "episode_num": 39,
+        "title": "Folge 39: Die Beschützer des Flügels 1 + 2 (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6PGFVjGQapw7ew2wqVxuLR",
+        "include": true,
+        "episode_num": 38,
+        "title": "Folge 38: Die Katastrophalen Kiesklopse / Dagurs Wahrheit (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6QzmxREfmaTEx0wgTjulOu",
+        "include": true,
+        "episode_num": 37,
+        "title": "Folge 37: Der schreiende Tod-Singer / Die Drachenkämpfe (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "69m3wRJl9Cfa16QI9CWprb",
+        "include": true,
+        "episode_num": 36,
+        "title": "Folge 36: Der Büffelstachel / Die Drachenauktion (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "16eIcgl9Ua9OeJkHtyrYQP",
+        "include": true,
+        "episode_num": null,
+        "title": "Das große Drachenrennen (Das Original-Hörspiel zum Film-Special)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1IHmaHzOAbztQ1Z4jThRdt",
+        "include": true,
+        "episode_num": 35,
+        "title": "Folge 35: Die Grimm-Egel / Heidruns Entscheidung (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3q8UBUC6MoyH6Li4rnSAKS",
+        "include": true,
+        "episode_num": null,
+        "title": "Ein Geschenk von Nachtschatten (Das Original-Hörspiel zum Film-Special)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "61qjJZK6zLyPGqJZdcHmtY",
+        "include": true,
+        "episode_num": 34,
+        "title": "Folge 34: Ein wahrer Anführer / Der Klügere gibt nach (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0HcGZAnpPjDTjL1CF2FW4k",
+        "include": true,
+        "episode_num": 3,
+        "title": "Folge 3: Waka Chaka! / Sieg oder Niederlage + Dragons: Das Drachenauge - Teil 1 (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2HbqJeQcWMmNOheAftjRkm",
+        "include": false,
+        "episode_num": 33,
+        "title": "Folge 33: Der neue Dragur / Der Höhlenbrecher + Trolljäger: Das Amulett (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": "Contains bonus content from different series (Trolljäger)"
+      },
+      {
+        "spotify_album_id": "1Aq9udF7avDwZ6owjdVcJF",
+        "include": true,
+        "episode_num": 33,
+        "title": "Folge 33: Der neue Dragur / Der Höhlenbrecher (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7uSGwGD02WRY6wO8u3HeCR",
+        "include": true,
+        "episode_num": 32,
+        "title": "Folge 32: Kampf um das Drachenauge 1+2 (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4nDoD2xOpPRwdMlyisPHl7",
+        "include": true,
+        "episode_num": 31,
+        "title": "Folge 31: Der Loki Tag / Die Rückkehr des Skrills (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5WWwOGNbD4HCYrE1QSYcfd",
+        "include": true,
+        "episode_num": 30,
+        "title": "Folge 30: Die Verteidigung (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3s1M3w9qGq2oOXc5X0deWY",
+        "include": true,
+        "episode_num": 29,
+        "title": "Folge 29: Lebenslange Schuld / Die Schneegeist-Jagd (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5MGwbGGAJfQZwnOWgNvak8",
+        "include": true,
+        "episode_num": 28,
+        "title": "Folge 28: Die Werwolf-Flügler / Die Hochzeitsaxt (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1JzoffQlHInYCSJffntLgl",
+        "include": true,
+        "episode_num": 27,
+        "title": "Folge 27: Astrids Team / Die Drachenjäger 1+2 (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6VREfRwKR9uj3L6m5uPdMN",
+        "include": true,
+        "episode_num": 26,
+        "title": "Folge 26: Schneller Stachel in Not / Absoluter Albtraum (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2kLgSZBhC5BGcN9FUj7wye",
+        "include": true,
+        "episode_num": 25,
+        "title": "Folge 25: Die dunklen Klippen / Heidruns Rückkehr 1+2 (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7dCZyBK3mFg4dUGKXz8y60",
+        "include": true,
+        "episode_num": 24,
+        "title": "Folge 24: Thorstonton / Aufspürer-Klasse (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3jXG7Kn1ytZHcFv6SrVZlw",
+        "include": true,
+        "episode_num": 23,
+        "title": "Folge 23: Thor Knochenbrecher / Gustav ist zurück (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6dpWONJPX2wXxARU5umOrK",
+        "include": true,
+        "episode_num": 22,
+        "title": "Folge 22: Gefährliche Gesänge / Drachenbasis (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5JCiwS24VRK28tVoY6gR8G",
+        "include": true,
+        "episode_num": 21,
+        "title": "Folge 21: Das Drachenauge - Teil 1+2 (Das Original-Hörspiel zur TV-Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7BB0ldQAVRCFUKu9TtHqXm",
+        "include": true,
+        "episode_num": null,
+        "title": "Buch der Drachen (Das Original-Hörspiel zum Film-Special)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3lzc0ElQFxKeNwEj0jSgiT",
+        "include": true,
+        "episode_num": 22,
+        "title": "Folge 22: Der Drache aus dem Wasser / Der Tag des Nests (Das Original-Hörspiel zur Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "2i3Q05RZ4WFblINlHMyGxC",
+        "include": true,
+        "episode_num": 21,
+        "title": "Folge 21: Mein Drachenwächter / Eine glubstastische Reise (Das Original-Hörspiel zur Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3ey5lTcsB2udh6k21VaUEl",
+        "include": true,
+        "episode_num": 20,
+        "title": "Folge 20: Mission mit Mama / Rückkehr in die versunkene Stadt (Das Original-Hörspiel zur Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0ho3fLFscTZkfA2MoXeMUH",
+        "include": true,
+        "episode_num": 19,
+        "title": "Folge 19: Die kleinen Flitzer / Ein Tag ohne Drachen (Das Original-Hörspiel zur Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6bcFOTp09UiHQ68v1z06sH",
+        "include": true,
+        "episode_num": 18,
+        "title": "Folge 18: Der Flug des Stinkflüglers / Der Schafswettbewerb (Das Original-Hörspiel zur Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5VMQ8Xa4jIWNaTRoJ8vuaG",
+        "include": true,
+        "episode_num": 17,
+        "title": "Folge 17: Ein bunter Gast / Der unglaubliche Bubsler (Das Original-Hörspiel zur Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7hBKKxsVqg6voaW8v8SGBv",
+        "include": true,
+        "episode_num": 16,
+        "title": "Folge 16: Der Zwillingsbruder / Die Suche nach der versunkenen Stadt (Das Original-Hörspiel zur Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1DWRhSidEuQ90j56iHnZoJ",
+        "include": true,
+        "episode_num": 15,
+        "title": "Folge 15: Die Geschichte von Schnubbel und Leyla / Auf Babysuche (Das Original-Hörspiel zur Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1ZURBt0Z34pIcXCh2PKoJk",
+        "include": true,
+        "episode_num": 14,
+        "title": "Folge 14: Wo ist Häuptling Duggard? / Kristallklar (Das Original-Hörspiel zur Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3SdSY41ae4OoOoVmqi2jrt",
+        "include": true,
+        "episode_num": 13,
+        "title": "Folge 13: Wo ist Elbone? / Neuer Häuptling (Das Original-Hörspiel zur Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "64OHVQaUnZvy100C572KTI",
+        "include": true,
+        "episode_num": 12,
+        "title": "Folge 12: König Bubsler / Der Mechano-Multi-Drache (Das Original-Hörspiel zur Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0SmoQE4WDZ8XxrxSKAZsBF",
+        "include": true,
+        "episode_num": 11,
+        "title": "Folge 11: Heiß, heiß, heiß / Hannahr muss helfen (Das Original-Hörspiel zur Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4gUuUiKFHLMZrYswOD05vK",
+        "include": true,
+        "episode_num": 10,
+        "title": "Folge 10: Schatzsuche / Aller Anfang ist schwer (Das Original-Hörspiel zur Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0lA7to8qZJTtk4vCDSLngD",
+        "include": true,
+        "episode_num": 9,
+        "title": "Folge 9: Mecha-Plage / Erholung auf der Insel (Das Original-Hörspiel zur Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5IEdV0DSIAkltqXj04kBRn",
+        "include": true,
+        "episode_num": 8,
+        "title": "Folge 8: Ausgefinkt / Sturzflügler (Das Original-Hörspiel zur Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6SNge21eBdq0tECtlO8O1F",
+        "include": true,
+        "episode_num": 7,
+        "title": "Folge 7: Grummelgard - Teil 1+2 (Das Original-Hörspiel zur Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0DI9cqgRb1hhvWbDoib5XW",
+        "include": true,
+        "episode_num": 6,
+        "title": "Folge 6: Festgeklebt / Feuerwüter (Das Original-Hörspiel zur Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3zDmemJAy3mSe6swx9SXwF",
+        "include": true,
+        "episode_num": 5,
+        "title": "Folge 5: Eierdiebe / Mama Schnitti (Das Original-Hörspiel zur Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5UVqeX2PWlpVnvFhewhexu",
+        "include": true,
+        "episode_num": 4,
+        "title": "Folge 4: Krank / Das Riesenei (Das Original-Hörspiel zur Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5gLq8BD5czkSWem3NvpKuA",
+        "include": true,
+        "episode_num": 3,
+        "title": "Folge 3: Das Belzium-Wettrennen / Eiszeit (Das Original-Hörspiel zur Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "1jtoPgCOYVpT2Jrj7wp5Qh",
+        "include": true,
+        "episode_num": 2,
+        "title": "Folge 2: Phantomschwinge / Der Feuerteufel (Das Original-Hörspiel zur Serie)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "5joOIjLOcOhfcpfB0mqH4D",
+        "include": true,
+        "episode_num": 1,
+        "title": "Folge 1: Das Nest / Die Labyrinth-Höhlen (Das Original-Hörspiel zur Serie)",
+        "exclude_reason": null
+      }
+    ],
+    "age_note": "Recommended 6+ - Fantasy adventure with dragons, mild action scenes and Vikings",
+    "curator_notes": "This series spans 4 Spotify artists representing different TV show arcs: 'Die Reiter von Berk' (eps 1-10), 'Die Wächter von Berk' (eps 11-20), 'Auf zu neuen Ufern' (eps 21-57), and 'Die jungen Drachenretter' (eps 1-22, a separate spin-off 'Rescue Riders' series for younger children with different characters). Episode 33 appears twice - the 19-track version contains bonus Trolljäger content and is excluded. The series includes 3 film specials: 'Buch der Drachen', 'Ein Geschenk von Nachtschatten', and 'Das große Drachenrennen'."
+  },
+  "review": {
+    "reviewed_at": "2026-02-22T23:56:06.505492+00:00",
+    "reviewed_by": "review-series.py",
+    "overrides": [
+      {
+        "album_id": "5IEdV0DSIAkltqXj04kBRn",
+        "action": "exclude",
+        "reason": "Split to dragons_rescue_riders"
+      },
+      {
+        "album_id": "0SmoQE4WDZ8XxrxSKAZsBF",
+        "action": "exclude",
+        "reason": "Split to dragons_rescue_riders"
+      },
+      {
+        "album_id": "6bcFOTp09UiHQ68v1z06sH",
+        "action": "exclude",
+        "reason": "Split to dragons_rescue_riders"
+      },
+      {
+        "album_id": "0ho3fLFscTZkfA2MoXeMUH",
+        "action": "exclude",
+        "reason": "Split to dragons_rescue_riders"
+      },
+      {
+        "album_id": "4gUuUiKFHLMZrYswOD05vK",
+        "action": "exclude",
+        "reason": "Split to dragons_rescue_riders"
+      },
+      {
+        "album_id": "64OHVQaUnZvy100C572KTI",
+        "action": "exclude",
+        "reason": "Split to dragons_rescue_riders"
+      },
+      {
+        "album_id": "1DWRhSidEuQ90j56iHnZoJ",
+        "action": "exclude",
+        "reason": "Split to dragons_rescue_riders"
+      },
+      {
+        "album_id": "3ey5lTcsB2udh6k21VaUEl",
+        "action": "exclude",
+        "reason": "Split to dragons_rescue_riders"
+      },
+      {
+        "album_id": "5joOIjLOcOhfcpfB0mqH4D",
+        "action": "exclude",
+        "reason": "Split to dragons_rescue_riders"
+      },
+      {
+        "album_id": "5gLq8BD5czkSWem3NvpKuA",
+        "action": "exclude",
+        "reason": "Split to dragons_rescue_riders"
+      },
+      {
+        "album_id": "1ZURBt0Z34pIcXCh2PKoJk",
+        "action": "exclude",
+        "reason": "Split to dragons_rescue_riders"
+      },
+      {
+        "album_id": "0DI9cqgRb1hhvWbDoib5XW",
+        "action": "exclude",
+        "reason": "Split to dragons_rescue_riders"
+      },
+      {
+        "album_id": "3zDmemJAy3mSe6swx9SXwF",
+        "action": "exclude",
+        "reason": "Split to dragons_rescue_riders"
+      },
+      {
+        "album_id": "3SdSY41ae4OoOoVmqi2jrt",
+        "action": "exclude",
+        "reason": "Split to dragons_rescue_riders"
+      },
+      {
+        "album_id": "0lA7to8qZJTtk4vCDSLngD",
+        "action": "exclude",
+        "reason": "Split to dragons_rescue_riders"
+      },
+      {
+        "album_id": "7hBKKxsVqg6voaW8v8SGBv",
+        "action": "exclude",
+        "reason": "Split to dragons_rescue_riders"
+      },
+      {
+        "album_id": "5VMQ8Xa4jIWNaTRoJ8vuaG",
+        "action": "exclude",
+        "reason": "Split to dragons_rescue_riders"
+      },
+      {
+        "album_id": "1jtoPgCOYVpT2Jrj7wp5Qh",
+        "action": "exclude",
+        "reason": "Split to dragons_rescue_riders"
+      },
+      {
+        "album_id": "2i3Q05RZ4WFblINlHMyGxC",
+        "action": "exclude",
+        "reason": "Split to dragons_rescue_riders"
+      },
+      {
+        "album_id": "3lzc0ElQFxKeNwEj0jSgiT",
+        "action": "exclude",
+        "reason": "Split to dragons_rescue_riders"
+      },
+      {
+        "album_id": "5UVqeX2PWlpVnvFhewhexu",
+        "action": "exclude",
+        "reason": "Split to dragons_rescue_riders"
+      },
+      {
+        "album_id": "6SNge21eBdq0tECtlO8O1F",
+        "action": "exclude",
+        "reason": "Split to dragons_rescue_riders"
+      }
+    ],
+    "splits": [
+      {
+        "new_id": "dragons_rescue_riders",
+        "new_title": "Dragons: Die jungen Drachenretter",
+        "album_ids": [
+          "5joOIjLOcOhfcpfB0mqH4D",
+          "1jtoPgCOYVpT2Jrj7wp5Qh",
+          "5gLq8BD5czkSWem3NvpKuA",
+          "5UVqeX2PWlpVnvFhewhexu",
+          "3zDmemJAy3mSe6swx9SXwF",
+          "0DI9cqgRb1hhvWbDoib5XW",
+          "6SNge21eBdq0tECtlO8O1F",
+          "5IEdV0DSIAkltqXj04kBRn",
+          "0lA7to8qZJTtk4vCDSLngD",
+          "4gUuUiKFHLMZrYswOD05vK",
+          "0SmoQE4WDZ8XxrxSKAZsBF",
+          "64OHVQaUnZvy100C572KTI",
+          "3SdSY41ae4OoOoVmqi2jrt",
+          "1ZURBt0Z34pIcXCh2PKoJk",
+          "1DWRhSidEuQ90j56iHnZoJ",
+          "7hBKKxsVqg6voaW8v8SGBv",
+          "5VMQ8Xa4jIWNaTRoJ8vuaG",
+          "6bcFOTp09UiHQ68v1z06sH",
+          "0ho3fLFscTZkfA2MoXeMUH",
+          "3ey5lTcsB2udh6k21VaUEl",
+          "2i3Q05RZ4WFblINlHMyGxC",
+          "3lzc0ElQFxKeNwEj0jSgiT"
+        ],
+        "reason": "These are episodes from 'Dragons: Rescue Riders' (Die jungen Drachenretter), a separate spin-off series for younger children featuring different characters (Schnubbel and Leyla) and a different setting. The albums have 'Das Original-Hörspiel zur Serie' in the title (without 'TV'), released from 2021-2024, distinct from the main 'Dragons' TV series (2014-2019) with 'zur TV-Serie' in titles."
+      }
+    ],
+    "notes": "The 22 duplicates were caused by merging two different series: 1) Dragons (original TV series: Riders/Defenders of Berk, Race to the Edge) - episodes 1-57 with 'zur TV-Serie' in titles, 2) Dragons: Rescue Riders - episodes 1-22 with 'zur Serie' (no 'TV'). Splitting into two separate series resolves all duplicates. The 3 film specials ('Buch der Drachen', 'Das große Drachenrennen', 'Ein Geschenk von Nachtschatten') correctly remain with the original series as they belong to the main movie franchise. Rescue Riders is a younger-targeted spin-off with different voice cast and storylines that parents would expect to find separately.",
+    "verification": {
+      "model": "minimax-m2.5",
+      "verified_at": "2026-02-22T23:57:39.043584+00:00",
+      "approve": true,
+      "concerns": "",
+      "override_verdicts": [
+        {
+          "album_id": "5IEdV0DSIAkltqXj04kBRn",
+          "agree": true,
+          "reason": "Correctly identified as Dragons: Rescue Riders (Die jungen Drachenretter) - different characters (Schnubbel/Leyla), different target age, separate spin-off series."
+        },
+        {
+          "album_id": "0SmoQE4WDZ8XxrxSKAZsBF",
+          "agree": true,
+          "reason": "Correctly identified as Dragons: Rescue Riders - different show with Schnubbel/Leyla characters, appropriate for younger children."
+        },
+        {
+          "album_id": "6bcFOTp09UiHQ68v1z06sH",
+          "agree": true,
+          "reason": "Rescue Riders spin-off - different voice cast, characters and setting from main Dragons series."
+        },
+        {
+          "album_id": "0ho3fLFscTZkfA2MoXeMUH",
+          "agree": true,
+          "reason": "Part of Rescue Riders spin-off series."
+        },
+        {
+          "album_id": "4gUuUiKFHLMZrYswOD05vK",
+          "agree": true,
+          "reason": "Correctly identified as Rescue Riders content."
+        },
+        {
+          "album_id": "64OHVQaUnZvy100C572KTI",
+          "agree": true,
+          "reason": "Rescue Riders episode featuring different main characters."
+        },
+        {
+          "album_id": "1DWRhSidEuQ90j56iHnZoJ",
+          "agree": true,
+          "reason": "Rescue Riders - main characters are Schnubbel/Leyla, not from original series."
+        },
+        {
+          "album_id": "3ey5lTcsB2udh6k21VaUEl",
+          "agree": true,
+          "reason": "Rescue Riders spin-off."
+        },
+        {
+          "album_id": "5joOIjLOcOhfcpfB0mqH4D",
+          "agree": true,
+          "reason": "Rescue Riders - different show with different characters."
+        },
+        {
+          "album_id": "5gLq8BD5czkSWem3NvpKuA",
+          "agree": true,
+          "reason": "Part of Rescue Riders spin-off featuring Schnubbel and Leyla."
+        },
+        {
+          "album_id": "1ZURBt0Z34pIcXCh2PKoJk",
+          "agree": true,
+          "reason": "Rescue Riders episode - should be in separate series."
+        },
+        {
+          "album_id": "0DI9cqgRb1hhvWbDoib5XW",
+          "agree": true,
+          "reason": "Correctly identified as Rescue Riders content."
+        },
+        {
+          "album_id": "3zDmemJAy3mSe6swx9SXwF",
+          "agree": true,
+          "reason": "Rescue Riders spin-off series - different setting and characters."
+        },
+        {
+          "album_id": "3SdSY41ae4OoOoVmqi2jrt",
+          "agree": true,
+          "reason": "Rescue Riders content with Schnubbel/Leyla as main characters."
+        },
+        {
+          "album_id": "0lA7to8qZJTtk4vCDSLngD",
+          "agree": true,
+          "reason": "Rescue Riders spin-off - should be in separate series."
+        },
+        {
+          "album_id": "7hBKKxsVqg6voaW8v8SGBv",
+          "agree": true,
+          "reason": "Rescue Riders episode."
+        },
+        {
+          "album_id": "5VMQ8Xa4jIWNaTRoJ8vuaG",
+          "agree": true,
+          "reason": "Correctly identified as Rescue Riders spin-off."
+        },
+        {
+          "album_id": "1jtoPgCOYVpT2Jrj7wp5Qh",
+          "agree": true,
+          "reason": "Part of the Rescue Riders series, not original Dragons."
+        },
+        {
+          "album_id": "2i3Q05RZ4WFblINlHMyGxC",
+          "agree": true,
+          "reason": "Correctly identified as Rescue Riders content."
+        },
+        {
+          "album_id": "3lzc0ElQFxKeNwEj0jSgiT",
+          "agree": true,
+          "reason": "Rescue Riders episode."
+        },
+        {
+          "album_id": "5UVqeX2PWlpVnvFhewhexu",
+          "agree": true,
+          "reason": "Rescue Riders - different characters and target age group."
+        },
+        {
+          "album_id": "6SNge21eBdq0tECtlO8O1F",
+          "agree": true,
+          "reason": "Rescue Riders episode - characters Schnubbel/Leyla, not the original cast."
+        }
+      ],
+      "split_verdicts": [
+        {
+          "new_id": "dragons_rescue_riders",
+          "agree": true,
+          "reason": "Valid split. Dragons: Rescue Riders (Die jungen Drachenretter) is a separate spin-off series (2021+) targeted at younger children (4-6), with different main characters (Schnubbel & Leyla instead of Hicks/Astrid), different voice actors, and different storytelling approach. These 22 albums appropriately belong in their own series entry. The 3 film specials ('Buch der Drachen', 'Das große Drachenrennen', 'Ein Geschenk von Nachtschatten') correctly remain with the main series as they are part of the original movie franchise."
+        }
+      ]
+    },
+    "status": "approved"
+  }
+}

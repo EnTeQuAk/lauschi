@@ -1,0 +1,59 @@
+{
+  "query": "Alles steht Kopf Hörspiel",
+  "model": "kimi-k2.5",
+  "curated_at": "2026-02-22T23:20:32.117611+00:00",
+  "series": {
+    "id": "alles_steht_kopf",
+    "title": "Alles steht Kopf",
+    "aliases": [],
+    "keywords": [],
+    "spotify_artist_ids": [
+      "35wipSwNc82UseNHhk4GJ6"
+    ],
+    "episode_pattern": null,
+    "albums": [
+      {
+        "spotify_album_id": "5Kayt40zqyzImQ9i2qPFNI",
+        "include": true,
+        "episode_num": null,
+        "title": "Alles steht Kopf 2 (Hörspiel zum Disney/Pixar Film)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0WZmX5daqDeRk1zN4PNcgq",
+        "include": true,
+        "episode_num": null,
+        "title": "Alles steht Kopf (Hörspiel zum Disney/Pixar Film)",
+        "exclude_reason": null
+      }
+    ],
+    "age_note": "Suitable from 5+",
+    "curator_notes": "This is not a traditional episodic Hörspiel series. The artist 'Alles steht Kopf' only contains audiobook adaptations of the two Disney/Pixar 'Inside Out' films, split into chapters. No standalone Hörspiel episodes (Folge 1, 2, etc.) exist for this series on Spotify."
+  },
+  "review": {
+    "overrides": [
+      {
+        "album_id": "5Kayt40zqyzImQ9i2qPFNI",
+        "action": "include",
+        "reason": ""
+      },
+      {
+        "album_id": "0WZmX5daqDeRk1zN4PNcgq",
+        "action": "include",
+        "reason": ""
+      }
+    ],
+    "reviewed_at": "2026-02-22T23:46:53.555919+00:00",
+    "reviewed_by": "review-series.py",
+    "notes": "Auto-approved: no gaps or duplicates found.",
+    "verification": {
+      "model": "minimax-m2.5",
+      "verified_at": "2026-02-22T23:47:35.549830+00:00",
+      "approve": true,
+      "concerns": "The first AI (kimi-k2.5) incorrectly proposed to INCLUDE two movie audiobook adaptations (Alles steht Kopf and Alles steht Kopf 2 - the German titles for Inside Out and Inside Out 2). These are audiobook adaptations of Disney/Pixar films, NOT episodic Hörspiel series entries. The first AI originally correctly excluded these but then proposed overrides to include them, which is wrong. The original exclusion decision was correct - these are movie soundtracks/audiobooks, not children's audio series episodes. This series has 0 included albums which appears correct - there doesn't seem to be an episodic 'Alles steht Kopf' Hörspiel series in the catalog.",
+      "override_verdicts": [],
+      "split_verdicts": []
+    },
+    "status": "approved"
+  }
+}

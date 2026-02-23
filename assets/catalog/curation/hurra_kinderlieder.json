@@ -1,0 +1,799 @@
+{
+  "query": "Hurra Kinderlieder",
+  "model": "kimi-k2.5",
+  "curated_at": "2026-02-23T00:17:53.671541+00:00",
+  "series": {
+    "id": "hurra_kinderlieder",
+    "title": "Hurra Kinderlieder",
+    "aliases": [],
+    "keywords": [
+      "Hurra Kinderlieder"
+    ],
+    "spotify_artist_ids": [
+      "0tvF8WneD5ortg902Tnm1a"
+    ],
+    "episode_pattern": "^Hurra Kinderlieder (\\d+)$",
+    "albums": [
+      {
+        "spotify_album_id": "2HYGqcoIqREJqgyVDfQGRC",
+        "include": true,
+        "episode_num": 3,
+        "title": "Hurra Kinderlieder 3",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "7dCnggq8AckZnwp9D3t2PB",
+        "include": false,
+        "episode_num": null,
+        "title": "Hacki Backi - Das Musik-Hörspiel",
+        "exclude_reason": "Different series, does not match episode pattern"
+      },
+      {
+        "spotify_album_id": "4n0pHmPfqGjnYUjmUdWZU0",
+        "include": true,
+        "episode_num": 2,
+        "title": "Hurra Kinderlieder 2",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "4fCHEnxwC4DS5YishS2pcW",
+        "include": true,
+        "episode_num": 1,
+        "title": "Hurra Kinderlieder 1",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "3KXHPeSGzOex3oAk0P9VOQ",
+        "include": false,
+        "episode_num": null,
+        "title": "Wo ist der kleine Hase?",
+        "exclude_reason": "Single music track, does not match episode pattern"
+      },
+      {
+        "spotify_album_id": "1fD9HTQ71JIphiuaUwnDBn",
+        "include": false,
+        "episode_num": null,
+        "title": "Super Weihnachtsmann",
+        "exclude_reason": "Single music track, does not match episode pattern"
+      },
+      {
+        "spotify_album_id": "45q1E8GFRttbFylpEnRrf9",
+        "include": false,
+        "episode_num": null,
+        "title": "Buh!",
+        "exclude_reason": "Single music track, does not match episode pattern"
+      },
+      {
+        "spotify_album_id": "7iAz6yaiRpvGkaKQX6IpCo",
+        "include": false,
+        "episode_num": null,
+        "title": "Pupsalarm!",
+        "exclude_reason": "Single music track, does not match episode pattern"
+      },
+      {
+        "spotify_album_id": "0W335iHQG5K3c8MWvhvifO",
+        "include": false,
+        "episode_num": null,
+        "title": "Wer hat hier Geburtstag?",
+        "exclude_reason": "Single music track, does not match episode pattern"
+      },
+      {
+        "spotify_album_id": "6wKWURS7T9iGuXND2kpIcp",
+        "include": false,
+        "episode_num": null,
+        "title": "Faultiertag",
+        "exclude_reason": "Single music track, does not match episode pattern"
+      },
+      {
+        "spotify_album_id": "5FvkmJZQpCvKpIbxchEwxh",
+        "include": false,
+        "episode_num": null,
+        "title": "O O Osterhasen",
+        "exclude_reason": "Single music track, does not match episode pattern"
+      },
+      {
+        "spotify_album_id": "7aVh8fWz5YrSPG4p7rSDzp",
+        "include": false,
+        "episode_num": null,
+        "title": "Dino Cappuccino",
+        "exclude_reason": "Single music track, does not match episode pattern"
+      },
+      {
+        "spotify_album_id": "1QYG477yrVlanmoFtuCNcB",
+        "include": false,
+        "episode_num": null,
+        "title": "Mensch Maulwurf",
+        "exclude_reason": "Single music track, does not match episode pattern"
+      },
+      {
+        "spotify_album_id": "4GBDXLj4EXQqYrWhNRDhwJ",
+        "include": false,
+        "episode_num": null,
+        "title": "Sei nett zu den Tieren",
+        "exclude_reason": "Single music track, does not match episode pattern"
+      },
+      {
+        "spotify_album_id": "1EDquDGiOW0bOdhoziDRQo",
+        "include": false,
+        "episode_num": null,
+        "title": "Da da da, dei dei dei - Das Windelpupser Lied",
+        "exclude_reason": "Single music track, does not match episode pattern"
+      },
+      {
+        "spotify_album_id": "1I1FgNAPRD5kESXBSove3c",
+        "include": false,
+        "episode_num": null,
+        "title": "He du freche Schlange",
+        "exclude_reason": "Single music track, does not match episode pattern"
+      },
+      {
+        "spotify_album_id": "4ASgFxBLnK2FbQi56OPAqe",
+        "include": false,
+        "episode_num": null,
+        "title": "Der Elefant",
+        "exclude_reason": "Single music track, does not match episode pattern"
+      },
+      {
+        "spotify_album_id": "10qK1YnXMAQ4qj9K9elXQH",
+        "include": false,
+        "episode_num": null,
+        "title": "Schlittenfahren",
+        "exclude_reason": "Single music track, does not match episode pattern"
+      },
+      {
+        "spotify_album_id": "3hqgHx7opXdfxOXZLN56LN",
+        "include": false,
+        "episode_num": null,
+        "title": "Wunschzettel Wahnsinn",
+        "exclude_reason": "Single music track, does not match episode pattern"
+      },
+      {
+        "spotify_album_id": "0OYR9lGQ4aQoHj6hjThUDV",
+        "include": false,
+        "episode_num": null,
+        "title": "Nikomaus",
+        "exclude_reason": "Single music track, does not match episode pattern"
+      },
+      {
+        "spotify_album_id": "71pCL0AA4p26NLOcmEkhM6",
+        "include": false,
+        "episode_num": null,
+        "title": "Weihnachtsessen",
+        "exclude_reason": "Single music track, does not match episode pattern"
+      },
+      {
+        "spotify_album_id": "7HlcptobbKxVleqE7lX99b",
+        "include": false,
+        "episode_num": null,
+        "title": "Die singenden Plätzchen (Schiebt uns bitte in den Ofen)",
+        "exclude_reason": "Single music track, does not match episode pattern"
+      },
+      {
+        "spotify_album_id": "4KQ9AaPwyojqmXZ2HSNCO3",
+        "include": false,
+        "episode_num": null,
+        "title": "Katzenklo",
+        "exclude_reason": "Single music track, does not match episode pattern"
+      },
+      {
+        "spotify_album_id": "4L3bGCuwZoXzjjXjpaSgzK",
+        "include": false,
+        "episode_num": null,
+        "title": "Raketen Planeten Lied",
+        "exclude_reason": "Single music track (2 tracks), does not match episode pattern"
+      },
+      {
+        "spotify_album_id": "3kQzllISQiYBuEKfBKmQmD",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinder Mäuse Monster Party",
+        "exclude_reason": "Single music track, does not match episode pattern"
+      },
+      {
+        "spotify_album_id": "6UrVYi2MFIOvkwH2pcshrz",
+        "include": false,
+        "episode_num": null,
+        "title": "Das Sommertier",
+        "exclude_reason": "Single music track, does not match episode pattern"
+      },
+      {
+        "spotify_album_id": "5EQJRts8wUx7LT0FuB9nht",
+        "include": false,
+        "episode_num": null,
+        "title": "Eier Raten Lied 3",
+        "exclude_reason": "Single music track, does not match episode pattern"
+      },
+      {
+        "spotify_album_id": "03ocI8piF94tms2t1K6Y9a",
+        "include": false,
+        "episode_num": null,
+        "title": "Wieder heile",
+        "exclude_reason": "Single music track, does not match episode pattern"
+      },
+      {
+        "spotify_album_id": "1SmjbHkGpM8Qi0xqULjHnk",
+        "include": false,
+        "episode_num": null,
+        "title": "Nur ein allerletztes Mal",
+        "exclude_reason": "Single music track, does not match episode pattern"
+      },
+      {
+        "spotify_album_id": "6AXDeta521BIYsRcxwI6Bf",
+        "include": false,
+        "episode_num": null,
+        "title": "Das Nilpferd möchte tanzen",
+        "exclude_reason": "Single music track, does not match episode pattern"
+      },
+      {
+        "spotify_album_id": "1NSdL8HdSasZyJYaCwWXD8",
+        "include": false,
+        "episode_num": null,
+        "title": "Grad war dir noch langweilig",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode; title doesn't match episode pattern"
+      },
+      {
+        "spotify_album_id": "2Qcsi8hnwyG36fiCt9LhDb",
+        "include": false,
+        "episode_num": null,
+        "title": "Ticktack Ticktack ich schau auf die Uhr",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode; title doesn't match episode pattern"
+      },
+      {
+        "spotify_album_id": "2v3zSDbGVsHCBASIgnaWnx",
+        "include": false,
+        "episode_num": null,
+        "title": "Wer kann das am längsten?",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode; title doesn't match episode pattern"
+      },
+      {
+        "spotify_album_id": "5GgsULYgPnWNvWIiBOJGZj",
+        "include": false,
+        "episode_num": null,
+        "title": "Plötzlich wirst du ein Gewitter",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode; title doesn't match episode pattern"
+      },
+      {
+        "spotify_album_id": "5WHc2ycm30dqGPvcujT7LW",
+        "include": false,
+        "episode_num": null,
+        "title": "Haareschneiden",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode; title doesn't match episode pattern"
+      },
+      {
+        "spotify_album_id": "2QbGSKjuKYzXV3nQZusEJm",
+        "include": false,
+        "episode_num": null,
+        "title": "Die Maus flitzt durchs Orchester",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode; title doesn't match episode pattern"
+      },
+      {
+        "spotify_album_id": "0CqUOVAeYvSITMPj3oUNqb",
+        "include": false,
+        "episode_num": null,
+        "title": "Bald bist du wieder fit",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode; title doesn't match episode pattern"
+      },
+      {
+        "spotify_album_id": "16E0kzOEx7K8IPt10ECpSe",
+        "include": false,
+        "episode_num": null,
+        "title": "Nicht hauen, lieber toben",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode; title doesn't match episode pattern"
+      },
+      {
+        "spotify_album_id": "58X0bteoBZxuXqGWnHHbeW",
+        "include": false,
+        "episode_num": null,
+        "title": "Bitte nicht die Bürste (Das Hacki Backi Zahnputz-Lied)",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode; title doesn't match episode pattern"
+      },
+      {
+        "spotify_album_id": "6FhYl1cT3wNhwvvu9e9rNL",
+        "include": false,
+        "episode_num": null,
+        "title": "Wir spielen Verkehrte Welt",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode; title doesn't match episode pattern"
+      },
+      {
+        "spotify_album_id": "0C1u9eL5loOsgQtrFE7OOs",
+        "include": false,
+        "episode_num": null,
+        "title": "Ich hüpfe wie ein Flummi",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode; title doesn't match episode pattern"
+      },
+      {
+        "spotify_album_id": "5sooVWyaLQDk9XJCfVhPaJ",
+        "include": false,
+        "episode_num": null,
+        "title": "Baby Giraffe",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode; title doesn't match episode pattern"
+      },
+      {
+        "spotify_album_id": "7iamAToshBsakLY6xfdZRR",
+        "include": false,
+        "episode_num": null,
+        "title": "Du schaffst das schon",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode; title doesn't match episode pattern"
+      },
+      {
+        "spotify_album_id": "1tAsDHDImarcdB3nbswGPr",
+        "include": false,
+        "episode_num": null,
+        "title": "Jeder kann was anderes supergut",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode; title doesn't match episode pattern"
+      },
+      {
+        "spotify_album_id": "0dNxgi05kzmb8qEoR6Ntjf",
+        "include": false,
+        "episode_num": null,
+        "title": "Darf ich mitspielen?",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode; title doesn't match episode pattern"
+      },
+      {
+        "spotify_album_id": "2rUXSvnYOVRcRCoqFfMxWP",
+        "include": false,
+        "episode_num": null,
+        "title": "Hurra wir baden",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode; title doesn't match episode pattern"
+      },
+      {
+        "spotify_album_id": "6KNBlnilNFdvVMspWJEZnC",
+        "include": false,
+        "episode_num": null,
+        "title": "Jeden Morgen, jeden Abend",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode; title doesn't match episode pattern"
+      },
+      {
+        "spotify_album_id": "3PCzF1h3adfcXM220egTQl",
+        "include": false,
+        "episode_num": null,
+        "title": "Schnee",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode; title doesn't match episode pattern"
+      },
+      {
+        "spotify_album_id": "2H94AKNWaEf5AiIycOl0yl",
+        "include": false,
+        "episode_num": null,
+        "title": "Wir bewegen uns",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode; title doesn't match episode pattern"
+      },
+      {
+        "spotify_album_id": "42RZs2ebhP2C3FEs2SdGxq",
+        "include": false,
+        "episode_num": null,
+        "title": "Ich mach das",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode; title doesn't match episode pattern"
+      },
+      {
+        "spotify_album_id": "3Ht0c9K0w1hlN3Nu62faGG",
+        "include": false,
+        "episode_num": null,
+        "title": "Ich denk immer nur an Dich",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode; title doesn't match episode pattern"
+      },
+      {
+        "spotify_album_id": "5m4FX7cORJXZMGeA9DPjUN",
+        "include": false,
+        "episode_num": null,
+        "title": "Ich kaufe alleine ein",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode; title doesn't match episode pattern"
+      },
+      {
+        "spotify_album_id": "38Ir3VrMlgeeseFuIqjyIG",
+        "include": false,
+        "episode_num": null,
+        "title": "Alle guten Dinge sind drei",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode; title doesn't match episode pattern"
+      },
+      {
+        "spotify_album_id": "66fhAE3uYgb035izqhSN7G",
+        "include": false,
+        "episode_num": null,
+        "title": "Das kleine Känguru",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode; title doesn't match episode pattern"
+      },
+      {
+        "spotify_album_id": "0oD7WXCrNdTbLq1S2sFgtZ",
+        "include": false,
+        "episode_num": null,
+        "title": "Entschuldigung Entschuldigung",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode; title doesn't match episode pattern"
+      },
+      {
+        "spotify_album_id": "7HeXaIEiaoIQTcbFcdXDo4",
+        "include": false,
+        "episode_num": null,
+        "title": "Ich steck dich nicht an, du steckst mich nicht an",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode; title doesn't match episode pattern"
+      },
+      {
+        "spotify_album_id": "0MtEFin9dcEXjFR3KzT7uM",
+        "include": false,
+        "episode_num": null,
+        "title": "Komm wir teilen",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode; title doesn't match episode pattern"
+      },
+      {
+        "spotify_album_id": "3xzFOboGuReEaU6FOTptLi",
+        "include": false,
+        "episode_num": null,
+        "title": "Aufräumblitz",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode; title doesn't match episode pattern"
+      },
+      {
+        "spotify_album_id": "569FP2dcp6di0hGyKpgnGp",
+        "include": false,
+        "episode_num": null,
+        "title": "Hurra wir schlafen",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode; title doesn't match episode pattern"
+      },
+      {
+        "spotify_album_id": "7LjMpCpAYu1jS1muXmI9zk",
+        "include": false,
+        "episode_num": null,
+        "title": "Pusten, trösten, Pflaster drauf!",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode; title doesn't match episode pattern"
+      },
+      {
+        "spotify_album_id": "0gpbbFrW5LErEQTqsLegYC",
+        "include": false,
+        "episode_num": null,
+        "title": "Eier Raten Lied 2",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "6SlYMxYsJJQJsMSs2MyvUF",
+        "include": false,
+        "episode_num": null,
+        "title": "Bahn Bus Boot",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "1E3tlGqyj2viKGDFNQvIZ7",
+        "include": false,
+        "episode_num": null,
+        "title": "Wasch uns!",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "64WOH7x6BNLSxEFC632JBx",
+        "include": false,
+        "episode_num": null,
+        "title": "Unsere neue Taktik ist weniger Plastik!",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "5eS9jy3Hyl1wPZeo2NAfNS",
+        "include": false,
+        "episode_num": null,
+        "title": "In dieser Glitzernacht",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "4LxYfpgy4XWjkY84zKuKnL",
+        "include": false,
+        "episode_num": null,
+        "title": "Flutsch der Fisch",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "0jMoqZWYYp6zfdeRbp2p4M",
+        "include": false,
+        "episode_num": null,
+        "title": "Fledi Fledermaus",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "6Mc3iUijRL73W9ckSX8C3t",
+        "include": false,
+        "episode_num": null,
+        "title": "Fang das Gemüse",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "4V42UDGudiDfwi4fCifKag",
+        "include": false,
+        "episode_num": null,
+        "title": "Das bunte Glücksrad",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "2W6zekjgQgLY7xhrFrjjaI",
+        "include": false,
+        "episode_num": null,
+        "title": "Blubber-Pudding Stop!",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "3TMp2u3uGlIzBisXExUkEj",
+        "include": false,
+        "episode_num": null,
+        "title": "Anziehen - Ausziehen",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "29OsnGcI46egX3PDqYiNzI",
+        "include": false,
+        "episode_num": null,
+        "title": "Ameisen",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "2OKpVuDpmr0NeRfuwOlCyw",
+        "include": false,
+        "episode_num": null,
+        "title": "Hacki Backi (Drei Minuten Zähne putzen)",
+        "exclude_reason": "Single music track (1 track), not a Hörspiel episode"
+      },
+      {
+        "spotify_album_id": "34R8vEsRc80sSjYBr9nX7o",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderlieder zum Mitmachen",
+        "exclude_reason": "Compilation album (55 tracks), not a series episode"
+      },
+      {
+        "spotify_album_id": "5KUILDW3d8J6I7vvU6A0xK",
+        "include": false,
+        "episode_num": null,
+        "title": "Pipi Kacka & Pupsen Kinderlieder",
+        "exclude_reason": "Compilation album (26 tracks), not a series episode"
+      },
+      {
+        "spotify_album_id": "7IM4wT3Lo3aM8FSlCzDjl3",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderturnen Lieder",
+        "exclude_reason": "Compilation album (37 tracks), not a series episode"
+      },
+      {
+        "spotify_album_id": "3UDWuvmJEkDruudYxOnKjj",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderlieder Dinos & Reptilien",
+        "exclude_reason": "Compilation album (20 tracks), not a series episode"
+      },
+      {
+        "spotify_album_id": "4mn7AjePRGuyHZhcYIMTxK",
+        "include": false,
+        "episode_num": null,
+        "title": "Ostern Kinderlieder",
+        "exclude_reason": "Compilation album (43 tracks), not a series episode"
+      },
+      {
+        "spotify_album_id": "6k8nU0I0c3aawfYfwKulCV",
+        "include": false,
+        "episode_num": null,
+        "title": "Töpfchen, Pipi & Kacka Kindermusik",
+        "exclude_reason": "Compilation album (25 tracks), not a series episode"
+      },
+      {
+        "spotify_album_id": "5Exe4EisVEoiW5SkCy9DEm",
+        "include": false,
+        "episode_num": null,
+        "title": "Schulstart Kindermusik 2024",
+        "exclude_reason": "Compilation album (43 tracks), not a series episode"
+      },
+      {
+        "spotify_album_id": "5yvRNsDHwykuh3SGVMD3ll",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderlieder zum Einschlafen",
+        "exclude_reason": "Compilation album (37 tracks), not a series episode"
+      },
+      {
+        "spotify_album_id": "28G0rDtcOWe4TTQm4OvOti",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderlieder Herbstmusik",
+        "exclude_reason": "Compilation album (43 tracks), not a series episode"
+      },
+      {
+        "spotify_album_id": "64gk4uyYZfQmNZRYnhtS6n",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderlieder Kita Hits",
+        "exclude_reason": "Compilation album (30 tracks), not a series episode"
+      },
+      {
+        "spotify_album_id": "3HeOo5rTqm3kQJBiwRivcX",
+        "include": false,
+        "episode_num": null,
+        "title": "Best Of 2025 Kindermusik",
+        "exclude_reason": "Best-of compilation (27 tracks), not a series episode"
+      },
+      {
+        "spotify_album_id": "2qZnBoxoe9wrglwG9QuIQ6",
+        "include": false,
+        "episode_num": null,
+        "title": "Kindergeburtstag",
+        "exclude_reason": "Compilation album (33 tracks), not a series episode"
+      },
+      {
+        "spotify_album_id": "1zLjrazjOda9IwHTxNDHR1",
+        "include": false,
+        "episode_num": null,
+        "title": "Ferien Hits für Kids",
+        "exclude_reason": "Compilation album (32 tracks), not a series episode"
+      },
+      {
+        "spotify_album_id": "3EalTkxa8eG1UrKiSGwV3i",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderlieder zum Trösten",
+        "exclude_reason": "Compilation album (29 tracks), not a series episode"
+      },
+      {
+        "spotify_album_id": "0FgSCJUjzka5UuXG9L8YuA",
+        "include": false,
+        "episode_num": null,
+        "title": "Frühling & Ostern Kinderlieder",
+        "exclude_reason": "Compilation album (30 tracks), not a series episode"
+      },
+      {
+        "spotify_album_id": "7lZCbY0MEq6Xid98rlMGHR",
+        "include": false,
+        "episode_num": null,
+        "title": "Osterlieder für Kinder 2022",
+        "exclude_reason": "Compilation album (41 tracks), not a series episode"
+      },
+      {
+        "spotify_album_id": "4sz93MNb9vBs3bfEnfLVjL",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderlieder Ostern 2025",
+        "exclude_reason": "Compilation album (29 tracks), not a series episode"
+      },
+      {
+        "spotify_album_id": "3F4mSG7LuahTFPrLJw04r2",
+        "include": false,
+        "episode_num": null,
+        "title": "Sommer Hits 2025 für Kinder",
+        "exclude_reason": "Compilation - themed children's music collection, not an individual episode"
+      },
+      {
+        "spotify_album_id": "2g29h6hw9QFgdGPBwFt2Ro",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderlieder Familie",
+        "exclude_reason": "Compilation - themed children's music collection, not an individual episode"
+      },
+      {
+        "spotify_album_id": "103EXochAKZq2sqqPTwI6s",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderlieder für Zuhause",
+        "exclude_reason": "Compilation - themed children's music collection, not an individual episode"
+      },
+      {
+        "spotify_album_id": "2tSo78B9hkFJNd10lo7hno",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderlieder Jahreszeiten",
+        "exclude_reason": "Compilation - themed children's music collection, not an individual episode"
+      },
+      {
+        "spotify_album_id": "6pXX5QaUEReX9rhAD5Ko13",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderlieder Advent 2024",
+        "exclude_reason": "Compilation - themed children's music collection, not an individual episode"
+      },
+      {
+        "spotify_album_id": "7BuR28nL7HxvGDOugWfdwy",
+        "include": false,
+        "episode_num": null,
+        "title": "Lernzeit Kinderlieder",
+        "exclude_reason": "Compilation - themed children's music collection, not an individual episode"
+      },
+      {
+        "spotify_album_id": "77fEBE6x2KI140VHrTLk2l",
+        "include": false,
+        "episode_num": null,
+        "title": "Lieder zur Einschulung",
+        "exclude_reason": "Compilation - themed children's music collection, not an individual episode"
+      },
+      {
+        "spotify_album_id": "2H1NzulehT2xuLEMk58k9n",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderdisco Hits 2024",
+        "exclude_reason": "Compilation - themed children's music collection, not an individual episode"
+      },
+      {
+        "spotify_album_id": "5PR6eOfa1KpZRcWIMSt3CU",
+        "include": false,
+        "episode_num": null,
+        "title": "Tierlieder für Kinder - Karussell",
+        "exclude_reason": "Compilation - themed children's music collection, not an individual episode"
+      },
+      {
+        "spotify_album_id": "28MvQgeYZjBj7xCl5sWnRs",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderlieder Herbst 2025",
+        "exclude_reason": "Compilation - themed children's music collection, not an individual episode"
+      },
+      {
+        "spotify_album_id": "2o1qrBcT658xd9cpQ5vg6e",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderlieder Halloween 2025",
+        "exclude_reason": "Compilation - themed children's music collection, not an individual episode"
+      },
+      {
+        "spotify_album_id": "5NtEPsly9XFpqVZwdVmAbo",
+        "include": false,
+        "episode_num": null,
+        "title": "Lustige Tierlieder",
+        "exclude_reason": "Compilation - themed children's music collection, not an individual episode"
+      },
+      {
+        "spotify_album_id": "5V3QBMhCNPsyQcHkOIZL05",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderlieder 60 Minuten Abendroutine",
+        "exclude_reason": "Compilation - themed children's music collection, not an individual episode"
+      },
+      {
+        "spotify_album_id": "2gK5fAVZSfmqshqdZoHmSp",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderlieder Spielen",
+        "exclude_reason": "Compilation - themed children's music collection, not an individual episode"
+      },
+      {
+        "spotify_album_id": "1ao7z6aiAhXi6QlGjscYGB",
+        "include": false,
+        "episode_num": null,
+        "title": "Kinderlieder Laterne Laufen",
+        "exclude_reason": "Compilation - themed children's music collection, not an individual episode"
+      },
+      {
+        "spotify_album_id": "5wYrVlsoxHIwvFJdST6iYA",
+        "include": false,
+        "episode_num": null,
+        "title": "60 Minuten Kinderturnen",
+        "exclude_reason": "Compilation - themed children's music collection, not an individual episode"
+      },
+      {
+        "spotify_album_id": "2hQsP1oSVdV4PppfnpdQUj",
+        "include": false,
+        "episode_num": null,
+        "title": "TOP 30 Kinder Mitmachlieder",
+        "exclude_reason": "Compilation - themed children's music collection, not an individual episode"
+      },
+      {
+        "spotify_album_id": "2SGkwF7zBCMA2fdE3hL1cL",
+        "include": false,
+        "episode_num": null,
+        "title": "Zähneputzen Kinderlieder - Karussell",
+        "exclude_reason": "Compilation - themed children's music collection, not an individual episode"
+      },
+      {
+        "spotify_album_id": "1KhueBlNWU5jncA8PNcdmU",
+        "include": false,
+        "episode_num": null,
+        "title": "Zähneputzen Kindermusik",
+        "exclude_reason": "Compilation - themed children's music collection, not an individual episode"
+      }
+    ],
+    "age_note": "Suitable from 3+",
+    "curator_notes": "Children's music label releasing song-based Hörspiele. Most albums are individual songs rather than numbered episodes; only the first three volumes use explicit numbering (Hurra Kinderlieder 1/2/3)."
+  },
+  "review": {
+    "reviewed_at": "2026-02-23T00:37:18.299489+00:00",
+    "reviewed_by": "review-series.py",
+    "overrides": [],
+    "notes": "Auto-approved: no gaps or duplicates found.",
+    "verification": {
+      "model": "minimax-m2.5",
+      "verified_at": "2026-02-23T00:37:32.276077+00:00",
+      "approve": true,
+      "concerns": "Minor potential issue: One excluded album \"Hacki Backi - Das Musik-Hörspiel\" (7dCnggq8AckZnwp9D3t2PB) is actually a different product from the \"Hurra Kinderlieder\" series - it's a dedicated Hacki Backi-branded music Hörspiel about dental hygiene, which is correctly excluded. However, I noticed that multiple individual Hacki Backi tracks (e.g., \"Hacki Backi - Drei Minuten Zähne putzen\") ARE included as tracks within \"Hurra Kinderlieder 2\", which is correct - these are individual songs within the main series albums, not separate releases.",
+      "override_verdicts": [],
+      "split_verdicts": []
+    },
+    "status": "approved"
+  }
+}

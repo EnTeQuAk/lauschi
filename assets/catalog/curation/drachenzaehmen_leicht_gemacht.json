@@ -1,0 +1,74 @@
+{
+  "query": "Drachenzähmen leicht gemacht",
+  "model": "kimi-k2.5",
+  "curated_at": "2026-02-22T23:51:00.539530+00:00",
+  "series": {
+    "id": "drachenzaehmen_leicht_gemacht",
+    "title": "Drachenzähmen leicht gemacht",
+    "aliases": [
+      "How to Train Your Dragon",
+      "Dragons"
+    ],
+    "keywords": [
+      "Drachenzähmen leicht gemacht"
+    ],
+    "spotify_artist_ids": [
+      "2Ce2nZgndLDkajvDy4msQi"
+    ],
+    "episode_pattern": "(?:Teil|Teil\\s+)(\\d+)",
+    "albums": [
+      {
+        "spotify_album_id": "1jwHXBQdqJb9ILFDf3NPzP",
+        "include": true,
+        "episode_num": 1,
+        "title": "Drachenzähmen leicht gemacht (Das Original-Hörspiel zum Kinofilm)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "0qyHppfPHeyx2zix2O9B94",
+        "include": false,
+        "episode_num": null,
+        "title": "Drachenzähmen leicht gemacht (Das Original-Hörspiel zum Kinofilm)",
+        "exclude_reason": "Duplicate of Film 1 - original 2010 release, superseded by 2025 re-release (more parts)"
+      },
+      {
+        "spotify_album_id": "48axOMWHpYmXZLH1BATfLO",
+        "include": true,
+        "episode_num": 2,
+        "title": "Drachenzähmen leicht gemacht 2 (Das Original-Hörspiel zum Kinofilm)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "58TLbfTManCWgskqrKrwnF",
+        "include": true,
+        "episode_num": 3,
+        "title": "Drachenzähmen leicht gemacht 3 (Das Original-Hörspiel zum Kinofilm)",
+        "exclude_reason": null
+      },
+      {
+        "spotify_album_id": "6bDEtcCNZmHK6oPWSYmVjW",
+        "include": true,
+        "episode_num": 4,
+        "title": "Die guten alten Zeiten (Das Original-Hörspiel zum Film-Special)",
+        "exclude_reason": null
+      }
+    ],
+    "age_note": "Suitable from 6+",
+    "curator_notes": "Main film trilogy Hörspiele based on the DreamWorks films, plus the 'Homecoming' special. Spin-off series (Die Reiter von Berk, Die Wächter von Berk, Auf zu neuen Ufern, Die jungen Drachenretter, Die 9 Welten) are curated under separate artist entries. Episode numbers assigned by film chronology: 1=first film (2025 version), 2=second film, 3=third film, 4=special."
+  },
+  "review": {
+    "reviewed_at": "2026-02-22T23:56:08.198133+00:00",
+    "reviewed_by": "review-series.py",
+    "overrides": [],
+    "notes": "Auto-approved: no gaps or duplicates found.",
+    "verification": {
+      "model": "minimax-m2.5",
+      "verified_at": "2026-02-22T23:57:21.948804+00:00",
+      "approve": true,
+      "concerns": "The series lacks episodes 5+, but given the official Spotify releases only cover films 1-3 and one special (\"Die guten alten Zeiten\"), this appears complete for what exists on this platform. The curation is sound – included albums match the films correctly (1, 2, 3, and the special), and the 2010 duplicate was correctly excluded as it is superseded by the 2025 re-release which has more parts (26 vs 20 tracks).",
+      "override_verdicts": [],
+      "split_verdicts": []
+    },
+    "status": "approved"
+  }
+}

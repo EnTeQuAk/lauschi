@@ -68,16 +68,16 @@
     "curator_notes": "Split from Die Schule der magischen Tiere. Spin-off detective series for early readers (Erstleser). Mini-krimis with shorter episodes. Different format and target audience than main series."
   },
   "review": {
-    "status": "escalated",
+    "status": "approved",
     "overrides": [],
     "notes": "Auto-created by apply-splits.py from die_schule_der_magischen_tiere.\nAuto-approved: no gaps or duplicates found.",
     "reviewed_at": "2026-02-22T14:26:04.254124+00:00",
     "reviewed_by": "review-series.py",
     "verification": {
       "model": "minimax-m2.5",
-      "verified_at": "2026-02-22T15:10:46.560705+00:00",
-      "approve": false,
-      "concerns": "Unable to verify: All album IDs in this series returned \"not found\" errors from the album_details API. The IDs appear incomplete (they're only 7 characters when typical Spotify IDs are 22 characters). The metadata provided by the first reviewer cannot be verified without valid Spotify album IDs. Need valid IDs to confirm these are real episodes of \"Die Schule der magischen Tiere: Ermittelt\".",
+      "verified_at": "2026-02-22T23:16:28.837243+00:00",
+      "approve": true,
+      "concerns": "All 7 included albums are legitimate episodes of \"Die Schule der magischen Tiere ermittelt\" from Silberfisch label:\n- Episodes 1-7 are clearly present with correct ordering (including two \"Neuausgabe\" re-releases for episodes 1 and 7)\n- All have chapter-based audio book format matching the series style\n- Release dates span 2020-2025, showing the series progression\n- No excluded albums to review\n- No overrides or splits to verify\n\nThe curation looks sound - episodes 2-6 retain the original \"Hörspiele\" branding while episodes 1 and 7 have been re-released as \"Neuausgabe\" (new editions), which is a valid distinction but both included in this series as they represent the same story content.",
       "override_verdicts": [],
       "split_verdicts": []
     }
