@@ -16111,3 +16111,366 @@ series:
     title: Die fabelhafte Geschichte von Anne Kaffeekanne (ungekürzt)
   - id: 3V3YK9mtCSt2LuLq9aOeoI
     title: Tamaro (Eine Indianerballade mit Liedern und Geschichten)
+- id: hurra_kinderlieder
+  title: Hurra Kinderlieder
+  keywords:
+  - Hurra Kinderlieder
+  spotify_artist_ids:
+  - 0tvF8WneD5ortg902Tnm1a
+  episode_pattern: ^Hurra Kinderlieder (\d+)$
+  albums:
+  - id: 4fCHEnxwC4DS5YishS2pcW
+    episode: 1
+    title: Hurra Kinderlieder 1
+  - id: 4n0pHmPfqGjnYUjmUdWZU0
+    episode: 2
+    title: Hurra Kinderlieder 2
+  - id: 2HYGqcoIqREJqgyVDfQGRC
+    episode: 3
+    title: Hurra Kinderlieder 3
+- id: giraffenaffen
+  title: Giraffenaffen
+  keywords:
+  - Giraffenaffen
+  spotify_artist_ids:
+  - 2iofOsu4vMRmrbjuqGR6ex
+  episode_pattern:
+  - Giraffenaffen (\d+)
+  - Giraffenaffen (\d+) -
+  albums:
+  - id: 3yRICOfCU3aESj5tqYOXnD
+    episode: 1
+    title: Giraffenaffen
+  - id: 5vrbcnXTiRb9xoO61FYHp6
+    episode: 2
+    title: Giraffenaffen 2
+  - id: 5VZGaclaVcOskXydrnfbRd
+    episode: 3
+    title: Giraffenaffen 3
+  - id: 4NA5h5vfjAStxzWPqORxsl
+    episode: 4
+    title: Giraffenaffen 4 - Winterzeit
+  - id: 4Itat8oPtnebq6HeoSCThz
+    episode: 5
+    title: Giraffenaffen 5
+  - id: 4tKopKYEuPMRgidTB1c8RS
+    episode: 6
+    title: Giraffenaffen 6
+  - id: 6YZONXa0vRpQoqNBclZtIy
+    episode: 7
+    title: Giraffenaffen 7 - Die große Geburtstagsfeier (Party mit Schlagerstars)
+  - id: 5kYWHjNbS4eEXayo7Emihd
+    episode: 8
+    title: Giraffenaffen 8
+  - id: 20hBTS92YHvo2a1ctaNO4K
+    episode: 9
+    title: Giraffenaffen 9 - Weltreise
+- id: sing_kinderlieder
+  title: Sing Kinderlieder
+  aliases:
+  - Sing mit mir
+  keywords:
+  - Sing Kinderlieder
+  - Sing mit mir
+  spotify_artist_ids:
+  - 0FaGQhzs7L0uIuUdjolB1n
+  episode_pattern: ^Sing mit mir Kinderlieder (\d+)
+  albums:
+  - id: 4gDvWioaiyrWrSmAWxLf6t
+    episode: 1
+    title: Sing mit mir Kinderlieder
+  - id: 4lTsgSv1tV6npPi0p7rTdN
+    episode: 2
+    title: Sing mit mir Kinderlieder 2
+  - id: 2Z1IZ5uLBTXFTrW4E38fsU
+    episode: 3
+    title: Sing mit mir Kinderlieder 3
+  - id: 5SgiKSIJZIr6nhEoYNEIIY
+    episode: 4
+    title: Sing mit mir Kinderlieder 4
+- id: familie_sonntag
+  title: Familie Sonntag
+  spotify_artist_ids:
+  - 34rlWZv8uNVp6YbXJyHLoR
+  episode_pattern: '[,\-]?\s*Vol\.?\s*(\d+)'
+  albums:
+  - id: 39DtCtoTlw562hin2XJKZQ
+    title: Baila y Pinta
+  - id: 4E1vkQEnHkNNZYXYTOACU9
+    title: Canciónes por la Fiesta familiar
+  - id: 3Vf7gV6ZxlDpdQIdC8eGHK
+    title: Casa de Muñecas
+  - id: 0ZpLrsmBe9YeyxaNzZfpje
+    title: Diversión para Bebés
+  - id: 1NzFC1Lqq2YWy3CPbjGYXA
+    title: Ich bin ein Hampelmann
+  - id: 6rciClkFft9xJkaJfRa0M9
+    title: Levantando las Manos (Así)
+  - id: 0hE7G4kCMbHewGdszFRYwL
+    title: Levantando las Manos (Así) [Kids Version]
+  - id: 0Og64L97ekmkWh73bOzBaO
+    title: Mi Abuela
+  - id: 5wTFQBATxLGyOHKUo5JYgX
+    title: Pop Latino Para Niños
+  - id: 3nlq4qsorxnO2CXoXngeZn
+    title: Rock suave para bebés
+  - id: 0b9vztaX729INdWpCapx7t
+    title: Siempre Es Hora de Jugar
+  - id: 5hr0NVfau1egn5YrygKzmY
+    title: Tausend Sterne
+  - id: 7KSRxkdKlmX19HAPq0p1ln
+    title: Vuelta a clases 2024
+  - id: 72gtckjN2MLq3ZMnasOVcs
+    title: Wo ist denn hier das Klo?
+  - id: 5M55BmbS8Pjw0tFg1NcBmv
+    title: Wo ist meine Mama?
+  - id: 4O5pk98hlXpd4bytbiDR1G
+    title: ¡A Rockear Niños!
+- id: drei_berlin
+  title: 3Berlin
+  spotify_artist_ids:
+  - 7eUEQQxUaukrKyzVjeWk1V
+  episode_pattern:
+  - Folge (\d+)
+  - Vol\. (\d+)
+  albums:
+  - id: 5puThxD6C4mmmahSedyiGd
+    title: Abenteuer Weltall
+  - id: 50WF24IiHnkwS6hgbBZQIH
+    title: Auf Balkonien
+  - id: 6SUd6078b9X0fPlQuXi8nE
+    title: Big Bobby Car - Das Original-Liederalbum
+  - id: 1Uho90ukKgTU3O1quDV6eo
+    title: Chill mal Chili
+  - id: 01vOXgyRgMauZ26W0KNsRH
+    title: Cowgummi
+  - id: 3OuQSOwCSOnScbkeTFLgTt
+    title: Das bist du
+  - id: 5jqlhLjlGCyGvXVCJKwJ0e
+    title: Du da oben (Akustik-Version)
+  - id: 5wblU9JMPbXzwUEqaqNdf8
+    title: Du da oben (Original-Version)
+  - id: 0f5I1xJvzU8GqrggcHHuEF
+    title: Ein Hut, ein Stock, ein Regenschirm
+  - id: 02ecZEVRwMpuhktNNKjw4Y
+    title: Fliege hoch hinauf
+  - id: 1pZ8L9tUqDMJ813V5GKJ3c
+    title: Fühl dich frei
+  - id: 5SKQvA0Tgq5dXHPVLIW1iH
+    title: Happy Christmas - Für Dich Und Alle Welt
+  - id: 11umq9TNFtGYN9IMft97Vz
+    title: Happy Christmas - Para Todos por Igual
+  - id: 0IZwlUg8IR46h7VFufZNHl
+    title: Happy Christmas - Pour Toi, Pour Nous, Pour Vous (Version Française)
+  - id: 1WMinXW1SoQcCcjcI5dzuS
+    title: Happy Christmas - To You and Everyone
+  - id: 6Xwl0Icb4ZnxV2bLiX9Tu5
+    title: Hermann, das Leben ist schön
+  - id: 69taNaM1ThRnHOhGdZW94S
+    title: Hier auf dem Bauernhof
+  - id: 7MZDk0Uq7Wj1sjfnRMKj9y
+    title: Ich lieb' die Weihnachtszeit
+  - id: 6HNF1raANQ207kf4dIAsbB
+    title: Mach ich einfach morgen
+  - id: 6rsevZUG4O9MfQwOaGjbMR
+    title: Mit der Bahn
+  - id: 2ZEidqc9nE0UgHOE5KVtSs
+    title: Nicht von schlechten Eltern
+  - id: 50UNy8GaxFNCH08gVVmsH4
+    title: Nicht von schlechten Eltern 2
+  - id: 5gxh1whHX9qykSJb6dTcle
+    title: Privatverhext
+  - id: 5Be4uTHkxouM2LJWHKvziw
+    title: Pure Energie
+  - id: 1Pp40Mngeiv80yr9qnG4py
+    title: Pyjama Party
+  - id: 2DbanKF6mjjytuMEw8iTex
+    title: Rabatz
+  - id: 1T3vhVfaBqTtM5AooReHMw
+    title: Ritter Rüdiger
+  - id: 0WpzySmE1iv8ZrWXsgR4Qg
+    title: Schulfrei
+  - id: 1jfBbWXFrZ8fKsPfl01ZtV
+    title: Schön, dass du hier bist
+  - id: 6dXgjpl5CmPuPY7fxRat0Y
+    title: So sein wie ich bin
+  - id: 5qSOlNXq8WQM0xPlheS77c
+    title: Sonne und Regen. So ist unser Leben
+  - id: 30USqal63wYX00fR7mUzGF
+    title: Tanzen und springen
+  - id: 1fJ8NTsNYEXkNMxUtnjefK
+    title: Unsere Stadt spricht alle Sprachen
+  - id: 3iSrgPUxen4cDfjdYdxOUu
+    title: Veggie Reggae (Dönermit)
+  - id: 6alaUHQkEXlwqoL6kJAjKm
+    title: Von Farbenfeen und Stinkesocken
+  - id: 7FpzmPcNIwl0zMUl742zRR
+    title: Wenn ich den See seh'
+  - id: 2YJ1Lb1ZqH07XOPyQUVQaU
+    title: Werft die Kissen in die Luft
+  - id: 3Wj0D8aR3bdygqWpZLGtLW
+    title: Wiedersehen
+  - id: 7KbYHsGNj9d2IIAKXTS6VM
+    title: Wir sind Raketen
+  - id: 7senFonnIDQgispdySW745
+    title: Wofür brauch ich das nochmal?
+  - id: 26F94PzUaS6SI2vU4aP7Km
+    title: Wozu sind Kriege da?
+- id: schnabi_schnabel
+  title: Schnabi Schnabel
+  spotify_artist_ids:
+  - 3GxW2mmzRySZHcA0RUk8d8
+  albums:
+  - id: 6LBFqE1KiWFBDkQfcm1HZI
+    title: 1, 2, 3 im Sauseschritt
+  - id: 4yJ33wWQrveYhrDSegaslm
+    title: Aramsamsam
+  - id: 0aIt98P3jWDiB0fsqyAnRd
+    title: Aufwach Lied
+  - id: 4YB5kz5lrhkaFATZpPmEY5
+    title: Baby Shark
+  - id: 6qOqPaJv4ZjIbYiAODSGOK
+    title: Backe, Backe Kuchen
+  - id: 18JBPxDYUbb6VWE40ovrM6
+    title: Brüderchen komm tanz mit mir
+  - id: 7ARMPblHxIZY5Wt0cH0Voa
+    title: Da steht ein Pferd auf'm Flur
+  - id: 5WFMJJy7rn8WHx7hFj40J0
+    title: Das rote Pferd (Disco-Version)
+  - id: 3Zd6F4l98QwrXmxP6agFoC
+    title: Die Dinosaurier
+  - id: 40e7a6eZxPXSg1SyBWEwzT
+    title: Die Katze tanzt allein, tanzt allein auf einem Bein
+  - id: 4Ffguad9dvKHQodq2rWUkd
+    title: Die Räder vom Bus
+  - id: 1jDSFHFbRuBkUftvb56y74
+    title: Die Vogelhochzeit
+  - id: 4wPjPYyq3n59E1brPt6pSH
+    title: Die Welt ist elefantastisch
+  - id: 3s57Z0WH8Xl9OVUnkFm2dI
+    title: Dinos spielen...
+  - id: 7ffWEtRAeh9tdM4xUua9d5
+    title: Dinosaurier
+  - id: 5dVJdaDxM0FHRJprgZ7Lcb
+    title: Ein großer, ein runder, ein roter Luftballon
+  - id: 1HXiJ3o9kteuUr8JMCf3eP
+    title: Freche Früchte
+  - id: 0MMkbcNoc2wVGbSrLHbd34
+    title: Häschen in der Grube
+  - id: 0KyZ8mLpsjQnCrO8bUdDZB
+    title: Häschenparty
+  - id: 55mk4hrm8nTbLs7Drk6iK0
+    title: Kleines Monster (Labubu)
+  - id: 4ADTVVNjgKgC5Raypj8JHK
+    title: Kommt ein Vogel geflogen
+  - id: 5ckBe36K4AZ1lF78M8ASHA
+    title: Kuckuck, Kuckuck, ruft's aus dem Wald
+  - id: 35NKHugno18NokZVUz8uRP
+    title: Letzte Weihnacht (Last Christmas)
+  - id: 3r9ZsH9U2Ndh86POVmOnRm
+    title: Mein Auto fährt tut-tut
+  - id: 0UGb9SNUkpnJRf5mDq5tA7
+    title: Piratentanz
+  - id: 41eQGnhiGfGWPIJTImEM7S
+    title: Plätzchen für Mama
+  - id: 2KSObSWInBrgsS3bSDcxnf
+    title: Pummeleinhorn präsentiert ... Kekse (Remix)
+  - id: 1LwzIwwRqbyi7hLWlBdaQs
+    title: Pummeleinhorn präsentiert... Letzte Weihnacht (Last Christmas) [Remix]
+  - id: 7w7vBZzCeIp8nXolpHiTDu
+    title: Schnabi Party
+  - id: 6vY4hE4Br4gWdF5GH9SH41
+    title: Schulanfang
+  - id: 1SX4PvjWgkWS8vB5kXLPjA
+    title: So ein schöner Tag (Fliegerlied)
+  - id: 68JQfWsRFPrrlnkbrFEfnk
+    title: Taler, Taler, du musst wandern
+  - id: 1YEeyDfEYFoR9GRedDp3Al
+    title: Tschu Tschu Wah
+  - id: 0iFdSAQ8cstuPboxQH765Z
+    title: Viel Glück und viel Segen
+  - id: 677zZQsISXOnv34WhPB5CD
+    title: Was müssen das für Bäume sein? (Version 2017)
+  - id: 74eyaLMvVNRuoiVFMRcJrj
+    title: Wenn ich ein Vöglein wär
+  - id: 0v1glt77Js24xIF3iFCGO5
+    title: Wie schön, dass du geboren bist
+  - id: 5ZlsnPMVSXAA5tDaCwfhTb
+    title: Wünsche
+  - id: 0tKLh6R9tnzXHMdliW15Yd
+    title: Zehn kleine Zappelmänner
+  - id: 3lCaJCmalHH4PqFXTLSLEe
+    title: Zwei lange Schlangen
+- id: emmalu
+  title: EMMALU
+  spotify_artist_ids:
+  - 2qDDgS9myAvvFEjI4WzcKO
+  albums:
+  - id: 2TwhwiFMVtJf3C3korWCws
+    title: Ahoi, Piraten! (Das Piraten-Lied)
+  - id: 7t2I4cbF8ZoMCYzXIDVePf
+    title: Autos raten, das macht Spaß
+  - id: 7rCR6y3fgyyGhaemHstC84
+    title: Billy Betonmischer (Drehen und mischen)
+  - id: 5vp9JkQpfvGxFXdP5VD4GR
+    title: Bruno, der Brummi
+  - id: 5Oc785f0mXetET1GjsrNfG
+    title: Das Astronauten-Lied (Karl, der Astronaut)
+  - id: 0aBawkXMTL0G5WdKplE7Bp
+    title: Das Fliegerlied (Über Wolken, über Berge)
+  - id: 0y87LMEhMDLDPRKxE5GG7Z
+    title: Das Hundekacka-Lied
+  - id: 2jYg6uNvuUBHXDgh72inN8
+    title: Das Kutschen-Lied (So unendlich frei)
+  - id: 02UAh5DdjtxP9pRwSptYp1
+    title: Das Osterhasen-Lied (Hoppel, hoppel, 1-2-3)
+  - id: 2SLQgluNcYhuOu1iuIRUmi
+    title: Das Stadt-ABC
+  - id: 4ttNVpNHEHRAdFC62GuhGk
+    title: Das Zug-Lied (Tuff-tuff-tut)
+  - id: 2djhvNxqzbH3ZpCR186uN3
+    title: Der Bagger-Song (Jack & Mats)
+  - id: 1QVju5VwknsJN2I5BVLGqR
+    title: Der Müllauto-Song (Tut-tut)
+  - id: 1CMyjEmi0BC2KUuuxVQ43N
+    title: Der Stau-Song
+  - id: 6saV4hcW4xFjtjbiV5xbwM
+    title: Der rote Traktor (Das Traktor-Lied)
+  - id: 58t94VcDu61kdqwwIP3zog
+    title: Die Walze Wilma
+  - id: 7ImuuIkpFHY599s4g9zvp7
+    title: Die Zahnfeuerwehr (Tatü-tata)
+  - id: 33MIhi7HLfUhL1o3Cu3VUT
+    title: Dr. Sperrmüll
+  - id: 6mUD5oo04yR6wuvml9Tvbj
+    title: Drei Helden auf vier Rädern (Krankenwagen, Feuerwehr und Polizei)
+  - id: 5pQyHfMkEiRTMnfZ9UxDdh
+    title: Gustav, der Geländewagen
+  - id: 1sb0oV8Qk7G84B9HMrKWly
+    title: Hubi, der Hubschrauber
+  - id: 6Qt7DOfdkKXvJsY0qQX78z
+    title: Kira Kehrmaschine
+  - id: 1NZzOm6PbtMLK6oMsOWOcW
+    title: Kleiner Schneemann
+  - id: 13pMDead8waztgZvuaokZD
+    title: Kopf hoch, kleiner Kran! (Der große Kran und der kleine Kran)
+  - id: 0e9Gk5P09eqNB1FbKH12dT
+    title: Manni, die Müllpresse
+  - id: 7hVD8WaORwez5bTQgZg8ru
+    title: Peter Pommesmann
+  - id: 1uS7RTrNCgCxe6piQQkP5f
+    title: Pippa mit der Post
+  - id: 22Qe3kgUKKlnSNXqMLOyuP
+    title: Rattenparty
+  - id: 5syNIwz1l3BTSOp9gs7qbx
+    title: Reisebus der Tiere (Wer sitzt da am Steuer?)
+  - id: 6LnhKxnszqbSlb5RHoRyTJ
+    title: Sam Segelboot
+  - id: 2Tp3VvZ3MTlY0JO7VPTXAg
+    title: Schorsch, der Schneepflug
+  - id: 6x1aeBk19mMMXAvcAijtPx
+    title: Tollpatsch Weihnachtsmann
+  - id: 71XMisDnciHQ13cqDvV6ob
+    title: Willi von der Wasserwacht
+  - id: 73P1E9fLVAVo1SszMSTEDA
+    title: Öffis, Öffis, Öffis (Wir sind die Öffis!)
