@@ -373,6 +373,12 @@ class SpotifyPlayerBridge {
   /// The SDK will fire 'ready' with a new device_id on success.
   Future<void> reconnect() async {
     Log.info(_tag, 'Requesting SDK reconnect');
+    // Clear stale device_id BEFORE firing JS. This ensures waitForDevice()
+    // actually waits for the fresh 'ready' event instead of returning the
+    // stale ID immediately. Order matters: if 'ready' fires between
+    // _updateState and _runJs, the new ID lands in state and
+    // waitForDevice() picks it up correctly.
+    _updateState(_state.copyWith(isReady: false, clearDeviceId: true));
     await _runJs('window.lauschi.reconnect()');
   }
 

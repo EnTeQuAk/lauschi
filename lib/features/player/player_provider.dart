@@ -306,13 +306,15 @@ class PlayerNotifier extends _$PlayerNotifier {
       await _bridge!.reconnect();
       final newDeviceId = await _bridge!.waitForDevice();
       if (newDeviceId == null || _api == null) {
-        Log.error(_tag, 'Cannot play — no device ID after reconnect');
+        Log.warn(_tag, 'Cannot play — no device ID after reconnect');
         state = state.copyWith(
           isLoading: false,
           error: 'Spotify nicht verbunden',
         );
         return;
       }
+      // Brief delay for Spotify's servers to register the new device.
+      await Future<void>.delayed(const Duration(milliseconds: 500));
       return _playOnDeviceWithRetry(card, newDeviceId);
     }
 
@@ -341,28 +343,52 @@ class PlayerNotifier extends _$PlayerNotifier {
     } on SpotifyDeviceNotFoundException {
       // Device stale — reconnect the SDK and retry once.
       Log.warn(_tag, 'Device not found — reconnecting');
-      await _bridge!.reconnect();
-      final newDeviceId = await _bridge!.waitForDevice();
-      if (newDeviceId != null) {
-        try {
-          await _playOnDevice(card.providerUri, newDeviceId, card);
-          state = state.copyWith(isLoading: false);
-        } on Exception catch (e) {
-          Log.error(_tag, 'Retry after reconnect failed', exception: e);
-          state = state.copyWith(
-            isLoading: false,
-            error: 'Wiedergabe fehlgeschlagen',
-          );
-        }
-      } else {
-        Log.error(_tag, 'Reconnect timed out — no device');
-        state = state.copyWith(
-          isLoading: false,
-          error: 'Spotify-Verbindung verloren',
-        );
-      }
+      await _reconnectAndRetry(card);
     } on Exception catch (e) {
       Log.error(_tag, 'Play failed', exception: e);
+      state = state.copyWith(
+        isLoading: false,
+        error: 'Wiedergabe fehlgeschlagen',
+      );
+    }
+  }
+
+  /// Reconnect the SDK and retry playback once.
+  ///
+  /// After getting a new device_id, waits briefly for Spotify's servers
+  /// to register the device before sending the play command. If the retry
+  /// still fails with device-not-found, logs a warning (expected transient
+  /// condition) instead of a Sentry error.
+  Future<void> _reconnectAndRetry(db.AudioCard card) async {
+    await _bridge!.reconnect();
+    final newDeviceId = await _bridge!.waitForDevice();
+    if (newDeviceId == null) {
+      Log.warn(_tag, 'Reconnect timed out — no device');
+      state = state.copyWith(
+        isLoading: false,
+        error: 'Spotify-Verbindung verloren',
+      );
+      return;
+    }
+
+    // Brief delay for Spotify's servers to register the new device.
+    // The SDK fires 'ready' locally before the REST API recognizes
+    // the device_id, causing a second 404 without this.
+    await Future<void>.delayed(const Duration(milliseconds: 500));
+
+    try {
+      await _playOnDevice(card.providerUri, newDeviceId, card);
+      state = state.copyWith(isLoading: false);
+    } on SpotifyDeviceNotFoundException {
+      // Propagation delay — device registered locally but REST API
+      // hasn't caught up. Transient condition, not a code bug.
+      Log.warn(_tag, 'Device still not found after reconnect');
+      state = state.copyWith(
+        isLoading: false,
+        error: 'Spotify-Verbindung verloren',
+      );
+    } on Exception catch (e) {
+      Log.error(_tag, 'Retry after reconnect failed', exception: e);
       state = state.copyWith(
         isLoading: false,
         error: 'Wiedergabe fehlgeschlagen',
