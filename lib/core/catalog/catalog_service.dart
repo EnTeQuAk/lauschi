@@ -155,7 +155,7 @@ class CatalogService {
           keywords: keywords,
           spotifyArtistIds: artistIds,
           coverUrl: map['cover_url'] as String?,
-          episodePattern: map['episode_pattern'] as String?,
+          episodePattern: _parseEpisodePattern(map['episode_pattern']),
           albums: albums,
         ),
       );
@@ -245,6 +245,15 @@ class CatalogService {
     }
     return null;
   }
+}
+
+/// Parse episode_pattern from YAML: accepts a single string or a list of
+/// strings (joined with `|` into one alternation regex).
+String? _parseEpisodePattern(Object? raw) {
+  if (raw == null) return null;
+  if (raw is String) return raw;
+  if (raw is List) return raw.cast<String>().map((p) => '(?:$p)').join('|');
+  return raw.toString();
 }
 
 // ---------------------------------------------------------------------------
