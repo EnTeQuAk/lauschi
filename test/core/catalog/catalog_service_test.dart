@@ -160,7 +160,7 @@ void main() {
         'Der Räuber Hotzenplotz 1: Der Räuber Hotzenplotz',
       );
       expect(r, isNotNull);
-      expect(r!.series.id, 'raeubrer_hotzenplotz');
+      expect(r!.series.id, 'raeuber_hotzenplotz');
     });
 
     test('matches Der kleine Drache Kokosnuss (no episode)', () {
