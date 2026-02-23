@@ -15907,3 +15907,207 @@ series:
   - id: 7ykTg35l0oEIJjpNWC1Qz0
     episode: 25
     title: 'Folge 25: Jimjäger / Der ewige Ritter - Teil 1 & 2 (Das Original-Hörspiel zur TV-Serie)'
+- id: simone_sommerland
+  title: Simone Sommerland
+  keywords:
+  - simone_sommerland
+  spotify_artist_ids:
+  - 04yr1h3maDSKvM08pgOezF
+  episode_pattern: ' (\d+)$'
+  albums:
+  - id: 0Vk5RYze3hCb98qiylaNGc
+    episode: 1
+    title: 'Folge 1: Post von Frau Schuhu'
+  - id: 4Y0FLAP8VhC58YDS0MWPi2
+    episode: 2
+    title: 'Folge 2: Der Neue'
+  - id: 43ODdTwO4GwdtQut2mQI9B
+    episode: 3
+    title: 'Folge 3: Die Nachtgruppe'
+  - id: 2h8ULCrkFqIJE3ng6TbyNV
+    episode: 4
+    title: 'Folge 4: Kindergarten in Gefahr'
+  - id: 1B0jb0WM4we58CXHKJ20Ht
+    episode: 5
+    title: 'Folge 5: Freddy und das Freundebuch'
+  - id: 0LPFbAcZO2uqUdknYKs0Ma
+    episode: 6
+    title: 'Folge 6: Der affenstarke Geburtstag'
+  - id: 3KpnTOafj08p7Tzk8o1y1e
+    episode: 7
+    title: 'Folge 7: Das Brotdosenrätsel'
+  - id: 7tGKosP8M0sTInAiNkaDaK
+    episode: 8
+    title: 'Folge 8: Nachts im Wald'
+  - id: 6GWzlqHgmD1SvOfCA1cIjD
+    episode: 9
+    title: 'Folge 9: Drunter und Drüber'
+  - id: 7k1rcMmwVeyp4mtMeqeAVx
+    episode: 10
+    title: 'Folge 10: Der Osterhase'
+  - id: 7DrdU7GGESUnlRnU0P6qto
+    episode: 11
+    title: 'Folge 11: Das Verkleidungsfest'
+  - id: 4BA3s62sdG6SJk6FuU0EG1
+    episode: 13
+    title: 'Folge 13: Das falsche Einhorn'
+  - id: 08QBHUDyf1Idjauwv54Uxr
+    episode: 14
+    title: 'Folge 14: Die Zwillingsparty'
+  - id: 6wUeQGuLfooNmD1fl2LPtO
+    episode: 15
+    title: 'Folge 15: Süßes oder Saures'
+  - id: 0NgPCTNdreg7MVnq7twLpN
+    episode: 16
+    title: 'Folge 16: Der Adventskalender'
+  - id: 5AMU9u2nNmM8W8nP5PpJxV
+    episode: 17
+    title: 'Folge 17: Schneemann ohne Nase'
+  - id: 5MR3MQUBXT2aSpS6JDn13Z
+    episode: 18
+    title: 'Folge 18: April, April'
+  - id: 2Y9075VZ9xOQKiEuftTMVs
+    episode: 19
+    title: 'Folge 19: Das verrückte Fußballspiel'
+  - id: 4IHnqpq8ljIN9hoFFHx350
+    episode: 20
+    title: 'Folge 20: Bürgermeister Dödeldogge'
+  - id: 3Aib8bgXClYWSSxvXEJqLR
+    episode: 21
+    title: 'Folge 21: Ferien am Meer'
+  - id: 3XgQtEGxZWsIVaiu70xCZ7
+    episode: 22
+    title: 'Folge 22: Der Flohmarkt'
+  - id: 6twLzs7nNiidYCB2QC4TK4
+    episode: 23
+    title: 'Folge 23: Der Drachenwettbewerb'
+  - id: 5Oxl4z7rhFSmzu7JUiAbdD
+    episode: 24
+    title: 'Folge 24: Der Laternenumzug'
+  - id: 2SRI6IRhaCB69CYITMwOnQ
+    episode: 25
+    title: 'Folge 25: Ein Lied für Oma Mümmel'
+  - id: 7DLcZOlSRKL9v0tAdopHFD
+    episode: 26
+    title: 'Folge 26: In der Weihnachtsbäckerei'
+  - id: 6OO60VyttoVQ2icUxAls98
+    episode: 27
+    title: 'Folge 27: Der Zirkus'
+  - id: 4Rhpy5loxrUgIKiG6cHpor
+    episode: 28
+    title: 'Folge 28: Der Verkehrspolizist'
+  - id: 2g90LOxMyreZSuESFCiZBO
+    episode: 29
+    title: 'Folge 29: Die Schnitzeljagd'
+  - id: 558GvT6rqQrerC9TGaHHfw
+    episode: 30
+    title: 'Folge 30: Muttertag'
+  - id: 5VVm1Nqjxebol09IWw2bs1
+    episode: 31
+    title: 'Folge 31: Die Kita-Übernachtung'
+  - id: 2wG1FqYTn5wrU1AEbV0JKV
+    episode: 32
+    title: 'Folge 32: Die Seepferdchenprüfung'
+  - id: 0Rh4nTjHRbqL2tWL5ML5QC
+    episode: 33
+    title: 'Folge 33: Das Instrumentenkarussell'
+  - id: 11OuycuDU9yECr3rDSGUD1
+    episode: 34
+    title: 'Folge 34: Ade du schöne Kindergartenzeit'
+  - id: 1dxQg1zvloc9YYqGGaGJvY
+    episode: 35
+    title: 'Folge 35: Neue Freunde'
+  - id: 17E6G6mwuGTQXlX5BWCp32
+    episode: 36
+    title: 'Folge 36: Norbert ist wieder da'
+  - id: 1NsF0ab9IRlj37vP3TID9J
+    episode: 37
+    title: 'Folge 37: Alles unter Wasser'
+  - id: 47y9gZMLOGFT3Y8A1AU1Gk
+    episode: 38
+    title: 'Folge 38: Ausflug zum Bauernhof'
+  - id: 6VE2NgEYzyMmvuNOczO7hp
+    episode: 39
+    title: 'Folge 39: Die Schatzsuche'
+  - id: 0NynAfFwQ8YYMuABHGYeKJ
+    episode: 40
+    title: 'Folge 40: Eine Autobahn durch Glücksdorf'
+  - id: 0MKvUaGdohztFbbwk5f7m2
+    episode: 41
+    title: 'Folge 41: Die Dino-Ausstellung'
+  - id: 0RQymndPvzlvpJ5twmtnqB
+    episode: 42
+    title: 'Folge 42: Morgenkreis mit der Dödeldogge'
+  - id: 3pAHhqwqXKVZjMQ5y1o0pl
+    episode: 43
+    title: 'Folge 43: Ein Fall für Karla und Jamie'
+  - id: 2D0japqkrtMvcNidWxocAa
+    episode: 44
+    title: 'Folge 44: Der eingebildete Kater'
+  - id: 26hYOS2KlED5JCumVB8OB3
+    episode: 45
+    title: 'Folge 45: Jamie kann fliegen'
+  - id: 3Zkk7R6FxMXIyHUOqeboyz
+    episode: 46
+    title: 'Folge 46: Die Olympischen Spiele'
+  - id: 3b6OgwMbk9wSYuNNEEjBXs
+    episode: 47
+    title: 'Folge 47: Das Piratenschiff'
+  - id: 65bWQN0qYnzMgSIMSm1UB0
+    episode: 48
+    title: 'Folge 48: Das geheimnisvolle Ei'
+  - id: 4Q7IVJCvyxCu0J0TnsXsv3
+    episode: 49
+    title: 'Folge 49: Der verlorene Teddy'
+  - id: 4jirBI7A8Cc4B7C8e9kD7f
+    episode: 50
+    title: 'Folge 50: Besuch im Seniorenheim'
+  - id: 48jvH0AZ8rEqmIjuJNaWFo
+    episode: 51
+    title: 'Folge 51: Der Feuerwehr-Elefant'
+  - id: 1EnYAw8YorFH6pNhv65eOL
+    episode: 52
+    title: 'Folge 52: Kiki wird Filmstar'
+  - id: 3Pok87WyEFg1ufL9GCVTEt
+    episode: 53
+    title: 'Folge 53: Die Mutprobe'
+  - id: 3V5AlCgyrZwcuCVX2OrmBu
+    episode: 54
+    title: 'Folge 54: Rollo, der Roboter im Kindergarten'
+  - id: 1er1sIZwE0Zgidpd0O5h8D
+    title: 'Folge 12: Besuch von Dr. Kroko'
+- id: dikka
+  title: DIKKA
+  keywords:
+  - DIKKA
+  spotify_artist_ids:
+  - 79BUGg8I39oq0mSeIetvob
+  albums:
+  - id: 5B1NvoguoTzfsgBkAktnrn
+    title: BOAH ist das krass
+  - id: 21iU8QtgINaMWyCLZGX9Mq
+    title: Boom Schakkalakka
+  - id: 3HidR1zZtPAzRAiil2dgEM
+    title: Boom Schakkalakka
+  - id: 1SNAih5cZ1toqZNL1RwXlR
+    title: Oh Yeah!
+- id: bummelkasten
+  title: Bummelkasten
+  spotify_artist_ids:
+  - 3QTPj4dzAbanx0RJ20CW1S
+  albums:
+  - id: 0H3oGP8jf2QVfLHzaj2NVG
+    title: D!E GÄNG
+  - id: 3rImMXX7l2IOsScd9vqHcB
+    title: Irgendwas Bestimmtes
+- id: fredrik_vahle
+  title: Fredrik Vahle
+  spotify_artist_ids:
+  - 2QZ9OZXUiJ5x35gBpRObdK
+  albums:
+  - id: 2lLAheJJjArUkv8d8nnrYM
+    title: Das kleine Hörbuch zur Guten Nacht (Ungekürzte Lesung mit Musik)
+  - id: 2deyHlNFk7ApRuBYAZC1n4
+    title: Die fabelhafte Geschichte von Anne Kaffeekanne (ungekürzt)
+  - id: 3V3YK9mtCSt2LuLq9aOeoI
+    title: Tamaro (Eine Indianerballade mit Liedern und Geschichten)
