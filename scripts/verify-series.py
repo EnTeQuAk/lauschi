@@ -288,13 +288,13 @@ def _build_verify_prompt(curation: dict) -> str:
     for a in included:
         ep = a.get("episode_num")
         ep_str = f"Ep {ep}: " if ep is not None else ""
-        lines.append(f"  ✅ {ep_str}{a['title']} [{a['spotify_album_id'][:8]}…]")
+        lines.append(f"  ✅ {ep_str}{a['title']} [{a['spotify_album_id']}]")
 
     lines.append(f"\n### Excluded albums ({len(excluded)})")
     for a in excluded:
         reason = a.get("exclude_reason", "")
         lines.append(
-            f"  ❌ {a['title']} [{a['spotify_album_id'][:8]}…]"
+            f"  ❌ {a['title']} [{a['spotify_album_id']}]"
             f"{f' — {reason}' if reason else ''}",
         )
 
@@ -307,7 +307,7 @@ def _build_verify_prompt(curation: dict) -> str:
         lines.append(f"\n### Kimi review overrides ({len(overrides)})")
         for o in overrides:
             lines.append(
-                f"  🔄 {o['action']}: {o['album_id'][:8]}… — {o.get('reason', '')}",
+                f"  🔄 {o['action']}: {o['album_id']} — {o.get('reason', '')}",
             )
 
     if splits:
