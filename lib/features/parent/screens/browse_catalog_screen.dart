@@ -1,4 +1,5 @@
 import 'dart:async' show Timer, unawaited;
+import 'dart:math' show min;
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +18,9 @@ import 'package:lauschi/core/theme/app_theme.dart';
 import 'package:lauschi/features/player/player_provider.dart';
 
 const _tag = 'BrowseCatalog';
+
+/// Cap catalog results in two-tier search so they don't overshadow Spotify.
+const _maxCatalogResults = 4;
 
 // ── Unified browse + search screen ──────────────────────────────────────────
 
@@ -716,11 +720,14 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen> {
             child: _SearchSectionHeader(
               icon: Icons.auto_awesome_rounded,
               title: 'Empfohlen',
-              subtitle: '${catalogMatches.length} passende Hörspiele',
+              subtitle:
+                  catalogMatches.length <= _maxCatalogResults
+                      ? '${catalogMatches.length} passende Hörspiele'
+                      : '$_maxCatalogResults von ${catalogMatches.length} Hörspiele',
             ),
           ),
           SliverList.builder(
-            itemCount: catalogMatches.length,
+            itemCount: min(catalogMatches.length, _maxCatalogResults),
             itemBuilder: (context, index) {
               final series = catalogMatches[index];
               final existingUris = ref.watch(existingItemUrisProvider);
@@ -758,6 +765,24 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen> {
               );
             },
           ),
+          if (catalogMatches.length > _maxCatalogResults)
+            const SliverToBoxAdapter(
+              child: Padding(
+                padding: EdgeInsets.only(
+                  left: AppSpacing.screenH,
+                  right: AppSpacing.screenH,
+                  bottom: AppSpacing.md,
+                ),
+                child: Text(
+                  'Suche verfeinern, um mehr Empfehlungen zu sehen.',
+                  style: TextStyle(
+                    fontFamily: 'Nunito',
+                    fontSize: 13,
+                    color: AppColors.textTertiary,
+                  ),
+                ),
+              ),
+            ),
         ],
 
         // Tier 2: Spotify results (async, API)
