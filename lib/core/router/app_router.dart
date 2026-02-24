@@ -99,7 +99,7 @@ GoRouter createRouter(Ref ref, {String initialLocation = AppRoutes.kidHome}) {
       ),
       GoRoute(
         path: AppRoutes.pinChange,
-        builder: (context, state) => const PinScreen(isSetup: true),
+        builder: (context, state) => const PinScreen(isChange: true),
       ),
       GoRoute(
         path: AppRoutes.parentDashboard,
