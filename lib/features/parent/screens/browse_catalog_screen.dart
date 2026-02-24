@@ -1638,6 +1638,13 @@ class _HeroCard extends ConsumerWidget {
         decoration: BoxDecoration(
           color: AppColors.surface,
           borderRadius: const BorderRadius.all(Radius.circular(12)),
+          boxShadow: const [
+            BoxShadow(
+              color: Color(0x0A000000),
+              blurRadius: 6,
+              offset: Offset(0, 2),
+            ),
+          ],
         ),
         child: Row(
           children: [
