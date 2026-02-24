@@ -1,15 +1,18 @@
 import 'dart:async' show unawaited;
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_reorderable_grid_view/widgets/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lauschi/core/database/app_database.dart' as db;
+import 'package:lauschi/core/database/card_repository.dart';
 import 'package:lauschi/core/database/group_repository.dart';
 import 'package:lauschi/core/router/app_router.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
 import 'package:lauschi/features/cards/screens/group_detail_screen.dart';
 import 'package:lauschi/features/cards/widgets/group_card.dart';
+import 'package:lauschi/features/parent/widgets/provider_badge.dart';
 
 /// Parent view: list, create, reorder and delete series groups.
 class ManageGroupsScreen extends ConsumerWidget {
@@ -18,6 +21,7 @@ class ManageGroupsScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final groupsAsync = ref.watch(allGroupsProvider);
+    final ungroupedAsync = ref.watch(ungroupedCardsProvider);
 
     return Scaffold(
       backgroundColor: AppColors.parentBackground,
@@ -31,11 +35,13 @@ class ManageGroupsScreen extends ConsumerWidget {
         child: const Icon(Icons.add_rounded),
       ),
       body: groupsAsync.when(
-        data:
-            (groups) =>
-                groups.isEmpty
-                    ? const _EmptyState()
-                    : _GroupGrid(groups: groups),
+        data: (groups) {
+          final ungrouped = ungroupedAsync.whenOrNull(data: (c) => c) ?? [];
+          if (groups.isEmpty && ungrouped.isEmpty) {
+            return const _EmptyState();
+          }
+          return _SeriesBody(groups: groups, ungrouped: ungrouped);
+        },
         loading: () => const Center(child: CircularProgressIndicator()),
         error:
             (_, _) => const Center(
@@ -136,14 +142,170 @@ class _EmptyState extends StatelessWidget {
   }
 }
 
+/// Combined view: reorderable series grid + ungrouped cards list.
+class _SeriesBody extends StatelessWidget {
+  const _SeriesBody({required this.groups, required this.ungrouped});
+
+  final List<db.CardGroup> groups;
+  final List<db.AudioCard> ungrouped;
+
+  @override
+  Widget build(BuildContext context) {
+    if (ungrouped.isEmpty) {
+      return _GroupGrid(groups: groups);
+    }
+
+    // When there are ungrouped cards, use a column layout so the grid
+    // doesn't fight with the list for scroll space.
+    return CustomScrollView(
+      slivers: [
+        if (groups.isNotEmpty)
+          SliverToBoxAdapter(
+            child: _GroupGrid(groups: groups, shrinkWrap: true),
+          ),
+        SliverToBoxAdapter(
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(
+              AppSpacing.screenH,
+              AppSpacing.lg,
+              AppSpacing.screenH,
+              AppSpacing.sm,
+            ),
+            child: Row(
+              children: [
+                const Icon(
+                  Icons.layers_clear_rounded,
+                  size: 20,
+                  color: AppColors.textSecondary,
+                ),
+                const SizedBox(width: AppSpacing.sm),
+                Text(
+                  'Ohne Serie (${ungrouped.length})',
+                  style: const TextStyle(
+                    fontFamily: 'Nunito',
+                    fontSize: 15,
+                    fontWeight: FontWeight.w800,
+                    color: AppColors.textSecondary,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        SliverList.builder(
+          itemCount: ungrouped.length,
+          itemBuilder:
+              (context, index) => _UngroupedCardTile(card: ungrouped[index]),
+        ),
+        const SliverPadding(padding: EdgeInsets.only(bottom: AppSpacing.xxl)),
+      ],
+    );
+  }
+}
+
+/// Compact tile for an ungrouped card with delete action.
+class _UngroupedCardTile extends ConsumerWidget {
+  const _UngroupedCardTile({required this.card});
+
+  final db.AudioCard card;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return ListTile(
+      dense: true,
+      visualDensity: VisualDensity.compact,
+      contentPadding: const EdgeInsets.symmetric(
+        horizontal: AppSpacing.screenH,
+      ),
+      leading: ClipRRect(
+        borderRadius: const BorderRadius.all(Radius.circular(4)),
+        child: SizedBox(
+          width: 40,
+          height: 40,
+          child:
+              card.coverUrl != null
+                  ? CachedNetworkImage(
+                    imageUrl: card.coverUrl!,
+                    fit: BoxFit.cover,
+                  )
+                  : const ColoredBox(
+                    color: AppColors.surfaceDim,
+                    child: Icon(Icons.music_note_rounded, size: 18),
+                  ),
+        ),
+      ),
+      title: Text(
+        card.customTitle ?? card.title,
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+        style: const TextStyle(
+          fontFamily: 'Nunito',
+          fontWeight: FontWeight.w600,
+          fontSize: 14,
+        ),
+      ),
+      trailing: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          if (card.provider != 'spotify')
+            Padding(
+              padding: const EdgeInsets.only(right: 4),
+              child: ProviderBadge(provider: card.provider),
+            ),
+          IconButton(
+            onPressed: () => _confirmDeleteCard(context, ref),
+            icon: const Icon(Icons.delete_outline_rounded, size: 20),
+            color: AppColors.error,
+            tooltip: 'Entfernen',
+            visualDensity: VisualDensity.compact,
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _confirmDeleteCard(BuildContext context, WidgetRef ref) {
+    unawaited(
+      showDialog<void>(
+        context: context,
+        builder:
+            (ctx) => AlertDialog(
+              title: const Text('Karte entfernen?'),
+              content: Text(
+                '„${card.customTitle ?? card.title}" wird '
+                'aus der Sammlung entfernt.',
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.of(ctx).pop(),
+                  child: const Text('Abbrechen'),
+                ),
+                FilledButton(
+                  onPressed: () {
+                    Navigator.of(ctx).pop();
+                    unawaited(ref.read(cardRepositoryProvider).delete(card.id));
+                  },
+                  style: FilledButton.styleFrom(
+                    backgroundColor: AppColors.error,
+                  ),
+                  child: const Text('Entfernen'),
+                ),
+              ],
+            ),
+      ),
+    );
+  }
+}
+
 /// Reorderable grid of series tiles using flutter_reorderable_grid_view.
 ///
 /// Tiles shift with animation as you drag (iOS home screen style).
 /// Long press to start dragging, release to drop.
 class _GroupGrid extends ConsumerStatefulWidget {
-  const _GroupGrid({required this.groups});
+  const _GroupGrid({required this.groups, this.shrinkWrap = false});
 
   final List<db.CardGroup> groups;
+  final bool shrinkWrap;
 
   @override
   ConsumerState<_GroupGrid> createState() => _GroupGridState();
@@ -217,6 +379,11 @@ class _GroupGridState extends ConsumerState<_GroupGrid> {
             return GridView(
               key: _gridViewKey,
               controller: _scrollController,
+              shrinkWrap: widget.shrinkWrap,
+              physics:
+                  widget.shrinkWrap
+                      ? const NeverScrollableScrollPhysics()
+                      : null,
               padding: const EdgeInsets.symmetric(
                 horizontal: AppSpacing.screenH,
                 vertical: AppSpacing.md,
