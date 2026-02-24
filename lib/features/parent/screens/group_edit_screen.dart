@@ -15,7 +15,7 @@ import 'package:lauschi/features/player/player_provider.dart';
 /// Parent edit screen for a single series group.
 ///
 /// Title / cover are editable; episodes are shown in order and can be
-/// reordered or removed. Cards are assigned from ManageCardsScreen.
+/// reordered or removed. Cards are assigned from the series manager.
 class GroupEditScreen extends ConsumerStatefulWidget {
   const GroupEditScreen({required this.groupId, super.key});
 
@@ -131,7 +131,7 @@ class _GroupEditScreenState extends ConsumerState<GroupEditScreen> {
                       if (context.canPop()) {
                         context.pop();
                       } else {
-                        context.go(AppRoutes.parentManageCards);
+                        context.go(AppRoutes.parentManageGroups);
                       }
                     }
                   },

@@ -59,58 +59,39 @@ class ParentDashboardScreen extends ConsumerWidget {
                 groupCount > 0
                     ? '$groupCount Serien verwalten'
                     : 'Serien verwalten',
-            onTap: () => context.push(AppRoutes.parentManageCards),
-          ),
-          const Divider(indent: 56),
-          _SettingsTile(
-            icon: Icons.add_rounded,
-            title: 'Hörspiel hinzufügen',
-            subtitle: _catalogSubtitle(ref),
-            onTap: () => context.push(AppRoutes.parentCatalog),
-          ),
-          const Divider(indent: 56),
-          _SettingsTile(
-            icon: Icons.explore_rounded,
-            title: 'Entdecken',
-            subtitle: 'Kostenlose Hörspiele der ARD Audiothek',
-            onTap: () => context.push(AppRoutes.parentDiscover),
-          ),
-
-          const SizedBox(height: AppSpacing.lg),
-
-          // Series section
-          const _SectionHeader(title: 'Serien'),
-          _SettingsTile(
-            icon: Icons.layers_rounded,
-            title: 'Serien verwalten',
-            subtitle: 'Yakari, Bibi Blocksberg und mehr',
+            subtitle: 'Serien sortieren, Karten zuweisen',
             onTap: () => context.push(AppRoutes.parentManageGroups),
           ),
-
-          const SizedBox(height: AppSpacing.lg),
-
-          // Streaming section
-          const _SectionHeader(title: 'Streaming'),
+          const Divider(indent: 56),
           _SettingsTile(
             icon: Icons.music_note_rounded,
             title: 'Spotify',
             subtitle:
                 authState is AuthAuthenticated
-                    ? 'Verbunden — tippen zum Trennen'
+                    ? _catalogSubtitle(ref)
                     : 'Nicht verbunden',
             trailing:
                 authState is AuthAuthenticated
-                    ? const Icon(Icons.check_circle, color: AppColors.success)
+                    ? const Icon(
+                      Icons.check_circle,
+                      color: AppColors.success,
+                      size: 18,
+                    )
                     : null,
             onTap: () {
               if (authState is AuthAuthenticated) {
-                _confirmSpotifyDisconnect(context, ref);
+                unawaited(context.push(AppRoutes.parentCatalog));
               } else {
-                unawaited(
-                  ref.read(spotifyAuthProvider.notifier).login(),
-                );
+                unawaited(ref.read(spotifyAuthProvider.notifier).login());
               }
             },
+          ),
+          const Divider(indent: 56),
+          _SettingsTile(
+            icon: Icons.podcasts_rounded,
+            title: 'ARD Audiothek',
+            subtitle: 'Kostenlose Hörspiele und Podcasts',
+            onTap: () => context.push(AppRoutes.parentDiscover),
           ),
 
           const SizedBox(height: AppSpacing.lg),
@@ -122,6 +103,15 @@ class ParentDashboardScreen extends ConsumerWidget {
             title: 'PIN ändern',
             onTap: () => unawaited(context.push(AppRoutes.pinChange)),
           ),
+          if (authState is AuthAuthenticated) ...[
+            const Divider(indent: 56),
+            _SettingsTile(
+              icon: Icons.logout_rounded,
+              title: 'Spotify trennen',
+              subtitle: 'Konto wechseln (Serien bleiben erhalten)',
+              onTap: () => _confirmSpotifyDisconnect(context, ref),
+            ),
+          ],
           // NFC tags — only visible when enabled in settings
           if (nfcEnabled) ...[
             const Divider(indent: 56),
