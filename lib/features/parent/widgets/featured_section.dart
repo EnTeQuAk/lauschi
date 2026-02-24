@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lauschi/core/ard/ard_image.dart';
 import 'package:lauschi/core/ard/ard_models.dart';
 import 'package:lauschi/core/ard/featured_shows.dart';
-import 'package:lauschi/core/database/card_repository.dart';
+import 'package:lauschi/core/database/tile_item_repository.dart';
 import 'package:lauschi/core/database/content_importer.dart';
 import 'package:lauschi/core/log.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
@@ -22,7 +22,7 @@ Future<void> _addFeaturedItem(
   WidgetRef ref,
   FeaturedItem item,
 ) async {
-  final existingUris = ref.read(existingCardUrisProvider);
+  final existingUris = ref.read(existingItemUrisProvider);
   if (item.parts.every((p) => existingUris.contains(p.providerUri))) return;
 
   final importer = ref.read(contentImporterProvider.notifier);
@@ -71,7 +71,7 @@ class FeaturedHeroCard extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final imageUrl = ardImageUrl(item.imageUrl, width: 800);
     final daysLeft = _daysUntilExpiry(item.endDate);
-    final existingUris = ref.watch(existingCardUrisProvider);
+    final existingUris = ref.watch(existingItemUrisProvider);
     final isImporting = ref.watch(contentImporterProvider);
     final allAdded = item.parts.every(
       (p) => existingUris.contains(p.providerUri),
@@ -256,7 +256,7 @@ class _FeaturedTile extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final imageUrl = ardImageUrl(item.imageUrl, width: 300);
     final daysLeft = _daysUntilExpiry(item.endDate);
-    final existingUris = ref.watch(existingCardUrisProvider);
+    final existingUris = ref.watch(existingItemUrisProvider);
     final allAdded = item.parts.every(
       (p) => existingUris.contains(p.providerUri),
     );

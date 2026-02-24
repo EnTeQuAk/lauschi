@@ -1,18 +1,18 @@
 import 'package:drift/native.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:lauschi/core/database/app_database.dart';
-import 'package:lauschi/core/database/card_repository.dart';
-import 'package:lauschi/core/database/group_repository.dart';
+import 'package:lauschi/core/database/tile_item_repository.dart';
+import 'package:lauschi/core/database/tile_repository.dart';
 
 void main() {
   late AppDatabase db;
-  late GroupRepository groups;
-  late CardRepository cards;
+  late TileRepository groups;
+  late TileItemRepository cards;
 
   setUp(() {
     db = AppDatabase.forTesting(NativeDatabase.memory());
-    groups = GroupRepository(db);
-    cards = CardRepository(db);
+    groups = TileRepository(db);
+    cards = TileItemRepository(db);
   });
 
   tearDown(() => db.close());
@@ -51,7 +51,7 @@ void main() {
       providerUri: 'spotify:album:ep1',
       cardType: 'album',
     );
-    await cards.assignToGroup(cardId: cardId, groupId: groupId);
+    await cards.assignToTile(itemId: cardId, tileId: groupId);
 
     await groups.delete(groupId);
 
@@ -87,10 +87,10 @@ void main() {
       providerUri: 'spotify:album:ep1',
       cardType: 'album',
     );
-    await cards.assignToGroup(cardId: id1, groupId: groupId, episodeNumber: 3);
-    await cards.assignToGroup(cardId: id2, groupId: groupId, episodeNumber: 1);
+    await cards.assignToTile(itemId: id1, tileId: groupId, episodeNumber: 3);
+    await cards.assignToTile(itemId: id2, tileId: groupId, episodeNumber: 1);
 
-    final grouped = await groups.watchCards(groupId).first;
+    final grouped = await groups.watchItems(groupId).first;
     expect(grouped, hasLength(2));
     expect(grouped[0].title, 'Episode 1');
     expect(grouped[1].title, 'Episode 3');
@@ -108,8 +108,8 @@ void main() {
       providerUri: 'spotify:album:s2',
       cardType: 'album',
     );
-    await cards.assignToGroup(cardId: id1, groupId: groupId, episodeNumber: 1);
-    await cards.assignToGroup(cardId: id2, groupId: groupId, episodeNumber: 2);
+    await cards.assignToTile(itemId: id1, tileId: groupId, episodeNumber: 1);
+    await cards.assignToTile(itemId: id2, tileId: groupId, episodeNumber: 2);
     await cards.markHeard(id1);
 
     final next = await groups.nextUnheard(groupId);
@@ -125,16 +125,16 @@ void main() {
           providerUri: 'spotify:album:c1',
           cardType: 'album',
         )
-        .then((id) => cards.assignToGroup(cardId: id, groupId: groupId));
+        .then((id) => cards.assignToTile(itemId: id, tileId: groupId));
     await cards
         .insert(
           title: 'Ep 2',
           providerUri: 'spotify:album:c2',
           cardType: 'album',
         )
-        .then((id) => cards.assignToGroup(cardId: id, groupId: groupId));
+        .then((id) => cards.assignToTile(itemId: id, tileId: groupId));
 
-    final count = await groups.cardCount(groupId);
+    final count = await groups.itemCount(groupId);
     expect(count, 2);
   });
 
@@ -146,16 +146,16 @@ void main() {
       cardType: 'album',
     );
 
-    await cards.assignToGroup(
-      cardId: cardId,
-      groupId: groupId,
+    await cards.assignToTile(
+      itemId: cardId,
+      tileId: groupId,
       episodeNumber: 5,
     );
     var card = await cards.getById(cardId);
     expect(card!.groupId, groupId);
     expect(card.episodeNumber, 5);
 
-    await cards.removeFromGroup(cardId);
+    await cards.removeFromTile(cardId);
     card = await cards.getById(cardId);
     expect(card!.groupId, isNull);
     expect(card.episodeNumber, isNull);
@@ -192,7 +192,7 @@ void main() {
       providerUri: 'spotify:album:s1',
       cardType: 'album',
     );
-    await cards.assignToGroup(cardId: id1, groupId: groupId);
+    await cards.assignToTile(itemId: id1, tileId: groupId);
 
     final ungrouped = await cards.watchUngrouped().first;
     expect(ungrouped, hasLength(1));

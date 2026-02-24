@@ -1,8 +1,8 @@
 import 'dart:async' show StreamSubscription, Timer, unawaited;
 
 import 'package:lauschi/core/database/app_database.dart' as db;
-import 'package:lauschi/core/database/card_repository.dart';
-import 'package:lauschi/core/database/group_repository.dart';
+import 'package:lauschi/core/database/tile_item_repository.dart';
+import 'package:lauschi/core/database/tile_repository.dart';
 import 'package:lauschi/core/log.dart';
 import 'package:lauschi/core/spotify/spotify_api.dart';
 import 'package:lauschi/core/spotify/spotify_auth_provider.dart';
@@ -226,7 +226,7 @@ class PlayerNotifier extends _$PlayerNotifier {
     _playTimeMs = 0;
     _playStartedAt = null;
 
-    final cards = ref.read(cardRepositoryProvider);
+    final cards = ref.read(tileItemRepositoryProvider);
     final card = await cards.getById(cardId);
     if (card == null) {
       Log.error(_tag, 'Card not found', data: {'cardId': cardId});
@@ -284,7 +284,7 @@ class PlayerNotifier extends _$PlayerNotifier {
   }
 
   /// Play via Spotify Web Playback SDK.
-  Future<void> _playSpotify(db.AudioCard card) async {
+  Future<void> _playSpotify(db.TileItem card) async {
     // Proactively refresh the token before attempting playback.
     // Avoids a 401 → refresh → retry round-trip on every play after expiry.
     final authNotifier = ref.read(spotifyAuthProvider.notifier);
@@ -323,7 +323,7 @@ class PlayerNotifier extends _$PlayerNotifier {
 
   /// Send play command with one reconnect retry on device-not-found.
   Future<void> _playOnDeviceWithRetry(
-    db.AudioCard card,
+    db.TileItem card,
     String deviceId,
   ) async {
     Log.info(
@@ -359,7 +359,7 @@ class PlayerNotifier extends _$PlayerNotifier {
   /// to register the device before sending the play command. If the retry
   /// still fails with device-not-found, logs a warning (expected transient
   /// condition) instead of a Sentry error.
-  Future<void> _reconnectAndRetry(db.AudioCard card) async {
+  Future<void> _reconnectAndRetry(db.TileItem card) async {
     await _bridge!.reconnect();
     final newDeviceId = await _bridge!.waitForDevice();
     if (newDeviceId == null) {
@@ -400,7 +400,7 @@ class PlayerNotifier extends _$PlayerNotifier {
   Future<void> _playOnDevice(
     String spotifyUri,
     String deviceId,
-    db.AudioCard? card,
+    db.TileItem? card,
   ) async {
     if (card != null && card.lastTrackUri != null && card.lastPositionMs > 0) {
       await _api!.play(
@@ -417,7 +417,7 @@ class PlayerNotifier extends _$PlayerNotifier {
   /// Play via DirectPlayer (just_audio) for HTTP audio URLs.
   ///
   /// Used for ARD Audiothek and any future non-SDK provider.
-  Future<void> _playDirect(db.AudioCard card, DirectPlayer player) async {
+  Future<void> _playDirect(db.TileItem card, DirectPlayer player) async {
     if (card.audioUrl == null || card.audioUrl!.isEmpty) {
       Log.error(_tag, 'No audio URL', data: {'cardId': card.id});
       state = state.copyWith(
@@ -515,7 +515,7 @@ class PlayerNotifier extends _$PlayerNotifier {
     if (groupId == null) return;
 
     // Only auto-advance for Hörspiel groups, not music.
-    final groups = ref.read(groupRepositoryProvider);
+    final groups = ref.read(tileRepositoryProvider);
     final group = await groups.getById(groupId);
     if (group == null || group.contentType != 'hoerspiel') return;
 
@@ -585,9 +585,9 @@ class PlayerNotifier extends _$PlayerNotifier {
     if (cardId == null || track == null || state.positionMs <= 0) return;
 
     try {
-      final cards = ref.read(cardRepositoryProvider);
+      final cards = ref.read(tileItemRepositoryProvider);
       await cards.savePosition(
-        cardId: cardId,
+        itemId: cardId,
         trackUri: track.uri,
         trackNumber: state.trackNumber,
         positionMs: state.positionMs,
@@ -603,7 +603,7 @@ class PlayerNotifier extends _$PlayerNotifier {
     if (cardId == null) return;
 
     try {
-      final cards = ref.read(cardRepositoryProvider);
+      final cards = ref.read(tileItemRepositoryProvider);
       final card = await cards.getById(cardId);
       if (card == null || card.isHeard) return;
 

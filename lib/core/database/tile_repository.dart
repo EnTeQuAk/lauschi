@@ -5,42 +5,42 @@ import 'package:lauschi/core/log.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:uuid/uuid.dart';
 
-part 'group_repository.g.dart';
+part 'tile_repository.g.dart';
 
 const _uuid = Uuid();
-const _tag = 'GroupRepo';
+const _tag = 'TileRepo';
 
-/// CRUD operations for the Groups table.
-class GroupRepository {
-  GroupRepository(this._db);
+/// CRUD operations for tiles (DB table: `groups`).
+class TileRepository {
+  TileRepository(this._db);
 
   final AppDatabase _db;
 
-  /// Watch all groups ordered by sortOrder.
-  Stream<List<CardGroup>> watchAll() {
+  /// Watch all tiles ordered by sortOrder.
+  Stream<List<Tile>> watchAll() {
     return (_db.select(_db.groups)
       ..orderBy([(t) => OrderingTerm.asc(t.sortOrder)])).watch();
   }
 
-  /// Get all groups ordered by sortOrder.
-  Future<List<CardGroup>> getAll() {
+  /// Get all tiles ordered by sortOrder.
+  Future<List<Tile>> getAll() {
     return (_db.select(_db.groups)
       ..orderBy([(t) => OrderingTerm.asc(t.sortOrder)])).get();
   }
 
-  /// Get a single group by ID.
-  Future<CardGroup?> getById(String id) {
+  /// Get a single tile by ID.
+  Future<Tile?> getById(String id) {
     return (_db.select(_db.groups)
       ..where((t) => t.id.equals(id))).getSingleOrNull();
   }
 
-  /// Watch a single group by ID. Emits null if not found.
-  Stream<CardGroup?> watchById(String id) {
+  /// Watch a single tile by ID. Emits null if not found.
+  Stream<Tile?> watchById(String id) {
     return (_db.select(_db.groups)
       ..where((t) => t.id.equals(id))).watchSingleOrNull();
   }
 
-  /// Insert a new group. Returns the generated ID.
+  /// Insert a new tile. Returns the generated ID.
   Future<String> insert({
     required String title,
     String? coverUrl,
@@ -71,13 +71,13 @@ class GroupRepository {
 
     Log.info(
       _tag,
-      'Group created',
+      'Tile created',
       data: {'id': id, 'title': title, 'contentType': contentType},
     );
     return id;
   }
 
-  /// Update a group's title, cover, and/or content type.
+  /// Update a tile's title, cover, and/or content type.
   Future<void> update({
     required String id,
     String? title,
@@ -100,7 +100,7 @@ class GroupRepository {
     );
     Log.info(
       _tag,
-      'Group updated',
+      'Tile updated',
       data: {
         'id': id,
         if (title != null) 'title': title,
@@ -110,9 +110,9 @@ class GroupRepository {
     );
   }
 
-  /// Delete a group. Cards in the group become ungrouped.
+  /// Delete a tile. Items in the tile become ungrouped.
   Future<void> delete(String id) async {
-    // Unassign all cards first
+    // Unassign all items first
     await (_db.update(_db.cards)..where((t) => t.groupId.equals(id))).write(
       const CardsCompanion(
         groupId: Value(null),
@@ -120,10 +120,10 @@ class GroupRepository {
       ),
     );
     await (_db.delete(_db.groups)..where((t) => t.id.equals(id))).go();
-    Log.info(_tag, 'Group deleted', data: {'id': id});
+    Log.info(_tag, 'Tile deleted', data: {'id': id});
   }
 
-  /// Reorder groups.
+  /// Reorder tiles.
   Future<void> reorder(List<String> idsInOrder) async {
     await _db.transaction(() async {
       for (var i = 0; i < idsInOrder.length; i++) {
@@ -134,23 +134,22 @@ class GroupRepository {
     });
   }
 
-  /// Find a group by exact title (case-insensitive). Returns null if not found.
-  /// Find a group by title (case-insensitive).
+  /// Find a tile by title (case-insensitive).
   ///
   /// Uses Dart-side comparison because SQLite's LOWER() is ASCII-only
   /// and won't handle German umlauts (Ä, Ö, Ü) correctly.
-  Future<CardGroup?> findByTitle(String title) async {
+  Future<Tile?> findByTitle(String title) async {
     final normalized = title.trim().toLowerCase();
     final all = await getAll();
     return all
-        .where((g) => g.title.trim().toLowerCase() == normalized)
+        .where((t) => t.title.trim().toLowerCase() == normalized)
         .firstOrNull;
   }
 
-  /// Watch cards belonging to a group, ordered by episodeNumber then sortOrder.
-  Stream<List<AudioCard>> watchCards(String groupId) {
+  /// Watch items belonging to a tile, ordered by episodeNumber then sortOrder.
+  Stream<List<TileItem>> watchItems(String tileId) {
     return (_db.select(_db.cards)
-          ..where((t) => t.groupId.equals(groupId))
+          ..where((t) => t.groupId.equals(tileId))
           ..orderBy([
             (t) => OrderingTerm.asc(t.episodeNumber),
             (t) => OrderingTerm.asc(t.sortOrder),
@@ -158,22 +157,22 @@ class GroupRepository {
         .watch();
   }
 
-  /// Get the number of cards in a group.
-  Future<int> cardCount(String groupId) async {
+  /// Get the number of items in a tile.
+  Future<int> itemCount(String tileId) async {
     final count = countAll();
     final query =
         _db.selectOnly(_db.cards)
           ..addColumns([count])
-          ..where(_db.cards.groupId.equals(groupId));
+          ..where(_db.cards.groupId.equals(tileId));
     final result = await query.getSingle();
     return result.read(count) ?? 0;
   }
 
-  /// Get the first unheard card in a group (next episode).
-  Future<AudioCard?> nextUnheard(String groupId) {
+  /// Get the first unheard item in a tile (next episode).
+  Future<TileItem?> nextUnheard(String tileId) {
     return (_db.select(_db.cards)
           ..where(
-            (t) => t.groupId.equals(groupId) & t.isHeard.equals(false),
+            (t) => t.groupId.equals(tileId) & t.isHeard.equals(false),
           )
           ..orderBy([
             (t) => OrderingTerm.asc(t.episodeNumber),
@@ -185,11 +184,11 @@ class GroupRepository {
 }
 
 @Riverpod(keepAlive: true)
-GroupRepository groupRepository(Ref ref) {
-  return GroupRepository(ref.watch(appDatabaseProvider));
+TileRepository tileRepository(Ref ref) {
+  return TileRepository(ref.watch(appDatabaseProvider));
 }
 
-/// Stream of all groups, ordered by sortOrder.
-final allGroupsProvider = StreamProvider<List<CardGroup>>((ref) {
-  return ref.watch(groupRepositoryProvider).watchAll();
+/// Stream of all tiles, ordered by sortOrder.
+final allTilesProvider = StreamProvider<List<Tile>>((ref) {
+  return ref.watch(tileRepositoryProvider).watchAll();
 });

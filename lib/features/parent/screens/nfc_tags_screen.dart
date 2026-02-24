@@ -95,7 +95,7 @@ class _TagTile extends StatelessWidget {
           const SizedBox(width: 4),
           Expanded(
             child: Text(
-              '${tag.targetType == 'group' ? 'Serie' : 'Karte'} · ${tag.tagUid}',
+              '${tag.targetType == 'group' ? 'Kachel' : 'Karte'} · ${tag.tagUid}',
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: const TextStyle(
@@ -145,7 +145,7 @@ class _EmptyState extends StatelessWidget {
             ),
             SizedBox(height: AppSpacing.sm),
             Text(
-              'Öffne eine Serie oder ein Hörspiel und tippe '
+              'Öffne eine Kachel und tippe '
               '„NFC-Tag verknüpfen", um einen Tag zuzuweisen.',
               textAlign: TextAlign.center,
               style: TextStyle(

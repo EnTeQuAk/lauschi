@@ -3,8 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:lauschi/core/auth/pin_service.dart';
-import 'package:lauschi/core/database/card_repository.dart';
-import 'package:lauschi/core/database/group_repository.dart';
+import 'package:lauschi/core/database/tile_item_repository.dart';
+import 'package:lauschi/core/database/tile_repository.dart';
 import 'package:lauschi/core/router/app_router.dart';
 import 'package:lauschi/core/spotify/spotify_auth_provider.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
@@ -33,9 +33,9 @@ List<Override> get _testOverrides => [
   spotifyAuthProvider.overrideWith(_FakeAuthNotifier.new),
   spotifyPlayerBridgeProvider.overrideWithValue(SpotifyPlayerBridge()),
   playerProvider.overrideWith(_FakePlayerNotifier.new),
-  allCardsProvider.overrideWith((_) => Stream.value([])),
-  ungroupedCardsProvider.overrideWith((_) => Stream.value([])),
-  allGroupsProvider.overrideWith((_) => Stream.value([])),
+  allTileItemsProvider.overrideWith((_) => Stream.value([])),
+  ungroupedItemsProvider.overrideWith((_) => Stream.value([])),
+  allTilesProvider.overrideWith((_) => Stream.value([])),
   // Skip onboarding in tests
   onboardingCompleteProvider.overrideWith(_FakeOnboarding.new),
   // Skip PIN gate

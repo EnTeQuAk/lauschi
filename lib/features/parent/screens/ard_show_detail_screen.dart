@@ -5,7 +5,7 @@ import 'package:lauschi/core/ard/ard_api.dart';
 import 'package:lauschi/core/ard/ard_image.dart';
 import 'package:lauschi/core/ard/ard_models.dart';
 import 'package:lauschi/core/ard/ard_providers.dart';
-import 'package:lauschi/core/database/card_repository.dart';
+import 'package:lauschi/core/database/tile_item_repository.dart';
 import 'package:lauschi/core/database/content_importer.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
 
@@ -53,7 +53,7 @@ class _ArdShowDetailScreenState extends ConsumerState<ArdShowDetailScreen> {
         setState(() => _addingUris.remove(item.providerUri));
       }
     }
-    // On success: leave in _addingUris — existingCardUrisProvider
+    // On success: leave in _addingUris — existingItemUrisProvider
     // takes over on next rebuild, preventing double-tap window.
   }
 
@@ -119,8 +119,8 @@ class _ArdShowDetailScreenState extends ConsumerState<ArdShowDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final existingUris = ref.watch(existingCardUrisProvider);
-    final cardsLoaded = ref.watch(allCardsProvider).hasValue;
+    final existingUris = ref.watch(existingItemUrisProvider);
+    final cardsLoaded = ref.watch(allTileItemsProvider).hasValue;
     final isImporting = ref.watch(contentImporterProvider);
     final showAsync = ref.watch(ardShowDetailProvider(widget.showId));
     final episodesAsync = ref.watch(ardShowEpisodesProvider(widget.showId));

@@ -3,19 +3,19 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lauschi/core/connectivity/connectivity_provider.dart';
 import 'package:lauschi/core/database/app_database.dart' as db;
-import 'package:lauschi/core/database/group_repository.dart';
+import 'package:lauschi/core/database/tile_repository.dart';
 import 'package:lauschi/core/nfc/nfc_pair_dialog.dart';
 import 'package:lauschi/core/router/app_router.dart';
 import 'package:lauschi/core/settings/debug_settings.dart';
 import 'package:lauschi/core/settings/kid_settings.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
-import 'package:lauschi/features/cards/widgets/audio_card.dart';
+import 'package:lauschi/features/tiles/widgets/audio_tile.dart';
 import 'package:lauschi/features/player/player_provider.dart';
 import 'package:lauschi/features/player/widgets/now_playing_bar.dart';
 
 /// Album playback progress 0.0–1.0 based on stored track position.
 /// Returns 0 for cards that haven't been started or are fully heard.
-double _albumProgress(db.AudioCard card) {
+double _albumProgress(db.TileItem card) {
   if (card.isHeard || card.totalTracks <= 0 || card.lastTrackNumber <= 0) {
     return 0;
   }
@@ -26,16 +26,16 @@ double _albumProgress(db.AudioCard card) {
 ///
 /// Heard episodes are visually muted. First unheard episode is highlighted
 /// as the "next" — a gentle nudge without being prescriptive.
-class GroupDetailScreen extends ConsumerWidget {
-  const GroupDetailScreen({required this.groupId, super.key});
+class TileDetailScreen extends ConsumerWidget {
+  const TileDetailScreen({required this.tileId, super.key});
 
-  final String groupId;
+  final String tileId;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final groupAsync = ref.watch(groupByIdProvider(groupId));
-    final episodesAsync = ref.watch(groupEpisodesProvider(groupId));
-    final nextUnheard = ref.watch(groupNextUnheardProvider(groupId));
+    final groupAsync = ref.watch(tileByIdProvider(tileId));
+    final episodesAsync = ref.watch(tileItemsProvider(tileId));
+    final nextUnheard = ref.watch(tileNextUnheardProvider(tileId));
     final playerState = ref.watch(playerProvider);
     final playerNotifier = ref.read(playerProvider.notifier);
     final isOnline = ref.watch(isOnlineProvider);
@@ -274,12 +274,12 @@ class _EpisodeGrid extends StatelessWidget {
     this.showEpisodeTitles = false,
   });
 
-  final List<db.AudioCard> episodes;
+  final List<db.TileItem> episodes;
   final String? nextUnheardId;
   final String? activeUri;
   final bool isPlaying;
   final bool isActive;
-  final void Function(db.AudioCard card) onCardTap;
+  final void Function(db.TileItem card) onCardTap;
   final bool showEpisodeTitles;
 
   @override
@@ -309,7 +309,7 @@ class _EpisodeGrid extends StatelessWidget {
             return Stack(
               clipBehavior: Clip.none,
               children: [
-                AudioCard(
+                TileItem(
                   key: ValueKey(card.id),
                   title: card.customTitle ?? card.title,
                   coverUrl: card.coverUrl,
@@ -439,26 +439,26 @@ class _EmptyGroupState extends StatelessWidget {
 // ---------------------------------------------------------------------------
 
 /// Cards in a specific group, ordered by episode number.
-final groupEpisodesProvider = StreamProvider.family<List<db.AudioCard>, String>(
-  (ref, groupId) {
-    return ref.watch(groupRepositoryProvider).watchCards(groupId);
+final tileItemsProvider = StreamProvider.family<List<db.TileItem>, String>(
+  (ref, tileId) {
+    return ref.watch(tileRepositoryProvider).watchItems(tileId);
   },
 );
 
 /// The group metadata for a given ID — reactive to DB changes.
-final groupByIdProvider = StreamProvider.family<db.CardGroup?, String>((
+final tileByIdProvider = StreamProvider.family<db.Tile?, String>((
   ref,
-  groupId,
+  tileId,
 ) {
-  return ref.watch(groupRepositoryProvider).watchById(groupId);
+  return ref.watch(tileRepositoryProvider).watchById(tileId);
 });
 
 /// First unheard card in a group — reactive to episode changes.
-final groupNextUnheardProvider = Provider.family<db.AudioCard?, String>((
+final tileNextUnheardProvider = Provider.family<db.TileItem?, String>((
   ref,
-  groupId,
+  tileId,
 ) {
-  final episodes = ref.watch(groupEpisodesProvider(groupId)).value ?? [];
+  final episodes = ref.watch(tileItemsProvider(tileId)).value ?? [];
   for (final ep in episodes) {
     if (!ep.isHeard) return ep;
   }

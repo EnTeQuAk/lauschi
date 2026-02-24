@@ -1,7 +1,7 @@
 import 'dart:async' show unawaited;
 
-import 'package:lauschi/core/database/card_repository.dart';
-import 'package:lauschi/core/database/group_repository.dart';
+import 'package:lauschi/core/database/tile_item_repository.dart';
+import 'package:lauschi/core/database/tile_repository.dart';
 import 'package:lauschi/core/log.dart';
 import 'package:lauschi/core/nfc/nfc_service.dart';
 import 'package:lauschi/core/settings/debug_settings.dart';
@@ -78,20 +78,20 @@ class NfcListener extends _$NfcListener {
 
     if (mapping.targetType == 'group') {
       // Play the next unheard episode in the series.
-      final groups = ref.read(groupRepositoryProvider);
+      final groups = ref.read(tileRepositoryProvider);
       final nextCard = await groups.nextUnheard(mapping.targetId);
       if (nextCard != null) {
         await player.playCard(nextCard.id);
       } else {
         // All heard — play from the beginning (first episode).
-        final allCards = await groups.watchCards(mapping.targetId).first;
+        final allCards = await groups.watchItems(mapping.targetId).first;
         if (allCards.isNotEmpty) {
           await player.playCard(allCards.first.id);
         }
       }
     } else {
       // Play a single card.
-      final cards = ref.read(cardRepositoryProvider);
+      final cards = ref.read(tileItemRepositoryProvider);
       final card = await cards.getById(mapping.targetId);
       if (card != null) {
         await player.playCard(card.id);

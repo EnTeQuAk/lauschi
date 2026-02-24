@@ -40,11 +40,11 @@ void main() {
     expect($('STREAMING'), findsOneWidget);
 
     // Navigate to series management.
-    await $('Serien verwalten').tap();
+    await $('Kacheln verwalten').tap();
     await pumpFrames($);
 
-    // Series management screen loaded.
-    expect($('Serien verwalten'), findsOneWidget);
+    // Tile management screen loaded.
+    expect($('Kacheln verwalten'), findsOneWidget);
   });
 }
 

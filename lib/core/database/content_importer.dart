@@ -1,5 +1,5 @@
-import 'package:lauschi/core/database/card_repository.dart';
-import 'package:lauschi/core/database/group_repository.dart';
+import 'package:lauschi/core/database/tile_item_repository.dart';
+import 'package:lauschi/core/database/tile_repository.dart';
 import 'package:lauschi/core/log.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -62,8 +62,8 @@ class ContentImporter extends _$ContentImporter {
   @override
   bool build() => false; // true when a batch import is running
 
-  CardRepository get _cardRepo => ref.read(cardRepositoryProvider);
-  GroupRepository get _groupRepo => ref.read(groupRepositoryProvider);
+  TileItemRepository get _cardRepo => ref.read(tileItemRepositoryProvider);
+  TileRepository get _groupRepo => ref.read(tileRepositoryProvider);
 
   /// Import cards into a group, creating it if needed.
   ///
@@ -78,7 +78,7 @@ class ContentImporter extends _$ContentImporter {
 
     try {
       final groupId = await _findOrCreateGroup(groupTitle, groupCoverUrl);
-      final existingUris = ref.read(existingCardUrisProvider);
+      final existingUris = ref.read(existingItemUrisProvider);
 
       var added = 0;
       for (final card in cards) {
@@ -128,7 +128,7 @@ class ContentImporter extends _$ContentImporter {
         coverUrl: card.coverUrl,
         durationMs: card.durationMs,
         availableUntil: card.availableUntil,
-        groupId: groupId,
+        tileId: groupId,
         episodeNumber: card.episodeNumber,
       );
     } else {
@@ -142,9 +142,9 @@ class ContentImporter extends _$ContentImporter {
         totalTracks: card.totalTracks,
       );
       if (groupId != null) {
-        await _cardRepo.assignToGroup(
-          cardId: cardId,
-          groupId: groupId,
+        await _cardRepo.assignToTile(
+          itemId: cardId,
+          tileId: groupId,
           episodeNumber: card.episodeNumber,
         );
       }
@@ -159,8 +159,8 @@ class ContentImporter extends _$ContentImporter {
     final card = await _cardRepo.getByProviderUri(providerUri);
     if (card != null && card.groupId != groupId) {
       await _cardRepo.updateArdFields(
-        cardId: card.id,
-        groupId: groupId,
+        itemId: card.id,
+        tileId: groupId,
         episodeNumber: episodeNumber,
       );
     }

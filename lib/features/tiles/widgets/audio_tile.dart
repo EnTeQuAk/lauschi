@@ -9,8 +9,8 @@ import 'package:lauschi/core/utils/title_cleaner.dart';
 ///
 /// Shows album art with a title below. Animated press feedback.
 /// Active card gets a green border + play badge.
-class AudioCard extends StatefulWidget {
-  const AudioCard({
+class TileItem extends StatefulWidget {
+  const TileItem({
     required this.title,
     required this.onTap,
     super.key,
@@ -47,10 +47,10 @@ class AudioCard extends StatefulWidget {
   final bool showEpisodeTitles;
 
   @override
-  State<AudioCard> createState() => _AudioCardState();
+  State<TileItem> createState() => _AudioCardState();
 }
 
-class _AudioCardState extends State<AudioCard>
+class _AudioCardState extends State<TileItem>
     with SingleTickerProviderStateMixin {
   late final AnimationController _controller;
   late final Animation<double> _scaleAnimation;

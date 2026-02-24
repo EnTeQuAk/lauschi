@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:lauschi/core/database/card_repository.dart';
+import 'package:lauschi/core/database/tile_item_repository.dart';
 import 'package:lauschi/core/log.dart';
 import 'package:lauschi/core/spotify/spotify_api.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -21,7 +21,7 @@ class DataMigrationContext {
     required this.api,
   });
 
-  final CardRepository cards;
+  final TileItemRepository cards;
   final SpotifyApi api;
 }
 
@@ -98,7 +98,7 @@ Future<void> _backfillTotalTracks(DataMigrationContext ctx) async {
 
       for (final cardId in cardIds) {
         await ctx.cards.updateTotalTracks(
-          cardId: cardId,
+          itemId: cardId,
           totalTracks: album.totalTracks,
         );
       }

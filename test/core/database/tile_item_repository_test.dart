@@ -1,15 +1,15 @@
 import 'package:drift/native.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:lauschi/core/database/app_database.dart';
-import 'package:lauschi/core/database/card_repository.dart';
+import 'package:lauschi/core/database/tile_item_repository.dart';
 
 void main() {
   late AppDatabase db;
-  late CardRepository repo;
+  late TileItemRepository repo;
 
   setUp(() {
     db = AppDatabase.forTesting(NativeDatabase.memory());
-    repo = CardRepository(db);
+    repo = TileItemRepository(db);
   });
 
   tearDown(() => db.close());
@@ -82,7 +82,7 @@ void main() {
     );
 
     await repo.savePosition(
-      cardId: id,
+      itemId: id,
       trackUri: 'spotify:track:ch5',
       positionMs: 45000,
     );
@@ -107,7 +107,7 @@ void main() {
     );
 
     await repo.savePosition(
-      cardId: newId,
+      itemId: newId,
       trackUri: 'spotify:track:t1',
       positionMs: 1000,
     );

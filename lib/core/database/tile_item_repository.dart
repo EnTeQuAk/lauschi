@@ -5,36 +5,36 @@ import 'package:lauschi/core/log.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:uuid/uuid.dart';
 
-part 'card_repository.g.dart';
+part 'tile_item_repository.g.dart';
 
 const _uuid = Uuid();
-const _tag = 'CardRepo';
+const _tag = 'TileItemRepo';
 
-/// CRUD operations for the Cards table.
-class CardRepository {
-  CardRepository(this._db);
+/// CRUD operations for tile items (DB table: `cards`).
+class TileItemRepository {
+  TileItemRepository(this._db);
 
   final AppDatabase _db;
 
-  /// Watch all cards ordered by sortOrder.
-  Stream<List<AudioCard>> watchAll() {
+  /// Watch all items ordered by sortOrder.
+  Stream<List<TileItem>> watchAll() {
     return (_db.select(_db.cards)
       ..orderBy([(t) => OrderingTerm.asc(t.sortOrder)])).watch();
   }
 
-  /// Get all cards ordered by sortOrder.
-  Future<List<AudioCard>> getAll() {
+  /// Get all items ordered by sortOrder.
+  Future<List<TileItem>> getAll() {
     return (_db.select(_db.cards)
       ..orderBy([(t) => OrderingTerm.asc(t.sortOrder)])).get();
   }
 
-  /// Get a single card by ID.
-  Future<AudioCard?> getById(String id) {
+  /// Get a single item by ID.
+  Future<TileItem?> getById(String id) {
     return (_db.select(_db.cards)
       ..where((t) => t.id.equals(id))).getSingleOrNull();
   }
 
-  /// Insert a new card. Returns the generated ID.
+  /// Insert a new item. Returns the generated ID.
   Future<String> insert({
     required String title,
     required String providerUri,
@@ -74,11 +74,15 @@ class CardRepository {
           ),
         );
 
-    Log.info(_tag, 'Card added', data: {'title': title, 'provider': provider});
+    Log.info(
+      _tag,
+      'Item added',
+      data: {'title': title, 'provider': provider},
+    );
     return id;
   }
 
-  /// Insert a card only if the providerUri doesn't already exist.
+  /// Insert an item only if the providerUri doesn't already exist.
   /// Returns the ID (existing or new).
   Future<String> insertIfAbsent({
     required String title,
@@ -106,7 +110,7 @@ class CardRepository {
     );
   }
 
-  /// Update sort order for multiple cards.
+  /// Update sort order for multiple items.
   Future<void> reorder(List<String> idsInOrder) async {
     await _db.transaction(() async {
       for (var i = 0; i < idsInOrder.length; i++) {
@@ -117,14 +121,14 @@ class CardRepository {
     });
   }
 
-  /// Save playback position for a card.
+  /// Save playback position for an item.
   Future<void> savePosition({
-    required String cardId,
+    required String itemId,
     required String trackUri,
     required int positionMs,
     int trackNumber = 0,
   }) async {
-    await (_db.update(_db.cards)..where((t) => t.id.equals(cardId))).write(
+    await (_db.update(_db.cards)..where((t) => t.id.equals(itemId))).write(
       CardsCompanion(
         lastTrackUri: Value(trackUri),
         lastTrackNumber: Value(trackNumber),
@@ -134,8 +138,8 @@ class CardRepository {
     );
   }
 
-  /// Get the most recently played card (for resume on app launch).
-  Future<AudioCard?> lastPlayed() {
+  /// Get the most recently played item (for resume on app launch).
+  Future<TileItem?> lastPlayed() {
     return (_db.select(_db.cards)
           ..where((t) => t.lastPlayedAt.isNotNull())
           ..orderBy([(t) => OrderingTerm.desc(t.lastPlayedAt)])
@@ -143,62 +147,62 @@ class CardRepository {
         .getSingleOrNull();
   }
 
-  /// Find a card by its provider URI.
-  Future<AudioCard?> getByProviderUri(String uri) {
+  /// Find an item by its provider URI.
+  Future<TileItem?> getByProviderUri(String uri) {
     return (_db.select(_db.cards)
       ..where((t) => t.providerUri.equals(uri))).getSingleOrNull();
   }
 
-  /// Delete a card by ID.
+  /// Delete an item by ID.
   Future<void> delete(String id) async {
     await (_db.delete(_db.cards)..where((t) => t.id.equals(id))).go();
-    Log.info(_tag, 'Card deleted', data: {'cardId': id});
+    Log.info(_tag, 'Item deleted', data: {'id': id});
   }
 
-  /// Delete all cards.
+  /// Delete all items.
   Future<void> deleteAll() async {
     await _db.delete(_db.cards).go();
   }
 
-  /// Delete all cards in a group.
-  Future<int> deleteByGroup(String groupId) async {
+  /// Delete all items in a tile.
+  Future<int> deleteByTile(String tileId) async {
     final count =
         await (_db.delete(_db.cards)
-          ..where((t) => t.groupId.equals(groupId))).go();
+          ..where((t) => t.groupId.equals(tileId))).go();
     Log.info(
       _tag,
-      'Deleted cards by group',
-      data: {'groupId': groupId, 'count': '$count'},
+      'Deleted items by tile',
+      data: {'tileId': tileId, 'count': '$count'},
     );
     return count;
   }
 
-  /// Assign a card to a group with optional episode number.
-  Future<void> assignToGroup({
-    required String cardId,
-    required String groupId,
+  /// Assign an item to a tile with optional episode number.
+  Future<void> assignToTile({
+    required String itemId,
+    required String tileId,
     int? episodeNumber,
   }) async {
-    await (_db.update(_db.cards)..where((t) => t.id.equals(cardId))).write(
+    await (_db.update(_db.cards)..where((t) => t.id.equals(itemId))).write(
       CardsCompanion(
-        groupId: Value(groupId),
+        groupId: Value(tileId),
         episodeNumber: Value(episodeNumber),
       ),
     );
     Log.info(
       _tag,
-      'Card assigned to group',
+      'Item assigned to tile',
       data: {
-        'cardId': cardId,
-        'groupId': groupId,
+        'itemId': itemId,
+        'tileId': tileId,
         if (episodeNumber != null) 'episode': episodeNumber,
       },
     );
   }
 
-  /// Remove a card from its group.
-  Future<void> removeFromGroup(String cardId) async {
-    await (_db.update(_db.cards)..where((t) => t.id.equals(cardId))).write(
+  /// Remove an item from its tile.
+  Future<void> removeFromTile(String itemId) async {
+    await (_db.update(_db.cards)..where((t) => t.id.equals(itemId))).write(
       const CardsCompanion(
         groupId: Value(null),
         episodeNumber: Value(null),
@@ -206,31 +210,31 @@ class CardRepository {
     );
   }
 
-  /// Mark a card as heard.
-  Future<void> markHeard(String cardId) async {
-    await (_db.update(_db.cards)..where((t) => t.id.equals(cardId))).write(
+  /// Mark an item as heard.
+  Future<void> markHeard(String itemId) async {
+    await (_db.update(_db.cards)..where((t) => t.id.equals(itemId))).write(
       const CardsCompanion(isHeard: Value(true)),
     );
-    Log.info(_tag, 'Card marked heard', data: {'cardId': cardId});
+    Log.info(_tag, 'Item marked heard', data: {'itemId': itemId});
   }
 
-  /// Mark a card as unheard.
-  Future<void> markUnheard(String cardId) async {
-    await (_db.update(_db.cards)..where((t) => t.id.equals(cardId))).write(
+  /// Mark an item as unheard.
+  Future<void> markUnheard(String itemId) async {
+    await (_db.update(_db.cards)..where((t) => t.id.equals(itemId))).write(
       const CardsCompanion(isHeard: Value(false)),
     );
   }
 
-  /// Set ARD-specific fields after initial insert (audio URL, duration, group).
+  /// Set ARD-specific fields after initial insert (audio URL, duration, tile).
   Future<void> updateArdFields({
-    required String cardId,
+    required String itemId,
     String? audioUrl,
     int? durationMs,
     DateTime? availableUntil,
-    String? groupId,
+    String? tileId,
     int? episodeNumber,
   }) async {
-    await (_db.update(_db.cards)..where((t) => t.id.equals(cardId))).write(
+    await (_db.update(_db.cards)..where((t) => t.id.equals(itemId))).write(
       CardsCompanion(
         audioUrl: audioUrl != null ? Value(audioUrl) : const Value.absent(),
         durationMs:
@@ -239,18 +243,17 @@ class CardRepository {
             availableUntil != null
                 ? Value(availableUntil)
                 : const Value.absent(),
-        groupId: groupId != null ? Value(groupId) : const Value.absent(),
+        groupId: tileId != null ? Value(tileId) : const Value.absent(),
         episodeNumber:
             episodeNumber != null ? Value(episodeNumber) : const Value.absent(),
       ),
     );
   }
 
-  /// Insert an ARD Audiothek episode as a card in a single transaction.
+  /// Insert an ARD Audiothek episode as an item in a single transaction.
   ///
   /// Combines insertIfAbsent + updateArdFields atomically — if either
-  /// step fails, neither is committed. Prevents half-inserted cards
-  /// with no audioUrl.
+  /// step fails, neither is committed.
   Future<String> insertArdEpisode({
     required String title,
     required String providerUri,
@@ -258,7 +261,7 @@ class CardRepository {
     String? coverUrl,
     int? durationMs,
     DateTime? availableUntil,
-    String? groupId,
+    String? tileId,
     int? episodeNumber,
   }) {
     return _db.transaction(() async {
@@ -270,37 +273,37 @@ class CardRepository {
         coverUrl: coverUrl,
       );
       await updateArdFields(
-        cardId: id,
+        itemId: id,
         audioUrl: audioUrl,
         durationMs: durationMs,
         availableUntil: availableUntil,
-        groupId: groupId,
+        tileId: tileId,
         episodeNumber: episodeNumber,
       );
       return id;
     });
   }
 
-  /// Set totalTracks for a card (used by data migration backfill).
+  /// Set totalTracks for an item (used by data migration backfill).
   Future<void> updateTotalTracks({
-    required String cardId,
+    required String itemId,
     required int totalTracks,
   }) async {
-    await (_db.update(_db.cards)..where((t) => t.id.equals(cardId))).write(
+    await (_db.update(_db.cards)..where((t) => t.id.equals(itemId))).write(
       CardsCompanion(totalTracks: Value(totalTracks)),
     );
   }
 
-  /// Get ungrouped cards as a one-shot fetch.
-  Future<List<AudioCard>> getUngrouped() {
+  /// Get ungrouped items as a one-shot fetch.
+  Future<List<TileItem>> getUngrouped() {
     return (_db.select(_db.cards)
           ..where((t) => t.groupId.isNull())
           ..orderBy([(t) => OrderingTerm.asc(t.sortOrder)]))
         .get();
   }
 
-  /// Watch ungrouped cards (top-level items on kid home).
-  Stream<List<AudioCard>> watchUngrouped() {
+  /// Watch ungrouped items (top-level items on kid home).
+  Stream<List<TileItem>> watchUngrouped() {
     return (_db.select(_db.cards)
           ..where((t) => t.groupId.isNull())
           ..orderBy([(t) => OrderingTerm.asc(t.sortOrder)]))
@@ -309,37 +312,34 @@ class CardRepository {
 }
 
 @Riverpod(keepAlive: true)
-CardRepository cardRepository(Ref ref) {
-  return CardRepository(ref.watch(appDatabaseProvider));
+TileItemRepository tileItemRepository(Ref ref) {
+  return TileItemRepository(ref.watch(appDatabaseProvider));
 }
 
-/// Stream of all cards, ordered by sortOrder.
-///
-/// Manual provider (not generated) because the Drift-generated AudioCard
-/// type can't be resolved by riverpod_generator at codegen time.
-final allCardsProvider = StreamProvider<List<AudioCard>>((ref) {
-  return ref.watch(cardRepositoryProvider).watchAll();
+/// Stream of all tile items, ordered by sortOrder.
+final allTileItemsProvider = StreamProvider<List<TileItem>>((ref) {
+  return ref.watch(tileItemRepositoryProvider).watchAll();
 });
 
-/// Stream of ungrouped cards (top-level, not in any series).
-final ungroupedCardsProvider = StreamProvider<List<AudioCard>>((ref) {
-  return ref.watch(cardRepositoryProvider).watchUngrouped();
+/// Stream of ungrouped items (top-level, not in any tile).
+final ungroupedItemsProvider = StreamProvider<List<TileItem>>((ref) {
+  return ref.watch(tileItemRepositoryProvider).watchUngrouped();
 });
 
-/// Per-group card counts and heard progress, derived from allCardsProvider.
+/// Per-tile item counts and heard progress, derived from allTileItemsProvider.
 /// Avoids N+1 queries when rendering the kid home grid.
-final groupProgressProvider = Provider<Map<String, ({int total, int heard})>>((
+final tileProgressProvider = Provider<Map<String, ({int total, int heard})>>((
   ref,
 ) {
-  final cards = ref.watch(allCardsProvider).value ?? [];
+  final items = ref.watch(allTileItemsProvider).value ?? [];
   final result = <String, ({int total, int heard})>{};
-  for (final card in cards) {
-    final gid = card.groupId;
-    if (gid == null) continue;
-    final prev = result[gid] ?? (total: 0, heard: 0);
-    result[gid] = (
+  for (final item in items) {
+    final tid = item.groupId;
+    if (tid == null) continue;
+    final prev = result[tid] ?? (total: 0, heard: 0);
+    result[tid] = (
       total: prev.total + 1,
-      heard: prev.heard + (card.isHeard ? 1 : 0),
+      heard: prev.heard + (item.isHeard ? 1 : 0),
     );
   }
   return result;
@@ -347,9 +347,9 @@ final groupProgressProvider = Provider<Map<String, ({int total, int heard})>>((
 
 /// Set of provider URIs already in the collection.
 ///
-/// Reactive — updates automatically when cards are added or removed from
+/// Reactive — updates automatically when items are added or removed from
 /// any screen. Replaces manual _existingUris bookkeeping in browse screens.
-final existingCardUrisProvider = Provider<Set<String>>((ref) {
-  final cards = ref.watch(allCardsProvider).value ?? [];
-  return cards.map((c) => c.providerUri).toSet();
+final existingItemUrisProvider = Provider<Set<String>>((ref) {
+  final items = ref.watch(allTileItemsProvider).value ?? [];
+  return items.map((i) => i.providerUri).toSet();
 });
