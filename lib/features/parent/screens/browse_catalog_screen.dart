@@ -715,7 +715,7 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen> {
           SliverToBoxAdapter(
             child: _SearchSectionHeader(
               icon: Icons.auto_awesome_rounded,
-              title: 'Im Katalog',
+              title: 'Empfohlen',
               subtitle: '${catalogMatches.length} passende Hörspiele',
             ),
           ),
