@@ -268,6 +268,31 @@ class SyntaxIssue:
     message: str
 
 
+# German stop-words: base list from stopwords-iso/stopwords-de (620 words,
+# https://github.com/stopwords-iso/stopwords-de) plus domain-specific
+# Hörspiel terms. Only single-word keywords are checked against this list;
+# multi-word keywords ("Der kleine Rabe Socke") are fine despite containing
+# stop-words because the full phrase is specific.
+_STOPWORDS_DE_PATH = Path(__file__).parent / "stopwords-de.json"
+
+def _load_stop_words() -> set[str]:
+    """Load German stop-words from bundled JSON + domain-specific additions."""
+    words: set[str] = set()
+    if _STOPWORDS_DE_PATH.exists():
+        with open(_STOPWORDS_DE_PATH) as f:
+            words = set(json.load(f))
+    # Domain-specific: generic nouns and Hörspiel terms not in the standard
+    # list but equally likely to cause false positives as keywords.
+    words |= {
+        "abenteuer", "freunde", "geschichten", "geheimnis",
+        "folge", "hörspiel", "hoerspiel", "original", "film", "serie",
+        "staffel", "teil", "edition", "box", "best",
+    }
+    return words
+
+STOP_WORDS: set[str] = _load_stop_words()
+
+
 def validate_syntax(series_list: list[dict]) -> list[SyntaxIssue]:
     issues: list[SyntaxIssue] = []
     seen_ids: set[str] = set()
@@ -295,6 +320,10 @@ def validate_syntax(series_list: list[dict]) -> list[SyntaxIssue]:
             if len(kw) <= 2:
                 issues.append(SyntaxIssue("warning",
                     f"{sid}: keyword {kw!r} ≤ 2 chars – likely causes false positives"))
+            # Stop-word check: only flag single-word keywords (multi-word are OK)
+            if " " not in kw and kw.lower() in STOP_WORDS:
+                issues.append(SyntaxIssue("warning",
+                    f"{sid}: keyword {kw!r} is a stop-word – will cause false positives"))
 
         pat = s.get("episode_pattern")
         if pat:
