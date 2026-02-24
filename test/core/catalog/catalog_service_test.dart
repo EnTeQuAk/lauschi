@@ -263,6 +263,128 @@ void main() {
     });
   });
 
+  group('CatalogService.match — whole-word keyword matching', () {
+    // Single-word keywords require whole-word boundaries to prevent German
+    // compound false positives ("Bär" in "Bären", "Drachen" in "Drachenbabys").
+    test('Bär rejects Bären (compound/inflection)', () {
+      final r = catalog.match(
+        'Folge 3: Yakari bei den Bären (Das Original-Hörspiel zur TV-Serie)',
+      );
+      expect(r, isNotNull);
+      expect(r!.series.id, 'yakari');
+      expect(r.episodeNumber, 3);
+    });
+
+    test('Bär matches standalone at end of title', () {
+      final r = catalog.match(
+        'Folge 3: Ich mach dich gesund, sagte der Bär',
+      );
+      expect(r, isNotNull);
+      expect(r!.series.id, 'janosch');
+    });
+
+    test('Drachen rejects Drachenbabys (compound)', () {
+      // No keyword matches (Drachen rejected). Artist ID fallback to PAW Patrol.
+      final r = catalog.match(
+        'Folge 310: Drachenbabys in der Abenteuerbucht',
+        albumArtistIds: ['1JPhbKU3boL67fftU3U1ED'], // PAW Patrol artist
+      );
+      expect(r, isNotNull);
+      expect(r!.series.id, 'paw_patrol');
+      expect(r.source, CatalogMatchSource.artistId);
+    });
+
+    test('Drachen matches standalone word', () {
+      final r = catalog.match('Die Drachen kommen');
+      expect(r, isNotNull);
+      expect(r!.series.id, 'dragons_hoerspiel');
+    });
+
+    test('Tiger matches standalone at end of title', () {
+      final r = catalog.match('Folge 2: Post für den Tiger');
+      expect(r, isNotNull);
+      expect(r!.series.id, 'janosch');
+    });
+
+    test('Tiger rejects compound Tigerbären', () {
+      // "Tigerbären" has 'b' after Tiger — rejected.
+      // No keyword candidate, no artist → null.
+      final r = catalog.match('Die Tigerbären');
+      expect(r, isNull);
+    });
+
+    test('Max rejects Maximilian (compound)', () {
+      final r = catalog.match('Maximilian und die Abenteuer');
+      expect(r, isNull);
+    });
+
+    test('Max matches standalone word', () {
+      final r = catalog.match('Max und die Abenteuer');
+      expect(r, isNotNull);
+      expect(r!.series.id, 'max');
+    });
+
+    test('finds second occurrence when first is compound', () {
+      // "Tigerbären" rejects first "Tiger", but "der kleine Tiger" has
+      // standalone second occurrence.
+      final r = catalog.match('Die Tigerbären und der kleine Tiger');
+      expect(r, isNotNull);
+      expect(r!.series.id, 'janosch');
+    });
+
+    test('multi-word keyword uses substring match', () {
+      // "bibi blocksberg" contains a space → substring matching, no boundary.
+      final r = catalog.match('Folge 157: Team Blocksberg');
+      expect(r, isNotNull);
+      // "blocksberg" is a single-word keyword but it's a whole word here.
+      expect(r!.series.id, 'bibi_blocksberg');
+    });
+
+    test('compound word falls back to other keyword or artist ID', () {
+      // "Drachenreiter" rejects "Drachen" by whole-word, but "Berk" matches.
+      final r = catalog.match(
+        'Drachenreiter von Berk',
+        albumArtistIds: ['1z8ytficgBWsoYigwE2QVM'], // Dragons artist
+      );
+      expect(r, isNotNull);
+      expect(r!.series.id, 'dragons_hoerspiel');
+      // "Berk" keyword matched (whole word at end of string).
+      expect(r.source, CatalogMatchSource.keyword);
+    });
+
+    test('compound word with no other keyword uses artist ID', () {
+      // "Drachenfeuer" has no Dragons keyword match at all.
+      final r = catalog.match(
+        'Das Drachenfeuer',
+        albumArtistIds: ['1z8ytficgBWsoYigwE2QVM'], // Dragons artist
+      );
+      expect(r, isNotNull);
+      expect(r!.series.id, 'dragons_hoerspiel');
+      expect(r.source, CatalogMatchSource.artistId);
+    });
+
+    test('keyword after punctuation matches', () {
+      // "Bär" after comma+space is a word boundary.
+      final r = catalog.match('Geschichten, Bär und Freunde');
+      expect(r, isNotNull);
+      expect(r!.series.id, 'janosch');
+    });
+
+    test('keyword in parentheses matches', () {
+      final r = catalog.match('Das Hörspiel (Yakari Edition)');
+      expect(r, isNotNull);
+      expect(r!.series.id, 'yakari');
+    });
+
+    test('Rabe Socke matches without Alles keyword', () {
+      final r = catalog.match(
+        'Alles Bitte-danke! (Der kleine Rabe Socke)',
+      );
+      expect(r, isNotNull);
+      expect(r!.series.id, 'der_kleine_rabe_socke');
+    });
+  });
+
   group('CatalogService.match — episode number extraction', () {
     // Yakari: "Folge N:" format
     test('Yakari extracts Folge N', () {

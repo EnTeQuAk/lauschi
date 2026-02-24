@@ -172,50 +172,107 @@ class CatalogService {
     return CatalogService._(parsed);
   }
 
+  // German letters for whole-word boundary checks. Lowercase only since
+  // titles are lowered before matching.
+  static final _germanLetter = RegExp('[a-zäöüß]');
+
+  /// Whether [keyword] matches in [titleLower] respecting word boundaries.
+  ///
+  /// Multi-word keywords (containing spaces) use substring matching since
+  /// spaces provide natural word boundaries. Single-word keywords require
+  /// whole-word boundaries: the characters immediately before and after the
+  /// match must not be German letters. This prevents German compound word
+  /// false positives like "Drachen" matching "Drachenbabys" or "Bär"
+  /// matching "Bären".
+  ///
+  /// Checks ALL occurrences, not just the first. "Die Tigerbären und der
+  /// kleine Tiger" must find the second standalone "Tiger".
+  bool _keywordMatches(String titleLower, String keyword) {
+    // Multi-word keywords have natural boundaries from spaces.
+    if (keyword.contains(' ')) return titleLower.contains(keyword);
+
+    // Single-word: find any occurrence with whole-word boundaries.
+    var start = 0;
+    while (true) {
+      final index = titleLower.indexOf(keyword, start);
+      if (index == -1) return false;
+
+      final beforeOk =
+          index == 0 || !_germanLetter.hasMatch(titleLower[index - 1]);
+      final afterIndex = index + keyword.length;
+      final afterOk =
+          afterIndex >= titleLower.length ||
+          !_germanLetter.hasMatch(titleLower[afterIndex]);
+
+      if (beforeOk && afterOk) return true;
+      start = index + 1;
+    }
+  }
+
   /// Match [title] against all known series using a two-phase strategy.
   ///
-  /// **Phase 1 — keyword match** (most specific):
-  ///   If [albumArtistIds] is provided AND matches a series that also has a
-  ///   keyword hit, this is returned first. Otherwise the first series whose
-  ///   keyword appears in [title] is returned.
+  /// **Phase 1 — keyword match** with whole-word boundaries for single-word
+  ///   keywords. Prevents German compound false positives ("Drachenbabys"
+  ///   won't match "Drachen"). When multiple series match, the artist ID
+  ///   is used as tiebreaker; otherwise the most specific keyword wins
+  ///   (series are pre-sorted by keyword length descending).
   ///
   /// **Phase 2 — artist ID match** (fallback for structurally-missing names):
-  ///   Used when no keyword fires. Catches albums whose titles contain no series
-  ///   name (e.g. TKKG, Die drei ???, Die Fuchsbande, Fünf Freunde).
+  ///   Used when no keyword fires. Catches albums whose titles contain no
+  ///   series name (e.g. TKKG "140/Draculas Erben", compound-word titles
+  ///   like "Drachenreiter" where the standalone keyword check rejects the
+  ///   compound but the artist ID correctly identifies the series).
   ///
   /// Pass [albumArtistIds] (from `SpotifyAlbum.artistIds`) for best results.
   /// Returns null if no series is recognized by either strategy.
   CatalogMatch? match(String title, {List<String> albumArtistIds = const []}) {
-    final lower = title.toLowerCase();
+    final titleLower = title.toLowerCase();
 
-    // Phase 1: keyword match
+    // Phase 1: collect keyword matches using whole-word boundaries.
+    final keywordMatches = <CatalogSeries>[];
     for (final series in _series) {
-      for (final keyword in series.keywords) {
-        if (lower.contains(keyword)) {
-          final episode = _extractEpisode(title, series.episodePattern);
-          return CatalogMatch(
-            series: series,
-            source: CatalogMatchSource.keyword,
-            episodeNumber: episode,
-          );
+      if (series.keywords.any((k) => _keywordMatches(titleLower, k))) {
+        keywordMatches.add(series);
+      }
+    }
+
+    // Phase 2: find first artist ID match.
+    CatalogSeries? artistMatch;
+    if (albumArtistIds.isNotEmpty) {
+      final artistIdSet = albumArtistIds.toSet();
+      for (final series in _series) {
+        if (series.spotifyArtistIds.any(artistIdSet.contains)) {
+          artistMatch = series;
+          break;
         }
       }
     }
 
-    // Phase 2: artist ID match (only when albumArtistIds provided)
-    if (albumArtistIds.isNotEmpty) {
-      for (final series in _series) {
-        for (final artistId in series.spotifyArtistIds) {
-          if (albumArtistIds.contains(artistId)) {
-            final episode = _extractEpisode(title, series.episodePattern);
-            return CatalogMatch(
-              series: series,
-              source: CatalogMatchSource.artistId,
-              episodeNumber: episode,
-            );
-          }
-        }
-      }
+    // Resolve: keyword matches take priority, artist ID is tiebreaker/fallback.
+    if (keywordMatches.isNotEmpty) {
+      // If artist confirms one of the keyword candidates, it wins.
+      final winner =
+          (artistMatch != null &&
+                  keywordMatches.any((s) => s.id == artistMatch!.id))
+              ? artistMatch!
+              : keywordMatches
+                  .first; // Most specific (longest keyword, pre-sorted)
+
+      return CatalogMatch(
+        series: winner,
+        // Keyword found it, even if artist confirmed it.
+        source: CatalogMatchSource.keyword,
+        episodeNumber: _extractEpisode(title, winner.episodePattern),
+      );
+    }
+
+    // No keyword matches — fall back to artist ID alone.
+    if (artistMatch != null) {
+      return CatalogMatch(
+        series: artistMatch,
+        source: CatalogMatchSource.artistId,
+        episodeNumber: _extractEpisode(title, artistMatch.episodePattern),
+      );
     }
 
     return null;
