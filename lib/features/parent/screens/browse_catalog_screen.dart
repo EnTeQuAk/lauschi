@@ -1,5 +1,4 @@
 import 'dart:async' show Timer, unawaited;
-import 'dart:math' show min;
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +18,7 @@ import 'package:lauschi/features/player/player_provider.dart';
 
 const _tag = 'BrowseCatalog';
 
-/// Cap catalog results in two-tier search so they don't overshadow Spotify.
+/// Max hero cards shown in unified search results.
 const _maxCatalogResults = 4;
 
 // ── Unified browse + search screen ──────────────────────────────────────────
@@ -55,6 +54,35 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen> {
   bool _isSearching = false;
   bool _hasSearched = false;
   int _searchGeneration = 0;
+
+  // Hero card state (unified search layout, #195)
+  List<CatalogSeries> _heroSeries = [];
+  int _totalCatalogHits = 0;
+  bool _isMatchingExpanded = false;
+
+  /// Album indices whose catalog match belongs to a hero series.
+  List<int> get _matchingIndices {
+    final heroIds = _heroSeries.map((h) => h.id).toSet();
+    return [
+      for (var i = 0; i < _albumResults.length; i++)
+        if (i < _catalogMatches.length &&
+            _catalogMatches[i] != null &&
+            heroIds.contains(_catalogMatches[i]!.series.id))
+          i,
+    ];
+  }
+
+  /// Album indices that don't match any hero series (novel content).
+  List<int> get _nonMatchingIndices {
+    final heroIds = _heroSeries.map((h) => h.id).toSet();
+    return [
+      for (var i = 0; i < _albumResults.length; i++)
+        if (i >= _catalogMatches.length ||
+            _catalogMatches[i] == null ||
+            !heroIds.contains(_catalogMatches[i]!.series.id))
+          i,
+    ];
+  }
 
   // Add state
   final _addedUris = <String>{};
@@ -119,6 +147,9 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen> {
         _albumResults = [];
         _playlistResults = [];
         _catalogMatches = [];
+        _heroSeries = [];
+        _totalCatalogHits = 0;
+        _isMatchingExpanded = false;
         _isSearching = false;
         _hasSearched = false;
       });
@@ -166,10 +197,16 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen> {
         'catalogHits': '$catalogHits',
       },
     );
+    // Hero series from catalog search (instant, local)
+    final allCatalogHits =
+        catalog?.search(query).where((s) => s.hasCuratedAlbums).toList() ?? [];
     setState(() {
       _albumResults = result.albums;
       _playlistResults = [];
       _catalogMatches = matches;
+      _heroSeries = allCatalogHits.take(_maxCatalogResults).toList();
+      _totalCatalogHits = allCatalogHits.length;
+      _isMatchingExpanded = false;
       _isSearching = false;
       _hasSearched = true;
     });
@@ -201,6 +238,9 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen> {
       _albumResults = [];
       _playlistResults = [];
       _catalogMatches = [];
+      _heroSeries = [];
+      _totalCatalogHits = 0;
+      _isMatchingExpanded = false;
       _hasSearched = false;
     });
     final query = _searchController.text.trim();
@@ -217,6 +257,9 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen> {
       _albumResults = [];
       _playlistResults = [];
       _catalogMatches = [];
+      _heroSeries = [];
+      _totalCatalogHits = 0;
+      _isMatchingExpanded = false;
       _isSearching = false;
       _hasSearched = false;
     });
@@ -589,7 +632,6 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen> {
             child:
                 _isSearchActive
                     ? _buildTwoTierSearch(
-                      catalog: catalogAsync.value,
                       batchSeries: batchSeries,
                     )
                     : catalogAsync.when(
@@ -691,45 +733,33 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen> {
   }
 
   // ---------------------------------------------------------------------------
-  // Two-tier search: catalog (instant) + Spotify (async)
+  // Unified search: hero cards + filtered results + collapsible escape hatch
   // ---------------------------------------------------------------------------
 
   Widget _buildTwoTierSearch({
-    CatalogService? catalog,
     String? batchSeries,
   }) {
-    final query = _searchController.text.trim();
-    final catalogMatches =
-        catalog?.search(query).where((s) => s.hasCuratedAlbums).toList() ?? [];
-
-    // Playlist mode skips catalog tier
+    // Playlist mode uses the legacy flat list
     if (_searchMode == _SearchMode.playlist) {
       return _buildSearchResults(batchSeries: batchSeries);
     }
 
-    // No results at all yet (still debouncing)
-    if (catalogMatches.isEmpty && !_isSearching && !_hasSearched) {
+    // Nothing to show yet (still debouncing, no catalog hits)
+    if (_heroSeries.isEmpty && !_isSearching && !_hasSearched) {
       return const SizedBox.shrink();
     }
 
+    final nonMatching = _nonMatchingIndices;
+    final matching = _matchingIndices;
+
     return CustomScrollView(
       slivers: [
-        // Tier 1: Catalog matches (instant, local)
-        if (catalogMatches.isNotEmpty) ...[
-          SliverToBoxAdapter(
-            child: _SearchSectionHeader(
-              icon: Icons.auto_awesome_rounded,
-              title: 'Empfohlen',
-              subtitle:
-                  catalogMatches.length <= _maxCatalogResults
-                      ? '${catalogMatches.length} passende Hörspiele'
-                      : '$_maxCatalogResults von ${catalogMatches.length} Hörspiele',
-            ),
-          ),
+        // Hero cards (catalog matches, capped at 4)
+        if (_heroSeries.isNotEmpty)
           SliverList.builder(
-            itemCount: min(catalogMatches.length, _maxCatalogResults),
+            itemCount: _heroSeries.length,
             itemBuilder: (context, index) {
-              final series = catalogMatches[index];
+              final series = _heroSeries[index];
               final existingUris = ref.watch(existingItemUrisProvider);
               final added =
                   series.albums
@@ -740,7 +770,7 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen> {
                       )
                       .length;
               final allAdded = added == series.albums.length;
-              return _CatalogSearchHit(
+              return _HeroCard(
                 series: series,
                 addedCount: added,
                 allAdded: allAdded,
@@ -765,79 +795,99 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen> {
               );
             },
           ),
-          if (catalogMatches.length > _maxCatalogResults)
-            const SliverToBoxAdapter(
-              child: Padding(
-                padding: EdgeInsets.only(
-                  left: AppSpacing.screenH,
-                  right: AppSpacing.screenH,
-                  top: AppSpacing.sm,
-                  bottom: AppSpacing.md,
-                ),
-                child: Text(
-                  'Suche verfeinern, um weitere Empfehlungen zu sehen.',
-                  style: TextStyle(
-                    fontFamily: 'Nunito',
-                    fontSize: 13,
-                    color: AppColors.textTertiary,
-                  ),
+
+        // Refinement hint when more catalog matches exist than we show
+        if (_totalCatalogHits > _maxCatalogResults)
+          const SliverToBoxAdapter(
+            child: Padding(
+              padding: EdgeInsets.only(
+                left: AppSpacing.screenH,
+                right: AppSpacing.screenH,
+                top: AppSpacing.sm,
+                bottom: AppSpacing.md,
+              ),
+              child: Text(
+                'Suche verfeinern, um weitere Empfehlungen zu sehen.',
+                style: TextStyle(
+                  fontFamily: 'Nunito',
+                  fontSize: 13,
+                  color: AppColors.textTertiary,
                 ),
               ),
-            ),
-        ],
-
-        // Tier 2: Spotify results (async, API)
-        if (_isSearching || _hasSearched) ...[
-          SliverToBoxAdapter(
-            child: _SearchSectionHeader(
-              icon: Icons.music_note_rounded,
-              title: 'Auf Spotify',
-              subtitle:
-                  _isSearching
-                      ? 'Suche läuft…'
-                      : _albumResults.isEmpty
-                      ? 'Keine Treffer'
-                      : '${_albumResults.length} Ergebnisse',
             ),
           ),
-          if (_isSearching)
-            const SliverToBoxAdapter(
-              child: Padding(
-                padding: EdgeInsets.all(AppSpacing.xl),
-                child: Center(child: CircularProgressIndicator()),
-              ),
-            )
-          else if (_albumResults.isEmpty)
-            const SliverToBoxAdapter(
-              child: Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: AppSpacing.screenH,
-                  vertical: AppSpacing.lg,
-                ),
-                child: Text(
-                  'Keine Treffer auf Spotify.',
-                  style: TextStyle(
-                    fontFamily: 'Nunito',
-                    fontSize: 14,
-                    color: AppColors.textSecondary,
-                  ),
-                ),
-              ),
-            )
-          else
-            SliverList.builder(
-              itemCount: _albumResults.length,
-              itemBuilder: (context, index) => _buildAlbumTile(index),
+
+        // Batch add banner (auto-assign mode)
+        if (batchSeries != null)
+          SliverToBoxAdapter(
+            child: _BatchAddBanner(
+              seriesTitle: batchSeries,
+              count:
+                  _albumResults
+                      .where((a) => !_addedUris.contains(a.uri))
+                      .length,
+              onAddAll: () => unawaited(_handleAddAll(batchSeries)),
             ),
-        ] else if (catalogMatches.isEmpty) ...[
-          // Query typed but Spotify hasn't responded yet and no catalog hits
+          ),
+
+        // Loading indicator while Spotify search is in flight
+        if (_isSearching)
           const SliverToBoxAdapter(
             child: Padding(
               padding: EdgeInsets.all(AppSpacing.xl),
               child: Center(child: CircularProgressIndicator()),
             ),
           ),
-        ],
+
+        // Non-matching Spotify albums (novel content, always visible)
+        if (nonMatching.isNotEmpty)
+          SliverList.builder(
+            itemCount: nonMatching.length,
+            itemBuilder: (_, i) => _buildAlbumTile(nonMatching[i]),
+          ),
+
+        // Collapsible divider for matching albums
+        if (_heroSeries.isNotEmpty && matching.isNotEmpty)
+          SliverToBoxAdapter(
+            child: _CollapsibleDivider(
+              matchingCount: matching.length,
+              heroes: _heroSeries,
+              isExpanded: _isMatchingExpanded,
+              onToggle:
+                  () => setState(
+                    () => _isMatchingExpanded = !_isMatchingExpanded,
+                  ),
+            ),
+          ),
+
+        // Matching albums (collapsed by default, compact styling)
+        if (_isMatchingExpanded && matching.isNotEmpty)
+          SliverList.builder(
+            itemCount: matching.length,
+            itemBuilder: (_, i) => _buildAlbumTile(matching[i], compact: true),
+          ),
+
+        // Empty state: searched but nothing found anywhere
+        if (_hasSearched &&
+            !_isSearching &&
+            _heroSeries.isEmpty &&
+            _albumResults.isEmpty)
+          const SliverToBoxAdapter(
+            child: Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: AppSpacing.screenH,
+                vertical: AppSpacing.lg,
+              ),
+              child: Text(
+                'Keine Treffer.',
+                style: TextStyle(
+                  fontFamily: 'Nunito',
+                  fontSize: 14,
+                  color: AppColors.textSecondary,
+                ),
+              ),
+            ),
+          ),
 
         const SliverPadding(padding: EdgeInsets.only(bottom: AppSpacing.xxl)),
       ],
@@ -925,14 +975,16 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen> {
     );
   }
 
-  Widget _buildAlbumTile(int index) {
+  Widget _buildAlbumTile(int index, {bool compact = false}) {
     final album = _albumResults[index];
     final match =
         index < _catalogMatches.length ? _catalogMatches[index] : null;
     return _SearchResultTile(
+      key: ValueKey(album.uri),
       album: album,
       isAdded: _addedUris.contains(album.uri),
       catalogMatch: match,
+      compact: compact,
       onAdd: () => unawaited(_handleAddTap(album, match)),
       onTap: () => unawaited(_showAlbumDetail(album, match)),
     );
@@ -1552,63 +1604,8 @@ class _AlbumTile extends StatelessWidget {
   }
 }
 
-// ── Two-tier search section header ──────────────────────────────────────────
-
-class _SearchSectionHeader extends StatelessWidget {
-  const _SearchSectionHeader({
-    required this.icon,
-    required this.title,
-    this.subtitle,
-  });
-
-  final IconData icon;
-  final String title;
-  final String? subtitle;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(
-        AppSpacing.screenH,
-        AppSpacing.md,
-        AppSpacing.screenH,
-        AppSpacing.xs,
-      ),
-      child: Row(
-        children: [
-          Icon(icon, size: 16, color: AppColors.textSecondary),
-          const SizedBox(width: AppSpacing.xs),
-          Text(
-            title,
-            style: const TextStyle(
-              fontFamily: 'Nunito',
-              fontSize: 13,
-              fontWeight: FontWeight.w800,
-              color: AppColors.textSecondary,
-              letterSpacing: 0.5,
-            ),
-          ),
-          if (subtitle != null) ...[
-            const SizedBox(width: AppSpacing.xs),
-            Text(
-              '· $subtitle',
-              style: const TextStyle(
-                fontFamily: 'Nunito',
-                fontSize: 12,
-                color: AppColors.textTertiary,
-              ),
-            ),
-          ],
-        ],
-      ),
-    );
-  }
-}
-
-// ── Catalog search hit (compact tile for tier-1 results) ────────────────────
-
-class _CatalogSearchHit extends ConsumerWidget {
-  const _CatalogSearchHit({
+class _HeroCard extends ConsumerWidget {
+  const _HeroCard({
     required this.series,
     required this.addedCount,
     required this.allAdded,
@@ -1632,10 +1629,15 @@ class _CatalogSearchHit extends ConsumerWidget {
 
     return InkWell(
       onTap: onTap,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(
+      child: Container(
+        margin: const EdgeInsets.symmetric(
           horizontal: AppSpacing.screenH,
-          vertical: 6,
+          vertical: 4,
+        ),
+        padding: const EdgeInsets.all(10),
+        decoration: BoxDecoration(
+          color: AppColors.surface,
+          borderRadius: const BorderRadius.all(Radius.circular(12)),
         ),
         child: Row(
           children: [
@@ -1660,23 +1662,33 @@ class _CatalogSearchHit extends ConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text(
-                    series.title,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
-                      fontFamily: 'Nunito',
-                      fontWeight: FontWeight.w700,
-                      fontSize: 15,
-                    ),
+                  Row(
+                    children: [
+                      const Icon(
+                        Icons.auto_awesome_rounded,
+                        size: 14,
+                        color: AppColors.primary,
+                      ),
+                      const SizedBox(width: 4),
+                      Expanded(
+                        child: Text(
+                          series.title,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                            fontFamily: 'Nunito',
+                            fontWeight: FontWeight.w700,
+                            fontSize: 15,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                   const SizedBox(height: 2),
                   Text(
                     allAdded
                         ? '✓ Alle $total Folgen hinzugefügt'
-                        : addedCount > 0
-                        ? '$addedCount von $total Folgen'
-                        : '$total Folgen',
+                        : '$total Folgen · Alles sortiert',
                     style: TextStyle(
                       fontFamily: 'Nunito',
                       fontSize: 12,
@@ -1697,6 +1709,89 @@ class _CatalogSearchHit extends ConsumerWidget {
               size: 20,
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+// ── Collapsible divider (escape hatch for matching albums) ──────────────────
+
+class _CollapsibleDivider extends StatelessWidget {
+  const _CollapsibleDivider({
+    required this.matchingCount,
+    required this.heroes,
+    required this.isExpanded,
+    required this.onToggle,
+  });
+
+  final int matchingCount;
+  final List<CatalogSeries> heroes;
+  final bool isExpanded;
+  final VoidCallback onToggle;
+
+  @override
+  Widget build(BuildContext context) {
+    final label =
+        heroes.length == 1
+            ? '$matchingCount Einzelfolgen · In ${heroes.first.title} enthalten'
+            : '$matchingCount Einzelfolgen · In den Empfehlungen enthalten';
+
+    return Semantics(
+      button: true,
+      expanded: isExpanded,
+      onTapHint:
+          isExpanded
+              ? 'Einzelne Folgen ausblenden'
+              : 'Einzelne Folgen anzeigen',
+      child: InkWell(
+        onTap: onToggle,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: AppSpacing.screenH,
+            vertical: AppSpacing.md,
+          ),
+          child: Column(
+            children: [
+              const Divider(height: 1),
+              const SizedBox(height: AppSpacing.sm),
+              Text(
+                label,
+                style: const TextStyle(
+                  fontFamily: 'Nunito',
+                  fontSize: 12,
+                  color: AppColors.textTertiary,
+                ),
+              ),
+              const SizedBox(height: 4),
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    isExpanded
+                        ? 'Einzelne Folgen ausblenden'
+                        : 'Einzelne Folgen anzeigen',
+                    style: const TextStyle(
+                      fontFamily: 'Nunito',
+                      fontSize: 13,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.primary,
+                    ),
+                  ),
+                  const SizedBox(width: 4),
+                  Icon(
+                    isExpanded
+                        ? Icons.expand_less_rounded
+                        : Icons.expand_more_rounded,
+                    size: 18,
+                    color: AppColors.primary,
+                  ),
+                ],
+              ),
+              const SizedBox(height: AppSpacing.sm),
+              const Divider(height: 1),
+            ],
+          ),
         ),
       ),
     );
@@ -1771,11 +1866,13 @@ class _BatchAddBanner extends StatelessWidget {
 
 class _SearchResultTile extends StatelessWidget {
   const _SearchResultTile({
+    super.key,
     required this.album,
     required this.isAdded,
     required this.onAdd,
     required this.onTap,
     this.catalogMatch,
+    this.compact = false,
   });
 
   final SpotifyAlbum album;
@@ -1783,20 +1880,22 @@ class _SearchResultTile extends StatelessWidget {
   final CatalogMatch? catalogMatch;
   final VoidCallback onAdd;
   final VoidCallback onTap;
+  final bool compact;
 
   @override
   Widget build(BuildContext context) {
+    final coverSize = compact ? 44.0 : 56.0;
     final cover = ClipRRect(
       borderRadius: const BorderRadius.all(Radius.circular(6)),
       child: SizedBox(
-        width: 56,
-        height: 56,
+        width: coverSize,
+        height: coverSize,
         child:
             album.imageUrl != null
                 ? CachedNetworkImage(
                   imageUrl: album.imageUrl!,
                   fit: BoxFit.cover,
-                  memCacheWidth: 112,
+                  memCacheWidth: compact ? 88 : 112,
                 )
                 : const ColoredBox(
                   color: AppColors.surfaceDim,
@@ -1813,10 +1912,16 @@ class _SearchResultTile extends StatelessWidget {
       color: isAdded ? AppColors.success : AppColors.primary,
     );
 
+    // Compact mode: hide catalog match chip (the divider already explains it)
+    final showCatalogChip = catalogMatch != null && !compact;
+
     return InkWell(
       onTap: onTap,
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        padding: EdgeInsets.symmetric(
+          horizontal: 16,
+          vertical: compact ? 4 : 8,
+        ),
         child: Row(
           children: [
             cover,
@@ -1830,10 +1935,10 @@ class _SearchResultTile extends StatelessWidget {
                     album.name,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontFamily: 'Nunito',
-                      fontWeight: FontWeight.w600,
-                      fontSize: 15,
+                      fontWeight: compact ? FontWeight.w500 : FontWeight.w600,
+                      fontSize: compact ? 14 : 15,
                     ),
                   ),
                   const SizedBox(height: 2),
@@ -1847,7 +1952,7 @@ class _SearchResultTile extends StatelessWidget {
                       color: AppColors.textSecondary,
                     ),
                   ),
-                  if (catalogMatch != null) ...[
+                  if (showCatalogChip) ...[
                     const SizedBox(height: 2),
                     Row(
                       mainAxisSize: MainAxisSize.min,
