@@ -771,10 +771,11 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen> {
                 padding: EdgeInsets.only(
                   left: AppSpacing.screenH,
                   right: AppSpacing.screenH,
+                  top: AppSpacing.sm,
                   bottom: AppSpacing.md,
                 ),
                 child: Text(
-                  'Suche verfeinern, um mehr Empfehlungen zu sehen.',
+                  'Suche verfeinern, um weitere Empfehlungen zu sehen.',
                   style: TextStyle(
                     fontFamily: 'Nunito',
                     fontSize: 13,
