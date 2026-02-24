@@ -111,7 +111,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
           title: 'Session-Aufzeichnungen',
           subtitle:
               'Sentry zeichnet Bildschirminhalte zur Fehleranalyse auf. '
-              'Standardmäßig aktiv in Debug-Builds.',
+              '${settings.replayEnabled ? "Aktiv" : "Inaktiv"}.',
           value: settings.replayEnabled,
           onChanged: (v) async {
             if (v) {

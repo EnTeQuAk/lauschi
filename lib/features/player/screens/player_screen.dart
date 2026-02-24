@@ -149,7 +149,13 @@ class _InterpolatedProgressState extends ConsumerState<_InterpolatedProgress>
     with SingleTickerProviderStateMixin {
   late final Ticker _ticker;
   final _position = ValueNotifier<int>(0);
-  DateTime _lastTickTime = DateTime.now();
+
+  /// Last position reported by the SDK. When this changes, we re-anchor
+  /// the interpolation to the new server position and interpolate forward
+  /// from there. Prevents drift between ticker and SDK from causing
+  /// periodic backward snaps.
+  int _anchorMs = 0;
+  DateTime _anchorTime = DateTime.now();
 
   @override
   void initState() {
@@ -167,20 +173,23 @@ class _InterpolatedProgressState extends ConsumerState<_InterpolatedProgress>
 
   void _onTick(Duration elapsed) {
     final state = ref.read(playerProvider);
+    final serverMs = state.positionMs;
 
-    // Snap to server position on large drift or pause.
-    if ((state.positionMs - _position.value).abs() > 2000 || !state.isPlaying) {
-      _position.value = state.positionMs;
-      _lastTickTime = DateTime.now();
+    // Re-anchor when the SDK reports a new position (different from our
+    // last anchor). This happens every few seconds on state_changed events.
+    if (serverMs != _anchorMs) {
+      _anchorMs = serverMs;
+      _anchorTime = DateTime.now();
+    }
+
+    if (!state.isPlaying || state.durationMs <= 0) {
+      _position.value = serverMs;
       return;
     }
 
-    if (state.isPlaying && state.durationMs > 0) {
-      final now = DateTime.now();
-      final deltaMs = now.difference(_lastTickTime).inMilliseconds;
-      _lastTickTime = now;
-      _position.value = (_position.value + deltaMs).clamp(0, state.durationMs);
-    }
+    // Interpolate forward from the anchor at real-time speed.
+    final deltaMs = DateTime.now().difference(_anchorTime).inMilliseconds;
+    _position.value = (_anchorMs + deltaMs).clamp(0, state.durationMs);
   }
 
   @override
