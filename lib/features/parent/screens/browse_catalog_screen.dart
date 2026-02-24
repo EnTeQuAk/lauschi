@@ -418,184 +418,6 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen> {
   }
 
   // ---------------------------------------------------------------------------
-  // Series detection & bulk add
-  // ---------------------------------------------------------------------------
-
-  List<CatalogSeries> _detectedSeries() {
-    final counts = <String, int>{};
-    final seriesMap = <String, CatalogSeries>{};
-    for (var i = 0; i < _albumResults.length; i++) {
-      final match = i < _catalogMatches.length ? _catalogMatches[i] : null;
-      if (match == null) continue;
-      final sid = match.series.id;
-      counts[sid] = (counts[sid] ?? 0) + 1;
-      seriesMap[sid] = match.series;
-    }
-    if (counts.isEmpty) return [];
-    final sorted =
-        counts.keys.toList()..sort((a, b) => counts[b]!.compareTo(counts[a]!));
-    return sorted.map((id) => seriesMap[id]!).toList();
-  }
-
-  Future<void> _addSeriesFromCatalog(CatalogSeries series) async {
-    final groupId = await _findOrCreateGroup(series.title);
-    if (!mounted) return;
-    setState(() => _createdSeriesTitles.add(series.title.toLowerCase()));
-
-    final sw = Stopwatch()..start();
-    var added = 0;
-    var failed = 0;
-    final albumIds = series.albums.map((a) => a.spotifyId).toList();
-    final totalCount = albumIds.length;
-    var progressCount = 0;
-    final progressNotifier = ValueNotifier<double>(0);
-
-    unawaited(
-      showDialog<void>(
-        context: context,
-        barrierDismissible: false,
-        builder:
-            (_) => ValueListenableBuilder<double>(
-              valueListenable: progressNotifier,
-              builder:
-                  (_, progress, _) => AlertDialog(
-                    content: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        LinearProgressIndicator(value: progress),
-                        const SizedBox(height: AppSpacing.md),
-                        Text(
-                          '${(progress * 100).round()}% — '
-                          '$progressCount von $totalCount Folgen',
-                          style: const TextStyle(
-                            fontFamily: 'Nunito',
-                            fontSize: 14,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-            ),
-      ),
-    );
-
-    try {
-      for (var i = 0; i < albumIds.length; i += 20) {
-        final batch = albumIds.sublist(
-          i,
-          (i + 20).clamp(0, albumIds.length),
-        );
-        List<SpotifyAlbum> albums;
-        try {
-          albums = await ref.read(spotifyApiProvider).getAlbums(batch);
-        } on Exception catch (e) {
-          Log.error(
-            _tag,
-            'Batch fetch failed',
-            exception: e,
-            data: {'batch': '${i ~/ 20 + 1}', 'ids': batch.length},
-          );
-          failed += batch.length;
-          progressCount += batch.length;
-          if (mounted) progressNotifier.value = progressCount / totalCount;
-          continue;
-        }
-
-        for (final album in albums) {
-          final catalogAlbum =
-              series.albums.where((a) => a.spotifyId == album.id).firstOrNull;
-          final cardId = await ref
-              .read(tileItemRepositoryProvider)
-              .insertIfAbsent(
-                title: album.name,
-                providerUri: album.uri,
-                cardType: 'album',
-                coverUrl: album.imageUrl,
-                spotifyArtistIds: album.artistIds,
-                totalTracks: album.totalTracks,
-              );
-          await ref
-              .read(tileItemRepositoryProvider)
-              .assignToTile(
-                itemId: cardId,
-                tileId: groupId,
-                episodeNumber: catalogAlbum?.episode,
-              );
-          added++;
-          if (mounted) setState(() => _addedUris.add(album.uri));
-        }
-
-        failed += batch.length - albums.length;
-        progressCount += batch.length;
-        if (mounted) progressNotifier.value = progressCount / totalCount;
-      }
-    } on Exception catch (e) {
-      Log.error(_tag, 'Series bulk add failed', exception: e);
-    }
-
-    sw.stop();
-    Log.info(
-      _tag,
-      'Series bulk add complete',
-      data: {
-        'series': series.id,
-        'catalogAlbums': totalCount,
-        'added': added,
-        'failed': failed,
-        'durationMs': sw.elapsedMilliseconds,
-      },
-    );
-
-    if (mounted) Navigator.of(context).pop();
-    // progressNotifier is a local ValueNotifier — GC handles cleanup
-    // after the dialog's listener detaches. Explicit dispose() races
-    // with the pop animation.
-    if (mounted) unawaited(context.push(AppRoutes.parentTileEdit(groupId)));
-  }
-
-  Future<void> _addSeriesFromSearch(CatalogSeries series) async {
-    final groupId = await _findOrCreateGroup(series.title);
-    if (!mounted) return;
-    setState(() => _createdSeriesTitles.add(series.title.toLowerCase()));
-
-    var count = 0;
-    for (var i = 0; i < _albumResults.length; i++) {
-      final album = _albumResults[i];
-      if (_addedUris.contains(album.uri)) continue;
-      final match = i < _catalogMatches.length ? _catalogMatches[i] : null;
-      if (match?.series.id != series.id) continue;
-
-      final cardId = await ref
-          .read(tileItemRepositoryProvider)
-          .insertIfAbsent(
-            title: album.name,
-            providerUri: album.uri,
-            cardType: 'album',
-            coverUrl: album.imageUrl,
-            spotifyArtistIds: album.artistIds,
-            totalTracks: album.totalTracks,
-          );
-      await ref
-          .read(tileItemRepositoryProvider)
-          .assignToTile(
-            itemId: cardId,
-            tileId: groupId,
-            episodeNumber: match?.episodeNumber,
-          );
-      if (mounted) setState(() => _addedUris.add(album.uri));
-      count++;
-    }
-
-    Log.info(
-      _tag,
-      'Series search add',
-      data: {'series': series.id, 'added': count},
-    );
-
-    if (mounted) unawaited(context.push(AppRoutes.parentTileEdit(groupId)));
-  }
-
-  // ---------------------------------------------------------------------------
   // Album & playlist detail sheets
   // ---------------------------------------------------------------------------
 
@@ -657,11 +479,9 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen> {
       );
     }
 
-    // Detect series in results (only in general add mode)
-    final detectedSeries =
-        !_isAutoAssignMode && _albumResults.isNotEmpty
-            ? _detectedSeries()
-            : <CatalogSeries>[];
+    // Series detection for the Spotify tier is no longer needed — the catalog
+    // tier above handles series discovery. Only batchSeries (autoAssign mode)
+    // is still relevant.
 
     // In autoAssign mode, offer batch add when all results match one series
     String? batchSeries;
@@ -766,7 +586,6 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen> {
                 _isSearchActive
                     ? _buildTwoTierSearch(
                       catalog: catalogAsync.value,
-                      detectedSeries: detectedSeries,
                       batchSeries: batchSeries,
                     )
                     : catalogAsync.when(
@@ -873,7 +692,6 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen> {
 
   Widget _buildTwoTierSearch({
     CatalogService? catalog,
-    required List<CatalogSeries> detectedSeries,
     String? batchSeries,
   }) {
     final query = _searchController.text.trim();
@@ -882,10 +700,7 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen> {
 
     // Playlist mode skips catalog tier
     if (_searchMode == _SearchMode.playlist) {
-      return _buildSearchResults(
-        detectedSeries: detectedSeries,
-        batchSeries: batchSeries,
-      );
+      return _buildSearchResults(batchSeries: batchSeries);
     }
 
     // No results at all yet (still debouncing)
@@ -966,42 +781,27 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen> {
                 child: Center(child: CircularProgressIndicator()),
               ),
             )
+          else if (_albumResults.isEmpty)
+            const SliverToBoxAdapter(
+              child: Padding(
+                padding: EdgeInsets.symmetric(
+                  horizontal: AppSpacing.screenH,
+                  vertical: AppSpacing.lg,
+                ),
+                child: Text(
+                  'Keine Treffer auf Spotify.',
+                  style: TextStyle(
+                    fontFamily: 'Nunito',
+                    fontSize: 14,
+                    color: AppColors.textSecondary,
+                  ),
+                ),
+              ),
+            )
           else
             SliverList.builder(
-              itemCount: detectedSeries.length + _albumResults.length,
-              itemBuilder: (context, index) {
-                if (index < detectedSeries.length) {
-                  final series = detectedSeries[index];
-                  final exists = _createdSeriesTitles.contains(
-                    series.title.toLowerCase(),
-                  );
-                  final firstMatchIdx = _catalogMatches.indexWhere(
-                    (m) => m != null && m.series.id == series.id,
-                  );
-                  final coverUrl =
-                      series.coverUrl ??
-                      (firstMatchIdx >= 0 &&
-                              firstMatchIdx < _albumResults.length
-                          ? _albumResults[firstMatchIdx].imageUrl
-                          : null);
-                  return _DetectedSeriesCard(
-                    series: series,
-                    coverUrl: coverUrl,
-                    matchCount:
-                        _catalogMatches
-                            .whereType<CatalogMatch>()
-                            .where((m) => m.series.id == series.id)
-                            .length,
-                    alreadyCreated: exists,
-                    onAdd:
-                        () =>
-                            series.hasCuratedAlbums
-                                ? unawaited(_addSeriesFromCatalog(series))
-                                : unawaited(_addSeriesFromSearch(series)),
-                  );
-                }
-                return _buildAlbumTile(index - detectedSeries.length);
-              },
+              itemCount: _albumResults.length,
+              itemBuilder: (context, index) => _buildAlbumTile(index),
             ),
         ] else if (catalogMatches.isEmpty) ...[
           // Query typed but Spotify hasn't responded yet and no catalog hits
@@ -1023,7 +823,6 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen> {
   // ---------------------------------------------------------------------------
 
   Widget _buildSearchResults({
-    required List<CatalogSeries> detectedSeries,
     String? batchSeries,
   }) {
     final headers = <Widget>[
@@ -1033,37 +832,6 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen> {
           count: _albumResults.where((a) => !_addedUris.contains(a.uri)).length,
           onAddAll: () => unawaited(_handleAddAll(batchSeries)),
         ),
-      ...detectedSeries.map(
-        (series) {
-          final exists = _createdSeriesTitles.contains(
-            series.title.toLowerCase(),
-          );
-          // Cover priority: curated YAML → first matching album art.
-          final firstMatchIdx = _catalogMatches.indexWhere(
-            (m) => m != null && m.series.id == series.id,
-          );
-          final coverUrl =
-              series.coverUrl ??
-              (firstMatchIdx >= 0 && firstMatchIdx < _albumResults.length
-                  ? _albumResults[firstMatchIdx].imageUrl
-                  : null);
-          return _DetectedSeriesCard(
-            series: series,
-            coverUrl: coverUrl,
-            matchCount:
-                _catalogMatches
-                    .whereType<CatalogMatch>()
-                    .where((m) => m.series.id == series.id)
-                    .length,
-            alreadyCreated: exists,
-            onAdd:
-                () =>
-                    series.hasCuratedAlbums
-                        ? unawaited(_addSeriesFromCatalog(series))
-                        : unawaited(_addSeriesFromSearch(series)),
-          );
-        },
-      ),
     ];
 
     if (_isSearching) {
@@ -1754,122 +1522,6 @@ class _AlbumTile extends StatelessWidget {
               : null,
       enabled: !alreadyAdded,
       onTap: alreadyAdded ? null : onChanged,
-    );
-  }
-}
-
-// ── Detected series card (search results) ───────────────────────────────────
-
-class _DetectedSeriesCard extends StatelessWidget {
-  const _DetectedSeriesCard({
-    required this.series,
-    required this.matchCount,
-    required this.onAdd,
-    this.coverUrl,
-    this.alreadyCreated = false,
-  });
-
-  final CatalogSeries series;
-  final String? coverUrl;
-  final int matchCount;
-  final VoidCallback onAdd;
-  final bool alreadyCreated;
-
-  @override
-  Widget build(BuildContext context) {
-    final hasAlbums = series.hasCuratedAlbums;
-    final subtitle =
-        hasAlbums
-            ? '${series.albums.length} Folgen verfügbar'
-            : '$matchCount ${matchCount == 1 ? 'Treffer' : 'Treffer'}';
-
-    final cover = ClipRRect(
-      borderRadius: const BorderRadius.all(Radius.circular(8)),
-      child: SizedBox(
-        width: 56,
-        height: 56,
-        child:
-            coverUrl != null
-                ? CachedNetworkImage(
-                  imageUrl: coverUrl!,
-                  fit: BoxFit.cover,
-                  memCacheWidth: 112,
-                )
-                : ColoredBox(
-                  color: AppColors.primary.withValues(alpha: 0.12),
-                  child: const Icon(
-                    Icons.library_music_rounded,
-                    color: AppColors.primary,
-                    size: 28,
-                  ),
-                ),
-      ),
-    );
-
-    return Container(
-      margin: const EdgeInsets.symmetric(
-        horizontal: AppSpacing.screenH,
-        vertical: AppSpacing.xs,
-      ),
-      decoration: BoxDecoration(
-        color: AppColors.primary.withValues(alpha: 0.08),
-        borderRadius: const BorderRadius.all(AppRadius.card),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: AppSpacing.md,
-          vertical: AppSpacing.sm,
-        ),
-        child: Row(
-          children: [
-            cover,
-            const SizedBox(width: AppSpacing.md),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    series.title,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
-                      fontFamily: 'Nunito',
-                      fontWeight: FontWeight.w700,
-                      fontSize: 15,
-                      color: AppColors.primary,
-                    ),
-                  ),
-                  const SizedBox(height: 2),
-                  Text(
-                    alreadyCreated ? 'Kachel bereits angelegt' : subtitle,
-                    style: const TextStyle(
-                      fontFamily: 'Nunito',
-                      fontSize: 12,
-                      color: AppColors.primary,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            if (alreadyCreated)
-              const Icon(Icons.check_circle_rounded, color: AppColors.success)
-            else
-              FilledButton(
-                onPressed: onAdd,
-                style: FilledButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: AppSpacing.md,
-                    vertical: AppSpacing.xs,
-                  ),
-                  minimumSize: Size.zero,
-                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                ),
-                child: const Text('Kachel anlegen'),
-              ),
-          ],
-        ),
-      ),
     );
   }
 }
