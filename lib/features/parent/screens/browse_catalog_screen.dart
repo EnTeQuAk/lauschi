@@ -760,12 +760,12 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen> {
             ),
           ),
 
-          // Content area: curated grid (default) or search results.
-          // Show grid until search actually fires (avoids blank flash during debounce).
+          // Content area: curated grid (default) or two-tier search results.
           Expanded(
             child:
-                _isSearching || _hasSearched
-                    ? _buildSearchResults(
+                _isSearchActive
+                    ? _buildTwoTierSearch(
+                      catalog: catalogAsync.value,
                       detectedSeries: detectedSeries,
                       batchSeries: batchSeries,
                     )
@@ -868,7 +868,158 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen> {
   }
 
   // ---------------------------------------------------------------------------
-  // Search results
+  // Two-tier search: catalog (instant) + Spotify (async)
+  // ---------------------------------------------------------------------------
+
+  Widget _buildTwoTierSearch({
+    CatalogService? catalog,
+    required List<CatalogSeries> detectedSeries,
+    String? batchSeries,
+  }) {
+    final query = _searchController.text.trim();
+    final catalogMatches =
+        catalog?.search(query).where((s) => s.hasCuratedAlbums).toList() ?? [];
+
+    // Playlist mode skips catalog tier
+    if (_searchMode == _SearchMode.playlist) {
+      return _buildSearchResults(
+        detectedSeries: detectedSeries,
+        batchSeries: batchSeries,
+      );
+    }
+
+    // No results at all yet (still debouncing)
+    if (catalogMatches.isEmpty && !_isSearching && !_hasSearched) {
+      return const SizedBox.shrink();
+    }
+
+    return CustomScrollView(
+      slivers: [
+        // Tier 1: Catalog matches (instant, local)
+        if (catalogMatches.isNotEmpty) ...[
+          SliverToBoxAdapter(
+            child: _SearchSectionHeader(
+              icon: Icons.auto_awesome_rounded,
+              title: 'Im Katalog',
+              subtitle: '${catalogMatches.length} passende Hörspiele',
+            ),
+          ),
+          SliverList.builder(
+            itemCount: catalogMatches.length,
+            itemBuilder: (context, index) {
+              final series = catalogMatches[index];
+              final existingUris = ref.watch(existingItemUrisProvider);
+              final added =
+                  series.albums
+                      .where(
+                        (a) => existingUris.contains(
+                          'spotify:album:${a.spotifyId}',
+                        ),
+                      )
+                      .length;
+              final allAdded = added == series.albums.length;
+              return _CatalogSearchHit(
+                series: series,
+                addedCount: added,
+                allAdded: allAdded,
+                onTap: () {
+                  if (allAdded) {
+                    final tiles = ref.read(allTilesProvider).value ?? [];
+                    final match = tiles.where(
+                      (t) =>
+                          t.title.toLowerCase() == series.title.toLowerCase(),
+                    );
+                    if (match.isNotEmpty) {
+                      unawaited(
+                        context.push(AppRoutes.parentTileEdit(match.first.id)),
+                      );
+                      return;
+                    }
+                  }
+                  unawaited(
+                    context.push(AppRoutes.parentCatalogSeries(series.id)),
+                  );
+                },
+              );
+            },
+          ),
+        ],
+
+        // Tier 2: Spotify results (async, API)
+        if (_isSearching || _hasSearched) ...[
+          SliverToBoxAdapter(
+            child: _SearchSectionHeader(
+              icon: Icons.music_note_rounded,
+              title: 'Auf Spotify',
+              subtitle:
+                  _isSearching
+                      ? 'Suche läuft…'
+                      : _albumResults.isEmpty
+                      ? 'Keine Treffer'
+                      : '${_albumResults.length} Ergebnisse',
+            ),
+          ),
+          if (_isSearching)
+            const SliverToBoxAdapter(
+              child: Padding(
+                padding: EdgeInsets.all(AppSpacing.xl),
+                child: Center(child: CircularProgressIndicator()),
+              ),
+            )
+          else
+            SliverList.builder(
+              itemCount: detectedSeries.length + _albumResults.length,
+              itemBuilder: (context, index) {
+                if (index < detectedSeries.length) {
+                  final series = detectedSeries[index];
+                  final exists = _createdSeriesTitles.contains(
+                    series.title.toLowerCase(),
+                  );
+                  final firstMatchIdx = _catalogMatches.indexWhere(
+                    (m) => m != null && m.series.id == series.id,
+                  );
+                  final coverUrl =
+                      series.coverUrl ??
+                      (firstMatchIdx >= 0 &&
+                              firstMatchIdx < _albumResults.length
+                          ? _albumResults[firstMatchIdx].imageUrl
+                          : null);
+                  return _DetectedSeriesCard(
+                    series: series,
+                    coverUrl: coverUrl,
+                    matchCount:
+                        _catalogMatches
+                            .whereType<CatalogMatch>()
+                            .where((m) => m.series.id == series.id)
+                            .length,
+                    alreadyCreated: exists,
+                    onAdd:
+                        () =>
+                            series.hasCuratedAlbums
+                                ? unawaited(_addSeriesFromCatalog(series))
+                                : unawaited(_addSeriesFromSearch(series)),
+                  );
+                }
+                return _buildAlbumTile(index - detectedSeries.length);
+              },
+            ),
+        ] else if (catalogMatches.isEmpty) ...[
+          // Query typed but Spotify hasn't responded yet and no catalog hits
+          const SliverToBoxAdapter(
+            child: Padding(
+              padding: EdgeInsets.all(AppSpacing.xl),
+              child: Center(child: CircularProgressIndicator()),
+            ),
+          ),
+        ],
+
+        const SliverPadding(padding: EdgeInsets.only(bottom: AppSpacing.xxl)),
+      ],
+    );
+  }
+
+  // ---------------------------------------------------------------------------
+  // Search results (legacy, used by playlist mode)
   // ---------------------------------------------------------------------------
 
   Widget _buildSearchResults({
@@ -1716,6 +1867,157 @@ class _DetectedSeriesCard extends StatelessWidget {
                 ),
                 child: const Text('Kachel anlegen'),
               ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// ── Two-tier search section header ──────────────────────────────────────────
+
+class _SearchSectionHeader extends StatelessWidget {
+  const _SearchSectionHeader({
+    required this.icon,
+    required this.title,
+    this.subtitle,
+  });
+
+  final IconData icon;
+  final String title;
+  final String? subtitle;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(
+        AppSpacing.screenH,
+        AppSpacing.md,
+        AppSpacing.screenH,
+        AppSpacing.xs,
+      ),
+      child: Row(
+        children: [
+          Icon(icon, size: 16, color: AppColors.textSecondary),
+          const SizedBox(width: AppSpacing.xs),
+          Text(
+            title,
+            style: const TextStyle(
+              fontFamily: 'Nunito',
+              fontSize: 13,
+              fontWeight: FontWeight.w800,
+              color: AppColors.textSecondary,
+              letterSpacing: 0.5,
+            ),
+          ),
+          if (subtitle != null) ...[
+            const SizedBox(width: AppSpacing.xs),
+            Text(
+              '· $subtitle',
+              style: const TextStyle(
+                fontFamily: 'Nunito',
+                fontSize: 12,
+                color: AppColors.textTertiary,
+              ),
+            ),
+          ],
+        ],
+      ),
+    );
+  }
+}
+
+// ── Catalog search hit (compact tile for tier-1 results) ────────────────────
+
+class _CatalogSearchHit extends ConsumerWidget {
+  const _CatalogSearchHit({
+    required this.series,
+    required this.addedCount,
+    required this.allAdded,
+    required this.onTap,
+  });
+
+  final CatalogSeries series;
+  final int addedCount;
+  final bool allAdded;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final coverMap = ref.watch(_seriesCoverMapProvider).value ?? {};
+    final firstAlbumId =
+        series.albums.isNotEmpty ? series.albums.first.spotifyId : null;
+    final coverUrl =
+        series.coverUrl ??
+        (firstAlbumId != null ? coverMap[firstAlbumId] : null);
+    final total = series.albums.length;
+
+    return InkWell(
+      onTap: onTap,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: AppSpacing.screenH,
+          vertical: 6,
+        ),
+        child: Row(
+          children: [
+            ClipRRect(
+              borderRadius: const BorderRadius.all(Radius.circular(8)),
+              child: SizedBox(
+                width: 52,
+                height: 52,
+                child:
+                    coverUrl != null
+                        ? CachedNetworkImage(
+                          imageUrl: coverUrl,
+                          fit: BoxFit.cover,
+                          memCacheWidth: 104,
+                        )
+                        : _Placeholder(title: series.title),
+              ),
+            ),
+            const SizedBox(width: AppSpacing.md),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    series.title,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      fontFamily: 'Nunito',
+                      fontWeight: FontWeight.w700,
+                      fontSize: 15,
+                    ),
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    allAdded
+                        ? '✓ Alle $total Folgen hinzugefügt'
+                        : addedCount > 0
+                        ? '$addedCount von $total Folgen'
+                        : '$total Folgen',
+                    style: TextStyle(
+                      fontFamily: 'Nunito',
+                      fontSize: 12,
+                      color:
+                          allAdded
+                              ? AppColors.success
+                              : AppColors.textSecondary,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Icon(
+              allAdded
+                  ? Icons.check_circle_rounded
+                  : Icons.chevron_right_rounded,
+              color: allAdded ? AppColors.success : AppColors.textSecondary,
+              size: 20,
+            ),
           ],
         ),
       ),

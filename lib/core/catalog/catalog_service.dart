@@ -224,6 +224,25 @@ class CatalogService {
   /// All series sorted alphabetically — for UI display.
   List<CatalogSeries> get all => List.unmodifiable(_series);
 
+  /// Search series by title/keyword (local, instant). Returns matches sorted
+  /// by relevance: exact title prefix first, then keyword matches.
+  List<CatalogSeries> search(String query) {
+    if (query.isEmpty) return [];
+    final q = query.toLowerCase();
+    final titlePrefixMatches = <CatalogSeries>[];
+    final keywordMatches = <CatalogSeries>[];
+    for (final s in _series) {
+      if (s.title.toLowerCase().startsWith(q)) {
+        titlePrefixMatches.add(s);
+      } else if (s.title.toLowerCase().contains(q) ||
+          s.aliases.any((a) => a.toLowerCase().contains(q)) ||
+          s.keywords.any((k) => k.toLowerCase().contains(q))) {
+        keywordMatches.add(s);
+      }
+    }
+    return [...titlePrefixMatches, ...keywordMatches];
+  }
+
   int? _extractEpisode(String title, String? pattern) {
     if (pattern == null) return null;
     final regex = RegExp(pattern, caseSensitive: false);
