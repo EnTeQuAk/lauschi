@@ -5,27 +5,27 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lauschi/core/database/app_database.dart' as db;
-import 'package:lauschi/core/database/card_repository.dart';
-import 'package:lauschi/core/database/group_repository.dart';
+import 'package:lauschi/core/database/tile_item_repository.dart';
+import 'package:lauschi/core/database/tile_repository.dart';
 import 'package:lauschi/core/router/app_router.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
-import 'package:lauschi/features/cards/screens/group_detail_screen.dart';
+import 'package:lauschi/features/tiles/screens/tile_detail_screen.dart';
 import 'package:lauschi/features/player/player_provider.dart';
 
 /// Parent edit screen for a single series group.
 ///
 /// Title / cover are editable; episodes are shown in order and can be
 /// reordered or removed. Cards are assigned from the series manager.
-class GroupEditScreen extends ConsumerStatefulWidget {
-  const GroupEditScreen({required this.groupId, super.key});
+class TileEditScreen extends ConsumerStatefulWidget {
+  const TileEditScreen({required this.tileId, super.key});
 
-  final String groupId;
+  final String tileId;
 
   @override
-  ConsumerState<GroupEditScreen> createState() => _GroupEditScreenState();
+  ConsumerState<TileEditScreen> createState() => _GroupEditScreenState();
 }
 
-class _GroupEditScreenState extends ConsumerState<GroupEditScreen> {
+class _GroupEditScreenState extends ConsumerState<TileEditScreen> {
   late final TextEditingController _titleController;
   late final TextEditingController _coverController;
   bool _dirty = false;
@@ -48,7 +48,7 @@ class _GroupEditScreenState extends ConsumerState<GroupEditScreen> {
     super.dispose();
   }
 
-  void _onLoaded(db.CardGroup group) {
+  void _onLoaded(db.Tile group) {
     if (_initialized) return; // Controllers already set; don't clobber edits
     _titleController.text = group.title;
     _coverController.text = group.coverUrl ?? '';
@@ -63,8 +63,8 @@ class _GroupEditScreenState extends ConsumerState<GroupEditScreen> {
             (ctx) => AlertDialog(
               title: const Text('Alle Folgen löschen?'),
               content: const Text(
-                'Alle Hörspiel-Karten in dieser Serie werden unwiderruflich '
-                'entfernt. Die Serie selbst bleibt bestehen.',
+                'Alle Einträge in dieser Kachel werden unwiderruflich '
+                'entfernt. Die Kachel selbst bleibt bestehen.',
               ),
               actions: [
                 TextButton(
@@ -75,15 +75,15 @@ class _GroupEditScreenState extends ConsumerState<GroupEditScreen> {
                   onPressed: () async {
                     Navigator.of(ctx).pop();
                     final count = await ref
-                        .read(cardRepositoryProvider)
-                        .deleteByGroup(widget.groupId);
+                        .read(tileItemRepositoryProvider)
+                        .deleteByTile(widget.tileId);
                     if (context.mounted) {
                       ScaffoldMessenger.of(context)
                         ..clearSnackBars()
                         ..showSnackBar(
                           SnackBar(
                             content: Text(
-                              '$count ${count == 1 ? 'Karte' : 'Karten'} '
+                              '$count ${count == 1 ? 'Eintrag' : 'Einträge'} '
                               'entfernt',
                             ),
                             behavior: SnackBarBehavior.floating,
@@ -108,9 +108,9 @@ class _GroupEditScreenState extends ConsumerState<GroupEditScreen> {
         context: context,
         builder:
             (ctx) => AlertDialog(
-              title: const Text('Serie löschen?'),
+              title: const Text('Kachel löschen?'),
               content: const Text(
-                'Die Serie und alle zugehörigen Karten werden '
+                'Die Kachel und alle zugehörigen Einträge werden '
                 'unwiderruflich entfernt.',
               ),
               actions: [
@@ -122,23 +122,23 @@ class _GroupEditScreenState extends ConsumerState<GroupEditScreen> {
                   onPressed: () async {
                     Navigator.of(ctx).pop();
                     await ref
-                        .read(cardRepositoryProvider)
-                        .deleteByGroup(widget.groupId);
+                        .read(tileItemRepositoryProvider)
+                        .deleteByTile(widget.tileId);
                     await ref
-                        .read(groupRepositoryProvider)
-                        .delete(widget.groupId);
+                        .read(tileRepositoryProvider)
+                        .delete(widget.tileId);
                     if (context.mounted) {
                       if (context.canPop()) {
                         context.pop();
                       } else {
-                        context.go(AppRoutes.parentManageGroups);
+                        context.go(AppRoutes.parentManageTiles);
                       }
                     }
                   },
                   style: FilledButton.styleFrom(
                     backgroundColor: AppColors.error,
                   ),
-                  child: const Text('Serie löschen'),
+                  child: const Text('Kachel löschen'),
                 ),
               ],
             ),
@@ -150,9 +150,9 @@ class _GroupEditScreenState extends ConsumerState<GroupEditScreen> {
     final title = _titleController.text.trim();
     if (title.isEmpty) return;
     await ref
-        .read(groupRepositoryProvider)
+        .read(tileRepositoryProvider)
         .update(
-          id: widget.groupId,
+          id: widget.tileId,
           title: title,
           coverUrl:
               _coverController.text.trim().isEmpty
@@ -165,7 +165,7 @@ class _GroupEditScreenState extends ConsumerState<GroupEditScreen> {
         ..clearSnackBars()
         ..showSnackBar(
           const SnackBar(
-            content: Text('Serie gespeichert'),
+            content: Text('Kachel gespeichert'),
             duration: Duration(seconds: 2),
             behavior: SnackBarBehavior.floating,
           ),
@@ -176,15 +176,15 @@ class _GroupEditScreenState extends ConsumerState<GroupEditScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final groupAsync = ref.watch(groupByIdProvider(widget.groupId));
-    final episodesAsync = ref.watch(groupEpisodesProvider(widget.groupId));
+    final groupAsync = ref.watch(tileByIdProvider(widget.tileId));
+    final episodesAsync = ref.watch(tileItemsProvider(widget.tileId));
 
     return groupAsync.when(
       data: (group) {
         if (group == null) {
           return Scaffold(
-            appBar: AppBar(title: const Text('Serie')),
-            body: const Center(child: Text('Serie nicht gefunden')),
+            appBar: AppBar(title: const Text('Kachel')),
+            body: const Center(child: Text('Kachel nicht gefunden')),
           );
         }
         _onLoaded(group);
@@ -192,12 +192,12 @@ class _GroupEditScreenState extends ConsumerState<GroupEditScreen> {
       },
       loading:
           () => Scaffold(
-            appBar: AppBar(title: const Text('Serie')),
+            appBar: AppBar(title: const Text('Kachel')),
             body: const Center(child: CircularProgressIndicator()),
           ),
       error:
           (_, _) => Scaffold(
-            appBar: AppBar(title: const Text('Serie')),
+            appBar: AppBar(title: const Text('Kachel')),
             body: const Center(child: Text('Fehler beim Laden')),
           ),
     );
@@ -205,10 +205,10 @@ class _GroupEditScreenState extends ConsumerState<GroupEditScreen> {
 
   Widget _buildScaffold(
     BuildContext context,
-    db.CardGroup group,
-    AsyncValue<List<db.AudioCard>> episodesAsync,
+    db.Tile group,
+    AsyncValue<List<db.TileItem>> episodesAsync,
   ) {
-    final episodes = episodesAsync.value ?? <db.AudioCard>[];
+    final episodes = episodesAsync.value ?? <db.TileItem>[];
     final episodeCovers =
         episodes.map((e) => e.coverUrl).whereType<String>().toSet().toList();
 
@@ -227,7 +227,7 @@ class _GroupEditScreenState extends ConsumerState<GroupEditScreen> {
       backgroundColor: AppColors.parentBackground,
       appBar: AppBar(
         backgroundColor: AppColors.parentBackground,
-        title: const Text('Serie bearbeiten'),
+        title: const Text('Kachel bearbeiten'),
         actions: [
           if (_dirty)
             TextButton(
@@ -251,7 +251,7 @@ class _GroupEditScreenState extends ConsumerState<GroupEditScreen> {
                   ),
                   const PopupMenuItem(
                     value: 'delete_group',
-                    child: Text('Serie löschen'),
+                    child: Text('Kachel löschen'),
                   ),
                 ],
           ),
@@ -260,7 +260,7 @@ class _GroupEditScreenState extends ConsumerState<GroupEditScreen> {
       floatingActionButton: FloatingActionButton.extended(
         onPressed:
             () => unawaited(
-              context.push(AppRoutes.parentAddCardToGroup(widget.groupId)),
+              context.push(AppRoutes.parentAddCardToTile(widget.tileId)),
             ),
         icon: const Icon(Icons.add_rounded),
         label: const Text('Folge hinzufügen'),
@@ -282,7 +282,7 @@ class _GroupEditScreenState extends ConsumerState<GroupEditScreen> {
                 TextField(
                   controller: _titleController,
                   decoration: const InputDecoration(
-                    labelText: 'Serientitel',
+                    labelText: 'Name der Kachel',
                   ),
                   onChanged: (_) => setState(() => _dirty = true),
                   textCapitalization: TextCapitalization.sentences,
@@ -340,7 +340,7 @@ class _GroupEditScreenState extends ConsumerState<GroupEditScreen> {
                       eps.isEmpty
                           ? const _EmptyEpisodesHint()
                           : _EpisodeReorderList(
-                            groupId: widget.groupId,
+                            tileId: widget.tileId,
                             episodes: eps,
                           ),
               loading: () => const Center(child: CircularProgressIndicator()),
@@ -468,7 +468,7 @@ class _CoverPickerState extends ConsumerState<_CoverPicker> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Text(
-                    'Serien-Cover',
+                    'Kachel-Cover',
                     style: TextStyle(
                       fontFamily: 'Nunito',
                       fontSize: 13,
@@ -587,12 +587,12 @@ class _CoverPlaceholder extends StatelessWidget {
 
 class _EpisodeReorderList extends ConsumerWidget {
   const _EpisodeReorderList({
-    required this.groupId,
+    required this.tileId,
     required this.episodes,
   });
 
-  final String groupId;
-  final List<db.AudioCard> episodes;
+  final String tileId;
+  final List<db.TileItem> episodes;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -614,12 +614,12 @@ class _EpisodeReorderList extends ConsumerWidget {
       },
       onReorder: (oldIndex, newIndex) {
         final insertAt = newIndex > oldIndex ? newIndex - 1 : newIndex;
-        final reordered = List<db.AudioCard>.from(episodes);
+        final reordered = List<db.TileItem>.from(episodes);
         final item = reordered.removeAt(oldIndex);
         reordered.insert(insertAt, item);
         unawaited(
           ref
-              .read(cardRepositoryProvider)
+              .read(tileItemRepositoryProvider)
               .reorder(
                 reordered.map((c) => c.id).toList(),
               ),
@@ -632,7 +632,7 @@ class _EpisodeReorderList extends ConsumerWidget {
           key: ValueKey(card.id),
           card: card,
           index: index,
-          groupId: groupId,
+          tileId: tileId,
         );
       },
     );
@@ -643,13 +643,13 @@ class _EpisodeTile extends ConsumerWidget {
   const _EpisodeTile({
     required this.card,
     required this.index,
-    required this.groupId,
+    required this.tileId,
     super.key,
   });
 
-  final db.AudioCard card;
+  final db.TileItem card;
   final int index;
-  final String groupId;
+  final String tileId;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -738,12 +738,12 @@ class _EpisodeTile extends ConsumerWidget {
                 (_) => const [
                   PopupMenuItem(
                     value: 'remove',
-                    child: Text('Aus Serie entfernen'),
+                    child: Text('Aus Kachel entfernen'),
                   ),
                   PopupMenuItem(
                     value: 'delete',
                     child: Text(
-                      'Karte löschen',
+                      'Eintrag löschen',
                       style: TextStyle(color: AppColors.error),
                     ),
                   ),
@@ -767,9 +767,9 @@ class _EpisodeTile extends ConsumerWidget {
         context: context,
         builder:
             (ctx) => AlertDialog(
-              title: const Text('Aus Serie entfernen?'),
+              title: const Text('Aus Kachel entfernen?'),
               content: Text(
-                '„${card.customTitle ?? card.title}" wird aus der Serie entfernt '
+                '„${card.customTitle ?? card.title}" wird aus der Kachel entfernt '
                 '(nicht gelöscht).',
               ),
               actions: [
@@ -781,7 +781,9 @@ class _EpisodeTile extends ConsumerWidget {
                   onPressed: () {
                     Navigator.of(ctx).pop();
                     unawaited(
-                      ref.read(cardRepositoryProvider).removeFromGroup(card.id),
+                      ref
+                          .read(tileItemRepositoryProvider)
+                          .removeFromTile(card.id),
                     );
                   },
                   child: const Text('Entfernen'),
@@ -798,7 +800,7 @@ class _EpisodeTile extends ConsumerWidget {
         context: context,
         builder:
             (ctx) => AlertDialog(
-              title: const Text('Karte löschen?'),
+              title: const Text('Eintrag löschen?'),
               content: Text(
                 '„${card.customTitle ?? card.title}" wird endgültig gelöscht.',
               ),
@@ -811,7 +813,7 @@ class _EpisodeTile extends ConsumerWidget {
                   onPressed: () {
                     Navigator.of(ctx).pop();
                     unawaited(
-                      ref.read(cardRepositoryProvider).delete(card.id),
+                      ref.read(tileItemRepositoryProvider).delete(card.id),
                     );
                   },
                   style: FilledButton.styleFrom(

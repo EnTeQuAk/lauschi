@@ -6,32 +6,32 @@ import 'package:flutter_reorderable_grid_view/widgets/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lauschi/core/database/app_database.dart' as db;
-import 'package:lauschi/core/database/card_repository.dart';
-import 'package:lauschi/core/database/group_repository.dart';
+import 'package:lauschi/core/database/tile_item_repository.dart';
+import 'package:lauschi/core/database/tile_repository.dart';
 import 'package:lauschi/core/router/app_router.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
-import 'package:lauschi/features/cards/screens/group_detail_screen.dart';
-import 'package:lauschi/features/cards/widgets/group_card.dart';
+import 'package:lauschi/features/tiles/screens/tile_detail_screen.dart';
+import 'package:lauschi/features/tiles/widgets/tile_card.dart';
 import 'package:lauschi/features/parent/widgets/provider_badge.dart';
 
 /// Parent view: list, create, reorder and delete series groups.
-class ManageGroupsScreen extends ConsumerWidget {
-  const ManageGroupsScreen({super.key});
+class ManageTilesScreen extends ConsumerWidget {
+  const ManageTilesScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final groupsAsync = ref.watch(allGroupsProvider);
-    final ungroupedAsync = ref.watch(ungroupedCardsProvider);
+    final groupsAsync = ref.watch(allTilesProvider);
+    final ungroupedAsync = ref.watch(ungroupedItemsProvider);
 
     return Scaffold(
       backgroundColor: AppColors.parentBackground,
       appBar: AppBar(
         backgroundColor: AppColors.parentBackground,
-        title: const Text('Serien verwalten'),
+        title: const Text('Kacheln verwalten'),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => _createGroup(context, ref),
-        tooltip: 'Serie erstellen',
+        tooltip: 'Kachel erstellen',
         child: const Icon(Icons.add_rounded),
       ),
       body: groupsAsync.when(
@@ -45,7 +45,7 @@ class ManageGroupsScreen extends ConsumerWidget {
         loading: () => const Center(child: CircularProgressIndicator()),
         error:
             (_, _) => const Center(
-              child: Text('Fehler beim Laden der Serien.'),
+              child: Text('Fehler beim Laden der Kacheln.'),
             ),
       ),
     );
@@ -58,12 +58,12 @@ class ManageGroupsScreen extends ConsumerWidget {
         context: context,
         builder:
             (ctx) => AlertDialog(
-              title: const Text('Neue Serie'),
+              title: const Text('Neue Kachel'),
               content: TextField(
                 controller: controller,
                 autofocus: true,
                 decoration: const InputDecoration(
-                  labelText: 'Serientitel',
+                  labelText: 'Name der Kachel',
                   hintText: 'z.B. Yakari, Bibi Blocksberg …',
                 ),
                 textCapitalization: TextCapitalization.sentences,
@@ -95,11 +95,9 @@ class ManageGroupsScreen extends ConsumerWidget {
     final title = controller.text.trim();
     if (title.isEmpty) return;
     Navigator.of(dialogCtx).pop();
-    final groupId = await ref
-        .read(groupRepositoryProvider)
-        .insert(title: title);
+    final groupId = await ref.read(tileRepositoryProvider).insert(title: title);
     if (screenCtx.mounted) {
-      unawaited(screenCtx.push(AppRoutes.parentGroupEdit(groupId)));
+      unawaited(screenCtx.push(AppRoutes.parentTileEdit(groupId)));
     }
   }
 }
@@ -120,7 +118,7 @@ class _EmptyState extends StatelessWidget {
           ),
           SizedBox(height: AppSpacing.md),
           Text(
-            'Noch keine Serien',
+            'Noch keine Kacheln',
             style: TextStyle(
               fontFamily: 'Nunito',
               fontSize: 16,
@@ -129,7 +127,7 @@ class _EmptyState extends StatelessWidget {
           ),
           SizedBox(height: AppSpacing.sm),
           Text(
-            'Tippe auf + um eine Serie zu erstellen.',
+            'Tippe auf + um eine Kachel zu erstellen.',
             style: TextStyle(
               fontFamily: 'Nunito',
               fontSize: 14,
@@ -146,8 +144,8 @@ class _EmptyState extends StatelessWidget {
 class _SeriesBody extends StatelessWidget {
   const _SeriesBody({required this.groups, required this.ungrouped});
 
-  final List<db.CardGroup> groups;
-  final List<db.AudioCard> ungrouped;
+  final List<db.Tile> groups;
+  final List<db.TileItem> ungrouped;
 
   @override
   Widget build(BuildContext context) {
@@ -180,7 +178,7 @@ class _SeriesBody extends StatelessWidget {
                 ),
                 const SizedBox(width: AppSpacing.sm),
                 Text(
-                  'Ohne Serie (${ungrouped.length})',
+                  'Nicht zugeordnet (${ungrouped.length})',
                   style: const TextStyle(
                     fontFamily: 'Nunito',
                     fontSize: 15,
@@ -207,7 +205,7 @@ class _SeriesBody extends StatelessWidget {
 class _UngroupedCardTile extends ConsumerWidget {
   const _UngroupedCardTile({required this.card});
 
-  final db.AudioCard card;
+  final db.TileItem card;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -270,7 +268,7 @@ class _UngroupedCardTile extends ConsumerWidget {
         context: context,
         builder:
             (ctx) => AlertDialog(
-              title: const Text('Karte entfernen?'),
+              title: const Text('Eintrag entfernen?'),
               content: Text(
                 '„${card.customTitle ?? card.title}" wird '
                 'aus der Sammlung entfernt.',
@@ -283,7 +281,9 @@ class _UngroupedCardTile extends ConsumerWidget {
                 FilledButton(
                   onPressed: () {
                     Navigator.of(ctx).pop();
-                    unawaited(ref.read(cardRepositoryProvider).delete(card.id));
+                    unawaited(
+                      ref.read(tileItemRepositoryProvider).delete(card.id),
+                    );
                   },
                   style: FilledButton.styleFrom(
                     backgroundColor: AppColors.error,
@@ -304,7 +304,7 @@ class _UngroupedCardTile extends ConsumerWidget {
 class _GroupGrid extends ConsumerStatefulWidget {
   const _GroupGrid({required this.groups, this.shrinkWrap = false});
 
-  final List<db.CardGroup> groups;
+  final List<db.Tile> groups;
   final bool shrinkWrap;
 
   @override
@@ -315,7 +315,7 @@ class _GroupGridState extends ConsumerState<_GroupGrid> {
   final _scrollController = ScrollController();
   final _gridViewKey = GlobalKey();
 
-  late List<db.CardGroup> _order;
+  late List<db.Tile> _order;
 
   @override
   void initState() {
@@ -351,7 +351,7 @@ class _GroupGridState extends ConsumerState<_GroupGrid> {
                 ? 4
                 : 5;
 
-        return ReorderableBuilder<db.CardGroup>(
+        return ReorderableBuilder<db.Tile>(
           scrollController: _scrollController,
           longPressDelay: const Duration(milliseconds: 300),
           onReorder: (reorderFn) {
@@ -360,7 +360,7 @@ class _GroupGridState extends ConsumerState<_GroupGrid> {
             });
             unawaited(
               ref
-                  .read(groupRepositoryProvider)
+                  .read(tileRepositoryProvider)
                   .reorder(_order.map((g) => g.id).toList()),
             );
           },
@@ -406,19 +406,19 @@ class _GroupGridState extends ConsumerState<_GroupGrid> {
 class _GroupTile extends ConsumerWidget {
   const _GroupTile({required this.group, super.key});
 
-  final db.CardGroup group;
+  final db.Tile group;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final episodesAsync = ref.watch(groupEpisodesProvider(group.id));
+    final episodesAsync = ref.watch(tileItemsProvider(group.id));
     final count = episodesAsync.whenOrNull(data: (e) => e.length) ?? 0;
 
-    return GroupCard(
+    return TileCard(
       title: group.title,
       episodeCount: count,
       coverUrl: group.coverUrl,
       contentType: group.contentType,
-      onTap: () => context.push(AppRoutes.parentGroupEdit(group.id)),
+      onTap: () => context.push(AppRoutes.parentTileEdit(group.id)),
     );
   }
 }

@@ -5,18 +5,18 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lauschi/core/connectivity/connectivity_provider.dart';
 import 'package:lauschi/core/database/app_database.dart' as db;
-import 'package:lauschi/core/database/card_repository.dart';
-import 'package:lauschi/core/database/group_repository.dart';
+import 'package:lauschi/core/database/tile_item_repository.dart';
+import 'package:lauschi/core/database/tile_repository.dart';
 import 'package:lauschi/core/router/app_router.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
 
-import 'package:lauschi/features/cards/widgets/audio_card.dart';
-import 'package:lauschi/features/cards/widgets/group_card.dart';
+import 'package:lauschi/features/tiles/widgets/audio_tile.dart';
+import 'package:lauschi/features/tiles/widgets/tile_card.dart';
 import 'package:lauschi/features/player/player_provider.dart';
 import 'package:lauschi/features/player/widgets/now_playing_bar.dart';
 
 /// Album playback progress 0.0–1.0 based on stored track position.
-double _albumProgress(db.AudioCard card) {
+double _albumProgress(db.TileItem card) {
   if (card.isHeard || card.totalTracks <= 0 || card.lastTrackNumber <= 0) {
     return 0;
   }
@@ -32,8 +32,8 @@ class KidHomeScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final groupsAsync = ref.watch(allGroupsProvider);
-    final ungroupedAsync = ref.watch(ungroupedCardsProvider);
+    final groupsAsync = ref.watch(allTilesProvider);
+    final ungroupedAsync = ref.watch(ungroupedItemsProvider);
     // Only rebuild for play state / track changes, not position updates.
     final playerState = ref.watch(
       playerProvider.select(
@@ -151,7 +151,7 @@ class KidHomeScreen extends ConsumerWidget {
                           ? (card) => playerNotifier.playCard(card.id)
                           : null,
                   onGroupTap:
-                      (group) => context.push(AppRoutes.groupDetail(group.id)),
+                      (group) => context.push(AppRoutes.tileDetail(group.id)),
                 );
               }),
             ),
@@ -233,13 +233,13 @@ class _HomeGrid extends StatelessWidget {
     required this.onGroupTap,
   });
 
-  final List<db.CardGroup> groups;
-  final List<db.AudioCard> ungrouped;
+  final List<db.Tile> groups;
+  final List<db.TileItem> ungrouped;
   final String? activeUri;
   final bool isPlaying;
   final bool isActive;
-  final void Function(db.AudioCard)? onCardTap;
-  final void Function(db.CardGroup) onGroupTap;
+  final void Function(db.TileItem)? onCardTap;
+  final void Function(db.Tile) onGroupTap;
 
   @override
   Widget build(BuildContext context) {
@@ -269,7 +269,7 @@ class _HomeGrid extends StatelessWidget {
             }
             final card = ungrouped[index - groups.length];
             final isCurrentCard = isActive && activeUri == card.providerUri;
-            return AudioCard(
+            return TileItem(
               key: ValueKey(card.id),
               title: card.customTitle ?? card.title,
               coverUrl: card.coverUrl,
@@ -292,18 +292,18 @@ class _HomeGrid extends StatelessWidget {
 class _GroupGridItem extends ConsumerWidget {
   const _GroupGridItem({required this.group, required this.onTap, super.key});
 
-  final db.CardGroup group;
+  final db.Tile group;
   final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final progressMap = ref.watch(groupProgressProvider);
+    final progressMap = ref.watch(tileProgressProvider);
     final stats = progressMap[group.id];
     final total = stats?.total ?? 0;
     final heard = stats?.heard ?? 0;
     final progress = total > 0 ? (heard / total) : 0.0;
 
-    return GroupCard(
+    return TileCard(
       title: group.title,
       episodeCount: total,
       coverUrl: group.coverUrl,

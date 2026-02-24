@@ -7,8 +7,8 @@ import 'package:go_router/go_router.dart';
 import 'package:lauschi/core/catalog/catalog_service.dart';
 import 'package:lauschi/core/catalog/retroactive_sorter.dart';
 import 'package:lauschi/core/database/app_database.dart' as db;
-import 'package:lauschi/core/database/card_repository.dart';
-import 'package:lauschi/core/database/group_repository.dart';
+import 'package:lauschi/core/database/tile_item_repository.dart';
+import 'package:lauschi/core/database/tile_repository.dart';
 import 'package:lauschi/core/log.dart';
 import 'package:lauschi/core/router/app_router.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
@@ -22,10 +22,10 @@ class ManageCardsScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final groupsAsync = ref.watch(allGroupsProvider);
-    final ungroupedAsync = ref.watch(ungroupedCardsProvider);
+    final groupsAsync = ref.watch(allTilesProvider);
+    final ungroupedAsync = ref.watch(ungroupedItemsProvider);
     final totalCards =
-        ref.watch(allCardsProvider).whenOrNull(data: (c) => c.length) ?? 0;
+        ref.watch(allTileItemsProvider).whenOrNull(data: (c) => c.length) ?? 0;
 
     return Scaffold(
       backgroundColor: AppColors.parentBackground,
@@ -61,8 +61,8 @@ class _GroupedCardList extends ConsumerStatefulWidget {
     required this.ungroupedAsync,
   });
 
-  final AsyncValue<List<db.CardGroup>> groupsAsync;
-  final AsyncValue<List<db.AudioCard>> ungroupedAsync;
+  final AsyncValue<List<db.Tile>> groupsAsync;
+  final AsyncValue<List<db.TileItem>> ungroupedAsync;
 
   @override
   ConsumerState<_GroupedCardList> createState() => _GroupedCardListState();
@@ -108,7 +108,7 @@ class _GroupedCardListState extends ConsumerState<_GroupedCardList> {
           SliverToBoxAdapter(
             child: _SectionHeader(
               key: _ungroupedKey,
-              title: 'Ohne Serie',
+              title: 'Nicht zugeordnet',
               subtitle: '${ungrouped.length} Karten',
               icon: Icons.layers_clear_rounded,
             ),
@@ -137,7 +137,7 @@ class _GroupedCardListState extends ConsumerState<_GroupedCardList> {
 class _GroupSection extends ConsumerWidget {
   const _GroupSection({required this.group});
 
-  final db.CardGroup group;
+  final db.Tile group;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -156,7 +156,7 @@ class _GroupSection extends ConsumerWidget {
             group.contentType == 'music'
                 ? Icons.music_note_rounded
                 : Icons.auto_stories_rounded,
-        onTap: () => context.push(AppRoutes.parentGroupEdit(group.id)),
+        onTap: () => context.push(AppRoutes.parentTileEdit(group.id)),
         onDelete: () => _confirmDeleteGroup(context, ref, group, cardCount),
       ),
     );
@@ -164,15 +164,15 @@ class _GroupSection extends ConsumerWidget {
 }
 
 /// Cards for a group — watches the stream so count stays in sync.
-final _groupCardsProvider = StreamProvider.family<List<db.AudioCard>, String>((
+final _groupCardsProvider = StreamProvider.family<List<db.TileItem>, String>((
   ref,
   groupId,
 ) {
-  return ref.watch(groupRepositoryProvider).watchCards(groupId);
+  return ref.watch(tileRepositoryProvider).watchItems(groupId);
 });
 
 // ---------------------------------------------------------------------------
-// Section header (series or "Ohne Serie")
+// Section header (series or "Nicht zugeordnet")
 // ---------------------------------------------------------------------------
 
 class _SectionHeader extends StatelessWidget {
@@ -280,7 +280,7 @@ class _SectionHeader extends StatelessWidget {
 class _CardTile extends ConsumerWidget {
   const _CardTile({required this.card, this.showGroupAssign = false});
 
-  final db.AudioCard card;
+  final db.TileItem card;
 
   /// Show group-assign action (for ungrouped cards).
   final bool showGroupAssign;
@@ -366,7 +366,7 @@ class _CardTile extends ConsumerWidget {
               onPressed: () => _showGroupPicker(context, ref, card),
               icon: const Icon(Icons.layers_rounded, size: 20),
               color: AppColors.primary,
-              tooltip: 'Serie zuweisen',
+              tooltip: 'Kachel zuweisen',
               visualDensity: VisualDensity.compact,
             ),
           IconButton(
@@ -498,7 +498,7 @@ class _AutoSortBanner extends ConsumerWidget {
 void _confirmDeleteGroup(
   BuildContext context,
   WidgetRef ref,
-  db.CardGroup group,
+  db.Tile group,
   int cardCount,
 ) {
   final label = cardCount == 1 ? '1 Karte' : '$cardCount Karten';
@@ -507,7 +507,7 @@ void _confirmDeleteGroup(
       context: context,
       builder:
           (ctx) => AlertDialog(
-            title: const Text('Serie löschen?'),
+            title: const Text('Kachel löschen?'),
             content: Text(
               '„${group.title}" und $label werden '
               'unwiderruflich entfernt.',
@@ -521,9 +521,9 @@ void _confirmDeleteGroup(
                 onPressed: () async {
                   Navigator.of(ctx).pop();
                   final count = await ref
-                      .read(cardRepositoryProvider)
-                      .deleteByGroup(group.id);
-                  await ref.read(groupRepositoryProvider).delete(group.id);
+                      .read(tileItemRepositoryProvider)
+                      .deleteByTile(group.id);
+                  await ref.read(tileRepositoryProvider).delete(group.id);
                   if (context.mounted) {
                     ScaffoldMessenger.of(context)
                       ..clearSnackBars()
@@ -548,7 +548,7 @@ void _confirmDeleteGroup(
   );
 }
 
-void _confirmDelete(BuildContext context, WidgetRef ref, db.AudioCard card) {
+void _confirmDelete(BuildContext context, WidgetRef ref, db.TileItem card) {
   unawaited(
     showDialog<void>(
       context: context,
@@ -566,7 +566,9 @@ void _confirmDelete(BuildContext context, WidgetRef ref, db.AudioCard card) {
               FilledButton(
                 onPressed: () {
                   Navigator.of(ctx).pop();
-                  unawaited(ref.read(cardRepositoryProvider).delete(card.id));
+                  unawaited(
+                    ref.read(tileItemRepositoryProvider).delete(card.id),
+                  );
                   ScaffoldMessenger.of(context)
                     ..clearSnackBars()
                     ..showSnackBar(
@@ -593,7 +595,7 @@ void _confirmDelete(BuildContext context, WidgetRef ref, db.AudioCard card) {
 void _showGroupPicker(
   BuildContext context,
   WidgetRef ref,
-  db.AudioCard card,
+  db.TileItem card,
 ) {
   unawaited(
     showModalBottomSheet<void>(
@@ -610,11 +612,11 @@ void _showGroupPicker(
 class _GroupPickerSheet extends ConsumerWidget {
   const _GroupPickerSheet({required this.card});
 
-  final db.AudioCard card;
+  final db.TileItem card;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final groupsAsync = ref.watch(allGroupsProvider);
+    final groupsAsync = ref.watch(allTilesProvider);
 
     // Drag handle is provided by BottomSheetThemeData.showDragHandle.
     return SafeArea(
@@ -629,7 +631,7 @@ class _GroupPickerSheet extends ConsumerWidget {
               AppSpacing.md,
             ),
             child: Text(
-              'Serie zuweisen',
+              'Kachel zuweisen',
               style: TextStyle(
                 fontFamily: 'Nunito',
                 fontSize: 17,
@@ -644,13 +646,13 @@ class _GroupPickerSheet extends ConsumerWidget {
                 color: AppColors.textSecondary,
               ),
               title: const Text(
-                'Aus Serie entfernen',
+                'Aus Kachel entfernen',
                 style: TextStyle(fontFamily: 'Nunito'),
               ),
               onTap: () {
                 Navigator.of(context).pop();
                 unawaited(
-                  ref.read(cardRepositoryProvider).removeFromGroup(card.id),
+                  ref.read(tileItemRepositoryProvider).removeFromTile(card.id),
                 );
               },
             ),
@@ -670,7 +672,7 @@ class _GroupPickerSheet extends ConsumerWidget {
                             crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: [
                               const Text(
-                                'Noch keine Serien vorhanden.',
+                                'Noch keine Kacheln vorhanden.',
                                 style: TextStyle(
                                   fontFamily: 'Nunito',
                                   color: AppColors.textSecondary,
@@ -681,11 +683,11 @@ class _GroupPickerSheet extends ConsumerWidget {
                                 onPressed: () {
                                   Navigator.of(context).pop();
                                   unawaited(
-                                    context.push(AppRoutes.parentManageGroups),
+                                    context.push(AppRoutes.parentManageTiles),
                                   );
                                 },
                                 icon: const Icon(Icons.add_rounded),
-                                label: const Text('Serie erstellen'),
+                                label: const Text('Kachel erstellen'),
                               ),
                             ],
                           ),
@@ -725,10 +727,10 @@ class _GroupPickerSheet extends ConsumerWidget {
                                       Navigator.of(context).pop();
                                       unawaited(
                                         ref
-                                            .read(cardRepositoryProvider)
-                                            .assignToGroup(
-                                              cardId: card.id,
-                                              groupId: group.id,
+                                            .read(tileItemRepositoryProvider)
+                                            .assignToTile(
+                                              itemId: card.id,
+                                              tileId: group.id,
                                             ),
                                       );
                                     },
@@ -743,7 +745,7 @@ class _GroupPickerSheet extends ConsumerWidget {
                                 color: AppColors.primary,
                               ),
                               title: const Text(
-                                'Neue Serie erstellen',
+                                'Neue Kachel erstellen',
                                 style: TextStyle(
                                   fontFamily: 'Nunito',
                                   color: AppColors.primary,
@@ -774,7 +776,7 @@ class _GroupPickerSheet extends ConsumerWidget {
 void _createAndAssign(
   BuildContext context,
   WidgetRef ref,
-  db.AudioCard card,
+  db.TileItem card,
 ) {
   final controller = TextEditingController();
   unawaited(
@@ -782,7 +784,7 @@ void _createAndAssign(
       context: context,
       builder:
           (ctx) => AlertDialog(
-            title: const Text('Neue Serie'),
+            title: const Text('Neue Kachel'),
             content: TextField(
               controller: controller,
               autofocus: true,
@@ -795,11 +797,11 @@ void _createAndAssign(
                 Navigator.of(ctx).pop();
                 Navigator.of(context).pop(); // close bottom sheet
                 final groupId = await ref
-                    .read(groupRepositoryProvider)
+                    .read(tileRepositoryProvider)
                     .insert(title: title);
                 await ref
-                    .read(cardRepositoryProvider)
-                    .assignToGroup(cardId: card.id, groupId: groupId);
+                    .read(tileItemRepositoryProvider)
+                    .assignToTile(itemId: card.id, tileId: groupId);
               },
             ),
             actions: [
@@ -814,11 +816,11 @@ void _createAndAssign(
                   Navigator.of(ctx).pop();
                   Navigator.of(context).pop(); // close bottom sheet
                   final groupId = await ref
-                      .read(groupRepositoryProvider)
+                      .read(tileRepositoryProvider)
                       .insert(title: title);
                   await ref
-                      .read(cardRepositoryProvider)
-                      .assignToGroup(cardId: card.id, groupId: groupId);
+                      .read(tileItemRepositoryProvider)
+                      .assignToTile(itemId: card.id, tileId: groupId);
                 },
                 child: const Text('Erstellen'),
               ),
@@ -859,7 +861,7 @@ class _SortResultDialog extends StatelessWidget {
           ..sort((a, b) => seriesMatches[b]!.compareTo(seriesMatches[a]!));
 
     return AlertDialog(
-      title: const Text('Serien einordnen'),
+      title: const Text('Kacheln sortieren'),
       content: SizedBox(
         width: double.maxFinite,
         child: Column(
@@ -868,7 +870,7 @@ class _SortResultDialog extends StatelessWidget {
           children: [
             Text(
               '$totalMatched Karten zu $seriesCount '
-              '${seriesCount == 1 ? 'Serie' : 'Serien'} sortiert.',
+              '${seriesCount == 1 ? 'Kachel' : 'Kacheln'} sortiert.',
               style: const TextStyle(
                 fontFamily: 'Nunito',
                 fontSize: 14,
@@ -917,7 +919,7 @@ class _SortResultDialog extends StatelessWidget {
                     onTap: () {
                       Navigator.of(context).pop();
                       unawaited(
-                        context.push(AppRoutes.parentGroupEdit(groupId)),
+                        context.push(AppRoutes.parentTileEdit(groupId)),
                       );
                     },
                   );
@@ -972,8 +974,8 @@ Future<void> _runRetroactiveSort(BuildContext context, WidgetRef ref) async {
   try {
     final result = await runRetroactiveSort(
       catalog: catalog,
-      cardRepo: ref.read(cardRepositoryProvider),
-      groupRepo: ref.read(groupRepositoryProvider),
+      cardRepo: ref.read(tileItemRepositoryProvider),
+      groupRepo: ref.read(tileRepositoryProvider),
     );
 
     if (context.mounted) Navigator.of(context).pop();
@@ -985,11 +987,11 @@ Future<void> _runRetroactiveSort(BuildContext context, WidgetRef ref) async {
             context: context,
             builder:
                 (_) => AlertDialog(
-                  title: const Text('Serien einordnen'),
+                  title: const Text('Kacheln sortieren'),
                   content: const Text(
                     'Keine Karten konnten zugeordnet werden.\n'
-                    'Tipp: Karten ohne Serienname im Titel müssen '
-                    'manuell einer Serie zugewiesen werden.',
+                    'Tipp: Karten ohne Kachelname im Titel müssen '
+                    'manuell einer Kachel zugewiesen werden.',
                   ),
                   actions: [
                     FilledButton(

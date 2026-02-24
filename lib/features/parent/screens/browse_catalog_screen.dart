@@ -6,9 +6,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lauschi/core/catalog/catalog_service.dart';
 import 'package:lauschi/core/database/app_database.dart' as db;
-import 'package:lauschi/core/database/card_repository.dart';
+import 'package:lauschi/core/database/tile_item_repository.dart';
 import 'package:lauschi/core/database/content_importer.dart';
-import 'package:lauschi/core/database/group_repository.dart';
+import 'package:lauschi/core/database/tile_repository.dart';
 import 'package:lauschi/core/log.dart';
 import 'package:lauschi/core/router/app_router.dart';
 import 'package:lauschi/core/spotify/spotify_api.dart';
@@ -26,12 +26,12 @@ const _tag = 'BrowseCatalog';
 /// When the user types a query, the grid is replaced by live Spotify results.
 /// This replaces the old separate AddCardScreen for the general add flow.
 ///
-/// When [autoAssignGroupId] is set (via GroupEditScreen FAB), every added
+/// When [autoAssignTileId] is set (via TileEditScreen FAB), every added
 /// card is silently assigned to that group.
 class BrowseCatalogScreen extends ConsumerStatefulWidget {
-  const BrowseCatalogScreen({super.key, this.autoAssignGroupId});
+  const BrowseCatalogScreen({super.key, this.autoAssignTileId});
 
-  final String? autoAssignGroupId;
+  final String? autoAssignTileId;
 
   @override
   ConsumerState<BrowseCatalogScreen> createState() =>
@@ -55,7 +55,7 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen> {
   // Add state
   final _addedUris = <String>{};
   final _createdSeriesTitles = <String>{};
-  db.CardGroup? _autoGroup;
+  db.Tile? _autoGroup;
 
   // Snackbar batching
   Timer? _snackTimer;
@@ -64,7 +64,7 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen> {
   String _lastSeriesTitle = '';
 
   bool get _isSearchActive => _searchController.text.trim().isNotEmpty;
-  bool get _isAutoAssignMode => widget.autoAssignGroupId != null;
+  bool get _isAutoAssignMode => widget.autoAssignTileId != null;
 
   @override
   void initState() {
@@ -85,8 +85,8 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen> {
   }
 
   Future<void> _loadExistingUris() async {
-    final all = await ref.read(cardRepositoryProvider).getAll();
-    final groups = await ref.read(groupRepositoryProvider).getAll();
+    final all = await ref.read(tileItemRepositoryProvider).getAll();
+    final groups = await ref.read(tileRepositoryProvider).getAll();
     if (mounted) {
       setState(() {
         _addedUris.addAll(all.map((c) => c.providerUri));
@@ -99,8 +99,8 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen> {
 
   Future<void> _loadAutoGroup() async {
     final group = await ref
-        .read(groupRepositoryProvider)
-        .getById(widget.autoAssignGroupId!);
+        .read(tileRepositoryProvider)
+        .getById(widget.autoAssignTileId!);
     if (mounted) setState(() => _autoGroup = group);
   }
 
@@ -224,7 +224,7 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen> {
 
   Future<void> _handleAddTap(SpotifyAlbum album, CatalogMatch? match) async {
     if (_isAutoAssignMode) {
-      await _addAndAssign(album, widget.autoAssignGroupId!, match);
+      await _addAndAssign(album, widget.autoAssignTileId!, match);
       return;
     }
 
@@ -240,7 +240,7 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen> {
   Future<void> _handleAddAll(String seriesTitle) async {
     final groupId =
         _isAutoAssignMode
-            ? widget.autoAssignGroupId!
+            ? widget.autoAssignTileId!
             : await _findOrCreateGroup(seriesTitle);
     if (!mounted) return;
     var count = 0;
@@ -267,7 +267,7 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen> {
   }
 
   Future<String> _findOrCreateGroup(String seriesTitle) async {
-    final groupRepo = ref.read(groupRepositoryProvider);
+    final groupRepo = ref.read(tileRepositoryProvider);
     final existing = await groupRepo.findByTitle(seriesTitle);
     if (existing != null) return existing.id;
     return groupRepo.insert(title: seriesTitle);
@@ -281,7 +281,7 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen> {
     bool silent = false,
   }) async {
     final cardId = await ref
-        .read(cardRepositoryProvider)
+        .read(tileItemRepositoryProvider)
         .insertIfAbsent(
           title: album.name,
           providerUri: album.uri,
@@ -291,10 +291,10 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen> {
           totalTracks: album.totalTracks,
         );
     await ref
-        .read(cardRepositoryProvider)
-        .assignToGroup(
-          cardId: cardId,
-          groupId: groupId,
+        .read(tileItemRepositoryProvider)
+        .assignToTile(
+          itemId: cardId,
+          tileId: groupId,
           episodeNumber: match?.episodeNumber,
         );
     if (!mounted) return;
@@ -323,9 +323,9 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen> {
               action: SnackBarAction(
                 label: 'Rückgängig',
                 onPressed: () {
-                  final repo = ref.read(cardRepositoryProvider);
+                  final repo = ref.read(tileItemRepositoryProvider);
                   for (final id in ids) {
-                    unawaited(repo.removeFromGroup(id));
+                    unawaited(repo.removeFromTile(id));
                   }
                 },
               ),
@@ -356,7 +356,7 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen> {
 
   Future<void> _addOnly(SpotifyAlbum album) async {
     await ref
-        .read(cardRepositoryProvider)
+        .read(tileItemRepositoryProvider)
         .insertIfAbsent(
           title: album.name,
           providerUri: album.uri,
@@ -505,7 +505,7 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen> {
           final catalogAlbum =
               series.albums.where((a) => a.spotifyId == album.id).firstOrNull;
           final cardId = await ref
-              .read(cardRepositoryProvider)
+              .read(tileItemRepositoryProvider)
               .insertIfAbsent(
                 title: album.name,
                 providerUri: album.uri,
@@ -515,10 +515,10 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen> {
                 totalTracks: album.totalTracks,
               );
           await ref
-              .read(cardRepositoryProvider)
-              .assignToGroup(
-                cardId: cardId,
-                groupId: groupId,
+              .read(tileItemRepositoryProvider)
+              .assignToTile(
+                itemId: cardId,
+                tileId: groupId,
                 episodeNumber: catalogAlbum?.episode,
               );
           added++;
@@ -550,7 +550,7 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen> {
     // progressNotifier is a local ValueNotifier — GC handles cleanup
     // after the dialog's listener detaches. Explicit dispose() races
     // with the pop animation.
-    if (mounted) unawaited(context.push(AppRoutes.parentGroupEdit(groupId)));
+    if (mounted) unawaited(context.push(AppRoutes.parentTileEdit(groupId)));
   }
 
   Future<void> _addSeriesFromSearch(CatalogSeries series) async {
@@ -566,7 +566,7 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen> {
       if (match?.series.id != series.id) continue;
 
       final cardId = await ref
-          .read(cardRepositoryProvider)
+          .read(tileItemRepositoryProvider)
           .insertIfAbsent(
             title: album.name,
             providerUri: album.uri,
@@ -576,10 +576,10 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen> {
             totalTracks: album.totalTracks,
           );
       await ref
-          .read(cardRepositoryProvider)
-          .assignToGroup(
-            cardId: cardId,
-            groupId: groupId,
+          .read(tileItemRepositoryProvider)
+          .assignToTile(
+            itemId: cardId,
+            tileId: groupId,
             episodeNumber: match?.episodeNumber,
           );
       if (mounted) setState(() => _addedUris.add(album.uri));
@@ -592,7 +592,7 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen> {
       data: {'series': series.id, 'added': count},
     );
 
-    if (mounted) unawaited(context.push(AppRoutes.parentGroupEdit(groupId)));
+    if (mounted) unawaited(context.push(AppRoutes.parentTileEdit(groupId)));
   }
 
   // ---------------------------------------------------------------------------
@@ -795,7 +795,7 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen> {
     if (series.isEmpty) {
       return const Center(
         child: Text(
-          'Noch keine Serien im Katalog.',
+          'Noch keine Kacheln im Katalog.',
           style: TextStyle(color: AppColors.textSecondary),
         ),
       );
@@ -827,7 +827,7 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen> {
                 ),
                 SizedBox(height: 2),
                 Text(
-                  'Tippe auf eine Serie zum Hinzufügen',
+                  'Tippe auf eine Kachel zum Hinzufügen',
                   style: TextStyle(
                     fontFamily: 'Nunito',
                     fontSize: 13,
@@ -1088,7 +1088,7 @@ class _AutoAssignBanner extends StatelessWidget {
             child: Text(
               groupTitle != null
                   ? 'Folgen werden direkt zu »$groupTitle« hinzugefügt'
-                  : 'Folgen werden direkt zur Serie hinzugefügt',
+                  : 'Folgen werden direkt zur Kachel hinzugefügt',
               style: const TextStyle(
                 fontFamily: 'Nunito',
                 fontSize: 13,
@@ -1113,7 +1113,7 @@ class _CuratedSeriesCard extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final coverMap = ref.watch(_seriesCoverMapProvider).value ?? {};
-    final existingUris = ref.watch(existingCardUrisProvider);
+    final existingUris = ref.watch(existingItemUrisProvider);
     final firstAlbumId =
         series.albums.isNotEmpty ? series.albums.first.spotifyId : null;
     // Curated cover_url from YAML takes priority over album art.
@@ -1132,14 +1132,14 @@ class _CuratedSeriesCard extends ConsumerWidget {
       onTap: () {
         if (allAdded) {
           // All episodes already added — find the group and navigate there.
-          final groups = ref.read(allGroupsProvider).value ?? [];
+          final groups = ref.read(allTilesProvider).value ?? [];
           final matchingGroup = groups.where(
             (g) => g.title.toLowerCase() == series.title.toLowerCase(),
           );
           if (matchingGroup.isNotEmpty) {
             unawaited(
               context.push(
-                AppRoutes.parentGroupEdit(matchingGroup.first.id),
+                AppRoutes.parentTileEdit(matchingGroup.first.id),
               ),
             );
             return;
@@ -1266,7 +1266,7 @@ class _CatalogSeriesDetailScreenState
     setState(() {
       _selectAll = !_selectAll;
       if (_selectAll) {
-        final uris = ref.read(existingCardUrisProvider);
+        final uris = ref.read(existingItemUrisProvider);
         _selected.addAll(
           series.albums
               .where(
@@ -1397,8 +1397,8 @@ class _CatalogSeriesDetailScreenState
 
   @override
   Widget build(BuildContext context) {
-    final existingUris = ref.watch(existingCardUrisProvider);
-    final cardsLoaded = ref.watch(allCardsProvider).hasValue;
+    final existingUris = ref.watch(existingItemUrisProvider);
+    final cardsLoaded = ref.watch(allTileItemsProvider).hasValue;
     final catalogAsync = ref.watch(catalogServiceProvider);
 
     return catalogAsync.when(
@@ -1415,7 +1415,7 @@ class _CatalogSeriesDetailScreenState
         if (series == null) {
           return Scaffold(
             appBar: AppBar(title: const Text('Nicht gefunden')),
-            body: const Center(child: Text('Serie nicht gefunden.')),
+            body: const Center(child: Text('Kachel nicht gefunden.')),
           );
         }
 
@@ -1691,7 +1691,7 @@ class _DetectedSeriesCard extends StatelessWidget {
                   ),
                   const SizedBox(height: 2),
                   Text(
-                    alreadyCreated ? 'Serie bereits angelegt' : subtitle,
+                    alreadyCreated ? 'Kachel bereits angelegt' : subtitle,
                     style: const TextStyle(
                       fontFamily: 'Nunito',
                       fontSize: 12,
@@ -1714,7 +1714,7 @@ class _DetectedSeriesCard extends StatelessWidget {
                   minimumSize: Size.zero,
                   tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                 ),
-                child: const Text('Serie anlegen'),
+                child: const Text('Kachel anlegen'),
               ),
           ],
         ),
@@ -1761,7 +1761,7 @@ class _BatchAddBanner extends StatelessWidget {
         ),
         title: Text(
           count == 1
-              ? 'Zur Serie »$seriesTitle« hinzufügen'
+              ? 'Zur Kachel »$seriesTitle« hinzufügen'
               : 'Alle $count Folgen zu »$seriesTitle« hinzufügen',
           style: const TextStyle(
             fontFamily: 'Nunito',

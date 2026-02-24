@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lauschi/core/auth/pin_service.dart';
 import 'package:lauschi/core/spotify/spotify_auth_provider.dart';
-import 'package:lauschi/features/cards/screens/group_detail_screen.dart';
-import 'package:lauschi/features/cards/screens/kid_home_screen.dart';
+import 'package:lauschi/features/tiles/screens/tile_detail_screen.dart';
+import 'package:lauschi/features/tiles/screens/kid_home_screen.dart';
 import 'package:lauschi/features/onboarding/screens/onboarding_provider.dart';
 import 'package:lauschi/features/onboarding/screens/onboarding_screen.dart';
 import 'package:lauschi/features/parent/screens/ard_show_detail_screen.dart';
 import 'package:lauschi/features/parent/screens/browse_catalog_screen.dart';
 import 'package:lauschi/features/parent/screens/discover_screen.dart';
-import 'package:lauschi/features/parent/screens/group_edit_screen.dart';
+import 'package:lauschi/features/parent/screens/tile_edit_screen.dart';
 import 'package:lauschi/features/parent/screens/manage_cards_screen.dart';
-import 'package:lauschi/features/parent/screens/manage_groups_screen.dart';
+import 'package:lauschi/features/parent/screens/manage_tiles_screen.dart';
 import 'package:lauschi/features/parent/screens/nfc_tags_screen.dart';
 import 'package:lauschi/features/parent/screens/parent_dashboard_screen.dart';
 import 'package:lauschi/features/parent/screens/pin_screen.dart';
@@ -30,17 +30,17 @@ abstract final class AppRoutes {
   static const kidHome = '/';
   static const player = '/player';
 
-  // Group/series drill-down
-  static String groupDetail(String groupId) => '/group/$groupId';
+  // Tile drill-down (kid taps a tile on home screen)
+  static String tileDetail(String tileId) => '/tile/$tileId';
 
   // Parent mode (PIN-gated)
   static const parentDashboard = '/parent';
   static const parentManageCards = '/parent/cards';
   static const parentAddCard = '/parent/add-card';
-  static String parentAddCardToGroup(String groupId) =>
-      '/parent/add-card?groupId=$groupId';
-  static const parentManageGroups = '/parent/groups';
-  static String parentGroupEdit(String groupId) => '/parent/groups/$groupId';
+  static String parentAddCardToTile(String tileId) =>
+      '/parent/add-card?tileId=$tileId';
+  static const parentManageTiles = '/parent/tiles';
+  static String parentTileEdit(String tileId) => '/parent/tiles/$tileId';
   static const parentSettings = '/parent/settings';
   static const parentNfcTags = '/parent/nfc-tags';
   static const parentCatalog = '/parent/catalog';
@@ -85,10 +85,10 @@ GoRouter createRouter(Ref ref, {String initialLocation = AppRoutes.kidHome}) {
             builder: (context, state) => const PlayerScreen(),
           ),
           GoRoute(
-            path: 'group/:id',
+            path: 'tile/:id',
             builder: (context, state) {
-              final groupId = state.pathParameters['id']!;
-              return GroupDetailScreen(groupId: groupId);
+              final tileId = state.pathParameters['id']!;
+              return TileDetailScreen(tileId: tileId);
             },
           ),
         ],
@@ -113,18 +113,18 @@ GoRouter createRouter(Ref ref, {String initialLocation = AppRoutes.kidHome}) {
             path: 'add-card',
             builder:
                 (context, state) => BrowseCatalogScreen(
-                  autoAssignGroupId: state.uri.queryParameters['groupId'],
+                  autoAssignTileId: state.uri.queryParameters['tileId'],
                 ),
           ),
           GoRoute(
-            path: 'groups',
-            builder: (context, state) => const ManageGroupsScreen(),
+            path: 'tiles',
+            builder: (context, state) => const ManageTilesScreen(),
             routes: [
               GoRoute(
                 path: ':id',
                 builder: (context, state) {
-                  final groupId = state.pathParameters['id']!;
-                  return GroupEditScreen(groupId: groupId);
+                  final tileId = state.pathParameters['id']!;
+                  return TileEditScreen(tileId: tileId);
                 },
               ),
             ],

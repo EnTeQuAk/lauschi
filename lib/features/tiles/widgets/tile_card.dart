@@ -4,10 +4,10 @@ import 'package:lauschi/core/theme/app_theme.dart';
 
 /// A series/group card in the kid-mode grid.
 ///
-/// Visually distinct from AudioCard: a stacked card effect signals
+/// Visually distinct from TileItem: a stacked card effect signals
 /// there are multiple episodes inside. Tap to drill into the series.
-class GroupCard extends StatefulWidget {
-  const GroupCard({
+class TileCard extends StatefulWidget {
+  const TileCard({
     required this.title,
     required this.episodeCount,
     required this.onTap,
@@ -37,10 +37,10 @@ class GroupCard extends StatefulWidget {
   final bool kidMode;
 
   @override
-  State<GroupCard> createState() => _GroupCardState();
+  State<TileCard> createState() => _GroupCardState();
 }
 
-class _GroupCardState extends State<GroupCard>
+class _GroupCardState extends State<TileCard>
     with SingleTickerProviderStateMixin {
   late final AnimationController _controller;
   late final Animation<double> _scaleAnimation;
@@ -211,7 +211,7 @@ class _StackedArt extends StatelessWidget {
                   if (!isMusic) ...[
                     const SizedBox(width: 2),
                     const Text(
-                      'Serie',
+                      'Kachel',
                       style: TextStyle(
                         fontFamily: 'Nunito',
                         fontSize: 9,

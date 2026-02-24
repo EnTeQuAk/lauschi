@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
-import 'package:lauschi/core/database/card_repository.dart';
-import 'package:lauschi/core/database/group_repository.dart';
+import 'package:lauschi/core/database/tile_item_repository.dart';
+import 'package:lauschi/core/database/tile_repository.dart';
 import 'package:lauschi/core/log.dart';
 import 'package:lauschi/core/spotify/spotify_api.dart';
 
@@ -26,7 +26,7 @@ const seedAlbumIds = [
 /// Idempotent — skips albums already in the collection.
 /// Only available in debug builds.
 Future<void> seedTestContent({
-  required CardRepository cards,
+  required TileItemRepository cards,
   required SpotifyApi api,
 }) async {
   if (!kDebugMode) {
@@ -95,8 +95,8 @@ const _ardSeedItems = [
 /// Idempotent — skips items already in the collection.
 /// Only available in debug builds.
 Future<void> seedArdTestContent({
-  required CardRepository cards,
-  required GroupRepository groups,
+  required TileItemRepository cards,
+  required TileRepository groups,
 }) async {
   if (!kDebugMode) return;
 
@@ -121,7 +121,7 @@ Future<void> seedArdTestContent({
       audioUrl: item.audioUrl,
       coverUrl: item.coverUrl,
       durationMs: item.durationMs,
-      groupId: groupId,
+      tileId: groupId,
     );
     if (existing == null) added++;
   }

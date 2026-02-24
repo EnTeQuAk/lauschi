@@ -5,7 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lauschi/core/auth/pin_service.dart';
 import 'package:lauschi/core/catalog/catalog_service.dart';
-import 'package:lauschi/core/database/group_repository.dart';
+import 'package:lauschi/core/database/tile_repository.dart';
 import 'package:lauschi/core/router/app_router.dart';
 import 'package:lauschi/core/settings/debug_settings.dart';
 import 'package:lauschi/core/spotify/spotify_auth_provider.dart';
@@ -13,9 +13,9 @@ import 'package:lauschi/core/theme/app_theme.dart';
 
 String _catalogSubtitle(WidgetRef ref) {
   final catalog = ref.watch(catalogServiceProvider).value;
-  if (catalog == null) return 'Serien und Hörspiele durchstöbern';
+  if (catalog == null) return 'Hörspiele durchstöbern';
   final count = catalog.all.where((s) => s.hasCuratedAlbums).length;
-  return '$count Serien + ARD Audiothek';
+  return '$count Kacheln + ARD Audiothek';
 }
 
 /// Parent mode dashboard — editorial settings UI behind PIN gate.
@@ -27,9 +27,8 @@ class ParentDashboardScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final authState = ref.watch(spotifyAuthProvider);
-    final groupsAsync = ref.watch(allGroupsProvider);
-    final groupCount =
-        groupsAsync.whenOrNull(data: (groups) => groups.length) ?? 0;
+    final tilesAsync = ref.watch(allTilesProvider);
+    final tileCount = tilesAsync.whenOrNull(data: (tiles) => tiles.length) ?? 0;
     final nfcEnabled =
         ref
             .watch(debugSettingsProvider)
@@ -56,11 +55,11 @@ class ParentDashboardScreen extends ConsumerWidget {
           _SettingsTile(
             icon: Icons.library_music_rounded,
             title:
-                groupCount > 0
-                    ? '$groupCount Serien verwalten'
-                    : 'Serien verwalten',
-            subtitle: 'Serien sortieren, Karten zuweisen',
-            onTap: () => context.push(AppRoutes.parentManageGroups),
+                tileCount > 0
+                    ? '$tileCount Kacheln verwalten'
+                    : 'Kacheln verwalten',
+            subtitle: 'Kacheln verwalten und sortieren',
+            onTap: () => context.push(AppRoutes.parentManageTiles),
           ),
           const Divider(indent: 56),
           _SettingsTile(
@@ -108,7 +107,7 @@ class ParentDashboardScreen extends ConsumerWidget {
             _SettingsTile(
               icon: Icons.logout_rounded,
               title: 'Spotify trennen',
-              subtitle: 'Konto wechseln (Serien bleiben erhalten)',
+              subtitle: 'Konto wechseln (Kacheln bleiben erhalten)',
               onTap: () => _confirmSpotifyDisconnect(context, ref),
             ),
           ],

@@ -1,6 +1,6 @@
 import 'package:lauschi/core/catalog/catalog_service.dart';
-import 'package:lauschi/core/database/card_repository.dart';
-import 'package:lauschi/core/database/group_repository.dart';
+import 'package:lauschi/core/database/tile_item_repository.dart';
+import 'package:lauschi/core/database/tile_repository.dart';
 import 'package:lauschi/core/log.dart';
 
 const _tag = 'RetroactiveSorter';
@@ -35,8 +35,8 @@ class SortResult {
 /// describing what was matched.
 Future<SortResult> runRetroactiveSort({
   required CatalogService catalog,
-  required CardRepository cardRepo,
-  required GroupRepository groupRepo,
+  required TileItemRepository cardRepo,
+  required TileRepository groupRepo,
 }) async {
   final ungrouped = await cardRepo.getUngrouped();
   final grouped = <String, String>{}; // seriesTitle → groupId
@@ -56,9 +56,9 @@ Future<SortResult> runRetroactiveSort({
       grouped[title] = existing?.id ?? await groupRepo.insert(title: title);
     }
 
-    await cardRepo.assignToGroup(
-      cardId: card.id,
-      groupId: grouped[title]!,
+    await cardRepo.assignToTile(
+      itemId: card.id,
+      tileId: grouped[title]!,
       episodeNumber: match.episodeNumber,
     );
     groupedCounts[title] = (groupedCounts[title] ?? 0) + 1;
