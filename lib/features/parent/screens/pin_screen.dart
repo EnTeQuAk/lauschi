@@ -10,14 +10,18 @@ import 'package:lauschi/core/theme/app_theme.dart';
 
 /// PIN entry screen for parent mode access.
 ///
-/// Two modes:
+/// Three modes:
 /// - **verify**: Enter existing PIN to unlock parent mode.
-/// - **setup**: Set a new PIN (first-time use or change).
+/// - **setup**: Set a new PIN (first-time use).
+/// - **change**: Verify current PIN, then set a new one.
 class PinScreen extends ConsumerStatefulWidget {
-  const PinScreen({super.key, this.isSetup = false});
+  const PinScreen({super.key, this.isSetup = false, this.isChange = false});
 
   /// If true, prompts user to set a new PIN instead of verifying.
   final bool isSetup;
+
+  /// If true, verifies the current PIN first, then allows setting a new one.
+  final bool isChange;
 
   @override
   ConsumerState<PinScreen> createState() => _PinScreenState();
@@ -30,6 +34,7 @@ class _PinScreenState extends ConsumerState<PinScreen>
   late final Animation<double> _shakeAnimation;
   bool _error = false;
   String? _firstPin; // For setup: stores first entry to confirm
+  bool _changeVerified = false; // For change: current PIN verified
 
   static const _pinLength = 4;
 
@@ -51,17 +56,22 @@ class _PinScreenState extends ConsumerState<PinScreen>
     super.dispose();
   }
 
-  bool get _isConfirming => widget.isSetup && _firstPin != null;
+  bool get _isSettingUp =>
+      widget.isSetup || (widget.isChange && _changeVerified);
+
+  bool get _isConfirming => _isSettingUp && _firstPin != null;
 
   String get _title {
-    if (widget.isSetup) {
-      return _isConfirming ? 'PIN bestätigen' : 'PIN festlegen';
+    if (widget.isChange && !_changeVerified) return 'Aktuelle PIN';
+    if (_isSettingUp) {
+      return _isConfirming ? 'PIN bestätigen' : 'Neue PIN festlegen';
     }
     return 'Eltern-Bereich';
   }
 
   String get _subtitle {
-    if (widget.isSetup) {
+    if (widget.isChange && !_changeVerified) return 'Bitte zuerst bestätigen';
+    if (_isSettingUp) {
       return _isConfirming ? 'Nochmal eingeben' : 'Wähle eine 4-stellige PIN';
     }
     return 'PIN eingeben';
@@ -78,11 +88,27 @@ class _PinScreenState extends ConsumerState<PinScreen>
     if (_pin.length == _pinLength) {
       final pinStr = _pin.map((d) => d.toString()).join();
 
-      if (widget.isSetup) {
+      if (widget.isChange && !_changeVerified) {
+        await _handleChangeVerify(pinStr);
+      } else if (_isSettingUp) {
         await _handleSetup(pinStr);
       } else {
         await _handleVerify(pinStr);
       }
+    }
+  }
+
+  Future<void> _handleChangeVerify(String pinStr) async {
+    final pinService = ref.read(pinServiceProvider);
+    final valid = await pinService.verifyPin(pinStr);
+
+    if (valid) {
+      setState(() {
+        _changeVerified = true;
+        _pin.clear();
+      });
+    } else {
+      await _showError();
     }
   }
 
