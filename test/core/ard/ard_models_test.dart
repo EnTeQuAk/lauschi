@@ -1,7 +1,53 @@
+import 'dart:ui' show Color;
+
 import 'package:flutter_test/flutter_test.dart';
+import 'package:lauschi/core/ard/ard_helpers.dart';
 import 'package:lauschi/core/ard/ard_models.dart';
 
 void main() {
+  group('parseHexColor', () {
+    test('parses valid hex color', () {
+      expect(parseHexColor('#FF6B00'), const Color(0xFFFF6B00));
+      expect(parseHexColor('#003480'), const Color(0xFF003480));
+    });
+
+    test('returns null for invalid input', () {
+      expect(parseHexColor(null), isNull);
+      expect(parseHexColor(''), isNull);
+      expect(parseHexColor('#ZZZ'), isNull);
+    });
+  });
+
+  group('ArdGroup', () {
+    test('parses from JSON', () {
+      final json = <String, dynamic>{
+        'title': 'Superhelden :',
+        'type': 'MULTIPART',
+        'count': 5,
+      };
+      final group = ArdGroup.fromJson(json);
+      expect(group.title, 'Superhelden :');
+      expect(group.type, 'MULTIPART');
+      expect(group.count, 5);
+    });
+
+    test('displayTitle strips trailing colon', () {
+      final group = ArdGroup.fromJson(<String, dynamic>{
+        'title': 'Superhelden :',
+        'type': 'MULTIPART',
+        'count': 5,
+      });
+      expect(group.displayTitle, 'Superhelden');
+    });
+
+    test('displayTitle preserves clean titles', () {
+      final group = ArdGroup.fromJson(<String, dynamic>{
+        'title': 'Die große Reise',
+      });
+      expect(group.displayTitle, 'Die große Reise');
+    });
+  });
+
   group('ArdProgramSet.fromJson', () {
     test('parses new fields from JSON', () {
       final json = <String, dynamic>{
@@ -95,6 +141,45 @@ void main() {
 
       expect(item.titleClean, isNull);
       expect(item.displayTitle, 'Pumuckl und der verstauchte Daumen');
+    });
+
+    test('parses groupId and group from JSON', () {
+      final json = <String, dynamic>{
+        'id': 10458067,
+        'title': 'Superhelden (1/5): Turnverein',
+        'titleClean': 'Superhelden: Turnverein',
+        'publishDate': '2025-02-25T00:00:00Z',
+        'episodeNumber': 1,
+        'groupId': '10458067',
+        'group': {
+          'title': 'Superhelden :',
+          'type': 'MULTIPART',
+          'count': 5,
+        },
+        'audios': <dynamic>[],
+      };
+
+      final item = ArdItem.fromJson(json);
+
+      expect(item.groupId, '10458067');
+      expect(item.group, isNotNull);
+      expect(item.group!.displayTitle, 'Superhelden');
+      expect(item.group!.count, 5);
+      expect(item.group!.type, 'MULTIPART');
+    });
+
+    test('handles missing group fields', () {
+      final json = <String, dynamic>{
+        'id': 123,
+        'title': 'Standalone episode',
+        'publishDate': '2025-02-25T00:00:00Z',
+        'audios': <dynamic>[],
+      };
+
+      final item = ArdItem.fromJson(json);
+
+      expect(item.groupId, isNull);
+      expect(item.group, isNull);
     });
   });
 }

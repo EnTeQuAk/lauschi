@@ -11,9 +11,10 @@ const _tag = 'ArdApi';
 /// Standard fields included in all Item queries.
 const _itemFields = '''
   id title titleClean synopsis duration publishDate endDate
-  episodeNumber isPublished
+  episodeNumber isPublished groupId
   image { url url1X1 }
   programSet { title }
+  group { title type count }
   audios { url mimeType }
 ''';
 

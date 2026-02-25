@@ -1,16 +1,17 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'package:lauschi/core/ard/ard_api.dart';
+import 'package:lauschi/core/ard/ard_helpers.dart';
 import 'package:lauschi/core/ard/ard_image.dart';
 import 'package:lauschi/core/ard/ard_models.dart';
 import 'package:lauschi/core/ard/ard_providers.dart';
-import 'package:lauschi/core/database/tile_item_repository.dart';
 import 'package:lauschi/core/database/content_importer.dart';
+import 'package:lauschi/core/database/tile_item_repository.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
 
-/// Multi-part title regex: "Title (1/2)" → groups: title, part, total.
-final _multiPartRegex = RegExp(r'^(.+?)\s*\((\d+)/(\d+)\)');
+// Multi-part grouping is now handled via item.group from the API.
 
 /// Detail screen for an ARD Audiothek show. Lists episodes with
 /// options to add individual episodes or all at once.
@@ -117,6 +118,48 @@ class _ArdShowDetailScreenState extends ConsumerState<ArdShowDetailScreen> {
     return allItems;
   }
 
+  /// Build episode list with group divider headers inserted at boundaries.
+  List<Widget> _buildGroupedEpisodeList(
+    List<ArdItem> items, {
+    required ArdProgramSet show,
+    required Set<String> existingUris,
+    required bool cardsLoaded,
+    required bool isImporting,
+  }) {
+    final widgets = <Widget>[];
+    String? currentGroupId;
+
+    for (final item in items) {
+      // Insert group header when entering a new group.
+      if (item.groupId != null && item.groupId != currentGroupId) {
+        currentGroupId = item.groupId;
+        final group = item.group;
+        if (group != null) {
+          widgets.add(_GroupHeader(group: group));
+        }
+      } else if (item.groupId == null && currentGroupId != null) {
+        // Leaving a group, reset.
+        currentGroupId = null;
+      }
+
+      final alreadyAdded = existingUris.contains(item.providerUri);
+      final isAdding = _addingUris.contains(item.providerUri);
+
+      widgets.add(
+        _EpisodeTile(
+          item: item,
+          alreadyAdded: alreadyAdded,
+          isAdding: isAdding,
+          enabled: cardsLoaded && !isImporting,
+          onAdd: () => _addEpisode(item, show),
+          showImageUrl: show.imageUrl,
+        ),
+      );
+    }
+
+    return widgets;
+  }
+
   @override
   Widget build(BuildContext context) {
     final existingUris = ref.watch(existingItemUrisProvider);
@@ -154,6 +197,15 @@ class _ArdShowDetailScreenState extends ConsumerState<ArdShowDetailScreen> {
           return CustomScrollView(
             slivers: [
               _ShowHeader(show: show),
+
+              // Synopsis and duration badge between header and episodes.
+              SliverToBoxAdapter(
+                child: _ShowMeta(
+                  show: show,
+                  episodesAsync: episodesAsync,
+                ),
+              ),
+
               episodesAsync.when(
                 loading:
                     () => const SliverFillRemaining(
@@ -167,31 +219,29 @@ class _ArdShowDetailScreenState extends ConsumerState<ArdShowDetailScreen> {
                   final playable =
                       page.items.where((i) => i.bestAudioUrl != null).toList();
 
+                  // Build a flat list of widgets with group dividers
+                  // inserted at group boundaries.
+                  final widgets = _buildGroupedEpisodeList(
+                    playable,
+                    show: show,
+                    existingUris: existingUris,
+                    cardsLoaded: cardsLoaded,
+                    isImporting: isImporting,
+                  );
+
+                  if (page.hasNextPage) {
+                    widgets.add(
+                      _TruncationNotice(
+                        shown: playable.length,
+                        total: page.totalCount,
+                      ),
+                    );
+                  }
+
                   return SliverList(
                     delegate: SliverChildBuilderDelegate(
-                      (context, index) {
-                        if (index == playable.length && page.hasNextPage) {
-                          return _TruncationNotice(
-                            shown: playable.length,
-                            total: page.totalCount,
-                          );
-                        }
-
-                        final item = playable[index];
-                        final alreadyAdded = existingUris.contains(
-                          item.providerUri,
-                        );
-                        final isAdding = _addingUris.contains(item.providerUri);
-
-                        return _EpisodeTile(
-                          item: item,
-                          alreadyAdded: alreadyAdded,
-                          isAdding: isAdding,
-                          enabled: cardsLoaded && !isImporting,
-                          onAdd: () => _addEpisode(item, show),
-                        );
-                      },
-                      childCount: playable.length + (page.hasNextPage ? 1 : 0),
+                      (context, index) => widgets[index],
+                      childCount: widgets.length,
                     ),
                   );
                 },
@@ -279,6 +329,7 @@ class _ShowHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     final imageUrl = ardImageUrl(show.imageUrl, width: 600);
     final subtitle = show.organizationName ?? show.publisher;
+    final brandColor = parseHexColor(show.brandingColor);
 
     return SliverAppBar(
       backgroundColor: AppColors.parentBackground,
@@ -311,11 +362,31 @@ class _ShowHeader extends StatelessWidget {
         ),
         background:
             imageUrl != null
-                ? CachedNetworkImage(
-                  imageUrl: imageUrl,
-                  fit: BoxFit.cover,
-                  color: Colors.black.withAlpha(100),
-                  colorBlendMode: BlendMode.darken,
+                ? Stack(
+                  fit: StackFit.expand,
+                  children: [
+                    CachedNetworkImage(
+                      imageUrl: imageUrl,
+                      fit: BoxFit.cover,
+                    ),
+                    // Gradient overlay: dark top for readability, publisher
+                    // color bloom at the bottom behind the title text.
+                    DecoratedBox(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          stops: const [0.0, 0.5, 0.85, 1.0],
+                          colors: [
+                            Colors.black.withAlpha(40),
+                            Colors.black.withAlpha(120),
+                            (brandColor ?? Colors.black).withAlpha(60),
+                            (brandColor ?? Colors.black).withAlpha(120),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
                 )
                 : null,
       ),
@@ -332,6 +403,7 @@ class _EpisodeTile extends StatelessWidget {
     required this.isAdding,
     required this.enabled,
     required this.onAdd,
+    this.showImageUrl,
   });
 
   final ArdItem item;
@@ -340,15 +412,60 @@ class _EpisodeTile extends StatelessWidget {
   final bool enabled;
   final VoidCallback onAdd;
 
+  /// Fallback image when the episode has no unique artwork.
+  final String? showImageUrl;
+
   @override
   Widget build(BuildContext context) {
-    final daysLeft = _daysUntilExpiry(item.endDate);
-    final multiPart = _multiPartRegex.firstMatch(item.title);
+    final daysLeft = daysUntilExpiry(item.endDate);
+    final episodeImageUrl = ardImageUrl(item.imageUrl, width: 112);
+    final fallbackUrl = ardImageUrl(showImageUrl, width: 112);
 
     return ListTile(
-      // Uniform leading size: all states use a 24×24 icon inside a
-      // fixed 48×48 box to keep text alignment consistent.
-      leading: SizedBox(
+      contentPadding: const EdgeInsets.symmetric(
+        horizontal: AppSpacing.screenH,
+        vertical: 2,
+      ),
+      // Leading: episode artwork thumbnail.
+      leading: ClipRRect(
+        borderRadius: const BorderRadius.all(Radius.circular(8)),
+        child: SizedBox(
+          width: 56,
+          height: 56,
+          child: CachedNetworkImage(
+            imageUrl: episodeImageUrl ?? fallbackUrl ?? '',
+            fit: BoxFit.cover,
+            placeholder:
+                (_, _) => ColoredBox(
+                  color: AppColors.surfaceDim,
+                  child: Center(
+                    child: Text(
+                      item.episodeNumber?.toString() ?? '',
+                      style: const TextStyle(
+                        fontFamily: 'Nunito',
+                        fontSize: 14,
+                        fontWeight: FontWeight.w700,
+                        color: AppColors.textSecondary,
+                      ),
+                    ),
+                  ),
+                ),
+            errorWidget:
+                (_, _, _) => const ColoredBox(
+                  color: AppColors.surfaceDim,
+                  child: Center(
+                    child: Icon(
+                      Icons.headphones_rounded,
+                      size: 20,
+                      color: AppColors.textSecondary,
+                    ),
+                  ),
+                ),
+          ),
+        ),
+      ),
+      // Trailing: add/check/spinner action.
+      trailing: SizedBox(
         width: 48,
         height: 48,
         child: Center(
@@ -375,21 +492,23 @@ class _EpisodeTile extends StatelessWidget {
           fontSize: 14,
           color: alreadyAdded ? AppColors.textSecondary : AppColors.textPrimary,
         ),
+        maxLines: 2,
+        overflow: TextOverflow.ellipsis,
       ),
       subtitle: Row(
         children: [
           Text(
-            _formatDuration(item.duration),
+            formatDuration(item.duration),
             style: const TextStyle(
               fontFamily: 'Nunito',
               fontSize: 12,
               color: AppColors.textSecondary,
             ),
           ),
-          if (multiPart != null) ...[
+          if (item.group != null) ...[
             const SizedBox(width: AppSpacing.sm),
             Text(
-              'Teil ${multiPart.group(2)}/${multiPart.group(3)}',
+              'Teil ${item.episodeNumber ?? "?"}/${item.group!.count ?? "?"}',
               style: const TextStyle(
                 fontFamily: 'Nunito',
                 fontSize: 12,
@@ -465,19 +584,139 @@ class _ExpiryBadge extends StatelessWidget {
   }
 }
 
-// ── Helpers ─────────────────────────────────────────────────────────────────
+// ── Show metadata (synopsis + duration badge) ──────────────────────────────
 
-String _formatDuration(int seconds) {
-  final m = seconds ~/ 60;
-  if (m < 60) return '$m Min.';
-  final h = m ~/ 60;
-  final rm = m % 60;
-  return '${h}h ${rm}m';
+/// Duration category with icon and label.
+({IconData icon, String label}) _durationCategory(int avgSeconds) {
+  final minutes = avgSeconds ~/ 60;
+  if (minutes <= 6) {
+    return (icon: Icons.nightlight_round, label: '~$minutes Min.');
+  } else if (minutes <= 20) {
+    return (icon: Icons.menu_book_rounded, label: '~$minutes Min.');
+  } else if (minutes <= 35) {
+    return (icon: Icons.theater_comedy_rounded, label: '~$minutes Min.');
+  } else {
+    return (icon: Icons.headphones_rounded, label: '~$minutes Min.');
+  }
 }
 
-int? _daysUntilExpiry(DateTime? endDate) {
-  if (endDate == null) return null;
-  final days = endDate.difference(DateTime.now()).inDays;
-  if (days < 0) return null;
-  return days;
+class _ShowMeta extends StatelessWidget {
+  const _ShowMeta({required this.show, required this.episodesAsync});
+
+  final ArdProgramSet show;
+  final AsyncValue<ArdItemPage> episodesAsync;
+
+  @override
+  Widget build(BuildContext context) {
+    final synopsis = show.synopsis;
+
+    // Compute avg duration from loaded episodes.
+    final avgDuration = episodesAsync.whenOrNull(
+      data: (page) {
+        final playable = page.items.where((i) => i.bestAudioUrl != null);
+        if (playable.isEmpty) return null;
+        final total = playable.fold<int>(0, (sum, i) => sum + i.duration);
+        return total ~/ playable.length;
+      },
+    );
+
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(
+        AppSpacing.screenH,
+        AppSpacing.md,
+        AppSpacing.screenH,
+        AppSpacing.sm,
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Duration badge
+          if (avgDuration != null && avgDuration > 0) ...[
+            () {
+              final cat = _durationCategory(avgDuration);
+              return Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: AppSpacing.sm,
+                  vertical: 3,
+                ),
+                decoration: BoxDecoration(
+                  color: AppColors.surfaceDim,
+                  borderRadius: const BorderRadius.all(Radius.circular(6)),
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(cat.icon, size: 14, color: AppColors.textSecondary),
+                    const SizedBox(width: 4),
+                    Text(
+                      cat.label,
+                      style: const TextStyle(
+                        fontFamily: 'Nunito',
+                        fontSize: 12,
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.textSecondary,
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            }(),
+            const SizedBox(height: AppSpacing.sm),
+          ],
+          // Synopsis
+          if (synopsis != null && synopsis.isNotEmpty)
+            Text(
+              synopsis,
+              style: const TextStyle(
+                fontFamily: 'Nunito',
+                fontSize: 13,
+                color: AppColors.textSecondary,
+                height: 1.4,
+              ),
+              maxLines: 3,
+              overflow: TextOverflow.ellipsis,
+            ),
+        ],
+      ),
+    );
+  }
+}
+
+// ── Group header ────────────────────────────────────────────────────────────
+
+class _GroupHeader extends StatelessWidget {
+  const _GroupHeader({required this.group});
+  final ArdGroup group;
+
+  @override
+  Widget build(BuildContext context) {
+    final label = group.count != null
+        ? '${group.displayTitle}  ·  ${group.count} Teile'
+        : group.displayTitle;
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppSpacing.screenH,
+        vertical: AppSpacing.sm,
+      ),
+      child: Row(
+        children: [
+          const Expanded(child: Divider()),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm),
+            child: Text(
+              label,
+              style: const TextStyle(
+                fontFamily: 'Nunito',
+                fontSize: 11,
+                fontWeight: FontWeight.w600,
+                color: AppColors.textSecondary,
+              ),
+            ),
+          ),
+          const Expanded(child: Divider()),
+        ],
+      ),
+    );
+  }
 }
