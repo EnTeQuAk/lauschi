@@ -1,6 +1,7 @@
-/// ARD Playback: NowPlayingBar visibility and controls.
+/// ARD Playback: NowPlayingBar visibility, controls, and navigation.
 ///
-/// Tests: start playback → NowPlayingBar appears → pause from bar works.
+/// Tests: bar appears during playback, shows track info, pause/resume work,
+/// tapping bar opens full-screen player.
 library;
 
 import 'dart:async' show unawaited;
@@ -9,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:lauschi/core/database/tile_item_repository.dart';
 import 'package:lauschi/features/player/player_provider.dart';
+import 'package:lauschi/features/player/screens/player_screen.dart';
 import 'package:lauschi/features/player/widgets/now_playing_bar.dart';
 import 'package:patrol/patrol.dart';
 
@@ -17,7 +19,7 @@ import 'helpers.dart';
 
 void main() {
   patrolTest(
-    'NowPlayingBar appears and controls work',
+    'NowPlayingBar appears, controls work, and navigates to player',
     ($) async {
       await pumpApp($, prefs: {'onboarding_complete': true});
 
@@ -35,43 +37,43 @@ void main() {
       unawaited(notifier.playCard(items.first.id));
       await waitForPlayback($);
 
-      // ── NowPlayingBar should appear ────────────────────────────────────
-      // Pump extra frames for AnimatedSwitcher to complete.
+      // Pump for AnimatedSwitcher.
       await pumpFrames($);
 
-      expect(
-        find.byType(NowPlayingBar),
-        findsOneWidget,
-        reason: 'NowPlayingBar should appear when audio is playing',
-      );
-
-      // Bar should show the track title.
+      // ── Bar appears with track info ────────────────────────────────────
+      expect(find.byType(NowPlayingBar), findsOneWidget);
       expect(
         find.text(episode.episodeTitle),
         findsWidgets,
-        reason: 'NowPlayingBar should show episode title',
+        reason: 'Bar should show episode title',
       );
 
-      // ── Pause from NowPlayingBar ───────────────────────────────────────
-      // The bar has a small pause button (tooltip: 'Pause').
+      // ── Pause from bar ─────────────────────────────────────────────────
       await $(find.descendant(
         of: find.byType(NowPlayingBar),
         matching: find.byIcon(Icons.pause_rounded),
       ))
           .tap();
       await waitForPause($);
-
       expect(container.read(playerProvider).isPlaying, isFalse);
 
-      // ── Resume from NowPlayingBar ──────────────────────────────────────
+      // ── Resume from bar ────────────────────────────────────────────────
       await $(find.descendant(
         of: find.byType(NowPlayingBar),
         matching: find.byIcon(Icons.play_arrow_rounded),
       ))
           .tap();
       await waitForPlayback($);
-
       expect(container.read(playerProvider).isPlaying, isTrue);
+
+      // ── Tap bar body to navigate to full-screen player ─────────────────
+      await $(find.byKey(const ValueKey('now-playing'))).tap();
+      await pumpFrames($, count: 20);
+      expect(
+        find.byType(PlayerScreen),
+        findsOneWidget,
+        reason: 'Tapping NowPlayingBar should open PlayerScreen',
+      );
 
       await stopPlayback($);
     },
