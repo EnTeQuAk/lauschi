@@ -238,6 +238,7 @@ class PlayerNotifier extends _$PlayerNotifier {
     // Cancel any pending auto-advance and position save timer.
     _advanceTimer?.cancel();
     _positionSaveTimer?.cancel();
+    _positionSaveTimer = null;
     // Reset play time tracking for the new card.
     _playTimeMs = 0;
     _playStartedAt = null;
@@ -513,20 +514,30 @@ class PlayerNotifier extends _$PlayerNotifier {
     if (newState.isPlaying) {
       _startPositionSave();
     } else {
-      _positionSaveTimer?.cancel();
-      _updatePlayTime();
-      _playStartedAt = null;
+      _stopPositionSave();
       // Save immediately on pause (if threshold met).
       if (_playTimeMs >= _minPlayTimeMs) {
+        Log.info(_tag, 'Paused, saving position', data: {
+          'cardId': state.activeCardId ?? 'null',
+          'playTimeMs': '$_playTimeMs',
+        });
         unawaited(_savePosition());
+      } else {
+        Log.debug(_tag, 'Paused, below threshold', data: {
+          'playTimeMs': '$_playTimeMs',
+          'thresholdMs': '$_minPlayTimeMs',
+        });
       }
 
       // Detect album completion: paused on the last track, within 5s of end.
       // Using a fixed threshold instead of percentage — 90% of a 60-min
       // Hörspiel would cut off 6 minutes of content.
+      // Use fresh position from backend (DirectPlayer state may lag).
+      final posMs =
+          _activeBackend?.currentPositionMs ?? newState.positionMs;
       if (newState.nextTracksCount == 0 &&
           newState.durationMs > 0 &&
-          newState.positionMs > newState.durationMs - 5000) {
+          posMs > newState.durationMs - 5000) {
         unawaited(_onAlbumCompleted());
       }
     }
@@ -534,6 +545,11 @@ class PlayerNotifier extends _$PlayerNotifier {
 
   /// Mark the current episode heard, then auto-advance if in a series.
   Future<void> _onAlbumCompleted() async {
+    Log.info(_tag, 'Album completed', data: {
+      'cardId': state.activeCardId ?? 'null',
+      'positionMs': '${_activeBackend?.currentPositionMs ?? state.positionMs}',
+      'durationMs': '${state.durationMs}',
+    });
     await _markAlbumHeard();
 
     final groupId = state.activeGroupId;
@@ -583,18 +599,46 @@ class PlayerNotifier extends _$PlayerNotifier {
   static const _minPlayTimeMs = 30000; // 30 seconds
 
   void _startPositionSave() {
-    _positionSaveTimer?.cancel();
-    _playStartedAt = DateTime.now();
+    // Already running — don't restart. DirectPlayer fires state updates
+    // frequently; restarting would cancel the timer before it ever ticks
+    // and prevent _playTimeMs from accumulating.
+    if (_positionSaveTimer != null) return;
+
+    _playStartedAt ??= DateTime.now();
+    Log.debug(_tag, 'Position save timer started');
     // Save every 10 seconds while playing (if threshold met).
     _positionSaveTimer = Timer.periodic(
       const Duration(seconds: 10),
       (_) {
         _updatePlayTime();
         if (_playTimeMs >= _minPlayTimeMs) {
+          Log.debug(_tag, 'Timer tick: saving', data: {
+            'playTimeMs': '$_playTimeMs',
+            'backendPos': '${_activeBackend?.currentPositionMs}',
+          });
           unawaited(_savePosition());
+        } else {
+          Log.debug(_tag, 'Timer tick: threshold not met', data: {
+            'playTimeMs': '$_playTimeMs',
+            'thresholdMs': '$_minPlayTimeMs',
+          });
         }
       },
     );
+  }
+
+  void _stopPositionSave() {
+    if (_positionSaveTimer == null) return;
+    _positionSaveTimer!.cancel();
+    _positionSaveTimer = null;
+    if (_playStartedAt != null) {
+      _updatePlayTime();
+      _playStartedAt = null;
+    }
+    Log.debug(_tag, 'Position save timer stopped', data: {
+      'playTimeMs': '$_playTimeMs',
+      'thresholdMet': '${_playTimeMs >= _minPlayTimeMs}',
+    });
   }
 
   void _updatePlayTime() {
@@ -607,7 +651,23 @@ class PlayerNotifier extends _$PlayerNotifier {
   Future<void> _savePosition() async {
     final cardId = state.activeCardId;
     final track = state.track;
-    if (cardId == null || track == null || state.positionMs <= 0) return;
+    // Query backend directly for fresh position instead of reading
+    // potentially stale state.positionMs (DirectPlayer only emits
+    // state on play/pause/duration, not on every position tick).
+    final positionMs = _activeBackend?.currentPositionMs ?? state.positionMs;
+    if (cardId == null || track == null || positionMs <= 0) return;
+
+    // Detect staleness: large gap between state and backend position
+    // means state updates are lagging (e.g. DirectPlayer not emitting).
+    final drift = (positionMs - state.positionMs).abs();
+    if (drift > 5000) {
+      Log.warn(_tag, 'Position state stale', data: {
+        'cardId': cardId,
+        'stateMs': '${state.positionMs}',
+        'backendMs': '$positionMs',
+        'driftMs': '$drift',
+      });
+    }
 
     try {
       final cards = ref.read(tileItemRepositoryProvider);
@@ -615,10 +675,20 @@ class PlayerNotifier extends _$PlayerNotifier {
         itemId: cardId,
         trackUri: track.uri,
         trackNumber: state.trackNumber,
-        positionMs: state.positionMs,
+        positionMs: positionMs,
       );
+      Log.info(_tag, 'Position saved', data: {
+        'cardId': cardId,
+        'positionMs': '$positionMs',
+        'trackNumber': '${state.trackNumber}',
+      });
     } on Exception catch (e) {
-      Log.error(_tag, 'Position save failed', exception: e);
+      Log.error(
+        _tag,
+        'Position save failed',
+        exception: e,
+        data: {'cardId': cardId, 'positionMs': '$positionMs'},
+      );
     }
   }
 

@@ -24,6 +24,9 @@ class DirectPlayer extends PlayerBackend {
   int _positionMs = 0;
   bool _isPlaying = false;
 
+  @override
+  int get currentPositionMs => _positionMs;
+
   /// Stream of playback state changes, matching the Spotify bridge contract.
   @override
   Stream<PlaybackState> get stateStream => _stateController.stream;
