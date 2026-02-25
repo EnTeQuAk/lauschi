@@ -10,7 +10,7 @@ const _tag = 'ArdApi';
 
 /// Standard fields included in all Item queries.
 const _itemFields = '''
-  id title synopsis duration publishDate endDate
+  id title titleClean synopsis duration publishDate endDate
   episodeNumber isPublished
   image { url url1X1 }
   programSet { title }
@@ -47,10 +47,13 @@ class ArdApi {
           orderBy: NUMBER_OF_ELEMENTS_DESC
         ) {
           nodes {
-            id title synopsis numberOfElements
+            id title synopsis description showType numberOfElements
             lastItemAdded feedUrl
             image { url url1X1 }
-            publicationService { title }
+            publicationService {
+              title brandingColor
+              organization { name }
+            }
           }
         }
       }
@@ -69,10 +72,13 @@ class ArdApi {
       '''
       query ProgramSet(\$id: ID!) {
         programSet(id: \$id) {
-          id title synopsis numberOfElements
+          id title synopsis description showType numberOfElements
           lastItemAdded feedUrl
           image { url url1X1 }
-          publicationService { title }
+          publicationService {
+            title brandingColor
+            organization { name }
+          }
         }
       }
     ''',

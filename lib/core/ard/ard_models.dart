@@ -14,11 +14,16 @@ class ArdProgramSet {
     this.feedUrl,
     this.imageUrl,
     this.publisher,
+    this.showType,
+    this.description,
+    this.organizationName,
+    this.brandingColor,
   });
 
   factory ArdProgramSet.fromJson(Map<String, dynamic> json) {
     final image = json['image'] as Map<String, dynamic>?;
     final pubService = json['publicationService'] as Map<String, dynamic>?;
+    final org = pubService?['organization'] as Map<String, dynamic>?;
 
     return ArdProgramSet(
       id: '${json['id']}',
@@ -29,6 +34,10 @@ class ArdProgramSet {
       feedUrl: json['feedUrl'] as String?,
       imageUrl: (image?['url1X1'] ?? image?['url']) as String?,
       publisher: pubService?['title'] as String?,
+      showType: json['showType'] as String?,
+      description: json['description'] as String?,
+      organizationName: org?['name'] as String?,
+      brandingColor: pubService?['brandingColor'] as String?,
     );
   }
 
@@ -40,6 +49,18 @@ class ArdProgramSet {
   final String? feedUrl;
   final String? imageUrl;
   final String? publisher;
+
+  /// ARD show type: INFINITE_SERIES, FINITE_SERIES, SEASON_SERIES, SINGLE.
+  final String? showType;
+
+  /// HTML description, richer than synopsis. May contain age ranges.
+  final String? description;
+
+  /// Short broadcaster name (e.g., "BR", "WDR", "NDR").
+  final String? organizationName;
+
+  /// Publisher hex brand color (e.g., "#FF6B00").
+  final String? brandingColor;
 }
 
 class ArdItem {
@@ -47,6 +68,7 @@ class ArdItem {
     required this.id,
     required this.title,
     required this.publishDate,
+    this.titleClean,
     this.synopsis,
     this.duration = 0,
     this.episodeNumber,
@@ -70,6 +92,7 @@ class ArdItem {
     return ArdItem(
       id: '${json['id']}',
       title: json['title'] as String? ?? '',
+      titleClean: json['titleClean'] as String?,
       synopsis: json['synopsis'] as String?,
       duration: json['duration'] as int? ?? 0,
       publishDate: _tryParseDateTime(json['publishDate']) ?? DateTime.now(),
@@ -84,6 +107,10 @@ class ArdItem {
 
   final String id;
   final String title;
+
+  /// Title with suffixes stripped (age/broadcaster/genre info removed).
+  /// Falls back to [title] when null.
+  final String? titleClean;
   final String? synopsis;
 
   /// Duration in seconds.
@@ -97,6 +124,9 @@ class ArdItem {
   final String? imageUrl;
   final String? programSetTitle;
   final List<ArdAudio> audios;
+
+  /// Clean display title, stripping suffixes like age recommendations.
+  String get displayTitle => titleClean ?? title;
 
   /// Duration in milliseconds (for lauschi's internal format).
   int get durationMs => duration * 1000;
