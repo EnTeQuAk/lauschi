@@ -2,7 +2,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:lauschi/core/ard/ard_helpers.dart';
 import 'package:lauschi/core/ard/ard_image.dart';
 import 'package:lauschi/core/ard/ard_models.dart';
 import 'package:lauschi/core/ard/ard_providers.dart';
@@ -171,7 +170,6 @@ class _ShowCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final imageUrl = ardImageUrl(show.imageUrl, width: 300);
-    final brandColor = parseHexColor(show.brandingColor);
 
     return GestureDetector(
       onTap: () => context.push(AppRoutes.parentDiscoverShow(show.id)),
@@ -180,32 +178,19 @@ class _ShowCard extends StatelessWidget {
           Expanded(
             child: ClipRRect(
               borderRadius: const BorderRadius.all(AppRadius.card),
-              child: Stack(
-                fit: StackFit.expand,
-                children: [
-                  if (imageUrl != null)
-                    CachedNetworkImage(
-                      imageUrl: imageUrl,
-                      fit: BoxFit.cover,
-                      width: double.infinity,
-                      height: double.infinity,
-                      placeholder: (_, _) => _Placeholder(title: show.title),
-                      errorWidget:
-                          (_, _, _) => _Placeholder(title: show.title),
-                    )
-                  else
-                    _Placeholder(title: show.title),
-                  // Publisher branding strip at image bottom.
-                  if (brandColor != null)
-                    Positioned(
-                      left: 0,
-                      right: 0,
-                      bottom: 0,
-                      height: 3,
-                      child: ColoredBox(color: brandColor),
-                    ),
-                ],
-              ),
+              child:
+                  imageUrl != null
+                      ? CachedNetworkImage(
+                        imageUrl: imageUrl,
+                        fit: BoxFit.cover,
+                        width: double.infinity,
+                        height: double.infinity,
+                        placeholder:
+                            (_, _) => _Placeholder(title: show.title),
+                        errorWidget:
+                            (_, _, _) => _Placeholder(title: show.title),
+                      )
+                      : _Placeholder(title: show.title),
             ),
           ),
           const SizedBox(height: AppSpacing.xs),

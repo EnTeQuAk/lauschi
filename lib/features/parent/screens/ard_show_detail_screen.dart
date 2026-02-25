@@ -118,48 +118,6 @@ class _ArdShowDetailScreenState extends ConsumerState<ArdShowDetailScreen> {
     return allItems;
   }
 
-  /// Build episode list with group divider headers inserted at boundaries.
-  List<Widget> _buildGroupedEpisodeList(
-    List<ArdItem> items, {
-    required ArdProgramSet show,
-    required Set<String> existingUris,
-    required bool cardsLoaded,
-    required bool isImporting,
-  }) {
-    final widgets = <Widget>[];
-    String? currentGroupId;
-
-    for (final item in items) {
-      // Insert group header when entering a new group.
-      if (item.groupId != null && item.groupId != currentGroupId) {
-        currentGroupId = item.groupId;
-        final group = item.group;
-        if (group != null) {
-          widgets.add(_GroupHeader(group: group));
-        }
-      } else if (item.groupId == null && currentGroupId != null) {
-        // Leaving a group, reset.
-        currentGroupId = null;
-      }
-
-      final alreadyAdded = existingUris.contains(item.providerUri);
-      final isAdding = _addingUris.contains(item.providerUri);
-
-      widgets.add(
-        _EpisodeTile(
-          item: item,
-          alreadyAdded: alreadyAdded,
-          isAdding: isAdding,
-          enabled: cardsLoaded && !isImporting,
-          onAdd: () => _addEpisode(item, show),
-          showImageUrl: show.imageUrl,
-        ),
-      );
-    }
-
-    return widgets;
-  }
-
   @override
   Widget build(BuildContext context) {
     final existingUris = ref.watch(existingItemUrisProvider);
@@ -219,29 +177,32 @@ class _ArdShowDetailScreenState extends ConsumerState<ArdShowDetailScreen> {
                   final playable =
                       page.items.where((i) => i.bestAudioUrl != null).toList();
 
-                  // Build a flat list of widgets with group dividers
-                  // inserted at group boundaries.
-                  final widgets = _buildGroupedEpisodeList(
-                    playable,
-                    show: show,
-                    existingUris: existingUris,
-                    cardsLoaded: cardsLoaded,
-                    isImporting: isImporting,
-                  );
-
-                  if (page.hasNextPage) {
-                    widgets.add(
-                      _TruncationNotice(
-                        shown: playable.length,
-                        total: page.totalCount,
-                      ),
-                    );
-                  }
-
                   return SliverList(
                     delegate: SliverChildBuilderDelegate(
-                      (context, index) => widgets[index],
-                      childCount: widgets.length,
+                      (context, index) {
+                        if (index == playable.length && page.hasNextPage) {
+                          return _TruncationNotice(
+                            shown: playable.length,
+                            total: page.totalCount,
+                          );
+                        }
+
+                        final item = playable[index];
+                        final alreadyAdded = existingUris.contains(
+                          item.providerUri,
+                        );
+                        final isAdding = _addingUris.contains(item.providerUri);
+
+                        return _EpisodeTile(
+                          item: item,
+                          alreadyAdded: alreadyAdded,
+                          isAdding: isAdding,
+                          enabled: cardsLoaded && !isImporting,
+                          onAdd: () => _addEpisode(item, show),
+                          showImageUrl: show.imageUrl,
+                        );
+                      },
+                      childCount: playable.length + (page.hasNextPage ? 1 : 0),
                     ),
                   );
                 },
@@ -682,41 +643,5 @@ class _ShowMeta extends StatelessWidget {
   }
 }
 
-// ── Group header ────────────────────────────────────────────────────────────
 
-class _GroupHeader extends StatelessWidget {
-  const _GroupHeader({required this.group});
-  final ArdGroup group;
 
-  @override
-  Widget build(BuildContext context) {
-    final label = group.count != null
-        ? '${group.displayTitle}  ·  ${group.count} Teile'
-        : group.displayTitle;
-
-    return Padding(
-      padding: const EdgeInsets.symmetric(
-        horizontal: AppSpacing.screenH,
-        vertical: AppSpacing.sm,
-      ),
-      child: Row(
-        children: [
-          const Expanded(child: Divider()),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm),
-            child: Text(
-              label,
-              style: const TextStyle(
-                fontFamily: 'Nunito',
-                fontSize: 11,
-                fontWeight: FontWeight.w600,
-                color: AppColors.textSecondary,
-              ),
-            ),
-          ),
-          const Expanded(child: Divider()),
-        ],
-      ),
-    );
-  }
-}
