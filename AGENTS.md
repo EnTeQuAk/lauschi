@@ -1,6 +1,6 @@
-# CLAUDE.md
+# AGENTS.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+Project context for AI coding agents (Pi, Claude Code, etc.).
 
 ## Project Overview
 
@@ -112,11 +112,59 @@ All Flutter commands use `--dart-define-from-file=.env`.
 
 ## Testing
 
-Tests live in `test/` mirroring `lib/` structure. Use `mocktail` for mocks.
+**Every change must include tests.** Bug fixes need regression tests, new features need behavioral tests, refactors need tests verifying preserved behavior. No exceptions.
+
+Tests live in `test/` mirroring `lib/` structure. Integration tests in `integration_test/`. Use `mocktail` for mocks, Patrol for on-device tests. See `docs/testing-strategy.md` for the full e2e test plan and ARD test file inventory.
+
+### When to Write What
+
+| Situation | Test type | Example |
+|---|---|---|
+| Pure logic, no Flutter/IO deps | **Unit test** | Catalog matching, title cleaning, episode number regex |
+| Widget behavior, provider interactions, navigation | **Widget test** with `ProviderContainer` + real Drift | Router redirects, button visibility, player state transitions |
+| Audio playback, multi-screen flows, persistence across restarts | **Patrol integration test** | Play → pause → resume, position saving, auto-advance |
+| Error states hard to trigger with real audio | **Widget test** with fake backend | Network errors, expired content, disconnected states |
+
+**Preference: integration-first.** Start with Patrol for any feature touching audio, navigation, or DB persistence. Extract widget tests only when:
+- The integration test is flaky due to timing
+- You need error states hard to trigger with real audio
+- UI has many state permutations
+
+Extract unit tests only for shared pure logic (catalog matching, data transforms, sorting).
+
+**Anti-patterns:**
+- Don't mock just_audio — real playback catches issues mocks miss
+- Don't mock the database — use in-memory Drift
+- Don't write mega-tests (>5 minutes) — split into focused tests with shared `setUpAll`
+
+### Widget Test Patterns
+
+Follow `test/core/router/app_router_test.dart` and `test/features/tiles/kid_home_screen_test.dart`:
+
+- **Provider overrides**: `ProviderContainer(overrides: [...])` + `UncontrolledProviderScope`. Override providers that need platform channels (Spotify bridge, media session, SharedPreferences).
+- **Fake notifiers over mocks**: Extend the real notifier, override `build()` and the methods you need. Don't `Mock` Riverpod notifiers.
+- **`pump()` not `pumpAndSettle()`**: Screens with infinite animations (progress bar ticker, connectivity polling) never "settle". Use explicit `pump()` with duration.
+- **Parent auth bypass**: `parentAuthProvider.overrideWith(_AlwaysAuth.new)` where `_AlwaysAuth extends ParentAuth` with `build() => true`.
+- **Onboarding bypass**: `onboardingCompleteProvider.overrideWith(...)` returning `true`.
+
+### Integration Test Patterns (Patrol)
+
+Follow `integration_test/helpers.dart` and `integration_test/ard_helpers.dart`:
+
+- **App bootstrap**: `pumpApp($)` handles services init, SharedPreferences, ProviderScope, and frame pumping. Pass `prefs: {'onboarding_complete': true}` to skip onboarding.
+- **Frame pumping**: `pumpFrames($, count: 10)` instead of `pumpAndSettle`. Same reason as widget tests — the app never fully settles.
+- **Provider access in tests**: `ProviderScope.containerOf($.tester.element(find.byType(MaterialApp)))` to read/watch providers directly.
+- **Audio state assertions**: Use `waitForPlaybackStarted($)` / `waitForPlaybackPaused($)` from `ard_helpers.dart`. These poll `playerProvider` every 200ms with 15s timeout. Fail fast on `error != null`.
+- **DB setup**: Use `TileRepository.insert()` + `TileItemRepository.insertArdEpisode()` directly — don't navigate through parent UI for test setup. One integration test (`ard_browse_flow_test.dart`) covers the full add-via-UI path.
+- **ARD fixture discovery**: `getStableTestEpisode(container)` discovers a playable ARD episode at runtime via `ArdApi`. No hardcoded episode IDs that break when content rotates. If ARD API is down, test skips (not fails).
+
+### Running Tests
 
 ```bash
-flutter test                                    # All tests
-flutter test test/core/catalog/ --dart-define-from-file=.env  # Directory
+mise run test                                               # All unit + widget tests
+mise run check                                              # Format + analyze + test
+mise run test-integration                                   # Patrol on-device tests
+patrol test -t integration_test/ard_playback_basic_test.dart  # Single integration test
 ```
 
 ## Linting
@@ -132,7 +180,7 @@ Generated files (`*.g.dart`) are excluded from analysis.
 
 The repo includes config for [Pi](https://buildwithpi.com) and [Claude Code](https://docs.anthropic.com/en/docs/claude-code):
 
-- **`CLAUDE.md`** — this file. Project context for Claude Code and Pi.
+- **`AGENTS.md`** — this file. Project context for all AI coding agents.
 - **`.pi/skills/`** — Pi-specific skills (e.g. `code-simplifier` for Dart/Flutter refinement).
 - **`.agents/skills/`** — Shared skills from [dotagents](https://github.com/nichochar/dotagents) (Sentry integration). Managed by `agents.toml` + `agents.lock`. The `.claude/skills` symlink makes these visible to Claude Code too.
 - **`.claude/settings.local.json`** — Per-user Claude Code permissions (gitignored).
