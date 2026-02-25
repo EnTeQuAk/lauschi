@@ -424,7 +424,7 @@ class _ExpiryChip extends StatelessWidget {
 
 PendingCard _ardPendingCard(ArdItem item) {
   return PendingCard(
-    title: item.title,
+    title: item.displayTitle,
     providerUri: item.providerUri,
     cardType: 'episode',
     provider: 'ard_audiothek',

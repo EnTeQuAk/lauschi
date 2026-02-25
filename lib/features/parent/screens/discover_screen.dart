@@ -204,18 +204,19 @@ class _ShowCard extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
             textAlign: TextAlign.center,
           ),
-          if (show.publisher != null)
-            Text(
-              show.publisher!,
-              style: const TextStyle(
-                fontFamily: 'Nunito',
-                fontSize: 10,
-                color: AppColors.textSecondary,
-              ),
-              textAlign: TextAlign.center,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
+          Text(
+            // Prefer short org name ("BR") over verbose publisher title
+            // ("Bayern 2").
+            show.organizationName ?? show.publisher ?? '',
+            style: const TextStyle(
+              fontFamily: 'Nunito',
+              fontSize: 10,
+              color: AppColors.textSecondary,
             ),
+            textAlign: TextAlign.center,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
           Text(
             '${show.numberOfElements} Folgen',
             style: const TextStyle(

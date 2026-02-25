@@ -257,7 +257,7 @@ class _ArdShowDetailScreenState extends ConsumerState<ArdShowDetailScreen> {
 /// Build a [PendingCard] from an ARD episode.
 PendingCard _ardPendingCard(ArdItem item) {
   return PendingCard(
-    title: item.title,
+    title: item.displayTitle,
     providerUri: item.providerUri,
     cardType: 'episode',
     provider: 'ard_audiothek',
@@ -278,19 +278,36 @@ class _ShowHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final imageUrl = ardImageUrl(show.imageUrl, width: 600);
+    final subtitle = show.organizationName ?? show.publisher;
 
     return SliverAppBar(
       backgroundColor: AppColors.parentBackground,
       expandedHeight: 200,
       pinned: true,
       flexibleSpace: FlexibleSpaceBar(
-        title: Text(
-          show.title,
-          style: const TextStyle(
-            fontFamily: 'Nunito',
-            fontWeight: FontWeight.w700,
-            fontSize: 16,
-          ),
+        title: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              show.title,
+              style: const TextStyle(
+                fontFamily: 'Nunito',
+                fontWeight: FontWeight.w700,
+                fontSize: 16,
+              ),
+            ),
+            if (subtitle != null)
+              Text(
+                '$subtitle · ${show.numberOfElements} Folgen',
+                style: TextStyle(
+                  fontFamily: 'Nunito',
+                  fontSize: 11,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.white.withAlpha(200),
+                ),
+              ),
+          ],
         ),
         background:
             imageUrl != null
@@ -352,7 +369,7 @@ class _EpisodeTile extends StatelessWidget {
         ),
       ),
       title: Text(
-        item.title,
+        item.displayTitle,
         style: TextStyle(
           fontFamily: 'Nunito',
           fontSize: 14,
