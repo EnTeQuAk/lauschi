@@ -13,7 +13,7 @@ Never change what the code does — only how it does it. All original features, 
 
 ## 2. Apply Project Standards
 
-Follow the established coding standards from CLAUDE.md:
+Follow the established coding standards from AGENTS.md:
 
 - **Import order**: `dart:` → `package:` → relative imports, each group sorted alphabetically
 - **Type annotations** on all functions, parameters, and non-obvious locals. Target strict analysis.
