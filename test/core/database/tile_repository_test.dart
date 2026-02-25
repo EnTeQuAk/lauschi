@@ -138,64 +138,7 @@ void main() {
     expect(count, 2);
   });
 
-  test('assignToGroup and removeFromGroup', () async {
-    final groupId = await groups.insert(title: 'Group');
-    final cardId = await cards.insert(
-      title: 'Card',
-      providerUri: 'spotify:album:x',
-      cardType: 'album',
-    );
-
-    await cards.assignToTile(
-      itemId: cardId,
-      tileId: groupId,
-      episodeNumber: 5,
-    );
-    var card = await cards.getById(cardId);
-    expect(card!.groupId, groupId);
-    expect(card.episodeNumber, 5);
-
-    await cards.removeFromTile(cardId);
-    card = await cards.getById(cardId);
-    expect(card!.groupId, isNull);
-    expect(card.episodeNumber, isNull);
-  });
-
-  test('markHeard and markUnheard toggle flag', () async {
-    final cardId = await cards.insert(
-      title: 'Story',
-      providerUri: 'spotify:album:h1',
-      cardType: 'album',
-    );
-
-    var card = await cards.getById(cardId);
-    expect(card!.isHeard, false);
-
-    await cards.markHeard(cardId);
-    card = await cards.getById(cardId);
-    expect(card!.isHeard, true);
-
-    await cards.markUnheard(cardId);
-    card = await cards.getById(cardId);
-    expect(card!.isHeard, false);
-  });
-
-  test('watchUngrouped excludes grouped cards', () async {
-    final groupId = await groups.insert(title: 'G');
-    final id1 = await cards.insert(
-      title: 'Grouped',
-      providerUri: 'spotify:album:g1',
-      cardType: 'album',
-    );
-    await cards.insert(
-      title: 'Standalone',
-      providerUri: 'spotify:album:s1',
-      cardType: 'album',
-    );
-    await cards.assignToTile(itemId: id1, tileId: groupId);
-
-    final ungrouped = await cards.watchUngrouped().first;
-    expect(ungrouped, hasLength(1));
-    expect(ungrouped.first.title, 'Standalone');
-  });
+  // assignToTile, removeFromTile, markHeard/markUnheard, watchUngrouped
+  // are TileItemRepository methods — tests moved to
+  // tile_item_repository_test.dart.
 }
