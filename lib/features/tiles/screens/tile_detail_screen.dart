@@ -456,12 +456,30 @@ final tileByIdProvider = StreamProvider.family<db.Tile?, String>((
   return ref.watch(tileRepositoryProvider).watchById(tileId);
 });
 
-/// First unheard card in a group — reactive to episode changes.
+/// The episode to show the "Weiter" badge on.
+///
+/// Priority: most recently played episode that's still in progress
+/// (has saved position, not heard). Falls back to first unheard episode
+/// for sequential listening.
 final tileNextUnheardProvider = Provider.family<db.TileItem?, String>((
   ref,
   tileId,
 ) {
   final episodes = ref.watch(tileItemsProvider(tileId)).value ?? [];
+
+  // Find the most recently played episode that's still in progress.
+  db.TileItem? inProgress;
+  for (final ep in episodes) {
+    if (!ep.isHeard && ep.lastPlayedAt != null && ep.lastPositionMs > 0) {
+      if (inProgress == null ||
+          ep.lastPlayedAt!.isAfter(inProgress.lastPlayedAt!)) {
+        inProgress = ep;
+      }
+    }
+  }
+  if (inProgress != null) return inProgress;
+
+  // Nothing in progress — first unheard episode.
   for (final ep in episodes) {
     if (!ep.isHeard) return ep;
   }
