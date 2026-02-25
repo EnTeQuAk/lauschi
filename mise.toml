@@ -107,7 +107,15 @@ dart run tool/coverage_summary.dart
 
 [tasks.test-integration]
 description = "Run integration tests on connected device via Patrol"
-run = "patrol test --dart-define-from-file=.env"
+run = """
+#!/usr/bin/env bash
+TEST_TARGET="${1:-integration_test/}"
+
+echo "Running integration tests: $TEST_TARGET"
+adb shell media volume --set 0 2>/dev/null || echo "Warning: could not mute audio"
+
+patrol test -t "$TEST_TARGET" --dart-define-from-file=.env
+"""
 
 [tasks.ios-install]
 description = "Install ad-hoc IPA on USB-connected iPad via pymobiledevice3"
