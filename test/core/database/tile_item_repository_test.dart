@@ -2,6 +2,7 @@ import 'package:drift/native.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:lauschi/core/database/app_database.dart';
 import 'package:lauschi/core/database/tile_item_repository.dart';
+import 'package:lauschi/core/database/tile_repository.dart';
 
 void main() {
   late AppDatabase db;
@@ -158,6 +159,79 @@ void main() {
 
     final card = await repo.getById(id);
     expect(card!.spotifyArtistIds, isNull);
+  });
+
+  test('assignToTile and removeFromTile', () async {
+    final db2 = AppDatabase.forTesting(NativeDatabase.memory());
+    final groups = TileRepository(db2);
+    final items = TileItemRepository(db2);
+
+    final groupId = await groups.insert(title: 'Group');
+    final cardId = await items.insert(
+      title: 'Card',
+      providerUri: 'spotify:album:x',
+      cardType: 'album',
+    );
+
+    await items.assignToTile(
+      itemId: cardId,
+      tileId: groupId,
+      episodeNumber: 5,
+    );
+    var card = await items.getById(cardId);
+    expect(card!.groupId, groupId);
+    expect(card.episodeNumber, 5);
+
+    await items.removeFromTile(cardId);
+    card = await items.getById(cardId);
+    expect(card!.groupId, isNull);
+    expect(card.episodeNumber, isNull);
+
+    await db2.close();
+  });
+
+  test('markHeard and markUnheard toggle flag', () async {
+    final id = await repo.insert(
+      title: 'Story',
+      providerUri: 'spotify:album:h1',
+      cardType: 'album',
+    );
+
+    var card = await repo.getById(id);
+    expect(card!.isHeard, false);
+
+    await repo.markHeard(id);
+    card = await repo.getById(id);
+    expect(card!.isHeard, true);
+
+    await repo.markUnheard(id);
+    card = await repo.getById(id);
+    expect(card!.isHeard, false);
+  });
+
+  test('watchUngrouped excludes grouped items', () async {
+    final db2 = AppDatabase.forTesting(NativeDatabase.memory());
+    final groups = TileRepository(db2);
+    final items = TileItemRepository(db2);
+
+    final groupId = await groups.insert(title: 'G');
+    final id1 = await items.insert(
+      title: 'Grouped',
+      providerUri: 'spotify:album:g1',
+      cardType: 'album',
+    );
+    await items.insert(
+      title: 'Standalone',
+      providerUri: 'spotify:album:s1',
+      cardType: 'album',
+    );
+    await items.assignToTile(itemId: id1, tileId: groupId);
+
+    final ungrouped = await items.watchUngrouped().first;
+    expect(ungrouped, hasLength(1));
+    expect(ungrouped.first.title, 'Standalone');
+
+    await db2.close();
   });
 
   test(

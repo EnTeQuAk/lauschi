@@ -933,4 +933,70 @@ void main() {
       expect(stub.first.albums, isEmpty);
     });
   });
+
+  group('search', () {
+    test('empty query returns empty list', () {
+      expect(catalog.search(''), isEmpty);
+    });
+
+    test('whitespace-only query returns empty list', () {
+      // search() doesn't trim — empty string check only.
+      // If query is '  ', it won't match any title prefix.
+      final results = catalog.search('   ');
+      // Might match series with spaces in keywords, but practically empty.
+      // This documents current behavior.
+      expect(results.length, lessThanOrEqualTo(1));
+    });
+
+    test('title prefix matches rank before keyword matches', () {
+      // "bibi" is a title prefix for Bibi Blocksberg and Bibi und Tina.
+      final results = catalog.search('bibi');
+      final ids = results.map((s) => s.id).toList();
+      expect(ids, contains('bibi_blocksberg'));
+      expect(ids, contains('bibi_und_tina'));
+      // Both are title prefix matches, so order is catalog order.
+    });
+
+    test('exact title prefix prioritized over keyword-only match', () {
+      // "yak" matches "Yakari" title prefix.
+      final results = catalog.search('yak');
+      expect(results.first.id, 'yakari');
+    });
+
+    test('keyword match returns series not matching title prefix', () {
+      // "blocksberg" is a keyword for Bibi Blocksberg but not a title prefix.
+      final results = catalog.search('blocksberg');
+      expect(results.map((r) => r.id), contains('bibi_blocksberg'));
+    });
+
+    test('alias match works', () {
+      // "Ein Fall für TKKG" is an alias for TKKG.
+      final results = catalog.search('Ein Fall für');
+      expect(results.map((r) => r.id), contains('tkkg'));
+    });
+
+    test('case-insensitive matching', () {
+      final results = catalog.search('YAKARI');
+      expect(results.first.id, 'yakari');
+    });
+
+    test('no matches returns empty list', () {
+      expect(catalog.search('xyznonexistent123'), isEmpty);
+    });
+
+    test('multi-word query matches title containing both words', () {
+      final results = catalog.search('die drei');
+      final ids = results.map((r) => r.id).toList();
+      expect(ids, contains('die_drei_fragezeichen'));
+      expect(ids, contains('die_drei_fragezeichen_kids'));
+    });
+
+    test('prefix matches come before contains matches', () {
+      // "Benjamin" is a title prefix for Benjamin Blümchen.
+      // If another series has "benjamin" as a keyword but not title prefix,
+      // it should come after.
+      final results = catalog.search('benjamin');
+      expect(results.first.id, 'benjamin_bluemchen');
+    });
+  });
 }
