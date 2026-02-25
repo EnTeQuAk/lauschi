@@ -63,6 +63,35 @@ class ArdProgramSet {
   final String? brandingColor;
 }
 
+/// Multipart group metadata from the ARD Audiothek Grouping type.
+class ArdGroup {
+  const ArdGroup({
+    required this.title,
+    this.type,
+    this.count,
+  });
+
+  factory ArdGroup.fromJson(Map<String, dynamic> json) {
+    return ArdGroup(
+      title: json['title'] as String? ?? '',
+      type: json['type'] as String?,
+      count: json['count'] as int?,
+    );
+  }
+
+  /// Group title (e.g., "Superhelden :").
+  final String title;
+
+  /// Group type: "MULTIPART", "SEASON", or "SERIES".
+  final String? type;
+
+  /// Number of episodes in this group.
+  final int? count;
+
+  /// Cleaned display title (strips trailing colons/whitespace).
+  String get displayTitle => title.replaceFirst(RegExp(r'\s*:\s*$'), '').trim();
+}
+
 class ArdItem {
   const ArdItem({
     required this.id,
@@ -77,11 +106,14 @@ class ArdItem {
     this.imageUrl,
     this.programSetTitle,
     this.audios = const [],
+    this.groupId,
+    this.group,
   });
 
   factory ArdItem.fromJson(Map<String, dynamic> json) {
     final image = json['image'] as Map<String, dynamic>?;
     final programSet = json['programSet'] as Map<String, dynamic>?;
+    final groupJson = json['group'] as Map<String, dynamic>?;
 
     final audioList = json['audios'] as List<dynamic>? ?? [];
     final audios =
@@ -102,6 +134,8 @@ class ArdItem {
       imageUrl: (image?['url1X1'] ?? image?['url']) as String?,
       programSetTitle: programSet?['title'] as String?,
       audios: audios,
+      groupId: json['groupId'] as String?,
+      group: groupJson != null ? ArdGroup.fromJson(groupJson) : null,
     );
   }
 
@@ -124,6 +158,12 @@ class ArdItem {
   final String? imageUrl;
   final String? programSetTitle;
   final List<ArdAudio> audios;
+
+  /// Multipart group ID, if this episode belongs to a story arc.
+  final String? groupId;
+
+  /// Group metadata (title, type, count) when available.
+  final ArdGroup? group;
 
   /// Clean display title, stripping suffixes like age recommendations.
   String get displayTitle => titleClean ?? title;
