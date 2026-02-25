@@ -38,6 +38,20 @@ void main() {
       expect(playingState.isPlaying, isTrue);
       expect(playingState.activeCardId, itemId);
 
+      // Verify fresh play starts near the beginning.
+      expect(
+        playingState.positionMs,
+        lessThan(5000),
+        reason: 'Fresh play should start near 0, not resume from stale state',
+      );
+
+      // Verify duration was populated from the audio source.
+      expect(
+        playingState.durationMs,
+        greaterThan(0),
+        reason: 'Duration should be known after playback starts',
+      );
+
       // ── Navigate to player screen via NowPlayingBar ────────────────────
       await $(find.byKey(const ValueKey('now-playing'))).tap();
       // Extra frames for the page push animation to complete.
@@ -45,8 +59,6 @@ void main() {
       expect(find.byType(PlayerScreen), findsOneWidget);
 
       // ── Pause via the large pause icon on player screen ────────────────
-      // The play/pause button renders Icons.pause_rounded when playing,
-      // Icons.play_arrow_rounded when paused.
       await $(find.byIcon(Icons.pause_rounded)).first.tap();
       await waitForPause($);
 
@@ -58,8 +70,6 @@ void main() {
       await waitForPlayback($);
 
       // Wait long enough that position clearly advances past the pause point.
-      // Short waits can fail due to interpolation overshoot at pause time vs
-      // the actual SDK position reported after resume.
       await $.pump(const Duration(seconds: 5));
       expect(currentPositionMs($), greaterThan(pausedPosition));
 

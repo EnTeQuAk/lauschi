@@ -56,15 +56,23 @@ void main() {
       );
       await pumpFrames($);
 
-      // ── Verify position jumped ─────────────────────────────────────────
+      // ── Verify position jumped to roughly 50% ─────────────────────────
       final newPosition = container.read(playerProvider).positionMs;
-      // Should be significantly past where we were (~2-3s in).
-      // Allow generous tolerance — slider drag isn't pixel-perfect.
+      final target = duration ~/ 2;
+
+      // Slider drag isn't pixel-perfect, but should land past 30%.
       expect(
         newPosition,
-        greaterThan(duration ~/ 5),
-        reason: 'Position should jump forward after seek '
-            '(got $newPosition, duration=$duration)',
+        greaterThan((duration * 0.3).round()),
+        reason: 'Seek to 50% should land past 30% '
+            '(got $newPosition, target=$target, duration=$duration)',
+      );
+      // And not overshoot past 80%.
+      expect(
+        newPosition,
+        lessThan((duration * 0.8).round()),
+        reason: 'Seek to 50% should not overshoot past 80% '
+            '(got $newPosition)',
       );
 
       await stopPlayback($);

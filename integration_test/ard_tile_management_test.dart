@@ -9,6 +9,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:lauschi/core/auth/pin_service.dart';
 import 'package:lauschi/core/database/tile_repository.dart';
 import 'package:lauschi/features/player/player_provider.dart';
+import 'package:lauschi/features/tiles/widgets/tile_card.dart';
 import 'package:patrol/patrol.dart';
 
 import 'ard_helpers.dart';
@@ -36,10 +37,15 @@ void main() {
       // Insert a tile with an episode.
       await insertTestTileWithEpisode($, episode, title: 'Testkachel');
 
-      // ── Verify tile appears in kid grid ──────────────────────────────
+      // ── Verify tile appears in kid grid as a TileCard widget ─────────
       expect($('Meine Hörspiele'), findsOneWidget);
+      expect(
+        find.byType(TileCard),
+        findsOneWidget,
+        reason: 'Tile should render as TileCard in kid grid',
+      );
 
-      // The tile should appear as a group (TileCard).
+      // Also verify DB state.
       final tiles = await container.read(tileRepositoryProvider).getAll();
       expect(tiles, hasLength(1));
       expect(tiles.first.title, 'Testkachel');
