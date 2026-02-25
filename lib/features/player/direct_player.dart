@@ -24,6 +24,10 @@ class DirectPlayer extends PlayerBackend {
   int _positionMs = 0;
   bool _isPlaying = false;
 
+  /// Last time we emitted a position update. Throttles to ~1/sec
+  /// to avoid flooding _onStateChange on every just_audio tick (~200ms).
+  DateTime _lastPositionEmit = DateTime(0);
+
   @override
   int get currentPositionMs => _positionMs;
 
@@ -119,9 +123,14 @@ class DirectPlayer extends PlayerBackend {
 
     _positionSub = player.positionStream.listen((position) {
       _positionMs = position.inMilliseconds;
-      // Don't emit on every position tick — the state change listener
-      // handles play/pause transitions. Position is polled by the UI
-      // via the periodic save timer in PlayerNotifier.
+      // Throttle position emissions to ~1/sec. just_audio fires every
+      // ~200ms but the UI only needs 1/sec updates, and each emission
+      // triggers _onStateChange (wakelock, media session, timer guard).
+      final now = DateTime.now();
+      if (now.difference(_lastPositionEmit).inMilliseconds >= 1000) {
+        _lastPositionEmit = now;
+        _emitState();
+      }
     });
   }
 

@@ -459,29 +459,17 @@ final tileByIdProvider = StreamProvider.family<db.Tile?, String>((
 /// The episode to show the "Weiter" badge on.
 ///
 /// Priority:
-/// 1. Currently playing episode in this tile (immediate, no DB write needed)
-/// 2. Most recently played in-progress episode (from DB)
-/// 3. First unheard episode (sequential fallback)
+/// 1. Most recently played in-progress episode (has saved position from DB,
+///    meaning 30s play threshold was met)
+/// 2. First unheard episode (sequential fallback)
 final tileNextUnheardProvider = Provider.family<db.TileItem?, String>((
   ref,
   tileId,
 ) {
   final episodes = ref.watch(tileItemsProvider(tileId)).value ?? [];
-  final playerState = ref.watch(playerProvider);
-
-  // Currently playing an episode in this tile? Show it immediately.
-  // This makes the badge update as soon as playCard() is called,
-  // before any position save writes to the DB.
-  if (playerState.activeGroupId == tileId &&
-      playerState.activeCardId != null &&
-      playerState.track != null) {
-    final playing = episodes
-        .where((e) => e.id == playerState.activeCardId && !e.isHeard)
-        .firstOrNull;
-    if (playing != null) return playing;
-  }
 
   // Find the most recently played episode that's still in progress.
+  // Only considers episodes with a saved position (30s threshold met).
   db.TileItem? inProgress;
   for (final ep in episodes) {
     if (!ep.isHeard && ep.lastPlayedAt != null && ep.lastPositionMs > 0) {

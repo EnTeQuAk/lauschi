@@ -596,7 +596,7 @@ class PlayerNotifier extends _$PlayerNotifier {
 
   /// Minimum play time before saving position (prevents brief taps from
   /// marking episodes as "in progress").
-  static const _minPlayTimeMs = 30000; // 30 seconds
+  static const _minPlayTimeMs = 20000; // 20 seconds
 
   void _startPositionSave() {
     // Already running — don't restart. DirectPlayer fires state updates
