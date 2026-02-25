@@ -93,9 +93,24 @@ class PlayerNotifier extends _$PlayerNotifier {
     }
 
     unawaited(_subscription?.cancel());
-    _subscription = _bridge!.stateStream.listen((playbackState) {
-      state = playbackState;
-      _onStateChange(playbackState);
+    _subscription = _bridge!.stateStream.listen((bridgeState) {
+      // Merge bridge-level fields into the existing state. The bridge
+      // only knows about SDK playback (isPlaying, position, track, etc.)
+      // but not about app-level fields (activeCardId, activeGroupId,
+      // isLoading, nextEpisodeTitle, etc.). A full replace would wipe
+      // those on every SDK event.
+      state = state.copyWith(
+        isPlaying: bridgeState.isPlaying,
+        isReady: bridgeState.isReady,
+        deviceId: bridgeState.deviceId,
+        clearDeviceId: bridgeState.deviceId == null,
+        track: bridgeState.track,
+        positionMs: bridgeState.positionMs,
+        durationMs: bridgeState.durationMs,
+        trackNumber: bridgeState.trackNumber,
+        nextTracksCount: bridgeState.nextTracksCount,
+      );
+      _onStateChange(state);
     });
 
     ref.onDispose(() {
@@ -193,6 +208,7 @@ class PlayerNotifier extends _$PlayerNotifier {
     // ignore: avoid_redundant_argument_values, null clears the error
     state = state.copyWith(error: null);
   }
+
 
   /// Seek to position in milliseconds.
   Future<void> seek(int positionMs) async {
@@ -434,8 +450,17 @@ class PlayerNotifier extends _$PlayerNotifier {
 
     // Subscribe to direct player state (replaces Spotify bridge events).
     _backendSubscription = player.stateStream.listen((directState) {
-      state = directState;
-      _onStateChange(directState);
+      // Merge playback fields, preserving app-level state (same as bridge).
+      state = state.copyWith(
+        isPlaying: directState.isPlaying,
+        isReady: directState.isReady,
+        track: directState.track,
+        positionMs: directState.positionMs,
+        durationMs: directState.durationMs,
+        trackNumber: directState.trackNumber,
+        nextTracksCount: directState.nextTracksCount,
+      );
+      _onStateChange(state);
     });
 
     final trackInfo = TrackInfo(

@@ -192,6 +192,17 @@ class _InterpolatedProgressState extends ConsumerState<_InterpolatedProgress>
     _position.value = (_anchorMs + deltaMs).clamp(0, state.durationMs);
   }
 
+  /// Re-anchor interpolation to a user-initiated seek position.
+  /// Without this, the next _onTick would overwrite _position with the
+  /// old anchor+delta, causing the slider to snap back visually until
+  /// the SDK confirms the new position.
+  void _seekTo(int ms) {
+    _anchorMs = ms;
+    _anchorTime = DateTime.now();
+    _position.value = ms;
+    widget.onSeek(ms);
+  }
+
   @override
   Widget build(BuildContext context) {
     final durationMs = ref.watch(
@@ -203,10 +214,7 @@ class _InterpolatedProgressState extends ConsumerState<_InterpolatedProgress>
           (context, positionMs, _) => _ProgressBar(
             positionMs: positionMs,
             durationMs: durationMs,
-            onSeek: (ms) {
-              _position.value = ms;
-              widget.onSeek(ms);
-            },
+            onSeek: _seekTo,
           ),
     );
   }

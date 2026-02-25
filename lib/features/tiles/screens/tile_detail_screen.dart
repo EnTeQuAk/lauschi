@@ -142,7 +142,10 @@ class TileDetailScreen extends ConsumerWidget {
                     isPlaying: playerState.isPlaying,
                     isActive: playerState.track != null,
                     showEpisodeTitles: showTitles,
-                    onCardTap: (card) => playerNotifier.playCard(card.id),
+                    onCardTap: (card) {
+                      playerNotifier.playCard(card.id);
+                      context.push(AppRoutes.player);
+                    },
                   );
                 },
                 loading: () => const Center(child: CircularProgressIndicator()),
