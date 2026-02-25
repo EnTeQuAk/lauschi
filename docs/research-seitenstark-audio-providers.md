@@ -61,7 +61,7 @@ A kids audio player surfacing their content is aligned with their
 mission. The static MP3 hosting means integration is trivial once we
 have permission.
 
-**Contact:** OHRKA e.V., Michael Schulte, Bornstr. 24, 12163 Berlin
+**Contact:** See ohrka.de/impressum
 
 ## Not Relevant for Integration
 
