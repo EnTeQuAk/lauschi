@@ -19,6 +19,9 @@ class SpotifyBackend extends PlayerBackend {
   Stream<PlaybackState> get stateStream => _bridge.stateStream;
 
   @override
+  int get currentPositionMs => _bridge.currentState.positionMs;
+
+  @override
   Future<void> pause() => _withRetry('pause', _bridge.pause);
 
   @override

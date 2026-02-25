@@ -13,6 +13,14 @@ abstract class PlayerBackend {
   /// Stream of playback state updates from this backend.
   Stream<PlaybackState> get stateStream;
 
+  /// Current playback position in milliseconds.
+  ///
+  /// Queried directly by the position save timer instead of reading
+  /// from provider state, which may lag behind actual playback
+  /// (DirectPlayer only emits state on play/pause/duration events,
+  /// not on every position tick).
+  int get currentPositionMs;
+
   Future<void> pause();
   Future<void> resume();
   Future<void> seek(int positionMs);
