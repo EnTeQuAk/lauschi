@@ -8,6 +8,7 @@ import 'package:lauschi/core/database/app_database.dart' as db;
 import 'package:lauschi/core/database/tile_item_repository.dart';
 import 'package:lauschi/core/database/tile_repository.dart';
 import 'package:lauschi/core/router/app_router.dart';
+import 'package:lauschi/features/parent/widgets/expiry_label.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
 import 'package:lauschi/features/tiles/screens/tile_detail_screen.dart';
 import 'package:lauschi/features/player/player_provider.dart';
@@ -689,35 +690,7 @@ class _EpisodeTile extends ConsumerWidget {
           fontSize: 14,
         ),
       ),
-      subtitle:
-          (card.episodeNumber != null || card.isHeard)
-              ? Text.rich(
-                TextSpan(
-                  children: [
-                    if (card.episodeNumber != null)
-                      TextSpan(
-                        text: 'Folge ${card.episodeNumber}',
-                        style: const TextStyle(
-                          fontFamily: 'Nunito',
-                          fontSize: 12,
-                          color: AppColors.textSecondary,
-                        ),
-                      ),
-                    if (card.episodeNumber != null && card.isHeard)
-                      const TextSpan(text: '  ·  '),
-                    if (card.isHeard)
-                      const TextSpan(
-                        text: '✓ gehört',
-                        style: TextStyle(
-                          fontFamily: 'Nunito',
-                          fontSize: 12,
-                          color: AppColors.success,
-                        ),
-                      ),
-                  ],
-                ),
-              )
-              : null,
+      subtitle: _buildSubtitle(),
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -759,6 +732,55 @@ class _EpisodeTile extends ConsumerWidget {
         ],
       ),
     );
+  }
+
+  Widget? _buildSubtitle() {
+    final spans = <InlineSpan>[];
+
+    if (card.episodeNumber != null) {
+      spans.add(
+        TextSpan(
+          text: 'Folge ${card.episodeNumber}',
+          style: const TextStyle(
+            fontFamily: 'Nunito',
+            fontSize: 12,
+            color: AppColors.textSecondary,
+          ),
+        ),
+      );
+    }
+
+    if (card.isHeard) {
+      if (spans.isNotEmpty) spans.add(const TextSpan(text: '  ·  '));
+      spans.add(
+        const TextSpan(
+          text: '✓ gehört',
+          style: TextStyle(
+            fontFamily: 'Nunito',
+            fontSize: 12,
+            color: AppColors.success,
+          ),
+        ),
+      );
+    }
+
+    final expiry = expiryLabel(card.availableUntil);
+    if (expiry != null) {
+      if (spans.isNotEmpty) spans.add(const TextSpan(text: '  ·  '));
+      spans.add(
+        TextSpan(
+          text: expiry.text,
+          style: TextStyle(
+            fontFamily: 'Nunito',
+            fontSize: 12,
+            color: expiry.color,
+          ),
+        ),
+      );
+    }
+
+    if (spans.isEmpty) return null;
+    return Text.rich(TextSpan(children: spans));
   }
 
   void _removeFromGroup(BuildContext context, WidgetRef ref) {

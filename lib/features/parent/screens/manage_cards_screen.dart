@@ -8,6 +8,7 @@ import 'package:lauschi/core/catalog/catalog_service.dart';
 import 'package:lauschi/core/catalog/retroactive_sorter.dart';
 import 'package:lauschi/core/database/app_database.dart' as db;
 import 'package:lauschi/core/database/tile_item_repository.dart';
+import 'package:lauschi/features/parent/widgets/expiry_label.dart';
 import 'package:lauschi/core/database/tile_repository.dart';
 import 'package:lauschi/core/log.dart';
 import 'package:lauschi/core/router/app_router.dart';
@@ -277,6 +278,38 @@ class _SectionHeader extends StatelessWidget {
 // Individual card tile (compact)
 // ---------------------------------------------------------------------------
 
+Widget? _buildCardSubtitle(db.TileItem card) {
+  final spans = <InlineSpan>[];
+  if (card.episodeNumber != null) {
+    spans.add(
+      TextSpan(
+        text: 'Folge ${card.episodeNumber}',
+        style: const TextStyle(
+          fontFamily: 'Nunito',
+          fontSize: 12,
+          color: AppColors.textSecondary,
+        ),
+      ),
+    );
+  }
+  final expiry = expiryLabel(card.availableUntil);
+  if (expiry != null) {
+    if (spans.isNotEmpty) spans.add(const TextSpan(text: '  ·  '));
+    spans.add(
+      TextSpan(
+        text: expiry.text,
+        style: TextStyle(
+          fontFamily: 'Nunito',
+          fontSize: 12,
+          color: expiry.color,
+        ),
+      ),
+    );
+  }
+  if (spans.isEmpty) return null;
+  return Text.rich(TextSpan(children: spans));
+}
+
 class _CardTile extends ConsumerWidget {
   const _CardTile({required this.card, this.showGroupAssign = false});
 
@@ -333,17 +366,7 @@ class _CardTile extends ConsumerWidget {
           color: isHeard ? AppColors.textSecondary : AppColors.textPrimary,
         ),
       ),
-      subtitle:
-          card.episodeNumber != null
-              ? Text(
-                'Folge ${card.episodeNumber}',
-                style: const TextStyle(
-                  fontFamily: 'Nunito',
-                  fontSize: 12,
-                  color: AppColors.textSecondary,
-                ),
-              )
-              : null,
+      subtitle: _buildCardSubtitle(card),
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
