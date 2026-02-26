@@ -22,6 +22,14 @@ class PlayerScreen extends ConsumerStatefulWidget {
 class _PlayerScreenState extends ConsumerState<PlayerScreen> {
   @override
   Widget build(BuildContext context) {
+    final error = ref.watch(playerProvider.select((s) => s.error));
+
+    // Show friendly screen for expired/unavailable content.
+    if (error == 'content_unavailable' ||
+        error == 'Diese Geschichte ist leider nicht mehr verfügbar') {
+      return const _ContentUnavailableScreen();
+    }
+
     final state = ref.watch(
       playerProvider.select(
         (s) => (
@@ -497,6 +505,66 @@ class _PlayPauseButton extends StatelessWidget {
             size: 40,
             color: AppColors.textOnPrimary,
           ),
+        ),
+      ),
+    );
+  }
+}
+
+// ── Expired / unavailable content screen ────────────────────────────────────
+
+class _ContentUnavailableScreen extends ConsumerWidget {
+  const _ContentUnavailableScreen();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Scaffold(
+      body: SafeArea(
+        child: Column(
+          children: [
+            const _CollapseHandle(),
+            const Spacer(),
+            const Text(
+              '🐦',
+              style: TextStyle(fontSize: 64),
+            ),
+            const SizedBox(height: AppSpacing.lg),
+            const Text(
+              'Diese Geschichte ist\nweggeflogen',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontFamily: 'Nunito',
+                fontSize: 22,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+            const SizedBox(height: AppSpacing.sm),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: AppSpacing.xxl),
+              child: Text(
+                'Aber keine Sorge, es gibt noch\nviele andere tolle Geschichten!',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontFamily: 'Nunito',
+                  fontSize: 15,
+                  color: AppColors.textSecondary,
+                ),
+              ),
+            ),
+            const SizedBox(height: AppSpacing.xl),
+            FilledButton.icon(
+              onPressed: () {
+                ref.read(playerProvider.notifier).clearError();
+                Navigator.of(context).pop();
+              },
+              icon: const Icon(Icons.arrow_back_rounded),
+              label: const Text(
+                'Zurück',
+                style: TextStyle(fontFamily: 'Nunito'),
+              ),
+            ),
+            const Spacer(flex: 2),
+          ],
         ),
       ),
     );
