@@ -66,10 +66,14 @@ class DirectPlayer extends PlayerBackend {
       await _audioPlayer.play();
     } on ja.PlayerException catch (e) {
       // HTTP 404/410: audio removed from CDN (expired ARD content).
-      Log.warn(_tag, 'Player error', data: {
-        'code': '${e.code}',
-        'message': e.message ?? '',
-      });
+      Log.warn(
+        _tag,
+        'Player error',
+        data: {
+          'code': '${e.code}',
+          'message': e.message ?? '',
+        },
+      );
       _emitState(error: 'content_unavailable');
     } on ja.PlayerInterruptedException {
       // Playback interrupted (e.g. another audio source started).

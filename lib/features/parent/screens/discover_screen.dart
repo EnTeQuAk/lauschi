@@ -185,8 +185,7 @@ class _ShowCard extends StatelessWidget {
                         fit: BoxFit.cover,
                         width: double.infinity,
                         height: double.infinity,
-                        placeholder:
-                            (_, _) => _Placeholder(title: show.title),
+                        placeholder: (_, _) => _Placeholder(title: show.title),
                         errorWidget:
                             (_, _, _) => _Placeholder(title: show.title),
                       )

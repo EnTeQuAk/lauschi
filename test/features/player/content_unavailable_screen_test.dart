@@ -1,3 +1,5 @@
+import 'dart:async' show unawaited;
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -83,9 +85,11 @@ void main() {
         ),
       );
 
-      // Navigate to player.
-      tester.state<NavigatorState>(find.byType(Navigator)).pushNamed(
-        '/player',
+      // Navigate to player. Don't await — pushNamed completes when popped.
+      unawaited(
+        tester
+            .state<NavigatorState>(find.byType(Navigator))
+            .pushNamed('/player'),
       );
       await tester.pumpAndSettle();
 

@@ -326,7 +326,7 @@ final ungroupedItemsProvider = StreamProvider<List<TileItem>>((ref) {
   return ref.watch(tileItemRepositoryProvider).watchUngrouped();
 });
 
-/// Whether a [TileItem] has expired based on its [availableUntil] field.
+/// Whether a [TileItem] has expired based on its `availableUntil` field.
 bool isItemExpired(TileItem item, {DateTime? now}) {
   if (item.availableUntil == null) return false;
   return item.availableUntil!.isBefore(now ?? DateTime.now());

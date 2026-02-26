@@ -4,8 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lauschi/core/ard/ard_image.dart';
 import 'package:lauschi/core/ard/ard_models.dart';
 import 'package:lauschi/core/ard/featured_shows.dart';
-import 'package:lauschi/core/database/tile_item_repository.dart';
 import 'package:lauschi/core/database/content_importer.dart';
+import 'package:lauschi/core/database/tile_item_repository.dart';
 import 'package:lauschi/core/log.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
 

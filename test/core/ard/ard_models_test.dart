@@ -114,8 +114,7 @@ void main() {
     test('parses titleClean', () {
       final json = <String, dynamic>{
         'id': 15956139,
-        'title':
-            'Superhelden: Turnverein | Gute-Nacht-Geschichte ab 5 Jahren',
+        'title': 'Superhelden: Turnverein | Gute-Nacht-Geschichte ab 5 Jahren',
         'titleClean': 'Superhelden: Turnverein',
         'publishDate': '2025-02-25T00:00:00Z',
         'duration': 240,

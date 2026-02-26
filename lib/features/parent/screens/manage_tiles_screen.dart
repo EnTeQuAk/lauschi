@@ -10,9 +10,9 @@ import 'package:lauschi/core/database/tile_item_repository.dart';
 import 'package:lauschi/core/database/tile_repository.dart';
 import 'package:lauschi/core/router/app_router.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
+import 'package:lauschi/features/parent/widgets/provider_badge.dart';
 import 'package:lauschi/features/tiles/screens/tile_detail_screen.dart';
 import 'package:lauschi/features/tiles/widgets/tile_card.dart';
-import 'package:lauschi/features/parent/widgets/provider_badge.dart';
 
 /// Parent view: list, create, reorder and delete series groups.
 class ManageTilesScreen extends ConsumerWidget {

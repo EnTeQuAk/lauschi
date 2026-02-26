@@ -1,3 +1,5 @@
+import 'dart:async' show unawaited;
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -9,9 +11,9 @@ import 'package:lauschi/core/router/app_router.dart';
 import 'package:lauschi/core/settings/debug_settings.dart';
 import 'package:lauschi/core/settings/kid_settings.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
-import 'package:lauschi/features/tiles/widgets/audio_tile.dart';
 import 'package:lauschi/features/player/player_provider.dart';
 import 'package:lauschi/features/player/widgets/now_playing_bar.dart';
+import 'package:lauschi/features/tiles/widgets/audio_tile.dart';
 
 /// Album playback progress 0.0–1.0 based on stored track position.
 /// Returns 0 for cards that haven't been started or are fully heard.
@@ -143,8 +145,8 @@ class TileDetailScreen extends ConsumerWidget {
                     isActive: playerState.track != null,
                     showEpisodeTitles: showTitles,
                     onCardTap: (card) {
-                      playerNotifier.playCard(card.id);
-                      context.push(AppRoutes.player);
+                      unawaited(playerNotifier.playCard(card.id));
+                      unawaited(context.push(AppRoutes.player));
                     },
                   );
                 },

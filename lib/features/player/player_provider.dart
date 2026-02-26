@@ -209,7 +209,6 @@ class PlayerNotifier extends _$PlayerNotifier {
     state = state.copyWith(error: null);
   }
 
-
   /// Seek to position in milliseconds.
   Future<void> seek(int positionMs) async {
     await _backendCommand('seek', (b) => b.seek(positionMs));
@@ -517,24 +516,31 @@ class PlayerNotifier extends _$PlayerNotifier {
       _stopPositionSave();
       // Save immediately on pause (if threshold met).
       if (_playTimeMs >= _minPlayTimeMs) {
-        Log.info(_tag, 'Paused, saving position', data: {
-          'cardId': state.activeCardId ?? 'null',
-          'playTimeMs': '$_playTimeMs',
-        });
+        Log.info(
+          _tag,
+          'Paused, saving position',
+          data: {
+            'cardId': state.activeCardId ?? 'null',
+            'playTimeMs': '$_playTimeMs',
+          },
+        );
         unawaited(_savePosition());
       } else {
-        Log.debug(_tag, 'Paused, below threshold', data: {
-          'playTimeMs': '$_playTimeMs',
-          'thresholdMs': '$_minPlayTimeMs',
-        });
+        Log.debug(
+          _tag,
+          'Paused, below threshold',
+          data: {
+            'playTimeMs': '$_playTimeMs',
+            'thresholdMs': '$_minPlayTimeMs',
+          },
+        );
       }
 
       // Detect album completion: paused on the last track, within 5s of end.
       // Using a fixed threshold instead of percentage — 90% of a 60-min
       // Hörspiel would cut off 6 minutes of content.
       // Use fresh position from backend (DirectPlayer state may lag).
-      final posMs =
-          _activeBackend?.currentPositionMs ?? newState.positionMs;
+      final posMs = _activeBackend?.currentPositionMs ?? newState.positionMs;
       if (newState.nextTracksCount == 0 &&
           newState.durationMs > 0 &&
           posMs > newState.durationMs - 5000) {
@@ -545,11 +551,16 @@ class PlayerNotifier extends _$PlayerNotifier {
 
   /// Mark the current episode heard, then auto-advance if in a series.
   Future<void> _onAlbumCompleted() async {
-    Log.info(_tag, 'Album completed', data: {
-      'cardId': state.activeCardId ?? 'null',
-      'positionMs': '${_activeBackend?.currentPositionMs ?? state.positionMs}',
-      'durationMs': '${state.durationMs}',
-    });
+    Log.info(
+      _tag,
+      'Album completed',
+      data: {
+        'cardId': state.activeCardId ?? 'null',
+        'positionMs':
+            '${_activeBackend?.currentPositionMs ?? state.positionMs}',
+        'durationMs': '${state.durationMs}',
+      },
+    );
     await _markAlbumHeard();
 
     final groupId = state.activeGroupId;
@@ -612,16 +623,24 @@ class PlayerNotifier extends _$PlayerNotifier {
       (_) {
         _updatePlayTime();
         if (_playTimeMs >= _minPlayTimeMs) {
-          Log.debug(_tag, 'Timer tick: saving', data: {
-            'playTimeMs': '$_playTimeMs',
-            'backendPos': '${_activeBackend?.currentPositionMs}',
-          });
+          Log.debug(
+            _tag,
+            'Timer tick: saving',
+            data: {
+              'playTimeMs': '$_playTimeMs',
+              'backendPos': '${_activeBackend?.currentPositionMs}',
+            },
+          );
           unawaited(_savePosition());
         } else {
-          Log.debug(_tag, 'Timer tick: threshold not met', data: {
-            'playTimeMs': '$_playTimeMs',
-            'thresholdMs': '$_minPlayTimeMs',
-          });
+          Log.debug(
+            _tag,
+            'Timer tick: threshold not met',
+            data: {
+              'playTimeMs': '$_playTimeMs',
+              'thresholdMs': '$_minPlayTimeMs',
+            },
+          );
         }
       },
     );
@@ -635,10 +654,14 @@ class PlayerNotifier extends _$PlayerNotifier {
       _updatePlayTime();
       _playStartedAt = null;
     }
-    Log.debug(_tag, 'Position save timer stopped', data: {
-      'playTimeMs': '$_playTimeMs',
-      'thresholdMet': '${_playTimeMs >= _minPlayTimeMs}',
-    });
+    Log.debug(
+      _tag,
+      'Position save timer stopped',
+      data: {
+        'playTimeMs': '$_playTimeMs',
+        'thresholdMet': '${_playTimeMs >= _minPlayTimeMs}',
+      },
+    );
   }
 
   void _updatePlayTime() {
@@ -661,12 +684,16 @@ class PlayerNotifier extends _$PlayerNotifier {
     // means state updates are lagging (e.g. DirectPlayer not emitting).
     final drift = (positionMs - state.positionMs).abs();
     if (drift > 5000) {
-      Log.warn(_tag, 'Position state stale', data: {
-        'cardId': cardId,
-        'stateMs': '${state.positionMs}',
-        'backendMs': '$positionMs',
-        'driftMs': '$drift',
-      });
+      Log.warn(
+        _tag,
+        'Position state stale',
+        data: {
+          'cardId': cardId,
+          'stateMs': '${state.positionMs}',
+          'backendMs': '$positionMs',
+          'driftMs': '$drift',
+        },
+      );
     }
 
     try {
@@ -677,11 +704,15 @@ class PlayerNotifier extends _$PlayerNotifier {
         trackNumber: state.trackNumber,
         positionMs: positionMs,
       );
-      Log.info(_tag, 'Position saved', data: {
-        'cardId': cardId,
-        'positionMs': '$positionMs',
-        'trackNumber': '${state.trackNumber}',
-      });
+      Log.info(
+        _tag,
+        'Position saved',
+        data: {
+          'cardId': cardId,
+          'positionMs': '$positionMs',
+          'trackNumber': '${state.trackNumber}',
+        },
+      );
     } on Exception catch (e) {
       Log.error(
         _tag,

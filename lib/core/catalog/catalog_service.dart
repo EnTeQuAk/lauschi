@@ -254,7 +254,7 @@ class CatalogService {
       final winner =
           (artistMatch != null &&
                   keywordMatches.any((s) => s.id == artistMatch!.id))
-              ? artistMatch!
+              ? artistMatch
               : keywordMatches
                   .first; // Most specific (longest keyword, pre-sorted)
 

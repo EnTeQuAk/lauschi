@@ -25,14 +25,14 @@ void main() {
         lastPositionMs: 450000, // 7:30 into the episode
         lastTrackUri: 'ard:item:12345',
         durationMs: 1800000, // 30 min episode
-        createdAt: DateTime(2025, 1, 1),
-        availableUntil: DateTime(2025, 2, 1), // expired
+        createdAt: DateTime(2025),
+        availableUntil: DateTime(2025, 2), // expired
         lastPlayedAt: DateTime(2025, 1, 28),
         groupId: 'tile-pumuckl',
       );
 
       // Item is expired...
-      expect(isItemExpired(item, now: DateTime(2025, 3, 1)), isTrue);
+      expect(isItemExpired(item, now: DateTime(2025, 3)), isTrue);
 
       // ...but position data is intact.
       expect(item.lastPositionMs, 450000);
@@ -45,8 +45,7 @@ void main() {
       // The player_provider sets this exact string on expiration.
       // The player_screen checks for it to show the friendly screen.
       // This test documents the contract between the two.
-      const providerError =
-          'Diese Geschichte ist leider nicht mehr verfügbar';
+      const providerError = 'Diese Geschichte ist leider nicht mehr verfügbar';
       const directPlayerError = 'content_unavailable';
 
       // Both strings trigger the _ContentUnavailableScreen.

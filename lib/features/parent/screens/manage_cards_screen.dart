@@ -8,11 +8,11 @@ import 'package:lauschi/core/catalog/catalog_service.dart';
 import 'package:lauschi/core/catalog/retroactive_sorter.dart';
 import 'package:lauschi/core/database/app_database.dart' as db;
 import 'package:lauschi/core/database/tile_item_repository.dart';
-import 'package:lauschi/features/parent/widgets/expiry_label.dart';
 import 'package:lauschi/core/database/tile_repository.dart';
 import 'package:lauschi/core/log.dart';
 import 'package:lauschi/core/router/app_router.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
+import 'package:lauschi/features/parent/widgets/expiry_label.dart';
 import 'package:lauschi/features/parent/widgets/provider_badge.dart';
 
 const _tag = 'ManageCards';
