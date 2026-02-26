@@ -326,16 +326,25 @@ final ungroupedItemsProvider = StreamProvider<List<TileItem>>((ref) {
   return ref.watch(tileItemRepositoryProvider).watchUngrouped();
 });
 
+/// Whether a [TileItem] has expired based on its [availableUntil] field.
+bool isItemExpired(TileItem item, {DateTime? now}) {
+  if (item.availableUntil == null) return false;
+  return item.availableUntil!.isBefore(now ?? DateTime.now());
+}
+
 /// Per-tile item counts and heard progress, derived from allTileItemsProvider.
 /// Avoids N+1 queries when rendering the kid home grid.
+/// Excludes expired items so kids see accurate episode counts.
 final tileProgressProvider = Provider<Map<String, ({int total, int heard})>>((
   ref,
 ) {
   final items = ref.watch(allTileItemsProvider).value ?? [];
+  final now = DateTime.now();
   final result = <String, ({int total, int heard})>{};
   for (final item in items) {
     final tid = item.groupId;
     if (tid == null) continue;
+    if (isItemExpired(item, now: now)) continue;
     final prev = result[tid] ?? (total: 0, heard: 0);
     result[tid] = (
       total: prev.total + 1,
