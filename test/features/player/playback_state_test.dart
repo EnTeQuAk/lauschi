@@ -1,11 +1,5 @@
-import 'dart:async';
-
 import 'package:flutter_test/flutter_test.dart';
 import 'package:lauschi/features/player/player_state.dart';
-import 'package:lauschi/features/player/spotify_player_bridge.dart';
-import 'package:mocktail/mocktail.dart';
-
-class MockSpotifyPlayerBridge extends Mock implements SpotifyPlayerBridge {}
 
 void main() {
   group('SpotifyPlayerBridge state merging', () {
@@ -28,11 +22,10 @@ void main() {
         activeCardId: 'card-123',
         activeContextUri: 'spotify:album:abc',
         activeGroupId: 'group-456',
-        isLoading: false,
       );
 
       // Simulate a bridge state_changed event (SDK playing).
-      final bridgeState = const PlaybackState(
+      const bridgeState = PlaybackState(
         isPlaying: true,
         isReady: true,
         deviceId: 'device-789',
@@ -96,8 +89,7 @@ void main() {
       );
 
       // Bridge reports paused state.
-      final pausedBridgeState = const PlaybackState(
-        isPlaying: false,
+      const pausedBridgeState = PlaybackState(
         isReady: true,
         deviceId: 'device-789',
         positionMs: 60000,
@@ -137,7 +129,6 @@ void main() {
 
         var state = const PlaybackState(
           activeCardId: 'card-123',
-          isPlaying: false,
           isLoading: true,
         );
 
@@ -212,9 +203,8 @@ void main() {
       );
 
       // Simulate reconnect (bridge clears device, notifier merges).
-      final reconnectState = const PlaybackState(
+      const reconnectState = PlaybackState(
         isPlaying: true,
-        isReady: false,
         // deviceId is null (cleared by reconnect)
       );
 
@@ -243,7 +233,6 @@ void main() {
         activeCardId: 'card-123',
         activeGroupId: 'group-456',
         activeContextUri: 'spotify:album:abc',
-        isLoading: false,
       );
 
       // Bridge state from SDK event (no app-level fields).
@@ -256,8 +245,7 @@ void main() {
       );
 
       // OLD behavior: full replace.
-      // ignore: unused_local_variable
-      final broken = bridgeState;
+      const broken = bridgeState;
       // broken.activeCardId == null → position saving fails
       // broken.activeGroupId == null → auto-advance fails
       expect(broken.activeCardId, isNull, reason: 'old bug: full replace');
@@ -334,7 +322,7 @@ void main() {
       const state = PlaybackState(error: 'something broke');
 
       // Explicit null clears the error.
-      final cleared = state.copyWith(error: null);
+      final cleared = state.copyWith();
       expect(cleared.error, isNull);
 
       // Not passing error also clears it (design decision — error is

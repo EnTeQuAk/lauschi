@@ -176,7 +176,8 @@ class TileRepository {
             (t) =>
                 t.groupId.equals(tileId) &
                 t.isHeard.equals(false) &
-                (t.availableUntil.isNull() | t.availableUntil.isBiggerThanValue(now)),
+                (t.availableUntil.isNull() |
+                    t.availableUntil.isBiggerThanValue(now)),
           )
           ..orderBy([
             (t) => OrderingTerm.asc(t.episodeNumber),

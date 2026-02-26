@@ -1,4 +1,5 @@
 import 'package:drift/drift.dart';
+import 'package:lauschi/core/database/app_database.dart' show Tile, TileItem;
 
 // ---------------------------------------------------------------------------
 // DB table naming vs Dart class naming

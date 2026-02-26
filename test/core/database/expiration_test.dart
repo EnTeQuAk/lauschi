@@ -49,7 +49,7 @@ void main() {
     });
 
     test('uses provided now parameter for deterministic testing', () {
-      final fixedNow = DateTime(2025, 6, 1);
+      final fixedNow = DateTime(2025, 6);
       final item = _item(availableUntil: DateTime(2025, 5, 31));
 
       expect(isItemExpired(item, now: fixedNow), isTrue);
@@ -62,7 +62,7 @@ void main() {
     // filters with isItemExpired. We test the filtering logic directly.
 
     test('expired items are excluded from counts', () {
-      final now = DateTime(2025, 6, 1);
+      final now = DateTime(2025, 6);
       final items = [
         _item(
           id: '1',
@@ -72,7 +72,7 @@ void main() {
         _item(
           id: '2',
           groupId: 'tile-a',
-          availableUntil: DateTime(2025, 7, 1), // not expired
+          availableUntil: DateTime(2025, 7), // not expired
           isHeard: true,
         ),
         _item(
@@ -100,12 +100,12 @@ void main() {
     });
 
     test('tile with all items expired has no entry', () {
-      final now = DateTime(2025, 6, 1);
+      final now = DateTime(2025, 6);
       final items = [
         _item(
           id: '1',
           groupId: 'tile-a',
-          availableUntil: DateTime(2025, 5, 1),
+          availableUntil: DateTime(2025, 5),
         ),
         _item(
           id: '2',

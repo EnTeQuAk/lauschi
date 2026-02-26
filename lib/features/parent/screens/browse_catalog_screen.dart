@@ -6,8 +6,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lauschi/core/catalog/catalog_service.dart';
 import 'package:lauschi/core/database/app_database.dart' as db;
-import 'package:lauschi/core/database/tile_item_repository.dart';
 import 'package:lauschi/core/database/content_importer.dart';
+import 'package:lauschi/core/database/tile_item_repository.dart';
 import 'package:lauschi/core/database/tile_repository.dart';
 import 'package:lauschi/core/log.dart';
 import 'package:lauschi/core/router/app_router.dart';
@@ -1635,10 +1635,10 @@ class _HeroCard extends ConsumerWidget {
           vertical: 4,
         ),
         padding: const EdgeInsets.all(10),
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           color: AppColors.surface,
-          borderRadius: const BorderRadius.all(Radius.circular(12)),
-          boxShadow: const [
+          borderRadius: BorderRadius.all(Radius.circular(12)),
+          boxShadow: [
             BoxShadow(
               color: Color(0x0A000000),
               blurRadius: 6,
@@ -1873,11 +1873,11 @@ class _BatchAddBanner extends StatelessWidget {
 
 class _SearchResultTile extends StatelessWidget {
   const _SearchResultTile({
-    super.key,
     required this.album,
     required this.isAdded,
     required this.onAdd,
     required this.onTap,
+    super.key,
     this.catalogMatch,
     this.compact = false,
   });

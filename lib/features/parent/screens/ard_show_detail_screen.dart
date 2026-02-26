@@ -600,9 +600,9 @@ class _ShowMeta extends StatelessWidget {
                   horizontal: AppSpacing.sm,
                   vertical: 3,
                 ),
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: AppColors.surfaceDim,
-                  borderRadius: const BorderRadius.all(Radius.circular(6)),
+                  borderRadius: BorderRadius.all(Radius.circular(6)),
                 ),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
@@ -642,6 +642,3 @@ class _ShowMeta extends StatelessWidget {
     );
   }
 }
-
-
-

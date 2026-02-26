@@ -49,8 +49,8 @@ dev_dependencies:
   patrol: ^4.1.1
   riverpod_generator: ^4.0.3
   sentry_dart_plugin: ^3.2.1
+  test_api: any
   very_good_analysis: ^10.2.0
-
 flutter:
   uses-material-design: true
   assets:
