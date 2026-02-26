@@ -176,6 +176,23 @@ Uses `very_good_analysis` with relaxed rules (see `analysis_options.yaml`):
 
 Generated files (`*.g.dart`) are excluded from analysis.
 
+## Code Review
+
+[CodeRabbit](https://coderabbit.ai/) is set up for AI-assisted code review via CLI.
+Run it after commits to get a second opinion:
+
+```bash
+timeout 300 coderabbit review --plain --base-commit HEAD~1 -c AGENTS.md
+```
+
+- `--plain` outputs text (no TUI), suitable for agent consumption
+- `--base-commit HEAD~N` reviews the last N commits
+- `-c AGENTS.md` feeds project conventions to the reviewer
+- `timeout 300` gives it up to 5 minutes (initial reviews can be slow)
+
+Not a gate. Use it as a sanity check, especially after larger changes.
+Fix what makes sense, ignore nitpicks that don't add value.
+
 ## AI Agent Config
 
 The repo includes config for [Pi](https://buildwithpi.com) and [Claude Code](https://docs.anthropic.com/en/docs/claude-code):
