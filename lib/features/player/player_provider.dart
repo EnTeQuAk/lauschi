@@ -108,7 +108,12 @@ class PlayerNotifier extends _$PlayerNotifier {
 
   /// Permanent subscription to the Spotify bridge state stream.
   /// Routes playback events only when Spotify is the active backend;
-  /// always accepts device metadata (isReady/deviceId).
+  /// always accepts device metadata (isReady).
+  ///
+  /// This is intentionally asymmetric with DirectPlayer's per-play
+  /// subscription (bundled in _ActiveBackend). The bridge is long-lived
+  /// and reports device readiness even when no card is playing;
+  /// DirectPlayer is created per-play and dies with the backend.
   StreamSubscription<PlaybackState>? _bridgeSub;
 
   /// The currently active backend + its subscription, or null.

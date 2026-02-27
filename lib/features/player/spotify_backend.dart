@@ -56,6 +56,12 @@ class SpotifyBackend extends PlayerBackend {
   }
 
   /// Execute a bridge command with one reconnect+retry on failure.
+  ///
+  /// Reconnects on any exception. Spotify Web SDK errors come through the
+  /// WebView as opaque PlatformExceptions -- we can't distinguish "device
+  /// gone" from "transient glitch". Reconnect is cheap (re-registers device)
+  /// and the single retry bounds the damage. If this also fails, the
+  /// exception propagates to PlayerNotifier which sets error state.
   Future<void> _withRetry(
     String name,
     Future<void> Function() command,
