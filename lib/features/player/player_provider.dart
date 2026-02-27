@@ -277,7 +277,6 @@ class PlayerNotifier extends _$PlayerNotifier {
       activeCardId: cardId,
       activeContextUri: card.providerUri,
       activeGroupId: card.groupId,
-      isLoading: true,
       // ignore: avoid_redundant_argument_values, null clears error
       error: null,
       clearNextEpisode: true,
@@ -314,7 +313,6 @@ class PlayerNotifier extends _$PlayerNotifier {
             data: {'provider': card.provider},
           );
           state = state.copyWith(
-            isLoading: false,
             error: 'Anbieter nicht unterstützt: ${card.provider}',
           );
       }
@@ -322,7 +320,6 @@ class PlayerNotifier extends _$PlayerNotifier {
       if (_playGen != gen) return;
       Log.error(_tag, 'Play failed', exception: e);
       state = state.copyWith(
-        isLoading: false,
         error: 'Wiedergabe fehlgeschlagen',
       );
     }
@@ -353,7 +350,6 @@ class PlayerNotifier extends _$PlayerNotifier {
     if (_playGen != gen) return;
     if (token == null) {
       state = state.copyWith(
-        isLoading: false,
         error: 'Spotify nicht verbunden — bitte neu anmelden',
       );
       return;
@@ -385,7 +381,6 @@ class PlayerNotifier extends _$PlayerNotifier {
     if (deviceId == null) {
       Log.warn(_tag, 'No device ID after reconnect');
       state = state.copyWith(
-        isLoading: false,
         error: 'Spotify nicht verbunden',
       );
       return null;
@@ -417,7 +412,6 @@ class PlayerNotifier extends _$PlayerNotifier {
     try {
       await _sendPlayCommand(card.providerUri, deviceId, card);
       if (_playGen != gen) return;
-      state = state.copyWith(isLoading: false);
     } on SpotifyDeviceNotFoundException {
       if (_playGen != gen) return;
       // Device stale — reconnect once.
@@ -428,12 +422,10 @@ class PlayerNotifier extends _$PlayerNotifier {
       try {
         await _sendPlayCommand(card.providerUri, newDeviceId, card);
         if (_playGen != gen) return;
-        state = state.copyWith(isLoading: false);
       } on SpotifyDeviceNotFoundException {
         if (_playGen != gen) return;
         Log.warn(_tag, 'Device still not found after reconnect');
         state = state.copyWith(
-          isLoading: false,
           error: 'Spotify-Verbindung verloren',
         );
       }
@@ -463,7 +455,6 @@ class PlayerNotifier extends _$PlayerNotifier {
     if (card.audioUrl == null || card.audioUrl!.isEmpty) {
       Log.error(_tag, 'No audio URL', data: {'cardId': card.id});
       state = state.copyWith(
-        isLoading: false,
         error: 'Keine Audio-URL verfügbar',
       );
       return;
@@ -511,7 +502,6 @@ class PlayerNotifier extends _$PlayerNotifier {
       positionMs: card.lastPositionMs,
     );
     if (_playGen != gen) return;
-    state = state.copyWith(isLoading: false);
   }
 
   // ─── Playback state change handling ─────────────────────────────────

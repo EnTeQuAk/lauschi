@@ -36,7 +36,6 @@ class PlaybackState {
   const PlaybackState({
     this.isPlaying = false,
     this.isReady = false,
-    this.isLoading = false,
     this.deviceId,
     this.track,
     this.positionMs = 0,
@@ -56,9 +55,6 @@ class PlaybackState {
 
   /// Audio is currently playing (not paused).
   final bool isPlaying;
-
-  /// A play request is in progress (tap registered, waiting for response).
-  final bool isLoading;
 
   /// Device ID assigned by Spotify SDK.
   final String? deviceId;
@@ -104,10 +100,6 @@ class PlaybackState {
   /// Whether an auto-advance to the next episode is pending.
   bool get isAdvancing => nextEpisodeTitle != null;
 
-  /// Normalized progress 0.0–1.0 for progress bar.
-  double get progress =>
-      durationMs > 0 ? (positionMs / durationMs).clamp(0.0, 1.0) : 0.0;
-
   /// Copy with optional field clearing.
   ///
   /// [clearDeviceId] and [clearTrack] set the respective fields to null.
@@ -115,7 +107,6 @@ class PlaybackState {
   PlaybackState copyWith({
     bool? isPlaying,
     bool? isReady,
-    bool? isLoading,
     String? deviceId,
     bool clearDeviceId = false,
     TrackInfo? track,
@@ -138,7 +129,6 @@ class PlaybackState {
     return PlaybackState(
       isPlaying: isPlaying ?? this.isPlaying,
       isReady: isReady ?? this.isReady,
-      isLoading: isLoading ?? this.isLoading,
       deviceId: clearDeviceId ? null : (deviceId ?? this.deviceId),
       track: clearTrack ? null : (track ?? this.track),
       positionMs: positionMs ?? this.positionMs,

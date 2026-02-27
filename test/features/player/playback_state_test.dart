@@ -129,7 +129,6 @@ void main() {
 
         var state = const PlaybackState(
           activeCardId: 'card-123',
-          isLoading: true,
         );
 
         // Bridge says playing.
