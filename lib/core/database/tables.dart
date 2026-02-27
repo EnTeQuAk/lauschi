@@ -124,7 +124,7 @@ class Cards extends Table {
   // 'album' | 'playlist' | 'track' | 'podcast'
   TextColumn get cardType => text()();
 
-  // 'spotify' | 'apple_music' | 'local'
+  // Serialized ProviderType value: 'spotify', 'ard_audiothek', etc.
   TextColumn get provider => text().withDefault(const Constant('spotify'))();
 
   // e.g. 'spotify:album:4aawyAB9vmqN3uQ7FjRGTy'

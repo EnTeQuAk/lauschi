@@ -10,6 +10,7 @@ import 'package:lauschi/core/database/app_database.dart' as db;
 import 'package:lauschi/core/database/tile_item_repository.dart';
 import 'package:lauschi/core/database/tile_repository.dart';
 import 'package:lauschi/core/log.dart';
+import 'package:lauschi/core/providers/provider_type.dart';
 import 'package:lauschi/core/router/app_router.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
 import 'package:lauschi/features/parent/widgets/expiry_label.dart';
@@ -370,10 +371,12 @@ class _CardTile extends ConsumerWidget {
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          if (card.provider != 'spotify')
+          if (card.provider != ProviderType.spotify.value)
             Padding(
               padding: const EdgeInsets.only(right: 4),
-              child: ProviderBadge(provider: card.provider),
+              child: ProviderBadge(
+                provider: ProviderType.fromString(card.provider),
+              ),
             ),
           if (isHeard)
             const Padding(

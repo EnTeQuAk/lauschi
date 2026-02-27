@@ -2,6 +2,7 @@ import 'package:drift/drift.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lauschi/core/database/app_database.dart';
 import 'package:lauschi/core/log.dart';
+import 'package:lauschi/core/providers/provider_type.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:uuid/uuid.dart';
 
@@ -40,7 +41,7 @@ class TileItemRepository {
     required String providerUri,
     required String cardType,
     String? coverUrl,
-    String provider = 'spotify',
+    ProviderType provider = ProviderType.spotify,
     List<String>? spotifyArtistIds,
     int totalTracks = 0,
   }) async {
@@ -64,7 +65,7 @@ class TileItemRepository {
             cardType: cardType,
             providerUri: providerUri,
             coverUrl: Value(coverUrl),
-            provider: Value(provider),
+            provider: Value(provider.value),
             sortOrder: Value(nextOrder),
             spotifyArtistIds:
                 spotifyArtistIds != null && spotifyArtistIds.isNotEmpty
@@ -89,7 +90,7 @@ class TileItemRepository {
     required String providerUri,
     required String cardType,
     String? coverUrl,
-    String provider = 'spotify',
+    ProviderType provider = ProviderType.spotify,
     List<String>? spotifyArtistIds,
     int totalTracks = 0,
   }) async {
@@ -281,7 +282,7 @@ class TileItemRepository {
         title: title,
         providerUri: providerUri,
         cardType: 'episode',
-        provider: 'ard_audiothek',
+        provider: ProviderType.ardAudiothek,
         coverUrl: coverUrl,
       );
       await updateArdFields(

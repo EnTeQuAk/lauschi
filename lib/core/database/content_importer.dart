@@ -1,6 +1,7 @@
 import 'package:lauschi/core/database/tile_item_repository.dart';
 import 'package:lauschi/core/database/tile_repository.dart';
 import 'package:lauschi/core/log.dart';
+import 'package:lauschi/core/providers/provider_type.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'content_importer.g.dart';
@@ -27,7 +28,7 @@ class PendingCard {
   final String title;
   final String providerUri;
   final String cardType;
-  final String provider;
+  final ProviderType provider;
   final String? coverUrl;
   final int? episodeNumber;
 
@@ -120,7 +121,7 @@ class ContentImporter extends _$ContentImporter {
   }
 
   Future<void> _insertCard(PendingCard card, {String? groupId}) async {
-    if (card.provider == 'ard_audiothek' && card.audioUrl != null) {
+    if (card.provider == ProviderType.ardAudiothek && card.audioUrl != null) {
       await _cardRepo.insertArdEpisode(
         title: card.title,
         providerUri: card.providerUri,

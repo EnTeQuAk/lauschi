@@ -4,6 +4,7 @@ import 'package:lauschi/core/database/app_database.dart' as db;
 import 'package:lauschi/core/database/tile_item_repository.dart';
 import 'package:lauschi/core/database/tile_repository.dart';
 import 'package:lauschi/core/log.dart';
+import 'package:lauschi/core/providers/provider_type.dart';
 import 'package:lauschi/core/spotify/spotify_api.dart';
 import 'package:lauschi/core/spotify/spotify_auth_provider.dart';
 import 'package:lauschi/features/player/direct_player.dart';
@@ -339,15 +340,16 @@ class PlayerNotifier extends _$PlayerNotifier {
 
     // Create and activate new backend.
     try {
-      switch (card.provider) {
-        case 'spotify':
+      switch (ProviderType.fromString(card.provider)) {
+        case ProviderType.spotify:
           await _startSpotify(card, gen);
-        case 'ard_audiothek':
+        case ProviderType.ardAudiothek:
           await _startDirect(card, gen);
-        default:
+        case ProviderType.appleMusic:
+        case ProviderType.tidal:
           Log.error(
             _tag,
-            'Unsupported provider',
+            'Provider not yet supported',
             data: {'provider': card.provider},
           );
           state = state.copyWith(
