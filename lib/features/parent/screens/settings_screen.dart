@@ -271,12 +271,16 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   }
 
   Future<void> _update(DebugSettings updated) async {
-    Log.info(_tag, 'Settings updated', data: {
-      'replayEnabled': '${updated.replayEnabled}',
-      'maskAllText': '${updated.maskAllText}',
-      'maskAllImages': '${updated.maskAllImages}',
-      'nfcEnabled': '${updated.nfcEnabled}',
-    });
+    Log.info(
+      _tag,
+      'Settings updated',
+      data: {
+        'replayEnabled': '${updated.replayEnabled}',
+        'maskAllText': '${updated.maskAllText}',
+        'maskAllImages': '${updated.maskAllImages}',
+        'nfcEnabled': '${updated.nfcEnabled}',
+      },
+    );
     await ref.read(debugSettingsProvider.notifier).save(updated);
     if (mounted) setState(() => _changed = true);
   }

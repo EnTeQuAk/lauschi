@@ -137,11 +137,15 @@ class TileItemRepository {
         lastPlayedAt: Value(DateTime.now()),
       ),
     );
-    Log.debug(_tag, 'Position saved', data: {
-      'itemId': itemId,
-      'trackNumber': '$trackNumber',
-      'positionMs': '$positionMs',
-    });
+    Log.debug(
+      _tag,
+      'Position saved',
+      data: {
+        'itemId': itemId,
+        'trackNumber': '$trackNumber',
+        'positionMs': '$positionMs',
+      },
+    );
   }
 
   /// Get the most recently played item (for resume on app launch).
