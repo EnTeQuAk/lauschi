@@ -79,7 +79,7 @@ class KidHomeScreen extends ConsumerWidget {
                   IconButton(
                     onPressed: () {
                       Log.info(_tag, 'Parent button tapped');
-                      context.push(AppRoutes.parentDashboard);
+                      unawaited(context.push(AppRoutes.parentDashboard));
                     },
                     icon: const Icon(Icons.settings_rounded),
                     iconSize: 22,
@@ -175,7 +175,7 @@ class KidHomeScreen extends ConsumerWidget {
                         'title': group.title,
                       },
                     );
-                    context.push(AppRoutes.tileDetail(group.id));
+                    unawaited(context.push(AppRoutes.tileDetail(group.id)));
                   },
                 );
               }),

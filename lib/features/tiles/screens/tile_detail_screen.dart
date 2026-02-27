@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:lauschi/core/connectivity/connectivity_provider.dart';
 import 'package:lauschi/core/database/app_database.dart' as db;
 import 'package:lauschi/core/database/tile_repository.dart';
+import 'package:lauschi/core/log.dart';
 import 'package:lauschi/core/nfc/nfc_pair_dialog.dart';
 import 'package:lauschi/core/router/app_router.dart';
 import 'package:lauschi/core/settings/debug_settings.dart';
@@ -14,6 +15,8 @@ import 'package:lauschi/core/theme/app_theme.dart';
 import 'package:lauschi/features/player/player_provider.dart';
 import 'package:lauschi/features/player/widgets/now_playing_bar.dart';
 import 'package:lauschi/features/tiles/widgets/audio_tile.dart';
+
+const _tag = 'TileDetailScreen';
 
 /// Album playback progress 0.0–1.0 based on stored track position.
 /// Returns 0 for cards that haven't been started or are fully heard.
@@ -145,6 +148,11 @@ class TileDetailScreen extends ConsumerWidget {
                     isActive: playerState.track != null,
                     showEpisodeTitles: showTitles,
                     onCardTap: (card) {
+                      Log.info(_tag, 'Episode tapped', data: {
+                        'cardId': card.id,
+                        'tileId': tileId,
+                        'title': card.customTitle ?? card.title,
+                      });
                       unawaited(playerNotifier.playCard(card.id));
                       unawaited(context.push(AppRoutes.player));
                     },
