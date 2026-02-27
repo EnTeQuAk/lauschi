@@ -236,7 +236,7 @@ class PlayerNotifier extends _$PlayerNotifier {
 
   void clearError() {
     _advanceTimer?.cancel();
-    // ignore: avoid_redundant_argument_values, null clears the error
+    // ignore: avoid_redundant_argument_values, null clears error
     state = state.copyWith(error: null);
   }
 
@@ -278,7 +278,7 @@ class PlayerNotifier extends _$PlayerNotifier {
       activeContextUri: card.providerUri,
       activeGroupId: card.groupId,
       isLoading: true,
-      // ignore: avoid_redundant_argument_values, null clears previous error
+      // ignore: avoid_redundant_argument_values, null clears error
       error: null,
       clearNextEpisode: true,
     );
@@ -680,31 +680,6 @@ class PlayerNotifier extends _$PlayerNotifier {
       );
     } on Exception catch (e) {
       Log.error(_tag, 'Mark heard failed', exception: e);
-    }
-  }
-
-  // ─── Deprecated ─────────────────────────────────────────────────────
-
-  /// Play a raw Spotify URI. Prefer [playCard].
-  @Deprecated('Use playCard(cardId) instead')
-  Future<void> play(String spotifyUri) async {
-    final deviceId = state.deviceId;
-    if (deviceId == null || _api == null) {
-      Log.error(_tag, 'Cannot play — no device ID');
-      return;
-    }
-
-    state = state.copyWith(
-      activeContextUri: spotifyUri,
-      clearActiveCard: true,
-      clearActiveGroupId: true,
-    );
-    Log.info(_tag, 'Playing', data: {'uri': spotifyUri});
-
-    try {
-      await _api!.play(spotifyUri, deviceId: deviceId);
-    } on Exception catch (e) {
-      Log.error(_tag, 'Play failed', exception: e);
     }
   }
 }

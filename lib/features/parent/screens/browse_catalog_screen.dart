@@ -739,7 +739,7 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen> {
   Widget _buildTwoTierSearch({
     String? batchSeries,
   }) {
-    // Playlist mode uses the legacy flat list
+    // Playlist mode uses the flat search results list
     if (_searchMode == _SearchMode.playlist) {
       return _buildSearchResults(batchSeries: batchSeries);
     }
@@ -895,7 +895,7 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen> {
   }
 
   // ---------------------------------------------------------------------------
-  // Search results (legacy, used by playlist mode)
+  // Search results (flat list, used by playlist mode)
   // ---------------------------------------------------------------------------
 
   Widget _buildSearchResults({

@@ -134,18 +134,6 @@
       }
     },
 
-    // Transfer playback to this device and start playing a URI.
-    play: function(spotifyUri) {
-      if (!deviceId) {
-        post('error', { type: 'play', message: 'no device_id yet' });
-        return;
-      }
-      post_log('play: ' + spotifyUri);
-      // Playback is transferred + started via the Spotify Web API (Dart-side).
-      // The JS player just needs to be the active device.
-      post('play_request', { uri: spotifyUri, device_id: deviceId });
-    },
-
     toggle_play: function() {
       if (player) player.togglePlay();
     },
