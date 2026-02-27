@@ -50,7 +50,11 @@ class BrowseCatalogScreen extends ConsumerStatefulWidget {
       _BrowseCatalogScreenState();
 }
 
-class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen> {
+class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => widget.embedded;
+
   final _searchController = TextEditingController();
   final _searchFocusNode = FocusNode();
   Timer? _debounce;
@@ -525,6 +529,7 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context); // Required for AutomaticKeepAliveClientMixin
     final authState = ref.watch(spotifyAuthProvider);
     final catalogAsync = ref.watch(catalogServiceProvider);
 
