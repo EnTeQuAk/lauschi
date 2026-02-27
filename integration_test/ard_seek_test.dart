@@ -64,14 +64,16 @@ void main() {
       expect(
         newPosition,
         greaterThan((duration * 0.3).round()),
-        reason: 'Seek to 50% should land past 30% '
+        reason:
+            'Seek to 50% should land past 30% '
             '(got $newPosition, target=$target, duration=$duration)',
       );
       // And not overshoot past 80%.
       expect(
         newPosition,
         lessThan((duration * 0.8).round()),
-        reason: 'Seek to 50% should not overshoot past 80% '
+        reason:
+            'Seek to 50% should not overshoot past 80% '
             '(got $newPosition)',
       );
 

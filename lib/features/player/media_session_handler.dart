@@ -7,58 +7,58 @@ const _tag = 'MediaSession';
 /// Proxy [AudioHandler] that exposes playback controls to the system
 /// media notification, lock screen, and headset buttons.
 ///
-/// Does not produce audio itself — forwards commands to a callback
-/// and receives state updates from the Spotify WebView bridge.
+/// Does not produce audio itself — forwards commands to callbacks
+/// and receives state updates from the active player backend.
 class MediaSessionHandler extends BaseAudioHandler with SeekHandler {
   /// Called when the system requests play/pause/skip/seek.
   /// Wire these to the player notifier.
-  void Function()? onPlay;
-  void Function()? onPause;
-  void Function()? onSkipNext;
-  void Function()? onSkipPrev;
-  void Function(Duration position)? onSeek;
+  late final void Function() onPlay;
+  late final void Function() onPause;
+  late final void Function() onSkipNext;
+  late final void Function() onSkipPrev;
+  late final void Function(Duration position) onSeek;
 
   @override
   Future<void> play() async {
     Log.debug(_tag, 'System: play');
-    onPlay?.call();
+    onPlay.call();
   }
 
   @override
   Future<void> pause() async {
     Log.debug(_tag, 'System: pause');
-    onPause?.call();
+    onPause.call();
   }
 
   @override
   Future<void> skipToNext() async {
     Log.debug(_tag, 'System: next');
-    onSkipNext?.call();
+    onSkipNext.call();
   }
 
   @override
   Future<void> skipToPrevious() async {
     Log.debug(_tag, 'System: prev');
-    onSkipPrev?.call();
+    onSkipPrev.call();
   }
 
   @override
   Future<void> seek(Duration position) async {
     Log.debug(_tag, 'System: seek ${position.inMilliseconds}ms');
-    onSeek?.call(position);
+    onSeek.call(position);
   }
 
   @override
   Future<void> stop() async {
     Log.debug(_tag, 'System: stop');
-    onPause?.call();
+    onPause.call();
   }
 
   @override
   Future<void> onTaskRemoved() async {
     // Android: user swiped app away from recents. Pause playback gracefully.
     Log.info(_tag, 'Task removed — pausing playback');
-    onPause?.call();
+    onPause.call();
     await super.onTaskRemoved();
   }
 
@@ -66,12 +66,16 @@ class MediaSessionHandler extends BaseAudioHandler with SeekHandler {
   Future<void> onNotificationDeleted() async {
     // Android: user dismissed the media notification.
     Log.info(_tag, 'Notification dismissed — pausing playback');
-    onPause?.call();
+    onPause.call();
     await super.onNotificationDeleted();
   }
 
   /// Sync notification state from our [PlaybackState].
-  void updateFromAppState(app.PlaybackState appState) {
+  /// [hasNextTrack] controls whether skip-to-next is shown.
+  void updateFromAppState(
+    app.PlaybackState appState, {
+    bool hasNextTrack = false,
+  }) {
     final track = appState.track;
 
     // Update media item (track metadata + artwork).
@@ -89,14 +93,17 @@ class MediaSessionHandler extends BaseAudioHandler with SeekHandler {
       );
     }
 
+    // Build controls list based on playback state and navigation capability.
+    final controls = <MediaControl>[
+      MediaControl.skipToPrevious,
+      if (appState.isPlaying) MediaControl.pause else MediaControl.play,
+      if (hasNextTrack) MediaControl.skipToNext,
+    ];
+
     // Update playback state (controls, position, playing).
     playbackState.add(
       PlaybackState(
-        controls: [
-          MediaControl.skipToPrevious,
-          if (appState.isPlaying) MediaControl.pause else MediaControl.play,
-          MediaControl.skipToNext,
-        ],
+        controls: controls,
         systemActions: const {MediaAction.seek},
         androidCompactActionIndices: const [0, 1, 2],
         processingState:

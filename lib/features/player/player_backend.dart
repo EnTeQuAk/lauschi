@@ -2,24 +2,31 @@ import 'package:lauschi/features/player/player_state.dart';
 
 /// Abstraction over playback control for different audio providers.
 ///
-/// Each provider (Spotify SDK, just_audio, Apple Music, etc.) extends
-/// this class. `PlayerNotifier` delegates pause/resume/seek to the
-/// active backend without branching on provider type.
+/// Each provider (Spotify SDK, just_audio for ARD, etc.) extends this
+/// class. `PlayerNotifier` delegates pause/resume/seek to the active
+/// backend without branching on provider type.
 ///
-/// The "start playing" step differs per provider (Spotify needs a device ID
-/// and Web API call, direct needs an audio URL) — that's handled in
-/// `PlayerNotifier.playCard`, not here.
+/// The "start playing" step differs per provider (Spotify needs a
+/// device ID and Web API call, direct needs an audio URL). That's
+/// handled in `PlayerNotifier.playCard`, not here.
 abstract class PlayerBackend {
   /// Stream of playback state updates from this backend.
   Stream<PlaybackState> get stateStream;
 
   /// Current playback position in milliseconds.
   ///
-  /// Queried directly by the position save timer instead of reading
-  /// from provider state, which may lag behind actual playback
-  /// (DirectPlayer only emits state on play/pause/duration events,
-  /// not on every position tick).
+  /// Queried directly by the position save timer because the provider
+  /// state stream may lag behind actual playback position.
   int get currentPositionMs;
+
+  /// 1-based position of the current track within the album.
+  /// Single-file backends (DirectPlayer) always return 1.
+  int get currentTrackNumber;
+
+  /// Whether there are more tracks after the current one.
+  /// Used for album completion detection and media session controls.
+  /// Single-file backends always return false.
+  bool get hasNextTrack;
 
   Future<void> pause();
   Future<void> resume();
@@ -27,7 +34,7 @@ abstract class PlayerBackend {
   Future<void> stop();
   Future<void> dispose();
 
-  /// Multi-track navigation — no-op for single-file backends.
+  /// Multi-track navigation. No-op for single-file backends.
   Future<void> nextTrack() async {}
   Future<void> prevTrack() async {}
 }

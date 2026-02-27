@@ -22,6 +22,12 @@ class SpotifyBackend extends PlayerBackend {
   int get currentPositionMs => _bridge.currentState.positionMs;
 
   @override
+  int get currentTrackNumber => _bridge.trackNumber;
+
+  @override
+  bool get hasNextTrack => _bridge.nextTracksCount > 0;
+
+  @override
   Future<void> pause() => _withRetry('pause', _bridge.pause);
 
   @override

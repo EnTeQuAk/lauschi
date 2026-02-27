@@ -281,7 +281,7 @@ class _AlbumArt extends StatelessWidget {
       child: AspectRatio(
         aspectRatio: 1,
         child: Hero(
-          tag: 'player-artwork',
+          tag: playerArtworkHeroTag,
           child: Container(
             decoration: BoxDecoration(
               borderRadius: const BorderRadius.all(Radius.circular(20)),

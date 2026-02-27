@@ -43,10 +43,11 @@ Future<TestArdEpisode> getStableTestEpisode(
   for (final showId in _stableShowIds) {
     try {
       final page = await api.getItems(programSetId: showId, first: 5);
-      final suitable = page.items.where((item) {
-        return item.bestAudioUrl != null &&
-            item.duration >= _minimumDurationSeconds;
-      }).firstOrNull;
+      final suitable =
+          page.items.where((item) {
+            return item.bestAudioUrl != null &&
+                item.duration >= _minimumDurationSeconds;
+          }).firstOrNull;
 
       if (suitable != null) {
         // Also fetch show title for the tile name.
@@ -169,7 +170,7 @@ Future<void> waitForPlayback(
   final state = container.read(playerProvider);
   fail(
     'Playback did not start within ${timeout.inSeconds}s. '
-    'State: isPlaying=${state.isPlaying}, isLoading=${state.isLoading}, '
+    'State: isPlaying=${state.isPlaying}, '
     'isReady=${state.isReady}, error=${state.error}',
   );
 }

@@ -42,20 +42,22 @@ void main() {
       expect(item.isHeard, isFalse);
     });
 
-    test('contentUnavailable is the only error that shows unavailable screen',
-        () {
-      expect(PlayerError.contentUnavailable.showsUnavailableScreen, isTrue);
+    test(
+      'contentUnavailable is the only error that shows unavailable screen',
+      () {
+        expect(PlayerError.contentUnavailable.showsUnavailableScreen, isTrue);
 
-      // All other errors show in the normal player UI.
-      for (final error in PlayerError.values) {
-        if (error == PlayerError.contentUnavailable) continue;
-        expect(
-          error.showsUnavailableScreen,
-          isFalse,
-          reason: '$error should not show unavailable screen',
-        );
-      }
-    });
+        // All other errors show in the normal player UI.
+        for (final error in PlayerError.values) {
+          if (error == PlayerError.contentUnavailable) continue;
+          expect(
+            error.showsUnavailableScreen,
+            isFalse,
+            reason: '$error should not show unavailable screen',
+          );
+        }
+      },
+    );
 
     test('Spotify items never expire (availableUntil is null)', () {
       final item = TileItem(

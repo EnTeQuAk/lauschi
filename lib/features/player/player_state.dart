@@ -1,7 +1,11 @@
 import 'package:flutter/foundation.dart';
 import 'package:lauschi/features/player/player_error.dart';
 
-/// Current track metadata from Spotify playback.
+/// Hero tag for the album art animation between now-playing bar and
+/// full player screen.
+const playerArtworkHeroTag = 'player-artwork';
+
+/// Current track metadata.
 @immutable
 class TrackInfo {
   const TrackInfo({
@@ -37,12 +41,9 @@ class PlaybackState {
   const PlaybackState({
     this.isPlaying = false,
     this.isReady = false,
-    this.deviceId,
     this.track,
     this.positionMs = 0,
     this.durationMs = 0,
-    this.trackNumber = 0,
-    this.nextTracksCount = 0,
     this.error,
     this.nextEpisodeTitle,
     this.nextEpisodeCoverUrl,
@@ -51,14 +52,11 @@ class PlaybackState {
     this.activeGroupId,
   });
 
-  /// Spotify Web Playback SDK is connected and has a device ID.
+  /// Player backend is ready for playback.
   final bool isReady;
 
   /// Audio is currently playing (not paused).
   final bool isPlaying;
-
-  /// Device ID assigned by Spotify SDK.
-  final String? deviceId;
 
   /// Currently playing track metadata.
   final TrackInfo? track;
@@ -68,14 +66,6 @@ class PlaybackState {
 
   /// Total track duration in milliseconds.
   final int durationMs;
-
-  /// 1-based position of the current track within the album.
-  /// Approximate for very long albums where the SDK window is capped.
-  final int trackNumber;
-
-  /// Number of tracks remaining after the current one. Zero means this
-  /// is the last track in the album/context.
-  final int nextTracksCount;
 
   /// Last error, if any. Backend code sets the enum value; UI maps it
   /// to user-facing text.
@@ -104,19 +94,13 @@ class PlaybackState {
 
   /// Copy with optional field clearing.
   ///
-  /// [clearDeviceId] and [clearTrack] set the respective fields to null.
   /// [error] is always replaced (pass null to clear error).
   PlaybackState copyWith({
     bool? isPlaying,
     bool? isReady,
-    String? deviceId,
-    bool clearDeviceId = false,
     TrackInfo? track,
-    bool clearTrack = false,
     int? positionMs,
     int? durationMs,
-    int? trackNumber,
-    int? nextTracksCount,
     PlayerError? error,
     String? nextEpisodeTitle,
     String? nextEpisodeCoverUrl,
@@ -131,12 +115,9 @@ class PlaybackState {
     return PlaybackState(
       isPlaying: isPlaying ?? this.isPlaying,
       isReady: isReady ?? this.isReady,
-      deviceId: clearDeviceId ? null : (deviceId ?? this.deviceId),
-      track: clearTrack ? null : (track ?? this.track),
+      track: track ?? this.track,
       positionMs: positionMs ?? this.positionMs,
       durationMs: durationMs ?? this.durationMs,
-      trackNumber: trackNumber ?? this.trackNumber,
-      nextTracksCount: nextTracksCount ?? this.nextTracksCount,
       error: error,
       nextEpisodeTitle:
           clearNextEpisode ? null : (nextEpisodeTitle ?? this.nextEpisodeTitle),
