@@ -17,7 +17,6 @@
   // UIBackgroundModes: audio in Info.plist is necessary but may not suffice.
 
   var player = null;
-  var deviceId = null;
 
   function post(type, payload) {
     try {
@@ -48,9 +47,8 @@
       });
 
       player.addListener('ready', function(data) {
-        deviceId = data.device_id;
-        post('ready', { device_id: deviceId });
-        post_log('Player ready, device_id: ' + deviceId);
+        post('ready', { device_id: data.device_id });
+        post_log('Player ready, device_id: ' + data.device_id);
       });
 
       player.addListener('not_ready', function(data) {
@@ -134,10 +132,6 @@
       }
     },
 
-    toggle_play: function() {
-      if (player) player.togglePlay();
-    },
-
     pause: function() {
       if (player) player.pause();
     },
@@ -156,10 +150,6 @@
 
     seek: function(position_ms) {
       if (player) player.seek(position_ms);
-    },
-
-    set_volume: function(volume) {
-      if (player) player.setVolume(volume);
     },
 
     // Re-register the SDK player with Spotify. Called by Dart when
@@ -182,7 +172,6 @@
       if (player) {
         player.disconnect();
         player = null;
-        deviceId = null;
       }
     },
   };

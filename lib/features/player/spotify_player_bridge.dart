@@ -42,7 +42,8 @@ class SpotifyPlayerBridge {
   /// Current playback state.
   PlaybackState get currentState => _state;
 
-  /// Access the controller if initialized, null otherwise.
+  /// The WebView controller, or null if not yet initialized.
+  /// Used by `_WebViewHost` widget to render the hidden WebView.
   WebViewController? get controllerOrNull => _controller;
 
   /// Initialize the WebView and load the player HTML.
@@ -387,12 +388,7 @@ class SpotifyPlayerBridge {
     }
   }
 
-  /// Toggle play/pause via the local SDK player.
-  Future<void> togglePlay() async {
-    await _runJs('window.lauschi.toggle_play()');
-  }
-
-  /// Pause via the local SDK player (idempotent — safe to call when paused).
+  /// Pause via the local SDK player (idempotent, safe to call when paused).
   Future<void> pause() async {
     await _runJs('window.lauschi.pause()');
   }
