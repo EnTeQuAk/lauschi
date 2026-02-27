@@ -94,6 +94,20 @@ class PlayerNotifier extends _$PlayerNotifier {
 
     unawaited(_subscription?.cancel());
     _subscription = _bridge!.stateStream.listen((bridgeState) {
+      // When a non-Spotify backend (DirectPlayer) owns playback, ignore
+      // bridge playback events. Stale SDK state_changed events on iOS
+      // (WKWebView lifecycle, reconnects) would overwrite isPlaying and
+      // position, causing pause to appear broken. Still accept
+      // isReady/deviceId so Spotify is warm when we switch back.
+      if (_backendSubscription != null) {
+        state = state.copyWith(
+          isReady: bridgeState.isReady,
+          deviceId: bridgeState.deviceId,
+          clearDeviceId: bridgeState.deviceId == null,
+        );
+        return;
+      }
+
       // Merge bridge-level fields into the existing state. The bridge
       // only knows about SDK playback (isPlaying, position, track, etc.)
       // but not about app-level fields (activeCardId, activeGroupId,
