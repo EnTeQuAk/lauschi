@@ -19,25 +19,26 @@ part 'player_provider.g.dart';
 
 const _tag = 'PlayerProvider';
 
+// ---------------------------------------------------------------------------
+// Providers for shared services
+// ---------------------------------------------------------------------------
+
 @Riverpod(keepAlive: true)
 SpotifyApi spotifyApi(Ref ref) {
   final api = SpotifyApi();
 
-  // Keep API token in sync with auth state.
   ref.listen(spotifyAuthProvider, (_, next) {
     if (next is AuthAuthenticated) {
       api.updateToken(next.tokens.accessToken);
     }
   });
 
-  // Set initial token if already authenticated.
   final authState = ref.read(spotifyAuthProvider);
   if (authState is AuthAuthenticated) {
     api.updateToken(authState.tokens.accessToken);
   }
 
-  // Wire 401 → refresh → retry. When the API gets a 401, it asks the
-  // auth notifier for a fresh token and retries the request once.
+  // Wire 401 → refresh → retry.
   api.onTokenExpired = () {
     return ref.read(spotifyAuthProvider.notifier).validAccessToken();
   };
@@ -62,20 +63,69 @@ SpotifyPlayerBridge spotifyPlayerBridge(Ref ref) {
   return bridge;
 }
 
-/// Manages playback state and coordinates bridge + API.
+// ---------------------------------------------------------------------------
+// _ActiveBackend — bundles a backend with its state subscription
+// ---------------------------------------------------------------------------
+
+/// Pairs a [PlayerBackend] with its state subscription so they are always
+/// created and torn down together. Prevents dangling subscriptions from
+/// a disposed backend writing stale state.
+class _ActiveBackend {
+  _ActiveBackend(this.backend, this._subscription);
+
+  final PlayerBackend backend;
+  final StreamSubscription<PlaybackState> _subscription;
+
+  /// Stop playback and cancel the state subscription.
+  /// Does NOT dispose the backend — call [dispose] for full cleanup.
+  Future<void> stop() async {
+    await _subscription.cancel();
+    await backend.stop();
+  }
+
+  /// Full cleanup: cancel subscription and release backend resources.
+  /// Only called on app shutdown, not during normal backend switching.
+  Future<void> dispose() async {
+    await _subscription.cancel();
+    await backend.dispose();
+  }
+}
+
+// ---------------------------------------------------------------------------
+// PlayerNotifier
+// ---------------------------------------------------------------------------
+
+/// Manages playback state and coordinates backends, position saving,
+/// media session, and auto-advance.
 @Riverpod(keepAlive: true)
 class PlayerNotifier extends _$PlayerNotifier {
   SpotifyPlayerBridge? _bridge;
   SpotifyApi? _api;
   MediaSessionHandler? _mediaSession;
-  StreamSubscription<PlaybackState>? _subscription;
-  StreamSubscription<PlaybackState>? _backendSubscription;
-  Timer? _positionSaveTimer;
 
-  /// Active playback backend. Set by [playCard], used by control methods.
-  PlayerBackend? _activeBackend;
+  /// Permanent subscription to the Spotify bridge state stream.
+  /// Routes playback events only when Spotify is the active backend;
+  /// always accepts device metadata (isReady/deviceId).
+  StreamSubscription<PlaybackState>? _bridgeSub;
+
+  /// The currently active backend + its subscription, or null.
+  _ActiveBackend? _active;
 
   Timer? _advanceTimer;
+  Timer? _positionSaveTimer;
+
+  /// Monotonically increasing generation counter. Each [playCard] call
+  /// increments this. Stale async continuations compare their captured
+  /// generation and bail out if superseded.
+  int _playGen = 0;
+
+  // -- Position tracking state --
+  int _playTimeMs = 0;
+  DateTime? _playStartedAt;
+
+  /// Minimum play time before saving position. Prevents brief taps from
+  /// marking episodes as "in progress".
+  static const _minPlayTimeMs = 20000; // 20 seconds
 
   @override
   PlaybackState build() {
@@ -83,7 +133,7 @@ class PlayerNotifier extends _$PlayerNotifier {
     _api = ref.watch(spotifyApiProvider);
     _mediaSession = ref.watch(mediaSessionHandlerProvider);
 
-    // Wire system media button callbacks → our methods.
+    // Wire system media button callbacks.
     if (_mediaSession != null) {
       _mediaSession!.onPlay = resume;
       _mediaSession!.onPause = () => unawaited(pause());
@@ -92,51 +142,44 @@ class PlayerNotifier extends _$PlayerNotifier {
       _mediaSession!.onSeek = (pos) => unawaited(seek(pos.inMilliseconds));
     }
 
-    unawaited(_subscription?.cancel());
-    _subscription = _bridge!.stateStream.listen((bridgeState) {
-      // When a non-Spotify backend (DirectPlayer) owns playback, ignore
-      // bridge playback events. Stale SDK state_changed events on iOS
-      // (WKWebView lifecycle, reconnects) would overwrite isPlaying and
-      // position, causing pause to appear broken. Still accept
-      // isReady/deviceId so Spotify is warm when we switch back.
-      if (_backendSubscription != null) {
-        state = state.copyWith(
-          isReady: bridgeState.isReady,
-          deviceId: bridgeState.deviceId,
-          clearDeviceId: bridgeState.deviceId == null,
-        );
-        return;
-      }
-
-      // Merge bridge-level fields into the existing state. The bridge
-      // only knows about SDK playback (isPlaying, position, track, etc.)
-      // but not about app-level fields (activeCardId, activeGroupId,
-      // isLoading, nextEpisodeTitle, etc.). A full replace would wipe
-      // those on every SDK event.
-      state = state.copyWith(
-        isPlaying: bridgeState.isPlaying,
-        isReady: bridgeState.isReady,
-        deviceId: bridgeState.deviceId,
-        clearDeviceId: bridgeState.deviceId == null,
-        track: bridgeState.track,
-        positionMs: bridgeState.positionMs,
-        durationMs: bridgeState.durationMs,
-        trackNumber: bridgeState.trackNumber,
-        nextTracksCount: bridgeState.nextTracksCount,
-      );
-      _onStateChange(state);
-    });
+    // Bridge subscription: always accept device metadata; only route
+    // playback fields when SpotifyBackend is the active backend.
+    unawaited(_bridgeSub?.cancel());
+    _bridgeSub = _bridge!.stateStream.listen(_onBridgeEvent);
 
     ref.onDispose(() {
-      unawaited(_subscription?.cancel());
-      unawaited(_backendSubscription?.cancel());
+      unawaited(_bridgeSub?.cancel());
+      unawaited(_active?.dispose());
       _positionSaveTimer?.cancel();
       _advanceTimer?.cancel();
-      unawaited(_activeBackend?.dispose());
     });
 
     return const PlaybackState();
   }
+
+  void _onBridgeEvent(PlaybackState bridgeState) {
+    // Always accept device metadata so Spotify stays warm.
+    state = state.copyWith(
+      isReady: bridgeState.isReady,
+      deviceId: bridgeState.deviceId,
+      clearDeviceId: bridgeState.deviceId == null,
+    );
+
+    // Only route playback fields when Spotify owns playback.
+    if (_active?.backend is! SpotifyBackend) return;
+
+    state = state.copyWith(
+      isPlaying: bridgeState.isPlaying,
+      track: bridgeState.track,
+      positionMs: bridgeState.positionMs,
+      durationMs: bridgeState.durationMs,
+      trackNumber: bridgeState.trackNumber,
+      nextTracksCount: bridgeState.nextTracksCount,
+    );
+    _onPlaybackStateChange(state);
+  }
+
+  // ─── Public API ──────────────────────────────────────────────────────
 
   /// Initialize the bridge with current auth tokens.
   /// Call after successful Spotify login.
@@ -158,40 +201,13 @@ class PlayerNotifier extends _$PlayerNotifier {
     Log.info(_tag, 'Bridge initialized');
   }
 
-  /// Play a raw Spotify URI (album, playlist, or track).
-  ///
-  /// Prefer [playCard] which handles provider branching, expiration checks,
-  /// and resume state. This method does not set `activeCardId`, so position
-  /// saving and mark-heard will not work.
-  @Deprecated('Use playCard(cardId) instead')
-  Future<void> play(String spotifyUri) async {
-    final deviceId = state.deviceId;
-    if (deviceId == null || _api == null) {
-      Log.error(_tag, 'Cannot play — no device ID');
-      return;
-    }
-
-    state = state.copyWith(
-      activeContextUri: spotifyUri,
-      clearActiveCard: true,
-      clearActiveGroupId: true,
-    );
-    Log.info(_tag, 'Playing', data: {'uri': spotifyUri});
-
-    try {
-      await _api!.play(spotifyUri, deviceId: deviceId);
-    } on Exception catch (e) {
-      Log.error(_tag, 'Play failed', exception: e);
-    }
-  }
-
-  /// Pause playback (idempotent — safe to call when already paused).
+  /// Pause playback (idempotent).
   Future<void> pause() async {
     _advanceTimer?.cancel();
     await _backendCommand('pause', (b) => b.pause());
   }
 
-  /// Resume playback (idempotent — safe to call when already playing).
+  /// Resume playback (idempotent).
   Future<void> resume() async {
     await _backendCommand('resume', (b) => b.resume());
   }
@@ -206,75 +222,57 @@ class PlayerNotifier extends _$PlayerNotifier {
     }
   }
 
-  /// Skip to next track. No-op for single-file backends.
   Future<void> nextTrack() async {
     await _backendCommand('next', (b) => b.nextTrack());
   }
 
-  /// Skip to previous track. No-op for single-file backends.
   Future<void> prevTrack() async {
     await _backendCommand('prev', (b) => b.prevTrack());
   }
 
-  /// Clear any error state.
+  Future<void> seek(int positionMs) async {
+    await _backendCommand('seek', (b) => b.seek(positionMs));
+  }
+
   void clearError() {
     _advanceTimer?.cancel();
     // ignore: avoid_redundant_argument_values, null clears the error
     state = state.copyWith(error: null);
   }
 
-  /// Seek to position in milliseconds.
-  Future<void> seek(int positionMs) async {
-    await _backendCommand('seek', (b) => b.seek(positionMs));
-  }
-
-  /// Delegate a command to the active backend with error handling.
-  Future<void> _backendCommand(
-    String name,
-    Future<void> Function(PlayerBackend) command,
-  ) async {
-    final backend = _activeBackend;
-    if (backend == null) return;
-    try {
-      await command(backend);
-    } on Exception catch (e) {
-      Log.error(_tag, '$name failed', exception: e);
-      state = state.copyWith(error: 'Steuerung fehlgeschlagen');
-    }
-  }
-
   /// Resume playback for a card, restoring saved position.
-  ///
-  /// Looks up the card by ID, branches on provider, and restores resume
-  /// state. Group ID for auto-advance comes from the card's groupId field.
   Future<void> playCard(String cardId) async {
-    // Cancel any pending auto-advance and position save timer.
+    final gen = ++_playGen;
+
+    // Cancel pending timers and reset tracking.
     _advanceTimer?.cancel();
     _positionSaveTimer?.cancel();
     _positionSaveTimer = null;
-    // Reset play time tracking for the new card.
     _playTimeMs = 0;
     _playStartedAt = null;
 
-    final cards = ref.read(tileItemRepositoryProvider);
-    final card = await cards.getById(cardId);
+    final card = await ref.read(tileItemRepositoryProvider).getById(cardId);
     if (card == null) {
       Log.error(_tag, 'Card not found', data: {'cardId': cardId});
       return;
     }
+    if (_playGen != gen) return;
 
-    // Check content expiration before attempting playback.
+    // Check content expiration.
     if (card.availableUntil != null &&
         card.availableUntil!.isBefore(DateTime.now())) {
-      // Don't set activeCardId — prevents stale state from leaking into
-      // position saves or mark-heard operations.
       state = state.copyWith(
         error: 'Diese Geschichte ist leider nicht mehr verfügbar',
       );
       return;
     }
 
-    // Set active state only after validation passes.
+    // Capture old card values before overwriting state.
+    final oldCardId = state.activeCardId;
+    final oldTrack = state.track;
+    final oldPos = _active?.backend.currentPositionMs ?? state.positionMs;
+
+    // Set active card state.
     state = state.copyWith(
       activeCardId: cardId,
       activeContextUri: card.providerUri,
@@ -285,42 +283,75 @@ class PlayerNotifier extends _$PlayerNotifier {
       clearNextEpisode: true,
     );
 
-    // Stop the previous backend before switching. Prevents dual playback
-    // and stale state from the previous backend bleeding into position saves.
-    await _activeBackend?.stop();
-    unawaited(_backendSubscription?.cancel());
-    _backendSubscription = null;
+    // Save position from the old backend before tearing it down.
+    if (_playTimeMs >= _minPlayTimeMs &&
+        oldCardId != null &&
+        oldTrack != null) {
+      unawaited(_savePosition(oldCardId, oldTrack, oldPos));
+    }
 
-    switch (card.provider) {
-      case 'spotify':
-        _activeBackend = SpotifyBackend(_bridge!);
-        await _playSpotify(card);
-      case 'ard_audiothek':
-        final player = DirectPlayer();
-        _activeBackend = player;
-        await _playDirect(card, player);
-      // Future: case 'apple_music':
-      default:
-        Log.error(
-          _tag,
-          'Unsupported provider',
-          data: {'provider': card.provider},
-        );
-        state = state.copyWith(
-          isLoading: false,
-          error: 'Anbieter nicht unterstützt: ${card.provider}',
-        );
+    // Pause Spotify bridge if it's playing (avoid dual audio).
+    if (_bridge?.currentState.isPlaying ?? false) {
+      await _bridge?.pause();
+    }
+
+    // Tear down previous backend. Await ensures clean handoff.
+    await _active?.stop();
+    _active = null;
+    if (_playGen != gen) return; // Superseded during teardown.
+
+    // Create and activate new backend.
+    try {
+      switch (card.provider) {
+        case 'spotify':
+          await _startSpotify(card, gen);
+        case 'ard_audiothek':
+          await _startDirect(card, gen);
+        default:
+          Log.error(
+            _tag,
+            'Unsupported provider',
+            data: {'provider': card.provider},
+          );
+          state = state.copyWith(
+            isLoading: false,
+            error: 'Anbieter nicht unterstützt: ${card.provider}',
+          );
+      }
+    } on Exception catch (e) {
+      if (_playGen != gen) return;
+      Log.error(_tag, 'Play failed', exception: e);
+      state = state.copyWith(
+        isLoading: false,
+        error: 'Wiedergabe fehlgeschlagen',
+      );
     }
   }
 
-  /// Play via Spotify Web Playback SDK.
-  Future<void> _playSpotify(db.TileItem card) async {
+  // ─── Backend command dispatch ────────────────────────────────────────
+
+  Future<void> _backendCommand(
+    String name,
+    Future<void> Function(PlayerBackend) command,
+  ) async {
+    final backend = _active?.backend;
+    if (backend == null) return;
+    try {
+      await command(backend);
+    } on Exception catch (e) {
+      Log.error(_tag, '$name failed', exception: e);
+      state = state.copyWith(error: 'Steuerung fehlgeschlagen');
+    }
+  }
+
+  // ─── Spotify startup ────────────────────────────────────────────────
+
+  Future<void> _startSpotify(db.TileItem card, int gen) async {
     // Proactively refresh the token before attempting playback.
-    // Avoids a 401 → refresh → retry round-trip on every play after expiry.
     final authNotifier = ref.read(spotifyAuthProvider.notifier);
     final token = await authNotifier.validAccessToken();
+    if (_playGen != gen) return;
     if (token == null) {
-      Log.error(_tag, 'Cannot play — not authenticated');
       state = state.copyWith(
         isLoading: false,
         error: 'Spotify nicht verbunden — bitte neu anmelden',
@@ -329,32 +360,50 @@ class PlayerNotifier extends _$PlayerNotifier {
     }
     _api?.updateToken(token);
 
-    final deviceId = state.deviceId;
-    if (deviceId == null || _api == null) {
-      // No device — try reconnecting the SDK before giving up.
-      Log.warn(_tag, 'No device ID — attempting reconnect');
-      await _bridge!.reconnect();
-      final newDeviceId = await _bridge!.waitForDevice();
-      if (newDeviceId == null || _api == null) {
-        Log.warn(_tag, 'Cannot play — no device ID after reconnect');
-        state = state.copyWith(
-          isLoading: false,
-          error: 'Spotify nicht verbunden',
-        );
-        return;
-      }
-      // Brief delay for Spotify's servers to register the new device.
-      await Future<void>.delayed(const Duration(milliseconds: 500));
-      return _playOnDeviceWithRetry(card, newDeviceId);
-    }
+    final deviceId = await _ensureDevice(gen);
+    if (deviceId == null || _playGen != gen) return;
 
-    return _playOnDeviceWithRetry(card, deviceId);
+    // Activate the backend only after we have a device — avoids a zombie
+    // _active pointing to a backend that can't play. SpotifyBackend routes
+    // state through the bridge subscription; the _ActiveBackend subscription
+    // is a no-op that keeps the pair consistent.
+    final backend = SpotifyBackend(_bridge!);
+    _active = _ActiveBackend(
+      backend,
+      backend.stateStream.listen((_) {}),
+    );
+
+    await _playOnDevice(card, deviceId, gen);
   }
 
-  /// Send play command with one reconnect retry on device-not-found.
-  Future<void> _playOnDeviceWithRetry(
+  /// Get a valid device ID, reconnecting if needed. Returns null on failure.
+  Future<String?> _ensureDevice(int gen) async {
+    if (state.deviceId != null) return state.deviceId;
+
+    Log.warn(_tag, 'No device ID — attempting reconnect');
+    await _bridge!.reconnect();
+    final deviceId = await _bridge!.waitForDevice();
+    if (_playGen != gen) return null;
+    if (deviceId == null) {
+      Log.warn(_tag, 'No device ID after reconnect');
+      state = state.copyWith(
+        isLoading: false,
+        error: 'Spotify nicht verbunden',
+      );
+      return null;
+    }
+
+    // Brief delay for Spotify's servers to register the new device.
+    await Future<void>.delayed(const Duration(milliseconds: 500));
+    if (_playGen != gen) return null;
+    return deviceId;
+  }
+
+  /// Send play command to Spotify, with one reconnect retry on 404.
+  Future<void> _playOnDevice(
     db.TileItem card,
     String deviceId,
+    int gen,
   ) async {
     Log.info(
       _tag,
@@ -368,71 +417,37 @@ class PlayerNotifier extends _$PlayerNotifier {
     );
 
     try {
-      await _playOnDevice(card.providerUri, deviceId, card);
+      await _sendPlayCommand(card.providerUri, deviceId, card);
+      if (_playGen != gen) return;
       state = state.copyWith(isLoading: false);
     } on SpotifyDeviceNotFoundException {
-      // Device stale — reconnect the SDK and retry once.
+      if (_playGen != gen) return;
+      // Device stale — reconnect once.
       Log.warn(_tag, 'Device not found — reconnecting');
-      await _reconnectAndRetry(card);
-    } on Exception catch (e) {
-      Log.error(_tag, 'Play failed', exception: e);
-      state = state.copyWith(
-        isLoading: false,
-        error: 'Wiedergabe fehlgeschlagen',
-      );
+      final newDeviceId = await _ensureDevice(gen);
+      if (newDeviceId == null || _playGen != gen) return;
+
+      try {
+        await _sendPlayCommand(card.providerUri, newDeviceId, card);
+        if (_playGen != gen) return;
+        state = state.copyWith(isLoading: false);
+      } on SpotifyDeviceNotFoundException {
+        if (_playGen != gen) return;
+        Log.warn(_tag, 'Device still not found after reconnect');
+        state = state.copyWith(
+          isLoading: false,
+          error: 'Spotify-Verbindung verloren',
+        );
+      }
     }
   }
 
-  /// Reconnect the SDK and retry playback once.
-  ///
-  /// After getting a new device_id, waits briefly for Spotify's servers
-  /// to register the device before sending the play command. If the retry
-  /// still fails with device-not-found, logs a warning (expected transient
-  /// condition) instead of a Sentry error.
-  Future<void> _reconnectAndRetry(db.TileItem card) async {
-    await _bridge!.reconnect();
-    final newDeviceId = await _bridge!.waitForDevice();
-    if (newDeviceId == null) {
-      Log.warn(_tag, 'Reconnect timed out — no device');
-      state = state.copyWith(
-        isLoading: false,
-        error: 'Spotify-Verbindung verloren',
-      );
-      return;
-    }
-
-    // Brief delay for Spotify's servers to register the new device.
-    // The SDK fires 'ready' locally before the REST API recognizes
-    // the device_id, causing a second 404 without this.
-    await Future<void>.delayed(const Duration(milliseconds: 500));
-
-    try {
-      await _playOnDevice(card.providerUri, newDeviceId, card);
-      state = state.copyWith(isLoading: false);
-    } on SpotifyDeviceNotFoundException {
-      // Propagation delay — device registered locally but REST API
-      // hasn't caught up. Transient condition, not a code bug.
-      Log.warn(_tag, 'Device still not found after reconnect');
-      state = state.copyWith(
-        isLoading: false,
-        error: 'Spotify-Verbindung verloren',
-      );
-    } on Exception catch (e) {
-      Log.error(_tag, 'Retry after reconnect failed', exception: e);
-      state = state.copyWith(
-        isLoading: false,
-        error: 'Wiedergabe fehlgeschlagen',
-      );
-    }
-  }
-
-  /// Send play command to Spotify API on the given device.
-  Future<void> _playOnDevice(
+  Future<void> _sendPlayCommand(
     String spotifyUri,
     String deviceId,
-    db.TileItem? card,
+    db.TileItem card,
   ) async {
-    if (card != null && card.lastTrackUri != null && card.lastPositionMs > 0) {
+    if (card.lastTrackUri != null && card.lastPositionMs > 0) {
       await _api!.play(
         spotifyUri,
         deviceId: deviceId,
@@ -444,10 +459,9 @@ class PlayerNotifier extends _$PlayerNotifier {
     }
   }
 
-  /// Play via DirectPlayer (just_audio) for HTTP audio URLs.
-  ///
-  /// Used for ARD Audiothek and any future non-SDK provider.
-  Future<void> _playDirect(db.TileItem card, DirectPlayer player) async {
+  // ─── DirectPlayer startup ──────────────────────────────────────────
+
+  Future<void> _startDirect(db.TileItem card, int gen) async {
     if (card.audioUrl == null || card.audioUrl!.isEmpty) {
       Log.error(_tag, 'No audio URL', data: {'cardId': card.id});
       state = state.copyWith(
@@ -457,31 +471,29 @@ class PlayerNotifier extends _$PlayerNotifier {
       return;
     }
 
-    // Stop Spotify playback if active (avoid two players at once).
-    if (_bridge?.currentState.isPlaying ?? false) {
-      await _bridge?.pause();
-    }
-
-    // Subscribe to direct player state (replaces Spotify bridge events).
-    _backendSubscription = player.stateStream.listen((directState) {
-      // Merge playback fields, preserving app-level state (same as bridge).
-      state = state.copyWith(
-        isPlaying: directState.isPlaying,
-        isReady: directState.isReady,
-        track: directState.track,
-        positionMs: directState.positionMs,
-        durationMs: directState.durationMs,
-        trackNumber: directState.trackNumber,
-        nextTracksCount: directState.nextTracksCount,
-      );
-      _onStateChange(state);
-    });
+    final player = DirectPlayer();
+    _active = _ActiveBackend(
+      player,
+      player.stateStream.listen((directState) {
+        if (_playGen != gen) return;
+        state = state.copyWith(
+          isPlaying: directState.isPlaying,
+          isReady: directState.isReady,
+          track: directState.track,
+          positionMs: directState.positionMs,
+          durationMs: directState.durationMs,
+          trackNumber: directState.trackNumber,
+          nextTracksCount: directState.nextTracksCount,
+        );
+        _onPlaybackStateChange(state);
+      }),
+    );
 
     final trackInfo = TrackInfo(
       uri: card.providerUri,
       name: card.customTitle ?? card.title,
-      artist: '', // ARD items don't have a per-track artist
-      album: '', // Will be the show title once we have it
+      artist: '',
+      album: '',
       artworkUrl: card.coverUrl,
     );
 
@@ -495,98 +507,74 @@ class PlayerNotifier extends _$PlayerNotifier {
       },
     );
 
-    try {
-      await player.play(
-        audioUrl: card.audioUrl!,
-        trackInfo: trackInfo,
-        positionMs: card.lastPositionMs,
-      );
-      state = state.copyWith(isLoading: false);
-    } on Exception catch (e) {
-      Log.error(_tag, 'Direct play failed', exception: e);
-      state = state.copyWith(
-        isLoading: false,
-        error: 'Wiedergabe fehlgeschlagen',
-      );
-    }
+    await player.play(
+      audioUrl: card.audioUrl!,
+      trackInfo: trackInfo,
+      positionMs: card.lastPositionMs,
+    );
+    if (_playGen != gen) return;
+    state = state.copyWith(isLoading: false);
   }
 
-  /// Save position periodically while playing. Toggle wakelock.
-  /// Sync media session notification. Detect album completion.
-  void _onStateChange(PlaybackState newState) {
-    // Keep screen on while audio plays; release on pause/stop.
-    // Wakelock requires a foreground activity — catches
-    // NoActivityException when the app is backgrounded.
+  // ─── Playback state change handling ─────────────────────────────────
+
+  void _onPlaybackStateChange(PlaybackState newState) {
+    // No active backend → no side effects.
+    if (_active == null) return;
+
     unawaited(
       WakelockPlus.toggle(enable: newState.isPlaying).catchError((_) {}),
     );
-
-    // Update lock screen / notification controls.
     _mediaSession?.updateFromAppState(newState);
 
     if (newState.isPlaying) {
       _startPositionSave();
     } else {
       _stopPositionSave();
-      // Save immediately on pause (if threshold met).
-      if (_playTimeMs >= _minPlayTimeMs) {
-        Log.info(
-          _tag,
-          'Paused, saving position',
-          data: {
-            'cardId': state.activeCardId ?? 'null',
-            'playTimeMs': '$_playTimeMs',
-          },
-        );
-        unawaited(_savePosition());
-      } else {
-        Log.debug(
-          _tag,
-          'Paused, below threshold',
-          data: {
-            'playTimeMs': '$_playTimeMs',
-            'thresholdMs': '$_minPlayTimeMs',
-          },
-        );
+
+      // Capture values now — by the time the async save/mark-heard runs,
+      // a new card may own state and these fields would be wrong.
+      final cardId = state.activeCardId;
+      final track = state.track;
+      final posMs = _active?.backend.currentPositionMs ?? newState.positionMs;
+
+      if (_playTimeMs >= _minPlayTimeMs && cardId != null && track != null) {
+        unawaited(_savePosition(cardId, track, posMs));
       }
 
-      // Detect album completion: paused on the last track, within 5s of end.
-      // Using a fixed threshold instead of percentage — 90% of a 60-min
-      // Hörspiel would cut off 6 minutes of content.
-      // Use fresh position from backend (DirectPlayer state may lag).
-      final posMs = _activeBackend?.currentPositionMs ?? newState.positionMs;
+      // Album completion: paused on last track, within 5s of end.
       if (newState.nextTracksCount == 0 &&
           newState.durationMs > 0 &&
           posMs > newState.durationMs - 5000) {
-        unawaited(_onAlbumCompleted());
+        unawaited(_onAlbumCompleted(cardId));
       }
     }
   }
 
-  /// Mark the current episode heard, then auto-advance if in a series.
-  Future<void> _onAlbumCompleted() async {
+  // ─── Auto-advance ───────────────────────────────────────────────────
+
+  Future<void> _onAlbumCompleted(String? cardId) async {
+    if (cardId == null) return;
     Log.info(
       _tag,
       'Album completed',
       data: {
-        'cardId': state.activeCardId ?? 'null',
+        'cardId': cardId,
         'positionMs':
-            '${_activeBackend?.currentPositionMs ?? state.positionMs}',
+            '${_active?.backend.currentPositionMs ?? state.positionMs}',
         'durationMs': '${state.durationMs}',
       },
     );
-    await _markAlbumHeard();
+    await _markAlbumHeard(cardId);
 
     final groupId = state.activeGroupId;
     if (groupId == null) return;
 
-    // Only auto-advance for Hörspiel groups, not music.
     final groups = ref.read(tileRepositoryProvider);
     final group = await groups.getById(groupId);
     if (group == null || group.contentType != 'hoerspiel') return;
 
     final nextCard = await groups.nextUnheard(groupId);
-
     if (nextCard == null) {
       Log.info(_tag, 'Series finished — no more episodes');
       return;
@@ -608,53 +596,27 @@ class PlayerNotifier extends _$PlayerNotifier {
       unawaited(playCard(nextCard.id));
     });
 
-    // Signal the UI to show the next episode preview during the delay.
     state = state.copyWith(
       nextEpisodeTitle: nextCard.customTitle ?? nextCard.title,
       nextEpisodeCoverUrl: nextCard.coverUrl,
     );
   }
 
-  /// Cumulative play time for the current card. Reset on card change.
-  int _playTimeMs = 0;
-  DateTime? _playStartedAt;
-
-  /// Minimum play time before saving position (prevents brief taps from
-  /// marking episodes as "in progress").
-  static const _minPlayTimeMs = 20000; // 20 seconds
+  // ─── Position tracking ──────────────────────────────────────────────
 
   void _startPositionSave() {
-    // Already running — don't restart. DirectPlayer fires state updates
-    // frequently; restarting would cancel the timer before it ever ticks
-    // and prevent _playTimeMs from accumulating.
     if (_positionSaveTimer != null) return;
 
     _playStartedAt ??= DateTime.now();
-    Log.debug(_tag, 'Position save timer started');
-    // Save every 10 seconds while playing (if threshold met).
     _positionSaveTimer = Timer.periodic(
       const Duration(seconds: 10),
       (_) {
         _updatePlayTime();
-        if (_playTimeMs >= _minPlayTimeMs) {
-          Log.debug(
-            _tag,
-            'Timer tick: saving',
-            data: {
-              'playTimeMs': '$_playTimeMs',
-              'backendPos': '${_activeBackend?.currentPositionMs}',
-            },
-          );
-          unawaited(_savePosition());
-        } else {
-          Log.debug(
-            _tag,
-            'Timer tick: threshold not met',
-            data: {
-              'playTimeMs': '$_playTimeMs',
-              'thresholdMs': '$_minPlayTimeMs',
-            },
-          );
+        final cardId = state.activeCardId;
+        final track = state.track;
+        final posMs = _active?.backend.currentPositionMs ?? state.positionMs;
+        if (_playTimeMs >= _minPlayTimeMs && cardId != null && track != null) {
+          unawaited(_savePosition(cardId, track, posMs));
         }
       },
     );
@@ -668,14 +630,6 @@ class PlayerNotifier extends _$PlayerNotifier {
       _updatePlayTime();
       _playStartedAt = null;
     }
-    Log.debug(
-      _tag,
-      'Position save timer stopped',
-      data: {
-        'playTimeMs': '$_playTimeMs',
-        'thresholdMet': '${_playTimeMs >= _minPlayTimeMs}',
-      },
-    );
   }
 
   void _updatePlayTime() {
@@ -685,48 +639,24 @@ class PlayerNotifier extends _$PlayerNotifier {
     }
   }
 
-  Future<void> _savePosition() async {
-    final cardId = state.activeCardId;
-    final track = state.track;
-    // Query backend directly for fresh position instead of reading
-    // potentially stale state.positionMs (DirectPlayer only emits
-    // state on play/pause/duration, not on every position tick).
-    final positionMs = _activeBackend?.currentPositionMs ?? state.positionMs;
-    if (cardId == null || track == null || positionMs <= 0) return;
-
-    // Detect staleness: large gap between state and backend position
-    // means state updates are lagging (e.g. DirectPlayer not emitting).
-    final drift = (positionMs - state.positionMs).abs();
-    if (drift > 5000) {
-      Log.warn(
-        _tag,
-        'Position state stale',
-        data: {
-          'cardId': cardId,
-          'stateMs': '${state.positionMs}',
-          'backendMs': '$positionMs',
-          'driftMs': '$drift',
-        },
-      );
-    }
+  /// Save position to DB. All arguments are captured at the call site
+  /// to avoid reading stale [state] fields after an async gap.
+  Future<void> _savePosition(
+    String cardId,
+    TrackInfo track,
+    int positionMs,
+  ) async {
+    if (positionMs <= 0) return;
 
     try {
-      final cards = ref.read(tileItemRepositoryProvider);
-      await cards.savePosition(
-        itemId: cardId,
-        trackUri: track.uri,
-        trackNumber: state.trackNumber,
-        positionMs: positionMs,
-      );
-      Log.info(
-        _tag,
-        'Position saved',
-        data: {
-          'cardId': cardId,
-          'positionMs': '$positionMs',
-          'trackNumber': '${state.trackNumber}',
-        },
-      );
+      await ref
+          .read(tileItemRepositoryProvider)
+          .savePosition(
+            itemId: cardId,
+            trackUri: track.uri,
+            trackNumber: state.trackNumber,
+            positionMs: positionMs,
+          );
     } on Exception catch (e) {
       Log.error(
         _tag,
@@ -737,11 +667,8 @@ class PlayerNotifier extends _$PlayerNotifier {
     }
   }
 
-  /// Mark the currently-playing album as heard.
-  Future<void> _markAlbumHeard() async {
-    final cardId = state.activeCardId;
-    if (cardId == null) return;
-
+  /// Mark a card as heard. [cardId] is captured at the call site.
+  Future<void> _markAlbumHeard(String cardId) async {
     try {
       final cards = ref.read(tileItemRepositoryProvider);
       final card = await cards.getById(cardId);
@@ -751,13 +678,35 @@ class PlayerNotifier extends _$PlayerNotifier {
       Log.info(
         _tag,
         'Album completed',
-        data: {
-          'cardId': card.id,
-          'title': card.title,
-        },
+        data: {'cardId': card.id, 'title': card.title},
       );
     } on Exception catch (e) {
       Log.error(_tag, 'Mark heard failed', exception: e);
+    }
+  }
+
+  // ─── Deprecated ─────────────────────────────────────────────────────
+
+  /// Play a raw Spotify URI. Prefer [playCard].
+  @Deprecated('Use playCard(cardId) instead')
+  Future<void> play(String spotifyUri) async {
+    final deviceId = state.deviceId;
+    if (deviceId == null || _api == null) {
+      Log.error(_tag, 'Cannot play — no device ID');
+      return;
+    }
+
+    state = state.copyWith(
+      activeContextUri: spotifyUri,
+      clearActiveCard: true,
+      clearActiveGroupId: true,
+    );
+    Log.info(_tag, 'Playing', data: {'uri': spotifyUri});
+
+    try {
+      await _api!.play(spotifyUri, deviceId: deviceId);
+    } on Exception catch (e) {
+      Log.error(_tag, 'Play failed', exception: e);
     }
   }
 }
