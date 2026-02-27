@@ -1,3 +1,5 @@
+import 'dart:async' show unawaited;
+
 import 'package:lauschi/core/log.dart';
 import 'package:lauschi/core/spotify/spotify_api.dart';
 import 'package:lauschi/features/player/player_backend.dart';
@@ -6,12 +8,13 @@ import 'package:lauschi/features/player/spotify_player_bridge.dart';
 
 const _tag = 'SpotifyBackend';
 
-/// Adapter that controls Spotify playback via the Web API.
+/// Adapter that controls Spotify playback through both the local SDK
+/// and the Web API.
 ///
-/// All commands (pause, resume, seek, next, prev) go through the
-/// Spotify Web API as the primary path. The local SDK in the WebView
-/// is used for state observation only — the bridge's `stateStream`
-/// delivers playback events, but commands are never routed through JS.
+/// Commands fire the local SDK first (immediate audio effect, works
+/// offline) then the Web API (reliable server-side confirmation).
+/// The SDK call is fire-and-forget — we don't wait for it or fail
+/// on it. The Web API call is awaited and errors propagate.
 class SpotifyBackend extends PlayerBackend {
   SpotifyBackend(this._bridge, this._api);
 
@@ -33,6 +36,9 @@ class SpotifyBackend extends PlayerBackend {
   @override
   Future<void> pause() async {
     Log.info(_tag, 'pause');
+    // SDK: immediate local audio pause (fire-and-forget).
+    unawaited(_bridge.pause());
+    // Web API: reliable server-side pause.
     await _api.pause();
   }
 
@@ -40,8 +46,11 @@ class SpotifyBackend extends PlayerBackend {
   Future<void> resume() async {
     Log.info(_tag, 'resume');
     final deviceId = _bridge.deviceId;
+    // SDK: immediate local audio resume (fire-and-forget).
+    unawaited(_bridge.resume());
+    // Web API: reliable server-side resume.
     if (deviceId == null) {
-      Log.warn(_tag, 'No device ID for resume');
+      Log.warn(_tag, 'No device ID for Web API resume');
       return;
     }
     await _api.resume(deviceId: deviceId);
@@ -50,23 +59,27 @@ class SpotifyBackend extends PlayerBackend {
   @override
   Future<void> seek(int positionMs) async {
     Log.debug(_tag, 'seek', data: {'positionMs': '$positionMs'});
+    unawaited(_bridge.seek(positionMs));
     await _api.seek(positionMs);
   }
 
   @override
   Future<void> nextTrack() async {
     Log.info(_tag, 'nextTrack');
+    unawaited(_bridge.nextTrack());
     await _api.nextTrack();
   }
 
   @override
   Future<void> prevTrack() async {
     Log.info(_tag, 'prevTrack');
+    unawaited(_bridge.prevTrack());
     await _api.previousTrack();
   }
 
   @override
   Future<void> stop() async {
+    unawaited(_bridge.pause());
     await _api.pause();
   }
 
