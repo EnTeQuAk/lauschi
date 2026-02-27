@@ -22,6 +22,8 @@ const _tag = 'PlayerProvider';
 
 // ---------------------------------------------------------------------------
 // Providers for shared services
+// TODO(#206): spotifyApiProvider is used outside the player feature (parent
+// screens). Move to core/spotify/ in a provider-organization pass.
 // ---------------------------------------------------------------------------
 
 @Riverpod(keepAlive: true)
