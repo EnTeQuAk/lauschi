@@ -170,14 +170,17 @@ class _InterpolatedProgressState extends ConsumerState<_InterpolatedProgress>
     _position.value = (_anchorMs + deltaMs).clamp(0, state.durationMs);
   }
 
-  /// Re-anchor interpolation to a user-initiated seek position.
-  /// Without this, the next _onTick would overwrite _position with the
-  /// old anchor+delta, causing the slider to snap back visually until
-  /// the SDK confirms the new position.
-  void _seekTo(int ms) {
+  /// Update local position during drag without sending a seek command.
+  /// Prevents the slider from snapping back while the user is dragging.
+  void _scrubTo(int ms) {
     _anchorMs = ms;
     _anchorTime = DateTime.now();
     _position.value = ms;
+  }
+
+  /// Commit the seek when the user releases the slider.
+  void _seekTo(int ms) {
+    _scrubTo(ms);
     widget.onSeek(ms);
   }
 
@@ -192,6 +195,7 @@ class _InterpolatedProgressState extends ConsumerState<_InterpolatedProgress>
           (context, positionMs, _) => _ProgressBar(
             positionMs: positionMs,
             durationMs: durationMs,
+            onScrub: _scrubTo,
             onSeek: _seekTo,
           ),
     );
@@ -330,11 +334,13 @@ class _ProgressBar extends StatelessWidget {
   const _ProgressBar({
     required this.positionMs,
     required this.durationMs,
+    required this.onScrub,
     required this.onSeek,
   });
 
   final int positionMs;
   final int durationMs;
+  final void Function(int positionMs) onScrub;
   final void Function(int positionMs) onSeek;
 
   double get _progress =>
@@ -357,6 +363,11 @@ class _ProgressBar extends StatelessWidget {
           child: Slider(
             value: _progress,
             onChanged: (value) {
+              if (durationMs > 0) {
+                onScrub((value * durationMs).round());
+              }
+            },
+            onChangeEnd: (value) {
               if (durationMs > 0) {
                 onSeek((value * durationMs).round());
               }

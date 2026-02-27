@@ -59,7 +59,8 @@ class SpotifyBackend extends PlayerBackend {
   @override
   Future<void> seek(int positionMs) async {
     Log.debug(_tag, 'seek', data: {'positionMs': '$positionMs'});
-    unawaited(_bridge.seek(positionMs));
+    // Seek goes through Web API only. Firing both causes competing
+    // state_changed events from the SDK that make the progress bar jump.
     await _api.seek(positionMs);
   }
 
