@@ -7,7 +7,6 @@ import 'package:lauschi/features/player/player_error.dart';
 import 'package:lauschi/features/player/player_provider.dart';
 import 'package:lauschi/features/player/player_state.dart';
 import 'package:lauschi/features/player/screens/player_screen.dart';
-import 'package:lauschi/features/player/spotify_player_bridge.dart';
 
 import '../../helpers/fake_player_notifier.dart';
 
@@ -24,9 +23,6 @@ void main() {
         ProviderScope(
           overrides: [
             playerProvider.overrideWith(() => fakeNotifier),
-            spotifyPlayerBridgeProvider.overrideWithValue(
-              SpotifyPlayerBridge(),
-            ),
           ],
           child: const MaterialApp(home: PlayerScreen()),
         ),
@@ -47,9 +43,6 @@ void main() {
         ProviderScope(
           overrides: [
             playerProvider.overrideWith(() => fakeNotifier),
-            spotifyPlayerBridgeProvider.overrideWithValue(
-              SpotifyPlayerBridge(),
-            ),
           ],
           child: MaterialApp(
             home: const Scaffold(body: Text('Home')),
@@ -101,9 +94,6 @@ void main() {
         ProviderScope(
           overrides: [
             playerProvider.overrideWith(() => fakeNotifier),
-            spotifyPlayerBridgeProvider.overrideWithValue(
-              SpotifyPlayerBridge(),
-            ),
           ],
           child: const MaterialApp(home: PlayerScreen()),
         ),
@@ -134,9 +124,6 @@ void main() {
         ProviderScope(
           overrides: [
             playerProvider.overrideWith(() => fakeNotifier),
-            spotifyPlayerBridgeProvider.overrideWithValue(
-              SpotifyPlayerBridge(),
-            ),
           ],
           child: const MaterialApp(home: PlayerScreen()),
         ),
