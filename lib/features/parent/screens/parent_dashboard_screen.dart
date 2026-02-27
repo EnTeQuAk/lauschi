@@ -168,8 +168,8 @@ class ParentDashboardScreen extends ConsumerWidget {
       return;
     }
 
-    // Navigate to the tabbed add-content screen.
-    unawaited(context.push(AppRoutes.parentAddContent));
+    // Navigate to the tabbed add-content screen, opening the tapped tab.
+    unawaited(context.push(AppRoutes.parentAddContent, extra: provider.type));
   }
 }
 

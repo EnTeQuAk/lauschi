@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lauschi/core/auth/pin_service.dart';
 import 'package:lauschi/core/log.dart';
+import 'package:lauschi/core/providers/provider_type.dart';
 import 'package:lauschi/core/spotify/spotify_auth_provider.dart';
 import 'package:lauschi/features/onboarding/screens/onboarding_provider.dart';
 import 'package:lauschi/features/onboarding/screens/onboarding_screen.dart';
@@ -144,7 +145,10 @@ GoRouter createRouter(Ref ref, {String initialLocation = AppRoutes.kidHome}) {
           ),
           GoRoute(
             path: 'add',
-            builder: (context, state) => const AddContentScreen(),
+            builder: (context, state) {
+              final initialTab = state.extra as ProviderType?;
+              return AddContentScreen(initialTab: initialTab);
+            },
           ),
           GoRoute(
             path: 'catalog',
