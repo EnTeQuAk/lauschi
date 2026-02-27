@@ -1,6 +1,7 @@
 import 'package:drift/drift.dart';
 import 'package:lauschi/core/database/app_database.dart';
 import 'package:lauschi/core/log.dart';
+import 'package:lauschi/core/providers/provider_type.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'show_subscription_repository.g.dart';
@@ -38,7 +39,7 @@ class ShowSubscriptionRepository {
 
   /// Insert a new subscription. Returns the auto-generated ID.
   Future<int> insert({
-    required String provider,
+    required ProviderType provider,
     required String externalShowId,
     required String title,
     required String groupId,
@@ -49,7 +50,7 @@ class ShowSubscriptionRepository {
         .into(_db.showSubscriptions)
         .insert(
           ShowSubscriptionsCompanion.insert(
-            provider: provider,
+            provider: provider.value,
             externalShowId: externalShowId,
             title: title,
             groupId: groupId,
@@ -63,7 +64,7 @@ class ShowSubscriptionRepository {
       'Subscription created',
       data: {
         'id': '$id',
-        'provider': provider,
+        'provider': provider.value,
         'showId': externalShowId,
         'title': title,
       },
