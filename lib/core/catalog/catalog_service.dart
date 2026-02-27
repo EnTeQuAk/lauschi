@@ -125,19 +125,23 @@ class CatalogService {
                   .toList()
                 ..sort((a, b) => b.length.compareTo(a.length)));
 
-      final artistIdsRaw = map['spotify_artist_ids'] as YamlList?;
-      final artistIds =
-          artistIdsRaw == null
-              ? <String>[]
-              : artistIdsRaw.map<String>((a) => a as String).toList();
-
       final aliasesRaw = map['aliases'] as YamlList?;
       final aliases =
           aliasesRaw == null
               ? <String>[]
               : aliasesRaw.map<String>((a) => a as String).toList();
 
-      final albumsRaw = map['albums'] as YamlList?;
+      // Parse per-provider identifiers from the `providers:` map.
+      final providersMap = map['providers'] as YamlMap?;
+      final spotifyMap = providersMap?['spotify'] as YamlMap?;
+
+      final artistIdsRaw = spotifyMap?['artist_ids'] as YamlList?;
+      final artistIds =
+          artistIdsRaw == null
+              ? <String>[]
+              : artistIdsRaw.map<String>((a) => a as String).toList();
+
+      final albumsRaw = spotifyMap?['albums'] as YamlList?;
       final albums =
           albumsRaw == null
               ? <CatalogAlbum>[]
