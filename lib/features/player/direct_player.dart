@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:just_audio/just_audio.dart' as ja;
 import 'package:lauschi/core/log.dart';
 import 'package:lauschi/features/player/player_backend.dart';
+import 'package:lauschi/features/player/player_error.dart';
 import 'package:lauschi/features/player/player_state.dart';
 
 const _tag = 'DirectPlayer';
@@ -74,13 +75,13 @@ class DirectPlayer extends PlayerBackend {
           'message': e.message ?? '',
         },
       );
-      _emitState(error: 'content_unavailable');
+      _emitState(error: PlayerError.contentUnavailable);
     } on ja.PlayerInterruptedException {
       // Playback interrupted (e.g. another audio source started).
       Log.info(_tag, 'Playback interrupted');
     } on Exception catch (e) {
       Log.error(_tag, 'Play failed', exception: e);
-      _emitState(error: 'Wiedergabe fehlgeschlagen');
+      _emitState(error: PlayerError.playbackFailed);
     }
   }
 
@@ -148,7 +149,7 @@ class DirectPlayer extends PlayerBackend {
     });
   }
 
-  void _emitState({String? error}) {
+  void _emitState({PlayerError? error}) {
     if (_stateController.isClosed) return;
 
     _stateController.add(

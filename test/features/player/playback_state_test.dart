@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:lauschi/features/player/player_error.dart';
 import 'package:lauschi/features/player/player_state.dart';
 
 void main() {
@@ -318,7 +319,7 @@ void main() {
 
   group('PlaybackState.copyWith', () {
     test('error is always replaced (null clears it)', () {
-      const state = PlaybackState(error: 'something broke');
+      const state = PlaybackState(error: PlayerError.playbackFailed);
 
       // Explicit null clears the error.
       final cleared = state.copyWith();

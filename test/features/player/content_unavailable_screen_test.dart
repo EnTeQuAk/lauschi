@@ -3,6 +3,7 @@ import 'dart:async' show unawaited;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:lauschi/features/player/player_error.dart';
 import 'package:lauschi/features/player/player_provider.dart';
 import 'package:lauschi/features/player/player_state.dart';
 import 'package:lauschi/features/player/screens/player_screen.dart';
@@ -16,9 +17,7 @@ void main() {
       tester,
     ) async {
       final fakeNotifier = FakePlayerNotifier(
-        const PlaybackState(
-          error: 'Diese Geschichte ist leider nicht mehr verfügbar',
-        ),
+        const PlaybackState(error: PlayerError.contentUnavailable),
       );
 
       await tester.pumpWidget(
@@ -39,33 +38,9 @@ void main() {
       expect(find.text('Zurück'), findsOneWidget);
     });
 
-    testWidgets('shows bird screen for content_unavailable error', (
-      tester,
-    ) async {
-      final fakeNotifier = FakePlayerNotifier(
-        const PlaybackState(error: 'content_unavailable'),
-      );
-
-      await tester.pumpWidget(
-        ProviderScope(
-          overrides: [
-            playerProvider.overrideWith(() => fakeNotifier),
-            spotifyPlayerBridgeProvider.overrideWithValue(
-              SpotifyPlayerBridge(),
-            ),
-          ],
-          child: const MaterialApp(home: PlayerScreen()),
-        ),
-      );
-
-      expect(find.text('🐦'), findsOneWidget);
-    });
-
     testWidgets('back button clears error and pops', (tester) async {
       final fakeNotifier = FakePlayerNotifier(
-        const PlaybackState(
-          error: 'Diese Geschichte ist leider nicht mehr verfügbar',
-        ),
+        const PlaybackState(error: PlayerError.contentUnavailable),
       );
 
       await tester.pumpWidget(
@@ -85,7 +60,7 @@ void main() {
         ),
       );
 
-      // Navigate to player. Don't await — pushNamed completes when popped.
+      // Navigate to player. Don't await, pushNamed completes when popped.
       unawaited(
         tester
             .state<NavigatorState>(find.byType(Navigator))
@@ -101,6 +76,42 @@ void main() {
 
       expect(fakeNotifier.clearErrorCalled, isTrue);
       expect(find.text('Home'), findsOneWidget);
+    });
+
+    testWidgets('does not show bird screen for non-unavailable errors', (
+      tester,
+    ) async {
+      final fakeNotifier = FakePlayerNotifier(
+        const PlaybackState(
+          isReady: true,
+          isPlaying: true,
+          durationMs: 60000,
+          positionMs: 5000,
+          error: PlayerError.playbackFailed,
+          track: TrackInfo(
+            uri: 'test:uri',
+            name: 'Test Track',
+            artist: 'Test',
+            album: 'Test Album',
+          ),
+        ),
+      );
+
+      await tester.pumpWidget(
+        ProviderScope(
+          overrides: [
+            playerProvider.overrideWith(() => fakeNotifier),
+            spotifyPlayerBridgeProvider.overrideWithValue(
+              SpotifyPlayerBridge(),
+            ),
+          ],
+          child: const MaterialApp(home: PlayerScreen()),
+        ),
+      );
+
+      // Should show normal player, not bird screen.
+      expect(find.text('🐦'), findsNothing);
+      expect(find.text('Test Track'), findsOneWidget);
     });
 
     testWidgets('does not show bird screen when no error', (tester) async {

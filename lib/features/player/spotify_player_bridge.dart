@@ -6,6 +6,7 @@ import 'package:flutter/foundation.dart'
 import 'package:flutter/services.dart' show PlatformException;
 import 'package:lauschi/core/log.dart';
 import 'package:lauschi/core/spotify/spotify_config.dart';
+import 'package:lauschi/features/player/player_error.dart';
 import 'package:lauschi/features/player/player_state.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:webview_flutter_android/webview_flutter_android.dart';
@@ -145,7 +146,7 @@ class SpotifyPlayerBridge {
               'desc': err.description,
             },
           );
-          _updateState(_state.copyWith(error: err.description, isReady: false));
+          _updateState(_state.copyWith(isReady: false));
         },
       ),
     );
@@ -237,7 +238,7 @@ class SpotifyPlayerBridge {
           data: {'type': errType, 'message': errMsg},
         );
         _updateState(
-          _state.copyWith(error: _userFriendlyError(errType, errMsg)),
+          _state.copyWith(error: _classifyError(errType, errMsg)),
         );
 
       case 'log':
@@ -329,9 +330,7 @@ class SpotifyPlayerBridge {
     } on Exception catch (e) {
       Log.error(_tag, 'Token delivery failed', exception: e);
       _updateState(
-        _state.copyWith(
-          error: 'Spotify-Verbindung abgelaufen — bitte neu verbinden',
-        ),
+        _state.copyWith(error: PlayerError.spotifyAuthExpired),
       );
     }
   }
@@ -413,19 +412,19 @@ class SpotifyPlayerBridge {
     await _runJs('window.lauschi.seek($positionMs)');
   }
 
-  /// Map raw SDK error types to kid-parent-friendly messages.
-  String _userFriendlyError(String type, String message) {
+  /// Map raw SDK error types to typed error values.
+  PlayerError _classifyError(String type, String message) {
     // Spotify SDK error types: auth, account, playback, network
     if (type == 'auth' || message.contains('Authentication')) {
-      return 'Spotify-Verbindung abgelaufen — bitte neu verbinden';
+      return PlayerError.spotifyAuthExpired;
     }
     if (type == 'account') {
-      return 'Spotify-Konto-Problem — bitte Abo prüfen';
+      return PlayerError.spotifyAccountError;
     }
     if (type == 'network' || message.contains('network')) {
-      return 'Keine Verbindung zu Spotify';
+      return PlayerError.spotifyNetworkError;
     }
-    return 'Wiedergabe fehlgeschlagen';
+    return PlayerError.playbackFailed;
   }
 
   /// Disconnect and clean up.

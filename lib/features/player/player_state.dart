@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:lauschi/features/player/player_error.dart';
 
 /// Current track metadata from Spotify playback.
 @immutable
@@ -76,8 +77,9 @@ class PlaybackState {
   /// is the last track in the album/context.
   final int nextTracksCount;
 
-  /// Last error message, if any.
-  final String? error;
+  /// Last error, if any. Backend code sets the enum value; UI maps it
+  /// to user-facing text.
+  final PlayerError? error;
 
   /// Title of the next episode about to auto-play. Shown briefly during
   /// the advance delay. Null when no advance is pending.
@@ -115,7 +117,7 @@ class PlaybackState {
     int? durationMs,
     int? trackNumber,
     int? nextTracksCount,
-    String? error,
+    PlayerError? error,
     String? nextEpisodeTitle,
     String? nextEpisodeCoverUrl,
     bool clearNextEpisode = false,
