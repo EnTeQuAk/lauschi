@@ -189,7 +189,10 @@ class TileDetailScreen extends ConsumerWidget {
                   playerState.track != null
                       ? NowPlayingBar(
                         key: const ValueKey('now-playing'),
-                        state: playerState,
+                        track: playerState.track!,
+                        isPlaying: playerState.isPlaying,
+                        isAdvancing: playerState.isAdvancing,
+                        nextEpisodeCoverUrl: playerState.nextEpisodeCoverUrl,
                         onTap: () => context.push(AppRoutes.player),
                         onTogglePlay: playerNotifier.togglePlay,
                       )

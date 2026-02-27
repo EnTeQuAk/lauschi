@@ -10,21 +10,24 @@ import 'package:lauschi/features/player/widgets/next_episode_preview.dart';
 /// Tap the bar to expand to full player. Play/pause without expanding.
 class NowPlayingBar extends StatelessWidget {
   const NowPlayingBar({
-    required this.state,
+    required this.track,
+    required this.isPlaying,
     required this.onTap,
     required this.onTogglePlay,
+    this.isAdvancing = false,
+    this.nextEpisodeCoverUrl,
     super.key,
   });
 
-  final PlaybackState state;
+  final TrackInfo track;
+  final bool isPlaying;
+  final bool isAdvancing;
+  final String? nextEpisodeCoverUrl;
   final VoidCallback onTap;
   final VoidCallback onTogglePlay;
 
   @override
   Widget build(BuildContext context) {
-    final track = state.track;
-    if (track == null) return const SizedBox.shrink();
-
     return Semantics(
       label:
           track.artist != null
@@ -98,9 +101,9 @@ class NowPlayingBar extends StatelessWidget {
                 ),
               ),
               // Next episode preview (icon + mini cover) during advance
-              if (state.isAdvancing) ...[
+              if (isAdvancing) ...[
                 NextEpisodePreview(
-                  coverUrl: state.nextEpisodeCoverUrl,
+                  coverUrl: nextEpisodeCoverUrl,
                   size: NextEpisodePreviewSize.compact,
                 ),
                 const SizedBox(width: AppSpacing.xs),
@@ -109,16 +112,14 @@ class NowPlayingBar extends StatelessWidget {
               IconButton(
                 onPressed: onTogglePlay,
                 icon: Icon(
-                  state.isPlaying
-                      ? Icons.pause_rounded
-                      : Icons.play_arrow_rounded,
+                  isPlaying ? Icons.pause_rounded : Icons.play_arrow_rounded,
                 ),
                 iconSize: 32,
                 style: IconButton.styleFrom(
                   minimumSize: const Size(48, 48),
                   foregroundColor: AppColors.textPrimary,
                 ),
-                tooltip: state.isPlaying ? 'Pause' : 'Abspielen',
+                tooltip: isPlaying ? 'Pause' : 'Abspielen',
               ),
             ],
           ),
