@@ -1,6 +1,9 @@
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lauschi/core/log.dart';
 import 'package:yaml/yaml.dart';
+
+const _tag = 'CatalogService';
 
 /// A pre-validated album entry in the catalog.
 class CatalogAlbum {
@@ -169,6 +172,16 @@ class CatalogService {
       ),
     );
 
+    final curated = parsed.where((s) => s.hasCuratedAlbums).length;
+    Log.info(
+      _tag,
+      'Catalog loaded',
+      data: {
+        'series': '${parsed.length}',
+        'curated': '$curated',
+      },
+    );
+
     return CatalogService._(parsed);
   }
 
@@ -227,6 +240,7 @@ class CatalogService {
   /// Returns null if no series is recognized by either strategy.
   CatalogMatch? match(String title, {List<String> albumArtistIds = const []}) {
     final titleLower = title.toLowerCase();
+    Log.debug(_tag, 'Matching album', data: {'title': title});
 
     // Phase 1: collect keyword matches using whole-word boundaries.
     final keywordMatches = <CatalogSeries>[];
@@ -258,6 +272,16 @@ class CatalogService {
               : keywordMatches
                   .first; // Most specific (longest keyword, pre-sorted)
 
+      Log.debug(
+        _tag,
+        'Matched by keyword',
+        data: {
+          'title': title,
+          'series': winner.id,
+          'candidates': '${keywordMatches.length}',
+        },
+      );
+
       return CatalogMatch(
         series: winner,
         // Keyword found it, even if artist confirmed it.
@@ -268,6 +292,14 @@ class CatalogService {
 
     // No keyword matches — fall back to artist ID alone.
     if (artistMatch != null) {
+      Log.debug(
+        _tag,
+        'Matched by artist ID',
+        data: {
+          'title': title,
+          'series': artistMatch.id,
+        },
+      );
       return CatalogMatch(
         series: artistMatch,
         source: CatalogMatchSource.artistId,
@@ -275,6 +307,7 @@ class CatalogService {
       );
     }
 
+    Log.debug(_tag, 'No match', data: {'title': title});
     return null;
   }
 
@@ -297,7 +330,16 @@ class CatalogService {
         keywordMatches.add(s);
       }
     }
-    return [...titlePrefixMatches, ...keywordMatches];
+    final results = [...titlePrefixMatches, ...keywordMatches];
+    Log.debug(
+      _tag,
+      'Search',
+      data: {
+        'query': query,
+        'results': '${results.length}',
+      },
+    );
+    return results;
   }
 
   int? _extractEpisode(String title, String? pattern) {

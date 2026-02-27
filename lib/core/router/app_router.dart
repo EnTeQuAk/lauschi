@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lauschi/core/auth/pin_service.dart';
+import 'package:lauschi/core/log.dart';
 import 'package:lauschi/core/spotify/spotify_auth_provider.dart';
 import 'package:lauschi/features/onboarding/screens/onboarding_provider.dart';
 import 'package:lauschi/features/onboarding/screens/onboarding_screen.dart';
@@ -20,6 +21,8 @@ import 'package:lauschi/features/tiles/screens/tile_detail_screen.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'app_router.g.dart';
+
+const _tag = 'AppRouter';
 
 // Route paths — single source of truth
 abstract final class AppRoutes {
@@ -173,12 +176,29 @@ String? _globalRedirect(Ref ref, GoRouterState state) {
   final onboardingDone = ref.read(onboardingCompleteProvider);
   final isOnboarding = state.matchedLocation == AppRoutes.onboarding;
 
+  Log.debug(
+    _tag,
+    'Redirect check',
+    data: {
+      'path': state.matchedLocation,
+      'onboardingDone': '$onboardingDone',
+    },
+  );
+
   // Redirect to onboarding if not completed
   if (!onboardingDone && !isOnboarding) {
+    Log.info(
+      _tag,
+      'Redirecting to onboarding',
+      data: {
+        'from': state.matchedLocation,
+      },
+    );
     return AppRoutes.onboarding;
   }
   // Don't stay on onboarding if already completed
   if (onboardingDone && isOnboarding) {
+    Log.info(_tag, 'Onboarding done, redirecting to home');
     return AppRoutes.kidHome;
   }
 
@@ -187,6 +207,13 @@ String? _globalRedirect(Ref ref, GoRouterState state) {
   if (isParentRoute) {
     final isAuthenticated = ref.read(parentAuthProvider);
     if (!isAuthenticated) {
+      Log.info(
+        _tag,
+        'Parent route not authenticated, redirecting to PIN',
+        data: {
+          'from': state.matchedLocation,
+        },
+      );
       return AppRoutes.pinEntry;
     }
   }
