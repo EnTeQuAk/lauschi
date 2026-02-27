@@ -4,32 +4,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lauschi/core/auth/pin_service.dart';
-import 'package:lauschi/core/catalog/catalog_service.dart';
 import 'package:lauschi/core/database/tile_repository.dart';
 import 'package:lauschi/core/log.dart';
+import 'package:lauschi/core/providers/provider_auth.dart';
+import 'package:lauschi/core/providers/provider_registry.dart';
+import 'package:lauschi/core/providers/provider_type.dart';
 import 'package:lauschi/core/router/app_router.dart';
 import 'package:lauschi/core/settings/debug_settings.dart';
-import 'package:lauschi/core/spotify/spotify_auth_provider.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
 
 const _tag = 'ParentDashboard';
 
-String _catalogSubtitle(WidgetRef ref) {
-  final catalog = ref.watch(catalogServiceProvider).value;
-  if (catalog == null) return 'Hörspiele durchstöbern';
-  final count = catalog.all.where((s) => s.hasCuratedAlbums).length;
-  return '$count Kacheln + ARD Audiothek';
-}
-
-/// Parent mode dashboard — editorial settings UI behind PIN gate.
-///
-/// Cooler stone surfaces, standard navigation, text labels.
+/// Parent mode dashboard -- editorial settings UI behind PIN gate.
 class ParentDashboardScreen extends ConsumerWidget {
   const ParentDashboardScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final authState = ref.watch(spotifyAuthProvider);
+    final providers = ref.watch(providerRegistryProvider);
     final tilesAsync = ref.watch(allTilesProvider);
     final tileCount = tilesAsync.whenOrNull(data: (tiles) => tiles.length) ?? 0;
     final nfcEnabled =
@@ -54,7 +46,7 @@ class ParentDashboardScreen extends ConsumerWidget {
       ),
       body: ListView(
         children: [
-          // Sammlung section
+          // ── Sammlung ─────────────────────────────────────────────────
           const _SectionHeader(title: 'Sammlung'),
           _SettingsTile(
             icon: Icons.library_music_rounded,
@@ -65,57 +57,38 @@ class ParentDashboardScreen extends ConsumerWidget {
             subtitle: 'Kacheln verwalten und sortieren',
             onTap: () => context.push(AppRoutes.parentManageTiles),
           ),
-          const Divider(indent: 56),
-          _SettingsTile(
-            icon: Icons.music_note_rounded,
-            title: 'Spotify',
-            subtitle:
-                authState is AuthAuthenticated
-                    ? _catalogSubtitle(ref)
-                    : 'Nicht verbunden',
-            trailing:
-                authState is AuthAuthenticated
-                    ? const Icon(
-                      Icons.check_circle,
-                      color: AppColors.success,
-                      size: 18,
-                    )
-                    : null,
-            onTap: () {
-              if (authState is AuthAuthenticated) {
-                unawaited(context.push(AppRoutes.parentCatalog));
-              } else {
-                unawaited(ref.read(spotifyAuthProvider.notifier).login());
-              }
-            },
-          ),
-          const Divider(indent: 56),
-          _SettingsTile(
-            icon: Icons.podcasts_rounded,
-            title: 'ARD Audiothek',
-            subtitle: 'Kostenlose Hörspiele und Podcasts',
-            onTap: () => context.push(AppRoutes.parentDiscover),
-          ),
+
+          // Provider tiles -- driven by registry
+          for (final provider in providers.where((p) => p.enabled))
+            ..._providerTile(context, ref, provider),
 
           const SizedBox(height: AppSpacing.lg),
 
-          // Einstellungen section
+          // ── Einstellungen ────────────────────────────────────────────
           const _SectionHeader(title: 'Einstellungen'),
           _SettingsTile(
             icon: Icons.lock_rounded,
             title: 'PIN ändern',
             onTap: () => unawaited(context.push(AppRoutes.pinChange)),
           ),
-          if (authState is AuthAuthenticated) ...[
-            const Divider(indent: 56),
-            _SettingsTile(
-              icon: Icons.logout_rounded,
-              title: 'Spotify trennen',
-              subtitle: 'Konto wechseln (Kacheln bleiben erhalten)',
-              onTap: () => _confirmSpotifyDisconnect(context, ref),
-            ),
-          ],
-          // NFC tags — only visible when enabled in settings
+
+          // Disconnect tiles for authenticated providers that require auth
+          for (final provider in providers.where(
+            (p) =>
+                p.enabled &&
+                p.auth.requiresAuth &&
+                p.authState == ProviderAuthState.authenticated,
+          ))
+            ...[
+              const Divider(indent: 56),
+              _SettingsTile(
+                icon: Icons.logout_rounded,
+                title: '${provider.type.displayName} trennen',
+                subtitle: 'Konto wechseln (Kacheln bleiben erhalten)',
+                onTap: () => _confirmDisconnect(context, ref, provider),
+              ),
+            ],
+
           if (nfcEnabled) ...[
             const Divider(indent: 56),
             _SettingsTile(
@@ -147,20 +120,85 @@ class ParentDashboardScreen extends ConsumerWidget {
       ),
     );
   }
+
+  List<Widget> _providerTile(
+    BuildContext context,
+    WidgetRef ref,
+    ProviderInfo provider,
+  ) {
+    final isAuthenticated =
+        provider.authState == ProviderAuthState.authenticated;
+
+    final subtitle = switch (provider.type) {
+      ProviderType.ardAudiothek => 'Kostenlose Hörspiele und Podcasts',
+      _ when isAuthenticated => 'Verbunden',
+      _ => 'Nicht verbunden',
+    };
+
+    return [
+      const Divider(indent: 56),
+      _SettingsTile(
+        icon: provider.type.icon,
+        title: provider.type.displayName,
+        subtitle: subtitle,
+        trailing:
+            isAuthenticated && provider.auth.requiresAuth
+                ? const Icon(
+                  Icons.check_circle,
+                  color: AppColors.success,
+                  size: 18,
+                )
+                : null,
+        onTap: () => _onProviderTap(context, ref, provider),
+      ),
+    ];
+  }
+
+  void _onProviderTap(
+    BuildContext context,
+    WidgetRef ref,
+    ProviderInfo provider,
+  ) {
+    final isAuthenticated =
+        provider.authState == ProviderAuthState.authenticated;
+
+    if (!isAuthenticated && provider.auth.requiresAuth) {
+      // Not authenticated -- start auth flow
+      Log.info(_tag, 'Connecting provider', data: {
+        'provider': provider.type.value,
+      });
+      unawaited(provider.auth.authenticate());
+      return;
+    }
+
+    // Navigate to provider's browse screen.
+    // TODO(#multi-provider): unify into tabbed add-content screen in phase 3.
+    switch (provider.type) {
+      case ProviderType.spotify:
+        unawaited(context.push(AppRoutes.parentCatalog));
+      case ProviderType.ardAudiothek:
+        unawaited(context.push(AppRoutes.parentDiscover));
+      case ProviderType.appleMusic:
+      case ProviderType.tidal:
+        break; // disabled, shouldn't reach here
+    }
+  }
 }
 
-/// Disconnect Spotify without wiping the database.
-/// Re-authenticates with a potentially different account while keeping
-/// all series, cards, and settings intact.
-void _confirmSpotifyDisconnect(BuildContext context, WidgetRef ref) {
+/// Disconnect a provider after confirmation.
+void _confirmDisconnect(
+  BuildContext context,
+  WidgetRef ref,
+  ProviderInfo provider,
+) {
   unawaited(
     showDialog<void>(
       context: context,
       builder:
           (ctx) => AlertDialog(
-            title: const Text('Spotify trennen?'),
+            title: Text('${provider.type.displayName} trennen?'),
             content: const Text(
-              'Deine Serien und Einstellungen bleiben erhalten. '
+              'Deine Kacheln und Einstellungen bleiben erhalten. '
               'Du kannst dich danach mit einem anderen Konto verbinden.',
             ),
             actions: [
@@ -171,10 +209,12 @@ void _confirmSpotifyDisconnect(BuildContext context, WidgetRef ref) {
               FilledButton(
                 onPressed: () {
                   Navigator.of(ctx).pop();
-                  Log.info(_tag, 'Spotify disconnected');
-                  unawaited(
-                    ref.read(spotifyAuthProvider.notifier).logout(),
+                  Log.info(
+                    _tag,
+                    'Provider disconnected',
+                    data: {'provider': provider.type.value},
                   );
+                  unawaited(provider.auth.logout());
                 },
                 child: const Text('Trennen'),
               ),
