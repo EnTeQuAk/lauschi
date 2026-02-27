@@ -13,13 +13,147 @@ import 'package:lauschi/features/parent/widgets/featured_section.dart';
 
 /// Browse ARD Audiothek kids content. Featured items on top, then the
 /// full kids show grid below.
+///
+/// When [embedded] is true, returns just the body content without
+/// Scaffold/AppBar (for use inside tabbed containers).
 class DiscoverScreen extends ConsumerWidget {
-  const DiscoverScreen({super.key});
+  const DiscoverScreen({super.key, this.embedded = false});
+
+  final bool embedded;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final showsAsync = ref.watch(ardKidsShowsProvider);
     final featuredAsync = ref.watch(featuredItemsProvider);
+
+    final body = showsAsync.when(
+      loading: () => const Center(child: CircularProgressIndicator()),
+      error:
+          (e, _) => Center(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Icon(
+                  Icons.cloud_off_rounded,
+                  color: AppColors.textSecondary,
+                  size: 48,
+                ),
+                const SizedBox(height: AppSpacing.md),
+                const Text(
+                  'ARD Audiothek nicht erreichbar',
+                  style: TextStyle(
+                    fontFamily: 'Nunito',
+                    color: AppColors.textSecondary,
+                  ),
+                ),
+                const SizedBox(height: AppSpacing.sm),
+                TextButton(
+                  onPressed: () {
+                    ref
+                      ..invalidate(ardKidsShowsProvider)
+                      ..invalidate(featuredItemsProvider);
+                  },
+                  child: const Text('Erneut versuchen'),
+                ),
+              ],
+            ),
+          ),
+      data: (shows) {
+        if (shows.isEmpty) {
+          return const Center(
+            child: Text(
+              'Keine Sendungen gefunden.',
+              style: TextStyle(color: AppColors.textSecondary),
+            ),
+          );
+        }
+
+        return CustomScrollView(
+          slivers: [
+            // Featured section (loads independently)
+            SliverToBoxAdapter(
+              child: featuredAsync.when(
+                loading:
+                    () => const Padding(
+                      padding: EdgeInsets.all(AppSpacing.lg),
+                      child: Center(child: CircularProgressIndicator()),
+                    ),
+                error: (e, _) {
+                  Log.error(
+                    'Discover',
+                    'Featured items failed',
+                    exception: e,
+                  );
+                  return const SizedBox.shrink();
+                },
+                data: (featured) {
+                  if (featured.isEmpty) return const SizedBox.shrink();
+
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      FeaturedHeroCard(item: featured.first),
+                      const SizedBox(height: AppSpacing.lg),
+                      if (featured.length > 1)
+                        FeaturedScrollSection(items: featured.sublist(1)),
+                      const SizedBox(height: AppSpacing.lg),
+                    ],
+                  );
+                },
+              ),
+            ),
+
+            // Section header
+            const SliverToBoxAdapter(
+              child: Padding(
+                padding: EdgeInsets.symmetric(
+                  horizontal: AppSpacing.screenH,
+                  vertical: AppSpacing.sm,
+                ),
+                child: Text(
+                  'ALLE SENDUNGEN',
+                  style: TextStyle(
+                    fontFamily: 'Nunito',
+                    fontSize: 12,
+                    fontWeight: FontWeight.w700,
+                    letterSpacing: 0.8,
+                    color: AppColors.textSecondary,
+                  ),
+                ),
+              ),
+            ),
+
+            // Show grid
+            SliverPadding(
+              padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
+              sliver: SliverGrid(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 3,
+                  mainAxisSpacing: AppSpacing.md,
+                  crossAxisSpacing: AppSpacing.md,
+                  childAspectRatio: 0.7,
+                ),
+                delegate: SliverChildBuilderDelegate(
+                  (context, index) => _ShowCard(show: shows[index]),
+                  childCount: shows.length,
+                ),
+              ),
+            ),
+
+            const SliverPadding(
+              padding: EdgeInsets.only(bottom: AppSpacing.xl),
+            ),
+          ],
+        );
+      },
+    );
+
+    if (embedded) {
+      return ColoredBox(
+        color: AppColors.parentBackground,
+        child: body,
+      );
+    }
 
     return Scaffold(
       backgroundColor: AppColors.parentBackground,
@@ -27,137 +161,7 @@ class DiscoverScreen extends ConsumerWidget {
         backgroundColor: AppColors.parentBackground,
         title: const Text('Entdecken'),
       ),
-      body: showsAsync.when(
-        loading: () => const Center(child: CircularProgressIndicator()),
-        error:
-            (e, _) => Center(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const Icon(
-                    Icons.cloud_off_rounded,
-                    color: AppColors.textSecondary,
-                    size: 48,
-                  ),
-                  const SizedBox(height: AppSpacing.md),
-                  const Text(
-                    'ARD Audiothek nicht erreichbar',
-                    style: TextStyle(
-                      fontFamily: 'Nunito',
-                      color: AppColors.textSecondary,
-                    ),
-                  ),
-                  const SizedBox(height: AppSpacing.sm),
-                  TextButton(
-                    onPressed: () {
-                      ref
-                        ..invalidate(ardKidsShowsProvider)
-                        ..invalidate(featuredItemsProvider);
-                    },
-                    child: const Text('Erneut versuchen'),
-                  ),
-                ],
-              ),
-            ),
-        data: (shows) {
-          if (shows.isEmpty) {
-            return const Center(
-              child: Text(
-                'Keine Sendungen gefunden.',
-                style: TextStyle(color: AppColors.textSecondary),
-              ),
-            );
-          }
-
-          return CustomScrollView(
-            slivers: [
-              // Featured section (loads independently)
-              SliverToBoxAdapter(
-                child: featuredAsync.when(
-                  loading:
-                      () => const Padding(
-                        padding: EdgeInsets.all(AppSpacing.lg),
-                        child: Center(
-                          child: CircularProgressIndicator(),
-                        ),
-                      ),
-                  error: (e, _) {
-                    Log.error(
-                      'Discover',
-                      'Featured items failed',
-                      exception: e,
-                    );
-                    return const SizedBox.shrink();
-                  },
-                  data: (featured) {
-                    if (featured.isEmpty) return const SizedBox.shrink();
-
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        // Hero card — newest featured item
-                        FeaturedHeroCard(item: featured.first),
-                        const SizedBox(height: AppSpacing.lg),
-
-                        // Horizontal scroll — remaining items
-                        if (featured.length > 1)
-                          FeaturedScrollSection(
-                            items: featured.sublist(1),
-                          ),
-                        const SizedBox(height: AppSpacing.lg),
-                      ],
-                    );
-                  },
-                ),
-              ),
-
-              // Section header
-              const SliverToBoxAdapter(
-                child: Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: AppSpacing.screenH,
-                    vertical: AppSpacing.sm,
-                  ),
-                  child: Text(
-                    'ALLE SENDUNGEN',
-                    style: TextStyle(
-                      fontFamily: 'Nunito',
-                      fontSize: 12,
-                      fontWeight: FontWeight.w700,
-                      letterSpacing: 0.8,
-                      color: AppColors.textSecondary,
-                    ),
-                  ),
-                ),
-              ),
-
-              // Show grid
-              SliverPadding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: AppSpacing.md,
-                ),
-                sliver: SliverGrid(
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 3,
-                    mainAxisSpacing: AppSpacing.md,
-                    crossAxisSpacing: AppSpacing.md,
-                    childAspectRatio: 0.7,
-                  ),
-                  delegate: SliverChildBuilderDelegate(
-                    (context, index) => _ShowCard(show: shows[index]),
-                    childCount: shows.length,
-                  ),
-                ),
-              ),
-
-              // Bottom padding
-              const SliverPadding(
-                padding: EdgeInsets.only(bottom: AppSpacing.xl),
-              ),
-            ],
-          );
-        },
-      ),
+      body: body,
     );
   }
 }
