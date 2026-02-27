@@ -9,6 +9,7 @@ import 'package:lauschi/core/spotify/spotify_auth_provider.dart';
 import 'package:lauschi/features/player/direct_player.dart';
 import 'package:lauschi/features/player/media_session_handler.dart';
 import 'package:lauschi/features/player/player_backend.dart';
+import 'package:lauschi/features/player/player_error.dart';
 import 'package:lauschi/features/player/player_state.dart';
 import 'package:lauschi/features/player/spotify_backend.dart';
 import 'package:lauschi/features/player/spotify_player_bridge.dart';
@@ -262,7 +263,7 @@ class PlayerNotifier extends _$PlayerNotifier {
     if (card.availableUntil != null &&
         card.availableUntil!.isBefore(DateTime.now())) {
       state = state.copyWith(
-        error: 'Diese Geschichte ist leider nicht mehr verfügbar',
+        error: PlayerError.contentUnavailable,
       );
       return;
     }
@@ -313,14 +314,14 @@ class PlayerNotifier extends _$PlayerNotifier {
             data: {'provider': card.provider},
           );
           state = state.copyWith(
-            error: 'Anbieter nicht unterstützt: ${card.provider}',
+            error: PlayerError.playbackFailed,
           );
       }
     } on Exception catch (e) {
       if (_playGen != gen) return;
       Log.error(_tag, 'Play failed', exception: e);
       state = state.copyWith(
-        error: 'Wiedergabe fehlgeschlagen',
+        error: PlayerError.playbackFailed,
       );
     }
   }
@@ -337,7 +338,7 @@ class PlayerNotifier extends _$PlayerNotifier {
       await command(backend);
     } on Exception catch (e) {
       Log.error(_tag, '$name failed', exception: e);
-      state = state.copyWith(error: 'Steuerung fehlgeschlagen');
+      state = state.copyWith(error: PlayerError.controlFailed);
     }
   }
 
@@ -350,7 +351,7 @@ class PlayerNotifier extends _$PlayerNotifier {
     if (_playGen != gen) return;
     if (token == null) {
       state = state.copyWith(
-        error: 'Spotify nicht verbunden — bitte neu anmelden',
+        error: PlayerError.spotifyAuthExpired,
       );
       return;
     }
@@ -381,7 +382,7 @@ class PlayerNotifier extends _$PlayerNotifier {
     if (deviceId == null) {
       Log.warn(_tag, 'No device ID after reconnect');
       state = state.copyWith(
-        error: 'Spotify nicht verbunden',
+        error: PlayerError.spotifyNotConnected,
       );
       return null;
     }
@@ -426,7 +427,7 @@ class PlayerNotifier extends _$PlayerNotifier {
         if (_playGen != gen) return;
         Log.warn(_tag, 'Device still not found after reconnect');
         state = state.copyWith(
-          error: 'Spotify-Verbindung verloren',
+          error: PlayerError.spotifyConnectionLost,
         );
       }
     }
@@ -455,7 +456,7 @@ class PlayerNotifier extends _$PlayerNotifier {
     if (card.audioUrl == null || card.audioUrl!.isEmpty) {
       Log.error(_tag, 'No audio URL', data: {'cardId': card.id});
       state = state.copyWith(
-        error: 'Keine Audio-URL verfügbar',
+        error: PlayerError.noAudioUrl,
       );
       return;
     }

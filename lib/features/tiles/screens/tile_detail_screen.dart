@@ -165,7 +165,7 @@ class TileDetailScreen extends ConsumerWidget {
             // Error feedback
             if (playerState.error != null)
               _ErrorBanner(
-                message: playerState.error!,
+                message: playerState.error!.message,
                 onDismiss: () => ref.read(playerProvider.notifier).clearError(),
               ),
 

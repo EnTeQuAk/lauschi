@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:lauschi/core/database/app_database.dart';
 import 'package:lauschi/core/database/tile_item_repository.dart';
+import 'package:lauschi/features/player/player_error.dart';
 
 /// Test that position data survives expiration.
 ///
@@ -41,18 +42,19 @@ void main() {
       expect(item.isHeard, isFalse);
     });
 
-    test('playCard error string matches player screen check', () {
-      // The player_provider sets this exact string on expiration.
-      // The player_screen checks for it to show the friendly screen.
-      // This test documents the contract between the two.
-      const providerError = 'Diese Geschichte ist leider nicht mehr verfügbar';
-      const directPlayerError = 'content_unavailable';
+    test('contentUnavailable is the only error that shows unavailable screen',
+        () {
+      expect(PlayerError.contentUnavailable.showsUnavailableScreen, isTrue);
 
-      // Both strings trigger the _ContentUnavailableScreen.
-      // If either changes, this test breaks — forcing both sides to
-      // stay in sync.
-      expect(providerError, contains('nicht mehr verfügbar'));
-      expect(directPlayerError, 'content_unavailable');
+      // All other errors show in the normal player UI.
+      for (final error in PlayerError.values) {
+        if (error == PlayerError.contentUnavailable) continue;
+        expect(
+          error.showsUnavailableScreen,
+          isFalse,
+          reason: '$error should not show unavailable screen',
+        );
+      }
     });
 
     test('Spotify items never expire (availableUntil is null)', () {
@@ -69,7 +71,6 @@ void main() {
         lastPositionMs: 0,
         durationMs: 0,
         createdAt: DateTime.now(),
-        // Spotify items have null availableUntil.
       );
 
       expect(item.availableUntil, isNull);

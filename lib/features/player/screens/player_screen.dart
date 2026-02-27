@@ -24,9 +24,8 @@ class _PlayerScreenState extends ConsumerState<PlayerScreen> {
   Widget build(BuildContext context) {
     final error = ref.watch(playerProvider.select((s) => s.error));
 
-    // Show friendly screen for expired/unavailable content.
-    if (error == 'content_unavailable' ||
-        error == 'Diese Geschichte ist leider nicht mehr verfügbar') {
+    // Show kid-friendly screen for expired/unavailable content.
+    if (error?.showsUnavailableScreen ?? false) {
       return const _ContentUnavailableScreen();
     }
 
