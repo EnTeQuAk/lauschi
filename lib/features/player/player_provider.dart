@@ -71,22 +71,22 @@ SpotifyPlayerBridge spotifyPlayerBridge(Ref ref) {
 /// created and torn down together. Prevents dangling subscriptions from
 /// a disposed backend writing stale state.
 class _ActiveBackend {
-  _ActiveBackend(this.backend, this._subscription);
+  _ActiveBackend(this.backend, [this._subscription]);
 
   final PlayerBackend backend;
-  final StreamSubscription<PlaybackState> _subscription;
+  final StreamSubscription<PlaybackState>? _subscription;
 
   /// Stop playback and cancel the state subscription.
   /// Does NOT dispose the backend — call [dispose] for full cleanup.
   Future<void> stop() async {
-    await _subscription.cancel();
+    await _subscription?.cancel();
     await backend.stop();
   }
 
   /// Full cleanup: cancel subscription and release backend resources.
   /// Only called on app shutdown, not during normal backend switching.
   Future<void> dispose() async {
-    await _subscription.cancel();
+    await _subscription?.cancel();
     await backend.dispose();
   }
 }
@@ -367,11 +367,9 @@ class PlayerNotifier extends _$PlayerNotifier {
     // _active pointing to a backend that can't play. SpotifyBackend routes
     // state through the bridge subscription; the _ActiveBackend subscription
     // is a no-op that keeps the pair consistent.
-    final backend = SpotifyBackend(_bridge!);
-    _active = _ActiveBackend(
-      backend,
-      backend.stateStream.listen((_) {}),
-    );
+    // SpotifyBackend routes state through _onBridgeEvent, so no
+    // per-backend subscription needed.
+    _active = _ActiveBackend(SpotifyBackend(_bridge!));
 
     await _playOnDevice(card, deviceId, gen);
   }
