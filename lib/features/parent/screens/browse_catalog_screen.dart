@@ -32,10 +32,18 @@ const _maxCatalogResults = 4;
 ///
 /// When [autoAssignTileId] is set (via TileEditScreen FAB), every added
 /// card is silently assigned to that group.
+///
+/// When [embedded] is true, returns just the body content without
+/// Scaffold/AppBar (for use inside tabbed containers).
 class BrowseCatalogScreen extends ConsumerStatefulWidget {
-  const BrowseCatalogScreen({super.key, this.autoAssignTileId});
+  const BrowseCatalogScreen({
+    super.key,
+    this.autoAssignTileId,
+    this.embedded = false,
+  });
 
   final String? autoAssignTileId;
+  final bool embedded;
 
   @override
   ConsumerState<BrowseCatalogScreen> createState() =>
@@ -522,6 +530,11 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen> {
 
     // Spotify not connected — show connection prompt
     if (authState is! AuthAuthenticated) {
+      if (widget.embedded) {
+        return _SpotifyNotConnectedContent(
+          isAutoAssignMode: _isAutoAssignMode,
+        );
+      }
       return _SpotifyNotConnected(
         isAutoAssignMode: _isAutoAssignMode,
       );
@@ -552,6 +565,99 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen> {
       if (allMatch) batchSeries = title;
     }
 
+    final body = Column(
+      children: [
+        // Auto-assign mode banner
+        if (_isAutoAssignMode) _AutoAssignBanner(groupTitle: _autoGroup?.title),
+
+        // Search mode toggle (only in general add mode)
+        if (!_isAutoAssignMode)
+          Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: AppSpacing.screenH,
+              vertical: AppSpacing.xs,
+            ),
+            child: SegmentedButton<_SearchMode>(
+              segments: const [
+                ButtonSegment(
+                  value: _SearchMode.album,
+                  icon: Icon(Icons.auto_stories_rounded, size: 18),
+                  label: Text('Hörspiele'),
+                ),
+                ButtonSegment(
+                  value: _SearchMode.playlist,
+                  icon: Icon(Icons.music_note_rounded, size: 18),
+                  label: Text('Musik'),
+                ),
+              ],
+              selected: {_searchMode},
+              onSelectionChanged: (s) => _setSearchMode(s.first),
+              style: const ButtonStyle(
+                textStyle: WidgetStatePropertyAll(
+                  TextStyle(
+                    fontFamily: 'Nunito',
+                    fontSize: 13,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                visualDensity: VisualDensity.compact,
+              ),
+            ),
+          ),
+
+        // Search field
+        Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: AppSpacing.screenH,
+            vertical: AppSpacing.sm,
+          ),
+          child: TextField(
+            controller: _searchController,
+            focusNode: _searchFocusNode,
+            onChanged: _onSearchChanged,
+            decoration: InputDecoration(
+              hintText:
+                  _searchMode == _SearchMode.playlist
+                      ? 'Playlists auf Spotify suchen…'
+                      : 'Hörspiel auf Spotify suchen…',
+              prefixIcon: const Icon(Icons.search_rounded),
+              suffixIcon:
+                  _isSearchActive
+                      ? IconButton(
+                        onPressed: _clearSearch,
+                        icon: const Icon(Icons.close_rounded),
+                      )
+                      : null,
+            ),
+          ),
+        ),
+
+        // Content area: curated grid (default) or two-tier search results.
+        Expanded(
+          child:
+              _isSearchActive
+                  ? _buildTwoTierSearch(
+                    batchSeries: batchSeries,
+                  )
+                  : catalogAsync.when(
+                    loading:
+                        () => const Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                    error: (e, _) => Center(child: Text('Fehler: $e')),
+                    data: _buildCuratedGrid,
+                  ),
+        ),
+      ],
+    );
+
+    if (widget.embedded) {
+      return ColoredBox(
+        color: AppColors.parentBackground,
+        child: body,
+      );
+    }
+
     return Scaffold(
       backgroundColor: AppColors.parentBackground,
       appBar: AppBar(
@@ -560,92 +666,7 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen> {
           _isAutoAssignMode ? 'Folge hinzufügen' : 'Hörspiel hinzufügen',
         ),
       ),
-      body: Column(
-        children: [
-          // Auto-assign mode banner
-          if (_isAutoAssignMode)
-            _AutoAssignBanner(groupTitle: _autoGroup?.title),
-
-          // Search mode toggle (only in general add mode)
-          if (!_isAutoAssignMode)
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: AppSpacing.screenH,
-                vertical: AppSpacing.xs,
-              ),
-              child: SegmentedButton<_SearchMode>(
-                segments: const [
-                  ButtonSegment(
-                    value: _SearchMode.album,
-                    icon: Icon(Icons.auto_stories_rounded, size: 18),
-                    label: Text('Hörspiele'),
-                  ),
-                  ButtonSegment(
-                    value: _SearchMode.playlist,
-                    icon: Icon(Icons.music_note_rounded, size: 18),
-                    label: Text('Musik'),
-                  ),
-                ],
-                selected: {_searchMode},
-                onSelectionChanged: (s) => _setSearchMode(s.first),
-                style: const ButtonStyle(
-                  textStyle: WidgetStatePropertyAll(
-                    TextStyle(
-                      fontFamily: 'Nunito',
-                      fontSize: 13,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  visualDensity: VisualDensity.compact,
-                ),
-              ),
-            ),
-
-          // Search field
-          Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: AppSpacing.screenH,
-              vertical: AppSpacing.sm,
-            ),
-            child: TextField(
-              controller: _searchController,
-              focusNode: _searchFocusNode,
-              onChanged: _onSearchChanged,
-              decoration: InputDecoration(
-                hintText:
-                    _searchMode == _SearchMode.playlist
-                        ? 'Playlists auf Spotify suchen…'
-                        : 'Hörspiel auf Spotify suchen…',
-                prefixIcon: const Icon(Icons.search_rounded),
-                suffixIcon:
-                    _isSearchActive
-                        ? IconButton(
-                          onPressed: _clearSearch,
-                          icon: const Icon(Icons.close_rounded),
-                        )
-                        : null,
-              ),
-            ),
-          ),
-
-          // Content area: curated grid (default) or two-tier search results.
-          Expanded(
-            child:
-                _isSearchActive
-                    ? _buildTwoTierSearch(
-                      batchSeries: batchSeries,
-                    )
-                    : catalogAsync.when(
-                      loading:
-                          () => const Center(
-                            child: CircularProgressIndicator(),
-                          ),
-                      error: (e, _) => Center(child: Text('Fehler: $e')),
-                      data: _buildCuratedGrid,
-                    ),
-          ),
-        ],
-      ),
+      body: body,
     );
   }
 
@@ -998,22 +1019,17 @@ enum _SearchMode { album, playlist }
 
 // ── Spotify not connected ───────────────────────────────────────────────────
 
-class _SpotifyNotConnected extends ConsumerWidget {
-  const _SpotifyNotConnected({required this.isAutoAssignMode});
+/// Body content for the "not connected" state (no Scaffold).
+class _SpotifyNotConnectedContent extends StatelessWidget {
+  const _SpotifyNotConnectedContent({required this.isAutoAssignMode});
 
   final bool isAutoAssignMode;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return Scaffold(
-      backgroundColor: AppColors.parentBackground,
-      appBar: AppBar(
-        backgroundColor: AppColors.parentBackground,
-        title: Text(
-          isAutoAssignMode ? 'Folge hinzufügen' : 'Hörspiel hinzufügen',
-        ),
-      ),
-      body: Center(
+  Widget build(BuildContext context) {
+    return ColoredBox(
+      color: AppColors.parentBackground,
+      child: Center(
         child: Padding(
           padding: const EdgeInsets.all(AppSpacing.screenH),
           child: Column(
@@ -1054,6 +1070,27 @@ class _SpotifyNotConnected extends ConsumerWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+/// Scaffold-wrapped version for standalone navigation.
+class _SpotifyNotConnected extends StatelessWidget {
+  const _SpotifyNotConnected({required this.isAutoAssignMode});
+
+  final bool isAutoAssignMode;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: AppColors.parentBackground,
+      appBar: AppBar(
+        backgroundColor: AppColors.parentBackground,
+        title: Text(
+          isAutoAssignMode ? 'Folge hinzufügen' : 'Hörspiel hinzufügen',
+        ),
+      ),
+      body: _SpotifyNotConnectedContent(isAutoAssignMode: isAutoAssignMode),
     );
   }
 }

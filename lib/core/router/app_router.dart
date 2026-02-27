@@ -5,6 +5,7 @@ import 'package:lauschi/core/log.dart';
 import 'package:lauschi/core/spotify/spotify_auth_provider.dart';
 import 'package:lauschi/features/onboarding/screens/onboarding_provider.dart';
 import 'package:lauschi/features/onboarding/screens/onboarding_screen.dart';
+import 'package:lauschi/features/parent/screens/add_content_screen.dart';
 import 'package:lauschi/features/parent/screens/ard_show_detail_screen.dart';
 import 'package:lauschi/features/parent/screens/browse_catalog_screen.dart';
 import 'package:lauschi/features/parent/screens/discover_screen.dart';
@@ -46,6 +47,7 @@ abstract final class AppRoutes {
   static String parentTileEdit(String tileId) => '/parent/tiles/$tileId';
   static const parentSettings = '/parent/settings';
   static const parentNfcTags = '/parent/nfc-tags';
+  static const parentAddContent = '/parent/add';
   static const parentCatalog = '/parent/catalog';
   static String parentCatalogSeries(String seriesId) =>
       '/parent/catalog/$seriesId';
@@ -139,6 +141,10 @@ GoRouter createRouter(Ref ref, {String initialLocation = AppRoutes.kidHome}) {
           GoRoute(
             path: 'nfc-tags',
             builder: (context, state) => const NfcTagsScreen(),
+          ),
+          GoRoute(
+            path: 'add',
+            builder: (context, state) => const AddContentScreen(),
           ),
           GoRoute(
             path: 'catalog',

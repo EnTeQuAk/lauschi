@@ -73,16 +73,15 @@ class ParentDashboardScreen extends ConsumerWidget {
           ),
 
           // Disconnect tiles for authenticated providers
-          for (final provider in providers.where((p) => p.canDisconnect))
-            ...[
-              const Divider(indent: 56),
-              _SettingsTile(
-                icon: Icons.logout_rounded,
-                title: '${provider.type.displayName} trennen',
-                subtitle: 'Konto wechseln (Kacheln bleiben erhalten)',
-                onTap: () => _confirmDisconnect(context, ref, provider),
-              ),
-            ],
+          for (final provider in providers.where((p) => p.canDisconnect)) ...[
+            const Divider(indent: 56),
+            _SettingsTile(
+              icon: Icons.logout_rounded,
+              title: '${provider.type.displayName} trennen',
+              subtitle: 'Konto wechseln (Kacheln bleiben erhalten)',
+              onTap: () => _confirmDisconnect(context, ref, provider),
+            ),
+          ],
 
           if (nfcEnabled) ...[
             const Divider(indent: 56),
@@ -158,25 +157,19 @@ class ParentDashboardScreen extends ConsumerWidget {
         provider.authState == ProviderAuthState.authenticated;
 
     if (!isAuthenticated && provider.auth.requiresAuth) {
-      // Not authenticated -- start auth flow
-      Log.info(_tag, 'Connecting provider', data: {
-        'provider': provider.type.value,
-      });
+      Log.info(
+        _tag,
+        'Connecting provider',
+        data: {
+          'provider': provider.type.value,
+        },
+      );
       unawaited(provider.auth.authenticate());
       return;
     }
 
-    // Navigate to provider's browse screen.
-    // TODO(#multi-provider): unify into tabbed add-content screen in phase 3.
-    switch (provider.type) {
-      case ProviderType.spotify:
-        unawaited(context.push(AppRoutes.parentCatalog));
-      case ProviderType.ardAudiothek:
-        unawaited(context.push(AppRoutes.parentDiscover));
-      case ProviderType.appleMusic:
-      case ProviderType.tidal:
-        break; // disabled, shouldn't reach here
-    }
+    // Navigate to the tabbed add-content screen.
+    unawaited(context.push(AppRoutes.parentAddContent));
   }
 }
 
