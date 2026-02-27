@@ -17,7 +17,6 @@ workflows:
     cache:
       cache_paths:
         - $HOME/.pub-cache
-        - $HOME/.cocoapods/repos
     triggering:
       events:
         - tag
