@@ -53,7 +53,8 @@ void main() {
       expect(
         item!.isHeard,
         isFalse,
-        reason: 'Should NOT be marked heard when paused 8s from end '
+        reason:
+            'Should NOT be marked heard when paused 8s from end '
             '(threshold is 5s)',
       );
 

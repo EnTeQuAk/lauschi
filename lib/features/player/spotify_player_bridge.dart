@@ -14,6 +14,16 @@ import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
 
 const _tag = 'PlayerBridge';
 
+/// Max plausible position/duration (24 hours). Clamps garbage values from SDK.
+const _maxPositionMs = 86400000;
+
+/// Max message size from JS bridge. Reject larger payloads.
+const _maxMessageBytes = 65536;
+
+/// Ignore backward position jumps smaller than this. The Spotify SDK on iOS
+/// sometimes fires events with slightly older positions (buffering noise).
+const _positionJitterThresholdMs = 2000;
+
 /// Manages the hidden WebView hosting the Spotify Web Playback SDK.
 ///
 /// Events flow JS → Dart via a `SpotifyBridge` JavaScript channel.
@@ -37,11 +47,25 @@ class SpotifyPlayerBridge {
 
   PlaybackState _state = const PlaybackState();
 
+  // Spotify-specific state tracked internally (not on PlaybackState).
+  String? _deviceId;
+  int _trackNumber = 0;
+  int _nextTracksCount = 0;
+
   /// Stream of playback state changes.
   Stream<PlaybackState> get stateStream => _stateController.stream;
 
-  /// Current playback state.
+  /// Current playback state (shared fields only).
   PlaybackState get currentState => _state;
+
+  /// Spotify device ID, or null if not yet connected.
+  String? get deviceId => _deviceId;
+
+  /// 1-based track position within the current album.
+  int get trackNumber => _trackNumber;
+
+  /// Number of tracks remaining after the current one.
+  int get nextTracksCount => _nextTracksCount;
 
   /// The WebView controller, or null if not yet initialized.
   /// Used by `_WebViewHost` widget to render the hidden WebView.
@@ -122,8 +146,9 @@ class SpotifyPlayerBridge {
           final uri = Uri.tryParse(request.url);
           final host = uri?.host ?? '';
           // Allow the player HTML host and Spotify SDK CDN.
-          const allowed = {
-            'tuneloopbot.webshox.org',
+          final playerUri = Uri.tryParse(SpotifyConfig.playerUrl);
+          final allowed = {
+            if (playerUri != null) playerUri.host,
             'sdk.scdn.co',
           };
           if (allowed.contains(host) || request.url == 'about:blank') {
@@ -169,7 +194,7 @@ class SpotifyPlayerBridge {
 
   void _onMessage(JavaScriptMessage msg) {
     // Reject oversized messages (>64KB is suspicious for our protocol).
-    if (msg.message.length > 65536) {
+    if (msg.message.length > _maxMessageBytes) {
       Log.warn(
         _tag,
         'Dropped oversized message',
@@ -210,17 +235,19 @@ class SpotifyPlayerBridge {
         unawaited(_initPlayer());
 
       case 'ready':
-        final deviceId = payload['device_id'] as String?;
-        if (deviceId != null && deviceId.length > 128) {
+        final id = payload['device_id'] as String?;
+        if (id != null && id.length > 128) {
           Log.warn(_tag, 'Rejected invalid device_id');
           return;
         }
-        Log.info(_tag, 'Player ready', data: {'device_id': '$deviceId'});
-        _updateState(_state.copyWith(isReady: true, deviceId: deviceId));
+        Log.info(_tag, 'Player ready', data: {'device_id': '$id'});
+        _deviceId = id;
+        _updateState(_state.copyWith(isReady: true));
 
       case 'not_ready':
         Log.warn(_tag, 'Player not ready');
-        _updateState(_state.copyWith(isReady: false, clearDeviceId: true));
+        _deviceId = null;
+        _updateState(_state.copyWith(isReady: false));
 
       case 'state_changed':
         _handleStateChanged(payload);
@@ -259,8 +286,14 @@ class SpotifyPlayerBridge {
 
   void _handleStateChanged(Map<String, dynamic> payload) {
     final paused = payload['paused'] as bool? ?? true;
-    final posMs = (payload['position_ms'] as int? ?? 0).clamp(0, 86400000);
-    final durMs = (payload['duration_ms'] as int? ?? 0).clamp(0, 86400000);
+    final posMs = (payload['position_ms'] as int? ?? 0).clamp(
+      0,
+      _maxPositionMs,
+    );
+    final durMs = (payload['duration_ms'] as int? ?? 0).clamp(
+      0,
+      _maxPositionMs,
+    );
     final trackNum = (payload['track_number'] as int? ?? 0).clamp(0, 9999);
     final nextCount = (payload['next_tracks_count'] as int? ?? 0).clamp(
       0,
@@ -282,7 +315,7 @@ class SpotifyPlayerBridge {
           name: _sanitize(name),
           artist: _sanitize(artist),
           album: _sanitize(album),
-          artworkUrl: trackData['artwork_url'] as String?,
+          artworkUrl: _sanitize(trackData['artwork_url'] as String? ?? ''),
         );
       }
     }
@@ -293,22 +326,24 @@ class SpotifyPlayerBridge {
     // Accept the update only if position moves forward, same track is
     // playing, or the track changed (seek/skip).
     final sameTrack =
-        track?.uri == _state.track?.uri && trackNum == _state.trackNumber;
+        track?.uri == _state.track?.uri && trackNum == _trackNumber;
     final positionWentBack = sameTrack && posMs < _state.positionMs;
-    // Allow small backward jumps (<2s) — these are rounding/buffering noise.
+    // Allow small backward jumps (<2s): rounding/buffering noise.
     // Only suppress larger jumps that cause visible jitter.
     final effectivePos =
-        positionWentBack && (_state.positionMs - posMs) < 2000
+        positionWentBack &&
+                (_state.positionMs - posMs) < _positionJitterThresholdMs
             ? _state.positionMs
             : posMs;
+
+    _trackNumber = trackNum;
+    _nextTracksCount = nextCount;
 
     _updateState(
       _state.copyWith(
         isPlaying: !paused,
         positionMs: effectivePos,
         durationMs: durMs,
-        trackNumber: trackNum,
-        nextTracksCount: nextCount,
         track: track,
       ),
     );
@@ -365,7 +400,8 @@ class SpotifyPlayerBridge {
     // stale ID immediately. Order matters: if 'ready' fires between
     // _updateState and _runJs, the new ID lands in state and
     // waitForDevice() picks it up correctly.
-    _updateState(_state.copyWith(isReady: false, clearDeviceId: true));
+    _deviceId = null;
+    _updateState(_state.copyWith(isReady: false));
     await _runJs('window.lauschi.reconnect()');
   }
 
@@ -374,14 +410,14 @@ class SpotifyPlayerBridge {
   Future<String?> waitForDevice({
     Duration timeout = const Duration(seconds: 8),
   }) async {
-    if (_state.deviceId != null) return _state.deviceId;
+    if (_deviceId != null) return _deviceId;
 
     try {
-      final readyState = await _stateController.stream
-          .where((s) => s.deviceId != null)
+      await _stateController.stream
+          .where((_) => _deviceId != null)
           .first
           .timeout(timeout);
-      return readyState.deviceId;
+      return _deviceId;
     } on Exception {
       return null;
     }
@@ -414,17 +450,16 @@ class SpotifyPlayerBridge {
 
   /// Map raw SDK error types to typed error values.
   PlayerError _classifyError(String type, String message) {
-    // Spotify SDK error types: auth, account, playback, network
-    if (type == 'auth' || message.contains('Authentication')) {
-      return PlayerError.spotifyAuthExpired;
-    }
-    if (type == 'account') {
-      return PlayerError.spotifyAccountError;
-    }
-    if (type == 'network' || message.contains('network')) {
-      return PlayerError.spotifyNetworkError;
-    }
-    return PlayerError.playbackFailed;
+    return switch (type) {
+      'auth' => PlayerError.spotifyAuthExpired,
+      'account' => PlayerError.spotifyAccountError,
+      'network' => PlayerError.spotifyNetworkError,
+      'playback' => PlayerError.spotifyPlaybackFailed,
+      _ when message.contains('Authentication') =>
+        PlayerError.spotifyAuthExpired,
+      _ when message.contains('network') => PlayerError.spotifyNetworkError,
+      _ => PlayerError.spotifyPlaybackFailed,
+    };
   }
 
   /// Disconnect and clean up.

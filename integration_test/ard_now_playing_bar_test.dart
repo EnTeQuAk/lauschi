@@ -49,20 +49,22 @@ void main() {
       );
 
       // ── Pause from bar ─────────────────────────────────────────────────
-      await $(find.descendant(
-        of: find.byType(NowPlayingBar),
-        matching: find.byIcon(Icons.pause_rounded),
-      ))
-          .tap();
+      await $(
+        find.descendant(
+          of: find.byType(NowPlayingBar),
+          matching: find.byIcon(Icons.pause_rounded),
+        ),
+      ).tap();
       await waitForPause($);
       expect(container.read(playerProvider).isPlaying, isFalse);
 
       // ── Resume from bar ────────────────────────────────────────────────
-      await $(find.descendant(
-        of: find.byType(NowPlayingBar),
-        matching: find.byIcon(Icons.play_arrow_rounded),
-      ))
-          .tap();
+      await $(
+        find.descendant(
+          of: find.byType(NowPlayingBar),
+          matching: find.byIcon(Icons.play_arrow_rounded),
+        ),
+      ).tap();
       await waitForPlayback($);
       expect(container.read(playerProvider).isPlaying, isTrue);
 

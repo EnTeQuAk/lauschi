@@ -10,10 +10,9 @@ const _tag = 'DirectPlayer';
 
 /// Plays audio from direct HTTP URLs using just_audio.
 ///
-/// Used for ARD Audiothek and any future non-SDK provider (SRF, local files).
-/// No DRM, no SDK, no WebView — just a URL and a player.
+/// Used for ARD Audiothek content. No DRM, no SDK, no WebView — just a URL
+/// and a player.
 class DirectPlayer extends PlayerBackend {
-  ja.AudioPlayer? _player;
   final _stateController = StreamController<PlaybackState>.broadcast();
   StreamSubscription<ja.PlayerState>? _playerStateSub;
   StreamSubscription<Duration?>? _durationSub;
@@ -29,21 +28,22 @@ class DirectPlayer extends PlayerBackend {
   /// to avoid flooding _onStateChange on every just_audio tick (~200ms).
   DateTime _lastPositionEmit = DateTime(0);
 
+  /// Created in [play], disposed in [dispose].
+  ja.AudioPlayer? _player;
+
   @override
   int get currentPositionMs => _positionMs;
 
-  /// Stream of playback state changes, matching the Spotify bridge contract.
+  /// Single-file audio: always track 1.
+  @override
+  int get currentTrackNumber => 1;
+
+  /// Single-file audio: no next tracks.
+  @override
+  bool get hasNextTrack => false;
+
   @override
   Stream<PlaybackState> get stateStream => _stateController.stream;
-
-  /// Initialize or reuse the audio player.
-  ja.AudioPlayer get _audioPlayer {
-    if (_player == null) {
-      _player = ja.AudioPlayer();
-      _listenToPlayer();
-    }
-    return _player!;
-  }
 
   /// Play audio from a direct HTTP URL.
   ///
@@ -58,13 +58,16 @@ class DirectPlayer extends PlayerBackend {
     Log.info(_tag, 'Playing', data: {'url': _truncateUrl(audioUrl)});
 
     try {
-      final duration = await _audioPlayer.setUrl(audioUrl);
+      final player = ja.AudioPlayer();
+      _player = player;
+      _listenToPlayer(player);
+      final duration = await player.setUrl(audioUrl);
       _durationMs = duration?.inMilliseconds ?? 0;
 
       if (positionMs > 0) {
-        await _audioPlayer.seek(Duration(milliseconds: positionMs));
+        await player.seek(Duration(milliseconds: positionMs));
       }
-      await _audioPlayer.play();
+      await player.play();
     } on ja.PlayerException catch (e) {
       // HTTP 404/410: audio removed from CDN (expired ARD content).
       Log.warn(
@@ -116,9 +119,7 @@ class DirectPlayer extends PlayerBackend {
     await _stateController.close();
   }
 
-  void _listenToPlayer() {
-    final player = _player!;
-
+  void _listenToPlayer(ja.AudioPlayer player) {
     _playerStateSub = player.playerStateStream.listen((playerState) {
       _isPlaying = playerState.playing;
 
@@ -159,11 +160,6 @@ class DirectPlayer extends PlayerBackend {
         track: _currentTrack,
         positionMs: _positionMs,
         durationMs: _durationMs,
-        // Single-file audio: always track 1, no next tracks.
-        trackNumber: 1,
-        // Explicit zero: completion detection checks nextTracksCount == 0.
-        // ignore: avoid_redundant_argument_values
-        nextTracksCount: 0,
         error: error,
       ),
     );

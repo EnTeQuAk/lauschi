@@ -13,7 +13,7 @@ enum PlayerError {
   playbackFailed,
 
   /// A playback control command (pause/resume/seek/skip) failed.
-  controlFailed,
+  playbackCommandFailed,
 
   /// Spotify Web Playback SDK has no device ID. Either the SDK never
   /// connected or the device went stale and reconnect failed.
@@ -27,6 +27,10 @@ enum PlayerError {
 
   /// Network connectivity issue reaching Spotify servers.
   spotifyNetworkError,
+
+  /// Spotify SDK reported a playback-level error (distinct from network
+  /// or auth). Typically transient.
+  spotifyPlaybackFailed,
 
   /// Spotify device was valid but went stale during playback, and
   /// reconnect did not recover it.
@@ -44,15 +48,14 @@ enum PlayerError {
   /// German text lives here (single source of truth), not scattered
   /// through backend code.
   String get message => switch (this) {
-    contentUnavailable =>
-      'Diese Geschichte ist leider nicht mehr verfügbar',
+    contentUnavailable => 'Diese Geschichte ist leider nicht mehr verfügbar',
     playbackFailed => 'Wiedergabe fehlgeschlagen',
-    controlFailed => 'Steuerung fehlgeschlagen',
+    playbackCommandFailed => 'Steuerung fehlgeschlagen',
     spotifyNotConnected => 'Spotify nicht verbunden',
-    spotifyAuthExpired =>
-      'Spotify-Verbindung abgelaufen, bitte neu verbinden',
+    spotifyAuthExpired => 'Spotify-Verbindung abgelaufen, bitte neu verbinden',
     spotifyAccountError => 'Spotify-Konto-Problem, bitte Abo prüfen',
     spotifyNetworkError => 'Keine Verbindung zu Spotify',
+    spotifyPlaybackFailed => 'Wiedergabe fehlgeschlagen',
     spotifyConnectionLost => 'Spotify-Verbindung verloren',
     noAudioUrl => 'Keine Audio-URL verfügbar',
   };

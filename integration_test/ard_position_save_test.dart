@@ -48,7 +48,8 @@ void main() {
       expect(
         item!.lastPositionMs,
         equals(0),
-        reason: 'Position should NOT be saved before 20s threshold '
+        reason:
+            'Position should NOT be saved before 20s threshold '
             '(got ${item.lastPositionMs}ms after 15s play)',
       );
 
@@ -78,7 +79,8 @@ void main() {
       expect(
         pos5s,
         greaterThan(3000),
-        reason: 'state.positionMs should be ~5s after 5s of play '
+        reason:
+            'state.positionMs should be ~5s after 5s of play '
             '(got ${pos5s}ms — stale position bug if near 0)',
       );
 
@@ -88,7 +90,8 @@ void main() {
       expect(
         pos10s,
         greaterThan(pos5s + 2000),
-        reason: 'Position should advance between checks '
+        reason:
+            'Position should advance between checks '
             '(5s=$pos5s, 10s=$pos10s)',
       );
 
@@ -123,7 +126,8 @@ void main() {
       expect(
         item!.lastPositionMs,
         greaterThan(20000),
-        reason: 'Position should be saved by periodic timer while playing '
+        reason:
+            'Position should be saved by periodic timer while playing '
             '(got ${item.lastPositionMs}ms — timer-restart bug if 0)',
       );
 
@@ -136,7 +140,8 @@ void main() {
       expect(
         drift,
         lessThan(12000),
-        reason: 'Saved position should be close to actual playback '
+        reason:
+            'Saved position should be close to actual playback '
             '(state=${statePos}ms, saved=${savedPos}ms, drift=${drift}ms)',
       );
 
@@ -177,7 +182,8 @@ void main() {
       expect(
         savedItem!.lastPositionMs,
         greaterThan(20000),
-        reason: 'Position should be saved on pause after 25s play '
+        reason:
+            'Position should be saved on pause after 25s play '
             '(got ${savedItem.lastPositionMs}ms)',
       );
 
@@ -186,7 +192,8 @@ void main() {
       expect(
         savedItem.lastPositionMs,
         lessThan(35000),
-        reason: 'Saved position should be near 25s, not wildly off '
+        reason:
+            'Saved position should be near 25s, not wildly off '
             '(got ${savedItem.lastPositionMs}ms)',
       );
 
@@ -199,7 +206,8 @@ void main() {
       expect(
         resumePosition,
         greaterThan(18000),
-        reason: 'Should resume near saved position '
+        reason:
+            'Should resume near saved position '
             '(saved=${savedItem.lastPositionMs}, got=$resumePosition)',
       );
 

@@ -49,7 +49,7 @@ class NowPlayingBar extends StatelessWidget {
                   child:
                       track.artworkUrl != null
                           ? Hero(
-                            tag: 'player-artwork',
+                            tag: playerArtworkHeroTag,
                             child: CachedNetworkImage(
                               imageUrl: track.artworkUrl!,
                               fit: BoxFit.cover,

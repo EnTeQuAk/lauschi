@@ -53,14 +53,7 @@
 
       player.addListener('not_ready', function(data) {
         post('not_ready', { device_id: data.device_id });
-        post_log('Player not ready — attempting reconnect');
-        // Re-register the device with Spotify's servers.
-        player.connect().then(function(success) {
-          post_log('Reconnect attempt: ' + success);
-          if (!success) {
-            post('error', { type: 'reconnect', message: 'reconnect failed' });
-          }
-        });
+        post_log('Player not ready — Dart handles reconnect');
       });
 
       player.addListener('player_state_changed', function(state) {

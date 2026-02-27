@@ -22,13 +22,14 @@ void main() {
       await pumpApp(
         $,
         prefs: {'onboarding_complete': true},
-        scope: (child) => ProviderScope(
-          overrides: [
-            mediaSessionHandlerProvider.overrideWithValue(mediaHandler),
-            parentAuthProvider.overrideWith(_AlwaysAuth.new),
-          ],
-          child: child,
-        ),
+        scope:
+            (child) => ProviderScope(
+              overrides: [
+                mediaSessionHandlerProvider.overrideWithValue(mediaHandler),
+                parentAuthProvider.overrideWith(_AlwaysAuth.new),
+              ],
+              child: child,
+            ),
       );
 
       final container = getContainer($);
@@ -58,13 +59,14 @@ void main() {
       await pumpApp(
         $,
         prefs: {'onboarding_complete': true},
-        scope: (child) => ProviderScope(
-          overrides: [
-            mediaSessionHandlerProvider.overrideWithValue(mediaHandler),
-            parentAuthProvider.overrideWith(_AlwaysAuth.new),
-          ],
-          child: child,
-        ),
+        scope:
+            (child) => ProviderScope(
+              overrides: [
+                mediaSessionHandlerProvider.overrideWithValue(mediaHandler),
+                parentAuthProvider.overrideWith(_AlwaysAuth.new),
+              ],
+              child: child,
+            ),
       );
 
       final container = getContainer($);

@@ -120,6 +120,12 @@ class PlayerNotifier extends _$PlayerNotifier {
   /// generation and bail out if superseded.
   int _playGen = 0;
 
+  // -- Timing constants --
+  static const _deviceRegistrationDelay = Duration(milliseconds: 500);
+  static const _completionThresholdMs = 5000;
+  static const _advanceDelay = Duration(seconds: 3);
+  static const _positionSaveInterval = Duration(seconds: 10);
+
   // -- Position tracking state --
   int _playTimeMs = 0;
   DateTime? _playStartedAt;
@@ -159,12 +165,11 @@ class PlayerNotifier extends _$PlayerNotifier {
   }
 
   void _onBridgeEvent(PlaybackState bridgeState) {
-    // Always accept device metadata so Spotify stays warm.
-    state = state.copyWith(
-      isReady: bridgeState.isReady,
-      deviceId: bridgeState.deviceId,
-      clearDeviceId: bridgeState.deviceId == null,
-    );
+    // Always accept readiness so Spotify stays warm for the UI
+    // ("connecting..." spinner on kid home screen).
+    if (bridgeState.isReady != state.isReady) {
+      state = state.copyWith(isReady: bridgeState.isReady);
+    }
 
     // Only route playback fields when Spotify owns playback.
     if (_active?.backend is! SpotifyBackend) return;
@@ -174,8 +179,9 @@ class PlayerNotifier extends _$PlayerNotifier {
       track: bridgeState.track,
       positionMs: bridgeState.positionMs,
       durationMs: bridgeState.durationMs,
-      trackNumber: bridgeState.trackNumber,
-      nextTracksCount: bridgeState.nextTracksCount,
+      // Forward bridge errors. Keep existing error if bridge has none
+      // (error is always-replace, so passing null would clear it).
+      error: bridgeState.error ?? state.error,
     );
     _onPlaybackStateChange(state);
   }
@@ -273,13 +279,11 @@ class PlayerNotifier extends _$PlayerNotifier {
     final oldTrack = state.track;
     final oldPos = _active?.backend.currentPositionMs ?? state.positionMs;
 
-    // Set active card state.
+    // Set active card state. Error is always-replace (omitting clears it).
     state = state.copyWith(
       activeCardId: cardId,
       activeContextUri: card.providerUri,
       activeGroupId: card.groupId,
-      // ignore: avoid_redundant_argument_values, null clears error
-      error: null,
       clearNextEpisode: true,
     );
 
@@ -338,7 +342,7 @@ class PlayerNotifier extends _$PlayerNotifier {
       await command(backend);
     } on Exception catch (e) {
       Log.error(_tag, '$name failed', exception: e);
-      state = state.copyWith(error: PlayerError.controlFailed);
+      state = state.copyWith(error: PlayerError.playbackCommandFailed);
     }
   }
 
@@ -373,7 +377,8 @@ class PlayerNotifier extends _$PlayerNotifier {
 
   /// Get a valid device ID, reconnecting if needed. Returns null on failure.
   Future<String?> _ensureDevice(int gen) async {
-    if (state.deviceId != null) return state.deviceId;
+    final currentDeviceId = _bridge!.deviceId;
+    if (currentDeviceId != null) return currentDeviceId;
 
     Log.warn(_tag, 'No device ID — attempting reconnect');
     await _bridge!.reconnect();
@@ -388,7 +393,7 @@ class PlayerNotifier extends _$PlayerNotifier {
     }
 
     // Brief delay for Spotify's servers to register the new device.
-    await Future<void>.delayed(const Duration(milliseconds: 500));
+    await Future<void>.delayed(_deviceRegistrationDelay);
     if (_playGen != gen) return null;
     return deviceId;
   }
@@ -472,8 +477,7 @@ class PlayerNotifier extends _$PlayerNotifier {
           track: directState.track,
           positionMs: directState.positionMs,
           durationMs: directState.durationMs,
-          trackNumber: directState.trackNumber,
-          nextTracksCount: directState.nextTracksCount,
+          error: directState.error ?? state.error,
         );
         _onPlaybackStateChange(state);
       }),
@@ -514,7 +518,10 @@ class PlayerNotifier extends _$PlayerNotifier {
     unawaited(
       WakelockPlus.toggle(enable: newState.isPlaying).catchError((_) {}),
     );
-    _mediaSession?.updateFromAppState(newState);
+    _mediaSession?.updateFromAppState(
+      newState,
+      hasNextTrack: _active?.backend.hasNextTrack ?? false,
+    );
 
     if (newState.isPlaying) {
       _startPositionSave();
@@ -531,10 +538,13 @@ class PlayerNotifier extends _$PlayerNotifier {
         unawaited(_savePosition(cardId, track, posMs));
       }
 
-      // Album completion: paused on last track, within 5s of end.
-      if (newState.nextTracksCount == 0 &&
+      // Album completion: paused on last track, within threshold of end.
+      final backend = _active?.backend;
+      final hasNextTrack = backend?.hasNextTrack ?? false;
+      final isNearEnd =
           newState.durationMs > 0 &&
-          posMs > newState.durationMs - 5000) {
+          posMs > newState.durationMs - _completionThresholdMs;
+      if (!hasNextTrack && isNearEnd) {
         unawaited(_onAlbumCompleted(cardId));
       }
     }
@@ -581,7 +591,7 @@ class PlayerNotifier extends _$PlayerNotifier {
 
     // Brief pause before advancing so the transition feels intentional.
     _advanceTimer?.cancel();
-    _advanceTimer = Timer(const Duration(seconds: 3), () {
+    _advanceTimer = Timer(_advanceDelay, () {
       unawaited(playCard(nextCard.id));
     });
 
@@ -598,7 +608,7 @@ class PlayerNotifier extends _$PlayerNotifier {
 
     _playStartedAt ??= DateTime.now();
     _positionSaveTimer = Timer.periodic(
-      const Duration(seconds: 10),
+      _positionSaveInterval,
       (_) {
         _updatePlayTime();
         final cardId = state.activeCardId;
@@ -637,13 +647,14 @@ class PlayerNotifier extends _$PlayerNotifier {
   ) async {
     if (positionMs <= 0) return;
 
+    final trackNumber = _active?.backend.currentTrackNumber ?? 0;
     try {
       await ref
           .read(tileItemRepositoryProvider)
           .savePosition(
             itemId: cardId,
             trackUri: track.uri,
-            trackNumber: state.trackNumber,
+            trackNumber: trackNumber,
             positionMs: positionMs,
           );
     } on Exception catch (e) {
