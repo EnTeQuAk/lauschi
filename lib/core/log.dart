@@ -11,13 +11,15 @@ import 'package:sentry_flutter/sentry_flutter.dart';
 ///
 /// [error] additionally captures the exception as a Sentry event.
 abstract final class Log {
+  // TODO(#cleanup): revert to Sentry-silent debug once pause issue is resolved.
   static void debug(
     String source,
     String message, {
     Map<String, Object>? data,
   }) {
     _log(source, message, level: 500, data: data);
-    // debug is intentionally not forwarded to Sentry to keep noise down.
+    unawaited(_sentryLog(source, message, level: 'debug', data: data));
+    _breadcrumb(source, message, level: SentryLevel.debug, data: data);
   }
 
   static void info(String source, String message, {Map<String, Object>? data}) {
@@ -74,6 +76,7 @@ abstract final class Log {
     final attrs = _attrs(source, data);
     final msg = _fmt(source, message);
     final result = switch (level) {
+      'debug' => Sentry.logger.debug(msg, attributes: attrs),
       'info' => Sentry.logger.info(msg, attributes: attrs),
       'warn' => Sentry.logger.warn(msg, attributes: attrs),
       _ => Sentry.logger.error(msg, attributes: attrs),
