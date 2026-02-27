@@ -10,6 +10,7 @@ import 'package:lauschi/core/database/content_importer.dart';
 import 'package:lauschi/core/database/tile_item_repository.dart';
 import 'package:lauschi/core/database/tile_repository.dart';
 import 'package:lauschi/core/log.dart';
+import 'package:lauschi/core/providers/provider_type.dart';
 import 'package:lauschi/core/router/app_router.dart';
 import 'package:lauschi/core/spotify/spotify_api.dart';
 import 'package:lauschi/core/spotify/spotify_auth_provider.dart';
@@ -445,7 +446,7 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen> {
               title: playlist.name,
               providerUri: playlist.uri,
               cardType: 'playlist',
-              provider: 'spotify',
+              provider: ProviderType.spotify,
               coverUrl: playlist.imageUrl,
               totalTracks: playlist.totalTracks,
             ),
@@ -1340,7 +1341,7 @@ class _CatalogSeriesDetailScreenState
             title: album.name,
             providerUri: album.uri,
             cardType: 'album',
-            provider: 'spotify',
+            provider: ProviderType.spotify,
             coverUrl: album.imageUrl,
             episodeNumber: catalogAlbum?.episode,
             spotifyArtistIds: album.artistIds,

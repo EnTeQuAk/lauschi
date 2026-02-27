@@ -7,6 +7,7 @@ import 'package:lauschi/core/ard/featured_shows.dart';
 import 'package:lauschi/core/database/content_importer.dart';
 import 'package:lauschi/core/database/tile_item_repository.dart';
 import 'package:lauschi/core/log.dart';
+import 'package:lauschi/core/providers/provider_type.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
 
 const _tag = 'FeaturedSection';
@@ -427,7 +428,7 @@ PendingCard _ardPendingCard(ArdItem item) {
     title: item.displayTitle,
     providerUri: item.providerUri,
     cardType: 'episode',
-    provider: 'ard_audiothek',
+    provider: ProviderType.ardAudiothek,
     coverUrl: ardImageUrl(item.imageUrl),
     episodeNumber: item.episodeNumber,
     audioUrl: item.bestAudioUrl,

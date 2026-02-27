@@ -1,7 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import 'package:lauschi/core/ard/ard_api.dart';
 import 'package:lauschi/core/ard/ard_helpers.dart';
 import 'package:lauschi/core/ard/ard_image.dart';
@@ -10,6 +9,7 @@ import 'package:lauschi/core/ard/ard_providers.dart';
 import 'package:lauschi/core/database/content_importer.dart';
 import 'package:lauschi/core/database/tile_item_repository.dart';
 import 'package:lauschi/core/log.dart';
+import 'package:lauschi/core/providers/provider_type.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
 
 const _tag = 'ArdShowDetailScreen';
@@ -325,7 +325,7 @@ PendingCard _ardPendingCard(ArdItem item) {
     title: item.displayTitle,
     providerUri: item.providerUri,
     cardType: 'episode',
-    provider: 'ard_audiothek',
+    provider: ProviderType.ardAudiothek,
     coverUrl: ardImageUrl(item.imageUrl),
     episodeNumber: item.episodeNumber,
     audioUrl: item.bestAudioUrl,

@@ -3,6 +3,7 @@ import 'dart:ui' show Color;
 import 'package:lauschi/core/ard/ard_image.dart';
 import 'package:lauschi/core/ard/ard_models.dart';
 import 'package:lauschi/core/database/content_importer.dart';
+import 'package:lauschi/core/providers/provider_type.dart';
 
 /// Parse a hex color string like "#FF6B00" to a [Color].
 /// Returns null for invalid or missing input.
@@ -20,7 +21,7 @@ PendingCard ardPendingCard(ArdItem item) {
     title: item.displayTitle,
     providerUri: item.providerUri,
     cardType: 'episode',
-    provider: 'ard_audiothek',
+    provider: ProviderType.ardAudiothek,
     coverUrl: ardImageUrl(item.imageUrl),
     episodeNumber: item.episodeNumber,
     audioUrl: item.bestAudioUrl,
