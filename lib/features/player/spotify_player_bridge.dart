@@ -21,8 +21,8 @@ class SpotifyPlayerBridge {
   final _stateController = StreamController<PlaybackState>.broadcast();
 
   /// Callback to get a valid (non-expired) access token.
-  /// Wired to the auth notifier's validAccessToken() to serialize refreshes.
-  Future<String> Function()? _getValidToken;
+  /// Set in [init], non-null for the lifetime of the bridge after that.
+  late final Future<String> Function() _getValidToken;
 
   bool _disposed = false;
   WebViewController? _controller;
@@ -161,7 +161,6 @@ class SpotifyPlayerBridge {
     'not_ready',
     'state_changed',
     'token_request',
-    'play_request',
     'error',
     'log',
   };
@@ -227,10 +226,6 @@ class SpotifyPlayerBridge {
       case 'token_request':
         Log.info(_tag, 'SDK requesting token refresh');
         unawaited(_deliverFreshToken());
-
-      case 'play_request':
-        // Legacy — playback is handled via SpotifyApi, not JS bridge.
-        Log.debug(_tag, 'Play request from JS (ignored)');
 
       case 'error':
         final errType = _sanitize(payload['type'] as String? ?? 'unknown');
@@ -318,16 +313,14 @@ class SpotifyPlayerBridge {
   }
 
   Future<void> _initPlayer() async {
-    if (_getValidToken == null) return;
     Log.info(_tag, 'Initializing SDK player with token');
-    final token = await _freshToken();
+    final token = await _getValidToken();
     await _runJs('window.lauschi.init(${json.encode(token)})');
   }
 
   Future<void> _deliverFreshToken() async {
-    if (_getValidToken == null) return;
     try {
-      final token = await _freshToken();
+      final token = await _getValidToken();
       await _runJs(
         'window.lauschi.deliver_token(${json.encode(token)})',
       );
@@ -340,12 +333,6 @@ class SpotifyPlayerBridge {
         ),
       );
     }
-  }
-
-  Future<String> _freshToken() {
-    final getter = _getValidToken;
-    if (getter == null) throw StateError('Bridge not initialized');
-    return getter();
   }
 
   /// Run JS on the WebView, catching PlatformException when the WebView
