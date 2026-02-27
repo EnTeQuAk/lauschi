@@ -25,6 +25,10 @@ class TrackInfo {
   final String? album;
   final String? artworkUrl;
 
+  /// Equality by uri + name + artist. Album and artworkUrl are excluded:
+  /// the same track may appear on different albums (compilations, re-issues)
+  /// and artwork URLs vary by CDN/resolution. Including them would cause
+  /// spurious Riverpod rebuilds without visible UI changes.
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
