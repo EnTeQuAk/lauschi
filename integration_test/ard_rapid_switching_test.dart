@@ -53,6 +53,32 @@ void main() {
   );
 
   patrolTest(
+    'double-tap same card is idempotent',
+    ($) async {
+      await pumpApp($, prefs: {'onboarding_complete': true});
+
+      final container = getContainer($);
+      final episode = await getStableTestEpisode(container);
+      final itemId = await insertTestEpisode($, episode);
+
+      final notifier = container.read(playerProvider.notifier);
+
+      // ── Tap the same card twice rapidly ─────────────────────────────
+      unawaited(notifier.playCard(itemId));
+      unawaited(notifier.playCard(itemId));
+
+      await waitForPlayback($);
+
+      final state = container.read(playerProvider);
+      expect(state.isPlaying, isTrue);
+      expect(state.activeCardId, itemId);
+      expect(state.error, isNull, reason: 'No error from double-tap');
+
+      await stopPlayback($);
+    },
+  );
+
+  patrolTest(
     'play-pause mashing settles correctly',
     ($) async {
       await pumpApp($, prefs: {'onboarding_complete': true});
@@ -126,16 +152,14 @@ void main() {
       );
 
       // ── Verify card A position was saved ───────────────────────────
-      // Give the async save a moment to complete.
-      await $.pump(const Duration(seconds: 2));
-
-      final savedA = await items.getById(itemA);
-      expect(
-        savedA?.lastPositionMs,
-        greaterThan(15000),
-        reason:
-            'Card A position should be saved on switch '
-            '(was at ${posBeforeSwitch}ms)',
+      await waitForCondition(
+        $,
+        () async {
+          final saved = await items.getById(itemA);
+          return saved != null && saved.lastPositionMs > 15000;
+        },
+        description:
+            'Card A position saved (was at ${posBeforeSwitch}ms)',
       );
 
       await stopPlayback($);
