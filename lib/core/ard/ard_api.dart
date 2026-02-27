@@ -102,11 +102,15 @@ class ArdApi {
     String? after,
     bool publishedOnly = true,
   }) async {
-    Log.debug(_tag, 'Fetching items', data: {
-      'programSetId': programSetId,
-      'first': '$first',
-      if (after != null) 'after': after,
-    });
+    Log.debug(
+      _tag,
+      'Fetching items',
+      data: {
+        'programSetId': programSetId,
+        'first': '$first',
+        if (after != null) 'after': after,
+      },
+    );
     // All dynamic values passed as GraphQL variables to prevent injection.
     // programSetId is Int in the ARD schema (IntFilter), not String.
     final data = await _graphql(
@@ -145,18 +149,26 @@ class ArdApi {
       endCursor: pageInfo['endCursor'] as String?,
       totalCount: items['totalCount'] as int? ?? 0,
     );
-    Log.debug(_tag, 'Items fetched', data: {
-      'programSetId': programSetId,
-      'fetched': '${result.items.length}',
-      'total': '${result.totalCount}',
-      'hasMore': '${result.hasNextPage}',
-    });
+    Log.debug(
+      _tag,
+      'Items fetched',
+      data: {
+        'programSetId': programSetId,
+        'fetched': '${result.items.length}',
+        'total': '${result.totalCount}',
+        'hasMore': '${result.hasNextPage}',
+      },
+    );
     return result;
   }
 
   /// Search for kids items by title.
   Future<List<ArdItem>> searchItems(String query, {int first = 20}) async {
-    Log.debug(_tag, 'Searching items', data: {'query': query, 'first': '$first'});
+    Log.debug(
+      _tag,
+      'Searching items',
+      data: {'query': query, 'first': '$first'},
+    );
     final data = await _graphql(
       '''
       query Search(\$query: String!, \$first: Int!) {
@@ -178,10 +190,14 @@ class ArdApi {
 
     final nodes = _extractNodes(data, 'items');
     final results = nodes.map(ArdItem.fromJson).toList();
-    Log.debug(_tag, 'Search results', data: {
-      'query': query,
-      'count': '${results.length}',
-    });
+    Log.debug(
+      _tag,
+      'Search results',
+      data: {
+        'query': query,
+        'count': '${results.length}',
+      },
+    );
     return results;
   }
 

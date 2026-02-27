@@ -148,11 +148,15 @@ class TileDetailScreen extends ConsumerWidget {
                     isActive: playerState.track != null,
                     showEpisodeTitles: showTitles,
                     onCardTap: (card) {
-                      Log.info(_tag, 'Episode tapped', data: {
-                        'cardId': card.id,
-                        'tileId': tileId,
-                        'title': card.customTitle ?? card.title,
-                      });
+                      Log.info(
+                        _tag,
+                        'Episode tapped',
+                        data: {
+                          'cardId': card.id,
+                          'tileId': tileId,
+                          'title': card.customTitle ?? card.title,
+                        },
+                      );
                       unawaited(playerNotifier.playCard(card.id));
                       unawaited(context.push(AppRoutes.player));
                     },

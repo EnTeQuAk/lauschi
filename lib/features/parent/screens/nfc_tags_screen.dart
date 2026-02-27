@@ -45,10 +45,14 @@ class NfcTagsScreen extends ConsumerWidget {
               return _TagTile(
                 tag: tag,
                 onDelete: () async {
-                  Log.info(_tag, 'NFC tag deleted', data: {
-                    'tagUid': tag.tagUid,
-                    'targetType': tag.targetType,
-                  });
+                  Log.info(
+                    _tag,
+                    'NFC tag deleted',
+                    data: {
+                      'tagUid': tag.tagUid,
+                      'targetType': tag.targetType,
+                    },
+                  );
                   await nfc.deleteMapping(tag.tagUid);
                   if (context.mounted) {
                     ScaffoldMessenger.of(context)
