@@ -100,9 +100,9 @@ class _ActiveBackend {
 /// media session, and auto-advance.
 @Riverpod(keepAlive: true)
 class PlayerNotifier extends _$PlayerNotifier {
-  SpotifyPlayerBridge? _bridge;
-  SpotifyApi? _api;
-  MediaSessionHandler? _mediaSession;
+  late SpotifyPlayerBridge _bridge;
+  late SpotifyApi _api;
+  late MediaSessionHandler _mediaSession;
 
   /// Permanent subscription to the Spotify bridge state stream.
   /// Routes playback events only when Spotify is the active backend;
@@ -141,18 +141,16 @@ class PlayerNotifier extends _$PlayerNotifier {
     _mediaSession = ref.watch(mediaSessionHandlerProvider);
 
     // Wire system media button callbacks.
-    if (_mediaSession != null) {
-      _mediaSession!.onPlay = resume;
-      _mediaSession!.onPause = () => unawaited(pause());
-      _mediaSession!.onSkipNext = () => unawaited(nextTrack());
-      _mediaSession!.onSkipPrev = () => unawaited(prevTrack());
-      _mediaSession!.onSeek = (pos) => unawaited(seek(pos.inMilliseconds));
-    }
+    _mediaSession.onPlay = resume;
+    _mediaSession.onPause = () => unawaited(pause());
+    _mediaSession.onSkipNext = () => unawaited(nextTrack());
+    _mediaSession.onSkipPrev = () => unawaited(prevTrack());
+    _mediaSession.onSeek = (pos) => unawaited(seek(pos.inMilliseconds));
 
     // Bridge subscription: always accept device metadata; only route
     // playback fields when SpotifyBackend is the active backend.
     unawaited(_bridgeSub?.cancel());
-    _bridgeSub = _bridge!.stateStream.listen(_onBridgeEvent);
+    _bridgeSub = _bridge.stateStream.listen(_onBridgeEvent);
 
     ref.onDispose(() {
       unawaited(_bridgeSub?.cancel());
@@ -198,7 +196,7 @@ class PlayerNotifier extends _$PlayerNotifier {
     }
 
     final authNotifier = ref.read(spotifyAuthProvider.notifier);
-    await _bridge!.init(
+    await _bridge.init(
       getValidToken: () async {
         final token = await authNotifier.validAccessToken();
         if (token == null) throw StateError('Not authenticated');
@@ -294,8 +292,8 @@ class PlayerNotifier extends _$PlayerNotifier {
     }
 
     // Pause Spotify bridge if it's playing (avoid dual audio).
-    if (_bridge?.currentState.isPlaying ?? false) {
-      await _bridge?.pause();
+    if (_bridge.currentState.isPlaying) {
+      await _bridge.pause();
     }
 
     // Tear down previous backend. Await ensures clean handoff.
@@ -358,7 +356,7 @@ class PlayerNotifier extends _$PlayerNotifier {
       );
       return;
     }
-    _api?.updateToken(token);
+    _api.updateToken(token);
 
     final deviceId = await _ensureDevice(gen);
     if (deviceId == null || _playGen != gen) return;
@@ -369,19 +367,19 @@ class PlayerNotifier extends _$PlayerNotifier {
     // is a no-op that keeps the pair consistent.
     // SpotifyBackend routes state through _onBridgeEvent, so no
     // per-backend subscription needed.
-    _active = _ActiveBackend(SpotifyBackend(_bridge!));
+    _active = _ActiveBackend(SpotifyBackend(_bridge));
 
     await _playOnDevice(card, deviceId, gen);
   }
 
   /// Get a valid device ID, reconnecting if needed. Returns null on failure.
   Future<String?> _ensureDevice(int gen) async {
-    final currentDeviceId = _bridge!.deviceId;
+    final currentDeviceId = _bridge.deviceId;
     if (currentDeviceId != null) return currentDeviceId;
 
     Log.warn(_tag, 'No device ID — attempting reconnect');
-    await _bridge!.reconnect();
-    final deviceId = await _bridge!.waitForDevice();
+    await _bridge.reconnect();
+    final deviceId = await _bridge.waitForDevice();
     if (_playGen != gen) return null;
     if (deviceId == null) {
       Log.warn(_tag, 'No device ID after reconnect');
@@ -443,14 +441,14 @@ class PlayerNotifier extends _$PlayerNotifier {
     db.TileItem card,
   ) async {
     if (card.lastTrackUri != null && card.lastPositionMs > 0) {
-      await _api!.play(
+      await _api.play(
         spotifyUri,
         deviceId: deviceId,
         offsetUri: card.lastTrackUri,
         positionMs: card.lastPositionMs,
       );
     } else {
-      await _api!.play(spotifyUri, deviceId: deviceId);
+      await _api.play(spotifyUri, deviceId: deviceId);
     }
   }
 
@@ -517,7 +515,7 @@ class PlayerNotifier extends _$PlayerNotifier {
     unawaited(
       WakelockPlus.toggle(enable: newState.isPlaying).catchError((_) {}),
     );
-    _mediaSession?.updateFromAppState(
+    _mediaSession.updateFromAppState(
       newState,
       hasNextTrack: _active?.backend.hasNextTrack ?? false,
     );
