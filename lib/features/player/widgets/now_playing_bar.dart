@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
 import 'package:lauschi/features/player/player_state.dart';
+import 'package:lauschi/features/player/widgets/next_episode_preview.dart';
 
 /// Compact now-playing bar shown at the bottom of the kid home screen.
 ///
@@ -98,31 +99,9 @@ class NowPlayingBar extends StatelessWidget {
               ),
               // Next episode preview (icon + mini cover) during advance
               if (state.isAdvancing) ...[
-                const Icon(
-                  Icons.skip_next_rounded,
-                  size: 18,
-                  color: AppColors.primary,
-                ),
-                const SizedBox(width: 4),
-                ClipRRect(
-                  borderRadius: const BorderRadius.all(Radius.circular(4)),
-                  child: SizedBox(
-                    width: 28,
-                    height: 28,
-                    child:
-                        state.nextEpisodeCoverUrl != null
-                            ? CachedNetworkImage(
-                              imageUrl: state.nextEpisodeCoverUrl!,
-                              fit: BoxFit.cover,
-                            )
-                            : const ColoredBox(
-                              color: AppColors.surfaceDim,
-                              child: Icon(
-                                Icons.music_note_rounded,
-                                size: 14,
-                              ),
-                            ),
-                  ),
+                NextEpisodePreview(
+                  coverUrl: state.nextEpisodeCoverUrl,
+                  size: NextEpisodePreviewSize.compact,
                 ),
                 const SizedBox(width: AppSpacing.xs),
               ],

@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
 import 'package:lauschi/features/player/player_provider.dart';
 import 'package:lauschi/features/player/player_state.dart';
+import 'package:lauschi/features/player/widgets/next_episode_preview.dart';
 
 /// Full-screen player with large album art, controls, and progress bar.
 ///
@@ -80,38 +81,8 @@ class _PlayerScreenState extends ConsumerState<PlayerScreen> {
               if (state.isAdvancing)
                 Padding(
                   padding: const EdgeInsets.only(top: AppSpacing.md),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const Icon(
-                        Icons.skip_next_rounded,
-                        size: 24,
-                        color: AppColors.primary,
-                      ),
-                      const SizedBox(width: AppSpacing.sm),
-                      ClipRRect(
-                        borderRadius: const BorderRadius.all(
-                          Radius.circular(6),
-                        ),
-                        child: SizedBox(
-                          width: 40,
-                          height: 40,
-                          child:
-                              state.nextEpisodeCoverUrl != null
-                                  ? CachedNetworkImage(
-                                    imageUrl: state.nextEpisodeCoverUrl!,
-                                    fit: BoxFit.cover,
-                                  )
-                                  : const ColoredBox(
-                                    color: AppColors.surfaceDim,
-                                    child: Icon(
-                                      Icons.music_note_rounded,
-                                      size: 20,
-                                    ),
-                                  ),
-                        ),
-                      ),
-                    ],
+                  child: NextEpisodePreview(
+                    coverUrl: state.nextEpisodeCoverUrl,
                   ),
                 ),
               const SizedBox(height: AppSpacing.lg),
