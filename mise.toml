@@ -98,6 +98,10 @@ run = "uv run scripts/discover-titles.py"
 description = "Clear Spotify API disk cache"
 run = "python3 -c \"import sys; sys.path.insert(0, 'scripts'); from spotify_cache import clear_cache; n = clear_cache(); print(f'Cleared {n} entries')\""
 
+[tasks.tag-release]
+description = "Bump calver version, commit, tag, and push"
+run = "uvx bumpver update"
+
 [tasks.coverage]
 description = "Run tests with coverage and print summary"
 run = """

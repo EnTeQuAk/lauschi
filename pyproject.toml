@@ -1,0 +1,12 @@
+[tool.bumpver]
+current_version = "v2026.2.1"
+version_pattern = "vYYYY.MM.INC1"
+commit_message = "release {new_version}"
+commit = true
+tag = true
+push = true
+
+[tool.bumpver.file_patterns]
+"pubspec.yaml" = [
+    'version: {pep440_version}+1',
+]
