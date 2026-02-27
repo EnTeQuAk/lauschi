@@ -6,20 +6,23 @@ import 'package:lauschi/features/player/player_error.dart';
 const playerArtworkHeroTag = 'player-artwork';
 
 /// Current track metadata.
+///
+/// [artist] and [album] are nullable because not all providers supply them.
+/// ARD Audiothek episodes have no artist/album metadata; Spotify always does.
 @immutable
 class TrackInfo {
   const TrackInfo({
     required this.uri,
     required this.name,
-    required this.artist,
-    required this.album,
+    this.artist,
+    this.album,
     this.artworkUrl,
   });
 
   final String uri;
   final String name;
-  final String artist;
-  final String album;
+  final String? artist;
+  final String? album;
   final String? artworkUrl;
 
   @override
