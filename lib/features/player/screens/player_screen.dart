@@ -420,8 +420,12 @@ class _ProgressBar extends StatelessWidget {
 
   static String _formatDuration(int ms) {
     final total = Duration(milliseconds: ms);
-    final minutes = total.inMinutes;
+    final hours = total.inHours;
+    final minutes = total.inMinutes.remainder(60);
     final seconds = total.inSeconds.remainder(60).toString().padLeft(2, '0');
+    if (hours > 0) {
+      return '$hours:${minutes.toString().padLeft(2, '0')}:$seconds';
+    }
     return '$minutes:$seconds';
   }
 }
