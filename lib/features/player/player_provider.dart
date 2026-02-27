@@ -163,25 +163,26 @@ class PlayerNotifier extends _$PlayerNotifier {
   }
 
   void _onBridgeEvent(PlaybackState bridgeState) {
-    // Always accept readiness so Spotify stays warm for the UI
-    // ("connecting..." spinner on kid home screen).
-    if (bridgeState.isReady != state.isReady) {
+    final isSpotifyActive = _active?.backend is SpotifyBackend;
+
+    if (isSpotifyActive) {
+      // Single write: merge isReady + playback fields.
+      state = state.copyWith(
+        isReady: bridgeState.isReady,
+        isPlaying: bridgeState.isPlaying,
+        track: bridgeState.track,
+        positionMs: bridgeState.positionMs,
+        durationMs: bridgeState.durationMs,
+        // Keep existing error if bridge has none
+        // (error is always-replace, so passing null clears it).
+        error: bridgeState.error ?? state.error,
+      );
+      _onPlaybackStateChange(state);
+    } else if (bridgeState.isReady != state.isReady) {
+      // Non-Spotify: only accept readiness changes so the bridge stays
+      // warm for the UI ("connecting..." spinner on kid home screen).
       state = state.copyWith(isReady: bridgeState.isReady);
     }
-
-    // Only route playback fields when Spotify owns playback.
-    if (_active?.backend is! SpotifyBackend) return;
-
-    state = state.copyWith(
-      isPlaying: bridgeState.isPlaying,
-      track: bridgeState.track,
-      positionMs: bridgeState.positionMs,
-      durationMs: bridgeState.durationMs,
-      // Forward bridge errors. Keep existing error if bridge has none
-      // (error is always-replace, so passing null would clear it).
-      error: bridgeState.error ?? state.error,
-    );
-    _onPlaybackStateChange(state);
   }
 
   // ─── Public API ──────────────────────────────────────────────────────
