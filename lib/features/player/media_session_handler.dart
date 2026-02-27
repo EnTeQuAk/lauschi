@@ -80,6 +80,15 @@ class MediaSessionHandler extends BaseAudioHandler with SeekHandler {
 
     // Update media item (track metadata + artwork).
     if (track != null) {
+      Log.debug(
+        _tag,
+        'Updating notification',
+        data: {
+          'track': track.name,
+          'playing': '${appState.isPlaying}',
+          'hasNext': '$hasNextTrack',
+        },
+      );
       mediaItem.add(
         MediaItem(
           id: track.uri,

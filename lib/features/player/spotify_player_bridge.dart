@@ -336,6 +336,21 @@ class SpotifyPlayerBridge {
             ? _state.positionMs
             : posMs;
 
+    // Log track changes and significant state transitions.
+    final trackChanged = track?.uri != _state.track?.uri;
+    if (trackChanged && track != null) {
+      Log.info(
+        _tag,
+        'Track changed',
+        data: {
+          'track': track.name,
+          'artist': track.artist ?? '',
+          'number': '$trackNum',
+          'remaining': '$nextCount',
+        },
+      );
+    }
+
     _trackNumber = trackNum;
     _nextTracksCount = nextCount;
 
@@ -425,26 +440,31 @@ class SpotifyPlayerBridge {
 
   /// Pause via the local SDK player (idempotent, safe to call when paused).
   Future<void> pause() async {
+    Log.debug(_tag, 'JS: pause');
     await _runJs('window.lauschi.pause()');
   }
 
   /// Resume via the local SDK player (idempotent — safe to call when playing).
   Future<void> resume() async {
+    Log.debug(_tag, 'JS: resume');
     await _runJs('window.lauschi.resume()');
   }
 
   /// Next track via local SDK.
   Future<void> nextTrack() async {
+    Log.debug(_tag, 'JS: next_track');
     await _runJs('window.lauschi.next_track()');
   }
 
   /// Previous track via local SDK.
   Future<void> prevTrack() async {
+    Log.debug(_tag, 'JS: prev_track');
     await _runJs('window.lauschi.prev_track()');
   }
 
   /// Seek to position via local SDK.
   Future<void> seek(int positionMs) async {
+    Log.debug(_tag, 'JS: seek $positionMs');
     await _runJs('window.lauschi.seek($positionMs)');
   }
 

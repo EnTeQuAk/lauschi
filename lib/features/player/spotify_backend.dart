@@ -28,20 +28,34 @@ class SpotifyBackend extends PlayerBackend {
   bool get hasNextTrack => _bridge.nextTracksCount > 0;
 
   @override
-  Future<void> pause() => _withRetry('pause', _bridge.pause);
+  Future<void> pause() {
+    Log.debug(_tag, 'pause');
+    return _withRetry('pause', _bridge.pause);
+  }
 
   @override
-  Future<void> resume() => _withRetry('resume', _bridge.resume);
+  Future<void> resume() {
+    Log.debug(_tag, 'resume');
+    return _withRetry('resume', _bridge.resume);
+  }
 
   @override
-  Future<void> seek(int positionMs) =>
-      _withRetry('seek', () => _bridge.seek(positionMs));
+  Future<void> seek(int positionMs) {
+    Log.debug(_tag, 'seek $positionMs');
+    return _withRetry('seek', () => _bridge.seek(positionMs));
+  }
 
   @override
-  Future<void> nextTrack() => _withRetry('next', _bridge.nextTrack);
+  Future<void> nextTrack() {
+    Log.debug(_tag, 'nextTrack');
+    return _withRetry('next', _bridge.nextTrack);
+  }
 
   @override
-  Future<void> prevTrack() => _withRetry('prev', _bridge.prevTrack);
+  Future<void> prevTrack() {
+    Log.debug(_tag, 'prevTrack');
+    return _withRetry('prev', _bridge.prevTrack);
+  }
 
   @override
   Future<void> stop() async {

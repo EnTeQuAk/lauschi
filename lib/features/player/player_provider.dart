@@ -216,12 +216,14 @@ class PlayerNotifier extends _$PlayerNotifier {
 
   /// Pause playback (idempotent).
   Future<void> pause() async {
+    Log.debug(_tag, 'pause');
     _advanceTimer?.cancel();
     await _backendCommand('pause', (b) => b.pause());
   }
 
   /// Resume playback (idempotent).
   Future<void> resume() async {
+    Log.debug(_tag, 'resume');
     await _backendCommand('resume', (b) => b.resume());
   }
 
@@ -255,6 +257,11 @@ class PlayerNotifier extends _$PlayerNotifier {
   /// Resume playback for a card, restoring saved position.
   Future<void> playCard(String cardId) async {
     final gen = ++_playGen;
+    Log.info(
+      _tag,
+      'playCard gen=$gen',
+      data: {'cardId': cardId, 'previous': state.activeCardId ?? 'none'},
+    );
 
     // Cancel pending timers and reset tracking.
     _advanceTimer?.cancel();
@@ -268,7 +275,10 @@ class PlayerNotifier extends _$PlayerNotifier {
       Log.error(_tag, 'Card not found', data: {'cardId': cardId});
       return;
     }
-    if (_playGen != gen) return;
+    if (_playGen != gen) {
+      Log.debug(_tag, 'playCard gen=$gen superseded (now $_playGen), bailing');
+      return;
+    }
 
     // Check content expiration.
     if (card.availableUntil != null &&
@@ -296,6 +306,15 @@ class PlayerNotifier extends _$PlayerNotifier {
     if (_playTimeMs >= _minPlayTimeMs &&
         oldCardId != null &&
         oldTrack != null) {
+      Log.info(
+        _tag,
+        'Saving position on card switch',
+        data: {
+          'oldCardId': oldCardId,
+          'positionMs': oldPos,
+          'playTimeMs': _playTimeMs,
+        },
+      );
       unawaited(_savePosition(oldCardId, oldTrack, oldPos));
     }
 
@@ -305,9 +324,18 @@ class PlayerNotifier extends _$PlayerNotifier {
     }
 
     // Tear down previous backend. Await ensures clean handoff.
+    if (_active != null) {
+      Log.debug(
+        _tag,
+        'Tearing down ${_active!.backend.runtimeType} gen=$gen',
+      );
+    }
     await _active?.stop();
     _active = null;
-    if (_playGen != gen) return; // Superseded during teardown.
+    if (_playGen != gen) {
+      Log.debug(_tag, 'playCard gen=$gen superseded during teardown');
+      return;
+    }
 
     // Create and activate new backend.
     try {
@@ -342,7 +370,10 @@ class PlayerNotifier extends _$PlayerNotifier {
     Future<void> Function(PlayerBackend) command,
   ) async {
     final backend = _active?.backend;
-    if (backend == null) return;
+    if (backend == null) {
+      Log.debug(_tag, '$name ignored — no active backend');
+      return;
+    }
     try {
       await command(backend);
     } on Exception catch (e) {
@@ -354,6 +385,11 @@ class PlayerNotifier extends _$PlayerNotifier {
   // ─── Spotify startup ────────────────────────────────────────────────
 
   Future<void> _startSpotify(db.TileItem card, int gen) async {
+    Log.info(
+      _tag,
+      'Starting Spotify backend gen=$gen',
+      data: {'uri': card.providerUri},
+    );
     // Proactively refresh the token before attempting playback.
     final authNotifier = ref.read(spotifyAuthProvider.notifier);
     final token = await authNotifier.validAccessToken();
@@ -463,6 +499,11 @@ class PlayerNotifier extends _$PlayerNotifier {
   // ─── DirectPlayer startup ──────────────────────────────────────────
 
   Future<void> _startDirect(db.TileItem card, int gen) async {
+    Log.info(
+      _tag,
+      'Starting DirectPlayer gen=$gen',
+      data: {'cardId': card.id, 'provider': card.provider},
+    );
     if (card.audioUrl == null || card.audioUrl!.isEmpty) {
       Log.error(_tag, 'No audio URL', data: {'cardId': card.id});
       state = state.copyWith(
@@ -517,6 +558,19 @@ class PlayerNotifier extends _$PlayerNotifier {
   void _onPlaybackStateChange(PlaybackState newState) {
     // No active backend → no side effects.
     if (_active == null) return;
+
+    // Log play/pause transitions (not every position tick).
+    if (newState.isPlaying != state.isPlaying) {
+      Log.debug(
+        _tag,
+        newState.isPlaying ? 'State: playing' : 'State: paused',
+        data: {
+          'cardId': state.activeCardId ?? '',
+          'positionMs': '${newState.positionMs}',
+          'durationMs': '${newState.durationMs}',
+        },
+      );
+    }
 
     unawaited(
       WakelockPlus.toggle(enable: newState.isPlaying).catchError((_) {}),
@@ -660,6 +714,16 @@ class PlayerNotifier extends _$PlayerNotifier {
             trackNumber: trackNumber,
             positionMs: positionMs,
           );
+      Log.debug(
+        _tag,
+        'Position saved',
+        data: {
+          'cardId': cardId,
+          'positionMs': '$positionMs',
+          'trackNumber': '$trackNumber',
+          'playTimeMs': '$_playTimeMs',
+        },
+      );
     } on Exception catch (e) {
       Log.error(
         _tag,
@@ -680,7 +744,7 @@ class PlayerNotifier extends _$PlayerNotifier {
       await cards.markHeard(card.id);
       Log.info(
         _tag,
-        'Album completed',
+        'Marked as heard',
         data: {'cardId': card.id, 'title': card.title},
       );
     } on Exception catch (e) {

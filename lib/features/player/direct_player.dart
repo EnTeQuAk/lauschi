@@ -90,27 +90,32 @@ class DirectPlayer extends PlayerBackend {
 
   @override
   Future<void> pause() async {
+    Log.debug(_tag, 'pause');
     await _player?.pause();
   }
 
   @override
   Future<void> resume() async {
+    Log.debug(_tag, 'resume');
     await _player?.play();
   }
 
   @override
   Future<void> seek(int positionMs) async {
+    Log.debug(_tag, 'seek $positionMs');
     await _player?.seek(Duration(milliseconds: positionMs));
   }
 
   @override
   Future<void> stop() async {
+    Log.debug(_tag, 'stop');
     await _player?.stop();
   }
 
   /// Release resources. Call when switching to a different player backend.
   @override
   Future<void> dispose() async {
+    Log.debug(_tag, 'dispose');
     await _playerStateSub?.cancel();
     await _durationSub?.cancel();
     await _positionSub?.cancel();
