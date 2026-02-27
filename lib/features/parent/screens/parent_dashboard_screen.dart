@@ -59,7 +59,7 @@ class ParentDashboardScreen extends ConsumerWidget {
           ),
 
           // Provider tiles -- driven by registry
-          for (final provider in providers.where((p) => p.enabled))
+          for (final provider in providers)
             ..._providerTile(context, ref, provider),
 
           const SizedBox(height: AppSpacing.lg),
@@ -72,13 +72,8 @@ class ParentDashboardScreen extends ConsumerWidget {
             onTap: () => unawaited(context.push(AppRoutes.pinChange)),
           ),
 
-          // Disconnect tiles for authenticated providers that require auth
-          for (final provider in providers.where(
-            (p) =>
-                p.enabled &&
-                p.auth.requiresAuth &&
-                p.authState == ProviderAuthState.authenticated,
-          ))
+          // Disconnect tiles for authenticated providers
+          for (final provider in providers.where((p) => p.canDisconnect))
             ...[
               const Divider(indent: 56),
               _SettingsTile(

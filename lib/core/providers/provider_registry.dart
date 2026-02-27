@@ -13,21 +13,19 @@ class ProviderInfo {
     required this.type,
     required this.auth,
     required this.authState,
-    this.enabled = true,
   });
 
   final ProviderType type;
   final ProviderAuth auth;
   final ProviderAuthState authState;
 
-  /// Whether this provider is available in the current build.
-  /// False for providers not yet implemented (Tidal).
-  final bool enabled;
-
-  /// Ready for use: enabled, and either no auth required or authenticated.
+  /// Ready for use: no auth required or authenticated.
   bool get isAvailable =>
-      enabled &&
-      (authState == ProviderAuthState.authenticated || !auth.requiresAuth);
+      authState == ProviderAuthState.authenticated || !auth.requiresAuth;
+
+  /// Whether the parent can disconnect this provider.
+  bool get canDisconnect =>
+      auth.requiresAuth && authState == ProviderAuthState.authenticated;
 }
 
 /// Central registry of all content providers.
@@ -48,6 +46,8 @@ List<ProviderInfo> providerRegistry(Ref ref) {
 
   final spotifyNotifier = ref.read(spotifyAuthProvider.notifier);
 
+  // Only include providers that are implemented.
+  // Apple Music and Tidal will be added here when their auth is wired.
   return [
     ProviderInfo(
       type: ProviderType.ardAudiothek,
@@ -59,23 +59,14 @@ List<ProviderInfo> providerRegistry(Ref ref) {
       auth: SpotifyProviderAuth(spotifyNotifier),
       authState: spotifyAuthState,
     ),
-    ProviderInfo(
-      type: ProviderType.appleMusic,
-      auth: ArdAuth(), // placeholder, not wired
-      authState: ProviderAuthState.unauthenticated,
-      enabled: false,
-    ),
-    ProviderInfo(
-      type: ProviderType.tidal,
-      auth: ArdAuth(), // placeholder, not wired
-      authState: ProviderAuthState.unauthenticated,
-      enabled: false,
-    ),
   ];
 }
 
-/// Convenience: providers that are enabled and authenticated.
+/// Providers that are ready for use (authenticated or no-auth).
 @Riverpod(keepAlive: true)
 List<ProviderInfo> availableProviders(Ref ref) {
-  return ref.watch(providerRegistryProvider).where((p) => p.isAvailable).toList();
+  return ref
+      .watch(providerRegistryProvider)
+      .where((p) => p.isAvailable)
+      .toList();
 }
