@@ -240,32 +240,56 @@ subscriptions, with provider-specific detail in error metadata for parent toast.
 
 ### Phase 1: Foundation (low risk)
 
-1. `lib/core/providers/provider_type.dart` -- enum
+1. `lib/core/providers/provider_type.dart` -- enum with string serialization
 2. Use `ProviderType` in PlayerNotifier switch (replaces string comparison)
 3. Update `CatalogService` to parse `providers:` map in YAML (keep old fields)
 
-### Phase 2: Auth abstraction (medium risk)
+### Phase 2: Auth abstraction + provider settings UI (medium risk)
 
 4. `lib/core/providers/provider_auth.dart` -- interface
 5. Wrap existing `SpotifyAuth` to implement it
 6. Add `ArdAuth` (trivial no-op)
-7. Provider settings screen iterates registered providers
+7. **Provider registry** -- `ProviderRegistry` that holds all known providers
+   with their auth state, display name, icon
+8. **Provider settings screen** -- replaces hardcoded Spotify/ARD tiles on
+   parent dashboard. Iterates registered providers dynamically:
+   - ARD: always-on info row
+   - Spotify: connect/disconnect toggle (existing flow)
+   - Apple Music: disabled placeholder ("Demnachst verfugbar")
+9. **Refactor parent dashboard** -- the "Sammlung" section currently has
+   hardcoded `_SettingsTile` widgets for Spotify and ARD with inline auth
+   logic. Replace with a loop over `ProviderRegistry.configuredProviders`
+   that renders a tile per connected provider linking to its browse screen.
+   The `_confirmSpotifyDisconnect` dialog becomes provider-generic.
 
-### Phase 3: Catalog evolution (medium risk)
+### Phase 3: Catalog evolution + browse UI (medium risk)
 
-8. Add provider identifiers to `series.yaml` (keep existing Spotify fields)
-9. `CatalogService.match()` takes optional `ProviderType` parameter
-10. Browse/add screens use provider tabs
+10. Add `providers:` identifiers to `series.yaml` (keep existing Spotify fields)
+11. `CatalogService.match()` takes optional `ProviderType` parameter
+12. **Unified "Add Content" entry point** -- single route (`/parent/add`)
+    that opens a tabbed screen. Each tab is a provider's browse experience:
+    - ARD tab: existing `DiscoverScreen` (hierarchical browse)
+    - Spotify tab: existing `BrowseCatalogScreen` (catalog grid + search)
+    - Future tabs slot in without router changes
+13. **Provider badge widget** -- small icon/label shown on content items
+    during the add flow so parents know which provider an episode comes from.
+    Not shown on kid-facing tiles.
+14. **Retire separate routes** -- `/parent/add-card` and `/parent/discover`
+    merge into the tabbed add screen. Old routes redirect for deep link compat.
 
 ### Phase 4: Apple Music integration
 
-11. Apple Developer Program enrollment + MusicKit key setup
-12. `music_kit` plugin dependency
-13. `AppleMusicAuth` implementation
-14. `AppleMusicBackend` (wraps music_kit for PlayerBackend interface)
-15. Apple Music browse/search screen
+15. Apple Developer Program enrollment + MusicKit key setup
+16. `music_kit` plugin dependency + platform setup (iOS entitlements, Android JitPack)
+17. `AppleMusicAuth` implementation (developer JWT + MusicKit user token)
+18. `AppleMusicBackend` (wraps music_kit plugin for `PlayerBackend` interface)
+19. Apple Music browse/search tab in the add screen
+20. Apple Music entry in provider settings (connect/disconnect)
+21. Sync support: poll artist discographies for new Hörspiel releases
 
 Each phase ends with all tests passing. No big-bang migration.
+Phase 4 should be pure "add new provider" work -- all the UI scaffolding
+(tabs, settings, badges, registry) is done in phases 2-3.
 
 ---
 
