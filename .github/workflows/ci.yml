@@ -67,4 +67,5 @@ jobs:
         run: flutter test --dart-define-from-file=.env
 
       - name: Build APK (verify compilation)
+        if: github.event_name == 'pull_request'
         run: flutter build apk --debug --dart-define-from-file=.env

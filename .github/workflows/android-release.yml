@@ -1,0 +1,93 @@
+name: Android Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+concurrency:
+  group: android-release-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  release:
+    name: Build · Sign · Distribute
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          lfs: true
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+          cache: gradle
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.41.1'
+          channel: stable
+          cache: true
+
+      - name: Cache pub dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.pub-cache
+            .dart_tool/
+          key: pub-${{ hashFiles('pubspec.lock') }}
+          restore-keys: pub-
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Code generation
+        run: dart run build_runner build --delete-conflicting-outputs
+
+      - name: Create .env
+        run: |
+          cat > .env << EOF
+          SPOTIFY_CLIENT_ID=${{ secrets.SPOTIFY_CLIENT_ID }}
+          SENTRY_DSN=${{ secrets.SENTRY_DSN }}
+          SENTRY_ENVIRONMENT=production
+          EOF
+
+      - name: Set up signing
+        run: |
+          echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 -d > android/app/keystore.jks
+          cat > android/key.properties << EOF
+          storePassword=${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          keyPassword=${{ secrets.ANDROID_KEY_PASSWORD }}
+          keyAlias=${{ secrets.ANDROID_KEY_ALIAS }}
+          storeFile=keystore.jks
+          EOF
+
+      - name: Build release APK
+        run: |
+          VERSION_NAME=$(echo "${{ github.ref_name }}" | sed 's/^v//')
+          flutter build apk --release \
+            --build-name="$VERSION_NAME" \
+            --build-number=${{ github.run_number }} \
+            --dart-define-from-file=.env
+
+      - name: Upload to Firebase App Distribution
+        uses: wzieba/Firebase-Distribution-Github-Action@v1
+        with:
+          appId: ${{ secrets.FIREBASE_ANDROID_APP_ID }}
+          serviceCredentialsFileContent: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_JSON }}
+          groups: testers
+          file: build/app/outputs/flutter-apk/app-release.apk
+          releaseNotes: ${{ github.ref_name }}
+
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-release-${{ github.ref_name }}
+          path: build/app/outputs/flutter-apk/app-release.apk
+
+      - name: Clean up signing
+        if: always()
+        run: rm -f android/app/keystore.jks android/key.properties
