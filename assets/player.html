@@ -126,23 +126,43 @@
     },
 
     pause: function() {
-      if (player) player.pause();
+      if (!player) return;
+      player.pause().catch(function(e) {
+        post('error', { type: 'playback', message: 'pause failed: ' + e });
+        post_log('pause() rejected: ' + e);
+      });
     },
 
     resume: function() {
-      if (player) player.resume();
+      if (!player) return;
+      player.resume().catch(function(e) {
+        post('error', { type: 'playback', message: 'resume failed: ' + e });
+        post_log('resume() rejected: ' + e);
+      });
     },
 
     next_track: function() {
-      if (player) player.nextTrack();
+      if (!player) return;
+      player.nextTrack().catch(function(e) {
+        post('error', { type: 'playback', message: 'nextTrack failed: ' + e });
+        post_log('nextTrack() rejected: ' + e);
+      });
     },
 
     prev_track: function() {
-      if (player) player.previousTrack();
+      if (!player) return;
+      player.previousTrack().catch(function(e) {
+        post('error', { type: 'playback', message: 'prevTrack failed: ' + e });
+        post_log('prevTrack() rejected: ' + e);
+      });
     },
 
     seek: function(position_ms) {
-      if (player) player.seek(position_ms);
+      if (!player) return;
+      player.seek(position_ms).catch(function(e) {
+        post('error', { type: 'playback', message: 'seek failed: ' + e });
+        post_log('seek() rejected: ' + e);
+      });
     },
 
     // Re-register the SDK player with Spotify. Called by Dart when

@@ -216,14 +216,14 @@ class PlayerNotifier extends _$PlayerNotifier {
 
   /// Pause playback (idempotent).
   Future<void> pause() async {
-    Log.debug(_tag, 'pause');
+    Log.info(_tag, 'pause');
     _advanceTimer?.cancel();
     await _backendCommand('pause', (b) => b.pause());
   }
 
   /// Resume playback (idempotent).
   Future<void> resume() async {
-    Log.debug(_tag, 'resume');
+    Log.info(_tag, 'resume');
     await _backendCommand('resume', (b) => b.resume());
   }
 
@@ -411,7 +411,7 @@ class PlayerNotifier extends _$PlayerNotifier {
     // is a no-op that keeps the pair consistent.
     // SpotifyBackend routes state through _onBridgeEvent, so no
     // per-backend subscription needed.
-    _active = _ActiveBackend(SpotifyBackend(_bridge));
+    _active = _ActiveBackend(SpotifyBackend(_bridge, _api));
 
     await _playOnDevice(card, deviceId, gen);
   }

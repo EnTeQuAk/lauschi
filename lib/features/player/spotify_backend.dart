@@ -1,4 +1,5 @@
 import 'package:lauschi/core/log.dart';
+import 'package:lauschi/core/spotify/spotify_api.dart';
 import 'package:lauschi/features/player/player_backend.dart';
 import 'package:lauschi/features/player/player_state.dart';
 import 'package:lauschi/features/player/spotify_player_bridge.dart';
@@ -7,13 +8,15 @@ const _tag = 'SpotifyBackend';
 
 /// Adapter wrapping [SpotifyPlayerBridge] as a [PlayerBackend].
 ///
-/// Each command gets one reconnect+retry on failure. If the retry also
-/// fails, the exception propagates to the caller (PlayerNotifier catches
-/// and sets error state).
+/// Commands go to the local SDK player first. If the SDK call fails
+/// (session stale, WebView suspended), pause and resume fall back to
+/// the Spotify Web API. Other commands (seek, next, prev) retry via
+/// reconnect as before.
 class SpotifyBackend extends PlayerBackend {
-  SpotifyBackend(this._bridge);
+  SpotifyBackend(this._bridge, this._api);
 
   final SpotifyPlayerBridge _bridge;
+  final SpotifyApi _api;
 
   @override
   Stream<PlaybackState> get stateStream => _bridge.stateStream;
@@ -28,15 +31,39 @@ class SpotifyBackend extends PlayerBackend {
   bool get hasNextTrack => _bridge.nextTracksCount > 0;
 
   @override
-  Future<void> pause() {
-    Log.debug(_tag, 'pause');
-    return _withRetry('pause', _bridge.pause);
+  Future<void> pause() async {
+    Log.info(_tag, 'pause');
+    try {
+      await _bridge.pause();
+    } on Exception catch (e) {
+      Log.warn(
+        _tag,
+        'SDK pause failed, falling back to Web API',
+        data: {
+          'error': '$e',
+        },
+      );
+      await _api.pause();
+    }
   }
 
   @override
-  Future<void> resume() {
-    Log.debug(_tag, 'resume');
-    return _withRetry('resume', _bridge.resume);
+  Future<void> resume() async {
+    Log.info(_tag, 'resume');
+    final deviceId = _bridge.deviceId;
+    try {
+      await _bridge.resume();
+    } on Exception catch (e) {
+      if (deviceId == null) rethrow;
+      Log.warn(
+        _tag,
+        'SDK resume failed, falling back to Web API',
+        data: {
+          'error': '$e',
+        },
+      );
+      await _api.resume(deviceId: deviceId);
+    }
   }
 
   @override
@@ -60,7 +87,11 @@ class SpotifyBackend extends PlayerBackend {
   @override
   Future<void> stop() async {
     // Spotify SDK has no "stop" — pause is the closest.
-    await _withRetry('stop', _bridge.pause);
+    try {
+      await _bridge.pause();
+    } on Exception {
+      await _api.pause();
+    }
   }
 
   @override
@@ -70,12 +101,6 @@ class SpotifyBackend extends PlayerBackend {
   }
 
   /// Execute a bridge command with one reconnect+retry on failure.
-  ///
-  /// Reconnects on any exception. Spotify Web SDK errors come through the
-  /// WebView as opaque PlatformExceptions -- we can't distinguish "device
-  /// gone" from "transient glitch". Reconnect is cheap (re-registers device)
-  /// and the single retry bounds the damage. If this also fails, the
-  /// exception propagates to PlayerNotifier which sets error state.
   Future<void> _withRetry(
     String name,
     Future<void> Function() command,
