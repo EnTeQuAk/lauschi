@@ -7,11 +7,14 @@ import 'package:go_router/go_router.dart';
 import 'package:lauschi/core/database/app_database.dart' as db;
 import 'package:lauschi/core/database/tile_item_repository.dart';
 import 'package:lauschi/core/database/tile_repository.dart';
+import 'package:lauschi/core/log.dart';
 import 'package:lauschi/core/router/app_router.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
 import 'package:lauschi/features/parent/widgets/expiry_label.dart';
 import 'package:lauschi/features/player/player_provider.dart';
 import 'package:lauschi/features/tiles/screens/tile_detail_screen.dart';
+
+const _tag = 'TileEditScreen';
 
 /// Parent edit screen for a single series group.
 ///
@@ -57,6 +60,13 @@ class _GroupEditScreenState extends ConsumerState<TileEditScreen> {
   }
 
   void _confirmDeleteAllCards(BuildContext context) {
+    Log.info(
+      _tag,
+      'Delete all cards dialog shown',
+      data: {
+        'tileId': widget.tileId,
+      },
+    );
     unawaited(
       showDialog<void>(
         context: context,
@@ -78,6 +88,14 @@ class _GroupEditScreenState extends ConsumerState<TileEditScreen> {
                     final count = await ref
                         .read(tileItemRepositoryProvider)
                         .deleteByTile(widget.tileId);
+                    Log.info(
+                      _tag,
+                      'All cards deleted',
+                      data: {
+                        'tileId': widget.tileId,
+                        'count': '$count',
+                      },
+                    );
                     if (context.mounted) {
                       ScaffoldMessenger.of(context)
                         ..clearSnackBars()
@@ -104,6 +122,13 @@ class _GroupEditScreenState extends ConsumerState<TileEditScreen> {
   }
 
   void _confirmDeleteGroup(BuildContext context) {
+    Log.info(
+      _tag,
+      'Delete tile dialog shown',
+      data: {
+        'tileId': widget.tileId,
+      },
+    );
     unawaited(
       showDialog<void>(
         context: context,
@@ -128,6 +153,13 @@ class _GroupEditScreenState extends ConsumerState<TileEditScreen> {
                     await ref
                         .read(tileRepositoryProvider)
                         .delete(widget.tileId);
+                    Log.info(
+                      _tag,
+                      'Tile deleted',
+                      data: {
+                        'tileId': widget.tileId,
+                      },
+                    );
                     if (context.mounted) {
                       if (context.canPop()) {
                         context.pop();
@@ -150,6 +182,14 @@ class _GroupEditScreenState extends ConsumerState<TileEditScreen> {
   Future<void> _save() async {
     final title = _titleController.text.trim();
     if (title.isEmpty) return;
+    Log.info(
+      _tag,
+      'Saving tile',
+      data: {
+        'tileId': widget.tileId,
+        'title': title,
+      },
+    );
     await ref
         .read(tileRepositoryProvider)
         .update(
@@ -618,6 +658,16 @@ class _EpisodeReorderList extends ConsumerWidget {
         final reordered = List<db.TileItem>.from(episodes);
         final item = reordered.removeAt(oldIndex);
         reordered.insert(insertAt, item);
+        Log.info(
+          _tag,
+          'Episodes reordered',
+          data: {
+            'tileId': tileId,
+            'movedItem': item.id,
+            'from': '$oldIndex',
+            'to': '$insertAt',
+          },
+        );
         unawaited(
           ref
               .read(tileItemRepositoryProvider)
@@ -802,6 +852,14 @@ class _EpisodeTile extends ConsumerWidget {
                 FilledButton(
                   onPressed: () {
                     Navigator.of(ctx).pop();
+                    Log.info(
+                      _tag,
+                      'Card removed from tile',
+                      data: {
+                        'cardId': card.id,
+                        'tileId': tileId,
+                      },
+                    );
                     unawaited(
                       ref
                           .read(tileItemRepositoryProvider)
@@ -834,6 +892,7 @@ class _EpisodeTile extends ConsumerWidget {
                 FilledButton(
                   onPressed: () {
                     Navigator.of(ctx).pop();
+                    Log.info(_tag, 'Card deleted', data: {'cardId': card.id});
                     unawaited(
                       ref.read(tileItemRepositoryProvider).delete(card.id),
                     );

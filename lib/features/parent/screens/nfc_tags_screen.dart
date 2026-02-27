@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lauschi/core/database/app_database.dart' as db;
+import 'package:lauschi/core/log.dart';
 import 'package:lauschi/core/nfc/nfc_service.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
+
+const _tag = 'NfcTagsScreen';
 
 /// NFC tag management — list paired tags, delete mappings.
 ///
@@ -42,6 +45,10 @@ class NfcTagsScreen extends ConsumerWidget {
               return _TagTile(
                 tag: tag,
                 onDelete: () async {
+                  Log.info(_tag, 'NFC tag deleted', data: {
+                    'tagUid': tag.tagUid,
+                    'targetType': tag.targetType,
+                  });
                   await nfc.deleteMapping(tag.tagUid);
                   if (context.mounted) {
                     ScaffoldMessenger.of(context)
