@@ -185,10 +185,25 @@ class KidHomeScreen extends ConsumerWidget {
                   playerState.hasTrack
                       ? Consumer(
                         builder: (context, ref, _) {
-                          final fullState = ref.watch(playerProvider);
+                          final s = ref.watch(
+                            playerProvider.select(
+                              (s) => (
+                                track: s.track,
+                                isPlaying: s.isPlaying,
+                                isAdvancing: s.isAdvancing,
+                                nextCover: s.nextEpisodeCoverUrl,
+                              ),
+                            ),
+                          );
+                          if (s.track == null) {
+                            return const SizedBox.shrink();
+                          }
                           return NowPlayingBar(
                             key: const ValueKey('now-playing'),
-                            state: fullState,
+                            track: s.track!,
+                            isPlaying: s.isPlaying,
+                            isAdvancing: s.isAdvancing,
+                            nextEpisodeCoverUrl: s.nextCover,
                             onTap: () => context.push(AppRoutes.player),
                             onTogglePlay: playerNotifier.togglePlay,
                           );
