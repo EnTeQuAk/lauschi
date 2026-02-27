@@ -17,6 +17,8 @@ class FakePlayerNotifier extends PlayerNotifier {
   @override
   void clearError() {
     clearErrorCalled = true;
-    state = state.copyWith();
+    // Explicitly null the error (always-replace semantics).
+    // ignore: avoid_redundant_argument_values
+    state = state.copyWith(error: null);
   }
 }
