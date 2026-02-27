@@ -175,7 +175,7 @@ Future<void> waitForPlayback(
   );
 }
 
-/// Waits for playback to pause.
+/// Waits for playback to pause. Fails fast on errors.
 Future<void> waitForPause(
   PatrolIntegrationTester $, {
   Duration timeout = const Duration(seconds: 5),
@@ -185,11 +185,31 @@ Future<void> waitForPause(
 
   while (sw.elapsed < timeout) {
     final state = container.read(playerProvider);
+    if (state.error != null) {
+      fail('Playback error while waiting for pause: ${state.error}');
+    }
     if (!state.isPlaying) return;
     await $.pump(const Duration(milliseconds: 100));
   }
 
   fail('Playback did not pause within ${timeout.inSeconds}s');
+}
+
+/// Polls until [condition] returns true. Fails on timeout.
+Future<void> waitForCondition(
+  PatrolIntegrationTester $,
+  Future<bool> Function() condition, {
+  String description = 'condition',
+  Duration timeout = const Duration(seconds: 5),
+}) async {
+  final sw = Stopwatch()..start();
+
+  while (sw.elapsed < timeout) {
+    if (await condition()) return;
+    await $.pump(const Duration(milliseconds: 200));
+  }
+
+  fail('$description not met within ${timeout.inSeconds}s');
 }
 
 /// Current position in milliseconds.
