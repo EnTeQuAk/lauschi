@@ -9,7 +9,10 @@ import 'package:lauschi/core/ard/ard_models.dart';
 import 'package:lauschi/core/ard/ard_providers.dart';
 import 'package:lauschi/core/database/content_importer.dart';
 import 'package:lauschi/core/database/tile_item_repository.dart';
+import 'package:lauschi/core/log.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
+
+const _tag = 'ArdShowDetailScreen';
 
 // Multi-part grouping is now handled via item.group from the API.
 
@@ -35,6 +38,11 @@ class _ArdShowDetailScreenState extends ConsumerState<ArdShowDetailScreen> {
     if (item.bestAudioUrl == null) return;
     if (_addingUris.contains(item.providerUri)) return;
 
+    Log.info(_tag, 'Adding episode', data: {
+      'showId': show.id,
+      'episodeUri': item.providerUri,
+      'title': item.displayTitle,
+    });
     setState(() => _addingUris.add(item.providerUri));
 
     try {
@@ -46,6 +54,9 @@ class _ArdShowDetailScreenState extends ConsumerState<ArdShowDetailScreen> {
             cards: [_ardPendingCard(item)],
           );
     } on Exception catch (e) {
+      Log.error(_tag, 'Add episode failed', exception: e, data: {
+        'episodeUri': item.providerUri,
+      });
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Fehler: $e')),
@@ -60,6 +71,10 @@ class _ArdShowDetailScreenState extends ConsumerState<ArdShowDetailScreen> {
 
   /// Add all episodes from the show.
   Future<void> _addAll(ArdProgramSet show, List<ArdItem> items) async {
+    Log.info(_tag, 'Adding all episodes', data: {
+      'showId': show.id,
+      'showTitle': show.title,
+    });
     final importer = ref.read(contentImporterProvider.notifier);
 
     // Load all pages if needed.
@@ -83,6 +98,12 @@ class _ArdShowDetailScreenState extends ConsumerState<ArdShowDetailScreen> {
         cards: cards,
       );
 
+      Log.info(_tag, 'All episodes added', data: {
+        'showId': show.id,
+        'added': '${result.added}',
+        'total': '${playable.length}',
+      });
+
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
@@ -93,6 +114,9 @@ class _ArdShowDetailScreenState extends ConsumerState<ArdShowDetailScreen> {
         );
       }
     } on Exception catch (e) {
+      Log.error(_tag, 'Add all failed', exception: e, data: {
+        'showId': show.id,
+      });
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Fehler: $e')),
@@ -115,6 +139,10 @@ class _ArdShowDetailScreenState extends ConsumerState<ArdShowDetailScreen> {
       cursor = page.hasNextPage ? page.endCursor : null;
     } while (cursor != null);
 
+    Log.debug(_tag, 'All episodes loaded', data: {
+      'showId': showId,
+      'total': '${allItems.length}',
+    });
     return allItems;
   }
 

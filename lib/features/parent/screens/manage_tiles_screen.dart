@@ -8,11 +8,14 @@ import 'package:go_router/go_router.dart';
 import 'package:lauschi/core/database/app_database.dart' as db;
 import 'package:lauschi/core/database/tile_item_repository.dart';
 import 'package:lauschi/core/database/tile_repository.dart';
+import 'package:lauschi/core/log.dart';
 import 'package:lauschi/core/router/app_router.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
 import 'package:lauschi/features/parent/widgets/provider_badge.dart';
 import 'package:lauschi/features/tiles/screens/tile_detail_screen.dart';
 import 'package:lauschi/features/tiles/widgets/tile_card.dart';
+
+const _tag = 'ManageTilesScreen';
 
 /// Parent view: list, create, reorder and delete series groups.
 class ManageTilesScreen extends ConsumerWidget {
@@ -96,6 +99,7 @@ class ManageTilesScreen extends ConsumerWidget {
     if (title.isEmpty) return;
     Navigator.of(dialogCtx).pop();
     final groupId = await ref.read(tileRepositoryProvider).insert(title: title);
+    Log.info(_tag, 'Tile created', data: {'id': groupId, 'title': title});
     if (screenCtx.mounted) {
       unawaited(screenCtx.push(AppRoutes.parentTileEdit(groupId)));
     }
@@ -281,6 +285,13 @@ class _UngroupedCardTile extends ConsumerWidget {
                 FilledButton(
                   onPressed: () {
                     Navigator.of(ctx).pop();
+                    Log.info(
+                      _tag,
+                      'Ungrouped card deleted',
+                      data: {
+                        'cardId': card.id,
+                      },
+                    );
                     unawaited(
                       ref.read(tileItemRepositoryProvider).delete(card.id),
                     );
@@ -358,6 +369,13 @@ class _GroupGridState extends ConsumerState<_GroupGrid> {
             setState(() {
               _order = reorderFn(_order);
             });
+            Log.info(
+              _tag,
+              'Tiles reordered',
+              data: {
+                'count': '${_order.length}',
+              },
+            );
             unawaited(
               ref
                   .read(tileRepositoryProvider)

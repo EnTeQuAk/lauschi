@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart' show kDebugMode;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:lauschi/core/log.dart';
 import 'package:lauschi/core/settings/debug_settings.dart';
 import 'package:lauschi/core/settings/kid_settings.dart';
 import 'package:lauschi/core/spotify/spotify_auth_provider.dart';
@@ -20,6 +21,8 @@ const _appVersion = String.fromEnvironment(
   defaultValue: '0.1.0',
 );
 const _buildFlavour = kDebugMode ? 'debug' : 'release';
+
+const _tag = 'SettingsScreen';
 
 class SettingsScreen extends ConsumerStatefulWidget {
   const SettingsScreen({super.key});
@@ -248,6 +251,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   }
 
   Future<void> _performLogout() async {
+    Log.info(_tag, 'Performing logout');
     // Disconnect the player bridge.
     final bridge = ref.read(spotifyPlayerBridgeProvider);
     await bridge.dispose();
@@ -267,6 +271,12 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   }
 
   Future<void> _update(DebugSettings updated) async {
+    Log.info(_tag, 'Settings updated', data: {
+      'replayEnabled': '${updated.replayEnabled}',
+      'maskAllText': '${updated.maskAllText}',
+      'maskAllImages': '${updated.maskAllImages}',
+      'nfcEnabled': '${updated.nfcEnabled}',
+    });
     await ref.read(debugSettingsProvider.notifier).save(updated);
     if (mounted) setState(() => _changed = true);
   }

@@ -7,12 +7,15 @@ import 'package:lauschi/core/connectivity/connectivity_provider.dart';
 import 'package:lauschi/core/database/app_database.dart' as db;
 import 'package:lauschi/core/database/tile_item_repository.dart';
 import 'package:lauschi/core/database/tile_repository.dart';
+import 'package:lauschi/core/log.dart';
 import 'package:lauschi/core/router/app_router.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
 import 'package:lauschi/features/player/player_provider.dart';
 import 'package:lauschi/features/player/widgets/now_playing_bar.dart';
 import 'package:lauschi/features/tiles/widgets/audio_tile.dart';
 import 'package:lauschi/features/tiles/widgets/tile_card.dart';
+
+const _tag = 'KidHomeScreen';
 
 /// Album playback progress 0.0–1.0 based on stored track position.
 double _albumProgress(db.TileItem card) {
@@ -74,7 +77,10 @@ class KidHomeScreen extends ConsumerWidget {
                     ),
                   ),
                   IconButton(
-                    onPressed: () => context.push(AppRoutes.parentDashboard),
+                    onPressed: () {
+                      Log.info(_tag, 'Parent button tapped');
+                      context.push(AppRoutes.parentDashboard);
+                    },
                     icon: const Icon(Icons.settings_rounded),
                     iconSize: 22,
                     style: IconButton.styleFrom(
@@ -148,12 +154,29 @@ class KidHomeScreen extends ConsumerWidget {
                   onCardTap:
                       playerState.isReady
                           ? (card) {
+                            Log.info(
+                              _tag,
+                              'Card tapped',
+                              data: {
+                                'cardId': card.id,
+                                'title': card.customTitle ?? card.title,
+                              },
+                            );
                             unawaited(playerNotifier.playCard(card.id));
                             unawaited(context.push(AppRoutes.player));
                           }
                           : null,
-                  onGroupTap:
-                      (group) => context.push(AppRoutes.tileDetail(group.id)),
+                  onGroupTap: (group) {
+                    Log.info(
+                      _tag,
+                      'Tile tapped',
+                      data: {
+                        'tileId': group.id,
+                        'title': group.title,
+                      },
+                    );
+                    context.push(AppRoutes.tileDetail(group.id));
+                  },
                 );
               }),
             ),

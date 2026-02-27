@@ -1,8 +1,10 @@
+import 'package:lauschi/core/log.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 part 'onboarding_provider.g.dart';
 
+const _tag = 'OnboardingComplete';
 const _key = 'onboarding_complete';
 
 /// Tracks whether onboarding has been completed.
@@ -20,13 +22,16 @@ class OnboardingComplete extends _$OnboardingComplete {
   /// Check SharedPreferences for the onboarding flag.
   Future<void> checkAsync() async {
     final prefs = await SharedPreferences.getInstance();
-    state = prefs.getBool(_key) ?? false;
+    final done = prefs.getBool(_key) ?? false;
+    Log.info(_tag, 'Checked onboarding state', data: {'complete': '$done'});
+    state = done;
   }
 
   /// Mark onboarding as complete.
   Future<void> markComplete() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool(_key, true);
+    Log.info(_tag, 'Onboarding marked complete');
     state = true;
   }
 }
