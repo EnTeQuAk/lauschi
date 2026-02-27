@@ -221,11 +221,10 @@ class PlayerNotifier extends _$PlayerNotifier {
 
   /// Toggle play/pause.
   Future<void> togglePlay() async {
-    _advanceTimer?.cancel();
     if (state.isPlaying) {
-      await _backendCommand('pause', (b) => b.pause());
+      await pause();
     } else {
-      await _backendCommand('resume', (b) => b.resume());
+      await resume();
     }
   }
 
