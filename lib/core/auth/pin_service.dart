@@ -76,11 +76,13 @@ class ParentAuth extends _$ParentAuth {
   }
 
   void authenticate() {
+    Log.info(_tag, 'Parent authenticated');
     _resetTimer();
     state = true;
   }
 
   void deauthenticate() {
+    Log.info(_tag, 'Parent deauthenticated');
     _expiryTimer?.cancel();
     state = false;
   }

@@ -6,10 +6,13 @@ import 'package:go_router/go_router.dart';
 import 'package:lauschi/core/auth/pin_service.dart';
 import 'package:lauschi/core/catalog/catalog_service.dart';
 import 'package:lauschi/core/database/tile_repository.dart';
+import 'package:lauschi/core/log.dart';
 import 'package:lauschi/core/router/app_router.dart';
 import 'package:lauschi/core/settings/debug_settings.dart';
 import 'package:lauschi/core/spotify/spotify_auth_provider.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
+
+const _tag = 'ParentDashboard';
 
 String _catalogSubtitle(WidgetRef ref) {
   final catalog = ref.watch(catalogServiceProvider).value;
@@ -42,6 +45,7 @@ class ParentDashboardScreen extends ConsumerWidget {
         title: const Text('Einstellungen'),
         leading: IconButton(
           onPressed: () {
+            Log.info(_tag, 'Exiting parent mode');
             ref.read(parentAuthProvider.notifier).deauthenticate();
             context.go(AppRoutes.kidHome);
           },
@@ -167,6 +171,7 @@ void _confirmSpotifyDisconnect(BuildContext context, WidgetRef ref) {
               FilledButton(
                 onPressed: () {
                   Navigator.of(ctx).pop();
+                  Log.info(_tag, 'Spotify disconnected');
                   unawaited(
                     ref.read(spotifyAuthProvider.notifier).logout(),
                   );

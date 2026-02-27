@@ -119,6 +119,7 @@ class TileItemRepository {
         )).write(CardsCompanion(sortOrder: Value(i)));
       }
     });
+    Log.debug(_tag, 'Items reordered', data: {'count': '${idsInOrder.length}'});
   }
 
   /// Save playback position for an item.
@@ -136,6 +137,11 @@ class TileItemRepository {
         lastPlayedAt: Value(DateTime.now()),
       ),
     );
+    Log.debug(_tag, 'Position saved', data: {
+      'itemId': itemId,
+      'trackNumber': '$trackNumber',
+      'positionMs': '$positionMs',
+    });
   }
 
   /// Get the most recently played item (for resume on app launch).
@@ -208,6 +214,7 @@ class TileItemRepository {
         episodeNumber: Value(null),
       ),
     );
+    Log.info(_tag, 'Item removed from tile', data: {'itemId': itemId});
   }
 
   /// Mark an item as heard.
@@ -223,6 +230,7 @@ class TileItemRepository {
     await (_db.update(_db.cards)..where((t) => t.id.equals(itemId))).write(
       const CardsCompanion(isHeard: Value(false)),
     );
+    Log.info(_tag, 'Item marked unheard', data: {'itemId': itemId});
   }
 
   /// Set ARD-specific fields after initial insert (audio URL, duration, tile).

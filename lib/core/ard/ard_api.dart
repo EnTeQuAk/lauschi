@@ -36,6 +36,7 @@ class ArdApi {
 
   /// Get all kids shows (programSets in "Für Kinder" category).
   Future<List<ArdProgramSet>> getKidsShows({int first = 100}) async {
+    Log.debug(_tag, 'Fetching kids shows', data: {'first': '$first'});
     final data = await _graphql(
       '''
       query KidsShows(\$first: Int!) {
@@ -63,11 +64,14 @@ class ArdApi {
     );
 
     final nodes = _extractNodes(data, 'programSets');
-    return nodes.map(ArdProgramSet.fromJson).toList();
+    final shows = nodes.map(ArdProgramSet.fromJson).toList();
+    Log.info(_tag, 'Kids shows fetched', data: {'count': '${shows.length}'});
+    return shows;
   }
 
   /// Get a single programSet by ID.
   Future<ArdProgramSet?> getProgramSet(String id) async {
+    Log.debug(_tag, 'Fetching program set', data: {'id': id});
     final data = await _graphql(
       // ignore: use_raw_strings, raw strings don't support \$ for GraphQL variables.
       '''
@@ -98,6 +102,11 @@ class ArdApi {
     String? after,
     bool publishedOnly = true,
   }) async {
+    Log.debug(_tag, 'Fetching items', data: {
+      'programSetId': programSetId,
+      'first': '$first',
+      if (after != null) 'after': after,
+    });
     // All dynamic values passed as GraphQL variables to prevent injection.
     // programSetId is Int in the ARD schema (IntFilter), not String.
     final data = await _graphql(
@@ -130,16 +139,24 @@ class ArdApi {
         (items['nodes'] as List<dynamic>? ?? []).cast<Map<String, dynamic>>();
     final pageInfo = items['pageInfo'] as Map<String, dynamic>? ?? {};
 
-    return ArdItemPage(
+    final result = ArdItemPage(
       items: nodes.map(ArdItem.fromJson).toList(),
       hasNextPage: pageInfo['hasNextPage'] as bool? ?? false,
       endCursor: pageInfo['endCursor'] as String?,
       totalCount: items['totalCount'] as int? ?? 0,
     );
+    Log.debug(_tag, 'Items fetched', data: {
+      'programSetId': programSetId,
+      'fetched': '${result.items.length}',
+      'total': '${result.totalCount}',
+      'hasMore': '${result.hasNextPage}',
+    });
+    return result;
   }
 
   /// Search for kids items by title.
   Future<List<ArdItem>> searchItems(String query, {int first = 20}) async {
+    Log.debug(_tag, 'Searching items', data: {'query': query, 'first': '$first'});
     final data = await _graphql(
       '''
       query Search(\$query: String!, \$first: Int!) {
@@ -160,7 +177,12 @@ class ArdApi {
     );
 
     final nodes = _extractNodes(data, 'items');
-    return nodes.map(ArdItem.fromJson).toList();
+    final results = nodes.map(ArdItem.fromJson).toList();
+    Log.debug(_tag, 'Search results', data: {
+      'query': query,
+      'count': '${results.length}',
+    });
+    return results;
   }
 
   /// Execute a GraphQL query.

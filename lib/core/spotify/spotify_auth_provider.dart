@@ -54,6 +54,7 @@ class SpotifyAuthNotifier extends _$SpotifyAuthNotifier {
     try {
       final tokens = await _auth.loadStored();
       if (tokens == null) {
+        Log.info(_tag, 'No stored tokens found');
         state = const AuthUnauthenticated();
         return;
       }
