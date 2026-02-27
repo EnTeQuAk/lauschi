@@ -25,7 +25,10 @@ class NowPlayingBar extends StatelessWidget {
     if (track == null) return const SizedBox.shrink();
 
     return Semantics(
-      label: 'Jetzt läuft: ${track.name} von ${track.artist}',
+      label:
+          track.artist != null
+              ? 'Jetzt läuft: ${track.name} von ${track.artist}'
+              : 'Jetzt läuft: ${track.name}',
       button: true,
       child: GestureDetector(
         onTap: onTap,
@@ -79,16 +82,17 @@ class NowPlayingBar extends StatelessWidget {
                         color: AppColors.textPrimary,
                       ),
                     ),
-                    Text(
-                      track.artist,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                        fontFamily: 'Nunito',
-                        fontSize: 12,
-                        color: AppColors.textSecondary,
+                    if (track.artist != null)
+                      Text(
+                        track.artist!,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                          fontFamily: 'Nunito',
+                          fontSize: 12,
+                          color: AppColors.textSecondary,
+                        ),
                       ),
-                    ),
                   ],
                 ),
               ),

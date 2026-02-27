@@ -484,8 +484,6 @@ class PlayerNotifier extends _$PlayerNotifier {
     final trackInfo = TrackInfo(
       uri: card.providerUri,
       name: card.customTitle ?? card.title,
-      artist: '',
-      album: '',
       artworkUrl: card.coverUrl,
     );
 

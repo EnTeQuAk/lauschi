@@ -336,18 +336,20 @@ class _TrackInfo extends StatelessWidget {
             color: AppColors.textPrimary,
           ),
         ),
-        const SizedBox(height: AppSpacing.xs),
-        Text(
-          track?.artist ?? '',
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-          textAlign: TextAlign.center,
-          style: const TextStyle(
-            fontFamily: 'Nunito',
-            fontSize: 15,
-            color: AppColors.textSecondary,
+        if (track?.artist != null) ...[
+          const SizedBox(height: AppSpacing.xs),
+          Text(
+            track!.artist!,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            textAlign: TextAlign.center,
+            style: const TextStyle(
+              fontFamily: 'Nunito',
+              fontSize: 15,
+              color: AppColors.textSecondary,
+            ),
           ),
-        ),
+        ],
       ],
     );
   }
