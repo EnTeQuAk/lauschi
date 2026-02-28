@@ -220,8 +220,8 @@ class _CloseButton extends StatelessWidget {
               borderRadius: const BorderRadius.all(AppRadius.pill),
               onTap: () => Navigator.of(context).pop(),
               child: const Icon(
-                Icons.keyboard_arrow_down_rounded,
-                size: 32,
+                Icons.arrow_back_rounded,
+                size: 28,
                 color: AppColors.textSecondary,
               ),
             ),
