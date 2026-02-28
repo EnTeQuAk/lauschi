@@ -188,10 +188,11 @@ class _ShowCard extends StatelessWidget {
     final imageUrl = ardImageUrl(show.imageUrl, width: 300);
 
     return GestureDetector(
-      onTap: () => context.push(
-        AppRoutes.parentDiscoverShow(show.id),
-        extra: autoAssignTileId,
-      ),
+      onTap:
+          () => context.push(
+            AppRoutes.parentDiscoverShow(show.id),
+            extra: autoAssignTileId,
+          ),
       child: Column(
         children: [
           Expanded(

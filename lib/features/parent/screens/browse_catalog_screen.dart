@@ -1197,10 +1197,12 @@ class _CuratedSeriesCard extends ConsumerWidget {
             return;
           }
         }
-        unawaited(context.push(
-          AppRoutes.parentCatalogSeries(series.id),
-          extra: autoAssignTileId,
-        ));
+        unawaited(
+          context.push(
+            AppRoutes.parentCatalogSeries(series.id),
+            extra: autoAssignTileId,
+          ),
+        );
       },
       child: Column(
         children: [
