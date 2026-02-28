@@ -37,7 +37,7 @@ class NowPlayingBar extends StatelessWidget {
       child: GestureDetector(
         onTap: onTap,
         child: Container(
-          height: 80,
+          height: 92,
           decoration: const BoxDecoration(
             color: AppColors.surface,
             border: Border(
@@ -51,8 +51,8 @@ class NowPlayingBar extends StatelessWidget {
               ClipRRect(
                 borderRadius: const BorderRadius.all(Radius.circular(10)),
                 child: SizedBox(
-                  width: 56,
-                  height: 56,
+                  width: 64,
+                  height: 64,
                   child:
                       track.artworkUrl != null
                           ? Hero(
@@ -64,7 +64,7 @@ class NowPlayingBar extends StatelessWidget {
                           )
                           : const ColoredBox(
                             color: AppColors.surfaceDim,
-                            child: Icon(Icons.music_note_rounded, size: 28),
+                            child: Icon(Icons.music_note_rounded, size: 32),
                           ),
                 ),
               ),
