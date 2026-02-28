@@ -242,8 +242,8 @@ class _GroupHeader extends StatelessWidget {
       child: Row(
         children: [
           SizedBox(
-            width: 56,
-            height: 56,
+            width: 72,
+            height: 72,
             child: Material(
               color: AppColors.surfaceDim,
               shape: const CircleBorder(),
@@ -252,7 +252,7 @@ class _GroupHeader extends StatelessWidget {
                 onTap: onBack,
                 child: const Icon(
                   Icons.chevron_left_rounded,
-                  size: 40,
+                  size: 48,
                   color: AppColors.textPrimary,
                 ),
               ),
