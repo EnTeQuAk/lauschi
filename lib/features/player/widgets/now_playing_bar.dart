@@ -37,7 +37,7 @@ class NowPlayingBar extends StatelessWidget {
       child: GestureDetector(
         onTap: onTap,
         child: Container(
-          height: 64,
+          height: 80,
           decoration: const BoxDecoration(
             color: AppColors.surface,
             border: Border(
@@ -49,10 +49,10 @@ class NowPlayingBar extends StatelessWidget {
             children: [
               // Album art thumbnail
               ClipRRect(
-                borderRadius: const BorderRadius.all(Radius.circular(8)),
+                borderRadius: const BorderRadius.all(Radius.circular(10)),
                 child: SizedBox(
-                  width: 44,
-                  height: 44,
+                  width: 56,
+                  height: 56,
                   child:
                       track.artworkUrl != null
                           ? Hero(
@@ -64,11 +64,11 @@ class NowPlayingBar extends StatelessWidget {
                           )
                           : const ColoredBox(
                             color: AppColors.surfaceDim,
-                            child: Icon(Icons.music_note_rounded, size: 24),
+                            child: Icon(Icons.music_note_rounded, size: 28),
                           ),
                 ),
               ),
-              const SizedBox(width: AppSpacing.sm + AppSpacing.xs),
+              const SizedBox(width: AppSpacing.md),
               // Track info
               Expanded(
                 child: Column(
@@ -82,7 +82,7 @@ class NowPlayingBar extends StatelessWidget {
                       style: const TextStyle(
                         fontFamily: 'Nunito',
                         fontWeight: FontWeight.w700,
-                        fontSize: 14,
+                        fontSize: 16,
                         color: AppColors.textPrimary,
                       ),
                     ),
@@ -93,7 +93,7 @@ class NowPlayingBar extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
                           fontFamily: 'Nunito',
-                          fontSize: 12,
+                          fontSize: 13,
                           color: AppColors.textSecondary,
                         ),
                       ),
@@ -109,17 +109,21 @@ class NowPlayingBar extends StatelessWidget {
                 const SizedBox(width: AppSpacing.xs),
               ],
               // Play/pause button
-              IconButton(
-                onPressed: onTogglePlay,
-                icon: Icon(
-                  isPlaying ? Icons.pause_rounded : Icons.play_arrow_rounded,
+              SizedBox(
+                width: 56,
+                height: 56,
+                child: FilledButton(
+                  onPressed: onTogglePlay,
+                  style: FilledButton.styleFrom(
+                    shape: const CircleBorder(),
+                    padding: EdgeInsets.zero,
+                  ),
+                  child: Icon(
+                    isPlaying ? Icons.pause_rounded : Icons.play_arrow_rounded,
+                    size: 32,
+                    color: AppColors.textOnPrimary,
+                  ),
                 ),
-                iconSize: 32,
-                style: IconButton.styleFrom(
-                  minimumSize: const Size(48, 48),
-                  foregroundColor: AppColors.textPrimary,
-                ),
-                tooltip: isPlaying ? 'Pause' : 'Abspielen',
               ),
             ],
           ),

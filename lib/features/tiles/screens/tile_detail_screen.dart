@@ -234,24 +234,31 @@ class _GroupHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(
-        AppSpacing.xs,
         AppSpacing.md,
+        AppSpacing.lg,
         AppSpacing.screenH,
         AppSpacing.sm,
       ),
       child: Row(
         children: [
-          IconButton(
-            onPressed: onBack,
-            icon: const Icon(Icons.arrow_back_rounded),
-            iconSize: 24,
-            style: IconButton.styleFrom(
-              minimumSize: const Size(44, 44),
-              foregroundColor: AppColors.textSecondary,
+          SizedBox(
+            width: 56,
+            height: 56,
+            child: Material(
+              color: AppColors.surfaceDim,
+              shape: const CircleBorder(),
+              child: InkWell(
+                customBorder: const CircleBorder(),
+                onTap: onBack,
+                child: const Icon(
+                  Icons.chevron_left_rounded,
+                  size: 40,
+                  color: AppColors.textPrimary,
+                ),
+              ),
             ),
-            tooltip: 'Zurück',
           ),
-          const SizedBox(width: AppSpacing.xs),
+          const SizedBox(width: AppSpacing.sm),
           Expanded(
             child: Text(
               title,
