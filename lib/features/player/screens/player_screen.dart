@@ -215,8 +215,8 @@ class _CloseButton extends StatelessWidget {
       child: Align(
         alignment: Alignment.centerLeft,
         child: SizedBox(
-          width: 56,
-          height: 56,
+          width: 72,
+          height: 72,
           child: Material(
             color: AppColors.surfaceDim,
             shape: const CircleBorder(),
@@ -224,8 +224,8 @@ class _CloseButton extends StatelessWidget {
               customBorder: const CircleBorder(),
               onTap: () => Navigator.of(context).pop(),
               child: const Icon(
-                Icons.arrow_back_rounded,
-                size: 32,
+                Icons.chevron_left_rounded,
+                size: 48,
                 color: AppColors.textPrimary,
               ),
             ),
@@ -244,7 +244,7 @@ class _AlbumArt extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ConstrainedBox(
-      constraints: const BoxConstraints(maxWidth: 320, maxHeight: 320),
+      constraints: const BoxConstraints(maxWidth: 400, maxHeight: 400),
       child: AspectRatio(
         aspectRatio: 1,
         child: Hero(
@@ -428,9 +428,9 @@ class _PlayerControls extends StatelessWidget {
         IconButton(
           onPressed: onPrevious,
           icon: const Icon(Icons.skip_previous_rounded),
-          iconSize: 48,
+          iconSize: 64,
           style: IconButton.styleFrom(
-            minimumSize: const Size(72, 72),
+            minimumSize: const Size(88, 88),
             foregroundColor: AppColors.textPrimary,
           ),
         ),
@@ -445,9 +445,9 @@ class _PlayerControls extends StatelessWidget {
         IconButton(
           onPressed: onNext,
           icon: const Icon(Icons.skip_next_rounded),
-          iconSize: 48,
+          iconSize: 64,
           style: IconButton.styleFrom(
-            minimumSize: const Size(72, 72),
+            minimumSize: const Size(88, 88),
             foregroundColor: AppColors.textPrimary,
           ),
         ),
@@ -468,8 +468,8 @@ class _PlayPauseButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 88,
-      height: 88,
+      width: 112,
+      height: 112,
       child: Semantics(
         label: isPlaying ? 'Pause' : 'Abspielen',
         button: true,
@@ -481,7 +481,7 @@ class _PlayPauseButton extends StatelessWidget {
           ),
           child: Icon(
             isPlaying ? Icons.pause_rounded : Icons.play_arrow_rounded,
-            size: 52,
+            size: 64,
             color: AppColors.textOnPrimary,
           ),
         ),

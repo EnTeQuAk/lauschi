@@ -114,7 +114,7 @@ void main() {
 
       // Navigated to the player screen (back button visible).
       expect(
-        find.byIcon(Icons.arrow_back_rounded),
+        find.byIcon(Icons.chevron_left_rounded),
         findsOneWidget,
       );
     });
