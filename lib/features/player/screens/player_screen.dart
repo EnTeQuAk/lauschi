@@ -208,21 +208,25 @@ class _CloseButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: AppSpacing.md),
-      child: Center(
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppSpacing.md,
+        vertical: AppSpacing.lg,
+      ),
+      child: Align(
+        alignment: Alignment.centerLeft,
         child: SizedBox(
-          width: 64,
-          height: 40,
+          width: 56,
+          height: 56,
           child: Material(
             color: AppColors.surfaceDim,
-            borderRadius: const BorderRadius.all(AppRadius.pill),
+            shape: const CircleBorder(),
             child: InkWell(
-              borderRadius: const BorderRadius.all(AppRadius.pill),
+              customBorder: const CircleBorder(),
               onTap: () => Navigator.of(context).pop(),
               child: const Icon(
                 Icons.arrow_back_rounded,
-                size: 28,
-                color: AppColors.textSecondary,
+                size: 32,
+                color: AppColors.textPrimary,
               ),
             ),
           ),
@@ -420,30 +424,30 @@ class _PlayerControls extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        // Previous — 56dp target (school-age minimum)
+        // Previous
         IconButton(
           onPressed: onPrevious,
           icon: const Icon(Icons.skip_previous_rounded),
-          iconSize: 36,
+          iconSize: 48,
           style: IconButton.styleFrom(
-            minimumSize: const Size(56, 56),
+            minimumSize: const Size(72, 72),
             foregroundColor: AppColors.textPrimary,
           ),
         ),
-        const SizedBox(width: AppSpacing.lg),
-        // Play/pause — 72dp target (preschooler minimum)
+        const SizedBox(width: AppSpacing.xl),
+        // Play/pause
         _PlayPauseButton(
           isPlaying: isPlaying,
           onPressed: onTogglePlay,
         ),
-        const SizedBox(width: AppSpacing.lg),
-        // Next — 56dp target
+        const SizedBox(width: AppSpacing.xl),
+        // Next
         IconButton(
           onPressed: onNext,
           icon: const Icon(Icons.skip_next_rounded),
-          iconSize: 36,
+          iconSize: 48,
           style: IconButton.styleFrom(
-            minimumSize: const Size(56, 56),
+            minimumSize: const Size(72, 72),
             foregroundColor: AppColors.textPrimary,
           ),
         ),
@@ -464,8 +468,8 @@ class _PlayPauseButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 72,
-      height: 72,
+      width: 88,
+      height: 88,
       child: Semantics(
         label: isPlaying ? 'Pause' : 'Abspielen',
         button: true,
@@ -477,7 +481,7 @@ class _PlayPauseButton extends StatelessWidget {
           ),
           child: Icon(
             isPlaying ? Icons.pause_rounded : Icons.play_arrow_rounded,
-            size: 40,
+            size: 52,
             color: AppColors.textOnPrimary,
           ),
         ),

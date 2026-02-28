@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+# Pre-commit hook: auto-format staged Dart files.
+# Formats only files that are part of this commit, then re-stages them.
+
+staged_dart=$(git diff --cached --name-only --diff-filter=ACM | grep '\.dart$' | grep -v '\.g\.dart$')
+
+if [ -z "$staged_dart" ]; then
+  exit 0
+fi
+
+# Format the staged files
+echo "$staged_dart" | xargs dart format
+
+# Re-stage the formatted files
+echo "$staged_dart" | xargs git add
+
+exit 0

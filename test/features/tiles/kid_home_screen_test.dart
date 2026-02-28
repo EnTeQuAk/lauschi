@@ -112,9 +112,9 @@ void main() {
       // playCard was called with the correct ID.
       expect(notifier.playCardCalls, ['card-1']);
 
-      // Navigated to the player screen (collapse handle visible).
+      // Navigated to the player screen (back button visible).
       expect(
-        find.byIcon(Icons.keyboard_arrow_down_rounded),
+        find.byIcon(Icons.arrow_back_rounded),
         findsOneWidget,
       );
     });

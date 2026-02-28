@@ -78,8 +78,7 @@ class AddContentScreen extends ConsumerWidget {
             Expanded(
               child: TabBarView(
                 children: [
-                  for (final p in providers)
-                    _tabBody(p.type, autoAssignTileId),
+                  for (final p in providers) _tabBody(p.type, autoAssignTileId),
                 ],
               ),
             ),
