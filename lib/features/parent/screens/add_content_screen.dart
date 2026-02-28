@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lauschi/core/database/tile_repository.dart';
 import 'package:lauschi/core/providers/provider_registry.dart';
 import 'package:lauschi/core/providers/provider_type.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
@@ -10,11 +11,17 @@ import 'package:lauschi/features/parent/screens/discover_screen.dart';
 ///
 /// Each tab renders the provider's browse experience (embedded, no Scaffold).
 /// The available tabs are driven by the [providerRegistryProvider].
+///
+/// When [autoAssignTileId] is set, all added content goes directly to
+/// that tile. A banner above the tabs shows which tile is targeted.
 class AddContentScreen extends ConsumerWidget {
-  const AddContentScreen({super.key, this.initialTab});
+  const AddContentScreen({super.key, this.initialTab, this.autoAssignTileId});
 
   /// Which provider tab to show initially. Defaults to the first tab.
   final ProviderType? initialTab;
+
+  /// When set, content is added directly to this tile.
+  final String? autoAssignTileId;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -35,7 +42,11 @@ class AddContentScreen extends ConsumerWidget {
         backgroundColor: AppColors.parentBackground,
         appBar: AppBar(
           backgroundColor: AppColors.parentBackground,
-          title: const Text('Inhalte hinzufügen'),
+          title: Text(
+            autoAssignTileId != null
+                ? 'Folge hinzufügen'
+                : 'Inhalte hinzufügen',
+          ),
           bottom: TabBar(
             isScrollable: providers.length > 3,
             tabs: [
@@ -60,22 +71,87 @@ class AddContentScreen extends ConsumerWidget {
             ),
           ),
         ),
-        body: TabBarView(
+        body: Column(
           children: [
-            for (final p in providers) _tabBody(p.type),
+            if (autoAssignTileId != null)
+              _AutoAssignBanner(tileId: autoAssignTileId!),
+            Expanded(
+              child: TabBarView(
+                children: [
+                  for (final p in providers)
+                    _tabBody(p.type, autoAssignTileId),
+                ],
+              ),
+            ),
           ],
         ),
       ),
     );
   }
 
-  Widget _tabBody(ProviderType type) => switch (type) {
-    ProviderType.ardAudiothek => const DiscoverScreen(embedded: true),
-    ProviderType.spotify => const BrowseCatalogScreen(embedded: true),
-    // Future providers: add their embedded browse widgets here.
-    ProviderType.appleMusic => _ComingSoon(type: type),
-    ProviderType.tidal => _ComingSoon(type: type),
-  };
+  static Widget _tabBody(ProviderType type, String? autoAssignTileId) =>
+      switch (type) {
+        ProviderType.ardAudiothek => DiscoverScreen(
+          embedded: true,
+          autoAssignTileId: autoAssignTileId,
+        ),
+        ProviderType.spotify => BrowseCatalogScreen(
+          embedded: true,
+          autoAssignTileId: autoAssignTileId,
+        ),
+        ProviderType.appleMusic => _ComingSoon(type: type),
+        ProviderType.tidal => _ComingSoon(type: type),
+      };
+}
+
+/// Banner showing which tile content will be added to.
+class _AutoAssignBanner extends ConsumerWidget {
+  const _AutoAssignBanner({required this.tileId});
+
+  final String tileId;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final tilesAsync = ref.watch(allTilesProvider);
+    final tileName = tilesAsync.whenOrNull(
+      data: (tiles) {
+        final tile = tiles.where((t) => t.id == tileId).firstOrNull;
+        return tile?.title;
+      },
+    );
+
+    return Container(
+      width: double.infinity,
+      color: AppColors.primary.withValues(alpha: 0.1),
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppSpacing.screenH,
+        vertical: AppSpacing.sm,
+      ),
+      child: Row(
+        children: [
+          const Icon(
+            Icons.layers_rounded,
+            size: 16,
+            color: AppColors.primary,
+          ),
+          const SizedBox(width: AppSpacing.xs),
+          Expanded(
+            child: Text(
+              tileName != null
+                  ? 'Folgen werden direkt zu »$tileName« hinzugefügt'
+                  : 'Folgen werden direkt zur Kachel hinzugefügt',
+              style: const TextStyle(
+                fontFamily: 'Nunito',
+                fontSize: 13,
+                fontWeight: FontWeight.w600,
+                color: AppColors.primary,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }
 
 class _ComingSoon extends StatelessWidget {

@@ -41,14 +41,13 @@ abstract final class AppRoutes {
   // Parent mode (PIN-gated)
   static const parentDashboard = '/parent';
   static const parentManageCards = '/parent/cards';
-  static const parentAddCard = '/parent/add-card';
-  static String parentAddCardToTile(String tileId) =>
-      '/parent/add-card?tileId=$tileId';
+
   static const parentManageTiles = '/parent/tiles';
   static String parentTileEdit(String tileId) => '/parent/tiles/$tileId';
   static const parentSettings = '/parent/settings';
   static const parentNfcTags = '/parent/nfc-tags';
   static const parentAddContent = '/parent/add';
+  static String parentAddToTile(String tileId) => '/parent/add?tileId=$tileId';
   static const parentCatalog = '/parent/catalog';
   static String parentCatalogSeries(String seriesId) =>
       '/parent/catalog/$seriesId';
@@ -115,13 +114,7 @@ GoRouter createRouter(Ref ref, {String initialLocation = AppRoutes.kidHome}) {
             path: 'cards',
             builder: (context, state) => const ManageCardsScreen(),
           ),
-          GoRoute(
-            path: 'add-card',
-            builder:
-                (context, state) => BrowseCatalogScreen(
-                  autoAssignTileId: state.uri.queryParameters['tileId'],
-                ),
-          ),
+
           GoRoute(
             path: 'tiles',
             builder: (context, state) => const ManageTilesScreen(),
@@ -146,8 +139,12 @@ GoRouter createRouter(Ref ref, {String initialLocation = AppRoutes.kidHome}) {
           GoRoute(
             path: 'add',
             builder: (context, state) {
+              final tileId = state.uri.queryParameters['tileId'];
               final initialTab = state.extra as ProviderType?;
-              return AddContentScreen(initialTab: initialTab);
+              return AddContentScreen(
+                initialTab: initialTab,
+                autoAssignTileId: tileId,
+              );
             },
           ),
           GoRoute(
@@ -171,7 +168,11 @@ GoRouter createRouter(Ref ref, {String initialLocation = AppRoutes.kidHome}) {
                 path: ':showId',
                 builder: (context, state) {
                   final showId = state.pathParameters['showId']!;
-                  return ArdShowDetailScreen(showId: showId);
+                  final autoAssignTileId = state.extra as String?;
+                  return ArdShowDetailScreen(
+                    showId: showId,
+                    autoAssignTileId: autoAssignTileId,
+                  );
                 },
               ),
             ],

@@ -18,10 +18,18 @@ const _tag = 'ArdShowDetailScreen';
 
 /// Detail screen for an ARD Audiothek show. Lists episodes with
 /// options to add individual episodes or all at once.
+///
+/// When [autoAssignTileId] is set, episodes are added directly to
+/// that tile instead of creating a group by show title.
 class ArdShowDetailScreen extends ConsumerStatefulWidget {
-  const ArdShowDetailScreen({required this.showId, super.key});
+  const ArdShowDetailScreen({
+    required this.showId,
+    super.key,
+    this.autoAssignTileId,
+  });
 
   final String showId;
+  final String? autoAssignTileId;
 
   @override
   ConsumerState<ArdShowDetailScreen> createState() =>
@@ -56,6 +64,7 @@ class _ArdShowDetailScreenState extends ConsumerState<ArdShowDetailScreen> {
             groupTitle: show.title,
             groupCoverUrl: ardImageUrl(show.imageUrl),
             cards: [_ardPendingCard(item)],
+            tileId: widget.autoAssignTileId,
           );
     } on Exception catch (e) {
       Log.error(
@@ -109,6 +118,7 @@ class _ArdShowDetailScreenState extends ConsumerState<ArdShowDetailScreen> {
         groupTitle: show.title,
         groupCoverUrl: ardImageUrl(show.imageUrl),
         cards: cards,
+        tileId: widget.autoAssignTileId,
       );
 
       Log.info(

@@ -572,8 +572,10 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen>
 
     final body = Column(
       children: [
-        // Auto-assign mode banner
-        if (_isAutoAssignMode) _AutoAssignBanner(groupTitle: _autoGroup?.title),
+        // Auto-assign mode banner (only in standalone mode;
+        // AddContentScreen shows its own banner above the tabs)
+        if (_isAutoAssignMode && !widget.embedded)
+          _AutoAssignBanner(groupTitle: _autoGroup?.title),
 
         // Search mode toggle (only in general add mode)
         if (!_isAutoAssignMode)

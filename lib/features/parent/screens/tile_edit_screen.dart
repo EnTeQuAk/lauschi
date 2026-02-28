@@ -301,7 +301,7 @@ class _GroupEditScreenState extends ConsumerState<TileEditScreen> {
       floatingActionButton: FloatingActionButton.extended(
         onPressed:
             () => unawaited(
-              context.push(AppRoutes.parentAddCardToTile(widget.tileId)),
+              context.push(AppRoutes.parentAddToTile(widget.tileId)),
             ),
         icon: const Icon(Icons.add_rounded),
         label: const Text('Folge hinzufügen'),

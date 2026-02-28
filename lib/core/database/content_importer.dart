@@ -68,17 +68,22 @@ class ContentImporter extends _$ContentImporter {
 
   /// Import cards into a group, creating it if needed.
   ///
+  /// When [tileId] is set, cards are added directly to that tile
+  /// (auto-assign mode). Otherwise, a group is found or created by title.
+  ///
   /// Only one batch import at a time — concurrent calls are rejected.
   Future<ImportResult> importToGroup({
     required String groupTitle,
     required List<PendingCard> cards,
     String? groupCoverUrl,
+    String? tileId,
   }) async {
     if (state) return ImportResult(added: 0, groupTitle: groupTitle);
     state = true;
 
     try {
-      final groupId = await _findOrCreateGroup(groupTitle, groupCoverUrl);
+      final groupId =
+          tileId ?? await _findOrCreateGroup(groupTitle, groupCoverUrl);
       final existingUris = ref.read(existingItemUrisProvider);
 
       var added = 0;
