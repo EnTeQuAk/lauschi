@@ -48,17 +48,17 @@ class _PlayerScreenState extends ConsumerState<PlayerScreen> {
     return Scaffold(
       body: SafeArea(
         child: GestureDetector(
+          // Swipe down anywhere to close. Low velocity threshold for kids.
           onVerticalDragEnd: (details) {
-            // Swipe down to close
             if (details.primaryVelocity != null &&
-                details.primaryVelocity! > 300) {
+                details.primaryVelocity! > 100) {
               Navigator.of(context).pop();
             }
           },
           child: Column(
             children: [
-              // Collapse handle
-              const _CollapseHandle(),
+              // Large close button for kids
+              const _CloseButton(),
               // Album art
               Expanded(
                 child: Center(
@@ -202,43 +202,31 @@ class _InterpolatedProgressState extends ConsumerState<_InterpolatedProgress>
   }
 }
 
-class _CollapseHandle extends StatelessWidget {
-  const _CollapseHandle();
+class _CloseButton extends StatelessWidget {
+  const _CloseButton();
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: AppSpacing.sm),
-      child: Row(
-        children: [
-          const SizedBox(width: AppSpacing.xs),
-          // Close button — large touch target for kids
-          IconButton(
-            onPressed: () => Navigator.of(context).pop(),
-            icon: const Icon(Icons.keyboard_arrow_down_rounded),
-            iconSize: 32,
-            style: IconButton.styleFrom(
-              minimumSize: const Size(56, 56),
-              foregroundColor: AppColors.textSecondary,
-            ),
-            tooltip: 'Zurück',
-          ),
-          // Drag handle hint
-          Expanded(
-            child: Center(
-              child: Container(
-                width: 36,
-                height: 5,
-                decoration: const BoxDecoration(
-                  color: AppColors.surfaceDim,
-                  borderRadius: BorderRadius.all(AppRadius.pill),
-                ),
+      padding: const EdgeInsets.only(top: AppSpacing.md),
+      child: Center(
+        child: SizedBox(
+          width: 64,
+          height: 40,
+          child: Material(
+            color: AppColors.surfaceDim,
+            borderRadius: const BorderRadius.all(AppRadius.pill),
+            child: InkWell(
+              borderRadius: const BorderRadius.all(AppRadius.pill),
+              onTap: () => Navigator.of(context).pop(),
+              child: const Icon(
+                Icons.keyboard_arrow_down_rounded,
+                size: 32,
+                color: AppColors.textSecondary,
               ),
             ),
           ),
-          // Balance the row
-          const SizedBox(width: 56 + AppSpacing.xs),
-        ],
+        ),
       ),
     );
   }
@@ -509,7 +497,7 @@ class _ContentUnavailableScreen extends ConsumerWidget {
       body: SafeArea(
         child: Column(
           children: [
-            const _CollapseHandle(),
+            const _CloseButton(),
             const Spacer(),
             const Text(
               '🐦',
