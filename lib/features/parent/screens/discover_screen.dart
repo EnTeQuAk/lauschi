@@ -17,9 +17,17 @@ import 'package:lauschi/features/parent/widgets/featured_section.dart';
 /// When [embedded] is true, returns just the body content without
 /// Scaffold/AppBar (for use inside tabbed containers).
 class DiscoverScreen extends ConsumerWidget {
-  const DiscoverScreen({super.key, this.embedded = false});
+  const DiscoverScreen({
+    super.key,
+    this.embedded = false,
+    this.autoAssignTileId,
+  });
 
   final bool embedded;
+
+  /// When set, episodes added from show detail screens go directly
+  /// to this tile instead of creating a group by show title.
+  final String? autoAssignTileId;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -134,7 +142,10 @@ class DiscoverScreen extends ConsumerWidget {
                   childAspectRatio: 0.7,
                 ),
                 delegate: SliverChildBuilderDelegate(
-                  (context, index) => _ShowCard(show: shows[index]),
+                  (context, index) => _ShowCard(
+                    show: shows[index],
+                    autoAssignTileId: autoAssignTileId,
+                  ),
                   childCount: shows.length,
                 ),
               ),
@@ -167,16 +178,20 @@ class DiscoverScreen extends ConsumerWidget {
 }
 
 class _ShowCard extends StatelessWidget {
-  const _ShowCard({required this.show});
+  const _ShowCard({required this.show, this.autoAssignTileId});
 
   final ArdProgramSet show;
+  final String? autoAssignTileId;
 
   @override
   Widget build(BuildContext context) {
     final imageUrl = ardImageUrl(show.imageUrl, width: 300);
 
     return GestureDetector(
-      onTap: () => context.push(AppRoutes.parentDiscoverShow(show.id)),
+      onTap: () => context.push(
+        AppRoutes.parentDiscoverShow(show.id),
+        extra: autoAssignTileId,
+      ),
       child: Column(
         children: [
           Expanded(
