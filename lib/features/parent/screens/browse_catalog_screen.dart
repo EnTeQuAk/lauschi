@@ -747,7 +747,10 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen>
                   childAspectRatio: 0.75,
                 ),
                 delegate: SliverChildBuilderDelegate(
-                  (context, index) => _CuratedSeriesCard(series: series[index]),
+                  (context, index) => _CuratedSeriesCard(
+                    series: series[index],
+                    autoAssignTileId: widget.autoAssignTileId,
+                  ),
                   childCount: series.length,
                 ),
               ),
@@ -818,7 +821,10 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen>
                     }
                   }
                   unawaited(
-                    context.push(AppRoutes.parentCatalogSeries(series.id)),
+                    context.push(
+                      AppRoutes.parentCatalogSeries(series.id),
+                      extra: widget.autoAssignTileId,
+                    ),
                   );
                 },
               );
@@ -1148,9 +1154,13 @@ class _AutoAssignBanner extends StatelessWidget {
 // ── Curated series card ─────────────────────────────────────────────────────
 
 class _CuratedSeriesCard extends ConsumerWidget {
-  const _CuratedSeriesCard({required this.series});
+  const _CuratedSeriesCard({
+    required this.series,
+    this.autoAssignTileId,
+  });
 
   final CatalogSeries series;
+  final String? autoAssignTileId;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -1187,7 +1197,10 @@ class _CuratedSeriesCard extends ConsumerWidget {
             return;
           }
         }
-        unawaited(context.push(AppRoutes.parentCatalogSeries(series.id)));
+        unawaited(context.push(
+          AppRoutes.parentCatalogSeries(series.id),
+          extra: autoAssignTileId,
+        ));
       },
       child: Column(
         children: [
@@ -1284,9 +1297,14 @@ class _CuratedSeriesCard extends ConsumerWidget {
 /// Shows episodes for a catalog series. Parents can select and add them as
 /// cards in one batch.
 class CatalogSeriesDetailScreen extends ConsumerStatefulWidget {
-  const CatalogSeriesDetailScreen({required this.seriesId, super.key});
+  const CatalogSeriesDetailScreen({
+    required this.seriesId,
+    super.key,
+    this.autoAssignTileId,
+  });
 
   final String seriesId;
+  final String? autoAssignTileId;
 
   @override
   ConsumerState<CatalogSeriesDetailScreen> createState() =>
@@ -1400,6 +1418,7 @@ class _CatalogSeriesDetailScreenState
         groupTitle: series.title,
         groupCoverUrl: firstAlbum?.imageUrl,
         cards: cards,
+        tileId: widget.autoAssignTileId,
       );
 
       Log.info(
