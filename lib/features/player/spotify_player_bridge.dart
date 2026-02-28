@@ -390,7 +390,9 @@ class SpotifyPlayerBridge {
   Future<void> _runJs(String js) async {
     if (_disposed || _controller == null) return;
     try {
-      await controller.runJavaScript(js);
+      // Guard against calls before player.html has defined window.lauschi.
+      final guarded = 'if(window.lauschi){$js}';
+      await controller.runJavaScript(guarded);
     } on PlatformException catch (e) {
       Log.warn(_tag, 'JS eval failed (WebView not ready?): ${e.code}');
     }
