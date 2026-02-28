@@ -155,7 +155,11 @@ GoRouter createRouter(Ref ref, {String initialLocation = AppRoutes.kidHome}) {
                 path: ':seriesId',
                 builder: (context, state) {
                   final seriesId = state.pathParameters['seriesId']!;
-                  return CatalogSeriesDetailScreen(seriesId: seriesId);
+                  final autoAssignTileId = state.extra as String?;
+                  return CatalogSeriesDetailScreen(
+                    seriesId: seriesId,
+                    autoAssignTileId: autoAssignTileId,
+                  );
                 },
               ),
             ],
