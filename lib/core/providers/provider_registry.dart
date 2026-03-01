@@ -1,4 +1,5 @@
 import 'package:lauschi/core/ard/ard_auth.dart';
+import 'package:lauschi/core/feature_flags.dart';
 import 'package:lauschi/core/providers/provider_auth.dart';
 import 'package:lauschi/core/providers/provider_type.dart';
 import 'package:lauschi/core/spotify/spotify_auth_provider.dart';
@@ -35,31 +36,36 @@ class ProviderInfo {
 /// and which providers can play content.
 @Riverpod(keepAlive: true)
 List<ProviderInfo> providerRegistry(Ref ref) {
-  // Spotify auth state (reactive via Riverpod watch).
-  final spotifyState = ref.watch(spotifyAuthProvider);
-  final spotifyAuthState = switch (spotifyState) {
-    AuthLoading() => ProviderAuthState.loading,
-    AuthAuthenticated() => ProviderAuthState.authenticated,
-    AuthUnauthenticated() => ProviderAuthState.unauthenticated,
-    AuthError() => ProviderAuthState.unauthenticated,
-  };
-
-  final spotifyNotifier = ref.read(spotifyAuthProvider.notifier);
-
   // Only include providers that are implemented.
   // Apple Music and Tidal will be added here when their auth is wired.
-  return [
+  final providers = <ProviderInfo>[
     ProviderInfo(
       type: ProviderType.ardAudiothek,
       auth: ArdAuth(),
       authState: ProviderAuthState.authenticated,
     ),
-    ProviderInfo(
-      type: ProviderType.spotify,
-      auth: SpotifyProviderAuth(spotifyNotifier),
-      authState: spotifyAuthState,
-    ),
   ];
+
+  if (FeatureFlags.enableSpotify) {
+    final spotifyState = ref.watch(spotifyAuthProvider);
+    final spotifyAuthState = switch (spotifyState) {
+      AuthLoading() => ProviderAuthState.loading,
+      AuthAuthenticated() => ProviderAuthState.authenticated,
+      AuthUnauthenticated() => ProviderAuthState.unauthenticated,
+      AuthError() => ProviderAuthState.unauthenticated,
+    };
+
+    final spotifyNotifier = ref.read(spotifyAuthProvider.notifier);
+    providers.add(
+      ProviderInfo(
+        type: ProviderType.spotify,
+        auth: SpotifyProviderAuth(spotifyNotifier),
+        authState: spotifyAuthState,
+      ),
+    );
+  }
+
+  return providers;
 }
 
 /// Providers that are ready for use (authenticated or no-auth).

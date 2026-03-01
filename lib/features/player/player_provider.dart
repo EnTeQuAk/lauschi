@@ -3,6 +3,7 @@ import 'dart:async' show StreamSubscription, Timer, unawaited;
 import 'package:lauschi/core/database/app_database.dart' as db;
 import 'package:lauschi/core/database/tile_item_repository.dart';
 import 'package:lauschi/core/database/tile_repository.dart';
+import 'package:lauschi/core/feature_flags.dart';
 import 'package:lauschi/core/log.dart';
 import 'package:lauschi/core/providers/provider_type.dart';
 import 'package:lauschi/core/spotify/spotify_api.dart';
@@ -31,21 +32,23 @@ const _tag = 'PlayerProvider';
 SpotifyApi spotifyApi(Ref ref) {
   final api = SpotifyApi();
 
-  ref.listen(spotifyAuthProvider, (_, next) {
-    if (next is AuthAuthenticated) {
-      api.updateToken(next.tokens.accessToken);
+  if (FeatureFlags.enableSpotify) {
+    ref.listen(spotifyAuthProvider, (_, next) {
+      if (next is AuthAuthenticated) {
+        api.updateToken(next.tokens.accessToken);
+      }
+    });
+
+    final authState = ref.read(spotifyAuthProvider);
+    if (authState is AuthAuthenticated) {
+      api.updateToken(authState.tokens.accessToken);
     }
-  });
 
-  final authState = ref.read(spotifyAuthProvider);
-  if (authState is AuthAuthenticated) {
-    api.updateToken(authState.tokens.accessToken);
+    // Wire 401 → refresh → retry.
+    api.onTokenExpired = () {
+      return ref.read(spotifyAuthProvider.notifier).validAccessToken();
+    };
   }
-
-  // Wire 401 → refresh → retry.
-  api.onTokenExpired = () {
-    return ref.read(spotifyAuthProvider.notifier).validAccessToken();
-  };
 
   return api;
 }
@@ -157,8 +160,10 @@ class PlayerNotifier extends _$PlayerNotifier {
 
     // Bridge subscription: always accept device metadata; only route
     // playback fields when SpotifyBackend is the active backend.
-    unawaited(_bridgeSub?.cancel());
-    _bridgeSub = _bridge.stateStream.listen(_onBridgeEvent);
+    if (FeatureFlags.enableSpotify) {
+      unawaited(_bridgeSub?.cancel());
+      _bridgeSub = _bridge.stateStream.listen(_onBridgeEvent);
+    }
 
     ref.onDispose(() {
       unawaited(_bridgeSub?.cancel());
@@ -196,8 +201,10 @@ class PlayerNotifier extends _$PlayerNotifier {
   // ─── Public API ──────────────────────────────────────────────────────
 
   /// Initialize the bridge with current auth tokens.
-  /// Call after successful Spotify login.
+  /// Call after successful Spotify login. No-op when Spotify is disabled.
   Future<void> initBridge() async {
+    if (!FeatureFlags.enableSpotify) return;
+
     final authState = ref.read(spotifyAuthProvider);
     if (authState is! AuthAuthenticated) {
       Log.warn(_tag, 'Cannot init bridge — not authenticated');
@@ -320,7 +327,7 @@ class PlayerNotifier extends _$PlayerNotifier {
     }
 
     // Pause Spotify bridge if it's playing (avoid dual audio).
-    if (_bridge.currentState.isPlaying) {
+    if (FeatureFlags.enableSpotify && _bridge.currentState.isPlaying) {
       await _bridge.pause();
     }
 

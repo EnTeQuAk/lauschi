@@ -7,6 +7,7 @@ import 'package:go_router/go_router.dart';
 import 'package:lauschi/core/database/app_database.dart' as db;
 import 'package:lauschi/core/database/tile_item_repository.dart';
 import 'package:lauschi/core/database/tile_repository.dart';
+import 'package:lauschi/core/feature_flags.dart';
 import 'package:lauschi/core/log.dart';
 import 'package:lauschi/core/router/app_router.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
@@ -451,6 +452,7 @@ class _CoverPickerState extends ConsumerState<_CoverPicker> {
   }
 
   Future<void> _fetchArtistImages() async {
+    if (!FeatureFlags.enableSpotify) return;
     if (widget.artistIds.isEmpty || _artistImagesFetched) return;
     _artistImagesFetched = true;
 

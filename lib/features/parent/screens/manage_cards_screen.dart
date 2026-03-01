@@ -9,6 +9,7 @@ import 'package:lauschi/core/catalog/retroactive_sorter.dart';
 import 'package:lauschi/core/database/app_database.dart' as db;
 import 'package:lauschi/core/database/tile_item_repository.dart';
 import 'package:lauschi/core/database/tile_repository.dart';
+import 'package:lauschi/core/feature_flags.dart';
 import 'package:lauschi/core/log.dart';
 import 'package:lauschi/core/providers/provider_type.dart';
 import 'package:lauschi/core/router/app_router.dart';
@@ -36,7 +37,12 @@ class ManageCardsScreen extends ConsumerWidget {
         title: const Text('Karten verwalten'),
         actions: [
           IconButton(
-            onPressed: () => context.push(AppRoutes.parentCatalog),
+            onPressed:
+                () => context.push(
+                  FeatureFlags.enableSpotify
+                      ? AppRoutes.parentCatalog
+                      : AppRoutes.parentAddContent,
+                ),
             icon: const Icon(Icons.add_rounded),
             tooltip: 'Hörspiel hinzufügen',
           ),
@@ -44,7 +50,14 @@ class ManageCardsScreen extends ConsumerWidget {
       ),
       body:
           totalCards == 0
-              ? _EmptyState(onAdd: () => context.push(AppRoutes.parentCatalog))
+              ? _EmptyState(
+                onAdd:
+                    () => context.push(
+                      FeatureFlags.enableSpotify
+                          ? AppRoutes.parentCatalog
+                          : AppRoutes.parentAddContent,
+                    ),
+              )
               : _GroupedCardList(
                 groupsAsync: groupsAsync,
                 ungroupedAsync: ungroupedAsync,

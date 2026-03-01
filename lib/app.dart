@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lauschi/core/database/data_migrations.dart';
 import 'package:lauschi/core/database/tile_item_repository.dart';
+import 'package:lauschi/core/feature_flags.dart';
 import 'package:lauschi/core/log.dart';
 import 'package:lauschi/core/nfc/nfc_listener.dart';
 import 'package:lauschi/core/router/app_router.dart';
@@ -55,7 +56,9 @@ class _LauschiAppState extends ConsumerState<LauschiApp>
 
   Future<void> _handleDeepLink(Uri uri) async {
     Log.info('DeepLink', 'Received', data: {'uri': '$uri'});
-    if (uri.scheme == 'lauschi' && uri.host == 'callback') {
+    if (FeatureFlags.enableSpotify &&
+        uri.scheme == 'lauschi' &&
+        uri.host == 'callback') {
       try {
         final auth = ref.read(spotifyAuthClientProvider);
         final tokens = await auth.handleCallback(uri);
@@ -89,13 +92,16 @@ class _LauschiAppState extends ConsumerState<LauschiApp>
   @override
   Widget build(BuildContext context) {
     final router = ref.watch(appRouterProvider);
-    final authState = ref.watch(spotifyAuthProvider);
 
     // Activate NFC listener (no-op if disabled in settings or no hardware).
     ref.watch(nfcListenerProvider);
 
-    // Run data migrations once after auth is established.
-    if (authState is AuthAuthenticated && !_dataMigrationsRun) {
+    // Spotify-only: watch auth for WebView + data migrations.
+    final spotifyAuth =
+        FeatureFlags.enableSpotify ? ref.watch(spotifyAuthProvider) : null;
+
+    // Run data migrations once after Spotify auth is established.
+    if (spotifyAuth is AuthAuthenticated && !_dataMigrationsRun) {
       _dataMigrationsRun = true;
       unawaited(
         runDataMigrations(
@@ -119,7 +125,7 @@ class _LauschiAppState extends ConsumerState<LauschiApp>
             // Hidden WebView for Spotify Web Playback SDK.
             // Needs real dimensions (300x300) — WebView suspends media
             // in undersized containers.
-            if (authState is AuthAuthenticated)
+            if (FeatureFlags.enableSpotify && spotifyAuth is AuthAuthenticated)
               Positioned(
                 left: -500,
                 top: -500,

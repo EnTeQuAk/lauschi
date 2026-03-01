@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lauschi/core/auth/pin_service.dart';
+import 'package:lauschi/core/feature_flags.dart';
 import 'package:lauschi/core/log.dart';
 import 'package:lauschi/core/providers/provider_type.dart';
 import 'package:lauschi/core/spotify/spotify_auth_provider.dart';
@@ -67,9 +68,11 @@ GoRouter createRouter(Ref ref, {String initialLocation = AppRoutes.kidHome}) {
   final refreshNotifier = _RouterRefreshNotifier();
   ref
     ..listen(onboardingCompleteProvider, (_, _) => refreshNotifier.notify())
-    ..listen(parentAuthProvider, (_, _) => refreshNotifier.notify())
-    ..listen(spotifyAuthProvider, (_, _) => refreshNotifier.notify())
-    ..onDispose(refreshNotifier.dispose);
+    ..listen(parentAuthProvider, (_, _) => refreshNotifier.notify());
+  if (FeatureFlags.enableSpotify) {
+    ref.listen(spotifyAuthProvider, (_, _) => refreshNotifier.notify());
+  }
+  ref.onDispose(refreshNotifier.dispose);
 
   return GoRouter(
     initialLocation: initialLocation,
