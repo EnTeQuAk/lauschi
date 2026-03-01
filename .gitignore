@@ -82,3 +82,4 @@ ios_distribution_private_key.pub
 # Patrol generated bundle
 integration_test/test_bundle.dart
 screenshots/
+.local/
