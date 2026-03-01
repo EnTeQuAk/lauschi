@@ -158,8 +158,7 @@ void main() {
           final saved = await items.getById(itemA);
           return saved != null && saved.lastPositionMs > 15000;
         },
-        description:
-            'Card A position saved (was at ${posBeforeSwitch}ms)',
+        description: 'Card A position saved (was at ${posBeforeSwitch}ms)',
       );
 
       await stopPlayback($);
