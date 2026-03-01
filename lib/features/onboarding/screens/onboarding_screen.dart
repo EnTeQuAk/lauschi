@@ -4,16 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lauschi/core/auth/pin_service.dart';
+import 'package:lauschi/core/feature_flags.dart';
 import 'package:lauschi/core/router/app_router.dart';
 import 'package:lauschi/core/spotify/spotify_auth_provider.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
 import 'package:lauschi/features/onboarding/screens/onboarding_provider.dart';
 
-/// Minimal 3-step onboarding for first launch.
+/// Onboarding for first launch.
 ///
-/// Step 1: Welcome
-/// Step 2: Connect Spotify
-/// Step 3: Set PIN → redirect to add card
+/// With Spotify: Welcome → Connect Spotify → Set PIN
+/// Without Spotify: Welcome → Set PIN
 class OnboardingScreen extends ConsumerStatefulWidget {
   const OnboardingScreen({super.key});
 
@@ -25,6 +25,12 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
   final _pageController = PageController();
   int _currentPage = 0;
 
+  List<Widget> get _pages => [
+    _WelcomePage(onNext: _next),
+    if (FeatureFlags.enableSpotify) _ConnectPage(onNext: _next, onSkip: _next),
+    _PinSetupPage(onComplete: _complete),
+  ];
+
   @override
   void dispose() {
     _pageController.dispose();
@@ -32,7 +38,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
   }
 
   void _next() {
-    if (_currentPage < 2) {
+    if (_currentPage < _pages.length - 1) {
       unawaited(
         _pageController.nextPage(
           duration: const Duration(milliseconds: 300),
@@ -53,6 +59,9 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final pages = _pages;
+    final pageCount = pages.length;
+
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -62,11 +71,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                 controller: _pageController,
                 onPageChanged: (page) => setState(() => _currentPage = page),
                 physics: const NeverScrollableScrollPhysics(),
-                children: [
-                  _WelcomePage(onNext: _next),
-                  _ConnectPage(onNext: _next, onSkip: _next),
-                  _PinSetupPage(onComplete: _complete),
-                ],
+                children: pages,
               ),
             ),
             // Page indicators
@@ -74,7 +79,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
               padding: const EdgeInsets.only(bottom: AppSpacing.xl),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: List.generate(3, (index) {
+                children: List.generate(pageCount, (index) {
                   return AnimatedContainer(
                     duration: const Duration(milliseconds: 200),
                     margin: const EdgeInsets.symmetric(horizontal: 4),

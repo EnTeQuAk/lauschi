@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart' show kDebugMode;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:lauschi/core/feature_flags.dart';
 import 'package:lauschi/core/log.dart';
 import 'package:lauschi/core/settings/debug_settings.dart';
 import 'package:lauschi/core/settings/kid_settings.dart';
@@ -173,35 +174,36 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
 
         const SizedBox(height: AppSpacing.lg),
 
-        // ── Spotify account ──────────────────────────────────────────────────
-        const _SectionHeader(title: 'Spotify-Konto'),
-        ListTile(
-          tileColor: AppColors.parentSurface,
-          leading: const Icon(
-            Icons.logout_rounded,
-            color: AppColors.error,
-          ),
-          title: const Text(
-            'Abmelden',
-            style: TextStyle(
-              fontFamily: 'Nunito',
-              fontWeight: FontWeight.w600,
-              fontSize: 15,
+        // ── Spotify account (only when enabled) ──────────────────────────────
+        if (FeatureFlags.enableSpotify) ...[
+          const _SectionHeader(title: 'Spotify-Konto'),
+          ListTile(
+            tileColor: AppColors.parentSurface,
+            leading: const Icon(
+              Icons.logout_rounded,
               color: AppColors.error,
             ),
-          ),
-          subtitle: const Text(
-            'Spotify-Verbindung trennen und zur Anmeldung zurückkehren.',
-            style: TextStyle(
-              fontFamily: 'Nunito',
-              fontSize: 12,
-              color: AppColors.textSecondary,
+            title: const Text(
+              'Abmelden',
+              style: TextStyle(
+                fontFamily: 'Nunito',
+                fontWeight: FontWeight.w600,
+                fontSize: 15,
+                color: AppColors.error,
+              ),
             ),
+            subtitle: const Text(
+              'Spotify-Verbindung trennen und zur Anmeldung zurückkehren.',
+              style: TextStyle(
+                fontFamily: 'Nunito',
+                fontSize: 12,
+                color: AppColors.textSecondary,
+              ),
+            ),
+            onTap: () => _confirmLogout(context),
           ),
-          onTap: () => _confirmLogout(context),
-        ),
-
-        const SizedBox(height: AppSpacing.lg),
+          const SizedBox(height: AppSpacing.lg),
+        ],
 
         // ── Experimental ─────────────────────────────────────────────────────
         const _SectionHeader(title: 'Experimentell'),
@@ -294,21 +296,24 @@ class _ProviderRow extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final spotifyConnected =
+        FeatureFlags.enableSpotify &&
         ref.watch(spotifyAuthProvider) is AuthAuthenticated;
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: AppSpacing.screenH),
       child: Row(
         children: [
-          Expanded(
-            child: _ProviderChip(
-              svgAsset: 'assets/images/icons/spotify.svg',
-              label: 'Spotify',
-              color: const Color(0xFF1DB954),
-              active: spotifyConnected,
+          if (FeatureFlags.enableSpotify) ...[
+            Expanded(
+              child: _ProviderChip(
+                svgAsset: 'assets/images/icons/spotify.svg',
+                label: 'Spotify',
+                color: const Color(0xFF1DB954),
+                active: spotifyConnected,
+              ),
             ),
-          ),
-          const SizedBox(width: AppSpacing.sm),
+            const SizedBox(width: AppSpacing.sm),
+          ],
           const Expanded(
             child: _ProviderChip(
               icon: Icons.radio_rounded,
