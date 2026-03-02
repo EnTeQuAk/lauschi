@@ -18,6 +18,7 @@ class TileItem extends StatefulWidget {
     this.isPlaying = false,
     this.isPaused = false,
     this.isHeard = false,
+    this.isExpired = false,
     this.progress = 0,
     this.kidMode = false,
     this.episodeNumber,
@@ -31,6 +32,10 @@ class TileItem extends StatefulWidget {
 
   /// Whether this episode has been heard. Dims the cover and shows ✓ badge.
   final bool isHeard;
+
+  /// Whether this content has expired (ARD availability window ended).
+  /// Greyed out with hourglass badge, tap disabled.
+  final bool isExpired;
 
   /// Album playback progress 0.0–1.0 (track N of M). Shown as a red bar
   /// at the bottom of the card. Not shown when 0 or when fully heard.
@@ -89,7 +94,9 @@ class _AudioCardState extends State<TileItem>
   @override
   Widget build(BuildContext context) {
     final semanticLabel =
-        widget.isPlaying
+        widget.isExpired
+            ? '${widget.title}, nicht mehr verfügbar'
+            : widget.isPlaying
             ? '${widget.title}, spielt gerade'
             : widget.isPaused
             ? '${widget.title}, pausiert'
@@ -99,11 +106,11 @@ class _AudioCardState extends State<TileItem>
 
     return Semantics(
       label: semanticLabel,
-      button: true,
+      button: !widget.isExpired,
       child: GestureDetector(
-        onTapDown: _handleTapDown,
-        onTapUp: _handleTapUp,
-        onTapCancel: _handleTapCancel,
+        onTapDown: widget.isExpired ? null : _handleTapDown,
+        onTapUp: widget.isExpired ? null : _handleTapUp,
+        onTapCancel: widget.isExpired ? null : _handleTapCancel,
         child: AnimatedBuilder(
           animation: _scaleAnimation,
           builder:
@@ -137,13 +144,19 @@ class _AudioCardState extends State<TileItem>
         fit: StackFit.expand,
         children: [
           _CoverImage(url: widget.coverUrl),
-          if (widget.isHeard && !widget.isPlaying && !widget.isPaused)
+          if (widget.isExpired) const _ExpiredOverlay(),
+          if (widget.isHeard &&
+              !widget.isExpired &&
+              !widget.isPlaying &&
+              !widget.isPaused)
             const _HeardOverlay(),
           if (widget.isPlaying) const _PlayBadge(),
           if (widget.isPaused) const _PauseBadge(),
-          if (widget.isHeard && !widget.isPlaying && !widget.isPaused)
+          if (widget.isExpired)
+            const _ExpiredBadge()
+          else if (widget.isHeard && !widget.isPlaying && !widget.isPaused)
             const _HeardBadge(),
-          if (widget.progress > 0 && !widget.isHeard)
+          if (widget.progress > 0 && !widget.isHeard && !widget.isExpired)
             Positioned(
               left: 0,
               right: 0,
@@ -363,6 +376,46 @@ class _HeardBadge extends StatelessWidget {
         child: const Icon(
           Icons.check_rounded,
           color: AppColors.primary,
+          size: 14,
+        ),
+      ),
+    );
+  }
+}
+
+/// Greyed-out overlay for expired content.
+class _ExpiredOverlay extends StatelessWidget {
+  const _ExpiredOverlay();
+
+  @override
+  Widget build(BuildContext context) {
+    return Positioned.fill(
+      child: ColoredBox(
+        color: AppColors.textPrimary.withValues(alpha: 0.5),
+      ),
+    );
+  }
+}
+
+/// Hourglass badge for expired content.
+class _ExpiredBadge extends StatelessWidget {
+  const _ExpiredBadge();
+
+  @override
+  Widget build(BuildContext context) {
+    return Positioned(
+      right: 6,
+      bottom: 6,
+      child: Container(
+        width: 22,
+        height: 22,
+        decoration: BoxDecoration(
+          color: AppColors.surface.withValues(alpha: 0.9),
+          shape: BoxShape.circle,
+        ),
+        child: const Icon(
+          Icons.hourglass_empty_rounded,
+          color: AppColors.textSecondary,
           size: 14,
         ),
       ),

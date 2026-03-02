@@ -308,18 +308,23 @@ class _HomeGrid extends StatelessWidget {
               );
             }
             final card = ungrouped[index - groups.length];
+            final expired = isItemExpired(card);
             final isCurrentCard = isActive && activeUri == card.providerUri;
             return TileItem(
               key: ValueKey(card.id),
               title: card.customTitle ?? card.title,
               coverUrl: card.coverUrl,
-              isPlaying: isCurrentCard && isPlaying,
-              isPaused: isCurrentCard && !isPlaying,
+              isPlaying: !expired && isCurrentCard && isPlaying,
+              isPaused: !expired && isCurrentCard && !isPlaying,
               isHeard: card.isHeard,
+              isExpired: expired,
               progress: _albumProgress(card),
               kidMode: true,
               episodeNumber: card.episodeNumber,
-              onTap: onCardTap != null ? () => onCardTap!(card) : () {},
+              onTap:
+                  onCardTap != null && !expired
+                      ? () => onCardTap!(card)
+                      : () {},
             );
           },
         );

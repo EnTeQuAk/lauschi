@@ -20,6 +20,7 @@ db.TileItem _card({
   required String title,
   String? groupId,
   String providerUri = 'spotify:album:test',
+  DateTime? availableUntil,
 }) {
   return db.TileItem(
     id: id,
@@ -35,6 +36,7 @@ db.TileItem _card({
     durationMs: 0,
     lastTrackNumber: 0,
     lastPositionMs: 0,
+    availableUntil: availableUntil,
   );
 }
 
@@ -117,6 +119,46 @@ void main() {
         find.byIcon(Icons.chevron_left_rounded),
         findsOneWidget,
       );
+    });
+
+    testWidgets('tapping an expired tile does not start playback', (
+      tester,
+    ) async {
+      final card = _card(
+        id: 'expired-1',
+        title: 'Expired Episode',
+        providerUri: 'ard:item:expired',
+        availableUntil: DateTime(2025), // expired
+      );
+      final notifier = _TrackingPlayerNotifier(
+        initialState: const PlaybackState(isReady: true),
+      );
+
+      final container = ProviderContainer(
+        overrides: _testOverrides(
+          ungrouped: [card],
+          playerNotifier: notifier,
+        ),
+      );
+      addTearDown(container.dispose);
+
+      await tester.pumpWidget(_buildApp(container));
+      await tester.pump();
+      await tester.pump();
+
+      final tileFinder = find.byKey(const ValueKey('expired-1'));
+      expect(tileFinder, findsOneWidget);
+
+      // Tap the expired tile.
+      await tester.tap(tileFinder);
+      await tester.pump();
+      await tester.pump();
+
+      // playCard should NOT have been called.
+      expect(notifier.playCardCalls, isEmpty);
+
+      // Should still be on the home screen.
+      expect(find.text('Meine Hörspiele'), findsOneWidget);
     });
 
     testWidgets('tapping a tile when not ready does not navigate', (
