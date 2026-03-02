@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lauschi/core/connectivity/connectivity_provider.dart';
 import 'package:lauschi/core/database/app_database.dart' as db;
+import 'package:lauschi/core/database/tile_item_repository.dart';
 import 'package:lauschi/core/database/tile_repository.dart';
 import 'package:lauschi/core/log.dart';
 import 'package:lauschi/core/nfc/nfc_pair_dialog.dart';
@@ -333,6 +334,8 @@ class _EpisodeGrid extends StatelessWidget {
             final isCurrentCard = isActive && activeUri == card.providerUri;
             final isNext = card.id == nextUnheardId;
 
+            final expired = isItemExpired(card);
+
             return Stack(
               clipBehavior: Clip.none,
               children: [
@@ -340,17 +343,18 @@ class _EpisodeGrid extends StatelessWidget {
                   key: ValueKey(card.id),
                   title: card.customTitle ?? card.title,
                   coverUrl: card.coverUrl,
-                  isPlaying: isCurrentCard && isPlaying,
-                  isPaused: isCurrentCard && !isPlaying,
+                  isPlaying: !expired && isCurrentCard && isPlaying,
+                  isPaused: !expired && isCurrentCard && !isPlaying,
                   isHeard: card.isHeard,
+                  isExpired: expired,
                   progress: _albumProgress(card),
                   kidMode: true,
                   episodeNumber: card.episodeNumber,
                   showEpisodeTitles: showEpisodeTitles,
-                  onTap: () => onCardTap(card),
+                  onTap: expired ? () {} : () => onCardTap(card),
                 ),
                 // "Weiter" badge on next unheard episode
-                if (isNext)
+                if (isNext && !expired)
                   Positioned(
                     top: -4,
                     left: 0,
