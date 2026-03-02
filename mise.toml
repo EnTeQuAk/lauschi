@@ -27,23 +27,23 @@ run = "dart run build_runner watch --delete-conflicting-outputs"
 
 [tasks.test]
 description = "Run all tests"
-run = "flutter test --dart-define-from-file=.env"
+run = "flutter test --dart-define-from-file=.env.app"
 
 [tasks.dev]
 description = "Run on connected device (extra args passed through)"
-run = "flutter run --dart-define-from-file=.env"
+run = "flutter run --dart-define-from-file=.env.app"
 
 [tasks.build]
 description = "Build APK (runs codegen first)"
 depends = ["codegen"]
-run = "flutter build apk --dart-define-from-file=.env"
+run = "flutter build apk --dart-define-from-file=.env.app"
 
 [tasks.check]
 description = "Full CI check: format + analyze + test"
 run = """
 dart format --set-exit-if-changed .
 flutter analyze --fatal-infos
-flutter test --dart-define-from-file=.env
+flutter test --dart-define-from-file=.env.app
 """
 
 [tasks.catalog-check]
@@ -105,7 +105,7 @@ run = "uvx bumpver update"
 [tasks.coverage]
 description = "Run tests with coverage and print summary"
 run = """
-flutter test --coverage --dart-define-from-file=.env
+flutter test --coverage --dart-define-from-file=.env.app
 dart run tool/coverage_summary.dart
 """
 
@@ -118,7 +118,7 @@ TEST_TARGET="${1:-integration_test/}"
 echo "Running integration tests: $TEST_TARGET"
 adb shell media volume --set 0 2>/dev/null || echo "Warning: could not mute audio"
 
-patrol test -t "$TEST_TARGET" --dart-define-from-file=.env
+patrol test -t "$TEST_TARGET" --dart-define-from-file=.env.app
 """
 
 [tasks.ios-install]

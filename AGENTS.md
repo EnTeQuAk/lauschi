@@ -24,7 +24,7 @@ mise run build          # Build APK (runs codegen first)
 
 Run a single test file:
 ```bash
-flutter test test/core/catalog/catalog_service_test.dart --dart-define-from-file=.env
+flutter test test/core/catalog/catalog_service_test.dart --dart-define-from-file=.env.app
 ```
 
 ### Catalog Validation Scripts
@@ -103,12 +103,20 @@ Validated by `scripts/validate_catalog.py` (L1-L5 layers).
 
 ## Environment Variables
 
-Copy `.env.example` to `.env` and configure:
-- `SPOTIFY_CLIENT_ID` — required for OAuth
+Two env files, both gitignored:
+
+- **`.env`** — Developer keys for scripts/tooling. Loaded by mise (`_.file = ".env"`). Not passed to Flutter.
+- **`.env.app`** — App build config only. Passed to Flutter via `--dart-define-from-file`.
+
+Copy `.env.example` to `.env` and `.env.app.example` to `.env.app`, then configure.
+
+`.env.app` keys:
+- `ENABLE_SPOTIFY` — feature flag (default: `false`)
+- `SPOTIFY_CLIENT_ID` — required when Spotify enabled
 - `SENTRY_DSN` — optional error tracking
 - `SENTRY_ENVIRONMENT` — defaults to "development"
 
-All Flutter commands use `--dart-define-from-file=.env`.
+All Flutter commands use `--dart-define-from-file=.env.app`.
 
 ## Testing
 
