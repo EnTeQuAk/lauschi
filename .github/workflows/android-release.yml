@@ -47,9 +47,10 @@ jobs:
       - name: Code generation
         run: dart run build_runner build --delete-conflicting-outputs
 
-      - name: Create .env
+      - name: Create .env.app
         run: |
-          cat > .env << EOF
+          cat > .env.app << EOF
+          ENABLE_SPOTIFY=false
           SPOTIFY_CLIENT_ID=${{ secrets.SPOTIFY_CLIENT_ID }}
           SENTRY_DSN=${{ secrets.SENTRY_DSN }}
           SENTRY_ENVIRONMENT=production
@@ -71,7 +72,7 @@ jobs:
           flutter build apk --release \
             --build-name="$VERSION_NAME" \
             --build-number=${{ github.run_number }} \
-            --dart-define-from-file=.env
+            --dart-define-from-file=.env.app
 
       - name: Upload to Firebase App Distribution
         uses: wzieba/Firebase-Distribution-Github-Action@v1

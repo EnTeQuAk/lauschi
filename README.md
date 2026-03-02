@@ -27,18 +27,23 @@ Requires [mise](https://mise.jdx.dev/) for tool management.
 git clone git@github.com:EnTeQuAk/lauschi.git
 cd lauschi
 mise install                    # Flutter, Java 17, gh, uv
-cp .env.example .env            # add Spotify credentials
+cp .env.example .env            # developer keys for scripts
+cp .env.app.example .env.app    # app build config
 mise run setup                  # flutter pub get + codegen
 mise run dev                    # run on connected device
 ```
 
 ### Environment
 
-Configuration lives in `.env` (gitignored), loaded by mise tasks via
-`--dart-define-from-file=.env`:
+Two env files (both gitignored):
 
+- **`.env`** — Developer keys for scripts/tooling. Loaded by mise. Not passed to Flutter.
+- **`.env.app`** — App build config. Passed to Flutter via `--dart-define-from-file`.
+
+`.env.app`:
 ```
-SPOTIFY_CLIENT_ID=...           # required for Spotify (Developer Dashboard)
+ENABLE_SPOTIFY=false            # feature flag
+SPOTIFY_CLIENT_ID=...           # required when Spotify enabled
 SENTRY_DSN=...                  # optional, error tracking
 SENTRY_ENVIRONMENT=development
 ```
@@ -268,10 +273,10 @@ For release builds, you'll need a signing key configured in
 mise run test
 
 # Run a single test file
-flutter test test/core/catalog/catalog_service_test.dart --dart-define-from-file=.env
+flutter test test/core/catalog/catalog_service_test.dart --dart-define-from-file=.env.app
 
 # Run with coverage
-flutter test --coverage --dart-define-from-file=.env
+flutter test --coverage --dart-define-from-file=.env.app
 ```
 
 Tests don't require a device and run on the Dart VM. Integration tests

@@ -33,9 +33,10 @@ workflows:
           keychain add-certificates
           xcode-project use-profiles
 
-      - name: Write .env file
+      - name: Write .env.app file
         script: |
-          cat <<EOF > $CM_BUILD_DIR/.env
+          cat <<EOF > $CM_BUILD_DIR/.env.app
+          ENABLE_SPOTIFY=false
           SPOTIFY_CLIENT_ID=$SPOTIFY_CLIENT_ID
           SENTRY_DSN=$SENTRY_DSN
           SENTRY_ENVIRONMENT=$SENTRY_ENVIRONMENT
@@ -53,7 +54,7 @@ workflows:
           flutter build ipa --release \
             --build-name="$VERSION_NAME" \
             --build-number=$PROJECT_BUILD_NUMBER \
-            --dart-define-from-file=$CM_BUILD_DIR/.env \
+            --dart-define-from-file=$CM_BUILD_DIR/.env.app \
             --export-options-plist=/Users/builder/export_options.plist
 
     artifacts:
