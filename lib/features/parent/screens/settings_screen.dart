@@ -81,6 +81,39 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
           title: 'Version',
           value: '$_appVersion ($_buildFlavour)',
         ),
+        ListTile(
+          tileColor: AppColors.parentSurface,
+          leading: const Icon(
+            Icons.description_outlined,
+            color: AppColors.textSecondary,
+          ),
+          title: const Text(
+            'Open-Source-Lizenzen',
+            style: TextStyle(
+              fontFamily: 'Nunito',
+              fontWeight: FontWeight.w600,
+              fontSize: 15,
+            ),
+          ),
+          trailing: const Icon(
+            Icons.chevron_right_rounded,
+            color: AppColors.textSecondary,
+          ),
+          onTap:
+              () => showLicensePage(
+                context: context,
+                applicationName: 'lauschi',
+                applicationVersion: '$_appVersion ($_buildFlavour)',
+                applicationIcon: Padding(
+                  padding: const EdgeInsets.all(AppSpacing.md),
+                  child: Image.asset(
+                    'assets/images/branding/lauschi-mascot.png',
+                    width: 64,
+                    height: 64,
+                  ),
+                ),
+              ),
+        ),
 
         const SizedBox(height: AppSpacing.lg),
 
