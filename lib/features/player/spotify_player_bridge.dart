@@ -387,6 +387,11 @@ class SpotifyPlayerBridge {
 
   /// Run JS on the WebView, catching PlatformException when the WebView
   /// isn't ready or has been torn down (e.g. app backgrounded on iOS).
+  ///
+  /// When JS eval fails, the WebView is dead — clear the device ID and
+  /// mark not ready so the player knows the bridge needs reconnection.
+  /// Without this, the bridge stays in a zombie state (stale device ID,
+  /// isReady: true) and every command silently fails.
   Future<void> _runJs(String js) async {
     if (_disposed || _controller == null) return;
     try {
@@ -394,7 +399,15 @@ class SpotifyPlayerBridge {
       final guarded = 'if(window.lauschi){$js}';
       await controller.runJavaScript(guarded);
     } on PlatformException catch (e) {
-      Log.warn(_tag, 'JS eval failed (WebView not ready?): ${e.code}');
+      Log.warn(_tag, 'JS eval failed — WebView likely dead: ${e.code}');
+      if (_deviceId != null || _state.isReady) {
+        // WebView died — clear stale state so the app knows it needs
+        // reconnection. This is the same state transition as receiving
+        // a 'not_ready' event from the SDK, except the SDK can't fire
+        // events from a dead WebView.
+        _deviceId = null;
+        _updateState(_state.copyWith(isReady: false));
+      }
     }
   }
 
