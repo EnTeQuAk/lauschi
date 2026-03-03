@@ -7,19 +7,15 @@ Each test covers one user journey, 8-10 minutes.
 
 ### Screening questions
 
-1. **Hast du ein Spotify-Konto (kostenlos oder Premium)?**
+1. **Hast du ein Android-Handy oder -Tablet?**
    - Ja → weiter
    - Nein → raus
 
-2. **Hast du ein Android-Handy oder -Tablet?**
+2. **Sprichst du Deutsch?**
    - Ja → weiter
    - Nein → raus
 
-3. **Sprichst du Deutsch?**
-   - Ja → weiter
-   - Nein → raus
-
-4. **Hast du Kinder im Alter von 3-10 Jahren?**
+3. **Hast du Kinder im Alter von 3-10 Jahren?**
    - Ja → weiter
    - Nein → raus (nice to have, not hard filter if pool too small)
 
@@ -37,13 +33,13 @@ Provide APK or Play Store beta link. Testers install before starting.
 ## Test 1: Erster Eindruck und Einrichtung
 
 **Duration**: 10 minutes
-**Goal**: First impression, onboarding clarity, Spotify connection
+**Goal**: First impression, onboarding clarity, PIN setup
 
 ### Intro
 ```
 Stell dir vor, du suchst eine Möglichkeit, deinem Kind
-Hörspiele und Musik auf dem Handy bereitzustellen, ohne dass
-es selbst durch Spotify oder YouTube stöbert.
+Hörspiele auf dem Handy bereitzustellen, ohne dass es selbst
+durch YouTube oder Streaming-Apps stöbert.
 
 Jemand hat dir diese App empfohlen. Du hast sie gerade
 installiert und öffnest sie zum ersten Mal.
@@ -63,9 +59,6 @@ Was glaubst du, was diese App macht? Für wen ist sie gedacht?
 ```
 Richte die App so ein, dass du sie benutzen kannst.
 Folge den Schritten, die dir angeboten werden.
-
-Du wirst wahrscheinlich nach deinem Spotify-Konto gefragt.
-Verbinde es, wenn du möchtest.
 ```
 
 ### Task 3: Schutz einrichten
@@ -112,13 +105,13 @@ jetzt für dein Kind sichtbar sind.
 
 ### Task 3: Noch etwas hinzufügen
 ```
-Füge noch etwas Anderes hinzu. Diesmal etwas zum Thema Musik
-statt Hörspiele, falls das möglich ist.
+Füge noch eine weitere Serie hinzu. Diesmal etwas
+für ein anderes Alter oder Interesse.
 ```
 
 ### Abschlussfrage (offen)
 ```
-Hast du etwas vermisst? Gab es Hörspiele oder Musik,
+Hast du etwas vermisst? Gab es Hörspiele oder Sendungen,
 die du erwartet hättest, aber nicht gefunden hast?
 ```
 
@@ -166,45 +159,46 @@ Was würde es schwierig machen?
 
 ---
 
-## Test 4: Kostenlose Inhalte entdecken
+## Test 4: Wiedergabe und Steuerung
 
 **Duration**: 8 minutes
-**Goal**: Do parents discover ARD Audiothek content? Is the free/paid distinction clear?
+**Goal**: Is playback intuitive? Can kids and parents control what's playing?
 
 ### Intro
 ```
-Stell dir vor, du nutzt die App, aber du hast kein Spotify
-oder möchtest schauen, ob es auch kostenlose Inhalte gibt.
-
-Finde heraus, ob die App kostenlose Inhalte anbietet, die
-kein Abo brauchen.
+Auf dem Bildschirm sind ein paar Hörspiele für dein Kind
+vorbereitet. Du möchtest jetzt zusammen mit deinem Kind
+etwas anhören.
 
 Denk laut mit.
 ```
 
-### Task 1: Kostenlose Inhalte finden
+### Task 1: Hörspiel abspielen
 ```
-Suche in der App nach Inhalten, die kein Abo oder Konto brauchen.
-```
-
-### Task 2: Kostenlosen Inhalt hinzufügen
-```
-Wenn du kostenlose Inhalte gefunden hast: Füge etwas davon
-für dein Kind hinzu.
+Wähle ein Hörspiel aus und starte die Wiedergabe.
+Schau dich um: Was zeigt dir die App, während etwas abgespielt wird?
 ```
 
-### Task 3: Unterschied erkennen
+### Task 2: Steuerung benutzen
 ```
-Schau dir die Inhalte auf dem Kinder-Bildschirm an.
-Kannst du erkennen, welche Inhalte kostenlos sind und
-welche von Spotify kommen?
+Pausiere die Wiedergabe.
+
+Starte sie danach wieder.
+
+Versuche, eine Stelle zu überspringen oder
+zur nächsten Folge zu wechseln.
 ```
 
-### Abschlussfragen (offen)
+### Task 3: Zurück zur Übersicht
 ```
-Hast du vorher schon mal von der ARD Audiothek gehört?
-Wie hat sich das Angebot an kostenlosen Inhalten auf deinen
-Eindruck von der App ausgewirkt?
+Geh zurück zur Übersicht mit allen Bildern.
+Fällt dir auf, dass noch etwas abgespielt wird?
+```
+
+### Abschlussfrage (offen)
+```
+War die Steuerung verständlich? Gab es etwas,
+das du erwartet hättest, aber nicht gefunden hast?
 ```
 
 ---
@@ -254,12 +248,13 @@ Was hat dir beim Verwalten gefehlt?
 
 ### What we learned from tuneloop Userbrain rounds
 
-1. **Spotify requirement up front**: Screening filters testers without
-   Spotify before they start. Last time, testers without the right
-   accounts wasted their entire session.
-
-2. **German content = German testers**: All task descriptions in German,
+1. **German content = German testers**: All task descriptions in German,
    screening confirms language.
+
+2. **Pre-populated content for kid tests**: Tests 3, 4, and 5 need tiles
+   already set up. Either provide an APK with pre-loaded DB, or add a
+   setup step ("go to the parent area, add 3-4 series") as a warm-up
+   before the actual test.
 
 ### Userbrain best practices applied
 
@@ -287,3 +282,18 @@ Was hat dir beim Verwalten gefehlt?
 
 - **Actionable tasks**: "Starte etwas zum Anhören" not "Wie würdest du
   ein Hörspiel abspielen?"
+
+### Changes from previous version
+
+This version reflects the ARD Audiothek-only launch (Spotify flagged off):
+
+- **Screening**: Dropped Spotify account requirement. All content is free,
+  no account needed.
+- **Test 1**: Onboarding is now 2 steps (Welcome → PIN). No Spotify
+  connection step.
+- **Test 2**: Dropped "Musik statt Hörspiele" task — ARD Audiothek is
+  all spoken-word content. Replaced with age/interest variation.
+- **Test 4** (new): Replaces the old "free vs. paid" test (irrelevant
+  when everything is free). Focuses on playback and controls — the core
+  kid experience we haven't explicitly tested.
+- **Test 5**: Unchanged — tile management is provider-agnostic.
