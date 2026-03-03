@@ -37,10 +37,6 @@ Provide APK or Play Store beta link. Testers install before starting.
 
 ### Intro
 ```
-Stell dir vor, du suchst eine Möglichkeit, deinem Kind
-Hörspiele auf dem Handy bereitzustellen, ohne dass es selbst
-durch YouTube oder Streaming-Apps stöbert.
-
 Jemand hat dir diese App empfohlen. Du hast sie gerade
 installiert und öffnest sie zum ersten Mal.
 
@@ -58,13 +54,12 @@ Was glaubst du, was diese App macht? Für wen ist sie gedacht?
 ### Task 2: Einrichtung durchführen
 ```
 Richte die App so ein, dass du sie benutzen kannst.
-Folge den Schritten, die dir angeboten werden.
 ```
 
 ### Task 3: Schutz einrichten
 ```
-Die App bietet eine Möglichkeit, einen Bereich vor
-Kinderhänden zu schützen. Richte das ein.
+Die App hat einen Bereich, der nur für Erwachsene gedacht ist.
+Finde ihn und richte ihn ein.
 ```
 
 ### Abschlussfrage (offen)
@@ -153,8 +148,8 @@ Finde den Bereich, der vor Kinderhänden geschützt ist.
 
 ### Abschlussfrage (offen)
 ```
-Glaubst du, ein 5-jähriges Kind könnte die App alleine bedienen?
-Was würde es schwierig machen?
+Was war einfach, was war schwierig?
+Wo wäre ein Kind ohne Hilfe nicht weitergekommen?
 ```
 
 ---
@@ -186,7 +181,7 @@ Pausiere die Wiedergabe.
 Starte sie danach wieder.
 
 Versuche, eine Stelle zu überspringen oder
-zur nächsten Folge zu wechseln.
+zum nächsten Teil zu wechseln.
 ```
 
 ### Task 3: Zurück zur Übersicht
@@ -197,8 +192,8 @@ Fällt dir auf, dass noch etwas abgespielt wird?
 
 ### Abschlussfrage (offen)
 ```
-War die Steuerung verständlich? Gab es etwas,
-das du erwartet hättest, aber nicht gefunden hast?
+Was ist dir beim Bedienen aufgefallen?
+Gab es etwas, das du gesucht hast?
 ```
 
 ---
@@ -290,10 +285,15 @@ This version reflects the ARD Audiothek-only launch (Spotify flagged off):
 - **Screening**: Dropped Spotify account requirement. All content is free,
   no account needed.
 - **Test 1**: Onboarding is now 2 steps (Welcome → PIN). No Spotify
-  connection step.
+  connection step. Intro no longer spoils the app's purpose before
+  Task 1 asks "what does this app do?" (Userbrain Mistake #1).
 - **Test 2**: Dropped "Musik statt Hörspiele" task — ARD Audiothek is
   all spoken-word content. Replaced with age/interest variation.
+- **Test 3**: Closing question reworded to ask about observed difficulty
+  instead of hypothetical future (Userbrain Mistake #4).
 - **Test 4** (new): Replaces the old "free vs. paid" test (irrelevant
   when everything is free). Focuses on playback and controls — the core
-  kid experience we haven't explicitly tested.
+  kid experience we haven't explicitly tested. "Folge" replaced with
+  "Teil" to avoid UI word leak (Userbrain Mistake #3). Closing question
+  observes behavior instead of asking for opinion (Userbrain Mistake #2).
 - **Test 5**: Unchanged — tile management is provider-agnostic.
