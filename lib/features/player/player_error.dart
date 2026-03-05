@@ -75,49 +75,45 @@ enum PlayerError {
   };
 }
 
-/// Visual category grouping errors by mascot illustration and tone.
+/// Visual category grouping errors by tone and action.
+///
+/// All categories use the confused fox mascot; the headline and action
+/// button tell parents (who can read) what's going on. For kids who
+/// can't read, the confused fox universally signals "something's wrong,
+/// go get a grown-up."
 enum ErrorCategory {
-  /// Transient connection or playback issue. Confused fox, "try again".
+  /// Transient connection or playback issue. "Try again."
   oops(
-    asset: 'assets/images/branding/lauschi-confused.png',
-    fallbackEmoji: '🤔',
     headline: 'Hoppla!',
     subtitle: 'Das hat gerade nicht geklappt.\nProbier es nochmal!',
     actionLabel: 'Nochmal probieren',
   ),
 
-  /// Content permanently gone (expired, pulled). Fox waving goodbye.
+  /// Content permanently gone (expired, pulled).
   gone(
-    asset: 'assets/images/branding/lauschi-goodbye.png',
-    fallbackEmoji: '🐦',
-    headline: 'Weggeflogen!',
+    headline: 'Hoppla!',
     subtitle: 'Diese Geschichte gibt es\nleider nicht mehr.',
     actionLabel: 'Zurück',
   ),
 
-  /// Auth or account issue. Parent needs to act. Sleeping fox.
+  /// Auth or account issue. Parent needs to act.
   parentAction(
-    asset: 'assets/images/branding/lauschi-sleeping.png',
-    fallbackEmoji: '😴',
-    headline: 'Lauschi schläft…',
+    headline: 'Hoppla!',
     subtitle: 'Frag Mama oder Papa,\ndie können das reparieren!',
     actionLabel: 'Zurück',
   );
 
   const ErrorCategory({
-    required this.asset,
-    required this.fallbackEmoji,
     required this.headline,
     required this.subtitle,
     required this.actionLabel,
   });
 
-  /// Path to the mascot illustration. Falls back to [fallbackEmoji]
-  /// if the asset doesn't exist yet (mascots being illustrated).
-  final String asset;
+  /// Confused fox mascot, shared by all error categories.
+  static const asset = 'assets/images/branding/lauschi-confused.png';
 
-  /// Emoji shown while the mascot PNGs aren't ready yet.
-  final String fallbackEmoji;
+  /// Fallback while the mascot PNG isn't bundled yet.
+  static const fallbackEmoji = '🤔';
 
   /// Kid-friendly headline in large text.
   final String headline;
