@@ -8,6 +8,7 @@ import 'package:lauschi/core/theme/app_theme.dart';
 import 'package:lauschi/features/player/player_provider.dart';
 import 'package:lauschi/features/player/player_state.dart';
 import 'package:lauschi/features/player/widgets/next_episode_preview.dart';
+import 'package:lauschi/features/player/widgets/player_error_dialog.dart';
 
 /// Full-screen player with large album art, controls, and progress bar.
 ///
@@ -23,12 +24,22 @@ class PlayerScreen extends ConsumerStatefulWidget {
 class _PlayerScreenState extends ConsumerState<PlayerScreen> {
   @override
   Widget build(BuildContext context) {
-    final error = ref.watch(playerProvider.select((s) => s.error));
-
-    // Show kid-friendly screen for expired/unavailable content.
-    if (error?.showsUnavailableScreen ?? false) {
-      return const _ContentUnavailableScreen();
-    }
+    // Show error dialog and pop player on dismiss.
+    ref.listen(
+      playerProvider.select((s) => s.error),
+      (prev, next) {
+        if (next != null && next != prev) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            if (!context.mounted) return;
+            unawaited(
+              showPlayerErrorDialog(context, ref: ref, error: next).then((_) {
+                if (context.mounted) Navigator.of(context).pop();
+              }),
+            );
+          });
+        }
+      },
+    );
 
     final state = ref.watch(
       playerProvider.select(
@@ -484,66 +495,6 @@ class _PlayPauseButton extends StatelessWidget {
             size: 64,
             color: AppColors.textOnPrimary,
           ),
-        ),
-      ),
-    );
-  }
-}
-
-// ── Expired / unavailable content screen ────────────────────────────────────
-
-class _ContentUnavailableScreen extends ConsumerWidget {
-  const _ContentUnavailableScreen();
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return Scaffold(
-      body: SafeArea(
-        child: Column(
-          children: [
-            const _CloseButton(),
-            const Spacer(),
-            const Text(
-              '🐦',
-              style: TextStyle(fontSize: 64),
-            ),
-            const SizedBox(height: AppSpacing.lg),
-            const Text(
-              'Diese Geschichte ist\nweggeflogen',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontFamily: 'Nunito',
-                fontSize: 22,
-                fontWeight: FontWeight.w700,
-              ),
-            ),
-            const SizedBox(height: AppSpacing.sm),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: AppSpacing.xxl),
-              child: Text(
-                'Aber keine Sorge, es gibt noch\nviele andere tolle Geschichten!',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontFamily: 'Nunito',
-                  fontSize: 15,
-                  color: AppColors.textSecondary,
-                ),
-              ),
-            ),
-            const SizedBox(height: AppSpacing.xl),
-            FilledButton.icon(
-              onPressed: () {
-                ref.read(playerProvider.notifier).clearError();
-                Navigator.of(context).pop();
-              },
-              icon: const Icon(Icons.arrow_back_rounded),
-              label: const Text(
-                'Zurück',
-                style: TextStyle(fontFamily: 'Nunito'),
-              ),
-            ),
-            const Spacer(flex: 2),
-          ],
         ),
       ),
     );

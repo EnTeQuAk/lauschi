@@ -40,23 +40,91 @@ enum PlayerError {
   /// is correct.
   noAudioUrl;
 
-  /// Whether this error should show the kid-friendly "story flew away"
-  /// screen instead of the normal player UI.
-  bool get showsUnavailableScreen => this == contentUnavailable;
+  /// Visual category for the error dialog. Determines which mascot,
+  /// headline, and action button to show.
+  ErrorCategory get category => switch (this) {
+    contentUnavailable => ErrorCategory.gone,
+    spotifyAuthExpired || spotifyAccountError => ErrorCategory.parentAction,
+    _ => ErrorCategory.oops,
+  };
 
-  /// User-facing message for error banners and snackbars.
-  /// German text lives here (single source of truth), not scattered
-  /// through backend code.
+  /// Whether retrying the same action could work (transient errors).
+  bool get isRetryable => switch (this) {
+    playbackFailed ||
+    playbackCommandFailed ||
+    spotifyNotConnected ||
+    spotifyNetworkError ||
+    spotifyPlaybackFailed ||
+    spotifyConnectionLost ||
+    noAudioUrl => true,
+    contentUnavailable || spotifyAuthExpired || spotifyAccountError => false,
+  };
+
+  /// Technical error message shown in small text for parents.
   String get message => switch (this) {
-    contentUnavailable => 'Diese Geschichte ist leider nicht mehr verfügbar',
+    contentUnavailable => 'Inhalt nicht mehr verfügbar',
     playbackFailed => 'Wiedergabe fehlgeschlagen',
     playbackCommandFailed => 'Steuerung fehlgeschlagen',
     spotifyNotConnected => 'Spotify nicht verbunden',
-    spotifyAuthExpired => 'Spotify-Verbindung abgelaufen, bitte neu verbinden',
-    spotifyAccountError => 'Spotify-Konto-Problem, bitte Abo prüfen',
+    spotifyAuthExpired => 'Spotify-Verbindung abgelaufen',
+    spotifyAccountError => 'Spotify-Konto-Problem',
     spotifyNetworkError => 'Keine Verbindung zu Spotify',
     spotifyPlaybackFailed => 'Wiedergabe fehlgeschlagen',
     spotifyConnectionLost => 'Spotify-Verbindung verloren',
     noAudioUrl => 'Keine Audio-URL verfügbar',
   };
+}
+
+/// Visual category grouping errors by mascot illustration and tone.
+enum ErrorCategory {
+  /// Transient connection or playback issue. Confused fox, "try again".
+  oops(
+    asset: 'assets/images/branding/lauschi-confused.png',
+    fallbackEmoji: '🤔',
+    headline: 'Hoppla!',
+    subtitle: 'Das hat gerade nicht geklappt.\nProbier es nochmal!',
+    actionLabel: 'Nochmal probieren',
+  ),
+
+  /// Content permanently gone (expired, pulled). Fox waving goodbye.
+  gone(
+    asset: 'assets/images/branding/lauschi-goodbye.png',
+    fallbackEmoji: '🐦',
+    headline: 'Weggeflogen!',
+    subtitle: 'Diese Geschichte gibt es\nleider nicht mehr.',
+    actionLabel: 'Zurück',
+  ),
+
+  /// Auth or account issue. Parent needs to act. Sleeping fox.
+  parentAction(
+    asset: 'assets/images/branding/lauschi-sleeping.png',
+    fallbackEmoji: '😴',
+    headline: 'Lauschi schläft…',
+    subtitle: 'Frag Mama oder Papa,\ndie können das reparieren!',
+    actionLabel: 'Zurück',
+  );
+
+  const ErrorCategory({
+    required this.asset,
+    required this.fallbackEmoji,
+    required this.headline,
+    required this.subtitle,
+    required this.actionLabel,
+  });
+
+  /// Path to the mascot illustration. Falls back to [fallbackEmoji]
+  /// if the asset doesn't exist yet (mascots being illustrated).
+  final String asset;
+
+  /// Emoji shown while the mascot PNGs aren't ready yet.
+  final String fallbackEmoji;
+
+  /// Kid-friendly headline in large text.
+  final String headline;
+
+  /// Short explanation a child can understand.
+  final String subtitle;
+
+  /// Primary action button label.
+  final String actionLabel;
 }

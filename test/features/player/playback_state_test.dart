@@ -198,15 +198,30 @@ void main() {
   });
 
   group('PlayerError', () {
-    test('only contentUnavailable shows unavailable screen', () {
-      expect(PlayerError.contentUnavailable.showsUnavailableScreen, isTrue);
+    test('error categories are assigned correctly', () {
+      expect(
+        PlayerError.contentUnavailable.category,
+        ErrorCategory.gone,
+      );
+      expect(
+        PlayerError.spotifyAuthExpired.category,
+        ErrorCategory.parentAction,
+      );
+      expect(
+        PlayerError.spotifyAccountError.category,
+        ErrorCategory.parentAction,
+      );
 
+      // All other errors are transient "oops".
       for (final error in PlayerError.values) {
-        if (error == PlayerError.contentUnavailable) continue;
+        if (error == PlayerError.contentUnavailable ||
+            error == PlayerError.spotifyAuthExpired ||
+            error == PlayerError.spotifyAccountError)
+          continue;
         expect(
-          error.showsUnavailableScreen,
-          isFalse,
-          reason: '$error should not show unavailable screen',
+          error.category,
+          ErrorCategory.oops,
+          reason: '$error should be oops category',
         );
       }
     });
