@@ -350,6 +350,18 @@ class SpotifyApi {
         return null;
       }
 
+      // 5xx server errors are transient (Spotify infra hiccups). Treat
+      // them like connection errors: log and return null. Callers already
+      // handle null responses gracefully.
+      if (status != null && status >= 500) {
+        Log.warn(
+          _tag,
+          'Server error (transient)',
+          data: {'status': '$status'},
+        );
+        return null;
+      }
+
       Log.error(
         _tag,
         'API error',
