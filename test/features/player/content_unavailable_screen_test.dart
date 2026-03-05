@@ -11,100 +11,161 @@ import 'package:lauschi/features/player/screens/player_screen.dart';
 import '../../helpers/fake_player_notifier.dart';
 
 void main() {
-  group('ContentUnavailableScreen', () {
-    testWidgets('shows bird emoji and message for expired content', (
-      tester,
-    ) async {
+  group('PlayerErrorDialog', () {
+    testWidgets('shows "gone" dialog for expired content', (tester) async {
       final fakeNotifier = FakePlayerNotifier(
-        const PlaybackState(error: PlayerError.contentUnavailable),
-      );
-
-      await tester.pumpWidget(
-        ProviderScope(
-          overrides: [
-            playerProvider.overrideWith(() => fakeNotifier),
-          ],
-          child: const MaterialApp(home: PlayerScreen()),
-        ),
-      );
-
-      expect(find.text('🐦'), findsOneWidget);
-      expect(find.textContaining('weggeflogen'), findsOneWidget);
-      expect(find.textContaining('tolle Geschichten'), findsOneWidget);
-      expect(find.text('Zurück'), findsOneWidget);
-    });
-
-    testWidgets('back button clears error and pops', (tester) async {
-      final fakeNotifier = FakePlayerNotifier(
-        const PlaybackState(error: PlayerError.contentUnavailable),
-      );
-
-      await tester.pumpWidget(
-        ProviderScope(
-          overrides: [
-            playerProvider.overrideWith(() => fakeNotifier),
-          ],
-          child: MaterialApp(
-            home: const Scaffold(body: Text('Home')),
-            routes: {
-              '/player': (_) => const PlayerScreen(),
-            },
+        const PlaybackState(
+          isReady: true,
+          track: TrackInfo(
+            uri: 'test:uri',
+            name: 'Test Track',
+            artist: 'Test',
+            album: 'Test Album',
           ),
         ),
       );
 
-      // Navigate to player. Don't await, pushNamed completes when popped.
+      await tester.pumpWidget(
+        ProviderScope(
+          overrides: [playerProvider.overrideWith(() => fakeNotifier)],
+          child: const MaterialApp(home: PlayerScreen()),
+        ),
+      );
+      await tester.pump();
+
+      // Trigger the error after build so ref.listen fires.
+      fakeNotifier.setError(PlayerError.contentUnavailable);
+      await tester.pump(); // ref.listen fires
+      await tester.pump(); // post-frame callback
+      await tester.pump(); // dialog animation
+
+      expect(find.text(ErrorCategory.gone.headline), findsOneWidget);
+      expect(find.textContaining(ErrorCategory.gone.subtitle), findsOneWidget);
+      expect(find.text(ErrorCategory.gone.actionLabel), findsOneWidget);
+      // Technical message for parents
+      expect(find.text(PlayerError.contentUnavailable.message), findsOneWidget);
+    });
+
+    testWidgets('shows "oops" dialog for connection errors', (tester) async {
+      final fakeNotifier = FakePlayerNotifier(
+        const PlaybackState(
+          isReady: true,
+          track: TrackInfo(
+            uri: 'test:uri',
+            name: 'Test Track',
+            artist: 'Test',
+            album: 'Test Album',
+          ),
+        ),
+      );
+
+      await tester.pumpWidget(
+        ProviderScope(
+          overrides: [playerProvider.overrideWith(() => fakeNotifier)],
+          child: const MaterialApp(home: PlayerScreen()),
+        ),
+      );
+      await tester.pump();
+
+      fakeNotifier.setError(PlayerError.spotifyConnectionLost);
+      await tester.pump();
+      await tester.pump();
+      await tester.pump();
+
+      expect(find.text(ErrorCategory.oops.headline), findsOneWidget);
+      expect(find.text(ErrorCategory.oops.actionLabel), findsOneWidget);
+      expect(
+        find.text(PlayerError.spotifyConnectionLost.message),
+        findsOneWidget,
+      );
+    });
+
+    testWidgets('shows "parentAction" dialog for auth errors', (
+      tester,
+    ) async {
+      final fakeNotifier = FakePlayerNotifier(
+        const PlaybackState(
+          isReady: true,
+          track: TrackInfo(
+            uri: 'test:uri',
+            name: 'Test Track',
+            artist: 'Test',
+            album: 'Test Album',
+          ),
+        ),
+      );
+
+      await tester.pumpWidget(
+        ProviderScope(
+          overrides: [playerProvider.overrideWith(() => fakeNotifier)],
+          child: const MaterialApp(home: PlayerScreen()),
+        ),
+      );
+      await tester.pump();
+
+      fakeNotifier.setError(PlayerError.spotifyAuthExpired);
+      await tester.pump();
+      await tester.pump();
+      await tester.pump();
+
+      expect(
+        find.text(ErrorCategory.parentAction.headline),
+        findsOneWidget,
+      );
+      expect(
+        find.text(PlayerError.spotifyAuthExpired.message),
+        findsOneWidget,
+      );
+    });
+
+    testWidgets('dismiss clears error and pops player', (tester) async {
+      final fakeNotifier = FakePlayerNotifier(
+        const PlaybackState(
+          isReady: true,
+          track: TrackInfo(
+            uri: 'test:uri',
+            name: 'Test Track',
+            artist: 'Test',
+            album: 'Test Album',
+          ),
+        ),
+      );
+
+      await tester.pumpWidget(
+        ProviderScope(
+          overrides: [playerProvider.overrideWith(() => fakeNotifier)],
+          child: MaterialApp(
+            home: const Scaffold(body: Text('Home')),
+            routes: {'/player': (_) => const PlayerScreen()},
+          ),
+        ),
+      );
+
+      // Navigate to player.
       unawaited(
         tester
             .state<NavigatorState>(find.byType(Navigator))
             .pushNamed('/player'),
       );
-      await tester.pumpAndSettle();
+      await tester.pump();
+      await tester.pump();
 
-      expect(find.text('🐦'), findsOneWidget);
+      // Trigger error.
+      fakeNotifier.setError(PlayerError.spotifyConnectionLost);
+      await tester.pump();
+      await tester.pump();
+      await tester.pump();
 
-      // Tap back button.
-      await tester.tap(find.text('Zurück'));
-      await tester.pumpAndSettle();
+      // Tap the action button.
+      await tester.tap(find.text(ErrorCategory.oops.actionLabel));
+      await tester.pump();
+      await tester.pump();
+      await tester.pump();
 
       expect(fakeNotifier.clearErrorCalled, isTrue);
-      expect(find.text('Home'), findsOneWidget);
     });
 
-    testWidgets('does not show bird screen for non-unavailable errors', (
-      tester,
-    ) async {
-      final fakeNotifier = FakePlayerNotifier(
-        const PlaybackState(
-          isReady: true,
-          isPlaying: true,
-          durationMs: 60000,
-          positionMs: 5000,
-          error: PlayerError.playbackFailed,
-          track: TrackInfo(
-            uri: 'test:uri',
-            name: 'Test Track',
-            artist: 'Test',
-            album: 'Test Album',
-          ),
-        ),
-      );
-
-      await tester.pumpWidget(
-        ProviderScope(
-          overrides: [
-            playerProvider.overrideWith(() => fakeNotifier),
-          ],
-          child: const MaterialApp(home: PlayerScreen()),
-        ),
-      );
-
-      // Should show normal player, not bird screen.
-      expect(find.text('🐦'), findsNothing);
-      expect(find.text('Test Track'), findsOneWidget);
-    });
-
-    testWidgets('does not show bird screen when no error', (tester) async {
+    testWidgets('no dialog when there is no error', (tester) async {
       final fakeNotifier = FakePlayerNotifier(
         const PlaybackState(
           isReady: true,
@@ -122,16 +183,18 @@ void main() {
 
       await tester.pumpWidget(
         ProviderScope(
-          overrides: [
-            playerProvider.overrideWith(() => fakeNotifier),
-          ],
+          overrides: [playerProvider.overrideWith(() => fakeNotifier)],
           child: const MaterialApp(home: PlayerScreen()),
         ),
       );
+      await tester.pump();
+      await tester.pump();
 
-      // Should show normal player, not bird screen.
-      expect(find.text('🐦'), findsNothing);
+      // Normal player visible, no dialog.
       expect(find.text('Test Track'), findsOneWidget);
+      expect(find.text(ErrorCategory.oops.headline), findsNothing);
+      expect(find.text(ErrorCategory.gone.headline), findsNothing);
+      expect(find.text(ErrorCategory.parentAction.headline), findsNothing);
     });
   });
 }

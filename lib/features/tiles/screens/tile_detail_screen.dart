@@ -15,6 +15,7 @@ import 'package:lauschi/core/settings/kid_settings.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
 import 'package:lauschi/features/player/player_provider.dart';
 import 'package:lauschi/features/player/widgets/now_playing_bar.dart';
+import 'package:lauschi/features/player/widgets/player_error_dialog.dart';
 import 'package:lauschi/features/tiles/widgets/audio_tile.dart';
 
 const _tag = 'TileDetailScreen';
@@ -45,6 +46,22 @@ class TileDetailScreen extends ConsumerWidget {
     final playerState = ref.watch(playerProvider);
     final playerNotifier = ref.read(playerProvider.notifier);
     final isOnline = ref.watch(isOnlineProvider);
+
+    // Show error dialog as a side effect, not inline in the tree.
+    ref.listen(
+      playerProvider.select((s) => s.error),
+      (prev, next) {
+        if (next != null && next != prev) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            if (context.mounted) {
+              unawaited(
+                showPlayerErrorDialog(context, ref: ref, error: next),
+              );
+            }
+          });
+        }
+      },
+    );
     final nfcEnabled =
         ref
             .watch(debugSettingsProvider)
@@ -174,13 +191,6 @@ class TileDetailScreen extends ConsumerWidget {
                     ),
               ),
             ),
-
-            // Error feedback
-            if (playerState.error != null)
-              _ErrorBanner(
-                message: playerState.error!.message,
-                onDismiss: () => ref.read(playerProvider.notifier).clearError(),
-              ),
 
             // Now-playing bar (same as home)
             AnimatedSwitcher(
@@ -386,52 +396,6 @@ class _EpisodeGrid extends StatelessWidget {
           },
         );
       },
-    );
-  }
-}
-
-class _ErrorBanner extends StatelessWidget {
-  const _ErrorBanner({required this.message, required this.onDismiss});
-
-  final String message;
-  final VoidCallback onDismiss;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.symmetric(
-        horizontal: AppSpacing.screenH,
-        vertical: AppSpacing.sm,
-      ),
-      color: AppColors.error.withValues(alpha: 0.1),
-      child: Row(
-        children: [
-          const Icon(
-            Icons.error_outline_rounded,
-            color: AppColors.error,
-            size: 20,
-          ),
-          const SizedBox(width: AppSpacing.sm),
-          Expanded(
-            child: Text(
-              message,
-              style: const TextStyle(
-                fontFamily: 'Nunito',
-                fontSize: 14,
-                color: AppColors.error,
-              ),
-            ),
-          ),
-          IconButton(
-            onPressed: onDismiss,
-            icon: const Icon(Icons.close_rounded, size: 18),
-            color: AppColors.error,
-            padding: EdgeInsets.zero,
-            constraints: const BoxConstraints(minWidth: 32, minHeight: 32),
-          ),
-        ],
-      ),
     );
   }
 }

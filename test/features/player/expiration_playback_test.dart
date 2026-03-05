@@ -43,19 +43,31 @@ void main() {
     });
 
     test(
-      'contentUnavailable is the only error that shows unavailable screen',
+      'contentUnavailable has the "gone" error category',
       () {
-        expect(PlayerError.contentUnavailable.showsUnavailableScreen, isTrue);
+        expect(
+          PlayerError.contentUnavailable.category,
+          ErrorCategory.gone,
+        );
 
-        // All other errors show in the normal player UI.
-        for (final error in PlayerError.values) {
-          if (error == PlayerError.contentUnavailable) continue;
+        // Retryable errors use the "oops" category.
+        for (final error in [
+          PlayerError.playbackFailed,
+          PlayerError.spotifyConnectionLost,
+          PlayerError.spotifyNetworkError,
+        ]) {
           expect(
-            error.showsUnavailableScreen,
-            isFalse,
-            reason: '$error should not show unavailable screen',
+            error.category,
+            ErrorCategory.oops,
+            reason: '$error should be oops category',
           );
         }
+
+        // Auth errors need parent action.
+        expect(
+          PlayerError.spotifyAuthExpired.category,
+          ErrorCategory.parentAction,
+        );
       },
     );
 

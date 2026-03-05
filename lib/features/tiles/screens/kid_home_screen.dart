@@ -1,4 +1,4 @@
-import 'dart:async' show Timer, unawaited;
+import 'dart:async' show unawaited;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -12,6 +12,7 @@ import 'package:lauschi/core/router/app_router.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
 import 'package:lauschi/features/player/player_provider.dart';
 import 'package:lauschi/features/player/widgets/now_playing_bar.dart';
+import 'package:lauschi/features/player/widgets/player_error_dialog.dart';
 import 'package:lauschi/features/tiles/widgets/audio_tile.dart';
 import 'package:lauschi/features/tiles/widgets/tile_card.dart';
 
@@ -43,13 +44,28 @@ class KidHomeScreen extends ConsumerWidget {
           isPlaying: s.isPlaying,
           isReady: s.isReady,
           hasTrack: s.track != null,
-          error: s.error,
           activeContextUri: s.activeContextUri,
         ),
       ),
     );
     final playerNotifier = ref.read(playerProvider.notifier);
     final isOnline = ref.watch(isOnlineProvider);
+
+    // Show error dialog as a side effect, not inline in the tree.
+    ref.listen(
+      playerProvider.select((s) => s.error),
+      (prev, next) {
+        if (next != null && next != prev) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            if (context.mounted) {
+              unawaited(
+                showPlayerErrorDialog(context, ref: ref, error: next),
+              );
+            }
+          });
+        }
+      },
+    );
 
     return Scaffold(
       body: SafeArea(
@@ -180,13 +196,6 @@ class KidHomeScreen extends ConsumerWidget {
                 );
               }),
             ),
-
-            // Error feedback
-            if (playerState.error != null)
-              _ErrorBanner(
-                message: playerState.error!.message,
-                onDismiss: () => ref.read(playerProvider.notifier).clearError(),
-              ),
 
             // Now-playing bar
             AnimatedSwitcher(
@@ -356,71 +365,6 @@ class _GroupGridItem extends ConsumerWidget {
       contentType: group.contentType,
       kidMode: true,
       onTap: onTap,
-    );
-  }
-}
-
-class _ErrorBanner extends StatefulWidget {
-  const _ErrorBanner({required this.message, required this.onDismiss});
-
-  final String message;
-  final VoidCallback onDismiss;
-
-  @override
-  State<_ErrorBanner> createState() => _ErrorBannerState();
-}
-
-class _ErrorBannerState extends State<_ErrorBanner> {
-  Timer? _timer;
-
-  @override
-  void initState() {
-    super.initState();
-    _timer = Timer(const Duration(seconds: 8), widget.onDismiss);
-  }
-
-  @override
-  void dispose() {
-    _timer?.cancel();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.symmetric(
-        horizontal: AppSpacing.screenH,
-        vertical: AppSpacing.sm,
-      ),
-      color: AppColors.error.withValues(alpha: 0.1),
-      child: Row(
-        children: [
-          const Icon(
-            Icons.error_outline_rounded,
-            color: AppColors.error,
-            size: 20,
-          ),
-          const SizedBox(width: AppSpacing.sm),
-          Expanded(
-            child: Text(
-              widget.message,
-              style: const TextStyle(
-                fontFamily: 'Nunito',
-                fontSize: 14,
-                color: AppColors.error,
-              ),
-            ),
-          ),
-          IconButton(
-            onPressed: widget.onDismiss,
-            icon: const Icon(Icons.close_rounded, size: 18),
-            color: AppColors.error,
-            padding: EdgeInsets.zero,
-            constraints: const BoxConstraints(minWidth: 32, minHeight: 32),
-          ),
-        ],
-      ),
     );
   }
 }

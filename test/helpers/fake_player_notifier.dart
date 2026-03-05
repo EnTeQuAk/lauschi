@@ -1,3 +1,4 @@
+import 'package:lauschi/features/player/player_error.dart';
 import 'package:lauschi/features/player/player_provider.dart';
 import 'package:lauschi/features/player/player_state.dart';
 
@@ -18,6 +19,11 @@ class FakePlayerNotifier extends PlayerNotifier {
 
   @override
   PlaybackState build() => _initialState;
+
+  /// Simulate an error appearing (triggers ref.listen callbacks).
+  void setError(PlayerError error) {
+    state = state.copyWith(error: error);
+  }
 
   @override
   void clearError() {
