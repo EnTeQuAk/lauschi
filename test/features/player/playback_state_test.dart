@@ -216,8 +216,9 @@ void main() {
       for (final error in PlayerError.values) {
         if (error == PlayerError.contentUnavailable ||
             error == PlayerError.spotifyAuthExpired ||
-            error == PlayerError.spotifyAccountError)
+            error == PlayerError.spotifyAccountError) {
           continue;
+        }
         expect(
           error.category,
           ErrorCategory.oops,
