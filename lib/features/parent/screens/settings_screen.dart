@@ -139,71 +139,72 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
         // ── Support ──────────────────────────────────────────────────────────
         const _SupportCard(),
 
-        const SizedBox(height: AppSpacing.lg),
-
-        // ── Sentry / Diagnostics ─────────────────────────────────────────────
-        const _SectionHeader(title: 'Diagnose & Datenschutz'),
-        _SwitchTile(
-          icon: Icons.videocam_outlined,
-          title: 'Session-Aufzeichnungen',
-          subtitle:
-              'Sentry zeichnet Bildschirminhalte zur Fehleranalyse auf. '
-              '${settings.replayEnabled ? "Aktiv" : "Inaktiv"}.',
-          value: settings.replayEnabled,
-          onChanged: (v) async {
-            if (v) {
-              // Show consent dialog before enabling screen recording.
-              final confirmed = await showDialog<bool>(
-                context: context,
-                builder:
-                    (ctx) => AlertDialog(
-                      title: const Text('Fehlerdiagnose aktivieren?'),
-                      content: const Text(
-                        'Bei Fehlern wird eine anonymisierte '
-                        'Bildschirmaufzeichnung erstellt und an Sentry '
-                        '(EU-Server) gesendet. Texte und Bilder werden '
-                        'standardmäßig maskiert.\n\n'
-                        'Du kannst dies jederzeit wieder deaktivieren.',
+        // ── Sentry / Diagnostics (testers only) ────────────────────────────
+        if (FeatureFlags.enableSentry) ...[
+          const SizedBox(height: AppSpacing.lg),
+          const _SectionHeader(title: 'Diagnose & Datenschutz'),
+          _SwitchTile(
+            icon: Icons.videocam_outlined,
+            title: 'Session-Aufzeichnungen',
+            subtitle:
+                'Sentry zeichnet Bildschirminhalte zur Fehleranalyse auf. '
+                '${settings.replayEnabled ? "Aktiv" : "Inaktiv"}.',
+            value: settings.replayEnabled,
+            onChanged: (v) async {
+              if (v) {
+                // Show consent dialog before enabling screen recording.
+                final confirmed = await showDialog<bool>(
+                  context: context,
+                  builder:
+                      (ctx) => AlertDialog(
+                        title: const Text('Fehlerdiagnose aktivieren?'),
+                        content: const Text(
+                          'Bei Fehlern wird eine anonymisierte '
+                          'Bildschirmaufzeichnung erstellt und an Sentry '
+                          '(EU-Server) gesendet. Texte und Bilder werden '
+                          'standardmäßig maskiert.\n\n'
+                          'Du kannst dies jederzeit wieder deaktivieren.',
+                        ),
+                        actions: [
+                          TextButton(
+                            onPressed: () => Navigator.pop(ctx, false),
+                            child: const Text('Abbrechen'),
+                          ),
+                          FilledButton(
+                            onPressed: () => Navigator.pop(ctx, true),
+                            child: const Text('Aktivieren'),
+                          ),
+                        ],
                       ),
-                      actions: [
-                        TextButton(
-                          onPressed: () => Navigator.pop(ctx, false),
-                          child: const Text('Abbrechen'),
-                        ),
-                        FilledButton(
-                          onPressed: () => Navigator.pop(ctx, true),
-                          child: const Text('Aktivieren'),
-                        ),
-                      ],
-                    ),
-              );
-              if (confirmed != true || !mounted) return;
-            }
-            await _update(settings.copyWith(replayEnabled: v));
-          },
-        ),
-        const Divider(indent: 56),
-        _SwitchTile(
-          icon: Icons.text_fields_rounded,
-          title: 'Text anonymisieren',
-          subtitle: 'Ersetzt alle Texte in Aufzeichnungen durch Blöcke.',
-          value: settings.maskAllText,
-          onChanged:
-              settings.replayEnabled
-                  ? (v) => _update(settings.copyWith(maskAllText: v))
-                  : null,
-        ),
-        const Divider(indent: 56),
-        _SwitchTile(
-          icon: Icons.image_outlined,
-          title: 'Bilder anonymisieren',
-          subtitle: 'Ersetzt Album-Cover in Aufzeichnungen durch Blöcke.',
-          value: settings.maskAllImages,
-          onChanged:
-              settings.replayEnabled
-                  ? (v) => _update(settings.copyWith(maskAllImages: v))
-                  : null,
-        ),
+                );
+                if (confirmed != true || !mounted) return;
+              }
+              await _update(settings.copyWith(replayEnabled: v));
+            },
+          ),
+          const Divider(indent: 56),
+          _SwitchTile(
+            icon: Icons.text_fields_rounded,
+            title: 'Text anonymisieren',
+            subtitle: 'Ersetzt alle Texte in Aufzeichnungen durch Blöcke.',
+            value: settings.maskAllText,
+            onChanged:
+                settings.replayEnabled
+                    ? (v) => _update(settings.copyWith(maskAllText: v))
+                    : null,
+          ),
+          const Divider(indent: 56),
+          _SwitchTile(
+            icon: Icons.image_outlined,
+            title: 'Bilder anonymisieren',
+            subtitle: 'Ersetzt Album-Cover in Aufzeichnungen durch Blöcke.',
+            value: settings.maskAllImages,
+            onChanged:
+                settings.replayEnabled
+                    ? (v) => _update(settings.copyWith(maskAllImages: v))
+                    : null,
+          ),
+        ],
 
         const SizedBox(height: AppSpacing.lg),
 

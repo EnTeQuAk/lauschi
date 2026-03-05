@@ -4,6 +4,7 @@ import 'package:audio_service/audio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lauschi/app.dart';
+import 'package:lauschi/core/feature_flags.dart';
 import 'package:lauschi/core/log.dart';
 import 'package:lauschi/core/settings/debug_settings.dart';
 import 'package:lauschi/features/player/media_session_handler.dart';
@@ -30,9 +31,8 @@ Future<void> main() async {
 
   const dsn = String.fromEnvironment('SENTRY_DSN');
 
-  if (dsn.isEmpty) {
-    // No Sentry DSN configured — run without error reporting.
-    Log.debug('App', 'Starting without Sentry (no DSN configured)');
+  if (!FeatureFlags.enableSentry || dsn.isEmpty) {
+    Log.debug('App', 'Starting without Sentry');
     runApp(ProviderScope(overrides: overrides, child: const LauschiApp()));
     return;
   }
@@ -53,7 +53,7 @@ Future<void> main() async {
       options
         ..dsn = dsn
         ..environment = env
-        // TODO: reduce to 0.2 once iOS OAuth is stable
+        // TODO(#211): reduce to 0.2 once iOS OAuth is stable
         ..tracesSampleRate = 1.0
         // Structured logs — visible in Sentry Logs tab.
         ..enableLogs = true
