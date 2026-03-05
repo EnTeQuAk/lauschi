@@ -158,12 +158,12 @@ class _MascotImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 120,
-      height: 120,
+      width: 140,
+      height: 140,
       child: Image.asset(
         asset,
-        width: 120,
-        height: 120,
+        width: 140,
+        height: 140,
         errorBuilder:
             (_, error, stack) => Center(
               child: Text(
