@@ -81,7 +81,18 @@ class SpotifyBackend extends PlayerBackend {
   @override
   Future<void> stop() async {
     unawaited(_bridge.pause());
-    await _api.pause();
+    // Best-effort: the Web API pause can fail when the WebView has been
+    // killed by iOS (device gone → 404/400) or Spotify is having a bad
+    // day (502). We're tearing down this backend anyway, so swallow it.
+    try {
+      await _api.pause();
+    } on Exception catch (e) {
+      Log.warn(
+        _tag,
+        'stop: API pause failed (expected if device gone)',
+        data: {'error': '$e'},
+      );
+    }
   }
 
   @override
