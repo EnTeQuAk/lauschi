@@ -52,7 +52,7 @@ class _PlayerErrorDialog extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             // Mascot illustration (falls back to emoji)
-            _MascotImage(
+            const _MascotImage(
               asset: ErrorCategory.asset,
               fallbackEmoji: ErrorCategory.fallbackEmoji,
             ),
