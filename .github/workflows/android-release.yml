@@ -52,6 +52,7 @@ jobs:
           cat > .env.app << EOF
           ENABLE_SPOTIFY=false
           SPOTIFY_CLIENT_ID=${{ secrets.SPOTIFY_CLIENT_ID }}
+          ENABLE_SENTRY=true
           SENTRY_DSN=${{ secrets.SENTRY_DSN }}
           SENTRY_ENVIRONMENT=production
           EOF
