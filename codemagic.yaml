@@ -38,6 +38,7 @@ workflows:
           cat <<EOF > $CM_BUILD_DIR/.env.app
           ENABLE_SPOTIFY=false
           SPOTIFY_CLIENT_ID=$SPOTIFY_CLIENT_ID
+          ENABLE_SENTRY=true
           SENTRY_DSN=$SENTRY_DSN
           SENTRY_ENVIRONMENT=$SENTRY_ENVIRONMENT
           EOF
