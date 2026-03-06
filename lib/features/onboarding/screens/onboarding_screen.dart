@@ -80,17 +80,21 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: List.generate(pageCount, (index) {
-                  return AnimatedContainer(
-                    duration: const Duration(milliseconds: 200),
-                    margin: const EdgeInsets.symmetric(horizontal: 4),
-                    width: index == _currentPage ? 24 : 8,
-                    height: 8,
-                    decoration: BoxDecoration(
-                      color:
-                          index == _currentPage
-                              ? AppColors.primary
-                              : AppColors.surfaceDim,
-                      borderRadius: const BorderRadius.all(AppRadius.pill),
+                  return Semantics(
+                    label: 'Seite ${index + 1} von $pageCount',
+                    selected: index == _currentPage,
+                    child: AnimatedContainer(
+                      duration: const Duration(milliseconds: 200),
+                      margin: const EdgeInsets.symmetric(horizontal: 4),
+                      width: index == _currentPage ? 24 : 8,
+                      height: 8,
+                      decoration: BoxDecoration(
+                        color:
+                            index == _currentPage
+                                ? AppColors.primary
+                                : AppColors.surfaceDim,
+                        borderRadius: const BorderRadius.all(AppRadius.pill),
+                      ),
                     ),
                   );
                 }),
@@ -118,6 +122,7 @@ class _WelcomePage extends StatelessWidget {
             'assets/images/branding/lauschi-mascot.png',
             width: 160,
             height: 160,
+            excludeFromSemantics: true,
           ),
           const SizedBox(height: AppSpacing.xl),
           const Text(
@@ -394,6 +399,7 @@ class _InlineNumpad extends StatelessWidget {
                       height: 56,
                       child: IconButton(
                         onPressed: onBackspace,
+                        tooltip: 'Löschen',
                         icon: const Icon(Icons.backspace_outlined, size: 20),
                       ),
                     )

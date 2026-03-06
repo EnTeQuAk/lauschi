@@ -391,6 +391,7 @@ class _EmptyState extends StatelessWidget {
               'assets/images/branding/lauschi-mascot.png',
               width: 140,
               height: 140,
+              excludeFromSemantics: true,
             ),
             const SizedBox(height: AppSpacing.lg),
             const Text(
