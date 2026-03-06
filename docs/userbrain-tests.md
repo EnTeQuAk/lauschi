@@ -56,10 +56,10 @@ Was glaubst du, was diese App macht? Für wen ist sie gedacht?
 Richte die App so ein, dass du sie benutzen kannst.
 ```
 
-### Task 3: Schutz einrichten
+### Task 3: Geschützten Bereich finden
 ```
-Die App hat einen Bereich, der nur für Erwachsene gedacht ist.
-Finde ihn und richte ihn ein.
+Die App hat einen geschützten Bereich für Erwachsene.
+Finde heraus, wie du dort hinkommst.
 ```
 
 ### Abschlussfrage (offen)
@@ -219,10 +219,10 @@ Denk laut mit.
 Bringe die Lieblingsserie deines Kindes an die erste Stelle.
 ```
 
-### Task 2: Aussehen anpassen
+### Task 2: Bezeichnung anpassen
 ```
-Eine der Serien hat kein richtiges Bild. Finde heraus,
-ob du das ändern kannst.
+Eine der Serien hat einen Namen, der dir nicht zusagt.
+Finde heraus, ob du ihn ändern kannst.
 ```
 
 ### Task 3: Etwas entfernen
@@ -247,9 +247,14 @@ Was hat dir beim Verwalten gefehlt?
    screening confirms language.
 
 2. **Pre-populated content for kid tests**: Tests 3, 4, and 5 need tiles
-   already set up. Either provide an APK with pre-loaded DB, or add a
-   setup step ("go to the parent area, add 3-4 series") as a warm-up
-   before the actual test.
+   already set up. Best approach: provide a pre-populated APK with 3-4
+   series already added (Die Maus, Bibi Blocksberg, etc.). Failing that,
+   add a warm-up task before the real test:
+   "Vorbereitung: Öffne den Eltern-Bereich (Zahnrad oben rechts, PIN
+   ist 1111), füge 3-4 Sendungen hinzu, und gehe zurück zum
+   Kinderbildschirm."
+   This burns 2-3 minutes of test time, so the pre-populated APK is
+   strongly preferred.
 
 ### Userbrain best practices applied
 
@@ -287,6 +292,8 @@ This version reflects the ARD Audiothek-only launch (Spotify flagged off):
 - **Test 1**: Onboarding is now 2 steps (Welcome → PIN). No Spotify
   connection step. Intro no longer spoils the app's purpose before
   Task 1 asks "what does this app do?" (Userbrain Mistake #1).
+  Task 3 changed from "set up protection" to "find the parent area",
+  since PIN is already set during onboarding.
 - **Test 2**: Dropped "Musik statt Hörspiele" task — ARD Audiothek is
   all spoken-word content. Replaced with age/interest variation.
 - **Test 3**: Closing question reworded to ask about observed difficulty
@@ -296,4 +303,5 @@ This version reflects the ARD Audiothek-only launch (Spotify flagged off):
   kid experience we haven't explicitly tested. "Folge" replaced with
   "Teil" to avoid UI word leak (Userbrain Mistake #3). Closing question
   observes behavior instead of asking for opinion (Userbrain Mistake #2).
-- **Test 5**: Unchanged — tile management is provider-agnostic.
+- **Test 5**: Task 2 changed from "change a series image" (feature does
+  not exist) to "rename a series" (supported via tile edit screen).
