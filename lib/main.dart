@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:audio_service/audio_service.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lauschi/app.dart';
 import 'package:lauschi/core/feature_flags.dart';
@@ -14,6 +15,15 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // Lock phones to portrait; tablets can rotate freely.
+  final view = WidgetsBinding.instance.platformDispatcher.views.first;
+  final shortestSide = view.physicalSize.shortestSide / view.devicePixelRatio;
+  if (shortestSide < 600) {
+    await SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+    ]);
+  }
 
   // Initialize media session for lock screen / notification controls.
   final mediaHandler = await AudioService.init<MediaSessionHandler>(
