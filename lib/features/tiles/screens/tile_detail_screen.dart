@@ -397,25 +397,34 @@ class _EpisodeGridState extends State<_EpisodeGrid> {
                 // "Weiter" badge on next unheard episode
                 if (isNext && !expired)
                   Positioned(
-                    top: -4,
+                    top: -8,
                     left: 0,
                     right: 0,
                     child: Center(
                       child: ExcludeSemantics(
                         child: Container(
                           padding: const EdgeInsets.symmetric(
-                            horizontal: 6,
-                            vertical: 2,
+                            horizontal: 10,
+                            vertical: 3,
                           ),
-                          decoration: const BoxDecoration(
+                          decoration: BoxDecoration(
                             color: AppColors.accent,
-                            borderRadius: BorderRadius.all(AppRadius.pill),
+                            borderRadius: const BorderRadius.all(
+                              AppRadius.pill,
+                            ),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withValues(alpha: 0.3),
+                                blurRadius: 4,
+                                offset: const Offset(0, 2),
+                              ),
+                            ],
                           ),
                           child: const Text(
                             '▶ Weiter',
                             style: TextStyle(
                               fontFamily: 'Nunito',
-                              fontSize: 9,
+                              fontSize: 13,
                               fontWeight: FontWeight.w800,
                               color: AppColors.textOnPrimary,
                             ),
