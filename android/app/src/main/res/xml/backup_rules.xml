@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Pre-Android 12 backup rules. Exclude databases (playback history,
-     tile config, NFC UIDs) while allowing SharedPreferences. -->
-<full-backup-content>
-  <exclude domain="database" path="." />
-</full-backup-content>
