@@ -487,12 +487,13 @@ class _PlayPauseButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 112,
-      height: 112,
-      child: Semantics(
-        label: isPlaying ? 'Pause' : 'Abspielen',
-        button: true,
+    return Semantics(
+      label: isPlaying ? 'Pause' : 'Abspielen',
+      button: true,
+      excludeSemantics: true,
+      child: SizedBox(
+        width: 112,
+        height: 112,
         child: FilledButton(
           onPressed: onPressed,
           style: FilledButton.styleFrom(
