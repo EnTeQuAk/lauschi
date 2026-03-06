@@ -231,13 +231,17 @@ class _CloseButton extends StatelessWidget {
           child: Material(
             color: AppColors.surfaceDim,
             shape: const CircleBorder(),
-            child: InkWell(
-              customBorder: const CircleBorder(),
-              onTap: () => Navigator.of(context).pop(),
-              child: const Icon(
-                Icons.chevron_left_rounded,
-                size: 48,
-                color: AppColors.textPrimary,
+            child: Semantics(
+              label: 'Zurück',
+              button: true,
+              child: InkWell(
+                customBorder: const CircleBorder(),
+                onTap: () => Navigator.of(context).pop(),
+                child: const Icon(
+                  Icons.chevron_left_rounded,
+                  size: 48,
+                  color: AppColors.textPrimary,
+                ),
               ),
             ),
           ),
@@ -363,18 +367,21 @@ class _ProgressBar extends StatelessWidget {
             overlayShape: RoundSliderOverlayShape(overlayRadius: 20),
             trackShape: RoundedRectSliderTrackShape(),
           ),
-          child: Slider(
-            value: _progress,
-            onChanged: (value) {
-              if (durationMs > 0) {
-                onScrub((value * durationMs).round());
-              }
-            },
-            onChangeEnd: (value) {
-              if (durationMs > 0) {
-                onSeek((value * durationMs).round());
-              }
-            },
+          child: Semantics(
+            label: 'Wiedergabeposition',
+            child: Slider(
+              value: _progress,
+              onChanged: (value) {
+                if (durationMs > 0) {
+                  onScrub((value * durationMs).round());
+                }
+              },
+              onChangeEnd: (value) {
+                if (durationMs > 0) {
+                  onSeek((value * durationMs).round());
+                }
+              },
+            ),
           ),
         ),
         Padding(
@@ -440,6 +447,7 @@ class _PlayerControls extends StatelessWidget {
           onPressed: onPrevious,
           icon: const Icon(Icons.skip_previous_rounded),
           iconSize: 64,
+          tooltip: 'Vorheriges Kapitel',
           style: IconButton.styleFrom(
             minimumSize: const Size(88, 88),
             foregroundColor: AppColors.textPrimary,
@@ -457,6 +465,7 @@ class _PlayerControls extends StatelessWidget {
           onPressed: onNext,
           icon: const Icon(Icons.skip_next_rounded),
           iconSize: 64,
+          tooltip: 'Nächstes Kapitel',
           style: IconButton.styleFrom(
             minimumSize: const Size(88, 88),
             foregroundColor: AppColors.textPrimary,
