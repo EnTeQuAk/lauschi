@@ -111,43 +111,50 @@ class KidHomeScreen extends ConsumerWidget {
 
             // Offline indicator
             if (!isOnline)
-              Container(
-                width: double.infinity,
-                padding: const EdgeInsets.symmetric(
-                  horizontal: AppSpacing.screenH,
-                  vertical: AppSpacing.sm,
-                ),
-                color: AppColors.surfaceDim,
-                child: const Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.cloud_off_rounded,
-                      size: 16,
-                      color: AppColors.textSecondary,
-                    ),
-                    SizedBox(width: AppSpacing.xs),
-                    Text(
-                      'Kein Internet',
-                      style: TextStyle(
-                        fontFamily: 'Nunito',
-                        fontSize: 13,
+              Semantics(
+                liveRegion: true,
+                label: 'Kein Internet',
+                child: Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: AppSpacing.screenH,
+                    vertical: AppSpacing.sm,
+                  ),
+                  color: AppColors.surfaceDim,
+                  child: const Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.cloud_off_rounded,
+                        size: 16,
                         color: AppColors.textSecondary,
                       ),
-                    ),
-                  ],
+                      SizedBox(width: AppSpacing.xs),
+                      Text(
+                        'Kein Internet',
+                        style: TextStyle(
+                          fontFamily: 'Nunito',
+                          fontSize: 13,
+                          color: AppColors.textSecondary,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
 
             // Connecting indicator — subtle, doesn't take prime real estate.
             if (!playerState.isReady && isOnline)
-              const Padding(
-                padding: EdgeInsets.only(bottom: AppSpacing.xs),
-                child: SizedBox(
-                  height: 2,
-                  child: LinearProgressIndicator(
-                    backgroundColor: Colors.transparent,
-                    color: AppColors.primary,
+              Semantics(
+                label: 'Verbindung wird hergestellt',
+                child: const Padding(
+                  padding: EdgeInsets.only(bottom: AppSpacing.xs),
+                  child: SizedBox(
+                    height: 2,
+                    child: LinearProgressIndicator(
+                      backgroundColor: Colors.transparent,
+                      color: AppColors.primary,
+                    ),
                   ),
                 ),
               ),

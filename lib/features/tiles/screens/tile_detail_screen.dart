@@ -122,31 +122,35 @@ class TileDetailScreen extends ConsumerWidget {
 
             // Offline indicator
             if (!isOnline)
-              Container(
-                width: double.infinity,
-                padding: const EdgeInsets.symmetric(
-                  horizontal: AppSpacing.screenH,
-                  vertical: AppSpacing.sm,
-                ),
-                color: AppColors.surfaceDim,
-                child: const Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.cloud_off_rounded,
-                      size: 16,
-                      color: AppColors.textSecondary,
-                    ),
-                    SizedBox(width: AppSpacing.xs),
-                    Text(
-                      'Kein Internet',
-                      style: TextStyle(
-                        fontFamily: 'Nunito',
-                        fontSize: 13,
+              Semantics(
+                liveRegion: true,
+                label: 'Kein Internet',
+                child: Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: AppSpacing.screenH,
+                    vertical: AppSpacing.sm,
+                  ),
+                  color: AppColors.surfaceDim,
+                  child: const Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.cloud_off_rounded,
+                        size: 16,
                         color: AppColors.textSecondary,
                       ),
-                    ),
-                  ],
+                      SizedBox(width: AppSpacing.xs),
+                      Text(
+                        'Kein Internet',
+                        style: TextStyle(
+                          fontFamily: 'Nunito',
+                          fontSize: 13,
+                          color: AppColors.textSecondary,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
 
@@ -255,16 +259,20 @@ class _GroupHeader extends StatelessWidget {
           SizedBox(
             width: 72,
             height: 72,
-            child: Material(
-              color: AppColors.surfaceDim,
-              shape: const CircleBorder(),
-              child: InkWell(
-                customBorder: const CircleBorder(),
-                onTap: onBack,
-                child: const Icon(
-                  Icons.chevron_left_rounded,
-                  size: 48,
-                  color: AppColors.textPrimary,
+            child: Semantics(
+              label: 'Zurück',
+              button: true,
+              child: Material(
+                color: AppColors.surfaceDim,
+                shape: const CircleBorder(),
+                child: InkWell(
+                  customBorder: const CircleBorder(),
+                  onTap: onBack,
+                  child: const Icon(
+                    Icons.chevron_left_rounded,
+                    size: 48,
+                    color: AppColors.textPrimary,
+                  ),
                 ),
               ),
             ),
@@ -370,22 +378,24 @@ class _EpisodeGrid extends StatelessWidget {
                     left: 0,
                     right: 0,
                     child: Center(
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 6,
-                          vertical: 2,
-                        ),
-                        decoration: const BoxDecoration(
-                          color: AppColors.accent,
-                          borderRadius: BorderRadius.all(AppRadius.pill),
-                        ),
-                        child: const Text(
-                          '▶ Weiter',
-                          style: TextStyle(
-                            fontFamily: 'Nunito',
-                            fontSize: 9,
-                            fontWeight: FontWeight.w800,
-                            color: AppColors.textOnPrimary,
+                      child: ExcludeSemantics(
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 6,
+                            vertical: 2,
+                          ),
+                          decoration: const BoxDecoration(
+                            color: AppColors.accent,
+                            borderRadius: BorderRadius.all(AppRadius.pill),
+                          ),
+                          child: const Text(
+                            '▶ Weiter',
+                            style: TextStyle(
+                              fontFamily: 'Nunito',
+                              fontSize: 9,
+                              fontWeight: FontWeight.w800,
+                              color: AppColors.textOnPrimary,
+                            ),
                           ),
                         ),
                       ),

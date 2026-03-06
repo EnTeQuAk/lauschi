@@ -109,19 +109,25 @@ class NowPlayingBar extends StatelessWidget {
                 const SizedBox(width: AppSpacing.xs),
               ],
               // Play/pause button
-              SizedBox(
-                width: 56,
-                height: 56,
-                child: FilledButton(
-                  onPressed: onTogglePlay,
-                  style: FilledButton.styleFrom(
-                    shape: const CircleBorder(),
-                    padding: EdgeInsets.zero,
-                  ),
-                  child: Icon(
-                    isPlaying ? Icons.pause_rounded : Icons.play_arrow_rounded,
-                    size: 32,
-                    color: AppColors.textOnPrimary,
+              Semantics(
+                label: isPlaying ? 'Pause' : 'Abspielen',
+                button: true,
+                child: SizedBox(
+                  width: 56,
+                  height: 56,
+                  child: FilledButton(
+                    onPressed: onTogglePlay,
+                    style: FilledButton.styleFrom(
+                      shape: const CircleBorder(),
+                      padding: EdgeInsets.zero,
+                    ),
+                    child: Icon(
+                      isPlaying
+                          ? Icons.pause_rounded
+                          : Icons.play_arrow_rounded,
+                      size: 32,
+                      color: AppColors.textOnPrimary,
+                    ),
                   ),
                 ),
               ),
