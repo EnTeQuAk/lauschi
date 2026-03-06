@@ -151,8 +151,24 @@ class DiscoverScreen extends ConsumerWidget {
               ),
             ),
 
-            const SliverPadding(
-              padding: EdgeInsets.only(bottom: AppSpacing.xl),
+            const SliverToBoxAdapter(
+              child: Padding(
+                padding: EdgeInsets.fromLTRB(
+                  AppSpacing.screenH,
+                  AppSpacing.lg,
+                  AppSpacing.screenH,
+                  AppSpacing.xl,
+                ),
+                child: Text(
+                  'Inhalte der ARD Audiothek',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontFamily: 'Nunito',
+                    fontSize: 11,
+                    color: AppColors.textHint,
+                  ),
+                ),
+              ),
             ),
           ],
         );
