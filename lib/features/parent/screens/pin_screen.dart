@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lauschi/core/auth/pin_service.dart';
+import 'package:lauschi/core/auth/pin_widgets.dart';
 import 'package:lauschi/core/router/app_router.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
 
@@ -232,7 +233,7 @@ class _PinScreenState extends ConsumerState<PinScreen>
                   child: child,
                 );
               },
-              child: _PinDots(
+              child: PinDots(
                 length: _pinLength,
                 filled: _pin.length,
                 hasError: _error,
@@ -240,7 +241,7 @@ class _PinScreenState extends ConsumerState<PinScreen>
             ),
             const SizedBox(height: AppSpacing.xxl),
             // Numpad
-            _Numpad(
+            PinNumpad(
               onDigit: _onDigit,
               onBackspace: _onBackspace,
             ),
@@ -251,152 +252,3 @@ class _PinScreenState extends ConsumerState<PinScreen>
     );
   }
 }
-
-class _PinDots extends StatelessWidget {
-  const _PinDots({
-    required this.length,
-    required this.filled,
-    required this.hasError,
-  });
-
-  final int length;
-  final int filled;
-  final bool hasError;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: List.generate(length, (index) {
-        final isFilled = index < filled;
-        final color =
-            hasError
-                ? AppColors.error
-                : isFilled
-                ? AppColors.primary
-                : AppColors.surfaceDim;
-
-        return AnimatedContainer(
-          duration: const Duration(milliseconds: 150),
-          margin: const EdgeInsets.symmetric(horizontal: 6),
-          width: 16,
-          height: 16,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            color: color,
-          ),
-        );
-      }),
-    );
-  }
-}
-
-class _Numpad extends StatelessWidget {
-  const _Numpad({
-    required this.onDigit,
-    required this.onBackspace,
-  });
-
-  final void Function(int digit) onDigit;
-  final VoidCallback onBackspace;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xxl),
-      child: Column(
-        children: [
-          for (final row in _rows)
-            Padding(
-              padding: const EdgeInsets.only(bottom: AppSpacing.sm),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: row.map(_buildKey).toList(),
-              ),
-            ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildKey(_NumpadKey key) {
-    switch (key) {
-      case _DigitKey(:final digit):
-        return _NumpadButton(
-          onTap: () => onDigit(digit),
-          child: Text(
-            '$digit',
-            style: const TextStyle(
-              fontFamily: 'Nunito',
-              fontWeight: FontWeight.w700,
-              fontSize: 22,
-              color: AppColors.textPrimary,
-            ),
-          ),
-        );
-      case _BackspaceKey():
-        return Semantics(
-          label: 'Löschen',
-          button: true,
-          child: _NumpadButton(
-            onTap: onBackspace,
-            child: const Icon(
-              Icons.backspace_outlined,
-              color: AppColors.textPrimary,
-            ),
-          ),
-        );
-      case _EmptyKey():
-        return const SizedBox(width: 72, height: 72);
-    }
-  }
-
-  static final List<List<_NumpadKey>> _rows = [
-    [_DigitKey(1), _DigitKey(2), _DigitKey(3)],
-    [_DigitKey(4), _DigitKey(5), _DigitKey(6)],
-    [_DigitKey(7), _DigitKey(8), _DigitKey(9)],
-    [_EmptyKey(), _DigitKey(0), _BackspaceKey()],
-  ];
-}
-
-/// 72dp circular button for the numpad.
-class _NumpadButton extends StatelessWidget {
-  const _NumpadButton({
-    required this.onTap,
-    required this.child,
-  });
-
-  final VoidCallback onTap;
-  final Widget child;
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: 72,
-      height: 72,
-      child: Material(
-        color: AppColors.surface,
-        shape: const CircleBorder(),
-        clipBehavior: Clip.antiAlias,
-        child: InkWell(
-          onTap: () {
-            unawaited(HapticFeedback.lightImpact());
-            onTap();
-          },
-          child: Center(child: child),
-        ),
-      ),
-    );
-  }
-}
-
-sealed class _NumpadKey {}
-
-class _DigitKey extends _NumpadKey {
-  _DigitKey(this.digit);
-  final int digit;
-}
-
-class _BackspaceKey extends _NumpadKey {}
-
-class _EmptyKey extends _NumpadKey {}

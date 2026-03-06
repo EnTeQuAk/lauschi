@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lauschi/core/auth/pin_service.dart';
+import 'package:lauschi/core/auth/pin_widgets.dart';
 import 'package:lauschi/core/feature_flags.dart';
 import 'package:lauschi/core/router/app_router.dart';
 import 'package:lauschi/core/spotify/spotify_auth_provider.dart';
@@ -326,27 +327,10 @@ class _PinSetupPageState extends ConsumerState<_PinSetupPage> {
             ),
           ),
           const SizedBox(height: AppSpacing.xl),
-          // Dots
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: List.generate(_pinLength, (index) {
-              final isFilled = index < _pin.length;
-              return AnimatedContainer(
-                duration: const Duration(milliseconds: 150),
-                margin: const EdgeInsets.symmetric(horizontal: 6),
-                width: 16,
-                height: 16,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color:
-                      _error
-                          ? AppColors.error
-                          : isFilled
-                          ? AppColors.primary
-                          : AppColors.surfaceDim,
-                ),
-              );
-            }),
+          PinDots(
+            length: _pinLength,
+            filled: _pin.length,
+            hasError: _error,
           ),
           if (_error) ...[
             const SizedBox(height: AppSpacing.sm),
@@ -360,8 +344,7 @@ class _PinSetupPageState extends ConsumerState<_PinSetupPage> {
             ),
           ],
           const SizedBox(height: AppSpacing.xl),
-          // Simple inline numpad
-          _InlineNumpad(
+          PinNumpad(
             onDigit: _onDigit,
             onBackspace: _onBackspace,
           ),
@@ -369,75 +352,4 @@ class _PinSetupPageState extends ConsumerState<_PinSetupPage> {
       ),
     );
   }
-}
-
-class _InlineNumpad extends StatelessWidget {
-  const _InlineNumpad({
-    required this.onDigit,
-    required this.onBackspace,
-  });
-
-  final void Function(int digit) onDigit;
-  final VoidCallback onBackspace;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        for (final row in _rows)
-          Padding(
-            padding: const EdgeInsets.only(bottom: 6),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                for (final key in row) ...[
-                  if (key == -2)
-                    const SizedBox(width: 64, height: 56)
-                  else if (key == -1)
-                    SizedBox(
-                      width: 64,
-                      height: 56,
-                      child: IconButton(
-                        onPressed: onBackspace,
-                        tooltip: 'Löschen',
-                        icon: const Icon(Icons.backspace_outlined, size: 20),
-                      ),
-                    )
-                  else
-                    SizedBox(
-                      width: 64,
-                      height: 56,
-                      child: TextButton(
-                        onPressed: () => unawaited(_onDigitTap(key)),
-                        child: Text(
-                          '$key',
-                          style: const TextStyle(
-                            fontFamily: 'Nunito',
-                            fontWeight: FontWeight.w700,
-                            fontSize: 20,
-                            color: AppColors.textPrimary,
-                          ),
-                        ),
-                      ),
-                    ),
-                  const SizedBox(width: 8),
-                ],
-              ],
-            ),
-          ),
-      ],
-    );
-  }
-
-  Future<void> _onDigitTap(int digit) async {
-    onDigit(digit);
-  }
-
-  // -2 = empty, -1 = backspace
-  static const _rows = [
-    [1, 2, 3],
-    [4, 5, 6],
-    [7, 8, 9],
-    [-2, 0, -1],
-  ];
 }
