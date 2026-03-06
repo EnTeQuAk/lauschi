@@ -309,7 +309,7 @@ class _GroupHeader extends StatelessWidget {
   }
 }
 
-class _EpisodeGrid extends StatelessWidget {
+class _EpisodeGrid extends StatefulWidget {
   const _EpisodeGrid({
     required this.episodes,
     required this.activeUri,
@@ -329,7 +329,28 @@ class _EpisodeGrid extends StatelessWidget {
   final bool showEpisodeTitles;
 
   @override
+  State<_EpisodeGrid> createState() => _EpisodeGridState();
+}
+
+class _EpisodeGridState extends State<_EpisodeGrid> {
+  final _nextKey = GlobalKey();
+  bool _didInitialScroll = false;
+
+  @override
   Widget build(BuildContext context) {
+    // Scroll to the "Weiter" episode on first open so kids don't have to
+    // hunt through hundreds of tiles. Only runs once per screen visit;
+    // returning from the player keeps the user's scroll position.
+    if (!_didInitialScroll && widget.nextUnheardId != null) {
+      _didInitialScroll = true;
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        final ctx = _nextKey.currentContext;
+        if (ctx != null) {
+          unawaited(Scrollable.ensureVisible(ctx, alignment: 0.3));
+        }
+      });
+    }
+
     return LayoutBuilder(
       builder: (context, constraints) {
         final columns = kidGridColumns(constraints.maxWidth);
@@ -346,30 +367,32 @@ class _EpisodeGrid extends StatelessWidget {
             crossAxisSpacing: 12,
             mainAxisSpacing: 16,
           ),
-          itemCount: episodes.length,
+          itemCount: widget.episodes.length,
           itemBuilder: (context, index) {
-            final card = episodes[index];
-            final isCurrentCard = isActive && activeUri == card.providerUri;
-            final isNext = card.id == nextUnheardId;
+            final card = widget.episodes[index];
+            final isCurrentCard =
+                widget.isActive && widget.activeUri == card.providerUri;
+            final isNext = card.id == widget.nextUnheardId;
 
             final expired = isItemExpired(card);
 
             return Stack(
+              key: isNext ? _nextKey : null,
               clipBehavior: Clip.none,
               children: [
                 TileItem(
                   key: ValueKey(card.id),
                   title: card.customTitle ?? card.title,
                   coverUrl: card.coverUrl,
-                  isPlaying: !expired && isCurrentCard && isPlaying,
-                  isPaused: !expired && isCurrentCard && !isPlaying,
+                  isPlaying: !expired && isCurrentCard && widget.isPlaying,
+                  isPaused: !expired && isCurrentCard && !widget.isPlaying,
                   isHeard: card.isHeard,
                   isExpired: expired,
                   progress: _albumProgress(card),
                   kidMode: true,
                   episodeNumber: card.episodeNumber,
-                  showEpisodeTitles: showEpisodeTitles,
-                  onTap: expired ? () {} : () => onCardTap(card),
+                  showEpisodeTitles: widget.showEpisodeTitles,
+                  onTap: expired ? () {} : () => widget.onCardTap(card),
                 ),
                 // "Weiter" badge on next unheard episode
                 if (isNext && !expired)
