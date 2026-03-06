@@ -112,6 +112,7 @@ class NowPlayingBar extends StatelessWidget {
               Semantics(
                 label: isPlaying ? 'Pause' : 'Abspielen',
                 button: true,
+                excludeSemantics: true,
                 child: SizedBox(
                   width: 56,
                   height: 56,
