@@ -335,11 +335,15 @@ class _Numpad extends StatelessWidget {
           ),
         );
       case _BackspaceKey():
-        return _NumpadButton(
-          onTap: onBackspace,
-          child: const Icon(
-            Icons.backspace_outlined,
-            color: AppColors.textPrimary,
+        return Semantics(
+          label: 'Löschen',
+          button: true,
+          child: _NumpadButton(
+            onTap: onBackspace,
+            child: const Icon(
+              Icons.backspace_outlined,
+              color: AppColors.textPrimary,
+            ),
           ),
         );
       case _EmptyKey():

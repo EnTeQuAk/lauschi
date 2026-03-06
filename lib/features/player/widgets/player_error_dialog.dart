@@ -164,11 +164,14 @@ class _MascotImage extends StatelessWidget {
         asset,
         width: 140,
         height: 140,
+        excludeFromSemantics: true,
         errorBuilder:
-            (_, error, stack) => Center(
-              child: Text(
-                fallbackEmoji,
-                style: const TextStyle(fontSize: 64),
+            (_, error, stack) => ExcludeSemantics(
+              child: Center(
+                child: Text(
+                  fallbackEmoji,
+                  style: const TextStyle(fontSize: 64),
+                ),
               ),
             ),
       ),
