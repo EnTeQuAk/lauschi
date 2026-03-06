@@ -333,29 +333,58 @@ class _EpisodeGrid extends StatefulWidget {
 }
 
 class _EpisodeGridState extends State<_EpisodeGrid> {
-  final _nextKey = GlobalKey();
+  static const _crossAxisSpacing = 12.0;
+  static const _mainAxisSpacing = 16.0;
+
+  final _controller = ScrollController();
   bool _didInitialScroll = false;
 
   @override
-  Widget build(BuildContext context) {
-    // Scroll to the "Weiter" episode on first open so kids don't have to
-    // hunt through hundreds of tiles. Only runs once per screen visit;
-    // returning from the player keeps the user's scroll position.
-    if (!_didInitialScroll && widget.nextUnheardId != null) {
-      _didInitialScroll = true;
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        final ctx = _nextKey.currentContext;
-        if (ctx != null) {
-          unawaited(Scrollable.ensureVisible(ctx, alignment: 0.3));
-        }
-      });
-    }
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
         final columns = kidGridColumns(constraints.maxWidth);
 
+        // Scroll to the "Weiter" episode on first open so kids don't have
+        // to hunt through hundreds of tiles. Only runs once per screen
+        // visit; returning from the player keeps the user's scroll position.
+        if (!_didInitialScroll && widget.nextUnheardId != null) {
+          _didInitialScroll = true;
+          final index = widget.episodes.indexWhere(
+            (e) => e.id == widget.nextUnheardId,
+          );
+          if (index > 0) {
+            final row = index ~/ columns;
+            // Item height from grid math (aspect ratio 1:1)
+            final availableWidth =
+                constraints.maxWidth - 2 * AppSpacing.screenH;
+            final itemHeight =
+                (availableWidth - (columns - 1) * _crossAxisSpacing) / columns;
+            // Place the target row ~30% from the top of the viewport
+            final offset =
+                AppSpacing.sm +
+                row * (itemHeight + _mainAxisSpacing) -
+                constraints.maxHeight * 0.3;
+            if (offset > 0) {
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                if (_controller.hasClients) {
+                  _controller.jumpTo(
+                    offset.clamp(0.0, _controller.position.maxScrollExtent),
+                  );
+                }
+              });
+            }
+          }
+        }
+
         return GridView.builder(
+          controller: _controller,
           padding: const EdgeInsets.fromLTRB(
             AppSpacing.screenH,
             AppSpacing.sm,
@@ -364,8 +393,8 @@ class _EpisodeGridState extends State<_EpisodeGrid> {
           ),
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: columns,
-            crossAxisSpacing: 12,
-            mainAxisSpacing: 16,
+            crossAxisSpacing: _crossAxisSpacing,
+            mainAxisSpacing: _mainAxisSpacing,
           ),
           itemCount: widget.episodes.length,
           itemBuilder: (context, index) {
@@ -377,7 +406,6 @@ class _EpisodeGridState extends State<_EpisodeGrid> {
             final expired = isItemExpired(card);
 
             return Stack(
-              key: isNext ? _nextKey : null,
               clipBehavior: Clip.none,
               children: [
                 TileItem(
