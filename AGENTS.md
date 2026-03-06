@@ -175,6 +175,28 @@ mise run test-integration                                   # Patrol on-device t
 patrol test -t integration_test/ard_playback_basic_test.dart  # Single integration test
 ```
 
+### On-Device Touch Automation (adb)
+
+Don't estimate tap coordinates from screenshots. Flutter widget positions rarely match visual estimation, especially on high-density screens with SafeArea/Spacer layouts.
+
+Use `uiautomator dump` to get real accessibility bounds from Flutter's semantic tree:
+
+```bash
+adb shell uiautomator dump /sdcard/ui.xml
+adb shell cat /sdcard/ui.xml | python3 -c "
+import sys, re
+xml = sys.stdin.read()
+for m in re.finditer(r'content-desc=\"([^\"]+)\"[^>]*bounds=\"\[(\d+),(\d+)\]\[(\d+),(\d+)\]\"', xml):
+    desc, x1, y1, x2, y2 = m.group(1), int(m.group(2)), int(m.group(3)), int(m.group(4)), int(m.group(5))
+    cx, cy = (x1+x2)//2, (y1+y2)//2
+    print(f'{desc:20s} center=({cx},{cy})  bounds=[{x1},{y1}][{x2},{y2}]')
+"
+# Then tap using the reported center coordinates:
+adb shell input tap 309 1099
+```
+
+This works because Flutter exposes `Semantics` labels as Android accessibility `content-desc`. Buttons without explicit `Semantics` labels may show their text content instead. The bounds are in physical pixels.
+
 ## Linting
 
 Uses `very_good_analysis` with relaxed rules (see `analysis_options.yaml`):
