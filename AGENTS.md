@@ -118,6 +118,50 @@ Copy `.env.example` to `.env` and `.env.app.example` to `.env.app`, then configu
 
 All Flutter commands use `--dart-define-from-file=.env.app`.
 
+## Release Flow
+
+Two-stage promotion: tag for testers, GitHub Release for stores.
+
+### 1. Tester build (tag push)
+
+```bash
+mise run tag-release    # bumps calver, commits, tags, pushes
+```
+
+Triggers:
+- **GitHub Actions** `android-release.yml` → APK → Firebase App Distribution
+- **Codemagic** `ios-release` → IPA → TestFlight
+
+Both build with `ENABLE_SPOTIFY=true`, `ENABLE_SENTRY=true`.
+
+### 2. Store build (GitHub Release)
+
+```bash
+gh release create v2026.3.2    # from a tested tag
+```
+
+Triggers:
+- **GitHub Actions** `android-store.yml` → AAB → Google Play (open testing)
+- **GitHub Actions** `ios-store.yml` → triggers Codemagic `ios-store` → IPA → App Store
+
+Both build with `ENABLE_SPOTIFY=false`, `ENABLE_SENTRY=false`. Zero data collection.
+
+### Required secrets
+
+| Secret | Where | Purpose |
+|--------|-------|---------|
+| `ANDROID_KEYSTORE_BASE64` | GitHub | Signing key |
+| `ANDROID_KEYSTORE_PASSWORD` | GitHub | Keystore password |
+| `ANDROID_KEY_PASSWORD` | GitHub | Key password |
+| `ANDROID_KEY_ALIAS` | GitHub | Key alias |
+| `FIREBASE_ANDROID_APP_ID` | GitHub | Firebase distribution |
+| `FIREBASE_SERVICE_ACCOUNT_JSON` | GitHub | Firebase auth |
+| `GOOGLE_PLAY_SERVICE_ACCOUNT_JSON` | GitHub | Play Store upload |
+| `SPOTIFY_CLIENT_ID` | GitHub + Codemagic | Spotify feature |
+| `SENTRY_DSN` | GitHub + Codemagic | Error tracking |
+| `CODEMAGIC_API_TOKEN` | GitHub | Trigger iOS store builds |
+| `CODEMAGIC_APP_ID` | GitHub | Codemagic app identifier |
+
 ## Testing
 
 **Every change must include tests.** Bug fixes need regression tests, new features need behavioral tests, refactors need tests verifying preserved behavior. No exceptions.

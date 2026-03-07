@@ -1,0 +1,33 @@
+name: iOS Store Release
+
+# Triggered when a GitHub Release is published. Calls Codemagic API
+# to start the ios-store workflow which builds with Spotify + Sentry
+# disabled and submits to App Store review.
+#
+# Required secrets:
+#   CODEMAGIC_API_TOKEN  - Codemagic API key (Settings → Integrations)
+#   CODEMAGIC_APP_ID     - Codemagic app ID (visible in app URL)
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  trigger-codemagic:
+    name: Trigger iOS Store Build
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Trigger Codemagic ios-store workflow
+        run: |
+          curl -sf -X POST \
+            -H "Content-Type: application/json" \
+            -H "x-auth-token: ${{ secrets.CODEMAGIC_API_TOKEN }}" \
+            -d '{
+              "appId": "${{ secrets.CODEMAGIC_APP_ID }}",
+              "workflowId": "ios-store",
+              "branch": "main",
+              "tag": "${{ github.event.release.tag_name }}"
+            }' \
+            https://api.codemagic.io/builds
