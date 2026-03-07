@@ -163,8 +163,11 @@ class KidHomeScreen extends ConsumerWidget {
             Expanded(
               child: _combineAsync(groupsAsync, ungroupedAsync, (
                 groups,
-                ungrouped,
+                allUngrouped,
               ) {
+                // Hide expired items from kids entirely.
+                final ungrouped =
+                    allUngrouped.where((e) => !isItemExpired(e)).toList();
                 if (groups.isEmpty && ungrouped.isEmpty) {
                   return const _EmptyState();
                 }
@@ -324,23 +327,18 @@ class _HomeGrid extends StatelessWidget {
               );
             }
             final card = ungrouped[index - groups.length];
-            final expired = isItemExpired(card);
             final isCurrentCard = isActive && activeUri == card.providerUri;
             return TileItem(
               key: ValueKey(card.id),
               title: card.customTitle ?? card.title,
               coverUrl: card.coverUrl,
-              isPlaying: !expired && isCurrentCard && isPlaying,
-              isPaused: !expired && isCurrentCard && !isPlaying,
+              isPlaying: isCurrentCard && isPlaying,
+              isPaused: isCurrentCard && !isPlaying,
               isHeard: card.isHeard,
-              isExpired: expired,
               progress: _albumProgress(card),
               kidMode: true,
               episodeNumber: card.episodeNumber,
-              onTap:
-                  onCardTap != null && !expired
-                      ? () => onCardTap!(card)
-                      : () {},
+              onTap: onCardTap != null ? () => onCardTap!(card) : () {},
             );
           },
         );
