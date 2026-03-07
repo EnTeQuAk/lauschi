@@ -1,6 +1,7 @@
 workflows:
+  # Tag push → TestFlight (Spotify + Sentry enabled for testers)
   ios-release:
-    name: iOS Release
+    name: iOS TestFlight
     instance_type: mac_mini_m2
     max_build_duration: 30
     environment:
@@ -66,3 +67,66 @@ workflows:
         auth: integration
         submit_to_testflight: true
         expire_build_submitted_for_review: true
+
+  # Triggered via Codemagic API from .github/workflows/ios-store.yml
+  # when a GitHub Release is published. Builds with Spotify + Sentry
+  # disabled for public App Store submission.
+  ios-store:
+    name: iOS App Store
+    instance_type: mac_mini_m2
+    max_build_duration: 30
+    environment:
+      flutter: 3.41.1
+      xcode: latest
+      cocoapods: default
+      vars:
+        AUDIO_SESSION_MICROPHONE: "0"
+      groups:
+        - app-store-credentials
+    integrations:
+      app_store_connect: Lauschi
+    cache:
+      cache_paths:
+        - $HOME/.pub-cache
+    scripts:
+      - name: Set up code signing
+        script: |
+          app-store-connect fetch-signing-files "app.lauschi.lauschi" \
+            --type IOS_APP_STORE \
+            --create
+          keychain initialize
+          keychain add-certificates
+          xcode-project use-profiles
+
+      - name: Write .env.app file
+        script: |
+          cat <<EOF > $CM_BUILD_DIR/.env.app
+          ENABLE_SPOTIFY=false
+          SPOTIFY_CLIENT_ID=unused
+          ENABLE_SENTRY=false
+          SENTRY_DSN=unused
+          SENTRY_ENVIRONMENT=production
+          EOF
+
+      - name: Install dependencies
+        script: flutter pub get
+
+      - name: Run code generation
+        script: dart run build_runner build --delete-conflicting-outputs
+
+      - name: Build iOS
+        script: |
+          VERSION_NAME=$(echo "$CM_TAG" | sed 's/^v//')
+          flutter build ipa --release \
+            --build-name="$VERSION_NAME" \
+            --build-number=$PROJECT_BUILD_NUMBER \
+            --dart-define-from-file=$CM_BUILD_DIR/.env.app \
+            --export-options-plist=/Users/builder/export_options.plist
+
+    artifacts:
+      - build/ios/ipa/*.ipa
+
+    publishing:
+      app_store_connect:
+        auth: integration
+        submit_to_app_store: true
