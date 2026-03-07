@@ -36,7 +36,7 @@ workflows:
       - name: Write .env.app file
         script: |
           cat <<EOF > $CM_BUILD_DIR/.env.app
-          ENABLE_SPOTIFY=false
+          ENABLE_SPOTIFY=true
           SPOTIFY_CLIENT_ID=$SPOTIFY_CLIENT_ID
           ENABLE_SENTRY=true
           SENTRY_DSN=$SENTRY_DSN
