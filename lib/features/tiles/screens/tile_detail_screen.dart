@@ -157,7 +157,11 @@ class TileDetailScreen extends ConsumerWidget {
             // Episode grid
             Expanded(
               child: episodesAsync.when(
-                data: (episodes) {
+                data: (allEpisodes) {
+                  // Hide expired episodes from kids entirely.
+                  // Parents see them in tile_edit_screen.
+                  final episodes =
+                      allEpisodes.where((e) => !isItemExpired(e)).toList();
                   if (episodes.isEmpty) {
                     return const _EmptyGroupState();
                   }
@@ -403,8 +407,6 @@ class _EpisodeGridState extends State<_EpisodeGrid> {
                 widget.isActive && widget.activeUri == card.providerUri;
             final isNext = card.id == widget.nextUnheardId;
 
-            final expired = isItemExpired(card);
-
             return Stack(
               clipBehavior: Clip.none,
               children: [
@@ -412,18 +414,17 @@ class _EpisodeGridState extends State<_EpisodeGrid> {
                   key: ValueKey(card.id),
                   title: card.customTitle ?? card.title,
                   coverUrl: card.coverUrl,
-                  isPlaying: !expired && isCurrentCard && widget.isPlaying,
-                  isPaused: !expired && isCurrentCard && !widget.isPlaying,
+                  isPlaying: isCurrentCard && widget.isPlaying,
+                  isPaused: isCurrentCard && !widget.isPlaying,
                   isHeard: card.isHeard,
-                  isExpired: expired,
                   progress: _albumProgress(card),
                   kidMode: true,
                   episodeNumber: card.episodeNumber,
                   showEpisodeTitles: widget.showEpisodeTitles,
-                  onTap: expired ? () {} : () => widget.onCardTap(card),
+                  onTap: () => widget.onCardTap(card),
                 ),
                 // "Weiter" badge on next unheard episode
-                if (isNext && !expired)
+                if (isNext)
                   Positioned(
                     top: -8,
                     left: 0,
