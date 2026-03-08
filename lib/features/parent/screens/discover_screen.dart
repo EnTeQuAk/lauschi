@@ -219,6 +219,7 @@ class _ShowCard extends StatelessWidget {
                       ? CachedNetworkImage(
                         imageUrl: imageUrl,
                         fit: BoxFit.cover,
+                        memCacheWidth: 400,
                         width: double.infinity,
                         height: double.infinity,
                         placeholder: (_, _) => _Placeholder(title: show.title),

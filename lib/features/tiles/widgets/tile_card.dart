@@ -266,6 +266,9 @@ class _StackedArt extends StatelessWidget {
     return CachedNetworkImage(
       imageUrl: url,
       fit: BoxFit.cover,
+      // Decode at 2x display size to keep cards sharp on high-DPI
+      // without wasting memory on full-resolution CDN images. See #226.
+      memCacheWidth: 400,
     );
   }
 }

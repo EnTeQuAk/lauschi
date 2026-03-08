@@ -231,6 +231,9 @@ class _CoverImage extends StatelessWidget {
     return CachedNetworkImage(
       imageUrl: url!,
       fit: BoxFit.cover,
+      // Decode at 2x display size to keep grid images sharp on high-DPI
+      // without wasting memory on full-resolution CDN images. See #226.
+      memCacheWidth: 400,
       placeholder: (_, _) => _ShimmerPlaceholder(),
       errorWidget:
           (_, _, _) => const ColoredBox(

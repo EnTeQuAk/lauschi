@@ -45,6 +45,10 @@ class DirectPlayer extends PlayerBackend {
   @override
   Stream<PlaybackState> get stateStream => _stateController.stream;
 
+  /// Max retries for transient errors (CDN hiccups, timeouts). See #224.
+  static const _maxRetries = 2;
+  static const _retryDelay = Duration(seconds: 2);
+
   /// Play audio from a direct HTTP URL.
   ///
   /// [trackInfo] provides metadata for the lock screen / now-playing bar.
@@ -57,36 +61,79 @@ class DirectPlayer extends PlayerBackend {
     _currentTrack = trackInfo;
     Log.info(_tag, 'Playing', data: {'url': _truncateUrl(audioUrl)});
 
-    try {
-      final player = ja.AudioPlayer();
-      _player = player;
-      _listenToPlayer(player);
-      final duration = await player.setUrl(audioUrl);
-      _durationMs = duration?.inMilliseconds ?? 0;
+    for (var attempt = 0; attempt <= _maxRetries; attempt++) {
+      try {
+        final player = ja.AudioPlayer();
+        _player = player;
+        _listenToPlayer(player);
+        final duration = await player.setUrl(audioUrl);
+        _durationMs = duration?.inMilliseconds ?? 0;
 
-      if (positionMs > 0) {
-        await player.seek(Duration(milliseconds: positionMs));
+        if (positionMs > 0) {
+          await player.seek(Duration(milliseconds: positionMs));
+        }
+        await player.play();
+        return; // Success.
+      } on ja.PlayerException catch (e) {
+        // HTTP 404/410/403: content gone, don't retry.
+        final code = e.code;
+        if (_isContentError(code)) {
+          Log.warn(
+            _tag,
+            'Content unavailable',
+            data: {'code': '$code', 'message': e.message ?? ''},
+          );
+          _emitState(error: PlayerError.contentUnavailable);
+          return;
+        }
+        // Transient error (5xx, timeout): retry if attempts remain.
+        if (attempt < _maxRetries) {
+          Log.warn(
+            _tag,
+            'Transient error, retrying',
+            data: {
+              'attempt': '${attempt + 1}/$_maxRetries',
+              'code': '$code',
+            },
+          );
+          await _player?.dispose();
+          _player = null;
+          await Future<void>.delayed(_retryDelay);
+          continue;
+        }
+        Log.warn(
+          _tag,
+          'Player error after $_maxRetries retries',
+          data: {'code': '$code', 'message': e.message ?? ''},
+        );
+        _emitState(error: PlayerError.playbackFailed);
+        return;
+      } on ja.PlayerInterruptedException {
+        // Playback interrupted (e.g. another audio source started).
+        Log.info(_tag, 'Playback interrupted');
+        return;
+      } on Exception catch (e) {
+        if (attempt < _maxRetries) {
+          Log.warn(
+            _tag,
+            'Play failed, retrying',
+            data: {'attempt': '${attempt + 1}/$_maxRetries', 'error': '$e'},
+          );
+          await _player?.dispose();
+          _player = null;
+          await Future<void>.delayed(_retryDelay);
+          continue;
+        }
+        Log.error(_tag, 'Play failed after $_maxRetries retries', exception: e);
+        _emitState(error: PlayerError.playbackFailed);
+        return;
       }
-      await player.play();
-    } on ja.PlayerException catch (e) {
-      // HTTP 404/410: audio removed from CDN (expired ARD content).
-      Log.warn(
-        _tag,
-        'Player error',
-        data: {
-          'code': '${e.code}',
-          'message': e.message ?? '',
-        },
-      );
-      _emitState(error: PlayerError.contentUnavailable);
-    } on ja.PlayerInterruptedException {
-      // Playback interrupted (e.g. another audio source started).
-      Log.info(_tag, 'Playback interrupted');
-    } on Exception catch (e) {
-      Log.error(_tag, 'Play failed', exception: e);
-      _emitState(error: PlayerError.playbackFailed);
     }
   }
+
+  /// HTTP error codes that mean content is gone (don't retry).
+  static bool _isContentError(int code) =>
+      code == 403 || code == 404 || code == 410;
 
   @override
   Future<void> pause() async {
