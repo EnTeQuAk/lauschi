@@ -168,8 +168,8 @@ class PlayerNotifier extends _$PlayerNotifier {
 
     // Bridge subscription: always accept device metadata; only route
     // playback fields when SpotifyBackend is the active backend.
-    if (FeatureFlags.enableSpotify) {
-      unawaited(_bridgeSub?.cancel());
+    // Guard against duplicate creation if build() re-runs. See #213.
+    if (FeatureFlags.enableSpotify && _bridgeSub == null) {
       _bridgeSub = _bridge.stateStream.listen(_onBridgeEvent);
     }
 
@@ -286,7 +286,9 @@ class PlayerNotifier extends _$PlayerNotifier {
     _positionSaveTimer = null;
     _playTimeMs = 0;
     _playStartedAt = null;
-    _backendBrokenSince = null;
+    // Don't reset _backendBrokenSince here — let it reset only on
+    // successful playback start. Prevents error storms when a kid
+    // taps cards while Spotify is down. See #217.
 
     final card = await ref.read(tileItemRepositoryProvider).getById(cardId);
     if (card == null) {
@@ -341,15 +343,18 @@ class PlayerNotifier extends _$PlayerNotifier {
       await _bridge.pause();
     }
 
-    // Tear down previous backend. Await ensures clean handoff.
-    if (_active != null) {
+    // Tear down previous backend. Capture and null _active synchronously
+    // before awaiting stop(), so a concurrent playCard() doesn't see a
+    // stale reference. See #211.
+    final previousBackend = _active;
+    _active = null;
+    if (previousBackend != null) {
       Log.debug(
         _tag,
-        'Tearing down ${_active!.backend.runtimeType} gen=$gen',
+        'Tearing down ${previousBackend.backend.runtimeType} gen=$gen',
       );
+      await previousBackend.stop();
     }
-    await _active?.stop();
-    _active = null;
     if (_playGen != gen) {
       Log.debug(_tag, 'playCard gen=$gen superseded during teardown');
       return;
@@ -373,6 +378,8 @@ class PlayerNotifier extends _$PlayerNotifier {
             error: PlayerError.playbackFailed,
           );
       }
+      // Backend started successfully — reset circuit breaker. See #217.
+      _backendBrokenSince = null;
     } on Exception catch (e) {
       if (_playGen != gen) return;
       Log.error(_tag, 'Play failed', exception: e);
@@ -650,8 +657,11 @@ class PlayerNotifier extends _$PlayerNotifier {
       );
     }
 
+    // #215: Log wakelock failures instead of silently swallowing.
     unawaited(
-      WakelockPlus.toggle(enable: newState.isPlaying).catchError((_) {}),
+      WakelockPlus.toggle(enable: newState.isPlaying).catchError((Object e) {
+        Log.warn(_tag, 'Wakelock toggle failed', data: {'error': '$e'});
+      }),
     );
     _mediaSession.updateFromAppState(
       newState,
@@ -674,20 +684,23 @@ class PlayerNotifier extends _$PlayerNotifier {
       }
 
       // Album completion: paused on last track, within threshold of end.
+      // Capture groupId now — by the time the async _onAlbumCompleted
+      // runs, state.activeGroupId may belong to a different card. See #212.
+      final groupId = state.activeGroupId;
       final backend = _active?.backend;
       final hasNextTrack = backend?.hasNextTrack ?? false;
       final isNearEnd =
           newState.durationMs > 0 &&
           posMs > newState.durationMs - _completionThresholdMs;
       if (!hasNextTrack && isNearEnd) {
-        unawaited(_onAlbumCompleted(cardId));
+        unawaited(_onAlbumCompleted(cardId, groupId));
       }
     }
   }
 
   // ─── Auto-advance ───────────────────────────────────────────────────
 
-  Future<void> _onAlbumCompleted(String? cardId) async {
+  Future<void> _onAlbumCompleted(String? cardId, String? groupId) async {
     if (cardId == null) return;
     Log.info(
       _tag,
@@ -701,7 +714,6 @@ class PlayerNotifier extends _$PlayerNotifier {
     );
     await _markAlbumHeard(cardId);
 
-    final groupId = state.activeGroupId;
     if (groupId == null) return;
 
     final groups = ref.read(tileRepositoryProvider);
@@ -745,6 +757,8 @@ class PlayerNotifier extends _$PlayerNotifier {
     _positionSaveTimer = Timer.periodic(
       _positionSaveInterval,
       (_) {
+        // Guard: skip if backend was torn down between ticks. See #216.
+        if (_active == null) return;
         _updatePlayTime();
         final cardId = state.activeCardId;
         final track = state.track;

@@ -195,6 +195,9 @@ class SpotifyPlayerBridge {
   };
 
   void _onMessage(JavaScriptMessage msg) {
+    // Reject messages after disposal.
+    if (_disposed) return;
+
     // Reject oversized messages (>64KB is suspicious for our protocol).
     if (msg.message.length > _maxMessageBytes) {
       Log.warn(
@@ -400,13 +403,15 @@ class SpotifyPlayerBridge {
       // Guard against calls before player.html has defined window.lauschi.
       final guarded = 'if(window.lauschi){$js}';
       await controller.runJavaScript(guarded);
-    } on PlatformException catch (e) {
-      Log.warn(_tag, 'JS eval failed — WebView likely dead: ${e.code}');
+    } on Exception catch (e) {
+      // Catches PlatformException (WebView killed), StateError (controller
+      // disposed), and anything else the WebView plugin throws. See #222.
+      final detail =
+          e is PlatformException ? 'WebView likely dead: ${e.code}' : '$e';
+      Log.warn(_tag, 'JS eval failed — $detail');
       if (_deviceId != null || _state.isReady) {
         // WebView died — clear stale state so the app knows it needs
-        // reconnection. This is the same state transition as receiving
-        // a 'not_ready' event from the SDK, except the SDK can't fire
-        // events from a dead WebView.
+        // reconnection. Same transition as a 'not_ready' SDK event.
         _deviceId = null;
         _updateState(_state.copyWith(isReady: false));
       }
