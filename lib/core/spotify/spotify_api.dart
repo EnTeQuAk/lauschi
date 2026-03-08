@@ -6,9 +6,9 @@ import 'package:lauschi/core/spotify/spotify_config.dart';
 
 const _tag = 'SpotifyApi';
 
-/// Thrown when Spotify returns a device error (typically 404 or 400 with
-/// "Device not found") — the SDK player device_id is stale and needs
-/// re-registration.
+/// Thrown when Spotify returns a device error (404, 400 with "Device not
+/// found", or 403 when the device session expired) — the SDK player
+/// device_id is stale and needs re-registration.
 class SpotifyDeviceNotFoundException implements Exception {
   const SpotifyDeviceNotFoundException(this.message);
   final String message;
@@ -371,13 +371,15 @@ class SpotifyApi {
         },
       );
 
-      // Stale device_id — Spotify returns 404 or sometimes 400 with
-      // "Device not found" in the error body.
+      // Stale device_id — Spotify returns 404, sometimes 400 with
+      // "Device not found", or 403 when the device session expired
+      // (device is registered but Spotify's playback session moved on).
       final body = e.response?.data;
       final message =
           body is Map ? '${(body['error'] as Map?)?['message']}' : '$body';
 
-      if (status == 404 ||
+      if (status == 403 ||
+          status == 404 ||
           (status == 400 &&
               message.toLowerCase().contains('device not found'))) {
         throw SpotifyDeviceNotFoundException(message);

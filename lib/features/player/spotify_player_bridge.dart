@@ -33,7 +33,9 @@ class SpotifyPlayerBridge {
 
   /// Callback to get a valid (non-expired) access token.
   /// Set in [init], non-null for the lifetime of the bridge after that.
-  late final Future<String> Function() _getValidToken;
+  Future<String> Function() _getValidToken = () {
+    throw StateError('Bridge not initialized');
+  };
 
   bool _disposed = false;
   WebViewController? _controller;
