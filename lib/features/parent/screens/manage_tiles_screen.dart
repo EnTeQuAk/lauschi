@@ -34,8 +34,8 @@ class ManageTilesScreen extends ConsumerWidget {
         title: const Text('Kacheln verwalten'),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => _createGroup(context, ref),
-        tooltip: 'Kachel erstellen',
+        onPressed: () => context.push(AppRoutes.parentAddContent),
+        tooltip: 'Hörspiel hinzufügen',
         child: const Icon(Icons.add_rounded),
       ),
       body: groupsAsync.when(
@@ -53,57 +53,6 @@ class ManageTilesScreen extends ConsumerWidget {
             ),
       ),
     );
-  }
-
-  void _createGroup(BuildContext context, WidgetRef ref) {
-    final controller = TextEditingController();
-    unawaited(
-      showDialog<void>(
-        context: context,
-        builder:
-            (ctx) => AlertDialog(
-              title: const Text('Neue Kachel'),
-              content: TextField(
-                controller: controller,
-                autofocus: true,
-                decoration: const InputDecoration(
-                  labelText: 'Name der Kachel',
-                  hintText: 'z.B. Yakari, Bibi Blocksberg …',
-                ),
-                textCapitalization: TextCapitalization.sentences,
-              ),
-              actions: [
-                TextButton(
-                  onPressed: () => Navigator.of(ctx).pop(),
-                  child: const Text('Abbrechen'),
-                ),
-                FilledButton(
-                  onPressed:
-                      () => unawaited(
-                        _submitCreate(ctx, controller, ref, context),
-                      ),
-                  child: const Text('Erstellen'),
-                ),
-              ],
-            ),
-      ),
-    );
-  }
-
-  Future<void> _submitCreate(
-    BuildContext dialogCtx,
-    TextEditingController controller,
-    WidgetRef ref,
-    BuildContext screenCtx,
-  ) async {
-    final title = controller.text.trim();
-    if (title.isEmpty) return;
-    Navigator.of(dialogCtx).pop();
-    final groupId = await ref.read(tileRepositoryProvider).insert(title: title);
-    Log.info(_tag, 'Tile created', data: {'id': groupId, 'title': title});
-    if (screenCtx.mounted) {
-      unawaited(screenCtx.push(AppRoutes.parentTileEdit(groupId)));
-    }
   }
 }
 
@@ -132,7 +81,7 @@ class _EmptyState extends StatelessWidget {
           ),
           SizedBox(height: AppSpacing.sm),
           Text(
-            'Tippe auf + um eine Kachel zu erstellen.',
+            'Tippe auf + um ein Hörspiel hinzuzufügen.',
             style: TextStyle(
               fontFamily: 'Nunito',
               fontSize: 14,
