@@ -167,6 +167,21 @@ class _WebViewHostState extends ConsumerState<_WebViewHost> {
   }
 
   @override
+  void dispose() {
+    // Disconnect the bridge when the WebView is removed (e.g. logout).
+    // The bridge is keepAlive, so ref.onDispose won't fire — we need to
+    // disconnect explicitly here. See #214.
+    final bridge = ref.read(spotifyPlayerBridgeProvider);
+    unawaited(bridge.reconnect().catchError((_) {}));
+    // Load blank page to release media resources held by the WebView.
+    final controller = bridge.controllerOrNull;
+    if (controller != null) {
+      unawaited(controller.loadRequest(Uri.parse('about:blank')));
+    }
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final bridge = ref.watch(spotifyPlayerBridgeProvider);
     if (!bridge.currentState.isReady && !_initialized) {
