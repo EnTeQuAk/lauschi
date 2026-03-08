@@ -71,12 +71,15 @@ class ContentImporter extends _$ContentImporter {
   /// When [tileId] is set, cards are added directly to that tile
   /// (auto-assign mode). Otherwise, a group is found or created by title.
   ///
+  /// [onProgress] is called after each card with (processed, total).
+  ///
   /// Only one batch import at a time — concurrent calls are rejected.
   Future<ImportResult> importToGroup({
     required String groupTitle,
     required List<PendingCard> cards,
     String? groupCoverUrl,
     String? tileId,
+    void Function(int done, int total)? onProgress,
   }) async {
     if (state) return ImportResult(added: 0, groupTitle: groupTitle);
     state = true;
@@ -87,7 +90,8 @@ class ContentImporter extends _$ContentImporter {
       final existingUris = ref.read(existingItemUrisProvider);
 
       var added = 0;
-      for (final card in cards) {
+      for (var i = 0; i < cards.length; i++) {
+        final card = cards[i];
         if (existingUris.contains(card.providerUri)) {
           // Already exists — ensure it's in this group.
           await _assignExistingToGroup(
@@ -95,11 +99,11 @@ class ContentImporter extends _$ContentImporter {
             groupId,
             card.episodeNumber,
           );
-          continue;
+        } else {
+          await _insertCard(card, groupId: groupId);
+          added++;
         }
-
-        await _insertCard(card, groupId: groupId);
-        added++;
+        onProgress?.call(i + 1, cards.length);
       }
 
       Log.info(
