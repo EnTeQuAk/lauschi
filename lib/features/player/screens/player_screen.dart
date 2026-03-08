@@ -200,15 +200,19 @@ class _InterpolatedProgressState extends ConsumerState<_InterpolatedProgress>
     final durationMs = ref.watch(
       playerProvider.select((s) => s.durationMs),
     );
-    return ValueListenableBuilder<int>(
-      valueListenable: _position,
-      builder:
-          (context, positionMs, _) => _ProgressBar(
-            positionMs: positionMs,
-            durationMs: durationMs,
-            onScrub: _scrubTo,
-            onSeek: _seekTo,
-          ),
+    // RepaintBoundary isolates the slider's frequent repaints (every
+    // position tick) from the rest of the player screen. See #227.
+    return RepaintBoundary(
+      child: ValueListenableBuilder<int>(
+        valueListenable: _position,
+        builder:
+            (context, positionMs, _) => _ProgressBar(
+              positionMs: positionMs,
+              durationMs: durationMs,
+              onScrub: _scrubTo,
+              onSeek: _seekTo,
+            ),
+      ),
     );
   }
 }
@@ -281,6 +285,7 @@ class _AlbumArt extends StatelessWidget {
                     ? CachedNetworkImage(
                       imageUrl: artworkUrl!,
                       fit: BoxFit.cover,
+                      memCacheWidth: 600,
                     )
                     : const ColoredBox(
                       color: AppColors.surfaceDim,
