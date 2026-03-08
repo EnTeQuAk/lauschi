@@ -15,6 +15,7 @@ import 'package:lauschi/core/router/app_router.dart';
 import 'package:lauschi/core/spotify/spotify_api.dart';
 import 'package:lauschi/core/spotify/spotify_auth_provider.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
+import 'package:lauschi/features/parent/widgets/import_progress_dialog.dart';
 import 'package:lauschi/features/player/player_provider.dart';
 
 const _tag = 'BrowseCatalog';
@@ -1370,7 +1371,7 @@ class _CatalogSeriesDetailScreenState
           context: context,
           barrierDismissible: false,
           builder:
-              (_) => _AddProgressDialog(
+              (_) => ImportProgressDialog(
                 progress: progressNotifier,
                 status: statusNotifier,
               ),
@@ -2706,70 +2707,3 @@ final _seriesCoverMapProvider = FutureProvider.autoDispose<Map<String, String>>(
     return coverMap;
   },
 );
-
-/// Modal dialog showing batch-add progress.
-class _AddProgressDialog extends StatelessWidget {
-  const _AddProgressDialog({required this.progress, required this.status});
-
-  /// (loaded, total) pair.
-  final ValueNotifier<(int, int)> progress;
-  final ValueNotifier<String> status;
-
-  @override
-  Widget build(BuildContext context) {
-    return Dialog(
-      child: Padding(
-        padding: const EdgeInsets.all(AppSpacing.xl),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            ValueListenableBuilder<String>(
-              valueListenable: status,
-              builder:
-                  (_, text, _) => Text(
-                    text,
-                    style: const TextStyle(
-                      fontFamily: 'Nunito',
-                      fontWeight: FontWeight.w700,
-                      fontSize: 15,
-                    ),
-                  ),
-            ),
-            const SizedBox(height: AppSpacing.md),
-            ValueListenableBuilder<(int, int)>(
-              valueListenable: progress,
-              builder: (_, pair, _) {
-                final (loaded, total) = pair;
-                final fraction = total > 0 ? loaded / total : 0.0;
-                return Column(
-                  children: [
-                    ClipRRect(
-                      borderRadius: const BorderRadius.all(AppRadius.pill),
-                      child: LinearProgressIndicator(
-                        value: fraction,
-                        minHeight: 6,
-                        backgroundColor: AppColors.surfaceDim,
-                        valueColor: const AlwaysStoppedAnimation<Color>(
-                          AppColors.primary,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: AppSpacing.sm),
-                    Text(
-                      '$loaded von $total',
-                      style: const TextStyle(
-                        fontFamily: 'Nunito',
-                        fontSize: 13,
-                        color: AppColors.textSecondary,
-                      ),
-                    ),
-                  ],
-                );
-              },
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
