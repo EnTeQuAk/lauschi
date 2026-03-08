@@ -1,3 +1,5 @@
+import 'dart:async' show unawaited;
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -97,28 +99,46 @@ class _ArdShowDetailScreenState extends ConsumerState<ArdShowDetailScreen> {
         'showTitle': show.title,
       },
     );
-    final importer = ref.read(contentImporterProvider.notifier);
 
-    // Load all pages if needed.
-    var allItems = items;
-    final page = ref
-        .read(
-          ardShowEpisodesProvider(widget.showId),
-        )
-        .whenOrNull(data: (d) => d);
-    if (page != null && page.hasNextPage) {
-      allItems = await _loadAllEpisodes(show.id);
+    final statusNotifier = ValueNotifier<String>('Lade ${show.title}…');
+    final progressNotifier = ValueNotifier<(int, int)>((0, 0));
+
+    if (mounted) {
+      unawaited(
+        showDialog<void>(
+          context: context,
+          barrierDismissible: false,
+          builder:
+              (_) => _AddProgressDialog(
+                status: statusNotifier,
+                progress: progressNotifier,
+              ),
+        ),
+      );
     }
 
-    final playable = allItems.where((i) => i.bestAudioUrl != null).toList();
-    final cards = playable.map(_ardPendingCard).toList();
-
     try {
+      // Load all pages if needed.
+      var allItems = items;
+      final page = ref
+          .read(ardShowEpisodesProvider(widget.showId))
+          .whenOrNull(data: (d) => d);
+      if (page != null && page.hasNextPage) {
+        allItems = await _loadAllEpisodes(show.id);
+      }
+
+      final playable = allItems.where((i) => i.bestAudioUrl != null).toList();
+      final cards = playable.map(_ardPendingCard).toList();
+      progressNotifier.value = (0, cards.length);
+      statusNotifier.value = 'Speichere ${show.title}…';
+
+      final importer = ref.read(contentImporterProvider.notifier);
       final result = await importer.importToGroup(
         groupTitle: show.title,
         groupCoverUrl: ardImageUrl(show.imageUrl),
         cards: cards,
         tileId: widget.autoAssignTileId,
+        onProgress: (done, total) => progressNotifier.value = (done, total),
       );
 
       Log.info(
@@ -132,6 +152,7 @@ class _ArdShowDetailScreenState extends ConsumerState<ArdShowDetailScreen> {
       );
 
       if (mounted) {
+        Navigator.of(context).pop(); // dismiss dialog
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(
@@ -145,11 +166,10 @@ class _ArdShowDetailScreenState extends ConsumerState<ArdShowDetailScreen> {
         _tag,
         'Add all failed',
         exception: e,
-        data: {
-          'showId': show.id,
-        },
+        data: {'showId': show.id},
       );
       if (mounted) {
+        Navigator.of(context).pop(); // dismiss dialog
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Fehler: $e')),
         );
@@ -702,6 +722,80 @@ class _ShowMeta extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
             ),
         ],
+      ),
+    );
+  }
+}
+
+/// Progress dialog shown during batch import.
+class _AddProgressDialog extends StatelessWidget {
+  const _AddProgressDialog({required this.status, required this.progress});
+
+  final ValueNotifier<String> status;
+  final ValueNotifier<(int, int)> progress;
+
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+      child: Padding(
+        padding: const EdgeInsets.all(AppSpacing.xl),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ValueListenableBuilder<String>(
+              valueListenable: status,
+              builder:
+                  (_, text, _) => Text(
+                    text,
+                    style: const TextStyle(
+                      fontFamily: 'Nunito',
+                      fontWeight: FontWeight.w700,
+                      fontSize: 15,
+                    ),
+                  ),
+            ),
+            const SizedBox(height: AppSpacing.md),
+            ValueListenableBuilder<(int, int)>(
+              valueListenable: progress,
+              builder: (_, pair, _) {
+                final (done, total) = pair;
+                if (total == 0) {
+                  return const LinearProgressIndicator(
+                    minHeight: 6,
+                    backgroundColor: AppColors.surfaceDim,
+                    valueColor: AlwaysStoppedAnimation<Color>(
+                      AppColors.primary,
+                    ),
+                  );
+                }
+                return Column(
+                  children: [
+                    ClipRRect(
+                      borderRadius: const BorderRadius.all(AppRadius.pill),
+                      child: LinearProgressIndicator(
+                        value: done / total,
+                        minHeight: 6,
+                        backgroundColor: AppColors.surfaceDim,
+                        valueColor: const AlwaysStoppedAnimation<Color>(
+                          AppColors.primary,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: AppSpacing.sm),
+                    Text(
+                      '$done von $total',
+                      style: const TextStyle(
+                        fontFamily: 'Nunito',
+                        fontSize: 13,
+                        color: AppColors.textSecondary,
+                      ),
+                    ),
+                  ],
+                );
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
