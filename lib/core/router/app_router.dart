@@ -74,10 +74,14 @@ GoRouter createRouter(Ref ref, {String initialLocation = AppRoutes.kidHome}) {
   }
   ref.onDispose(refreshNotifier.dispose);
 
+  final rootNavigatorKey = GlobalKey<NavigatorState>();
+
   return GoRouter(
+    navigatorKey: rootNavigatorKey,
     initialLocation: initialLocation,
     debugLogDiagnostics: true,
     refreshListenable: refreshNotifier,
+    observers: [_SnackBarClearObserver(rootNavigatorKey)],
     redirect: (context, state) => _globalRedirect(ref, state),
     routes: [
       GoRoute(
@@ -242,4 +246,31 @@ String? _globalRedirect(Ref ref, GoRouterState state) {
 /// Bridges Riverpod state changes to GoRouter's [Listenable] refresh.
 class _RouterRefreshNotifier extends ChangeNotifier {
   void notify() => notifyListeners();
+}
+
+/// Clears any visible snackbars when navigating between screens.
+/// Prevents stale "hinzugefügt" messages from lingering across routes.
+class _SnackBarClearObserver extends NavigatorObserver {
+  _SnackBarClearObserver(this._navigatorKey);
+
+  final GlobalKey<NavigatorState> _navigatorKey;
+
+  void _clearSnackBars() {
+    final context = _navigatorKey.currentContext;
+    if (context != null) {
+      ScaffoldMessenger.maybeOf(context)?.clearSnackBars();
+    }
+  }
+
+  @override
+  void didPush(Route<dynamic> route, Route<dynamic>? previousRoute) =>
+      _clearSnackBars();
+
+  @override
+  void didPop(Route<dynamic> route, Route<dynamic>? previousRoute) =>
+      _clearSnackBars();
+
+  @override
+  void didReplace({Route<dynamic>? newRoute, Route<dynamic>? oldRoute}) =>
+      _clearSnackBars();
 }
