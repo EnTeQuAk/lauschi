@@ -546,10 +546,23 @@ class PlayerNotifier extends _$PlayerNotifier {
       if (_playGen != gen) return;
     } on SpotifyDeviceNotFoundException {
       if (_playGen != gen) return;
-      // Device stale — reconnect once.
+      // Device rejected by Spotify (404). Force a full reconnect instead
+      // of _ensureDevice(), which would return the stale device ID that
+      // was just rejected. If the WebView content process died (common on
+      // iOS after backgrounding), reconnect() reloads the page.
       Log.warn(_tag, 'Device not found — reconnecting');
-      final newDeviceId = await _ensureDevice(gen);
-      if (newDeviceId == null || _playGen != gen) return;
+      await _bridge.reconnect();
+      final newDeviceId = await _bridge.waitForDevice();
+      if (_playGen != gen) return;
+      if (newDeviceId == null) {
+        Log.warn(_tag, 'No device ID after reconnect');
+        state = state.copyWith(
+          error: PlayerError.spotifyConnectionLost,
+        );
+        return;
+      }
+      await Future<void>.delayed(_deviceRegistrationDelay);
+      if (_playGen != gen) return;
 
       try {
         await _sendPlayCommand(card.providerUri, newDeviceId, card);

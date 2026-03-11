@@ -393,16 +393,20 @@ class SpotifyPlayerBridge {
   /// Run JS on the WebView, catching PlatformException when the WebView
   /// isn't ready or has been torn down (e.g. app backgrounded on iOS).
   ///
-  /// When JS eval fails, the WebView is dead — clear the device ID and
-  /// mark not ready so the player knows the bridge needs reconnection.
-  /// Without this, the bridge stays in a zombie state (stale device ID,
-  /// isReady: true) and every command silently fails.
-  Future<void> _runJs(String js) async {
-    if (_disposed || _controller == null) return;
+  /// Returns true if JS executed successfully, false if the WebView
+  /// content process is dead or the controller is unavailable.
+  ///
+  /// On failure, clears the device ID and marks not ready so the player
+  /// knows the bridge needs reconnection. Without this, the bridge stays
+  /// in a zombie state (stale device ID, isReady: true) and every
+  /// command silently fails.
+  Future<bool> _runJs(String js) async {
+    if (_disposed || _controller == null) return false;
     try {
       // Guard against calls before player.html has defined window.lauschi.
       final guarded = 'if(window.lauschi){$js}';
       await controller.runJavaScript(guarded);
+      return true;
     } on Exception catch (e) {
       // Catches PlatformException (WebView killed), StateError (controller
       // disposed), and anything else the WebView plugin throws. See #222.
@@ -415,6 +419,7 @@ class SpotifyPlayerBridge {
         _deviceId = null;
         _updateState(_state.copyWith(isReady: false));
       }
+      return false;
     }
   }
 
@@ -430,6 +435,10 @@ class SpotifyPlayerBridge {
   /// Re-register the SDK player with Spotify's servers.
   /// Call when the device_id goes stale (404 on play).
   /// The SDK will fire 'ready' with a new device_id on success.
+  ///
+  /// When the WebView content process has been terminated by the OS,
+  /// running JS is a no-op. In that case, reload the entire player
+  /// page to restart the web content process and re-initialize the SDK.
   Future<void> reconnect() async {
     Log.info(_tag, 'Requesting SDK reconnect');
     // Clear stale device_id BEFORE firing JS. This ensures waitForDevice()
@@ -439,7 +448,31 @@ class SpotifyPlayerBridge {
     // waitForDevice() picks it up correctly.
     _deviceId = null;
     _updateState(_state.copyWith(isReady: false));
-    await _runJs('window.lauschi.reconnect()');
+
+    if (!await _runJs('window.lauschi.reconnect()')) {
+      // JS failed — WebView content process is dead. Reload the page
+      // to restart it and re-initialize the SDK.
+      await _reloadPage();
+    }
+  }
+
+  /// Reload the player HTML page after the WebView content process died.
+  ///
+  /// iOS kills WKWebView content processes independently of the app
+  /// (memory pressure, background timeout). The WebViewController
+  /// itself stays valid; only the web content process needs restarting.
+  /// Reloading triggers the same SDK init flow as the initial load:
+  /// page loaded -> sdk_ready -> _initPlayer -> token -> connect -> ready.
+  Future<void> _reloadPage() async {
+    if (_disposed || _controller == null) return;
+    Log.info(_tag, 'Reloading player page (WebView process died)');
+    try {
+      await _controller!.loadRequest(Uri.parse(SpotifyConfig.playerUrl));
+    } on Exception catch (e) {
+      // Controller itself is dead (not just the content process).
+      // Nothing we can do short of recreating the widget.
+      Log.error(_tag, 'Page reload failed', exception: e);
+    }
   }
 
   /// Wait for the device to become ready (up to [timeout]).
