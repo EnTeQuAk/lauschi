@@ -69,18 +69,20 @@ jobs:
       - name: Build release AAB
         run: |
           VERSION_NAME=$(echo "${{ github.event.release.tag_name }}" | sed 's/^v//')
+          # Offset by 10 to avoid conflict with manually uploaded version code 1
+          BUILD_NUMBER=$(( ${{ github.run_number }} + 10 ))
           flutter build appbundle --release \
             --build-name="$VERSION_NAME" \
-            --build-number=${{ github.run_number }} \
+            --build-number="$BUILD_NUMBER" \
             --dart-define-from-file=.env.app
 
-      - name: Upload to Google Play (open testing)
+      - name: Upload to Google Play (closed testing)
         uses: r0adkll/upload-google-play@v1
         with:
           serviceAccountJsonPlainText: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
           packageName: app.lauschi.lauschi
           releaseFiles: build/app/outputs/bundle/release/app-release.aab
-          track: beta
+          track: alpha
           status: completed
           releaseName: ${{ github.event.release.tag_name }}
 
