@@ -188,7 +188,6 @@ class SpotifyPlayerBridge {
             // re-initialize the SDK.
             Log.warn(_tag, 'Content process terminated, reloading');
             _deviceId = null;
-            _isReloading = true;
             _updateState(_state.copyWith(isReady: false));
             unawaited(_reloadPage());
           } else {
@@ -456,8 +455,10 @@ class SpotifyPlayerBridge {
   /// Call when the device_id goes stale (404 on play).
   /// The SDK will fire 'ready' with a new device_id on success.
   ///
-  /// Tries JS reconnect first (fast, ~200ms). If the WebView content
-  /// process is dead, `webContentProcessTerminated` handles the reload.
+  /// Tries JS reconnect first (fast, ~200ms). If JS fails (WebView
+  /// content process is dead), falls back to a full page reload.
+  /// The `webContentProcessTerminated` callback also triggers a reload,
+  /// but it may not have fired yet (iOS race during app suspension).
   Future<void> reconnect() async {
     Log.info(_tag, 'Requesting SDK reconnect');
     // Clear stale device_id BEFORE firing JS. This ensures waitForDevice()
@@ -465,7 +466,11 @@ class SpotifyPlayerBridge {
     // stale ID immediately.
     _deviceId = null;
     _updateState(_state.copyWith(isReady: false));
-    await _runJs('window.lauschi.reconnect()');
+    if (!await _runJs('window.lauschi.reconnect()') && !_isReloading) {
+      // JS failed and no reload is in progress (webContentProcessTerminated
+      // may not have fired yet). Fall back to a full page reload.
+      await _reloadPage();
+    }
   }
 
   /// Reload the player HTML page after the WebView content process died.
@@ -477,6 +482,7 @@ class SpotifyPlayerBridge {
   /// page loaded -> sdk_ready -> _initPlayer -> token -> connect -> ready.
   Future<void> _reloadPage() async {
     if (_disposed || _controller == null) return;
+    _isReloading = true;
     Log.info(_tag, 'Reloading player page (WebView process died)');
     try {
       await _controller!.loadRequest(Uri.parse(SpotifyConfig.playerUrl));
