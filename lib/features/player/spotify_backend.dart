@@ -46,13 +46,12 @@ class SpotifyBackend extends PlayerBackend {
   Future<void> resume() async {
     Log.info(_tag, 'resume');
     final deviceId = _bridge.deviceId;
+    if (deviceId == null) {
+      throw const SpotifyDeviceNotFoundException('No active device');
+    }
     // SDK: immediate local audio resume (fire-and-forget).
     unawaited(_bridge.resume());
     // Web API: reliable server-side resume.
-    if (deviceId == null) {
-      Log.warn(_tag, 'No device ID for Web API resume');
-      return;
-    }
     await _api.resume(deviceId: deviceId);
   }
 
