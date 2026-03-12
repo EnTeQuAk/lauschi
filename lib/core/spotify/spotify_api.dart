@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:lauschi/core/log.dart';
 import 'package:lauschi/core/spotify/spotify_config.dart';
+import 'package:sentry_dio/sentry_dio.dart';
 
 const _tag = 'SpotifyApi';
 
@@ -22,7 +23,11 @@ class SpotifyDeviceNotFoundException implements Exception {
 /// call [updateToken] when the auth state changes. Set [onTokenExpired] to
 /// enable automatic 401 → refresh → retry.
 class SpotifyApi {
-  SpotifyApi() : _dio = Dio(BaseOptions(baseUrl: 'https://api.spotify.com/v1'));
+  SpotifyApi()
+    : _dio = Dio(BaseOptions(baseUrl: 'https://api.spotify.com/v1')) {
+    // Sentry Dio integration: auto breadcrumbs + HTTP span tracing.
+    _dio.addSentry();
+  }
 
   final Dio _dio;
   String? _accessToken;
