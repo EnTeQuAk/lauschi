@@ -41,6 +41,16 @@ void main() {
       expect(bridge.deviceId, isNull);
     });
 
+    test('reconnect clears device state', () async {
+      // reconnect() should clear deviceId and isReady even without
+      // a controller. The state change signals "reconnecting" to the UI.
+      await bridge.reconnect();
+      expect(bridge.deviceId, isNull);
+      // Should have emitted a state with isReady: false.
+      expect(states, isNotEmpty);
+      expect(states.last.isReady, isFalse);
+    });
+
     test('waitForDevice returns null on timeout', () async {
       final result = await bridge.waitForDevice(
         timeout: const Duration(milliseconds: 50),
@@ -55,6 +65,20 @@ void main() {
       await bridge.nextTrack();
       await bridge.prevTrack();
       await bridge.seek(5000);
+    });
+
+    test('JS commands without controller do not emit state changes', () async {
+      // Without a controller, _runJs returns false immediately (no
+      // exception path). This should NOT trigger the suspicion timer
+      // or emit any state changes.
+      await bridge.pause();
+      await bridge.resume();
+      expect(states, isEmpty);
+    });
+
+    test('double dispose is safe', () async {
+      // tearDown also calls dispose(), so this tests idempotence.
+      await bridge.dispose();
     });
   });
 }

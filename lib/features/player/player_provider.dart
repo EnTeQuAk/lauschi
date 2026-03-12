@@ -234,7 +234,11 @@ class PlayerNotifier extends _$PlayerNotifier {
     try {
       await _active?.backend.pause();
     } on Exception catch (e) {
-      Log.debug(_tag, 'pause failed (device likely gone)', data: {'error': '$e'});
+      Log.debug(
+        _tag,
+        'pause failed (device likely gone)',
+        data: {'error': '$e'},
+      );
     }
   }
 
@@ -494,12 +498,9 @@ class PlayerNotifier extends _$PlayerNotifier {
     try {
       await _sendPlayCommand(card.providerUri, deviceId, card);
       if (_playGen != gen) return;
-      // The Web API play sets up server-side playback, but the local
-      // SDK's audio pipeline in the WebView may not be active yet
-      // (iOS audio context starts suspended). Poking resume via JS
-      // wakes the local audio pipeline. Fire-and-forget: if JS fails,
-      // the Web API play already succeeded.
-      unawaited(_bridge.resume());
+      // Audio activation is handled in player.html: on the first
+      // playing state_changed after ready, a seek-to-current-position
+      // flushes the iOS audio pipeline. No Dart-side poke needed.
     } on SpotifyDeviceNotFoundException {
       if (_playGen != gen) return;
       // Device rejected by Spotify (404). Force a full reconnect instead

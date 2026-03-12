@@ -30,6 +30,16 @@
     post('log', { message: msg });
   }
 
+  // SDK throws this when the API play command hasn't landed yet.
+  // Expected during the race window; suppress to avoid UI error noise.
+  function isNoContextError(e) {
+    return ('' + e).indexOf('no list was loaded') >= 0;
+  }
+
+  // Set after connect/reconnect. Cleared on first playing state_changed.
+  // Used to activate the iOS audio pipeline via seek-to-current-position.
+  var _pendingAudioActivation = false;
+
   // Called by Dart once SDK is ready and token is available.
   window.lauschi = {
     init: function(accessToken) {
@@ -47,6 +57,7 @@
       });
 
       player.addListener('ready', function(data) {
+        _pendingAudioActivation = true;
         post('ready', { device_id: data.device_id });
         post_log('Player ready, device_id: ' + data.device_id);
       });
@@ -61,6 +72,21 @@
           post('state_changed', { paused: true, track: null, position_ms: 0 });
           return;
         }
+
+        // iOS audio context activation: when the SDK first reports
+        // playing after a connect/reconnect, seek to the current
+        // position to flush the audio pipeline. This is the earliest
+        // safe point (we have context AND the pipeline is starting).
+        // Unlike resume(), seek works even when the SDK already
+        // thinks it's playing.
+        if (!state.paused && _pendingAudioActivation) {
+          _pendingAudioActivation = false;
+          post_log('Activating audio pipeline via seek');
+          player.seek(state.position).catch(function(e) {
+            post_log('Audio activation seek failed: ' + e);
+          });
+        }
+
         var tw = state.track_window;
         var prevCount = tw.previous_tracks ? tw.previous_tracks.length : 0;
         var nextCount = tw.next_tracks ? tw.next_tracks.length : 0;
@@ -136,6 +162,10 @@
     resume: function() {
       if (!player) return;
       player.resume().catch(function(e) {
+        if (isNoContextError(e)) {
+          post_log('resume: no context yet, suppressing');
+          return;
+        }
         post('error', { type: 'playback', message: 'resume failed: ' + e });
         post_log('resume() rejected: ' + e);
       });
@@ -144,6 +174,10 @@
     next_track: function() {
       if (!player) return;
       player.nextTrack().catch(function(e) {
+        if (isNoContextError(e)) {
+          post_log('nextTrack: no context yet, suppressing');
+          return;
+        }
         post('error', { type: 'playback', message: 'nextTrack failed: ' + e });
         post_log('nextTrack() rejected: ' + e);
       });
@@ -152,6 +186,10 @@
     prev_track: function() {
       if (!player) return;
       player.previousTrack().catch(function(e) {
+        if (isNoContextError(e)) {
+          post_log('prevTrack: no context yet, suppressing');
+          return;
+        }
         post('error', { type: 'playback', message: 'prevTrack failed: ' + e });
         post_log('prevTrack() rejected: ' + e);
       });
@@ -168,17 +206,19 @@
     // Re-register the SDK player with Spotify. Called by Dart when
     // the device_id goes stale (404 on play).
     reconnect: function() {
-      if (player) {
-        post_log('reconnect called');
-        player.connect().then(function(success) {
-          post_log('reconnect result: ' + success);
-          if (!success) {
-            post('error', { type: 'reconnect', message: 'reconnect failed' });
-          }
-        });
-      } else {
+      if (!player) {
         post('error', { type: 'reconnect', message: 'no player instance' });
+        return;
       }
+      post_log('reconnect: disconnect then connect');
+      _pendingAudioActivation = true;
+      player.disconnect();
+      player.connect().then(function(success) {
+        post_log('reconnect result: ' + success);
+        if (!success) {
+          post('error', { type: 'reconnect', message: 'reconnect failed' });
+        }
+      });
     },
 
     disconnect: function() {
