@@ -192,6 +192,10 @@ class SpotifyPlayerBridge {
             _updateState(_state.copyWith(isReady: false));
             unawaited(_reloadPage());
           } else {
+            // Non-termination error (network, etc.). If we're mid-reload,
+            // onPageFinished won't fire, so clear _isReloading to avoid
+            // permanently blocking JS commands.
+            _isReloading = false;
             _updateState(_state.copyWith(isReady: false));
           }
         },
@@ -479,6 +483,8 @@ class SpotifyPlayerBridge {
     } on Exception catch (e) {
       // Controller itself is dead (not just the content process).
       // Nothing we can do short of recreating the widget.
+      // Clear _isReloading so the bridge isn't permanently blocked.
+      _isReloading = false;
       Log.error(_tag, 'Page reload failed', exception: e);
     }
   }
