@@ -48,6 +48,7 @@ class PlaybackState {
   const PlaybackState({
     this.isPlaying = false,
     this.isReady = false,
+    this.isLoading = false,
     this.track,
     this.positionMs = 0,
     this.durationMs = 0,
@@ -61,6 +62,10 @@ class PlaybackState {
 
   /// Player backend is ready for playback.
   final bool isReady;
+
+  /// Backend is initializing (bridge connecting, device registering).
+  /// UI shows a loading overlay while true.
+  final bool isLoading;
 
   /// Audio is currently playing (not paused).
   final bool isPlaying;
@@ -105,6 +110,7 @@ class PlaybackState {
   PlaybackState copyWith({
     bool? isPlaying,
     bool? isReady,
+    bool? isLoading,
     TrackInfo? track,
     int? positionMs,
     int? durationMs,
@@ -122,6 +128,7 @@ class PlaybackState {
     return PlaybackState(
       isPlaying: isPlaying ?? this.isPlaying,
       isReady: isReady ?? this.isReady,
+      isLoading: isLoading ?? this.isLoading,
       track: track ?? this.track,
       positionMs: positionMs ?? this.positionMs,
       durationMs: durationMs ?? this.durationMs,

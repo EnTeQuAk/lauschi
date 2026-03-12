@@ -333,13 +333,13 @@ class PlayerNotifier extends _$PlayerNotifier {
     final oldPos = _active?.backend.currentPositionMs ?? state.positionMs;
 
     // Set active card state with placeholder track info from DB so the
-    // player screen shows cover art and title immediately while the
-    // backend initializes. The real TrackInfo replaces this once playback
-    // starts.
+    // player screen shows cover art and title immediately. isLoading
+    // signals the UI to show a loading overlay on top.
     state = state.copyWith(
       activeCardId: cardId,
       activeContextUri: card.providerUri,
       activeGroupId: card.groupId,
+      isLoading: true,
       track: TrackInfo(
         uri: card.providerUri,
         name: card.customTitle ?? card.title,
@@ -410,6 +410,10 @@ class PlayerNotifier extends _$PlayerNotifier {
       state = state.copyWith(
         error: PlayerError.playbackFailed,
       );
+    } finally {
+      if (_playGen == gen) {
+        state = state.copyWith(isLoading: false);
+      }
     }
   }
 
