@@ -22,6 +22,7 @@ import 'package:lauschi/features/player/screens/player_screen.dart';
 import 'package:lauschi/features/tiles/screens/kid_home_screen.dart';
 import 'package:lauschi/features/tiles/screens/tile_detail_screen.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 
 part 'app_router.g.dart';
 
@@ -81,22 +82,29 @@ GoRouter createRouter(Ref ref, {String initialLocation = AppRoutes.kidHome}) {
     initialLocation: initialLocation,
     debugLogDiagnostics: true,
     refreshListenable: refreshNotifier,
-    observers: [_SnackBarClearObserver(rootNavigatorKey)],
+    observers: [
+      SentryNavigatorObserver(),
+      _SnackBarClearObserver(rootNavigatorKey),
+    ],
     redirect: (context, state) => _globalRedirect(ref, state),
     routes: [
       GoRoute(
+        name: 'onboarding',
         path: AppRoutes.onboarding,
         builder: (context, state) => const OnboardingScreen(),
       ),
       GoRoute(
+        name: 'kid-home',
         path: AppRoutes.kidHome,
         builder: (context, state) => const KidHomeScreen(),
         routes: [
           GoRoute(
+            name: 'player',
             path: 'player',
             builder: (context, state) => const PlayerScreen(),
           ),
           GoRoute(
+            name: 'tile-detail',
             path: 'tile/:id',
             builder: (context, state) {
               final tileId = state.pathParameters['id']!;
@@ -106,27 +114,33 @@ GoRouter createRouter(Ref ref, {String initialLocation = AppRoutes.kidHome}) {
         ],
       ),
       GoRoute(
+        name: 'pin-entry',
         path: AppRoutes.pinEntry,
         builder: (context, state) => const PinScreen(),
       ),
       GoRoute(
+        name: 'pin-change',
         path: AppRoutes.pinChange,
         builder: (context, state) => const PinScreen(isChange: true),
       ),
       GoRoute(
+        name: 'parent-dashboard',
         path: AppRoutes.parentDashboard,
         builder: (context, state) => const ParentDashboardScreen(),
         routes: [
           GoRoute(
+            name: 'parent-cards',
             path: 'cards',
             builder: (context, state) => const ManageCardsScreen(),
           ),
 
           GoRoute(
+            name: 'parent-tiles',
             path: 'tiles',
             builder: (context, state) => const ManageTilesScreen(),
             routes: [
               GoRoute(
+                name: 'parent-tile-edit',
                 path: ':id',
                 builder: (context, state) {
                   final tileId = state.pathParameters['id']!;
@@ -136,14 +150,17 @@ GoRouter createRouter(Ref ref, {String initialLocation = AppRoutes.kidHome}) {
             ],
           ),
           GoRoute(
+            name: 'parent-settings',
             path: 'settings',
             builder: (context, state) => const SettingsScreen(),
           ),
           GoRoute(
+            name: 'parent-nfc-tags',
             path: 'nfc-tags',
             builder: (context, state) => const NfcTagsScreen(),
           ),
           GoRoute(
+            name: 'parent-add-content',
             path: 'add',
             builder: (context, state) {
               final tileId = state.uri.queryParameters['tileId'];
@@ -155,10 +172,12 @@ GoRouter createRouter(Ref ref, {String initialLocation = AppRoutes.kidHome}) {
             },
           ),
           GoRoute(
+            name: 'parent-catalog',
             path: 'catalog',
             builder: (context, state) => const BrowseCatalogScreen(),
             routes: [
               GoRoute(
+                name: 'parent-catalog-series',
                 path: ':seriesId',
                 builder: (context, state) {
                   final seriesId = state.pathParameters['seriesId']!;
@@ -172,10 +191,12 @@ GoRouter createRouter(Ref ref, {String initialLocation = AppRoutes.kidHome}) {
             ],
           ),
           GoRoute(
+            name: 'parent-discover',
             path: 'discover',
             builder: (context, state) => const DiscoverScreen(),
             routes: [
               GoRoute(
+                name: 'parent-discover-show',
                 path: ':showId',
                 builder: (context, state) {
                   final showId = state.pathParameters['showId']!;

@@ -1039,6 +1039,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.2.1"
+  sentry_dio:
+    dependency: "direct main"
+    description:
+      name: sentry_dio
+      sha256: bd2b3010bae9facba9bd75054148acfe1013e87c841fefaa0240b8086ee0b327
+      url: "https://pub.dev"
+    source: hosted
+    version: "9.14.0"
   sentry_flutter:
     dependency: "direct main"
     description:
