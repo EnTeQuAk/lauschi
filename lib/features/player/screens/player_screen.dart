@@ -250,6 +250,7 @@ class _CloseButton extends StatelessWidget {
               label: 'Zurück',
               button: true,
               child: InkWell(
+                key: const Key('player_close_button'),
                 customBorder: const CircleBorder(),
                 onTap: () => Navigator.of(context).pop(),
                 child: const Icon(
@@ -521,6 +522,7 @@ class _PlayerControls extends StatelessWidget {
       children: [
         // Previous
         IconButton(
+          key: const Key('prev_track_button'),
           onPressed: onPrevious,
           icon: const Icon(Icons.skip_previous_rounded),
           iconSize: 64,
@@ -533,12 +535,14 @@ class _PlayerControls extends StatelessWidget {
         const SizedBox(width: AppSpacing.xl),
         // Play/pause
         _PlayPauseButton(
+          key: const Key('play_pause_button'),
           isPlaying: isPlaying,
           onPressed: onTogglePlay,
         ),
         const SizedBox(width: AppSpacing.xl),
         // Next
         IconButton(
+          key: const Key('next_track_button'),
           onPressed: onNext,
           icon: const Icon(Icons.skip_next_rounded),
           iconSize: 64,
@@ -557,6 +561,7 @@ class _PlayPauseButton extends StatelessWidget {
   const _PlayPauseButton({
     required this.isPlaying,
     required this.onPressed,
+    super.key,
   });
 
   final bool isPlaying;

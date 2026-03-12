@@ -35,6 +35,7 @@ class NowPlayingBar extends StatelessWidget {
               : 'Jetzt läuft: ${track.name}',
       button: true,
       child: GestureDetector(
+        key: const Key('now_playing_bar'),
         onTap: onTap,
         child: Container(
           height: 92,
@@ -117,6 +118,7 @@ class NowPlayingBar extends StatelessWidget {
                   width: 56,
                   height: 56,
                   child: FilledButton(
+                    key: const Key('now_playing_toggle'),
                     onPressed: onTogglePlay,
                     style: FilledButton.styleFrom(
                       shape: const CircleBorder(),

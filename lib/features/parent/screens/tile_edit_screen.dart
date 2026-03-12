@@ -273,6 +273,7 @@ class _GroupEditScreenState extends ConsumerState<TileEditScreen> {
         actions: [
           if (_dirty)
             TextButton(
+              key: const Key('save_tile'),
               onPressed: _save,
               child: const Text('Speichern'),
             ),
@@ -300,6 +301,7 @@ class _GroupEditScreenState extends ConsumerState<TileEditScreen> {
         ],
       ),
       floatingActionButton: FloatingActionButton.extended(
+        key: const Key('add_episode_fab'),
         onPressed:
             () => unawaited(
               context.push(AppRoutes.parentAddToTile(widget.tileId)),

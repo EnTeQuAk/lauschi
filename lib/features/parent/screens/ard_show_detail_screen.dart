@@ -331,6 +331,7 @@ class _ArdShowDetailScreenState extends ConsumerState<ArdShowDetailScreen> {
       child: Padding(
         padding: const EdgeInsets.all(AppSpacing.md),
         child: FilledButton.icon(
+          key: const Key('add_all_episodes'),
           onPressed: isImporting ? null : () => _addAll(show, page.items),
           icon:
               isImporting

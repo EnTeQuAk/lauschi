@@ -82,6 +82,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
           value: '$_appVersion ($_buildFlavour)',
         ),
         ListTile(
+          key: const Key('open_source_licenses'),
           tileColor: AppColors.parentSurface,
           leading: const Icon(
             Icons.description_outlined,
@@ -213,6 +214,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
         if (FeatureFlags.enableSpotify) ...[
           const _SectionHeader(title: 'Spotify-Konto'),
           ListTile(
+            key: const Key('logout_button'),
             tileColor: AppColors.parentSurface,
             leading: const Icon(
               Icons.logout_rounded,
@@ -533,6 +535,7 @@ class _SupportCard extends StatelessWidget {
             SizedBox(
               width: double.infinity,
               child: FilledButton.icon(
+                key: const Key('buy_coffee_button'),
                 onPressed: () => _open(_buyMeACoffee),
                 icon: const Icon(Icons.coffee_rounded, size: 18),
                 label: const Text(
@@ -553,6 +556,7 @@ class _SupportCard extends StatelessWidget {
             SizedBox(
               width: double.infinity,
               child: OutlinedButton.icon(
+                key: const Key('github_button'),
                 onPressed: () => _open(_gitHub),
                 icon: SvgPicture.asset(
                   'assets/images/icons/github.svg',

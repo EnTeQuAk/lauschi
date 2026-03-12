@@ -34,6 +34,7 @@ class ManageTilesScreen extends ConsumerWidget {
         title: const Text('Kacheln verwalten'),
       ),
       floatingActionButton: FloatingActionButton(
+        key: const Key('add_content_fab'),
         onPressed: () => context.push(AppRoutes.parentAddContent),
         tooltip: 'Hörspiel hinzufügen',
         child: const Icon(Icons.add_rounded),
@@ -384,6 +385,7 @@ class _GroupTile extends ConsumerWidget {
     final count = episodesAsync.whenOrNull(data: (e) => e.length) ?? 0;
 
     return TileCard(
+      key: Key('manage_tile_${group.id}'),
       title: group.title,
       episodeCount: count,
       coverUrl: group.coverUrl,

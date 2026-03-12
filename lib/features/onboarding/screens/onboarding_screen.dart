@@ -149,6 +149,7 @@ class _WelcomePage extends StatelessWidget {
           SizedBox(
             width: double.infinity,
             child: FilledButton(
+              key: const Key('onboarding_start'),
               onPressed: onNext,
               child: const Text("Los geht's"),
             ),
@@ -207,6 +208,7 @@ class _ConnectPage extends ConsumerWidget {
           SizedBox(
             width: double.infinity,
             child: FilledButton.icon(
+              key: const Key('spotify_connect'),
               onPressed:
                   authState is AuthAuthenticated
                       ? onNext
@@ -232,6 +234,7 @@ class _ConnectPage extends ConsumerWidget {
           ),
           const SizedBox(height: AppSpacing.md),
           TextButton(
+            key: const Key('skip_spotify'),
             onPressed: onSkip,
             child: const Text('Später verbinden'),
           ),

@@ -180,6 +180,7 @@ class _PinScreenState extends ConsumerState<PinScreen>
             Align(
               alignment: Alignment.topLeft,
               child: TextButton(
+                key: const Key('pin_cancel'),
                 onPressed: () {
                   if (context.canPop()) {
                     context.pop();

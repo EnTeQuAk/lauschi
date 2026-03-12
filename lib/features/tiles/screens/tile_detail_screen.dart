@@ -270,6 +270,7 @@ class _GroupHeader extends StatelessWidget {
                 color: AppColors.surfaceDim,
                 shape: const CircleBorder(),
                 child: InkWell(
+                  key: const Key('back_button'),
                   customBorder: const CircleBorder(),
                   onTap: onBack,
                   child: const Icon(
@@ -298,6 +299,7 @@ class _GroupHeader extends StatelessWidget {
           ),
           if (onNfcPair != null)
             IconButton(
+              key: const Key('nfc_pair_button'),
               onPressed: onNfcPair,
               icon: const Icon(Icons.nfc_rounded),
               iconSize: 22,
