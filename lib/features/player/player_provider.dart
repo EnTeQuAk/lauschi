@@ -477,10 +477,27 @@ class PlayerNotifier extends _$PlayerNotifier {
     final currentDeviceId = _bridge.deviceId;
     if (currentDeviceId != null) return currentDeviceId;
 
-    Log.warn(_tag, 'No device ID — attempting reconnect');
-    await _bridge.reconnect();
-    final deviceId = await _bridge.waitForDevice();
+    // Wait first — the SDK may still be initializing after a fresh app
+    // launch (typically 3-5s). Reconnecting during initial load is
+    // counterproductive (fires JS into a half-loaded page or triggers
+    // a reload that restarts the load).
+    Log.info(_tag, 'No device ID — waiting for bridge');
+    var deviceId = await _bridge.waitForDevice(
+      timeout: const Duration(seconds: 5),
+    );
     if (_playGen != gen) return null;
+
+    // Still nothing after waiting. Now try reconnecting (WebView process
+    // may have died, or SDK connection dropped).
+    if (deviceId == null) {
+      Log.warn(_tag, 'No device after wait — attempting reconnect');
+      await _bridge.reconnect();
+      deviceId = await _bridge.waitForDevice(
+        timeout: const Duration(seconds: 5),
+      );
+      if (_playGen != gen) return null;
+    }
+
     if (deviceId == null) {
       Log.warn(_tag, 'No device ID after reconnect');
       state = state.copyWith(
