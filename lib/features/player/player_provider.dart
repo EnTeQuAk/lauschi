@@ -332,11 +332,19 @@ class PlayerNotifier extends _$PlayerNotifier {
     final oldTrack = state.track;
     final oldPos = _active?.backend.currentPositionMs ?? state.positionMs;
 
-    // Set active card state. Error is always-replace (omitting clears it).
+    // Set active card state with placeholder track info from DB so the
+    // player screen shows cover art and title immediately while the
+    // backend initializes. The real TrackInfo replaces this once playback
+    // starts.
     state = state.copyWith(
       activeCardId: cardId,
       activeContextUri: card.providerUri,
       activeGroupId: card.groupId,
+      track: TrackInfo(
+        uri: card.providerUri,
+        name: card.customTitle ?? card.title,
+        artworkUrl: card.coverUrl,
+      ),
       clearNextEpisode: true,
     );
 
