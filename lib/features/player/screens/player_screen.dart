@@ -9,6 +9,7 @@ import 'package:lauschi/features/player/player_provider.dart';
 import 'package:lauschi/features/player/player_state.dart';
 import 'package:lauschi/features/player/widgets/next_episode_preview.dart';
 import 'package:lauschi/features/player/widgets/player_error_dialog.dart';
+import 'package:shimmer/shimmer.dart';
 
 /// Full-screen player with large album art, controls, and progress bar.
 ///
@@ -46,6 +47,7 @@ class _PlayerScreenState extends ConsumerState<PlayerScreen> {
         (s) => (
           track: s.track,
           isPlaying: s.isPlaying,
+          isLoading: s.isLoading,
           isAdvancing: s.isAdvancing,
           nextEpisodeCoverUrl: s.nextEpisodeCoverUrl,
           durationMs: s.durationMs,
@@ -66,56 +68,65 @@ class _PlayerScreenState extends ConsumerState<PlayerScreen> {
               Navigator.of(context).pop();
             }
           },
-          child: Column(
+          child: Stack(
             children: [
-              // Large close button for kids
-              const _CloseButton(),
-              // Album art
-              Expanded(
-                child: Center(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: AppSpacing.xxl,
+              Column(
+                children: [
+                  // Large close button for kids
+                  const _CloseButton(),
+                  // Album art (shimmer placeholder while loading)
+                  Expanded(
+                    child: Center(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: AppSpacing.xxl,
+                        ),
+                        child:
+                            state.isLoading
+                                ? const _AlbumArtSkeleton()
+                                : _AlbumArt(artworkUrl: track?.artworkUrl),
+                      ),
                     ),
-                    child: _AlbumArt(artworkUrl: track?.artworkUrl),
                   ),
-                ),
-              ),
-              // Track info
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: AppSpacing.xl,
-                ),
-                child: _TrackInfo(track: track),
-              ),
-              // Auto-advance indicator: skip icon + next cover thumbnail
-              if (state.isAdvancing)
-                Padding(
-                  padding: const EdgeInsets.only(top: AppSpacing.md),
-                  child: NextEpisodePreview(
-                    coverUrl: state.nextEpisodeCoverUrl,
+                  // Track info
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: AppSpacing.xl,
+                    ),
+                    child: _TrackInfo(track: track),
                   ),
-                ),
-              const SizedBox(height: AppSpacing.lg),
-              // Progress bar with its own ticker for smooth interpolation.
-              // Isolated to avoid rebuilding album art / controls at 60fps.
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: AppSpacing.xl,
-                ),
-                child: _InterpolatedProgress(
-                  onSeek: (ms) => unawaited(notifier.seek(ms)),
-                ),
+                  // Auto-advance indicator: skip icon + next cover thumbnail
+                  if (state.isAdvancing)
+                    Padding(
+                      padding: const EdgeInsets.only(top: AppSpacing.md),
+                      child: NextEpisodePreview(
+                        coverUrl: state.nextEpisodeCoverUrl,
+                      ),
+                    ),
+                  const SizedBox(height: AppSpacing.lg),
+                  // Progress bar with its own ticker for smooth interpolation.
+                  // Isolated to avoid rebuilding album art / controls at 60fps.
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: AppSpacing.xl,
+                    ),
+                    child: _InterpolatedProgress(
+                      onSeek: (ms) => unawaited(notifier.seek(ms)),
+                    ),
+                  ),
+                  const SizedBox(height: AppSpacing.lg),
+                  // Controls
+                  _PlayerControls(
+                    isPlaying: state.isPlaying,
+                    onPrevious: state.isLoading ? null : notifier.prevTrack,
+                    onTogglePlay: state.isLoading ? null : notifier.togglePlay,
+                    onNext: state.isLoading ? null : notifier.nextTrack,
+                  ),
+                  const SizedBox(height: AppSpacing.xxl),
+                ],
               ),
-              const SizedBox(height: AppSpacing.lg),
-              // Controls
-              _PlayerControls(
-                isPlaying: state.isPlaying,
-                onPrevious: notifier.prevTrack,
-                onTogglePlay: notifier.togglePlay,
-                onNext: notifier.nextTrack,
-              ),
-              const SizedBox(height: AppSpacing.xxl),
+              // Loading overlay
+              if (state.isLoading) const _LoadingOverlay(),
             ],
           ),
         ),
@@ -302,6 +313,67 @@ class _AlbumArt extends StatelessWidget {
   }
 }
 
+/// Shimmer placeholder for album art while the backend is loading.
+class _AlbumArtSkeleton extends StatelessWidget {
+  const _AlbumArtSkeleton();
+
+  @override
+  Widget build(BuildContext context) {
+    return ConstrainedBox(
+      constraints: const BoxConstraints(maxWidth: 400, maxHeight: 400),
+      child: AspectRatio(
+        aspectRatio: 1,
+        child: Hero(
+          tag: playerArtworkHeroTag,
+          child: Shimmer.fromColors(
+            baseColor: AppColors.surfaceDim,
+            highlightColor: AppColors.surface,
+            child: Container(
+              decoration: const BoxDecoration(
+                color: AppColors.surfaceDim,
+                borderRadius: BorderRadius.all(Radius.circular(20)),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// Semi-transparent overlay with a spinner, shown while the backend
+/// connects. Absorbs taps so the kid can't hammer controls.
+class _LoadingOverlay extends StatelessWidget {
+  const _LoadingOverlay();
+
+  @override
+  Widget build(BuildContext context) {
+    return Positioned.fill(
+      child: AbsorbPointer(
+        child: ColoredBox(
+          color: AppColors.background.withValues(alpha: 0.6),
+          child: const Center(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                CircularProgressIndicator(color: AppColors.primary),
+                SizedBox(height: AppSpacing.md),
+                Text(
+                  'Wird geladen …',
+                  style: TextStyle(
+                    color: AppColors.textSecondary,
+                    fontSize: 16,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 class _TrackInfo extends StatelessWidget {
   const _TrackInfo({this.track});
 
@@ -438,9 +510,9 @@ class _PlayerControls extends StatelessWidget {
   });
 
   final bool isPlaying;
-  final VoidCallback onPrevious;
-  final VoidCallback onTogglePlay;
-  final VoidCallback onNext;
+  final VoidCallback? onPrevious;
+  final VoidCallback? onTogglePlay;
+  final VoidCallback? onNext;
 
   @override
   Widget build(BuildContext context) {
@@ -488,7 +560,7 @@ class _PlayPauseButton extends StatelessWidget {
   });
 
   final bool isPlaying;
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
 
   @override
   Widget build(BuildContext context) {
