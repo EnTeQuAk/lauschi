@@ -179,6 +179,23 @@ class PlayerNotifier extends _$PlayerNotifier {
     final isSpotifyActive = _active?.backend is SpotifyBackend;
 
     if (isSpotifyActive) {
+      // Detect WebView recovery: bridge went not-ready → ready while
+      // a card was actively playing. This happens after iOS kills the
+      // web content process and the page reloads. The SDK is healthy
+      // again but has no playback context, so replay the active card.
+      final wasNotReady = !state.isReady;
+      final isNowReady = bridgeState.isReady;
+      final cardId = state.activeCardId;
+      if (wasNotReady && isNowReady && cardId != null) {
+        Log.info(
+          _tag,
+          'Bridge recovered while card active, replaying',
+          data: {'cardId': cardId},
+        );
+        unawaited(playCard(cardId));
+        return;
+      }
+
       // Single write: merge isReady + playback fields.
       state = state.copyWith(
         isReady: bridgeState.isReady,
