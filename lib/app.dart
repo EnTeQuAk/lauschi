@@ -13,6 +13,7 @@ import 'package:lauschi/core/spotify/spotify_auth_provider.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
 import 'package:lauschi/features/onboarding/screens/onboarding_provider.dart';
 import 'package:lauschi/features/player/player_provider.dart';
+import 'package:lauschi/features/player/spotify_player_bridge.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class LauschiApp extends ConsumerStatefulWidget {
@@ -153,9 +154,13 @@ class _WebViewHost extends ConsumerStatefulWidget {
 class _WebViewHostState extends ConsumerState<_WebViewHost> {
   bool _initialized = false;
 
+  /// Stored in initState for use in dispose() where ref is no longer safe.
+  late final SpotifyPlayerBridge _bridge;
+
   @override
   void initState() {
     super.initState();
+    _bridge = ref.read(spotifyPlayerBridgeProvider);
     unawaited(_initBridge());
   }
 
@@ -171,10 +176,10 @@ class _WebViewHostState extends ConsumerState<_WebViewHost> {
     // Disconnect the bridge when the WebView is removed (e.g. logout).
     // The bridge is keepAlive, so ref.onDispose won't fire — we need to
     // disconnect explicitly here. See #214.
-    final bridge = ref.read(spotifyPlayerBridgeProvider);
-    unawaited(bridge.reconnect().catchError((_) {}));
-    // Load blank page to release media resources held by the WebView.
-    final controller = bridge.controllerOrNull;
+    // Uses _bridge (cached in field) instead of ref.read() because ref
+    // is unsafe during dispose. See LAUSCHI-Y.
+    unawaited(_bridge.reconnect().catchError((_) {}));
+    final controller = _bridge.controllerOrNull;
     if (controller != null) {
       unawaited(controller.loadRequest(Uri.parse('about:blank')));
     }
