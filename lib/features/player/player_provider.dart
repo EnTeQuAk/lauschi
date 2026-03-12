@@ -136,18 +136,10 @@ class PlayerNotifier extends _$PlayerNotifier {
   static const _completionThresholdMs = 5000;
   static const _advanceDelay = Duration(seconds: 3);
   static const _positionSaveInterval = Duration(seconds: 10);
-  static const _commandCooldown = Duration(seconds: 30);
 
   // -- Position tracking state --
   int _playTimeMs = 0;
   DateTime? _playStartedAt;
-
-  // -- Command circuit breaker --
-  // After a backend command fails (e.g. Spotify device lost), suppress
-  // further commands for [_commandCooldown] to avoid error storms when
-  // a frustrated kid mashes the play/pause button.
-  DateTime? _backendBrokenSince;
-  bool _isReconnecting = false;
 
   /// Minimum play time before saving position. Prevents brief taps from
   /// marking episodes as "in progress".
@@ -231,10 +223,19 @@ class PlayerNotifier extends _$PlayerNotifier {
   }
 
   /// Pause playback (idempotent).
+  ///
+  /// Handled separately from [_backendCommand] because a failed pause
+  /// means the audio already stopped (device gone). Replaying the card
+  /// in response would restart audio, which is the opposite of what
+  /// the user wanted.
   Future<void> pause() async {
     Log.info(_tag, 'pause');
     _advanceTimer?.cancel();
-    await _backendCommand('pause', (b) => b.pause());
+    try {
+      await _active?.backend.pause();
+    } on Exception catch (e) {
+      Log.debug(_tag, 'pause failed (device likely gone)', data: {'error': '$e'});
+    }
   }
 
   /// Resume playback (idempotent).
@@ -266,7 +267,6 @@ class PlayerNotifier extends _$PlayerNotifier {
 
   void clearError() {
     _advanceTimer?.cancel();
-    _backendBrokenSince = null;
     // ignore: avoid_redundant_argument_values, null clears error
     state = state.copyWith(error: null);
   }
@@ -286,9 +286,6 @@ class PlayerNotifier extends _$PlayerNotifier {
     _positionSaveTimer = null;
     _playTimeMs = 0;
     _playStartedAt = null;
-    // Don't reset _backendBrokenSince here — let it reset only on
-    // successful playback start. Prevents error storms when a kid
-    // taps cards while Spotify is down. See #217.
 
     final card = await ref.read(tileItemRepositoryProvider).getById(cardId);
     if (card == null) {
@@ -378,8 +375,6 @@ class PlayerNotifier extends _$PlayerNotifier {
             error: PlayerError.playbackFailed,
           );
       }
-      // Backend started successfully — reset circuit breaker. See #217.
-      _backendBrokenSince = null;
     } on Exception catch (e) {
       if (_playGen != gen) return;
       Log.error(_tag, 'Play failed', exception: e);
@@ -391,6 +386,11 @@ class PlayerNotifier extends _$PlayerNotifier {
 
   // ─── Backend command dispatch ────────────────────────────────────────
 
+  /// Run a playback command on the active backend. If the Spotify device
+  /// is gone, replay the active card instead of retrying the individual
+  /// command. A fresh SDK (after page reload or reconnect) has no album
+  /// context, so resume/next/prev/seek can never work without a `play`
+  /// command first. Replaying the card provides that context.
   Future<void> _backendCommand(
     String name,
     Future<void> Function(PlayerBackend) command,
@@ -401,69 +401,19 @@ class PlayerNotifier extends _$PlayerNotifier {
       return;
     }
 
-    // Circuit breaker: if the backend is known-broken, don't keep
-    // hammering it. Suppresses the error storm when a kid mashes
-    // buttons on a dead Spotify device.
-    if (_backendBrokenSince != null) {
-      final elapsed = DateTime.now().difference(_backendBrokenSince!);
-      if (elapsed < _commandCooldown) {
-        Log.debug(
-          _tag,
-          '$name suppressed — backend broken ${elapsed.inSeconds}s ago',
-        );
-        return;
-      }
-      // Cooldown elapsed — reset and let the command through.
-      _backendBrokenSince = null;
-    }
-
     try {
       await command(backend);
     } on SpotifyDeviceNotFoundException {
-      // Spotify device lost — attempt reconnect + retry before giving up.
-      Log.warn(_tag, '$name: device lost, attempting reconnect');
-      if (await _reconnectBridge()) {
-        try {
-          await command(backend);
-          return; // Retry succeeded.
-        } on Exception catch (e) {
-          Log.warn(_tag, '$name failed after reconnect', data: {'error': '$e'});
-        }
+      final cardId = state.activeCardId;
+      if (cardId != null) {
+        Log.info(_tag, '$name: device lost, replaying card');
+        await playCard(cardId);
+      } else {
+        state = state.copyWith(error: PlayerError.spotifyConnectionLost);
       }
-      // Reconnect failed or retry failed — trip the circuit breaker.
-      _backendBrokenSince = DateTime.now();
-      state = state.copyWith(error: PlayerError.spotifyConnectionLost);
     } on Exception catch (e) {
       Log.error(_tag, '$name failed', exception: e);
-      _backendBrokenSince = DateTime.now();
       state = state.copyWith(error: PlayerError.playbackCommandFailed);
-    }
-  }
-
-  /// Attempt to reconnect the Spotify bridge and get a fresh device ID.
-  /// Returns true if a new device was obtained. No-op for non-Spotify
-  /// backends.
-  Future<bool> _reconnectBridge() async {
-    if (_active?.backend is! SpotifyBackend) return false;
-    if (_isReconnecting) return false;
-    _isReconnecting = true;
-
-    try {
-      await _bridge.reconnect();
-      final deviceId = await _bridge.waitForDevice();
-      if (deviceId == null) {
-        Log.warn(_tag, 'Reconnect failed — no device ID');
-        return false;
-      }
-      // Brief delay for Spotify's servers to register the new device.
-      await Future<void>.delayed(_deviceRegistrationDelay);
-      Log.info(_tag, 'Reconnect succeeded', data: {'deviceId': deviceId});
-      return true;
-    } on Exception catch (e) {
-      Log.warn(_tag, 'Reconnect error', data: {'error': '$e'});
-      return false;
-    } finally {
-      _isReconnecting = false;
     }
   }
 
