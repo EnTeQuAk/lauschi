@@ -56,6 +56,7 @@ class DiscoverScreen extends ConsumerWidget {
                 ),
                 const SizedBox(height: AppSpacing.sm),
                 TextButton(
+                  key: const Key('discover_retry'),
                   onPressed: () {
                     ref
                       ..invalidate(ardKidsShowsProvider)

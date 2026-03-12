@@ -36,6 +36,7 @@ class ParentDashboardScreen extends ConsumerWidget {
         backgroundColor: AppColors.parentBackground,
         title: const Text('Einstellungen'),
         leading: IconButton(
+          key: const Key('exit_parent_mode'),
           onPressed: () {
             Log.info(_tag, 'Exiting parent mode');
             ref.read(parentAuthProvider.notifier).deauthenticate();
@@ -49,6 +50,7 @@ class ParentDashboardScreen extends ConsumerWidget {
           // ── Sammlung ─────────────────────────────────────────────────
           const _SectionHeader(title: 'Sammlung'),
           _SettingsTile(
+            key: const Key('manage_tiles'),
             icon: Icons.library_music_rounded,
             title:
                 tileCount > 0
@@ -67,6 +69,7 @@ class ParentDashboardScreen extends ConsumerWidget {
           // ── Einstellungen ────────────────────────────────────────────
           const _SectionHeader(title: 'Einstellungen'),
           _SettingsTile(
+            key: const Key('change_pin'),
             icon: Icons.lock_rounded,
             title: 'PIN ändern',
             onTap: () => unawaited(context.push(AppRoutes.pinChange)),
@@ -76,6 +79,7 @@ class ParentDashboardScreen extends ConsumerWidget {
           for (final provider in providers.where((p) => p.canDisconnect)) ...[
             const Divider(indent: 56),
             _SettingsTile(
+              key: Key('disconnect_${provider.type.name}'),
               icon: Icons.logout_rounded,
               title: '${provider.type.displayName} trennen',
               subtitle: 'Konto wechseln (Kacheln bleiben erhalten)',
@@ -86,6 +90,7 @@ class ParentDashboardScreen extends ConsumerWidget {
           if (nfcEnabled) ...[
             const Divider(indent: 56),
             _SettingsTile(
+              key: const Key('nfc_tags'),
               icon: Icons.nfc_rounded,
               title: 'NFC-Tags',
               subtitle: 'Tags mit Hörspielen verknüpfen',
@@ -94,6 +99,7 @@ class ParentDashboardScreen extends ConsumerWidget {
           ],
           const Divider(indent: 56),
           _SettingsTile(
+            key: const Key('about_settings'),
             icon: Icons.info_outline_rounded,
             title: 'Über lauschi',
             subtitle: 'Einstellungen & Version',
@@ -132,6 +138,7 @@ class ParentDashboardScreen extends ConsumerWidget {
     return [
       const Divider(indent: 56),
       _SettingsTile(
+        key: Key('provider_${provider.type.name}'),
         icon: provider.type.icon,
         title: provider.type.displayName,
         subtitle: subtitle,
@@ -247,6 +254,7 @@ class _SettingsTile extends StatelessWidget {
     this.subtitle,
     this.trailing,
     this.leadingWidget,
+    super.key,
   });
 
   final IconData icon;

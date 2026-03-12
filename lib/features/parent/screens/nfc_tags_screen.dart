@@ -119,6 +119,7 @@ class _TagTile extends StatelessWidget {
         ],
       ),
       trailing: IconButton(
+        key: Key('delete_nfc_${tag.tagUid}'),
         onPressed: onDelete,
         icon: const Icon(Icons.delete_outline_rounded),
         color: AppColors.error,

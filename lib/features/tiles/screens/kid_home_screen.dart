@@ -93,6 +93,7 @@ class KidHomeScreen extends ConsumerWidget {
                     ),
                   ),
                   IconButton(
+                    key: const Key('parent_button'),
                     onPressed: () {
                       Log.info(_tag, 'Parent button tapped');
                       unawaited(context.push(AppRoutes.parentDashboard));
@@ -363,6 +364,7 @@ class _GroupGridItem extends ConsumerWidget {
     final progress = total > 0 ? (heard / total) : 0.0;
 
     return TileCard(
+      key: Key('tile_${group.id}'),
       title: group.title,
       episodeCount: total,
       coverUrl: group.coverUrl,
@@ -414,6 +416,7 @@ class _EmptyState extends StatelessWidget {
             ),
             const SizedBox(height: AppSpacing.xl),
             FilledButton.icon(
+              key: const Key('add_content_button'),
               onPressed: () => context.push(AppRoutes.parentDashboard),
               icon: const Icon(Icons.add_rounded),
               label: const Text('Hörspiel hinzufügen'),

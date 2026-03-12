@@ -263,6 +263,7 @@ class _FeaturedTile extends ConsumerWidget {
     );
 
     return GestureDetector(
+      key: Key('featured_${item.title.hashCode}'),
       onTap: allAdded ? null : () => _addFeaturedItem(context, ref, item),
       child: SizedBox(
         width: 130,

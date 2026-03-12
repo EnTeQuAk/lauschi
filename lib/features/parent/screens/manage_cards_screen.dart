@@ -37,6 +37,7 @@ class ManageCardsScreen extends ConsumerWidget {
         title: const Text('Karten verwalten'),
         actions: [
           IconButton(
+            key: const Key('add_card_button'),
             onPressed:
                 () => context.push(
                   FeatureFlags.enableSpotify

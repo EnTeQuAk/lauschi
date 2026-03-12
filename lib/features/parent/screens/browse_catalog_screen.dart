@@ -1076,6 +1076,7 @@ class _SpotifyNotConnectedContent extends StatelessWidget {
               ),
               const SizedBox(height: AppSpacing.lg),
               FilledButton.icon(
+                key: const Key('catalog_settings_button'),
                 onPressed: () => context.push(AppRoutes.parentSettings),
                 icon: const Icon(Icons.settings_rounded),
                 label: const Text('Einstellungen'),
