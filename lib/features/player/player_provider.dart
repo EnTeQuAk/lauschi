@@ -494,6 +494,12 @@ class PlayerNotifier extends _$PlayerNotifier {
     try {
       await _sendPlayCommand(card.providerUri, deviceId, card);
       if (_playGen != gen) return;
+      // The Web API play sets up server-side playback, but the local
+      // SDK's audio pipeline in the WebView may not be active yet
+      // (iOS audio context starts suspended). Poking resume via JS
+      // wakes the local audio pipeline. Fire-and-forget: if JS fails,
+      // the Web API play already succeeded.
+      unawaited(_bridge.resume());
     } on SpotifyDeviceNotFoundException {
       if (_playGen != gen) return;
       // Device rejected by Spotify (404). Force a full reconnect instead
