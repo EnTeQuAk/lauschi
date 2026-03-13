@@ -109,8 +109,10 @@ void main() {
     expect(find.bySemanticsLabel('Die drei ??? Folge 1'), findsOneWidget);
   });
 
-  testWidgets('tapping a card calls playCard', (tester) async {
-    final cards = [_card(id: 'card-1', title: 'Test Episode')];
+  testWidgets('tapping a card calls playCard and navigates to player', (
+    tester,
+  ) async {
+    final cards = [_card(id: 'card-1', title: 'Die drei ???')];
     final notifier = _TrackingPlayerNotifier(
       initialState: const PlaybackState(isReady: true),
     );
@@ -125,11 +127,80 @@ void main() {
 
     await tester.pumpWidget(_buildApp(container));
     await tester.pump();
-
-    await tester.tap(find.bySemanticsLabel('Test Episode'));
     await tester.pump();
 
-    expect(notifier.playCardCalls, contains('card-1'));
+    await tester.tap(find.bySemanticsLabel('Die drei ???'));
+    // Don't use pumpAndSettle: player screen progress bar ticker
+    // runs at 60fps and never settles.
+    await tester.pump();
+    await tester.pump();
+
+    // playCard was called with the correct ID.
+    expect(notifier.playCardCalls, ['card-1']);
+
+    // Navigated to the player screen (back button visible).
+    expect(find.byIcon(Icons.chevron_left_rounded), findsOneWidget);
+  });
+
+  testWidgets('expired tiles are hidden from kids', (tester) async {
+    final expiredCard = _card(
+      id: 'expired-1',
+      title: 'Expired Episode',
+      providerUri: 'ard:item:expired',
+      availableUntil: DateTime(2025), // in the past
+    );
+    final validCard = _card(
+      id: 'valid-1',
+      title: 'Valid Episode',
+      providerUri: 'ard:item:valid',
+    );
+
+    final container = ProviderContainer(
+      overrides: _testOverrides(ungrouped: [expiredCard, validCard]),
+    );
+    addTearDown(container.dispose);
+
+    await tester.pumpWidget(_buildApp(container));
+    await tester.pump();
+    await tester.pump();
+
+    // Expired tile should not be in the tree at all.
+    expect(find.byKey(const ValueKey('expired-1')), findsNothing);
+
+    // Valid tile should still be visible.
+    expect(find.byKey(const ValueKey('valid-1')), findsOneWidget);
+  });
+
+  testWidgets('tapping a tile when not ready does not navigate', (
+    tester,
+  ) async {
+    final cards = [_card(id: 'card-1', title: 'Bibi Blocksberg')];
+    // isReady: false (default) — player backend not connected yet.
+    final notifier = _TrackingPlayerNotifier();
+
+    final container = ProviderContainer(
+      overrides: _testOverrides(
+        ungrouped: cards,
+        playerNotifier: notifier,
+      ),
+    );
+    addTearDown(container.dispose);
+
+    await tester.pumpWidget(_buildApp(container));
+    // Don't use pumpAndSettle: connecting indicator animates
+    // indefinitely when isReady is false.
+    await tester.pump();
+    await tester.pump();
+
+    await tester.tap(find.bySemanticsLabel('Bibi Blocksberg'));
+    await tester.pump();
+    await tester.pump();
+
+    // Should still be on the home screen (no navigation).
+    expect(find.text('Meine Hörspiele'), findsOneWidget);
+
+    // playCard was NOT called.
+    expect(notifier.playCardCalls, isEmpty);
   });
 
   testWidgets('now playing bar visible when track is set', (tester) async {

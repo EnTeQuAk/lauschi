@@ -129,23 +129,27 @@ class PlayerNotifier extends _$PlayerNotifier {
     _mediaSession.onSeek = (pos) => unawaited(seek(pos.inMilliseconds));
 
     if (FeatureFlags.enableSpotify) {
-      // Watch session for auth state. The notifier reference gives us
-      // access to api, bridge, and validToken.
-      final sessionState = ref.watch(spotifySessionProvider);
+      // Read (not watch) the session notifier. We don't want token
+      // refreshes to rebuild this provider and wipe playback state.
+      // Auth loss is handled via ref.listen below.
       _session = ref.read(spotifySessionProvider.notifier);
 
-      // Subscribe to bridge state stream (once).
+      // Subscribe to bridge state stream (once per provider lifetime).
       _bridgeSub ??= _session!.bridge.stateStream.listen(_onBridgeEvent);
 
-      // React to auth loss: stop Spotify playback, reset state.
-      if (sessionState is SpotifyUnauthenticated ||
-          sessionState is SpotifyError) {
-        _onSpotifyDisconnected();
-      }
+      // React to auth loss without triggering a full rebuild.
+      // ref.listen fires the callback on state changes; it does NOT
+      // cause build() to re-run (unlike ref.watch).
+      ref.listen<SpotifySessionState>(spotifySessionProvider, (prev, next) {
+        if (next is SpotifyUnauthenticated || next is SpotifyError) {
+          _onSpotifyDisconnected();
+        }
+      });
     }
 
     ref.onDispose(() {
       unawaited(_bridgeSub?.cancel());
+      _bridgeSub = null;
       unawaited(_active?.dispose());
       _positionSaveTimer?.cancel();
       _advanceTimer?.cancel();
@@ -200,6 +204,14 @@ class PlayerNotifier extends _$PlayerNotifier {
     if (_active?.backend is! SpotifyBackend) return;
 
     Log.info(_tag, 'Spotify disconnected, stopping playback');
+
+    // Don't cancel _bridgeSub here. The bridge stream stays open across
+    // tearDown/init cycles (that's the whole point of tearDown vs dispose).
+    // If we cancel, the ??= guard in build() prevents re-subscription on
+    // re-login since PlayerNotifier is keepAlive and build() won't re-run.
+    // _onBridgeEvent already gates playback events on _active being a
+    // SpotifyBackend, so stale events from tearDown are harmless.
+
     _advanceTimer?.cancel();
     _positionSaveTimer?.cancel();
     _positionSaveTimer = null;

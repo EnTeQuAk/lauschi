@@ -42,6 +42,13 @@ class SpotifyApi {
     _dio.options.headers['Authorization'] = 'Bearer $token';
   }
 
+  /// Remove the current token. Callers checking [hasToken] will bail
+  /// before making requests, avoiding a 401 roundtrip with stale creds.
+  void clearToken() {
+    _accessToken = null;
+    _dio.options.headers.remove('Authorization');
+  }
+
   /// Whether we have a token set.
   bool get hasToken => _accessToken != null;
 

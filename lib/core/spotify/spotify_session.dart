@@ -1,10 +1,10 @@
 import 'dart:async' show unawaited;
 
+import 'package:flutter/foundation.dart' show immutable;
 import 'package:lauschi/core/feature_flags.dart';
 import 'package:lauschi/core/log.dart';
 import 'package:lauschi/core/spotify/spotify_api.dart';
 import 'package:lauschi/core/spotify/spotify_auth.dart';
-
 import 'package:lauschi/features/player/spotify_player_bridge.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -33,9 +33,18 @@ class SpotifyLoading extends SpotifySessionState {
 }
 
 /// Authenticated. Bridge may or may not be ready yet.
+@immutable
 class SpotifyAuthenticated extends SpotifySessionState {
   const SpotifyAuthenticated(this.tokens);
   final SpotifyTokens tokens;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is SpotifyAuthenticated && tokens == other.tokens;
+
+  @override
+  int get hashCode => tokens.hashCode;
 }
 
 /// Auth or session error with a user-facing message.
@@ -64,9 +73,12 @@ class SpotifyError extends SpotifySessionState {
 /// No widget mount/unmount involved.
 @Riverpod(keepAlive: true)
 class SpotifySession extends _$SpotifySession {
-  late final SpotifyAuth _auth;
-  late final SpotifyApi _api;
-  late final SpotifyPlayerBridge _bridge;
+  // Created once per provider instance, not per build() call.
+  // keepAlive means the instance (and these fields) lives for the
+  // app's lifetime. No orphaned Dio clients or StreamControllers.
+  final SpotifyAuth _auth = SpotifyAuth();
+  final SpotifyApi _api = SpotifyApi();
+  final SpotifyPlayerBridge _bridge = SpotifyPlayerBridge();
 
   /// Whether the bridge has been initialized in this auth session.
   /// Reset on logout/tearDown, set after bridge.init() completes.
@@ -74,16 +86,13 @@ class SpotifySession extends _$SpotifySession {
 
   @override
   SpotifySessionState build() {
-    _auth = SpotifyAuth();
-    _api = SpotifyApi();
-    _bridge = SpotifyPlayerBridge();
-
     // Wire API token refresh: 401 → validToken() → refresh → retry.
     _api.onTokenExpired = validToken;
 
-    ref.onDispose(() {
-      unawaited(_bridge.dispose());
-    });
+    // Use tearDown (not dispose) so the bridge can survive
+    // provider invalidation. dispose() closes the StreamController
+    // permanently, making the bridge unusable if build() re-runs.
+    ref.onDispose(_tearDownBridge);
 
     if (!FeatureFlags.enableSpotify) {
       return const SpotifyUnauthenticated();
@@ -148,6 +157,12 @@ class SpotifySession extends _$SpotifySession {
 
     try {
       final refreshed = await _auth.refresh(tokens.refreshToken!);
+      // Guard against concurrent logout: if we logged out while the
+      // HTTP refresh was in-flight, don't flip back to authenticated.
+      if (state is SpotifyUnauthenticated) {
+        Log.info(_tag, 'Refresh completed after logout, discarding');
+        return null;
+      }
       _setAuthenticated(refreshed);
       return refreshed.accessToken;
     } on Exception catch (e) {
@@ -162,11 +177,18 @@ class SpotifySession extends _$SpotifySession {
   // ---------------------------------------------------------------------------
 
   /// Start the PKCE login flow. Opens the system browser.
+  ///
+  /// The actual authentication happens in [handleCallback] when the
+  /// deep link arrives. This method just awaits the completer that
+  /// handleCallback resolves. No need to call _setAuthenticated here;
+  /// handleCallback already did it.
   Future<void> login() async {
     state = const SpotifyLoading();
     try {
-      final tokens = await _auth.login();
-      _setAuthenticated(tokens);
+      await _auth.login();
+      // handleCallback() already called _setAuthenticated with
+      // the tokens before the completer resolved. If we got here
+      // without an exception, we're authenticated.
       Log.info(_tag, 'Login successful');
     } on Exception catch (e) {
       Log.error(_tag, 'Login failed', exception: e);
@@ -203,6 +225,7 @@ class SpotifySession extends _$SpotifySession {
   Future<void> logout() async {
     Log.info(_tag, 'Logging out');
     _tearDownBridge();
+    _api.clearToken();
     await _auth.logout();
     state = const SpotifyUnauthenticated();
   }
@@ -280,6 +303,7 @@ class SpotifySession extends _$SpotifySession {
   /// Handle unrecoverable auth loss (refresh failed, token revoked).
   void _onAuthLost() {
     _tearDownBridge();
+    _api.clearToken();
     state = const SpotifyUnauthenticated();
   }
 }
