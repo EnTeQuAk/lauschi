@@ -170,7 +170,7 @@ Future<void> waitForPlayback(
   final state = container.read(playerProvider);
   fail(
     'Playback did not start within ${timeout.inSeconds}s. '
-    'State: isPlaying=${state.isPlaying}, '
+    'State: isPlaying=${state.isPlaying}, isLoading=${state.isLoading}, '
     'isReady=${state.isReady}, error=${state.error}',
   );
 }

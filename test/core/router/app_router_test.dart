@@ -6,12 +6,11 @@ import 'package:lauschi/core/auth/pin_service.dart';
 import 'package:lauschi/core/database/tile_item_repository.dart';
 import 'package:lauschi/core/database/tile_repository.dart';
 import 'package:lauschi/core/router/app_router.dart';
-import 'package:lauschi/core/spotify/spotify_auth_provider.dart';
+import 'package:lauschi/core/spotify/spotify_session.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
 import 'package:lauschi/features/onboarding/screens/onboarding_provider.dart';
 import 'package:lauschi/features/player/player_provider.dart';
 import 'package:lauschi/features/player/player_state.dart';
-import 'package:lauschi/features/player/spotify_player_bridge.dart';
 
 Widget _buildApp(ProviderContainer container) {
   return UncontrolledProviderScope(
@@ -30,8 +29,7 @@ Widget _buildApp(ProviderContainer container) {
 
 /// Override providers that require platform channels or async init.
 List<Override> get _testOverrides => [
-  spotifyAuthProvider.overrideWith(_FakeAuthNotifier.new),
-  spotifyPlayerBridgeProvider.overrideWithValue(SpotifyPlayerBridge()),
+  spotifySessionProvider.overrideWith(_FakeSession.new),
   playerProvider.overrideWith(_FakePlayerNotifier.new),
   allTileItemsProvider.overrideWith((_) => Stream.value([])),
   ungroupedItemsProvider.overrideWith((_) => Stream.value([])),
@@ -88,9 +86,9 @@ void main() {
   });
 }
 
-class _FakeAuthNotifier extends SpotifyAuthNotifier {
+class _FakeSession extends SpotifySession {
   @override
-  SpotifyAuthState build() => const AuthUnauthenticated();
+  SpotifySessionState build() => const SpotifyUnauthenticated();
 }
 
 class _FakePlayerNotifier extends PlayerNotifier {
@@ -100,10 +98,10 @@ class _FakePlayerNotifier extends PlayerNotifier {
 
 class _FakeOnboarding extends OnboardingComplete {
   @override
-  bool build() => true; // Already completed
+  bool build() => true;
 }
 
 class _FakeParentAuth extends ParentAuth {
   @override
-  bool build() => true; // Already authenticated for test navigation
+  bool build() => true;
 }

@@ -8,6 +8,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:lauschi/core/auth/pin_service.dart';
 import 'package:lauschi/core/database/tile_repository.dart';
+import 'package:lauschi/core/router/app_router.dart';
 import 'package:lauschi/features/player/player_provider.dart';
 import 'package:lauschi/features/tiles/widgets/tile_card.dart';
 import 'package:patrol/patrol.dart';
@@ -81,17 +82,17 @@ void main() {
       final all = await tiles.getAll();
       expect(all, hasLength(2));
 
-      // Navigate to parent dashboard.
-      await $.tester.tap(find.byTooltip('Eltern-Bereich'));
+      // Navigate to parent dashboard via router (avoids Patrol native
+      // server dependency which is flaky on some devices).
+      container.read(appRouterProvider).go(AppRoutes.parentDashboard);
       await pumpFrames($);
 
       // Tiles should still be in DB while in parent area.
       final inParent = await tiles.getAll();
       expect(inParent, hasLength(2));
 
-      // Navigate back via back button in app bar.
-      // ignore: deprecated_member_use -- $.native is the stable API for now.
-      await $.native.pressBack();
+      // Navigate back to kid home.
+      container.read(appRouterProvider).go(AppRoutes.kidHome);
       await pumpFrames($);
 
       // Tiles still there.

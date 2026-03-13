@@ -7,7 +7,7 @@ import 'package:lauschi/core/auth/pin_service.dart';
 import 'package:lauschi/core/auth/pin_widgets.dart';
 import 'package:lauschi/core/feature_flags.dart';
 import 'package:lauschi/core/router/app_router.dart';
-import 'package:lauschi/core/spotify/spotify_auth_provider.dart';
+import 'package:lauschi/core/spotify/spotify_session.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
 import 'package:lauschi/features/onboarding/screens/onboarding_provider.dart';
 
@@ -167,7 +167,8 @@ class _ConnectPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final authState = ref.watch(spotifyAuthProvider);
+    final sessionState = ref.watch(spotifySessionProvider);
+    final isConnected = sessionState is SpotifyAuthenticated;
 
     return Padding(
       padding: const EdgeInsets.all(AppSpacing.xxl),
@@ -210,25 +211,23 @@ class _ConnectPage extends ConsumerWidget {
             child: FilledButton.icon(
               key: const Key('spotify_connect'),
               onPressed:
-                  authState is AuthAuthenticated
+                  isConnected
                       ? onNext
                       : () async {
-                        await ref.read(spotifyAuthProvider.notifier).login();
+                        final session = ref.read(
+                          spotifySessionProvider.notifier,
+                        );
+                        await session.login();
                         // Auto-advance on success
-                        final newState = ref.read(spotifyAuthProvider);
-                        if (newState is AuthAuthenticated) {
+                        if (session.isAuthenticated) {
                           onNext();
                         }
                       },
               icon: Icon(
-                authState is AuthAuthenticated
-                    ? Icons.check_rounded
-                    : Icons.music_note_rounded,
+                isConnected ? Icons.check_rounded : Icons.music_note_rounded,
               ),
               label: Text(
-                authState is AuthAuthenticated
-                    ? 'Spotify verbunden'
-                    : 'Mit Spotify verbinden',
+                isConnected ? 'Spotify verbunden' : 'Mit Spotify verbinden',
               ),
             ),
           ),

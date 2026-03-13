@@ -96,7 +96,7 @@ class SpotifyBackend extends PlayerBackend {
 
   @override
   Future<void> dispose() async {
-    // Bridge lifecycle is managed by spotifyPlayerBridgeProvider, not here.
+    // Bridge lifecycle is managed by SpotifySession, not here.
     // SpotifyBackend is created per-play session; the bridge outlives it.
   }
 }

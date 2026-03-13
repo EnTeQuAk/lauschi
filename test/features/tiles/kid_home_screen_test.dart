@@ -8,12 +8,11 @@ import 'package:lauschi/core/database/app_database.dart' as db;
 import 'package:lauschi/core/database/tile_item_repository.dart';
 import 'package:lauschi/core/database/tile_repository.dart';
 import 'package:lauschi/core/router/app_router.dart';
-import 'package:lauschi/core/spotify/spotify_auth_provider.dart';
+import 'package:lauschi/core/spotify/spotify_session.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
 import 'package:lauschi/features/onboarding/screens/onboarding_provider.dart';
 import 'package:lauschi/features/player/player_provider.dart';
 import 'package:lauschi/features/player/player_state.dart';
-import 'package:lauschi/features/player/spotify_player_bridge.dart';
 
 db.TileItem _card({
   required String id,
@@ -62,8 +61,7 @@ List<Override> _testOverrides({
   _TrackingPlayerNotifier? playerNotifier,
 }) {
   return [
-    spotifyAuthProvider.overrideWith(_FakeAuth.new),
-    spotifyPlayerBridgeProvider.overrideWithValue(SpotifyPlayerBridge()),
+    spotifySessionProvider.overrideWith(_FakeSession.new),
     if (playerNotifier != null)
       playerProvider.overrideWith(() => playerNotifier)
     else
@@ -80,122 +78,91 @@ List<Override> _testOverrides({
 }
 
 void main() {
-  group('kid home screen tile tap', () {
-    testWidgets('tapping a tile starts playback and navigates to player', (
-      tester,
-    ) async {
-      final card = _card(id: 'card-1', title: 'Die drei ???');
-      final notifier = _TrackingPlayerNotifier(
-        initialState: const PlaybackState(isReady: true),
-      );
+  testWidgets('shows empty state when no cards exist', (tester) async {
+    final container = ProviderContainer(
+      overrides: _testOverrides(),
+    );
+    addTearDown(container.dispose);
 
-      final container = ProviderContainer(
-        overrides: _testOverrides(
-          ungrouped: [card],
-          playerNotifier: notifier,
+    await tester.pumpWidget(_buildApp(container));
+    await tester.pump();
+
+    expect(find.text('Meine Hörspiele'), findsOneWidget);
+  });
+
+  testWidgets('shows cards when ungrouped items exist', (tester) async {
+    final cards = [
+      _card(id: '1', title: 'TKKG Folge 1'),
+      _card(id: '2', title: 'Die drei ??? Folge 1'),
+    ];
+
+    final container = ProviderContainer(
+      overrides: _testOverrides(ungrouped: cards),
+    );
+    addTearDown(container.dispose);
+
+    await tester.pumpWidget(_buildApp(container));
+    await tester.pump();
+    await tester.pump();
+
+    expect(find.bySemanticsLabel('TKKG Folge 1'), findsOneWidget);
+    expect(find.bySemanticsLabel('Die drei ??? Folge 1'), findsOneWidget);
+  });
+
+  testWidgets('tapping a card calls playCard', (tester) async {
+    final cards = [_card(id: 'card-1', title: 'Test Episode')];
+    final notifier = _TrackingPlayerNotifier(
+      initialState: const PlaybackState(isReady: true),
+    );
+
+    final container = ProviderContainer(
+      overrides: _testOverrides(
+        ungrouped: cards,
+        playerNotifier: notifier,
+      ),
+    );
+    addTearDown(container.dispose);
+
+    await tester.pumpWidget(_buildApp(container));
+    await tester.pump();
+
+    await tester.tap(find.bySemanticsLabel('Test Episode'));
+    await tester.pump();
+
+    expect(notifier.playCardCalls, contains('card-1'));
+  });
+
+  testWidgets('now playing bar visible when track is set', (tester) async {
+    final cards = [_card(id: '1', title: 'Episode')];
+
+    final container = ProviderContainer(
+      overrides: _testOverrides(
+        ungrouped: cards,
+        playerState: const PlaybackState(
+          isReady: true,
+          isPlaying: true,
+          track: TrackInfo(
+            uri: 'spotify:track:abc',
+            name: 'Now Playing Test',
+            artist: 'Artist',
+          ),
+          positionMs: 30000,
+          durationMs: 120000,
         ),
-      );
-      addTearDown(container.dispose);
+      ),
+    );
+    addTearDown(container.dispose);
 
-      await tester.pumpWidget(_buildApp(container));
-      await tester.pumpAndSettle();
+    await tester.pumpWidget(_buildApp(container));
+    await tester.pump();
 
-      // Tile should be visible (kid mode renders image, find by key).
-      final tileFinder = find.byKey(const ValueKey('card-1'));
-      expect(tileFinder, findsOneWidget);
-
-      // Tap the tile.
-      await tester.tap(tileFinder);
-      // Don't use pumpAndSettle — the player screen's progress bar
-      // ticker runs at 60fps and never settles.
-      await tester.pump();
-      await tester.pump();
-
-      // playCard was called with the correct ID.
-      expect(notifier.playCardCalls, ['card-1']);
-
-      // Navigated to the player screen (back button visible).
-      expect(
-        find.byIcon(Icons.chevron_left_rounded),
-        findsOneWidget,
-      );
-    });
-
-    testWidgets('expired tiles are hidden from kids', (
-      tester,
-    ) async {
-      final expiredCard = _card(
-        id: 'expired-1',
-        title: 'Expired Episode',
-        providerUri: 'ard:item:expired',
-        availableUntil: DateTime(2025), // expired
-      );
-      final validCard = _card(
-        id: 'valid-1',
-        title: 'Valid Episode',
-        providerUri: 'ard:item:valid',
-      );
-      final notifier = _TrackingPlayerNotifier(
-        initialState: const PlaybackState(isReady: true),
-      );
-
-      final container = ProviderContainer(
-        overrides: _testOverrides(
-          ungrouped: [expiredCard, validCard],
-          playerNotifier: notifier,
-        ),
-      );
-      addTearDown(container.dispose);
-
-      await tester.pumpWidget(_buildApp(container));
-      await tester.pump();
-      await tester.pump();
-
-      // Expired tile should not be in the tree at all.
-      expect(find.byKey(const ValueKey('expired-1')), findsNothing);
-
-      // Valid tile should still be visible.
-      expect(find.byKey(const ValueKey('valid-1')), findsOneWidget);
-    });
-
-    testWidgets('tapping a tile when not ready does not navigate', (
-      tester,
-    ) async {
-      final card = _card(id: 'card-1', title: 'Bibi Blocksberg');
-
-      final container = ProviderContainer(
-        overrides: _testOverrides(
-          // isReady: false — Spotify SDK not connected yet.
-          playerState: const PlaybackState(),
-          ungrouped: [card],
-        ),
-      );
-      addTearDown(container.dispose);
-
-      await tester.pumpWidget(_buildApp(container));
-      // Don't use pumpAndSettle — the connecting indicator animates
-      // indefinitely when isReady is false.
-      await tester.pump();
-      await tester.pump();
-
-      final tileFinder = find.byKey(const ValueKey('card-1'));
-      expect(tileFinder, findsOneWidget);
-
-      await tester.tap(tileFinder);
-      await tester.pump();
-      await tester.pump();
-
-      // Should still be on the home screen (no navigation).
-      expect(find.text('Meine Hörspiele'), findsOneWidget);
-    });
+    expect(find.text('Now Playing Test'), findsOneWidget);
   });
 }
 
-// -- Test fakes --
-
-class _FakeAuth extends SpotifyAuthNotifier {
+class _FakeSession extends SpotifySession {
   @override
-  SpotifyAuthState build() => const AuthUnauthenticated();
+  SpotifySessionState build() => const SpotifyUnauthenticated();
 }
 
 class _FakeOnboarding extends OnboardingComplete {

@@ -4,7 +4,7 @@ import 'package:lauschi/core/auth/pin_service.dart';
 import 'package:lauschi/core/feature_flags.dart';
 import 'package:lauschi/core/log.dart';
 import 'package:lauschi/core/providers/provider_type.dart';
-import 'package:lauschi/core/spotify/spotify_auth_provider.dart';
+import 'package:lauschi/core/spotify/spotify_session.dart';
 import 'package:lauschi/features/onboarding/screens/onboarding_provider.dart';
 import 'package:lauschi/features/onboarding/screens/onboarding_screen.dart';
 import 'package:lauschi/features/parent/screens/add_content_screen.dart';
@@ -71,7 +71,7 @@ GoRouter createRouter(Ref ref, {String initialLocation = AppRoutes.kidHome}) {
     ..listen(onboardingCompleteProvider, (_, _) => refreshNotifier.notify())
     ..listen(parentAuthProvider, (_, _) => refreshNotifier.notify());
   if (FeatureFlags.enableSpotify) {
-    ref.listen(spotifyAuthProvider, (_, _) => refreshNotifier.notify());
+    ref.listen(spotifySessionProvider, (_, _) => refreshNotifier.notify());
   }
   ref.onDispose(refreshNotifier.dispose);
 

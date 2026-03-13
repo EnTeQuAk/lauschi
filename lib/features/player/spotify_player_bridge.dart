@@ -26,30 +26,36 @@ const _positionJitterThresholdMs = 2000;
 
 /// Manages the hidden WebView hosting the Spotify Web Playback SDK.
 ///
+/// Lifecycle (managed by the session provider, not by widgets):
+///   [init]     → creates WebView, loads player.html, sets token callback
+///   [tearDown] → disconnects SDK, clears controller, keeps StreamController
+///   [init]     → can be called again after tearDown (re-login)
+///   [dispose]  → permanent shutdown, closes StreamController
+///
+/// Token callback returns null when auth is unavailable. The bridge
+/// handles this gracefully (sets error state, never crashes).
+///
 /// Events flow JS → Dart via a `SpotifyBridge` JavaScript channel.
 /// Commands flow Dart → JS via `controller.runJavaScript()`.
 class SpotifyPlayerBridge {
   final _stateController = StreamController<PlaybackState>.broadcast();
 
   /// Callback to get a valid (non-expired) access token.
-  /// Set in [init], non-null for the lifetime of the bridge after that.
-  Future<String> Function() _getValidToken = () {
-    throw StateError('Bridge not initialized');
-  };
+  /// Returns null when auth is unavailable (logged out, refresh failed).
+  /// Set in [init], cleared in [tearDown].
+  Future<String?> Function()? _getValidToken;
 
   bool _disposed = false;
   WebViewController? _controller;
 
   /// True while the player page is reloading after a confirmed process death.
   /// Prevents `_runJs()` from piling on failed calls during reload.
+  ///
+  /// Note: `_initPlayer` bypasses this guard intentionally. The Spotify SDK
+  /// fires `onSpotifyWebPlaybackSDKReady` (sdk_ready) before the browser
+  /// fires `onPageFinished`. Blocking init during reload would silently
+  /// drop the token delivery, leaving the SDK uninitialized. See LAUSCHI-Z.
   bool _isReloading = false;
-
-  /// Access the WebView controller. Only available after [init].
-  WebViewController get controller {
-    final c = _controller;
-    if (c == null) throw StateError('Bridge not initialized');
-    return c;
-  }
 
   PlaybackState _state = const PlaybackState();
 
@@ -73,16 +79,29 @@ class SpotifyPlayerBridge {
   /// Number of tracks remaining after the current one.
   int get nextTracksCount => _nextTracksCount;
 
-  /// The WebView controller, or null if not yet initialized.
-  /// Used by `_WebViewHost` widget to render the hidden WebView.
+  /// The WebView controller, or null if not yet initialized / torn down.
   WebViewController? get controllerOrNull => _controller;
 
   /// Initialize the WebView and load the player HTML.
+  ///
+  /// Can be called again after [tearDown] to re-initialize (e.g. after
+  /// re-login). Cleans up any previous controller.
   Future<void> init({
-    required Future<String> Function() getValidToken,
+    required Future<String?> Function() getValidToken,
   }) async {
     _getValidToken = getValidToken;
+    _disposed = false;
     Log.info(_tag, 'Initializing WebView bridge');
+
+    // Clean up previous controller if re-initializing after tearDown.
+    if (_controller != null) {
+      try {
+        await _controller!.loadRequest(Uri.parse('about:blank'));
+      } on Exception {
+        // Controller may be dead from previous lifecycle.
+      }
+      _controller = null;
+    }
 
     // Platform-specific WebView creation params.
     // iOS WKWebView needs media config at creation time, not after.
@@ -120,10 +139,12 @@ class SpotifyPlayerBridge {
       },
     );
 
-    await controller.setJavaScriptMode(JavaScriptMode.unrestricted);
+    final c = _controller!;
+
+    await c.setJavaScriptMode(JavaScriptMode.unrestricted);
 
     // Allow audio playback without user gesture (Android).
-    final platform = controller.platform;
+    final platform = c.platform;
     if (platform is AndroidWebViewController) {
       await platform.setMediaPlaybackRequiresUserGesture(false);
     }
@@ -139,19 +160,18 @@ class SpotifyPlayerBridge {
             : 'Mozilla/5.0 (Linux; Android 15; Pixel 9) '
                 'AppleWebKit/537.36 (KHTML, like Gecko) '
                 'Chrome/144.0.7559.132 Mobile Safari/537.36';
-    await controller.setUserAgent(ua);
+    await c.setUserAgent(ua);
 
-    await controller.addJavaScriptChannel(
+    await c.addJavaScriptChannel(
       'SpotifyBridge',
       onMessageReceived: _onMessage,
     );
 
-    await controller.setNavigationDelegate(
+    await c.setNavigationDelegate(
       NavigationDelegate(
         onNavigationRequest: (request) {
           final uri = Uri.tryParse(request.url);
           final host = uri?.host ?? '';
-          // Allow the player HTML host and Spotify SDK CDN.
           final playerUri = Uri.tryParse(SpotifyConfig.playerUrl);
           final allowed = {
             if (playerUri != null) playerUri.host,
@@ -191,9 +211,6 @@ class SpotifyPlayerBridge {
             _updateState(_state.copyWith(isReady: false));
             unawaited(_reloadPage());
           } else {
-            // Non-termination error (network, etc.). If we're mid-reload,
-            // onPageFinished won't fire, so clear _isReloading to avoid
-            // permanently blocking JS commands.
             _isReloading = false;
             _updateState(_state.copyWith(isReady: false));
           }
@@ -202,11 +219,39 @@ class SpotifyPlayerBridge {
     );
 
     Log.info(_tag, 'Loading player HTML');
-    await controller.loadRequest(Uri.parse(SpotifyConfig.playerUrl));
+    await c.loadRequest(Uri.parse(SpotifyConfig.playerUrl));
   }
 
-  /// Allowed message types from the JS bridge. Reject anything else to
-  /// prevent unexpected payloads if the CDN-loaded SDK is compromised.
+  /// Disconnect the SDK and release the WebView controller.
+  ///
+  /// Unlike [dispose], the bridge can be re-initialized via [init] after
+  /// this call. The [stateStream] stays open so subscribers (PlayerNotifier)
+  /// keep receiving state updates across login/logout cycles.
+  ///
+  /// Called by the session provider when auth is lost.
+  void tearDown() {
+    if (_disposed) return;
+    Log.info(_tag, 'Tearing down bridge');
+    _deviceId = null;
+    _trackNumber = 0;
+    _nextTracksCount = 0;
+    _getValidToken = null;
+    _isReloading = false;
+
+    // Disconnect SDK and blank out the page. Fire-and-forget because
+    // the controller may already be dead (iOS process termination).
+    if (_controller != null) {
+      unawaited(_runJs('window.lauschi.disconnect()'));
+      unawaited(
+        _controller!.loadRequest(Uri.parse('about:blank')).catchError((_) {}),
+      );
+    }
+    _controller = null;
+
+    _updateState(const PlaybackState());
+  }
+
+  /// Allowed message types from the JS bridge.
   static const _allowedTypes = {
     'sdk_ready',
     'ready',
@@ -218,17 +263,14 @@ class SpotifyPlayerBridge {
   };
 
   void _onMessage(JavaScriptMessage msg) {
-    // Reject messages after disposal.
-    if (_disposed) return;
+    // Reject messages after disposal or teardown.
+    if (_disposed || _getValidToken == null) return;
 
-    // Reject oversized messages (>64KB is suspicious for our protocol).
     if (msg.message.length > _maxMessageBytes) {
       Log.warn(
         _tag,
         'Dropped oversized message',
-        data: {
-          'bytes': '${msg.message.length}',
-        },
+        data: {'bytes': '${msg.message.length}'},
       );
       return;
     }
@@ -300,12 +342,10 @@ class SpotifyPlayerBridge {
         Log.debug('js', _sanitize('${payload['message']}'));
 
       default:
-        // Unreachable due to allowlist check above, but satisfies exhaustiveness.
         break;
     }
   }
 
-  /// Truncate and strip control characters from JS-originated strings.
   static String _sanitize(String input, {int maxLength = 500}) {
     final clamped =
         input.length > maxLength ? '${input.substring(0, maxLength)}…' : input;
@@ -331,7 +371,6 @@ class SpotifyPlayerBridge {
 
     TrackInfo? track;
     if (trackData != null) {
-      // Validate required fields before constructing TrackInfo.
       final uri = trackData['uri'] as String?;
       final name = trackData['name'] as String?;
       final artist = trackData['artist'] as String?;
@@ -348,23 +387,15 @@ class SpotifyPlayerBridge {
       }
     }
 
-    // Suppress stale position updates from the Spotify SDK on iOS.
-    // The SDK sometimes fires events with slightly older positions,
-    // causing the progress bar to jitter (30→31→32→30→31…).
-    // Accept the update only if position moves forward, same track is
-    // playing, or the track changed (seek/skip).
     final sameTrack =
         track?.uri == _state.track?.uri && trackNum == _trackNumber;
     final positionWentBack = sameTrack && posMs < _state.positionMs;
-    // Allow small backward jumps (<2s): rounding/buffering noise.
-    // Only suppress larger jumps that cause visible jitter.
     final effectivePos =
         positionWentBack &&
                 (_state.positionMs - posMs) < _positionJitterThresholdMs
             ? _state.positionMs
             : posMs;
 
-    // Log track changes and significant state transitions.
     final trackChanged = track?.uri != _state.track?.uri;
     if (trackChanged && track != null) {
       Log.info(
@@ -392,49 +423,87 @@ class SpotifyPlayerBridge {
     );
   }
 
+  /// Initialize the Spotify SDK player with an access token.
+  ///
+  /// Called when the SDK fires `sdk_ready` after the page loads. Bypasses
+  /// the `_isReloading` guard: the Spotify SDK fires
+  /// `onSpotifyWebPlaybackSDKReady` before the browser fires
+  /// `onPageFinished`, so `_isReloading` is still true during page
+  /// reloads. Using `_runJs` here would silently drop the init call,
+  /// leaving the SDK uninitialized. See LAUSCHI-Z.
   Future<void> _initPlayer() async {
     Log.info(_tag, 'Initializing SDK player with token');
-    final token = await _getValidToken();
-    await _runJs('window.lauschi.init(${json.encode(token)})');
-  }
 
-  Future<void> _deliverFreshToken() async {
+    final getToken = _getValidToken;
+    if (getToken == null) {
+      Log.warn(_tag, 'Init skipped: bridge torn down');
+      return;
+    }
+
+    String? token;
     try {
-      final token = await _getValidToken();
-      await _runJs(
-        'window.lauschi.deliver_token(${json.encode(token)})',
-      );
-      Log.info(_tag, 'Delivered fresh token to SDK');
+      token = await getToken();
     } on Exception catch (e) {
-      Log.error(_tag, 'Token delivery failed', exception: e);
-      _updateState(
-        _state.copyWith(error: PlayerError.spotifyAuthExpired),
+      Log.warn(_tag, 'Token unavailable for SDK init', data: {'error': '$e'});
+      _updateState(_state.copyWith(error: PlayerError.spotifyAuthExpired));
+      return;
+    }
+
+    if (token == null) {
+      Log.warn(_tag, 'Init skipped: not authenticated');
+      _updateState(_state.copyWith(error: PlayerError.spotifyAuthExpired));
+      return;
+    }
+
+    // Direct controller call, bypassing _runJs's _isReloading guard.
+    // sdk_ready fires before onPageFinished; that's expected browser
+    // behavior for inline scripts.
+    if (_controller == null) return;
+    try {
+      await _controller!.runJavaScript(
+        'if(window.lauschi){window.lauschi.init(${json.encode(token)})}',
       );
+    } on Exception catch (e) {
+      final detail = e is PlatformException ? 'WebView error: ${e.code}' : '$e';
+      Log.warn(_tag, 'Init JS failed: $detail');
     }
   }
 
-  /// Run JS on the WebView, catching PlatformException when the WebView
-  /// isn't ready or has been torn down (e.g. app backgrounded on iOS).
-  ///
-  /// Returns true if JS executed successfully, false if the WebView
-  /// content process is dead, suspended, or the controller is unavailable.
-  ///
-  /// Does NOT clear _deviceId or isReady on failure. Process death is
-  /// detected via `webContentProcessTerminated` in onWebResourceError,
-  /// which triggers an immediate page reload. For anything else (transient
-  /// background suspension, race during reload), the JS call just didn't
-  /// go through and the caller handles it via the return value.
+  /// Deliver a fresh token when the SDK requests one (token expired
+  /// during playback).
+  Future<void> _deliverFreshToken() async {
+    final getToken = _getValidToken;
+    if (getToken == null) {
+      Log.warn(_tag, 'Token delivery skipped: bridge torn down');
+      _updateState(_state.copyWith(error: PlayerError.spotifyAuthExpired));
+      return;
+    }
+
+    try {
+      final token = await getToken();
+      if (token == null) {
+        Log.warn(_tag, 'Token delivery failed: not authenticated');
+        _updateState(_state.copyWith(error: PlayerError.spotifyAuthExpired));
+        return;
+      }
+      await _runJs('window.lauschi.deliver_token(${json.encode(token)})');
+      Log.info(_tag, 'Delivered fresh token to SDK');
+    } on Exception catch (e) {
+      Log.error(_tag, 'Token delivery failed', exception: e);
+      _updateState(_state.copyWith(error: PlayerError.spotifyAuthExpired));
+    }
+  }
+
+  /// Run JS on the WebView. Returns true on success, false if the WebView
+  /// is unavailable (disposed, torn down, reloading, process killed).
   Future<bool> _runJs(String js) async {
     if (_disposed || _controller == null) return false;
     if (_isReloading) return false;
     try {
-      // Guard against calls before player.html has defined window.lauschi.
       final guarded = 'if(window.lauschi){$js}';
-      await controller.runJavaScript(guarded);
+      await _controller!.runJavaScript(guarded);
       return true;
     } on Exception catch (e) {
-      // Catches PlatformException (WebView killed), StateError (controller
-      // disposed), and anything else the WebView plugin throws. See #222.
       final detail =
           e is PlatformException ? 'WebView likely dead: ${e.code}' : '$e';
       Log.warn(_tag, 'JS eval failed: $detail');
@@ -443,43 +512,26 @@ class SpotifyPlayerBridge {
   }
 
   void _updateState(PlaybackState newState) {
+    if (_stateController.isClosed) return;
     _state = newState;
     _stateController.add(newState);
   }
 
   // ---------------------------------------------------------------------------
-  // JS commands (used by player SDK locally, not via Web API)
+  // JS commands
   // ---------------------------------------------------------------------------
 
   /// Re-register the SDK player with Spotify's servers.
   /// Call when the device_id goes stale (404 on play).
-  /// The SDK will fire 'ready' with a new device_id on success.
-  ///
-  /// Tries JS reconnect first (fast, ~200ms). If JS fails (WebView
-  /// content process is dead), falls back to a full page reload.
-  /// The `webContentProcessTerminated` callback also triggers a reload,
-  /// but it may not have fired yet (iOS race during app suspension).
   Future<void> reconnect() async {
     Log.info(_tag, 'Requesting SDK reconnect');
-    // Clear stale device_id BEFORE firing JS. This ensures waitForDevice()
-    // actually waits for the fresh 'ready' event instead of returning the
-    // stale ID immediately.
     _deviceId = null;
     _updateState(_state.copyWith(isReady: false));
     if (!await _runJs('window.lauschi.reconnect()') && !_isReloading) {
-      // JS failed and no reload is in progress (webContentProcessTerminated
-      // may not have fired yet). Fall back to a full page reload.
       await _reloadPage();
     }
   }
 
-  /// Reload the player HTML page after the WebView content process died.
-  ///
-  /// iOS kills WKWebView content processes independently of the app
-  /// (memory pressure, background timeout). The WebViewController
-  /// itself stays valid; only the web content process needs restarting.
-  /// Reloading triggers the same SDK init flow as the initial load:
-  /// page loaded -> sdk_ready -> _initPlayer -> token -> connect -> ready.
   Future<void> _reloadPage() async {
     if (_disposed || _controller == null) return;
     _isReloading = true;
@@ -487,16 +539,12 @@ class SpotifyPlayerBridge {
     try {
       await _controller!.loadRequest(Uri.parse(SpotifyConfig.playerUrl));
     } on Exception catch (e) {
-      // Controller itself is dead (not just the content process).
-      // Nothing we can do short of recreating the widget.
-      // Clear _isReloading so the bridge isn't permanently blocked.
       _isReloading = false;
       Log.error(_tag, 'Page reload failed', exception: e);
     }
   }
 
   /// Wait for the device to become ready (up to [timeout]).
-  /// Returns the device_id or null if not ready in time.
   Future<String?> waitForDevice({
     Duration timeout = const Duration(seconds: 8),
   }) async {
@@ -513,37 +561,31 @@ class SpotifyPlayerBridge {
     }
   }
 
-  /// Pause via the local SDK player (idempotent, safe to call when paused).
   Future<void> pause() async {
     Log.debug(_tag, 'JS: pause');
     await _runJs('window.lauschi.pause()');
   }
 
-  /// Resume via the local SDK player (idempotent — safe to call when playing).
   Future<void> resume() async {
     Log.debug(_tag, 'JS: resume');
     await _runJs('window.lauschi.resume()');
   }
 
-  /// Next track via local SDK.
   Future<void> nextTrack() async {
     Log.debug(_tag, 'JS: next_track');
     await _runJs('window.lauschi.next_track()');
   }
 
-  /// Previous track via local SDK.
   Future<void> prevTrack() async {
     Log.debug(_tag, 'JS: prev_track');
     await _runJs('window.lauschi.prev_track()');
   }
 
-  /// Seek to position via local SDK.
   Future<void> seek(int positionMs) async {
     Log.debug(_tag, 'JS: seek $positionMs');
     await _runJs('window.lauschi.seek($positionMs)');
   }
 
-  /// Map raw SDK error types to typed error values.
   PlayerError _classifyError(String type, String message) {
     return switch (type) {
       'auth' => PlayerError.spotifyAuthExpired,
@@ -557,22 +599,26 @@ class SpotifyPlayerBridge {
     };
   }
 
-  /// Disconnect and clean up.
+  /// Permanently shut down the bridge. Closes [stateStream].
+  /// After dispose, the bridge cannot be reused. Use [tearDown] for
+  /// recoverable disconnects.
   Future<void> dispose() async {
+    if (_disposed) return;
     _disposed = true;
     Log.info(_tag, 'Disposing bridge');
+    _getValidToken = null;
     try {
       if (_controller != null) {
         await _controller!.runJavaScript('window.lauschi.disconnect()');
       }
     } on Exception catch (e) {
-      // WebView may already be destroyed (process killed, widget disposed).
       Log.warn(
         _tag,
         'Disconnect failed (WebView likely dead)',
         data: {'error': '$e'},
       );
     }
+    _controller = null;
     await _stateController.close();
   }
 }

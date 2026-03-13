@@ -13,10 +13,9 @@ import 'package:lauschi/core/log.dart';
 import 'package:lauschi/core/providers/provider_type.dart';
 import 'package:lauschi/core/router/app_router.dart';
 import 'package:lauschi/core/spotify/spotify_api.dart';
-import 'package:lauschi/core/spotify/spotify_auth_provider.dart';
+import 'package:lauschi/core/spotify/spotify_session.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
 import 'package:lauschi/features/parent/widgets/import_progress_dialog.dart';
-import 'package:lauschi/features/player/player_provider.dart';
 
 const _tag = 'BrowseCatalog';
 
@@ -190,7 +189,10 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen>
 
   Future<void> _searchAlbums(String query) async {
     final gen = ++_searchGeneration;
-    final result = await ref.read(spotifyApiProvider).searchAlbums(query);
+    final result = await ref
+        .read(spotifySessionProvider.notifier)
+        .api
+        .searchAlbums(query);
     if (!mounted || gen != _searchGeneration) return;
     final catalog = ref.read(catalogServiceProvider).value;
     final matches =
@@ -228,7 +230,10 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen>
 
   Future<void> _searchPlaylists(String query) async {
     final gen = ++_searchGeneration;
-    final result = await ref.read(spotifyApiProvider).searchPlaylists(query);
+    final result = await ref
+        .read(spotifySessionProvider.notifier)
+        .api
+        .searchPlaylists(query);
     if (!mounted || gen != _searchGeneration) return;
     Log.info(
       _tag,
@@ -531,11 +536,11 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen>
   @override
   Widget build(BuildContext context) {
     super.build(context); // Required for AutomaticKeepAliveClientMixin
-    final authState = ref.watch(spotifyAuthProvider);
+    final spotifyState = ref.watch(spotifySessionProvider);
     final catalogAsync = ref.watch(catalogServiceProvider);
 
     // Spotify not connected — show connection prompt
-    if (authState is! AuthAuthenticated) {
+    if (spotifyState is! SpotifyAuthenticated) {
       if (widget.embedded) {
         return _SpotifyNotConnectedContent(
           isAutoAssignMode: _isAutoAssignMode,
@@ -1349,7 +1354,7 @@ class _CatalogSeriesDetailScreenState
 
     setState(() => _isAdding = true);
 
-    final api = ref.read(spotifyApiProvider);
+    final api = ref.read(spotifySessionProvider.notifier).api;
     if (!api.hasToken) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -2190,7 +2195,8 @@ class _AlbumDetailSheetState extends ConsumerState<_AlbumDetailSheet> {
   Future<void> _loadTracks() async {
     try {
       final detail = await ref
-          .read(spotifyApiProvider)
+          .read(spotifySessionProvider.notifier)
+          .api
           .getAlbum(widget.album.id);
       if (!mounted) return;
       setState(() {
@@ -2416,7 +2422,8 @@ class _PlaylistDetailSheetState extends ConsumerState<_PlaylistDetailSheet> {
   Future<void> _loadTracks() async {
     try {
       final detail = await ref
-          .read(spotifyApiProvider)
+          .read(spotifySessionProvider.notifier)
+          .api
           .getPlaylist(widget.playlist.id);
       if (!mounted) return;
       setState(() {
@@ -2642,7 +2649,7 @@ class _Placeholder extends StatelessWidget {
 final _albumCoversProvider = FutureProvider.autoDispose
     .family<Map<String, String>, String>(
       (ref, joinedIds) async {
-        final api = ref.watch(spotifyApiProvider);
+        final api = ref.read(spotifySessionProvider.notifier).api;
         if (!api.hasToken || joinedIds.isEmpty) return {};
 
         final albumIds = joinedIds.split(',');
@@ -2670,7 +2677,7 @@ final _albumCoversProvider = FutureProvider.autoDispose
 /// Batch-fetches cover images for all curated series.
 final _seriesCoverMapProvider = FutureProvider.autoDispose<Map<String, String>>(
   (ref) async {
-    final api = ref.watch(spotifyApiProvider);
+    final api = ref.read(spotifySessionProvider.notifier).api;
     if (!api.hasToken) return {};
 
     final catalogAsync = ref.watch(catalogServiceProvider);

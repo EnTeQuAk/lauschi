@@ -10,9 +10,9 @@ import 'package:lauschi/core/database/tile_repository.dart';
 import 'package:lauschi/core/feature_flags.dart';
 import 'package:lauschi/core/log.dart';
 import 'package:lauschi/core/router/app_router.dart';
+import 'package:lauschi/core/spotify/spotify_session.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
 import 'package:lauschi/features/parent/widgets/expiry_label.dart';
-import 'package:lauschi/features/player/player_provider.dart';
 import 'package:lauschi/features/tiles/screens/tile_detail_screen.dart';
 
 const _tag = 'TileEditScreen';
@@ -458,7 +458,7 @@ class _CoverPickerState extends ConsumerState<_CoverPicker> {
     if (widget.artistIds.isEmpty || _artistImagesFetched) return;
     _artistImagesFetched = true;
 
-    final api = ref.read(spotifyApiProvider);
+    final api = ref.read(spotifySessionProvider.notifier).api;
 
     for (final id in widget.artistIds) {
       try {

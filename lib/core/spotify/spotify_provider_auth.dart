@@ -1,12 +1,12 @@
 import 'package:lauschi/core/providers/provider_auth.dart';
 import 'package:lauschi/core/providers/provider_type.dart';
-import 'package:lauschi/core/spotify/spotify_auth_provider.dart';
+import 'package:lauschi/core/spotify/spotify_session.dart';
 
-/// Adapts SpotifyAuthNotifier to the ProviderAuth interface.
+/// Adapts [SpotifySession] to the [ProviderAuth] interface.
 class SpotifyProviderAuth implements ProviderAuth {
-  SpotifyProviderAuth(this._notifier);
+  SpotifyProviderAuth(this._session);
 
-  final SpotifyAuthNotifier _notifier;
+  final SpotifySession _session;
 
   @override
   ProviderType get type => ProviderType.spotify;
@@ -15,8 +15,8 @@ class SpotifyProviderAuth implements ProviderAuth {
   bool get requiresAuth => true;
 
   @override
-  Future<void> authenticate() => _notifier.login();
+  Future<void> authenticate() => _session.login();
 
   @override
-  Future<void> logout() => _notifier.logout();
+  Future<void> logout() => _session.logout();
 }
