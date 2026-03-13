@@ -156,21 +156,30 @@ class _WebViewHostState extends ConsumerState<_WebViewHost> {
 
   Future<void> _initBridge() async {
     if (_initialized) return;
-    _initialized = true;
-    await ref.read(spotifySessionProvider.notifier).initBridge();
-    if (mounted) setState(() {});
+    try {
+      await ref.read(spotifySessionProvider.notifier).initBridge();
+      _initialized = true;
+      if (mounted) setState(() {});
+    } on Exception catch (e) {
+      // Don't set _initialized — allows retry on next mount.
+      Log.error('WebViewHost', 'Bridge init failed', exception: e);
+    }
   }
 
   @override
   void dispose() {
     // No bridge lifecycle management here. SpotifySession.logout()
-    // handles tearDown before the widget unmounts. See LAUSCHI-Z.
+    // handles tearDown before the widget unmounts.
+    // See Sentry LAUSCHI-Z (StateError during token callback after logout).
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final session = ref.watch(spotifySessionProvider.notifier);
+    // ref.read, not ref.watch: this widget is conditionally rendered
+    // by the parent based on auth state. We just need the bridge
+    // reference to get the WebView controller.
+    final session = ref.read(spotifySessionProvider.notifier);
     final bridge = session.bridge;
     if (!bridge.currentState.isReady && !_initialized) {
       return const SizedBox.shrink();

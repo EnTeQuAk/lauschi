@@ -131,6 +131,46 @@ void main() {
         bridge.tearDown();
       });
     });
+
+    group('init after dispose', () {
+      test('throws StateError', () async {
+        await bridge.dispose();
+
+        expect(
+          () => bridge.init(getValidToken: () async => 'token'),
+          throwsStateError,
+        );
+      });
+    });
+
+    group('tearDown → tearDown cycle (no WebView needed)', () {
+      test('stream stays alive across multiple tearDown cycles', () async {
+        final allStates = <PlaybackState>[];
+        final s = bridge.stateStream.listen(allStates.add);
+        addTeardownSafe(s.cancel);
+
+        // First tearDown.
+        bridge.tearDown();
+        await Future<void>.delayed(Duration.zero);
+        expect(allStates, isNotEmpty);
+        final count1 = allStates.length;
+
+        // Second tearDown still emits (stream alive).
+        bridge.tearDown();
+        await Future<void>.delayed(Duration.zero);
+        expect(allStates.length, greaterThan(count1));
+      });
+
+      test('state is reset after each tearDown', () {
+        bridge.tearDown();
+        expect(bridge.currentState, const PlaybackState());
+        expect(bridge.deviceId, isNull);
+        expect(bridge.controllerOrNull, isNull);
+
+        bridge.tearDown();
+        expect(bridge.currentState, const PlaybackState());
+      });
+    });
   });
 }
 

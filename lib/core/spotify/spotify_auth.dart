@@ -4,6 +4,7 @@ import 'dart:math';
 
 import 'package:crypto/crypto.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart' show immutable;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:lauschi/core/log.dart';
 import 'package:lauschi/core/spotify/spotify_config.dart';
@@ -24,6 +25,7 @@ const _defaultStorage = FlutterSecureStorage(
 );
 
 /// Token set returned from Spotify OAuth.
+@immutable
 class SpotifyTokens {
   const SpotifyTokens({
     required this.accessToken,
@@ -39,6 +41,17 @@ class SpotifyTokens {
   /// to avoid races during API calls.
   bool get isExpired =>
       DateTime.now().isAfter(expiry.subtract(const Duration(minutes: 2)));
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is SpotifyTokens &&
+          accessToken == other.accessToken &&
+          refreshToken == other.refreshToken &&
+          expiry == other.expiry;
+
+  @override
+  int get hashCode => Object.hash(accessToken, refreshToken, expiry);
 }
 
 /// Handles Spotify PKCE OAuth flow, token storage, and refresh.
