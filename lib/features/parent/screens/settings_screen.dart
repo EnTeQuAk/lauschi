@@ -8,10 +8,9 @@ import 'package:lauschi/core/feature_flags.dart';
 import 'package:lauschi/core/log.dart';
 import 'package:lauschi/core/settings/debug_settings.dart';
 import 'package:lauschi/core/settings/kid_settings.dart';
-import 'package:lauschi/core/spotify/spotify_auth_provider.dart';
+import 'package:lauschi/core/spotify/spotify_session.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
 import 'package:lauschi/features/onboarding/screens/onboarding_provider.dart';
-import 'package:lauschi/features/player/player_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -291,17 +290,9 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
 
   Future<void> _performLogout() async {
     Log.info(_tag, 'Performing logout');
-    // Disconnect the player bridge.
-    final bridge = ref.read(spotifyPlayerBridgeProvider);
-    await bridge.dispose();
 
-    // Invalidate the bridge provider so a fresh instance is created on
-    // next login. Without this, the disposed bridge (closed StreamController,
-    // stale WebViewController) would be reused.
-    ref.invalidate(spotifyPlayerBridgeProvider);
-
-    // Clear tokens.
-    await ref.read(spotifyAuthProvider.notifier).logout();
+    // Session handles everything: bridge teardown, token cleanup.
+    await ref.read(spotifySessionProvider.notifier).logout();
 
     // Reset onboarding so the router redirects to the login flow.
     final prefs = await SharedPreferences.getInstance();
@@ -334,7 +325,7 @@ class _ProviderRow extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final spotifyConnected =
         FeatureFlags.enableSpotify &&
-        ref.watch(spotifyAuthProvider) is AuthAuthenticated;
+        ref.watch(spotifySessionProvider) is SpotifyAuthenticated;
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: AppSpacing.screenH),

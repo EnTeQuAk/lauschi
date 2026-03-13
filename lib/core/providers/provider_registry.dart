@@ -2,8 +2,8 @@ import 'package:lauschi/core/ard/ard_auth.dart';
 import 'package:lauschi/core/feature_flags.dart';
 import 'package:lauschi/core/providers/provider_auth.dart';
 import 'package:lauschi/core/providers/provider_type.dart';
-import 'package:lauschi/core/spotify/spotify_auth_provider.dart';
 import 'package:lauschi/core/spotify/spotify_provider_auth.dart';
+import 'package:lauschi/core/spotify/spotify_session.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'provider_registry.g.dart';
@@ -36,8 +36,6 @@ class ProviderInfo {
 /// and which providers can play content.
 @Riverpod(keepAlive: true)
 List<ProviderInfo> providerRegistry(Ref ref) {
-  // Only include providers that are implemented.
-  // Apple Music and Tidal will be added here when their auth is wired.
   final providers = <ProviderInfo>[
     ProviderInfo(
       type: ProviderType.ardAudiothek,
@@ -47,20 +45,21 @@ List<ProviderInfo> providerRegistry(Ref ref) {
   ];
 
   if (FeatureFlags.enableSpotify) {
-    final spotifyState = ref.watch(spotifyAuthProvider);
-    final spotifyAuthState = switch (spotifyState) {
-      AuthLoading() => ProviderAuthState.loading,
-      AuthAuthenticated() => ProviderAuthState.authenticated,
-      AuthUnauthenticated() => ProviderAuthState.unauthenticated,
-      AuthError() => ProviderAuthState.unauthenticated,
+    final sessionState = ref.watch(spotifySessionProvider);
+    final session = ref.read(spotifySessionProvider.notifier);
+
+    final authState = switch (sessionState) {
+      SpotifyLoading() => ProviderAuthState.loading,
+      SpotifyAuthenticated() => ProviderAuthState.authenticated,
+      SpotifyUnauthenticated() => ProviderAuthState.unauthenticated,
+      SpotifyError() => ProviderAuthState.unauthenticated,
     };
 
-    final spotifyNotifier = ref.read(spotifyAuthProvider.notifier);
     providers.add(
       ProviderInfo(
         type: ProviderType.spotify,
-        auth: SpotifyProviderAuth(spotifyNotifier),
-        authState: spotifyAuthState,
+        auth: SpotifyProviderAuth(session),
+        authState: authState,
       ),
     );
   }

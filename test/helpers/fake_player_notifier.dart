@@ -59,10 +59,4 @@ class FakePlayerNotifier extends PlayerNotifier {
       throw UnimplementedError(
         'Add prevTrack() tracking if your test needs it',
       );
-
-  @override
-  Future<void> initBridge() async =>
-      throw UnimplementedError(
-        'Add initBridge() tracking if your test needs it',
-      );
 }

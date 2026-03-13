@@ -7,7 +7,7 @@ import 'package:lauschi/core/feature_flags.dart';
 import 'package:lauschi/core/log.dart';
 import 'package:lauschi/core/providers/provider_type.dart';
 import 'package:lauschi/core/spotify/spotify_api.dart';
-import 'package:lauschi/core/spotify/spotify_auth_provider.dart';
+import 'package:lauschi/core/spotify/spotify_session.dart';
 import 'package:lauschi/features/player/direct_player.dart';
 import 'package:lauschi/features/player/media_session_handler.dart';
 import 'package:lauschi/features/player/player_backend.dart';
@@ -22,37 +22,6 @@ part 'player_provider.g.dart';
 
 const _tag = 'PlayerProvider';
 
-// ---------------------------------------------------------------------------
-// Providers for shared services
-// TODO(#206): spotifyApiProvider is used outside the player feature (parent
-// screens). Move to core/spotify/ in a provider-organization pass.
-// ---------------------------------------------------------------------------
-
-@Riverpod(keepAlive: true)
-SpotifyApi spotifyApi(Ref ref) {
-  final api = SpotifyApi();
-
-  if (FeatureFlags.enableSpotify) {
-    ref.listen(spotifyAuthProvider, (_, next) {
-      if (next is AuthAuthenticated) {
-        api.updateToken(next.tokens.accessToken);
-      }
-    });
-
-    final authState = ref.read(spotifyAuthProvider);
-    if (authState is AuthAuthenticated) {
-      api.updateToken(authState.tokens.accessToken);
-    }
-
-    // Wire 401 → refresh → retry.
-    api.onTokenExpired = () {
-      return ref.read(spotifyAuthProvider.notifier).validAccessToken();
-    };
-  }
-
-  return api;
-}
-
 /// Holds the [MediaSessionHandler] initialized in main().
 /// Must be overridden before use.
 @Riverpod(keepAlive: true)
@@ -61,13 +30,6 @@ MediaSessionHandler mediaSessionHandler(Ref ref) {
     'mediaSessionHandlerProvider must be overridden with an '
     'initialized MediaSessionHandler',
   );
-}
-
-@Riverpod(keepAlive: true)
-SpotifyPlayerBridge spotifyPlayerBridge(Ref ref) {
-  final bridge = SpotifyPlayerBridge();
-  ref.onDispose(bridge.dispose);
-  return bridge;
 }
 
 // ---------------------------------------------------------------------------
@@ -104,11 +66,21 @@ class _ActiveBackend {
 
 /// Manages playback state and coordinates backends, position saving,
 /// media session, and auto-advance.
+///
+/// Spotify integration goes through [SpotifySession]. This notifier
+/// has no direct auth wiring, token management, or bridge lifecycle
+/// concerns. It watches the session state and reacts to auth changes
+/// (e.g. stops Spotify playback on logout).
 @Riverpod(keepAlive: true)
 class PlayerNotifier extends _$PlayerNotifier {
-  late SpotifyPlayerBridge _bridge;
-  late SpotifyApi _api;
   late MediaSessionHandler _mediaSession;
+
+  /// Spotify session. Null when Spotify is disabled.
+  SpotifySession? _session;
+
+  /// Shortcuts into the session for playback code.
+  SpotifyPlayerBridge? get _bridge => _session?.bridge;
+  SpotifyApi? get _api => _session?.api;
 
   /// Permanent subscription to the Spotify bridge state stream.
   /// Routes playback events only when Spotify is the active backend;
@@ -147,8 +119,6 @@ class PlayerNotifier extends _$PlayerNotifier {
 
   @override
   PlaybackState build() {
-    _bridge = ref.watch(spotifyPlayerBridgeProvider);
-    _api = ref.watch(spotifyApiProvider);
     _mediaSession = ref.watch(mediaSessionHandlerProvider);
 
     // Wire system media button callbacks.
@@ -158,11 +128,20 @@ class PlayerNotifier extends _$PlayerNotifier {
     _mediaSession.onSkipPrev = () => unawaited(prevTrack());
     _mediaSession.onSeek = (pos) => unawaited(seek(pos.inMilliseconds));
 
-    // Bridge subscription: always accept device metadata; only route
-    // playback fields when SpotifyBackend is the active backend.
-    // Guard against duplicate creation if build() re-runs. See #213.
-    if (FeatureFlags.enableSpotify && _bridgeSub == null) {
-      _bridgeSub = _bridge.stateStream.listen(_onBridgeEvent);
+    if (FeatureFlags.enableSpotify) {
+      // Watch session for auth state. The notifier reference gives us
+      // access to api, bridge, and validToken.
+      final sessionState = ref.watch(spotifySessionProvider);
+      _session = ref.read(spotifySessionProvider.notifier);
+
+      // Subscribe to bridge state stream (once).
+      _bridgeSub ??= _session!.bridge.stateStream.listen(_onBridgeEvent);
+
+      // React to auth loss: stop Spotify playback, reset state.
+      if (sessionState is SpotifyUnauthenticated ||
+          sessionState is SpotifyError) {
+        _onSpotifyDisconnected();
+      }
     }
 
     ref.onDispose(() {
@@ -215,29 +194,24 @@ class PlayerNotifier extends _$PlayerNotifier {
     }
   }
 
-  // ─── Public API ──────────────────────────────────────────────────────
+  /// Handle Spotify auth loss. Stops active Spotify playback and resets
+  /// player state. Bridge teardown is handled by SpotifySession.
+  void _onSpotifyDisconnected() {
+    if (_active?.backend is! SpotifyBackend) return;
 
-  /// Initialize the bridge with current auth tokens.
-  /// Call after successful Spotify login. No-op when Spotify is disabled.
-  Future<void> initBridge() async {
-    if (!FeatureFlags.enableSpotify) return;
+    Log.info(_tag, 'Spotify disconnected, stopping playback');
+    _advanceTimer?.cancel();
+    _positionSaveTimer?.cancel();
+    _positionSaveTimer = null;
+    _playTimeMs = 0;
+    _playStartedAt = null;
 
-    final authState = ref.read(spotifyAuthProvider);
-    if (authState is! AuthAuthenticated) {
-      Log.warn(_tag, 'Cannot init bridge — not authenticated');
-      return;
-    }
-
-    final authNotifier = ref.read(spotifyAuthProvider.notifier);
-    await _bridge.init(
-      getValidToken: () async {
-        final token = await authNotifier.validAccessToken();
-        if (token == null) throw StateError('Not authenticated');
-        return token;
-      },
-    );
-    Log.info(_tag, 'Bridge initialized');
+    unawaited(_active?.stop());
+    _active = null;
+    state = const PlaybackState();
   }
+
+  // ─── Public API ──────────────────────────────────────────────────────
 
   /// Pause playback (idempotent).
   ///
@@ -365,8 +339,9 @@ class PlayerNotifier extends _$PlayerNotifier {
     }
 
     // Pause Spotify bridge if it's playing (avoid dual audio).
-    if (FeatureFlags.enableSpotify && _bridge.currentState.isPlaying) {
-      await _bridge.pause();
+    final bridge = _bridge;
+    if (bridge != null && bridge.currentState.isPlaying) {
+      await bridge.pause();
     }
 
     // Tear down previous backend. Capture and null _active synchronously
@@ -453,40 +428,41 @@ class PlayerNotifier extends _$PlayerNotifier {
   // ─── Spotify startup ────────────────────────────────────────────────
 
   Future<void> _startSpotify(db.TileItem card, int gen) async {
+    final session = _session;
+    final bridge = _bridge;
+    final api = _api;
+    if (session == null || bridge == null || api == null) {
+      state = state.copyWith(error: PlayerError.spotifyNotConnected);
+      return;
+    }
+
     Log.info(
       _tag,
       'Starting Spotify backend gen=$gen',
       data: {'uri': card.providerUri},
     );
-    // Proactively refresh the token before attempting playback.
-    final authNotifier = ref.read(spotifyAuthProvider.notifier);
-    final token = await authNotifier.validAccessToken();
+
+    // Get a valid token through the session's single entry point.
+    final token = await session.validToken();
     if (_playGen != gen) return;
     if (token == null) {
-      state = state.copyWith(
-        error: PlayerError.spotifyAuthExpired,
-      );
+      state = state.copyWith(error: PlayerError.spotifyAuthExpired);
       return;
     }
-    _api.updateToken(token);
 
-    final deviceId = await _ensureDevice(gen);
+    final deviceId = await _ensureDevice(bridge, gen);
     if (deviceId == null || _playGen != gen) return;
 
-    // Activate the backend only after we have a device — avoids a zombie
-    // _active pointing to a backend that can't play. SpotifyBackend routes
-    // state through the bridge subscription; the _ActiveBackend subscription
-    // is a no-op that keeps the pair consistent.
     // SpotifyBackend routes state through _onBridgeEvent, so no
     // per-backend subscription needed.
-    _active = _ActiveBackend(SpotifyBackend(_bridge, _api));
+    _active = _ActiveBackend(SpotifyBackend(bridge, api));
 
-    await _playOnDevice(card, deviceId, gen);
+    await _playOnDevice(api, bridge, card, deviceId, gen);
   }
 
   /// Get a valid device ID, reconnecting if needed. Returns null on failure.
-  Future<String?> _ensureDevice(int gen) async {
-    final currentDeviceId = _bridge.deviceId;
+  Future<String?> _ensureDevice(SpotifyPlayerBridge bridge, int gen) async {
+    final currentDeviceId = bridge.deviceId;
     if (currentDeviceId != null) return currentDeviceId;
 
     // Wait first — the SDK may still be initializing after a fresh app
@@ -494,7 +470,7 @@ class PlayerNotifier extends _$PlayerNotifier {
     // counterproductive (fires JS into a half-loaded page or triggers
     // a reload that restarts the load).
     Log.info(_tag, 'No device ID — waiting for bridge');
-    var deviceId = await _bridge.waitForDevice(
+    var deviceId = await bridge.waitForDevice(
       timeout: const Duration(seconds: 5),
     );
     if (_playGen != gen) return null;
@@ -503,8 +479,8 @@ class PlayerNotifier extends _$PlayerNotifier {
     // may have died, or SDK connection dropped).
     if (deviceId == null) {
       Log.warn(_tag, 'No device after wait — attempting reconnect');
-      await _bridge.reconnect();
-      deviceId = await _bridge.waitForDevice(
+      await bridge.reconnect();
+      deviceId = await bridge.waitForDevice(
         timeout: const Duration(seconds: 5),
       );
       if (_playGen != gen) return null;
@@ -526,6 +502,8 @@ class PlayerNotifier extends _$PlayerNotifier {
 
   /// Send play command to Spotify, with one reconnect retry on 404.
   Future<void> _playOnDevice(
+    SpotifyApi api,
+    SpotifyPlayerBridge bridge,
     db.TileItem card,
     String deviceId,
     int gen,
@@ -542,20 +520,13 @@ class PlayerNotifier extends _$PlayerNotifier {
     );
 
     try {
-      await _sendPlayCommand(card.providerUri, deviceId, card);
+      await _sendPlayCommand(api, card.providerUri, deviceId, card);
       if (_playGen != gen) return;
-      // Audio activation is handled in player.html: on the first
-      // playing state_changed after ready, a seek-to-current-position
-      // flushes the iOS audio pipeline. No Dart-side poke needed.
     } on SpotifyDeviceNotFoundException {
       if (_playGen != gen) return;
-      // Device rejected by Spotify (404). Force a full reconnect instead
-      // of _ensureDevice(), which would return the stale device ID that
-      // was just rejected. If the WebView content process died (common on
-      // iOS after backgrounding), reconnect() reloads the page.
       Log.warn(_tag, 'Device not found — reconnecting');
-      await _bridge.reconnect();
-      final newDeviceId = await _bridge.waitForDevice();
+      await bridge.reconnect();
+      final newDeviceId = await bridge.waitForDevice();
       if (_playGen != gen) return;
       if (newDeviceId == null) {
         Log.warn(_tag, 'No device ID after reconnect');
@@ -568,7 +539,7 @@ class PlayerNotifier extends _$PlayerNotifier {
       if (_playGen != gen) return;
 
       try {
-        await _sendPlayCommand(card.providerUri, newDeviceId, card);
+        await _sendPlayCommand(api, card.providerUri, newDeviceId, card);
         if (_playGen != gen) return;
       } on SpotifyDeviceNotFoundException {
         if (_playGen != gen) return;
@@ -581,19 +552,20 @@ class PlayerNotifier extends _$PlayerNotifier {
   }
 
   Future<void> _sendPlayCommand(
+    SpotifyApi api,
     String spotifyUri,
     String deviceId,
     db.TileItem card,
   ) async {
     if (card.lastTrackUri != null && card.lastPositionMs > 0) {
-      await _api.play(
+      await api.play(
         spotifyUri,
         deviceId: deviceId,
         offsetUri: card.lastTrackUri,
         positionMs: card.lastPositionMs,
       );
     } else {
-      await _api.play(spotifyUri, deviceId: deviceId);
+      await api.play(spotifyUri, deviceId: deviceId);
     }
   }
 
@@ -621,6 +593,11 @@ class PlayerNotifier extends _$PlayerNotifier {
         state = state.copyWith(
           isPlaying: directState.isPlaying,
           isReady: directState.isReady,
+          // Clear loading overlay once audio starts or errors.
+          isLoading:
+              state.isLoading &&
+              !directState.isPlaying &&
+              directState.error == null,
           track: directState.track,
           positionMs: directState.positionMs,
           durationMs: directState.durationMs,
@@ -646,12 +623,17 @@ class PlayerNotifier extends _$PlayerNotifier {
       },
     );
 
-    await player.play(
-      audioUrl: card.audioUrl!,
-      trackInfo: trackInfo,
-      positionMs: card.lastPositionMs,
+    // Fire-and-forget: DirectPlayer.play() awaits just_audio's play(),
+    // which only completes when the track finishes. We don't want to
+    // block here because the caller needs to clear isLoading promptly.
+    // Errors are surfaced through the state stream.
+    unawaited(
+      player.play(
+        audioUrl: card.audioUrl!,
+        trackInfo: trackInfo,
+        positionMs: card.lastPositionMs,
+      ),
     );
-    if (_playGen != gen) return;
   }
 
   // ─── Playback state change handling ─────────────────────────────────
@@ -700,8 +682,6 @@ class PlayerNotifier extends _$PlayerNotifier {
       }
 
       // Album completion: paused on last track, within threshold of end.
-      // Capture groupId now — by the time the async _onAlbumCompleted
-      // runs, state.activeGroupId may belong to a different card. See #212.
       final groupId = state.activeGroupId;
       final backend = _active?.backend;
       final hasNextTrack = backend?.hasNextTrack ?? false;
@@ -752,7 +732,6 @@ class PlayerNotifier extends _$PlayerNotifier {
       },
     );
 
-    // Brief pause before advancing so the transition feels intentional.
     _advanceTimer?.cancel();
     _advanceTimer = Timer(_advanceDelay, () {
       unawaited(playCard(nextCard.id));
@@ -803,8 +782,6 @@ class PlayerNotifier extends _$PlayerNotifier {
     }
   }
 
-  /// Save position to DB. All arguments are captured at the call site
-  /// to avoid reading stale [state] fields after an async gap.
   Future<void> _savePosition(
     String cardId,
     TrackInfo track,
@@ -842,7 +819,6 @@ class PlayerNotifier extends _$PlayerNotifier {
     }
   }
 
-  /// Mark a card as heard. [cardId] is captured at the call site.
   Future<void> _markAlbumHeard(String cardId) async {
     try {
       final cards = ref.read(tileItemRepositoryProvider);

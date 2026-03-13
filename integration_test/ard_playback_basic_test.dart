@@ -55,18 +55,20 @@ void main() {
       // ── Navigate to player screen via NowPlayingBar ────────────────────
       await $(find.byKey(const ValueKey('now-playing'))).tap();
       // Extra frames for the page push animation to complete.
-      await pumpFrames($, count: 20);
+      await pumpFrames($, count: 30);
       expect(find.byType(PlayerScreen), findsOneWidget);
 
-      // ── Pause via the large pause icon on player screen ────────────────
-      await $(find.byIcon(Icons.pause_rounded)).first.tap();
+      // ── Pause via the play/pause button on player screen ──────────────
+      await $.tester.tap(find.byKey(const ValueKey('play_pause_button')));
+      await pumpFrames($, count: 5);
       await waitForPause($);
 
       final pausedPosition = currentPositionMs($);
       expect(pausedPosition, greaterThan(0));
 
-      // ── Resume via the large play icon ─────────────────────────────────
-      await $(find.byIcon(Icons.play_arrow_rounded)).first.tap();
+      // ── Resume via the play/pause button ───────────────────────────────
+      await $.tester.tap(find.byKey(const ValueKey('play_pause_button')));
+      await pumpFrames($, count: 5);
       await waitForPlayback($);
 
       // Wait long enough that position clearly advances past the pause point.
