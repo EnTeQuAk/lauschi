@@ -66,14 +66,17 @@ class SpotifyBackend extends PlayerBackend {
   @override
   Future<void> nextTrack() async {
     Log.info(_tag, 'nextTrack');
-    unawaited(_bridge.nextTrack());
+    // Web API only. Firing both SDK and API causes a double-skip:
+    // each independently advances the track, resulting in two
+    // Track changed events and jumping two tracks per click.
+    // Same reasoning as seek().
     await _api.nextTrack();
   }
 
   @override
   Future<void> prevTrack() async {
     Log.info(_tag, 'prevTrack');
-    unawaited(_bridge.prevTrack());
+    // Web API only. See nextTrack() comment.
     await _api.previousTrack();
   }
 
