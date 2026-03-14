@@ -103,6 +103,13 @@ class PlayerNotifier extends _$PlayerNotifier {
   /// generation and bail out if superseded.
   int _playGen = 0;
 
+  /// True while a recovery replay is in flight. Prevents cascading
+  /// replays when the bridge emits multiple `isReady: true` events
+  /// during a single WebView reload cycle (iOS process death recovery).
+  /// See Sentry logs: without this, a single process death can trigger
+  /// 3-4 redundant playCard calls.
+  bool _recovering = false;
+
   // -- Timing constants --
   static const _deviceRegistrationDelay = Duration(milliseconds: 500);
   static const _completionThresholdMs = 5000;
@@ -166,16 +173,22 @@ class PlayerNotifier extends _$PlayerNotifier {
       // a card was actively playing. This happens after iOS kills the
       // web content process and the page reloads. The SDK is healthy
       // again but has no playback context, so replay the active card.
+      //
+      // Guard with _recovering to prevent cascading replays. The bridge
+      // can emit multiple `ready` events during a single reload cycle,
+      // and each playCard triggers more bridge events. Without this,
+      // one process death causes 3-4 redundant play commands.
       final wasNotReady = !state.isReady;
       final isNowReady = bridgeState.isReady;
       final cardId = state.activeCardId;
-      if (wasNotReady && isNowReady && cardId != null) {
+      if (wasNotReady && isNowReady && cardId != null && !_recovering) {
         Log.info(
           _tag,
           'Bridge recovered while card active, replaying',
           data: {'cardId': cardId},
         );
-        unawaited(playCard(cardId));
+        _recovering = true;
+        unawaited(playCard(cardId).whenComplete(() => _recovering = false));
         return;
       }
 
@@ -212,6 +225,7 @@ class PlayerNotifier extends _$PlayerNotifier {
     // _onBridgeEvent already gates playback events on _active being a
     // SpotifyBackend, so stale events from tearDown are harmless.
 
+    _recovering = false;
     _advanceTimer?.cancel();
     _positionSaveTimer?.cancel();
     _positionSaveTimer = null;
