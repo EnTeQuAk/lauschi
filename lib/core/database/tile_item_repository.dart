@@ -230,6 +230,35 @@ class TileItemRepository {
     Log.info(_tag, 'Item marked heard', data: {'itemId': itemId});
   }
 
+  /// Clear saved playback positions for all items in a tile, except
+  /// [excludeItemId] (the currently playing item).
+  ///
+  /// Called when an album completes and the "Weiter" badge advances,
+  /// so the next episode starts fresh without stale resume positions
+  /// from accidental earlier taps.
+  // TODO(#228): extract into PlaybackSideEffects provider (event system)
+  Future<void> clearPositions(
+    String tileId, {
+    String? excludeItemId,
+  }) async {
+    var query = _db.update(_db.cards)..where((t) => t.groupId.equals(tileId));
+    if (excludeItemId != null) {
+      query = query..where((t) => t.id.equals(excludeItemId).not());
+    }
+    await query.write(
+      const CardsCompanion(
+        lastTrackUri: Value(null),
+        lastTrackNumber: Value(0),
+        lastPositionMs: Value(0),
+      ),
+    );
+    Log.info(
+      _tag,
+      'Positions cleared',
+      data: {'tileId': tileId, 'excludeItemId': excludeItemId ?? 'none'},
+    );
+  }
+
   /// Mark an item as unheard.
   Future<void> markUnheard(String itemId) async {
     await (_db.update(_db.cards)..where((t) => t.id.equals(itemId))).write(

@@ -735,6 +735,13 @@ class PlayerNotifier extends _$PlayerNotifier {
 
     if (groupId == null) return;
 
+    // Clear stale resume positions for sibling episodes so the next
+    // one starts fresh. Excludes the about-to-auto-advance episode
+    // (which hasn't saved a position yet, but defensive).
+    // TODO(#228): extract into PlaybackSideEffects provider (event system)
+    final cards = ref.read(tileItemRepositoryProvider);
+    await cards.clearPositions(groupId, excludeItemId: cardId);
+
     final groups = ref.read(tileRepositoryProvider);
     final group = await groups.getById(groupId);
     if (group == null || group.contentType != 'hoerspiel') return;
