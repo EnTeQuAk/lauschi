@@ -103,13 +103,6 @@ class PlayerNotifier extends _$PlayerNotifier {
   /// generation and bail out if superseded.
   int _playGen = 0;
 
-  /// True while a recovery replay is in flight. Prevents cascading
-  /// replays when the bridge emits multiple `isReady: true` events
-  /// during a single WebView reload cycle (iOS process death recovery).
-  /// See Sentry logs: without this, a single process death can trigger
-  /// 3-4 redundant playCard calls.
-  bool _recovering = false;
-
   // -- Timing constants --
   static const _deviceRegistrationDelay = Duration(milliseconds: 500);
   static const _completionThresholdMs = 5000;
@@ -181,14 +174,19 @@ class PlayerNotifier extends _$PlayerNotifier {
       final wasNotReady = !state.isReady;
       final isNowReady = bridgeState.isReady;
       final cardId = state.activeCardId;
-      if (wasNotReady && isNowReady && cardId != null && !_recovering) {
+      if (wasNotReady && isNowReady && cardId != null) {
         Log.info(
           _tag,
           'Bridge recovered while card active, replaying',
           data: {'cardId': cardId},
         );
-        _recovering = true;
-        unawaited(playCard(cardId).whenComplete(() => _recovering = false));
+        // Update isReady BEFORE calling playCard. The early return
+        // below skips the normal state merge, so without this,
+        // state.isReady stays false and the next bridge event
+        // (Track changed) sees wasNotReady=true again, triggering
+        // another recovery cascade.
+        state = state.copyWith(isReady: true);
+        unawaited(playCard(cardId));
         return;
       }
 
@@ -225,7 +223,6 @@ class PlayerNotifier extends _$PlayerNotifier {
     // _onBridgeEvent already gates playback events on _active being a
     // SpotifyBackend, so stale events from tearDown are harmless.
 
-    _recovering = false;
     _advanceTimer?.cancel();
     _positionSaveTimer?.cancel();
     _positionSaveTimer = null;
