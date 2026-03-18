@@ -9,8 +9,12 @@ name: iOS Store Release
 #   CODEMAGIC_APP_ID     - Codemagic app ID (visible in app URL)
 
 on:
-  release:
-    types: [published]
+  workflow_dispatch:
+    # Disabled until Codemagic secrets are configured.
+    # Change back to release trigger when ready:
+    #   on:
+    #     release:
+    #       types: [published]
 
 jobs:
   trigger-codemagic:
