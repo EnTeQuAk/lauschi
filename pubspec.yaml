@@ -49,7 +49,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   mocktail: ^1.0.4
-  patrol: ^4.1.1
+  patrol: ^4.2.0
   riverpod_generator: ^4.0.3
   sentry_dart_plugin: ^3.2.1
   test_api: any

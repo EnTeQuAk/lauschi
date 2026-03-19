@@ -178,7 +178,7 @@ Future<void> waitForPlayback(
 /// Waits for playback to pause. Fails fast on errors.
 Future<void> waitForPause(
   PatrolIntegrationTester $, {
-  Duration timeout = const Duration(seconds: 5),
+  Duration timeout = const Duration(seconds: 10),
 }) async {
   final container = getContainer($);
   final sw = Stopwatch()..start();

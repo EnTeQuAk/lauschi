@@ -60,8 +60,8 @@ void main() {
 
       // ── Pause via the play/pause button on player screen ──────────────
       await $.tester.tap(find.byKey(const ValueKey('play_pause_button')));
-      await pumpFrames($, count: 10);
-      await waitForPause($, timeout: const Duration(seconds: 10));
+      await pumpFrames($);
+      await waitForPause($);
 
       final pausedPosition = currentPositionMs($);
       expect(pausedPosition, greaterThan(0));
