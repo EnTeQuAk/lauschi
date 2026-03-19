@@ -1,16 +1,19 @@
-name: Android Store Release
+name: Android Store Release (Spotify)
+
+# Uploads a Spotify-enabled build to the custom closed testing track.
+# Triggered alongside the main store release on GitHub Release.
 
 on:
   release:
     types: [published]
 
 concurrency:
-  group: android-store-${{ github.ref }}
+  group: android-store-spotify-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
-  store-release:
-    name: Build · Sign · Play Store
+  store-release-spotify:
+    name: Build · Sign · Play Store (Spotify)
     runs-on: ubuntu-latest
     timeout-minutes: 25
 
@@ -49,8 +52,10 @@ jobs:
       - name: Create .env.app
         run: |
           cat > .env.app << EOF
-          ENABLE_SPOTIFY=false
-          SPOTIFY_CLIENT_ID=unused
+          ENABLE_SPOTIFY=true
+          SPOTIFY_CLIENT_ID=${{ secrets.SPOTIFY_CLIENT_ID }}
+          ENABLE_APPLE_MUSIC=false
+          APPLE_MUSIC_DEVELOPER_TOKEN=unused
           ENABLE_SENTRY=true
           SENTRY_DSN=${{ secrets.SENTRY_DSN }}
           SENTRY_ENVIRONMENT=testing
@@ -69,28 +74,22 @@ jobs:
       - name: Build release AAB
         run: |
           VERSION_NAME=$(echo "${{ github.event.release.tag_name }}" | sed 's/^v//')
-          # Offset by 10 to avoid conflict with manually uploaded version code 1
-          BUILD_NUMBER=$(( ${{ github.run_number }} + 10 ))
+          # Offset +100 to avoid collision with main store track (+10)
+          BUILD_NUMBER=$(( ${{ github.run_number }} + 100 ))
           flutter build appbundle --release \
             --build-name="$VERSION_NAME" \
             --build-number="$BUILD_NUMBER" \
             --dart-define-from-file=.env.app
 
-      - name: Upload to Google Play (closed testing)
+      - name: Upload to Google Play (Spotify closed testing)
         uses: r0adkll/upload-google-play@v1
         with:
           serviceAccountJsonPlainText: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
           packageName: app.lauschi.lauschi
           releaseFiles: build/app/outputs/bundle/release/app-release.aab
-          track: alpha
+          track: "Closed testing - Alpha Spotify"
           status: completed
-          releaseName: ${{ github.event.release.tag_name }}
-
-      - name: Upload AAB artifact
-        uses: actions/upload-artifact@v7
-        with:
-          name: app-store-${{ github.event.release.tag_name }}
-          path: build/app/outputs/bundle/release/app-release.aab
+          releaseName: "${{ github.event.release.tag_name }}-spotify"
 
       - name: Clean up signing
         if: always()

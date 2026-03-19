@@ -30,8 +30,18 @@ description = "Run all tests"
 run = "flutter test --dart-define-from-file=.env.app"
 
 [tasks.dev]
-description = "Run on connected device (extra args passed through)"
-run = "flutter run --dart-define-from-file=.env.app"
+description = "Run on connected device with all providers + Sentry enabled"
+run = """
+  SENTRY_DSN=$(grep SENTRY_DSN .env 2>/dev/null | cut -d= -f2-)
+  SPOTIFY_CLIENT_ID=$(grep SPOTIFY_CLIENT_ID .env 2>/dev/null | cut -d= -f2-)
+  flutter run --dart-define-from-file=.env.app \
+    --dart-define=ENABLE_SENTRY=true \
+    --dart-define="SENTRY_DSN=$SENTRY_DSN" \
+    --dart-define=SENTRY_ENVIRONMENT=development \
+    --dart-define=ENABLE_SPOTIFY=true \
+    --dart-define="SPOTIFY_CLIENT_ID=$SPOTIFY_CLIENT_ID" \
+    --dart-define=ENABLE_APPLE_MUSIC=true
+"""
 
 [tasks.build]
 description = "Build APK (runs codegen first)"
@@ -46,57 +56,124 @@ flutter analyze --fatal-infos
 flutter test --dart-define-from-file=.env.app
 """
 
-[tasks.catalog-check]
-description = "Validate series.yaml against live Spotify data (L1-L4)"
-run = "uv run scripts/validate_catalog.py"
-
-[tasks.catalog-check-fresh]
-description = "Validate series.yaml — bypass cache, hit Spotify API directly"
-run = "uv run scripts/validate_catalog.py --no-cache"
-
-[tasks.catalog-audit]
-description = "Full L5 artist-discography audit (fetches all albums per artist)"
-run = "uv run scripts/validate_catalog.py --artist-audit"
+# ── Catalog tooling (multi-provider) ─────────────────────────────────
+#
+# New commands via lauschi-catalog CLI (tools/ package).
+# Old scripts in scripts/ still work for review TUI and edge cases.
 
 [tasks.catalog-discover]
-description = "Search Spotify for artist candidates for series without artist IDs"
-run = "uv run scripts/validate_catalog.py --discover"
+description = "Discover missing artist IDs across all providers"
+run = "uv run --directory tools lauschi-catalog discover --write"
+
+[tasks.catalog-discover-dry]
+description = "Discover missing artist IDs (dry run, no write)"
+run = "uv run --directory tools lauschi-catalog discover"
+
+[tasks.catalog-validate]
+description = "Validate series.yaml against all provider APIs (L1 + L5)"
+run = "uv run --directory tools lauschi-catalog validate"
+
+[tasks.catalog-validate-spotify]
+description = "Validate series.yaml against Spotify only"
+run = "uv run --directory tools lauschi-catalog validate -p spotify"
+
+[tasks.catalog-validate-apple]
+description = "Validate series.yaml against Apple Music only"
+run = "uv run --directory tools lauschi-catalog validate -p apple_music"
 
 [tasks.catalog-curate]
-description = "AI-curated series.yaml entry via pydantic-ai + Spotify (needs OPENCODE_API_KEY)"
-run = "uv run scripts/curate-series.py"
+description = "AI-curate a series across all providers (needs OPENCODE_API_KEY)"
+run = "uv run --directory tools --with 'pydantic-ai>=1.62.0' --with 'pydantic>=2.0' lauschi-catalog curate"
 
-[tasks.catalog-review]
-description = "Review AI-curated series and write approved entries to series.yaml"
-run = "uv run scripts/review-curation.py"
-
-[tasks.catalog-report]
-description = "Analyze all curations and report issues (gaps, dupes, suspicious)"
-run = "uv run scripts/catalog-report.py"
-
-[tasks.catalog-edit]
-description = "CLI for editing curations (add/remove/toggle/approve/search)"
-run = "uv run scripts/catalog-edit.py"
-
-[tasks.catalog-apply-splits]
-description = "Execute split proposals from AI review (dry-run by default, --apply to write)"
-run = "uv run scripts/apply-splits.py"
+[tasks.catalog-curate-all]
+description = "AI-curate ALL series (runs for hours, both providers)"
+usage = 'flag "--force" help="Re-curate even if curation JSON already exists"'
+run = """
+FORCE_FLAG=""
+if [ "$usage_force" = "true" ]; then FORCE_FLAG="--force"; fi
+uv run --directory tools --with 'pydantic-ai>=1.62.0' --with 'pydantic>=2.0' lauschi-catalog curate --all --timeout 1800 $FORCE_FLAG
+"""
 
 [tasks.catalog-review-ai]
-description = "AI-assisted review of curated series (splits, gap-filling, dedup)"
-run = "uv run scripts/review-series.py"
+description = "AI review all curations for quality issues"
+run = "uv run --directory tools --with 'pydantic-ai>=1.62.0' --with 'pydantic>=2.0' lauschi-catalog review --all"
 
 [tasks.catalog-verify]
-description = "4-eye verification: second model verifies AI review, auto-approves on agreement"
-run = "uv run scripts/verify-series.py"
+description = "4-eye: second AI model verifies curations, auto-approves agreements"
+run = "uv run --directory tools --with 'pydantic-ai>=1.62.0' --with 'pydantic>=2.0' lauschi-catalog verify --all"
+
+[tasks.catalog-review]
+description = "Interactive TUI: human review of escalated curations"
+run = "uv run --directory tools lauschi-catalog review-tui"
+
+[tasks.catalog-apply]
+description = "Write all approved curations to series.yaml"
+run = "uv run --directory tools lauschi-catalog apply --all"
+
+[tasks.catalog-report]
+description = "Show statistics for all curations"
+run = "uv run --directory tools lauschi-catalog report"
+
+[tasks.catalog-edit]
+description = "Edit curation files (exclude/include/list)"
+run = "uv run --directory tools lauschi-catalog edit"
+
+[tasks.catalog-apply-splits]
+description = "Execute split proposals from AI review"
+run = "uv run --directory tools lauschi-catalog apply-splits"
+
+[tasks.catalog-token]
+description = "Generate Apple Music developer token (JWT, 180 days)"
+run = "uv run --directory tools lauschi-catalog token apple-music"
+
+# ── Full pipeline shortcut ───────────────────────────────────────────
+
+[tasks.catalog-pipeline]
+description = "Full automated curation pipeline: curate → review → verify → apply"
+usage = 'flag "--force" help="Re-curate all series, even those already curated"'
+run = """
+#!/usr/bin/env bash
+set -euo pipefail
+
+AI_DEPS="--with pydantic-ai>=1.62.0 --with pydantic>=2.0"
+RUN="uv run --directory tools $AI_DEPS lauschi-catalog"
+RUN_CORE="uv run --directory tools lauschi-catalog"
+
+FORCE_FLAG=""
+if [ "${usage_force:-false}" = "true" ]; then FORCE_FLAG="--force"; fi
+
+echo "Step 1/5: Curating all series (this takes hours)..."
+$RUN curate --all --timeout 1800 $FORCE_FLAG || echo "Some curations failed (expected for large series). Continuing..."
+
+echo ""
+echo "Step 2/5: AI review..."
+$RUN review --all || echo "Some reviews failed. Continuing..."
+
+echo ""
+echo "Step 3/5: 4-eye verification..."
+$RUN verify --all || echo "Some verifications failed. Continuing..."
+
+echo ""
+echo "Step 4/5: Applying approved curations..."
+$RUN_CORE apply --all
+
+echo ""
+echo "Step 5/5: Validating..."
+$RUN_CORE validate
+
+echo ""
+echo "Done. Run 'mise run catalog-review' to review any escalated items."
+"""
+
+# ── Legacy aliases ───────────────────────────────────────────────────
+
+[tasks.catalog-check]
+description = "[legacy] Use catalog-validate instead"
+run = "uv run --directory tools lauschi-catalog validate -p spotify"
 
 [tasks.catalog-titles]
-description = "Quick artist discovery + optional AI YAML snippet"
-run = "uv run scripts/discover-titles.py"
-
-[tasks.cache-clear]
-description = "Clear Spotify API disk cache"
-run = "python3 -c \"import sys; sys.path.insert(0, 'scripts'); from spotify_cache import clear_cache; n = clear_cache(); print(f'Cleared {n} entries')\""
+description = "[legacy] Use catalog-discover instead"
+run = "uv run --directory tools lauschi-catalog discover"
 
 [tasks.tag-release]
 description = "Bump calver version, commit, tag, and push"
@@ -141,3 +218,6 @@ echo "Installing $IPA..."
 pymobiledevice3 apps install "$IPA"
 echo "Done."
 """
+
+# apple-music-token and apple-music-discover replaced by catalog-token
+# and catalog-discover respectively.
