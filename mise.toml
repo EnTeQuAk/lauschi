@@ -139,6 +139,15 @@ AI_DEPS="--with pydantic-ai>=1.62.0 --with pydantic>=2.0"
 RUN="uv run --directory tools $AI_DEPS lauschi-catalog"
 RUN_CORE="uv run --directory tools lauschi-catalog"
 
+LOGDIR="logs/catalog"
+mkdir -p "$LOGDIR"
+TIMESTAMP=$(date +%Y%m%d-%H%M%S)
+LOG="$LOGDIR/pipeline-$TIMESTAMP.log"
+echo "Logging to $LOG"
+
+# Tee all output to both terminal and log file
+exec > >(tee -a "$LOG") 2>&1
+
 FORCE_FLAG=""
 if [ "${usage_force:-false}" = "true" ]; then FORCE_FLAG="--force"; fi
 
