@@ -5,7 +5,7 @@ import 'package:lauschi/core/feature_flags.dart';
 import 'package:lauschi/core/log.dart';
 import 'package:lauschi/core/spotify/spotify_api.dart';
 import 'package:lauschi/core/spotify/spotify_auth.dart';
-import 'package:lauschi/features/player/spotify_player_bridge.dart';
+import 'package:lauschi/features/player/spotify_webview_bridge.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'spotify_session.g.dart';
@@ -78,7 +78,7 @@ class SpotifySession extends _$SpotifySession {
   // app's lifetime. No orphaned Dio clients or StreamControllers.
   final SpotifyAuth _auth = SpotifyAuth();
   final SpotifyApi _api = SpotifyApi();
-  final SpotifyPlayerBridge _bridge = SpotifyPlayerBridge();
+  final SpotifyWebViewBridge _bridge = SpotifyWebViewBridge();
 
   /// Whether the bridge has been initialized in this auth session.
   /// Reset on logout/tearDown, set after bridge.init() completes.
@@ -111,7 +111,7 @@ class SpotifySession extends _$SpotifySession {
   SpotifyApi get api => _api;
 
   /// The Spotify Web Playback SDK bridge. Lifecycle managed by session.
-  SpotifyPlayerBridge get bridge => _bridge;
+  SpotifyWebViewBridge get bridge => _bridge;
 
   /// Whether the user is currently authenticated with Spotify.
   bool get isAuthenticated => state is SpotifyAuthenticated;

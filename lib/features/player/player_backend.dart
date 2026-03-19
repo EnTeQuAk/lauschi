@@ -2,13 +2,12 @@ import 'package:lauschi/features/player/player_state.dart';
 
 /// Abstraction over playback control for different audio providers.
 ///
-/// Each provider (Spotify SDK, just_audio for ARD, etc.) extends this
-/// class. `PlayerNotifier` delegates pause/resume/seek to the active
-/// backend without branching on provider type.
+/// Implementations: SpotifyPlayer (WebView SDK), StreamPlayer
+/// (just_audio for ARD), AppleMusicPlayer (MusicKit SDK).
 ///
-/// The "start playing" step differs per provider (Spotify needs a
-/// device ID and Web API call, direct needs an audio URL). That's
-/// handled in `PlayerNotifier.playCard`, not here.
+/// `PlayerNotifier` delegates pause/resume/seek to the active backend
+/// without branching on provider type. The "start playing" step differs
+/// per provider and is handled in `PlayerNotifier.playCard`.
 abstract class PlayerBackend {
   /// Stream of playback state updates from this backend.
   Stream<PlaybackState> get stateStream;
@@ -20,7 +19,7 @@ abstract class PlayerBackend {
   int get currentPositionMs;
 
   /// 1-based position of the current track within the album.
-  /// Single-file backends (DirectPlayer) always return 1.
+  /// Single-file backends (StreamPlayer) always return 1.
   int get currentTrackNumber;
 
   /// Whether there are more tracks after the current one.

@@ -145,7 +145,7 @@ ProviderContainer getContainer(PatrolIntegrationTester $) {
 /// Waits for playback to actually start.
 ///
 /// Checks `isPlaying` only — `isLoading` can be transiently true while
-/// the DirectPlayer stream fires state updates before `playCard` completes.
+/// the StreamPlayer stream fires state updates before `playCard` completes.
 /// Polls every 200ms. Fails fast on errors.
 Future<void> waitForPlayback(
   PatrolIntegrationTester $, {

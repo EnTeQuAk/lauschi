@@ -1,5 +1,6 @@
 import 'dart:async' show StreamSubscription, Timer, unawaited;
 
+import 'package:lauschi/core/apple_music/apple_music_session.dart';
 import 'package:lauschi/core/database/app_database.dart' as db;
 import 'package:lauschi/core/database/tile_item_repository.dart';
 import 'package:lauschi/core/database/tile_repository.dart';
@@ -8,13 +9,15 @@ import 'package:lauschi/core/log.dart';
 import 'package:lauschi/core/providers/provider_type.dart';
 import 'package:lauschi/core/spotify/spotify_api.dart';
 import 'package:lauschi/core/spotify/spotify_session.dart';
-import 'package:lauschi/features/player/direct_player.dart';
+import 'package:lauschi/features/player/apple_music_player.dart';
 import 'package:lauschi/features/player/media_session_handler.dart';
 import 'package:lauschi/features/player/player_backend.dart';
 import 'package:lauschi/features/player/player_error.dart';
 import 'package:lauschi/features/player/player_state.dart';
-import 'package:lauschi/features/player/spotify_backend.dart';
-import 'package:lauschi/features/player/spotify_player_bridge.dart';
+import 'package:lauschi/features/player/spotify_player.dart';
+import 'package:lauschi/features/player/spotify_webview_bridge.dart';
+import 'package:lauschi/features/player/stream_player.dart';
+import 'package:music_kit/music_kit.dart' show MusicKit;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
 
@@ -78,18 +81,22 @@ class PlayerNotifier extends _$PlayerNotifier {
   /// Spotify session. Null when Spotify is disabled.
   SpotifySession? _session;
 
+  /// MusicKit instance from the Apple Music session.
+  MusicKit get _appleMusicKit =>
+      ref.read(appleMusicSessionProvider.notifier).musicKit;
+
   /// Shortcuts into the session for playback code.
-  SpotifyPlayerBridge? get _bridge => _session?.bridge;
+  SpotifyWebViewBridge? get _bridge => _session?.bridge;
   SpotifyApi? get _api => _session?.api;
 
   /// Permanent subscription to the Spotify bridge state stream.
   /// Routes playback events only when Spotify is the active backend;
   /// always accepts device metadata (isReady).
   ///
-  /// This is intentionally asymmetric with DirectPlayer's per-play
+  /// This is intentionally asymmetric with StreamPlayer's per-play
   /// subscription (bundled in _ActiveBackend). The bridge is long-lived
   /// and reports device readiness even when no card is playing;
-  /// DirectPlayer is created per-play and dies with the backend.
+  /// StreamPlayer is created per-play and dies with the backend.
   StreamSubscription<PlaybackState>? _bridgeSub;
 
   /// The currently active backend + its subscription, or null.
@@ -159,7 +166,7 @@ class PlayerNotifier extends _$PlayerNotifier {
   }
 
   void _onBridgeEvent(PlaybackState bridgeState) {
-    final isSpotifyActive = _active?.backend is SpotifyBackend;
+    final isSpotifyActive = _active?.backend is SpotifyPlayer;
 
     if (isSpotifyActive) {
       // Detect WebView recovery: bridge went not-ready → ready while
@@ -212,7 +219,7 @@ class PlayerNotifier extends _$PlayerNotifier {
   /// Handle Spotify auth loss. Stops active Spotify playback and resets
   /// player state. Bridge teardown is handled by SpotifySession.
   void _onSpotifyDisconnected() {
-    if (_active?.backend is! SpotifyBackend) return;
+    if (_active?.backend is! SpotifyPlayer) return;
 
     Log.info(_tag, 'Spotify disconnected, stopping playback');
 
@@ -221,7 +228,7 @@ class PlayerNotifier extends _$PlayerNotifier {
     // If we cancel, the ??= guard in build() prevents re-subscription on
     // re-login since PlayerNotifier is keepAlive and build() won't re-run.
     // _onBridgeEvent already gates playback events on _active being a
-    // SpotifyBackend, so stale events from tearDown are harmless.
+    // SpotifyPlayer, so stale events from tearDown are harmless.
 
     _advanceTimer?.cancel();
     _positionSaveTimer?.cancel();
@@ -392,6 +399,7 @@ class PlayerNotifier extends _$PlayerNotifier {
         case ProviderType.ardAudiothek:
           await _startDirect(card, gen);
         case ProviderType.appleMusic:
+          await _startAppleMusic(card, gen);
         case ProviderType.tidal:
           Log.error(
             _tag,
@@ -476,15 +484,15 @@ class PlayerNotifier extends _$PlayerNotifier {
     final deviceId = await _ensureDevice(bridge, gen);
     if (deviceId == null || _playGen != gen) return;
 
-    // SpotifyBackend routes state through _onBridgeEvent, so no
+    // SpotifyPlayer routes state through _onBridgeEvent, so no
     // per-backend subscription needed.
-    _active = _ActiveBackend(SpotifyBackend(bridge, api));
+    _active = _ActiveBackend(SpotifyPlayer(bridge, api));
 
     await _playOnDevice(api, bridge, card, deviceId, gen);
   }
 
   /// Get a valid device ID, reconnecting if needed. Returns null on failure.
-  Future<String?> _ensureDevice(SpotifyPlayerBridge bridge, int gen) async {
+  Future<String?> _ensureDevice(SpotifyWebViewBridge bridge, int gen) async {
     final currentDeviceId = bridge.deviceId;
     if (currentDeviceId != null) return currentDeviceId;
 
@@ -526,7 +534,7 @@ class PlayerNotifier extends _$PlayerNotifier {
   /// Send play command to Spotify, with one reconnect retry on 404.
   Future<void> _playOnDevice(
     SpotifyApi api,
-    SpotifyPlayerBridge bridge,
+    SpotifyWebViewBridge bridge,
     db.TileItem card,
     String deviceId,
     int gen,
@@ -592,12 +600,12 @@ class PlayerNotifier extends _$PlayerNotifier {
     }
   }
 
-  // ─── DirectPlayer startup ──────────────────────────────────────────
+  // ─── StreamPlayer startup ──────────────────────────────────────────
 
   Future<void> _startDirect(db.TileItem card, int gen) async {
     Log.info(
       _tag,
-      'Starting DirectPlayer gen=$gen',
+      'Starting StreamPlayer gen=$gen',
       data: {'cardId': card.id, 'provider': card.provider},
     );
     if (card.audioUrl == null || card.audioUrl!.isEmpty) {
@@ -608,7 +616,7 @@ class PlayerNotifier extends _$PlayerNotifier {
       return;
     }
 
-    final player = DirectPlayer();
+    final player = StreamPlayer();
     _active = _ActiveBackend(
       player,
       player.stateStream.listen((directState) {
@@ -646,7 +654,7 @@ class PlayerNotifier extends _$PlayerNotifier {
       },
     );
 
-    // Fire-and-forget: DirectPlayer.play() awaits just_audio's play(),
+    // Fire-and-forget: StreamPlayer.play() awaits just_audio's play(),
     // which only completes when the track finishes. We don't want to
     // block here because the caller needs to clear isLoading promptly.
     // Errors are surfaced through the state stream.
@@ -654,6 +662,53 @@ class PlayerNotifier extends _$PlayerNotifier {
       player.play(
         audioUrl: card.audioUrl!,
         trackInfo: trackInfo,
+        positionMs: card.lastPositionMs,
+      ),
+    );
+  }
+
+  // ─── AppleMusicPlayer startup ─────────────────────────────────────
+
+  Future<void> _startAppleMusic(db.TileItem card, int gen) async {
+    Log.info(
+      _tag,
+      'Starting AppleMusicPlayer gen=$gen',
+      data: {'card': card.title},
+    );
+
+    final trackInfo = TrackInfo(
+      uri: card.providerUri,
+      name: card.title,
+      artworkUrl: card.coverUrl,
+    );
+
+    // providerUri format for Apple Music: "apple_music:album:<catalogId>"
+    final albumId = card.providerUri.replaceFirst('apple_music:album:', '');
+
+    final player = AppleMusicPlayer(_appleMusicKit);
+
+    // Guard: another playCard may have started while we were setting up.
+    if (_playGen != gen) return;
+
+    _active = _ActiveBackend(
+      player,
+      player.stateStream.listen((amState) {
+        if (_playGen != gen) return;
+        _onPlaybackStateChange(amState);
+      }),
+    );
+
+    state = state.copyWith(
+      isPlaying: true,
+      isReady: true,
+      track: trackInfo,
+    );
+
+    unawaited(
+      player.play(
+        albumId: albumId,
+        trackInfo: trackInfo,
+        // TODO(#230): support multi-track resume (trackIndex from card).
         positionMs: card.lastPositionMs,
       ),
     );

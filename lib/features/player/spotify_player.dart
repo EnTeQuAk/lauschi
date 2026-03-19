@@ -4,9 +4,9 @@ import 'package:lauschi/core/log.dart';
 import 'package:lauschi/core/spotify/spotify_api.dart';
 import 'package:lauschi/features/player/player_backend.dart';
 import 'package:lauschi/features/player/player_state.dart';
-import 'package:lauschi/features/player/spotify_player_bridge.dart';
+import 'package:lauschi/features/player/spotify_webview_bridge.dart';
 
-const _tag = 'SpotifyBackend';
+const _tag = 'SpotifyPlayer';
 
 /// Adapter that controls Spotify playback through both the local SDK
 /// and the Web API.
@@ -15,10 +15,10 @@ const _tag = 'SpotifyBackend';
 /// offline) then the Web API (reliable server-side confirmation).
 /// The SDK call is fire-and-forget — we don't wait for it or fail
 /// on it. The Web API call is awaited and errors propagate.
-class SpotifyBackend extends PlayerBackend {
-  SpotifyBackend(this._bridge, this._api);
+class SpotifyPlayer extends PlayerBackend {
+  SpotifyPlayer(this._bridge, this._api);
 
-  final SpotifyPlayerBridge _bridge;
+  final SpotifyWebViewBridge _bridge;
   final SpotifyApi _api;
 
   @override
@@ -100,6 +100,6 @@ class SpotifyBackend extends PlayerBackend {
   @override
   Future<void> dispose() async {
     // Bridge lifecycle is managed by SpotifySession, not here.
-    // SpotifyBackend is created per-play session; the bridge outlives it.
+    // SpotifyPlayer is created per-play session; the bridge outlives it.
   }
 }

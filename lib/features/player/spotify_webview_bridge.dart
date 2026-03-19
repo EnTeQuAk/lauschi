@@ -35,9 +35,9 @@ const _positionJitterThresholdMs = 2000;
 /// Token callback returns null when auth is unavailable. The bridge
 /// handles this gracefully (sets error state, never crashes).
 ///
-/// Events flow JS → Dart via a `SpotifyBridge` JavaScript channel.
+/// Events flow JS → Dart via a `SpotifyWebViewBridge` JavaScript channel.
 /// Commands flow Dart → JS via `controller.runJavaScript()`.
-class SpotifyPlayerBridge {
+class SpotifyWebViewBridge {
   final _stateController = StreamController<PlaybackState>.broadcast();
 
   /// Callback to get a valid (non-expired) access token.
@@ -169,7 +169,7 @@ class SpotifyPlayerBridge {
     await c.setUserAgent(ua);
 
     await c.addJavaScriptChannel(
-      'SpotifyBridge',
+      'SpotifyWebViewBridge',
       onMessageReceived: _onMessage,
     );
 

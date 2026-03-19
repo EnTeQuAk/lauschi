@@ -72,7 +72,7 @@ void main() {
       await waitForPlayback($);
 
       // After 5s, state.positionMs should reflect ~5s of playback.
-      // This catches the stale-position bug where DirectPlayer updated
+      // This catches the stale-position bug where StreamPlayer updated
       // _positionMs internally but never emitted to provider state.
       await $.pump(const Duration(seconds: 5));
       final pos5s = currentPositionMs($);

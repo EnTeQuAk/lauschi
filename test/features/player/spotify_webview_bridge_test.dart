@@ -2,16 +2,16 @@ import 'dart:async';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:lauschi/features/player/player_state.dart';
-import 'package:lauschi/features/player/spotify_player_bridge.dart';
+import 'package:lauschi/features/player/spotify_webview_bridge.dart';
 
 void main() {
-  group('SpotifyPlayerBridge', () {
-    late SpotifyPlayerBridge bridge;
+  group('SpotifyWebViewBridge', () {
+    late SpotifyWebViewBridge bridge;
     late List<PlaybackState> states;
     late StreamSubscription<PlaybackState> sub;
 
     setUp(() {
-      bridge = SpotifyPlayerBridge();
+      bridge = SpotifyWebViewBridge();
       states = [];
       sub = bridge.stateStream.listen(states.add);
     });

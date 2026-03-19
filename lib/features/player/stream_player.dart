@@ -6,13 +6,13 @@ import 'package:lauschi/features/player/player_backend.dart';
 import 'package:lauschi/features/player/player_error.dart';
 import 'package:lauschi/features/player/player_state.dart';
 
-const _tag = 'DirectPlayer';
+const _tag = 'StreamPlayer';
 
 /// Plays audio from direct HTTP URLs using just_audio.
 ///
 /// Used for ARD Audiothek content. No DRM, no SDK, no WebView — just a URL
 /// and a player.
-class DirectPlayer extends PlayerBackend {
+class StreamPlayer extends PlayerBackend {
   final _stateController = StreamController<PlaybackState>.broadcast();
   StreamSubscription<ja.PlayerState>? _playerStateSub;
   StreamSubscription<Duration?>? _durationSub;
