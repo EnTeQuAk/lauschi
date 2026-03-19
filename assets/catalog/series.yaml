@@ -150,6 +150,9 @@ series:
         title: 'Folge 38: Eile mit Weile (Das Original-Hörspiel zur TV-Serie)'
       - id: 4RXvw183oOMKNGp3pqrzrS
         title: Yakari - Das Hörspiel zum Film
+    apple_music:
+      artist_ids:
+      - '310927369'
 - id: bibi_blocksberg
   title: Bibi Blocksberg
   aliases:
@@ -659,6 +662,9 @@ series:
         title: 'Kampf um Kartoffelbrei (Special) - Teil 8: Mania greift ein'
       - id: 2vS11F2lZ3gt85jebic2q6
         title: 'Kampf um Kartoffelbrei (Special) - Teil 9: Karla in Gefahr'
+    apple_music:
+      artist_ids:
+      - '41480004'
 - id: benjamin_bluemchen
   title: Benjamin Blümchen
   aliases:
@@ -1166,6 +1172,9 @@ series:
       - id: 5c9zfPgnRBIvJdzSumIw5r
         episode: 168
         title: 'Folge 168: Die Elchkuh'
+    apple_music:
+      artist_ids:
+      - '215716521'
 - id: die_drei_fragezeichen
   title: Die drei ???
   aliases:
@@ -1874,6 +1883,9 @@ series:
       - id: 5yCEzMfmMnSG97SXDFGjR8
         episode: 236
         title: 'Folge 236: Im Bann des Barrakudas'
+    apple_music:
+      artist_ids:
+      - '201306317'
 - id: die_drei_fragezeichen_kids
   title: Die drei ??? Kids
   aliases:
@@ -2204,6 +2216,9 @@ series:
         title: 'Mini-Fall/Hilfe, Geisterzug (Mini-Fall 07)'
       - id: 1IrBxq3kgqabhcp6xfIezB
         title: 'Mini-Fall/Vorsicht, Zaubertinte!'
+    apple_music:
+      artist_ids:
+      - '305761269'
 - id: tkkg
   title: TKKG
   aliases:
@@ -2634,6 +2649,9 @@ series:
       - id: 0G8CFanH1SrSfRgdOHy8HC
         episode: 239
         title: 'Folge 239: Vollgas ins Verderben'
+    apple_music:
+      artist_ids:
+      - '191548811'
 - id: bibi_und_tina
   title: Bibi und Tina
   aliases:
@@ -3009,6 +3027,9 @@ series:
       - id: 7gL6vfKtGmPEb8g4IIxnDK
         episode: 122
         title: 'Folge 122: Holger in Love'
+    apple_music:
+      artist_ids:
+      - '220152697'
 - id: pumuckl
   title: Pumuckl
   aliases:
@@ -3279,6 +3300,9 @@ series:
       - id: 2USE12izRUjpp8HPMiCnUp
         episode: 80
         title: '80: Pumuckl setzt sich nicht durch (Das Original aus dem Fernsehen)'
+    apple_music:
+      artist_ids:
+      - '1710040920'
 - id: conni
   title: Conni
   aliases:
@@ -3467,6 +3491,9 @@ series:
         title: 'Klar kann Conni das! / Conni lernt teilen, vertrauen und sich vertragen'
       - id: 1fE3BDdcwmRHVWexhv6w64
         title: Weihnachten mit Conni
+    apple_music:
+      artist_ids:
+      - '14433691'
 - id: pippi_langstrumpf
   title: Pippi Langstrumpf
   keywords:
@@ -3515,6 +3542,9 @@ series:
         title: Pippi im Taka-Tuka-Land (Hörspiel zum Film)
       - id: 2fBFXKeZqgKCy4H8VBLEWe
         title: Pippi plündert den Weihnachtsbaum und eine weitere Geschichte
+    apple_music:
+      artist_ids:
+      - '122162987'
 - id: pettersson_und_findus
   title: Pettersson und Findus
   aliases:
@@ -3528,6 +3558,9 @@ series:
     spotify:
       artist_ids:
       - 3YZqnPKdtP5qP4LSvrgx9i
+    apple_music:
+      artist_ids:
+      - '51883585'
 - id: das_sams
   title: Das Sams
   aliases:
@@ -3539,6 +3572,9 @@ series:
     spotify:
       artist_ids:
       - 5XxY429tXrkPUdlOZbmNg0
+    apple_music:
+      artist_ids:
+      - '456935540'
 - id: feuerwehrmann_sam
   title: Feuerwehrmann Sam
   aliases:
@@ -3911,6 +3947,9 @@ series:
       - id: 37F3AfJG0wyEJSSi2Q0ZtG
         episode: 252
         title: 'Folge 252: Das Teig-Monster'
+    apple_music:
+      artist_ids:
+      - '374131430'
 - id: biene_maja
   title: Biene Maja
   aliases:
@@ -3931,6 +3970,9 @@ series:
       - id: 5SaAlaSVXD2nxI52NbZLzf
         episode: 19
         title: 'Die Freundin der Königin (Die Biene Maja, Folge 19)'
+    apple_music:
+      artist_ids:
+      - '1792148737'
 - id: hui_buh
   title: Hui Buh das Schlossgespenst
   aliases:
@@ -3945,6 +3987,9 @@ series:
       - 1vjNjfkax0s9GD3jviAaZl
       - 4qobZpBtoZ58xPbLByIWzD
       - 5uXwgEQqIIIMsyi0LlRZDn
+    apple_music:
+      artist_ids:
+      - '298740188'
 - id: raeubrer_hotzenplotz
   title: Räuber Hotzenplotz
   aliases:
@@ -3960,6 +4005,9 @@ series:
       artist_ids:
       - 3qAWgxar5hLNcW4ybNvjSW
       - 2AvETPAFFbhV737lBKXJj9
+    apple_music:
+      artist_ids:
+      - '1648852194'
 - id: kleiner_drache_kokosnuss
   title: Der kleine Drache Kokosnuss
   aliases:
@@ -4210,6 +4258,9 @@ series:
       - id: 5bQb4dIjQm5z8qKaEseDkG
         episode: 80
         title: 'Folge 80: Ein Hoch auf Hanni und Nanni!'
+    apple_music:
+      artist_ids:
+      - '218657672'
 - id: fuenf_freunde
   title: Fünf Freunde
   aliases:
@@ -4224,6 +4275,9 @@ series:
     spotify:
       artist_ids:
       - 1hD52edfn6aNsK3fb5c2OT
+    apple_music:
+      artist_ids:
+      - '216347875'
 - id: die_olchis
   title: Die Olchis
   aliases:
@@ -4304,6 +4358,9 @@ series:
         title: Die Olchis. Safari bei den Berggorillas
       - id: 37fCj04FGdwlca9LbvAAS2
         title: Die Olchis. Witze aus der Pfütze
+    apple_music:
+      artist_ids:
+      - '556813799'
 - id: hexe_lilli
   title: Hexe Lilli
   keywords:
@@ -4386,6 +4443,9 @@ series:
       - id: 2F4qbEk1JH1nj4E89882JI
         episode: 24
         title: 'Folge 24: auf magischer Rettungsmission'
+    apple_music:
+      artist_ids:
+      - '218659264'
 - id: lauras_stern
   title: Lauras Stern
   aliases:
@@ -4419,6 +4479,9 @@ series:
         title: Laura und die Osterüberraschung - Lauras Stern - Erstleser 11
       - id: 2m5U5mKGVufzo6waGyEhTR
         title: Laura und die kleine Robbe
+    apple_music:
+      artist_ids:
+      - '51919817'
 - id: tom_turbo
   title: Tom Turbo
   aliases:
@@ -4529,6 +4592,9 @@ series:
         title: Hörspiel zur TV-Serie 11/Rösti quietscht
       - id: 71hI0O0kfkPzUB18XnQ8LN
         title: Hörspiel zur TV-Serie 12/Verkehrserziehung
+    apple_music:
+      artist_ids:
+      - '205704340'
 - id: kommissar_kugelblitz
   title: Kommissar Kugelblitz
   aliases:
@@ -4653,6 +4719,9 @@ series:
         title: Unter Hochspannung
       - id: 5qBAXGuN3WJ5TWe0mZ0DCK
         title: Vermisst am Mississippi
+    apple_music:
+      artist_ids:
+      - '161429596'
 - id: nils_holgersson
   title: Nils Holgersson
   keywords:
@@ -4825,6 +4894,9 @@ series:
       - id: 5sBvy0x8HkWpNBUn7lTJDB
         episode: 54
         title: 'Der Abschied von den Wildgänsen (Nils Holgersson, Folge 54)'
+    apple_music:
+      artist_ids:
+      - '26247337'
 - id: heidi
   title: Heidi
   episode_pattern: '^(?:0?\d{1,2})/(.+?)(?:\s*\(CGI\))?$'
@@ -4863,6 +4935,9 @@ series:
       - id: 43eptfSWtOhGS8lwdwvNDf
         episode: 10
         title: '10/Versuch zu laufen, Clara!'
+    apple_music:
+      artist_ids:
+      - '1277333069'
 - id: ronja_raeubertocher
   title: Ronja Räubertochter
   aliases:
@@ -4878,6 +4953,10 @@ series:
   keywords:
   - emil und die detektive
   - emil detektive
+  providers:
+    apple_music:
+      artist_ids:
+      - '1780428951'
 - id: bob_baumeister
   title: Bob der Baumeister
   aliases:
@@ -4890,6 +4969,9 @@ series:
     spotify:
       artist_ids:
       - 0nNcNNBedN3GKqhlUsAObU
+    apple_music:
+      artist_ids:
+      - '403963841'
 - id: wickie
   title: Wickie und die starken Männer
   aliases:
@@ -4947,6 +5029,9 @@ series:
       - id: 1Jxl7OKYepVoYiX5GDQ5ws
         episode: 15
         title: 15/Das goldene Schwert
+    apple_music:
+      artist_ids:
+      - '26247225'
 - id: prinzessin_lillifee
   title: Prinzessin Lillifee
   keywords:
@@ -5030,6 +5115,9 @@ series:
         title: Und die kleine Seejungfrau
       - id: 3y9jloTirKL9ZU7wkpOnRn
         title: Vorhang auf für Prinzessin Lillifee
+    apple_music:
+      artist_ids:
+      - '130216498'
 - id: die_fuchsbande
   title: Die Fuchsbande
   keywords:
@@ -5181,6 +5269,9 @@ series:
       - id: 3aVyy451oaHxEKQGnPavDS
         episode: 47
         title: 'Folge 47: Fall 93: Das duftende Tauschhaus/Fall 94: Die mantellosen Bäume'
+    apple_music:
+      artist_ids:
+      - '1183824980'
 - id: tkkg_junior
   title: TKKG Junior
   aliases:
@@ -5316,6 +5407,9 @@ series:
         title: 'Folge 41: Aliens im Anflug'
       - id: 2NOjKvA3XxO7J3TauLYxUK
         title: Die Fußball-Lüge
+    apple_music:
+      artist_ids:
+      - '1400668275'
 - id: fuenf_freunde_junior
   title: Fünf Freunde Junior
   aliases:
@@ -5370,6 +5464,9 @@ series:
       - id: 4f3TFDAeTRa7MHCBsqFJFk
         episode: 14
         title: 'Folge 14: Der Dinosaurierknochen/Das Hundeturnier'
+    apple_music:
+      artist_ids:
+      - '1710728106'
 - id: die_playmos
   title: Die Playmos
   aliases:
@@ -5678,6 +5775,9 @@ series:
       - id: 7IhqeWCTS3e8gjzXaeteDJ
         episode: 98
         title: 'Folge 98: Das gestohlene Ei (Das Original Playmobil Hörspiel)'
+    apple_music:
+      artist_ids:
+      - '267092844'
 - id: wendy
   title: Wendy
   keywords:
@@ -5946,6 +6046,9 @@ series:
       - id: 03a0TDeawKdnzrYpph0RFK
         episode: 86
         title: 'Folge 86: Mathestress für Wendy'
+    apple_music:
+      artist_ids:
+      - '89959273'
 - id: asterix
   title: Asterix
   keywords:
@@ -6079,12 +6182,14 @@ series:
       - id: 0iXw4Qg5jVG6RZjSLgwJG4
         episode: 41
         title: '41: Asterix in Lusitanien'
+    apple_music:
+      artist_ids:
+      - '29282350'
 - id: lucky_luke
   title: Lucky Luke
   keywords:
   - Lucky Luke
-  episode_pattern: '^(?:(\d{2}):\s*|Ein Cowboy in Paris|Fackeln im Baumwollfeld|Rantanplans Arche|Letzte Runde für die Daltons|Das
-    gelobte Land|Meine Onkel, die Daltons)'
+  episode_pattern: '^(?:(\d{2}):\s*|Ein Cowboy in Paris|Fackeln im Baumwollfeld|Rantanplans Arche|Letzte Runde für die Daltons|Das gelobte Land|Meine Onkel, die Daltons)'
   providers:
     spotify:
       artist_ids:
@@ -6144,6 +6249,9 @@ series:
       - id: 3bCEupD1fuTOixFOTpTrLo
         episode: 18
         title: 'Meine Onkel, die Daltons'
+    apple_music:
+      artist_ids:
+      - '1385690227'
 - id: michael_ende
   title: Michael Ende
   keywords:
@@ -6222,8 +6330,10 @@ series:
       - id: 2mdVzm7cYhifVGhBJEiyiZ
         title: 'Rodrigo Raubein und Knirps, sein Knappe'
       - id: 11wArUgNLB4hEeDHzd2t2M
-        title: 'Tranquilla Trampeltreu und weitere Fabeln von Michael Ende (Tranquilla Trampeltreu, Der Lindwurm und der Schmetterling
-          und Norbert Nackendick)'
+        title: 'Tranquilla Trampeltreu und weitere Fabeln von Michael Ende (Tranquilla Trampeltreu, Der Lindwurm und der Schmetterling und Norbert Nackendick)'
+    apple_music:
+      artist_ids:
+      - '1515591006'
 - id: gespensterjager
   title: Gespensterjäger
   aliases:
@@ -6236,6 +6346,9 @@ series:
     spotify:
       artist_ids:
       - 4icYuK6RKqj5ALhxuJHDGU
+    apple_music:
+      artist_ids:
+      - '1845363799'
 - id: die_wilden_huehner
   title: Die wilden Hühner
   aliases:
@@ -6269,6 +6382,9 @@ series:
       - id: 1RHxV47cUq6KD3Bdo0tKs1
         episode: 5
         title: 'Folge 5: Und die Liebe'
+    apple_music:
+      artist_ids:
+      - '313750359'
 - id: bullerbue
   title: Bullerbü
   aliases:
@@ -6295,6 +6411,9 @@ series:
         title: Geschichten aus Bullerbü
       - id: 2p0ijK6bumieBNwZY4lToa
         title: Weihnachten in Bullerbü
+    apple_music:
+      artist_ids:
+      - '1634428590'
 - id: janosch
   title: Janosch
   aliases:
@@ -6324,6 +6443,9 @@ series:
       - id: 2XPa5ccswP7n9JFgzW4r1l
         episode: 4
         title: 'Folge 4: Komm, wir finden einen Schatz'
+    apple_music:
+      artist_ids:
+      - '34031449'
 - id: lassemaja
   title: Detektivbüro LasseMaja
   aliases:
@@ -6352,6 +6474,9 @@ series:
       artist_ids:
       - 4M0PZyOPSvjzFEBRg3G8xA
       - 5W3s4beu23rOlseCbVOp4l
+    apple_music:
+      artist_ids:
+      - '1124144497'
 - id: bobo_siebenschlaefer
   title: Bobo Siebenschläfer
   keywords:
@@ -6419,6 +6544,9 @@ series:
         title: 'Fröhliche Weihnachten, Bobo Siebenschläfer!'
       - id: 0c1fb6c2eHajLNCtGTLHFL
         title: 'Staffel 2: Die neuen Abenteuer von Bobo (Das Hörspiel zur Kinder TV-Serie)'
+    apple_music:
+      artist_ids:
+      - '1580097679'
 - id: leo_lausemaus
   title: Leo Lausemaus
   keywords:
@@ -6741,6 +6869,9 @@ series:
       - id: 6AOJkBMN6aGSKly1utFvpJ
         episode: 104
         title: 'Folge 104: Die neue Knete'
+    apple_music:
+      artist_ids:
+      - '263499755'
 - id: sandmaennchen
   title: Sandmännchen
   aliases:
@@ -6755,6 +6886,9 @@ series:
     spotify:
       artist_ids:
       - 02Z9KUEjSTXcsmEB7uhDiJ
+    apple_music:
+      artist_ids:
+      - '269723263'
 - id: kleiner_rabe_socke
   title: Der kleine Rabe Socke
   aliases:
@@ -6767,6 +6901,9 @@ series:
     spotify:
       artist_ids:
       - 6NdYPh29DHFBbiYzcK7Nb0
+    apple_music:
+      artist_ids:
+      - '726252391'
 - id: peppa_wutz
   title: Peppa Wutz
   keywords:
@@ -6915,6 +7052,9 @@ series:
       - id: 2rg8wLzb0qgkfhJEqB41iP
         episode: 62
         title: 'Folge 62: Ferien auf dem Kreuzfahrtschiff'
+    apple_music:
+      artist_ids:
+      - '1634660960'
 - id: schule_magische_tiere
   title: Die Schule der magischen Tiere
   aliases:
@@ -6928,6 +7068,9 @@ series:
       artist_ids:
       - 1BElEHaU2xaZg7FOGsSird
       - 6wlMx6MhWCynm8yVU0K3V3
+    apple_music:
+      artist_ids:
+      - '1328909127'
 - id: globi
   title: Globi
   keywords:
@@ -7059,6 +7202,9 @@ series:
         title: Wie Globi Bauer wurde
       - id: 31c3r3aTn0dCvVuNIg99Ui
         title: Wie Globi Ritter Wurde
+    apple_music:
+      artist_ids:
+      - '310690448'
 - id: was_ist_was
   title: Was ist Was
   aliases:
@@ -7405,6 +7551,9 @@ series:
         title: Vulkane
       - id: 1Ao84Y6BV1OMQVsOTVxiYn
         title: Was war los im alten Rom?
+    apple_music:
+      artist_ids:
+      - '13496563'
 - id: wieso_weshalb_warum
   title: Wieso? Weshalb? Warum?
   aliases:
@@ -7613,6 +7762,9 @@ series:
         title: Wir entdecken Deutschland (Wieso? Weshalb? Warum?)
       - id: 0SJwUfZiU55SOgvFzjDg3B
         title: Wir entdecken die Bibel (Wieso? Weshalb? Warum?)
+    apple_music:
+      artist_ids:
+      - '1560025489'
 - id: sternenschweif
   title: Sternenschweif
   aliases:
@@ -7797,6 +7949,9 @@ series:
       - id: 5mWqJxP9v4n1EIX0tCXUF9
         episode: 75
         title: 'Teil 75: Das Regenbogen-Einhorn'
+    apple_music:
+      artist_ids:
+      - '1062930511'
 - id: loewenzahn
   title: Löwenzahn
   keywords:
@@ -7858,6 +8013,9 @@ series:
       - id: 7mButJSOPwVzzrxZi3sR8K
         episode: 17
         title: 'Episode 17: Der Tag als Fritz ein Papa war'
+    apple_music:
+      artist_ids:
+      - '13429372'
 - id: ferien_saltkrokan
   title: Ferien auf Saltkrokan
   aliases:
@@ -7897,6 +8055,9 @@ series:
         title: 'Kampf um Kartoffelbrei (Special) - Teil 8: Mania greift ein'
       - id: 2vS11F2lZ3gt85jebic2q6
         title: 'Kampf um Kartoffelbrei (Special) - Teil 9: Karla in Gefahr'
+    apple_music:
+      artist_ids:
+      - '41480004'
 - id: bibi_blocksberg_kinofilme
   title: Bibi Blocksberg - Die Kinofilme
   keywords:
@@ -7913,6 +8074,9 @@ series:
         title: Das Original Hörspiel zum Kinofilm
       - id: 5MuK38H2p9v1O7mnVUMRTP
         title: 'Hörspiel zum 2. Kinofilm: und das Geheimnis der blauen Eulen'
+    apple_music:
+      artist_ids:
+      - '41480004'
 - id: biene_maja_2023
   title: Biene Maja (2023)
   keywords:
@@ -8235,6 +8399,9 @@ series:
       - id: 5lmnZ84aWnQHdRLHr0siGW
         episode: 44
         title: 'Folge 44: Der rostrote Ritter'
+    apple_music:
+      artist_ids:
+      - '1157586852'
 - id: der_kleine_rabe_socke
   title: Der kleine Rabe Socke
   keywords:
@@ -8253,17 +8420,14 @@ series:
       - id: 2HajrwUcwFczd5ovmqUta9
         title: 'Alles Freunde!, Alles wieder gut! (Der kleine Rabe Socke)'
       - id: 1OJtnmkxVTdYFJ1pwLssPi
-        title: 'Alles Frühling!: Alles Freunde!, Alles wächst!, Alles gefärbt! (Der kleine Rabe Socke) [Drei Geschichten vom
-          kleinen Raben Socke]'
+        title: 'Alles Frühling!: Alles Freunde!, Alles wächst!, Alles gefärbt! (Der kleine Rabe Socke) [Drei Geschichten vom kleinen Raben Socke]'
       - id: 2FAg04g5btUgSUExkIOi6r
-        title: 'Alles Schule!: Alles vorbereitet!, Alles aufgeweckt!, Alles eingeschult!, Alles aus und vorbei!, Alles zusammen!
-          (Der kleine Rabe Socke)'
+        title: 'Alles Schule!: Alles vorbereitet!, Alles aufgeweckt!, Alles eingeschult!, Alles aus und vorbei!, Alles zusammen! (Der kleine Rabe Socke)'
       - id: 5rLgyFUrNHZ8xnaEWSSQ71
-        title: 'Alles Socke! (Alles erlaubt?, Alles Eis!, Alles gefunden!, Alles zu spät!, Alles echt wahr!, Alles nass!,
-          Alles Bitte-danke!, Alles verlaufen!) (Der kleine Rabe Socke) [Das Beste vom kleinen Raben Socke zum 25. Geburtstag]'
+        title: 'Alles Socke! (Alles erlaubt?, Alles Eis!, Alles gefunden!, Alles zu spät!, Alles echt wahr!, Alles nass!, Alles Bitte-danke!, Alles verlaufen!) (Der kleine Rabe Socke) [Das Beste vom kleinen
+          Raben Socke zum 25. Geburtstag]'
       - id: 4AboRuzwmUiuqS9noZmcQ1
-        title: 'Alles Weihnachten!: Alles Advent!, Alles gebacken!, Alles verschenkt! (Der kleine Rabe Socke) [Drei Geschichten
-          vom kleinen Raben Socke]'
+        title: 'Alles Weihnachten!: Alles Advent!, Alles gebacken!, Alles verschenkt! (Der kleine Rabe Socke) [Drei Geschichten vom kleinen Raben Socke]'
       - id: 0nnORLROe3heC59K96RQuO
         title: 'Alles deine Schuld! (Der kleine Rabe Socke) [Und weitere Geschichten: Alles schlapp!, Alles gewaschen!]'
       - id: 6EEHTIM7lx5WoOQ083pffv
@@ -8281,8 +8445,7 @@ series:
       - id: 6tbKtNfAd40rvPJVTNXylf
         title: 'Alles rabenstark!, Alles aufgeräumt!, Alles kaputt! (Der kleine Rabe Socke)'
       - id: 5Blrw5UfocVrlzAoxRJQsf
-        title: 'Alles schläft? (Alles ohne Ende!, Alles Monster!, Alles verbummelt!, Alles besser!) (Der kleine Rabe Socke)
-          [Gute-Nacht-Geschichten vom kleinen Raben Socke]'
+        title: 'Alles schläft? (Alles ohne Ende!, Alles Monster!, Alles verbummelt!, Alles besser!) (Der kleine Rabe Socke) [Gute-Nacht-Geschichten vom kleinen Raben Socke]'
       - id: 6uS4A6adOkQRBtfN8B0wnE
         title: 'Alles verknallt!, Alles wach?, Alles gelernt! (Der kleine Rabe Socke)'
       - id: 0joEbvSRUXOYhoWfDJdXPa
@@ -8292,15 +8455,13 @@ series:
       - id: 6CPEwK18zBZafonlXexQYK
         title: 'Alles verzankt!, Alles zu voll!, Alles nass! (Der kleine Rabe Socke)'
       - id: 3vxL29iewsOnpuzmvy0B18
-        title: 'Das Geburtstagsgeschenk, Das Superfernrohr, Der Erfinderwettbewerb (Der kleine Rabe Socke - Hörspiele zur
-          TV Serie 8)'
+        title: 'Das Geburtstagsgeschenk, Das Superfernrohr, Der Erfinderwettbewerb (Der kleine Rabe Socke - Hörspiele zur TV Serie 8)'
       - id: 045UjvaNf9898ZWtNxdL7s
         title: 'Das Hofturnier, Die Waldprüfung, Bruder-Alarm! (Der kleine Rabe Socke - Hörspiele zur TV Serie 10)'
       - id: 6KnamYDPG0Wr82roCnku3U
         title: 'Das Waldlied, Allerbeste Freunde, Die Geburtstagsretter (Der kleine Rabe Socke - Hörspiele zur TV Serie 15)'
       - id: 4MF3vRrimefhW3x9RK9I1V
-        title: 'Der Onkel aus der Südsee, Der große Streichewettbewerb, Rollentausch, Der Schatzkistentag (Der kleine Rabe
-          Socke - Hörspiele zur TV Serie 17)'
+        title: 'Der Onkel aus der Südsee, Der große Streichewettbewerb, Rollentausch, Der Schatzkistentag (Der kleine Rabe Socke - Hörspiele zur TV Serie 17)'
       - id: 0eF1MO4hXD7EE0cqD8DW8o
         title: 'Die Mutprobe, Ein echter Krimi, Der geteilte Wald (Der kleine Rabe Socke - Hörspiele zur TV Serie 16)'
       - id: 76HrKCFyQhY87r2IWXnLDB
@@ -8308,19 +8469,15 @@ series:
       - id: 2vSecCqEUJilZo28l0vTIL
         title: 'Die Wunscherfüllkiste, Der Waldgeist, Haltet den Dieb! (Der kleine Rabe Socke - Hörspiele zur TV Serie 2)'
       - id: 3FrgaEqgvo0sqA7Ru0QVYK
-        title: 'Ferngesteuert, Der Laden der allertollsten Dinge, Freundschaft mit Hindernissen (Der kleine Rabe Socke - Hörspiele
-          zur TV Serie 14)'
+        title: 'Ferngesteuert, Der Laden der allertollsten Dinge, Freundschaft mit Hindernissen (Der kleine Rabe Socke - Hörspiele zur TV Serie 14)'
       - id: 6VrIYTSUOGSsKWMTdeW8gE
-        title: 'Frau Dachs macht Urlaub, Ein Tanzkleid für Frau Dachs, Rette sich, wer kann! (Der kleine Rabe Socke - Hörspiele
-          zur TV Serie 4)'
+        title: 'Frau Dachs macht Urlaub, Ein Tanzkleid für Frau Dachs, Rette sich, wer kann! (Der kleine Rabe Socke - Hörspiele zur TV Serie 4)'
       - id: 0oqKdiDNslYUoUiRYUdDks
-        title: 'Meisterdetektive, Der Pechvogel, Frau Dachs hat Geburtstag (Der kleine Rabe Socke - Hörspiele zur TV Serie
-          11)'
+        title: 'Meisterdetektive, Der Pechvogel, Frau Dachs hat Geburtstag (Der kleine Rabe Socke - Hörspiele zur TV Serie 11)'
       - id: 4ohBnL1iSjWMTQaLNA7bvZ
         title: 'Neues Ufer, Die verfluchte Teekanne, Der große Sockini (Der kleine Rabe Socke - Hörspiele zur TV Serie 9)'
       - id: 1i3DeKgyCaMEwpmrgnXkiK
-        title: 'Piraten Ahoi!, Die Fußballwaldmeisterschaft, Das goldene Amulett (Der kleine Rabe Socke - Hörspiele zur TV
-          Serie 1)'
+        title: 'Piraten Ahoi!, Die Fußballwaldmeisterschaft, Das goldene Amulett (Der kleine Rabe Socke - Hörspiele zur TV Serie 1)'
       - id: 58IfNovyr5Sr55wgMLWIoI
         title: 'Rennfahrer, Diamantenfieber, Die Rasselbande (Der kleine Rabe Socke - Hörspiele zur TV Serie 7)'
       - id: 795XA2uiADFHOKNkttriJX
@@ -8332,8 +8489,10 @@ series:
       - id: 5YufFI1LNYMovd5wWKJ4CU
         title: 'Suppenzauber, Gestrandet, Die Ringelsocke ist futsch! (Der kleine Rabe Socke - Hörspiele zur TV Serie 6)'
       - id: 5Tx1COK2E4QTwd0ye0rknb
-        title: 'Weihnachtsgeschichten vom kleinen Raben Socke: Alles Advent!, Alles glitzert!, Alles in Eile!, Alles weg!
-          (Der kleine Rabe Socke)'
+        title: 'Weihnachtsgeschichten vom kleinen Raben Socke: Alles Advent!, Alles glitzert!, Alles in Eile!, Alles weg! (Der kleine Rabe Socke)'
+    apple_music:
+      artist_ids:
+      - '726252391'
 - id: die_oktonauten
   title: Die Oktonauten
   keywords:
@@ -8422,6 +8581,9 @@ series:
       - id: 3nKOzkF6bVE8YMWX7XkIsX
         episode: 26
         title: 'Folge 26: Die Oktonauten und die Monarchfalter'
+    apple_music:
+      artist_ids:
+      - '888914822'
 - id: hedda_hex
   title: Hedda Hex
   keywords:
@@ -8490,6 +8652,9 @@ series:
         title: 'Folge 8: Das große Rennen/Eins, drei, viele Hexen'
       - id: 7v0PNvaNJl1w17CndyBxFo
         title: 'Folge 9: Leinen los! / Eine lebendige Geschichte'
+    apple_music:
+      artist_ids:
+      - '1534558064'
 - id: hui_buh_schlossgespenst
   title: Hui Buh das Schlossgespenst
   aliases:
@@ -8716,6 +8881,9 @@ series:
       - id: 5xs7IAzpFVpqNCG7huoxsQ
         episode: 71
         title: 'Folge 48: Ein echtes Gruseltalent'
+    apple_music:
+      artist_ids:
+      - '298740188'
 - id: lego_ninjago
   title: LEGO Ninjago
   aliases:
@@ -9504,6 +9672,9 @@ series:
         title: 'Folge 258: Zusammengekracht'
       - id: 0giRBlxI03hwYTq7U1tC2I
         title: Gift für die Giftnattern (Band 20)
+    apple_music:
+      artist_ids:
+      - '1460064731'
 - id: paw_patrol
   title: PAW Patrol
   aliases:
@@ -10807,6 +10978,9 @@ series:
       - id: 6GVTXL5lcHb2Y1GZfZ9yff
         episode: 431
         title: 'Folge 431: Ein abenteuerliches Buggy-Rennen (Das Original-Hörspiel zur TV-Serie)'
+    apple_music:
+      artist_ids:
+      - '1398609389'
 - id: petronella_apfelmus
   title: Petronella Apfelmus
   keywords:
@@ -10837,8 +11011,7 @@ series:
         title: 'Teil 3: Schneeballschlacht und Wichtelstreiche'
       - id: 0hj2baHLWGAChZFOULHMS5
         episode: 4
-        title: 'Teil 4: Verhexte Bäckerei, Das Band der Freundschaft, Hexengeburtstag, Aufprall mit Folgen (Hörspiele zur
-          TV-Serie)'
+        title: 'Teil 4: Verhexte Bäckerei, Das Band der Freundschaft, Hexengeburtstag, Aufprall mit Folgen (Hörspiele zur TV-Serie)'
       - id: 7cWtxTcosezzDYGly4sgyH
         episode: 4
         title: 'Teil 4: Zauberhut und Bienenstich'
@@ -10883,6 +11056,9 @@ series:
         title: 'Erstleser Teil 3: Krawall im Hühnerstall'
       - id: 1RUpQ5bcRAxKoJ2IqzDpzB
         title: 'Erstleser Teil 4: Spargelzahn zieht um'
+    apple_music:
+      artist_ids:
+      - '1451309462'
 - id: simsalagrimm
   title: SimsalaGrimm
   keywords:
@@ -11008,6 +11184,9 @@ series:
         title: Tischlein deck dich (Das Original-Hörspiel zur TV Serie)
       - id: 1sMHhPhJNAvVosGqZVeXdE
         title: 'Von einem, der auszog, das Fürchten zu lernen (Das Original-Hörspiel zur TV Serie)'
+    apple_music:
+      artist_ids:
+      - '269793180'
 - id: wieso_weshalb_warum_junior
   title: Wieso? Weshalb? Warum? junior
   keywords:
@@ -11216,6 +11395,9 @@ series:
         title: 'Der Kran. (Wieso? Weshalb? Warum? junior, Folge 81)'
       - id: 3d9MDMbHDJdQdxPPrAxWr9
         title: 'Wieso? Weshalb? Warum? junior. Tanken, waschen, reparieren'
+    apple_music:
+      artist_ids:
+      - '1669532976'
 - id: willi_wills_wissen
   title: Willi wills wissen
   keywords:
@@ -11262,6 +11444,9 @@ series:
       - id: 4ATpy5cx5dm4pIGZeJhN4F
         episode: 12
         title: 'Folge 12: Wie kommen die Babys auf die Welt? / Was mein Körper alles kann'
+    apple_music:
+      artist_ids:
+      - '272713880'
 - id: die_schlumpfe
   title: Die Schlümpfe
   keywords:
@@ -11336,6 +11521,9 @@ series:
       - id: 39e9AXlk6nQ6nLsZDll613
         episode: 20
         title: 'Folge 20: Blümchen ist verschwunden'
+    apple_music:
+      artist_ids:
+      - '128557561'
 - id: die_schule_der_magischen_tiere
   title: Die Schule der magischen Tiere
   aliases:
@@ -11343,8 +11531,7 @@ series:
   - Endlich Ferien
   keywords:
   - Die Schule der magischen Tiere
-  episode_pattern: '^(?:(\d+):|Die Schule der magischen Tiere (?:ermittelt - Hörspiele |ermittelt Neuausgabe |\d+: | - Endlich
-    Ferien \d+:))'
+  episode_pattern: '^(?:(\d+):|Die Schule der magischen Tiere (?:ermittelt - Hörspiele |ermittelt Neuausgabe |\d+: | - Endlich Ferien \d+:))'
   providers:
     spotify:
       artist_ids:
@@ -11400,6 +11587,9 @@ series:
       - id: 2XgghqqSSYMgqzIYWTSTbZ
         episode: 16
         title: '16: Land unter!'
+    apple_music:
+      artist_ids:
+      - '1328909127'
 - id: lego_city_abenteuer_kurz
   title: LEGO City Abenteuer (Kompakt)
   episode_pattern: '^Folge (\d+):'
@@ -11715,6 +11905,9 @@ series:
       - id: 6rQQ03rhMvwbosdMOeWWjG
         episode: 22
         title: Mein Lotta-Leben. Muh mir das Lied von der Kuh (Band 22)
+    apple_music:
+      artist_ids:
+      - '1548980617'
 - id: mia_and_me
   title: Mia and Me
   keywords:
@@ -11874,11 +12067,13 @@ series:
         title: 'Folge 49: Drachen im Anflug / Ein feuriges Abenteuer (Das Original-Hörspiel zur TV-Serie)'
       - id: 7mnRh7Inb1QjuIVe8JW9gF
         episode: 50
-        title: 'Folge 50: Das sprechende Einhorn / Ein Käfig im Dschungel / Sternenklar und stachelig (Das Original-Hörspiel
-          zur TV-Serie)'
+        title: 'Folge 50: Das sprechende Einhorn / Ein Käfig im Dschungel / Sternenklar und stachelig (Das Original-Hörspiel zur TV-Serie)'
       - id: 5KZZnkn5GunxCzH9ZkgLJW
         episode: 51
         title: 'Folge 51: Die letzte Zutat / Der Trank der Einheit / Centopia in Gefahr (Das Original-Hörspiel zur TV-Serie)'
+    apple_music:
+      artist_ids:
+      - '553475434'
 - id: wieso_weshalb_warum_profiwissen
   title: Wieso? Weshalb? Warum? Profiwissen
   episode_pattern: '(?:Folge|folge)\s+(\d+)'
@@ -11945,6 +12140,9 @@ series:
       - id: 3TAWveTLyLNgSGlEYVtQcI
         episode: 26
         title: 'Umweltschutz (Wieso? Weshalb? Warum? PROFIWISSEN, Folge 26)'
+    apple_music:
+      artist_ids:
+      - '1669534015'
 - id: lego_city_abenteuer
   title: LEGO City Abenteuer
   aliases:
@@ -12024,6 +12222,9 @@ series:
       - id: 5OuS244mCL3yET4TcCmCeQ
         episode: 23
         title: 'LEGO City: Folge 23 - Weltraum - Auf der dunklen Seite des Mondes'
+    apple_music:
+      artist_ids:
+      - '672648501'
 - id: deine_freunde
   title: Deine Freunde
   episode_pattern: '^(\d+):'
@@ -12040,12 +12241,18 @@ series:
         title: '03: Hamsterdam'
       - id: 0OHQxJeF6IJUSw6drODNrL
         title: '04: Der Lollimann'
+    apple_music:
+      artist_ids:
+      - '520953076'
 - id: detlev_joecker
   title: Detlev Jöcker
   providers:
     spotify:
       artist_ids:
       - 4UiTe5uwHKDUddmV8yQeY4
+    apple_music:
+      artist_ids:
+      - '42264666'
 - id: die_eiskoenigin
   title: Die Eiskönigin
   providers:
@@ -12065,6 +12272,9 @@ series:
         title: 'Die Eiskönigin: Olaf taut auf (Hörspiel zum Special)'
       - id: 1AzroGa7OMBqJu9hSOoIJU
         title: Es war einmal ein Schneemann (Hörspiel zum Kurzfilm)
+    apple_music:
+      artist_ids:
+      - '1660540441'
 - id: die_punkies
   title: Die Punkies
   keywords:
@@ -12210,6 +12420,9 @@ series:
       - id: 1R7Po5TTaaDXALoxNKv1bH
         episode: 45
         title: 'Folge 45: Tunnelblick!'
+    apple_music:
+      artist_ids:
+      - '1173447527'
 - id: die_schlumpfe_europa
   title: Die Schlümpfe (EUROPA Anthologie)
   episode_pattern: Folge\s+(\d+)
@@ -12298,8 +12511,7 @@ series:
         title: 'Folge 26: Wollen wir wetten?'
 - id: die_schule_der_magischen_tiere_endlich_ferien
   title: 'Die Schule der magischen Tiere: Endlich Ferien'
-  episode_pattern: '^(?:(\d+):|Die Schule der magischen Tiere (?:ermittelt - Hörspiele |ermittelt Neuausgabe |\d+: | - Endlich
-    Ferien \d+:))'
+  episode_pattern: '^(?:(\d+):|Die Schule der magischen Tiere (?:ermittelt - Hörspiele |ermittelt Neuausgabe |\d+: | - Endlich Ferien \d+:))'
   providers:
     spotify:
       artist_ids:
@@ -12334,6 +12546,9 @@ series:
       - id: 3Q8v6eUrInqM28X8wq2KMV
         episode: 9
         title: 'Die Schule der magischen Tiere - Endlich Ferien 9: Elisa und Silber'
+    apple_music:
+      artist_ids:
+      - '1328909127'
 - id: eule_findet_den_beat
   title: Eule findet den Beat
   keywords:
@@ -12496,6 +12711,9 @@ series:
         title: Geheime Botschaft
       - id: 4l4pf9JgOg4M9troLqOoCs
         title: Nachricht eines Fremden
+    apple_music:
+      artist_ids:
+      - '1487787107'
 - id: gespensterjaeger
   title: Gespensterjäger
   keywords:
@@ -12522,6 +12740,9 @@ series:
       - id: 5Am9JediFNxH5GbROyLCIa
         episode: 5
         title: 'Folge 5: Gespensterjäger und der Weihnachtsspuk'
+    apple_music:
+      artist_ids:
+      - '1845363799'
 - id: gregs_tagebuch
   title: Gregs Tagebuch
   episode_pattern: '[Ff]olge\s+(\d+)'
@@ -12590,6 +12811,9 @@ series:
       - id: 61YmRmJt713HXgbnuQrAiK
         episode: 20
         title: 'Folge 20: Bock auf Party?'
+    apple_music:
+      artist_ids:
+      - '616811839'
 - id: hanni_und_nanni_neue_abenteuer
   title: 'Hanni und Nanni: Neue Abenteuer'
   episode_pattern: '(?:Folge\s+)?(\d+)'
@@ -12631,6 +12855,9 @@ series:
       - id: 0QHMsII5PMwdxiFhsJEM2c
         episode: 4
         title: 'Folge 4: Die Hexenmeister des Metal'
+    apple_music:
+      artist_ids:
+      - '1335570145'
 - id: heidi_cgi
   title: Heidi (CGI)
   episode_pattern: '^(?:0?\d{1,2})/(.+?)(?:\s*\(CGI\))?$'
@@ -12745,6 +12972,9 @@ series:
         title: Der schwarze Korsar
       - id: 1bojQWyl825Zu8fS6eAJzy
         title: 'Käpt''n Sharky (Das Original-Hörspiel zum Kinofilm)'
+    apple_music:
+      artist_ids:
+      - '408718484'
 - id: kati_azuro
   title: 'Kati & Azuro'
   episode_pattern: '(?:Folge\s+)?(\d+)'
@@ -12873,6 +13103,9 @@ series:
       - id: 5jyiCwAngI0zDsbuTTD2hv
         episode: 40
         title: 'Folge 40: Ein genialer Plan'
+    apple_music:
+      artist_ids:
+      - '478876729'
 - id: kira_kolumna
   title: Kira Kolumna
   keywords:
@@ -12984,6 +13217,9 @@ series:
         title: 'Kira Kolumna Reportage: Sind Graffitis auch Kunst?'
       - id: 4mAmABL4joBoxBBHmY8rpy
         title: 'Kira Kolumna Reportage: Sind Schüler gute Schauspieler?'
+    apple_music:
+      artist_ids:
+      - '1580082096'
 - id: kleine_schnecke_monika_haeschen
   title: Die kleine Schnecke Monika Häuschen
   aliases:
@@ -13233,6 +13469,9 @@ series:
       - id: 1HX5xC1m8FtGXUzmyXeQeV
         episode: 79
         title: '79: Warum haben Hühner einen Kamm?'
+    apple_music:
+      artist_ids:
+      - '292186920'
 - id: lauras_stern_tv_serie
   title: Lauras Stern - Tonspur der TV-Serie
   episode_pattern: '(?:[Ff]olge|[Tt]eil|[Bb]and|Erstleser)\s+(\d+)'
@@ -13267,6 +13506,9 @@ series:
       - id: 5CemxfBqKEH4OX4krsatrS
         episode: 2
         title: Die Blumenwiese (Folge 2)
+    apple_music:
+      artist_ids:
+      - '1035655315'
 - id: lieselotte_filmhoerspiele
   title: Lieselotte Filmhörspiele
   keywords:
@@ -13316,6 +13558,9 @@ series:
       - id: 53Sgp83SKTv2Vk3qPD6gHh
         episode: 13
         title: 'Folge 13: Frühlingszeit mit Lieselotte (Vier Hörspiele)'
+    apple_music:
+      artist_ids:
+      - '1739445979'
 - id: meine_freundin_conni
   title: Meine Freundin Conni
   keywords:
@@ -13328,46 +13573,39 @@ series:
       albums:
       - id: 0IhcdN1UcvPR3TXSSmN6tZ
         episode: 1
-        title: '01: Conni zieht um / Conni bekommt eine Katze / Conni macht das Seepferdchen / Conni geht zelten (Vier Hörspiele
-          zur TV-Serie)'
+        title: '01: Conni zieht um / Conni bekommt eine Katze / Conni macht das Seepferdchen / Conni geht zelten (Vier Hörspiele zur TV-Serie)'
       - id: 4TFu59xSkMtgXQwtcpPOtk
         episode: 2
-        title: '02: Conni auf dem Bauernhof / Conni schläft im Kindergarten / Conni geht zum Zahnarzt / Connis erster Flug
-          (Vier Hörspiele zur TV-Serie)'
+        title: '02: Conni auf dem Bauernhof / Conni schläft im Kindergarten / Conni geht zum Zahnarzt / Connis erster Flug (Vier Hörspiele zur TV-Serie)'
       - id: 3626UDwiaF1YhpqqSn1Deh
         episode: 3
-        title: '03: Conni tanzt / Conni lernt die Uhrzeit / Conni lernt Rad fahren / Conni lernt backen (Vier Hörspiele zur
-          TV-Serie)'
+        title: '03: Conni tanzt / Conni lernt die Uhrzeit / Conni lernt Rad fahren / Conni lernt backen (Vier Hörspiele zur TV-Serie)'
       - id: 35I8KIdJsStUqtbbDR0uUe
         episode: 4
-        title: '04: Conni hat Geburtstag / Conni backt Pizza / Conni geht in den Zoo / Conni geht verloren (Vier Hörspiele
-          zur TV-Serie)'
+        title: '04: Conni hat Geburtstag / Conni backt Pizza / Conni geht in den Zoo / Conni geht verloren (Vier Hörspiele zur TV-Serie)'
       - id: 3PbhJbzYqlWkjlCF7yv2DV
         episode: 5
-        title: '05: Conni fährt Ski / Conni und der Osterhase / Conni geht zum Kinderarzt / Conni spielt Fußball (Vier Hörspiele
-          zur TV-Serie)'
+        title: '05: Conni fährt Ski / Conni und der Osterhase / Conni geht zum Kinderarzt / Conni spielt Fußball (Vier Hörspiele zur TV-Serie)'
       - id: 1W6W3lzAROoVfrWLCI3bkI
         episode: 6
         title: '06: Conni lernt reiten / Conni am Strand / Conni in den Bergen / Conni macht Musik (Vier Hörspiele zur TV-Serie)'
       - id: 1lixrGKO2AL3rj9cPdz9yY
         episode: 7
-        title: '07: Conni beim Frisör / Conni auf Waldsafari / Conni auf der Burg / Conni und das Froschkonzert (Vier Hörspiele
-          zur TV-Serie)'
+        title: '07: Conni beim Frisör / Conni auf Waldsafari / Conni auf der Burg / Conni und das Froschkonzert (Vier Hörspiele zur TV-Serie)'
       - id: 4YXrojnF0rcPIRZZW9ulIv
         episode: 8
-        title: '08: Conni übernachtet bei Julia / Conni geht nicht mit Fremden mit / Conni auf der Baustelle / Conni macht
-          Flohmarkt (Vier Hörspiele zur TV-Serie)'
+        title: '08: Conni übernachtet bei Julia / Conni geht nicht mit Fremden mit / Conni auf der Baustelle / Conni macht Flohmarkt (Vier Hörspiele zur TV-Serie)'
       - id: 6XjK6aOYmvosQIFH5gvtBx
         episode: 9
-        title: '09: Conni und der Hundebesuch / Conni wird Clown / Conni feiert Fasching / Conni und der Dreck-weg-Tag (Vier
-          Hörspiele zur TV-Serie)'
+        title: '09: Conni und der Hundebesuch / Conni wird Clown / Conni feiert Fasching / Conni und der Dreck-weg-Tag (Vier Hörspiele zur TV-Serie)'
       - id: 6NA30cusjh4rD41CgW5vJp
         episode: 10
-        title: '10: Conni im Advent / Conni fährt Schlittschuh / Conni lässt Drachen steigen / Conni und der fiese Schnupfen
-          (Vier Hörspiele zur TV-Serie)'
+        title: '10: Conni im Advent / Conni fährt Schlittschuh / Conni lässt Drachen steigen / Conni und der fiese Schnupfen (Vier Hörspiele zur TV-Serie)'
       - id: 77Pk8wTrRgF2O1K3YLqyMW
-        title: 'Conni macht Mut in Zeiten von Corona (Meine Freundin Conni - ab 3) [Eine Conni-Geschichte mit kindgerechtem
-          Sachwissen rund um das Thema Corona]'
+        title: 'Conni macht Mut in Zeiten von Corona (Meine Freundin Conni - ab 3) [Eine Conni-Geschichte mit kindgerechtem Sachwissen rund um das Thema Corona]'
+    apple_music:
+      artist_ids:
+      - '532585010'
 - id: michel_aus_loenneberga
   title: Michel aus Lönneberga
   providers:
@@ -13395,6 +13633,9 @@ series:
         title: Michel aus Lönneberga 3. Michel bringt die Welt in Ordnung
       - id: 65T1b3OwnE6uie50f47PqC
         title: Michel aus Lönneberga. Wintergeschichten
+    apple_music:
+      artist_ids:
+      - '871258318'
 - id: miraculous
   title: Miraculous - Geschichten von Ladybug und Cat Noir (Hörspiel zur TV-Serie)
   providers:
@@ -13461,8 +13702,7 @@ series:
       - id: 2C03sb9HeIJNaNzGqSgQa4
         title: 'Folge 34: Der Freundschaftstag / Die Kwami-Jägerin (Das Original-Hörspiel zur TV-Serie)'
       - id: 33I18rW6R775UFvB95nQSW
-        title: 'Folge 35: Ein Schurke aus der Zukunft / Die Überraschungsparty / Das Wachsfiguren-Museum (Das Original-Hörspiel
-          zur TV-Serie)'
+        title: 'Folge 35: Ein Schurke aus der Zukunft / Die Überraschungsparty / Das Wachsfiguren-Museum (Das Original-Hörspiel zur TV-Serie)'
       - id: 4n27gYenJ2kxrzUkDioIRo
         title: 'Folge 36: Ladybug gegen Cat Blanc / Falsches Spiel / Marinette unter Verdacht (Das Original-Hörspiel zur TV-Serie)'
       - id: 2lJqde5tiMRkHKWkJQQiqQ
@@ -13504,8 +13744,7 @@ series:
       - id: 6nRSPz7NFpuUxv1XjCr9cF
         title: 'Folge 53: Wiedersehen / Illusion / Hochstimmung (Das Original-Hörspiel zur TV-Serie)'
       - id: 64bGDegegxf3sfm1odWeAj
-        title: 'Folge 54: Übertragung-Die Entscheidung der Kwamis (1) / Verpuffung-Die Entscheidung der Kwamis [2] [Das Original-Hörspiel
-          zur TV-Serie]'
+        title: 'Folge 54: Übertragung-Die Entscheidung der Kwamis (1) / Verpuffung-Die Entscheidung der Kwamis [2] [Das Original-Hörspiel zur TV-Serie]'
       - id: 6Yb6KGsWKeAj9SVdnpsNTg
         title: 'Folge 55: Perfektion / Auswanderung (Das Original-Hörspiel zur TV-Serie)'
       - id: 1oooDgHAp4zoj0hYZLqkZs
@@ -13610,6 +13849,9 @@ series:
       - id: 10rq97uRicLHltvtdt3fCA
         episode: 16
         title: 'Folge 16: Der allerlängste Tag des Jahres (Das Original-Hörspiel zur TV-Serie)'
+    apple_music:
+      artist_ids:
+      - '51883585'
 - id: pumuckl_neue_geschichten
   title: Neue Geschichten vom Pumuckl
   episode_pattern: '^(?:\d+|[Dd]er\s+\w+.*):\s*(.+)$'
@@ -13678,6 +13920,9 @@ series:
       - id: 4nEh8IfJHLsFTw5VNjzkb1
         episode: 20
         title: '20: Pumuckl und der krumme Weihnachtsbaum (Neue Geschichten vom Pumuckl)'
+    apple_music:
+      artist_ids:
+      - '1710040920'
 - id: raeuber_hotzenplotz
   title: Räuber Hotzenplotz
   aliases:
@@ -13705,6 +13950,9 @@ series:
       - id: 36CwCR1wz682jxOLSUaUwh
         episode: 4
         title: Der Räuber Hotzenplotz und die Mondrakete
+    apple_music:
+      artist_ids:
+      - '1648852194'
 - id: rolf_zuckowski
   title: Rolf Zuckowski
   keywords:
@@ -13714,6 +13962,9 @@ series:
     spotify:
       artist_ids:
       - 2qn4hIXsvRUyFoboMi31XB
+    apple_music:
+      artist_ids:
+      - '13498146'
 - id: ronja_raeubertochter
   title: Ronja Räubertochter
   providers:
@@ -13859,6 +14110,9 @@ series:
       - id: 2Tas15aBGmhh355uvDh4OD
         episode: 42
         title: 'Teil 42: Das fantastische Zaubertunier'
+    apple_music:
+      artist_ids:
+      - '1077131667'
 - id: tabaluga_film_hoerspiel
   title: Tabaluga (Film-Hörspiele)
   episode_pattern: '(?:Folge |^\d{2}/|/)(\d+)'
@@ -14250,6 +14504,9 @@ series:
       - id: 5JaN1TSdJl9EaQIJYMGBqp
         episode: 109
         title: 'Folge 109: Respekt!'
+    apple_music:
+      artist_ids:
+      - '374902873'
 - id: volker_rosin
   title: Volker Rosin
   keywords:
@@ -14258,6 +14515,9 @@ series:
     spotify:
       artist_ids:
       - 4LDZtk1nfyhIx4bzDDHoBf
+    apple_music:
+      artist_ids:
+      - '13431944'
 - id: wieso_weshalb_warum_erstleser
   title: Wieso? Weshalb? Warum? Erstleser
   episode_pattern: '(?:Folge|folge)\s+(\d+)'
@@ -14321,6 +14581,9 @@ series:
       - id: 3utAvGFi6JySY5c8vXT5Tc
         episode: 17
         title: 'Im Wald (Wieso? Weshalb? Warum? ERSTLESER, Folge 17)'
+    apple_music:
+      artist_ids:
+      - '1669533402'
 - id: woodwalkers
   title: Woodwalkers
   aliases:
@@ -14369,6 +14632,9 @@ series:
       - id: 1PK7ePBqP2fcGUhQqOzkcR
         episode: 12
         title: 'Woodwalkers - Die Rückkehr. Zeit der Entscheidung - Das Hörspiel (Staffel 2, Band 6)'
+    apple_music:
+      artist_ids:
+      - '1635376952'
 - id: die_drei_ausrufezeichen
   title: 'Die drei !!!'
   aliases:
@@ -14642,6 +14908,9 @@ series:
         title: 048/Die Maske der Königin
       - id: 6HUsj30bF5HtJzwNZLzoY0
         title: Die Ponyverschwörung
+    apple_music:
+      artist_ids:
+      - '329049924'
 - id: spongebob_schwammkopf
   title: SpongeBob Schwammkopf
   aliases:
@@ -14978,6 +15247,9 @@ series:
       - id: 4ZS6ypHuLbFakwNSMaP7N6
         episode: 258
         title: 'Folge 258: Tango-Revanche (Das Original-Hörspiel zur TV-Serie)'
+    apple_music:
+      artist_ids:
+      - '160987793'
 - id: jan_henry
   title: 'Jan & Henry'
   episode_pattern: '^(\d{3})/'
@@ -15004,6 +15276,9 @@ series:
       - id: 386WgT9PKtqJjecYnFFtvB
         episode: 6
         title: 006/9 lustige Miträtsel-Geschichten und 1 Lied
+    apple_music:
+      artist_ids:
+      - '1168594998'
 - id: schlau_wie_vier
   title: Schlau wie Vier
   episode_pattern: '^(?:[Ff]olge\s+)?0*(\d+)[:\/]'
@@ -15092,6 +15367,9 @@ series:
         title: 'Folge 39: Medizingeschichte. Eine rätselhafte Krankheit'
       - id: 4SGF1CCcdwh6LSEPouFf6V
         title: 'Folge 40: Zukunft. Die Welt in 100 Jahren'
+    apple_music:
+      artist_ids:
+      - '1226374004'
 - id: kikaninchen
   title: Kikaninchen
   episode_pattern: '^0?(\d+):\s*Mein Geschichtenkissen!'
@@ -15130,6 +15408,9 @@ series:
         title: 'Weihnachtszauber & Weihnachtsbäckerin'
       - id: 0wAtIEjr3t6IUCdDxxR6RF
         title: 'Wir tanzen, spielen, singen Lieder! - Das 2. Album'
+    apple_music:
+      artist_ids:
+      - '399801416'
 - id: die_feriendetektive
   title: Die Feriendetektive
   keywords:
@@ -15176,10 +15457,12 @@ series:
       - id: 5gwhuE4WmKm2T2nWjb6nto
         episode: 12
         title: 'Folge 12: Griechen, Götter und Ganoven'
+    apple_music:
+      artist_ids:
+      - '1062900577'
 - id: die_schule_der_magischen_tiere_ermittelt
   title: 'Die Schule der magischen Tiere: Ermittelt'
-  episode_pattern: '^(?:(\d+):|Die Schule der magischen Tiere (?:ermittelt - Hörspiele |ermittelt Neuausgabe |\d+: | - Endlich
-    Ferien \d+:))'
+  episode_pattern: '^(?:(\d+):|Die Schule der magischen Tiere (?:ermittelt - Hörspiele |ermittelt Neuausgabe |\d+: | - Endlich Ferien \d+:))'
   providers:
     spotify:
       artist_ids:
@@ -15208,6 +15491,9 @@ series:
       - id: 0wJI1LC9ILBeqfdmmbtgOY
         episode: 7
         title: 'Die Schule der magischen Tiere ermittelt Neuausgabe 7: Das Biber-Rätsel'
+    apple_music:
+      artist_ids:
+      - '1328909127'
 - id: die_wilden_kerle
   title: Die wilden Kerle
   keywords:
@@ -15256,6 +15542,9 @@ series:
       - id: 5hsAPUiKaWWgYbFkpdqn76
         episode: 12
         title: Folge 12 (Das Original-Hörspiel zur TV-Serie)
+    apple_music:
+      artist_ids:
+      - '19584648'
 - id: loewenzahn_classics
   title: Löwenzahn CLASSICS mit Peter Lustig
   episode_pattern: '(?:Episode|Folge)\s+(\d+)'
@@ -15364,6 +15653,9 @@ series:
       - id: 6HxEhlIyl9q5olUtA7Z15a
         episode: 16
         title: '16: Max macht Ferien / Max hat keine Angst im Dunkeln'
+    apple_music:
+      artist_ids:
+      - '838142640'
 - id: prinzessin_lillifee_kinofilme
   title: Prinzessin Lillifee (Kinofilme)
   episode_pattern: '(?:Folge|folge|^\d{3}/|^\d{2}/)\s*(\d+)'
@@ -15506,6 +15798,9 @@ series:
       - id: 7gFZDNvI531qwn5kJncBJg
         episode: 1
         title: Encanto (Hörspiel zum Disney Film)
+    apple_music:
+      artist_ids:
+      - '1597162487'
 - id: peter_pan_disney_hoerspiel
   title: Peter Pan Disney Hörspiel
   providers:
@@ -15522,6 +15817,9 @@ series:
       - id: 5TutploonIXqeCGH83geK1
         episode: 3
         title: 'Peter Pan & Wendy (Hörspiel zum Disney Real-Kinofilm)'
+    apple_music:
+      artist_ids:
+      - '1709721032'
 - id: kim_possible_hoerspiel
   title: Kim Possible Hörspiel
   keywords:
@@ -15591,6 +15889,9 @@ series:
       albums:
       - id: 6q76sgu7wmtrkrBYWUKPIW
         title: Coco (Hörspiel zum Disney/Pixar Film)
+    apple_music:
+      artist_ids:
+      - '40879982'
 - id: alles_steht_kopf
   title: Alles steht Kopf
   providers:
@@ -15602,6 +15903,9 @@ series:
         title: Alles steht Kopf (Hörspiel zum Disney/Pixar Film)
       - id: 5Kayt40zqyzImQ9i2qPFNI
         title: Alles steht Kopf 2 (Hörspiel zum Disney/Pixar Film)
+    apple_music:
+      artist_ids:
+      - '1719978356'
 - id: bambi_hoerspiel
   title: Bambi Hörspiel
   aliases:
@@ -15645,6 +15949,9 @@ series:
       - id: 4d9JjwT5STT0U1PMbgvPcF
         episode: 6
         title: 'Folge 6: Katzencops (Das Original-Hörspiel zur TV-Serie)'
+    apple_music:
+      artist_ids:
+      - '1216307510'
 - id: drachenzaehmen_leicht_gemacht
   title: Drachenzähmen leicht gemacht
   aliases:
@@ -15670,6 +15977,9 @@ series:
       - id: 6bDEtcCNZmHK6oPWSYmVjW
         episode: 4
         title: Die guten alten Zeiten (Das Original-Hörspiel zum Film-Special)
+    apple_music:
+      artist_ids:
+      - '437313554'
 - id: dragons_hoerspiel
   title: Dragons Hörspiel
   aliases:
@@ -15703,8 +16013,7 @@ series:
         title: 'Folge 3: Ein Drache für Haudrauf / Der Falschspieler (Das Original-Hörspiel zur TV-Serie)'
       - id: 0HcGZAnpPjDTjL1CF2FW4k
         episode: 3
-        title: 'Folge 3: Waka Chaka! / Sieg oder Niederlage + Dragons: Das Drachenauge - Teil 1 (Das Original-Hörspiel zur
-          TV-Serie)'
+        title: 'Folge 3: Waka Chaka! / Sieg oder Niederlage + Dragons: Das Drachenauge - Teil 1 (Das Original-Hörspiel zur TV-Serie)'
       - id: 5KliHcJPdIcgK8RktYjQSu
         episode: 4
         title: 'Folge 4: Alvin der Heimtückische / Die Schatzkarte (Das Original-Hörspiel zur TV-Serie)'
@@ -15896,6 +16205,9 @@ series:
         title: Kung Fu Panda 4 (Das Original-Hörspiel zum Kinofilm)
       - id: 7oNef7yw3RyZLhYBeNiBkZ
         title: Ein schlagfertiges Winterfest (Das Original-Hörspiel zum Film Special)
+    apple_music:
+      artist_ids:
+      - '281364136'
 - id: shrek_hoerspiel
   title: Shrek Hörspiel
   keywords:
@@ -16020,8 +16332,7 @@ series:
         title: 'Folge 30: Elternbesuch / Zurück an die Startlinie (Das Original-Hörspiel zur TV-Serie)'
       - id: 3rkMs8sVd0JiAWnmzjRHZh
         episode: 31
-        title: 'Folge 31: Die Freundschafts-Lektion / Der Hammer der Gerechtigkeit / Die Rennbahn-Rivalin (Das Original-Hörspiel
-          zur TV-Serie)'
+        title: 'Folge 31: Die Freundschafts-Lektion / Der Hammer der Gerechtigkeit / Die Rennbahn-Rivalin (Das Original-Hörspiel zur TV-Serie)'
       - id: 3QpmvYJqxTt8j6UwgGeeYu
         episode: 32
         title: 'Folge 32: Der Valentinstagsschreck / Opas Schatz / Achtung, Schlamm! (Das Original-Hörspiel zur TV-Serie)'
@@ -16053,6 +16364,9 @@ series:
         title: Madagascar (Das Original-Hörspiel zum Kinofilm)
       - id: 055FPaP50BDiPvsnrl26cK
         title: Madagascar 2 (Das Original-Hörspiel zum Kinofilm)
+    apple_music:
+      artist_ids:
+      - '51331347'
 - id: trolljaeger_hoerspiel
   title: Trolljäger
   aliases:
@@ -16143,6 +16457,9 @@ series:
       - id: 7ykTg35l0oEIJjpNWC1Qz0
         episode: 25
         title: 'Folge 25: Jimjäger / Der ewige Ritter - Teil 1 & 2 (Das Original-Hörspiel zur TV-Serie)'
+    apple_music:
+      artist_ids:
+      - '1347126905'
 - id: simone_sommerland
   title: Simone Sommerland
   keywords:
@@ -16314,6 +16631,9 @@ series:
         title: 'Folge 54: Rollo, der Roboter im Kindergarten'
       - id: 1er1sIZwE0Zgidpd0O5h8D
         title: 'Folge 12: Besuch von Dr. Kroko'
+    apple_music:
+      artist_ids:
+      - '397732566'
 - id: dikka
   title: DIKKA
   keywords:
@@ -16331,6 +16651,9 @@ series:
         title: Boom Schakkalakka
       - id: 1SNAih5cZ1toqZNL1RwXlR
         title: 'Oh Yeah!'
+    apple_music:
+      artist_ids:
+      - '1044990457'
 - id: bummelkasten
   title: Bummelkasten
   providers:
@@ -16342,6 +16665,9 @@ series:
         title: 'D!E GÄNG'
       - id: 3rImMXX7l2IOsScd9vqHcB
         title: Irgendwas Bestimmtes
+    apple_music:
+      artist_ids:
+      - '622903322'
 - id: fredrik_vahle
   title: Fredrik Vahle
   providers:
@@ -16355,6 +16681,9 @@ series:
         title: Die fabelhafte Geschichte von Anne Kaffeekanne (ungekürzt)
       - id: 3V3YK9mtCSt2LuLq9aOeoI
         title: Tamaro (Eine Indianerballade mit Liedern und Geschichten)
+    apple_music:
+      artist_ids:
+      - '42264677'
 - id: hurra_kinderlieder
   title: Hurra Kinderlieder
   keywords:
@@ -16374,6 +16703,9 @@ series:
       - id: 2HYGqcoIqREJqgyVDfQGRC
         episode: 3
         title: Hurra Kinderlieder 3
+    apple_music:
+      artist_ids:
+      - '1432797144'
 - id: giraffenaffen
   title: Giraffenaffen
   keywords:
@@ -16413,6 +16745,9 @@ series:
       - id: 20hBTS92YHvo2a1ctaNO4K
         episode: 9
         title: Giraffenaffen 9 - Weltreise
+    apple_music:
+      artist_ids:
+      - '1488846962'
 - id: sing_kinderlieder
   title: Sing Kinderlieder
   aliases:
@@ -16438,6 +16773,9 @@ series:
       - id: 5SgiKSIJZIr6nhEoYNEIIY
         episode: 4
         title: Sing mit mir Kinderlieder 4
+    apple_music:
+      artist_ids:
+      - '1505131248'
 - id: familie_sonntag
   title: Familie Sonntag
   episode_pattern: '[,\-]?\s*Vol\.?\s*(\d+)'
@@ -16478,6 +16816,9 @@ series:
         title: Wo ist meine Mama?
       - id: 4O5pk98hlXpd4bytbiDR1G
         title: '¡A Rockear Niños!'
+    apple_music:
+      artist_ids:
+      - '458242103'
 - id: drei_berlin
   title: 3Berlin
   episode_pattern:
@@ -16570,6 +16911,9 @@ series:
         title: Wofür brauch ich das nochmal?
       - id: 26F94PzUaS6SI2vU4aP7Km
         title: Wozu sind Kriege da?
+    apple_music:
+      artist_ids:
+      - '457751335'
 - id: schnabi_schnabel
   title: Schnabi Schnabel
   providers:
@@ -16657,6 +17001,9 @@ series:
         title: Zehn kleine Zappelmänner
       - id: 3lCaJCmalHH4PqFXTLSLEe
         title: Zwei lange Schlangen
+    apple_music:
+      artist_ids:
+      - '961585712'
 - id: emmalu
   title: EMMALU
   providers:
@@ -16732,6 +17079,9 @@ series:
         title: Willi von der Wasserwacht
       - id: 73P1E9fLVAVo1SszMSTEDA
         title: 'Öffis, Öffis, Öffis (Wir sind die Öffis!)'
+    apple_music:
+      artist_ids:
+      - '1540759951'
 - id: der_grueffelo
   title: Der Grüffelo
   aliases:
@@ -16746,6 +17096,9 @@ series:
       albums:
       - id: 1dhRSkSFjhQ2q0QNJX0eia
         title: Der Grüffelo (Das Original-Hörspiel zum Film)
+    apple_music:
+      artist_ids:
+      - '415267886'
 - id: tintenherz
   title: Tintenherz
   episode_pattern: '[Tt]intenwelt\s+(\d+)'
@@ -16760,6 +17113,9 @@ series:
         title: Tintenwelt 2. Tintenblut
       - id: 4yivihTlwDoHANerefxCGv
         title: Tintenwelt 3. Tintentod
+    apple_music:
+      artist_ids:
+      - '1457268297'
 - id: liliane_susewind
   title: Liliane Susewind
   providers:
