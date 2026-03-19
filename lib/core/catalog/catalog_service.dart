@@ -30,6 +30,7 @@ class CatalogSeries {
     required this.aliases,
     required this.keywords,
     required this.spotifyArtistIds,
+    this.appleMusicArtistIds = const [],
     this.coverUrl,
     this.episodePattern,
     this.albums = const [],
@@ -52,6 +53,10 @@ class CatalogSeries {
   /// Pass them to `CatalogService.match()` via the `albumArtistIds` parameter
   /// so phase-2 matching can fire for albums with no series name in their title.
   final List<String> spotifyArtistIds;
+
+  /// Apple Music artist IDs whose albums belong to this series.
+  /// Same role as [spotifyArtistIds] but for Apple Music catalog matching.
+  final List<String> appleMusicArtistIds;
 
   /// Curated cover image URL for this series.
   /// Typically the Spotify artist image or a hand-picked cover.
@@ -154,6 +159,16 @@ class CatalogService {
                 );
               }).toList();
 
+      // Apple Music provider IDs
+      final appleMusicMap = providersMap?['apple_music'] as YamlMap?;
+      final amArtistIdsRaw = appleMusicMap?['artist_ids'] as YamlList?;
+      // Apple Music IDs are quoted strings in YAML but YAML parsers may
+      // return them as integers. toString() handles both cases safely.
+      final amArtistIds =
+          amArtistIdsRaw == null
+              ? <String>[]
+              : amArtistIdsRaw.map<String>((a) => a.toString()).toList();
+
       parsed.add(
         CatalogSeries(
           id: map['id'] as String,
@@ -161,6 +176,7 @@ class CatalogService {
           aliases: aliases,
           keywords: keywords,
           spotifyArtistIds: artistIds,
+          appleMusicArtistIds: amArtistIds,
           coverUrl: map['cover_url'] as String?,
           episodePattern: _parseEpisodePattern(map['episode_pattern']),
           albums: albums,
@@ -254,12 +270,13 @@ class CatalogService {
       }
     }
 
-    // Phase 2: find first artist ID match.
+    // Phase 2: find first artist ID match (checks all provider ID lists).
     CatalogSeries? artistMatch;
     if (albumArtistIds.isNotEmpty) {
       final artistIdSet = albumArtistIds.toSet();
       for (final series in _series) {
-        if (series.spotifyArtistIds.any(artistIdSet.contains)) {
+        if (series.spotifyArtistIds.any(artistIdSet.contains) ||
+            series.appleMusicArtistIds.any(artistIdSet.contains)) {
           artistMatch = series;
           break;
         }
