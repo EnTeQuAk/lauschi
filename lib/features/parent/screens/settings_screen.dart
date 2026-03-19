@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart' show kDebugMode;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:lauschi/core/apple_music/apple_music_session.dart';
 import 'package:lauschi/core/feature_flags.dart';
 import 'package:lauschi/core/log.dart';
 import 'package:lauschi/core/settings/debug_settings.dart';
@@ -326,6 +327,9 @@ class _ProviderRow extends ConsumerWidget {
     final spotifyConnected =
         FeatureFlags.enableSpotify &&
         ref.watch(spotifySessionProvider) is SpotifyAuthenticated;
+    final appleMusicConnected =
+        FeatureFlags.enableAppleMusic &&
+        ref.watch(appleMusicSessionProvider) is AppleMusicAuthenticated;
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: AppSpacing.screenH),
@@ -342,12 +346,22 @@ class _ProviderRow extends ConsumerWidget {
             ),
             const SizedBox(width: AppSpacing.sm),
           ],
+          if (FeatureFlags.enableAppleMusic) ...[
+            Expanded(
+              child: _ProviderChip(
+                icon: Icons.apple_rounded,
+                label: 'Apple Music',
+                color: const Color(0xFFFA243C),
+                active: appleMusicConnected,
+              ),
+            ),
+            const SizedBox(width: AppSpacing.sm),
+          ],
           const Expanded(
             child: _ProviderChip(
               icon: Icons.radio_rounded,
               label: 'ARD Audiothek',
               color: Color(0xFF003D7A),
-              // ARD is always available (no auth required).
               active: true,
             ),
           ),

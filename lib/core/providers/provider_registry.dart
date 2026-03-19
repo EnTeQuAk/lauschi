@@ -1,3 +1,5 @@
+import 'package:lauschi/core/apple_music/apple_music_auth.dart';
+import 'package:lauschi/core/apple_music/apple_music_session.dart';
 import 'package:lauschi/core/ard/ard_auth.dart';
 import 'package:lauschi/core/feature_flags.dart';
 import 'package:lauschi/core/providers/provider_auth.dart';
@@ -43,6 +45,25 @@ List<ProviderInfo> providerRegistry(Ref ref) {
       authState: ProviderAuthState.authenticated,
     ),
   ];
+
+  if (FeatureFlags.enableAppleMusic) {
+    final amState = ref.watch(appleMusicSessionProvider);
+    final amSession = ref.read(appleMusicSessionProvider.notifier);
+
+    final amAuthState = switch (amState) {
+      AppleMusicLoading() => ProviderAuthState.loading,
+      AppleMusicAuthenticated() => ProviderAuthState.authenticated,
+      AppleMusicUnauthenticated() => ProviderAuthState.unauthenticated,
+    };
+
+    providers.add(
+      ProviderInfo(
+        type: ProviderType.appleMusic,
+        auth: AppleMusicProviderAuth(amSession),
+        authState: amAuthState,
+      ),
+    );
+  }
 
   if (FeatureFlags.enableSpotify) {
     final sessionState = ref.watch(spotifySessionProvider);
