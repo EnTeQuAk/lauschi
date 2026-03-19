@@ -85,3 +85,5 @@ integration_test/test_bundle.dart
 screenshots/
 .local/
 *.p8
+docs/apple-music-affiliate.md
+docs/google-play-setup.md

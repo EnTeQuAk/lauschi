@@ -4,7 +4,7 @@ Project context for AI coding agents (Pi, Claude Code, etc.).
 
 ## Project Overview
 
-**lauschi** is a kids audio player for Spotify. Parents curate content as visual cards; kids tap a card to play. No algorithm, no recommendations, no rabbit holes.
+**lauschi** is a kids audio player. Parents curate content as visual cards; kids tap a card to play. No algorithm, no recommendations, no rabbit holes.
 
 Flutter app targeting iOS and Android (DACH market focus). MVP in progress.
 
@@ -27,17 +27,23 @@ Run a single test file:
 flutter test test/core/catalog/catalog_service_test.dart --dart-define-from-file=.env.app
 ```
 
-### Catalog Validation Scripts
+### Catalog Tools
 
-Python scripts validate `assets/catalog/series.yaml` against Spotify API:
+Multi-provider catalog management via the `lauschi-catalog` CLI (`tools/` package).
+Supports Spotify and Apple Music.
 
 ```bash
-mise run catalog-check        # Validate L1-L4 (cached)
-mise run catalog-check-fresh  # Bypass cache, hit API directly
-mise run catalog-audit        # L5 full artist-discography audit
-mise run catalog-discover     # Find artist IDs for series without them
-mise run catalog-curate       # AI-curated series via pydantic-ai
-mise run catalog-review       # Review AI curation in TUI
+mise run catalog-discover     # Find missing artist IDs (all providers)
+mise run catalog-validate     # Validate patterns against provider APIs
+mise run catalog-curate       # AI-curate a series (both providers)
+mise run catalog-token        # Generate Apple Music developer token
+mise run catalog-review       # Review AI curation in TUI (legacy script)
+```
+
+Single-provider commands:
+```bash
+mise run catalog-validate -- -p apple_music    # Apple Music only
+mise run catalog-discover -- "TKKG" -p spotify # Spotify only
 ```
 
 ## Architecture
@@ -47,15 +53,22 @@ mise run catalog-review       # Review AI curation in TUI
 - **Riverpod** — state management (v3 with codegen via `@riverpod` annotations)
 - **Drift** — local SQLite (tables in `lib/core/database/tables.dart`)
 - **go_router** — navigation with redirect guards
-- **Spotify Web Playback SDK** — audio via hidden WebView (no Spotify app required)
+- **Multi-provider audio**: ARD Audiothek (free, just_audio), Spotify (WebView SDK), Apple Music (MusicKit SDK)
 
 ### Key Architectural Decisions
 
-**Spotify Playback via WebView**: The app hosts a hidden WebView (`_WebViewHost` in `app.dart`) running the Spotify Web Playback SDK. Commands flow Dart → JS via `runJavaScript()`, events flow JS → Dart via `SpotifyBridge` JavaScript channel. This avoids requiring the Spotify app on device.
+**Multi-Provider Architecture**: Three audio providers share a common interface:
+- **ARD Audiothek**: Free, no auth. Direct HTTP streams via `StreamPlayer` (just_audio).
+- **Spotify**: OAuth PKCE, WebView SDK bridge. `SpotifyPlayer` wraps `SpotifyWebViewBridge`.
+- **Apple Music**: MusicKit SDK (official, Android + iOS). `AppleMusicPlayer` wraps the `music_kit` Flutter plugin. User needs Apple Music subscription.
+
+Provider-agnostic catalog browse: `CatalogSource` interface implemented by
+`SpotifyCatalogSource` and `AppleMusicCatalogSource`. One `BrowseCatalogScreen`
+serves all providers.
 
 **Two-Phase Catalog Matching**: `CatalogService.match()` uses:
 1. Keyword match — album title contains series keyword
-2. Artist ID fallback — catches albums whose titles omit series name (e.g. TKKG "140/Draculas Erben")
+2. Artist ID fallback (Spotify + Apple Music) — catches albums whose titles omit series name (e.g. TKKG "140/Draculas Erben")
 
 **PIN-Gated Parent Mode**: Parent routes (`/parent/*`) are protected by PIN. The router's `_globalRedirect` checks `parentAuthProvider` state.
 
@@ -66,19 +79,29 @@ lib/
 ├── app.dart                 # Root widget, WebView host, deep links
 ├── main.dart                # Entry point, media session init, Sentry
 ├── core/
+│   ├── apple_music/         # MusicKit auth, API, config, seek
 │   ├── auth/                # PIN service
-│   ├── catalog/             # Series YAML matching
+│   ├── catalog/             # Series YAML matching, CatalogSource interface
 │   ├── connectivity/        # Network state
 │   ├── database/            # Drift tables, repositories
+│   ├── providers/           # ProviderType enum, ProviderAuth, registry
 │   ├── router/              # go_router config + redirects
 │   ├── settings/            # Debug/diagnostic settings
-│   ├── spotify/             # Auth (PKCE), API client, config
+│   ├── spotify/             # Auth (PKCE), API client, CatalogSource
 │   └── theme/               # App theme
 └── features/
     ├── cards/               # Kid home screen, card widgets
     ├── onboarding/          # First-run flow
     ├── parent/              # Dashboard, card/group management, settings
-    └── player/              # Bridge, provider, media session, screens
+    └── player/              # SpotifyPlayer, StreamPlayer, AppleMusicPlayer
+
+tools/                       # lauschi-catalog CLI (Python package)
+├── pyproject.toml
+└── src/lauschi_catalog/
+    ├── cli.py               # Click entry point
+    ├── providers/           # Spotify + Apple Music API clients
+    ├── catalog/             # Models, YAML loader, matcher
+    └── commands/            # discover, validate, curate, token
 ```
 
 ### Generated Files
@@ -94,12 +117,14 @@ Run `mise run codegen` after changing annotated classes.
 
 `assets/catalog/series.yaml` — DACH Hörspiel series definitions with:
 - `id` — stable snake_case identifier
-- `keywords` — terms to match in Spotify album names
-- `spotify_artist_ids` — for phase-2 artist-ID matching
-- `episode_pattern` — regex to extract episode numbers
-- `albums` — optional pre-validated album list with episode mappings
+- `keywords` — terms to match in album names (provider-agnostic)
+- `episode_pattern` — regex to extract episode numbers (works across providers)
+- `providers.spotify.artist_ids` — Spotify artist IDs for phase-2 matching
+- `providers.spotify.albums` — pre-validated Spotify album list with episode mappings
+- `providers.apple_music.artist_ids` — Apple Music artist IDs (129/162 series)
 
-Validated by `scripts/validate_catalog.py` (L1-L5 layers).
+Validated by `lauschi-catalog validate` (tools/ package). 162 series, 5327
+curated Spotify albums, 129 Apple Music artist IDs.
 
 ## Environment Variables
 
@@ -113,10 +138,14 @@ Copy `.env.example` to `.env` and `.env.app.example` to `.env.app`, then configu
 `.env.app` keys:
 - `ENABLE_SPOTIFY` — feature flag (default: `false`)
 - `SPOTIFY_CLIENT_ID` — required when Spotify enabled
+- `ENABLE_APPLE_MUSIC` — feature flag (default: `false`)
+- `APPLE_MUSIC_DEVELOPER_TOKEN` — JWT for Android (generate via `mise run catalog-token`)
 - `SENTRY_DSN` — optional error tracking
 - `SENTRY_ENVIRONMENT` — defaults to "development"
 
 All Flutter commands use `--dart-define-from-file=.env.app`.
+
+`mise run dev` overrides flags to enable all providers + Sentry for local testing.
 
 ## Release Flow
 
