@@ -4,6 +4,7 @@ import 'package:lauschi/core/auth/pin_service.dart';
 import 'package:lauschi/core/feature_flags.dart';
 import 'package:lauschi/core/log.dart';
 import 'package:lauschi/core/providers/provider_type.dart';
+import 'package:lauschi/core/spotify/spotify_catalog_source.dart';
 import 'package:lauschi/core/spotify/spotify_session.dart';
 import 'package:lauschi/features/onboarding/screens/onboarding_provider.dart';
 import 'package:lauschi/features/onboarding/screens/onboarding_screen.dart';
@@ -174,7 +175,20 @@ GoRouter createRouter(Ref ref, {String initialLocation = AppRoutes.kidHome}) {
           GoRoute(
             name: 'parent-catalog',
             path: 'catalog',
-            builder: (context, state) => const BrowseCatalogScreen(),
+            builder: (context, state) {
+              // Standalone catalog route: always Spotify.
+              final session = ref.read(spotifySessionProvider);
+              if (session is! SpotifyAuthenticated) {
+                return const Scaffold(
+                  body: Center(child: Text('Spotify nicht verbunden')),
+                );
+              }
+              return BrowseCatalogScreen(
+                catalogSource: SpotifyCatalogSource(
+                  ref.read(spotifySessionProvider.notifier).api,
+                ),
+              );
+            },
             routes: [
               GoRoute(
                 name: 'parent-catalog-series',

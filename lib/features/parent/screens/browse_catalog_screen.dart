@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lauschi/core/catalog/catalog_service.dart';
+import 'package:lauschi/core/catalog/catalog_source.dart';
 import 'package:lauschi/core/database/app_database.dart' as db;
 import 'package:lauschi/core/database/content_importer.dart';
 import 'package:lauschi/core/database/tile_item_repository.dart';
@@ -37,11 +38,13 @@ const _maxCatalogResults = 4;
 /// Scaffold/AppBar (for use inside tabbed containers).
 class BrowseCatalogScreen extends ConsumerStatefulWidget {
   const BrowseCatalogScreen({
+    required this.catalogSource,
     super.key,
     this.autoAssignTileId,
     this.embedded = false,
   });
 
+  final CatalogSource catalogSource;
   final String? autoAssignTileId;
   final bool embedded;
 
@@ -61,7 +64,7 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen>
 
   // Search state
   _SearchMode _searchMode = _SearchMode.album;
-  List<SpotifyAlbum> _albumResults = [];
+  List<CatalogAlbumResult> _albumResults = [];
   List<SpotifyPlaylist> _playlistResults = [];
   List<CatalogMatch?> _catalogMatches = [];
   bool _isSearching = false;
@@ -176,7 +179,8 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen>
   Future<void> _search(String query) async {
     setState(() => _isSearching = true);
     try {
-      if (_searchMode == _SearchMode.playlist) {
+      if (_searchMode == _SearchMode.playlist &&
+          _source.provider == ProviderType.spotify) {
         await _searchPlaylists(query);
       } else {
         await _searchAlbums(query);
@@ -187,29 +191,29 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen>
     }
   }
 
+  CatalogSource get _source => widget.catalogSource;
+
   Future<void> _searchAlbums(String query) async {
+    final source = _source;
     final gen = ++_searchGeneration;
-    final result = await ref
-        .read(spotifySessionProvider.notifier)
-        .api
-        .searchAlbums(query);
+    final albums = await source.searchAlbums(query);
     if (!mounted || gen != _searchGeneration) return;
     final catalog = ref.read(catalogServiceProvider).value;
     final matches =
         catalog != null
-            ? result.albums
+            ? albums
                 .map(
                   (a) => catalog.match(a.name, albumArtistIds: a.artistIds),
                 )
                 .toList()
-            : List<CatalogMatch?>.filled(result.albums.length, null);
+            : List<CatalogMatch?>.filled(albums.length, null);
     final catalogHits = matches.whereType<CatalogMatch>().length;
     Log.info(
       _tag,
       'Search',
       data: {
         'query': query,
-        'results': '${result.albums.length}',
+        'results': '${albums.length}',
         'catalogHits': '$catalogHits',
       },
     );
@@ -217,7 +221,7 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen>
     final allCatalogHits =
         catalog?.search(query).where((s) => s.hasCuratedAlbums).toList() ?? [];
     setState(() {
-      _albumResults = result.albums;
+      _albumResults = albums;
       _playlistResults = [];
       _catalogMatches = matches;
       _heroSeries = allCatalogHits.take(_maxCatalogResults).toList();
@@ -288,7 +292,7 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen>
   // Add logic
   // ---------------------------------------------------------------------------
 
-  Future<void> _handleAddTap(SpotifyAlbum album, CatalogMatch? match) async {
+  Future<void> _handleAddTap(CatalogAlbumResult album, CatalogMatch? match) async {
     if (_isAutoAssignMode) {
       await _addAndAssign(album, widget.autoAssignTileId!, match);
       return;
@@ -312,7 +316,7 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen>
     var count = 0;
     for (var i = 0; i < _albumResults.length; i++) {
       final album = _albumResults[i];
-      if (_addedUris.contains(album.uri)) continue;
+      if (_addedUris.contains(album.providerUri)) continue;
       final match = i < _catalogMatches.length ? _catalogMatches[i] : null;
       // Compares by title (not ID) because batchSeries is title-based.
       if (match?.series.title != seriesTitle) continue;
@@ -340,7 +344,7 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen>
   }
 
   Future<void> _addAndAssign(
-    SpotifyAlbum album,
+    CatalogAlbumResult album,
     String groupId,
     CatalogMatch? match, {
     bool showUndo = false,
@@ -350,9 +354,9 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen>
         .read(tileItemRepositoryProvider)
         .insertIfAbsent(
           title: album.name,
-          providerUri: album.uri,
+          providerUri: album.providerUri,
           cardType: 'album',
-          coverUrl: album.imageUrl,
+          coverUrl: album.artworkUrlForSize(600),
           spotifyArtistIds: album.artistIds,
           totalTracks: album.totalTracks,
         );
@@ -364,7 +368,7 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen>
           episodeNumber: match?.episodeNumber,
         );
     if (!mounted) return;
-    setState(() => _addedUris.add(album.uri));
+    setState(() => _addedUris.add(album.providerUri));
 
     if (silent) return;
 
@@ -420,19 +424,19 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen>
     }
   }
 
-  Future<void> _addOnly(SpotifyAlbum album) async {
+  Future<void> _addOnly(CatalogAlbumResult album) async {
     await ref
         .read(tileItemRepositoryProvider)
         .insertIfAbsent(
           title: album.name,
-          providerUri: album.uri,
+          providerUri: album.providerUri,
           cardType: 'album',
-          coverUrl: album.imageUrl,
+          coverUrl: album.artworkUrlForSize(600),
           spotifyArtistIds: album.artistIds,
           totalTracks: album.totalTracks,
         );
     if (!mounted) return;
-    setState(() => _addedUris.add(album.uri));
+    setState(() => _addedUris.add(album.providerUri));
     _pendingAdded++;
     _snackTimer?.cancel();
     _snackTimer = Timer(const Duration(milliseconds: 500), () {
@@ -488,11 +492,11 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen>
   // ---------------------------------------------------------------------------
 
   Future<void> _showAlbumDetail(
-    SpotifyAlbum album,
+    CatalogAlbumResult album,
     CatalogMatch? match,
   ) async {
     if (!mounted) return;
-    final isAdded = _addedUris.contains(album.uri);
+    final isAdded = _addedUris.contains(album.providerUri);
     await showModalBottomSheet<void>(
       context: context,
       isScrollControlled: true,
@@ -502,6 +506,7 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen>
             album: album,
             catalogMatch: match,
             isAdded: isAdded,
+            source: _source,
             onAdd: () {
               Navigator.of(ctx).pop();
               unawaited(_handleAddTap(album, match));
@@ -536,20 +541,7 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen>
   @override
   Widget build(BuildContext context) {
     super.build(context); // Required for AutomaticKeepAliveClientMixin
-    final spotifyState = ref.watch(spotifySessionProvider);
     final catalogAsync = ref.watch(catalogServiceProvider);
-
-    // Spotify not connected — show connection prompt
-    if (spotifyState is! SpotifyAuthenticated) {
-      if (widget.embedded) {
-        return _SpotifyNotConnectedContent(
-          isAutoAssignMode: _isAutoAssignMode,
-        );
-      }
-      return _SpotifyNotConnected(
-        isAutoAssignMode: _isAutoAssignMode,
-      );
-    }
 
     // Series detection for the Spotify tier is no longer needed — the catalog
     // tier above handles series discovery. Only batchSeries (autoAssign mode)
@@ -561,7 +553,7 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen>
       String? title;
       var allMatch = true;
       for (var i = 0; i < _albumResults.length; i++) {
-        if (_addedUris.contains(_albumResults[i].uri)) continue;
+        if (_addedUris.contains(_albumResults[i].providerUri)) continue;
         final match = i < _catalogMatches.length ? _catalogMatches[i] : null;
         if (match == null) {
           allMatch = false;
@@ -584,7 +576,8 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen>
           _AutoAssignBanner(groupTitle: _autoGroup?.title),
 
         // Search mode toggle (only in general add mode)
-        if (!_isAutoAssignMode)
+        // Playlist search is Spotify-only.
+        if (!_isAutoAssignMode && _source.provider == ProviderType.spotify)
           Padding(
             padding: const EdgeInsets.symmetric(
               horizontal: AppSpacing.screenH,
@@ -631,8 +624,8 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen>
             decoration: InputDecoration(
               hintText:
                   _searchMode == _SearchMode.playlist
-                      ? 'Playlists auf Spotify suchen…'
-                      : 'Hörspiel auf Spotify suchen…',
+                      ? 'Playlists suchen…'
+                      : 'Hörspiel suchen…',
               prefixIcon: const Icon(Icons.search_rounded),
               suffixIcon:
                   _isSearchActive
@@ -755,7 +748,12 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen>
                 delegate: SliverChildBuilderDelegate(
                   (context, index) => _CuratedSeriesCard(
                     series: series[index],
+                    provider: _source.provider,
                     autoAssignTileId: widget.autoAssignTileId,
+                    onSearchSeries: (title) {
+                      _searchController.text = title;
+                      unawaited(_search(title));
+                    },
                   ),
                   childCount: series.length,
                 ),
@@ -826,12 +824,17 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen>
                       return;
                     }
                   }
-                  unawaited(
-                    context.push(
-                      AppRoutes.parentCatalogSeries(series.id),
-                      extra: widget.autoAssignTileId,
-                    ),
-                  );
+                  if (_source.provider == ProviderType.spotify) {
+                    unawaited(
+                      context.push(
+                        AppRoutes.parentCatalogSeries(series.id),
+                        extra: widget.autoAssignTileId,
+                      ),
+                    );
+                  } else {
+                    _searchController.text = series.title;
+                    unawaited(_search(series.title));
+                  }
                 },
               );
             },
@@ -865,7 +868,7 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen>
               seriesTitle: batchSeries,
               count:
                   _albumResults
-                      .where((a) => !_addedUris.contains(a.uri))
+                      .where((a) => !_addedUris.contains(a.providerUri))
                       .length,
               onAddAll: () => unawaited(_handleAddAll(batchSeries)),
             ),
@@ -946,7 +949,7 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen>
       if (batchSeries != null)
         _BatchAddBanner(
           seriesTitle: batchSeries,
-          count: _albumResults.where((a) => !_addedUris.contains(a.uri)).length,
+          count: _albumResults.where((a) => !_addedUris.contains(a.providerUri)).length,
           onAddAll: () => unawaited(_handleAddAll(batchSeries)),
         ),
     ];
@@ -1021,9 +1024,9 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen>
     final match =
         index < _catalogMatches.length ? _catalogMatches[index] : null;
     return _SearchResultTile(
-      key: ValueKey(album.uri),
+      key: ValueKey(album.providerUri),
       album: album,
-      isAdded: _addedUris.contains(album.uri),
+      isAdded: _addedUris.contains(album.providerUri),
       catalogMatch: match,
       compact: compact,
       onAdd: () => unawaited(_handleAddTap(album, match)),
@@ -1035,85 +1038,6 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen>
 // ── Search mode ─────────────────────────────────────────────────────────────
 
 enum _SearchMode { album, playlist }
-
-// ── Spotify not connected ───────────────────────────────────────────────────
-
-/// Body content for the "not connected" state (no Scaffold).
-class _SpotifyNotConnectedContent extends StatelessWidget {
-  const _SpotifyNotConnectedContent({required this.isAutoAssignMode});
-
-  final bool isAutoAssignMode;
-
-  @override
-  Widget build(BuildContext context) {
-    return ColoredBox(
-      color: AppColors.parentBackground,
-      child: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(AppSpacing.screenH),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Icon(
-                Icons.music_off_rounded,
-                size: 48,
-                color: AppColors.textSecondary,
-              ),
-              const SizedBox(height: AppSpacing.md),
-              const Text(
-                'Spotify nicht verbunden',
-                style: TextStyle(
-                  fontFamily: 'Nunito',
-                  fontSize: 18,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-              const SizedBox(height: AppSpacing.sm),
-              const Text(
-                'Verbinde Spotify in den Einstellungen, um '
-                'Hörspiele und Musik hinzuzufügen.',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontFamily: 'Nunito',
-                  fontSize: 14,
-                  color: AppColors.textSecondary,
-                ),
-              ),
-              const SizedBox(height: AppSpacing.lg),
-              FilledButton.icon(
-                key: const Key('catalog_settings_button'),
-                onPressed: () => context.push(AppRoutes.parentSettings),
-                icon: const Icon(Icons.settings_rounded),
-                label: const Text('Einstellungen'),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-/// Scaffold-wrapped version for standalone navigation.
-class _SpotifyNotConnected extends StatelessWidget {
-  const _SpotifyNotConnected({required this.isAutoAssignMode});
-
-  final bool isAutoAssignMode;
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.parentBackground,
-      appBar: AppBar(
-        backgroundColor: AppColors.parentBackground,
-        title: Text(
-          isAutoAssignMode ? 'Folge hinzufügen' : 'Hörspiel hinzufügen',
-        ),
-      ),
-      body: _SpotifyNotConnectedContent(isAutoAssignMode: isAutoAssignMode),
-    );
-  }
-}
 
 // ── Auto-assign banner ──────────────────────────────────────────────────────
 
@@ -1163,22 +1087,33 @@ class _AutoAssignBanner extends StatelessWidget {
 class _CuratedSeriesCard extends ConsumerWidget {
   const _CuratedSeriesCard({
     required this.series,
+    required this.provider,
     this.autoAssignTileId,
+    this.onSearchSeries,
   });
 
   final CatalogSeries series;
+  final ProviderType provider;
   final String? autoAssignTileId;
+
+  /// Called when tapping a series on a non-Spotify provider.
+  /// Triggers a search for the series title in the browse screen.
+  final ValueChanged<String>? onSearchSeries;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final coverMap = ref.watch(_seriesCoverMapProvider).value ?? {};
     final existingUris = ref.watch(existingItemUrisProvider);
-    final firstAlbumId =
-        series.albums.isNotEmpty ? series.albums.first.spotifyId : null;
-    // Curated cover_url from YAML takes priority over album art.
-    final coverUrl =
-        series.coverUrl ??
-        (firstAlbumId != null ? coverMap[firstAlbumId] : null);
+    // Curated cover_url from YAML takes priority. Spotify cover map is
+    // a fallback only when browsing via Spotify (album IDs are Spotify-specific).
+    final String? coverUrl;
+    if (series.coverUrl != null) {
+      coverUrl = series.coverUrl;
+    } else if (provider == ProviderType.spotify && series.albums.isNotEmpty) {
+      final coverMap = ref.watch(_seriesCoverMapProvider).value ?? {};
+      coverUrl = coverMap[series.albums.first.spotifyId];
+    } else {
+      coverUrl = null;
+    }
 
     final total = series.albums.length;
     final added =
@@ -1190,7 +1125,6 @@ class _CuratedSeriesCard extends ConsumerWidget {
     return GestureDetector(
       onTap: () {
         if (allAdded) {
-          // All episodes already added — find the group and navigate there.
           final groups = ref.read(allTilesProvider).value ?? [];
           final matchingGroup = groups.where(
             (g) => g.title.toLowerCase() == series.title.toLowerCase(),
@@ -1204,12 +1138,18 @@ class _CuratedSeriesCard extends ConsumerWidget {
             return;
           }
         }
-        unawaited(
-          context.push(
-            AppRoutes.parentCatalogSeries(series.id),
-            extra: autoAssignTileId,
-          ),
-        );
+        if (provider == ProviderType.spotify) {
+          // Spotify: open curated series detail (has pre-validated album IDs).
+          unawaited(
+            context.push(
+              AppRoutes.parentCatalogSeries(series.id),
+              extra: autoAssignTileId,
+            ),
+          );
+        } else {
+          // Other providers: search for the series title in the catalog.
+          onSearchSeries?.call(series.title);
+        }
       },
       child: Column(
         children: [
@@ -1955,7 +1895,7 @@ class _SearchResultTile extends StatelessWidget {
     this.compact = false,
   });
 
-  final SpotifyAlbum album;
+  final CatalogAlbumResult album;
   final bool isAdded;
   final CatalogMatch? catalogMatch;
   final VoidCallback onAdd;
@@ -1971,11 +1911,22 @@ class _SearchResultTile extends StatelessWidget {
         width: coverSize,
         height: coverSize,
         child:
-            album.imageUrl != null
+            album.artworkUrlForSize(compact ? 88 : 112) != null
                 ? CachedNetworkImage(
-                  imageUrl: album.imageUrl!,
+                  imageUrl: album.artworkUrlForSize(compact ? 200 : 400)!,
                   fit: BoxFit.cover,
                   memCacheWidth: compact ? 88 : 112,
+                  fadeInDuration: const Duration(milliseconds: 200),
+                  placeholder: (_, _) => const ColoredBox(
+                    color: AppColors.surfaceDim,
+                  ),
+                  errorWidget: (_, _, _) => const ColoredBox(
+                    color: AppColors.surfaceDim,
+                    child: Icon(
+                      Icons.music_note_rounded,
+                      color: AppColors.textSecondary,
+                    ),
+                  ),
                 )
                 : const ColoredBox(
                   color: AppColors.surfaceDim,
@@ -2023,7 +1974,7 @@ class _SearchResultTile extends StatelessWidget {
                   ),
                   const SizedBox(height: 2),
                   Text(
-                    '${album.artistNames} · ${album.totalTracks} Titel',
+                    '${album.artistName} · ${album.totalTracks} Titel',
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
@@ -2170,20 +2121,22 @@ class _AlbumDetailSheet extends ConsumerStatefulWidget {
     required this.album,
     required this.isAdded,
     required this.onAdd,
+    required this.source,
     this.catalogMatch,
   });
 
-  final SpotifyAlbum album;
+  final CatalogAlbumResult album;
   final bool isAdded;
   final CatalogMatch? catalogMatch;
   final VoidCallback onAdd;
+  final CatalogSource source;
 
   @override
   ConsumerState<_AlbumDetailSheet> createState() => _AlbumDetailSheetState();
 }
 
 class _AlbumDetailSheetState extends ConsumerState<_AlbumDetailSheet> {
-  List<SpotifyTrack>? _tracks;
+  List<CatalogTrackResult>? _tracks;
   bool _loading = true;
 
   @override
@@ -2194,13 +2147,10 @@ class _AlbumDetailSheetState extends ConsumerState<_AlbumDetailSheet> {
 
   Future<void> _loadTracks() async {
     try {
-      final detail = await ref
-          .read(spotifySessionProvider.notifier)
-          .api
-          .getAlbum(widget.album.id);
+      final tracks = await widget.source.getAlbumTracks(widget.album.id);
       if (!mounted) return;
       setState(() {
-        _tracks = detail?.tracks;
+        _tracks = tracks.isEmpty ? null : tracks;
         _loading = false;
       });
     } on Exception catch (e) {
@@ -2243,10 +2193,16 @@ class _AlbumDetailSheetState extends ConsumerState<_AlbumDetailSheet> {
                       width: 64,
                       height: 64,
                       child:
-                          widget.album.imageUrl != null
+                          widget.album.artworkUrlForSize(200) != null
                               ? CachedNetworkImage(
-                                imageUrl: widget.album.imageUrl!,
+                                imageUrl:
+                                    widget.album.artworkUrlForSize(200)!,
                                 fit: BoxFit.cover,
+                                fadeInDuration:
+                                    const Duration(milliseconds: 200),
+                                placeholder: (_, _) => const ColoredBox(
+                                  color: AppColors.surfaceDim,
+                                ),
                               )
                               : const ColoredBox(
                                 color: AppColors.surfaceDim,
@@ -2271,7 +2227,7 @@ class _AlbumDetailSheetState extends ConsumerState<_AlbumDetailSheet> {
                         ),
                         const SizedBox(height: 2),
                         Text(
-                          widget.album.artistNames,
+                          widget.album.artistName,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: const TextStyle(

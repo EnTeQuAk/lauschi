@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lauschi/core/apple_music/apple_music_catalog_source.dart';
+import 'package:lauschi/core/apple_music/apple_music_session.dart';
 import 'package:lauschi/core/database/tile_repository.dart';
 import 'package:lauschi/core/providers/provider_registry.dart';
 import 'package:lauschi/core/providers/provider_type.dart';
+import 'package:lauschi/core/spotify/spotify_catalog_source.dart';
+import 'package:lauschi/core/spotify/spotify_session.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
 import 'package:lauschi/features/parent/screens/browse_catalog_screen.dart';
 import 'package:lauschi/features/parent/screens/discover_screen.dart';
@@ -94,11 +98,12 @@ class AddContentScreen extends ConsumerWidget {
           embedded: true,
           autoAssignTileId: autoAssignTileId,
         ),
-        ProviderType.spotify => BrowseCatalogScreen(
-          embedded: true,
+        ProviderType.spotify => _SpotifyTab(
           autoAssignTileId: autoAssignTileId,
         ),
-        ProviderType.appleMusic => _ComingSoon(type: type),
+        ProviderType.appleMusic => _AppleMusicTab(
+          autoAssignTileId: autoAssignTileId,
+        ),
         ProviderType.tidal => _ComingSoon(type: type),
       };
 }
@@ -148,6 +153,194 @@ class _AutoAssignBanner extends ConsumerWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class _SpotifyTab extends ConsumerWidget {
+  const _SpotifyTab({this.autoAssignTileId});
+
+  final String? autoAssignTileId;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final sessionState = ref.watch(spotifySessionProvider);
+
+    return switch (sessionState) {
+      SpotifyLoading() => const _ProviderLoadingIndicator(
+        type: ProviderType.spotify,
+      ),
+      SpotifyAuthenticated() => BrowseCatalogScreen(
+        catalogSource: SpotifyCatalogSource(
+          ref.read(spotifySessionProvider.notifier).api,
+        ),
+        embedded: true,
+        autoAssignTileId: autoAssignTileId,
+      ),
+      SpotifyUnauthenticated() || SpotifyError() => _ProviderConnectPrompt(
+        type: ProviderType.spotify,
+        description:
+            'Mit Spotify bekommst du Zugriff auf tausende '
+            'Hörspiele und Kindermusik.',
+        requirement: 'Du brauchst ein Spotify Premium Abo.',
+        onConnect: () async {
+          await ref.read(spotifySessionProvider.notifier).login();
+        },
+      ),
+    };
+  }
+}
+
+class _AppleMusicTab extends ConsumerWidget {
+  const _AppleMusicTab({this.autoAssignTileId});
+
+  final String? autoAssignTileId;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final sessionState = ref.watch(appleMusicSessionProvider);
+
+    return switch (sessionState) {
+      AppleMusicLoading() => const _ProviderLoadingIndicator(
+        type: ProviderType.appleMusic,
+      ),
+      AppleMusicAuthenticated() => BrowseCatalogScreen(
+        embedded: true,
+        autoAssignTileId: autoAssignTileId,
+        catalogSource: AppleMusicCatalogSource(
+          ref.read(appleMusicSessionProvider.notifier).api,
+        ),
+      ),
+      AppleMusicUnauthenticated() => _ProviderConnectPrompt(
+        type: ProviderType.appleMusic,
+        description:
+            'Mit Apple Music bekommst du Zugriff auf tausende '
+            'Hörspiele: Die drei ???, TKKG, Bibi Blocksberg '
+            'und viele mehr.',
+        requirement:
+            'Du brauchst ein Apple Music Abo und die '
+            'Apple Music App auf deinem Gerät.',
+        onConnect: () async {
+          await ref.read(appleMusicSessionProvider.notifier).connect();
+        },
+      ),
+    };
+  }
+}
+
+/// Loading indicator shown while checking provider auth state.
+class _ProviderLoadingIndicator extends StatelessWidget {
+  const _ProviderLoadingIndicator({required this.type});
+
+  final ProviderType type;
+
+  @override
+  Widget build(BuildContext context) {
+    return ColoredBox(
+      color: AppColors.parentBackground,
+      child: Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const CircularProgressIndicator(),
+            const SizedBox(height: AppSpacing.md),
+            Text(
+              '${type.displayName} wird verbunden…',
+              style: const TextStyle(
+                fontFamily: 'Nunito',
+                fontSize: 14,
+                color: AppColors.textSecondary,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+/// Shared connect prompt for providers that require auth.
+class _ProviderConnectPrompt extends StatelessWidget {
+  const _ProviderConnectPrompt({
+    required this.type,
+    required this.description,
+    required this.onConnect,
+    this.requirement,
+  });
+
+  final ProviderType type;
+  final String description;
+  final String? requirement;
+  final VoidCallback onConnect;
+
+  @override
+  Widget build(BuildContext context) {
+    return ColoredBox(
+      color: AppColors.parentBackground,
+      child: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(AppSpacing.screenH),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(type.icon, size: 48, color: type.color),
+              const SizedBox(height: AppSpacing.md),
+              Text(
+                '${type.displayName} verbinden',
+                style: const TextStyle(
+                  fontFamily: 'Nunito',
+                  fontSize: 18,
+                  fontWeight: FontWeight.w700,
+                  color: AppColors.textPrimary,
+                ),
+              ),
+              const SizedBox(height: AppSpacing.sm),
+              Text(
+                description,
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  fontFamily: 'Nunito',
+                  fontSize: 14,
+                  color: AppColors.textSecondary,
+                  height: 1.4,
+                ),
+              ),
+              if (requirement != null) ...[
+                const SizedBox(height: AppSpacing.xs),
+                Text(
+                  requirement!,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    fontFamily: 'Nunito',
+                    fontSize: 13,
+                    color: AppColors.textSecondary,
+                    fontStyle: FontStyle.italic,
+                  ),
+                ),
+              ],
+              const SizedBox(height: AppSpacing.lg),
+              FilledButton.icon(
+                onPressed: onConnect,
+                icon: Icon(type.icon),
+                label: Text('Mit ${type.displayName} verbinden'),
+                style: FilledButton.styleFrom(
+                  backgroundColor: type.color,
+                  foregroundColor: Colors.white,
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 24,
+                    vertical: 14,
+                  ),
+                  textStyle: const TextStyle(
+                    fontFamily: 'Nunito',
+                    fontSize: 16,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
