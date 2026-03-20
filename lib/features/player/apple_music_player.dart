@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/services.dart' show MissingPluginException;
 import 'package:lauschi/core/apple_music/apple_music_seek.dart';
 import 'package:lauschi/core/log.dart';
 import 'package:lauschi/features/player/player_backend.dart';
@@ -193,13 +194,24 @@ class AppleMusicPlayer extends PlayerBackend {
     _positionTimer = null;
   }
 
+  bool _positionPollAvailable = true;
+
   Future<void> _pollPosition() async {
+    if (!_positionPollAvailable) return;
     try {
       final seconds = await _musicKit.playbackTime;
       _positionMs = (seconds * 1000).round();
       _emitState();
+    } on MissingPluginException {
+      // music_kit plugin doesn't implement playbackTime on Android.
+      // Stop polling to avoid spamming logs every second.
+      Log.warn(
+        _tag,
+        'playbackTime not available on this platform, disabling position polling',
+      );
+      _positionPollAvailable = false;
+      _stopPositionPolling();
     } on Exception catch (e) {
-      // Position polling can fail when playback stops naturally.
       Log.debug(_tag, 'Position poll failed', data: {'error': '$e'});
     }
   }
