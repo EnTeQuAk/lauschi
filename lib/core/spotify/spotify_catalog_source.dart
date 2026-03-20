@@ -30,6 +30,32 @@ class SpotifyCatalogSource implements CatalogSource {
     return album!.tracks!.map(_trackFromSpotify).toList();
   }
 
+  @override
+  Future<Map<String, String>> getAlbumCovers(
+    List<String> albumIds, {
+    int size = 300,
+  }) async {
+    final covers = <String, String>{};
+    // Spotify batch endpoint supports max 20 IDs per request.
+    for (var i = 0; i < albumIds.length; i += 20) {
+      final batch = albumIds.sublist(
+        i,
+        (i + 20).clamp(0, albumIds.length),
+      );
+      try {
+        final albums = await _api.getAlbums(batch);
+        for (final album in albums) {
+          if (album.imageUrl != null) {
+            covers[album.id] = album.imageUrl!;
+          }
+        }
+      } on Exception {
+        // Skip failed batches, show placeholders for those albums.
+      }
+    }
+    return covers;
+  }
+
   static CatalogAlbumResult _fromSpotify(SpotifyAlbum album) {
     return CatalogAlbumResult(
       id: album.id,

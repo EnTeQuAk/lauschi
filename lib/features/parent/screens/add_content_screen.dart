@@ -98,43 +98,60 @@ class _ProviderTabBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return TabBar(
-      isScrollable: providers.length > 3,
+      isScrollable: true,
+      tabAlignment: TabAlignment.center,
       tabs: [for (final p in providers) Tab(child: _ProviderTabLabel(p))],
       labelColor: AppColors.textPrimary,
       unselectedLabelColor: AppColors.textSecondary,
       indicatorColor: AppColors.primary,
       dividerHeight: 0,
+      labelPadding: const EdgeInsets.symmetric(horizontal: 14),
     );
   }
 }
 
-/// Single tab label: logo + name, styled per provider.
+/// Single tab label: logo + name, with accessibility.
+///
+/// The ARD logo already contains the "ARD" wordmark, so the visible
+/// label is just "Audiothek". A [Semantics] wrapper provides the full
+/// name "ARD Audiothek" for screen readers.
 class _ProviderTabLabel extends StatelessWidget {
   const _ProviderTabLabel(this.info);
 
   final ProviderInfo info;
 
+  /// Short label for the tab. ARD gets "Audiothek" since the logo
+  /// already spells "ARD".
+  String get _tabLabel => switch (info.type) {
+    ProviderType.ardAudiothek => 'Audiothek',
+    _ => info.type.displayName,
+  };
+
   @override
   Widget build(BuildContext context) {
     final logo = _providerLogo(info.type);
 
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        if (logo != null) ...[logo, const SizedBox(width: 6)],
-        if (logo == null) ...[
-          Icon(info.type.icon, size: 18),
-          const SizedBox(width: 6),
-        ],
-        Text(
-          info.type.displayName,
-          style: const TextStyle(
-            fontFamily: 'Nunito',
-            fontSize: 13,
-            fontWeight: FontWeight.w700,
+    return Semantics(
+      label: info.type.displayName,
+      excludeSemantics: true,
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          if (logo != null) ...[logo, const SizedBox(width: 6)],
+          if (logo == null) ...[
+            Icon(info.type.icon, size: 18),
+            const SizedBox(width: 6),
+          ],
+          Text(
+            _tabLabel,
+            style: const TextStyle(
+              fontFamily: 'Nunito',
+              fontSize: 13,
+              fontWeight: FontWeight.w700,
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

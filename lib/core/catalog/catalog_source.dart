@@ -50,9 +50,7 @@ class CatalogAlbumResult {
   /// other URLs unchanged.
   String? artworkUrlForSize(int size) {
     if (artworkUrl == null) return null;
-    return artworkUrl!
-        .replaceAll('{w}', '$size')
-        .replaceAll('{h}', '$size');
+    return artworkUrl!.replaceAll('{w}', '$size').replaceAll('{h}', '$size');
   }
 }
 
@@ -89,4 +87,14 @@ abstract class CatalogSource {
 
   /// Fetch tracks for an album.
   Future<List<CatalogTrackResult>> getAlbumTracks(String albumId);
+
+  /// Batch-fetch cover image URLs for albums.
+  ///
+  /// Returns a map of albumId → artwork URL. Albums that fail to load
+  /// or have no artwork are omitted from the result.
+  /// Implementations should batch API calls where possible.
+  Future<Map<String, String>> getAlbumCovers(
+    List<String> albumIds, {
+    int size = 300,
+  });
 }

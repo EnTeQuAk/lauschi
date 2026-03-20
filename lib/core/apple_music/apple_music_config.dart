@@ -8,8 +8,9 @@
 abstract final class AppleMusicConfig {
   /// Pre-generated JWT developer token for Android.
   /// Compiled in via `--dart-define-from-file=.env.app`.
-  static const developerToken =
-      String.fromEnvironment('APPLE_MUSIC_DEVELOPER_TOKEN');
+  static const developerToken = String.fromEnvironment(
+    'APPLE_MUSIC_DEVELOPER_TOKEN',
+  );
 
   /// Team ID from Apple Developer account.
   static const teamId = 'QDF8U52UF4';

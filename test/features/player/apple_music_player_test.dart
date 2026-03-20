@@ -34,12 +34,15 @@ void main() {
       final stateController = StreamController<MusicPlayerState>.broadcast();
       final queueController = StreamController<MusicPlayerQueue>.broadcast();
 
-      when(() => mockMusicKit.onMusicPlayerStateChanged)
-          .thenAnswer((_) => stateController.stream);
-      when(() => mockMusicKit.onPlayerQueueChanged)
-          .thenAnswer((_) => queueController.stream);
-      when(() => mockMusicKit.setQueue(any(), item: any(named: 'item')))
-          .thenAnswer((_) async {});
+      when(
+        () => mockMusicKit.onMusicPlayerStateChanged,
+      ).thenAnswer((_) => stateController.stream);
+      when(
+        () => mockMusicKit.onPlayerQueueChanged,
+      ).thenAnswer((_) => queueController.stream);
+      when(
+        () => mockMusicKit.setQueue(any(), item: any(named: 'item')),
+      ).thenAnswer((_) async {});
       when(() => mockMusicKit.play()).thenAnswer((_) async {});
       when(() => mockMusicKit.playbackTime).thenAnswer((_) async => 0.0);
 

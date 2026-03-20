@@ -29,6 +29,22 @@ class AppleMusicCatalogSource implements CatalogSource {
     return tracks.map(_trackFromAppleMusic).toList();
   }
 
+  @override
+  Future<Map<String, String>> getAlbumCovers(
+    List<String> albumIds, {
+    int size = 300,
+  }) async {
+    final covers = <String, String>{};
+    final albums = await _api.getAlbums(albumIds);
+    for (final album in albums) {
+      final url = album.artworkUrlForSize(size);
+      if (url != null) {
+        covers[album.id] = url;
+      }
+    }
+    return covers;
+  }
+
   static CatalogAlbumResult _fromAppleMusic(AppleMusicAlbum album) {
     return CatalogAlbumResult(
       id: album.id,

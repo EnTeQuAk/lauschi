@@ -4,6 +4,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:lauschi/core/apple_music/apple_music_catalog_source.dart';
+import 'package:lauschi/core/apple_music/apple_music_session.dart';
 import 'package:lauschi/core/catalog/catalog_service.dart';
 import 'package:lauschi/core/catalog/catalog_source.dart';
 import 'package:lauschi/core/database/app_database.dart' as db;
@@ -14,6 +16,7 @@ import 'package:lauschi/core/log.dart';
 import 'package:lauschi/core/providers/provider_type.dart';
 import 'package:lauschi/core/router/app_router.dart';
 import 'package:lauschi/core/spotify/spotify_api.dart';
+import 'package:lauschi/core/spotify/spotify_catalog_source.dart';
 import 'package:lauschi/core/spotify/spotify_session.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
 import 'package:lauschi/features/parent/widgets/import_progress_dialog.dart';
@@ -292,7 +295,10 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen>
   // Add logic
   // ---------------------------------------------------------------------------
 
-  Future<void> _handleAddTap(CatalogAlbumResult album, CatalogMatch? match) async {
+  Future<void> _handleAddTap(
+    CatalogAlbumResult album,
+    CatalogMatch? match,
+  ) async {
     if (_isAutoAssignMode) {
       await _addAndAssign(album, widget.autoAssignTileId!, match);
       return;
@@ -797,17 +803,16 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen>
             itemBuilder: (context, index) {
               final series = _heroSeries[index];
               final existingUris = ref.watch(existingItemUrisProvider);
+              final providerAlbums = series.albumsForProvider(_source.provider);
               final added =
-                  series.albums
-                      .where(
-                        (a) => existingUris.contains(
-                          'spotify:album:${a.spotifyId}',
-                        ),
-                      )
+                  providerAlbums
+                      .where((a) => existingUris.contains(a.uri))
                       .length;
-              final allAdded = added == series.albums.length;
+              final allAdded =
+                  added == providerAlbums.length && providerAlbums.isNotEmpty;
               return _HeroCard(
                 series: series,
+                provider: _source.provider,
                 addedCount: added,
                 allAdded: allAdded,
                 onTap: () {
@@ -824,10 +829,11 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen>
                       return;
                     }
                   }
-                  if (_source.provider == ProviderType.spotify) {
+                  if (series.hasCuratedAlbumsFor(_source.provider)) {
                     unawaited(
                       context.push(
-                        AppRoutes.parentCatalogSeries(series.id),
+                        '${AppRoutes.parentCatalogSeries(series.id)}'
+                        '?provider=${_source.provider.value}',
                         extra: widget.autoAssignTileId,
                       ),
                     );
@@ -949,7 +955,10 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen>
       if (batchSeries != null)
         _BatchAddBanner(
           seriesTitle: batchSeries,
-          count: _albumResults.where((a) => !_addedUris.contains(a.providerUri)).length,
+          count:
+              _albumResults
+                  .where((a) => !_addedUris.contains(a.providerUri))
+                  .length,
           onAddAll: () => unawaited(_handleAddAll(batchSeries)),
         ),
     ];
@@ -1103,23 +1112,24 @@ class _CuratedSeriesCard extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final existingUris = ref.watch(existingItemUrisProvider);
-    // Curated cover_url from YAML takes priority. Spotify cover map is
-    // a fallback only when browsing via Spotify (album IDs are Spotify-specific).
+    final providerAlbums = series.albumsForProvider(provider);
+
+    // Curated cover_url from YAML takes priority. Provider-specific cover
+    // map is the fallback for series that have curated albums.
     final String? coverUrl;
     if (series.coverUrl != null) {
       coverUrl = series.coverUrl;
-    } else if (provider == ProviderType.spotify && series.albums.isNotEmpty) {
-      final coverMap = ref.watch(_seriesCoverMapProvider).value ?? {};
-      coverUrl = coverMap[series.albums.first.spotifyId];
+    } else if (providerAlbums.isNotEmpty) {
+      final coverMap =
+          ref.watch(_seriesCoverMapProvider(provider.value)).value ?? {};
+      coverUrl = coverMap[providerAlbums.first.id];
     } else {
       coverUrl = null;
     }
 
-    final total = series.albums.length;
+    final total = providerAlbums.length;
     final added =
-        series.albums
-            .where((a) => existingUris.contains('spotify:album:${a.spotifyId}'))
-            .length;
+        providerAlbums.where((a) => existingUris.contains(a.uri)).length;
     final allAdded = added == total && total > 0;
 
     return GestureDetector(
@@ -1138,16 +1148,17 @@ class _CuratedSeriesCard extends ConsumerWidget {
             return;
           }
         }
-        if (provider == ProviderType.spotify) {
-          // Spotify: open curated series detail (has pre-validated album IDs).
+        if (series.hasCuratedAlbumsFor(provider)) {
+          // Open curated series detail with provider-specific album list.
           unawaited(
             context.push(
-              AppRoutes.parentCatalogSeries(series.id),
+              '${AppRoutes.parentCatalogSeries(series.id)}'
+              '?provider=${provider.value}',
               extra: autoAssignTileId,
             ),
           );
         } else {
-          // Other providers: search for the series title in the catalog.
+          // No curated albums for this provider: search for the series title.
           onSearchSeries?.call(series.title);
         }
       },
@@ -1248,11 +1259,13 @@ class _CuratedSeriesCard extends ConsumerWidget {
 class CatalogSeriesDetailScreen extends ConsumerStatefulWidget {
   const CatalogSeriesDetailScreen({
     required this.seriesId,
+    required this.provider,
     super.key,
     this.autoAssignTileId,
   });
 
   final String seriesId;
+  final ProviderType provider;
   final String? autoAssignTileId;
 
   @override
@@ -1276,12 +1289,9 @@ class _CatalogSeriesDetailScreenState
       _selectAll = !_selectAll;
       if (_selectAll) {
         final uris = ref.read(existingItemUrisProvider);
+        final albums = series.albumsForProvider(widget.provider);
         _selected.addAll(
-          series.albums
-              .where(
-                (a) => !uris.contains('spotify:album:${a.spotifyId}'),
-              )
-              .map((a) => a.spotifyId),
+          albums.where((a) => !uris.contains(a.uri)).map((a) => a.id),
         );
       } else {
         _selected.clear();
@@ -1345,7 +1355,7 @@ class _CatalogSeriesDetailScreenState
       final cards = <PendingCard>[];
       for (final album in albums) {
         final catalogAlbum =
-            series.albums.where((a) => a.spotifyId == album.id).firstOrNull;
+            series.albums.where((a) => a.id == album.id).firstOrNull;
 
         cards.add(
           PendingCard(
@@ -1430,32 +1440,24 @@ class _CatalogSeriesDetailScreenState
         }
 
         final albums =
-            series.albums.toList()..sort(
+            series.albumsForProvider(widget.provider).toList()..sort(
               (a, b) => (a.episode ?? 999999).compareTo(b.episode ?? 999999),
             );
 
-        final coverKey = albums.map((a) => a.spotifyId).join(',');
+        final coverKey =
+            '${widget.provider.value}:${albums.map((a) => a.id).join(',')}';
         final coverMap = ref.watch(_albumCoversProvider(coverKey)).value ?? {};
 
         if (_selected.isEmpty && _selectAll && cardsLoaded) {
           for (final album in albums) {
-            if (!existingUris.contains(
-              'spotify:album:${album.spotifyId}',
-            )) {
-              _selected.add(album.spotifyId);
+            if (!existingUris.contains(album.uri)) {
+              _selected.add(album.id);
             }
           }
         }
 
         final selectableCount =
-            albums
-                .where(
-                  (a) =>
-                      !existingUris.contains(
-                        'spotify:album:${a.spotifyId}',
-                      ),
-                )
-                .length;
+            albums.where((a) => !existingUris.contains(a.uri)).length;
 
         return Scaffold(
           backgroundColor: AppColors.parentBackground,
@@ -1477,21 +1479,20 @@ class _CatalogSeriesDetailScreenState
             itemCount: albums.length,
             itemBuilder: (context, index) {
               final album = albums[index];
-              final uri = 'spotify:album:${album.spotifyId}';
-              final alreadyAdded = existingUris.contains(uri);
-              final isSelected = _selected.contains(album.spotifyId);
+              final alreadyAdded = existingUris.contains(album.uri);
+              final isSelected = _selected.contains(album.id);
 
               return _AlbumTile(
                 album: album,
-                coverUrl: coverMap[album.spotifyId],
+                coverUrl: coverMap[album.id],
                 alreadyAdded: alreadyAdded,
                 isSelected: isSelected,
                 onChanged: () {
                   setState(() {
                     if (isSelected) {
-                      _selected.remove(album.spotifyId);
+                      _selected.remove(album.id);
                     } else {
-                      _selected.add(album.spotifyId);
+                      _selected.add(album.id);
                     }
                   });
                 },
@@ -1620,25 +1621,29 @@ class _AlbumTile extends StatelessWidget {
 class _HeroCard extends ConsumerWidget {
   const _HeroCard({
     required this.series,
+    required this.provider,
     required this.addedCount,
     required this.allAdded,
     required this.onTap,
   });
 
   final CatalogSeries series;
+  final ProviderType provider;
   final int addedCount;
   final bool allAdded;
   final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final coverMap = ref.watch(_seriesCoverMapProvider).value ?? {};
+    final providerAlbums = series.albumsForProvider(provider);
+    final coverMap =
+        ref.watch(_seriesCoverMapProvider(provider.value)).value ?? {};
     final firstAlbumId =
-        series.albums.isNotEmpty ? series.albums.first.spotifyId : null;
+        providerAlbums.isNotEmpty ? providerAlbums.first.id : null;
     final coverUrl =
         series.coverUrl ??
         (firstAlbumId != null ? coverMap[firstAlbumId] : null);
-    final total = series.albums.length;
+    final total = providerAlbums.length;
 
     return InkWell(
       onTap: onTap,
@@ -1917,16 +1922,18 @@ class _SearchResultTile extends StatelessWidget {
                   fit: BoxFit.cover,
                   memCacheWidth: compact ? 88 : 112,
                   fadeInDuration: const Duration(milliseconds: 200),
-                  placeholder: (_, _) => const ColoredBox(
-                    color: AppColors.surfaceDim,
-                  ),
-                  errorWidget: (_, _, _) => const ColoredBox(
-                    color: AppColors.surfaceDim,
-                    child: Icon(
-                      Icons.music_note_rounded,
-                      color: AppColors.textSecondary,
-                    ),
-                  ),
+                  placeholder:
+                      (_, _) => const ColoredBox(
+                        color: AppColors.surfaceDim,
+                      ),
+                  errorWidget:
+                      (_, _, _) => const ColoredBox(
+                        color: AppColors.surfaceDim,
+                        child: Icon(
+                          Icons.music_note_rounded,
+                          color: AppColors.textSecondary,
+                        ),
+                      ),
                 )
                 : const ColoredBox(
                   color: AppColors.surfaceDim,
@@ -2195,14 +2202,15 @@ class _AlbumDetailSheetState extends ConsumerState<_AlbumDetailSheet> {
                       child:
                           widget.album.artworkUrlForSize(200) != null
                               ? CachedNetworkImage(
-                                imageUrl:
-                                    widget.album.artworkUrlForSize(200)!,
+                                imageUrl: widget.album.artworkUrlForSize(200)!,
                                 fit: BoxFit.cover,
-                                fadeInDuration:
-                                    const Duration(milliseconds: 200),
-                                placeholder: (_, _) => const ColoredBox(
-                                  color: AppColors.surfaceDim,
+                                fadeInDuration: const Duration(
+                                  milliseconds: 200,
                                 ),
+                                placeholder:
+                                    (_, _) => const ColoredBox(
+                                      color: AppColors.surfaceDim,
+                                    ),
                               )
                               : const ColoredBox(
                                 color: AppColors.surfaceDim,
@@ -2602,72 +2610,80 @@ class _Placeholder extends StatelessWidget {
 ///
 /// Keyed on a comma-joined string of album IDs. Dart lists don't have
 /// deep equality, so a list key would restart the fetch on every rebuild.
+/// Batch-fetches cover images for a list of album IDs via a CatalogSource.
+///
+/// Key format: "provider:id1,id2,id3" where provider is the ProviderType value
+/// and IDs are comma-separated. The provider prefix is used to route to the
+/// correct CatalogSource.
 final _albumCoversProvider = FutureProvider.autoDispose
     .family<Map<String, String>, String>(
-      (ref, joinedIds) async {
-        final api = ref.read(spotifySessionProvider.notifier).api;
-        if (!api.hasToken || joinedIds.isEmpty) return {};
+      (ref, key) async {
+        if (key.isEmpty) return {};
+
+        final colonIdx = key.indexOf(':');
+        if (colonIdx < 0) return {};
+
+        final providerValue = key.substring(0, colonIdx);
+        final joinedIds = key.substring(colonIdx + 1);
+        if (joinedIds.isEmpty) return {};
 
         final albumIds = joinedIds.split(',');
-        final coverMap = <String, String>{};
-        for (var i = 0; i < albumIds.length; i += 20) {
-          final batch = albumIds.sublist(
-            i,
-            (i + 20).clamp(0, albumIds.length),
-          );
-          try {
-            final albums = await api.getAlbums(batch);
-            for (final album in albums) {
-              if (album.imageUrl != null) {
-                coverMap[album.id] = album.imageUrl!;
-              }
-            }
-          } on Exception {
-            // Skip failed batch, show placeholders.
-          }
-        }
-        return coverMap;
+        final source = _resolveSource(ref, providerValue);
+        if (source == null) return {};
+
+        // ignore: unnecessary_await_in_return, async needed for early returns
+        return await source.getAlbumCovers(albumIds);
       },
     );
 
 /// Batch-fetches cover images for all curated series.
-final _seriesCoverMapProvider = FutureProvider.autoDispose<Map<String, String>>(
-  (ref) async {
-    final api = ref.read(spotifySessionProvider.notifier).api;
-    if (!api.hasToken) return {};
+///
+/// Takes a ProviderType value as the family key so each provider gets its
+/// own cover map using the right album IDs and API.
+final _seriesCoverMapProvider = FutureProvider.autoDispose
+    .family<Map<String, String>, String>(
+      (ref, providerValue) async {
+        final source = _resolveSource(ref, providerValue);
+        if (source == null) return {};
 
-    final catalogAsync = ref.watch(catalogServiceProvider);
-    final catalog = catalogAsync.value;
-    if (catalog == null) return {};
+        final catalogAsync = ref.watch(catalogServiceProvider);
+        final catalog = catalogAsync.value;
+        if (catalog == null) return {};
 
-    final albumIds = <String>[];
-    for (final series in catalog.all) {
-      if (series.hasCuratedAlbums) {
-        albumIds.add(series.albums.first.spotifyId);
-      }
-    }
+        final providerType = ProviderType.values.firstWhere(
+          (t) => t.value == providerValue,
+          orElse: () => ProviderType.spotify,
+        );
 
-    if (albumIds.isEmpty) return {};
-
-    final coverMap = <String, String>{};
-    for (var i = 0; i < albumIds.length; i += 20) {
-      final batch = albumIds.sublist(
-        i,
-        i + 20 > albumIds.length ? albumIds.length : i + 20,
-      );
-      try {
-        final albums = await api.getAlbums(batch);
-        for (final album in albums) {
-          final url = album.imageUrl;
-          if (url != null) {
-            coverMap[album.id] = url;
+        final albumIds = <String>[];
+        for (final series in catalog.all) {
+          final albums = series.albumsForProvider(providerType);
+          if (albums.isNotEmpty) {
+            albumIds.add(albums.first.id);
           }
         }
-      } on Exception {
-        // Skip failed batch, show placeholders
-      }
-    }
 
-    return coverMap;
-  },
-);
+        if (albumIds.isEmpty) return {};
+        // ignore: unnecessary_await_in_return, async needed for early returns
+        return await source.getAlbumCovers(albumIds);
+      },
+    );
+
+/// Resolve a CatalogSource from a provider value string.
+CatalogSource? _resolveSource(Ref ref, String providerValue) {
+  if (providerValue == ProviderType.spotify.value) {
+    final session = ref.read(spotifySessionProvider);
+    if (session is! SpotifyAuthenticated) return null;
+    return SpotifyCatalogSource(
+      ref.read(spotifySessionProvider.notifier).api,
+    );
+  }
+  if (providerValue == ProviderType.appleMusic.value) {
+    final session = ref.read(appleMusicSessionProvider);
+    if (session is! AppleMusicAuthenticated) return null;
+    return AppleMusicCatalogSource(
+      ref.read(appleMusicSessionProvider.notifier).api,
+    );
+  }
+  return null;
+}

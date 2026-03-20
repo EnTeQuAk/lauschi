@@ -10,8 +10,7 @@ abstract final class FeatureFlags {
   /// Apple Music integration via MusicKit. Requires APPLE_MUSIC_DEVELOPER_TOKEN
   /// on Android. On iOS, the token is auto-generated from the MusicKit
   /// capability. When false, Apple Music UI and auth are gated off.
-  static const enableAppleMusic =
-      bool.fromEnvironment('ENABLE_APPLE_MUSIC');
+  static const enableAppleMusic = bool.fromEnvironment('ENABLE_APPLE_MUSIC');
 
   /// Sentry error tracking and diagnostics UI in parent settings.
   /// When false, Sentry is never initialized and the diagnostics section

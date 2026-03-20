@@ -196,8 +196,11 @@ GoRouter createRouter(Ref ref, {String initialLocation = AppRoutes.kidHome}) {
                 builder: (context, state) {
                   final seriesId = state.pathParameters['seriesId']!;
                   final autoAssignTileId = state.extra as String?;
+                  final providerStr =
+                      state.uri.queryParameters['provider'] ?? 'spotify';
                   return CatalogSeriesDetailScreen(
                     seriesId: seriesId,
+                    provider: ProviderType.fromString(providerStr),
                     autoAssignTileId: autoAssignTileId,
                   );
                 },

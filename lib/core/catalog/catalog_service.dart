@@ -1,25 +1,42 @@
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lauschi/core/log.dart';
+import 'package:lauschi/core/providers/provider_type.dart';
 import 'package:yaml/yaml.dart';
 
 const _tag = 'CatalogService';
 
 /// A pre-validated album entry in the catalog.
+///
+/// Provider-agnostic: stores the album ID and which provider it belongs to.
+/// The same series may have albums from multiple providers (Spotify, Apple Music).
 class CatalogAlbum {
   const CatalogAlbum({
-    required this.spotifyId,
+    required this.id,
+    required this.provider,
     required this.title,
     this.episode,
   });
 
-  /// Spotify album ID (the part after `spotify:album:`).
-  final String spotifyId;
+  /// Provider-specific album ID.
+  final String id;
+
+  /// Which provider this album belongs to.
+  final ProviderType provider;
+
   final String title;
   final int? episode;
 
-  /// Full Spotify URI.
-  String get uri => 'spotify:album:$spotifyId';
+  /// Full provider URI for DB storage (e.g. 'spotify:album:abc123').
+  String get uri => switch (provider) {
+    ProviderType.spotify => 'spotify:album:$id',
+    ProviderType.appleMusic => 'apple_music:album:$id',
+    _ => '${provider.value}:album:$id',
+  };
+
+  /// Backward compat: returns [id] when provider is Spotify.
+  @Deprecated('Use id and provider instead')
+  String get spotifyId => id;
 }
 
 /// A single known Hörspiel series from the bundled catalog.
@@ -34,6 +51,7 @@ class CatalogSeries {
     this.coverUrl,
     this.episodePattern,
     this.albums = const [],
+    this.appleMusicAlbums = const [],
   });
 
   final String id;
@@ -65,12 +83,27 @@ class CatalogSeries {
   /// Regex with one capture group for the episode number.
   final String? episodePattern;
 
-  /// Pre-validated album list with Spotify IDs and episode numbers.
+  /// Pre-validated Spotify album list with episode numbers.
   /// Empty for series that haven't been fully curated yet.
   final List<CatalogAlbum> albums;
 
-  /// Whether this series has a curated album list.
-  bool get hasCuratedAlbums => albums.isNotEmpty;
+  /// Pre-validated Apple Music album list with episode numbers.
+  final List<CatalogAlbum> appleMusicAlbums;
+
+  /// Whether this series has curated albums for any provider.
+  bool get hasCuratedAlbums => albums.isNotEmpty || appleMusicAlbums.isNotEmpty;
+
+  /// Get curated albums for a specific provider.
+  List<CatalogAlbum> albumsForProvider(ProviderType provider) =>
+      switch (provider) {
+        ProviderType.spotify => albums,
+        ProviderType.appleMusic => appleMusicAlbums,
+        _ => const [],
+      };
+
+  /// Whether this series has curated albums for a specific provider.
+  bool hasCuratedAlbumsFor(ProviderType provider) =>
+      albumsForProvider(provider).isNotEmpty;
 }
 
 /// How a catalog match was found — useful for display/confidence decisions.
@@ -153,14 +186,31 @@ class CatalogService {
               : albumsRaw.map<CatalogAlbum>((a) {
                 final aMap = a as YamlMap;
                 return CatalogAlbum(
-                  spotifyId: aMap['id'] as String,
+                  id: aMap['id'] as String,
+                  provider: ProviderType.spotify,
                   title: aMap['title'] as String,
                   episode: aMap['episode'] as int?,
                 );
               }).toList();
 
-      // Apple Music provider IDs
+      // Apple Music provider data
       final appleMusicMap = providersMap?['apple_music'] as YamlMap?;
+
+      final amAlbumsRaw = appleMusicMap?['albums'] as YamlList?;
+      // Apple Music IDs may parse as int. toString() handles both.
+      final amAlbums =
+          amAlbumsRaw == null
+              ? <CatalogAlbum>[]
+              : amAlbumsRaw.map<CatalogAlbum>((a) {
+                final aMap = a as YamlMap;
+                return CatalogAlbum(
+                  id: aMap['id'].toString(),
+                  provider: ProviderType.appleMusic,
+                  title: aMap['title'] as String,
+                  episode: aMap['episode'] as int?,
+                );
+              }).toList();
+
       final amArtistIdsRaw = appleMusicMap?['artist_ids'] as YamlList?;
       // Apple Music IDs are quoted strings in YAML but YAML parsers may
       // return them as integers. toString() handles both cases safely.
@@ -180,6 +230,7 @@ class CatalogService {
           coverUrl: map['cover_url'] as String?,
           episodePattern: _parseEpisodePattern(map['episode_pattern']),
           albums: albums,
+          appleMusicAlbums: amAlbums,
         ),
       );
     }

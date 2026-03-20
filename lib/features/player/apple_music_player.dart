@@ -148,8 +148,7 @@ class AppleMusicPlayer extends PlayerBackend {
 
   void _listenToState() {
     _playerStateSub = _musicKit.onMusicPlayerStateChanged.listen((mkState) {
-      _isPlaying =
-          mkState.playbackStatus == MusicPlayerPlaybackStatus.playing;
+      _isPlaying = mkState.playbackStatus == MusicPlayerPlaybackStatus.playing;
       _emitState();
     });
 

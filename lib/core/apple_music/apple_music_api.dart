@@ -34,9 +34,7 @@ class AppleMusicAlbum {
   /// Apple returns URLs like `{w}x{h}bb.jpg`.
   String? artworkUrlForSize(int size) {
     if (artworkUrl == null) return null;
-    return artworkUrl!
-        .replaceAll('{w}', '$size')
-        .replaceAll('{h}', '$size');
+    return artworkUrl!.replaceAll('{w}', '$size').replaceAll('{h}', '$size');
   }
 }
 
@@ -65,13 +63,13 @@ class AppleMusicTrack {
 /// plugin handles auth tokens; we use them for API calls.
 class AppleMusicApi {
   AppleMusicApi(this._musicKit)
-      : _dio = Dio(
-          BaseOptions(
-            baseUrl: 'https://api.music.apple.com/v1',
-            connectTimeout: const Duration(seconds: 10),
-            receiveTimeout: const Duration(seconds: 10),
-          ),
-        );
+    : _dio = Dio(
+        BaseOptions(
+          baseUrl: 'https://api.music.apple.com/v1',
+          connectTimeout: const Duration(seconds: 10),
+          receiveTimeout: const Duration(seconds: 10),
+        ),
+      );
 
   final MusicKit _musicKit;
   final Dio _dio;
@@ -141,7 +139,8 @@ class AppleMusicApi {
 
       return data.map<AppleMusicAlbum>((e) {
         final item = e as Map<String, dynamic>;
-        final attrs = item['attributes'] as Map<String, dynamic>? ?? <String, dynamic>{};
+        final attrs =
+            item['attributes'] as Map<String, dynamic>? ?? <String, dynamic>{};
         final artwork = attrs['artwork'] as Map<String, dynamic>?;
         return AppleMusicAlbum(
           id: item['id'] as String,
@@ -150,9 +149,8 @@ class AppleMusicApi {
           artworkUrl: artwork?['url'] as String?,
           trackCount: attrs['trackCount'] as int? ?? 0,
           releaseDate: attrs['releaseDate'] as String?,
-          genreNames: (attrs['genreNames'] as List<dynamic>?)
-                  ?.cast<String>() ??
-              [],
+          genreNames:
+              (attrs['genreNames'] as List<dynamic>?)?.cast<String>() ?? [],
         );
       }).toList();
     } on DioException catch (e) {
@@ -163,6 +161,59 @@ class AppleMusicApi {
       );
       return [];
     }
+  }
+
+  /// Batch-fetch multiple albums by ID.
+  ///
+  /// Apple Music supports up to 25 IDs per request via the `ids` parameter.
+  Future<List<AppleMusicAlbum>> getAlbums(List<String> albumIds) async {
+    if (albumIds.isEmpty) return [];
+    if (!_initialized) await init();
+
+    final results = <AppleMusicAlbum>[];
+    // Apple Music allows max 25 IDs per batch request.
+    for (var i = 0; i < albumIds.length; i += 25) {
+      final batch = albumIds.sublist(
+        i,
+        (i + 25).clamp(0, albumIds.length),
+      );
+      try {
+        final response = await _dio.get<Map<String, dynamic>>(
+          '/catalog/${_storefront!}/albums',
+          queryParameters: {'ids': batch.join(',')},
+        );
+        final data = response.data?['data'] as List<dynamic>? ?? [];
+        for (final e in data) {
+          final item = e as Map<String, dynamic>;
+          final attrs =
+              item['attributes'] as Map<String, dynamic>? ??
+              <String, dynamic>{};
+          final artwork = attrs['artwork'] as Map<String, dynamic>?;
+          results.add(
+            AppleMusicAlbum(
+              id: item['id'] as String,
+              name: attrs['name'] as String? ?? '',
+              artistName: attrs['artistName'] as String? ?? '',
+              artworkUrl: artwork?['url'] as String?,
+              trackCount: attrs['trackCount'] as int? ?? 0,
+              releaseDate: attrs['releaseDate'] as String?,
+              genreNames:
+                  (attrs['genreNames'] as List<dynamic>?)?.cast<String>() ?? [],
+            ),
+          );
+        }
+      } on DioException catch (e) {
+        Log.warn(
+          _tag,
+          'Batch album fetch failed',
+          data: {
+            'count': '${batch.length}',
+            'status': '${e.response?.statusCode}',
+          },
+        );
+      }
+    }
+    return results;
   }
 
   /// Get a single album by ID.
@@ -178,7 +229,8 @@ class AppleMusicApi {
       if (data == null || data.isEmpty) return null;
 
       final item = data[0] as Map<String, dynamic>;
-      final attrs = item['attributes'] as Map<String, dynamic>? ?? <String, dynamic>{};
+      final attrs =
+          item['attributes'] as Map<String, dynamic>? ?? <String, dynamic>{};
       final artwork = attrs['artwork'] as Map<String, dynamic>?;
       return AppleMusicAlbum(
         id: item['id'] as String,
@@ -187,9 +239,8 @@ class AppleMusicApi {
         artworkUrl: artwork?['url'] as String?,
         trackCount: attrs['trackCount'] as int? ?? 0,
         releaseDate: attrs['releaseDate'] as String?,
-        genreNames: (attrs['genreNames'] as List<dynamic>?)
-                ?.cast<String>() ??
-            [],
+        genreNames:
+            (attrs['genreNames'] as List<dynamic>?)?.cast<String>() ?? [],
       );
     } on DioException catch (e) {
       Log.error(
@@ -217,16 +268,14 @@ class AppleMusicApi {
       if (data == null || data.isEmpty) return [];
 
       final firstItem = data[0] as Map<String, dynamic>;
-      final relationships =
-          firstItem['relationships'] as Map<String, dynamic>?;
-      final tracksMap =
-          relationships?['tracks'] as Map<String, dynamic>?;
-      final tracksData =
-          tracksMap?['data'] as List<dynamic>? ?? [];
+      final relationships = firstItem['relationships'] as Map<String, dynamic>?;
+      final tracksMap = relationships?['tracks'] as Map<String, dynamic>?;
+      final tracksData = tracksMap?['data'] as List<dynamic>? ?? [];
 
       return tracksData.map<AppleMusicTrack>((e) {
         final item = e as Map<String, dynamic>;
-        final attrs = item['attributes'] as Map<String, dynamic>? ?? <String, dynamic>{};
+        final attrs =
+            item['attributes'] as Map<String, dynamic>? ?? <String, dynamic>{};
         final artwork = attrs['artwork'] as Map<String, dynamic>?;
         return AppleMusicTrack(
           id: item['id'] as String,
