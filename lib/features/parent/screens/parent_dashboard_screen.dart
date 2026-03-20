@@ -138,14 +138,30 @@ class ParentDashboardScreen extends ConsumerWidget {
     WidgetRef ref,
     ProviderInfo provider,
   ) {
-    final isAuthenticated =
-        provider.authState == ProviderAuthState.authenticated;
+    final authState = provider.authState;
+    final isAuthenticated = authState == ProviderAuthState.authenticated;
+    final isLoading = authState == ProviderAuthState.loading;
 
     final subtitle = switch (provider.type) {
       ProviderType.ardAudiothek => 'Kostenlose Hörspiele und Podcasts',
       _ when isAuthenticated => 'Verbunden',
+      _ when isLoading => 'Verbinde…',
       _ => 'Nicht verbunden',
     };
+
+    final trailing =
+        isAuthenticated && provider.auth.requiresAuth
+            ? const Icon(Icons.check_circle, color: AppColors.success, size: 18)
+            : isLoading
+            ? SizedBox(
+              width: 18,
+              height: 18,
+              child: CircularProgressIndicator(
+                strokeWidth: 2,
+                color: provider.type.color,
+              ),
+            )
+            : null;
 
     return [
       const Divider(indent: 56),
@@ -154,15 +170,8 @@ class ParentDashboardScreen extends ConsumerWidget {
         icon: provider.type.icon,
         title: provider.type.displayName,
         subtitle: subtitle,
-        trailing:
-            isAuthenticated && provider.auth.requiresAuth
-                ? const Icon(
-                  Icons.check_circle,
-                  color: AppColors.success,
-                  size: 18,
-                )
-                : null,
-        onTap: () => _onProviderTap(context, ref, provider),
+        trailing: trailing,
+        onTap: isLoading ? null : () => _onProviderTap(context, ref, provider),
       ),
     ];
   }
@@ -262,7 +271,7 @@ class _SettingsTile extends StatelessWidget {
   const _SettingsTile({
     required this.icon,
     required this.title,
-    required this.onTap,
+    this.onTap,
     this.subtitle,
     this.trailing,
     super.key,
@@ -272,7 +281,7 @@ class _SettingsTile extends StatelessWidget {
   final String title;
   final String? subtitle;
   final Widget? trailing;
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
