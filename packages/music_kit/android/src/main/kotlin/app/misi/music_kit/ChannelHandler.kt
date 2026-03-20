@@ -317,12 +317,8 @@ class ChannelHandler(
   @Keep
   fun setPlaybackTime(call: MethodCall, result: MethodChannel.Result) {
     val seconds = call.arguments as? Double ?: 0.0
-    if (playerController?.canSeek() == true) {
-      playerController?.seekToPosition((seconds * 1000).toLong())
-      result.success(null)
-    } else {
-      result.error("ERR_SEEK", "Seeking not available", null)
-    }
+    playerController?.seekToPosition((seconds * 1000).toLong())
+    result.success(null)
   }
 
   @Keep

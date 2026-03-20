@@ -157,7 +157,7 @@ class AppleMusicPlayer extends PlayerBackend {
         final seekTo = _pendingSeekMs!;
         _pendingSeekMs = null;
         Future.delayed(
-          const Duration(milliseconds: 500),
+          const Duration(seconds: 3),
           () => _seekMs(seekTo),
         );
       }
