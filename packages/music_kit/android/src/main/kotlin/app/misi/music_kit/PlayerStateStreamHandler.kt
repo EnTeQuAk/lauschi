@@ -104,7 +104,7 @@ class PlayerStateStreamHandler() :
 
   private fun updatePlaybackState(controller: MediaPlayerController) {
     val state = mapOf<String, Any>(
-      "playbackStatus" to nativeToDartPlaybackStatus(controller.playbackState),
+      "playbackStatus" to controller.playbackState,
       "playbackRate" to controller.playbackRate,
       "repeatMode" to controller.repeatMode,
       "shuffleMode" to controller.shuffleMode,
@@ -112,16 +112,4 @@ class PlayerStateStreamHandler() :
     eventSink?.success(state)
   }
 
-  companion object {
-    // Dart MusicPlayerPlaybackStatus enum indices:
-    //   0=stopped, 1=playing, 2=paused, 3=interrupted
-    // Native PlaybackState constants:
-    //   0=unknown/initial, 1=STOPPED, 2=PLAYING, 3=PAUSED
-    fun nativeToDartPlaybackStatus(native: Int): Int = when (native) {
-      PlaybackState.STOPPED -> 0  // stopped
-      PlaybackState.PLAYING -> 1  // playing
-      PlaybackState.PAUSED -> 2   // paused
-      else -> 0                   // unknown -> stopped
-    }
-  }
 }
