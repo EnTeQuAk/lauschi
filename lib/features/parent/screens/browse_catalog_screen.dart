@@ -1304,11 +1304,15 @@ class _CatalogSeriesDetailScreenState
 
     setState(() => _isAdding = true);
 
-    final api = ref.read(spotifySessionProvider.notifier).api;
-    if (!api.hasToken) {
+    final source = _resolveSourceWidget(ref, widget.provider.value);
+    if (source == null) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Spotify nicht verbunden')),
+          SnackBar(
+            content: Text(
+              '${widget.provider.displayName} nicht verbunden',
+            ),
+          ),
         );
         setState(() => _isAdding = false);
       }
@@ -1338,44 +1342,44 @@ class _CatalogSeriesDetailScreenState
     try {
       final albumIds = _selected.toList();
       final total = albumIds.length;
+      final providerAlbums = series.albumsForProvider(widget.provider);
 
-      // Spotify allows max 20 IDs per request — batch in chunks.
-      final albums = <SpotifyAlbum>[];
-      for (var i = 0; i < albumIds.length; i += 20) {
-        final chunk = albumIds.sublist(
-          i,
-          (i + 20).clamp(0, albumIds.length),
-        );
-        albums.addAll(await api.getAlbums(chunk));
-        progressNotifier.value = (albums.length, total);
-      }
+      // Fetch cover URLs for all selected albums.
+      final covers = await source.getAlbumCovers(albumIds);
+      progressNotifier.value = (total, total);
 
       statusNotifier.value = 'Speichere ${series.title}…';
 
       final cards = <PendingCard>[];
-      for (final album in albums) {
+      for (final albumId in albumIds) {
         final catalogAlbum =
-            series.albums.where((a) => a.id == album.id).firstOrNull;
+            providerAlbums.where((a) => a.id == albumId).firstOrNull;
+        if (catalogAlbum == null) continue;
 
         cards.add(
           PendingCard(
-            title: album.name,
-            providerUri: album.uri,
+            title: catalogAlbum.title,
+            providerUri: catalogAlbum.uri,
             cardType: 'album',
-            provider: ProviderType.spotify,
-            coverUrl: album.imageUrl,
-            episodeNumber: catalogAlbum?.episode,
-            spotifyArtistIds: album.artistIds,
-            totalTracks: album.totalTracks,
+            provider: widget.provider,
+            coverUrl: covers[albumId],
+            episodeNumber: catalogAlbum.episode,
+            // Artist IDs only available for Spotify (from API response).
+            // Apple Music uses artist IDs from series.yaml for matching.
+            spotifyArtistIds:
+                widget.provider == ProviderType.spotify
+                    ? series.spotifyArtistIds
+                    : const [],
+            // totalTracks fetched on playback, not needed for import.
           ),
         );
       }
 
       final importer = ref.read(contentImporterProvider.notifier);
-      final firstAlbum = albums.isNotEmpty ? albums.first : null;
+      final firstCoverUrl = covers.values.firstOrNull;
       final result = await importer.importToGroup(
         groupTitle: series.title,
-        groupCoverUrl: firstAlbum?.imageUrl,
+        groupCoverUrl: firstCoverUrl,
         cards: cards,
         tileId: widget.autoAssignTileId,
       );
@@ -2670,20 +2674,46 @@ final _seriesCoverMapProvider = FutureProvider.autoDispose
     );
 
 /// Resolve a CatalogSource from a provider value string.
-CatalogSource? _resolveSource(Ref ref, String providerValue) {
+/// Build a CatalogSource from session state.
+///
+/// Pure function: takes the session objects directly so it works from
+/// both provider [Ref] and widget [WidgetRef] call sites.
+CatalogSource? _buildSource(
+  String providerValue,
+  SpotifySessionState spotifyState,
+  SpotifySession spotifySession,
+  AppleMusicState appleMusicState,
+  AppleMusicSession appleMusicSession,
+) {
   if (providerValue == ProviderType.spotify.value) {
-    final session = ref.read(spotifySessionProvider);
-    if (session is! SpotifyAuthenticated) return null;
-    return SpotifyCatalogSource(
-      ref.read(spotifySessionProvider.notifier).api,
-    );
+    if (spotifyState is! SpotifyAuthenticated) return null;
+    return SpotifyCatalogSource(spotifySession.api);
   }
   if (providerValue == ProviderType.appleMusic.value) {
-    final session = ref.read(appleMusicSessionProvider);
-    if (session is! AppleMusicAuthenticated) return null;
-    return AppleMusicCatalogSource(
-      ref.read(appleMusicSessionProvider.notifier).api,
-    );
+    if (appleMusicState is! AppleMusicAuthenticated) return null;
+    return AppleMusicCatalogSource(appleMusicSession.api);
   }
   return null;
+}
+
+/// Resolve a CatalogSource from a provider value string via Ref.
+CatalogSource? _resolveSource(Ref ref, String providerValue) {
+  return _buildSource(
+    providerValue,
+    ref.read(spotifySessionProvider),
+    ref.read(spotifySessionProvider.notifier),
+    ref.read(appleMusicSessionProvider),
+    ref.read(appleMusicSessionProvider.notifier),
+  );
+}
+
+/// Resolve a CatalogSource from a provider value string via WidgetRef.
+CatalogSource? _resolveSourceWidget(WidgetRef ref, String providerValue) {
+  return _buildSource(
+    providerValue,
+    ref.read(spotifySessionProvider),
+    ref.read(spotifySessionProvider.notifier),
+    ref.read(appleMusicSessionProvider),
+    ref.read(appleMusicSessionProvider.notifier),
+  );
 }
