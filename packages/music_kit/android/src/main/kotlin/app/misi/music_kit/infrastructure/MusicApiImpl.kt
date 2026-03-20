@@ -3,6 +3,7 @@ package app.misi.music_kit.infrastructure
 import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.request.*
+import io.ktor.client.statement.bodyAsText
 import io.ktor.http.*
 
 class MusicApiImpl(
@@ -14,13 +15,17 @@ class MusicApiImpl(
   }
 
   override suspend fun getStorefrontId(developerToken: String, musicUserToken: String): String {
-    val storefronts = client.get(USER_STOREFRONT) {
+    val response = client.get(USER_STOREFRONT) {
       headers {
         append(HttpHeaders.Authorization, "Bearer $developerToken")
         append("Music-User-Token", musicUserToken)
       }
-    }.body<Storefronts>()
+    }
+    if (response.status.isSuccess()) {
+      val storefronts = response.body<Storefronts>()
 
-    return storefronts.data.first().id
+      return storefronts.data.first().id
+    }
+    throw RuntimeException("Could not get user storefront: ${response.bodyAsText()}")
   }
 }

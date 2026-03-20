@@ -72,10 +72,10 @@ class _MyAppState extends State<MyApp> {
     final status = await _musicKitPlugin.authorizationStatus;
 
     switch (status) {
-      case MusicAuthorizationStatusInitial() ||
-          MusicAuthorizationStatusDenied() ||
+      case MusicAuthorizationStatusDenied() ||
           MusicAuthorizationStatusNotDetermined() ||
-          MusicAuthorizationStatusRestricted():
+          MusicAuthorizationStatusRestricted() ||
+          MusicAuthorizationStatusExpired:
         return;
       case MusicAuthorizationStatusAuthorized():
         {}

@@ -1,10 +1,12 @@
 package app.misi.music_kit
 
 import android.content.Context
+import android.content.pm.PackageManager
 import android.util.Log
 import androidx.annotation.Keep
 import app.misi.music_kit.AuthActivityResultHandler.Companion.ERR_REQUEST_USER_TOKEN
 import app.misi.music_kit.infrastructure.UserStorefrontRepository
+import app.misi.music_kit.util.AppleDeveloperToken
 import app.misi.music_kit.util.AppleMusicTokenProvider
 import app.misi.music_kit.util.Constant.LOG_TAG
 import com.apple.android.music.playback.controller.MediaPlayerController
@@ -31,7 +33,13 @@ class ChannelHandler(
     const val MUSIC_PLAYER_QUEUE_EVENT_CHANNEL_NAME = "plugins.misi.app/music_kit/player_queue"
 
     const val PARAM_DEVELOPER_TOKEN_KEY = "developerToken"
-    const val PARAM_MUSIC_USER_TOKEN_KEY = "musicUserToken"
+
+    const val PREFERENCES_FILE_KEY = "plugins.misi.app_music_kit_preferences"
+    const val PREFERENCES_KEY_MUSIC_USER_TOKEN = "musicUserToken"
+
+    const val METADATA_KEY_TEAMID = "music_kit.teamId"
+    const val METADATA_KEY_KEYID = "music_kit.keyId"
+    const val METADATA_KEY_KEY = "music_kit.key"
 
     const val ERR_NOT_INITIALIZED = "ERR_NOT_INITIALIZED"
   }
@@ -39,25 +47,52 @@ class ChannelHandler(
   private var methodChannel: MethodChannel? = null
   private var playerStateEventChannel: EventChannel? = null
   private var playerQueueEventChannel: EventChannel? = null
+  private var playerQueueStreamHandler: PlayerQueueStreamHandler? = null
+  private var playerStateStreamHandler: PlayerStateStreamHandler? = null
+
 
   private lateinit var developerToken: String
+  private var storefrontId: String = "de" // default for DACH, updated async
+
   private var musicUserToken: String? = null
     set(value) {
       field = value
+      persistUserToken(value)
       createPlayerControllerIfSatisfied(value)
+      fetchStorefrontAsync(value)
     }
 
-  private var storefrontId: String? = null
-
   private var playerController: MediaPlayerController? = null
-  private var currentItemDurationMs: Long = 0L
 
   private val coroutineScope = CoroutineScope(Dispatchers.IO)
+
+  init {
+    val appInfo = applicationContext.packageManager
+      .getApplicationInfo(applicationContext.packageName, PackageManager.GET_META_DATA)
+    val teamId = appInfo.metaData.getString(METADATA_KEY_TEAMID)!!
+    val keyId = appInfo.metaData.getString(METADATA_KEY_KEYID)!!
+    val key = appInfo.metaData.getString(METADATA_KEY_KEY)!!
+
+    Log.d(LOG_TAG,"init teamId: $teamId keyId: $keyId")
+
+    val apiToken = AppleDeveloperToken(key, keyId, teamId)
+    developerToken = apiToken.toString()
+
+    val token = applicationContext.getSharedPreferences(PREFERENCES_FILE_KEY, Context.MODE_PRIVATE)?.getString(
+      PREFERENCES_KEY_MUSIC_USER_TOKEN, null)
+    if (!token.isNullOrBlank()) {
+      musicUserToken = token
+    }
+
+    Log.d(LOG_TAG, "init developerToken: ${developerToken.length} musicUserToken: ${musicUserToken?.length ?: 0}")
+  }
 
   fun startListening(messenger: BinaryMessenger) {
     if (methodChannel != null
       || playerStateEventChannel != null
       || playerQueueEventChannel != null
+      || playerStateStreamHandler != null
+      || playerQueueStreamHandler != null
     ) {
       stopListening()
     }
@@ -66,12 +101,17 @@ class ChannelHandler(
       setMethodCallHandler(this@ChannelHandler)
     }
 
+    playerStateStreamHandler = PlayerStateStreamHandler()
     playerStateEventChannel = EventChannel(messenger, MUSIC_PLAYER_STATE_EVENT_CHANNEL_NAME)
+    playerStateEventChannel?.setStreamHandler(playerStateStreamHandler)
+
+    playerQueueStreamHandler = PlayerQueueStreamHandler()
     playerQueueEventChannel = EventChannel(messenger, MUSIC_PLAYER_QUEUE_EVENT_CHANNEL_NAME)
+    playerQueueEventChannel?.setStreamHandler(playerQueueStreamHandler)
 
     if (playerController != null) {
-      playerStateEventChannel?.setStreamHandler(PlayerStateStreamHandler(playerController))
-      playerQueueEventChannel?.setStreamHandler(PlayerQueueStreamHandler(playerController))
+      playerStateStreamHandler!!.setPlayerController(playerController!!)
+      playerQueueStreamHandler!!.setPlayerController(playerController!!)
     }
   }
 
@@ -81,11 +121,14 @@ class ChannelHandler(
 
     playerStateEventChannel?.setStreamHandler(null)
     playerStateEventChannel = null
+    playerStateStreamHandler = null
 
     playerQueueEventChannel?.setStreamHandler(null)
     playerQueueEventChannel = null
+    playerQueueStreamHandler = null
 
     playerController?.release()
+    playerController = null
   }
 
   fun cleanUp() {
@@ -98,33 +141,37 @@ class ChannelHandler(
         applicationContext,
         AppleMusicTokenProvider(developerToken, musicUserToken)
       )
-      playerStateEventChannel?.setStreamHandler(PlayerStateStreamHandler(playerController))
-      playerQueueEventChannel?.setStreamHandler(PlayerQueueStreamHandler(playerController))
+      playerStateStreamHandler?.setPlayerController(playerController!!)
+      playerQueueStreamHandler?.setPlayerController(playerController!!)
+      Log.d(LOG_TAG, "MediaPlayerController created")
+    }
+  }
 
-      // Track current item duration for the currentItemDuration method.
-      playerController?.addListener(object : MediaPlayerController.Listener {
-        override fun onPlayerStateRestored(p0: MediaPlayerController) {}
-        override fun onPlaybackStateChanged(p0: MediaPlayerController, p1: Int, p2: Int) {}
-        override fun onPlaybackStateUpdated(p0: MediaPlayerController) {}
-        override fun onBufferingStateChanged(p0: MediaPlayerController, p1: Boolean) {}
-        override fun onCurrentItemChanged(
-          p0: MediaPlayerController,
-          previousItem: PlayerQueueItem?,
-          currentItem: PlayerQueueItem?
-        ) {
-          currentItemDurationMs = currentItem?.item?.duration ?: 0L
-          Log.d(LOG_TAG, "Duration updated: ${currentItemDurationMs}ms")
-        }
-        override fun onItemEnded(p0: MediaPlayerController, p1: PlayerQueueItem, p2: Long) {}
-        override fun onMetadataUpdated(p0: MediaPlayerController, p1: PlayerQueueItem) {
-          currentItemDurationMs = p1.item.duration
-        }
-        override fun onPlaybackQueueChanged(p0: MediaPlayerController, p1: MutableList<PlayerQueueItem>) {}
-        override fun onPlaybackQueueItemsAdded(p0: MediaPlayerController, p1: Int, p2: Int, p3: Int) {}
-        override fun onPlaybackError(p0: MediaPlayerController, p1: MediaPlayerException) {}
-        override fun onPlaybackRepeatModeChanged(p0: MediaPlayerController, p1: Int) {}
-        override fun onPlaybackShuffleModeChanged(p0: MediaPlayerController, p1: Int) {}
-      })
+  private fun fetchStorefrontAsync(musicUserToken: String?) {
+    if (musicUserToken.isNullOrBlank()) return
+    coroutineScope.launch {
+      try {
+        val repo = UserStorefrontRepository()
+        val response = repo.getStorefrontId(developerToken, musicUserToken)
+        response.fold(
+          { storefrontId = it; Log.d(LOG_TAG, "Storefront resolved: $it") },
+          { Log.w(LOG_TAG, "Storefront fetch failed, using default: $storefrontId") },
+        )
+      } catch (e: Exception) {
+        Log.w(LOG_TAG, "Storefront fetch error: ${e.message}")
+      }
+    }
+  }
+
+  private fun persistUserToken(musicUserToken: String?) {
+    if (!musicUserToken.isNullOrBlank()) {
+      val sharedPref = applicationContext.getSharedPreferences(
+        PREFERENCES_FILE_KEY, Context.MODE_PRIVATE
+      )
+      with(sharedPref!!.edit()) {
+        putString(PREFERENCES_KEY_MUSIC_USER_TOKEN, musicUserToken)
+        apply()
+      }
     }
   }
 
@@ -162,16 +209,6 @@ class ChannelHandler(
   }
 
   @Keep
-  fun initialize(call: MethodCall, result: MethodChannel.Result) {
-    developerToken = call.argument<String>(PARAM_DEVELOPER_TOKEN_KEY)!!
-    musicUserToken = call.argument<String>(PARAM_MUSIC_USER_TOKEN_KEY)
-
-    Log.d(LOG_TAG, "initialize() developerToken: ${developerToken.length} musicUserToken: ${musicUserToken?.length ?: 0}")
-
-    result.success(null)
-  }
-
-  @Keep
   @Suppress("unused", "UNUSED_PARAMETER")
   fun authorizationStatus(call: MethodCall, result: MethodChannel.Result) {
     if (!musicUserToken.isNullOrBlank()) {
@@ -202,7 +239,7 @@ class ChannelHandler(
     if (!this::developerToken.isInitialized) {
       result.error(
         ERR_NOT_INITIALIZED,
-        "Must call initialize() before using MusicKit in Android",
+        "developer token not initialized - make sure teamId, keyId and key are configured correctly in android",
         mapOf("developerToken" to developerToken, "musicUserToken" to musicUserToken)
       )
       return
@@ -259,42 +296,15 @@ class ChannelHandler(
   @Keep
   @Suppress("unused", "UNUSED_PARAMETER")
   fun currentCountryCode(call: MethodCall, result: MethodChannel.Result) {
-    if (!storefrontId.isNullOrBlank()) {
-      result.success(storefrontId!!)
-      return
-    }
-
-    if (musicUserToken.isNullOrBlank()) {
-      result.error("ERROR_FETCHING_STOREFRONT", "No valid musicUserToken provided", null)
-      return
-    }
-
-    val storefrontRepo = UserStorefrontRepository()
-
-    coroutineScope.launch {
-      val response = storefrontRepo.getStorefrontId(developerToken, musicUserToken!!)
-      response.fold(
-        {
-          storefrontId = it
-          result.success(storefrontId)
-        },
-        { result.error("ERROR_FETCHING_STOREFRONT", it.message, null) }
-      )
-    }
+    // Returns the resolved storefront or "de" default. Never blocks.
+    result.success(storefrontId)
   }
+
 
   @Keep
   @Suppress("unused", "UNUSED_PARAMETER")
   fun isPreparedToPlay(call: MethodCall, result: MethodChannel.Result) {
     result.success(playerController != null)
-  }
-
-  @Keep
-  @Suppress("unused", "UNUSED_PARAMETER")
-  fun currentItemDuration(call: MethodCall, result: MethodChannel.Result) {
-    // Duration comes from the current queue item's metadata.
-    val durationMs = currentItemDurationMs
-    result.success(durationMs / 1000.0)
   }
 
   @Keep
@@ -307,18 +317,31 @@ class ChannelHandler(
   @Keep
   fun setPlaybackTime(call: MethodCall, result: MethodChannel.Result) {
     val seconds = call.arguments as? Double ?: 0.0
-    playerController?.seekToPosition((seconds * 1000).toLong())
-    result.success(null)
+    if (playerController?.canSeek() == true) {
+      playerController?.seekToPosition((seconds * 1000).toLong())
+      result.success(null)
+    } else {
+      result.error("ERR_SEEK", "Seeking not available", null)
+    }
+  }
+
+  @Keep
+  @Suppress("unused", "UNUSED_PARAMETER")
+  fun currentItemDuration(call: MethodCall, result: MethodChannel.Result) {
+    // Use the official getDuration() API instead of tracking via listener.
+    val durationMs = playerController?.duration ?: 0L
+    result.success(durationMs / 1000.0)
   }
 
   @Keep
   @Suppress("unused", "UNUSED_PARAMETER")
   fun musicPlayerState(call: MethodCall, result: MethodChannel.Result) {
-    // Apple's native PlaybackState is 1-based, Dart enum is 0-based.
+    // Native PlaybackState is 1-based (STOPPED=1, PLAYING=2, PAUSED=3).
+    // Dart MusicPlayerPlaybackStatus enum is 0-based. Subtract 1.
     val nativeState = playerController?.playbackState ?: PlaybackState.STOPPED
-    val dartPlaybackStatus = (nativeState - 1).coerceIn(0, 5)
+    val dartStatus = (nativeState - 1).coerceIn(0, 5)
     val state = mapOf<String, Any>(
-      "playbackStatus" to dartPlaybackStatus,
+      "playbackStatus" to dartStatus,
       "playbackRate" to ((playerController?.playbackRate ?: 1.0).toString().toDouble()),
       "repeatMode" to (playerController?.repeatMode ?: PlaybackRepeatMode.REPEAT_MODE_OFF),
       "shuffleMode" to (playerController?.shuffleMode ?: PlaybackShuffleMode.SHUFFLE_MODE_OFF),

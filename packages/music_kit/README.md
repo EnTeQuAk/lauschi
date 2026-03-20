@@ -1,12 +1,15 @@
 # Music Kit
+<?code-excerpt path-base="example/lib"?>
 
-A Flutter plugin to access and play Apple Music.
+[![pub package](https://img.shields.io/pub/v/music_kit.svg)](https://pub.dev/packages/music_kit)
 
-## Platform Support
+A Flutter plugin to access and play Apple Music. Supports Android, iOS and macOS.
+Not all methods are supported on all platforms.
 
-| Android | iOS | MacOS | Web | Linux | Windows |
-| :-----: | :-: | :---: | :-: | :---: | :-----: |
-|   ✔️    | ✔️  |   ✗   |  ✗  |   ✗   |    ✗    |
+|             | Android | iOS   | macOS |
+|-------------|---------|-------|-------|
+| **Support** | SDK 21+ | 15.0+ | 14.0+ |
+
 
 ## Usage
 
@@ -23,8 +26,18 @@ repositories {
 }
 ```
 
-2. Call `initialize(developerToken, musicUserToken: [userToken])` method manually
-   before using the MusicKit instance.
+2. Add your apple developer teamId, keyId and base64-encoded key to your `AndroidManifest.xml`
+
+```xml
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <application>
+      ...
+       <meta-data android:name="music_kit.teamId" android:value="<TEAM_ID>" />
+       <meta-data android:name="music_kit.keyId"  android:value="<KEY_ID>" />
+       <meta-data android:name="music_kit.key"    android:value="<BASE64_ENCODED_KEY>" />
+    </application>
+</manifest>
+```
 
 ### Example
 

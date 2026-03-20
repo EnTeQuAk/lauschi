@@ -55,7 +55,7 @@ jobs:
           ENABLE_SPOTIFY=true
           SPOTIFY_CLIENT_ID=${{ secrets.SPOTIFY_CLIENT_ID }}
           ENABLE_APPLE_MUSIC=false
-          APPLE_MUSIC_DEVELOPER_TOKEN=unused
+          # Apple Music uses on-device JWT from .p8 key in AndroidManifest
           ENABLE_SENTRY=true
           SENTRY_DSN=${{ secrets.SENTRY_DSN }}
           SENTRY_ENVIRONMENT=testing

@@ -6,29 +6,27 @@ import com.apple.android.music.playback.controller.MediaPlayerController
 import com.apple.android.music.playback.model.*
 import io.flutter.plugin.common.EventChannel
 
-class PlayerStateStreamHandler(private val playerController: MediaPlayerController?) :
+class PlayerStateStreamHandler() :
   EventChannel.StreamHandler {
   private var eventSink: EventChannel.EventSink? = null
 
-  @PlaybackState
-  private var playbackState: Int = playerController?.playbackState ?: PlaybackState.STOPPED
-  private var playbackRate: Double = (playerController?.playbackRate ?: 1.0).toString().toDouble()
+  private var playerController: MediaPlayerController? = null
 
-  @PlaybackRepeatMode
-  private var repeatMode = playerController?.repeatMode ?: PlaybackRepeatMode.REPEAT_MODE_OFF
+  fun setPlayerController(controller: MediaPlayerController) {
+    playerController?.removeListener(playerControllerListener)
+    controller.addListener(playerControllerListener)
+    playerController = controller
 
-  @PlaybackShuffleMode
-  private var shuffleMode = playerController?.shuffleMode ?: PlaybackShuffleMode.SHUFFLE_MODE_OFF
+    updatePlaybackState(controller)
+  }
+
 
   override fun onListen(arguments: Any?, events: EventChannel.EventSink?) {
     eventSink = events
-    playerController?.addListener(playerControllerListener)
-    updatePlaybackState()
   }
 
   override fun onCancel(arguments: Any?) {
     eventSink = null
-    playerController?.removeListener(playerControllerListener)
   }
 
   private val playerControllerListener = object : MediaPlayerController.Listener {
@@ -45,8 +43,7 @@ class PlayerStateStreamHandler(private val playerController: MediaPlayerControll
         LOG_TAG,
         "State Handler onPlaybackStateChanged() prevState: $previousState currentState: $currentState"
       )
-      playbackState = currentState
-      updatePlaybackState()
+      updatePlaybackState(p0)
     }
 
     override fun onPlaybackStateUpdated(p0: MediaPlayerController) {
@@ -55,10 +52,7 @@ class PlayerStateStreamHandler(private val playerController: MediaPlayerControll
 
     override fun onBufferingStateChanged(p0: MediaPlayerController, p1: Boolean) {
       Log.d(LOG_TAG, "State Handler onBufferingStateChanged() buffering: $p1")
-      if (playerController?.playbackState != null) {
-        playbackState = playerController.playbackState
-        updatePlaybackState()
-      }
+      updatePlaybackState(p0)
     }
 
     override fun onCurrentItemChanged(
@@ -70,10 +64,7 @@ class PlayerStateStreamHandler(private val playerController: MediaPlayerControll
         LOG_TAG,
         "State Handler onCurrentItemChanged() prevItem: ${previousItem?.playbackQueueId} currentItem: ${currentItem?.playbackQueueId}"
       )
-      if (playerController?.playbackState != null) {
-        playbackState = playerController.playbackState
-        updatePlaybackState()
-      }
+      updatePlaybackState(p0)
     }
 
     override fun onItemEnded(p0: MediaPlayerController, p1: PlayerQueueItem, p2: Long) {
@@ -99,7 +90,7 @@ class PlayerStateStreamHandler(private val playerController: MediaPlayerControll
     }
 
     override fun onPlaybackError(p0: MediaPlayerController, p1: MediaPlayerException) {
-      Log.d(LOG_TAG, "State Handler onPlaybackError() error(${p1.errorCode}): ${p1.message}")
+      Log.d(LOG_TAG, "State Handler TEST onPlaybackError() error(${p1.errorCode}): ${p1.message}", p1)
     }
 
     override fun onPlaybackRepeatModeChanged(p0: MediaPlayerController, p1: Int) {
@@ -111,16 +102,14 @@ class PlayerStateStreamHandler(private val playerController: MediaPlayerControll
     }
   }
 
-  private fun updatePlaybackState() {
-    // Apple's native PlaybackState constants are 1-based (STOPPED=1,
-    // PLAYING=2, PAUSED=3) but the Dart enum is 0-based (stopped=0,
-    // playing=1, paused=2). Subtract 1 to align.
-    val dartPlaybackStatus = (playbackState - 1).coerceIn(0, 5)
+  private fun updatePlaybackState(controller: MediaPlayerController) {
+    // Native PlaybackState is 1-based, Dart enum is 0-based.
+    val dartStatus = (controller.playbackState - 1).coerceIn(0, 5)
     val state = mapOf<String, Any>(
-      "playbackStatus" to dartPlaybackStatus,
-      "playbackRate" to playbackRate,
-      "repeatMode" to repeatMode,
-      "shuffleMode" to shuffleMode,
+      "playbackStatus" to dartStatus,
+      "playbackRate" to controller.playbackRate,
+      "repeatMode" to controller.repeatMode,
+      "shuffleMode" to controller.shuffleMode,
     )
     eventSink?.success(state)
   }

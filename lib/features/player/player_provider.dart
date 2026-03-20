@@ -17,7 +17,6 @@ import 'package:lauschi/features/player/player_state.dart';
 import 'package:lauschi/features/player/spotify_player.dart';
 import 'package:lauschi/features/player/spotify_webview_bridge.dart';
 import 'package:lauschi/features/player/stream_player.dart';
-// music_kit used transitively via AppleMusicSession.
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
 
@@ -666,21 +665,18 @@ class PlayerNotifier extends _$PlayerNotifier {
   // ─── AppleMusicPlayer startup ─────────────────────────────────────
 
   Future<void> _startAppleMusic(db.TileItem card, int gen) async {
+    final amSession = ref.read(appleMusicSessionProvider.notifier);
+
     Log.info(
       _tag,
       'Starting AppleMusicPlayer gen=$gen',
       data: {'card': card.title},
     );
 
-    // Wait for the Apple Music session to authenticate and the native
-    // MediaPlayerController to be ready. On cold start the session's
-    // _init() runs asynchronously, so the user may tap play before
-    // it completes.
-    final amSession = ref.read(appleMusicSessionProvider.notifier);
-    final ready = await _waitForAppleMusicReady(amSession, gen);
-    if (!ready || _playGen != gen) return;
-
-    final musicKit = amSession.musicKit;
+    // Wait for session auth + native controller. On cold start the
+    // session's _init() is async, so the user may tap play before it
+    // completes. Same pattern as Spotify's _ensureDevice().
+    if (!await _ensureAppleMusicReady(amSession, gen)) return;
 
     final trackInfo = TrackInfo(
       uri: card.providerUri,
@@ -689,7 +685,7 @@ class PlayerNotifier extends _$PlayerNotifier {
     );
 
     final albumId = card.providerUri.replaceFirst('apple_music:album:', '');
-    final player = AppleMusicPlayer(musicKit);
+    final player = AppleMusicPlayer(amSession.musicKit);
 
     if (_playGen != gen) return;
 
@@ -714,26 +710,23 @@ class PlayerNotifier extends _$PlayerNotifier {
     );
   }
 
-  /// Wait for the Apple Music session to authenticate and the native
-  /// controller to be ready (max 10s).
-  ///
-  /// On cold start, the session's _init() is async (unawaited), so
-  /// auth may still be in progress when the user taps play. This
-  /// polls until both conditions are met, following the same pattern
-  /// as Spotify's _ensureDevice().
-  Future<bool> _waitForAppleMusicReady(
+  /// Wait for Apple Music session auth and native controller (max 10s).
+  Future<bool> _ensureAppleMusicReady(
     AppleMusicSession session,
     int gen,
   ) async {
+    // Fast path: already ready.
+    if (session.isAuthenticated) {
+      if (await session.musicKit.isPreparedToPlay) return true;
+    }
+
+    // Poll: session init is async on cold start.
     for (var i = 0; i < 50; i++) {
       if (_playGen != gen) return false;
-
-      if (session.isAuthenticated) {
-        final controllerReady = await session.musicKit.isPreparedToPlay;
-        if (controllerReady) return true;
-      }
-
       await Future<void>.delayed(const Duration(milliseconds: 200));
+      if (session.isAuthenticated) {
+        if (await session.musicKit.isPreparedToPlay) return true;
+      }
     }
 
     Log.error(

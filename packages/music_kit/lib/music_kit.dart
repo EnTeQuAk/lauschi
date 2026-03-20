@@ -5,7 +5,6 @@ export 'package:music_kit_platform_interface/music_kit_platform_interface.dart'
     show
         //
         MusicAuthorizationStatus,
-        MusicAuthorizationStatusInitial,
         MusicAuthorizationStatusAuthorized,
         MusicAuthorizationStatusDenied,
         MusicAuthorizationStatusNotDetermined,
@@ -20,6 +19,13 @@ export 'package:music_kit_platform_interface/music_kit_platform_interface.dart'
         MusicPlayerRepeatMode,
         MusicPlayerShuffleMode;
 
+/// Flutter interface to Apple MusicKit.
+///
+/// On Android, credentials are read from AndroidManifest metadata
+/// (music_kit.teamId, music_kit.keyId, music_kit.key). The plugin
+/// generates the developer JWT on-device.
+///
+/// On iOS, MusicKit uses the app's MusicKit capability.
 class MusicKit {
   factory MusicKit() {
     _singleton ??= MusicKit._();
@@ -30,12 +36,12 @@ class MusicKit {
 
   static MusicKit? _singleton;
 
-  static MusicKitPlatform get _platform {
-    return MusicKitPlatform.instance;
-  }
+  static MusicKitPlatform get _platform => MusicKitPlatform.instance;
 
-  Future<void> initialize(String developerToken, {String? musicUserToken}) =>
-      _platform.initialize(developerToken, musicUserToken: musicUserToken);
+  // Direct method channel for methods not yet in the platform interface.
+  static const _channel = MethodChannel('plugins.misi.app/music_kit');
+
+  // ── Auth ───────────────────────────────────────────────────────────
 
   Future<MusicAuthorizationStatus> requestAuthorizationStatus({
     String? startScreenMessage,
@@ -61,19 +67,17 @@ class MusicKit {
   Stream<MusicSubscription> get onSubscriptionUpdated =>
       _platform.onSubscriptionUpdated;
 
-  // Direct method channel for methods not in the platform interface.
-  static const _channel = MethodChannel('plugins.misi.app/music_kit');
+  // ── Player ─────────────────────────────────────────────────────────
 
-  // player
   Future<bool> get isPreparedToPlay => _platform.isPreparedToPlay;
 
+  /// Current playback position in seconds.
   Future<double> get playbackTime => _platform.playbackTime;
 
-  /// Set playback position in seconds.
-  Future<void> setPlaybackTime(double seconds) =>
-      _channel.invokeMethod<void>('setPlaybackTime', seconds);
+  /// Set playback position in seconds (seek).
+  Future<void> setPlaybackTime(double time) => _platform.setPlaybackTime(time);
 
-  /// Get the duration of the current item in seconds.
+  /// Duration of the current item in seconds.
   Future<double> get currentItemDuration async {
     final resp = await _channel.invokeMethod<double>('currentItemDuration');
     return resp ?? 0;
@@ -84,25 +88,15 @@ class MusicKit {
   Stream<MusicPlayerState> get onMusicPlayerStateChanged =>
       _platform.onMusicPlayerStateChanged;
 
-  Future<void> beginSeekingBackward() => _platform.beginSeekingBackward();
-
-  Future<void> beginSeekingForward() => _platform.beginSeekingForward();
-
-  Future<void> endSeeking() => _platform.endSeeking();
-
   Future<void> pause() => _platform.pause();
 
   Future<void> play() => _platform.play();
 
-  Future<void> prepareToPlay() => _platform.prepareToPlay();
-
-  Future<void> restartCurrentEntry() => _platform.restartCurrentEntry();
+  Future<void> stop() => _platform.stop();
 
   Future<void> skipToNextEntry() => _platform.skipToNextEntry();
 
   Future<void> skipToPreviousEntry() => _platform.skipToPreviousEntry();
-
-  Future<void> stop() => _platform.stop();
 
   Future<void> setQueue(String type, {required ResourceObject item}) =>
       _platform.setQueue(type, item: item);

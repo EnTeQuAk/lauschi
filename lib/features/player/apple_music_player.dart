@@ -11,16 +11,15 @@ const _tag = 'AppleMusicPlayer';
 
 /// Plays Apple Music content via the MusicKit SDK.
 ///
-/// Works on both iOS (native MusicKit framework) and Android (Apple's
-/// MusicKit Android SDK). User needs an Apple Music subscription.
+/// On Android, the forked music_kit plugin (packages/music_kit) provides:
+/// - playbackTime (position tracking)
+/// - setPlaybackTime (seek)
+/// - currentItemDuration (duration)
+/// - Correct playback state mapping (off-by-one fix)
 class AppleMusicPlayer extends PlayerBackend {
   AppleMusicPlayer(this._musicKit);
 
   final MusicKit _musicKit;
-  final _stateController = StreamController<PlaybackState>.broadcast();
-
-  StreamSubscription<MusicPlayerState>? _playerStateSub;
-  StreamSubscription<MusicPlayerQueue>? _queueSub;
 
   TrackInfo? _currentTrack;
   int _positionMs = 0;
@@ -29,9 +28,13 @@ class AppleMusicPlayer extends PlayerBackend {
   int _trackIndex = 0;
   int _trackCount = 0;
 
-  /// Poll timer for playback position. MusicKit doesn't stream position
-  /// updates like just_audio; we poll `playbackTime` at ~1Hz.
   Timer? _positionTimer;
+  StreamSubscription<MusicPlayerState>? _playerStateSub;
+  StreamSubscription<MusicPlayerQueue>? _queueSub;
+  final _stateController = StreamController<PlaybackState>.broadcast();
+
+  @override
+  Stream<PlaybackState> get stateStream => _stateController.stream;
 
   @override
   int get currentPositionMs => _positionMs;
@@ -42,15 +45,6 @@ class AppleMusicPlayer extends PlayerBackend {
   @override
   bool get hasNextTrack => _trackIndex < _trackCount - 1;
 
-  @override
-  Stream<PlaybackState> get stateStream => _stateController.stream;
-
-  /// Play an Apple Music album (Hörspiel) by its catalog ID.
-  ///
-  /// [albumId] is the Apple Music catalog ID (e.g. "1440833098").
-  /// [trackInfo] provides metadata for the now-playing bar.
-  /// [trackIndex] starts playback at a specific track (0-based).
-  /// [positionMs] resumes from saved position within that track.
   Future<void> play({
     required String albumId,
     required TrackInfo trackInfo,
@@ -68,54 +62,66 @@ class AppleMusicPlayer extends PlayerBackend {
     try {
       _listenToState();
 
-      // Set the album as the playback queue.
       await _musicKit.setQueue(
         'albums',
         item: <String, dynamic>{'id': albumId},
       );
 
-      // Skip to the target track if not the first one.
       for (var i = 0; i < trackIndex; i++) {
         await _musicKit.skipToNextEntry();
       }
 
       await _musicKit.play();
 
-      // Seek within the track if resuming.
       if (positionMs > 0) {
-        // MusicKit uses seconds (double), not milliseconds.
-        // TODO(#230): verify seek-after-play timing on both platforms.
         await Future<void>.delayed(const Duration(milliseconds: 500));
-        await _seekSeconds(positionMs / 1000.0);
+        await _seekMs(positionMs);
       }
 
       _startPositionPolling();
     } on Exception catch (e) {
       Log.error(_tag, 'Play failed', exception: e);
-      _trackIndex = 0;
-      _currentTrack = null;
-      _isPlaying = false;
       _emitState(error: PlayerError.playbackFailed);
     }
+  }
+
+  @override
+  Future<void> resume() async {
+    await _musicKit.play();
+    _startPositionPolling();
   }
 
   @override
   Future<void> pause() async {
     Log.debug(_tag, 'pause');
     await _musicKit.pause();
+    _stopPositionPolling();
   }
 
   @override
-  Future<void> resume() async {
-    Log.debug(_tag, 'resume');
-    await _musicKit.play();
+  Future<void> stop() async {
+    await _musicKit.stop();
   }
 
   @override
-  Future<void> seek(int positionMs) async {
-    Log.debug(_tag, 'seek $positionMs');
-    await _seekSeconds(positionMs / 1000.0);
+  Future<void> dispose() async {
+    _stopPositionPolling();
+    await _playerStateSub?.cancel();
+    _playerStateSub = null;
+    await _queueSub?.cancel();
+    _queueSub = null;
+    try {
+      await _musicKit.stop();
+    } on Exception {
+      // Ignore stop errors during teardown.
+    }
+    if (!_stateController.isClosed) {
+      await _stateController.close();
+    }
   }
+
+  @override
+  Future<void> seek(int positionMs) => _seekMs(positionMs);
 
   @override
   Future<void> nextTrack() async {
@@ -129,22 +135,7 @@ class AppleMusicPlayer extends PlayerBackend {
     await _musicKit.skipToPreviousEntry();
   }
 
-  @override
-  Future<void> stop() async {
-    Log.debug(_tag, 'stop');
-    await _musicKit.stop();
-    _stopPositionPolling();
-  }
-
-  @override
-  Future<void> dispose() async {
-    Log.debug(_tag, 'dispose');
-    _stopPositionPolling();
-    await _playerStateSub?.cancel();
-    await _queueSub?.cancel();
-    await _musicKit.stop();
-    await _stateController.close();
-  }
+  // ── State listening ───────────────────────────────────────────────
 
   void _listenToState() {
     _playerStateSub = _musicKit.onMusicPlayerStateChanged.listen((mkState) {
@@ -159,7 +150,6 @@ class AppleMusicPlayer extends PlayerBackend {
         final idx = queue.entries.indexWhere((e) => e.id == current.id);
         if (idx >= 0) _trackIndex = idx;
 
-        // Update track info from queue metadata.
         _currentTrack = TrackInfo(
           uri: 'apple_music:track:${current.id}',
           name: current.title,
@@ -167,7 +157,7 @@ class AppleMusicPlayer extends PlayerBackend {
           artworkUrl: current.artwork?.url ?? _currentTrack?.artworkUrl,
         );
 
-        // Try to get duration from the queue entry's item metadata.
+        // Duration from queue entry metadata.
         final itemData = current.item;
         if (itemData != null) {
           final durationInMs = itemData['durationInMillis'] as int?;
@@ -179,6 +169,8 @@ class AppleMusicPlayer extends PlayerBackend {
       _emitState();
     });
   }
+
+  // ── Position polling ──────────────────────────────────────────────
 
   void _startPositionPolling() {
     _stopPositionPolling();
@@ -198,15 +190,16 @@ class AppleMusicPlayer extends PlayerBackend {
       final seconds = await _musicKit.playbackTime;
       _positionMs = (seconds * 1000).round();
 
-      // Also fetch duration if we don't have it yet.
       if (_durationMs == 0) {
         final duration = await _musicKit.currentItemDuration;
-        _durationMs = (duration * 1000).round();
+        if (duration > 0) {
+          _durationMs = (duration * 1000).round();
+        }
       }
 
       _emitState();
     } on MissingPluginException {
-      // Shouldn't happen with the forked plugin, but guard anyway.
+      // Shouldn't happen with the forked plugin.
       Log.warn(_tag, 'playbackTime not available, disabling polling');
       _stopPositionPolling();
     } on Exception catch (e) {
@@ -214,27 +207,31 @@ class AppleMusicPlayer extends PlayerBackend {
     }
   }
 
-  Future<void> _seekSeconds(double seconds) async {
+  // ── Seek ──────────────────────────────────────────────────────────
+
+  Future<void> _seekMs(int positionMs) async {
+    final seconds = positionMs / 1000.0;
     try {
       await _musicKit.setPlaybackTime(seconds);
-      _positionMs = (seconds * 1000).round();
+      _positionMs = positionMs;
       _emitState();
     } on Exception catch (e) {
       Log.warn(
         _tag,
         'Seek failed',
-        data: {'seconds': '$seconds', 'error': '$e'},
+        data: {'positionMs': '$positionMs', 'error': '$e'},
       );
     }
   }
 
+  // ── State emission ────────────────────────────────────────────────
+
   void _emitState({PlayerError? error}) {
     if (_stateController.isClosed) return;
-
     _stateController.add(
       PlaybackState(
-        isPlaying: _isPlaying,
         isReady: true,
+        isPlaying: _isPlaying,
         track: _currentTrack,
         positionMs: _positionMs,
         durationMs: _durationMs,

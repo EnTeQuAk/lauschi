@@ -762,10 +762,9 @@ packages:
   music_kit_platform_interface:
     dependency: transitive
     description:
-      name: music_kit_platform_interface
-      sha256: "3c8e982cb8eb5cc876fb3610c32e758e31bb25a179e77d2a81b44587f40f0f1e"
-      url: "https://pub.dev"
-    source: hosted
+      path: "packages/music_kit_platform_interface"
+      relative: true
+    source: path
     version: "1.2.0"
   native_toolchain_c:
     dependency: transitive

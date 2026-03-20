@@ -53,6 +53,12 @@
             <action android:name="android.intent.action.MEDIA_BUTTON" />
           </intent-filter>
         </receiver>
+        <!-- Apple MusicKit credentials for on-device JWT generation.
+             Values injected from build.gradle.kts manifest placeholders. -->
+        <meta-data android:name="music_kit.teamId" android:value="${musicKitTeamId}" />
+        <meta-data android:name="music_kit.keyId" android:value="${musicKitKeyId}" />
+        <meta-data android:name="music_kit.key" android:value="${musicKitKey}" />
+
         <!-- Don't delete the meta-data below.
              This is used by the Flutter tool to generate GeneratedPluginRegistrant.java -->
         <meta-data

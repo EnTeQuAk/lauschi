@@ -9,7 +9,7 @@ import com.apple.android.music.playback.model.PlayerMediaItem
 import com.apple.android.music.playback.model.PlayerQueueItem
 import io.flutter.plugin.common.EventChannel
 
-class PlayerQueueStreamHandler(private val playerController: MediaPlayerController?) :
+class PlayerQueueStreamHandler() :
   EventChannel.StreamHandler {
   companion object {
     fun convertQueueItem(it: PlayerQueueItem): Map<String, Any?> {
@@ -25,15 +25,21 @@ class PlayerQueueStreamHandler(private val playerController: MediaPlayerControll
   private var eventSink: EventChannel.EventSink? = null
   private var entries: List<Map<String, Any?>> = listOf()
   private var currentEntry: Map<String, Any?>? = null
+  private var playerController: MediaPlayerController? = null
+
+  fun setPlayerController(controller: MediaPlayerController) {
+    playerController?.removeListener(playerControllerListener)
+    controller.addListener(playerControllerListener)
+    playerController = controller
+  }
+
 
   override fun onListen(arguments: Any?, events: EventChannel.EventSink?) {
     eventSink = events
-    playerController?.addListener(playerControllerListener)
   }
 
   override fun onCancel(arguments: Any?) {
     eventSink = null
-    playerController?.removeListener(playerControllerListener)
   }
 
   private val playerControllerListener = object : MediaPlayerController.Listener {
@@ -93,7 +99,7 @@ class PlayerQueueStreamHandler(private val playerController: MediaPlayerControll
     }
 
     override fun onPlaybackError(p0: MediaPlayerController, p1: MediaPlayerException) {
-      Log.d(LOG_TAG, "Queue Handler onPlaybackError() error(${p1.errorCode}): ${p1.message}")
+      Log.d(LOG_TAG, "Queue Handler TEST onPlaybackError() error(${p1.errorCode}): ${p1.message}", p1)
     }
 
     override fun onPlaybackRepeatModeChanged(p0: MediaPlayerController, p1: Int) {

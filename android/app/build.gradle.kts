@@ -48,6 +48,22 @@ android {
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
+
+        // Apple Music key material for on-device JWT generation.
+        // The .p8 key file is gitignored; CI passes the content via env var.
+        val p8File = file("AuthKey_PWHK2R76T9.p8")
+        val appleKey = if (p8File.exists()) {
+            p8File.readText()
+                .replace("-----BEGIN PRIVATE KEY-----", "")
+                .replace("-----END PRIVATE KEY-----", "")
+                .replace("\n", "")
+                .trim()
+        } else {
+            System.getenv("APPLE_MUSIC_KEY") ?: ""
+        }
+        manifestPlaceholders["musicKitTeamId"] = "QDF8U52UF4"
+        manifestPlaceholders["musicKitKeyId"] = "PWHK2R76T9"
+        manifestPlaceholders["musicKitKey"] = appleKey
         testInstrumentationRunner = "pl.leancode.patrol.PatrolJUnitRunner"
         testInstrumentationRunnerArguments["clearPackageData"] = "true"
     }
