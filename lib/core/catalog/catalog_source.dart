@@ -97,4 +97,11 @@ abstract class CatalogSource {
     List<String> albumIds, {
     int size = 300,
   });
+
+  /// Cancel a pending cover request for an album.
+  ///
+  /// Called when a card scrolls off screen before its cover loaded.
+  /// Removes the ID from pending batches so it's not fetched.
+  /// No-op if the request already completed or isn't pending.
+  void cancelCover(String albumId) {}
 }

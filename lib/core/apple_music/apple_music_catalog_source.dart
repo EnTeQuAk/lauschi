@@ -53,6 +53,9 @@ class AppleMusicCatalogSource implements CatalogSource {
     return covers;
   }
 
+  @override
+  void cancelCover(String albumId) => _api.cancelCover(albumId);
+
   static CatalogAlbumResult _fromAppleMusic(AppleMusicAlbum album) {
     return CatalogAlbumResult(
       id: album.id,

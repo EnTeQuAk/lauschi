@@ -93,6 +93,9 @@ class AppleMusicApi {
   /// Collects IDs for 50ms, then fires one batched API call for all
   /// pending IDs. Returns null if the album has no artwork or the
   /// request fails.
+  ///
+  /// Call [cancelCover] to remove an ID from the pending batch before
+  /// the timer fires (e.g. when the card scrolls off screen).
   Future<String?> getAlbumCover(String albumId, {int size = 300}) {
     final existing = _pendingCoverIds[albumId];
     if (existing != null) return existing.future;
@@ -108,9 +111,25 @@ class AppleMusicApi {
     return completer.future;
   }
 
+  /// Remove an album from the pending cover batch.
+  ///
+  /// If the batch hasn't fired yet, the ID is removed so it won't be
+  /// included in the API call. If it's already in flight, this is a no-op
+  /// (the result is just ignored by the disposed provider).
+  void cancelCover(String albumId) {
+    final completer = _pendingCoverIds.remove(albumId);
+    if (completer != null && !completer.isCompleted) {
+      completer.complete(null);
+    }
+  }
+
   Future<void> _flushCoverBatch(int size) async {
     final batch = Map<String, Completer<String?>>.of(_pendingCoverIds);
     _pendingCoverIds.clear();
+    if (batch.isEmpty) return;
+
+    // Remove already-completed entries (cancelled while waiting for timer)
+    batch.removeWhere((_, c) => c.isCompleted);
     if (batch.isEmpty) return;
 
     Log.info(
@@ -124,17 +143,18 @@ class AppleMusicApi {
       final resolved = <String>{};
       for (final album in albums) {
         final url = album.artworkUrlForSize(size);
-        batch[album.id]?.complete(url);
+        if (!batch[album.id]!.isCompleted) {
+          batch[album.id]!.complete(url);
+        }
         resolved.add(album.id);
       }
       // Complete any unresolved (album not found / removed)
       for (final entry in batch.entries) {
-        if (!resolved.contains(entry.key)) {
+        if (!resolved.contains(entry.key) && !entry.value.isCompleted) {
           entry.value.complete(null);
         }
       }
     } on Exception catch (e) {
-      // Complete all with null on total failure
       for (final completer in batch.values) {
         if (!completer.isCompleted) completer.complete(null);
       }

@@ -2677,6 +2677,9 @@ final _albumCoverProvider = FutureProvider.autoDispose.family<String?, String>(
     final source = _resolveSource(ref, providerValue);
     if (source == null) return null;
 
+    // Cancel pending cover request when card scrolls off screen.
+    ref.onDispose(() => source.cancelCover(albumId));
+
     final covers = await source.getAlbumCovers([albumId]);
     return covers[albumId];
   },

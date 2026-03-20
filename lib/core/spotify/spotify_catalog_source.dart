@@ -56,6 +56,11 @@ class SpotifyCatalogSource implements CatalogSource {
     return covers;
   }
 
+  @override
+  void cancelCover(String albumId) {
+    // Spotify uses direct batch fetches, no coalescing to cancel.
+  }
+
   static CatalogAlbumResult _fromSpotify(SpotifyAlbum album) {
     return CatalogAlbumResult(
       id: album.id,
