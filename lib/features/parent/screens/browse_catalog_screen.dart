@@ -2647,12 +2647,27 @@ final _albumCoversProvider = FutureProvider.autoDispose
 final _seriesCoverMapProvider = FutureProvider.autoDispose
     .family<Map<String, String>, String>(
       (ref, providerValue) async {
+        Log.debug(
+          _tag,
+          'seriesCoverMap: start',
+          data: {'provider': providerValue},
+        );
         final source = _resolveSource(ref, providerValue);
-        if (source == null) return {};
+        if (source == null) {
+          Log.warn(
+            _tag,
+            'seriesCoverMap: no source',
+            data: {'provider': providerValue},
+          );
+          return {};
+        }
 
         final catalogAsync = ref.watch(catalogServiceProvider);
         final catalog = catalogAsync.value;
-        if (catalog == null) return {};
+        if (catalog == null) {
+          Log.debug(_tag, 'seriesCoverMap: catalog not loaded yet');
+          return {};
+        }
 
         final providerType = ProviderType.values.firstWhere(
           (t) => t.value == providerValue,
@@ -2667,9 +2682,20 @@ final _seriesCoverMapProvider = FutureProvider.autoDispose
           }
         }
 
+        Log.info(
+          _tag,
+          'seriesCoverMap: fetching covers',
+          data: {'provider': providerValue, 'albumCount': '${albumIds.length}'},
+        );
+
         if (albumIds.isEmpty) return {};
-        // ignore: unnecessary_await_in_return, async needed for early returns
-        return await source.getAlbumCovers(albumIds);
+        final covers = await source.getAlbumCovers(albumIds);
+        Log.info(
+          _tag,
+          'seriesCoverMap: done',
+          data: {'provider': providerValue, 'covers': '${covers.length}'},
+        );
+        return covers;
       },
     );
 

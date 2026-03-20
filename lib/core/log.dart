@@ -91,7 +91,11 @@ abstract final class Log {
     Map<String, Object>? data,
   }) {
     final suffix = data != null ? '  $data' : '';
-    developer.log('[$source] $message$suffix', name: 'lauschi', level: level);
+    final formatted = '[$source] $message$suffix';
+    developer.log(formatted, name: 'lauschi', level: level);
+    // debugPrint also goes to platform stderr, visible in adb logcat.
+    // ignore: avoid_print
+    print('lauschi: $formatted');
   }
 
   static void _breadcrumb(

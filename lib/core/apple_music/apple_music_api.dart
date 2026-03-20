@@ -168,7 +168,23 @@ class AppleMusicApi {
   /// Apple Music supports up to 25 IDs per request via the `ids` parameter.
   Future<List<AppleMusicAlbum>> getAlbums(List<String> albumIds) async {
     if (albumIds.isEmpty) return [];
-    if (!_initialized) await init();
+    if (!_initialized) {
+      try {
+        await init();
+      } on Exception {
+        return [];
+      }
+    }
+
+    Log.info(
+      _tag,
+      'getAlbums batch',
+      data: {
+        'count': '${albumIds.length}',
+        'storefront': _storefront ?? 'null',
+        'sampleIds': albumIds.take(3).join(','),
+      },
+    );
 
     final results = <AppleMusicAlbum>[];
     // Apple Music allows max 25 IDs per batch request.
@@ -202,17 +218,32 @@ class AppleMusicApi {
             ),
           );
         }
+        Log.debug(
+          _tag,
+          'Batch album fetch OK',
+          data: {
+            'requested': '${batch.length}',
+            'returned': '${data.length}',
+            'sampleArtwork':
+                results.isNotEmpty
+                    ? '${results.last.artworkUrl?.substring(0, 60) ?? "null"}...'
+                    : 'none',
+          },
+        );
       } on DioException catch (e) {
-        Log.warn(
+        Log.error(
           _tag,
           'Batch album fetch failed',
           data: {
             'count': '${batch.length}',
             'status': '${e.response?.statusCode}',
+            'error': '${e.message}',
+            'url': '${e.requestOptions.uri}',
           },
         );
       }
     }
+    Log.info(_tag, 'getAlbums done', data: {'total': '${results.length}'});
     return results;
   }
 

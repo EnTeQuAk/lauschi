@@ -1,5 +1,6 @@
 import 'package:lauschi/core/apple_music/apple_music_api.dart';
 import 'package:lauschi/core/catalog/catalog_source.dart';
+import 'package:lauschi/core/log.dart';
 import 'package:lauschi/core/providers/provider_type.dart';
 
 /// Wraps AppleMusicApi into the provider-agnostic CatalogSource interface.
@@ -42,6 +43,14 @@ class AppleMusicCatalogSource implements CatalogSource {
         covers[album.id] = url;
       }
     }
+    Log.info(
+      'AppleMusicCatalogSource',
+      'getAlbumCovers',
+      data: {
+        'requested': '${albumIds.length}',
+        'returned': '${covers.length}',
+      },
+    );
     return covers;
   }
 

@@ -82,6 +82,7 @@ class AppleMusicSession extends _$AppleMusicSession {
         data: {'status': status.runtimeType.toString()},
       );
       if (status is MusicAuthorizationStatusAuthorized) {
+        await _initApi();
         state = AppleMusicAuthenticated(
           canPlayCatalog: await _checkSubscription(),
         );
@@ -170,6 +171,21 @@ class AppleMusicSession extends _$AppleMusicSession {
     await recheckAuth(fromConnect: true);
   }
 
+  /// Initialize the API client so it's ready for catalog requests.
+  /// Called eagerly after successful auth rather than lazily on first use,
+  /// because MusicKit's requestUserToken may time out if called later.
+  Future<void> _initApi() async {
+    try {
+      await _api.init();
+    } on Exception catch (e) {
+      Log.warn(
+        _tag,
+        'API init failed (will retry on use)',
+        data: {'error': '$e'},
+      );
+    }
+  }
+
   /// Clear local auth state.
   Future<void> disconnect() async {
     try {
@@ -196,6 +212,7 @@ class AppleMusicSession extends _$AppleMusicSession {
       final status = await _musicKit.authorizationStatus;
       final authorized = status is MusicAuthorizationStatusAuthorized;
       if (authorized) {
+        await _initApi();
         state = AppleMusicAuthenticated(
           canPlayCatalog: await _checkSubscription(),
         );
