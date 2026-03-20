@@ -179,18 +179,20 @@ class _ConnectProvidersPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Padding(
-      padding: const EdgeInsets.all(AppSpacing.xxl),
+    return SingleChildScrollView(
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppSpacing.xxl,
+        vertical: AppSpacing.lg,
+      ),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Image.asset(
-            'assets/images/branding/lauschi-confused.png',
-            width: 120,
-            height: 120,
+            'assets/images/branding/lauschi-discover.png',
+            width: 140,
+            height: 140,
             excludeFromSemantics: true,
           ),
-          const SizedBox(height: AppSpacing.xl),
+          const SizedBox(height: AppSpacing.sm),
           const Text(
             'Inhalte entdecken',
             textAlign: TextAlign.center,
@@ -201,7 +203,7 @@ class _ConnectProvidersPage extends ConsumerWidget {
               color: AppColors.textPrimary,
             ),
           ),
-          const SizedBox(height: AppSpacing.md),
+          const SizedBox(height: AppSpacing.sm),
           const Text(
             'Kostenlose Hörspiele der ARD Audiothek sind '
             'immer verfügbar. Mit einem Streaming-Abo '
@@ -214,7 +216,7 @@ class _ConnectProvidersPage extends ConsumerWidget {
               color: AppColors.textSecondary,
             ),
           ),
-          const SizedBox(height: AppSpacing.xl),
+          const SizedBox(height: AppSpacing.lg),
 
           // ARD Audiothek -- always available, highlighted
           const _ProviderCard(
@@ -247,7 +249,7 @@ class _ConnectProvidersPage extends ConsumerWidget {
           ),
         ],
       ),
-    );
+    ); // SingleChildScrollView
   }
 }
 
