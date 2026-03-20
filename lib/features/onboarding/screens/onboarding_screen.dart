@@ -340,8 +340,8 @@ class _ProviderCard extends StatelessWidget {
         children: [
           SvgPicture.asset(
             svgAsset,
-            width: 28,
-            height: 28,
+            height: 24,
+            width: type == ProviderType.ardAudiothek ? null : 24,
             colorFilter:
                 type == ProviderType.ardAudiothek
                     ? ColorFilter.mode(type.color, BlendMode.srcIn)

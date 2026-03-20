@@ -348,7 +348,7 @@ class _ProviderRow extends ConsumerWidget {
           if (FeatureFlags.enableAppleMusic) ...[
             Expanded(
               child: _ProviderChip(
-                icon: Icons.apple_rounded,
+                svgAsset: 'assets/images/icons/apple_music.svg',
                 label: 'Apple Music',
                 color: const Color(0xFFFA243C),
                 active: appleMusicConnected,
@@ -358,10 +358,11 @@ class _ProviderRow extends ConsumerWidget {
           ],
           const Expanded(
             child: _ProviderChip(
-              icon: Icons.radio_rounded,
-              label: 'ARD Audiothek',
+              svgAsset: 'assets/images/icons/ard_audiothek.svg',
+              label: 'ARD',
               color: Color(0xFF003D7A),
               active: true,
+              wideIcon: true,
             ),
           ),
         ],
@@ -375,15 +376,17 @@ class _ProviderChip extends StatelessWidget {
     required this.label,
     required this.color,
     this.svgAsset,
-    this.icon,
     this.active = false,
+    this.wideIcon = false,
   });
 
   final String label;
   final Color color;
   final String? svgAsset;
-  final IconData? icon;
   final bool active;
+
+  /// When true, the SVG is wider than tall (ARD logo).
+  final bool wideIcon;
 
   @override
   Widget build(BuildContext context) {
@@ -405,12 +408,10 @@ class _ProviderChip extends StatelessWidget {
           if (svgAsset != null)
             SvgPicture.asset(
               svgAsset!,
-              width: 20,
-              height: 20,
+              height: 18,
+              width: wideIcon ? null : 18,
               colorFilter: ColorFilter.mode(effectiveColor, BlendMode.srcIn),
-            )
-          else if (icon != null)
-            Icon(icon, size: 20, color: effectiveColor),
+            ),
           const SizedBox(width: AppSpacing.xs),
           Flexible(
             child: Text(

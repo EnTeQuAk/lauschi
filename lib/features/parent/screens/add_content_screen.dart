@@ -140,6 +140,9 @@ class _ProviderTabLabel extends StatelessWidget {
 }
 
 /// Returns an SVG logo widget for providers that have one.
+///
+/// The ARD logo is wider than tall (~1.8:1), so we constrain by
+/// height and let width scale. Other logos are square.
 Widget? _providerLogo(ProviderType type, {double size = 20}) {
   final path = switch (type) {
     ProviderType.ardAudiothek => 'assets/images/icons/ard_audiothek.svg',
@@ -148,10 +151,12 @@ Widget? _providerLogo(ProviderType type, {double size = 20}) {
     _ => null,
   };
   if (path == null) return null;
+
+  final isWide = type == ProviderType.ardAudiothek;
   return SvgPicture.asset(
     path,
-    width: size,
     height: size,
+    width: isWide ? null : size,
     colorFilter:
         type == ProviderType.ardAudiothek
             ? ColorFilter.mode(type.color, BlendMode.srcIn)
