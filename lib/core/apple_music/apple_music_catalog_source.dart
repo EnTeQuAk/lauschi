@@ -1,6 +1,5 @@
 import 'package:lauschi/core/apple_music/apple_music_api.dart';
 import 'package:lauschi/core/catalog/catalog_source.dart';
-import 'package:lauschi/core/log.dart';
 import 'package:lauschi/core/providers/provider_type.dart';
 
 /// Wraps AppleMusicApi into the provider-agnostic CatalogSource interface.
@@ -36,21 +35,21 @@ class AppleMusicCatalogSource implements CatalogSource {
     int size = 300,
   }) async {
     final covers = <String, String>{};
-    final albums = await _api.getAlbums(albumIds);
-    for (final album in albums) {
-      final url = album.artworkUrlForSize(size);
-      if (url != null) {
-        covers[album.id] = url;
+
+    if (albumIds.length == 1) {
+      // Single ID: use coalescing so concurrent per-card requests
+      // get batched into one API call.
+      final url = await _api.getAlbumCover(albumIds.first, size: size);
+      if (url != null) covers[albumIds.first] = url;
+    } else {
+      // Multiple IDs: direct batch (used by album list views).
+      final albums = await _api.getAlbums(albumIds);
+      for (final album in albums) {
+        final url = album.artworkUrlForSize(size);
+        if (url != null) covers[album.id] = url;
       }
     }
-    Log.info(
-      'AppleMusicCatalogSource',
-      'getAlbumCovers',
-      data: {
-        'requested': '${albumIds.length}',
-        'returned': '${covers.length}',
-      },
-    );
+
     return covers;
   }
 

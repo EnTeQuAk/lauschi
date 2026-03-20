@@ -1,3 +1,4 @@
+import 'dart:async' show Completer, Timer, unawaited;
 import 'dart:io' show Platform;
 
 import 'package:dio/dio.dart';
@@ -66,8 +67,8 @@ class AppleMusicApi {
     : _dio = Dio(
         BaseOptions(
           baseUrl: 'https://api.music.apple.com/v1',
-          connectTimeout: const Duration(seconds: 10),
-          receiveTimeout: const Duration(seconds: 10),
+          connectTimeout: const Duration(seconds: 15),
+          receiveTimeout: const Duration(seconds: 15),
         ),
       );
 
@@ -78,8 +79,68 @@ class AppleMusicApi {
   String? _storefront;
   bool _initialized = false;
 
+  // ── Cover request coalescing ──────────────────────────────────────
+  // When multiple cards request covers simultaneously (per-card loading),
+  // we collect IDs for a short window then fire one batched API call.
+  final _pendingCoverIds = <String, Completer<String?>>{};
+  Timer? _coverBatchTimer;
+
   /// Whether init() completed successfully.
   bool get isInitialized => _initialized;
+
+  /// Get a single album's cover URL with request coalescing.
+  ///
+  /// Collects IDs for 50ms, then fires one batched API call for all
+  /// pending IDs. Returns null if the album has no artwork or the
+  /// request fails.
+  Future<String?> getAlbumCover(String albumId, {int size = 300}) {
+    final existing = _pendingCoverIds[albumId];
+    if (existing != null) return existing.future;
+
+    final completer = Completer<String?>();
+    _pendingCoverIds[albumId] = completer;
+
+    _coverBatchTimer?.cancel();
+    _coverBatchTimer = Timer(const Duration(milliseconds: 50), () {
+      unawaited(_flushCoverBatch(size));
+    });
+
+    return completer.future;
+  }
+
+  Future<void> _flushCoverBatch(int size) async {
+    final batch = Map<String, Completer<String?>>.of(_pendingCoverIds);
+    _pendingCoverIds.clear();
+    if (batch.isEmpty) return;
+
+    Log.info(
+      _tag,
+      'Cover batch flush',
+      data: {'count': '${batch.length}'},
+    );
+
+    try {
+      final albums = await getAlbums(batch.keys.toList());
+      final resolved = <String>{};
+      for (final album in albums) {
+        final url = album.artworkUrlForSize(size);
+        batch[album.id]?.complete(url);
+        resolved.add(album.id);
+      }
+      // Complete any unresolved (album not found / removed)
+      for (final entry in batch.entries) {
+        if (!resolved.contains(entry.key)) {
+          entry.value.complete(null);
+        }
+      }
+    } on Exception catch (e) {
+      // Complete all with null on total failure
+      for (final completer in batch.values) {
+        if (!completer.isCompleted) completer.complete(null);
+      }
+      Log.warn(_tag, 'Cover batch failed', data: {'error': '$e'});
+    }
+  }
 
   /// Initialize with a known user token and storefront.
   ///
