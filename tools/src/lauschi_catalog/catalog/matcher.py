@@ -24,8 +24,10 @@ def extract_episode(
         m = re.search(p, title)
         if m and m.groups():
             try:
-                return int(m.group(1))
-            except (ValueError, IndexError):
+                g = m.group(1)
+                if g is not None:
+                    return int(g)
+            except (ValueError, IndexError, TypeError):
                 continue
     return None
 
