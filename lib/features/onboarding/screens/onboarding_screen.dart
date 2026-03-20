@@ -377,7 +377,7 @@ class _ProviderCard extends StatelessWidget {
             TextButton(
               onPressed: onConnect,
               style: TextButton.styleFrom(
-                foregroundColor: type.color,
+                foregroundColor: AppColors.textSecondary,
                 textStyle: const TextStyle(
                   fontFamily: 'Nunito',
                   fontWeight: FontWeight.w700,
