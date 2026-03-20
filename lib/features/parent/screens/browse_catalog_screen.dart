@@ -2697,12 +2697,17 @@ CatalogSource? _buildSource(
 }
 
 /// Resolve a CatalogSource from a provider value string via Ref.
+/// Resolve CatalogSource from Ref, watching session state so the
+/// provider re-runs when auth changes.
 CatalogSource? _resolveSource(Ref ref, String providerValue) {
+  // Watch session state so the provider re-evaluates on auth changes.
+  final spotifyState = ref.watch(spotifySessionProvider);
+  final appleMusicState = ref.watch(appleMusicSessionProvider);
   return _buildSource(
     providerValue,
-    ref.read(spotifySessionProvider),
+    spotifyState,
     ref.read(spotifySessionProvider.notifier),
-    ref.read(appleMusicSessionProvider),
+    appleMusicState,
     ref.read(appleMusicSessionProvider.notifier),
   );
 }
