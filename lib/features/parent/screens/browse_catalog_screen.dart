@@ -222,7 +222,11 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen>
     );
     // Hero series from catalog search (instant, local)
     final allCatalogHits =
-        catalog?.search(query).where((s) => s.hasCuratedAlbums).toList() ?? [];
+        catalog
+            ?.search(query)
+            .where((s) => s.hasCuratedAlbumsFor(_source.provider))
+            .toList() ??
+        [];
     setState(() {
       _albumResults = albums;
       _playlistResults = [];
@@ -688,7 +692,9 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen>
 
   Widget _buildCuratedGrid(CatalogService catalog) {
     final series =
-        catalog.all.where((s) => s.hasCuratedAlbums).toList()
+        catalog.all
+            .where((s) => s.hasCuratedAlbumsFor(_source.provider))
+            .toList()
           ..sort((a, b) => a.title.compareTo(b.title));
 
     if (series.isEmpty) {
