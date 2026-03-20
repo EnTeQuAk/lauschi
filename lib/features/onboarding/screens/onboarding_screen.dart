@@ -267,16 +267,23 @@ class _SpotifyCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final state = ref.watch(spotifySessionProvider);
     final connected = state is SpotifyAuthenticated;
+    final loading = state is SpotifyLoading;
 
     return _ProviderCard(
       key: const Key('spotify_connect'),
       type: ProviderType.spotify,
       svgAsset: 'assets/images/icons/spotify.svg',
       label: 'Spotify',
-      subtitle: connected ? 'Verbunden' : 'Premium Abo nötig',
+      subtitle:
+          loading
+              ? 'Verbinde…'
+              : connected
+              ? 'Verbunden'
+              : 'Premium Abo nötig',
       connected: connected,
+      loading: loading,
       onConnect:
-          connected
+          connected || loading
               ? null
               : () async {
                 final session = ref.read(spotifySessionProvider.notifier);
@@ -294,16 +301,23 @@ class _AppleMusicCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final state = ref.watch(appleMusicSessionProvider);
     final connected = state is AppleMusicAuthenticated;
+    final loading = state is AppleMusicLoading;
 
     return _ProviderCard(
       key: const Key('apple_music_connect'),
       type: ProviderType.appleMusic,
       svgAsset: 'assets/images/icons/apple_music.svg',
       label: 'Apple Music',
-      subtitle: connected ? 'Verbunden' : 'Abo nötig',
+      subtitle:
+          loading
+              ? 'Verbinde…'
+              : connected
+              ? 'Verbunden'
+              : 'Abo nötig',
       connected: connected,
+      loading: loading,
       onConnect:
-          connected
+          connected || loading
               ? null
               : () async {
                 await ref.read(appleMusicSessionProvider.notifier).connect();
@@ -320,6 +334,7 @@ class _ProviderCard extends StatelessWidget {
     required this.label,
     required this.subtitle,
     required this.connected,
+    this.loading = false,
     this.onConnect,
     super.key,
   });
@@ -329,6 +344,7 @@ class _ProviderCard extends StatelessWidget {
   final String label;
   final String subtitle;
   final bool connected;
+  final bool loading;
   final VoidCallback? onConnect;
 
   @override
@@ -380,7 +396,16 @@ class _ProviderCard extends StatelessWidget {
               ],
             ),
           ),
-          if (connected)
+          if (loading)
+            SizedBox(
+              width: 20,
+              height: 20,
+              child: CircularProgressIndicator(
+                strokeWidth: 2,
+                color: type.color,
+              ),
+            )
+          else if (connected)
             Icon(Icons.check_circle_rounded, color: type.color, size: 22)
           else if (onConnect != null)
             TextButton(
