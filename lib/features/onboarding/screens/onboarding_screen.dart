@@ -184,10 +184,11 @@ class _ConnectProvidersPage extends ConsumerWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Icon(
-            Icons.headphones_rounded,
-            size: 64,
-            color: AppColors.primary,
+          Image.asset(
+            'assets/images/branding/lauschi-confused.png',
+            width: 120,
+            height: 120,
+            excludeFromSemantics: true,
           ),
           const SizedBox(height: AppSpacing.xl),
           const Text(
