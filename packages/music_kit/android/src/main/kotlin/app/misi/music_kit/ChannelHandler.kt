@@ -359,7 +359,7 @@ class ChannelHandler(
   @Keep
   @Suppress("unused", "UNUSED_PARAMETER")
   fun play(call: MethodCall, result: MethodChannel.Result) {
-    Log.d(LOG_TAG, "play: controller=${playerController != null} state=${playerController?.playbackState}")
+    Log.d(LOG_TAG, "play: controller=${playerController != null} state=${playerController?.playbackState} STOPPED=${PlaybackState.STOPPED} PLAYING=${PlaybackState.PLAYING} PAUSED=${PlaybackState.PAUSED}")
     playerController?.play()
     result.success(null)
   }
