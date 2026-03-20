@@ -8,6 +8,9 @@ import io.flutter.plugin.common.EventChannel
 
 class PlayerStateStreamHandler() :
   EventChannel.StreamHandler {
+  // Accessed from onListen/onCancel (main thread) and controller
+  // listener callbacks (potentially background threads).
+  @Volatile
   private var eventSink: EventChannel.EventSink? = null
 
   private var playerController: MediaPlayerController? = null
@@ -90,7 +93,9 @@ class PlayerStateStreamHandler() :
     }
 
     override fun onPlaybackError(p0: MediaPlayerController, p1: MediaPlayerException) {
-      Log.d(LOG_TAG, "State Handler TEST onPlaybackError() error(${p1.errorCode}): ${p1.message}", p1)
+      Log.e(LOG_TAG, "State Handler onPlaybackError() error(${p1.errorCode}): ${p1.message}")
+      // Forward error to Flutter via event sink so the UI can react.
+      eventSink?.error("PLAYBACK_ERROR", p1.message, p1.errorCode)
     }
 
     override fun onPlaybackRepeatModeChanged(p0: MediaPlayerController, p1: Int) {

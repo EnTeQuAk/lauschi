@@ -22,6 +22,7 @@ class PlayerQueueStreamHandler() :
     }
   }
 
+  @Volatile
   private var eventSink: EventChannel.EventSink? = null
   private var entries: List<Map<String, Any?>> = listOf()
   private var currentEntry: Map<String, Any?>? = null

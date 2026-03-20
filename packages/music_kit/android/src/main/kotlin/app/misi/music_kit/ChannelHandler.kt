@@ -52,7 +52,10 @@ class ChannelHandler(
 
 
   private lateinit var developerToken: String
-  private var storefrontId: String = "de" // default for DACH, updated async
+
+  // Accessed from IO coroutine (fetchStorefrontAsync) and main thread (currentCountryCode).
+  @Volatile
+  private var storefrontId: String = "de"
 
   private var musicUserToken: String? = null
     set(value) {
@@ -62,6 +65,8 @@ class ChannelHandler(
       fetchStorefrontAsync(value)
     }
 
+  // Accessed from main thread and Flutter method channel thread.
+  @Volatile
   private var playerController: MediaPlayerController? = null
 
   private val coroutineScope = CoroutineScope(Dispatchers.IO)
@@ -135,6 +140,7 @@ class ChannelHandler(
     coroutineScope.cancel()
   }
 
+  @Synchronized
   private fun createPlayerControllerIfSatisfied(musicUserToken: String?) {
     if (playerController == null && !musicUserToken.isNullOrBlank()) {
       playerController = MediaPlayerControllerFactory.createLocalController(
@@ -317,8 +323,17 @@ class ChannelHandler(
   @Keep
   fun setPlaybackTime(call: MethodCall, result: MethodChannel.Result) {
     val seconds = call.arguments as? Double ?: 0.0
-    playerController?.seekToPosition((seconds * 1000).toLong())
-    result.success(null)
+    if (seconds < 0 || !seconds.isFinite()) {
+      result.error("INVALID_ARGUMENT", "Seek position must be >= 0 and finite", null)
+      return
+    }
+    try {
+      playerController?.seekToPosition((seconds * 1000).toLong())
+      result.success(null)
+    } catch (e: Exception) {
+      Log.e(LOG_TAG, "seekToPosition failed: ${e.message}")
+      result.error("ERR_SEEK", e.message, null)
+    }
   }
 
   @Keep
@@ -355,7 +370,7 @@ class ChannelHandler(
   @Keep
   @Suppress("unused", "UNUSED_PARAMETER")
   fun play(call: MethodCall, result: MethodChannel.Result) {
-    Log.d(LOG_TAG, "play: controller=${playerController != null} state=${playerController?.playbackState} STOPPED=${PlaybackState.STOPPED} PLAYING=${PlaybackState.PLAYING} PAUSED=${PlaybackState.PAUSED}")
+    Log.d(LOG_TAG, "play: state=${playerController?.playbackState}")
     playerController?.play()
     result.success(null)
   }
@@ -412,8 +427,10 @@ class ChannelHandler(
       else -> MediaContainerType.NONE
     }
     val id = itemObject?.get("id") as String
-    Log.d(LOG_TAG, "setQueue: type=$itemType id=$id containerType=$containerType controller=${playerController != null}")
+    Log.d(LOG_TAG, "setQueue: type=$itemType id=$id containerType=$containerType")
     queueProviderBuilder.containers(containerType, id)
+    // prepare() is fire-and-forget: the SDK provides no completion callback.
+    // Errors surface later via onPlaybackError listener.
     playerController?.prepare(queueProviderBuilder.build(), true)
     result.success(null)
   }
