@@ -64,18 +64,20 @@ class AppleMusicPlayer extends PlayerBackend {
       _listenToState();
 
       // setQueue calls prepare(queue, autoplay=true) on the native side.
-      // The controller will start playing once buffering completes.
-      // Do NOT call play() explicitly; it fails on a not-yet-prepared controller.
+      // Apple's MusicKit Android SDK has inherent latency (~30-60s) when
+      // starting playback. This is a known SDK limitation with no fix.
       await _musicKit.setQueue(
         'albums',
         item: <String, dynamic>{'id': albumId},
       );
 
-      // Skip to target track if not the first one.
-      // This must happen after setQueue loads the album queue.
+      // Also call play() explicitly. The autoplay flag in prepare() is
+      // unreliable; the explicit play() acts as a nudge once the
+      // controller has buffered enough.
+      await _musicKit.play();
+
+      // Skip to target track after queue loads.
       if (trackIndex > 0) {
-        // Wait for queue to load before skipping.
-        await Future<void>.delayed(const Duration(seconds: 2));
         for (var i = 0; i < trackIndex; i++) {
           await _musicKit.skipToNextEntry();
         }
@@ -83,7 +85,7 @@ class AppleMusicPlayer extends PlayerBackend {
 
       _startPositionPolling();
 
-      // Seek within the track after playback starts.
+      // Seek within the track after playback actually starts.
       if (positionMs > 0) {
         _pendingSeekMs = positionMs;
       }
