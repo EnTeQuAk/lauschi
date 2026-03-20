@@ -172,17 +172,26 @@ class AppleMusicSession extends _$AppleMusicSession {
   }
 
   /// Initialize the API client so it's ready for catalog requests.
-  /// Called eagerly after successful auth rather than lazily on first use,
-  /// because MusicKit's requestUserToken may time out if called later.
+  /// Initialize the API client with the user token we already have.
+  ///
+  /// Reads the saved token from secure storage (persisted during connect())
+  /// and passes it directly. No network calls, can't fail.
   Future<void> _initApi() async {
+    String? userToken;
     try {
-      await _api.init();
+      userToken = await _storage.read(key: _userTokenKey);
     } on Exception catch (e) {
       Log.warn(
         _tag,
-        'API init failed (will retry on use)',
+        'Could not read saved token for API',
         data: {'error': '$e'},
       );
+    }
+
+    if (userToken != null && userToken.isNotEmpty) {
+      _api.initWith(userToken: userToken);
+    } else {
+      Log.warn(_tag, 'No saved user token, API unavailable');
     }
   }
 

@@ -81,8 +81,36 @@ class AppleMusicApi {
   /// Whether init() completed successfully.
   bool get isInitialized => _initialized;
 
-  /// Initialize tokens and storefront. Call after auth is complete.
-  /// Throws on failure so callers can handle it.
+  /// Initialize with a known user token and storefront.
+  ///
+  /// Called by the session after auth completes, passing the token it
+  /// already has. No network calls, can't fail.
+  void initWith({required String userToken, String storefront = 'de'}) {
+    if (_initialized) return;
+
+    if (Platform.isIOS) {
+      // iOS: token from MusicKit capability, no dart-define needed.
+      // Deferred until we actually build for iOS.
+      _developerToken = '';
+    } else {
+      _developerToken = AppleMusicConfig.developerToken;
+    }
+
+    _userToken = userToken;
+    _storefront = storefront;
+    _dio.options.headers['Authorization'] = 'Bearer $_developerToken';
+    _dio.options.headers['Music-User-Token'] = _userToken;
+    _initialized = true;
+
+    Log.info(
+      _tag,
+      'Initialized',
+      data: {'storefront': _storefront!},
+    );
+  }
+
+  /// Legacy init that fetches tokens from MusicKit SDK.
+  /// Only used as fallback if initWith() wasn't called.
   Future<void> init() async {
     if (_initialized) return;
     try {
@@ -94,7 +122,9 @@ class AppleMusicApi {
       _userToken = await _musicKit.requestUserToken(
         _developerToken!,
       );
-      _storefront = await _musicKit.currentCountryCode;
+      // Default to 'de' instead of fetching from Apple's API.
+      // The storefront call times out frequently on Android.
+      _storefront = 'de';
 
       _dio.options.headers['Authorization'] = 'Bearer $_developerToken';
       if (_userToken != null && _userToken!.isNotEmpty) {
@@ -104,8 +134,8 @@ class AppleMusicApi {
       _initialized = true;
       Log.info(
         _tag,
-        'Initialized',
-        data: {'storefront': _storefront ?? 'unknown'},
+        'Initialized (fallback)',
+        data: {'storefront': _storefront!},
       );
     } on Exception catch (e) {
       Log.error(_tag, 'Init failed', exception: e);
