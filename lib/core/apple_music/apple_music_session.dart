@@ -167,7 +167,7 @@ class AppleMusicSession extends _$AppleMusicSession {
     }
 
     // Check final auth state regardless of how we got here.
-    await recheckAuth();
+    await recheckAuth(fromConnect: true);
   }
 
   /// Clear local auth state.
@@ -181,10 +181,13 @@ class AppleMusicSession extends _$AppleMusicSession {
     Log.info(_tag, 'Disconnected (token cleared)');
   }
 
-  /// Re-check auth status. Called on app resume in case the SDK auth
-  /// activity completed but the connect() future didn't resolve cleanly.
-  Future<void> recheckAuth() async {
-    if (state is AppleMusicLoading) {
+  /// Re-check auth status. Called after connect() and on app resume.
+  ///
+  /// When [fromConnect] is true, the Loading guard is skipped because
+  /// connect() itself set the Loading state and needs the recheck to
+  /// transition out of it.
+  Future<void> recheckAuth({bool fromConnect = false}) async {
+    if (!fromConnect && state is AppleMusicLoading) {
       // Don't interrupt an in-progress connect(). It calls recheckAuth()
       // at the end when it completes.
       return;
