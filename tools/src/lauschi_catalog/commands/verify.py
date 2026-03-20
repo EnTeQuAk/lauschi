@@ -17,7 +17,6 @@ from datetime import UTC, datetime
 from pathlib import Path
 
 import click
-import requests
 from pydantic import BaseModel, Field
 from pydantic_ai import Agent, RunContext
 from pydantic_ai.models.openai import OpenAIChatModel
@@ -77,8 +76,10 @@ class Deps:
     providers: list[CatalogProvider]
     series_id: str
     curation: dict
-    _lookup_count: int = field(default=0, init=False)
-    _MAX_LOOKUPS: int = 2
+    _search_count: int = field(default=0, init=False)
+    _fetch_count: int = field(default=0, init=False)
+    _MAX_SEARCHES: int = 3
+    _MAX_FETCHES: int = 2
 
 
 _SYSTEM_PROMPT = """\
@@ -111,10 +112,25 @@ to independently verify those decisions.
 - Fill `concerns` with any issues, even if approving.
 - For each override and split, state whether you agree.
 
+## Tools
+
+- **web_search**: Search the web for series info. Max 3 searches.
+  Use this when uncertain about a series (is it a Hörspiel? how many
+  episodes exist? is this the right artist?). Good queries:
+  - `"Series Name" Hörspiel Episodenliste` for episode counts
+  - `site:hoerspiele.de "Series Name"` for the authoritative German
+    Hörspiel database (has episode numbers, titles, publishers)
+  - `"Series Name" Hörspiel OR Hörbuch` to clarify format
+- **fetch_page**: Fetch a URL from search results for details. Max 2 fetches.
+  Useful for hoerspiele.de series pages that list all episodes.
+- **album_details**: Check album track listings. Max 5 IDs.
+
 ## Rules
 
-- Max 2 lookups (wikipedia), max 5 album detail checks.
 - Do NOT propose new overrides or splits. Only verify existing ones.
+- Use web_search when: 0 albums included, all albums excluded,
+  you're unsure whether something is a Hörspiel or Hörbuch, or the
+  artist ID looks wrong for the series.
 - When in doubt, flag concerns but approve. False rejections are worse
   than letting minor issues through.
 """
@@ -155,43 +171,39 @@ def _build_verify_agent(
         return results
 
     @agent.tool
-    def wikipedia_lookup(ctx: RunContext[Deps], query: str) -> str:
-        """Look up German Wikipedia for factual context."""
-        if ctx.deps._lookup_count >= ctx.deps._MAX_LOOKUPS:
-            return "Lookup limit reached."
-        ctx.deps._lookup_count += 1
-        try:
-            headers = {"User-Agent": "lauschi-catalog-verify/1.0"}
-            r = requests.get(
-                "https://de.wikipedia.org/w/api.php",
-                headers=headers,
-                params={
-                    "action": "query", "list": "search",
-                    "srsearch": query, "srlimit": 3, "format": "json",
-                },
-                timeout=10,
-            )
-            r.raise_for_status()
-            hits = r.json().get("query", {}).get("search", [])
-            if not hits:
-                return "No Wikipedia article found."
-            title = hits[0]["title"]
-            r = requests.get(
-                "https://de.wikipedia.org/w/api.php",
-                headers=headers,
-                params={
-                    "action": "query", "titles": title,
-                    "prop": "extracts", "exintro": False,
-                    "explaintext": True, "exchars": 3000, "format": "json",
-                },
-                timeout=10,
-            )
-            pages = r.json().get("query", {}).get("pages", {})
-            extract = next(iter(pages.values())).get("extract", "")
-            console.print(f"  [dim]📖 wikipedia({query!r}) → {title}[/]")
-            return f"Wikipedia: {title}\n\n{extract}"
-        except Exception as e:
-            return f"Wikipedia lookup failed: {e}"
+    def web_search(ctx: RunContext[Deps], query: str) -> list[dict]:
+        """Search the web for series info. Max 3 searches.
+
+        Returns list of {title, url, snippet}. Good queries:
+        - '"Series Name" Hörspiel Episodenliste'
+        - 'site:hoerspiele.de "Series Name"'
+        """
+        if ctx.deps._search_count >= ctx.deps._MAX_SEARCHES:
+            return [{"error": "Search limit reached (max 3)."}]
+        ctx.deps._search_count += 1
+
+        from lauschi_catalog.search import brave_search
+
+        results = brave_search(query, count=5)
+        n = len([r for r in results if "error" not in r])
+        console.print(f"  [dim]🔍 web_search({query!r}) → {n} results[/]")
+        return results
+
+    @agent.tool
+    def fetch_page(ctx: RunContext[Deps], url: str) -> str:
+        """Fetch a URL and extract text content. Max 2 fetches.
+
+        Useful for hoerspiele.de series pages with episode listings.
+        """
+        if ctx.deps._fetch_count >= ctx.deps._MAX_FETCHES:
+            return "Fetch limit reached (max 2)."
+        ctx.deps._fetch_count += 1
+
+        from lauschi_catalog.search import fetch_page as _fetch
+
+        content = _fetch(url, max_chars=4000)
+        console.print(f"  [dim]📄 fetch_page({url[:60]}…) → {len(content)} chars[/]")
+        return content
 
     return agent
 

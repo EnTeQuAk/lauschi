@@ -137,6 +137,8 @@ class Deps:
     providers: list[CatalogProvider]
     seen_albums: dict[str, list[dict]] = field(default_factory=dict)
     seen_details: dict[str, dict] = field(default_factory=dict)
+    _search_count: int = field(default=0, init=False)
+    _MAX_SEARCHES: int = 2
 
 
 @dataclass
@@ -194,6 +196,20 @@ lauschi targets kids aged 3-14. Set age_note based on your knowledge:
 ## provider_artist_ids
 Return a dict mapping provider name to artist ID list:
 {"spotify": ["abc123"], "apple_music": ["456789"]}
+
+## Web search
+You have a web_search tool (max 2 searches). Use it when:
+- You're unsure whether a series is a Hörspiel or Hörbuch/music
+- The artist search returns ambiguous results (multiple artists, wrong genre)
+- You need to confirm how many episodes a series actually has
+
+Good queries:
+- `"Series Name" Hörspiel Episodenliste` for episode info
+- `site:hoerspiele.de "Series Name"` for the authoritative German Hörspiel database
+- `"Series Name" Hörspiel OR Hörbuch` to clarify format
+
+Don't search for well-known series (TKKG, Die drei ???, Benjamin Blümchen) where
+the album metadata is unambiguous.
 
 ## Important
 - Produce an AlbumDecision for EVERY album in each artist's discography.
@@ -333,6 +349,26 @@ def _build_small_agent(
                 ctx.deps.seen_details[key] = detail
                 results.append(detail)
                 console.print(f"  [dim]🔎 {provider}:{aid[:8]}… → {album.total_tracks} tracks[/]")
+        return results
+
+    @agent.tool
+    def web_search(ctx: RunContext[Deps], query: str) -> list[dict]:
+        """Search the web for series info. Max 2 searches.
+
+        Use when unsure about a series (Hörspiel vs Hörbuch, correct artist,
+        episode count). Good queries:
+        - '"Series Name" Hörspiel Episodenliste'
+        - 'site:hoerspiele.de "Series Name"'
+        """
+        if ctx.deps._search_count >= ctx.deps._MAX_SEARCHES:
+            return [{"error": "Search limit reached (max 2)."}]
+        ctx.deps._search_count += 1
+
+        from lauschi_catalog.search import brave_search
+
+        results = brave_search(query, count=5)
+        n = len([r for r in results if "error" not in r])
+        console.print(f"  [dim]🌐 web_search({query!r}) → {n} results[/]")
         return results
 
     return agent
