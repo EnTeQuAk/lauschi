@@ -64,7 +64,11 @@ def _validate_l5(entry, provider: CatalogProvider) -> tuple[int, int, list[str]]
 
     all_albums: list[Album] = []
     for aid in aids:
-        all_albums.extend(provider.artist_albums(aid))
+        try:
+            all_albums.extend(provider.artist_albums(aid))
+        except Exception:
+            # Artist may have been removed from provider
+            continue
 
     if not all_albums:
         return 0, 0, []
