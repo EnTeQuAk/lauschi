@@ -97,23 +97,8 @@ class ParentDashboardScreen extends ConsumerWidget {
               onTap: () => context.push(AppRoutes.parentNfcTags),
             ),
           ],
-          const Divider(indent: 56),
-          _SettingsTile(
-            key: const Key('about_settings'),
-            icon: Icons.info_outline_rounded,
-            title: 'Über lauschi',
-            subtitle: 'Einstellungen & Version',
-            leadingWidget: Padding(
-              padding: const EdgeInsets.only(right: AppSpacing.md),
-              child: ClipRRect(
-                borderRadius: const BorderRadius.all(Radius.circular(8)),
-                child: Image.asset(
-                  'assets/images/branding/lauschi-logo.png',
-                  width: 40,
-                  height: 40,
-                ),
-              ),
-            ),
+          const SizedBox(height: AppSpacing.xl),
+          _AboutFooter(
             onTap: () => context.push(AppRoutes.parentSettings),
           ),
         ],
@@ -219,6 +204,57 @@ void _confirmDisconnect(
   );
 }
 
+class _AboutFooter extends StatelessWidget {
+  const _AboutFooter({required this.onTap});
+
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.screenH),
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(16),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
+          child: Column(
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(12),
+                child: Image.asset(
+                  'assets/images/branding/lauschi-logo.png',
+                  width: 48,
+                  height: 48,
+                ),
+              ),
+              const SizedBox(height: AppSpacing.sm),
+              const Text(
+                'Über lauschi',
+                style: TextStyle(
+                  fontFamily: 'Nunito',
+                  fontWeight: FontWeight.w700,
+                  fontSize: 15,
+                  color: AppColors.textPrimary,
+                ),
+              ),
+              const SizedBox(height: 2),
+              const Text(
+                'Einstellungen & Info',
+                style: TextStyle(
+                  fontFamily: 'Nunito',
+                  fontSize: 12,
+                  color: AppColors.textSecondary,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 class _SectionHeader extends StatelessWidget {
   const _SectionHeader({required this.title});
   final String title;
@@ -253,7 +289,6 @@ class _SettingsTile extends StatelessWidget {
     required this.onTap,
     this.subtitle,
     this.trailing,
-    this.leadingWidget,
     super.key,
   });
 
@@ -261,13 +296,12 @@ class _SettingsTile extends StatelessWidget {
   final String title;
   final String? subtitle;
   final Widget? trailing;
-  final Widget? leadingWidget;
   final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: leadingWidget ?? Icon(icon, color: AppColors.textSecondary),
+      leading: Icon(icon, color: AppColors.textSecondary),
       title: Text(
         title,
         style: const TextStyle(
