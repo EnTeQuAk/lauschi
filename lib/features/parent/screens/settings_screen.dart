@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart' show kDebugMode;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:lauschi/core/app_version.dart';
 import 'package:lauschi/core/apple_music/apple_music_session.dart';
 import 'package:lauschi/core/feature_flags.dart';
 import 'package:lauschi/core/log.dart';
@@ -15,12 +16,6 @@ import 'package:lauschi/features/onboarding/screens/onboarding_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-// Version is injected at build time via --dart-define=APP_VERSION.
-// Falls back to pubspec version for local dev.
-const _appVersion = String.fromEnvironment(
-  'APP_VERSION',
-  defaultValue: '0.1.0',
-);
 const _buildFlavour = kDebugMode ? 'debug' : 'release';
 
 const _tag = 'SettingsScreen';
@@ -76,10 +71,12 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
 
         // ── App version ──────────────────────────────────────────────────────
         const _SectionHeader(title: 'App'),
-        const _InfoTile(
+        _InfoTile(
           icon: Icons.info_outline_rounded,
           title: 'Version',
-          value: '$_appVersion ($_buildFlavour)',
+          value:
+              '${ref.watch(appVersionProvider).value ?? '…'}'
+              ' ($_buildFlavour)',
         ),
         ListTile(
           key: const Key('open_source_licenses'),
@@ -104,7 +101,9 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               () => showLicensePage(
                 context: context,
                 applicationName: 'lauschi',
-                applicationVersion: '$_appVersion ($_buildFlavour)',
+                applicationVersion:
+                    '${ref.watch(appVersionProvider).value ?? '…'}'
+                    ' ($_buildFlavour)',
                 applicationIcon: Padding(
                   padding: const EdgeInsets.all(AppSpacing.md),
                   child: Image.asset(
