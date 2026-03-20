@@ -2,10 +2,13 @@ import 'dart:async' show unawaited;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:lauschi/core/apple_music/apple_music_session.dart';
 import 'package:lauschi/core/auth/pin_service.dart';
 import 'package:lauschi/core/auth/pin_widgets.dart';
 import 'package:lauschi/core/feature_flags.dart';
+import 'package:lauschi/core/providers/provider_type.dart';
 import 'package:lauschi/core/router/app_router.dart';
 import 'package:lauschi/core/spotify/spotify_session.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
@@ -26,9 +29,13 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
   final _pageController = PageController();
   int _currentPage = 0;
 
+  static const _hasStreamingProviders =
+      FeatureFlags.enableSpotify || FeatureFlags.enableAppleMusic;
+
   List<Widget> get _pages => [
     _WelcomePage(onNext: _next),
-    if (FeatureFlags.enableSpotify) _ConnectPage(onNext: _next, onSkip: _next),
+    if (_hasStreamingProviders)
+      _ConnectProvidersPage(onNext: _next, onSkip: _next),
     _PinSetupPage(onComplete: _complete),
   ];
 
@@ -160,16 +167,18 @@ class _WelcomePage extends StatelessWidget {
   }
 }
 
-class _ConnectPage extends ConsumerWidget {
-  const _ConnectPage({required this.onNext, required this.onSkip});
+/// Onboarding page showing all available content providers.
+///
+/// ARD Audiothek is highlighted as always-free. Streaming providers
+/// (Spotify, Apple Music) appear based on feature flags with connect
+/// buttons.
+class _ConnectProvidersPage extends ConsumerWidget {
+  const _ConnectProvidersPage({required this.onNext, required this.onSkip});
   final VoidCallback onNext;
   final VoidCallback onSkip;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final sessionState = ref.watch(spotifySessionProvider);
-    final isConnected = sessionState is SpotifyAuthenticated;
-
     return Padding(
       padding: const EdgeInsets.all(AppSpacing.xxl),
       child: Column(
@@ -193,10 +202,9 @@ class _ConnectPage extends ConsumerWidget {
           ),
           const SizedBox(height: AppSpacing.md),
           const Text(
-            'Verbinde Spotify für tausende Hörspiele '
-            'und Hörbücher.\n'
-            'Kostenlose Inhalte der ARD Audiothek '
-            'sind auch ohne Abo verfügbar.',
+            'Kostenlose Hörspiele der ARD Audiothek sind '
+            'immer verfügbar. Mit einem Streaming-Abo '
+            'kannst du noch mehr entdecken.',
             textAlign: TextAlign.center,
             style: TextStyle(
               fontFamily: 'Nunito',
@@ -205,38 +213,179 @@ class _ConnectPage extends ConsumerWidget {
               color: AppColors.textSecondary,
             ),
           ),
-          const SizedBox(height: AppSpacing.xxl),
+          const SizedBox(height: AppSpacing.xl),
+
+          // ARD Audiothek -- always available, highlighted
+          const _ProviderCard(
+            type: ProviderType.ardAudiothek,
+            svgAsset: 'assets/images/icons/ard_audiothek.svg',
+            label: 'ARD Audiothek',
+            subtitle: 'Kostenlos, ohne Abo',
+            connected: true,
+          ),
+          const SizedBox(height: AppSpacing.sm),
+
+          if (FeatureFlags.enableAppleMusic) ...[
+            _AppleMusicCard(ref: ref),
+            const SizedBox(height: AppSpacing.sm),
+          ],
+
+          if (FeatureFlags.enableSpotify) ...[
+            _SpotifyCard(ref: ref),
+            const SizedBox(height: AppSpacing.sm),
+          ],
+
+          const SizedBox(height: AppSpacing.md),
           SizedBox(
             width: double.infinity,
-            child: FilledButton.icon(
-              key: const Key('spotify_connect'),
-              onPressed:
-                  isConnected
-                      ? onNext
-                      : () async {
-                        final session = ref.read(
-                          spotifySessionProvider.notifier,
-                        );
-                        await session.login();
-                        // Auto-advance on success
-                        if (session.isAuthenticated) {
-                          onNext();
-                        }
-                      },
-              icon: Icon(
-                isConnected ? Icons.check_rounded : Icons.music_note_rounded,
-              ),
-              label: Text(
-                isConnected ? 'Spotify verbunden' : 'Mit Spotify verbinden',
-              ),
+            child: FilledButton(
+              key: const Key('onboarding_providers_next'),
+              onPressed: onNext,
+              child: const Text('Weiter'),
             ),
           ),
-          const SizedBox(height: AppSpacing.md),
-          TextButton(
-            key: const Key('skip_spotify'),
-            onPressed: onSkip,
-            child: const Text('Später verbinden'),
+        ],
+      ),
+    );
+  }
+}
+
+class _SpotifyCard extends StatelessWidget {
+  const _SpotifyCard({required this.ref});
+  final WidgetRef ref;
+
+  @override
+  Widget build(BuildContext context) {
+    final state = ref.watch(spotifySessionProvider);
+    final connected = state is SpotifyAuthenticated;
+
+    return _ProviderCard(
+      key: const Key('spotify_connect'),
+      type: ProviderType.spotify,
+      svgAsset: 'assets/images/icons/spotify.svg',
+      label: 'Spotify',
+      subtitle: connected ? 'Verbunden' : 'Premium Abo nötig',
+      connected: connected,
+      onConnect:
+          connected
+              ? null
+              : () async {
+                final session = ref.read(spotifySessionProvider.notifier);
+                await session.login();
+              },
+    );
+  }
+}
+
+class _AppleMusicCard extends StatelessWidget {
+  const _AppleMusicCard({required this.ref});
+  final WidgetRef ref;
+
+  @override
+  Widget build(BuildContext context) {
+    final state = ref.watch(appleMusicSessionProvider);
+    final connected = state is AppleMusicAuthenticated;
+
+    return _ProviderCard(
+      key: const Key('apple_music_connect'),
+      type: ProviderType.appleMusic,
+      svgAsset: 'assets/images/icons/apple_music.svg',
+      label: 'Apple Music',
+      subtitle: connected ? 'Verbunden' : 'Abo nötig',
+      connected: connected,
+      onConnect:
+          connected
+              ? null
+              : () async {
+                await ref.read(appleMusicSessionProvider.notifier).connect();
+              },
+    );
+  }
+}
+
+/// Card representing a content provider with logo, name, and status.
+class _ProviderCard extends StatelessWidget {
+  const _ProviderCard({
+    required this.type,
+    required this.svgAsset,
+    required this.label,
+    required this.subtitle,
+    required this.connected,
+    this.onConnect,
+    super.key,
+  });
+
+  final ProviderType type;
+  final String svgAsset;
+  final String label;
+  final String subtitle;
+  final bool connected;
+  final VoidCallback? onConnect;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppSpacing.md,
+        vertical: 12,
+      ),
+      decoration: BoxDecoration(
+        color: connected ? type.color.withAlpha(15) : AppColors.parentSurface,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(
+          color: connected ? type.color.withAlpha(60) : AppColors.surfaceDim,
+        ),
+      ),
+      child: Row(
+        children: [
+          SvgPicture.asset(
+            svgAsset,
+            width: 28,
+            height: 28,
+            colorFilter:
+                type == ProviderType.ardAudiothek
+                    ? ColorFilter.mode(type.color, BlendMode.srcIn)
+                    : null,
           ),
+          const SizedBox(width: AppSpacing.md),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  label,
+                  style: const TextStyle(
+                    fontFamily: 'Nunito',
+                    fontWeight: FontWeight.w700,
+                    fontSize: 15,
+                  ),
+                ),
+                Text(
+                  subtitle,
+                  style: const TextStyle(
+                    fontFamily: 'Nunito',
+                    fontSize: 12,
+                    color: AppColors.textSecondary,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          if (connected)
+            Icon(Icons.check_circle_rounded, color: type.color, size: 22)
+          else if (onConnect != null)
+            TextButton(
+              onPressed: onConnect,
+              style: TextButton.styleFrom(
+                foregroundColor: type.color,
+                textStyle: const TextStyle(
+                  fontFamily: 'Nunito',
+                  fontWeight: FontWeight.w700,
+                  fontSize: 13,
+                ),
+              ),
+              child: const Text('Verbinden'),
+            ),
         ],
       ),
     );
