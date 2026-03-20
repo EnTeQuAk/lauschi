@@ -31,6 +31,7 @@ class AppleMusicPlayer extends PlayerBackend {
   Timer? _positionTimer;
   StreamSubscription<MusicPlayerState>? _playerStateSub;
   StreamSubscription<MusicPlayerQueue>? _queueSub;
+  int? _pendingSeekMs;
   final _stateController = StreamController<PlaybackState>.broadcast();
 
   @override
@@ -62,23 +63,30 @@ class AppleMusicPlayer extends PlayerBackend {
     try {
       _listenToState();
 
+      // setQueue calls prepare(queue, autoplay=true) on the native side.
+      // The controller will start playing once buffering completes.
+      // Do NOT call play() explicitly; it fails on a not-yet-prepared controller.
       await _musicKit.setQueue(
         'albums',
         item: <String, dynamic>{'id': albumId},
       );
 
-      for (var i = 0; i < trackIndex; i++) {
-        await _musicKit.skipToNextEntry();
-      }
-
-      await _musicKit.play();
-
-      if (positionMs > 0) {
-        await Future<void>.delayed(const Duration(milliseconds: 500));
-        await _seekMs(positionMs);
+      // Skip to target track if not the first one.
+      // This must happen after setQueue loads the album queue.
+      if (trackIndex > 0) {
+        // Wait for queue to load before skipping.
+        await Future<void>.delayed(const Duration(seconds: 2));
+        for (var i = 0; i < trackIndex; i++) {
+          await _musicKit.skipToNextEntry();
+        }
       }
 
       _startPositionPolling();
+
+      // Seek within the track after playback starts.
+      if (positionMs > 0) {
+        _pendingSeekMs = positionMs;
+      }
     } on Exception catch (e) {
       Log.error(_tag, 'Play failed', exception: e);
       _emitState(error: PlayerError.playbackFailed);
@@ -139,7 +147,19 @@ class AppleMusicPlayer extends PlayerBackend {
 
   void _listenToState() {
     _playerStateSub = _musicKit.onMusicPlayerStateChanged.listen((mkState) {
+      final wasPlaying = _isPlaying;
       _isPlaying = mkState.playbackStatus == MusicPlayerPlaybackStatus.playing;
+
+      // Apply pending seek when playback first starts.
+      if (_isPlaying && !wasPlaying && _pendingSeekMs != null) {
+        final seekTo = _pendingSeekMs!;
+        _pendingSeekMs = null;
+        Future.delayed(
+          const Duration(milliseconds: 500),
+          () => _seekMs(seekTo),
+        );
+      }
+
       _emitState();
     });
 

@@ -359,6 +359,7 @@ class ChannelHandler(
   @Keep
   @Suppress("unused", "UNUSED_PARAMETER")
   fun play(call: MethodCall, result: MethodChannel.Result) {
+    Log.d(LOG_TAG, "play: controller=${playerController != null} state=${playerController?.playbackState}")
     playerController?.play()
     result.success(null)
   }
@@ -415,6 +416,7 @@ class ChannelHandler(
       else -> MediaContainerType.NONE
     }
     val id = itemObject?.get("id") as String
+    Log.d(LOG_TAG, "setQueue: type=$itemType id=$id containerType=$containerType controller=${playerController != null}")
     queueProviderBuilder.containers(containerType, id)
     playerController?.prepare(queueProviderBuilder.build(), true)
     result.success(null)
