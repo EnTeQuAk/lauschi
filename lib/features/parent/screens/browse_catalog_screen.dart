@@ -1114,15 +1114,21 @@ class _CuratedSeriesCard extends ConsumerWidget {
     final existingUris = ref.watch(existingItemUrisProvider);
     final providerAlbums = series.albumsForProvider(provider);
 
-    // Curated cover_url from YAML takes priority. Provider-specific cover
-    // map is the fallback for series that have curated albums.
+    // Curated cover_url from YAML takes priority. Per-card cover fetch
+    // is the fallback: each card independently resolves its first album's
+    // artwork URL so covers appear progressively.
     final String? coverUrl;
     if (series.coverUrl != null) {
       coverUrl = series.coverUrl;
     } else if (providerAlbums.isNotEmpty) {
-      final coverMap =
-          ref.watch(_seriesCoverMapProvider(provider.value)).value ?? {};
-      coverUrl = coverMap[providerAlbums.first.id];
+      coverUrl =
+          ref
+              .watch(
+                _albumCoverProvider(
+                  '${provider.value}:${providerAlbums.first.id}',
+                ),
+              )
+              .value;
     } else {
       coverUrl = null;
     }
@@ -1640,13 +1646,21 @@ class _HeroCard extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final providerAlbums = series.albumsForProvider(provider);
-    final coverMap =
-        ref.watch(_seriesCoverMapProvider(provider.value)).value ?? {};
-    final firstAlbumId =
-        providerAlbums.isNotEmpty ? providerAlbums.first.id : null;
-    final coverUrl =
-        series.coverUrl ??
-        (firstAlbumId != null ? coverMap[firstAlbumId] : null);
+    final String? coverUrl;
+    if (series.coverUrl != null) {
+      coverUrl = series.coverUrl;
+    } else if (providerAlbums.isNotEmpty) {
+      coverUrl =
+          ref
+              .watch(
+                _albumCoverProvider(
+                  '${provider.value}:${providerAlbums.first.id}',
+                ),
+              )
+              .value;
+    } else {
+      coverUrl = null;
+    }
     final total = providerAlbums.length;
 
     return InkWell(
@@ -2640,64 +2654,27 @@ final _albumCoversProvider = FutureProvider.autoDispose
       },
     );
 
-/// Batch-fetches cover images for all curated series.
+/// Fetches a single album's cover URL from the provider API.
 ///
-/// Takes a ProviderType value as the family key so each provider gets its
-/// own cover map using the right album IDs and API.
-final _seriesCoverMapProvider = FutureProvider.autoDispose
-    .family<Map<String, String>, String>(
-      (ref, providerValue) async {
-        Log.debug(
-          _tag,
-          'seriesCoverMap: start',
-          data: {'provider': providerValue},
-        );
-        final source = _resolveSource(ref, providerValue);
-        if (source == null) {
-          Log.warn(
-            _tag,
-            'seriesCoverMap: no source',
-            data: {'provider': providerValue},
-          );
-          return {};
-        }
+/// Key format: "provider_value:album_id". Each card watches its own
+/// cover independently, so covers appear as each card becomes visible.
+/// Riverpod deduplicates identical requests.
+final _albumCoverProvider = FutureProvider.autoDispose.family<String?, String>(
+  (ref, key) async {
+    final colonIdx = key.indexOf(':');
+    if (colonIdx < 0) return null;
 
-        final catalogAsync = ref.watch(catalogServiceProvider);
-        final catalog = catalogAsync.value;
-        if (catalog == null) {
-          Log.debug(_tag, 'seriesCoverMap: catalog not loaded yet');
-          return {};
-        }
+    final providerValue = key.substring(0, colonIdx);
+    final albumId = key.substring(colonIdx + 1);
+    if (albumId.isEmpty) return null;
 
-        final providerType = ProviderType.values.firstWhere(
-          (t) => t.value == providerValue,
-          orElse: () => ProviderType.spotify,
-        );
+    final source = _resolveSource(ref, providerValue);
+    if (source == null) return null;
 
-        final albumIds = <String>[];
-        for (final series in catalog.all) {
-          final albums = series.albumsForProvider(providerType);
-          if (albums.isNotEmpty) {
-            albumIds.add(albums.first.id);
-          }
-        }
-
-        Log.info(
-          _tag,
-          'seriesCoverMap: fetching covers',
-          data: {'provider': providerValue, 'albumCount': '${albumIds.length}'},
-        );
-
-        if (albumIds.isEmpty) return {};
-        final covers = await source.getAlbumCovers(albumIds);
-        Log.info(
-          _tag,
-          'seriesCoverMap: done',
-          data: {'provider': providerValue, 'covers': '${covers.length}'},
-        );
-        return covers;
-      },
-    );
+    final covers = await source.getAlbumCovers([albumId]);
+    return covers[albumId];
+  },
+);
 
 /// Resolve a CatalogSource from a provider value string.
 /// Build a CatalogSource from session state.
