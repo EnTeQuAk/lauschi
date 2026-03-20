@@ -1,1 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l7 4.5-7 4.5z"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- ARD Audiothek-inspired icon: headphones with play triangle -->
+  <path d="M50 8C27.4 8 9 26.4 9 49v20c0 6.6 5.4 12 12 12h6c3.3 0 6-2.7 6-6V55c0-3.3-2.7-6-6-6h-6.8C22.4 31.4 34.8 20 50 20s27.6 11.4 29.8 29H73c-3.3 0-6 2.7-6 6v20c0 3.3 2.7 6 6 6h6c6.6 0 12-5.4 12-12V49C91 26.4 72.6 8 50 8z" fill="currentColor"/>
+  <path d="M42 40v24l20-12z" fill="currentColor"/>
+</svg>

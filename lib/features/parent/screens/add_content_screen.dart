@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lauschi/core/apple_music/apple_music_catalog_source.dart';
 import 'package:lauschi/core/apple_music/apple_music_session.dart';
 import 'package:lauschi/core/database/tile_repository.dart';
@@ -11,13 +12,14 @@ import 'package:lauschi/core/theme/app_theme.dart';
 import 'package:lauschi/features/parent/screens/browse_catalog_screen.dart';
 import 'package:lauschi/features/parent/screens/discover_screen.dart';
 
-/// Tabbed screen for adding content from any enabled provider.
+/// Screen for discovering and adding content from available providers.
 ///
-/// Each tab renders the provider's browse experience (embedded, no Scaffold).
-/// The available tabs are driven by the [providerRegistryProvider].
+/// Shows provider cards as entry points. ARD Audiothek is always available
+/// and visually prominent. Spotify and Apple Music appear only when their
+/// feature flags are enabled.
 ///
 /// When [autoAssignTileId] is set, all added content goes directly to
-/// that tile. A banner above the tabs shows which tile is targeted.
+/// that tile.
 class AddContentScreen extends ConsumerWidget {
   const AddContentScreen({super.key, this.initialTab, this.autoAssignTileId});
 
@@ -47,33 +49,9 @@ class AddContentScreen extends ConsumerWidget {
         appBar: AppBar(
           backgroundColor: AppColors.parentBackground,
           title: Text(
-            autoAssignTileId != null
-                ? 'Folge hinzufügen'
-                : 'Inhalte hinzufügen',
+            autoAssignTileId != null ? 'Folge hinzufügen' : 'Inhalte entdecken',
           ),
-          bottom: TabBar(
-            isScrollable: providers.length > 3,
-            tabs: [
-              for (final p in providers)
-                Tab(
-                  icon: Icon(p.type.icon, size: 18),
-                  text: p.type.displayName,
-                ),
-            ],
-            labelColor: AppColors.textPrimary,
-            unselectedLabelColor: AppColors.textSecondary,
-            indicatorColor: AppColors.primary,
-            labelStyle: const TextStyle(
-              fontFamily: 'Nunito',
-              fontSize: 12,
-              fontWeight: FontWeight.w700,
-            ),
-            unselectedLabelStyle: const TextStyle(
-              fontFamily: 'Nunito',
-              fontSize: 12,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
+          bottom: _ProviderTabBar(providers: providers),
         ),
         body: Column(
           children: [
@@ -106,6 +84,79 @@ class AddContentScreen extends ConsumerWidget {
         ),
         ProviderType.tidal => _ComingSoon(type: type),
       };
+}
+
+/// Tab bar with provider logos instead of plain text labels.
+class _ProviderTabBar extends StatelessWidget implements PreferredSizeWidget {
+  const _ProviderTabBar({required this.providers});
+
+  final List<ProviderInfo> providers;
+
+  @override
+  Size get preferredSize => const Size.fromHeight(56);
+
+  @override
+  Widget build(BuildContext context) {
+    return TabBar(
+      isScrollable: providers.length > 3,
+      tabs: [for (final p in providers) Tab(child: _ProviderTabLabel(p))],
+      labelColor: AppColors.textPrimary,
+      unselectedLabelColor: AppColors.textSecondary,
+      indicatorColor: AppColors.primary,
+      dividerHeight: 0,
+    );
+  }
+}
+
+/// Single tab label: logo + name, styled per provider.
+class _ProviderTabLabel extends StatelessWidget {
+  const _ProviderTabLabel(this.info);
+
+  final ProviderInfo info;
+
+  @override
+  Widget build(BuildContext context) {
+    final logo = _providerLogo(info.type);
+
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        if (logo != null) ...[logo, const SizedBox(width: 6)],
+        if (logo == null) ...[
+          Icon(info.type.icon, size: 18),
+          const SizedBox(width: 6),
+        ],
+        Text(
+          info.type.displayName,
+          style: const TextStyle(
+            fontFamily: 'Nunito',
+            fontSize: 13,
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+/// Returns an SVG logo widget for providers that have one.
+Widget? _providerLogo(ProviderType type, {double size = 20}) {
+  final path = switch (type) {
+    ProviderType.ardAudiothek => 'assets/images/icons/ard_audiothek.svg',
+    ProviderType.spotify => 'assets/images/icons/spotify.svg',
+    ProviderType.appleMusic => 'assets/images/icons/apple_music.svg',
+    _ => null,
+  };
+  if (path == null) return null;
+  return SvgPicture.asset(
+    path,
+    width: size,
+    height: size,
+    colorFilter:
+        type == ProviderType.ardAudiothek
+            ? ColorFilter.mode(type.color, BlendMode.srcIn)
+            : null,
+  );
 }
 
 /// Banner showing which tile content will be added to.
@@ -260,7 +311,10 @@ class _ProviderLoadingIndicator extends StatelessWidget {
   }
 }
 
-/// Shared connect prompt for providers that require auth.
+/// Connect prompt for providers that require auth.
+///
+/// Shows the provider logo prominently, a description, and a connect button
+/// in the provider's brand color.
 class _ProviderConnectPrompt extends StatelessWidget {
   const _ProviderConnectPrompt({
     required this.type,
@@ -276,6 +330,8 @@ class _ProviderConnectPrompt extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final logo = _providerLogo(type, size: 56);
+
     return ColoredBox(
       color: AppColors.parentBackground,
       child: Center(
@@ -284,7 +340,10 @@ class _ProviderConnectPrompt extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Icon(type.icon, size: 48, color: type.color),
+              if (logo != null)
+                logo
+              else
+                Icon(type.icon, size: 56, color: type.color),
               const SizedBox(height: AppSpacing.md),
               Text(
                 '${type.displayName} verbinden',
@@ -322,7 +381,15 @@ class _ProviderConnectPrompt extends StatelessWidget {
               const SizedBox(height: AppSpacing.lg),
               FilledButton.icon(
                 onPressed: onConnect,
-                icon: Icon(type.icon),
+                icon:
+                    logo != null
+                        ? SizedBox(
+                          width: 20,
+                          height: 20,
+                          child:
+                              _providerLogo(type) ?? Icon(type.icon, size: 20),
+                        )
+                        : Icon(type.icon),
                 label: Text('Mit ${type.displayName} verbinden'),
                 style: FilledButton.styleFrom(
                   backgroundColor: type.color,
