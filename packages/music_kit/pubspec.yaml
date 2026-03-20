@@ -1,0 +1,35 @@
+name: music_kit
+description: A Flutter plugin to access and play Apple Music.
+version: 1.3.0
+homepage: https://github.com/misiio/flutter_music_kit/tree/master/packages/music_kit
+
+environment:
+  sdk: ^3.7.0
+  flutter: '>=3.3.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  music_kit_platform_interface: ^1.2.0
+  music_kit_darwin: ^1.3.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+
+flutter:
+  plugin:
+    platforms:
+      android:
+        package: app.misi.music_kit
+        pluginClass: MusicKitPlugin
+      ios:
+        default_package: music_kit_darwin
+      macos:
+        default_package: music_kit_darwin
+
+platforms:
+  android:
+  ios:
+  macos:

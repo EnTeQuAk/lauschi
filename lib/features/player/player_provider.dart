@@ -17,7 +17,7 @@ import 'package:lauschi/features/player/player_state.dart';
 import 'package:lauschi/features/player/spotify_player.dart';
 import 'package:lauschi/features/player/spotify_webview_bridge.dart';
 import 'package:lauschi/features/player/stream_player.dart';
-import 'package:music_kit/music_kit.dart' show MusicKit;
+// music_kit used transitively via AppleMusicSession.
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
 
@@ -80,10 +80,6 @@ class PlayerNotifier extends _$PlayerNotifier {
 
   /// Spotify session. Null when Spotify is disabled.
   SpotifySession? _session;
-
-  /// MusicKit instance from the Apple Music session.
-  MusicKit get _appleMusicKit =>
-      ref.read(appleMusicSessionProvider.notifier).musicKit;
 
   /// Shortcuts into the session for playback code.
   SpotifyWebViewBridge? get _bridge => _session?.bridge;
@@ -676,18 +672,25 @@ class PlayerNotifier extends _$PlayerNotifier {
       data: {'card': card.title},
     );
 
+    // Wait for the Apple Music session to authenticate and the native
+    // MediaPlayerController to be ready. On cold start the session's
+    // _init() runs asynchronously, so the user may tap play before
+    // it completes.
+    final amSession = ref.read(appleMusicSessionProvider.notifier);
+    final ready = await _waitForAppleMusicReady(amSession, gen);
+    if (!ready || _playGen != gen) return;
+
+    final musicKit = amSession.musicKit;
+
     final trackInfo = TrackInfo(
       uri: card.providerUri,
       name: card.title,
       artworkUrl: card.coverUrl,
     );
 
-    // providerUri format for Apple Music: "apple_music:album:<catalogId>"
     final albumId = card.providerUri.replaceFirst('apple_music:album:', '');
+    final player = AppleMusicPlayer(musicKit);
 
-    final player = AppleMusicPlayer(_appleMusicKit);
-
-    // Guard: another playCard may have started while we were setting up.
     if (_playGen != gen) return;
 
     _active = _ActiveBackend(
@@ -704,14 +707,42 @@ class PlayerNotifier extends _$PlayerNotifier {
       track: trackInfo,
     );
 
-    unawaited(
-      player.play(
-        albumId: albumId,
-        trackInfo: trackInfo,
-        // TODO(#230): support multi-track resume (trackIndex from card).
-        positionMs: card.lastPositionMs,
-      ),
+    await player.play(
+      albumId: albumId,
+      trackInfo: trackInfo,
+      positionMs: card.lastPositionMs,
     );
+  }
+
+  /// Wait for the Apple Music session to authenticate and the native
+  /// controller to be ready (max 10s).
+  ///
+  /// On cold start, the session's _init() is async (unawaited), so
+  /// auth may still be in progress when the user taps play. This
+  /// polls until both conditions are met, following the same pattern
+  /// as Spotify's _ensureDevice().
+  Future<bool> _waitForAppleMusicReady(
+    AppleMusicSession session,
+    int gen,
+  ) async {
+    for (var i = 0; i < 50; i++) {
+      if (_playGen != gen) return false;
+
+      if (session.isAuthenticated) {
+        final controllerReady = await session.musicKit.isPreparedToPlay;
+        if (controllerReady) return true;
+      }
+
+      await Future<void>.delayed(const Duration(milliseconds: 200));
+    }
+
+    Log.error(
+      _tag,
+      'Apple Music not ready after 10s',
+      data: {'authenticated': '${session.isAuthenticated}'},
+    );
+    state = state.copyWith(error: PlayerError.playbackFailed);
+    return false;
   }
 
   // ─── Playback state change handling ─────────────────────────────────

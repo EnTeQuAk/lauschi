@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/services.dart' show MissingPluginException;
-import 'package:lauschi/core/apple_music/apple_music_seek.dart';
 import 'package:lauschi/core/log.dart';
 import 'package:lauschi/features/player/player_backend.dart';
 import 'package:lauschi/features/player/player_error.dart';
@@ -194,22 +193,21 @@ class AppleMusicPlayer extends PlayerBackend {
     _positionTimer = null;
   }
 
-  bool _positionPollAvailable = true;
-
   Future<void> _pollPosition() async {
-    if (!_positionPollAvailable) return;
     try {
       final seconds = await _musicKit.playbackTime;
       _positionMs = (seconds * 1000).round();
+
+      // Also fetch duration if we don't have it yet.
+      if (_durationMs == 0) {
+        final duration = await _musicKit.currentItemDuration;
+        _durationMs = (duration * 1000).round();
+      }
+
       _emitState();
     } on MissingPluginException {
-      // music_kit plugin doesn't implement playbackTime on Android.
-      // Stop polling to avoid spamming logs every second.
-      Log.warn(
-        _tag,
-        'playbackTime not available on this platform, disabling position polling',
-      );
-      _positionPollAvailable = false;
+      // Shouldn't happen with the forked plugin, but guard anyway.
+      Log.warn(_tag, 'playbackTime not available, disabling polling');
       _stopPositionPolling();
     } on Exception catch (e) {
       Log.debug(_tag, 'Position poll failed', data: {'error': '$e'});
@@ -217,10 +215,17 @@ class AppleMusicPlayer extends PlayerBackend {
   }
 
   Future<void> _seekSeconds(double seconds) async {
-    // WORKAROUND: music_kit plugin (v1.3.0) doesn't expose seek.
-    // Uses a direct platform channel. Falls back to logging a warning
-    // if the native side isn't ready. See #230.
-    await seekAppleMusic(seconds);
+    try {
+      await _musicKit.setPlaybackTime(seconds);
+      _positionMs = (seconds * 1000).round();
+      _emitState();
+    } on Exception catch (e) {
+      Log.warn(
+        _tag,
+        'Seek failed',
+        data: {'seconds': '$seconds', 'error': '$e'},
+      );
+    }
   }
 
   void _emitState({PlayerError? error}) {

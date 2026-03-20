@@ -747,10 +747,9 @@ packages:
   music_kit:
     dependency: "direct main"
     description:
-      name: music_kit
-      sha256: "9068a7b81d7efad568e534b349e978d2aea11bcb030239e2570a59a82910cdd4"
-      url: "https://pub.dev"
-    source: hosted
+      path: "packages/music_kit"
+      relative: true
+    source: path
     version: "1.3.0"
   music_kit_darwin:
     dependency: transitive
