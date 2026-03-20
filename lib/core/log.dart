@@ -91,7 +91,12 @@ abstract final class Log {
     Map<String, Object>? data,
   }) {
     final suffix = data != null ? '  $data' : '';
-    developer.log('[$source] $message$suffix', name: 'lauschi', level: level);
+    final formatted = '[$source] $message$suffix';
+    developer.log(formatted, name: 'lauschi', level: level);
+    // Also goes to adb logcat as I/flutter. developer.log only shows
+    // in the attached Dart debugger, not in logcat.
+    // ignore: avoid_print
+    print('lauschi: $formatted');
   }
 
   static void _breadcrumb(
