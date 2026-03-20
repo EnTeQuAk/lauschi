@@ -60,7 +60,7 @@ mise run catalog-discover -- "TKKG" -p spotify # Spotify only
 **Multi-Provider Architecture**: Three audio providers share a common interface:
 - **ARD Audiothek**: Free, no auth. Direct HTTP streams via `StreamPlayer` (just_audio).
 - **Spotify**: OAuth PKCE, WebView SDK bridge. `SpotifyPlayer` wraps `SpotifyWebViewBridge`.
-- **Apple Music**: MusicKit SDK (official, Android + iOS). `AppleMusicPlayer` wraps the `music_kit` Flutter plugin. User needs Apple Music subscription.
+- **Apple Music**: MusicKit SDK via forked `music_kit` plugin (packages/music_kit). Fixes: playback position, seek, duration, state mapping. JWT generated on-device from .p8 key. User needs Apple Music subscription.
 
 Provider-agnostic catalog browse: `CatalogSource` interface implemented by
 `SpotifyCatalogSource` and `AppleMusicCatalogSource`. One `BrowseCatalogScreen`
@@ -79,7 +79,7 @@ lib/
 ├── app.dart                 # Root widget, WebView host, deep links
 ├── main.dart                # Entry point, media session init, Sentry
 ├── core/
-│   ├── apple_music/         # MusicKit auth, API, config, seek
+│   ├── apple_music/         # MusicKit auth, API client
 │   ├── auth/                # PIN service
 │   ├── catalog/             # Series YAML matching, CatalogSource interface
 │   ├── connectivity/        # Network state
@@ -138,8 +138,7 @@ Copy `.env.example` to `.env` and `.env.app.example` to `.env.app`, then configu
 `.env.app` keys:
 - `ENABLE_SPOTIFY` — feature flag (default: `false`)
 - `SPOTIFY_CLIENT_ID` — required when Spotify enabled
-- `ENABLE_APPLE_MUSIC` — feature flag (default: `false`)
-- `APPLE_MUSIC_DEVELOPER_TOKEN` — JWT for Android (generate via `mise run catalog-token`)
+- `ENABLE_APPLE_MUSIC` — feature flag (default: `false`). Key material in `android/app/AuthKey_*.p8`; JWT generated on-device by the forked music_kit plugin
 - `SENTRY_DSN` — optional error tracking
 - `SENTRY_ENVIRONMENT` — defaults to "development"
 
