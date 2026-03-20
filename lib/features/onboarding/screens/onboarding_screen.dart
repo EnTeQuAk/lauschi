@@ -233,12 +233,12 @@ class _ConnectProvidersPage extends ConsumerWidget {
                   const SizedBox(height: AppSpacing.sm),
 
                   if (FeatureFlags.enableAppleMusic) ...[
-                    _AppleMusicCard(ref: ref),
+                    const _AppleMusicCard(),
                     const SizedBox(height: AppSpacing.sm),
                   ],
 
                   if (FeatureFlags.enableSpotify) ...[
-                    _SpotifyCard(ref: ref),
+                    const _SpotifyCard(),
                     const SizedBox(height: AppSpacing.sm),
                   ],
 
@@ -259,12 +259,11 @@ class _ConnectProvidersPage extends ConsumerWidget {
   }
 }
 
-class _SpotifyCard extends StatelessWidget {
-  const _SpotifyCard({required this.ref});
-  final WidgetRef ref;
+class _SpotifyCard extends ConsumerWidget {
+  const _SpotifyCard();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(spotifySessionProvider);
     final connected = state is SpotifyAuthenticated;
     final loading = state is SpotifyLoading;
@@ -293,12 +292,11 @@ class _SpotifyCard extends StatelessWidget {
   }
 }
 
-class _AppleMusicCard extends StatelessWidget {
-  const _AppleMusicCard({required this.ref});
-  final WidgetRef ref;
+class _AppleMusicCard extends ConsumerWidget {
+  const _AppleMusicCard();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(appleMusicSessionProvider);
     final connected = state is AppleMusicAuthenticated;
     final loading = state is AppleMusicLoading;

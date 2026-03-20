@@ -97,8 +97,35 @@ class ParentDashboardScreen extends ConsumerWidget {
               onTap: () => context.push(AppRoutes.parentNfcTags),
             ),
           ],
-          const SizedBox(height: AppSpacing.xl),
-          _AboutFooter(
+          const Divider(indent: 56),
+          ListTile(
+            key: const Key('about_settings'),
+            leading: ClipRRect(
+              borderRadius: BorderRadius.circular(4),
+              child: Image.asset(
+                'assets/images/branding/lauschi-logo.png',
+                width: 24,
+                height: 24,
+              ),
+            ),
+            title: const Text(
+              'Über lauschi',
+              style: TextStyle(
+                fontFamily: 'Nunito',
+                fontWeight: FontWeight.w600,
+                fontSize: 15,
+              ),
+            ),
+            subtitle: const Text(
+              'Einstellungen & Version',
+              style: TextStyle(
+                fontFamily: 'Nunito',
+                fontSize: 13,
+                color: AppColors.textSecondary,
+              ),
+            ),
+            trailing: const Icon(Icons.chevron_right_rounded),
+            tileColor: AppColors.parentSurface,
             onTap: () => context.push(AppRoutes.parentSettings),
           ),
         ],
@@ -202,57 +229,6 @@ void _confirmDisconnect(
           ),
     ),
   );
-}
-
-class _AboutFooter extends StatelessWidget {
-  const _AboutFooter({required this.onTap});
-
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.screenH),
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(16),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
-          child: Column(
-            children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(12),
-                child: Image.asset(
-                  'assets/images/branding/lauschi-logo.png',
-                  width: 48,
-                  height: 48,
-                ),
-              ),
-              const SizedBox(height: AppSpacing.sm),
-              const Text(
-                'Über lauschi',
-                style: TextStyle(
-                  fontFamily: 'Nunito',
-                  fontWeight: FontWeight.w700,
-                  fontSize: 15,
-                  color: AppColors.textPrimary,
-                ),
-              ),
-              const SizedBox(height: 2),
-              const Text(
-                'Einstellungen & Info',
-                style: TextStyle(
-                  fontFamily: 'Nunito',
-                  fontSize: 12,
-                  color: AppColors.textSecondary,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
 }
 
 class _SectionHeader extends StatelessWidget {
