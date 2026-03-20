@@ -140,8 +140,9 @@ def validate(provider: str, series: str | None, verbose: bool):
         if not has_any:
             continue
 
-        pattern_str = str(entry.episode_pattern or "-")[:25]
-        row = [entry.title, pattern_str]
+        from rich.markup import escape
+        pattern_str = escape(str(entry.episode_pattern or "-")[:25])
+        row = [escape(entry.title), pattern_str]
 
         for p in providers:
             aids = entry.artist_ids(p.name)
