@@ -82,19 +82,29 @@ class AppleMusicStreamResolver {
         return null;
       }
 
-      // Prefer the standard quality AAC stream (flavor 28:ctrp256).
-      // Fall back to whatever's available.
-      String? streamUrl;
+      // Log all available flavors for debugging.
       for (final asset in assets) {
         final assetMap = asset as Map<String, dynamic>;
         final flavor = assetMap['flavor'] as String? ?? '';
-        final url = assetMap['URL'] as String?;
+        final url = assetMap['URL'] as String? ?? '';
+        Log.debug(
+          _tag,
+          'Asset',
+          data: {
+            'flavor': flavor,
+            'url': url.length > 80 ? '${url.substring(0, 80)}...' : url,
+          },
+        );
+      }
 
-        if (url != null && flavor.contains('ctrp256')) {
-          streamUrl = url;
-          break;
-        }
-        // Keep first URL as fallback.
+      // Try flavors in order of preference:
+      // 1. Non-encrypted variants (if any exist)
+      // 2. Standard quality AAC (ctrp256)
+      // 3. Whatever's available
+      String? streamUrl;
+      for (final asset in assets) {
+        final assetMap = asset as Map<String, dynamic>;
+        final url = assetMap['URL'] as String?;
         streamUrl ??= url;
       }
 
