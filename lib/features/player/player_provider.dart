@@ -685,7 +685,10 @@ class PlayerNotifier extends _$PlayerNotifier {
       artworkUrl: card.coverUrl,
     );
 
-    final player = AppleMusicPlayer(amSession.musicKit);
+    final player = AppleMusicPlayer(
+      streamResolver: amSession.streamResolver,
+      api: amSession.api,
+    );
 
     if (_playGen != gen) return;
 
