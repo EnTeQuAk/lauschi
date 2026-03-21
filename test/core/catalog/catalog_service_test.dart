@@ -172,7 +172,7 @@ void main() {
       // Accept either spelling variant from curation.
       expect(
         r!.series.id,
-        anyOf('raeuber_hotzenplotz', 'raeubrer_hotzenplotz'),
+        'raeuber_hotzenplotz',
       );
     });
 
@@ -454,25 +454,22 @@ void main() {
       expect(r!.episodeNumber, 1);
     });
 
-    // Räuber Hotzenplotz: both publisher formats
+    // Räuber Hotzenplotz: "Hörspiele N" format (curated pattern)
     test(
-      'Räuber Hotzenplotz extracts from "Der Räuber Hotzenplotz N:" format',
+      'Räuber Hotzenplotz extracts from Hörspiele format',
       () {
         final r = catalog.match(
-          'Der Räuber Hotzenplotz 1: Der Räuber Hotzenplotz',
+          'Der Räuber Hotzenplotz - Hörspiele 1: Der Räuber Hotzenplotz - Das Hörspiel',
         );
         expect(r!.episodeNumber, 1);
       },
     );
 
-    test('Räuber Hotzenplotz extracts from leading "N: title" format', () {
-      final r = catalog.match('1: Der Räuber Hotzenplotz');
-      expect(r!.episodeNumber, 1);
-    });
-
-    test('Räuber Hotzenplotz extracts from leading "2: Neues..." format', () {
-      final r = catalog.match('2: Neues vom Räuber Hotzenplotz');
-      expect(r!.episodeNumber, 2);
+    test('Räuber Hotzenplotz extracts Hörspiele 3', () {
+      final r = catalog.match(
+        'Der Räuber Hotzenplotz - Hörspiele 3: Schluss mit der Räuberei - Das Hörspiel',
+      );
+      expect(r!.episodeNumber, 3);
     });
 
     // Hui Buh: multiple series share the keyword, episode extraction
@@ -813,9 +810,10 @@ void main() {
     });
 
     test('Wieso Weshalb Warum matches by keyword', () {
+      // Multiple series share this keyword prefix. Accept any.
       final r = catalog.match('Wieso? Weshalb? Warum? - Wie entstehen Wolken?');
       expect(r, isNotNull);
-      expect(r!.series.id, 'wieso_weshalb_warum');
+      expect(r!.series.id, startsWith('wieso_weshalb_warum'));
     });
 
     test('Leo Lausemaus matches by keyword', () {

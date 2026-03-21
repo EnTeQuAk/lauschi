@@ -7099,24 +7099,6 @@ series:
     apple_music:
       artist_ids:
       - '298740188'
-- id: raeubrer_hotzenplotz
-  title: Räuber Hotzenplotz
-  aliases:
-  - Räuber Hotzenplotz
-  - Der Räuber Hotzenplotz
-  keywords:
-  - räuber hotzenplotz
-  - rauber hotzenplotz
-  - hotzenplotz
-  episode_pattern: '(?:^(\d{1,3}):\s|[Hh]otzenplotz[^0-9]*(\d{1,3}))'
-  providers:
-    spotify:
-      artist_ids:
-      - 3qAWgxar5hLNcW4ybNvjSW
-      - 2AvETPAFFbhV737lBKXJj9
-    apple_music:
-      artist_ids:
-      - '1648852194'
 - id: kleiner_drache_kokosnuss
   title: Der kleine Drache Kokosnuss
   aliases:
@@ -26022,9 +26004,11 @@ series:
 - id: raeuber_hotzenplotz
   title: Räuber Hotzenplotz
   aliases:
+  - Räuber Hotzenplotz
   - Der Räuber Hotzenplotz
   keywords:
-  - Hotzenplotz
+  - räuber hotzenplotz
+  - hotzenplotz
   episode_pattern: 'Hörspiele\s+(\d+)'
   providers:
     spotify:
