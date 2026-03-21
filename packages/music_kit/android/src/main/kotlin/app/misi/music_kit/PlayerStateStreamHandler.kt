@@ -108,12 +108,6 @@ class PlayerStateStreamHandler() :
   }
 
   private fun updatePlaybackState(controller: MediaPlayerController) {
-    val position = controller.currentPosition
-    val duration = controller.currentItem?.duration ?: 0L
-    Log.d(
-      LOG_TAG,
-      "State update: state=${controller.playbackState} pos=${position}ms dur=${duration}ms buffering=${controller.isBuffering}"
-    )
     val state = mapOf<String, Any>(
       "playbackStatus" to controller.playbackState,
       "playbackRate" to controller.playbackRate,
