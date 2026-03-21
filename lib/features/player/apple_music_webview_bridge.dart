@@ -128,10 +128,21 @@ class AppleMusicWebViewBridge {
 
     await c.setJavaScriptMode(JavaScriptMode.unrestricted);
 
-    // Allow audio playback without user gesture.
+    // Android WebView settings needed for MusicKit JS.
+    // The AndroidWebViewController constructor already enables DOM storage
+    // and JS window opening. But third-party cookies are OFF by default
+    // (unlike Chrome). MusicKit JS needs cookies across Apple's domains
+    // for DRM content resolution. Without this, setQueue() returns
+    // NOT_FOUND even though the catalog API works fine.
     final platform = c.platform;
     if (platform is AndroidWebViewController) {
       await platform.setMediaPlaybackRequiresUserGesture(false);
+
+      // Enable third-party cookies for cross-domain DRM/content resolution.
+      final cookieManager = AndroidWebViewCookieManager(
+        const PlatformWebViewCookieManagerCreationParams(),
+      );
+      await cookieManager.setAcceptThirdPartyCookies(platform, true);
     }
 
     // Standard Chrome UA. MusicKit JS may check browser capabilities.
