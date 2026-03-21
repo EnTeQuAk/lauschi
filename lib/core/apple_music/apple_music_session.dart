@@ -103,40 +103,10 @@ class AppleMusicSession extends _$AppleMusicSession {
     }
   }
 
-  /// Disconnect (clear native tokens).
+  /// Disconnect. Clears Dart state; native tokens remain in
+  /// SharedPreferences until the user re-authenticates.
   Future<void> disconnect() async {
-    // The plugin persists tokens in SharedPreferences.
-    // To truly disconnect, we'd need to clear those. For now,
-    // just update the Dart state. A full disconnect would require
-    // a plugin method to clear stored tokens.
     state = AppleMusicUnauthenticated();
     Log.info(_tag, 'Disconnected');
-  }
-
-  /// Re-check auth status (e.g. after app resume).
-  Future<void> recheckAuth({bool fromConnect = false}) async {
-    if (!fromConnect && state is AppleMusicLoading) return;
-    try {
-      final status = await _musicKit.authorizationStatus;
-      if (status is MusicAuthorizationStatusAuthorized) {
-        if (state is! AppleMusicAuthenticated) {
-          _api.init();
-          state = AppleMusicAuthenticated();
-          Log.info(_tag, 'Authorized on recheck');
-        }
-      } else if (state is! AppleMusicUnauthenticated) {
-        state = AppleMusicUnauthenticated();
-      }
-    } on Exception catch (e) {
-      Log.warn(_tag, 'Auth recheck failed', data: {'error': '$e'});
-    }
-  }
-
-  /// Cancel an in-progress connect attempt.
-  void cancelConnect() {
-    if (state is AppleMusicLoading) {
-      state = AppleMusicUnauthenticated();
-      Log.info(_tag, 'Connect cancelled');
-    }
   }
 }
