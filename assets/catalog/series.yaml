@@ -9671,14 +9671,6 @@ series:
   - Heidi
   aliases:
   - Heidi (CGI)
-- id: ronja_raeubertocher
-  title: Ronja Räubertochter
-  aliases:
-  - Ronja Räubertochter
-  - Ronja Raubertochter
-  keywords:
-  - ronja räubertochter
-  - ronja raubertochter
 - id: emil_detektive
   title: Emil und die Detektive
   aliases:
@@ -12269,21 +12261,6 @@ series:
         title: Momo – Das Hörspiel zum Kinofilm (Das Hörspiel zum Film)
       - id: '1442686534'
         title: Norbert Nackendick + Tranquilla Trampeltreu
-- id: gespensterjager
-  title: Gespensterjäger
-  aliases:
-  - Gespensterjäger
-  keywords:
-  - gespensterjäger
-  - gespensterjager
-  episode_pattern: '(?:[Bb]and\s+(\d+)|[Ff]olge\s+(\d+)|^(\d{2,3})/)'
-  providers:
-    spotify:
-      artist_ids:
-      - 4icYuK6RKqj5ALhxuJHDGU
-    apple_music:
-      artist_ids:
-      - '1845363799'
 - id: die_wilden_huehner
   title: Die wilden Hühner
   aliases:
@@ -23505,15 +23482,6 @@ series:
       - '520953076'
   keywords:
   - Deine Freunde
-- id: detlev_joecker
-  title: Detlev Jöcker
-  providers:
-    spotify:
-      artist_ids:
-      - 4UiTe5uwHKDUddmV8yQeY4
-    apple_music:
-      artist_ids:
-      - '42264666'
 - id: die_eiskoenigin
   title: Die Eiskönigin
   providers:
@@ -24385,6 +24353,7 @@ series:
   title: Gespensterjäger
   keywords:
   - Gespensterjäger
+  - gespensterjager
   episode_pattern: '(?:Band|Folge)\s+(\d+)'
   providers:
     spotify:
@@ -26075,6 +26044,9 @@ series:
   - Rolfs
 - id: ronja_raeubertochter
   title: Ronja Räubertochter
+  keywords:
+  - ronja räubertochter
+  - ronja raubertochter
   providers:
     spotify:
       artist_ids:
