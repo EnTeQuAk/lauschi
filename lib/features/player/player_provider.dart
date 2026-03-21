@@ -502,12 +502,15 @@ class PlayerNotifier extends _$PlayerNotifier {
     if (_playGen != gen) return null;
 
     // Still nothing after waiting. Now try reconnecting (WebView process
-    // may have died, or SDK connection dropped).
+    // may have died from low memory, or SDK connection dropped).
     if (deviceId == null) {
       Log.warn(_tag, 'No device after wait — attempting reconnect');
       await bridge.reconnect();
+      // After a cold reload (process death), the WebView needs to:
+      // 1. Load player.html  2. Parse Spotify SDK JS  3. Init + connect
+      // This takes longer than the initial 5s wait. Give it 15s.
       deviceId = await bridge.waitForDevice(
-        timeout: const Duration(seconds: 5),
+        timeout: const Duration(seconds: 15),
       );
       if (_playGen != gen) return null;
     }
@@ -673,20 +676,12 @@ class PlayerNotifier extends _$PlayerNotifier {
       data: {'card': card.title},
     );
 
-    final albumId = card.providerUri.replaceFirst('apple_music:album:', '');
-
-    // Start warming up the DRM pipeline immediately, before waiting
-    // for session auth. The controller might already exist from a
-    // previous session. If it doesn't, warmUp will silently fail and
-    // the normal play() path handles it.
-    unawaited(
-      AppleMusicPlayer(amSession.musicKit).warmUp(albumId),
-    );
-
     // Wait for session auth + native controller. On cold start the
     // session's _init() is async, so the user may tap play before it
     // completes. Same pattern as Spotify's _ensureDevice().
     if (!await _ensureAppleMusicReady(amSession, gen)) return;
+
+    final albumId = card.providerUri.replaceFirst('apple_music:album:', '');
 
     final trackInfo = TrackInfo(
       uri: card.providerUri,
