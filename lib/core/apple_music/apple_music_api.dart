@@ -69,23 +69,9 @@ class AppleMusicApi {
 
   final MusicKit _musicKit;
   final Dio _dio;
-  bool _initialized = false;
-
-  bool get isInitialized => _initialized;
-
-  /// Set up auth headers from the MusicKit plugin.
-  ///
-  /// Called by the session after auth completes. Gets the developer token
-  /// (generated on-device from .p8 key) and user token from the plugin.
-  /// Storefront resolved by plugin, defaults to 'de'.
-  void init() {
-    // Tokens are fetched lazily on first API call to avoid blocking.
-    // The plugin already has them in memory from its native init.
-    _initialized = true;
-    Log.info(_tag, 'Ready');
-  }
 
   /// Ensure auth headers are set before making requests.
+  /// Fetches tokens lazily from the MusicKit plugin on first call.
   Future<void> _ensureHeaders() async {
     if (_dio.options.headers.containsKey('Authorization')) return;
     try {

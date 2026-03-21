@@ -62,7 +62,6 @@ class AppleMusicSession extends _$AppleMusicSession {
         data: {'status': status.runtimeType.toString()},
       );
       if (status is MusicAuthorizationStatusAuthorized) {
-        _api.init();
         state = AppleMusicAuthenticated();
       } else {
         state = AppleMusicUnauthenticated();
@@ -86,7 +85,6 @@ class AppleMusicSession extends _$AppleMusicSession {
       );
 
       if (result is MusicAuthorizationStatusAuthorized) {
-        _api.init();
         state = AppleMusicAuthenticated();
         Log.info(_tag, 'Connected');
       } else {
