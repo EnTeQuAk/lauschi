@@ -505,15 +505,24 @@ class AppleMusicWebViewBridge {
   // ---------------------------------------------------------------------------
 
   /// Play an album starting from a track index.
-  Future<void> playAlbum(String albumId, {int trackIndex = 0}) async {
+  /// Storefront defaults to 'de' for DACH market.
+  Future<void> playAlbum(
+    String albumId, {
+    int trackIndex = 0,
+    String storefront = 'de',
+  }) async {
     Log.info(
       _tag,
       'play_album',
-      data: {'albumId': albumId, 'trackIndex': '$trackIndex'},
+      data: {
+        'albumId': albumId,
+        'trackIndex': '$trackIndex',
+        'storefront': storefront,
+      },
     );
     await _runJs(
       'window.lauschi.play_album('
-      '${json.encode(albumId)},$trackIndex)',
+      '${json.encode(albumId)},$trackIndex,${json.encode(storefront)})',
     );
   }
 
