@@ -55,12 +55,52 @@
         music = MusicKit.getInstance();
         post_log('MusicKit instance: ' + (music ? 'OK' : 'NULL'));
 
-        // Inject user token from native auth. Same as Spotify where
-        // Dart obtains OAuth token and passes it to the JS SDK.
-        // No authorize() popup needed.
+        // Inject user token from native auth.
+        // MusicKit JS stores tokens in localStorage as 'music.{prefix}.u'.
+        // The authorize() flow sets this automatically. When injecting
+        // externally, we need to set both the JS property AND localStorage.
         if (musicUserToken && music) {
           music.musicUserToken = musicUserToken;
-          post_log('Token injected (' + musicUserToken.length + ' chars)');
+          post_log('Token set as property (' + musicUserToken.length + ' chars)');
+
+          // Find and set the localStorage key MusicKit JS expects.
+          // Pattern: 'music.{something}.u' (discovered by passport-apple-music)
+          try {
+            // Look for existing music.*.u keys first
+            var existingKeys = [];
+            for (var i = 0; i < localStorage.length; i++) {
+              var key = localStorage.key(i);
+              if (key && key.startsWith('music.') && key.endsWith('.u')) {
+                existingKeys.push(key);
+              }
+            }
+            post_log('Existing music.*.u keys: ' + JSON.stringify(existingKeys));
+
+            // Also dump all music.* keys for debugging
+            var allMusicKeys = [];
+            for (var j = 0; j < localStorage.length; j++) {
+              var k = localStorage.key(j);
+              if (k && k.startsWith('music.')) {
+                allMusicKeys.push(k + ' = ' + (localStorage.getItem(k) || '').substring(0, 50) + '...');
+              }
+            }
+            post_log('All music.* localStorage: ' + JSON.stringify(allMusicKeys));
+
+            // Set the token in all existing music.*.u keys, or create one
+            if (existingKeys.length > 0) {
+              existingKeys.forEach(function(key) {
+                localStorage.setItem(key, musicUserToken);
+                post_log('Updated localStorage key: ' + key);
+              });
+            } else {
+              // Create with developer token prefix (MusicKit convention)
+              var prefix = 'music.' + developerToken.substring(0, 10) + '.u';
+              localStorage.setItem(prefix, musicUserToken);
+              post_log('Created localStorage key: ' + prefix);
+            }
+          } catch(lsErr) {
+            post_log('localStorage injection failed: ' + lsErr);
+          }
         }
 
         post_log('isAuthorized: ' + music.isAuthorized);
