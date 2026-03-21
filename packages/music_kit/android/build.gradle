@@ -86,4 +86,11 @@ dependencies {
 
     implementation 'com.github.misiio:musickitauth:1.1.2'
     implementation 'com.github.misiio:mediaplayback:1.1.1'
+
+    // ExoPlayer/Media3 for Apple Music HLS + Widevine DRM playback.
+    // Version must match just_audio's media3 version to avoid conflicts.
+    def media3_version = "1.4.1"
+    implementation "androidx.media3:media3-exoplayer:$media3_version"
+    implementation "androidx.media3:media3-exoplayer-hls:$media3_version"
+    implementation "androidx.media3:media3-datasource-okhttp:$media3_version"
 }

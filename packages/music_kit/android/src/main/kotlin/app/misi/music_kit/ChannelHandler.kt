@@ -69,6 +69,9 @@ class ChannelHandler(
   @Volatile
   private var playerController: MediaPlayerController? = null
 
+  // ExoPlayer-based DRM player for HLS streams.
+  private var drmPlayer: AppleMusicDrmPlayer? = null
+
   private val coroutineScope = CoroutineScope(Dispatchers.IO)
 
   init {
@@ -138,6 +141,77 @@ class ChannelHandler(
 
   fun cleanUp() {
     coroutineScope.cancel()
+    drmPlayer?.release()
+    drmPlayer = null
+  }
+
+  // ── DRM HLS Player ──────────────────────────────────────────────────
+
+  @Keep
+  @Suppress("unused", "UNUSED_PARAMETER")
+  fun playDrmStream(call: MethodCall, result: MethodChannel.Result) {
+    val hlsUrl = call.argument<String>("hlsUrl")
+    val licenseUrl = call.argument<String>("licenseUrl") ?: ""
+    val devToken = call.argument<String>("developerToken") ?: developerToken
+    val userToken = call.argument<String>("musicUserToken") ?: ""
+
+    if (hlsUrl.isNullOrBlank() || userToken.isBlank()) {
+      result.error("ERR_PLAY_DRM", "Missing hlsUrl or musicUserToken", null)
+      return
+    }
+
+    if (drmPlayer == null) {
+      drmPlayer = AppleMusicDrmPlayer(applicationContext)
+    }
+
+    drmPlayer?.play(
+      hlsUrl = hlsUrl,
+      licenseUrl = licenseUrl,
+      developerToken = devToken,
+      musicUserToken = userToken,
+    )
+    result.success(null)
+  }
+
+  @Keep
+  @Suppress("unused", "UNUSED_PARAMETER")
+  fun drmPlayerPause(call: MethodCall, result: MethodChannel.Result) {
+    drmPlayer?.pause()
+    result.success(null)
+  }
+
+  @Keep
+  @Suppress("unused", "UNUSED_PARAMETER")
+  fun drmPlayerResume(call: MethodCall, result: MethodChannel.Result) {
+    drmPlayer?.resume()
+    result.success(null)
+  }
+
+  @Keep
+  @Suppress("unused", "UNUSED_PARAMETER")
+  fun drmPlayerStop(call: MethodCall, result: MethodChannel.Result) {
+    drmPlayer?.stop()
+    result.success(null)
+  }
+
+  @Keep
+  @Suppress("unused", "UNUSED_PARAMETER")
+  fun drmPlayerSeek(call: MethodCall, result: MethodChannel.Result) {
+    val positionMs = call.argument<Number>("positionMs")?.toLong() ?: 0L
+    drmPlayer?.seekTo(positionMs)
+    result.success(null)
+  }
+
+  @Keep
+  @Suppress("unused", "UNUSED_PARAMETER")
+  fun drmPlayerPosition(call: MethodCall, result: MethodChannel.Result) {
+    result.success(drmPlayer?.currentPosition ?: 0L)
+  }
+
+  @Keep
+  @Suppress("unused", "UNUSED_PARAMETER")
+  fun drmPlayerDuration(call: MethodCall, result: MethodChannel.Result) {
+    result.success(drmPlayer?.duration ?: 0L)
   }
 
   @Synchronized
@@ -211,6 +285,13 @@ class ChannelHandler(
       "shuffleMode" -> shuffleMode(call, result)
       "setShuffleMode" -> setShuffleMode(call, result)
       "toggleShuffleMode" -> toggleShuffleMode(call, result)
+      "playDrmStream" -> playDrmStream(call, result)
+      "drmPlayerPause" -> drmPlayerPause(call, result)
+      "drmPlayerResume" -> drmPlayerResume(call, result)
+      "drmPlayerStop" -> drmPlayerStop(call, result)
+      "drmPlayerSeek" -> drmPlayerSeek(call, result)
+      "drmPlayerPosition" -> drmPlayerPosition(call, result)
+      "drmPlayerDuration" -> drmPlayerDuration(call, result)
       else -> result.notImplemented()
     }
   }

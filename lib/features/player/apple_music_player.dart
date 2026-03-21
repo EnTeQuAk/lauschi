@@ -1,40 +1,42 @@
 import 'dart:async';
 
-import 'package:just_audio/just_audio.dart' as ja;
 import 'package:lauschi/core/apple_music/apple_music_api.dart';
 import 'package:lauschi/core/apple_music/apple_music_stream_resolver.dart';
 import 'package:lauschi/core/log.dart';
 import 'package:lauschi/features/player/player_backend.dart';
 import 'package:lauschi/features/player/player_error.dart';
 import 'package:lauschi/features/player/player_state.dart';
+import 'package:music_kit/music_kit.dart';
 
 const _tag = 'AppleMusicPlayer';
 
-/// Plays Apple Music content via just_audio (ExoPlayer) with HLS streams.
+/// Plays Apple Music content via ExoPlayer with Widevine DRM.
 ///
-/// Resolves song IDs to HLS stream URLs via Apple's webPlayback endpoint
-/// (same API that music.apple.com uses). ExoPlayer handles HLS playback
-/// natively, including any DRM negotiation.
-///
-/// This avoids both the WebView DRM issue (Widevine L3 CONTENT_EQUIVALENT)
-/// and the native MediaPlayerController issue (5+ minute startup delay).
+/// Resolves song IDs to HLS stream URLs via Apple's webPlayback endpoint,
+/// then plays them through a native ExoPlayer configured with Widevine
+/// DRM and Apple's license server. The HLS playlist method tag is rewritten
+/// from ISO-23001-7 to SAMPLE-AES-CTR so ExoPlayer's parser can handle it.
 class AppleMusicPlayer extends PlayerBackend {
   AppleMusicPlayer({
     required AppleMusicStreamResolver streamResolver,
     required AppleMusicApi api,
+    required MusicKit musicKit,
+    required String developerToken,
+    required String musicUserToken,
   }) : _streamResolver = streamResolver,
-       _api = api;
+       _api = api,
+       _musicKit = musicKit,
+       _developerToken = developerToken,
+       _musicUserToken = musicUserToken;
 
   final AppleMusicStreamResolver _streamResolver;
   final AppleMusicApi _api;
+  final MusicKit _musicKit;
+  final String _developerToken;
+  final String _musicUserToken;
 
   final _stateController = StreamController<PlaybackState>.broadcast();
-  StreamSubscription<ja.PlayerState>? _playerStateSub;
-  StreamSubscription<Duration?>? _durationSub;
-  StreamSubscription<Duration>? _positionSub;
-  StreamSubscription<int?>? _indexSub;
-
-  ja.AudioPlayer? _player;
+  Timer? _positionTimer;
 
   TrackInfo? _currentTrack;
   int _durationMs = 0;
@@ -43,7 +45,8 @@ class AppleMusicPlayer extends PlayerBackend {
   int _trackIndex = 0;
   int _totalTracks = 0;
 
-  DateTime _lastPositionEmit = DateTime(0);
+  // Track metadata for the album.
+  final _tracks = <AppleMusicTrack>[];
 
   @override
   Stream<PlaybackState> get stateStream => _stateController.stream;
@@ -79,154 +82,168 @@ class AppleMusicPlayer extends PlayerBackend {
       return;
     }
 
+    _tracks.clear();
+    _tracks.addAll(tracks);
     _totalTracks = tracks.length;
     _trackIndex = trackIndex;
 
-    // Resolve HLS stream URLs for all tracks.
-    final headers = _streamResolver.streamHeaders;
-    final sources = <ja.AudioSource>[];
-    for (final track in tracks) {
-      final streamUrl = await _streamResolver.resolveStreamUrl(track.id);
-      if (streamUrl != null) {
-        sources.add(
-          ja.AudioSource.uri(
-            Uri.parse(streamUrl),
-            headers: headers,
-            tag: _TrackTag(
-              id: track.id,
-              name: track.name,
-              artistName: track.artistName,
-              durationMs: track.durationMs,
-            ),
-          ),
-        );
-      } else {
-        Log.warn(_tag, 'Could not resolve stream for track ${track.id}');
-      }
-    }
+    // Resolve the first track's stream to get the HLS URL + license URL.
+    final firstTrack = tracks[trackIndex];
+    final streamUrl = await _streamResolver.resolveStreamUrl(firstTrack.id);
+    final licenseUrl = _streamResolver.lastLicenseUrl ?? '';
 
-    if (sources.isEmpty) {
-      Log.warn(_tag, 'No playable streams resolved');
+    if (streamUrl == null) {
+      Log.warn(_tag, 'Could not resolve stream for track ${firstTrack.id}');
       _emitState(error: PlayerError.playbackFailed);
       return;
     }
 
-    // Create player with concatenating source (album as playlist).
-    final player = ja.AudioPlayer();
-    _player = player;
-    _listenToPlayer(player);
+    Log.info(
+      _tag,
+      'Starting DRM playback',
+      data: {
+        'track': firstTrack.name,
+        'licenseUrl': licenseUrl.isNotEmpty ? 'yes' : 'no',
+      },
+    );
+
+    // Update track info.
+    _currentTrack = TrackInfo(
+      uri: 'apple_music:track:${firstTrack.id}',
+      name: firstTrack.name,
+      artist: firstTrack.artistName,
+    );
+    _durationMs = firstTrack.durationMs;
 
     try {
-      final playlist = ja.ConcatenatingAudioSource(children: sources);
-      await player.setAudioSource(
-        playlist,
-        initialIndex: trackIndex,
-        initialPosition:
-            positionMs > 0 ? Duration(milliseconds: positionMs) : Duration.zero,
+      await _musicKit.playDrmStream(
+        hlsUrl: streamUrl,
+        licenseUrl: licenseUrl,
+        developerToken: _developerToken,
+        musicUserToken: _musicUserToken,
       );
-      await player.play();
-    } on ja.PlayerException catch (e) {
-      Log.error(
-        _tag,
-        'Player error',
-        data: {'code': '${e.code}', 'message': e.message ?? ''},
-      );
-      _emitState(error: PlayerError.playbackFailed);
+      _isPlaying = true;
+      _startPositionPolling();
+      _emitState();
     } on Exception catch (e) {
-      Log.error(_tag, 'Play failed', exception: e);
+      Log.error(_tag, 'DRM playback failed', exception: e);
       _emitState(error: PlayerError.playbackFailed);
     }
   }
 
   @override
-  Future<void> resume() async => _player?.play();
+  Future<void> resume() async {
+    await _musicKit.drmResume();
+    _isPlaying = true;
+    _startPositionPolling();
+    _emitState();
+  }
 
   @override
-  Future<void> pause() async => _player?.pause();
+  Future<void> pause() async {
+    await _musicKit.drmPause();
+    _isPlaying = false;
+    _stopPositionPolling();
+    _emitState();
+  }
 
   @override
-  Future<void> stop() async => _player?.stop();
+  Future<void> stop() async {
+    await _musicKit.drmStop();
+    _isPlaying = false;
+    _stopPositionPolling();
+    _emitState();
+  }
 
   @override
-  Future<void> seek(int positionMs) async =>
-      _player?.seek(Duration(milliseconds: positionMs));
+  Future<void> seek(int positionMs) async {
+    await _musicKit.drmSeek(positionMs);
+    _positionMs = positionMs;
+    _emitState();
+  }
 
   @override
   Future<void> nextTrack() async {
-    if (_player != null && hasNextTrack) {
-      await _player!.seekToNext();
-    }
+    // For now, resolve and play the next track individually.
+    // TODO(#231): use ExoPlayer ConcatenatingMediaSource for gapless playback
+    if (!hasNextTrack) return;
+    _trackIndex++;
+    final track = _tracks[_trackIndex];
+    final streamUrl = await _streamResolver.resolveStreamUrl(track.id);
+    if (streamUrl == null) return;
+
+    _currentTrack = TrackInfo(
+      uri: 'apple_music:track:${track.id}',
+      name: track.name,
+      artist: track.artistName,
+    );
+    _durationMs = track.durationMs;
+
+    await _musicKit.playDrmStream(
+      hlsUrl: streamUrl,
+      licenseUrl: _streamResolver.lastLicenseUrl ?? '',
+      developerToken: _developerToken,
+      musicUserToken: _musicUserToken,
+    );
+    _isPlaying = true;
+    _emitState();
   }
 
   @override
   Future<void> prevTrack() async {
-    if (_player != null) {
-      await _player!.seekToPrevious();
-    }
+    if (_trackIndex <= 0) return;
+    _trackIndex--;
+    final track = _tracks[_trackIndex];
+    final streamUrl = await _streamResolver.resolveStreamUrl(track.id);
+    if (streamUrl == null) return;
+
+    _currentTrack = TrackInfo(
+      uri: 'apple_music:track:${track.id}',
+      name: track.name,
+      artist: track.artistName,
+    );
+    _durationMs = track.durationMs;
+
+    await _musicKit.playDrmStream(
+      hlsUrl: streamUrl,
+      licenseUrl: _streamResolver.lastLicenseUrl ?? '',
+      developerToken: _developerToken,
+      musicUserToken: _musicUserToken,
+    );
+    _isPlaying = true;
+    _emitState();
   }
 
   @override
   Future<void> dispose() async {
-    await _playerStateSub?.cancel();
-    await _durationSub?.cancel();
-    await _positionSub?.cancel();
-    await _indexSub?.cancel();
-    await _player?.dispose();
-    _player = null;
+    _stopPositionPolling();
     await _stateController.close();
   }
 
-  // ── Player listeners ────────────────────────────────────────────────
+  // ── Position polling ────────────────────────────────────────────────
 
-  void _listenToPlayer(ja.AudioPlayer player) {
-    _playerStateSub = player.playerStateStream.listen((state) {
-      _isPlaying = state.playing;
-      if (state.processingState == ja.ProcessingState.completed) {
-        Log.info(_tag, 'Playback completed');
-        _isPlaying = false;
-      }
+  void _startPositionPolling() {
+    _stopPositionPolling();
+    _positionTimer = Timer.periodic(
+      const Duration(milliseconds: 500),
+      (_) => unawaited(_pollPosition()),
+    );
+  }
+
+  void _stopPositionPolling() {
+    _positionTimer?.cancel();
+    _positionTimer = null;
+  }
+
+  Future<void> _pollPosition() async {
+    try {
+      _positionMs = await _musicKit.drmPosition;
+      final dur = await _musicKit.drmDuration;
+      if (dur > 0) _durationMs = dur;
       _emitState();
-    });
-
-    _durationSub = player.durationStream.listen((duration) {
-      _durationMs = duration?.inMilliseconds ?? 0;
-      _emitState();
-    });
-
-    _positionSub = player.positionStream.listen((position) {
-      _positionMs = position.inMilliseconds;
-      final now = DateTime.now();
-      if (now.difference(_lastPositionEmit).inMilliseconds >= 1000) {
-        _lastPositionEmit = now;
-        _emitState();
-      }
-    });
-
-    _indexSub = player.currentIndexStream.listen((index) {
-      if (index != null && index != _trackIndex) {
-        _trackIndex = index;
-        // Update track info from the tag.
-        final tag = player.sequenceState?.currentSource?.tag;
-        if (tag is _TrackTag) {
-          _currentTrack = TrackInfo(
-            uri: 'apple_music:track:${tag.id}',
-            name: tag.name,
-            artist: tag.artistName,
-          );
-          _durationMs = tag.durationMs;
-          Log.info(
-            _tag,
-            'Track changed',
-            data: {
-              'track': tag.name,
-              'index': '$_trackIndex',
-              'total': '$_totalTracks',
-            },
-          );
-        }
-        _emitState();
-      }
-    });
+    } on Exception {
+      // Player might not be ready.
+    }
   }
 
   void _emitState({PlayerError? error}) {
@@ -242,19 +259,4 @@ class AppleMusicPlayer extends PlayerBackend {
       ),
     );
   }
-}
-
-/// Metadata tag attached to each audio source in the playlist.
-class _TrackTag {
-  const _TrackTag({
-    required this.id,
-    required this.name,
-    this.artistName,
-    this.durationMs = 0,
-  });
-
-  final String id;
-  final String name;
-  final String? artistName;
-  final int durationMs;
 }

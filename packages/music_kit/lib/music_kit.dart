@@ -69,6 +69,31 @@ class MusicKit {
   Future<void> setMusicUserToken(String token) =>
       _channel.invokeMethod('setMusicUserToken', {'token': token});
 
+  // ── DRM HLS Player ─────────────────────────────────────────────────
+
+  /// Play an Apple Music HLS stream with Widevine DRM.
+  Future<void> playDrmStream({
+    required String hlsUrl,
+    required String licenseUrl,
+    required String developerToken,
+    required String musicUserToken,
+  }) => _channel.invokeMethod('playDrmStream', {
+    'hlsUrl': hlsUrl,
+    'licenseUrl': licenseUrl,
+    'developerToken': developerToken,
+    'musicUserToken': musicUserToken,
+  });
+
+  Future<void> drmPause() => _channel.invokeMethod('drmPlayerPause');
+  Future<void> drmResume() => _channel.invokeMethod('drmPlayerResume');
+  Future<void> drmStop() => _channel.invokeMethod('drmPlayerStop');
+  Future<void> drmSeek(int positionMs) =>
+      _channel.invokeMethod('drmPlayerSeek', {'positionMs': positionMs});
+  Future<int> get drmPosition async =>
+      await _channel.invokeMethod<int>('drmPlayerPosition') ?? 0;
+  Future<int> get drmDuration async =>
+      await _channel.invokeMethod<int>('drmPlayerDuration') ?? 0;
+
   Stream<MusicSubscription> get onSubscriptionUpdated =>
       _platform.onSubscriptionUpdated;
 

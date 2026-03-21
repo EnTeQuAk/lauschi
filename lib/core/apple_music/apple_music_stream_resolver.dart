@@ -34,10 +34,13 @@ class AppleMusicStreamResolver {
   /// Apple's CDN requires the same auth headers as the webPlayback endpoint.
   Map<String, String> get streamHeaders => _buildHeaders();
 
+  /// Result of resolving a song's stream.
+  String? lastLicenseUrl;
+
   /// Resolve a song ID to an HLS stream URL.
   ///
   /// Returns the HLS playlist URL for the song, or null if unavailable.
-  /// The URL must be fetched with [streamHeaders] for auth.
+  /// Also sets [lastLicenseUrl] from the response.
   Future<String?> resolveStreamUrl(String songId) async {
     if (_developerToken == null || _musicUserToken == null) {
       Log.warn(_tag, 'Not configured');
@@ -76,6 +79,9 @@ class AppleMusicStreamResolver {
       }
 
       final song = songList[0] as Map<String, dynamic>;
+
+      // Extract the DRM license server URL.
+      lastLicenseUrl = song['hls-key-server-url'] as String?;
       final assets = song['assets'] as List<dynamic>?;
       if (assets == null || assets.isEmpty) {
         Log.warn(_tag, 'No assets in song');

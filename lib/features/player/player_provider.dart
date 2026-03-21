@@ -10,6 +10,7 @@ import 'package:lauschi/core/providers/provider_type.dart';
 import 'package:lauschi/core/spotify/spotify_api.dart';
 import 'package:lauschi/core/spotify/spotify_session.dart';
 import 'package:lauschi/features/player/apple_music_player.dart';
+import 'package:music_kit/music_kit.dart';
 
 import 'package:lauschi/features/player/media_session_handler.dart';
 import 'package:lauschi/features/player/player_backend.dart';
@@ -685,9 +686,20 @@ class PlayerNotifier extends _$PlayerNotifier {
       artworkUrl: card.coverUrl,
     );
 
+    final amState = ref.read(appleMusicSessionProvider);
+    final auth = amState is AppleMusicAuthenticated ? amState : null;
+    if (auth == null) {
+      Log.warn(_tag, 'Apple Music not authenticated');
+      state = state.copyWith(error: PlayerError.appleMusicAuthExpired);
+      return;
+    }
+
     final player = AppleMusicPlayer(
       streamResolver: amSession.streamResolver,
       api: amSession.api,
+      musicKit: MusicKit(),
+      developerToken: auth.developerToken,
+      musicUserToken: auth.musicUserToken,
     );
 
     if (_playGen != gen) return;
