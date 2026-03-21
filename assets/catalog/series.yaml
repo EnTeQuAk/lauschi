@@ -24353,7 +24353,7 @@ series:
   title: Gespensterjäger
   keywords:
   - Gespensterjäger
-  - gespensterjager
+  - gespensterjaeger
   episode_pattern: '(?:Band|Folge)\s+(\d+)'
   providers:
     spotify:
