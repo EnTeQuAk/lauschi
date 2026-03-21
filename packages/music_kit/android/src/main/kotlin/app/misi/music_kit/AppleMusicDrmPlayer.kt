@@ -12,9 +12,7 @@ import androidx.media3.common.Player
 import androidx.media3.datasource.DataSource
 import androidx.media3.datasource.DefaultHttpDataSource
 import androidx.media3.exoplayer.ExoPlayer
-import androidx.media3.exoplayer.drm.DefaultDrmSessionManager
-import androidx.media3.exoplayer.drm.HttpMediaDrmCallback
-import androidx.media3.exoplayer.drm.FrameworkMediaDrm
+
 import androidx.media3.exoplayer.hls.HlsMediaSource
 import app.misi.music_kit.util.Constant.LOG_TAG
 
@@ -67,23 +65,11 @@ class AppleMusicDrmPlayer(private val context: Context) {
             HlsMethodRewriteDataSource(httpDataSourceFactory.createDataSource())
         }
 
-        // Widevine DRM session with Apple's license server.
-        val drmCallback = HttpMediaDrmCallback(licenseUrl, httpDataSourceFactory)
-        // Apple's license server needs the same auth headers.
-        for ((key, value) in headers) {
-            drmCallback.setKeyRequestProperty(key, value)
-        }
-
-        val drmSessionManager = DefaultDrmSessionManager.Builder()
-            .setUuidAndExoMediaDrmProvider(C.WIDEVINE_UUID, FrameworkMediaDrm.DEFAULT_PROVIDER)
-            .build(drmCallback)
-
-        // HLS media source with DRM and the rewriting data source.
+        // HLS media source with the rewriting data source.
         val hlsMediaSourceFactory = HlsMediaSource.Factory(rewritingDataSourceFactory)
-            .setDrmSessionManagerProvider { drmSessionManager }
 
-        // Build MediaItem with DRM configuration so ExoPlayer knows to
-        // use Widevine for this content.
+        // Build MediaItem with Widevine DRM configuration.
+        // ExoPlayer will use this to create the DRM session and crypto context.
         val mediaItem = MediaItem.Builder()
             .setUri(Uri.parse(hlsUrl))
             .setDrmConfiguration(
@@ -93,7 +79,6 @@ class AppleMusicDrmPlayer(private val context: Context) {
                     .build()
             )
             .build()
-        val mediaSource = hlsMediaSourceFactory.createMediaSource(mediaItem)
 
         val audioAttributes = AudioAttributes.Builder()
             .setUsage(C.USAGE_MEDIA)
@@ -104,6 +89,7 @@ class AppleMusicDrmPlayer(private val context: Context) {
             .setMediaSourceFactory(hlsMediaSourceFactory)
             .setAudioAttributes(audioAttributes, /* handleAudioFocus= */ true)
             .build()
+        Log.d(LOG_TAG, "DrmPlayer: Widevine DRM configured, licenseUrl=${licenseUrl.take(60)}")
 
         // Create a MediaSession and associate it with the ExoPlayer.
         // This tells Android the player is a legitimate foreground media
@@ -140,6 +126,9 @@ class AppleMusicDrmPlayer(private val context: Context) {
             }
         })
 
+        // Use the HLS factory (with rewriting DataSource) to create the source
+        // from the MediaItem (which carries the DRM config).
+        val mediaSource = hlsMediaSourceFactory.createMediaSource(mediaItem)
         player.setMediaSource(mediaSource)
         player.prepare()
 
