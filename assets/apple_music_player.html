@@ -187,7 +187,12 @@
       }
     },
 
-    // Play an album starting from a track index
+    // Play an album starting from a track index.
+    //
+    // Tries album-based queue first. If that fails with CONTENT_EQUIVALENT
+    // (Apple replaced the album with a remastered version), falls back to
+    // fetching individual track IDs and queuing those instead. Song-level
+    // queue bypasses the album equivalency check.
     play_album: async function(albumId, trackIndex) {
       if (!music) { post('error', { type: 'playback', message: 'not initialized' }); return; }
       trackIndex = trackIndex || 0;
@@ -195,40 +200,46 @@
 
       try {
         await music.setQueue({ album: albumId, startWith: trackIndex, startPlaying: true });
-        post_log('setQueue resolved, playback starting');
+        post_log('setQueue (album) resolved, playback starting');
+        return;
       } catch(e) {
         var errStr = '' + e;
-        post_log('setQueue failed: ' + errStr);
+        post_log('setQueue (album) failed: ' + errStr);
 
-        // CONTENT_EQUIVALENT: Apple replaced this album with a newer version.
-        // Try to resolve the equivalent album via the catalog API and retry.
-        if (errStr.indexOf('CONTENT_EQUIVALENT') >= 0) {
-          post_log('Album has equivalent content, looking up replacement');
-          try {
-            var result = await music.api.music('/v1/catalog/de/albums/' + albumId);
-            if (result && result.data && result.data.data && result.data.data.length > 0) {
-              var resolved = result.data.data[0];
-              post_log('Resolved to: ' + resolved.id + ' (' + (resolved.attributes ? resolved.attributes.name : '?') + ')');
-              await music.setQueue({ album: resolved.id, startWith: trackIndex, startPlaying: true });
-              post_log('setQueue with resolved album succeeded');
-              return;
-            }
-          } catch(resolveErr) {
-            post_log('Album lookup failed: ' + resolveErr);
-          }
+        if (errStr.indexOf('CONTENT_EQUIVALENT') < 0 && errStr.indexOf('NOT_FOUND') < 0) {
+          // Unknown error, don't retry.
+          post('error', { type: 'playback', message: 'setQueue failed: ' + e });
+          return;
+        }
+      }
 
-          // Fallback: try URL-based queue (sometimes bypasses equivalency check)
-          try {
-            post_log('Trying URL-based setQueue');
-            await music.setQueue({ url: '/v1/catalog/de/albums/' + albumId, startWith: trackIndex, startPlaying: true });
-            post_log('URL-based setQueue succeeded');
-            return;
-          } catch(urlErr) {
-            post_log('URL-based setQueue also failed: ' + urlErr);
-          }
+      // Fallback: fetch album tracks from catalog API, queue by song IDs.
+      post_log('Falling back to song-based queue for album ' + albumId);
+      try {
+        var result = await music.api.music('/v1/catalog/de/albums/' + albumId, { include: 'tracks' });
+        var album = result && result.data && result.data.data && result.data.data[0];
+        if (!album) {
+          post('error', { type: 'playback', message: 'Album not found in catalog: ' + albumId });
+          return;
         }
 
-        post('error', { type: 'playback', message: 'setQueue failed: ' + e });
+        var tracks = album.relationships && album.relationships.tracks && album.relationships.tracks.data;
+        if (!tracks || tracks.length === 0) {
+          post('error', { type: 'playback', message: 'Album has no tracks: ' + albumId });
+          return;
+        }
+
+        var songIds = tracks.map(function(t) { return t.id; });
+        post_log('Fetched ' + songIds.length + ' tracks, queuing from index ' + trackIndex);
+
+        // Slice to start from the requested track index.
+        var queueIds = trackIndex > 0 ? songIds.slice(trackIndex) : songIds;
+
+        await music.setQueue({ songs: queueIds, startPlaying: true });
+        post_log('setQueue (songs) resolved, playback starting');
+      } catch(fallbackErr) {
+        post_log('Song-based queue also failed: ' + fallbackErr);
+        post('error', { type: 'playback', message: 'setQueue failed: ' + fallbackErr });
       }
     },
 
