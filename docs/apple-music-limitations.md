@@ -67,3 +67,24 @@ commit 3e0b688 (unreleased). Our additions:
 - Playback error forwarding to Flutter via `eventSink.error()`
 
 The `music_kit_platform_interface` is also forked to add `setPlaybackTime`.
+
+## iOS: What's Needed
+
+When building for iOS, the upstream split their iOS support into a separate
+`music_kit_darwin` package (Swift Package Manager). Steps to add iOS:
+
+1. **Fork `music_kit_darwin`** into `packages/music_kit_darwin`
+2. **Apply PR #3's `setPlaybackTime`** from XMitja's fork:
+   - `MusicKitPluginPlayer.swift`: `musicPlayer.playbackTime = TimeInterval(time)`
+   - `MusicKitPluginMethodKeys.swift`: add `.setPlaybackTime` case
+   - `SwiftMusicKitPlugin.swift`: route `setPlaybackTime` to player
+3. **Apply PR #3's subscription dispatch fix**:
+   - `MusicKitPluginSubscription.swift`: wrap `eventSink?()` in `DispatchQueue.main.async`
+4. **MusicKit capability** in Xcode: the iOS MusicKit entitlement auto-generates
+   the developer token, no .p8 key needed
+5. **`playbackTime` already works on iOS** (native MusicKit framework implements it)
+6. **`currentItemDuration`**: may need a direct method channel like Android, or
+   use the queue entry's `durationInMillis` from metadata
+
+See upstream PR: https://github.com/misiio/flutter_music_kit/pull/3
+See upstream fork: https://github.com/rubymarketing/apple_music_kit (seekTo on iOS)
