@@ -18,6 +18,7 @@
   var music = null;
   var _configured = false;
   var _positionInterval = null;
+  var _userStorefront = null;
 
   function post(type, payload) {
     try {
@@ -42,16 +43,17 @@
         if (!_configured) {
           // MusicKit JS v3: configure() is async and must be awaited
           // before getInstance() returns a valid instance.
+          // Don't hardcode storefrontId. Let MusicKit JS detect the user's
+          // storefront from their Apple ID. Content IDs are storefront-specific:
+          // an album ID from the DE catalog won't work for an AT user.
+          // MusicKit JS resolves equivalencies automatically when using the
+          // user's own storefront.
           await MusicKit.configure({
             developerToken: developerToken,
             app: {
               name: 'lauschi',
               build: '1.0.0'
-            },
-            // DACH market: German content requires 'de' storefront.
-            // Without this, MusicKit JS defaults to 'us' and German-only
-            // albums return NOT_FOUND.
-            storefrontId: 'de'
+            }
           });
           _configured = true;
         }
@@ -61,10 +63,7 @@
 
         // Authorize via MusicKit JS's own flow. The native MusicKit SDK
         // token authorizes FairPlay DRM (native pipeline). MusicKit JS
-        // needs its own token for Widevine DRM (web pipeline). Same
-        // pattern as our Spotify bridge: each SDK handles its own auth.
-        //
-        // authorize() opens Apple's auth popup in the WebView.
+        // needs its own token for Widevine DRM (web pipeline).
         post_log('Calling authorize() for web playback token');
         try {
           var authToken = await music.authorize();
@@ -74,6 +73,23 @@
           post('error', { type: 'auth', message: 'authorize failed: ' + authErr });
         }
         post_log('isAuthorized: ' + music.isAuthorized);
+
+        // Detect the user's storefront. MusicKit JS defaults to 'us' which
+        // breaks German/Austrian content. The native plugin's /v1/me/storefront
+        // call often times out, so we fetch it through MusicKit JS's own API.
+        try {
+          var sfResult = await music.api.music('/v1/me/storefront');
+          if (sfResult && sfResult.data && sfResult.data.data && sfResult.data.data.length > 0) {
+            _userStorefront = sfResult.data.data[0].id;
+            post_log('User storefront detected: ' + _userStorefront);
+          }
+        } catch(sfErr) {
+          post_log('Storefront fetch failed: ' + sfErr);
+        }
+        if (!_userStorefront) {
+          _userStorefront = 'de'; // DACH fallback
+          post_log('Using fallback storefront: ' + _userStorefront);
+        }
 
         // Wire up event listeners
         music.addEventListener('playbackStateDidChange', function(event) {
@@ -193,7 +209,9 @@
       // Fallback: fetch album tracks from catalog API, queue by song IDs.
       post_log('Falling back to song-based queue for album ' + albumId);
       try {
-        var result = await music.api.music('/v1/catalog/de/albums/' + albumId, { include: 'tracks' });
+        var sf = _userStorefront || 'de';
+        post_log('Using storefront: ' + sf);
+        var result = await music.api.music('/v1/catalog/' + sf + '/albums/' + albumId, { include: 'tracks' });
         var album = result && result.data && result.data.data && result.data.data[0];
         if (!album) {
           post('error', { type: 'playback', message: 'Album not found in catalog: ' + albumId });
