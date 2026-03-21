@@ -47,7 +47,11 @@
             app: {
               name: 'lauschi',
               build: '1.0.0'
-            }
+            },
+            // DACH market: German content requires 'de' storefront.
+            // Without this, MusicKit JS defaults to 'us' and German-only
+            // albums return NOT_FOUND.
+            storefrontId: 'de'
           });
           _configured = true;
         }
