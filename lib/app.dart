@@ -13,7 +13,7 @@ import 'package:lauschi/core/router/app_router.dart';
 import 'package:lauschi/core/spotify/spotify_session.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
 import 'package:lauschi/features/onboarding/screens/onboarding_provider.dart';
-import 'package:webview_flutter/webview_flutter.dart';
+import 'package:webview_flutter/webview_flutter.dart'; // Used by _SpotifyWebViewHost
 
 class LauschiApp extends ConsumerStatefulWidget {
   const LauschiApp({super.key});
@@ -104,11 +104,11 @@ class _LauschiAppState extends ConsumerState<LauschiApp>
         FeatureFlags.enableSpotify ? ref.watch(spotifySessionProvider) : null;
     final spotifyAuthenticated = spotifyState is SpotifyAuthenticated;
 
-    final appleMusicState =
-        FeatureFlags.enableAppleMusic
-            ? ref.watch(appleMusicSessionProvider)
-            : null;
-    final appleMusicAuthenticated = appleMusicState is AppleMusicAuthenticated;
+    // Apple Music uses native playback (MediaPlayerController), no WebView needed.
+    // Just watch the state for conditional UI, not for WebView mounting.
+    if (FeatureFlags.enableAppleMusic) {
+      ref.watch(appleMusicSessionProvider);
+    }
 
     // Run data migrations once after Spotify auth is established.
     if (spotifyAuthenticated && !_dataMigrationsRun) {
@@ -146,18 +146,7 @@ class _LauschiAppState extends ConsumerState<LauschiApp>
                   child: _SpotifyWebViewHost(),
                 ),
               ),
-            // Hidden WebView for Apple Music MusicKit JS.
-            // Auth happens in the system browser (like Spotify), not here.
-            if (FeatureFlags.enableAppleMusic && appleMusicAuthenticated)
-              Positioned(
-                left: -500,
-                top: -500,
-                child: SizedBox(
-                  width: 300,
-                  height: 300,
-                  child: _AppleMusicWebViewHost(),
-                ),
-              ),
+            // Apple Music uses native playback, no hidden WebView needed.
           ],
         );
       },
@@ -223,47 +212,5 @@ class _SpotifyWebViewHostState extends ConsumerState<_SpotifyWebViewHost> {
   }
 }
 
-/// Hosts the hidden WebView for Apple Music MusicKit JS playback.
-///
-/// Auth happens in the system browser (like Spotify), not here.
-/// This WebView only handles playback via MusicKit JS with the
-/// web token obtained from the browser auth flow.
-class _AppleMusicWebViewHost extends ConsumerStatefulWidget {
-  @override
-  ConsumerState<_AppleMusicWebViewHost> createState() =>
-      _AppleMusicWebViewHostState();
-}
-
-class _AppleMusicWebViewHostState
-    extends ConsumerState<_AppleMusicWebViewHost> {
-  bool _initialized = false;
-
-  @override
-  void initState() {
-    super.initState();
-    unawaited(_initBridge());
-  }
-
-  Future<void> _initBridge() async {
-    if (_initialized) return;
-    try {
-      await ref.read(appleMusicSessionProvider.notifier).initBridge();
-      _initialized = true;
-      if (mounted) setState(() {});
-    } on Exception catch (e) {
-      Log.error('AppleMusicWebViewHost', 'Bridge init failed', exception: e);
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final session = ref.read(appleMusicSessionProvider.notifier);
-    final bridge = session.bridge;
-    if (!bridge.currentState.isReady && !_initialized) {
-      return const SizedBox.shrink();
-    }
-    final controller = bridge.controllerOrNull;
-    if (controller == null) return const SizedBox.shrink();
-    return WebViewWidget(controller: controller);
-  }
-}
+// Apple Music uses native playback via MediaPlayerController.
+// No WebView host widget needed (unlike Spotify which uses Web Playback SDK).

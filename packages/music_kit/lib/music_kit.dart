@@ -64,6 +64,11 @@ class MusicKit {
 
   Future<String> get currentCountryCode => _platform.currentCountryCode;
 
+  /// Set the music user token directly (e.g. from web auth flow).
+  /// Creates the native MediaPlayerController for playback.
+  Future<void> setMusicUserToken(String token) =>
+      _channel.invokeMethod('setMusicUserToken', {'token': token});
+
   Stream<MusicSubscription> get onSubscriptionUpdated =>
       _platform.onSubscriptionUpdated;
 

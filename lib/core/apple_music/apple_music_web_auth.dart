@@ -17,9 +17,6 @@ const _pendingStateKey = 'apple_music_pending_state';
 const _authPageUrl =
     'https://tuneloopbot.webshox.org/lauschi/apple_music_auth.html';
 
-/// Deep link scheme the auth page redirects to after login.
-const _callbackUrl = 'lauschi://apple-music-callback';
-
 const _defaultStorage = FlutterSecureStorage(
   iOptions: IOSOptions(
     accessibility: KeychainAccessibility.first_unlock_this_device,
@@ -80,7 +77,6 @@ class AppleMusicWebAuth {
       queryParameters: {
         'token': developerToken,
         'state': state,
-        'callback': _callbackUrl,
       },
     );
 

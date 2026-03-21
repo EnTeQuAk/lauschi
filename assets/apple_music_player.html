@@ -9,10 +9,9 @@
 <script>
   // lauschi Apple Music MusicKit JS bridge.
   //
-  // Unlike Spotify (where Dart handles OAuth and passes tokens to JS),
-  // MusicKit JS must handle its own auth flow because the web playback
-  // token is different from the native SDK token. In a WebView, MusicKit
-  // JS redirects in the current window for auth (no popup).
+  // Auth happens in the system browser (same as Spotify). This WebView
+  // only handles playback. Dart obtains the music user token via the
+  // browser flow and injects it here at init time.
   //
   // Dart → JS: controller.runJavaScript('lauschi.<method>(...)')
   // JS → Dart: AppleMusicBridge.postMessage(JSON.stringify({type, payload}))
@@ -25,7 +24,6 @@
     try {
       AppleMusicBridge.postMessage(JSON.stringify({ type: type, payload: payload || {} }));
     } catch(e) {
-      // Bridge might not be available during auth redirect.
       console.log('[lauschi] postMessage failed:', e);
     }
   }
@@ -35,8 +33,8 @@
   }
 
   window.lauschi = {
-    // Called by Dart with tokens from web auth (system browser flow).
-    // Same pattern as Spotify: Dart handles auth, JS just uses tokens.
+    // Called by Dart with tokens obtained via the system browser auth flow.
+    // Same pattern as Spotify: Dart handles auth, JS uses the tokens for playback.
     init: async function(developerToken, musicUserToken) {
       post_log('init called');
 
@@ -56,16 +54,19 @@
         music = MusicKit.getInstance();
         post_log('MusicKit instance: ' + (music ? 'OK' : 'NULL'));
 
-        // Inject web user token from system browser auth.
-        // This token was obtained via MusicKit JS authorize() in the
-        // system browser (not this WebView), same as how Spotify gets
-        // its token via OAuth in the system browser.
+        // Inject web user token and call authorize() to set up DRM state.
         if (musicUserToken && music) {
           music.musicUserToken = musicUserToken;
-          post_log('Web user token injected (' + musicUserToken.length + ' chars)');
+          post_log('Token set (' + musicUserToken.length + ' chars)');
+
+          try {
+            await music.authorize();
+            post_log('authorize() resolved, isAuthorized: ' + music.isAuthorized);
+          } catch(authErr) {
+            post_log('authorize() failed: ' + authErr);
+          }
         }
 
-        post_log('isAuthorized: ' + music.isAuthorized);
         post_log('storefrontId: ' + music.storefrontId);
 
         // Wire up event listeners
@@ -86,16 +87,11 @@
       storefront = storefront || 'de';
       post_log('play_album: ' + albumId + ' track: ' + trackIndex + ' sf: ' + storefront);
 
-      // Ensure authorized before playback (docs: "check authorization before calling play()")
+      // Auth token was injected at init time from the system browser flow.
+      // If it's expired, tell Dart so the session can trigger re-auth.
       if (!music.isAuthorized) {
-        post_log('Not authorized, calling authorize()');
-        post('needs_auth', {});
-        try {
-          await music.authorize();
-        } catch(authErr) {
-          post('error', { type: 'auth', message: 'authorize failed: ' + authErr });
-          return;
-        }
+        post('error', { type: 'auth', message: 'Not authorized. Token may have expired.' });
+        return;
       }
 
       // Try direct album queue first

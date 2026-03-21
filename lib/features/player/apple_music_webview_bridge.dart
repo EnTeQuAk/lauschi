@@ -80,6 +80,15 @@ class AppleMusicWebViewBridge {
     _musicUserToken = musicUserToken;
     Log.info(_tag, 'Initializing WebView bridge');
 
+    // Set the media-user-token cookie on Apple's domains BEFORE loading
+    // the player page. MusicKit JS uses this cookie for DRM content
+    // resolution when making requests to Apple's streaming servers.
+    // Without it, setQueue() returns CONTENT_EQUIVALENT because the
+    // server can't match the token to a valid DRM session.
+    if (musicUserToken != null && musicUserToken.isNotEmpty) {
+      await _injectAppleMusicCookies(musicUserToken);
+    }
+
     // Clean up previous controller if re-initializing.
     if (_controller != null) {
       try {
@@ -517,6 +526,44 @@ class AppleMusicWebViewBridge {
       _isReloading = false;
       Log.error(_tag, 'Page reload failed', exception: e);
     }
+  }
+
+  // ---------------------------------------------------------------------------
+  // Cookie injection
+  // ---------------------------------------------------------------------------
+
+  /// Set the media-user-token cookie on Apple's domains.
+  ///
+  /// MusicKit JS's DRM content resolution sends requests to various
+  /// Apple subdomains. These requests include cookies, and Apple's
+  /// servers check for the `media-user-token` cookie to authorize
+  /// DRM-protected playback. Setting `music.musicUserToken` in JS
+  /// handles API headers, but the cookie is needed for the EME/DRM
+  /// handshake that happens at a lower level.
+  Future<void> _injectAppleMusicCookies(String token) async {
+    final cookieManager = WebViewCookieManager();
+
+    // Apple's DRM and streaming infrastructure spans multiple subdomains.
+    // Setting the cookie on .apple.com covers all of them.
+    const domains = [
+      '.apple.com',
+      '.music.apple.com',
+    ];
+
+    for (final domain in domains) {
+      await cookieManager.setCookie(
+        WebViewCookie(
+          name: 'media-user-token',
+          value: token,
+          domain: domain,
+        ),
+      );
+    }
+    Log.info(
+      _tag,
+      'Injected media-user-token cookie',
+      data: {'domains': '${domains.length}', 'tokenLength': '${token.length}'},
+    );
   }
 
   // ---------------------------------------------------------------------------

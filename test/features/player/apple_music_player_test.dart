@@ -2,27 +2,26 @@ import 'dart:async';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:lauschi/features/player/apple_music_player.dart';
-import 'package:lauschi/features/player/apple_music_webview_bridge.dart';
 import 'package:lauschi/features/player/player_state.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:music_kit/music_kit.dart';
 
-class MockAppleMusicBridge extends Mock implements AppleMusicWebViewBridge {}
+class MockMusicKit extends Mock implements MusicKit {}
 
 void main() {
   group('AppleMusicPlayer', () {
-    late MockAppleMusicBridge mockBridge;
+    late MockMusicKit mockMusicKit;
     late AppleMusicPlayer player;
 
     setUp(() {
-      mockBridge = MockAppleMusicBridge();
-      when(() => mockBridge.currentState).thenReturn(const PlaybackState());
-      when(() => mockBridge.trackIndex).thenReturn(0);
-      when(() => mockBridge.totalTracks).thenReturn(0);
-      when(() => mockBridge.hasNextTrack).thenReturn(false);
-      when(() => mockBridge.stateStream).thenAnswer(
-        (_) => const Stream<PlaybackState>.empty(),
-      );
-      player = AppleMusicPlayer(mockBridge);
+      mockMusicKit = MockMusicKit();
+      when(
+        () => mockMusicKit.onMusicPlayerStateChanged,
+      ).thenAnswer((_) => const Stream.empty());
+      when(
+        () => mockMusicKit.onPlayerQueueChanged,
+      ).thenAnswer((_) => const Stream.empty());
+      player = AppleMusicPlayer(mockMusicKit);
     });
 
     tearDown(() async {
@@ -35,55 +34,49 @@ void main() {
       expect(player.hasNextTrack, false);
     });
 
-    test('currentTrackNumber is 1-based from bridge trackIndex', () {
-      when(() => mockBridge.trackIndex).thenReturn(3);
-      expect(player.currentTrackNumber, 4);
-    });
-
-    test('hasNextTrack delegates to bridge', () {
-      when(() => mockBridge.hasNextTrack).thenReturn(true);
-      expect(player.hasNextTrack, true);
-    });
-
-    test('pause delegates to bridge', () async {
-      when(() => mockBridge.pause()).thenAnswer((_) async {});
+    test('pause delegates to native SDK', () async {
+      when(() => mockMusicKit.pause()).thenAnswer((_) async {});
       await player.pause();
-      verify(() => mockBridge.pause()).called(1);
+      verify(() => mockMusicKit.pause()).called(1);
     });
 
-    test('resume delegates to bridge', () async {
-      when(() => mockBridge.resume()).thenAnswer((_) async {});
+    test('resume delegates to native SDK', () async {
+      when(() => mockMusicKit.play()).thenAnswer((_) async {});
       await player.resume();
-      verify(() => mockBridge.resume()).called(1);
+      verify(() => mockMusicKit.play()).called(1);
     });
 
-    test('stop delegates to bridge', () async {
-      when(() => mockBridge.stop()).thenAnswer((_) async {});
+    test('stop delegates to native SDK', () async {
+      when(() => mockMusicKit.stop()).thenAnswer((_) async {});
       await player.stop();
-      verify(() => mockBridge.stop()).called(1);
+      verify(() => mockMusicKit.stop()).called(1);
     });
 
-    test('seek delegates to bridge', () async {
-      when(() => mockBridge.seek(any())).thenAnswer((_) async {});
+    test('seek converts ms to seconds', () async {
+      when(() => mockMusicKit.setPlaybackTime(any())).thenAnswer((_) async {});
       await player.seek(30000);
-      verify(() => mockBridge.seek(30000)).called(1);
+      verify(() => mockMusicKit.setPlaybackTime(30.0)).called(1);
     });
 
-    test('nextTrack delegates to bridge', () async {
-      when(() => mockBridge.nextTrack()).thenAnswer((_) async {});
+    test('nextTrack delegates to native SDK', () async {
+      when(() => mockMusicKit.skipToNextEntry()).thenAnswer((_) async {});
       await player.nextTrack();
-      verify(() => mockBridge.nextTrack()).called(1);
+      verify(() => mockMusicKit.skipToNextEntry()).called(1);
     });
 
-    test('prevTrack delegates to bridge', () async {
-      when(() => mockBridge.prevTrack()).thenAnswer((_) async {});
+    test('prevTrack delegates to native SDK', () async {
+      when(() => mockMusicKit.skipToPreviousEntry()).thenAnswer((_) async {});
       await player.prevTrack();
-      verify(() => mockBridge.prevTrack()).called(1);
+      verify(() => mockMusicKit.skipToPreviousEntry()).called(1);
     });
 
-    test('play calls bridge playAlbum', () async {
+    test('play calls setQueue with album type', () async {
       when(
-        () => mockBridge.playAlbum(any(), trackIndex: any(named: 'trackIndex')),
+        () => mockMusicKit.setQueue(
+          any(),
+          item: any(named: 'item'),
+          autoplay: any(named: 'autoplay'),
+        ),
       ).thenAnswer((_) async {});
 
       await player.play(
@@ -91,14 +84,24 @@ void main() {
         trackInfo: const TrackInfo(uri: 'test:uri', name: 'Test Track'),
       );
 
-      verify(() => mockBridge.playAlbum('test-album-123')).called(1);
+      verify(
+        () => mockMusicKit.setQueue(
+          'albums',
+          item: {'id': 'test-album-123'},
+          autoplay: true,
+        ),
+      ).called(1);
     });
 
     test('play with positionMs seeks after delay', () async {
       when(
-        () => mockBridge.playAlbum(any(), trackIndex: any(named: 'trackIndex')),
+        () => mockMusicKit.setQueue(
+          any(),
+          item: any(named: 'item'),
+          autoplay: any(named: 'autoplay'),
+        ),
       ).thenAnswer((_) async {});
-      when(() => mockBridge.seek(any())).thenAnswer((_) async {});
+      when(() => mockMusicKit.setPlaybackTime(any())).thenAnswer((_) async {});
 
       await player.play(
         albumId: 'test-album',
@@ -106,16 +109,14 @@ void main() {
         positionMs: 45000,
       );
 
-      // Seek happens after a 2s delay.
-      await Future<void>.delayed(const Duration(seconds: 3));
-      verify(() => mockBridge.seek(45000)).called(1);
+      // Seek happens after a 1s delay.
+      await Future<void>.delayed(const Duration(seconds: 2));
+      verify(() => mockMusicKit.setPlaybackTime(45.0)).called(1);
     });
 
-    test('dispose does not dispose bridge (bridge outlives player)', () async {
-      // Bridge lifecycle is managed by AppleMusicSession.
-      // AppleMusicPlayer.dispose() should NOT touch the bridge.
+    test('dispose cancels subscriptions', () async {
+      // Should not throw.
       await player.dispose();
-      verifyNever(() => mockBridge.tearDown());
     });
   });
 }

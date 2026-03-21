@@ -42,6 +42,17 @@
     .error { color: #ff3b30; }
     .success { color: #34c759; }
   </style>
+  <script>
+    // Force redirect-based auth instead of popup. Mobile browsers
+    // (especially Firefox) can't reliably relay tokens between tabs
+    // via postMessage. By overriding window.open, MusicKit JS's
+    // authorize() redirects in the same tab instead of opening a popup.
+    // Apple Developer Forums workaround: https://developer.apple.com/forums/thread/674118
+    window.open = function(url) {
+      window.location.href = url;
+      return null;
+    };
+  </script>
   <script src="https://js-cdn.music.apple.com/musickit/v3/musickit.js" async></script>
 </head>
 <body>
@@ -56,60 +67,100 @@
   </div>
 
   <script>
-    // Parse query params from the URL.
-    // Expected: ?token=DEVELOPER_JWT&state=RANDOM&callback=lauschi://apple-music-callback
+    // Server-side redirect endpoint. Responds with HTTP 302 to
+    // lauschi://apple-music-callback which triggers the Android
+    // deep link intent reliably (same pattern as Spotify OAuth).
+    var REDIRECT_ENDPOINT = 'https://tuneloopbot.webshox.org/lauschi/apple-callback';
+
+    // Parse query params. On first load: ?token=JWT&state=RANDOM
+    // On return from Apple login: URL may have Apple's callback params.
     var params = new URLSearchParams(window.location.search);
     var developerToken = params.get('token');
     var state = params.get('state');
-    var callbackScheme = params.get('callback') || 'lauschi://apple-music-callback';
+
+    // Persist auth state across the Apple login redirect so we can
+    // recover it when Apple sends the user back to this page.
+    if (developerToken && state) {
+      localStorage.setItem('lauschi_dev_token', developerToken);
+      localStorage.setItem('lauschi_auth_state', state);
+    }
+
+    // Recover state from before the redirect (second page load).
+    var savedDevToken = localStorage.getItem('lauschi_dev_token');
+    var savedState = localStorage.getItem('lauschi_auth_state');
 
     function setStatus(text, cls) {
       var el = document.getElementById('status');
       el.innerHTML = '<div class="status ' + (cls || '') + '">' + text + '</div>';
     }
 
-    function redirect(queryParams) {
-      var url = callbackScheme;
-      var sep = callbackScheme.indexOf('?') >= 0 ? '&' : '?';
+    function cleanup() {
+      localStorage.removeItem('lauschi_dev_token');
+      localStorage.removeItem('lauschi_auth_state');
+    }
+
+    function redirectToApp(queryParams) {
       var parts = [];
       for (var key in queryParams) {
         parts.push(encodeURIComponent(key) + '=' + encodeURIComponent(queryParams[key]));
       }
-      window.location.href = url + sep + parts.join('&');
+      window.location.href = REDIRECT_ENDPOINT + '?' + parts.join('&');
     }
 
-    if (!developerToken) {
+    function handleToken(music) {
+      var token = music.musicUserToken;
+      var authState = savedState || state || '';
+      setStatus('Verbunden! Zurück zur App...', 'success');
+      cleanup();
+      redirectToApp({
+        code: token,
+        state: authState,
+        storefront: music.storefrontId || 'de'
+      });
+    }
+
+    var devToken = developerToken || savedDevToken;
+    if (!devToken) {
       setStatus('Fehler: Kein Developer Token.', 'error');
     } else {
       document.addEventListener('musickitloaded', async function() {
         try {
           await MusicKit.configure({
-            developerToken: developerToken,
+            developerToken: devToken,
             app: { name: 'lauschi', build: '1.0.0' },
             storefrontId: 'de'
           });
 
           var music = MusicKit.getInstance();
+
+          // After redirect back from Apple login, MusicKit JS detects
+          // the callback params and sets the token automatically.
+          if (music.isAuthorized && music.musicUserToken) {
+            handleToken(music);
+            return;
+          }
+
           setStatus('Apple Music Anmeldung...');
 
-          // This opens Apple's login popup in the browser.
-          // In a system browser (not WebView), popups work normally.
+          // authorize() will redirect this page to Apple login
+          // (window.open is overridden above to force same-tab).
+          // After login, Apple redirects back here. On that second
+          // load, the token check above catches it.
           var userToken = await music.authorize();
 
+          // authorize() resolves immediately if MusicKit JS already
+          // has a cached token (e.g. from a previous session).
           if (userToken) {
-            setStatus('Verbunden! Zurück zur App...', 'success');
-            redirect({
-              code: userToken,
-              state: state || '',
-              storefront: music.storefrontId || 'de'
-            });
+            handleToken(music);
           } else {
             setStatus('Anmeldung fehlgeschlagen.', 'error');
-            redirect({ error: 'no_token', state: state || '' });
+            cleanup();
+            redirectToApp({ error: 'no_token', state: savedState || state || '' });
           }
         } catch(e) {
           setStatus('Fehler: ' + e, 'error');
-          redirect({ error: '' + e, state: state || '' });
+          cleanup();
+          redirectToApp({ error: '' + e, state: savedState || state || '' });
         }
       });
     }

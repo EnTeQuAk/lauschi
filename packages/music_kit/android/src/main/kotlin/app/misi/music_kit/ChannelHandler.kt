@@ -19,7 +19,7 @@ import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import kotlinx.coroutines.*
-import java.lang.reflect.Method
+
 
 class ChannelHandler(
   private val applicationContext: Context,
@@ -143,13 +143,14 @@ class ChannelHandler(
   @Synchronized
   private fun createPlayerControllerIfSatisfied(musicUserToken: String?) {
     if (playerController == null && !musicUserToken.isNullOrBlank()) {
+      Log.d(LOG_TAG, "Creating MediaPlayerController with devToken=${developerToken.length} chars, userToken=${musicUserToken.length} chars")
       playerController = MediaPlayerControllerFactory.createLocalController(
         applicationContext,
         AppleMusicTokenProvider(developerToken, musicUserToken)
       )
       playerStateStreamHandler?.setPlayerController(playerController!!)
       playerQueueStreamHandler?.setPlayerController(playerController!!)
-      Log.d(LOG_TAG, "MediaPlayerController created")
+      Log.d(LOG_TAG, "MediaPlayerController created successfully")
     }
   }
 
@@ -181,36 +182,36 @@ class ChannelHandler(
     }
   }
 
-  private val methodMap = HashMap<String, Method>()
+
 
   override fun onMethodCall(call: MethodCall, result: MethodChannel.Result) {
-    if (methodMap.isEmpty()) {
-      fetchMethods()
-    }
-
-    val method = methodMap[call.method]
-    if (null == method) {
-      result.notImplemented()
-      return
-    }
-
-    val args = arrayOfNulls<Any>(2)
-    args[0] = call
-    args[1] = result
-
-    try {
-      method.invoke(this, *args)
-    } catch (e: Exception) {
-      result.error(call.method, e.message, e)
-    }
-  }
-
-  private fun fetchMethods() {
-    val c = this::class.java
-    val m = c.declaredMethods
-
-    for (method in m) {
-      methodMap[method.name] = method
+    when (call.method) {
+      "authorizationStatus" -> authorizationStatus(call, result)
+      "requestAuthorizationStatus" -> requestAuthorizationStatus(call, result)
+      "requestDeveloperToken" -> requestDeveloperToken(call, result)
+      "setMusicUserToken" -> setMusicUserToken(call, result)
+      "requestUserToken" -> requestUserToken(call, result)
+      "currentCountryCode" -> currentCountryCode(call, result)
+      "setQueue" -> setQueue(call, result)
+      "setQueueWithItems" -> setQueueWithItems(call, result)
+      "play" -> play(call, result)
+      "pause" -> pause(call, result)
+      "stop" -> stop(call, result)
+      "prepareToPlay" -> prepareToPlay(call, result)
+      "skipToNextEntry" -> skipToNextEntry(call, result)
+      "skipToPreviousEntry" -> skipToPreviousEntry(call, result)
+      "restartCurrentEntry" -> restartCurrentEntry(call, result)
+      "isPreparedToPlay" -> isPreparedToPlay(call, result)
+      "playbackTime" -> playbackTime(call, result)
+      "setPlaybackTime" -> setPlaybackTime(call, result)
+      "currentItemDuration" -> currentItemDuration(call, result)
+      "repeatMode" -> repeatMode(call, result)
+      "setRepeatMode" -> setRepeatMode(call, result)
+      "toggleRepeatMode" -> toggleRepeatMode(call, result)
+      "shuffleMode" -> shuffleMode(call, result)
+      "setShuffleMode" -> setShuffleMode(call, result)
+      "toggleShuffleMode" -> toggleShuffleMode(call, result)
+      else -> result.notImplemented()
     }
   }
 
@@ -271,6 +272,19 @@ class ChannelHandler(
   @Suppress("unused", "UNUSED_PARAMETER")
   fun requestDeveloperToken(call: MethodCall, result: MethodChannel.Result) {
     result.success(developerToken)
+  }
+
+  @Keep
+  @Suppress("unused", "UNUSED_PARAMETER")
+  fun setMusicUserToken(call: MethodCall, result: MethodChannel.Result) {
+    val token = call.argument<String>("token")
+    if (token.isNullOrBlank()) {
+      result.error("ERR_SET_TOKEN", "Token is empty", null)
+      return
+    }
+    Log.d(LOG_TAG, "setMusicUserToken: ${token.length} chars")
+    musicUserToken = token
+    result.success(null)
   }
 
   @Keep

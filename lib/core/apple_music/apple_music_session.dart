@@ -3,7 +3,6 @@ import 'dart:async' show unawaited;
 import 'package:lauschi/core/apple_music/apple_music_api.dart';
 import 'package:lauschi/core/apple_music/apple_music_web_auth.dart';
 import 'package:lauschi/core/log.dart';
-import 'package:lauschi/features/player/apple_music_webview_bridge.dart';
 import 'package:music_kit/music_kit.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -37,28 +36,29 @@ class AppleMusicAuthenticated extends AppleMusicState {
 // AppleMusicSession provider
 // ---------------------------------------------------------------------------
 
-/// Central provider for Apple Music auth, playback bridge, and API.
+/// Central provider for Apple Music auth, native playback, and API.
 ///
-/// Auth uses two paths:
-/// - **Native MusicKit SDK**: for catalog API calls (developer token + native auth)
-/// - **Web auth via system browser**: for playback token (same pattern as Spotify)
+/// Auth goes through the web flow: system browser → MusicKit JS authorize()
+/// → server-side 302 redirect → deep link back to the app. Same pattern
+/// as Spotify.
 ///
-/// The web auth flow opens the system browser with an auth page that runs
-/// MusicKit JS authorize(). After login, it redirects back to the app with
-/// the music user token. This token is then passed to the WebView bridge
-/// for playback via MusicKit JS.
+/// Playback uses Apple's native Android SDK (MediaPlayerController) instead
+/// of MusicKit JS in a WebView. The web-obtained Music User Token is passed
+/// to the native SDK via setMusicUserToken(). This avoids WebView DRM
+/// limitations (Widevine L3 only on many Android devices).
 @Riverpod(keepAlive: true)
 class AppleMusicSession extends _$AppleMusicSession {
+  // Native MusicKit SDK: developer token generation (JWT from .p8 key)
+  // and native playback via MediaPlayerController.
   final MusicKit _musicKit = MusicKit();
-  late final AppleMusicApi _api = AppleMusicApi(_musicKit);
-  final AppleMusicWebViewBridge _bridge = AppleMusicWebViewBridge();
+
+  final AppleMusicApi _api = AppleMusicApi();
   final AppleMusicWebAuth _webAuth = AppleMusicWebAuth();
 
-  bool _bridgeInitialized = false;
+  bool _playerInitialized = false;
 
   @override
   AppleMusicState build() {
-    ref.onDispose(_tearDownBridge);
     unawaited(_init());
     return AppleMusicLoading();
   }
@@ -67,7 +67,6 @@ class AppleMusicSession extends _$AppleMusicSession {
 
   MusicKit get musicKit => _musicKit;
   AppleMusicApi get api => _api;
-  AppleMusicWebViewBridge get bridge => _bridge;
   AppleMusicWebAuth get webAuth => _webAuth;
   bool get isAuthenticated => state is AppleMusicAuthenticated;
 
@@ -75,11 +74,11 @@ class AppleMusicSession extends _$AppleMusicSession {
 
   Future<void> _init() async {
     try {
-      // Try to load stored web auth token first (persisted from previous
-      // browser auth flow, like Spotify's stored tokens).
       final webTokens = await _webAuth.loadStored();
       if (webTokens != null) {
         final devToken = await _musicKit.requestDeveloperToken();
+        _configureApi(devToken, webTokens.storefront);
+        await _initNativePlayer(webTokens.musicUserToken);
         state = AppleMusicAuthenticated(
           developerToken: devToken,
           musicUserToken: webTokens.musicUserToken,
@@ -93,18 +92,8 @@ class AppleMusicSession extends _$AppleMusicSession {
         return;
       }
 
-      // No web token stored. Check native auth status (for catalog API).
-      // User needs to connect via web auth for playback.
-      final status = await _musicKit.authorizationStatus;
-      Log.info(
-        _tag,
-        'Auth check on init',
-        data: {'status': status.runtimeType.toString()},
-      );
-
-      // Even with native auth, we need web auth for playback.
-      // Show as unauthenticated so the user goes through web auth.
       state = AppleMusicUnauthenticated();
+      Log.info(_tag, 'No stored token, needs web auth');
     } on Exception catch (e) {
       Log.error(_tag, 'Init failed', exception: e);
       state = AppleMusicUnauthenticated();
@@ -114,16 +103,14 @@ class AppleMusicSession extends _$AppleMusicSession {
   // ── Auth flow ───────────────────────────────────────────────────────
 
   /// Start the Apple Music web auth flow.
-  ///
-  /// Opens the system browser with the auth page. MusicKit JS handles
-  /// the Apple login popup. After login, the browser redirects back
-  /// to the app with the music user token.
   Future<void> connect() async {
     state = AppleMusicLoading();
     try {
       final devToken = await _musicKit.requestDeveloperToken();
       final tokens = await _webAuth.login(developerToken: devToken);
 
+      _configureApi(devToken, tokens.storefront);
+      await _initNativePlayer(tokens.musicUserToken);
       state = AppleMusicAuthenticated(
         developerToken: devToken,
         musicUserToken: tokens.musicUserToken,
@@ -146,6 +133,8 @@ class AppleMusicSession extends _$AppleMusicSession {
       final tokens = await _webAuth.handleCallback(uri);
       if (tokens != null) {
         final devToken = await _musicKit.requestDeveloperToken();
+        _configureApi(devToken, tokens.storefront);
+        await _initNativePlayer(tokens.musicUserToken);
         state = AppleMusicAuthenticated(
           developerToken: devToken,
           musicUserToken: tokens.musicUserToken,
@@ -162,39 +151,38 @@ class AppleMusicSession extends _$AppleMusicSession {
     }
   }
 
-  /// Disconnect. Tears down bridge, clears web token.
+  /// Disconnect. Stops playback, clears web token.
   Future<void> disconnect() async {
-    _tearDownBridge();
+    if (_playerInitialized) {
+      try {
+        await _musicKit.stop();
+      } on Exception catch (_) {
+        // Player might not be active.
+      }
+      _playerInitialized = false;
+    }
     await _webAuth.logout();
     state = AppleMusicUnauthenticated();
     Log.info(_tag, 'Disconnected');
   }
 
-  // ── Bridge lifecycle ────────────────────────────────────────────────
+  // ── Native player ──────────────────────────────────────────────────
 
-  Future<void> initBridge() async {
-    if (!isAuthenticated) {
-      Log.warn(_tag, 'Cannot init bridge: not authenticated');
-      return;
+  /// Pass the web MUT to the native MediaPlayerController.
+  Future<void> _initNativePlayer(String musicUserToken) async {
+    if (_playerInitialized) return;
+    try {
+      await _musicKit.setMusicUserToken(musicUserToken);
+      _playerInitialized = true;
+      Log.info(_tag, 'Native player initialized');
+    } on Exception catch (e) {
+      Log.error(_tag, 'Native player init failed', exception: e);
     }
-    if (_bridgeInitialized) {
-      Log.debug(_tag, 'Bridge already initialized');
-      return;
-    }
-
-    final auth = state as AppleMusicAuthenticated;
-    await _bridge.init(
-      developerToken: auth.developerToken,
-      musicUserToken: auth.musicUserToken,
-    );
-    _bridgeInitialized = true;
-    Log.info(_tag, 'Bridge initialized');
   }
 
-  void _tearDownBridge() {
-    if (!_bridgeInitialized) return;
-    _bridge.tearDown();
-    _bridgeInitialized = false;
-    Log.info(_tag, 'Bridge torn down');
+  // ── Internal ────────────────────────────────────────────────────────
+
+  void _configureApi(String devToken, String storefront) {
+    _api.configure(developerToken: devToken, storefront: storefront);
   }
 }

@@ -2,7 +2,6 @@ import 'dart:async' show Completer, Timer, unawaited;
 
 import 'package:dio/dio.dart';
 import 'package:lauschi/core/log.dart';
-import 'package:music_kit/music_kit.dart';
 
 const _tag = 'AppleMusicApi';
 
@@ -53,12 +52,11 @@ class AppleMusicTrack {
 
 /// REST API client for Apple Music catalog operations.
 ///
-/// Uses the developer token (generated on-device by the MusicKit plugin)
-/// and the user token (obtained during auth) for API requests.
-/// Storefront defaults to the user's region (resolved by the plugin)
-/// or 'de' as fallback.
+/// Only needs the developer token (JWT generated on-device from .p8 key).
+/// Catalog endpoints don't require a Music-User-Token; that's only for
+/// personalized endpoints (/v1/me/...) and playback.
 class AppleMusicApi {
-  AppleMusicApi(this._musicKit)
+  AppleMusicApi()
     : _dio = Dio(
         BaseOptions(
           baseUrl: 'https://api.music.apple.com/v1',
@@ -67,38 +65,21 @@ class AppleMusicApi {
         ),
       );
 
-  final MusicKit _musicKit;
   final Dio _dio;
-  Future<void>? _headerInit;
+  bool _configured = false;
 
-  /// Ensure auth headers are set before making requests.
-  /// Serialized: concurrent callers wait for the first one to finish.
-  Future<void> _ensureHeaders() async {
-    if (_dio.options.headers.containsKey('Authorization')) return;
-    // Serialize: if another call is already fetching, wait for it.
-    if (_headerInit != null) return _headerInit!;
-    _headerInit = _fetchHeaders();
-    try {
-      await _headerInit;
-    } finally {
-      _headerInit = null;
-    }
+  /// Set the developer token and storefront for API requests.
+  /// Called by AppleMusicSession once tokens are available.
+  void configure({required String developerToken, required String storefront}) {
+    _dio.options.headers['Authorization'] = 'Bearer $developerToken';
+    _dio.options.baseUrl = 'https://api.music.apple.com/v1/catalog/$storefront';
+    _configured = true;
+    Log.info(_tag, 'Configured', data: {'storefront': storefront});
   }
 
-  Future<void> _fetchHeaders() async {
-    try {
-      final devToken = await _musicKit.requestDeveloperToken();
-      final userToken = await _musicKit.requestUserToken(devToken);
-      final storefront = await _musicKit.currentCountryCode;
-      _dio.options.headers['Authorization'] = 'Bearer $devToken';
-      if (userToken.isNotEmpty) {
-        _dio.options.headers['Music-User-Token'] = userToken;
-      }
-      _dio.options.baseUrl =
-          'https://api.music.apple.com/v1/catalog/$storefront';
-      Log.info(_tag, 'Headers set', data: {'storefront': storefront});
-    } on Exception catch (e) {
-      Log.error(_tag, 'Failed to set headers', exception: e);
+  void _requireConfigured() {
+    if (!_configured) {
+      throw StateError('AppleMusicApi not configured. Call configure() first.');
     }
   }
 
@@ -107,7 +88,7 @@ class AppleMusicApi {
     String query, {
     int limit = 25,
   }) async {
-    await _ensureHeaders();
+    _requireConfigured();
     try {
       final response = await _dio.get<Map<String, dynamic>>(
         '/search',
@@ -136,7 +117,7 @@ class AppleMusicApi {
   /// Batch-fetch multiple albums by ID (max 25 per request).
   Future<List<AppleMusicAlbum>> getAlbums(List<String> albumIds) async {
     if (albumIds.isEmpty) return [];
-    await _ensureHeaders();
+    _requireConfigured();
 
     final results = <AppleMusicAlbum>[];
     for (var i = 0; i < albumIds.length; i += 25) {
@@ -169,7 +150,7 @@ class AppleMusicApi {
 
   /// Get a single album by ID.
   Future<AppleMusicAlbum?> getAlbum(String albumId) async {
-    await _ensureHeaders();
+    _requireConfigured();
     try {
       final response = await _dio.get<Map<String, dynamic>>(
         '/albums/$albumId',
@@ -189,7 +170,7 @@ class AppleMusicApi {
 
   /// Get tracks for an album.
   Future<List<AppleMusicTrack>> getAlbumTracks(String albumId) async {
-    await _ensureHeaders();
+    _requireConfigured();
     try {
       final response = await _dio.get<Map<String, dynamic>>(
         '/albums/$albumId',

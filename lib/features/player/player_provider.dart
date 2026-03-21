@@ -10,7 +10,7 @@ import 'package:lauschi/core/providers/provider_type.dart';
 import 'package:lauschi/core/spotify/spotify_api.dart';
 import 'package:lauschi/core/spotify/spotify_session.dart';
 import 'package:lauschi/features/player/apple_music_player.dart';
-import 'package:lauschi/features/player/apple_music_webview_bridge.dart';
+
 import 'package:lauschi/features/player/media_session_handler.dart';
 import 'package:lauschi/features/player/player_backend.dart';
 import 'package:lauschi/features/player/player_error.dart';
@@ -670,17 +670,12 @@ class PlayerNotifier extends _$PlayerNotifier {
 
   Future<void> _startAppleMusic(db.TileItem card, int gen) async {
     final amSession = ref.read(appleMusicSessionProvider.notifier);
-    final bridge = amSession.bridge;
 
     Log.info(
       _tag,
       'Starting AppleMusicPlayer gen=$gen',
       data: {'card': card.title},
     );
-
-    // Wait for the WebView bridge to be ready (MusicKit JS loaded
-    // and initialized with tokens).
-    if (!await _ensureAppleMusicReady(bridge, gen)) return;
 
     final albumId = card.providerUri.replaceFirst('apple_music:album:', '');
 
@@ -690,7 +685,7 @@ class PlayerNotifier extends _$PlayerNotifier {
       artworkUrl: card.coverUrl,
     );
 
-    final player = AppleMusicPlayer(bridge);
+    final player = AppleMusicPlayer(amSession.musicKit);
 
     if (_playGen != gen) return;
 
@@ -724,26 +719,6 @@ class PlayerNotifier extends _$PlayerNotifier {
       // TODO(#230): resume from saved track index
       positionMs: card.lastPositionMs,
     );
-  }
-
-  /// Wait for the Apple Music WebView bridge to be ready (max 10s).
-  Future<bool> _ensureAppleMusicReady(
-    AppleMusicWebViewBridge bridge,
-    int gen,
-  ) async {
-    // Fast path: bridge already ready.
-    if (bridge.currentState.isReady) return true;
-
-    // Poll: bridge init is async (page load + MusicKit JS + token injection).
-    for (var i = 0; i < 50; i++) {
-      if (_playGen != gen) return false;
-      await Future<void>.delayed(const Duration(milliseconds: 200));
-      if (bridge.currentState.isReady) return true;
-    }
-
-    Log.error(_tag, 'Apple Music bridge not ready after 10s');
-    state = state.copyWith(error: PlayerError.playbackFailed);
-    return false;
   }
 
   // ─── Playback state change handling ─────────────────────────────────
