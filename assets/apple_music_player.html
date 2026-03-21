@@ -188,17 +188,48 @@
     },
 
     // Play an album starting from a track index
-    play_album: function(albumId, trackIndex) {
+    play_album: async function(albumId, trackIndex) {
       if (!music) { post('error', { type: 'playback', message: 'not initialized' }); return; }
       trackIndex = trackIndex || 0;
       post_log('play_album: ' + albumId + ' track: ' + trackIndex);
 
-      music.setQueue({ album: albumId, startWith: trackIndex, startPlaying: true }).then(function() {
+      try {
+        await music.setQueue({ album: albumId, startWith: trackIndex, startPlaying: true });
         post_log('setQueue resolved, playback starting');
-      }).catch(function(e) {
+      } catch(e) {
+        var errStr = '' + e;
+        post_log('setQueue failed: ' + errStr);
+
+        // CONTENT_EQUIVALENT: Apple replaced this album with a newer version.
+        // Try to resolve the equivalent album via the catalog API and retry.
+        if (errStr.indexOf('CONTENT_EQUIVALENT') >= 0) {
+          post_log('Album has equivalent content, looking up replacement');
+          try {
+            var result = await music.api.music('/v1/catalog/de/albums/' + albumId);
+            if (result && result.data && result.data.data && result.data.data.length > 0) {
+              var resolved = result.data.data[0];
+              post_log('Resolved to: ' + resolved.id + ' (' + (resolved.attributes ? resolved.attributes.name : '?') + ')');
+              await music.setQueue({ album: resolved.id, startWith: trackIndex, startPlaying: true });
+              post_log('setQueue with resolved album succeeded');
+              return;
+            }
+          } catch(resolveErr) {
+            post_log('Album lookup failed: ' + resolveErr);
+          }
+
+          // Fallback: try URL-based queue (sometimes bypasses equivalency check)
+          try {
+            post_log('Trying URL-based setQueue');
+            await music.setQueue({ url: '/v1/catalog/de/albums/' + albumId, startWith: trackIndex, startPlaying: true });
+            post_log('URL-based setQueue succeeded');
+            return;
+          } catch(urlErr) {
+            post_log('URL-based setQueue also failed: ' + urlErr);
+          }
+        }
+
         post('error', { type: 'playback', message: 'setQueue failed: ' + e });
-        post_log('setQueue failed: ' + e);
-      });
+      }
     },
 
     // Play a single song
