@@ -35,13 +35,14 @@
     // Called by Dart with both tokens after native auth.
     // developerToken: JWT generated on-device from .p8 key
     // musicUserToken: obtained from native MusicKit auth flow
-    init: function(developerToken, musicUserToken) {
+    init: async function(developerToken, musicUserToken) {
       post_log('init called, configuring MusicKit JS');
 
       try {
         if (!_configured) {
-          // Load MusicKit JS dynamically (must be after configure context)
-          MusicKit.configure({
+          // MusicKit JS v3: configure() is async and must be awaited
+          // before getInstance() returns a valid instance.
+          await MusicKit.configure({
             developerToken: developerToken,
             app: {
               name: 'lauschi',
@@ -52,12 +53,33 @@
         }
 
         music = MusicKit.getInstance();
+        post_log('MusicKit instance: ' + (music ? 'OK' : 'NULL'));
 
         // Inject the user token from native auth. This bypasses the
         // authorize() popup which may not work in a WebView context.
-        if (musicUserToken) {
-          music.musicUserToken = musicUserToken;
-          post_log('User token injected (' + musicUserToken.length + ' chars)');
+        if (musicUserToken && music) {
+          // Try direct property assignment first (works in v1/v2, some v3).
+          try {
+            music.musicUserToken = musicUserToken;
+            post_log('User token injected via property (' + musicUserToken.length + ' chars)');
+          } catch(tokenErr) {
+            post_log('Direct token injection failed: ' + tokenErr);
+          }
+
+          // Also inject via localStorage. MusicKit JS checks for a key
+          // matching "music.*.u" to skip the authorize() popup.
+          // See: https://dev.to/jurooravec/reverse-engineering-apple-s-musickitjs
+          try {
+            var prefix = 'music.' + developerToken.substring(0, 20) + '.u';
+            localStorage.setItem(prefix, musicUserToken);
+            post_log('User token injected via localStorage key: ' + prefix);
+          } catch(lsErr) {
+            post_log('localStorage injection failed: ' + lsErr);
+          }
+
+          // Check if we're authorized now.
+          post_log('isAuthorized: ' + music.isAuthorized);
+          post_log('musicUserToken: ' + (music.musicUserToken ? music.musicUserToken.length + ' chars' : 'null'));
         }
 
         // Wire up event listeners
@@ -140,8 +162,20 @@
           post('error', { type: 'playback', message: '' + event });
         });
 
+        // If token injection didn't make us authorized, try authorize().
+        if (!music.isAuthorized) {
+          post_log('Not authorized after token injection, calling authorize()');
+          try {
+            var authToken = await music.authorize();
+            post_log('authorize() resolved, token: ' + (authToken ? authToken.length + ' chars' : 'null'));
+          } catch(authErr) {
+            post_log('authorize() failed: ' + authErr);
+            // Still post ready, playback may work for catalog content.
+          }
+        }
+
         post('ready', {});
-        post_log('MusicKit JS initialized');
+        post_log('MusicKit JS initialized, isAuthorized: ' + music.isAuthorized);
 
       } catch(e) {
         post('error', { type: 'init', message: '' + e });
