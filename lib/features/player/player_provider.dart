@@ -693,7 +693,19 @@ class PlayerNotifier extends _$PlayerNotifier {
       player,
       player.stateStream.listen((amState) {
         if (_playGen != gen) return;
-        _onPlaybackStateChange(amState);
+        // Merge backend state into provider state, then run side effects.
+        // Same pattern as Spotify (_onBridgeEvent) and ARD (_startDirect).
+        state = state.copyWith(
+          isPlaying: amState.isPlaying,
+          isReady: amState.isReady,
+          isLoading:
+              state.isLoading && !amState.isPlaying && amState.error == null,
+          track: amState.track ?? state.track,
+          positionMs: amState.positionMs,
+          durationMs: amState.durationMs,
+          error: amState.error ?? state.error,
+        );
+        _onPlaybackStateChange(state);
       }),
     );
 
@@ -764,7 +776,7 @@ class PlayerNotifier extends _$PlayerNotifier {
       }),
     );
     _mediaSession.updateFromAppState(
-      newState,
+      state,
       hasNextTrack: _active?.backend.hasNextTrack ?? false,
     );
 
