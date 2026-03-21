@@ -143,6 +143,36 @@ class AppleMusicWebViewBridge {
         const PlatformWebViewCookieManagerCreationParams(),
       );
       await cookieManager.setAcceptThirdPartyCookies(platform, true);
+
+      // Set the media-user-token cookie on Apple's domains.
+      // When music.apple.com works in Chrome, this cookie is set during
+      // Apple's web auth flow. In our WebView, auth happens natively
+      // (no Apple web pages visited), so the cookie doesn't exist.
+      // MusicKit JS's setQueue() internally relies on this cookie for
+      // content/DRM resolution, even though the API uses Authorization
+      // headers. Without it, setQueue returns NOT_FOUND.
+      if (_musicUserToken != null) {
+        final token = _musicUserToken!;
+        const domains = [
+          'https://music.apple.com',
+          'https://api.music.apple.com',
+          'https://play.music.apple.com',
+          'https://buy.music.apple.com',
+        ];
+        for (final domain in domains) {
+          await cookieManager.setCookie(
+            WebViewCookie(
+              name: 'media-user-token',
+              value: token,
+              domain: domain,
+            ),
+          );
+        }
+        Log.info(
+          _tag,
+          'Set media-user-token cookie on Apple domains',
+        );
+      }
     }
 
     // Standard Chrome UA. MusicKit JS may check browser capabilities.
