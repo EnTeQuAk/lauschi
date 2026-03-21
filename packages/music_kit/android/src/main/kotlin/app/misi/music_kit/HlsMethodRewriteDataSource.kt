@@ -23,12 +23,14 @@ class HlsMethodRewriteDataSource(
     private var isPlaylist = false
     private var bufferedData: ByteArray? = null
     private var readOffset = 0
+    private var currentUri: Uri? = null
 
     override fun addTransferListener(transferListener: TransferListener) {
         upstream.addTransferListener(transferListener)
     }
 
     override fun open(dataSpec: DataSpec): Long {
+        currentUri = dataSpec.uri
         val uri = dataSpec.uri.toString()
         isPlaylist = uri.endsWith(".m3u8") || uri.contains("m3u8")
 
@@ -37,7 +39,7 @@ class HlsMethodRewriteDataSource(
         }
 
         // For playlists: read the entire response, rewrite, buffer it.
-        val length = upstream.open(dataSpec)
+        upstream.open(dataSpec)
         val bytes = mutableListOf<Byte>()
         val buf = ByteArray(8192)
         while (true) {
@@ -72,7 +74,7 @@ class HlsMethodRewriteDataSource(
         return bytesToRead
     }
 
-    override fun getUri(): Uri? = upstream.uri
+    override fun getUri(): Uri? = if (isPlaylist) currentUri else upstream.uri
 
     override fun close() {
         if (!isPlaylist) {
