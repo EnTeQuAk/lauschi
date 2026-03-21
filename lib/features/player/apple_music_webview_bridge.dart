@@ -156,13 +156,18 @@ class AppleMusicWebViewBridge {
           final uri = Uri.tryParse(request.url);
           final host = uri?.host ?? '';
           final playerUri = Uri.tryParse(AppleMusicConfig.playerUrl);
-          final allowed = {
-            if (playerUri != null) playerUri.host,
-            'js-cdn.music.apple.com', // MusicKit JS CDN
-            'authorize.music.apple.com', // Auth popup (if needed)
-            'buy.music.apple.com', // Token exchange
-          };
-          if (allowed.contains(host) || request.url == 'about:blank') {
+
+          // Allow our player host and all Apple domains.
+          // MusicKit JS needs access to multiple Apple subdomains for
+          // DRM handshake, streaming, API, and auth. Blocking any of
+          // them causes CONTENT_EQUIVALENT errors.
+          final isPlayerHost = playerUri != null && host == playerUri.host;
+          final isAppleDomain =
+              host.endsWith('.apple.com') ||
+              host.endsWith('.mzstatic.com') ||
+              host.endsWith('.apple-cloudkit.com');
+
+          if (isPlayerHost || isAppleDomain || request.url == 'about:blank') {
             return NavigationDecision.navigate;
           }
           Log.warn(

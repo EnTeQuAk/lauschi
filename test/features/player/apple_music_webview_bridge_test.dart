@@ -45,8 +45,9 @@ void main() {
     });
 
     test('tearDown is idempotent', () {
-      bridge.tearDown();
-      bridge.tearDown(); // Should not throw.
+      bridge
+        ..tearDown()
+        ..tearDown(); // Should not throw.
     });
 
     test('dispose is idempotent', () async {
