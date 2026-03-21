@@ -86,9 +86,13 @@ class AppleMusicWebAuth {
 
     Log.info(_tag, 'Opening browser for Apple Music auth');
 
+    // Use externalApplication (full browser), NOT inAppBrowserView
+    // (Custom Tab). MusicKit JS authorize() opens a popup for Apple
+    // login. Custom Tabs don't support popups; they fall back to
+    // redirect-based auth which loses MusicKit JS session state.
+    // Full browser keeps popups working, same as how music.apple.com works.
     var launched = false;
     for (final mode in [
-      LaunchMode.inAppBrowserView,
       LaunchMode.externalApplication,
       LaunchMode.platformDefault,
     ]) {
@@ -178,7 +182,9 @@ class AppleMusicWebAuth {
     } finally {
       _loginCompleter = null;
       _pendingState = null;
-      unawaited(closeInAppWebView());
+      // No closeInAppWebView() needed since we use externalApplication
+      // (full browser). The browser tab stays open but the user is back
+      // in the app via the deep link.
       await _storage.delete(key: _pendingStateKey);
     }
   }
