@@ -56,15 +56,28 @@ class _LauschiAppState extends ConsumerState<LauschiApp>
 
   Future<void> _handleDeepLink(Uri uri) async {
     Log.info('DeepLink', 'Received', data: {'uri': '$uri'});
-    if (FeatureFlags.enableSpotify &&
-        uri.scheme == 'lauschi' &&
-        uri.host == 'callback') {
+    if (uri.scheme != 'lauschi') return;
+
+    if (FeatureFlags.enableSpotify && uri.host == 'callback') {
       try {
         await ref.read(spotifySessionProvider.notifier).handleCallback(uri);
       } on Exception catch (e, stack) {
         Log.error(
           'DeepLink',
-          'OAuth callback failed',
+          'Spotify callback failed',
+          exception: e,
+          stackTrace: stack,
+        );
+      }
+    }
+
+    if (FeatureFlags.enableAppleMusic && uri.host == 'apple-music-callback') {
+      try {
+        await ref.read(appleMusicSessionProvider.notifier).handleCallback(uri);
+      } on Exception catch (e, stack) {
+        Log.error(
+          'DeepLink',
+          'Apple Music callback failed',
           exception: e,
           stackTrace: stack,
         );
@@ -133,11 +146,18 @@ class _LauschiAppState extends ConsumerState<LauschiApp>
                   child: _SpotifyWebViewHost(),
                 ),
               ),
-            // WebView for Apple Music MusicKit JS.
-            // Shown full-screen during web auth (user needs to log in),
-            // then moved off-screen for background playback.
+            // Hidden WebView for Apple Music MusicKit JS.
+            // Auth happens in the system browser (like Spotify), not here.
             if (FeatureFlags.enableAppleMusic && appleMusicAuthenticated)
-              _AppleMusicWebViewHost(),
+              Positioned(
+                left: -500,
+                top: -500,
+                child: SizedBox(
+                  width: 300,
+                  height: 300,
+                  child: _AppleMusicWebViewHost(),
+                ),
+              ),
           ],
         );
       },
@@ -203,12 +223,11 @@ class _SpotifyWebViewHostState extends ConsumerState<_SpotifyWebViewHost> {
   }
 }
 
-/// Hosts the WebView for Apple Music MusicKit JS.
+/// Hosts the hidden WebView for Apple Music MusicKit JS playback.
 ///
-/// Unlike Spotify (always hidden), this WebView needs to be visible
-/// during the MusicKit JS web auth flow (Apple's login page loads
-/// inside the WebView via redirect). After auth, it moves off-screen
-/// for background playback.
+/// Auth happens in the system browser (like Spotify), not here.
+/// This WebView only handles playback via MusicKit JS with the
+/// web token obtained from the browser auth flow.
 class _AppleMusicWebViewHost extends ConsumerStatefulWidget {
   @override
   ConsumerState<_AppleMusicWebViewHost> createState() =>
@@ -228,14 +247,8 @@ class _AppleMusicWebViewHostState
   Future<void> _initBridge() async {
     if (_initialized) return;
     try {
-      final session = ref.read(appleMusicSessionProvider.notifier);
-      await session.initBridge();
+      await ref.read(appleMusicSessionProvider.notifier).initBridge();
       _initialized = true;
-
-      // Listen for needs_auth / ready to show/hide the WebView.
-      // The bridge doesn't emit PlaybackState for auth; instead we
-      // check the bridge's needsAuth flag (set by 'needs_auth' message).
-      // For now, just show the WebView during initial auth.
       if (mounted) setState(() {});
     } on Exception catch (e) {
       Log.error('AppleMusicWebViewHost', 'Bridge init failed', exception: e);
@@ -246,35 +259,11 @@ class _AppleMusicWebViewHostState
   Widget build(BuildContext context) {
     final session = ref.read(appleMusicSessionProvider.notifier);
     final bridge = session.bridge;
-    final controller = bridge.controllerOrNull;
-    if (controller == null) {
+    if (!bridge.currentState.isReady && !_initialized) {
       return const SizedBox.shrink();
     }
-
-    final webView = WebViewWidget(controller: controller);
-
-    // During auth: show full-screen so user can interact with Apple login.
-    // After auth (bridge ready): move off-screen for background playback.
-    if (!bridge.currentState.isReady) {
-      // Bridge not ready yet (auth in progress or loading).
-      // Show full-screen so user can see Apple's login page.
-      return Positioned.fill(
-        child: Material(
-          color: Colors.white,
-          child: SafeArea(child: webView),
-        ),
-      );
-    }
-
-    // Bridge ready: hide off-screen for background playback.
-    return Positioned(
-      left: -500,
-      top: -500,
-      child: SizedBox(
-        width: 300,
-        height: 300,
-        child: webView,
-      ),
-    );
+    final controller = bridge.controllerOrNull;
+    if (controller == null) return const SizedBox.shrink();
+    return WebViewWidget(controller: controller);
   }
 }

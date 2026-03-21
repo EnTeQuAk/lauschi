@@ -7,5 +7,5 @@ abstract final class AppleMusicConfig {
   // Cache-buster query param forces WebView to fetch the latest version.
   // Bump this when deploying player HTML changes during development.
   static const playerUrl =
-      'https://tuneloopbot.webshox.org/lauschi/apple_music_player.html?v=9';
+      'https://tuneloopbot.webshox.org/lauschi/apple_music_player.html?v=10';
 }

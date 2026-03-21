@@ -35,9 +35,9 @@
   }
 
   window.lauschi = {
-    // Called by Dart with the developer token. User auth happens in JS
-    // via MusicKit's own authorize() flow (redirect-based in WebViews).
-    init: async function(developerToken) {
+    // Called by Dart with tokens from web auth (system browser flow).
+    // Same pattern as Spotify: Dart handles auth, JS just uses tokens.
+    init: async function(developerToken, musicUserToken) {
       post_log('init called');
 
       try {
@@ -48,7 +48,6 @@
               name: 'lauschi',
               build: '1.0.0'
             },
-            // DACH market. setQueue uses this to resolve content IDs.
             storefrontId: 'de'
           });
           _configured = true;
@@ -56,47 +55,17 @@
 
         music = MusicKit.getInstance();
         post_log('MusicKit instance: ' + (music ? 'OK' : 'NULL'));
-        post_log('isAuthorized (before): ' + music.isAuthorized);
-        post_log('musicUserToken (before): ' + (music.musicUserToken ? music.musicUserToken.length + ' chars' : 'null'));
 
-        // Force a fresh web auth by clearing any cached/native tokens.
-        // The native MusicKit SDK token gets picked up automatically
-        // but doesn't work for web playback (causes CONTENT_EQUIVALENT).
-        if (music.isAuthorized) {
-          post_log('Clearing cached auth to force web auth flow');
-          try {
-            await music.unauthorize();
-            post_log('unauthorize() done, isAuthorized: ' + music.isAuthorized);
-          } catch(uaErr) {
-            post_log('unauthorize() failed: ' + uaErr);
-          }
-          // Clear localStorage tokens too (passport-apple-music finding)
-          try {
-            for (var i = localStorage.length - 1; i >= 0; i--) {
-              var key = localStorage.key(i);
-              if (key && key.startsWith('music.')) {
-                post_log('Removing localStorage: ' + key);
-                localStorage.removeItem(key);
-              }
-            }
-          } catch(lsErr) {
-            post_log('localStorage cleanup failed: ' + lsErr);
-          }
-        }
-
-        if (!music.isAuthorized) {
-          // Save state so we know to resume after auth redirect.
-          sessionStorage.setItem('lauschi_pending_auth', 'true');
-          post_log('Not authorized, calling authorize() (will redirect)');
-          // Tell Dart we need auth. Dart should show the WebView.
-          post('needs_auth', {});
-          await music.authorize();
-          // If we get here, auth succeeded (page might have reloaded).
-          post_log('authorize() resolved');
+        // Inject web user token from system browser auth.
+        // This token was obtained via MusicKit JS authorize() in the
+        // system browser (not this WebView), same as how Spotify gets
+        // its token via OAuth in the system browser.
+        if (musicUserToken && music) {
+          music.musicUserToken = musicUserToken;
+          post_log('Web user token injected (' + musicUserToken.length + ' chars)');
         }
 
         post_log('isAuthorized: ' + music.isAuthorized);
-        post_log('musicUserToken: ' + (music.musicUserToken ? music.musicUserToken.length + ' chars' : 'null'));
         post_log('storefrontId: ' + music.storefrontId);
 
         // Wire up event listeners
@@ -278,19 +247,9 @@
     if (_positionInterval) { clearInterval(_positionInterval); _positionInterval = null; }
   }
 
-  // On page load: check if we're returning from an auth redirect.
-  // MusicKit JS native webview flow: page unloads for auth, reloads after.
-  document.addEventListener('musickitloaded', async function() {
+  // SDK loaded callback. Dart will call lauschi.init(devToken, userToken).
+  document.addEventListener('musickitloaded', function() {
     post_log('MusicKit JS loaded');
-
-    var pendingAuth = sessionStorage.getItem('lauschi_pending_auth');
-    if (pendingAuth) {
-      sessionStorage.removeItem('lauschi_pending_auth');
-      post_log('Returning from auth redirect');
-      // Re-configure and check auth status.
-      // Dart will call init() but we can also self-init here.
-    }
-
     post('sdk_ready', {});
   });
 </script>

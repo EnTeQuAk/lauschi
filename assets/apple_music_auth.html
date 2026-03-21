@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>lauschi — Apple Music verbinden</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #f5f5f7;
+      color: #1d1d1f;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+    .card {
+      background: white;
+      border-radius: 16px;
+      padding: 40px 32px;
+      max-width: 380px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+    }
+    .logo { font-size: 48px; margin-bottom: 16px; }
+    h1 { font-size: 20px; font-weight: 600; margin-bottom: 8px; }
+    p { font-size: 14px; color: #6e6e73; margin-bottom: 24px; line-height: 1.5; }
+    .status { font-size: 14px; color: #1d1d1f; margin-top: 16px; }
+    .spinner {
+      display: inline-block;
+      width: 24px; height: 24px;
+      border: 3px solid #e5e5ea;
+      border-top-color: #fc3c44;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin-bottom: 12px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .error { color: #ff3b30; }
+    .success { color: #34c759; }
+  </style>
+  <script src="https://js-cdn.music.apple.com/musickit/v3/musickit.js" async></script>
+</head>
+<body>
+  <div class="card">
+    <div class="logo">🦊</div>
+    <h1>Apple Music verbinden</h1>
+    <p>lauschi braucht Zugriff auf Apple Music, um Hörspiele abspielen zu können.</p>
+    <div id="status">
+      <div class="spinner"></div>
+      <div class="status">Verbindung wird hergestellt...</div>
+    </div>
+  </div>
+
+  <script>
+    // Parse query params from the URL.
+    // Expected: ?token=DEVELOPER_JWT&state=RANDOM&callback=lauschi://apple-music-callback
+    var params = new URLSearchParams(window.location.search);
+    var developerToken = params.get('token');
+    var state = params.get('state');
+    var callbackScheme = params.get('callback') || 'lauschi://apple-music-callback';
+
+    function setStatus(text, cls) {
+      var el = document.getElementById('status');
+      el.innerHTML = '<div class="status ' + (cls || '') + '">' + text + '</div>';
+    }
+
+    function redirect(queryParams) {
+      var url = callbackScheme;
+      var sep = callbackScheme.indexOf('?') >= 0 ? '&' : '?';
+      var parts = [];
+      for (var key in queryParams) {
+        parts.push(encodeURIComponent(key) + '=' + encodeURIComponent(queryParams[key]));
+      }
+      window.location.href = url + sep + parts.join('&');
+    }
+
+    if (!developerToken) {
+      setStatus('Fehler: Kein Developer Token.', 'error');
+    } else {
+      document.addEventListener('musickitloaded', async function() {
+        try {
+          await MusicKit.configure({
+            developerToken: developerToken,
+            app: { name: 'lauschi', build: '1.0.0' },
+            storefrontId: 'de'
+          });
+
+          var music = MusicKit.getInstance();
+          setStatus('Apple Music Anmeldung...');
+
+          // This opens Apple's login popup in the browser.
+          // In a system browser (not WebView), popups work normally.
+          var userToken = await music.authorize();
+
+          if (userToken) {
+            setStatus('Verbunden! Zurück zur App...', 'success');
+            redirect({
+              code: userToken,
+              state: state || '',
+              storefront: music.storefrontId || 'de'
+            });
+          } else {
+            setStatus('Anmeldung fehlgeschlagen.', 'error');
+            redirect({ error: 'no_token', state: state || '' });
+          }
+        } catch(e) {
+          setStatus('Fehler: ' + e, 'error');
+          redirect({ error: '' + e, state: state || '' });
+        }
+      });
+    }
+  </script>
+</body>
+</html>

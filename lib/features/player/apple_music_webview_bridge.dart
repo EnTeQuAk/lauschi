@@ -45,9 +45,10 @@ class AppleMusicWebViewBridge {
   int _trackIndex = 0;
   int _totalTracks = 0;
 
-  /// Developer token from native MusicKit auth, set by [init].
-  /// User auth is handled by MusicKit JS itself (web auth flow).
+  /// Tokens set by [init]. Developer token from native MusicKit.
+  /// User token from web auth (system browser flow, like Spotify).
   String? _developerToken;
+  String? _musicUserToken;
 
   /// Stream of playback state changes.
   Stream<PlaybackState> get stateStream => _stateController.stream;
@@ -76,6 +77,7 @@ class AppleMusicWebViewBridge {
       throw StateError('Cannot init a disposed bridge.');
     }
     _developerToken = developerToken;
+    _musicUserToken = musicUserToken;
     Log.info(_tag, 'Initializing WebView bridge');
 
     // Clean up previous controller if re-initializing.
@@ -225,6 +227,7 @@ class AppleMusicWebViewBridge {
     _trackIndex = 0;
     _totalTracks = 0;
     _developerToken = null;
+    _musicUserToken = null;
     _isReloading = false;
 
     final controller = _controller;
@@ -257,7 +260,6 @@ class AppleMusicWebViewBridge {
   static const _allowedTypes = {
     'sdk_ready',
     'ready',
-    'needs_auth',
     'state_changed',
     'track_changed',
     'position',
@@ -315,12 +317,6 @@ class AppleMusicWebViewBridge {
           data: {'authorized': '$authorized'},
         );
         _updateState(_state.copyWith(isReady: true));
-
-      case 'needs_auth':
-        // MusicKit JS needs web auth. The WebView will redirect to
-        // Apple's login page. In a future iteration, Dart should
-        // temporarily show the WebView so the user can sign in.
-        Log.info(_tag, 'MusicKit JS needs web authorization');
 
       case 'state_changed':
         _handleStateChanged(payload);
@@ -461,9 +457,10 @@ class AppleMusicWebViewBridge {
   /// Bypasses _isReloading guard: same reason as Spotify (SDK ready
   /// fires before onPageFinished).
   Future<void> _initPlayer() async {
-    Log.info(_tag, 'Initializing MusicKit JS');
+    Log.info(_tag, 'Initializing MusicKit JS with tokens');
 
     final devToken = _developerToken;
+    final userToken = _musicUserToken;
     if (devToken == null) {
       Log.warn(_tag, 'Init skipped: developer token unavailable');
       _updateState(
@@ -474,11 +471,12 @@ class AppleMusicWebViewBridge {
 
     if (_controller == null) return;
     try {
-      // Pass only the developer token. User auth happens in MusicKit JS
-      // via its own authorize() flow (redirect-based in WebViews).
+      // Pass developer token + web user token (from system browser auth).
+      // Same pattern as Spotify: Dart handles auth, JS uses the tokens.
       await _controller!.runJavaScript(
         'if(window.lauschi){window.lauschi.init('
-        '${json.encode(devToken)}'
+        '${json.encode(devToken)},'
+        '${json.encode(userToken ?? '')}'
         ')}',
       );
     } on Exception catch (e) {
@@ -594,6 +592,7 @@ class AppleMusicWebViewBridge {
     _disposed = true;
     Log.info(_tag, 'Disposing bridge');
     _developerToken = null;
+    _musicUserToken = null;
     try {
       if (_controller != null) {
         await _controller!.runJavaScript('window.lauschi.disconnect()');
