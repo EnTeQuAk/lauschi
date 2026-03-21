@@ -72,5 +72,6 @@ jobs:
       - name: Build APK (verify compilation)
         if: github.event_name == 'pull_request'
         env:
+          # Read by gradle: injected into AndroidManifest for on-device JWT.
           APPLE_MUSIC_KEY: ${{ secrets.APPLE_MUSIC_KEY }}
         run: flutter build apk --debug --dart-define-from-file=.env.app

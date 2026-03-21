@@ -70,6 +70,8 @@ jobs:
 
       - name: Build release APK
         env:
+          # Read by gradle (not Flutter): injected into AndroidManifest
+          # metadata for on-device JWT generation. Not a dart-define.
           APPLE_MUSIC_KEY: ${{ secrets.APPLE_MUSIC_KEY }}
         run: |
           VERSION_NAME=$(echo "${{ github.ref_name }}" | sed 's/^v//')

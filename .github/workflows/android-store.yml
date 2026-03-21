@@ -71,6 +71,7 @@ jobs:
 
       - name: Build release AAB
         env:
+          # Read by gradle: injected into AndroidManifest for on-device JWT.
           APPLE_MUSIC_KEY: ${{ secrets.APPLE_MUSIC_KEY }}
         run: |
           VERSION_NAME=$(echo "${{ github.event.release.tag_name }}" | sed 's/^v//')

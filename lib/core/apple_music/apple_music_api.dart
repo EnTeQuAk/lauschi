@@ -69,11 +69,23 @@ class AppleMusicApi {
 
   final MusicKit _musicKit;
   final Dio _dio;
+  Future<void>? _headerInit;
 
   /// Ensure auth headers are set before making requests.
-  /// Fetches tokens lazily from the MusicKit plugin on first call.
+  /// Serialized: concurrent callers wait for the first one to finish.
   Future<void> _ensureHeaders() async {
     if (_dio.options.headers.containsKey('Authorization')) return;
+    // Serialize: if another call is already fetching, wait for it.
+    if (_headerInit != null) return _headerInit!;
+    _headerInit = _fetchHeaders();
+    try {
+      await _headerInit;
+    } finally {
+      _headerInit = null;
+    }
+  }
+
+  Future<void> _fetchHeaders() async {
     try {
       final devToken = await _musicKit.requestDeveloperToken();
       final userToken = await _musicKit.requestUserToken(devToken);

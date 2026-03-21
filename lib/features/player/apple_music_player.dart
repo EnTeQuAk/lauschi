@@ -12,8 +12,8 @@ const _tag = 'AppleMusicPlayer';
 /// Plays Apple Music content via the MusicKit SDK.
 ///
 /// On Android, the forked music_kit plugin (packages/music_kit) provides
-/// playbackTime, setPlaybackTime, currentItemDuration, and getDuration
-/// which the upstream plugin left unimplemented.
+/// playbackTime, setPlaybackTime, and currentItemDuration which the
+/// upstream plugin left unimplemented.
 class AppleMusicPlayer extends PlayerBackend {
   AppleMusicPlayer(this._musicKit);
 
