@@ -54,8 +54,7 @@ jobs:
           cat > .env.app << EOF
           ENABLE_SPOTIFY=true
           SPOTIFY_CLIENT_ID=${{ secrets.SPOTIFY_CLIENT_ID }}
-          ENABLE_APPLE_MUSIC=false
-          # Apple Music uses on-device JWT from .p8 key in AndroidManifest
+          ENABLE_APPLE_MUSIC=true
           ENABLE_SENTRY=true
           SENTRY_DSN=${{ secrets.SENTRY_DSN }}
           SENTRY_ENVIRONMENT=testing
@@ -72,6 +71,8 @@ jobs:
           EOF
 
       - name: Build release AAB
+        env:
+          APPLE_MUSIC_KEY: ${{ secrets.APPLE_MUSIC_KEY }}
         run: |
           VERSION_NAME=$(echo "${{ github.event.release.tag_name }}" | sed 's/^v//')
           # Offset +100 to avoid collision with main store track (+10)

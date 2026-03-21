@@ -60,6 +60,7 @@ jobs:
           cat > .env.app << EOF
           ENABLE_SPOTIFY=false
           SPOTIFY_CLIENT_ID=
+          ENABLE_APPLE_MUSIC=true
           ENABLE_SENTRY=false
           SENTRY_DSN=
           SENTRY_ENVIRONMENT=ci
@@ -70,4 +71,6 @@ jobs:
 
       - name: Build APK (verify compilation)
         if: github.event_name == 'pull_request'
+        env:
+          APPLE_MUSIC_KEY: ${{ secrets.APPLE_MUSIC_KEY }}
         run: flutter build apk --debug --dart-define-from-file=.env.app

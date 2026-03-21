@@ -49,8 +49,11 @@ jobs:
       - name: Create .env.app
         run: |
           cat > .env.app << EOF
+          # Spotify disabled: their ToS requires 25k MAU for quota raise,
+          # which we don't have yet. Apple Music has no such restriction.
           ENABLE_SPOTIFY=false
           SPOTIFY_CLIENT_ID=unused
+          ENABLE_APPLE_MUSIC=true
           ENABLE_SENTRY=true
           SENTRY_DSN=${{ secrets.SENTRY_DSN }}
           SENTRY_ENVIRONMENT=testing
@@ -67,6 +70,8 @@ jobs:
           EOF
 
       - name: Build release AAB
+        env:
+          APPLE_MUSIC_KEY: ${{ secrets.APPLE_MUSIC_KEY }}
         run: |
           VERSION_NAME=$(echo "${{ github.event.release.tag_name }}" | sed 's/^v//')
           # Offset by 10 to avoid conflict with manually uploaded version code 1

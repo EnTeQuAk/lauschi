@@ -52,6 +52,7 @@ jobs:
           cat > .env.app << EOF
           ENABLE_SPOTIFY=true
           SPOTIFY_CLIENT_ID=${{ secrets.SPOTIFY_CLIENT_ID }}
+          ENABLE_APPLE_MUSIC=true
           ENABLE_SENTRY=true
           SENTRY_DSN=${{ secrets.SENTRY_DSN }}
           SENTRY_ENVIRONMENT=production
@@ -68,6 +69,8 @@ jobs:
           EOF
 
       - name: Build release APK
+        env:
+          APPLE_MUSIC_KEY: ${{ secrets.APPLE_MUSIC_KEY }}
         run: |
           VERSION_NAME=$(echo "${{ github.ref_name }}" | sed 's/^v//')
           flutter build apk --release \
