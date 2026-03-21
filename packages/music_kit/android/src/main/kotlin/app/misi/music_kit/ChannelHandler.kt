@@ -420,6 +420,7 @@ class ChannelHandler(
   fun setQueue(call: MethodCall, result: MethodChannel.Result) {
     val itemType = call.argument<String>("type")
     val itemObject = call.argument<Map<String, Any>>("item")
+    val autoplay = call.argument<Boolean>("autoplay") ?: true
     val queueProviderBuilder = CatalogPlaybackQueueItemProvider.Builder()
     val containerType: Int = when (itemType) {
       "albums" -> MediaContainerType.ALBUM
@@ -427,11 +428,11 @@ class ChannelHandler(
       else -> MediaContainerType.NONE
     }
     val id = itemObject?.get("id") as String
-    Log.d(LOG_TAG, "setQueue: type=$itemType id=$id containerType=$containerType")
+    Log.d(LOG_TAG, "setQueue: type=$itemType id=$id autoplay=$autoplay")
     queueProviderBuilder.containers(containerType, id)
     // prepare() is fire-and-forget: the SDK provides no completion callback.
     // Errors surface later via onPlaybackError listener.
-    playerController?.prepare(queueProviderBuilder.build(), true)
+    playerController?.prepare(queueProviderBuilder.build(), autoplay)
     result.success(null)
   }
 

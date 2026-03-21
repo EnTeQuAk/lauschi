@@ -44,6 +44,30 @@ class AppleMusicPlayer extends PlayerBackend {
   @override
   bool get hasNextTrack => _trackIndex < _trackCount - 1;
 
+  /// Pre-prepare an album without starting playback.
+  ///
+  /// Warms up the Apple Music SDK's DRM pipeline and streaming
+  /// connection. Call this early (e.g., when the user opens a tile
+  /// detail screen) so that when they tap play, the buffering is
+  /// already done or nearly done.
+  /// Pre-prepare an album without starting playback.
+  ///
+  /// Warms up the Apple Music SDK's DRM pipeline and streaming
+  /// connection. Call early (e.g., when the user opens a tile detail
+  /// screen) so that when they tap play, buffering is already done.
+  Future<void> warmUp(String albumId) async {
+    Log.info(_tag, 'Warming up', data: {'albumId': albumId});
+    try {
+      await _musicKit.setQueue(
+        'albums',
+        item: <String, dynamic>{'id': albumId},
+        autoplay: false,
+      );
+    } on Exception catch (e) {
+      Log.debug(_tag, 'Warm-up failed (non-critical)', data: {'error': '$e'});
+    }
+  }
+
   Future<void> play({
     required String albumId,
     required TrackInfo trackInfo,
@@ -61,17 +85,14 @@ class AppleMusicPlayer extends PlayerBackend {
     try {
       _listenToState();
 
-      // setQueue calls prepare(queue, autoplay=true) on the native side.
-      // Apple's MusicKit Android SDK has inherent latency (~30-60s) when
-      // starting playback. This is a known SDK limitation with no fix.
+      // Queue the album. The SDK handles track ordering and next/prev
+      // within the album automatically. Single-track queuing was tested
+      // but doesn't reduce the ~30-60s DRM/buffering latency (that's
+      // in the Apple Music app's IPC pipeline, not queue loading).
       await _musicKit.setQueue(
         'albums',
         item: <String, dynamic>{'id': albumId},
       );
-
-      // Also call play() explicitly. The autoplay flag in prepare() is
-      // unreliable; the explicit play() acts as a nudge once the
-      // controller has buffered enough.
       await _musicKit.play();
 
       // Skip to target track after queue loads.
@@ -83,7 +104,6 @@ class AppleMusicPlayer extends PlayerBackend {
 
       _startPositionPolling();
 
-      // Seek within the track after playback actually starts.
       if (positionMs > 0) {
         _pendingSeekMs = positionMs;
       }

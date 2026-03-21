@@ -673,6 +673,16 @@ class PlayerNotifier extends _$PlayerNotifier {
       data: {'card': card.title},
     );
 
+    final albumId = card.providerUri.replaceFirst('apple_music:album:', '');
+
+    // Start warming up the DRM pipeline immediately, before waiting
+    // for session auth. The controller might already exist from a
+    // previous session. If it doesn't, warmUp will silently fail and
+    // the normal play() path handles it.
+    unawaited(
+      AppleMusicPlayer(amSession.musicKit).warmUp(albumId),
+    );
+
     // Wait for session auth + native controller. On cold start the
     // session's _init() is async, so the user may tap play before it
     // completes. Same pattern as Spotify's _ensureDevice().
@@ -684,7 +694,6 @@ class PlayerNotifier extends _$PlayerNotifier {
       artworkUrl: card.coverUrl,
     );
 
-    final albumId = card.providerUri.replaceFirst('apple_music:album:', '');
     final player = AppleMusicPlayer(amSession.musicKit);
 
     if (_playGen != gen) return;
@@ -718,6 +727,7 @@ class PlayerNotifier extends _$PlayerNotifier {
     await player.play(
       albumId: albumId,
       trackInfo: trackInfo,
+      // TODO(#230): resume from saved track index
       positionMs: card.lastPositionMs,
     );
   }

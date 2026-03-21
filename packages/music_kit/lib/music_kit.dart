@@ -98,8 +98,15 @@ class MusicKit {
 
   Future<void> skipToPreviousEntry() => _platform.skipToPreviousEntry();
 
-  Future<void> setQueue(String type, {required ResourceObject item}) =>
-      _platform.setQueue(type, item: item);
+  Future<void> setQueue(
+    String type, {
+    required ResourceObject item,
+    bool autoplay = true,
+  }) => _channel.invokeMethod('setQueue', {
+    'type': type,
+    'item': item,
+    'autoplay': autoplay,
+  });
 
   Future<void> setQueueWithItems(
     String type, {
