@@ -93,4 +93,8 @@ dependencies {
     implementation "androidx.media3:media3-exoplayer:$media3_version"
     implementation "androidx.media3:media3-exoplayer-hls:$media3_version"
     implementation "androidx.media3:media3-datasource-okhttp:$media3_version"
+
+    // MediaSessionCompat for registering our ExoPlayer as a foreground
+    // audio source (prevents Android AudioHardening from muting output).
+    implementation "androidx.media:media:1.7.0"
 }
