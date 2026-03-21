@@ -56,7 +56,33 @@
 
         music = MusicKit.getInstance();
         post_log('MusicKit instance: ' + (music ? 'OK' : 'NULL'));
-        post_log('isAuthorized: ' + music.isAuthorized);
+        post_log('isAuthorized (before): ' + music.isAuthorized);
+        post_log('musicUserToken (before): ' + (music.musicUserToken ? music.musicUserToken.length + ' chars' : 'null'));
+
+        // Force a fresh web auth by clearing any cached/native tokens.
+        // The native MusicKit SDK token gets picked up automatically
+        // but doesn't work for web playback (causes CONTENT_EQUIVALENT).
+        if (music.isAuthorized) {
+          post_log('Clearing cached auth to force web auth flow');
+          try {
+            await music.unauthorize();
+            post_log('unauthorize() done, isAuthorized: ' + music.isAuthorized);
+          } catch(uaErr) {
+            post_log('unauthorize() failed: ' + uaErr);
+          }
+          // Clear localStorage tokens too (passport-apple-music finding)
+          try {
+            for (var i = localStorage.length - 1; i >= 0; i--) {
+              var key = localStorage.key(i);
+              if (key && key.startsWith('music.')) {
+                post_log('Removing localStorage: ' + key);
+                localStorage.removeItem(key);
+              }
+            }
+          } catch(lsErr) {
+            post_log('localStorage cleanup failed: ' + lsErr);
+          }
+        }
 
         if (!music.isAuthorized) {
           // Save state so we know to resume after auth redirect.

@@ -45,9 +45,9 @@ class AppleMusicWebViewBridge {
   int _trackIndex = 0;
   int _totalTracks = 0;
 
-  /// Tokens from native MusicKit auth, set by [init].
+  /// Developer token from native MusicKit auth, set by [init].
+  /// User auth is handled by MusicKit JS itself (web auth flow).
   String? _developerToken;
-  String? _musicUserToken;
 
   /// Stream of playback state changes.
   Stream<PlaybackState> get stateStream => _stateController.stream;
@@ -76,7 +76,6 @@ class AppleMusicWebViewBridge {
       throw StateError('Cannot init a disposed bridge.');
     }
     _developerToken = developerToken;
-    _musicUserToken = musicUserToken;
     Log.info(_tag, 'Initializing WebView bridge');
 
     // Clean up previous controller if re-initializing.
@@ -143,36 +142,6 @@ class AppleMusicWebViewBridge {
         const PlatformWebViewCookieManagerCreationParams(),
       );
       await cookieManager.setAcceptThirdPartyCookies(platform, true);
-
-      // Set the media-user-token cookie on Apple's domains.
-      // When music.apple.com works in Chrome, this cookie is set during
-      // Apple's web auth flow. In our WebView, auth happens natively
-      // (no Apple web pages visited), so the cookie doesn't exist.
-      // MusicKit JS's setQueue() internally relies on this cookie for
-      // content/DRM resolution, even though the API uses Authorization
-      // headers. Without it, setQueue returns NOT_FOUND.
-      if (_musicUserToken != null) {
-        final token = _musicUserToken!;
-        const domains = [
-          'https://music.apple.com',
-          'https://api.music.apple.com',
-          'https://play.music.apple.com',
-          'https://buy.music.apple.com',
-        ];
-        for (final domain in domains) {
-          await cookieManager.setCookie(
-            WebViewCookie(
-              name: 'media-user-token',
-              value: token,
-              domain: domain,
-            ),
-          );
-        }
-        Log.info(
-          _tag,
-          'Set media-user-token cookie on Apple domains',
-        );
-      }
     }
 
     // Standard Chrome UA. MusicKit JS may check browser capabilities.
@@ -256,7 +225,6 @@ class AppleMusicWebViewBridge {
     _trackIndex = 0;
     _totalTracks = 0;
     _developerToken = null;
-    _musicUserToken = null;
     _isReloading = false;
 
     final controller = _controller;
@@ -626,7 +594,6 @@ class AppleMusicWebViewBridge {
     _disposed = true;
     Log.info(_tag, 'Disposing bridge');
     _developerToken = null;
-    _musicUserToken = null;
     try {
       if (_controller != null) {
         await _controller!.runJavaScript('window.lauschi.disconnect()');
