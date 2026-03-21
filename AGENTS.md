@@ -53,14 +53,14 @@ mise run catalog-discover -- "TKKG" -p spotify # Spotify only
 - **Riverpod** — state management (v3 with codegen via `@riverpod` annotations)
 - **Drift** — local SQLite (tables in `lib/core/database/tables.dart`)
 - **go_router** — navigation with redirect guards
-- **Multi-provider audio**: ARD Audiothek (free, just_audio), Spotify (WebView SDK), Apple Music (MusicKit SDK)
+- **Multi-provider audio**: ARD Audiothek (free, just_audio), Spotify (WebView SDK), Apple Music (MusicKit JS WebView)
 
 ### Key Architectural Decisions
 
 **Multi-Provider Architecture**: Three audio providers share a common interface:
 - **ARD Audiothek**: Free, no auth. Direct HTTP streams via `StreamPlayer` (just_audio).
 - **Spotify**: OAuth PKCE, WebView SDK bridge. `SpotifyPlayer` wraps `SpotifyWebViewBridge`.
-- **Apple Music**: MusicKit SDK via forked `music_kit` plugin (packages/music_kit). Fixes: playback position, seek, duration, state mapping. JWT generated on-device from .p8 key. User needs Apple Music subscription.
+- **Apple Music**: MusicKit JS in WebView (same pattern as Spotify). Auth via native MusicKit SDK, tokens injected into JS. Forked `music_kit` plugin (packages/music_kit) used for auth + catalog API only. JWT generated on-device from .p8 key. User needs Apple Music subscription.
 
 Provider-agnostic catalog browse: `CatalogSource` interface implemented by
 `SpotifyCatalogSource` and `AppleMusicCatalogSource`. One `BrowseCatalogScreen`
@@ -93,7 +93,7 @@ lib/
     ├── cards/               # Kid home screen, card widgets
     ├── onboarding/          # First-run flow
     ├── parent/              # Dashboard, card/group management, settings
-    └── player/              # SpotifyPlayer, StreamPlayer, AppleMusicPlayer
+    └── player/              # SpotifyPlayer, StreamPlayer, AppleMusicPlayer, WebView bridges
 
 tools/                       # lauschi-catalog CLI (Python package)
 ├── pyproject.toml
