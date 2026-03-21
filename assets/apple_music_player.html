@@ -9,11 +9,10 @@
 <script>
   // lauschi Apple Music MusicKit JS bridge.
   //
-  // Follows the same pattern as the Spotify bridge (player.html):
-  // - Auth happens in Dart (native MusicKit SDK)
-  // - Dart passes tokens to JS via init()
-  // - JS configures MusicKit and handles playback
-  // - No auth popups in the WebView
+  // Unlike Spotify (where Dart handles OAuth and passes tokens to JS),
+  // MusicKit JS must handle its own auth flow because the web playback
+  // token is different from the native SDK token. In a WebView, MusicKit
+  // JS redirects in the current window for auth (no popup).
   //
   // Dart → JS: controller.runJavaScript('lauschi.<method>(...)')
   // JS → Dart: AppleMusicBridge.postMessage(JSON.stringify({type, payload}))
@@ -26,7 +25,8 @@
     try {
       AppleMusicBridge.postMessage(JSON.stringify({ type: type, payload: payload || {} }));
     } catch(e) {
-      console.error('[lauschi] postMessage failed:', e);
+      // Bridge might not be available during auth redirect.
+      console.log('[lauschi] postMessage failed:', e);
     }
   }
 
@@ -34,10 +34,10 @@
     post('log', { message: msg });
   }
 
-  // Called by Dart with tokens from native MusicKit auth.
-  // Same pattern as Spotify: Dart handles auth, JS just uses the tokens.
   window.lauschi = {
-    init: async function(developerToken, musicUserToken) {
+    // Called by Dart with the developer token. User auth happens in JS
+    // via MusicKit's own authorize() flow (redirect-based in WebViews).
+    init: async function(developerToken) {
       post_log('init called');
 
       try {
@@ -47,129 +47,37 @@
             app: {
               name: 'lauschi',
               build: '1.0.0'
-            }
+            },
+            // DACH market. setQueue uses this to resolve content IDs.
+            storefrontId: 'de'
           });
           _configured = true;
         }
 
         music = MusicKit.getInstance();
         post_log('MusicKit instance: ' + (music ? 'OK' : 'NULL'));
+        post_log('isAuthorized: ' + music.isAuthorized);
 
-        // Inject user token from native auth.
-        // MusicKit JS stores tokens in localStorage as 'music.{prefix}.u'.
-        // The authorize() flow sets this automatically. When injecting
-        // externally, we need to set both the JS property AND localStorage.
-        if (musicUserToken && music) {
-          music.musicUserToken = musicUserToken;
-          post_log('Token set as property (' + musicUserToken.length + ' chars)');
-
-          // Find and set the localStorage key MusicKit JS expects.
-          // Pattern: 'music.{something}.u' (discovered by passport-apple-music)
-          try {
-            // Look for existing music.*.u keys first
-            var existingKeys = [];
-            for (var i = 0; i < localStorage.length; i++) {
-              var key = localStorage.key(i);
-              if (key && key.startsWith('music.') && key.endsWith('.u')) {
-                existingKeys.push(key);
-              }
-            }
-            post_log('Existing music.*.u keys: ' + JSON.stringify(existingKeys));
-
-            // Also dump all music.* keys for debugging
-            var allMusicKeys = [];
-            for (var j = 0; j < localStorage.length; j++) {
-              var k = localStorage.key(j);
-              if (k && k.startsWith('music.')) {
-                allMusicKeys.push(k + ' = ' + (localStorage.getItem(k) || '').substring(0, 50) + '...');
-              }
-            }
-            post_log('All music.* localStorage: ' + JSON.stringify(allMusicKeys));
-
-            // Set the token in all existing music.*.u keys, or create one
-            if (existingKeys.length > 0) {
-              existingKeys.forEach(function(key) {
-                localStorage.setItem(key, musicUserToken);
-                post_log('Updated localStorage key: ' + key);
-              });
-            } else {
-              // Create with developer token prefix (MusicKit convention)
-              var prefix = 'music.' + developerToken.substring(0, 10) + '.u';
-              localStorage.setItem(prefix, musicUserToken);
-              post_log('Created localStorage key: ' + prefix);
-            }
-          } catch(lsErr) {
-            post_log('localStorage injection failed: ' + lsErr);
-          }
+        if (!music.isAuthorized) {
+          // Save state so we know to resume after auth redirect.
+          sessionStorage.setItem('lauschi_pending_auth', 'true');
+          post_log('Not authorized, calling authorize() (will redirect)');
+          // Tell Dart we need auth. Dart should show the WebView.
+          post('needs_auth', {});
+          await music.authorize();
+          // If we get here, auth succeeded (page might have reloaded).
+          post_log('authorize() resolved');
         }
 
         post_log('isAuthorized: ' + music.isAuthorized);
+        post_log('musicUserToken: ' + (music.musicUserToken ? music.musicUserToken.length + ' chars' : 'null'));
         post_log('storefrontId: ' + music.storefrontId);
 
         // Wire up event listeners
-        music.addEventListener('playbackStateDidChange', function() {
-          var state = music.playbackState;
-          var isPlaying = (state === MusicKit.PlaybackStates.playing);
-          var isPaused = (state === MusicKit.PlaybackStates.paused);
+        _setupListeners();
 
-          post('state_changed', {
-            is_playing: isPlaying,
-            is_paused: isPaused,
-            is_stopped: !isPlaying && !isPaused,
-            position_ms: Math.round((music.currentPlaybackTime || 0) * 1000),
-            duration_ms: Math.round((music.currentPlaybackDuration || 0) * 1000),
-            state: state
-          });
-
-          if (isPlaying) { _startPositionPolling(); }
-          else { _stopPositionPolling(); }
-        });
-
-        music.addEventListener('nowPlayingItemDidChange', function() {
-          var item = music.nowPlayingItem;
-          if (!item) {
-            post('track_changed', { track: null });
-            return;
-          }
-
-          var queue = music.queue;
-          var currentIndex = queue ? queue.position : 0;
-          var totalTracks = queue ? queue.items.length : 0;
-
-          var artUrl = null;
-          if (item.attributes && item.attributes.artwork) {
-            artUrl = item.attributes.artwork.url
-              .replace('{w}', '300').replace('{h}', '300');
-          }
-
-          post('track_changed', {
-            track: {
-              id: item.id,
-              name: item.attributes ? item.attributes.name : '',
-              artist: item.attributes ? item.attributes.artistName : '',
-              album: item.attributes ? item.attributes.albumName : '',
-              artwork_url: artUrl,
-              duration_ms: item.attributes ? (item.attributes.durationInMillis || 0) : 0
-            },
-            track_index: currentIndex,
-            total_tracks: totalTracks
-          });
-        });
-
-        music.addEventListener('playbackTimeDidChange', function() {
-          post('position', {
-            position_ms: Math.round((music.currentPlaybackTime || 0) * 1000),
-            duration_ms: Math.round((music.currentPlaybackDuration || 0) * 1000)
-          });
-        });
-
-        music.addEventListener('mediaPlaybackError', function(event) {
-          post_log('playback error: ' + JSON.stringify(event));
-          post('error', { type: 'playback', message: '' + event });
-        });
-
-        post('ready', {});
-        post_log('MusicKit JS ready, isAuthorized: ' + music.isAuthorized);
+        post('ready', { is_authorized: music.isAuthorized });
+        post_log('MusicKit JS ready');
 
       } catch(e) {
         post('error', { type: 'init', message: '' + e });
@@ -177,14 +85,23 @@
       }
     },
 
-    // Play an album by Apple Music URL (storefront-aware).
-    // Using URL format instead of bare ID because setQueue({album: id})
-    // has issues with storefronts and content equivalencies.
     play_album: async function(albumId, trackIndex, storefront) {
       if (!music) { post('error', { type: 'playback', message: 'not initialized' }); return; }
       trackIndex = trackIndex || 0;
       storefront = storefront || 'de';
       post_log('play_album: ' + albumId + ' track: ' + trackIndex + ' sf: ' + storefront);
+
+      // Ensure authorized before playback (docs: "check authorization before calling play()")
+      if (!music.isAuthorized) {
+        post_log('Not authorized, calling authorize()');
+        post('needs_auth', {});
+        try {
+          await music.authorize();
+        } catch(authErr) {
+          post('error', { type: 'auth', message: 'authorize failed: ' + authErr });
+          return;
+        }
+      }
 
       // Try direct album queue first
       try {
@@ -195,7 +112,7 @@
         post_log('setQueue({album}) failed: ' + e);
       }
 
-      // Fallback: use URL format
+      // Fallback: use URL with {{storefrontId}} auto-replacement
       try {
         var url = 'https://music.apple.com/' + storefront + '/album/' + albumId;
         post_log('Trying URL: ' + url);
@@ -208,7 +125,7 @@
 
       // Last resort: fetch tracks and queue individually
       try {
-        var result = await music.api.music('/v1/catalog/' + storefront + '/albums/' + albumId, { include: 'tracks' });
+        var result = await music.api.music('/v1/catalog/{{storefrontId}}/albums/' + albumId, { include: 'tracks' });
         var album = result && result.data && result.data.data && result.data.data[0];
         if (album && album.relationships && album.relationships.tracks) {
           var tracks = album.relationships.tracks.data;
@@ -250,27 +167,75 @@
       if (music) music.seekToTime(position_ms / 1000.0);
     },
 
-    get_state: function() {
-      if (!music) {
-        post('state_changed', { is_playing: false, is_paused: false, is_stopped: true, position_ms: 0, duration_ms: 0 });
-        return;
-      }
-      var state = music.playbackState;
-      post('state_changed', {
-        is_playing: state === MusicKit.PlaybackStates.playing,
-        is_paused: state === MusicKit.PlaybackStates.paused,
-        is_stopped: state !== MusicKit.PlaybackStates.playing && state !== MusicKit.PlaybackStates.paused,
-        position_ms: Math.round((music.currentPlaybackTime || 0) * 1000),
-        duration_ms: Math.round((music.currentPlaybackDuration || 0) * 1000)
-      });
-    },
-
     disconnect: function() {
       _stopPositionPolling();
       if (music) { try { music.stop(); } catch(e) {} music = null; }
       _configured = false;
     }
   };
+
+  function _setupListeners() {
+    music.addEventListener('playbackStateDidChange', function() {
+      var state = music.playbackState;
+      var isPlaying = (state === MusicKit.PlaybackStates.playing);
+      var isPaused = (state === MusicKit.PlaybackStates.paused);
+
+      post('state_changed', {
+        is_playing: isPlaying,
+        is_paused: isPaused,
+        is_stopped: !isPlaying && !isPaused,
+        position_ms: Math.round((music.currentPlaybackTime || 0) * 1000),
+        duration_ms: Math.round((music.currentPlaybackDuration || 0) * 1000),
+        state: state
+      });
+
+      if (isPlaying) { _startPositionPolling(); }
+      else { _stopPositionPolling(); }
+    });
+
+    music.addEventListener('nowPlayingItemDidChange', function() {
+      var item = music.nowPlayingItem;
+      if (!item) {
+        post('track_changed', { track: null });
+        return;
+      }
+
+      var queue = music.queue;
+      var currentIndex = queue ? queue.position : 0;
+      var totalTracks = queue ? queue.items.length : 0;
+
+      var artUrl = null;
+      if (item.attributes && item.attributes.artwork) {
+        artUrl = item.attributes.artwork.url
+          .replace('{w}', '300').replace('{h}', '300');
+      }
+
+      post('track_changed', {
+        track: {
+          id: item.id,
+          name: item.attributes ? item.attributes.name : '',
+          artist: item.attributes ? item.attributes.artistName : '',
+          album: item.attributes ? item.attributes.albumName : '',
+          artwork_url: artUrl,
+          duration_ms: item.attributes ? (item.attributes.durationInMillis || 0) : 0
+        },
+        track_index: currentIndex,
+        total_tracks: totalTracks
+      });
+    });
+
+    music.addEventListener('playbackTimeDidChange', function() {
+      post('position', {
+        position_ms: Math.round((music.currentPlaybackTime || 0) * 1000),
+        duration_ms: Math.round((music.currentPlaybackDuration || 0) * 1000)
+      });
+    });
+
+    music.addEventListener('mediaPlaybackError', function(event) {
+      post_log('playback error: ' + JSON.stringify(event));
+      post('error', { type: 'playback', message: '' + event });
+    });
+  }
 
   function _startPositionPolling() {
     _stopPositionPolling();
@@ -287,10 +252,19 @@
     if (_positionInterval) { clearInterval(_positionInterval); _positionInterval = null; }
   }
 
-  // SDK loaded callback. Same as Spotify's onSpotifyWebPlaybackSDKReady.
-  // Dart will call lauschi.init(developerToken, musicUserToken) next.
-  document.addEventListener('musickitloaded', function() {
+  // On page load: check if we're returning from an auth redirect.
+  // MusicKit JS native webview flow: page unloads for auth, reloads after.
+  document.addEventListener('musickitloaded', async function() {
     post_log('MusicKit JS loaded');
+
+    var pendingAuth = sessionStorage.getItem('lauschi_pending_auth');
+    if (pendingAuth) {
+      sessionStorage.removeItem('lauschi_pending_auth');
+      post_log('Returning from auth redirect');
+      // Re-configure and check auth status.
+      // Dart will call init() but we can also self-init here.
+    }
+
     post('sdk_ready', {});
   });
 </script>
