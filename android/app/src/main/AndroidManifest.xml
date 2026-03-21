@@ -38,6 +38,13 @@
                 <category android:name="android.intent.category.BROWSABLE"/>
                 <data android:scheme="lauschi" android:host="callback"/>
             </intent-filter>
+            <!-- Deep link: lauschi://apple-music-callback for Apple Music web auth -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="lauschi" android:host="apple-music-callback"/>
+            </intent-filter>
         </activity>
         <!-- audio_service: media notification + lock screen controls -->
         <service android:name="com.ryanheise.audioservice.AudioService"
