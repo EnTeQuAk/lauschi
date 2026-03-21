@@ -75,13 +75,24 @@ class AppleMusicDrmPlayer(private val context: Context) {
         }
 
         val drmSessionManager = DefaultDrmSessionManager.Builder()
+            .setUuidAndExoMediaDrmProvider(C.WIDEVINE_UUID, FrameworkMediaDrm.DEFAULT_PROVIDER)
             .build(drmCallback)
 
         // HLS media source with DRM and the rewriting data source.
         val hlsMediaSourceFactory = HlsMediaSource.Factory(rewritingDataSourceFactory)
             .setDrmSessionManagerProvider { drmSessionManager }
 
-        val mediaItem = MediaItem.fromUri(Uri.parse(hlsUrl))
+        // Build MediaItem with DRM configuration so ExoPlayer knows to
+        // use Widevine for this content.
+        val mediaItem = MediaItem.Builder()
+            .setUri(Uri.parse(hlsUrl))
+            .setDrmConfiguration(
+                MediaItem.DrmConfiguration.Builder(C.WIDEVINE_UUID)
+                    .setLicenseUri(licenseUrl)
+                    .setLicenseRequestHeaders(headers)
+                    .build()
+            )
+            .build()
         val mediaSource = hlsMediaSourceFactory.createMediaSource(mediaItem)
 
         val audioAttributes = AudioAttributes.Builder()
