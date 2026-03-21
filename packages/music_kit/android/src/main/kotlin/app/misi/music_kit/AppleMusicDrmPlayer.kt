@@ -3,6 +3,7 @@ package app.misi.music_kit
 import android.content.Context
 import android.net.Uri
 import android.util.Log
+import androidx.media3.common.AudioAttributes
 import androidx.media3.common.C
 import androidx.media3.common.MediaItem
 import androidx.media3.common.PlaybackException
@@ -81,8 +82,14 @@ class AppleMusicDrmPlayer(private val context: Context) {
         val mediaItem = MediaItem.fromUri(Uri.parse(hlsUrl))
         val mediaSource = hlsMediaSourceFactory.createMediaSource(mediaItem)
 
+        val audioAttributes = AudioAttributes.Builder()
+            .setUsage(C.USAGE_MEDIA)
+            .setContentType(C.AUDIO_CONTENT_TYPE_MUSIC)
+            .build()
+
         val player = ExoPlayer.Builder(context)
             .setMediaSourceFactory(hlsMediaSourceFactory)
+            .setAudioAttributes(audioAttributes, /* handleAudioFocus= */ true)
             .build()
 
         player.addListener(object : Player.Listener {
