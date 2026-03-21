@@ -61,10 +61,17 @@
         music = MusicKit.getInstance();
         post_log('MusicKit instance: ' + (music ? 'OK' : 'NULL'));
 
-        // Authorize via MusicKit JS's own flow. The native MusicKit SDK
-        // token authorizes FairPlay DRM (native pipeline). MusicKit JS
-        // needs its own token for Widevine DRM (web pipeline).
-        post_log('Calling authorize() for web playback token');
+        // Clear any cached native token first, then authorize via MusicKit
+        // JS's own web flow. The native SDK token (reused by authorize() if
+        // cached) authorizes API calls but NOT web streaming. We need a
+        // fresh web-scoped token from Apple's login popup.
+        post_log('Clearing cached auth, then calling authorize()');
+        try {
+          await music.unauthorize();
+          post_log('unauthorize() done, now authorizing fresh');
+        } catch(uaErr) {
+          post_log('unauthorize() failed (non-critical): ' + uaErr);
+        }
         try {
           var authToken = await music.authorize();
           post_log('authorize() resolved: ' + (authToken ? authToken.length + ' chars' : 'null'));
