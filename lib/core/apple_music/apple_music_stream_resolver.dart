@@ -30,10 +30,14 @@ class AppleMusicStreamResolver {
     _musicUserToken = musicUserToken;
   }
 
+  /// Headers needed by ExoPlayer to fetch HLS streams.
+  /// Apple's CDN requires the same auth headers as the webPlayback endpoint.
+  Map<String, String> get streamHeaders => _buildHeaders();
+
   /// Resolve a song ID to an HLS stream URL.
   ///
   /// Returns the HLS playlist URL for the song, or null if unavailable.
-  /// The URL can be fed directly to just_audio/ExoPlayer.
+  /// The URL must be fetched with [streamHeaders] for auth.
   Future<String?> resolveStreamUrl(String songId) async {
     if (_developerToken == null || _musicUserToken == null) {
       Log.warn(_tag, 'Not configured');

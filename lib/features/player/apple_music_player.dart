@@ -83,6 +83,7 @@ class AppleMusicPlayer extends PlayerBackend {
     _trackIndex = trackIndex;
 
     // Resolve HLS stream URLs for all tracks.
+    final headers = _streamResolver.streamHeaders;
     final sources = <ja.AudioSource>[];
     for (final track in tracks) {
       final streamUrl = await _streamResolver.resolveStreamUrl(track.id);
@@ -90,6 +91,7 @@ class AppleMusicPlayer extends PlayerBackend {
         sources.add(
           ja.AudioSource.uri(
             Uri.parse(streamUrl),
+            headers: headers,
             tag: _TrackTag(
               id: track.id,
               name: track.name,
