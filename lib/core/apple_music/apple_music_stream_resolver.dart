@@ -6,7 +6,9 @@ const _tag = 'AppleMusicStream';
 /// Resolves Apple Music song IDs to playable HLS stream URLs.
 ///
 /// Uses Apple's webPlayback endpoint (same as music.apple.com web player).
-/// Returns HLS playlist URLs that ExoPlayer (via just_audio) can play directly.
+/// Downloads the HLS playlist and rewrites the encryption method tag from
+/// ISO-23001-7 (which ExoPlayer doesn't recognize) to SAMPLE-AES-CTR
+/// (functionally identical, just a different name for CENC encryption).
 class AppleMusicStreamResolver {
   AppleMusicStreamResolver()
     : _dio = Dio(
@@ -30,8 +32,7 @@ class AppleMusicStreamResolver {
     _musicUserToken = musicUserToken;
   }
 
-  /// Headers needed by ExoPlayer to fetch HLS streams.
-  /// Apple's CDN requires the same auth headers as the webPlayback endpoint.
+  /// Headers needed by ExoPlayer to fetch HLS streams and segments.
   Map<String, String> get streamHeaders => _buildHeaders();
 
   /// Result of resolving a song's stream.
@@ -82,44 +83,30 @@ class AppleMusicStreamResolver {
 
       // Extract the DRM license server URL.
       lastLicenseUrl = song['hls-key-server-url'] as String?;
+
       final assets = song['assets'] as List<dynamic>?;
       if (assets == null || assets.isEmpty) {
         Log.warn(_tag, 'No assets in song');
         return null;
       }
 
-      // Log all available flavors for debugging.
-      for (final asset in assets) {
-        final assetMap = asset as Map<String, dynamic>;
-        final flavor = assetMap['flavor'] as String? ?? '';
-        final url = assetMap['URL'] as String? ?? '';
-        Log.debug(
-          _tag,
-          'Asset',
-          data: {
-            'flavor': flavor,
-            'url': url.length > 80 ? '${url.substring(0, 80)}...' : url,
-          },
-        );
-      }
-
-      // Try flavors in order of preference:
-      // 1. Non-encrypted variants (if any exist)
-      // 2. Standard quality AAC (ctrp256)
-      // 3. Whatever's available
+      // Pick the best available stream URL.
       String? streamUrl;
       for (final asset in assets) {
         final assetMap = asset as Map<String, dynamic>;
+        final flavor = assetMap['flavor'] as String? ?? '';
         final url = assetMap['URL'] as String?;
+
+        // Prefer standard quality AAC (ctrp256).
+        if (url != null && flavor.contains('ctrp256')) {
+          streamUrl = url;
+          break;
+        }
         streamUrl ??= url;
       }
 
       if (streamUrl != null) {
-        Log.info(
-          _tag,
-          'Resolved stream',
-          data: {'songId': songId},
-        );
+        Log.info(_tag, 'Resolved stream', data: {'songId': songId});
       }
 
       return streamUrl;
@@ -131,6 +118,40 @@ class AppleMusicStreamResolver {
           'songId': songId,
           'status': '${e.response?.statusCode}',
         },
+      );
+      return null;
+    }
+  }
+
+  /// Download an HLS playlist and rewrite the encryption method tag.
+  ///
+  /// Apple uses METHOD=ISO-23001-7 for CENC encryption. ExoPlayer's
+  /// HLS parser only recognizes SAMPLE-AES-CTR (same thing, different name).
+  /// Returns the rewritten playlist content as a string.
+  Future<String?> fetchAndRewritePlaylist(String playlistUrl) async {
+    try {
+      final response = await _dio.get<String>(
+        playlistUrl,
+        options: Options(
+          headers: _buildHeaders(),
+          responseType: ResponseType.plain,
+        ),
+      );
+
+      var content = response.data;
+      if (content == null) return null;
+
+      if (content.contains('ISO-23001-7')) {
+        Log.debug(_tag, 'Rewriting ISO-23001-7 → SAMPLE-AES-CTR');
+        content = content.replaceAll('ISO-23001-7', 'SAMPLE-AES-CTR');
+      }
+
+      return content;
+    } on DioException catch (e) {
+      Log.error(
+        _tag,
+        'Playlist fetch failed',
+        data: {'status': '${e.response?.statusCode}'},
       );
       return null;
     }
