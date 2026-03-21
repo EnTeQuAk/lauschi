@@ -36,6 +36,10 @@ enum PlayerError {
   /// reconnect did not recover it.
   spotifyConnectionLost,
 
+  /// Apple Music auth token expired or revoked. User needs to
+  /// re-authenticate via the native MusicKit flow.
+  appleMusicAuthExpired,
+
   /// TileItem has no audio URL. Should not happen if catalog validation
   /// is correct.
   noAudioUrl;
@@ -44,7 +48,9 @@ enum PlayerError {
   /// headline, and action button to show.
   ErrorCategory get category => switch (this) {
     contentUnavailable => ErrorCategory.gone,
-    spotifyAuthExpired || spotifyAccountError => ErrorCategory.parentAction,
+    spotifyAuthExpired ||
+    spotifyAccountError ||
+    appleMusicAuthExpired => ErrorCategory.parentAction,
     _ => ErrorCategory.oops,
   };
 
@@ -57,7 +63,10 @@ enum PlayerError {
     spotifyPlaybackFailed ||
     spotifyConnectionLost ||
     noAudioUrl => true,
-    contentUnavailable || spotifyAuthExpired || spotifyAccountError => false,
+    contentUnavailable ||
+    spotifyAuthExpired ||
+    spotifyAccountError ||
+    appleMusicAuthExpired => false,
   };
 
   /// Technical error message shown in small text for parents.
@@ -71,6 +80,7 @@ enum PlayerError {
     spotifyNetworkError => 'Keine Verbindung zu Spotify',
     spotifyPlaybackFailed => 'Wiedergabe fehlgeschlagen',
     spotifyConnectionLost => 'Spotify-Verbindung verloren',
+    appleMusicAuthExpired => 'Apple Music-Verbindung abgelaufen',
     noAudioUrl => 'Keine Audio-URL verfügbar',
   };
 }

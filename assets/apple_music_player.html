@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>lauschi apple music player</title>
+</head>
+<body>
+<script>
+  // lauschi Apple Music MusicKit JS bridge.
+  //
+  // Dart → JS commands via: controller.runJavaScript('lauschi.<method>(...)')
+  // JS → Dart events via:   AppleMusicBridge.postMessage(JSON.stringify({type, payload}))
+  //
+  // Auth tokens (developerToken + musicUserToken) are injected from Dart
+  // after native MusicKit auth completes. No JS-side auth popup needed.
+
+  var music = null;
+  var _configured = false;
+  var _positionInterval = null;
+
+  function post(type, payload) {
+    try {
+      AppleMusicBridge.postMessage(JSON.stringify({ type: type, payload: payload || {} }));
+    } catch(e) {
+      console.error('[lauschi] postMessage failed:', e);
+    }
+  }
+
+  function post_log(msg) {
+    post('log', { message: msg });
+  }
+
+  window.lauschi = {
+    // Called by Dart with both tokens after native auth.
+    // developerToken: JWT generated on-device from .p8 key
+    // musicUserToken: obtained from native MusicKit auth flow
+    init: function(developerToken, musicUserToken) {
+      post_log('init called, configuring MusicKit JS');
+
+      try {
+        if (!_configured) {
+          // Load MusicKit JS dynamically (must be after configure context)
+          MusicKit.configure({
+            developerToken: developerToken,
+            app: {
+              name: 'lauschi',
+              build: '1.0.0'
+            }
+          });
+          _configured = true;
+        }
+
+        music = MusicKit.getInstance();
+
+        // Inject the user token from native auth. This bypasses the
+        // authorize() popup which may not work in a WebView context.
+        if (musicUserToken) {
+          music.musicUserToken = musicUserToken;
+          post_log('User token injected (' + musicUserToken.length + ' chars)');
+        }
+
+        // Wire up event listeners
+        music.addEventListener('playbackStateDidChange', function(event) {
+          var state = music.playbackState;
+          var isPlaying = (state === MusicKit.PlaybackStates.playing);
+          var isPaused = (state === MusicKit.PlaybackStates.paused);
+          var isStopped = (state === MusicKit.PlaybackStates.stopped ||
+                           state === MusicKit.PlaybackStates.ended ||
+                           state === MusicKit.PlaybackStates.none);
+
+          post_log('playbackState: ' + state);
+
+          post('state_changed', {
+            is_playing: isPlaying,
+            is_paused: isPaused,
+            is_stopped: isStopped,
+            position_ms: Math.round((music.currentPlaybackTime || 0) * 1000),
+            duration_ms: Math.round((music.currentPlaybackDuration || 0) * 1000),
+            state: state
+          });
+
+          // Start/stop position polling based on playback state
+          if (isPlaying) {
+            _startPositionPolling();
+          } else {
+            _stopPositionPolling();
+          }
+        });
+
+        music.addEventListener('nowPlayingItemDidChange', function(event) {
+          var item = music.nowPlayingItem;
+          if (!item) {
+            post('track_changed', { track: null });
+            return;
+          }
+
+          var queue = music.queue;
+          var queueItems = queue ? queue.items : [];
+          var currentIndex = queue ? queue.position : 0;
+          var totalTracks = queueItems.length;
+
+          var artUrl = null;
+          if (item.attributes && item.attributes.artwork) {
+            // MusicKit JS artwork URL has {w} and {h} placeholders
+            artUrl = item.attributes.artwork.url
+              .replace('{w}', '300')
+              .replace('{h}', '300');
+          }
+
+          post('track_changed', {
+            track: {
+              id: item.id,
+              name: item.attributes ? item.attributes.name : '',
+              artist: item.attributes ? item.attributes.artistName : '',
+              album: item.attributes ? item.attributes.albumName : '',
+              artwork_url: artUrl,
+              duration_ms: item.attributes ? Math.round((item.attributes.durationInMillis || 0)) : 0
+            },
+            track_index: currentIndex,
+            total_tracks: totalTracks
+          });
+        });
+
+        music.addEventListener('playbackTimeDidChange', function(event) {
+          // Supplementary position updates (fires every ~1s during playback)
+          post('position', {
+            position_ms: Math.round((music.currentPlaybackTime || 0) * 1000),
+            duration_ms: Math.round((music.currentPlaybackDuration || 0) * 1000)
+          });
+        });
+
+        music.addEventListener('authorizationStatusDidChange', function(event) {
+          post_log('authorizationStatus changed');
+          post('auth_status', { is_authorized: music.isAuthorized });
+        });
+
+        music.addEventListener('mediaPlaybackError', function(event) {
+          post_log('playback error: ' + JSON.stringify(event));
+          post('error', { type: 'playback', message: '' + event });
+        });
+
+        post('ready', {});
+        post_log('MusicKit JS initialized');
+
+      } catch(e) {
+        post('error', { type: 'init', message: '' + e });
+        post_log('Init failed: ' + e);
+      }
+    },
+
+    // Play an album starting from a track index
+    play_album: function(albumId, trackIndex) {
+      if (!music) { post('error', { type: 'playback', message: 'not initialized' }); return; }
+      trackIndex = trackIndex || 0;
+      post_log('play_album: ' + albumId + ' track: ' + trackIndex);
+
+      music.setQueue({ album: albumId, startWith: trackIndex, startPlaying: true }).then(function() {
+        post_log('setQueue resolved, playback starting');
+      }).catch(function(e) {
+        post('error', { type: 'playback', message: 'setQueue failed: ' + e });
+        post_log('setQueue failed: ' + e);
+      });
+    },
+
+    // Play a single song
+    play_song: function(songId) {
+      if (!music) { post('error', { type: 'playback', message: 'not initialized' }); return; }
+      post_log('play_song: ' + songId);
+
+      music.setQueue({ song: songId, startPlaying: true }).then(function() {
+        post_log('play_song resolved');
+      }).catch(function(e) {
+        post('error', { type: 'playback', message: 'play_song failed: ' + e });
+      });
+    },
+
+    pause: function() {
+      if (!music) return;
+      music.pause().catch(function(e) {
+        post('error', { type: 'playback', message: 'pause failed: ' + e });
+      });
+    },
+
+    resume: function() {
+      if (!music) return;
+      music.play().catch(function(e) {
+        post('error', { type: 'playback', message: 'resume failed: ' + e });
+      });
+    },
+
+    stop: function() {
+      if (!music) return;
+      music.stop().catch(function(e) {
+        post_log('stop failed (non-critical): ' + e);
+      });
+    },
+
+    next_track: function() {
+      if (!music) return;
+      music.skipToNextItem().catch(function(e) {
+        post('error', { type: 'playback', message: 'nextTrack failed: ' + e });
+      });
+    },
+
+    prev_track: function() {
+      if (!music) return;
+      music.skipToPreviousItem().catch(function(e) {
+        post('error', { type: 'playback', message: 'prevTrack failed: ' + e });
+      });
+    },
+
+    seek: function(position_ms) {
+      if (!music) return;
+      var seconds = position_ms / 1000.0;
+      music.seekToTime(seconds).catch(function(e) {
+        post('error', { type: 'playback', message: 'seek failed: ' + e });
+      });
+    },
+
+    // Get current state on demand
+    get_state: function() {
+      if (!music) {
+        post('state_changed', { is_playing: false, is_paused: false, is_stopped: true, position_ms: 0, duration_ms: 0 });
+        return;
+      }
+      var state = music.playbackState;
+      post('state_changed', {
+        is_playing: state === MusicKit.PlaybackStates.playing,
+        is_paused: state === MusicKit.PlaybackStates.paused,
+        is_stopped: state === MusicKit.PlaybackStates.stopped || state === MusicKit.PlaybackStates.ended,
+        position_ms: Math.round((music.currentPlaybackTime || 0) * 1000),
+        duration_ms: Math.round((music.currentPlaybackDuration || 0) * 1000),
+        state: state
+      });
+    },
+
+    disconnect: function() {
+      _stopPositionPolling();
+      if (music) {
+        try { music.stop(); } catch(e) {}
+        music = null;
+      }
+      _configured = false;
+    }
+  };
+
+  function _startPositionPolling() {
+    _stopPositionPolling();
+    _positionInterval = setInterval(function() {
+      if (!music) return;
+      post('position', {
+        position_ms: Math.round((music.currentPlaybackTime || 0) * 1000),
+        duration_ms: Math.round((music.currentPlaybackDuration || 0) * 1000)
+      });
+    }, 500);
+  }
+
+  function _stopPositionPolling() {
+    if (_positionInterval) {
+      clearInterval(_positionInterval);
+      _positionInterval = null;
+    }
+  }
+
+  // Signal to Dart that the page (and MusicKit JS) is loaded.
+  // Dart will call lauschi.init(developerToken, musicUserToken) next.
+  document.addEventListener('musickitloaded', function() {
+    post_log('MusicKit JS loaded');
+    post('sdk_ready', {});
+  });
+</script>
+<!-- MusicKit JS v3 CDN. Fires 'musickitloaded' when ready. -->
+<script src="https://js-cdn.music.apple.com/musickit/v3/musickit.js" async></script>
+</body>
+</html>

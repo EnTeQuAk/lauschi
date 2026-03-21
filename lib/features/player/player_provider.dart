@@ -10,6 +10,7 @@ import 'package:lauschi/core/providers/provider_type.dart';
 import 'package:lauschi/core/spotify/spotify_api.dart';
 import 'package:lauschi/core/spotify/spotify_session.dart';
 import 'package:lauschi/features/player/apple_music_player.dart';
+import 'package:lauschi/features/player/apple_music_webview_bridge.dart';
 import 'package:lauschi/features/player/media_session_handler.dart';
 import 'package:lauschi/features/player/player_backend.dart';
 import 'package:lauschi/features/player/player_error.dart';
@@ -669,6 +670,7 @@ class PlayerNotifier extends _$PlayerNotifier {
 
   Future<void> _startAppleMusic(db.TileItem card, int gen) async {
     final amSession = ref.read(appleMusicSessionProvider.notifier);
+    final bridge = amSession.bridge;
 
     Log.info(
       _tag,
@@ -676,10 +678,9 @@ class PlayerNotifier extends _$PlayerNotifier {
       data: {'card': card.title},
     );
 
-    // Wait for session auth + native controller. On cold start the
-    // session's _init() is async, so the user may tap play before it
-    // completes. Same pattern as Spotify's _ensureDevice().
-    if (!await _ensureAppleMusicReady(amSession, gen)) return;
+    // Wait for the WebView bridge to be ready (MusicKit JS loaded
+    // and initialized with tokens).
+    if (!await _ensureAppleMusicReady(bridge, gen)) return;
 
     final albumId = card.providerUri.replaceFirst('apple_music:album:', '');
 
@@ -689,7 +690,7 @@ class PlayerNotifier extends _$PlayerNotifier {
       artworkUrl: card.coverUrl,
     );
 
-    final player = AppleMusicPlayer(amSession.musicKit);
+    final player = AppleMusicPlayer(bridge);
 
     if (_playGen != gen) return;
 
@@ -697,8 +698,6 @@ class PlayerNotifier extends _$PlayerNotifier {
       player,
       player.stateStream.listen((amState) {
         if (_playGen != gen) return;
-        // Merge backend state into provider state, then run side effects.
-        // Same pattern as Spotify (_onBridgeEvent) and ARD (_startDirect).
         state = state.copyWith(
           isPlaying: amState.isPlaying,
           isReady: amState.isReady,
@@ -727,30 +726,22 @@ class PlayerNotifier extends _$PlayerNotifier {
     );
   }
 
-  /// Wait for Apple Music session auth and native controller (max 10s).
+  /// Wait for the Apple Music WebView bridge to be ready (max 10s).
   Future<bool> _ensureAppleMusicReady(
-    AppleMusicSession session,
+    AppleMusicWebViewBridge bridge,
     int gen,
   ) async {
-    // Fast path: already ready.
-    if (session.isAuthenticated) {
-      if (await session.musicKit.isPreparedToPlay) return true;
-    }
+    // Fast path: bridge already ready.
+    if (bridge.currentState.isReady) return true;
 
-    // Poll: session init is async on cold start.
+    // Poll: bridge init is async (page load + MusicKit JS + token injection).
     for (var i = 0; i < 50; i++) {
       if (_playGen != gen) return false;
       await Future<void>.delayed(const Duration(milliseconds: 200));
-      if (session.isAuthenticated) {
-        if (await session.musicKit.isPreparedToPlay) return true;
-      }
+      if (bridge.currentState.isReady) return true;
     }
 
-    Log.error(
-      _tag,
-      'Apple Music not ready after 10s',
-      data: {'authenticated': '${session.isAuthenticated}'},
-    );
+    Log.error(_tag, 'Apple Music bridge not ready after 10s');
     state = state.copyWith(error: PlayerError.playbackFailed);
     return false;
   }

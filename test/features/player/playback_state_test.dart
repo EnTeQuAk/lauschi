@@ -211,12 +211,17 @@ void main() {
         PlayerError.spotifyAccountError.category,
         ErrorCategory.parentAction,
       );
+      expect(
+        PlayerError.appleMusicAuthExpired.category,
+        ErrorCategory.parentAction,
+      );
 
       // All other errors are transient "oops".
       for (final error in PlayerError.values) {
         if (error == PlayerError.contentUnavailable ||
             error == PlayerError.spotifyAuthExpired ||
-            error == PlayerError.spotifyAccountError) {
+            error == PlayerError.spotifyAccountError ||
+            error == PlayerError.appleMusicAuthExpired) {
           continue;
         }
         expect(

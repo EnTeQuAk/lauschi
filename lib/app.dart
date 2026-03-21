@@ -3,6 +3,7 @@ import 'dart:async' show StreamSubscription, unawaited;
 import 'package:app_links/app_links.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lauschi/core/apple_music/apple_music_session.dart';
 import 'package:lauschi/core/database/data_migrations.dart';
 import 'package:lauschi/core/database/tile_item_repository.dart';
 import 'package:lauschi/core/feature_flags.dart';
@@ -85,10 +86,16 @@ class _LauschiAppState extends ConsumerState<LauschiApp>
     // Activate NFC listener (no-op if disabled in settings or no hardware).
     ref.watch(nfcListenerProvider);
 
-    // Watch Spotify session state for WebView + data migrations.
+    // Watch provider session states for WebView mounting.
     final spotifyState =
         FeatureFlags.enableSpotify ? ref.watch(spotifySessionProvider) : null;
     final spotifyAuthenticated = spotifyState is SpotifyAuthenticated;
+
+    final appleMusicState =
+        FeatureFlags.enableAppleMusic
+            ? ref.watch(appleMusicSessionProvider)
+            : null;
+    final appleMusicAuthenticated = appleMusicState is AppleMusicAuthenticated;
 
     // Run data migrations once after Spotify auth is established.
     if (spotifyAuthenticated && !_dataMigrationsRun) {
@@ -123,7 +130,18 @@ class _LauschiAppState extends ConsumerState<LauschiApp>
                 child: SizedBox(
                   width: 300,
                   height: 300,
-                  child: _WebViewHost(),
+                  child: _SpotifyWebViewHost(),
+                ),
+              ),
+            // Hidden WebView for Apple Music MusicKit JS.
+            if (FeatureFlags.enableAppleMusic && appleMusicAuthenticated)
+              Positioned(
+                left: -500,
+                top: -500,
+                child: SizedBox(
+                  width: 300,
+                  height: 300,
+                  child: _AppleMusicWebViewHost(),
                 ),
               ),
           ],
@@ -140,12 +158,13 @@ class _LauschiAppState extends ConsumerState<LauschiApp>
 /// is managed by [SpotifySession], not by this widget.
 ///
 /// Must have real dimensions (300x300). Placed off-screen.
-class _WebViewHost extends ConsumerStatefulWidget {
+class _SpotifyWebViewHost extends ConsumerStatefulWidget {
   @override
-  ConsumerState<_WebViewHost> createState() => _WebViewHostState();
+  ConsumerState<_SpotifyWebViewHost> createState() =>
+      _SpotifyWebViewHostState();
 }
 
-class _WebViewHostState extends ConsumerState<_WebViewHost> {
+class _SpotifyWebViewHostState extends ConsumerState<_SpotifyWebViewHost> {
   bool _initialized = false;
 
   @override
@@ -180,6 +199,50 @@ class _WebViewHostState extends ConsumerState<_WebViewHost> {
     // by the parent based on auth state. We just need the bridge
     // reference to get the WebView controller.
     final session = ref.read(spotifySessionProvider.notifier);
+    final bridge = session.bridge;
+    if (!bridge.currentState.isReady && !_initialized) {
+      return const SizedBox.shrink();
+    }
+    final controller = bridge.controllerOrNull;
+    if (controller == null) return const SizedBox.shrink();
+    return WebViewWidget(controller: controller);
+  }
+}
+
+/// Hosts the hidden WebView for Apple Music MusicKit JS.
+///
+/// Same pattern as [_SpotifyWebViewHost]. Mounts when Apple Music is
+/// authenticated, unmounts on disconnect.
+class _AppleMusicWebViewHost extends ConsumerStatefulWidget {
+  @override
+  ConsumerState<_AppleMusicWebViewHost> createState() =>
+      _AppleMusicWebViewHostState();
+}
+
+class _AppleMusicWebViewHostState
+    extends ConsumerState<_AppleMusicWebViewHost> {
+  bool _initialized = false;
+
+  @override
+  void initState() {
+    super.initState();
+    unawaited(_initBridge());
+  }
+
+  Future<void> _initBridge() async {
+    if (_initialized) return;
+    try {
+      await ref.read(appleMusicSessionProvider.notifier).initBridge();
+      _initialized = true;
+      if (mounted) setState(() {});
+    } on Exception catch (e) {
+      Log.error('AppleMusicWebViewHost', 'Bridge init failed', exception: e);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final session = ref.read(appleMusicSessionProvider.notifier);
     final bridge = session.bridge;
     if (!bridge.currentState.isReady && !_initialized) {
       return const SizedBox.shrink();
