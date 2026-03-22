@@ -155,14 +155,6 @@ class AppleMusicPlayer extends PlayerBackend {
     await _stateController.close();
   }
 
-  Future<void> _advanceToNextTrack() async {
-    try {
-      await _playTrackAtIndex(_trackIndex + 1);
-    } finally {
-      _isAdvancing = false;
-    }
-  }
-
   // ── Track playback ──────────────────────────────────────────────────
 
   Future<void> _playTrackAtIndex(int index, {int positionMs = 0}) async {
@@ -289,13 +281,16 @@ class AppleMusicPlayer extends PlayerBackend {
           data: {'index': '$_trackIndex', 'hasNext': '$hasNextTrack'},
         );
         if (hasNextTrack) {
-          _isAdvancing = true;
-          unawaited(_advanceToNextTrack());
+          // Use the same _isAdvancing guard as manual next/prev.
+          unawaited(nextTrack());
         } else {
           // Last track finished.
           _isPlaying = false;
           _emitState();
         }
+
+      default:
+        Log.warn(_tag, 'Unknown DRM event type: $type');
     }
   }
 
