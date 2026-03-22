@@ -44,6 +44,8 @@ class HlsMethodRewriteDataSource(
         bufferedData = null
         readOffset = 0
 
+        val t0 = System.currentTimeMillis()
+        Log.d(LOG_TAG, "HlsDataSource: opening ${dataSpec.uri.toString().take(80)}")
         val length = upstream.open(dataSpec)
 
         // Read the full response to check if it's a playlist.
@@ -58,6 +60,7 @@ class HlsMethodRewriteDataSource(
         upstream.close()
 
         val raw = bytes.toByteArray()
+        Log.d(LOG_TAG, "HlsDataSource: fetched ${raw.size} bytes in ${System.currentTimeMillis() - t0}ms")
         val text = String(raw, Charsets.UTF_8)
 
         if (text.trimStart().startsWith("#EXTM3U") && text.contains("ISO-23001-7")) {
