@@ -89,6 +89,9 @@ class AppleMusicSession extends _$AppleMusicSession {
 
       state = AppleMusicUnauthenticated();
       Log.info(_tag, 'No stored token, needs web auth');
+    } on AppleMusicAuthExpiredException {
+      state = AppleMusicUnauthenticated();
+      Log.info(_tag, 'Stored token expired, needs re-auth');
     } on Exception catch (e) {
       Log.error(_tag, 'Init failed', exception: e);
       state = AppleMusicUnauthenticated();

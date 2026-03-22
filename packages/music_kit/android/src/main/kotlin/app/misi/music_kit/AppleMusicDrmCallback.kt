@@ -33,13 +33,40 @@ class AppleMusicDrmCallback(
 ) : MediaDrmCallback {
 
     companion object {
-        private val httpClient = OkHttpClient.Builder()
+        val httpClient: OkHttpClient = OkHttpClient.Builder()
             .connectTimeout(10, TimeUnit.SECONDS)
             .readTimeout(30, TimeUnit.SECONDS)
             .writeTimeout(10, TimeUnit.SECONDS)
             .build()
 
         private val JSON_MEDIA_TYPE = "application/json; charset=utf-8".toMediaType()
+
+        /**
+         * Pre-warm TLS connections to Apple's servers.
+         * First TLS handshake can take 20-50s on some devices.
+         * Call during session restore so connections are ready when user plays.
+         */
+        fun prewarmConnections() {
+            Thread {
+                try {
+                    val hosts = listOf(
+                        "https://aod-ssl.itunes.apple.com/",
+                        "https://play.itunes.apple.com/",
+                    )
+                    for (host in hosts) {
+                        try {
+                            val req = Request.Builder().url(host).head().build()
+                            httpClient.newCall(req).execute().close()
+                            Log.d(LOG_TAG, "DrmCallback: pre-warmed TLS to $host")
+                        } catch (e: Exception) {
+                            Log.d(LOG_TAG, "DrmCallback: pre-warm to $host failed (non-fatal)")
+                        }
+                    }
+                } catch (e: Exception) {
+                    Log.d(LOG_TAG, "DrmCallback: pre-warm thread error (non-fatal)")
+                }
+            }.start()
+        }
     }
 
     override fun executeProvisionRequest(

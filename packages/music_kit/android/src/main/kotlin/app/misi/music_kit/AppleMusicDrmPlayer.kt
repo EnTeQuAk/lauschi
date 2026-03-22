@@ -10,8 +10,6 @@ import androidx.media3.common.PlaybackException
 import androidx.media3.common.Player
 import androidx.media3.datasource.DataSource
 import androidx.media3.datasource.okhttp.OkHttpDataSource
-import okhttp3.OkHttpClient
-import java.util.concurrent.TimeUnit
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.exoplayer.drm.DefaultDrmSessionManager
 import androidx.media3.exoplayer.drm.FrameworkMediaDrm
@@ -60,16 +58,10 @@ class AppleMusicDrmPlayer(private val context: Context) {
             "User-Agent" to "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36"
         )
 
-        // OkHttp for all HTTP requests (HLS playlists + audio segments).
-        // DefaultHttpDataSource uses HttpURLConnection which can hang for
-        // 16-60s on stale TLS connections. OkHttp handles connection pooling
-        // properly and doesn't have this issue.
-        val okHttpClient = OkHttpClient.Builder()
-            .connectTimeout(10, TimeUnit.SECONDS)
-            .readTimeout(30, TimeUnit.SECONDS)
-            .writeTimeout(10, TimeUnit.SECONDS)
-            .build()
-        val httpDataSourceFactory = OkHttpDataSource.Factory(okHttpClient)
+        // Share the OkHttpClient with the DRM callback so TLS sessions
+        // are reused across all Apple Music HTTP requests. This means
+        // pre-warming the callback's client also warms the HLS client.
+        val httpDataSourceFactory = OkHttpDataSource.Factory(AppleMusicDrmCallback.httpClient)
             .setDefaultRequestProperties(headers)
 
         // Thread-safe holder for the key URI extracted from the HLS playlist.

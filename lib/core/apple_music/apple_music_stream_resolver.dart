@@ -1,3 +1,5 @@
+import 'dart:async' show unawaited;
+
 import 'package:dio/dio.dart';
 import 'package:lauschi/core/log.dart';
 
@@ -39,12 +41,47 @@ class AppleMusicStreamResolver {
   String? _musicUserToken;
 
   /// Configure with auth tokens. Must be called before resolving streams.
+  /// Also pre-warms TLS connections to Apple's servers in the background.
   void configure({
     required String developerToken,
     required String musicUserToken,
   }) {
     _developerToken = developerToken;
     _musicUserToken = musicUserToken;
+    // Pre-warm TLS connections. The first TLS handshake to Apple's servers
+    // takes 20-50 seconds on some Android devices (Fairphone 6). Subsequent
+    // requests reuse the TLS session and are fast (~100ms). By warming up
+    // during session restore, the connections are ready when the user taps play.
+    unawaited(_prewarmConnections());
+  }
+
+  Future<void> _prewarmConnections() async {
+    try {
+      // Touch both hosts to establish TLS sessions.
+      // HEAD requests are lightweight; we don't care about the response.
+      await Future.wait([
+        _dio.head<void>(
+          'https://aod-ssl.itunes.apple.com/',
+          options: Options(
+            headers: _buildHeaders(),
+            validateStatus: (_) => true, // Accept any status
+            receiveTimeout: const Duration(seconds: 30),
+          ),
+        ),
+        _dio.head<void>(
+          'https://play.itunes.apple.com/',
+          options: Options(
+            headers: _buildHeaders(),
+            validateStatus: (_) => true,
+            receiveTimeout: const Duration(seconds: 30),
+          ),
+        ),
+      ]);
+      Log.info(_tag, 'TLS connections pre-warmed');
+    } on Exception catch (e) {
+      // Non-fatal. First play will just be slower.
+      Log.debug(_tag, 'Pre-warm failed (non-fatal): $e');
+    }
   }
 
   /// Headers needed by ExoPlayer to fetch HLS streams and segments.
