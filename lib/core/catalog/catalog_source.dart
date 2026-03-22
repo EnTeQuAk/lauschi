@@ -38,12 +38,7 @@ class CatalogAlbumResult {
 
   /// Canonical provider URI for DB storage.
   /// Exhaustive: add new providers here when extending ProviderType.
-  String get providerUri => switch (provider) {
-    ProviderType.spotify => 'spotify:album:$id',
-    ProviderType.appleMusic => 'apple_music:album:$id',
-    ProviderType.ardAudiothek => 'ard:album:$id',
-    ProviderType.tidal => 'tidal:album:$id',
-  };
+  String get providerUri => provider.albumUri(id);
 
   /// Resolve artwork URL to a specific pixel size.
   /// Handles Apple Music `{w}x{h}` templates and passes through

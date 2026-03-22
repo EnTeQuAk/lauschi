@@ -45,4 +45,29 @@ enum ProviderType {
     (e) => e.value == s,
     orElse: () => throw ArgumentError('Unknown provider: $s'),
   );
+
+  // ── Provider URI helpers ──────────────────────────────────────────
+
+  /// URI prefix for this provider (e.g. 'spotify', 'apple_music').
+  String get _uriPrefix => switch (this) {
+    spotify => 'spotify',
+    ardAudiothek => 'ard',
+    appleMusic => 'apple_music',
+    tidal => 'tidal',
+  };
+
+  /// Build a canonical album URI for DB storage.
+  /// e.g. 'spotify:album:4aawyAB9vmqN3uQ7FjRGTy'
+  String albumUri(String albumId) => '$_uriPrefix:album:$albumId';
+
+  /// Build a canonical track URI for playback state.
+  /// e.g. 'apple_music:track:1686062068'
+  String trackUri(String trackId) => '$_uriPrefix:track:$trackId';
+
+  /// Extract the ID from a provider URI. Returns null if format doesn't match.
+  /// e.g. 'apple_music:album:123' → '123'
+  static String? extractId(String uri) {
+    final parts = uri.split(':');
+    return parts.length == 3 ? parts[2] : null;
+  }
 }

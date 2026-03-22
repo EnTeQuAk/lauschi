@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:lauschi/core/apple_music/apple_music_api.dart';
 import 'package:lauschi/core/apple_music/apple_music_stream_resolver.dart';
 import 'package:lauschi/core/log.dart';
+import 'package:lauschi/core/providers/provider_type.dart';
 import 'package:lauschi/features/player/player_backend.dart';
 import 'package:lauschi/features/player/player_error.dart';
 import 'package:lauschi/features/player/player_state.dart';
@@ -190,7 +191,7 @@ class AppleMusicPlayer extends PlayerBackend {
     _trackIndex = index;
     _positionMs = 0; // Reset position for the new track.
     _currentTrack = TrackInfo(
-      uri: 'apple_music:track:${track.id}',
+      uri: ProviderType.appleMusic.trackUri(track.id),
       name: track.name,
       artist: track.artistName,
       artworkUrl: _albumArtworkUrl,

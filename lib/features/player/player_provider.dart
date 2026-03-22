@@ -678,7 +678,7 @@ class PlayerNotifier extends _$PlayerNotifier {
       data: {'card': card.title},
     );
 
-    final albumId = card.providerUri.replaceFirst('apple_music:album:', '');
+    final albumId = ProviderType.extractId(card.providerUri) ?? '';
 
     final trackInfo = TrackInfo(
       uri: card.providerUri,

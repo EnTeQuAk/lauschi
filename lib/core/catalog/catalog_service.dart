@@ -28,11 +28,7 @@ class CatalogAlbum {
   final int? episode;
 
   /// Full provider URI for DB storage (e.g. 'spotify:album:abc123').
-  String get uri => switch (provider) {
-    ProviderType.spotify => 'spotify:album:$id',
-    ProviderType.appleMusic => 'apple_music:album:$id',
-    _ => '${provider.value}:album:$id',
-  };
+  String get uri => provider.albumUri(id);
 
   /// Backward compat: returns [id] when provider is Spotify.
   @Deprecated('Use id and provider instead')
