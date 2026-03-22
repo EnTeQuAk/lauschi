@@ -123,25 +123,34 @@ class HlsMethodRewriteDataSource(
         /**
          * Build a valid PSSH box for Widevine from raw key ID bytes.
          *
-         * PSSH box format (version 0):
-         *   4 bytes: box size (big-endian)
-         *   4 bytes: 'pssh' box type
-         *   1 byte:  version (0)
-         *   3 bytes: flags (0)
-         *   16 bytes: system ID (Widevine UUID)
-         *   4 bytes: data size (big-endian)
-         *   N bytes: data (the raw key ID or Widevine init data)
+         * The PSSH data must be a serialized WidevinePsshData protobuf:
+         *   field 1 (algorithm): varint, value 1 (AESCTR)
+         *   field 2 (key_id): length-delimited, the raw key ID bytes
+         *
+         * This matches how music.apple.com and pywidevine construct the PSSH.
+         * Without the protobuf wrapper, the Widevine CDM generates a
+         * malformed challenge that Apple's license server rejects.
          */
         fun buildWidevinePssh(keyId: ByteArray): ByteArray {
-            val dataSize = keyId.size
-            val boxSize = 4 + 4 + 4 + 16 + 4 + dataSize  // 32 + keyId.size
+            // Hand-craft the WidevinePsshData protobuf:
+            // field 1 (algorithm=1): tag=0x08, value=0x01
+            // field 2 (key_id): tag=0x12, length=keyId.size, data=keyId
+            val protobuf = ByteArray(2 + 2 + keyId.size)
+            protobuf[0] = 0x08  // field 1, wire type varint
+            protobuf[1] = 0x01  // value: AESCTR=1
+            protobuf[2] = 0x12  // field 2, wire type length-delimited
+            protobuf[3] = keyId.size.toByte()
+            System.arraycopy(keyId, 0, protobuf, 4, keyId.size)
+
+            // PSSH box: size(4) + 'pssh'(4) + version+flags(4) + systemId(16) + dataSize(4) + data
+            val boxSize = 4 + 4 + 4 + 16 + 4 + protobuf.size
             val buf = ByteBuffer.allocate(boxSize).order(ByteOrder.BIG_ENDIAN)
-            buf.putInt(boxSize)                    // box size
-            buf.put("pssh".toByteArray())          // box type
+            buf.putInt(boxSize)
+            buf.put("pssh".toByteArray())
             buf.putInt(0)                          // version 0 + flags 0
-            buf.put(WIDEVINE_SYSTEM_ID)            // system ID
-            buf.putInt(dataSize)                   // data size
-            buf.put(keyId)                         // data (raw key ID)
+            buf.put(WIDEVINE_SYSTEM_ID)
+            buf.putInt(protobuf.size)
+            buf.put(protobuf)
             return buf.array()
         }
     }
