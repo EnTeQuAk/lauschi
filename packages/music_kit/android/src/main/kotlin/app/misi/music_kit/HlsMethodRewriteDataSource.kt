@@ -9,12 +9,17 @@ import androidx.media3.datasource.TransferListener
 import app.misi.music_kit.util.Constant.LOG_TAG
 
 /**
- * Wraps another DataSource and rewrites Apple's HLS encryption method tag
- * so ExoPlayer's HLS parser can handle it.
+ * Wraps another DataSource and rewrites Apple's HLS encryption tags
+ * so ExoPlayer's HLS parser can handle them.
  *
  * Apple uses `METHOD=ISO-23001-7` in their HLS playlists for CENC encryption.
- * ExoPlayer's parser only recognizes `SAMPLE-AES-CTR` for the same encryption
- * scheme. This DataSource intercepts .m3u8 responses and rewrites the tag.
+ * ExoPlayer only recognizes `SAMPLE-AES-CTR`. Additionally, Apple omits the
+ * `KEYFORMAT` attribute that ExoPlayer needs to identify the key as Widevine
+ * DRM (vs identity/AES-128 encryption). Without KEYFORMAT, ExoPlayer never
+ * creates a DRM session, leaving MediaCodec without a crypto context.
+ *
+ * This DataSource intercepts playlist responses (detected by `#EXTM3U` header)
+ * and rewrites both the METHOD and injects the KEYFORMAT attribute.
  */
 class HlsMethodRewriteDataSource(
     private val upstream: DataSource
@@ -31,15 +36,14 @@ class HlsMethodRewriteDataSource(
 
     override fun open(dataSpec: DataSpec): Long {
         currentUri = dataSpec.uri
-        val uri = dataSpec.uri.toString()
-        isPlaylist = uri.endsWith(".m3u8") || uri.contains("m3u8")
+        isPlaylist = false
+        bufferedData = null
+        readOffset = 0
 
-        if (!isPlaylist) {
-            return upstream.open(dataSpec)
-        }
+        val length = upstream.open(dataSpec)
 
-        // For playlists: read the entire response, rewrite, buffer it.
-        upstream.open(dataSpec)
+        // Read the full response to check if it's a playlist.
+        // HLS playlists are small (< 100KB). Audio segments are large.
         val bytes = mutableListOf<Byte>()
         val buf = ByteArray(8192)
         while (true) {
@@ -49,22 +53,28 @@ class HlsMethodRewriteDataSource(
         }
         upstream.close()
 
-        var content = String(bytes.toByteArray(), Charsets.UTF_8)
-        if (content.contains("ISO-23001-7")) {
-            Log.d(LOG_TAG, "HlsRewrite: patching ISO-23001-7 → SAMPLE-AES-CTR")
-            content = content.replace("ISO-23001-7", "SAMPLE-AES-CTR")
+        val raw = bytes.toByteArray()
+        val text = String(raw, Charsets.UTF_8)
+
+        if (text.trimStart().startsWith("#EXTM3U") && text.contains("ISO-23001-7")) {
+            isPlaylist = true
+            Log.d(LOG_TAG, "HlsRewrite: patching ISO-23001-7 → SAMPLE-AES-CTR + KEYFORMAT")
+            // Rewrite METHOD and inject KEYFORMAT so ExoPlayer identifies
+            // the encryption as Widevine DRM and creates a proper DRM session.
+            val rewritten = text.replace(
+                "METHOD=ISO-23001-7",
+                """METHOD=SAMPLE-AES-CTR,KEYFORMAT="urn:uuid:edef8ba9-79d6-4ace-a3c8-27dcd51d21ed",KEYFORMATVERSIONS="1""""
+            )
+            bufferedData = rewritten.toByteArray(Charsets.UTF_8)
+        } else {
+            // Not a playlist needing rewrite. Buffer as-is.
+            bufferedData = raw
         }
 
-        bufferedData = content.toByteArray(Charsets.UTF_8)
-        readOffset = 0
         return bufferedData!!.size.toLong()
     }
 
     override fun read(buffer: ByteArray, offset: Int, length: Int): Int {
-        if (!isPlaylist) {
-            return upstream.read(buffer, offset, length)
-        }
-
         val data = bufferedData ?: return C.RESULT_END_OF_INPUT
         if (readOffset >= data.size) return C.RESULT_END_OF_INPUT
 
@@ -74,12 +84,9 @@ class HlsMethodRewriteDataSource(
         return bytesToRead
     }
 
-    override fun getUri(): Uri? = if (isPlaylist) currentUri else upstream.uri
+    override fun getUri(): Uri? = currentUri
 
     override fun close() {
-        if (!isPlaylist) {
-            upstream.close()
-        }
         bufferedData = null
         readOffset = 0
     }

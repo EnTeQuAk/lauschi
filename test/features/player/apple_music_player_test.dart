@@ -55,10 +55,9 @@ void main() {
           ),
         ],
       );
-      when(() => mockResolver.resolveStreamUrl('song-1')).thenAnswer(
+      when(() => mockResolver.resolveStream('song-1')).thenAnswer(
         (_) async => null,
       );
-      when(() => mockResolver.lastLicenseUrl).thenReturn(null);
 
       await player.play(
         albumId: 'test-album',
@@ -66,7 +65,7 @@ void main() {
       );
 
       verify(() => mockApi.getAlbumTracks('test-album')).called(1);
-      verify(() => mockResolver.resolveStreamUrl('song-1')).called(1);
+      verify(() => mockResolver.resolveStream('song-1')).called(1);
     });
 
     test('play with empty tracks emits content unavailable', () async {

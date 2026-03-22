@@ -66,7 +66,7 @@ class AppleMusicWebAuth {
       return _loginCompleter!.future;
     }
 
-    final state = _randomBase64(16);
+    final state = _randomHex(16);
     _pendingState = state;
     _loginCompleter = Completer<AppleMusicTokens>();
 
@@ -215,10 +215,9 @@ class AppleMusicWebAuth {
     ]);
   }
 
-  static String _randomBase64(int byteLength) {
+  static String _randomHex(int byteLength) {
     final rand = Random.secure();
     final bytes = List<int>.generate(byteLength, (_) => rand.nextInt(256));
-    // Simple hex encoding (no base64 dependency needed).
     return bytes.map((b) => b.toRadixString(16).padLeft(2, '0')).join();
   }
 }

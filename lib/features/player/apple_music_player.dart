@@ -89,10 +89,9 @@ class AppleMusicPlayer extends PlayerBackend {
 
     // Resolve the first track's stream to get the HLS URL + license URL.
     final firstTrack = tracks[trackIndex];
-    final streamUrl = await _streamResolver.resolveStreamUrl(firstTrack.id);
-    final licenseUrl = _streamResolver.lastLicenseUrl ?? '';
+    final resolution = await _streamResolver.resolveStream(firstTrack.id);
 
-    if (streamUrl == null) {
+    if (resolution == null) {
       Log.warn(_tag, 'Could not resolve stream for track ${firstTrack.id}');
       _emitState(error: PlayerError.playbackFailed);
       return;
@@ -103,7 +102,7 @@ class AppleMusicPlayer extends PlayerBackend {
       'Starting DRM playback',
       data: {
         'track': firstTrack.name,
-        'licenseUrl': licenseUrl.isNotEmpty ? 'yes' : 'no',
+        'licenseUrl': resolution.licenseUrl.isNotEmpty ? 'yes' : 'no',
       },
     );
 
@@ -117,8 +116,8 @@ class AppleMusicPlayer extends PlayerBackend {
 
     try {
       await _musicKit.playDrmStream(
-        hlsUrl: streamUrl,
-        licenseUrl: licenseUrl,
+        hlsUrl: resolution.hlsUrl,
+        licenseUrl: resolution.licenseUrl,
         developerToken: _developerToken,
         musicUserToken: _musicUserToken,
       );
@@ -164,39 +163,29 @@ class AppleMusicPlayer extends PlayerBackend {
 
   @override
   Future<void> nextTrack() async {
-    // For now, resolve and play the next track individually.
     // TODO(#231): use ExoPlayer ConcatenatingMediaSource for gapless playback
     if (!hasNextTrack) return;
-    _trackIndex++;
-    final track = _tracks[_trackIndex];
-    final streamUrl = await _streamResolver.resolveStreamUrl(track.id);
-    if (streamUrl == null) return;
-
-    _currentTrack = TrackInfo(
-      uri: 'apple_music:track:${track.id}',
-      name: track.name,
-      artist: track.artistName,
-    );
-    _durationMs = track.durationMs;
-
-    await _musicKit.playDrmStream(
-      hlsUrl: streamUrl,
-      licenseUrl: _streamResolver.lastLicenseUrl ?? '',
-      developerToken: _developerToken,
-      musicUserToken: _musicUserToken,
-    );
-    _isPlaying = true;
-    _emitState();
+    await _playTrackAtIndex(_trackIndex + 1);
   }
 
   @override
   Future<void> prevTrack() async {
     if (_trackIndex <= 0) return;
-    _trackIndex--;
-    final track = _tracks[_trackIndex];
-    final streamUrl = await _streamResolver.resolveStreamUrl(track.id);
-    if (streamUrl == null) return;
+    await _playTrackAtIndex(_trackIndex - 1);
+  }
 
+  Future<void> _playTrackAtIndex(int index) async {
+    if (index < 0 || index >= _tracks.length) return;
+
+    final track = _tracks[index];
+    final resolution = await _streamResolver.resolveStream(track.id);
+    if (resolution == null) {
+      Log.warn(_tag, 'Could not resolve stream for track ${track.id}');
+      _emitState(error: PlayerError.playbackFailed);
+      return;
+    }
+
+    _trackIndex = index;
     _currentTrack = TrackInfo(
       uri: 'apple_music:track:${track.id}',
       name: track.name,
@@ -204,14 +193,19 @@ class AppleMusicPlayer extends PlayerBackend {
     );
     _durationMs = track.durationMs;
 
-    await _musicKit.playDrmStream(
-      hlsUrl: streamUrl,
-      licenseUrl: _streamResolver.lastLicenseUrl ?? '',
-      developerToken: _developerToken,
-      musicUserToken: _musicUserToken,
-    );
-    _isPlaying = true;
-    _emitState();
+    try {
+      await _musicKit.playDrmStream(
+        hlsUrl: resolution.hlsUrl,
+        licenseUrl: resolution.licenseUrl,
+        developerToken: _developerToken,
+        musicUserToken: _musicUserToken,
+      );
+      _isPlaying = true;
+      _emitState();
+    } on Exception catch (e) {
+      Log.error(_tag, 'Track playback failed', exception: e);
+      _emitState(error: PlayerError.playbackFailed);
+    }
   }
 
   @override
