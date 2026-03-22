@@ -194,6 +194,7 @@ class AppleMusicPlayer extends PlayerBackend {
     }
 
     _trackIndex = index;
+    _positionMs = 0; // Reset position for the new track.
     _currentTrack = TrackInfo(
       uri: 'apple_music:track:${track.id}',
       name: track.name,
