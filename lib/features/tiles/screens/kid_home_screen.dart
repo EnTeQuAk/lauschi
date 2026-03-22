@@ -145,7 +145,7 @@ class KidHomeScreen extends ConsumerWidget {
               ),
 
             // Connecting indicator — subtle, doesn't take prime real estate.
-            if (!playerState.isReady && isOnline)
+            if (playerState.hasTrack && !playerState.isReady && isOnline)
               Semantics(
                 label: 'Verbindung wird hergestellt',
                 child: const Padding(
