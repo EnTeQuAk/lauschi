@@ -10,8 +10,6 @@ import 'package:lauschi/core/providers/provider_type.dart';
 import 'package:lauschi/core/spotify/spotify_api.dart';
 import 'package:lauschi/core/spotify/spotify_session.dart';
 import 'package:lauschi/features/player/apple_music_player.dart';
-import 'package:music_kit/music_kit.dart';
-
 import 'package:lauschi/features/player/media_session_handler.dart';
 import 'package:lauschi/features/player/player_backend.dart';
 import 'package:lauschi/features/player/player_error.dart';
@@ -19,6 +17,7 @@ import 'package:lauschi/features/player/player_state.dart';
 import 'package:lauschi/features/player/spotify_player.dart';
 import 'package:lauschi/features/player/spotify_webview_bridge.dart';
 import 'package:lauschi/features/player/stream_player.dart';
+import 'package:music_kit/music_kit.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
 

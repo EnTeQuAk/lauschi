@@ -82,8 +82,9 @@ class AppleMusicPlayer extends PlayerBackend {
       return;
     }
 
-    _tracks.clear();
-    _tracks.addAll(tracks);
+    _tracks
+      ..clear()
+      ..addAll(tracks);
     _totalTracks = tracks.length;
     _trackIndex = trackIndex;
 
