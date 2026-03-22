@@ -162,7 +162,7 @@ class AppleMusicDrmPlayer(private val context: Context) {
         // Remove listeners BEFORE release to prevent the final STATE_IDLE
         // callback from pushing the old position to Dart. Without this,
         // the old track's position leaks into the new track's state.
-        exoPlayer?.removeListener(playerListener)
+        playerListener?.let { exoPlayer?.removeListener(it) }
         exoPlayer?.release()
         exoPlayer = null
     }
