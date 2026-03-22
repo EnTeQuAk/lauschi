@@ -721,9 +721,12 @@ class PlayerNotifier extends _$PlayerNotifier {
       }),
     );
 
+    // Don't set isPlaying: true here. The EventChannel will push the
+    // confirmed playing state from ExoPlayer. Setting it prematurely
+    // causes a brief "playing" flash if play() fails.
     state = state.copyWith(
-      isPlaying: true,
       isReady: true,
+      isLoading: true,
       track: trackInfo,
     );
 

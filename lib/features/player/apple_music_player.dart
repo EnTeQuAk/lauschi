@@ -16,6 +16,10 @@ const _tag = 'AppleMusicPlayer';
 /// then plays them through a native ExoPlayer configured with Widevine
 /// DRM and Apple's license server. The HLS playlist method tag is rewritten
 /// from ISO-23001-7 to SAMPLE-AES-CTR so ExoPlayer's parser can handle it.
+///
+/// State updates come via EventChannel (push from native ExoPlayer), not
+/// via polling. This gives real-time position, immediate seek feedback,
+/// and proper track completion detection.
 class AppleMusicPlayer extends PlayerBackend {
   AppleMusicPlayer({
     required AppleMusicStreamResolver streamResolver,
@@ -36,7 +40,7 @@ class AppleMusicPlayer extends PlayerBackend {
   final String _musicUserToken;
 
   final _stateController = StreamController<PlaybackState>.broadcast();
-  Timer? _positionTimer;
+  StreamSubscription<Map<String, dynamic>>? _drmStateSub;
 
   TrackInfo? _currentTrack;
   int _durationMs = 0;
@@ -88,79 +92,27 @@ class AppleMusicPlayer extends PlayerBackend {
     _totalTracks = tracks.length;
     _trackIndex = trackIndex;
 
-    // Resolve the first track's stream to get the HLS URL + license URL.
-    final firstTrack = tracks[trackIndex];
-    final resolution = await _streamResolver.resolveStream(firstTrack.id);
+    // Subscribe to native ExoPlayer state via EventChannel.
+    _listenToDrmState();
 
-    if (resolution == null) {
-      Log.warn(_tag, 'Could not resolve stream for track ${firstTrack.id}');
-      _emitState(error: PlayerError.playbackFailed);
-      return;
-    }
-
-    Log.info(
-      _tag,
-      'Starting DRM playback',
-      data: {
-        'track': firstTrack.name,
-        'licenseUrl': resolution.licenseUrl.isNotEmpty ? 'yes' : 'no',
-      },
-    );
-
-    // Update track info.
-    _currentTrack = TrackInfo(
-      uri: 'apple_music:track:${firstTrack.id}',
-      name: firstTrack.name,
-      artist: firstTrack.artistName,
-    );
-    _durationMs = firstTrack.durationMs;
-
-    try {
-      await _musicKit.playDrmStream(
-        hlsUrl: resolution.hlsUrl,
-        licenseUrl: resolution.licenseUrl,
-        developerToken: _developerToken,
-        musicUserToken: _musicUserToken,
-        songId: firstTrack.id,
-      );
-      _isPlaying = true;
-      _startPositionPolling();
-      _emitState();
-    } on Exception catch (e) {
-      Log.error(_tag, 'DRM playback failed', exception: e);
-      _emitState(error: PlayerError.playbackFailed);
-    }
+    // Resolve and play the first track.
+    await _playTrackAtIndex(trackIndex, positionMs: positionMs);
   }
 
   @override
-  Future<void> resume() async {
-    await _musicKit.drmResume();
-    _isPlaying = true;
-    _startPositionPolling();
-    _emitState();
-  }
+  Future<void> resume() async => _musicKit.drmResume();
 
   @override
-  Future<void> pause() async {
-    await _musicKit.drmPause();
-    _isPlaying = false;
-    _stopPositionPolling();
-    _emitState();
-  }
+  Future<void> pause() async => _musicKit.drmPause();
 
   @override
-  Future<void> stop() async {
-    await _musicKit.drmStop();
-    _isPlaying = false;
-    _stopPositionPolling();
-    _emitState();
-  }
+  Future<void> stop() async => _musicKit.drmStop();
 
   @override
   Future<void> seek(int positionMs) async {
     await _musicKit.drmSeek(positionMs);
-    _positionMs = positionMs;
-    _emitState();
+    // Don't optimistically update _positionMs here.
+    // The EventChannel will push the confirmed position from ExoPlayer.
   }
 
   @override
@@ -176,7 +128,16 @@ class AppleMusicPlayer extends PlayerBackend {
     await _playTrackAtIndex(_trackIndex - 1);
   }
 
-  Future<void> _playTrackAtIndex(int index) async {
+  @override
+  Future<void> dispose() async {
+    await _drmStateSub?.cancel();
+    _drmStateSub = null;
+    await _stateController.close();
+  }
+
+  // ── Track playback ──────────────────────────────────────────────────
+
+  Future<void> _playTrackAtIndex(int index, {int positionMs = 0}) async {
     if (index < 0 || index >= _tracks.length) return;
 
     final track = _tracks[index];
@@ -195,6 +156,15 @@ class AppleMusicPlayer extends PlayerBackend {
     );
     _durationMs = track.durationMs;
 
+    Log.info(
+      _tag,
+      'Starting DRM playback',
+      data: {
+        'track': track.name,
+        'licenseUrl': resolution.licenseUrl.isNotEmpty ? 'yes' : 'no',
+      },
+    );
+
     try {
       await _musicKit.playDrmStream(
         hlsUrl: resolution.hlsUrl,
@@ -203,43 +173,69 @@ class AppleMusicPlayer extends PlayerBackend {
         musicUserToken: _musicUserToken,
         songId: track.id,
       );
-      _isPlaying = true;
-      _emitState();
+      // Don't set _isPlaying = true here. The EventChannel will push
+      // the confirmed playing state from ExoPlayer.
     } on Exception catch (e) {
-      Log.error(_tag, 'Track playback failed', exception: e);
+      Log.error(_tag, 'DRM playback failed', exception: e);
+      _isPlaying = false;
       _emitState(error: PlayerError.playbackFailed);
     }
   }
 
-  @override
-  Future<void> dispose() async {
-    _stopPositionPolling();
-    await _stateController.close();
-  }
+  // ── Native state stream ─────────────────────────────────────────────
 
-  // ── Position polling ────────────────────────────────────────────────
-
-  void _startPositionPolling() {
-    _stopPositionPolling();
-    _positionTimer = Timer.periodic(
-      const Duration(milliseconds: 500),
-      (_) => unawaited(_pollPosition()),
+  void _listenToDrmState() {
+    _drmStateSub?.cancel();
+    _drmStateSub = _musicKit.drmPlayerStateStream.listen(
+      _onDrmStateEvent,
+      onError: (Object error) {
+        Log.error(_tag, 'DRM state stream error', data: {'error': '$error'});
+      },
     );
   }
 
-  void _stopPositionPolling() {
-    _positionTimer?.cancel();
-    _positionTimer = null;
-  }
+  void _onDrmStateEvent(Map<String, dynamic> event) {
+    final type = event['type'] as String?;
 
-  Future<void> _pollPosition() async {
-    try {
-      _positionMs = await _musicKit.drmPosition;
-      final dur = await _musicKit.drmDuration;
-      if (dur > 0) _durationMs = dur;
-      _emitState();
-    } on Exception {
-      // Player might not be ready.
+    switch (type) {
+      case 'state':
+        final isPlaying = event['isPlaying'] as bool? ?? false;
+        final posMs = (event['positionMs'] as num?)?.toInt() ?? 0;
+        final durMs = (event['durationMs'] as num?)?.toInt() ?? 0;
+
+        _isPlaying = isPlaying;
+        _positionMs = posMs;
+        if (durMs > 0) _durationMs = durMs;
+        _emitState();
+
+      case 'error':
+        final message = event['message'] as String? ?? 'Unknown error';
+        Log.error(_tag, 'DRM player error', data: {'message': message});
+        _isPlaying = false;
+        _emitState(error: PlayerError.playbackFailed);
+
+      case 'trackChanged':
+        final index = (event['index'] as num?)?.toInt() ?? 0;
+        if (index != _trackIndex && index < _tracks.length) {
+          _trackIndex = index;
+          final track = _tracks[index];
+          _currentTrack = TrackInfo(
+            uri: 'apple_music:track:${track.id}',
+            name: track.name,
+            artist: track.artistName,
+          );
+          _durationMs = track.durationMs;
+          Log.info(
+            _tag,
+            'Track changed',
+            data: {
+              'track': track.name,
+              'index': '$_trackIndex',
+              'total': '$_totalTracks',
+            },
+          );
+          _emitState();
+        }
     }
   }
 

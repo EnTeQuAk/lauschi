@@ -23,6 +23,12 @@ void main() {
       mockResolver = MockStreamResolver();
       mockApi = MockAppleMusicApi();
       mockMusicKit = MockMusicKit();
+
+      // EventChannel stream (empty by default).
+      when(() => mockMusicKit.drmPlayerStateStream).thenAnswer(
+        (_) => const Stream.empty(),
+      );
+
       player = AppleMusicPlayer(
         streamResolver: mockResolver,
         api: mockApi,
@@ -81,7 +87,8 @@ void main() {
       expect(states.any((s) => s.error != null), isTrue);
     });
 
-    test('dispose completes cleanly', () async {
+    test('dispose cancels DRM state subscription', () async {
+      // Should not throw.
       await player.dispose();
     });
   });

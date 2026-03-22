@@ -31,6 +31,7 @@ class ChannelHandler(
       "plugins.misi.app/music_kit/music_subscription"
     const val MUSIC_PLAYER_STATE_EVENT_CHANNEL_NAME = "plugins.misi.app/music_kit/player_state"
     const val MUSIC_PLAYER_QUEUE_EVENT_CHANNEL_NAME = "plugins.misi.app/music_kit/player_queue"
+    const val DRM_PLAYER_STATE_EVENT_CHANNEL_NAME = "plugins.misi.app/music_kit/drm_player_state"
 
     const val PARAM_DEVELOPER_TOKEN_KEY = "developerToken"
 
@@ -49,6 +50,10 @@ class ChannelHandler(
   private var playerQueueEventChannel: EventChannel? = null
   private var playerQueueStreamHandler: PlayerQueueStreamHandler? = null
   private var playerStateStreamHandler: PlayerStateStreamHandler? = null
+
+  // DRM player state push via EventChannel (replaces Dart-side polling).
+  private var drmStateEventChannel: EventChannel? = null
+  private var drmStateStreamHandler: DrmPlayerStateStreamHandler? = null
 
 
   private lateinit var developerToken: String
@@ -131,6 +136,13 @@ class ChannelHandler(
       playerStateStreamHandler!!.setPlayerController(playerController!!)
       playerQueueStreamHandler!!.setPlayerController(playerController!!)
     }
+
+    drmStateStreamHandler = DrmPlayerStateStreamHandler()
+    drmStateEventChannel = EventChannel(messenger, DRM_PLAYER_STATE_EVENT_CHANNEL_NAME)
+    drmStateEventChannel?.setStreamHandler(drmStateStreamHandler)
+
+    // Wire existing DRM player to the stream handler if already created.
+    drmPlayer?.listener = drmStateStreamHandler
   }
 
   fun stopListening() {
@@ -144,6 +156,10 @@ class ChannelHandler(
     playerQueueEventChannel?.setStreamHandler(null)
     playerQueueEventChannel = null
     playerQueueStreamHandler = null
+
+    drmStateEventChannel?.setStreamHandler(null)
+    drmStateEventChannel = null
+    drmStateStreamHandler = null
 
     playerController?.release()
     playerController = null
@@ -171,7 +187,9 @@ class ChannelHandler(
     }
 
     if (drmPlayer == null) {
-      drmPlayer = AppleMusicDrmPlayer(applicationContext)
+      drmPlayer = AppleMusicDrmPlayer(applicationContext).also {
+        it.listener = drmStateStreamHandler
+      }
     }
 
     val songId = call.argument<String>("songId") ?: ""

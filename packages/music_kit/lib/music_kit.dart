@@ -69,6 +69,21 @@ class MusicKit {
   Future<void> setMusicUserToken(String token) =>
       _channel.invokeMethod('setMusicUserToken', {'token': token});
 
+  // ── DRM Player State Stream ──────────────────────────────────────
+
+  static const _drmStateChannel = EventChannel(
+    'plugins.misi.app/music_kit/drm_player_state',
+  );
+
+  /// Stream of DRM player state updates (push from native ExoPlayer).
+  /// Replaces position polling. Events are maps with:
+  ///   {type: "state", isPlaying: bool, positionMs: int, durationMs: int}
+  ///   {type: "error", message: String}
+  ///   {type: "trackChanged", index: int}
+  Stream<Map<String, dynamic>> get drmPlayerStateStream => _drmStateChannel
+      .receiveBroadcastStream()
+      .map((event) => Map<String, dynamic>.from(event as Map));
+
   // ── DRM HLS Player ─────────────────────────────────────────────────
 
   /// Play an Apple Music HLS stream with Widevine DRM.
@@ -91,10 +106,6 @@ class MusicKit {
   Future<void> drmStop() => _channel.invokeMethod('drmPlayerStop');
   Future<void> drmSeek(int positionMs) =>
       _channel.invokeMethod('drmPlayerSeek', {'positionMs': positionMs});
-  Future<int> get drmPosition async =>
-      await _channel.invokeMethod<int>('drmPlayerPosition') ?? 0;
-  Future<int> get drmDuration async =>
-      await _channel.invokeMethod<int>('drmPlayerDuration') ?? 0;
 
   Stream<MusicSubscription> get onSubscriptionUpdated =>
       _platform.onSubscriptionUpdated;
