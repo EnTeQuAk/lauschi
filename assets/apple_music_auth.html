@@ -71,7 +71,7 @@
     // Server-side redirect endpoint. Responds with HTTP 302 to
     // lauschi://apple-music-callback which triggers the Android
     // deep link intent reliably (same pattern as Spotify OAuth).
-    var REDIRECT_ENDPOINT = 'https://tuneloopbot.webshox.org/lauschi/apple-callback';
+    var REDIRECT_ENDPOINT = 'https://auth.lauschi.app/apple-callback';
 
     // Parse query params. On first load: ?token=JWT&state=RANDOM
     // On return from Apple login: URL may have Apple's callback params.

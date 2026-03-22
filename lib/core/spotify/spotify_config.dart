@@ -11,8 +11,7 @@ abstract final class SpotifyConfig {
   // Remote URL required: Spotify Web Playback SDK needs an HTTPS origin for
   // Widevine EME. Local assets (file://, flutter-asset://) don't work.
   // A copy is bundled at assets/player.html for reference.
-  static const playerUrl =
-      'https://tuneloopbot.webshox.org/lauschi/player.html';
+  static const playerUrl = 'https://auth.lauschi.app/player.html';
 
   static const scopes = [
     'streaming',

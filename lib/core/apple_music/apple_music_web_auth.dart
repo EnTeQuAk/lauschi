@@ -14,8 +14,7 @@ const _pendingStateKey = 'apple_music_pending_state';
 
 /// Auth page hosted alongside the player HTML. Opens in the system browser,
 /// runs MusicKit JS authorize(), redirects back with the token.
-const _authPageUrl =
-    'https://tuneloopbot.webshox.org/lauschi/apple_music_auth.html';
+const _authPageUrl = 'https://auth.lauschi.app/apple_music_auth.html';
 
 const _defaultStorage = FlutterSecureStorage(
   iOptions: IOSOptions(
