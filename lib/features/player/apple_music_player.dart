@@ -172,6 +172,7 @@ class AppleMusicPlayer extends PlayerBackend {
         developerToken: _developerToken,
         musicUserToken: _musicUserToken,
         songId: track.id,
+        startPositionMs: positionMs,
       );
       // Don't set _isPlaying = true here. The EventChannel will push
       // the confirmed playing state from ExoPlayer.
@@ -185,7 +186,7 @@ class AppleMusicPlayer extends PlayerBackend {
   // ── Native state stream ─────────────────────────────────────────────
 
   void _listenToDrmState() {
-    _drmStateSub?.cancel();
+    unawaited(_drmStateSub?.cancel());
     _drmStateSub = _musicKit.drmPlayerStateStream.listen(
       _onDrmStateEvent,
       onError: (Object error) {

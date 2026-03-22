@@ -128,7 +128,7 @@ class AppleMusicStreamResolver {
   Map<String, String> _buildHeaders() {
     return {
       'Authorization': 'Bearer $_developerToken',
-      'Media-User-Token': _musicUserToken!,
+      'Media-User-Token': _musicUserToken ?? '',
       'Origin': 'https://music.apple.com',
       'Referer': 'https://music.apple.com/',
       'User-Agent':

@@ -265,6 +265,7 @@ class ChannelHandler(
     }
 
     val songId = call.argument<String>("songId") ?: ""
+    val startPositionMs = call.argument<Number>("startPositionMs")?.toLong() ?: 0L
 
     drmPlayer?.play(
       hlsUrl = hlsUrl,
@@ -272,6 +273,7 @@ class ChannelHandler(
       developerToken = devToken,
       musicUserToken = userToken,
       songId = songId,
+      startPositionMs = startPositionMs,
     )
     result.success(null)
   }
