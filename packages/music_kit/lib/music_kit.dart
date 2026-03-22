@@ -77,11 +77,13 @@ class MusicKit {
     required String licenseUrl,
     required String developerToken,
     required String musicUserToken,
+    String songId = '',
   }) => _channel.invokeMethod('playDrmStream', {
     'hlsUrl': hlsUrl,
     'licenseUrl': licenseUrl,
     'developerToken': developerToken,
     'musicUserToken': musicUserToken,
+    'songId': songId,
   });
 
   Future<void> drmPause() => _channel.invokeMethod('drmPlayerPause');

@@ -164,11 +164,14 @@ class ChannelHandler(
       drmPlayer = AppleMusicDrmPlayer(applicationContext)
     }
 
+    val songId = call.argument<String>("songId") ?: ""
+
     drmPlayer?.play(
       hlsUrl = hlsUrl,
       licenseUrl = licenseUrl,
       developerToken = devToken,
       musicUserToken = userToken,
+      songId = songId,
     )
     result.success(null)
   }

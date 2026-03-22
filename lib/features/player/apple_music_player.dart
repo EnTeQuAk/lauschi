@@ -120,6 +120,7 @@ class AppleMusicPlayer extends PlayerBackend {
         licenseUrl: resolution.licenseUrl,
         developerToken: _developerToken,
         musicUserToken: _musicUserToken,
+        songId: firstTrack.id,
       );
       _isPlaying = true;
       _startPositionPolling();
@@ -199,6 +200,7 @@ class AppleMusicPlayer extends PlayerBackend {
         licenseUrl: resolution.licenseUrl,
         developerToken: _developerToken,
         musicUserToken: _musicUserToken,
+        songId: track.id,
       );
       _isPlaying = true;
       _emitState();

@@ -12,7 +12,8 @@ import androidx.media3.common.Player
 import androidx.media3.datasource.DataSource
 import androidx.media3.datasource.DefaultHttpDataSource
 import androidx.media3.exoplayer.ExoPlayer
-
+import androidx.media3.exoplayer.drm.DefaultDrmSessionManager
+import androidx.media3.exoplayer.drm.FrameworkMediaDrm
 import androidx.media3.exoplayer.hls.HlsMediaSource
 import app.misi.music_kit.util.Constant.LOG_TAG
 
@@ -41,6 +42,7 @@ class AppleMusicDrmPlayer(private val context: Context) {
         licenseUrl: String,
         developerToken: String,
         musicUserToken: String,
+        songId: String = "",
         startIndex: Int = 0,
         startPositionMs: Long = 0
     ) {
@@ -65,20 +67,23 @@ class AppleMusicDrmPlayer(private val context: Context) {
             HlsMethodRewriteDataSource(httpDataSourceFactory.createDataSource())
         }
 
-        // HLS media source with the rewriting data source.
-        val hlsMediaSourceFactory = HlsMediaSource.Factory(rewritingDataSourceFactory)
+        // Custom DRM callback that wraps Widevine challenges in Apple's
+        // expected JSON format. Apple's license server rejects raw binary
+        // Widevine requests (HTTP 500).
+        val drmCallback = AppleMusicDrmCallback(
+            licenseUrl = licenseUrl,
+            headers = headers,
+            songId = songId,
+        )
+        val drmSessionManager = DefaultDrmSessionManager.Builder()
+            .setUuidAndExoMediaDrmProvider(C.WIDEVINE_UUID, FrameworkMediaDrm.DEFAULT_PROVIDER)
+            .build(drmCallback)
 
-        // Build MediaItem with Widevine DRM configuration.
-        // ExoPlayer will use this to create the DRM session and crypto context.
-        val mediaItem = MediaItem.Builder()
-            .setUri(Uri.parse(hlsUrl))
-            .setDrmConfiguration(
-                MediaItem.DrmConfiguration.Builder(C.WIDEVINE_UUID)
-                    .setLicenseUri(licenseUrl)
-                    .setLicenseRequestHeaders(headers)
-                    .build()
-            )
-            .build()
+        // HLS media source with the rewriting data source and DRM session.
+        val hlsMediaSourceFactory = HlsMediaSource.Factory(rewritingDataSourceFactory)
+            .setDrmSessionManagerProvider { drmSessionManager }
+
+        val mediaItem = MediaItem.fromUri(Uri.parse(hlsUrl))
 
         val audioAttributes = AudioAttributes.Builder()
             .setUsage(C.USAGE_MEDIA)
