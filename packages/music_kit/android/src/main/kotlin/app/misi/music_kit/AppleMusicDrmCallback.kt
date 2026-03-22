@@ -6,10 +6,15 @@ import androidx.media3.common.util.Util
 import androidx.media3.exoplayer.drm.ExoMediaDrm
 import androidx.media3.exoplayer.drm.MediaDrmCallback
 import app.misi.music_kit.util.Constant.LOG_TAG
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.RequestBody.Companion.toRequestBody
 import org.json.JSONObject
 import java.net.HttpURLConnection
 import java.net.URL
 import java.util.UUID
+import java.util.concurrent.TimeUnit
 
 /**
  * Custom DRM callback for Apple Music's Widevine license server.
@@ -17,6 +22,10 @@ import java.util.UUID
  * Apple's license endpoint expects a JSON request body with the Widevine
  * challenge base64-encoded, plus metadata fields. The response is also JSON
  * with the license in a `license` field.
+ *
+ * Uses OkHttp instead of HttpURLConnection for reliable connection
+ * handling (DNS, TLS, keep-alive). HttpURLConnection on Android can
+ * hang for 60+ seconds on stale TLS connections.
  */
 class AppleMusicDrmCallback(
     private val licenseUrl: String,
@@ -24,6 +33,16 @@ class AppleMusicDrmCallback(
     private val songId: String = "",
     private val keyUriProvider: () -> String = { "" },
 ) : MediaDrmCallback {
+
+    companion object {
+        private val httpClient = OkHttpClient.Builder()
+            .connectTimeout(10, TimeUnit.SECONDS)
+            .readTimeout(30, TimeUnit.SECONDS)
+            .writeTimeout(10, TimeUnit.SECONDS)
+            .build()
+
+        private val JSON_MEDIA_TYPE = "application/json; charset=utf-8".toMediaType()
+    }
 
     override fun executeProvisionRequest(
         uuid: UUID,
@@ -47,7 +66,6 @@ class AppleMusicDrmCallback(
         request: ExoMediaDrm.KeyRequest
     ): ByteArray {
         val t0 = System.currentTimeMillis()
-        Log.d(LOG_TAG, "DrmCallback: license request starting")
 
         val challengeB64 = Base64.encodeToString(request.data, Base64.NO_WRAP)
         val resolvedKeyUri = keyUriProvider()
@@ -59,40 +77,34 @@ class AppleMusicDrmCallback(
             put("isLibrary", false)
             put("user-initiated", true)
         }
-        val bodyBytes = jsonBody.toString().toByteArray()
-        Log.d(LOG_TAG, "DrmCallback: challenge built in ${System.currentTimeMillis() - t0}ms, body=${bodyBytes.size} bytes")
+        val bodyBytes = jsonBody.toString()
+
+        Log.d(LOG_TAG, "DrmCallback: sending license request (${bodyBytes.length} bytes)")
+
+        val requestBuilder = Request.Builder()
+            .url(licenseUrl)
+            .post(bodyBytes.toRequestBody(JSON_MEDIA_TYPE))
+
+        for ((key, value) in headers) {
+            requestBuilder.addHeader(key, value)
+        }
 
         val t1 = System.currentTimeMillis()
-        val connection = URL(licenseUrl).openConnection() as HttpURLConnection
-        connection.requestMethod = "POST"
-        connection.doOutput = true
-        connection.connectTimeout = 15_000
-        connection.readTimeout = 120_000
-        connection.setRequestProperty("Content-Type", "application/json")
-        for ((key, value) in headers) {
-            connection.setRequestProperty(key, value)
-        }
-        Log.d(LOG_TAG, "DrmCallback: connection opened in ${System.currentTimeMillis() - t1}ms")
+        val response = httpClient.newCall(requestBuilder.build()).execute()
+        val responseTime = System.currentTimeMillis() - t1
 
-        val t2 = System.currentTimeMillis()
-        connection.outputStream.use { it.write(bodyBytes) }
-        Log.d(LOG_TAG, "DrmCallback: request body sent in ${System.currentTimeMillis() - t2}ms")
+        Log.d(LOG_TAG, "DrmCallback: HTTP ${response.code} in ${responseTime}ms")
 
-        val t3 = System.currentTimeMillis()
-        val responseCode = connection.responseCode
-        Log.d(LOG_TAG, "DrmCallback: response code $responseCode received in ${System.currentTimeMillis() - t3}ms")
-
-        if (responseCode != 200) {
-            val errorBody = try {
-                connection.errorStream?.bufferedReader()?.readText() ?: ""
-            } catch (e: Exception) { "" }
-            Log.e(LOG_TAG, "DrmCallback: license server returned $responseCode: ${errorBody.take(200)}")
-            throw RuntimeException("License request failed with HTTP $responseCode")
+        if (response.code != 200) {
+            val errorBody = response.body?.string()?.take(200) ?: ""
+            Log.e(LOG_TAG, "DrmCallback: license server error: $errorBody")
+            response.close()
+            throw RuntimeException("License request failed with HTTP ${response.code}")
         }
 
-        val t4 = System.currentTimeMillis()
-        val responseBody = connection.inputStream.bufferedReader().readText()
-        Log.d(LOG_TAG, "DrmCallback: response body read in ${System.currentTimeMillis() - t4}ms, total=${System.currentTimeMillis() - t0}ms")
+        val responseBody = response.body?.string() ?: ""
+        response.close()
+        Log.d(LOG_TAG, "DrmCallback: license acquired, total=${System.currentTimeMillis() - t0}ms")
 
         val responseJson = JSONObject(responseBody)
         val licenseB64 = when {
@@ -106,7 +118,6 @@ class AppleMusicDrmCallback(
             }
         }
 
-        Log.d(LOG_TAG, "DrmCallback: license acquired, total=${System.currentTimeMillis() - t0}ms")
         return Base64.decode(licenseB64, Base64.DEFAULT)
     }
 }
