@@ -57,14 +57,12 @@ class AppleMusicStreamResolver {
 
   Future<void> _prewarmConnections() async {
     try {
-      // Touch both hosts to establish TLS sessions.
-      // HEAD requests are lightweight; we don't care about the response.
       await Future.wait([
         _dio.head<void>(
           'https://aod-ssl.itunes.apple.com/',
           options: Options(
             headers: _buildHeaders(),
-            validateStatus: (_) => true, // Accept any status
+            validateStatus: (_) => true,
             receiveTimeout: const Duration(seconds: 30),
           ),
         ),
