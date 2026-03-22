@@ -86,6 +86,18 @@ class _LauschiAppState extends ConsumerState<LauschiApp>
   }
 
   @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    if (state == AppLifecycleState.resumed && FeatureFlags.enableAppleMusic) {
+      // Re-warm TLS connections when the app comes back to foreground.
+      // OkHttp's connection pool may have evicted connections during
+      // idle/background time. This ensures playback starts fast even
+      // after the tablet was idle for a while.
+      ref.read(appleMusicSessionProvider.notifier).prewarmConnections();
+    }
+  }
+
+  @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
     unawaited(_linkSub?.cancel());

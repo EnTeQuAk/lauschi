@@ -163,4 +163,12 @@ class AppleMusicSession extends _$AppleMusicSession {
       musicUserToken: musicUserToken,
     );
   }
+
+  /// Re-warm TLS connections to Apple's servers. Call on app resume
+  /// from background so connections are ready when the kid taps play.
+  void prewarmConnections() {
+    if (state is! AppleMusicAuthenticated) return;
+    final auth = state as AppleMusicAuthenticated;
+    unawaited(_musicKit.setMusicUserToken(auth.musicUserToken));
+  }
 }
