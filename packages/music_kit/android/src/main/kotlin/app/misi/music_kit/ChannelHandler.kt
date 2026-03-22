@@ -77,14 +77,24 @@ class ChannelHandler(
   init {
     val appInfo = applicationContext.packageManager
       .getApplicationInfo(applicationContext.packageName, PackageManager.GET_META_DATA)
-    val teamId = appInfo.metaData.getString(METADATA_KEY_TEAMID)!!
-    val keyId = appInfo.metaData.getString(METADATA_KEY_KEYID)!!
-    val key = appInfo.metaData.getString(METADATA_KEY_KEY)!!
+    val teamId = appInfo.metaData.getString(METADATA_KEY_TEAMID) ?: ""
+    val keyId = appInfo.metaData.getString(METADATA_KEY_KEYID) ?: ""
+    val key = appInfo.metaData.getString(METADATA_KEY_KEY) ?: ""
 
-    Log.d(LOG_TAG,"init teamId: $teamId keyId: $keyId")
+    Log.d(LOG_TAG,"init teamId: $teamId keyId: $keyId key=${if (key.isNotBlank()) "${key.length} chars" else "MISSING"}")
 
-    val apiToken = AppleDeveloperToken(key, keyId, teamId)
-    developerToken = apiToken.toString()
+    if (key.isNotBlank() && teamId.isNotBlank() && keyId.isNotBlank()) {
+      try {
+        val apiToken = AppleDeveloperToken(key, keyId, teamId)
+        developerToken = apiToken.toString()
+      } catch (e: Exception) {
+        Log.e(LOG_TAG, "Failed to generate developer token", e)
+        developerToken = ""
+      }
+    } else {
+      Log.w(LOG_TAG, "MusicKit credentials missing, Apple Music will be unavailable")
+      developerToken = ""
+    }
 
     val token = applicationContext.getSharedPreferences(PREFERENCES_FILE_KEY, Context.MODE_PRIVATE)?.getString(
       PREFERENCES_KEY_MUSIC_USER_TOKEN, null)
