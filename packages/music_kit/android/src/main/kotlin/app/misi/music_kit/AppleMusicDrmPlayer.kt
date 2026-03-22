@@ -63,30 +63,29 @@ class AppleMusicDrmPlayer(private val context: Context) {
         val httpDataSourceFactory = DefaultHttpDataSource.Factory()
             .setDefaultRequestProperties(headers)
 
-        // Track the rewriting DataSource so we can extract the key URI
-        // after the playlist is loaded.
-        var rewriteSource: HlsMethodRewriteDataSource? = null
-        val rewritingDataSourceFactoryWithRef = DataSource.Factory {
-            val ds = HlsMethodRewriteDataSource(httpDataSourceFactory.createDataSource())
-            rewriteSource = ds
-            ds
+        // Thread-safe holder for the key URI extracted from the HLS playlist.
+        // The rewrite DataSource sets this when it parses the playlist;
+        // the DRM callback reads it when sending the license request.
+        val keyUriHolder = java.util.concurrent.atomic.AtomicReference("")
+
+        val rewritingDataSourceFactory = DataSource.Factory {
+            HlsMethodRewriteDataSource(httpDataSourceFactory.createDataSource(), keyUriHolder)
         }
 
         // Custom DRM callback that wraps Widevine challenges in Apple's
-        // expected JSON format. The callback lazily reads the key URI from
-        // the rewrite DataSource (available after playlist is parsed).
+        // expected JSON format.
         val drmCallback = AppleMusicDrmCallback(
             licenseUrl = licenseUrl,
             headers = headers,
             songId = songId,
-            keyUriProvider = { rewriteSource?.lastKeyUri ?: "" },
+            keyUriProvider = { keyUriHolder.get() },
         )
         val drmSessionManager = DefaultDrmSessionManager.Builder()
             .setUuidAndExoMediaDrmProvider(C.WIDEVINE_UUID, FrameworkMediaDrm.DEFAULT_PROVIDER)
             .build(drmCallback)
 
         // HLS media source with the rewriting data source and DRM session.
-        val hlsMediaSourceFactory = HlsMediaSource.Factory(rewritingDataSourceFactoryWithRef)
+        val hlsMediaSourceFactory = HlsMediaSource.Factory(rewritingDataSourceFactory)
             .setDrmSessionManagerProvider { drmSessionManager }
 
         val mediaItem = MediaItem.fromUri(Uri.parse(hlsUrl))

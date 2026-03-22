@@ -47,7 +47,9 @@ class AppleMusicDrmCallback(
         // Wrap the Widevine challenge in Apple's expected JSON format.
         val challengeB64 = Base64.encodeToString(request.data, Base64.NO_WRAP)
         val resolvedKeyUri = keyUriProvider()
-        Log.d(LOG_TAG, "DrmCallback: songId=$songId keyUri=${resolvedKeyUri.take(60)}")
+        Log.d(LOG_TAG, "DrmCallback: songId=$songId keyUri=${resolvedKeyUri.take(80)}")
+        Log.d(LOG_TAG, "DrmCallback: challenge length=${request.data.size} bytes")
+        // adamId must be a string in the JSON (matching music.apple.com's format).
         val jsonBody = JSONObject().apply {
             put("challenge", challengeB64)
             put("key-system", "com.widevine.alpha")
@@ -56,6 +58,7 @@ class AppleMusicDrmCallback(
             put("isLibrary", false)
             put("user-initiated", true)
         }
+        Log.d(LOG_TAG, "DrmCallback: body keys=${jsonBody.keys().asSequence().toList()}, uri=${resolvedKeyUri.take(50)}, adamId=$songId")
 
         val connection = URL(licenseUrl).openConnection() as HttpURLConnection
         connection.requestMethod = "POST"

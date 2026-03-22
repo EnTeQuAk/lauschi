@@ -22,18 +22,14 @@ import app.misi.music_kit.util.Constant.LOG_TAG
  * and rewrites both the METHOD and injects the KEYFORMAT attribute.
  */
 class HlsMethodRewriteDataSource(
-    private val upstream: DataSource
+    private val upstream: DataSource,
+    private val keyUriHolder: java.util.concurrent.atomic.AtomicReference<String>,
 ) : DataSource {
 
     private var isPlaylist = false
     private var bufferedData: ByteArray? = null
     private var readOffset = 0
     private var currentUri: Uri? = null
-
-    /// The key URI extracted from the last rewritten EXT-X-KEY tag.
-    /// Used by AppleMusicDrmCallback for the license request.
-    var lastKeyUri: String? = null
-        private set
 
     override fun addTransferListener(transferListener: TransferListener) {
         upstream.addTransferListener(transferListener)
@@ -67,8 +63,9 @@ class HlsMethodRewriteDataSource(
 
             // Extract the key URI from the EXT-X-KEY tag for the license request.
             val uriMatch = Regex("""URI="([^"]+)"""").find(text)
-            lastKeyUri = uriMatch?.groupValues?.get(1)
-            Log.d(LOG_TAG, "HlsRewrite: extracted keyUri=${lastKeyUri?.take(60)}")
+            val extractedUri = uriMatch?.groupValues?.get(1) ?: ""
+            keyUriHolder.set(extractedUri)
+            Log.d(LOG_TAG, "HlsRewrite: extracted keyUri=${extractedUri.take(60)}")
 
             // Rewrite METHOD and inject KEYFORMAT so ExoPlayer identifies
             // the encryption as Widevine DRM and creates a proper DRM session.
