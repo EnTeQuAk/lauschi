@@ -1,5 +1,5 @@
 [tool.bumpver]
-current_version = "v2026.3.29"
+current_version = "v2026.3.30"
 version_pattern = "vYYYY.MM.INC1"
 commit_message = "release {new_version}"
 commit = true
