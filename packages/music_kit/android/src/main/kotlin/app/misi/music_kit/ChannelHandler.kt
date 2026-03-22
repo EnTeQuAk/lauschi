@@ -26,19 +26,7 @@ class ChannelHandler(
     const val DRM_PLAYER_STATE_EVENT_CHANNEL_NAME =
       "plugins.misi.app/music_kit/drm_player_state"
 
-    // Legacy event channel names kept for platform interface compatibility.
-    // The channels are registered but unused (no stream handlers attached).
-    const val MUSIC_PLAYER_STATE_EVENT_CHANNEL_NAME =
-      "plugins.misi.app/music_kit/player_state"
-    const val MUSIC_PLAYER_QUEUE_EVENT_CHANNEL_NAME =
-      "plugins.misi.app/music_kit/player_queue"
-    const val MUSIC_SUBSCRIPTION_EVENT_CHANNEL_NAME =
-      "plugins.misi.app/music_kit/music_subscription"
-
     const val PARAM_DEVELOPER_TOKEN_KEY = "developerToken"
-
-    const val PREFERENCES_FILE_KEY = "plugins.misi.app_music_kit_preferences"
-    const val PREFERENCES_KEY_MUSIC_USER_TOKEN = "musicUserToken"
 
     const val METADATA_KEY_TEAMID = "music_kit.teamId"
     const val METADATA_KEY_KEYID = "music_kit.keyId"
@@ -81,14 +69,9 @@ class ChannelHandler(
       Log.w(LOG_TAG, "MusicKit credentials missing, Apple Music will be unavailable")
     }
 
-    // Restore persisted user token (from previous web auth session).
-    val token = applicationContext.getSharedPreferences(
-      PREFERENCES_FILE_KEY, Context.MODE_PRIVATE,
-    )?.getString(PREFERENCES_KEY_MUSIC_USER_TOKEN, null)
-    if (!token.isNullOrBlank()) {
-      musicUserToken = token
-    }
-
+    // Token is set from Dart via setMusicUserToken() on session restore.
+    // No longer persisted in SharedPreferences (was plaintext, now only
+    // stored in FlutterSecureStorage on the Dart side).
     Log.d(
       LOG_TAG,
       "init musicUserToken: ${musicUserToken?.length ?: 0}",
@@ -327,14 +310,5 @@ class ChannelHandler(
 
   private fun setToken(token: String?) {
     musicUserToken = token
-    persistUserToken(token)
-  }
-
-  private fun persistUserToken(token: String?) {
-    if (!token.isNullOrBlank()) {
-      applicationContext.getSharedPreferences(
-        PREFERENCES_FILE_KEY, Context.MODE_PRIVATE,
-      ).edit().putString(PREFERENCES_KEY_MUSIC_USER_TOKEN, token).apply()
-    }
   }
 }

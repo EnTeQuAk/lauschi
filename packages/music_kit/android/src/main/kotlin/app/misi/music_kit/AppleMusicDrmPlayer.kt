@@ -42,7 +42,6 @@ class AppleMusicDrmPlayer(private val context: Context) {
         developerToken: String,
         musicUserToken: String,
         songId: String = "",
-        startIndex: Int = 0,
         startPositionMs: Long = 0
     ) {
         release()
@@ -153,12 +152,8 @@ class AppleMusicDrmPlayer(private val context: Context) {
     fun resume() { exoPlayer?.play() }
     fun stop() { exoPlayer?.stop() }
     fun seekTo(positionMs: Long) { exoPlayer?.seekTo(positionMs) }
-    fun seekToNext() { exoPlayer?.seekToNextMediaItem() }
-    fun seekToPrevious() { exoPlayer?.seekToPreviousMediaItem() }
     val currentPosition: Long get() = exoPlayer?.currentPosition ?: 0
     val duration: Long get() = exoPlayer?.duration?.coerceAtLeast(0) ?: 0
-    val isPlaying: Boolean get() = exoPlayer?.isPlaying ?: false
-    val currentIndex: Int get() = exoPlayer?.currentMediaItemIndex ?: 0
 
     fun release() {
         exoPlayer?.release()

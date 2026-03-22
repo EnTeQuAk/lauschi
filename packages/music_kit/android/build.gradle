@@ -5,7 +5,7 @@ buildscript {
    ext {
        agp_version = '8.7.3'
        kotlin_version = '1.8.22'
-       ktor_version= '2.3.13'
+
    }
 
     repositories {
@@ -16,7 +16,7 @@ buildscript {
     dependencies {
         classpath "com.android.tools.build:gradle:$agp_version"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath "org.jetbrains.kotlin:kotlin-serialization:$kotlin_version"
+
     }
 }
 
@@ -30,7 +30,7 @@ allprojects {
 
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlinx-serialization'
+
 
 android {
     namespace 'app.misi.music_kit'
@@ -79,15 +79,9 @@ android {
 }
 
 dependencies {
-    implementation "io.ktor:ktor-client-core:$ktor_version"
-    implementation "io.ktor:ktor-client-cio:$ktor_version"
-    implementation "io.ktor:ktor-client-content-negotiation:$ktor_version"
-    implementation "io.ktor:ktor-serialization-kotlinx-json:$ktor_version"
-    implementation "io.ktor:ktor-client-logging:$ktor_version"
-
+    // musickitauth: native Apple Music auth UI (requestUserToken,
+    // requestAuthorizationStatus). Used alongside our web auth flow.
     implementation 'com.github.misiio:musickitauth:1.1.2'
-    // mediaplayback:1.1.1 removed — was only used by MediaPlayerController
-    // (Apple's native SDK, abandoned due to 5-10 min startup delay).
 
     // ExoPlayer/Media3 for Apple Music HLS + Widevine DRM playback.
     // Version must match just_audio's media3 version to avoid conflicts.
