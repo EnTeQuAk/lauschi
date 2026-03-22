@@ -43,6 +43,7 @@ class AppleMusicPlayer extends PlayerBackend {
   StreamSubscription<Map<String, dynamic>>? _drmStateSub;
 
   TrackInfo? _currentTrack;
+  String? _albumArtworkUrl;
   int _durationMs = 0;
   int _positionMs = 0;
   bool _isPlaying = false;
@@ -51,6 +52,9 @@ class AppleMusicPlayer extends PlayerBackend {
 
   // Track metadata for the album.
   final _tracks = <AppleMusicTrack>[];
+
+  /// Guard against spurious trackEnded during manual track transitions.
+  bool _isAdvancing = false;
 
   @override
   Stream<PlaybackState> get stateStream => _stateController.stream;
@@ -72,6 +76,7 @@ class AppleMusicPlayer extends PlayerBackend {
     int positionMs = 0,
   }) async {
     _currentTrack = trackInfo;
+    _albumArtworkUrl = trackInfo.artworkUrl;
     Log.info(
       _tag,
       'Playing',
@@ -124,13 +129,23 @@ class AppleMusicPlayer extends PlayerBackend {
   Future<void> nextTrack() async {
     // TODO(#231): use ExoPlayer ConcatenatingMediaSource for gapless playback
     if (!hasNextTrack) return;
-    await _playTrackAtIndex(_trackIndex + 1);
+    _isAdvancing = true;
+    try {
+      await _playTrackAtIndex(_trackIndex + 1);
+    } finally {
+      _isAdvancing = false;
+    }
   }
 
   @override
   Future<void> prevTrack() async {
     if (_trackIndex <= 0) return;
-    await _playTrackAtIndex(_trackIndex - 1);
+    _isAdvancing = true;
+    try {
+      await _playTrackAtIndex(_trackIndex - 1);
+    } finally {
+      _isAdvancing = false;
+    }
   }
 
   @override
@@ -138,6 +153,14 @@ class AppleMusicPlayer extends PlayerBackend {
     await _drmStateSub?.cancel();
     _drmStateSub = null;
     await _stateController.close();
+  }
+
+  Future<void> _advanceToNextTrack() async {
+    try {
+      await _playTrackAtIndex(_trackIndex + 1);
+    } finally {
+      _isAdvancing = false;
+    }
   }
 
   // ── Track playback ──────────────────────────────────────────────────
@@ -175,6 +198,7 @@ class AppleMusicPlayer extends PlayerBackend {
       uri: 'apple_music:track:${track.id}',
       name: track.name,
       artist: track.artistName,
+      artworkUrl: _albumArtworkUrl,
     );
     _durationMs = track.durationMs;
 
@@ -246,40 +270,28 @@ class AppleMusicPlayer extends PlayerBackend {
         _emitState(error: PlayerError.playbackFailed);
 
       case 'trackChanged':
-        final index = (event['index'] as num?)?.toInt() ?? 0;
-        if (index != _trackIndex && index < _tracks.length) {
-          _trackIndex = index;
-          final track = _tracks[index];
-          _currentTrack = TrackInfo(
-            uri: 'apple_music:track:${track.id}',
-            name: track.name,
-            artist: track.artistName,
-          );
-          _durationMs = track.durationMs;
-          Log.info(
-            _tag,
-            'Track changed',
-            data: {
-              'track': track.name,
-              'index': '$_trackIndex',
-              'total': '$_totalTracks',
-            },
-          );
-          _emitState();
-        }
+        // Ignored. Each ExoPlayer instance plays a single MediaItem, so
+        // the native index is always 0. Track index is managed on the
+        // Dart side via _trackIndex. This event will become useful when
+        // we switch to ConcatenatingMediaSource for gapless playback.
+        break;
 
       case 'trackEnded':
+        // Guard against spurious STATE_ENDED from ExoPlayer release()
+        // during track transitions. When _playTrackAtIndex calls
+        // playDrmStream, the old player is released and may fire ENDED.
+        if (_isAdvancing) break;
+
         Log.info(
           _tag,
           'Track ended',
           data: {'index': '$_trackIndex', 'hasNext': '$hasNextTrack'},
         );
         if (hasNextTrack) {
-          // Auto-advance to next track in the album.
-          unawaited(nextTrack());
+          _isAdvancing = true;
+          unawaited(_advanceToNextTrack());
         } else {
-          // Last track finished. Emit final state so PlayerNotifier
-          // can handle album completion (mark heard, auto-advance).
+          // Last track finished.
           _isPlaying = false;
           _emitState();
         }
