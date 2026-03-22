@@ -11,8 +11,6 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
 import org.json.JSONObject
-import java.net.HttpURLConnection
-import java.net.URL
 import java.util.UUID
 import java.util.concurrent.TimeUnit
 
@@ -49,14 +47,14 @@ class AppleMusicDrmCallback(
         request: ExoMediaDrm.ProvisionRequest
     ): ByteArray {
         val t0 = System.currentTimeMillis()
-        Log.d(LOG_TAG, "DrmCallback: provisioning started, url=${request.defaultUrl}")
         val url = request.defaultUrl + "&signedRequest=" + String(request.data)
-        val connection = URL(url).openConnection() as HttpURLConnection
-        connection.requestMethod = "POST"
-        connection.doOutput = true
-        connection.connectTimeout = 15_000
-        connection.readTimeout = 30_000
-        val result = Util.toByteArray(connection.inputStream)
+        Log.d(LOG_TAG, "DrmCallback: provisioning started")
+        val req = Request.Builder().url(url).post(
+            ByteArray(0).toRequestBody(null)
+        ).build()
+        val response = httpClient.newCall(req).execute()
+        val result = response.body?.bytes() ?: ByteArray(0)
+        response.close()
         Log.d(LOG_TAG, "DrmCallback: provisioning done in ${System.currentTimeMillis() - t0}ms")
         return result
     }
