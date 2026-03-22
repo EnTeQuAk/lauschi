@@ -27,6 +27,7 @@ import app.misi.music_kit.util.Constant.LOG_TAG
 class AppleMusicDrmPlayer(private val context: Context) {
 
     private var exoPlayer: ExoPlayer? = null
+    private var playerListener: Player.Listener? = null
     var listener: Listener? = null
 
     interface Listener {
@@ -107,7 +108,7 @@ class AppleMusicDrmPlayer(private val context: Context) {
         // runs in the same process as audio_service's foreground service,
         // which satisfies AudioHardening on release builds.
 
-        player.addListener(object : Player.Listener {
+        val newListener = object : Player.Listener {
             override fun onPlaybackStateChanged(playbackState: Int) {
                 val pos = player.currentPosition
                 val dur = player.duration.coerceAtLeast(0)
@@ -131,7 +132,9 @@ class AppleMusicDrmPlayer(private val context: Context) {
                 Log.e(LOG_TAG, "DrmPlayer: error ${error.errorCode}: ${error.message}", error)
                 listener?.onError("${error.errorCodeName}: ${error.message}", error.errorCode)
             }
-        })
+        }
+        playerListener = newListener
+        player.addListener(newListener)
 
         // Use the HLS factory (with rewriting DataSource) to create the source
         // from the MediaItem (which carries the DRM config).
@@ -156,6 +159,10 @@ class AppleMusicDrmPlayer(private val context: Context) {
     val duration: Long get() = exoPlayer?.duration?.coerceAtLeast(0) ?: 0
 
     fun release() {
+        // Remove listeners BEFORE release to prevent the final STATE_IDLE
+        // callback from pushing the old position to Dart. Without this,
+        // the old track's position leaks into the new track's state.
+        exoPlayer?.removeListener(playerListener)
         exoPlayer?.release()
         exoPlayer = null
     }
