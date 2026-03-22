@@ -47,25 +47,25 @@ class AppleMusicDrmCallback(
          * Call during session restore so connections are ready when user plays.
          */
         fun prewarmConnections() {
-            Thread {
-                try {
-                    val hosts = listOf(
-                        "https://aod-ssl.itunes.apple.com/",
-                        "https://play.itunes.apple.com/",
-                    )
-                    for (host in hosts) {
-                        try {
-                            val req = Request.Builder().url(host).head().build()
-                            httpClient.newCall(req).execute().close()
-                            Log.d(LOG_TAG, "DrmCallback: pre-warmed TLS to $host")
-                        } catch (e: Exception) {
-                            Log.d(LOG_TAG, "DrmCallback: pre-warm to $host failed (non-fatal)")
-                        }
+            // Warm each host on its own thread in parallel.
+            // Sequential warming took ~50s (20s + 30s). Parallel should
+            // complete in ~30s (max of the two).
+            val hosts = listOf(
+                "https://aod-ssl.itunes.apple.com/",
+                "https://play.itunes.apple.com/",
+            )
+            for (host in hosts) {
+                Thread {
+                    try {
+                        val t0 = System.currentTimeMillis()
+                        val req = Request.Builder().url(host).head().build()
+                        httpClient.newCall(req).execute().close()
+                        Log.d(LOG_TAG, "DrmCallback: pre-warmed TLS to $host in ${System.currentTimeMillis() - t0}ms")
+                    } catch (e: Exception) {
+                        Log.d(LOG_TAG, "DrmCallback: pre-warm to $host failed (non-fatal)")
                     }
-                } catch (e: Exception) {
-                    Log.d(LOG_TAG, "DrmCallback: pre-warm thread error (non-fatal)")
-                }
-            }.start()
+                }.start()
+            }
         }
     }
 
