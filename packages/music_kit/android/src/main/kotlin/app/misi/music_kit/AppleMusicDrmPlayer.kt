@@ -31,7 +31,7 @@ class AppleMusicDrmPlayer(private val context: Context) {
 
     interface Listener {
         fun onStateChanged(isPlaying: Boolean, position: Long, duration: Long)
-        fun onError(message: String)
+        fun onError(message: String, errorCode: Int = 0)
         fun onTrackChanged(index: Int)
         fun onTrackEnded()
     }
@@ -111,7 +111,6 @@ class AppleMusicDrmPlayer(private val context: Context) {
                 val pos = player.currentPosition
                 val dur = player.duration.coerceAtLeast(0)
                 val playing = player.isPlaying
-                Log.d(LOG_TAG, "DrmPlayer: state=$playbackState playing=$playing pos=$pos dur=$dur")
                 listener?.onStateChanged(playing, pos, dur)
                 if (playbackState == Player.STATE_ENDED) {
                     Log.d(LOG_TAG, "DrmPlayer: track ended")
@@ -129,7 +128,7 @@ class AppleMusicDrmPlayer(private val context: Context) {
 
             override fun onPlayerError(error: PlaybackException) {
                 Log.e(LOG_TAG, "DrmPlayer: error ${error.errorCode}: ${error.message}", error)
-                listener?.onError("${error.errorCodeName}: ${error.message}")
+                listener?.onError("${error.errorCodeName}: ${error.message}", error.errorCode)
             }
         })
 

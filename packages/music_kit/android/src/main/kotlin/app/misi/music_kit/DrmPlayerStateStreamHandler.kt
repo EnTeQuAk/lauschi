@@ -36,12 +36,13 @@ class DrmPlayerStateStreamHandler : EventChannel.StreamHandler, AppleMusicDrmPla
         )
     }
 
-    override fun onError(message: String) {
-        Log.e(LOG_TAG, "DrmPlayer error forwarded to Dart: $message")
+    override fun onError(message: String, errorCode: Int) {
+        Log.e(LOG_TAG, "DrmPlayer error forwarded to Dart: $message (code=$errorCode)")
         eventSink?.success(
             mapOf(
                 "type" to "error",
                 "message" to message,
+                "errorCode" to errorCode,
             )
         )
     }
