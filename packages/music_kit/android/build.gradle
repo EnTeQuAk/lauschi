@@ -86,7 +86,8 @@ dependencies {
     implementation "io.ktor:ktor-client-logging:$ktor_version"
 
     implementation 'com.github.misiio:musickitauth:1.1.2'
-    implementation 'com.github.misiio:mediaplayback:1.1.1'
+    // mediaplayback:1.1.1 removed — was only used by MediaPlayerController
+    // (Apple's native SDK, abandoned due to 5-10 min startup delay).
 
     // ExoPlayer/Media3 for Apple Music HLS + Widevine DRM playback.
     // Version must match just_audio's media3 version to avoid conflicts.

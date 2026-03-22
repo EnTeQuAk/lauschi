@@ -100,13 +100,13 @@ class AppleMusicPlayer extends PlayerBackend {
   }
 
   @override
-  Future<void> resume() async => _musicKit.drmResume();
+  Future<void> resume() => _musicKit.drmResume();
 
   @override
-  Future<void> pause() async => _musicKit.drmPause();
+  Future<void> pause() => _musicKit.drmPause();
 
   @override
-  Future<void> stop() async => _musicKit.drmStop();
+  Future<void> stop() => _musicKit.drmStop();
 
   @override
   Future<void> seek(int positionMs) async {
