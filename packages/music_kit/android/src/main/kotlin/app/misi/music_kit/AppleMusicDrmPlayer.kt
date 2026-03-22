@@ -2,7 +2,6 @@ package app.misi.music_kit
 
 import android.content.Context
 import android.net.Uri
-import android.support.v4.media.session.MediaSessionCompat
 import android.util.Log
 import androidx.media3.common.AudioAttributes
 import androidx.media3.common.C
@@ -28,7 +27,6 @@ import app.misi.music_kit.util.Constant.LOG_TAG
 class AppleMusicDrmPlayer(private val context: Context) {
 
     private var exoPlayer: ExoPlayer? = null
-    private var mediaSession: MediaSessionCompat? = null
     var listener: Listener? = null
 
     interface Listener {
@@ -101,17 +99,11 @@ class AppleMusicDrmPlayer(private val context: Context) {
             .build()
         Log.d(LOG_TAG, "DrmPlayer: Widevine DRM configured, licenseUrl=${licenseUrl.take(60)}")
 
-        // Create a MediaSession and associate it with the ExoPlayer.
-        // This tells Android the player is a legitimate foreground media
-        // source, preventing AudioHardening from muting the output.
-        // The audio_service package has its own MediaSession for the
-        // notification, but Android allows multiple sessions. Ours just
-        // needs to be active so the audio system trusts us.
-        val session = MediaSessionCompat(context, "AppleMusicDrmPlayer").apply {
-            isActive = true
-        }
-        mediaSession = session
-        Log.d(LOG_TAG, "DrmPlayer: MediaSession created and active")
+        // No standalone MediaSession. audio_service already owns one via
+        // its foreground service. Creating a second session confuses media
+        // routing (Bluetooth, car displays, lock screen). The ExoPlayer
+        // runs in the same process as audio_service's foreground service,
+        // which satisfies AudioHardening on release builds.
 
         player.addListener(object : Player.Listener {
             override fun onPlaybackStateChanged(playbackState: Int) {
@@ -165,8 +157,5 @@ class AppleMusicDrmPlayer(private val context: Context) {
     fun release() {
         exoPlayer?.release()
         exoPlayer = null
-        mediaSession?.isActive = false
-        mediaSession?.release()
-        mediaSession = null
     }
 }
