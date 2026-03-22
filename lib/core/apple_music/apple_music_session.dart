@@ -164,8 +164,9 @@ class AppleMusicSession extends _$AppleMusicSession {
     );
   }
 
-  /// Re-warm TLS connections to Apple's servers. Call on app resume
-  /// from background so connections are ready when the kid taps play.
+  /// Re-warm TLS connections to Apple's servers. Called on app resume
+  /// from background (screen on after idle, app foregrounded after switch).
+  /// Connections may have been evicted during idle/Doze.
   void prewarmConnections() {
     if (state is! AppleMusicAuthenticated) return;
     final auth = state as AppleMusicAuthenticated;

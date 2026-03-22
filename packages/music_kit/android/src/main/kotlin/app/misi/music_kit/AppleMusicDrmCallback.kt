@@ -39,9 +39,11 @@ class AppleMusicDrmCallback(
             .readTimeout(30, TimeUnit.SECONDS)
             .writeTimeout(10, TimeUnit.SECONDS)
             // Keep TLS connections alive for 15 minutes (default is 5).
-            // Kids may browse for a while before tapping play. Without
-            // this, the pre-warmed connections get evicted and the first
-            // request is a cold 20s TLS handshake again.
+            // The tablet may sit idle between episodes (screen off, kid
+            // takes a break). Without this, the pre-warmed connections
+            // get evicted and the next play is a cold 20s TLS handshake.
+            // The app re-warms on resume from background (lifecycle event),
+            // but longer keep-alive reduces the chance of a cold start.
             .connectionPool(ConnectionPool(5, 15, TimeUnit.MINUTES))
             .build()
 

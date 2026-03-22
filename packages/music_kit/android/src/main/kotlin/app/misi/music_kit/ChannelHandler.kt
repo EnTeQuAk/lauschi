@@ -202,8 +202,8 @@ class ChannelHandler(
     Log.d(LOG_TAG, "setMusicUserToken: ${token.length} chars")
     setToken(token)
     // Pre-warm TLS connections to Apple's servers in the background.
-    // First TLS handshake takes 20-50s on some devices; by warming up
-    // now, the connections are ready when the user taps play.
+    // First TLS handshake takes 20-30s on some devices. Called on
+    // session restore (app start) and on app resume (after idle/background).
     AppleMusicDrmCallback.prewarmConnections()
     result.success(null)
   }
