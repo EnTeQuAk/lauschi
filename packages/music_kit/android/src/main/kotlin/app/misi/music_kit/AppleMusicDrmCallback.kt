@@ -7,6 +7,7 @@ import androidx.media3.exoplayer.drm.ExoMediaDrm
 import androidx.media3.exoplayer.drm.MediaDrmCallback
 import app.misi.music_kit.util.Constant.LOG_TAG
 import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.ConnectionPool
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
@@ -37,6 +38,11 @@ class AppleMusicDrmCallback(
             .connectTimeout(10, TimeUnit.SECONDS)
             .readTimeout(30, TimeUnit.SECONDS)
             .writeTimeout(10, TimeUnit.SECONDS)
+            // Keep TLS connections alive for 15 minutes (default is 5).
+            // Kids may browse for a while before tapping play. Without
+            // this, the pre-warmed connections get evicted and the first
+            // request is a cold 20s TLS handshake again.
+            .connectionPool(ConnectionPool(5, 15, TimeUnit.MINUTES))
             .build()
 
         private val JSON_MEDIA_TYPE = "application/json; charset=utf-8".toMediaType()
