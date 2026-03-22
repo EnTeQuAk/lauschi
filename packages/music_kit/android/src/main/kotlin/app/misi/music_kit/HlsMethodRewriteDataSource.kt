@@ -30,6 +30,11 @@ class HlsMethodRewriteDataSource(
     private var readOffset = 0
     private var currentUri: Uri? = null
 
+    /// The key URI extracted from the last rewritten EXT-X-KEY tag.
+    /// Used by AppleMusicDrmCallback for the license request.
+    var lastKeyUri: String? = null
+        private set
+
     override fun addTransferListener(transferListener: TransferListener) {
         upstream.addTransferListener(transferListener)
     }
@@ -59,6 +64,12 @@ class HlsMethodRewriteDataSource(
         if (text.trimStart().startsWith("#EXTM3U") && text.contains("ISO-23001-7")) {
             isPlaylist = true
             Log.d(LOG_TAG, "HlsRewrite: patching ISO-23001-7 → SAMPLE-AES-CTR + KEYFORMAT")
+
+            // Extract the key URI from the EXT-X-KEY tag for the license request.
+            val uriMatch = Regex("""URI="([^"]+)"""").find(text)
+            lastKeyUri = uriMatch?.groupValues?.get(1)
+            Log.d(LOG_TAG, "HlsRewrite: extracted keyUri=${lastKeyUri?.take(60)}")
+
             // Rewrite METHOD and inject KEYFORMAT so ExoPlayer identifies
             // the encryption as Widevine DRM and creates a proper DRM session.
             val rewritten = text.replace(

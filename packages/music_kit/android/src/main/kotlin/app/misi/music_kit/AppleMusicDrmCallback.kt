@@ -23,7 +23,7 @@ class AppleMusicDrmCallback(
     private val licenseUrl: String,
     private val headers: Map<String, String>,
     private val songId: String = "",
-    private val keyUri: String = "",
+    private val keyUriProvider: () -> String = { "" },
 ) : MediaDrmCallback {
 
     override fun executeProvisionRequest(
@@ -46,10 +46,12 @@ class AppleMusicDrmCallback(
 
         // Wrap the Widevine challenge in Apple's expected JSON format.
         val challengeB64 = Base64.encodeToString(request.data, Base64.NO_WRAP)
+        val resolvedKeyUri = keyUriProvider()
+        Log.d(LOG_TAG, "DrmCallback: songId=$songId keyUri=${resolvedKeyUri.take(60)}")
         val jsonBody = JSONObject().apply {
             put("challenge", challengeB64)
             put("key-system", "com.widevine.alpha")
-            put("uri", keyUri)
+            put("uri", resolvedKeyUri)
             put("adamId", songId)
             put("isLibrary", false)
             put("user-initiated", true)

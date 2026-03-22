@@ -63,24 +63,30 @@ class AppleMusicDrmPlayer(private val context: Context) {
         val httpDataSourceFactory = DefaultHttpDataSource.Factory()
             .setDefaultRequestProperties(headers)
 
-        val rewritingDataSourceFactory = DataSource.Factory {
-            HlsMethodRewriteDataSource(httpDataSourceFactory.createDataSource())
+        // Track the rewriting DataSource so we can extract the key URI
+        // after the playlist is loaded.
+        var rewriteSource: HlsMethodRewriteDataSource? = null
+        val rewritingDataSourceFactoryWithRef = DataSource.Factory {
+            val ds = HlsMethodRewriteDataSource(httpDataSourceFactory.createDataSource())
+            rewriteSource = ds
+            ds
         }
 
         // Custom DRM callback that wraps Widevine challenges in Apple's
-        // expected JSON format. Apple's license server rejects raw binary
-        // Widevine requests (HTTP 500).
+        // expected JSON format. The callback lazily reads the key URI from
+        // the rewrite DataSource (available after playlist is parsed).
         val drmCallback = AppleMusicDrmCallback(
             licenseUrl = licenseUrl,
             headers = headers,
             songId = songId,
+            keyUriProvider = { rewriteSource?.lastKeyUri ?: "" },
         )
         val drmSessionManager = DefaultDrmSessionManager.Builder()
             .setUuidAndExoMediaDrmProvider(C.WIDEVINE_UUID, FrameworkMediaDrm.DEFAULT_PROVIDER)
             .build(drmCallback)
 
         // HLS media source with the rewriting data source and DRM session.
-        val hlsMediaSourceFactory = HlsMediaSource.Factory(rewritingDataSourceFactory)
+        val hlsMediaSourceFactory = HlsMediaSource.Factory(rewritingDataSourceFactoryWithRef)
             .setDrmSessionManagerProvider { drmSessionManager }
 
         val mediaItem = MediaItem.fromUri(Uri.parse(hlsUrl))
