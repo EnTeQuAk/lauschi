@@ -79,8 +79,22 @@ class AppleMusicDrmCallback(
 
         // Parse the JSON response and extract the base64 license.
         val responseBody = connection.inputStream.bufferedReader().readText()
+        Log.d(LOG_TAG, "DrmCallback: response (${responseBody.length} chars): ${responseBody.take(300)}")
+
         val responseJson = JSONObject(responseBody)
-        val licenseB64 = responseJson.getString("license")
+
+        // Apple may return the license under different keys.
+        val licenseB64 = when {
+            responseJson.has("license") -> responseJson.getString("license")
+            responseJson.has("License") -> responseJson.getString("License")
+            responseJson.has("ckc") -> responseJson.getString("ckc")
+            else -> {
+                // Log all keys for debugging.
+                val keys = responseJson.keys().asSequence().toList()
+                Log.e(LOG_TAG, "DrmCallback: no license in response. Keys: $keys")
+                throw RuntimeException("No license field in response. Keys: $keys")
+            }
+        }
 
         Log.d(LOG_TAG, "DrmCallback: license received (${licenseB64.length} chars)")
         return Base64.decode(licenseB64, Base64.DEFAULT)
