@@ -191,6 +191,9 @@ class HlsMethodRewriteDataSource(
          *   N bytes: WidevinePsshData protobuf
          */
         fun buildWidevinePssh(keyId: ByteArray): ByteArray {
+            require(keyId.isNotEmpty() && keyId.size <= 127) {
+                "Invalid key ID size: ${keyId.size} (expected 1-127, typically 16)"
+            }
             val protobuf = ByteArray(2 + 2 + keyId.size)
             protobuf[0] = 0x08  // field 1 tag (varint)
             protobuf[1] = 0x01  // AESCTR = 1

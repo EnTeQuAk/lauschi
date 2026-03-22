@@ -131,7 +131,7 @@ class AppleMusicPlayer extends PlayerBackend {
   @override
   Future<void> nextTrack() async {
     // TODO(#231): use ExoPlayer ConcatenatingMediaSource for gapless playback
-    if (!hasNextTrack) return;
+    if (!hasNextTrack || _isAdvancing) return;
     _isAdvancing = true;
     try {
       await _playTrackAtIndex(_trackIndex + 1);
@@ -142,7 +142,7 @@ class AppleMusicPlayer extends PlayerBackend {
 
   @override
   Future<void> prevTrack() async {
-    if (_trackIndex <= 0) return;
+    if (_trackIndex <= 0 || _isAdvancing) return;
     _isAdvancing = true;
     try {
       await _playTrackAtIndex(_trackIndex - 1);

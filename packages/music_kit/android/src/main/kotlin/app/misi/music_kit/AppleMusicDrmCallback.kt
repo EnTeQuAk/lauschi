@@ -80,8 +80,12 @@ class AppleMusicDrmCallback(
             ByteArray(0).toRequestBody(null)
         ).build()
         val response = httpClient.newCall(req).execute()
-        // body.bytes() closes the body internally; response.close() is a
-        // defensive no-op ensuring the connection is returned to the pool.
+        if (!response.isSuccessful) {
+            val errorBody = response.body?.string()?.take(200) ?: ""
+            response.close()
+            Log.e(LOG_TAG, "DrmCallback: provisioning failed HTTP ${response.code}: $errorBody")
+            throw RuntimeException("Widevine provisioning failed: HTTP ${response.code}")
+        }
         val result = response.body?.bytes() ?: ByteArray(0)
         response.close()
         Log.d(LOG_TAG, "DrmCallback: provisioning done in ${System.currentTimeMillis() - t0}ms")

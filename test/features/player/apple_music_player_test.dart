@@ -221,6 +221,38 @@ void main() {
       expect(playing.last.durationMs, 90000);
     });
 
+    test('nextTrack at last track is a no-op', () async {
+      when(() => mockApi.getAlbumTracks(any())).thenAnswer(
+        (_) async => [_twoTracks.first], // Only 1 track = no next.
+      );
+      when(() => mockResolver.resolveStream('s1')).thenAnswer(
+        (_) async => const StreamResolution(
+          hlsUrl: 'https://example.com/hls',
+          licenseUrl: 'https://example.com/lic',
+        ),
+      );
+
+      await player.play(
+        albumId: 'album-1',
+        trackInfo: const TrackInfo(uri: 'test:uri', name: 'Test'),
+      );
+
+      expect(player.hasNextTrack, false);
+      await player.nextTrack();
+
+      // playDrmStream called only once (initial play, not a second time).
+      verify(
+        () => mockMusicKit.playDrmStream(
+          hlsUrl: any(named: 'hlsUrl'),
+          licenseUrl: any(named: 'licenseUrl'),
+          developerToken: any(named: 'developerToken'),
+          musicUserToken: any(named: 'musicUserToken'),
+          songId: any(named: 'songId'),
+          startPositionMs: any(named: 'startPositionMs'),
+        ),
+      ).called(1);
+    });
+
     test('dispose cancels DRM state subscription', () async {
       await player.dispose();
       // Adding events after dispose should not throw.
