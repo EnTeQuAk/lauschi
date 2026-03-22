@@ -56,34 +56,29 @@ class ChannelHandler(
   // ExoPlayer-based DRM player for HLS streams.
   private var drmPlayer: AppleMusicDrmPlayer? = null
 
-  private lateinit var developerToken: String
+  // Credentials read from AndroidManifest metadata at init. Used to
+  // generate developer tokens on demand (not cached, regenerated each call).
+  private var teamId: String = ""
+  private var keyId: String = ""
+  private var privateKey: String = ""
   private var musicUserToken: String? = null
 
   init {
     val appInfo = applicationContext.packageManager
       .getApplicationInfo(applicationContext.packageName, PackageManager.GET_META_DATA)
-    val teamId = appInfo.metaData.getString(METADATA_KEY_TEAMID) ?: ""
-    val keyId = appInfo.metaData.getString(METADATA_KEY_KEYID) ?: ""
-    val key = appInfo.metaData.getString(METADATA_KEY_KEY) ?: ""
+    teamId = appInfo.metaData.getString(METADATA_KEY_TEAMID) ?: ""
+    keyId = appInfo.metaData.getString(METADATA_KEY_KEYID) ?: ""
+    privateKey = appInfo.metaData.getString(METADATA_KEY_KEY) ?: ""
 
     Log.d(
       LOG_TAG,
       "init teamId: $teamId keyId: $keyId key=${
-        if (key.isNotBlank()) "${key.length} chars" else "MISSING"
+        if (privateKey.isNotBlank()) "${privateKey.length} chars" else "MISSING"
       }",
     )
 
-    if (key.isNotBlank() && teamId.isNotBlank() && keyId.isNotBlank()) {
-      try {
-        val apiToken = AppleDeveloperToken(key, keyId, teamId)
-        developerToken = apiToken.toString()
-      } catch (e: Exception) {
-        Log.e(LOG_TAG, "Failed to generate developer token", e)
-        developerToken = ""
-      }
-    } else {
+    if (privateKey.isBlank() || teamId.isBlank() || keyId.isBlank()) {
       Log.w(LOG_TAG, "MusicKit credentials missing, Apple Music will be unavailable")
-      developerToken = ""
     }
 
     // Restore persisted user token (from previous web auth session).
@@ -96,7 +91,7 @@ class ChannelHandler(
 
     Log.d(
       LOG_TAG,
-      "init developerToken: ${developerToken.length} musicUserToken: ${musicUserToken?.length ?: 0}",
+      "init musicUserToken: ${musicUserToken?.length ?: 0}",
     )
   }
 
@@ -171,7 +166,7 @@ class ChannelHandler(
       return
     }
 
-    if (!this::developerToken.isInitialized || developerToken.isBlank()) {
+    if (privateKey.isBlank()) {
       result.error(
         ERR_NOT_INITIALIZED,
         "Developer token not initialized",
@@ -181,7 +176,7 @@ class ChannelHandler(
     }
 
     val startScreenMessage = call.argument<String?>("startScreenMessage")
-    activityDispatcher.showAuthActivity(developerToken, startScreenMessage) { token, error ->
+    activityDispatcher.showAuthActivity(generateDeveloperToken(), startScreenMessage) { token, error ->
       if (error != null) {
         result.error(ERR_REQUEST_USER_TOKEN, error.toString(), null)
       } else {
@@ -194,7 +189,23 @@ class ChannelHandler(
   @Keep
   @Suppress("unused", "UNUSED_PARAMETER")
   fun requestDeveloperToken(call: MethodCall, result: MethodChannel.Result) {
-    result.success(developerToken)
+    result.success(generateDeveloperToken())
+  }
+
+  /// Generate a fresh developer token JWT. Called on every
+  /// requestDeveloperToken() so the token never expires during
+  /// long-running sessions (a kids tablet left on for months).
+  /// ECDSA signing is fast (~1ms), no reason to cache.
+  private fun generateDeveloperToken(): String {
+    if (privateKey.isBlank() || teamId.isBlank() || keyId.isBlank()) {
+      return ""
+    }
+    return try {
+      AppleDeveloperToken(privateKey, keyId, teamId).toString()
+    } catch (e: Exception) {
+      Log.e(LOG_TAG, "Failed to generate developer token", e)
+      ""
+    }
   }
 
   @Keep
@@ -217,15 +228,15 @@ class ChannelHandler(
       return
     }
 
-    val developerToken = call.argument<String>(PARAM_DEVELOPER_TOKEN_KEY)
-    if (developerToken.isNullOrBlank()) {
-      result.error(ERR_REQUEST_USER_TOKEN, null, null)
+    val devToken = call.argument<String>(PARAM_DEVELOPER_TOKEN_KEY)
+        ?: generateDeveloperToken()
+    if (devToken.isBlank()) {
+      result.error(ERR_REQUEST_USER_TOKEN, "No developer token", null)
       return
     }
 
     val startScreenMessage = call.argument<String?>("startScreenMessage")
-    this.developerToken = developerToken
-    activityDispatcher.showAuthActivity(developerToken, startScreenMessage) { token, error ->
+    activityDispatcher.showAuthActivity(devToken, startScreenMessage) { token, error ->
       if (error != null) {
         result.error(ERR_REQUEST_USER_TOKEN, error.toString(), null)
       } else {
@@ -250,7 +261,8 @@ class ChannelHandler(
   fun playDrmStream(call: MethodCall, result: MethodChannel.Result) {
     val hlsUrl = call.argument<String>("hlsUrl")
     val licenseUrl = call.argument<String>("licenseUrl") ?: ""
-    val devToken = call.argument<String>("developerToken") ?: developerToken
+    val devToken = call.argument<String>("developerToken")
+      ?: generateDeveloperToken()
     val userToken = call.argument<String>("musicUserToken") ?: ""
 
     if (hlsUrl.isNullOrBlank() || userToken.isBlank()) {
