@@ -72,7 +72,7 @@ class AppleMusicDrmCallback(
     override fun executeProvisionRequest(
         uuid: UUID,
         request: ExoMediaDrm.ProvisionRequest
-    ): ByteArray {
+    ): MediaDrmCallback.Response {
         val t0 = System.currentTimeMillis()
         val url = request.defaultUrl + "&signedRequest=" + String(request.data)
         Log.d(LOG_TAG, "DrmCallback: provisioning started")
@@ -83,13 +83,13 @@ class AppleMusicDrmCallback(
         val result = response.body?.bytes() ?: ByteArray(0)
         response.close()
         Log.d(LOG_TAG, "DrmCallback: provisioning done in ${System.currentTimeMillis() - t0}ms")
-        return result
+        return MediaDrmCallback.Response(result)
     }
 
     override fun executeKeyRequest(
         uuid: UUID,
         request: ExoMediaDrm.KeyRequest
-    ): ByteArray {
+    ): MediaDrmCallback.Response {
         val t0 = System.currentTimeMillis()
 
         val challengeB64 = Base64.encodeToString(request.data, Base64.NO_WRAP)
@@ -143,6 +143,6 @@ class AppleMusicDrmCallback(
             }
         }
 
-        return Base64.decode(licenseB64, Base64.DEFAULT)
+        return MediaDrmCallback.Response(Base64.decode(licenseB64, Base64.DEFAULT))
     }
 }
