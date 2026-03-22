@@ -411,12 +411,14 @@ class PlayerNotifier extends _$PlayerNotifier {
       Log.error(_tag, 'Play failed', exception: e);
       state = state.copyWith(
         error: PlayerError.playbackFailed,
+        isLoading: false,
       );
-    } finally {
-      if (_playGen == gen) {
-        state = state.copyWith(isLoading: false);
-      }
     }
+    // Note: isLoading is NOT cleared here in a finally block.
+    // For Apple Music, the EventChannel listener clears it when isPlaying
+    // becomes true (the DRM pipeline runs asynchronously after play() returns).
+    // For Spotify/ARD, play() blocks until audio starts, so isLoading is
+    // cleared by the state listener receiving the first playing event.
   }
 
   // ─── Backend command dispatch ────────────────────────────────────────
