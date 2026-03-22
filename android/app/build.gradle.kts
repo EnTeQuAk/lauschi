@@ -59,7 +59,12 @@ android {
                 .replace("\n", "")
                 .trim()
         } else {
-            System.getenv("APPLE_MUSIC_KEY") ?: ""
+            (System.getenv("APPLE_MUSIC_KEY") ?: "")
+                .replace("-----BEGIN PRIVATE KEY-----", "")
+                .replace("-----END PRIVATE KEY-----", "")
+                .replace("\n", "")
+                .replace("\\n", "")
+                .trim()
         }
         manifestPlaceholders["musicKitTeamId"] = "QDF8U52UF4"
         manifestPlaceholders["musicKitKeyId"] = "PWHK2R76T9"
