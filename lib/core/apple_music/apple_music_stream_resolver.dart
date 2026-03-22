@@ -21,9 +21,14 @@ class AppleMusicAuthExpiredException implements Exception {
 
 /// Resolves Apple Music song IDs to playable HLS stream URLs.
 ///
-/// Uses Apple's webPlayback endpoint (same as music.apple.com web player).
-/// This is an undocumented internal API. The DRM is legitimate: device
-/// Widevine CDM, Apple's own license server, real subscriber tokens.
+/// Uses Apple's webPlayback endpoint:
+///   POST https://play.music.apple.com/WebObjects/MZPlay.woa/wa/webPlayback
+///
+/// IMPORTANT: This is an undocumented internal Apple API (same endpoint
+/// used by music.apple.com's web player). Apple could change the response
+/// format, add rate limiting, or require additional headers without notice.
+/// The DRM usage is legitimate: device's Widevine CDM, Apple's own license
+/// server, authenticated subscriber tokens. No keys are extracted or leaked.
 class AppleMusicStreamResolver {
   AppleMusicStreamResolver()
     : _dio = Dio(

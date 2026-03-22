@@ -80,6 +80,8 @@ class AppleMusicDrmCallback(
             ByteArray(0).toRequestBody(null)
         ).build()
         val response = httpClient.newCall(req).execute()
+        // body.bytes() closes the body internally; response.close() is a
+        // defensive no-op ensuring the connection is returned to the pool.
         val result = response.body?.bytes() ?: ByteArray(0)
         response.close()
         Log.d(LOG_TAG, "DrmCallback: provisioning done in ${System.currentTimeMillis() - t0}ms")

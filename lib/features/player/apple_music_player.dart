@@ -10,16 +10,18 @@ import 'package:music_kit/music_kit.dart';
 
 const _tag = 'AppleMusicPlayer';
 
-/// Plays Apple Music content via ExoPlayer with Widevine DRM.
+/// Plays Apple Music content via a custom ExoPlayer in the music_kit plugin.
 ///
-/// Resolves song IDs to HLS stream URLs via Apple's webPlayback endpoint,
-/// then plays them through a native ExoPlayer configured with Widevine
-/// DRM and Apple's license server. The HLS playlist method tag is rewritten
-/// from ISO-23001-7 to SAMPLE-AES-CTR so ExoPlayer's parser can handle it.
+/// Pipeline:
+///   1. Resolves song IDs to HLS stream URLs via Apple's webPlayback API
+///      (undocumented internal endpoint, same as music.apple.com web player)
+///   2. Native ExoPlayer (Kotlin) plays HLS with Widevine DRM
+///   3. HLS playlist rewritten: ISO-23001-7 → SAMPLE-AES-CTR + KEYFORMAT
+///      + proper PSSH box (Apple's format vs what ExoPlayer expects)
+///   4. Custom DRM callback wraps Widevine challenge in Apple's JSON protocol
 ///
-/// State updates come via EventChannel (push from native ExoPlayer), not
-/// via polling. This gives real-time position, immediate seek feedback,
-/// and proper track completion detection.
+/// State updates via EventChannel (push from native ExoPlayer).
+/// Track index managed on Dart side (each ExoPlayer instance plays one track).
 class AppleMusicPlayer extends PlayerBackend {
   AppleMusicPlayer({
     required AppleMusicStreamResolver streamResolver,
@@ -258,7 +260,15 @@ class AppleMusicPlayer extends PlayerBackend {
 
       case 'error':
         final message = event['message'] as String? ?? 'Unknown error';
-        Log.error(_tag, 'DRM player error', data: {'message': message});
+        // TODO(#232): use errorCode to differentiate DRM license expired,
+        // network errors (retryable), and content errors (not retryable).
+        // The native side sends errorCode in the event map.
+        final errorCode = event['errorCode'] as int? ?? 0;
+        Log.error(
+          _tag,
+          'DRM player error',
+          data: {'message': message, 'errorCode': '$errorCode'},
+        );
         _isPlaying = false;
         _emitState(error: PlayerError.playbackFailed);
 

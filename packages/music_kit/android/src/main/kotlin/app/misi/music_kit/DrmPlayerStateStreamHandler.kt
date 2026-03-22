@@ -5,12 +5,13 @@ import app.misi.music_kit.util.Constant.LOG_TAG
 import io.flutter.plugin.common.EventChannel
 
 /**
- * Forwards DRM player state changes from [AppleMusicDrmPlayer.Listener]
- * to Flutter via an [EventChannel].
+ * Forwards DRM ExoPlayer state changes to Flutter via [EventChannel].
  *
- * Replaces the 500ms position polling in AppleMusicPlayer.dart with
- * push-based state updates. Same pattern as PlayerStateStreamHandler
- * (used for the legacy MediaPlayerController).
+ * Events are maps sent via `eventSink.success()` (not `error()`) with
+ * a `type` discriminator. The Dart side parses the type in
+ * `AppleMusicPlayer._onDrmStateEvent`. Using `success()` for all event
+ * types (including errors) is the standard Flutter EventChannel pattern
+ * for typed payloads.
  */
 class DrmPlayerStateStreamHandler : EventChannel.StreamHandler, AppleMusicDrmPlayer.Listener {
 
