@@ -144,11 +144,17 @@ class AppleMusicPlayer extends PlayerBackend {
 
   Future<void> _playTrackAtIndex(int index, {int positionMs = 0}) async {
     if (index < 0 || index >= _tracks.length) return;
+    final sw = Stopwatch()..start();
 
     final track = _tracks[index];
     StreamResolution? resolution;
     try {
       resolution = await _streamResolver.resolveStream(track.id);
+      Log.info(
+        _tag,
+        'Stream resolved',
+        data: {'ms': '${sw.elapsedMilliseconds}'},
+      );
     } on AppleMusicAuthExpiredException catch (e) {
       Log.warn(
         _tag,
@@ -182,6 +188,11 @@ class AppleMusicPlayer extends PlayerBackend {
     );
 
     try {
+      Log.info(
+        _tag,
+        'Calling playDrmStream',
+        data: {'ms': '${sw.elapsedMilliseconds}'},
+      );
       await _musicKit.playDrmStream(
         hlsUrl: resolution.hlsUrl,
         licenseUrl: resolution.licenseUrl,
@@ -190,8 +201,11 @@ class AppleMusicPlayer extends PlayerBackend {
         songId: track.id,
         startPositionMs: positionMs,
       );
-      // Don't set _isPlaying = true here. The EventChannel will push
-      // the confirmed playing state from ExoPlayer.
+      Log.info(
+        _tag,
+        'playDrmStream returned',
+        data: {'ms': '${sw.elapsedMilliseconds}'},
+      );
     } on Exception catch (e) {
       Log.error(_tag, 'DRM playback failed', exception: e);
       _isPlaying = false;

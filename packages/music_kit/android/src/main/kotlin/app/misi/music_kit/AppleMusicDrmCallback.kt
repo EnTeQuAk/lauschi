@@ -16,8 +16,7 @@ import java.util.UUID
  *
  * Apple's license endpoint expects a JSON request body with the Widevine
  * challenge base64-encoded, plus metadata fields. The response is also JSON
- * with the license in a `license` field. ExoPlayer's default
- * HttpMediaDrmCallback sends raw binary, which Apple rejects with HTTP 500.
+ * with the license in a `license` field.
  */
 class AppleMusicDrmCallback(
     private val licenseUrl: String,
@@ -30,24 +29,28 @@ class AppleMusicDrmCallback(
         uuid: UUID,
         request: ExoMediaDrm.ProvisionRequest
     ): ByteArray {
-        // Widevine L3 provisioning (if needed). Standard HTTP POST.
+        val t0 = System.currentTimeMillis()
+        Log.d(LOG_TAG, "DrmCallback: provisioning started, url=${request.defaultUrl}")
         val url = request.defaultUrl + "&signedRequest=" + String(request.data)
         val connection = URL(url).openConnection() as HttpURLConnection
         connection.requestMethod = "POST"
         connection.doOutput = true
-        return Util.toByteArray(connection.inputStream)
+        connection.connectTimeout = 15_000
+        connection.readTimeout = 30_000
+        val result = Util.toByteArray(connection.inputStream)
+        Log.d(LOG_TAG, "DrmCallback: provisioning done in ${System.currentTimeMillis() - t0}ms")
+        return result
     }
 
     override fun executeKeyRequest(
         uuid: UUID,
         request: ExoMediaDrm.KeyRequest
     ): ByteArray {
-        Log.d(LOG_TAG, "DrmCallback: sending license request to $licenseUrl")
+        val t0 = System.currentTimeMillis()
+        Log.d(LOG_TAG, "DrmCallback: license request starting")
 
-        // Wrap the Widevine challenge in Apple's expected JSON format.
         val challengeB64 = Base64.encodeToString(request.data, Base64.NO_WRAP)
         val resolvedKeyUri = keyUriProvider()
-        // adamId must be a string in the JSON (matching music.apple.com's format).
         val jsonBody = JSONObject().apply {
             put("challenge", challengeB64)
             put("key-system", "com.widevine.alpha")
@@ -56,22 +59,29 @@ class AppleMusicDrmCallback(
             put("isLibrary", false)
             put("user-initiated", true)
         }
+        val bodyBytes = jsonBody.toString().toByteArray()
+        Log.d(LOG_TAG, "DrmCallback: challenge built in ${System.currentTimeMillis() - t0}ms, body=${bodyBytes.size} bytes")
 
-
+        val t1 = System.currentTimeMillis()
         val connection = URL(licenseUrl).openConnection() as HttpURLConnection
         connection.requestMethod = "POST"
         connection.doOutput = true
+        connection.connectTimeout = 15_000
+        connection.readTimeout = 120_000
         connection.setRequestProperty("Content-Type", "application/json")
-
-        // Add auth headers.
         for ((key, value) in headers) {
             connection.setRequestProperty(key, value)
         }
+        Log.d(LOG_TAG, "DrmCallback: connection opened in ${System.currentTimeMillis() - t1}ms")
 
-        // Send the JSON request.
-        connection.outputStream.use { it.write(jsonBody.toString().toByteArray()) }
+        val t2 = System.currentTimeMillis()
+        connection.outputStream.use { it.write(bodyBytes) }
+        Log.d(LOG_TAG, "DrmCallback: request body sent in ${System.currentTimeMillis() - t2}ms")
 
+        val t3 = System.currentTimeMillis()
         val responseCode = connection.responseCode
+        Log.d(LOG_TAG, "DrmCallback: response code $responseCode received in ${System.currentTimeMillis() - t3}ms")
+
         if (responseCode != 200) {
             val errorBody = try {
                 connection.errorStream?.bufferedReader()?.readText() ?: ""
@@ -80,26 +90,23 @@ class AppleMusicDrmCallback(
             throw RuntimeException("License request failed with HTTP $responseCode")
         }
 
-        // Parse the JSON response and extract the base64 license.
+        val t4 = System.currentTimeMillis()
         val responseBody = connection.inputStream.bufferedReader().readText()
-        Log.d(LOG_TAG, "DrmCallback: license response received")
+        Log.d(LOG_TAG, "DrmCallback: response body read in ${System.currentTimeMillis() - t4}ms, total=${System.currentTimeMillis() - t0}ms")
 
         val responseJson = JSONObject(responseBody)
-
-        // Apple may return the license under different keys.
         val licenseB64 = when {
             responseJson.has("license") -> responseJson.getString("license")
             responseJson.has("License") -> responseJson.getString("License")
             responseJson.has("ckc") -> responseJson.getString("ckc")
             else -> {
-                // Log all keys for debugging.
                 val keys = responseJson.keys().asSequence().toList()
                 Log.e(LOG_TAG, "DrmCallback: no license in response. Keys: $keys")
                 throw RuntimeException("No license field in response. Keys: $keys")
             }
         }
 
-        Log.d(LOG_TAG, "DrmCallback: license received (${licenseB64.length} chars)")
+        Log.d(LOG_TAG, "DrmCallback: license acquired, total=${System.currentTimeMillis() - t0}ms")
         return Base64.decode(licenseB64, Base64.DEFAULT)
     }
 }
