@@ -74,6 +74,8 @@ class AppleMusicSession extends _$AppleMusicSession {
       if (webTokens != null) {
         final devToken = await _musicKit.requestDeveloperToken();
         _configure(devToken, webTokens.musicUserToken, webTokens.storefront);
+        // Pass token to native side to trigger TLS pre-warming.
+        unawaited(_musicKit.setMusicUserToken(webTokens.musicUserToken));
         state = AppleMusicAuthenticated(
           developerToken: devToken,
           musicUserToken: webTokens.musicUserToken,
