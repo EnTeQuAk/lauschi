@@ -61,6 +61,7 @@ class AppleMusicSession extends _$AppleMusicSession {
 
   // ── Public accessors ────────────────────────────────────────────────
 
+  MusicKit get musicKit => _musicKit;
   AppleMusicApi get api => _api;
   AppleMusicStreamResolver get streamResolver => _streamResolver;
   AppleMusicWebAuth get webAuth => _webAuth;

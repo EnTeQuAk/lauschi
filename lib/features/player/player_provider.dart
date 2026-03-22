@@ -17,7 +17,6 @@ import 'package:lauschi/features/player/player_state.dart';
 import 'package:lauschi/features/player/spotify_player.dart';
 import 'package:lauschi/features/player/spotify_webview_bridge.dart';
 import 'package:lauschi/features/player/stream_player.dart';
-import 'package:music_kit/music_kit.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
 
@@ -698,7 +697,7 @@ class PlayerNotifier extends _$PlayerNotifier {
     final player = AppleMusicPlayer(
       streamResolver: amSession.streamResolver,
       api: amSession.api,
-      musicKit: MusicKit(),
+      musicKit: amSession.musicKit,
       developerToken: auth.developerToken,
       musicUserToken: auth.musicUserToken,
     );

@@ -81,13 +81,13 @@
     // Persist auth state across the Apple login redirect so we can
     // recover it when Apple sends the user back to this page.
     if (developerToken && state) {
-      localStorage.setItem('lauschi_dev_token', developerToken);
-      localStorage.setItem('lauschi_auth_state', state);
+      sessionStorage.setItem('lauschi_dev_token', developerToken);
+      sessionStorage.setItem('lauschi_auth_state', state);
     }
 
     // Recover state from before the redirect (second page load).
-    var savedDevToken = localStorage.getItem('lauschi_dev_token');
-    var savedState = localStorage.getItem('lauschi_auth_state');
+    var savedDevToken = sessionStorage.getItem('lauschi_dev_token');
+    var savedState = sessionStorage.getItem('lauschi_auth_state');
 
     function setStatus(text, cls) {
       var el = document.getElementById('status');
@@ -95,8 +95,8 @@
     }
 
     function cleanup() {
-      localStorage.removeItem('lauschi_dev_token');
-      localStorage.removeItem('lauschi_auth_state');
+      sessionStorage.removeItem('lauschi_dev_token');
+      sessionStorage.removeItem('lauschi_auth_state');
     }
 
     function redirectToApp(queryParams) {
