@@ -10,6 +10,15 @@ class StreamResolution {
   final String licenseUrl;
 }
 
+/// Thrown when the webPlayback API rejects the request due to auth issues.
+/// The session should transition to Unauthenticated so the UI prompts re-auth.
+class AppleMusicAuthExpiredException implements Exception {
+  const AppleMusicAuthExpiredException(this.message);
+  final String message;
+  @override
+  String toString() => 'AppleMusicAuthExpiredException: $message';
+}
+
 /// Resolves Apple Music song IDs to playable HLS stream URLs.
 ///
 /// Uses Apple's webPlayback endpoint (same as music.apple.com web player).
@@ -49,13 +58,27 @@ class AppleMusicStreamResolver {
   /// Resolve a song ID to a playable stream.
   ///
   /// Returns the HLS playlist URL and license server URL, or null
-  /// if the song can't be resolved.
+  /// if the song can't be resolved. Retries once on transient errors.
+  /// Throws [AppleMusicAuthExpiredException] if the token is invalid.
   Future<StreamResolution?> resolveStream(String songId) async {
     if (_developerToken == null || _musicUserToken == null) {
       Log.warn(_tag, 'Not configured');
       return null;
     }
 
+    // Single retry for transient errors (503, network timeout).
+    for (var attempt = 0; attempt < 2; attempt++) {
+      final result = await _resolveStreamOnce(songId);
+      if (result != null) return result;
+      if (attempt == 0) {
+        Log.info(_tag, 'Retrying stream resolve for $songId');
+        await Future<void>.delayed(const Duration(seconds: 1));
+      }
+    }
+    return null;
+  }
+
+  Future<StreamResolution?> _resolveStreamOnce(String songId) async {
     try {
       final response = await _dio.post<Map<String, dynamic>>(
         'https://play.music.apple.com/WebObjects/MZPlay.woa/wa/webPlayback',
@@ -76,6 +99,14 @@ class AppleMusicStreamResolver {
       if (failureType != null) {
         final msg = data['customerMessage'] as String? ?? failureType;
         Log.warn(_tag, 'webPlayback failed', data: {'failure': msg});
+        // Auth-related failures: token expired, unauthorized, etc.
+        if (failureType.contains('AUTH') ||
+            failureType.contains('UNAUTHORIZED') ||
+            failureType.contains('TOKEN') ||
+            msg.contains('not authorized') ||
+            msg.contains('authenticate')) {
+          throw AppleMusicAuthExpiredException(msg);
+        }
         return null;
       }
 
@@ -115,12 +146,21 @@ class AppleMusicStreamResolver {
 
       Log.info(_tag, 'Resolved stream', data: {'songId': songId});
       return StreamResolution(hlsUrl: streamUrl, licenseUrl: licenseUrl);
+    } on AppleMusicAuthExpiredException {
+      rethrow;
     } on DioException catch (e) {
+      final status = e.response?.statusCode;
       Log.error(
         _tag,
         'Stream resolve failed',
-        data: {'songId': songId, 'status': '${e.response?.statusCode}'},
+        data: {'songId': songId, 'status': '$status'},
       );
+      // HTTP 401/403 = token expired or revoked.
+      if (status == 401 || status == 403) {
+        throw AppleMusicAuthExpiredException(
+          'HTTP $status from webPlayback',
+        );
+      }
       return null;
     }
   }

@@ -141,7 +141,18 @@ class AppleMusicPlayer extends PlayerBackend {
     if (index < 0 || index >= _tracks.length) return;
 
     final track = _tracks[index];
-    final resolution = await _streamResolver.resolveStream(track.id);
+    StreamResolution? resolution;
+    try {
+      resolution = await _streamResolver.resolveStream(track.id);
+    } on AppleMusicAuthExpiredException catch (e) {
+      Log.warn(
+        _tag,
+        'Auth expired during stream resolve',
+        data: {'error': '$e'},
+      );
+      _emitState(error: PlayerError.appleMusicAuthExpired);
+      return;
+    }
     if (resolution == null) {
       Log.warn(_tag, 'Could not resolve stream for track ${track.id}');
       _emitState(error: PlayerError.playbackFailed);
