@@ -54,4 +54,10 @@ class DrmPlayerStateStreamHandler : EventChannel.StreamHandler, AppleMusicDrmPla
             )
         )
     }
+
+    override fun onTrackEnded() {
+        eventSink?.success(
+            mapOf("type" to "trackEnded")
+        )
+    }
 }

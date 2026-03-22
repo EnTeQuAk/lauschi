@@ -730,10 +730,15 @@ class PlayerNotifier extends _$PlayerNotifier {
       track: trackInfo,
     );
 
+    // Resume from saved track position. lastTrackNumber is 1-based in DB;
+    // AppleMusicPlayer.play() expects 0-based trackIndex.
+    final savedTrackIndex =
+        card.lastTrackNumber > 0 ? card.lastTrackNumber - 1 : 0;
+
     await player.play(
       albumId: albumId,
       trackInfo: trackInfo,
-      // TODO(#230): resume from saved track index
+      trackIndex: savedTrackIndex,
       positionMs: card.lastPositionMs,
     );
   }

@@ -90,13 +90,18 @@ class AppleMusicPlayer extends PlayerBackend {
       ..clear()
       ..addAll(tracks);
     _totalTracks = tracks.length;
-    _trackIndex = trackIndex;
+
+    // Clamp saved track index to valid range. If the album's track list
+    // changed since last listen (tracks removed/reordered), fall back to 0.
+    final safeIndex = trackIndex < tracks.length ? trackIndex : 0;
+    final safePosition = safeIndex == trackIndex ? positionMs : 0;
+    _trackIndex = safeIndex;
 
     // Subscribe to native ExoPlayer state via EventChannel.
     _listenToDrmState();
 
-    // Resolve and play the first track.
-    await _playTrackAtIndex(trackIndex, positionMs: positionMs);
+    // Resolve and play the track.
+    await _playTrackAtIndex(safeIndex, positionMs: safePosition);
   }
 
   @override
@@ -246,6 +251,22 @@ class AppleMusicPlayer extends PlayerBackend {
               'total': '$_totalTracks',
             },
           );
+          _emitState();
+        }
+
+      case 'trackEnded':
+        Log.info(
+          _tag,
+          'Track ended',
+          data: {'index': '$_trackIndex', 'hasNext': '$hasNextTrack'},
+        );
+        if (hasNextTrack) {
+          // Auto-advance to next track in the album.
+          unawaited(nextTrack());
+        } else {
+          // Last track finished. Emit final state so PlayerNotifier
+          // can handle album completion (mark heard, auto-advance).
+          _isPlaying = false;
           _emitState();
         }
     }

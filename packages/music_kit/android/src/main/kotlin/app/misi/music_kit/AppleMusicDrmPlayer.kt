@@ -33,6 +33,7 @@ class AppleMusicDrmPlayer(private val context: Context) {
         fun onStateChanged(isPlaying: Boolean, position: Long, duration: Long)
         fun onError(message: String)
         fun onTrackChanged(index: Int)
+        fun onTrackEnded()
     }
 
     fun play(
@@ -112,6 +113,10 @@ class AppleMusicDrmPlayer(private val context: Context) {
                 val playing = player.isPlaying
                 Log.d(LOG_TAG, "DrmPlayer: state=$playbackState playing=$playing pos=$pos dur=$dur")
                 listener?.onStateChanged(playing, pos, dur)
+                if (playbackState == Player.STATE_ENDED) {
+                    Log.d(LOG_TAG, "DrmPlayer: track ended")
+                    listener?.onTrackEnded()
+                }
             }
 
             override fun onIsPlayingChanged(isPlaying: Boolean) {
