@@ -15,14 +15,14 @@ class MusicKitPlugin : FlutterPlugin, ActivityAware {
 
   companion object {
     init {
+      // The mediaplayback AAR (Apple's native SDK) was removed because it
+      // had a 5-10 min startup delay. Playback now uses ExoPlayer + Widevine.
+      // The native libraries (appleMusicSDK, c++_shared) are no longer needed.
+      // If musickitauth still needs native libs, load them non-fatally.
       try {
-        System.setProperty("org.bytedeco.javacpp.maxphysicalbytes", "0")
-        System.setProperty("org.bytedeco.javacpp.maxbytes", "0")
         System.loadLibrary("c++_shared")
-        System.loadLibrary("appleMusicSDK")
-      } catch (e: Exception) {
-        Log.e(LOG_TAG, "Could not load library due to: " + Log.getStackTraceString(e))
-        throw e
+      } catch (e: UnsatisfiedLinkError) {
+        Log.w(LOG_TAG, "c++_shared not available (expected after mediaplayback removal)")
       }
     }
   }
