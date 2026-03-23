@@ -36,7 +36,6 @@ Supports Spotify and Apple Music.
 mise run catalog-discover     # Find missing artist IDs (all providers)
 mise run catalog-validate     # Validate patterns against provider APIs
 mise run catalog-curate       # AI-curate a series (both providers)
-mise run catalog-token        # Generate Apple Music developer token
 mise run catalog-review       # Review AI curation in TUI (legacy script)
 ```
 

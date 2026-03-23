@@ -8,7 +8,7 @@ from lauschi_catalog.commands.discover import discover
 from lauschi_catalog.commands.edit import edit
 from lauschi_catalog.commands.report import report
 from lauschi_catalog.commands.review_tui import review_tui
-from lauschi_catalog.commands.token import token
+
 from lauschi_catalog.commands.validate import validate
 
 
@@ -27,7 +27,6 @@ cli.add_command(discover)
 cli.add_command(edit)
 cli.add_command(report)
 cli.add_command(review_tui)
-cli.add_command(token)
 cli.add_command(validate)
 
 # Lazy-load AI commands (heavy deps)

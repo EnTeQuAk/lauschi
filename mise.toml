@@ -121,10 +121,6 @@ run = "uv run --directory tools lauschi-catalog edit"
 description = "Execute split proposals from AI review"
 run = "uv run --directory tools lauschi-catalog apply-splits"
 
-[tasks.catalog-token]
-description = "Generate Apple Music developer token (JWT, 180 days)"
-run = "uv run --directory tools lauschi-catalog token apple-music"
-
 # ── Full pipeline shortcut ───────────────────────────────────────────
 
 [tasks.catalog-pipeline]
@@ -227,5 +223,4 @@ pymobiledevice3 apps install "$IPA"
 echo "Done."
 """
 
-# apple-music-token and apple-music-discover replaced by catalog-token
-# and catalog-discover respectively.
+# apple-music-discover replaced by catalog-discover.
