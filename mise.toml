@@ -58,8 +58,7 @@ flutter test --dart-define-from-file=.env.app
 
 # ── Catalog tooling (multi-provider) ─────────────────────────────────
 #
-# New commands via lauschi-catalog CLI (tools/ package).
-# Old scripts in scripts/ still work for review TUI and edge cases.
+# All commands via lauschi-catalog CLI (tools/ package).
 
 [tasks.catalog-discover]
 description = "Discover missing artist IDs across all providers"

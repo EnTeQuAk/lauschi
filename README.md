@@ -37,7 +37,7 @@ mise run dev                    # run on connected device
 
 Two env files (both gitignored):
 
-- **`.env`** — Developer keys for scripts/tooling. Loaded by mise. Not passed to Flutter.
+- **`.env`** — Developer keys for tooling. Loaded by mise. Not passed to Flutter.
 - **`.env.app`** — App build config. Passed to Flutter via `--dart-define-from-file`.
 
 `.env.app`:

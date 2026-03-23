@@ -21,7 +21,7 @@
 #     tidal:
 #       artist_id       Tidal artist ID (future)
 #
-# Validated via scripts/validate_catalog.py.
+# Validated via `lauschi-catalog validate` (tools/ package).
 
 series:
 - id: yakari
