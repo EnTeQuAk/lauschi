@@ -122,15 +122,13 @@ class _LauschiAppState extends ConsumerState<LauschiApp>
       ref.watch(appleMusicSessionProvider);
     }
 
-    // Run data migrations once after Spotify auth is established.
-    if (spotifyAuthenticated && !_dataMigrationsRun) {
+    // Run data migrations once on first build.
+    if (!_dataMigrationsRun) {
       _dataMigrationsRun = true;
-      final session = ref.read(spotifySessionProvider.notifier);
       unawaited(
         runDataMigrations(
           DataMigrationContext(
-            cards: ref.read(tileItemRepositoryProvider),
-            api: session.api,
+            items: ref.read(tileItemRepositoryProvider),
           ),
         ),
       );
