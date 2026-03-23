@@ -88,7 +88,7 @@ class AppleMusicSession extends _$AppleMusicSession {
 
   Future<void> _initIos() async {
     // On iOS, check native MusicKit authorization (device-level).
-    final authStatus = await _musicKit.nativeAuthStatus;
+    final authStatus = await _musicKit.authorizationStatus;
     if (authStatus is MusicAuthorizationStatusAuthorized) {
       // MusicKit generates the developer token internally on iOS.
       // We still need it for the catalog API (REST calls).
@@ -143,7 +143,7 @@ class AppleMusicSession extends _$AppleMusicSession {
     try {
       if (Platform.isIOS) {
         // Native MusicKit auth: system popup.
-        final authStatus = await _musicKit.requestNativeAuth();
+        final authStatus = await _musicKit.requestAuthorizationStatus();
         if (authStatus is MusicAuthorizationStatusAuthorized) {
           final devToken = await _musicKit.requestDeveloperToken();
           final storefront = await _musicKit.currentCountryCode.catchError(

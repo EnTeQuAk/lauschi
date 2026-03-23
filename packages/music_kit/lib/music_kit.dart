@@ -75,11 +75,12 @@ class MusicKit {
     'plugins.misi.app/music_kit/drm_player_state',
   );
 
-  /// Stream of DRM player state updates (push from native ExoPlayer).
+  /// Stream of playback state updates (push from native player).
   /// Events are maps with:
   ///   {type: "state", isPlaying: bool, positionMs: int, durationMs: int}
-  ///   {type: "error", message: String}
-  ///   {type: "trackChanged", index: int}
+  ///   {type: "error", message: String, errorCode: int}
+  ///   {type: "trackChanged", songId: String}
+  ///   {type: "trackEnded"}
   Stream<Map<String, dynamic>> get drmPlayerStateStream => _drmStateChannel
       .receiveBroadcastStream()
       .map((event) => Map<String, dynamic>.from(event as Map));
@@ -136,17 +137,4 @@ class MusicKit {
         'ids': ids,
         'startingAt': startingAt,
       });
-
-  /// Native MusicKit auth status. Used on iOS where native auth
-  /// replaces the web auth flow.
-  Future<MusicAuthorizationStatus> get nativeAuthStatus =>
-      _platform.authorizationStatus;
-
-  /// Request native MusicKit authorization. On iOS this shows a system
-  /// popup ("Allow lauschi to access Apple Music?").
-  Future<MusicAuthorizationStatus> requestNativeAuth({
-    String? startScreenMessage,
-  }) => _platform.requestAuthorizationStatus(
-    startScreenMessage: startScreenMessage,
-  );
 }

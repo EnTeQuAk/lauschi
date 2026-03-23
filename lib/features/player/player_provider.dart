@@ -749,21 +749,17 @@ class PlayerNotifier extends _$PlayerNotifier {
     final savedTrackIndex =
         card.lastTrackNumber > 0 ? card.lastTrackNumber - 1 : 0;
 
-    if (player is AppleMusicNativeBackend) {
-      await player.play(
-        albumId: albumId,
-        trackInfo: trackInfo,
-        trackIndex: savedTrackIndex,
-        positionMs: card.lastPositionMs,
-      );
-    } else {
-      await (player as AppleMusicPlayer).play(
-        albumId: albumId,
-        trackInfo: trackInfo,
-        trackIndex: savedTrackIndex,
-        positionMs: card.lastPositionMs,
-      );
-    }
+    // Both backends have the same play() signature.
+    final playFn =
+        player is AppleMusicNativeBackend
+            ? player.play
+            : (player as AppleMusicPlayer).play;
+    await playFn(
+      albumId: albumId,
+      trackInfo: trackInfo,
+      trackIndex: savedTrackIndex,
+      positionMs: card.lastPositionMs,
+    );
   }
 
   // ─── Playback state change handling ─────────────────────────────────

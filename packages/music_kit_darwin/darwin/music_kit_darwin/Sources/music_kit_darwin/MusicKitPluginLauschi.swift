@@ -38,7 +38,7 @@ extension MusicKitPlugin {
     Task {
       do {
         let musicIds = ids.map { MusicItemID($0) }
-        var request = MusicCatalogResourceRequest<Song>(matching: \.id, memberOf: musicIds)
+        let request = MusicCatalogResourceRequest<Song>(matching: \.id, memberOf: musicIds)
         let response = try await request.response()
 
         // Reorder songs to match input ID order. The catalog API
@@ -52,9 +52,11 @@ extension MusicKitPlugin {
         }
 
         let collection = MusicItemCollection(orderedSongs)
-        let startItem = (startingAt != nil && startingAt! < orderedSongs.count)
-          ? orderedSongs[startingAt!]
-          : nil
+        let startItem: Song? = if let idx = startingAt, idx < orderedSongs.count {
+          orderedSongs[idx]
+        } else {
+          nil
+        }
 
         musicPlayer.queue = ApplicationMusicPlayer.Queue(for: collection, startingAt: startItem)
         result(nil)
@@ -108,7 +110,7 @@ extension MusicKitPlugin {
 
     func onCancel(withArguments arguments: Any?) -> FlutterError? {
       // Nil the sink first to prevent the timer's final tick from sending
-      // events to a cancelled Dart stream (sonnet finding #8).
+      // events to a cancelled Dart stream.
       eventSink = nil
       positionTimer?.invalidate()
       positionTimer = nil
