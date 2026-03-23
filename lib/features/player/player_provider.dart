@@ -1,4 +1,5 @@
 import 'dart:async' show StreamSubscription, Timer, unawaited;
+import 'dart:io' show Platform;
 
 import 'package:lauschi/core/apple_music/apple_music_session.dart';
 import 'package:lauschi/core/database/app_database.dart' as db;
@@ -9,6 +10,7 @@ import 'package:lauschi/core/log.dart';
 import 'package:lauschi/core/providers/provider_type.dart';
 import 'package:lauschi/core/spotify/spotify_api.dart';
 import 'package:lauschi/core/spotify/spotify_session.dart';
+import 'package:lauschi/features/player/apple_music_native_backend.dart';
 import 'package:lauschi/features/player/apple_music_player.dart';
 import 'package:lauschi/features/player/media_session_handler.dart';
 import 'package:lauschi/features/player/player_backend.dart';
@@ -694,13 +696,24 @@ class PlayerNotifier extends _$PlayerNotifier {
       return;
     }
 
-    final player = AppleMusicPlayer(
-      streamResolver: amSession.streamResolver,
-      api: amSession.api,
-      musicKit: amSession.musicKit,
-      developerToken: auth.developerToken,
-      musicUserToken: auth.musicUserToken,
-    );
+    // iOS: native MusicKit (ApplicationMusicPlayer). No stream resolution,
+    // no DRM plumbing. MusicKit handles everything internally.
+    // Android: ExoPlayer + Widevine DRM via webPlayback API.
+    final PlayerBackend player;
+    if (Platform.isIOS) {
+      player = AppleMusicNativeBackend(
+        api: amSession.api,
+        musicKit: amSession.musicKit,
+      );
+    } else {
+      player = AppleMusicPlayer(
+        streamResolver: amSession.streamResolver,
+        api: amSession.api,
+        musicKit: amSession.musicKit,
+        developerToken: auth.developerToken,
+        musicUserToken: auth.musicUserToken,
+      );
+    }
 
     if (_playGen != gen) return;
 
@@ -723,7 +736,7 @@ class PlayerNotifier extends _$PlayerNotifier {
     );
 
     // Don't set isPlaying: true here. The EventChannel will push the
-    // confirmed playing state from ExoPlayer. Setting it prematurely
+    // confirmed playing state from native player. Setting it prematurely
     // causes a brief "playing" flash if play() fails.
     state = state.copyWith(
       isReady: true,
@@ -732,16 +745,25 @@ class PlayerNotifier extends _$PlayerNotifier {
     );
 
     // Resume from saved track position. lastTrackNumber is 1-based in DB;
-    // AppleMusicPlayer.play() expects 0-based trackIndex.
+    // play() expects 0-based trackIndex.
     final savedTrackIndex =
         card.lastTrackNumber > 0 ? card.lastTrackNumber - 1 : 0;
 
-    await player.play(
-      albumId: albumId,
-      trackInfo: trackInfo,
-      trackIndex: savedTrackIndex,
-      positionMs: card.lastPositionMs,
-    );
+    if (player is AppleMusicNativeBackend) {
+      await player.play(
+        albumId: albumId,
+        trackInfo: trackInfo,
+        trackIndex: savedTrackIndex,
+        positionMs: card.lastPositionMs,
+      );
+    } else {
+      await (player as AppleMusicPlayer).play(
+        albumId: albumId,
+        trackInfo: trackInfo,
+        trackIndex: savedTrackIndex,
+        positionMs: card.lastPositionMs,
+      );
+    }
   }
 
   // ─── Playback state change handling ─────────────────────────────────
@@ -769,10 +791,17 @@ class PlayerNotifier extends _$PlayerNotifier {
         Log.warn(_tag, 'Wakelock toggle failed', data: {'error': '$e'});
       }),
     );
-    _mediaSession.updateFromAppState(
-      state,
-      hasNextTrack: _active?.backend.hasNextTrack ?? false,
-    );
+    // On iOS, MusicKit's ApplicationMusicPlayer auto-manages the Now Playing
+    // session (lock screen controls, Control Center, AirPlay). Updating
+    // audio_service would fight it. Let MusicKit own the media session.
+    final isIosNativeMusicKit =
+        Platform.isIOS && _active?.backend is AppleMusicNativeBackend;
+    if (!isIosNativeMusicKit) {
+      _mediaSession.updateFromAppState(
+        state,
+        hasNextTrack: _active?.backend.hasNextTrack ?? false,
+      );
+    }
 
     if (newState.isPlaying) {
       _startPositionSave();

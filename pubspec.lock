@@ -754,10 +754,9 @@ packages:
   music_kit_darwin:
     dependency: transitive
     description:
-      name: music_kit_darwin
-      sha256: f995314b9543f804885b9daa1ee749d2a174cb4cd198f652207f387bce9b0253
-      url: "https://pub.dev"
-    source: hosted
+      path: "packages/music_kit_darwin"
+      relative: true
+    source: path
     version: "1.3.0"
   music_kit_platform_interface:
     dependency: transitive

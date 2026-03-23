@@ -12,12 +12,19 @@ export 'package:music_kit_platform_interface/music_kit_platform_interface.dart'
 
 /// Flutter interface to Apple MusicKit.
 ///
-/// On Android, credentials are read from AndroidManifest metadata
-/// (music_kit.teamId, music_kit.keyId, music_kit.key). The plugin
-/// generates the developer JWT on-device.
+/// Two playback paths, same EventChannel format:
 ///
-/// Playback uses a custom ExoPlayer with Widevine DRM for Apple Music
-/// HLS streams. State updates are pushed via EventChannel.
+/// **Android:** Custom ExoPlayer with Widevine DRM. Streams resolved via
+/// Apple's webPlayback API. Methods: playDrmStream, drmPause, drmResume, etc.
+///
+/// **iOS:** Native ApplicationMusicPlayer via MusicKit framework. Queue set
+/// by catalog IDs. Methods: nativePlay, nativePause, setQueueWithStoreIds, etc.
+///
+/// Both push state via `drm_player_state` EventChannel:
+///   {type: "state", isPlaying, positionMs, durationMs}
+///   {type: "trackChanged", songId}
+///   {type: "trackEnded"}
+///   {type: "error", message, errorCode}
 class MusicKit {
   factory MusicKit() {
     _singleton ??= MusicKit._();
@@ -101,4 +108,45 @@ class MusicKit {
   Future<void> drmStop() => _channel.invokeMethod('drmPlayerStop');
   Future<void> drmSeek(int positionMs) =>
       _channel.invokeMethod('drmPlayerSeek', {'positionMs': positionMs});
+
+  // ── Native MusicKit Playback (iOS) ────────────────────────────────
+
+  /// Play via native ApplicationMusicPlayer. Delegates to upstream
+  /// music_kit_darwin methods (play/pause/stop/skip/seek/queue).
+
+  Future<void> nativePlay() => _platform.play();
+  Future<void> nativePause() => _platform.pause();
+  Future<void> nativeStop() => _platform.stop();
+  Future<void> nativePrepareToPlay() => _platform.prepareToPlay();
+  Future<void> nativeSkipToNext() => _platform.skipToNextEntry();
+  Future<void> nativeSkipToPrevious() => _platform.skipToPreviousEntry();
+
+  /// Seek to position in seconds. Added to forked music_kit_darwin.
+  Future<void> nativeSeek(double timeInSeconds) =>
+      _platform.setPlaybackTime(timeInSeconds);
+
+  /// Current playback position in seconds.
+  Future<double> get nativePlaybackTime => _platform.playbackTime;
+
+  /// Set queue by Apple Music catalog song IDs.
+  /// Songs are fetched from the catalog and ordered to match [ids].
+  /// [startingAt] is the 0-based index of the track to start from.
+  Future<void> setQueueWithStoreIds(List<String> ids, {int? startingAt}) =>
+      _channel.invokeMethod('setQueueWithStoreIds', {
+        'ids': ids,
+        'startingAt': startingAt,
+      });
+
+  /// Native MusicKit auth status. Used on iOS where native auth
+  /// replaces the web auth flow.
+  Future<MusicAuthorizationStatus> get nativeAuthStatus =>
+      _platform.authorizationStatus;
+
+  /// Request native MusicKit authorization. On iOS this shows a system
+  /// popup ("Allow lauschi to access Apple Music?").
+  Future<MusicAuthorizationStatus> requestNativeAuth({
+    String? startScreenMessage,
+  }) => _platform.requestAuthorizationStatus(
+    startScreenMessage: startScreenMessage,
+  );
 }
