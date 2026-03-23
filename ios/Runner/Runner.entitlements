@@ -6,7 +6,5 @@
 	<array>
 		<string>TAG</string>
 	</array>
-	<key>com.apple.developer.musickit</key>
-	<true/>
 </dict>
 </plist>
