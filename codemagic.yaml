@@ -39,6 +39,7 @@ workflows:
           cat <<EOF > $CM_BUILD_DIR/.env.app
           ENABLE_SPOTIFY=true
           SPOTIFY_CLIENT_ID=$SPOTIFY_CLIENT_ID
+          ENABLE_APPLE_MUSIC=true
           ENABLE_SENTRY=true
           SENTRY_DSN=$SENTRY_DSN
           SENTRY_ENVIRONMENT=$SENTRY_ENVIRONMENT
@@ -103,6 +104,7 @@ workflows:
           cat <<EOF > $CM_BUILD_DIR/.env.app
           ENABLE_SPOTIFY=false
           SPOTIFY_CLIENT_ID=unused
+          ENABLE_APPLE_MUSIC=true
           ENABLE_SENTRY=false
           SENTRY_DSN=unused
           SENTRY_ENVIRONMENT=production
