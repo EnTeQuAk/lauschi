@@ -173,6 +173,3 @@ void main() {
     });
   });
 }
-
-// Removed addTeardownSafe: stream cancel() is safe to call multiple
-// times and won't throw. Use addTearDown directly.
