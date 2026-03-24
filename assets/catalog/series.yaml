@@ -30717,3 +30717,146 @@ series:
       albums:
       - id: 2iBIZAXOrVHC8YGjSZkBx9
         title: Das Originalhörspiel zum Kinofilm
+- id: detlev_joecker
+  title: Detlev Jöcker
+  keywords:
+  - Detlev Jöcker
+  providers:
+    apple_music:
+      artist_ids:
+      - '42264666'
+    spotify:
+      artist_ids:
+      - 4UiTe5uwHKDUddmV8yQeY4
+- id: stephen_janetzko
+  title: Stephen Janetzko
+  keywords:
+  - Stephen Janetzko
+  providers:
+    apple_music:
+      artist_ids:
+      - '182493885'
+    spotify:
+      artist_ids:
+      - 0HC9OQdqPCCE1WNMetTTmG
+- id: senta
+  title: Senta
+  keywords:
+  - Senta
+  providers:
+    apple_music:
+      artist_ids:
+      - '1622871029'
+    spotify:
+      artist_ids:
+      - 7uVDfCKp96l3xCHFYf39vU
+- id: mira_und_das_fliegende_haus
+  title: Mira und das fliegende Haus
+  keywords:
+  - Mira und das fliegende Haus
+  providers:
+    apple_music:
+      artist_ids:
+      - '1716921195'
+    spotify:
+      artist_ids:
+      - 2095wofkLJPuP7ZmCNwvOS
+- id: reinhard_horn
+  title: Reinhard Horn
+  keywords:
+  - Reinhard Horn
+  providers:
+    apple_music:
+      artist_ids:
+      - '260321820'
+    spotify:
+      artist_ids:
+      - 0yAi20HvvwcrnDFWcVldvI
+- id: herrh
+  title: herrH
+  keywords:
+  - herrH
+  providers:
+    apple_music:
+      artist_ids:
+      - '564171417'
+    spotify:
+      artist_ids:
+      - 2weS8n5DrZpok2Wcf9TRsQ
+- id: nilsen
+  title: Nilsen
+  keywords:
+  - Nilsen
+  providers:
+    apple_music:
+      artist_ids:
+      - '1394730619'
+    spotify:
+      artist_ids:
+      - 13x0bektBEknCM276OqYMn
+- id: mai_cocopelli
+  title: Mai Cocopelli
+  keywords:
+  - Mai Cocopelli
+  providers:
+    apple_music:
+      artist_ids:
+      - '398353575'
+    spotify:
+      artist_ids:
+      - 6c8QYgh9q616gJRI9XF74o
+- id: unter_meinem_bett
+  title: Unter meinem Bett
+  keywords:
+  - Unter meinem Bett
+  providers:
+    apple_music:
+      artist_ids:
+      - '1598604876'
+    spotify:
+      artist_ids:
+      - 7y89sMv0ADqEMEOo2tOIM7
+- id: der_singende_bauernhof
+  title: Der singende Bauernhof
+  keywords:
+  - Der singende Bauernhof
+  providers:
+    apple_music:
+      artist_ids:
+      - '1673954040'
+    spotify:
+      artist_ids:
+      - 1phaLooaZs3k7XOl7mCKeo
+- id: honigkuchenpferde
+  title: Honigkuchenpferde
+  keywords:
+  - Honigkuchenpferde
+  providers:
+    apple_music:
+      artist_ids:
+      - '1703558817'
+    spotify:
+      artist_ids:
+      - 6RZP8NdBwAbrDZnYpdJVcH
+- id: ena_kinderlieder
+  title: Ena Kinderlieder
+  keywords:
+  - Ena Kinderlieder
+  providers:
+    apple_music:
+      artist_ids:
+      - '1815219984'
+    spotify:
+      artist_ids:
+      - 7BWj0quGHpkdSx9HZnD3CN
+- id: marko_simsa
+  title: Marko Simsa
+  keywords:
+  - Marko Simsa
+  providers:
+    apple_music:
+      artist_ids:
+      - '684358517'
+    spotify:
+      artist_ids:
+      - 1VKmmv2A3M54cnh6CW1xMX

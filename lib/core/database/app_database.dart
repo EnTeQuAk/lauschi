@@ -18,7 +18,7 @@ class AppDatabase extends _$AppDatabase {
 
   /// Bump when schema changes. See [migration] for upgrade steps.
   @override
-  int get schemaVersion => 9;
+  int get schemaVersion => 10;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -66,6 +66,18 @@ class AppDatabase extends _$AppDatabase {
           // Removed groups.lastSyncedAt from Dart model — sync state
           // lives exclusively in ShowSubscriptions. No physical column
           // drop needed; SQLite ignores the orphaned column.
+        }
+        if (from < 10) {
+          // Tile nesting: parent_tile_id enables grouping tiles inside
+          // other tiles (e.g. all Senta albums under a "Senta" tile).
+          // Self-referencing FK, nullable (null = root tile on home screen).
+          await m.addColumn(groups, groups.parentTileId);
+          // Index for fast root-tile queries (WHERE parent_tile_id IS NULL)
+          // and child lookups (WHERE parent_tile_id = ?).
+          await customStatement(
+            'CREATE INDEX IF NOT EXISTS idx_groups_parent_tile_id '
+            'ON groups(parent_tile_id)',
+          );
         }
         Log.info('Database', 'Migration complete');
       } on Exception catch (e, stack) {
