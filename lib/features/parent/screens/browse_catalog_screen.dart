@@ -1353,12 +1353,10 @@ class _CatalogSeriesDetailScreenState
 
     try {
       final albumIds = _selected.toList();
-      final total = albumIds.length;
       final providerAlbums = series.albumsForProvider(widget.provider);
 
       // Fetch cover URLs for all selected albums.
       final covers = await source.getAlbumCovers(albumIds);
-      progressNotifier.value = (total, total);
 
       statusNotifier.value = 'Speichere ${series.title}…';
 
@@ -1394,6 +1392,9 @@ class _CatalogSeriesDetailScreenState
         groupCoverUrl: firstCoverUrl,
         cards: cards,
         tileId: widget.autoAssignTileId,
+        onProgress: (done, total) {
+          progressNotifier.value = (done, total);
+        },
       );
 
       Log.info(
