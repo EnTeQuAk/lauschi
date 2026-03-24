@@ -187,43 +187,9 @@ class _StackedArt extends StatelessWidget {
             child: _cover(coverUrl),
           ),
         ),
-        // Content type badge in top-left (hidden in kid mode)
-        if (showBadge)
-          Positioned(
-            left: 6,
-            top: 6,
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
-              decoration: BoxDecoration(
-                color: AppColors.surface.withValues(alpha: 0.88),
-                borderRadius: const BorderRadius.all(AppRadius.pill),
-              ),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Icon(
-                    isMusic
-                        ? Icons.music_note_rounded
-                        : Icons.auto_stories_rounded,
-                    size: 10,
-                    color: AppColors.primary,
-                  ),
-                  if (!isMusic) ...[
-                    const SizedBox(width: 2),
-                    const Text(
-                      'Kachel',
-                      style: TextStyle(
-                        fontFamily: 'Nunito',
-                        fontSize: 9,
-                        fontWeight: FontWeight.w700,
-                        color: AppColors.primary,
-                      ),
-                    ),
-                  ],
-                ],
-              ),
-            ),
-          ),
+        // Content type badge removed — the "Kachel" label was redundant
+        // since the entire manage screen is tiles. Music icon alone wasn't
+        // useful either. Clean cover art reads better.
         // Series progress bar at bottom of top card
         if (progress > 0)
           Positioned(
