@@ -75,6 +75,7 @@ class _DraggableTileGridState extends State<DraggableTileGrid> {
   bool _nestConfirmed = false; // 800ms threshold passed
   Timer? _nestTimer;
   String? _droppedId; // briefly set after drop for settle animation
+  RenderBox? _cachedGridBox; // cached to avoid findRenderObject per frame
 
   // ── Working order (mutated during drag for visual preview) ────────
   late List<DraggableTileItem> _order;
@@ -88,7 +89,7 @@ class _DraggableTileGridState extends State<DraggableTileGrid> {
   @override
   void didUpdateWidget(DraggableTileGrid old) {
     super.didUpdateWidget(old);
-    // Only update if not mid-drag (avoid disrupting the drag visual).
+    _cachedGridBox = null; // layout may have changed
     if (_draggedId == null) {
       _order = List.of(widget.items);
     }
@@ -141,7 +142,9 @@ class _DraggableTileGridState extends State<DraggableTileGrid> {
   // ── Drag callbacks ────────────────────────────────────────────────
 
   void _onDragStart(String id) {
+    if (_draggedId != null) return; // prevent double-start
     unawaited(HapticFeedback.lightImpact());
+    _cachedGridBox = null;
     setState(() {
       _draggedId = id;
       _insertionIndex = null;
@@ -154,7 +157,9 @@ class _DraggableTileGridState extends State<DraggableTileGrid> {
   void _onDragUpdate(DragUpdateDetails details) {
     if (_draggedId == null) return;
 
-    final gridBox = context.findRenderObject() as RenderBox?;
+    // Cache the RenderBox to avoid findRenderObject on every frame.
+    _cachedGridBox ??= context.findRenderObject() as RenderBox?;
+    final gridBox = _cachedGridBox;
     if (gridBox == null) return;
 
     final local = gridBox.globalToLocal(details.globalPosition);
@@ -185,6 +190,7 @@ class _DraggableTileGridState extends State<DraggableTileGrid> {
         _nestTargetId = targetId;
         setState(() {});
         _nestTimer = Timer(_nestHoldDuration, () {
+          if (!mounted) return;
           if (_nestTargetId == targetId && _draggedId != null) {
             setState(() => _nestConfirmed = true);
             unawaited(HapticFeedback.mediumImpact());
@@ -268,11 +274,14 @@ class _DraggableTileGridState extends State<DraggableTileGrid> {
         _cellWidth = (gridWidth - _crossSpacing * (_columns - 1)) / _columns;
         _cellHeight = _cellWidth / _aspectRatio;
 
-        final rowCount = (_order.length + _columns - 1) ~/ _columns;
+        final rowCount =
+            _order.isEmpty ? 0 : (_order.length + _columns - 1) ~/ _columns;
         final totalHeight =
-            rowCount * _cellHeight +
-            (rowCount - 1) * _mainSpacing +
-            AppSpacing.md * 2;
+            rowCount == 0
+                ? 0.0
+                : rowCount * _cellHeight +
+                    (rowCount - 1) * _mainSpacing +
+                    AppSpacing.md * 2;
 
         return SizedBox(
           height: totalHeight,
@@ -349,7 +358,7 @@ class _DraggableTileGridState extends State<DraggableTileGrid> {
               delay: _longPressDuration,
               feedback: const SizedBox.shrink(), // we render our own
               childWhenDragging: Opacity(
-                opacity: 0.3,
+                opacity: 0.4,
                 child: _buildTileContent(item),
               ),
               onDragStarted: () => _onDragStart(item.id),
@@ -365,9 +374,13 @@ class _DraggableTileGridState extends State<DraggableTileGrid> {
   }
 
   Widget _buildDragFeedback() {
-    final item = _order.firstWhere((t) => t.id == _draggedId);
-    final gridBox = context.findRenderObject() as RenderBox?;
-    if (gridBox == null) return const SizedBox.shrink();
+    final item = _order.firstWhere(
+      (t) => t.id == _draggedId,
+      orElse: () => _order.first, // safety fallback
+    );
+    _cachedGridBox ??= context.findRenderObject() as RenderBox?;
+    final gridBox = _cachedGridBox;
+    if (gridBox == null || !gridBox.hasSize) return const SizedBox.shrink();
 
     final local = gridBox.globalToLocal(_dragOffset!);
 
@@ -378,15 +391,16 @@ class _DraggableTileGridState extends State<DraggableTileGrid> {
       height: _cellHeight,
       child: IgnorePointer(
         child: Transform.scale(
-          scale: 1.05,
+          scale: 1.08,
           child: Container(
             decoration: BoxDecoration(
               borderRadius: const BorderRadius.all(AppRadius.card),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withAlpha(50),
-                  blurRadius: 16,
-                  offset: const Offset(0, 6),
+                  color: Colors.black.withAlpha(70),
+                  blurRadius: 20,
+                  spreadRadius: 2,
+                  offset: const Offset(0, 8),
                 ),
               ],
             ),
