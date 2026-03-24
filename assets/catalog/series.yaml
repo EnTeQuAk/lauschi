@@ -25973,11 +25973,9 @@ series:
 - id: raeuber_hotzenplotz
   title: Räuber Hotzenplotz
   aliases:
-  - Räuber Hotzenplotz
   - Der Räuber Hotzenplotz
   keywords:
-  - räuber hotzenplotz
-  - hotzenplotz
+  - Hotzenplotz
   episode_pattern: 'Hörspiele\s+(\d+)'
   providers:
     spotify:
@@ -30725,9 +30723,388 @@ series:
     apple_music:
       artist_ids:
       - '42264666'
+      albums:
+      - id: '1073927310'
+        title: 1,2,3 im Sauseschritt
+      - id: '1183744968'
+        title: 1,2,3 wir singen mit
+      - id: '1073931806'
+        title: Achtung Kinder! Aufgepasst!
+      - id: '1073930754'
+        title: Arabella's Wunderwelt
+      - id: '1073929770'
+        title: Bei uns zu Hause tut sich was
+      - id: '1151808016'
+        title: Bewegte Kinder
+      - id: '1094296699'
+        title: Bitte sehr & danke schön
+      - id: '1183745556'
+        title: Da hat der Himmel die Erde berührt
+      - id: '1183791846'
+        title: Danke, danke, für die Sonne
+      - id: '1183746751'
+        title: Das weiß Professor Superschlau
+      - id: '1183747609'
+        title: Denkt euch nur, der Frosch war krank
+      - id: '1098276470'
+        title: Der Regenbogenfisch - Helfen braucht Mut
+      - id: '1098273798'
+        title: Der Regenbogenfisch - Teilen und Abgeben
+      - id: '1592089363'
+        title: Der Stern von Bethlehem
+      - id: '1134930422'
+        title: Der Weihnachtsstern
+      - id: '1183750471'
+        title: Der kleine Tanzbär Schubidu
+      - id: '1183752759'
+        title: Der singende Delfin
+      - id: '1320998660'
+        title: Dicke Rote Kerzen (Pop-Version) - Single
+      - id: '1654496672'
+        title: Dicke rote Kerzen
+      - id: '1183759484'
+        title: Die Singemaus im Kindergarten
+      - id: '1074035660'
+        title: Ein kleiner Käfer geht spazieren
+      - id: '1183765474'
+        title: Endlich schlafen
+      - id: '1183760158'
+        title: Entdecke deine kleine Welt
+      - id: '1524922476'
+        title: Erde, ich beschütze dich
+      - id: '1183758121'
+        title: Es geht mir gut
+      - id: '1151829573'
+        title: Freut euch, Weihnachtskinder
+      - id: '1615069545'
+        title: Frühlingsspaß & Osterhas' (2022)
+      - id: '1070313099'
+        title: Frühlingsspaß und Osterhas
+      - id: '1086993184'
+        title: Für süße Träume
+      - id: '1183757301'
+        title: Halte zu mir, lieber Gott
+      - id: '1183767664'
+        title: Hoppel der Osterhase
+      - id: '1088858156'
+        title: Hurra, jetzt geht es los!
+      - id: '1079892420'
+        title: Ich bin der kleine Zappelmann
+      - id: '1183772433'
+        title: Ich sing mit dir
+      - id: '1183215700'
+        title: Im KinderLiederKarneval
+      - id: '1606745052'
+        title: Im Kinderliederkarneval (2022)
+      - id: '1183772366'
+        title: Im Kribbel Krabbel Mäusehaus
+      - id: '1576834553'
+        title: Kinderschlummerland
+      - id: '1183773183'
+        title: Kinderträumeland
+      - id: '1134465096'
+        title: Kleine Kerze leuchte
+      - id: '1183774549'
+        title: Kleiner Dodo, was spielst du?
+      - id: '1098471127'
+        title: Kleiner Eisbär, kennst du den Weg?
+      - id: '1151833633'
+        title: Klingelingeling durchs Weihnachtsland
+      - id: '1073927782'
+        title: Komm, du kleiner Racker
+      - id: '1134467272'
+        title: Kommt, wir feiern Weihnachten
+      - id: '1079501072'
+        title: Krabbelzwerge
+      - id: '1504708542'
+        title: Ladies and Gentlemen - Single
+      - id: '1151753953'
+        title: Laternentanz und Lichterglanz
+      - id: '1125982966'
+        title: Learning English by Singing
+      - id: '1070242508'
+        title: Lieber Frühling, lieber Sommer
+      - id: '1136806580'
+        title: Lieber Herbst und lieber Winter
+      - id: '1068521455'
+        title: Lieder Fieber
+      - id: '1151830715'
+        title: Mats und die Wundersteine - Umwelt bewahren
+      - id: '1134474772'
+        title: Mein kleiner Weihnachtskuschelbär
+      - id: '1134461585'
+        title: Meine WeihnachtsZauberwelt
+      - id: '1093136110'
+        title: Mile male mule, ich gehe in die Schule
+      - id: '1860814232'
+        title: Na na na, alle springen (Party Version) - Single
+      - id: '1785660422'
+        title: Na na na, alle springen - Single
+      - id: '1093413587'
+        title: O, du schöne Spielezeit
+      - id: '1668083681'
+        title: Partylieder für die Kinderdisco
+      - id: '1183793505'
+        title: Pop Fieber
+      - id: '1823241361'
+        title: Sanfte Träume - Traditionelle Schlaflieder für Kinder - EP
+      - id: '1134468213'
+        title: Schaurig-schönes Halloween
+      - id: '1074222716'
+        title: Si-Sa-Singemaus
+      - id: '1554303971'
+        title: Singemaus & Affenbande
+      - id: '1134469811'
+        title: Singen und Bewegen in der Weihnachtszeit
+      - id: '1070247949'
+        title: Singen und Bewegen, Vol. 1
+      - id: '1070239966'
+        title: Singen und Bewegen, Vol. 2
+      - id: '1070238550'
+        title: Singen und Bewegen, Vol. 3
+      - id: '1626805121'
+        title: Sommer Kinderlieder (2022)
+      - id: '1117302247'
+        title: Start English with a Song
+      - id: '1183795684'
+        title: Tamusiland
+      - id: '1183822680'
+        title: Tanz mit der Si-Sa-Singemaus
+      - id: '1831480848'
+        title: Tanz mit mir (im Sauseschritt) - Single
+      - id: '1151462163'
+        title: Tim, der kleine Fahrradhelm
+      - id: '1098273106'
+        title: Und weiter geht's im Sauseschritt
+      - id: '1183798221'
+        title: Und wir fliegen durch das All
+      - id: '1183800729'
+        title: Uno, dos, tres - Música En Español
+      - id: '1183806495'
+        title: Viele kleine Streichelhände
+      - id: '1183814827'
+        title: Weihnachten ist nicht mehr weit
+      - id: '1524921774'
+        title: Weihnachtslieder-Klassik
+      - id: '1073936732'
+        title: Weil ich dein helles Lachen mag
+      - id: '1183816567'
+        title: Weißt du, was Glück ist
+      - id: '1108374639'
+        title: Wenn Pinguine watscheln gehn
+      - id: '1526960927'
+        title: Wenn das Bärchen Bauchweh hat
+      - id: '1183817579'
+        title: Willkommen im Tamusiland, Vol. 2
+      - id: '1183820542'
+        title: Wir kleinen Menschenkinder
+      - id: '1073933549'
+        title: Wir sind schwanger - Lieder für werdende Eltern gesungen von Maxi & Philipp
+      - id: '1658075251'
+        title: Wir wollen Frieden (Chor Version) - Single
     spotify:
       artist_ids:
       - 4UiTe5uwHKDUddmV8yQeY4
+      albums:
+      - id: 3cpHmOAsUaWAgNLLwJIc76
+        title: 1,2,3 im Sauseschritt
+      - id: 6GceMcPGXiacE5n8oN87Qv
+        title: 1,2,3 wir singen mit
+      - id: 0wgwx3aHXHFJ2eLUMVtM9Y
+        title: Achtung Kinder! Aufgepasst!
+      - id: 59zJ1Ml5NoDhMUB0fPTPrx
+        title: Advents- und Weihnachtslieder für Kinder (2022)
+      - id: 7gxqI1KZCWmh48aQMXWIiA
+        title: Arabella's Wunderwelt
+      - id: 1YVOCjjsqvZkWqKNUvHj0W
+        title: Bei uns zu Hause tut sich was
+      - id: 5hrFHBf3HE0Qnj3QtpEwN0
+        title: Bewegte Kinder
+      - id: 6veAkspEpUtC3WNLGVawzg
+        title: Bitte sehr & danke schön
+      - id: 3RJ4EHFpQKrv3aaoQA2Gfo
+        title: Da hat der Himmel die Erde berührt
+      - id: 63XB11mkokFdKQnq63VkPk
+        title: Danke, danke, für die Sonne
+      - id: 6Glamyndps5Ron9RRrcIyD
+        title: Das Minimonster - Beatversion
+      - id: 6lXsTVtRFPKbTfIGbFDUma
+        title: Das weiß Professor Superschlau
+      - id: 3Gq3hXX7dTQ2mu1oty4rKU
+        title: Denkt euch nur, der Frosch war krank
+      - id: 029DikZUQus7AGcU2n71tb
+        title: Der Regenbogenfisch - Teilen und Abgeben
+      - id: 3tHn5ZoeDvQhAnyl8I67C8
+        title: Der Stern von Bethlehem
+      - id: 6qiNJSmSZTVd2Rgm0LwChE
+        title: Der Weihnachtsstern
+      - id: 3KTdjXrV3QmufYHaatz35l
+        title: Der kleine Tanzbär Schubidu
+      - id: 0dHw7xG48faWO6RQ1AvDcQ
+        title: Der singende Delfin
+      - id: 0UUfqWlrO0ZV7TaTLW5Jxy
+        title: Detlev Jöckers Kinderlieder (Klavier Versionen)
+      - id: 4GMVGS3edpUx20WLfSGB1D
+        title: Dicke rote Kerzen
+      - id: 7dZC9ui8rGJO0QX36plona
+        title: Die Singemaus im Kindergarten
+      - id: 3PlULb5MDH1i9zD9bKLU9t
+        title: Die schönsten Kinderlieder für die erste Schulzeit
+      - id: 7e6YZspfXCXPXuz2049xmM
+        title: Die schönsten Kinderlieder zu beliebten Hörspielen
+      - id: 0W1asZYOBMnSN0GD2bXwoP
+        title: Die schönsten Schlaflieder und Entspannungsmusiken für Kinder
+      - id: 3MdS0s5UUP8ORhS2o7IfaP
+        title: Die schönsten Spiellieder mit Bewegungen für Kinder
+      - id: 5t8JpN5VAJPLSlFDLvXKVa
+        title: Die schönsten Winter- und Weihnachtslieder für Kinder
+      - id: 04Cp7dE8pnlkFvsfWDXBop
+        title: Die schönsten traditionellen Weihnachtslieder
+      - id: 3hD1kviaNChd8NXdwBLwKf
+        title: Ein kleiner Käfer geht spazieren
+      - id: 2YXzdjEaidqwPaDrG4WR0a
+        title: Endlich schlafen
+      - id: 3GKc7S052MVECsEOlbIaPE
+        title: Entdecke deine Welt
+      - id: 2dPTzN7j0fJ7eXDqQDbg2x
+        title: Erde, ich beschütze dich
+      - id: 4MOnW9g586tR2Y0kXojZLR
+        title: Es geht mir gut
+      - id: 5cavHbALldDN1oivLJEwxp
+        title: Freut euch, Weihnachtskinder
+      - id: 0iBGaJ7nPMBxG2QgiZpurN
+        title: Frühlingsspaß & Osterhas (2022)
+      - id: 5PTzP0cm11j8aze10r6TdQ
+        title: Frühlingsspaß und Osterhas
+      - id: 06230wBe6NqQ9dirAjGeeH
+        title: Für süße Träume
+      - id: 3pFPMlm0jiZ0xPbSb2jpJ7
+        title: Halte zu mir, lieber Gott
+      - id: 5BjHLwRBgIjDrsWrK4t9dG
+        title: Herbstlieder 2022
+      - id: 7JWB865MEv4XDj4LcfQAJs
+        title: Hoppel der Osterhase
+      - id: 3hsocNKo3fd6cfPqmVFFwO
+        title: Hurra, jetzt geht es los!
+      - id: 39mkiB55Se9ioy5CM3WU3a
+        title: Ich bin der kleine Zappelmann
+      - id: 6Xi5NjQLlSfjR20ljfypHd
+        title: Ich sing mit dir
+      - id: 1KDpIRUO6pgA5BKQfbXTY0
+        title: Im KinderLiederKarneval
+      - id: 0bOlPUTRjUDMso5xLvIE8F
+        title: Im Kinderliederkarneval (2022)
+      - id: 1CKuzVYoZkEKIYwTqOM6we
+        title: Im Kribbel Krabbel Mäusehaus
+      - id: 7Fw7IAkuzYxPkrkS7gazVE
+        title: Kinderschlummerland
+      - id: 3Fq1Kn9PRonxQVMGgqH596
+        title: Kinderträumeland
+      - id: 3dIdvDj0jupJpn649HHAGn
+        title: Kleine Kerze leuchte
+      - id: 6bzfTxck52dEZPnw6Ndzdp
+        title: Kleiner Dodo, was spielst du?
+      - id: 1NsPxRtyPuD8HoAM4dV9Gu
+        title: Kleiner Eisbär, kennst du den Weg?
+      - id: 09O4LESjJjiJ64hAWQHGp0
+        title: Klingelingeling durchs Weihnachtsland
+      - id: 3BFKX93w68SvJ5gCgnLp28
+        title: Komm, du kleiner Racker
+      - id: 2y4eDJY7bw1RnM7zaC74ug
+        title: Kommt, wir feiern Weihnachten
+      - id: 1SqiVy77twnDPZaXsc47GN
+        title: Krabbelzwerge
+      - id: 2Od2YAhdJo7x3vh6zDqpfW
+        title: Ladies and Gentlemen
+      - id: 2x6BWT1TKONNtQQYMp7x5G
+        title: Laternentanz und Lichterglanz
+      - id: 2Y6y2l6tYRZORPcKHLKOFm
+        title: Learning English by Singing
+      - id: 071ShsxuqdkJBDX5PFSzrY
+        title: Lieber Frühling, lieber Sommer
+      - id: 23Y8hsjRsDOumW4XuUX1a1
+        title: Lieber Herbst und lieber Winter
+      - id: 2lnspdEh0BymoOv5NsOWMe
+        title: Lieder Fieber
+      - id: 2LXJTHX8yCVBp76nv8nNcz
+        title: Mats und die Wundersteine - Umwelt bewahren
+      - id: 74xyhHFNqsATPQmXRHl9Fn
+        title: Mein kleiner Weihnachtskuschelbär
+      - id: 7JKJ9uKEbhFf24udm2LUHs
+        title: Mein schönster Kindergeburtstag
+      - id: 0VGLhuNRqhGsyN8QNciAzz
+        title: Meine WeihnachtsZauberwelt
+      - id: 0bGHbdwZwaphnFhYEHZDPV
+        title: Meine schönsten Advents- und Weihnachtslieder - Akustisch
+      - id: 1q5oiAC5Pa6Af9TtEia7If
+        title: Meine schönsten Schlaflieder für Kinder
+      - id: 2a1dFckfzyRGZmDviT47zl
+        title: Mile male mule, ich gehe in die Schule
+      - id: 4UanPAS7Od7zKPYJtOIv0B
+        title: Na na na, alle springen
+      - id: 1XsDLCkOn3P8NCXusAPgs9
+        title: Neues aus der Milchzahnstrasse / Neues aus dem Bahnhof Bauch
+      - id: 1ILRI7NQvsU4Gx0Kk7NkSd
+        title: O, du schöne Spielezeit
+      - id: 06PSvI8kPSIP0zckrfrqiu
+        title: Partylieder für die Kinderdisco
+      - id: 6iIiSFdNPbnn05z65BUq7X
+        title: Pop Fieber
+      - id: 5FGQ8dVmuoZsfJuTwFdj9r
+        title: Regenbogenfisch, komm hilf mir!
+      - id: 1gGxM8Hy5yywiKO0j3swm5
+        title: Schaurig-schönes Halloween
+      - id: 4TB2FQjV5oCBNPHpOm5GQf
+        title: Si-Sa-Singemaus
+      - id: 6MzL89ca73D4SrbUMo9je5
+        title: Singemaus & Affenbande
+      - id: 1eshvJZPnKl8RxK3BPaxBP
+        title: Singen und Bewegen in der Weihnachtszeit
+      - id: 6iHzyfaZFrbiQFJY7twoa5
+        title: Singen und Bewegen, Vol. 1
+      - id: 4UZFCHcRkI5kxPeDoYSXft
+        title: Singen und Bewegen, Vol. 2
+      - id: 3M0OO0hYTnLjvjz44xu28d
+        title: Singen und Bewegen, Vol. 3
+      - id: 45juSrTMvJQscyoMJjOmj9
+        title: Sommer Kinderlieder (2022)
+      - id: 2dhq6J44TPaviCMvi7Q93r
+        title: Start English with a Song
+      - id: 3L3R2QLsy1Vx4efDjQruTl
+        title: Tamusiland
+      - id: 6soruTnT7x4sxoS56myGzD
+        title: Tanz mit der Si-Sa-Singemaus
+      - id: 4jbXUxjKz7tSN4VFPAZWsG
+        title: Tim, der kleine Fahrradhelm
+      - id: 23qF6GASVPLAH3o7wsocHy
+        title: Und weiter geht's im Sauseschritt
+      - id: 5OwaMJZR75iHKqYkgu6vr5
+        title: Und wir fliegen durch das All
+      - id: 34LcrCa8kmFc2BtxYyEx2Z
+        title: Uno, dos, tres - Música En Espanol
+      - id: 2cxxfaHpQKSWWhZuOD37cd
+        title: Viele kleine Streichelhände
+      - id: 0ZcVMs3BBIOWTrJNgFleP8
+        title: Weihnachten ist nicht mehr weit
+      - id: 4icEp3cIpamHqCmYZK9Smx
+        title: Weihnachtslieder-Klassik
+      - id: 71TFJuykTXyvpgc8ze5ATO
+        title: Weil ich dein helles Lachen mag
+      - id: 0KLpBh6wHDY6y4HFqaSACD
+        title: Weißt du, was Glück ist
+      - id: 6U2u2immvMWT0jsOiQ6pkI
+        title: Wenn Pinguine watscheln gehn
+      - id: 4tQTL30TAiaPwsPrnOCRtz
+        title: Wenn das Bärchen Bauchweh hat
+      - id: 7GG2q94m8WC2EHoQVo84dD
+        title: Willkommen auf dem singenden Bauernhof
+      - id: 30CvEQPnYzK1iw6uWbWgI0
+        title: Willkommen im Tamusiland, Vol. 2
+      - id: 6cGYQ2xEpVZLFyoqt17mER
+        title: Wir kleinen Menschenkinder
+      - id: 3XtJC6J3GocztoD9Vu2nLH
+        title: Wir wollen Frieden (Chor Version)
+  content_type: music
 - id: stephen_janetzko
   title: Stephen Janetzko
   keywords:
@@ -30736,9 +31113,1576 @@ series:
     apple_music:
       artist_ids:
       - '182493885'
+      albums:
+      - id: '1572416388'
+        title: 15 tolle Kinderlieder zum Spielen, Toben und Ausruhen
+      - id: '312559190'
+        title: 24 Lieblingslieder Für Krabbelkinder
+      - id: '1581774782'
+        title: 5 Volkslieder - EP
+      - id: '375897284'
+        title: Advents-Lieder (inkl. Lieder Der Weihnachtsbäckerei)
+      - id: '1438741584'
+        title: 'Alle Kinder sind jetzt fit: 22 sportliche Kinderlieder fürs Kinderturnen'
+      - id: '1577387781'
+        title: Alle gehn jetzt zur Ruh - schlafe auch du (Ein Einschlaflied) - EP
+      - id: '1705563119'
+        title: Alle tanzen mit (Der Rock & Roll Hit für Kinder) - Single
+      - id: '1042543667'
+        title: An meiner Schule ist es schön (Lied zum Schulanfang) - Single
+      - id: '601295094'
+        title: An meiner Schule ist es schön - für besseres Lernen
+      - id: '1587120227'
+        title: Aramsamsam, der Herbst ist da! - Single
+      - id: '1711794591'
+        title: Arme hoch und Arme runter (Ich dreh mich um mich selbst im Kreis) [Spaß Version] - Single
+      - id: '1685154042'
+        title: Auge, Auge, Nase, Mund (Alles hat einen Namen) - EP
+      - id: '375805197'
+        title: Augen Ohren Nase
+      - id: '1469244054'
+        title: 'Aus der Raupe wird ein Schmetterling: Fröhlich krabbelige Kinderlieder'
+      - id: '1647568208'
+        title: Beeil dich! - Single
+      - id: '1540925382'
+        title: Bi-Ba-Badewanne
+      - id: '595771883'
+        title: Bi-Ba-Badewannen-Hits - 20 Kinderlieder mit Gitarre (Die beliebtesten Kinderlieder)
+      - id: '575568591'
+        title: Bi-Ba-Pi-Pa-Naschi - Hand in Hand 4 Kids!
+      - id: '1523277255'
+        title: 'Bibelgeschichten in der Kita: Biblische Lieder für Kinder'
+      - id: '360534426'
+        title: Blubb blubb blubb macht der Fisch
+      - id: '1573407708'
+        title: Blümelein, Blümelein - EP
+      - id: '1540157154'
+        title: Brenn, Laterne
+      - id: '1589251522'
+        title: Bunt sind meine Herbstlieder
+      - id: '1835386165'
+        title: Bunte Blätter im Wind (feat. Stephen Janetzko & Toni Geiling) - Single
+      - id: '1453518225'
+        title: 'Bunte Mischung: Kinderlieder für Kindergarten und Schule'
+      - id: '923292116'
+        title: Danke, danke, danke - Danke-Lieder
+      - id: '1573408034'
+        title: Das Besuchslied (Fahrzeuge Verkehrsmittel Lied) - Single
+      - id: '1791735448'
+        title: Das Bewegungslied (Wir machen uns ganz klein) [feat. Stephen Janetzko & Toni Geiling] - Single
+      - id: '1003254454'
+        title: Das Duschlied und andere Lieder
+      - id: '1876911060'
+        title: Das Jahr geht auf die Reise - Single
+      - id: '1814339288'
+        title: Das Jahr sagt allen Guten Tag - Single
+      - id: '1667541281'
+        title: Das Konfetti Lied - Single
+      - id: '932860635'
+        title: Das Licht einer Kerze (Die 25 schönsten Weihnachtslieder)
+      - id: '1760131969'
+        title: Das Lied vom Teilen (Wir sind wie die Sterne) - Single
+      - id: '471535474'
+        title: Das Lied von Moses - Single
+      - id: '1798247578'
+        title: Das Lied von den Gegensätzen (feat. Toni Geiling) - Single
+      - id: '1694294681'
+        title: Das Sommerfest Lied - Single
+      - id: '1747897930'
+        title: Das Tücherlied (Einkaufslied mit Farben) - EP
+      - id: '1815536963'
+        title: Das bunte Meer - Single
+      - id: '1598694876'
+        title: Das kleine Weihnachtsalbum
+      - id: '1174295651'
+        title: Der Advent ist da - 15 Lieder für die Kerzenzeit
+      - id: '1200498263'
+        title: Der Frühling ist da - 20 schönste Kinderlieder im Frühling
+      - id: '375813512'
+        title: Der Joggende Elefant
+      - id: '614662805'
+        title: Der Kleine Windelrocker - Single
+      - id: '1883572706'
+        title: Der Osterhase hat Rücken - Single
+      - id: '306981789'
+        title: Der Osterhase kommt! - Lieder zu Ostern - EP
+      - id: '1613497947'
+        title: Der Osterhase macht sich fit - Single
+      - id: '1003257228'
+        title: Der Seebär und andere Lieder
+      - id: '1243407050'
+        title: Der Sommer ist da - 20 schönste Kinderlieder im Sommer
+      - id: '405847520'
+        title: Der Sonnenkäferreigen
+      - id: '1782179910'
+        title: Der Weihnachtszug (feat. Toni Geiling) - Single
+      - id: '1705865669'
+        title: Der Wind - Kleines Windlied - Single
+      - id: '375811044'
+        title: Der Winter Ist Da
+      - id: '1606158489'
+        title: Der Zauberwald - Single
+      - id: '1826521485'
+        title: Der junge Schiffer - Single
+      - id: '1740519977'
+        title: Der traurige Vogel (Lied übers Einsamsein) [feat. Toni Geiling] - Single
+      - id: '1655135739'
+        title: Des Kaisers neue Kleider - Single
+      - id: '1035660838'
+        title: Die 30 schönsten Laternenlieder
+      - id: '1737846583'
+        title: Die Feuerwanzen - Single
+      - id: '1698306685'
+        title: Die Flüsse, sie fließen (The river is flowing) - Single
+      - id: '1598891310'
+        title: Die Gedanken, sie sind frei, frei, frei - Songs, Volkslieder & Lagerfeuerhits
+      - id: '1685982824'
+        title: Die Giraffe und der Wolf (GFK-Lied) - EP
+      - id: '1476278987'
+        title: Die Herbstzeit in der Kita - Herbst mit Kindern
+      - id: '1261364001'
+        title: 'Die Herbstzeit ist da: 20 schönste Kinderlieder im Herbst'
+      - id: '1758530533'
+        title: Die Stunde ist jetzt aus (Schlusslied) - Single
+      - id: '375816063'
+        title: Die Zeit Des Gauklers
+      - id: '476235561'
+        title: Dreh dich, Laterne (der Laternen-tanz) - Single
+      - id: '1868343959'
+        title: Dschungelparty (Im Dschungel steigt 'ne Party) - Single
+      - id: '1808652692'
+        title: Du bist hier willkommen (Schön, dass du da bist) [feat. Toni Geiling] - Single
+      - id: '1565982350'
+        title: Du bist meine Sonne - EP
+      - id: '1612252824'
+        title: Dunkel ist's im Zimmer (Schlaflied Schlafkanon) - Single
+      - id: '1023345530'
+        title: 'Durch die Straßen auf und nieder: Viele schöne Herbst- und Laternenlieder'
+      - id: '1654140814'
+        title: Eine Muh, eine Mäh, eine Täterätätä (Der Weihnachtsmann kommt) - Single
+      - id: '1744367524'
+        title: Eine klitzekleine Spinne - Single
+      - id: '1533804140'
+        title: Endlich Laternenzeit - Sankt Martin Kinderlieder
+      - id: '1632608650'
+        title: Endlich gibt es Sonnenschein - Sommerlieder
+      - id: '320524704'
+        title: Engel-Lieder
+      - id: '1690141751'
+        title: Erdbeer-Song (Erdbeer'n, Erdbeer'n lieb ich sehr) - Single
+      - id: '1814091676'
+        title: Erdbeerlied (feat. Toni Geiling) - Single
+      - id: '1690673343'
+        title: Erntelied - Obst und Gemüse (Pick a bale of cotton) - Single
+      - id: '868188158'
+        title: Erst kommt der Sonnenkäferpapa - 20 Hits für Spielgruppe, Krippe und Kindergarten
+      - id: '375892828'
+        title: Es Ist - Ich Bin - Meditation Und Entspannung
+      - id: '375810445'
+        title: Es Tanzt Der Bär
+      - id: '272153123'
+        title: Es schneit, es schneit, es schneit - EP
+      - id: '1647588525'
+        title: Es tanzt ein Bi-Ba-Butzemann, die Bi-Ba-Butzefrau & das Bi-Ba-Butzekind - Single
+      - id: '1622595787'
+        title: Finger und Hände - Mit Kinderliedern lernen (22 Kinderlieder zum Mitsingen & Mitmachen)
+      - id: '460077462'
+        title: Fit Hallo & Tschüs! - Single
+      - id: '1595564989'
+        title: Frei, frei, frei - Single
+      - id: '1012433931'
+        title: Frohe Weihnacht
+      - id: '298737001'
+        title: Früchte Früchte Früchte
+      - id: '1612271879'
+        title: Frühling ist's (Frühlingslied) - Single
+      - id: '920055946'
+        title: Frühling und Ostern
+      - id: '1615250342'
+        title: Frühling, du bist da
+      - id: '1720979965'
+        title: Frühling, lieber Frühling (Frühlingslied) - Single
+      - id: '299770537'
+        title: Frühlings-Lieder (Frühling - April - Natur) - EP
+      - id: '1802669735'
+        title: Frühlings-Rock - Single
+      - id: '1559590531'
+        title: Frühlingslieder Kinderlieder
+      - id: '375570771'
+        title: Fußball, Fußball (Das Fußball-Lied)
+      - id: '813710354'
+        title: Fußball-Lieder für Kinder - 24 bunte Kinderlieder für mehr Bewegung und Miteinander
+      - id: '300601638'
+        title: Für Meine Mama - Single
+      - id: '300601626'
+        title: Für Meinen Papa - Single
+      - id: '284828317'
+        title: Geburtstag, Geburtstag
+      - id: '1628639132'
+        title: Geburtstagsliedchen (Wir feiern dein' Geburtstag) - Single
+      - id: '1744888669'
+        title: Gefühlelied (feat. Stephen Janetzko & Toni Geiling) - Single
+      - id: '1770658663'
+        title: Geisterlied (feat. Stephen Janetzko & Toni Geiling) - Single
+      - id: '1543672150'
+        title: Gemütliche Weihnachtszeit mit Gurke
+      - id: '1820983663'
+        title: Glühwürmchen-Tanz (feat. Toni Geiling) - Single
+      - id: '375818290'
+        title: Gott Ist Die Liebe
+      - id: '375804931'
+        title: Gott Ist Überall
+      - id: '1556438335'
+        title: Gott im Himmel, Gott auf Erden - Single
+      - id: '1613187327'
+        title: Grashalm, Grashalm (Auf der Wiese) - Single
+      - id: '1746483852'
+        title: Große Wellen, kleine Wellen (Lied vom Meer) [feat. Stephen Janetzko & Toni Geiling] - Single
+      - id: '1523866109'
+        title: Gute Laune Kinderlieder
+      - id: '1557639922'
+        title: Gute-Laune-Lieder
+      - id: '1812467480'
+        title: Guten Morgen, guten Morgen (feat. Toni Geiling) - Single
+      - id: '1825391451'
+        title: Hallo Schule - Single
+      - id: '1671586949'
+        title: Hallo liebes Christkind (Die Wunschsterne) - Single
+      - id: '1772946009'
+        title: Halloween Party (Monstertanz) - Single
+      - id: '375811537'
+        title: Hand In Hand
+      - id: '1589250256'
+        title: Heilige Drei Könige - Single
+      - id: '918034034'
+        title: Herbst und Erntedank
+      - id: '1536956841'
+        title: Herbst, Halloween & Laterne
+      - id: '1704140421'
+        title: Herbst, du bist da - Single
+      - id: '1830315737'
+        title: Herbst, du hast schöne Farben - Single
+      - id: '300000348'
+        title: Herbstlieder - EP
+      - id: '1575572369'
+        title: Heute hier, morgen dort - EP
+      - id: '1659636355'
+        title: Heute ist ein guter Tag
+      - id: '1539928062'
+        title: Hexe und Vampir
+      - id: '1694303436'
+        title: Hey, die Sonne lacht mir zu - Single
+      - id: '1467333069'
+        title: Hi Ha Herbstlieder für Kinder
+      - id: '375887965'
+        title: Hits zu Halloween - 8 frische Halloween-Hits für Kids
+      - id: '431838956'
+        title: Hoch wie ein Flummi
+      - id: '1578471195'
+        title: Hohe Tannen weisen die Sterne (Das Rübezahllied) - Single
+      - id: '1674863680'
+        title: Hund, Katze, Maus - Kinderlieder für Babys und Kleinkinder
+      - id: '375809672'
+        title: Husch Husch Ins Bettchen
+      - id: '281772121'
+        title: Ich bin Flocke (Ein Eisbär-Lied)
+      - id: '1571492295'
+        title: Ich bin der Zi-Za-Zappelmensch - EP
+      - id: '1738504351'
+        title: Ich bin ein Mensch im Glück - Single
+      - id: '279204886'
+        title: Ich geh' jetzt in die Schule
+      - id: '1503514283'
+        title: 'Ich hab dich lieb: Kinderlieder für mein Baby und mich'
+      - id: '1743850060'
+        title: Ich liebe alle Jahreszeiten - Single
+      - id: '1709519653'
+        title: Ich liebe alle Sterne (Laternenlied) - Single
+      - id: '1179042821'
+        title: Ich schenk dir einen Stern (Das Sternenlied) - EP
+      - id: '1437371150'
+        title: 'Ich schenk dir einen Stern: 25 Winter- und Weihnachtslieder'
+      - id: '1717438385'
+        title: Ich schenk dir einen kleinen Stern (Kleines Sternenlied für den Advent) - Single
+      - id: '1617653728'
+        title: Ich stehe auf für Frieden - Single
+      - id: '1617980674'
+        title: Ich wecke meinen Körper auf - Single
+      - id: '1655653784'
+        title: Ich wünsche dir einen Engel - Zauberhafte Lieder in verzauberter Zeit
+      - id: '1582807738'
+        title: Ihr Blätter, wollt ihr tanzen?
+      - id: '1671595514'
+        title: Ihr seid meine Sonne - Single
+      - id: '1886383083'
+        title: Im Frühling lacht die Sonne (Kanon) - Single
+      - id: '1539619872'
+        title: Im Piraten-Kindergarten - EP
+      - id: '375896667'
+        title: In Der Weihnachtsnacht - Krippenspiel
+      - id: '375812389'
+        title: In Meiner Bi-Ba-Badewanne
+      - id: '300602924'
+        title: Indianer-Lieder
+      - id: '1495794847'
+        title: Indianerlieder - Kinderlieder für kleine Indianer
+      - id: '1765546305'
+        title: Ja, es ist Laternenzeit - Single
+      - id: '1783027106'
+        title: Jetzt beginnt der Morgenkreis - Rituallieder (feat. Toni Geiling) - Single
+      - id: '1477064600'
+        title: Jingle Bells, Jingle Bells - EP
+      - id: '1770634922'
+        title: Kastanienlied (feat. Stephen Janetzko & Toni Geiling) - Single
+      - id: '375897654'
+        title: Kerzen-Lieder Im Advent
+      - id: '476235519'
+        title: Ki-Ka-Kuchentanz - Single
+      - id: '1664199875'
+        title: Kinderlieder - 20 fröhliche Kinderlieder mit Gitarre
+      - id: '1576682840'
+        title: Kinderlieder - German Children's Songs & Nursery Rhymes - Autumn Songs
+      - id: '1627239391'
+        title: Kinderlieder - German Children's Songs & Nursery Rhymes - Christmas Songs
+      - id: '1760112877'
+        title: Kinderlieder - German Children's Songs & Nursery Rhymes - Kids Songs, Vol. 3
+      - id: '1576185441'
+        title: Kinderlieder - German Children's Songs & Nursery Rhymes - Lullabies
+      - id: '1626859488'
+        title: Kinderlieder - German Children's Songs & Nursery Rhymes - Spring Songs
+      - id: '1576491430'
+        title: Kinderlieder - German Children's Songs & Nursery Rhymes - Summer Songs
+      - id: '1627220844'
+        title: Kinderlieder - German Children's Songs & Nursery Rhymes - Winter Songs
+      - id: '971168228'
+        title: Kinderlieder - Kids Songs (German Children's Songs & Nursery Rhymes )
+      - id: '596047529'
+        title: Kinderlieder Für Den Stuhlkreis - 14 Bunte Mitmachsongs Für Jederzeit Und Zwischendurch
+      - id: '1022769708'
+        title: Kinderlieder für Kinder
+      - id: '1377650955'
+        title: 'Kinderlieder für den Morgenkreis: 22 fröhliche Mitmachsongs zum Tanzen und Bewegen'
+      - id: '1440153509'
+        title: 'Kinderlieder rund um die Bibel, Vol. 2: 28 religiöse Lieder inkl. Tauflied und Liturgie'
+      - id: '1413290380'
+        title: 'Kinderlieder rund um die Bibel: 28 religiöse Lieder inkl. Erntedank und Vaterunser'
+      - id: '1530934733'
+        title: 'Kindertanz: Jetzt geht es los! (22 Kindertänze fürs ganze Jahr)'
+      - id: '1683315685'
+        title: Kleine Begrüßungsliedchen
+      - id: '375570773'
+        title: Kleine Engel
+      - id: '1686149522'
+        title: Kleine Mi Ma Maus
+      - id: '1735375984'
+        title: Kleiner Käfer - Single
+      - id: '300601873'
+        title: Kleiner Ritter-Lieder-Mix
+      - id: '1598873308'
+        title: Kleiner Stern - EP
+      - id: '1629882792'
+        title: Kleines Halloween-Lied - EP
+      - id: '1841371875'
+        title: Kleines Lichtlein - die Lichterreise (Taler, Taler, du musst wandern) [Lichterversion] [feat. Toni Geiling] - Single
+      - id: '1485573585'
+        title: Kleines Sternenlied für den Advent (Ich schenk dir einen kleinen Stern) - EP
+      - id: '1810255365'
+        title: Komm zum Sommerfest - Single
+      - id: '1801552109'
+        title: Komm, mach mit! - Single
+      - id: '1862793196'
+        title: Komm, sing mir nach durchs ganze Jahr
+      - id: '1612256479'
+        title: Komm, wir finden Gottes Spur - Single
+      - id: '375892818'
+        title: 'Krabbel-Hits Für Krabbel-Kids: Kleiner Löwe, Kleiner Tiger'
+      - id: '277586057'
+        title: 'Krabbel-Hits Für Krabbel-Kids: Mama, Papa & Ich'
+      - id: '279202704'
+        title: 'Krabbel-Hits für Krabbel-Kids: Häng Dich an, häng dich an'
+      - id: '376204031'
+        title: Kulumbubu Der Ausserirdische (Alle Mixe UFO Ostern Weihnacht Total)
+      - id: '354896571'
+        title: Kuschelige Kuschel-Lieder
+      - id: '376203806'
+        title: Königin/Diese Welt
+      - id: '1482120402'
+        title: Kürbis, Kürbis, schau mich an (Kürbislieder, Herbstsongs & Halloweenhits)
+      - id: '1771418781'
+        title: La La Laterne (Lichterfest-Lied) - Single
+      - id: '1539621157'
+        title: Laterne Sonne Mond und Sterne - Single
+      - id: '1534866378'
+        title: Laterne laufen ist schön
+      - id: '1373434395'
+        title: Laterne, Laterne - Die 10 schönsten Kinderlieder zu Sankt Martin (Laternenlieder zum Mitsingen mit Gesangsversionen und Playbacks)
+      - id: '1477336474'
+        title: 'Laterne, Laterne, ich gehe Laterne: 22 zauberhafte Laternenlieder'
+      - id: '1707010214'
+        title: Laterne, Laterne, leuchte durch die Nacht - Single
+      - id: '1841379208'
+        title: Laterne, du leuchtest wie die Sterne - EP
+      - id: '1652651948'
+        title: Laterne, schenk der Welt dein Licht - Single
+      - id: '1482387076'
+        title: Lebendiges Wasser (Ein Lied für den Gottesdienst) - Single
+      - id: '1766257403'
+        title: Leute, es ist Halloween - Single
+      - id: '477699410'
+        title: Lied zu Neujahr - Single
+      - id: '320523973'
+        title: Lieder Des Gottvertrauens
+      - id: '320524717'
+        title: Lieder Zur Firmung Und Konfirmation
+      - id: '320524681'
+        title: Lieder Zur Hochzeit
+      - id: '986386337'
+        title: Lieder für Mama - Die schönsten Kinderlieder zum Muttertag - Kids Songs for a Happy Mother's Day
+      - id: '1538483512'
+        title: Lieder zu Bibel-Geschichten - Jesus, Bartimäus, Zachäus & Co
+      - id: '1541913674'
+        title: Lieder zur Erstkommunion
+      - id: '1536957227'
+        title: Lieder zur Taufe
+      - id: '1699194647'
+        title: Lieve kleine muis - Kleine Mi Ma Maus - Single
+      - id: '375816356'
+        title: Like Warm Winter Sun
+      - id: '1687175055'
+        title: Marienkäferlein - Single
+      - id: '1643135581'
+        title: Martin, Martin, Martinsmann - 25 Herbstlieder und Laternenlieder zu St. Martin
+      - id: '320522292'
+        title: Matilda Und Die Kraft Der Sonne
+      - id: '604818580'
+        title: Mein Jahr In Gottes Schöner Welt - 9 Neue Religiöse Lieder
+      - id: '1553783460'
+        title: Meine Faschingslieder
+      - id: '1556452526'
+        title: Meine Frühlingslieder
+      - id: '1475091335'
+        title: Meine Gitarre (Das Gitarrenlied) - Single
+      - id: '1585952405'
+        title: Meine Herbstlieder
+      - id: '1540158786'
+        title: Meine Mama ist die Beste! - EP
+      - id: '1573391438'
+        title: Meine Sommerlieder
+      - id: '1596753340'
+        title: Meine Weihnachtslieder
+      - id: '1551162923'
+        title: Meine Winterlieder
+      - id: '1123957674'
+        title: Meine bunten, fröhlichen Kinderlieder
+      - id: '1699186337'
+        title: Minicik farecik - Kleine Mi Ma Maus - Single
+      - id: '1814668885'
+        title: Mittagessen-Lied (Schu-bi-du-bi-du, das Essen steht bereit) - Single
+      - id: '988426988'
+        title: Neue Deutsche Kinderlieder - 20 New German Children's Favourite Songs & Nursery Rhymes for Kids (To Learn on Guitar)
+      - id: '1003256613'
+        title: Neue und alte Laternenlieder - EP
+      - id: '375896991'
+        title: Niko-, Niko-, Nikolaus
+      - id: '1857602708'
+        title: Nikolaus, Nikolaus (Hänschen klein) [Nikolausversion] [feat. Toni Geiling] - Single
+      - id: '484503563'
+        title: Oma erzählt …
+      - id: '563605366'
+        title: Os Anjos do Advento
+      - id: '1701121748'
+        title: Pequeño raton - Kleine Mi Ma Maus - Single
+      - id: '1077390037'
+        title: 'Piraten-Sommer-Party: Sonnige Kinderlieder'
+      - id: '375805923'
+        title: Ritter Kunibert
+      - id: '375813060'
+        title: Roh Macht Froh!-Lieder
+      - id: '505938464'
+        title: Rot und Gelb, Blau und Grün, alle Farben find ich schön! (Das Farbenlied) - Single
+      - id: '1707006152'
+        title: Schau, der Herbst ist da & Der Blättertanz
+      - id: '1743804412'
+        title: Schmi-Schma-Schmetterling - Single
+      - id: '1573605561'
+        title: Schultütentanz (Lied von der Schultüte) - EP
+      - id: '1536003110'
+        title: Seeräuber Wackelzahn
+      - id: '1034198525'
+        title: Seeräuber Wackelzahn - Single
+      - id: '1465918588'
+        title: Si Sa Sommerlieder für Kinder
+      - id: '1543148403'
+        title: Sieh, wie die Kerze leuchtet (Weihnachtslieder)
+      - id: '1626125727'
+        title: Sommer ist in meinem Kopf - Single
+      - id: '673089045'
+        title: Sommer und Sonne
+      - id: '1565162142'
+        title: Sommer, Sonne, Sonnenschein - Single
+      - id: '300601573'
+        title: Sommer-Lieder (Sommer - Sonne - Ferien) - EP
+      - id: '1539621658'
+        title: 'Sommer: Sommer-Hits, Sonnenlieder, heiße Bewegungs- & Mitmachknaller für Kinder'
+      - id: '1489707709'
+        title: Spiel Kinderlieder!
+      - id: '1496145514'
+        title: Spiel Osterlieder!
+      - id: '1488639537'
+        title: Spiel Weihnachtslieder!
+      - id: '1564282488'
+        title: Spiel mal mit dem Becher und zwar ganz genau im Takt (Becher-Song)
+      - id: '1537156785'
+        title: Stark wie ein Baum - Frühling, Natur, Ostern, Walpurgisnacht, Muttertag
+      - id: '1857904150'
+        title: Tatütata-Lied (feat. Toni Geiling) - Single
+      - id: '1587355262'
+        title: Tiere im Herbst-Lied - Single
+      - id: '1699009042'
+        title: Tiny mini mouse - Kleine Mi Ma Maus - Single
+      - id: '1699192644'
+        title: Topolino mio - Kleine Mi Ma Maus - Single
+      - id: '1692740235'
+        title: Tra ri ra, der Sommer, der ist da - Single
+      - id: '1712300680'
+        title: Tri-Tra-Trommelzeit (Das Trommellied) - Single
+      - id: '396433257'
+        title: Turndrache Lotti
+      - id: '1626475575'
+        title: Turnhits für Kids - 20 Kinderturnlieder
+      - id: '351617845'
+        title: Und Wieder Brennt Die Kerze - Advent, Winter & Weihnachten In Kindergarten, Schule & Zuhause
+      - id: '1580897027'
+        title: Und jetzt geht's los! (Wir singen und bewegen uns)
+      - id: '781469165'
+        title: Unsere Lieder aus der Eltern-Kind-Gruppe
+      - id: '375888317'
+        title: Viel Glück Und Viel Segen
+      - id: '375897068'
+        title: Was Zu Ostern Geschah
+      - id: '1802857316'
+        title: Was macht der Frosch? (feat. Stephen Janetzko & Toni Geiling) - Single
+      - id: '1593168853'
+        title: Was schwimmt denn da im Wasser? - Single
+      - id: '1544976799'
+        title: Weihnachten daheim 2020 - bleibt gesund!
+      - id: '375897225'
+        title: Weihnachts-Lieder Für Die Heilige Nacht
+      - id: '1717403559'
+        title: Weihnachtsbaumtraum - Single
+      - id: '1174294939'
+        title: Weihnachtsfeier und Krippenspiel - 15 Lieder für die Zeit kurz vor Heiligabend
+      - id: '1440475145'
+        title: Weihnachtslieder mit Maria und Josef (Lieder rund um Jesus Geburt)
+      - id: '1542198809'
+        title: Weihnachtslieder und Mandarinen
+      - id: '768059641'
+        title: Weiße Flocken überall (Winterlieder aus dem Kindergarten)
+      - id: '1174294466'
+        title: Weiße Flocken überall - 15 Lieder für Winter und Schnee
+      - id: '352312390'
+        title: Wenn Es Schneit, Wenn Es Schneit! - Noch Mehr Schnee-Lieder (garantiert Weihnachts-frei!)
+      - id: '1849113112'
+        title: Wenn die erste Kerze brennt (Bruder Jakob) [Adventsversion] [feat. Toni Geiling] - Single
+      - id: '562742841'
+        title: Wenn wir zum Erntedankfest gehn - Lied zu Erntedankfest - Single
+      - id: '1853807142'
+        title: Wichtellied & Advent-Rap - EP
+      - id: '1599039608'
+        title: Wie im Himmel, so auf Erden
+      - id: '1615708499'
+        title: Willkommen im Kita-Frühling - Komm, wir begrüßen den Frühling
+      - id: '1438739458'
+        title: 'Willkommen im Kreis: Lieder zum Begrüßen und Verabschieden'
+      - id: '1591927635'
+        title: Willkommen in der Kita - Kinderlieder für jeden Tag
+      - id: '919585788'
+        title: Winter und Schnee
+      - id: '1655137783'
+        title: Winterlied - Weihnachten im Märchenwald - Single
+      - id: '1600072548'
+        title: Winterlieder für Kinder
+      - id: '1600072941'
+        title: Winterzauberfee - Single
+      - id: '293889507'
+        title: Winterzeit im Kindergarten
+      - id: '358741592'
+        title: Winterzeit in Schule und zu Hause
+      - id: '375570774'
+        title: Wir Erdmännchen (Erdmännchen-Lied)
+      - id: '1535012268'
+        title: Wir Warten und warten
+      - id: '1826990840'
+        title: Wir begrüßen die Jahreszeiten (feat. Toni Geiling) - EP
+      - id: '1778032789'
+        title: Wir machen heute Nussmusik - 4 neue Weihnachtslieder für Kinder - EP
+      - id: '1856670148'
+        title: Wir sind Astronauten - Single
+      - id: '1596887568'
+        title: Wir sind alle dabei - Single
+      - id: '1726926135'
+        title: Wir singen gemeinsam - Single
+      - id: '1761179927'
+        title: Wir tanzen einen Stopptanz - Single
+      - id: '1527409951'
+        title: Zahlenlieder für die Kita
+      - id: '292133794'
+        title: Zum Gottesdienst Willkommen
+      - id: '1656441850'
+        title: Zwei kleine Fische - Das fröhliche Kinderlied für Babys & Kleinkinder - Single
+      - id: '375897250'
+        title: Zwölf Kinder Hat Das Jahr
+      - id: '1607997056'
+        title: Zähl mit uns die Jahreskinder (30 Kinderlieder durch die Jahreszeiten)
+      - id: '375813486'
+        title: Zünd Die Erste Kerze An
+      - id: '613002674'
+        title: Ägypter-Tanz - Die Reise Nach Ägypten - EP
+      - id: '1585011580'
+        title: Über den Wolken - Single
     spotify:
       artist_ids:
       - 0HC9OQdqPCCE1WNMetTTmG
+      albums:
+      - id: 7cS8rXfsX9NMsVTAkGS2fe
+        title: 15 tolle Kinderlieder zum Spielen, Toben und Ausruhen
+      - id: 5n2qYpblR5v5eNp4Qu5yg6
+        title: '24 Lieblingslieder für Krabbelkinder: Zum Mitsingen, Zuhören und Bewegen'
+      - id: 6LnHevk4w0exUqwgDQrFh4
+        title: 42 starke Kinderlieder für eine bessere Welt
+      - id: 1OPgBswcIhiZ2z5IYp2xji
+        title: 5 Volkslieder
+      - id: 52q1oSgFroEZ6KiMeQ5gYr
+        title: Ab geht's in den Urlaub!
+      - id: 0kC2bzChhJe3MBzj5odibq
+        title: Ab ins Beet - 20 frische Kinderlieder zum Frühling
+      - id: 1wIiiywhFi6rSjsiYD9FID
+        title: 'Advent, Advent ein Lichtlein brennt: Die schönsten Kinderlieder für den Advent'
+      - id: 4ZZlsbAcf4i3fDyRFSWioC
+        title: Advents-Lieder (inkl. Lieder der Weihnachtsbäckerei)
+      - id: 19RiuCSmKGqmFdRaTwytHv
+        title: 'Alle Kinder sind jetzt fit: 22 sportliche Kinderlieder fürs Kinderturnen'
+      - id: 4e7n4DIH1vDfO7umMWv6hE
+        title: Alle gehn jetzt zur Ruh - schlafe auch du (Ein Einschlaflied)
+      - id: 0PMV32yNJcKjW8AURdC9R6
+        title: Alle tanzen mit (Der Rock & Roll Hit für Kinder)
+      - id: spotify:5N7DTlGzNPbTcdfu23kZe5
+        title: Alles ist gut - Kinderlieder & Songs
+      - id: 0MJB7NJgbnxl6Oh3UAvycs
+        title: Als was geh ich beim Karneval? 20 Kinderlieder zu Fasching
+      - id: 4gIJoRNM3znrjxp1NeRLyt
+        title: Am klingenden Weihnachtsmarkt
+      - id: 671lYiWQwaG6RFBdIX6snl
+        title: An meiner Schule ist es schön (Lied zum Schulanfang)
+      - id: 5u3bq7by23fDaxsHQkyvnk
+        title: An meiner Schule ist es schön - für besseres Lernen
+      - id: 7mXTJnqGnaUxT110AKxSdJ
+        title: Aramsamsam, der Herbst ist da!
+      - id: 42QO5GOmkKjA7YZa6X6sc9
+        title: Arme hoch und Arme runter (Ich dreh mich um mich selbst im Kreis) [Spaß Version]
+      - id: 5IkHGBpDwSuxKYLQnOcKOk
+        title: Arme schütteln, Popo wackeln
+      - id: 1wCfuMxe4Tk9oGRkuBZ2Wn
+        title: Augen Ohren Nase
+      - id: 5Zv8tXARHaA74vboc4ouRf
+        title: Aus der Raupe wird ein Schmetterling - Fröhlich krabbelige Kinderlieder
+      - id: 33bQwFE9stEw4uArTfNR9o
+        title: Backe Backe Kuchen - Teil 4 (Meine 20 ersten Baby Lieblingslieder)
+      - id: 3bDbpohO5SU3vyHjOnfySd
+        title: Bald ist Weihnachten
+      - id: 7qsHiBxsLkm4EU77mTH2sT
+        title: Beeil dich!
+      - id: 6XAJqqHhDIkXqu3EtzdCf1
+        title: Begrüßungslieder Kinderlieder
+      - id: 1xSs0B7ijScLEe9Z3CBtPe
+        title: Bi-Ba-Badewanne
+      - id: 3zogb0Cbz2uSgKomgxAxs4
+        title: Bi-Ba-Badewannen-Hits - 20 Kinderlieder mit Gitarre (Die beliebtesten Kinderlieder)
+      - id: 3rBjD1GzO8uSxSYAgc8Vdo
+        title: Bi-Ba-Pi-Pa-Naschi - Hand in Hand 4 Kids!
+      - id: 01Ma0ckANt5734xPf40Z2G
+        title: 'Bibelgeschichten in der Kita: Biblische Lieder für Kinder'
+      - id: 5RolzUhvcdIxiHBSpTaEr9
+        title: Blubb blubb blubb macht der Fisch
+      - id: 62Cy0aZhzlUTywBObsNJGQ
+        title: Blümelein, Blümelein
+      - id: 3GlEYW8A7lke4oej9go3I3
+        title: Brenn, Laterne
+      - id: spotify:7d0q2LwJQBEpYhXHxPOGP5
+        title: Brille
+      - id: 72Brm1kh3nKMqutCXFF39j
+        title: Bunt sind meine Herbstlieder
+      - id: 6ALNqguy8bVbaI6LuGCScg
+        title: Bunte Blätter im Wind
+      - id: 4SlrByY5aMd4hCuAKo4AJ8
+        title: 'Bunte Mischung: Kinderlieder für Kindergarten und Schule'
+      - id: 2wAQok1fvyZMGayK8wQzJC
+        title: Christkinderlieder zur Weihnachtszeit
+      - id: 0fvgIqVbFGhjeUWeIoUygK
+        title: Christmas Time
+      - id: 3VmMLaRDJREenyR99nnc9R
+        title: Danke Gott - Neue religiöse Kinderlieder von & mit Stephen Janetzko
+      - id: 1gbkHqBwwST2KCm8ymKrXi
+        title: Danke für die Früchte - 20 Lieder zu Erntedank
+      - id: 6mel9it777UO7EdQmi37uK
+        title: Danke, danke, danke - Danke-Lieder
+      - id: 7Cbqoe4HilVcwZvqLfSmog
+        title: Das Besuchslied (Fahrzeuge Verkehrsmittel Lied)
+      - id: 4GqU7EdqY3zwvKZgvDTMXH
+        title: Das Bewegungslied (Wir machen uns ganz klein)
+      - id: 2JGQFkPA5ahPQUrlq9Xjbj
+        title: Das Duschlied und andere Lieder
+      - id: 2UvQLJ01ch2J3RgpUeNG6U
+        title: Das Jahr sagt allen Guten Tag
+      - id: 68vnQWt87ZGkIEazq6ewps
+        title: Das Jahr, das hat 12 Monate - 20 Kinderlieder durch das Jahr
+      - id: 7cowt5fscJzslWDlPI7ipo
+        title: Das Konfetti Lied
+      - id: 26WyzzouGaMtIEtIFmaeeC
+        title: Das Licht einer Kerze - Die 25 schönsten Weihnachtslieder
+      - id: 3gtKIL4qQMcRWG51fEDmuR
+        title: Das Lied vom Teilen (Wir sind wie die Sterne)
+      - id: 31Y923vfSAjeyVggadDMWm
+        title: Das Lied von den Gegensätzen
+      - id: 5nicZR2S4qoqGCF23ae7rs
+        title: Das Sommerfest Lied
+      - id: 1LpNhvmudupnOSnVL73JMp
+        title: Das Tücherlied (Einkaufslied mit Farben)
+      - id: 4n1lSKAWW3l5DqEp3Lwn2q
+        title: Das ist ein Kinderlied
+      - id: 36UVFFf5NTi0CiNNbUm5AX
+        title: Das kleine Herbstalbum
+      - id: 6Z7uBNu6ESdUMPoTWUxakt
+        title: Das kleine Weihnachtsalbum
+      - id: 7tmesHuLFTyMAYUuuSUAx7
+        title: Denn Gott schickt uns einen Regenbogen (Kirchenlieder für Familien und Jugendgottesdienste)
+      - id: 5I21OulIBgAkqIROlX0h92
+        title: Der Advent ist da - 15 Lieder für die Kerzenzeit
+      - id: 4N4X2rhBvfDga4HY42d3B6
+        title: Der Frühling ist da - 20 schönste Kinderlieder im Frühling
+      - id: 2WENgDsxACiO4z5jg9AuVK
+        title: Der Frühling ist da - 25 kunterbunte Kinderlieder im Frühling
+      - id: 5ivWKAA45D0oI3aHKHNf67
+        title: 'Der Herbst ist da: 25 kunterbunte Kinderlieder im Herbst'
+      - id: 2iWv03PyLHVS2ddtBHdw3c
+        title: Der Kleine Windelrocker
+      - id: 1St4uuNlAoe6iubCxhUFSL
+        title: Der Osterhase kommt - Lieder zu Ostern
+      - id: 2w2tBksFxQ4DUp7tH9sMeM
+        title: Der Osterhase macht sich fit
+      - id: 24PuWuCA2uREpb7GPD9Doc
+        title: Der Seebär und andere Lieder
+      - id: 2o35kHlgh3Tnhy6LjGhEWs
+        title: Der Sommer ist da - 20 schönste Kinderlieder im Sommer
+      - id: 44b0KnBUCyq7Y8vqVWa9I2
+        title: Der Sonnenkäferreigen
+      - id: 73Jc4WFzd14SQTiCVzlJzc
+        title: Der Weihnachtszug
+      - id: 1UKtvvIUSSYVlaaTU1abKt
+        title: Der Wind - Kleines Windlied
+      - id: 3wLDgHVTv5ua5RxybeZiTK
+        title: Der Winter ist da
+      - id: 7CDX2vDXS5f9DMhssOgpTG
+        title: 'Der Winter ist da: 20 schönste Kinderlieder im Winter'
+      - id: 57gHgFbtblAG2Ps9azIfRj
+        title: 'Der Winter kommt: 25 kunterbunte Kinderlieder im Winter'
+      - id: 2ttikX4WFGRnKhw3YuBEwz
+        title: Der Zauberwald
+      - id: 3CajCu3WHaza2cnb63qfOS
+        title: Der joggende Elefant
+      - id: 7vCdJUSE7kvU547XhmJIrZ
+        title: Der kleine Engel und das Weihnachtslicht (Lieder zur Weihnachtszeit) [Die Lieder]
+      - id: 03bZBGTmOOMChbD0woSVV4
+        title: Der traurige Vogel (Lied übers Einsamsein)
+      - id: 2vzcWDmtKQf1N6gmsJOE38
+        title: Des Kaisers neue Kleider
+      - id: 5kupwwEU5j8uKIR7Nj6Qbl
+        title: Die Feuerwanzen
+      - id: 3SStbSA98MYPj2yUqEq0n6
+        title: Die Flüsse, sie fließen (The river is flowing)
+      - id: 3YHscX4E9H1e97cPVhYYQo
+        title: Die Gedanken, sie sind frei, frei, frei - Songs, Volkslieder & Lagerfeuerhits
+      - id: 2ZykXdSUXwOJgLIrkKhmBY
+        title: Die Giraffe und der Wolf (GFK-Lied)
+      - id: 49Km3EwyQ8vISgwVMcMek4
+        title: Die Herbstzeit in der Kita - Herbst mit Kindern
+      - id: 1g92dFeq0VqEySpGjGws6S
+        title: Die Hexentanz Party - Faschings Musik für Kinder
+      - id: 21qQlXGypnCsnmoQEF55Wm
+        title: Die Kinder Faschings Party
+      - id: 3A6kiRyh5ar826gczTJpSm
+        title: Die Stunde ist jetzt aus (Schlusslied)
+      - id: 1mjpgM2DdgjckAJgiawD7d
+        title: Die Weihnachtsgans Auguste (nach dem Märchen von Friedrich Wolf)
+      - id: 0nft6yzxnUt2CF04adSunB
+        title: Die Weihnachtsgans Auguste - Ein Kinderlied nach der Erzählung von Friedrich Wolf
+      - id: 3WjaIuqPQSWFjvTdwthTKt
+        title: Die Zeit des Gauklers
+      - id: 0h22PliZn4fshjZM8lRqGy
+        title: Die frohe Weihnachtszeit
+      - id: 3llivQpppUWgexxIJj6r2c
+        title: Die fröhlichen Kinderlieder
+      - id: 16zYg1WQZ3jwC8zJCUDL11
+        title: Die schöne Winter Weihnachtszeit
+      - id: 2LdwRAAylhNy1dysJwGfaZ
+        title: Die schönsten Laterne-Lieder in der Kita
+      - id: 72W0yTwyLNvpwlJ8oU8TSO
+        title: Die schönsten Oster- und Frühlingslieder für Kinder
+      - id: 2NW82QgXFUHitZXSrrpBmt
+        title: Die schönsten Sankt Martins- & Laternenfest-Lieder
+      - id: 30pgVdI3jn5Dxgi4c89LgG
+        title: Dreh dich, Laterne (Der Laternen-Tanz)
+      - id: 0mMr455qhiVKfUms1Zrerb
+        title: Du bist hier willkommen (Schön, dass du da bist)
+      - id: 5MgFLbjPTQbMZd3bYsx0bm
+        title: Du bist meine Sonne
+      - id: 3hADIznMdQVMb60Lgya0Ad
+        title: Du schöne Weihnachtszeit (Die schönsten Kinderlieder zum Advent)
+      - id: 1lIMmhntFidp8SbwlmEdpG
+        title: Dunkel ist's im Zimmer (Schlaflied Schlafkanon)
+      - id: 6c8t8LZ24I326jhOqq64xW
+        title: Ein Männlein steht im Walde - Neue und alte Kinderlieder
+      - id: spotify:6ho0SEqh5ULIvln9ccNNYc
+        title: Ein bisschen so wie Martin - Lieder zum Laternenfest & Sankt Martin
+      - id: spotify:3KZ2ZZQSZfmQ83WPY5FEw2
+        title: Ein kleines Wunder - willkommen im Leben
+      - id: 4h8tMLsF4ebE5I8uB0nQn8
+        title: Eine Muh, eine Mäh, eine Täterätätä (Der Weihnachtsmann kommt)
+      - id: 4srPGZ41pOp5pBokMfVNUt
+        title: Eine klitzekleine Spinne
+      - id: 0zelHaGSXNvkH15EgOS8Rr
+        title: Eisbärlied
+      - id: 6NWAoKghkOcAYtNKZGNxru
+        title: Endlich Laternenzeit - Sankt Martin Kinderlieder
+      - id: 5i1zqWJQVHXDUNh551vRkY
+        title: Endlich gibt es Sonnenschein - Sommerlieder
+      - id: 6mzxaBxqvHNhV6uMsC1FHv
+        title: Engel im Kindergarten
+      - id: 1VrvqBYG2ixVMHhLN8YX1e
+        title: Engel-Lieder
+      - id: 5CATqR0bHHopHHpes5iNGK
+        title: Erdbeer-Song (Erdbeer'n, Erdbeer'n lieb ich sehr)
+      - id: 7G4UjLA0xaQYb445iOURg9
+        title: Erdbeerlied
+      - id: 3wNBKQA9PJRdtKN0mFRHn2
+        title: Erntelied - Obst und Gemüse (Pick a bale of cotton)
+      - id: 5gmnMjb7pJuZi59OyQcEGP
+        title: Erst kommt der Sonnenkäferpapa - 20 Hits für Spielgruppe, Krippe und Kindergarten
+      - id: 3m2TvFYX12FnmYbNjar2IV
+        title: Es ist - Ich bin - Meditation und Entspannung
+      - id: 1te7oZlqQNO8QDtk12wHpb
+        title: Es schneit, es schneit, es schneit - Viele neue Schnee-Lieder zum Mitsingen, Tanzen und Anhören (25-Lieder-Edition)
+      - id: 4gmF2HbykOTcDS80hkGLF2
+        title: Es schneit, es schneit, es schneit!
+      - id: 46i6EKdM2NW0xqhPtbalAe
+        title: Es schneit, es schneit, es schneit!
+      - id: 1yXO4nHl4lRZeKBnEI7B69
+        title: Es tanzt der Bär
+      - id: 4MTTo6YQ9AV9gchY3rfmg9
+        title: Es tanzt ein Bi-Ba-Butzemann, die Bi-Ba-Butzefrau & das Bi-Ba-Butzekind
+      - id: 4svVe3AOMEAxszmoozI6pN
+        title: Finger und Hände - Mit Kinderliedern lernen (22 Kinderlieder zum Mitsingen & Mitmachen)
+      - id: 23Dgb6xYCB0K33ZAh1OsKW
+        title: Fit Hallo & Tschüs! - Kinderturnen
+      - id: 4baxCuoqKr8AnjDiYECLbq
+        title: 'Flieg, mein Drachen: Kinderlieder im Herbst'
+      - id: 5dLQXeWfGO6qUHLnE95hhp
+        title: Frei, frei, frei
+      - id: 3gUzTXZjRx4uaNvOvcV6fH
+        title: Frohe Weihnacht
+      - id: 1YMJ7m03HQWTwbOVXS1MSg
+        title: Früchte Früchte Früchte
+      - id: 3dgw8OKH0Bptpoo2GcO3Nd
+        title: Frühling ist's (Frühlingslied)
+      - id: 3qys8TGEIHx2lKQsJhzOuN
+        title: Frühling kommt Yeah
+      - id: 7lkaDhPStpaZkmujpacO6W
+        title: Frühling und Ostern
+      - id: 2LMcxFoNIQtR7UFt9cYsOY
+        title: Frühling, du bist da
+      - id: 0TIKyjZmlQtljhhXNF9LdN
+        title: Frühling, lieber Frühling (Frühlingslied)
+      - id: 0Qf5zR8FEADsKNy4suOpGM
+        title: Frühlings-Rock
+      - id: 4pCwYnRdV4IiOrKlIBDRsd
+        title: Frühlings-lieder (Frühling - April - Natur)
+      - id: 1isCo1ljMZKa7L63B4rUsn
+        title: Frühlingslieder Kinderlieder
+      - id: 6tT7xslH19PMBEfgsHPUUh
+        title: Frühlingslieder Mix - Die schönsten Kinderlieder
+      - id: 5n50iPRjdq6SbW6z2kFBtz
+        title: Fußball forever - Fußball-Songs für Kinder
+      - id: 1VYEp7KaiCOabPOctvlLjL
+        title: Fußball, Fußball (Das Fußball-Lied)
+      - id: 5hABqASP9RESoZVBLZhqHO
+        title: Fußball-Lieder für Kinder - 24 bunte Kinderlieder für mehr Bewegung und Miteinander
+      - id: 0eKdnlOSqkP5xtAEKaM4Rm
+        title: Für meine Mama
+      - id: 53m7z1YF9KO0Oi6qpdRJ8M
+        title: Für meine Mama
+      - id: 7t2XRBcCpmyxLjC5IjHXBA
+        title: Für meinen Papa
+      - id: 2rsHkoApKxKV1HhaKb80wA
+        title: Für meinen Papa
+      - id: 5EzKZgsDBoKuxoXDortEsc
+        title: Geburtstag, Geburtstag
+      - id: 7mYyiVx1eOLvayJFlTUl8C
+        title: Geburtstagsliedchen (Wir feiern dein' Geburtstag)
+      - id: 2QR1LdY3FobsFVcU2vlqWW
+        title: Geburtstagslieder
+      - id: 18x9RCBZFQWi5WV6DdIpSr
+        title: Gefühlelied
+      - id: spotify:5UayeVMFFACSIOhAeoL50C
+        title: Geisterlied
+      - id: 1dHeSrktx5uNjRzqOIHRPE
+        title: Gemütliche Weihnachtszeit mit Gurke
+      - id: 1yCCFdiP0J0JtIb3v8Cmj0
+        title: Gott im Himmel, Gott auf Erden
+      - id: 2vixaNwk7kIwkrc2mmGxWj
+        title: Gott ist die Liebe
+      - id: 7Ak8K7bFVZUkG6B8zpNPJW
+        title: Gott ist überall
+      - id: 1oA4xlf0BKg1GNrO0PBVqh
+        title: Grashalm, Grashalm (Auf der Wiese)
+      - id: 36qUCfkT33RhZbm9aoJdJe
+        title: Große Wellen, kleine Wellen (Lied vom Meer)
+      - id: 1N45xx2toAVIxdJ9pdBydU
+        title: Gute Laune Kinderlieder
+      - id: spotify:4nHSAkfgiqXpy5LH54Jxic
+        title: Gute Nacht (Einschlafkinderlieder)
+      - id: 5ONCSQ1d8vNA7CpVy4JaV0
+        title: Gute Nacht! - Kinder Lieder zum Einschlafen und Kuscheln
+      - id: 0N7l8Yu9qX4UuJp1LMf2sz
+        title: Gute Nacht, kleiner Pirat
+      - id: 0muO3gFFHGdMUXPzPKz2cU
+        title: Gute-Laune-Lieder
+      - id: 5Dl3SGnYXVPBFZMci2yjXC
+        title: Guten Morgen, guten Morgen
+      - id: 2SjSphzitXUkKd5JSx7CDx
+        title: Hallo liebes Christkind (Die Wunschsterne)
+      - id: 5Y7GCjg1vAb94Ea42v4ocP
+        title: Halloween Party (Monstertanz)
+      - id: 7ClDicsU81GAaFGkku7fN0
+        title: Hand in Hand
+      - id: 10hrIBqjIz30oLM2WheGaG
+        title: Happy Birthday - Mein Kindergeburtstag
+      - id: 5z2Nt3ljJ5QV18HEDIbQRL
+        title: 'Happy Birthday: Kinderlieder zum Geburtstag'
+      - id: 5fq691ZABvieGifSv3ydD1
+        title: Heilige Drei Könige
+      - id: 6iEJ5gGHtBJ5n5UowHr8fT
+        title: Hejo, spann den Wagen an - Herbstlieder für Kinder
+      - id: 0JlnvT78hhq5KP4lh4nOWr
+        title: Herbst und Erntedank
+      - id: 3GfQqwK7fSOBosdmrpmKCg
+        title: Herbst, Halloween & Laterne
+      - id: 1OxJ7zfJCcWL3KexOC5NVH
+        title: Herbst, du bist da
+      - id: 6AeAiIScPkaj49KYEVjSG9
+        title: Herbstlieder
+      - id: 7Ld9KrsQBbWjHPCphlu0VZ
+        title: Heute hier, morgen dort
+      - id: 13KVOGVOGaFbBmo6gIC0B0
+        title: Heute ist ein guter Tag
+      - id: spotify:5gEfTxNKi5nqiLXV6N5JHZ
+        title: Heute kommt der Nikolaus
+      - id: 2KLFhBQNGoSpzbwsOVc0gP
+        title: Hexe und Vampir
+      - id: 7AAKPLeXCr6x12rX157nlA
+        title: Hey Herbst - Wir kommen! (Tolle Herbst-Hits)
+      - id: 7x0t04spNvSBCH0XvNZzqJ
+        title: Hey, die Sonne lacht mir zu
+      - id: 5DyYfH3hXHteoRNx166rGm
+        title: Hi Ha Herbstlieder für Kinder
+      - id: 1znMmDNJ9i8UUBxKqH6Et0
+        title: Hits zu Halloween - 8 frische Halloween-Hits für Kids
+      - id: 4Dt2O9p6nHriKrvFaT9ARy
+        title: Hoch wie ein Flummi
+      - id: 0GQ8GKFsnPohpVTMSti3Kg
+        title: Hohe Tannen weisen die Sterne (Das Rübezahllied)
+      - id: 0IAPBdx16bbfy6rblQ5VSM
+        title: Hopp, hopp, hopp, Pferdchen lauf Galopp - Die schönsten alten und neuen Kinderlieder (44 Kinderlieder Hits)
+      - id: 5oCFn1d4sc1rmMS0ycy4iD
+        title: Hund, Katze, Maus - Kinderlieder für Babys und Kleinkinder
+      - id: 4VaIKHow1VBZs3LOrY6oWR
+        title: Hurra, Hurra, die Sommerferien sind da!
+      - id: 4Q4IIXW7yQey4N4VWsinyS
+        title: Husch husch ins Bettchen
+      - id: 2sclNWquW4b58fwBYRljpe
+        title: Husch, husch, ins Bettchen - 17 neue Gute Nacht-Lieder
+      - id: 7KaI64kvSmqeECSh3DpzPX
+        title: Ich bin Flocke (Ein Eisbär-Lied)
+      - id: 3OfF8mRHCpXlyWjq9Q7KPH
+        title: Ich bin der Zi-Za-Zappelmensch
+      - id: 6Mb91I0fTTiFk4PDSkfM0T
+        title: Ich bin ein Mensch im Glück
+      - id: 7afBfvems8urxBwX4MTe2E
+        title: Ich geh heut zum Weihnachtsmarkt - 24 Lieder zur Advents- und Weihnachtszeit
+      - id: 5SJSWYylhlVK86PdqOLWor
+        title: Ich geh jetzt in die Schule
+      - id: 3rl8IAfGLuyS3AC13RhF23
+        title: Ich hab dich lieb - Kinderlieder für mein Baby und mich
+      - id: 1QWPi2HOC7qI8urBTKJAd3
+        title: Ich liebe alle Jahreszeiten
+      - id: 1rdaF7ppns4a1ebTYxupqW
+        title: Ich liebe alle Sterne (Laternenlied)
+      - id: 3LRNOl3JgYmgHt4sTvEW5J
+        title: Ich schenk dir einen Stern (Das Sternenlied)
+      - id: 3wAaxbObShCSbKIWv4WWpL
+        title: 'Ich schenk dir einen Stern: 25 Winter- und Weihnachtslieder'
+      - id: 1ROAFHTmXU4oNpUDD1obDn
+        title: Ich schenk dir einen kleinen Stern (Kleines Sternenlied für den Advent)
+      - id: 7uERpIND1VMzOM6qeCHYZT
+        title: Ich stehe auf für Frieden
+      - id: 5ewET96mVXKpVm39t99LEj
+        title: Ich wecke meinen Körper auf
+      - id: 3pEIUmkvZNhoQZkAWYjZbY
+        title: Ich wünsche dir einen Engel - Zauberhafte Lieder in verzauberter Zeit
+      - id: 6ksGaFoWjgdJRzGaT6LLlX
+        title: Ihr Blätter, wollt ihr tanzen?
+      - id: 3175kfiZeYi96D4pDSsFl6
+        title: Ihr seid meine Sonne
+      - id: 6IAkK0sCW4QbuQ1w4Id0YW
+        title: Im Piraten-Kindergarten
+      - id: 3GTmJt67xGvi04OO6y68Ab
+        title: In der Weihnachtsnacht - Krippenspiel
+      - id: 3IdVu0QtZ6N6hGbKAtWcEO
+        title: In meiner Bi-Ba-Badewanne
+      - id: 0Ij9fG0IVoovQAMJ2DfHuQ
+        title: In unserm Kindergarten
+      - id: 2bMnKUcOvYWaXHw989ELXi
+        title: 'Indianer, Ritter und Piraten: Themenlieder für die Faschingsparty oder Projekte mit Kindern'
+      - id: 7jd6wNNNFCGt3MZeOWvuSR
+        title: Indianer-Lieder
+      - id: 7cQ6OjxLt3uexHYKVbzpVH
+        title: Indianerlieder - Kinderlieder für kleine Indianer
+      - id: 0cGTRJnW4Xq39D4FrOd53G
+        title: Ja, es ist Laternenzeit
+      - id: 4OsVDAozKhJf8qHbIWusAI
+        title: Jetzt beginnt der Morgenkreis - Rituallieder
+      - id: 5FdkwMBWzSr12wP3VFT9sc
+        title: Jetzt beginnt die Weihnachtszeit
+      - id: 6kk7nCvF2EZ89TVUG4qSMM
+        title: Jingle Bells, Jingle Bells
+      - id: 1qSrkwen8DdrmZvC3GZx6H
+        title: Kastanienlied
+      - id: 4N8iNhUXDJtrLBMfeshJsS
+        title: Kerzen-Lieder im Advent
+      - id: 1m4Jf3LOd5QgWGBixZmttF
+        title: Ki-Ka-Kuchentanz
+      - id: 2peL3t9DELqskzg3N7WolD
+        title: Kids Club - Coco Loco Sommerparty 2018
+      - id: 697MiZpy7Jz1ggJejUhn2c
+        title: Kinder Lieder Sommerfest - Zum Tanzen Und Mitsingen
+      - id: 1okNYDwAUOZ9JHRhGg10ZK
+        title: Kinder Lieder Spass, Vol. 3
+      - id: 4SyZLFzYMU2tUrvFnEDywR
+        title: Kinder Lieder Spass, Vol. 4
+      - id: 0ZA4dteQNH35gPvC7BFpRH
+        title: Kinder Lieder Spass, Vol. 6
+      - id: 5VrC1tZzB19OtoovwyS10B
+        title: Kinder Lieder Zauber - Bunte Hits zum Mitsingen
+      - id: spotify:4zJnJrRce2FMhyxjBh89MG
+        title: Kinder Party
+      - id: 6zhYpidl2L2MqhgX6t9Aqb
+        title: Kinder Sommer Spaß und Launebären
+      - id: 1iRGpbqnXhnnUJM4AE5sqG
+        title: Kinder Weihnachstszeit
+      - id: 1JyRHybjHEP1smobOoLeej
+        title: Kinderlieder
+      - id: 6MOiCCreEkv99jlEm7uI5u
+        title: Kinderlieder - 20 fröhliche Kinderlieder mit Gitarre
+      - id: 6czBrnXF3MCam6lajtJgNp
+        title: Kinderlieder - German Children's Songs & Nursery Rhymes - Autumn Songs
+      - id: 1gjsAYNSPFAbWWPHQob4JM
+        title: Kinderlieder - German Children's Songs & Nursery Rhymes - Christmas Songs
+      - id: 4I9FlWr1hXPVsXp8f6CAuO
+        title: Kinderlieder - German Children's Songs & Nursery Rhymes - Kids Songs, Vol. 2
+      - id: 0ltbLJBK3TF84AHA5q2T9X
+        title: Kinderlieder - German Children's Songs & Nursery Rhymes - Lullabies
+      - id: 4CQZ5caGpFM70Copnd2qng
+        title: Kinderlieder - German Children's Songs & Nursery Rhymes - Spring Songs
+      - id: 4aHZarrdc8q8G8fcv5etD5
+        title: Kinderlieder - German Children's Songs & Nursery Rhymes - Summer Songs
+      - id: 1hOriL0OWafga9xpragBYY
+        title: Kinderlieder - German Children's Songs & Nursery Rhymes - Winter Songs
+      - id: 1gbTo3rwEyez2Z94Xkot3p
+        title: Kinderlieder Für Den Stuhlkreis - Xxl-Version Mit Allen Liedern
+      - id: 2tSo78B9hkFJNd10lo7hno
+        title: Kinderlieder Jahreszeiten
+      - id: 5PNhNpo3EEobk0W9batwul
+        title: Kinderlieder Spass 2021 - Sommerferien Edition 2021
+      - id: 2TXlaGyrmW8Pwmzj9kbxNv
+        title: Kinderlieder für Kinder
+      - id: 52Pq4bNSQfmrNuYnNe1wCy
+        title: 'Kinderlieder für den Morgenkreis: 22 fröhliche Mitmachsongs zum Tanzen und Bewegen'
+      - id: 4DLYovnHp9ChWzgVdUyhCA
+        title: Kinderlieder mit Zahlen und Formen (Von 1 bis 10, Wiegen, Messen, Uhr und Geld)
+      - id: 4B3w5F5hwDY6DRQSbhKdOR
+        title: 'Kinderlieder rund um die Bibel, Vol. 2: 28 religiöse Lieder inkl. Tauflied und Liturgie'
+      - id: 43CbwjHtwypH4iZR2QCsFL
+        title: Kinderlieder rund um die Bibel, Vol. 3 (Religiöse Lieder inkl. Josefslied und Lebendiges Wasser)
+      - id: 4bHuDcXYMya18i0n67Nkrn
+        title: 'Kinderlieder rund um die Bibel: 28 religiöse Lieder inkl. Erntedank und Vaterunser'
+      - id: 5lvqht1TAxyhJk3Y8X2ZlP
+        title: Kindertanz – Beweg dich ganz (24 Kindertänze fürs ganze Jahr)
+      - id: 4XVQmih7xlEcBCnJ4CVr1W
+        title: 'Kindertanz: Jetzt geht es los! (22 Kindertänze fürs ganze Jahr)'
+      - id: 0L0aDcEWKOMtShmLJ4hVjn
+        title: Kita Disco 2024
+      - id: 4uIrhF7usSCirlEoTTtaNX
+        title: KlangKISTE - Sankt Martin und das Li-la-Lichterfest
+      - id: 7oKzMh5l642U0ZSkyIwNRT
+        title: Kleine Begrüßungsliedchen
+      - id: 6OpyvErdbho5ZTh8rojkgQ
+        title: Kleine Engel
+      - id: 5UZIRt3cYfuygFvJ1KM5x1
+        title: Kleine Mi Ma Maus
+      - id: 757bAQ81V7lT0qSe73eyH1
+        title: Kleiner Käfer
+      - id: 46nYFAAFoXvjlSjR31GfGK
+        title: Kleiner Ritter-Lieder-Mix
+      - id: 7gAmhKTmDZiVXj7pzXDsYL
+        title: Kleiner Stern
+      - id: 6ltLSetGEfMhxDEZzlcpdB
+        title: Kleines Halloween-Lied
+      - id: 3akmbGCc7fuicgpoukHdjC
+        title: Kleines Sternenlied für den Advent (Ich schenk dir einen kleinen Stern)
+      - id: 09eccwd8JftqbOWKkjzA8n
+        title: Komm Osterhase hüpf mit uns - Die schönsten Kinderlieder zu Ostern
+      - id: 4lakH0hXDvul2dAOSf5iOF
+        title: Komm zum Sommerfest
+      - id: 30Qu1QFYtWfIAFu7qYEejM
+        title: Komm, mach mit!
+      - id: 2BFhaG1cKl2bMDkeX4WitC
+        title: Komm, sing mir nach durchs ganze Jahr
+      - id: 0PMXWB4weTYqRz0d63I1OL
+        title: Komm, wir finden Gottes Spur
+      - id: 6suEasetOMUGVij7NnoVEf
+        title: Komm, wir geh'n Laterne (Die ultimative Liedersammlung zu St. Martin)
+      - id: spotify:5aYqEAomEUQ4zdGbFpQSIp
+        title: Komm, wir schlafen - 30 Kinderlieder, um zur Ruhe zu kommen
+      - id: 1XdKjdZsnbCiHY8XJsj4Pl
+        title: Komm, wir singen Frühlingslieder und freun uns auf das Osterfest (37 wunderschöne Frühlingslieder)
+      - id: 3VSFXNGPK7llOD0jYAQvSz
+        title: Komm, wir singen Sommerlieder und freu'n uns auf die Sommerferien (37 erlebnisreiche Sommerlieder)
+      - id: 0gMipJLAdeVtNxANQs9pIN
+        title: Komm, wir singen Tag und Nacht, zum Abend und am Morgen (40 wunderschöne Kinderlieder)
+      - id: 5fXZlBPbOfawxoHBCb6NVM
+        title: Komm, wir singen herbstliche Weisen und Lieder zu Halloween (33 wunderschöne Kinderlieder)
+      - id: 56V3sX0gIhFEqake3KlqZ3
+        title: Komm, wir singen lauter Quatsch und Nonsens (48 unglaubliche Lieder und Songs)
+      - id: 53pEPcZcFo9p1yMSCdI7kg
+        title: Komm, wir singen und lassen Instrumente klingen (48 verspielte Lieder und Songs)
+      - id: 4hQ5VYxetzU5boVk6RHZ5Y
+        title: Komm, wir singen und meckern über das Wetter (50 wetterfeste Lieder und Songs)
+      - id: 3EpSkhI98hVa2KLv534vaW
+        title: Komm, wir singen zur Adventszeit und zum Weihnachtsfest (52 wunderschöne Kinderlieder)
+      - id: 1fTINj8mEQ67nhBgVDwkTN
+        title: Komm, wir singen zur Walpurgisnacht und zu Halloween (20 wunderschöne Kinderlieder)
+      - id: spotify:5au91RuQ64lizJxBxxj82W
+        title: Komm, wir singen über Gefühle, Stimmungen und das Miteinander (20 wunderschöne Kinderlieder)
+      - id: 0JBo0paUbdKZGGbDoE2bUa
+        title: Komm, wir singen über Heiteres und Besinnliches aus der Tierwelt (20 wunderschöne Kinderlieder)
+      - id: 2wOZbFa00JThprX3LssYA2
+        title: Komm, wir singen über Kriechen, Krabbeln, Flattern und Summen (21 wunderschöne Kinderlieder)
+      - id: 6iHjA5c973sPlxALWTfyL9
+        title: Komm, wir singen über Ritter, Seeräuber und alte Zeiten
+      - id: 7jygPzE0LBMHoTY1iIADLm
+        title: Komm, wir singen über Sankt Martin im Schein der Laternen (38 wunderschöne Kinderlieder)
+      - id: spotify:5VqAIoQyxUBJBH374tgNyA
+        title: Komm, wir singen, wenn die Flocken sacht vom Himmel fallen (41 wunderschöne Winterlieder)
+      - id: 5oH6C75IHXXkyUfhFygBli
+        title: Komm, wir singen, wir tanzen und bewegen uns (44 wunderschöne Tanz- und Bewegungslieder)
+      - id: 1dEl5BwS6tGUb1gtXPdtlN
+        title: 'Krabbel-Hits für Krabbel-Kids: Häng dich an, häng dich an'
+      - id: 2WvgbtJ1mam92803FqC6A4
+        title: 'Krabbel-Hits für Krabbel-Kids: Kleiner Löwe, kleiner Tiger'
+      - id: 2vOqQjsjSe5pXXWORpweQp
+        title: 'Krabbel-Hits für Krabbel-Kids: Mama, Papa & ich'
+      - id: 4w9wsGBgZwrCk658jTv1bN
+        title: 'Krabbel-Hits für Krabbel-Kids: Sonnenlieder'
+      - id: 4atXv15g40T4Q5impMIlQT
+        title: Kuschelige Kuschel-Lieder
+      - id: 4Um5jlt2BtrLGbbjLXL31w
+        title: Königin/Diese Welt
+      - id: 6o11457W01M4VTiZHm4xUy
+        title: Kürbis, Kürbis, schau mich an (Kürbislieder, Herbstsongs & Halloweenhits)
+      - id: 1nUME0f6eITB3FZfqVNDEq
+        title: La La Laterne (Lichterfest-Lied)
+      - id: 4mIXnv07eysEssUPAFJyxG
+        title: Lalilala die Kinderlieder sind jetzt da
+      - id: 1LTAnm06LwTCJVgiMDd163
+        title: Lass uns gemeinsam klatschen (Schlusslied)
+      - id: 4cZ2SyFJDq2Pxkub9PJWDL
+        title: Laterne Sonne Mond und Sterne
+      - id: 7yOixLaZPNRSIJdisqrJVJ
+        title: Laterne laufen ist schön
+      - id: 1AcHqW4oClh2zvcefDgHib
+        title: Laterne, Laterne - Die 10 schönsten Kinderlieder zu Sankt Martin (Laternenlieder zum Mitsingen mit Gesangsversionen und Playbacks)
+      - id: 4FlcFrr5ONzL26vK04OQDA
+        title: Laterne, Laterne, leuchte durch die Nacht
+      - id: 1FajW7nkn8erbafA5iWBU5
+        title: Laterne, schenk der Welt dein Licht
+      - id: spotify:0UBUqsLvo8KsZkjbz9R8fC
+        title: Laternenlieder
+      - id: 1S54lT2bOVUXLBChATjWrC
+        title: Lebendiges Wasser (Ein Lied für den Gottesdienst)
+      - id: 1bJGi0XfMC6wBSdMWQHEI9
+        title: Leute, es ist Halloween
+      - id: spotify:1ogRHrPuIiFlhWrkAFqNdC
+        title: Licht von dieser Welt (Die schönsten Kinderlieder von Erwin Grosche)
+      - id: 3JPEqifcfF02PpEwpBbFCx
+        title: Lied von Moses
+      - id: 5nzNhCXW1cmd4e1EFGY7lF
+        title: Lied zu Neujahr
+      - id: 0l2EEyrhArmjog2ndmv82S
+        title: Lieder des Gottvertrauens
+      - id: 5LLqGW2u2RFB6r93stPH7a
+        title: Lieder für Kinder Hexxx-Hexxx
+      - id: 4WTubaSdYYMYr4i7MSSXXf
+        title: Lieder für Mama - Die schönsten Kinderlieder zum Muttertag - Kids Songs for a Happy Mother's Day
+      - id: 6OeaVKMAGyzT0KZK1ioPQY
+        title: Lieder zu Bibel-Geschichten - Jesus, Bartimäus, Zachäus & Co
+      - id: 3t8yC3DVG3gUC4hE3LN5Pj
+        title: Lieder zur Erstkommunion
+      - id: 6uv6gD4xXV5tVZTfGm1T8Y
+        title: Lieder zur Firmung und Konfirmation
+      - id: 5raU0fCm4tHlUsFupDEYnd
+        title: Lieder zur Hochzeit
+      - id: 1pfY5zCMJxGOdVxCpnInPR
+        title: Lieder zur Taufe
+      - id: 3z15sdnPJw9cpk7StTzxrX
+        title: Lieve kleine muis - Kleine Mi Ma Maus
+      - id: 5XznXbqZf0toCAejrWp7oq
+        title: Like warm winter sun
+      - id: 7bvImCyryGnZl2IY79QkUR
+        title: Mandarinen, Mandarinen - Das Mandarinen-Lied
+      - id: 6ATzERlIEbLecEi3M72oso
+        title: Marienkäferlein
+      - id: 0veMuISz1yxPBBQzjwH4Id
+        title: Martin, Martin, Martinsmann - 25 Herbstlieder und Laternenlieder zu St. Martin
+      - id: 0jubPzItlsfwO4S0SRqIDD
+        title: Matilda und die Kraft der Sonne
+      - id: 2CHyTpdJ7O5IG2dwwNDDuZ
+        title: Mein Jahr In Gottes Schöner Welt - 9 Neue Religiöse Lieder
+      - id: spotify:5V6U0kHUqafAzJtYggHVzT
+        title: 'Mein rosarotes Ponny: Kinderlieder, Frühlingsflieder'
+      - id: 7wPthRQG9q4jk7sUW9kxTd
+        title: Meine Faschingslieder
+      - id: 2Pqk8HPPmIZROSVWD9FDhf
+        title: Meine Frühlingslieder
+      - id: 1bNPjGd5HOqt4tQ9PjZC0V
+        title: Meine Gitarre (Das Gitarrenlied)
+      - id: 7Gd4lPduQ6N1fvHEU4OdfG
+        title: Meine Herbstlieder
+      - id: 4G34vb8RI6ngdCpgU5hTzJ
+        title: Meine Kinderlieder
+      - id: 7JQXHOAmblWn0NINUZVtid
+        title: Meine Mama ist die Beste!
+      - id: 79v5RzhvqI7haH7bdDaH4w
+        title: Meine Sommerlieder
+      - id: 2gXREZIeyMf4DR3Br1M0I8
+        title: Meine Weihnachtslieder
+      - id: 4UQtC3KP5D1tCn7l1o3V3A
+        title: Meine Winterlieder
+      - id: 2sK68qV1PCkzACzJBeo1ww
+        title: Meine bunten, fröhlichen Kinderlieder
+      - id: 4jolmqNbvVGfVXZfKZslsT
+        title: Meine liebsten Kinder Weihnachtslieder, Vol. 1
+      - id: 5P473xiIHd9aHpcy61zWSW
+        title: Meine schönsten Ferien - Kinderlieder die Spaß machen 2015
+      - id: 4oM9JZn1YDn65ubKPoZOIi
+        title: 'Meine vier Jahreszeiten: Der Frühling Sommer Herbst Winter kommt'
+      - id: 4R9QkW3ej6IjpS8j5IG7re
+        title: Merry Christmas Everyone
+      - id: 3SbFcVwVCr9SIMNNG80oyP
+        title: Minicik farecik - Kleine Mi Ma Maus
+      - id: spotify:42E0MsvkKXKczO6DTisjC7
+        title: Mit Sternen und Laternen feiern - 30 Kinderlieder für Lichterfeste
+      - id: 4peo2rPTKkjEfEmMgNPbjp
+        title: Mit uns erlebst du was! Spiel- und Tanzlieder für Kindergarten und Grundschule
+      - id: 0IrxMVaJrYl72R8VZthk6S
+        title: Mittagessen-Lied (Schu-bi-du-bi-du, das Essen steht bereit)
+      - id: 6RqW0dkcNLyuOjDPVl5UXy
+        title: Musikalisch durch den Morgenkreis (30 Kinderlieder für die Krippe & Kita)
+      - id: 4xCnQVaFeN3IecVsIh4vuN
+        title: 'Musikalisch durch den Morgenkreis: Frühling & Sommer - Das Album für die Krippe & Kita'
+      - id: 3vAi7YUIC5Ac384eeuQLY6
+        title: 'Musikalisch durch den Morgenkreis: Herbst & Winter - Das Album für die Krippe & Kita'
+      - id: 7cDYrDQn6wDNnuwxGFDegF
+        title: Märchenlieder
+      - id: 14w2vF8UYBmfNnMz2b7Hzo
+        title: Neue und alte Laternenlieder
+      - id: 7A0E6gFjAZU8ljxXQoPAtD
+        title: Niko-, Niko-, Nikolaus
+      - id: 3VBEkcJNubJqXdF37ElpFr
+        title: 'Nun sagen wir Euch allen GUTE NACHT: Schlaflieder für Kinder'
+      - id: 5Z28DebS4Bylls7GgX4yGb
+        title: Ostereiertanz 2017
+      - id: 0I91UjFAvPOcPSX75gyC7H
+        title: Osterhasen Disco
+      - id: 0dl6Ei5YGtfyJVDRcNaqSm
+        title: Osterhasenhits
+      - id: 0uzRLgXK7foGNiHHnv5bJU
+        title: Papa, spiel die Kinderlieder... sofort
+      - id: 70zBRcy6zYVqciwK7yDhHf
+        title: Pequeño raton - Kleine Mi Ma Maus
+      - id: 4rBxmc8Y9Asq6ugHjmAjAS
+        title: Piraten-Lieder für Kinder
+      - id: 1f6NSrc23WUOJhwhaswMvw
+        title: Piraten-Lieder für Kinder
+      - id: 2jDmiY7mcEKARamrm0ipEF
+        title: Piraten-Lieder für Kinder, Vol. 2
+      - id: 6KZbSKH0AeCSJWy2InlWoe
+        title: 'Piraten-Sommer-Party: Sonnige Kinderlieder'
+      - id: 3xy7AebqIkoskojmcsXHwz
+        title: Plätzchen backen mit Mama
+      - id: 1a0NSWD3iVyaAP6ilpH6hr
+        title: Polonäse - Neue Kinderlieder zum ankommen, bewegen, mitmachen, ausruhen und Tschüs sagen
+      - id: 1XSxfpGxPePcuIk61VX1Qc
+        title: Ritter Kunibert
+      - id: 2DIjNEiGJA9PU7ijUPGV2T
+        title: Roh macht froh!-Lieder
+      - id: 4gHVfOHNP8yRGf1qqXAdiC
+        title: Rot und Gelb, Blau und Grün, alle Farben find ich schön! (Das Farbenlied)
+      - id: 3PDYQznEt1fbqScAC8oiUz
+        title: Rote Nasen & Faschingsblasen 2017
+      - id: 6OzFFzwqYeR1C5Yff1h6ys
+        title: 'Sankt Martin singt durch Herbst und Wind: 20 Kinderlieder für die Laternenzeit'
+      - id: 0JEGG0YOqBir077LMClwRp
+        title: 'Schau meine Hexe: Die schönsten Hexenlieder'
+      - id: 3c5Pqr9czibwLn1dhTqaK2
+        title: Schau, der Herbst ist da & Der Blättertanz
+      - id: 7GiB9I5NpApmR7agJiwmPb
+        title: Schlafe ein, mein Kind - Wache auf, mein Kind (Schlaflieder - Aufwachlieder)
+      - id: 79mpbQxtDgR8PEhCVZDZUm
+        title: Schlafenszeit für die Kleinen
+      - id: 2o9VEttF5sm9UjgOXqEWz5
+        title: Schlittenfahren Schneeballschlacht - Kinderlieder für den Winter
+      - id: 6xPOjNfNPyrnRVGVgE753p
+        title: Schmetterlings Abenteuer (Eine Melodie voll Glück)
+      - id: 5qgF30pTXSZi0MlnG4hAyN
+        title: Schmi-Schma-Schmetterling
+      - id: 6x3m0q3MevGqpcmuL1Jcog
+        title: Schultütentanz (Lied von der Schultüte)
+      - id: spotify:5gOiriolJRbODGRXUvZ2Cz
+        title: 'Schwimmflügerl und Sommerspaß: Die Kinderlieder'
+      - id: 33ybL3IJcVkKNFbzyElOPe
+        title: Seeräuber Wackelzahn
+      - id: 3PiBmdRv1lUWT4tK9zf6HH
+        title: Seeräuber Wackelzahn
+      - id: 3MYyMcKsDefR3A3UHQwZN4
+        title: Seeräuber Wackelzahn
+      - id: 1Krk6wgCBE4RbYowHYrjYk
+        title: Seht unsere Laterne
+      - id: 45sWzUEalbMxNqrs8nWIJO
+        title: Si Sa Sommerlieder für Kinder
+      - id: 3MxA0NhtVc15KnTNV7s82f
+        title: Sieh, wie die Kerze leuchtet (Weihnachtslieder)
+      - id: 3junVgh622kZeDTJ6kdFxA
+        title: Sing mit im Kanon - Die große Kanonsammlung mit neuen und traditionellen Kanons
+      - id: 0bctZABlrHcY6a9OXRlNdU
+        title: Sing mit mir, Vol. 1 - Kinder Lieder für kleine Entdecker
+      - id: 73KobeYv2r3yFGpqrix9rV
+        title: Singen und Musizieren
+      - id: 2Mvo1bvSeD3yQc6RE6Oppf
+        title: Singen, spielen, lachen, wachsen - Die schönsten Lieder für Kinder
+      - id: 6BQXHWzIOZ85Kz4vCRvDkc
+        title: Sommer - Sommer-Hits, Sonnenlieder, heiße Bewegungs- & Mitmachknaller für Kinder
+      - id: 3lG9EbhXZyVPvevUMNgEXV
+        title: Sommer ist in meinem Kopf
+      - id: 5BgcEyn14Dd0F1VyIfNDEl
+        title: Sommer und Sonne
+      - id: 2Fi9qfBRSqebqnpXjFvTDn
+        title: Sommer, Sonne, Sonnenschein
+      - id: 2Er8i1fY6K2X9gmbU2vIhU
+        title: Sommer-Lieder (Sommer - Sonne - Ferien)
+      - id: 4h7Eq360hQuIzS5vdLF67q
+        title: Sonne, Mond und Sterne - Meine liebsten Einschlaf- Und Kuschellieder, Vol. 2
+      - id: 5pR63lUhmRKskMVU0vm398
+        title: Sonne, Mond und Sterne 2023.2 - Meine liebsten Einschlaf- und Kuschellieder
+      - id: 4ROQ3ApYPK032X5ZsNgZD4
+        title: Spiel Herbstlieder! Die schönsten neuen Kinderlieder zum Herbst
+      - id: 3CibsK6TZ9C56Kry5mnZxh
+        title: Spiel Kinderlieder!
+      - id: 1XUtr6lGCde7zYQ9Z8YKaW
+        title: Spiel Osterlieder!
+      - id: 6mT3eXulkJ6El3PIgSfRuz
+        title: Spiel Sommerlieder! Die schönsten neuen Kinderlieder zum Sommer
+      - id: 5k36u2ADELpII5YS5QVqqp
+        title: Spiel Weihnachtslieder!
+      - id: 4D5aHSsebM53Ohc9O9xY9X
+        title: Spiel mal mit dem Becher und zwar ganz genau im Takt (Becher-Song)
+      - id: 2tho9y393lCTwhFsvPchuq
+        title: Spiel und Tanz – 50 lustige Kinderlieder
+      - id: spotify:7K3Psz6NXHypF40QCR9kcT
+        title: St. Martin - Die Kinderlieder zum Laternen Fest
+      - id: 0cgPJyo1Dkqs9DnTq46TIY
+        title: Stark wie ein Baum - Frühling, Natur, Ostern, Walpurgisnacht, Muttertag
+      - id: 7bu95QYH2Dz24a4M7cs6bD
+        title: Sternenhimmel - Die schönsten Einschlaf Lieder für Kinder
+      - id: 1o9hFAE9gZg7mU0VpbzmiG
+        title: Sternlein und Schäfchen - 30 Schlaflieder für eine gute Nacht
+      - id: 4eO8vB0uCzKtSt26mVvs82
+        title: Süßes oder Saures (Halloween Kostüm Party)
+      - id: 7dPRgoTk3vDhb6VwuDlrud
+        title: Teilen wie Sankt Martin (St. Martin und seine Lieder)
+      - id: 30SJhdGUh7IMmE46mSAMLt
+        title: Tiere im Herbst-Lied
+      - id: 6LSijQCnXlYvDxFVSvXlDT
+        title: Tierisch gute Kinderlieder
+      - id: 2GtnJLWnfo2xl0GkjcSOLP
+        title: Tiny mini mouse - Kleine Mi Ma Maus
+      - id: 5nW24R1U9ZokVuDTCLDSds
+        title: Topolino mio - Kleine Mi Ma Maus
+      - id: 7sZRyqHAua3e4dYyPm0AGA
+        title: Tra ri ra, der Sommer, der ist da
+      - id: 2DipdLTVG67ctbiYmzJYcm
+        title: Tri-Tra-Trommelzeit (Das Trommellied)
+      - id: 0fAXGe5aWS9rXCLJKJasd7
+        title: Turndrache Lotti
+      - id: 3HQenfHIfsonqsizkvTPgz
+        title: Turnhits für Kids - 20 Kinderturnlieder
+      - id: 7MN4eZpfsqnfv2cCb8JxVQ
+        title: Und jetzt geht's los! (Wir singen und bewegen uns)
+      - id: 5TTZCvFN3Mh1jOlGnrE0tz
+        title: Und wieder brennt die Kerze
+      - id: 6v7So32H0VGBEK0IAXx883
+        title: Und wieder brennt die Kerze (Viele schöne Lieder für die ganze Adventszeit)
+      - id: 1BaXrOpjQgVbpVqfsnsDm4
+        title: Unser Frühlingsliederalbum
+      - id: 6Z3mjuYLSEu5vLtIUd8llQ
+        title: Unser Volksliederalbum - 30 bekannte und weniger bekannte Volkslieder
+      - id: 2jFNFc2RYj35JdMIcSQ6a4
+        title: Unsere Lieder aus der Eltern-Kind-Gruppe
+      - id: 3MvZxjH65ta1AECqN6Py94
+        title: Unsere fünf Sinne - Die schönsten Kinderlieder zum Entspannen
+      - id: 1zzbv7EAcasMFsaoyGMx8N
+        title: Urlaub auf dem Bauernhof - Die schönsten Kinderlieder 2015
+      - id: 0Ils1WDUPh1vblpBpwi3yd
+        title: Viel Glück und viel Segen
+      - id: spotify:7JC7to9h72Kb7DgaCsU4CP
+        title: Was macht der Frosch?
+      - id: 1KH5NKrbLEDtOYANwc8PEJ
+        title: Was schwimmt denn da im Wasser?
+      - id: 4KgQAb2aPoC6EpIjnev9Gh
+        title: Was zu Ostern geschah
+      - id: 0DuG08uZL00wyTH1b1BMuo
+        title: Weihnachten - Die schönsten neuen Kinderlieder 1
+      - id: 51r56UO8kWBduRgmQPKyAW
+        title: Weihnachten - Die schönsten neuen Kinderlieder 2
+      - id: 17C0l5t9nAUsqSDtuIon8f
+        title: Weihnachten daheim 2020 - bleibt gesund!
+      - id: 6zvAJv3QMsQ4Ep12UWRBU6
+        title: Weihnachten für Kinder!
+      - id: 0cNxnuoQoBeCAqhD5TKVda
+        title: Weihnachten ist immer schön
+      - id: 06F3mEcaz0Sy9ZrxqRFyN2
+        title: Weihnachten steht vor der Tür
+      - id: 02TbFmBQERmfpaUw1hKaOe
+        title: Weihnachts-Lieder für die Heilige Nacht
+      - id: 3L6pb5zm3sVowwJUXtqvEi
+        title: Weihnachtsbaumtraum
+      - id: 5765Du9j0jWbYAsNZlP3fz
+        title: Weihnachtsfeier und Krippenspiel - 15 Lieder für die Zeit kurz vor Heiligabend
+      - id: 2W0uq8gGP9lGE7jLJLA7E7
+        title: Weihnachtslieder mit Maria und Josef (Lieder rund um Jesus Geburt)
+      - id: 7gvVsQg4FfewJ4AvZ12WbE
+        title: Weihnachtslieder und Mandarinen
+      - id: 0fQCYlRqdM4HhhVtzvfl3D
+        title: Weihnachtsträume
+      - id: 2eglDDiv9mg116M5HXebHC
+        title: Weihnachtsträume - Neue Weihnachtslieder zum Tanzen und Träumen
+      - id: 7F6W3Anpmeb8pR3KQsjYs7
+        title: Weihnachtszeit - Kinderzeit
+      - id: 7Mn5ZQU46kZsQBotcmgiuw
+        title: Weiße Flocken überall (Winterlieder aus dem Kindergarten)
+      - id: 0IGZSBAQCxzUlMUPfbTYth
+        title: Weiße Flocken überall - 15 Lieder für Winter und Schnee
+      - id: 6JhdnGRb4iODRJ45WeRGwp
+        title: Wenn es schneit, wenn es schneit! - noch mehr Schnee-Lieder (garantiert weihnachts-frei!)
+      - id: 6QT2LSmZLQj6O3aFgTqBFO
+        title: Wenn wir zum Erntedankfest gehn - Lied zu Erntedankfest
+      - id: 1q2fKWpVfKMvwwlpdZVOVX
+        title: Wer an mich glaubt, wird leben - Kirchenlieder
+      - id: 533v9GZNQvUjvT8i4KFI3W
+        title: Wie im Himmel, so auf Erden
+      - id: 2qt8TIgd5eMznMDIKdb8Y1
+        title: Willkommen im Kita-Frühling - Komm, wir begrüßen den Frühling
+      - id: 4AGCSLiVkORl023u1ds80G
+        title: 'Willkommen im Kreis: Lieder zum Begrüßen und Verabschieden'
+      - id: 28gpM6iLO31ocosV12A33p
+        title: Willkommen in der Kita - Kinderlieder für jeden Tag
+      - id: 346ISumUIEeLvB4xvCv7K0
+        title: Willkommen, du Wunder
+      - id: 477sXU6dyZ8JPCRlCsPcu1
+        title: Winter - Die schönsten neuen Kinderlieder (30 wunderschöne neue Winterlieder)
+      - id: 200DPSMMA2W5p0xqR7vQnZ
+        title: Winter und Schnee
+      - id: 2ccJjqJTw5SGWiulPTmVsi
+        title: Winter-Lieder (Winter - Weihnacht - Fasching)
+      - id: 64z9c67mXGfFjQoJKqRdR9
+        title: Winterlied - Weihnachten im Märchenwald
+      - id: 4DZ7KSsp1pD1DyZBDHUmK6
+        title: Winterlieder für Kinder
+      - id: 6kzYFGmyBkWSqLPFfy0D2J
+        title: Winterzauberfee
+      - id: 598wskKn2wbJv2KintU5GJ
+        title: Winterzeit im Kindergarten
+      - id: 53db3eBpaApUgZ0g5oirJ4
+        title: Winterzeit in Schule und zu Hause
+      - id: 4NOfmjsUilANuGJ3Lxd1Wu
+        title: Wir Erdmännchen (Erdmännchen-Lied)
+      - id: 5KSNA1g4HWzS27ClsONMNa
+        title: Wir Warten und warten
+      - id: 0Khds5qt7caqWfItsbQFsr
+        title: Wir bleiben zuhause - Kinderlieder für Zuhausebleiber
+      - id: spotify:7gOYjn85Zlbvk8r7juw3b8
+        title: Wir machen Musik
+      - id: 0Oeps4k15t2ASPfqy6HEyV
+        title: Wir machen heute Nussmusik - 4 neue Weihnachtslieder für Kinder
+      - id: 3A7dkKtOmUIwDDH1INSVu1
+        title: Wir sind alle dabei
+      - id: 6SoAFnXa0pdTbAJVHxXCn0
+        title: Wir sind da (Kinderlieder mit Lucia und Angelika), Vol. 2
+      - id: 7eCjE5ytfzqCjGeyzkE38z
+        title: Wir sind da! (Kinderlieder mit Lucia und Angelika)
+      - id: 154T3JdwclJ2t32PmoQ25J
+        title: Wir singen gemeinsam
+      - id: 4BWuLuy1jdHON74YD8dkJs
+        title: Wir sitzen hier im Kreis
+      - id: 27vl124Iqp9fB5w3f3v2l8
+        title: Wir tanzen einen Stopptanz
+      - id: 0AOGm0xYIAdYNLSPPqFrnX
+        title: Wir warten und warten - Lieder für den Advent
+      - id: 2UWogRpwCix8YWPgxCqUFQ
+        title: Wir wollen den Frühling begrüßen - 22 frühlingshafte Kinderlieder
+      - id: 0dVrd0sRPM0HpTVUx2Mjnx
+        title: Wir zünden eine Kerze an
+      - id: 4ekDvzXg1BLbIpcLWP5jxq
+        title: X-Mas Feeling for Chilling People
+      - id: 2s9o8epXtiybLDxqi1OmTC
+        title: Zahlenlieder für die Kita
+      - id: 46UTuWvp0RmWBdy9LfLMeO
+        title: Zum Gottesdienst willkommen
+      - id: 7yBJOamhaxp8VvED8PXgmw
+        title: Zwei kleine Fische - Das fröhliche Kinderlied für Babys & Kleinkinder
+      - id: 3g6iW7jzxIntgP8CdhCTXM
+        title: Zwölf Kinder hat das Jahr
+      - id: 2vGeiZ2yZSpqOv4RTWktYI
+        title: Zähl mit uns die Jahreskinder (30 Kinderlieder durch die Jahreszeiten)
+      - id: 0tyqkd7dAFNI83yFnYLCGX
+        title: Zünd die erste Kerze an
+      - id: 3PhXk69WdHYt0WiN5Lp10X
+        title: Zünd die erste Kerze an
+      - id: spotify:137qG4twQYqmaoP3sNupty
+        title: Zündet an die Kerzen
+      - id: 1M2UtOKl6dlKxSy2QRbZJ9
+        title: Ägypter-Tanz - Die Reise Nach Ägypten
+      - id: 20LsDrUwK8VsemxQ7xwt2N
+        title: Über den Wolken
+  content_type: music
 - id: senta
   title: Senta
   keywords:
@@ -30747,20 +32691,187 @@ series:
     apple_music:
       artist_ids:
       - '1622871029'
+      albums:
+      - id: '1822417969'
+        title: AKUSTIKSESSION - Single
+      - id: '1750454223'
+        title: Ab zum Meer / Към морето - Single
+      - id: '1848930722'
+        title: Aufräumapparat - Single
+      - id: '1798445234'
+        title: Bisschen von Allem - Single
+      - id: '1798444678'
+        title: Du bist was Besseres - Single
+      - id: '1798445748'
+        title: ECHO - EP
+      - id: '1822429791'
+        title: EGAL WIE WEIT - EP
+      - id: '1822440296'
+        title: Egal wie weit
+      - id: '1823943678'
+        title: Einhornzeit - Single
+      - id: '1798445139'
+        title: Farben sind für alle da - Single
+      - id: '1842354941'
+        title: Geschwister Show - Single
+      - id: '1828424008'
+        title: Glitzer - Single
+      - id: '1798445558'
+        title: Hallo Angst - Single
+      - id: '1800705137'
+        title: Hoch die Hände Wochenende
+      - id: '1793093901'
+        title: Ich bin stark - Single
+      - id: '1795714984'
+        title: Jetzt - EP
+      - id: '1869372286'
+        title: Mathe-Ma-Tik - Single
+      - id: '1798445864'
+        title: So Jung - Single
+      - id: '1798683787'
+        title: Unperfekt - Single
+      - id: '1834450625'
+        title: Wir sind die Zukunft! - Single
+      - id: '1883032359'
+        title: Wunderland - Single
+      - id: '1718737869'
+        title: Überholspur - Single
     spotify:
       artist_ids:
       - 7uVDfCKp96l3xCHFYf39vU
+      albums:
+      - id: 2LYAsUTefdwx95zqcYmHUg
+        title: AKUSTIKSESSION
+      - id: 4X0UvXe8XRpAmpCjG4dm3y
+        title: AUFHÖREN
+      - id: 62ZBqsYXJUUVvKJ7lbPkxg
+        title: Ab zum Meer / Към морето
+      - id: 5NoQPHsAkHbHwTjpUVMnWZ
+        title: Aufräumapparat
+      - id: 0TOv9S6mNeRpNAY2mglTDZ
+        title: 'Aus Oonagh wird Senta: Ein neues Kapitel beginnt (feat. Oonagh)'
+      - id: 2rskGgStesOwkotPDk5eIr
+        title: Bisschen von Allem
+      - id: 0BGDSsu5XTul7GibDupO8D
+        title: Das rote Album
+      - id: 32NJdufCm3qnbbfoWlUC1a
+        title: Du bist was Besseres
+      - id: 1ha7an7H3CKEvEdgT4vJ5m
+        title: ECHO EP
+      - id: 2lU46v4hvCCkvVPpNGb57b
+        title: EGAL WIE WEIT
+      - id: 7r1PohYvRrwYHjXrSJ0jaZ
+        title: Egal wie weit
+      - id: 2KrdUCT90iZseFw5lWR126
+        title: Einhornzeit
+      - id: 6Higna1cLonCvr3h3edWQw
+        title: Farben sind für alle da
+      - id: 4Sw9xCsCfEc2k2yPTrJ8d2
+        title: Geschwister Show
+      - id: 6PPeTjHMJAPJdnAVPHxaVm
+        title: Glitzer
+      - id: 00CtRfmW39n4Bkdo8W0uMj
+        title: Hallo Angst
+      - id: 2h2kBUVC75JjPVTDjgiBGu
+        title: Hoch die Hände Wochenende
+      - id: 4MrZreEFBKeqcnylo4yygq
+        title: Ich bin stark
+      - id: 1qkgonws7IBTs3tR8j6PEG
+        title: Jetzt
+      - id: 7I4TNaj0XZa6zO8khlSzpb
+        title: Komm spielen!
+      - id: 2uuHniEZdvH69ldP6RztzC
+        title: Liebesdusche
+      - id: 0eVMzSfnG3nib5C6516l4c
+        title: MUSIK MUSIK
+      - id: 0kP5Gvj4cbgQh9kFwAmu1Z
+        title: MUSIK MUSIK (Dance Mix)
+      - id: 2L8yKTwSv7rW5xRLmyRsW9
+        title: Mathe-Ma-Tik
+      - id: 38EnlK9R5vIKyMnIXZ8Ipy
+        title: 'Mission Erde: Das Fest der Sprachen'
+      - id: 0rjF6QekflAJuoORsWXyTx
+        title: So Jung
+      - id: 5Kq7AcsjkwFtT8HZQYZJzM
+        title: Unperfekt
+      - id: 6P2YB62o29hhFZzDW840DL
+        title: VERLIEREN
+      - id: 5i7270OKA6qHinRruKmFDe
+        title: Was immer es ist
+      - id: 53ksn6YRW73GsJcBvuf9q0
+        title: Wir gehen raus
+      - id: 01zkrurWbG47dQAeaTxf8S
+        title: Wir sind die Zukunft!
+      - id: 70AEUDbbEWcN3B1tKNcWcY
+        title: Wunderland
+      - id: 2UYB4PAOhsrbbv5pmYgNHq
+        title: Wut
+      - id: 37DgxDqZvHGxI7hyi155D9
+        title: Überholspur
+  content_type: music
+  aliases:
+  - Senta-Sofia
 - id: mira_und_das_fliegende_haus
   title: Mira und das fliegende Haus
   keywords:
   - Mira und das fliegende Haus
+  - MC Pieps
+  - Das fliegende Haus
+  - Ich bin Ich
+  - Alle Gefühle
+  - Alle Hände hoch
+  - Hoch wie ne Rakete
+  - 1000 Seifenblasen
+  - Land der Träume
+  - Hallo Zukunft
+  - Einfach so
+  - Nirgendwo sonst
+  - Kinderlieder
+  - Kinderpop
   providers:
     apple_music:
       artist_ids:
       - '1716921195'
+      albums:
+      - id: '1718906069'
+        title: Alle Gefühle - Single
+      - id: '1884333086'
+        title: Alle Hände hoch - Single
+      - id: '1807952343'
+        title: Das fliegende Haus - Single
+      - id: '1823593374'
+        title: Hoch wie ne Rakete (Geburtstagslied) - Single
+      - id: '1746319257'
+        title: Land der Träume - Single
+      - id: '1720719792'
+        title: Nirgendwo sonst - Single
     spotify:
       artist_ids:
       - 2095wofkLJPuP7ZmCNwvOS
+      albums:
+      - id: 6BphQKc1co0Gpnb9WvRGSZ
+        title: 1000 Seifenblasen
+      - id: 4QjEVcVyGB4D5tzPIRRAwx
+        title: Alle Gefühle
+      - id: 4QRRrsNoPCG9ms3vqu6ORT
+        title: Alle Hände hoch
+      - id: 05hR1RRQ6VnaypfZu5hnpj
+        title: Das fliegende Haus
+      - id: 3EaBXfEeZovC8N5W3xNulS
+        title: Einfach so
+      - id: 52RuLXPU4DaEavstCMvDtd
+        title: Hallo Zukunft
+      - id: 6DNSjAFFOYYBiYSgj6HUZ4
+        title: Hoch wie ne Rakete (Geburtstagslied)
+      - id: 3kPZiBmgXRkiOIUZKRCw3d
+        title: Ich bin Ich
+      - id: 3W2slQE44rOTBiruroaLsH
+        title: Land der Träume
+      - id: 46aZJCHamscHqM7SHCtxPZ
+        title: Niemand ist zu klein, um groß zu sein
+      - id: 5VIBROIOzquma1woy0WBGk
+        title: Nirgendwo sonst
+  content_type: music
 - id: reinhard_horn
   title: Reinhard Horn
   keywords:
@@ -30769,64 +32880,949 @@ series:
     apple_music:
       artist_ids:
       - '260321820'
+      albums:
+      - id: '1885475141'
+        title: 1000 Farben hat die Welt – Praktisch! Musicals 1
+      - id: '1671793439'
+        title: Advent und Weihnachten mit dem Friedenskreuz
+      - id: '1465486062'
+        title: Auf dem Weg nach Bethlehem
+      - id: '1884285700'
+        title: Auf einmal ist uns der Himmel ganz nah
+      - id: '1465302571'
+        title: Aufeinander zugehen – gemeinsam Schätze teilen
+      - id: '1827362643'
+        title: Aussi grand qu'un arbre - Single
+      - id: '1442408779'
+        title: Baby in Bewegung
+      - id: '1474074275'
+        title: Babys Einschlaf-Musik
+      - id: '1886078192'
+        title: Bei Jesus sind wir heut zu Gast – zur Kommunion
+      - id: '1884567598'
+        title: Bibel-Musicals
+      - id: '1615917849'
+        title: BibelHits – Teil 1
+      - id: '1614707213'
+        title: BibelHits – Teil 3
+      - id: '1614817314'
+        title: BibelHits – Teil 4
+      - id: '1839343510'
+        title: Bir ağaç gibi büyük - Single
+      - id: '1779892459'
+        title: Cosa mi piace - Single
+      - id: '1884858273'
+        title: Das Robinson Kindermusical
+      - id: '1884272618'
+        title: Die Kinder von Tschernobyl – Ein Rock-Requiem
+      - id: '1885492927'
+        title: Die Liebe bleibt – Ein Minimusical zur Osterzeit
+      - id: '1885500701'
+        title: Drei Minimusicals zur Advents- und Weihnachtszeit
+      - id: '1608032500'
+        title: Earth • Choir • Kids – Unsere Stimmen für das Klima
+      - id: '1886077811'
+        title: Echte KinderRechte – Lieder zu Kinderrechten
+      - id: '1538408335'
+        title: Eine Kuh mit Tattoo
+      - id: '1731425019'
+        title: Einfach nur so bist du von Gott geliebt
+      - id: '1538477702'
+        title: Einmal Himmel und zurück
+      - id: '1728217779'
+        title: Eins – zwei – drei – vier – Weihnachten steht vor der Tür
+      - id: '1884568722'
+        title: Eisbär, Dr. Ping und die Freunde der Erde – Lieder und Playbacks zum Klima-Musical
+      - id: '1731811816'
+        title: Elefantenlieder für kleine Mäuse
+      - id: '1442662532'
+        title: Familie sind wir!
+      - id: '1734186735'
+        title: Fans, Fairplay & Fußballfieber
+      - id: '1706975020'
+        title: Fingerspitzengefühl (Live)
+      - id: '1865326757'
+        title: Fly & Help Allstar Hymne (feat. Anita Hofmann, Claudia Jung, Jessina, Peter Orloff, Vincent Gross, Patrick Lindner, Loona, Olaf Henning, Graham Bonney, Timo, Partycowboys, Reinhard Horn
+          & Limburg Kids) - Single
+      - id: '1538540216'
+        title: Fremde werden Freunde
+      - id: '1884968374'
+        title: Fremde werden Freunde – Praktisch! Musicals 2
+      - id: '1442708002'
+        title: Frühling
+      - id: '1360071033'
+        title: Fußball, Football, Soccer
+      - id: '1884565461'
+        title: Fünf Minimusicals zur Advents- und Weihnachtszeit
+      - id: '1466756014'
+        title: Für die Seele
+      - id: '1727673151'
+        title: Gemeinsam sind wir stark! – Das Bunte Bande-Musical – Die Lieder
+      - id: '1809280815'
+        title: Gergedan, fil ve timsah - Single
+      - id: '1626532884'
+        title: Gott, wir müssen reden!
+      - id: '1833371677'
+        title: Grande come un albero - Single
+      - id: '1671786972'
+        title: Groß werden mit dir, lieber Gott!
+      - id: '1671527246'
+        title: Habe Mut!
+      - id: '1884261482'
+        title: Hallo & Tschüss Musicals zum Anfang und Ende der Grundschulzeit
+      - id: '1727673376'
+        title: Happy Birthday In Vielen Sprachen Aus Vielen Ländern
+      - id: '1442724269'
+        title: Herbst
+      - id: '1886075711'
+        title: Heute geht die Schule los – zum Schulstart
+      - id: '1789662911'
+        title: Hvad jeg kan lide - Single
+      - id: '1473406623'
+        title: 'Ich lass dich nicht im Regen stehn: Lieder und Playbacks zum Don Bosco Musical'
+      - id: '1671551752'
+        title: Ich schenk dir einen Sonnenstrah - EP
+      - id: '1538554037'
+        title: In der allerlängsten Nacht
+      - id: '1885513847'
+        title: Jedes Kind kann irgendwas – Praktisch! Musicals 3
+      - id: '1483781609'
+        title: Kinder feiern Weihnachten – hier und überall
+      - id: '1614424854'
+        title: Kinder-Kirchen-Hits – Teil 2
+      - id: '1614436070'
+        title: Kinder-Kirchen-Hits – Teil 3
+      - id: '1538532293'
+        title: Kinderträume im Advent
+      - id: '1552554920'
+        title: KlassenHits – Die Zugabe – Teil 1 – 71 1/2 Lieder rund um die Schule
+      - id: '1552553073'
+        title: KlassenHits – Die Zugabe – Teil 2 – 71 1/2 Lieder rund um die Schule
+      - id: '1551147885'
+        title: KlassenHits, Vol. 2
+      - id: '1442352859'
+        title: Krabbellieder für Krabbelkinder
+      - id: '1442385790'
+        title: Lachen, singen, tanzen
+      - id: '1886075172'
+        title: Lichtertänze zur Winter- und Weihnachtszeit
+      - id: '1727641133'
+        title: Lo que me gusta a mi - Single
+      - id: '1671426394'
+        title: Martin Luther mit dem Friedenskreuz erzählt
+      - id: '1808433575'
+        title: Meine Lieder – Mein Leben – Die Songs zum Buch
+      - id: '1691426284'
+        title: Meine Piano-Lieder – Meine frühen Piano-Lieder
+      - id: '1689726300'
+        title: Mit dem Friedenskreuz durch das Kirchenjahr
+      - id: '1731812657'
+        title: Montags im Advent
+      - id: '1483343951'
+        title: Märchen-Lieder-Zeit
+      - id: '1743965952'
+        title: Nashorn, Elefant und Krokodil (Disco-Remix) - Single
+      - id: '1474078496'
+        title: Nashorn, Elefant und Krokodil – Kinder-Konzert-Knaller mit Reinhard Horn
+      - id: '1782320554'
+        title: Ne çok severim - Single
+      - id: '1886074483'
+        title: Neue Lichtertänze zur Winter- und Weihnachtszeit
+      - id: '1748019776'
+        title: Neushoorn, olifant en krokodil - Single
+      - id: '1753195233'
+        title: Noshörning, Elefant och Krokodil - Single
+      - id: '1811922473'
+        title: Næsehorn, elefant og krokodille - Single
+      - id: '1444597505'
+        title: One Heart, One Goal (Die Kinder-Fußball-Hymne) - Single
+      - id: '1708863722'
+        title: Pirates of the Sea
+      - id: '1538413672'
+        title: Quatsch mit Salsa
+      - id: '1615918563'
+        title: ReliHits – Teil 2
+      - id: '1614425096'
+        title: ReliHits – Teil 3
+      - id: '1745319364'
+        title: Rhino, Elephant And Crocodile (English Version) - Single
+      - id: '1750801615'
+        title: Rinoceronte, Elefante y Cocodrilo - Single
+      - id: '1871331046'
+        title: Sa stort som ett träd - Single
+      - id: '1465089549'
+        title: Singen ist 'ne coole Sache
+      - id: '1442363193'
+        title: Sommer
+      - id: '1615058415'
+        title: Spirit of My Soul
+      - id: '1539004634'
+        title: Streichelwiese
+      - id: '1538455511'
+        title: Streichelwiese 2
+      - id: '1836295685'
+        title: Tak duża jak dąb - Single
+      - id: '1830364651'
+        title: Tan grande como un árbol - Single
+      - id: '1732413882'
+        title: To, co lubię - Single
+      - id: '1464737243'
+        title: Turnen ist 'ne coole Sache
+      - id: '1886074100'
+        title: Unter einem guten Stern steht dein ganzes Leben
+      - id: '1670610369'
+        title: Unterwegs zu den Kindern dieser Welt
+      - id: '1538514228'
+        title: Vierzehn Engel um mich stehn
+      - id: '1733473751'
+        title: Waar ik van hou - Single
+      - id: '1726377947'
+        title: Was ich gerne mag - Single
+      - id: '1553799771'
+        title: Was wir zum Leben brauchen – Neue christliche Kinderlieder
+      - id: '1442345960'
+        title: Weihnachten unterm Sternenzelt
+      - id: '1846854108'
+        title: Weihnachten unterm Sternenzelt – Die Lieder zum Konzert
+      - id: '1614829607'
+        title: WeihnachtsHits – Teil 3
+      - id: '1726189301'
+        title: What I Like - Single
+      - id: '1690126749'
+        title: Willkommen hier bei uns
+      - id: '1442295640'
+        title: Winter
+      - id: '1886073088'
+        title: Wir Kinder feiern Abendmahl – zum Abendmahl
+      - id: '1861200083'
+        title: Zo groot als een boom - Single
+      - id: '1787471071'
+        title: Αυτά που αγαπώ - Single
+      - id: '1800628913'
+        title: δυο άγρια ζώα - Single
+      - id: '1739327762'
+        title: О том что я люблю - Single
+      - id: '1851342114'
+        title: كبير مثل الشجرة - Single
+      - id: '1859548987'
+        title: 大如樹 - Single
+      - id: '1792341856'
+        title: 我喜欢的事 - Single
     spotify:
       artist_ids:
       - 0yAi20HvvwcrnDFWcVldvI
+      albums:
+      - id: 0F5zjXktj2vACRPIO9dWl9
+        title: 1000 Farben hat die Welt – Praktisch! Musicals 1
+      - id: 1H4ZG2qDAbq0A6mnt6yBML
+        title: Advent und Weihnachten mit dem Friedenskreuz
+      - id: 67DmI2boSQpz5QAJKx3VsB
+        title: Auf dem Weg nach Bethlehem
+      - id: 7yPa8KX3jDYXgrTRWoxDVM
+        title: Auf einmal ist uns der Himmel ganz nah
+      - id: 0VoHhQoE8e4xkbqNENDys1
+        title: Aufeinander zugehen – gemeinsam Schätze teilen
+      - id: 78kUKAIYH9Wrr68ofAb3n0
+        title: Baby in Bewegung
+      - id: 4iU7Y9YBJv2WqeM7bKypSU
+        title: Bei Jesus sind wir heut zu Gast – zur Kommunion
+      - id: 1FFozyF6D9VnWStKZc7zNI
+        title: Bibel-Musicals
+      - id: 33vIf1v5n4xkMy58UZazWD
+        title: BibelHits – Teil 1
+      - id: 6aGwizKbQmOZ9w4FqqQ6d3
+        title: BibelHits – Teil 2
+      - id: 6MUTWvVgWWBBYN3yXc19zL
+        title: BibelHits – Teil 3
+      - id: 2VPmFH07yrnBPglP5CsOCH
+        title: BibelHits – Teil 4
+      - id: 5jguGfe7zayduXyYpriRoN
+        title: Das Robinson Kindermusical
+      - id: 7wWBKw9xSFd4exKPOXY2XF
+        title: Die Kinder von Tschernobyl – Ein Rock-Requiem
+      - id: 4UuaTvIxIKYflL6w5hX4Vx
+        title: Die Liebe bleibt – Ein Minimusical zur Osterzeit
+      - id: 0LgnK2Y47Pf0TBAW1Mn9wv
+        title: Drei Minimusicals zur Advents- und Weihnachtszeit
+      - id: 5ix5rdEa1eVbj0tgKdGN8J
+        title: Earth • Choir • Kids – Unsere Stimmen für das Klima
+      - id: 7AX7WJ9GcD6ZksL0lR2gYm
+        title: Echte KinderRechte – Lieder zu Kinderrechten
+      - id: 4tOsOnz9nqAkvRkHArQI92
+        title: Eine Kuh mit Tattoo
+      - id: 3db3YfA9r69zSPhMT4bhXi
+        title: Einfach nur so bist du von Gott geliebt
+      - id: 3DX2SPQ4YfcAhRt9CfAkbX
+        title: Einmal Himmel und zurück
+      - id: 5yDwr228evzuQHuOkXfM8I
+        title: Eins – zwei – drei – vier – Weihnachten steht vor der Tür
+      - id: 73CvGIfWg77Qrit26irVB9
+        title: Eisbär, Dr. Ping und die Freunde der Erde – Lieder und Playbacks zum Klima-Musical
+      - id: 0jT8WXpD7Krwo5oEDL6InH
+        title: Elefantenlieder für kleine Mäuse
+      - id: 6qccXT5OIDwQk1WpZYVWwo
+        title: Familie sind wir!
+      - id: 1uIne4GbR6Y4FhYrURfab4
+        title: Fans, Fairplay & Fußballfieber
+      - id: 4HJDU9DUiazVkBVVfz1RI2
+        title: Fingerspitzengefühl (Live)
+      - id: 6ouLxYuAv6i2P7gwU2xdoN
+        title: Fremde werden Freunde
+      - id: 05QK8VrhLuecPiOCJbRKX7
+        title: Fremde werden Freunde – Praktisch! Musicals 2
+      - id: 4pyuynXo8bCbLoJDmWmxdq
+        title: Frühling
+      - id: 30B7ctJLIM08X0H8OTHqZU
+        title: Fußball Songs für Kinder
+      - id: 6TuS2tCf8w0XVq9xdvZz58
+        title: Fußball, Football, Soccer
+      - id: 2tTNw2wpOg8s6WhKTZE99X
+        title: Fünf Minimusicals zur Advents- und Weihnachtszeit
+      - id: 0YiajmK9416G8nFWHhIa6y
+        title: Für die Seele
+      - id: 6ZFR0Sf7oRYq17i2AS9Sm7
+        title: Gemeinsam sind wir stark! – Das Bunte Bande-Musical – Die Lieder
+      - id: 3ulnVtU8rZetw5dRIbc6Ht
+        title: Gott, wir müssen reden!
+      - id: 65ZyS1sVnFrOIY0D4vnMGT
+        title: Groß werden mit dir, lieber Gott!
+      - id: 2K7Xl5MTdpGtUtmecmCofd
+        title: Habe Mut!
+      - id: 50D4yn3399JRmr2jTxuQDB
+        title: Hallo & Tschüss Musicals zum Anfang und Ende der Grundschulzeit
+      - id: 4CaG8hKgAFarFb1MIkIjLZ
+        title: Happy Birthday In Vielen Sprachen Aus Vielen Ländern
+      - id: 4r81ozTfTzYbaxmu4DV40s
+        title: Herbst
+      - id: 6RPZOWnGDzJWoSh49K15MU
+        title: Herbstmusik für Kinder
+      - id: 5tuqbRZXTtnxl56kwXINE8
+        title: Heute geht die Schule los – zum Schulstart
+      - id: 2kZ8aasHL053bnzudKcFvf
+        title: Ich lass dich nicht im Regen stehn – Lieder und Playbacks zum Don Bosco Musical
+      - id: 23NqkinliYZajD6CzWwpsn
+        title: Im Kindergarten Lieder
+      - id: 4Fp3MtXSbIrr8Jvwvmwnox
+        title: In der allerlängsten Nacht
+      - id: 4WnGzFJyUVKzlpxIP1fCnB
+        title: Jedes Kind kann irgendwas – Praktisch! Musicals 3
+      - id: 1l6dmJIVNMLmkge6i2ni7d
+        title: Jesusgeschichten mit dem Friedenskreuz
+      - id: 0b3ycSELDhGhkvwYDFU34P
+        title: Kinder feiern Weihnachten – hier und überall
+      - id: 24Kjy5bEPzG0RC8dnGwOin
+        title: Kinder-Kirchen-Hits – Teil 1
+      - id: 3kbrfEQoF1mgQA04amfzO5
+        title: Kinder-Kirchen-Hits – Teil 2
+      - id: 5yX7LH5vmplqoLGaNGAADl
+        title: Kinder-Kirchen-Hits – Teil 3
+      - id: 2qZnBoxoe9wrglwG9QuIQ6
+        title: Kindergeburtstag
+      - id: 5V3QBMhCNPsyQcHkOIZL05
+        title: Kinderlieder 60 Minuten Abendroutine
+      - id: 6pXX5QaUEReX9rhAD5Ko13
+        title: Kinderlieder Advent 2024
+      - id: 2g29h6hw9QFgdGPBwFt2Ro
+        title: Kinderlieder Familie
+      - id: 28MvQgeYZjBj7xCl5sWnRs
+        title: Kinderlieder Herbst 2025
+      - id: 2tSo78B9hkFJNd10lo7hno
+        title: Kinderlieder Jahreszeiten
+      - id: 1ao7z6aiAhXi6QlGjscYGB
+        title: Kinderlieder Laterne Laufen
+      - id: 3hV7Fn5Sl6gFn207KmjPRo
+        title: Kinderlieder Winter 2025/2026
+      - id: 5yvRNsDHwykuh3SGVMD3ll
+        title: Kinderlieder zum Einschlafen
+      - id: 3EalTkxa8eG1UrKiSGwV3i
+        title: Kinderlieder zum Trösten
+      - id: 5VAlbMPm56eeofPaYad3IY
+        title: Kinderträume im Advent
+      - id: 7IM4wT3Lo3aM8FSlCzDjl3
+        title: Kinderturnen Lieder
+      - id: 6tpjc1Xnq19c7D5nYrmHcy
+        title: KlassenHits – Die Zugabe – Teil 1 – 71 1/2 Lieder rund um die Schule
+      - id: 4bs8NrFdWcLaglukJQO5N5
+        title: KlassenHits – Die Zugabe – Teil 2 – 71 1/2 Lieder rund um die Schule
+      - id: 4McfXA9pzm5QlZIKn7JXjo
+        title: KlassenHits – Die Zugabe – Teil 3 – 71 1/2 Lieder rund um die Schule
+      - id: 0lQI9407aidVOgjyRZ2Udc
+        title: KlassenHits – Teil 1 – 143 Lieder rund um die Schule
+      - id: 4lvnmgfhN8R2WTJOAQcFfP
+        title: KlassenHits – Teil 2 – 143 Lieder rund um die Schule
+      - id: 6mS9YtkujH2Q3NwWmzdF3j
+        title: KlassenHits – Teil 3 – 143 Lieder rund um die Schule
+      - id: 3icHob83BLjo4LkBxFM3YD
+        title: KlassenHits – Teil 4 – 143 Lieder rund um die Schule
+      - id: 0e7wopJlywjKtOWiKUafJF
+        title: Krabbellieder für Krabbelkinder
+      - id: 3HyJ0V4tBco9u2iocMzrU9
+        title: Lachen, Singen, Tanzen
+      - id: 5C7I6kjsKvc654LAZUYyu7
+        title: Lichtertänze zur Winter- und Weihnachtszeit
+      - id: 3qjbUby0EpvNbrP7auvopJ
+        title: Los animales de la Jungla
+      - id: 5NtEPsly9XFpqVZwdVmAbo
+        title: Lustige Tierlieder
+      - id: 0UTZd7yQtzT1NntrgicuuJ
+        title: Martin Luther mit dem Friedenskreuz erzählt
+      - id: 0r856aeFy3HguUOguPfYQO
+        title: Meine Lieder – Mein Leben – Die Songs zum Buch
+      - id: 1wfw7W5gxRoqQRuE4FZYvy
+        title: Meine Piano-Lieder – Meine Piano-Kinder-Lieder
+      - id: 66ZWi6T55TXS8iDs6m7Xhm
+        title: Meine Piano-Lieder – Meine frühen Piano-Lieder
+      - id: 7EBUQ1h5ehHxF36i75mKW7
+        title: Mit dem Friedenskreuz durch das Kirchenjahr
+      - id: 43b7oxzg5KNR9p89BKjAVk
+        title: Montags im Advent
+      - id: 47jPAPOJX2WTJRo1JFy6hm
+        title: Märchen-Lieder-Zeit
+      - id: 0f2aZN4YkJh7uxHKwWUAEY
+        title: Nashorn, Elefant und Krokodil – Kinder-Konzert-Knaller mit Reinhard Horn
+      - id: 0SgR1WBCI3VqHrx0lC5aHS
+        title: Neue Lichtertänze zur Winter- und Weihnachtszeit
+      - id: 3fTGprO4L94W2WVwySQ6h1
+        title: Pirates of the Sea
+      - id: 3cc5YJmU6VerMGP6AMgeZ1
+        title: Quatsch mit Salsa
+      - id: 1wqy9ugZ4HYsJvccbb0OxK
+        title: ReliHits – Teil 1
+      - id: 1LqFdKdEZyKypYu7PZ7q3t
+        title: ReliHits – Teil 2
+      - id: 6kzkXK9o74CgerPEd2OtFz
+        title: ReliHits – Teil 3
+      - id: 7e3jkKPIlvOljg4c2FXcSt
+        title: Singen ist 'ne coole Sache
+      - id: 0oWw6MqWjhknhSO3wT78jB
+        title: Sommer
+      - id: 3nsrKcoEvQeilgglMxKyQA
+        title: Spirit Of My Soul
+      - id: 03Rmv1VjnAsIl5llRtHrkZ
+        title: Streichelwiese
+      - id: 4nNYPgIMmlsZeP7i6eC3jZ
+        title: Streichelwiese 2
+      - id: 74gTid0ns2kV1Quhkvphib
+        title: Tier- und Bauernhoflieder für Kinder
+      - id: 5PR6eOfa1KpZRcWIMSt3CU
+        title: Tierlieder für Kinder - Karussell
+      - id: 6Tft5aN9icuENtXUwZJpdz
+        title: Turnen ist 'ne coole Sache
+      - id: 2wXctnYYxWw7otcnKQOYm9
+        title: Unter einem guten Stern steht dein ganzes Leben
+      - id: 3TWa7hoGru2P8rFYKaB2rU
+        title: Unterwegs zu den Kindern dieser Welt
+      - id: 426nzTsCbJE4U6rxyg3MUB
+        title: Vierzehn Engel um mich stehn
+      - id: 2ZkhxzNY4NfZo43nJzYkBn
+        title: Was wir zum Leben brauchen – Neue christliche Kinderlieder
+      - id: 3W6glOjIX0rsXYw0cmcv9t
+        title: Weihnachten unterm Sternenzelt
+      - id: 5G8SLTdk6fgu5D8GnQdXWV
+        title: Weihnachten unterm Sternenzelt – Die Lieder zum Konzert
+      - id: 315V9kg01symoebsPGog2u
+        title: WeihnachtsHits – Teil 1
+      - id: 3BHB2glpNRnY59cqOME4zP
+        title: WeihnachtsHits – Teil 2
+      - id: 2HsBuMyqtPf8sSd0FMXEY6
+        title: WeihnachtsHits – Teil 3
+      - id: 1eJ69tySFE4XIib6S62vhI
+        title: Willkommen hier bei uns
+      - id: 4MAWpJNvegVyoq20YI98k1
+        title: Winter
+      - id: 7dLn9T6PqLYRsFRs5Uziuf
+        title: Wir Kinder feiern Abendmahl – zum Abendmahl
+  content_type: music
 - id: herrh
   title: herrH
   keywords:
   - herrH
+  - Frechdachs
+  - Mach mal lauter
+  - Meine Mütze und Ich
+  - Poesiealbum
+  - Wenn ich groß bin
+  - herrH ist da
+  - Endlich Winter
+  - Harry der Schneemann
+  - Ich bin ein Pinguin
+  - Wir machen Party
+  - Es gibt Nudeln
+  - Kalle das Krokodil
+  - Kinderlieder umgedacht
+  - Raffi die Giraffe
+  - Elefantenfunk
+  - Partybär
   providers:
     apple_music:
       artist_ids:
       - '564171417'
+      albums:
+      - id: '1807951753'
+        title: Der E-Schrott Song - Single
+      - id: '1278973649'
+        title: Ein Hut, ein Stock, ein Regenschirm - Single
+      - id: '927805819'
+        title: Endlich Winter!
+      - id: '1849439119'
+        title: Es gibt Nudeln - EP
+      - id: '1879479054'
+        title: Frechdachs
+      - id: '743929379'
+        title: Harry, der Schneemann - Single
+      - id: '908255934'
+        title: Ich bin ein Pinguin (Club Mix) - Single
+      - id: '1812665607'
+        title: Kalle, das Krokodil (Miami Kalle) - Single
+      - id: '1623868317'
+        title: Kinderlieder - umgedacht & neu gemacht
+      - id: '1829428150'
+        title: Lieblingsfarbe Bunt - Single
+      - id: '986764619'
+        title: Mach mal lauter
+      - id: '1683300044'
+        title: Meine Mütze und Ich
+      - id: '1741944172'
+        title: MyMo Song - Single
+      - id: '1207264190'
+        title: Poesiealbum
+      - id: '1873963725'
+        title: Träumeland - Single
+      - id: '985197546'
+        title: Unsere Stimme (feat. herrH) - Single
+      - id: '1829428662'
+        title: Unsere acht Planeten (Dein Sonnensystem) - EP
+      - id: '1308978113'
+        title: Unsre 11 - Single
+      - id: '1258490205'
+        title: Weil du immer da bist (Diggi Remix) - Single
+      - id: '1867529056'
+        title: Wenn ich groß bin
+      - id: '1860326577'
+        title: Wir machen Party - EP
+      - id: '1624238182'
+        title: Wozu sind Kriege da? (feat. 3Berlin, herrH, Raketen Erna, Mai Cocopelli, Donikkl, Geraldino, ICH & HERR MEYER, Larissa, Suli Puschban und die Kapelle der guten Hoffnung, Lieselotte 
+          Quetschkommode, Volker Rosin, Markus Rohde & Randale) - Single
+      - id: '642757807'
+        title: herrH ist da! - Das Album
     spotify:
       artist_ids:
       - 2weS8n5DrZpok2Wcf9TRsQ
+      albums:
+      - id: 3mdx1i5z1cBRGEKsA1OVUF
+        title: Baller mit meinem Rad
+      - id: 7isKXPVcGalZrNNHtQMzFr
+        title: Der E-Schrott Song
+      - id: 0f5I1xJvzU8GqrggcHHuEF
+        title: Ein Hut, ein Stock, ein Regenschirm
+      - id: 09wNwzLZ3ahuBq3x0XyQ6o
+        title: Endlich Winter!
+      - id: 0i1ZVdhvZswHbdYgtzJAkQ
+        title: Es gibt Nudeln
+      - id: 0QuEWKrCi53NtuCzRpvpyR
+        title: Frechdachs
+      - id: 2E59NqJjFGuL811hxlaXz7
+        title: Harry, der Schneemann (EP)
+      - id: 0p5z3YXGfYDKfDdj787jMF
+        title: Ich bin ein Pinguin (Club Mix)
+      - id: 0Ei58AHLI4LdFZfUDdxmPw
+        title: Kalle, das Krokodil (Miami Kalle)
+      - id: 5LxOg4MpWy6twmQeBZ7kT8
+        title: Kinderlieder - umgedacht & neu gemacht
+      - id: 4BT8tNqXfaIufKxydFq2hy
+        title: Lieblingsfarbe Bunt
+      - id: 3dVI95CGzli7WJRKi0I8wp
+        title: Mach mal lauter
+      - id: 6vSRPCkAhubRtCVxCR30R5
+        title: Meine Mütze und Ich
+      - id: 69CJEydp5orqdGNcatmFDw
+        title: MyMo Song
+      - id: 6FJYj1Gtob6JiAaBOiBcrZ
+        title: Poesiealbum
+      - id: 3dJQhh7BJCi4ovExhzX0l4
+        title: Raffi, die Giraffe
+      - id: 4s6COzrcd0EyjyKtg7jtnF
+        title: Träumeland
+      - id: 5oX6GgnAlOpkHOSxBItbbt
+        title: Unsere Stimme (feat. herrH)
+      - id: 7vRfpRJpKagmJMkp9zPXwF
+        title: Unsere acht Planeten (Dein Sonnensystem)
+      - id: 4C6v4ftAJS3K9Cnff4O8AN
+        title: Unsre 11
+      - id: 18QZfDhHzWntnRhuT40Ziz
+        title: Weil du immer da bist (Diggi Remix)
+      - id: 1JgvsEsKlNsBTBTOEq39Br
+        title: Wenn ich groß bin
+      - id: 2j06RpfUXMOjMv9TJaYusk
+        title: Wir machen Party
+      - id: 26F94PzUaS6SI2vU4aP7Km
+        title: Wozu sind Kriege da?
+      - id: 4CM8QXMOVoPvWLtI1Rhm5h
+        title: herrH ist da! - Das Album
+  content_type: music
+  aliases:
+  - herr H
 - id: nilsen
   title: Nilsen
   keywords:
   - Nilsen
+  - Das blaue Album
+  - Das gelbe Album
+  - Das grüne Album
+  - Das rote Album
+  - Kuhfisch
+  - Dino Party
+  - Rabatz
+  - Teddybär
+  - Piraten
+  - Gruselparty
+  - Sommerferien
+  - Eule
+  - Hand in Hand
+  - Weg mit Plastik
+  - Krise mit der Frise
+  - Party im U-Boot
+  - Konfetti
+  - Glitzer
+  - Einhorn
+  - Pyjamaparty
   providers:
     apple_music:
       artist_ids:
       - '1394730619'
+      albums:
+      - id: '1703985814'
+        title: Cowboy - EP
+      - id: '1458605344'
+        title: Das blaue Album
+      - id: '1542959782'
+        title: Das gelbe Album
+      - id: '1767338546'
+        title: Das grüne Album
+      - id: '1879761862'
+        title: Das rote Album
+      - id: '1790685396'
+        title: Das tanzende Alpaka (Alpaka Song) [Party Remix]
+      - id: '1650354400'
+        title: Dino Party
+      - id: '1840204132'
+        title: Einhorn
+      - id: '1713568659'
+        title: Eule
+      - id: '1828424008'
+        title: Glitzer
+      - id: '1438185869'
+        title: Gruselparty
+      - id: '1805564473'
+        title: Konfetti
+      - id: '1745057456'
+        title: Kuhfisch - EP
+      - id: '1759994292'
+        title: Party im U-Boot (feat. SpongeBob Schwammkopf) - Single
+      - id: '1867745461'
+        title: Planeten Polka
+      - id: '1818342417'
+        title: Pyjamaparty
+      - id: '1502660708'
+        title: Rabatz (2020) [feat. Frank und seine Freunde] - Single
+      - id: '1682539288'
+        title: Schlossfest
+      - id: '1872939303'
+        title: Schluckauf
+      - id: '1386817259'
+        title: Sommerferien - EP
+      - id: '1694278345'
+        title: Sommerzeit
+      - id: '1601249996'
+        title: Teddybär (Radio TEDDY Remix) - Single
+      - id: '1444416372'
+        title: Winterspaß
     spotify:
       artist_ids:
       - 13x0bektBEknCM276OqYMn
+      albums:
+      - id: 2Z2z9wh6ndhQ8Fu5apaR9M
+        title: Cowboy - EP
+      - id: 75HUrbNVoS8RoWBCYgbbmi
+        title: Das blaue Album
+      - id: 0CekvRDpww3MewgsJrsPRt
+        title: Das gelbe Album
+      - id: 3WC4sMPs1yTwu6rukwUu4R
+        title: Das grüne Album
+      - id: 0BGDSsu5XTul7GibDupO8D
+        title: Das rote Album
+      - id: 45wgjPeQAPg2aEdPl2QF44
+        title: Das tanzende Alpaka (Alpaka Song) [Party Remix]
+      - id: 68SomAEpIwtMkk760WhZMU
+        title: Dino Party
+      - id: 4uLJ8znQPB8TzkSlq62X5u
+        title: Einhorn
+      - id: 7nDIgCCLFHo9VVOsAfdVuk
+        title: Eule
+      - id: 6PPeTjHMJAPJdnAVPHxaVm
+        title: Glitzer
+      - id: 3cR0a4jI7xnW1A97ggrcaI
+        title: Gruselparty
+      - id: 5rx1iOMdxYnHonVwN7soTB
+        title: Hand in Hand
+      - id: 4z9ZUWl6pWAdDN4VX5Twaq
+        title: Ich und mein Team (Nilsen Remix)
+      - id: 6sJ0T3saO2GVgz4oyeaYEl
+        title: Konfetti - EP
+      - id: 4b2M1RrsezkkYA8AfPkuNu
+        title: Krise mit der Frise
+      - id: 32f65jlBYBMRAwUCxvbNmi
+        title: Kuhfisch
+      - id: 0DXkdbJwSteVU2YkmqGUwb
+        title: Party im U-Boot (feat. SpongeBob Schwammkopf)
+      - id: 0GWwlH8UvEHxMj6gEOj1mW
+        title: Piraten
+      - id: 74b23ZeI8OORFNbGElz9E4
+        title: Planeten Polka
+      - id: 49IayuYvM9eJq44a89xpPu
+        title: Pyjamaparty
+      - id: 0Yb6aetKPH0Qe4OLv3mHnj
+        title: Rabatz (2020)
+      - id: 3714vW4DSk5MjfDAH7ukNt
+        title: Schlossfest
+      - id: 25y3VilFxMTlsUHipJUXuo
+        title: Schluckauf
+      - id: 5g3qs3zxJqzfMRwdWooTX7
+        title: Sommerferien
+      - id: 7KCR2lzKwmV3smPMhRO3j6
+        title: Sommerferien - EP
+      - id: 3hUAQEXxyiYRDFoJ1FhFxs
+        title: Sommerzeit
+      - id: 1e5ZyutEos8DZbpyA8Tlam
+        title: Teddybär (Radio TEDDY Remix)
+      - id: 1x1D5ydnhLpQQCLPJ6qG0D
+        title: Weg mit Plastik
+      - id: 1fZXahCmO29etoTsOAl1ZT
+        title: Weihnachtszeit
+      - id: 2o64NSR5McTB4kqQmIhts6
+        title: Winterspaß
+  content_type: music
 - id: mai_cocopelli
   title: Mai Cocopelli
   keywords:
   - Mai Cocopelli
+  - Ich bin eine Sonne
+  - Einmal Weltraum und zurück
+  - Wenn es Winter wird
+  - Wenn es Weihnacht wird
+  - Today's Your Day
+  - Eka Mai
+  - Luisa sagt
+  - Eine kleine Kerze
   providers:
     apple_music:
       artist_ids:
       - '398353575'
+      albums:
+      - id: '1717704508'
+        title: Eine kleine Kerze - Single
+      - id: '774313047'
+        title: Einmal Weltraum und zurück
+      - id: '1812971164'
+        title: Eka Mai - EP
+      - id: '398353548'
+        title: Ich bin eine Sonne - Single
+      - id: '1507526318'
+        title: Luisa sagt - Single
+      - id: '1581437068'
+        title: Today's Your Day
+      - id: '777290815'
+        title: Wenn es Weihnacht wird
+      - id: '776782635'
+        title: Wenn es Winter wird
     spotify:
       artist_ids:
       - 6c8QYgh9q616gJRI9XF74o
+      albums:
+      - id: 1oz4KGqU040SBylWf4Xr03
+        title: Eine kleine Kerze
+      - id: 2QE91tNDMUXkjJfzSZHzKB
+        title: Einmal Weltraum und zurück
+      - id: 2WldfbulDlV6VC1qWGkQ7c
+        title: Eka Mai
+      - id: 1ME7o4GPo8mIR10gR1h9BG
+        title: Ich bin eine Sonne
+      - id: 2HSrWrI1yhliygLKpl5TqB
+        title: Luisa sagt
+      - id: 3qmI6o4G0745VAoDmnb5xO
+        title: Today's Your Day
+      - id: 19Rlg5ztbchJQbXmtDt2Ox
+        title: Wenn es Weihnacht wird
+      - id: 3UpDsJjinakUMvdXEmpxzx
+        title: Wenn es Winter wird
+  content_type: music
 - id: unter_meinem_bett
   title: Unter meinem Bett
   keywords:
   - Unter meinem Bett
+  - Der Tee von Eugenia
+  - Mein neuer Bruder
+  - Das Universum ist ein Spielplatz
+  - Mücken nerven Leute
+  - Rumspringen
+  - Der Wolf mit dem Hut
+  - Supermänsch
+  - Immer muss ich alles sollen
+  - Weihnachtsalbum
   providers:
     apple_music:
       artist_ids:
       - '1598604876'
+      albums:
+      - id: '1452286287'
+        title: Unter meinem Bett
+      - id: '1452287750'
+        title: Unter meinem Bett 3
+      - id: '1452277219'
+        title: Unter meinem Bett 4
+      - id: '1623241331'
+        title: Unter meinem Bett 7
+      - id: '1703791671'
+        title: Unter meinem Bett 8
+      - id: '1485587888'
+        title: Unter meinem Bett, Vol. 5
+      - id: '1537093683'
+        title: Unter meinem Bett, Vol. 6
+      - id: '1580348082'
+        title: Unter meinem Bett. Das Weihnachtsalbum
+      - id: '1854684859'
+        title: Weil du heut Geburtstag hast (feat. Lisa Bassenge, Antje Schomaker, Larissa Pesch, Martha Wilking, Gorilla Club, Desiree Klaeukens, Sven van Thom, Karl die Große, Ove & Unter meinem 
+          Bett) - Single
     spotify:
       artist_ids:
       - 7y89sMv0ADqEMEOo2tOIM7
+      albums:
+      - id: 5Zblsh4Ue40c8p8TR4biDv
+        title: Unter meinem Bett
+      - id: 7BPGl70iZf4WxZmyrW0AbU
+        title: Unter meinem Bett 2
+      - id: 01lOtLIpDVz8Cij51SrAt3
+        title: Unter meinem Bett 3
+      - id: 6urz9b8HGTbqHBYOejq7c4
+        title: Unter meinem Bett 4
+      - id: 5JYmSMR3duFBHnSIKumZtG
+        title: Unter meinem Bett 5
+      - id: 5T56fAdOETGPwEWYReIesL
+        title: Unter meinem Bett 6
+      - id: 5Q8R9IdUfGHGD36XvqkMIy
+        title: Unter meinem Bett 7
+      - id: 6qOeJ1yEKOFdh35kqNtVYq
+        title: Unter meinem Bett 8
+      - id: 3AQbRqNj7LdKICSmwIrDQu
+        title: Unter meinem Bett. Das Weihnachtsalbum
+      - id: 3Ib4NVJIAQANWBZF9fXkHy
+        title: Weil du heut Geburtstag hast
+  content_type: music
+  aliases:
+  - Unter meinem Bett 1
+  - Unter meinem Bett 2
+  - Unter meinem Bett 3
+  - Unter meinem Bett 4
+  - Unter meinem Bett 5
+  - Unter meinem Bett 6
+  - Unter meinem Bett 7
+  - Unter meinem Bett 8
 - id: der_singende_bauernhof
   title: Der singende Bauernhof
   keywords:
   - Der singende Bauernhof
+  - Kinderlieder
+  - Das tanzende Alpaka
+  - Die Kuh Karatscha
+  - Der bunte Hund
+  - Regenpfützen Mambo
+  - Otti Stubs
+  - Sarah Bauernhof
+  - Kuhle Muuuh-sik
+  - singender Bauernhof
+  - moderne Kinderlieder
+  - Wi Wa Waschlappenbär
   providers:
     apple_music:
       artist_ids:
       - '1673954040'
+      albums:
+      - id: '1790685396'
+        title: Das tanzende Alpaka (Alpaka Song) [Party Remix] - Single
+      - id: '1826494567'
+        title: Der bunte Hund - Single
+      - id: '1833883613'
+        title: Die Kuh Karatscha - Single
+      - id: '1860303148'
+        title: Die tierische Polonäse - EP
+      - id: '1806284474'
+        title: Einschlafen auf dem singenden Bauernhof (Instrumental Version) - Single
+      - id: '1775939707'
+        title: Einschlafen mit dem singenden Bauernhof
+      - id: '1738035810'
+        title: Frühjahrsputz auf dem singenden Bauernhof - EP
+      - id: '1776152543'
+        title: Kinderlieder vom singenden Bauernhof
+      - id: '1817630295'
+        title: Klein, aber oho! - Single
+      - id: '1877874683'
+        title: Kuhle Muuuh-sik für Kinder
+      - id: '1801738105'
+        title: Ottis Lernlieder - EP
+      - id: '1769354137'
+        title: Party auf dem singenden Bauernhof - Single
+      - id: '1837928562'
+        title: Regenpfützen Mambo - EP
+      - id: '1843128580'
+        title: Schneeflöckchen, Weißröckchen - Single
+      - id: '1748585074'
+        title: Tiere auf dem singenden Bauernhof - Single
+      - id: '1719302763'
+        title: Willkommen auf dem singenden Bauernhof
     spotify:
       artist_ids:
       - 1phaLooaZs3k7XOl7mCKeo
+      albums:
+      - id: 0BGDSsu5XTul7GibDupO8D
+        title: Das rote Album
+      - id: 45wgjPeQAPg2aEdPl2QF44
+        title: Das tanzende Alpaka (Alpaka Song) [Party Remix]
+      - id: 4aw45AOgrUrhtT9sSe6anX
+        title: Der bunte Hund
+      - id: 6Oq4UVO0Ef8El60GHHK79P
+        title: Die Kuh Karatscha
+      - id: 3DpzgVDpSKCoZNNc4C7nR8
+        title: Die tierische Polonäse
+      - id: 5AYHInVpfzULrVdqF50AI8
+        title: Einschlafen auf dem singenden Bauernhof (Instrumental Version)
+      - id: 60qSuYVrPgygDJzKJqWnSl
+        title: Einschlafen mit dem singenden Bauernhof
+      - id: 7Ixx5Jrj5aSndQxBv9VUG0
+        title: Es tanzt ein Bi-Ba-Butzemann
+      - id: 2AA9MIW7BgHuToNsFCrCmN
+        title: Frühjahrsputz auf dem singenden Bauernhof
+      - id: 0Bi1AoIKFID4C4Q81spbQm
+        title: Kinderlieder vom singenden Bauernhof
+      - id: 7Ew6z6vbDHq4N87tkN9DvR
+        title: Klein, aber oho!
+      - id: 3fsJrf3L2ioYp30aKVhuFl
+        title: Kuhle Muuuh-sik für Kinder
+      - id: 1l1vA6SsojEcPm6aFnaVki
+        title: Ottis Lernlieder
+      - id: 0xrkbWC7cJiWB8BNFlmcF4
+        title: Party auf dem singenden Bauernhof
+      - id: 3a6oFu9vqIrjI363x7lUAF
+        title: Regenpfützen Mambo
+      - id: 7wvKBS6c3vEhfxLOMtu16S
+        title: Schneeflöckchen, Weißröckchen
+      - id: 0jNnQcMC8S8oGf8Tp11BLA
+        title: Tiere auf dem singenden Bauernhof
+      - id: 7GG2q94m8WC2EHoQVo84dD
+        title: Willkommen auf dem singenden Bauernhof
+  content_type: music
+  aliases:
+  - singende Bauernhof
+  - Sarah Bauernhof
 - id: honigkuchenpferde
   title: Honigkuchenpferde
   keywords:
@@ -30835,28 +33831,407 @@ series:
     apple_music:
       artist_ids:
       - '1703558817'
+      albums:
+      - id: '1772875521'
+        title: Allergrößter Wunsch
+      - id: '1850748338'
+        title: Allergrößter Wunsch - EP
+      - id: '1841829997'
+        title: Allergrößter Wunsch - Single
+      - id: '1760345806'
+        title: Der Boden ist Lava
+      - id: '1797538373'
+        title: Eine große Überraschung
+      - id: '1823943678'
+        title: Einhornzeit
+      - id: '1812418072'
+        title: Ferien / Vacanza
+      - id: '1737181375'
+        title: Freunde finden / Devenir Amis
+      - id: '1712642902'
+        title: Für Alle!
+      - id: '1756331664'
+        title: Für Alle! (Mitsing-Version)
+      - id: '1746323113'
+        title: Herz weit auf (feat. Revelle)
+      - id: '1798982876'
+        title: Honigkuchenshake
+      - id: '1586693631'
+        title: Ich darf das! Der Kinderrechtesong des Deutschen Kinderhilfswerkes
+      - id: '1711803148'
+        title: Ich lass mich nicht ärgern
+      - id: '1750258069'
+        title: Ich und mein Team (Nilsen Remix)
+      - id: '1835413540'
+        title: Komm spielen!
+      - id: '1823241404'
+        title: Macht's gut!
+      - id: '1797537067'
+        title: Morgen
+      - id: '1703558815'
+        title: Pizza mit Alles
+      - id: '1818342417'
+        title: Pyjamaparty
+      - id: '1766257261'
+        title: Rosablau
+      - id: '1831472506'
+        title: Wir gehen raus
+      - id: '1882369442'
+        title: Zum Einschlafen
     spotify:
       artist_ids:
       - 6RZP8NdBwAbrDZnYpdJVcH
+      albums:
+      - id: 0PQJsSMXdykDypMK7EAzzu
+        title: Allergrößter Wunsch
+      - id: 3WC4sMPs1yTwu6rukwUu4R
+        title: Das grüne Album
+      - id: 0BGDSsu5XTul7GibDupO8D
+        title: Das rote Album
+      - id: 2KFh0aGstWD7sSYXEU1HVC
+        title: Der Boden ist Lava
+      - id: 5PvQvJNQ9lEPYPWcs42nHb
+        title: Du schaffst das schon / Co len con (Vietnamesisch)
+      - id: 5IBnYAEVzZqYFQ2QZHqYEh
+        title: Eine große Überraschung
+      - id: 2KrdUCT90iZseFw5lWR126
+        title: Einhornzeit
+      - id: 34Jh1lTXZcsHxQUaiXGr99
+        title: Ferien / Vacanza
+      - id: 6rPCfVQWC1DpMlI3xOQP0z
+        title: Freunde finden / Devenir Amis
+      - id: 1qeC46YljMqrPYpc7oFHB4
+        title: Für Alle!
+      - id: 7CcfzLooAnoqZEWhUEhrD0
+        title: Für Alle! (Mitsing-Version)
+      - id: 6wMxUeU6oFEBQEFeqMsWGi
+        title: Guten Morgen / Good Morning (Englisch)
+      - id: 7I8wxCRiBdNYfuScd2dvjW
+        title: Herz weit auf (feat. Revelle)
+      - id: 5PaRyCIZQVk9WX7pbAvk7s
+        title: Hip Hop 1x1
+      - id: 3gsqmAw2755GhWMYglHWxo
+        title: Honigkuchenshake
+      - id: 0PD86ZIIrGues7mV2OFWq4
+        title: Ich darf das! Der Kinderrechtesong des Deutschen Kinderhilfswerkes
+      - id: 7tvCuNZWZj3oixkjhrfo1N
+        title: Ich lass mich nicht ärgern
+      - id: 4z9ZUWl6pWAdDN4VX5Twaq
+        title: Ich und mein Team (Nilsen Remix)
+      - id: 7I4TNaj0XZa6zO8khlSzpb
+        title: Komm spielen!
+      - id: 6Ho4EyNABNw6dvCmCxtwBc
+        title: Macht's gut!
+      - id: 38EnlK9R5vIKyMnIXZ8Ipy
+        title: 'Mission Erde: Das Fest der Sprachen'
+      - id: 5zjyc4WxuAZs56HwzUGONG
+        title: 'Mission Erde: Die Welt klingt bunt (Zwei Sprachen, ein Song)'
+      - id: 3UpboeVqaruQtkIlKrTRzr
+        title: Morgen
+      - id: 2Qc36KCE97LSualjWTfnVg
+        title: Pizza mit Alles
+      - id: 49IayuYvM9eJq44a89xpPu
+        title: Pyjamaparty
+      - id: 2Jysby6cSR6z4xQaYmWiTX
+        title: Rosablau
+      - id: 0UdVihEccZDK32ctWf9YFp
+        title: Spielplatz / Plac Zabaw (Polnisch)
+      - id: 53ksn6YRW73GsJcBvuf9q0
+        title: Wir gehen raus
+      - id: 29uDtVqPzAP4LzyJbkSomY
+        title: Zum Einschlafen
+  content_type: music
 - id: ena_kinderlieder
   title: Ena Kinderlieder
   keywords:
   - Ena Kinderlieder
+  - Kinderlieder
+  - Schlaflieder
+  - Lullabies
+  - Zauberhaft
+  - 1 2 3 Schlaf gleich ein
+  - Filzstifte
+  - Kleiner Zwerg
+  - Weißer Ritter
+  - Sommerferien
+  - Traumreise
+  - Nachthimmel
+  - Wunderland
+  - Weihnachtslieder
+  - Alles schläft
+  - Träumeland
+  - Land vor unserer Zeit
   providers:
     apple_music:
       artist_ids:
       - '1815219984'
+      albums:
+      - id: '1814290423'
+        title: 1, 2, 3 (Schlaf gleich ein...) - Single
+      - id: '1844034890'
+        title: Alles schläft - Single
+      - id: '1831322128'
+        title: Filzstifte - Single
+      - id: '1824974973'
+        title: Kleiner Zwerg - Single
+      - id: '1879443622'
+        title: Land vor unserer Zeit - Single
+      - id: '1866531826'
+        title: Nachthimmel - Single
+      - id: '1819713104'
+        title: Sommerferien - Single
+      - id: '1832502986'
+        title: Traumreise - Filzstifte - Single
+      - id: '1826951020'
+        title: Traumreise - Kleiner Zwerg - Single
+      - id: '1828862906'
+        title: Traumreise - Weißer Ritter - Single
+      - id: '1833565606'
+        title: Traumreise - Zauberhaft - Single
+      - id: '1848427557'
+        title: Weihnachtslieder - EP
+      - id: '1827498003'
+        title: Weißer Ritter - Single
+      - id: '1858525710'
+        title: Winter Wunderland - Single
+      - id: '1883032359'
+        title: Wunderland - Single
+      - id: '1833564706'
+        title: Zauberhaft - EP
     spotify:
       artist_ids:
       - 7BWj0quGHpkdSx9HZnD3CN
+      albums:
+      - id: 1qRvntDNn7NhQfDOuzLGPh
+        title: 1, 2, 3 (Schlaf gleich ein...)
+      - id: 2B2rIxCYPZB4BEbnGXZGpk
+        title: Alles schläft
+      - id: 3XMoSywNV9ZN5CVN4cTIv3
+        title: Filzstifte
+      - id: 0yCt2BBEP9ZqppCjgeEHPz
+        title: Kleiner Zwerg
+      - id: 1yfPHPM6GYoDz3WjNAAT3a
+        title: Land vor unserer Zeit
+      - id: 298PEDWKIvgGgAaTKXklIO
+        title: Nachthimmel
+      - id: 2b039q1o5DWArFUXYIAQ7Y
+        title: Sommerferien
+      - id: 3WcfeoB6NbSixKKsAmZP1e
+        title: Traumreise - Filzstifte
+      - id: 3AReoOnvkbGxblgkxEvpOy
+        title: Traumreise - Kleiner Zwerg
+      - id: 5W1mW7QNftI7WJbBF1r7hc
+        title: Traumreise - Weißer Ritter
+      - id: 2lMFlKwnk3HipEotokAd5T
+        title: Traumreise - Zauberhaft
+      - id: 4s6COzrcd0EyjyKtg7jtnF
+        title: Träumeland
+      - id: 7K3DgbJv0nAyB1zrP7yXY6
+        title: Weihnachtslieder
+      - id: 0A4K4jhzezMWnVg4H5bBXv
+        title: Weißer Ritter
+      - id: 17jfw9QXPkejBV1GPZtomE
+        title: Winter Wunderland
+      - id: 70AEUDbbEWcN3B1tKNcWcY
+        title: Wunderland
+      - id: 0wMEmFGYDupP0Q4oeAykvf
+        title: Zauberhaft
+  content_type: music
 - id: marko_simsa
   title: Marko Simsa
   keywords:
   - Marko Simsa
+  - Simsa Marko
+  - Kinderklassik
+  - Klassik für Kinder
+  - Karneval der Tiere
+  - Die vier Jahreszeiten
+  - Peter und der Wolf
+  - Mozart für Kinder
+  - Beethoven für Kinder
+  - Bach für Kinder
+  - Der Nussknacker
+  - Dornröschen
+  - Hänsel und Gretel
+  - Klezmer für Kinder
+  - Simsa-La-Bim
+  - Bombo Poncho
+  - Tina und das Orchester
+  - Das Zookonzert
+  - Walzerschritt und Polkahit
   providers:
     apple_music:
       artist_ids:
       - '684358517'
+      albums:
+      - id: '1865285215'
+        title: Bach für Kinder. Mit Gesang und Himmelsklang
+      - id: '1867734519'
+        title: Beethoven für Kinder. Königsfloh und Tastenzauber
+      - id: '1865198140'
+        title: Beethoven-Hits für Kinder
+      - id: '1865527003'
+        title: Blockflöten-Hits für Kinder
+      - id: '1865217224'
+        title: Bombo, Poncho und Gitarre
+      - id: '1865198367'
+        title: Das Zookonzert (Eine sinfonische Geschichte für Kinder)
+      - id: '1865233597'
+        title: Das bunte Kamel (Eine musikalische Reise durch den Orient)
+      - id: '1865198047'
+        title: Das große Weihnachtskonzert für die ganze Familie
+      - id: '1865896066'
+        title: Der Karneval der Tiere
+      - id: '1828602203'
+        title: Die Bremer Stadtmusikanten
+      - id: '1865281599'
+        title: Die Bremer Stadtmusikanten (Das Märchen der Brüder Grimm mit Musik von Erke Duit)
+      - id: '1867735373'
+        title: Die Moldau. Friedrich Smetana für Kinder.
+      - id: '1828601366'
+        title: Die vier Jahreszeiten
+      - id: '1867001824'
+        title: Die vier Jahreszeiten (Vivaldi für Kinder)
+      - id: '1867484248'
+        title: Dornröschen. Ballett von Peter Iljitsch Tschaikowski
+      - id: '1865206267'
+        title: Filipp Frosch und das Geheimnis des Wassers (Ein musikalisches Entdeckungs-Hörspiel rund um den Wasserkreislauf)
+      - id: '1865560819'
+        title: Geburtstagskonzert für die Prinzessin (Barockmusik für Kinder von Bach, Händel, Purcell u.a.)
+      - id: '1865280016'
+        title: Gitarren-Hits für Kinder
+      - id: '1867610401'
+        title: Große Komponisten für kleine und große Ohren
+      - id: '1828901103'
+        title: Herr Beethoven macht Musik
+      - id: '1828602131'
+        title: Herr Mozart macht Musik
+      - id: '1865203154'
+        title: Hänsel und Gretel (Nach der Oper von Engelbert Humperdinck)
+      - id: '1865212497'
+        title: Joseph Haydn für Kinder
+      - id: '1828602195'
+        title: Karneval der Tiere
+      - id: '1867734632'
+        title: Klassik für Babys (Traumhaft schöne Melodien)
+      - id: '1865192667'
+        title: Klassik für kleine Ohren. Von Bach bis Mozart
+      - id: '1865295424'
+        title: Klassik-Hits für Kinder
+      - id: '1865555802'
+        title: Klassik-Hits für Kinder. Auf den Spuren großer Komponisten. Ein musikalisches HausHörbuch
+      - id: '1865284772'
+        title: Klezmer für Kinder (Ein Konzert zum Mitsingen, Mittanzen und Mitfeiern)
+      - id: '1865557709'
+        title: Mit Ketchup und Pommes Frites (Blues, Rock, Boogie, Rag, Jazz und Gospel)
+      - id: '1866578779'
+        title: Mozart für Kinder. Nachtmusik und Zauberflöte
+      - id: '1867495856'
+        title: Mozart-Hits für Kinder
+      - id: '1865197278'
+        title: Peter und der Wolf
+      - id: '1867496424'
+        title: Simsa-La-Bim (Ein kunterbuntes Konzert von Klassik bis Klezmer)
+      - id: '1865524907'
+        title: Tina und das Orchester (Ein Hörspiel, in dem die Instrumente zeigen, was sie können - Jedes für sich und alle gemeinsam)
+      - id: '1870573999'
+        title: Walzerschritt und Polkahit. Johann Strauß für Kinder
+      - id: '1876243787'
+        title: Wie schön - Ich komme in die Schule! (Lieder, Gedichte und Geschichten)
+      - id: '1865238515'
+        title: Zauberklang und Blechsalat (Ein Konzert für Kinder über die Familie der Blechblasinstrumente)
     spotify:
       artist_ids:
       - 1VKmmv2A3M54cnh6CW1xMX
+      albums:
+      - id: 5gZDK32arcpIz5bVMLpp1s
+        title: Bach für Kinder. Mit Gesang und Himmelsklang
+      - id: 67NL1tkbLIvN94ZomzM2aT
+        title: Beethoven für Kinder. Königsfloh und Tastenzauber
+      - id: 5A9zzLtOMRkfKKI96ZZsTS
+        title: Beethoven-Hits für Kinder
+      - id: 30eBUKcRSmVqjZ3TClUBHZ
+        title: Blockflöten-Hits für Kinder
+      - id: 18wzwNtCCG1Dm0JQQwwgBB
+        title: Bobo Siebenschläfers schönste Kinderlieder
+      - id: 6sU6QEXVaPwLsAhPWoF8Qa
+        title: Bombo, Poncho und Gitarre
+      - id: 6yDAaTh5Kg1RqzlydHC1Vu
+        title: Das Zookonzert (Eine sinfonische Geschichte für Kinder)
+      - id: 7f47KkD0MqbBPGC4Gb7haV
+        title: Das große Weihnachtskonzert für die ganze Familie
+      - id: 5EpuiPg3knZgV42Ubqt5cB
+        title: Der Karneval der Tiere
+      - id: 7K1ZvyEv0FDujrCi9S2vh5
+        title: Der Nussknacker (Ballett von Peter Iljitsch Tschaikowski)
+      - id: 3xP1frevzY3EpPVwo5xnb5
+        title: Die Bremer Stadtmusikanten (Das Märchen der Brüder Grimm mit Musik von Erke Duit)
+      - id: 51YdrAfOpbX2SRGv0jEm30
+        title: Die Bremer Stadtmusikanten (Das Märchen der Brüder Grimm zur Musik von Erke Duit)
+      - id: 4UivUuniZfvtALZLArRs7p
+        title: Die Moldau. Friedrich Smetana für Kinder.
+      - id: 1rQNzfdXRCKIbGGwjNfBib
+        title: Die schönsten Kinderlieder zur Weihnachtszeit
+      - id: 6eM4SdDdETgMHJArqP4sOL
+        title: Die vier Jahreszeiten (Eine Geschichte zur Musik von Antonio Vivaldi)
+      - id: 3sNf3b4uNp3hgkmZHktTyl
+        title: Die vier Jahreszeiten (Vivaldi für Kinder)
+      - id: 4VMOEXisQIPTM2sioVFNm4
+        title: Dornröschen. Ballett von Peter Iljitsch Tschaikowski
+      - id: 29XeJ5uLiSfBaeUcdgtPJP
+        title: Filipp Frosch und das Geheimnis des Wassers (Ein musikalisches Entdeckungs-Hörspiel rund um den Wasserkreislauf)
+      - id: 4zgMfrkQMZLDXAp6TI8yxT
+        title: Geburtstagskonzert für die Prinzessin (Barockmusik für Kinder von Bach, Händel, Purcell u.a.)
+      - id: 4aBQbIZC6NDSRWwMPYmTJh
+        title: Gitarren-Hits für Kinder
+      - id: 1MpibzdA8UP54I6o9LVhze
+        title: Große Komponisten für kleine und große Ohren
+      - id: 6QdRE2nacEKsBdHWhIS4ah
+        title: Haydn-Hits für Kinder
+      - id: 7yTa3EOYQu0PJlp0scPAEk
+        title: Herr Beethoven macht Musik
+      - id: 3f2ZrKxah8H1pqCIBVezdq
+        title: Herr Mozart macht Musik
+      - id: 1hZ76veDARauoNTgFPZy7Q
+        title: Hummelflug und Bärentanz (Die schönsten Tiermotive der klassischen Musik)
+      - id: 4aadJBnWOhES0BsJW96rHl
+        title: Hänsel und Gretel (Nach der Oper von Engelbert Humperdinck)
+      - id: 0UoLxo3Or8lAaj0ktNZ9E5
+        title: Karneval der Tiere
+      - id: 5vPjix2WqFFG6i2Uo2W4mM
+        title: Klassik für Babys (Traumhaft schöne Melodien)
+      - id: 54iVQKZQsMOFwuOlOCPboM
+        title: Klassik-Hits für Klein und Groß
+      - id: 2cINlxj85n0SFNvnudTo2G
+        title: Klassik-Hits zum Träumen (Murmels kleine Nachtmusik)
+      - id: 70EL0JE4HhiwqCScIzJs9E
+        title: Klavier-Hits für Kinder
+      - id: 4EA35UoUnOvVsgtqDCxEWk
+        title: Klezmer für Kinder (Ein Konzert zum Mitsingen, Mittanzen und Mitfeiern)
+      - id: 7z0etzpgTwKomPTjbyHYU6
+        title: Laute Lieder, leise Lieder
+      - id: 3UV19eFAwqKAFFvXmfBxTv
+        title: Mit Ketchup und Pommes Frites (Blues, Rock, Boogie, Rag, Jazz und Gospel)
+      - id: 3RLbpK2rvTMWcPj0x9xWHZ
+        title: Mozart-Hits für Kinder
+      - id: 03XQFA7GqfBRJMQ2xSQslc
+        title: Märchenhafte Klassik-Hits (Das Schönste aus Schwanensee, Hänsel und Gretel, Der Nussknacker, Ein Sommernachtstraum, Peer Gynt u.a.)
+      - id: 76vW9dCZzixuVIwW1NZtom
+        title: Peter und der Wolf
+      - id: 0B5wChhM1G3n4B8ezrWtuj
+        title: Simsa-La-Bim (Ein kunterbuntes Konzert von Klassik bis Klezmer)
+      - id: 0d8qzl3Wfcar25Qd6nONWj
+        title: Tina und das Orchester (Ein Hörspiel, in dem die Instrumente zeigen, was sie können - Jedes für sich und alle gemeinsam)
+      - id: 0wkPcWDf0QjOWrpSRZQwSP
+        title: Walzerschritt und Polkahit (Johann Strauß für Kinder)
+      - id: 5kn9X3gQjbfRBXsL527CDN
+        title: Walzerschritt und Polkahit. Johann Strauß für Kinder
+      - id: 7HQRkVvPcDg1VskegM2MGF
+        title: Wie schön - Ich gehe in den Kindergarten! (Lieder, Reime und Geschichten)
+      - id: 7GTqggsHknxpi5Vf2fMNrj
+        title: Wie schön - Ich komme in die Schule!
+      - id: 6fZlteiQA2jU0czKvsUveg
+        title: Wie schön - Ich komme in die Schule! (Lieder, Gedichte und Geschichten)
+  content_type: music
+  aliases:
+  - Simsa Marko
