@@ -40,6 +40,8 @@ Future<TestArdEpisode> getStableTestEpisode(
 ) async {
   final api = container.read(ardApiProvider);
 
+  final errors = <String, String>{};
+
   for (final showId in _stableShowIds) {
     try {
       final page = await api.getItems(programSetId: showId, first: 5);
@@ -50,7 +52,6 @@ Future<TestArdEpisode> getStableTestEpisode(
           }).firstOrNull;
 
       if (suitable != null) {
-        // Also fetch show title for the tile name.
         final show = await api.getProgramSet(showId);
         return TestArdEpisode(
           showId: showId,
@@ -62,17 +63,16 @@ Future<TestArdEpisode> getStableTestEpisode(
           providerUri: suitable.providerUri,
         );
       }
+      errors[showId] = 'No episode with audio >= ${_minimumDurationSeconds}s';
     } on Exception catch (e) {
-      // ignore: avoid_print -- test diagnostics, not user-facing.
-      print('Show $showId unavailable: $e');
-      continue;
+      errors[showId] = '$e';
     }
   }
 
   fail(
-    'No playable ARD content found. '
-    'Checked shows: $_stableShowIds. '
-    'ARD API may be down or content expired.',
+    'No playable ARD content found.\n'
+    'Checked shows: $_stableShowIds\n'
+    'Errors: $errors',
   );
 }
 
@@ -218,11 +218,14 @@ int currentPositionMs(PatrolIntegrationTester $) {
 }
 
 /// Stops playback — call in teardown.
+///
+/// Only swallows disposal-related errors (provider container or notifier
+/// already torn down). Other exceptions propagate and fail the test.
 Future<void> stopPlayback(PatrolIntegrationTester $) async {
   try {
     await getContainer($).read(playerProvider.notifier).pause();
-  } on Exception {
-    // Swallow — player may already be disposed.
+  } on StateError {
+    // Expected: provider or notifier disposed between test and teardown.
   }
 }
 

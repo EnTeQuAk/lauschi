@@ -29,8 +29,8 @@ void main() {
     test('stateStream is broadcast (multiple listeners)', () {
       final s1 = bridge.stateStream.listen((_) {});
       final s2 = bridge.stateStream.listen((_) {});
-      addTeardownSafe(s1.cancel);
-      addTeardownSafe(s2.cancel);
+      addTearDown(s1.cancel);
+      addTearDown(s2.cancel);
     });
 
     test('reconnect without controller is safe (no crash)', () async {
@@ -98,7 +98,7 @@ void main() {
 
         var received = false;
         final s = bridge.stateStream.listen((_) => received = true);
-        addTeardownSafe(s.cancel);
+        addTearDown(s.cancel);
 
         // Another tearDown should still emit.
         bridge.tearDown();
@@ -147,7 +147,7 @@ void main() {
       test('stream stays alive across multiple tearDown cycles', () async {
         final allStates = <PlaybackState>[];
         final s = bridge.stateStream.listen(allStates.add);
-        addTeardownSafe(s.cancel);
+        addTearDown(s.cancel);
 
         // First tearDown.
         bridge.tearDown();
@@ -174,12 +174,5 @@ void main() {
   });
 }
 
-void addTeardownSafe(Future<void> Function() fn) {
-  addTearDown(() async {
-    try {
-      await fn();
-    } on Object {
-      // Ignore errors during cleanup.
-    }
-  });
-}
+// Removed addTeardownSafe: stream cancel() is safe to call multiple
+// times and won't throw. Use addTearDown directly.
