@@ -19,19 +19,29 @@ import 'package:lauschi/features/tiles/widgets/tile_card.dart';
 const _tag = 'ManageTilesScreen';
 
 /// Parent view: list, create, reorder and delete series groups.
+///
+/// When [parentTileId] is set, shows only child tiles of that parent
+/// (scoped manage view for nested tiles). When null, shows root tiles.
 class ManageTilesScreen extends ConsumerWidget {
-  const ManageTilesScreen({super.key});
+  const ManageTilesScreen({super.key, this.parentTileId});
+
+  final String? parentTileId;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final groupsAsync = ref.watch(allTilesProvider);
+    final groupsAsync =
+        parentTileId != null
+            ? ref.watch(childTilesProvider(parentTileId!))
+            : ref.watch(allTilesProvider);
     final ungroupedAsync = ref.watch(ungroupedItemsProvider);
 
     return Scaffold(
       backgroundColor: AppColors.parentBackground,
       appBar: AppBar(
         backgroundColor: AppColors.parentBackground,
-        title: const Text('Kacheln verwalten'),
+        title: Text(
+          parentTileId != null ? 'Ordner verwalten' : 'Kacheln verwalten',
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         key: const Key('add_content_fab'),
@@ -41,11 +51,19 @@ class ManageTilesScreen extends ConsumerWidget {
       ),
       body: groupsAsync.when(
         data: (groups) {
-          final ungrouped = ungroupedAsync.whenOrNull(data: (c) => c) ?? [];
+          // Ungrouped items only shown at root level, not inside a parent.
+          final ungrouped =
+              parentTileId == null
+                  ? (ungroupedAsync.whenOrNull(data: (c) => c) ?? [])
+                  : <db.TileItem>[];
           if (groups.isEmpty && ungrouped.isEmpty) {
             return const _EmptyState();
           }
-          return _SeriesBody(groups: groups, ungrouped: ungrouped);
+          return _SeriesBody(
+            groups: groups,
+            ungrouped: ungrouped,
+            parentTileId: parentTileId,
+          );
         },
         loading: () => const Center(child: CircularProgressIndicator()),
         error:
@@ -97,15 +115,21 @@ class _EmptyState extends StatelessWidget {
 
 /// Combined view: reorderable series grid + ungrouped cards list.
 class _SeriesBody extends StatelessWidget {
-  const _SeriesBody({required this.groups, required this.ungrouped});
+  const _SeriesBody({
+    required this.groups,
+    required this.ungrouped,
+    this.parentTileId,
+  });
 
   final List<db.Tile> groups;
   final List<db.TileItem> ungrouped;
+  final String? parentTileId;
 
   @override
   Widget build(BuildContext context) {
+    final isNested = parentTileId != null;
     if (ungrouped.isEmpty) {
-      return _GroupGrid(groups: groups);
+      return _GroupGrid(groups: groups, isNested: isNested);
     }
 
     // When there are ungrouped cards, use a column layout so the grid
@@ -114,7 +138,11 @@ class _SeriesBody extends StatelessWidget {
       slivers: [
         if (groups.isNotEmpty)
           SliverToBoxAdapter(
-            child: _GroupGrid(groups: groups, shrinkWrap: true),
+            child: _GroupGrid(
+              groups: groups,
+              shrinkWrap: true,
+              isNested: isNested,
+            ),
           ),
         SliverToBoxAdapter(
           child: Padding(
@@ -266,10 +294,15 @@ class _UngroupedCardTile extends ConsumerWidget {
 /// Tiles shift with animation as you drag (iOS home screen style).
 /// Long press to start dragging, release to drop.
 class _GroupGrid extends ConsumerStatefulWidget {
-  const _GroupGrid({required this.groups, this.shrinkWrap = false});
+  const _GroupGrid({
+    required this.groups,
+    this.shrinkWrap = false,
+    this.isNested = false,
+  });
 
   final List<db.Tile> groups;
   final bool shrinkWrap;
+  final bool isNested;
 
   @override
   ConsumerState<_GroupGrid> createState() => _GroupGridState();
@@ -303,7 +336,11 @@ class _GroupGridState extends ConsumerState<_GroupGrid> {
   Widget build(BuildContext context) {
     final children = [
       for (final group in _order)
-        _GroupTile(key: ValueKey(group.id), group: group),
+        _GroupTile(
+          key: ValueKey(group.id),
+          group: group,
+          isNested: widget.isNested,
+        ),
     ];
 
     return LayoutBuilder(
@@ -375,22 +412,237 @@ class _GroupGridState extends ConsumerState<_GroupGrid> {
 }
 
 class _GroupTile extends ConsumerWidget {
-  const _GroupTile({required this.group, super.key});
+  const _GroupTile({
+    required this.group,
+    super.key,
+    this.isNested = false,
+  });
 
   final db.Tile group;
 
+  /// Whether this tile is inside a parent (shows "move to home" option).
+  final bool isNested;
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final childTiles = ref.watch(childTilesProvider(group.id));
     final episodesAsync = ref.watch(tileItemsProvider(group.id));
-    final count = episodesAsync.whenOrNull(data: (e) => e.length) ?? 0;
+    final hasChildren =
+        childTiles.whenOrNull(data: (c) => c.isNotEmpty) ?? false;
+    final count =
+        hasChildren
+            ? (childTiles.whenOrNull(data: (c) => c.length) ?? 0)
+            : (episodesAsync.whenOrNull(data: (e) => e.length) ?? 0);
 
-    return TileCard(
-      key: Key('manage_tile_${group.id}'),
-      title: group.title,
-      episodeCount: count,
-      coverUrl: group.coverUrl,
-      contentType: group.contentType,
-      onTap: () => context.push(AppRoutes.parentTileEdit(group.id)),
+    return GestureDetector(
+      onLongPress: () => _showContextMenu(context, ref),
+      child: TileCard(
+        key: Key('manage_tile_${group.id}'),
+        title: group.title,
+        episodeCount: count,
+        coverUrl: group.coverUrl,
+        contentType: group.contentType,
+        onTap: () {
+          if (hasChildren) {
+            // Navigate to scoped manage view for this parent's children.
+            Navigator.of(context).push(
+              MaterialPageRoute<void>(
+                builder: (_) => ManageTilesScreen(parentTileId: group.id),
+              ),
+            );
+          } else {
+            context.push(AppRoutes.parentTileEdit(group.id));
+          }
+        },
+      ),
+    );
+  }
+
+  void _showContextMenu(BuildContext context, WidgetRef ref) {
+    final tileRepo = ref.read(tileRepositoryProvider);
+
+    showModalBottomSheet<void>(
+      context: context,
+      builder: (ctx) {
+        return SafeArea(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              if (!isNested)
+                ListTile(
+                  leading: const Icon(Icons.folder_rounded),
+                  title: const Text('Verschieben in...'),
+                  onTap: () {
+                    Navigator.of(ctx).pop();
+                    _showMoveIntoDialog(context, ref);
+                  },
+                ),
+              if (isNested)
+                ListTile(
+                  leading: const Icon(Icons.move_up_rounded),
+                  title: const Text('Auf Startseite verschieben'),
+                  onTap: () {
+                    Navigator.of(ctx).pop();
+                    unawaited(tileRepo.unnest(group.id));
+                    Log.info(
+                      _tag,
+                      'Tile unnested',
+                      data: {'tileId': group.id, 'title': group.title},
+                    );
+                  },
+                ),
+              ListTile(
+                leading: const Icon(Icons.edit_rounded),
+                title: const Text('Bearbeiten'),
+                onTap: () {
+                  Navigator.of(ctx).pop();
+                  context.push(AppRoutes.parentTileEdit(group.id));
+                },
+              ),
+              ListTile(
+                leading: const Icon(
+                  Icons.delete_outline_rounded,
+                  color: AppColors.error,
+                ),
+                title: const Text(
+                  'Löschen',
+                  style: TextStyle(color: AppColors.error),
+                ),
+                onTap: () {
+                  Navigator.of(ctx).pop();
+                  _confirmDelete(context, ref);
+                },
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Future<void> _showMoveIntoDialog(BuildContext context, WidgetRef ref) async {
+    final tileRepo = ref.read(tileRepositoryProvider);
+
+    await showDialog<void>(
+      context: context,
+      builder: (ctx) {
+        return Consumer(
+          builder: (context, ref, _) {
+            final tilesAsync = ref.watch(allTilesProvider);
+            return AlertDialog(
+              title: const Text('Verschieben in...'),
+              content: tilesAsync.when(
+                data: (tiles) {
+                  // Show all root tiles except the one being moved.
+                  final candidates =
+                      tiles.where((t) => t.id != group.id).toList();
+                  if (candidates.isEmpty) {
+                    return const Text('Keine Kacheln verfügbar.');
+                  }
+                  return SizedBox(
+                    width: double.maxFinite,
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: candidates.length,
+                      itemBuilder: (context, index) {
+                        final target = candidates[index];
+                        return ListTile(
+                          leading: ClipRRect(
+                            borderRadius: const BorderRadius.all(
+                              Radius.circular(4),
+                            ),
+                            child: SizedBox(
+                              width: 40,
+                              height: 40,
+                              child:
+                                  target.coverUrl != null
+                                      ? CachedNetworkImage(
+                                        imageUrl: target.coverUrl!,
+                                        fit: BoxFit.cover,
+                                      )
+                                      : const ColoredBox(
+                                        color: AppColors.surfaceDim,
+                                        child: Icon(
+                                          Icons.folder_rounded,
+                                          size: 18,
+                                        ),
+                                      ),
+                            ),
+                          ),
+                          title: Text(target.title),
+                          onTap: () {
+                            Navigator.of(ctx).pop();
+                            unawaited(
+                              tileRepo.nestInto(
+                                childId: group.id,
+                                parentId: target.id,
+                              ),
+                            );
+                            Log.info(
+                              _tag,
+                              'Tile moved into parent',
+                              data: {
+                                'childId': group.id,
+                                'parentId': target.id,
+                                'parentTitle': target.title,
+                              },
+                            );
+                          },
+                        );
+                      },
+                    ),
+                  );
+                },
+                loading: () => const CircularProgressIndicator(),
+                error: (_, _) => const Text('Fehler beim Laden.'),
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.of(ctx).pop(),
+                  child: const Text('Abbrechen'),
+                ),
+              ],
+            );
+          },
+        );
+      },
+    );
+  }
+
+  Future<void> _confirmDelete(BuildContext context, WidgetRef ref) async {
+    await showDialog<void>(
+      context: context,
+      builder:
+          (ctx) => AlertDialog(
+            title: const Text('Kachel löschen?'),
+            content: Text(
+              '„${group.title}" und alle enthaltenen Inhalte '
+              'werden gelöscht.',
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.of(ctx).pop(),
+                child: const Text('Abbrechen'),
+              ),
+              FilledButton(
+                onPressed: () {
+                  Navigator.of(ctx).pop();
+                  Log.info(
+                    _tag,
+                    'Tile deleted',
+                    data: {'tileId': group.id, 'title': group.title},
+                  );
+                  unawaited(
+                    ref.read(tileRepositoryProvider).delete(group.id),
+                  );
+                },
+                style: FilledButton.styleFrom(
+                  backgroundColor: AppColors.error,
+                ),
+                child: const Text('Löschen'),
+              ),
+            ],
+          ),
     );
   }
 }

@@ -17,6 +17,7 @@ import 'package:lauschi/features/player/player_provider.dart';
 import 'package:lauschi/features/player/widgets/now_playing_bar.dart';
 import 'package:lauschi/features/player/widgets/player_error_dialog.dart';
 import 'package:lauschi/features/tiles/widgets/audio_tile.dart';
+import 'package:lauschi/features/tiles/widgets/tile_card.dart';
 
 const _tag = 'TileDetailScreen';
 
@@ -41,6 +42,7 @@ class TileDetailScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final groupAsync = ref.watch(tileByIdProvider(tileId));
+    final childTilesAsync = ref.watch(childTilesProvider(tileId));
     final episodesAsync = ref.watch(tileItemsProvider(tileId));
     final nextUnheard = ref.watch(tileNextUnheardProvider(tileId));
     final playerState = ref.watch(playerProvider);
@@ -154,38 +156,74 @@ class TileDetailScreen extends ConsumerWidget {
                 ),
               ),
 
-            // Episode grid
+            // Content: child tiles (if nested) or episodes (if leaf).
+            // Children take priority over items for mixed tiles.
             Expanded(
-              child: episodesAsync.when(
-                data: (allEpisodes) {
-                  // Hide expired episodes from kids entirely.
-                  // Parents see them in tile_edit_screen.
-                  final episodes =
-                      allEpisodes.where((e) => !isItemExpired(e)).toList();
-                  if (episodes.isEmpty) {
-                    return const _EmptyGroupState();
+              child: childTilesAsync.when(
+                data: (childTiles) {
+                  if (childTiles.isNotEmpty) {
+                    // This tile has child tiles: show them as a grid.
+                    // Tapping a child navigates deeper (recursive).
+                    return _ChildTileGrid(
+                      children: childTiles,
+                      onTileTap: (child) {
+                        Log.info(
+                          _tag,
+                          'Child tile tapped',
+                          data: {
+                            'childId': child.id,
+                            'parentId': tileId,
+                            'title': child.title,
+                          },
+                        );
+                        unawaited(
+                          context.push(AppRoutes.tileDetail(child.id)),
+                        );
+                      },
+                    );
                   }
-                  final nextId = nextUnheard?.id;
-                  return _EpisodeGrid(
-                    episodes: episodes,
-                    nextUnheardId: nextId,
-                    activeUri: playerState.activeContextUri,
-                    isPlaying: playerState.isPlaying,
-                    isActive: playerState.track != null,
-                    showEpisodeTitles: showTitles,
-                    onCardTap: (card) {
-                      Log.info(
-                        _tag,
-                        'Episode tapped',
-                        data: {
-                          'cardId': card.id,
-                          'tileId': tileId,
-                          'title': card.customTitle ?? card.title,
+
+                  // No children: show episodes (leaf tile, current behavior).
+                  return episodesAsync.when(
+                    data: (allEpisodes) {
+                      final episodes =
+                          allEpisodes.where((e) => !isItemExpired(e)).toList();
+                      if (episodes.isEmpty) {
+                        return const _EmptyGroupState();
+                      }
+                      final nextId = nextUnheard?.id;
+                      return _EpisodeGrid(
+                        episodes: episodes,
+                        nextUnheardId: nextId,
+                        activeUri: playerState.activeContextUri,
+                        isPlaying: playerState.isPlaying,
+                        isActive: playerState.track != null,
+                        showEpisodeTitles: showTitles,
+                        onCardTap: (card) {
+                          Log.info(
+                            _tag,
+                            'Episode tapped',
+                            data: {
+                              'cardId': card.id,
+                              'tileId': tileId,
+                              'title': card.customTitle ?? card.title,
+                            },
+                          );
+                          unawaited(playerNotifier.playCard(card.id));
+                          unawaited(context.push(AppRoutes.player));
                         },
                       );
-                      unawaited(playerNotifier.playCard(card.id));
-                      unawaited(context.push(AppRoutes.player));
                     },
+                    loading:
+                        () => const Center(child: CircularProgressIndicator()),
+                    error:
+                        (_, _) => const Center(
+                          child: Icon(
+                            Icons.error_outline_rounded,
+                            size: 48,
+                            color: AppColors.textSecondary,
+                          ),
+                        ),
                   );
                 },
                 loading: () => const Center(child: CircularProgressIndicator()),
@@ -311,6 +349,57 @@ class _GroupHeader extends StatelessWidget {
             ),
         ],
       ),
+    );
+  }
+}
+
+/// Grid of child tiles inside a parent tile. Same visual as the kid home
+/// screen grid. Tapping navigates deeper into the child tile.
+class _ChildTileGrid extends ConsumerWidget {
+  const _ChildTileGrid({
+    required this.children,
+    required this.onTileTap,
+  });
+
+  final List<db.Tile> children;
+  final void Function(db.Tile) onTileTap;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final progressMap = ref.watch(tileProgressProvider);
+
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final columns = kidGridColumns(constraints.maxWidth);
+
+        return GridView.builder(
+          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.screenH),
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: columns,
+            crossAxisSpacing: 12,
+            mainAxisSpacing: 12,
+          ),
+          itemCount: children.length,
+          itemBuilder: (context, index) {
+            final child = children[index];
+            final stats = progressMap[child.id];
+            final total = stats?.total ?? 0;
+            final heard = stats?.heard ?? 0;
+            final progress = total > 0 ? (heard / total) : 0.0;
+
+            return TileCard(
+              key: Key('child_tile_${child.id}'),
+              title: child.title,
+              episodeCount: total,
+              coverUrl: child.coverUrl,
+              progress: progress,
+              contentType: child.contentType,
+              kidMode: true,
+              onTap: () => onTileTap(child),
+            );
+          },
+        );
+      },
     );
   }
 }

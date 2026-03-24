@@ -386,7 +386,15 @@ TileRepository tileRepository(Ref ref) {
   return TileRepository(ref.watch(appDatabaseProvider));
 }
 
-/// Stream of all tiles, ordered by sortOrder.
+/// Stream of root tiles (home screen), ordered by sortOrder.
 final allTilesProvider = StreamProvider<List<Tile>>((ref) {
   return ref.watch(tileRepositoryProvider).watchAll();
+});
+
+/// Stream of child tiles for a given parent tile.
+final childTilesProvider = StreamProvider.family<List<Tile>, String>((
+  ref,
+  parentId,
+) {
+  return ref.watch(tileRepositoryProvider).watchChildren(parentId);
 });
