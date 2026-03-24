@@ -388,8 +388,15 @@ final tileProgressProvider = Provider<Map<String, ({int total, int heard})>>((
     if (tid == null) continue;
     if (isItemExpired(item, now: now)) continue;
     final prev = result[tid] ?? (total: 0, heard: 0);
+    // For playlists, use the playlist's track count as the display total
+    // instead of counting the playlist itself as 1 item. A tile with one
+    // 59-track playlist should show "59 Titel", not "1 Folge".
+    final itemCount =
+        item.cardType == 'playlist' && item.totalTracks > 1
+            ? item.totalTracks
+            : 1;
     result[tid] = (
-      total: prev.total + 1,
+      total: prev.total + itemCount,
       heard: prev.heard + (item.isHeard ? 1 : 0),
     );
   }

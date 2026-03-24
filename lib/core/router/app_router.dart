@@ -47,6 +47,8 @@ abstract final class AppRoutes {
 
   static const parentManageTiles = '/parent/tiles';
   static String parentTileEdit(String tileId) => '/parent/tiles/$tileId';
+  static String parentTileChildren(String tileId) =>
+      '/parent/tiles/$tileId/children';
   static const parentSettings = '/parent/settings';
   static const parentNfcTags = '/parent/nfc-tags';
   static const parentAddContent = '/parent/add';
@@ -147,6 +149,16 @@ GoRouter createRouter(Ref ref, {String initialLocation = AppRoutes.kidHome}) {
                   final tileId = state.pathParameters['id']!;
                   return TileEditScreen(tileId: tileId);
                 },
+                routes: [
+                  GoRoute(
+                    name: 'parent-tile-children',
+                    path: 'children',
+                    builder: (context, state) {
+                      final tileId = state.pathParameters['id']!;
+                      return ManageTilesScreen(parentTileId: tileId);
+                    },
+                  ),
+                ],
               ),
             ],
           ),

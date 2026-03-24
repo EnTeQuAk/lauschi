@@ -445,11 +445,7 @@ class _GroupTile extends ConsumerWidget {
         onTap: () {
           if (hasChildren) {
             unawaited(
-              Navigator.of(context).push(
-                MaterialPageRoute<void>(
-                  builder: (_) => ManageTilesScreen(parentTileId: group.id),
-                ),
-              ),
+              context.push(AppRoutes.parentTileChildren(group.id)),
             );
           } else {
             unawaited(context.push(AppRoutes.parentTileEdit(group.id)));
