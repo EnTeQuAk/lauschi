@@ -93,6 +93,17 @@ void main() {
         amId,
         reason: 'Last playCard call (Apple Music) should win',
       );
+      expect(state.isPlaying, isTrue);
+      expect(
+        state.error,
+        isNull,
+        reason: 'No error from rapid cross-provider switching',
+      );
+      expect(
+        state.positionMs,
+        lessThan(5000),
+        reason: 'Should be near start of the winning track',
+      );
 
       await stopPlayback($);
     },

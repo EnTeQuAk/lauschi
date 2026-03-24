@@ -84,7 +84,15 @@ void main() {
       final tile1 = await tiles.insert(title: 'Album A');
       final tile2 = await tiles.insert(title: 'Album B');
       await pumpFrames($);
-      expect(await tiles.getAll(), hasLength(2));
+
+      // Precondition: both are root tiles.
+      final beforeRoot = await tiles.getAll();
+      expect(beforeRoot, hasLength(2));
+      expect(
+        beforeRoot.map((t) => t.title),
+        containsAll(['Album A', 'Album B']),
+      );
+      expect(await tiles.getAllFlat(), hasLength(2));
 
       // Group them.
       final parentId = await tiles.groupTiles(
@@ -94,15 +102,19 @@ void main() {
       );
       await pumpFrames($);
 
-      // Root should now have 1 tile (the parent).
+      // Root should now have 1 tile (the parent), not 3.
       final rootTiles = await tiles.getAll();
       expect(rootTiles, hasLength(1));
       expect(rootTiles.first.id, parentId);
       expect(rootTiles.first.title, 'Senta');
 
-      // Parent should have 2 children.
+      // Total tiles: parent + 2 children = 3.
+      expect(await tiles.getAllFlat(), hasLength(3));
+
+      // Parent should have 2 children with correct titles.
       final children = await tiles.getChildren(parentId);
       expect(children, hasLength(2));
+      expect(children.map((t) => t.title), containsAll(['Album A', 'Album B']));
     },
   );
 

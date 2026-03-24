@@ -103,6 +103,16 @@ Future<String> _setupAppleMusic(
 
 Future<void> _assertPlayStarts(PatrolIntegrationTester $, String itemId) async {
   final container = getContainer($);
+
+  // Precondition: not playing before we start.
+  final before = container.read(playerProvider);
+  expect(before.isPlaying, isFalse, reason: 'Precondition: not playing');
+  expect(
+    before.activeCardId,
+    isNot(itemId),
+    reason: 'Precondition: different card or none active',
+  );
+
   final notifier = container.read(playerProvider.notifier);
   unawaited(notifier.playCard(itemId));
   await waitForPlayback($, timeout: const Duration(seconds: 30));
@@ -110,6 +120,13 @@ Future<void> _assertPlayStarts(PatrolIntegrationTester $, String itemId) async {
   final state = container.read(playerProvider);
   expect(state.isPlaying, isTrue);
   expect(state.activeCardId, itemId);
+  expect(state.error, isNull, reason: 'No error during playback start');
+  expect(state.track, isNotNull, reason: 'Track metadata should be set');
+  expect(
+    state.positionMs,
+    lessThan(5000),
+    reason: 'Fresh play should start near 0',
+  );
 }
 
 Future<void> _assertPauseResume(
@@ -123,13 +140,34 @@ Future<void> _assertPauseResume(
 
   await notifier.pause();
   await waitForPause($);
-  final pausedPos = currentPositionMs($);
-  expect(pausedPos, greaterThan(0));
+
+  final pausedState = container.read(playerProvider);
+  final pausedPos = pausedState.positionMs;
+  expect(pausedPos, greaterThan(0), reason: 'Should have played some audio');
+  expect(pausedState.isPlaying, isFalse);
+  expect(
+    pausedState.track,
+    isNotNull,
+    reason: 'Track metadata should persist after pause',
+  );
+  expect(
+    pausedState.durationMs,
+    greaterThan(0),
+    reason: 'Duration should persist after pause',
+  );
 
   await notifier.resume();
   await waitForPlayback($);
   await $.pump(const Duration(seconds: 3));
-  expect(currentPositionMs($), greaterThan(pausedPos));
+
+  final resumed = container.read(playerProvider);
+  expect(
+    resumed.positionMs,
+    greaterThan(pausedPos),
+    reason: 'Position should advance after resume',
+  );
+  expect(resumed.isPlaying, isTrue);
+  expect(resumed.error, isNull);
 }
 
 Future<void> _assertDuration(PatrolIntegrationTester $, String itemId) async {

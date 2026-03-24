@@ -69,6 +69,11 @@ void main() {
       );
       await pumpFrames($);
 
+      // Both items exist in DB.
+      final allItems = await items.getAll();
+      final tileItems = allItems.where((i) => i.groupId == tileId).toList();
+      expect(tileItems, hasLength(2), reason: 'Both items in DB');
+
       // Tile should appear on home screen (it has valid content).
       expect(find.byType(TileCard), findsOneWidget);
 
@@ -76,8 +81,14 @@ void main() {
       container.read(appRouterProvider).go(AppRoutes.tileDetail(tileId));
       await pumpFrames($, count: 10);
 
-      // Only the valid episode should be visible.
+      // Only the valid episode should be visible. Expired one hidden.
       expect(find.byType(TileItem), findsOneWidget);
+      expect(find.text('Valid Episode'), findsOneWidget);
+      expect(
+        find.text('Expired Episode'),
+        findsNothing,
+        reason: 'Expired episode must not be visible to kids',
+      );
     },
   );
 
