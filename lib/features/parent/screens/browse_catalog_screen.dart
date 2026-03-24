@@ -587,7 +587,9 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen>
 
         // Search mode toggle (only in general add mode)
         // Playlist search is Spotify-only.
-        if (!_isAutoAssignMode && _source.provider == ProviderType.spotify)
+        if (!_isAutoAssignMode &&
+            (_source.provider == ProviderType.spotify ||
+                _source.provider == ProviderType.appleMusic))
           Padding(
             padding: const EdgeInsets.symmetric(
               horizontal: AppSpacing.screenH,
@@ -691,9 +693,13 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen>
   // ---------------------------------------------------------------------------
 
   Widget _buildCuratedGrid(CatalogService catalog) {
+    final isMusikMode = _searchMode == _SearchMode.playlist;
     final series =
         catalog.all
             .where((s) => s.hasCuratedAlbumsFor(_source.provider))
+            .where(
+              (s) => isMusikMode ? s.isMusic : !s.isMusic,
+            )
             .toList()
           ..sort((a, b) => a.title.compareTo(b.title));
 
@@ -710,9 +716,9 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen>
       key: const PageStorageKey('curated-grid'),
       slivers: [
         // Section header
-        const SliverToBoxAdapter(
+        SliverToBoxAdapter(
           child: Padding(
-            padding: EdgeInsets.fromLTRB(
+            padding: const EdgeInsets.fromLTRB(
               AppSpacing.screenH,
               AppSpacing.xs,
               AppSpacing.screenH,
@@ -722,16 +728,16 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen>
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Beliebte Hörspiele',
-                  style: TextStyle(
+                  isMusikMode ? 'Beliebte Kinderlieder' : 'Beliebte Hörspiele',
+                  style: const TextStyle(
                     fontFamily: 'Nunito',
                     fontSize: 16,
                     fontWeight: FontWeight.w700,
                     color: AppColors.textPrimary,
                   ),
                 ),
-                SizedBox(height: 2),
-                Text(
+                const SizedBox(height: 2),
+                const Text(
                   'Tippe auf eine Kachel zum Hinzufügen',
                   style: TextStyle(
                     fontFamily: 'Nunito',

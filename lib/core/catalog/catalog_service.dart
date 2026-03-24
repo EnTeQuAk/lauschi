@@ -48,10 +48,18 @@ class CatalogSeries {
     this.episodePattern,
     this.albums = const [],
     this.appleMusicAlbums = const [],
+    this.contentType = 'hoerspiel',
   });
 
   final String id;
   final String title;
+
+  /// Content type: 'hoerspiel' (default) or 'music'.
+  /// Used to filter the curated grid between Hörspiele and Musik tabs.
+  final String contentType;
+
+  /// Whether this is a music artist (not a Hörspiel series).
+  bool get isMusic => contentType == 'music';
   final List<String> aliases;
 
   /// Single-word or phrase tokens to detect this series in search results.
@@ -224,6 +232,7 @@ class CatalogService {
           spotifyArtistIds: artistIds,
           appleMusicArtistIds: amArtistIds,
           coverUrl: map['cover_url'] as String?,
+          contentType: (map['content_type'] as String?) ?? 'hoerspiel',
           episodePattern: _parseEpisodePattern(map['episode_pattern']),
           albums: albums,
           appleMusicAlbums: amAlbums,
