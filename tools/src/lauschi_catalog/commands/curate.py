@@ -824,6 +824,7 @@ def save_curation(series: CuratedSeries) -> Path:
     data = {
         "id": series.id,
         "title": series.title,
+        "content_type": series.content_type,
         "aliases": series.aliases,
         "keywords": series.keywords,
         "episode_pattern": series.episode_pattern,
