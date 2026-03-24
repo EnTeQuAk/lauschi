@@ -37,10 +37,12 @@ void main() {
       final r = catalog.match(
         'Wickie 1974-2009 (Original Soundtrack Zur TV-Serie 1974)',
       );
-      // May or may not match keyword, but if it does, episode must not be 1974.
-      if (r != null) {
-        expect(r.episodeNumber, isNot(1974));
-      }
+      expect(r, isNotNull, reason: 'Should match Wickie by keyword');
+      expect(
+        r!.episodeNumber,
+        isNot(1974),
+        reason: 'Year 1974 must not be extracted as episode number',
+      );
     });
   });
 

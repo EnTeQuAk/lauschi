@@ -44,19 +44,16 @@ class FakePlayerNotifier extends PlayerNotifier {
   @override
   Future<void> playCard(String cardId) async => lastPlayedCardId = cardId;
 
-  @override
-  Future<void> seek(int positionMs) async =>
-      throw UnimplementedError('Add seek() tracking if your test needs it');
+  final seekCalls = <int>[];
+  final nextTrackCalls = <void>[];
+  final prevTrackCalls = <void>[];
 
   @override
-  Future<void> nextTrack() async =>
-      throw UnimplementedError(
-        'Add nextTrack() tracking if your test needs it',
-      );
+  Future<void> seek(int positionMs) async => seekCalls.add(positionMs);
 
   @override
-  Future<void> prevTrack() async =>
-      throw UnimplementedError(
-        'Add prevTrack() tracking if your test needs it',
-      );
+  Future<void> nextTrack() async => nextTrackCalls.add(null);
+
+  @override
+  Future<void> prevTrack() async => prevTrackCalls.add(null);
 }

@@ -175,8 +175,12 @@ void main() {
     tester,
   ) async {
     final cards = [_card(id: 'card-1', title: 'Bibi Blocksberg')];
-    // isReady: false (default) — player backend not connected yet.
     final notifier = _TrackingPlayerNotifier();
+    expect(
+      notifier.build().isReady,
+      isFalse,
+      reason: 'Precondition: player must not be ready',
+    );
 
     final container = ProviderContainer(
       overrides: _testOverrides(

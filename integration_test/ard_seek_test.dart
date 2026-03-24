@@ -32,14 +32,14 @@ void main() {
       await pumpFrames($);
 
       // Wait for duration to be known.
-      var attempts = 0;
-      while (container.read(playerProvider).durationMs == 0 && attempts < 50) {
-        await $.pump(const Duration(milliseconds: 100));
-        attempts++;
-      }
+      await waitForCondition(
+        $,
+        () async => container.read(playerProvider).durationMs > 0,
+        description: 'Duration to be populated',
+        timeout: const Duration(seconds: 15),
+      );
 
       final duration = container.read(playerProvider).durationMs;
-      expect(duration, greaterThan(0), reason: 'Should know audio duration');
 
       // ── Seek to ~50% via the Slider widget ─────────────────────────────
       final slider = find.byType(Slider);
