@@ -1214,8 +1214,8 @@ class _CuratedSeriesCard extends ConsumerWidget {
             allAdded
                 ? '✓ Hinzugefügt'
                 : added > 0
-                ? '$added von $total Folgen'
-                : '$total Folgen',
+                ? '$added von $total ${series.isMusic ? 'Alben' : 'Folgen'}'
+                : '$total ${series.isMusic ? 'Alben' : 'Folgen'}',
             style: TextStyle(
               fontFamily: 'Nunito',
               fontSize: 10,
@@ -1373,7 +1373,7 @@ class _CatalogSeriesDetailScreenState
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(
-              '${result.added} Folgen zu ${series.title} hinzugefügt',
+              '${result.added} ${series.isMusic ? 'Alben' : 'Folgen'} zu ${series.title} hinzugefügt',
             ),
           ),
         );
@@ -1701,8 +1701,8 @@ class _HeroCard extends ConsumerWidget {
                   const SizedBox(height: 2),
                   Text(
                     allAdded
-                        ? '✓ Alle $total Folgen hinzugefügt'
-                        : '$total Folgen · Alles sortiert',
+                        ? '✓ Alle $total ${series.isMusic ? 'Alben' : 'Folgen'} hinzugefügt'
+                        : '$total ${series.isMusic ? 'Alben' : 'Folgen'} · Alles sortiert',
                     style: TextStyle(
                       fontFamily: 'Nunito',
                       fontSize: 12,
