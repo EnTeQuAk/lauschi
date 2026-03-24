@@ -317,8 +317,8 @@ class _GroupGridState extends ConsumerState<_GroupGrid> {
   late List<db.Tile> _order;
 
   // ── Nest-on-hover state ──────────────────────────────────────────
-  /// Index of the tile being dragged (null when not dragging).
-  int? _draggedIndex;
+  /// ID of the tile being dragged (null when not dragging).
+  String? _draggedId;
 
   /// ID of the tile currently under the pointer as a nest target.
   String? _nestTargetId;
@@ -355,7 +355,7 @@ class _GroupGridState extends ConsumerState<_GroupGrid> {
   // ── Pointer tracking during drag ─────────────────────────────────
 
   void _onPointerMove(PointerMoveEvent event) {
-    if (_draggedIndex == null) return;
+    if (_draggedId == null) return;
 
     // Find which tile the pointer is over using grid geometry.
     final gridBox =
@@ -368,14 +368,15 @@ class _GroupGridState extends ConsumerState<_GroupGrid> {
     // Determine the target tile ID (ignoring the dragged tile itself).
     String? targetId;
     if (targetIndex != null &&
-        targetIndex != _draggedIndex &&
         targetIndex >= 0 &&
         targetIndex < _order.length) {
-      targetId = _order[targetIndex].id;
+      final candidateId = _order[targetIndex].id;
+      if (candidateId != _draggedId) {
+        targetId = candidateId;
+      }
     }
 
     if (targetId != _nestTargetId) {
-      // Pointer moved to a different tile (or off all tiles).
       _cancelHover();
       if (targetId != null) {
         _startHover(targetId);
@@ -421,19 +422,21 @@ class _GroupGridState extends ConsumerState<_GroupGrid> {
 
   void _startHover(String targetId) {
     _nestTargetId = targetId;
+    setState(() {}); // Show candidate highlight immediately.
     _hoverTimer = Timer(const Duration(milliseconds: 500), () {
-      if (_nestTargetId == targetId && _draggedIndex != null) {
+      if (_nestTargetId == targetId && _draggedId != null) {
         setState(() => _nestModeActive = true);
         unawaited(HapticFeedback.mediumImpact());
-        Log.debug(
+        Log.info(
           _tag,
           'Nest mode activated',
-          data: {'targetId': targetId},
+          data: {
+            'draggedId': _draggedId ?? '',
+            'targetId': targetId,
+          },
         );
       }
     });
-    // Subtle initial feedback: show the target is being considered.
-    setState(() {});
   }
 
   void _cancelHover() {
@@ -447,12 +450,34 @@ class _GroupGridState extends ConsumerState<_GroupGrid> {
     }
   }
 
-  // ignore: use_setters_to_change_properties, callback from ReorderableBuilder
-  void _onDragStarted(int index) => _draggedIndex = index;
+  void _onDragStarted(int index) {
+    if (index >= 0 && index < _order.length) {
+      _draggedId = _order[index].id;
+      Log.debug(
+        _tag,
+        'Drag started',
+        data: {
+          'index': '$index',
+          'id': _draggedId ?? '',
+          'title': _order[index].title,
+        },
+      );
+    }
+  }
 
   void _onDragEnd(int index) {
-    _draggedIndex = null;
-    _cancelHover();
+    // Don't reset nest state here. onReorder fires AFTER onDragEnd,
+    // so we need _nestModeActive and _draggedId to still be valid
+    // when onReorder checks them. Reset happens inside onReorder.
+    Log.debug(
+      _tag,
+      'Drag ended',
+      data: {
+        'nestMode': '$_nestModeActive',
+        'draggedId': _draggedId ?? 'none',
+        'targetId': _nestTargetId ?? 'none',
+      },
+    );
   }
 
   // ── Build ────────────────────────────────────────────────────────
@@ -469,7 +494,7 @@ class _GroupGridState extends ConsumerState<_GroupGrid> {
           isNestCandidate:
               !_nestModeActive &&
               _nestTargetId == _order[i].id &&
-              _draggedIndex != null,
+              _draggedId != null,
         ),
     ];
 
@@ -490,32 +515,33 @@ class _GroupGridState extends ConsumerState<_GroupGrid> {
             onDragStarted: _onDragStarted,
             onDragEnd: _onDragEnd,
             onReorder: (reorderFn) {
-              // If nest mode is active, intercept the drop.
-              if (_nestModeActive && _nestTargetId != null) {
-                final draggedId =
-                    _draggedIndex != null && _draggedIndex! < _order.length
-                        ? _order[_draggedIndex!].id
-                        : null;
-                if (draggedId != null) {
-                  Log.info(
-                    _tag,
-                    'Nesting via drag',
-                    data: {
-                      'childId': draggedId,
-                      'parentId': _nestTargetId!,
-                    },
-                  );
-                  unawaited(
-                    ref
-                        .read(tileRepositoryProvider)
-                        .nestInto(
-                          childId: draggedId,
-                          parentId: _nestTargetId!,
-                        ),
-                  );
-                }
-                _cancelHover();
-                _draggedIndex = null;
+              // Capture nest state before cleanup (onDragEnd already ran).
+              final wasNesting = _nestModeActive;
+              final nestTarget = _nestTargetId;
+              final draggedId = _draggedId;
+
+              // Always clean up drag state.
+              _draggedId = null;
+              _cancelHover();
+
+              // If nest mode was active, intercept the drop.
+              if (wasNesting && nestTarget != null && draggedId != null) {
+                Log.info(
+                  _tag,
+                  'Nesting via drag',
+                  data: {
+                    'childId': draggedId,
+                    'parentId': nestTarget,
+                  },
+                );
+                unawaited(
+                  ref
+                      .read(tileRepositoryProvider)
+                      .nestInto(
+                        childId: draggedId,
+                        parentId: nestTarget,
+                      ),
+                );
                 return;
               }
 
