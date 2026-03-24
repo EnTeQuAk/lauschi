@@ -444,14 +444,15 @@ class _GroupTile extends ConsumerWidget {
         contentType: group.contentType,
         onTap: () {
           if (hasChildren) {
-            // Navigate to scoped manage view for this parent's children.
-            Navigator.of(context).push(
-              MaterialPageRoute<void>(
-                builder: (_) => ManageTilesScreen(parentTileId: group.id),
+            unawaited(
+              Navigator.of(context).push(
+                MaterialPageRoute<void>(
+                  builder: (_) => ManageTilesScreen(parentTileId: group.id),
+                ),
               ),
             );
           } else {
-            context.push(AppRoutes.parentTileEdit(group.id));
+            unawaited(context.push(AppRoutes.parentTileEdit(group.id)));
           }
         },
       ),
@@ -461,62 +462,64 @@ class _GroupTile extends ConsumerWidget {
   void _showContextMenu(BuildContext context, WidgetRef ref) {
     final tileRepo = ref.read(tileRepositoryProvider);
 
-    showModalBottomSheet<void>(
-      context: context,
-      builder: (ctx) {
-        return SafeArea(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              if (!isNested)
+    unawaited(
+      showModalBottomSheet<void>(
+        context: context,
+        builder: (ctx) {
+          return SafeArea(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (!isNested)
+                  ListTile(
+                    leading: const Icon(Icons.folder_rounded),
+                    title: const Text('Verschieben in...'),
+                    onTap: () {
+                      Navigator.of(ctx).pop();
+                      unawaited(_showMoveIntoDialog(context, ref));
+                    },
+                  ),
+                if (isNested)
+                  ListTile(
+                    leading: const Icon(Icons.move_up_rounded),
+                    title: const Text('Auf Startseite verschieben'),
+                    onTap: () {
+                      Navigator.of(ctx).pop();
+                      unawaited(tileRepo.unnest(group.id));
+                      Log.info(
+                        _tag,
+                        'Tile unnested',
+                        data: {'tileId': group.id, 'title': group.title},
+                      );
+                    },
+                  ),
                 ListTile(
-                  leading: const Icon(Icons.folder_rounded),
-                  title: const Text('Verschieben in...'),
+                  leading: const Icon(Icons.edit_rounded),
+                  title: const Text('Bearbeiten'),
                   onTap: () {
                     Navigator.of(ctx).pop();
-                    _showMoveIntoDialog(context, ref);
+                    unawaited(context.push(AppRoutes.parentTileEdit(group.id)));
                   },
                 ),
-              if (isNested)
                 ListTile(
-                  leading: const Icon(Icons.move_up_rounded),
-                  title: const Text('Auf Startseite verschieben'),
+                  leading: const Icon(
+                    Icons.delete_outline_rounded,
+                    color: AppColors.error,
+                  ),
+                  title: const Text(
+                    'Löschen',
+                    style: TextStyle(color: AppColors.error),
+                  ),
                   onTap: () {
                     Navigator.of(ctx).pop();
-                    unawaited(tileRepo.unnest(group.id));
-                    Log.info(
-                      _tag,
-                      'Tile unnested',
-                      data: {'tileId': group.id, 'title': group.title},
-                    );
+                    unawaited(_confirmDelete(context, ref));
                   },
                 ),
-              ListTile(
-                leading: const Icon(Icons.edit_rounded),
-                title: const Text('Bearbeiten'),
-                onTap: () {
-                  Navigator.of(ctx).pop();
-                  context.push(AppRoutes.parentTileEdit(group.id));
-                },
-              ),
-              ListTile(
-                leading: const Icon(
-                  Icons.delete_outline_rounded,
-                  color: AppColors.error,
-                ),
-                title: const Text(
-                  'Löschen',
-                  style: TextStyle(color: AppColors.error),
-                ),
-                onTap: () {
-                  Navigator.of(ctx).pop();
-                  _confirmDelete(context, ref);
-                },
-              ),
-            ],
-          ),
-        );
-      },
+              ],
+            ),
+          );
+        },
+      ),
     );
   }
 
