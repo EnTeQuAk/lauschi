@@ -182,11 +182,13 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen>
   Future<void> _search(String query) async {
     setState(() => _isSearching = true);
     try {
+      // Always search albums (works for all providers and both modes).
+      await _searchAlbums(query);
+      // In Musik mode on Spotify, also search playlists and append them.
+      // Parents may have curated playlists they want to add.
       if (_searchMode == _SearchMode.playlist &&
           _source.provider == ProviderType.spotify) {
         await _searchPlaylists(query);
-      } else {
-        await _searchAlbums(query);
       }
     } on Exception catch (e) {
       Log.error(_tag, 'Search failed', exception: e);
@@ -220,11 +222,14 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen>
         'catalogHits': '$catalogHits',
       },
     );
-    // Hero series from catalog search (instant, local)
+    // Hero series from catalog search (instant, local).
+    // Filter by content type to match the active tab.
+    final isMusikMode = _searchMode == _SearchMode.playlist;
     final allCatalogHits =
         catalog
             ?.search(query)
             .where((s) => s.hasCuratedAlbumsFor(_source.provider))
+            .where((s) => isMusikMode ? s.isMusic : !s.isMusic)
             .toList() ??
         [];
     setState(() {
@@ -253,10 +258,9 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen>
     );
     setState(() {
       _playlistResults = result.playlists;
-      _albumResults = [];
-      _catalogMatches = [];
+      // Don't clear _albumResults — playlist search runs after album search
+      // in Musik mode, appending playlists below albums.
       _isSearching = false;
-      _hasSearched = true;
     });
   }
 
@@ -636,7 +640,7 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen>
             decoration: InputDecoration(
               hintText:
                   _searchMode == _SearchMode.playlist
-                      ? 'Playlists suchen…'
+                      ? 'Kinderlieder suchen…'
                       : 'Hörspiel suchen…',
               prefixIcon: const Icon(Icons.search_rounded),
               suffixIcon:
@@ -793,10 +797,9 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen>
   Widget _buildTwoTierSearch({
     String? batchSeries,
   }) {
-    // Playlist mode uses the flat search results list
-    if (_searchMode == _SearchMode.playlist) {
-      return _buildSearchResults(batchSeries: batchSeries);
-    }
+    // Both modes use the two-tier layout: hero cards (filtered by content
+    // type) + album results. In Musik mode on Spotify, playlists are
+    // appended below the album results by _buildSearchResults.
 
     // Nothing to show yet (still debouncing, no catalog hits)
     if (_heroSeries.isEmpty && !_isSearching && !_hasSearched) {
@@ -933,7 +936,8 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen>
         if (_hasSearched &&
             !_isSearching &&
             _heroSeries.isEmpty &&
-            _albumResults.isEmpty)
+            _albumResults.isEmpty &&
+            _playlistResults.isEmpty)
           const SliverToBoxAdapter(
             child: Padding(
               padding: EdgeInsets.symmetric(
@@ -951,6 +955,41 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen>
             ),
           ),
 
+        // Playlists (Musik mode on Spotify). Shown below album results.
+        if (_playlistResults.isNotEmpty) ...[
+          const SliverToBoxAdapter(
+            child: Padding(
+              padding: EdgeInsets.fromLTRB(
+                AppSpacing.screenH,
+                AppSpacing.lg,
+                AppSpacing.screenH,
+                AppSpacing.sm,
+              ),
+              child: Text(
+                'Playlists',
+                style: TextStyle(
+                  fontFamily: 'Nunito',
+                  fontSize: 14,
+                  fontWeight: FontWeight.w700,
+                  color: AppColors.textSecondary,
+                ),
+              ),
+            ),
+          ),
+          SliverList.builder(
+            itemCount: _playlistResults.length,
+            itemBuilder: (_, index) {
+              final playlist = _playlistResults[index];
+              return _PlaylistResultTile(
+                playlist: playlist,
+                isAdded: _addedUris.contains(playlist.uri),
+                onAdd: () => unawaited(_addPlaylist(playlist)),
+                onTap: () => unawaited(_showPlaylistDetail(playlist)),
+              );
+            },
+          ),
+        ],
+
         const SliverPadding(padding: EdgeInsets.only(bottom: AppSpacing.xxl)),
       ],
     );
@@ -959,86 +998,6 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen>
   // ---------------------------------------------------------------------------
   // Search results (flat list, used by playlist mode)
   // ---------------------------------------------------------------------------
-
-  Widget _buildSearchResults({
-    String? batchSeries,
-  }) {
-    final headers = <Widget>[
-      if (batchSeries != null)
-        _BatchAddBanner(
-          seriesTitle: batchSeries,
-          count:
-              _albumResults
-                  .where((a) => !_addedUris.contains(a.providerUri))
-                  .length,
-          onAddAll: () => unawaited(_handleAddAll(batchSeries)),
-        ),
-    ];
-
-    if (_isSearching) {
-      return const Center(child: CircularProgressIndicator());
-    }
-
-    if (_searchMode == _SearchMode.playlist) {
-      if (_playlistResults.isEmpty && _hasSearched) {
-        return const Center(
-          child: Text(
-            'Keine Ergebnisse.',
-            style: TextStyle(
-              fontFamily: 'Nunito',
-              fontSize: 15,
-              color: AppColors.textSecondary,
-            ),
-          ),
-        );
-      }
-      return ListView.builder(
-        itemCount: _playlistResults.length,
-        padding: const EdgeInsets.only(bottom: AppSpacing.xxl),
-        itemBuilder: (context, index) {
-          final playlist = _playlistResults[index];
-          return _PlaylistResultTile(
-            playlist: playlist,
-            isAdded: _addedUris.contains(playlist.uri),
-            onAdd: () => unawaited(_addPlaylist(playlist)),
-            onTap: () => unawaited(_showPlaylistDetail(playlist)),
-          );
-        },
-      );
-    }
-
-    if (_albumResults.isEmpty && _hasSearched) {
-      return const Center(
-        child: Text(
-          'Keine Ergebnisse.',
-          style: TextStyle(
-            fontFamily: 'Nunito',
-            fontSize: 15,
-            color: AppColors.textSecondary,
-          ),
-        ),
-      );
-    }
-
-    if (headers.isEmpty) {
-      return ListView.builder(
-        itemCount: _albumResults.length,
-        padding: const EdgeInsets.only(bottom: AppSpacing.xxl),
-        cacheExtent: 500,
-        itemBuilder: (context, index) => _buildAlbumTile(index),
-      );
-    }
-
-    return ListView.builder(
-      itemCount: headers.length + _albumResults.length,
-      padding: const EdgeInsets.only(bottom: AppSpacing.xxl),
-      cacheExtent: 500,
-      itemBuilder: (context, index) {
-        if (index < headers.length) return headers[index];
-        return _buildAlbumTile(index - headers.length);
-      },
-    );
-  }
 
   Widget _buildAlbumTile(int index, {bool compact = false}) {
     final album = _albumResults[index];
