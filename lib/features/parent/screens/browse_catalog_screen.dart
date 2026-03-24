@@ -1672,11 +1672,10 @@ class _HeroCard extends ConsumerWidget {
     return InkWell(
       onTap: onTap,
       child: Container(
-        margin: const EdgeInsets.symmetric(
-          horizontal: AppSpacing.screenH,
-          vertical: 4,
-        ),
-        padding: const EdgeInsets.all(10),
+        // margin + padding = 16 so the cover image aligns with
+        // the search result tiles below (which use 16px padding).
+        margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+        padding: const EdgeInsets.all(8),
         decoration: const BoxDecoration(
           color: AppColors.surface,
           borderRadius: BorderRadius.all(Radius.circular(12)),
