@@ -232,10 +232,22 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen>
             .where((s) => isMusicMode ? s.isMusic : !s.isMusic)
             .toList() ??
         [];
+    // Sort: catalog-matched albums first, then unmatched.
+    // This ensures curated content (Senta's actual albums) appears above
+    // unrelated results (Brazilian funk "Vai Sentar") that match the query.
+    final indices = List.generate(albums.length, (i) => i)..sort((a, b) {
+      final aMatch = matches[a] != null;
+      final bMatch = matches[b] != null;
+      if (aMatch != bMatch) return aMatch ? -1 : 1;
+      return 0; // preserve provider's relevance order within each group
+    });
+    final sortedAlbums = [for (final i in indices) albums[i]];
+    final sortedMatches = [for (final i in indices) matches[i]];
+
     setState(() {
-      _albumResults = albums;
+      _albumResults = sortedAlbums;
       _playlistResults = [];
-      _catalogMatches = matches;
+      _catalogMatches = sortedMatches;
       _heroSeries = allCatalogHits.take(_maxCatalogResults).toList();
       _totalCatalogHits = allCatalogHits.length;
       _isMatchingExpanded = false;
@@ -342,7 +354,7 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen>
         ..clearSnackBars()
         ..showSnackBar(
           SnackBar(
-            content: Text('$count Folgen zu »$seriesTitle« hinzugefügt'),
+            content: Text('$count Einträge zu »$seriesTitle« hinzugefügt'),
             duration: const Duration(seconds: 3),
             behavior: SnackBarBehavior.floating,
           ),
@@ -397,7 +409,7 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen>
         final label =
             ids.length == 1
                 ? 'Zu »$_lastSeriesTitle« hinzugefügt'
-                : '${ids.length} Folgen zu »$_lastSeriesTitle« hinzugefügt';
+                : '${ids.length} Einträge zu »$_lastSeriesTitle« hinzugefügt';
         ScaffoldMessenger.of(context)
           ..clearSnackBars()
           ..showSnackBar(
@@ -424,7 +436,7 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen>
         final n = _pendingAdded;
         _pendingAdded = 0;
         final label =
-            n == 1 ? '${album.name} hinzugefügt' : '$n Folgen hinzugefügt';
+            n == 1 ? '${album.name} hinzugefügt' : '$n Einträge hinzugefügt';
         ScaffoldMessenger.of(context)
           ..clearSnackBars()
           ..showSnackBar(
@@ -462,7 +474,7 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen>
         ..showSnackBar(
           SnackBar(
             content: Text(
-              n == 1 ? '${album.name} hinzugefügt' : '$n Folgen hinzugefügt',
+              n == 1 ? '${album.name} hinzugefügt' : '$n Einträge hinzugefügt',
             ),
             duration: const Duration(seconds: 2),
             behavior: SnackBarBehavior.floating,
@@ -1046,8 +1058,8 @@ class _AutoAssignBanner extends StatelessWidget {
           Expanded(
             child: Text(
               groupTitle != null
-                  ? 'Folgen werden direkt zu »$groupTitle« hinzugefügt'
-                  : 'Folgen werden direkt zur Kachel hinzugefügt',
+                  ? 'Inhalte werden direkt zu »$groupTitle« hinzugefügt'
+                  : 'Inhalte werden direkt zur Kachel hinzugefügt',
               style: const TextStyle(
                 fontFamily: 'Nunito',
                 fontSize: 13,
@@ -1500,7 +1512,7 @@ class _CatalogSeriesDetailScreenState
                                 )
                                 : const Icon(Icons.add_rounded),
                         label: Text(
-                          '${_selected.length} Folgen hinzufügen',
+                          '${_selected.length} ${series.isMusic ? 'Alben' : 'Folgen'} hinzufügen',
                           style: const TextStyle(fontFamily: 'Nunito'),
                         ),
                       ),
@@ -1756,8 +1768,8 @@ class _CollapsibleDivider extends StatelessWidget {
       expanded: isExpanded,
       onTapHint:
           isExpanded
-              ? 'Einzelne Folgen ausblenden'
-              : 'Einzelne Folgen anzeigen',
+              ? 'Einzelne Ergebnisse ausblenden'
+              : 'Einzelne Ergebnisse anzeigen',
       child: InkWell(
         onTap: onToggle,
         child: Padding(
@@ -1783,8 +1795,8 @@ class _CollapsibleDivider extends StatelessWidget {
                 children: [
                   Text(
                     isExpanded
-                        ? 'Einzelne Folgen ausblenden'
-                        : 'Einzelne Folgen anzeigen',
+                        ? 'Einzelne Ergebnisse ausblenden'
+                        : 'Einzelne Ergebnisse anzeigen',
                     style: const TextStyle(
                       fontFamily: 'Nunito',
                       fontSize: 13,
@@ -1851,7 +1863,7 @@ class _BatchAddBanner extends StatelessWidget {
         title: Text(
           count == 1
               ? 'Zur Kachel »$seriesTitle« hinzufügen'
-              : 'Alle $count Folgen zu »$seriesTitle« hinzufügen',
+              : 'Alle $count Einträge zu »$seriesTitle« hinzufügen',
           style: const TextStyle(
             fontFamily: 'Nunito',
             fontWeight: FontWeight.w700,
