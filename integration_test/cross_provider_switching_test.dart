@@ -6,7 +6,6 @@ library;
 
 import 'dart:async' show unawaited;
 
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:lauschi/core/apple_music/apple_music_session.dart';
 import 'package:lauschi/core/database/tile_item_repository.dart';
@@ -48,7 +47,6 @@ void main() {
         title: spotifyAlbum.name,
         providerUri: spotifyAlbum.uri,
         cardType: 'album',
-        provider: ProviderType.spotify,
         coverUrl: spotifyAlbum.imageUrl,
         totalTracks: spotifyAlbum.totalTracks,
       );

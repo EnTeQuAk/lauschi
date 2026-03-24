@@ -306,7 +306,7 @@ void main() {
           .go(
             AppRoutes.tileDetail(parentId),
           );
-      await pumpFrames($, count: 10);
+      await pumpFrames($);
 
       // Should see the child tile inside.
       expect(find.byType(TileCard), findsOneWidget);

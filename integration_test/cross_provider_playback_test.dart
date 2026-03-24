@@ -58,7 +58,6 @@ Future<String> _setupSpotify(
     title: album.name,
     providerUri: album.uri,
     cardType: 'album',
-    provider: ProviderType.spotify,
     coverUrl: album.imageUrl,
     totalTracks: album.totalTracks,
   );

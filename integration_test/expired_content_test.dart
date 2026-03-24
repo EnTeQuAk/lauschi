@@ -79,7 +79,7 @@ void main() {
 
       // Navigate to tile detail.
       container.read(appRouterProvider).go(AppRoutes.tileDetail(tileId));
-      await pumpFrames($, count: 10);
+      await pumpFrames($);
 
       // Only the valid episode should be visible. Expired one hidden.
       expect(find.byType(TileItem), findsOneWidget);

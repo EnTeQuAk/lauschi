@@ -138,7 +138,7 @@ void main() {
 
     // Both start unheard.
     var item1 = await cards.getById(id1);
-    var item2 = await cards.getById(id2);
+    final item2 = await cards.getById(id2);
     expect(item1!.isHeard, isFalse);
     expect(item2!.isHeard, isFalse);
 
