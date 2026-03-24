@@ -82,17 +82,26 @@ void main() {
       cardType: 'album',
     );
 
+    // Verify initial state is blank.
+    var card = await repo.getByProviderUri('spotify:album:book1');
+    expect(card!.lastTrackUri, isNull);
+    expect(card.lastPositionMs, 0);
+    expect(card.lastPlayedAt, isNull);
+
     await repo.savePosition(
       itemId: id,
       trackUri: 'spotify:track:ch5',
       positionMs: 45000,
     );
 
-    final card = await repo.getByProviderUri('spotify:album:book1');
+    card = await repo.getByProviderUri('spotify:album:book1');
     expect(card, isNotNull);
     expect(card!.lastTrackUri, 'spotify:track:ch5');
     expect(card.lastPositionMs, 45000);
     expect(card.lastPlayedAt, isNotNull);
+    // Verify other fields untouched.
+    expect(card.title, 'Audiobook');
+    expect(card.providerUri, 'spotify:album:book1');
   });
 
   test('lastPlayed returns most recently played card', () async {

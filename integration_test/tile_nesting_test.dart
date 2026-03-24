@@ -111,10 +111,21 @@ void main() {
       // Total tiles: parent + 2 children = 3.
       expect(await tiles.getAllFlat(), hasLength(3));
 
-      // Parent should have 2 children with correct titles.
+      // Parent should have 2 children with correct titles and parent link.
       final children = await tiles.getChildren(parentId);
       expect(children, hasLength(2));
       expect(children.map((t) => t.title), containsAll(['Album A', 'Album B']));
+      for (final child in children) {
+        expect(
+          child.parentTileId,
+          parentId,
+          reason: 'Child should reference the parent',
+        );
+      }
+      // Children should not appear as root tiles.
+      final rootIds = rootTiles.map((t) => t.id).toSet();
+      expect(rootIds.contains(tile1), isFalse);
+      expect(rootIds.contains(tile2), isFalse);
     },
   );
 

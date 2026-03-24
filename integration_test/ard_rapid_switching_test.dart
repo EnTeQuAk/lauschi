@@ -47,6 +47,16 @@ void main() {
         itemB,
         reason: 'Should play the last requested card, not an earlier one',
       );
+      expect(
+        state.error,
+        isNull,
+        reason: 'Rapid switching should not produce errors',
+      );
+      expect(
+        state.positionMs,
+        lessThan(5000),
+        reason: 'Fresh play should start near beginning',
+      );
 
       await stopPlayback($);
     },

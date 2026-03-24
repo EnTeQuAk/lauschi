@@ -37,11 +37,21 @@ void main() {
 
   test('update changes title and coverUrl', () async {
     final id = await groups.insert(title: 'Old Name');
+
+    // Verify before state.
+    final before = await groups.getById(id);
+    expect(before!.title, 'Old Name');
+    expect(before.coverUrl, isNull);
+
     await groups.update(id: id, title: 'New Name', coverUrl: 'https://img.jpg');
 
-    final group = await groups.getById(id);
-    expect(group!.title, 'New Name');
-    expect(group.coverUrl, 'https://img.jpg');
+    final after = await groups.getById(id);
+    expect(after!.title, 'New Name');
+    expect(after.coverUrl, 'https://img.jpg');
+    // Other fields should be untouched.
+    expect(after.id, id);
+    expect(after.sortOrder, before.sortOrder);
+    expect(after.contentType, before.contentType);
   });
 
   test('delete unassigns cards and removes group', () async {
@@ -53,26 +63,41 @@ void main() {
     );
     await cards.assignToTile(itemId: cardId, tileId: groupId);
 
+    // Verify before state.
+    final assigned = await cards.getById(cardId);
+    expect(assigned!.groupId, groupId);
+    expect(await groups.getAll(), hasLength(1));
+
     await groups.delete(groupId);
 
-    final allGroups = await groups.getAll();
-    expect(allGroups, isEmpty);
+    expect(await groups.getAll(), isEmpty);
 
-    // Card still exists but is ungrouped
+    // Card still exists but is ungrouped. Data intact.
     final card = await cards.getById(cardId);
     expect(card, isNotNull);
     expect(card!.groupId, isNull);
+    expect(card.title, 'Episode 1');
+    expect(card.providerUri, 'spotify:album:ep1');
   });
 
   test('reorder updates sortOrder', () async {
     final id1 = await groups.insert(title: 'A');
     final id2 = await groups.insert(title: 'B');
 
+    // Verify initial order.
+    var all = await groups.getAll();
+    expect(all[0].id, id1);
+    expect(all[0].sortOrder, 0);
+    expect(all[1].id, id2);
+    expect(all[1].sortOrder, 1);
+
     await groups.reorder([id2, id1]);
 
-    final all = await groups.getAll();
+    all = await groups.getAll();
     expect(all[0].id, id2);
+    expect(all[0].sortOrder, 0);
     expect(all[1].id, id1);
+    expect(all[1].sortOrder, 1);
   });
 
   test('watchCards returns cards in episode order', () async {
@@ -110,11 +135,23 @@ void main() {
     );
     await cards.assignToTile(itemId: id1, tileId: groupId, episodeNumber: 1);
     await cards.assignToTile(itemId: id2, tileId: groupId, episodeNumber: 2);
+
+    // Both start unheard.
+    var item1 = await cards.getById(id1);
+    var item2 = await cards.getById(id2);
+    expect(item1!.isHeard, isFalse);
+    expect(item2!.isHeard, isFalse);
+
     await cards.markHeard(id1);
+
+    // Ep 1 is now heard.
+    item1 = await cards.getById(id1);
+    expect(item1!.isHeard, isTrue);
 
     final next = await groups.nextUnheard(groupId);
     expect(next, isNotNull);
-    expect(next!.title, 'Ep 2');
+    expect(next!.id, id2);
+    expect(next.title, 'Ep 2');
   });
 
   test('cardCount returns correct count', () async {

@@ -156,6 +156,15 @@ Future<void> _assertPauseResume(
     reason: 'Duration should persist after pause',
   );
 
+  // Position should not advance while paused.
+  await $.pump(const Duration(seconds: 1));
+  final stillPausedPos = currentPositionMs($);
+  expect(
+    stillPausedPos,
+    closeTo(pausedPos, 500),
+    reason: 'Position should not advance while paused',
+  );
+
   await notifier.resume();
   await waitForPlayback($);
   await $.pump(const Duration(seconds: 3));
