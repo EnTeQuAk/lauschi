@@ -219,14 +219,14 @@ int currentPositionMs(PatrolIntegrationTester $) {
 
 /// Stops playback — call in teardown.
 ///
-/// Only swallows disposal-related errors (provider container or notifier
-/// already torn down). Other exceptions propagate and fail the test.
+/// Checks if the widget tree is still mounted before pausing. This avoids
+/// catching broad exceptions while handling the common case where the
+/// app is torn down between test completion and cleanup.
 Future<void> stopPlayback(PatrolIntegrationTester $) async {
-  try {
-    await getContainer($).read(playerProvider.notifier).pause();
-  } on StateError {
-    // Expected: provider or notifier disposed between test and teardown.
-  }
+  // If the widget tree is gone, there's nothing to clean up.
+  final finder = find.byType(MaterialApp);
+  if (finder.evaluate().isEmpty) return;
+  await getContainer($).read(playerProvider.notifier).pause();
 }
 
 // ── Test Data ──────────────────────────────────────────────────────────────

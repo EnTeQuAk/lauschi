@@ -1013,4 +1013,62 @@ void main() {
       expect(results.first.id, 'benjamin_bluemchen');
     });
   });
+
+  group('CatalogService.match — music artists', () {
+    test('matches Senta by artist ID (phase 2)', () {
+      // Senta's album titles don't always contain "Senta",
+      // so artist ID matching is the primary discovery path.
+      final r = catalog.match(
+        'Hoch die Hände Wochenende',
+        albumArtistIds: ['7uVDfCKp96l3xCHFYf39vU'],
+      );
+      expect(r, isNotNull);
+      expect(r!.series.id, 'senta');
+      expect(r.source, CatalogMatchSource.artistId);
+    });
+
+    test('matches Senta by keyword when title contains name', () {
+      final r = catalog.match("Senta's Spaßfabrik");
+      expect(r, isNotNull);
+      expect(r!.series.id, 'senta');
+      expect(r.source, CatalogMatchSource.keyword);
+    });
+
+    test('matches Detlev Jöcker by artist ID', () {
+      // Title deliberately avoids matching any keyword. Only artist ID
+      // resolves this to Detlev Jöcker.
+      final r = catalog.match(
+        '1, 2, 3 im Sauseschritt',
+        albumArtistIds: ['4UiTe5uwHKDUddmV8yQeY4'],
+      );
+      expect(r, isNotNull);
+      expect(r!.series.id, 'detlev_joecker');
+      expect(r.source, CatalogMatchSource.artistId);
+    });
+
+    test('matches herrH by artist ID', () {
+      final r = catalog.match(
+        'Frechdachs',
+        albumArtistIds: ['2weS8n5DrZpok2Wcf9TRsQ'],
+      );
+      expect(r, isNotNull);
+      expect(r!.series.id, 'herrh');
+    });
+
+    test('music artist match has no episode number', () {
+      final r = catalog.match(
+        'Mira und das fliegende Haus - Kinderlieder',
+        albumArtistIds: ['2095wofkLJPuP7ZmCNwvOS'],
+      );
+      expect(r, isNotNull);
+      expect(r!.series.id, 'mira_und_das_fliegende_haus');
+      // Music albums don't have episode numbers.
+      expect(r.episodeNumber, isNull);
+    });
+
+    test('search finds music artists', () {
+      final results = catalog.search('senta');
+      expect(results.any((s) => s.id == 'senta'), isTrue);
+    });
+  });
 }

@@ -150,9 +150,29 @@ void main() {
         trackIndex: 99, // Out of bounds for 2 tracks
       );
 
-      // Should resolve track at index 0, not 99.
+      // Should resolve track at index 0 (fallback), not 99.
       verify(() => mockResolver.resolveStream('s1')).called(1);
       verifyNever(() => mockResolver.resolveStream('s2'));
+
+      // Verify the correct token and songId were passed to native.
+      final captured =
+          verify(
+            () => mockMusicKit.playDrmStream(
+              hlsUrl: captureAny(named: 'hlsUrl'),
+              licenseUrl: captureAny(named: 'licenseUrl'),
+              developerToken: captureAny(named: 'developerToken'),
+              musicUserToken: captureAny(named: 'musicUserToken'),
+              songId: captureAny(named: 'songId'),
+              startPositionMs: captureAny(named: 'startPositionMs'),
+            ),
+          ).captured;
+      // captured is a flat list: [hlsUrl, licenseUrl, devToken, userToken, songId, startPos]
+      expect(captured[0], 'https://example.com/hls');
+      expect(captured[1], 'https://example.com/lic');
+      expect(captured[2], 'test-dev-token');
+      expect(captured[3], 'test-user-token');
+      expect(captured[4], 's1');
+      expect(captured[5], 0); // fallback to position 0
     });
 
     test('prevTrack at index 0 is a no-op', () async {

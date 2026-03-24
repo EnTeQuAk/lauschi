@@ -289,6 +289,57 @@ void main() {
       expect(find.byType(TileCard), findsOneWidget);
     },
   );
+  patrolTest(
+    'deep nesting (5 levels) and cascading delete',
+    ($) async {
+      await pumpApp(
+        $,
+        prefs: {'onboarding_complete': true},
+        scope:
+            (child) => ProviderScope(
+              overrides: [
+                mediaSessionHandlerProvider.overrideWithValue(mediaHandler),
+                parentAuthProvider.overrideWith(_AlwaysAuth.new),
+              ],
+              child: child,
+            ),
+      );
+
+      final container = getContainer($);
+      final tiles = container.read(tileRepositoryProvider);
+
+      // Create 5 levels: L0 → L1 → L2 → L3 → L4.
+      final ids = <String>[];
+      for (var i = 0; i < 5; i++) {
+        ids.add(await tiles.insert(title: 'Level $i'));
+      }
+      for (var i = 1; i < 5; i++) {
+        await tiles.nestInto(childId: ids[i], parentId: ids[i - 1]);
+      }
+      await pumpFrames($);
+
+      // Root has exactly 1 tile (L0).
+      expect(await tiles.getAll(), hasLength(1));
+
+      // Each level has exactly 1 child.
+      for (var i = 0; i < 4; i++) {
+        final children = await tiles.getChildren(ids[i]);
+        expect(children, hasLength(1), reason: 'Level $i should have 1 child');
+        expect(children.first.id, ids[i + 1]);
+      }
+
+      // L4 (deepest) has no children.
+      expect(await tiles.getChildren(ids[4]), isEmpty);
+
+      // All 5 tiles exist.
+      expect(await tiles.getAllFlat(), hasLength(5));
+
+      // Delete root: entire subtree should be gone.
+      await tiles.delete(ids[0]);
+      await pumpFrames($);
+      expect(await tiles.getAllFlat(), isEmpty);
+    },
+  );
 }
 
 class _AlwaysAuth extends ParentAuth {
