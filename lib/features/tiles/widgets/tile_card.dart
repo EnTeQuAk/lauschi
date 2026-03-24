@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:lauschi/core/catalog/catalog_service.dart' show ContentType;
 import 'package:lauschi/core/theme/app_theme.dart';
 
 /// A series/group card in the kid-mode grid.
@@ -15,7 +16,7 @@ class TileCard extends StatefulWidget {
     this.coverUrl,
     this.nextEpisodeTitle,
     this.progress = 0,
-    this.contentType = 'hoerspiel',
+    this.contentType = ContentType.hoerspiel,
     this.kidMode = false,
     this.isNestTarget = false,
     this.isNestCandidate = false,
@@ -32,8 +33,8 @@ class TileCard extends StatefulWidget {
   /// Series progress 0.0–1.0 (episodes heard / total). Red bar at bottom.
   final double progress;
 
-  /// Content type: 'hoerspiel' or 'music'. Affects badge icon/label.
-  final String contentType;
+  /// Content type: hoerspiel or music. Affects count label.
+  final ContentType contentType;
 
   /// Kid-facing mode: image-only with stacked art, no title/count text.
   final bool kidMode;
@@ -74,7 +75,7 @@ class _GroupCardState extends State<TileCard>
   @override
   Widget build(BuildContext context) {
     final countLabel =
-        widget.contentType == 'music'
+        widget.contentType == ContentType.music
             ? '${widget.episodeCount} Titel'
             : widget.episodeCount == 1
             ? '1 Folge'
@@ -131,7 +132,7 @@ class _GroupCardState extends State<TileCard>
                       ? _StackedArt(
                         coverUrl: widget.coverUrl,
                         progress: widget.progress,
-                        isMusic: widget.contentType == 'music',
+                        isMusic: widget.contentType == ContentType.music,
                         showBadge: false,
                       )
                       : Column(
@@ -143,7 +144,7 @@ class _GroupCardState extends State<TileCard>
                             child: _StackedArt(
                               coverUrl: widget.coverUrl,
                               progress: widget.progress,
-                              isMusic: widget.contentType == 'music',
+                              isMusic: widget.contentType == ContentType.music,
                             ),
                           ),
                           const SizedBox(height: 6),
@@ -162,7 +163,7 @@ class _GroupCardState extends State<TileCard>
                             ),
                           ),
                           Text(
-                            widget.contentType == 'music'
+                            widget.contentType == ContentType.music
                                 ? '${widget.episodeCount} Titel'
                                 : widget.episodeCount == 1
                                 ? '1 Folge'

@@ -3,6 +3,7 @@ import 'dart:async' show unawaited;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:lauschi/core/catalog/catalog_service.dart' show ContentType;
 import 'package:lauschi/core/connectivity/connectivity_provider.dart';
 import 'package:lauschi/core/database/app_database.dart' as db;
 import 'package:lauschi/core/database/tile_item_repository.dart';
@@ -393,7 +394,7 @@ class _ChildTileGrid extends ConsumerWidget {
               episodeCount: total,
               coverUrl: child.coverUrl,
               progress: progress,
-              contentType: child.contentType,
+              contentType: ContentType.fromString(child.contentType),
               kidMode: true,
               onTap: () => onTileTap(child),
             );

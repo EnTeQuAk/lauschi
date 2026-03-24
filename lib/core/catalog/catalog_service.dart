@@ -6,6 +6,22 @@ import 'package:yaml/yaml.dart';
 
 const _tag = 'CatalogService';
 
+/// Content type for catalog entries and tiles.
+enum ContentType {
+  hoerspiel('hoerspiel'),
+  music('music');
+
+  const ContentType(this.value);
+
+  final String value;
+
+  /// Parse from a string (e.g. from YAML or DB). Defaults to hoerspiel.
+  static ContentType fromString(String? value) => switch (value) {
+    'music' => ContentType.music,
+    _ => ContentType.hoerspiel,
+  };
+}
+
 /// A pre-validated album entry in the catalog.
 ///
 /// Provider-agnostic: stores the album ID and which provider it belongs to.
@@ -48,18 +64,18 @@ class CatalogSeries {
     this.episodePattern,
     this.albums = const [],
     this.appleMusicAlbums = const [],
-    this.contentType = 'hoerspiel',
+    this.contentType = ContentType.hoerspiel,
   });
 
   final String id;
   final String title;
 
-  /// Content type: 'hoerspiel' (default) or 'music'.
+  /// Content type: hoerspiel (default) or music.
   /// Used to filter the curated grid between Hörspiele and Musik tabs.
-  final String contentType;
+  final ContentType contentType;
 
   /// Whether this is a music artist (not a Hörspiel series).
-  bool get isMusic => contentType == 'music';
+  bool get isMusic => contentType == ContentType.music;
   final List<String> aliases;
 
   /// Single-word or phrase tokens to detect this series in search results.
@@ -232,7 +248,7 @@ class CatalogService {
           spotifyArtistIds: artistIds,
           appleMusicArtistIds: amArtistIds,
           coverUrl: map['cover_url'] as String?,
-          contentType: (map['content_type'] as String?) ?? 'hoerspiel',
+          contentType: ContentType.fromString(map['content_type'] as String?),
           episodePattern: _parseEpisodePattern(map['episode_pattern']),
           albums: albums,
           appleMusicAlbums: amAlbums,

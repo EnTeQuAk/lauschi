@@ -224,12 +224,12 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen>
     );
     // Hero series from catalog search (instant, local).
     // Filter by content type to match the active tab.
-    final isMusikMode = _searchMode == _SearchMode.playlist;
+    final isMusicMode = _searchMode == _SearchMode.playlist;
     final allCatalogHits =
         catalog
             ?.search(query)
             .where((s) => s.hasCuratedAlbumsFor(_source.provider))
-            .where((s) => isMusikMode ? s.isMusic : !s.isMusic)
+            .where((s) => isMusicMode ? s.isMusic : !s.isMusic)
             .toList() ??
         [];
     setState(() {
@@ -697,12 +697,12 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen>
   // ---------------------------------------------------------------------------
 
   Widget _buildCuratedGrid(CatalogService catalog) {
-    final isMusikMode = _searchMode == _SearchMode.playlist;
+    final isMusicMode = _searchMode == _SearchMode.playlist;
     final series =
         catalog.all
             .where((s) => s.hasCuratedAlbumsFor(_source.provider))
             .where(
-              (s) => isMusikMode ? s.isMusic : !s.isMusic,
+              (s) => isMusicMode ? s.isMusic : !s.isMusic,
             )
             .toList()
           ..sort((a, b) => a.title.compareTo(b.title));
@@ -732,7 +732,7 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen>
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  isMusikMode ? 'Beliebte Kinderlieder' : 'Beliebte Hörspiele',
+                  isMusicMode ? 'Beliebte Kinderlieder' : 'Beliebte Hörspiele',
                   style: const TextStyle(
                     fontFamily: 'Nunito',
                     fontSize: 16,

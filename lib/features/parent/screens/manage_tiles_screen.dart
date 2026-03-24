@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_reorderable_grid_view/widgets/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:lauschi/core/catalog/catalog_service.dart' show ContentType;
 import 'package:lauschi/core/database/app_database.dart' as db;
 import 'package:lauschi/core/database/tile_item_repository.dart';
 import 'package:lauschi/core/database/tile_repository.dart';
@@ -612,7 +613,7 @@ class _GroupTile extends ConsumerWidget {
         title: group.title,
         episodeCount: count,
         coverUrl: group.coverUrl,
-        contentType: group.contentType,
+        contentType: ContentType.fromString(group.contentType),
         isNestTarget: isNestTarget,
         isNestCandidate: isNestCandidate,
         onTap: () {

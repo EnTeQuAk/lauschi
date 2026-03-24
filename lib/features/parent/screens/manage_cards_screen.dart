@@ -161,7 +161,9 @@ class _GroupSection extends ConsumerWidget {
     final cardCount = cardsAsync.whenOrNull(data: (c) => c.length) ?? 0;
 
     final countLabel =
-        group.contentType == 'music' ? '$cardCount Titel' : '$cardCount Folgen';
+        ContentType.fromString(group.contentType) == ContentType.music
+            ? '$cardCount Titel'
+            : '$cardCount Folgen';
 
     return SliverToBoxAdapter(
       child: _SectionHeader(
@@ -169,7 +171,7 @@ class _GroupSection extends ConsumerWidget {
         subtitle: countLabel,
         coverUrl: group.coverUrl,
         icon:
-            group.contentType == 'music'
+            ContentType.fromString(group.contentType) == ContentType.music
                 ? Icons.music_note_rounded
                 : Icons.auto_stories_rounded,
         onTap: () => context.push(AppRoutes.parentTileEdit(group.id)),

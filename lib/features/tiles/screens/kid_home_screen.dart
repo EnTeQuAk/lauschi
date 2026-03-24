@@ -3,6 +3,7 @@ import 'dart:async' show unawaited;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:lauschi/core/catalog/catalog_service.dart' show ContentType;
 import 'package:lauschi/core/connectivity/connectivity_provider.dart';
 import 'package:lauschi/core/database/app_database.dart' as db;
 import 'package:lauschi/core/database/tile_item_repository.dart';
@@ -369,7 +370,7 @@ class _GroupGridItem extends ConsumerWidget {
       episodeCount: total,
       coverUrl: group.coverUrl,
       progress: progress,
-      contentType: group.contentType,
+      contentType: ContentType.fromString(group.contentType),
       kidMode: true,
       onTap: onTap,
     );
