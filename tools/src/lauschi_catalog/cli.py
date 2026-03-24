@@ -2,6 +2,7 @@
 
 import click
 
+from lauschi_catalog.commands.add import add
 from lauschi_catalog.commands.apply import apply
 from lauschi_catalog.commands.apply_splits import apply_splits
 from lauschi_catalog.commands.discover import discover
@@ -21,6 +22,7 @@ def cli():
     """
 
 
+cli.add_command(add)
 cli.add_command(apply)
 cli.add_command(apply_splits)
 cli.add_command(discover)

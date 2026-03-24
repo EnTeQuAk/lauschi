@@ -60,6 +60,10 @@ flutter test --dart-define-from-file=.env.app
 #
 # All commands via lauschi-catalog CLI (tools/ package).
 
+[tasks.catalog-add]
+description = "Add a new series to the catalog"
+run = "uv run --directory tools lauschi-catalog add"
+
 [tasks.catalog-discover]
 description = "Discover missing artist IDs across all providers"
 run = "uv run --directory tools lauschi-catalog discover --write"

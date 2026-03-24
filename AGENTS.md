@@ -33,6 +33,7 @@ Multi-provider catalog management via the `lauschi-catalog` CLI (`tools/` packag
 Supports Spotify and Apple Music.
 
 ```bash
+mise run catalog-add          # Add a new series (seed entry in series.yaml)
 mise run catalog-discover     # Find missing artist IDs (all providers)
 mise run catalog-validate     # Validate patterns against provider APIs
 mise run catalog-curate       # AI-curate a series (both providers)
