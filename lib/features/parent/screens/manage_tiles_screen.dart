@@ -1,7 +1,8 @@
-import 'dart:async' show unawaited;
+import 'dart:async' show Timer, unawaited;
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_reorderable_grid_view/widgets/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -314,6 +315,23 @@ class _GroupGridState extends ConsumerState<_GroupGrid> {
 
   late List<db.Tile> _order;
 
+  // ── Nest-on-hover state ──────────────────────────────────────────
+  /// Index of the tile being dragged (null when not dragging).
+  int? _draggedIndex;
+
+  /// ID of the tile currently under the pointer as a nest target.
+  String? _nestTargetId;
+
+  /// Timer for the 500ms hover threshold before activating nest mode.
+  Timer? _hoverTimer;
+
+  /// Set to true when the hover timer fires and the nest target is active.
+  /// When true, the next drop will nest instead of reorder.
+  bool _nestModeActive = false;
+
+  /// Columns in the current layout (needed for hit-testing).
+  int _columns = 3;
+
   @override
   void initState() {
     super.initState();
@@ -328,83 +346,227 @@ class _GroupGridState extends ConsumerState<_GroupGrid> {
 
   @override
   void dispose() {
+    _hoverTimer?.cancel();
     _scrollController.dispose();
     super.dispose();
   }
 
+  // ── Pointer tracking during drag ─────────────────────────────────
+
+  void _onPointerMove(PointerMoveEvent event) {
+    if (_draggedIndex == null) return;
+
+    // Find which tile the pointer is over using grid geometry.
+    final gridBox =
+        _gridViewKey.currentContext?.findRenderObject() as RenderBox?;
+    if (gridBox == null) return;
+
+    final local = gridBox.globalToLocal(event.position);
+    final targetIndex = _hitTestGrid(local);
+
+    // Determine the target tile ID (ignoring the dragged tile itself).
+    String? targetId;
+    if (targetIndex != null &&
+        targetIndex != _draggedIndex &&
+        targetIndex >= 0 &&
+        targetIndex < _order.length) {
+      targetId = _order[targetIndex].id;
+    }
+
+    if (targetId != _nestTargetId) {
+      // Pointer moved to a different tile (or off all tiles).
+      _cancelHover();
+      if (targetId != null) {
+        _startHover(targetId);
+      }
+    }
+  }
+
+  /// Map a local offset within the grid to a tile index.
+  /// Returns null if the pointer is outside the grid or in padding/gaps.
+  int? _hitTestGrid(Offset local) {
+    const padding = AppSpacing.screenH; // horizontal padding
+    const vPadding = AppSpacing.md; // vertical padding
+    const crossSpacing = 12.0;
+    const mainSpacing = 16.0;
+    const aspectRatio = 0.72;
+
+    final gridWidth =
+        (_gridViewKey.currentContext?.size?.width ?? 0) - padding * 2;
+    if (gridWidth <= 0) return null;
+
+    final cellWidth = (gridWidth - crossSpacing * (_columns - 1)) / _columns;
+    final cellHeight = cellWidth / aspectRatio;
+
+    // Account for padding offset.
+    final x = local.dx - padding;
+    final y = local.dy - vPadding + _scrollController.offset;
+
+    if (x < 0 || y < 0) return null;
+
+    final col = (x / (cellWidth + crossSpacing)).floor();
+    final row = (y / (cellHeight + mainSpacing)).floor();
+
+    if (col < 0 || col >= _columns) return null;
+
+    // Check if the pointer is actually inside the cell (not in the gap).
+    final cellX = x - col * (cellWidth + crossSpacing);
+    final cellY = y - row * (cellHeight + mainSpacing);
+    if (cellX > cellWidth || cellY > cellHeight) return null;
+
+    final index = row * _columns + col;
+    return index < _order.length ? index : null;
+  }
+
+  void _startHover(String targetId) {
+    _nestTargetId = targetId;
+    _hoverTimer = Timer(const Duration(milliseconds: 500), () {
+      if (_nestTargetId == targetId && _draggedIndex != null) {
+        setState(() => _nestModeActive = true);
+        unawaited(HapticFeedback.mediumImpact());
+        Log.debug(
+          _tag,
+          'Nest mode activated',
+          data: {'targetId': targetId},
+        );
+      }
+    });
+    // Subtle initial feedback: show the target is being considered.
+    setState(() {});
+  }
+
+  void _cancelHover() {
+    _hoverTimer?.cancel();
+    _hoverTimer = null;
+    if (_nestTargetId != null || _nestModeActive) {
+      setState(() {
+        _nestTargetId = null;
+        _nestModeActive = false;
+      });
+    }
+  }
+
+  // ignore: use_setters_to_change_properties, callback from ReorderableBuilder
+  void _onDragStarted(int index) => _draggedIndex = index;
+
+  void _onDragEnd(int index) {
+    _draggedIndex = null;
+    _cancelHover();
+  }
+
+  // ── Build ────────────────────────────────────────────────────────
+
   @override
   Widget build(BuildContext context) {
     final children = [
-      for (final group in _order)
+      for (var i = 0; i < _order.length; i++)
         _GroupTile(
-          key: ValueKey(group.id),
-          group: group,
+          key: ValueKey(_order[i].id),
+          group: _order[i],
           isNested: widget.isNested,
+          isNestTarget: _nestModeActive && _order[i].id == _nestTargetId,
+          isNestCandidate:
+              !_nestModeActive &&
+              _nestTargetId == _order[i].id &&
+              _draggedIndex != null,
         ),
     ];
 
     return LayoutBuilder(
       builder: (context, constraints) {
-        final columns =
+        _columns =
             constraints.maxWidth < 600
                 ? 3
                 : constraints.maxWidth < 900
                 ? 4
                 : 5;
 
-        return ReorderableBuilder<db.Tile>(
-          scrollController: _scrollController,
-          longPressDelay: const Duration(milliseconds: 300),
-          onReorder: (reorderFn) {
-            setState(() {
-              _order = reorderFn(_order);
-            });
-            Log.info(
-              _tag,
-              'Tiles reordered',
-              data: {
-                'count': '${_order.length}',
-              },
-            );
-            unawaited(
-              ref
-                  .read(tileRepositoryProvider)
-                  .reorder(_order.map((g) => g.id).toList()),
-            );
-          },
-          dragChildBoxDecoration: BoxDecoration(
-            borderRadius: const BorderRadius.all(AppRadius.card),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withAlpha(40),
-                blurRadius: 12,
-                offset: const Offset(0, 4),
-              ),
-            ],
+        return Listener(
+          onPointerMove: _onPointerMove,
+          child: ReorderableBuilder<db.Tile>(
+            scrollController: _scrollController,
+            longPressDelay: const Duration(milliseconds: 300),
+            onDragStarted: _onDragStarted,
+            onDragEnd: _onDragEnd,
+            onReorder: (reorderFn) {
+              // If nest mode is active, intercept the drop.
+              if (_nestModeActive && _nestTargetId != null) {
+                final draggedId =
+                    _draggedIndex != null && _draggedIndex! < _order.length
+                        ? _order[_draggedIndex!].id
+                        : null;
+                if (draggedId != null) {
+                  Log.info(
+                    _tag,
+                    'Nesting via drag',
+                    data: {
+                      'childId': draggedId,
+                      'parentId': _nestTargetId!,
+                    },
+                  );
+                  unawaited(
+                    ref
+                        .read(tileRepositoryProvider)
+                        .nestInto(
+                          childId: draggedId,
+                          parentId: _nestTargetId!,
+                        ),
+                  );
+                }
+                _cancelHover();
+                _draggedIndex = null;
+                return;
+              }
+
+              // Normal reorder.
+              setState(() {
+                _order = reorderFn(_order);
+              });
+              Log.info(
+                _tag,
+                'Tiles reordered',
+                data: {'count': '${_order.length}'},
+              );
+              unawaited(
+                ref
+                    .read(tileRepositoryProvider)
+                    .reorder(_order.map((g) => g.id).toList()),
+              );
+            },
+            dragChildBoxDecoration: BoxDecoration(
+              borderRadius: const BorderRadius.all(AppRadius.card),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withAlpha(40),
+                  blurRadius: 12,
+                  offset: const Offset(0, 4),
+                ),
+              ],
+            ),
+            children: children,
+            builder: (children) {
+              return GridView(
+                key: _gridViewKey,
+                controller: _scrollController,
+                shrinkWrap: widget.shrinkWrap,
+                physics:
+                    widget.shrinkWrap
+                        ? const NeverScrollableScrollPhysics()
+                        : null,
+                padding: const EdgeInsets.symmetric(
+                  horizontal: AppSpacing.screenH,
+                  vertical: AppSpacing.md,
+                ),
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: _columns,
+                  crossAxisSpacing: 12,
+                  mainAxisSpacing: 16,
+                  childAspectRatio: 0.72,
+                ),
+                children: children,
+              );
+            },
           ),
-          children: children,
-          builder: (children) {
-            return GridView(
-              key: _gridViewKey,
-              controller: _scrollController,
-              shrinkWrap: widget.shrinkWrap,
-              physics:
-                  widget.shrinkWrap
-                      ? const NeverScrollableScrollPhysics()
-                      : null,
-              padding: const EdgeInsets.symmetric(
-                horizontal: AppSpacing.screenH,
-                vertical: AppSpacing.md,
-              ),
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: columns,
-                crossAxisSpacing: 12,
-                mainAxisSpacing: 16,
-                childAspectRatio: 0.72,
-              ),
-              children: children,
-            );
-          },
         );
       },
     );
@@ -416,12 +578,21 @@ class _GroupTile extends ConsumerWidget {
     required this.group,
     super.key,
     this.isNested = false,
+    this.isNestTarget = false,
+    this.isNestCandidate = false,
   });
 
   final db.Tile group;
 
   /// Whether this tile is inside a parent (shows "move to home" option).
   final bool isNested;
+
+  /// Whether this tile is the active nest target (hover timer fired).
+  final bool isNestTarget;
+
+  /// Whether this tile is being hovered as a potential nest target
+  /// (hover started but timer hasn't fired yet).
+  final bool isNestCandidate;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -442,6 +613,8 @@ class _GroupTile extends ConsumerWidget {
         episodeCount: count,
         coverUrl: group.coverUrl,
         contentType: group.contentType,
+        isNestTarget: isNestTarget,
+        isNestCandidate: isNestCandidate,
         onTap: () {
           if (hasChildren) {
             unawaited(

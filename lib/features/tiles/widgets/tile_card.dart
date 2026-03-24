@@ -17,6 +17,8 @@ class TileCard extends StatefulWidget {
     this.progress = 0,
     this.contentType = 'hoerspiel',
     this.kidMode = false,
+    this.isNestTarget = false,
+    this.isNestCandidate = false,
   });
 
   final String title;
@@ -35,6 +37,12 @@ class TileCard extends StatefulWidget {
 
   /// Kid-facing mode: image-only with stacked art, no title/count text.
   final bool kidMode;
+
+  /// Active nest target: hover timer fired, tile is highlighted.
+  final bool isNestTarget;
+
+  /// Potential nest target: being hovered but timer hasn't fired yet.
+  final bool isNestCandidate;
 
   @override
   State<TileCard> createState() => _GroupCardState();
@@ -83,62 +91,94 @@ class _GroupCardState extends State<TileCard>
           widget.onTap();
         },
         onTapCancel: () => _controller.reverse(),
-        child: AnimatedBuilder(
-          animation: _scaleAnimation,
-          builder:
-              (context, child) =>
-                  Transform.scale(scale: _scaleAnimation.value, child: child),
-          child:
-              widget.kidMode
-                  ? _StackedArt(
-                    coverUrl: widget.coverUrl,
-                    progress: widget.progress,
-                    isMusic: widget.contentType == 'music',
-                    showBadge: false,
-                  )
-                  : Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      AspectRatio(
-                        aspectRatio: 1,
-                        child: _StackedArt(
-                          coverUrl: widget.coverUrl,
-                          progress: widget.progress,
-                          isMusic: widget.contentType == 'music',
+        child: AnimatedScale(
+          scale: widget.isNestTarget ? 1.08 : 1.0,
+          duration: const Duration(milliseconds: 200),
+          curve: Curves.easeOutCubic,
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 200),
+            decoration: BoxDecoration(
+              borderRadius: const BorderRadius.all(AppRadius.card),
+              boxShadow:
+                  widget.isNestTarget
+                      ? [
+                        BoxShadow(
+                          color: AppColors.primary.withAlpha(80),
+                          blurRadius: 16,
+                          spreadRadius: 2,
                         ),
-                      ),
-                      const SizedBox(height: 6),
-                      Flexible(
-                        child: Text(
-                          widget.title,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                            fontFamily: 'Nunito',
-                            fontWeight: FontWeight.w800,
-                            fontSize: 13,
-                            height: 1.2,
-                            color: AppColors.textPrimary,
-                          ),
-                        ),
-                      ),
-                      Text(
-                        widget.contentType == 'music'
-                            ? '${widget.episodeCount} Titel'
-                            : widget.episodeCount == 1
-                            ? '1 Folge'
-                            : '${widget.episodeCount} Folgen',
-                        maxLines: 1,
-                        style: const TextStyle(
-                          fontFamily: 'Nunito',
-                          fontWeight: FontWeight.w600,
-                          fontSize: 11,
-                          color: AppColors.textSecondary,
-                        ),
-                      ),
-                    ],
+                      ]
+                      : null,
+              border:
+                  widget.isNestTarget
+                      ? Border.all(color: AppColors.primary, width: 2.5)
+                      : widget.isNestCandidate
+                      ? Border.all(
+                        color: AppColors.primary.withAlpha(60),
+                        width: 1.5,
+                      )
+                      : null,
+            ),
+            child: AnimatedBuilder(
+              animation: _scaleAnimation,
+              builder:
+                  (context, child) => Transform.scale(
+                    scale: _scaleAnimation.value,
+                    child: child,
                   ),
+              child:
+                  widget.kidMode
+                      ? _StackedArt(
+                        coverUrl: widget.coverUrl,
+                        progress: widget.progress,
+                        isMusic: widget.contentType == 'music',
+                        showBadge: false,
+                      )
+                      : Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          AspectRatio(
+                            aspectRatio: 1,
+                            child: _StackedArt(
+                              coverUrl: widget.coverUrl,
+                              progress: widget.progress,
+                              isMusic: widget.contentType == 'music',
+                            ),
+                          ),
+                          const SizedBox(height: 6),
+                          Flexible(
+                            child: Text(
+                              widget.title,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(
+                                fontFamily: 'Nunito',
+                                fontWeight: FontWeight.w800,
+                                fontSize: 13,
+                                height: 1.2,
+                                color: AppColors.textPrimary,
+                              ),
+                            ),
+                          ),
+                          Text(
+                            widget.contentType == 'music'
+                                ? '${widget.episodeCount} Titel'
+                                : widget.episodeCount == 1
+                                ? '1 Folge'
+                                : '${widget.episodeCount} Folgen',
+                            maxLines: 1,
+                            style: const TextStyle(
+                              fontFamily: 'Nunito',
+                              fontWeight: FontWeight.w600,
+                              fontSize: 11,
+                              color: AppColors.textSecondary,
+                            ),
+                          ),
+                        ],
+                      ),
+            ),
+          ),
         ),
       ),
     );
