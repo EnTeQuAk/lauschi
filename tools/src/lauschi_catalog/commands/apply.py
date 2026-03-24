@@ -85,6 +85,13 @@ def _apply_one(series_id: str, data: dict, yaml_data: dict) -> bool:
                 f"{len(existing_ids - new_ids)} removed)",
             )
 
+    # Write content_type to yaml if present in curation (music vs hoerspiel).
+    # The Flutter app uses this for UI labels ("Titel" vs "Folgen").
+    ct = data.get("content_type")
+    if ct and ct != "hoerspiel":
+        yaml_series["content_type"] = ct
+        updated = True
+
     # Also update provider artist IDs from curation
     prov_artist_ids = data.get("provider_artist_ids", {})
     for prov_name, aids in prov_artist_ids.items():

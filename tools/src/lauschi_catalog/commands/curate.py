@@ -65,7 +65,7 @@ class AlbumDecision(BaseModel):
 
 
 class CuratedSeries(BaseModel):
-    """Complete curation result for a series."""
+    """Complete curation result for a series or music artist."""
 
     id: str = Field(pattern=r"^[a-z][a-z0-9_]*$")
     title: str
@@ -76,6 +76,9 @@ class CuratedSeries(BaseModel):
     provider_artist_ids: dict[str, list[str]] = Field(default_factory=dict)
     age_note: str = ""
     curator_notes: str = ""
+    # Content type: "hoerspiel" (default) or "music". Persisted in the
+    # curation JSON so re-curation picks the right AI prompt.
+    content_type: str = "hoerspiel"
 
     @field_validator("episode_pattern")
     @classmethod
@@ -237,6 +240,101 @@ multiple providers, provide:
 Do NOT classify individual albums. Just set up the metadata.
 """
 
+_MUSIC_SYSTEM_PROMPT = """\
+You are curating a DACH (Germany/Austria/Switzerland) children's MUSIC artist
+catalog for "lauschi", a privacy-first kids audio player.
+
+## Your job
+
+Given a music artist name, use your tools to:
+1. Search for the correct artist on EACH available provider (Spotify, Apple Music).
+2. Fetch the full discography from each provider.
+3. Classify every album: include (kids music) or exclude (not suitable).
+4. For ambiguous albums, call get_album_details with multiple IDs at once.
+
+This is a MUSIC artist (Kinderlieder, Kinderpop), NOT a Hörspiel series.
+Albums are standalone music releases, not numbered episodes.
+
+## Include
+- Original studio albums of children's music / Kinderlieder
+- EPs and singles by the artist
+- Live albums of kids content
+- Seasonal albums (Weihnachtslieder, Laternenlieder) by the artist
+- Collaboration albums where the artist is the primary act
+
+## Exclude (with exclude_reason)
+- "Best Of" / "Greatest Hits" compilations (keep originals, skip compilations)
+- Multi-artist compilations where the artist is just one contributor
+- Duplicate releases (deluxe edition if standard exists, remastered if original exists)
+- Sped-up / nightcore / karaoke / instrumental versions
+- Adult/non-kids content by the same artist (if they also make adult music)
+- Audiobooks / Hörspiele (different content type, curated separately)
+- Foreign language versions unless the artist is multilingual by nature
+
+## Episode numbers
+Music albums don't have episode numbers. Set episode_num to null for all.
+
+## Keywords
+The artist name, plus any well-known album or song titles that parents
+might search for (e.g., "Hoch die Hände" for Senta).
+
+## Age guidance
+- "Suitable from 2+" for lullabies, baby music (Schlaflieder)
+- "Suitable from 3+" for general Kinderlieder (Detlev Jöcker, Simone Sommerland)
+- "Suitable from 5+" for Kinderpop with more energy (Deine Freunde, DIKKA)
+- "Suitable from 6+" for rock/loud content (Heavysaurus)
+
+## provider_artist_ids
+Return a dict mapping provider name to artist ID list.
+
+## Web search
+Use web_search when unsure if the artist makes kids-appropriate content,
+or to check if a specific album is a compilation vs original release.
+
+## Important
+- Produce an AlbumDecision for EVERY album.
+- album_id must exactly match the IDs returned by tools.
+- provider must match the provider that returned the album.
+- Do NOT invent album IDs.
+"""
+
+_MUSIC_BATCH_SYSTEM_PROMPT = """\
+You are curating a batch of albums for a DACH children's music artist.
+
+This is a MUSIC artist (Kinderlieder, Kinderpop), NOT a Hörspiel series.
+All albums are music releases. There are no episode numbers.
+
+You receive:
+- Artist context (name, what's been decided so far)
+- A batch of albums with: provider, album_id, title, total_tracks, release_date
+
+For each album, decide: include or exclude.
+
+## Include — original music releases
+- Studio albums, EPs, singles of children's music
+- Seasonal releases (Weihnachtslieder, Laternenlieder)
+- Albums from different providers for the same release: include BOTH
+
+## Exclude (set exclude_reason)
+- "Best Of" / "Greatest Hits" compilations
+- Multi-artist compilations ("Kinderparty Hits", "Die 30 besten...")
+- Duplicate releases (deluxe vs standard, remastered vs original: keep one)
+- Sped-up, nightcore, karaoke, instrumental versions
+- Adult/non-kids content
+- Hörspiele / audiobooks (curated separately)
+
+## Episode numbers
+Set episode_num to null for ALL albums. Music albums are not episodes.
+
+## When unsure
+Call get_album_details to see the track listing.
+
+## Important
+- Produce an AlbumDecision for EVERY album in this batch.
+- album_id must EXACTLY match the IDs provided.
+- provider must EXACTLY match the provider provided.
+"""
+
 _BATCH_SYSTEM_PROMPT = """\
 You are curating a batch of albums for a DACH children's Hörspiel series.
 
@@ -277,14 +375,15 @@ ambiguous. Most episodes are obvious from the title alone.
 # ── Agent builders ─────────────────────────────────────────────────────────
 
 def _build_small_agent(
-    model_name: str, api_key: str,
+    model_name: str, api_key: str, *, is_music: bool = False,
 ) -> Agent[Deps, CuratedSeries]:
     provider = OpenAIProvider(base_url=_OPENCODE_BASE_URL, api_key=api_key)
     model = OpenAIChatModel(model_name, provider=provider)
+    prompt = _MUSIC_SYSTEM_PROMPT if is_music else _SYSTEM_PROMPT
     agent: Agent[Deps, CuratedSeries] = Agent(
         model,
         output_type=CuratedSeries,
-        system_prompt=_SYSTEM_PROMPT,
+        system_prompt=prompt,
         retries=2,
     )
 
@@ -374,12 +473,13 @@ def _build_small_agent(
     return agent
 
 
-def _build_batch_agent(model) -> Agent[BatchDeps, BatchResult]:
+def _build_batch_agent(model, *, is_music: bool = False) -> Agent[BatchDeps, BatchResult]:
     """Agent for processing one batch of albums."""
+    prompt = _MUSIC_BATCH_SYSTEM_PROMPT if is_music else _BATCH_SYSTEM_PROMPT
     agent: Agent[BatchDeps, BatchResult] = Agent(
         model,
         output_type=BatchResult,
-        system_prompt=_BATCH_SYSTEM_PROMPT,
+        system_prompt=prompt,
         retries=2,
     )
 
@@ -480,13 +580,15 @@ async def _run_small(
     api_key: str,
     timeout: int,
     existing_curation: dict | None = None,
+    is_music: bool = False,
 ) -> CuratedSeries:
-    agent = _build_small_agent(model_name, api_key)
+    agent = _build_small_agent(model_name, api_key, is_music=is_music)
     deps = Deps(providers=providers)
     provider_names = ", ".join(p.name for p in providers)
 
+    content_type = "children's music artist" if is_music else "Hörspiel series"
     prompt = (
-        f"Curate the DACH Hörspiel series: {query!r}.\n\n"
+        f"Curate the DACH {content_type}: {query!r}.\n\n"
         f"Available providers: {provider_names}.\n"
         "Search for the primary artist on EACH provider, fetch their "
         "discography, then classify every album."
@@ -518,6 +620,7 @@ async def _run_large(
     api_key: str,
     timeout: int,
     existing_curation: dict | None = None,
+    is_music: bool = False,
 ) -> CuratedSeries:
     ai_provider = OpenAIProvider(base_url=_OPENCODE_BASE_URL, api_key=api_key)
     model = OpenAIChatModel(model_name, provider=ai_provider)
@@ -592,7 +695,7 @@ async def _run_large(
         f"{len(batches)} batches of ≤{_BATCH_SIZE}\n",
     )
 
-    batch_agent = _build_batch_agent(model)
+    batch_agent = _build_batch_agent(model, is_music=is_music)
     all_decisions: list[AlbumDecision] = []
     total_inc = 0
     total_exc = 0
@@ -673,6 +776,7 @@ async def run_curation(
     model_name: str = _DEFAULT_MODEL,
     timeout: int = 1800,
     existing_curation: dict | None = None,
+    is_music: bool = False,
 ) -> CuratedSeries:
     """Pick single-agent or batched flow based on discography size."""
     api_key = os.environ.get("OPENCODE_API_KEY", "")
@@ -691,18 +795,26 @@ async def run_curation(
 
     if total_albums <= _LARGE_THRESHOLD:
         console.print(f"  {total_albums} albums — using [bold]single-agent[/] flow\n")
-        return await _run_small(
+        result = await _run_small(
             query, providers,
             model_name=model_name, api_key=api_key,
             timeout=timeout, existing_curation=existing_curation,
+            is_music=is_music,
+        )
+    else:
+        console.print(f"  {total_albums} albums — using [bold]batched[/] flow\n")
+        result = await _run_large(
+            query, providers,
+            model_name=model_name, api_key=api_key,
+            timeout=timeout, existing_curation=existing_curation,
+            is_music=is_music,
         )
 
-    console.print(f"  {total_albums} albums — using [bold]batched[/] flow\n")
-    return await _run_large(
-        query, providers,
-        model_name=model_name, api_key=api_key,
-        timeout=timeout, existing_curation=existing_curation,
-    )
+    # Persist content type so re-curation uses the right prompt.
+    if is_music:
+        result.content_type = "music"
+
+    return result
 
 
 # ── Save / display ────────────────────────────────────────────────────────
@@ -815,13 +927,17 @@ def _curate_one(
     model: str,
     timeout: int,
     existing_curation: dict | None = None,
+    is_music: bool = False,
 ) -> Path | None:
     try:
+        if is_music:
+            console.print(f"  [cyan]Mode: music artist (not Hörspiel)[/]")
         series = asyncio.run(
             run_curation(
                 query, providers,
                 model_name=model, timeout=timeout,
                 existing_curation=existing_curation,
+                is_music=is_music,
             ),
         )
         path = save_curation(series)
@@ -841,6 +957,7 @@ def _curate_one(
 @click.option("--timeout", default=1800, help="Timeout per series in seconds (default 30 min)")
 @click.option("--provider", "-p", type=click.Choice(["spotify", "apple_music", "all"]), default="all")
 @click.option("--no-cache", is_flag=True, help="Bypass provider API cache")
+@click.option("--music", is_flag=True, help="Curate as music artist (not Hörspiel series)")
 def curate(
     query: str | None,
     run_all: bool,
@@ -849,11 +966,13 @@ def curate(
     timeout: int,
     provider: str,
     no_cache: bool,
+    music: bool,
 ):
-    """AI-curate a Hörspiel series across providers.
+    """AI-curate a Hörspiel series or music artist across providers.
 
     Pass a series name to curate one, or --all to curate the entire catalog.
     Existing curations are skipped unless --force is given.
+    Use --music for children's music artists (includes albums, not episodes).
     """
     if not query and not run_all:
         console.print("[red]Provide a series name or use --all[/red]")
@@ -870,7 +989,7 @@ def curate(
                 title="lauschi-catalog curate",
             ),
         )
-        _curate_one(query, providers, model=model, timeout=timeout)
+        _curate_one(query, providers, model=model, timeout=timeout, is_music=music)
         return
 
     # --all mode
@@ -906,10 +1025,18 @@ def curate(
             f"[dim]({succeeded} done, {failed} failed, {skipped} skipped)[/dim]",
         )
 
+        # Detect music artists: check existing curation JSON first (persisted
+        # content_type), then fall back to no episode_pattern in catalog entry.
+        entry_is_music = False
+        if existing and existing.get("content_type") == "music":
+            entry_is_music = True
+        elif not entry.episode_pattern:
+            entry_is_music = True
         path = _curate_one(
             entry.title, providers,
             model=model, timeout=timeout,
             existing_curation=existing,
+            is_music=entry_is_music,
         )
         if path:
             succeeded += 1
