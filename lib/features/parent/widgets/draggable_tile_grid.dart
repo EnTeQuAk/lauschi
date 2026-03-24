@@ -74,6 +74,7 @@ class _DraggableTileGridState extends State<DraggableTileGrid> {
   String? _nestTargetId; // tile being hovered for nesting
   bool _nestConfirmed = false; // 800ms threshold passed
   Timer? _nestTimer;
+  String? _droppedId; // briefly set after drop for settle animation
 
   // ── Working order (mutated during drag for visual preview) ────────
   late List<DraggableTileItem> _order;
@@ -140,11 +141,13 @@ class _DraggableTileGridState extends State<DraggableTileGrid> {
   // ── Drag callbacks ────────────────────────────────────────────────
 
   void _onDragStart(String id) {
+    unawaited(HapticFeedback.lightImpact());
     setState(() {
       _draggedId = id;
       _insertionIndex = null;
       _nestTargetId = null;
       _nestConfirmed = false;
+      _droppedId = null;
     });
   }
 
@@ -199,22 +202,29 @@ class _DraggableTileGridState extends State<DraggableTileGrid> {
     if (_draggedId == null) return;
 
     final draggedId = _draggedId!;
+    final wasNested = _nestConfirmed && _nestTargetId != null;
+    final nestTarget = _nestTargetId;
 
-    if (_nestConfirmed && _nestTargetId != null) {
-      // Nest.
-      widget.onNest(draggedId, _nestTargetId!);
+    if (wasNested && nestTarget != null) {
+      // Nest: dragged tile becomes child of target.
+      widget.onNest(draggedId, nestTarget);
     } else if (_insertionIndex != null) {
-      // Reorder: move draggedId to insertionIndex.
+      // Reorder: move draggedId to the gap position.
       final currentIndex = _order.indexWhere((t) => t.id == draggedId);
       if (currentIndex != -1 && currentIndex != _insertionIndex) {
         final item = _order.removeAt(currentIndex);
+        // After removing, indices shift. If we're moving forward, the
+        // target index is now one less than the visual gap position.
         var targetIdx = _insertionIndex!;
         if (targetIdx > currentIndex) targetIdx--;
-        if (targetIdx > _order.length) targetIdx = _order.length;
+        targetIdx = targetIdx.clamp(0, _order.length);
         _order.insert(targetIdx, item);
         widget.onReorder(_order.map((t) => t.id).toList());
       }
     }
+
+    // Brief drop-settle animation: scale the dropped tile 0.95 → 1.0.
+    _droppedId = draggedId;
 
     setState(() {
       _draggedId = null;
@@ -222,6 +232,13 @@ class _DraggableTileGridState extends State<DraggableTileGrid> {
       _insertionIndex = null;
     });
     _clearNestTarget();
+
+    // Clear the drop animation after it plays.
+    Future.delayed(const Duration(milliseconds: 250), () {
+      if (mounted && _droppedId == draggedId) {
+        setState(() => _droppedId = null);
+      }
+    });
   }
 
   void _clearNestTarget() {
@@ -281,6 +298,7 @@ class _DraggableTileGridState extends State<DraggableTileGrid> {
 
     final isNestTarget = item.id == _nestTargetId;
     final isNestConfirmed = isNestTarget && _nestConfirmed;
+    final isDropping = item.id == _droppedId;
 
     return AnimatedPositioned(
       duration: const Duration(milliseconds: 200),
@@ -291,7 +309,9 @@ class _DraggableTileGridState extends State<DraggableTileGrid> {
       height: _cellHeight,
       child: AnimatedScale(
         scale:
-            isNestConfirmed
+            isDropping
+                ? 0.95
+                : isNestConfirmed
                 ? 1.08
                 : isNestTarget
                 ? 1.03
