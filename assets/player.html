@@ -206,6 +206,10 @@
     // Re-register the SDK player with Spotify. Called by Dart when
     // the device_id goes stale (404 on play).
     reconnect: function() {
+      // If the JS channel is gone (WebView process restart, memory
+      // pressure), we can't communicate with Dart. Return false so
+      // Dart's _runJs can detect the failure and trigger a page reload.
+      if (typeof SpotifyBridge === 'undefined') return false;
       if (!player) {
         post('error', { type: 'reconnect', message: 'no player instance' });
         return;

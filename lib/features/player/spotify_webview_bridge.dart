@@ -557,6 +557,22 @@ class SpotifyWebViewBridge {
     }
   }
 
+  /// Run JS and capture the return value as a string. Returns null on failure.
+  Future<String?> _runJsReturning(String js) async {
+    if (_disposed || _controller == null) return null;
+    if (_isReloading) return null;
+    try {
+      final guarded = '(function(){if(window.lauschi){return $js}})()';
+      final result = await _controller!.runJavaScriptReturningResult(guarded);
+      return result.toString();
+    } on Exception catch (e) {
+      final detail =
+          e is PlatformException ? 'WebView likely dead: ${e.code}' : '$e';
+      Log.warn(_tag, 'JS eval failed: $detail');
+      return null;
+    }
+  }
+
   void _updateState(PlaybackState newState) {
     if (_stateController.isClosed) return;
     _state = newState;
@@ -577,7 +593,14 @@ class SpotifyWebViewBridge {
     Log.info(_tag, 'Requesting SDK reconnect');
     _deviceId = null;
     _updateState(_state.copyWith(isReady: false));
-    if (!await _runJs('window.lauschi.reconnect()') && !_isReloading) {
+
+    // reconnect() returns false if SpotifyBridge JS channel is gone
+    // (WebView process killed by OS during Apple Music DRM playback).
+    // In that case, _runJsReturning returns 'false' and we reload.
+    final result = await _runJsReturning('window.lauschi.reconnect()');
+    final succeeded = result != null && result != 'false' && result != 'null';
+    if (!succeeded && !_isReloading) {
+      Log.info(_tag, 'Reconnect failed (JS channel lost), reloading page');
       await _reloadPage();
     }
   }
