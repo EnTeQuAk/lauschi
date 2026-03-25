@@ -15,6 +15,21 @@ const _nestDelay = Duration(milliseconds: 500);
 /// Long-press before drag starts.
 const _longPressDelay = Duration(milliseconds: 300);
 
+/// Configuration for a drop zone at the bottom of the grid.
+class DropZoneConfig {
+  const DropZoneConfig({
+    required this.label,
+    required this.icon,
+    required this.onDrop,
+    this.color = AppColors.primary,
+  });
+
+  final String label;
+  final IconData icon;
+  final void Function(String tileId) onDrop;
+  final Color color;
+}
+
 /// Grid item data.
 class DraggableTileItem {
   const DraggableTileItem({
@@ -51,8 +66,7 @@ class DraggableTileGrid extends StatefulWidget {
     required this.onTap,
     required this.onLongPress,
     super.key,
-    this.onDropZoneAction,
-    this.dropZoneLabel,
+    this.dropZones = const [],
   });
 
   final List<DraggableTileItem> items;
@@ -61,12 +75,8 @@ class DraggableTileGrid extends StatefulWidget {
   final void Function(String id) onTap;
   final void Function(String id) onLongPress;
 
-  /// Called when a tile is dropped on the bottom drop zone.
-  /// If null, no drop zone is shown.
-  final void Function(String id)? onDropZoneAction;
-
-  /// Label for the drop zone (e.g. "Auf Startseite verschieben").
-  final String? dropZoneLabel;
+  /// Drop zones shown at the bottom during drag.
+  final List<DropZoneConfig> dropZones;
 
   @override
   State<DraggableTileGrid> createState() => _DraggableTileGridState();
@@ -77,8 +87,8 @@ class _DraggableTileGridState extends State<DraggableTileGrid> {
   int _columns = 3;
   double _cellWidth = 0;
   double _cellHeight = 0;
-  static const _crossSpacing = 12.0;
-  static const _mainSpacing = 16.0;
+  static const _crossSpacing = 10.0;
+  static const _mainSpacing = 14.0;
   static const _aspectRatio = 0.72;
 
   // Drag state
@@ -91,7 +101,7 @@ class _DraggableTileGridState extends State<DraggableTileGrid> {
 
   bool _orderChanged = false;
   DateTime? _nestIdleSince;
-  bool _overDropZone = false;
+  int? _activeDropZone; // index of hovered drop zone, or null
 
   // Working order (mutated by swaps during drag)
   late List<DraggableTileItem> _order;
@@ -200,18 +210,28 @@ class _DraggableTileGridState extends State<DraggableTileGrid> {
     if (gridBox == null) return;
     final local = gridBox.globalToLocal(details.globalPosition);
 
-    // Check if pointer is in the drop zone (bottom of parent widget).
-    if (widget.onDropZoneAction != null) {
+    // Check if pointer is in any drop zone (bottom of screen).
+    if (widget.dropZones.isNotEmpty) {
       final screenHeight = MediaQuery.of(context).size.height;
-      final inZone = details.globalPosition.dy > screenHeight - 100;
-      if (inZone != _overDropZone) {
-        setState(() => _overDropZone = inZone);
-        if (inZone) {
-          _cancelNest(); // don't nest while over drop zone
+      final zoneCount = widget.dropZones.length;
+      const zoneHeight = 56.0;
+      final zonesTop = screenHeight - zoneCount * zoneHeight;
+      final globalY = details.globalPosition.dy;
+
+      if (globalY > zonesTop) {
+        final zoneIdx = ((globalY - zonesTop) / zoneHeight).floor().clamp(
+          0,
+          zoneCount - 1,
+        );
+        if (_activeDropZone != zoneIdx) {
+          setState(() => _activeDropZone = zoneIdx);
+          _cancelNest();
           unawaited(HapticFeedback.selectionClick());
         }
+        return; // don't process grid hit-test
+      } else if (_activeDropZone != null) {
+        setState(() => _activeDropZone = null);
       }
-      if (inZone) return; // don't process grid hit-test
     }
 
     final index = _hitTest(local);
@@ -328,9 +348,17 @@ class _DraggableTileGridState extends State<DraggableTileGrid> {
       },
     );
 
-    if (_overDropZone && widget.onDropZoneAction != null) {
-      Log.info(_tag, 'DROP ZONE action', data: {'tileId': draggedId});
-      widget.onDropZoneAction!(draggedId);
+    if (_activeDropZone != null && _activeDropZone! < widget.dropZones.length) {
+      final zone = widget.dropZones[_activeDropZone!];
+      Log.info(
+        _tag,
+        'DROP ZONE action',
+        data: {
+          'tileId': draggedId,
+          'zone': zone.label,
+        },
+      );
+      zone.onDrop(draggedId);
     } else if (wasNested) {
       Log.info(
         _tag,
@@ -357,7 +385,7 @@ class _DraggableTileGridState extends State<DraggableTileGrid> {
     _droppedId = draggedId;
     setState(() {
       _draggedId = null;
-      _overDropZone = false;
+      _activeDropZone = null;
     });
     _cancelNest();
 
@@ -466,50 +494,18 @@ class _DraggableTileGridState extends State<DraggableTileGrid> {
           ),
         ),
 
-        // Drop zone at bottom (visible during drag).
-        if (_draggedId != null && widget.onDropZoneAction != null)
-          AnimatedContainer(
-            duration: const Duration(milliseconds: 200),
+        // Drop zones at bottom (visible during drag).
+        if (_draggedId != null && widget.dropZones.isNotEmpty)
+          Padding(
             padding: EdgeInsets.only(
-              bottom: MediaQuery.of(context).padding.bottom + AppSpacing.sm,
-              top: AppSpacing.md,
+              bottom: MediaQuery.of(context).padding.bottom,
             ),
-            decoration: BoxDecoration(
-              color:
-                  _overDropZone
-                      ? AppColors.primary
-                      : AppColors.primary.withAlpha(25),
-              border: Border(
-                top: BorderSide(
-                  color:
-                      _overDropZone
-                          ? AppColors.primary
-                          : AppColors.primary.withAlpha(80),
-                  width: 2,
-                ),
-              ),
-            ),
-            child: Center(
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Icon(
-                    Icons.home_rounded,
-                    size: 22,
-                    color: _overDropZone ? Colors.white : AppColors.primary,
-                  ),
-                  const SizedBox(width: 8),
-                  Text(
-                    widget.dropZoneLabel ?? 'Auf Startseite',
-                    style: TextStyle(
-                      fontFamily: 'Nunito',
-                      fontSize: 16,
-                      fontWeight: FontWeight.w700,
-                      color: _overDropZone ? Colors.white : AppColors.primary,
-                    ),
-                  ),
-                ],
-              ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                for (var i = 0; i < widget.dropZones.length; i++)
+                  _buildDropZone(widget.dropZones[i], i),
+              ],
             ),
           ),
       ],
@@ -591,6 +587,45 @@ class _DraggableTileGridState extends State<DraggableTileGrid> {
               child: _tileContent(item),
             ),
           ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildDropZone(DropZoneConfig zone, int index) {
+    final isActive = _activeDropZone == index;
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 150),
+      height: 52,
+      decoration: BoxDecoration(
+        color: isActive ? zone.color : zone.color.withAlpha(20),
+        border: Border(
+          top: BorderSide(
+            color: isActive ? zone.color : zone.color.withAlpha(60),
+            width: isActive ? 2 : 1,
+          ),
+        ),
+      ),
+      child: Center(
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(
+              zone.icon,
+              size: 20,
+              color: isActive ? Colors.white : zone.color,
+            ),
+            const SizedBox(width: 8),
+            Text(
+              zone.label,
+              style: TextStyle(
+                fontFamily: 'Nunito',
+                fontSize: 15,
+                fontWeight: FontWeight.w700,
+                color: isActive ? Colors.white : zone.color,
+              ),
+            ),
+          ],
         ),
       ),
     );

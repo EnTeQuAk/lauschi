@@ -129,7 +129,12 @@ class _SeriesBody extends StatelessWidget {
   Widget build(BuildContext context) {
     final isNested = parentTileId != null;
     if (ungrouped.isEmpty) {
-      return _GroupGrid(groups: groups, isNested: isNested);
+      return Column(
+        children: [
+          const _DragHint(),
+          Expanded(child: _GroupGrid(groups: groups, isNested: isNested)),
+        ],
+      );
     }
 
     // When there are ungrouped cards, use a column layout so the grid
@@ -403,20 +408,64 @@ class _GroupGrid extends ConsumerWidget {
         final group = groups.firstWhere((g) => g.id == id);
         _showContextMenu(context, ref, group, isNested);
       },
-      // Drop zone: unnest tiles back to home screen when inside a parent.
-      onDropZoneAction:
-          isNested
-              ? (id) {
-                Log.info(_tag, 'Unnest via drop zone', data: {'tileId': id});
-                unawaited(ref.read(tileRepositoryProvider).unnest(id));
-                // Last child? Pop back automatically.
-                final remaining = items.where((t) => t.id != id).length;
-                if (remaining == 0 && context.mounted) {
-                  context.pop();
-                }
+      dropZones: [
+        if (isNested)
+          DropZoneConfig(
+            label: 'Auf Startseite',
+            icon: Icons.home_rounded,
+            onDrop: (id) {
+              Log.info(_tag, 'Unnest via drop zone', data: {'tileId': id});
+              unawaited(ref.read(tileRepositoryProvider).unnest(id));
+              final remaining = items.where((t) => t.id != id).length;
+              if (remaining == 0 && context.mounted) {
+                context.pop();
               }
-              : null,
-      dropZoneLabel: 'Auf Startseite verschieben',
+            },
+          ),
+        DropZoneConfig(
+          label: 'Löschen',
+          icon: Icons.delete_rounded,
+          color: AppColors.error,
+          onDrop: (id) {
+            Log.info(_tag, 'Delete via drop zone', data: {'tileId': id});
+            unawaited(ref.read(tileRepositoryProvider).delete(id));
+          },
+        ),
+      ],
+    );
+  }
+}
+
+class _DragHint extends StatelessWidget {
+  const _DragHint();
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(
+        AppSpacing.screenH,
+        AppSpacing.xs,
+        AppSpacing.screenH,
+        0,
+      ),
+      child: Row(
+        children: [
+          Icon(
+            Icons.touch_app_rounded,
+            size: 14,
+            color: AppColors.textSecondary.withAlpha(150),
+          ),
+          const SizedBox(width: 6),
+          Text(
+            'Gedrückt halten zum Verschieben, auf eine Kachel ziehen zum Gruppieren',
+            style: TextStyle(
+              fontFamily: 'Nunito',
+              fontSize: 12,
+              color: AppColors.textSecondary.withAlpha(150),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
