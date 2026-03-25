@@ -399,8 +399,8 @@ class _ShowHeader extends StatelessWidget {
                 fontSize: 16,
                 color: Colors.white,
                 shadows: [
-                  Shadow(blurRadius: 12, color: Colors.black),
-                  Shadow(blurRadius: 4, color: Colors.black),
+                  Shadow(blurRadius: 12),
+                  Shadow(blurRadius: 4),
                 ],
               ),
             ),
@@ -413,8 +413,8 @@ class _ShowHeader extends StatelessWidget {
                   fontWeight: FontWeight.w500,
                   color: Colors.white,
                   shadows: [
-                    Shadow(blurRadius: 12, color: Colors.black),
-                    Shadow(blurRadius: 4, color: Colors.black),
+                    Shadow(blurRadius: 12),
+                    Shadow(blurRadius: 4),
                   ],
                 ),
               ),
