@@ -198,6 +198,11 @@ class PlayerNotifier extends _$PlayerNotifier {
       state = state.copyWith(
         isReady: bridgeState.isReady,
         isPlaying: bridgeState.isPlaying,
+        // Clear loading overlay once audio starts or errors.
+        isLoading:
+            state.isLoading &&
+            !bridgeState.isPlaying &&
+            bridgeState.error == null,
         track: bridgeState.track,
         positionMs: bridgeState.positionMs,
         durationMs: bridgeState.durationMs,
