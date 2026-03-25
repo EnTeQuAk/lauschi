@@ -169,7 +169,7 @@ class SpotifyWebViewBridge {
     await c.setUserAgent(ua);
 
     await c.addJavaScriptChannel(
-      'SpotifyWebViewBridge',
+      'SpotifyBridge',
       onMessageReceived: _onMessage,
     );
 
