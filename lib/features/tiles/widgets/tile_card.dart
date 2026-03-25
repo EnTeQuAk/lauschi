@@ -20,6 +20,8 @@ class TileCard extends StatefulWidget {
     this.kidMode = false,
     this.isNestTarget = false,
     this.isNestCandidate = false,
+    this.childCount = 0,
+    this.childCoverUrls = const [],
   });
 
   final String title;
@@ -44,6 +46,12 @@ class TileCard extends StatefulWidget {
 
   /// Potential nest target: being hovered but timer hasn't fired yet.
   final bool isNestCandidate;
+
+  /// Number of child tiles (nested). When > 0, shows "X Kacheln" instead.
+  final int childCount;
+
+  /// Cover URLs of child tiles (up to 4) for the folder mosaic.
+  final List<String> childCoverUrls;
 
   @override
   State<TileCard> createState() => _GroupCardState();
@@ -75,7 +83,11 @@ class _GroupCardState extends State<TileCard>
   @override
   Widget build(BuildContext context) {
     final countLabel =
-        widget.contentType == ContentType.music
+        widget.childCount > 0
+            ? widget.childCount == 1
+                ? '1 Kachel'
+                : '${widget.childCount} Kacheln'
+            : widget.contentType == ContentType.music
             ? '${widget.episodeCount} Titel'
             : widget.episodeCount == 1
             ? '1 Folge'
@@ -129,23 +141,36 @@ class _GroupCardState extends State<TileCard>
                   ),
               child:
                   widget.kidMode
-                      ? _StackedArt(
-                        coverUrl: widget.coverUrl,
-                        progress: widget.progress,
-                        isMusic: widget.contentType == ContentType.music,
-                        showBadge: false,
-                      )
+                      ? widget.childCoverUrls.isNotEmpty
+                          ? _FolderMosaic(
+                            coverUrls: widget.childCoverUrls,
+                            progress: widget.progress,
+                          )
+                          : _StackedArt(
+                            coverUrl: widget.coverUrl,
+                            progress: widget.progress,
+                            isMusic: widget.contentType == ContentType.music,
+                            showBadge: false,
+                          )
                       : Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           AspectRatio(
                             aspectRatio: 1,
-                            child: _StackedArt(
-                              coverUrl: widget.coverUrl,
-                              progress: widget.progress,
-                              isMusic: widget.contentType == ContentType.music,
-                            ),
+                            child:
+                                widget.childCoverUrls.isNotEmpty
+                                    ? _FolderMosaic(
+                                      coverUrls: widget.childCoverUrls,
+                                      progress: widget.progress,
+                                    )
+                                    : _StackedArt(
+                                      coverUrl: widget.coverUrl,
+                                      progress: widget.progress,
+                                      isMusic:
+                                          widget.contentType ==
+                                          ContentType.music,
+                                    ),
                           ),
                           const SizedBox(height: 6),
                           Flexible(
@@ -163,11 +188,7 @@ class _GroupCardState extends State<TileCard>
                             ),
                           ),
                           Text(
-                            widget.contentType == ContentType.music
-                                ? '${widget.episodeCount} Titel'
-                                : widget.episodeCount == 1
-                                ? '1 Folge'
-                                : '${widget.episodeCount} Folgen',
+                            countLabel,
                             maxLines: 1,
                             style: const TextStyle(
                               fontFamily: 'Nunito',
@@ -277,6 +298,73 @@ class _StackedArt extends StatelessWidget {
       // without wasting memory on full-resolution CDN images. See #226.
       memCacheWidth: 400,
     );
+  }
+}
+
+/// 2x2 mosaic of child tile covers, used as the folder thumbnail.
+/// Shows up to 4 covers. Empty slots get a neutral placeholder.
+class _FolderMosaic extends StatelessWidget {
+  const _FolderMosaic({required this.coverUrls, this.progress = 0});
+
+  final List<String> coverUrls;
+  final double progress;
+
+  @override
+  Widget build(BuildContext context) {
+    return ClipRRect(
+      borderRadius: const BorderRadius.all(AppRadius.card),
+      child: Stack(
+        children: [
+          Column(
+            children: [
+              Expanded(
+                child: Row(
+                  children: [
+                    Expanded(child: _slot(0)),
+                    const SizedBox(width: 2),
+                    Expanded(child: _slot(1)),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 2),
+              Expanded(
+                child: Row(
+                  children: [
+                    Expanded(child: _slot(2)),
+                    const SizedBox(width: 2),
+                    Expanded(child: _slot(3)),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          // Progress bar at bottom.
+          if (progress > 0)
+            Positioned(
+              left: 0,
+              right: 0,
+              bottom: 0,
+              child: LinearProgressIndicator(
+                value: progress,
+                minHeight: 3,
+                backgroundColor: Colors.transparent,
+                valueColor: const AlwaysStoppedAnimation(AppColors.primary),
+              ),
+            ),
+        ],
+      ),
+    );
+  }
+
+  Widget _slot(int index) {
+    if (index < coverUrls.length && coverUrls[index].isNotEmpty) {
+      return CachedNetworkImage(
+        imageUrl: coverUrls[index],
+        fit: BoxFit.cover,
+        memCacheWidth: 200,
+      );
+    }
+    return const ColoredBox(color: AppColors.surfaceDim);
   }
 }
 

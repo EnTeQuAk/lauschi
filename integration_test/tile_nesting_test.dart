@@ -62,7 +62,7 @@ void main() {
   );
 
   patrolTest(
-    'groupTiles creates parent and nests two tiles',
+    'createFolderFromDrag creates folder and nests two tiles',
     ($) async {
       await pumpApp(
         $,
@@ -94,32 +94,31 @@ void main() {
       );
       expect(await tiles.getAllFlat(), hasLength(2));
 
-      // Group them.
-      final parentId = await tiles.groupTiles(
-        tileId1: tile1,
-        tileId2: tile2,
-        groupTitle: 'Senta',
+      // Create folder by dragging tile1 onto tile2.
+      final folderId = await tiles.createFolderFromDrag(
+        draggedId: tile1,
+        targetId: tile2,
       );
       await pumpFrames($);
 
-      // Root should now have 1 tile (the parent), not 3.
+      // Root should now have 1 tile (the folder), not 3.
       final rootTiles = await tiles.getAll();
       expect(rootTiles, hasLength(1));
-      expect(rootTiles.first.id, parentId);
-      expect(rootTiles.first.title, 'Senta');
+      expect(rootTiles.first.id, folderId);
+      expect(rootTiles.first.title, 'Neuer Ordner');
 
-      // Total tiles: parent + 2 children = 3.
+      // Total tiles: folder + 2 children = 3.
       expect(await tiles.getAllFlat(), hasLength(3));
 
-      // Parent should have 2 children with correct titles and parent link.
-      final children = await tiles.getChildren(parentId);
+      // Folder should have 2 children with correct titles and parent link.
+      final children = await tiles.getChildren(folderId);
       expect(children, hasLength(2));
       expect(children.map((t) => t.title), containsAll(['Album A', 'Album B']));
       for (final child in children) {
         expect(
           child.parentTileId,
-          parentId,
-          reason: 'Child should reference the parent',
+          folderId,
+          reason: 'Child should reference the folder',
         );
       }
       // Children should not appear as root tiles.

@@ -364,6 +364,20 @@ class _GroupGridItem extends ConsumerWidget {
     final heard = stats?.heard ?? 0;
     final progress = total > 0 ? (heard / total) : 0.0;
 
+    final childCovers =
+        ref
+            .watch(childTilesProvider(group.id))
+            .whenOrNull(
+              data:
+                  (tiles) =>
+                      tiles
+                          .where((t) => t.coverUrl != null)
+                          .take(4)
+                          .map((t) => t.coverUrl!)
+                          .toList(),
+            ) ??
+        const <String>[];
+
     return TileCard(
       key: Key('tile_${group.id}'),
       title: group.title,
@@ -371,6 +385,7 @@ class _GroupGridItem extends ConsumerWidget {
       coverUrl: group.coverUrl,
       progress: progress,
       contentType: ContentType.fromString(group.contentType),
+      childCoverUrls: childCovers,
       kidMode: true,
       onTap: onTap,
     );

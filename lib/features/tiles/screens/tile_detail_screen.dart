@@ -387,6 +387,19 @@ class _ChildTileGrid extends ConsumerWidget {
             final total = stats?.total ?? 0;
             final heard = stats?.heard ?? 0;
             final progress = total > 0 ? (heard / total) : 0.0;
+            final childCovers =
+                ref
+                    .watch(childTilesProvider(child.id))
+                    .whenOrNull(
+                      data:
+                          (tiles) =>
+                              tiles
+                                  .where((t) => t.coverUrl != null)
+                                  .take(4)
+                                  .map((t) => t.coverUrl!)
+                                  .toList(),
+                    ) ??
+                const <String>[];
 
             return TileCard(
               key: Key('child_tile_${child.id}'),
@@ -395,6 +408,7 @@ class _ChildTileGrid extends ConsumerWidget {
               coverUrl: child.coverUrl,
               progress: progress,
               contentType: ContentType.fromString(child.contentType),
+              childCoverUrls: childCovers,
               kidMode: true,
               onTap: () => onTileTap(child),
             );

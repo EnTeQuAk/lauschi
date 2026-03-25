@@ -193,53 +193,139 @@ class TileRepository {
     );
   }
 
-  /// Remove a tile from its parent (un-nest it back to root level).
+  /// Remove a tile from its parent, moving it to the parent's level.
+  ///
+  /// If the parent folder has 0 remaining children after this, it is
+  /// deleted automatically. A folder with 1 child is still valid.
   Future<void> unnest(String tileId) async {
-    final maxOrder =
-        await _db
-            .customSelect(
-              'SELECT COALESCE(MAX(sort_order), -1) AS max_order '
-              'FROM groups WHERE parent_tile_id IS NULL',
-            )
-            .getSingle();
-    final nextOrder = (maxOrder.read<int>('max_order')) + 1;
+    await _db.transaction(() async {
+      // Read the tile to find its parent.
+      final tile =
+          await (_db.select(_db.groups)
+            ..where((t) => t.id.equals(tileId))).getSingle();
+      final parentId = tile.parentTileId;
 
-    await (_db.update(_db.groups)..where((t) => t.id.equals(tileId))).write(
-      GroupsCompanion(
-        parentTileId: const Value(null),
-        sortOrder: Value(nextOrder),
-      ),
-    );
-    Log.info(_tag, 'Tile unnested', data: {'tileId': tileId});
+      // Move tile to the parent's level (grandparent, or root).
+      String? grandparentId;
+      if (parentId != null) {
+        final parent =
+            await (_db.select(_db.groups)
+              ..where((t) => t.id.equals(parentId))).getSingle();
+        grandparentId = parent.parentTileId;
+      }
+
+      final maxOrder =
+          await _db
+              .customSelect(
+                grandparentId != null
+                    ? 'SELECT COALESCE(MAX(sort_order), -1) AS max_order '
+                        'FROM groups WHERE parent_tile_id = ?'
+                    : 'SELECT COALESCE(MAX(sort_order), -1) AS max_order '
+                        'FROM groups WHERE parent_tile_id IS NULL',
+                variables: [
+                  if (grandparentId != null) Variable.withString(grandparentId),
+                ],
+              )
+              .getSingle();
+      final nextOrder = (maxOrder.read<int>('max_order')) + 1;
+
+      await (_db.update(_db.groups)..where((t) => t.id.equals(tileId))).write(
+        GroupsCompanion(
+          parentTileId: Value(grandparentId),
+          sortOrder: Value(nextOrder),
+        ),
+      );
+      Log.info(
+        _tag,
+        'Tile unnested',
+        data: {
+          'tileId': tileId,
+          'to': grandparentId ?? 'root',
+        },
+      );
+
+      // Auto-dissolve parent folder if it has ≤1 child left.
+      if (parentId != null) {
+        await _dissolveIfEmpty(parentId, grandparentId);
+      }
+    });
   }
 
-  /// Create a new parent tile and move two tiles into it.
-  /// Used when a user drags one tile onto another to create a group.
-  /// Returns the new parent tile ID. Runs in a transaction so either
-  /// all three operations succeed or none do.
-  Future<String> groupTiles({
-    required String tileId1,
-    required String tileId2,
-    required String groupTitle,
-    String? coverUrl,
+  /// Dissolve an empty folder (0 children remaining).
+  ///
+  /// A folder with 1 child is still valid (like iOS). Only truly
+  /// empty folders get cleaned up.
+  Future<void> _dissolveIfEmpty(
+    String folderId,
+    String? parentLevel,
+  ) async {
+    final childCount =
+        await _db
+            .customSelect(
+              'SELECT COUNT(*) AS cnt FROM groups WHERE parent_tile_id = ?',
+              variables: [Variable.withString(folderId)],
+            )
+            .getSingle();
+
+    if (childCount.read<int>('cnt') > 0) return;
+
+    // Check if this folder has its own content. Don't dissolve those.
+    final itemCount =
+        await _db
+            .customSelect(
+              'SELECT COUNT(*) AS cnt FROM cards WHERE group_id = ?',
+              variables: [Variable.withString(folderId)],
+            )
+            .getSingle();
+    if (itemCount.read<int>('cnt') > 0) return;
+
+    await (_db.delete(_db.groups)..where((t) => t.id.equals(folderId))).go();
+    Log.info(_tag, 'Empty folder deleted', data: {'folderId': folderId});
+  }
+
+  /// Create a folder from a drag gesture (tile A dropped onto tile B).
+  ///
+  /// Creates a new folder tile at B's grid position, then moves both
+  /// A and B into it as children. Like iOS home screen folder creation.
+  /// Returns the new folder tile ID.
+  Future<String> createFolderFromDrag({
+    required String draggedId,
+    required String targetId,
   }) async {
-    late final String parentId;
+    late final String folderId;
     await _db.transaction(() async {
-      parentId = await insert(title: groupTitle, coverUrl: coverUrl);
-      await nestInto(childId: tileId1, parentId: parentId);
-      await nestInto(childId: tileId2, parentId: parentId);
+      // Read the target tile to inherit its grid position.
+      final target =
+          await (_db.select(_db.groups)
+            ..where((t) => t.id.equals(targetId))).getSingle();
+
+      // Create the folder at the target's position.
+      folderId = _uuid.v4();
+      await _db
+          .into(_db.groups)
+          .insert(
+            GroupsCompanion.insert(
+              id: folderId,
+              title: 'Neuer Ordner',
+              sortOrder: Value(target.sortOrder),
+              parentTileId: Value(target.parentTileId),
+            ),
+          );
+
+      // Move both tiles into the folder.
+      await nestInto(childId: targetId, parentId: folderId);
+      await nestInto(childId: draggedId, parentId: folderId);
     });
     Log.info(
       _tag,
-      'Tiles grouped',
+      'Folder created from drag',
       data: {
-        'parentId': parentId,
-        'title': groupTitle,
-        'child1': tileId1,
-        'child2': tileId2,
+        'folderId': folderId,
+        'dragged': draggedId,
+        'target': targetId,
       },
     );
-    return parentId;
+    return folderId;
   }
 
   /// Delete a tile and its entire subtree.

@@ -310,20 +310,33 @@ class _GroupGrid extends ConsumerWidget {
         groups.map((g) {
           final childTiles = ref.watch(childTilesProvider(g.id));
           final episodes = ref.watch(tileItemsProvider(g.id));
-          final hasChildren =
-              childTiles.whenOrNull(data: (c) => c.isNotEmpty) ?? false;
-          final count =
-              hasChildren
-                  ? (childTiles.whenOrNull(data: (c) => c.length) ?? 0)
-                  : (episodes.whenOrNull(data: (e) => e.length) ?? 0);
+          final numChildren = childTiles.whenOrNull(data: (c) => c.length) ?? 0;
+          final numEpisodes = episodes.whenOrNull(data: (e) => e.length) ?? 0;
+
+          final childCovers =
+              childTiles.whenOrNull(
+                data:
+                    (tiles) =>
+                        tiles
+                            .where((t) => t.coverUrl != null)
+                            .take(4)
+                            .map((t) => t.coverUrl!)
+                            .toList(),
+              ) ??
+              const <String>[];
+
+          // Folders: derive display name from children.
+          final title =
+              numChildren > 0 ? _folderName(childTiles.value ?? []) : g.title;
 
           return DraggableTileItem(
             id: g.id,
-            title: g.title,
+            title: title,
             coverUrl: g.coverUrl,
-            episodeCount: count,
+            episodeCount: numEpisodes,
             contentType: ContentType.fromString(g.contentType),
-            hasChildren: hasChildren,
+            childCount: numChildren,
+            childCoverUrls: childCovers,
           );
         }).toList();
 
@@ -337,23 +350,40 @@ class _GroupGrid extends ConsumerWidget {
         );
         unawaited(ref.read(tileRepositoryProvider).reorder(newOrder));
       },
-      onNest: (childId, parentId) {
-        Log.info(
-          _tag,
-          'Nesting via drag',
-          data: {
-            'childId': childId,
-            'parentId': parentId,
-          },
-        );
-        unawaited(
-          ref
-              .read(tileRepositoryProvider)
-              .nestInto(
-                childId: childId,
-                parentId: parentId,
-              ),
-        );
+      onNest: (draggedId, targetId) {
+        final targetChildren =
+            ref.read(childTilesProvider(targetId)).value ?? [];
+        final isFolder = targetChildren.isNotEmpty;
+        final repo = ref.read(tileRepositoryProvider);
+
+        if (isFolder) {
+          // Target is already a folder: nest into it.
+          Log.info(
+            _tag,
+            'Nesting into existing folder',
+            data: {
+              'dragged': draggedId,
+              'folder': targetId,
+            },
+          );
+          unawaited(repo.nestInto(childId: draggedId, parentId: targetId));
+        } else {
+          // Both are leaf tiles: create a new folder containing both.
+          Log.info(
+            _tag,
+            'Creating folder via drag',
+            data: {
+              'dragged': draggedId,
+              'target': targetId,
+            },
+          );
+          unawaited(
+            repo.createFolderFromDrag(
+              draggedId: draggedId,
+              targetId: targetId,
+            ),
+          );
+        }
       },
       onTap: (id) {
         final hasKids =
@@ -370,13 +400,35 @@ class _GroupGrid extends ConsumerWidget {
         }
       },
       onLongPress: (id) {
-        // Context menu is still the accessibility fallback.
         final group = groups.firstWhere((g) => g.id == id);
-        // Show context menu from the _GroupTile widget.
         _showContextMenu(context, ref, group, isNested);
       },
+      // Drop zone: unnest tiles back to home screen when inside a parent.
+      onDropZoneAction:
+          isNested
+              ? (id) {
+                Log.info(_tag, 'Unnest via drop zone', data: {'tileId': id});
+                unawaited(ref.read(tileRepositoryProvider).unnest(id));
+                // Last child? Pop back automatically.
+                final remaining = items.where((t) => t.id != id).length;
+                if (remaining == 0 && context.mounted) {
+                  context.pop();
+                }
+              }
+              : null,
+      dropZoneLabel: 'Auf Startseite verschieben',
     );
   }
+}
+
+/// Derive a folder display name from its children.
+/// "A & B" for 2, "A, B & 1 weiterer" for 3, etc.
+String _folderName(List<db.Tile> children) {
+  if (children.isEmpty) return 'Leerer Ordner';
+  final names = children.map((t) => t.title).toList();
+  if (names.length == 1) return names.first;
+  if (names.length == 2) return '${names[0]} & ${names[1]}';
+  return '${names[0]}, ${names[1]} & mehr';
 }
 
 /// Show context menu for a tile (long-press fallback for accessibility).
