@@ -3,8 +3,11 @@ import 'dart:async' show Timer, unawaited;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:lauschi/core/catalog/catalog_service.dart' show ContentType;
+import 'package:lauschi/core/log.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
 import 'package:lauschi/features/tiles/widgets/tile_card.dart';
+
+const _tag = 'DragGrid';
 
 /// Duration to hold over a tile before nest mode activates.
 const _nestHoldDuration = Duration(milliseconds: 800);
@@ -121,30 +124,67 @@ class _DraggableTileGridState extends State<DraggableTileGrid> {
     final y = local.dy - AppSpacing.md;
     if (x < 0 || y < 0) return null;
 
-    final colF = x / (_cellWidth + _crossSpacing);
-    final rowF = y / (_cellHeight + _mainSpacing);
-    final col = colF.floor();
-    final row = rowF.floor();
+    final col = (x / (_cellWidth + _crossSpacing)).floor();
+    final row = (y / (_cellHeight + _mainSpacing)).floor();
 
-    if (col >= _columns) return null;
+    if (col < 0 || col >= _columns) return null;
 
     final index = row * _columns + col;
-    if (index >= _order.length) return null;
+    if (index < 0 || index >= _order.length) return null;
 
     // Check if pointer is inside the cell body or in the gap.
     final cellX = x - col * (_cellWidth + _crossSpacing);
     final cellY = y - row * (_cellHeight + _mainSpacing);
-    final isOverTile = cellX <= _cellWidth && cellY <= _cellHeight;
+    final isOverTile =
+        cellX >= 0 && cellX <= _cellWidth && cellY >= 0 && cellY <= _cellHeight;
 
     return (index, isOverTile);
+  }
+
+  /// Log grid layout info once per drag start for debugging.
+  void _logGridLayout() {
+    Log.debug(
+      _tag,
+      'Grid layout',
+      data: {
+        'columns': '$_columns',
+        'cellWidth': _cellWidth.toStringAsFixed(1),
+        'cellHeight': _cellHeight.toStringAsFixed(1),
+        'hPadding': '${AppSpacing.screenH}',
+        'vPadding': '${AppSpacing.md}',
+        'crossSpacing': '',
+        'mainSpacing': '$_mainSpacing',
+        'tileCount': '${_order.length}',
+      },
+    );
   }
 
   // ── Drag callbacks ────────────────────────────────────────────────
 
   void _onDragStart(String id) {
-    if (_draggedId != null) return; // prevent double-start
+    if (_draggedId != null) {
+      Log.warn(
+        _tag,
+        'Double drag start blocked',
+        data: {
+          'existing': _draggedId!,
+          'attempted': id,
+        },
+      );
+      return;
+    }
+    // Defensive: cancel any stale timer from a previous drag that
+    // didn't clean up (e.g. onDragEnd race with onDraggableCanceled).
+    _nestTimer?.cancel();
+    _nestTimer = null;
+
     unawaited(HapticFeedback.lightImpact());
     _cachedGridBox = null;
+
+    final title = _order.where((t) => t.id == id).firstOrNull?.title ?? '?';
+    Log.info(_tag, 'Drag START', data: {'id': id, 'title': title});
+    _logGridLayout();
+
     setState(() {
       _draggedId = id;
       _insertionIndex = null;
@@ -188,10 +228,29 @@ class _DraggableTileGridState extends State<DraggableTileGrid> {
       if (_nestTargetId != targetId) {
         _clearNestTarget();
         _nestTargetId = targetId;
+        final targetTitle = _order[index].title;
+        Log.debug(
+          _tag,
+          'Hover over TILE (nest candidate)',
+          data: {
+            'targetId': targetId,
+            'targetTitle': targetTitle,
+            'index': '$index',
+          },
+        );
         setState(() {});
         _nestTimer = Timer(_nestHoldDuration, () {
           if (!mounted) return;
           if (_nestTargetId == targetId && _draggedId != null) {
+            Log.info(
+              _tag,
+              'Nest CONFIRMED (held 800ms)',
+              data: {
+                'draggedId': _draggedId!,
+                'targetId': targetId,
+                'targetTitle': targetTitle,
+              },
+            );
             setState(() => _nestConfirmed = true);
             unawaited(HapticFeedback.mediumImpact());
           }
@@ -199,34 +258,74 @@ class _DraggableTileGridState extends State<DraggableTileGrid> {
       }
     } else {
       // In a gap: reorder preview.
+      if (_insertionIndex != index) {
+        Log.debug(
+          _tag,
+          'Hover in GAP (reorder)',
+          data: {
+            'insertionIndex': '$index',
+          },
+        );
+      }
       _clearNestTarget();
       setState(() => _insertionIndex = index);
     }
   }
 
   void _onDragEnd() {
-    if (_draggedId == null) return;
+    if (_draggedId == null) {
+      Log.warn(_tag, 'Drag END called but no drag active');
+      return;
+    }
 
     final draggedId = _draggedId!;
     final wasNested = _nestConfirmed && _nestTargetId != null;
     final nestTarget = _nestTargetId;
 
+    Log.info(
+      _tag,
+      'Drag END',
+      data: {
+        'draggedId': draggedId,
+        'wasNested': '$wasNested',
+        'nestTarget': nestTarget ?? 'none',
+        'insertionIndex': '${_insertionIndex ?? "none"}',
+      },
+    );
+
     if (wasNested && nestTarget != null) {
-      // Nest: dragged tile becomes child of target.
+      Log.info(
+        _tag,
+        'NESTING',
+        data: {
+          'childId': draggedId,
+          'parentId': nestTarget,
+        },
+      );
       widget.onNest(draggedId, nestTarget);
     } else if (_insertionIndex != null) {
-      // Reorder: move draggedId to the gap position.
       final currentIndex = _order.indexWhere((t) => t.id == draggedId);
       if (currentIndex != -1 && currentIndex != _insertionIndex) {
         final item = _order.removeAt(currentIndex);
-        // After removing, indices shift. If we're moving forward, the
-        // target index is now one less than the visual gap position.
         var targetIdx = _insertionIndex!;
         if (targetIdx > currentIndex) targetIdx--;
         targetIdx = targetIdx.clamp(0, _order.length);
         _order.insert(targetIdx, item);
+        Log.info(
+          _tag,
+          'REORDER',
+          data: {
+            'from': '$currentIndex',
+            'to': '$targetIdx',
+            'order': _order.map((t) => t.title).join(', '),
+          },
+        );
         widget.onReorder(_order.map((t) => t.id).toList());
+      } else {
+        Log.debug(_tag, 'Reorder no-op (same position)');
       }
+    } else {
+      Log.debug(_tag, 'Drop cancelled (no target)');
     }
 
     // Brief drop-settle animation: scale the dropped tile 0.95 → 1.0.
