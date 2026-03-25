@@ -397,16 +397,25 @@ class _ShowHeader extends StatelessWidget {
                 fontFamily: 'Nunito',
                 fontWeight: FontWeight.w700,
                 fontSize: 16,
+                color: Colors.white,
+                shadows: [
+                  Shadow(blurRadius: 12, color: Colors.black),
+                  Shadow(blurRadius: 4, color: Colors.black),
+                ],
               ),
             ),
             if (subtitle != null)
               Text(
                 '$subtitle · ${show.numberOfElements} Folgen',
-                style: TextStyle(
+                style: const TextStyle(
                   fontFamily: 'Nunito',
                   fontSize: 11,
                   fontWeight: FontWeight.w500,
-                  color: Colors.white.withAlpha(200),
+                  color: Colors.white,
+                  shadows: [
+                    Shadow(blurRadius: 12, color: Colors.black),
+                    Shadow(blurRadius: 4, color: Colors.black),
+                  ],
                 ),
               ),
           ],
@@ -427,12 +436,12 @@ class _ShowHeader extends StatelessWidget {
                         gradient: LinearGradient(
                           begin: Alignment.topCenter,
                           end: Alignment.bottomCenter,
-                          stops: const [0.0, 0.4, 0.75, 1.0],
+                          stops: const [0.0, 0.3, 0.65, 1.0],
                           colors: [
-                            Colors.black.withAlpha(100),
-                            Colors.black.withAlpha(80),
-                            Colors.black.withAlpha(160),
-                            Colors.black.withAlpha(220),
+                            Colors.black.withAlpha(60),
+                            Colors.black.withAlpha(20),
+                            Colors.black.withAlpha(200),
+                            Colors.black,
                           ],
                         ),
                       ),
