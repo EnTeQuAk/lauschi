@@ -376,7 +376,6 @@ class _ShowHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     final imageUrl = ardImageUrl(show.imageUrl, width: 600);
     final subtitle = show.organizationName ?? show.publisher;
-    final brandColor = parseHexColor(show.brandingColor);
 
     return SliverAppBar(
       backgroundColor: AppColors.parentBackground,
@@ -428,12 +427,12 @@ class _ShowHeader extends StatelessWidget {
                         gradient: LinearGradient(
                           begin: Alignment.topCenter,
                           end: Alignment.bottomCenter,
-                          stops: const [0.0, 0.5, 0.85, 1.0],
+                          stops: const [0.0, 0.4, 0.75, 1.0],
                           colors: [
-                            Colors.black.withAlpha(140),
-                            Colors.black.withAlpha(120),
-                            (brandColor ?? Colors.black).withAlpha(60),
-                            (brandColor ?? Colors.black).withAlpha(120),
+                            Colors.black.withAlpha(100),
+                            Colors.black.withAlpha(80),
+                            Colors.black.withAlpha(160),
+                            Colors.black.withAlpha(220),
                           ],
                         ),
                       ),

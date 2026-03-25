@@ -456,12 +456,14 @@ class _DragHint extends StatelessWidget {
             color: AppColors.textSecondary.withAlpha(150),
           ),
           const SizedBox(width: 6),
-          Text(
-            'Gedrückt halten zum Verschieben, auf eine Kachel ziehen zum Gruppieren',
-            style: TextStyle(
-              fontFamily: 'Nunito',
-              fontSize: 12,
-              color: AppColors.textSecondary.withAlpha(150),
+          Expanded(
+            child: Text(
+              'Halten & ziehen um zu sortieren oder zu gruppieren',
+              style: TextStyle(
+                fontFamily: 'Nunito',
+                fontSize: 12,
+                color: AppColors.textSecondary.withAlpha(150),
+              ),
             ),
           ),
         ],
