@@ -7,9 +7,12 @@ on:
   release:
     types: [published]
 
+# Same concurrency group as the main store workflow. Google Play
+# only allows one active edit per package. Parallel uploads from
+# different tracks invalidate each other's edits.
 concurrency:
-  group: android-store-spotify-${{ github.ref }}
-  cancel-in-progress: true
+  group: android-store-${{ github.ref }}
+  cancel-in-progress: false
 
 jobs:
   store-release-spotify:

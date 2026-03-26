@@ -6,7 +6,7 @@ on:
 
 concurrency:
   group: android-store-${{ github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   store-release:
