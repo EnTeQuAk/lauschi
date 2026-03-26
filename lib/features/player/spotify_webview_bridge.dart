@@ -565,7 +565,9 @@ class SpotifyWebViewBridge {
       final guarded = '(function(){if(window.lauschi){return $js}})()';
       final result = await _controller!.runJavaScriptReturningResult(guarded);
       return result.toString();
-    } on Exception catch (e) {
+    } on Object catch (e) {
+      // Catch both Exception (PlatformException when WebView is dead) and
+      // Error (ArgumentError when JS returns null on iOS WKWebView).
       final detail =
           e is PlatformException ? 'WebView likely dead: ${e.code}' : '$e';
       Log.warn(_tag, 'JS eval failed: $detail');
