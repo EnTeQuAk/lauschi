@@ -36,9 +36,7 @@
     return ('' + e).indexOf('no list was loaded') >= 0;
   }
 
-  // Set after connect/reconnect. Cleared on first playing state_changed.
-  // Used to activate the iOS audio pipeline via seek-to-current-position.
-  var _pendingAudioActivation = false;
+
 
   // Called by Dart once SDK is ready and token is available.
   window.lauschi = {
@@ -57,7 +55,6 @@
       });
 
       player.addListener('ready', function(data) {
-        _pendingAudioActivation = true;
         post('ready', { device_id: data.device_id });
         post_log('Player ready, device_id: ' + data.device_id);
       });
@@ -71,26 +68,6 @@
         if (!state) {
           post('state_changed', { paused: true, track: null, position_ms: 0 });
           return;
-        }
-
-        // iOS audio context activation: when the SDK first reports
-        // playing after a connect/reconnect, seek to the current
-        // position to flush the audio pipeline. This is the earliest
-        // safe point (we have context AND the pipeline is starting).
-        // Unlike resume(), seek works even when the SDK already
-        // thinks it's playing.
-        if (!state.paused && _pendingAudioActivation) {
-          _pendingAudioActivation = false;
-          // Defer the seek out of the state_changed callback. The SDK
-          // fires "The operation is not allowed" when player state is
-          // modified inside its own listener. setTimeout(0) lets the
-          // callback complete first.
-          setTimeout(function() {
-            post_log('Activating audio pipeline via seek');
-            player.seek(state.position).catch(function(e) {
-              post_log('Audio activation seek failed: ' + e);
-            });
-          }, 0);
         }
 
         var tw = state.track_window;
@@ -130,13 +107,6 @@
       });
 
       player.addListener('playback_error', function(e) {
-        // "The operation is not allowed" fires during the SDK's
-        // DRM/playback pipeline initialization (~50-200ms after play).
-        // Audio works fine; suppress to avoid false error in the UI.
-        if (('' + e.message).indexOf('operation is not allowed') >= 0) {
-          post_log('Suppressed transient SDK error: ' + e.message);
-          return;
-        }
         post('error', { type: 'playback', message: e.message });
         post_log('Playback error: ' + e.message);
       });
@@ -228,7 +198,6 @@
         return;
       }
       post_log('reconnect: disconnect then connect');
-      _pendingAudioActivation = true;
       player.disconnect();
       player.connect().then(function(success) {
         post_log('reconnect result: ' + success);
