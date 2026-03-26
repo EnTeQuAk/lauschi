@@ -1,5 +1,19 @@
 # Changelog
 
+## v2026.3.44 (März 2026)
+
+🔧 **Spotify-Wiedergabe repariert**
+Ein Fehler hat verhindert, dass Spotify-Inhalte abgespielt werden konnten. Ist behoben, sollte jetzt wieder zuverlässig funktionieren.
+
+🚫 **Kein Auto-Play mehr**
+Wenn eine Folge zu Ende ist, startet nicht mehr automatisch die nächste. Kinder gehen zurück und tippen selbst auf "Weiter". Bewusste Entscheidung: kein endloses Abspielen ohne aktives Zutun.
+
+✨ **Weiter-Kachel leuchtet**
+Die nächste ungehörte Folge hat jetzt einen dezenten Leuchteffekt, damit sie auch bei bunten Covers gut sichtbar ist.
+
+🧪 **Mehr Tests**
+45 Integrationstests auf echten Geräten, darunter neu: Onboarding, PIN-Eingabe, Inhalte hinzufügen, Ordner-Lebenszyklus.
+
 ## v2026.3.39 (März 2026)
 
 🎵 **Musik für Kinder**
