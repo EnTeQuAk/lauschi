@@ -81,10 +81,16 @@
         // thinks it's playing.
         if (!state.paused && _pendingAudioActivation) {
           _pendingAudioActivation = false;
-          post_log('Activating audio pipeline via seek');
-          player.seek(state.position).catch(function(e) {
-            post_log('Audio activation seek failed: ' + e);
-          });
+          // Defer the seek out of the state_changed callback. The SDK
+          // fires "The operation is not allowed" when player state is
+          // modified inside its own listener. setTimeout(0) lets the
+          // callback complete first.
+          setTimeout(function() {
+            post_log('Activating audio pipeline via seek');
+            player.seek(state.position).catch(function(e) {
+              post_log('Audio activation seek failed: ' + e);
+            });
+          }, 0);
         }
 
         var tw = state.track_window;
