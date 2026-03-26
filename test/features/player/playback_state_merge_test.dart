@@ -46,8 +46,8 @@ PlaybackState mergeSpotifyBridgeStateBroken(
 void main() {
   group('Spotify bridge state merge: isLoading', () {
     test('clears isLoading when bridge reports playing', () {
-      final before = const PlaybackState(isLoading: true);
-      final bridgeState = const PlaybackState(
+      const before = PlaybackState(isLoading: true);
+      const bridgeState = PlaybackState(
         isPlaying: true,
         isReady: true,
         track: TrackInfo(
@@ -68,8 +68,8 @@ void main() {
     });
 
     test('broken pattern keeps isLoading stuck at true', () {
-      final before = const PlaybackState(isLoading: true);
-      final bridgeState = const PlaybackState(
+      const before = PlaybackState(isLoading: true);
+      const bridgeState = PlaybackState(
         isPlaying: true,
         isReady: true,
         track: TrackInfo(
@@ -90,8 +90,8 @@ void main() {
     });
 
     test('keeps isLoading true while paused and no error', () {
-      final before = const PlaybackState(isLoading: true);
-      final bridgeState = const PlaybackState(isReady: true);
+      const before = PlaybackState(isLoading: true);
+      const bridgeState = PlaybackState(isReady: true);
 
       final after = mergeSpotifyBridgeState(before, bridgeState);
       expect(
@@ -102,8 +102,8 @@ void main() {
     });
 
     test('clears isLoading on error', () {
-      final before = const PlaybackState(isLoading: true);
-      final bridgeState = const PlaybackState(
+      const before = PlaybackState(isLoading: true);
+      const bridgeState = PlaybackState(
         isReady: true,
         error: PlayerError.spotifyNotConnected,
       );
@@ -113,11 +113,8 @@ void main() {
     });
 
     test('does not re-enable isLoading once cleared', () {
-      final before = const PlaybackState(isLoading: false, isPlaying: true);
-      final bridgeState = const PlaybackState(
-        isPlaying: false, // paused
-        isReady: true,
-      );
+      const before = PlaybackState(isPlaying: true);
+      const bridgeState = PlaybackState(isReady: true);
 
       final after = mergeSpotifyBridgeState(before, bridgeState);
       expect(
