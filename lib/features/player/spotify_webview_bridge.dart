@@ -27,15 +27,19 @@ const _positionJitterThresholdMs = 2000;
 /// Manages the hidden WebView hosting the Spotify Web Playback SDK.
 ///
 /// Lifecycle (managed by the session provider, not by widgets):
-///   [init]     → creates WebView, loads player.html, sets token callback
-///   [tearDown] → disconnects SDK, clears controller, keeps StreamController
-///   [init]     → can be called again after tearDown (re-login)
-///   [dispose]  → permanent shutdown, closes StreamController
+///   `init()`     → creates WebView, loads player.html, sets token callback
+///   `tearDown()` → disconnects SDK, clears controller, keeps StreamController
+///   `init()`     → can be called again after tearDown (re-login)
+///   `dispose()`  → permanent shutdown, closes StreamController
 ///
 /// Token callback returns null when auth is unavailable. The bridge
 /// handles this gracefully (sets error state, never crashes).
 ///
-/// Events flow JS → Dart via a `SpotifyWebViewBridge` JavaScript channel.
+/// Name of the JavaScript channel registered in the WebView.
+/// Must match what player.html uses in `SpotifyBridge.postMessage(...)`.
+const spotifyJsChannelName = 'SpotifyBridge';
+
+/// Events flow JS → Dart via a [spotifyJsChannelName] JavaScript channel.
 /// Commands flow Dart → JS via `controller.runJavaScript()`.
 class SpotifyWebViewBridge {
   final _stateController = StreamController<PlaybackState>.broadcast();
@@ -169,7 +173,7 @@ class SpotifyWebViewBridge {
     await c.setUserAgent(ua);
 
     await c.addJavaScriptChannel(
-      'SpotifyBridge',
+      spotifyJsChannelName,
       onMessageReceived: _onMessage,
     );
 

@@ -195,21 +195,7 @@ class PlayerNotifier extends _$PlayerNotifier {
       }
 
       // Single write: merge isReady + playback fields.
-      state = state.copyWith(
-        isReady: bridgeState.isReady,
-        isPlaying: bridgeState.isPlaying,
-        // Clear loading overlay once audio starts or errors.
-        isLoading:
-            state.isLoading &&
-            !bridgeState.isPlaying &&
-            bridgeState.error == null,
-        track: bridgeState.track,
-        positionMs: bridgeState.positionMs,
-        durationMs: bridgeState.durationMs,
-        // Keep existing error if bridge has none
-        // (error is always-replace, so passing null clears it).
-        error: bridgeState.error ?? state.error,
-      );
+      state = mergeSpotifyBridgeState(state, bridgeState);
       _onPlaybackStateChange(state);
     } else if (bridgeState.isReady != state.isReady) {
       // Non-Spotify: only accept readiness changes so the bridge stays
@@ -980,4 +966,29 @@ class PlayerNotifier extends _$PlayerNotifier {
       Log.error(_tag, 'Mark heard failed', exception: e);
     }
   }
+}
+
+/// Merge Spotify bridge state into current playback state.
+///
+/// Extracted as a top-level function so it's testable without
+/// instantiating PlayerNotifier. Used by [PlayerNotifier._onBridgeEvent].
+PlaybackState mergeSpotifyBridgeState(
+  PlaybackState current,
+  PlaybackState bridgeState,
+) {
+  return current.copyWith(
+    isReady: bridgeState.isReady,
+    isPlaying: bridgeState.isPlaying,
+    // Clear loading overlay once audio starts or errors.
+    isLoading:
+        current.isLoading &&
+        !bridgeState.isPlaying &&
+        bridgeState.error == null,
+    track: bridgeState.track,
+    positionMs: bridgeState.positionMs,
+    durationMs: bridgeState.durationMs,
+    // Keep existing error if bridge has none
+    // (error is always-replace, so passing null clears it).
+    error: bridgeState.error ?? current.error,
+  );
 }
