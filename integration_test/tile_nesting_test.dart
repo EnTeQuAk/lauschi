@@ -159,9 +159,11 @@ void main() {
       await tiles.unnest(childId);
       await pumpFrames($);
 
-      // Both should be root tiles now.
+      // Child should be at root. Parent (empty folder with no content)
+      // is auto-dissolved by _dissolveIfEmpty.
       final rootTiles = await tiles.getAll();
-      expect(rootTiles, hasLength(2));
+      expect(rootTiles, hasLength(1));
+      expect(rootTiles.first.title, 'Child');
     },
   );
 
