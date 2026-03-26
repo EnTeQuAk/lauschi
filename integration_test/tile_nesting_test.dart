@@ -168,6 +168,98 @@ void main() {
   );
 
   patrolTest(
+    'folder lifecycle: create → unnest one (stays) → unnest last (dissolves)',
+    ($) async {
+      await pumpApp(
+        $,
+        prefs: {'onboarding_complete': true},
+        scope:
+            (child) => ProviderScope(
+              overrides: [
+                mediaSessionHandlerProvider.overrideWithValue(mediaHandler),
+                parentAuthProvider.overrideWith(_AlwaysAuth.new),
+              ],
+              child: child,
+            ),
+      );
+
+      final container = getContainer($);
+      final tiles = container.read(tileRepositoryProvider);
+
+      // Create two leaf tiles.
+      final tileA = await tiles.insert(title: 'Ohrenbär');
+      final tileB = await tiles.insert(title: 'Sandmännchen');
+      await pumpFrames($);
+
+      expect(await tiles.getAll(), hasLength(2));
+      expect(await tiles.getAllFlat(), hasLength(2));
+
+      // Drag A onto B → creates a folder with both inside.
+      final folderId = await tiles.createFolderFromDrag(
+        draggedId: tileA,
+        targetId: tileB,
+      );
+      await pumpFrames($);
+
+      // Root should have 1 tile (the folder).
+      final rootAfterCreate = await tiles.getAll();
+      expect(rootAfterCreate, hasLength(1));
+      expect(rootAfterCreate.first.id, folderId);
+      expect(rootAfterCreate.first.title, 'Neuer Ordner');
+
+      // Folder should have 2 children.
+      final children = await tiles.getChildren(folderId);
+      expect(children, hasLength(2));
+      final childIds = children.map((t) => t.id).toSet();
+      expect(childIds, containsAll([tileA, tileB]));
+
+      // Total tiles: folder + 2 children = 3.
+      expect(await tiles.getAllFlat(), hasLength(3));
+
+      // Unnest tileA. Folder should stay (still has tileB).
+      await tiles.unnest(tileA);
+      await pumpFrames($);
+
+      final rootAfterFirst = await tiles.getAll();
+      expect(
+        rootAfterFirst,
+        hasLength(2),
+        reason: 'Root should have folder + unnested tileA',
+      );
+      expect(
+        rootAfterFirst.map((t) => t.id).toSet(),
+        containsAll([folderId, tileA]),
+      );
+
+      // Folder still has 1 child (tileB).
+      final remainingChildren = await tiles.getChildren(folderId);
+      expect(remainingChildren, hasLength(1));
+      expect(remainingChildren.first.id, tileB);
+
+      // Unnest tileB. Folder should dissolve (0 children, no content).
+      await tiles.unnest(tileB);
+      await pumpFrames($);
+
+      final rootAfterSecond = await tiles.getAll();
+      expect(
+        rootAfterSecond,
+        hasLength(2),
+        reason: 'Root should have tileA + tileB (folder dissolved)',
+      );
+      final rootIds = rootAfterSecond.map((t) => t.id).toSet();
+      expect(rootIds, containsAll([tileA, tileB]));
+      expect(
+        rootIds.contains(folderId),
+        isFalse,
+        reason: 'Empty folder should be dissolved',
+      );
+
+      // Total tiles back to 2 (no orphaned folder).
+      expect(await tiles.getAllFlat(), hasLength(2));
+    },
+  );
+
+  patrolTest(
     'cycle prevention rejects self-nesting',
     ($) async {
       await pumpApp(
