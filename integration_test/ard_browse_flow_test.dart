@@ -6,13 +6,11 @@
 library;
 
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:lauschi/core/database/content_importer.dart';
 import 'package:lauschi/core/database/tile_item_repository.dart';
 import 'package:lauschi/core/database/tile_repository.dart';
 import 'package:lauschi/core/providers/provider_type.dart';
-import 'package:lauschi/features/player/media_session_handler.dart';
 import 'package:lauschi/features/player/player_provider.dart';
 import 'package:lauschi/features/tiles/widgets/tile_card.dart';
 import 'package:patrol/patrol.dart';
@@ -40,7 +38,7 @@ void main() {
       final importer = container.read(contentImporterProvider.notifier);
       await importer.importToGroup(
         groupTitle: episode.showTitle,
-        groupCoverUrl: null,
+        // groupCoverUrl defaults to null
         cards: [
           PendingCard(
             title: episode.episodeTitle,
