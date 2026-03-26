@@ -91,6 +91,7 @@ jobs:
           track: alpha
           status: completed
           releaseName: ${{ github.event.release.tag_name }}
+          whatsNewDirectory: distribution/whatsnew
 
       - name: Upload AAB artifact
         uses: actions/upload-artifact@v7

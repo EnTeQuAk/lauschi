@@ -95,6 +95,7 @@ jobs:
           track: "Closed testing - Alpha Spotify"
           status: completed
           releaseName: "${{ github.event.release.tag_name }}-spotify"
+          whatsNewDirectory: distribution/whatsnew
 
       - name: Clean up signing
         if: always()
