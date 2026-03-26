@@ -362,6 +362,20 @@ class SpotifyWebViewBridge {
       case 'error':
         final errType = _sanitize(payload['type'] as String? ?? 'unknown');
         final errMsg = _sanitize(payload['message'] as String? ?? '');
+        // "The operation is not allowed" fires during iOS audio pipeline
+        // activation (seek-to-current-position after connect). It's transient
+        // and playback works fine. Don't surface it to the UI.
+        if (errMsg.contains('operation is not allowed')) {
+          Log.debug(
+            _tag,
+            'Suppressed transient SDK error',
+            data: {
+              'type': errType,
+              'message': errMsg,
+            },
+          );
+          break;
+        }
         Log.error(
           _tag,
           'SDK error',
