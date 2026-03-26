@@ -130,6 +130,13 @@
       });
 
       player.addListener('playback_error', function(e) {
+        // "The operation is not allowed" fires during the SDK's
+        // DRM/playback pipeline initialization (~50-200ms after play).
+        // Audio works fine; suppress to avoid false error in the UI.
+        if (('' + e.message).indexOf('operation is not allowed') >= 0) {
+          post_log('Suppressed transient SDK error: ' + e.message);
+          return;
+        }
         post('error', { type: 'playback', message: e.message });
         post_log('Playback error: ' + e.message);
       });
