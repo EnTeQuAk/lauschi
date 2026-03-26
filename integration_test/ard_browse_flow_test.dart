@@ -86,7 +86,7 @@ void main() {
 
       // Tap the episode to play.
       await $.tap(episodeItems);
-      await pumpFrames($, count: 10);
+      await pumpFrames($);
 
       // Player should start.
       final playerState = container.read(playerProvider);
