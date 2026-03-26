@@ -212,9 +212,12 @@ Tests live in `test/` mirroring `lib/` structure. Integration tests in `integrat
 
 Extract unit tests only for shared pure logic (catalog matching, data transforms, sorting).
 
+**Regression-proof tests:** Every bug fix test must be verified against the broken code. Briefly revert the fix (comment out the key line, rename the constant, remove the field from copyWith), run the test, confirm it fails, then restore. If the test passes with the fix reverted, it's testing a copy of the logic, not the production code. Extract testable functions from private methods rather than duplicating logic in test files.
+
 **Anti-patterns:**
 - Don't mock just_audio — real playback catches issues mocks miss
 - Don't mock the database — use in-memory Drift
+- Don't duplicate production logic in tests — import and test the real function
 - Don't write mega-tests (>5 minutes) — split into focused tests with shared `setUpAll`
 
 ### Widget Test Patterns
