@@ -4,7 +4,6 @@ import 'dart:io' show Platform;
 import 'package:lauschi/core/apple_music/apple_music_session.dart';
 import 'package:lauschi/core/database/app_database.dart' as db;
 import 'package:lauschi/core/database/tile_item_repository.dart';
-import 'package:lauschi/core/database/tile_repository.dart';
 import 'package:lauschi/core/feature_flags.dart';
 import 'package:lauschi/core/log.dart';
 import 'package:lauschi/core/providers/provider_type.dart';
@@ -69,7 +68,7 @@ class _ActiveBackend {
 // ---------------------------------------------------------------------------
 
 /// Manages playback state and coordinates backends, position saving,
-/// media session, and auto-advance.
+/// and media session.
 ///
 /// Spotify integration goes through [SpotifySession]. This notifier
 /// has no direct auth wiring, token management, or bridge lifecycle
@@ -99,7 +98,6 @@ class PlayerNotifier extends _$PlayerNotifier {
   /// The currently active backend + its subscription, or null.
   _ActiveBackend? _active;
 
-  Timer? _advanceTimer;
   Timer? _positionSaveTimer;
 
   /// Monotonically increasing generation counter. Each [playCard] call
@@ -110,7 +108,6 @@ class PlayerNotifier extends _$PlayerNotifier {
   // -- Timing constants --
   static const _deviceRegistrationDelay = Duration(milliseconds: 500);
   static const _completionThresholdMs = 5000;
-  static const _advanceDelay = Duration(seconds: 3);
   static const _positionSaveInterval = Duration(seconds: 10);
 
   // -- Position tracking state --
@@ -156,7 +153,6 @@ class PlayerNotifier extends _$PlayerNotifier {
       _bridgeSub = null;
       unawaited(_active?.dispose());
       _positionSaveTimer?.cancel();
-      _advanceTimer?.cancel();
     });
 
     return const PlaybackState();
@@ -218,7 +214,6 @@ class PlayerNotifier extends _$PlayerNotifier {
     // _onBridgeEvent already gates playback events on _active being a
     // SpotifyPlayer, so stale events from tearDown are harmless.
 
-    _advanceTimer?.cancel();
     _positionSaveTimer?.cancel();
     _positionSaveTimer = null;
     _playTimeMs = 0;
@@ -239,7 +234,7 @@ class PlayerNotifier extends _$PlayerNotifier {
   /// the user wanted.
   Future<void> pause() async {
     Log.info(_tag, 'pause');
-    _advanceTimer?.cancel();
+
     try {
       await _active?.backend.pause();
     } on Exception catch (e) {
@@ -279,7 +274,6 @@ class PlayerNotifier extends _$PlayerNotifier {
   }
 
   void clearError() {
-    _advanceTimer?.cancel();
     // ignore: avoid_redundant_argument_values, null clears error
     state = state.copyWith(error: null);
   }
@@ -294,7 +288,7 @@ class PlayerNotifier extends _$PlayerNotifier {
     );
 
     // Cancel pending timers and reset tracking.
-    _advanceTimer?.cancel();
+
     _positionSaveTimer?.cancel();
     _positionSaveTimer = null;
     _playTimeMs = 0;
@@ -337,7 +331,6 @@ class PlayerNotifier extends _$PlayerNotifier {
         name: card.customTitle ?? card.title,
         artworkUrl: card.coverUrl,
       ),
-      clearNextEpisode: true,
     );
 
     // Save position from the old backend before tearing it down.
@@ -837,41 +830,10 @@ class PlayerNotifier extends _$PlayerNotifier {
     if (groupId == null) return;
 
     // Clear stale resume positions for sibling episodes so the next
-    // one starts fresh. Excludes the about-to-auto-advance episode
-    // (which hasn't saved a position yet, but defensive).
+    // one starts fresh.
     // TODO(#228): extract into PlaybackSideEffects provider (event system)
     final cards = ref.read(tileItemRepositoryProvider);
     await cards.clearPositions(groupId, excludeItemId: cardId);
-
-    final groups = ref.read(tileRepositoryProvider);
-    final group = await groups.getById(groupId);
-    if (group == null || group.contentType != 'hoerspiel') return;
-
-    final nextCard = await groups.nextUnheard(groupId);
-    if (nextCard == null) {
-      Log.info(_tag, 'Series finished — no more episodes');
-      return;
-    }
-
-    Log.info(
-      _tag,
-      'Auto-advance',
-      data: {
-        'groupId': groupId,
-        'nextCard': nextCard.title,
-        'nextId': nextCard.id,
-      },
-    );
-
-    _advanceTimer?.cancel();
-    _advanceTimer = Timer(_advanceDelay, () {
-      unawaited(playCard(nextCard.id));
-    });
-
-    state = state.copyWith(
-      nextEpisodeTitle: nextCard.customTitle ?? nextCard.title,
-      nextEpisodeCoverUrl: nextCard.coverUrl,
-    );
   }
 
   // ─── Position tracking ──────────────────────────────────────────────

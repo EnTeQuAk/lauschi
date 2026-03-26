@@ -261,8 +261,6 @@ class TileDetailScreen extends ConsumerWidget {
                         key: const ValueKey('now-playing'),
                         track: playerState.track!,
                         isPlaying: playerState.isPlaying,
-                        isAdvancing: playerState.isAdvancing,
-                        nextEpisodeCoverUrl: playerState.nextEpisodeCoverUrl,
                         onTap: () => context.push(AppRoutes.player),
                         onTogglePlay: playerNotifier.togglePlay,
                       )
@@ -516,6 +514,23 @@ class _EpisodeGridState extends State<_EpisodeGrid> {
             return Stack(
               clipBehavior: Clip.none,
               children: [
+                // Subtle highlight on the "Weiter" tile so it stands
+                // out regardless of cover art brightness.
+                if (isNext)
+                  Positioned.fill(
+                    child: DecoratedBox(
+                      decoration: BoxDecoration(
+                        borderRadius: const BorderRadius.all(AppRadius.card),
+                        boxShadow: [
+                          BoxShadow(
+                            color: AppColors.accent.withAlpha(60),
+                            blurRadius: 12,
+                            spreadRadius: 2,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
                 TileItem(
                   key: ValueKey(card.id),
                   title: card.customTitle ?? card.title,

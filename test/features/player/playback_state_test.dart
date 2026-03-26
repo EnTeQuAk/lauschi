@@ -102,38 +102,6 @@ void main() {
       expect(cleared.error, isNull);
     });
 
-    test('nextEpisode fields are sticky (survive bridge events)', () {
-      // Auto-advance sets nextEpisodeTitle. Subsequent bridge events
-      // (position updates) must not wipe it.
-      var state = const PlaybackState(
-        activeCardId: 'card-1',
-        nextEpisodeTitle: 'Folge 2',
-        nextEpisodeCoverUrl: 'https://example.com/cover.jpg',
-      );
-
-      // Bridge event with position update (doesn't pass nextEpisode).
-      state = state.copyWith(
-        isPlaying: false,
-        isReady: true,
-        positionMs: 180000,
-        durationMs: 180000,
-      );
-
-      expect(state.nextEpisodeTitle, 'Folge 2');
-      expect(state.nextEpisodeCoverUrl, 'https://example.com/cover.jpg');
-    });
-
-    test('clearNextEpisode nulls both fields', () {
-      const state = PlaybackState(
-        nextEpisodeTitle: 'Folge 2',
-        nextEpisodeCoverUrl: 'https://example.com/cover.jpg',
-      );
-
-      final cleared = state.copyWith(clearNextEpisode: true);
-      expect(cleared.nextEpisodeTitle, isNull);
-      expect(cleared.nextEpisodeCoverUrl, isNull);
-    });
-
     test('clearActiveCard nulls activeCardId', () {
       const state = PlaybackState(activeCardId: 'x');
       final cleared = state.copyWith(clearActiveCard: true);
@@ -150,14 +118,6 @@ void main() {
       const state = PlaybackState(activeGroupId: 'g');
       final cleared = state.copyWith(clearActiveGroupId: true);
       expect(cleared.activeGroupId, isNull);
-    });
-
-    test('isAdvancing derived from nextEpisodeTitle', () {
-      const idle = PlaybackState();
-      expect(idle.isAdvancing, isFalse);
-
-      const advancing = PlaybackState(nextEpisodeTitle: 'Folge 3');
-      expect(advancing.isAdvancing, isTrue);
     });
   });
 

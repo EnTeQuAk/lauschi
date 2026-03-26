@@ -53,8 +53,6 @@ class PlaybackState {
     this.positionMs = 0,
     this.durationMs = 0,
     this.error,
-    this.nextEpisodeTitle,
-    this.nextEpisodeCoverUrl,
     this.activeCardId,
     this.activeContextUri,
     this.activeGroupId,
@@ -83,13 +81,6 @@ class PlaybackState {
   /// to user-facing text.
   final PlayerError? error;
 
-  /// Title of the next episode about to auto-play. Shown briefly during
-  /// the advance delay. Null when no advance is pending.
-  final String? nextEpisodeTitle;
-
-  /// Cover art URL of the next episode (for non-reading kids).
-  final String? nextEpisodeCoverUrl;
-
   /// ID of the card currently being played.
   final String? activeCardId;
 
@@ -97,12 +88,9 @@ class PlaybackState {
   /// the active card in the grid.
   final String? activeContextUri;
 
-  /// Group ID for auto-advance. When set, completing an episode
-  /// auto-plays the next unheard episode in the series.
+  /// Group ID of the tile containing the active episode.
+  /// Used for mark-heard and position clearing on completion.
   final String? activeGroupId;
-
-  /// Whether an auto-advance to the next episode is pending.
-  bool get isAdvancing => nextEpisodeTitle != null;
 
   /// Copy with optional field clearing.
   ///
@@ -115,9 +103,6 @@ class PlaybackState {
     int? positionMs,
     int? durationMs,
     PlayerError? error,
-    String? nextEpisodeTitle,
-    String? nextEpisodeCoverUrl,
-    bool clearNextEpisode = false,
     String? activeCardId,
     bool clearActiveCard = false,
     String? activeContextUri,
@@ -133,12 +118,6 @@ class PlaybackState {
       positionMs: positionMs ?? this.positionMs,
       durationMs: durationMs ?? this.durationMs,
       error: error,
-      nextEpisodeTitle:
-          clearNextEpisode ? null : (nextEpisodeTitle ?? this.nextEpisodeTitle),
-      nextEpisodeCoverUrl:
-          clearNextEpisode
-              ? null
-              : (nextEpisodeCoverUrl ?? this.nextEpisodeCoverUrl),
       activeCardId:
           clearActiveCard ? null : (activeCardId ?? this.activeCardId),
       activeContextUri:

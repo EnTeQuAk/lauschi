@@ -7,7 +7,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
 import 'package:lauschi/features/player/player_provider.dart';
 import 'package:lauschi/features/player/player_state.dart';
-import 'package:lauschi/features/player/widgets/next_episode_preview.dart';
 import 'package:lauschi/features/player/widgets/player_error_dialog.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -48,8 +47,7 @@ class _PlayerScreenState extends ConsumerState<PlayerScreen> {
           track: s.track,
           isPlaying: s.isPlaying,
           isLoading: s.isLoading,
-          isAdvancing: s.isAdvancing,
-          nextEpisodeCoverUrl: s.nextEpisodeCoverUrl,
+
           durationMs: s.durationMs,
           positionMs: s.positionMs,
         ),
@@ -95,14 +93,7 @@ class _PlayerScreenState extends ConsumerState<PlayerScreen> {
                     ),
                     child: _TrackInfo(track: track),
                   ),
-                  // Auto-advance indicator: skip icon + next cover thumbnail
-                  if (state.isAdvancing)
-                    Padding(
-                      padding: const EdgeInsets.only(top: AppSpacing.md),
-                      child: NextEpisodePreview(
-                        coverUrl: state.nextEpisodeCoverUrl,
-                      ),
-                    ),
+
                   const SizedBox(height: AppSpacing.lg),
                   // Progress bar with its own ticker for smooth interpolation.
                   // Isolated to avoid rebuilding album art / controls at 60fps.

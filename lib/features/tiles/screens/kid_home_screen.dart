@@ -234,8 +234,6 @@ class KidHomeScreen extends ConsumerWidget {
                               (s) => (
                                 track: s.track,
                                 isPlaying: s.isPlaying,
-                                isAdvancing: s.isAdvancing,
-                                nextCover: s.nextEpisodeCoverUrl,
                               ),
                             ),
                           );
@@ -246,8 +244,6 @@ class KidHomeScreen extends ConsumerWidget {
                             key: const ValueKey('now-playing'),
                             track: s.track!,
                             isPlaying: s.isPlaying,
-                            isAdvancing: s.isAdvancing,
-                            nextEpisodeCoverUrl: s.nextCover,
                             onTap: () => context.push(AppRoutes.player),
                             onTogglePlay: playerNotifier.togglePlay,
                           );

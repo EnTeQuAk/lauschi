@@ -2,7 +2,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
 import 'package:lauschi/features/player/player_state.dart';
-import 'package:lauschi/features/player/widgets/next_episode_preview.dart';
 
 /// Compact now-playing bar shown at the bottom of the kid home screen.
 ///
@@ -14,15 +13,11 @@ class NowPlayingBar extends StatelessWidget {
     required this.isPlaying,
     required this.onTap,
     required this.onTogglePlay,
-    this.isAdvancing = false,
-    this.nextEpisodeCoverUrl,
     super.key,
   });
 
   final TrackInfo track;
   final bool isPlaying;
-  final bool isAdvancing;
-  final String? nextEpisodeCoverUrl;
   final VoidCallback onTap;
   final VoidCallback onTogglePlay;
 
@@ -101,14 +96,7 @@ class NowPlayingBar extends StatelessWidget {
                   ],
                 ),
               ),
-              // Next episode preview (icon + mini cover) during advance
-              if (isAdvancing) ...[
-                NextEpisodePreview(
-                  coverUrl: nextEpisodeCoverUrl,
-                  size: NextEpisodePreviewSize.compact,
-                ),
-                const SizedBox(width: AppSpacing.xs),
-              ],
+
               // Play/pause button
               Semantics(
                 label: isPlaying ? 'Pause' : 'Abspielen',
