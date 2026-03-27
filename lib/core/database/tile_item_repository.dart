@@ -170,6 +170,34 @@ class TileItemRepository {
     Log.info(_tag, 'Item deleted', data: {'id': id});
   }
 
+  /// Mark an item as unavailable (content removed or license expired).
+  Future<void> markUnavailable(String id) async {
+    await (_db.update(_db.cards)..where((t) => t.id.equals(id))).write(
+      CardsCompanion(markedUnavailable: Value(DateTime.now())),
+    );
+    Log.info(_tag, 'Item marked unavailable', data: {'id': id});
+  }
+
+  /// Clear the unavailable flag (content is back).
+  Future<void> clearUnavailable(String id) async {
+    await (_db.update(_db.cards)..where((t) => t.id.equals(id))).write(
+      const CardsCompanion(markedUnavailable: Value(null)),
+    );
+    Log.info(_tag, 'Item availability restored', data: {'id': id});
+  }
+
+  /// Get all items marked unavailable, optionally filtered to those
+  /// marked more than [olderThan] ago (for recheck scheduling).
+  Future<List<TileItem>> getUnavailable({Duration? olderThan}) {
+    final query = _db.select(_db.cards)
+      ..where((t) => t.markedUnavailable.isNotNull());
+    if (olderThan != null) {
+      final cutoff = DateTime.now().subtract(olderThan);
+      query.where((t) => t.markedUnavailable.isSmallerThanValue(cutoff));
+    }
+    return query.get();
+  }
+
   /// Delete all items.
   Future<void> deleteAll() async {
     await _db.delete(_db.cards).go();
@@ -368,10 +396,14 @@ final ungroupedItemsProvider = StreamProvider<List<TileItem>>((ref) {
   return ref.watch(tileItemRepositoryProvider).watchUngrouped();
 });
 
-/// Whether a [TileItem] has expired based on its `availableUntil` field.
-bool isItemExpired(TileItem item, {DateTime? now}) {
-  if (item.availableUntil == null) return false;
-  return item.availableUntil!.isBefore(now ?? DateTime.now());
+/// Whether the item is confirmed unavailable.
+///
+/// Only checks the `markedUnavailable` runtime flag, NOT `availableUntil`.
+/// ARD's `endDate` (stored as `availableUntil`) is an editorial broadcast
+/// window, not content removal. Audio URLs remain on CDN well past endDate.
+/// Use `markedUnavailable` for confirmed removal (set on playback failure).
+bool isItemExpired(TileItem item) {
+  return item.markedUnavailable != null;
 }
 
 /// Per-tile item counts and heard progress, derived from allTileItemsProvider.
@@ -381,12 +413,11 @@ final tileProgressProvider = Provider<Map<String, ({int total, int heard})>>((
   ref,
 ) {
   final items = ref.watch(allTileItemsProvider).value ?? [];
-  final now = DateTime.now();
   final result = <String, ({int total, int heard})>{};
   for (final item in items) {
     final tid = item.groupId;
     if (tid == null) continue;
-    if (isItemExpired(item, now: now)) continue;
+    if (isItemExpired(item)) continue;
     final prev = result[tid] ?? (total: 0, heard: 0);
     // For playlists, use the playlist's track count as the display total
     // instead of counting the playlist itself as 1 item. A tile with one

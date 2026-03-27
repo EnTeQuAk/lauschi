@@ -10,7 +10,7 @@ part 'app_database.g.dart';
 
 @DriftDatabase(tables: [Cards, Groups, NfcTags, ShowSubscriptions])
 class AppDatabase extends _$AppDatabase {
-  AppDatabase() : super(_openConnection());
+  AppDatabase([QueryExecutor? e]) : super(e ?? _openConnection());
 
   /// Test-only constructor for in-memory databases.
   @visibleForTesting
@@ -18,7 +18,7 @@ class AppDatabase extends _$AppDatabase {
 
   /// Bump when schema changes. See [migration] for upgrade steps.
   @override
-  int get schemaVersion => 10;
+  int get schemaVersion => 11;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -78,6 +78,11 @@ class AppDatabase extends _$AppDatabase {
             'CREATE INDEX IF NOT EXISTS idx_groups_parent_tile_id '
             'ON groups(parent_tile_id)',
           );
+        }
+        if (from < 11) {
+          // Content expiration: records when an item became unavailable.
+          // Null = available. Non-null = unavailable since that date.
+          await m.addColumn(cards, cards.markedUnavailable);
         }
         Log.info('Database', 'Migration complete');
       } on Exception catch (e, stack) {

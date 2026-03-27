@@ -177,6 +177,12 @@ class Cards extends Table {
   /// since there's no SDK to query.
   IntColumn get durationMs => integer().withDefault(const Constant(0))();
 
+  /// When this item was marked unavailable (content removed, license expired).
+  /// Null = available. Non-null = unavailable since this date.
+  /// Used for Spotify/Apple Music (runtime detection) and ARD (post-add expiry).
+  /// The date enables the 7-day recheck window for auto-recovery.
+  DateTimeColumn get markedUnavailable => dateTime().nullable()();
+
   // Playback resume state
   TextColumn get lastTrackUri => text().nullable()();
 

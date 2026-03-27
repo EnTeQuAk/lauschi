@@ -447,16 +447,15 @@ class TileRepository {
     return result.read(count) ?? 0;
   }
 
-  /// Get the first unheard, non-expired item in a tile (next episode).
+  /// Get the first unheard, available item in a tile (next episode).
+  /// Skips items confirmed unavailable via markedUnavailable flag.
   Future<TileItem?> nextUnheard(String tileId) {
-    final now = DateTime.now();
     return (_db.select(_db.cards)
           ..where(
             (t) =>
                 t.groupId.equals(tileId) &
                 t.isHeard.equals(false) &
-                (t.availableUntil.isNull() |
-                    t.availableUntil.isBiggerThanValue(now)),
+                t.markedUnavailable.isNull(),
           )
           ..orderBy([
             (t) => OrderingTerm.asc(t.episodeNumber),

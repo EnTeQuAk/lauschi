@@ -20,6 +20,7 @@ db.TileItem _card({
   String? groupId,
   String providerUri = 'spotify:album:test',
   DateTime? availableUntil,
+  DateTime? markedUnavailable,
 }) {
   return db.TileItem(
     id: id,
@@ -36,6 +37,7 @@ db.TileItem _card({
     lastTrackNumber: 0,
     lastPositionMs: 0,
     availableUntil: availableUntil,
+    markedUnavailable: markedUnavailable,
   );
 }
 
@@ -142,12 +144,12 @@ void main() {
     expect(find.byIcon(Icons.chevron_left_rounded), findsOneWidget);
   });
 
-  testWidgets('expired tiles are hidden from kids', (tester) async {
+  testWidgets('unavailable tiles are hidden from kids', (tester) async {
     final expiredCard = _card(
       id: 'expired-1',
       title: 'Expired Episode',
       providerUri: 'ard:item:expired',
-      availableUntil: DateTime(2025), // in the past
+      markedUnavailable: DateTime(2025), // confirmed unavailable
     );
     final validCard = _card(
       id: 'valid-1',

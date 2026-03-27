@@ -186,9 +186,7 @@ class TileDetailScreen extends ConsumerWidget {
 
                   // No children: show episodes (leaf tile, current behavior).
                   return episodesAsync.when(
-                    data: (allEpisodes) {
-                      final episodes =
-                          allEpisodes.where((e) => !isItemExpired(e)).toList();
+                    data: (episodes) {
                       if (episodes.isEmpty) {
                         return const _EmptyGroupState();
                       }
@@ -417,6 +415,80 @@ class _ChildTileGrid extends ConsumerWidget {
   }
 }
 
+/// Modal explaining why an episode is unavailable.
+/// Uses the confused fox mascot, same visual language as player errors.
+void _showExpiredModal(BuildContext context) {
+  unawaited(
+    showDialog<void>(
+      context: context,
+      builder:
+          (_) => Dialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(24),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(
+                AppSpacing.xl,
+                AppSpacing.xl,
+                AppSpacing.xl,
+                AppSpacing.lg,
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Image.asset(
+                    'assets/images/branding/lauschi-mascot.png',
+                    width: 80,
+                    height: 80,
+                  ),
+                  const SizedBox(height: AppSpacing.lg),
+                  const Text(
+                    'Gerade nicht verfügbar',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontFamily: 'Nunito',
+                      fontSize: 22,
+                      fontWeight: FontWeight.w700,
+                      color: AppColors.textPrimary,
+                    ),
+                  ),
+                  const SizedBox(height: AppSpacing.sm),
+                  const Text(
+                    'Diese Folge ist gerade nicht abrufbar. '
+                    'Manchmal werden Inhalte später wieder '
+                    'freigeschaltet.',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontFamily: 'Nunito',
+                      fontSize: 15,
+                      color: AppColors.textSecondary,
+                      height: 1.4,
+                    ),
+                  ),
+                  const SizedBox(height: AppSpacing.xl),
+                  SizedBox(
+                    width: double.infinity,
+                    height: 48,
+                    child: FilledButton(
+                      onPressed: () => Navigator.of(context).pop(),
+                      child: const Text(
+                        'Verstanden',
+                        style: TextStyle(
+                          fontFamily: 'Nunito',
+                          fontWeight: FontWeight.w700,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+    ),
+  );
+}
+
 class _EpisodeGrid extends StatefulWidget {
   const _EpisodeGrid({
     required this.episodes,
@@ -507,9 +579,12 @@ class _EpisodeGridState extends State<_EpisodeGrid> {
           itemCount: widget.episodes.length,
           itemBuilder: (context, index) {
             final card = widget.episodes[index];
+            final expired = isItemExpired(card);
             final isCurrentCard =
-                widget.isActive && widget.activeUri == card.providerUri;
-            final isNext = card.id == widget.nextUnheardId;
+                !expired &&
+                widget.isActive &&
+                widget.activeUri == card.providerUri;
+            final isNext = !expired && card.id == widget.nextUnheardId;
 
             return Stack(
               clipBehavior: Clip.none,
@@ -538,11 +613,15 @@ class _EpisodeGridState extends State<_EpisodeGrid> {
                   isPlaying: isCurrentCard && widget.isPlaying,
                   isPaused: isCurrentCard && !widget.isPlaying,
                   isHeard: card.isHeard,
-                  progress: _albumProgress(card),
+                  isExpired: expired,
+                  progress: expired ? 0 : _albumProgress(card),
                   kidMode: true,
                   episodeNumber: card.episodeNumber,
                   showEpisodeTitles: widget.showEpisodeTitles,
-                  onTap: () => widget.onCardTap(card),
+                  onTap:
+                      expired
+                          ? () => _showExpiredModal(context)
+                          : () => widget.onCardTap(card),
                 ),
                 // "Weiter" badge on next unheard episode
                 if (isNext)

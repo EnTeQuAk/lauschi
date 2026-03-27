@@ -304,9 +304,11 @@ class PlayerNotifier extends _$PlayerNotifier {
       return;
     }
 
-    // Check content expiration.
-    if (card.availableUntil != null &&
-        card.availableUntil!.isBefore(DateTime.now())) {
+    // Block playback only for items explicitly marked unavailable (runtime
+    // detection). We do NOT block on availableUntil alone because ARD's
+    // endDate is an editorial broadcast window, not content removal.
+    // Audio URLs remain accessible on CDN well past endDate.
+    if (card.markedUnavailable != null) {
       state = state.copyWith(
         error: PlayerError.contentUnavailable,
       );

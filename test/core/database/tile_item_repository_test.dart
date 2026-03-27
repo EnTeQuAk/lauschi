@@ -266,4 +266,111 @@ void main() {
       expect(cards.first.spotifyArtistIds, 'artist1');
     },
   );
+
+  // ─── Content expiration ───────────────────────────────────────────
+
+  // isItemExpired only checks markedUnavailable (runtime flag).
+  // availableUntil is informational; ARD's endDate is unreliable.
+  group('isItemExpired', () {
+    test('not expired when neither field set', () async {
+      final id = await repo.insert(
+        title: 'Normal Track',
+        providerUri: 'spotify:track:abc',
+        cardType: 'album',
+      );
+      final card = (await repo.getAll()).firstWhere((c) => c.id == id);
+      expect(isItemExpired(card), isFalse);
+    });
+
+    test('not expired when only availableUntil is in the past', () async {
+      // availableUntil alone does NOT make an item expired.
+      // ARD CDN keeps serving audio well past endDate.
+      final id = await repo.insertArdEpisode(
+        title: 'Past endDate',
+        providerUri: 'ard:past',
+        audioUrl: 'https://example.com/past.mp3',
+        availableUntil: DateTime.now().subtract(const Duration(days: 1)),
+      );
+      final card = (await repo.getAll()).firstWhere((c) => c.id == id);
+      expect(isItemExpired(card), isFalse);
+    });
+
+    test('expired when markedUnavailable is set', () async {
+      final id = await repo.insert(
+        title: 'Removed',
+        providerUri: 'spotify:track:removed',
+        cardType: 'album',
+      );
+      await repo.markUnavailable(id);
+      final card = (await repo.getAll()).firstWhere((c) => c.id == id);
+      expect(isItemExpired(card), isTrue);
+    });
+  });
+
+  group('markUnavailable and clearUnavailable', () {
+    test('markUnavailable sets the flag', () async {
+      final id = await repo.insert(
+        title: 'Mark Test',
+        providerUri: 'spotify:track:mark',
+        cardType: 'album',
+      );
+
+      await repo.markUnavailable(id);
+      final card = (await repo.getAll()).firstWhere((c) => c.id == id);
+      expect(card.markedUnavailable, isNotNull);
+    });
+
+    test('clearUnavailable removes the flag', () async {
+      final id = await repo.insert(
+        title: 'Clear Test',
+        providerUri: 'spotify:track:clear',
+        cardType: 'album',
+      );
+
+      await repo.markUnavailable(id);
+      await repo.clearUnavailable(id);
+      final card = (await repo.getAll()).firstWhere((c) => c.id == id);
+      expect(card.markedUnavailable, isNull);
+      expect(isItemExpired(card), isFalse);
+    });
+  });
+
+  group('getUnavailable', () {
+    test('returns only items with markedUnavailable set', () async {
+      await repo.insert(
+        title: 'Available',
+        providerUri: 'ard:ok',
+        cardType: 'episode',
+      );
+      final removedId = await repo.insert(
+        title: 'Removed',
+        providerUri: 'spotify:track:gone',
+        cardType: 'album',
+      );
+      await repo.markUnavailable(removedId);
+
+      final unavailable = await repo.getUnavailable();
+      expect(unavailable, hasLength(1));
+      expect(unavailable.first.id, removedId);
+    });
+
+    test('olderThan filters by mark age', () async {
+      final id = await repo.insert(
+        title: 'Old Mark',
+        providerUri: 'spotify:track:old',
+        cardType: 'album',
+      );
+      await repo.markUnavailable(id);
+
+      // Marked just now, so "older than 7 days" should return nothing.
+      final recent = await repo.getUnavailable(
+        olderThan: const Duration(days: 7),
+      );
+      expect(recent, isEmpty);
+
+      // No olderThan filter returns everything.
+      final all = await repo.getUnavailable();
+      expect(all, hasLength(1));
+    });
+  });
 }

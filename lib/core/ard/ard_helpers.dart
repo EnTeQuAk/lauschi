@@ -26,7 +26,6 @@ PendingCard ardPendingCard(ArdItem item) {
     episodeNumber: item.episodeNumber,
     audioUrl: item.bestAudioUrl,
     durationMs: item.durationMs,
-    availableUntil: item.endDate,
   );
 }
 
@@ -40,12 +39,4 @@ String formatDuration(int seconds) {
   final rm = m % 60;
   if (rm == 0) return '${h}h';
   return '${h}h ${rm}m';
-}
-
-/// Days remaining until [endDate], or null if already expired or no date given.
-int? daysUntilExpiry(DateTime? endDate) {
-  if (endDate == null) return null;
-  final days = endDate.difference(DateTime.now()).inDays;
-  if (days < 0) return null;
-  return days;
 }

@@ -362,7 +362,6 @@ PendingCard _ardPendingCard(ArdItem item) {
     episodeNumber: item.episodeNumber,
     audioUrl: item.bestAudioUrl,
     durationMs: item.durationMs,
-    availableUntil: item.endDate,
   );
 }
 
@@ -477,7 +476,6 @@ class _EpisodeTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final daysLeft = daysUntilExpiry(item.endDate);
     final episodeImageUrl = ardImageUrl(item.imageUrl, width: 112);
     final fallbackUrl = ardImageUrl(showImageUrl, width: 112);
 
@@ -576,10 +574,6 @@ class _EpisodeTile extends StatelessWidget {
               ),
             ),
           ],
-          if (daysLeft != null) ...[
-            const Spacer(),
-            _ExpiryBadge(daysLeft: daysLeft),
-          ],
         ],
       ),
       enabled: enabled && !alreadyAdded && !isAdding,
@@ -608,37 +602,6 @@ class _TruncationNotice extends StatelessWidget {
           color: AppColors.textSecondary,
         ),
         textAlign: TextAlign.center,
-      ),
-    );
-  }
-}
-
-// ── Expiry badge ────────────────────────────────────────────────────────────
-
-class _ExpiryBadge extends StatelessWidget {
-  const _ExpiryBadge({required this.daysLeft});
-  final int daysLeft;
-
-  @override
-  Widget build(BuildContext context) {
-    final color = daysLeft <= 14 ? AppColors.warning : AppColors.textSecondary;
-    return Container(
-      padding: const EdgeInsets.symmetric(
-        horizontal: AppSpacing.sm,
-        vertical: 2,
-      ),
-      decoration: BoxDecoration(
-        color: color.withAlpha(25),
-        borderRadius: const BorderRadius.all(Radius.circular(4)),
-      ),
-      child: Text(
-        'Noch $daysLeft T.',
-        style: TextStyle(
-          fontFamily: 'Nunito',
-          fontSize: 10,
-          fontWeight: FontWeight.w600,
-          color: color,
-        ),
       ),
     );
   }

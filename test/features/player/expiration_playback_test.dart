@@ -3,16 +3,12 @@ import 'package:lauschi/core/database/app_database.dart';
 import 'package:lauschi/core/database/tile_item_repository.dart';
 import 'package:lauschi/features/player/player_error.dart';
 
-/// Test that position data survives expiration.
-///
-/// The key guarantee: when content expires, we don't touch the item's
-/// lastPositionMs, lastTrackUri, isHeard fields. If the content comes
-/// back (ARD sometimes extends availability), the user resumes where
-/// they left off.
+/// Test that position data survives expiration and that the expiration
+/// semantics are correct (only markedUnavailable, not availableUntil).
 void main() {
   group('expiration preserves playback state', () {
-    test('expired item retains position data', () {
-      // Simulate an item that was being listened to, then expired.
+    test('unavailable item retains position data', () {
+      // Simulate an item that was being listened to, then marked unavailable.
       final item = TileItem(
         id: 'item-1',
         title: 'Pumuckl Folge 3',
@@ -27,19 +23,40 @@ void main() {
         lastTrackUri: 'ard:item:12345',
         durationMs: 1800000, // 30 min episode
         createdAt: DateTime(2025),
-        availableUntil: DateTime(2025, 2), // expired
+        markedUnavailable: DateTime(2025, 2),
         lastPlayedAt: DateTime(2025, 1, 28),
         groupId: 'tile-pumuckl',
       );
 
-      // Item is expired...
-      expect(isItemExpired(item, now: DateTime(2025, 3)), isTrue);
+      expect(isItemExpired(item), isTrue);
 
-      // ...but position data is intact.
+      // Position data is intact for when content comes back.
       expect(item.lastPositionMs, 450000);
       expect(item.lastTrackUri, 'ard:item:12345');
       expect(item.lastPlayedAt, isNotNull);
       expect(item.isHeard, isFalse);
+    });
+
+    test('availableUntil in the past does NOT make item expired', () {
+      // ARD's endDate is an editorial broadcast window, not content removal.
+      // Audio URLs remain on CDN well past endDate.
+      final item = TileItem(
+        id: 'item-2',
+        title: 'Gute Nacht mit der Maus',
+        cardType: 'episode',
+        provider: 'ard_audiothek',
+        providerUri: 'ard:item:67890',
+        sortOrder: 0,
+        isHeard: false,
+        totalTracks: 0,
+        lastTrackNumber: 0,
+        lastPositionMs: 0,
+        durationMs: 1320000,
+        createdAt: DateTime(2025),
+        availableUntil: DateTime(2025, 2), // past, but audio still works
+      );
+
+      expect(isItemExpired(item), isFalse);
     });
 
     test(
@@ -71,7 +88,7 @@ void main() {
       },
     );
 
-    test('Spotify items never expire (availableUntil is null)', () {
+    test('Spotify items without markedUnavailable are not expired', () {
       final item = TileItem(
         id: 'spotify-item',
         title: 'TKKG Folge 1',
@@ -88,6 +105,7 @@ void main() {
       );
 
       expect(item.availableUntil, isNull);
+      expect(item.markedUnavailable, isNull);
       expect(isItemExpired(item), isFalse);
     });
   });

@@ -71,8 +71,7 @@ class FeaturedItem {
   String? get imageUrl => primary.imageUrl;
   DateTime get publishDate => primary.publishDate;
 
-  /// Earliest expiry across all parts. If any part expires, the
-  /// whole item should be treated as expiring then.
+  /// Earliest endDate across all parts, or null.
   DateTime? get endDate {
     final dates = parts.map((p) => p.endDate).whereType<DateTime>();
     if (dates.isEmpty) return null;
@@ -148,6 +147,7 @@ Future<List<FeaturedItem>> _fetchFeaturedItems(ArdApi api) async {
 
         // endDate is the editorial broadcast window, NOT content removal.
         // Audio URLs remain accessible on CDN after endDate passes.
+        // Verified: WDR shows have 1-day windows but CDN serves for weeks.
         return page.items
             .where(
               (item) =>

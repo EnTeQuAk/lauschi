@@ -12,7 +12,6 @@ import 'package:lauschi/core/log.dart';
 import 'package:lauschi/core/router/app_router.dart';
 import 'package:lauschi/core/spotify/spotify_session.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
-import 'package:lauschi/features/parent/widgets/expiry_label.dart';
 import 'package:lauschi/features/tiles/screens/tile_detail_screen.dart';
 
 const _tag = 'TileEditScreen';
@@ -813,21 +812,6 @@ class _EpisodeTile extends ConsumerWidget {
             fontFamily: 'Nunito',
             fontSize: 12,
             color: AppColors.success,
-          ),
-        ),
-      );
-    }
-
-    final expiry = expiryLabel(card.availableUntil);
-    if (expiry != null) {
-      if (spans.isNotEmpty) spans.add(const TextSpan(text: '  ·  '));
-      spans.add(
-        TextSpan(
-          text: expiry.text,
-          style: TextStyle(
-            fontFamily: 'Nunito',
-            fontSize: 12,
-            color: expiry.color,
           ),
         ),
       );

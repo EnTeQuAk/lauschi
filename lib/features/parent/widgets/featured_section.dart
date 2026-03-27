@@ -71,7 +71,6 @@ class FeaturedHeroCard extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final imageUrl = ardImageUrl(item.imageUrl, width: 800);
-    final daysLeft = _daysUntilExpiry(item.endDate);
     final existingUris = ref.watch(existingItemUrisProvider);
     final isImporting = ref.watch(contentImporterProvider);
     final allAdded = item.parts.every(
@@ -162,10 +161,9 @@ class FeaturedHeroCard extends ConsumerWidget {
 
                   const SizedBox(height: AppSpacing.sm),
 
-                  // Bottom row: expiry + add button
+                  // Bottom row: add button
                   Row(
                     children: [
-                      if (daysLeft != null) _ExpiryChip(daysLeft: daysLeft),
                       const Spacer(),
                       if (allAdded)
                         const Icon(
@@ -256,7 +254,6 @@ class _FeaturedTile extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final imageUrl = ardImageUrl(item.imageUrl, width: 300);
-    final daysLeft = _daysUntilExpiry(item.endDate);
     final existingUris = ref.watch(existingItemUrisProvider);
     final allAdded = item.parts.every(
       (p) => existingUris.contains(p.providerUri),
@@ -327,21 +324,6 @@ class _FeaturedTile extends ConsumerWidget {
                 color: AppColors.textSecondary,
               ),
             ),
-
-            // Expiry
-            if (daysLeft != null)
-              Text(
-                'Noch $daysLeft T.',
-                style: TextStyle(
-                  fontFamily: 'Nunito',
-                  fontSize: 10,
-                  fontWeight: FontWeight.w600,
-                  color:
-                      daysLeft <= 14
-                          ? AppColors.warning
-                          : AppColors.textSecondary,
-                ),
-              ),
           ],
         ),
       ),
@@ -393,35 +375,6 @@ class _AddButton extends StatelessWidget {
   }
 }
 
-class _ExpiryChip extends StatelessWidget {
-  const _ExpiryChip({required this.daysLeft});
-  final int daysLeft;
-
-  @override
-  Widget build(BuildContext context) {
-    final color = daysLeft <= 14 ? AppColors.warning : Colors.white70;
-    return Container(
-      padding: const EdgeInsets.symmetric(
-        horizontal: AppSpacing.sm,
-        vertical: 2,
-      ),
-      decoration: BoxDecoration(
-        color: color.withAlpha(40),
-        borderRadius: BorderRadius.circular(4),
-      ),
-      child: Text(
-        'Noch $daysLeft Tage',
-        style: TextStyle(
-          fontFamily: 'Nunito',
-          fontSize: 10,
-          fontWeight: FontWeight.w600,
-          color: color,
-        ),
-      ),
-    );
-  }
-}
-
 // ── Helpers ──────────────────────────────────────────────────────────────────
 
 PendingCard _ardPendingCard(ArdItem item) {
@@ -434,7 +387,6 @@ PendingCard _ardPendingCard(ArdItem item) {
     episodeNumber: item.episodeNumber,
     audioUrl: item.bestAudioUrl,
     durationMs: item.durationMs,
-    availableUntil: item.endDate,
   );
 }
 
@@ -445,11 +397,4 @@ String _formatDuration(int seconds) {
   final rm = m % 60;
   if (rm == 0) return '${h}h';
   return '${h}h ${rm}m';
-}
-
-int? _daysUntilExpiry(DateTime? endDate) {
-  if (endDate == null) return null;
-  final days = endDate.difference(DateTime.now()).inDays;
-  if (days < 0) return null;
-  return days;
 }
