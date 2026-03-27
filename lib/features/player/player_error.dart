@@ -122,9 +122,6 @@ enum ErrorCategory {
   /// Confused fox mascot, shared by all error categories.
   static const asset = 'assets/images/branding/lauschi-confused.png';
 
-  /// Fallback while the mascot PNG isn't bundled yet.
-  static const fallbackEmoji = '🤔';
-
   /// Kid-friendly headline in large text.
   final String headline;
 

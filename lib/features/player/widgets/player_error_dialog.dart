@@ -52,9 +52,11 @@ class _PlayerErrorDialog extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             // Mascot illustration (falls back to emoji)
-            const _MascotImage(
-              asset: ErrorCategory.asset,
-              fallbackEmoji: ErrorCategory.fallbackEmoji,
+            Image.asset(
+              ErrorCategory.asset,
+              width: 140,
+              height: 140,
+              excludeFromSemantics: true,
             ),
             const SizedBox(height: AppSpacing.lg),
 
@@ -140,40 +142,6 @@ class _PlayerErrorDialog extends StatelessWidget {
             ),
           ],
         ),
-      ),
-    );
-  }
-}
-
-/// Shows the mascot PNG if it exists, otherwise falls back to a large emoji.
-///
-/// Uses `Image.asset` with an `errorBuilder` so missing PNGs (mascots
-/// not yet illustrated) degrade gracefully without crashing.
-class _MascotImage extends StatelessWidget {
-  const _MascotImage({required this.asset, required this.fallbackEmoji});
-
-  final String asset;
-  final String fallbackEmoji;
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: 140,
-      height: 140,
-      child: Image.asset(
-        asset,
-        width: 140,
-        height: 140,
-        excludeFromSemantics: true,
-        errorBuilder:
-            (_, error, stack) => ExcludeSemantics(
-              child: Center(
-                child: Text(
-                  fallbackEmoji,
-                  style: const TextStyle(fontSize: 64),
-                ),
-              ),
-            ),
       ),
     );
   }
