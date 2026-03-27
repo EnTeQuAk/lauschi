@@ -437,7 +437,7 @@ void _showExpiredModal(BuildContext context) {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Image.asset(
-                    'assets/images/branding/lauschi-mascot.png',
+                    'assets/images/branding/lauschi-confused.png',
                     width: 80,
                     height: 80,
                   ),
