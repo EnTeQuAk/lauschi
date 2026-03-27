@@ -111,6 +111,7 @@ class _AudioCardState extends State<TileItem>
         onTapDown: widget.isExpired ? null : _handleTapDown,
         onTapUp: widget.isExpired ? null : _handleTapUp,
         onTapCancel: widget.isExpired ? null : _handleTapCancel,
+        onTap: widget.isExpired ? widget.onTap : null,
         child: AnimatedBuilder(
           animation: _scaleAnimation,
           builder:
@@ -143,7 +144,18 @@ class _AudioCardState extends State<TileItem>
       child: Stack(
         fit: StackFit.expand,
         children: [
-          _CoverImage(url: widget.coverUrl),
+          if (widget.isExpired)
+            ColorFiltered(
+              colorFilter: const ColorFilter.matrix(<double>[
+                0.2126, 0.7152, 0.0722, 0, 0, //
+                0.2126, 0.7152, 0.0722, 0, 0,
+                0.2126, 0.7152, 0.0722, 0, 0,
+                0, 0, 0, 1, 0,
+              ]),
+              child: _CoverImage(url: widget.coverUrl),
+            )
+          else
+            _CoverImage(url: widget.coverUrl),
           if (widget.isExpired) const _ExpiredOverlay(),
           if (widget.isHeard &&
               !widget.isExpired &&
@@ -386,7 +398,9 @@ class _HeardBadge extends StatelessWidget {
   }
 }
 
-/// Greyed-out overlay for expired content.
+/// White wash overlay for unavailable content.
+/// Combined with the grayscale filter on the image, this makes the
+/// tile look clearly faded/disabled.
 class _ExpiredOverlay extends StatelessWidget {
   const _ExpiredOverlay();
 
@@ -394,7 +408,7 @@ class _ExpiredOverlay extends StatelessWidget {
   Widget build(BuildContext context) {
     return Positioned.fill(
       child: ColoredBox(
-        color: AppColors.textPrimary.withValues(alpha: 0.5),
+        color: AppColors.surface.withValues(alpha: 0.6),
       ),
     );
   }
