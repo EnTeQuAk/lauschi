@@ -1,5 +1,16 @@
 # Changelog
 
+## v2026.3.47 (März 2026)
+
+⏳ **Nicht verfügbare Inhalte**
+Wenn ein Inhalt nicht mehr abrufbar ist, wird die Kachel ausgegraut statt versteckt. Kinder sehen, dass die Folge noch da ist, aber gerade nicht geht. Beim Antippen erklärt der verwirrte Fuchs, was los ist.
+
+🗄️ **Ablauf-Badges entfernt**
+Die "Noch X Tage" Anzeige war unzuverlässig (ARD-Sender verwenden das Feld unterschiedlich). Stattdessen erkennt die App jetzt zur Laufzeit, ob ein Inhalt wirklich weg ist.
+
+🧹 **Aufgeräumt**
+Nicht mehr benötigte Expiry-Widgets und toten Code entfernt.
+
 ## v2026.3.44 (März 2026)
 
 🔧 **Spotify-Wiedergabe repariert**
