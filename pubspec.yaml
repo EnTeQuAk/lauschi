@@ -1,7 +1,7 @@
 name: lauschi
 description: "Kids audio player — a curated card-based interface around Spotify/Apple Music."
 publish_to: 'none'
-version: 2026.3.48+1
+version: 2026.3.49+1
 
 environment:
   sdk: ^3.7.0
