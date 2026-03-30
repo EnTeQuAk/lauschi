@@ -109,12 +109,16 @@ class MediaSessionHandler extends BaseAudioHandler with SeekHandler {
       if (hasNextTrack) MediaControl.skipToNext,
     ];
 
+    // Compact notification shows prev + play/pause (+ next when available).
+    // Index 2 is only valid when skipToNext is in the controls list.
+    final compactIndices = hasNextTrack ? const [0, 1, 2] : const [0, 1];
+
     // Update playback state (controls, position, playing).
     playbackState.add(
       PlaybackState(
         controls: controls,
         systemActions: const {MediaAction.seek},
-        androidCompactActionIndices: const [0, 1, 2],
+        androidCompactActionIndices: compactIndices,
         processingState:
             appState.isReady
                 ? AudioProcessingState.ready
