@@ -18,65 +18,68 @@ class ImportProgressDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Dialog(
-      child: Padding(
-        padding: const EdgeInsets.all(AppSpacing.xl),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            ValueListenableBuilder<String>(
-              valueListenable: status,
-              builder:
-                  (_, text, _) => Text(
-                    text,
-                    style: const TextStyle(
-                      fontFamily: 'Nunito',
-                      fontWeight: FontWeight.w700,
-                      fontSize: 15,
-                    ),
-                  ),
-            ),
-            const SizedBox(height: AppSpacing.md),
-            ValueListenableBuilder<(int, int)>(
-              valueListenable: progress,
-              builder: (_, pair, _) {
-                final (done, total) = pair;
-                if (total == 0) {
-                  return const LinearProgressIndicator(
-                    minHeight: 6,
-                    backgroundColor: AppColors.surfaceDim,
-                    valueColor: AlwaysStoppedAnimation<Color>(
-                      AppColors.primary,
-                    ),
-                  );
-                }
-                return Column(
-                  children: [
-                    ClipRRect(
-                      borderRadius: const BorderRadius.all(AppRadius.pill),
-                      child: LinearProgressIndicator(
-                        value: done / total,
-                        minHeight: 6,
-                        backgroundColor: AppColors.surfaceDim,
-                        valueColor: const AlwaysStoppedAnimation<Color>(
-                          AppColors.primary,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: AppSpacing.sm),
-                    Text(
-                      '$done von $total',
+    return PopScope(
+      canPop: false,
+      child: Dialog(
+        child: Padding(
+          padding: const EdgeInsets.all(AppSpacing.xl),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ValueListenableBuilder<String>(
+                valueListenable: status,
+                builder:
+                    (_, text, _) => Text(
+                      text,
                       style: const TextStyle(
                         fontFamily: 'Nunito',
-                        fontSize: 13,
-                        color: AppColors.textSecondary,
+                        fontWeight: FontWeight.w700,
+                        fontSize: 15,
                       ),
                     ),
-                  ],
-                );
-              },
-            ),
-          ],
+              ),
+              const SizedBox(height: AppSpacing.md),
+              ValueListenableBuilder<(int, int)>(
+                valueListenable: progress,
+                builder: (_, pair, _) {
+                  final (done, total) = pair;
+                  if (total == 0) {
+                    return const LinearProgressIndicator(
+                      minHeight: 6,
+                      backgroundColor: AppColors.surfaceDim,
+                      valueColor: AlwaysStoppedAnimation<Color>(
+                        AppColors.primary,
+                      ),
+                    );
+                  }
+                  return Column(
+                    children: [
+                      ClipRRect(
+                        borderRadius: const BorderRadius.all(AppRadius.pill),
+                        child: LinearProgressIndicator(
+                          value: done / total,
+                          minHeight: 6,
+                          backgroundColor: AppColors.surfaceDim,
+                          valueColor: const AlwaysStoppedAnimation<Color>(
+                            AppColors.primary,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: AppSpacing.sm),
+                      Text(
+                        '$done von $total',
+                        style: const TextStyle(
+                          fontFamily: 'Nunito',
+                          fontSize: 13,
+                          color: AppColors.textSecondary,
+                        ),
+                      ),
+                    ],
+                  );
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );
