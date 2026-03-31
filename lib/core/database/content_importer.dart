@@ -1,3 +1,7 @@
+import 'package:lauschi/core/ard/ard_api.dart';
+import 'package:lauschi/core/ard/ard_helpers.dart';
+import 'package:lauschi/core/ard/ard_image.dart';
+import 'package:lauschi/core/ard/ard_models.dart';
 import 'package:lauschi/core/database/tile_item_repository.dart';
 import 'package:lauschi/core/database/tile_repository.dart';
 import 'package:lauschi/core/log.dart';
@@ -8,8 +12,7 @@ part 'content_importer.g.dart';
 
 const _tag = 'ContentImporter';
 
-/// A pending card to be imported. Provider-agnostic — both ARD and Spotify
-/// screens build these from their respective data models.
+/// A pending card to be imported. Provider-agnostic.
 class PendingCard {
   const PendingCard({
     required this.title,
@@ -50,30 +53,123 @@ class ImportResult {
   final String groupTitle;
 }
 
+// ── Import state ────────────────────────────────────────────────────────────
+
+sealed class ImportState {
+  const ImportState();
+  bool get isImporting => this is ImportRunning;
+}
+
+final class ImportIdle extends ImportState {
+  const ImportIdle();
+}
+
+final class ImportRunning extends ImportState {
+  const ImportRunning({
+    required this.showTitle,
+    required this.status,
+    this.done = 0,
+    this.total = 0,
+  });
+
+  final String showTitle;
+  final String status;
+  final int done;
+  final int total;
+}
+
+final class ImportDone extends ImportState {
+  const ImportDone({required this.added, required this.showTitle});
+
+  final int added;
+  final String showTitle;
+}
+
+final class ImportFailed extends ImportState {
+  const ImportFailed({required this.message});
+
+  final String message;
+}
+
+// ── Content importer ────────────────────────────────────────────────────────
+
 /// Shared content import logic for all providers.
 ///
 /// Handles find-or-create group, insert cards (skipping existing),
-/// and state tracking. Screens build [PendingCard] lists from their
-/// provider-specific models and call [importToGroup].
-///
-/// Per-item loading state (importingUris) is UI state and stays in screens.
-/// This notifier handles only domain operations and batch progress.
+/// state tracking, and ARD page loading. Lives outside the widget tree
+/// so imports survive navigation.
 @Riverpod(keepAlive: true)
 class ContentImporter extends _$ContentImporter {
   @override
-  bool build() => false; // true when a batch import is running
+  ImportState build() => const ImportIdle();
 
   TileItemRepository get _cardRepo => ref.read(tileItemRepositoryProvider);
   TileRepository get _groupRepo => ref.read(tileRepositoryProvider);
 
-  /// Import cards into a group, creating it if needed.
+  /// Import all episodes from an ARD show.
   ///
-  /// When [tileId] is set, cards are added directly to that tile
-  /// (auto-assign mode). Otherwise, a group is found or created by title.
+  /// Loads remaining pages from the API if needed, then imports all
+  /// playable episodes. Owns the full state lifecycle: idle -> running
+  /// -> done/failed.
+  Future<void> importArdShow({
+    required String showId,
+    required String showTitle,
+    required String? showImageUrl,
+    required List<ArdItem> loadedItems,
+    required bool hasMorePages,
+    String? endCursor,
+    String? tileId,
+  }) async {
+    if (state.isImporting) return;
+
+    state = ImportRunning(showTitle: showTitle, status: 'Lade $showTitle…');
+
+    var added = 0;
+    try {
+      var allItems = loadedItems;
+      if (hasMorePages && endCursor != null) {
+        final api = ref.read(ardApiProvider);
+        allItems = await _loadRemainingPages(
+          api,
+          showId,
+          loadedItems,
+          endCursor,
+        );
+      }
+
+      final playable = allItems.where((i) => i.bestAudioUrl != null).toList();
+      final cards = playable.map(ardPendingCard).toList();
+
+      added = await _insertCards(
+        groupTitle: showTitle,
+        groupCoverUrl: ardImageUrl(showImageUrl),
+        cards: cards,
+        tileId: tileId,
+        onProgress: (done, total) {
+          state = ImportRunning(
+            showTitle: showTitle,
+            status: 'Speichere $showTitle…',
+            done: done,
+            total: total,
+          );
+        },
+      );
+
+      state = ImportDone(added: added, showTitle: showTitle);
+    } on Exception catch (e) {
+      Log.error(_tag, 'ARD show import failed', exception: e);
+      state = ImportFailed(
+        message:
+            added > 0 ? '$added bereits hinzugefügt, dann Fehler: $e' : '$e',
+      );
+    }
+    _autoReset();
+  }
+
+  /// Import a batch of pre-built cards into a group.
   ///
-  /// [onProgress] is called after each card with (processed, total).
-  ///
-  /// Only one batch import at a time — concurrent calls are rejected.
+  /// For Spotify, Apple Music, featured section, and single-episode adds.
+  /// Owns the full state lifecycle when called directly.
   Future<ImportResult> importToGroup({
     required String groupTitle,
     required List<PendingCard> cards,
@@ -81,41 +177,119 @@ class ContentImporter extends _$ContentImporter {
     String? tileId,
     void Function(int done, int total)? onProgress,
   }) async {
-    if (state) return ImportResult(added: 0, groupTitle: groupTitle);
-    state = true;
+    if (state.isImporting) {
+      return ImportResult(added: 0, groupTitle: groupTitle);
+    }
 
+    state = ImportRunning(showTitle: groupTitle, status: 'Speichere…');
+
+    var added = 0;
     try {
-      final groupId =
-          tileId ?? await _findOrCreateGroup(groupTitle, groupCoverUrl);
-      final existingUris = ref.read(existingItemUrisProvider);
-
-      var added = 0;
-      for (var i = 0; i < cards.length; i++) {
-        final card = cards[i];
-        if (existingUris.contains(card.providerUri)) {
-          // Already exists — ensure it's in this group.
-          await _assignExistingToGroup(
-            card.providerUri,
-            groupId,
-            card.episodeNumber,
-          );
-        } else {
-          await _insertCard(card, groupId: groupId);
-          added++;
-        }
-        onProgress?.call(i + 1, cards.length);
-      }
-
-      Log.info(
-        _tag,
-        'Batch import complete',
-        data: {'group': groupTitle, 'added': '$added'},
+      added = await _insertCards(
+        groupTitle: groupTitle,
+        groupCoverUrl: groupCoverUrl,
+        cards: cards,
+        tileId: tileId,
+        onProgress: onProgress,
       );
 
+      state = ImportDone(added: added, showTitle: groupTitle);
+      _autoReset();
       return ImportResult(added: added, groupTitle: groupTitle);
-    } finally {
-      state = false;
+    } on Exception catch (e) {
+      state = ImportFailed(
+        message:
+            added > 0
+                ? '$added von ${cards.length} hinzugefügt, dann Fehler: $e'
+                : '$e',
+      );
+      _autoReset();
+      rethrow;
     }
+  }
+
+  // ── Private helpers ───────────────────────────────────────────────
+
+  /// Insert cards into a group. Pure DB work, no state management.
+  Future<int> _insertCards({
+    required String groupTitle,
+    required List<PendingCard> cards,
+    String? groupCoverUrl,
+    String? tileId,
+    void Function(int done, int total)? onProgress,
+  }) async {
+    final groupId =
+        tileId ?? await _findOrCreateGroup(groupTitle, groupCoverUrl);
+    final existingUris = ref.read(existingItemUrisProvider);
+
+    var added = 0;
+    for (var i = 0; i < cards.length; i++) {
+      final card = cards[i];
+      if (existingUris.contains(card.providerUri)) {
+        await _assignExistingToGroup(
+          card.providerUri,
+          groupId,
+          card.episodeNumber,
+        );
+      } else {
+        await _insertCard(card, groupId: groupId);
+        added++;
+      }
+      onProgress?.call(i + 1, cards.length);
+    }
+
+    Log.info(
+      _tag,
+      'Batch import complete',
+      data: {
+        'group': groupTitle,
+        'added': '$added',
+      },
+    );
+
+    return added;
+  }
+
+  Future<List<ArdItem>> _loadRemainingPages(
+    ArdApi api,
+    String showId,
+    List<ArdItem> initial,
+    String startCursor,
+  ) async {
+    final allItems = [...initial];
+    String? cursor = startCursor;
+
+    while (cursor != null) {
+      final page = await api.getItems(programSetId: showId, after: cursor);
+      allItems.addAll(page.items);
+      cursor = page.hasNextPage ? page.endCursor : null;
+    }
+
+    Log.debug(
+      _tag,
+      'All pages loaded',
+      data: {
+        'showId': showId,
+        'total': '${allItems.length}',
+      },
+    );
+    return allItems;
+  }
+
+  /// Reset to idle. Call from UI after handling ImportDone or ImportFailed.
+  void acknowledge() {
+    if (state is ImportDone || state is ImportFailed) {
+      state = const ImportIdle();
+    }
+  }
+
+  /// Auto-reset after 5s as safety net when no widget is listening.
+  void _autoReset() {
+    Future<void>.delayed(const Duration(seconds: 5), () {
+      if (state is ImportDone || state is ImportFailed) {
+        state = const ImportIdle();
+      }
+    });
   }
 
   Future<String> _findOrCreateGroup(String title, String? coverUrl) async {

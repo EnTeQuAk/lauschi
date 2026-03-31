@@ -6,7 +6,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:lauschi/features/player/player_error.dart';
 import 'package:lauschi/features/player/player_provider.dart';
 import 'package:lauschi/features/player/player_state.dart';
-import 'package:lauschi/features/player/screens/player_screen.dart';
+import 'package:lauschi/features/player/screens/player/screen.dart';
 
 import '../../helpers/fake_player_notifier.dart';
 
