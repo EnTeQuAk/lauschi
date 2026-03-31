@@ -203,6 +203,7 @@ TEST_TARGET="${1:-integration_test/}"
 echo "Running integration tests: $TEST_TARGET"
 adb shell media volume --set 0 2>/dev/null || echo "Warning: could not mute audio"
 
+export PATH="$HOME/.pub-cache/bin:$PATH"
 patrol test -t "$TEST_TARGET" --dart-define-from-file=.env.app
 """
 
