@@ -11,6 +11,7 @@ import 'package:lauschi/features/onboarding/screens/onboarding_screen.dart';
 import 'package:lauschi/features/parent/screens/add_content_screen.dart';
 import 'package:lauschi/features/parent/screens/ard_show_detail_screen.dart';
 import 'package:lauschi/features/parent/screens/browse_catalog_screen.dart';
+import 'package:lauschi/features/parent/screens/catalog_series_detail_screen.dart';
 import 'package:lauschi/features/parent/screens/discover_screen.dart';
 import 'package:lauschi/features/parent/screens/manage_cards_screen.dart';
 import 'package:lauschi/features/parent/screens/manage_tiles_screen.dart';

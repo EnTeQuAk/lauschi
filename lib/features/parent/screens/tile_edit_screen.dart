@@ -1,17 +1,16 @@
 import 'dart:async' show unawaited;
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lauschi/core/database/app_database.dart' as db;
 import 'package:lauschi/core/database/tile_item_repository.dart';
 import 'package:lauschi/core/database/tile_repository.dart';
-import 'package:lauschi/core/feature_flags.dart';
 import 'package:lauschi/core/log.dart';
 import 'package:lauschi/core/router/app_router.dart';
-import 'package:lauschi/core/spotify/spotify_session.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
+import 'package:lauschi/features/parent/widgets/tile_edit/cover_picker.dart';
+import 'package:lauschi/features/parent/widgets/tile_edit/episode_reorder_list.dart';
 import 'package:lauschi/features/tiles/screens/tile_detail_screen.dart';
 
 const _tag = 'TileEditScreen';
@@ -33,9 +32,6 @@ class _GroupEditScreenState extends ConsumerState<TileEditScreen> {
   late final TextEditingController _titleController;
   late final TextEditingController _coverController;
   bool _dirty = false;
-  // Set to true after the first data load. Prevents _onLoaded from
-  // overwriting user-edited values with stale stream data after _save()
-  // resets _dirty to false.
   bool _initialized = false;
 
   @override
@@ -53,7 +49,7 @@ class _GroupEditScreenState extends ConsumerState<TileEditScreen> {
   }
 
   void _onLoaded(db.Tile group) {
-    if (_initialized) return; // Controllers already set; don't clobber edits
+    if (_initialized) return;
     _titleController.text = group.title;
     _coverController.text = group.coverUrl ?? '';
     _initialized = true;
@@ -63,9 +59,7 @@ class _GroupEditScreenState extends ConsumerState<TileEditScreen> {
     Log.info(
       _tag,
       'Delete all cards dialog shown',
-      data: {
-        'tileId': widget.tileId,
-      },
+      data: {'tileId': widget.tileId},
     );
     unawaited(
       showDialog<void>(
@@ -91,10 +85,7 @@ class _GroupEditScreenState extends ConsumerState<TileEditScreen> {
                     Log.info(
                       _tag,
                       'All cards deleted',
-                      data: {
-                        'tileId': widget.tileId,
-                        'count': '$count',
-                      },
+                      data: {'tileId': widget.tileId, 'count': '$count'},
                     );
                     if (context.mounted) {
                       ScaffoldMessenger.of(context)
@@ -125,9 +116,7 @@ class _GroupEditScreenState extends ConsumerState<TileEditScreen> {
     Log.info(
       _tag,
       'Delete tile dialog shown',
-      data: {
-        'tileId': widget.tileId,
-      },
+      data: {'tileId': widget.tileId},
     );
     unawaited(
       showDialog<void>(
@@ -156,9 +145,7 @@ class _GroupEditScreenState extends ConsumerState<TileEditScreen> {
                     Log.info(
                       _tag,
                       'Tile deleted',
-                      data: {
-                        'tileId': widget.tileId,
-                      },
+                      data: {'tileId': widget.tileId},
                     );
                     if (context.mounted) {
                       if (context.canPop()) {
@@ -185,10 +172,7 @@ class _GroupEditScreenState extends ConsumerState<TileEditScreen> {
     Log.info(
       _tag,
       'Saving tile',
-      data: {
-        'tileId': widget.tileId,
-        'title': title,
-      },
+      data: {'tileId': widget.tileId, 'title': title},
     );
     await ref
         .read(tileRepositoryProvider)
@@ -253,7 +237,6 @@ class _GroupEditScreenState extends ConsumerState<TileEditScreen> {
     final episodeCovers =
         episodes.map((e) => e.coverUrl).whereType<String>().toSet().toList();
 
-    // Collect unique artist IDs from group's cards for artist image covers.
     final artistIds =
         episodes
             .map((e) => e.spotifyArtistIds)
@@ -331,7 +314,7 @@ class _GroupEditScreenState extends ConsumerState<TileEditScreen> {
                   textCapitalization: TextCapitalization.sentences,
                 ),
                 const SizedBox(height: AppSpacing.md),
-                _CoverPicker(
+                CoverPicker(
                   controller: _coverController,
                   episodeCovers: episodeCovers,
                   artistIds: artistIds,
@@ -382,7 +365,7 @@ class _GroupEditScreenState extends ConsumerState<TileEditScreen> {
                   (eps) =>
                       eps.isEmpty
                           ? const _EmptyEpisodesHint()
-                          : _EpisodeReorderList(
+                          : EpisodeReorderList(
                             tileId: widget.tileId,
                             episodes: eps,
                           ),
@@ -400,502 +383,8 @@ class _GroupEditScreenState extends ConsumerState<TileEditScreen> {
 }
 
 // ---------------------------------------------------------------------------
-// Cover picker: shows current cover, episode cover chips, and a URL fallback.
+// Empty episodes hint (inline, tiny)
 // ---------------------------------------------------------------------------
-
-class _CoverPicker extends ConsumerStatefulWidget {
-  const _CoverPicker({
-    required this.controller,
-    required this.episodeCovers,
-    required this.onChanged,
-    this.artistIds = const [],
-    this.onAutoSave,
-  });
-
-  final TextEditingController controller;
-
-  /// Distinct cover URLs already present in the group's episodes.
-  final List<String> episodeCovers;
-
-  /// Spotify artist IDs to fetch artist images from.
-  final List<String> artistIds;
-
-  /// Called when any cover value changes (marks the form dirty).
-  final VoidCallback onChanged;
-
-  /// Called immediately when an episode thumbnail is tapped — auto-saves
-  /// without requiring the user to tap a separate "Speichern" button.
-  final Future<void> Function()? onAutoSave;
-
-  @override
-  ConsumerState<_CoverPicker> createState() => _CoverPickerState();
-}
-
-class _CoverPickerState extends ConsumerState<_CoverPicker> {
-  String get _currentUrl => widget.controller.text.trim();
-  final _artistImages = <String>[];
-  bool _artistImagesFetched = false;
-
-  @override
-  void initState() {
-    super.initState();
-    unawaited(_fetchArtistImages());
-  }
-
-  @override
-  void didUpdateWidget(_CoverPicker oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (oldWidget.artistIds != widget.artistIds) {
-      _artistImagesFetched = false;
-      _artistImages.clear();
-      unawaited(_fetchArtistImages());
-    }
-  }
-
-  Future<void> _fetchArtistImages() async {
-    if (!FeatureFlags.enableSpotify) return;
-    if (widget.artistIds.isEmpty || _artistImagesFetched) return;
-    _artistImagesFetched = true;
-
-    final api = ref.read(spotifySessionProvider.notifier).api;
-
-    for (final id in widget.artistIds) {
-      try {
-        final url = await api.getArtistImage(id);
-        if (url != null && mounted) {
-          setState(() => _artistImages.add(url));
-        }
-      } on Exception {
-        // Artist image fetch is best-effort.
-      }
-    }
-  }
-
-  void _pickCover(String url) {
-    widget.controller.text = url;
-    widget.onChanged();
-    if (widget.onAutoSave != null) unawaited(widget.onAutoSave!());
-  }
-
-  void _clearCover() {
-    widget.controller.clear();
-    widget.onChanged();
-    if (widget.onAutoSave != null) unawaited(widget.onAutoSave!());
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          children: [
-            // Cover preview
-            ClipRRect(
-              borderRadius: const BorderRadius.all(AppRadius.card),
-              child: SizedBox(
-                width: 72,
-                height: 72,
-                child:
-                    _currentUrl.isNotEmpty
-                        ? CachedNetworkImage(
-                          imageUrl: _currentUrl,
-                          fit: BoxFit.cover,
-                          errorWidget: (_, _, _) => const _CoverPlaceholder(),
-                        )
-                        : const _CoverPlaceholder(),
-              ),
-            ),
-            const SizedBox(width: AppSpacing.md),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    'Kachel-Cover',
-                    style: TextStyle(
-                      fontFamily: 'Nunito',
-                      fontSize: 13,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                  const SizedBox(height: 2),
-                  Text(
-                    _currentUrl.isNotEmpty
-                        ? 'Tippe auf eine Folge unten zum Ändern'
-                        : 'Wähle das Cover einer Folge',
-                    style: const TextStyle(
-                      fontFamily: 'Nunito',
-                      fontSize: 12,
-                      color: AppColors.textSecondary,
-                    ),
-                  ),
-                  if (_currentUrl.isNotEmpty) ...[
-                    const SizedBox(height: 4),
-                    GestureDetector(
-                      onTap: _clearCover,
-                      child: const Text(
-                        'Entfernen',
-                        style: TextStyle(
-                          fontFamily: 'Nunito',
-                          fontSize: 12,
-                          color: AppColors.error,
-                        ),
-                      ),
-                    ),
-                  ],
-                ],
-              ),
-            ),
-          ],
-        ),
-
-        // Artist image covers
-        if (_artistImages.isNotEmpty)
-          _coverChipRow('Vom Künstler', _artistImages),
-
-        // Episode cover chips
-        if (widget.episodeCovers.isNotEmpty)
-          _coverChipRow('Von Folgen', widget.episodeCovers),
-      ],
-    );
-  }
-
-  Widget _coverChipRow(String label, List<String> urls) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const SizedBox(height: AppSpacing.sm),
-        Text(
-          label,
-          style: const TextStyle(
-            fontFamily: 'Nunito',
-            fontSize: 11,
-            color: AppColors.textSecondary,
-          ),
-        ),
-        const SizedBox(height: 4),
-        SizedBox(
-          height: 52,
-          child: ListView.separated(
-            scrollDirection: Axis.horizontal,
-            itemCount: urls.length,
-            separatorBuilder: (_, _) => const SizedBox(width: 6),
-            itemBuilder: (context, index) {
-              final url = urls[index];
-              final isSelected = _currentUrl == url;
-              return GestureDetector(
-                onTap: () => _pickCover(url),
-                child: Container(
-                  width: 52,
-                  height: 52,
-                  decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.all(AppRadius.card),
-                    border:
-                        isSelected
-                            ? Border.all(color: AppColors.primary, width: 2.5)
-                            : null,
-                  ),
-                  child: ClipRRect(
-                    borderRadius: const BorderRadius.all(AppRadius.card),
-                    child: CachedNetworkImage(
-                      imageUrl: url,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ),
-              );
-            },
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class _CoverPlaceholder extends StatelessWidget {
-  const _CoverPlaceholder();
-
-  @override
-  Widget build(BuildContext context) {
-    return const ColoredBox(
-      color: AppColors.surfaceDim,
-      child: Icon(
-        Icons.layers_rounded,
-        size: 32,
-        color: AppColors.textSecondary,
-      ),
-    );
-  }
-}
-
-class _EpisodeReorderList extends ConsumerWidget {
-  const _EpisodeReorderList({
-    required this.tileId,
-    required this.episodes,
-  });
-
-  final String tileId;
-  final List<db.TileItem> episodes;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return ReorderableListView.builder(
-      padding: const EdgeInsets.only(bottom: AppSpacing.fabClearance),
-      buildDefaultDragHandles: false,
-      proxyDecorator: (child, index, animation) {
-        return AnimatedBuilder(
-          animation: animation,
-          builder:
-              (context, child) => Material(
-                elevation: 4,
-                shadowColor: Colors.black26,
-                borderRadius: const BorderRadius.all(Radius.circular(8)),
-                child: child,
-              ),
-          child: child,
-        );
-      },
-      onReorder: (oldIndex, newIndex) {
-        final insertAt = newIndex > oldIndex ? newIndex - 1 : newIndex;
-        final reordered = List<db.TileItem>.from(episodes);
-        final item = reordered.removeAt(oldIndex);
-        reordered.insert(insertAt, item);
-        Log.info(
-          _tag,
-          'Episodes reordered',
-          data: {
-            'tileId': tileId,
-            'movedItem': item.id,
-            'from': '$oldIndex',
-            'to': '$insertAt',
-          },
-        );
-        unawaited(
-          ref
-              .read(tileItemRepositoryProvider)
-              .reorder(
-                reordered.map((c) => c.id).toList(),
-              ),
-        );
-      },
-      itemCount: episodes.length,
-      itemBuilder: (context, index) {
-        final card = episodes[index];
-        return _EpisodeTile(
-          key: ValueKey(card.id),
-          card: card,
-          index: index,
-          tileId: tileId,
-        );
-      },
-    );
-  }
-}
-
-class _EpisodeTile extends ConsumerWidget {
-  const _EpisodeTile({
-    required this.card,
-    required this.index,
-    required this.tileId,
-    super.key,
-  });
-
-  final db.TileItem card;
-  final int index;
-  final String tileId;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return ListTile(
-      tileColor: AppColors.parentSurface,
-      leading: ClipRRect(
-        borderRadius: const BorderRadius.all(Radius.circular(6)),
-        child: SizedBox(
-          width: 40,
-          height: 40,
-          child:
-              card.coverUrl != null
-                  ? CachedNetworkImage(
-                    imageUrl: card.coverUrl!,
-                    fit: BoxFit.cover,
-                    memCacheWidth: 80, // 40px @ 2x
-                    memCacheHeight: 80,
-                    fadeInDuration: Duration.zero,
-                    placeholder:
-                        (_, _) => const ColoredBox(
-                          color: AppColors.surfaceDim,
-                        ),
-                  )
-                  : const ColoredBox(
-                    color: AppColors.surfaceDim,
-                    child: Icon(Icons.music_note_rounded, size: 20),
-                  ),
-        ),
-      ),
-      title: Text(
-        card.customTitle ?? card.title,
-        maxLines: 1,
-        overflow: TextOverflow.ellipsis,
-        style: const TextStyle(
-          fontFamily: 'Nunito',
-          fontWeight: FontWeight.w600,
-          fontSize: 14,
-        ),
-      ),
-      subtitle: _buildSubtitle(),
-      trailing: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          PopupMenuButton<String>(
-            icon: const Icon(
-              Icons.more_vert_rounded,
-              color: AppColors.textSecondary,
-            ),
-            onSelected: (action) {
-              switch (action) {
-                case 'remove':
-                  _removeFromGroup(context, ref);
-                case 'delete':
-                  _deleteCard(context, ref);
-              }
-            },
-            itemBuilder:
-                (_) => const [
-                  PopupMenuItem(
-                    value: 'remove',
-                    child: Text('Aus Kachel entfernen'),
-                  ),
-                  PopupMenuItem(
-                    value: 'delete',
-                    child: Text(
-                      'Eintrag löschen',
-                      style: TextStyle(color: AppColors.error),
-                    ),
-                  ),
-                ],
-          ),
-          ReorderableDragStartListener(
-            index: index,
-            child: const Icon(
-              Icons.drag_handle_rounded,
-              color: AppColors.textSecondary,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget? _buildSubtitle() {
-    final spans = <InlineSpan>[];
-
-    if (card.episodeNumber != null) {
-      spans.add(
-        TextSpan(
-          text: 'Folge ${card.episodeNumber}',
-          style: const TextStyle(
-            fontFamily: 'Nunito',
-            fontSize: 12,
-            color: AppColors.textSecondary,
-          ),
-        ),
-      );
-    }
-
-    if (card.isHeard) {
-      if (spans.isNotEmpty) spans.add(const TextSpan(text: '  ·  '));
-      spans.add(
-        const TextSpan(
-          text: '✓ gehört',
-          style: TextStyle(
-            fontFamily: 'Nunito',
-            fontSize: 12,
-            color: AppColors.success,
-          ),
-        ),
-      );
-    }
-
-    if (spans.isEmpty) return null;
-    return Text.rich(TextSpan(children: spans));
-  }
-
-  void _removeFromGroup(BuildContext context, WidgetRef ref) {
-    unawaited(
-      showDialog<void>(
-        context: context,
-        builder:
-            (ctx) => AlertDialog(
-              title: const Text('Aus Kachel entfernen?'),
-              content: Text(
-                '„${card.customTitle ?? card.title}" wird aus der Kachel entfernt '
-                '(nicht gelöscht).',
-              ),
-              actions: [
-                TextButton(
-                  onPressed: () => Navigator.of(ctx).pop(),
-                  child: const Text('Abbrechen'),
-                ),
-                FilledButton(
-                  onPressed: () {
-                    Navigator.of(ctx).pop();
-                    Log.info(
-                      _tag,
-                      'Card removed from tile',
-                      data: {
-                        'cardId': card.id,
-                        'tileId': tileId,
-                      },
-                    );
-                    unawaited(
-                      ref
-                          .read(tileItemRepositoryProvider)
-                          .removeFromTile(card.id),
-                    );
-                  },
-                  child: const Text('Entfernen'),
-                ),
-              ],
-            ),
-      ),
-    );
-  }
-
-  void _deleteCard(BuildContext context, WidgetRef ref) {
-    unawaited(
-      showDialog<void>(
-        context: context,
-        builder:
-            (ctx) => AlertDialog(
-              title: const Text('Eintrag löschen?'),
-              content: Text(
-                '„${card.customTitle ?? card.title}" wird endgültig gelöscht.',
-              ),
-              actions: [
-                TextButton(
-                  onPressed: () => Navigator.of(ctx).pop(),
-                  child: const Text('Abbrechen'),
-                ),
-                FilledButton(
-                  onPressed: () {
-                    Navigator.of(ctx).pop();
-                    Log.info(_tag, 'Card deleted', data: {'cardId': card.id});
-                    unawaited(
-                      ref.read(tileItemRepositoryProvider).delete(card.id),
-                    );
-                  },
-                  style: FilledButton.styleFrom(
-                    backgroundColor: AppColors.error,
-                  ),
-                  child: const Text('Löschen'),
-                ),
-              ],
-            ),
-      ),
-    );
-  }
-}
 
 class _EmptyEpisodesHint extends StatelessWidget {
   const _EmptyEpisodesHint();

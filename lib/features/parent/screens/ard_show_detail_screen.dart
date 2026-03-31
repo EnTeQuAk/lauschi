@@ -1,10 +1,7 @@
 import 'dart:async' show unawaited;
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:lauschi/core/ard/ard_api.dart';
-import 'package:lauschi/core/ard/ard_helpers.dart';
 import 'package:lauschi/core/ard/ard_image.dart';
 import 'package:lauschi/core/ard/ard_models.dart';
 import 'package:lauschi/core/ard/ard_providers.dart';
@@ -13,7 +10,9 @@ import 'package:lauschi/core/database/tile_item_repository.dart';
 import 'package:lauschi/core/log.dart';
 import 'package:lauschi/core/providers/provider_type.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
-import 'package:lauschi/features/parent/widgets/import_progress_dialog.dart';
+import 'package:lauschi/features/parent/widgets/ard/ard_episode_tile.dart';
+import 'package:lauschi/features/parent/widgets/ard/ard_show_header.dart';
+import 'package:lauschi/features/parent/widgets/ard/ard_show_meta.dart';
 
 const _tag = 'ArdShowDetailScreen';
 
@@ -90,126 +89,80 @@ class _ArdShowDetailScreenState extends ConsumerState<ArdShowDetailScreen> {
     // takes over on next rebuild, preventing double-tap window.
   }
 
-  /// Add all episodes from the show.
-  Future<void> _addAll(ArdProgramSet show, List<ArdItem> items) async {
-    Log.info(
-      _tag,
-      'Adding all episodes',
-      data: {
-        'showId': show.id,
-        'showTitle': show.title,
-      },
-    );
-
-    final statusNotifier = ValueNotifier<String>('Lade ${show.title}…');
-    final progressNotifier = ValueNotifier<(int, int)>((0, 0));
-
-    if (mounted) {
-      unawaited(
-        showDialog<void>(
-          context: context,
-          barrierDismissible: false,
-          builder:
-              (_) => ImportProgressDialog(
-                status: statusNotifier,
-                progress: progressNotifier,
-              ),
-        ),
+  /// Add all episodes from the show via the provider-based importer.
+  void _addAll(ArdProgramSet show, List<ArdItem> items) {
+    if (ref.read(contentImporterProvider).isImporting) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Import läuft bereits.')),
       );
+      return;
     }
 
-    try {
-      // Load all pages if needed.
-      var allItems = items;
-      final page = ref
-          .read(ardShowEpisodesProvider(widget.showId))
-          .whenOrNull(data: (d) => d);
-      if (page != null && page.hasNextPage) {
-        allItems = await _loadAllEpisodes(show.id);
-      }
+    final page = ref
+        .read(ardShowEpisodesProvider(widget.showId))
+        .whenOrNull(data: (d) => d);
 
-      final playable = allItems.where((i) => i.bestAudioUrl != null).toList();
-      final cards = playable.map(_ardPendingCard).toList();
-      progressNotifier.value = (0, cards.length);
-      statusNotifier.value = 'Speichere ${show.title}…';
-
-      final importer = ref.read(contentImporterProvider.notifier);
-      final result = await importer.importToGroup(
-        groupTitle: show.title,
-        groupCoverUrl: ardImageUrl(show.imageUrl),
-        cards: cards,
-        tileId: widget.autoAssignTileId,
-        onProgress: (done, total) => progressNotifier.value = (done, total),
-      );
-
-      Log.info(
-        _tag,
-        'All episodes added',
-        data: {
-          'showId': show.id,
-          'added': '${result.added}',
-          'total': '${playable.length}',
-        },
-      );
-
-      if (mounted) {
-        Navigator.of(context).pop(); // dismiss dialog
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
-              '${result.added} Folgen zu ${show.title} hinzugefügt',
-            ),
+    unawaited(
+      ref
+          .read(contentImporterProvider.notifier)
+          .importArdShow(
+            showId: show.id,
+            showTitle: show.title,
+            showImageUrl: show.imageUrl,
+            loadedItems: items,
+            hasMorePages: page?.hasNextPage ?? false,
+            endCursor: page?.endCursor,
+            tileId: widget.autoAssignTileId,
           ),
-        );
-      }
-    } on Exception catch (e) {
-      Log.error(
-        _tag,
-        'Add all failed',
-        exception: e,
-        data: {'showId': show.id},
-      );
-      if (mounted) {
-        Navigator.of(context).pop(); // dismiss dialog
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Fehler: $e')),
-        );
-      }
-    }
+    );
   }
 
-  Future<List<ArdItem>> _loadAllEpisodes(String showId) async {
-    final api = ref.read(ardApiProvider);
-    final allItems = <ArdItem>[];
-    String? cursor;
+  bool _dialogShowing = false;
 
-    do {
-      final page = await api.getItems(
-        programSetId: showId,
-        after: cursor,
-      );
-      allItems.addAll(page.items);
-      cursor = page.hasNextPage ? page.endCursor : null;
-    } while (cursor != null);
-
-    Log.debug(
-      _tag,
-      'All episodes loaded',
-      data: {
-        'showId': showId,
-        'total': '${allItems.length}',
-      },
-    );
-    return allItems;
+  void _dismissDialog() {
+    if (_dialogShowing) {
+      Navigator.of(context).pop();
+      _dialogShowing = false;
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     final existingUris = ref.watch(existingItemUrisProvider);
     final cardsLoaded = ref.watch(allTileItemsProvider).hasValue;
-    final isImporting = ref.watch(contentImporterProvider);
+    final isImporting = ref.watch(
+      contentImporterProvider.select((s) => s.isImporting),
+    );
     final showAsync = ref.watch(ardShowDetailProvider(widget.showId));
     final episodesAsync = ref.watch(ardShowEpisodesProvider(widget.showId));
+
+    ref.listen(contentImporterProvider, (_, next) {
+      switch (next) {
+        case ImportRunning() when !_dialogShowing:
+          _dialogShowing = true;
+          unawaited(
+            showDialog<void>(
+              context: context,
+              barrierDismissible: false,
+              builder: (_) => _ImportDialogView(),
+            ).then((_) => _dialogShowing = false),
+          );
+        case ImportDone(:final added, :final showTitle):
+          _dismissDialog();
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('$added Folgen zu $showTitle hinzugefügt')),
+          );
+          ref.read(contentImporterProvider.notifier).acknowledge();
+        case ImportFailed(:final message):
+          _dismissDialog();
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Fehler: $message')),
+          );
+          ref.read(contentImporterProvider.notifier).acknowledge();
+        case _:
+          break;
+      }
+    });
 
     return Scaffold(
       backgroundColor: AppColors.parentBackground,
@@ -239,11 +192,11 @@ class _ArdShowDetailScreenState extends ConsumerState<ArdShowDetailScreen> {
 
           return CustomScrollView(
             slivers: [
-              _ShowHeader(show: show),
+              ArdShowHeader(show: show),
 
               // Synopsis and duration badge between header and episodes.
               SliverToBoxAdapter(
-                child: _ShowMeta(
+                child: ArdShowMeta(
                   show: show,
                   episodesAsync: episodesAsync,
                 ),
@@ -278,7 +231,7 @@ class _ArdShowDetailScreenState extends ConsumerState<ArdShowDetailScreen> {
                         );
                         final isAdding = _addingUris.contains(item.providerUri);
 
-                        return _EpisodeTile(
+                        return ArdEpisodeTile(
                           item: item,
                           alreadyAdded: alreadyAdded,
                           isAdding: isAdding,
@@ -365,224 +318,73 @@ PendingCard _ardPendingCard(ArdItem item) {
   );
 }
 
-// ── Show header sliver ──────────────────────────────────────────────────────
+// ── Inline widgets ──────────────────────────────────────────────────────
 
-class _ShowHeader extends StatelessWidget {
-  const _ShowHeader({required this.show});
-  final ArdProgramSet show;
-
+/// Import progress dialog that watches the provider for live updates.
+/// Lives outside the triggering widget's lifecycle.
+class _ImportDialogView extends ConsumerWidget {
   @override
-  Widget build(BuildContext context) {
-    final imageUrl = ardImageUrl(show.imageUrl, width: 600);
-    final subtitle = show.organizationName ?? show.publisher;
+  Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(contentImporterProvider);
+    final status = state is ImportRunning ? state.status : '';
+    final done = state is ImportRunning ? state.done : 0;
+    final total = state is ImportRunning ? state.total : 0;
 
-    return SliverAppBar(
-      backgroundColor: AppColors.parentBackground,
-      expandedHeight: 200,
-      pinned: true,
-      foregroundColor: Colors.white,
-      iconTheme: const IconThemeData(
-        color: Colors.white,
-        shadows: [Shadow(blurRadius: 8)],
-      ),
-      flexibleSpace: FlexibleSpaceBar(
-        title: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              show.title,
-              style: const TextStyle(
-                fontFamily: 'Nunito',
-                fontWeight: FontWeight.w700,
-                fontSize: 16,
-                color: Colors.white,
-                shadows: [
-                  Shadow(blurRadius: 12),
-                  Shadow(blurRadius: 4),
-                ],
-              ),
-            ),
-            if (subtitle != null)
+    return PopScope(
+      canPop: false,
+      child: Dialog(
+        child: Padding(
+          padding: const EdgeInsets.all(AppSpacing.xl),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
               Text(
-                '$subtitle · ${show.numberOfElements} Folgen',
+                status,
                 style: const TextStyle(
                   fontFamily: 'Nunito',
-                  fontSize: 11,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.white,
-                  shadows: [
-                    Shadow(blurRadius: 12),
-                    Shadow(blurRadius: 4),
-                  ],
+                  fontWeight: FontWeight.w700,
+                  fontSize: 15,
                 ),
               ),
-          ],
-        ),
-        background:
-            imageUrl != null
-                ? Stack(
-                  fit: StackFit.expand,
+              const SizedBox(height: AppSpacing.md),
+              if (total == 0)
+                const LinearProgressIndicator(
+                  minHeight: 6,
+                  backgroundColor: AppColors.surfaceDim,
+                  valueColor: AlwaysStoppedAnimation<Color>(AppColors.primary),
+                )
+              else
+                Column(
                   children: [
-                    CachedNetworkImage(
-                      imageUrl: imageUrl,
-                      fit: BoxFit.cover,
-                    ),
-                    // Gradient overlay: dark top for readability, publisher
-                    // color bloom at the bottom behind the title text.
-                    DecoratedBox(
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                          stops: const [0.0, 0.3, 0.65, 1.0],
-                          colors: [
-                            Colors.black.withAlpha(60),
-                            Colors.black.withAlpha(20),
-                            Colors.black.withAlpha(200),
-                            Colors.black,
-                          ],
+                    ClipRRect(
+                      borderRadius: const BorderRadius.all(AppRadius.pill),
+                      child: LinearProgressIndicator(
+                        value: done / total,
+                        minHeight: 6,
+                        backgroundColor: AppColors.surfaceDim,
+                        valueColor: const AlwaysStoppedAnimation<Color>(
+                          AppColors.primary,
                         ),
                       ),
                     ),
-                  ],
-                )
-                : null,
-      ),
-    );
-  }
-}
-
-// ── Episode tile ────────────────────────────────────────────────────────────
-
-class _EpisodeTile extends StatelessWidget {
-  const _EpisodeTile({
-    required this.item,
-    required this.alreadyAdded,
-    required this.isAdding,
-    required this.enabled,
-    required this.onAdd,
-    this.showImageUrl,
-  });
-
-  final ArdItem item;
-  final bool alreadyAdded;
-  final bool isAdding;
-  final bool enabled;
-  final VoidCallback onAdd;
-
-  /// Fallback image when the episode has no unique artwork.
-  final String? showImageUrl;
-
-  @override
-  Widget build(BuildContext context) {
-    final episodeImageUrl = ardImageUrl(item.imageUrl, width: 112);
-    final fallbackUrl = ardImageUrl(showImageUrl, width: 112);
-
-    return ListTile(
-      contentPadding: const EdgeInsets.symmetric(
-        horizontal: AppSpacing.screenH,
-        vertical: 2,
-      ),
-      // Leading: episode artwork thumbnail.
-      leading: ClipRRect(
-        borderRadius: const BorderRadius.all(Radius.circular(8)),
-        child: SizedBox(
-          width: 56,
-          height: 56,
-          child: CachedNetworkImage(
-            imageUrl: episodeImageUrl ?? fallbackUrl ?? '',
-            fit: BoxFit.cover,
-            placeholder:
-                (_, _) => ColoredBox(
-                  color: AppColors.surfaceDim,
-                  child: Center(
-                    child: Text(
-                      item.episodeNumber?.toString() ?? '',
+                    const SizedBox(height: AppSpacing.sm),
+                    Text(
+                      '$done von $total',
                       style: const TextStyle(
                         fontFamily: 'Nunito',
-                        fontSize: 14,
-                        fontWeight: FontWeight.w700,
+                        fontSize: 13,
                         color: AppColors.textSecondary,
                       ),
                     ),
-                  ),
+                  ],
                 ),
-            errorWidget:
-                (_, _, _) => const ColoredBox(
-                  color: AppColors.surfaceDim,
-                  child: Center(
-                    child: Icon(
-                      Icons.headphones_rounded,
-                      size: 20,
-                      color: AppColors.textSecondary,
-                    ),
-                  ),
-                ),
+            ],
           ),
         ),
       ),
-      // Trailing: add/check/spinner action.
-      trailing: SizedBox(
-        width: 48,
-        height: 48,
-        child: Center(
-          child:
-              alreadyAdded
-                  ? const Icon(Icons.check_circle, color: AppColors.success)
-                  : isAdding
-                  ? const SizedBox(
-                    width: 24,
-                    height: 24,
-                    child: CircularProgressIndicator(strokeWidth: 2),
-                  )
-                  : IconButton(
-                    icon: const Icon(Icons.add_circle_outline_rounded),
-                    onPressed: enabled ? onAdd : null,
-                    padding: EdgeInsets.zero,
-                  ),
-        ),
-      ),
-      title: Text(
-        item.displayTitle,
-        style: TextStyle(
-          fontFamily: 'Nunito',
-          fontSize: 14,
-          color: alreadyAdded ? AppColors.textSecondary : AppColors.textPrimary,
-        ),
-        maxLines: 2,
-        overflow: TextOverflow.ellipsis,
-      ),
-      subtitle: Row(
-        children: [
-          Text(
-            formatDuration(item.duration),
-            style: const TextStyle(
-              fontFamily: 'Nunito',
-              fontSize: 12,
-              color: AppColors.textSecondary,
-            ),
-          ),
-          if (item.group != null) ...[
-            const SizedBox(width: AppSpacing.sm),
-            Text(
-              'Teil ${item.episodeNumber ?? "?"}/${item.group!.count ?? "?"}',
-              style: const TextStyle(
-                fontFamily: 'Nunito',
-                fontSize: 12,
-                color: AppColors.textSecondary,
-              ),
-            ),
-          ],
-        ],
-      ),
-      enabled: enabled && !alreadyAdded && !isAdding,
-      onTap: enabled && !alreadyAdded && !isAdding ? onAdd : null,
     );
   }
 }
-
-// ── Truncation notice ───────────────────────────────────────────────────────
 
 class _TruncationNotice extends StatelessWidget {
   const _TruncationNotice({required this.shown, required this.total});
@@ -608,99 +410,3 @@ class _TruncationNotice extends StatelessWidget {
 }
 
 // ── Show metadata (synopsis + duration badge) ──────────────────────────────
-
-/// Duration category with icon and label.
-({IconData icon, String label}) _durationCategory(int avgSeconds) {
-  final minutes = avgSeconds ~/ 60;
-  if (minutes <= 6) {
-    return (icon: Icons.nightlight_round, label: '~$minutes Min.');
-  } else if (minutes <= 20) {
-    return (icon: Icons.menu_book_rounded, label: '~$minutes Min.');
-  } else if (minutes <= 35) {
-    return (icon: Icons.theater_comedy_rounded, label: '~$minutes Min.');
-  } else {
-    return (icon: Icons.headphones_rounded, label: '~$minutes Min.');
-  }
-}
-
-class _ShowMeta extends StatelessWidget {
-  const _ShowMeta({required this.show, required this.episodesAsync});
-
-  final ArdProgramSet show;
-  final AsyncValue<ArdItemPage> episodesAsync;
-
-  @override
-  Widget build(BuildContext context) {
-    final synopsis = show.synopsis;
-
-    // Compute avg duration from loaded episodes.
-    final avgDuration = episodesAsync.whenOrNull(
-      data: (page) {
-        final playable = page.items.where((i) => i.bestAudioUrl != null);
-        if (playable.isEmpty) return null;
-        final total = playable.fold<int>(0, (sum, i) => sum + i.duration);
-        return total ~/ playable.length;
-      },
-    );
-
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(
-        AppSpacing.screenH,
-        AppSpacing.md,
-        AppSpacing.screenH,
-        AppSpacing.sm,
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Duration badge
-          if (avgDuration != null && avgDuration > 0) ...[
-            () {
-              final cat = _durationCategory(avgDuration);
-              return Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: AppSpacing.sm,
-                  vertical: 3,
-                ),
-                decoration: const BoxDecoration(
-                  color: AppColors.surfaceDim,
-                  borderRadius: BorderRadius.all(Radius.circular(6)),
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(cat.icon, size: 14, color: AppColors.textSecondary),
-                    const SizedBox(width: 4),
-                    Text(
-                      cat.label,
-                      style: const TextStyle(
-                        fontFamily: 'Nunito',
-                        fontSize: 12,
-                        fontWeight: FontWeight.w600,
-                        color: AppColors.textSecondary,
-                      ),
-                    ),
-                  ],
-                ),
-              );
-            }(),
-            const SizedBox(height: AppSpacing.sm),
-          ],
-          // Synopsis
-          if (synopsis != null && synopsis.isNotEmpty)
-            Text(
-              synopsis,
-              style: const TextStyle(
-                fontFamily: 'Nunito',
-                fontSize: 13,
-                color: AppColors.textSecondary,
-                height: 1.4,
-              ),
-              maxLines: 3,
-              overflow: TextOverflow.ellipsis,
-            ),
-        ],
-      ),
-    );
-  }
-}

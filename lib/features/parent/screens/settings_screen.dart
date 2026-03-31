@@ -3,9 +3,7 @@ import 'dart:async' show unawaited;
 import 'package:flutter/foundation.dart' show kDebugMode;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lauschi/core/app_version.dart';
-import 'package:lauschi/core/apple_music/apple_music_session.dart';
 import 'package:lauschi/core/feature_flags.dart';
 import 'package:lauschi/core/log.dart';
 import 'package:lauschi/core/settings/debug_settings.dart';
@@ -13,8 +11,11 @@ import 'package:lauschi/core/settings/kid_settings.dart';
 import 'package:lauschi/core/spotify/spotify_session.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
 import 'package:lauschi/features/onboarding/screens/onboarding_provider.dart';
+import 'package:lauschi/features/parent/widgets/parent_section_header.dart';
+import 'package:lauschi/features/parent/widgets/settings/ard_attribution.dart';
+import 'package:lauschi/features/parent/widgets/settings/provider_row.dart';
+import 'package:lauschi/features/parent/widgets/settings/support_card.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 const _buildFlavour = kDebugMode ? 'debug' : 'release';
 
@@ -70,7 +71,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
         ),
 
         // ── App version ──────────────────────────────────────────────────────
-        const _SectionHeader(title: 'App'),
+        const ParentSectionHeader(title: 'App'),
         _InfoTile(
           icon: Icons.info_outline_rounded,
           title: 'Version',
@@ -118,7 +119,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
         const SizedBox(height: AppSpacing.lg),
 
         // ── Kindansicht ──────────────────────────────────────────────────────
-        const _SectionHeader(title: 'Kindansicht'),
+        const ParentSectionHeader(title: 'Kindansicht'),
         _SwitchTile(
           icon: Icons.text_fields_rounded,
           title: 'Episodentitel anzeigen',
@@ -131,19 +132,19 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
         const SizedBox(height: AppSpacing.lg),
 
         // ── Providers ────────────────────────────────────────────────────────
-        const _SectionHeader(title: 'Inhalte bereitgestellt von'),
-        const _ProviderRow(),
-        const _ArdAttribution(),
+        const ParentSectionHeader(title: 'Inhalte bereitgestellt von'),
+        const ProviderRow(),
+        const ArdAttribution(),
 
         const SizedBox(height: AppSpacing.lg),
 
         // ── Support ──────────────────────────────────────────────────────────
-        const _SupportCard(),
+        const SupportCard(),
 
         // ── Sentry / Diagnostics (testers only) ────────────────────────────
         if (FeatureFlags.enableSentry) ...[
           const SizedBox(height: AppSpacing.lg),
-          const _SectionHeader(title: 'Diagnose & Datenschutz'),
+          const ParentSectionHeader(title: 'Diagnose & Datenschutz'),
           _SwitchTile(
             icon: Icons.videocam_outlined,
             title: 'Session-Aufzeichnungen',
@@ -211,7 +212,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
 
         // ── Spotify account (only when enabled) ──────────────────────────────
         if (FeatureFlags.enableSpotify) ...[
-          const _SectionHeader(title: 'Spotify-Konto'),
+          const ParentSectionHeader(title: 'Spotify-Konto'),
           ListTile(
             key: const Key('logout_button'),
             tileColor: AppColors.parentSurface,
@@ -242,7 +243,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
         ],
 
         // ── Experimental ─────────────────────────────────────────────────────
-        const _SectionHeader(title: 'Experimentell'),
+        const ParentSectionHeader(title: 'Experimentell'),
         _SwitchTile(
           icon: Icons.nfc_rounded,
           title: 'NFC-Tags',
@@ -316,286 +317,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   }
 }
 
-// ── Supporting widgets ──────────────────────────────────────────────────────
-
-class _ProviderRow extends ConsumerWidget {
-  const _ProviderRow();
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final spotifyConnected =
-        FeatureFlags.enableSpotify &&
-        ref.watch(spotifySessionProvider) is SpotifyAuthenticated;
-    final appleMusicConnected =
-        FeatureFlags.enableAppleMusic &&
-        ref.watch(appleMusicSessionProvider) is AppleMusicAuthenticated;
-
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.screenH),
-      child: Row(
-        children: [
-          if (FeatureFlags.enableSpotify) ...[
-            Expanded(
-              child: _ProviderChip(
-                svgAsset: 'assets/images/icons/spotify.svg',
-                label: 'Spotify',
-                color: const Color(0xFF1DB954),
-                active: spotifyConnected,
-              ),
-            ),
-            const SizedBox(width: AppSpacing.sm),
-          ],
-          if (FeatureFlags.enableAppleMusic) ...[
-            Expanded(
-              child: _ProviderChip(
-                svgAsset: 'assets/images/icons/apple_music.svg',
-                label: 'Apple Music',
-                color: const Color(0xFFFA243C),
-                active: appleMusicConnected,
-              ),
-            ),
-            const SizedBox(width: AppSpacing.sm),
-          ],
-          const Expanded(
-            child: _ProviderChip(
-              svgAsset: 'assets/images/icons/ard_audiothek.svg',
-              label: 'ARD',
-              color: Color(0xFF003D7A),
-              active: true,
-              wideIcon: true,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _ProviderChip extends StatelessWidget {
-  const _ProviderChip({
-    required this.label,
-    required this.color,
-    this.svgAsset,
-    this.active = false,
-    this.wideIcon = false,
-  });
-
-  final String label;
-  final Color color;
-  final String? svgAsset;
-  final bool active;
-
-  /// When true, the SVG is wider than tall (ARD logo).
-  final bool wideIcon;
-
-  @override
-  Widget build(BuildContext context) {
-    final effectiveColor = active ? color : AppColors.textSecondary;
-
-    return Container(
-      padding: const EdgeInsets.symmetric(
-        horizontal: AppSpacing.md,
-        vertical: AppSpacing.sm + 2,
-      ),
-      decoration: BoxDecoration(
-        color: effectiveColor.withAlpha(active ? 20 : 10),
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: effectiveColor.withAlpha(active ? 50 : 25)),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          if (svgAsset != null)
-            SvgPicture.asset(
-              svgAsset!,
-              height: 18,
-              width: wideIcon ? null : 18,
-              colorFilter: ColorFilter.mode(effectiveColor, BlendMode.srcIn),
-            ),
-          const SizedBox(width: AppSpacing.xs),
-          Flexible(
-            child: Text(
-              label,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(
-                fontFamily: 'Nunito',
-                fontWeight: FontWeight.w700,
-                fontSize: 13,
-                color: effectiveColor,
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _ArdAttribution extends StatelessWidget {
-  const _ArdAttribution();
-
-  static final _ardUrl = Uri.parse('https://www.ardaudiothek.de');
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(
-        AppSpacing.screenH,
-        AppSpacing.sm,
-        AppSpacing.screenH,
-        0,
-      ),
-      child: Text.rich(
-        TextSpan(
-          style: const TextStyle(
-            fontFamily: 'Nunito',
-            fontSize: 12,
-            height: 1.4,
-            color: AppColors.textSecondary,
-          ),
-          children: [
-            const TextSpan(
-              text:
-                  'Audioinhalte werden von der ARD Audiothek '
-                  'bereitgestellt. lauschi ist kein offizielles '
-                  'Angebot der ARD. ',
-            ),
-            WidgetSpan(
-              alignment: PlaceholderAlignment.baseline,
-              baseline: TextBaseline.alphabetic,
-              child: GestureDetector(
-                onTap:
-                    () => unawaited(
-                      launchUrl(
-                        _ardUrl,
-                        mode: LaunchMode.externalApplication,
-                      ),
-                    ),
-                child: const Text(
-                  'ardaudiothek.de',
-                  style: TextStyle(
-                    fontFamily: 'Nunito',
-                    fontSize: 12,
-                    color: AppColors.primary,
-                    decoration: TextDecoration.underline,
-                    decorationColor: AppColors.primary,
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class _SupportCard extends StatelessWidget {
-  const _SupportCard();
-
-  static final _buyMeACoffee = Uri.parse('https://buymeacoffee.com/cgrebs');
-  static final _gitHub = Uri.parse('https://github.com/EnTeQuAk/lauschi');
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.screenH),
-      child: Container(
-        decoration: BoxDecoration(
-          color: AppColors.primaryPale,
-          borderRadius: BorderRadius.circular(16),
-        ),
-        padding: const EdgeInsets.all(AppSpacing.lg),
-        child: Column(
-          children: [
-            const Icon(
-              Icons.favorite_rounded,
-              color: AppColors.primary,
-              size: 28,
-            ),
-            const SizedBox(height: AppSpacing.sm),
-            const Text(
-              'lauschi ist ein Herzensprojekt',
-              style: TextStyle(
-                fontFamily: 'Nunito',
-                fontWeight: FontWeight.w800,
-                fontSize: 17,
-                color: AppColors.primary,
-              ),
-            ),
-            const SizedBox(height: AppSpacing.xs),
-            const Text(
-              'Kostenlos, werbefrei und ohne Abo. '
-              'Wenn dir lauschi gefällt, kannst du '
-              'die Entwicklung unterstützen.',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontFamily: 'Nunito',
-                fontSize: 13,
-                height: 1.4,
-                color: AppColors.textSecondary,
-              ),
-            ),
-            const SizedBox(height: AppSpacing.md),
-            SizedBox(
-              width: double.infinity,
-              child: FilledButton.icon(
-                key: const Key('buy_coffee_button'),
-                onPressed: () => _open(_buyMeACoffee),
-                icon: const Icon(Icons.coffee_rounded, size: 18),
-                label: const Text(
-                  'Kaffee spendieren',
-                  style: TextStyle(fontFamily: 'Nunito', fontSize: 14),
-                ),
-                style: FilledButton.styleFrom(
-                  backgroundColor: AppColors.primary,
-                  foregroundColor: AppColors.textOnPrimary,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  padding: const EdgeInsets.symmetric(vertical: 14),
-                ),
-              ),
-            ),
-            const SizedBox(height: AppSpacing.sm),
-            SizedBox(
-              width: double.infinity,
-              child: OutlinedButton.icon(
-                key: const Key('github_button'),
-                onPressed: () => _open(_gitHub),
-                icon: SvgPicture.asset(
-                  'assets/images/icons/github.svg',
-                  width: 18,
-                  height: 18,
-                  colorFilter: const ColorFilter.mode(
-                    AppColors.primary,
-                    BlendMode.srcIn,
-                  ),
-                ),
-                label: const Text(
-                  'GitHub',
-                  style: TextStyle(fontFamily: 'Nunito', fontSize: 14),
-                ),
-                style: OutlinedButton.styleFrom(
-                  foregroundColor: AppColors.primary,
-                  side: const BorderSide(color: AppColors.primary),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  padding: const EdgeInsets.symmetric(vertical: 14),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  void _open(Uri url) {
-    unawaited(launchUrl(url, mode: LaunchMode.externalApplication));
-  }
-}
+// ── Inline widgets (kept here, all <50 lines) ─────────────────────────
 
 class _RestartBanner extends StatelessWidget {
   const _RestartBanner({required this.onDismiss});
@@ -634,33 +356,6 @@ class _RestartBanner extends StatelessWidget {
               onPressed: onDismiss,
             ),
           ],
-        ),
-      ),
-    );
-  }
-}
-
-class _SectionHeader extends StatelessWidget {
-  const _SectionHeader({required this.title});
-  final String title;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(
-        AppSpacing.screenH,
-        AppSpacing.md,
-        AppSpacing.screenH,
-        AppSpacing.xs,
-      ),
-      child: Text(
-        title.toUpperCase(),
-        style: const TextStyle(
-          fontFamily: 'Nunito',
-          fontSize: 12,
-          fontWeight: FontWeight.w700,
-          letterSpacing: 0.8,
-          color: AppColors.textSecondary,
         ),
       ),
     );

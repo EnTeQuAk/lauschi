@@ -1,6 +1,5 @@
 import 'dart:async' show unawaited;
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -11,10 +10,13 @@ import 'package:lauschi/core/database/tile_item_repository.dart';
 import 'package:lauschi/core/database/tile_repository.dart';
 import 'package:lauschi/core/feature_flags.dart';
 import 'package:lauschi/core/log.dart';
-import 'package:lauschi/core/providers/provider_type.dart';
 import 'package:lauschi/core/router/app_router.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
-import 'package:lauschi/features/parent/widgets/provider_badge.dart';
+import 'package:lauschi/features/parent/widgets/cards/auto_sort_banner.dart';
+import 'package:lauschi/features/parent/widgets/cards/card_section_header.dart';
+import 'package:lauschi/features/parent/widgets/cards/card_tile.dart';
+import 'package:lauschi/features/parent/widgets/cards/group_picker_sheet.dart';
+import 'package:lauschi/features/parent/widgets/cards/sort_result_dialog.dart';
 
 const _tag = 'ManageCards';
 
@@ -106,22 +108,20 @@ class _GroupedCardListState extends ConsumerState<_GroupedCardList> {
 
     return CustomScrollView(
       slivers: [
-        // Auto-sort banner for ungrouped cards
         if (ungrouped.isNotEmpty)
           SliverToBoxAdapter(
-            child: _AutoSortBanner(
+            child: AutoSortBanner(
               ungroupedCount: ungrouped.length,
+              onSort: () => unawaited(_runRetroactiveSort(context, ref)),
               onTap: _scrollToUngrouped,
             ),
           ),
 
-        // Series sections
         for (final group in groups) _GroupSection(group: group),
 
-        // Ungrouped cards at the bottom
         if (ungrouped.isNotEmpty) ...[
           SliverToBoxAdapter(
-            child: _SectionHeader(
+            child: CardSectionHeader(
               key: _ungroupedKey,
               title: 'Nicht zugeordnet',
               subtitle: '${ungrouped.length} Karten',
@@ -131,14 +131,17 @@ class _GroupedCardListState extends ConsumerState<_GroupedCardList> {
           SliverList.builder(
             itemCount: ungrouped.length,
             itemBuilder:
-                (context, index) => _CardTile(
+                (context, index) => CardTile(
                   card: ungrouped[index],
                   showGroupAssign: true,
+                  onAssignGroup:
+                      () => _showGroupPicker(context, ref, ungrouped[index]),
+                  onDelete:
+                      () => _confirmDelete(context, ref, ungrouped[index]),
                 ),
           ),
         ],
 
-        // Bottom padding
         const SliverPadding(padding: EdgeInsets.only(bottom: AppSpacing.xxl)),
       ],
     );
@@ -165,7 +168,7 @@ class _GroupSection extends ConsumerWidget {
             : '$cardCount Folgen';
 
     return SliverToBoxAdapter(
-      child: _SectionHeader(
+      child: CardSectionHeader(
         title: group.title,
         subtitle: countLabel,
         coverUrl: group.coverUrl,
@@ -187,227 +190,6 @@ final _groupCardsProvider = StreamProvider.family<List<db.TileItem>, String>((
 ) {
   return ref.watch(tileRepositoryProvider).watchItems(groupId);
 });
-
-// ---------------------------------------------------------------------------
-// Section header (series or "Nicht zugeordnet")
-// ---------------------------------------------------------------------------
-
-class _SectionHeader extends StatelessWidget {
-  const _SectionHeader({
-    required this.title,
-    required this.subtitle,
-    required this.icon,
-    this.coverUrl,
-    this.onTap,
-    this.onDelete,
-    super.key,
-  });
-
-  final String title;
-  final String subtitle;
-  final String? coverUrl;
-  final IconData icon;
-  final VoidCallback? onTap;
-  final VoidCallback? onDelete;
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.fromLTRB(
-          AppSpacing.screenH,
-          AppSpacing.lg,
-          AppSpacing.screenH,
-          AppSpacing.sm,
-        ),
-        child: Row(
-          children: [
-            // Cover or icon
-            ClipRRect(
-              borderRadius: const BorderRadius.all(Radius.circular(6)),
-              child: SizedBox(
-                width: 40,
-                height: 40,
-                child:
-                    coverUrl != null
-                        ? CachedNetworkImage(
-                          imageUrl: coverUrl!,
-                          fit: BoxFit.cover,
-                        )
-                        : ColoredBox(
-                          color: AppColors.primarySoft.withValues(alpha: 0.3),
-                          child: Icon(icon, size: 20, color: AppColors.primary),
-                        ),
-              ),
-            ),
-            const SizedBox(width: AppSpacing.md),
-            // Title + count
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    title,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
-                      fontFamily: 'Nunito',
-                      fontSize: 15,
-                      fontWeight: FontWeight.w800,
-                      color: AppColors.textPrimary,
-                    ),
-                  ),
-                  Text(
-                    subtitle,
-                    style: const TextStyle(
-                      fontFamily: 'Nunito',
-                      fontSize: 12,
-                      color: AppColors.textSecondary,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            if (onDelete != null)
-              IconButton(
-                onPressed: onDelete,
-                icon: const Icon(Icons.delete_outline_rounded, size: 20),
-                color: AppColors.error,
-                tooltip: 'Löschen',
-                visualDensity: VisualDensity.compact,
-              ),
-            if (onTap != null)
-              const Icon(
-                Icons.chevron_right_rounded,
-                color: AppColors.textSecondary,
-                size: 20,
-              ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-// ---------------------------------------------------------------------------
-// Individual card tile (compact)
-// ---------------------------------------------------------------------------
-
-Widget? _buildCardSubtitle(db.TileItem card) {
-  final spans = <InlineSpan>[];
-  if (card.episodeNumber != null) {
-    spans.add(
-      TextSpan(
-        text: 'Folge ${card.episodeNumber}',
-        style: const TextStyle(
-          fontFamily: 'Nunito',
-          fontSize: 12,
-          color: AppColors.textSecondary,
-        ),
-      ),
-    );
-  }
-  if (spans.isEmpty) return null;
-  return Text.rich(TextSpan(children: spans));
-}
-
-class _CardTile extends ConsumerWidget {
-  const _CardTile({required this.card, this.showGroupAssign = false});
-
-  final db.TileItem card;
-
-  /// Show group-assign action (for ungrouped cards).
-  final bool showGroupAssign;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final isHeard = card.isHeard;
-
-    return ListTile(
-      dense: true,
-      visualDensity: VisualDensity.compact,
-      contentPadding: const EdgeInsets.symmetric(
-        horizontal: AppSpacing.screenH,
-      ),
-      leading: ClipRRect(
-        borderRadius: const BorderRadius.all(Radius.circular(4)),
-        child: SizedBox(
-          width: 40,
-          height: 40,
-          child:
-              card.coverUrl != null
-                  ? Opacity(
-                    opacity: isHeard ? 0.5 : 1.0,
-                    child: CachedNetworkImage(
-                      imageUrl: card.coverUrl!,
-                      fit: BoxFit.cover,
-                    ),
-                  )
-                  : ColoredBox(
-                    color: AppColors.surfaceDim,
-                    child: Icon(
-                      Icons.music_note_rounded,
-                      size: 18,
-                      color:
-                          isHeard
-                              ? AppColors.textSecondary
-                              : AppColors.textPrimary,
-                    ),
-                  ),
-        ),
-      ),
-      title: Text(
-        card.customTitle ?? card.title,
-        maxLines: 1,
-        overflow: TextOverflow.ellipsis,
-        style: TextStyle(
-          fontFamily: 'Nunito',
-          fontWeight: FontWeight.w600,
-          fontSize: 14,
-          color: isHeard ? AppColors.textSecondary : AppColors.textPrimary,
-        ),
-      ),
-      subtitle: _buildCardSubtitle(card),
-      trailing: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          if (card.provider != ProviderType.spotify.value)
-            Padding(
-              padding: const EdgeInsets.only(right: 4),
-              child: ProviderBadge(
-                provider: ProviderType.fromString(card.provider),
-              ),
-            ),
-          if (isHeard)
-            const Padding(
-              padding: EdgeInsets.only(right: 4),
-              child: Icon(
-                Icons.check_circle_rounded,
-                size: 16,
-                color: AppColors.success,
-              ),
-            ),
-          if (showGroupAssign)
-            IconButton(
-              onPressed: () => _showGroupPicker(context, ref, card),
-              icon: const Icon(Icons.layers_rounded, size: 20),
-              color: AppColors.primary,
-              tooltip: 'Kachel zuweisen',
-              visualDensity: VisualDensity.compact,
-            ),
-          IconButton(
-            onPressed: () => _confirmDelete(context, ref, card),
-            icon: const Icon(Icons.delete_outline_rounded, size: 20),
-            color: AppColors.error,
-            tooltip: 'Entfernen',
-            visualDensity: VisualDensity.compact,
-          ),
-        ],
-      ),
-    );
-  }
-}
 
 // ---------------------------------------------------------------------------
 // Empty state
@@ -451,75 +233,7 @@ class _EmptyState extends StatelessWidget {
 }
 
 // ---------------------------------------------------------------------------
-// Auto-sort banner
-// ---------------------------------------------------------------------------
-
-class _AutoSortBanner extends ConsumerWidget {
-  const _AutoSortBanner({
-    required this.ungroupedCount,
-    this.onTap,
-  });
-
-  final int ungroupedCount;
-
-  /// Called when the banner body is tapped (scroll to ungrouped section).
-  final VoidCallback? onTap;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        margin: const EdgeInsets.symmetric(
-          horizontal: AppSpacing.screenH,
-          vertical: AppSpacing.sm,
-        ),
-        decoration: BoxDecoration(
-          color: AppColors.primary.withValues(alpha: 0.08),
-          borderRadius: const BorderRadius.all(AppRadius.card),
-        ),
-        child: ListTile(
-          dense: true,
-          contentPadding: const EdgeInsets.symmetric(
-            horizontal: AppSpacing.md,
-            vertical: AppSpacing.xs,
-          ),
-          leading: const Icon(
-            Icons.auto_awesome_rounded,
-            color: AppColors.primary,
-            size: 20,
-          ),
-          title: Text(
-            ungroupedCount == 1
-                ? '1 Karte ohne Serie'
-                : '$ungroupedCount Karten ohne Serie',
-            style: const TextStyle(
-              fontFamily: 'Nunito',
-              fontWeight: FontWeight.w700,
-              fontSize: 14,
-              color: AppColors.primary,
-            ),
-          ),
-          trailing: FilledButton(
-            onPressed: () => unawaited(_runRetroactiveSort(context, ref)),
-            style: FilledButton.styleFrom(
-              padding: const EdgeInsets.symmetric(
-                horizontal: AppSpacing.md,
-                vertical: AppSpacing.xs,
-              ),
-              minimumSize: Size.zero,
-              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-            ),
-            child: const Text('Einordnen'),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-// ---------------------------------------------------------------------------
-// Shared actions
+// Actions (screen-level helpers)
 // ---------------------------------------------------------------------------
 
 void _confirmDeleteGroup(
@@ -627,343 +341,9 @@ void _showGroupPicker(
   unawaited(
     showModalBottomSheet<void>(
       context: context,
-      builder: (ctx) => _GroupPickerSheet(card: card),
+      builder: (ctx) => GroupPickerSheet(card: card),
     ),
   );
-}
-
-// ---------------------------------------------------------------------------
-// Group picker bottom sheet
-// ---------------------------------------------------------------------------
-
-class _GroupPickerSheet extends ConsumerWidget {
-  const _GroupPickerSheet({required this.card});
-
-  final db.TileItem card;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final groupsAsync = ref.watch(allTilesProvider);
-
-    // Drag handle is provided by BottomSheetThemeData.showDragHandle.
-    return SafeArea(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const Padding(
-            padding: EdgeInsets.fromLTRB(
-              AppSpacing.screenH,
-              0,
-              AppSpacing.screenH,
-              AppSpacing.md,
-            ),
-            child: Text(
-              'Kachel zuweisen',
-              style: TextStyle(
-                fontFamily: 'Nunito',
-                fontSize: 17,
-                fontWeight: FontWeight.w700,
-              ),
-            ),
-          ),
-          if (card.groupId != null)
-            ListTile(
-              leading: const Icon(
-                Icons.cancel_outlined,
-                color: AppColors.textSecondary,
-              ),
-              title: const Text(
-                'Aus Kachel entfernen',
-                style: TextStyle(fontFamily: 'Nunito'),
-              ),
-              onTap: () {
-                Navigator.of(context).pop();
-                unawaited(
-                  ref.read(tileItemRepositoryProvider).removeFromTile(card.id),
-                );
-              },
-            ),
-          groupsAsync.when(
-            data:
-                (groups) =>
-                    groups.isEmpty
-                        ? Padding(
-                          padding: const EdgeInsets.fromLTRB(
-                            AppSpacing.screenH,
-                            AppSpacing.sm,
-                            AppSpacing.screenH,
-                            AppSpacing.lg,
-                          ),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: [
-                              const Text(
-                                'Noch keine Kacheln vorhanden.',
-                                style: TextStyle(
-                                  fontFamily: 'Nunito',
-                                  color: AppColors.textSecondary,
-                                ),
-                              ),
-                              const SizedBox(height: AppSpacing.md),
-                              FilledButton.icon(
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                  unawaited(
-                                    context.push(AppRoutes.parentManageTiles),
-                                  );
-                                },
-                                icon: const Icon(Icons.add_rounded),
-                                label: const Text('Kachel erstellen'),
-                              ),
-                            ],
-                          ),
-                        )
-                        : Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Flexible(
-                              child: ListView.builder(
-                                shrinkWrap: true,
-                                itemCount: groups.length,
-                                itemBuilder: (context, index) {
-                                  final group = groups[index];
-                                  final isAssigned = card.groupId == group.id;
-                                  return ListTile(
-                                    leading: Icon(
-                                      Icons.layers_rounded,
-                                      color:
-                                          isAssigned
-                                              ? AppColors.primary
-                                              : AppColors.textSecondary,
-                                    ),
-                                    title: Text(
-                                      group.title,
-                                      style: const TextStyle(
-                                        fontFamily: 'Nunito',
-                                      ),
-                                    ),
-                                    trailing:
-                                        isAssigned
-                                            ? const Icon(
-                                              Icons.check_rounded,
-                                              color: AppColors.primary,
-                                            )
-                                            : null,
-                                    onTap: () {
-                                      Navigator.of(context).pop();
-                                      unawaited(
-                                        ref
-                                            .read(tileItemRepositoryProvider)
-                                            .assignToTile(
-                                              itemId: card.id,
-                                              tileId: group.id,
-                                            ),
-                                      );
-                                    },
-                                  );
-                                },
-                              ),
-                            ),
-                            const Divider(height: 1),
-                            ListTile(
-                              leading: const Icon(
-                                Icons.add_rounded,
-                                color: AppColors.primary,
-                              ),
-                              title: const Text(
-                                'Neue Kachel erstellen',
-                                style: TextStyle(
-                                  fontFamily: 'Nunito',
-                                  color: AppColors.primary,
-                                ),
-                              ),
-                              onTap: () => _createAndAssign(context, ref, card),
-                            ),
-                          ],
-                        ),
-            loading:
-                () => const Padding(
-                  padding: EdgeInsets.all(AppSpacing.lg),
-                  child: CircularProgressIndicator(),
-                ),
-            error: (_, _) => const SizedBox.shrink(),
-          ),
-          const SizedBox(height: AppSpacing.md),
-        ],
-      ),
-    );
-  }
-}
-
-// ---------------------------------------------------------------------------
-// Create series and assign card
-// ---------------------------------------------------------------------------
-
-void _createAndAssign(
-  BuildContext context,
-  WidgetRef ref,
-  db.TileItem card,
-) {
-  final controller = TextEditingController();
-  unawaited(
-    showDialog<void>(
-      context: context,
-      builder:
-          (ctx) => AlertDialog(
-            title: const Text('Neue Kachel'),
-            content: TextField(
-              controller: controller,
-              autofocus: true,
-              decoration: const InputDecoration(
-                hintText: 'Name der Serie',
-              ),
-              onSubmitted: (_) async {
-                final title = controller.text.trim();
-                if (title.isEmpty) return;
-                Navigator.of(ctx).pop();
-                Navigator.of(context).pop(); // close bottom sheet
-                final groupId = await ref
-                    .read(tileRepositoryProvider)
-                    .insert(title: title);
-                await ref
-                    .read(tileItemRepositoryProvider)
-                    .assignToTile(itemId: card.id, tileId: groupId);
-              },
-            ),
-            actions: [
-              TextButton(
-                onPressed: () => Navigator.of(ctx).pop(),
-                child: const Text('Abbrechen'),
-              ),
-              FilledButton(
-                onPressed: () async {
-                  final title = controller.text.trim();
-                  if (title.isEmpty) return;
-                  Navigator.of(ctx).pop();
-                  Navigator.of(context).pop(); // close bottom sheet
-                  final groupId = await ref
-                      .read(tileRepositoryProvider)
-                      .insert(title: title);
-                  await ref
-                      .read(tileItemRepositoryProvider)
-                      .assignToTile(itemId: card.id, tileId: groupId);
-                },
-                child: const Text('Erstellen'),
-              ),
-            ],
-          ),
-    ),
-  );
-}
-
-// ---------------------------------------------------------------------------
-// Retroactive series sorting
-// ---------------------------------------------------------------------------
-
-// ---------------------------------------------------------------------------
-// Sort result dialog — lists matched series with links to group editor
-// ---------------------------------------------------------------------------
-
-class _SortResultDialog extends StatelessWidget {
-  const _SortResultDialog({
-    required this.seriesMatches,
-    required this.seriesGroupIds,
-    required this.totalMatched,
-  });
-
-  /// Series title → number of cards assigned.
-  final Map<String, int> seriesMatches;
-
-  /// Series title → group ID.
-  final Map<String, String> seriesGroupIds;
-
-  final int totalMatched;
-
-  @override
-  Widget build(BuildContext context) {
-    final seriesCount = seriesMatches.length;
-    final sortedTitles =
-        seriesMatches.keys.toList()
-          ..sort((a, b) => seriesMatches[b]!.compareTo(seriesMatches[a]!));
-
-    return AlertDialog(
-      title: const Text('Kacheln sortieren'),
-      content: SizedBox(
-        width: double.maxFinite,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              '$totalMatched Karten zu $seriesCount '
-              '${seriesCount == 1 ? 'Kachel' : 'Kacheln'} sortiert.',
-              style: const TextStyle(
-                fontFamily: 'Nunito',
-                fontSize: 14,
-                color: AppColors.textSecondary,
-              ),
-            ),
-            const SizedBox(height: AppSpacing.md),
-            ConstrainedBox(
-              constraints: const BoxConstraints(maxHeight: 300),
-              child: ListView.separated(
-                shrinkWrap: true,
-                itemCount: sortedTitles.length,
-                separatorBuilder: (_, _) => const Divider(height: 1),
-                itemBuilder: (context, index) {
-                  final title = sortedTitles[index];
-                  final count = seriesMatches[title]!;
-                  final groupId = seriesGroupIds[title]!;
-                  return ListTile(
-                    dense: true,
-                    contentPadding: EdgeInsets.zero,
-                    leading: const Icon(
-                      Icons.auto_stories_rounded,
-                      size: 20,
-                      color: AppColors.primary,
-                    ),
-                    title: Text(
-                      title,
-                      style: const TextStyle(
-                        fontFamily: 'Nunito',
-                        fontWeight: FontWeight.w600,
-                        fontSize: 14,
-                      ),
-                    ),
-                    subtitle: Text(
-                      '$count ${count == 1 ? 'Karte' : 'Karten'}',
-                      style: const TextStyle(
-                        fontFamily: 'Nunito',
-                        fontSize: 12,
-                        color: AppColors.textSecondary,
-                      ),
-                    ),
-                    trailing: const Icon(
-                      Icons.chevron_right_rounded,
-                      color: AppColors.textSecondary,
-                    ),
-                    onTap: () {
-                      Navigator.of(context).pop();
-                      unawaited(
-                        context.push(AppRoutes.parentTileEdit(groupId)),
-                      );
-                    },
-                  );
-                },
-              ),
-            ),
-          ],
-        ),
-      ),
-      actions: [
-        FilledButton(
-          onPressed: () => Navigator.of(context).pop(),
-          child: const Text('Fertig'),
-        ),
-      ],
-    );
-  }
 }
 
 // ---------------------------------------------------------------------------
@@ -1034,7 +414,7 @@ Future<void> _runRetroactiveSort(BuildContext context, WidgetRef ref) async {
           showDialog<void>(
             context: context,
             builder:
-                (_) => _SortResultDialog(
+                (_) => SortResultDialog(
                   seriesMatches: result.seriesMatches,
                   seriesGroupIds: result.seriesGroupIds,
                   totalMatched: result.totalMatched,
