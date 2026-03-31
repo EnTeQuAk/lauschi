@@ -25,10 +25,10 @@ class TileEditScreen extends ConsumerStatefulWidget {
   final String tileId;
 
   @override
-  ConsumerState<TileEditScreen> createState() => _GroupEditScreenState();
+  ConsumerState<TileEditScreen> createState() => _TileEditScreenState();
 }
 
-class _GroupEditScreenState extends ConsumerState<TileEditScreen> {
+class _TileEditScreenState extends ConsumerState<TileEditScreen> {
   late final TextEditingController _titleController;
   late final TextEditingController _coverController;
   bool _dirty = false;
@@ -174,16 +174,14 @@ class _GroupEditScreenState extends ConsumerState<TileEditScreen> {
       'Saving tile',
       data: {'tileId': widget.tileId, 'title': title},
     );
+    final cover = _coverController.text.trim();
     await ref
         .read(tileRepositoryProvider)
         .update(
           id: widget.tileId,
           title: title,
-          coverUrl:
-              _coverController.text.trim().isEmpty
-                  ? null
-                  : _coverController.text.trim(),
-          clearCoverUrl: _coverController.text.trim().isEmpty,
+          coverUrl: cover.isEmpty ? null : cover,
+          clearCoverUrl: cover.isEmpty,
         );
     if (mounted) {
       ScaffoldMessenger.of(context)
@@ -335,9 +333,9 @@ class _GroupEditScreenState extends ConsumerState<TileEditScreen> {
             ),
             child: Row(
               children: [
-                Text(
-                  'FOLGEN'.toUpperCase(),
-                  style: const TextStyle(
+                const Text(
+                  'Folgen',
+                  style: TextStyle(
                     fontFamily: 'Nunito',
                     fontSize: 12,
                     fontWeight: FontWeight.w700,

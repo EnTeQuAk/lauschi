@@ -208,6 +208,15 @@ class _CoverPickerState extends ConsumerState<CoverPicker> {
                     child: CachedNetworkImage(
                       imageUrl: url,
                       fit: BoxFit.cover,
+                      errorWidget:
+                          (_, _, _) => const ColoredBox(
+                            color: AppColors.surfaceDim,
+                            child: Icon(
+                              Icons.broken_image_outlined,
+                              size: 20,
+                              color: AppColors.textSecondary,
+                            ),
+                          ),
                     ),
                   ),
                 ),
