@@ -13,7 +13,7 @@ import 'package:lauschi/core/router/app_router.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
 import 'package:lauschi/features/parent/screens/manage_tiles/widgets/ungrouped_card_tile.dart';
 import 'package:lauschi/features/parent/widgets/draggable_tile_grid.dart';
-import 'package:lauschi/features/tiles/screens/tile_detail_screen.dart';
+import 'package:lauschi/features/tiles/screens/tile_detail/screen.dart';
 
 const _tag = 'ManageTilesScreen';
 

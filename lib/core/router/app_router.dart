@@ -6,8 +6,8 @@ import 'package:lauschi/core/log.dart';
 import 'package:lauschi/core/providers/provider_type.dart';
 import 'package:lauschi/core/spotify/spotify_catalog_source.dart';
 import 'package:lauschi/core/spotify/spotify_session.dart';
+import 'package:lauschi/features/onboarding/screens/onboarding/screen.dart';
 import 'package:lauschi/features/onboarding/screens/onboarding_provider.dart';
-import 'package:lauschi/features/onboarding/screens/onboarding_screen.dart';
 import 'package:lauschi/features/parent/screens/add_content_screen.dart';
 import 'package:lauschi/features/parent/screens/ard_show_detail/screen.dart';
 import 'package:lauschi/features/parent/screens/browse_catalog/screen.dart';
@@ -22,7 +22,7 @@ import 'package:lauschi/features/parent/screens/settings/screen.dart';
 import 'package:lauschi/features/parent/screens/tile_edit/screen.dart';
 import 'package:lauschi/features/player/screens/player/screen.dart';
 import 'package:lauschi/features/tiles/screens/kid_home_screen.dart';
-import 'package:lauschi/features/tiles/screens/tile_detail_screen.dart';
+import 'package:lauschi/features/tiles/screens/tile_detail/screen.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 

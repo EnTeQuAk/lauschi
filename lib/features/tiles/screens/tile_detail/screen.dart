@@ -3,10 +3,8 @@ import 'dart:async' show unawaited;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:lauschi/core/catalog/catalog_service.dart' show ContentType;
 import 'package:lauschi/core/connectivity/connectivity_provider.dart';
 import 'package:lauschi/core/database/app_database.dart' as db;
-import 'package:lauschi/core/database/tile_item_repository.dart';
 import 'package:lauschi/core/database/tile_repository.dart';
 import 'package:lauschi/core/log.dart';
 import 'package:lauschi/core/nfc/nfc_pair_dialog.dart';
@@ -17,8 +15,9 @@ import 'package:lauschi/core/theme/app_theme.dart';
 import 'package:lauschi/features/player/player_provider.dart';
 import 'package:lauschi/features/player/widgets/now_playing_bar.dart';
 import 'package:lauschi/features/player/widgets/player_error_dialog.dart';
-import 'package:lauschi/features/tiles/widgets/audio_tile.dart';
-import 'package:lauschi/features/tiles/widgets/tile_card.dart';
+import 'package:lauschi/features/tiles/screens/tile_detail/widgets/child_tile_grid.dart';
+import 'package:lauschi/features/tiles/screens/tile_detail/widgets/episode_grid.dart';
+import 'package:lauschi/features/tiles/screens/tile_detail/widgets/tile_group_header.dart';
 
 const _tag = 'TileDetailScreen';
 
@@ -79,7 +78,7 @@ class TileDetailScreen extends ConsumerWidget {
             // Header with back button + optional NFC pair action
             groupAsync.when(
               data:
-                  (group) => _GroupHeader(
+                  (group) => TileGroupHeader(
                     title: group?.title ?? '',
                     onBack: () {
                       if (context.canPop()) {
@@ -100,7 +99,7 @@ class TileDetailScreen extends ConsumerWidget {
                             : null,
                   ),
               loading:
-                  () => _GroupHeader(
+                  () => TileGroupHeader(
                     title: '',
                     onBack: () {
                       if (context.canPop()) {
@@ -111,7 +110,7 @@ class TileDetailScreen extends ConsumerWidget {
                     },
                   ),
               error:
-                  (_, _) => _GroupHeader(
+                  (_, _) => TileGroupHeader(
                     title: '',
                     onBack: () {
                       if (context.canPop()) {
@@ -165,7 +164,7 @@ class TileDetailScreen extends ConsumerWidget {
                   if (childTiles.isNotEmpty) {
                     // This tile has child tiles: show them as a grid.
                     // Tapping a child navigates deeper (recursive).
-                    return _ChildTileGrid(
+                    return ChildTileGrid(
                       children: childTiles,
                       onTileTap: (child) {
                         Log.info(
@@ -191,13 +190,15 @@ class TileDetailScreen extends ConsumerWidget {
                         return const _EmptyGroupState();
                       }
                       final nextId = nextUnheard?.id;
-                      return _EpisodeGrid(
+                      return EpisodeGrid(
                         episodes: episodes,
                         nextUnheardId: nextId,
                         activeUri: playerState.activeContextUri,
                         isPlaying: playerState.isPlaying,
                         isActive: playerState.track != null,
                         showEpisodeTitles: showTitles,
+                        albumProgress: _albumProgress,
+                        onExpiredTap: () => _showExpiredModal(context),
                         onCardTap: (card) {
                           Log.info(
                             _tag,
@@ -271,152 +272,9 @@ class TileDetailScreen extends ConsumerWidget {
   }
 }
 
-class _GroupHeader extends StatelessWidget {
-  const _GroupHeader({
-    required this.title,
-    required this.onBack,
-    this.onNfcPair,
-  });
 
-  final String title;
-  final VoidCallback onBack;
+// ── Inline widgets ──────────────────────────────────────────────────────
 
-  /// If non-null, shows an NFC pair button in the header.
-  final VoidCallback? onNfcPair;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(
-        AppSpacing.md,
-        AppSpacing.lg,
-        AppSpacing.screenH,
-        AppSpacing.sm,
-      ),
-      child: Row(
-        children: [
-          SizedBox(
-            width: 72,
-            height: 72,
-            child: Semantics(
-              label: 'Zurück',
-              button: true,
-              child: Material(
-                color: AppColors.surfaceDim,
-                shape: const CircleBorder(),
-                child: InkWell(
-                  key: const Key('back_button'),
-                  customBorder: const CircleBorder(),
-                  onTap: onBack,
-                  child: const Icon(
-                    Icons.chevron_left_rounded,
-                    size: 48,
-                    color: AppColors.textPrimary,
-                  ),
-                ),
-              ),
-            ),
-          ),
-          const SizedBox(width: AppSpacing.sm),
-          Expanded(
-            child: Text(
-              title,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: const TextStyle(
-                fontFamily: 'Nunito',
-                fontSize: 26,
-                fontWeight: FontWeight.w800,
-                color: AppColors.textPrimary,
-                letterSpacing: -0.3,
-              ),
-            ),
-          ),
-          if (onNfcPair != null)
-            IconButton(
-              key: const Key('nfc_pair_button'),
-              onPressed: onNfcPair,
-              icon: const Icon(Icons.nfc_rounded),
-              iconSize: 22,
-              style: IconButton.styleFrom(
-                minimumSize: const Size(44, 44),
-                foregroundColor: AppColors.textSecondary,
-              ),
-              tooltip: 'NFC-Tag verknüpfen',
-            ),
-        ],
-      ),
-    );
-  }
-}
-
-/// Grid of child tiles inside a parent tile. Same visual as the kid home
-/// screen grid. Tapping navigates deeper into the child tile.
-class _ChildTileGrid extends ConsumerWidget {
-  const _ChildTileGrid({
-    required this.children,
-    required this.onTileTap,
-  });
-
-  final List<db.Tile> children;
-  final void Function(db.Tile) onTileTap;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final progressMap = ref.watch(tileProgressProvider);
-
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        final columns = kidGridColumns(constraints.maxWidth);
-
-        return GridView.builder(
-          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.screenH),
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: columns,
-            crossAxisSpacing: 12,
-            mainAxisSpacing: 12,
-          ),
-          itemCount: children.length,
-          itemBuilder: (context, index) {
-            final child = children[index];
-            final stats = progressMap[child.id];
-            final total = stats?.total ?? 0;
-            final heard = stats?.heard ?? 0;
-            final progress = total > 0 ? (heard / total) : 0.0;
-            final childCovers =
-                ref
-                    .watch(childTilesProvider(child.id))
-                    .whenOrNull(
-                      data:
-                          (tiles) =>
-                              tiles
-                                  .where((t) => t.coverUrl != null)
-                                  .take(4)
-                                  .map((t) => t.coverUrl!)
-                                  .toList(),
-                    ) ??
-                const <String>[];
-
-            return TileCard(
-              key: Key('child_tile_${child.id}'),
-              title: child.title,
-              episodeCount: total,
-              coverUrl: child.coverUrl,
-              progress: progress,
-              contentType: ContentType.fromString(child.contentType),
-              childCoverUrls: childCovers,
-              kidMode: true,
-              onTap: () => onTileTap(child),
-            );
-          },
-        );
-      },
-    );
-  }
-}
-
-/// Modal explaining why an episode is unavailable.
-/// Uses the confused fox mascot, same visual language as player errors.
 void _showExpiredModal(BuildContext context) {
   unawaited(
     showDialog<void>(
@@ -489,188 +347,6 @@ void _showExpiredModal(BuildContext context) {
   );
 }
 
-class _EpisodeGrid extends StatefulWidget {
-  const _EpisodeGrid({
-    required this.episodes,
-    required this.activeUri,
-    required this.isPlaying,
-    required this.isActive,
-    required this.onCardTap,
-    this.nextUnheardId,
-    this.showEpisodeTitles = false,
-  });
-
-  final List<db.TileItem> episodes;
-  final String? nextUnheardId;
-  final String? activeUri;
-  final bool isPlaying;
-  final bool isActive;
-  final void Function(db.TileItem card) onCardTap;
-  final bool showEpisodeTitles;
-
-  @override
-  State<_EpisodeGrid> createState() => _EpisodeGridState();
-}
-
-class _EpisodeGridState extends State<_EpisodeGrid> {
-  static const _crossAxisSpacing = 12.0;
-  static const _mainAxisSpacing = 16.0;
-
-  final _controller = ScrollController();
-  bool _didInitialScroll = false;
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        final columns = kidGridColumns(constraints.maxWidth);
-
-        // Scroll to the "Weiter" episode on first open so kids don't have
-        // to hunt through hundreds of tiles. Only runs once per screen
-        // visit; returning from the player keeps the user's scroll position.
-        if (!_didInitialScroll && widget.nextUnheardId != null) {
-          _didInitialScroll = true;
-          final index = widget.episodes.indexWhere(
-            (e) => e.id == widget.nextUnheardId,
-          );
-          if (index > 0) {
-            final row = index ~/ columns;
-            // Item height from grid math (aspect ratio 1:1)
-            final availableWidth =
-                constraints.maxWidth - 2 * AppSpacing.screenH;
-            final itemHeight =
-                (availableWidth - (columns - 1) * _crossAxisSpacing) / columns;
-            // Place the target row ~30% from the top of the viewport
-            final offset =
-                AppSpacing.sm +
-                row * (itemHeight + _mainAxisSpacing) -
-                constraints.maxHeight * 0.3;
-            if (offset > 0) {
-              WidgetsBinding.instance.addPostFrameCallback((_) {
-                if (_controller.hasClients) {
-                  _controller.jumpTo(
-                    offset.clamp(0.0, _controller.position.maxScrollExtent),
-                  );
-                }
-              });
-            }
-          }
-        }
-
-        return GridView.builder(
-          controller: _controller,
-          padding: const EdgeInsets.fromLTRB(
-            AppSpacing.screenH,
-            AppSpacing.sm,
-            AppSpacing.screenH,
-            AppSpacing.xxl,
-          ),
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: columns,
-            crossAxisSpacing: _crossAxisSpacing,
-            mainAxisSpacing: _mainAxisSpacing,
-          ),
-          itemCount: widget.episodes.length,
-          itemBuilder: (context, index) {
-            final card = widget.episodes[index];
-            final expired = isItemExpired(card);
-            final isCurrentCard =
-                !expired &&
-                widget.isActive &&
-                widget.activeUri == card.providerUri;
-            final isNext = !expired && card.id == widget.nextUnheardId;
-
-            return Stack(
-              clipBehavior: Clip.none,
-              children: [
-                // Subtle highlight on the "Weiter" tile so it stands
-                // out regardless of cover art brightness.
-                if (isNext)
-                  Positioned.fill(
-                    child: DecoratedBox(
-                      decoration: BoxDecoration(
-                        borderRadius: const BorderRadius.all(AppRadius.card),
-                        boxShadow: [
-                          BoxShadow(
-                            color: AppColors.accent.withAlpha(60),
-                            blurRadius: 12,
-                            spreadRadius: 2,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                TileItem(
-                  key: ValueKey(card.id),
-                  title: card.customTitle ?? card.title,
-                  coverUrl: card.coverUrl,
-                  isPlaying: isCurrentCard && widget.isPlaying,
-                  isPaused: isCurrentCard && !widget.isPlaying,
-                  isHeard: card.isHeard,
-                  isExpired: expired,
-                  progress: expired ? 0 : _albumProgress(card),
-                  kidMode: true,
-                  episodeNumber: card.episodeNumber,
-                  showEpisodeTitles: widget.showEpisodeTitles,
-                  onTap:
-                      expired
-                          ? () => _showExpiredModal(context)
-                          : () => widget.onCardTap(card),
-                ),
-                // "Weiter" badge on next unheard episode
-                if (isNext)
-                  Positioned(
-                    top: -8,
-                    left: 0,
-                    right: 0,
-                    child: Center(
-                      child: ExcludeSemantics(
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 10,
-                            vertical: 3,
-                          ),
-                          decoration: BoxDecoration(
-                            color: AppColors.accent,
-                            borderRadius: const BorderRadius.all(
-                              AppRadius.pill,
-                            ),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withValues(alpha: 0.3),
-                                blurRadius: 4,
-                                offset: const Offset(0, 2),
-                              ),
-                            ],
-                          ),
-                          child: const Text(
-                            '▶ Weiter',
-                            style: TextStyle(
-                              fontFamily: 'Nunito',
-                              fontSize: 13,
-                              fontWeight: FontWeight.w800,
-                              color: AppColors.textOnPrimary,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-              ],
-            );
-          },
-        );
-      },
-    );
-  }
-}
-
 class _EmptyGroupState extends StatelessWidget {
   const _EmptyGroupState();
 
@@ -699,12 +375,6 @@ class _EmptyGroupState extends StatelessWidget {
   }
 }
 
-// ---------------------------------------------------------------------------
-// Providers scoped to a group — manual StreamProviders to avoid Drift type
-// resolution issues with riverpod_generator.
-// ---------------------------------------------------------------------------
-
-/// Cards in a specific group, ordered by episode number.
 final tileItemsProvider = StreamProvider.family<List<db.TileItem>, String>(
   (ref, tileId) {
     return ref.watch(tileRepositoryProvider).watchItems(tileId);

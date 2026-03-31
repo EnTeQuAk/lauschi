@@ -11,7 +11,7 @@ import 'package:lauschi/core/router/app_router.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
 import 'package:lauschi/features/parent/screens/tile_edit/widgets/cover_picker.dart';
 import 'package:lauschi/features/parent/screens/tile_edit/widgets/episode_reorder_list.dart';
-import 'package:lauschi/features/tiles/screens/tile_detail_screen.dart';
+import 'package:lauschi/features/tiles/screens/tile_detail/screen.dart';
 
 const _tag = 'TileEditScreen';
 
