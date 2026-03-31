@@ -12,11 +12,11 @@ import 'package:lauschi/core/feature_flags.dart';
 import 'package:lauschi/core/log.dart';
 import 'package:lauschi/core/router/app_router.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
-import 'package:lauschi/features/parent/widgets/cards/auto_sort_banner.dart';
-import 'package:lauschi/features/parent/widgets/cards/card_section_header.dart';
-import 'package:lauschi/features/parent/widgets/cards/card_tile.dart';
-import 'package:lauschi/features/parent/widgets/cards/group_picker_sheet.dart';
-import 'package:lauschi/features/parent/widgets/cards/sort_result_dialog.dart';
+import 'package:lauschi/features/parent/screens/manage_cards/widgets/auto_sort_banner.dart';
+import 'package:lauschi/features/parent/screens/manage_cards/widgets/card_section_header.dart';
+import 'package:lauschi/features/parent/screens/manage_cards/widgets/card_tile.dart';
+import 'package:lauschi/features/parent/screens/manage_cards/widgets/group_picker_sheet.dart';
+import 'package:lauschi/features/parent/screens/manage_cards/widgets/sort_result_dialog.dart';
 
 const _tag = 'ManageCards';
 

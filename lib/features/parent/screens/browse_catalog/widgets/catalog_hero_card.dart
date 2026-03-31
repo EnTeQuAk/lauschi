@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lauschi/core/catalog/catalog_service.dart';
 import 'package:lauschi/core/providers/provider_type.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
-import 'package:lauschi/features/parent/widgets/catalog/catalog_helpers.dart';
+import 'package:lauschi/features/parent/screens/browse_catalog/widgets/catalog_helpers.dart';
 
 /// Compact hero card shown in search results when an album matches
 /// a curated catalog series.

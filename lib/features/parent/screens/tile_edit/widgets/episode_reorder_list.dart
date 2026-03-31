@@ -6,7 +6,7 @@ import 'package:lauschi/core/database/app_database.dart' as db;
 import 'package:lauschi/core/database/tile_item_repository.dart';
 import 'package:lauschi/core/log.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
-import 'package:lauschi/features/parent/widgets/tile_edit/episode_tile.dart';
+import 'package:lauschi/features/parent/screens/tile_edit/widgets/episode_tile.dart';
 
 const _tag = 'EpisodeReorderList';
 

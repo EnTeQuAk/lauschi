@@ -10,9 +10,9 @@ import 'package:lauschi/core/database/tile_item_repository.dart';
 import 'package:lauschi/core/log.dart';
 import 'package:lauschi/core/providers/provider_type.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
-import 'package:lauschi/features/parent/widgets/ard/ard_episode_tile.dart';
-import 'package:lauschi/features/parent/widgets/ard/ard_show_header.dart';
-import 'package:lauschi/features/parent/widgets/ard/ard_show_meta.dart';
+import 'package:lauschi/features/parent/screens/ard_show_detail/widgets/ard_episode_tile.dart';
+import 'package:lauschi/features/parent/screens/ard_show_detail/widgets/ard_show_header.dart';
+import 'package:lauschi/features/parent/screens/ard_show_detail/widgets/ard_show_meta.dart';
 
 const _tag = 'ArdShowDetailScreen';
 

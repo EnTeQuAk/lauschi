@@ -7,7 +7,7 @@ import 'package:lauschi/core/log.dart';
 import 'package:lauschi/core/spotify/spotify_api.dart';
 import 'package:lauschi/core/spotify/spotify_session.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
-import 'package:lauschi/features/parent/widgets/catalog/catalog_helpers.dart';
+import 'package:lauschi/features/parent/screens/browse_catalog/widgets/catalog_helpers.dart';
 
 const _tag = 'PlaylistDetailSheet';
 

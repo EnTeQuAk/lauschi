@@ -15,14 +15,14 @@ import 'package:lauschi/core/router/app_router.dart';
 import 'package:lauschi/core/spotify/spotify_api.dart';
 import 'package:lauschi/core/spotify/spotify_session.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
-import 'package:lauschi/features/parent/widgets/catalog/album_detail_sheet.dart';
-import 'package:lauschi/features/parent/widgets/catalog/batch_add_banner.dart';
-import 'package:lauschi/features/parent/widgets/catalog/catalog_hero_card.dart';
-import 'package:lauschi/features/parent/widgets/catalog/collapsible_divider.dart';
-import 'package:lauschi/features/parent/widgets/catalog/curated_series_card.dart';
-import 'package:lauschi/features/parent/widgets/catalog/playlist_detail_sheet.dart';
-import 'package:lauschi/features/parent/widgets/catalog/playlist_result_tile.dart';
-import 'package:lauschi/features/parent/widgets/catalog/search_result_tile.dart';
+import 'package:lauschi/features/parent/screens/browse_catalog/widgets/album_detail_sheet.dart';
+import 'package:lauschi/features/parent/screens/browse_catalog/widgets/batch_add_banner.dart';
+import 'package:lauschi/features/parent/screens/browse_catalog/widgets/catalog_hero_card.dart';
+import 'package:lauschi/features/parent/screens/browse_catalog/widgets/collapsible_divider.dart';
+import 'package:lauschi/features/parent/screens/browse_catalog/widgets/curated_series_card.dart';
+import 'package:lauschi/features/parent/screens/browse_catalog/widgets/playlist_detail_sheet.dart';
+import 'package:lauschi/features/parent/screens/browse_catalog/widgets/playlist_result_tile.dart';
+import 'package:lauschi/features/parent/screens/browse_catalog/widgets/search_result_tile.dart';
 
 const _tag = 'BrowseCatalog';
 

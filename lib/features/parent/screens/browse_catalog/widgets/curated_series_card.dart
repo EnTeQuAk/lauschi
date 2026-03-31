@@ -10,7 +10,7 @@ import 'package:lauschi/core/database/tile_repository.dart';
 import 'package:lauschi/core/providers/provider_type.dart';
 import 'package:lauschi/core/router/app_router.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
-import 'package:lauschi/features/parent/widgets/catalog/catalog_helpers.dart';
+import 'package:lauschi/features/parent/screens/browse_catalog/widgets/catalog_helpers.dart';
 
 /// Grid card for a curated series in the catalog browse view.
 class CuratedSeriesCard extends ConsumerWidget {

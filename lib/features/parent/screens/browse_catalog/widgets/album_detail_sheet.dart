@@ -7,7 +7,7 @@ import 'package:lauschi/core/catalog/catalog_service.dart';
 import 'package:lauschi/core/catalog/catalog_source.dart';
 import 'package:lauschi/core/log.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
-import 'package:lauschi/features/parent/widgets/catalog/catalog_helpers.dart';
+import 'package:lauschi/features/parent/screens/browse_catalog/widgets/catalog_helpers.dart';
 
 const _tag = 'AlbumDetailSheet';
 

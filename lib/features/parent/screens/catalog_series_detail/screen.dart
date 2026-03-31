@@ -9,7 +9,7 @@ import 'package:lauschi/core/database/tile_item_repository.dart';
 import 'package:lauschi/core/log.dart';
 import 'package:lauschi/core/providers/provider_type.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
-import 'package:lauschi/features/parent/widgets/catalog/catalog_helpers.dart';
+import 'package:lauschi/features/parent/screens/browse_catalog/widgets/catalog_helpers.dart';
 import 'package:lauschi/features/parent/widgets/import_progress_dialog.dart';
 
 const _tag = 'CatalogSeriesDetail';

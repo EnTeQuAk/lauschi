@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lauschi/core/auth/pin_service.dart';
+import 'package:lauschi/core/database/content_importer.dart';
 import 'package:lauschi/core/database/tile_repository.dart';
 import 'package:lauschi/core/log.dart';
 import 'package:lauschi/core/providers/provider_auth.dart';
@@ -47,6 +48,33 @@ class ParentDashboardScreen extends ConsumerWidget {
       ),
       body: ListView(
         children: [
+          if (ref.watch(contentImporterProvider)
+              case final ImportRunning running)
+            Container(
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppSpacing.screenH,
+                vertical: AppSpacing.sm,
+              ),
+              color: AppColors.primary.withValues(alpha: 0.1),
+              child: Row(
+                children: [
+                  const SizedBox(
+                    width: 14,
+                    height: 14,
+                    child: CircularProgressIndicator(strokeWidth: 2),
+                  ),
+                  const SizedBox(width: AppSpacing.sm),
+                  Text(
+                    'Importiere ${running.showTitle}…',
+                    style: const TextStyle(
+                      fontFamily: 'Nunito',
+                      fontSize: 13,
+                      color: AppColors.textSecondary,
+                    ),
+                  ),
+                ],
+              ),
+            ),
           // ── Sammlung ─────────────────────────────────────────────────
           const _SectionHeader(title: 'Sammlung'),
           _SettingsTile(
