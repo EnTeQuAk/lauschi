@@ -160,7 +160,27 @@ class GroupPickerSheet extends ConsumerWidget {
                   padding: EdgeInsets.all(AppSpacing.lg),
                   child: CircularProgressIndicator(),
                 ),
-            error: (_, _) => const SizedBox.shrink(),
+            error:
+                (_, _) => Padding(
+                  padding: const EdgeInsets.all(AppSpacing.lg),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Text(
+                        'Fehler beim Laden der Kacheln.',
+                        style: TextStyle(
+                          fontFamily: 'Nunito',
+                          color: AppColors.textSecondary,
+                        ),
+                      ),
+                      const SizedBox(height: AppSpacing.md),
+                      TextButton(
+                        onPressed: () => ref.invalidate(allTilesProvider),
+                        child: const Text('Erneut versuchen'),
+                      ),
+                    ],
+                  ),
+                ),
           ),
           const SizedBox(height: AppSpacing.md),
         ],

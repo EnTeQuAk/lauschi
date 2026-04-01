@@ -162,19 +162,21 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen>
   // Search
   // ---------------------------------------------------------------------------
 
+  void _resetSearchState() {
+    _albumResults = [];
+    _playlistResults = [];
+    _catalogMatches = [];
+    _heroSeries = [];
+    _totalCatalogHits = 0;
+    _isMatchingExpanded = false;
+    _isSearching = false;
+    _hasSearched = false;
+  }
+
   void _onSearchChanged(String query) {
     _debounce?.cancel();
     if (query.trim().isEmpty) {
-      setState(() {
-        _albumResults = [];
-        _playlistResults = [];
-        _catalogMatches = [];
-        _heroSeries = [];
-        _totalCatalogHits = 0;
-        _isMatchingExpanded = false;
-        _isSearching = false;
-        _hasSearched = false;
-      });
+      setState(_resetSearchState);
       return;
     }
     _debounce = Timer(const Duration(milliseconds: 400), () async {
@@ -284,13 +286,7 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen>
     _searchGeneration++; // Invalidate in-flight requests for old mode
     setState(() {
       _searchMode = mode;
-      _albumResults = [];
-      _playlistResults = [];
-      _catalogMatches = [];
-      _heroSeries = [];
-      _totalCatalogHits = 0;
-      _isMatchingExpanded = false;
-      _hasSearched = false;
+      _resetSearchState();
     });
     final query = _searchController.text.trim();
     if (query.isNotEmpty) {
@@ -302,16 +298,7 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen>
   void _clearSearch() {
     _searchController.clear();
     _searchFocusNode.unfocus();
-    setState(() {
-      _albumResults = [];
-      _playlistResults = [];
-      _catalogMatches = [];
-      _heroSeries = [];
-      _totalCatalogHits = 0;
-      _isMatchingExpanded = false;
-      _isSearching = false;
-      _hasSearched = false;
-    });
+    setState(_resetSearchState);
   }
 
   // ---------------------------------------------------------------------------
@@ -421,10 +408,21 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen>
               behavior: SnackBarBehavior.floating,
               action: SnackBarAction(
                 label: 'Rückgängig',
-                onPressed: () {
-                  final repo = ref.read(tileItemRepositoryProvider);
-                  for (final id in ids) {
-                    unawaited(repo.removeFromTile(id));
+                onPressed: () async {
+                  try {
+                    final repo = ref.read(tileItemRepositoryProvider);
+                    await Future.wait(ids.map(repo.removeFromTile));
+                  } on Exception catch (e) {
+                    Log.error(_tag, 'Undo failed', exception: e);
+                    if (!context.mounted) return;
+                    // The mounted check above guards this context use.
+                    // ignore: use_build_context_synchronously
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Rückgängig fehlgeschlagen'),
+                        behavior: SnackBarBehavior.floating,
+                      ),
+                    );
                   }
                 },
               ),
@@ -847,16 +845,20 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen>
                 allAdded: allAdded,
                 onTap: () {
                   if (allAdded) {
-                    final tiles = ref.read(allTilesProvider).value ?? [];
-                    final match = tiles.where(
-                      (t) =>
-                          t.title.toLowerCase() == series.title.toLowerCase(),
-                    );
-                    if (match.isNotEmpty) {
-                      unawaited(
-                        context.push(AppRoutes.parentTileEdit(match.first.id)),
+                    final tilesAsync = ref.read(allTilesProvider);
+                    if (tilesAsync case AsyncData(:final value)) {
+                      final match = value.where(
+                        (t) =>
+                            t.title.toLowerCase() == series.title.toLowerCase(),
                       );
-                      return;
+                      if (match.isNotEmpty) {
+                        unawaited(
+                          context.push(
+                            AppRoutes.parentTileEdit(match.first.id),
+                          ),
+                        );
+                        return;
+                      }
                     }
                   }
                   if (series.hasCuratedAlbumsFor(_source.provider)) {

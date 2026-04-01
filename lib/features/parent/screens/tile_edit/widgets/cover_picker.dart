@@ -1,6 +1,7 @@
 import 'dart:async' show unawaited;
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/foundation.dart' show listEquals;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lauschi/core/feature_flags.dart';
@@ -55,7 +56,7 @@ class _CoverPickerState extends ConsumerState<CoverPicker> {
   @override
   void didUpdateWidget(CoverPicker oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (oldWidget.artistIds != widget.artistIds) {
+    if (!listEquals(oldWidget.artistIds, widget.artistIds)) {
       _artistImagesFetched = false;
       _artistImages.clear();
       unawaited(_fetchArtistImages());
@@ -69,15 +70,17 @@ class _CoverPickerState extends ConsumerState<CoverPicker> {
 
     final api = ref.read(spotifySessionProvider.notifier).api;
 
-    for (final id in widget.artistIds) {
+    final futures = widget.artistIds.map((id) async {
       try {
-        final url = await api.getArtistImage(id);
-        if (url != null && mounted) {
-          setState(() => _artistImages.add(url));
-        }
+        return await api.getArtistImage(id);
       } on Exception {
-        // Artist image fetch is best-effort.
+        return null; // Best-effort.
       }
+    });
+    final results = await Future.wait(futures);
+    if (mounted) {
+      final urls = results.whereType<String>().toList();
+      if (urls.isNotEmpty) setState(() => _artistImages.addAll(urls));
     }
   }
 
@@ -141,14 +144,19 @@ class _CoverPickerState extends ConsumerState<CoverPicker> {
                   ),
                   if (_currentUrl.isNotEmpty) ...[
                     const SizedBox(height: 4),
-                    GestureDetector(
-                      onTap: _clearCover,
-                      child: const Text(
-                        'Entfernen',
-                        style: TextStyle(
-                          fontFamily: 'Nunito',
-                          fontSize: 12,
-                          color: AppColors.error,
+                    Semantics(
+                      button: true,
+                      label: 'Cover entfernen',
+                      child: InkWell(
+                        onTap: _clearCover,
+                        borderRadius: BorderRadius.circular(4),
+                        child: const Text(
+                          'Entfernen',
+                          style: TextStyle(
+                            fontFamily: 'Nunito',
+                            fontSize: 12,
+                            color: AppColors.error,
+                          ),
                         ),
                       ),
                     ),

@@ -9,7 +9,7 @@ class AutoSortBanner extends ConsumerWidget {
     required this.onSort,
     super.key,
     this.onTap,
-  });
+  }) : assert(ungroupedCount > 0, 'ungroupedCount must be positive');
 
   final int ungroupedCount;
 
