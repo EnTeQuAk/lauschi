@@ -197,7 +197,15 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen>
       }
     } on Exception catch (e) {
       Log.error(_tag, 'Search failed', exception: e);
-      if (mounted) setState(() => _isSearching = false);
+      if (mounted) {
+        setState(() => _isSearching = false);
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Suche fehlgeschlagen'),
+            behavior: SnackBarBehavior.floating,
+          ),
+        );
+      }
     }
   }
 

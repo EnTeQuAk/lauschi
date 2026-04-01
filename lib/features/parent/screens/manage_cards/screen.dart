@@ -450,5 +450,13 @@ Future<void> _runRetroactiveSort(BuildContext context, WidgetRef ref) async {
   } on Exception catch (e) {
     if (context.mounted) Navigator.of(context).pop();
     Log.error(_tag, 'Retroactive sort failed', exception: e);
+    if (context.mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Sortieren fehlgeschlagen'),
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+    }
   }
 }
