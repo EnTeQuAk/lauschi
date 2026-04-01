@@ -8,6 +8,8 @@ Project context for AI coding agents (Pi, Claude Code, etc.).
 
 Flutter app targeting iOS and Android (DACH market focus). MVP in progress.
 
+**Quality bar:** This is a Herzensprojekt. Polish is not optional. Every review finding gets addressed, not triaged into "nice to have" tickets. Error messages are specific, edge cases are handled, UX feedback is clear. Kids and parents deserve software that doesn't cut corners.
+
 ## Development Commands
 
 All commands use [mise](https://mise.jdx.dev/) for tool management. Run `mise install` first.
@@ -80,20 +82,24 @@ lib/
 ├── main.dart                # Entry point, media session init, Sentry
 ├── core/
 │   ├── apple_music/         # MusicKit auth, API client
+│   ├── ard/                 # ARD Audiothek API, models, helpers
 │   ├── auth/                # PIN service
 │   ├── catalog/             # Series YAML matching, CatalogSource interface
 │   ├── connectivity/        # Network state
-│   ├── database/            # Drift tables, repositories
+│   ├── database/            # Drift tables, repositories, content importer
+│   ├── nfc/                 # NFC tag pairing
 │   ├── providers/           # ProviderType enum, ProviderAuth, registry
 │   ├── router/              # go_router config + redirects
 │   ├── settings/            # Debug/diagnostic settings
 │   ├── spotify/             # Auth (PKCE), API client, CatalogSource
 │   └── theme/               # App theme
 └── features/
-    ├── cards/               # Kid home screen, card widgets
     ├── onboarding/          # First-run flow
     ├── parent/              # Dashboard, card/group management, settings
-    └── player/              # SpotifyPlayer, StreamPlayer, AppleMusicPlayer, WebView bridges
+    │   ├── screens/         # Complex screens: name/screen.dart + widgets/
+    │   └── widgets/         # Shared parent widgets (draggable grid, etc.)
+    ├── player/              # SpotifyPlayer, StreamPlayer, AppleMusicPlayer
+    └── tiles/               # Kid home screen, tile detail, card widgets
 
 tools/                       # lauschi-catalog CLI (Python package)
 ├── pyproject.toml
