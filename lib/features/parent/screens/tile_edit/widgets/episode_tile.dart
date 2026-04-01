@@ -8,6 +8,9 @@ import 'package:lauschi/core/database/tile_item_repository.dart';
 import 'package:lauschi/core/log.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
 
+/// Whether the item is confirmed unavailable (runtime flag, not endDate).
+bool _isUnavailable(db.TileItem card) => card.markedUnavailable != null;
+
 const _tag = 'EpisodeTile';
 
 /// Single episode row in the tile edit reorder list.
@@ -25,46 +28,63 @@ class EpisodeTile extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final unavailable = _isUnavailable(card);
+
     return ListTile(
       tileColor: AppColors.parentSurface,
-      leading: ClipRRect(
-        borderRadius: const BorderRadius.all(Radius.circular(6)),
-        child: SizedBox(
-          width: 40,
-          height: 40,
-          child:
-              card.coverUrl != null
-                  ? CachedNetworkImage(
-                    imageUrl: card.coverUrl!,
-                    fit: BoxFit.cover,
-                    memCacheWidth: 80,
-                    memCacheHeight: 80,
-                    fadeInDuration: Duration.zero,
-                    placeholder:
-                        (_, _) => const ColoredBox(
-                          color: AppColors.surfaceDim,
-                        ),
-                  )
-                  : const ColoredBox(
-                    color: AppColors.surfaceDim,
-                    child: Icon(Icons.music_note_rounded, size: 20),
-                  ),
+      leading: Opacity(
+        opacity: unavailable ? 0.4 : 1.0,
+        child: ClipRRect(
+          borderRadius: const BorderRadius.all(Radius.circular(6)),
+          child: SizedBox(
+            width: 40,
+            height: 40,
+            child:
+                card.coverUrl != null
+                    ? CachedNetworkImage(
+                      imageUrl: card.coverUrl!,
+                      fit: BoxFit.cover,
+                      memCacheWidth: 80,
+                      memCacheHeight: 80,
+                      fadeInDuration: Duration.zero,
+                      placeholder:
+                          (_, _) => const ColoredBox(
+                            color: AppColors.surfaceDim,
+                          ),
+                    )
+                    : const ColoredBox(
+                      color: AppColors.surfaceDim,
+                      child: Icon(Icons.music_note_rounded, size: 20),
+                    ),
+          ),
         ),
       ),
       title: Text(
         card.customTitle ?? card.title,
         maxLines: 1,
         overflow: TextOverflow.ellipsis,
-        style: const TextStyle(
+        style: TextStyle(
           fontFamily: 'Nunito',
           fontWeight: FontWeight.w600,
           fontSize: 14,
+          color: unavailable ? AppColors.textSecondary : null,
         ),
       ),
-      subtitle: _buildSubtitle(),
+      subtitle: _buildSubtitle(unavailable: unavailable),
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
+          if (unavailable)
+            IconButton(
+              icon: const Icon(
+                Icons.info_outline_rounded,
+                color: AppColors.warning,
+                size: 20,
+              ),
+              tooltip: 'Nicht verfügbar',
+              visualDensity: VisualDensity.compact,
+              onPressed: () => _showUnavailableInfo(context),
+            ),
           PopupMenuButton<String>(
             icon: const Icon(
               Icons.more_vert_rounded,
@@ -105,10 +125,24 @@ class EpisodeTile extends ConsumerWidget {
     );
   }
 
-  Widget? _buildSubtitle() {
+  Widget? _buildSubtitle({bool unavailable = false}) {
     final spans = <InlineSpan>[];
 
+    if (unavailable) {
+      spans.add(
+        const TextSpan(
+          text: 'Nicht verfügbar',
+          style: TextStyle(
+            fontFamily: 'Nunito',
+            fontSize: 12,
+            color: AppColors.warning,
+          ),
+        ),
+      );
+    }
+
     if (card.episodeNumber != null) {
+      if (spans.isNotEmpty) spans.add(const TextSpan(text: '  ·  '));
       spans.add(
         TextSpan(
           text: 'Folge ${card.episodeNumber}',
@@ -121,7 +155,7 @@ class EpisodeTile extends ConsumerWidget {
       );
     }
 
-    if (card.isHeard) {
+    if (card.isHeard && !unavailable) {
       if (spans.isNotEmpty) spans.add(const TextSpan(text: '  ·  '));
       spans.add(
         const TextSpan(
@@ -137,6 +171,29 @@ class EpisodeTile extends ConsumerWidget {
 
     if (spans.isEmpty) return null;
     return Text.rich(TextSpan(children: spans));
+  }
+
+  void _showUnavailableInfo(BuildContext context) {
+    unawaited(
+      showDialog<void>(
+        context: context,
+        builder:
+            (ctx) => AlertDialog(
+              title: const Text('Nicht verfügbar'),
+              content: const Text(
+                'Diese Folge ist bei der ARD nicht mehr verfügbar. '
+                'Manchmal werden Inhalte später wieder freigeschaltet. '
+                'lauschi prüft regelmäßig, ob die Folge zurückkehrt.',
+              ),
+              actions: [
+                FilledButton(
+                  onPressed: () => Navigator.of(ctx).pop(),
+                  child: const Text('Verstanden'),
+                ),
+              ],
+            ),
+      ),
+    );
   }
 
   void _removeFromGroup(BuildContext context, WidgetRef ref) {
