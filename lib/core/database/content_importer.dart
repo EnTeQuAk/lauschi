@@ -100,6 +100,8 @@ final class ImportFailed extends ImportState {
 /// so imports survive navigation.
 @Riverpod(keepAlive: true)
 class ContentImporter extends _$ContentImporter {
+  int _generation = 0;
+
   @override
   ImportState build() => const ImportIdle();
 
@@ -122,6 +124,7 @@ class ContentImporter extends _$ContentImporter {
   }) async {
     if (state.isImporting) return;
 
+    final gen = ++_generation;
     state = ImportRunning(showTitle: showTitle, status: 'Lade $showTitle…');
 
     var added = 0;
@@ -163,7 +166,7 @@ class ContentImporter extends _$ContentImporter {
             added > 0 ? '$added bereits hinzugefügt, dann Fehler: $e' : '$e',
       );
     }
-    _autoReset();
+    _autoReset(gen);
   }
 
   /// Import a batch of pre-built cards into a group.
@@ -178,9 +181,10 @@ class ContentImporter extends _$ContentImporter {
     void Function(int done, int total)? onProgress,
   }) async {
     if (state.isImporting) {
-      return ImportResult(added: 0, groupTitle: groupTitle);
+      throw StateError('Import already in progress');
     }
 
+    final gen = ++_generation;
     state = ImportRunning(showTitle: groupTitle, status: 'Speichere…');
 
     var added = 0;
@@ -194,7 +198,7 @@ class ContentImporter extends _$ContentImporter {
       );
 
       state = ImportDone(added: added, showTitle: groupTitle);
-      _autoReset();
+      _autoReset(gen);
       return ImportResult(added: added, groupTitle: groupTitle);
     } on Exception catch (e) {
       state = ImportFailed(
@@ -203,7 +207,7 @@ class ContentImporter extends _$ContentImporter {
                 ? '$added von ${cards.length} hinzugefügt, dann Fehler: $e'
                 : '$e',
       );
-      _autoReset();
+      _autoReset(gen);
       rethrow;
     }
   }
@@ -258,11 +262,24 @@ class ContentImporter extends _$ContentImporter {
   ) async {
     final allItems = [...initial];
     String? cursor = startCursor;
+    // Safety net: ARD shows rarely exceed 500 episodes. 100 pages at
+    // 20 items/page = 2000 items, well above any real show.
+    const maxPages = 100;
+    var pageCount = 0;
 
-    while (cursor != null) {
+    while (cursor != null && pageCount < maxPages) {
       final page = await api.getItems(programSetId: showId, after: cursor);
       allItems.addAll(page.items);
       cursor = page.hasNextPage ? page.endCursor : null;
+      pageCount++;
+    }
+
+    if (pageCount >= maxPages && cursor != null) {
+      Log.warn(
+        _tag,
+        'Pagination limit reached',
+        data: {'showId': showId, 'pages': '$pageCount'},
+      );
     }
 
     Log.debug(
@@ -284,9 +301,11 @@ class ContentImporter extends _$ContentImporter {
   }
 
   /// Auto-reset after 5s as safety net when no widget is listening.
-  void _autoReset() {
+  /// Uses a generation counter to avoid resetting a subsequent import.
+  void _autoReset(int generation) {
     Future<void>.delayed(const Duration(seconds: 5), () {
-      if (state is ImportDone || state is ImportFailed) {
+      if (_generation == generation &&
+          (state is ImportDone || state is ImportFailed)) {
         state = const ImportIdle();
       }
     });

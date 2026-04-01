@@ -261,21 +261,33 @@ void _confirmDeleteGroup(
               FilledButton(
                 onPressed: () async {
                   Navigator.of(ctx).pop();
-                  final count = await ref
-                      .read(tileItemRepositoryProvider)
-                      .deleteByTile(group.id);
-                  await ref.read(tileRepositoryProvider).delete(group.id);
-                  if (context.mounted) {
-                    ScaffoldMessenger.of(context)
-                      ..clearSnackBars()
-                      ..showSnackBar(
-                        SnackBar(
-                          content: Text(
-                            '${group.title} + $count Karten entfernt',
+                  try {
+                    final count = await ref
+                        .read(tileItemRepositoryProvider)
+                        .deleteByTile(group.id);
+                    await ref.read(tileRepositoryProvider).delete(group.id);
+                    if (context.mounted) {
+                      ScaffoldMessenger.of(context)
+                        ..clearSnackBars()
+                        ..showSnackBar(
+                          SnackBar(
+                            content: Text(
+                              '${group.title} + $count Karten entfernt',
+                            ),
+                            behavior: SnackBarBehavior.floating,
                           ),
+                        );
+                    }
+                  } on Exception catch (e) {
+                    Log.error(_tag, 'Delete group failed', exception: e);
+                    if (context.mounted) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Löschen fehlgeschlagen'),
                           behavior: SnackBarBehavior.floating,
                         ),
                       );
+                    }
                   }
                 },
                 style: FilledButton.styleFrom(
@@ -305,22 +317,34 @@ void _confirmDelete(BuildContext context, WidgetRef ref, db.TileItem card) {
                 child: const Text('Abbrechen'),
               ),
               FilledButton(
-                onPressed: () {
+                onPressed: () async {
                   Navigator.of(ctx).pop();
-                  unawaited(
-                    ref.read(tileItemRepositoryProvider).delete(card.id),
-                  );
-                  ScaffoldMessenger.of(context)
-                    ..clearSnackBars()
-                    ..showSnackBar(
-                      SnackBar(
-                        content: Text(
-                          '${card.customTitle ?? card.title} entfernt',
+                  try {
+                    await ref.read(tileItemRepositoryProvider).delete(card.id);
+                    if (context.mounted) {
+                      ScaffoldMessenger.of(context)
+                        ..clearSnackBars()
+                        ..showSnackBar(
+                          SnackBar(
+                            content: Text(
+                              '${card.customTitle ?? card.title} entfernt',
+                            ),
+                            duration: const Duration(seconds: 2),
+                            behavior: SnackBarBehavior.floating,
+                          ),
+                        );
+                    }
+                  } on Exception catch (e) {
+                    Log.error(_tag, 'Delete card failed', exception: e);
+                    if (context.mounted) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Entfernen fehlgeschlagen'),
+                          behavior: SnackBarBehavior.floating,
                         ),
-                        duration: const Duration(seconds: 2),
-                        behavior: SnackBarBehavior.floating,
-                      ),
-                    );
+                      );
+                    }
+                  }
                 },
                 style: FilledButton.styleFrom(
                   backgroundColor: AppColors.error,

@@ -79,26 +79,42 @@ class _TileEditScreenState extends ConsumerState<TileEditScreen> {
                 FilledButton(
                   onPressed: () async {
                     Navigator.of(ctx).pop();
-                    final count = await ref
-                        .read(tileItemRepositoryProvider)
-                        .deleteByTile(widget.tileId);
-                    Log.info(
-                      _tag,
-                      'All cards deleted',
-                      data: {'tileId': widget.tileId, 'count': '$count'},
-                    );
-                    if (context.mounted) {
-                      ScaffoldMessenger.of(context)
-                        ..clearSnackBars()
-                        ..showSnackBar(
-                          SnackBar(
-                            content: Text(
-                              '$count ${count == 1 ? 'Eintrag' : 'Einträge'} '
-                              'entfernt',
+                    try {
+                      final count = await ref
+                          .read(tileItemRepositoryProvider)
+                          .deleteByTile(widget.tileId);
+                      Log.info(
+                        _tag,
+                        'All cards deleted',
+                        data: {'tileId': widget.tileId, 'count': '$count'},
+                      );
+                      if (context.mounted) {
+                        ScaffoldMessenger.of(context)
+                          ..clearSnackBars()
+                          ..showSnackBar(
+                            SnackBar(
+                              content: Text(
+                                '$count ${count == 1 ? 'Eintrag' : 'Einträge'} '
+                                'entfernt',
+                              ),
+                              behavior: SnackBarBehavior.floating,
                             ),
+                          );
+                      }
+                    } on Exception catch (e) {
+                      Log.error(
+                        _tag,
+                        'Delete all cards failed',
+                        exception: e,
+                      );
+                      if (context.mounted) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Löschen fehlgeschlagen'),
                             behavior: SnackBarBehavior.floating,
                           ),
                         );
+                      }
                     }
                   },
                   style: FilledButton.styleFrom(
@@ -136,22 +152,38 @@ class _TileEditScreenState extends ConsumerState<TileEditScreen> {
                 FilledButton(
                   onPressed: () async {
                     Navigator.of(ctx).pop();
-                    await ref
-                        .read(tileItemRepositoryProvider)
-                        .deleteByTile(widget.tileId);
-                    await ref
-                        .read(tileRepositoryProvider)
-                        .delete(widget.tileId);
-                    Log.info(
-                      _tag,
-                      'Tile deleted',
-                      data: {'tileId': widget.tileId},
-                    );
-                    if (context.mounted) {
-                      if (context.canPop()) {
-                        context.pop();
-                      } else {
-                        context.go(AppRoutes.parentManageTiles);
+                    try {
+                      await ref
+                          .read(tileItemRepositoryProvider)
+                          .deleteByTile(widget.tileId);
+                      await ref
+                          .read(tileRepositoryProvider)
+                          .delete(widget.tileId);
+                      Log.info(
+                        _tag,
+                        'Tile deleted',
+                        data: {'tileId': widget.tileId},
+                      );
+                      if (context.mounted) {
+                        if (context.canPop()) {
+                          context.pop();
+                        } else {
+                          context.go(AppRoutes.parentManageTiles);
+                        }
+                      }
+                    } on Exception catch (e) {
+                      Log.error(
+                        _tag,
+                        'Delete tile failed',
+                        exception: e,
+                      );
+                      if (context.mounted) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Löschen fehlgeschlagen'),
+                            behavior: SnackBarBehavior.floating,
+                          ),
+                        );
                       }
                     }
                   },
@@ -168,21 +200,44 @@ class _TileEditScreenState extends ConsumerState<TileEditScreen> {
 
   Future<void> _save() async {
     final title = _titleController.text.trim();
-    if (title.isEmpty) return;
+    if (title.isEmpty) {
+      ScaffoldMessenger.of(context)
+        ..clearSnackBars()
+        ..showSnackBar(
+          const SnackBar(
+            content: Text('Bitte einen Namen eingeben'),
+            behavior: SnackBarBehavior.floating,
+          ),
+        );
+      return;
+    }
     Log.info(
       _tag,
       'Saving tile',
       data: {'tileId': widget.tileId, 'title': title},
     );
     final cover = _coverController.text.trim();
-    await ref
-        .read(tileRepositoryProvider)
-        .update(
-          id: widget.tileId,
-          title: title,
-          coverUrl: cover.isEmpty ? null : cover,
-          clearCoverUrl: cover.isEmpty,
+    try {
+      await ref
+          .read(tileRepositoryProvider)
+          .update(
+            id: widget.tileId,
+            title: title,
+            coverUrl: cover.isEmpty ? null : cover,
+            clearCoverUrl: cover.isEmpty,
+          );
+    } on Exception catch (e) {
+      Log.error(_tag, 'Save tile failed', exception: e);
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Speichern fehlgeschlagen'),
+            behavior: SnackBarBehavior.floating,
+          ),
         );
+      }
+      return;
+    }
     if (mounted) {
       ScaffoldMessenger.of(context)
         ..clearSnackBars()
