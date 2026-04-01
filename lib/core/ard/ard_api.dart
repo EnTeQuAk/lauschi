@@ -162,6 +162,23 @@ class ArdApi {
     return result;
   }
 
+  /// Look up a single item by ID. Returns null if not found or no audio.
+  Future<ArdItem?> getItem(String itemId) async {
+    Log.debug(_tag, 'Fetching item', data: {'itemId': itemId});
+    final data = await _graphql(
+      '''
+      query Item(\$id: ID!) {
+        item(id: \$id) { $_itemFields }
+      }
+    ''',
+      variables: {'id': itemId},
+    );
+
+    final node = data?['item'] as Map<String, dynamic>?;
+    if (node == null) return null;
+    return ArdItem.fromJson(node);
+  }
+
   /// Search for kids items by title.
   Future<List<ArdItem>> searchItems(String query, {int first = 20}) async {
     Log.debug(

@@ -4,6 +4,8 @@ import 'package:app_links/app_links.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lauschi/core/apple_music/apple_music_session.dart';
+import 'package:lauschi/core/ard/ard_api.dart';
+import 'package:lauschi/core/ard/ard_availability_recheck.dart';
 import 'package:lauschi/core/database/data_migrations.dart';
 import 'package:lauschi/core/database/tile_item_repository.dart';
 import 'package:lauschi/core/feature_flags.dart';
@@ -122,14 +124,17 @@ class _LauschiAppState extends ConsumerState<LauschiApp>
       ref.watch(appleMusicSessionProvider);
     }
 
-    // Run data migrations once on first build.
+    // Run data migrations + availability recheck once on first build.
     if (!_dataMigrationsRun) {
       _dataMigrationsRun = true;
+      final itemRepo = ref.read(tileItemRepositoryProvider);
       unawaited(
-        runDataMigrations(
-          DataMigrationContext(
-            items: ref.read(tileItemRepositoryProvider),
-          ),
+        runDataMigrations(DataMigrationContext(items: itemRepo)),
+      );
+      unawaited(
+        recheckArdAvailability(
+          api: ref.read(ardApiProvider),
+          items: itemRepo,
         ),
       );
     }
