@@ -272,7 +272,6 @@ class TileDetailScreen extends ConsumerWidget {
   }
 }
 
-
 // ── Inline widgets ──────────────────────────────────────────────────────
 
 void _showExpiredModal(BuildContext context) {
