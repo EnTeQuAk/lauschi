@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:lauschi/core/database/tile_item_repository.dart';
 import 'package:lauschi/features/player/player_provider.dart';
-import 'package:lauschi/features/player/screens/player_screen.dart';
+import 'package:lauschi/features/player/screens/player/screen.dart';
 import 'package:lauschi/features/player/widgets/now_playing_bar.dart';
 import 'package:patrol/patrol.dart';
 

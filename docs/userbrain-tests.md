@@ -1,307 +1,252 @@
 # lauschi Userbrain Tests
 
-5 focused usability tests for the lauschi kids audio player.
-Each test covers one user journey, 8-10 minutes.
+6 tests for the lauschi kids audio player. Each test is one Userbrain
+"Mobile App" test with a Play Store link, a scenario, and 3-4 tasks.
+
+Tests build on each other: testers keep the app installed between sessions
+so content accumulates naturally.
 
 ## Screening (all tests)
 
-### Screening questions
-
-1. **Hast du ein Android-Handy oder -Tablet?**
-   - Ja → weiter
-   - Nein → raus
-
-2. **Sprichst du Deutsch?**
-   - Ja → weiter
-   - Nein → raus
-
-3. **Hast du Kinder im Alter von 3-10 Jahren?**
-   - Ja → weiter
-   - Nein → raus (nice to have, not hard filter if pool too small)
-
-### Tester demographics
-- **Device**: Android
-- **Language**: German
-- **Location**: DACH preferred
-- **Age**: 25-45
-
-### Install
-Provide APK or Play Store beta link. Testers install before starting.
+1. **Hast du ein Android-Handy?** Ja / Nein (filter)
+2. **Sprichst du fliessend Deutsch?** Ja / Nein (filter)
+3. **Hast du Kinder im Alter von 3-10 Jahren?** Ja / Nein (filter)
 
 ---
 
-## Test 1: Erster Eindruck und Einrichtung
+## Test 1: Erster Eindruck
 
-**Duration**: 10 minutes
-**Goal**: First impression, onboarding clarity, PIN setup
+**Type**: Mobile App
+**URL**: Play Store link
+**Duration**: ~8 min
 
-### Intro
-```
-Jemand hat dir diese App empfohlen. Du hast sie gerade
-installiert und öffnest sie zum ersten Mal.
+### Scenario
 
-Denk laut mit, sag alles, was dir auffällt oder durch den Kopf geht.
-```
+Jemand hat dir diese App empfohlen. Du hast sie gerade installiert
+und öffnest sie zum ersten Mal. Denk laut mit.
 
-### Task 1: App öffnen und erkunden
-```
-Öffne die App.
+### Tasks
 
-Schau dich auf dem ersten Bildschirm um, ohne etwas zu tippen.
-Was glaubst du, was diese App macht? Für wen ist sie gedacht?
-```
+**Task 1** (task completed)
+Öffne die App und schau dich um, ohne etwas zu tippen. Was glaubst
+du, was diese App macht?
 
-### Task 2: Einrichtung durchführen
-```
+**Task 2** (task completed)
 Richte die App so ein, dass du sie benutzen kannst.
-```
 
-### Task 3: Geschützten Bereich finden
-```
-Die App hat einen geschützten Bereich für Erwachsene.
-Finde heraus, wie du dort hinkommst.
-```
+**Task 3** (task completed)
+Die App hat einen geschützten Bereich für Erwachsene. Finde ihn.
 
-### Abschlussfrage (offen)
-```
-Was war dein erster Eindruck? Erzähl kurz,
-was dir aufgefallen ist und was dich verwirrt hat.
-```
+**Task 4** (answer)
+Was war dein erster Eindruck? Was hat dich verwirrt?
 
 ---
 
-## Test 2: Inhalte für dein Kind zusammenstellen
+## Test 2: Inhalte zusammenstellen
 
-**Duration**: 10 minutes
-**Goal**: Can parents find and add content without hand-holding?
+**Type**: Mobile App
+**URL**: Play Store link
+**Prerequisite**: Test 1 abgeschlossen
+**Duration**: ~10 min
 
-### Intro
-```
-Stell dir vor, die App ist frisch eingerichtet. Dein Kind
-(5 Jahre) hört gerne Geschichten und Hörspiele. Der Bildschirm
-ist noch leer: es gibt noch keine Inhalte.
+### Scenario
 
-Finde heraus, wie du Inhalte für dein Kind bereitstellen kannst.
+Du hast die App eingerichtet. Der Bildschirm ist noch leer.
+Dein Kind (5 Jahre) hört gerne Geschichten. Denk laut mit.
 
-Denk laut mit.
-```
+### Tasks
 
-### Task 1: Inhalte finden und hinzufügen
-```
-Finde einen Weg, Inhalte für dein Kind bereitzustellen.
-Such dir etwas aus, das deinem Kind gefallen könnte.
-```
+**Task 1** (task completed)
+Finde einen Weg, etwas zum Anhören für dein Kind bereitzustellen.
 
-### Task 2: Ergebnis überprüfen
-```
-Überprüfe, ob die Inhalte, die du gerade ausgewählt hast,
-jetzt für dein Kind sichtbar sind.
-```
+**Task 2** (task completed)
+Überprüfe, ob die Inhalte jetzt für dein Kind sichtbar sind.
 
-### Task 3: Noch etwas hinzufügen
-```
-Füge noch eine weitere Serie hinzu. Diesmal etwas
-für ein anderes Alter oder Interesse.
-```
+**Task 3** (task completed)
+Füge noch mindestens vier weitere Sendungen hinzu. Gerne ganz
+verschiedene Sachen.
 
-### Abschlussfrage (offen)
-```
-Hast du etwas vermisst? Gab es Hörspiele oder Sendungen,
-die du erwartet hättest, aber nicht gefunden hast?
-```
+**Task 4** (answer)
+Hast du etwas vermisst? Welche Sendungen hast du erwartet,
+aber nicht gefunden?
 
 ---
 
-## Test 3: Dein Kind benutzt die App
+## Test 3: Das Kind benutzt die App
 
-**Duration**: 8 minutes
-**Goal**: Is the kid-facing UI intuitive enough for a child?
+**Type**: Mobile App
+**URL**: Play Store link
+**Prerequisite**: Test 2 abgeschlossen (Inhalte vorhanden)
+**Duration**: ~8 min
 
-### Intro
-```
-Stell dir vor, du gibst deinem Kind (5 Jahre alt, kann noch
-nicht lesen) dein Handy mit dieser App.
+### Scenario
 
-Auf dem Bildschirm sind bereits ein paar Bildkarten zu sehen.
-Tu so, als wärst du das Kind: Tippe einfach drauflos und schau,
-was passiert.
+Du gibst deinem Kind (5 Jahre, kann noch nicht lesen) dein Handy
+mit dieser App. Tu so, als wärst du das Kind. Tippe einfach
+drauflos. Denk laut mit.
 
-Denk laut mit. Was würde ein Kind hier tun? Was könnte verwirrend sein?
-```
+### Tasks
 
-### Task 1: Etwas zum Anhören starten
-```
-Starte etwas zum Anhören. Tippe auf das, was dich anspricht.
-```
+**Task 1** (task completed)
+Starte etwas zum Anhören.
 
-### Task 2: Etwas anderes auswählen
-```
-Du möchtest jetzt etwas anderes hören. Finde einen Weg,
-zu den anderen Bildern zurückzukommen und etwas Neues zu starten.
-```
+**Task 2** (task completed)
+Du willst etwas anderes hören. Finde einen Weg zurück und starte
+etwas Neues.
 
-### Task 3: Den geschützten Bereich finden
-```
-Stell dir vor, du bist wieder der Erwachsene.
-Finde den Bereich, der vor Kinderhänden geschützt ist.
-```
+**Task 3** (task completed)
+Du bist wieder der Erwachsene. Finde den geschützten Bereich.
 
-### Abschlussfrage (offen)
-```
-Was war einfach, was war schwierig?
-Wo wäre ein Kind ohne Hilfe nicht weitergekommen?
-```
+**Task 4** (answer)
+Was war einfach, was schwierig? Wo bräuchte ein Kind Hilfe?
 
 ---
 
 ## Test 4: Wiedergabe und Steuerung
 
-**Duration**: 8 minutes
-**Goal**: Is playback intuitive? Can kids and parents control what's playing?
+**Type**: Mobile App
+**URL**: Play Store link
+**Prerequisite**: Test 2 abgeschlossen (Inhalte vorhanden)
+**Duration**: ~8 min
 
-### Intro
-```
-Auf dem Bildschirm sind ein paar Hörspiele für dein Kind
-vorbereitet. Du möchtest jetzt zusammen mit deinem Kind
-etwas anhören.
+### Scenario
 
-Denk laut mit.
-```
+Du möchtest zusammen mit deinem Kind etwas anhören. Denk laut mit.
 
-### Task 1: Hörspiel abspielen
-```
-Wähle ein Hörspiel aus und starte die Wiedergabe.
-Schau dich um: Was zeigt dir die App, während etwas abgespielt wird?
-```
+### Tasks
 
-### Task 2: Steuerung benutzen
-```
-Pausiere die Wiedergabe.
+**Task 1** (task completed)
+Starte ein Hörspiel. Was zeigt dir die App, während es läuft?
 
-Starte sie danach wieder.
+**Task 2** (task completed)
+Pausiere die Wiedergabe. Starte sie wieder. Versuche, eine Stelle
+zu überspringen oder zum nächsten Teil zu wechseln.
 
-Versuche, eine Stelle zu überspringen oder
-zum nächsten Teil zu wechseln.
-```
+**Task 3** (task completed)
+Geh zurück zur Übersicht. Fällt dir auf, dass noch etwas läuft?
 
-### Task 3: Zurück zur Übersicht
-```
-Geh zurück zur Übersicht mit allen Bildern.
-Fällt dir auf, dass noch etwas abgespielt wird?
-```
-
-### Abschlussfrage (offen)
-```
-Was ist dir beim Bedienen aufgefallen?
-Gab es etwas, das du gesucht hast?
-```
+**Task 4** (answer)
+Was ist dir beim Bedienen aufgefallen? Was hast du gesucht?
 
 ---
 
-## Test 5: Inhalte verwalten und anpassen
+## Test 5: Inhalte verwalten
 
-**Duration**: 8 minutes
-**Goal**: Can parents customize what their kid sees?
+**Type**: Mobile App
+**URL**: Play Store link
+**Prerequisite**: Test 2 abgeschlossen (Inhalte vorhanden)
+**Duration**: ~8 min
 
-### Intro
-```
-Dein Kind benutzt die App jetzt seit ein paar Wochen.
-Es gibt mehrere Serien auf dem Bildschirm. Manche davon
-interessieren dein Kind nicht mehr, bei anderen fehlt ein Bild.
+### Scenario
 
-Du möchtest aufräumen und die Ansicht anpassen.
+Dein Kind benutzt die App seit ein paar Wochen. Manche Sendungen
+interessieren es nicht mehr. Du willst aufräumen. Denk laut mit.
 
-Denk laut mit.
-```
+### Tasks
 
-### Task 1: Reihenfolge ändern
-```
+**Task 1** (task completed)
 Bringe die Lieblingsserie deines Kindes an die erste Stelle.
-```
 
-### Task 2: Bezeichnung anpassen
-```
-Eine der Serien hat einen Namen, der dir nicht zusagt.
-Finde heraus, ob du ihn ändern kannst.
-```
+**Task 2** (task completed)
+Eine Sendung hat einen Namen, der dir nicht passt. Ändere ihn.
 
-### Task 3: Etwas entfernen
-```
-Entferne eine Serie, die dein Kind nicht mehr hört.
-```
+**Task 3** (task completed)
+Entferne eine Sendung, die dein Kind nicht mehr hört.
 
-### Abschlussfrage (offen)
-```
-Beschreibe kurz, wie viel Einfluss du als Elternteil
-auf das hast, was dein Kind in der App sieht und hört.
-Was hat dir beim Verwalten gefehlt?
-```
+**Task 4** (answer)
+Wie viel Einfluss hast du auf das, was dein Kind sieht und hört?
+Was hat dir gefehlt?
+
+---
+
+## Test 6: Kacheln gruppieren
+
+**Type**: Mobile App
+**URL**: Play Store link
+**Prerequisite**: Mindestens 5 Sendungen auf dem Startbildschirm
+**Duration**: ~10 min
+
+### Scenario
+
+Auf dem Startbildschirm deines Kindes liegen jetzt einige Kacheln.
+Es wird unübersichtlich. Du willst Ordnung schaffen. Denk laut mit.
+
+### Tasks
+
+**Task 1** (task completed)
+Sortiere die Kacheln in eine Reihenfolge, die für dein Kind
+Sinn ergibt.
+
+**Task 2** (task completed)
+Manche Kacheln gehören zusammen. Versuche, zusammengehörige
+Kacheln in einer Gruppe zusammenzufassen.
+
+**Task 3** (task completed)
+Wechsle in die Kinderansicht. Finde die Sendungen, die du gerade
+gruppiert hast, und starte eine Folge.
+
+**Task 4** (answer)
+War das Sortieren und Gruppieren so, wie du es erwartet hättest?
+Was hat dich überrascht?
 
 ---
 
 ## Design decisions (not shown to testers)
 
-### What we learned from tuneloop Userbrain rounds
+### Userbrain format
 
-1. **German content = German testers**: All task descriptions in German,
-   screening confirms language.
+Each test maps to one Userbrain "Mobile App" test:
+- **Scenario**: the context block at the top
+- **Tasks**: individual entries, marked as "task completed" or "answer"
+- **Answer tasks**: open-ended closing question, tester types a response
 
-2. **Pre-populated content for kid tests**: Tests 3, 4, and 5 need tiles
-   already set up. Best approach: provide a pre-populated APK with 3-4
-   series already added (Die Maus, Bibi Blocksberg, etc.). Failing that,
-   add a warm-up task before the real test:
-   "Vorbereitung: Öffne den Eltern-Bereich (Zahnrad oben rechts, PIN
-   ist 1111), füge 3-4 Sendungen hinzu, und gehe zurück zum
-   Kinderbildschirm."
-   This burns 2-3 minutes of test time, so the pre-populated APK is
-   strongly preferred.
+Tasks are kept to 1-2 sentences max. Context is in the scenario, not
+repeated in each task. No interface words in tasks (no "tippe auf",
+"klicke", "scrolle").
 
-### Userbrain best practices applied
+### Test sequencing
 
-- **No interface words in tasks**: "Finde einen Weg, Inhalte bereitzustellen"
-  instead of "Tippe auf Hörspiel hinzufügen". We want to see if testers
-  find the UI elements on their own.
+Tests build on each other. Test 1 installs and sets up. Test 2 adds
+content. Tests 3-6 use that content.
 
-- **Context-first scenarios**: Each test starts with a realistic situation
-  (child who likes stories, app just installed, etc.) instead of
-  mechanical instructions.
+If budget allows only a subset:
+1. **Test 2** (add content): most critical, first real interaction
+2. **Test 3** (kid uses app): core value prop
+3. **Test 1** (first impression): onboarding clarity
+4. **Test 6** (folders): discoverability of drag-to-nest
+5. **Test 4** (playback): controls and feedback
+6. **Test 5** (manage): power-user, least critical
 
-- **No rating scales**: Open-ended questions only. We observe behavior,
-  not collect opinions. The video recordings show us where people struggle.
+Tests 1+2 run as a pair. Tests 3-5 each need Test 2 as prerequisite
+but are independent of each other. Test 6 additionally requires 5+
+shows on the home screen.
 
-- **No future questions**: "Was war dein erster Eindruck?" instead of
-  "Würdest du die App nutzen?" Past/present behavior over hypothetical
-  futures.
+### Content accumulation
 
-- **Don't reveal the app's purpose**: Test 1 starts with "Was glaubst du,
-  was diese App macht?" before any explanation. First impressions are
-  the most valuable data point.
+Test 2 Task 3 asks for "mindestens vier weitere Sendungen, gerne ganz
+verschiedene Sachen." This builds the tile count to 5+ for later tests,
+satisfying Test 6's prerequisite without a warm-up step.
 
-- **Short, focused tests**: One journey per test (8-10 min) keeps tester
-  attention and produces cleaner data than one 25-minute marathon.
+### Key rules applied
 
-- **Actionable tasks**: "Starte etwas zum Anhören" not "Wie würdest du
-  ein Hörspiel abspielen?"
+- **No interface words**: "Finde einen Weg" not "Tippe auf den Button."
+  Testers scan for exact words; avoiding them tests real discoverability.
+- **Context in scenario, not tasks**: The scenario sets the situation once.
+  Tasks are action-oriented. No re-explaining in every task.
+- **Don't reveal purpose first**: Test 1 Task 1 asks "Was glaubst du,
+  was diese App macht?" before any explanation.
+- **Don't ask about future**: "Was hat dich verwirrt?" (past) not
+  "Würdest du die App nutzen?" (hypothetical).
+- **Don't ask about usability directly**: "Was war schwierig?" observes
+  behavior, not "Ist die App benutzerfreundlich?" which gets polite lies.
+- **Short tasks**: 1-2 sentences. The Userbrain templates (Mailchimp,
+  Netflix, Shopify) all use concise tasks. Our previous version was
+  too verbose.
 
-### Changes from previous version
+### Version history
 
-This version reflects the ARD Audiothek-only launch (Spotify flagged off):
-
-- **Screening**: Dropped Spotify account requirement. All content is free,
-  no account needed.
-- **Test 1**: Onboarding is now 2 steps (Welcome → PIN). No Spotify
-  connection step. Intro no longer spoils the app's purpose before
-  Task 1 asks "what does this app do?" (Userbrain Mistake #1).
-  Task 3 changed from "set up protection" to "find the parent area",
-  since PIN is already set during onboarding.
-- **Test 2**: Dropped "Musik statt Hörspiele" task — ARD Audiothek is
-  all spoken-word content. Replaced with age/interest variation.
-- **Test 3**: Closing question reworded to ask about observed difficulty
-  instead of hypothetical future (Userbrain Mistake #4).
-- **Test 4** (new): Replaces the old "free vs. paid" test (irrelevant
-  when everything is free). Focuses on playback and controls — the core
-  kid experience we haven't explicitly tested. "Folge" replaced with
-  "Teil" to avoid UI word leak (Userbrain Mistake #3). Closing question
-  observes behavior instead of asking for opinion (Userbrain Mistake #2).
-- **Test 5**: Task 2 changed from "change a series image" (feature does
-  not exist) to "rename a series" (supported via tile edit screen).
+**v1 (March 2026)**: 5 tests, verified on device.
+**v2 (late March 2026)**: Added Test 6 (folders). Restructured as
+sequential journey. Removed expired content test (untestable). Rewrote
+all tests to match Userbrain's actual task format (shorter, scenario
+at top, task-completed/answer types).

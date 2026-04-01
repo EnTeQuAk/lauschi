@@ -72,7 +72,9 @@ class FeaturedHeroCard extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final imageUrl = ardImageUrl(item.imageUrl, width: 800);
     final existingUris = ref.watch(existingItemUrisProvider);
-    final isImporting = ref.watch(contentImporterProvider);
+    final isImporting = ref.watch(
+      contentImporterProvider.select((s) => s.isImporting),
+    );
     final allAdded = item.parts.every(
       (p) => existingUris.contains(p.providerUri),
     );

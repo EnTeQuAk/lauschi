@@ -9,7 +9,7 @@ import 'package:lauschi/core/providers/provider_type.dart';
 import 'package:lauschi/core/spotify/spotify_catalog_source.dart';
 import 'package:lauschi/core/spotify/spotify_session.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
-import 'package:lauschi/features/parent/screens/browse_catalog_screen.dart';
+import 'package:lauschi/features/parent/screens/browse_catalog/screen.dart';
 import 'package:lauschi/features/parent/screens/discover_screen.dart';
 
 /// Screen for discovering and adding content from available providers.

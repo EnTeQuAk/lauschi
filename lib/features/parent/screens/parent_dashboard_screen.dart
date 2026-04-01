@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lauschi/core/auth/pin_service.dart';
+import 'package:lauschi/core/database/content_importer.dart';
 import 'package:lauschi/core/database/tile_repository.dart';
 import 'package:lauschi/core/log.dart';
 import 'package:lauschi/core/providers/provider_auth.dart';
@@ -12,6 +13,7 @@ import 'package:lauschi/core/providers/provider_type.dart';
 import 'package:lauschi/core/router/app_router.dart';
 import 'package:lauschi/core/settings/debug_settings.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
+import 'package:lauschi/features/parent/widgets/parent_section_header.dart';
 
 const _tag = 'ParentDashboard';
 
@@ -47,8 +49,35 @@ class ParentDashboardScreen extends ConsumerWidget {
       ),
       body: ListView(
         children: [
+          if (ref.watch(contentImporterProvider)
+              case final ImportRunning running)
+            Container(
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppSpacing.screenH,
+                vertical: AppSpacing.sm,
+              ),
+              color: AppColors.primary.withValues(alpha: 0.1),
+              child: Row(
+                children: [
+                  const SizedBox(
+                    width: 14,
+                    height: 14,
+                    child: CircularProgressIndicator(strokeWidth: 2),
+                  ),
+                  const SizedBox(width: AppSpacing.sm),
+                  Text(
+                    'Importiere ${running.showTitle}…',
+                    style: const TextStyle(
+                      fontFamily: 'Nunito',
+                      fontSize: 13,
+                      color: AppColors.textSecondary,
+                    ),
+                  ),
+                ],
+              ),
+            ),
           // ── Sammlung ─────────────────────────────────────────────────
-          const _SectionHeader(title: 'Sammlung'),
+          const ParentSectionHeader(title: 'Sammlung'),
           _SettingsTile(
             key: const Key('manage_tiles'),
             icon: Icons.library_music_rounded,
@@ -67,7 +96,7 @@ class ParentDashboardScreen extends ConsumerWidget {
           const SizedBox(height: AppSpacing.lg),
 
           // ── Einstellungen ────────────────────────────────────────────
-          const _SectionHeader(title: 'Einstellungen'),
+          const ParentSectionHeader(title: 'Einstellungen'),
           _SettingsTile(
             key: const Key('change_pin'),
             icon: Icons.lock_rounded,
@@ -238,33 +267,6 @@ void _confirmDisconnect(
           ),
     ),
   );
-}
-
-class _SectionHeader extends StatelessWidget {
-  const _SectionHeader({required this.title});
-  final String title;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(
-        AppSpacing.screenH,
-        AppSpacing.md,
-        AppSpacing.screenH,
-        AppSpacing.xs,
-      ),
-      child: Text(
-        title.toUpperCase(),
-        style: const TextStyle(
-          fontFamily: 'Nunito',
-          fontSize: 12,
-          fontWeight: FontWeight.w700,
-          letterSpacing: 0.8,
-          color: AppColors.textSecondary,
-        ),
-      ),
-    );
-  }
 }
 
 class _SettingsTile extends StatelessWidget {
