@@ -207,35 +207,20 @@ class _GroupGrid extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final items =
         groups.map((g) {
-          final childTiles = ref.watch(childTilesProvider(g.id));
-          final episodes = ref.watch(tileItemsProvider(g.id));
-          final numChildren = childTiles.whenOrNull(data: (c) => c.length) ?? 0;
-          final numEpisodes = episodes.whenOrNull(data: (e) => e.length) ?? 0;
+          final children =
+              ref.watch(childTilesProvider(g.id)).value ?? const [];
+          final episodeCount =
+              ref
+                  .watch(tileItemsProvider(g.id))
+                  .whenOrNull(
+                    data: (e) => e.length,
+                  ) ??
+              0;
 
-          final childCovers =
-              childTiles.whenOrNull(
-                data:
-                    (tiles) =>
-                        tiles
-                            .where((t) => t.coverUrl != null)
-                            .take(4)
-                            .map((t) => t.coverUrl!)
-                            .toList(),
-              ) ??
-              const <String>[];
-
-          // Folders: derive display name from children.
-          final title =
-              numChildren > 0 ? _folderName(childTiles.value ?? []) : g.title;
-
-          return DraggableTileItem(
-            id: g.id,
-            title: title,
-            coverUrl: g.coverUrl,
-            episodeCount: numEpisodes,
-            contentType: ContentType.fromString(g.contentType),
-            childCount: numChildren,
-            childCoverUrls: childCovers,
+          return buildTileDisplayItem(
+            g,
+            children: children,
+            episodeCount: episodeCount,
           );
         }).toList();
 
@@ -367,8 +352,35 @@ class _DragHint extends StatelessWidget {
 }
 
 /// Derive a folder display name from its children.
+/// Build display model from a tile and its children/episodes.
+/// Pure transformation, no provider access.
+DraggableTileItem buildTileDisplayItem(
+  db.Tile tile, {
+  required List<db.Tile> children,
+  required int episodeCount,
+}) {
+  final childCovers =
+      children
+          .where((t) => t.coverUrl != null)
+          .take(4)
+          .map((t) => t.coverUrl!)
+          .toList();
+
+  final title = children.isNotEmpty ? folderName(children) : tile.title;
+
+  return DraggableTileItem(
+    id: tile.id,
+    title: title,
+    coverUrl: tile.coverUrl,
+    episodeCount: episodeCount,
+    contentType: ContentType.fromString(tile.contentType),
+    childCount: children.length,
+    childCoverUrls: childCovers,
+  );
+}
+
 /// "A & B" for 2, "A, B & 1 weiterer" for 3, etc.
-String _folderName(List<db.Tile> children) {
+String folderName(List<db.Tile> children) {
   if (children.isEmpty) return 'Leerer Ordner';
   final names = children.map((t) => t.title).toList();
   if (names.length == 1) return names.first;

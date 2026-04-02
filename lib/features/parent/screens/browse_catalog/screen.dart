@@ -17,6 +17,7 @@ import 'package:lauschi/core/spotify/spotify_session.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
 import 'package:lauschi/features/parent/screens/browse_catalog/widgets/album_detail_sheet.dart';
 import 'package:lauschi/features/parent/screens/browse_catalog/widgets/batch_add_banner.dart';
+import 'package:lauschi/features/parent/screens/browse_catalog/widgets/catalog_helpers.dart';
 import 'package:lauschi/features/parent/screens/browse_catalog/widgets/catalog_hero_card.dart';
 import 'package:lauschi/features/parent/screens/browse_catalog/widgets/collapsible_divider.dart';
 import 'package:lauschi/features/parent/screens/browse_catalog/widgets/curated_series_card.dart';
@@ -82,29 +83,15 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen>
   int _totalCatalogHits = 0;
   bool _isMatchingExpanded = false;
 
-  /// Album indices whose catalog match belongs to a hero series.
-  List<int> get _matchingIndices {
-    final heroIds = _heroSeries.map((h) => h.id).toSet();
-    return [
-      for (var i = 0; i < _albumResults.length; i++)
-        if (i < _catalogMatches.length &&
-            _catalogMatches[i] != null &&
-            heroIds.contains(_catalogMatches[i]!.series.id))
-          i,
-    ];
-  }
+  List<int> get _matchingIndices => _partition.matching;
+  List<int> get _nonMatchingIndices => _partition.nonMatching;
 
-  /// Album indices that don't match any hero series (novel content).
-  List<int> get _nonMatchingIndices {
-    final heroIds = _heroSeries.map((h) => h.id).toSet();
-    return [
-      for (var i = 0; i < _albumResults.length; i++)
-        if (i >= _catalogMatches.length ||
-            _catalogMatches[i] == null ||
-            !heroIds.contains(_catalogMatches[i]!.series.id))
-          i,
-    ];
-  }
+  ({List<int> matching, List<int> nonMatching}) get _partition =>
+      partitionByHeroSeries(
+        _catalogMatches,
+        _heroSeries.map((h) => h.id).toSet(),
+        _albumResults.length,
+      );
 
   // Add state
   final _addedUris = <String>{};
@@ -245,15 +232,8 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen>
             .where((s) => isMusicMode ? s.isMusic : !s.isMusic)
             .toList() ??
         [];
-    // Sort: catalog-matched albums first, then unmatched.
-    // This ensures curated content (Senta's actual albums) appears above
-    // unrelated results (Brazilian funk "Vai Sentar") that match the query.
-    final indices = List.generate(albums.length, (i) => i)..sort((a, b) {
-      final aMatch = matches[a] != null;
-      final bMatch = matches[b] != null;
-      if (aMatch != bMatch) return aMatch ? -1 : 1;
-      return 0; // preserve provider's relevance order within each group
-    });
+    // Catalog-matched albums first, then unmatched.
+    final indices = sortByCatalogMatch(matches, albums.length);
     final sortedAlbums = [for (final i in indices) albums[i]];
     final sortedMatches = [for (final i in indices) matches[i]];
 

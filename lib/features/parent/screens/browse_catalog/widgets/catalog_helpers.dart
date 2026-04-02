@@ -2,11 +2,45 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lauschi/core/apple_music/apple_music_catalog_source.dart';
 import 'package:lauschi/core/apple_music/apple_music_session.dart';
+import 'package:lauschi/core/catalog/catalog_service.dart';
 import 'package:lauschi/core/catalog/catalog_source.dart';
 import 'package:lauschi/core/providers/provider_type.dart';
 import 'package:lauschi/core/spotify/spotify_catalog_source.dart';
 import 'package:lauschi/core/spotify/spotify_session.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
+
+// ── Search result processing ────────────────────────────────────────────────
+
+/// Sort album indices so catalog-matched albums come first.
+/// Preserves the provider's relevance order within each group.
+List<int> sortByCatalogMatch(List<CatalogMatch?> matches, int count) {
+  return List.generate(count, (i) => i)..sort((a, b) {
+    final aMatch = a < matches.length && matches[a] != null;
+    final bMatch = b < matches.length && matches[b] != null;
+    if (aMatch != bMatch) return aMatch ? -1 : 1;
+    return 0;
+  });
+}
+
+/// Partition album indices into those matching hero series and the rest.
+({List<int> matching, List<int> nonMatching}) partitionByHeroSeries(
+  List<CatalogMatch?> matches,
+  Set<String> heroSeriesIds,
+  int count,
+) {
+  final matching = <int>[];
+  final nonMatching = <int>[];
+  for (var i = 0; i < count; i++) {
+    final isHeroMatch =
+        i < matches.length &&
+        matches[i] != null &&
+        heroSeriesIds.contains(matches[i]!.series.id);
+    (isHeroMatch ? matching : nonMatching).add(i);
+  }
+  return (matching: matching, nonMatching: nonMatching);
+}
+
+// ── UI helpers ──────────────────────────────────────────────────────────────
 
 /// Hue-based placeholder for album art that hasn't loaded yet.
 class CatalogPlaceholder extends StatelessWidget {

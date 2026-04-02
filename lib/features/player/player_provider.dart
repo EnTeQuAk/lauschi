@@ -107,7 +107,6 @@ class PlayerNotifier extends _$PlayerNotifier {
 
   // -- Timing constants --
   static const _deviceRegistrationDelay = Duration(milliseconds: 500);
-  static const _completionThresholdMs = 5000;
   static const _positionSaveInterval = Duration(seconds: 10);
 
   // -- Position tracking state --
@@ -796,18 +795,19 @@ class PlayerNotifier extends _$PlayerNotifier {
       final track = state.track;
       final posMs = _active?.backend.currentPositionMs ?? newState.positionMs;
 
-      if (_playTimeMs >= _minPlayTimeMs && cardId != null && track != null) {
+      if (shouldSavePosition(playTimeMs: _playTimeMs) &&
+          cardId != null &&
+          track != null) {
         unawaited(_savePosition(cardId, track, posMs));
       }
 
       // Album completion: paused on last track, within threshold of end.
       final groupId = state.activeGroupId;
-      final backend = _active?.backend;
-      final hasNextTrack = backend?.hasNextTrack ?? false;
-      final isNearEnd =
-          newState.durationMs > 0 &&
-          posMs > newState.durationMs - _completionThresholdMs;
-      if (!hasNextTrack && isNearEnd) {
+      if (isAlbumComplete(
+        hasNextTrack: _active?.backend.hasNextTrack ?? false,
+        positionMs: posMs,
+        durationMs: newState.durationMs,
+      )) {
         unawaited(_onAlbumCompleted(cardId, groupId));
       }
     }
@@ -827,15 +827,8 @@ class PlayerNotifier extends _$PlayerNotifier {
         'durationMs': '${state.durationMs}',
       },
     );
-    await _markAlbumHeard(cardId);
-
-    if (groupId == null) return;
-
-    // Clear stale resume positions for sibling episodes so the next
-    // one starts fresh.
-    // TODO(#228): extract into PlaybackSideEffects provider (event system)
     final cards = ref.read(tileItemRepositoryProvider);
-    await cards.clearPositions(groupId, excludeItemId: cardId);
+    await handleAlbumCompleted(cards, cardId: cardId, groupId: groupId);
   }
 
   // ─── Position tracking ──────────────────────────────────────────────
@@ -847,13 +840,14 @@ class PlayerNotifier extends _$PlayerNotifier {
     _positionSaveTimer = Timer.periodic(
       _positionSaveInterval,
       (_) {
-        // Guard: skip if backend was torn down between ticks. See #216.
-        if (_active == null) return;
+        if (_active == null) return; // Backend torn down between ticks (#216)
         _updatePlayTime();
         final cardId = state.activeCardId;
         final track = state.track;
-        final posMs = _active?.backend.currentPositionMs ?? state.positionMs;
-        if (_playTimeMs >= _minPlayTimeMs && cardId != null && track != null) {
+        if (shouldSavePosition(playTimeMs: _playTimeMs) &&
+            cardId != null &&
+            track != null) {
+          final posMs = _active?.backend.currentPositionMs ?? state.positionMs;
           unawaited(_savePosition(cardId, track, posMs));
         }
       },
@@ -871,10 +865,11 @@ class PlayerNotifier extends _$PlayerNotifier {
   }
 
   void _updatePlayTime() {
-    if (_playStartedAt != null) {
-      _playTimeMs += DateTime.now().difference(_playStartedAt!).inMilliseconds;
-      _playStartedAt = DateTime.now();
-    }
+    _playTimeMs = computePlayTime(
+      playStartedAt: _playStartedAt,
+      previousPlayTimeMs: _playTimeMs,
+    );
+    if (_playStartedAt != null) _playStartedAt = DateTime.now();
   }
 
   Future<void> _savePosition(
@@ -913,23 +908,83 @@ class PlayerNotifier extends _$PlayerNotifier {
       );
     }
   }
+}
 
-  Future<void> _markAlbumHeard(String cardId) async {
-    try {
-      final cards = ref.read(tileItemRepositoryProvider);
-      final card = await cards.getById(cardId);
-      if (card == null || card.isHeard) return;
+// ── Extracted pure functions ─────────────────────────────────────────────
+//
+// Testable without instantiating PlayerNotifier. Each encodes a specific
+// decision that PlayerNotifier delegates to.
 
-      await cards.markHeard(card.id);
-      Log.info(
-        _tag,
-        'Marked as heard',
-        data: {'cardId': card.id, 'title': card.title},
-      );
-    } on Exception catch (e) {
-      Log.error(_tag, 'Mark heard failed', exception: e);
-    }
+/// Whether enough time has been played to justify saving position.
+/// Prevents brief taps from marking episodes as "in progress".
+bool shouldSavePosition({
+  required int playTimeMs,
+  int minPlayTimeMs = 20000,
+}) => playTimeMs >= minPlayTimeMs;
+
+/// Whether the current position is near the end of the track.
+/// Used to detect album/episode completion.
+bool isNearTrackEnd({
+  required int positionMs,
+  required int durationMs,
+  int thresholdMs = 5000,
+}) => durationMs > 0 && positionMs > durationMs - thresholdMs;
+
+/// Whether the album is complete: last track and near the end.
+bool isAlbumComplete({
+  required bool hasNextTrack,
+  required int positionMs,
+  required int durationMs,
+  int thresholdMs = 5000,
+}) =>
+    !hasNextTrack &&
+    isNearTrackEnd(
+      positionMs: positionMs,
+      durationMs: durationMs,
+      thresholdMs: thresholdMs,
+    );
+
+/// Accumulate play time from the last anchor to now.
+/// Returns the new total. Does not mutate anything.
+int computePlayTime({
+  required DateTime? playStartedAt,
+  required int previousPlayTimeMs,
+}) {
+  if (playStartedAt == null) return previousPlayTimeMs;
+  return previousPlayTimeMs +
+      DateTime.now().difference(playStartedAt).inMilliseconds;
+}
+
+/// Handle album completion: mark card as heard, clear sibling positions.
+///
+/// Extracted so it can be tested with an in-memory DB without
+/// instantiating PlayerNotifier.
+Future<void> handleAlbumCompleted(
+  TileItemRepository cards, {
+  required String cardId,
+  String? groupId,
+}) async {
+  try {
+    final card = await cards.getById(cardId);
+    if (card == null || card.isHeard) return;
+
+    await cards.markHeard(card.id);
+    Log.info(
+      'PlayerProvider',
+      'Marked as heard',
+      data: {
+        'cardId': card.id,
+        'title': card.title,
+      },
+    );
+  } on Exception catch (e) {
+    Log.error('PlayerProvider', 'Mark heard failed', exception: e);
   }
+
+  if (groupId == null) return;
+
+  // Clear sibling positions so the next episode starts fresh.
+  await cards.clearPositions(groupId, excludeItemId: cardId);
 }
 
 /// Merge Spotify bridge state into current playback state.
