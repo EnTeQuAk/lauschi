@@ -86,10 +86,9 @@ class SortResultDialog extends StatelessWidget {
                       color: AppColors.textSecondary,
                     ),
                     onTap: () {
+                      final router = GoRouter.of(context);
                       Navigator.of(context).pop();
-                      unawaited(
-                        context.push(AppRoutes.parentTileEdit(groupId)),
-                      );
+                      unawaited(router.push(AppRoutes.parentTileEdit(groupId)));
                     },
                   );
                 },

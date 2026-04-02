@@ -28,6 +28,7 @@ class _InterpolatedProgressState extends ConsumerState<InterpolatedProgress>
   /// from there.
   int _anchorMs = 0;
   DateTime _anchorTime = DateTime.now();
+  bool _scrubbing = false;
 
   @override
   void initState() {
@@ -44,6 +45,9 @@ class _InterpolatedProgressState extends ConsumerState<InterpolatedProgress>
   }
 
   void _onTick(Duration elapsed) {
+    // Don't fight the user's drag with server position updates.
+    if (_scrubbing) return;
+
     final state = ref.read(playerProvider);
     final serverMs = state.positionMs;
 
@@ -63,6 +67,7 @@ class _InterpolatedProgressState extends ConsumerState<InterpolatedProgress>
 
   /// Update local position during drag without sending a seek command.
   void _scrubTo(int ms) {
+    _scrubbing = true;
     _anchorMs = ms;
     _anchorTime = DateTime.now();
     _position.value = ms;
@@ -70,7 +75,10 @@ class _InterpolatedProgressState extends ConsumerState<InterpolatedProgress>
 
   /// Commit the seek when the user releases the slider.
   void _seekTo(int ms) {
-    _scrubTo(ms);
+    _scrubbing = false;
+    _anchorMs = ms;
+    _anchorTime = DateTime.now();
+    _position.value = ms;
     widget.onSeek(ms);
   }
 

@@ -26,15 +26,18 @@ class SearchResultTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final coverSize = compact ? 44.0 : 56.0;
+    final imageSize = compact ? 200 : 400;
+    final imageUrl = album.artworkUrlForSize(imageSize);
+
     final cover = ClipRRect(
       borderRadius: const BorderRadius.all(Radius.circular(6)),
       child: SizedBox(
         width: coverSize,
         height: coverSize,
         child:
-            album.artworkUrlForSize(compact ? 88 : 112) != null
+            imageUrl != null
                 ? CachedNetworkImage(
-                  imageUrl: album.artworkUrlForSize(compact ? 200 : 400)!,
+                  imageUrl: imageUrl,
                   fit: BoxFit.cover,
                   memCacheWidth: compact ? 88 : 112,
                   fadeInDuration: const Duration(milliseconds: 200),

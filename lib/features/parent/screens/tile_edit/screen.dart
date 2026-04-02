@@ -48,13 +48,6 @@ class _TileEditScreenState extends ConsumerState<TileEditScreen> {
     super.dispose();
   }
 
-  void _onLoaded(db.Tile group) {
-    if (_initialized) return;
-    _titleController.text = group.title;
-    _coverController.text = group.coverUrl ?? '';
-    _initialized = true;
-  }
-
   void _confirmDeleteAllCards(BuildContext context) {
     Log.info(
       _tag,
@@ -265,7 +258,17 @@ class _TileEditScreenState extends ConsumerState<TileEditScreen> {
             body: const Center(child: Text('Kachel nicht gefunden')),
           );
         }
-        _onLoaded(group);
+        if (!_initialized) {
+          // Schedule controller initialization after the current frame
+          // to avoid mutating state during build (AGENTS.md quality bar).
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            if (mounted && !_initialized) {
+              _titleController.text = group.title;
+              _coverController.text = group.coverUrl ?? '';
+              _initialized = true;
+            }
+          });
+        }
         return _buildScaffold(context, group, episodesAsync);
       },
       loading:
