@@ -14,7 +14,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:lauschi/core/apple_music/apple_music_session.dart';
 import 'package:lauschi/core/database/tile_item_repository.dart';
 import 'package:lauschi/core/database/tile_repository.dart';
-import 'package:lauschi/core/log.dart';
 import 'package:lauschi/core/providers/provider_type.dart';
 import 'package:lauschi/core/spotify/spotify_session.dart';
 import 'package:lauschi/features/player/player_provider.dart';
@@ -53,15 +52,19 @@ Future<String> _setupSpotify(
   PatrolIntegrationTester $,
   ProviderContainer container,
 ) async {
-  // Wait for Spotify to finish loading stored tokens (async at startup).
-  // Returns null to signal "skip" if auth never completes.
+  // Wait for Spotify to load stored tokens and refresh if needed.
+  // Tokens persist in FlutterSecureStorage across app launches
+  // when using --no-uninstall. OAuth refresh happens automatically.
   final authenticated = await _waitForAuth<SpotifyAuthenticated>(
     $,
     () => container.read(spotifySessionProvider),
+    timeout: const Duration(seconds: 60),
   );
   if (authenticated == null) {
-    Log.info('Test', 'Skipping: Spotify not authenticated on this device');
-    return ''; // Caller checks empty string = skip
+    fail(
+      'Spotify not authenticated after 60s. '
+      'Run `mise run dev` and log into Spotify first.',
+    );
   }
 
   final api = container.read(spotifySessionProvider.notifier).api;
@@ -92,19 +95,20 @@ Future<String> _setupAppleMusic(
   PatrolIntegrationTester $,
   ProviderContainer container,
 ) async {
-  // Wait for Apple Music to finish auth. On Android, MusicKit JS token
-  // exchange can take 30-60s on cold start.
+  // Trigger connect if not already authenticated. Apple Music on Android
+  // auto-auths without user interaction (MusicKit JS token exchange).
+  if (container.read(appleMusicSessionProvider) is! AppleMusicAuthenticated) {
+    unawaited(container.read(appleMusicSessionProvider.notifier).connect());
+  }
+
   final authenticated = await _waitForAuth<AppleMusicAuthenticated>(
     $,
     () => container.read(appleMusicSessionProvider),
-    timeout: const Duration(seconds: 60),
+    timeout: const Duration(seconds: 120),
   );
   if (authenticated == null) {
-    Log.info('Test', 'Skipping: Apple Music not authenticated on this device');
-    return '';
+    fail('Apple Music auth failed after 120s. Check device Apple Music login.');
   }
-  final session = container.read(appleMusicSessionProvider);
-  expect(session, isA<AppleMusicAuthenticated>());
 
   final api = container.read(appleMusicSessionProvider.notifier).api;
   final results = await api.searchAlbums('Asterix');
@@ -275,7 +279,6 @@ void main() {
     await pumpApp($, prefs: {'onboarding_complete': true});
     final c = getContainer($);
     final id = await _setupSpotify($, c);
-    if (id.isEmpty) return; // Provider not available
     await _assertPlayStarts($, id);
     await stopPlayback($);
   });
@@ -284,7 +287,6 @@ void main() {
     await pumpApp($, prefs: {'onboarding_complete': true});
     final c = getContainer($);
     final id = await _setupSpotify($, c);
-    if (id.isEmpty) return; // Provider not available
     await _assertPauseResume($, id);
     await stopPlayback($);
   });
@@ -293,7 +295,6 @@ void main() {
     await pumpApp($, prefs: {'onboarding_complete': true});
     final c = getContainer($);
     final id = await _setupSpotify($, c);
-    if (id.isEmpty) return; // Provider not available
     await _assertDuration($, id);
     await stopPlayback($);
   });
@@ -302,7 +303,6 @@ void main() {
     await pumpApp($, prefs: {'onboarding_complete': true});
     final c = getContainer($);
     final id = await _setupSpotify($, c);
-    if (id.isEmpty) return; // Provider not available
     await _assertPositionAdvances($, id);
     await stopPlayback($);
   });
@@ -313,7 +313,6 @@ void main() {
     await pumpApp($, prefs: {'onboarding_complete': true});
     final c = getContainer($);
     final id = await _setupAppleMusic($, c);
-    if (id.isEmpty) return; // Provider not available
     await _assertPlayStarts($, id);
     await stopPlayback($);
   });
@@ -322,7 +321,6 @@ void main() {
     await pumpApp($, prefs: {'onboarding_complete': true});
     final c = getContainer($);
     final id = await _setupAppleMusic($, c);
-    if (id.isEmpty) return; // Provider not available
     await _assertPauseResume($, id);
     await stopPlayback($);
   });
@@ -331,7 +329,6 @@ void main() {
     await pumpApp($, prefs: {'onboarding_complete': true});
     final c = getContainer($);
     final id = await _setupAppleMusic($, c);
-    if (id.isEmpty) return; // Provider not available
     await _assertDuration($, id);
     await stopPlayback($);
   });
@@ -340,7 +337,6 @@ void main() {
     await pumpApp($, prefs: {'onboarding_complete': true});
     final c = getContainer($);
     final id = await _setupAppleMusic($, c);
-    if (id.isEmpty) return; // Provider not available
     await _assertPositionAdvances($, id);
     await stopPlayback($);
   });

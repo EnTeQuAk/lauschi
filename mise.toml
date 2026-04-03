@@ -204,7 +204,9 @@ echo "Running integration tests: $TEST_TARGET"
 adb shell media volume --set 0 2>/dev/null || echo "Warning: could not mute audio"
 
 export PATH="$HOME/.pub-cache/bin:$PATH"
-patrol test -t "$TEST_TARGET" --dart-define-from-file=.env.app
+# --no-uninstall preserves FlutterSecureStorage tokens from the debug app.
+# Run `mise run dev` and authenticate Spotify/Apple Music before first run.
+patrol test --no-uninstall -t "$TEST_TARGET" --dart-define-from-file=.env.app
 """
 
 [tasks.ios-install]
