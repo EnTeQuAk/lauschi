@@ -84,6 +84,12 @@ void main() {
       );
 
       await Future<void>.delayed(const Duration(milliseconds: 50));
+      // Context-assert: the stream actually emitted at least one
+      // state. Without this, `.any()` returns false on an empty
+      // list and the second assertion would still pass — meaning
+      // the test could pass even if the player never reported the
+      // error at all.
+      expect(states, isNotEmpty, reason: 'player must emit at least one state');
       expect(
         states.any((s) => s.error == PlayerError.contentUnavailable),
         true,
@@ -107,6 +113,7 @@ void main() {
       );
 
       await Future<void>.delayed(const Duration(milliseconds: 50));
+      expect(states, isNotEmpty, reason: 'player must emit at least one state');
       expect(states.any((s) => s.error == PlayerError.playbackFailed), true);
     });
 
@@ -127,6 +134,7 @@ void main() {
       );
 
       await Future<void>.delayed(const Duration(milliseconds: 50));
+      expect(states, isNotEmpty, reason: 'player must emit at least one state');
       expect(
         states.any((s) => s.error == PlayerError.appleMusicAuthExpired),
         true,
@@ -148,6 +156,17 @@ void main() {
         albumId: 'album-1',
         trackInfo: const TrackInfo(uri: 'test:uri', name: 'Test'),
         trackIndex: 99, // Out of bounds for 2 tracks
+      );
+
+      // Context-assert: player landed on track 1 (1-indexed) which
+      // is the fallback for out-of-bounds. Without this assertion
+      // the test would pass even if the fallback logic landed on
+      // an unexpected track that happened to call resolveStream('s1')
+      // for an unrelated reason.
+      expect(
+        player.currentTrackNumber,
+        1,
+        reason: 'fallback should land on track 1, not the out-of-bounds index',
       );
 
       // Should resolve track at index 0 (fallback), not 99.
@@ -235,6 +254,16 @@ void main() {
 
       await Future<void>.delayed(const Duration(milliseconds: 50));
 
+      // Context-assert: the player actually emitted SOMETHING in
+      // response to the play() + EventChannel push. Without this,
+      // a future bug that breaks state propagation entirely would
+      // make `playing` empty and the `expect(playing, isNotEmpty)`
+      // would fail with a confusing 'expected non-empty, actual []'
+      // — you couldn't tell if play() failed or the EventChannel
+      // failed. With this precondition the failure message is
+      // clear: 'no states emitted at all'.
+      expect(states, isNotEmpty, reason: 'player must emit at least one state');
+
       final playing = states.where((s) => s.isPlaying).toList();
       expect(playing, isNotEmpty);
       expect(playing.last.positionMs, 5000);
@@ -274,8 +303,50 @@ void main() {
     });
 
     test('dispose cancels DRM state subscription', () async {
+      // Setup: play() creates the DRM subscription lazily, so we
+      // need to drive a successful play() to get the subscription
+      // attached before we can verify dispose() cancels it.
+      when(
+        () => mockApi.getAlbumTracks(any()),
+      ).thenAnswer((_) async => _twoTracks);
+      when(() => mockResolver.resolveStream('s1')).thenAnswer(
+        (_) async => const StreamResolution(
+          hlsUrl: 'https://example.com/hls',
+          licenseUrl: 'https://example.com/lic',
+        ),
+      );
+      await player.play(
+        albumId: 'album-1',
+        trackInfo: const TrackInfo(uri: 'test:uri', name: 'Test'),
+      );
+
+      // Context-assert: the play() call wired up the DRM subscription.
+      // Without this baseline a regression where play() forgot to
+      // call _listenToDrmState() would still pass the post-dispose
+      // hasListener=false check (because there'd never have been a
+      // listener in the first place).
+      expect(
+        drmStateController.hasListener,
+        isTrue,
+        reason: 'baseline: play() should have subscribed to the DRM stream',
+      );
+
       await player.dispose();
-      // Adding events after dispose should not throw.
+
+      // The actual contract dispose owes us: it MUST cancel the
+      // subscription so the controller no longer has a listener.
+      // Without this assertion the original test was a smoke test
+      // that passed even if dispose was a no-op or leaked the
+      // subscription on every player teardown.
+      expect(
+        drmStateController.hasListener,
+        isFalse,
+        reason: 'dispose must release the DRM controller subscription',
+      );
+
+      // Adding events after dispose must not throw. (Originally
+      // the only thing this test verified — too weak to catch
+      // a leaked subscription.)
       drmStateController.add({'type': 'state', 'isPlaying': false});
       await Future<void>.delayed(const Duration(milliseconds: 50));
     });

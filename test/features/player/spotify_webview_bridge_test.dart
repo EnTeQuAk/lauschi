@@ -26,11 +26,32 @@ void main() {
       expect(bridge.currentState.isReady, isFalse);
     });
 
-    test('stateStream is broadcast (multiple listeners)', () {
-      final s1 = bridge.stateStream.listen((_) {});
-      final s2 = bridge.stateStream.listen((_) {});
+    test('stateStream is broadcast (multiple listeners)', () async {
+      // Regression: an earlier version of this test only verified
+      // that `listen()` didn't throw for two listeners. That passes
+      // even if the stream stops being a broadcast stream — single-
+      // subscription streams ALSO accept the second listen() call,
+      // they just throw on the SECOND data event. So a real test
+      // has to actually push data through and verify both sides
+      // receive it.
+      var s1Count = 0;
+      var s2Count = 0;
+      final s1 = bridge.stateStream.listen((_) => s1Count++);
+      final s2 = bridge.stateStream.listen((_) => s2Count++);
       addTearDown(s1.cancel);
       addTearDown(s2.cancel);
+
+      // Sanity: nothing has been emitted yet.
+      expect(s1Count, 0);
+      expect(s2Count, 0);
+
+      // Drive an event through the bridge. tearDown() emits a reset
+      // state synchronously into the broadcast controller.
+      bridge.tearDown();
+      await Future<void>.delayed(Duration.zero);
+
+      expect(s1Count, greaterThan(0), reason: 'first listener received event');
+      expect(s2Count, greaterThan(0), reason: 'second listener received event');
     });
 
     test('reconnect without controller is safe (no crash)', () async {
@@ -39,6 +60,17 @@ void main() {
     });
 
     test('reconnect clears device state', () async {
+      // Setup precondition: clean baseline. If a previous test
+      // leaked state into the shared bridge, the post-reconnect
+      // assertions could pass for the wrong reason (the state
+      // was already null/empty before reconnect did anything).
+      expect(
+        bridge.deviceId,
+        isNull,
+        reason: 'fresh bridge has no device id',
+      );
+      expect(states, isEmpty, reason: 'no events emitted yet');
+
       await bridge.reconnect();
       expect(bridge.deviceId, isNull);
       expect(states, isNotEmpty);
@@ -61,6 +93,14 @@ void main() {
     });
 
     test('JS commands without controller do not emit state changes', () async {
+      // Setup precondition: nothing emitted yet. Without this, a
+      // future change to setUp() that emits an initial state would
+      // make this test pass for the wrong reason (the assertion
+      // would compare against `states.length` instead of
+      // `isEmpty` and we'd notice; with `isEmpty` we lose that
+      // signal entirely if setUp leaks state).
+      expect(states, isEmpty, reason: 'fresh bridge has no events');
+
       await bridge.pause();
       await bridge.resume();
       expect(states, isEmpty);
@@ -81,6 +121,11 @@ void main() {
       });
 
       test('emits reset state', () async {
+        // Setup precondition: nothing emitted yet, so the `last`
+        // state we check after tearDown is unambiguously the one
+        // tearDown emitted.
+        expect(states, isEmpty, reason: 'fresh bridge has no events');
+
         bridge.tearDown();
         // Stream delivery is async; yield to let events arrive.
         await Future<void>.delayed(Duration.zero);

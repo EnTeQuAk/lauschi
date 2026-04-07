@@ -6,12 +6,25 @@ import 'package:lauschi/features/player/player_provider.dart';
 
 void main() {
   group('shouldSavePosition', () {
-    test('false when play time below minimum', () {
-      expect(shouldSavePosition(playTimeMs: 10000), isFalse);
+    // The default minimum is 20000ms (20 seconds). Tests below
+    // exercise the boundary cases. Don't change `19999` to a
+    // round-but-loose value like `10000` — the boundary-1 case
+    // is what catches off-by-one bugs (`>` vs `>=`).
+
+    test('false when play time below minimum (boundary - 1)', () {
+      expect(
+        shouldSavePosition(playTimeMs: 19999),
+        isFalse,
+        reason: '20000ms is the minimum — 19999 must NOT save',
+      );
     });
 
     test('true when play time at minimum', () {
-      expect(shouldSavePosition(playTimeMs: 20000), isTrue);
+      expect(
+        shouldSavePosition(playTimeMs: 20000),
+        isTrue,
+        reason: '20000ms is the minimum — exact boundary should save',
+      );
     });
 
     test('true when play time above minimum', () {
@@ -195,6 +208,25 @@ void main() {
         trackUri: 'ard:ep2',
         trackNumber: 1,
         positionMs: 30000,
+      );
+
+      // Context-assert: positions actually landed in the DB BEFORE
+      // we test that handleAlbumCompleted clears the sibling's
+      // position. Without this precondition the test could pass
+      // for the wrong reason if savePosition were broken — `card2
+      // .lastPositionMs == 0` would be true because the save
+      // failed, not because handleAlbumCompleted cleared it.
+      final preEp1 = await repo.getById(ep1);
+      final preEp2 = await repo.getById(ep2);
+      expect(
+        preEp1?.lastPositionMs,
+        50000,
+        reason: 'setup: ep1 position saved before handleAlbumCompleted',
+      );
+      expect(
+        preEp2?.lastPositionMs,
+        30000,
+        reason: 'setup: ep2 position saved before handleAlbumCompleted',
       );
 
       // Complete ep1. Should clear ep2's position but not ep1's.

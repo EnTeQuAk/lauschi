@@ -28,6 +28,17 @@ void main() {
         groupId: 'tile-pumuckl',
       );
 
+      // Context-asserts: the test fixture is in the shape we
+      // think it is. Without these, a future change to TileItem
+      // (e.g. constructor renamed `markedUnavailable` to
+      // `unavailableAt`) could leave the field at its default
+      // null and the test would still pass for the wrong reason
+      // (`isItemExpired` returning false because nothing was set,
+      // not true because we set it).
+      expect(item.markedUnavailable, isNotNull);
+      expect(item.lastPositionMs, 450000);
+      expect(item.lastTrackUri, 'ard:item:12345');
+
       expect(isItemExpired(item), isTrue);
 
       // Position data is intact for when content comes back.

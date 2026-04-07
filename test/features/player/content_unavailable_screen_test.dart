@@ -33,6 +33,14 @@ void main() {
       );
       await tester.pump();
 
+      // Context-assert: PlayerScreen actually rendered with the
+      // test track. Without this, a future regression where the
+      // screen fails to build (e.g. a missing required provider)
+      // would still let the dialog assertions run on an empty
+      // screen and fail with a confusing 'expected 1 widget,
+      // found 0' instead of pointing at the actual problem.
+      expect(find.text('Test Track'), findsOneWidget);
+
       // Trigger the error after build so ref.listen fires.
       fakeNotifier.setError(PlayerError.contentUnavailable);
       await tester.pump(); // ref.listen fires
@@ -66,6 +74,9 @@ void main() {
         ),
       );
       await tester.pump();
+
+      // Context-assert: see comment in the "gone" test above.
+      expect(find.text('Test Track'), findsOneWidget);
 
       fakeNotifier.setError(PlayerError.spotifyConnectionLost);
       await tester.pump();
@@ -102,6 +113,9 @@ void main() {
         ),
       );
       await tester.pump();
+
+      // Context-assert: see comment in the "gone" test above.
+      expect(find.text('Test Track'), findsOneWidget);
 
       fakeNotifier.setError(PlayerError.spotifyAuthExpired);
       await tester.pump();
@@ -141,7 +155,8 @@ void main() {
         ),
       );
 
-      // Navigate to player.
+      // Navigate to player. The push Future never completes
+      // until pop, so we have to use unawaited().
       unawaited(
         tester
             .state<NavigatorState>(find.byType(Navigator))
@@ -149,6 +164,15 @@ void main() {
       );
       await tester.pump();
       await tester.pump();
+
+      // Context-assert: PlayerScreen is actually visible after
+      // the navigation pumps. Without this, a navigation that
+      // silently failed would let the test trigger an error on
+      // the wrong screen and the dismiss check would still pass
+      // (clearError is called either way) — but the assertion
+      // about popping the player would be testing the wrong
+      // navigator state.
+      expect(find.text('Test Track'), findsOneWidget);
 
       // Trigger error.
       fakeNotifier.setError(PlayerError.spotifyConnectionLost);
