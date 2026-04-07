@@ -13,8 +13,21 @@ void main() {
   });
 
   group('CatalogService.load', () {
-    test('loads at least 45 series', () {
-      expect(catalog.seriesCount, greaterThanOrEqualTo(45));
+    test('loads catalog with expected series', () {
+      // The catalog has ~162 series (per AGENTS.md). The previous
+      // bound (>= 45) was a stale lower limit from early development
+      // that would happily pass if 73% of the YAML failed to parse.
+      // Tighten to 150 AND sanity-check that the flagship series
+      // loaded by id (catches catastrophic YAML breakage where the
+      // count is inflated but the data is corrupted).
+      expect(catalog.seriesCount, greaterThanOrEqualTo(150));
+      expect(
+        catalog.all.any((s) => s.id == 'die_drei_fragezeichen'),
+        isTrue,
+        reason:
+            'die_drei_fragezeichen is the flagship series; '
+            'its absence means the YAML is corrupted',
+      );
     });
   });
 
@@ -401,25 +414,40 @@ void main() {
   });
 
   group('CatalogService.match — episode number extraction', () {
+    // CONTEXT-ASSERT POLICY: every test in this group asserts
+    //   1. r is not null  (the keyword/artist matched)
+    //   2. r.series.id    (the right series matched)
+    //   3. r.episodeNumber (the actual extraction outcome)
+    // in that order. A bare `expect(r!.episodeNumber, N)` would fail
+    // with "Null check operator used on a null value" if the keyword
+    // match itself broke — confusing because you can't tell whether
+    // it was the matcher or the extractor that failed.
+
     // Yakari: "Folge N:" format
     test('Yakari extracts Folge N', () {
       final r = catalog.match(
         'Folge 9: Yakari und die Pferdediebe (Das Original-Hörspiel zur TV-Serie)',
       );
-      expect(r!.episodeNumber, 9);
+      expect(r, isNotNull);
+      expect(r!.series.id, 'yakari');
+      expect(r.episodeNumber, 9);
     });
 
     test('Yakari extracts larger Folge N', () {
       final r = catalog.match(
         'Folge 33: Yakari und Silberfell (Das Original-Hörspiel zur TV-Serie)',
       );
-      expect(r!.episodeNumber, 33);
+      expect(r, isNotNull);
+      expect(r!.series.id, 'yakari');
+      expect(r.episodeNumber, 33);
     });
 
     // Bibi Blocksberg: "Folge N:" format
     test('Bibi Blocksberg extracts Folge N', () {
       final r = catalog.match('Folge 157: Bibi Blocksberg rettet den Zoo');
-      expect(r!.episodeNumber, 157);
+      expect(r, isNotNull);
+      expect(r!.series.id, 'bibi_blocksberg');
+      expect(r.episodeNumber, 157);
     });
 
     // Pumuckl: episode_pattern changed during curation and no longer extracts
@@ -435,25 +463,33 @@ void main() {
     // Hanni und Nanni: three formats
     test('Hanni und Nanni extracts NNN/ prefix', () {
       final r = catalog.match('065/Hanni und Nanni voll im Trend!');
-      expect(r!.episodeNumber, 65);
+      expect(r, isNotNull);
+      expect(r!.series.id, 'hanni_und_nanni');
+      expect(r.episodeNumber, 65);
     });
 
     test('Hanni und Nanni extracts short NNN/ prefix', () {
       // Pattern requires 3-digit prefix: ^(\d{3})/
       final r = catalog.match('004/Lustige Streiche mit Hanni und Nanni');
-      expect(r!.episodeNumber, 4);
+      expect(r, isNotNull);
+      expect(r!.series.id, 'hanni_und_nanni');
+      expect(r.episodeNumber, 4);
     });
 
     test('Hanni und Nanni extracts Folge N:', () {
       final r = catalog.match('Folge 79: Prost Neujahr, Hanni und Nanni!');
-      expect(r!.episodeNumber, 79);
+      expect(r, isNotNull);
+      expect(r!.series.id, 'hanni_und_nanni');
+      expect(r.episodeNumber, 79);
     });
 
     test('Hanni und Nanni extracts Klassiker N', () {
       final r = catalog.match(
         'Klassiker 1 - 1972 Hanni und Nanni sind immer dagegen',
       );
-      expect(r!.episodeNumber, 1);
+      expect(r, isNotNull);
+      expect(r!.series.id, 'hanni_und_nanni');
+      expect(r.episodeNumber, 1);
     });
 
     // Räuber Hotzenplotz: "Hörspiele N" format (curated pattern)
@@ -463,7 +499,9 @@ void main() {
         final r = catalog.match(
           'Der Räuber Hotzenplotz - Hörspiele 1: Der Räuber Hotzenplotz - Das Hörspiel',
         );
-        expect(r!.episodeNumber, 1);
+        expect(r, isNotNull);
+        expect(r!.series.id, 'raeuber_hotzenplotz');
+        expect(r.episodeNumber, 1);
       },
     );
 
@@ -471,7 +509,9 @@ void main() {
       final r = catalog.match(
         'Der Räuber Hotzenplotz - Hörspiele 3: Schluss mit der Räuberei - Das Hörspiel',
       );
-      expect(r!.episodeNumber, 3);
+      expect(r, isNotNull);
+      expect(r!.series.id, 'raeuber_hotzenplotz');
+      expect(r.episodeNumber, 3);
     });
 
     // Hui Buh: multiple series share the keyword, episode extraction
@@ -486,25 +526,33 @@ void main() {
     // Pippi Langstrumpf: "Pippi Langstrumpf N. title" format
     test('Pippi Langstrumpf extracts book number', () {
       final r = catalog.match('Pippi Langstrumpf 1. Das Hörspiel');
-      expect(r!.episodeNumber, 1);
+      expect(r, isNotNull);
+      expect(r!.series.id, 'pippi_langstrumpf');
+      expect(r.episodeNumber, 1);
     });
 
     test('Pippi Langstrumpf extracts book number 3', () {
       final r = catalog.match(
         'Pippi Langstrumpf 3. Pippi in Taka-Tuka-Land. Das Hörspiel',
       );
-      expect(r!.episodeNumber, 3);
+      expect(r, isNotNull);
+      expect(r!.series.id, 'pippi_langstrumpf');
+      expect(r.episodeNumber, 3);
     });
 
     // Das Sams: "Das Sams N. title" format
     test('Das Sams extracts book number', () {
       final r = catalog.match('Das Sams 1. Eine Woche voller Samstage');
-      expect(r!.episodeNumber, 1);
+      expect(r, isNotNull);
+      expect(r!.series.id, 'das_sams');
+      expect(r.episodeNumber, 1);
     });
 
     test('Das Sams extracts book number 3', () {
       final r = catalog.match('Das Sams 3. Neue Punkte für das Sams');
-      expect(r!.episodeNumber, 3);
+      expect(r, isNotNull);
+      expect(r!.series.id, 'das_sams');
+      expect(r.episodeNumber, 3);
     });
 
     // Biene Maja: NNN/ format (pattern changed to ^(\d+)/)
@@ -513,20 +561,25 @@ void main() {
         '01/Majas Flucht aus der Heimatstadt (Die Biene Maja)',
       );
       expect(r, isNotNull);
-      expect(r!.episodeNumber, 1);
+      expect(r!.series.id, 'biene_maja');
+      expect(r.episodeNumber, 1);
     });
 
     // Nils Holgersson: "(Nils Holgersson, Folge N)" format
     test('Nils Holgersson extracts from parenthesized format', () {
       final r = catalog.match('Der Junge (Nils Holgersson, Folge 1)');
-      expect(r!.episodeNumber, 1);
+      expect(r, isNotNull);
+      expect(r!.series.id, 'nils_holgersson');
+      expect(r.episodeNumber, 1);
     });
 
     test('Nils Holgersson extracts larger episode', () {
       final r = catalog.match(
         'Wildvogelleben (Nils Holgersson, Folge 3)',
       );
-      expect(r!.episodeNumber, 3);
+      expect(r, isNotNull);
+      expect(r!.series.id, 'nils_holgersson');
+      expect(r.episodeNumber, 3);
     });
 
     // Heidi: artist-ID-only (keywords removed during curation)
@@ -545,20 +598,26 @@ void main() {
       final r = catalog.match(
         'Familie Vogel fragt: Wie läuft eine Reise am Flughafen ab? (Wissensreise mit Tom Turbo! Teil 1)',
       );
-      expect(r!.episodeNumber, 1);
+      expect(r, isNotNull);
+      expect(r!.series.id, 'tom_turbo');
+      expect(r.episodeNumber, 1);
     });
 
     test('Tom Turbo extracts Teil N (larger)', () {
       final r = catalog.match(
         'Familie Vogel fragt: Klettern Ziegen auf Bäume? (Wissensreise mit Tom Turbo! Teil 10)',
       );
-      expect(r!.episodeNumber, 10);
+      expect(r, isNotNull);
+      expect(r!.series.id, 'tom_turbo');
+      expect(r.episodeNumber, 10);
     });
 
     // Lauras Stern: Folge N and Band N
     test('Lauras Stern extracts Folge N', () {
       final r = catalog.match('Lauras Stern, Folge 1: Lauras Stern');
-      expect(r!.episodeNumber, 1);
+      expect(r, isNotNull);
+      expect(r!.series.id, 'lauras_stern');
+      expect(r.episodeNumber, 1);
     });
 
     test('Lauras Stern without keyword prefix has no episode', () {
@@ -567,7 +626,8 @@ void main() {
         'Laura hat Geburtstag [Lauras Stern 10 (Ungekürzt)]',
       );
       expect(r, isNotNull);
-      expect(r!.episodeNumber, isNull);
+      expect(r!.series.id, 'lauras_stern');
+      expect(r.episodeNumber, isNull);
     });
 
     test('Lauras Stern extracts Teil N', () {
@@ -576,7 +636,8 @@ void main() {
         'Lauras Stern - Tonspur der TV-Serie, Teil 10: Fabelhafte Gutenacht-Geschichten',
       );
       expect(r, isNotNull);
-      expect(r!.episodeNumber, 10);
+      expect(r!.series.id, 'lauras_stern');
+      expect(r.episodeNumber, 10);
     });
 
     // Pettersson und Findus: "Folge N:" format
@@ -584,7 +645,9 @@ void main() {
       final r = catalog.match(
         'Folge 10: Findus und das eigene Fahrrad (Das Original Hörspiel zur TV-Serie)',
       );
-      expect(r!.episodeNumber, 10);
+      expect(r, isNotNull);
+      expect(r!.series.id, 'pettersson_und_findus');
+      expect(r.episodeNumber, 10);
     });
 
     // Die Playmos: "Folge N:" format
@@ -592,20 +655,26 @@ void main() {
       final r = catalog.match(
         'Folge 46: Die Playmos ermitteln (Das Original Playmobil Hörspiel)',
       );
-      expect(r!.episodeNumber, 46);
+      expect(r, isNotNull);
+      expect(r!.series.id, 'die_playmos');
+      expect(r.episodeNumber, 46);
     });
 
     test('Die Playmos extracts single-digit Folge N', () {
       final r = catalog.match(
         'Folge 9: Manege frei für die Playmos (Das Original Playmobil Hörspiel)',
       );
-      expect(r!.episodeNumber, 9);
+      expect(r, isNotNull);
+      expect(r!.series.id, 'die_playmos');
+      expect(r.episodeNumber, 9);
     });
 
     // Wendy: Folge N and NNN/ formats
     test('Wendy extracts Folge N', () {
       final r = catalog.match('Folge 22: Wendy verliebt sich');
-      expect(r!.episodeNumber, 22);
+      expect(r, isNotNull);
+      expect(r!.series.id, 'wendy');
+      expect(r.episodeNumber, 22);
     });
 
     test('Wendy NNN/ prefix not extracted (pattern is Folge only)', () {
@@ -613,36 +682,47 @@ void main() {
         '005/Wendy Wolf hat Geburtstag (und 5 weitere Geschichten)',
       );
       expect(r, isNotNull);
-      expect(r!.episodeNumber, isNull);
+      expect(r!.series.id, 'wendy');
+      expect(r.episodeNumber, isNull);
     });
 
     // Asterix: "NN: title" format
     test('Asterix extracts leading NN: number', () {
       final r = catalog.match('41: Asterix in Lusitanien');
-      expect(r!.episodeNumber, 41);
+      expect(r, isNotNull);
+      expect(r!.series.id, 'asterix');
+      expect(r.episodeNumber, 41);
     });
 
     test('Asterix extracts zero-padded number', () {
       final r = catalog.match('02: Asterix und Kleopatra');
-      expect(r!.episodeNumber, 2);
+      expect(r, isNotNull);
+      expect(r!.series.id, 'asterix');
+      expect(r.episodeNumber, 2);
     });
 
     // Gespensterjäger: Band N and Folge N formats
     test('Gespensterjäger extracts Band N from parentheses', () {
       final r = catalog.match('Gespensterjäger auf eisiger Spur (Band 1)');
-      expect(r!.episodeNumber, 1);
+      expect(r, isNotNull);
+      expect(r!.series.id, 'gespensterjaeger');
+      expect(r.episodeNumber, 1);
     });
 
     test('Gespensterjäger extracts Band N without parentheses', () {
       final r = catalog.match('Gespensterjäger im Feuerspuk (Band 2)');
-      expect(r!.episodeNumber, 2);
+      expect(r, isNotNull);
+      expect(r!.series.id, 'gespensterjaeger');
+      expect(r.episodeNumber, 2);
     });
 
     test('Gespensterjäger extracts Folge N', () {
       final r = catalog.match(
         'Folge 5: Gespensterjäger und der Weihnachtsspuk',
       );
-      expect(r!.episodeNumber, 5);
+      expect(r, isNotNull);
+      expect(r!.series.id, 'gespensterjaeger');
+      expect(r.episodeNumber, 5);
     });
 
     // Gespensterjäger NN/ no longer in pattern (gespensterjaeger uses Band/Folge only).
@@ -653,7 +733,9 @@ void main() {
       final r = catalog.match(
         'Das Dinogeheimnis [Detektivbüro LasseMaja, Teil 36 (Ungekürzt)]',
       );
-      expect(r!.episodeNumber, 36);
+      expect(r, isNotNull);
+      expect(r!.series.id, 'lassemaja');
+      expect(r.episodeNumber, 36);
     });
   });
 
@@ -777,6 +859,11 @@ void main() {
   });
 
   group('CatalogService.match — new series (2026-02-19 additions)', () {
+    // Source: commit b21f7e8d "feat(catalog): multi-agent review —
+    // add 12 series, fix aliases, tighten patterns" (2026-02-19).
+    // Each test below covers a series added in that pass; failures
+    // here mean either the series was removed from the YAML or its
+    // matching pattern regressed.
     test('Die Schule der magischen Tiere matches by keyword', () {
       final r = catalog.match(
         'Die Schule der magischen Tiere - Das Hörbuch zum Film',
@@ -865,7 +952,16 @@ void main() {
   });
 
   group('CatalogService.match — alias fixes (2026-02-19 review)', () {
+    // Source: same multi-agent review as the "new series" group
+    // above (commit b21f7e8d, 2026-02-19). These tests pin down
+    // specific alias bugs caught during that review. Each test
+    // documents the original wrong behavior so a future regression
+    // hits a clear failure rather than a silent re-introduction.
+
     test('Bullerbü matches via "Wir Kinder aus Bullerbü" alias keyword', () {
+      // Bug pre-2026-02-19: "Wir Kinder aus Bullerbü" was the only
+      // common Spotify title format but the catalog only had
+      // "Bullerbü" as a keyword, missing the multi-word albums.
       final r = catalog.match('Wir Kinder aus Bullerbü - Das Hörspiel');
       expect(r, isNotNull);
       expect(r!.series.id, 'bullerbue');
@@ -874,13 +970,34 @@ void main() {
     test(
       'Gespensterjäger: "Geisterjäger" does NOT match (wrong alias removed)',
       () {
-        // "Geisterjäger" is a different word; was previously a wrong alias
+        // Bug pre-2026-02-19: "Geisterjäger" was added as an alias
+        // for gespensterjaeger by an LLM that didn't realize they're
+        // different words ("Geist" = ghost, "Gespenst" = spook).
+        // After the fix, "Geisterjäger im Sturm" should not match
+        // any series — there's no real Geisterjäger Hörspiel in the
+        // catalog.
+        //
+        // Note the actual series id is `gespensterjaeger` with `ae`.
+        // The previous version of this test asserted
+        // `isNot('gespensterjager')` (no `ae`) which was a tautology
+        // because that string never exists in the catalog. Caught
+        // during the round-1 test infra review.
         final r = catalog.match('Geisterjäger im Sturm');
-        expect(r?.series.id, isNot('gespensterjager'));
+        expect(
+          r,
+          isNull,
+          reason:
+              '"Geisterjäger" must not be matched as gespensterjaeger '
+              'after the wrong alias was removed',
+        );
       },
     );
 
     test('Pumuckl matches via "meister eder" keyword', () {
+      // Bug pre-2026-02-19: many real Pumuckl albums use "Meister
+      // Eder" in the title (Eder is the master carpenter Pumuckl
+      // lives with) without the word "Pumuckl" itself. The catalog
+      // missed them until "meister eder" was added as an alias.
       final r = catalog.match(
         'Meister Eder und sein Pumuckl - Die Hörspielkassette',
       );
@@ -888,18 +1005,30 @@ void main() {
       expect(r!.series.id, 'pumuckl');
     });
 
-    test('Pippi Swedish spelling does not match German keywords', () {
-      // Swedish å won't match keyword "Pippi Langstrumpf".
+    test('Pippi Swedish spelling matches via single-word "Pippi" keyword', () {
+      // Swedish "Pippi Långstrump" doesn't contain "Pippi Langstrumpf"
+      // (German spelling). This used to fail entirely. After the
+      // 2026-02-19 review, "Pippi" was added as a single-word
+      // keyword, so Swedish-spelled titles match too.
+      //
+      // The previous test wrapped the assertion in `if (r != null)`
+      // which silently passed if the match broke. Caught during the
+      // round-1 test infra review. Now the test is explicit: it MUST
+      // match, and it MUST be pippi_langstrumpf.
       final r = catalog.match('Pippi Långstrump på de sju haven (Hörspiel)');
-      // May match via "Pippi" single-word keyword now, accept either.
-      if (r != null) {
-        expect(r.series.id, 'pippi_langstrumpf');
-      }
+      expect(
+        r,
+        isNotNull,
+        reason: '"Pippi" single-word keyword should match Swedish titles',
+      );
+      expect(r!.series.id, 'pippi_langstrumpf');
     });
   });
 
   group('CatalogService — extractEpisode direction (left-to-right)', () {
-    // Verifies group priority in alternation patterns (Opus finding: left-to-right wins)
+    // Verifies group priority in alternation patterns (Opus finding:
+    // left-to-right wins). Same context-assert policy as the
+    // extraction group: r → series.id → episodeNumber.
 
     test('Die drei ??? Folge format extracts episode', () {
       // Pattern is now "^Folge (\d+):" only.
@@ -908,7 +1037,9 @@ void main() {
         'Folge 116: Codename Cobra',
         albumArtistIds: [id],
       );
-      expect(r!.episodeNumber, 116);
+      expect(r, isNotNull);
+      expect(r!.series.id, 'die_drei_fragezeichen');
+      expect(r.episodeNumber, 116);
     });
 
     test('Die drei ??? Folge N format when no NNN/ prefix', () {
@@ -918,14 +1049,18 @@ void main() {
         'Folge 227: Melodie der Rache',
         albumArtistIds: [id],
       );
-      expect(r!.episodeNumber, 227); // group 2 wins (group 1 null)
+      expect(r, isNotNull);
+      expect(r!.series.id, 'die_drei_fragezeichen');
+      expect(r.episodeNumber, 227); // group 2 wins (group 1 null)
     });
 
     test('Hanni und Nanni: NNN/ preferred over Folge N when both present', () {
       // Pattern: (?:^(\d{1,3})/|[Ff]olge\s+(\d+)|[Kk]lassiker\s+(\d+))
       // With left-to-right: "065/Hanni und Nanni" → group 1 (065=65) wins
       final r = catalog.match('065/Hanni und Nanni voll im Trend!');
-      expect(r!.episodeNumber, 65);
+      expect(r, isNotNull);
+      expect(r!.series.id, 'hanni_und_nanni');
+      expect(r.episodeNumber, 65);
     });
   });
 
