@@ -111,7 +111,10 @@ void main() {
   });
 
   group('ArdItem.fromJson', () {
-    test('parses titleClean', () {
+    test('parses titleClean and prefers it for displayTitle', () {
+      // Story: when the ARD API returns a clean title (stripped of the
+      // "|  Gute-Nacht-Geschichte ab 5 Jahren" footer), displayTitle
+      // should use that instead of the noisy raw title.
       final json = <String, dynamic>{
         'id': 15956139,
         'title': 'Superhelden: Turnverein | Gute-Nacht-Geschichte ab 5 Jahren',
@@ -123,8 +126,22 @@ void main() {
 
       final item = ArdItem.fromJson(json);
 
-      expect(item.title, contains('Gute-Nacht-Geschichte'));
-      expect(item.titleClean, 'Superhelden: Turnverein');
+      // Context: the raw `title` parses from JSON and still contains
+      // the noisy footer. The `titleClean` parses separately and drops
+      // it. If either parser regressed, the displayTitle assertion
+      // below would pass or fail for the wrong reason.
+      expect(
+        item.title,
+        'Superhelden: Turnverein | Gute-Nacht-Geschichte ab 5 Jahren',
+        reason: 'parser should preserve the raw title verbatim',
+      );
+      expect(
+        item.titleClean,
+        'Superhelden: Turnverein',
+        reason: 'parser should read titleClean from the top-level field',
+      );
+
+      // Behavior under test: displayTitle prefers titleClean.
       expect(item.displayTitle, 'Superhelden: Turnverein');
     });
 
@@ -138,7 +155,17 @@ void main() {
 
       final item = ArdItem.fromJson(json);
 
-      expect(item.titleClean, isNull);
+      // Context: this test is about the fallback path. If the parser
+      // somehow populated titleClean from the title, the fallback
+      // wouldn't fire and the test would pass trivially.
+      expect(item.title, 'Pumuckl und der verstauchte Daumen');
+      expect(
+        item.titleClean,
+        isNull,
+        reason: 'setup: JSON omits titleClean; parser must leave it null',
+      );
+
+      // Behavior under test: no titleClean → fall back to title.
       expect(item.displayTitle, 'Pumuckl und der verstauchte Daumen');
     });
 

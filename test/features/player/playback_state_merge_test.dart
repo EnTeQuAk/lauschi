@@ -91,6 +91,17 @@ void main() {
         const before = PlaybackState(isLoading: true);
         const bridgeState = PlaybackState(isPlaying: true, isReady: true);
 
+        // Context: the whole point of this test is that the input
+        // state starts LOADING and a proper merge should CLEAR it.
+        // If `before.isLoading` were false due to a constructor change,
+        // both the "broken" and "fixed" branches below would be
+        // meaningless.
+        expect(
+          before.isLoading,
+          isTrue,
+          reason: 'setup: input state must start loading for this test',
+        );
+
         // Simulate the BROKEN code: copyWith without isLoading.
         final broken = before.copyWith(
           isReady: bridgeState.isReady,
@@ -122,7 +133,25 @@ void main() {
     });
 
     test('player.html uses the same channel name', () {
-      final html = File('assets/player.html').readAsStringSync();
+      // Cross-artifact consistency check: the JS in player.html calls
+      // [spotifyJsChannelName].postMessage(...). If the Dart constant
+      // drifts from the JS code, messages silently fail at runtime
+      // and Spotify playback breaks. This test catches that drift
+      // at build time.
+      final htmlFile = File('assets/player.html');
+
+      // Context: the test depends on the file existing at the
+      // expected path. If someone moves assets/, fail with a clear
+      // diagnostic instead of a cryptic FileSystemException.
+      expect(
+        htmlFile.existsSync(),
+        isTrue,
+        reason:
+            'assets/player.html should exist — either the file was '
+            'moved or the test is running from the wrong directory',
+      );
+
+      final html = htmlFile.readAsStringSync();
       // The JS code references SpotifyBridge for postMessage and typeof check.
       expect(html, contains('$spotifyJsChannelName.postMessage'));
       expect(html, contains("typeof $spotifyJsChannelName === 'undefined'"));

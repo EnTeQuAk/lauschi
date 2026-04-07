@@ -11,8 +11,20 @@ void main() {
       expect(sentence, contains('ARD Audiothek'));
       expect(sentence, isNot(contains('Spotify')));
       expect(sentence, isNot(contains('Apple Music')));
+      // Singular disclaimer: "der ARD" (dative), not "dieser Anbieter"
+      // (plural) because only one provider is mentioned.
       expect(sentence, contains('kein offizielles Angebot der ARD'));
-      expect(sentence, endsWith('Mehr Hörspiele auf '));
+      // The trailing space is intentional: the UI puts the clickable
+      // "ardaudiothek.de" link immediately after this sentence and
+      // there's no CSS-level spacing between the TextSpan and the
+      // WidgetSpan. Dropping the space would run them together.
+      expect(
+        sentence,
+        endsWith('Mehr Hörspiele auf '),
+        reason:
+            'trailing space before ardaudiothek.de link is intentional — '
+            'see buildProviderAttributionSentence docstring',
+      );
     });
 
     test('ARD + Spotify (Spotify-only build)', () {
@@ -22,6 +34,7 @@ void main() {
       );
       expect(sentence, contains('ARD Audiothek und Spotify'));
       expect(sentence, isNot(contains('Apple Music')));
+      // Plural disclaimer: two providers listed, so "dieser Anbieter".
       expect(sentence, contains('kein offizielles Angebot dieser Anbieter'));
     });
 
@@ -43,7 +56,11 @@ void main() {
       // Comma between first two, "und" before the last (German list joining).
       expect(sentence, contains('ARD Audiothek, Spotify und Apple Music'));
       expect(sentence, contains('kein offizielles Angebot dieser Anbieter'));
-      expect(sentence, endsWith('Mehr Hörspiele auf '));
+      expect(
+        sentence,
+        endsWith('Mehr Hörspiele auf '),
+        reason: 'trailing space before ardaudiothek.de link is intentional',
+      );
     });
 
     test('uses correct German brand spelling for Apple Music', () {

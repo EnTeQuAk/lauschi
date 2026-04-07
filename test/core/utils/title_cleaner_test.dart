@@ -149,6 +149,17 @@ void main() {
 
       for (final (input, expected) in cases) {
         test('"$input"', () {
+          // Context: every input in this loop should actually contain
+          // the suffix we're testing the stripping of. If the cases
+          // list got corrupted (copy-paste error, missing parenthesis)
+          // the test would pass trivially when the cleaner becomes a
+          // no-op. The loop variant `Hörspiel` covers all the
+          // Original-Hörspiel / Hörspiel zum / Hörspiel zur variants.
+          expect(
+            input,
+            contains('Hörspiel'),
+            reason: 'test data: input should contain a Hörspiel suffix',
+          );
           // With episodeNumber: strips both Folge prefix and Hörspiel suffix.
           final result = cleanEpisodeTitle(input, episodeNumber: 1);
           expect(result, expected);
@@ -170,6 +181,14 @@ void main() {
 
       for (final (input, expected) in cases) {
         test('"${input.substring(0, 40)}..."', () {
+          // Context: this group is specifically about [bracket] suffixes
+          // (vs. (parenthesis) suffixes in the previous group). Make
+          // sure the test data uses the right syntax.
+          expect(
+            input,
+            contains('[Original-Hörspiel'),
+            reason: 'test data: input should have a [bracket] Hörspiel suffix',
+          );
           expect(cleanEpisodeTitle(input), expected);
         });
       }
@@ -189,6 +208,14 @@ void main() {
 
       for (final (input, expected) in cases) {
         test('"$input"', () {
+          // Context: Soundtrack stripping is a separate code path
+          // from the Hörspiel one — verify the test data has
+          // the suffix we're testing.
+          expect(
+            input,
+            contains('Soundtrack'),
+            reason: 'test data: input should have a Soundtrack suffix',
+          );
           expect(cleanEpisodeTitle(input), expected);
         });
       }
@@ -205,6 +232,13 @@ void main() {
 
       for (final (input, expected) in cases) {
         test('"$input"', () {
+          // Context: each input should contain either "Ungekürzt" or
+          // "Gekürzt" — that's the whole point of the group.
+          expect(
+            input,
+            anyOf(contains('Ungekürzt'), contains('Gekürzt')),
+            reason: 'test data: input should have an Ungekürzt/Gekürzt marker',
+          );
           expect(cleanEpisodeTitle(input), expected);
         });
       }
@@ -232,6 +266,15 @@ void main() {
 
       for (final (input, num, expected) in cases) {
         test('"$input" (ep $num)', () {
+          // Context: the cleaner only strips a Folge prefix when the
+          // episodeNumber matches what the prefix says. Verify the
+          // input actually starts with "Folge $num" (or "Folge $num "
+          // with a separator) so we're not testing a no-op.
+          expect(
+            input,
+            startsWith('Folge $num'),
+            reason: 'test data: input should start with "Folge $num"',
+          );
           expect(cleanEpisodeTitle(input, episodeNumber: num), expected);
         });
       }
@@ -320,30 +363,58 @@ void main() {
       });
     });
 
-    group('handles Pumuckl patterns', () {
-      final cases = <(String, String)>[
-        (
-          '02: Pumuckl wird verschenkt (Neue Geschichten vom Pumuckl)',
-          '02: Pumuckl wird verschenkt (Neue Geschichten vom Pumuckl)',
-        ),
-        (
-          '07: Pumuckl macht Ferien (Das Original aus der Fernsehserie)',
-          '07: Pumuckl macht Ferien (Das Original aus der Fernsehserie)',
-        ),
-        (
-          'Pumuckl und das große Missverständnis (Das Original-Hörspiel zum Kinofilm) (Neue Geschichten vom Pumuckl)',
-          'Pumuckl und das große Missverständnis (Das Original-Hörspiel zum Kinofilm) (Neue Geschichten vom Pumuckl)',
-        ),
-      ];
+    group(
+      'preserves Pumuckl-style titles (no Folge, prefix is "NN:" not '
+      '"Folge NN", or trailing parens contain the series name not '
+      'just Hörspiel boilerplate)',
+      () {
+        final cases = <(String, String)>[
+          (
+            // No "Folge" word, prefix is just "NN:"
+            '02: Pumuckl wird verschenkt (Neue Geschichten vom Pumuckl)',
+            '02: Pumuckl wird verschenkt (Neue Geschichten vom Pumuckl)',
+          ),
+          (
+            // Trailing parens contain series-name material, not just
+            // Hörspiel boilerplate.
+            '07: Pumuckl macht Ferien (Das Original aus der Fernsehserie)',
+            '07: Pumuckl macht Ferien (Das Original aus der Fernsehserie)',
+          ),
+          (
+            // First parens IS a Hörspiel suffix, but a second
+            // (series-name) parens follows it. Stripping would lose
+            // the series context.
+            'Pumuckl und das große Missverständnis (Das Original-Hörspiel zum Kinofilm) (Neue Geschichten vom Pumuckl)',
+            'Pumuckl und das große Missverständnis (Das Original-Hörspiel zum Kinofilm) (Neue Geschichten vom Pumuckl)',
+          ),
+        ];
 
-      for (final (input, expected) in cases) {
-        test('"${input.substring(0, 30)}..."', () {
-          // No episodeNumber, no Folge prefix — nothing to strip except
-          // trailing Hörspiel parens. But Pumuckl's are in the middle.
-          expect(cleanEpisodeTitle(input), expected);
-        });
-      }
-    });
+        for (final (input, expected) in cases) {
+          test('"${input.substring(0, 30)}..."', () {
+            // Context: every input mentions Pumuckl somewhere, and
+            // either lacks the "Folge" prefix or has nested parens.
+            // Without these guards a copy-paste error in the test
+            // data could turn this into a trivial identity test.
+            expect(
+              input,
+              contains('Pumuckl'),
+              reason: 'test data: should mention Pumuckl',
+            );
+            expect(
+              input,
+              isNot(startsWith('Folge ')),
+              reason:
+                  'test data: Pumuckl titles do not start with "Folge "; '
+                  'cleaner should not strip a non-existent prefix',
+            );
+
+            // Behavior: cleaner returns the title unchanged because
+            // there's nothing it knows how to strip safely.
+            expect(cleanEpisodeTitle(input), expected);
+          });
+        }
+      },
+    );
 
     group('handles number-slash format (Fünf Freunde, TKKG)', () {
       final cases = <(String, String)>[
@@ -383,31 +454,64 @@ void main() {
       }
     });
 
-    group('handles Nils Holgersson / Biene Maja nested parens', () {
-      final cases = <(String, int?, String)>[
-        (
-          'Der Adler Gorgo (Nils Holgersson, Folge 37)',
-          37,
-          'Der Adler Gorgo (Nils Holgersson, Folge 37)',
-        ),
-        (
-          'Die Elfenfahrt (Die Biene Maja, Folge 13)',
-          13,
-          'Die Elfenfahrt (Die Biene Maja, Folge 13)',
-        ),
-        (
-          'Das Eisenwerk (Nils Holgersson, Folge 27)',
-          27,
-          'Das Eisenwerk (Nils Holgersson, Folge 27)',
-        ),
-      ];
+    group(
+      'preserves Nils Holgersson / Biene Maja nested parens — '
+      'parseEpisodeNumber does NOT recognize this format (the catalog '
+      'YAML supplies the episode number out-of-band), and '
+      'cleanEpisodeTitle leaves the parens alone because they are '
+      'series context, not Hörspiel boilerplate',
+      () {
+        final cases = <(String, int?, String)>[
+          (
+            'Der Adler Gorgo (Nils Holgersson, Folge 37)',
+            37,
+            'Der Adler Gorgo (Nils Holgersson, Folge 37)',
+          ),
+          (
+            'Die Elfenfahrt (Die Biene Maja, Folge 13)',
+            13,
+            'Die Elfenfahrt (Die Biene Maja, Folge 13)',
+          ),
+          (
+            'Das Eisenwerk (Nils Holgersson, Folge 27)',
+            27,
+            'Das Eisenwerk (Nils Holgersson, Folge 27)',
+          ),
+        ];
 
-      for (final (input, num, expected) in cases) {
-        test('"$input"', () {
-          expect(cleanEpisodeTitle(input, episodeNumber: num), expected);
-        });
-      }
-    });
+        for (final (input, num, expected) in cases) {
+          test('"$input"', () {
+            // Context: this format puts the series name AND the
+            // episode number inside trailing parens. The parser
+            // currently does NOT recognize this — the noMatch tests
+            // earlier in the file confirm that bare "1: ..." prefixes
+            // and similar return null. The number `$num` here comes
+            // from the catalog YAML's explicit episode_number column,
+            // not from parsing the title.
+            //
+            // If a future change teaches the parser this format, this
+            // assert flips to `equals($num)` and that's a real
+            // improvement worth documenting.
+            expect(
+              parseEpisodeNumber(input),
+              isNull,
+              reason:
+                  'parseEpisodeNumber currently does NOT extract from '
+                  'nested-parens "(... Folge N)" — the catalog supplies '
+                  'these numbers out-of-band',
+            );
+
+            // Behavior: cleaner leaves these alone — the parens are
+            // series context, not strippable boilerplate. The supplied
+            // `episodeNumber` is what the catalog already knows and
+            // is passed in case the cleaner needs it for stripping a
+            // matching "Folge N:" prefix; here there is no such prefix
+            // so the cleaner is a no-op.
+            expect(cleanEpisodeTitle(input, episodeNumber: num), expected);
+          });
+        }
+      },
+    );
 
     group('handles multi-episode / slash titles', () {
       final cases = <(String, int, String)>[
