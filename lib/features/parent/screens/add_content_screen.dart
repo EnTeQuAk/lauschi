@@ -285,7 +285,8 @@ class _AppleMusicTab extends ConsumerWidget {
           ref.read(appleMusicSessionProvider.notifier).api,
         ),
       ),
-      AppleMusicUnauthenticated() => _ProviderConnectPrompt(
+      AppleMusicUnauthenticated() ||
+      AppleMusicError() => _ProviderConnectPrompt(
         type: ProviderType.appleMusic,
         description:
             'Mit Apple Music bekommst du Zugriff auf tausende '

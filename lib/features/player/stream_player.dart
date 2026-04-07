@@ -144,7 +144,12 @@ class StreamPlayer extends PlayerBackend {
   @override
   Future<void> resume() async {
     Log.debug(_tag, 'resume');
-    await _player?.play();
+    // just_audio's play() returns a Future that completes when playback
+    // STOPS (paused, finished, or errored), not when it starts. Don't
+    // await it here; observers learn about playback start via the state
+    // stream. Awaiting would block this method for the full episode duration.
+    final p = _player;
+    if (p != null) unawaited(p.play());
   }
 
   @override

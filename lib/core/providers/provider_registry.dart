@@ -54,6 +54,10 @@ List<ProviderInfo> providerRegistry(Ref ref) {
       AppleMusicLoading() => ProviderAuthState.loading,
       AppleMusicAuthenticated() => ProviderAuthState.authenticated,
       AppleMusicUnauthenticated() => ProviderAuthState.unauthenticated,
+      // For the registry's purposes, an errored session is the same
+      // as unauthenticated: not usable, user must re-authenticate.
+      // This mirrors how the Spotify case is handled below.
+      AppleMusicError() => ProviderAuthState.unauthenticated,
     };
 
     providers.add(

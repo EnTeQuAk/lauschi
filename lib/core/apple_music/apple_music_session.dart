@@ -16,6 +16,20 @@ const _tag = 'AppleMusicSession';
 // Session state
 // ---------------------------------------------------------------------------
 
+/// Apple Music session state. Drives UI (what to show) and player
+/// init (whether the Apple Music backend can play content).
+///
+/// State semantics mirror `SpotifySessionState`:
+/// - [AppleMusicLoading]: in-progress (token check, refresh, web auth)
+/// - [AppleMusicAuthenticated]: ready to use
+/// - [AppleMusicUnauthenticated]: terminal "no credentials, user must
+///   re-authenticate". Reached on cold start with no stored token,
+///   on token expiry, on user-denied native auth, on logout.
+/// - [AppleMusicError]: terminal "something went wrong that isn't the
+///   user's fault". Reached when MusicKit JWT generation throws, when
+///   the web auth flow returns an unexpected exception, when token
+///   decryption fails, etc. UI should treat this like Unauthenticated
+///   for the connect prompt, but the message field gives diagnostics.
 sealed class AppleMusicState {}
 
 class AppleMusicLoading extends AppleMusicState {}
@@ -32,6 +46,11 @@ class AppleMusicAuthenticated extends AppleMusicState {
   final String developerToken;
   final String musicUserToken;
   final String storefront;
+}
+
+class AppleMusicError extends AppleMusicState {
+  AppleMusicError(this.message);
+  final String message;
 }
 
 // ---------------------------------------------------------------------------
@@ -78,11 +97,17 @@ class AppleMusicSession extends _$AppleMusicSession {
         await _initAndroid();
       }
     } on AppleMusicAuthExpiredException {
+      // Token expiry is a normal lifecycle event: the user needs to
+      // re-authenticate. Not an error.
       state = AppleMusicUnauthenticated();
       Log.info(_tag, 'Stored token expired, needs re-auth');
     } on Exception catch (e) {
+      // Anything else (JWT generation failure, native plugin throw,
+      // platform channel error) is a real error. Surface the message
+      // so callers can show useful diagnostics instead of silently
+      // looking like "no credentials".
       Log.error(_tag, 'Init failed', exception: e);
-      state = AppleMusicUnauthenticated();
+      state = AppleMusicError('Init failed: $e');
     }
   }
 
@@ -157,6 +182,8 @@ class AppleMusicSession extends _$AppleMusicSession {
           );
           Log.info(_tag, 'Connected via native MusicKit auth');
         } else {
+          // User denied the system popup. Not an error — the user
+          // chose this. Stay Unauthenticated and let them retry later.
           state = AppleMusicUnauthenticated();
           Log.warn(_tag, 'Native auth denied');
         }
@@ -177,8 +204,12 @@ class AppleMusicSession extends _$AppleMusicSession {
         );
       }
     } on Exception catch (e) {
-      Log.warn(_tag, 'Auth failed', data: {'error': '$e'});
-      state = AppleMusicUnauthenticated();
+      // The auth flow itself threw — e.g., the web auth WebView
+      // crashed, the JWT signing failed, the network dropped during
+      // the OAuth round-trip. This is an error, not "user has no
+      // credentials" (Spotify uses the same distinction).
+      Log.error(_tag, 'Auth failed', exception: e);
+      state = AppleMusicError('Connect failed: $e');
     }
   }
 
@@ -199,7 +230,7 @@ class AppleMusicSession extends _$AppleMusicSession {
       return false;
     } on Exception catch (e, stack) {
       Log.error(_tag, 'Callback failed', exception: e, stackTrace: stack);
-      state = AppleMusicUnauthenticated();
+      state = AppleMusicError('OAuth callback failed: $e');
       return false;
     }
   }
