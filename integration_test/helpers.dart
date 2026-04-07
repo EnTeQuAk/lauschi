@@ -7,6 +7,7 @@ library;
 import 'package:audio_service/audio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:flutter_test/flutter_test.dart' show find;
 import 'package:lauschi/app.dart';
 import 'package:lauschi/core/database/app_database.dart';
@@ -16,10 +17,18 @@ import 'package:patrol/patrol.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 /// The initialized media handler, available after [initServices].
+///
+/// Intentionally persists across test files within the same Patrol process.
+/// [AudioService.init] registers a foreground-service binding that can only
+/// happen once per process; initializing it per test would crash. The media
+/// handler itself is stateless enough that cross-test reuse is safe.
 late MediaSessionHandler mediaHandler;
 var _initialized = false;
 
 /// One-time init for platform services that need a running engine.
+///
+/// Idempotent. Called from [pumpApp] at the top of every test; the
+/// [_initialized] flag short-circuits after the first call.
 Future<void> initServices() async {
   if (_initialized) return;
   mediaHandler = await AudioService.init<MediaSessionHandler>(
@@ -37,10 +46,19 @@ Future<void> initServices() async {
 /// Uses explicit frame pumping instead of `pumpAndSettle` which hangs
 /// when the app has ongoing async work (WebView init, connectivity, etc).
 ///
-/// Pass [scope] to wrap the app in a custom [ProviderScope] with overrides.
+/// The common case is passing [overrides] to inject test-specific
+/// providers (e.g. `parentAuthProvider.overrideWith(_AlwaysAuth.new)`);
+/// these are merged with the base overrides (media handler) so callers
+/// don't repeat boilerplate.
+///
+/// Pass [scope] only when you need to wrap the widget tree in something
+/// other than a plain `ProviderScope` — currently unused, kept for
+/// flexibility. If you find yourself using it to add more providers,
+/// use [overrides] instead.
 Future<void> pumpApp(
   PatrolIntegrationTester $, {
   Map<String, Object> prefs = const {},
+  List<Override> overrides = const [],
   ProviderScope Function(Widget child)? scope,
 }) async {
   await initServices();
@@ -48,11 +66,12 @@ Future<void> pumpApp(
 
   const app = LauschiApp();
 
-  final baseOverrides = [
+  final baseOverrides = <Override>[
     mediaSessionHandlerProvider.overrideWithValue(mediaHandler),
+    ...overrides,
   ];
 
-  Widget widget;
+  final Widget widget;
   if (scope != null) {
     widget = scope(app);
   } else {

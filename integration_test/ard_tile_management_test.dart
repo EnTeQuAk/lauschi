@@ -4,12 +4,10 @@
 /// and database persistence for tile CRUD operations.
 library;
 
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:lauschi/core/auth/pin_service.dart';
 import 'package:lauschi/core/database/tile_repository.dart';
 import 'package:lauschi/core/router/app_router.dart';
-import 'package:lauschi/features/player/player_provider.dart';
 import 'package:lauschi/features/tiles/widgets/tile_card.dart';
 import 'package:patrol/patrol.dart';
 
@@ -23,14 +21,7 @@ void main() {
       await pumpApp(
         $,
         prefs: {'onboarding_complete': true},
-        scope:
-            (child) => ProviderScope(
-              overrides: [
-                mediaSessionHandlerProvider.overrideWithValue(mediaHandler),
-                parentAuthProvider.overrideWith(_AlwaysAuth.new),
-              ],
-              child: child,
-            ),
+        overrides: [parentAuthProvider.overrideWith(_AlwaysAuth.new)],
       );
       await clearAppState($);
 
@@ -61,14 +52,7 @@ void main() {
       await pumpApp(
         $,
         prefs: {'onboarding_complete': true},
-        scope:
-            (child) => ProviderScope(
-              overrides: [
-                mediaSessionHandlerProvider.overrideWithValue(mediaHandler),
-                parentAuthProvider.overrideWith(_AlwaysAuth.new),
-              ],
-              child: child,
-            ),
+        overrides: [parentAuthProvider.overrideWith(_AlwaysAuth.new)],
       );
       await clearAppState($);
 

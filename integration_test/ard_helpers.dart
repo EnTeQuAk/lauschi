@@ -56,7 +56,6 @@ Future<TestArdEpisode> getStableTestEpisode(
         return TestArdEpisode(
           showId: showId,
           showTitle: show?.title ?? 'ARD Test',
-          episodeId: suitable.id,
           episodeTitle: suitable.title,
           audioUrl: suitable.bestAudioUrl!,
           durationSeconds: suitable.duration,
@@ -231,11 +230,15 @@ Future<void> stopPlayback(PatrolIntegrationTester $) async {
 
 // ── Test Data ──────────────────────────────────────────────────────────────
 
+/// Fixture describing a real ARD episode fetched by [getStableTestEpisode].
+///
+/// All fields are consumed by [insertTestEpisode] / [insertTestTileWithEpisode]
+/// or by tests that need to verify what's in the DB. If a field isn't read
+/// anywhere, it doesn't belong here — see the round-1 review cleanup.
 class TestArdEpisode {
   const TestArdEpisode({
     required this.showId,
     required this.showTitle,
-    required this.episodeId,
     required this.episodeTitle,
     required this.audioUrl,
     required this.durationSeconds,
@@ -244,7 +247,6 @@ class TestArdEpisode {
 
   final String showId;
   final String showTitle;
-  final String episodeId;
   final String episodeTitle;
   final String audioUrl;
   final int durationSeconds;
