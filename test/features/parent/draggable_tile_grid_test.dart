@@ -52,7 +52,7 @@ void main() {
       expect(find.text('Beta'), findsOneWidget);
     });
 
-    testWidgets('shrinkWrap=true reproduces the bug when set to false', (
+    testWidgets('shrinkWrap=false (default) throws in unbounded parent', (
       tester,
     ) async {
       // Documents the failure mode: with shrinkWrap=false (the broken

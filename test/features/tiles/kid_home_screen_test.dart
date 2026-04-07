@@ -131,6 +131,18 @@ void main() {
     await tester.pump();
     await tester.pump();
 
+    // Context-assert: the card actually rendered before we tap it.
+    // Without this, a future regression where kid_home_screen
+    // fails to build the card grid would surface as
+    // 'Could not find widget by semantics label' on the tap, which
+    // doesn't tell you whether the card was missing or the screen
+    // didn't render at all.
+    expect(
+      find.bySemanticsLabel('Die drei ???'),
+      findsOneWidget,
+      reason: 'precondition: card must be visible before tap',
+    );
+
     await tester.tap(find.bySemanticsLabel('Die drei ???'));
     // Don't use pumpAndSettle: player screen progress bar ticker
     // runs at 60fps and never settles.

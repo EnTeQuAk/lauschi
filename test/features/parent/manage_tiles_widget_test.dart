@@ -133,6 +133,35 @@ void main() {
     (tester) async {
       await seedMixedState();
 
+      // Setup precondition: the DB is in the exact shape that
+      // triggered the bug. seedMixedState() does a lot under the
+      // hood (insert, insertArdEpisode, assignToTile) and any of
+      // those could silently fail in a future refactor; the test
+      // would then fail with a confusing 'expected widget, found 0'
+      // instead of pointing at the actual problem.
+      final allTiles = await tiles.getAll();
+      final allItems = await items.getAll();
+      final ungrouped = allItems.where((i) => i.groupId == null).toList();
+      expect(
+        allTiles.map((t) => t.title),
+        containsAll(['Asterix', 'Biene Maja', 'Checkpod']),
+        reason: 'setup: 3 tiles seeded',
+      );
+      expect(
+        allItems,
+        hasLength(3),
+        reason:
+            'setup: 3 items inserted (1 unassigned ARD, 1 ARD '
+            'biene maja, 1 spotify Asterix)',
+      );
+      expect(
+        ungrouped,
+        hasLength(1),
+        reason:
+            'setup: exactly one ungrouped item — this is the '
+            'condition that triggers the LAUSCHI-1M sliver branch',
+      );
+
       final container = ProviderContainer(overrides: buildOverrides());
       addTearDown(container.dispose);
 
@@ -147,8 +176,14 @@ void main() {
         await tester.pump(const Duration(milliseconds: 50));
       }
 
-      // The assertion that catches both the layout bug and the
-      // semantic cascade: no exception was thrown during the pump.
+      // Content first: confirm the screen actually rendered the tiles
+      // and the ungrouped section. Without these, a takeException()
+      // failure wouldn't tell us whether the screen built at all.
+      expect(find.text('Kacheln verwalten'), findsOneWidget);
+      expect(find.text('Nicht zugeordnet (1)'), findsOneWidget);
+
+      // Behavioral: no layout/semantic exception during the pump.
+      // This is the actual LAUSCHI-1M/1T regression check.
       expect(
         tester.takeException(),
         isNull,
@@ -156,8 +191,6 @@ void main() {
             'Kacheln verwalten should render without layout or semantic '
             'assertions when the DB has tiles AND an ungrouped item',
       );
-      expect(find.text('Kacheln verwalten'), findsOneWidget);
-      expect(find.text('Nicht zugeordnet (1)'), findsOneWidget);
     },
   );
 
@@ -166,6 +199,15 @@ void main() {
     '(regression for the LAUSCHI-1T cascade across screens)',
     (tester) async {
       await seedMixedState();
+
+      // Setup precondition: same shape as the previous test.
+      final ungrouped =
+          (await items.getAll()).where((i) => i.groupId == null).toList();
+      expect(
+        ungrouped,
+        hasLength(1),
+        reason: 'setup: ungrouped item present to trigger sliver branch',
+      );
 
       final container = ProviderContainer(overrides: buildOverrides());
       addTearDown(container.dispose);
@@ -181,11 +223,27 @@ void main() {
       // of times. The original bug had LAUSCHI-1T firing on every frame
       // from the moment the user navigated AWAY from the broken tiles
       // screen, so this exercises the same path.
+      //
+      // Each round asserts BOTH that the destination content is
+      // visible AND that no exception was thrown. The previous version
+      // only checked exceptions, which would let a navigation that
+      // silently fell through (e.g. a redirect to onboarding) pass
+      // the test.
       for (var i = 0; i < 4; i++) {
         router.go(AppRoutes.parentDashboard);
         for (var j = 0; j < 5; j++) {
           await tester.pump(const Duration(milliseconds: 50));
         }
+        // The dashboard renders the word "Einstellungen" twice
+        // (appbar title + section header). Use findsAtLeast so we
+        // don't depend on which one is more stable. We're really
+        // checking 'we landed on the dashboard route', not exact
+        // count.
+        expect(
+          find.text('Einstellungen'),
+          findsAtLeast(1),
+          reason: 'dashboard visible (round ${i + 1})',
+        );
         expect(
           tester.takeException(),
           isNull,
@@ -196,6 +254,16 @@ void main() {
         for (var j = 0; j < 5; j++) {
           await tester.pump(const Duration(milliseconds: 50));
         }
+        expect(
+          find.text('Kacheln verwalten'),
+          findsOneWidget,
+          reason: 'manage tiles visible (round ${i + 1})',
+        );
+        expect(
+          find.text('Nicht zugeordnet (1)'),
+          findsOneWidget,
+          reason: 'sliver branch visible (round ${i + 1})',
+        );
         expect(
           tester.takeException(),
           isNull,
@@ -215,6 +283,12 @@ void main() {
       await tiles.insert(title: 'Asterix');
       await tiles.insert(title: 'Biene Maja');
 
+      // Setup precondition: only the 2 tiles, no items.
+      final allTiles = await tiles.getAll();
+      final allItems = await items.getAll();
+      expect(allTiles, hasLength(2), reason: 'setup: 2 tiles, no items');
+      expect(allItems, isEmpty, reason: 'setup: no items at all');
+
       final container = ProviderContainer(overrides: buildOverrides());
       addTearDown(container.dispose);
 
@@ -228,9 +302,16 @@ void main() {
         await tester.pump(const Duration(milliseconds: 50));
       }
 
-      expect(tester.takeException(), isNull);
+      // Content first, exception check after (consistent with E5).
       expect(find.text('Kacheln verwalten'), findsOneWidget);
-      expect(find.text('Nicht zugeordnet (1)'), findsNothing);
+      expect(
+        find.text('Nicht zugeordnet (1)'),
+        findsNothing,
+        reason:
+            'no ungrouped items → no sliver branch → no '
+            '"Nicht zugeordnet" header',
+      );
+      expect(tester.takeException(), isNull);
     },
   );
 }
