@@ -11,7 +11,7 @@ import 'package:lauschi/core/settings/kid_settings.dart';
 import 'package:lauschi/core/spotify/spotify_session.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
 import 'package:lauschi/features/onboarding/screens/onboarding_provider.dart';
-import 'package:lauschi/features/parent/screens/settings/widgets/ard_attribution.dart';
+import 'package:lauschi/features/parent/screens/settings/widgets/provider_attribution.dart';
 import 'package:lauschi/features/parent/screens/settings/widgets/provider_row.dart';
 import 'package:lauschi/features/parent/screens/settings/widgets/support_card.dart';
 import 'package:lauschi/features/parent/widgets/parent_section_header.dart';
@@ -134,7 +134,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
         // ── Providers ────────────────────────────────────────────────────────
         const ParentSectionHeader(title: 'Inhalte bereitgestellt von'),
         const ProviderRow(),
-        const ArdAttribution(),
+        const ProviderAttribution(),
 
         const SizedBox(height: AppSpacing.lg),
 
