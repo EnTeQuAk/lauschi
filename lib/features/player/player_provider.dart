@@ -641,16 +641,13 @@ class PlayerNotifier extends _$PlayerNotifier {
       },
     );
 
-    // Fire-and-forget: StreamPlayer.play() awaits just_audio's play(),
-    // which only completes when the track finishes. We don't want to
-    // block here because the caller needs to clear isLoading promptly.
-    // Errors are surfaced through the state stream.
-    unawaited(
-      player.play(
-        audioUrl: card.audioUrl!,
-        trackInfo: trackInfo,
-        positionMs: card.lastPositionMs,
-      ),
+    // StreamPlayer.play() returns once setup (setUrl + seek + first play
+    // request) is done. Subsequent playback progress and errors arrive
+    // via the state stream listener registered above.
+    await player.play(
+      audioUrl: card.audioUrl!,
+      trackInfo: trackInfo,
+      positionMs: card.lastPositionMs,
     );
   }
 
