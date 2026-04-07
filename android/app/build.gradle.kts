@@ -70,7 +70,7 @@ android {
         manifestPlaceholders["musicKitKeyId"] = "PWHK2R76T9"
         manifestPlaceholders["musicKitKey"] = appleKey
         testInstrumentationRunner = "pl.leancode.patrol.PatrolJUnitRunner"
-        testInstrumentationRunnerArguments["clearPackageData"] = "true"
+        testInstrumentationRunnerArguments["clearPackageData"] = "false"
     }
 
     testOptions {

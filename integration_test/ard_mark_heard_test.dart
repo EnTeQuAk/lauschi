@@ -19,6 +19,7 @@ void main() {
     'does NOT mark heard when paused outside completion threshold',
     ($) async {
       await pumpApp($, prefs: {'onboarding_complete': true});
+      await clearAppState($);
 
       final container = getContainer($);
       final episode = await getStableTestEpisode(container);
@@ -66,6 +67,7 @@ void main() {
     'marks episode heard when playback reaches end',
     ($) async {
       await pumpApp($, prefs: {'onboarding_complete': true});
+      await clearAppState($);
 
       final container = getContainer($);
       final episode = await getStableTestEpisode(container);

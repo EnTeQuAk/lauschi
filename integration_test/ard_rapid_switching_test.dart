@@ -21,6 +21,7 @@ void main() {
     'rapid card switching lands on the last card',
     ($) async {
       await pumpApp($, prefs: {'onboarding_complete': true});
+      await clearAppState($);
 
       final container = getContainer($);
       final episode = await getStableTestEpisode(container);
@@ -66,6 +67,7 @@ void main() {
     'double-tap same card is idempotent',
     ($) async {
       await pumpApp($, prefs: {'onboarding_complete': true});
+      await clearAppState($);
 
       final container = getContainer($);
       final episode = await getStableTestEpisode(container);
@@ -92,6 +94,7 @@ void main() {
     'play-pause mashing settles correctly',
     ($) async {
       await pumpApp($, prefs: {'onboarding_complete': true});
+      await clearAppState($);
 
       final container = getContainer($);
       final episode = await getStableTestEpisode(container);
@@ -128,6 +131,7 @@ void main() {
     'switching cards during playback preserves position of first card',
     ($) async {
       await pumpApp($, prefs: {'onboarding_complete': true});
+      await clearAppState($);
 
       final container = getContainer($);
       final episode = await getStableTestEpisode(container);

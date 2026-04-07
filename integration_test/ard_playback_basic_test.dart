@@ -23,6 +23,7 @@ void main() {
     ($) async {
       // ── Setup: app + ungrouped ARD episode ─────────────────────────────
       await pumpApp($, prefs: {'onboarding_complete': true});
+      await clearAppState($);
 
       final container = getContainer($);
       final episode = await getStableTestEpisode(container);

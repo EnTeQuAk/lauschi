@@ -23,6 +23,7 @@ void main() {
     'add ARD content: import episode → tile appears on kid home → playable',
     ($) async {
       await pumpApp($, prefs: {'onboarding_complete': true});
+      await clearAppState($);
       await pumpFrames($);
 
       final container = getContainer($);

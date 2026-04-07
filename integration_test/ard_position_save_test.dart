@@ -26,6 +26,7 @@ void main() {
     'does NOT save position before 20s threshold',
     ($) async {
       await pumpApp($, prefs: {'onboarding_complete': true});
+      await clearAppState($);
 
       final container = getContainer($);
       final episode = await getStableTestEpisode(container);
@@ -61,6 +62,7 @@ void main() {
     'state.positionMs tracks actual playback progress',
     ($) async {
       await pumpApp($, prefs: {'onboarding_complete': true});
+      await clearAppState($);
 
       final container = getContainer($);
       final episode = await getStableTestEpisode(container);
@@ -103,6 +105,7 @@ void main() {
     'position saves to DB periodically while playing',
     ($) async {
       await pumpApp($, prefs: {'onboarding_complete': true});
+      await clearAppState($);
 
       final container = getContainer($);
       final episode = await getStableTestEpisode(container);
@@ -153,6 +156,7 @@ void main() {
     'saves position on pause and resumes correctly',
     ($) async {
       await pumpApp($, prefs: {'onboarding_complete': true});
+      await clearAppState($);
 
       final container = getContainer($);
       final episode = await getStableTestEpisode(container);

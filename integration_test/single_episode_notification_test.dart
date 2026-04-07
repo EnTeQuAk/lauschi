@@ -25,6 +25,7 @@ void main() {
     'single episode plays without notification crash (LAUSCHI-1H)',
     ($) async {
       await pumpApp($, prefs: {'onboarding_complete': true});
+      await clearAppState($);
 
       final container = getContainer($);
       final episode = await getStableTestEpisode(container);

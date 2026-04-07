@@ -204,9 +204,35 @@ echo "Running integration tests: $TEST_TARGET"
 adb shell media volume --set 0 2>/dev/null || echo "Warning: could not mute audio"
 
 export PATH="$HOME/.pub-cache/bin:$PATH"
+
+# Build a merged env file: start from .env.app, overlay provider settings
+# from .env so cross-provider integration tests can authenticate.
+# This mirrors `mise run dev` which also enables all providers.
+#
+# `set_env` upserts a key=value line. Implementation: delete any
+# existing line for the key, then append the new value. Avoids the
+# fragile sed s/// pattern which would mishandle special characters
+# (pipes, ampersands, slashes, backslashes) in either key or value.
+set_env() {
+  local file="$1" key="$2" value="$3"
+  local tmp
+  tmp=$(mktemp)
+  grep -v "^$key=" "$file" > "$tmp" 2>/dev/null || true
+  echo "$key=$value" >> "$tmp"
+  mv "$tmp" "$file"
+}
+
+ENV_TEST=$(mktemp)
+cp .env.app "$ENV_TEST"
+SPOTIFY_CLIENT_ID=$(grep SPOTIFY_CLIENT_ID .env 2>/dev/null | cut -d= -f2-)
+set_env "$ENV_TEST" ENABLE_SPOTIFY true
+set_env "$ENV_TEST" SPOTIFY_CLIENT_ID "$SPOTIFY_CLIENT_ID"
+set_env "$ENV_TEST" ENABLE_APPLE_MUSIC true
+
 # --no-uninstall preserves FlutterSecureStorage tokens from the debug app.
 # Run `mise run dev` and authenticate Spotify/Apple Music before first run.
-patrol test --no-uninstall -t "$TEST_TARGET" --dart-define-from-file=.env.app
+patrol test --no-uninstall -t "$TEST_TARGET" --dart-define-from-file="$ENV_TEST"
+rm -f "$ENV_TEST"
 """
 
 [tasks.ios-install]

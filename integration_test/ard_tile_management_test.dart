@@ -32,6 +32,7 @@ void main() {
               child: child,
             ),
       );
+      await clearAppState($);
 
       final container = getContainer($);
       final episode = await getStableTestEpisode(container);
@@ -69,6 +70,7 @@ void main() {
               child: child,
             ),
       );
+      await clearAppState($);
 
       final container = getContainer($);
       final tiles = container.read(tileRepositoryProvider);

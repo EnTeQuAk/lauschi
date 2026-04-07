@@ -32,9 +32,19 @@ void main() {
               child: child,
             ),
       );
+      await clearAppState($);
 
       final container = getContainer($);
       final tiles = container.read(tileRepositoryProvider);
+
+      // Precondition: clearAppState left the DB empty. The other tests
+      // in this file rely on this implicitly via count assertions; we
+      // assert it explicitly here as documentation for new readers.
+      expect(
+        await tiles.getAllFlat(),
+        isEmpty,
+        reason: 'clearAppState should leave 0 tiles before test setup',
+      );
 
       // Create a parent tile and a child tile.
       final parentId = await tiles.insert(title: 'Senta');
@@ -76,6 +86,7 @@ void main() {
               child: child,
             ),
       );
+      await clearAppState($);
 
       final container = getContainer($);
       final tiles = container.read(tileRepositoryProvider);
@@ -143,6 +154,7 @@ void main() {
               child: child,
             ),
       );
+      await clearAppState($);
 
       final container = getContainer($);
       final tiles = container.read(tileRepositoryProvider);
@@ -182,6 +194,7 @@ void main() {
               child: child,
             ),
       );
+      await clearAppState($);
 
       final container = getContainer($);
       final tiles = container.read(tileRepositoryProvider);
@@ -274,6 +287,7 @@ void main() {
               child: child,
             ),
       );
+      await clearAppState($);
 
       final container = getContainer($);
       final tiles = container.read(tileRepositoryProvider);
@@ -302,6 +316,7 @@ void main() {
               child: child,
             ),
       );
+      await clearAppState($);
 
       final container = getContainer($);
       final tiles = container.read(tileRepositoryProvider);
@@ -336,6 +351,7 @@ void main() {
               child: child,
             ),
       );
+      await clearAppState($);
 
       final container = getContainer($);
       final tiles = container.read(tileRepositoryProvider);
@@ -374,6 +390,7 @@ void main() {
               child: child,
             ),
       );
+      await clearAppState($);
 
       final container = getContainer($);
       final tiles = container.read(tileRepositoryProvider);
@@ -420,6 +437,7 @@ void main() {
               child: child,
             ),
       );
+      await clearAppState($);
 
       final container = getContainer($);
       final tiles = container.read(tileRepositoryProvider);

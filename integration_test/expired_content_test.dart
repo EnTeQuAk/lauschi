@@ -21,6 +21,7 @@ void main() {
     'expired ungrouped item is hidden from kid home screen',
     ($) async {
       await pumpApp($, prefs: {'onboarding_complete': true});
+      await clearAppState($);
 
       final container = getContainer($);
       final items = container.read(tileItemRepositoryProvider);
@@ -45,6 +46,7 @@ void main() {
     'expired item inside tile is hidden from tile detail',
     ($) async {
       await pumpApp($, prefs: {'onboarding_complete': true});
+      await clearAppState($);
 
       final container = getContainer($);
       final tiles = container.read(tileRepositoryProvider);
@@ -96,6 +98,7 @@ void main() {
     'expired items still exist in database for parent management',
     ($) async {
       await pumpApp($, prefs: {'onboarding_complete': true});
+      await clearAppState($);
 
       final container = getContainer($);
       final items = container.read(tileItemRepositoryProvider);

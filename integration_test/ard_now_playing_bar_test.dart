@@ -22,6 +22,7 @@ void main() {
     'NowPlayingBar appears, controls work, and navigates to player',
     ($) async {
       await pumpApp($, prefs: {'onboarding_complete': true});
+      await clearAppState($);
 
       final container = getContainer($);
       final episode = await getStableTestEpisode(container);

@@ -23,6 +23,7 @@ void main() {
     'rapid cross-provider switching settles on last provider',
     ($) async {
       await pumpApp($, prefs: {'onboarding_complete': true});
+      await clearAppState($);
       final container = getContainer($);
       final notifier = container.read(playerProvider.notifier);
 
