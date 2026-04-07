@@ -226,6 +226,7 @@ class _GroupGrid extends ConsumerWidget {
 
     return DraggableTileGrid(
       items: items,
+      shrinkWrap: shrinkWrap,
       onReorder: (newOrder) {
         Log.info(
           _tag,

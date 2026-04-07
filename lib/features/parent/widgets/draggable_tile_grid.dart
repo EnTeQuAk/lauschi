@@ -67,6 +67,7 @@ class DraggableTileGrid extends StatefulWidget {
     required this.onLongPress,
     super.key,
     this.dropZones = const [],
+    this.shrinkWrap = false,
   });
 
   final List<DraggableTileItem> items;
@@ -77,6 +78,13 @@ class DraggableTileGrid extends StatefulWidget {
 
   /// Drop zones shown at the bottom during drag.
   final List<DropZoneConfig> dropZones;
+
+  /// When true, the grid sizes itself to its content (height comes from
+  /// row count and tile aspect ratio) and doesn't try to fill the parent.
+  /// Use when placing the grid inside an unbounded parent like
+  /// [SliverToBoxAdapter] or another scroll view. The parent then handles
+  /// scrolling instead of the grid's internal [SingleChildScrollView].
+  final bool shrinkWrap;
 
   @override
   State<DraggableTileGrid> createState() => _DraggableTileGridState();
@@ -452,63 +460,81 @@ class _DraggableTileGridState extends State<DraggableTileGrid> {
 
   @override
   Widget build(BuildContext context) {
+    // The grid contents: a Stack of positioned tiles inside a SizedBox
+    // whose height is calculated from the number of rows. Width is
+    // discovered from the parent's [BoxConstraints.maxWidth].
+    final grid = LayoutBuilder(
+      builder: (context, constraints) {
+        _columns =
+            constraints.maxWidth < 600
+                ? 3
+                : constraints.maxWidth < 900
+                ? 4
+                : 5;
+        final gridWidth = constraints.maxWidth - AppSpacing.screenH * 2;
+        _cellWidth = (gridWidth - _crossSpacing * (_columns - 1)) / _columns;
+        _cellHeight = _cellWidth / _aspectRatio;
+
+        final rowCount =
+            _order.isEmpty ? 0 : (_order.length + _columns - 1) ~/ _columns;
+        final totalHeight =
+            rowCount == 0
+                ? 0.0
+                : rowCount * _cellHeight +
+                    (rowCount - 1) * _mainSpacing +
+                    AppSpacing.md * 2;
+
+        return SizedBox(
+          height: totalHeight,
+          child: Stack(
+            clipBehavior: Clip.none,
+            children: [
+              for (var i = 0; i < _order.length; i++) _buildTile(i),
+            ],
+          ),
+        );
+      },
+    );
+
+    final showDropZones = _draggedId != null && widget.dropZones.isNotEmpty;
+
+    if (widget.shrinkWrap) {
+      // Caller provides unbounded height (e.g. SliverToBoxAdapter). Don't
+      // wrap in Expanded — the SizedBox inside [grid] sets the height,
+      // and the outer scroll view handles overflow.
+      return Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          grid,
+          if (showDropZones) _buildDropZonesPadding(context),
+        ],
+      );
+    }
+
+    // Bounded mode: take all available height. The internal scroll view
+    // handles overflow when there are more rows than fit on screen.
     return Column(
       children: [
         Expanded(
-          child: SingleChildScrollView(
-            child: LayoutBuilder(
-              builder: (context, constraints) {
-                _columns =
-                    constraints.maxWidth < 600
-                        ? 3
-                        : constraints.maxWidth < 900
-                        ? 4
-                        : 5;
-                final gridWidth = constraints.maxWidth - AppSpacing.screenH * 2;
-                _cellWidth =
-                    (gridWidth - _crossSpacing * (_columns - 1)) / _columns;
-                _cellHeight = _cellWidth / _aspectRatio;
-
-                final rowCount =
-                    _order.isEmpty
-                        ? 0
-                        : (_order.length + _columns - 1) ~/ _columns;
-                final totalHeight =
-                    rowCount == 0
-                        ? 0.0
-                        : rowCount * _cellHeight +
-                            (rowCount - 1) * _mainSpacing +
-                            AppSpacing.md * 2;
-
-                return SizedBox(
-                  height: totalHeight,
-                  child: Stack(
-                    clipBehavior: Clip.none,
-                    children: [
-                      for (var i = 0; i < _order.length; i++) _buildTile(i),
-                    ],
-                  ),
-                );
-              },
-            ),
-          ),
+          child: SingleChildScrollView(child: grid),
         ),
-
-        // Drop zones at bottom (visible during drag).
-        if (_draggedId != null && widget.dropZones.isNotEmpty)
-          Padding(
-            padding: EdgeInsets.only(
-              bottom: MediaQuery.of(context).padding.bottom,
-            ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                for (var i = 0; i < widget.dropZones.length; i++)
-                  _buildDropZone(widget.dropZones[i], i),
-              ],
-            ),
-          ),
+        if (showDropZones) _buildDropZonesPadding(context),
       ],
+    );
+  }
+
+  Widget _buildDropZonesPadding(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.only(
+        bottom: MediaQuery.of(context).padding.bottom,
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          for (var i = 0; i < widget.dropZones.length; i++)
+            _buildDropZone(widget.dropZones[i], i),
+        ],
+      ),
     );
   }
 
