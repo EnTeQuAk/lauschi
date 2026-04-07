@@ -256,10 +256,32 @@ void main() {
       final tiles = container.read(tileRepositoryProvider);
       final tileId = await tiles.insert(title: 'Self');
 
+      // Setup precondition: tile is fresh, parentTileId is null.
+      final before = await tiles.getById(tileId);
+      expect(before, isNotNull);
+      expect(
+        before!.parentTileId,
+        isNull,
+        reason: 'fresh tile has no parent',
+      );
+
       // Self-nesting should throw.
       expect(
         () => tiles.nestInto(childId: tileId, parentId: tileId),
         throwsArgumentError,
+      );
+
+      // Postcondition (round-1 review H7): the failed nestInto must
+      // not have partially corrupted the tile's parentTileId. Without
+      // this check, a future bug that wrote parentTileId BEFORE
+      // throwing would silently leave the DB in a self-referencing
+      // state.
+      final after = await tiles.getById(tileId);
+      expect(after, isNotNull);
+      expect(
+        after!.parentTileId,
+        isNull,
+        reason: 'failed self-nesting must not have set parentTileId',
       );
     },
   );
@@ -284,10 +306,29 @@ void main() {
       await tiles.nestInto(childId: parentId, parentId: grandparentId);
       await tiles.nestInto(childId: childId, parentId: parentId);
 
+      // Setup precondition: the chain is the shape we expect before
+      // we try to break it.
+      final beforeGrandparent = await tiles.getById(grandparentId);
+      final beforeParent = await tiles.getById(parentId);
+      final beforeChild = await tiles.getById(childId);
+      expect(beforeGrandparent?.parentTileId, isNull);
+      expect(beforeParent?.parentTileId, grandparentId);
+      expect(beforeChild?.parentTileId, parentId);
+
       // Nesting grandparent into child would create a cycle.
       expect(
         () => tiles.nestInto(childId: grandparentId, parentId: childId),
         throwsArgumentError,
+      );
+
+      // Postcondition: the existing chain is unchanged. A bug that
+      // wrote parentTileId before validating would corrupt the
+      // grandparent's parent into the child id.
+      final afterGrandparent = await tiles.getById(grandparentId);
+      expect(
+        afterGrandparent?.parentTileId,
+        isNull,
+        reason: 'failed cycle nestInto must not have set grandparent parent',
       );
     },
   );
@@ -305,22 +346,55 @@ void main() {
       final container = getContainer($);
       final tiles = container.read(tileRepositoryProvider);
 
+      // Capture IDs from insert() returns instead of relying on
+      // getAllFlat() index ordering (round-1 review H8). The previous
+      // version used `allBefore[1].id` and `allBefore[2].id` which
+      // assumes a specific sort order — if getAllFlat ever sorts by
+      // title or createdAt-desc, the indices would point at the
+      // wrong tiles.
       final parentId = await tiles.insert(title: 'Parent');
-      await tiles.insert(title: 'Child A');
-      await tiles.insert(title: 'Child B');
-      final allBefore = await tiles.getAllFlat();
+      final childAId = await tiles.insert(title: 'Child A');
+      final childBId = await tiles.insert(title: 'Child B');
       // Nest children.
-      await tiles.nestInto(childId: allBefore[1].id, parentId: parentId);
-      await tiles.nestInto(childId: allBefore[2].id, parentId: parentId);
+      await tiles.nestInto(childId: childAId, parentId: parentId);
+      await tiles.nestInto(childId: childBId, parentId: parentId);
 
+      // Setup precondition: the children are actually nested before
+      // we delete the parent. If nestInto silently failed, the
+      // delete cascade test would pass for the wrong reason ("only
+      // 1 tile gone after delete because the children were
+      // ungrouped, not because they cascaded").
+      final beforeChildA = await tiles.getById(childAId);
+      final beforeChildB = await tiles.getById(childBId);
+      expect(
+        beforeChildA?.parentTileId,
+        parentId,
+        reason: 'Child A must be nested under Parent before delete',
+      );
+      expect(
+        beforeChildB?.parentTileId,
+        parentId,
+        reason: 'Child B must be nested under Parent before delete',
+      );
       expect(await tiles.getAllFlat(), hasLength(3));
 
       // Delete parent.
       await tiles.delete(parentId);
       await pumpFrames($);
 
-      // Everything should be gone.
+      // Everything should be gone — both children were nested under
+      // the parent so they cascade.
       expect(await tiles.getAllFlat(), hasLength(0));
+      expect(
+        await tiles.getById(childAId),
+        isNull,
+        reason: 'Child A must be deleted by cascade',
+      );
+      expect(
+        await tiles.getById(childBId),
+        isNull,
+        reason: 'Child B must be deleted by cascade',
+      );
     },
   );
 

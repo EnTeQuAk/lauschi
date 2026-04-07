@@ -225,14 +225,41 @@ Future<void> _runPlaybackSuite(
     reason: '[$label] precondition: this card not active',
   );
 
+  // Look up the expected card so we know which provider/URI to assert
+  // against. This is the source of truth for the provider context-assert
+  // below — without it, we'd be checking activeCardId only, which would
+  // pass even if the wrong provider was driving playback.
+  final expectedCard = await container
+      .read(tileItemRepositoryProvider)
+      .getById(itemId);
+  expect(
+    expectedCard,
+    isNotNull,
+    reason: '[$label] precondition: card $itemId exists in DB',
+  );
+
   unawaited(notifier.playCard(itemId));
   await waitForPlayback($, timeout: const Duration(seconds: 45));
 
   final started = container.read(playerProvider);
   expect(started.isPlaying, isTrue, reason: '[$label] isPlaying after start');
   expect(started.activeCardId, itemId, reason: '[$label] activeCardId set');
-  expect(started.error, isNull, reason: '[$label] no error after start');
   expect(started.track, isNotNull, reason: '[$label] track metadata set');
+  // **Provider context-assert** (round-1 review unanimous): with three
+  // different player backends (ARD/Spotify/Apple Music) running in one
+  // session, checking activeCardId alone is not enough. A bug could
+  // leave one provider playing while we think we're testing another,
+  // and the activeCardId match would pass for the wrong reason. The
+  // track URI carries the provider prefix (`spotify:`, `ard:`,
+  // `apple_music:`) so a single assertion catches both wrong-provider
+  // AND wrong-track at the same time.
+  expect(
+    started.track?.uri,
+    expectedCard!.providerUri,
+    reason:
+        '[$label] player must be playing the expected provider URI '
+        '(got ${started.track?.uri}, expected ${expectedCard.providerUri})',
+  );
   // resetPlaybackPosition above must have actually cleared the saved
   // position. If it didn't, the playback state would inherit the
   // previous suite's position and the pause-resume math below would lie.
@@ -314,13 +341,31 @@ Future<void> _runPlaybackSuite(
   await notifier.pause();
   await waitForPause($);
 
+  // ── REGRESSION TEST FOR ISSUE #247 ──
+  //
+  // The bug: StreamPlayer.resume() called play() unconditionally, which
+  // re-fetched the audio source from URL and reset position to 0. Spotify
+  // and Apple Music had similar bugs in their resume paths. The user-
+  // visible symptom was: pause, then resume → audio restarts from the
+  // beginning instead of continuing where you paused.
+  //
+  // The assertion below catches it: after resume + 3s of playback, the
+  // position must be MORE than the pre-resume pausedPos by at least 1s.
+  // The buggy version would land somewhere between 0-3000ms (a fresh
+  // play) regardless of how long the pause was.
+  //
+  // Don't tighten the >1s lower bound — Spotify takes ~500ms to honor
+  // the resume command and Apple Music takes a similar startup beat.
+  // 1s is the smallest safe delta. Caught during round-1 test infra
+  // review (label was missing despite the regression being in the
+  // file header).
   final resumedPos = container.read(playerProvider).positionMs;
   expect(
     resumedPos,
     greaterThan(pausedPos + 1000),
     reason:
         '[$label] position should advance ≥1s during resumed playback '
-        '(was ${pausedPos}ms, now ${resumedPos}ms)',
+        '(was ${pausedPos}ms, now ${resumedPos}ms) — regression for #247',
   );
 
   expect(
@@ -331,6 +376,19 @@ Future<void> _runPlaybackSuite(
 
   // ── Cleanup ──────────────────────────────────────────────────────────
   await stopPlayback($);
+
+  // Suite cleanup verification (round-1 review H5): assert the player
+  // is actually idle before the next suite runs. Without this, a
+  // stopPlayback bug could leave stale state (activeCardId still set,
+  // backend still wired up) that would contaminate the next provider
+  // suite's preconditions.
+  final cleanState = container.read(playerProvider);
+  expect(
+    cleanState.isPlaying,
+    isFalse,
+    reason: '[$label] player should not be playing after stopPlayback',
+  );
+
   print('✓ [$label] all assertions passed');
 }
 

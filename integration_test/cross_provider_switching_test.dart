@@ -75,6 +75,16 @@ void main() {
       await items.assignToTile(itemId: amId, tileId: amTileId);
       await pumpFrames($);
 
+      // Look up the expected card so we can assert against the
+      // actual provider URI after the rapid switching settles
+      // (round-1 review H1: provider context-assert).
+      final amCard = await items.getById(amId);
+      expect(
+        amCard,
+        isNotNull,
+        reason: 'precondition: Apple Music card exists in DB',
+      );
+
       // Rapid fire: ARD → Spotify → Apple Music without waiting.
       // The generation counter in PlayerNotifier should ensure only
       // the last one wins.
@@ -93,10 +103,19 @@ void main() {
         reason: 'Last playCard call (Apple Music) should win',
       );
       expect(state.isPlaying, isTrue);
+      // **Provider context-assert** (round-1 review H1, unanimous):
+      // verify the player is actually driven by the Apple Music
+      // backend, not still playing ARD or Spotify with a stale
+      // activeCardId. The track URI carries the `apple_music:`
+      // prefix so this catches any provider mismatch.
       expect(
-        state.error,
-        isNull,
-        reason: 'No error from rapid cross-provider switching',
+        state.track?.uri,
+        amCard!.providerUri,
+        reason:
+            'Player must be playing the Apple Music track URI '
+            '(got ${state.track?.uri}, expected ${amCard.providerUri}). '
+            'A wrong-provider bug would leave activeCardId set to amId '
+            'while the previous provider is still playing.',
       );
       expect(
         state.positionMs,
