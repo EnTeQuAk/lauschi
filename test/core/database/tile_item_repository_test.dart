@@ -104,6 +104,55 @@ void main() {
     expect(card.providerUri, 'spotify:album:book1');
   });
 
+  test('resetPlaybackPosition clears saved position', () async {
+    final id = await repo.insert(
+      title: 'Audiobook',
+      providerUri: 'spotify:album:book2',
+      cardType: 'album',
+    );
+
+    // Set a saved position.
+    await repo.savePosition(
+      itemId: id,
+      trackUri: 'spotify:track:ch7',
+      positionMs: 90000,
+      trackNumber: 7,
+    );
+
+    // Sanity: position is saved.
+    var card = await repo.getById(id);
+    expect(card!.lastTrackUri, 'spotify:track:ch7');
+    expect(card.lastTrackNumber, 7);
+    expect(card.lastPositionMs, 90000);
+
+    // Reset and verify position fields are cleared.
+    await repo.resetPlaybackPosition(id);
+
+    card = await repo.getById(id);
+    expect(card, isNotNull, reason: 'Item should still exist after reset');
+    expect(card!.lastTrackUri, isNull, reason: 'lastTrackUri cleared');
+    expect(card.lastTrackNumber, 0, reason: 'lastTrackNumber cleared');
+    expect(card.lastPositionMs, 0, reason: 'lastPositionMs cleared');
+    // Untouched fields stay intact.
+    expect(card.title, 'Audiobook', reason: 'title preserved');
+    expect(card.providerUri, 'spotify:album:book2', reason: 'URI preserved');
+  });
+
+  test('resetPlaybackPosition is a no-op for unknown item id', () async {
+    // Should not throw, should not affect existing items.
+    await repo.insert(
+      title: 'Existing',
+      providerUri: 'spotify:album:exists',
+      cardType: 'album',
+    );
+
+    await repo.resetPlaybackPosition('does-not-exist');
+
+    final cards = await repo.getAll();
+    expect(cards, hasLength(1));
+    expect(cards.first.title, 'Existing');
+  });
+
   test('lastPlayed returns most recently played card', () async {
     await repo.insert(
       title: 'Old',
