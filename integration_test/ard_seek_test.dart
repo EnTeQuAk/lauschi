@@ -32,13 +32,9 @@ void main() {
       await $(find.byKey(const ValueKey('now-playing'))).tap();
       await pumpFrames($);
 
-      // Wait for duration to be known.
-      await waitForCondition(
-        $,
-        () async => container.read(playerProvider).durationMs > 0,
-        description: 'Duration to be populated',
-        timeout: const Duration(seconds: 15),
-      );
+      // Wait for duration to be known. Uses the helper that wraps
+      // the polling pattern with a clear timeout message.
+      await waitForDurationKnown($);
 
       final duration = container.read(playerProvider).durationMs;
 
@@ -57,8 +53,24 @@ void main() {
       );
       await pumpFrames($);
 
+      // Context-assert (round-1 review G9): the seek didn't put the
+      // player into an error state. Codec issues during seeks happen
+      // on real ARD streams. Without this, the position assertions
+      // below would compare against stale state if the seek failed.
+      final stateAfterSeek = container.read(playerProvider);
+      expect(
+        stateAfterSeek.error,
+        isNull,
+        reason: 'Seek should not produce a player error',
+      );
+      expect(
+        stateAfterSeek.isPlaying,
+        isTrue,
+        reason: 'Seek should not pause playback',
+      );
+
       // ── Verify position jumped to roughly 50% ─────────────────────────
-      final newPosition = container.read(playerProvider).positionMs;
+      final newPosition = stateAfterSeek.positionMs;
       final target = duration ~/ 2;
 
       // Slider drag isn't pixel-perfect, but should land past 30%.

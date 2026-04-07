@@ -8,7 +8,6 @@ import 'dart:async' show unawaited;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:lauschi/core/database/tile_item_repository.dart';
 import 'package:lauschi/features/player/player_provider.dart';
 import 'package:lauschi/features/player/screens/player/screen.dart';
 import 'package:lauschi/features/player/widgets/now_playing_bar.dart';
@@ -26,16 +25,21 @@ void main() {
 
       final container = getContainer($);
       final episode = await getStableTestEpisode(container);
-      await insertTestEpisode($, episode);
+
+      // Capture the itemId that insertTestEpisode returns. The previous
+      // version of this test threw it away and queried `items.first`
+      // from the DB instead, which is unstable: if `clearAppState`
+      // left a leftover ungrouped item, `items.first` would be that
+      // leftover and the rest of the test would exercise the wrong
+      // episode. Round-1 review (sonnet BLOCKER G2).
+      final itemId = await insertTestEpisode($, episode);
 
       // ── Before playback: no NowPlayingBar ──────────────────────────────
       expect(find.byType(NowPlayingBar), findsNothing);
 
       // ── Start playback ─────────────────────────────────────────────────
       final notifier = container.read(playerProvider.notifier);
-      final items =
-          await container.read(tileItemRepositoryProvider).getUngrouped();
-      unawaited(notifier.playCard(items.first.id));
+      unawaited(notifier.playCard(itemId));
       await waitForPlayback($);
 
       // Pump for AnimatedSwitcher.

@@ -28,9 +28,15 @@ void main() {
 
       final container = getContainer($);
 
-      // Before: no tiles, no items.
+      // Before: no tiles AND no items. Both checks matter — if
+      // clearAppState left a leftover ungrouped item, the later
+      // assertions about items.first or item count would silently
+      // be wrong. Round-1 review caught the items-before gap.
       final tilesBefore = await container.read(tileRepositoryProvider).getAll();
+      final itemsBefore =
+          await container.read(tileItemRepositoryProvider).getAll();
       expect(tilesBefore, isEmpty, reason: 'Start with no tiles');
+      expect(itemsBefore, isEmpty, reason: 'Start with no items');
 
       // Discover a real ARD episode.
       final episode = await getStableTestEpisode(container);
@@ -87,13 +93,30 @@ void main() {
       await $.tap(episodeItems);
       await pumpFrames($);
 
-      // Player should start.
+      // Player should start playing the imported episode. The previous
+      // version of this test only checked `activeCardId != null`,
+      // which would pass even for a stale player state. Round-1 review
+      // upgraded this to a full health check: error null (implicit via
+      // waitForPlayback), playing, duration loaded, AND the actual
+      // track URI matches the episode we just imported.
+      await waitForPlayback($);
       final playerState = container.read(playerProvider);
+      expect(playerState.activeCardId, item.id);
       expect(
-        playerState.activeCardId,
-        isNotNull,
-        reason: 'Playing should set activeCardId',
+        playerState.durationMs,
+        greaterThan(0),
+        reason: 'Duration should populate after playback starts',
       );
+      expect(
+        playerState.track?.uri,
+        episode.providerUri,
+        reason:
+            'Player must be playing the imported episode, '
+            'not a stale leftover with the right activeCardId',
+      );
+
+      // Cleanup so the next test starts clean.
+      await stopPlayback($);
     },
   );
 }

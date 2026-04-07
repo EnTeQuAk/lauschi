@@ -175,6 +175,25 @@ void main() {
         description: 'Card A position saved (was at ${posBeforeSwitch}ms)',
       );
 
+      // Tighten the assertion: the saved position should be CLOSE
+      // to where we actually paused, not just "any value over
+      // 15000". A buggy save that wrote a stale 16000ms when we
+      // were at 25000ms (9-second drift) would pass the
+      // greaterThan check above. Caught during round-1 test infra
+      // review (G8). Allow 8s drift for periodic-save jitter.
+      final savedItemA = await items.getById(itemA);
+      expect(savedItemA, isNotNull);
+      final drift = (posBeforeSwitch - savedItemA!.lastPositionMs).abs();
+      expect(
+        drift,
+        lessThan(8000),
+        reason:
+            'Saved position should be near the pre-switch position '
+            '(was=$posBeforeSwitch, saved=${savedItemA.lastPositionMs}, '
+            'drift=${drift}ms). Larger drift means the periodic save '
+            'is stale, not "the position was saved".',
+      );
+
       await stopPlayback($);
     },
   );

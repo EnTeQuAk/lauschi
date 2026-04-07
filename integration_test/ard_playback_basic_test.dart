@@ -34,10 +34,24 @@ void main() {
       unawaited(notifier.playCard(itemId));
 
       await waitForPlayback($);
+      // (waitForPlayback fails fast on errors, so by this point
+      // we know error == null and isPlaying == true.)
 
       final playingState = container.read(playerProvider);
       expect(playingState.isPlaying, isTrue);
       expect(playingState.activeCardId, itemId);
+
+      // Track URI matches the inserted episode. Without this, a
+      // future bug that loaded a stale track but set the right
+      // activeCardId would silently pass. Caught during round-1
+      // test infra review (Group G G3 follow-on).
+      expect(
+        playingState.track?.uri,
+        episode.providerUri,
+        reason:
+            'Player must be playing the inserted ARD episode, '
+            'not a stale leftover with the right activeCardId',
+      );
 
       // Verify fresh play starts near the beginning.
       expect(

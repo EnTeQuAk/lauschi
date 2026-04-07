@@ -31,12 +31,11 @@ void main() {
       unawaited(notifier.playCard(itemId));
       await waitForPlayback($);
 
-      // Wait for duration to be known.
-      var attempts = 0;
-      while (container.read(playerProvider).durationMs == 0 && attempts < 50) {
-        await $.pump(const Duration(milliseconds: 100));
-        attempts++;
-      }
+      // Wait for duration to be known. Uses the shared helper that
+      // wraps waitForCondition with a clear timeout message.
+      // Replaces the inline polling loop the round-1 review flagged
+      // (G7).
+      await waitForDurationKnown($);
 
       final duration = container.read(playerProvider).durationMs;
       expect(duration, greaterThan(10000));
@@ -83,12 +82,8 @@ void main() {
       unawaited(notifier.playCard(itemId));
       await waitForPlayback($);
 
-      // Wait for duration.
-      var attempts = 0;
-      while (container.read(playerProvider).durationMs == 0 && attempts < 50) {
-        await $.pump(const Duration(milliseconds: 100));
-        attempts++;
-      }
+      // Same helper migration as the first test (G7).
+      await waitForDurationKnown($);
 
       final duration = container.read(playerProvider).durationMs;
       expect(duration, greaterThan(10000));

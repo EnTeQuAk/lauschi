@@ -145,7 +145,17 @@ ProviderContainer getContainer(PatrolIntegrationTester $) {
 ///
 /// Checks `isPlaying` only — `isLoading` can be transiently true while
 /// the StreamPlayer stream fires state updates before `playCard` completes.
-/// Polls every 200ms. Fails fast on errors.
+/// Polls every 200ms. **Fails fast on errors** (network, codec, stale
+/// stream): if `state.error != null` at any point during the poll loop,
+/// this throws with the error message.
+///
+/// Because this helper enforces `error == null` internally, callers do
+/// NOT need to follow `await waitForPlayback($)` with an explicit
+/// `expect(state.error, isNull)` assertion. The error check has already
+/// happened by the time control returns. Caught during the round-1
+/// test infra review when reviewers flagged "missing error checks"
+/// across the ARD suite — the checks are there, just inside the
+/// helper rather than at every callsite.
 Future<void> waitForPlayback(
   PatrolIntegrationTester $, {
   Duration timeout = const Duration(seconds: 15),
@@ -209,6 +219,28 @@ Future<void> waitForCondition(
   }
 
   fail('$description not met within ${timeout.inSeconds}s');
+}
+
+/// Waits for the player's `durationMs` to become non-zero.
+///
+/// just_audio populates duration asynchronously after starting to
+/// fetch the audio source — there's typically a 100ms-2s gap between
+/// `playCard()` resolving and `durationMs > 0`. This helper polls
+/// for it with a clear failure message so tests don't need to
+/// inline the same loop.
+///
+/// Replaces a manual polling pattern that was duplicated in
+/// `ard_mark_heard_test.dart` (round-1 review finding G7).
+Future<void> waitForDurationKnown(
+  PatrolIntegrationTester $, {
+  Duration timeout = const Duration(seconds: 15),
+}) async {
+  await waitForCondition(
+    $,
+    () async => getContainer($).read(playerProvider).durationMs > 0,
+    description: 'durationMs > 0',
+    timeout: timeout,
+  );
 }
 
 /// Current position in milliseconds.

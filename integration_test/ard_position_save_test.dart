@@ -73,21 +73,56 @@ void main() {
       unawaited(notifier.playCard(itemId));
       await waitForPlayback($);
 
+      // Context-assert: we're playing the right episode (round-1
+      // review G4: track URI not previously verified).
+      expect(
+        container.read(playerProvider).track?.uri,
+        episode.providerUri,
+        reason: 'Player must be playing the inserted episode',
+      );
+
       // After 5s, state.positionMs should reflect ~5s of playback.
       // This catches the stale-position bug where StreamPlayer updated
       // _positionMs internally but never emitted to provider state.
       await $.pump(const Duration(seconds: 5));
+
+      // Context-assert: still playing (G6). If buffer stall paused
+      // playback, the position wouldn't advance and the test would
+      // misdiagnose the failure as the stale-position bug.
+      expect(
+        container.read(playerProvider).isPlaying,
+        isTrue,
+        reason: 'Player should still be playing during 5s position check',
+      );
+
       final pos5s = currentPositionMs($);
       expect(
         pos5s,
         greaterThan(3000),
         reason:
-            'state.positionMs should be ~5s after 5s of play '
+            'state.positionMs should be > 3s after 5s of play '
             '(got ${pos5s}ms — stale position bug if near 0)',
+      );
+      // G5: upper bound. A "stuck near zero" bug is caught by the
+      // greaterThan; a "jumped to garbage" bug is caught by this.
+      expect(
+        pos5s,
+        lessThan(8000),
+        reason:
+            'state.positionMs should be ~5s after 5s of play, '
+            'not wildly ahead (got ${pos5s}ms — clock jump bug if huge)',
       );
 
       // After 10s total, position should have advanced further.
       await $.pump(const Duration(seconds: 5));
+
+      // Context-assert: still playing (G6).
+      expect(
+        container.read(playerProvider).isPlaying,
+        isTrue,
+        reason: 'Player should still be playing during 10s position check',
+      );
+
       final pos10s = currentPositionMs($);
       expect(
         pos10s,
@@ -95,6 +130,13 @@ void main() {
         reason:
             'Position should advance between checks '
             '(5s=$pos5s, 10s=$pos10s)',
+      );
+      expect(
+        pos10s,
+        lessThan(15000),
+        reason:
+            'Position at 10s should be ~10s, not wildly ahead '
+            '(got ${pos10s}ms — clock jump bug if huge)',
       );
 
       await stopPlayback($);
@@ -204,6 +246,19 @@ void main() {
       // ── Play again — should resume from saved position ─────────────────
       unawaited(notifier.playCard(itemId));
       await waitForPlayback($);
+
+      // Context-assert (round-1 review G4): the resumed player is
+      // actually playing the same episode. Without this, a future
+      // bug that loaded a different track at the saved position
+      // would silently pass the resume-position check.
+      expect(
+        container.read(playerProvider).track?.uri,
+        episode.providerUri,
+        reason:
+            'Resume should reload the same episode, '
+            'not a different track at the saved position',
+      );
+
       await $.pump(const Duration(seconds: 3));
 
       final resumePosition = currentPositionMs($);
