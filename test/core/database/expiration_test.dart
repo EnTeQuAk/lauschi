@@ -62,8 +62,24 @@ void main() {
   });
 
   group('tileProgressProvider excludes expired items', () {
-    // These are pure-logic tests. The provider just iterates items and
-    // filters with isItemExpired. We test the filtering logic directly.
+    // WARNING to future readers: these tests duplicate the
+    // filtering logic inline (the `for` loop below mirrors what
+    // `tileProgressProvider` does in production). That means a
+    // divergence — e.g. if the provider changes how it computes
+    // `heard` or adds a second expiration signal — would NOT be
+    // caught here.
+    //
+    // This is a known gap flagged in the round-1 review. The
+    // pragmatic choice (keep these as "documentation tests" for
+    // the rule: only `markedUnavailable` triggers exclusion,
+    // never `availableUntil`) is intentional: the production
+    // provider is a StreamProvider.family that's hard to unit
+    // test without wiring a ProviderContainer + stream override.
+    //
+    // When/if the provider grows an exclusion rule beyond
+    // `isItemExpired`, either extract the filtering into a pure
+    // function and test THAT here, or replace these tests with a
+    // proper StreamProvider test.
 
     test('items marked unavailable are excluded from counts', () {
       final items = [
