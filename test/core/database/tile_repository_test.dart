@@ -1,3 +1,4 @@
+import 'package:drift/drift.dart' hide isNotNull, isNull;
 import 'package:drift/native.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:lauschi/core/database/app_database.dart';
@@ -261,4 +262,45 @@ void main() {
   // assignToTile, removeFromTile, markHeard/markUnheard, watchUngrouped
   // are TileItemRepository methods — tests moved to
   // tile_item_repository_test.dart.
+
+  test('delete cascades NFC tags pointing to deleted tile', () async {
+    final tileId = await groups.insert(title: 'NFC Test Tile');
+
+    // Insert NFC tag directly via database (no repository exists).
+    await db
+        .into(db.nfcTags)
+        .insert(
+          NfcTagsCompanion(
+            tagUid: const Value('test-nfc-uid-123'),
+            targetType: const Value('tile'),
+            targetId: Value(tileId),
+            label: const Value('Test Tag'),
+          ),
+        );
+
+    // Context: both tile and NFC tag exist before delete.
+    final tileBefore = await groups.getById(tileId);
+    expect(tileBefore, isNotNull, reason: 'setup: tile should exist');
+
+    final tagBefore =
+        await (db.select(db.nfcTags)
+          ..where((t) => t.targetId.equals(tileId))).getSingleOrNull();
+    expect(tagBefore, isNotNull, reason: 'setup: NFC tag should exist');
+    expect(tagBefore!.targetId, tileId, reason: 'setup: tag points at tile');
+
+    await groups.delete(tileId);
+
+    // Tile is gone.
+    expect(await groups.getById(tileId), isNull);
+
+    // NFC tag should also be cascade-deleted.
+    final tagAfter =
+        await (db.select(db.nfcTags)
+          ..where((t) => t.targetId.equals(tileId))).getSingleOrNull();
+    expect(
+      tagAfter,
+      isNull,
+      reason: 'NFC tag pointing at deleted tile should be cascade-deleted',
+    );
+  });
 }
