@@ -64,6 +64,37 @@ class _ActiveBackend {
 }
 
 // ---------------------------------------------------------------------------
+// _LastKnownPlaybackState — tracks previous state for transition detection
+// ---------------------------------------------------------------------------
+
+/// Captures playback state from the previous tick to detect completion
+/// via state transitions rather than just position checks.
+///
+/// This solves the race condition with auto-advancing players (Spotify)
+/// where by the time we check isAlbumComplete, we're already on the next
+/// track and hasNextTrack/position reflect the new track, not the one
+/// that just finished.
+class _LastKnownPlaybackState {
+  _LastKnownPlaybackState({
+    required this.positionMs,
+    required this.durationMs,
+    required this.hasNextTrack,
+    required this.trackUri,
+    required this.timestamp,
+  });
+
+  final int positionMs;
+  final int durationMs;
+  final bool hasNextTrack;
+  final String? trackUri;
+  final DateTime timestamp;
+
+  /// Whether the track was near completion (within threshold of end).
+  bool isNearEnd({int thresholdMs = 5000}) =>
+      durationMs > 0 && positionMs > durationMs - thresholdMs;
+}
+
+// ---------------------------------------------------------------------------
 // PlayerNotifier
 // ---------------------------------------------------------------------------
 
@@ -112,6 +143,15 @@ class PlayerNotifier extends _$PlayerNotifier {
   // -- Position tracking state --
   int _playTimeMs = 0;
   DateTime? _playStartedAt;
+
+  /// Tracks the last known playback state to detect track completion
+  /// via transitions (needed for auto-advancing players like Spotify).
+  /// Captures position, duration, and hasNextTrack from previous state.
+  _LastKnownPlaybackState? _lastPlaybackState;
+
+  /// Guards against repeated completion triggers from the periodic timer.
+  /// Set to true when completion is handled; reset in playCard().
+  bool _completionHandledForSession = false;
 
   /// Minimum play time before saving position. Prevents brief taps from
   /// marking episodes as "in progress".
@@ -292,6 +332,8 @@ class PlayerNotifier extends _$PlayerNotifier {
     _positionSaveTimer = null;
     _playTimeMs = 0;
     _playStartedAt = null;
+    _lastPlaybackState = null;
+    _completionHandledForSession = false;
 
     final card = await ref.read(tileItemRepositoryProvider).getById(cardId);
     if (card == null) {
@@ -781,6 +823,19 @@ class PlayerNotifier extends _$PlayerNotifier {
       );
     }
 
+    // ─── Album completion detection ───────────────────────────────────
+    // Detect completion via state transition (handles auto-advance race)
+    // AND via current position (handles manual pause near end).
+    final cardId = state.activeCardId;
+    final groupId = state.activeGroupId;
+    final wasCompletedViaTransition = _detectCompletionViaTransition(
+      newState.track,
+    );
+    if (wasCompletedViaTransition && cardId != null) {
+      unawaited(_onAlbumCompleted(cardId, groupId));
+    }
+
+    // ─── Standard play/pause handling ─────────────────────────────────
     if (newState.isPlaying) {
       _startPositionSave();
     } else {
@@ -788,7 +843,6 @@ class PlayerNotifier extends _$PlayerNotifier {
 
       // Capture values now — by the time the async save/mark-heard runs,
       // a new card may own state and these fields would be wrong.
-      final cardId = state.activeCardId;
       final track = state.track;
       final posMs = _active?.backend.currentPositionMs ?? newState.positionMs;
 
@@ -798,8 +852,8 @@ class PlayerNotifier extends _$PlayerNotifier {
         unawaited(_savePosition(cardId, track, posMs));
       }
 
-      // Album completion: paused on last track, within threshold of end.
-      final groupId = state.activeGroupId;
+      // Fallback: paused on last track, within threshold of end.
+      // This catches cases where transition detection missed it.
       if (isAlbumComplete(
         hasNextTrack: _active?.backend.hasNextTrack ?? false,
         positionMs: posMs,
@@ -808,6 +862,48 @@ class PlayerNotifier extends _$PlayerNotifier {
         unawaited(_onAlbumCompleted(cardId, groupId));
       }
     }
+
+    // ─── Update last known state for next transition detection ─────────
+    _lastPlaybackState = _LastKnownPlaybackState(
+      positionMs: newState.positionMs,
+      durationMs: newState.durationMs,
+      hasNextTrack: _active?.backend.hasNextTrack ?? false,
+      trackUri: newState.track?.uri,
+      timestamp: DateTime.now(),
+    );
+  }
+
+  /// Detects album completion by comparing current state with previous state.
+  ///
+  /// Returns true if:
+  /// - Previous track was near end (within 5s)
+  /// - Previous track had no next track (was last track)
+  /// - Track changed (new track URI differs from previous)
+  ///
+  /// This handles the race condition with auto-advancing players (Spotify)
+  /// where the SDK advances to the next track before we can check completion.
+  bool _detectCompletionViaTransition(TrackInfo? newTrack) {
+    final last = _lastPlaybackState;
+    if (last == null) return false;
+
+    // Track must have changed (or be null now when it wasn't before)
+    final trackChanged = newTrack?.uri != last.trackUri;
+    if (!trackChanged) return false;
+
+    // Previous track must have been near end and had no next track
+    if (!last.isNearEnd()) return false;
+    if (last.hasNextTrack) return false;
+
+    Log.info(
+      _tag,
+      'Album completion detected via transition',
+      data: {
+        'previousPosition': '${last.positionMs}',
+        'previousDuration': '${last.durationMs}',
+        'newTrack': newTrack?.uri ?? 'null',
+      },
+    );
+    return true;
   }
 
   // ─── Auto-advance ───────────────────────────────────────────────────
@@ -841,10 +937,25 @@ class PlayerNotifier extends _$PlayerNotifier {
         _updatePlayTime();
         final cardId = state.activeCardId;
         final track = state.track;
+        final posMs = _active?.backend.currentPositionMs ?? state.positionMs;
+        final durationMs = state.durationMs;
+
+        // Check for album completion continuously while playing.
+        // This catches natural track endings where isPlaying stays true.
+        // Guard prevents repeated triggers while position lingers near end.
+        if (!_completionHandledForSession &&
+            isAlbumComplete(
+              hasNextTrack: _active?.backend.hasNextTrack ?? false,
+              positionMs: posMs,
+              durationMs: durationMs,
+            )) {
+          _completionHandledForSession = true;
+          unawaited(_onAlbumCompleted(cardId, state.activeGroupId));
+        }
+
         if (shouldSavePosition(playTimeMs: _playTimeMs) &&
             cardId != null &&
             track != null) {
-          final posMs = _active?.backend.currentPositionMs ?? state.positionMs;
           unawaited(_savePosition(cardId, track, posMs));
         }
       },

@@ -239,4 +239,58 @@ void main() {
       expect(card2!.lastPositionMs, 0); // ep2 position cleared
     });
   });
+
+  group('isNearTrackEnd edge cases', () {
+    test('true when position equals duration exactly (at end)', () {
+      // Exactly at end - position 300000, duration 300000
+      // position > duration - threshold means 300000 > 295000 → true
+      // At end is "near end"
+      expect(
+        isNearTrackEnd(
+          positionMs: 300000,
+          durationMs: 300000,
+          thresholdMs: 5000,
+        ),
+        isTrue,
+      );
+    });
+
+    test('true when position exceeds duration (invalid state)', () {
+      // Should still work even with invalid position > duration
+      expect(
+        isNearTrackEnd(
+          positionMs: 301000,
+          durationMs: 300000,
+          thresholdMs: 5000,
+        ),
+        isTrue,
+      );
+    });
+
+    test('false at exactly threshold boundary', () {
+      // position = duration - threshold exactly (295000)
+      // isNearTrackEnd uses > not >=, so exactly at boundary is false
+      expect(
+        isNearTrackEnd(
+          positionMs: 295000, // Exactly 5s from end of 300s
+          durationMs: 300000,
+          thresholdMs: 5000,
+        ),
+        isFalse,
+        reason: 'uses > not >=, so boundary value is outside threshold',
+      );
+    });
+
+    test('true just past threshold boundary', () {
+      // position = duration - threshold + 1
+      expect(
+        isNearTrackEnd(
+          positionMs: 295001, // 4s 999ms from end (just inside threshold)
+          durationMs: 300000,
+          thresholdMs: 5000,
+        ),
+        isTrue,
+      );
+    });
+  });
 }
