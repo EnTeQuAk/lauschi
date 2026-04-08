@@ -131,7 +131,7 @@ void main() {
     test('ungrouped items are excluded', () {
       final items = [
         _item(id: '1', groupId: 'tile-a'),
-        _item(id: '2', groupId: null), // ungrouped
+        _item(id: '2'), // ungrouped (groupId defaults to null)
         _item(id: '3', groupId: 'tile-a'),
       ];
 
