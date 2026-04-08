@@ -237,6 +237,41 @@ void main() {
       );
     },
   );
+
+  // ── Path parameter parsing ─────────────────────────────────────────
+
+  // Path parameter parsing (e.g., /tile/:id) is exercised in integration
+  // tests which have a real database. Widget tests hang on drift's async
+  // initialization when screens try to read from the DB on build.
+  // Coverage: integration_test/tile_nesting_test.dart, ard_browse_flow_test.dart
+
+  testWidgets('unknown route shows kid home (fallback)', (tester) async {
+    // Verifies go_router's behavior for unmatched routes.
+    // Currently: the garbage URL stays in the URL bar, but the
+    // router renders the kid home screen as a fallback. This is
+    // go_router's default behavior when no routes match.
+    final container = ProviderContainer(overrides: _testOverrides());
+    addTearDown(container.dispose);
+
+    await tester.pumpWidget(_buildApp(container));
+    await tester.pump();
+
+    expect(_currentLocation(container), AppRoutes.kidHome);
+
+    // Navigate to a garbage route.
+    container.read(appRouterProvider).go('/this-does-not-exist');
+    await tester.pump();
+    await tester.pump();
+
+    // URL stays garbage, but UI shows kid home as fallback.
+    expect(
+      _currentLocation(container),
+      '/this-does-not-exist',
+      reason: 'unknown route URL is preserved',
+    );
+    // The kid home content renders as fallback.
+    expect(find.text('Meine Hörspiele'), findsOneWidget);
+  });
 }
 
 class _FakeSession extends SpotifySession {
