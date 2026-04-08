@@ -421,13 +421,13 @@ bool isItemExpired(TileItem item) {
   return item.markedUnavailable != null;
 }
 
-/// Per-tile item counts and heard progress, derived from allTileItemsProvider.
-/// Avoids N+1 queries when rendering the kid home grid.
-/// Excludes expired items so kids see accurate episode counts.
-final tileProgressProvider = Provider<Map<String, ({int total, int heard})>>((
-  ref,
+/// Computes per-tile progress from a list of items.
+///
+/// Pure function for testability. Excludes expired items and handles
+/// playlist track counting. Called by [tileProgressProvider].
+Map<String, ({int total, int heard})> computeTileProgress(
+  List<TileItem> items,
 ) {
-  final items = ref.watch(allTileItemsProvider).value ?? [];
   final result = <String, ({int total, int heard})>{};
   for (final item in items) {
     final tid = item.groupId;
@@ -447,7 +447,17 @@ final tileProgressProvider = Provider<Map<String, ({int total, int heard})>>((
     );
   }
   return result;
-});
+}
+
+/// Per-tile item counts and heard progress, derived from allTileItemsProvider.
+/// Avoids N+1 queries when rendering the kid home grid.
+/// Excludes expired items so kids see accurate episode counts.
+final tileProgressProvider = Provider<Map<String, ({int total, int heard})>>(
+  (ref) {
+    final items = ref.watch(allTileItemsProvider).value ?? [];
+    return computeTileProgress(items);
+  },
+);
 
 /// Set of provider URIs already in the collection.
 ///

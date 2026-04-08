@@ -9,16 +9,18 @@ TileItem _item({
   DateTime? markedUnavailable,
   bool isHeard = false,
   String? groupId,
+  String cardType = 'episode',
+  int totalTracks = 0,
 }) {
   return TileItem(
     id: id,
     title: 'Test Episode',
-    cardType: 'episode',
+    cardType: cardType,
     provider: 'ard_audiothek',
     providerUri: 'ard:item:$id',
     sortOrder: 0,
     isHeard: isHeard,
-    totalTracks: 0,
+    totalTracks: totalTracks,
     lastTrackNumber: 0,
     lastPositionMs: 0,
     durationMs: 0,
@@ -61,26 +63,7 @@ void main() {
     });
   });
 
-  group('tileProgressProvider excludes expired items', () {
-    // WARNING to future readers: these tests duplicate the
-    // filtering logic inline (the `for` loop below mirrors what
-    // `tileProgressProvider` does in production). That means a
-    // divergence — e.g. if the provider changes how it computes
-    // `heard` or adds a second expiration signal — would NOT be
-    // caught here.
-    //
-    // This is a known gap flagged in the round-1 review. The
-    // pragmatic choice (keep these as "documentation tests" for
-    // the rule: only `markedUnavailable` triggers exclusion,
-    // never `availableUntil`) is intentional: the production
-    // provider is a StreamProvider.family that's hard to unit
-    // test without wiring a ProviderContainer + stream override.
-    //
-    // When/if the provider grows an exclusion rule beyond
-    // `isItemExpired`, either extract the filtering into a pure
-    // function and test THAT here, or replace these tests with a
-    // proper StreamProvider test.
-
+  group('computeTileProgress', () {
     test('items marked unavailable are excluded from counts', () {
       final items = [
         _item(
@@ -99,18 +82,7 @@ void main() {
         ),
       ];
 
-      // Simulate what tileProgressProvider does:
-      final result = <String, ({int total, int heard})>{};
-      for (final item in items) {
-        final tid = item.groupId;
-        if (tid == null) continue;
-        if (isItemExpired(item)) continue;
-        final prev = result[tid] ?? (total: 0, heard: 0);
-        result[tid] = (
-          total: prev.total + 1,
-          heard: prev.heard + (item.isHeard ? 1 : 0),
-        );
-      }
+      final result = computeTileProgress(items);
 
       expect(result['tile-a']!.total, 2);
       expect(result['tile-a']!.heard, 1);
@@ -131,17 +103,7 @@ void main() {
         ),
       ];
 
-      final result = <String, ({int total, int heard})>{};
-      for (final item in items) {
-        final tid = item.groupId;
-        if (tid == null) continue;
-        if (isItemExpired(item)) continue;
-        final prev = result[tid] ?? (total: 0, heard: 0);
-        result[tid] = (
-          total: prev.total + 1,
-          heard: prev.heard + (item.isHeard ? 1 : 0),
-        );
-      }
+      final result = computeTileProgress(items);
 
       // Both items counted, even the one with past availableUntil.
       expect(result['tile-a']!.total, 2);
@@ -161,19 +123,69 @@ void main() {
         ),
       ];
 
-      final result = <String, ({int total, int heard})>{};
-      for (final item in items) {
-        final tid = item.groupId;
-        if (tid == null) continue;
-        if (isItemExpired(item)) continue;
-        final prev = result[tid] ?? (total: 0, heard: 0);
-        result[tid] = (
-          total: prev.total + 1,
-          heard: prev.heard + (item.isHeard ? 1 : 0),
-        );
-      }
+      final result = computeTileProgress(items);
 
       expect(result['tile-a'], isNull);
+    });
+
+    test('ungrouped items are excluded', () {
+      final items = [
+        _item(id: '1', groupId: 'tile-a'),
+        _item(id: '2', groupId: null), // ungrouped
+        _item(id: '3', groupId: 'tile-a'),
+      ];
+
+      final result = computeTileProgress(items);
+
+      expect(result['tile-a']!.total, 2);
+    });
+
+    test('playlist track count is used instead of item count', () {
+      final items = [
+        _item(
+          id: '1',
+          groupId: 'tile-a',
+          cardType: 'playlist',
+          totalTracks: 50, // 50-track playlist
+        ),
+        _item(id: '2', groupId: 'tile-a'), // regular episode
+      ];
+
+      final result = computeTileProgress(items);
+
+      // Playlist contributes 50, episode contributes 1
+      expect(result['tile-a']!.total, 51);
+    });
+
+    test('playlist with 1 track counts as 1', () {
+      final items = [
+        _item(
+          id: '1',
+          groupId: 'tile-a',
+          cardType: 'playlist',
+          totalTracks: 1, // single-track playlist
+        ),
+      ];
+
+      final result = computeTileProgress(items);
+
+      expect(result['tile-a']!.total, 1);
+    });
+
+    test('multiple tiles have separate counts', () {
+      final items = [
+        _item(id: '1', groupId: 'tile-a', isHeard: true),
+        _item(id: '2', groupId: 'tile-a'),
+        _item(id: '3', groupId: 'tile-b', isHeard: true),
+        _item(id: '4', groupId: 'tile-b', isHeard: true),
+      ];
+
+      final result = computeTileProgress(items);
+
+      expect(result['tile-a']!.total, 2);
+      expect(result['tile-a']!.heard, 1);
+      expect(result['tile-b']!.total, 2);
+      expect(result['tile-b']!.heard, 2);
     });
   });
 }
