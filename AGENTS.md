@@ -373,6 +373,23 @@ Fix what makes sense, ignore nitpicks that don't add value.
 The repo includes config for [Pi](https://buildwithpi.com) and [Claude Code](https://docs.anthropic.com/en/docs/claude-code):
 
 - **`AGENTS.md`** — this file. Project context for all AI coding agents.
-- **`.pi/skills/`** — Pi-specific skills (e.g. `code-simplifier` for Dart/Flutter refinement).
-- **`.agents/skills/`** — Shared skills from [dotagents](https://github.com/nichochar/dotagents) (Sentry integration). Managed by `agents.toml` + `agents.lock`. The `.claude/skills` symlink makes these visible to Claude Code too.
+- **`.pi/skills/`** — Pi-specific skills.
+- **`.agents/skills/`** — Shared skills managed by [dotagents](https://github.com/getsentry/dotagents). The `.claude/skills` symlink makes these visible to Claude Code.
 - **`.claude/settings.local.json`** — Per-user Claude Code permissions (gitignored).
+
+### Dotagents Setup
+
+Skills are declared in `agents.toml` and installed via dotagents:
+
+```bash
+# Install all skills after cloning
+npx @sentry/dotagents install
+
+# List installed skills
+npx @sentry/dotagents list
+
+# Add a skill from getsentry/skills
+npx @sentry/dotagents add getsentry/skills find-bugs
+```
+
+Remote skills (from getsentry/skills and getsentry/sentry-for-ai) are gitignored and fetched on install. Local skills in `.agents/skills/` (update-changelog, code-simplifier) are committed to the repo.
