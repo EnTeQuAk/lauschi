@@ -312,3 +312,48 @@ The repo includes config for [Pi](https://buildwithpi.com) and [Claude Code](htt
 - **`.pi/skills/`** — Pi-specific skills (e.g. `code-simplifier` for Dart/Flutter refinement).
 - **`.agents/skills/`** — Shared skills from [dotagents](https://github.com/nichochar/dotagents) (Sentry integration). Managed by `agents.toml` + `agents.lock`. The `.claude/skills` symlink makes these visible to Claude Code too.
 - **`.claude/settings.local.json`** — Per-user Claude Code permissions (gitignored).
+
+## Multi-Agent Synchronization
+
+Both Pi and Claude Code may work on this codebase. To avoid conflicts:
+
+### Starting Work
+
+1. **Check recent commits**: `git log --oneline -5` — look for activity from other agents
+2. **Check branch status**: `git status` — uncommitted changes may indicate active work
+3. **Look for `.ralph/` files** — Pi uses these for active/completed work documentation
+4. **Read this file (AGENTS.md)** — project conventions, architecture, testing requirements
+
+### Detecting Active Work
+
+| Sign | Meaning | Action |
+|------|---------|--------|
+| `.ralph/*.md` with "In Progress" | Pi is actively working | Coordinate with Chris before proceeding |
+| `.ralph/*.md` with "COMPLETE" | Pi finished, review available | Safe to proceed, review findings if relevant |
+| Recent commits from other agent | Work was recently done | Check what changed before modifying same files |
+| Uncommitted changes you didn't make | Another agent has pending work | Stop and ask Chris |
+
+### Coordination Rules
+
+- **Never force push** or reset commits you didn't create
+- **Commit frequently** — small, focused commits reduce merge conflicts
+- **Run `mise run check`** before committing (format + analyze + test)
+- **Never skip pre-commit hooks**
+- **Don't modify `.ralph/` files** — these belong to Pi's workflow
+- **When in doubt, ask** — architectural decisions and conflicting changes need discussion
+
+### For Claude Code Specifically
+
+Use this prompt pattern to load project context:
+
+```
+Read AGENTS.md fully, then help me with [task].
+Check git status and look for any .ralph/ activity before starting.
+```
+
+Key reminders for all agents:
+- You're "Claude" — colleague to "Chris", not assistant
+- Push back on bad ideas with technical reasons
+- Say "I don't know" when appropriate
+- Match existing code style within each file
+- **The Django Way**: When uncertain, ask "what would Django do?"
