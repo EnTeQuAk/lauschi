@@ -1,21 +1,29 @@
 version = 1
-# Check skills into git so collaborators get them without running 'dotagents install'.
+# Skills are checked into git so collaborators get them without running
+# 'dotagents install'. Skills live in .agents/skills/ and are symlinked
+# to .claude/skills/ for Claude Code compatibility.
 gitignore = false
 agents = ["claude"]
 
-[trust]
-allow_all = true
-
-# Only pull skills relevant to this project. The source repo has many more
-# (React, Ruby, Python, Swift, React Native setup, etc.) — skip those.
+# dotagents self-reference (CLI guidance for agents)
 [[skills]]
-name = "sentry-fix-issues"
-source = "getsentry/sentry-agent-skills"
+name = "dotagents"
+source = "getsentry/dotagents"
 
+# Sentry skills (from getsentry/dotagents)
 [[skills]]
 name = "sentry-create-alert"
-source = "getsentry/sentry-agent-skills"
+source = "path:.agents/skills/sentry-create-alert"
+
+[[skills]]
+name = "sentry-fix-issues"
+source = "path:.agents/skills/sentry-fix-issues"
 
 [[skills]]
 name = "sentry-pr-code-review"
-source = "getsentry/sentry-agent-skills"
+source = "path:.agents/skills/sentry-pr-code-review"
+
+# Lauschi-specific skills
+[[skills]]
+name = "update-changelog"
+source = "path:.agents/skills/update-changelog"

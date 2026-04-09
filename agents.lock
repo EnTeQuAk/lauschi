@@ -2,22 +2,17 @@
 version = 1
 
 [skills.sentry-create-alert]
-source = "getsentry/sentry-agent-skills"
-resolved_url = "https://github.com/getsentry/sentry-agent-skills.git"
-resolved_path = "skills/sentry-create-alert"
-commit = "2b39e26a70c73658870892cbda72f8c9b1113710"
-integrity = "sha256-1IdrU+Lnkj0HfIYyMqE6vqZ3o+eW1BrNNYtQBoucD/8="
+source = "path:.agents/skills/sentry-create-alert"
+integrity = "sha256-Twsj6tMVJSLumBK1vlYORO6V2cc0NrUsQe5CPFssnqQ"
 
 [skills.sentry-fix-issues]
-source = "getsentry/sentry-agent-skills"
-resolved_url = "https://github.com/getsentry/sentry-agent-skills.git"
-resolved_path = "skills/sentry-fix-issues"
-commit = "2b39e26a70c73658870892cbda72f8c9b1113710"
-integrity = "sha256-c1beVCkuTL1EynF/c3O2Q7925mEGxJYpRRAJoYa6mj0="
+source = "path:.agents/skills/sentry-fix-issues"
+integrity = "sha256-DeMCyODmyhL6zpGXr_-uwS4fOI54LEJRd0FDjqu5l2I"
 
 [skills.sentry-pr-code-review]
-source = "getsentry/sentry-agent-skills"
-resolved_url = "https://github.com/getsentry/sentry-agent-skills.git"
-resolved_path = "skills/sentry-pr-code-review"
-commit = "2b39e26a70c73658870892cbda72f8c9b1113710"
-integrity = "sha256-Ew80yJRpja+P4lnXJo462zb0YekAH5GDWFSiYcwojcw="
+source = "path:.agents/skills/sentry-pr-code-review"
+integrity = "sha256-yrWK-BabVobQNbcaKYKrGzPJSemn4f5MM16Op9RrBfM"
+
+[skills.update-changelog]
+source = "path:.agents/skills/update-changelog"
+integrity = "sha256-3GB052DDXryNc-Wr84SiCoYU1xpTerbBWGYnWh_F8Wc"
