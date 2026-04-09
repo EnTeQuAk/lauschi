@@ -180,6 +180,70 @@ Triggers:
 
 Both build with `ENABLE_SPOTIFY=false`, `ENABLE_SENTRY=false`. Zero data collection.
 
+## Changelog & Release Process
+
+### Changelog Format
+
+`CHANGELOG.md` is **user-facing only** (German). Technical details only if they translate to tangible user benefits (faster, more stable, better privacy, security fixes).
+
+**Structure per release:**
+```markdown
+## vYYYY.MM.INC (Monat YYYY)
+
+🎯 **Kurzer Titel**
+Beschreibung in 1-2 Sätzen. Was ändert sich für Eltern/Kinder?
+
+✨ **Weitere Verbesserungen**
+- Punkt 1: Konkrete Verbesserung
+- Punkt 2: Konkrete Verbesserung
+
+🐛 **Behoben**
+- Was war kaputt, jetzt funktioniert es wieder
+```
+
+**Emoji conventions:**
+- `⏳` — Content/availability changes
+- `🗄️` — Data/storage changes  
+- `🧹` — Cleanup, dead code removal
+- `🔧` — Bug fixes
+- `🚫` — Feature removal (with explanation why)
+- `✨` — New features
+- `🎵` — Music/audio related
+- `🍏` — Apple Music
+- `📂` — Organization/folders
+- `🗑️` — Deletion features
+- `🔍` — Search improvements
+- `🛠️` — Minor fixes
+- `🧪` — Testing improvements
+- `🎯` — Main feature of release
+- `🐛` — Bug fix section
+
+### Release Checklist
+
+Before `mise run tag-release`:
+
+1. **Update CHANGELOG.md**
+   - Add new section at top (newest first)
+   - Use calver version pattern: `v2026.4.2` 
+   - German language, parent-facing descriptions
+   - Group by impact (major features first, fixes last)
+
+2. **Verify tests pass**
+   ```bash
+   mise run check
+   ```
+
+3. **Commit changelog**
+   ```bash
+   git add CHANGELOG.md
+   git commit -m "docs: changelog for v2026.4.2"
+   ```
+
+4. **Tag and release**
+   ```bash
+   mise run tag-release    # bumps version, commits, tags, pushes
+   ```
+
 ### Required secrets
 
 | Secret | Where | Purpose |
