@@ -1,3 +1,6 @@
+// Boundary tests use explicit threshold values for documentation.
+// ignore_for_file: avoid_redundant_argument_values
+
 import 'package:drift/native.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:lauschi/core/database/app_database.dart';

@@ -45,12 +45,7 @@ class _FakeArdApi extends ArdApi {
     }
 
     if (pageIndex >= pages.length) {
-      return ArdItemPage(
-        items: [],
-        hasNextPage: false,
-        endCursor: null,
-        totalCount: pages.expand((p) => p).length,
-      );
+      return const ArdItemPage(items: []);
     }
 
     final items = pages[pageIndex];
@@ -77,8 +72,6 @@ ArdItem _makeItem({
     titleClean: title,
     duration: 600,
     publishDate: DateTime.now(),
-    isPublished: true,
-    imageUrl: null,
     programSetTitle: 'Test Show',
     audios: [ArdAudio(url: audioUrl, mimeType: 'audio/mp3')],
   );
@@ -102,7 +95,7 @@ void main() {
   });
 
   /// Helper to create container with fake API.
-  ProviderContainer _createContainer(ArdApi fakeApi) {
+  ProviderContainer createContainer(ArdApi fakeApi) {
     return ProviderContainer(
       overrides: [
         appDatabaseProvider.overrideWithValue(db),
@@ -137,7 +130,7 @@ void main() {
         ],
       );
 
-      container = _createContainer(fakeApi);
+      container = createContainer(fakeApi);
       final importer = container.read(contentImporterProvider.notifier);
 
       expect(await tiles.getAll(), isEmpty);
@@ -149,7 +142,6 @@ void main() {
         showImageUrl: null,
         loadedItems: fakeApi.pages[0],
         hasMorePages: false,
-        endCursor: null,
       );
 
       // All 3 episodes imported.
@@ -178,7 +170,7 @@ void main() {
         ],
       );
 
-      container = _createContainer(fakeApi);
+      container = createContainer(fakeApi);
       final importer = container.read(contentImporterProvider.notifier);
 
       await importer.importArdShow(
@@ -212,7 +204,7 @@ void main() {
       );
 
       final fakeApi = _FakeArdApi(pages: pages);
-      container = _createContainer(fakeApi);
+      container = createContainer(fakeApi);
       final importer = container.read(contentImporterProvider.notifier);
 
       await importer.importArdShow(
@@ -246,7 +238,7 @@ void main() {
         ],
       );
 
-      container = _createContainer(fakeApi);
+      container = createContainer(fakeApi);
       final importer = container.read(contentImporterProvider.notifier);
 
       // First import
@@ -256,7 +248,6 @@ void main() {
         showImageUrl: null,
         loadedItems: fakeApi.pages[0],
         hasMorePages: false,
-        endCursor: null,
       );
 
       expect(await items.getAll(), hasLength(2), reason: 'first import adds 2');
@@ -271,7 +262,6 @@ void main() {
         showImageUrl: null,
         loadedItems: fakeApi.pages[0],
         hasMorePages: false,
-        endCursor: null,
       );
 
       // Should still be 2 items (same URIs), but now 2 tiles
@@ -299,8 +289,6 @@ void main() {
               titleClean: 'Ep 2 (No Audio)',
               duration: 600,
               publishDate: DateTime.now(),
-              isPublished: true,
-              imageUrl: null,
               programSetTitle: 'Test Show',
               audios: [], // Empty audios list
             ),
@@ -309,7 +297,7 @@ void main() {
         ],
       );
 
-      container = _createContainer(fakeApi);
+      container = createContainer(fakeApi);
       final importer = container.read(contentImporterProvider.notifier);
 
       await importer.importArdShow(
@@ -318,7 +306,6 @@ void main() {
         showImageUrl: null,
         loadedItems: fakeApi.pages[0],
         hasMorePages: false,
-        endCursor: null,
       );
 
       // Only 2 items with audio URLs imported.
@@ -331,7 +318,7 @@ void main() {
     test('import fails gracefully and reports error', () async {
       // Fake API that throws on pagination
       final throwingApi = _ThrowingArdApi();
-      container = _createContainer(throwingApi);
+      container = createContainer(throwingApi);
       final importer = container.read(contentImporterProvider.notifier);
 
       await importer.importArdShow(
@@ -357,7 +344,7 @@ class _ThrowingArdApi extends ArdApi {
     int first = 20,
     String? after,
     bool publishedOnly = true,
-  }) async {
+  }) {
     throw Exception('Simulated API failure');
   }
 }
