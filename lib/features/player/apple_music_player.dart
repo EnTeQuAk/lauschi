@@ -72,6 +72,7 @@ class AppleMusicPlayer extends PlayerBackend with AlbumPlayback {
   bool get hasNextTrack => _trackIndex < _totalTracks - 1;
 
   /// Play an album starting from a track index.
+  @override
   Future<void> play({
     required String albumId,
     required TrackInfo trackInfo,
