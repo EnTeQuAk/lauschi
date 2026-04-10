@@ -22,7 +22,7 @@ const _tag = 'AppleMusicNative';
 ///
 /// Unlike the Android DRM path, no stream URL resolution or license
 /// acquisition is needed. MusicKit handles DRM internally.
-class AppleMusicNativeBackend extends PlayerBackend {
+class AppleMusicNativeBackend extends PlayerBackend with AlbumPlayback {
   AppleMusicNativeBackend({
     required AppleMusicApi api,
     required MusicKit musicKit,

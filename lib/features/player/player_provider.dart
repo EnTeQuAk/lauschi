@@ -25,6 +25,10 @@ part 'player_provider.g.dart';
 
 const _tag = 'PlayerProvider';
 
+/// Threshold for "near end of track" detection, shared across all completion
+/// paths (transition detection, pause fallback, periodic timer).
+const _completionThresholdMs = 5000;
+
 /// Holds the [MediaSessionHandler] initialized in main().
 /// Must be overridden before use.
 @Riverpod(keepAlive: true)
@@ -90,7 +94,7 @@ class _LastKnownPlaybackState {
   final DateTime timestamp;
 
   /// Whether the track was near completion (within threshold of end).
-  bool isNearEnd({int thresholdMs = 5000}) =>
+  bool isNearEnd({int thresholdMs = _completionThresholdMs}) =>
       durationMs > 0 && positionMs > durationMs - thresholdMs;
 }
 
@@ -252,6 +256,11 @@ class PlayerNotifier extends _$PlayerNotifier {
     // re-login since PlayerNotifier is keepAlive and build() won't re-run.
     // _onBridgeEvent already gates playback events on _active being a
     // SpotifyPlayer, so stale events from tearDown are harmless.
+    assert(
+      _bridgeSub != null,
+      '_bridgeSub must stay alive across Spotify disconnect/reconnect. '
+      'Only ref.onDispose should cancel it.',
+    );
 
     _positionSaveTimer?.cancel();
     _positionSaveTimer = null;
@@ -283,6 +292,24 @@ class PlayerNotifier extends _$PlayerNotifier {
         data: {'error': '$e'},
       );
     }
+  }
+
+  /// Stop playback and tear down the backend. Resets state to idle.
+  ///
+  /// Unlike [pause], this releases backend resources (audio session,
+  /// media player). Used when playback should fully end, not just suspend.
+  Future<void> stopCard() async {
+    Log.info(_tag, 'stopCard');
+    _positionSaveTimer?.cancel();
+    _positionSaveTimer = null;
+    _playTimeMs = 0;
+    _playStartedAt = null;
+    _lastPlaybackState = null;
+    _completionHandledForSession = false;
+
+    await _active?.stop();
+    _active = null;
+    state = const PlaybackState();
   }
 
   /// Resume playback (idempotent).
@@ -773,12 +800,8 @@ class PlayerNotifier extends _$PlayerNotifier {
     final savedTrackIndex =
         card.lastTrackNumber > 0 ? card.lastTrackNumber - 1 : 0;
 
-    // Both backends have the same play() signature.
-    final playFn =
-        player is AppleMusicNativeBackend
-            ? player.play
-            : (player as AppleMusicPlayer).play;
-    await playFn(
+    // Both Apple backends implement AlbumPlayback (shared play() signature).
+    await (player as AlbumPlayback).play(
       albumId: albumId,
       trackInfo: trackInfo,
       trackIndex: savedTrackIndex,
@@ -824,15 +847,23 @@ class PlayerNotifier extends _$PlayerNotifier {
     }
 
     // ─── Album completion detection ───────────────────────────────────
-    // Detect completion via state transition (handles auto-advance race)
-    // AND via current position (handles manual pause near end).
+    // Three paths can detect completion (transition, pause fallback,
+    // periodic timer). The _completionHandledForSession guard prevents
+    // duplicate triggers across all of them.
     final cardId = state.activeCardId;
     final groupId = state.activeGroupId;
-    final wasCompletedViaTransition = _detectCompletionViaTransition(
-      newState.track,
-    );
-    if (wasCompletedViaTransition && cardId != null) {
-      unawaited(_onAlbumCompleted(cardId, groupId));
+
+    // Path 1: Detect completion via state transition. Handles the
+    // auto-advance race where Spotify moves to the next track before
+    // we can check the position of the track that just finished.
+    if (!_completionHandledForSession) {
+      final wasCompletedViaTransition = _detectCompletionViaTransition(
+        newState.track,
+      );
+      if (wasCompletedViaTransition && cardId != null) {
+        _completionHandledForSession = true;
+        unawaited(_onAlbumCompleted(cardId, groupId));
+      }
     }
 
     // ─── Standard play/pause handling ─────────────────────────────────
@@ -852,13 +883,15 @@ class PlayerNotifier extends _$PlayerNotifier {
         unawaited(_savePosition(cardId, track, posMs));
       }
 
-      // Fallback: paused on last track, within threshold of end.
-      // This catches cases where transition detection missed it.
-      if (isAlbumComplete(
-        hasNextTrack: _active?.backend.hasNextTrack ?? false,
-        positionMs: posMs,
-        durationMs: newState.durationMs,
-      )) {
+      // Path 2: Paused on last track, within threshold of end.
+      // Catches cases where transition detection missed it.
+      if (!_completionHandledForSession &&
+          isAlbumComplete(
+            hasNextTrack: _active?.backend.hasNextTrack ?? false,
+            positionMs: posMs,
+            durationMs: newState.durationMs,
+          )) {
+        _completionHandledForSession = true;
         unawaited(_onAlbumCompleted(cardId, groupId));
       }
     }
@@ -1035,7 +1068,7 @@ bool shouldSavePosition({
 bool isNearTrackEnd({
   required int positionMs,
   required int durationMs,
-  int thresholdMs = 5000,
+  int thresholdMs = _completionThresholdMs,
 }) => durationMs > 0 && positionMs > durationMs - thresholdMs;
 
 /// Whether the album is complete: last track and near the end.
@@ -1043,7 +1076,7 @@ bool isAlbumComplete({
   required bool hasNextTrack,
   required int positionMs,
   required int durationMs,
-  int thresholdMs = 5000,
+  int thresholdMs = _completionThresholdMs,
 }) =>
     !hasNextTrack &&
     isNearTrackEnd(

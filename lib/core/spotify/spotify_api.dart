@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:lauschi/core/feature_flags.dart';
 import 'package:lauschi/core/log.dart';
 import 'package:lauschi/core/spotify/spotify_config.dart';
 import 'package:sentry_dio/sentry_dio.dart';
@@ -25,8 +26,7 @@ class SpotifyDeviceNotFoundException implements Exception {
 class SpotifyApi {
   SpotifyApi()
     : _dio = Dio(BaseOptions(baseUrl: 'https://api.spotify.com/v1')) {
-    // Sentry Dio integration: auto breadcrumbs + HTTP span tracing.
-    _dio.addSentry();
+    if (FeatureFlags.enableSentry) _dio.addSentry();
   }
 
   final Dio _dio;
@@ -318,9 +318,12 @@ class SpotifyApi {
   // Request wrapper with error handling
   // ---------------------------------------------------------------------------
 
+  static const _maxRateLimitRetries = 3;
+
   Future<Response<T>?> _request<T>(
     Future<Response<T>> Function() fn, {
     bool isRetry = false,
+    int rateLimitRetries = 0,
   }) async {
     try {
       return await fn();
@@ -339,8 +342,7 @@ class SpotifyApi {
         Log.error(_tag, 'Token refresh failed, cannot retry');
       }
 
-      if (status == 429) {
-        // Rate limited — retry after delay
+      if (status == 429 && rateLimitRetries < _maxRateLimitRetries) {
         final retryAfter =
             int.tryParse(e.response?.headers.value('retry-after') ?? '') ?? 1;
         Log.warn(
@@ -348,10 +350,11 @@ class SpotifyApi {
           'Rate limited, retrying',
           data: {
             'retry_after': '$retryAfter',
+            'attempt': '${rateLimitRetries + 1}/$_maxRateLimitRetries',
           },
         );
         await Future<void>.delayed(Duration(seconds: retryAfter));
-        return _request(fn);
+        return _request(fn, rateLimitRetries: rateLimitRetries + 1);
       }
 
       // Connection errors (no internet, DNS failure) are transient —

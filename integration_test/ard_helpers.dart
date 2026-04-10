@@ -248,16 +248,22 @@ int currentPositionMs(PatrolIntegrationTester $) {
   return getContainer($).read(playerProvider).positionMs;
 }
 
-/// Stops playback — call in teardown.
+/// Stops playback and tears down the backend — call in teardown.
 ///
-/// Checks if the widget tree is still mounted before pausing. This avoids
-/// catching broad exceptions while handling the common case where the
-/// app is torn down between test completion and cleanup.
+/// Pause alone leaves the just_audio player holding the audio session open,
+/// which can delay process teardown enough that Patrol's next test process
+/// fails to bind port 8081 (the native server port). Calling stopCard()
+/// releases the backend and its resources so the process exits cleanly.
 Future<void> stopPlayback(PatrolIntegrationTester $) async {
   // If the widget tree is gone, there's nothing to clean up.
   final finder = find.byType(MaterialApp);
   if (finder.evaluate().isEmpty) return;
-  await getContainer($).read(playerProvider.notifier).pause();
+  final notifier = getContainer($).read(playerProvider.notifier);
+  await notifier.stopCard();
+  // Give the platform player time to release audio session resources
+  // and unbind port 8081. Without this, Patrol's next test process
+  // can fail to initialize if it starts before teardown completes.
+  await $.pump(const Duration(seconds: 1));
 }
 
 // ── Test Data ──────────────────────────────────────────────────────────────

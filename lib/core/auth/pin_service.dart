@@ -32,8 +32,14 @@ class PinService {
     return hash != null;
   }
 
+  /// Minimum PIN length. 4 digits is standard for parental controls.
+  static const minPinLength = 4;
+
   /// Set a new PIN. Hashes with bcrypt in a background isolate.
   Future<void> setPin(String pin) async {
+    if (pin.length < minPinLength) {
+      throw ArgumentError('PIN must be at least $minPinLength characters');
+    }
     final hash = await Isolate.run(
       () => BCrypt.hashpw(pin, BCrypt.gensalt()),
     );

@@ -1,5 +1,22 @@
 # Changelog
 
+## v2026.4.2 (April 2026)
+
+🎯 **Spotify-Alben enden jetzt zuverlässig**
+Wenn das letzte Lied eines Spotify-Albums fertig war, hat die App das manchmal nicht mitbekommen. Jetzt erkennt lauschi das Ende auch dann, wenn Spotify im Hintergrund schon zum nächsten Titel springt.
+
+🔒 **Mehr Privatsphäre**
+NFC-Tag Kennungen werden nicht mehr vollständig an die Fehlerüberwachung gesendet. PIN muss jetzt mindestens 4 Zeichen lang sein.
+
+🐛 **Behoben**
+- "Kacheln verwalten" war leer wenn lose Folgen existierten
+- Anbieter-Hinweise in den Einstellungen zeigen jetzt alle aktiven Anbieter
+- Eltern-Bereich bleibt länger aktiv wenn man darin navigiert
+
+🛠️ **Unter der Haube**
+- Datenbank-Abfragen bei vielen Folgen schneller (neue Indexe)
+- Bessere Fehlerüberwachung für alle Anbieter
+
 ## v2026.3.47 (März 2026)
 
 ⏳ **Nicht verfügbare Inhalte**

@@ -334,4 +334,7 @@ class _FakeOnboarding extends OnboardingComplete {
 class _FakeParentAuth extends ParentAuth {
   @override
   bool build() => true;
+
+  @override
+  void touch() {}
 }

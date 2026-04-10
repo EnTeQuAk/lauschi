@@ -18,7 +18,7 @@ class AppDatabase extends _$AppDatabase {
 
   /// Bump when schema changes. See [migration] for upgrade steps.
   @override
-  int get schemaVersion => 11;
+  int get schemaVersion => 12;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -83,6 +83,19 @@ class AppDatabase extends _$AppDatabase {
           // Content expiration: records when an item became unavailable.
           // Null = available. Non-null = unavailable since that date.
           await m.addColumn(cards, cards.markedUnavailable);
+        }
+        if (from < 12) {
+          // Indexes for the two most frequent card lookups:
+          // - groupId: watchItems, itemCount, nextUnheard (per-tile queries)
+          // - providerUri: insertIfAbsent deduplication, getByProviderUri
+          await customStatement(
+            'CREATE INDEX IF NOT EXISTS idx_cards_group_id '
+            'ON cards(group_id)',
+          );
+          await customStatement(
+            'CREATE INDEX IF NOT EXISTS idx_cards_provider_uri '
+            'ON cards(provider_uri)',
+          );
         }
         Log.info('Database', 'Migration complete');
       } on Exception catch (e, stack) {

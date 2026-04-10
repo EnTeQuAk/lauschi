@@ -9,12 +9,19 @@ import 'package:lauschi/core/database/tile_item_repository.dart';
 import 'package:lauschi/core/database/tile_repository.dart';
 
 /// Fake [ArdApi] for testing pagination without real HTTP calls.
+///
+/// Uses cursor-based lookup (matching the real API's opaque cursor contract)
+/// rather than a call counter. Page 0 is returned for `after: null`, then
+/// the `endCursor` from each response must be passed back to get the next page.
 class _FakeArdApi extends ArdApi {
   _FakeArdApi({required this.pages});
 
   /// Pages to return in sequence. Each page is a list of items.
   final List<List<ArdItem>> pages;
-  var _callCount = 0;
+
+  /// Cursors returned so far, mapped to the page index they unlock.
+  /// Page 0 returns endCursor 'cursor:1' (unlocks page 1), etc.
+  static String _cursorFor(int nextPageIndex) => 'cursor:$nextPageIndex';
 
   @override
   Future<ArdItemPage> getItems({
@@ -23,12 +30,21 @@ class _FakeArdApi extends ArdApi {
     String? after,
     bool publishedOnly = true,
   }) async {
-    // Return pages in sequence. The first call (no after) returns page 0.
-    // Subsequent calls return pages 1, 2, etc.
-    final pageIndex = after == null ? 0 : ++_callCount;
+    // Resolve page index from cursor. Page 0 has no cursor (first request).
+    final int pageIndex;
+    if (after == null) {
+      pageIndex = 0;
+    } else {
+      // Parse 'cursor:N' to get page N. Reject unknown cursor formats
+      // to catch bugs where the wrong cursor is forwarded.
+      final parts = after.split(':');
+      if (parts.length != 2 || parts[0] != 'cursor') {
+        throw ArgumentError('Unknown cursor format: $after');
+      }
+      pageIndex = int.parse(parts[1]);
+    }
 
     if (pageIndex >= pages.length) {
-      // No more pages
       return ArdItemPage(
         items: [],
         hasNextPage: false,
@@ -43,7 +59,7 @@ class _FakeArdApi extends ArdApi {
     return ArdItemPage(
       items: items,
       hasNextPage: hasNextPage,
-      endCursor: hasNextPage ? 'cursor-$pageIndex' : null,
+      endCursor: hasNextPage ? _cursorFor(pageIndex + 1) : null,
       totalCount: pages.expand((p) => p).length,
     );
   }
@@ -171,7 +187,7 @@ void main() {
         showImageUrl: null,
         loadedItems: fakeApi.pages[0],
         hasMorePages: true,
-        endCursor: 'cursor-0',
+        endCursor: 'cursor:1',
       );
 
       // All 5 episodes from 3 pages.
@@ -205,7 +221,7 @@ void main() {
         showImageUrl: null,
         loadedItems: fakeApi.pages[0],
         hasMorePages: true,
-        endCursor: 'cursor-0',
+        endCursor: 'cursor:1',
       );
 
       // Initial page (1) + 100 more from pagination = 101 items total.
@@ -324,7 +340,7 @@ void main() {
         showImageUrl: null,
         loadedItems: [],
         hasMorePages: true,
-        endCursor: 'cursor-0',
+        endCursor: 'cursor:1',
       );
 
       final state = container.read(contentImporterProvider);

@@ -15,6 +15,11 @@ part 'nfc_service.g.dart';
 
 const _tag = 'NfcService';
 
+/// Redact NFC tag UIDs for logging. Shows first 4 hex chars so tags are
+/// distinguishable in logs without exposing the full hardware identifier.
+String redactUid(String uid) =>
+    uid.length > 4 ? '${uid.substring(0, 4)}...' : uid;
+
 /// Manages NFC tag ↔ content mappings using hardware UIDs.
 ///
 /// UID-based approach: we read the tag's unique hardware ID and map it
@@ -83,7 +88,7 @@ class NfcService {
       _tag,
       'Tag mapped',
       data: {
-        'uid': tagUid,
+        'uid': redactUid(tagUid),
         'targetType': targetType,
         'targetId': targetId,
       },
@@ -93,7 +98,7 @@ class NfcService {
   /// Delete a tag mapping.
   Future<void> deleteMapping(String tagUid) async {
     await (_db.delete(_db.nfcTags)..where((t) => t.tagUid.equals(tagUid))).go();
-    Log.info(_tag, 'Tag mapping deleted', data: {'uid': tagUid});
+    Log.info(_tag, 'Tag mapping deleted', data: {'uid': redactUid(tagUid)});
   }
 
   // ---------------------------------------------------------------------------

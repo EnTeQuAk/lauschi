@@ -289,6 +289,9 @@ String? _globalRedirect(Ref ref, GoRouterState state) {
       );
       return AppRoutes.pinEntry;
     }
+    // Reset the session timer on every parent-route navigation so
+    // parents don't get logged out while actively managing content.
+    ref.read(parentAuthProvider.notifier).touch();
   }
 
   return null;

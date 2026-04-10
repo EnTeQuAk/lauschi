@@ -23,7 +23,7 @@ const _tag = 'AppleMusicPlayer';
 ///
 /// State updates via EventChannel (push from native ExoPlayer).
 /// Track index managed on Dart side (each ExoPlayer instance plays one track).
-class AppleMusicPlayer extends PlayerBackend {
+class AppleMusicPlayer extends PlayerBackend with AlbumPlayback {
   AppleMusicPlayer({
     required AppleMusicStreamResolver streamResolver,
     required AppleMusicApi api,

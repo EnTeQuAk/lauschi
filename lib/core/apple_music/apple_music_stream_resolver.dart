@@ -1,5 +1,7 @@
 import 'package:dio/dio.dart';
+import 'package:lauschi/core/feature_flags.dart';
 import 'package:lauschi/core/log.dart';
+import 'package:sentry_dio/sentry_dio.dart';
 
 const _tag = 'AppleMusicStream';
 
@@ -36,7 +38,9 @@ class AppleMusicStreamResolver {
           connectTimeout: const Duration(seconds: 15),
           receiveTimeout: const Duration(seconds: 15),
         ),
-      );
+      ) {
+    if (FeatureFlags.enableSentry) _dio.addSentry();
+  }
 
   final Dio _dio;
 

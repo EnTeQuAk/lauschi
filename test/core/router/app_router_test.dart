@@ -304,4 +304,7 @@ class _FakeParentAuth extends ParentAuth {
 
   @override
   bool build() => _value;
+
+  @override
+  void touch() {}
 }

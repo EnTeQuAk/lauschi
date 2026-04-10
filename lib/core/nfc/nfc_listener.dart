@@ -68,7 +68,7 @@ class NfcListener extends _$NfcListener {
       _tag,
       'Tag resolved',
       data: {
-        'uid': tagUid,
+        'uid': redactUid(tagUid),
         'targetType': mapping.targetType,
         'targetId': mapping.targetId,
       },
