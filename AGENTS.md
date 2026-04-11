@@ -223,23 +223,30 @@ Beschreibung in 1-2 Sätzen. Was ändert sich für Eltern/Kinder?
 Before `mise run tag-release`:
 
 1. **Update CHANGELOG.md**
-   - Add new section at top (newest first)
-   - Use calver version pattern: `v2026.4.2` 
+   - Add new section at top (newest first), keep previous entries
+   - Use calver version pattern: `v2026.4.3` 
    - German language, parent-facing descriptions
    - Group by impact (major features first, fixes last)
+   - Bold headings are labels, not sentences (no trailing period)
 
-2. **Verify tests pass**
+2. **Update `distribution/whatsnew/de-DE`**
+   - Google Play "What's New" text, max 500 characters
+   - Summarize the most important user-facing changes
+   - Same tone as CHANGELOG.md but shorter
+   - Verify size: `wc -c distribution/whatsnew/de-DE`
+
+3. **Verify tests pass**
    ```bash
    mise run check
    ```
 
-3. **Commit changelog**
+4. **Commit changelog + whatsnew**
    ```bash
-   git add CHANGELOG.md
-   git commit -m "docs: changelog for v2026.4.2"
+   git add CHANGELOG.md distribution/whatsnew/de-DE
+   git commit -m "docs: changelog for vX.Y.Z"
    ```
 
-4. **Tag and release**
+5. **Tag and release**
    ```bash
    mise run tag-release    # bumps version, commits, tags, pushes
    ```

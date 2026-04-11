@@ -2,15 +2,15 @@
 
 ## v2026.4.3 (April 2026)
 
-🎯 **"Weiter" zeigt jetzt immer die richtige Folge.**
+🎯 **"Weiter" zeigt jetzt immer die richtige Folge**
 Jede Kachel verhält sich wie ein CD-Player: Es gibt immer nur eine aktive Folge. Wer eine andere Folge antippt, setzt die alte zurück. Wenn eine Folge zu Ende gehört wurde, beginnt die nächste von vorn. Kein Durcheinander mehr mit mehreren halb gehörten Folgen.
 
 ## v2026.4.2 (April 2026)
 
-🎵 **Spotify-Alben enden jetzt zuverlässig.**
+🎵 **Spotify-Alben enden jetzt zuverlässig**
 Wenn das letzte Lied eines Spotify-Albums fertig war, hat die App das manchmal nicht mitbekommen. Jetzt erkennt lauschi das Ende auch dann, wenn Spotify im Hintergrund schon zum nächsten Titel springt.
 
-🔒 **Mehr Privatsphäre.**
+🔒 **Mehr Privatsphäre**
 NFC-Tag-Kennungen werden nicht mehr vollständig an die Fehlerüberwachung gesendet. Die PIN muss jetzt mindestens 4 Zeichen lang sein.
 
 🐛 **Behoben**

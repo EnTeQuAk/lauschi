@@ -187,10 +187,21 @@ Month names in German:
 
 Order by impact: Most noticeable changes first.
 
+## Also update `distribution/whatsnew/de-DE`
+
+This file is the Google Play "What's New" text. Update it alongside the changelog.
+
+- Max 500 characters (verify with `wc -c distribution/whatsnew/de-DE`)
+- Summarize the 3-4 most important user-facing changes
+- Same tone as CHANGELOG.md but condensed to one line per change
+- This file is NOT append-only; replace the content with the current release
+
 ## Notes
 
 - Preserve existing changelog style and formatting
+- Always ADD a new section; never overwrite or remove previous release entries
+- Bold headings are labels, not sentences (no trailing period)
 - When in doubt about significance: if a parent would mention it to another parent, include it
-- If the CHANGELOG.md already has a draft section at the top, append rather than replace
+- If the CHANGELOG.md already has a draft section at the top, append to it
 - Keep the tone warm and friendly — this is a kids app, after all
 - Short is better than comprehensive — app store limits are real
