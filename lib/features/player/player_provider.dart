@@ -419,6 +419,17 @@ class PlayerNotifier extends _$PlayerNotifier {
       unawaited(_savePosition(oldCardId, oldTrack, oldPos));
     }
 
+    // CD-player model: each tile has at most one active episode.
+    // Clear stale positions from other episodes in this tile so the
+    // "Weiter" badge always points at the episode we're about to play.
+    if (card.groupId != null) {
+      unawaited(
+        ref
+            .read(tileItemRepositoryProvider)
+            .clearPositions(card.groupId!, excludeItemId: cardId),
+      );
+    }
+
     // Pause Spotify bridge if it's playing (avoid dual audio).
     final bridge = _bridge;
     if (bridge != null && bridge.currentState.isPlaying) {
@@ -1096,7 +1107,7 @@ int computePlayTime({
       DateTime.now().difference(playStartedAt).inMilliseconds;
 }
 
-/// Handle album completion: mark card as heard, clear sibling positions.
+/// Handle album completion: mark card as heard, clear all positions in tile.
 ///
 /// Extracted so it can be tested with an in-memory DB without
 /// instantiating PlayerNotifier.
@@ -1124,8 +1135,10 @@ Future<void> handleAlbumCompleted(
 
   if (groupId == null) return;
 
-  // Clear sibling positions so the next episode starts fresh.
-  await cards.clearPositions(groupId, excludeItemId: cardId);
+  // Clear ALL positions in the tile, including the completed episode.
+  // The completed episode is now heard; its position is meaningless.
+  // This gives the tile a clean slate for the next listen session.
+  await cards.clearPositions(groupId);
 }
 
 /// Merge Spotify bridge state into current playback state.

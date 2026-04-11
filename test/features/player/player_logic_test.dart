@@ -232,15 +232,59 @@ void main() {
         reason: 'setup: ep2 position saved before handleAlbumCompleted',
       );
 
-      // Complete ep1. Should clear ep2's position but not ep1's.
+      // Complete ep1. All positions in the tile should be cleared,
+      // including ep1's (it's now heard, position is meaningless).
       await handleAlbumCompleted(repo, cardId: ep1, groupId: tileId);
 
       final card1 = await repo.getById(ep1);
       final card2 = await repo.getById(ep2);
       expect(card1!.isHeard, isTrue);
-      expect(card1.lastPositionMs, 50000); // ep1 position preserved
+      expect(card1.lastPositionMs, 0); // ep1 position cleared (CD model)
       expect(card2!.lastPositionMs, 0); // ep2 position cleared
     });
+
+    test(
+      'clearPositions with excludeItemId preserves new active episode',
+      () async {
+        // CD model: when starting ep2 in a tile, ep1's position is cleared
+        // but ep2's saved position is preserved (for resume).
+        const tileId = 'tile-1';
+        final ep1 = await repo.insertArdEpisode(
+          title: 'Episode 1',
+          providerUri: 'ard:ep1',
+          audioUrl: 'https://example.com/1.mp3',
+          tileId: tileId,
+        );
+        final ep2 = await repo.insertArdEpisode(
+          title: 'Episode 2',
+          providerUri: 'ard:ep2',
+          audioUrl: 'https://example.com/2.mp3',
+          tileId: tileId,
+        );
+
+        // Both episodes have saved positions.
+        await repo.savePosition(
+          itemId: ep1,
+          trackUri: 'ard:ep1',
+          positionMs: 60000,
+        );
+        await repo.savePosition(
+          itemId: ep2,
+          trackUri: 'ard:ep2',
+          positionMs: 30000,
+        );
+
+        // User starts ep2: clear all others in the tile.
+        await repo.clearPositions(tileId, excludeItemId: ep2);
+
+        final card1 = await repo.getById(ep1);
+        final card2 = await repo.getById(ep2);
+        expect(card1!.lastPositionMs, 0, reason: 'ep1 position cleared');
+        expect(card1.lastPlayedAt, isNull, reason: 'ep1 lastPlayedAt cleared');
+        expect(card2!.lastPositionMs, 30000, reason: 'ep2 position preserved');
+        expect(card2.lastPlayedAt, isNotNull, reason: 'ep2 lastPlayedAt kept');
+      },
+    );
   });
 
   group('isNearTrackEnd edge cases', () {

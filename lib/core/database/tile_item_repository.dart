@@ -273,13 +273,21 @@ class TileItemRepository {
     Log.info(_tag, 'Item marked heard', data: {'itemId': itemId});
   }
 
-  /// Clear saved playback positions for all items in a tile, except
-  /// [excludeItemId] (the currently playing item).
+  /// Clear saved playback positions for all items in a tile.
   ///
-  /// Called when an album completes and the "Weiter" badge advances,
-  /// so the next episode starts fresh without stale resume positions
-  /// from accidental earlier taps.
-  // TODO(#228): extract into PlaybackSideEffects provider (event system)
+  /// Each tile behaves like a CD player: only one episode can be "in
+  /// progress" at a time. This is called in two situations:
+  ///
+  /// 1. **Episode completes** (no excludeItemId): clears everything,
+  ///    including the completed episode. Its position is meaningless
+  ///    since it's now marked heard.
+  ///
+  /// 2. **New episode starts in the same tile** (excludeItemId set):
+  ///    clears all positions except the new episode, so the "Weiter"
+  ///    badge points at it unambiguously.
+  ///
+  /// Also clears `lastPlayedAt` so stale timestamps don't confuse
+  /// the "in progress" detection in `tileNextUnheardProvider`.
   Future<void> clearPositions(
     String tileId, {
     String? excludeItemId,
@@ -293,6 +301,7 @@ class TileItemRepository {
         lastTrackUri: Value(null),
         lastTrackNumber: Value(0),
         lastPositionMs: Value(0),
+        lastPlayedAt: Value(null),
       ),
     );
     Log.info(

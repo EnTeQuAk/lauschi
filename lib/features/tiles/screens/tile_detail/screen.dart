@@ -394,26 +394,27 @@ final tileByIdProvider = StreamProvider.family<db.Tile?, String>((
 /// 1. Most recently played in-progress episode (has saved position from DB,
 ///    meaning 30s play threshold was met)
 /// 2. First unheard episode (sequential fallback)
+/// Determines which episode the "Weiter" badge points at.
+///
+/// Each tile is a CD player: at most one episode can be in progress.
+/// `clearPositions` enforces this invariant by wiping stale positions
+/// when a new episode starts or the current one completes.
+///
+/// Priority:
+/// 1. The in-progress episode (has saved position, not heard)
+/// 2. The first unheard episode in list order
 final tileNextUnheardProvider = Provider.family<db.TileItem?, String>((
   ref,
   tileId,
 ) {
   final episodes = ref.watch(tileItemsProvider(tileId)).value ?? [];
 
-  // Find the most recently played episode that's still in progress.
-  // Only considers episodes with a saved position (30s threshold met).
-  db.TileItem? inProgress;
+  // At most one episode has a saved position per tile (CD model).
   for (final ep in episodes) {
-    if (!ep.isHeard && ep.lastPlayedAt != null && ep.lastPositionMs > 0) {
-      if (inProgress == null ||
-          ep.lastPlayedAt!.isAfter(inProgress.lastPlayedAt!)) {
-        inProgress = ep;
-      }
-    }
+    if (!ep.isHeard && ep.lastPositionMs > 0) return ep;
   }
-  if (inProgress != null) return inProgress;
 
-  // Nothing in progress — first unheard episode.
+  // Nothing in progress; first unheard episode.
   for (final ep in episodes) {
     if (!ep.isHeard) return ep;
   }
