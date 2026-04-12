@@ -7,34 +7,6 @@ name = "dotagents"
 source = "getsentry/dotagents"
 
 [[skills]]
-name = "commit"
-source = "getsentry/skills"
-
-[[skills]]
-name = "code-review"
-source = "getsentry/skills"
-
-[[skills]]
-name = "security-review"
-source = "getsentry/skills"
-
-[[skills]]
-name = "find-bugs"
-source = "getsentry/skills"
-
-[[skills]]
-name = "sentry-fix-issues"
-source = "getsentry/sentry-for-ai"
-
-[[skills]]
-name = "sentry-create-alert"
-source = "getsentry/sentry-for-ai"
-
-[[skills]]
-name = "sentry-pr-code-review"
-source = "getsentry/sentry-for-ai"
-
-[[skills]]
 name = "sentry-flutter-sdk"
 source = "getsentry/sentry-for-ai"
 
