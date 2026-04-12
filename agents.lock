@@ -28,6 +28,9 @@ resolved_url = "https://github.com/getsentry/skills"
 resolved_path = ".agents/skills/find-bugs"
 resolved_commit = "53901e61b144bd60387b9b011ca4cb929c632d37"
 
+[skills.release]
+source = "path:.agents/skills/release"
+
 [skills.security-review]
 source = "getsentry/skills"
 resolved_url = "https://github.com/getsentry/skills"

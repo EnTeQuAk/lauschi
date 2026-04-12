@@ -43,5 +43,9 @@ name = "update-changelog"
 source = "path:.agents/skills/update-changelog"
 
 [[skills]]
+name = "release"
+source = "path:.agents/skills/release"
+
+[[skills]]
 name = "code-simplifier"
 source = "path:.agents/skills/code-simplifier"
