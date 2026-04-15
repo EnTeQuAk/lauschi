@@ -30,21 +30,24 @@ Rules:
 - Bold headings are labels, not sentences (no trailing period).
 - See existing entries in CHANGELOG.md for style reference.
 
-### 3. Update `distribution/whatsnew/de-DE`
+### 3. Update whatsnew files
 
-This is the Google Play "What's New" text that users see in the store listing. **Max 500 characters** (hard limit from Google Play).
+The `distribution/whatsnew/` directory contains Google Play "What's New" text. Files must be named `whatsnew-{locale}` (e.g. `whatsnew-de-DE`, `whatsnew-en-US`) — this is required by the `r0adkll/upload-google-play` action.
+
+**Max 500 characters per file** (hard limit from Google Play).
 
 Write a draft, then verify the size:
 
 ```bash
-wc -c distribution/whatsnew/de-DE
+wc -c distribution/whatsnew/whatsnew-de-DE
 ```
 
 Rules:
 - Replace the entire file content (this is NOT append-only).
+- Update both `whatsnew-de-DE` and `whatsnew-en-US`.
 - Summarize the 2-4 most important user-facing changes.
 - Same tone as CHANGELOG.md but condensed to one line per change.
-- German language, no jargon, kid-aware.
+- German for de-DE, English for en-US. No jargon, kid-aware.
 
 ### 4. STOP: Review with Chris
 
@@ -70,7 +73,7 @@ This runs formatting, analysis (`--fatal-infos`), and all unit/widget tests. Do 
 ### 6. Commit changelog and whatsnew
 
 ```bash
-git add CHANGELOG.md distribution/whatsnew/de-DE
+git add CHANGELOG.md distribution/whatsnew/
 git commit -m "docs: changelog for vX.Y.Z"
 ```
 

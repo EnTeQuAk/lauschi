@@ -1,5 +1,10 @@
 # Changelog
 
+## v2026.4.5 (April 2026)
+
+🛠️ **Release-Notizen im Play Store**
+Die "Was ist neu"-Texte werden jetzt korrekt an Google Play übermittelt.
+
 ## v2026.4.4 (April 2026)
 
 🚀 **Erster offener Beta-Test**

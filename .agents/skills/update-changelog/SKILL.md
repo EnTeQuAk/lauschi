@@ -187,14 +187,19 @@ Month names in German:
 
 Order by impact: Most noticeable changes first.
 
-## Also update `distribution/whatsnew/de-DE`
+## Also update whatsnew files
 
-This file is the Google Play "What's New" text. Update it alongside the changelog.
+The `distribution/whatsnew/` directory contains Google Play "What's New" text. Files must be named `whatsnew-{locale}` (required by the `r0adkll/upload-google-play` action).
 
-- Max 500 characters (verify with `wc -c distribution/whatsnew/de-DE`)
+Update both files alongside the changelog:
+- `whatsnew-de-DE` — German
+- `whatsnew-en-US` — English
+
+Rules:
+- Max 500 characters per file (verify with `wc -c distribution/whatsnew/whatsnew-de-DE`)
 - Summarize the 3-4 most important user-facing changes
 - Same tone as CHANGELOG.md but condensed to one line per change
-- This file is NOT append-only; replace the content with the current release
+- These files are NOT append-only; replace the content with the current release
 
 ## Notes
 
