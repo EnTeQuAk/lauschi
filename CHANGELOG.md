@@ -1,5 +1,10 @@
 # Changelog
 
+## v2026.4.4 (April 2026)
+
+🚀 **Erster offener Beta-Test**
+lauschi ist jetzt im Google Play Store als offene Beta verfügbar. Alle bisherigen Verbesserungen aus v2026.4.2 und v2026.4.3 sind dabei.
+
 ## v2026.4.3 (April 2026)
 
 🎯 **"Weiter" zeigt jetzt immer die richtige Folge**

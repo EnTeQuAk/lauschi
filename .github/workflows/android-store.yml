@@ -82,13 +82,13 @@ jobs:
             --build-number="$BUILD_NUMBER" \
             --dart-define-from-file=.env.app
 
-      - name: Upload to Google Play (closed testing)
+      - name: Upload to Google Play (open testing)
         uses: r0adkll/upload-google-play@v1
         with:
           serviceAccountJsonPlainText: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
           packageName: app.lauschi.lauschi
           releaseFiles: build/app/outputs/bundle/release/app-release.aab
-          track: alpha
+          track: beta
           status: completed
           releaseName: ${{ github.event.release.tag_name }}
           whatsNewDirectory: distribution/whatsnew
