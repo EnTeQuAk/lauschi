@@ -1,0 +1,22 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended"
+  ],
+  "packageRules": [
+    {
+      "description": "Keep Java at 17 until manually migrated to 21",
+      "matchPackageNames": ["java"],
+      "matchManagers": ["mise"],
+      "allowedVersions": "<=17"
+    },
+    {
+      "description": "Group Gradle + AGP major upgrades (breaking changes)",
+      "matchUpdateTypes": ["major"],
+      "matchManagers": ["gradle", "gradle-wrapper"],
+      "groupName": "android-build-tools",
+      "reviewers": ["EnTeQuAk"],
+      "labels": ["breaking-change"]
+    }
+  ]
+}
