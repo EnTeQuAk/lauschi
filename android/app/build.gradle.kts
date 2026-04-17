@@ -94,5 +94,5 @@ flutter {
 }
 
 dependencies {
-    androidTestUtil("androidx.test:orchestrator:1.5.1")
+    androidTestUtil("androidx.test:orchestrator:1.6.1")
 }
