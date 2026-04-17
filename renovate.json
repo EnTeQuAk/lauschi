@@ -5,10 +5,10 @@
   ],
   "packageRules": [
     {
-      "description": "Keep Java at 17 until manually migrated to 21",
+      "description": "Keep Java at 21 (current LTS) until next manual migration",
       "matchPackageNames": ["java"],
       "matchManagers": ["mise"],
-      "allowedVersions": "<=17"
+      "allowedVersions": "<=21"
     },
     {
       "description": "Group Gradle + AGP major upgrades (breaking changes)",
