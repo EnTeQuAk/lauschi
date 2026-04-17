@@ -9,7 +9,21 @@
         android:label="lauschi"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher"
-        android:enableOnBackInvokedCallback="true">
+        android:enableOnBackInvokedCallback="true"
+        android:resizeableActivity="true">
+
+        <!-- Override Apple Music SDK orientation restrictions for Android 16 large-screen compatibility.
+             The musickitauth library declares these with PORTRAIT, but Android 16 will ignore
+             all orientation restrictions on large screens. We override to allow any orientation.
+             https://developer.android.com/about/versions/16/behavior-changes-16#ignore-orientation-requests -->
+        <activity
+            android:name="com.apple.android.sdk.authentication.StartAuthenticationActivity"
+            android:screenOrientation="unspecified"
+            tools:replace="screenOrientation" />
+        <activity
+            android:name="com.apple.android.sdk.authentication.SDKUriHandlerActivity"
+            android:screenOrientation="unspecified"
+            tools:replace="screenOrientation" />
         <activity
             android:name="com.ryanheise.audioservice.AudioServiceActivity"
             android:exported="true"

@@ -1,5 +1,6 @@
 package app.lauschi.lauschi
 
+import android.os.Bundle
 import android.util.Log
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.FlutterEngine
@@ -9,6 +10,12 @@ class MainActivity : FlutterActivity() {
     companion object {
         private const val SEEK_CHANNEL = "app.lauschi.lauschi/apple_music_seek"
         private const val LOG_TAG = "MainActivity"
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        // Edge-to-edge is handled automatically by Flutter on Android 15+
+        // https://developer.android.com/about/versions/15/behavior-changes-15#edge-to-edge
     }
 
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
