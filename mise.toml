@@ -1,11 +1,11 @@
 [tools]
 flutter = "3.41.1"
 gh = "latest"
-java = "temurin-17.0.18+8"
+java = "temurin-21.0.10+7.0.LTS"
 
 [env]
 _.file = ".env"
-JAVA_HOME = "{{env.HOME}}/.local/share/mise/installs/java/temurin-17.0.18+8"
+JAVA_HOME = "{{env.HOME}}/.local/share/mise/installs/java/temurin-21.0.10+7.0.LTS"
 # Strip microphone code from audio_session plugin (kids app, no mic needed).
 AUDIO_SESSION_MICROPHONE = "0"
 
