@@ -35,7 +35,7 @@ apply plugin: 'kotlin-android'
 android {
     namespace 'app.misi.music_kit'
 
-    compileSdk 35
+    compileSdk 36
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_21
@@ -85,7 +85,7 @@ dependencies {
 
     // ExoPlayer/Media3 for Apple Music HLS + Widevine DRM playback.
     // Version must match just_audio's media3 version to avoid conflicts.
-    def media3_version = "1.9.3"
+    def media3_version = "1.10.0"
     implementation "androidx.media3:media3-exoplayer:$media3_version"
     implementation "androidx.media3:media3-exoplayer-hls:$media3_version"
     implementation "androidx.media3:media3-datasource-okhttp:$media3_version"
