@@ -20,6 +20,10 @@ jobs:
         with:
           lfs: true
 
+      - name: Read Flutter version from mise.toml
+        id: flutter-version
+        run: echo "version=$(grep -m1 '^flutter =' mise.toml | sed 's/.*= *"\(.*\)"/\1/')" >> "$GITHUB_OUTPUT"
+
       - uses: actions/setup-java@v5
         with:
           distribution: temurin
@@ -28,7 +32,7 @@ jobs:
 
       - uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.41.1'
+          flutter-version: ${{ steps.flutter-version.outputs.version }}
           channel: stable
           cache: true
 
