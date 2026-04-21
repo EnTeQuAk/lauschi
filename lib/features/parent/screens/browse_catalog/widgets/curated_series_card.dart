@@ -11,6 +11,7 @@ import 'package:lauschi/core/providers/provider_type.dart';
 import 'package:lauschi/core/router/app_router.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
 import 'package:lauschi/features/parent/screens/browse_catalog/widgets/catalog_helpers.dart';
+import 'package:lauschi/features/tiles/widgets/tile_card.dart';
 
 /// Grid card for a curated series in the catalog browse view.
 class CuratedSeriesCard extends ConsumerWidget {
@@ -146,30 +147,15 @@ class CuratedSeriesCard extends ConsumerWidget {
               ],
             ),
           ),
-          const SizedBox(height: AppSpacing.xs),
-          Text(
-            series.title,
-            style: const TextStyle(
-              fontFamily: 'Nunito',
-              fontSize: 12,
-              fontWeight: FontWeight.w600,
-            ),
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-            textAlign: TextAlign.center,
-          ),
-          Text(
-            allAdded
-                ? '✓ Hinzugefügt'
-                : added > 0
-                ? '$added von $total ${series.isMusic ? 'Alben' : 'Folgen'}'
-                : '$total ${series.isMusic ? 'Alben' : 'Folgen'}',
-            style: TextStyle(
-              fontFamily: 'Nunito',
-              fontSize: 10,
-              color: allAdded ? AppColors.success : AppColors.textSecondary,
-            ),
-            textAlign: TextAlign.center,
+          TileLabel(
+            title: series.title,
+            subtitle:
+                allAdded
+                    ? '✓ Hinzugefügt'
+                    : added > 0
+                    ? '$added von $total ${series.isMusic ? 'Alben' : 'Folgen'}'
+                    : '$total ${series.isMusic ? 'Alben' : 'Folgen'}',
+            subtitleColor: allAdded ? AppColors.success : null,
           ),
         ],
       ),

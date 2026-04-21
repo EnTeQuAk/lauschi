@@ -3,6 +3,56 @@ import 'package:flutter/material.dart';
 import 'package:lauschi/core/catalog/catalog_service.dart' show ContentType;
 import 'package:lauschi/core/theme/app_theme.dart';
 
+/// Text label below a tile cover image. Shared between the Discover
+/// grid and the Manage Tiles grid to keep typography in sync.
+class TileLabel extends StatelessWidget {
+  const TileLabel({
+    required this.title,
+    required this.subtitle,
+    super.key,
+    this.subtitleColor,
+  });
+
+  final String title;
+  final String subtitle;
+  final Color? subtitleColor;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        const SizedBox(height: AppSpacing.xs),
+        Text(
+          title,
+          style: const TextStyle(
+            fontFamily: 'Nunito',
+            fontSize: 13,
+            fontWeight: FontWeight.w700,
+            height: 1.2,
+          ),
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
+          textAlign: TextAlign.center,
+        ),
+        const SizedBox(height: 2),
+        Text(
+          subtitle,
+          style: TextStyle(
+            fontFamily: 'Nunito',
+            fontSize: 10,
+            color: subtitleColor ?? AppColors.textSecondary,
+            height: 1.2,
+          ),
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          textAlign: TextAlign.center,
+        ),
+      ],
+    );
+  }
+}
+
 /// A series/group card in the kid-mode grid.
 ///
 /// Visually distinct from TileItem: a stacked card effect signals
@@ -154,10 +204,8 @@ class _GroupCardState extends State<TileCard>
                           )
                       : Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
-                        mainAxisSize: MainAxisSize.min,
                         children: [
-                          AspectRatio(
-                            aspectRatio: 1,
+                          Expanded(
                             child:
                                 widget.childCoverUrls.isNotEmpty
                                     ? _FolderMosaic(
@@ -172,30 +220,9 @@ class _GroupCardState extends State<TileCard>
                                           ContentType.music,
                                     ),
                           ),
-                          const SizedBox(height: 6),
-                          Flexible(
-                            child: Text(
-                              widget.title,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: const TextStyle(
-                                fontFamily: 'Nunito',
-                                fontWeight: FontWeight.w800,
-                                fontSize: 13,
-                                height: 1.2,
-                                color: AppColors.textPrimary,
-                              ),
-                            ),
-                          ),
-                          Text(
-                            countLabel,
-                            maxLines: 1,
-                            style: const TextStyle(
-                              fontFamily: 'Nunito',
-                              fontWeight: FontWeight.w600,
-                              fontSize: 11,
-                              color: AppColors.textSecondary,
-                            ),
+                          TileLabel(
+                            title: widget.title,
+                            subtitle: countLabel,
                           ),
                         ],
                       ),

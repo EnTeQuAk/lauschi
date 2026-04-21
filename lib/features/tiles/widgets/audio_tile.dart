@@ -206,13 +206,13 @@ class _AudioCardState extends State<TileItem>
         Expanded(
           child: Text(
             widget.title,
-            maxLines: 2,
+            maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: const TextStyle(
               fontFamily: 'Nunito',
               fontWeight: FontWeight.w700,
               fontSize: 13,
-              height: 1.2,
+              height: 1.1,
               color: AppColors.textPrimary,
             ),
           ),

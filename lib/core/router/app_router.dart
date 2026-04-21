@@ -230,10 +230,11 @@ GoRouter createRouter(Ref ref, {String initialLocation = AppRoutes.kidHome}) {
                 path: ':showId',
                 builder: (context, state) {
                   final showId = state.pathParameters['showId']!;
-                  final autoAssignTileId = state.extra as String?;
+                  final extra = state.extra as ShowDetailExtra?;
                   return ArdShowDetailScreen(
                     showId: showId,
-                    autoAssignTileId: autoAssignTileId,
+                    autoAssignTileId: extra?.autoAssignTileId,
+                    highlightEpisodeUris: extra?.highlightEpisodeUris,
                   );
                 },
               ),

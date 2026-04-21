@@ -1,68 +1,24 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:lauschi/core/ard/ard_image.dart';
-import 'package:lauschi/core/ard/ard_models.dart';
 import 'package:lauschi/core/ard/featured_shows.dart';
-import 'package:lauschi/core/database/content_importer.dart';
 import 'package:lauschi/core/database/tile_item_repository.dart';
-import 'package:lauschi/core/log.dart';
-import 'package:lauschi/core/providers/provider_type.dart';
+import 'package:lauschi/core/router/app_router.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
-
-const _tag = 'FeaturedSection';
+import 'package:lauschi/features/parent/screens/ard_show_detail/screen.dart';
 
 /// How recently an item must be published to show the "Neu" badge.
 const _newBadgeMaxAge = Duration(days: 14);
-
-// ── Shared add logic ────────────────────────────────────────────────────────
-
-/// Add all parts of a featured item to the collection.
-Future<void> _addFeaturedItem(
-  BuildContext context,
-  WidgetRef ref,
-  FeaturedItem item,
-) async {
-  final existingUris = ref.read(existingItemUrisProvider);
-  if (item.parts.every((p) => existingUris.contains(p.providerUri))) return;
-
-  final importer = ref.read(contentImporterProvider.notifier);
-  final cards =
-      item.parts
-          .where((p) => p.bestAudioUrl != null)
-          .map(_ardPendingCard)
-          .toList();
-
-  try {
-    final result = await importer.importToGroup(
-      groupTitle: item.title,
-      groupCoverUrl: ardImageUrl(item.imageUrl),
-      cards: cards,
-    );
-
-    if (context.mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            '${result.added} Folgen zu ${item.title} hinzugefügt',
-          ),
-        ),
-      );
-    }
-  } on Exception catch (e) {
-    Log.error(_tag, 'Failed to add featured item', exception: e);
-    if (context.mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Fehler: $e')),
-      );
-    }
-  }
-}
 
 // ── Hero card ───────────────────────────────────────────────────────────────
 
 /// Large hero card for the newest featured item. Full-width cover image
 /// with title, publisher, duration, and availability countdown.
+///
+/// Tapping navigates to the show detail screen (consistent with the
+/// show grid below).
 class FeaturedHeroCard extends ConsumerWidget {
   const FeaturedHeroCard({required this.item, super.key});
 
@@ -72,9 +28,6 @@ class FeaturedHeroCard extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final imageUrl = ardImageUrl(item.imageUrl, width: 800);
     final existingUris = ref.watch(existingItemUrisProvider);
-    final isImporting = ref.watch(
-      contentImporterProvider.select((s) => s.isImporting),
-    );
     final allAdded = item.parts.every(
       (p) => existingUris.contains(p.providerUri),
     );
@@ -82,111 +35,118 @@ class FeaturedHeroCard extends ConsumerWidget {
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: AppSpacing.screenH),
-      child: ClipRRect(
-        borderRadius: const BorderRadius.all(AppRadius.card),
-        child: Stack(
-          children: [
-            // Cover image
-            AspectRatio(
-              aspectRatio: 16 / 9,
-              child:
-                  imageUrl != null
-                      ? CachedNetworkImage(
-                        imageUrl: imageUrl,
-                        fit: BoxFit.cover,
-                        color: Colors.black.withAlpha(100),
-                        colorBlendMode: BlendMode.darken,
-                      )
-                      : const ColoredBox(
-                        color: AppColors.surfaceDim,
-                        child: Center(
-                          child: Icon(Icons.auto_stories_rounded, size: 48),
-                        ),
-                      ),
-            ),
-
-            // Text overlay
-            Positioned(
-              left: AppSpacing.md,
-              right: AppSpacing.md,
-              bottom: AppSpacing.md,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  // "Neu" badge — only for recently published items
-                  if (isNew)
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: AppSpacing.sm,
-                        vertical: 2,
-                      ),
-                      decoration: BoxDecoration(
-                        color: AppColors.accent,
-                        borderRadius: BorderRadius.circular(4),
-                      ),
-                      child: const Text(
-                        '🌟 Neu',
-                        style: TextStyle(
-                          fontFamily: 'Nunito',
-                          fontSize: 10,
-                          fontWeight: FontWeight.w700,
-                          color: AppColors.textOnPrimary,
-                        ),
-                      ),
-                    ),
-                  if (isNew) const SizedBox(height: AppSpacing.xs),
-
-                  // Title
-                  Text(
-                    item.title,
-                    style: const TextStyle(
-                      fontFamily: 'Nunito',
-                      fontSize: 16,
-                      fontWeight: FontWeight.w700,
-                      color: Colors.white,
-                    ),
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  const SizedBox(height: 2),
-
-                  // Subtitle: publisher · parts · duration
-                  Text(
-                    _heroSubtitle(item),
-                    style: TextStyle(
-                      fontFamily: 'Nunito',
-                      fontSize: 12,
-                      color: Colors.white.withAlpha(200),
-                    ),
-                  ),
-
-                  const SizedBox(height: AppSpacing.sm),
-
-                  // Bottom row: add button
-                  Row(
-                    children: [
-                      const Spacer(),
-                      if (allAdded)
-                        const Icon(
-                          Icons.check_circle,
-                          color: AppColors.success,
-                          size: 20,
-                        )
-                      else
-                        _AddButton(
-                          onPressed:
-                              isImporting
-                                  ? null
-                                  : () => _addFeaturedItem(context, ref, item),
-                          isLoading: isImporting,
-                        ),
-                    ],
-                  ),
-                ],
+      child: GestureDetector(
+        onTap:
+            () => context.push(
+              AppRoutes.parentDiscoverShow(item.showId),
+              extra: ShowDetailExtra(
+                highlightEpisodeUris:
+                    item.parts.map((p) => p.providerUri).toList(),
               ),
             ),
-          ],
+        child: ClipRRect(
+          borderRadius: const BorderRadius.all(AppRadius.card),
+          child: Stack(
+            children: [
+              // Cover image
+              AspectRatio(
+                aspectRatio: 16 / 9,
+                child:
+                    imageUrl != null
+                        ? CachedNetworkImage(
+                          imageUrl: imageUrl,
+                          fit: BoxFit.cover,
+                          color: Colors.black.withAlpha(100),
+                          colorBlendMode: BlendMode.darken,
+                        )
+                        : const ColoredBox(
+                          color: AppColors.surfaceDim,
+                          child: Center(
+                            child: Icon(Icons.auto_stories_rounded, size: 48),
+                          ),
+                        ),
+              ),
+
+              // Text overlay
+              Positioned(
+                left: AppSpacing.md,
+                right: AppSpacing.md,
+                bottom: AppSpacing.md,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    if (isNew)
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: AppSpacing.sm,
+                          vertical: 2,
+                        ),
+                        decoration: BoxDecoration(
+                          color: AppColors.accent,
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                        child: const Text(
+                          '🌟 Neu',
+                          style: TextStyle(
+                            fontFamily: 'Nunito',
+                            fontSize: 10,
+                            fontWeight: FontWeight.w700,
+                            color: AppColors.textOnPrimary,
+                          ),
+                        ),
+                      ),
+                    if (isNew) const SizedBox(height: AppSpacing.xs),
+
+                    // Title
+                    Text(
+                      item.title,
+                      style: const TextStyle(
+                        fontFamily: 'Nunito',
+                        fontSize: 16,
+                        fontWeight: FontWeight.w700,
+                        color: Colors.white,
+                      ),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    const SizedBox(height: 2),
+
+                    // Subtitle: publisher · parts · duration
+                    Text(
+                      _heroSubtitle(item),
+                      style: TextStyle(
+                        fontFamily: 'Nunito',
+                        fontSize: 12,
+                        color: Colors.white.withAlpha(200),
+                      ),
+                    ),
+
+                    const SizedBox(height: AppSpacing.sm),
+
+                    // Status indicator
+                    Row(
+                      children: [
+                        const Spacer(),
+                        if (allAdded)
+                          const Icon(
+                            Icons.check_circle,
+                            color: AppColors.success,
+                            size: 20,
+                          )
+                        else
+                          const Icon(
+                            Icons.chevron_right_rounded,
+                            color: Colors.white70,
+                            size: 24,
+                          ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -263,7 +223,14 @@ class _FeaturedTile extends ConsumerWidget {
 
     return GestureDetector(
       key: Key('featured_${item.title.hashCode}'),
-      onTap: allAdded ? null : () => _addFeaturedItem(context, ref, item),
+      onTap:
+          () => context.push(
+            AppRoutes.parentDiscoverShow(item.showId),
+            extra: ShowDetailExtra(
+              highlightEpisodeUris:
+                  item.parts.map((p) => p.providerUri).toList(),
+            ),
+          ),
       child: SizedBox(
         width: 130,
         child: Column(
@@ -298,15 +265,6 @@ class _FeaturedTile extends ConsumerWidget {
                             size: 28,
                           ),
                         ),
-                      )
-                    else
-                      // Prominent add button overlay
-                      Positioned(
-                        right: 6,
-                        bottom: 6,
-                        child: _FeaturedAddButton(
-                          onPressed: () => _addFeaturedItem(context, ref, item),
-                        ),
                       ),
                   ],
                 ),
@@ -314,26 +272,30 @@ class _FeaturedTile extends ConsumerWidget {
             ),
             const SizedBox(height: AppSpacing.xs),
 
-            // Title
+            // Episode title (bold, prominent)
             Text(
               item.title,
               style: const TextStyle(
                 fontFamily: 'Nunito',
-                fontSize: 12,
-                fontWeight: FontWeight.w600,
+                fontSize: 13,
+                fontWeight: FontWeight.w700,
+                height: 1.2,
               ),
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
             ),
 
-            // Duration / parts
+            // Show name + duration (secondary info)
             Text(
-              _tileSubtitle(item),
+              '${item.publisher ?? ''} · ${_tileSubtitle(item)}',
               style: const TextStyle(
                 fontFamily: 'Nunito',
                 fontSize: 10,
                 color: AppColors.textSecondary,
+                height: 1.2,
               ),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
             ),
           ],
         ),
@@ -349,96 +311,7 @@ class _FeaturedTile extends ConsumerWidget {
   }
 }
 
-// ── Shared widgets ──────────────────────────────────────────────────────────
-
-class _AddButton extends StatelessWidget {
-  const _AddButton({required this.onPressed, this.isLoading = false});
-  final VoidCallback? onPressed;
-  final bool isLoading;
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      height: 28,
-      child: FilledButton.icon(
-        onPressed: onPressed,
-        icon:
-            isLoading
-                ? const SizedBox(
-                  width: 14,
-                  height: 14,
-                  child: CircularProgressIndicator(
-                    strokeWidth: 2,
-                    color: Colors.white,
-                  ),
-                )
-                : const Icon(Icons.add_rounded, size: 16),
-        label: const Text(
-          'Hinzufügen',
-          style: TextStyle(fontFamily: 'Nunito', fontSize: 12),
-        ),
-        style: FilledButton.styleFrom(
-          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm),
-          minimumSize: Size.zero,
-        ),
-      ),
-    );
-  }
-}
-
-// ── Featured tile add button ────────────────────────────────────────────────
-
-/// Prominent circular "+" button for featured tiles.
-/// Positioned as overlay on the cover image for clear affordance.
-class _FeaturedAddButton extends StatelessWidget {
-  const _FeaturedAddButton({required this.onPressed});
-
-  final VoidCallback onPressed;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 32,
-      height: 32,
-      decoration: BoxDecoration(
-        color: AppColors.primary,
-        shape: BoxShape.circle,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withAlpha(80),
-            blurRadius: 4,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
-      child: IconButton(
-        onPressed: onPressed,
-        icon: const Icon(
-          Icons.add_rounded,
-          color: Colors.white,
-          size: 20,
-        ),
-        padding: EdgeInsets.zero,
-        tooltip: 'Hinzufügen',
-      ),
-    );
-  }
-}
-
 // ── Helpers ──────────────────────────────────────────────────────────────────
-
-PendingCard _ardPendingCard(ArdItem item) {
-  return PendingCard(
-    title: item.displayTitle,
-    providerUri: item.providerUri,
-    cardType: 'episode',
-    provider: ProviderType.ardAudiothek,
-    coverUrl: ardImageUrl(item.imageUrl),
-    episodeNumber: item.episodeNumber,
-    audioUrl: item.bestAudioUrl,
-    durationMs: item.durationMs,
-  );
-}
 
 String _formatDuration(int seconds) {
   final m = seconds ~/ 60;

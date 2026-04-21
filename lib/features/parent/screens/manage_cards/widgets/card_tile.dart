@@ -117,13 +117,23 @@ class CardTile extends ConsumerWidget {
 }
 
 Widget? _buildSubtitle(db.TileItem card) {
-  if (card.episodeNumber == null) return null;
+  final parts = <String>[];
+  if (card.episodeNumber != null) {
+    parts.add('Folge ${card.episodeNumber}');
+  }
+  if (card.isHeard) {
+    parts.add('✓ gehört');
+  }
+  if (parts.isEmpty) return null;
   return Text(
-    'Folge ${card.episodeNumber}',
+    parts.join(' · '),
     style: const TextStyle(
       fontFamily: 'Nunito',
       fontSize: 12,
       color: AppColors.textSecondary,
+      height: 1.2,
     ),
+    maxLines: 1,
+    overflow: TextOverflow.ellipsis,
   );
 }

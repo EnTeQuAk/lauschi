@@ -18,20 +18,43 @@ const _tag = 'ArdShowDetailScreen';
 
 // Multi-part grouping is now handled via item.group from the API.
 
+/// Extra data passed through go_router to [ArdShowDetailScreen].
+/// Used for both the discover grid (auto-assign) and featured section
+/// (highlight specific episodes).
+class ShowDetailExtra {
+  const ShowDetailExtra({
+    this.autoAssignTileId,
+    this.highlightEpisodeUris,
+  });
+
+  /// When set, episodes are added directly to this tile instead of
+  /// creating a group by show title.
+  final String? autoAssignTileId;
+
+  /// When set, these episodes are shown prominently at the top of
+  /// the episode list (used when navigating from featured section).
+  final List<String>? highlightEpisodeUris;
+}
+
 /// Detail screen for an ARD Audiothek show. Lists episodes with
 /// options to add individual episodes or all at once.
 ///
 /// When [autoAssignTileId] is set, episodes are added directly to
 /// that tile instead of creating a group by show title.
+///
+/// When [highlightEpisodeUris] is set, matching episodes are shown
+/// at the top of the list with a "Featured" label.
 class ArdShowDetailScreen extends ConsumerStatefulWidget {
   const ArdShowDetailScreen({
     required this.showId,
     super.key,
     this.autoAssignTileId,
+    this.highlightEpisodeUris,
   });
 
   final String showId;
   final String? autoAssignTileId;
+  final List<String>? highlightEpisodeUris;
 
   @override
   ConsumerState<ArdShowDetailScreen> createState() =>
@@ -42,6 +65,9 @@ class _ArdShowDetailScreenState extends ConsumerState<ArdShowDetailScreen> {
   /// Per-item UI loading state. Tracks which episodes have an in-flight import.
   /// This is UI state (which button shows a spinner), not domain state.
   final _addingUris = <String>{};
+
+  /// Tracks which episodes are being removed for UI state.
+  final _removingUris = <String>{};
 
   /// Add a single episode, auto-grouping under the show title.
   Future<void> _addEpisode(ArdItem item, ArdProgramSet show) async {
@@ -73,20 +99,57 @@ class _ArdShowDetailScreenState extends ConsumerState<ArdShowDetailScreen> {
         _tag,
         'Add episode failed',
         exception: e,
-        data: {
-          'episodeUri': item.providerUri,
-        },
+        data: {'episodeUri': item.providerUri},
       );
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Fehler: $e')),
         );
-        // Clear on error so button re-enables.
+      }
+    } finally {
+      if (mounted) {
         setState(() => _addingUris.remove(item.providerUri));
       }
     }
-    // On success: leave in _addingUris — existingItemUrisProvider
-    // takes over on next rebuild, preventing double-tap window.
+  }
+
+  /// Remove an episode from the collection.
+  Future<void> _removeEpisode(ArdItem item) async {
+    if (_removingUris.contains(item.providerUri)) return;
+
+    Log.info(
+      _tag,
+      'Removing episode',
+      data: {'episodeUri': item.providerUri, 'title': item.displayTitle},
+    );
+    setState(() => _removingUris.add(item.providerUri));
+
+    try {
+      final repo = ref.read(tileItemRepositoryProvider);
+      final existing = await repo.getByProviderUri(item.providerUri);
+      if (existing != null) {
+        await repo.delete(existing.id);
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('${item.displayTitle} entfernt')),
+          );
+        }
+      }
+    } on Exception catch (e) {
+      Log.error(
+        _tag,
+        'Remove episode failed',
+        exception: e,
+        data: {'episodeUri': item.providerUri},
+      );
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Fehler: $e')),
+        );
+      }
+    } finally {
+      setState(() => _removingUris.remove(item.providerUri));
+    }
   }
 
   /// Add all episodes from the show via the provider-based importer.
@@ -190,115 +253,143 @@ class _ArdShowDetailScreenState extends ConsumerState<ArdShowDetailScreen> {
             );
           }
 
-          return CustomScrollView(
-            slivers: [
-              ArdShowHeader(show: show),
+          return episodesAsync.when(
+            loading: () => const Center(child: CircularProgressIndicator()),
+            error: (e, _) => Center(child: Text('Fehler: $e')),
+            data: (page) {
+              final playable =
+                  page.items.where((i) => i.bestAudioUrl != null).toList();
 
-              // Synopsis and duration badge between header and episodes.
-              SliverToBoxAdapter(
-                child: ArdShowMeta(
-                  show: show,
-                  episodesAsync: episodesAsync,
-                ),
-              ),
+              // Separate highlighted episodes from the rest
+              final highlightUris = widget.highlightEpisodeUris?.toSet() ?? {};
+              final highlighted =
+                  playable
+                      .where((i) => highlightUris.contains(i.providerUri))
+                      .toList();
+              final others =
+                  playable
+                      .where((i) => !highlightUris.contains(i.providerUri))
+                      .toList();
 
-              episodesAsync.when(
-                loading:
-                    () => const SliverFillRemaining(
-                      child: Center(child: CircularProgressIndicator()),
+              return CustomScrollView(
+                slivers: [
+                  ArdShowHeader(show: show),
+
+                  // Synopsis and duration badge
+                  SliverToBoxAdapter(
+                    child: ArdShowMeta(
+                      show: show,
+                      episodesAsync: episodesAsync,
                     ),
-                error:
-                    (e, _) => SliverFillRemaining(
-                      child: Center(child: Text('Fehler: $e')),
-                    ),
-                data: (page) {
-                  final playable =
-                      page.items.where((i) => i.bestAudioUrl != null).toList();
+                  ),
 
-                  return SliverList(
-                    delegate: SliverChildBuilderDelegate(
-                      (context, index) {
-                        if (index == playable.length && page.hasNextPage) {
-                          return _TruncationNotice(
-                            shown: playable.length,
-                            total: page.totalCount,
+                  // Featured episodes section (when navigating from featured tiles)
+                  if (highlighted.isNotEmpty) ...[
+                    SliverList(
+                      delegate: SliverChildBuilderDelegate(
+                        (context, index) {
+                          final item = highlighted[index];
+                          final alreadyAdded = existingUris.contains(
+                            item.providerUri,
                           );
-                        }
+                          final isAdding = _addingUris.contains(
+                            item.providerUri,
+                          );
+                          final isRemoving = _removingUris.contains(
+                            item.providerUri,
+                          );
 
-                        final item = playable[index];
-                        final alreadyAdded = existingUris.contains(
-                          item.providerUri,
-                        );
-                        final isAdding = _addingUris.contains(item.providerUri);
-
-                        return ArdEpisodeTile(
-                          item: item,
-                          alreadyAdded: alreadyAdded,
-                          isAdding: isAdding,
-                          enabled: cardsLoaded && !isImporting,
-                          onAdd: () => _addEpisode(item, show),
-                          showImageUrl: show.imageUrl,
-                        );
-                      },
-                      childCount: playable.length + (page.hasNextPage ? 1 : 0),
+                          return ArdEpisodeTile(
+                            item: item,
+                            alreadyAdded: alreadyAdded,
+                            isAdding: isAdding,
+                            isRemoving: isRemoving,
+                            enabled: cardsLoaded && !isImporting,
+                            onAdd: () => _addEpisode(item, show),
+                            onRemove: () => _removeEpisode(item),
+                            showImageUrl: show.imageUrl,
+                            isFeatured: true,
+                          );
+                        },
+                        childCount: highlighted.length,
+                      ),
                     ),
-                  );
-                },
-              ),
-            ],
+                  ],
+
+                  // All other episodes
+                  if (others.isNotEmpty || page.hasNextPage)
+                    SliverList(
+                      delegate: SliverChildBuilderDelegate(
+                        (context, index) {
+                          if (index == others.length && page.hasNextPage) {
+                            return _TruncationNotice(
+                              shown: others.length,
+                              total: page.totalCount,
+                            );
+                          }
+
+                          final item = others[index];
+                          final alreadyAdded = existingUris.contains(
+                            item.providerUri,
+                          );
+                          final isAdding = _addingUris.contains(
+                            item.providerUri,
+                          );
+                          final isRemoving = _removingUris.contains(
+                            item.providerUri,
+                          );
+
+                          return ArdEpisodeTile(
+                            item: item,
+                            alreadyAdded: alreadyAdded,
+                            isAdding: isAdding,
+                            isRemoving: isRemoving,
+                            enabled: cardsLoaded && !isImporting,
+                            onAdd: () => _addEpisode(item, show),
+                            onRemove: () => _removeEpisode(item),
+                            showImageUrl: show.imageUrl,
+                          );
+                        },
+                        childCount: others.length + (page.hasNextPage ? 1 : 0),
+                      ),
+                    ),
+                ],
+              );
+            },
           );
         },
       ),
-      bottomNavigationBar: _buildAddAllBar(
-        showAsync: showAsync,
-        episodesAsync: episodesAsync,
-        existingUris: existingUris,
-        cardsLoaded: cardsLoaded,
-        isImporting: isImporting,
-      ),
-    );
-  }
-
-  Widget? _buildAddAllBar({
-    required AsyncValue<ArdProgramSet?> showAsync,
-    required AsyncValue<ArdItemPage> episodesAsync,
-    required Set<String> existingUris,
-    required bool cardsLoaded,
-    required bool isImporting,
-  }) {
-    final show = showAsync.whenOrNull(data: (d) => d);
-    final page = episodesAsync.whenOrNull(data: (d) => d);
-    if (show == null || page == null || page.items.isEmpty) return null;
-    if (!cardsLoaded) return null;
-
-    final playable = page.items.where((i) => i.bestAudioUrl != null);
-    final addable =
-        playable.where((e) => !existingUris.contains(e.providerUri)).length;
-
-    final totalLabel =
-        page.hasNextPage ? 'Alle ${page.totalCount}' : '$addable';
-
-    if (addable == 0 && !page.hasNextPage) return null;
-
-    return SafeArea(
-      child: Padding(
-        padding: const EdgeInsets.all(AppSpacing.md),
-        child: FilledButton.icon(
-          key: const Key('add_all_episodes'),
-          onPressed: isImporting ? null : () => _addAll(show, page.items),
-          icon:
-              isImporting
-                  ? const SizedBox(
-                    width: 16,
-                    height: 16,
-                    child: CircularProgressIndicator(strokeWidth: 2),
+      bottomNavigationBar: episodesAsync.when(
+        data: (page) {
+          final playable = page.items.where((i) => i.bestAudioUrl != null);
+          final remaining =
+              playable
+                  .where(
+                    (e) =>
+                        !ref
+                            .watch(existingItemUrisProvider)
+                            .contains(e.providerUri),
                   )
-                  : const Icon(Icons.add_rounded),
-          label: Text(
-            '$totalLabel Folgen hinzufügen',
-            style: const TextStyle(fontFamily: 'Nunito'),
-          ),
-        ),
+                  .length;
+
+          if (remaining == 0 && !page.hasNextPage) return null;
+
+          return _AddAllBar(
+            remaining: remaining,
+            total: page.totalCount,
+            hasMorePages: page.hasNextPage,
+            isImporting: ref.watch(
+              contentImporterProvider.select((s) => s.isImporting),
+            ),
+            onAddAll:
+                () => _addAll(
+                  ref.read(ardShowDetailProvider(widget.showId)).value!,
+                  page.items,
+                ),
+          );
+        },
+        loading: () => null,
+        error: (_, _) => null,
       ),
     );
   }
@@ -321,7 +412,6 @@ PendingCard _ardPendingCard(ArdItem item) {
 // ── Inline widgets ──────────────────────────────────────────────────────
 
 /// Import progress dialog that watches the provider for live updates.
-/// Lives outside the triggering widget's lifecycle.
 class _ImportDialogView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -409,4 +499,47 @@ class _TruncationNotice extends StatelessWidget {
   }
 }
 
-// ── Show metadata (synopsis + duration badge) ──────────────────────────────
+class _AddAllBar extends StatelessWidget {
+  const _AddAllBar({
+    required this.remaining,
+    required this.total,
+    required this.hasMorePages,
+    required this.isImporting,
+    required this.onAddAll,
+  });
+
+  final int remaining;
+  final int total;
+  final bool hasMorePages;
+  final bool isImporting;
+  final VoidCallback onAddAll;
+
+  @override
+  Widget build(BuildContext context) {
+    final label = hasMorePages ? 'Alle $total' : '$remaining';
+
+    if (remaining == 0 && !hasMorePages) return const SizedBox.shrink();
+
+    return SafeArea(
+      child: Padding(
+        padding: const EdgeInsets.all(AppSpacing.md),
+        child: FilledButton.icon(
+          key: const Key('add_all_episodes'),
+          onPressed: isImporting ? null : onAddAll,
+          icon:
+              isImporting
+                  ? const SizedBox(
+                    width: 16,
+                    height: 16,
+                    child: CircularProgressIndicator(strokeWidth: 2),
+                  )
+                  : const Icon(Icons.add_rounded),
+          label: Text(
+            '$label Folgen hinzufügen',
+            style: const TextStyle(fontFamily: 'Nunito'),
+          ),
+        ),
+      ),
+    );
+  }
+}

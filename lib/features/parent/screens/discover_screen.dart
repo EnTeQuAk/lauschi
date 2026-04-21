@@ -9,7 +9,9 @@ import 'package:lauschi/core/ard/featured_shows.dart';
 import 'package:lauschi/core/log.dart';
 import 'package:lauschi/core/router/app_router.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
+import 'package:lauschi/features/parent/screens/ard_show_detail/screen.dart';
 import 'package:lauschi/features/parent/widgets/featured_section.dart';
+import 'package:lauschi/features/tiles/widgets/tile_card.dart';
 
 /// Browse ARD Audiothek kids content. Featured items on top, then the
 /// full kids show grid below.
@@ -208,7 +210,7 @@ class _ShowCard extends StatelessWidget {
       onTap:
           () => context.push(
             AppRoutes.parentDiscoverShow(show.id),
-            extra: autoAssignTileId,
+            extra: ShowDetailExtra(autoAssignTileId: autoAssignTileId),
           ),
       child: Column(
         children: [
@@ -230,39 +232,10 @@ class _ShowCard extends StatelessWidget {
                       : _Placeholder(title: show.title),
             ),
           ),
-          const SizedBox(height: AppSpacing.xs),
-          Text(
-            show.title,
-            style: const TextStyle(
-              fontFamily: 'Nunito',
-              fontSize: 12,
-              fontWeight: FontWeight.w600,
-            ),
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-            textAlign: TextAlign.center,
-          ),
-          Text(
-            // Prefer short org name ("BR") over verbose publisher title
-            // ("Bayern 2").
-            show.organizationName ?? show.publisher ?? '',
-            style: const TextStyle(
-              fontFamily: 'Nunito',
-              fontSize: 10,
-              color: AppColors.textSecondary,
-            ),
-            textAlign: TextAlign.center,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-          ),
-          Text(
-            '${show.numberOfElements} Folgen',
-            style: const TextStyle(
-              fontFamily: 'Nunito',
-              fontSize: 10,
-              color: AppColors.textSecondary,
-            ),
-            textAlign: TextAlign.center,
+          TileLabel(
+            title: show.title,
+            subtitle:
+                '${show.organizationName ?? show.publisher ?? ''} · ${show.numberOfElements} Folgen',
           ),
         ],
       ),

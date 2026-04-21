@@ -97,7 +97,7 @@ class _DraggableTileGridState extends State<DraggableTileGrid> {
   double _cellHeight = 0;
   static const _crossSpacing = 10.0;
   static const _mainSpacing = 14.0;
-  static const _aspectRatio = 0.72;
+  static const _aspectRatio = 0.7;
 
   // Drag state
   String? _draggedId;

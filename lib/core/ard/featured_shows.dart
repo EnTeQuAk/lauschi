@@ -55,6 +55,7 @@ class FeaturedItem {
     required this.title,
     required this.parts,
     required this.publisher,
+    required this.showId,
   });
 
   /// Display title (without part suffix).
@@ -65,6 +66,9 @@ class FeaturedItem {
 
   /// Publisher name (e.g., "SWR Kultur").
   final String? publisher;
+
+  /// ARD show ID this item was fetched from.
+  final String showId;
 
   /// The primary (first) part — used for display metadata.
   ArdItem get primary => parts.first;
@@ -88,7 +92,7 @@ class FeaturedItem {
 final _multiPartRegex = RegExp(r'^(.+?)\s*\((\d+)/(\d+)\)\s*$');
 
 /// Group items by base title, merging multi-part episodes.
-List<FeaturedItem> _groupMultiPart(List<ArdItem> items) {
+List<FeaturedItem> _groupMultiPart(List<ArdItem> items, String showId) {
   final groups = <String, List<ArdItem>>{};
   final publisherMap = <String, String?>{};
 
@@ -118,6 +122,7 @@ List<FeaturedItem> _groupMultiPart(List<ArdItem> items) {
         title: entry.key,
         parts: parts,
         publisher: publisherMap[entry.key],
+        showId: showId,
       );
     }).toList()
     ..sort((a, b) => b.publishDate.compareTo(a.publishDate));
@@ -137,6 +142,7 @@ Future<List<FeaturedItem>> _fetchFeaturedItems(ArdApi api) async {
   final cutoff = now.subtract(_maxAge);
 
   // Fetch all shows in parallel — they're independent.
+  // Returns (showId, items) pairs so we can group per-show.
   final results = await Future.wait(
     config.shows.map((show) async {
       try {
@@ -148,23 +154,28 @@ Future<List<FeaturedItem>> _fetchFeaturedItems(ArdApi api) async {
         // endDate is the editorial broadcast window, NOT content removal.
         // Audio URLs remain accessible on CDN after endDate passes.
         // Verified: WDR shows have 1-day windows but CDN serves for weeks.
-        return page.items
-            .where(
-              (item) =>
-                  item.duration >= show.minDurationSeconds &&
-                  item.publishDate.isAfter(cutoff) &&
-                  item.bestAudioUrl != null,
-            )
-            .toList();
+        final items =
+            page.items
+                .where(
+                  (item) =>
+                      item.duration >= show.minDurationSeconds &&
+                      item.publishDate.isAfter(cutoff) &&
+                      item.bestAudioUrl != null,
+                )
+                .toList();
+        return (showId: show.id, items: items);
       } on Exception catch (e) {
         // Skip shows that fail — don't let one bad show break all.
         Log.error(_tag, 'Failed to fetch show ${show.id}', exception: e);
-        return <ArdItem>[];
+        return (showId: show.id, items: <ArdItem>[]);
       }
     }),
   );
 
-  final allItems = results.expand((items) => items).toList();
+  // Group per-show so each FeaturedItem carries its source show ID.
+  final allItems =
+      results.expand((r) => _groupMultiPart(r.items, r.showId)).toList()
+        ..sort((a, b) => b.publishDate.compareTo(a.publishDate));
 
   Log.info(
     _tag,
@@ -172,7 +183,7 @@ Future<List<FeaturedItem>> _fetchFeaturedItems(ArdApi api) async {
     data: {'total': '${allItems.length}'},
   );
 
-  return _groupMultiPart(allItems);
+  return allItems;
 }
 
 // ── Provider ────────────────────────────────────────────────────────────────

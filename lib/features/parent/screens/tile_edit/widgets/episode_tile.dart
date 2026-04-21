@@ -126,51 +126,39 @@ class EpisodeTile extends ConsumerWidget {
   }
 
   Widget? _buildSubtitle({bool unavailable = false}) {
-    final spans = <InlineSpan>[];
+    final parts = <String>[];
 
     if (unavailable) {
-      spans.add(
-        const TextSpan(
-          text: 'Nicht verfügbar',
-          style: TextStyle(
-            fontFamily: 'Nunito',
-            fontSize: 12,
-            color: AppColors.warning,
-          ),
-        ),
-      );
+      parts.add('Nicht verfügbar');
     }
-
     if (card.episodeNumber != null) {
-      if (spans.isNotEmpty) spans.add(const TextSpan(text: '  ·  '));
-      spans.add(
-        TextSpan(
-          text: 'Folge ${card.episodeNumber}',
-          style: const TextStyle(
-            fontFamily: 'Nunito',
-            fontSize: 12,
-            color: AppColors.textSecondary,
-          ),
-        ),
-      );
+      parts.add('Folge ${card.episodeNumber}');
     }
-
     if (card.isHeard && !unavailable) {
-      if (spans.isNotEmpty) spans.add(const TextSpan(text: '  ·  '));
-      spans.add(
-        const TextSpan(
-          text: '✓ gehört',
-          style: TextStyle(
-            fontFamily: 'Nunito',
-            fontSize: 12,
-            color: AppColors.success,
-          ),
-        ),
-      );
+      parts.add('✓ gehört');
     }
 
-    if (spans.isEmpty) return null;
-    return Text.rich(TextSpan(children: spans));
+    if (parts.isEmpty) return null;
+
+    // Use appropriate color based on status
+    final color =
+        unavailable
+            ? AppColors.warning
+            : parts.contains('✓ gehört')
+            ? AppColors.success
+            : AppColors.textSecondary;
+
+    return Text(
+      parts.join(' · '),
+      style: TextStyle(
+        fontFamily: 'Nunito',
+        fontSize: 12,
+        color: color,
+        height: 1.2,
+      ),
+      maxLines: 1,
+      overflow: TextOverflow.ellipsis,
+    );
   }
 
   void _showUnavailableInfo(BuildContext context) {
