@@ -1,5 +1,4 @@
-🚀 lauschi is now available as an open beta on Google Play!
-🎯 "Continue" now always shows the correct episode. Each tile works like a CD player: one active episode, no confusion.
-🎵 lauschi now reliably detects when a Spotify album has finished.
-🔒 NFC tag IDs are no longer fully transmitted. Parent PIN must be at least 4 characters.
-🐛 "Manage tiles" fixed, provider attributions corrected.
+🎯 Featured episodes: tapping now opens the show page instead of adding instantly.
+✨ Consistent tile layout across all screens, episode counts are always visible.
+🔧 Already-added episodes can now be removed directly from the show detail view.
+🛠️ Prev/next buttons greyed out when unavailable. Android 15/16 support.

@@ -1,5 +1,21 @@
 # Changelog
 
+## v2026.4.6 (April 2026)
+
+🎯 **Erst anschauen, dann hinzufügen**
+Die "Hörspiel-Schätze" funktionieren jetzt wie der Rest der App: Antippen öffnet die Sendungsseite, wo man einzelne Folgen auswählen kann. Kein versehentliches Hinzufügen mehr.
+
+✨ **Einheitliche Kachel-Darstellung**
+Alle Übersichten (Kacheln verwalten, ARD Entdecken, Spotify/Apple Music Katalog) zeigen Titel und Folgenanzahl jetzt identisch an. Bei Ordnern steht "X Kacheln", bei einzelnen Kacheln "X Folgen".
+
+🔧 **Folgen entfernen**
+Bereits hinzugefügte Folgen können jetzt direkt aus der Sendungsansicht entfernt werden.
+
+🛠️ **Kleinigkeiten**
+- Vor/Zurück-Buttons sind ausgegraut, wenn es keine vorherige oder nächste Folge gibt
+- Diverse Verbesserungen bei Überschriften und Untertiteln
+- Android 15 Edge-to-Edge und Android 16 Großbild-Unterstützung
+
 ## v2026.4.5 (April 2026)
 
 🛠️ **Release-Notizen im Play Store**

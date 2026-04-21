@@ -1,5 +1,4 @@
-🚀 lauschi ist jetzt als offene Beta im Play Store verfügbar!
-🎯 "Weiter" zeigt jetzt immer die richtige Folge. Jede Kachel verhält sich nun wie ein CD-Player: nur eine aktive Folge, kein Durcheinander.
-🎵 lauschi erkennt jetzt zuverlässig, wenn ein Spotify-Album zu Ende ist.
-🔒 NFC-Tag-Kennungen werden nicht mehr vollständig übertragen. Eltern-PIN muss mindestens 4 Zeichen lang sein.
-🐛 "Kacheln verwalten" repariert, Anbieter-Hinweise korrigiert.
+🎯 Hörspiel-Schätze: Antippen öffnet jetzt die Sendungsseite statt sofort hinzuzufügen.
+✨ Einheitliche Darstellung in allen Kachel-Übersichten, Folgenanzahl ist immer sichtbar.
+🔧 Bereits hinzugefügte Folgen können jetzt direkt aus der Sendungsansicht entfernt werden.
+🛠️ Vor/Zurück-Buttons ausgegraut wenn nicht verfügbar. Android 15/16 Support.
