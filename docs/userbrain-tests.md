@@ -17,7 +17,7 @@ so content accumulates naturally.
 ## Test 1: Erster Eindruck
 
 **Type**: Mobile App
-**URL**: Play Store link
+**URL**: Play Store link (https://play.google.com/store/apps/details?id=app.lauschi.lauschi)
 **Duration**: ~8 min
 
 ### Scenario
