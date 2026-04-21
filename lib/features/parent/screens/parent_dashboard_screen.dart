@@ -2,6 +2,7 @@ import 'dart:async' show unawaited;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lauschi/core/auth/pin_service.dart';
 import 'package:lauschi/core/database/content_importer.dart';
@@ -80,11 +81,11 @@ class ParentDashboardScreen extends ConsumerWidget {
           const ParentSectionHeader(title: 'Sammlung'),
           _SettingsTile(
             key: const Key('manage_tiles'),
-            icon: Icons.library_music_rounded,
             title:
                 tileCount > 0
                     ? '$tileCount Kacheln verwalten'
                     : 'Kacheln verwalten',
+            icon: Icons.library_music_rounded,
             subtitle: 'Kacheln verwalten und sortieren',
             onTap: () => context.push(AppRoutes.parentManageTiles),
           ),
@@ -99,8 +100,8 @@ class ParentDashboardScreen extends ConsumerWidget {
           const ParentSectionHeader(title: 'Einstellungen'),
           _SettingsTile(
             key: const Key('change_pin'),
-            icon: Icons.lock_rounded,
             title: 'PIN ändern',
+            icon: Icons.lock_rounded,
             onTap: () => unawaited(context.push(AppRoutes.pinChange)),
           ),
 
@@ -109,8 +110,8 @@ class ParentDashboardScreen extends ConsumerWidget {
             const Divider(indent: 56),
             _SettingsTile(
               key: Key('disconnect_${provider.type.name}'),
-              icon: Icons.logout_rounded,
               title: '${provider.type.displayName} trennen',
+              icon: Icons.logout_rounded,
               subtitle: 'Konto wechseln (Kacheln bleiben erhalten)',
               onTap: () => _confirmDisconnect(context, ref, provider),
             ),
@@ -120,8 +121,8 @@ class ParentDashboardScreen extends ConsumerWidget {
             const Divider(indent: 56),
             _SettingsTile(
               key: const Key('nfc_tags'),
-              icon: Icons.nfc_rounded,
               title: 'NFC-Tags',
+              icon: Icons.nfc_rounded,
               subtitle: 'Tags mit Hörspielen verknüpfen',
               onTap: () => context.push(AppRoutes.parentNfcTags),
             ),
@@ -192,11 +193,32 @@ class ParentDashboardScreen extends ConsumerWidget {
             )
             : null;
 
+    final svgAsset = provider.type.svgAsset;
+    final isWide = provider.type == ProviderType.ardAudiothek;
+
+    // Greyscale provider logos to match other settings icons
+    final leading =
+        svgAsset != null
+            ? SizedBox(
+              width: 24,
+              height: 24,
+              child: SvgPicture.asset(
+                svgAsset,
+                height: 24,
+                width: isWide ? null : 24,
+                colorFilter: const ColorFilter.mode(
+                  AppColors.textSecondary,
+                  BlendMode.srcIn,
+                ),
+              ),
+            )
+            : Icon(provider.type.icon, color: AppColors.textSecondary);
+
     return [
       const Divider(indent: 56),
       _SettingsTile(
         key: Key('provider_${provider.type.name}'),
-        icon: provider.type.icon,
+        leading: leading,
         title: provider.type.displayName,
         subtitle: subtitle,
         trailing: trailing,
@@ -271,15 +293,20 @@ void _confirmDisconnect(
 
 class _SettingsTile extends StatelessWidget {
   const _SettingsTile({
-    required this.icon,
     required this.title,
+    super.key,
+    this.icon,
+    this.leading,
     this.onTap,
     this.subtitle,
     this.trailing,
-    super.key,
-  });
+  }) : assert(
+         icon != null || leading != null,
+         'Either icon or leading must be provided',
+       );
 
-  final IconData icon;
+  final IconData? icon;
+  final Widget? leading;
   final String title;
   final String? subtitle;
   final Widget? trailing;
@@ -288,7 +315,7 @@ class _SettingsTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: Icon(icon, color: AppColors.textSecondary),
+      leading: leading ?? Icon(icon, color: AppColors.textSecondary),
       title: Text(
         title,
         style: const TextStyle(

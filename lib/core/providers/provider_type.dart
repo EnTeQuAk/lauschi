@@ -32,6 +32,14 @@ enum ProviderType {
     tidal => Icons.waves_rounded,
   };
 
+  /// SVG asset path for branded provider logos.
+  String? get svgAsset => switch (this) {
+    spotify => 'assets/images/icons/spotify.svg',
+    ardAudiothek => 'assets/images/icons/ard_audiothek.svg',
+    appleMusic => 'assets/images/icons/apple_music.svg',
+    tidal => null,
+  };
+
   /// Brand color for badges and UI accents.
   Color get color => switch (this) {
     spotify => const Color(0xFF1DB954),

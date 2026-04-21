@@ -298,6 +298,15 @@ class _FeaturedTile extends ConsumerWidget {
                             size: 28,
                           ),
                         ),
+                      )
+                    else
+                      // Prominent add button overlay
+                      Positioned(
+                        right: 6,
+                        bottom: 6,
+                        child: _FeaturedAddButton(
+                          onPressed: () => _addFeaturedItem(context, ref, item),
+                        ),
                       ),
                   ],
                 ),
@@ -372,6 +381,45 @@ class _AddButton extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm),
           minimumSize: Size.zero,
         ),
+      ),
+    );
+  }
+}
+
+// ── Featured tile add button ────────────────────────────────────────────────
+
+/// Prominent circular "+" button for featured tiles.
+/// Positioned as overlay on the cover image for clear affordance.
+class _FeaturedAddButton extends StatelessWidget {
+  const _FeaturedAddButton({required this.onPressed});
+
+  final VoidCallback onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 32,
+      height: 32,
+      decoration: BoxDecoration(
+        color: AppColors.primary,
+        shape: BoxShape.circle,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withAlpha(80),
+            blurRadius: 4,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: IconButton(
+        onPressed: onPressed,
+        icon: const Icon(
+          Icons.add_rounded,
+          color: Colors.white,
+          size: 20,
+        ),
+        padding: EdgeInsets.zero,
+        tooltip: 'Hinzufügen',
       ),
     );
   }

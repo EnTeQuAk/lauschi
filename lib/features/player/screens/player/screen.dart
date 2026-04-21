@@ -53,6 +53,8 @@ class _PlayerScreenState extends ConsumerState<PlayerScreen> {
       ),
     );
     final notifier = ref.read(playerProvider.notifier);
+    final hasPrev = notifier.hasPrevTrack;
+    final hasNext = notifier.hasNextTrack;
     final track = state.track;
 
     return Scaffold(
@@ -100,9 +102,11 @@ class _PlayerScreenState extends ConsumerState<PlayerScreen> {
                   const SizedBox(height: AppSpacing.lg),
                   PlayerControls(
                     isPlaying: state.isPlaying,
-                    onPrevious: state.isLoading ? null : notifier.prevTrack,
+                    onPrevious:
+                        state.isLoading || !hasPrev ? null : notifier.prevTrack,
                     onTogglePlay: state.isLoading ? null : notifier.togglePlay,
-                    onNext: state.isLoading ? null : notifier.nextTrack,
+                    onNext:
+                        state.isLoading || !hasNext ? null : notifier.nextTrack,
                   ),
                   const SizedBox(height: AppSpacing.xxl),
                 ],
@@ -226,7 +230,7 @@ class _TrackInfo extends StatelessWidget {
       children: [
         Text(
           track?.name ?? '',
-          maxLines: 1,
+          maxLines: 2,
           overflow: TextOverflow.ellipsis,
           textAlign: TextAlign.center,
           style: const TextStyle(

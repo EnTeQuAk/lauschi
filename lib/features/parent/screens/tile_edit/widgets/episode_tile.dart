@@ -61,7 +61,7 @@ class EpisodeTile extends ConsumerWidget {
       ),
       title: Text(
         card.customTitle ?? card.title,
-        maxLines: 1,
+        maxLines: 2,
         overflow: TextOverflow.ellipsis,
         style: TextStyle(
           fontFamily: 'Nunito',

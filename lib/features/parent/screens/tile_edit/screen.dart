@@ -307,7 +307,12 @@ class _TileEditScreenState extends ConsumerState<TileEditScreen> {
       backgroundColor: AppColors.parentBackground,
       appBar: AppBar(
         backgroundColor: AppColors.parentBackground,
-        title: const Text('Kachel bearbeiten'),
+        title: const Text(
+          'Kachel bearbeiten',
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
+          style: TextStyle(fontSize: 18),
+        ),
         actions: [
           if (_dirty)
             TextButton(

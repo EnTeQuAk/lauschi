@@ -140,6 +140,12 @@ class PlayerNotifier extends _$PlayerNotifier {
   /// generation and bail out if superseded.
   int _playGen = 0;
 
+  /// Whether there is a track before the current one (for prev button).
+  bool get hasPrevTrack => (_active?.backend.currentTrackNumber ?? 0) > 1;
+
+  /// Whether there is a track after the current one (for next button).
+  bool get hasNextTrack => _active?.backend.hasNextTrack ?? false;
+
   // -- Timing constants --
   static const _deviceRegistrationDelay = Duration(milliseconds: 500);
   static const _positionSaveInterval = Duration(seconds: 10);

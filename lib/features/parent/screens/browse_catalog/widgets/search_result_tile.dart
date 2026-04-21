@@ -90,7 +90,7 @@ class SearchResultTile extends StatelessWidget {
                 children: [
                   Text(
                     album.name,
-                    maxLines: 1,
+                    maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                       fontFamily: 'Nunito',

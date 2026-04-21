@@ -73,7 +73,7 @@ class NowPlayingBar extends StatelessWidget {
                   children: [
                     Text(
                       track.name,
-                      maxLines: 1,
+                      maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
                         fontFamily: 'Nunito',

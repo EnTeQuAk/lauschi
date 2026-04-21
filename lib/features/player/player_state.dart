@@ -56,6 +56,8 @@ class PlaybackState {
     this.activeCardId,
     this.activeContextUri,
     this.activeGroupId,
+    this.hasNextTrack = false,
+    this.hasPrevTrack = false,
   });
 
   /// Player backend is ready for playback.
@@ -92,6 +94,14 @@ class PlaybackState {
   /// Used for mark-heard and position clearing on completion.
   final String? activeGroupId;
 
+  /// Whether there is a track after the current one in the queue.
+  /// Used to disable/hide the next track button when false.
+  final bool hasNextTrack;
+
+  /// Whether there is a track before the current one in the queue.
+  /// Used to disable/hide the previous track button when false.
+  final bool hasPrevTrack;
+
   /// Copy with optional field clearing.
   ///
   /// [error] is always replaced (pass null to clear error).
@@ -109,6 +119,8 @@ class PlaybackState {
     bool clearActiveContextUri = false,
     String? activeGroupId,
     bool clearActiveGroupId = false,
+    bool? hasNextTrack,
+    bool? hasPrevTrack,
   }) {
     return PlaybackState(
       isPlaying: isPlaying ?? this.isPlaying,
@@ -126,6 +138,8 @@ class PlaybackState {
               : (activeContextUri ?? this.activeContextUri),
       activeGroupId:
           clearActiveGroupId ? null : (activeGroupId ?? this.activeGroupId),
+      hasNextTrack: hasNextTrack ?? this.hasNextTrack,
+      hasPrevTrack: hasPrevTrack ?? this.hasPrevTrack,
     );
   }
 }
