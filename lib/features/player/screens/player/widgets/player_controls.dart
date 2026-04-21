@@ -29,7 +29,10 @@ class PlayerControls extends StatelessWidget {
           tooltip: 'Vorheriges Kapitel',
           style: IconButton.styleFrom(
             minimumSize: const Size(88, 88),
-            foregroundColor: AppColors.textPrimary,
+            foregroundColor:
+                onPrevious != null
+                    ? AppColors.textPrimary
+                    : AppColors.textSecondary,
           ),
         ),
         const SizedBox(width: AppSpacing.xl),
@@ -47,7 +50,10 @@ class PlayerControls extends StatelessWidget {
           tooltip: 'Nächstes Kapitel',
           style: IconButton.styleFrom(
             minimumSize: const Size(88, 88),
-            foregroundColor: AppColors.textPrimary,
+            foregroundColor:
+                onNext != null
+                    ? AppColors.textPrimary
+                    : AppColors.textSecondary,
           ),
         ),
       ],
