@@ -32,21 +32,67 @@ flutter test test/core/catalog/catalog_service_test.dart --dart-define-from-file
 ### Catalog Tools
 
 Multi-provider catalog management via the `lauschi-catalog` CLI (`tools/` package).
-Supports Spotify and Apple Music.
+Supports Spotify and Apple Music. AI commands (curate, review-ai, verify) use
+pydantic-ai with Kimi K2.6 (curation) and MiniMax M2.5 (verification) via OpenCode.
 
+**Full pipeline** (runs autonomously, takes hours for the full catalog):
+```bash
+mise run catalog-pipeline             # curate → review → verify → apply → validate
+mise run catalog-pipeline -- --force  # Re-curate everything from scratch
+```
+
+**Individual steps:**
 ```bash
 mise run catalog-add          # Add a new series (seed entry in series.yaml)
-mise run catalog-discover     # Find missing artist IDs (all providers)
+mise run catalog-discover     # Find + write missing artist IDs (all providers)
+mise run catalog-curate       # AI-curate a single series
+mise run catalog-curate-all   # AI-curate all series (skips existing, --force to redo)
+mise run catalog-review-ai    # AI-review all curations for quality issues
+mise run catalog-verify       # 4-eye verification (second model checks curation)
+mise run catalog-apply        # Write approved curations into series.yaml
+mise run catalog-apply-splits # Apply split proposals from AI review
 mise run catalog-validate     # Validate patterns against provider APIs
-mise run catalog-curate       # AI-curate a series (both providers)
-mise run catalog-review       # Review AI curation in TUI (legacy script)
+mise run catalog-report       # Show curation statistics (included/excluded/gaps)
+mise run catalog-review       # Interactive TUI for manual review (Textual)
+mise run catalog-edit         # CLI for manual include/exclude/list on curations
 ```
 
-Single-provider commands:
+**Single-provider and single-series:**
 ```bash
-mise run catalog-validate -- -p apple_music    # Apple Music only
-mise run catalog-discover -- "TKKG" -p spotify # Spotify only
+mise run catalog-validate -- -p apple_music       # Apple Music only
+mise run catalog-discover -- "TKKG" -p spotify    # Spotify only
+mise run catalog-curate -- "TKKG"                 # Curate one series
+mise run catalog-curate -- "Senta" --music        # Curate a music artist (not Hörspiel)
+mise run catalog-curate -- "TKKG" --dry-run       # Print prompts without calling AI
 ```
+
+#### Curation Pipeline
+
+The pipeline runs fully autonomous. Each series goes through five stages:
+
+1. **Curate** (`curate`): AI classifies every album in the artist's discography
+   as include/exclude. Two flows: single-agent (<=100 albums) or batched (~30/batch).
+   Output: `assets/catalog/curation/{series_id}.json`.
+
+2. **Review** (`review`): A second AI pass checks for quality issues: sub-series
+   mixed in, episode gaps, duplicate episodes, bad patterns. Can add missing albums,
+   update episode patterns, and propose series splits. Non-destructive: writes
+   overrides into the curation JSON.
+
+3. **Verify** (`verify`): 4-eye verification using a different model (MiniMax M2.5).
+   Auto-approves when both models agree; escalates disagreements for human review.
+   Status transitions: `curated` -> `ai_reviewed` -> `approved` | `escalated`.
+
+4. **Apply** (`apply`): Writes approved curations into `series.yaml`. Copies
+   album IDs, episode patterns, artist IDs, and keywords per provider.
+
+5. **Validate** (`validate`): Checks series.yaml against live provider APIs.
+   L1 (syntax: required fields, regex compiles, unique IDs) and L5 (artist
+   discography match rates).
+
+Escalated items need manual resolution via `mise run catalog-review` (TUI) or
+`mise run catalog-edit` (CLI). `apply-splits` handles series that the AI
+recommended splitting into separate entries.
 
 ## Architecture
 
@@ -105,9 +151,10 @@ tools/                       # lauschi-catalog CLI (Python package)
 ├── pyproject.toml
 └── src/lauschi_catalog/
     ├── cli.py               # Click entry point
+    ├── search.py            # Brave Search + page fetcher for AI tools
     ├── providers/           # Spotify + Apple Music API clients
     ├── catalog/             # Models, YAML loader, matcher
-    └── commands/            # discover, validate, curate, token
+    └── commands/            # discover, validate, curate, review, verify, apply, ...
 ```
 
 ### Generated Files
@@ -127,10 +174,10 @@ Run `mise run codegen` after changing annotated classes.
 - `episode_pattern` — regex to extract episode numbers (works across providers)
 - `providers.spotify.artist_ids` — Spotify artist IDs for phase-2 matching
 - `providers.spotify.albums` — pre-validated Spotify album list with episode mappings
-- `providers.apple_music.artist_ids` — Apple Music artist IDs (129/162 series)
+- `providers.apple_music.artist_ids` — Apple Music artist IDs (139/171 series)
 
-Validated by `lauschi-catalog validate` (tools/ package). 162 series, 5327
-curated Spotify albums, 129 Apple Music artist IDs.
+Validated by `lauschi-catalog validate` (tools/ package). 171 series, 6595
+curated Spotify albums, 139 Apple Music artist IDs.
 
 ## Environment Variables
 

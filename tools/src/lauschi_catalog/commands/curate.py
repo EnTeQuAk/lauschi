@@ -42,7 +42,7 @@ CURATION_DIR = REPO_ROOT / "assets" / "catalog" / "curation"
 CURATION_DIR.mkdir(parents=True, exist_ok=True)
 
 _OPENCODE_BASE_URL = "https://opencode.ai/zen/v1"
-_DEFAULT_MODEL = "kimi-k2.5"
+_DEFAULT_MODEL = "kimi-k2.6"
 _MAX_RETRIES = 3
 _RETRY_DELAY = 5
 
@@ -156,8 +156,7 @@ _SYSTEM_PROMPT = """\
 You are curating a DACH (Germany/Austria/Switzerland) children's Hörspiel series
 catalog for "lauschi", a privacy-first kids audio player.
 
-## Your job
-
+<task>
 Given a series name, use your tools to:
 1. Search for the correct artist on EACH available provider (Spotify, Apple Music).
 2. Fetch the full discography from each provider.
@@ -169,11 +168,14 @@ included. Each gets its own AlbumDecision with the correct provider tag.
 
 Do NOT search for "Junior", "Retro-Archiv", or other variant artists — those
 are curated separately. Focus only on the primary artist for this series.
+</task>
 
-## Include
+<include_rules>
 Individual episodes: usually 1-5 tracks, 20-60 min.
+</include_rules>
 
-## Exclude (with exclude_reason)
+<exclude_rules>
+Exclude these (always set exclude_reason):
 - Box sets / compilations ("Folge 1-10", "Jubiläumsbox", "Best of") — usually 10+ tracks
 - Duplicate episodes: same number released twice; keep the most recent or unabridged
 - Spinoff series from a different artist (note in curator_notes)
@@ -182,48 +184,67 @@ Individual episodes: usually 1-5 tracks, 20-60 min.
 - Foreign language releases (Polish, Spanish, etc.) unless the series is bilingual
 - Single music tracks (1 track, not a Hörspiel)
 - Sped-up / nightcore versions, karaoke, instrumental arrangements
+</exclude_rules>
 
-## Episode numbers
-Extract from: Folge N, Teil N, Episode N, Fall N, Band N, NNN/Title.
+<episode_numbers>
+Extract episode_num as an integer from album titles. Look for patterns like:
+Folge N, Teil N, Episode N, Fall N, Band N, or NNN/Title.
+
+Examples:
+- "240/Draculas Erben" → episode_num: 240
+- "Folge 83: Der Dackel und die Diamanten" → episode_num: 83
+- "Die drei ??? und der grüne Geist" (no number) → episode_num: null
+
 When prefixes change mid-run, use alternation: (?:[Tt]eil|[Bb]and)\\s+(\\d+)
 
-## Keywords
-Only if the series name literally appears in album titles. Otherwise leave empty.
+episode_num is CRITICAL for the app. Always extract it when present in the title.
+</episode_numbers>
 
-## Age guidance
+<keywords>
+Only if the series name literally appears in album titles. Otherwise leave empty.
+</keywords>
+
+<age_guidance>
 lauschi targets kids aged 3-14. Set age_note based on your knowledge:
 - "Suitable from 3+" for gentle series (Benjamin Blümchen, Peppa Wutz)
 - "Suitable from 5+" for series with mild tension (Fünf Freunde)
 - "Recommended 8+" for crime, horror, or complex themes (Die drei ???, TKKG)
+</age_guidance>
 
-## provider_artist_ids
+<provider_artist_ids>
 Return a dict mapping provider name to artist ID list:
 {"spotify": ["abc123"], "apple_music": ["456789"]}
+</provider_artist_ids>
 
-## Web search
+<web_search>
 You have a web_search tool (max 2 searches). Use it when:
 - You're unsure whether a series is a Hörspiel or Hörbuch/music
 - The artist search returns ambiguous results (multiple artists, wrong genre)
 - You need to confirm how many episodes a series actually has
 
 Good queries:
-- `"Series Name" Hörspiel Episodenliste` for episode info
-- `site:hoerspiele.de "Series Name"` for the authoritative German Hörspiel database
-- `"Series Name" Hörspiel OR Hörbuch` to clarify format
+- '"Series Name" Hörspiel Episodenliste' for episode info
+- 'site:hoerspiele.de "Series Name"' for the authoritative German Hörspiel database
+- '"Series Name" Hörspiel OR Hörbuch' to clarify format
 
 Don't search for well-known series (TKKG, Die drei ???, Benjamin Blümchen) where
 the album metadata is unambiguous.
+</web_search>
 
-## Important
+<important>
 - Produce an AlbumDecision for EVERY album in each artist's discography.
 - album_id must exactly match the IDs returned by tools.
 - provider must match the provider that returned the album.
 - Do NOT invent album IDs.
+- Always set episode_num when the title contains a number. Never return null
+  for albums like "240/Draculas Erben" or "Folge 83: ...".
+</important>
 """
 
 _METADATA_SYSTEM_PROMPT = """\
 You are setting up metadata for a DACH children's Hörspiel series catalog entry.
 
+<task>
 Given a series name and a sample of album titles from its discography across
 multiple providers, provide:
 - id: lowercase snake_case identifier (e.g., "paw_patrol", "die_drei_fragezeichen")
@@ -238,14 +259,14 @@ multiple providers, provide:
 - provider_artist_ids: {provider: [artist_ids]} for each provider found
 
 Do NOT classify individual albums. Just set up the metadata.
+</task>
 """
 
 _MUSIC_SYSTEM_PROMPT = """\
 You are curating a DACH (Germany/Austria/Switzerland) children's MUSIC artist
 catalog for "lauschi", a privacy-first kids audio player.
 
-## Your job
-
+<task>
 Given a music artist name, use your tools to:
 1. Search for the correct artist on EACH available provider (Spotify, Apple Music).
 2. Fetch the full discography from each provider.
@@ -254,15 +275,18 @@ Given a music artist name, use your tools to:
 
 This is a MUSIC artist (Kinderlieder, Kinderpop), NOT a Hörspiel series.
 Albums are standalone music releases, not numbered episodes.
+</task>
 
-## Include
+<include_rules>
 - Original studio albums of children's music / Kinderlieder
 - EPs and singles by the artist
 - Live albums of kids content
 - Seasonal albums (Weihnachtslieder, Laternenlieder) by the artist
 - Collaboration albums where the artist is the primary act
+</include_rules>
 
-## Exclude (with exclude_reason)
+<exclude_rules>
+Exclude these (always set exclude_reason):
 - "Best Of" / "Greatest Hits" compilations (keep originals, skip compilations)
 - Multi-artist compilations where the artist is just one contributor
 - Duplicate releases (deluxe edition if standard exists, remastered if original exists)
@@ -270,32 +294,39 @@ Albums are standalone music releases, not numbered episodes.
 - Adult/non-kids content by the same artist (if they also make adult music)
 - Audiobooks / Hörspiele (different content type, curated separately)
 - Foreign language versions unless the artist is multilingual by nature
+</exclude_rules>
 
-## Episode numbers
+<episode_numbers>
 Music albums don't have episode numbers. Set episode_num to null for all.
+</episode_numbers>
 
-## Keywords
+<keywords>
 The artist name, plus any well-known album or song titles that parents
 might search for (e.g., "Hoch die Hände" for Senta).
+</keywords>
 
-## Age guidance
+<age_guidance>
 - "Suitable from 2+" for lullabies, baby music (Schlaflieder)
 - "Suitable from 3+" for general Kinderlieder (Detlev Jöcker, Simone Sommerland)
 - "Suitable from 5+" for Kinderpop with more energy (Deine Freunde, DIKKA)
 - "Suitable from 6+" for rock/loud content (Heavysaurus)
+</age_guidance>
 
-## provider_artist_ids
+<provider_artist_ids>
 Return a dict mapping provider name to artist ID list.
+</provider_artist_ids>
 
-## Web search
+<web_search>
 Use web_search when unsure if the artist makes kids-appropriate content,
 or to check if a specific album is a compilation vs original release.
+</web_search>
 
-## Important
+<important>
 - Produce an AlbumDecision for EVERY album.
 - album_id must exactly match the IDs returned by tools.
 - provider must match the provider that returned the album.
 - Do NOT invent album IDs.
+</important>
 """
 
 _MUSIC_BATCH_SYSTEM_PROMPT = """\
@@ -310,29 +341,35 @@ You receive:
 
 For each album, decide: include or exclude.
 
-## Include — original music releases
+<include_rules>
 - Studio albums, EPs, singles of children's music
 - Seasonal releases (Weihnachtslieder, Laternenlieder)
 - Albums from different providers for the same release: include BOTH
+</include_rules>
 
-## Exclude (set exclude_reason)
+<exclude_rules>
+Exclude these (always set exclude_reason):
 - "Best Of" / "Greatest Hits" compilations
 - Multi-artist compilations ("Kinderparty Hits", "Die 30 besten...")
 - Duplicate releases (deluxe vs standard, remastered vs original: keep one)
 - Sped-up, nightcore, karaoke, instrumental versions
 - Adult/non-kids content
 - Hörspiele / audiobooks (curated separately)
+</exclude_rules>
 
-## Episode numbers
+<episode_numbers>
 Set episode_num to null for ALL albums. Music albums are not episodes.
+</episode_numbers>
 
-## When unsure
+<when_unsure>
 Call get_album_details to see the track listing.
+</when_unsure>
 
-## Important
+<important>
 - Produce an AlbumDecision for EVERY album in this batch.
 - album_id must EXACTLY match the IDs provided.
 - provider must EXACTLY match the provider provided.
+</important>
 """
 
 _BATCH_SYSTEM_PROMPT = """\
@@ -344,13 +381,15 @@ You receive:
 
 For each album, decide: include or exclude.
 
-## Include — individual episodes
+<include_rules>
 - Title matches episode pattern (e.g., "Folge NNN: …")
 - Typical episode track count (2-8 tracks)
 - Extract episode_num when possible
 - Albums from different providers for the same episode: include BOTH
+</include_rules>
 
-## Exclude (set exclude_reason)
+<exclude_rules>
+Exclude these (always set exclude_reason):
 - Compilations / box sets (10+ tracks, "Folge 1-10", "Best of")
 - Foreign language releases (Polish, Spanish, etc.)
 - Single music tracks (1 track, not a Hörspiel)
@@ -358,18 +397,67 @@ For each album, decide: include or exclude.
 - Remixes, sped-up versions, sing-alongs, soundtracks
 - Audiobooks ("ungekürzt") that are book readings, not radio dramas
 - Duplicates of already-included episodes (same episode number, same provider)
+</exclude_rules>
 
-## When unsure
-Call get_album_details to see the track listing — that usually resolves it.
+<episode_numbers>
+Extract episode_num as an integer from album titles. Examples:
+- "240/Draculas Erben" → episode_num: 240
+- "Folge 83: Der Dackel und die Diamanten" → episode_num: 83
+- "Die drei ??? und der grüne Geist" (no number) → episode_num: null
+
+episode_num is CRITICAL. Always extract it when the title contains a number.
+</episode_numbers>
+
+<when_unsure>
+Call get_album_details to see the track listing, that usually resolves it.
 Only fetch details for albums where the title + track count is genuinely
 ambiguous. Most episodes are obvious from the title alone.
+</when_unsure>
 
-## Important
+<important>
 - Produce an AlbumDecision for EVERY album in this batch.
 - album_id must EXACTLY match the IDs provided.
 - provider must EXACTLY match the provider provided.
 - Do NOT invent album IDs.
+- Always set episode_num when the title contains a number.
+</important>
 """
+
+
+def _dry_run_prompts(query: str, is_music: bool = False) -> None:
+    """Print assembled prompts without calling the API."""
+    single = _MUSIC_SYSTEM_PROMPT if is_music else _SYSTEM_PROMPT
+    batch = _MUSIC_BATCH_SYSTEM_PROMPT if is_music else _BATCH_SYSTEM_PROMPT
+
+    console.print(Panel("Single-agent system prompt", border_style="blue"))
+    console.print(single)
+    console.print()
+
+    console.print(Panel("Batch-agent system prompt", border_style="blue"))
+    console.print(batch)
+    console.print()
+
+    console.print(Panel("Metadata system prompt", border_style="blue"))
+    console.print(_METADATA_SYSTEM_PROMPT)
+    console.print()
+
+    # Sample batch user prompt
+    sample_batch = [
+        {"provider": "spotify", "id": "abc123", "name": "Folge 1: Der Anfang", "total_tracks": 3, "release_date": "2020-01-15"},
+        {"provider": "apple_music", "id": "def456", "name": "Folge 2: Die Reise", "total_tracks": 4, "release_date": "2020-03-20"},
+    ]
+    album_lines = "\n".join(
+        f"  {a['provider']}:{a['id']} | {a['name']} | {a['total_tracks']} tracks | {a['release_date']}"
+        for a in sample_batch
+    )
+    sample_user = (
+        f"Series: {query!r}\n"
+        f"Episode pattern: ^Folge (\\d+):\n"
+        f"Progress: 0 included, 0 excluded.\n\n"
+        f"Batch 1/1 (2 albums):\n\n{album_lines}"
+    )
+    console.print(Panel("Sample batch user prompt", border_style="blue"))
+    console.print(sample_user)
 
 
 # ── Agent builders ─────────────────────────────────────────────────────────
@@ -929,7 +1017,12 @@ def _curate_one(
     timeout: int,
     existing_curation: dict | None = None,
     is_music: bool = False,
+    dry_run: bool = False,
 ) -> Path | None:
+    if dry_run:
+        console.print(f"  [cyan]Mode: {'music artist' if is_music else 'Hörspiel'} (dry run)[/]")
+        _dry_run_prompts(query, is_music=is_music)
+        return None
     try:
         if is_music:
             console.print(f"  [cyan]Mode: music artist (not Hörspiel)[/]")
@@ -959,6 +1052,7 @@ def _curate_one(
 @click.option("--provider", "-p", type=click.Choice(["spotify", "apple_music", "all"]), default="all")
 @click.option("--no-cache", is_flag=True, help="Bypass provider API cache")
 @click.option("--music", is_flag=True, help="Curate as music artist (not Hörspiel series)")
+@click.option("--dry-run", is_flag=True, help="Print assembled prompts without calling the API")
 def curate(
     query: str | None,
     run_all: bool,
@@ -968,6 +1062,7 @@ def curate(
     provider: str,
     no_cache: bool,
     music: bool,
+    dry_run: bool,
 ):
     """AI-curate a Hörspiel series or music artist across providers.
 
@@ -990,7 +1085,7 @@ def curate(
                 title="lauschi-catalog curate",
             ),
         )
-        _curate_one(query, providers, model=model, timeout=timeout, is_music=music)
+        _curate_one(query, providers, model=model, timeout=timeout, is_music=music, dry_run=dry_run)
         return
 
     # --all mode
@@ -1038,6 +1133,7 @@ def curate(
             model=model, timeout=timeout,
             existing_curation=existing,
             is_music=entry_is_music,
+            dry_run=dry_run,
         )
         if path:
             succeeded += 1
