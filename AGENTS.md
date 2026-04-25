@@ -33,7 +33,7 @@ flutter test test/core/catalog/catalog_service_test.dart --dart-define-from-file
 
 Multi-provider catalog management via the `lauschi-catalog` CLI (`tools/` package).
 Supports Spotify and Apple Music. AI commands (curate, review-ai, verify) use
-pydantic-ai with Kimi K2.6 (curation) and MiniMax M2.5 (verification) via OpenCode.
+pydantic-ai with Kimi K2.6 (curation) and MiniMax M2.7 (verification) via OpenCode.
 
 **Full pipeline** (runs autonomously, takes hours for the full catalog):
 ```bash
@@ -79,7 +79,7 @@ The pipeline runs fully autonomous. Each series goes through five stages:
    update episode patterns, and propose series splits. Non-destructive: writes
    overrides into the curation JSON.
 
-3. **Verify** (`verify`): 4-eye verification using a different model (MiniMax M2.5).
+3. **Verify** (`verify`): 4-eye verification using a different model (MiniMax M2.7).
    Auto-approves when both models agree; escalates disagreements for human review.
    Status transitions: `curated` -> `ai_reviewed` -> `approved` | `escalated`.
 
