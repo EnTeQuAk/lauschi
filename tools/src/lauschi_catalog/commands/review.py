@@ -86,9 +86,15 @@ class _CategoryDecision(BaseModel):
     """Common shape for a per-category verdict. ``verdict`` is overridden
     in each subclass with a ``Literal`` type so the model has to commit
     to one of a small set of discrete states."""
+    # Tight max_length forces the model to be terse. Without a bound,
+    # models tend to dump structured intent into the most permissive
+    # text field — including JSON-like prose describing overrides or
+    # splits. Capping at 350 chars per decision keeps the contract
+    # honest: structured data goes in structured fields.
     reasoning: str = Field(
         description="One sentence justifying the chosen verdict. Concrete and "
         "specific to this category — don't repeat the overall summary.",
+        max_length=350,
     )
 
 
@@ -175,43 +181,73 @@ class ReviewResult(BaseModel):
     decisions: StructuralReview
     summary: str = Field(
         description="1-3 sentence overall verdict on the curation. Should NOT "
-        "describe per-category findings — those go in decisions[*].reasoning.",
+        "describe per-category findings — those go in decisions[*].reasoning. "
+        "Do NOT include structured data (album_ids, JSON-like content) here.",
+        # 500 chars ≈ 3 sentences. Caps the leak path: model can't fit
+        # a JSON array of overrides into a 500-char string.
+        max_length=500,
     )
 
     @model_validator(mode="after")
-    def _actions_match_decisions(self) -> "ReviewResult":
-        """Cross-field consistency: action verdicts require populated lists.
+    def _coerce_inconsistent_decisions(self) -> "ReviewResult":
+        """Downgrade action verdicts whose action lists are empty.
 
-        Catches the failure mode where the model picks an action verdict
-        ('splits_proposed', 'pattern_updated') but forgets to fill the
-        corresponding action field. Pydantic-ai retries on validation
-        errors, so the model gets feedback and another chance.
+        We tried hard-failing on inconsistency. The model would correctly
+        reason about (say) splits, then fail to emit the nested JSON for
+        SplitProposal in its tool call, then re-fail on the retry, then
+        pydantic-ai would give up — exactly the case where we *most*
+        wanted partial output captured.
+
+        Coerce instead: if a category's verdict claims an action was
+        taken but the list is empty, set the verdict to
+        ``deferred_to_human`` and append a note on the reasoning so the
+        human reviewer sees the agent's intent without mistaking the
+        empty list for "nothing to do." Validation always passes;
+        save_review's status reset still kicks in.
+
+        We still emit a stderr warning when coercion happens so a CI
+        pipeline can flag it. The strict-typing benefit (discrete
+        verdicts, per-category structure) survives.
         """
+        coerced: list[str] = []
         d = self.decisions
+        suffix = " [auto-downgraded: agent did not populate the action list]"
+
         if d.duplicates.verdict == "resolved_via_overrides" and not self.overrides:
-            raise ValueError(
-                "decisions.duplicates says 'resolved_via_overrides' but "
-                "overrides is empty",
+            d.duplicates = DuplicatesDecision(
+                verdict="deferred_to_human",
+                reasoning=(d.duplicates.reasoning or "")[:200] + suffix,
             )
+            coerced.append("duplicates")
         if d.sub_series.verdict == "splits_proposed" and not self.splits:
-            raise ValueError(
-                "decisions.sub_series says 'splits_proposed' but splits "
-                "is empty",
+            d.sub_series = SubSeriesDecision(
+                verdict="deferred_to_human",
+                reasoning=(d.sub_series.reasoning or "")[:200] + suffix,
             )
+            coerced.append("sub_series")
         if d.gaps.verdict == "filled_via_add_album" and not self.added_albums:
-            raise ValueError(
-                "decisions.gaps says 'filled_via_add_album' but "
-                "added_albums is empty",
+            d.gaps = GapsDecision(
+                verdict="deferred_to_human",
+                reasoning=(d.gaps.reasoning or "")[:200] + suffix,
             )
+            coerced.append("gaps")
         if d.pattern.verdict == "pattern_updated" and self.pattern_update is None:
-            raise ValueError(
-                "decisions.pattern says 'pattern_updated' but pattern_update "
-                "is null",
+            d.pattern = PatternDecision(
+                verdict="deferred_to_human",
+                reasoning=(d.pattern.reasoning or "")[:200] + suffix,
             )
+            coerced.append("pattern")
         if d.outliers.verdict == "excluded_via_overrides" and not self.overrides:
-            raise ValueError(
-                "decisions.outliers says 'excluded_via_overrides' but "
-                "overrides is empty",
+            d.outliers = OutliersDecision(
+                verdict="deferred_to_human",
+                reasoning=(d.outliers.reasoning or "")[:200] + suffix,
+            )
+            coerced.append("outliers")
+
+        if coerced:
+            console.print(
+                f"[yellow]⚠ Coerced inconsistent verdicts to "
+                f"deferred_to_human: {', '.join(coerced)}[/yellow]",
             )
         return self
 
@@ -365,11 +401,15 @@ that category. Concrete and specific.
   duplicates_within_provider entries or distinct title clusters, those
   are facts. Propose concrete actions when the evidence is clear and
   pick the matching action verdict.
-- Cross-field consistency is enforced: if you say
+- Cross-field consistency: if you say
   ``duplicates: resolved_via_overrides`` you MUST populate overrides.
   Same for splits_proposed/splits, filled_via_add_album/added_albums,
   pattern_updated/pattern_update, excluded_via_overrides/overrides.
-  Mismatch fails validation and you'll be asked to retry.
+  If you find an issue but can't cleanly emit the action list (e.g.,
+  too many album_ids to enumerate), pick ``deferred_to_human`` for
+  that category instead and explain in the reasoning. Don't claim
+  an action you didn't actually encode — the strict schema prefers
+  honest "deferred" over false "resolved".
 - Era variants stay together: when two clusters share a single
   coherent numbering scheme, pick ``sub_series: era_variants_kept``,
   do NOT split.
@@ -691,24 +731,32 @@ async def _run_review(
     providers: list[CatalogProvider],
     *,
     model_name: str = _DEFAULT_MODEL,
-    timeout: int = 300,
+    timeout: int = 600,
 ) -> ReviewResult:
     api_key = os.environ.get("OPENCODE_API_KEY", "")
     if not api_key:
         console.print("[red]OPENCODE_API_KEY not set[/red]")
         raise SystemExit(1)
 
-    deps = Deps(providers=providers, curation=curation)
     agent = _build_agent(model_name, api_key)
-
     prompt = _build_prompt(curation)
 
     for attempt in range(_MAX_RETRIES):
+        # Fresh deps each outer attempt: tool counters and result caches
+        # reset, so a prior failed attempt can't starve the next one of
+        # tool budget. (The strict-schema retries inside pydantic-ai
+        # consume model→tool round-trips; without this, an
+        # output-validation failure on attempt 1 leaves attempt 2 with no
+        # search budget.)
+        deps = Deps(providers=providers, curation=curation)
         try:
             async def _run():
                 async with agent.iter(
                     prompt, deps=deps,
-                    usage_limits=UsageLimits(request_limit=40),
+                    # 60 leaves headroom for the strict schema's larger
+                    # output (6 verdict + 6 reasoning + action lists) plus
+                    # one round of pydantic-ai's inner retries.
+                    usage_limits=UsageLimits(request_limit=60),
                 ) as run:
                     async for node in run:
                         if not hasattr(node, "model_response"):
@@ -734,8 +782,11 @@ async def _run_review(
             _merge_tool_adds(result, deps)
             return result
         except Exception as e:
+            # Pydantic-ai usage-limit exceptions stringify to ``""``; surface
+            # the type name so failures aren't silent.
+            err = f"{type(e).__name__}: {e}" if str(e) else type(e).__name__
             if attempt < _MAX_RETRIES - 1:
-                console.print(f"[yellow]Attempt {attempt + 1} failed: {e}[/yellow]")
+                console.print(f"[yellow]Attempt {attempt + 1} failed: {err}[/yellow]")
                 await asyncio.sleep(_RETRY_DELAY)
             else:
                 raise
@@ -842,7 +893,7 @@ def save_review(series_id: str, result: ReviewResult) -> Path:
 @click.option("--all", "run_all", is_flag=True, help="Review all curated series")
 @click.option("--force", is_flag=True, help="Re-review even if already approved or ai_verified")
 @click.option("--model", default=_DEFAULT_MODEL)
-@click.option("--timeout", default=300)
+@click.option("--timeout", default=600, help="Per-series timeout in seconds (default 10 min). Big series with many splits genuinely take 5+ min.")
 @click.option("--provider", "-p", type=click.Choice(["spotify", "apple_music", "all"]), default="all")
 def review(
     series_id: str | None,

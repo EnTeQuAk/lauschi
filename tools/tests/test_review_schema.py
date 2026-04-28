@@ -1,9 +1,16 @@
 """Tests for the strict ReviewResult schema.
 
-The cross-field validators are the heart of the strict-contract design:
-they make 'I said I'd act, but I forgot to fill the action list' a
-pydantic ValidationError that pydantic-ai retries on. These tests pin
-that contract.
+The schema's two contracts:
+1. Required per-category decisions (StructuralReview) — pinned by the
+   "required field" tests.
+2. Cross-field consistency — when an action verdict has an empty action
+   list, the validator coerces the verdict to ``deferred_to_human``
+   instead of raising. We tried raising; pydantic-ai's inner retries
+   exhausted themselves on cases where the model could reason about an
+   action but couldn't emit the nested JSON. Coercion preserves the
+   structured output, surfaces the inconsistency to humans via the
+   ``deferred_to_human`` verdict and a reasoning suffix, and keeps the
+   discrete-verdict benefits intact.
 """
 
 from __future__ import annotations
@@ -87,19 +94,23 @@ def test_each_decision_has_distinct_verdict_set():
         DuplicatesDecision(verdict="verified_content_rotation", reasoning="x")
 
 
-# ── cross-field validators ────────────────────────────────────────────────
+# ── cross-field coercion ──────────────────────────────────────────────────
 
 
-def test_resolved_via_overrides_requires_overrides_populated():
+def test_resolved_via_overrides_with_empty_overrides_coerces_to_deferred():
     decisions = _clean()
     decisions.duplicates = DuplicatesDecision(
-        verdict="resolved_via_overrides", reasoning="x",
+        verdict="resolved_via_overrides", reasoning="found two pairs",
     )
-    with pytest.raises(ValidationError, match="resolved_via_overrides"):
-        _result(decisions=decisions)
+    result = _result(decisions=decisions)
+    # Coerced: verdict downgraded to deferred_to_human
+    assert result.decisions.duplicates.verdict == "deferred_to_human"
+    # Reasoning preserved with a marker so humans can spot the coercion
+    assert "auto-downgraded" in result.decisions.duplicates.reasoning
 
 
 def test_resolved_via_overrides_passes_with_overrides():
+    """When the action list is populated, the verdict survives."""
     decisions = _clean()
     decisions.duplicates = DuplicatesDecision(
         verdict="resolved_via_overrides", reasoning="x",
@@ -110,16 +121,18 @@ def test_resolved_via_overrides_passes_with_overrides():
             album_id="a", provider="spotify", action="exclude", reason="x",
         )],
     )
+    assert result.decisions.duplicates.verdict == "resolved_via_overrides"
     assert result.overrides[0].album_id == "a"
 
 
-def test_splits_proposed_requires_splits_populated():
+def test_splits_proposed_with_empty_splits_coerces_to_deferred():
     decisions = _clean()
     decisions.sub_series = SubSeriesDecision(
-        verdict="splits_proposed", reasoning="x",
+        verdict="splits_proposed", reasoning="found three sub-series",
     )
-    with pytest.raises(ValidationError, match="splits_proposed"):
-        _result(decisions=decisions)
+    result = _result(decisions=decisions)
+    assert result.decisions.sub_series.verdict == "deferred_to_human"
+    assert "auto-downgraded" in result.decisions.sub_series.reasoning
 
 
 def test_splits_proposed_passes_with_splits():
@@ -134,57 +147,58 @@ def test_splits_proposed_passes_with_splits():
             album_ids=["a"], provider="spotify", reason="x",
         )],
     )
-    assert result.splits[0].new_series_id == "sub"
+    assert result.decisions.sub_series.verdict == "splits_proposed"
 
 
-def test_filled_via_add_album_requires_added_albums_populated():
+def test_filled_via_add_album_with_empty_added_coerces_to_deferred():
     decisions = _clean()
     decisions.gaps = GapsDecision(verdict="filled_via_add_album", reasoning="x")
-    with pytest.raises(ValidationError, match="filled_via_add_album"):
-        _result(decisions=decisions)
+    result = _result(decisions=decisions)
+    assert result.decisions.gaps.verdict == "deferred_to_human"
 
 
-def test_filled_via_add_album_passes_with_added_albums():
-    decisions = _clean()
-    decisions.gaps = GapsDecision(verdict="filled_via_add_album", reasoning="x")
-    result = _result(
-        decisions=decisions,
-        added_albums=[AddedAlbum(
-            album_id="a", provider="spotify", title="t",
-            episode_num=1, evidence_url="https://hoerspiele.de/x",
-        )],
-    )
-    assert result.added_albums[0].album_id == "a"
-
-
-def test_pattern_updated_requires_pattern_update_set():
+def test_pattern_updated_with_no_pattern_update_coerces_to_deferred():
     decisions = _clean()
     decisions.pattern = PatternDecision(verdict="pattern_updated", reasoning="x")
-    with pytest.raises(ValidationError, match="pattern_updated"):
-        _result(decisions=decisions)
+    result = _result(decisions=decisions)
+    assert result.decisions.pattern.verdict == "deferred_to_human"
 
 
-def test_pattern_updated_passes_with_pattern_update():
-    decisions = _clean()
-    decisions.pattern = PatternDecision(verdict="pattern_updated", reasoning="x")
-    result = _result(decisions=decisions, pattern_update=r"^(\d+):")
-    assert result.pattern_update == r"^(\d+):"
-
-
-def test_outliers_excluded_via_overrides_requires_overrides_populated():
+def test_outliers_excluded_via_overrides_with_empty_overrides_coerces_to_deferred():
     decisions = _clean()
     decisions.outliers = OutliersDecision(
         verdict="excluded_via_overrides", reasoning="x",
     )
-    with pytest.raises(ValidationError, match="excluded_via_overrides"):
-        _result(decisions=decisions)
+    result = _result(decisions=decisions)
+    assert result.decisions.outliers.verdict == "deferred_to_human"
 
 
-def test_no_action_verdicts_dont_require_lists():
+def test_no_action_verdicts_dont_get_coerced():
     """The negative case: 'no_X_found' verdicts let action lists stay empty."""
-    # Default _clean() already uses no_action verdicts; should construct.
-    result = _result()
-    assert result.overrides == [] and result.splits == []
+    result = _result()  # baseline: all no_action verdicts, empty action lists
+    assert result.decisions.duplicates.verdict == "no_within_provider_duplicates"
+    assert result.decisions.sub_series.verdict == "no_sub_series_mixed_in"
+
+
+def test_coercion_is_independent_per_category():
+    """Two categories can be coerced at once; consistent ones survive."""
+    decisions = _clean()
+    decisions.sub_series = SubSeriesDecision(
+        verdict="splits_proposed", reasoning="x",
+    )
+    decisions.duplicates = DuplicatesDecision(
+        verdict="resolved_via_overrides", reasoning="x",
+    )
+    # Provide overrides but not splits — duplicates verdict survives,
+    # sub_series gets coerced.
+    result = _result(
+        decisions=decisions,
+        overrides=[ReviewOverride(
+            album_id="a", provider="spotify", action="exclude", reason="x",
+        )],
+    )
+    assert result.decisions.duplicates.verdict == "resolved_via_overrides"
+    assert result.decisions.sub_series.verdict == "deferred_to_human"
 
 
 # ── decision reasoning ────────────────────────────────────────────────────
