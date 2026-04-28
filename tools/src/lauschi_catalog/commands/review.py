@@ -417,6 +417,7 @@ def _build_prompt(curation: dict) -> str:
     series_id = curation.get("id", "?")
     pattern = curation.get("episode_pattern", "none")
     artist_ids = curation.get("provider_artist_ids", {})
+    content_type = curation.get("content_type", "hoerspiel")
     analysis = analyze_series(curation)
 
     albums = curation.get("albums", [])
@@ -438,14 +439,31 @@ def _build_prompt(curation: dict) -> str:
 
     lines = [
         f"## Series: {title} (id: {series_id})",
+        f"Content type: {content_type}",
         f"Episode pattern: {pattern}",
         f"Provider artist IDs: {artist_ids}",
         "",
+    ]
+    if content_type == "music":
+        lines.extend([
+            "### Music artist — different rules apply",
+            "This curation is a children's MUSIC artist, not a Hörspiel"
+            " series. Albums are standalone music releases. Do NOT propose"
+            " excluding albums for being 'music singles' — that is the"
+            " expected content here. Episode numbers, episode_pattern,"
+            " gaps, and sub-series clustering are not relevant. Look only"
+            " for: cross-provider inconsistencies (same album included on"
+            " one provider but excluded on another), compilations vs"
+            " original releases, and accidental Hörspiel/audiobook content"
+            " mixed into a music artist.",
+            "",
+        ])
+    lines.extend([
         "### Structural analysis",
         json.dumps(analysis, indent=2, ensure_ascii=False),
         "",
         f"### Included albums ({len(included)})",
-    ]
+    ])
     for a in included:
         ep = a.get("episode_num")
         ep_str = f"Ep {ep}: " if ep is not None else ""
