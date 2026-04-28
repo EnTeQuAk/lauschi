@@ -120,9 +120,12 @@ def test_prompt_includes_provider_artist_ids():
 
 
 def test_prompt_action_call_is_present():
-    """The closing instruction guides the agent to propose actions."""
+    """The closing instruction points the agent at the proposal tools."""
     curation = make_curation(albums=[make_album("a", "Folge 1: A", episode_num=1)])
     prompt = _build_prompt(curation)
-    assert "overrides" in prompt
-    assert "splits" in prompt
+    # Each action category has a tool the agent should call.
+    assert "propose_override" in prompt
+    assert "propose_split" in prompt
+    assert "add_album" in prompt
+    assert "propose_pattern_update" in prompt
     assert "web_search" in prompt or "fetch_page" in prompt

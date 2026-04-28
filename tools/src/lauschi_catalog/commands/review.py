@@ -20,7 +20,7 @@ from pathlib import Path
 
 import click
 
-from pydantic import BaseModel, Field, model_validator
+from pydantic import BaseModel, Field
 from pydantic_ai import Agent, RunContext, ToolOutput
 from pydantic_ai.models.openai import OpenAIChatModel
 from pydantic_ai.providers.openai import OpenAIProvider
@@ -197,105 +197,80 @@ class StructuralReview(BaseModel):
 
 
 class ReviewResult(BaseModel):
-    overrides: list[ReviewOverride] = Field(default_factory=list)
-    splits: list[SplitProposal] = Field(default_factory=list)
-    added_albums: list[AddedAlbum] = Field(default_factory=list)
-    pattern_update: str | list[str] | None = None
+    """The agent's final structured output.
+
+    Just two fields: a per-category decision tree and a short overall
+    summary. Action proposals (overrides, splits, added albums, pattern
+    updates) do NOT live here — they're collected via tool calls during
+    the agent run and merged in by ``assemble_review``. Keeping the
+    model output this small is the architectural commitment: emit only
+    what the model is reliable at producing.
+    """
     decisions: StructuralReview
     summary: str = Field(
-        description="1-3 sentence overall verdict on the curation. Should NOT "
-        "describe per-category findings — those go in decisions[*].reasoning. "
-        "Do NOT include structured data (album_ids, JSON-like content) here.",
-        # 500 chars ≈ 3 sentences. Caps the leak path: model can't fit
-        # a JSON array of overrides into a 500-char string.
+        description="1-3 sentence overall verdict on the curation. Per-category "
+        "findings live in decisions[*].reasoning. Do NOT include structured "
+        "data (album_ids, JSON-like content) here.",
+        # 500 chars ≈ 3 sentences. Even if the model tries to pack
+        # structured intent into prose, this cap forecloses it.
         max_length=500,
     )
 
-    @model_validator(mode="after")
-    def _coerce_inconsistent_decisions(self) -> "ReviewResult":
-        """Downgrade action verdicts whose action lists are empty.
 
-        We tried hard-failing on inconsistency. The model would correctly
-        reason about (say) splits, then fail to emit the nested JSON for
-        SplitProposal in its tool call, then re-fail on the retry, then
-        pydantic-ai would give up — exactly the case where we *most*
-        wanted partial output captured.
+@dataclass
+class AssembledReview:
+    """The shape ``save_review`` writes.
 
-        Coerce instead: if a category's verdict claims an action was
-        taken but the list is empty, set the verdict to
-        ``deferred_to_human`` and append a note on the reasoning so the
-        human reviewer sees the agent's intent without mistaking the
-        empty list for "nothing to do." Validation always passes;
-        save_review's status reset still kicks in.
-
-        We still emit a stderr warning when coercion happens so a CI
-        pipeline can flag it. The strict-typing benefit (discrete
-        verdicts, per-category structure) survives.
-        """
-        coerced: list[str] = []
-        d = self.decisions
-
-        if d.duplicates.verdict == DuplicatesVerdict.RESOLVED_VIA_OVERRIDES and not self.overrides:
-            d.duplicates = DuplicatesDecision(
-                verdict=DuplicatesVerdict.DEFERRED,
-                reasoning=(d.duplicates.reasoning or "")[:200] + _AUTO_DOWNGRADE_SUFFIX,
-            )
-            coerced.append("duplicates")
-        if d.sub_series.verdict == SubSeriesVerdict.SPLITS_PROPOSED and not self.splits:
-            d.sub_series = SubSeriesDecision(
-                verdict=SubSeriesVerdict.DEFERRED,
-                reasoning=(d.sub_series.reasoning or "")[:200] + _AUTO_DOWNGRADE_SUFFIX,
-            )
-            coerced.append("sub_series")
-        if d.gaps.verdict == GapsVerdict.FILLED_VIA_ADD_ALBUM and not self.added_albums:
-            d.gaps = GapsDecision(
-                verdict=GapsVerdict.DEFERRED,
-                reasoning=(d.gaps.reasoning or "")[:200] + _AUTO_DOWNGRADE_SUFFIX,
-            )
-            coerced.append("gaps")
-        if d.pattern.verdict == PatternVerdict.PATTERN_UPDATED and self.pattern_update is None:
-            d.pattern = PatternDecision(
-                verdict=PatternVerdict.DEFERRED,
-                reasoning=(d.pattern.reasoning or "")[:200] + _AUTO_DOWNGRADE_SUFFIX,
-            )
-            coerced.append("pattern")
-        if d.outliers.verdict == OutliersVerdict.EXCLUDED_VIA_OVERRIDES and not self.overrides:
-            d.outliers = OutliersDecision(
-                verdict=OutliersVerdict.DEFERRED,
-                reasoning=(d.outliers.reasoning or "")[:200] + _AUTO_DOWNGRADE_SUFFIX,
-            )
-            coerced.append("outliers")
-
-        if coerced:
-            console.print(
-                f"[yellow]⚠ Coerced inconsistent verdicts to "
-                f"{_DEFERRED}: {', '.join(coerced)}[/yellow]",
-            )
-        return self
+    Combines the model's output (``decisions``, ``summary``) with the
+    tool-driven action proposals collected on Deps during the run.
+    Built deterministically by ``assemble_review``; never directly
+    emitted by the model.
+    """
+    overrides: list[ReviewOverride]
+    splits: list[SplitProposal]
+    added_albums: list[AddedAlbum]
+    pattern_update: str | list[str] | None
+    decisions: StructuralReview
+    summary: str
 
 
 # ── Dependencies ───────────────────────────────────────────────────────────
 
 @dataclass
 class Deps:
+    """Per-run state. Tools accumulate proposed actions here; the
+    assembler reads them back at the end of the run.
+
+    Three flavors of fields:
+    - ``providers`` and ``curation`` are inputs (set on construction).
+    - ``proposed_overrides`` / ``proposed_splits`` / ``added_albums`` /
+      ``proposed_pattern_update`` are populated by the action tools.
+    - ``_*_count`` track tool-call usage against ``_MAX_*`` caps.
+    """
     providers: list[CatalogProvider]
     curation: dict
+    proposed_overrides: list[dict] = field(default_factory=list)
+    proposed_splits: list[dict] = field(default_factory=list)
     added_albums: list[dict] = field(default_factory=list)
+    proposed_pattern_update: str | list[str] | None = field(default=None, init=False)
     seen_details: dict[str, dict] = field(default_factory=dict)
     _search_count: int = field(default=0, init=False)
     _fetch_count: int = field(default=0, init=False)
     _details_count: int = field(default=0, init=False)
+    _override_count: int = field(default=0, init=False)
+    _split_count: int = field(default=0, init=False)
     _add_count: int = field(default=0, init=False)
     _pattern_count: int = field(default=0, init=False)
-    # Hard caps prevent runaway tool loops. The previous design exposed a
-    # provider-search tool that hallucinated titles and burned 100+ requests
-    # on TKKG-sized series. add_album and update_episode_pattern are bounded
-    # because they mutate curation state, where a loop pollutes data not
-    # just budget.
+    # Hard caps prevent runaway tool loops. Sized for real catalog
+    # workloads: BB-scale curations have proposed up to ~12 overrides
+    # and ~3 splits historically. The 30/10 caps comfortably exceed
+    # observed needs while still capping budget if the model loops.
     _MAX_SEARCHES: int = 5
     _MAX_FETCHES: int = 3
     _MAX_DETAILS: int = 10
-    _MAX_ADDS: int = 5
+    _MAX_OVERRIDES: int = 30
+    _MAX_SPLITS: int = 10
+    _MAX_ADDS: int = 10
     _MAX_PATTERN_UPDATES: int = 3
 
 
@@ -350,57 +325,76 @@ Use the analysis as evidence; don't recompute what's already there.
 
 ## Tools
 
+You have two flavors of tools: research (read-only, gather information)
+and proposal (write, accumulate actions on the run state). All
+proposals are made via tool calls — your final structured output
+contains only verdicts and a short summary, never action lists.
+
+### Research tools
+
 - **album_details** (max 10): fetch track listings for ambiguous albums.
-  Useful when deciding which of two duplicates to keep.
-- **web_search** (max 5): research the series. Best for verifying gaps,
-  identifying sub-series, confirming era variants. Good queries:
+- **web_search** (max 5): research the series. Good queries:
   - `"Series Name" Hörspiel Episodenliste`
   - `site:hoerspiele.de "Series Name"`
   - `"Series Name" Junior` to confirm a sub-series exists
-- **fetch_page** (max 3): drill into a search hit. hoerspiele.de carries
-  authoritative episode lists for German Hörspiele.
-- **add_album** (max 5): add a missing album. Last resort — only when web
-  evidence shows the episode is on the provider but wasn't matched by
-  the artist ID. Requires an ``evidence_url`` parameter pointing to the
-  search result or page that confirms the episode. The tool refuses if
-  you haven't called web_search or fetch_page first, so research
-  before you add.
-- **update_episode_pattern** (max 3): propose a new regex pattern. Each
-  pattern needs exactly one capture group. Patterns are tried in order.
+- **fetch_page** (max 3): drill into a search hit. hoerspiele.de
+  carries authoritative episode lists for German Hörspiele.
+
+### Proposal tools (each call records ONE action)
+
+- **propose_override** (max 30): exclude or include one album. Each
+  call records a single override on (album_id, provider, action,
+  reason). Call repeatedly to propose multiple. Tool will refuse
+  duplicate album_ids and unknown ones.
+- **propose_split** (max 10 calls): move a group of albums to a new
+  series entry. Multiple calls with the SAME ``new_series_id`` merge
+  into one split — chunk a 50-album sub-series across 3-4 calls of
+  ~15 ids each rather than packing one giant list. Tool validates
+  ids against the curation.
+- **add_album** (max 10): add a missing album discovered via web
+  research. Requires ``evidence_url`` from a non-provider domain
+  (hoerspiele.de etc.) and refuses if you haven't searched first.
+- **propose_pattern_update** (max 3): record a new episode_pattern.
+  Each pattern compiles, has exactly one capture group, and is tried
+  in order at apply time.
+
+If a tool returns an error message, fix the args and retry — the tool
+gives concrete feedback. Don't keep retrying with the same args.
 
 ## Output
 
-Action lists (populate when relevant):
-- **overrides**: exclude actions for albums that shouldn't be included.
-- **splits**: proposed sub-series for clusters that belong elsewhere.
-- **added_albums**: filled by add_album calls.
-- **pattern_update**: new episode_pattern when needed.
+Your structured output has only TWO fields:
 
-Per-category decisions (REQUIRED — pick one verdict per category):
+- **decisions**: a per-category verdict with one-sentence reasoning.
+- **summary**: 1-3 sentence overall verdict on the curation, max 500
+  chars. Don't repeat per-category reasoning, don't paste structured
+  data — those go in decisions[*].reasoning and the action tools.
+
+### decisions — pick exactly one verdict per category
 
 - **decisions.duplicates** — within-provider episode-num collisions:
-  - `resolved_via_overrides`: you proposed overrides excluding duplicates.
+  - `resolved_via_overrides`: you called propose_override for the duplicates.
   - `no_within_provider_duplicates`: analysis shows none, no action.
-  - `deferred_to_human`: defects exist, complex case, human decides.
+  - `deferred_to_human`: defects exist but complex case, human decides.
 - **decisions.sub_series** — distinct title clusters:
-  - `splits_proposed`: you populated the splits list.
+  - `splits_proposed`: you called propose_split for the sub-series.
   - `no_sub_series_mixed_in`: single coherent series.
   - `era_variants_kept`: multiple shapes but same numbering scheme
-    across eras (Die drei ??? "n" + "folge n" pattern).
+    across eras (Die drei ??? "n" + "folge n" both 1-200).
   - `deferred_to_human`.
 - **decisions.gaps** — missing episode numbers:
-  - `filled_via_add_album`: you populated added_albums.
+  - `filled_via_add_album`: you called add_album for verifiable gaps.
   - `verified_content_rotation`: web search confirmed gaps are
     provider unavailability, not curation defects.
   - `no_gaps_present`.
   - `deferred_to_human`.
 - **decisions.pattern** — episode_pattern correctness:
-  - `pattern_updated`: you set pattern_update.
+  - `pattern_updated`: you called propose_pattern_update.
   - `current_pattern_correct`: pattern_coverage already high.
   - `not_applicable_for_music`: this is a music artist.
   - `deferred_to_human`.
 - **decisions.outliers** — singleton-shape titles:
-  - `excluded_via_overrides`: outliers excluded via overrides.
+  - `excluded_via_overrides`: you called propose_override for the outliers.
   - `legitimate_specials_kept`: standalone specials are fine to keep.
   - `no_outliers_found`.
   - `deferred_to_human`.
@@ -411,30 +405,22 @@ Per-category decisions (REQUIRED — pick one verdict per category):
   - `single_provider_only`: only one provider configured.
   - `deferred_to_human`.
 
-Each decision REQUIRES a one-sentence ``reasoning`` string scoped to
-that category. Concrete and specific.
-
-- **summary**: 1-3 sentence overall verdict on the curation. Don't
-  repeat per-category reasoning — that goes in decisions[*].reasoning.
+Each decision REQUIRES a ``reasoning`` string (max 350 chars) scoped
+to that category. Concrete and specific.
 
 ## Rules
 
 - Trust the structural analysis. It's deterministic; if it shows
-  duplicates_within_provider entries or distinct title clusters, those
-  are facts. Propose concrete actions when the evidence is clear and
-  pick the matching action verdict.
-- Cross-field consistency: if you say
-  ``duplicates: resolved_via_overrides`` you MUST populate overrides.
-  Same for splits_proposed/splits, filled_via_add_album/added_albums,
-  pattern_updated/pattern_update, excluded_via_overrides/overrides.
-  If you find an issue but can't cleanly emit the action list (e.g.,
-  too many album_ids to enumerate), pick ``deferred_to_human`` for
-  that category instead and explain in the reasoning. Don't claim
-  an action you didn't actually encode — the strict schema prefers
-  honest "deferred" over false "resolved".
+  duplicates_within_provider entries or distinct title clusters,
+  those are facts. Use the proposal tools to act on them.
+- Verdicts must match the tools you called. If you say
+  ``duplicates: resolved_via_overrides`` but never called
+  propose_override, the assembler downgrades your verdict to
+  ``deferred_to_human``. Pick honestly: actually call the tool, or
+  pick a non-action verdict.
 - Era variants stay together: when two clusters share a single
   coherent numbering scheme, pick ``sub_series: era_variants_kept``,
-  do NOT split.
+  do NOT call propose_split.
 - Don't fill gaps with add_album unless web evidence confirms the
   episode is on the provider under a different artist account.
 - ``deferred_to_human`` is for genuine ambiguity — not for explaining
@@ -616,31 +602,144 @@ def _build_agent(
         return f"Added: {album.name}{ep_str} (evidence: {evidence_url})"
 
     @agent.tool
-    def update_episode_pattern(
-        ctx: RunContext[Deps], patterns: list[str],
+    def propose_override(
+        ctx: RunContext[Deps],
+        album_id: str,
+        provider: str,
+        action: str,
+        reason: str,
     ) -> str:
-        """Validate a candidate episode pattern and preview its effect.
+        """Propose excluding (or including) one album from the curation.
 
-        Each pattern must have exactly 1 capture group. Patterns are tried
-        in order. This tool does **not** mutate the curation. Set the
-        chosen pattern in the ``pattern_update`` field of your output;
-        ``save_review`` applies it deterministically after this run.
+        Each call records ONE override on Deps. Call multiple times to
+        propose multiple overrides — there is no batch form. The
+        assembler reads the accumulated list at end of the run.
 
-        Capped at Deps._MAX_PATTERN_UPDATES calls. The agent should
-        converge on one pattern, not iterate.
+        Validates: album_id must already be in the curation; action must
+        be 'exclude' or 'include'; reason must be non-empty; the same
+        album_id can't be overridden twice in one review run.
+
+        Capped at Deps._MAX_OVERRIDES.
+        """
+        if ctx.deps._override_count >= ctx.deps._MAX_OVERRIDES:
+            return f"Override limit reached (max {ctx.deps._MAX_OVERRIDES})."
+
+        if action not in ("exclude", "include"):
+            return f"action must be 'exclude' or 'include', got {action!r}"
+        if not (reason or "").strip():
+            return "reason is required and must be non-empty"
+
+        existing = {a["album_id"] for a in ctx.deps.curation.get("albums", [])}
+        if album_id not in existing:
+            return f"album_id {album_id!r} is not in this curation"
+
+        for prior in ctx.deps.proposed_overrides:
+            if prior["album_id"] == album_id:
+                return (
+                    f"Already proposed an override for {album_id} "
+                    f"(action={prior['action']!r}). One per album per review."
+                )
+
+        ctx.deps._override_count += 1
+        ctx.deps.proposed_overrides.append({
+            "album_id": album_id,
+            "provider": provider,
+            "action": action,
+            "reason": reason,
+        })
+        console.print(
+            f"  [dim]🔄 propose_override({provider}:{album_id[:8]}…, {action}) "
+            f"[{ctx.deps._override_count}/{ctx.deps._MAX_OVERRIDES}][/]",
+        )
+        return f"Override recorded: {action} {album_id}"
+
+    @agent.tool
+    def propose_split(
+        ctx: RunContext[Deps],
+        new_series_id: str,
+        new_series_title: str,
+        album_ids: list[str],
+        provider: str,
+        reason: str,
+    ) -> str:
+        """Propose moving a group of albums to a new series entry.
+
+        Multiple calls with the SAME ``new_series_id`` are merged at
+        assembly time — so for a sub-series with 50+ album_ids you can
+        chunk it across 3-4 calls of ~15 ids each instead of trying to
+        emit one giant list. Album ids are deduped; the first reason
+        wins.
+
+        Validates: new_series_id is snake_case; album_ids must all be
+        in the curation; non-empty.
+
+        Capped at Deps._MAX_SPLITS calls (each chunk counts).
         """
         import re as _re
+        if ctx.deps._split_count >= ctx.deps._MAX_SPLITS:
+            return f"Split limit reached (max {ctx.deps._MAX_SPLITS})."
+
+        if not _re.fullmatch(r"[a-z][a-z0-9_]*", new_series_id):
+            return (
+                f"new_series_id must be snake_case [a-z][a-z0-9_]*, "
+                f"got {new_series_id!r}"
+            )
+        if not (new_series_title or "").strip():
+            return "new_series_title is required"
+        if not album_ids:
+            return "album_ids cannot be empty"
+        if not (reason or "").strip():
+            return "reason is required"
+
+        existing = {a["album_id"] for a in ctx.deps.curation.get("albums", [])}
+        unknown = [aid for aid in album_ids if aid not in existing]
+        if unknown:
+            return (
+                f"album_ids not in curation: "
+                f"{unknown[:5]}{'…' if len(unknown) > 5 else ''}"
+            )
+
+        ctx.deps._split_count += 1
+        ctx.deps.proposed_splits.append({
+            "new_series_id": new_series_id,
+            "new_series_title": new_series_title,
+            "album_ids": list(album_ids),
+            "provider": provider,
+            "reason": reason,
+        })
+        console.print(
+            f"  [dim]✂️ propose_split({new_series_id}, {len(album_ids)} albums) "
+            f"[{ctx.deps._split_count}/{ctx.deps._MAX_SPLITS}][/]",
+        )
+        return (
+            f"Split chunk recorded: {new_series_id} ({len(album_ids)} albums). "
+            f"Call again with same new_series_id to add more."
+        )
+
+    @agent.tool
+    def propose_pattern_update(
+        ctx: RunContext[Deps], patterns: list[str],
+    ) -> str:
+        """Propose a new episode_pattern.
+
+        Each pattern must compile and have exactly one capture group.
+        Patterns are tried in order at apply time. The latest call wins
+        (calling again replaces the prior proposal). Save_review applies
+        it deterministically after the run.
+
+        Capped at Deps._MAX_PATTERN_UPDATES.
+        """
+        import re as _re
+        if ctx.deps._pattern_count >= ctx.deps._MAX_PATTERN_UPDATES:
+            return f"Pattern update limit reached (max {ctx.deps._MAX_PATTERN_UPDATES})."
+
         for p in patterns:
             try:
                 c = _re.compile(p)
             except _re.error as e:
-                return f"Invalid pattern {p!r}: {e}"
+                return f"Invalid regex {p!r}: {e}"
             if c.groups != 1:
-                return f"Pattern {p!r}: need 1 capture group, got {c.groups}"
-
-        if ctx.deps._pattern_count >= ctx.deps._MAX_PATTERN_UPDATES:
-            return f"Pattern update limit reached (max {ctx.deps._MAX_PATTERN_UPDATES})."
-        ctx.deps._pattern_count += 1
+                return f"Pattern {p!r}: needs exactly 1 capture group, got {c.groups}"
 
         from lauschi_catalog.catalog.matcher import preview_episode_pattern
 
@@ -648,15 +747,17 @@ def _build_agent(
         would_change = preview_episode_pattern(
             ctx.deps.curation.get("albums", []), candidate,
         )
+
+        ctx.deps._pattern_count += 1
+        ctx.deps.proposed_pattern_update = candidate
         console.print(
-            f"  [dim]📝 update_episode_pattern preview → {candidate} "
+            f"  [dim]📝 propose_pattern_update → {candidate} "
             f"({would_change} would change) "
             f"[{ctx.deps._pattern_count}/{ctx.deps._MAX_PATTERN_UPDATES}][/]",
         )
         return (
-            f"Pattern {candidate!r} is valid. Applying it would re-extract "
-            f"episode_num for {would_change} album(s). Set this in "
-            f"pattern_update to apply."
+            f"Pattern {candidate!r} recorded. Applying would re-extract "
+            f"episode_num for {would_change} album(s)."
         )
 
     return agent
@@ -740,10 +841,13 @@ def _build_prompt(curation: dict) -> str:
         lines.append(f"  … and {len(excluded) - 30} more")
 
     lines.append(
-        "\nReview the structure. Propose overrides, splits, pattern_update, "
-        "and added_albums where the analysis or your judgment warrants. "
-        "Use web_search and fetch_page when the analysis raises a question "
-        "you can't answer from the data alone.",
+        "\nReview the structure. Use propose_override, propose_split, "
+        "add_album, and propose_pattern_update to record any actions you "
+        "decide on (one tool call per item). When done, return your "
+        "structured output: decisions (one verdict + one-sentence "
+        "reasoning per category) plus a 1-3 sentence summary. "
+        "Use web_search and fetch_page when the analysis raises a "
+        "question you can't answer from the data alone.",
     )
     return "\n".join(lines)
 
@@ -754,7 +858,7 @@ async def _run_review(
     *,
     model_name: str = _DEFAULT_MODEL,
     timeout: int = 600,
-) -> ReviewResult:
+) -> AssembledReview:
     api_key = os.environ.get("OPENCODE_API_KEY", "")
     if not api_key:
         console.print("[red]OPENCODE_API_KEY not set[/red]")
@@ -764,20 +868,18 @@ async def _run_review(
     prompt = _build_prompt(curation)
 
     for attempt in range(_MAX_RETRIES):
-        # Fresh deps each outer attempt: tool counters and result caches
-        # reset, so a prior failed attempt can't starve the next one of
-        # tool budget. (The strict-schema retries inside pydantic-ai
-        # consume model→tool round-trips; without this, an
-        # output-validation failure on attempt 1 leaves attempt 2 with no
-        # search budget.)
+        # Fresh deps each outer attempt so a prior failed attempt's
+        # exhausted tool counters don't starve the next one.
         deps = Deps(providers=providers, curation=curation)
         try:
             async def _run():
                 async with agent.iter(
                     prompt, deps=deps,
-                    # 60 leaves headroom for the strict schema's larger
-                    # output (6 verdict + 6 reasoning + action lists) plus
-                    # one round of pydantic-ai's inner retries.
+                    # request_limit needs to fit: research tool calls
+                    # (~5-10) + action proposals (~5-15 propose_X calls)
+                    # + final tool call for ReviewResult + reasoning
+                    # turns + headroom for one inner retry. 60 covers
+                    # observed BB-scale runs comfortably.
                     usage_limits=UsageLimits(request_limit=60),
                 ) as run:
                     async for node in run:
@@ -796,16 +898,8 @@ async def _run_review(
                     return run.result.output
 
             result = await asyncio.wait_for(_run(), timeout=timeout)
-            # The add_album tool appends to deps.added_albums as a side
-            # effect, but pydantic-ai's structured output is built from
-            # what the model returned, not from deps state. Merge any
-            # tool-recorded adds the model didn't echo back into the
-            # final result so save_review sees them.
-            _merge_tool_adds(result, deps)
-            return result
+            return assemble_review(result, deps)
         except Exception as e:
-            # Pydantic-ai usage-limit exceptions stringify to ``""``; surface
-            # the type name so failures aren't silent.
             err = f"{type(e).__name__}: {e}" if str(e) else type(e).__name__
             if attempt < _MAX_RETRIES - 1:
                 console.print(f"[yellow]Attempt {attempt + 1} failed: {err}[/yellow]")
@@ -814,22 +908,128 @@ async def _run_review(
                 raise
 
 
-def _has_actions(result: ReviewResult) -> bool:
-    """True when the review needs re-verification by the verify step.
+def _merge_split_chunks(chunks: list[dict]) -> list[SplitProposal]:
+    """Combine ``propose_split`` calls that share a ``new_series_id``.
 
-    Two kinds of signal: structural changes were proposed, OR a category
-    was deferred to human (either explicitly by the agent or via the
-    coercer when an action verdict had an empty list). In both cases the
+    The agent can chunk a 50-album sub-series across multiple calls
+    rather than emitting one nested array. This collapses those chunks
+    into one SplitProposal per series, deduping album_ids and keeping
+    the first-encountered title/provider/reason.
+    """
+    by_id: dict[str, dict] = {}
+    for chunk in chunks:
+        sid = chunk["new_series_id"]
+        if sid not in by_id:
+            by_id[sid] = {
+                "new_series_id": sid,
+                "new_series_title": chunk["new_series_title"],
+                "album_ids": list(chunk["album_ids"]),
+                "provider": chunk["provider"],
+                "reason": chunk["reason"],
+            }
+        else:
+            existing = by_id[sid]
+            seen = set(existing["album_ids"])
+            for aid in chunk["album_ids"]:
+                if aid not in seen:
+                    existing["album_ids"].append(aid)
+                    seen.add(aid)
+    return [SplitProposal(**v) for v in by_id.values()]
+
+
+def assemble_review(result: ReviewResult, deps: Deps) -> AssembledReview:
+    """Combine model output (decisions + summary) with deps tool-driven actions.
+
+    The model emits only ``decisions`` and ``summary``. All action
+    proposals — overrides, splits, added albums, pattern update —
+    accumulate on Deps via tool calls during the run. This function
+    pulls them together and applies the same consistency check the
+    pydantic validator used to do (now at this layer where we have
+    plain data, not pydantic models): if a decision claims an action
+    was taken but the corresponding list is empty, the verdict is
+    coerced to ``deferred_to_human`` with a marker on the reasoning.
+    """
+    overrides = [ReviewOverride(**o) for o in deps.proposed_overrides]
+    splits = _merge_split_chunks(deps.proposed_splits)
+    added_albums = [
+        AddedAlbum(
+            album_id=e["album_id"],
+            provider=e["provider"],
+            title=e["title"],
+            episode_num=e.get("episode_num"),
+            include=e.get("include", True),
+            exclude_reason=e.get("exclude_reason"),
+            evidence_url=e.get("evidence_url", ""),
+        )
+        for e in deps.added_albums
+    ]
+    pattern_update = deps.proposed_pattern_update
+
+    decisions = result.decisions.model_copy(deep=True)
+    coerced: list[str] = []
+
+    if decisions.duplicates.verdict == DuplicatesVerdict.RESOLVED_VIA_OVERRIDES and not overrides:
+        decisions.duplicates = DuplicatesDecision(
+            verdict=DuplicatesVerdict.DEFERRED,
+            reasoning=(decisions.duplicates.reasoning or "")[:200] + _AUTO_DOWNGRADE_SUFFIX,
+        )
+        coerced.append("duplicates")
+    if decisions.sub_series.verdict == SubSeriesVerdict.SPLITS_PROPOSED and not splits:
+        decisions.sub_series = SubSeriesDecision(
+            verdict=SubSeriesVerdict.DEFERRED,
+            reasoning=(decisions.sub_series.reasoning or "")[:200] + _AUTO_DOWNGRADE_SUFFIX,
+        )
+        coerced.append("sub_series")
+    if decisions.gaps.verdict == GapsVerdict.FILLED_VIA_ADD_ALBUM and not added_albums:
+        decisions.gaps = GapsDecision(
+            verdict=GapsVerdict.DEFERRED,
+            reasoning=(decisions.gaps.reasoning or "")[:200] + _AUTO_DOWNGRADE_SUFFIX,
+        )
+        coerced.append("gaps")
+    if decisions.pattern.verdict == PatternVerdict.PATTERN_UPDATED and pattern_update is None:
+        decisions.pattern = PatternDecision(
+            verdict=PatternVerdict.DEFERRED,
+            reasoning=(decisions.pattern.reasoning or "")[:200] + _AUTO_DOWNGRADE_SUFFIX,
+        )
+        coerced.append("pattern")
+    if decisions.outliers.verdict == OutliersVerdict.EXCLUDED_VIA_OVERRIDES and not overrides:
+        decisions.outliers = OutliersDecision(
+            verdict=OutliersVerdict.DEFERRED,
+            reasoning=(decisions.outliers.reasoning or "")[:200] + _AUTO_DOWNGRADE_SUFFIX,
+        )
+        coerced.append("outliers")
+
+    if coerced:
+        console.print(
+            f"[yellow]⚠ Coerced inconsistent verdicts to "
+            f"{_DEFERRED}: {', '.join(coerced)}[/yellow]",
+        )
+
+    return AssembledReview(
+        overrides=overrides,
+        splits=splits,
+        added_albums=added_albums,
+        pattern_update=pattern_update,
+        decisions=decisions,
+        summary=result.summary,
+    )
+
+
+def _needs_re_verification(review: AssembledReview) -> bool:
+    """True when the review's findings require the verify step to re-run.
+
+    Either a structural change was proposed, OR any category landed on
+    ``deferred_to_human`` (agent-chosen or coerced). In both cases the
     prior 'approved' state is no longer trusted.
     """
     if (
-        result.overrides
-        or result.splits
-        or result.added_albums
-        or result.pattern_update
+        review.overrides
+        or review.splits
+        or review.added_albums
+        or review.pattern_update
     ):
         return True
-    d = result.decisions
+    d = review.decisions
     return any(
         getattr(d, cat).verdict == _DEFERRED
         for cat in (
@@ -839,43 +1039,17 @@ def _has_actions(result: ReviewResult) -> bool:
     )
 
 
-def _merge_tool_adds(result: ReviewResult, deps: Deps) -> None:
-    """Ensure deps.added_albums is reflected in result.added_albums.
-
-    Idempotent: skips IDs already in the result. Mutates ``result`` in
-    place; the result object is returned to the caller separately.
-    """
-    seen = {a.album_id for a in result.added_albums}
-    for entry in deps.added_albums:
-        if entry["album_id"] in seen:
-            continue
-        result.added_albums.append(
-            AddedAlbum(
-                album_id=entry["album_id"],
-                provider=entry["provider"],
-                title=entry["title"],
-                episode_num=entry.get("episode_num"),
-                include=entry.get("include", True),
-                exclude_reason=entry.get("exclude_reason"),
-                evidence_url=entry.get("evidence_url", ""),
-            ),
-        )
-        seen.add(entry["album_id"])
-
-
-def save_review(series_id: str, result: ReviewResult) -> Path:
-    """Save review result into the curation JSON.
+def save_review(series_id: str, review: AssembledReview) -> Path:
+    """Save an AssembledReview into the curation JSON.
 
     Updates the review block in place: overrides/splits/added_albums/
-    pattern_update/notes/reviewed_at are replaced with this run's
-    output, but any other fields the verify step or human reviewers
-    may have added (reviewed_by, etc.) are preserved.
+    pattern_update/decisions/summary/reviewed_at are replaced with this
+    run's output. Any other fields humans or older pipeline stages may
+    have added (e.g. ``reviewed_by``) are preserved.
 
-    When the agent proposes new actions, the prior status and
-    verification block become stale: the previously-approved curation
-    no longer matches what's about to ship. Reset status to
-    ``ai_reviewed`` and drop the verification block so verify
-    re-validates against the new actions.
+    When the review proposes any change OR defers any category to
+    human, the prior ``status`` and ``verification`` block are stale —
+    reset to ``ai_reviewed`` so verify re-checks.
     """
     path = CURATION_DIR / f"{series_id}.json"
     if not path.exists():
@@ -884,41 +1058,35 @@ def save_review(series_id: str, result: ReviewResult) -> Path:
 
     data = json.loads(path.read_text())
     review_block = data.setdefault("review", {})
-    review_block["overrides"] = [o.model_dump() for o in result.overrides]
-    review_block["splits"] = [s.model_dump() for s in result.splits]
-    review_block["added_albums"] = [a.model_dump() for a in result.added_albums]
-    review_block["pattern_update"] = result.pattern_update
-    review_block["decisions"] = result.decisions.model_dump()
-    review_block["summary"] = result.summary
-    # Pre-strict-schema reviews used a free-form ``notes`` string. Drop
-    # it here so saved curations don't carry both the new structured
-    # fields and the obsolete prose blob. Old curations that haven't
-    # been re-reviewed keep their notes intact (we only touch this key
-    # when re-running review).
+    review_block["overrides"] = [o.model_dump() for o in review.overrides]
+    review_block["splits"] = [s.model_dump() for s in review.splits]
+    review_block["added_albums"] = [a.model_dump() for a in review.added_albums]
+    review_block["pattern_update"] = review.pattern_update
+    review_block["decisions"] = review.decisions.model_dump()
+    review_block["summary"] = review.summary
+    # Old reviews carried a free-form ``notes`` string. Drop it on save
+    # so curations don't mix old and new shapes.
     review_block.pop("notes", None)
     review_block["reviewed_at"] = datetime.now(UTC).isoformat()
 
-    if _has_actions(result):
+    if _needs_re_verification(review):
         review_block["status"] = "ai_reviewed"
         review_block.pop("verification", None)
 
-    # Merge added albums into the main albums list before re-extracting,
-    # so any new ones get their episode_num under the (possibly updated)
-    # pattern in the same pass.
-    if result.added_albums:
+    # Merge added albums into the main list before re-extraction, so
+    # they pick up the (possibly updated) pattern in the same pass.
+    if review.added_albums:
         existing_ids = {a["album_id"] for a in data.get("albums", [])}
-        for added in result.added_albums:
+        for added in review.added_albums:
             if added.album_id not in existing_ids:
                 data.setdefault("albums", []).append(added.model_dump())
 
-    # Apply the pattern update deterministically. The review tool only
-    # previews; the source of truth is what the agent put in its output.
-    if result.pattern_update:
+    if review.pattern_update:
         from lauschi_catalog.catalog.matcher import apply_episode_pattern
 
-        data["episode_pattern"] = result.pattern_update
+        data["episode_pattern"] = review.pattern_update
         data["albums"] = apply_episode_pattern(
-            data.get("albums", []), result.pattern_update,
+            data.get("albums", []), review.pattern_update,
         )
 
     path.write_text(json.dumps(data, indent=2, ensure_ascii=False))
@@ -989,30 +1157,29 @@ def review(
 
         console.print(f"\n[bold]Reviewing {curation.get('title', path.stem)}...[/bold]")
 
-        result = asyncio.run(
+        review = asyncio.run(
             _run_review(curation, providers, model_name=model, timeout=timeout),
         )
 
         # Always persist the review block — the per-category decisions
         # and summary are valuable provenance for human auditors even
-        # when no actions were proposed. Otherwise insightful reasoning
-        # gets lost on stdout.
-        save_path = save_review(path.stem, result)
+        # when no actions were proposed.
+        save_path = save_review(path.stem, review)
         console.print(
-            f"  {len(result.overrides)} overrides, {len(result.splits)} splits, "
-            f"{len(result.added_albums)} added"
-            + (", pattern_update" if result.pattern_update else ""),
+            f"  {len(review.overrides)} overrides, {len(review.splits)} splits, "
+            f"{len(review.added_albums)} added"
+            + (", pattern_update" if review.pattern_update else ""),
         )
         console.print(f"  [green]Saved to {save_path}[/green]")
 
-        # One-line per-category roll-up so the human running review can
-        # spot escalations at a glance without opening the JSON.
-        d = result.decisions
+        # One-line per-category roll-up so the human can spot
+        # escalations at a glance without opening the JSON.
+        d = review.decisions
         verdicts = (
             f"  dup:{d.duplicates.verdict} | sub:{d.sub_series.verdict} | "
             f"gap:{d.gaps.verdict} | pat:{d.pattern.verdict} | "
             f"out:{d.outliers.verdict} | xprov:{d.cross_provider.verdict}"
         )
         console.print(f"  [dim]{verdicts}[/dim]")
-        if result.summary:
-            console.print(f"  Summary: {result.summary}")
+        if review.summary:
+            console.print(f"  Summary: {review.summary}")
