@@ -3623,10 +3623,10 @@ series:
 - id: tkkg
   title: TKKG
   aliases:
-  - Tim, Karl, Klößchen, Gaby
+  - Ein Fall für TKKG
   episode_pattern:
+  - ^(\d{3})/
   - '^Folge (\d+):'
-  - ^(\d+)/
   providers:
     spotify:
       artist_ids:
@@ -3716,9 +3716,6 @@ series:
       - id: 4HNxicEEVUbZHI4GvvBEVH
         episode: 127
         title: 127/Im Schlauchboot durch die Unterwelt
-      - id: 5jjQAVPbdRAvDxeCdg8xsL
-        episode: 128
-        title: 128/Die Gehilfen des Terrors
       - id: 1TjNjBs1qKh8atmJe9JBcz
         episode: 129
         title: 129/Der Erpresser fährt bis Endstation
@@ -3731,6 +3728,96 @@ series:
       - id: 7C5cT8kDPUKAiyV39QC9y6
         episode: 132
         title: 132/Homejacker machen Überstunden
+      - id: 6u0Bbe6ewDB23wwN0XbU2J
+        episode: 133
+        title: 133/Auf vier Pfoten zur Millionenbeute
+      - id: 1xOMCIhM742LDNn6Av7SaY
+        episode: 134
+        title: 134/Wer stoppt die Weihnachts-Gangster
+      - id: 5GyWEEFbhvsUPk9pVR61p8
+        episode: 135
+        title: 135/Der Meisterdieb und seine Feinde
+      - id: 6Jw6ALN4jEqyhtHPuSGD7e
+        episode: 136
+        title: 136/Argentinische Entführung
+      - id: 3S3RsaMPC1zpjYh9ibwLhb
+        episode: 137
+        title: 137/Verschleppt ins Tal Diabolo
+      - id: 78gbDWHGzUfxISjEQjhXXg
+        episode: 138
+        title: 138/Raubzug mit Bumerang
+      - id: 7pRJLfr0wOiudzUjSqitzN
+        episode: 139
+        title: 139/Oskar jagt die Drogendealer
+      - id: 7BTjGCqexmQ947HDHR5e8J
+        episode: 140
+        title: 140/Draculas Erben
+      - id: 34ZBbN1LTl2c2Qxzj2JwF1
+        episode: 141
+        title: 141/Todesbiss der schwarzen Mamba
+      - id: 5SZxeVgh5JUHEgew4IKLsx
+        episode: 142
+        title: 142/Bankräuber mit Supertrick
+      - id: 6WKU3Zj4uxvrJnY5Kc03A0
+        episode: 143
+        title: 143/Das unheimliche Haus
+      - id: 1DL2rSYjJIWqFpmGIRitMZ
+        episode: 144
+        title: 144/Schreckensnacht im Schlangenmaul
+      - id: 3vAwRpp0YGKwWzLxctXHXe
+        episode: 145
+        title: 145/Hinterhalt am schwarzen Fels
+      - id: 74Qcbtr7f0KP3VpEgaWoaS
+        episode: 146
+        title: 146/Nonstop in die Raketenfalle
+      - id: 642OtfJ54JziKQWOYbyiEa
+        episode: 147
+        title: 147/Hölle ohne Hintertür
+      - id: 0nFRzugvW1NVT1DUDxpQdb
+        episode: 148
+        title: 148/Fieser Trick beim Finale
+      - id: 1OWuX6xSnnC3oebl45X28K
+        episode: 149
+        title: 149/Tims gefährlichster Gegner
+      - id: 0ZqyFeMXxCyIJvYptGlnn1
+        episode: 150
+        title: 150/Heiße Nächte im Dezember
+      - id: 7CLvIAy7Nzo03EQYWKa0yn
+        episode: 151
+        title: 151/Gekauftes Spiel
+      - id: 5j81oYcn0kptiSEPrEHmkF
+        episode: 152
+        title: 152/Max und Anna, ein diebisches Paar
+      - id: 4olYXMWX664H8ZJHZbXmAT
+        episode: 153
+        title: 153/Es geschah in einer Regennacht
+      - id: 0K30SpThDKymGkKlRgtUv2
+        episode: 154
+        title: 154/Das Geheimnis der Burgruine
+      - id: 5XPVfzwtpBFF9CrmLb8Ilm
+        episode: 155
+        title: 155/Gefangen im Spukhaus
+      - id: 20WDNq4KvOibx87TFa2eXP
+        episode: 156
+        title: 156/Erpresser fahren Achterbahn
+      - id: 55nP0alEiObRF2c151bhTv
+        episode: 157
+        title: 157/Oskar und die sieben Zwerge
+      - id: 3OQqrEZzRYgYDcBIqsTeXS
+        episode: 158
+        title: 158/Trainer unter Verdacht
+      - id: 4qR8In8uET1hBWHPGmhaWO
+        episode: 159
+        title: 159/Böses Spiel im Sommercamp
+      - id: 7DPQuaR0bI58tJzkSQMllp
+        episode: 160
+        title: 160/Das Grauen naht um Zwölf
+      - id: 6dneQXVs3r2JnZZxcwLtyK
+        episode: 161
+        title: 161/Ein Yeti in der Millionenstadt
+      - id: 4rSBDuSHYujCYFhrazbtnA
+        episode: 162
+        title: 162/Gefahr für Oskar!
       - id: 6nFRXqUzqgusdraaxsOGqa
         episode: 163
         title: 163/Die Makler-Mafia
@@ -3968,6 +4055,8 @@ series:
       - id: 59dffkOOO9cbMLPUTxyUSV
         episode: 240
         title: 'Folge 240: Das verschollene Zepter von Gizeh'
+      - id: 6yQhG36kGFjmCWNIq05qsR
+        title: Das Geheimnis um TKKG (Neuaufnahme)
     apple_music:
       artist_ids:
       - '191548811'
@@ -3975,6 +4064,9 @@ series:
       - id: '1195632440'
         episode: 100
         title: 'Folge 100: Fieser Trick mit Nr. 100'
+      - id: '1195637277'
+        episode: 101
+        title: 'Folge 101: Opfer fliegen 1. Klasse'
       - id: '1195630985'
         episode: 102
         title: 'Folge 102: Angst auf der Autobahn'
@@ -4017,12 +4109,18 @@ series:
       - id: '1086574965'
         episode: 115
         title: 'Folge 115: Der Diamant im Bauch der Kobra'
+      - id: '1216486986'
+        episode: 116
+        title: 'Folge 116: Klassenfahrt zur Hexenburg'
       - id: '1087173572'
         episode: 117
         title: 'Folge 117: Im Schloß der schlafenden Vampire'
       - id: '1216485638'
         episode: 118
         title: 'Folge 118: Im Kaufhaus ist der Teufel los'
+      - id: '1216486401'
+        episode: 119
+        title: 'Folge 119: Frische Spur nach 70 Jahren'
       - id: '1216486746'
         episode: 120
         title: 'Folge 120: Bei Anruf Angst'
@@ -4047,9 +4145,6 @@ series:
       - id: '1216485771'
         episode: 127
         title: 'Folge 127: Im Schlauchboot durch die Unterwelt'
-      - id: '1087175155'
-        episode: 128
-        title: 'Folge 128: Die Gehilfen des Terrors'
       - id: '1087180132'
         episode: 129
         title: 'Folge 129: Der Erpresser fährt bis Endstation'
@@ -4197,6 +4292,9 @@ series:
       - id: '1087329715'
         episode: 177
         title: 'Folge 177: Die Spur der Wölfin'
+      - id: '1087326591'
+        episode: 178
+        title: 'Folge 178: Hai-Alarm im Aquapark'
       - id: '1087331171'
         episode: 179
         title: 'Folge 179: Abzocke im Online-Chat'
@@ -4242,27 +4340,90 @@ series:
       - id: '1087308911'
         episode: 193
         title: 'Folge 193: Das Weihnachts-Phantom'
+      - id: '1087309130'
+        episode: 194
+        title: 'Folge 194: Der Friedhof der Namenlosen'
+      - id: '1150338992'
+        episode: 195
+        title: 'Folge 195: Dem Sonnenkönig auf der Spur'
+      - id: '1148959439'
+        episode: 196
+        title: 'Folge 196: Tatort Wagenburg'
+      - id: '1148961615'
+        episode: 197
+        title: 'Folge 197: Bei Anpfiff Übergabe'
       - id: '1145292244'
         episode: 198
         title: 'Folge 198: Der Golem vom Dunkelsee'
+      - id: '1174859884'
+        episode: 199
+        title: 'Folge 199: Verfolgungsjagd vor Mitternacht'
+      - id: '1208973032'
+        episode: 200
+        title: 'Folge 200: Der große Coup'
+      - id: '1233291606'
+        episode: 201
+        title: 'Folge 201: Vom Goldschatz besessen'
+      - id: '1245097655'
+        episode: 202
+        title: 'Folge 202: Ein Paradies für Diebe'
       - id: '1298617442'
         episode: 203
         title: 'Folge 203: Der Räuber mit der Weihnachtsmaske'
+      - id: '1332712464'
+        episode: 204
+        title: 'Folge 204: Verschwörung auf hoher See'
+      - id: '1345999553'
+        episode: 205
+        title: 'Folge 205: Teuflische Kaffeefahrt'
       - id: '1371388955'
         episode: 206
         title: 'Folge 206: Achtung, UFO-Kult!'
       - id: '1397341082'
         episode: 207
         title: 'Folge 207: Doppelte Entführung'
+      - id: '1439195203'
+        episode: 208
+        title: 'Folge 208: Geheimnis im Tresor'
+      - id: '1449473902'
+        episode: 209
+        title: 'Folge 209: Drohbriefe von Unbekannt'
+      - id: '1454389428'
+        episode: 210
+        title: 'Folge 210: Raubzug im Casino'
+      - id: '1480819029'
+        episode: 211
+        title: 'Folge 211: Geiselnahme im Villenviertel'
+      - id: '1477493477'
+        episode: 212
+        title: 'Folge 212: Tyrannei Kommando Eins'
+      - id: '1486568481'
+        episode: 213
+        title: 'Folge 213: Das unheimliche Dorf'
+      - id: '1493944495'
+        episode: 214
+        title: 'Folge 214: Diamantenrausch auf der A9'
       - id: '1521299226'
         episode: 215
         title: 'Folge 215: Verbrechen im Moorsteiner Wald'
+      - id: '1536103124'
+        episode: 216
+        title: 'Folge 216: Das Geheimnis im Jagdschloss'
       - id: '1536103570'
         episode: 216
         title: 'Folge 216: Das Geheimnis im Jagdschloss (Kopfhörer-Hörspiel)'
+      - id: '1542192404'
+        episode: 217
+        title: 'Folge 217: Tödliche Klarinette'
       - id: '1559602751'
         episode: 218
         title: 'Folge 218: Schutzgeld für Dämonen'
+      - id: '1560974913'
+        episode: 219
+        title: 'Folge 219: Terror frei Haus'
+      - id: '1580961248'
+        episode: 220
+        title: 'Folge 220: Attentat am Gämsengrat'
       - id: '1600511548'
         episode: 221
         title: 'Folge 221: Beim Raubzug helfen Ahnungslose'
@@ -4281,6 +4442,9 @@ series:
       - id: '1751465793'
         episode: 226
         title: 'Folge 226: Der Täter ist unter uns'
+      - id: '1751468455'
+        episode: 227
+        title: 'Folge 227: Zwei für Zwölf'
       - id: '1751468665'
         episode: 228
         title: 'Folge 228: Das Geld, das niemand wollte'
@@ -4317,8 +4481,14 @@ series:
       - id: '1836900059'
         episode: 239
         title: 'Folge 239: Vollgas ins Verderben'
-      - id: '1450498987'
-        title: Das Geheimnis um TKKG (Neuaufnahme)
+      - id: '1869244321'
+        episode: 240
+        title: 'Folge 240: Das verschollene Zepter von Gizeh'
+      - id: '1880633189'
+        episode: 241
+        title: 'Folge 241: Das Rätsel der Gruselvilla'
+  keywords:
+  - TKKG
 - id: bibi_und_tina
   title: Bibi und Tina
   aliases:

@@ -301,7 +301,7 @@ async def _run_review(
             async def _run():
                 async with agent.iter(
                     prompt, deps=deps,
-                    usage_limits=UsageLimits(request_limit=20),
+                    usage_limits=UsageLimits(request_limit=100),
                 ) as run:
                     async for node in run:
                         if not hasattr(node, "model_response"):
