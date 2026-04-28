@@ -117,6 +117,10 @@ run = "uv run --directory tools lauschi-catalog apply --all"
 description = "Show statistics for all curations"
 run = "uv run --directory tools lauschi-catalog report"
 
+[tasks.catalog-test]
+description = "Run the lauschi-catalog Python test suite"
+run = "uv run --directory tools pytest"
+
 [tasks.catalog-edit]
 description = "Edit curation files (exclude/include/list)"
 run = "uv run --directory tools lauschi-catalog edit"
