@@ -61,17 +61,23 @@ class AddedAlbum(BaseModel):
     album_id: str
     provider: str
     title: str
-    episode_num: int | None = None
-    # ``include`` defaults to True: an explicit add means the agent
-    # wants this album in the curation. ``exclude_reason`` mirrors the
-    # shape of regular albums in data["albums"] so save_review can
-    # merge without post-processing.
+    episode_num: int | None = Field(
+        description="Episode number extracted from the title via the series "
+        "pattern, or null when the title carries no number.",
+    )
+    # ``include`` and ``exclude_reason`` mirror the shape of regular albums
+    # in data["albums"] so save_review can merge without post-processing.
     include: bool = True
     exclude_reason: str | None = None
-    # URL the agent cited as evidence the episode exists on the provider.
-    # Empty string for legacy entries; new adds require a non-empty value
-    # at tool-call time (see review_validation.validate_add_evidence).
-    evidence_url: str = ""
+    # Required so pydantic-ai treats it as a mandatory field in the model's
+    # output schema. With a default, the model would silently skip it and
+    # validate_add_evidence would never run. Tool-driven adds always supply
+    # a URL via the add_album signature.
+    evidence_url: str = Field(
+        description="URL from web_search or fetch_page that confirms this "
+        "album belongs to the series. Must NOT be a provider URL "
+        "(open.spotify.com, music.apple.com).",
+    )
 
 
 class ReviewResult(BaseModel):
@@ -556,31 +562,82 @@ _STRUCTURED_LEAK_MARKERS = (
     '"album_ids":', "'album_ids':",
 )
 
+# Words that strongly signal the agent is recommending a structural
+# action in prose. We only check these when notes are long AND no
+# structured field is populated — short notes describing absence of
+# defects are unlikely to contain action language by accident.
+_PROSE_ACTION_INDICATORS = (
+    "should be excluded",
+    "should be split",
+    "should split",
+    "split into",
+    "separate series",
+    "sub-series",
+    "does not belong",
+    "doesn't belong",
+    "needs to be excluded",
+    "needs splitting",
+    "move to",
+    "exclude these",
+    "exclude the",
+    "remove the",
+)
+_PROSE_LEAK_NOTES_THRESHOLD = 200
+
+
+def _has_actions(result: ReviewResult) -> bool:
+    """True when the review proposed at least one structural change."""
+    return bool(
+        result.overrides
+        or result.splits
+        or result.added_albums
+        or result.pattern_update,
+    )
+
 
 def _warn_if_notes_smell_structured(result: ReviewResult) -> None:
-    """Detect when the model jammed structured output into ``notes``.
+    """Detect when the model recommended actions but didn't structure them.
 
-    Some models (kimi at certain temperatures) return prose summary plus
-    raw JSON of the structured fields all bundled into notes, instead of
-    populating overrides/splits/added_albums directly. The empty action
-    fields then look like a clean review when in fact the agent proposed
-    significant actions. Warn loudly so a human can re-run or post-edit.
+    Two failure modes both produce a review that *looks* clean (action
+    lists empty) but actually carries unfulfilled recommendations:
+
+    1. **JSON leak** — the model bundled raw JSON of splits/overrides
+       into the notes string instead of populating the dedicated fields.
+       Caught by ``_STRUCTURED_LEAK_MARKERS``.
+    2. **Prose leak** — the model wrote out its findings in plain
+       language ("Gute-Nacht-Geschichten should be split into a
+       separate series") with action lists still empty. Caught by
+       long-notes + action-indicator heuristic.
+
+    Either way we warn loudly so a human reviewer doesn't trust the
+    empty action lists. The warning is conservative: it only fires
+    when the structured fields are genuinely empty — a review with
+    even one override or split is treated as honest.
     """
-    if any(m in result.notes for m in _STRUCTURED_LEAK_MARKERS):
-        no_actions = (
-            not result.overrides
-            and not result.splits
-            and not result.added_albums
-            and not result.pattern_update
+    if _has_actions(result):
+        return
+
+    notes_lower = result.notes.lower()
+    json_leak = any(m in result.notes for m in _STRUCTURED_LEAK_MARKERS)
+    prose_leak = (
+        len(result.notes) > _PROSE_LEAK_NOTES_THRESHOLD
+        and any(ind in notes_lower for ind in _PROSE_ACTION_INDICATORS)
+    )
+
+    if json_leak:
+        console.print(
+            "[bold red]⚠ MALFORMED OUTPUT (JSON leak):[/] the model put "
+            "structured output inside the notes field instead of the "
+            "dedicated fields. Recommendations live in notes as JSON-like "
+            "text but are NOT applied. Re-run with --force or --model.",
         )
-        if no_actions:
-            console.print(
-                "[bold red]⚠ MALFORMED OUTPUT:[/] the model put structured "
-                "output (splits/overrides/added_albums) inside the notes "
-                "field instead of the dedicated fields. The recommendations "
-                "live in notes as JSON-like text but are NOT applied. Re-run "
-                "with --force or a different --model.",
-            )
+    elif prose_leak:
+        console.print(
+            "[bold yellow]⚠ POSSIBLE PROSE LEAK:[/] notes describe "
+            "structural actions ('should be split', 'sub-series', etc.) "
+            "but the action lists are empty. A human should read notes "
+            "and decide whether to apply the recommendations.",
+        )
 
 
 def _merge_tool_adds(result: ReviewResult, deps: Deps) -> None:
@@ -613,9 +670,13 @@ def save_review(series_id: str, result: ReviewResult) -> Path:
     Updates the review block in place: overrides/splits/added_albums/
     pattern_update/notes/reviewed_at are replaced with this run's
     output, but any other fields the verify step or human reviewers
-    may have added (status, verification, reviewed_by, etc.) are
-    preserved. The review step writes review findings; downstream
-    pipeline state belongs to verify.
+    may have added (reviewed_by, etc.) are preserved.
+
+    When the agent proposes new actions, the prior status and
+    verification block become stale: the previously-approved curation
+    no longer matches what's about to ship. Reset status to
+    ``ai_reviewed`` and drop the verification block so verify
+    re-validates against the new actions.
     """
     path = CURATION_DIR / f"{series_id}.json"
     if not path.exists():
@@ -630,6 +691,10 @@ def save_review(series_id: str, result: ReviewResult) -> Path:
     review_block["pattern_update"] = result.pattern_update
     review_block["notes"] = result.notes
     review_block["reviewed_at"] = datetime.now(UTC).isoformat()
+
+    if _has_actions(result):
+        review_block["status"] = "ai_reviewed"
+        review_block.pop("verification", None)
 
     # Merge added albums into the main albums list before re-extracting,
     # so any new ones get their episode_num under the (possibly updated)

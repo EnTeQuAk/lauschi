@@ -7,6 +7,7 @@ and can be unit-tested without spinning up an agent.
 from __future__ import annotations
 
 from typing import Protocol
+from urllib.parse import urlparse
 
 
 class _ResearchCounters(Protocol):
@@ -14,6 +15,18 @@ class _ResearchCounters(Protocol):
 
     _search_count: int
     _fetch_count: int
+
+
+# Provider domains can't serve as evidence for adding the same album:
+# pointing at the album's own Spotify or Apple Music page is circular.
+# Evidence has to come from an external source — hoerspiele.de,
+# Wikipedia, the publisher's site, etc.
+_PROVIDER_DOMAINS = frozenset({
+    "open.spotify.com",
+    "spotify.com",
+    "music.apple.com",
+    "itunes.apple.com",
+})
 
 
 def validate_add_evidence(
@@ -28,9 +41,11 @@ def validate_add_evidence(
 
     Rules:
     1. ``evidence_url`` must be a non-empty http(s) URL.
-    2. The agent must have used ``web_search`` or ``fetch_page`` at least
-       once before calling add_album, so the URL can plausibly be
-       grounded in real search results rather than hallucinated.
+    2. The URL must NOT come from a streaming-provider domain (citing
+       the album's own Spotify/Apple Music page would be circular).
+    3. The agent must have used ``web_search`` or ``fetch_page`` at least
+       once before calling add_album, so the URL is plausibly grounded
+       in real search results rather than hallucinated.
     """
     if not evidence_url:
         return (
@@ -39,6 +54,15 @@ def validate_add_evidence(
         )
     if not evidence_url.startswith(("http://", "https://")):
         return f"evidence_url must be an http(s) URL, got {evidence_url!r}."
+    domain = urlparse(evidence_url).netloc.lower()
+    # Strip ``www.`` so ``www.spotify.com`` matches.
+    domain = domain.removeprefix("www.")
+    if domain in _PROVIDER_DOMAINS:
+        return (
+            f"evidence_url must come from an external source "
+            f"(hoerspiele.de, Wikipedia, publisher site), not {domain}. "
+            "The provider's own album page is not independent evidence."
+        )
     if deps._search_count + deps._fetch_count == 0:
         return (
             "Use web_search or fetch_page first to find evidence; "

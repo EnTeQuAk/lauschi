@@ -53,3 +53,36 @@ def test_accepts_after_fetch_only():
     """A direct fetch_page call also counts as research."""
     err = validate_add_evidence(_Deps(fetch=1), "https://hoerspiele.de/x")
     assert err is None
+
+
+def test_rejects_spotify_domain():
+    """Citing the album's own Spotify page is circular evidence."""
+    err = validate_add_evidence(_Deps(search=1), "https://open.spotify.com/album/abc")
+    assert err is not None
+    assert "spotify.com" in err.lower() or "external" in err.lower()
+
+
+def test_rejects_apple_music_domain():
+    err = validate_add_evidence(_Deps(search=1), "https://music.apple.com/de/album/123")
+    assert err is not None
+    assert "apple" in err.lower() or "external" in err.lower()
+
+
+def test_rejects_itunes_domain():
+    err = validate_add_evidence(_Deps(search=1), "https://itunes.apple.com/album/123")
+    assert err is not None
+
+
+def test_rejects_provider_domain_with_www_prefix():
+    err = validate_add_evidence(_Deps(search=1), "https://www.spotify.com/de")
+    assert err is not None
+
+
+def test_accepts_external_evidence_domains():
+    for url in [
+        "https://hoerspiele.de/serien/tkkg/folge-128",
+        "https://de.wikipedia.org/wiki/TKKG",
+        "https://www.europa-publishing.de/produkt/folge-128",
+    ]:
+        err = validate_add_evidence(_Deps(search=1), url)
+        assert err is None, f"unexpectedly rejected: {url} → {err}"

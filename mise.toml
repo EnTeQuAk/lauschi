@@ -119,7 +119,7 @@ run = "uv run --directory tools lauschi-catalog report"
 
 [tasks.catalog-test]
 description = "Run the lauschi-catalog Python test suite"
-run = "uv run --directory tools pytest"
+run = "uv run --directory tools --extra ai pytest"
 
 [tasks.catalog-edit]
 description = "Edit curation files (exclude/include/list)"

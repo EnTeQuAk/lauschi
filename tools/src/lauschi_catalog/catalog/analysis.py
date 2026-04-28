@@ -33,7 +33,7 @@ def effective_albums(curation: dict) -> list[dict]:
     ]
 
 
-_CLUSTER_DELIMITERS = (":", "/")
+_CLUSTER_DELIMITERS = (":", "/", " - ", " | ")
 _CLUSTER_EXAMPLE_LIMIT = 3
 _OUTLIER_LIST_LIMIT = 20
 
@@ -41,15 +41,19 @@ _OUTLIER_LIST_LIMIT = 20
 def _title_shape(title: str) -> str:
     """Reduce a title to its structural shape for clustering.
 
-    Lowercases, truncates at the first ``:`` or ``/`` (whichever comes
-    earliest), then collapses digit-runs to ``N``. The resulting key
-    groups titles that share a naming convention regardless of the
-    specific episode number or subtitle.
+    Lowercases, truncates at the first structural delimiter (``:``, ``/``,
+    ``" - "``, ``" | "``), then collapses digit-runs to ``n``. Titles that
+    share a naming convention end up with the same shape regardless of
+    the specific episode number or subtitle.
+
+    The dash and pipe forms are spaced (`` - `` not ``-``) so we don't
+    truncate inside hyphenated words like ``Gute-Nacht-Geschichten``.
 
     Examples:
         "Folge 168: Die Elchkuh" → "folge n"
-        "Junior - Folge 5: Sub" → "junior - folge n"
+        "Junior - Folge 5: Sub" → "junior"
         "051/und der riskante Ritt" → "n"
+        "Woodwalkers - Carags Verwandlung" → "woodwalkers"
     """
     s = title.lower()
     cuts = [s.index(d) for d in _CLUSTER_DELIMITERS if d in s]

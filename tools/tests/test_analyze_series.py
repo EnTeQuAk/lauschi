@@ -312,7 +312,12 @@ def test_analyze_uniform_titles_form_one_cluster():
 
 
 def test_analyze_clusters_sub_series_separately():
-    """Mixed sub-series produce distinct clusters sorted by frequency."""
+    """Mixed sub-series produce distinct clusters sorted by frequency.
+
+    "Junior - Folge n: Sub" truncates at the first " - " delimiter to
+    "junior" (the sub-series prefix), distinct from the main "folge n"
+    cluster.
+    """
     albums = [
         make_album(f"main{n}", f"Folge {n}: Main", episode_num=n)
         for n in range(1, 11)
@@ -324,9 +329,24 @@ def test_analyze_clusters_sub_series_separately():
     clusters = result["title_clusters"]
     shapes = [c["shape"] for c in clusters]
     assert "folge n" in shapes
-    assert "junior - folge n" in shapes
+    assert "junior" in shapes
     # Sorted by count desc
     assert clusters[0]["count"] >= clusters[1]["count"]
+
+
+def test_analyze_dash_only_titles_cluster_on_prefix():
+    """Real-world case (kommissar_kugelblitz, woodwalkers): titles use
+    " - " as the structural separator without any colon/slash. They
+    should cluster on the prefix shape, not be treated as singletons.
+    """
+    albums = [
+        make_album("a", "Folge 1 - Die rote Socke", episode_num=1),
+        make_album("b", "Folge 2 - Das blaue Zimmer", episode_num=2),
+        make_album("c", "Folge 3 - Der grüne Papagei", episode_num=3),
+    ]
+    result = analyze_series(make_curation(albums=albums))
+    shapes = [c["shape"] for c in result["title_clusters"]]
+    assert "folge n" in shapes
 
 
 def test_analyze_clusters_use_slash_as_delimiter():
