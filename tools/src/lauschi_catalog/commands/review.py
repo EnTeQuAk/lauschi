@@ -35,7 +35,7 @@ REPO_ROOT = Path(__file__).parent.parent.parent.parent.parent
 CURATION_DIR = REPO_ROOT / "assets" / "catalog" / "curation"
 
 _OPENCODE_BASE_URL = "https://opencode.ai/zen/v1"
-_DEFAULT_MODEL = "kimi-k2.5"
+_DEFAULT_MODEL = "kimi-k2.6"
 _MAX_RETRIES = 3
 _RETRY_DELAY = 5
 
@@ -520,6 +520,7 @@ async def _run_review(
             # tool-recorded adds the model didn't echo back into the
             # final result so save_review sees them.
             _merge_tool_adds(result, deps)
+            _warn_if_notes_smell_structured(result)
             return result
         except Exception as e:
             if attempt < _MAX_RETRIES - 1:
@@ -527,6 +528,41 @@ async def _run_review(
                 await asyncio.sleep(_RETRY_DELAY)
             else:
                 raise
+
+
+_STRUCTURED_LEAK_MARKERS = (
+    '"splits":', "'splits':",
+    '"overrides":', "'overrides':",
+    '"added_albums":', "'added_albums':",
+    '"new_series_id":', "'new_series_id':",
+    '"album_ids":', "'album_ids':",
+)
+
+
+def _warn_if_notes_smell_structured(result: ReviewResult) -> None:
+    """Detect when the model jammed structured output into ``notes``.
+
+    Some models (kimi at certain temperatures) return prose summary plus
+    raw JSON of the structured fields all bundled into notes, instead of
+    populating overrides/splits/added_albums directly. The empty action
+    fields then look like a clean review when in fact the agent proposed
+    significant actions. Warn loudly so a human can re-run or post-edit.
+    """
+    if any(m in result.notes for m in _STRUCTURED_LEAK_MARKERS):
+        no_actions = (
+            not result.overrides
+            and not result.splits
+            and not result.added_albums
+            and not result.pattern_update
+        )
+        if no_actions:
+            console.print(
+                "[bold red]⚠ MALFORMED OUTPUT:[/] the model put structured "
+                "output (splits/overrides/added_albums) inside the notes "
+                "field instead of the dedicated fields. The recommendations "
+                "live in notes as JSON-like text but are NOT applied. Re-run "
+                "with --force or a different --model.",
+            )
 
 
 def _merge_tool_adds(result: ReviewResult, deps: Deps) -> None:
