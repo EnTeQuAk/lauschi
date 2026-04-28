@@ -43,3 +43,23 @@ def make_curation(
     if review is not None:
         data["review"] = review
     return data
+
+
+def make_clean_decisions() -> dict[str, dict[str, str]]:
+    """Build a decisions dict for a curation with no defects.
+
+    Returned shape matches StructuralReview.model_dump(): each category
+    is ``{"verdict": "...", "reasoning": "..."}``. Useful when a test
+    needs a valid ReviewResult but doesn't care about the per-category
+    content. Constructing it as raw dicts avoids importing the pydantic
+    models from review.py in fixtures that should stay light.
+    """
+    base = {"reasoning": "test fixture; analysis showed nothing to act on."}
+    return {
+        "duplicates": {"verdict": "no_within_provider_duplicates", **base},
+        "sub_series": {"verdict": "no_sub_series_mixed_in", **base},
+        "gaps": {"verdict": "no_gaps_present", **base},
+        "pattern": {"verdict": "current_pattern_correct", **base},
+        "outliers": {"verdict": "no_outliers_found", **base},
+        "cross_provider": {"verdict": "balanced", **base},
+    }

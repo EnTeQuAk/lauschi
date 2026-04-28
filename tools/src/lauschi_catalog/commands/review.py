@@ -18,8 +18,10 @@ from datetime import UTC, datetime
 from pathlib import Path
 
 import click
-from pydantic import BaseModel, Field
-from pydantic_ai import Agent, RunContext
+from typing import Literal
+
+from pydantic import BaseModel, Field, model_validator
+from pydantic_ai import Agent, RunContext, ToolOutput
 from pydantic_ai.models.openai import OpenAIChatModel
 from pydantic_ai.providers.openai import OpenAIProvider
 from pydantic_ai.usage import UsageLimits
@@ -80,12 +82,138 @@ class AddedAlbum(BaseModel):
     )
 
 
+class _CategoryDecision(BaseModel):
+    """Common shape for a per-category verdict. ``verdict`` is overridden
+    in each subclass with a ``Literal`` type so the model has to commit
+    to one of a small set of discrete states."""
+    reasoning: str = Field(
+        description="One sentence justifying the chosen verdict. Concrete and "
+        "specific to this category — don't repeat the overall summary.",
+    )
+
+
+class DuplicatesDecision(_CategoryDecision):
+    """Within-provider episode-number collisions (kids see same story twice)."""
+    verdict: Literal[
+        "resolved_via_overrides",
+        "no_within_provider_duplicates",
+        "deferred_to_human",
+    ]
+
+
+class SubSeriesDecision(_CategoryDecision):
+    """Whether multiple title clusters represent distinct sub-series."""
+    verdict: Literal[
+        "splits_proposed",
+        "no_sub_series_mixed_in",
+        "era_variants_kept",
+        "deferred_to_human",
+    ]
+
+
+class GapsDecision(_CategoryDecision):
+    """Missing episode numbers in the sequence."""
+    verdict: Literal[
+        "filled_via_add_album",
+        "verified_content_rotation",
+        "no_gaps_present",
+        "deferred_to_human",
+    ]
+
+
+class PatternDecision(_CategoryDecision):
+    """Whether the episode_pattern regex correctly extracts numbers."""
+    verdict: Literal[
+        "pattern_updated",
+        "current_pattern_correct",
+        "not_applicable_for_music",
+        "deferred_to_human",
+    ]
+
+
+class OutliersDecision(_CategoryDecision):
+    """Singleton-shape titles (specials, compilations, accidental content)."""
+    verdict: Literal[
+        "excluded_via_overrides",
+        "legitimate_specials_kept",
+        "no_outliers_found",
+        "deferred_to_human",
+    ]
+
+
+class CrossProviderDecision(_CategoryDecision):
+    """Asymmetry between Spotify and Apple Music coverage."""
+    verdict: Literal[
+        "verified_content_rotation",
+        "balanced",
+        "single_provider_only",
+        "deferred_to_human",
+    ]
+
+
+class StructuralReview(BaseModel):
+    """The agent must commit to a verdict for every analysis category.
+
+    No free-form notes field exists at this level: each piece of
+    reasoning is scoped to a specific category. This forces the model
+    to organize its thinking around the same axes downstream code (and
+    a future UI) cares about, instead of dumping a wall of prose.
+    """
+    duplicates: DuplicatesDecision
+    sub_series: SubSeriesDecision
+    gaps: GapsDecision
+    pattern: PatternDecision
+    outliers: OutliersDecision
+    cross_provider: CrossProviderDecision
+
+
 class ReviewResult(BaseModel):
     overrides: list[ReviewOverride] = Field(default_factory=list)
     splits: list[SplitProposal] = Field(default_factory=list)
     added_albums: list[AddedAlbum] = Field(default_factory=list)
     pattern_update: str | list[str] | None = None
-    notes: str = ""
+    decisions: StructuralReview
+    summary: str = Field(
+        description="1-3 sentence overall verdict on the curation. Should NOT "
+        "describe per-category findings — those go in decisions[*].reasoning.",
+    )
+
+    @model_validator(mode="after")
+    def _actions_match_decisions(self) -> "ReviewResult":
+        """Cross-field consistency: action verdicts require populated lists.
+
+        Catches the failure mode where the model picks an action verdict
+        ('splits_proposed', 'pattern_updated') but forgets to fill the
+        corresponding action field. Pydantic-ai retries on validation
+        errors, so the model gets feedback and another chance.
+        """
+        d = self.decisions
+        if d.duplicates.verdict == "resolved_via_overrides" and not self.overrides:
+            raise ValueError(
+                "decisions.duplicates says 'resolved_via_overrides' but "
+                "overrides is empty",
+            )
+        if d.sub_series.verdict == "splits_proposed" and not self.splits:
+            raise ValueError(
+                "decisions.sub_series says 'splits_proposed' but splits "
+                "is empty",
+            )
+        if d.gaps.verdict == "filled_via_add_album" and not self.added_albums:
+            raise ValueError(
+                "decisions.gaps says 'filled_via_add_album' but "
+                "added_albums is empty",
+            )
+        if d.pattern.verdict == "pattern_updated" and self.pattern_update is None:
+            raise ValueError(
+                "decisions.pattern says 'pattern_updated' but pattern_update "
+                "is null",
+            )
+        if d.outliers.verdict == "excluded_via_overrides" and not self.overrides:
+            raise ValueError(
+                "decisions.outliers says 'excluded_via_overrides' but "
+                "overrides is empty",
+            )
+        return self
 
 
 # ── Dependencies ───────────────────────────────────────────────────────────
@@ -184,29 +312,71 @@ Use the analysis as evidence; don't recompute what's already there.
 
 ## Output
 
+Action lists (populate when relevant):
 - **overrides**: exclude actions for albums that shouldn't be included.
 - **splits**: proposed sub-series for clusters that belong elsewhere.
 - **added_albums**: filled by add_album calls.
 - **pattern_update**: new episode_pattern when needed.
-- **notes**: anything noteworthy that doesn't fit elsewhere, and any
-  uncertainty you couldn't resolve.
+
+Per-category decisions (REQUIRED — pick one verdict per category):
+
+- **decisions.duplicates** — within-provider episode-num collisions:
+  - `resolved_via_overrides`: you proposed overrides excluding duplicates.
+  - `no_within_provider_duplicates`: analysis shows none, no action.
+  - `deferred_to_human`: defects exist, complex case, human decides.
+- **decisions.sub_series** — distinct title clusters:
+  - `splits_proposed`: you populated the splits list.
+  - `no_sub_series_mixed_in`: single coherent series.
+  - `era_variants_kept`: multiple shapes but same numbering scheme
+    across eras (Die drei ??? "n" + "folge n" pattern).
+  - `deferred_to_human`.
+- **decisions.gaps** — missing episode numbers:
+  - `filled_via_add_album`: you populated added_albums.
+  - `verified_content_rotation`: web search confirmed gaps are
+    provider unavailability, not curation defects.
+  - `no_gaps_present`.
+  - `deferred_to_human`.
+- **decisions.pattern** — episode_pattern correctness:
+  - `pattern_updated`: you set pattern_update.
+  - `current_pattern_correct`: pattern_coverage already high.
+  - `not_applicable_for_music`: this is a music artist.
+  - `deferred_to_human`.
+- **decisions.outliers** — singleton-shape titles:
+  - `excluded_via_overrides`: outliers excluded via overrides.
+  - `legitimate_specials_kept`: standalone specials are fine to keep.
+  - `no_outliers_found`.
+  - `deferred_to_human`.
+- **decisions.cross_provider** — Spotify/Apple coverage asymmetry:
+  - `verified_content_rotation`: web search confirmed asymmetry is
+    provider availability.
+  - `balanced`: both providers carry the same set.
+  - `single_provider_only`: only one provider configured.
+  - `deferred_to_human`.
+
+Each decision REQUIRES a one-sentence ``reasoning`` string scoped to
+that category. Concrete and specific.
+
+- **summary**: 1-3 sentence overall verdict on the curation. Don't
+  repeat per-category reasoning — that goes in decisions[*].reasoning.
 
 ## Rules
 
 - Trust the structural analysis. It's deterministic; if it shows
   duplicates_within_provider entries or distinct title clusters, those
-  are facts, not suggestions. Propose concrete actions (overrides,
-  splits) when the evidence is clear.
-- The verify step (4-eye check) catches over-reach. It's better to
-  propose an action with reasoning than to defer everything to notes.
+  are facts. Propose concrete actions when the evidence is clear and
+  pick the matching action verdict.
+- Cross-field consistency is enforced: if you say
+  ``duplicates: resolved_via_overrides`` you MUST populate overrides.
+  Same for splits_proposed/splits, filled_via_add_album/added_albums,
+  pattern_updated/pattern_update, excluded_via_overrides/overrides.
+  Mismatch fails validation and you'll be asked to retry.
 - Era variants stay together: when two clusters share a single
-  coherent numbering scheme (e.g., "n" for older releases and
-  "folge n" for newer, both numbering the same series), do NOT split.
-  Format-change clusters are not sub-series.
+  coherent numbering scheme, pick ``sub_series: era_variants_kept``,
+  do NOT split.
 - Don't fill gaps with add_album unless web evidence confirms the
   episode is on the provider under a different artist account.
-- Use `notes` for genuine ambiguity — not for explaining away clear
-  defects the analysis already surfaced.
+- ``deferred_to_human`` is for genuine ambiguity — not for explaining
+  away clear defects the analysis already surfaced.
 """
 
 
@@ -216,9 +386,27 @@ def _build_agent(
     provider = OpenAIProvider(base_url=_OPENCODE_BASE_URL, api_key=api_key)
     model = OpenAIChatModel(model_name, provider=provider)
 
+    # ToolOutput forces the model to emit ReviewResult as a function-call
+    # payload (the OpenAI "tools" API) instead of free-form JSON in the
+    # message content. Free-form JSON output is where the prose-leak
+    # failure mode lives: the model can dump structured intent into the
+    # `notes` string while leaving action arrays empty, and pydantic
+    # accepts it because the output is technically valid. Tool-call mode
+    # constrains the model to produce arguments that match the schema —
+    # the same mechanism that makes verify reliable.
     agent: Agent[Deps, ReviewResult] = Agent(
         model,
-        output_type=ReviewResult,
+        output_type=ToolOutput(
+            ReviewResult,
+            name="submit_review",
+            description=(
+                "Submit the review verdict. Populate the action lists "
+                "(overrides, splits, added_albums, pattern_update) with any "
+                "structural changes you propose. Use `notes` only for "
+                "explanatory prose — never for describing actions you "
+                "intend to take."
+            ),
+        ),
         system_prompt=_SYSTEM_PROMPT,
         retries=2,
     )
@@ -544,7 +732,6 @@ async def _run_review(
             # tool-recorded adds the model didn't echo back into the
             # final result so save_review sees them.
             _merge_tool_adds(result, deps)
-            _warn_if_notes_smell_structured(result)
             return result
         except Exception as e:
             if attempt < _MAX_RETRIES - 1:
@@ -552,37 +739,6 @@ async def _run_review(
                 await asyncio.sleep(_RETRY_DELAY)
             else:
                 raise
-
-
-_STRUCTURED_LEAK_MARKERS = (
-    '"splits":', "'splits':",
-    '"overrides":', "'overrides':",
-    '"added_albums":', "'added_albums':",
-    '"new_series_id":', "'new_series_id':",
-    '"album_ids":', "'album_ids':",
-)
-
-# Words that strongly signal the agent is recommending a structural
-# action in prose. We only check these when notes are long AND no
-# structured field is populated — short notes describing absence of
-# defects are unlikely to contain action language by accident.
-_PROSE_ACTION_INDICATORS = (
-    "should be excluded",
-    "should be split",
-    "should split",
-    "split into",
-    "separate series",
-    "sub-series",
-    "does not belong",
-    "doesn't belong",
-    "needs to be excluded",
-    "needs splitting",
-    "move to",
-    "exclude these",
-    "exclude the",
-    "remove the",
-)
-_PROSE_LEAK_NOTES_THRESHOLD = 200
 
 
 def _has_actions(result: ReviewResult) -> bool:
@@ -593,51 +749,6 @@ def _has_actions(result: ReviewResult) -> bool:
         or result.added_albums
         or result.pattern_update,
     )
-
-
-def _warn_if_notes_smell_structured(result: ReviewResult) -> None:
-    """Detect when the model recommended actions but didn't structure them.
-
-    Two failure modes both produce a review that *looks* clean (action
-    lists empty) but actually carries unfulfilled recommendations:
-
-    1. **JSON leak** — the model bundled raw JSON of splits/overrides
-       into the notes string instead of populating the dedicated fields.
-       Caught by ``_STRUCTURED_LEAK_MARKERS``.
-    2. **Prose leak** — the model wrote out its findings in plain
-       language ("Gute-Nacht-Geschichten should be split into a
-       separate series") with action lists still empty. Caught by
-       long-notes + action-indicator heuristic.
-
-    Either way we warn loudly so a human reviewer doesn't trust the
-    empty action lists. The warning is conservative: it only fires
-    when the structured fields are genuinely empty — a review with
-    even one override or split is treated as honest.
-    """
-    if _has_actions(result):
-        return
-
-    notes_lower = result.notes.lower()
-    json_leak = any(m in result.notes for m in _STRUCTURED_LEAK_MARKERS)
-    prose_leak = (
-        len(result.notes) > _PROSE_LEAK_NOTES_THRESHOLD
-        and any(ind in notes_lower for ind in _PROSE_ACTION_INDICATORS)
-    )
-
-    if json_leak:
-        console.print(
-            "[bold red]⚠ MALFORMED OUTPUT (JSON leak):[/] the model put "
-            "structured output inside the notes field instead of the "
-            "dedicated fields. Recommendations live in notes as JSON-like "
-            "text but are NOT applied. Re-run with --force or --model.",
-        )
-    elif prose_leak:
-        console.print(
-            "[bold yellow]⚠ POSSIBLE PROSE LEAK:[/] notes describe "
-            "structural actions ('should be split', 'sub-series', etc.) "
-            "but the action lists are empty. A human should read notes "
-            "and decide whether to apply the recommendations.",
-        )
 
 
 def _merge_tool_adds(result: ReviewResult, deps: Deps) -> None:
@@ -689,7 +800,14 @@ def save_review(series_id: str, result: ReviewResult) -> Path:
     review_block["splits"] = [s.model_dump() for s in result.splits]
     review_block["added_albums"] = [a.model_dump() for a in result.added_albums]
     review_block["pattern_update"] = result.pattern_update
-    review_block["notes"] = result.notes
+    review_block["decisions"] = result.decisions.model_dump()
+    review_block["summary"] = result.summary
+    # Pre-strict-schema reviews used a free-form ``notes`` string. Drop
+    # it here so saved curations don't carry both the new structured
+    # fields and the obsolete prose blob. Old curations that haven't
+    # been re-reviewed keep their notes intact (we only touch this key
+    # when re-running review).
+    review_block.pop("notes", None)
     review_block["reviewed_at"] = datetime.now(UTC).isoformat()
 
     if _has_actions(result):
@@ -787,9 +905,10 @@ def review(
             _run_review(curation, providers, model_name=model, timeout=timeout),
         )
 
-        # Always persist the review block — even when no actions were
-        # proposed, the agent's notes are valuable provenance for human
-        # auditors. Otherwise insightful reasoning gets lost on stdout.
+        # Always persist the review block — the per-category decisions
+        # and summary are valuable provenance for human auditors even
+        # when no actions were proposed. Otherwise insightful reasoning
+        # gets lost on stdout.
         save_path = save_review(path.stem, result)
         console.print(
             f"  {len(result.overrides)} overrides, {len(result.splits)} splits, "
@@ -798,5 +917,14 @@ def review(
         )
         console.print(f"  [green]Saved to {save_path}[/green]")
 
-        if result.notes:
-            console.print(f"  Notes: {result.notes}")
+        # One-line per-category roll-up so the human running review can
+        # spot escalations at a glance without opening the JSON.
+        d = result.decisions
+        verdicts = (
+            f"  dup:{d.duplicates.verdict} | sub:{d.sub_series.verdict} | "
+            f"gap:{d.gaps.verdict} | pat:{d.pattern.verdict} | "
+            f"out:{d.outliers.verdict} | xprov:{d.cross_provider.verdict}"
+        )
+        console.print(f"  [dim]{verdicts}[/dim]")
+        if result.summary:
+            console.print(f"  Summary: {result.summary}")
