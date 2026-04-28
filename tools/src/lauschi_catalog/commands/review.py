@@ -493,6 +493,12 @@ async def _run_review(
                     return run.result.output
 
             result = await asyncio.wait_for(_run(), timeout=timeout)
+            # The add_album tool appends to deps.added_albums as a side
+            # effect, but pydantic-ai's structured output is built from
+            # what the model returned, not from deps state. Merge any
+            # tool-recorded adds the model didn't echo back into the
+            # final result so save_review sees them.
+            _merge_tool_adds(result, deps)
             return result
         except Exception as e:
             if attempt < _MAX_RETRIES - 1:
@@ -500,6 +506,28 @@ async def _run_review(
                 await asyncio.sleep(_RETRY_DELAY)
             else:
                 raise
+
+
+def _merge_tool_adds(result: ReviewResult, deps: Deps) -> None:
+    """Ensure deps.added_albums is reflected in result.added_albums.
+
+    Idempotent: skips IDs already in the result. Mutates ``result`` in
+    place; the result object is returned to the caller separately.
+    """
+    seen = {a.album_id for a in result.added_albums}
+    for entry in deps.added_albums:
+        if entry["album_id"] in seen:
+            continue
+        result.added_albums.append(
+            AddedAlbum(
+                album_id=entry["album_id"],
+                provider=entry["provider"],
+                title=entry["title"],
+                episode_num=entry.get("episode_num"),
+                evidence_url=entry.get("evidence_url", ""),
+            ),
+        )
+        seen.add(entry["album_id"])
 
 
 def save_review(series_id: str, result: ReviewResult) -> Path:
@@ -586,12 +614,16 @@ def review(series_id: str | None, run_all: bool, model: str, timeout: int, provi
             _run_review(curation, providers, model_name=model, timeout=timeout),
         )
 
-        if result.overrides or result.splits:
-            save_path = save_review(path.stem, result)
-            console.print(f"  {len(result.overrides)} overrides, {len(result.splits)} splits")
-            console.print(f"  [green]Saved to {save_path}[/green]")
-        else:
-            console.print("  [dim]No issues found[/dim]")
+        # Always persist the review block — even when no actions were
+        # proposed, the agent's notes are valuable provenance for human
+        # auditors. Otherwise insightful reasoning gets lost on stdout.
+        save_path = save_review(path.stem, result)
+        console.print(
+            f"  {len(result.overrides)} overrides, {len(result.splits)} splits, "
+            f"{len(result.added_albums)} added"
+            + (", pattern_update" if result.pattern_update else ""),
+        )
+        console.print(f"  [green]Saved to {save_path}[/green]")
 
         if result.notes:
             console.print(f"  Notes: {result.notes}")
