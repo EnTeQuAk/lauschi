@@ -62,6 +62,12 @@ class AddedAlbum(BaseModel):
     provider: str
     title: str
     episode_num: int | None = None
+    # ``include`` defaults to True: an explicit add means the agent
+    # wants this album in the curation. ``exclude_reason`` mirrors the
+    # shape of regular albums in data["albums"] so save_review can
+    # merge without post-processing.
+    include: bool = True
+    exclude_reason: str | None = None
     # URL the agent cited as evidence the episode exists on the provider.
     # Empty string for legacy entries; new adds require a non-empty value
     # at tool-call time (see review_validation.validate_add_evidence).
@@ -524,6 +530,8 @@ def _merge_tool_adds(result: ReviewResult, deps: Deps) -> None:
                 provider=entry["provider"],
                 title=entry["title"],
                 episode_num=entry.get("episode_num"),
+                include=entry.get("include", True),
+                exclude_reason=entry.get("exclude_reason"),
                 evidence_url=entry.get("evidence_url", ""),
             ),
         )
@@ -531,21 +539,28 @@ def _merge_tool_adds(result: ReviewResult, deps: Deps) -> None:
 
 
 def save_review(series_id: str, result: ReviewResult) -> Path:
-    """Save review result into the curation JSON."""
+    """Save review result into the curation JSON.
+
+    Updates the review block in place: overrides/splits/added_albums/
+    pattern_update/notes/reviewed_at are replaced with this run's
+    output, but any other fields the verify step or human reviewers
+    may have added (status, verification, reviewed_by, etc.) are
+    preserved. The review step writes review findings; downstream
+    pipeline state belongs to verify.
+    """
     path = CURATION_DIR / f"{series_id}.json"
     if not path.exists():
         console.print(f"[red]Curation file not found: {path}[/red]")
         raise SystemExit(1)
 
     data = json.loads(path.read_text())
-    data["review"] = {
-        "overrides": [o.model_dump() for o in result.overrides],
-        "splits": [s.model_dump() for s in result.splits],
-        "added_albums": [a.model_dump() for a in result.added_albums],
-        "pattern_update": result.pattern_update,
-        "notes": result.notes,
-        "reviewed_at": datetime.now(UTC).isoformat(),
-    }
+    review_block = data.setdefault("review", {})
+    review_block["overrides"] = [o.model_dump() for o in result.overrides]
+    review_block["splits"] = [s.model_dump() for s in result.splits]
+    review_block["added_albums"] = [a.model_dump() for a in result.added_albums]
+    review_block["pattern_update"] = result.pattern_update
+    review_block["notes"] = result.notes
+    review_block["reviewed_at"] = datetime.now(UTC).isoformat()
 
     # Merge added albums into the main albums list before re-extracting,
     # so any new ones get their episode_num under the (possibly updated)
@@ -573,10 +588,18 @@ def save_review(series_id: str, result: ReviewResult) -> Path:
 @click.command()
 @click.argument("series_id", required=False)
 @click.option("--all", "run_all", is_flag=True, help="Review all curated series")
+@click.option("--force", is_flag=True, help="Re-review even if already approved or ai_verified")
 @click.option("--model", default=_DEFAULT_MODEL)
 @click.option("--timeout", default=300)
 @click.option("--provider", "-p", type=click.Choice(["spotify", "apple_music", "all"]), default="all")
-def review(series_id: str | None, run_all: bool, model: str, timeout: int, provider: str):
+def review(
+    series_id: str | None,
+    run_all: bool,
+    force: bool,
+    model: str,
+    timeout: int,
+    provider: str,
+):
     """AI-review a curated series for quality issues."""
     from lauschi_catalog.providers.apple_music import AppleMusicProvider
     from lauschi_catalog.providers.spotify import SpotifyProvider
@@ -602,12 +625,28 @@ def review(series_id: str | None, run_all: bool, model: str, timeout: int, provi
     else:
         paths = [CURATION_DIR / f"{series_id}.json"]
 
+    skipped = 0
     for path in paths:
         if not path.exists():
             console.print(f"[yellow]Skipping {path.stem}: no curation file[/yellow]")
             continue
 
         curation = json.loads(path.read_text())
+
+        # Don't clobber already-approved reviews. The verify step locks a
+        # curation when both AIs agree; re-running review would replace
+        # that human-trusted state with fresh AI output, including any
+        # human-added overrides. Use --force to override (e.g., after a
+        # re-curation pulled in new episodes).
+        existing_status = curation.get("review", {}).get("status")
+        if not force and existing_status in ("approved", "ai_verified"):
+            console.print(
+                f"[dim]Skipping {path.stem} (already {existing_status}; "
+                f"use --force to re-review)[/dim]",
+            )
+            skipped += 1
+            continue
+
         console.print(f"\n[bold]Reviewing {curation.get('title', path.stem)}...[/bold]")
 
         result = asyncio.run(
