@@ -128,14 +128,23 @@ Use the analysis as evidence; don't recompute what's already there.
 ## Reading the analysis
 
 - **title_clusters** groups titles by structural shape. One dominant
-  cluster is healthy. Multiple large clusters with distinct prefixes
-  ("Junior - Folge n", "Gute-Nacht-Geschichten - Folge n") usually mean
-  **sub-series mixed in** — propose splits.
+  cluster is healthy. Multiple clusters with distinct prefixes
+  ("Junior - Folge n", "Gute-Nacht-Geschichten - Folge n", "Benjamin
+  Minis - Folge n") are **structural evidence of sub-series mixed
+  in**. Propose a split for each non-dominant cluster of 2+ albums.
+  Sub-series belong in their own catalog entry even when they're
+  part of the same franchise — kids navigating by episode number
+  shouldn't see "Folge 5" point to three different stories. Don't
+  rationalize this as "intentional editorial choice."
 - **outliers** are titles whose shape appears once. Often box sets,
   specials, compilations, or unrelated content that slipped in.
 - **duplicates_within_provider** is a real defect: same provider + same
   episode_num. Two album_ids appearing as the same episode means kids
-  see the story twice. Pick which to keep, exclude the other.
+  see the story twice. **Propose an override that excludes one** —
+  default is to keep the older release; format variants
+  (Kopfhörer-Hörspiel, "Neuaufnahme", remasters) get excluded since
+  the regular version covers the same story. Use album_details to
+  compare track listings if you're not sure which to keep.
 - **cross_provider_coverage** shows asymmetry. Episodes missing on one
   provider are usually content rotation (the provider hasn't published
   it), not a curation defect — but verify with web_search if a long
@@ -178,14 +187,20 @@ Use the analysis as evidence; don't recompute what's already there.
 
 ## Rules
 
-- Be conservative. False rejections are worse than letting minor issues
-  through; the verify step (4-eye check) catches what you miss.
-- Don't propose splits for era variants of the same series (e.g., Die
-  drei ??? carries two title shapes from a format change — both are
-  legitimate parts of the main series).
+- Trust the structural analysis. It's deterministic; if it shows
+  duplicates_within_provider entries or distinct title clusters, those
+  are facts, not suggestions. Propose concrete actions (overrides,
+  splits) when the evidence is clear.
+- The verify step (4-eye check) catches over-reach. It's better to
+  propose an action with reasoning than to defer everything to notes.
+- Era variants stay together: when two clusters share a single
+  coherent numbering scheme (e.g., "n" for older releases and
+  "folge n" for newer, both numbering the same series), do NOT split.
+  Format-change clusters are not sub-series.
 - Don't fill gaps with add_album unless web evidence confirms the
   episode is on the provider under a different artist account.
-- When in doubt, write to `notes` and let the human decide.
+- Use `notes` for genuine ambiguity — not for explaining away clear
+  defects the analysis already surfaced.
 """
 
 
