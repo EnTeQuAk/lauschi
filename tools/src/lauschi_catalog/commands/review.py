@@ -425,6 +425,12 @@ to that category. Concrete and specific.
   episode is on the provider under a different artist account.
 - ``deferred_to_human`` is for genuine ambiguity — not for explaining
   away clear defects the analysis already surfaced.
+- Act, don't over-research. The structural analysis already tells you
+  the cluster shapes, duplicate counts, gaps, and pattern coverage.
+  Use research tools (web_search/fetch_page) only to disambiguate
+  specific things — typically 0-3 calls. Most categories can be
+  decided from the analysis alone. Get to the propose_X tools
+  promptly.
 """
 
 
