@@ -15,10 +15,10 @@ import json
 import os
 from dataclasses import dataclass, field
 from datetime import UTC, datetime
+from enum import StrEnum
 from pathlib import Path
 
 import click
-from typing import Literal
 
 from pydantic import BaseModel, Field, model_validator
 from pydantic_ai import Agent, RunContext, ToolOutput
@@ -82,9 +82,67 @@ class AddedAlbum(BaseModel):
     )
 
 
+# ``deferred_to_human`` is the universal escape hatch. Defined once and
+# reused on every verdict enum so callers can ``== Verdict.DEFERRED``
+# without repeating the string literal.
+_DEFERRED = "deferred_to_human"
+
+# Marker appended to a decision's reasoning when the validator coerces
+# its verdict from an action verdict to ``deferred_to_human``. Used by
+# the test suite to assert coercion happened.
+_AUTO_DOWNGRADE_SUFFIX = " [auto-downgraded: agent did not populate the action list]"
+
+
+class DuplicatesVerdict(StrEnum):
+    """Within-provider episode-number collisions (kids see same story twice)."""
+    RESOLVED_VIA_OVERRIDES = "resolved_via_overrides"
+    NONE_FOUND = "no_within_provider_duplicates"
+    DEFERRED = _DEFERRED
+
+
+class SubSeriesVerdict(StrEnum):
+    """Whether multiple title clusters represent distinct sub-series."""
+    SPLITS_PROPOSED = "splits_proposed"
+    NONE_FOUND = "no_sub_series_mixed_in"
+    ERA_VARIANTS_KEPT = "era_variants_kept"
+    DEFERRED = _DEFERRED
+
+
+class GapsVerdict(StrEnum):
+    """Missing episode numbers in the sequence."""
+    FILLED_VIA_ADD_ALBUM = "filled_via_add_album"
+    VERIFIED_CONTENT_ROTATION = "verified_content_rotation"
+    NONE_PRESENT = "no_gaps_present"
+    DEFERRED = _DEFERRED
+
+
+class PatternVerdict(StrEnum):
+    """Whether the episode_pattern regex correctly extracts numbers."""
+    PATTERN_UPDATED = "pattern_updated"
+    CURRENT_PATTERN_CORRECT = "current_pattern_correct"
+    NOT_APPLICABLE_FOR_MUSIC = "not_applicable_for_music"
+    DEFERRED = _DEFERRED
+
+
+class OutliersVerdict(StrEnum):
+    """Singleton-shape titles (specials, compilations, accidental content)."""
+    EXCLUDED_VIA_OVERRIDES = "excluded_via_overrides"
+    LEGITIMATE_SPECIALS_KEPT = "legitimate_specials_kept"
+    NONE_FOUND = "no_outliers_found"
+    DEFERRED = _DEFERRED
+
+
+class CrossProviderVerdict(StrEnum):
+    """Asymmetry between Spotify and Apple Music coverage."""
+    VERIFIED_CONTENT_ROTATION = "verified_content_rotation"
+    BALANCED = "balanced"
+    SINGLE_PROVIDER_ONLY = "single_provider_only"
+    DEFERRED = _DEFERRED
+
+
 class _CategoryDecision(BaseModel):
     """Common shape for a per-category verdict. ``verdict`` is overridden
-    in each subclass with a ``Literal`` type so the model has to commit
+    in each subclass with a ``StrEnum`` type so the model has to commit
     to one of a small set of discrete states."""
     # Tight max_length forces the model to be terse. Without a bound,
     # models tend to dump structured intent into the most permissive
@@ -99,62 +157,27 @@ class _CategoryDecision(BaseModel):
 
 
 class DuplicatesDecision(_CategoryDecision):
-    """Within-provider episode-number collisions (kids see same story twice)."""
-    verdict: Literal[
-        "resolved_via_overrides",
-        "no_within_provider_duplicates",
-        "deferred_to_human",
-    ]
+    verdict: DuplicatesVerdict
 
 
 class SubSeriesDecision(_CategoryDecision):
-    """Whether multiple title clusters represent distinct sub-series."""
-    verdict: Literal[
-        "splits_proposed",
-        "no_sub_series_mixed_in",
-        "era_variants_kept",
-        "deferred_to_human",
-    ]
+    verdict: SubSeriesVerdict
 
 
 class GapsDecision(_CategoryDecision):
-    """Missing episode numbers in the sequence."""
-    verdict: Literal[
-        "filled_via_add_album",
-        "verified_content_rotation",
-        "no_gaps_present",
-        "deferred_to_human",
-    ]
+    verdict: GapsVerdict
 
 
 class PatternDecision(_CategoryDecision):
-    """Whether the episode_pattern regex correctly extracts numbers."""
-    verdict: Literal[
-        "pattern_updated",
-        "current_pattern_correct",
-        "not_applicable_for_music",
-        "deferred_to_human",
-    ]
+    verdict: PatternVerdict
 
 
 class OutliersDecision(_CategoryDecision):
-    """Singleton-shape titles (specials, compilations, accidental content)."""
-    verdict: Literal[
-        "excluded_via_overrides",
-        "legitimate_specials_kept",
-        "no_outliers_found",
-        "deferred_to_human",
-    ]
+    verdict: OutliersVerdict
 
 
 class CrossProviderDecision(_CategoryDecision):
-    """Asymmetry between Spotify and Apple Music coverage."""
-    verdict: Literal[
-        "verified_content_rotation",
-        "balanced",
-        "single_provider_only",
-        "deferred_to_human",
-    ]
+    verdict: CrossProviderVerdict
 
 
 class StructuralReview(BaseModel):
@@ -211,43 +234,42 @@ class ReviewResult(BaseModel):
         """
         coerced: list[str] = []
         d = self.decisions
-        suffix = " [auto-downgraded: agent did not populate the action list]"
 
-        if d.duplicates.verdict == "resolved_via_overrides" and not self.overrides:
+        if d.duplicates.verdict == DuplicatesVerdict.RESOLVED_VIA_OVERRIDES and not self.overrides:
             d.duplicates = DuplicatesDecision(
-                verdict="deferred_to_human",
-                reasoning=(d.duplicates.reasoning or "")[:200] + suffix,
+                verdict=DuplicatesVerdict.DEFERRED,
+                reasoning=(d.duplicates.reasoning or "")[:200] + _AUTO_DOWNGRADE_SUFFIX,
             )
             coerced.append("duplicates")
-        if d.sub_series.verdict == "splits_proposed" and not self.splits:
+        if d.sub_series.verdict == SubSeriesVerdict.SPLITS_PROPOSED and not self.splits:
             d.sub_series = SubSeriesDecision(
-                verdict="deferred_to_human",
-                reasoning=(d.sub_series.reasoning or "")[:200] + suffix,
+                verdict=SubSeriesVerdict.DEFERRED,
+                reasoning=(d.sub_series.reasoning or "")[:200] + _AUTO_DOWNGRADE_SUFFIX,
             )
             coerced.append("sub_series")
-        if d.gaps.verdict == "filled_via_add_album" and not self.added_albums:
+        if d.gaps.verdict == GapsVerdict.FILLED_VIA_ADD_ALBUM and not self.added_albums:
             d.gaps = GapsDecision(
-                verdict="deferred_to_human",
-                reasoning=(d.gaps.reasoning or "")[:200] + suffix,
+                verdict=GapsVerdict.DEFERRED,
+                reasoning=(d.gaps.reasoning or "")[:200] + _AUTO_DOWNGRADE_SUFFIX,
             )
             coerced.append("gaps")
-        if d.pattern.verdict == "pattern_updated" and self.pattern_update is None:
+        if d.pattern.verdict == PatternVerdict.PATTERN_UPDATED and self.pattern_update is None:
             d.pattern = PatternDecision(
-                verdict="deferred_to_human",
-                reasoning=(d.pattern.reasoning or "")[:200] + suffix,
+                verdict=PatternVerdict.DEFERRED,
+                reasoning=(d.pattern.reasoning or "")[:200] + _AUTO_DOWNGRADE_SUFFIX,
             )
             coerced.append("pattern")
-        if d.outliers.verdict == "excluded_via_overrides" and not self.overrides:
+        if d.outliers.verdict == OutliersVerdict.EXCLUDED_VIA_OVERRIDES and not self.overrides:
             d.outliers = OutliersDecision(
-                verdict="deferred_to_human",
-                reasoning=(d.outliers.reasoning or "")[:200] + suffix,
+                verdict=OutliersVerdict.DEFERRED,
+                reasoning=(d.outliers.reasoning or "")[:200] + _AUTO_DOWNGRADE_SUFFIX,
             )
             coerced.append("outliers")
 
         if coerced:
             console.print(
                 f"[yellow]⚠ Coerced inconsistent verdicts to "
-                f"deferred_to_human: {', '.join(coerced)}[/yellow]",
+                f"{_DEFERRED}: {', '.join(coerced)}[/yellow]",
             )
         return self
 
@@ -793,12 +815,27 @@ async def _run_review(
 
 
 def _has_actions(result: ReviewResult) -> bool:
-    """True when the review proposed at least one structural change."""
-    return bool(
+    """True when the review needs re-verification by the verify step.
+
+    Two kinds of signal: structural changes were proposed, OR a category
+    was deferred to human (either explicitly by the agent or via the
+    coercer when an action verdict had an empty list). In both cases the
+    prior 'approved' state is no longer trusted.
+    """
+    if (
         result.overrides
         or result.splits
         or result.added_albums
-        or result.pattern_update,
+        or result.pattern_update
+    ):
+        return True
+    d = result.decisions
+    return any(
+        getattr(d, cat).verdict == _DEFERRED
+        for cat in (
+            "duplicates", "sub_series", "gaps",
+            "pattern", "outliers", "cross_provider",
+        )
     )
 
 
