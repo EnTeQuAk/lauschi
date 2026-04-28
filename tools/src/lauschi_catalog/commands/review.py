@@ -13,13 +13,9 @@ from __future__ import annotations
 import asyncio
 import json
 import os
-import re
-import sys
-from collections import Counter
 from dataclasses import dataclass, field
 from datetime import UTC, datetime
 from pathlib import Path
-from typing import Any
 
 import click
 from pydantic import BaseModel, Field
@@ -27,11 +23,10 @@ from pydantic_ai import Agent, RunContext
 from pydantic_ai.models.openai import OpenAIChatModel
 from pydantic_ai.providers.openai import OpenAIProvider
 from pydantic_ai.usage import UsageLimits
-from rich import box
 from rich.console import Console
 from rich.panel import Panel
-from rich.table import Table
 
+from lauschi_catalog.catalog.analysis import analyze_series, effective_albums
 from lauschi_catalog.providers import CatalogProvider
 
 console = Console()
@@ -67,6 +62,10 @@ class AddedAlbum(BaseModel):
     provider: str
     title: str
     episode_num: int | None = None
+    # URL the agent cited as evidence the episode exists on the provider.
+    # Empty string for legacy entries; new adds require a non-empty value
+    # at tool-call time (see review_validation.validate_add_evidence).
+    evidence_url: str = ""
 
 
 class ReviewResult(BaseModel):
@@ -85,44 +84,103 @@ class Deps:
     curation: dict
     added_albums: list[dict] = field(default_factory=list)
     seen_details: dict[str, dict] = field(default_factory=dict)
+    _search_count: int = field(default=0, init=False)
+    _fetch_count: int = field(default=0, init=False)
+    _details_count: int = field(default=0, init=False)
+    _add_count: int = field(default=0, init=False)
+    _pattern_count: int = field(default=0, init=False)
+    # Hard caps prevent runaway tool loops. The previous design exposed a
+    # provider-search tool that hallucinated titles and burned 100+ requests
+    # on TKKG-sized series. add_album and update_episode_pattern are bounded
+    # because they mutate curation state, where a loop pollutes data not
+    # just budget.
+    _MAX_SEARCHES: int = 5
+    _MAX_FETCHES: int = 3
+    _MAX_DETAILS: int = 10
+    _MAX_ADDS: int = 5
+    _MAX_PATTERN_UPDATES: int = 3
 
 
-def _effective_albums(curation: dict) -> list[dict]:
-    """Get included albums, respecting existing review overrides."""
-    review = curation.get("review", {})
-    excludes = {o["album_id"] for o in review.get("overrides", []) if o["action"] == "exclude"}
-    return [a for a in curation.get("albums", []) if a.get("include") and a["album_id"] not in excludes]
+_SYSTEM_PROMPT = """\
+You review curated Hörspiel series for quality issues in the lauschi
+catalog, a privacy-first kids audio player for the DACH region.
 
+## Your role
 
-def _analyze_series(curation: dict) -> dict[str, Any]:
-    """Pre-analyze a curation for the AI prompt."""
-    albums = _effective_albums(curation)
-    episodes = [a for a in albums if a.get("episode_num")]
-    nums = sorted(a["episode_num"] for a in episodes)
+A first AI (curate) has already classified every album in this series as
+included or excluded, and episode numbers were extracted by deterministic
+regex. You don't re-classify albums one by one. You **judge the
+structure**: does this curation hang together as a coherent series, or
+are there defects that should be fixed before it ships to families?
 
-    gaps = []
-    if nums:
-        for i in range(nums[0], nums[-1] + 1):
-            if i not in nums:
-                gaps.append(i)
+The user prompt carries:
+1. A pre-computed structural analysis of the curation
+2. The full lists of included and excluded albums
 
-    title_counter = Counter()
-    for a in albums:
-        words = re.sub(r"\d+|folge|teil|\(.*?\)", "", a["title"].lower()).split()
-        for w in words:
-            if len(w) > 3:
-                title_counter[w] += 1
+Use the analysis as evidence; don't recompute what's already there.
 
-    providers = Counter(a.get("provider", "spotify") for a in albums)
+## Reading the analysis
 
-    return {
-        "total": len(albums),
-        "with_episode_num": len(episodes),
-        "episode_range": f"{nums[0]}-{nums[-1]}" if nums else "none",
-        "gaps": gaps[:20],
-        "providers": dict(providers),
-        "common_words": title_counter.most_common(10),
-    }
+- **title_clusters** groups titles by structural shape. One dominant
+  cluster is healthy. Multiple large clusters with distinct prefixes
+  ("Junior - Folge n", "Gute-Nacht-Geschichten - Folge n") usually mean
+  **sub-series mixed in** — propose splits.
+- **outliers** are titles whose shape appears once. Often box sets,
+  specials, compilations, or unrelated content that slipped in.
+- **duplicates_within_provider** is a real defect: same provider + same
+  episode_num. Two album_ids appearing as the same episode means kids
+  see the story twice. Pick which to keep, exclude the other.
+- **cross_provider_coverage** shows asymmetry. Episodes missing on one
+  provider are usually content rotation (the provider hasn't published
+  it), not a curation defect — but verify with web_search if a long
+  contiguous stretch is missing.
+- **pattern_coverage** below ~90% with otherwise-clean titles signals a
+  broken episode_pattern. Use update_episode_pattern to propose a fix.
+- **gaps** lists missing episode numbers. Same caveat as
+  cross_provider_coverage: usually content rotation, not a defect.
+  Verify before flagging.
+- **common_words** helps you confirm the series identity from titles.
+
+## Tools
+
+- **album_details** (max 10): fetch track listings for ambiguous albums.
+  Useful when deciding which of two duplicates to keep.
+- **web_search** (max 5): research the series. Best for verifying gaps,
+  identifying sub-series, confirming era variants. Good queries:
+  - `"Series Name" Hörspiel Episodenliste`
+  - `site:hoerspiele.de "Series Name"`
+  - `"Series Name" Junior` to confirm a sub-series exists
+- **fetch_page** (max 3): drill into a search hit. hoerspiele.de carries
+  authoritative episode lists for German Hörspiele.
+- **add_album** (max 5): add a missing album. Last resort — only when web
+  evidence shows the episode is on the provider but wasn't matched by
+  the artist ID. Requires an ``evidence_url`` parameter pointing to the
+  search result or page that confirms the episode. The tool refuses if
+  you haven't called web_search or fetch_page first, so research
+  before you add.
+- **update_episode_pattern** (max 3): propose a new regex pattern. Each
+  pattern needs exactly one capture group. Patterns are tried in order.
+
+## Output
+
+- **overrides**: exclude actions for albums that shouldn't be included.
+- **splits**: proposed sub-series for clusters that belong elsewhere.
+- **added_albums**: filled by add_album calls.
+- **pattern_update**: new episode_pattern when needed.
+- **notes**: anything noteworthy that doesn't fit elsewhere, and any
+  uncertainty you couldn't resolve.
+
+## Rules
+
+- Be conservative. False rejections are worse than letting minor issues
+  through; the verify step (4-eye check) catches what you miss.
+- Don't propose splits for era variants of the same series (e.g., Die
+  drei ??? carries two title shapes from a format change — both are
+  legitimate parts of the main series).
+- Don't fill gaps with add_album unless web evidence confirms the
+  episode is on the provider under a different artist account.
+- When in doubt, write to `notes` and let the human decide.
+"""
 
 
 def _build_agent(
@@ -134,59 +192,71 @@ def _build_agent(
     agent: Agent[Deps, ReviewResult] = Agent(
         model,
         output_type=ReviewResult,
-        system_prompt=(
-            "You review curated Hörspiel series data for quality issues. "
-            "Look for: sub-series mixed in, duplicate episodes across providers, "
-            "gaps in episode numbering, era variants that should be split, "
-            "and incorrect episode patterns. "
-            "Propose overrides (exclude/include) and splits when needed. "
-            "Be conservative; only flag clear issues."
-        ),
+        system_prompt=_SYSTEM_PROMPT,
         retries=2,
     )
 
     @agent.tool
-    def show_series(ctx: RunContext[Deps]) -> dict:
-        """Show the series curation data and analysis."""
-        analysis = _analyze_series(ctx.deps.curation)
-        albums = _effective_albums(ctx.deps.curation)
-        return {
-            "id": ctx.deps.curation.get("id"),
-            "title": ctx.deps.curation.get("title"),
-            "analysis": analysis,
-            "sample_albums": [
-                {
-                    "title": a["title"],
-                    "episode_num": a.get("episode_num"),
-                    "provider": a.get("provider", "spotify"),
-                    "album_id": a["album_id"],
-                }
-                for a in albums[:50]
-            ],
-        }
+    def web_search(ctx: RunContext[Deps], query: str) -> list[dict]:
+        """Search the web for series info.
+
+        Capped at Deps._MAX_SEARCHES calls per review run. Returns a list of
+        ``{title, url, snippet}`` results. Good queries:
+        - ``"Series Name" Hörspiel Episodenliste``
+        - ``site:hoerspiele.de "Series Name"``
+        """
+        if ctx.deps._search_count >= ctx.deps._MAX_SEARCHES:
+            return [{"error": f"Search limit reached (max {ctx.deps._MAX_SEARCHES})."}]
+        ctx.deps._search_count += 1
+
+        from lauschi_catalog.search import brave_search
+
+        results = brave_search(query, count=5)
+        n = len([r for r in results if "error" not in r])
+        console.print(
+            f"  [dim]🔍 web_search({query!r}) → {n} results "
+            f"[{ctx.deps._search_count}/{ctx.deps._MAX_SEARCHES}][/]",
+        )
+        return results
 
     @agent.tool
-    def search_provider(
-        ctx: RunContext[Deps], provider_name: str, query: str,
-    ) -> list[dict]:
-        """Search a provider for albums. Use to find missing episodes."""
-        target = next((p for p in ctx.deps.providers if p.name == provider_name), None)
-        if not target:
-            return [{"error": f"Provider {provider_name} not available"}]
-        albums = target.search_albums(query, limit=10)
-        return [
-            {"id": a.id, "name": a.name, "provider": provider_name, "total_tracks": a.total_tracks}
-            for a in albums
-        ]
+    def fetch_page(ctx: RunContext[Deps], url: str) -> str:
+        """Fetch a URL and return its text content.
+
+        Capped at Deps._MAX_FETCHES calls per review run. Useful for
+        drilling into hoerspiele.de series pages with authoritative
+        episode listings.
+        """
+        if ctx.deps._fetch_count >= ctx.deps._MAX_FETCHES:
+            return f"Fetch limit reached (max {ctx.deps._MAX_FETCHES})."
+        ctx.deps._fetch_count += 1
+
+        from lauschi_catalog.search import fetch_page as _fetch
+
+        content = _fetch(url, max_chars=4000)
+        console.print(
+            f"  [dim]📄 fetch_page({url[:60]}…) → {len(content)} chars "
+            f"[{ctx.deps._fetch_count}/{ctx.deps._MAX_FETCHES}][/]",
+        )
+        return content
 
     @agent.tool
     def album_details(
         ctx: RunContext[Deps], provider_name: str, album_id: str,
     ) -> dict:
-        """Get full album details from a provider."""
+        """Get full album details from a provider.
+
+        Capped at Deps._MAX_DETAILS calls per review run. Cache hits don't
+        count against the cap.
+        """
         key = f"{provider_name}:{album_id}"
         if key in ctx.deps.seen_details:
             return ctx.deps.seen_details[key]
+
+        if ctx.deps._details_count >= ctx.deps._MAX_DETAILS:
+            return {"error": f"Album details limit reached (max {ctx.deps._MAX_DETAILS})."}
+        ctx.deps._details_count += 1
+
         target = next((p for p in ctx.deps.providers if p.name == provider_name), None)
         if not target:
             return {"error": f"Provider {provider_name} not available"}
@@ -199,14 +269,36 @@ def _build_agent(
             "tracks": [{"name": t.name, "duration_ms": t.duration_ms} for t in album.tracks],
         }
         ctx.deps.seen_details[key] = result
+        console.print(
+            f"  [dim]📀 album_details({provider_name}:{album_id[:8]}…) "
+            f"→ {album.total_tracks} tracks "
+            f"[{ctx.deps._details_count}/{ctx.deps._MAX_DETAILS}][/]",
+        )
         return result
 
     @agent.tool
     def add_album(
-        ctx: RunContext[Deps], provider_name: str, album_id: str,
+        ctx: RunContext[Deps],
+        provider_name: str,
+        album_id: str,
+        evidence_url: str,
     ) -> str:
-        """Add a missing album to the series. Searches the provider for details
-        and extracts the episode number from the series pattern."""
+        """Add a missing album to the series, recovered from the provider.
+
+        ``evidence_url`` must point to a search result or page that
+        confirms this episode belongs to the series. The tool refuses
+        when the URL is missing or no prior web_search/fetch_page has
+        been run; this prevents the agent from inventing album_ids.
+
+        Capped at Deps._MAX_ADDS. Duplicates and not-found album IDs do
+        not count against the cap.
+        """
+        from lauschi_catalog.commands.review_validation import validate_add_evidence
+
+        evidence_error = validate_add_evidence(ctx.deps, evidence_url)
+        if evidence_error:
+            return evidence_error
+
         existing = {a["album_id"] for a in ctx.deps.curation.get("albums", [])}
         if album_id in existing:
             console.print(f"  [dim]➕ add_album({provider_name}:{album_id[:8]}…) → already exists[/]")
@@ -221,6 +313,10 @@ def _build_agent(
             console.print(f"  [dim]➕ add_album({provider_name}:{album_id[:8]}…) → not found[/]")
             return f"Not found: {album_id}"
 
+        if ctx.deps._add_count >= ctx.deps._MAX_ADDS:
+            return f"Add limit reached (max {ctx.deps._MAX_ADDS})."
+        ctx.deps._add_count += 1
+
         from lauschi_catalog.catalog.matcher import extract_episode
         pattern = ctx.deps.curation.get("episode_pattern")
         episode_num = extract_episode(pattern, album.name)
@@ -232,19 +328,30 @@ def _build_agent(
             "episode_num": episode_num,
             "title": album.name,
             "exclude_reason": None,
+            "evidence_url": evidence_url,
         }
         ctx.deps.added_albums.append(new_album)
         ep_str = f" (episode {episode_num})" if episode_num else ""
-        console.print(f"  [dim]➕ add_album({provider_name}:{album_id[:8]}…) → {album.name}{ep_str}[/]")
-        return f"Added: {album.name}{ep_str}"
+        console.print(
+            f"  [dim]➕ add_album({provider_name}:{album_id[:8]}…) → {album.name}{ep_str} "
+            f"[{ctx.deps._add_count}/{ctx.deps._MAX_ADDS}][/]",
+        )
+        return f"Added: {album.name}{ep_str} (evidence: {evidence_url})"
 
     @agent.tool
     def update_episode_pattern(
         ctx: RunContext[Deps], patterns: list[str],
     ) -> str:
-        """Update episode pattern(s). Each must have exactly 1 capture group.
-        Patterns are tried in order. Also re-extracts episode numbers for
-        existing albums."""
+        """Validate a candidate episode pattern and preview its effect.
+
+        Each pattern must have exactly 1 capture group. Patterns are tried
+        in order. This tool does **not** mutate the curation. Set the
+        chosen pattern in the ``pattern_update`` field of your output;
+        ``save_review`` applies it deterministically after this run.
+
+        Capped at Deps._MAX_PATTERN_UPDATES calls. The agent should
+        converge on one pattern, not iterate.
+        """
         import re as _re
         for p in patterns:
             try:
@@ -254,21 +361,96 @@ def _build_agent(
             if c.groups != 1:
                 return f"Pattern {p!r}: need 1 capture group, got {c.groups}"
 
-        new_pattern = patterns[0] if len(patterns) == 1 else patterns
-        ctx.deps.curation["episode_pattern"] = new_pattern
+        if ctx.deps._pattern_count >= ctx.deps._MAX_PATTERN_UPDATES:
+            return f"Pattern update limit reached (max {ctx.deps._MAX_PATTERN_UPDATES})."
+        ctx.deps._pattern_count += 1
 
-        from lauschi_catalog.catalog.matcher import extract_episode
-        updated = 0
-        for album in ctx.deps.curation.get("albums", []):
-            ep = extract_episode(new_pattern, album["title"])
-            if ep is not None and album.get("episode_num") != ep:
-                album["episode_num"] = ep
-                updated += 1
+        from lauschi_catalog.catalog.matcher import preview_episode_pattern
 
-        console.print(f"  [dim]📝 update_episode_pattern → {new_pattern} ({updated} re-extracted)[/]")
-        return f"Updated pattern to {new_pattern}, re-extracted {updated} episodes"
+        candidate = patterns[0] if len(patterns) == 1 else patterns
+        would_change = preview_episode_pattern(
+            ctx.deps.curation.get("albums", []), candidate,
+        )
+        console.print(
+            f"  [dim]📝 update_episode_pattern preview → {candidate} "
+            f"({would_change} would change) "
+            f"[{ctx.deps._pattern_count}/{ctx.deps._MAX_PATTERN_UPDATES}][/]",
+        )
+        return (
+            f"Pattern {candidate!r} is valid. Applying it would re-extract "
+            f"episode_num for {would_change} album(s). Set this in "
+            f"pattern_update to apply."
+        )
 
     return agent
+
+
+def _build_prompt(curation: dict) -> str:
+    """Render the review prompt: structural analysis + full album lists.
+
+    Verify uses the same shape so the agent sees a consistent picture across
+    pipeline stages. Including the full lists inline lets us drop the
+    ``show_series`` tool: there's nothing left for it to fetch.
+    """
+    title = curation.get("title", "?")
+    series_id = curation.get("id", "?")
+    pattern = curation.get("episode_pattern", "none")
+    artist_ids = curation.get("provider_artist_ids", {})
+    analysis = analyze_series(curation)
+
+    albums = curation.get("albums", [])
+    review = curation.get("review", {})
+    excluded_via_override = {
+        o["album_id"]
+        for o in review.get("overrides", [])
+        if o["action"] == "exclude"
+    }
+
+    included = sorted(
+        [
+            a for a in albums
+            if a.get("include") and a["album_id"] not in excluded_via_override
+        ],
+        key=lambda a: (a.get("episode_num") or 999_999, a["title"]),
+    )
+    excluded = [a for a in albums if not a.get("include")]
+
+    lines = [
+        f"## Series: {title} (id: {series_id})",
+        f"Episode pattern: {pattern}",
+        f"Provider artist IDs: {artist_ids}",
+        "",
+        "### Structural analysis",
+        json.dumps(analysis, indent=2, ensure_ascii=False),
+        "",
+        f"### Included albums ({len(included)})",
+    ]
+    for a in included:
+        ep = a.get("episode_num")
+        ep_str = f"Ep {ep}: " if ep is not None else ""
+        lines.append(
+            f"  ✅ [{a.get('provider', '?')}] {ep_str}{a['title']} "
+            f"[{a['album_id']}]",
+        )
+
+    lines.append(f"\n### Excluded albums ({len(excluded)})")
+    for a in excluded[:30]:
+        reason = a.get("exclude_reason", "")
+        suffix = f" — {reason}" if reason else ""
+        lines.append(
+            f"  ❌ [{a.get('provider', '?')}] {a['title']} "
+            f"[{a['album_id']}]{suffix}",
+        )
+    if len(excluded) > 30:
+        lines.append(f"  … and {len(excluded) - 30} more")
+
+    lines.append(
+        "\nReview the structure. Propose overrides, splits, pattern_update, "
+        "and added_albums where the analysis or your judgment warrants. "
+        "Use web_search and fetch_page when the analysis raises a question "
+        "you can't answer from the data alone.",
+    )
+    return "\n".join(lines)
 
 
 async def _run_review(
@@ -286,22 +468,14 @@ async def _run_review(
     deps = Deps(providers=providers, curation=curation)
     agent = _build_agent(model_name, api_key)
 
-    analysis = _analyze_series(curation)
-    title = curation.get("title", "?")
-
-    prompt = (
-        f"Review the curated series '{title}'.\n"
-        f"Analysis: {json.dumps(analysis, indent=2)}\n\n"
-        "Call show_series() to see the full data, then check for issues. "
-        "Use search_provider and album_details if you need to verify gaps."
-    )
+    prompt = _build_prompt(curation)
 
     for attempt in range(_MAX_RETRIES):
         try:
             async def _run():
                 async with agent.iter(
                     prompt, deps=deps,
-                    usage_limits=UsageLimits(request_limit=100),
+                    usage_limits=UsageLimits(request_limit=40),
                 ) as run:
                     async for node in run:
                         if not hasattr(node, "model_response"):
@@ -345,12 +519,24 @@ def save_review(series_id: str, result: ReviewResult) -> Path:
         "reviewed_at": datetime.now(UTC).isoformat(),
     }
 
-    # Merge added albums into the main albums list
+    # Merge added albums into the main albums list before re-extracting,
+    # so any new ones get their episode_num under the (possibly updated)
+    # pattern in the same pass.
     if result.added_albums:
         existing_ids = {a["album_id"] for a in data.get("albums", [])}
         for added in result.added_albums:
             if added.album_id not in existing_ids:
                 data.setdefault("albums", []).append(added.model_dump())
+
+    # Apply the pattern update deterministically. The review tool only
+    # previews; the source of truth is what the agent put in its output.
+    if result.pattern_update:
+        from lauschi_catalog.catalog.matcher import apply_episode_pattern
+
+        data["episode_pattern"] = result.pattern_update
+        data["albums"] = apply_episode_pattern(
+            data.get("albums", []), result.pattern_update,
+        )
 
     path.write_text(json.dumps(data, indent=2, ensure_ascii=False))
     return path
