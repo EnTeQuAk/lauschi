@@ -37,7 +37,7 @@ REPO_ROOT = Path(__file__).parent.parent.parent.parent.parent
 CURATION_DIR = REPO_ROOT / "assets" / "catalog" / "curation"
 
 _OPENCODE_BASE_URL = "https://opencode.ai/zen/v1"
-_DEFAULT_MODEL = "kimi-k2.6"
+_DEFAULT_MODEL = "kimi-k2.5"
 _MAX_RETRIES = 3
 _RETRY_DELAY = 5
 
