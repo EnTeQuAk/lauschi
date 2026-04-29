@@ -423,14 +423,40 @@ to that category. Concrete and specific.
   do NOT call propose_split.
 - Don't fill gaps with add_album unless web evidence confirms the
   episode is on the provider under a different artist account.
-- ``deferred_to_human`` is for genuine ambiguity — not for explaining
-  away clear defects the analysis already surfaced.
-- Act, don't over-research. The structural analysis already tells you
-  the cluster shapes, duplicate counts, gaps, and pattern coverage.
-  Use research tools (web_search/fetch_page) only to disambiguate
-  specific things — typically 0-3 calls. Most categories can be
-  decided from the analysis alone. Get to the propose_X tools
-  promptly.
+- ``deferred_to_human`` is the EXCEPTION, not the default. Use it
+  only for genuine ambiguity that can't be resolved with the data on
+  hand. Most curations should land all six verdicts on a definite
+  state — action verdict + populated tool calls, or a non-action
+  verdict like ``no_X_found`` / ``balanced`` / ``content_rotation``.
+  Lean toward action: filtering out duplicates and bad content is
+  the whole point of review. If you're 80% sure, propose; the
+  verify step (4-eye check) catches over-reach.
+- **Duplicates always get filtered.** When
+  duplicates_within_provider has entries, you have two valid paths:
+  (a) call propose_override to exclude one of each pair (default
+  keeps the older release, format variants like Kopfhörer-Hörspiel
+  get excluded), then verdict = ``resolved_via_overrides``; OR
+  (b) when your propose_split calls move the duplicate-causing
+  albums into separate series, the residual duplicates in the main
+  series are 0 — verdict = ``no_within_provider_duplicates`` AND
+  reasoning explicitly says "addressed by splits". Don't pick
+  ``deferred_to_human`` for duplicates unless the data is genuinely
+  ambiguous.
+- **Cross-provider asymmetry**: gaps on one provider that are
+  present on the other are usually content rotation (the provider
+  hasn't published or has rotated it out). You don't need to
+  web-verify every gap to pick ``verified_content_rotation`` —
+  that verdict means "this asymmetry is consistent with normal
+  provider availability, no curation defect." Pick it confidently
+  when the asymmetry pattern looks like rotation. Web search only
+  when something looks suspicious (e.g., one provider missing 50+
+  consecutive episodes that are clearly published).
+- Act, don't over-research. The structural analysis already tells
+  you the cluster shapes, duplicate counts, gaps, and pattern
+  coverage. Use research tools (web_search/fetch_page) only to
+  disambiguate specific things — typically 0-3 calls. Most
+  categories can be decided from the analysis alone. Get to the
+  propose_X tools promptly.
 """
 
 
