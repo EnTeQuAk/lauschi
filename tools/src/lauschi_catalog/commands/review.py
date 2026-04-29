@@ -333,6 +333,12 @@ tool calls and merged in by the assembler.
 - **Era variants stay together.** Two clusters sharing one numbering
   scheme (Die drei ??? "n" + "folge n", both 1-200) are the same
   series across eras → ``sub_series: era_variants_kept``. Don't split.
+- **Outliers are usually noise.** Singleton-shape titles are box
+  sets, specials, music albums, soundtracks, or "Sonderedition"
+  releases that slipped through curate. Default action: call
+  propose_override to exclude. Pick ``legitimate_specials_kept``
+  only when the outlier is a real standalone Hörspiel worth
+  keeping (e.g., a film tie-in that fans expect).
 - **Cross-provider asymmetry** is usually content rotation. Pick
   ``verified_content_rotation`` confidently from the analysis.
   Web-search only if 50+ consecutive episodes are missing on one
