@@ -175,6 +175,35 @@ def test_resolved_via_overrides_passes_with_overrides_in_deps():
     assert len(review.overrides) == 1
 
 
+def test_addressed_by_splits_passes_when_splits_populated():
+    """The 'splits resolve the duplicates' verdict requires splits exist."""
+    decisions = _clean_decisions()
+    decisions.duplicates = DuplicatesDecision(
+        verdict=DuplicatesVerdict.ADDRESSED_BY_SPLITS,
+        reasoning="sub-series splits remove the colliding episodes",
+    )
+    deps = _empty_deps()
+    deps.proposed_splits.append({
+        "new_series_id": "sub", "new_series_title": "Sub",
+        "album_ids": ["a", "b"], "provider": "spotify",
+        "reason": "x",
+    })
+    review = assemble_review(_result(decisions), deps)
+    assert review.decisions.duplicates.verdict == DuplicatesVerdict.ADDRESSED_BY_SPLITS
+
+
+def test_addressed_by_splits_with_no_splits_coerces_to_deferred():
+    """Claiming splits handle duplicates without any splits is dishonest."""
+    decisions = _clean_decisions()
+    decisions.duplicates = DuplicatesDecision(
+        verdict=DuplicatesVerdict.ADDRESSED_BY_SPLITS,
+        reasoning="x",
+    )
+    review = assemble_review(_result(decisions), _empty_deps())
+    assert review.decisions.duplicates.verdict == DuplicatesVerdict.DEFERRED
+    assert "auto-downgraded" in review.decisions.duplicates.reasoning
+
+
 def test_splits_proposed_with_empty_splits_coerces():
     decisions = _clean_decisions()
     decisions.sub_series = SubSeriesDecision(

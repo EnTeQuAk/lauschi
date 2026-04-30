@@ -96,6 +96,11 @@ _AUTO_DOWNGRADE_SUFFIX = " [auto-downgraded: agent did not populate the action l
 class DuplicatesVerdict(StrEnum):
     """Within-provider episode-number collisions (kids see same story twice)."""
     RESOLVED_VIA_OVERRIDES = "resolved_via_overrides"
+    # Splits move the colliding albums to separate series, so the
+    # residual within-provider duplicates in this curation drop to
+    # zero. Distinct from NONE_FOUND because the analysis DID surface
+    # collisions — they're just resolved indirectly by the splits.
+    ADDRESSED_BY_SPLITS = "addressed_by_splits"
     NONE_FOUND = "no_within_provider_duplicates"
     DEFERRED = _DEFERRED
 
@@ -327,9 +332,8 @@ tool calls and merged in by the assembler.
   pair (keep older release; exclude format variants like
   Kopfhörer-Hörspiel, "Neuaufnahme") → verdict
   ``resolved_via_overrides``; OR your splits move the colliding
-  albums to separate series → verdict
-  ``no_within_provider_duplicates`` with reasoning saying "addressed
-  by splits".
+  albums to separate series → verdict ``addressed_by_splits``
+  (requires non-empty splits list).
 - **Era variants stay together.** Two clusters sharing one numbering
   scheme (Die drei ??? "n" + "folge n", both 1-200) are the same
   series across eras → ``sub_series: era_variants_kept``. Don't split.
@@ -895,6 +899,14 @@ def assemble_review(result: ReviewResult, deps: Deps) -> AssembledReview:
     coerced: list[str] = []
 
     if decisions.duplicates.verdict == DuplicatesVerdict.RESOLVED_VIA_OVERRIDES and not overrides:
+        decisions.duplicates = DuplicatesDecision(
+            verdict=DuplicatesVerdict.DEFERRED,
+            reasoning=(decisions.duplicates.reasoning or "")[:200] + _AUTO_DOWNGRADE_SUFFIX,
+        )
+        coerced.append("duplicates")
+    if decisions.duplicates.verdict == DuplicatesVerdict.ADDRESSED_BY_SPLITS and not splits:
+        # Claiming splits resolved the duplicates only makes sense if
+        # splits actually exist. Without them, fall back to deferred.
         decisions.duplicates = DuplicatesDecision(
             verdict=DuplicatesVerdict.DEFERRED,
             reasoning=(decisions.duplicates.reasoning or "")[:200] + _AUTO_DOWNGRADE_SUFFIX,
