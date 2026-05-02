@@ -27,6 +27,7 @@ from rich.console import Console
 from rich.panel import Panel
 from rich.table import Table
 
+from lauschi_catalog.catalog.lifecycle import review_is_stale, verification_is_stale
 from lauschi_catalog.catalog.loader import load_raw, save_raw, SERIES_YAML
 from lauschi_catalog.providers import CatalogProvider
 
@@ -292,13 +293,8 @@ async def verify_one(
 
     curation = json.loads(path.read_text())
 
-    # Check pipeline status, gated by lifecycle staleness so a re-curate
+    # Pipeline status check, gated by lifecycle staleness so a re-curate
     # or re-review flushes prior verify outputs that no longer apply.
-    from lauschi_catalog.catalog.lifecycle import (
-        review_is_stale,
-        verification_is_stale,
-    )
-
     review = curation.get("review", {})
     status = review.get("status")
 
@@ -311,16 +307,15 @@ async def verify_one(
                 f"(curate ran after last review). Run review first.[/yellow]",
             )
             return None
-        if verification_is_stale(curation):
-            # Review changed since last verify (or never had timestamps).
-            # Override the status-based skip and re-verify.
-            pass
-        elif status in ("approved", "ai_verified"):
-            console.print(f"[dim]Skipping {series_id} (already {status})[/dim]")
-            return None
-        elif status == "rejected":
-            console.print(f"[dim]Skipping {series_id} (rejected)[/dim]")
-            return None
+        # Trust the status-based skip only when verify isn't stale —
+        # a stale verify falls through and re-runs.
+        if not verification_is_stale(curation):
+            if status in ("approved", "ai_verified"):
+                console.print(f"[dim]Skipping {series_id} (already {status})[/dim]")
+                return None
+            if status == "rejected":
+                console.print(f"[dim]Skipping {series_id} (rejected)[/dim]")
+                return None
 
     deps = Deps(providers=providers, series_id=series_id, curation=curation)
     agent = _build_verify_agent(model_name, api_key)

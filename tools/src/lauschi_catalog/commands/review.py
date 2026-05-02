@@ -29,6 +29,7 @@ from rich.console import Console
 from rich.panel import Panel
 
 from lauschi_catalog.catalog.analysis import analyze_series, effective_albums
+from lauschi_catalog.catalog.lifecycle import review_is_stale
 from lauschi_catalog.providers import CatalogProvider
 
 console = Console()
@@ -1167,8 +1168,6 @@ def review(
         # The staleness check is what makes ``catalog-pipeline`` self-
         # healing: a re-curate refreshes data, review re-runs everywhere
         # the prior approval no longer covers, no manual --force needed.
-        from lauschi_catalog.catalog.lifecycle import review_is_stale
-
         existing_status = curation.get("review", {}).get("status")
         if (
             not force

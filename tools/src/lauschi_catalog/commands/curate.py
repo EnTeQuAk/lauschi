@@ -881,8 +881,8 @@ def save_curation(series: CuratedSeries) -> Path:
         try:
             data = json.loads(path.read_text())
         except (OSError, json.JSONDecodeError):
-            # Corrupt file — start fresh; subsequent write recovers.
-            data = {}
+            # Corrupt or unreadable — start fresh, this write recovers.
+            pass
 
     data.update({
         "id": series.id,
