@@ -129,3 +129,111 @@ def test_prompt_action_call_is_present():
     assert "add_album" in prompt
     assert "propose_pattern_update" in prompt
     assert "web_search" in prompt or "fetch_page" in prompt
+
+
+# ── prior review state ────────────────────────────────────────────────────
+
+
+def test_prompt_omits_prior_state_section_for_fresh_curation():
+    """First-time review: no prior overrides/splits/summary, skip section."""
+    curation = make_curation(
+        albums=[make_album("a", "Folge 1: A", episode_num=1)],
+    )
+    prompt = _build_prompt(curation)
+    assert "Prior review state" not in prompt
+
+
+def test_prompt_omits_prior_state_when_review_block_is_empty():
+    """An empty review block (e.g., curate just stamped reviewed_at) is not prior state."""
+    curation = make_curation(
+        albums=[make_album("a", "Folge 1: A", episode_num=1)],
+        review={"reviewed_at": "2026-01-01"},
+    )
+    prompt = _build_prompt(curation)
+    assert "Prior review state" not in prompt
+
+
+def test_prompt_surfaces_prior_overrides():
+    curation = make_curation(
+        albums=[
+            make_album("a", "Folge 1: A", episode_num=1),
+            make_album("b", "Folge 2: B", episode_num=2),
+        ],
+        review={
+            "status": "approved",
+            "overrides": [
+                {"album_id": "b", "provider": "spotify",
+                 "action": "exclude", "reason": "duplicate of ep 2 keep older release"},
+            ],
+        },
+    )
+    prompt = _build_prompt(curation)
+    assert "Prior review state" in prompt
+    # Override details surfaced
+    assert "exclude" in prompt
+    # Album_id appears (so agent knows which album was already overridden)
+    state_block = prompt.split("Prior review state")[1].split("Review the structure")[0]
+    assert "b" in state_block  # album_id
+    assert "duplicate" in state_block  # reason
+    # Status surfaced so agent knows why review is re-running
+    assert "status=approved" in state_block
+
+
+def test_prompt_surfaces_prior_splits():
+    curation = make_curation(
+        albums=[make_album("a", "Folge 1: A", episode_num=1)],
+        review={
+            "splits": [
+                {"new_series_id": "sub_one", "new_series_title": "Sub One",
+                 "album_ids": ["x", "y", "z"], "provider": "spotify",
+                 "reason": "distinct sub-series with own numbering"},
+            ],
+        },
+    )
+    prompt = _build_prompt(curation)
+    state_block = prompt.split("Prior review state")[1].split("Review the structure")[0]
+    assert "sub_one" in state_block
+    assert "3 albums" in state_block
+
+
+def test_prompt_surfaces_prior_summary_truncated():
+    long = "x" * 500
+    curation = make_curation(
+        albums=[make_album("a", "Folge 1: A", episode_num=1)],
+        review={"summary": long},
+    )
+    prompt = _build_prompt(curation)
+    assert "Prior review state" in prompt
+    # Truncated to 300 chars in the prompt
+    state_block = prompt.split("Prior review state")[1]
+    # 300 x's max from the summary, followed by line wrap into other content
+    summary_xs = state_block.split("x")
+    assert len([s for s in summary_xs if s == ""]) <= 301
+
+
+def test_prompt_includes_respect_instruction_when_prior_state_present():
+    """The agent gets reminded to respect prior decisions inline."""
+    curation = make_curation(
+        albums=[make_album("a", "Folge 1: A", episode_num=1)],
+        review={
+            "overrides": [{"album_id": "a", "provider": "spotify",
+                           "action": "exclude", "reason": "test"}],
+        },
+    )
+    prompt = _build_prompt(curation)
+    assert "deliberate decisions" in prompt or "Respect them" in prompt
+
+
+def test_prompt_caps_displayed_overrides_at_10():
+    overrides = [
+        {"album_id": f"id{n}", "provider": "spotify",
+         "action": "exclude", "reason": "test"}
+        for n in range(15)
+    ]
+    curation = make_curation(
+        albums=[make_album(f"id{n}", f"Folge {n}", episode_num=n) for n in range(15)],
+        review={"overrides": overrides},
+    )
+    prompt = _build_prompt(curation)
+    state_block = prompt.split("Prior review state")[1].split("Review the structure")[0]
+    assert "and 5 more" in state_block

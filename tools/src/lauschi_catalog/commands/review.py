@@ -353,6 +353,11 @@ tool calls and merged in by the assembler.
 - **Music vs Hörspiel**: the ``content_type`` field in the user
   prompt tells you. For music: ``pattern: not_applicable_for_music``
   and skip episode-number-based actions.
+- **Respect prior review state.** If the user prompt has a "Prior
+  review state" section, those overrides/splits/pattern_updates were
+  set deliberately (often by a human or a prior verified review).
+  Don't undo them or re-propose the same actions. Diverge only with
+  a strong, explicit reason in your reasoning.
 - **Be terse.** Don't paste album_ids or JSON into reasoning/summary
   text fields — that data lives in the action tools.
 """
@@ -770,6 +775,16 @@ def _build_prompt(curation: dict) -> str:
     if len(excluded) > 30:
         lines.append(f"  … and {len(excluded) - 30} more")
 
+    # Prior review state: any overrides/splits/pattern_update/summary a
+    # previous review (or human edit) put in place. The agent should
+    # respect these as deliberate decisions and only revise with strong
+    # reason. Without this section the agent works from a sanitized view
+    # and may unwittingly contradict prior intent.
+    prior_lines = _format_prior_review_state(review)
+    if prior_lines:
+        lines.append("")
+        lines.extend(prior_lines)
+
     lines.append(
         "\nReview the structure. Use propose_override, propose_split, "
         "add_album, and propose_pattern_update to record any actions you "
@@ -780,6 +795,73 @@ def _build_prompt(curation: dict) -> str:
         "question you can't answer from the data alone.",
     )
     return "\n".join(lines)
+
+
+def _format_prior_review_state(review: dict) -> list[str]:
+    """Render the prior review block for the agent's prompt.
+
+    Returns an empty list if there's nothing prior worth showing —
+    fresh curations skip this section entirely. Otherwise the agent
+    sees what overrides, splits, pattern updates, and summary were
+    set previously, so it can make decisions consistent with them.
+
+    Per-decision reasonings are intentionally elided: too verbose
+    and the new run produces its own. Status is included because it
+    tells the agent why this review is happening (escalated → prior
+    issues, approved + --force → human re-asked, etc.).
+    """
+    overrides = review.get("overrides", []) or []
+    splits = review.get("splits", []) or []
+    pattern_update = review.get("pattern_update")
+    prior_summary = (review.get("summary") or "").strip()
+    status = review.get("status")
+    reviewed_by = review.get("reviewed_by")
+
+    if not (overrides or splits or pattern_update or prior_summary):
+        return []
+
+    lines = ["### Prior review state"]
+    bits = []
+    if status:
+        bits.append(f"status={status}")
+    if reviewed_by:
+        bits.append(f"reviewed_by={reviewed_by}")
+    if bits:
+        lines.append("  " + ", ".join(bits))
+
+    if overrides:
+        lines.append(f"  Overrides ({len(overrides)}):")
+        for o in overrides[:10]:
+            action = o.get("action", "?")
+            reason = (o.get("reason") or "").strip()[:120]
+            lines.append(
+                f"    • [{o.get('provider', '?')}] {action} {o.get('album_id', '?')}"
+                f"{f' — {reason}' if reason else ''}",
+            )
+        if len(overrides) > 10:
+            lines.append(f"    … and {len(overrides) - 10} more")
+
+    if splits:
+        lines.append(f"  Splits ({len(splits)}):")
+        for s in splits:
+            n = len(s.get("album_ids", []))
+            lines.append(
+                f"    • {s.get('new_series_id', '?')} ({n} albums) — "
+                f"{(s.get('reason') or '').strip()[:100]}",
+            )
+
+    if pattern_update:
+        lines.append(f"  Pattern update: {pattern_update}")
+
+    if prior_summary:
+        lines.append(f"  Prior summary: {prior_summary[:300]}")
+
+    lines.append(
+        "  These are deliberate decisions. Respect them: don't propose "
+        "actions that contradict prior overrides/splits unless you have "
+        "strong, explicit reason — and explain that reason.",
+    )
+    return lines
 
 
 async def _run_review(
