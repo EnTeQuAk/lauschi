@@ -864,8 +864,30 @@ async def run_curation(
 # ── Save / display ────────────────────────────────────────────────────────
 
 def save_curation(series: CuratedSeries) -> Path:
+    """Write the curation to disk, preserving any prior review block.
+
+    Curate owns the curate-side fields (id, title, episode_pattern,
+    albums, provider_artist_ids, ...). Review owns the ``review`` block
+    (overrides, splits, decisions, summary, status, verification).
+    Re-running curate must NOT blow away review state — otherwise a
+    pipeline re-curation wipes every prior human approval and AI
+    review verdict in the catalog. Read any existing review block off
+    disk first and preserve it through the rewrite.
+    """
     path = CURATION_DIR / f"{series.id}.json"
-    data = {
+
+    prior_review: dict | None = None
+    if path.exists():
+        try:
+            existing = json.loads(path.read_text())
+            review = existing.get("review")
+            if isinstance(review, dict) and review:
+                prior_review = review
+        except (OSError, json.JSONDecodeError):
+            # Corrupt or unreadable file — let the fresh write recover.
+            prior_review = None
+
+    data: dict = {
         "id": series.id,
         "title": series.title,
         "content_type": series.content_type,
@@ -878,6 +900,9 @@ def save_curation(series: CuratedSeries) -> Path:
         "curated_at": datetime.now(UTC).isoformat(),
         "albums": [a.model_dump() for a in series.albums],
     }
+    if prior_review is not None:
+        data["review"] = prior_review
+
     path.write_text(json.dumps(data, indent=2, ensure_ascii=False))
     return path
 
