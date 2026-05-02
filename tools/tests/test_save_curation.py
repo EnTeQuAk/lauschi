@@ -103,16 +103,28 @@ def test_save_curation_replaces_curate_owned_fields(curation_dir: Path):
     assert saved["review"]["status"] == "approved"  # review preserved
 
 
-def test_save_curation_skips_empty_review_dict(curation_dir: Path):
-    """An empty {} review block (e.g., curate just stamping
-    reviewed_at) shouldn't be carried forward as a fake review."""
-    _write_existing(curation_dir, "test_series", review={})
+def test_save_curation_preserves_unrelated_keys(curation_dir: Path):
+    """Anything outside the curate-owned set is carried forward —
+    that's the architectural property: curate only touches its own
+    fields, leaves the rest alone. Future pipeline steps can add new
+    top-level subkeys without curate needing to know about them."""
+    p = curation_dir / "test_series.json"
+    p.write_text(json.dumps({
+        "id": "test_series",
+        "title": "Old",
+        "review": {"status": "approved"},
+        "verification_log": [{"step": "verify", "ts": "2026-01-01"}],
+        "custom_human_field": "preserve me too",
+    }))
 
     save_curation(_series("test_series"))
 
-    saved = json.loads((curation_dir / "test_series.json").read_text())
-    # Empty dict is falsy → not preserved → absent on save
-    assert "review" not in saved
+    saved = json.loads(p.read_text())
+    assert saved["review"] == {"status": "approved"}
+    assert saved["verification_log"] == [{"step": "verify", "ts": "2026-01-01"}]
+    assert saved["custom_human_field"] == "preserve me too"
+    # Curate-owned field still updated
+    assert saved["title"] == "Test Series"
 
 
 def test_save_curation_handles_corrupt_existing_file(curation_dir: Path):

@@ -1161,13 +1161,20 @@ def review(
 
         curation = json.loads(path.read_text())
 
-        # Don't clobber already-approved reviews. The verify step locks a
-        # curation when both AIs agree; re-running review would replace
-        # that human-trusted state with fresh AI output, including any
-        # human-added overrides. Use --force to override (e.g., after a
-        # re-curation pulled in new episodes).
+        # Skip approved curations unless either:
+        #  - --force was passed, OR
+        #  - curate has run since the last review (status is stale).
+        # The staleness check is what makes ``catalog-pipeline`` self-
+        # healing: a re-curate refreshes data, review re-runs everywhere
+        # the prior approval no longer covers, no manual --force needed.
+        from lauschi_catalog.catalog.lifecycle import review_is_stale
+
         existing_status = curation.get("review", {}).get("status")
-        if not force and existing_status in ("approved", "ai_verified"):
+        if (
+            not force
+            and existing_status in ("approved", "ai_verified")
+            and not review_is_stale(curation)
+        ):
             console.print(
                 f"[dim]Skipping {path.stem} (already {existing_status}; "
                 f"use --force to re-review)[/dim]",

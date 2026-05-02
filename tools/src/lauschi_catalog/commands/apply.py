@@ -12,6 +12,7 @@ from pathlib import Path
 import click
 from rich.console import Console
 
+from lauschi_catalog.catalog.lifecycle import apply_is_unsafe
 from lauschi_catalog.catalog.loader import SERIES_YAML, load_raw, save_raw
 
 console = Console()
@@ -124,7 +125,12 @@ def _apply_one(series_id: str, data: dict, yaml_data: dict) -> bool:
 @click.option("--all", "run_all", is_flag=True, help="Apply all approved curations")
 @click.option("--status", default="approved", help="Only apply curations with this status")
 @click.option("--dry-run", is_flag=True, help="Don't write changes")
-def apply(series_id: str | None, run_all: bool, status: str, dry_run: bool):
+@click.option(
+    "--force",
+    is_flag=True,
+    help="Skip the lifecycle staleness check (apply even if review or verify is stale)",
+)
+def apply(series_id: str | None, run_all: bool, status: str, dry_run: bool, force: bool):
     """Apply approved curations to series.yaml.
 
     Reads curation JSONs, extracts per-provider album IDs, and writes
@@ -157,6 +163,21 @@ def apply(series_id: str | None, run_all: bool, status: str, dry_run: bool):
         if cur_status != status and not series_id:
             skipped += 1
             continue
+
+        # Defense in depth: refuse to apply curations whose review or
+        # verify is stale relative to the current curate output. The
+        # standard pipeline keeps these in sync; this catches the case
+        # where ``apply --all`` runs standalone after a re-curate that
+        # skipped review/verify.
+        if not force:
+            unsafe = apply_is_unsafe(data)
+            if unsafe is not None:
+                console.print(
+                    f"[yellow]{data.get('title', sid)}: refusing to apply — "
+                    f"{unsafe} (use --force to override)[/yellow]",
+                )
+                skipped += 1
+                continue
 
         console.print(f"[bold]{data.get('title', sid)}[/bold] (status: {cur_status})")
 

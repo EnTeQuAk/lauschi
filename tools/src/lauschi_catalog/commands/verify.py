@@ -292,15 +292,33 @@ async def verify_one(
 
     curation = json.loads(path.read_text())
 
-    # Check pipeline status
+    # Check pipeline status, gated by lifecycle staleness so a re-curate
+    # or re-review flushes prior verify outputs that no longer apply.
+    from lauschi_catalog.catalog.lifecycle import (
+        review_is_stale,
+        verification_is_stale,
+    )
+
     review = curation.get("review", {})
     status = review.get("status")
 
     if not force:
-        if status in ("approved", "ai_verified"):
+        if review_is_stale(curation):
+            # Verifying against a stale review would stamp a verdict on
+            # outdated decisions. Refuse and point at the upstream step.
+            console.print(
+                f"[yellow]Skipping {series_id}: review is stale "
+                f"(curate ran after last review). Run review first.[/yellow]",
+            )
+            return None
+        if verification_is_stale(curation):
+            # Review changed since last verify (or never had timestamps).
+            # Override the status-based skip and re-verify.
+            pass
+        elif status in ("approved", "ai_verified"):
             console.print(f"[dim]Skipping {series_id} (already {status})[/dim]")
             return None
-        if status == "rejected":
+        elif status == "rejected":
             console.print(f"[dim]Skipping {series_id} (rejected)[/dim]")
             return None
 
