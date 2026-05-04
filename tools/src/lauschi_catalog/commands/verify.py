@@ -27,6 +27,7 @@ from rich.console import Console
 from rich.panel import Panel
 from rich.table import Table
 
+from lauschi_catalog.catalog.canonical import canonicalize
 from lauschi_catalog.catalog.lifecycle import review_is_stale, verification_is_stale
 from lauschi_catalog.catalog.loader import load_raw, save_raw, SERIES_YAML
 from lauschi_catalog.providers import CatalogProvider
@@ -399,6 +400,7 @@ def apply_verification(
         review["status"] = "escalated"
 
     if not dry_run:
+        canonicalize(data)
         path.write_text(json.dumps(data, indent=2, ensure_ascii=False))
 
     return action

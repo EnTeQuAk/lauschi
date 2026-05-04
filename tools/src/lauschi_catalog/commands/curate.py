@@ -33,6 +33,7 @@ from rich.console import Console
 from rich.panel import Panel
 from rich.table import Table
 
+from lauschi_catalog.catalog.canonical import canonicalize
 from lauschi_catalog.providers import Album, CatalogProvider
 
 console = Console()
@@ -956,6 +957,7 @@ def save_curation(series: CuratedSeries) -> Path:
         "albums": [a.model_dump() for a in series.albums],
     })
 
+    canonicalize(data)
     path.write_text(json.dumps(data, indent=2, ensure_ascii=False))
     return path
 

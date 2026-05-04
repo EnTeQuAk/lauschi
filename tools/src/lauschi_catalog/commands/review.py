@@ -29,6 +29,7 @@ from rich.console import Console
 from rich.panel import Panel
 
 from lauschi_catalog.catalog.analysis import analyze_series, effective_albums
+from lauschi_catalog.catalog.canonical import canonicalize
 from lauschi_catalog.catalog.lifecycle import review_is_stale
 from lauschi_catalog.providers import CatalogProvider
 
@@ -1126,6 +1127,7 @@ def save_review(series_id: str, review: AssembledReview) -> Path:
             data.get("albums", []), review.pattern_update,
         )
 
+    canonicalize(data)
     path.write_text(json.dumps(data, indent=2, ensure_ascii=False))
     return path
 
