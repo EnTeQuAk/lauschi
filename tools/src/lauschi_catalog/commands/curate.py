@@ -1045,12 +1045,37 @@ def _init_providers(provider: str, *, no_cache: bool = False) -> list[CatalogPro
     return providers
 
 
+def _lock_series_id(series: CuratedSeries, canonical_id: str | None) -> CuratedSeries:
+    """Force ``series.id`` to the canonical value when one is known.
+
+    The metadata agent occasionally invents an id that doesn't match
+    the canonical entry in series.yaml. The trigger is series titles
+    with characters that fail the ``^[a-z][a-z0-9_]*$`` pattern —
+    notably umlauts. pydantic-ai retries on validation failure with
+    the error fed back to the model, and the retry sometimes produces
+    sloppy transliterations: ``benjamin_blümchen`` → ``benjamin_bluechen``
+    (lost both the umlaut→ue mapping and a literal ``m``).
+
+    The previous-run consequence: a typo'd JSON file orphaned next to
+    the canonical one. ``series.yaml`` is the source of truth for the
+    id, so we override here and tell the user it happened.
+    """
+    if canonical_id and series.id != canonical_id:
+        console.print(
+            f"  [yellow]Locked id to canonical: {series.id!r} → "
+            f"{canonical_id!r} (model output overridden by series.yaml)[/]",
+        )
+        series.id = canonical_id
+    return series
+
+
 def _curate_one(
     query: str,
     providers: list[CatalogProvider],
     *,
     model: str,
     timeout: int,
+    series_id: str | None = None,
     existing_curation: dict | None = None,
     is_music: bool = False,
     dry_run: bool = False,
@@ -1070,12 +1095,16 @@ def _curate_one(
                 is_music=is_music,
             ),
         )
+        _lock_series_id(series, series_id)
         path = save_curation(series)
         print_summary(series)
         console.print(f"[green]Saved to {path}[/green]")
         return path
     except Exception as e:
-        console.print(f"[red]Failed to curate {query}: {e}[/red]")
+        # Some SDK exceptions have an empty str(e); fall back to the
+        # type name so "Failed to curate Foo:" never appears blank.
+        msg = f"{type(e).__name__}: {e}" if str(e) else type(e).__name__
+        console.print(f"[red]Failed to curate {query}: {msg}[/red]")
         return None
 
 
@@ -1167,6 +1196,7 @@ def curate(
         path = _curate_one(
             entry.title, providers,
             model=model, timeout=timeout,
+            series_id=entry.id,
             existing_curation=existing,
             is_music=entry_is_music,
             dry_run=dry_run,
