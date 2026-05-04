@@ -98,10 +98,19 @@ def _apply_one(series_id: str, data: dict, yaml_data: dict) -> bool:
                 f"{max(ep_changed, 0)} episode/title changes)",
             )
 
-    # Write content_type to yaml if present in curation (music vs hoerspiel).
-    # The Flutter app uses this for UI labels ("Titel" vs "Folgen").
+    # Write content_type to yaml when present in curation (music vs
+    # hoerspiel). The Flutter app uses this for UI labels ("Titel" vs
+    # "Folgen"). The default is hoerspiel, so for hoerspiel we want
+    # the yaml entry to NOT carry content_type — but if a prior apply
+    # wrote "music" and the curation has now been corrected to
+    # hoerspiel, we must clear the stale value, not skip it.
     ct = data.get("content_type")
-    if ct and ct != "hoerspiel":
+    yaml_ct = yaml_series.get("content_type")
+    if ct == "hoerspiel":
+        if yaml_ct is not None:
+            del yaml_series["content_type"]
+            updated = True
+    elif ct and ct != yaml_ct:
         yaml_series["content_type"] = ct
         updated = True
 

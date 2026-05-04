@@ -175,6 +175,9 @@ def analyze_series(curation: dict) -> dict[str, Any]:
         with_episode_num: of those, how many have an extracted episode_num
         episode_range: ``"min-max"`` or ``"none"``
         gaps: missing episode numbers in the range, capped at 20
+        gap_count: total number of missing episode numbers (may exceed
+            ``len(gaps)`` when capped) — surfaces severity even when
+            the displayed list is truncated
         providers: per-provider album count
         common_words: top 10 content words across titles, noise stripped
         duplicates_within_provider: same provider + same episode_num
@@ -221,7 +224,13 @@ def analyze_series(curation: dict) -> dict[str, Any]:
         "total": len(albums),
         "with_episode_num": len(episodes),
         "episode_range": f"{nums[0]}-{nums[-1]}" if nums else "none",
+        # Truncate the listed gaps to keep the prompt bounded, but
+        # always report the true count separately. Without gap_count,
+        # a series with 80 missing episodes looks identical to one
+        # with 20, which mis-informs the GapsVerdict choice
+        # (FILLED_VIA_ADD_ALBUM vs VERIFIED_CONTENT_ROTATION).
         "gaps": gaps[:20],
+        "gap_count": len(gaps),
         "providers": dict(providers),
         "common_words": title_counter.most_common(10),
         "duplicates_within_provider": _duplicates_within_provider(albums),

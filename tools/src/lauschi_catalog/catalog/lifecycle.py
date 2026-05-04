@@ -25,24 +25,35 @@ and ``review.verification``) or pass ``--force`` on the next run.
 
 from __future__ import annotations
 
-from datetime import datetime
+from datetime import UTC, datetime
 from typing import Any
 
 
 def _parse_ts(value: Any) -> datetime | None:
-    """Parse an ISO-8601 string into a datetime, or return None.
+    """Parse an ISO-8601 string into a tz-aware datetime, or return None.
 
     All our writers use ``datetime.now(UTC).isoformat()``, which is
     parseable by ``datetime.fromisoformat`` on Python 3.11+. Non-string
     values, empty strings, or malformed timestamps yield None — the
     caller decides what missing means.
+
+    Naive datetimes (no offset) are normalized to UTC. Without this,
+    a hand-edited timestamp like ``"2026-05-04T10:00:00"`` would parse
+    fine but raise ``TypeError`` when compared against the tz-aware
+    timestamps produced by our writers — and that comparison happens
+    inside the staleness check that gates the apply step. A defensive
+    fallback here keeps the pipeline running rather than crashing on
+    a manual edit.
     """
     if not isinstance(value, str) or not value:
         return None
     try:
-        return datetime.fromisoformat(value)
-    except ValueError:
+        dt = datetime.fromisoformat(value)
+    except (ValueError, TypeError):
         return None
+    if dt.tzinfo is None:
+        dt = dt.replace(tzinfo=UTC)
+    return dt
 
 
 def review_is_stale(curation: dict) -> bool:

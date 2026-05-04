@@ -18,7 +18,7 @@ from pathlib import Path
 
 import click
 from pydantic import BaseModel, Field
-from pydantic_ai import Agent, RunContext
+from pydantic_ai import Agent, RunContext, ToolOutput
 from pydantic_ai.models.openai import OpenAIChatModel
 from pydantic_ai.providers.openai import OpenAIProvider
 from pydantic_ai.usage import UsageLimits
@@ -31,6 +31,7 @@ from lauschi_catalog.catalog.canonical import canonicalize
 from lauschi_catalog.catalog.lifecycle import review_is_stale, verification_is_stale
 from lauschi_catalog.catalog.loader import load_raw, save_raw, SERIES_YAML
 from lauschi_catalog.providers import CatalogProvider
+from lauschi_catalog.retry import is_retryable
 
 console = Console()
 
@@ -133,8 +134,11 @@ to independently verify those decisions.
 - Use web_search when: 0 albums included, all albums excluded,
   you're unsure whether something is a Hörspiel or Hörbuch, or the
   artist ID looks wrong for the series.
-- When in doubt, flag concerns but approve. False rejections are worse
-  than letting minor issues through.
+- **When in doubt, escalate.** lauschi is a kids' audio catalog —
+  the cost of approving wrong content (an inappropriate album reaching
+  a child) is much higher than the cost of escalating a borderline
+  case for human review. Set ``approve: false`` whenever you're not
+  confident the curation is correct.
 """
 
 
@@ -143,9 +147,21 @@ def _build_verify_agent(
 ) -> Agent[Deps, VerifyResult]:
     provider = OpenAIProvider(base_url=_OPENCODE_BASE_URL, api_key=api_key)
     model = OpenAIChatModel(model_name, provider=provider)
+    # Wrap in ToolOutput so the model emits VerifyResult as a function-call
+    # payload rather than free-form JSON in message content. Same mechanism
+    # review.py uses; gives stronger schema adherence on models that
+    # otherwise occasionally return malformed structured output.
     agent: Agent[Deps, VerifyResult] = Agent(
         model,
-        output_type=VerifyResult,
+        output_type=ToolOutput(
+            VerifyResult,
+            name="submit_verdict",
+            description=(
+                "Submit your verification verdict. Use override_verdicts "
+                "and split_verdicts to record per-item agreement; concerns "
+                "for any issues worth flagging even when approving."
+            ),
+        ),
         system_prompt=_SYSTEM_PROMPT,
         retries=2,
     )
@@ -264,11 +280,35 @@ def _build_prompt(curation: dict) -> str:
                 f"{len(s.get('album_ids', []))} albums — {s.get('reason', '')}",
             )
 
-    notes = review.get("notes", "")
-    if notes:
-        lines.append(f"\n### First reviewer notes\n{notes[:1000]}")
+    # Per-category decisions + reasoning. Without this, the verifier
+    # only sees outcomes (overrides, splits) and is asked to agree
+    # without knowing WHY the first reviewer chose them. 4-eye is
+    # only meaningful if the second reviewer can challenge the
+    # rationale, not just the action.
+    decisions = review.get("decisions") or {}
+    if decisions:
+        lines.append("\n### First reviewer per-category decisions")
+        for category in (
+            "duplicates", "sub_series", "gaps",
+            "pattern", "outliers", "cross_provider",
+        ):
+            d = decisions.get(category) or {}
+            if not d:
+                continue
+            verdict = d.get("verdict", "?")
+            reasoning = (d.get("reasoning") or "").strip()[:300]
+            lines.append(f"  • {category}: {verdict}")
+            if reasoning:
+                lines.append(f"      {reasoning}")
 
-    lines.append("\nReview the above. Spot-check if needed. Give your verdict.")
+    summary = (review.get("summary") or "").strip()
+    if summary:
+        lines.append(f"\n### First reviewer summary\n{summary[:500]}")
+
+    lines.append(
+        "\nVerify the above. Challenge the rationale, not just the actions. "
+        "Spot-check with tools when uncertain. Give your verdict.",
+    )
     return "\n".join(lines)
 
 
@@ -330,11 +370,14 @@ async def verify_one(
                 console.print(f"[dim]Skipping {series_id} (rejected)[/dim]")
                 return None
 
-    deps = Deps(providers=providers, series_id=series_id, curation=curation)
     agent = _build_verify_agent(model_name, api_key)
     prompt = _build_prompt(curation)
 
     for attempt in range(_MAX_RETRIES):
+        # Fresh deps each outer attempt so a prior failed attempt's
+        # exhausted tool counters (web_search/fetch/album_details)
+        # don't starve the next one. Matches review.py's pattern.
+        deps = Deps(providers=providers, series_id=series_id, curation=curation)
         try:
             async def _run():
                 async with agent.iter(
@@ -358,9 +401,18 @@ async def verify_one(
 
             result = await asyncio.wait_for(_run(), timeout=timeout)
             return result
+        except asyncio.TimeoutError:
+            # Timeout on a 600s budget means we've already burned the
+            # full budget; retrying would just burn another. Fail fast.
+            raise
         except Exception as e:
-            if attempt < _MAX_RETRIES - 1:
-                console.print(f"[yellow]Attempt {attempt + 1} failed: {e}[/yellow]")
+            # Only retry transient transport/5xx failures. Auth errors
+            # (401), validation failures, and other definitive errors
+            # propagate immediately so we don't waste retries (and 5s
+            # delays each) on something that won't fix itself.
+            if is_retryable(e) and attempt < _MAX_RETRIES - 1:
+                err = f"{type(e).__name__}: {e}" if str(e) else type(e).__name__
+                console.print(f"[yellow]Attempt {attempt + 1} failed: {err}[/yellow]")
                 await asyncio.sleep(_RETRY_DELAY)
             else:
                 raise

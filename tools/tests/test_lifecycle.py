@@ -76,6 +76,26 @@ def test_review_not_stale_with_unparseable_timestamps():
     assert review_is_stale(c) is False
 
 
+def test_review_handles_naive_curated_at_without_crashing():
+    """Hand-edited timestamps may lack a timezone offset. Naive datetimes
+    must not raise TypeError when compared to tz-aware writer output —
+    that crash would propagate out of the staleness check and stop the
+    whole pipeline."""
+    naive_curated = "2026-02-01T00:00:00"
+    aware_reviewed = T3
+    c = _curation(curated_at=naive_curated, reviewed_at=aware_reviewed)
+    # Should compute, not raise. Naive curated < aware reviewed → not stale.
+    assert review_is_stale(c) is False
+
+
+def test_review_stale_with_naive_curated_after_aware_review():
+    """Symmetric: naive curated_at AFTER aware reviewed_at → stale.
+    Confirms the naive value is treated as UTC, not as 'always
+    earlier' or some other quirk."""
+    c = _curation(curated_at="2026-04-01T00:00:00", reviewed_at=T1)
+    assert review_is_stale(c) is True
+
+
 # ── verification_is_stale ─────────────────────────────────────────────────
 
 

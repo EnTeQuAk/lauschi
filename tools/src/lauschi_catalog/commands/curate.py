@@ -35,6 +35,7 @@ from rich.table import Table
 
 from lauschi_catalog.catalog.canonical import canonicalize
 from lauschi_catalog.providers import Album, CatalogProvider
+from lauschi_catalog.retry import is_retryable
 
 console = Console()
 
@@ -590,59 +591,10 @@ async def _run_agent(agent, prompt, deps):
         return run.result.output
 
 
-_RETRYABLE_PATTERNS = (
-    # HTML body — Cloudflare / opencode error pages
-    "<!DOCTYPE",
-    # Lowercased connection-class signals; matched case-insensitively below
-    "timeout",
-    "timed out",
-    "connection",
-    "temporarily unavailable",
-)
-_RETRYABLE_STATUS = re.compile(r"\b5\d\d\b")  # any 5xx HTTP status
-
-# Type-name match by string so we don't take an import dependency on
-# every SDK's exception namespace. Matched against the full MRO so a
-# subclass (e.g., requests.ConnectTimeout < Timeout) still hits.
-# Covers requests, urllib3, httpx, and the openai SDK — the layers
-# pydantic-ai routes through to opencode.
-_RETRYABLE_TYPE_NAMES = frozenset({
-    # requests / urllib3
-    "ConnectionError", "ConnectTimeout", "ReadTimeout", "Timeout",
-    "SSLError", "ChunkedEncodingError",
-    "MaxRetryError", "NewConnectionError", "ProtocolError",
-    # httpx
-    "ConnectError", "ReadError", "WriteError",
-    "PoolTimeout", "RemoteProtocolError",
-    # openai SDK
-    "APIConnectionError", "APITimeoutError", "InternalServerError",
-})
-
-
-def _is_retryable(exc: Exception) -> bool:
-    """True when the exception suggests a transient upstream failure.
-
-    Two-pronged check so neither a typed network error with no useful
-    string nor a wrapped error whose only signal is in the message
-    falls through:
-
-    1. Type-by-name walk over the MRO. Catches ``ConnectionError``,
-       ``ReadTimeout``, ``SSLError``, etc. without needing to import
-       requests/httpx/openai here.
-    2. String fallback for HTML error pages, any 5xx status, and
-       connection/timeout signals embedded in wrapped exceptions.
-
-    Auth, validation, and 4xx-class errors still bubble up — they're
-    not retryable and a retry would just burn budget.
-    """
-    type_names = {cls.__name__ for cls in type(exc).__mro__}
-    if type_names & _RETRYABLE_TYPE_NAMES:
-        return True
-    err_str = str(exc)
-    lowered = err_str.lower()
-    if any(p.lower() in lowered for p in _RETRYABLE_PATTERNS):
-        return True
-    return bool(_RETRYABLE_STATUS.search(err_str))
+# Re-export so existing tests/imports of curate._is_retryable keep
+# working. New code should import is_retryable from
+# lauschi_catalog.retry directly.
+_is_retryable = is_retryable
 
 
 async def _run_with_retry(coro_factory, *, phase: str = ""):
@@ -660,7 +612,7 @@ async def _run_with_retry(coro_factory, *, phase: str = ""):
             # carry request headers (incl. Authorization) into the log.
             # The exception type + message is enough to diagnose, and a
             # user can re-run with PYTHONFAULTHANDLER=1 if they want more.
-            if _is_retryable(e) and attempt < _MAX_RETRIES:
+            if is_retryable(e) and attempt < _MAX_RETRIES:
                 console.print(
                     f"[yellow]{phase} attempt {attempt}/{_MAX_RETRIES} "
                     f"failed ({type(e).__name__}), retrying in "
@@ -724,6 +676,7 @@ async def _run_large(
     timeout: int,
     existing_curation: dict | None = None,
     is_music: bool = False,
+    known_artist_ids: dict[str, list[str]] | None = None,
 ) -> CuratedSeries:
     ai_provider = OpenAIProvider(base_url=_OPENCODE_BASE_URL, api_key=api_key)
     model = OpenAIChatModel(model_name, provider=ai_provider)
@@ -733,18 +686,51 @@ async def _run_large(
 
     all_albums: list[dict] = []
     artist_ids: dict[str, list[str]] = {}
+    known_artist_ids = known_artist_ids or {}
 
     for p in providers:
+        known = known_artist_ids.get(p.name) or []
+        if known:
+            # Canonical IDs from series.yaml. Skip search entirely; using
+            # search_artists for known series risks picking the wrong
+            # artist when there's a same-named band. This is the same
+            # principle as _lock_series_id — series.yaml is authoritative
+            # for identity.
+            for aid in known:
+                artist_ids.setdefault(p.name, []).append(aid)
+                albums = p.artist_albums(aid)
+                console.print(
+                    f"  [{p.name}] canonical artist: [{aid}] → {len(albums)} albums",
+                )
+                for a in albums:
+                    all_albums.append({
+                        "provider": p.name, "id": a.id, "name": a.name,
+                        "release_date": a.release_date,
+                        "total_tracks": a.total_tracks,
+                    })
+            continue
+
         artists = p.search_artists(query)
         if not artists:
             console.print(f"  [{p.name}] No artist found")
             continue
 
+        # No canonical id → fall back to search. Log the chosen artist's
+        # name (not just the id) so the user can spot wrong-disambiguation
+        # at glance, and flag if the search returned multiple plausible
+        # candidates so they know it's a guess.
         artist = artists[0]
         artist_ids.setdefault(p.name, []).append(artist.id)
-        console.print(
-            f"  [{p.name}] Artist: [bold]{artist.name}[/] [{artist.id}]",
-        )
+        if len(artists) > 1:
+            others = ", ".join(a.name for a in artists[1:4])
+            console.print(
+                f"  [{p.name}] [yellow]chose[/] [bold]{artist.name}[/] "
+                f"[{artist.id}] (also matched: {others})",
+            )
+        else:
+            console.print(
+                f"  [{p.name}] Artist: [bold]{artist.name}[/] [{artist.id}]",
+            )
 
         albums = p.artist_albums(artist.id)
         for a in albums:
@@ -880,6 +866,7 @@ async def run_curation(
     timeout: int = 1800,
     existing_curation: dict | None = None,
     is_music: bool = False,
+    known_artist_ids: dict[str, list[str]] | None = None,
 ) -> CuratedSeries:
     """Pick single-agent or batched flow based on discography size."""
     api_key = os.environ.get("OPENCODE_API_KEY", "")
@@ -888,12 +875,19 @@ async def run_curation(
         raise SystemExit(1)
 
     # Probe total album count across providers (results are cached by the
-    # provider's diskcache, so _run_large won't re-fetch).
+    # provider's diskcache, so _run_large won't re-fetch). Use canonical
+    # artist IDs when available so the probe doesn't take its own
+    # disambiguation guess different from _run_large's.
     total_albums = 0
+    known = known_artist_ids or {}
     for p in providers:
-        artists = p.search_artists(query)
-        if artists:
-            albums = p.artist_albums(artists[0].id)
+        ids = known.get(p.name) or []
+        if not ids:
+            artists = p.search_artists(query)
+            if artists:
+                ids = [artists[0].id]
+        for aid in ids:
+            albums = p.artist_albums(aid)
             total_albums += len(albums)
 
     if total_albums <= _LARGE_THRESHOLD:
@@ -911,6 +905,7 @@ async def run_curation(
             model_name=model_name, api_key=api_key,
             timeout=timeout, existing_curation=existing_curation,
             is_music=is_music,
+            known_artist_ids=known_artist_ids,
         )
 
     # Persist content type so re-curation uses the right prompt.
@@ -939,9 +934,22 @@ def save_curation(series: CuratedSeries) -> Path:
     if path.exists():
         try:
             data = json.loads(path.read_text())
-        except (OSError, json.JSONDecodeError):
-            # Corrupt or unreadable — start fresh, this write recovers.
-            pass
+        except (OSError, json.JSONDecodeError) as exc:
+            # Don't silently overwrite an existing-but-unparseable file.
+            # The risk: if the JSON had an approved review block (human
+            # curation work) and got partially corrupted, restarting
+            # from data={} would discard that work on the next save.
+            # Surface loudly and abort; the user can inspect, repair,
+            # or move the file aside before re-running.
+            console.print(
+                f"[red]Refusing to overwrite unreadable curation file[/red]\n"
+                f"  Path: {path}\n"
+                f"  Error: {type(exc).__name__}: {exc}\n"
+                f"  This file may contain approved review state. "
+                f"Inspect it before re-curating; rename/remove the file "
+                f"if you intend to start fresh.",
+            )
+            raise SystemExit(1)
 
     data.update({
         "id": series.id,
@@ -1076,6 +1084,7 @@ def _curate_one(
     model: str,
     timeout: int,
     series_id: str | None = None,
+    known_artist_ids: dict[str, list[str]] | None = None,
     existing_curation: dict | None = None,
     is_music: bool = False,
     dry_run: bool = False,
@@ -1093,6 +1102,7 @@ def _curate_one(
                 model_name=model, timeout=timeout,
                 existing_curation=existing_curation,
                 is_music=is_music,
+                known_artist_ids=known_artist_ids,
             ),
         )
         _lock_series_id(series, series_id)
@@ -1197,6 +1207,7 @@ def curate(
             entry.title, providers,
             model=model, timeout=timeout,
             series_id=entry.id,
+            known_artist_ids=entry.all_artist_ids() or None,
             existing_curation=existing,
             is_music=entry_is_music,
             dry_run=dry_run,

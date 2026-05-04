@@ -105,3 +105,49 @@ def test_apply_one_writes_when_only_episode_number_differs():
     assert _apply_one("s1", curation, yaml_data) is True
     saved = yaml_data["series"][0]["providers"]["spotify"]["albums"]
     assert saved[0]["episode"] == 6
+
+
+# ── content_type handling ─────────────────────────────────────────────────
+
+
+def _curation_with_ct(content_type: str | None, *, albums: list[dict]) -> dict:
+    data = _curation(albums=albums)
+    if content_type is not None:
+        data["content_type"] = content_type
+    return data
+
+
+def test_apply_writes_music_content_type():
+    yaml_data = _yaml_with([])
+    curation = _curation_with_ct("music", albums=[
+        _included("a", episode_num=1, title="T"),
+    ])
+    _apply_one("s1", curation, yaml_data)
+    assert yaml_data["series"][0].get("content_type") == "music"
+
+
+def test_apply_clears_stale_music_when_reverted_to_hoerspiel():
+    """Real correction scenario: a series was incorrectly tagged as
+    music in series.yaml, the curation has now been re-curated as
+    hoerspiel, and apply must remove the stale tag — otherwise the
+    Flutter app keeps showing 'Titel' instead of 'Folgen'."""
+    yaml_data = _yaml_with([{"id": "a", "episode": 1, "title": "T"}])
+    yaml_data["series"][0]["content_type"] = "music"
+    curation = _curation_with_ct("hoerspiel", albums=[
+        _included("a", episode_num=1, title="T"),
+    ])
+    updated = _apply_one("s1", curation, yaml_data)
+    assert updated is True
+    assert "content_type" not in yaml_data["series"][0]
+
+
+def test_apply_leaves_content_type_absent_when_already_hoerspiel():
+    """The default is hoerspiel; we don't write it explicitly. No
+    update if the yaml entry already has no content_type and the
+    curation is hoerspiel."""
+    yaml_data = _yaml_with([{"id": "a", "episode": 1, "title": "T"}])
+    curation = _curation_with_ct("hoerspiel", albums=[
+        _included("a", episode_num=1, title="T"),
+    ])
+    _apply_one("s1", curation, yaml_data)
+    assert "content_type" not in yaml_data["series"][0]

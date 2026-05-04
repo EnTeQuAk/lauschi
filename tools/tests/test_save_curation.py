@@ -127,13 +127,16 @@ def test_save_curation_preserves_unrelated_keys(curation_dir: Path):
     assert saved["title"] == "Test Series"
 
 
-def test_save_curation_handles_corrupt_existing_file(curation_dir: Path):
-    """Unparseable JSON shouldn't block a fresh write."""
+def test_save_curation_aborts_on_corrupt_existing_file(curation_dir: Path):
+    """Refuse to overwrite an unparseable file. Reasoning: a partial
+    write to a JSON that previously held an approved review block
+    would otherwise be silently destroyed when save_curation falls
+    back to data={}. Make the user inspect/move the file instead."""
     p = curation_dir / "test_series.json"
     p.write_text("{not json at all")
 
-    save_curation(_series("test_series"))
+    with pytest.raises(SystemExit):
+        save_curation(_series("test_series"))
 
-    saved = json.loads(p.read_text())
-    assert saved["id"] == "test_series"
-    assert "review" not in saved
+    # File untouched — still the corrupt content the user can recover from
+    assert p.read_text() == "{not json at all"

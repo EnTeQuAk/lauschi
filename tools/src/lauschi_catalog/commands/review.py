@@ -32,6 +32,7 @@ from lauschi_catalog.catalog.analysis import analyze_series, effective_albums
 from lauschi_catalog.catalog.canonical import canonicalize
 from lauschi_catalog.catalog.lifecycle import review_is_stale
 from lauschi_catalog.providers import CatalogProvider
+from lauschi_catalog.retry import is_retryable
 
 console = Console()
 
@@ -913,9 +914,15 @@ async def _run_review(
 
             result = await asyncio.wait_for(_run(), timeout=timeout)
             return assemble_review(result, deps)
+        except asyncio.TimeoutError:
+            # Same reasoning as verify: a 600s budget that timed out
+            # already burned the budget; retrying just doubles it.
+            raise
         except Exception as e:
             err = f"{type(e).__name__}: {e}" if str(e) else type(e).__name__
-            if attempt < _MAX_RETRIES - 1:
+            # Don't retry auth/validation/4xx — they won't fix
+            # themselves and a retry costs another _RETRY_DELAY.
+            if is_retryable(e) and attempt < _MAX_RETRIES - 1:
                 console.print(f"[yellow]Attempt {attempt + 1} failed: {err}[/yellow]")
                 await asyncio.sleep(_RETRY_DELAY)
             else:

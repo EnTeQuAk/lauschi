@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import time
+from email.utils import parsedate_to_datetime
 from pathlib import Path
 
 import diskcache
@@ -20,6 +21,40 @@ DEFAULT_TTL = 7 * 24 * 3600  # 7 days
 TEAM_ID = "QDF8U52UF4"
 KEY_ID = "PWHK2R76T9"
 STOREFRONT = "de"
+
+_RETRY_AFTER_DEFAULT = 2.0
+_RETRY_AFTER_MAX = 60.0
+
+
+def _parse_retry_after(raw: str | None) -> float:
+    """Parse a Retry-After header value into seconds.
+
+    The HTTP spec allows two forms: a delta-seconds integer, or an
+    HTTP-date. Apple Music has been observed to send float strings
+    too (``"1.5"``). All three need to round-trip here without
+    raising — the previous ``int(raw)`` crashed on floats and dates.
+
+    Returns the default (2s) on anything unparseable. Caps at 60s
+    so a hostile or buggy Retry-After can't stall the provider for
+    minutes per call.
+    """
+    if not raw:
+        return _RETRY_AFTER_DEFAULT
+    raw = raw.strip()
+    try:
+        return min(max(float(raw), 0.0), _RETRY_AFTER_MAX)
+    except ValueError:
+        pass
+    try:
+        target = parsedate_to_datetime(raw)
+        # parsedate_to_datetime returns aware datetime when the header
+        # carries a timezone, naive otherwise. Compute remaining seconds
+        # from now; clamp negative to 0.
+        now = time.time()
+        delta = target.timestamp() - now
+        return min(max(delta, 0.0), _RETRY_AFTER_MAX)
+    except (TypeError, ValueError):
+        return _RETRY_AFTER_DEFAULT
 
 
 class AppleMusicProvider(CatalogProvider):
@@ -80,7 +115,7 @@ class AppleMusicProvider(CatalogProvider):
                 # Apple recommends honoring Retry-After; default to 2s
                 # if absent. Last attempt falls through to raise_for_status.
                 if attempt < 2:
-                    time.sleep(int(r.headers.get("Retry-After", "2")))
+                    time.sleep(_parse_retry_after(r.headers.get("Retry-After")))
                     continue
             if r.status_code == 401:
                 self._token = self._generate_token()
@@ -102,11 +137,14 @@ class AppleMusicProvider(CatalogProvider):
 
     def search_artists(self, query: str, limit: int = 8) -> list[Artist]:
         def fetch():
+            # Throttle live API calls only. The previous unconditional
+            # sleep after _cached() also paid the 100ms cost on cache
+            # hits — ~17s wasted across a 171-series validate run.
             data = self._get("search", term=query, types="artists", limit=limit)
+            time.sleep(0.1)
             return data.get("results", {}).get("artists", {}).get("data", [])
 
         raw = self._cached(f"am_search_artists:{query.lower()}:{limit}", fetch)
-        time.sleep(0.1)
         return [
             Artist(
                 id=a["id"],
@@ -131,10 +169,10 @@ class AppleMusicProvider(CatalogProvider):
                 page = self._request(f"https://api.music.apple.com{next_url}")
                 all_albums.extend(page.get("data", []))
                 next_url = page.get("next")
+            time.sleep(0.1)
             return all_albums
 
         raw = self._cached(f"am_artist_albums:{artist_id}", fetch)
-        time.sleep(0.1)
         return [
             Album(
                 id=a["id"],
@@ -187,10 +225,10 @@ class AppleMusicProvider(CatalogProvider):
     def search_albums(self, query: str, limit: int = 10) -> list[Album]:
         def fetch():
             data = self._get("search", term=query, types="albums", limit=limit)
+            time.sleep(0.1)
             return data.get("results", {}).get("albums", {}).get("data", [])
 
         raw = self._cached(f"am_search_albums:{query.lower()}:{limit}", fetch)
-        time.sleep(0.1)
         return [
             Album(
                 id=a["id"],

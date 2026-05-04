@@ -107,3 +107,57 @@ def test_keyboard_interrupt_subclass_does_not_retry():
     # bubbles past the except Exception), but the predicate should
     # still answer False if asked.
     assert _is_retryable(Exception("user pressed Ctrl-C")) is False
+
+
+# ── exception chain walk ──────────────────────────────────────────────────
+
+
+def test_wrapped_connection_error_via_cause_retries():
+    """pydantic-ai wraps SDK errors; the underlying transport class
+    is reached through __cause__. The check must follow the chain."""
+    underlying = ConnectionError("refused")
+    try:
+        raise RuntimeError("agent run failed") from underlying
+    except RuntimeError as e:
+        assert _is_retryable(e) is True
+
+
+def test_wrapped_via_implicit_context_retries():
+    """Implicit chaining (raise inside an except) sets __context__,
+    not __cause__. The walk should follow that too."""
+    try:
+        try:
+            raise ConnectionError("refused")
+        except ConnectionError:
+            raise RuntimeError("wrapped")
+    except RuntimeError as e:
+        assert _is_retryable(e) is True
+
+
+def test_chain_walk_does_not_loop_on_self_reference():
+    """Pathologically self-referential chains shouldn't hang. The walk
+    is bounded and cycle-safe."""
+    a = RuntimeError("a")
+    b = RuntimeError("b")
+    a.__cause__ = b
+    b.__cause__ = a
+    # Neither has retryable signals; result should be False, not infinite loop.
+    assert _is_retryable(a) is False
+
+
+def test_chain_walk_handles_deep_chain():
+    """8-level chain: deepest layer carries the retryable signal.
+    Bound is generous enough for real wrapping but caps runaway."""
+    deepest = ConnectionError("deep")
+    cur: BaseException = deepest
+    for i in range(6):
+        wrapper = RuntimeError(f"layer {i}")
+        wrapper.__cause__ = cur
+        cur = wrapper
+    assert _is_retryable(cur) is True
+
+
+def test_chain_walk_outer_layer_alone_decides():
+    """Outermost layer with retryable signal still works (no chain needed)."""
+    e = ConnectionError("transport")
+    assert _is_retryable(e) is True
