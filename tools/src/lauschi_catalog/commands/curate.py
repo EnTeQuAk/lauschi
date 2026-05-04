@@ -600,14 +600,44 @@ _RETRYABLE_PATTERNS = (
 )
 _RETRYABLE_STATUS = re.compile(r"\b5\d\d\b")  # any 5xx HTTP status
 
+# Type-name match by string so we don't take an import dependency on
+# every SDK's exception namespace. Matched against the full MRO so a
+# subclass (e.g., requests.ConnectTimeout < Timeout) still hits.
+# Covers requests, urllib3, httpx, and the openai SDK — the layers
+# pydantic-ai routes through to opencode.
+_RETRYABLE_TYPE_NAMES = frozenset({
+    # requests / urllib3
+    "ConnectionError", "ConnectTimeout", "ReadTimeout", "Timeout",
+    "SSLError", "ChunkedEncodingError",
+    "MaxRetryError", "NewConnectionError", "ProtocolError",
+    # httpx
+    "ConnectError", "ReadError", "WriteError",
+    "PoolTimeout", "RemoteProtocolError",
+    # openai SDK
+    "APIConnectionError", "APITimeoutError", "InternalServerError",
+})
 
-def _is_retryable(err_str: str) -> bool:
-    """True when the error string suggests a transient upstream failure.
 
-    Covers HTML error pages (Cloudflare/opencode), any 5xx status,
-    and connection/timeout signals. Stricter than catching every
-    Exception — auth and validation failures still bubble up.
+def _is_retryable(exc: Exception) -> bool:
+    """True when the exception suggests a transient upstream failure.
+
+    Two-pronged check so neither a typed network error with no useful
+    string nor a wrapped error whose only signal is in the message
+    falls through:
+
+    1. Type-by-name walk over the MRO. Catches ``ConnectionError``,
+       ``ReadTimeout``, ``SSLError``, etc. without needing to import
+       requests/httpx/openai here.
+    2. String fallback for HTML error pages, any 5xx status, and
+       connection/timeout signals embedded in wrapped exceptions.
+
+    Auth, validation, and 4xx-class errors still bubble up — they're
+    not retryable and a retry would just burn budget.
     """
+    type_names = {cls.__name__ for cls in type(exc).__mro__}
+    if type_names & _RETRYABLE_TYPE_NAMES:
+        return True
+    err_str = str(exc)
     lowered = err_str.lower()
     if any(p.lower() in lowered for p in _RETRYABLE_PATTERNS):
         return True
@@ -629,7 +659,7 @@ async def _run_with_retry(coro_factory, *, phase: str = ""):
             # carry request headers (incl. Authorization) into the log.
             # The exception type + message is enough to diagnose, and a
             # user can re-run with PYTHONFAULTHANDLER=1 if they want more.
-            if _is_retryable(err_str) and attempt < _MAX_RETRIES:
+            if _is_retryable(e) and attempt < _MAX_RETRIES:
                 console.print(
                     f"[yellow]{phase} attempt {attempt}/{_MAX_RETRIES} "
                     f"failed ({type(e).__name__}), retrying in "
