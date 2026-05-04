@@ -1053,6 +1053,34 @@ def _init_providers(provider: str, *, no_cache: bool = False) -> list[CatalogPro
     return providers
 
 
+def _resolve_is_music(
+    entry_content_type: str | None,
+    entry_has_pattern: bool,
+    existing_content_type: str | None,
+) -> bool:
+    """Decide whether a series should be curated as music or Hörspiel.
+
+    series.yaml is canonical: an explicit content_type there wins over
+    everything else. This prevents the failure mode where a one-time
+    misclassification in the curation file compounds across every
+    --force re-curate. Resolution order:
+
+    1. Explicit ``content_type`` on the catalog entry → that value.
+    2. ``episode_pattern`` on the entry → Hörspiel (patterns are only
+       meaningful for episode-numbered content).
+    3. Existing curation file's ``content_type`` → legacy escape hatch
+       for entries not yet migrated to series.yaml's explicit form.
+    4. Default → music (no signals point at Hörspiel).
+    """
+    if entry_content_type in ("hoerspiel", "music"):
+        return entry_content_type == "music"
+    if entry_has_pattern:
+        return False
+    if existing_content_type == "music":
+        return True
+    return True
+
+
 def _lock_series_id(series: CuratedSeries, canonical_id: str | None) -> CuratedSeries:
     """Force ``series.id`` to the canonical value when one is known.
 
@@ -1196,13 +1224,11 @@ def curate(
             f"[dim]({succeeded} done, {failed} failed, {skipped} skipped)[/dim]",
         )
 
-        # Detect music artists: check existing curation JSON first (persisted
-        # content_type), then fall back to no episode_pattern in catalog entry.
-        entry_is_music = False
-        if existing and existing.get("content_type") == "music":
-            entry_is_music = True
-        elif not entry.episode_pattern:
-            entry_is_music = True
+        entry_is_music = _resolve_is_music(
+            entry_content_type=entry.content_type,
+            entry_has_pattern=bool(entry.episode_pattern),
+            existing_content_type=(existing or {}).get("content_type"),
+        )
         path = _curate_one(
             entry.title, providers,
             model=model, timeout=timeout,

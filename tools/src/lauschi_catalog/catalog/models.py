@@ -30,6 +30,12 @@ class CatalogEntry:
     aliases: list[str] = field(default_factory=list)
     episode_pattern: str | list[str] | None = None
     cover_url: str | None = None
+    # Either "hoerspiel" (default) or "music". Set explicitly in
+    # series.yaml when the default doesn't fit. Treated as canonical
+    # by curate — overrides whatever the existing curation file
+    # carries, so a misclassified content_type can't compound across
+    # re-curates.
+    content_type: str | None = None
     providers: dict[str, ProviderConfig] = field(default_factory=dict)
 
     def artist_ids(self, provider: str) -> list[str]:

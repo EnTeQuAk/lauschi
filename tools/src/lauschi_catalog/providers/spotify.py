@@ -10,6 +10,7 @@ from pathlib import Path
 import diskcache
 import requests
 
+from lauschi_catalog.providers._retry import parse_retry_after
 from lauschi_catalog.providers.base import Album, Artist, CatalogProvider, Track
 
 REPO_ROOT = Path(__file__).parent.parent.parent.parent.parent
@@ -71,7 +72,11 @@ class SpotifyProvider(CatalogProvider):
                 timeout=20,
             )
             if r.status_code == 429:
-                time.sleep(int(r.headers.get("Retry-After", "2")))
+                # Honor Retry-After in any of the spec-allowed forms
+                # (delta-seconds int, float, or HTTP-date). Same helper
+                # apple_music uses; previous int(...) crashed on
+                # non-integer values.
+                time.sleep(parse_retry_after(r.headers.get("Retry-After")))
                 continue
             if r.status_code == 401:
                 # Token expired mid-request. Refresh and retry.
@@ -114,15 +119,22 @@ class SpotifyProvider(CatalogProvider):
 
     def artist_albums(self, artist_id: str) -> list[Album]:
         def fetch():
-            raw: list[dict] = []
-            url = f"https://api.spotify.com/v1/artists/{artist_id}/albums"
-            p: dict = {"market": "DE", "limit": 50, "album_type": "album,single,compilation"}
+            # First page carries the query params; pagination URLs from
+            # ``data["next"]`` already encode them, so subsequent calls
+            # pass no params. Splitting the first call out reads cleaner
+            # than the reset-to-{} pattern.
+            data = self._get(
+                f"artists/{artist_id}/albums",
+                market="DE", limit=50,
+                album_type="album,single,compilation",
+            )
+            raw: list[dict] = list(data.get("items", []))
+            url = data.get("next") or ""
             while url:
-                data = self._get(url, **p)
+                time.sleep(0.05)
+                data = self._get(url)
                 raw.extend(data.get("items", []))
                 url = data.get("next") or ""
-                p = {}
-                time.sleep(0.05)
             return raw
 
         raw = self._cached(f"artist_albums:{artist_id}", fetch)

@@ -54,6 +54,7 @@ def load_catalog(path: Path = SERIES_YAML) -> list[CatalogEntry]:
                 aliases=raw.get("aliases") or [],
                 episode_pattern=pattern,
                 cover_url=raw.get("cover_url"),
+                content_type=raw.get("content_type"),
                 providers=providers,
             ),
         )

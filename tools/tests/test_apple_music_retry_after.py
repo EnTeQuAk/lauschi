@@ -1,23 +1,23 @@
-"""Tests for apple_music._parse_retry_after.
+"""Tests for providers._retry.parse_retry_after.
 
-The previous int(Retry-After) crashed on float values and HTTP-date
-strings. Both forms are spec-allowed for Retry-After and Apple has
-been observed to send floats. A crash here would propagate up
-through _request into provider calls and stop the whole pipeline.
+The previous int(Retry-After) in apple_music crashed on float
+values and HTTP-date strings. Both forms are spec-allowed for
+Retry-After and Apple has been observed to send floats. A crash
+here would propagate up through _request into provider calls and
+stop the whole pipeline. Spotify uses the same helper now too.
 """
 
 from __future__ import annotations
 
-import time
-from email.utils import format_datetime
 from datetime import datetime, timedelta, timezone
+from email.utils import format_datetime
 
 import pytest
 
-from lauschi_catalog.providers.apple_music import (
+from lauschi_catalog.providers._retry import (
     _RETRY_AFTER_DEFAULT,
     _RETRY_AFTER_MAX,
-    _parse_retry_after,
+    parse_retry_after as _parse_retry_after,
 )
 
 
