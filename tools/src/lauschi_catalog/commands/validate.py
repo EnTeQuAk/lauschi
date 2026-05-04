@@ -13,6 +13,7 @@ import re
 from dataclasses import dataclass, field
 
 import click
+import requests
 from rich.console import Console
 from rich.table import Table
 
@@ -66,9 +67,15 @@ def _validate_l5(entry, provider: CatalogProvider) -> tuple[int, int, list[str]]
     for aid in aids:
         try:
             all_albums.extend(provider.artist_albums(aid))
-        except Exception:
-            # Artist may have been removed from provider
-            continue
+        except requests.HTTPError as e:
+            # 404 = artist removed/relocated on the provider side; that's
+            # benign here, validate just reports zero coverage. Other HTTP
+            # errors (auth, rate limit, server) are real failures the user
+            # should see, not silently swallowed.
+            status = e.response.status_code if e.response is not None else None
+            if status == 404:
+                continue
+            raise
 
     if not all_albums:
         return 0, 0, []

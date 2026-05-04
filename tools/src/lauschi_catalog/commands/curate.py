@@ -589,9 +589,32 @@ async def _run_agent(agent, prompt, deps):
         return run.result.output
 
 
-async def _run_with_retry(coro_factory, *, phase: str = ""):
-    import traceback as _tb
+_RETRYABLE_PATTERNS = (
+    # HTML body — Cloudflare / opencode error pages
+    "<!DOCTYPE",
+    # Lowercased connection-class signals; matched case-insensitively below
+    "timeout",
+    "timed out",
+    "connection",
+    "temporarily unavailable",
+)
+_RETRYABLE_STATUS = re.compile(r"\b5\d\d\b")  # any 5xx HTTP status
 
+
+def _is_retryable(err_str: str) -> bool:
+    """True when the error string suggests a transient upstream failure.
+
+    Covers HTML error pages (Cloudflare/opencode), any 5xx status,
+    and connection/timeout signals. Stricter than catching every
+    Exception — auth and validation failures still bubble up.
+    """
+    lowered = err_str.lower()
+    if any(p.lower() in lowered for p in _RETRYABLE_PATTERNS):
+        return True
+    return bool(_RETRYABLE_STATUS.search(err_str))
+
+
+async def _run_with_retry(coro_factory, *, phase: str = ""):
     last_err: Exception | None = None
     for attempt in range(1, _MAX_RETRIES + 1):
         try:
@@ -601,15 +624,20 @@ async def _run_with_retry(coro_factory, *, phase: str = ""):
         except Exception as e:
             last_err = e
             err_str = str(e)
-            tb_str = _tb.format_exc()
-            console.print(f"[dim red]{tb_str[:1000]}[/]")
-            if ("<!DOCTYPE" in err_str or "500" in err_str) and attempt < _MAX_RETRIES:
+            # Don't dump the full traceback: the SDK formats raw response
+            # bodies into exception messages and a 1000-char slice can
+            # carry request headers (incl. Authorization) into the log.
+            # The exception type + message is enough to diagnose, and a
+            # user can re-run with PYTHONFAULTHANDLER=1 if they want more.
+            if _is_retryable(err_str) and attempt < _MAX_RETRIES:
                 console.print(
                     f"[yellow]{phase} attempt {attempt}/{_MAX_RETRIES} "
-                    f"failed, retrying in {_RETRY_DELAY}s…[/]",
+                    f"failed ({type(e).__name__}), retrying in "
+                    f"{_RETRY_DELAY}s…[/]",
                 )
                 await asyncio.sleep(_RETRY_DELAY)
                 continue
+            console.print(f"[red]{phase} failed: {type(e).__name__}: {err_str[:300]}[/]")
             raise
     raise RuntimeError(f"Exhausted {_MAX_RETRIES} retries in {phase}: {last_err}")
 

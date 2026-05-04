@@ -204,6 +204,30 @@ def test_save_review_resets_status_when_any_verdict_is_deferred(curation_dir: Pa
     assert "verification" not in saved["review"]
 
 
+def test_save_review_resets_status_when_cross_provider_is_deferred(curation_dir: Path):
+    """Each verdict enum has its own DEFERRED member; the re-verification
+    check must catch every category. cross_provider is the canary because
+    it has the smallest non-action verdict set."""
+    _write_curation(curation_dir, "s1", make_curation(
+        series_id="s1",
+        albums=[make_album("a", "Folge 1: A", episode_num=1)],
+        review={
+            "status": "approved",
+            "verification": {"model": "minimax-m2.7", "approve": True},
+        },
+    ))
+    decisions = _clean_decisions()
+    decisions.cross_provider = CrossProviderDecision(
+        verdict=CrossProviderVerdict.DEFERRED,
+        reasoning="apple_music coverage gap unexplained",
+    )
+    save_review("s1", _make_review(decisions=decisions))
+
+    saved = json.loads((curation_dir / "s1.json").read_text())
+    assert saved["review"]["status"] == "ai_reviewed"
+    assert "verification" not in saved["review"]
+
+
 def test_save_review_resets_status_for_pattern_update_only(curation_dir: Path):
     _write_curation(curation_dir, "s1", make_curation(
         series_id="s1",

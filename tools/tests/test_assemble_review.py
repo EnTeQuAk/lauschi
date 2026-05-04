@@ -92,6 +92,31 @@ def test_merge_chunks_dedupes_overlapping_album_ids():
     assert merged[0].album_ids == ["a", "b", "c"]
 
 
+def test_merge_chunks_drops_non_string_album_ids():
+    """The model occasionally emits malformed JSON (None, ints) that
+    sneaks through pydantic-ai's coercion. Splits ship straight to
+    apply and the catalog, so we filter at this seam."""
+    chunks = [
+        {"new_series_id": "sub", "new_series_title": "Sub",
+         "album_ids": ["a", None, "b", 42, "", "c"],
+         "provider": "spotify", "reason": "x"},
+    ]
+    merged = _merge_split_chunks(chunks)
+    assert merged[0].album_ids == ["a", "b", "c"]
+
+
+def test_merge_chunks_drops_non_string_ids_across_chunks():
+    """Same defense applies when the bad value lands in a follow-up chunk."""
+    chunks = [
+        {"new_series_id": "sub", "new_series_title": "Sub",
+         "album_ids": ["a"], "provider": "spotify", "reason": "x"},
+        {"new_series_id": "sub", "new_series_title": "Sub",
+         "album_ids": [None, "b", 7], "provider": "spotify", "reason": "y"},
+    ]
+    merged = _merge_split_chunks(chunks)
+    assert merged[0].album_ids == ["a", "b"]
+
+
 # ── assemble_review: action propagation ───────────────────────────────────
 
 

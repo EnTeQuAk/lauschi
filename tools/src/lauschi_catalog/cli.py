@@ -31,13 +31,18 @@ cli.add_command(report)
 cli.add_command(review_tui)
 cli.add_command(validate)
 
-# Lazy-load AI commands (heavy deps)
+# Lazy-load AI commands (the 'ai' optional extra pulls in pydantic_ai,
+# which has heavy transitive deps). Skip silently when the extra isn't
+# installed; surface any other import error loudly so a typo in our
+# own modules doesn't cause a command to disappear without explanation.
 try:
     from lauschi_catalog.commands.curate import curate
     from lauschi_catalog.commands.review import review
     from lauschi_catalog.commands.verify import verify
+except ModuleNotFoundError as e:
+    if e.name and e.name.split(".")[0] != "pydantic_ai":
+        raise
+else:
     cli.add_command(curate)
     cli.add_command(review)
     cli.add_command(verify)
-except ImportError:
-    pass  # AI deps not installed, curate/review/verify unavailable

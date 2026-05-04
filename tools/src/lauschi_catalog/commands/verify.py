@@ -298,6 +298,18 @@ async def verify_one(
     review = curation.get("review", {})
     status = review.get("status")
 
+    # Verify is the second-opinion check on a prior review's decisions.
+    # Fresh curations that haven't been reviewed yet have nothing to
+    # verify — handing the agent an empty review block produces noise.
+    # This guard sits ahead of --force on purpose: forcing verification
+    # of nothing is never the intent.
+    if not review:
+        console.print(
+            f"[dim]Skipping {series_id}: no review block "
+            f"(run review first)[/dim]",
+        )
+        return None
+
     if not force:
         if review_is_stale(curation):
             # Verifying against a stale review would stamp a verdict on

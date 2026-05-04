@@ -72,18 +72,30 @@ def _apply_one(series_id: str, data: dict, yaml_data: dict) -> bool:
             entry["title"] = a["title"]
             album_entries.append(entry)
 
-        # Only update if the new list is different (avoid no-op writes)
-        existing = prov_section.get("albums", [])
-        existing_ids = {e.get("id") for e in existing} if existing else set()
-        new_ids = {e["id"] for e in album_entries}
+        # Skip the write only when every (id, episode, title) is unchanged.
+        # Comparing IDs alone misses pattern-update-driven episode number
+        # changes: a review that re-extracts ep 47 from "047/Title" leaves
+        # the album_id intact, so an ID-only check would silently skip
+        # propagating the corrected episode number to series.yaml.
+        existing = prov_section.get("albums", []) or []
 
-        if new_ids != existing_ids:
+        def _sig(entry: dict) -> tuple:
+            return (entry.get("id"), entry.get("episode"), entry.get("title"))
+
+        existing_ids = {e.get("id") for e in existing}
+        new_ids = {e["id"] for e in album_entries}
+        existing_sigs = {_sig(e) for e in existing}
+        new_sigs = {_sig(e) for e in album_entries}
+
+        if new_sigs != existing_sigs:
             prov_section["albums"] = album_entries
             updated = True
+            ep_changed = len(new_sigs - existing_sigs) - len(new_ids - existing_ids)
             console.print(
                 f"  {prov_name}: {len(album_entries)} albums "
                 f"({len(new_ids - existing_ids)} new, "
-                f"{len(existing_ids - new_ids)} removed)",
+                f"{len(existing_ids - new_ids)} removed, "
+                f"{max(ep_changed, 0)} episode/title changes)",
             )
 
     # Write content_type to yaml if present in curation (music vs hoerspiel).

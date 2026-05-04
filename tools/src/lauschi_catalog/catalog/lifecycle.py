@@ -10,6 +10,17 @@ This module is the single source of truth for "is the prior pipeline
 output still trustworthy?" Pure data-in / bool-out helpers, no I/O,
 no side effects. The CLI commands (review, verify, apply) ask these
 questions to gate their skip/run/refuse logic.
+
+## Limits of this approach
+
+These checks trust the recorded timestamps to reflect reality. If a
+human (or an out-of-band script) edits a curation JSON without
+bumping ``curated_at``/``reviewed_at``/``verified_at``, the staleness
+checks won't notice — verify and apply will keep happily reusing the
+prior verdict. Pipeline tools always bump the relevant timestamp on
+write, so this only matters for direct file edits. When you hand-
+edit, also clear the downstream timestamps (``review.reviewed_at``
+and ``review.verification``) or pass ``--force`` on the next run.
 """
 
 from __future__ import annotations

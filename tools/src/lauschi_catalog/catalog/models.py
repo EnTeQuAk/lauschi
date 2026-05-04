@@ -13,7 +13,6 @@ class ProviderConfig:
     """Per-provider configuration for a series."""
 
     artist_ids: list[str] = field(default_factory=list)
-    album_ids: dict[int, str] = field(default_factory=dict)  # episode -> album ID
     episode_pattern: str | list[str] | None = None  # override
 
 

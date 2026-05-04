@@ -56,8 +56,19 @@ class AppleMusicProvider(CatalogProvider):
             self._token_time = time.time()
 
     def _get(self, path: str, **params) -> dict:
-        self._ensure_token()
+        """Catalog endpoint GET with retry, token refresh, rate-limit honoring."""
         url = f"https://api.music.apple.com/v1/catalog/{STOREFRONT}/{path}"
+        return self._request(url, params=params)
+
+    def _request(self, url: str, *, params: dict | None = None) -> dict:
+        """HTTP GET against Apple Music with token refresh and 429 backoff.
+
+        Used for both catalog endpoints (via _get) and follow-up pagination
+        URLs (e.g. ``data["next"]`` in artist_albums) so the same retry
+        rules apply uniformly. Raw requests.get against a paginated URL
+        would skip token refresh on 401 and silently fail on 429.
+        """
+        self._ensure_token()
         for attempt in range(3):
             r = requests.get(
                 url,
@@ -65,6 +76,12 @@ class AppleMusicProvider(CatalogProvider):
                 params=params,
                 timeout=15,
             )
+            if r.status_code == 429:
+                # Apple recommends honoring Retry-After; default to 2s
+                # if absent. Last attempt falls through to raise_for_status.
+                if attempt < 2:
+                    time.sleep(int(r.headers.get("Retry-After", "2")))
+                    continue
             if r.status_code == 401:
                 self._token = self._generate_token()
                 self._token_time = time.time()
@@ -104,21 +121,14 @@ class AppleMusicProvider(CatalogProvider):
         def fetch():
             # Apple Music paginates at 25 by default, max 100.
             all_albums: list[dict] = []
-            url = f"artists/{artist_id}/albums"
-            params = {"limit": 100}
-            data = self._get(url, **params)
+            data = self._get(f"artists/{artist_id}/albums", limit=100)
             all_albums.extend(data.get("data", []))
-            # Follow pagination
+            # Follow pagination through _request so token refresh and 429
+            # handling apply on every page, not just the first.
             next_url = data.get("next")
             while next_url:
                 time.sleep(0.1)
-                r = requests.get(
-                    f"https://api.music.apple.com{next_url}",
-                    headers={"Authorization": f"Bearer {self._token}"},
-                    timeout=15,
-                )
-                r.raise_for_status()
-                page = r.json()
+                page = self._request(f"https://api.music.apple.com{next_url}")
                 all_albums.extend(page.get("data", []))
                 next_url = page.get("next")
             return all_albums

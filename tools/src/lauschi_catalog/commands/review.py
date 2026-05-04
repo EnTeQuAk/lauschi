@@ -928,7 +928,16 @@ def _merge_split_chunks(chunks: list[dict]) -> list[SplitProposal]:
     rather than emitting one nested array. This collapses those chunks
     into one SplitProposal per series, deduping album_ids and keeping
     the first-encountered title/provider/reason.
+
+    Filters non-string album_ids defensively. propose_split's tool
+    schema declares ``list[str]`` but pydantic-ai has been known to
+    pass through stray ``None``/``int`` values when the model emits
+    malformed JSON; downstream code (apply, the Flutter app) treats
+    these as opaque ids and would corrupt the catalog.
     """
+    def _str_ids(values: list) -> list[str]:
+        return [v for v in values if isinstance(v, str) and v]
+
     by_id: dict[str, dict] = {}
     for chunk in chunks:
         sid = chunk["new_series_id"]
@@ -936,14 +945,14 @@ def _merge_split_chunks(chunks: list[dict]) -> list[SplitProposal]:
             by_id[sid] = {
                 "new_series_id": sid,
                 "new_series_title": chunk["new_series_title"],
-                "album_ids": list(chunk["album_ids"]),
+                "album_ids": _str_ids(chunk["album_ids"]),
                 "provider": chunk["provider"],
                 "reason": chunk["reason"],
             }
         else:
             existing = by_id[sid]
             seen = set(existing["album_ids"])
-            for aid in chunk["album_ids"]:
+            for aid in _str_ids(chunk["album_ids"]):
                 if aid not in seen:
                     existing["album_ids"].append(aid)
                     seen.add(aid)
@@ -1042,6 +1051,12 @@ def _needs_re_verification(review: AssembledReview) -> bool:
     Either a structural change was proposed, OR any category landed on
     ``deferred_to_human`` (agent-chosen or coerced). In both cases the
     prior 'approved' state is no longer trusted.
+
+    Uses each category's own ``Verdict.DEFERRED`` member rather than a
+    shared string. StrEnum equality with the underlying value works,
+    but explicit per-category constants are friendlier to type
+    checkers and survive a category being renamed without silently
+    skipping it.
     """
     if (
         review.overrides
@@ -1051,12 +1066,13 @@ def _needs_re_verification(review: AssembledReview) -> bool:
     ):
         return True
     d = review.decisions
-    return any(
-        getattr(d, cat).verdict == _DEFERRED
-        for cat in (
-            "duplicates", "sub_series", "gaps",
-            "pattern", "outliers", "cross_provider",
-        )
+    return (
+        d.duplicates.verdict == DuplicatesVerdict.DEFERRED
+        or d.sub_series.verdict == SubSeriesVerdict.DEFERRED
+        or d.gaps.verdict == GapsVerdict.DEFERRED
+        or d.pattern.verdict == PatternVerdict.DEFERRED
+        or d.outliers.verdict == OutliersVerdict.DEFERRED
+        or d.cross_provider.verdict == CrossProviderVerdict.DEFERRED
     )
 
 
