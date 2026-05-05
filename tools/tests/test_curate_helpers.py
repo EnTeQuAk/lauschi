@@ -15,6 +15,7 @@ from lauschi_catalog.commands.curate import (
     CuratedSeries,
     _lock_series_id,
     _resolve_is_music,
+    _stratified_sample,
 )
 
 
@@ -162,3 +163,45 @@ def test_unrecognized_content_type_treated_as_silent():
         entry_has_pattern=False,
         existing_content_type=None,
     ) is True  # falls through to default
+
+
+# ── _stratified_sample ────────────────────────────────────────────────────
+
+
+def test_stratified_returns_all_when_below_n():
+    items = list(range(10))
+    assert _stratified_sample(items, 40) == items
+
+
+def test_stratified_picks_first_and_last_for_full_coverage():
+    """The whole point: if Spotify returns 305 albums new-first and
+    we sample first-N, era-mixed series like ddF lose visibility on
+    older naming conventions. A stratified sample must hit both ends."""
+    items = list(range(305))
+    sample = _stratified_sample(items, 40)
+    assert len(sample) == 40
+    # First item is included; last item is near the end.
+    assert sample[0] == 0
+    assert sample[-1] >= 290  # roughly last decile
+
+
+def test_stratified_spreads_evenly():
+    """Even distribution: gaps between picks should be roughly equal."""
+    items = list(range(200))
+    sample = _stratified_sample(items, 40)
+    diffs = [b - a for a, b in zip(sample, sample[1:])]
+    # Step is 200/40 = 5, so all diffs should be ~5
+    assert max(diffs) - min(diffs) <= 1
+
+
+def test_stratified_handles_exactly_n():
+    items = list(range(40))
+    assert _stratified_sample(items, 40) == items
+
+
+def test_stratified_preserves_original_order():
+    """Sampling shouldn't shuffle — caller may rely on order
+    (e.g., 'first item is the most recent release')."""
+    items = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j"]
+    sample = _stratified_sample(items, 5)
+    assert sample == sorted(sample, key=items.index)

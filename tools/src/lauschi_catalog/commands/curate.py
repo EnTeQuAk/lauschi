@@ -150,6 +150,42 @@ class Deps:
 class BatchDeps:
     providers: list[CatalogProvider]
     seen_details: dict[str, dict] = field(default_factory=dict)
+    # Pattern starts at whatever the metadata phase decided. The batch
+    # agent can revise it via propose_pattern_update when it observes
+    # titles the current pattern misses. Subsequent batches see the
+    # revised value in their prompts; after all batches we re-extract
+    # episode_num across every decision using the final pattern.
+    pattern: str | list[str] | None = None
+    pattern_revisions: list[str | list[str]] = field(default_factory=list)
+
+
+@dataclass
+class MetadataDeps:
+    """Deps for the metadata-extraction agent.
+
+    Carries the full discography titles so the agent's
+    check_pattern_coverage tool can score a proposed episode_pattern
+    against every album, not just the sample in the prompt.
+    """
+    titles: list[str]
+
+
+def _stratified_sample(items: list, n: int) -> list:
+    """Pick ``n`` items spread evenly across ``items`` rather than
+    taking the head.
+
+    Provider APIs return albums in some order (Spotify: roughly
+    newest-first). Taking the first N can blind the metadata agent
+    to era-specific naming conventions — e.g., ddF episodes 1-170
+    use ``NNN/Title`` format and 175+ use ``Folge XXX:``. If the
+    head-40 sample only contains the modern format, the agent emits
+    a single-pattern regex and the older format silently loses its
+    episode numbers across the entire run.
+    """
+    if len(items) <= n:
+        return list(items)
+    step = len(items) / n
+    return [items[int(i * step)] for i in range(n)]
 
 
 # ── System prompts ─────────────────────────────────────────────────────────
@@ -241,6 +277,23 @@ multiple providers, provide:
 - provider_artist_ids: {provider: [artist_ids]} for each provider found
 
 Do NOT classify individual albums. Just set up the metadata.
+
+## episode_pattern verification (REQUIRED)
+
+After deciding on episode_pattern, you MUST call the
+check_pattern_coverage tool. The sample titles in this prompt are a
+stratified slice of the discography, but the tool runs against
+EVERY title. Long-running series often have multiple naming
+conventions for different eras (e.g., "001/Title" for episodes
+1-170 plus "Folge 171: Title" for newer releases) — the sample may
+not show both.
+
+If coverage < 80%, examine the unmatched_samples in the response,
+add additional regex(es) to your pattern list, and call the tool
+again. Re-test until coverage exceeds 90% (or you've confirmed
+the unmatched titles are legitimate non-episodes like specials).
+
+Don't finalize your output until you've verified pattern coverage.
 """
 
 _MUSIC_SYSTEM_PROMPT = """\
@@ -373,6 +426,23 @@ Apply it to each album title to extract the episode number.
 Call get_album_details to see the track listing, that usually resolves it.
 Only fetch details for albums where the title + track count is genuinely
 ambiguous. Most episodes are obvious from the title alone.
+
+## When the episode pattern doesn't match this batch
+
+The series context shows an episode_pattern. If MOST albums in this
+batch have episode-numbered titles that the pattern doesn't match,
+the metadata phase missed a naming convention. Call
+propose_pattern_update with a list that keeps the existing
+pattern(s) AND adds regex(es) covering the unmatched titles. The
+new pattern propagates to subsequent batches and we re-extract
+episode_num across all decisions at the end.
+
+Example: pattern is `^Folge (\\d+):` but this batch shows
+`001/Title`, `002/Title`, etc. Call:
+  propose_pattern_update(patterns=["^Folge (\\d+):", "^(\\d+)/"])
+
+Don't propose for one or two outliers (specials, untitled releases) —
+only when the mismatch is systematic across the batch.
 
 ## Important
 - Produce an AlbumDecision for EVERY album in this batch.
@@ -519,6 +589,73 @@ def _build_small_agent(
     return agent
 
 
+def _build_metadata_agent(model) -> Agent[MetadataDeps, SeriesMetadata]:
+    """Metadata-extraction agent with a pattern-coverage tool.
+
+    The agent must call check_pattern_coverage before finalizing —
+    that's how it learns whether the pattern it inferred from the
+    sample actually covers the full discography. Self-correction
+    loop driven by ground truth.
+    """
+    agent: Agent[MetadataDeps, SeriesMetadata] = Agent(
+        model,
+        output_type=SeriesMetadata,
+        system_prompt=_METADATA_SYSTEM_PROMPT,
+        retries=2,
+    )
+
+    @agent.tool
+    def check_pattern_coverage(
+        ctx: RunContext[MetadataDeps],
+        pattern: str | list[str],
+    ) -> dict:
+        """Test a proposed episode_pattern against ALL discovered titles.
+
+        Returns coverage stats and up to 10 unmatched titles. Call this
+        BEFORE finalizing your output. If coverage is low, examine
+        unmatched_samples and refine the pattern (typically by adding
+        alternation for older naming conventions), then call again.
+        """
+        from lauschi_catalog.catalog.matcher import extract_episode
+
+        # Validate first; an unparseable regex would otherwise raise
+        # inside extract_episode and surface as a generic agent failure.
+        patterns = [pattern] if isinstance(pattern, str) else list(pattern)
+        if not patterns:
+            return {"error": "pattern must be non-empty"}
+        for p in patterns:
+            try:
+                compiled = re.compile(p)
+            except re.error as e:
+                return {"error": f"invalid regex {p!r}: {e}"}
+            if compiled.groups < 1:
+                return {"error": f"pattern {p!r}: needs ≥1 capture group"}
+
+        matched = 0
+        unmatched: list[str] = []
+        for title in ctx.deps.titles:
+            if extract_episode(pattern, title) is not None:
+                matched += 1
+            elif len(unmatched) < 10:
+                unmatched.append(title)
+
+        total = len(ctx.deps.titles)
+        coverage = round(matched / total, 3) if total else 0.0
+        console.print(
+            f"  [dim]✅ check_pattern_coverage({pattern!r}) → "
+            f"{matched}/{total} = {coverage:.0%}[/]",
+        )
+        return {
+            "pattern": pattern,
+            "matched": matched,
+            "total": total,
+            "coverage": coverage,
+            "unmatched_samples": unmatched,
+        }
+
+    return agent
+
+
 def _build_batch_agent(model, *, is_music: bool = False) -> Agent[BatchDeps, BatchResult]:
     """Agent for processing one batch of albums."""
     prompt = _MUSIC_BATCH_SYSTEM_PROMPT if is_music else _BATCH_SYSTEM_PROMPT
@@ -528,6 +665,49 @@ def _build_batch_agent(model, *, is_music: bool = False) -> Agent[BatchDeps, Bat
         system_prompt=prompt,
         retries=2,
     )
+
+    if not is_music:
+        @agent.tool
+        def propose_pattern_update(
+            ctx: RunContext[BatchDeps],
+            patterns: list[str],
+        ) -> str:
+            """Replace the current episode_pattern with a new list.
+
+            Use when the titles in your current batch are episode-numbered
+            but the active pattern doesn't match them. Provide a list
+            (typically the existing pattern(s) PLUS additional regex(es)
+            for the new naming form). Each regex must compile and have
+            ≥1 capture group.
+
+            The new pattern propagates to subsequent batches' prompts
+            and is used to re-extract episode_num across every decision
+            at the end of the run. Don't propose for sporadic outliers —
+            only systematic mismatches.
+            """
+            if not patterns:
+                return "patterns list cannot be empty"
+            for p in patterns:
+                try:
+                    compiled = re.compile(p)
+                except re.error as e:
+                    return f"invalid regex {p!r}: {e}"
+                if compiled.groups < 1:
+                    return f"pattern {p!r}: needs ≥1 capture group"
+
+            new_pattern: str | list[str] = (
+                patterns[0] if len(patterns) == 1 else list(patterns)
+            )
+            ctx.deps.pattern = new_pattern
+            ctx.deps.pattern_revisions.append(new_pattern)
+            console.print(
+                f"  [cyan]🔄 propose_pattern_update → {new_pattern}[/]",
+            )
+            return (
+                f"Pattern updated to {new_pattern}. Subsequent batches "
+                f"see this pattern; episode_num is re-extracted across "
+                f"all decisions at the end of the run."
+            )
 
     @agent.tool
     def get_album_details(
@@ -745,20 +925,22 @@ async def _run_large(
     # ── Step 2: Metadata extraction (tiny call, no tools) ──────────────
     console.print("[bold cyan]Metadata[/]\n")
 
-    sample_titles = [a["name"] for a in all_albums[:40]]
+    all_titles = [a["name"] for a in all_albums]
+    # Stratified sample so era-mixed series (older NNN/ titles + newer
+    # Folge XXX: titles) hand the metadata agent evidence of both
+    # naming conventions.
+    sample_titles = _stratified_sample(all_titles, 40)
     provider_list = ", ".join(f"{k}: {v}" for k, v in artist_ids.items())
 
-    metadata_agent: Agent[None, SeriesMetadata] = Agent(
-        model, output_type=SeriesMetadata,
-        system_prompt=_METADATA_SYSTEM_PROMPT, retries=2,
-    )
+    metadata_agent = _build_metadata_agent(model)
+    meta_deps = MetadataDeps(titles=all_titles)
     meta: SeriesMetadata = await _run_with_retry(
         lambda: asyncio.wait_for(
             _run_agent(
                 metadata_agent,
                 f"Series: {query!r}\nProviders: {provider_list}\n"
                 f"Sample titles:\n" + "\n".join(f"  - {t}" for t in sample_titles),
-                deps=None,
+                deps=meta_deps,
             ),
             timeout=120,
         ),
@@ -767,6 +949,29 @@ async def _run_large(
     # Ensure artist IDs are in metadata
     if not meta.provider_artist_ids:
         meta.provider_artist_ids = artist_ids
+
+    # Orchestrator-side safety net: if the agent skipped or fumbled the
+    # check_pattern_coverage tool, surface low coverage loudly. The
+    # batch agent's propose_pattern_update tool is the recovery path,
+    # but a heads-up here lets a human spot the issue early.
+    if meta.episode_pattern and not is_music:
+        from lauschi_catalog.catalog.matcher import extract_episode
+
+        matched = sum(
+            1 for t in all_titles if extract_episode(meta.episode_pattern, t) is not None
+        )
+        coverage = matched / len(all_titles) if all_titles else 0
+        if coverage < 0.5:
+            unmatched = [
+                t for t in all_titles if extract_episode(meta.episode_pattern, t) is None
+            ][:5]
+            console.print(
+                f"  [yellow]⚠ Low metadata-phase pattern coverage: "
+                f"{matched}/{len(all_titles)} = {coverage:.0%}. "
+                f"Batch agent may revise via propose_pattern_update.[/]",
+            )
+            for t in unmatched:
+                console.print(f"  [dim]unmatched: {t[:80]}[/]")
 
     console.print(
         f"  id={meta.id}  title={meta.title!r}  "
@@ -785,6 +990,14 @@ async def _run_large(
     )
 
     batch_agent = _build_batch_agent(model, is_music=is_music)
+    # Shared deps across all batches: pattern revisions made by the
+    # batch agent in batch N propagate to batch N+1's prompt, and at
+    # the end we re-extract episode_num for every decision using the
+    # final pattern. Without sharing, each batch starts fresh and the
+    # signal is thrown away (the whole reason the previous run
+    # silently dropped 250+ ddF episode numbers).
+    shared_deps = BatchDeps(providers=providers, pattern=meta.episode_pattern)
+
     all_decisions: list[AlbumDecision] = []
     total_inc = 0
     total_exc = 0
@@ -806,18 +1019,19 @@ async def _run_large(
             f"{a['total_tracks']} tracks | {a['release_date']}"
             for a in batch
         )
+        # Use shared_deps.pattern (not meta.episode_pattern) so any
+        # revision made in an earlier batch is visible here.
         prompt = (
             f"Series: {meta.title!r}\n"
-            f"Episode pattern: {meta.episode_pattern}\n"
+            f"Episode pattern: {shared_deps.pattern}\n"
             f"{progress}\n\n"
             f"Batch {batch_num}/{len(batches)} ({len(batch)} albums):\n\n"
             f"{album_lines}"
         )
 
-        batch_deps = BatchDeps(providers=providers)
         result: BatchResult = await _run_with_retry(
-            lambda p=prompt, d=batch_deps: asyncio.wait_for(
-                _run_agent(batch_agent, p, d), timeout=300,
+            lambda p=prompt: asyncio.wait_for(
+                _run_agent(batch_agent, p, shared_deps), timeout=300,
             ),
             phase=f"batch {batch_num}/{len(batches)}",
         )
@@ -843,12 +1057,33 @@ async def _run_large(
         f"[red]{total_exc} excluded[/][/]\n",
     )
 
+    # If any batch revised the pattern, re-extract episode_num across
+    # every decision so earlier batches benefit from the correction.
+    # The agent's include/exclude decisions remain valid (they're
+    # based on content, not the regex), only the extracted number
+    # field is updated.
+    final_pattern = shared_deps.pattern
+    if shared_deps.pattern_revisions and final_pattern is not None:
+        from lauschi_catalog.catalog.matcher import extract_episode
+
+        re_extracted = 0
+        for d in all_decisions:
+            new_ep = extract_episode(final_pattern, d.title)
+            if new_ep is not None and new_ep != d.episode_num:
+                d.episode_num = new_ep
+                re_extracted += 1
+        console.print(
+            f"  [cyan]Pattern revised mid-run: {meta.episode_pattern!r} "
+            f"→ {final_pattern!r}. Re-extracted {re_extracted} episode "
+            f"numbers across all batches.[/]\n",
+        )
+
     return CuratedSeries(
         id=meta.id,
         title=meta.title,
         aliases=meta.aliases,
         keywords=meta.keywords,
-        episode_pattern=meta.episode_pattern,
+        episode_pattern=final_pattern,
         albums=all_decisions,
         provider_artist_ids=meta.provider_artist_ids,
         age_note=meta.age_note,
