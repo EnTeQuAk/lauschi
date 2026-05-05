@@ -181,6 +181,33 @@ _VERDICT_CATEGORIES = (
     "duplicates", "sub_series", "gaps", "pattern", "outliers", "cross_provider",
 )
 
+_PHASE_NAMES = {
+    "curate": "Step 1 Curate",
+    "review": "Step 2 Review",
+    "verify": "Step 3 Verify",
+    "apply":  "Step 4 Apply",
+}
+
+
+@dataclass
+class PipelineState:
+    """Where the pipeline is *right now*, derived from the log tail.
+
+    A complement to per-series reports: those tell you *what* happened
+    to each series; this tells you *which phase* the pipeline is
+    currently working in and what it's doing this minute. Useful for
+    answering 'is it still running, and how far along?' without
+    having to scroll the log by hand.
+    """
+
+    last_phase: str | None = None
+    last_event_line: str = ""
+    # Active series in the most recent phase, parsed from the latest
+    # 'Reviewing X...' / 'Verifying X...' / curate header line.
+    active_curate_title: str | None = None
+    active_review_title: str | None = None
+    active_verify_id: str | None = None
+
 
 def _classify_failure(detail: str) -> str:
     """Map a curate failure message to a coarse kind."""
@@ -423,6 +450,96 @@ def parse_log(log_path: Path) -> dict[str, SeriesReport]:
 
 
 _TITLE_TO_ID_CACHE: dict[str, str] | None = None
+_CATALOG_SIZE_CACHE: int | None = None
+
+
+@dataclass
+class PhaseCounts:
+    """Per-phase tally derived from per-series reports."""
+    success: int = 0
+    failed: int = 0
+    skipped: int = 0
+    not_seen: int = 0
+    # Phase-specific extras (escalated only meaningful for verify, etc.)
+    escalated: int = 0
+
+    @property
+    def reached(self) -> int:
+        """Series that this phase touched (success + failed + skipped)."""
+        return self.success + self.failed + self.skipped + self.escalated
+
+
+def _count_phase(
+    reports: dict[str, SeriesReport], phase: str,
+) -> PhaseCounts:
+    """Count phase outcomes across all reports."""
+    counts = PhaseCounts()
+    for r in reports.values():
+        if phase == "curate":
+            status = r.curate_status
+        elif phase == "review":
+            status = r.review_status
+        elif phase == "verify":
+            status = r.verify_status
+        else:
+            status = "not_seen"
+
+        if status == "success" or status == "approved" or status == "applied":
+            counts.success += 1
+        elif status == "escalated":
+            counts.escalated += 1
+        elif status == "failed":
+            counts.failed += 1
+        elif status == "skipped":
+            counts.skipped += 1
+        else:
+            counts.not_seen += 1
+    return counts
+
+
+def _scan_pipeline_state(log_path: Path) -> PipelineState:
+    """Tail-scan the log to figure out which phase is currently active
+    and what series the agents are working on right now.
+
+    The full parse already tracks this internally but discards it
+    when it returns. Re-running the scan keeps the data path simple
+    (parse_log stays a pure dict producer); the cost is one extra
+    walk over the log, which is cheap relative to the LLM-bound
+    pipeline run that produced it.
+    """
+    state = PipelineState()
+    for raw in log_path.read_text(errors="replace").splitlines():
+        line = raw.rstrip()
+        if not line:
+            continue
+
+        m = _RE_PHASE.match(line)
+        if m:
+            step = m.group(1)
+            state.last_phase = {
+                "1": "curate", "2": "review", "3": "verify", "4": "apply",
+            }.get(step)
+            continue
+
+        m = _RE_CURATE_HEADER.match(line)
+        if m and state.last_phase != "review" and state.last_phase != "verify":
+            state.last_phase = "curate"
+            state.active_curate_title = m.group(1)
+            state.last_event_line = line
+            continue
+        m = _RE_REVIEWING.match(line)
+        if m:
+            state.last_phase = "review"
+            state.active_review_title = m.group(1)
+            state.last_event_line = line
+            continue
+        m = _RE_VERIFYING.match(line)
+        if m:
+            state.last_phase = "verify"
+            state.active_verify_id = m.group(1)
+            state.last_event_line = line
+            continue
+    return state
 
 
 def _build_title_to_id_map() -> dict[str, str]:
@@ -432,20 +549,34 @@ def _build_title_to_id_map() -> dict[str, str]:
     series.yaml on every invocation dominates test wall-time and
     isn't useful — series.yaml doesn't change inside one process.
     Tests can reset by calling ``_clear_title_cache()``.
+
+    Note: shared titles (e.g., 'Bibi Blocksberg' for the main series
+    AND its sub-series) collapse here because dicts hold one value
+    per key. Use :func:`_catalog_size` for the true total count.
     """
-    global _TITLE_TO_ID_CACHE
+    global _TITLE_TO_ID_CACHE, _CATALOG_SIZE_CACHE
     if _TITLE_TO_ID_CACHE is None:
         try:
-            _TITLE_TO_ID_CACHE = {e.title: e.id for e in load_catalog()}
+            entries = list(load_catalog())
+            _TITLE_TO_ID_CACHE = {e.title: e.id for e in entries}
+            _CATALOG_SIZE_CACHE = len(entries)
         except Exception:
             _TITLE_TO_ID_CACHE = {}
+            _CATALOG_SIZE_CACHE = 0
     return _TITLE_TO_ID_CACHE
 
 
+def _catalog_size() -> int:
+    """Total catalog entries (counts shared-title duplicates)."""
+    _build_title_to_id_map()  # populates both caches
+    return _CATALOG_SIZE_CACHE or 0
+
+
 def _clear_title_cache() -> None:
-    """Drop the cached title→id map (test hook)."""
-    global _TITLE_TO_ID_CACHE
+    """Drop the cached title→id map and size (test hook)."""
+    global _TITLE_TO_ID_CACHE, _CATALOG_SIZE_CACHE
     _TITLE_TO_ID_CACHE = None
+    _CATALOG_SIZE_CACHE = None
 
 
 _SLUG_RE = re.compile(r"[^a-z0-9]+")
@@ -546,6 +677,108 @@ def _phase_cell(status: str) -> str:
     if status == "refused":
         return "[yellow]∅[/yellow]"
     return "[dim]·[/dim]"
+
+
+_PHASE_ORDER = ("curate", "review", "verify", "apply")
+
+
+def _phase_state(
+    phase: str,
+    last_phase: str | None,
+    counts: PhaseCounts,
+) -> str:
+    """One of: 'done', 'in_progress', 'pending'.
+
+    Encodes the high-level question 'where are we in the pipeline?'
+    by deriving phase status from the active-phase pointer rather
+    than from raw counts, which can overshoot when orphan curation
+    files get reviewed/verified outside series.yaml's bounds.
+    """
+    if last_phase is None:
+        return "pending" if counts.reached == 0 else "done"
+    last_idx = _PHASE_ORDER.index(last_phase) if last_phase in _PHASE_ORDER else -1
+    this_idx = _PHASE_ORDER.index(phase)
+    if this_idx < last_idx:
+        return "done"
+    if this_idx == last_idx:
+        # Active phase. Treat as done iff every phase before it has
+        # touched series and this phase has nothing left to start —
+        # but we can't know that without comparing to the catalog.
+        # Practical compromise: 'in_progress' until the next phase
+        # marker fires.
+        return "in_progress"
+    return "pending"
+
+
+def render_progress(
+    reports: dict[str, SeriesReport],
+    state: PipelineState,
+    *,
+    catalog_size: int | None = None,
+) -> Panel:
+    """Pipeline-progress panel: phase-by-phase status with the
+    active series called out.
+
+    Phase status (done / in_progress / pending) comes from the
+    last-seen phase header in the log — that's the reliable signal
+    even when reach counts exceed catalog_size due to orphan
+    curation files.
+    """
+    lines: list[str] = []
+    cat_size = catalog_size or 0
+
+    for phase_key in _PHASE_ORDER:
+        counts = _count_phase(reports, phase_key)
+        status = _phase_state(phase_key, state.last_phase, counts)
+
+        marker = {
+            "done":        "[green]✓ done       [/green]",
+            "in_progress": "[cyan]⠿ in progress[/cyan]",
+            "pending":     "[dim]· pending    [/dim]",
+        }[status]
+
+        bits: list[str] = []
+        if counts.success:
+            bits.append(f"[green]{counts.success} ok[/green]")
+        if counts.escalated:
+            bits.append(f"[magenta]{counts.escalated} escalated[/magenta]")
+        if counts.failed:
+            bits.append(f"[red]{counts.failed} failed[/red]")
+        if counts.skipped:
+            bits.append(f"[dim]{counts.skipped} skipped[/dim]")
+        breakdown = ", ".join(bits) if bits else "[dim]—[/dim]"
+
+        # Reach as a fraction is informational. Show it only when
+        # it's a sensible ratio (numerator <= catalog size). Beyond
+        # that, show the raw count + an orphan note so the over-
+        # shoot is explained rather than mysterious.
+        if cat_size and counts.reached <= cat_size:
+            ratio = f"{counts.reached}/{cat_size}"
+        elif cat_size:
+            extra = counts.reached - cat_size
+            ratio = f"{counts.reached} ([dim]+{extra} orphans[/dim])"
+        else:
+            ratio = str(counts.reached)
+
+        active = ""
+        if status == "in_progress":
+            if phase_key == "curate" and state.active_curate_title:
+                active = f"  [cyan]→ {state.active_curate_title}[/cyan]"
+            elif phase_key == "review" and state.active_review_title:
+                active = f"  [cyan]→ {state.active_review_title}[/cyan]"
+            elif phase_key == "verify" and state.active_verify_id:
+                active = f"  [cyan]→ {state.active_verify_id}[/cyan]"
+
+        label = _PHASE_NAMES[phase_key]
+        lines.append(
+            f"  {label:<14} {marker}  {ratio:<24} {breakdown}{active}",
+        )
+
+    return Panel(
+        "\n".join(lines),
+        title="Pipeline progress",
+        border_style="cyan",
+    )
 
 
 def render_pretty(
@@ -790,6 +1023,9 @@ def log_summary(
         click.echo(render_ids(reports, filter_levels=levels))
         return
 
-    console.print(f"[dim]source: {path}  ({len(reports)} series)[/dim]")
+    console.print(f"[dim]source: {path}  ({len(reports)} series in log)[/dim]")
+    state = _scan_pipeline_state(path)
+    catalog_size = _catalog_size() or None
+    console.print(render_progress(reports, state, catalog_size=catalog_size))
     for renderable in render_pretty(reports, filter_levels=levels):
         console.print(renderable)
