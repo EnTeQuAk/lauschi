@@ -296,6 +296,31 @@ the unmatched titles are legitimate non-episodes like specials).
 Don't finalize your output until you've verified pattern coverage.
 """
 
+
+_METADATA_MUSIC_SYSTEM_PROMPT = """\
+You are setting up metadata for a DACH children's MUSIC artist
+catalog entry — NOT a Hörspiel series. Albums here are standalone
+music releases, not numbered episodes.
+
+Given an artist name and a sample of album titles from their
+discography across multiple providers, provide:
+- id: lowercase snake_case identifier (e.g., "detlev_joecker")
+- title: display name
+- aliases: alternate names the artist goes by
+- keywords: artist name plus any iconic album/song titles parents
+  might search for
+- episode_pattern: leave as None. Music albums don't have episode
+  numbers and the catalog UI doesn't show "Folge N" for music.
+- age_note: "Suitable from 2+", "Suitable from 3+", "Suitable from
+  5+", or "Suitable from 6+" depending on the music's energy and
+  themes
+- curator_notes: anything noteworthy (genre, style, collaborations)
+- provider_artist_ids: {provider: [artist_ids]} for each provider found
+
+Do NOT classify individual albums. Just set up the metadata.
+Do NOT call any tools — there are none available for music metadata.
+"""
+
 _MUSIC_SYSTEM_PROMPT = """\
 You are curating a DACH (Germany/Austria/Switzerland) children's MUSIC artist
 catalog for "lauschi", a privacy-first kids audio player.
@@ -589,20 +614,34 @@ def _build_small_agent(
     return agent
 
 
-def _build_metadata_agent(model) -> Agent[MetadataDeps, SeriesMetadata]:
-    """Metadata-extraction agent with a pattern-coverage tool.
+def _build_metadata_agent(
+    model, *, is_music: bool = False,
+) -> Agent[MetadataDeps, SeriesMetadata]:
+    """Metadata-extraction agent.
 
-    The agent must call check_pattern_coverage before finalizing —
-    that's how it learns whether the pattern it inferred from the
-    sample actually covers the full discography. Self-correction
-    loop driven by ground truth.
+    For Hörspiel series, the agent must call check_pattern_coverage
+    before finalizing — that's how it learns whether the pattern it
+    inferred from the sample actually covers the full discography.
+
+    For music artists, episode_pattern is meaningless (music albums
+    aren't numbered), so the tool isn't registered and the prompt
+    doesn't ask for verification. Without this split, a music
+    metadata run obeys the "MUST call check_pattern_coverage"
+    instruction with a None pattern, gets a tool error, and may
+    invent a bogus pattern to satisfy the instruction.
     """
+    system_prompt = (
+        _METADATA_MUSIC_SYSTEM_PROMPT if is_music else _METADATA_SYSTEM_PROMPT
+    )
     agent: Agent[MetadataDeps, SeriesMetadata] = Agent(
         model,
         output_type=SeriesMetadata,
-        system_prompt=_METADATA_SYSTEM_PROMPT,
+        system_prompt=system_prompt,
         retries=2,
     )
+
+    if is_music:
+        return agent
 
     @agent.tool
     def check_pattern_coverage(
@@ -932,7 +971,7 @@ async def _run_large(
     sample_titles = _stratified_sample(all_titles, 40)
     provider_list = ", ".join(f"{k}: {v}" for k, v in artist_ids.items())
 
-    metadata_agent = _build_metadata_agent(model)
+    metadata_agent = _build_metadata_agent(model, is_music=is_music)
     meta_deps = MetadataDeps(titles=all_titles)
     meta: SeriesMetadata = await _run_with_retry(
         lambda: asyncio.wait_for(

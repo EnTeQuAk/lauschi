@@ -13,6 +13,7 @@ import pytest
 
 from lauschi_catalog.commands.curate import (
     CuratedSeries,
+    _build_metadata_agent,
     _lock_series_id,
     _resolve_is_music,
     _stratified_sample,
@@ -205,3 +206,45 @@ def test_stratified_preserves_original_order():
     items = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j"]
     sample = _stratified_sample(items, 5)
     assert sample == sorted(sample, key=items.index)
+
+
+# ── _build_metadata_agent: music vs Hörspiel split ────────────────────────
+
+
+def _agent_tool_names(agent) -> list[str]:
+    """Pull tool names off a pydantic-ai Agent in a version-tolerant way."""
+    return list(agent.toolsets[0].tools.keys())
+
+
+def test_metadata_agent_for_hoerspiel_has_coverage_tool():
+    """Hörspiel agents need check_pattern_coverage to verify their
+    proposed episode_pattern against the full discography. Without
+    this, the previous run silently dropped 250+ ddF episode numbers."""
+    from pydantic_ai.models.test import TestModel
+
+    agent = _build_metadata_agent(TestModel())
+    assert _agent_tool_names(agent) == ["check_pattern_coverage"]
+
+
+def test_metadata_agent_for_music_has_no_tools():
+    """Music agents must NOT see check_pattern_coverage. The
+    'you MUST call check_pattern_coverage' instruction in the
+    Hörspiel prompt would otherwise either be ignored (silent
+    instruction violation) or cause the agent to invent a bogus
+    pattern to satisfy the instruction. The music prompt also
+    explicitly tells the agent there are no tools available."""
+    from pydantic_ai.models.test import TestModel
+
+    agent = _build_metadata_agent(TestModel(), is_music=True)
+    assert _agent_tool_names(agent) == []
+
+
+def test_metadata_music_prompt_tells_agent_no_pattern_no_tools():
+    """Pin the prompt content so a future refactor can't silently
+    re-introduce the music-pattern bug."""
+    from lauschi_catalog.commands.curate import _METADATA_MUSIC_SYSTEM_PROMPT
+
+    p = _METADATA_MUSIC_SYSTEM_PROMPT
+    assert "MUSIC" in p  # not Hörspiel
+    assert "leave as None" in p or "None" in p  # episode_pattern guidance
+    assert "no tools" in p.lower() or "Do NOT call" in p
