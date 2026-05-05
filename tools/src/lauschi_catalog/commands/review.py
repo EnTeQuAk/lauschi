@@ -253,7 +253,9 @@ class Deps:
     - ``providers`` and ``curation`` are inputs (set on construction).
     - ``proposed_overrides`` / ``proposed_splits`` / ``added_albums`` /
       ``proposed_pattern_update`` are populated by the action tools.
-    - ``_*_count`` track tool-call usage against ``_MAX_*`` caps.
+    - ``_*_count`` track tool-call usage. External-cost tools also
+      have ``_MAX_*`` caps (see below); local-action tools rely on
+      per-tool dedup + the agent run's request_limit instead.
     """
     providers: list[CatalogProvider]
     curation: dict
@@ -269,17 +271,61 @@ class Deps:
     _split_count: int = field(default=0, init=False)
     _add_count: int = field(default=0, init=False)
     _pattern_count: int = field(default=0, init=False)
-    # Hard caps prevent runaway tool loops. Sized for real catalog
-    # workloads: BB-scale curations have proposed up to ~12 overrides
-    # and ~3 splits historically. The 30/10 caps comfortably exceed
-    # observed needs while still capping budget if the model loops.
+    # Caps split by cost profile. External-cost tools (web_search,
+    # fetch_page, album_details, and add_album which calls
+    # album_details internally) stay tightly capped — those map to
+    # real $/quota.
+    #
+    # Local-action tools (override / overrides_batch / split /
+    # pattern_update) carry no external cost and don't need
+    # per-tool caps. They're bounded by:
+    #  - per-album_id dedup (an album can be overridden once)
+    #  - same-new_series_id chunk merging (split chunks coalesce)
+    #  - latest-wins replacement (pattern_update)
+    #  - the agent run's request_limit (the global ceiling that
+    #    catches any actual runaway loop)
     _MAX_SEARCHES: int = 5
     _MAX_FETCHES: int = 3
     _MAX_DETAILS: int = 10
-    _MAX_OVERRIDES: int = 30
-    _MAX_SPLITS: int = 10
     _MAX_ADDS: int = 10
-    _MAX_PATTERN_UPDATES: int = 3
+
+
+def _try_record_override(
+    deps: Deps,
+    album_id: str,
+    action: str,
+    reason: str,
+    *,
+    provider: str,
+) -> str | None:
+    """Append an override to ``deps.proposed_overrides`` if eligible.
+
+    Shared by ``propose_override`` (single) and
+    ``propose_overrides_batch`` so dedup + shape rules can't drift
+    between them. Returns ``None`` on success, or a short reason
+    string when the album was skipped:
+
+    - ``"unknown"`` — album_id isn't in this curation
+    - ``"duplicate"`` — album_id was already overridden in this run
+
+    Action / reason validation lives at the tool boundary because the
+    two tools surface those errors differently (single returns an
+    error string; batch wouldn't want to fail the whole batch).
+    """
+    existing = {a["album_id"] for a in deps.curation.get("albums", [])}
+    if album_id not in existing:
+        return "unknown"
+    for prior in deps.proposed_overrides:
+        if prior["album_id"] == album_id:
+            return "duplicate"
+    deps._override_count += 1
+    deps.proposed_overrides.append({
+        "album_id": album_id,
+        "provider": provider,
+        "action": action,
+        "reason": reason,
+    })
+    return None
 
 
 _SYSTEM_PROMPT = """\
@@ -301,8 +347,13 @@ Research (read-only):
 - ``web_search``: research the series; ``site:hoerspiele.de`` is gold
 - ``fetch_page``: drill into a search hit
 
-Proposals (each call records ONE action):
-- ``propose_override``: exclude or include one album with a reason
+Proposals:
+- ``propose_override``: exclude or include ONE album with a reason
+- ``propose_overrides_batch``: exclude or include MANY albums at
+  once with a shared reason. Use this when dedup'ing format
+  variants or excluding a whole class (e.g., Kopfhörer-Hörspiel
+  duplicates, English releases) instead of emitting many identical
+  propose_override calls
 - ``propose_split``: move albums to a new series; multiple calls with
   the same ``new_series_id`` merge — chunk large lists (e.g., 50
   album_ids across 3-4 calls of ~15 each) instead of packing them
@@ -332,11 +383,11 @@ tool calls and merged in by the assembler.
   non-action like ``no_X_found`` / ``balanced`` / ``content_rotation``).
   The verify step (4-eye check) catches over-reach.
 - **Duplicates always get filtered.** Either propose_override per
-  pair (keep older release; exclude format variants like
-  Kopfhörer-Hörspiel, "Neuaufnahme") → verdict
-  ``resolved_via_overrides``; OR your splits move the colliding
-  albums to separate series → verdict ``addressed_by_splits``
-  (requires non-empty splits list).
+  pair (or propose_overrides_batch when a whole CLASS is being
+  excluded — e.g., all Kopfhörer-Hörspiel format variants share
+  one reason) → verdict ``resolved_via_overrides``; OR your splits
+  move the colliding albums to separate series → verdict
+  ``addressed_by_splits`` (requires non-empty splits list).
 - **Era variants stay together.** Two clusters sharing one numbering
   scheme (Die drei ??? "n" + "folge n", both 1-200) are the same
   series across eras → ``sub_series: era_variants_kept``. Don't split.
@@ -549,47 +600,116 @@ def _build_agent(
     ) -> str:
         """Propose excluding (or including) one album from the curation.
 
-        Each call records ONE override on Deps. Call multiple times to
-        propose multiple overrides — there is no batch form. The
-        assembler reads the accumulated list at end of the run.
+        Each call records ONE override on Deps. Use propose_overrides_batch
+        when you need to apply the same exclude/include + reason to many
+        album_ids (e.g., dedup'ing format variants).
 
         Validates: album_id must already be in the curation; action must
         be 'exclude' or 'include'; reason must be non-empty; the same
         album_id can't be overridden twice in one review run.
 
-        Capped at Deps._MAX_OVERRIDES.
+        No per-tool cap — bounded naturally by per-album_id dedup
+        (each album can only be overridden once) and by the agent
+        run's request_limit. The whole point of this change was that
+        an arbitrary override cap was cutting off legitimate work
+        on series with many format-variant duplicates.
         """
-        if ctx.deps._override_count >= ctx.deps._MAX_OVERRIDES:
-            return f"Override limit reached (max {ctx.deps._MAX_OVERRIDES})."
-
         if action not in ("exclude", "include"):
             return f"action must be 'exclude' or 'include', got {action!r}"
         if not (reason or "").strip():
             return "reason is required and must be non-empty"
 
-        existing = {a["album_id"] for a in ctx.deps.curation.get("albums", [])}
-        if album_id not in existing:
+        skip = _try_record_override(
+            ctx.deps, album_id, action, reason, provider=provider,
+        )
+        if skip == "unknown":
             return f"album_id {album_id!r} is not in this curation"
+        if skip == "duplicate":
+            prior_action = next(
+                o["action"] for o in ctx.deps.proposed_overrides
+                if o["album_id"] == album_id
+            )
+            return (
+                f"Already proposed an override for {album_id} "
+                f"(action={prior_action!r}). One per album per review."
+            )
 
-        for prior in ctx.deps.proposed_overrides:
-            if prior["album_id"] == album_id:
-                return (
-                    f"Already proposed an override for {album_id} "
-                    f"(action={prior['action']!r}). One per album per review."
-                )
-
-        ctx.deps._override_count += 1
-        ctx.deps.proposed_overrides.append({
-            "album_id": album_id,
-            "provider": provider,
-            "action": action,
-            "reason": reason,
-        })
         console.print(
             f"  [dim]🔄 propose_override({provider}:{album_id[:8]}…, {action}) "
-            f"[{ctx.deps._override_count}/{ctx.deps._MAX_OVERRIDES}][/]",
+            f"[{ctx.deps._override_count}][/]",
         )
         return f"Override recorded: {action} {album_id}"
+
+    @agent.tool
+    def propose_overrides_batch(
+        ctx: RunContext[Deps],
+        album_ids: list[str],
+        action: str,
+        reason: str,
+    ) -> str:
+        """Propose the same override (exclude/include) on many albums at once.
+
+        Use when you'd otherwise emit dozens of identical
+        propose_override calls — e.g., a series carries three
+        coexisting numbering formats and you need to exclude 30+
+        format-variant duplicates with the same justification. One
+        tool call instead of thirty saves request_limit budget and
+        keeps the reasoning trace readable.
+
+        Each album_id is validated independently. Already-overridden
+        IDs and IDs not in the curation are skipped (not errored) —
+        the call records what it can and reports the rest in the
+        return string. The provider is looked up from the curation
+        per album so the recorded override carries accurate
+        provenance even when the batch spans providers.
+        """
+        if action not in ("exclude", "include"):
+            return f"action must be 'exclude' or 'include', got {action!r}"
+        if not (reason or "").strip():
+            return "reason is required and must be non-empty"
+        if not album_ids:
+            return "album_ids cannot be empty"
+
+        albums = ctx.deps.curation.get("albums", [])
+        provider_lookup = {
+            a["album_id"]: a.get("provider", "?") for a in albums
+        }
+
+        recorded: list[str] = []
+        skipped_unknown: list[str] = []
+        skipped_dup: list[str] = []
+
+        for aid in album_ids:
+            skip = _try_record_override(
+                ctx.deps,
+                aid,
+                action,
+                reason,
+                provider=provider_lookup.get(aid, "?"),
+            )
+            if skip == "unknown":
+                skipped_unknown.append(aid)
+            elif skip == "duplicate":
+                skipped_dup.append(aid)
+            else:
+                recorded.append(aid)
+
+        console.print(
+            f"  [dim]🔄 propose_overrides_batch({len(album_ids)} → "
+            f"{action}) → {len(recorded)} recorded "
+            f"[{ctx.deps._override_count}][/]",
+        )
+
+        parts = [f"Recorded {len(recorded)} {action}(s)"]
+        if skipped_unknown:
+            parts.append(
+                f"skipped {len(skipped_unknown)} unknown album_id(s)"
+            )
+        if skipped_dup:
+            parts.append(
+                f"skipped {len(skipped_dup)} already-overridden"
+            )
+        return ". ".join(parts) + "."
 
     @agent.tool
     def propose_split(
@@ -611,11 +731,10 @@ def _build_agent(
         Validates: new_series_id is snake_case; album_ids must all be
         in the curation; non-empty.
 
-        Capped at Deps._MAX_SPLITS calls (each chunk counts).
+        No per-tool cap — chunks merge by new_series_id at assembly,
+        so even many calls collapse cleanly. Bounded by request_limit.
         """
         import re as _re
-        if ctx.deps._split_count >= ctx.deps._MAX_SPLITS:
-            return f"Split limit reached (max {ctx.deps._MAX_SPLITS})."
 
         if not _re.fullmatch(r"[a-z][a-z0-9_]*", new_series_id):
             return (
@@ -647,7 +766,7 @@ def _build_agent(
         })
         console.print(
             f"  [dim]✂️ propose_split({new_series_id}, {len(album_ids)} albums) "
-            f"[{ctx.deps._split_count}/{ctx.deps._MAX_SPLITS}][/]",
+            f"[{ctx.deps._split_count}][/]",
         )
         return (
             f"Split chunk recorded: {new_series_id} ({len(album_ids)} albums). "
@@ -665,11 +784,10 @@ def _build_agent(
         (calling again replaces the prior proposal). Save_review applies
         it deterministically after the run.
 
-        Capped at Deps._MAX_PATTERN_UPDATES.
+        No per-tool cap — latest-wins replacement means extra calls
+        are idempotent. Bounded by request_limit.
         """
         import re as _re
-        if ctx.deps._pattern_count >= ctx.deps._MAX_PATTERN_UPDATES:
-            return f"Pattern update limit reached (max {ctx.deps._MAX_PATTERN_UPDATES})."
 
         for p in patterns:
             try:
@@ -691,7 +809,7 @@ def _build_agent(
         console.print(
             f"  [dim]📝 propose_pattern_update → {candidate} "
             f"({would_change} would change) "
-            f"[{ctx.deps._pattern_count}/{ctx.deps._MAX_PATTERN_UPDATES}][/]",
+            f"[{ctx.deps._pattern_count}][/]",
         )
         return (
             f"Pattern {candidate!r} recorded. Applying would re-extract "
@@ -789,13 +907,14 @@ def _build_prompt(curation: dict) -> str:
         lines.extend(prior_lines)
 
     lines.append(
-        "\nReview the structure. Use propose_override, propose_split, "
-        "add_album, and propose_pattern_update to record any actions you "
-        "decide on (one tool call per item). When done, return your "
-        "structured output: decisions (one verdict + one-sentence "
-        "reasoning per category) plus a 1-3 sentence summary. "
-        "Use web_search and fetch_page when the analysis raises a "
-        "question you can't answer from the data alone.",
+        "\nReview the structure. Use propose_override (single) or "
+        "propose_overrides_batch (many albums sharing one reason), "
+        "propose_split, add_album, and propose_pattern_update to record "
+        "the actions you decide on. When done, return your structured "
+        "output: decisions (one verdict + one-sentence reasoning per "
+        "category) plus a 1-3 sentence summary. Use web_search and "
+        "fetch_page when the analysis raises a question you can't "
+        "answer from the data alone.",
     )
     return "\n".join(lines)
 
@@ -890,12 +1009,15 @@ async def _run_review(
             async def _run():
                 async with agent.iter(
                     prompt, deps=deps,
-                    # request_limit needs to fit: research tool calls
-                    # (~5-10) + action proposals (~5-15 propose_X calls)
-                    # + final tool call for ReviewResult + reasoning
-                    # turns + headroom for one inner retry. 60 covers
-                    # observed BB-scale runs comfortably.
-                    usage_limits=UsageLimits(request_limit=60),
+                    # request_limit covers: research tool calls (~5-10),
+                    # action proposals (overrides via batch + splits +
+                    # adds + pattern), the final ReviewResult tool call,
+                    # reasoning turns, and headroom for one inner retry.
+                    # Bumped to 120 because Hui-Buh-class series with
+                    # multiple coexisting numbering formats can need
+                    # 30+ exclusions; 60 was leaving them cut off
+                    # mid-cleanup.
+                    usage_limits=UsageLimits(request_limit=120),
                 ) as run:
                     async for node in run:
                         if not hasattr(node, "model_response"):
