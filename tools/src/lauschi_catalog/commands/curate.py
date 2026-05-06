@@ -35,6 +35,7 @@ from rich.table import Table
 
 from lauschi_catalog.catalog.canonical import canonicalize
 from lauschi_catalog.providers import Album, CatalogProvider
+from lauschi_catalog.providers._validate import explain_invalid, is_valid_id
 from lauschi_catalog.retry import is_retryable
 
 console = Console()
@@ -530,7 +531,19 @@ def _build_small_agent(
 
     @agent.tool
     def search_artists(ctx: RunContext[Deps], query: str) -> list[dict]:
-        """Search all providers for artists."""
+        """Search all providers for artists by name.
+
+        WHEN TO USE:
+        - First step of every curation: find the correct artist on each provider.
+        - Artist search on a provider returns no results: try a variant
+          (e.g. "Benjamin Blümchen" → "Benjamin Blümchen Europa").
+
+        WHEN NOT TO USE:
+        - Don't search for sub-series, spin-offs, or compilations — those are
+          curated as separate series entries. Stick to the primary artist.
+
+        Returns: list of {provider, id, name, genres}
+        """
         results = []
         for p in ctx.deps.providers:
             for artist in p.search_artists(query):
@@ -545,7 +558,25 @@ def _build_small_agent(
     def get_artist_albums(
         ctx: RunContext[Deps], provider: str, artist_id: str,
     ) -> list[dict]:
-        """Fetch full discography for an artist on a specific provider."""
+        """Fetch every album released by an artist on a specific provider.
+
+        WHEN TO USE:
+        - After search_artists identified the correct artist_id for a provider.
+        - Results are cached per run — safe to call again if you need the list.
+
+        WHEN NOT TO USE:
+        - Don't call for every batch; call once per provider per artist and
+          rely on the cached result.
+
+        Returns: list of {provider, id, name, release_date, total_tracks}
+        """
+        if not is_valid_id(provider, artist_id):
+            # Reject obvious provider/id mismatches (e.g., a Spotify-format
+            # 22-char id passed with provider='apple_music') before the
+            # call hits the API. Returning a descriptive error here lets
+            # the agent self-correct instead of 4xx-ing.
+            return [{"error": explain_invalid(provider, artist_id)}]
+
         key = f"{provider}:{artist_id}"
         if key in ctx.deps.seen_albums:
             n = len(ctx.deps.seen_albums[key])
@@ -568,12 +599,41 @@ def _build_small_agent(
     def get_album_details(
         ctx: RunContext[Deps], provider: str, album_ids: list[str],
     ) -> list[dict]:
-        """Full album details from a provider. Batch multiple IDs."""
+        """Fetch full album details (track listing, label, runtime) from a provider.
+
+        WHEN TO USE:
+        - Title + track count genuinely ambiguous (e.g. "Die schönsten Lieder"
+          could be a music compilation or a Hörspiel with songs inside).
+        - Episode number unclear from title alone (e.g. "Brainwash" needs
+          track names to confirm it's episode 147).
+        - Unusually high/low track count: 1 track = likely a single, not a
+          Hörspiel; 120 tracks = possibly a Kopfhörer-Hörspiel or double episode.
+
+        WHEN NOT TO USE:
+        - Title clearly matches the episode pattern (e.g. "Folge 42: Der Geist")
+          — the pattern already extracted the number, no details needed.
+        - Obvious compilation from title alone ("Best of", "Jubiläumsbox",
+          "Folge 1–10") — exclude immediately without burning a tool call.
+
+        BATCHING: Pass up to 5 album IDs in one call. Batch IDs when multiple
+        albums from the same provider are ambiguous.
+
+        Returns: list of {provider, id, name, total_tracks, label, tracks}
+        """
         results = []
+        # Reject malformed ids per provider (Spotify 22-base62 vs
+        # Apple Music all-digit). Invalid ids are reported in-line
+        # so the agent sees which one failed without poisoning the
+        # whole batch.
+        invalid = [aid for aid in album_ids if not is_valid_id(provider, aid)]
+        valid_ids = [aid for aid in album_ids if is_valid_id(provider, aid)]
+        for bad in invalid:
+            results.append({"id": bad, "error": explain_invalid(provider, bad)})
+
         target = next((p for p in ctx.deps.providers if p.name == provider), None)
         if not target:
-            return []
-        for aid in album_ids:
+            return results or []
+        for aid in valid_ids:
             key = f"{provider}:{aid}"
             if key in ctx.deps.seen_details:
                 results.append(ctx.deps.seen_details[key])
@@ -593,12 +653,23 @@ def _build_small_agent(
 
     @agent.tool
     def web_search(ctx: RunContext[Deps], query: str) -> list[dict]:
-        """Search the web for series info. Max 2 searches.
+        """Search the web for series info. Max 2 searches per curation.
 
-        Use when unsure about a series (Hörspiel vs Hörbuch, correct artist,
-        episode count). Good queries:
+        WHEN TO USE:
+        - Unclear whether the artist is a Hörspiel or Hörbuch/music series.
+        - Need to verify episode count (e.g. "does this series really have 200 episodes?").
+        - Confirm whether a specific album is a compilation vs. original release.
+
+        WHEN NOT TO USE:
+        - Well-known series with unambiguous metadata (TKKG, Die drei ???,
+          Bibi Blocksberg) — don't waste searches on obvious cases.
+        - Album titles already clearly indicate include/exclude.
+
+        Good queries:
         - '"Series Name" Hörspiel Episodenliste'
         - 'site:hoerspiele.de "Series Name"'
+
+        Returns: list of {title, url, snippet, age}
         """
         if ctx.deps._search_count >= ctx.deps._MAX_SEARCHES:
             return [{"error": "Search limit reached (max 2)."}]
@@ -752,12 +823,38 @@ def _build_batch_agent(model, *, is_music: bool = False) -> Agent[BatchDeps, Bat
     def get_album_details(
         ctx: RunContext[BatchDeps], provider: str, album_ids: list[str],
     ) -> list[dict]:
-        """Get album details for ambiguous albums."""
+        """Fetch full album details (track listing, label, runtime) from a provider.
+
+        WHEN TO USE:
+        - Title + track count genuinely ambiguous (e.g. "Die schönsten Lieder"
+          could be a music compilation or a Hörspiel with songs inside).
+        - Episode number unclear from title alone.
+        - Unusually high/low track count: 1 track = likely a single; 120+ tracks
+          = possibly a Kopfhörer-Hörspiel or double episode.
+
+        WHEN NOT TO USE:
+        - Title clearly matches the episode pattern — the pattern already
+          extracted the number, no details needed.
+        - Obvious compilation from title alone ("Best of", "Jubiläumsbox",
+          "Folge 1–10") — exclude immediately without burning a tool call.
+
+        BATCHING: Pass up to 5 album IDs in one call. Batch IDs when multiple
+        albums from the same provider are ambiguous.
+
+        Returns: list of {provider, id, name, total_tracks, label, tracks}
+        """
         results = []
+        # Same provider/id format guard as the small-flow agent — see
+        # providers/_validate.py for the rationale.
+        invalid = [aid for aid in album_ids if not is_valid_id(provider, aid)]
+        valid_ids = [aid for aid in album_ids if is_valid_id(provider, aid)]
+        for bad in invalid:
+            results.append({"id": bad, "error": explain_invalid(provider, bad)})
+
         target = next((p for p in ctx.deps.providers if p.name == provider), None)
         if not target:
-            return []
-        for aid in album_ids:
+            return results or []
+        for aid in valid_ids:
             key = f"{provider}:{aid}"
             if key in ctx.deps.seen_details:
                 console.print(f"  [dim]🔎 {provider}:{aid[:8]}… → (cached)[/]")
