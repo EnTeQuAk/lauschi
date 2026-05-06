@@ -94,7 +94,7 @@ usage = 'flag "--force" help="Re-curate even if curation JSON already exists"'
 run = """
 FORCE_FLAG=""
 if [ "$usage_force" = "true" ]; then FORCE_FLAG="--force"; fi
-uv run --directory tools --with 'pydantic-ai>=1.62.0' --with 'pydantic>=2.0' lauschi-catalog curate --all --timeout 1800 $FORCE_FLAG
+uv run --directory tools --with 'pydantic-ai>=1.62.0' --with 'pydantic>=2.0' lauschi-catalog curate --all --timeout 3600 $FORCE_FLAG
 """
 
 [tasks.catalog-review-ai]

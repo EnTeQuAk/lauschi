@@ -1522,7 +1522,12 @@ def _curate_one(
 @click.option("--all", "run_all", is_flag=True, help="Curate all series in the catalog")
 @click.option("--force", is_flag=True, help="Re-curate even if curation JSON exists")
 @click.option("--model", default=_DEFAULT_MODEL, help="AI model to use")
-@click.option("--timeout", default=1800, help="Timeout per series in seconds (default 30 min)")
+@click.option(
+    "--timeout", default=3600,
+    help="Timeout per series in seconds (default 60 min). Big series "
+    "with many batches and tool calls genuinely take 30+ min; the old "
+    "1800 default was timing out 14 series in the catalog.",
+)
 @click.option("--provider", "-p", type=click.Choice(["spotify", "apple_music", "all"]), default="all")
 @click.option("--no-cache", is_flag=True, help="Bypass provider API cache")
 @click.option("--music", is_flag=True, help="Curate as music artist (not Hörspiel series)")
