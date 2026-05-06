@@ -1424,6 +1424,34 @@ def _init_providers(provider: str, *, no_cache: bool = False) -> list[CatalogPro
     return providers
 
 
+def _lookup_catalog_entry(query: str):
+    """Resolve ``query`` to a CatalogEntry when it matches a known series.
+
+    ``query`` may be the user-typed ID (``detlev_joecker``) or the
+    proper title (``Detlev Jöcker``). Returns the entry on first
+    match or None when the query doesn't correspond to anything in
+    series.yaml — that's a brand-new series the agent will discover
+    and the caller falls back to the no-yaml path.
+
+    Centralized so both the single-series CLI and any future caller
+    (e.g. a re-curate-by-id tool) share one resolution rule.
+    """
+    from lauschi_catalog.catalog.loader import load_catalog
+
+    try:
+        entries = load_catalog()
+    except Exception:
+        return None
+    # Exact id match wins over title (cheaper to type, no ambiguity).
+    for entry in entries:
+        if entry.id == query:
+            return entry
+    for entry in entries:
+        if entry.title == query:
+            return entry
+    return None
+
+
 def _resolve_is_music(
     entry_content_type: str | None,
     entry_has_pattern: bool,
@@ -1557,10 +1585,62 @@ def curate(
     provider_names = ", ".join(p.name for p in providers)
 
     if query and not run_all:
+        # When the query matches a known catalog entry, use yaml as
+        # canonical for content_type, artist_ids, and series_id —
+        # same architectural rule as --all mode and as _lock_series_id.
+        # A bare CLI invocation like 'curate -- detlev_joecker' was
+        # previously curating known music artists as Hörspiele
+        # because content_type from series.yaml was ignored, leaving
+        # the agent to exclude every album as 'music, not Hörspiel'.
+        entry = _lookup_catalog_entry(query)
+        if entry is not None:
+            existing: dict | None = None
+            curation_path = CURATION_DIR / f"{entry.id}.json"
+            if curation_path.exists():
+                try:
+                    existing = json.loads(curation_path.read_text())
+                except (OSError, json.JSONDecodeError):
+                    existing = None
+            entry_is_music = _resolve_is_music(
+                entry_content_type=entry.content_type,
+                entry_has_pattern=bool(entry.episode_pattern),
+                existing_content_type=(existing or {}).get("content_type"),
+            )
+            console.print(
+                Panel(
+                    f"Curating [bold]{entry.title}[/bold] with {model}\n"
+                    f"Catalog id: {entry.id}\n"
+                    f"Content type: "
+                    f"{'music' if entry_is_music else 'hoerspiel'}\n"
+                    f"Providers: {provider_names}",
+                    title="lauschi-catalog curate",
+                ),
+            )
+            if music and not entry_is_music:
+                # User passed --music but yaml says hoerspiel. Yaml wins,
+                # but tell them so the override silence isn't surprising.
+                console.print(
+                    "[yellow]Note: --music ignored — series.yaml has the "
+                    "entry as hoerspiel. Edit series.yaml to change.[/yellow]",
+                )
+            _curate_one(
+                entry.title, providers,
+                model=model, timeout=timeout,
+                series_id=entry.id,
+                known_artist_ids=entry.all_artist_ids() or None,
+                existing_curation=existing,
+                is_music=entry_is_music,
+                dry_run=dry_run,
+            )
+            return
+
+        # New series not yet in series.yaml — trust the user's flags.
         console.print(
             Panel(
                 f"Curating [bold]{query}[/bold] with {model}\n"
-                f"Providers: {provider_names}",
+                f"Providers: {provider_names}\n"
+                f"[dim]Not in series.yaml; treating as new "
+                f"{'music artist' if music else 'Hörspiel series'}.[/dim]",
                 title="lauschi-catalog curate",
             ),
         )
