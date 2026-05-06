@@ -31854,20 +31854,6 @@ series:
         title: '16: Mission zwischen den Zeiten: Gegenwart, Vergangenheit, und Zukunft (Das Original-Hörspiel zur TV-Serie)'
   aliases:
   - Kim Possible
-- id: coco
-  title: Coco
-  keywords:
-  - Coco
-  providers:
-    spotify:
-      artist_ids:
-      - 5CnBACBPnkY7PxvfwMFdZL
-      albums:
-      - id: 6q76sgu7wmtrkrBYWUKPIW
-        title: Coco (Hörspiel zum Disney/Pixar Film)
-    apple_music:
-      artist_ids:
-      - '40879982'
 - id: alles_steht_kopf
   title: Alles steht Kopf
   providers:
