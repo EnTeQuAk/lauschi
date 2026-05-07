@@ -1266,7 +1266,12 @@ def save_review(series_id: str, review: AssembledReview) -> Path:
 @click.option("--all", "run_all", is_flag=True, help="Review all curated series")
 @click.option("--force", is_flag=True, help="Re-review even if already approved or ai_verified")
 @click.option("--model", default=_DEFAULT_MODEL)
-@click.option("--timeout", default=600, help="Per-series timeout in seconds (default 10 min). Big series with many splits genuinely take 5+ min.")
+@click.option(
+    "--timeout", default=1200,
+    help="Per-series timeout in seconds (default 20 min). Big series "
+    "with many overrides and pattern revisions take 10+ min; the old "
+    "600 default was timing out series like Pumuckl mid-run.",
+)
 @click.option("--provider", "-p", type=click.Choice(["spotify", "apple_music", "all"]), default="all")
 def review(
     series_id: str | None,
@@ -1302,6 +1307,9 @@ def review(
         paths = [CURATION_DIR / f"{series_id}.json"]
 
     skipped = 0
+    succeeded = 0
+    failed = 0
+    failed_ids: list[str] = []
     for path in paths:
         if not path.exists():
             console.print(f"[yellow]Skipping {path.stem}: no curation file[/yellow]")
@@ -1330,9 +1338,22 @@ def review(
 
         console.print(f"\n[bold]Reviewing {curation.get('title', path.stem)}...[/bold]")
 
-        review = asyncio.run(
-            _run_review(curation, providers, model_name=model, timeout=timeout),
-        )
+        try:
+            review = asyncio.run(
+                _run_review(curation, providers, model_name=model, timeout=timeout),
+            )
+        except Exception as e:
+            # One stuck series shouldn't kill the whole --all run.
+            # Log, count as failed, and move on. The per-series JSON
+            # stays untouched — its prior review state (if any) is
+            # preserved, and the user can re-run just this id later.
+            err = f"{type(e).__name__}: {e}" if str(e) else type(e).__name__
+            console.print(
+                f"[red]Failed to review {path.stem}: {err[:300]}[/red]",
+            )
+            failed += 1
+            failed_ids.append(path.stem)
+            continue
 
         # Always persist the review block — the per-category decisions
         # and summary are valuable provenance for human auditors even
@@ -1356,3 +1377,12 @@ def review(
         console.print(f"  [dim]{verdicts}[/dim]")
         if review.summary:
             console.print(f"  Summary: {review.summary}")
+        succeeded += 1
+
+    if run_all:
+        console.print(
+            f"\n[bold]Review results:[/bold] {succeeded} reviewed, "
+            f"{skipped} skipped, {failed} failed",
+        )
+        if failed_ids:
+            console.print(f"[red]Failed: {', '.join(failed_ids)}[/red]")
