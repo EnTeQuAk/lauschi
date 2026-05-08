@@ -26,6 +26,7 @@ from pydantic_ai.models.openai import OpenAIChatModel
 from pydantic_ai.providers.openai import OpenAIProvider
 from pydantic_ai.usage import UsageLimits
 from rich.console import Console
+from rich.markup import escape
 from rich.panel import Panel
 
 from lauschi_catalog.catalog.analysis import analyze_series, effective_albums
@@ -1348,8 +1349,12 @@ def review(
             # stays untouched — its prior review state (if any) is
             # preserved, and the user can re-run just this id later.
             err = f"{type(e).__name__}: {e}" if str(e) else type(e).__name__
+            # escape() so a regex or other bracket-containing content
+            # in the error string can't be parsed as Rich markup —
+            # that crash bypassed the per-series resilience this
+            # except block was supposed to provide.
             console.print(
-                f"[red]Failed to review {path.stem}: {err[:300]}[/red]",
+                f"[red]Failed to review {path.stem}: {escape(err[:300])}[/red]",
             )
             failed += 1
             failed_ids.append(path.stem)

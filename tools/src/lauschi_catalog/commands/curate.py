@@ -30,6 +30,7 @@ from pydantic_ai.providers.openai import OpenAIProvider
 from pydantic_ai.usage import UsageLimits
 from rich import box
 from rich.console import Console
+from rich.markup import escape
 from rich.panel import Panel
 from rich.table import Table
 
@@ -936,7 +937,10 @@ async def _run_with_retry(coro_factory, *, phase: str = ""):
                 )
                 await asyncio.sleep(_RETRY_DELAY)
                 continue
-            console.print(f"[red]{phase} failed: {type(e).__name__}: {err_str[:300]}[/]")
+            console.print(
+                f"[red]{phase} failed: {type(e).__name__}: "
+                f"{escape(err_str[:300])}[/]",
+            )
             raise
     raise RuntimeError(f"Exhausted {_MAX_RETRIES} retries in {phase}: {last_err}")
 
@@ -1342,8 +1346,6 @@ def save_curation(series: CuratedSeries) -> Path:
 
 
 def print_summary(series: CuratedSeries):
-    from rich.markup import escape
-
     included = series.included()
     excluded = [a for a in series.albums if not a.include]
     eps = [a.episode_num for a in included if a.episode_num is not None]
@@ -1540,8 +1542,11 @@ def _curate_one(
     except Exception as e:
         # Some SDK exceptions have an empty str(e); fall back to the
         # type name so "Failed to curate Foo:" never appears blank.
+        # escape() the message because pydantic-ai/regex error strings
+        # can contain bracket-shaped fragments that Rich would parse
+        # as markup and crash with MarkupError.
         msg = f"{type(e).__name__}: {e}" if str(e) else type(e).__name__
-        console.print(f"[red]Failed to curate {query}: {msg}[/red]")
+        console.print(f"[red]Failed to curate {query}: {escape(msg)}[/red]")
         return None
 
 
