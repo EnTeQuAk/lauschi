@@ -647,3 +647,32 @@ def test_pattern_update_docstring_warns_about_numeric_capture():
         "propose_pattern_update docstring must warn that capture "
         "group 1 has to yield a digit"
     )
+
+
+def test_batch_prompt_distinguishes_structure_from_numbering():
+    """The batch prompt's pattern-update section was nudging the
+    agent to call propose_pattern_update whenever titles 'looked
+    structured', even without digit episode numbers. SimsalaGrimm
+    titles have a consistent (Das Original-Hörspiel zur TV Serie)
+    suffix — structure but no number — and the agent still
+    proposed a story-name-capturing pattern. Pin that the prompt
+    now explicitly tells the agent: structure isn't numbering."""
+    from lauschi_catalog.commands.curate import _BATCH_SYSTEM_PROMPT
+
+    p = _BATCH_SYSTEM_PROMPT
+    # Must specifically tell the agent NOT to propose for named
+    # episodes with structured suffixes — that was the SimsalaGrimm
+    # failure mode. Looking for the conceptual distinction.
+    assert "structure" in p.lower() or "structured" in p.lower(), (
+        "_BATCH_SYSTEM_PROMPT must mention 'structure' to "
+        "distinguish from 'numbering'"
+    )
+    # And explicitly point at release_date as the fallback for
+    # unnumbered series, so the agent knows there IS a downstream
+    # plan and doesn't feel pressured to invent a pattern.
+    assert "release_date" in p, (
+        "_BATCH_SYSTEM_PROMPT must point at release_date as the "
+        "fallback sort key for unnumbered series, otherwise the "
+        "agent may invent a non-numeric pattern just to give the "
+        "framework something to extract from"
+    )

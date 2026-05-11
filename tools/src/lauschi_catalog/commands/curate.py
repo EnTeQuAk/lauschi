@@ -504,20 +504,28 @@ ambiguous. Most episodes are obvious from the title alone.
 
 ## When the episode pattern doesn't match this batch
 
-The series context shows an episode_pattern. If MOST albums in this
-batch have episode-numbered titles that the pattern doesn't match,
-the metadata phase missed a naming convention. Call
-propose_pattern_update with a list that keeps the existing
-pattern(s) AND adds regex(es) covering the unmatched titles. The
-new pattern propagates to subsequent batches and we re-extract
-episode_num across all decisions at the end.
+Only consider propose_pattern_update when titles in this batch
+CONTAIN digit-string episode numbers that the current pattern
+doesn't match. The captured group MUST yield an integer
+(`int(group)` must succeed) — that's the hard contract enforced
+by the tool, which will reject non-numeric captures.
 
-Example: pattern is `^Folge (\\d+):` but this batch shows
-`001/Title`, `002/Title`, etc. Call:
+Example of a legitimate update: pattern is `^Folge (\\d+):` but
+this batch shows `001/Title`, `002/Title`, etc. The new form
+also has digit captures, so call:
   propose_pattern_update(patterns=["^Folge (\\d+):", "^(\\d+)/"])
 
-Don't propose for one or two outliers (specials, untitled releases) —
-only when the mismatch is systematic across the batch.
+When NOT to propose:
+- Titles are structured but have no episode number (e.g. fairy
+  tale names with consistent suffix like `Aschenputtel (Das
+  Original-Hörspiel zur TV Serie)`). Structure ≠ numbering. Leave
+  episode_pattern as None — the framework sorts unnumbered
+  episodes by release_date downstream.
+- Only one or two outliers (specials, untitled releases). Pattern
+  changes need a systematic mismatch.
+- The captured group would be a string, not a digit. Patterns
+  like `^(.+?) \\(Subtitle\\)$` capture story names and get
+  rejected by the tool.
 
 ## Important
 - Produce an AlbumDecision for EVERY album in this batch.
