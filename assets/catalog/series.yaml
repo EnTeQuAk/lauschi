@@ -17158,6 +17158,7 @@ series:
         title: Ferien auf Saltkrokan. Hörspielklassiker
       artist_ids:
       - 6Tgs4sCWBTcniX8YqJEhls
+  content_type: hoerspiel
 - id: bibi_blocksberg_kampf_kartoffelbrei
   title: Bibi Blocksberg - Kampf um Kartoffelbrei
   keywords:
@@ -24679,6 +24680,7 @@ series:
         title: Von einem, der auszog, das Fürchten zu lernen (Das Original-Hörspiel zur TV Serie)
   aliases:
   - Die neuen Abenteuer von Yoyo und Doc Croc
+  content_type: hoerspiel
 - id: wieso_weshalb_warum_junior
   title: Wieso? Weshalb? Warum? junior
   keywords:
@@ -35030,7 +35032,6 @@ series:
   - Kim Possible
 - id: alles_steht_kopf
   title: Alles steht Kopf
-  content_type: hoerspiel
   providers:
     spotify:
       artist_ids:
@@ -35045,13 +35046,12 @@ series:
       - '1719978356'
       albums:
       - id: '1685935557'
-        episode: 1
         title: Alles steht Kopf (Hörspiel zum Disney/Pixar Film)
       - id: '1752948960'
-        episode: 2
         title: Alles steht Kopf 2 (Hörspiel zum Disney/Pixar Film)
   aliases:
   - Inside Out
+  content_type: hoerspiel
 - id: bambi_hoerspiel
   title: Bambi Hörspiel
   content_type: hoerspiel

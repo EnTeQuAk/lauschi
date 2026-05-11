@@ -81,3 +81,83 @@ def apply_episode_pattern(
             new_a["episode_num"] = ep
         out.append(new_a)
     return out
+
+
+def compute_pattern_coverage(
+    titles: list[str],
+    pattern: str | list[str],
+) -> dict:
+    """Test ``pattern`` against ``titles`` and bucket failures by mode.
+
+    Two distinct failure modes — without distinguishing them, an
+    agent given ``(.*)`` sees 0% coverage and assumes "regex didn't
+    match" (false: every title matched, but ``int(group)`` rejected
+    the captured strings). The agent then loops trying broader
+    regexes until it times out.
+
+    Returns ``unmatched_regex_samples`` for titles where no pattern
+    matched, and ``non_numeric_capture_samples`` for titles where a
+    pattern matched but capture group 1 was non-numeric. The agent
+    can read these and pick the right fix.
+
+    Used by curate's batch agent (to validate propose_pattern_update
+    proposals) and by review's propose_pattern_update tool (to
+    apply the same numeric-capture + coverage-floor contract there).
+    Lives in matcher.py so both consumers share one implementation.
+    """
+    patterns = [pattern] if isinstance(pattern, str) else list(pattern)
+    if not patterns:
+        return {"error": "pattern must be non-empty"}
+    compiled: list[re.Pattern[str]] = []
+    for p in patterns:
+        try:
+            c = re.compile(p)
+        except re.error as e:
+            return {"error": f"invalid regex {p!r}: {e}"}
+        if c.groups < 1:
+            return {"error": f"pattern {p!r}: needs ≥1 capture group"}
+        compiled.append(c)
+
+    matched = 0
+    no_match: list[str] = []
+    non_numeric: list[dict[str, str]] = []
+    for title in titles:
+        outcome = "no_match"
+        captured: str | None = None
+        for c in compiled:
+            m = c.search(title)
+            if not m or not m.groups():
+                continue
+            g = m.group(1)
+            if g is None:
+                continue
+            try:
+                int(g)
+            except (TypeError, ValueError):
+                # Track first non-numeric capture as evidence, but
+                # keep trying alternatives — another pattern in the
+                # list might still capture a digit on this title.
+                if outcome == "no_match":
+                    outcome = "non_numeric"
+                    captured = g
+                continue
+            outcome = "matched"
+            break
+
+        if outcome == "matched":
+            matched += 1
+        elif outcome == "non_numeric" and len(non_numeric) < 5:
+            non_numeric.append({"title": title, "captured": captured or ""})
+        elif outcome == "no_match" and len(no_match) < 5:
+            no_match.append(title)
+
+    total = len(titles)
+    coverage = round(matched / total, 3) if total else 0.0
+    return {
+        "pattern": pattern,
+        "matched": matched,
+        "total": total,
+        "coverage": coverage,
+        "unmatched_regex_samples": no_match,
+        "non_numeric_capture_samples": non_numeric,
+    }

@@ -649,6 +649,117 @@ def test_pattern_update_docstring_warns_about_numeric_capture():
     )
 
 
+# ── Review's propose_pattern_update has the same numeric+coverage guard ───
+#
+# Same contract as the batch agent's tool (curate.py): patterns whose
+# captures aren't int-parseable OR which match too few titles get
+# rejected at the tool boundary. Without these, the review agent
+# happily accepted '(\d+)' on alles_steht_kopf — a 4-album series
+# where the pattern matched only 2 albums (the "Inside Out 2" sequels)
+# and would silently break on any future album with a year in title.
+
+
+def test_review_pattern_update_calls_coverage_check():
+    """Source-level pin: review's propose_pattern_update must call
+    compute_pattern_coverage. Without that, the numeric + coverage
+    guards never fire."""
+    src = open(
+        "src/lauschi_catalog/commands/review.py", encoding="utf-8",
+    ).read()
+    idx = src.find("def propose_pattern_update")
+    assert idx >= 0
+    block = src[idx:idx + 4000]
+    assert "compute_pattern_coverage" in block, (
+        "review's propose_pattern_update must run candidates through "
+        "compute_pattern_coverage to apply the same numeric + "
+        "coverage contract as the batch agent"
+    )
+
+
+def test_review_pattern_update_enforces_coverage_floor():
+    """The coverage floor is what catches alles_steht_kopf-style
+    cosmetic patterns. Pin that 0.5 (50%) is the threshold."""
+    src = open(
+        "src/lauschi_catalog/commands/review.py", encoding="utf-8",
+    ).read()
+    idx = src.find("def propose_pattern_update")
+    block = src[idx:idx + 4000]
+    # The threshold must be present as a literal so a refactor can't
+    # silently raise/lower it without test failure.
+    assert "0.5" in block, (
+        "review propose_pattern_update must enforce a coverage "
+        "floor — 0.5 catches the alles_steht_kopf '(\\\\d+)' case "
+        "where pattern matched 2 of 4 titles"
+    )
+
+
+def test_review_pattern_update_docstring_warns_against_cosmetic():
+    """Agent-facing docstring must explain the rule so the model
+    doesn't keep trying after rejection."""
+    src = open(
+        "src/lauschi_catalog/commands/review.py", encoding="utf-8",
+    ).read()
+    idx = src.find("def propose_pattern_update")
+    block = src[idx:idx + 2000]
+    assert "cosmetic" in block.lower() or "fragile" in block.lower(), (
+        "docstring should explain WHY low-coverage patterns are "
+        "rejected, not just THAT they are"
+    )
+    assert "None" in block and "release_date" in block, (
+        "docstring should point at the alternative (leave None, "
+        "release_date sorts) so the agent doesn't keep trying"
+    )
+
+
+# ── Field-level schema descriptions for episode_pattern ───────────────────
+#
+# Without Field(description=..., examples=[...]) the agent only sees a
+# bare `anyOf: [str, array, null]` and has no schema-level hint that
+# None is a first-class choice. Pydantic-ai ships these annotations to
+# the model in the JSON schema, so we pin both: the description must
+# mention None explicitly AND include the no-pattern guidance, and the
+# examples list must include None alongside real patterns to make it
+# a concrete choice the schema designer expected.
+
+
+def test_series_metadata_episode_pattern_field_describes_none_choice():
+    """Pin the schema annotation that ships to the model. Without this
+    the agent sees an unannotated str|list|null union and tends to
+    fill in a catch-all pattern (alles_steht_kopf '(\\\\d+)' was the
+    motivating case)."""
+    from lauschi_catalog.commands.curate import SeriesMetadata
+
+    schema = SeriesMetadata.model_json_schema()
+    pat = schema["properties"]["episode_pattern"]
+    desc = pat.get("description", "")
+    # Must explicitly mention None as a valid choice and warn against
+    # cosmetic fills.
+    assert "None" in desc
+    assert "release_date" in desc, (
+        "description should tell the agent there's a downstream "
+        "fallback (release_date sort) so it doesn't feel pressured "
+        "to invent a pattern"
+    )
+    # Must include examples featuring None as a concrete first-class
+    # value, not just real patterns.
+    examples = pat.get("examples", [])
+    assert None in examples, (
+        "examples must include None to signal it's expected, not "
+        "just a fallback"
+    )
+
+
+def test_curated_series_episode_pattern_field_describes_none_choice():
+    """Same description on CuratedSeries (the small-flow output) so
+    the single-agent path gets the same hint."""
+    from lauschi_catalog.commands.curate import CuratedSeries
+
+    schema = CuratedSeries.model_json_schema()
+    pat = schema["properties"]["episode_pattern"]
+    assert "None" in pat.get("description", "")
+    assert None in pat.get("examples", [])
+
+
 def test_batch_prompt_distinguishes_structure_from_numbering():
     """The batch prompt's pattern-update section was nudging the
     agent to call propose_pattern_update whenever titles 'looked

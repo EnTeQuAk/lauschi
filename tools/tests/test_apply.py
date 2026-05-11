@@ -126,31 +126,72 @@ def test_apply_writes_music_content_type():
     assert yaml_data["series"][0].get("content_type") == "music"
 
 
-def test_apply_clears_stale_music_when_reverted_to_hoerspiel():
-    """Real correction scenario: a series was incorrectly tagged as
-    music in series.yaml, the curation has now been re-curated as
-    hoerspiel, and apply must remove the stale tag — otherwise the
-    Flutter app keeps showing 'Titel' instead of 'Folgen'."""
-    yaml_data = _yaml_with([{"id": "a", "episode": 1, "title": "T"}])
-    yaml_data["series"][0]["content_type"] = "music"
+def test_apply_strips_redundant_hoerspiel_when_pattern_signals_it():
+    """When the yaml entry has an episode_pattern, the curate flow's
+    _resolve_is_music picks hoerspiel via that signal — so storing
+    `content_type: hoerspiel` explicitly is yaml noise. Strip it."""
+    yaml_data = _yaml_with([{"id": "a", "episode": 1, "title": "Folge 1: T"}])
+    yaml_data["series"][0]["content_type"] = "hoerspiel"
+    yaml_data["series"][0]["episode_pattern"] = r"^Folge (\d+):"
     curation = _curation_with_ct("hoerspiel", albums=[
-        _included("a", episode_num=1, title="T"),
+        _included("a", episode_num=1, title="Folge 1: T"),
     ])
+    curation["episode_pattern"] = r"^Folge (\d+):"
     updated = _apply_one("s1", curation, yaml_data)
     assert updated is True
     assert "content_type" not in yaml_data["series"][0]
 
 
-def test_apply_leaves_content_type_absent_when_already_hoerspiel():
-    """The default is hoerspiel; we don't write it explicitly. No
-    update if the yaml entry already has no content_type and the
-    curation is hoerspiel."""
-    yaml_data = _yaml_with([{"id": "a", "episode": 1, "title": "T"}])
+def test_apply_keeps_explicit_hoerspiel_when_no_other_signal():
+    """Series like ferien_saltkrokan have content_type=hoerspiel but
+    no episode_pattern (named episodes). Stripping content_type would
+    leave _resolve_is_music with no signals and it would default to
+    MUSIC on a future re-curate. Keep the explicit value as a
+    safeguard against re-introducing the original misclassification
+    bug."""
+    yaml_data = _yaml_with([{"id": "a", "title": "T"}])
+    yaml_data["series"][0]["content_type"] = "hoerspiel"
+    # No episode_pattern in yaml or curation
     curation = _curation_with_ct("hoerspiel", albums=[
-        _included("a", episode_num=1, title="T"),
+        _included("a", episode_num=None, title="T"),
     ])
     _apply_one("s1", curation, yaml_data)
+    # content_type must persist as a signal for future re-curates.
+    assert yaml_data["series"][0].get("content_type") == "hoerspiel"
+
+
+def test_apply_writes_explicit_hoerspiel_when_correcting_stale_music_without_pattern():
+    """Real correction scenario from this session: a series was
+    incorrectly tagged as `content_type: music`, re-curated as
+    hoerspiel, the new curation has no episode_pattern. Apply must
+    replace music with explicit hoerspiel — not just drop the music
+    tag — so _resolve_is_music can pick the right mode on any future
+    re-curate, even if the curation JSON gets deleted."""
+    yaml_data = _yaml_with([{"id": "a", "title": "T"}])
+    yaml_data["series"][0]["content_type"] = "music"
+    curation = _curation_with_ct("hoerspiel", albums=[
+        _included("a", episode_num=None, title="T"),
+    ])
+    updated = _apply_one("s1", curation, yaml_data)
+    assert updated is True
+    assert yaml_data["series"][0].get("content_type") == "hoerspiel"
+
+
+def test_apply_clears_stale_hoerspiel_when_pattern_is_authoritative():
+    """If yaml has both `content_type: hoerspiel` AND an
+    episode_pattern, the pattern alone signals hoerspiel — so
+    content_type is redundant. Strip it for yaml hygiene."""
+    yaml_data = _yaml_with([{"id": "a", "episode": 1, "title": "Folge 1: T"}])
+    yaml_data["series"][0]["content_type"] = "hoerspiel"
+    yaml_data["series"][0]["episode_pattern"] = r"^Folge (\d+):"
+    curation = _curation_with_ct("hoerspiel", albums=[
+        _included("a", episode_num=1, title="Folge 1: T"),
+    ])
+    curation["episode_pattern"] = r"^Folge (\d+):"
+    _apply_one("s1", curation, yaml_data)
     assert "content_type" not in yaml_data["series"][0]
+    # Pattern still there as the surviving hoerspiel signal
+    assert yaml_data["series"][0].get("episode_pattern") == r"^Folge (\d+):"
 
 
 # ── episode_pattern sync (both directions) ────────────────────────────────

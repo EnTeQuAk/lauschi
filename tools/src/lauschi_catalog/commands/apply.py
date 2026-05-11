@@ -104,17 +104,45 @@ def _apply_one(series_id: str, data: dict, yaml_data: dict) -> bool:
                 f"{max(ep_changed, 0)} episode/title changes)",
             )
 
+    # Sync episode_pattern in both directions FIRST, before the
+    # content_type decision below. content_type's "is hoerspiel
+    # redundant?" check uses the POST-sync pattern as the
+    # alternative-signal check, so the pattern has to be settled
+    # by then.
+    pattern = data.get("episode_pattern")
+    yaml_pattern = yaml_series.get("episode_pattern")
+    if pattern != yaml_pattern:
+        if pattern is None:
+            yaml_series.pop("episode_pattern", None)
+        else:
+            yaml_series["episode_pattern"] = pattern
+        updated = True
+
     # Write content_type to yaml when present in curation (music vs
     # hoerspiel). The Flutter app uses this for UI labels ("Titel" vs
-    # "Folgen"). The default is hoerspiel, so for hoerspiel we want
-    # the yaml entry to NOT carry content_type — but if a prior apply
-    # wrote "music" and the curation has now been corrected to
-    # hoerspiel, we must clear the stale value, not skip it.
+    # "Folgen"). The default is hoerspiel, so where the yaml entry
+    # has another hoerspiel signal (an episode_pattern), we strip
+    # the redundant explicit content_type to keep the file clean.
+    #
+    # But when an entry has NO other signal (no episode_pattern,
+    # no curation file yet), stripping content_type leaves
+    # _resolve_is_music with nothing to go on and it falls back to
+    # MUSIC — re-introducing the original misclassification bug. In
+    # that case keep `content_type: hoerspiel` explicit so future
+    # re-curates (even after deleting the curation JSON) pick the
+    # right mode.
     ct = data.get("content_type")
     yaml_ct = yaml_series.get("content_type")
+    has_other_hoerspiel_signal = yaml_series.get("episode_pattern") is not None
     if ct == "hoerspiel":
-        if yaml_ct is not None:
+        if yaml_ct is not None and has_other_hoerspiel_signal:
             del yaml_series["content_type"]
+            updated = True
+        elif yaml_ct != "hoerspiel" and not has_other_hoerspiel_signal:
+            # No other signal — keep content_type explicit so a
+            # future re-curate doesn't fall back to music. If yaml
+            # had "music" before, this clears it.
+            yaml_series["content_type"] = "hoerspiel"
             updated = True
     elif ct and ct != yaml_ct:
         yaml_series["content_type"] = ct
@@ -130,20 +158,6 @@ def _apply_one(series_id: str, data: dict, yaml_data: dict) -> bool:
                     str(a) for a in aids
                 ]
                 updated = True
-
-    # Sync episode_pattern in both directions: write a new pattern,
-    # and clear a stale pattern when the curation now has None. The
-    # earlier `if pattern and …` guard meant a re-curate that
-    # corrected a bogus pattern to None couldn't propagate; the
-    # dead pattern stayed in series.yaml forever.
-    pattern = data.get("episode_pattern")
-    yaml_pattern = yaml_series.get("episode_pattern")
-    if pattern != yaml_pattern:
-        if pattern is None:
-            yaml_series.pop("episode_pattern", None)
-        else:
-            yaml_series["episode_pattern"] = pattern
-        updated = True
 
     # Update keywords/aliases
     for field in ("keywords", "aliases"):

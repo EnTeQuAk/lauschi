@@ -13,6 +13,7 @@ from __future__ import annotations
 import asyncio
 import json
 import os
+import re
 from dataclasses import dataclass, field
 from datetime import UTC, datetime
 from enum import StrEnum
@@ -32,6 +33,7 @@ from rich.panel import Panel
 from lauschi_catalog.catalog.analysis import analyze_series, effective_albums
 from lauschi_catalog.catalog.canonical import canonicalize
 from lauschi_catalog.catalog.lifecycle import review_is_stale
+from lauschi_catalog.catalog.matcher import compute_pattern_coverage
 from lauschi_catalog.providers import CatalogProvider
 from lauschi_catalog.retry import is_retryable
 
@@ -789,27 +791,81 @@ def _build_agent(
     ) -> str:
         """Propose a new episode_pattern.
 
-        Each pattern must compile and have exactly one capture group.
-        Patterns are tried in order at apply time. The latest call wins
-        (calling again replaces the prior proposal). Save_review applies
-        it deterministically after the run.
+        Each pattern must compile, have exactly one capture group, AND
+        capture an integer when matched (`int(group)` must succeed).
+        The proposal is REJECTED if it matches fewer than half of the
+        included titles — patterns that only match a couple albums in
+        a larger series are cosmetic and produce fragile metadata
+        (alles_steht_kopf's '(\\d+)' was the motivating case: it
+        captured the "2" in "Inside Out 2" but had no anchor and
+        would mis-fire on the next album with any digit in its title).
 
-        No per-tool cap — latest-wins replacement means extra calls
-        are idempotent. Bounded by request_limit.
+        If the series has no systematic episode numbering, do NOT
+        propose a pattern — leave it as None and the framework will
+        sort albums by release_date downstream.
+
+        Latest call wins (idempotent replacement). Bounded by
+        request_limit, no per-tool cap.
         """
-        import re as _re
-
         for p in patterns:
             try:
-                c = _re.compile(p)
-            except _re.error as e:
+                c = re.compile(p)
+            except re.error as e:
                 return f"Invalid regex {p!r}: {e}"
             if c.groups != 1:
                 return f"Pattern {p!r}: needs exactly 1 capture group, got {c.groups}"
 
+        candidate = patterns[0] if len(patterns) == 1 else patterns
+
+        # Numeric + coverage check against the included titles. Same
+        # contract the curate batch agent enforces (curate.py), kept
+        # symmetric so a pattern that would survive the batch path
+        # also survives review's late corrections.
+        included_titles = [
+            a["title"] for a in ctx.deps.curation.get("albums", [])
+            if a.get("include") and a.get("title")
+        ]
+        if included_titles:
+            check = compute_pattern_coverage(included_titles, patterns)
+            if "error" in check:
+                return check["error"]
+            if check["matched"] == 0:
+                non_numeric = check.get("non_numeric_capture_samples") or []
+                if non_numeric:
+                    sample = non_numeric[0]
+                    return (
+                        f"Pattern {candidate!r}: matches titles but "
+                        f"capture group 1 isn't numeric — captured "
+                        f"{sample['captured']!r} from "
+                        f"{sample['title']!r}. Episode numbers must "
+                        f"be int-parseable; tighten group 1 to (\\d+) "
+                        f"or similar. If the series has no episode "
+                        f"numbers, leave the pattern as None."
+                    )
+                return (
+                    f"Pattern {candidate!r}: doesn't match any of "
+                    f"{len(included_titles)} included titles. If the "
+                    f"series has no episode numbering, leave the "
+                    f"pattern as None — release_date sort handles "
+                    f"order in the UI."
+                )
+            if check["coverage"] < 0.5:
+                return (
+                    f"Pattern {candidate!r}: matches only "
+                    f"{check['matched']}/{check['total']} "
+                    f"({check['coverage']:.0%}) of titles. A pattern "
+                    f"that covers less than half the series is "
+                    f"cosmetic and produces fragile metadata. If only "
+                    f"a few albums carry numbers (e.g. sequels), "
+                    f"leave the pattern as None — release_date sort "
+                    f"handles ordering."
+                )
+
+        # Display "would change" count for diagnostic continuity with
+        # prior tool output. Computed against the FULL album list
+        # (not just included) since pattern_update applies broadly.
         from lauschi_catalog.catalog.matcher import preview_episode_pattern
 
-        candidate = patterns[0] if len(patterns) == 1 else patterns
         would_change = preview_episode_pattern(
             ctx.deps.curation.get("albums", []), candidate,
         )

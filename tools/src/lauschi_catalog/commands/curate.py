@@ -74,6 +74,26 @@ class AlbumDecision(BaseModel):
     release_date: str | None = None
 
 
+_EPISODE_PATTERN_DESCRIPTION = (
+    "Regex(es) with one capture group that yields an integer episode "
+    "number (`int(group)` MUST succeed). Use None when titles carry "
+    "no digit-string episode markers — e.g. named episodes (fairy "
+    "tales, themed releases), sequel markers like 'Inside Out 2', or "
+    "story-based titles. When None, albums display sorted by "
+    "release_date in the UI; there is NO penalty for None and no "
+    "benefit to inventing a catch-all. Do NOT emit '(\\\\d+)' just "
+    "to populate this field: that captures any digit anywhere in a "
+    "title and silently breaks when the catalog grows to include "
+    "albums with years, volume counts, or anniversary numbers."
+)
+
+_EPISODE_PATTERN_EXAMPLES = [
+    None,
+    r"^Folge (\d+):",
+    [r"^(\d{3})/", r"^Folge (\d+):"],
+]
+
+
 class CuratedSeries(BaseModel):
     """Complete curation result for a series or music artist."""
 
@@ -81,7 +101,11 @@ class CuratedSeries(BaseModel):
     title: str
     aliases: list[str] = Field(default_factory=list)
     keywords: list[str] = Field(default_factory=list)
-    episode_pattern: str | list[str] | None = None
+    episode_pattern: str | list[str] | None = Field(
+        default=None,
+        description=_EPISODE_PATTERN_DESCRIPTION,
+        examples=_EPISODE_PATTERN_EXAMPLES,
+    )
     albums: list[AlbumDecision]
     provider_artist_ids: dict[str, list[str]] = Field(default_factory=dict)
     age_note: str = ""
@@ -136,7 +160,11 @@ class SeriesMetadata(BaseModel):
     title: str
     aliases: list[str] = Field(default_factory=list)
     keywords: list[str] = Field(default_factory=list)
-    episode_pattern: str | list[str] | None = None
+    episode_pattern: str | list[str] | None = Field(
+        default=None,
+        description=_EPISODE_PATTERN_DESCRIPTION,
+        examples=_EPISODE_PATTERN_EXAMPLES,
+    )
     age_note: str = ""
     curator_notes: str = ""
     provider_artist_ids: dict[str, list[str]] = Field(default_factory=dict)
@@ -751,79 +779,11 @@ def _build_small_agent(
     return agent
 
 
-def _compute_pattern_coverage(
-    titles: list[str],
-    pattern: str | list[str],
-) -> dict:
-    """Test ``pattern`` against ``titles`` and bucket failures by mode.
-
-    Two distinct failure modes — without distinguishing them, an
-    agent given ``(.*)`` sees 0% coverage and assumes "regex didn't
-    match" (false: every title matched, but ``int(group)`` rejected
-    the captured strings). The agent then loops trying broader
-    regexes until it times out.
-
-    Returns ``unmatched_regex_samples`` for titles where no pattern
-    matched, and ``non_numeric_capture_samples`` for titles where a
-    pattern matched but capture group 1 was non-numeric. The agent
-    can read these and pick the right fix.
-    """
-    patterns = [pattern] if isinstance(pattern, str) else list(pattern)
-    if not patterns:
-        return {"error": "pattern must be non-empty"}
-    compiled: list[re.Pattern[str]] = []
-    for p in patterns:
-        try:
-            c = re.compile(p)
-        except re.error as e:
-            return {"error": f"invalid regex {p!r}: {e}"}
-        if c.groups < 1:
-            return {"error": f"pattern {p!r}: needs ≥1 capture group"}
-        compiled.append(c)
-
-    matched = 0
-    no_match: list[str] = []
-    non_numeric: list[dict[str, str]] = []
-    for title in titles:
-        outcome = "no_match"
-        captured: str | None = None
-        for c in compiled:
-            m = c.search(title)
-            if not m or not m.groups():
-                continue
-            g = m.group(1)
-            if g is None:
-                continue
-            try:
-                int(g)
-            except (TypeError, ValueError):
-                # Track first non-numeric capture as evidence, but
-                # keep trying alternatives — another pattern in the
-                # list might still capture a digit on this title.
-                if outcome == "no_match":
-                    outcome = "non_numeric"
-                    captured = g
-                continue
-            outcome = "matched"
-            break
-
-        if outcome == "matched":
-            matched += 1
-        elif outcome == "non_numeric" and len(non_numeric) < 5:
-            non_numeric.append({"title": title, "captured": captured or ""})
-        elif outcome == "no_match" and len(no_match) < 5:
-            no_match.append(title)
-
-    total = len(titles)
-    coverage = round(matched / total, 3) if total else 0.0
-    return {
-        "pattern": pattern,
-        "matched": matched,
-        "total": total,
-        "coverage": coverage,
-        "unmatched_regex_samples": no_match,
-        "non_numeric_capture_samples": non_numeric,
-    }
+# Backwards-compat alias for tests and internal callers; the canonical
+# home is matcher.py since both curate and review need it.
+from lauschi_catalog.catalog.matcher import (
+    compute_pattern_coverage as _compute_pattern_coverage,
+)
 
 
 def _build_metadata_agent(
