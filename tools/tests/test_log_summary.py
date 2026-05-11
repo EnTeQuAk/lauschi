@@ -17,7 +17,9 @@ from pathlib import Path
 import pytest
 
 from lauschi_catalog.commands.log_summary import (
+    REPO_ROOT,
     Health,
+    _resolve_log_path,
     classify,
     collect_flags,
     parse_log,
@@ -354,3 +356,55 @@ def test_empty_log(tmp_log):
 def test_log_with_no_pipeline_signals(tmp_log):
     reports = parse_log(tmp_log("Some random text\nNothing matches\n"))
     assert reports == {}
+
+
+# ── _resolve_log_path: cwd-vs-repo-root resolution ────────────────────────
+#
+# The mise catalog-log-summary task runs `uv run --directory tools …`
+# which chdirs into tools/. The pipeline scripts log paths like
+# `logs/catalog/pipeline-foo.log` (relative to repo root). Without
+# fallback resolution, that path misses from tools/ and the user
+# sees "log path does not exist" even when the file is right there.
+
+
+def test_resolve_log_path_falls_back_to_repo_root(tmp_path, monkeypatch):
+    """A relative path that doesn't exist in cwd but does at
+    REPO_ROOT must resolve. Simulates the mise task running from
+    tools/ with a path like `logs/catalog/foo.log`."""
+    log_dir = REPO_ROOT / "logs" / "catalog"
+    log_dir.mkdir(parents=True, exist_ok=True)
+    real = log_dir / "_resolve_test.log"
+    real.write_text("x")
+    try:
+        # Pretend we're running from a directory where the relative
+        # path doesn't resolve directly.
+        monkeypatch.chdir(tmp_path)
+        resolved = _resolve_log_path("logs/catalog/_resolve_test.log")
+        assert resolved == real
+    finally:
+        real.unlink(missing_ok=True)
+
+
+def test_resolve_log_path_prefers_cwd_when_both_exist(tmp_path, monkeypatch):
+    """When the relative path resolves both at cwd and at REPO_ROOT,
+    cwd wins. Keeps the natural user expectation when they're at
+    repo root and pass a relative path."""
+    cwd_file = tmp_path / "test.log"
+    cwd_file.write_text("cwd")
+    monkeypatch.chdir(tmp_path)
+    resolved = _resolve_log_path("test.log")
+    assert resolved.read_text() == "cwd"
+
+
+def test_resolve_log_path_absolute_path_used_as_is(tmp_path):
+    real = tmp_path / "absolute.log"
+    real.write_text("y")
+    resolved = _resolve_log_path(str(real))
+    assert resolved == real
+
+
+def test_resolve_log_path_missing_raises(tmp_path, monkeypatch):
+    monkeypatch.chdir(tmp_path)
+    import click
+    with pytest.raises(click.BadParameter):
+        _resolve_log_path("nope/never/exists.log")

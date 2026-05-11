@@ -922,12 +922,23 @@ def _resolve_log_path(arg: str | None) -> Path:
     """Resolve the log argument to a concrete file path.
 
     With no arg, picks the most recent ``logs/catalog/pipeline-*.log``.
+
+    Relative paths are tried first against cwd, then against
+    REPO_ROOT. The mise task runs `uv run --directory tools …`, so
+    cwd is `tools/` and a path like `logs/catalog/foo.log` (the form
+    the pipeline scripts print) would otherwise miss. Falling back to
+    REPO_ROOT makes the user-facing relative path work uniformly.
     """
     if arg:
         p = Path(arg)
-        if not p.exists():
-            raise click.BadParameter(f"log path does not exist: {p}")
-        return p
+        if p.is_absolute():
+            if not p.exists():
+                raise click.BadParameter(f"log path does not exist: {p}")
+            return p
+        for candidate in (p, REPO_ROOT / p):
+            if candidate.exists():
+                return candidate
+        raise click.BadParameter(f"log path does not exist: {p}")
     candidates = sorted(LOG_DIR.glob("pipeline-*.log"), key=lambda p: p.stat().st_mtime)
     if not candidates:
         raise click.BadParameter(
