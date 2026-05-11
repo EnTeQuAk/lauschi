@@ -12,8 +12,10 @@ from __future__ import annotations
 import pytest
 
 from lauschi_catalog.commands.curate import (
+    AlbumDecision,
     CuratedSeries,
     _build_metadata_agent,
+    _compute_pattern_coverage,
     _lock_series_id,
     _lookup_catalog_entry,
     _resolve_is_music,
@@ -303,3 +305,272 @@ def test_lookup_id_match_takes_precedence_over_title_match(monkeypatch):
     entry = curate_mod._lookup_catalog_entry("exact_id_string")
     assert entry.id == "exact_id_string"
     assert entry.title == "Another Title"
+
+
+# ── _compute_pattern_coverage: failure-mode reporting ─────────────────────
+#
+# A SimsalaGrimm curate run wedged in a tool-call loop because the
+# old tool reported BOTH "regex didn't match" and "regex matched but
+# capture wasn't a digit" as a single 0% coverage. The agent tried
+# `(.*)` (which matches every title), saw 0%, and concluded its
+# regex was broken — when actually its capture group was returning
+# the entire title and `int()` rejected it. These tests pin the
+# distinction so a refactor can't collapse the buckets again.
+
+
+def test_pattern_coverage_separates_no_match_from_non_numeric():
+    """The motivating SimsalaGrimm bug. Episodes are named
+    ('Aladin und die Wunderlampe (...)'), never numbered. With
+    ``(.*)`` the regex matches every title but the capture is the
+    whole title — distinct from 'regex didn't match'."""
+    titles = [
+        "Aladin und die Wunderlampe (Das Original-Hörspiel zur TV Serie)",
+        "Aschenputtel (Das Original-Hörspiel zur TV Serie)",
+    ]
+    result = _compute_pattern_coverage(titles, "(.*)")
+    assert result["matched"] == 0
+    assert result["coverage"] == 0.0
+    # All titles fell into non_numeric, NOT no_match. This is the
+    # signal the agent needs to bail to episode_pattern=None.
+    assert len(result["non_numeric_capture_samples"]) == 2
+    assert result["unmatched_regex_samples"] == []
+    captured = result["non_numeric_capture_samples"][0]["captured"]
+    assert "Aladin" in captured  # captured the whole title
+
+
+def test_pattern_coverage_buckets_no_match_correctly():
+    """Pattern that never matches (different naming convention)
+    must report no_match, not non_numeric. This is what the agent
+    sees for the 'add another regex alternative' fix path."""
+    titles = ["Episode A", "Episode B", "Episode C"]
+    result = _compute_pattern_coverage(titles, r"^Folge (\d+):")
+    assert result["matched"] == 0
+    assert len(result["unmatched_regex_samples"]) == 3
+    assert result["non_numeric_capture_samples"] == []
+
+
+def test_pattern_coverage_counts_numeric_captures():
+    """Sanity: a working pattern still works."""
+    titles = [
+        "Folge 1: Foo",
+        "Folge 2: Bar",
+        "Special edition",  # legitimate non-episode
+    ]
+    result = _compute_pattern_coverage(titles, r"^Folge (\d+):")
+    assert result["matched"] == 2
+    assert result["total"] == 3
+    assert result["coverage"] == round(2 / 3, 3)
+    assert len(result["unmatched_regex_samples"]) == 1
+
+
+def test_pattern_coverage_alternation_falls_through_non_numeric():
+    """List of patterns: if one captures non-numeric but a later
+    one captures a digit on the same title, the title counts as
+    matched. Pins the inner-loop early-exit semantics."""
+    titles = ["Folge 5: Boom"]
+    # First pattern matches every word with `(.+)` (non-numeric);
+    # second pattern captures the digit. The title should still
+    # count as matched.
+    result = _compute_pattern_coverage(
+        titles, [r"^(.+):", r"^Folge (\d+):"],
+    )
+    assert result["matched"] == 1
+    assert result["non_numeric_capture_samples"] == []
+
+
+def test_pattern_coverage_rejects_empty_pattern():
+    assert "error" in _compute_pattern_coverage(["x"], [])
+
+
+def test_pattern_coverage_rejects_invalid_regex():
+    result = _compute_pattern_coverage(["x"], "(unclosed")
+    assert "error" in result
+    assert "invalid regex" in result["error"]
+
+
+def test_pattern_coverage_rejects_zero_capture_groups():
+    result = _compute_pattern_coverage(["x"], r"^Folge \d+:")
+    assert "error" in result
+    assert "capture group" in result["error"]
+
+
+# ── episode_pattern prompt allows the None escape hatch ───────────────────
+
+
+def test_metadata_hoerspiel_prompt_allows_none_for_named_episodes():
+    """The metadata prompt must explicitly tell the agent to use
+    episode_pattern=None for series with named/themed episodes
+    (like SimsalaGrimm fairy tales). Without this, the agent
+    interprets 'MUST call check_pattern_coverage' as unconditional
+    and burns its timeout retrying impossible patterns."""
+    from lauschi_catalog.commands.curate import _METADATA_SYSTEM_PROMPT
+
+    p = _METADATA_SYSTEM_PROMPT
+    # Hint to bail out
+    assert "None" in p
+    # Explicit named/themed escape hatch
+    assert "named" in p.lower() or "themed" in p.lower()
+    # Numeric-capture contract spelled out
+    assert "digit" in p.lower() or "int(" in p
+
+
+# ── Metadata prompt advertises richer per-album fields ─────────────────────
+
+
+def test_metadata_prompt_mentions_release_date_signal():
+    """The sample assembly hands the agent title | tracks |
+    release_date. The prompt must tell the agent these fields exist,
+    otherwise the model treats the trailing date as noise. Pin the
+    contract so a future prompt rewrite can't silently drop it."""
+    from lauschi_catalog.commands.curate import _METADATA_SYSTEM_PROMPT
+
+    p = _METADATA_SYSTEM_PROMPT
+    assert "release_date" in p
+    assert "total_tracks" in p
+
+
+# ── Display-order fallback when episode_num is null ───────────────────────
+
+
+def _decision(
+    aid: str,
+    title: str,
+    *,
+    provider: str = "spotify",
+    include: bool = True,
+    episode_num: int | None = None,
+    release_date: str | None = None,
+) -> AlbumDecision:
+    return AlbumDecision(
+        album_id=aid, provider=provider, include=include,
+        episode_num=episode_num, title=title, release_date=release_date,
+    )
+
+
+def _curated(albums: list[AlbumDecision]) -> CuratedSeries:
+    return CuratedSeries(
+        id="test", title="Test", episode_pattern=None,
+        albums=albums, provider_artist_ids={},
+    )
+
+
+def test_included_sorts_numbered_episodes_by_number():
+    """Numbered episodes come back ordered by episode_num — same
+    as before. Pin so the release_date fallback doesn't
+    accidentally reorder numbered series."""
+    series = _curated([
+        _decision("c", "Folge 3", episode_num=3, release_date="2020-01-01"),
+        _decision("a", "Folge 1", episode_num=1, release_date="2022-12-01"),
+        _decision("b", "Folge 2", episode_num=2, release_date="2021-06-01"),
+    ])
+    order = [a.album_id for a in series.included()]
+    assert order == ["a", "b", "c"]
+
+
+def test_included_sorts_unnumbered_by_release_date():
+    """When episode_num is null (named-episode series), albums
+    display in chronological release order — not alphabetical.
+    This is the SimsalaGrimm fix: fairy tales sorted by when
+    the audio release dropped, so users see new releases first
+    in a chronological view rather than alphabetical chaos."""
+    series = _curated([
+        _decision("c", "Allerleirauh", release_date="2022-05-01"),
+        _decision("a", "Bremer Stadtmusikanten", release_date="2020-01-15"),
+        _decision("b", "Aschenputtel", release_date="2021-03-20"),
+    ])
+    order = [a.album_id for a in series.included()]
+    assert order == ["a", "b", "c"]
+
+
+def test_included_mixes_numbered_and_unnumbered_correctly():
+    """Numbered episodes come first (by number), unnumbered
+    follow (by release_date). Mixed series shouldn't interleave."""
+    series = _curated([
+        _decision("u2", "Special B", release_date="2022-01-01"),
+        _decision("n1", "Folge 1", episode_num=1, release_date="2024-01-01"),
+        _decision("u1", "Special A", release_date="2021-01-01"),
+        _decision("n2", "Folge 2", episode_num=2, release_date="2023-01-01"),
+    ])
+    order = [a.album_id for a in series.included()]
+    assert order == ["n1", "n2", "u1", "u2"]
+
+
+def test_included_missing_release_date_sorts_with_empty_string_key():
+    """Missing release_date falls back to "" via `or ""`, so a
+    no-date album sorts BEFORE dated ones lexicographically.
+    This is a corner case — both Spotify and Apple Music always
+    return a release_date in practice. Pin so re-runs are stable
+    if a future provider ever omits it."""
+    series = _curated([
+        _decision("a", "Mit Datum", release_date="2020-01-15"),
+        _decision("b", "Ohne Datum"),
+    ])
+    order = [a.album_id for a in series.included()]
+    assert order == ["b", "a"]
+
+
+# ── AlbumDecision schema includes release_date ─────────────────────────────
+
+
+def test_album_decision_release_date_defaults_none():
+    """The agent doesn't set release_date — it's hydrated post-hoc
+    from the discovery dict. Default None means 'not yet hydrated'
+    or 'provider didn't supply it'."""
+    d = AlbumDecision(
+        album_id="x", provider="spotify", include=True,
+        episode_num=None, title="t",
+    )
+    assert d.release_date is None
+
+
+# ── album_details tools return release_date and artists ────────────────────
+
+
+def test_curate_small_flow_album_details_returns_release_date_and_artists():
+    """Pin the small-flow get_album_details return shape. The bug
+    was that release_date and artists were being fetched from the
+    provider but dropped before reaching the agent."""
+    src = open(
+        "src/lauschi_catalog/commands/curate.py", encoding="utf-8",
+    ).read()
+    # Locate the small-flow agent's get_album_details (Deps, not BatchDeps)
+    block = src.split("def _build_small_agent")[1].split(
+        "def _build_metadata_agent",
+    )[0]
+    # The detail dict must include both fields
+    assert '"release_date": album.release_date' in block
+    assert '"artists": album.artists' in block
+
+
+def test_curate_batch_flow_album_details_returns_release_date_and_artists():
+    src = open(
+        "src/lauschi_catalog/commands/curate.py", encoding="utf-8",
+    ).read()
+    block = src.split("def _build_batch_agent")[1].split(
+        "# ── Shared helpers",
+    )[0]
+    assert '"release_date": album.release_date' in block
+    assert '"artists": album.artists' in block
+
+
+def test_review_album_details_returns_release_date_and_artists():
+    src = open(
+        "src/lauschi_catalog/commands/review.py", encoding="utf-8",
+    ).read()
+    # Find the review agent's album_details tool
+    idx = src.find("def album_details")
+    assert idx >= 0
+    block = src[idx:idx + 1500]
+    assert '"release_date": album.release_date' in block
+    assert '"artists": album.artists' in block
+
+
+def test_verify_album_details_returns_release_date_and_artists():
+    src = open(
+        "src/lauschi_catalog/commands/verify.py", encoding="utf-8",
+    ).read()
+    idx = src.find("def album_details")
+    assert idx >= 0
+    block = src[idx:idx + 1500]
+    assert '"release_date": album.release_date' in block
+    assert '"artists": album.artists' in block

@@ -198,6 +198,48 @@ echo ""
 echo "Done. Run 'mise run catalog-review' to review any escalated items."
 """
 
+[tasks.catalog-pipeline-one]
+description = "Run curate → review → verify → apply on a single series"
+run = """
+#!/usr/bin/env bash
+set -euo pipefail
+
+SID="${1:-}"
+if [ -z "$SID" ]; then
+  echo "usage: mise run catalog-pipeline-one -- <series_id>"
+  exit 64
+fi
+
+AI_DEPS="--with pydantic-ai>=1.62.0 --with pydantic>=2.0"
+RUN="uv run --directory tools $AI_DEPS lauschi-catalog"
+RUN_CORE="uv run --directory tools lauschi-catalog"
+
+LOGDIR="logs/catalog"
+mkdir -p "$LOGDIR"
+TIMESTAMP=$(date +%Y%m%d-%H%M%S)
+LOG="$LOGDIR/one-${SID}-${TIMESTAMP}.log"
+echo "Logging to $LOG"
+exec > >(tee -a "$LOG") 2>&1
+
+echo "Step 1/4: Curating $SID..."
+$RUN curate "$SID" --timeout 3600 --force
+
+echo ""
+echo "Step 2/4: AI review..."
+$RUN review "$SID" --force
+
+echo ""
+echo "Step 3/4: 4-eye verification..."
+$RUN verify "$SID" --force
+
+echo ""
+echo "Step 4/4: Applying..."
+$RUN_CORE apply "$SID"
+
+echo ""
+echo "Done. Run 'mise run catalog-log-summary -- \\"\\$LOG\\" --detail $SID' to inspect."
+"""
+
 # ── Legacy aliases ───────────────────────────────────────────────────
 
 [tasks.catalog-check]

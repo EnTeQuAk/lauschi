@@ -55,7 +55,13 @@ def _apply_one(series_id: str, data: dict, yaml_data: dict) -> bool:
     for prov_name, prov_albums in by_provider.items():
         sorted_albums = sorted(
             prov_albums,
-            key=lambda a: (a.get("episode_num") or 999_999, a.get("title", "")),
+            # Numbered episodes by number, unnumbered fall back to
+            # release_date (chronological for named-episode series).
+            key=lambda a: (
+                a.get("episode_num") is None, a.get("episode_num"),
+                a.get("release_date") or "",
+                a.get("title", ""),
+            ),
         )
 
         if prov_name not in yaml_series["providers"]:

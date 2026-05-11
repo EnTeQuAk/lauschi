@@ -78,7 +78,14 @@ def list_albums(series_id: str, excluded: bool):
     if excluded:
         albums = [a for a in albums if not a.get("include")]
 
-    for a in sorted(albums, key=lambda x: (x.get("episode_num") or 999, x["title"])):
+    for a in sorted(
+        albums,
+        key=lambda x: (
+            x.get("episode_num") is None, x.get("episode_num"),
+            x.get("release_date") or "",
+            x["title"],
+        ),
+    ):
         status = "✓" if a.get("include") else "✗"
         ep = a.get("episode_num") or "?"
         prov = a.get("provider", "spotify")[:2]

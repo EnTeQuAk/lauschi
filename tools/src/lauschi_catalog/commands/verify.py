@@ -170,7 +170,15 @@ def _build_verify_agent(
     def album_details(
         ctx: RunContext[Deps], provider_name: str, album_ids: list[str],
     ) -> list[dict]:
-        """Get detailed album info from a specific provider. Max 5 IDs."""
+        """Get detailed album info from a specific provider. Max 5 IDs.
+
+        Returns per album: ``{id, name, provider, release_date,
+        total_tracks, label, artists, tracks (first 10 names)}``.
+        ``release_date`` (ISO YYYY-MM-DD or YYYY) and ``artists``
+        come free with the same fetch — use them to verify
+        original-vs-reissue and wrong-artist concerns the first
+        reviewer might have missed.
+        """
         target = next((p for p in ctx.deps.providers if p.name == provider_name), None)
         if not target:
             return [{"error": f"Provider {provider_name} not available"}]
@@ -180,7 +188,10 @@ def _build_verify_agent(
             if album:
                 results.append({
                     "id": album.id, "name": album.name, "provider": provider_name,
-                    "total_tracks": album.total_tracks, "label": album.label,
+                    "release_date": album.release_date,
+                    "total_tracks": album.total_tracks,
+                    "label": album.label,
+                    "artists": album.artists,
                     "tracks": [{"name": t.name} for t in album.tracks[:10]],
                 })
                 console.print(f"  [dim]📀 {provider_name}:{aid[:8]}… → {album.name}[/]")
@@ -234,7 +245,11 @@ def _build_prompt(curation: dict) -> str:
 
     included = sorted(
         [a for a in albums if a.get("include")],
-        key=lambda a: (a.get("episode_num") or 999_999, a["title"]),
+        key=lambda a: (
+            a.get("episode_num") is None, a.get("episode_num"),
+            a.get("release_date") or "",
+            a["title"],
+        ),
     )
     excluded = [a for a in albums if not a.get("include")]
 
@@ -249,15 +264,21 @@ def _build_prompt(curation: dict) -> str:
     for a in included:
         ep = a.get("episode_num")
         ep_str = f"Ep {ep}: " if ep is not None else ""
+        rel = a.get("release_date") or ""
+        rel_str = f" ({rel})" if rel else ""
         lines.append(
-            f"  ✅ [{a.get('provider', '?')}] {ep_str}{a['title']} [{a['album_id']}]",
+            f"  ✅ [{a.get('provider', '?')}] {ep_str}{a['title']}"
+            f"{rel_str} [{a['album_id']}]",
         )
 
     lines.append(f"\n### Excluded albums ({len(excluded)})")
     for a in excluded[:30]:
         reason = a.get("exclude_reason", "")
+        rel = a.get("release_date") or ""
+        rel_str = f" ({rel})" if rel else ""
         lines.append(
-            f"  ❌ [{a.get('provider', '?')}] {a['title']} [{a['album_id']}]"
+            f"  ❌ [{a.get('provider', '?')}] {a['title']}"
+            f"{rel_str} [{a['album_id']}]"
             f"{f' — {reason}' if reason else ''}",
         )
 

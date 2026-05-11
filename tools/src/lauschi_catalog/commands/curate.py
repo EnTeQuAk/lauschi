@@ -66,6 +66,12 @@ class AlbumDecision(BaseModel):
     episode_num: int | None = Field(description="Episode number extracted from the album title using the series episode_pattern regex")
     title: str
     exclude_reason: str | None = None
+    # Populated after the agent returns, by joining (provider, album_id)
+    # against the discovery-phase album list. Persisted in the curation
+    # JSON so the review and verify phases can render release_date in
+    # their prompts without re-fetching from the provider, and so the
+    # release-order strategy (when enabled) has the data it needs.
+    release_date: str | None = None
 
 
 class CuratedSeries(BaseModel):
@@ -100,7 +106,19 @@ class CuratedSeries(BaseModel):
     def included(self) -> list[AlbumDecision]:
         return sorted(
             [a for a in self.albums if a.include],
-            key=lambda a: (a.episode_num or 999_999, a.title),
+            # Numbered episodes sort by number. Unnumbered (named
+            # episodes, fairy tales, etc.) fall back to release_date
+            # so users see them in chronological order rather than
+            # alphabetical. The `is None` first element keeps the
+            # numbered bucket ahead of the unnumbered without
+            # inventing a magic-int sentinel; tuple compares stop
+            # at the bool when buckets differ, so None never has
+            # to compare against int.
+            key=lambda a: (
+                a.episode_num is None, a.episode_num,
+                a.release_date or "",
+                a.title,
+            ),
         )
 
     def by_provider(self, provider: str) -> list[AlbumDecision]:
@@ -228,6 +246,10 @@ Individual episodes: 20-60 min runtime. Track count varies by provider
 Extract from: Folge N, Teil N, Episode N, Fall N, Band N, NNN/Title.
 When prefixes change mid-run, use alternation: (?:[Tt]eil|[Bb]and)\\s+(\\d+)
 
+If titles carry no episode number, leave episode_num=None for those
+albums. They'll display sorted by release_date downstream — don't
+invent numbers.
+
 ## Keywords
 Only if the series name literally appears in album titles. Otherwise leave empty.
 
@@ -265,37 +287,57 @@ the album metadata is unambiguous.
 _METADATA_SYSTEM_PROMPT = """\
 You are setting up metadata for a DACH children's Hörspiel series catalog entry.
 
-Given a series name and a sample of album titles from its discography across
-multiple providers, provide:
+Given a series name and a sample of albums from its discography across
+multiple providers — title, total_tracks, release_date — provide:
 - id: lowercase snake_case identifier (e.g., "paw_patrol", "die_drei_fragezeichen")
 - title: display name (e.g., "PAW Patrol", "Die drei ???")
 - aliases: alternate names the series goes by (different languages, abbreviations)
 - keywords: only if the series name literally appears in album titles
 - episode_pattern: regex (or list of regexes) with exactly 1 capture group each
-  for the episode number. Use a list when a series changed naming conventions,
-  e.g. ["^(\\d{3})/", "^Folge (\\d+):"] — tried in order, first match wins.
+  for the episode number. The captured group MUST be a digit string —
+  `int(group)` has to succeed. Use a list when a series changed naming
+  conventions, e.g. ["^(\\d{3})/", "^Folge (\\d+):"] — tried in order, first
+  match wins. If the discography uses NAMED episodes (e.g. fairy tale titles,
+  themed releases) without any numbering, set this to None and skip the
+  coverage check below. Albums without an episode number sort by
+  release_date downstream — no fake numbers are invented.
 - age_note: "Suitable from 3+", "Suitable from 5+", or "Recommended 8+"
 - curator_notes: anything noteworthy (spinoffs, format changes, etc.)
 - provider_artist_ids: {provider: [artist_ids]} for each provider found
 
 Do NOT classify individual albums. Just set up the metadata.
 
-## episode_pattern verification (REQUIRED)
+The sample lines carry "title | total_tracks | release_date". Title is
+the primary signal for episode_pattern, but track count helps spot
+compilations (huge counts) vs episodes (1-50ish), and release_date
+order can hint at episode order when titles lack numbers.
 
-After deciding on episode_pattern, you MUST call the
-check_pattern_coverage tool. The sample titles in this prompt are a
-stratified slice of the discography, but the tool runs against
-EVERY title. Long-running series often have multiple naming
-conventions for different eras (e.g., "001/Title" for episodes
-1-170 plus "Folge 171: Title" for newer releases) — the sample may
-not show both.
+## episode_pattern verification (REQUIRED if pattern is not None)
 
-If coverage < 80%, examine the unmatched_samples in the response,
-add additional regex(es) to your pattern list, and call the tool
-again. Re-test until coverage exceeds 90% (or you've confirmed
-the unmatched titles are legitimate non-episodes like specials).
+If the series uses numbered episodes, you MUST call the
+check_pattern_coverage tool after deciding on a pattern. The sample
+titles in this prompt are a stratified slice of the discography,
+but the tool runs against EVERY title. Long-running series often
+have multiple naming conventions for different eras (e.g.,
+"001/Title" for episodes 1-170 plus "Folge 171: Title" for newer
+releases) — the sample may not show both.
 
-Don't finalize your output until you've verified pattern coverage.
+The tool returns two failure buckets:
+  - unmatched_regex_samples: titles where the regex didn't match.
+    Fix by adding alternative regex(es) to cover other eras.
+  - non_numeric_capture_samples: titles where the regex matched
+    but capture group 1 was non-numeric (e.g. you used `(.+)` and
+    captured the whole title). Fix by tightening group 1 to `(\\d+)`.
+
+If coverage < 80% AND most failures are unmatched_regex_samples,
+add alternation. If most are non_numeric_capture_samples, your
+group is wrong. Re-test until coverage > 90% or remaining
+unmatched are legitimate non-episodes (specials, compilations).
+
+If the series uses NAMED episodes without numbering (fairy tales,
+themes, etc.), set episode_pattern=None and DO NOT call the tool
+— no pattern can succeed, repeated tries waste your timeout
+budget.
 """
 
 
@@ -619,7 +661,13 @@ def _build_small_agent(
         BATCHING: Pass up to 5 album IDs in one call. Batch IDs when multiple
         albums from the same provider are ambiguous.
 
-        Returns: list of {provider, id, name, total_tracks, label, tracks}
+        Returns: list of {provider, id, name, release_date, total_tracks,
+        label, artists, tracks}. ``release_date`` is ISO format (YYYY-MM-DD
+        or YYYY) — useful for spotting compilations (recent date, old
+        content), original-vs-remaster decisions (older = original), and
+        inferring chronological order when titles lack episode numbers.
+        ``artists`` is the credited primary artist string — use to spot
+        cross-artist compilations or wrong-artist matches.
         """
         results = []
         # Reject malformed ids per provider (Spotify 22-base62 vs
@@ -643,7 +691,10 @@ def _build_small_agent(
             if album:
                 detail = {
                     "provider": provider, "id": album.id, "name": album.name,
-                    "total_tracks": album.total_tracks, "label": album.label,
+                    "release_date": album.release_date,
+                    "total_tracks": album.total_tracks,
+                    "label": album.label,
+                    "artists": album.artists,
                     "tracks": [{"name": t.name, "duration_ms": t.duration_ms}
                                for t in album.tracks],
                 }
@@ -686,6 +737,81 @@ def _build_small_agent(
     return agent
 
 
+def _compute_pattern_coverage(
+    titles: list[str],
+    pattern: str | list[str],
+) -> dict:
+    """Test ``pattern`` against ``titles`` and bucket failures by mode.
+
+    Two distinct failure modes — without distinguishing them, an
+    agent given ``(.*)`` sees 0% coverage and assumes "regex didn't
+    match" (false: every title matched, but ``int(group)`` rejected
+    the captured strings). The agent then loops trying broader
+    regexes until it times out.
+
+    Returns ``unmatched_regex_samples`` for titles where no pattern
+    matched, and ``non_numeric_capture_samples`` for titles where a
+    pattern matched but capture group 1 was non-numeric. The agent
+    can read these and pick the right fix.
+    """
+    patterns = [pattern] if isinstance(pattern, str) else list(pattern)
+    if not patterns:
+        return {"error": "pattern must be non-empty"}
+    compiled: list[re.Pattern[str]] = []
+    for p in patterns:
+        try:
+            c = re.compile(p)
+        except re.error as e:
+            return {"error": f"invalid regex {p!r}: {e}"}
+        if c.groups < 1:
+            return {"error": f"pattern {p!r}: needs ≥1 capture group"}
+        compiled.append(c)
+
+    matched = 0
+    no_match: list[str] = []
+    non_numeric: list[dict[str, str]] = []
+    for title in titles:
+        outcome = "no_match"
+        captured: str | None = None
+        for c in compiled:
+            m = c.search(title)
+            if not m or not m.groups():
+                continue
+            g = m.group(1)
+            if g is None:
+                continue
+            try:
+                int(g)
+            except (TypeError, ValueError):
+                # Track first non-numeric capture as evidence, but
+                # keep trying alternatives — another pattern in the
+                # list might still capture a digit on this title.
+                if outcome == "no_match":
+                    outcome = "non_numeric"
+                    captured = g
+                continue
+            outcome = "matched"
+            break
+
+        if outcome == "matched":
+            matched += 1
+        elif outcome == "non_numeric" and len(non_numeric) < 5:
+            non_numeric.append({"title": title, "captured": captured or ""})
+        elif outcome == "no_match" and len(no_match) < 5:
+            no_match.append(title)
+
+    total = len(titles)
+    coverage = round(matched / total, 3) if total else 0.0
+    return {
+        "pattern": pattern,
+        "matched": matched,
+        "total": total,
+        "coverage": coverage,
+        "unmatched_regex_samples": no_match,
+        "non_numeric_capture_samples": non_numeric,
+    }
+
+
 def _build_metadata_agent(
     model, *, is_music: bool = False,
 ) -> Agent[MetadataDeps, SeriesMetadata]:
@@ -722,47 +848,29 @@ def _build_metadata_agent(
     ) -> dict:
         """Test a proposed episode_pattern against ALL discovered titles.
 
-        Returns coverage stats and up to 10 unmatched titles. Call this
-        BEFORE finalizing your output. If coverage is low, examine
-        unmatched_samples and refine the pattern (typically by adding
-        alternation for older naming conventions), then call again.
+        Returns coverage stats. The pattern's first capture group MUST
+        capture a digit string (the episode number). A title can fail
+        in two distinct ways:
+          - regex_no_match: the regex didn't find a match at all
+          - non_numeric_capture: regex matched but capture group 1
+            wasn't an integer (e.g. you used `(.*)` and captured the
+            whole title, or your group caught text instead of digits)
+
+        If non_numeric_capture is high, the regex itself is fine but
+        the capture group is wrong — narrow group 1 to `(\\d+)`.
+
+        If the discography uses named/themed episodes (fairy tales,
+        themes) instead of numbers, no pattern can succeed: return
+        episode_pattern=None without calling this tool again.
         """
-        from lauschi_catalog.catalog.matcher import extract_episode
-
-        # Validate first; an unparseable regex would otherwise raise
-        # inside extract_episode and surface as a generic agent failure.
-        patterns = [pattern] if isinstance(pattern, str) else list(pattern)
-        if not patterns:
-            return {"error": "pattern must be non-empty"}
-        for p in patterns:
-            try:
-                compiled = re.compile(p)
-            except re.error as e:
-                return {"error": f"invalid regex {p!r}: {e}"}
-            if compiled.groups < 1:
-                return {"error": f"pattern {p!r}: needs ≥1 capture group"}
-
-        matched = 0
-        unmatched: list[str] = []
-        for title in ctx.deps.titles:
-            if extract_episode(pattern, title) is not None:
-                matched += 1
-            elif len(unmatched) < 10:
-                unmatched.append(title)
-
-        total = len(ctx.deps.titles)
-        coverage = round(matched / total, 3) if total else 0.0
-        console.print(
-            f"  [dim]✅ check_pattern_coverage({pattern!r}) → "
-            f"{matched}/{total} = {coverage:.0%}[/]",
-        )
-        return {
-            "pattern": pattern,
-            "matched": matched,
-            "total": total,
-            "coverage": coverage,
-            "unmatched_samples": unmatched,
-        }
+        result = _compute_pattern_coverage(ctx.deps.titles, pattern)
+        if "error" not in result:
+            console.print(
+                f"  [dim]✅ check_pattern_coverage({pattern!r}) → "
+                f"{result['matched']}/{result['total']} = "
+                f"{result['coverage']:.0%}[/]",
+            )
+        return result
 
     return agent
 
@@ -842,7 +950,12 @@ def _build_batch_agent(model, *, is_music: bool = False) -> Agent[BatchDeps, Bat
         BATCHING: Pass up to 5 album IDs in one call. Batch IDs when multiple
         albums from the same provider are ambiguous.
 
-        Returns: list of {provider, id, name, total_tracks, label, tracks}
+        Returns: list of {provider, id, name, release_date, total_tracks,
+        label, artists, tracks (first 10)}. ``release_date`` and
+        ``artists`` are populated from the same provider response that
+        gives you the track listing — they're free, no extra fetch.
+        Use ``release_date`` for original-vs-remaster and dedup
+        decisions; ``artists`` to catch cross-artist compilations.
         """
         results = []
         # Same provider/id format guard as the small-flow agent — see
@@ -865,7 +978,10 @@ def _build_batch_agent(model, *, is_music: bool = False) -> Agent[BatchDeps, Bat
             if album:
                 detail = {
                     "provider": provider, "id": album.id, "name": album.name,
-                    "total_tracks": album.total_tracks, "label": album.label,
+                    "release_date": album.release_date,
+                    "total_tracks": album.total_tracks,
+                    "label": album.label,
+                    "artists": album.artists,
                     "tracks": [{"name": t.name, "duration_ms": t.duration_ms}
                                for t in album.tracks[:10]],
                 }
@@ -977,12 +1093,29 @@ async def _run_small(
             "Build on these decisions, add any new providers."
         )
 
-    return await _run_with_retry(
+    series = await _run_with_retry(
         lambda: asyncio.wait_for(
             _run_agent(agent, prompt, deps), timeout=timeout,
         ),
         phase="curation",
     )
+
+    # Hydrate release_date on every decision from the discovery cache
+    # the agent populated via get_artist_albums. The agent's schema
+    # doesn't ask for release_date so it never echoes it; we want the
+    # field on disk for review/verify and the release-order strategy.
+    album_index: dict[tuple[str, str], dict] = {}
+    for entries in deps.seen_albums.values():
+        for src in entries:
+            album_index[(src["provider"], src["id"])] = src
+    for d in series.albums:
+        if d.release_date:
+            continue
+        src = album_index.get((d.provider, d.album_id))
+        if src:
+            d.release_date = src.get("release_date") or None
+
+    return series
 
 
 # ── Large discography flow (batched) ───────────────────────────────────────
@@ -1069,17 +1202,27 @@ async def _run_large(
     # Stratified sample so era-mixed series (older NNN/ titles + newer
     # Folge XXX: titles) hand the metadata agent evidence of both
     # naming conventions.
-    sample_titles = _stratified_sample(all_titles, 40)
+    sample_albums = _stratified_sample(all_albums, 40)
     provider_list = ", ".join(f"{k}: {v}" for k, v in artist_ids.items())
 
     metadata_agent = _build_metadata_agent(model, is_music=is_music)
     meta_deps = MetadataDeps(titles=all_titles)
+    # Sample lines carry release_date and total_tracks alongside the
+    # title. Title alone tells half the story for series where streaming
+    # stripped the "Folge N:" prefix — release_date order can hint at
+    # episode order, total_tracks separates singles from full Hörspiele.
+    sample_lines = "\n".join(
+        f"  - {a['name']} | {a['total_tracks']} tracks"
+        f" | {a.get('release_date') or '?'}"
+        for a in sample_albums
+    )
     meta: SeriesMetadata = await _run_with_retry(
         lambda: asyncio.wait_for(
             _run_agent(
                 metadata_agent,
                 f"Series: {query!r}\nProviders: {provider_list}\n"
-                f"Sample titles:\n" + "\n".join(f"  - {t}" for t in sample_titles),
+                f"Sample albums (title | tracks | release_date):\n"
+                f"{sample_lines}",
                 deps=meta_deps,
             ),
             timeout=120,
@@ -1175,6 +1318,16 @@ async def _run_large(
             ),
             phase=f"batch {batch_num}/{len(batches)}",
         )
+
+        # Hydrate release_date from the discovery dict — the agent
+        # doesn't (and shouldn't) echo this field, but we want it on
+        # every decision so review/verify renders dates in their
+        # prompts without re-fetching.
+        batch_index = {(a["provider"], a["id"]): a for a in batch}
+        for a in result.albums:
+            src = batch_index.get((a.provider, a.album_id))
+            if src and not a.release_date:
+                a.release_date = src.get("release_date") or None
 
         n_inc = sum(1 for a in result.albums if a.include)
         n_exc = sum(1 for a in result.albums if not a.include)
@@ -1628,7 +1781,7 @@ def curate(
                     "[yellow]Note: --music ignored — series.yaml has the "
                     "entry as hoerspiel. Edit series.yaml to change.[/yellow]",
                 )
-            _curate_one(
+            path = _curate_one(
                 entry.title, providers,
                 model=model, timeout=timeout,
                 series_id=entry.id,
@@ -1637,6 +1790,10 @@ def curate(
                 is_music=entry_is_music,
                 dry_run=dry_run,
             )
+            if path is None and not dry_run:
+                # Surface failure so pipeline scripts (catalog-pipeline-one)
+                # abort instead of running review/verify on stale curation.
+                raise SystemExit(1)
             return
 
         # New series not yet in series.yaml — trust the user's flags.
@@ -1649,7 +1806,9 @@ def curate(
                 title="lauschi-catalog curate",
             ),
         )
-        _curate_one(query, providers, model=model, timeout=timeout, is_music=music, dry_run=dry_run)
+        path = _curate_one(query, providers, model=model, timeout=timeout, is_music=music, dry_run=dry_run)
+        if path is None and not dry_run:
+            raise SystemExit(1)
         return
 
     # --all mode

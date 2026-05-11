@@ -13,6 +13,7 @@ def make_album(
     include: bool = True,
     episode_num: int | None = None,
     exclude_reason: str | None = None,
+    release_date: str | None = None,
 ) -> dict[str, Any]:
     """Build an album dict in the modern curation shape."""
     return {
@@ -22,6 +23,7 @@ def make_album(
         "episode_num": episode_num,
         "title": title,
         "exclude_reason": exclude_reason,
+        "release_date": release_date,
     }
 
 

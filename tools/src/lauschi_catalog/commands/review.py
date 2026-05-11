@@ -499,6 +499,12 @@ def _build_agent(
     ) -> dict:
         """Get full album details from a provider.
 
+        Returns: ``{id, name, provider, release_date, total_tracks,
+        label, artists, tracks}``. ``release_date`` (ISO YYYY-MM-DD or
+        YYYY) helps decide original-vs-remaster overrides and spot
+        compilation re-releases. ``artists`` flags wrong-artist
+        matches that slipped through curation.
+
         Capped at Deps._MAX_DETAILS calls per review run. Cache hits don't
         count against the cap.
         """
@@ -518,7 +524,10 @@ def _build_agent(
             return {"error": "Album not found"}
         result = {
             "id": album.id, "name": album.name, "provider": provider_name,
-            "total_tracks": album.total_tracks, "label": album.label,
+            "release_date": album.release_date,
+            "total_tracks": album.total_tracks,
+            "label": album.label,
+            "artists": album.artists,
             "tracks": [{"name": t.name, "duration_ms": t.duration_ms} for t in album.tracks],
         }
         ctx.deps.seen_details[key] = result
@@ -847,7 +856,14 @@ def _build_prompt(curation: dict) -> str:
             a for a in albums
             if a.get("include") and a["album_id"] not in excluded_via_override
         ],
-        key=lambda a: (a.get("episode_num") or 999_999, a["title"]),
+        # Numbered first by episode_num, unnumbered fall back to
+        # release_date so the agent sees chronological order
+        # rather than alphabetical for named-episode series.
+        key=lambda a: (
+            a.get("episode_num") is None, a.get("episode_num"),
+            a.get("release_date") or "",
+            a["title"],
+        ),
     )
     excluded = [a for a in albums if not a.get("include")]
 
@@ -881,18 +897,22 @@ def _build_prompt(curation: dict) -> str:
     for a in included:
         ep = a.get("episode_num")
         ep_str = f"Ep {ep}: " if ep is not None else ""
+        rel = a.get("release_date") or ""
+        rel_str = f" ({rel})" if rel else ""
         lines.append(
-            f"  ✅ [{a.get('provider', '?')}] {ep_str}{a['title']} "
-            f"[{a['album_id']}]",
+            f"  ✅ [{a.get('provider', '?')}] {ep_str}{a['title']}"
+            f"{rel_str} [{a['album_id']}]",
         )
 
     lines.append(f"\n### Excluded albums ({len(excluded)})")
     for a in excluded[:30]:
         reason = a.get("exclude_reason", "")
         suffix = f" — {reason}" if reason else ""
+        rel = a.get("release_date") or ""
+        rel_str = f" ({rel})" if rel else ""
         lines.append(
-            f"  ❌ [{a.get('provider', '?')}] {a['title']} "
-            f"[{a['album_id']}]{suffix}",
+            f"  ❌ [{a.get('provider', '?')}] {a['title']}"
+            f"{rel_str} [{a['album_id']}]{suffix}",
         )
     if len(excluded) > 30:
         lines.append(f"  … and {len(excluded) - 30} more")
