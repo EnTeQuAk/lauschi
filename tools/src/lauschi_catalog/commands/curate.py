@@ -177,6 +177,12 @@ class BatchDeps:
     # episode_num across every decision using the final pattern.
     pattern: str | list[str] | None = None
     pattern_revisions: list[str | list[str]] = field(default_factory=list)
+    # All discovery-phase titles, carried so propose_pattern_update can
+    # verify that a proposed regex actually captures digits before
+    # accepting it. Without this, a batch agent that proposed
+    # `^(.+?) \(...\)$` (capturing story names, not numbers) silently
+    # installed a dead pattern in the SimsalaGrimm run.
+    titles: list[str] = field(default_factory=list)
 
 
 @dataclass
@@ -896,8 +902,11 @@ def _build_batch_agent(model, *, is_music: bool = False) -> Agent[BatchDeps, Bat
             Use when the titles in your current batch are episode-numbered
             but the active pattern doesn't match them. Provide a list
             (typically the existing pattern(s) PLUS additional regex(es)
-            for the new naming form). Each regex must compile and have
-            ≥1 capture group.
+            for the new naming form). Each regex must compile, have
+            ≥1 capture group, AND its first capture group must yield a
+            digit string when matched against the discovery-phase titles
+            — otherwise the pattern is dead weight (it would extract
+            zero episode numbers downstream).
 
             The new pattern propagates to subsequent batches' prompts
             and is used to re-extract episode_num across every decision
@@ -913,6 +922,39 @@ def _build_batch_agent(model, *, is_music: bool = False) -> Agent[BatchDeps, Bat
                     return f"invalid regex {p!r}: {e}"
                 if compiled.groups < 1:
                     return f"pattern {p!r}: needs ≥1 capture group"
+
+            # Verify the proposed pattern actually extracts integer
+            # episode numbers from at least one title. A non-numeric
+            # capture (e.g. `^(.+?) \(Subtitle\)$` capturing story
+            # names) passes the compile check but silently installs
+            # a dead pattern — exactly the SimsalaGrimm regression
+            # we're guarding against. Re-uses the same coverage logic
+            # the metadata phase exposes to the metadata agent.
+            if ctx.deps.titles:
+                check = _compute_pattern_coverage(ctx.deps.titles, patterns)
+                if "error" in check:
+                    return check["error"]
+                if check["matched"] == 0:
+                    non_numeric = check.get("non_numeric_capture_samples") or []
+                    if non_numeric:
+                        sample = non_numeric[0]
+                        return (
+                            f"pattern {patterns!r}: matches titles but "
+                            f"capture group 1 isn't numeric — captured "
+                            f"{sample['captured']!r} from "
+                            f"{sample['title']!r}. Episode numbers must "
+                            f"be int-parseable. Tighten group 1 to "
+                            f"(\\d+) or similar. If the series has no "
+                            f"episode numbers, don't propose a pattern "
+                            f"— leave it as None and the framework "
+                            f"sorts by release_date."
+                        )
+                    return (
+                        f"pattern {patterns!r}: didn't match any of "
+                        f"{len(ctx.deps.titles)} discovery titles. "
+                        f"Check the regex against the sample titles "
+                        f"in your prompt before re-trying."
+                    )
 
             new_pattern: str | list[str] = (
                 patterns[0] if len(patterns) == 1 else list(patterns)
@@ -1279,7 +1321,11 @@ async def _run_large(
     # final pattern. Without sharing, each batch starts fresh and the
     # signal is thrown away (the whole reason the previous run
     # silently dropped 250+ ddF episode numbers).
-    shared_deps = BatchDeps(providers=providers, pattern=meta.episode_pattern)
+    shared_deps = BatchDeps(
+        providers=providers,
+        pattern=meta.episode_pattern,
+        titles=all_titles,
+    )
 
     all_decisions: list[AlbumDecision] = []
     total_inc = 0

@@ -574,3 +574,76 @@ def test_verify_album_details_returns_release_date_and_artists():
     block = src[idx:idx + 1500]
     assert '"release_date": album.release_date' in block
     assert '"artists": album.artists' in block
+
+
+# ── propose_pattern_update guards against non-numeric captures ────────────
+#
+# The SimsalaGrimm pipeline run committed
+# `^(.+?) \(Das Original-Hörspiel zur TV Serie\)$` — a valid regex
+# whose group 1 captures the fairy tale name (a string), not a digit.
+# The check `c.groups < 1` passed it through, but the captured value
+# could never int(), so downstream re-extraction set every
+# episode_num to None. These tests pin the new defensive check:
+# propose_pattern_update calls _compute_pattern_coverage and rejects
+# patterns whose group 1 isn't numeric on any title.
+
+
+def test_propose_pattern_update_source_calls_coverage_check():
+    """Pin that the batch agent's propose_pattern_update calls the
+    coverage check before accepting a pattern. Source-level pin
+    because calling the closure-bound tool requires a full agent
+    instance with a model."""
+    src = open(
+        "src/lauschi_catalog/commands/curate.py", encoding="utf-8",
+    ).read()
+    # Locate the batch agent's propose_pattern_update
+    idx = src.find("def propose_pattern_update")
+    assert idx >= 0, "propose_pattern_update not found"
+    # The function body must reference the coverage helper — that's
+    # how the non-numeric reject path gets invoked.
+    block = src[idx:idx + 3000]
+    assert "_compute_pattern_coverage" in block, (
+        "propose_pattern_update must run candidate patterns through "
+        "_compute_pattern_coverage to reject non-numeric captures"
+    )
+    # And there must be a path that returns an error string when
+    # the matched count is 0 — without that, the helper output is
+    # ignored and we're back to the SimsalaGrimm bug.
+    assert "matched\"] == 0" in block or "matched'] == 0" in block, (
+        "propose_pattern_update must reject when zero titles yield "
+        "a numeric capture"
+    )
+
+
+def test_propose_pattern_update_carries_titles_via_batch_deps():
+    """BatchDeps must carry the discovery-phase titles so the check
+    has data to test against. _run_large must populate the field
+    on the shared_deps it hands to every batch."""
+    src = open(
+        "src/lauschi_catalog/commands/curate.py", encoding="utf-8",
+    ).read()
+    # The dataclass declares the field
+    assert "titles: list[str] = field(default_factory=list)" in src, (
+        "BatchDeps must declare a titles field for "
+        "propose_pattern_update to validate against"
+    )
+    # _run_large populates it
+    assert "titles=all_titles" in src, (
+        "_run_large must pass all_titles into BatchDeps so the batch "
+        "agent's propose_pattern_update can verify proposed patterns"
+    )
+
+
+def test_pattern_update_docstring_warns_about_numeric_capture():
+    """Pin the user-facing contract in the tool's docstring — the
+    agent reads this when deciding how to construct a pattern."""
+    src = open(
+        "src/lauschi_catalog/commands/curate.py", encoding="utf-8",
+    ).read()
+    idx = src.find("def propose_pattern_update")
+    block = src[idx:idx + 2000]
+    # Numeric requirement spelled out
+    assert "digit" in block.lower(), (
+        "propose_pattern_update docstring must warn that capture "
+        "group 1 has to yield a digit"
+    )
