@@ -151,3 +151,64 @@ def test_apply_leaves_content_type_absent_when_already_hoerspiel():
     ])
     _apply_one("s1", curation, yaml_data)
     assert "content_type" not in yaml_data["series"][0]
+
+
+# ── episode_pattern sync (both directions) ────────────────────────────────
+
+
+def test_apply_writes_new_episode_pattern():
+    """Curate produced a pattern; series.yaml previously had none."""
+    yaml_data = _yaml_with([{"id": "a", "episode": 1, "title": "T"}])
+    curation = _curation(albums=[
+        _included("a", episode_num=1, title="Folge 1: T"),
+    ])
+    curation["episode_pattern"] = r"^Folge (\d+):"
+    updated = _apply_one("s1", curation, yaml_data)
+    assert updated is True
+    assert yaml_data["series"][0]["episode_pattern"] == r"^Folge (\d+):"
+
+
+def test_apply_clears_stale_pattern_when_curation_now_none():
+    """The SimsalaGrimm scenario: a previous (bad) apply wrote a
+    non-numeric pattern to series.yaml. Re-curate produces None.
+    Apply MUST clear the stale pattern, not silently keep it —
+    otherwise the dead pattern stays forever and confuses any
+    code that reads series.yaml and tries extract_episode."""
+    yaml_data = _yaml_with([{"id": "a", "episode": 1, "title": "T"}])
+    yaml_data["series"][0]["episode_pattern"] = [
+        r"^(.+?) \(Das Original-Hörspiel zur TV Serie\)$",
+        r"^(.+?) \(Die neuen Abenteuer von Yoyo und Doc Croc\)$",
+    ]
+    curation = _curation(albums=[
+        _included("a", episode_num=None, title="Aladin (Das Original)"),
+    ])
+    # No episode_pattern in curation → None
+    updated = _apply_one("s1", curation, yaml_data)
+    assert updated is True
+    assert "episode_pattern" not in yaml_data["series"][0]
+
+
+def test_apply_replaces_pattern_with_different_pattern():
+    """Pattern correction: old regex replaced by new one."""
+    yaml_data = _yaml_with([{"id": "a", "episode": 1, "title": "T"}])
+    yaml_data["series"][0]["episode_pattern"] = r"^Folge (\d+):"
+    curation = _curation(albums=[
+        _included("a", episode_num=1, title="01/T"),
+    ])
+    curation["episode_pattern"] = r"^(\d+)/"
+    updated = _apply_one("s1", curation, yaml_data)
+    assert updated is True
+    assert yaml_data["series"][0]["episode_pattern"] == r"^(\d+)/"
+
+
+def test_apply_no_op_when_pattern_already_matches():
+    """Idempotency: same pattern in yaml and curation, no write needed."""
+    yaml_data = _yaml_with([{"id": "a", "episode": 1, "title": "Folge 1: T"}])
+    yaml_data["series"][0]["episode_pattern"] = r"^Folge (\d+):"
+    curation = _curation(albums=[
+        _included("a", episode_num=1, title="Folge 1: T"),
+    ])
+    curation["episode_pattern"] = r"^Folge (\d+):"
+    # Album entry is also unchanged so the only thing that could
+    # trigger a write is the pattern. None does → updated=False.
+    assert _apply_one("s1", curation, yaml_data) is False

@@ -24667,9 +24667,6 @@ series:
         title: Von einem, der auszog, das Fürchten zu lernen (Das Original-Hörspiel zur TV Serie)
   aliases:
   - Simsala Grimm
-  episode_pattern:
-  - ^(.+?) \(Das Original-Hörspiel zur TV Serie\)$
-  - ^(.+?) \(Die neuen Abenteuer von Yoyo und Doc Croc\)$
 - id: wieso_weshalb_warum_junior
   title: Wieso? Weshalb? Warum? junior
   keywords:

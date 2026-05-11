@@ -131,10 +131,18 @@ def _apply_one(series_id: str, data: dict, yaml_data: dict) -> bool:
                 ]
                 updated = True
 
-    # Update episode pattern if curation has one
+    # Sync episode_pattern in both directions: write a new pattern,
+    # and clear a stale pattern when the curation now has None. The
+    # earlier `if pattern and …` guard meant a re-curate that
+    # corrected a bogus pattern to None couldn't propagate; the
+    # dead pattern stayed in series.yaml forever.
     pattern = data.get("episode_pattern")
-    if pattern and pattern != yaml_series.get("episode_pattern"):
-        yaml_series["episode_pattern"] = pattern
+    yaml_pattern = yaml_series.get("episode_pattern")
+    if pattern != yaml_pattern:
+        if pattern is None:
+            yaml_series.pop("episode_pattern", None)
+        else:
+            yaml_series["episode_pattern"] = pattern
         updated = True
 
     # Update keywords/aliases
