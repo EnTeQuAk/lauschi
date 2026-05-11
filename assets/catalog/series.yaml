@@ -13286,7 +13286,7 @@ series:
         title: Momo – Das Hörspiel zum Kinofilm (Das Hörspiel zum Film)
       - id: '1442686534'
         title: Norbert Nackendick + Tranquilla Trampeltreu
-  content_type: music
+  content_type: hoerspiel
 - id: die_wilden_huehner
   title: Die wilden Hühner
   aliases:
@@ -14607,6 +14607,7 @@ series:
     apple_music:
       artist_ids:
       - '726252391'
+  content_type: hoerspiel
 - id: peppa_wutz
   title: Peppa Wutz
   keywords:
@@ -17144,6 +17145,7 @@ series:
   - Wir auf Saltkrokan
   keywords:
   - saltkrokan
+  content_type: hoerspiel
 - id: bibi_blocksberg_kampf_kartoffelbrei
   title: Bibi Blocksberg - Kampf um Kartoffelbrei
   keywords:
@@ -24545,13 +24547,129 @@ series:
       artist_ids:
       - '269793180'
       albums:
-      - id: '1682382587'
-        title: Die Welt seh'n - Single
-      - id: '1685877065'
-        title: Rumpelstilzchen Rap - Single
+      - id: '1686040993'
+        title: Aladin und die Wunderlampe (Das Original-Hörspiel zur TV Serie)
+      - id: '1686031055'
+        title: Allerleirauh (Das Original-Hörspiel zur TV Serie)
+      - id: '1686014765'
+        title: Aschenputtel (Das Original-Hörspiel zur TV Serie)
+      - id: '1686020574'
+        title: Brüderchen und Schwesterchen (Das Original-Hörspiel zur TV Serie)
+      - id: '1686024897'
+        title: Das Löweneckerchen (Das Original-Hörspiel zur TV Serie)
+      - id: '1686039896'
+        title: Das blaue Licht (Das Original-Hörspiel zur TV Serie)
+      - id: '1686030296'
+        title: Das tapfere Schneiderlein (Das Original-Hörspiel zur TV Serie)
+      - id: '1710708902'
+        title: Das verwunschene Schloss (Die neuen Abenteuer von Yoyo und Doc Croc)
+      - id: '1710709112'
+        title: Das verwunschene Schloss (Die neuen Abenteuer von Yoyo und Doc Croc)
+      - id: '1732547229'
+        title: Der Bann der Königstöchter (Die neuen Abenteuer von Yoyo und Doc Croc)
+      - id: '1685878732'
+        title: Der Baum des Lebens (Die neuen Abenteuer von Yoyo und Doc Croc)
+      - id: '1686042575'
+        title: Der Bärenhäuter (Das Original-Hörspiel zur TV Serie)
+      - id: '1686020225'
+        title: Der Däumling (Das Original-Hörspiel zur TV Serie)
+      - id: '1686020182'
+        title: Der Eisenhans (Das Original-Hörspiel zur TV Serie)
+      - id: '1686015227'
+        title: Der Froschkönig (Das Original-Hörspiel zur TV Serie)
+      - id: '1686048361'
+        title: Der Hase und der Igel (Das Original-Hörspiel zur TV Serie)
+      - id: '1685876066'
+        title: Der Meisterdieb (Das Original-Hörspiel zur TV Serie)
+      - id: '1686035998'
+        title: Der Teufel mit den drei goldenen Haaren (Das Original-Hörspiel zur TV Serie)
+      - id: '1686042821'
+        title: Der Trommler (Das Original-Hörspiel zur TV Serie)
+      - id: '1686030926'
+        title: Der Wolf und die sieben Geißlein (Das Original-Hörspiel zur TV Serie)
+      - id: '1686036219'
+        title: Der Zaubererwettkampf
+      - id: '1686049118'
+        title: Der alte Sultan (Das Original-Hörspiel zur TV Serie)
+      - id: '1748161196'
+        title: Der dreiste Dieb (Die neuen Abenteuer von Yoyo und Doc Croc)
+      - id: '1686030592'
+        title: Der gestiefelte Kater (Das Original-Hörspiel zur TV Serie)
+      - id: '1686038402'
+        title: Der kleine Muck (Das Original-Hörspiel zur TV Serie)
+      - id: '1686025289'
+        title: Der treue Johannes (Das Original-Hörspiel zur TV Serie)
+      - id: '1686020288'
+        title: Des Kaisers neue Kleider (Das Original-Hörspiel zur TV Serie)
+      - id: '1685931180'
+        title: Die Bremer Stadtmusikanten (Das Original-Hörspiel zur TV Serie)
+      - id: '1686039567'
+        title: Die Gänsehirtin am Brunnen (Das Original-Hörspiel zur TV Serie)
+      - id: '1686024574'
+        title: Die Gänsemagd (Das Original-Hörspiel zur TV Serie)
+      - id: '1686041315'
+        title: Die Kristallkugel (Das Original-Hörspiel zur TV Serie)
+      - id: '1686015315'
+        title: Die Nachtigall (Das Original-Hörspiel zur TV Serie)
+      - id: '1686035928'
+        title: Die Schöne und das Biest (Das Original-Hörspiel zur TV Serie)
+      - id: '1714484687'
+        title: Die Wichtelmänner (Die neuen Abenteuer von Yoyo und Doc Croc)
+      - id: '1686016678'
+        title: Die drei Federn (Das Original-Hörspiel zur TV Serie)
+      - id: '1686020883'
+        title: Die drei kleinen Schweinchen (Das Original-Hörspiel zur TV Serie)
+      - id: '1685977183'
+        title: Die kleine Meerjungfrau (Das Original-Hörspiel zur TV Serie)
+      - id: '1685941908'
+        title: Die sechs Diener (Das Original-Hörspiel zur TV Serie)
+      - id: '1686027231'
+        title: Die sechs Schwäne (Das Original-Hörspiel zur TV Serie)
+      - id: '1685869874'
+        title: Die sieben Raben (Die neuen Abenteuer von Yoyo und Doc Croc)
+      - id: '1686038101'
+        title: Die vier kunstreichen Brüder (Das Original-Hörspiel zur TV Serie)
+      - id: '1686030976'
+        title: Die zertanzten Schuhe (Das Original-Hörspiel zur TV Serie)
+      - id: '1685885078'
+        title: Dornröschen (Das Original-Hörspiel zur TV Serie)
+      - id: '1686020629'
+        title: Frau Holle (Das Original-Hörspiel zur TV Serie)
+      - id: '1686036157'
+        title: Goldlöckchen und die drei Bären (Das Original-Hörspiel zur TV Serie)
+      - id: '1685919956'
+        title: Hans im Glück (Das Original-Hörspiel zur TV Serie)
+      - id: '1686037538'
+        title: Hans und die Bohnenranke (Das Original-Hörspiel zur TV Serie)
+      - id: '1685962367'
+        title: Hänsel und Gretel (Das Original-Hörspiel zur TV Serie)
+      - id: '1686037244'
+        title: Jorinde und Joringel (Das Original-Hörspiel zur TV Serie)
+      - id: '1686030937'
+        title: Kalif Storch (Das Original-Hörspiel zur TV Serie)
+      - id: '1685962479'
+        title: König Drosselbart (Das Original-Hörspiel zur TV Serie)
+      - id: '1686037647'
+        title: Pinocchio (Das Original-Hörspiel zur TV Serie)
+      - id: '1686030258'
+        title: Rapunzel (Das Original-Hörspiel zur TV Serie)
+      - id: '1686015105'
+        title: Rotkäppchen (Das Original-Hörspiel zur TV Serie)
+      - id: '1686163441'
+        title: Rumpelstilzchen (Das Original-Hörspiel zur TV Serie)
+      - id: '1686016566'
+        title: Schneeweißchen und Rosenrot (Das Original-Hörspiel zur TV Serie)
+      - id: '1686030360'
+        title: Schneewittchen (Das Original-Hörspiel zur TV Serie)
+      - id: '1686015042'
+        title: Tischlein deck dich (Das Original-Hörspiel zur TV Serie)
+      - id: '1686036852'
+        title: Von einem, der auszog, das Fürchten zu lernen (Das Original-Hörspiel zur TV Serie)
   aliases:
   - Simsala Grimm
-  content_type: music
+  episode_pattern:
+  - ^(.+?) \(Das Original-Hörspiel zur TV Serie\)$
+  - ^(.+?) \(Die neuen Abenteuer von Yoyo und Doc Croc\)$
 - id: wieso_weshalb_warum_junior
   title: Wieso? Weshalb? Warum? junior
   keywords:
@@ -36615,6 +36733,7 @@ series:
     apple_music:
       artist_ids:
       - '458242103'
+  content_type: music
 - id: drei_berlin
   title: 3Berlin
   episode_pattern:
@@ -36710,6 +36829,7 @@ series:
     apple_music:
       artist_ids:
       - '457751335'
+  content_type: music
 - id: schnabi_schnabel
   title: Schnabi Schnabel
   providers:
@@ -39318,7 +39438,7 @@ series:
         title: Niemand ist zu klein, um groß zu sein
       - id: 5VIBROIOzquma1woy0WBGk
         title: Nirgendwo sonst
-  content_type: music
+  content_type: hoerspiel
 - id: reinhard_horn
   title: Reinhard Horn
   keywords:
