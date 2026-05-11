@@ -17144,8 +17144,20 @@ series:
   - Ferien auf Saltkrokan
   - Wir auf Saltkrokan
   keywords:
-  - saltkrokan
-  content_type: hoerspiel
+  - Ferien auf Saltkrokan
+  providers:
+    apple_music:
+      albums:
+      - id: '1485704846'
+        title: Ferien auf Saltkrokan
+      artist_ids:
+      - '1703088793'
+    spotify:
+      albums:
+      - id: 0agqBdbB7mh0PMkKHoHC5T
+        title: Ferien auf Saltkrokan. Hörspielklassiker
+      artist_ids:
+      - 6Tgs4sCWBTcniX8YqJEhls
 - id: bibi_blocksberg_kampf_kartoffelbrei
   title: Bibi Blocksberg - Kampf um Kartoffelbrei
   keywords:
