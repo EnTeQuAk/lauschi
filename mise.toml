@@ -86,7 +86,7 @@ run = "uv run --directory tools lauschi-catalog validate -p apple_music"
 
 [tasks.catalog-curate]
 description = "AI-curate a series across all providers (needs OPENCODE_API_KEY)"
-run = "uv run --directory tools --with 'pydantic-ai>=1.62.0' --with 'pydantic>=2.0' lauschi-catalog curate"
+run = "uv run --directory tools --extra ai lauschi-catalog curate"
 
 [tasks.catalog-curate-all]
 description = "AI-curate ALL series (runs for hours, both providers)"
@@ -94,7 +94,7 @@ usage = 'flag "--force" help="Re-curate even if curation JSON already exists"'
 run = """
 FORCE_FLAG=""
 if [ "$usage_force" = "true" ]; then FORCE_FLAG="--force"; fi
-uv run --directory tools --with 'pydantic-ai>=1.62.0' --with 'pydantic>=2.0' lauschi-catalog curate --all --timeout 3600 $FORCE_FLAG
+uv run --directory tools --extra ai lauschi-catalog curate --all --timeout 3600 $FORCE_FLAG
 """
 
 [tasks.catalog-review-ai]
@@ -120,10 +120,10 @@ FORCE_FLAG=""
 if [ "${usage_force:-false}" = "true" ]; then FORCE_FLAG="--force"; fi
 
 if [ -n "$SID" ]; then
-  uv run --directory tools --with 'pydantic-ai>=1.62.0' --with 'pydantic>=2.0' \\
+  uv run --directory tools --extra ai \\
     lauschi-catalog review "$SID" $FORCE_FLAG
 else
-  uv run --directory tools --with 'pydantic-ai>=1.62.0' --with 'pydantic>=2.0' \\
+  uv run --directory tools --extra ai \\
     lauschi-catalog review --all $FORCE_FLAG
 fi
 """
@@ -139,10 +139,10 @@ set -euo pipefail
 
 SID="${usage_series_id:-}"
 if [ -n "$SID" ]; then
-  uv run --directory tools --with 'pydantic-ai>=1.62.0' --with 'pydantic>=2.0' \\
+  uv run --directory tools --extra ai \\
     lauschi-catalog verify "$SID"
 else
-  uv run --directory tools --with 'pydantic-ai>=1.62.0' --with 'pydantic>=2.0' \\
+  uv run --directory tools --extra ai \\
     lauschi-catalog verify --all
 fi
 """
@@ -184,7 +184,7 @@ run = """
 #!/usr/bin/env bash
 set -euo pipefail
 
-AI_DEPS="--with pydantic-ai>=1.62.0 --with pydantic>=2.0"
+AI_DEPS="--extra ai"
 RUN="uv run --directory tools $AI_DEPS lauschi-catalog"
 RUN_CORE="uv run --directory tools lauschi-catalog"
 
@@ -235,7 +235,7 @@ if [ -z "$SID" ]; then
   exit 64
 fi
 
-AI_DEPS="--with pydantic-ai>=1.62.0 --with pydantic>=2.0"
+AI_DEPS="--extra ai"
 RUN="uv run --directory tools $AI_DEPS lauschi-catalog"
 RUN_CORE="uv run --directory tools lauschi-catalog"
 
