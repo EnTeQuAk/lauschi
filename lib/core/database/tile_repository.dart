@@ -328,6 +328,116 @@ class TileRepository {
     return folderId;
   }
 
+  /// Create a new root tile holding the given ungrouped items.
+  ///
+  /// Triggered when two ungrouped items are merged via drag. The new
+  /// tile is appended to the end of root tiles. Its cover is seeded
+  /// from the first item that has one, so the result has visible art
+  /// before the parent renames it.
+  Future<String> createTileFromItems(List<String> itemIds) async {
+    if (itemIds.length < 2) {
+      throw ArgumentError('createTileFromItems needs at least 2 items');
+    }
+    late final String tileId;
+    await _db.transaction(() async {
+      final items =
+          await (_db.select(_db.cards)..where((t) => t.id.isIn(itemIds))).get();
+      final byId = {for (final i in items) i.id: i};
+      final seedCover =
+          itemIds
+              .map((id) => byId[id]?.coverUrl)
+              .whereType<String>()
+              .firstOrNull;
+
+      final maxOrder =
+          await _db
+              .customSelect(
+                'SELECT COALESCE(MAX(sort_order), -1) AS max_order '
+                'FROM groups WHERE parent_tile_id IS NULL',
+              )
+              .getSingle();
+      final nextOrder = (maxOrder.read<int>('max_order')) + 1;
+
+      tileId = _uuid.v4();
+      await _db
+          .into(_db.groups)
+          .insert(
+            GroupsCompanion.insert(
+              id: tileId,
+              title: 'Neue Kachel',
+              sortOrder: Value(nextOrder),
+              coverUrl: Value(seedCover),
+            ),
+          );
+
+      // Assign each item to the new tile. Preserve the dragged-first
+      // order so episode numbering reflects the merge gesture.
+      for (var i = 0; i < itemIds.length; i++) {
+        await (_db.update(_db.cards)..where(
+          (t) => t.id.equals(itemIds[i]),
+        )).write(
+          CardsCompanion(
+            groupId: Value(tileId),
+            sortOrder: Value(i),
+          ),
+        );
+      }
+    });
+    Log.info(
+      _tag,
+      'Tile created from items',
+      data: {'tileId': tileId, 'itemCount': '${itemIds.length}'},
+    );
+    return tileId;
+  }
+
+  /// Merge a tile and an ungrouped item into a new folder.
+  ///
+  /// Triggered when a tile is dragged onto an ungrouped item (or vice
+  /// versa). The folder takes [tileId]'s grid position, nests the tile
+  /// inside, and assigns the item directly to the folder.
+  Future<String> createTileFromTileAndItem({
+    required String tileId,
+    required String itemId,
+  }) async {
+    late final String folderId;
+    await _db.transaction(() async {
+      final tile =
+          await (_db.select(_db.groups)
+            ..where((t) => t.id.equals(tileId))).getSingle();
+
+      folderId = _uuid.v4();
+      await _db
+          .into(_db.groups)
+          .insert(
+            GroupsCompanion.insert(
+              id: folderId,
+              title: 'Neuer Ordner',
+              sortOrder: Value(tile.sortOrder),
+              parentTileId: Value(tile.parentTileId),
+            ),
+          );
+
+      // Tile becomes a child of the folder.
+      await nestInto(childId: tileId, parentId: folderId);
+
+      // Item is assigned directly to the folder.
+      await (_db.update(_db.cards)..where((t) => t.id.equals(itemId))).write(
+        CardsCompanion(groupId: Value(folderId)),
+      );
+    });
+    Log.info(
+      _tag,
+      'Folder created from tile + item',
+      data: {
+        'folderId': folderId,
+        'tile': tileId,
+        'item': itemId,
+      },
+    );
+    return folderId;
+  }
+
   /// Delete a tile and its entire subtree.
   ///
   /// Items in deleted tiles become ungrouped. NFC tags pointing to

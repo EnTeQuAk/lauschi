@@ -30,6 +30,11 @@ class DropZoneConfig {
   final Color color;
 }
 
+/// Whether a grid cell renders a series tile (with stacked-card art) or
+/// a single ungrouped episode (no stack). Drives layout partition,
+/// drop dispatch, and per-cell visual treatment.
+enum GridItemKind { tile, episode }
+
 /// Grid item data.
 class DraggableTileItem {
   const DraggableTileItem({
@@ -41,6 +46,7 @@ class DraggableTileItem {
     this.progress = 0,
     this.childCount = 0,
     this.childCoverUrls = const [],
+    this.kind = GridItemKind.tile,
   });
 
   final String id;
@@ -51,6 +57,7 @@ class DraggableTileItem {
   final double progress;
   final int childCount;
   final List<String> childCoverUrls;
+  final GridItemKind kind;
 }
 
 /// Drag grid with swap-on-hover reorder and hold-to-nest.
@@ -99,6 +106,11 @@ class _DraggableTileGridState extends State<DraggableTileGrid> {
   static const _mainSpacing = 14.0;
   static const _aspectRatio = 0.7;
 
+  /// Vertical band between the tile block and the episode block. Holds
+  /// the "N einzelne Folgen" label plus padding on both sides. Only
+  /// rendered when [_showDivider] is true (i.e. both blocks non-empty).
+  static const _dividerBandHeight = 44.0;
+
   // Drag state
   String? _draggedId;
 
@@ -114,10 +126,24 @@ class _DraggableTileGridState extends State<DraggableTileGrid> {
   // Working order (mutated by swaps during drag)
   late List<DraggableTileItem> _order;
 
+  /// Index of the first episode in [_order]. Equals the number of tile
+  /// items. Items at index < _boundary are tile-kind, items at index >=
+  /// _boundary are episode-kind. Cross-kind swaps are forbidden so this
+  /// stays constant during a drag.
+  int _boundary = 0;
+
+  bool get _showDivider => _boundary > 0 && _boundary < _order.length;
+
+  void _recomputeBoundary() {
+    _boundary = _order.indexWhere((t) => t.kind == GridItemKind.episode);
+    if (_boundary < 0) _boundary = _order.length; // no episodes
+  }
+
   @override
   void initState() {
     super.initState();
     _order = List.of(widget.items);
+    _recomputeBoundary();
   }
 
   @override
@@ -125,6 +151,7 @@ class _DraggableTileGridState extends State<DraggableTileGrid> {
     super.didUpdateWidget(old);
     if (_draggedId == null) {
       _order = List.of(widget.items);
+      _recomputeBoundary();
     }
   }
 
@@ -136,6 +163,17 @@ class _DraggableTileGridState extends State<DraggableTileGrid> {
 
   // ── Hit test: which tile index is the pointer nearest to? ─────────
 
+  /// Y offset (from grid top, excluding marginTop) at which the episode
+  /// block begins. Zero when the grid is single-block (only tiles, only
+  /// episodes, or empty).
+  double get _episodeBlockYOffset {
+    if (!_showDivider) return 0;
+    final tileRows = (_boundary + _columns - 1) ~/ _columns;
+    return tileRows * _cellHeight +
+        (tileRows - 1) * _mainSpacing +
+        _dividerBandHeight;
+  }
+
   int? _hitTest(Offset local) {
     final x = local.dx - AppSpacing.screenH;
     final y = local.dy - AppSpacing.md;
@@ -145,24 +183,55 @@ class _DraggableTileGridState extends State<DraggableTileGrid> {
       0,
       _columns - 1,
     );
+
+    if (_showDivider) {
+      final tileRows = (_boundary + _columns - 1) ~/ _columns;
+      final tileBlockH = tileRows * _cellHeight + (tileRows - 1) * _mainSpacing;
+
+      if (y < tileBlockH) {
+        // Pointer over the tile block (rows or inter-row gaps).
+        final row = (y / (_cellHeight + _mainSpacing)).floor();
+        final index = row * _columns + col;
+        // Empty slot at end of the last partial row → no target.
+        if (index >= _boundary) return null;
+        return (index >= 0) ? index : null;
+      }
+      if (y < tileBlockH + _dividerBandHeight) {
+        // Pointer inside the divider band — neither swap nor nest.
+        return null;
+      }
+      // Pointer in the episode block.
+      final yEp = y - tileBlockH - _dividerBandHeight;
+      final row = (yEp / (_cellHeight + _mainSpacing)).floor();
+      if (row < 0) return null;
+      final episodeIdx = row * _columns + col;
+      final absoluteIdx = _boundary + episodeIdx;
+      if (absoluteIdx >= _order.length) return null;
+      return absoluteIdx;
+    }
+
+    // Single-block grid: same math as before.
     final row = (y / (_cellHeight + _mainSpacing)).floor();
     if (row < 0) return null;
-
     final index = row * _columns + col;
-
-    // Past the last tile: return null ("empty space").
-    // The drag handler treats this as "move to end."
     if (index >= _order.length) return null;
-
     return (index >= 0) ? index : null;
   }
 
   Offset _cellOffset(int index) {
     final col = index % _columns;
-    final row = index ~/ _columns;
+    if (index < _boundary) {
+      final row = index ~/ _columns;
+      return Offset(
+        AppSpacing.screenH + col * (_cellWidth + _crossSpacing),
+        AppSpacing.md + row * (_cellHeight + _mainSpacing),
+      );
+    }
+    final episodeIdx = index - _boundary;
+    final row = episodeIdx ~/ _columns;
     return Offset(
       AppSpacing.screenH + col * (_cellWidth + _crossSpacing),
-      AppSpacing.md + row * (_cellHeight + _mainSpacing),
+      AppSpacing.md + _episodeBlockYOffset + row * (_cellHeight + _mainSpacing),
     );
   }
 
@@ -244,18 +313,12 @@ class _DraggableTileGridState extends State<DraggableTileGrid> {
 
     final index = _hitTest(local);
 
-    // Pointer is in empty space (past all tiles): move to end.
+    // Pointer is in empty space (past the dragged kind's block): move
+    // to the end of that block. The shift is kind-aware so dragging
+    // off-grid never moves a tile into the episode lane (or vice versa).
     if (index == null && _order.isNotEmpty) {
       if (_nestTargetId != null) _cancelNest();
-      final draggedIdx = _order.indexWhere((t) => t.id == _draggedId);
-      if (draggedIdx >= 0 && draggedIdx < _order.length - 1) {
-        final dragged = _order.removeAt(draggedIdx);
-        _order.add(dragged);
-        _orderChanged = true;
-        unawaited(HapticFeedback.selectionClick());
-        Log.debug(_tag, 'Moved to END', data: {'from': '$draggedIdx'});
-        setState(() {});
-      }
+      _maybeMoveToBlockEnd(local);
     }
 
     // Log roughly once per second during drag.
@@ -302,9 +365,16 @@ class _DraggableTileGridState extends State<DraggableTileGrid> {
       _nestTargetId = targetId;
       final targetTitle = _order[index].title;
 
-      // Swap: dragged tile moves to this position, other tiles shift.
       final draggedIdx = _order.indexWhere((t) => t.id == _draggedId);
-      if (draggedIdx >= 0 && draggedIdx != index) {
+      final draggedKind =
+          draggedIdx >= 0 ? _order[draggedIdx].kind : GridItemKind.tile;
+      final targetKind = _order[index].kind;
+
+      // Cross-kind hover: don't reorder. The hold-to-nest path
+      // (started by _checkNestIdle below) is what handles merging
+      // across the divider.
+      if (draggedKind == targetKind && draggedIdx >= 0 && draggedIdx != index) {
+        // Swap: dragged tile moves to this position, other tiles shift.
         final dragged = _order.removeAt(draggedIdx);
         final insertAt = (index > draggedIdx ? index - 1 : index).clamp(
           0,
@@ -456,6 +526,47 @@ class _DraggableTileGridState extends State<DraggableTileGrid> {
     }
   }
 
+  /// Empty-space drag handler. If the pointer is below the dragged
+  /// kind's last cell, slide the item to that block's end. Cross-kind
+  /// is never crossed — a tile cannot move into the episode lane via
+  /// this path, and vice versa.
+  void _maybeMoveToBlockEnd(Offset local) {
+    final draggedIdx = _order.indexWhere((t) => t.id == _draggedId);
+    if (draggedIdx < 0) return;
+    final dragged = _order[draggedIdx];
+
+    // End-of-block index, in the current _order indexing.
+    final endOfBlock =
+        dragged.kind == GridItemKind.tile ? _boundary - 1 : _order.length - 1;
+    if (endOfBlock < 0 || draggedIdx == endOfBlock) return;
+
+    // Only move-to-end when the pointer is past the last row of the
+    // dragged kind's block. Pointer above that row (e.g. an empty slot
+    // in a middle partial row) does nothing — preserves position.
+    final lastCellBottom = _cellOffset(endOfBlock).dy + _cellHeight;
+    if (local.dy < lastCellBottom) return;
+
+    final removed = _order.removeAt(draggedIdx);
+    // After removal, items at index > draggedIdx shifted down by one.
+    // For a same-kind move-to-end, the new endOfBlock is endOfBlock - 1
+    // if draggedIdx was before it (always true since dragged was in the
+    // block), so insert at that adjusted index.
+    final insertAt = endOfBlock - 1;
+    _order.insert(insertAt.clamp(0, _order.length), removed);
+    _orderChanged = true;
+    unawaited(HapticFeedback.selectionClick());
+    Log.debug(
+      _tag,
+      'Moved to END of block',
+      data: {
+        'kind': dragged.kind.name,
+        'from': '$draggedIdx',
+        'to': '$insertAt',
+      },
+    );
+    setState(() {});
+  }
+
   // ── Build ─────────────────────────────────────────────────────────
 
   @override
@@ -475,20 +586,38 @@ class _DraggableTileGridState extends State<DraggableTileGrid> {
         _cellWidth = (gridWidth - _crossSpacing * (_columns - 1)) / _columns;
         _cellHeight = _cellWidth / _aspectRatio;
 
-        final rowCount =
-            _order.isEmpty ? 0 : (_order.length + _columns - 1) ~/ _columns;
-        final totalHeight =
-            rowCount == 0
-                ? 0.0
-                : rowCount * _cellHeight +
-                    (rowCount - 1) * _mainSpacing +
-                    AppSpacing.md * 2;
+        final tileRows =
+            _boundary == 0 ? 0 : (_boundary + _columns - 1) ~/ _columns;
+        final episodeCount = _order.length - _boundary;
+        final episodeRows =
+            episodeCount <= 0 ? 0 : (episodeCount + _columns - 1) ~/ _columns;
+
+        var totalHeight = AppSpacing.md * 2;
+        if (tileRows > 0) {
+          totalHeight += tileRows * _cellHeight + (tileRows - 1) * _mainSpacing;
+        }
+        if (episodeRows > 0) {
+          if (tileRows > 0) totalHeight += _dividerBandHeight;
+          totalHeight +=
+              episodeRows * _cellHeight + (episodeRows - 1) * _mainSpacing;
+        }
 
         return SizedBox(
           height: totalHeight,
           child: Stack(
             clipBehavior: Clip.none,
             children: [
+              if (_showDivider)
+                Positioned(
+                  left: AppSpacing.screenH,
+                  right: AppSpacing.screenH,
+                  top:
+                      AppSpacing.md +
+                      tileRows * _cellHeight +
+                      (tileRows - 1) * _mainSpacing,
+                  height: _dividerBandHeight,
+                  child: _BoundaryLabel(count: episodeCount),
+                ),
               for (var i = 0; i < _order.length; i++) _buildTile(i),
             ],
           ),
@@ -667,6 +796,49 @@ class _DraggableTileGridState extends State<DraggableTileGrid> {
       childCount: item.childCount,
       childCoverUrls: item.childCoverUrls,
       onTap: () {},
+    );
+  }
+}
+
+/// Section break between the tile block and the episode block.
+///
+/// Renders a hairline with an inline label so parents can see at a
+/// glance which row is series tiles vs single episodes. Only shown
+/// when both blocks have at least one cell.
+class _BoundaryLabel extends StatelessWidget {
+  const _BoundaryLabel({required this.count});
+
+  final int count;
+
+  @override
+  Widget build(BuildContext context) {
+    final lineColor = AppColors.textSecondary.withAlpha(60);
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
+      child: Row(
+        children: [
+          Expanded(child: Container(height: 1, color: lineColor)),
+          const SizedBox(width: AppSpacing.sm),
+          const Icon(
+            Icons.layers_clear_rounded,
+            size: 14,
+            color: AppColors.textSecondary,
+          ),
+          const SizedBox(width: 4),
+          Text(
+            count == 1 ? '1 einzelne Folge' : '$count einzelne Folgen',
+            style: const TextStyle(
+              fontFamily: 'Nunito',
+              fontSize: 12,
+              fontWeight: FontWeight.w700,
+              color: AppColors.textSecondary,
+              letterSpacing: 0.4,
+            ),
+          ),
+          const SizedBox(width: AppSpacing.sm),
+          Expanded(child: Container(height: 1, color: lineColor)),
+        ],
+      ),
     );
   }
 }

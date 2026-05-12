@@ -35,6 +35,45 @@ class TileItemRepository {
       ..where((t) => t.id.equals(id))).getSingleOrNull();
   }
 
+  /// Watch a single item by ID. Emits null if the row is missing
+  /// (e.g. after delete). Used by the parent item-edit screen so its
+  /// title/cover fields stay in sync with concurrent writes.
+  Stream<TileItem?> watchById(String id) {
+    return (_db.select(_db.cards)
+      ..where((t) => t.id.equals(id))).watchSingleOrNull();
+  }
+
+  /// Update an item's editable metadata (custom title / cover URL).
+  ///
+  /// Uses [Value.absent] semantics: omitting a parameter leaves the
+  /// column untouched, while passing `null` (via the dedicated `clear*`
+  /// flags) wipes the override and restores the original title/cover.
+  Future<void> updateMeta({
+    required String id,
+    String? customTitle,
+    bool clearCustomTitle = false,
+    String? coverUrl,
+    bool clearCoverUrl = false,
+  }) async {
+    await (_db.update(_db.cards)..where((t) => t.id.equals(id))).write(
+      CardsCompanion(
+        customTitle:
+            clearCustomTitle
+                ? const Value(null)
+                : customTitle != null
+                ? Value(customTitle)
+                : const Value.absent(),
+        coverUrl:
+            clearCoverUrl
+                ? const Value(null)
+                : coverUrl != null
+                ? Value(coverUrl)
+                : const Value.absent(),
+      ),
+    );
+    Log.info(_tag, 'Item meta updated', data: {'id': id});
+  }
+
   /// Insert a new item. Returns the generated ID.
   Future<String> insert({
     required String title,
@@ -418,6 +457,14 @@ final allTileItemsProvider = StreamProvider<List<TileItem>>((ref) {
 /// Stream of ungrouped items (top-level, not in any tile).
 final ungroupedItemsProvider = StreamProvider<List<TileItem>>((ref) {
   return ref.watch(tileItemRepositoryProvider).watchUngrouped();
+});
+
+/// Stream of a single item by ID — emits null if the row is missing.
+final tileItemByIdProvider = StreamProvider.family<TileItem?, String>((
+  ref,
+  itemId,
+) {
+  return ref.watch(tileItemRepositoryProvider).watchById(itemId);
 });
 
 /// Whether the item is confirmed unavailable.

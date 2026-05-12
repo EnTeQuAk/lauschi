@@ -13,13 +13,13 @@ import 'package:lauschi/features/parent/screens/ard_show_detail/screen.dart';
 import 'package:lauschi/features/parent/screens/browse_catalog/screen.dart';
 import 'package:lauschi/features/parent/screens/catalog_series_detail/screen.dart';
 import 'package:lauschi/features/parent/screens/discover_screen.dart';
-import 'package:lauschi/features/parent/screens/manage_cards/screen.dart';
 import 'package:lauschi/features/parent/screens/manage_tiles/screen.dart';
 import 'package:lauschi/features/parent/screens/nfc_tags_screen.dart';
 import 'package:lauschi/features/parent/screens/parent_dashboard_screen.dart';
 import 'package:lauschi/features/parent/screens/pin_screen.dart';
 import 'package:lauschi/features/parent/screens/settings/screen.dart';
 import 'package:lauschi/features/parent/screens/tile_edit/screen.dart';
+import 'package:lauschi/features/parent/screens/tile_item_edit/screen.dart';
 import 'package:lauschi/features/player/screens/player/screen.dart';
 import 'package:lauschi/features/tiles/screens/kid_home_screen.dart';
 import 'package:lauschi/features/tiles/screens/tile_detail/screen.dart';
@@ -44,12 +44,11 @@ abstract final class AppRoutes {
 
   // Parent mode (PIN-gated)
   static const parentDashboard = '/parent';
-  static const parentManageCards = '/parent/cards';
-
   static const parentManageTiles = '/parent/tiles';
   static String parentTileEdit(String tileId) => '/parent/tiles/$tileId';
   static String parentTileChildren(String tileId) =>
       '/parent/tiles/$tileId/children';
+  static String parentTileItemEdit(String itemId) => '/parent/items/$itemId';
   static const parentSettings = '/parent/settings';
   static const parentNfcTags = '/parent/nfc-tags';
   static const parentAddContent = '/parent/add';
@@ -133,12 +132,6 @@ GoRouter createRouter(Ref ref, {String initialLocation = AppRoutes.kidHome}) {
         builder: (context, state) => const ParentDashboardScreen(),
         routes: [
           GoRoute(
-            name: 'parent-cards',
-            path: 'cards',
-            builder: (context, state) => const ManageCardsScreen(),
-          ),
-
-          GoRoute(
             name: 'parent-tiles',
             path: 'tiles',
             builder: (context, state) => const ManageTilesScreen(),
@@ -162,6 +155,14 @@ GoRouter createRouter(Ref ref, {String initialLocation = AppRoutes.kidHome}) {
                 ],
               ),
             ],
+          ),
+          GoRoute(
+            name: 'parent-tile-item-edit',
+            path: 'items/:id',
+            builder: (context, state) {
+              final itemId = state.pathParameters['id']!;
+              return TileItemEditScreen(itemId: itemId);
+            },
           ),
           GoRoute(
             name: 'parent-settings',

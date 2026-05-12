@@ -140,4 +140,128 @@ void main() {
       expect(tester.takeException(), isNull);
     });
   });
+
+  group('DraggableTileGrid — mixed kinds', () {
+    const tileA = DraggableTileItem(id: 'tile:a', title: 'Alpha');
+    const tileB = DraggableTileItem(id: 'tile:b', title: 'Beta');
+    const epX = DraggableTileItem(
+      id: 'item:x',
+      title: 'Episode X',
+      kind: GridItemKind.episode,
+    );
+    const epY = DraggableTileItem(
+      id: 'item:y',
+      title: 'Episode Y',
+      kind: GridItemKind.episode,
+    );
+
+    testWidgets('boundary label renders when both kinds present', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        noopWrap(
+          DraggableTileGrid(
+            items: const [tileA, tileB, epX, epY],
+            onReorder: (_) {},
+            onNest: (_, _) {},
+            onTap: (_) {},
+            onLongPress: (_) {},
+          ),
+        ),
+      );
+
+      // The "N einzelne Folgen" label is only meaningful when there's
+      // a divider to anchor — i.e. both blocks have at least one cell.
+      expect(find.text('2 einzelne Folgen'), findsOneWidget);
+      expect(tester.takeException(), isNull);
+    });
+
+    testWidgets('boundary label hidden when only tiles', (tester) async {
+      await tester.pumpWidget(
+        noopWrap(
+          DraggableTileGrid(
+            items: const [tileA, tileB],
+            onReorder: (_) {},
+            onNest: (_, _) {},
+            onTap: (_) {},
+            onLongPress: (_) {},
+          ),
+        ),
+      );
+
+      // No episode block → no divider → no label. We render only the
+      // German pluralization, so absence of either string proves it.
+      expect(find.textContaining('einzelne Folge'), findsNothing);
+      expect(tester.takeException(), isNull);
+    });
+
+    testWidgets('boundary label hidden when only episodes', (tester) async {
+      await tester.pumpWidget(
+        noopWrap(
+          DraggableTileGrid(
+            items: const [epX, epY],
+            onReorder: (_) {},
+            onNest: (_, _) {},
+            onTap: (_) {},
+            onLongPress: (_) {},
+          ),
+        ),
+      );
+
+      // No tile block above → divider would have nothing to separate.
+      expect(find.textContaining('einzelne Folge'), findsNothing);
+      expect(tester.takeException(), isNull);
+    });
+
+    testWidgets('singular pluralization for one episode', (tester) async {
+      await tester.pumpWidget(
+        noopWrap(
+          DraggableTileGrid(
+            items: const [tileA, epX],
+            onReorder: (_) {},
+            onNest: (_, _) {},
+            onTap: (_) {},
+            onLongPress: (_) {},
+          ),
+        ),
+      );
+
+      // Guards against off-by-one in the label: "1 einzelne Folge" not
+      // "1 einzelne Folgen". Trivial to break in a copy edit.
+      expect(find.text('1 einzelne Folge'), findsOneWidget);
+      expect(find.text('1 einzelne Folgen'), findsNothing);
+    });
+
+    testWidgets('mixed grid renders all cells in shrinkWrap mode', (
+      tester,
+    ) async {
+      // Inside an unbounded parent — the bug-prone path. The boundary
+      // band adds vertical real estate that the bounded-height path
+      // doesn't see, so we test the sliver case explicitly.
+      await tester.pumpWidget(
+        noopWrap(
+          CustomScrollView(
+            slivers: [
+              SliverToBoxAdapter(
+                child: DraggableTileGrid(
+                  items: const [tileA, tileB, epX, epY],
+                  shrinkWrap: true,
+                  onReorder: (_) {},
+                  onNest: (_, _) {},
+                  onTap: (_) {},
+                  onLongPress: (_) {},
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+
+      expect(find.text('Alpha'), findsOneWidget);
+      expect(find.text('Beta'), findsOneWidget);
+      expect(find.text('Episode X'), findsOneWidget);
+      expect(find.text('Episode Y'), findsOneWidget);
+      expect(tester.takeException(), isNull);
+    });
+  });
 }

@@ -471,6 +471,76 @@ void main() {
     },
   );
 
+  group('updateMeta', () {
+    test('writes customTitle and coverUrl', () async {
+      final id = await repo.insert(
+        title: 'Original',
+        providerUri: 'spotify:album:meta',
+        cardType: 'album',
+        coverUrl: 'https://img/old.jpg',
+      );
+
+      // Context: insert wrote what we expect — otherwise the "changed"
+      // assertions below could pass for the wrong reason.
+      final before = await repo.getById(id);
+      expect(before, isNotNull, reason: 'setup: row exists');
+      expect(before!.customTitle, isNull);
+      expect(before.coverUrl, 'https://img/old.jpg');
+
+      await repo.updateMeta(
+        id: id,
+        customTitle: 'Renamed',
+        coverUrl: 'https://img/new.jpg',
+      );
+
+      final after = await repo.getById(id);
+      expect(after!.customTitle, 'Renamed');
+      expect(after.coverUrl, 'https://img/new.jpg');
+      // Untouched fields stay put.
+      expect(after.title, 'Original');
+      expect(after.providerUri, 'spotify:album:meta');
+    });
+
+    test('clearCustomTitle nulls the override', () async {
+      final id = await repo.insert(
+        title: 'Original',
+        providerUri: 'spotify:album:clr',
+        cardType: 'album',
+      );
+      await repo.updateMeta(id: id, customTitle: 'Custom');
+
+      final renamed = await repo.getById(id);
+      expect(
+        renamed?.customTitle,
+        'Custom',
+        reason: 'setup: override must be set before testing clear',
+      );
+
+      await repo.updateMeta(id: id, clearCustomTitle: true);
+      final after = await repo.getById(id);
+      expect(after!.customTitle, isNull);
+      expect(after.title, 'Original', reason: 'original title untouched');
+    });
+
+    test('omitted parameters do not clobber existing values', () async {
+      final id = await repo.insert(
+        title: 'Untouched',
+        providerUri: 'spotify:album:absent',
+        cardType: 'album',
+        coverUrl: 'https://img/keep.jpg',
+      );
+      await repo.updateMeta(id: id, customTitle: 'Renamed');
+
+      final after = await repo.getById(id);
+      expect(after!.customTitle, 'Renamed');
+      expect(
+        after.coverUrl,
+        'https://img/keep.jpg',
+        reason: 'omitting coverUrl must leave the value alone',
+      );
+    });
+  });
+
   // ─── Content expiration ───────────────────────────────────────────
 
   // isItemExpired only checks markedUnavailable (runtime flag).

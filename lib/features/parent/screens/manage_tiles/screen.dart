@@ -11,8 +11,8 @@ import 'package:lauschi/core/database/tile_repository.dart';
 import 'package:lauschi/core/log.dart';
 import 'package:lauschi/core/router/app_router.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
-import 'package:lauschi/features/parent/screens/manage_tiles/widgets/ungrouped_card_tile.dart';
 import 'package:lauschi/features/parent/widgets/draggable_tile_grid.dart';
+import 'package:lauschi/features/parent/widgets/group_picker_sheet.dart';
 import 'package:lauschi/features/tiles/screens/tile_detail/screen.dart';
 
 const _tag = 'ManageTilesScreen';
@@ -20,7 +20,8 @@ const _tag = 'ManageTilesScreen';
 /// Parent view: list, create, reorder and delete series groups.
 ///
 /// When [parentTileId] is set, shows only child tiles of that parent
-/// (scoped manage view for nested tiles). When null, shows root tiles.
+/// (scoped manage view for nested tiles). When null, shows root tiles
+/// plus any ungrouped items, divided by a horizontal label band.
 class ManageTilesScreen extends ConsumerWidget {
   const ManageTilesScreen({super.key, this.parentTileId});
 
@@ -50,7 +51,9 @@ class ManageTilesScreen extends ConsumerWidget {
       ),
       body: groupsAsync.when(
         data: (groups) {
-          // Ungrouped items only shown at root level, not inside a parent.
+          // Ungrouped items only render at root level. Inside a folder
+          // the children are tiles, and any items assigned to the folder
+          // itself are managed via tile_edit.
           final ungrouped =
               parentTileId == null
                   ? (ungroupedAsync.whenOrNull(data: (c) => c) ?? [])
@@ -58,9 +61,9 @@ class ManageTilesScreen extends ConsumerWidget {
           if (groups.isEmpty && ungrouped.isEmpty) {
             return const _EmptyState();
           }
-          return _SeriesBody(
-            groups: groups,
-            ungrouped: ungrouped,
+          return _MixedGrid(
+            tiles: groups,
+            items: ungrouped,
             parentTileId: parentTileId,
           );
         },
@@ -112,207 +115,255 @@ class _EmptyState extends StatelessWidget {
   }
 }
 
-/// Combined view: reorderable series grid + ungrouped cards list.
-class _SeriesBody extends StatelessWidget {
-  const _SeriesBody({
-    required this.groups,
-    required this.ungrouped,
+/// Single draggable grid mixing series tiles and ungrouped items.
+///
+/// IDs are prefixed (`tile:<uuid>` / `item:<uuid>`) so the drop
+/// dispatcher can decode kinds without parallel maps. Reorder splits
+/// into the two repos by prefix; nest dispatches into one of five
+/// repo calls depending on (dragged, target) kinds.
+class _MixedGrid extends ConsumerWidget {
+  const _MixedGrid({
+    required this.tiles,
+    required this.items,
     this.parentTileId,
   });
 
-  final List<db.Tile> groups;
-  final List<db.TileItem> ungrouped;
+  final List<db.Tile> tiles;
+  final List<db.TileItem> items;
   final String? parentTileId;
 
-  @override
-  Widget build(BuildContext context) {
-    final isNested = parentTileId != null;
-    if (ungrouped.isEmpty) {
-      return Column(
-        children: [
-          const _DragHint(),
-          Expanded(child: _GroupGrid(groups: groups, isNested: isNested)),
-        ],
-      );
-    }
-
-    // When there are ungrouped cards, use a column layout so the grid
-    // doesn't fight with the list for scroll space.
-    return CustomScrollView(
-      slivers: [
-        if (groups.isNotEmpty)
-          SliverToBoxAdapter(
-            child: _GroupGrid(
-              groups: groups,
-              shrinkWrap: true,
-              isNested: isNested,
-            ),
-          ),
-        SliverToBoxAdapter(
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(
-              AppSpacing.screenH,
-              AppSpacing.lg,
-              AppSpacing.screenH,
-              AppSpacing.sm,
-            ),
-            child: Row(
-              children: [
-                const Icon(
-                  Icons.layers_clear_rounded,
-                  size: 20,
-                  color: AppColors.textSecondary,
-                ),
-                const SizedBox(width: AppSpacing.sm),
-                Text(
-                  'Nicht zugeordnet (${ungrouped.length})',
-                  style: const TextStyle(
-                    fontFamily: 'Nunito',
-                    fontSize: 15,
-                    fontWeight: FontWeight.w800,
-                    color: AppColors.textSecondary,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-        SliverList.builder(
-          itemCount: ungrouped.length,
-          itemBuilder:
-              (context, index) => UngroupedCardTile(card: ungrouped[index]),
-        ),
-        const SliverPadding(padding: EdgeInsets.only(bottom: AppSpacing.xxl)),
-      ],
-    );
-  }
-}
-
-/// Reorderable grid of series tiles using flutter_reorderable_grid_view.
-///
-/// Tiles shift with animation as you drag (iOS home screen style).
-/// Long press to start dragging, release to drop.
-class _GroupGrid extends ConsumerWidget {
-  const _GroupGrid({
-    required this.groups,
-    this.shrinkWrap = false,
-    this.isNested = false,
-  });
-
-  final List<db.Tile> groups;
-  final bool shrinkWrap;
-  final bool isNested;
+  static const _tilePrefix = 'tile:';
+  static const _itemPrefix = 'item:';
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final items =
-        groups.map((g) {
+    final isNested = parentTileId != null;
+
+    final tileDisplayItems =
+        tiles.map((t) {
           final children =
-              ref.watch(childTilesProvider(g.id)).value ?? const [];
+              ref.watch(childTilesProvider(t.id)).value ?? const [];
           final episodeCount =
               ref
-                  .watch(tileItemsProvider(g.id))
-                  .whenOrNull(
-                    data: (e) => e.length,
-                  ) ??
+                  .watch(tileItemsProvider(t.id))
+                  .whenOrNull(data: (e) => e.length) ??
               0;
-
           return buildTileDisplayItem(
-            g,
+            t,
             children: children,
             episodeCount: episodeCount,
           );
         }).toList();
 
-    return DraggableTileGrid(
-      items: items,
-      shrinkWrap: shrinkWrap,
-      onReorder: (newOrder) {
-        Log.info(
-          _tag,
-          'Tiles reordered',
-          data: {'count': '${newOrder.length}'},
-        );
-        unawaited(ref.read(tileRepositoryProvider).reorder(newOrder));
-      },
-      onNest: (draggedId, targetId) {
-        final targetChildren =
-            ref.read(childTilesProvider(targetId)).value ?? [];
-        final isFolder = targetChildren.isNotEmpty;
-        final repo = ref.read(tileRepositoryProvider);
+    final itemDisplayItems = items
+        .map(buildItemDisplayItem)
+        .toList(growable: false);
 
-        if (isFolder) {
-          // Target is already a folder: nest into it.
-          Log.info(
-            _tag,
-            'Nesting into existing folder',
-            data: {
-              'dragged': draggedId,
-              'folder': targetId,
-            },
-          );
-          unawaited(repo.nestInto(childId: draggedId, parentId: targetId));
-        } else {
-          // Both are leaf tiles: create a new folder containing both.
-          Log.info(
-            _tag,
-            'Creating folder via drag',
-            data: {
-              'dragged': draggedId,
-              'target': targetId,
-            },
-          );
-          unawaited(
-            repo.createFolderFromDrag(
-              draggedId: draggedId,
-              targetId: targetId,
-            ),
-          );
-        }
-      },
-      onTap: (id) {
-        final hasKids =
-            ref
-                .read(childTilesProvider(id))
-                .whenOrNull(
-                  data: (c) => c.isNotEmpty,
-                ) ??
-            false;
-        if (hasKids) {
-          unawaited(context.push(AppRoutes.parentTileChildren(id)));
-        } else {
-          unawaited(context.push(AppRoutes.parentTileEdit(id)));
-        }
-      },
-      onLongPress: (id) {
-        final group = groups.firstWhere((g) => g.id == id);
-        _showContextMenu(context, ref, group, isNested);
-      },
-      dropZones: [
-        if (isNested)
-          DropZoneConfig(
-            label: 'Auf Startseite',
-            icon: Icons.home_rounded,
-            onDrop: (id) {
-              Log.info(_tag, 'Unnest via drop zone', data: {'tileId': id});
-              unawaited(ref.read(tileRepositoryProvider).unnest(id));
-              final remaining = items.where((t) => t.id != id).length;
-              if (remaining == 0 && context.mounted) {
-                context.pop();
-              }
-            },
+    final all = [...tileDisplayItems, ...itemDisplayItems];
+
+    return Column(
+      children: [
+        const _DragHint(),
+        Expanded(
+          child: DraggableTileGrid(
+            items: all,
+            onReorder: (newOrder) => _onReorder(ref, newOrder),
+            onNest:
+                (draggedId, targetId) =>
+                    _onNest(context, ref, draggedId, targetId),
+            onTap: (id) => _onTap(context, ref, id),
+            onLongPress:
+                (id) => _onLongPress(context, ref, id, isNested: isNested),
+            dropZones: [
+              if (isNested)
+                DropZoneConfig(
+                  label: 'Auf Startseite',
+                  icon: Icons.home_rounded,
+                  onDrop: (id) => _onUnnestDrop(context, ref, id),
+                ),
+              DropZoneConfig(
+                label: 'Löschen',
+                icon: Icons.delete_rounded,
+                color: AppColors.error,
+                onDrop: (id) => _onDeleteDrop(ref, id),
+              ),
+            ],
           ),
-        DropZoneConfig(
-          label: 'Löschen',
-          icon: Icons.delete_rounded,
-          color: AppColors.error,
-          onDrop: (id) {
-            Log.info(_tag, 'Delete via drop zone', data: {'tileId': id});
-            unawaited(ref.read(tileRepositoryProvider).delete(id));
-          },
         ),
       ],
     );
+  }
+
+  // ── Dispatch helpers ────────────────────────────────────────────
+
+  /// Decode `tile:` / `item:` prefix → raw uuid.
+  static (GridItemKind, String) _decode(String id) {
+    if (id.startsWith(_tilePrefix)) {
+      return (GridItemKind.tile, id.substring(_tilePrefix.length));
+    }
+    if (id.startsWith(_itemPrefix)) {
+      return (GridItemKind.episode, id.substring(_itemPrefix.length));
+    }
+    throw ArgumentError('Unprefixed grid id: $id');
+  }
+
+  void _onReorder(WidgetRef ref, List<String> newOrder) {
+    final tileIds = <String>[];
+    final itemIds = <String>[];
+    for (final encoded in newOrder) {
+      final (kind, raw) = _decode(encoded);
+      if (kind == GridItemKind.tile) {
+        tileIds.add(raw);
+      } else {
+        itemIds.add(raw);
+      }
+    }
+    Log.info(
+      _tag,
+      'Mixed reorder',
+      data: {'tiles': '${tileIds.length}', 'items': '${itemIds.length}'},
+    );
+    final tileRepo = ref.read(tileRepositoryProvider);
+    final itemRepo = ref.read(tileItemRepositoryProvider);
+    if (tileIds.isNotEmpty) unawaited(tileRepo.reorder(tileIds));
+    if (itemIds.isNotEmpty) unawaited(itemRepo.reorder(itemIds));
+  }
+
+  void _onNest(
+    BuildContext context,
+    WidgetRef ref,
+    String draggedEncoded,
+    String targetEncoded,
+  ) {
+    final (draggedKind, draggedId) = _decode(draggedEncoded);
+    final (targetKind, targetId) = _decode(targetEncoded);
+    final tileRepo = ref.read(tileRepositoryProvider);
+    final itemRepo = ref.read(tileItemRepositoryProvider);
+
+    Log.info(
+      _tag,
+      'Nest dispatch',
+      data: {
+        'dragged': '${draggedKind.name}:$draggedId',
+        'target': '${targetKind.name}:$targetId',
+      },
+    );
+
+    if (draggedKind == GridItemKind.tile && targetKind == GridItemKind.tile) {
+      // Reuse the existing folder-create / nest-into logic.
+      final targetChildren =
+          ref.read(childTilesProvider(targetId)).value ?? const [];
+      final targetIsFolder = targetChildren.isNotEmpty;
+      if (targetIsFolder) {
+        unawaited(tileRepo.nestInto(childId: draggedId, parentId: targetId));
+      } else {
+        unawaited(
+          tileRepo.createFolderFromDrag(
+            draggedId: draggedId,
+            targetId: targetId,
+          ),
+        );
+      }
+      return;
+    }
+
+    if (draggedKind == GridItemKind.episode &&
+        targetKind == GridItemKind.tile) {
+      // Drop an episode onto a tile/folder → assign it there.
+      unawaited(itemRepo.assignToTile(itemId: draggedId, tileId: targetId));
+      return;
+    }
+
+    if (draggedKind == GridItemKind.tile &&
+        targetKind == GridItemKind.episode) {
+      unawaited(
+        tileRepo.createTileFromTileAndItem(
+          tileId: draggedId,
+          itemId: targetId,
+        ),
+      );
+      return;
+    }
+
+    if (draggedKind == GridItemKind.episode &&
+        targetKind == GridItemKind.episode) {
+      unawaited(
+        _createTileAndJump(context, ref, [draggedId, targetId]),
+      );
+      return;
+    }
+  }
+
+  Future<void> _createTileAndJump(
+    BuildContext context,
+    WidgetRef ref,
+    List<String> itemIds,
+  ) async {
+    final newTileId = await ref
+        .read(tileRepositoryProvider)
+        .createTileFromItems(itemIds);
+    if (!context.mounted) return;
+    // Surface the rename affordance immediately — the default
+    // "Neue Kachel" is rarely what the parent wants.
+    unawaited(context.push(AppRoutes.parentTileEdit(newTileId)));
+  }
+
+  void _onTap(BuildContext context, WidgetRef ref, String encoded) {
+    final (kind, raw) = _decode(encoded);
+    if (kind == GridItemKind.episode) {
+      unawaited(context.push(AppRoutes.parentTileItemEdit(raw)));
+      return;
+    }
+    // Tile: drill into children, or open the edit screen if it's a leaf.
+    final hasKids =
+        ref
+            .read(childTilesProvider(raw))
+            .whenOrNull(data: (c) => c.isNotEmpty) ??
+        false;
+    if (hasKids) {
+      unawaited(context.push(AppRoutes.parentTileChildren(raw)));
+    } else {
+      unawaited(context.push(AppRoutes.parentTileEdit(raw)));
+    }
+  }
+
+  void _onLongPress(
+    BuildContext context,
+    WidgetRef ref,
+    String encoded, {
+    required bool isNested,
+  }) {
+    final (kind, raw) = _decode(encoded);
+    if (kind == GridItemKind.episode) {
+      final item = items.firstWhere((c) => c.id == raw);
+      _showItemContextMenu(context, ref, item);
+    } else {
+      final tile = tiles.firstWhere((t) => t.id == raw);
+      _showTileContextMenu(context, ref, tile, isNested);
+    }
+  }
+
+  void _onUnnestDrop(BuildContext context, WidgetRef ref, String encoded) {
+    final (kind, raw) = _decode(encoded);
+    if (kind != GridItemKind.tile) return; // episodes can't be unnested here
+    Log.info(_tag, 'Unnest via drop zone', data: {'tileId': raw});
+    unawaited(ref.read(tileRepositoryProvider).unnest(raw));
+    final remaining = tiles.where((t) => t.id != raw).length;
+    if (remaining == 0 && context.mounted) context.pop();
+  }
+
+  void _onDeleteDrop(WidgetRef ref, String encoded) {
+    final (kind, raw) = _decode(encoded);
+    Log.info(
+      _tag,
+      'Delete via drop zone',
+      data: {'kind': kind.name, 'id': raw},
+    );
+    if (kind == GridItemKind.tile) {
+      unawaited(ref.read(tileRepositoryProvider).delete(raw));
+    } else {
+      unawaited(ref.read(tileItemRepositoryProvider).delete(raw));
+    }
   }
 }
 
@@ -352,7 +403,6 @@ class _DragHint extends StatelessWidget {
   }
 }
 
-/// Derive a folder display name from its children.
 /// Build display model from a tile and its children/episodes.
 /// Pure transformation, no provider access.
 DraggableTileItem buildTileDisplayItem(
@@ -370,13 +420,26 @@ DraggableTileItem buildTileDisplayItem(
   final title = children.isNotEmpty ? folderName(children) : tile.title;
 
   return DraggableTileItem(
-    id: tile.id,
+    id: '${_MixedGrid._tilePrefix}${tile.id}',
     title: title,
     coverUrl: tile.coverUrl,
     episodeCount: episodeCount,
     contentType: ContentType.fromString(tile.contentType),
     childCount: children.length,
     childCoverUrls: childCovers,
+  );
+}
+
+/// Build display model from an ungrouped item. The cell looks like a
+/// tile so the parent sees a homogeneous grid; the divider band above
+/// tells them this row is single episodes.
+DraggableTileItem buildItemDisplayItem(db.TileItem item) {
+  return DraggableTileItem(
+    id: '${_MixedGrid._itemPrefix}${item.id}',
+    title: item.customTitle ?? item.title,
+    coverUrl: item.coverUrl,
+    episodeCount: 1,
+    kind: GridItemKind.episode,
   );
 }
 
@@ -390,7 +453,7 @@ String folderName(List<db.Tile> children) {
 }
 
 /// Show context menu for a tile (long-press fallback for accessibility).
-void _showContextMenu(
+void _showTileContextMenu(
   BuildContext context,
   WidgetRef ref,
   db.Tile group,
@@ -412,7 +475,7 @@ void _showContextMenu(
                   title: const Text('Verschieben in...'),
                   onTap: () {
                     Navigator.of(ctx).pop();
-                    unawaited(_showMoveIntoDialog(context, ref, group));
+                    unawaited(_showMoveTileIntoDialog(context, ref, group));
                   },
                 ),
               if (isNested)
@@ -448,7 +511,7 @@ void _showContextMenu(
                 ),
                 onTap: () {
                   Navigator.of(ctx).pop();
-                  unawaited(_confirmDelete(context, ref, group));
+                  unawaited(_confirmDeleteTile(context, ref, group));
                 },
               ),
             ],
@@ -459,7 +522,65 @@ void _showContextMenu(
   );
 }
 
-Future<void> _showMoveIntoDialog(
+void _showItemContextMenu(
+  BuildContext context,
+  WidgetRef ref,
+  db.TileItem item,
+) {
+  unawaited(
+    showModalBottomSheet<void>(
+      context: context,
+      builder: (ctx) {
+        return SafeArea(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ListTile(
+                leading: const Icon(Icons.layers_rounded),
+                title: const Text('In Kachel verschieben…'),
+                onTap: () {
+                  Navigator.of(ctx).pop();
+                  unawaited(
+                    showModalBottomSheet<void>(
+                      context: context,
+                      builder: (_) => GroupPickerSheet(card: item),
+                    ),
+                  );
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.edit_rounded),
+                title: const Text('Bearbeiten'),
+                onTap: () {
+                  Navigator.of(ctx).pop();
+                  unawaited(
+                    context.push(AppRoutes.parentTileItemEdit(item.id)),
+                  );
+                },
+              ),
+              ListTile(
+                leading: const Icon(
+                  Icons.delete_outline_rounded,
+                  color: AppColors.error,
+                ),
+                title: const Text(
+                  'Löschen',
+                  style: TextStyle(color: AppColors.error),
+                ),
+                onTap: () {
+                  Navigator.of(ctx).pop();
+                  unawaited(_confirmDeleteItem(context, ref, item));
+                },
+              ),
+            ],
+          ),
+        );
+      },
+    ),
+  );
+}
+
+Future<void> _showMoveTileIntoDialog(
   BuildContext context,
   WidgetRef ref,
   db.Tile group,
@@ -551,7 +672,7 @@ Future<void> _showMoveIntoDialog(
   );
 }
 
-Future<void> _confirmDelete(
+Future<void> _confirmDeleteTile(
   BuildContext context,
   WidgetRef ref,
   db.Tile group,
@@ -562,7 +683,7 @@ Future<void> _confirmDelete(
         (ctx) => AlertDialog(
           title: const Text('Kachel löschen?'),
           content: Text(
-            '\u201e${group.title}\u201c und alle enthaltenen Inhalte '
+            '„${group.title}“ und alle enthaltenen Inhalte '
             'werden gelöscht.',
           ),
           actions: [
@@ -586,6 +707,47 @@ Future<void> _confirmDelete(
                 backgroundColor: AppColors.error,
               ),
               child: const Text('Löschen'),
+            ),
+          ],
+        ),
+  );
+}
+
+Future<void> _confirmDeleteItem(
+  BuildContext context,
+  WidgetRef ref,
+  db.TileItem item,
+) async {
+  await showDialog<void>(
+    context: context,
+    builder:
+        (ctx) => AlertDialog(
+          title: const Text('Folge entfernen?'),
+          content: Text(
+            '„${item.customTitle ?? item.title}“ wird aus '
+            'der Sammlung entfernt.',
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(ctx).pop(),
+              child: const Text('Abbrechen'),
+            ),
+            FilledButton(
+              onPressed: () {
+                Navigator.of(ctx).pop();
+                Log.info(
+                  _tag,
+                  'Item deleted',
+                  data: {'itemId': item.id},
+                );
+                unawaited(
+                  ref.read(tileItemRepositoryProvider).delete(item.id),
+                );
+              },
+              style: FilledButton.styleFrom(
+                backgroundColor: AppColors.error,
+              ),
+              child: const Text('Entfernen'),
             ),
           ],
         ),

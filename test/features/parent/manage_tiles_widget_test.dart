@@ -180,7 +180,7 @@ void main() {
       // and the ungrouped section. Without these, a takeException()
       // failure wouldn't tell us whether the screen built at all.
       expect(find.text('Kacheln verwalten'), findsOneWidget);
-      expect(find.text('Nicht zugeordnet (1)'), findsOneWidget);
+      expect(find.text('1 einzelne Folge'), findsOneWidget);
 
       // Behavioral: no layout/semantic exception during the pump.
       // This is the actual LAUSCHI-1M/1T regression check.
@@ -260,7 +260,7 @@ void main() {
           reason: 'manage tiles visible (round ${i + 1})',
         );
         expect(
-          find.text('Nicht zugeordnet (1)'),
+          find.text('1 einzelne Folge'),
           findsOneWidget,
           reason: 'sliver branch visible (round ${i + 1})',
         );
@@ -305,7 +305,7 @@ void main() {
       // Content first, exception check after (consistent with E5).
       expect(find.text('Kacheln verwalten'), findsOneWidget);
       expect(
-        find.text('Nicht zugeordnet (1)'),
+        find.text('1 einzelne Folge'),
         findsNothing,
         reason:
             'no ungrouped items → no sliver branch → no '

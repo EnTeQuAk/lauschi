@@ -263,6 +263,94 @@ void main() {
   // are TileItemRepository methods — tests moved to
   // tile_item_repository_test.dart.
 
+  test('createTileFromItems makes a new tile holding both items', () async {
+    final id1 = await cards.insert(
+      title: 'Ep 1',
+      providerUri: 'spotify:album:m1',
+      cardType: 'album',
+      coverUrl: 'https://img/m1.jpg',
+    );
+    final id2 = await cards.insert(
+      title: 'Ep 2',
+      providerUri: 'spotify:album:m2',
+      cardType: 'album',
+    );
+
+    // Context: both items start ungrouped.
+    final preCheck = await cards.getUngrouped();
+    expect(
+      preCheck.map((c) => c.id).toSet(),
+      {id1, id2},
+      reason: 'setup: both items should be ungrouped before merge',
+    );
+
+    final tileId = await groups.createTileFromItems([id1, id2]);
+
+    // The new tile exists at root and seeds its cover from the first
+    // item that has one.
+    final created = await groups.getById(tileId);
+    expect(created, isNotNull);
+    expect(created!.title, 'Neue Kachel');
+    expect(created.parentTileId, isNull);
+    expect(
+      created.coverUrl,
+      'https://img/m1.jpg',
+      reason: 'cover should fall back to the first item with art',
+    );
+
+    // Both items now live inside the new tile, no ungrouped left.
+    expect(await cards.getUngrouped(), isEmpty);
+    final inside = await groups.watchItems(tileId).first;
+    expect(inside.map((c) => c.id).toList(), [id1, id2]);
+  });
+
+  test('createTileFromItems rejects single-item input', () async {
+    final onlyId = await cards.insert(
+      title: 'Solo',
+      providerUri: 'spotify:album:solo',
+      cardType: 'album',
+    );
+
+    await expectLater(
+      groups.createTileFromItems([onlyId]),
+      throwsArgumentError,
+      reason: 'merging needs at least two items',
+    );
+  });
+
+  test('createTileFromTileAndItem folders a tile next to an item', () async {
+    final tileId = await groups.insert(title: 'Yakari');
+    final itemId = await cards.insert(
+      title: 'Lonely Episode',
+      providerUri: 'spotify:album:lone',
+      cardType: 'album',
+    );
+
+    // Context: tile at root, item ungrouped.
+    final tileBefore = await groups.getById(tileId);
+    expect(tileBefore!.parentTileId, isNull, reason: 'setup: tile at root');
+    final itemBefore = await cards.getById(itemId);
+    expect(itemBefore!.groupId, isNull, reason: 'setup: item ungrouped');
+
+    final folderId = await groups.createTileFromTileAndItem(
+      tileId: tileId,
+      itemId: itemId,
+    );
+
+    // The original tile is now a child of the new folder.
+    final tileAfter = await groups.getById(tileId);
+    expect(tileAfter!.parentTileId, folderId);
+
+    // The item is assigned to the new folder directly.
+    final itemAfter = await cards.getById(itemId);
+    expect(itemAfter!.groupId, folderId);
+
+    // Folder lives at root with a folder title.
+    final folder = await groups.getById(folderId);
+    expect(folder!.title, 'Neuer Ordner');
+    expect(folder.parentTileId, isNull);
+  });
+
   test('delete cascades NFC tags pointing to deleted tile', () async {
     final tileId = await groups.insert(title: 'NFC Test Tile');
 
