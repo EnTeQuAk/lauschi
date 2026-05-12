@@ -38,18 +38,54 @@ class SpotifyProvider(CatalogProvider):
         self._token_time = time.time()
 
     def _fetch_token(self) -> str:
-        """Get a fresh client credentials token."""
-        r = requests.post(
-            "https://accounts.spotify.com/api/token",
-            data={
-                "grant_type": "client_credentials",
-                "client_id": self._cid,
-                "client_secret": self._csec,
-            },
-            timeout=10,
-        )
+        """Get a fresh client credentials token.
+
+        Retries on transient infrastructure failures so a brief
+        Spotify hiccup doesn't crash the entire provider on
+        construction. Two failure modes seen in a 26-entry catalog
+        loop:
+          - 503 Service Unavailable from accounts.spotify.com
+          - ReadTimeout against the same endpoint
+
+        Both were transient — the next provider call ~30s later
+        worked. But because __init__ calls this and propagates the
+        raise, the original loop lost 21 of 26 entries to a single
+        Spotify wobble.
+
+        Retries: ConnectionError, Timeout, HTTP 429, HTTP 5xx.
+        Does NOT retry: 400/401/403 — those are bad-credentials
+        errors that won't fix themselves.
+        """
+        for attempt in range(3):
+            try:
+                r = requests.post(
+                    "https://accounts.spotify.com/api/token",
+                    data={
+                        "grant_type": "client_credentials",
+                        "client_id": self._cid,
+                        "client_secret": self._csec,
+                    },
+                    timeout=10,
+                )
+            except (requests.ConnectionError, requests.Timeout):
+                if attempt == 2:
+                    raise
+                time.sleep(2 ** attempt)
+                continue
+
+            if r.status_code == 429 and attempt < 2:
+                time.sleep(parse_retry_after(r.headers.get("Retry-After")))
+                continue
+            if 500 <= r.status_code < 600 and attempt < 2:
+                time.sleep(2 ** attempt)
+                continue
+
+            r.raise_for_status()
+            return r.json()["access_token"]
+        # All three attempts saw a retryable response; surface the
+        # last one as a real error so the caller knows what failed.
         r.raise_for_status()
-        return r.json()["access_token"]
+        return ""  # unreachable
 
     def _ensure_token(self) -> None:
         """Refresh the token if it's older than 55 minutes (expires at 60)."""
