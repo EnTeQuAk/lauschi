@@ -830,7 +830,10 @@ class _DraggableTileGridState extends State<DraggableTileGrid> {
 ///
 /// Renders a hairline with an inline label so parents can see at a
 /// glance which row is series tiles vs single episodes. Only shown
-/// when both blocks have at least one cell.
+/// when both blocks have at least one cell. The parent [Positioned]
+/// fixes the band's height to [_DraggableTileGridState._dividerBandHeight];
+/// [Center] keeps the row vertically centered without consuming that
+/// height with inner padding.
 class _BoundaryLabel extends StatelessWidget {
   const _BoundaryLabel({required this.count});
 
@@ -839,8 +842,7 @@ class _BoundaryLabel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final lineColor = AppColors.textSecondary.withAlpha(60);
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
+    return Center(
       child: Row(
         children: [
           Expanded(child: Container(height: 1, color: lineColor)),
