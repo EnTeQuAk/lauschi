@@ -98,8 +98,11 @@ uv run --directory tools --with 'pydantic-ai>=1.62.0' --with 'pydantic>=2.0' lau
 """
 
 [tasks.catalog-review-ai]
-description = "AI review all curations for quality issues"
-usage = 'flag "--force" help="Re-review even already-approved curations"'
+description = "AI review curations for quality issues (all by default, or one series)"
+usage = '''
+flag "--force" help="Re-review even already-approved curations"
+arg "[series_id]" help="Optional series id; if omitted, reviews all"
+'''
 run = """
 #!/usr/bin/env bash
 set -euo pipefail
@@ -107,20 +110,42 @@ set -euo pipefail
 LOGDIR="logs/catalog"
 mkdir -p "$LOGDIR"
 TIMESTAMP=$(date +%Y%m%d-%H%M%S)
-LOG="$LOGDIR/review-$TIMESTAMP.log"
+SID="${usage_series_id:-}"
+LOG_SUFFIX="${SID:-all}"
+LOG="$LOGDIR/review-${LOG_SUFFIX}-${TIMESTAMP}.log"
 echo "Logging to $LOG"
 exec > >(tee -a "$LOG") 2>&1
 
 FORCE_FLAG=""
 if [ "${usage_force:-false}" = "true" ]; then FORCE_FLAG="--force"; fi
 
-uv run --directory tools --with 'pydantic-ai>=1.62.0' --with 'pydantic>=2.0' \\
-  lauschi-catalog review --all $FORCE_FLAG
+if [ -n "$SID" ]; then
+  uv run --directory tools --with 'pydantic-ai>=1.62.0' --with 'pydantic>=2.0' \\
+    lauschi-catalog review "$SID" $FORCE_FLAG
+else
+  uv run --directory tools --with 'pydantic-ai>=1.62.0' --with 'pydantic>=2.0' \\
+    lauschi-catalog review --all $FORCE_FLAG
+fi
 """
 
 [tasks.catalog-verify]
-description = "4-eye: second AI model verifies curations, auto-approves agreements"
-run = "uv run --directory tools --with 'pydantic-ai>=1.62.0' --with 'pydantic>=2.0' lauschi-catalog verify --all"
+description = "4-eye: second AI model verifies curations (all by default, or one series)"
+usage = '''
+arg "[series_id]" help="Optional series id; if omitted, verifies all"
+'''
+run = """
+#!/usr/bin/env bash
+set -euo pipefail
+
+SID="${usage_series_id:-}"
+if [ -n "$SID" ]; then
+  uv run --directory tools --with 'pydantic-ai>=1.62.0' --with 'pydantic>=2.0' \\
+    lauschi-catalog verify "$SID"
+else
+  uv run --directory tools --with 'pydantic-ai>=1.62.0' --with 'pydantic>=2.0' \\
+    lauschi-catalog verify --all
+fi
+"""
 
 [tasks.catalog-review]
 description = "Interactive TUI: human review of escalated curations"
