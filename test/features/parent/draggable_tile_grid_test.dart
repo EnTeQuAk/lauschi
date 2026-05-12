@@ -263,5 +263,63 @@ void main() {
       expect(find.text('Episode Y'), findsOneWidget);
       expect(tester.takeException(), isNull);
     });
+
+    testWidgets('backward drag — hold-to-merge fires onNest', (tester) async {
+      // Regression for the post-swap "over own slot" self-cancel: when
+      // dragging from a higher index to a lower one, the swap puts the
+      // dragged item AT the original target's position. The pointer
+      // then hit-tests the dragged item's own slot. Before the fix, the
+      // grid would cancel the nest target on that frame and hold-to-
+      // merge could never confirm on a backward drag — the user could
+      // form a folder only by dragging forward.
+      String? draggedId;
+      String? targetId;
+      await tester.pumpWidget(
+        noopWrap(
+          SizedBox(
+            width: 400,
+            height: 800,
+            child: DraggableTileGrid(
+              items: const [epX, epY],
+              onReorder: (_) {},
+              onNest: (a, b) {
+                draggedId = a;
+                targetId = b;
+              },
+              onTap: (_) {},
+              onLongPress: (_) {},
+            ),
+          ),
+        ),
+      );
+
+      // Start the long-press drag on Y (the right cell, higher index).
+      final yFinder = find.text('Episode Y');
+      final gesture = await tester.startGesture(tester.getCenter(yFinder));
+      // LongPressDraggable needs ~300ms before the drag starts.
+      await tester.pump(const Duration(milliseconds: 400));
+
+      // Move backward onto X (left cell, lower index). This is the
+      // direction that used to break.
+      await gesture.moveTo(tester.getCenter(find.text('Episode X')));
+      // Let the swap commit.
+      await tester.pump(const Duration(milliseconds: 50));
+      // Hold for the nest delay (500ms) so _checkNestIdle confirms.
+      await tester.pump(const Duration(milliseconds: 600));
+
+      // Release.
+      await gesture.up();
+      await tester.pump(const Duration(milliseconds: 250));
+
+      expect(draggedId, 'item:y', reason: 'dragged Y onto X (backward)');
+      expect(
+        targetId,
+        'item:x',
+        reason:
+            'onNest must fire even when the swap moved the dragged item '
+            'INTO the pointer slot. The "over own slot" branch must not '
+            'cancel an active nest target.',
+      );
+    });
   });
 }

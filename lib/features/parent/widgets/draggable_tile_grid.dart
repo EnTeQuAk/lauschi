@@ -120,11 +120,17 @@ class _DraggableTileGridState extends State<DraggableTileGrid> {
   String? _droppedId;
 
   bool _orderChanged = false;
-  DateTime? _nestIdleSince;
   int? _activeDropZone; // index of hovered drop zone, or null
 
   // Working order (mutated by swaps during drag)
   late List<DraggableTileItem> _order;
+
+  /// Attached to the inner SizedBox that wraps the cell [Stack]. Used to
+  /// convert pointer positions during a drag — the SizedBox is what
+  /// [_cellOffset] / [_hitTest] expect coordinates relative to, and
+  /// using its render box makes [SingleChildScrollView] scroll offsets
+  /// fall out automatically.
+  final _gridKey = GlobalKey();
 
   /// Index of the first episode in [_order]. Equals the number of tile
   /// items. Items at index < _boundary are tile-kind, items at index >=
@@ -283,7 +289,14 @@ class _DraggableTileGridState extends State<DraggableTileGrid> {
 
     _dragUpdateCount++;
 
-    final gridBox = context.findRenderObject() as RenderBox?;
+    // Convert via the inner grid SizedBox, not the State's outer Column.
+    // The Column doesn't move when the user scrolls, but the SizedBox
+    // does — so using its render box collapses any scroll offset into
+    // the conversion. With the previous outer-context lookup, a scroll
+    // of N px made every hit-test land N px above the finger, which on
+    // a mixed grid showed up as drags in the episode lane "activating"
+    // tiles in the upper block.
+    final gridBox = _gridKey.currentContext?.findRenderObject() as RenderBox?;
     if (gridBox == null) return;
     final local = gridBox.globalToLocal(details.globalPosition);
 
@@ -343,8 +356,19 @@ class _DraggableTileGridState extends State<DraggableTileGrid> {
 
     final targetId = _order[index].id;
     if (targetId == _draggedId) {
-      // Over our own slot. Cancel nest if active.
-      if (_nestTargetId != null) _cancelNest();
+      // Pointer is over the dragged item's current slot. Two cases:
+      //   1. We have no active target — drag just started, no swap yet.
+      //      Nothing to do.
+      //   2. We have an active target. After a backward swap (dragging
+      //      from a higher index to a lower one), the dragged item lands
+      //      AT the original target's slot while the target shifts one
+      //      slot over. The pointer hit-tests the dragged item, but the
+      //      user's intent is "I'm hovering on the target". Keep the
+      //      nest idle timer running on the original target so
+      //      hold-to-merge can still confirm on a backward drag.
+      if (_nestTargetId != null) {
+        _checkNestIdle(_nestTargetId!);
+      }
       return;
     }
 
@@ -474,27 +498,29 @@ class _DraggableTileGridState extends State<DraggableTileGrid> {
     });
   }
 
-  /// Check if the pointer has been idle on the same target tile long
-  /// enough to trigger nesting. Called every drag update.
+  /// Arm (or keep armed) the nest-confirm timer on the given target.
+  ///
+  /// Called from every drag update on a valid target. If a timer is
+  /// already counting down on the same target, this is a no-op — the
+  /// timer keeps running. If the target changed, the caller is expected
+  /// to have called [_cancelNest] first so this starts a fresh timer.
+  ///
+  /// Using a [Timer] (rather than polling [DateTime.now] between drag
+  /// updates) makes the confirm window deterministic under the test
+  /// binding's fake clock: `tester.pump(_nestDelay)` advances it
+  /// exactly the way real wall-clock time does in production.
   void _checkNestIdle(String targetId) {
-    if (_nestConfirmed) return; // already confirmed
-    if (_nestTargetId != targetId) {
-      _nestIdleSince = DateTime.now();
-      return;
-    }
-    if (_nestIdleSince == null) {
-      _nestIdleSince = DateTime.now();
-      return;
-    }
-
-    final idle = DateTime.now().difference(_nestIdleSince!);
-    if (idle >= _nestDelay && _nestTimer == null) {
-      // Pointer has been on this tile without swapping for 500ms.
+    if (_nestConfirmed) return;
+    if (_nestTargetId != targetId) return; // defensive — caller misalignment
+    if (_nestTimer != null) return;
+    _nestTimer = Timer(_nestDelay, () {
+      if (!mounted) return;
+      if (_nestTargetId != targetId) return;
       final targetTitle =
           _order.where((t) => t.id == targetId).firstOrNull?.title ?? '?';
       Log.info(
         _tag,
-        'Nest CONFIRMED (idle ${idle.inMilliseconds}ms)',
+        'Nest CONFIRMED',
         data: {
           'draggedId': _draggedId ?? '',
           'targetId': targetId,
@@ -503,13 +529,12 @@ class _DraggableTileGridState extends State<DraggableTileGrid> {
       );
       setState(() => _nestConfirmed = true);
       unawaited(HapticFeedback.mediumImpact());
-    }
+    });
   }
 
   void _cancelNest() {
     _nestTimer?.cancel();
     _nestTimer = null;
-    _nestIdleSince = null;
     if (_nestTargetId != null || _nestConfirmed) {
       Log.debug(
         _tag,
@@ -603,6 +628,7 @@ class _DraggableTileGridState extends State<DraggableTileGrid> {
         }
 
         return SizedBox(
+          key: _gridKey,
           height: totalHeight,
           child: Stack(
             clipBehavior: Clip.none,
