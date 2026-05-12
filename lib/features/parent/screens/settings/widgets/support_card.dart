@@ -89,7 +89,7 @@ class SupportCard extends StatelessWidget {
                   ),
                 ),
                 label: const Text(
-                  'GitHub',
+                  'lauschi ist Open Source',
                   style: TextStyle(fontFamily: 'Nunito', fontSize: 14),
                 ),
                 style: OutlinedButton.styleFrom(
