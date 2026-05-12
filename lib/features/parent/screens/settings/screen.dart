@@ -145,6 +145,25 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
         if (FeatureFlags.enableSentry) ...[
           const SizedBox(height: AppSpacing.lg),
           const ParentSectionHeader(title: 'Diagnose & Datenschutz'),
+          const Padding(
+            padding: EdgeInsets.fromLTRB(
+              AppSpacing.screenH,
+              0,
+              AppSpacing.screenH,
+              AppSpacing.sm,
+            ),
+            child: Text(
+              'Sentry ist ein externer Dienst zur Fehler-Diagnose. Falls '
+              'aktiviert, werden anonymisierte Berichte an Sentry-Server '
+              'in der EU gesendet.',
+              style: TextStyle(
+                fontFamily: 'Nunito',
+                fontSize: 12,
+                height: 1.4,
+                color: AppColors.textSecondary,
+              ),
+            ),
+          ),
           _SwitchTile(
             icon: Icons.videocam_outlined,
             title: 'Session-Aufzeichnungen',
@@ -163,7 +182,8 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                         content: const Text(
                           'Bei Fehlern wird eine anonymisierte '
                           'Bildschirmaufzeichnung erstellt und an Sentry '
-                          '(EU-Server) gesendet. Texte und Bilder werden '
+                          'gesendet, einen externen Diagnose-Dienst mit '
+                          'Servern in der EU. Texte und Bilder werden '
                           'standardmäßig maskiert.\n\n'
                           'Du kannst dies jederzeit wieder deaktivieren.',
                         ),
