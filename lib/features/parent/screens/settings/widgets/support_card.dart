@@ -102,6 +102,18 @@ class SupportCard extends StatelessWidget {
                 ),
               ),
             ),
+            const SizedBox(height: AppSpacing.xs),
+            const Text(
+              'Du kannst den Quellcode lesen, davon lernen, ihn anpassen '
+              'und teilen.',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontFamily: 'Nunito',
+                fontSize: 11,
+                height: 1.4,
+                color: AppColors.textSecondary,
+              ),
+            ),
           ],
         ),
       ),
