@@ -173,6 +173,15 @@ void main() {
       // The "N einzelne Folgen" label is only meaningful when there's
       // a divider to anchor — i.e. both blocks have at least one cell.
       expect(find.text('2 einzelne Folgen'), findsOneWidget);
+      // And the drag hint mirroring the top-of-screen one. Parents who
+      // land in the section need to know the two gestures available
+      // here: assign-to-tile and merge-into-new-tile.
+      expect(
+        find.text(
+          'Auf eine Kachel ziehen oder zwei zu einer neuen Kachel verbinden',
+        ),
+        findsOneWidget,
+      );
       expect(tester.takeException(), isNull);
     });
 

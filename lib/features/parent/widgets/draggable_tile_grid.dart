@@ -107,9 +107,10 @@ class _DraggableTileGridState extends State<DraggableTileGrid> {
   static const _aspectRatio = 0.7;
 
   /// Vertical band between the tile block and the episode block. Holds
-  /// the "N einzelne Folgen" label plus padding on both sides. Only
-  /// rendered when [_showDivider] is true (i.e. both blocks non-empty).
-  static const _dividerBandHeight = 44.0;
+  /// the "N einzelne Folgen" count line plus a centered helper hint
+  /// (the analogue of the "Halten & ziehen…" hint above the grid).
+  /// Only rendered when [_showDivider] is true.
+  static const _dividerBandHeight = 64.0;
 
   // Drag state
   String? _draggedId;
@@ -843,28 +844,44 @@ class _BoundaryLabel extends StatelessWidget {
   Widget build(BuildContext context) {
     final lineColor = AppColors.textSecondary.withAlpha(60);
     return Center(
-      child: Row(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
-          Expanded(child: Container(height: 1, color: lineColor)),
-          const SizedBox(width: AppSpacing.sm),
-          const Icon(
-            Icons.layers_clear_rounded,
-            size: 14,
-            color: AppColors.textSecondary,
+          Row(
+            children: [
+              Expanded(child: Container(height: 1, color: lineColor)),
+              const SizedBox(width: AppSpacing.sm),
+              const Icon(
+                Icons.layers_clear_rounded,
+                size: 14,
+                color: AppColors.textSecondary,
+              ),
+              const SizedBox(width: 4),
+              Text(
+                count == 1 ? '1 einzelne Folge' : '$count einzelne Folgen',
+                style: const TextStyle(
+                  fontFamily: 'Nunito',
+                  fontSize: 12,
+                  fontWeight: FontWeight.w700,
+                  color: AppColors.textSecondary,
+                  letterSpacing: 0.4,
+                ),
+              ),
+              const SizedBox(width: AppSpacing.sm),
+              Expanded(child: Container(height: 1, color: lineColor)),
+            ],
           ),
-          const SizedBox(width: 4),
+          const SizedBox(height: 4),
           Text(
-            count == 1 ? '1 einzelne Folge' : '$count einzelne Folgen',
-            style: const TextStyle(
+            'Auf eine Kachel ziehen oder zwei zu einer neuen Kachel verbinden',
+            textAlign: TextAlign.center,
+            style: TextStyle(
               fontFamily: 'Nunito',
-              fontSize: 12,
-              fontWeight: FontWeight.w700,
-              color: AppColors.textSecondary,
-              letterSpacing: 0.4,
+              fontSize: 11,
+              height: 1.3,
+              color: AppColors.textSecondary.withAlpha(180),
             ),
           ),
-          const SizedBox(width: AppSpacing.sm),
-          Expanded(child: Container(height: 1, color: lineColor)),
         ],
       ),
     );
