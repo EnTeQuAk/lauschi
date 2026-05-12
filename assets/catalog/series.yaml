@@ -34860,8 +34860,13 @@ series:
       - 5L4dszSpZyKqRPlZmHm5Nn
       albums:
       - id: 7gFZDNvI531qwn5kJncBJg
-        episode: 1
         title: Encanto (Hörspiel zum Disney Film)
+      - id: 3orByHyG2YaKwPBM9D6LNU
+        title: Willkommen in Casita! (Disney Encanto)
+      - id: 4rJa7yCRSev3pV7IiA0gmL
+        title: Geheimnis im Regenwald (Disney Encanto)
+      - id: 6Bk6mr3zjr4oSJ7ngUOs3Y
+        title: Brunos andere Gabe (Disney Encanto)
     apple_music:
       artist_ids:
       - '1597162487'
@@ -35054,7 +35059,6 @@ series:
   content_type: hoerspiel
 - id: bambi_hoerspiel
   title: Bambi Hörspiel
-  content_type: hoerspiel
   aliases:
   - Bambi
   keywords:
@@ -35070,15 +35074,13 @@ series:
         title: Bambi 2 - Der Herr der Wälder (Hörspiel zum Disney Film)
     apple_music:
       albums:
-      - id: '1524314299'
-        episode: 1
-        title: 'Folge 1: Bambi'
-      - id: '1524325507'
-        episode: 2
-        title: 'Folge 2: Bambis Kinder'
-      - id: '1524477751'
-        episode: 3
-        title: 'Folge 3: Bambi und der rätselhafte Räuber'
+      - id: '1685967741'
+        title: Bambi (Das Original-Hörspiel zum Disney Film)
+      - id: '1686029476'
+        title: Bambi 2 - Der Herr der Wälder (Hörspiel zum Disney Film)
+      artist_ids:
+      - '1670459358'
+  content_type: hoerspiel
 - id: boss_baby
   title: Boss Baby
   keywords:
