@@ -23,8 +23,7 @@ import click
 
 from pydantic import BaseModel, Field
 from pydantic_ai import Agent, RunContext, ToolOutput
-from pydantic_ai.models.openai import OpenAIChatModel
-from pydantic_ai.providers.openai import OpenAIProvider
+from lauschi_catalog._opencode import build_opencode_model
 from pydantic_ai.usage import UsageLimits
 from rich.console import Console
 from rich.markup import escape
@@ -42,7 +41,6 @@ console = Console()
 REPO_ROOT = Path(__file__).parent.parent.parent.parent.parent
 CURATION_DIR = REPO_ROOT / "assets" / "catalog" / "curation"
 
-_OPENCODE_BASE_URL = "https://opencode.ai/zen/v1"
 _DEFAULT_MODEL = "kimi-k2.5"
 _MAX_RETRIES = 3
 _RETRY_DELAY = 5
@@ -454,8 +452,7 @@ tool calls and merged in by the assembler.
 def _build_agent(
     model_name: str, api_key: str,
 ) -> Agent[Deps, ReviewResult]:
-    provider = OpenAIProvider(base_url=_OPENCODE_BASE_URL, api_key=api_key)
-    model = OpenAIChatModel(model_name, provider=provider)
+    model = build_opencode_model(model_name, api_key)
 
     # ToolOutput forces the model to emit ReviewResult as a function-call
     # payload (the OpenAI "tools" API) instead of free-form JSON in the

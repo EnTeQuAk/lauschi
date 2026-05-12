@@ -25,8 +25,7 @@ from pathlib import Path
 import click
 from pydantic import BaseModel, Field, field_validator
 from pydantic_ai import Agent, RunContext
-from pydantic_ai.models.openai import OpenAIChatModel
-from pydantic_ai.providers.openai import OpenAIProvider
+from lauschi_catalog._opencode import build_opencode_model
 from pydantic_ai.usage import UsageLimits
 from rich import box
 from rich.console import Console
@@ -45,7 +44,6 @@ REPO_ROOT = Path(__file__).parent.parent.parent.parent.parent
 CURATION_DIR = REPO_ROOT / "assets" / "catalog" / "curation"
 CURATION_DIR.mkdir(parents=True, exist_ok=True)
 
-_OPENCODE_BASE_URL = "https://opencode.ai/zen/v1"
 _DEFAULT_MODEL = "kimi-k2.5"
 _MAX_RETRIES = 3
 _RETRY_DELAY = 5
@@ -604,8 +602,7 @@ def _dry_run_prompts(query: str, is_music: bool = False) -> None:
 def _build_small_agent(
     model_name: str, api_key: str, *, is_music: bool = False,
 ) -> Agent[Deps, CuratedSeries]:
-    provider = OpenAIProvider(base_url=_OPENCODE_BASE_URL, api_key=api_key)
-    model = OpenAIChatModel(model_name, provider=provider)
+    model = build_opencode_model(model_name, api_key)
     prompt = _MUSIC_SYSTEM_PROMPT if is_music else _SYSTEM_PROMPT
     agent: Agent[Deps, CuratedSeries] = Agent(
         model,
@@ -1141,8 +1138,7 @@ async def _run_large(
     is_music: bool = False,
     known_artist_ids: dict[str, list[str]] | None = None,
 ) -> CuratedSeries:
-    ai_provider = OpenAIProvider(base_url=_OPENCODE_BASE_URL, api_key=api_key)
-    model = OpenAIChatModel(model_name, provider=ai_provider)
+    model = build_opencode_model(model_name, api_key)
 
     # ── Step 1: Discovery — find artists + fetch discographies ─────────
     console.print("\n[bold cyan]Discovery[/]\n")

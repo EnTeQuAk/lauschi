@@ -19,8 +19,7 @@ from pathlib import Path
 import click
 from pydantic import BaseModel, Field
 from pydantic_ai import Agent, RunContext, ToolOutput
-from pydantic_ai.models.openai import OpenAIChatModel
-from pydantic_ai.providers.openai import OpenAIProvider
+from lauschi_catalog._opencode import build_opencode_model
 from pydantic_ai.usage import UsageLimits
 from rich import box
 from rich.console import Console
@@ -38,7 +37,6 @@ console = Console()
 REPO_ROOT = Path(__file__).parent.parent.parent.parent.parent
 CURATION_DIR = REPO_ROOT / "assets" / "catalog" / "curation"
 
-_OPENCODE_BASE_URL = "https://opencode.ai/zen/v1"
 _VERIFY_MODEL = "minimax-m2.5"
 _MAX_RETRIES = 3
 _RETRY_DELAY = 5
@@ -145,8 +143,7 @@ to independently verify those decisions.
 def _build_verify_agent(
     model_name: str, api_key: str,
 ) -> Agent[Deps, VerifyResult]:
-    provider = OpenAIProvider(base_url=_OPENCODE_BASE_URL, api_key=api_key)
-    model = OpenAIChatModel(model_name, provider=provider)
+    model = build_opencode_model(model_name, api_key)
     # Wrap in ToolOutput so the model emits VerifyResult as a function-call
     # payload rather than free-form JSON in message content. Same mechanism
     # review.py uses; gives stronger schema adherence on models that
