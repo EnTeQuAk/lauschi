@@ -171,6 +171,48 @@ def test_assembles_pattern_update_from_deps():
     assert review.pattern_update == r"^Folge (\d+):"
 
 
+# ── propose_removal: agent's "this entry is bullshit" verdict ─────────────
+
+
+def test_assembles_removal_proposal_from_deps():
+    """The new propose_removal tool sets deps.proposed_removal; the
+    assembler must wrap it into a RemovalProposal with the model name
+    captured for provenance."""
+    deps = _empty_deps()
+    deps.proposed_removal = {"reason": "Series only exists on Audible; nothing on streaming providers."}
+    review = assemble_review(_result(), deps, model_name="kimi-k2.5")
+    assert review.removal_proposal is not None
+    assert "Audible" in review.removal_proposal.reason
+    assert review.removal_proposal.proposed_by == "kimi-k2.5"
+    assert review.removal_proposal.proposed_at  # non-empty ISO timestamp
+
+
+def test_assembles_with_no_removal_when_unset():
+    """Default — most reviews don't propose removal. None is the right
+    serialized shape so save_review can pop the field cleanly."""
+    review = assemble_review(_result(), _empty_deps())
+    assert review.removal_proposal is None
+
+
+def test_needs_re_verification_when_removal_proposed():
+    """A removal proposal MUST invalidate any prior verify approval.
+    The 4-eye agreement can't be trusted across structural changes,
+    and a removal is the most structural change there is."""
+    from lauschi_catalog.commands.review import (
+        AssembledReview, RemovalProposal, _needs_re_verification,
+    )
+    review = AssembledReview(
+        overrides=[], splits=[], added_albums=[], pattern_update=None,
+        decisions=_clean_decisions(), summary="x",
+        removal_proposal=RemovalProposal(
+            reason="No streaming presence.",
+            proposed_by="kimi-k2.5",
+            proposed_at="2026-05-12T00:00:00+00:00",
+        ),
+    )
+    assert _needs_re_verification(review) is True
+
+
 # ── assemble_review: coercion ─────────────────────────────────────────────
 
 

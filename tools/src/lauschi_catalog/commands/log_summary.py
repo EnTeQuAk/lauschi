@@ -119,6 +119,8 @@ class SeriesReport:
     review_splits: int = 0
     review_added: int = 0
     review_pattern_update: bool = False
+    review_removal_proposed: bool = False
+    review_removal_reason: str = ""
     review_verdicts: dict[str, str] = field(default_factory=dict)
     review_deferred_categories: list[str] = field(default_factory=list)
     review_coerced_categories: list[str] = field(default_factory=list)
@@ -160,8 +162,13 @@ _RE_REVIEW_SKIP = re.compile(
     r"^Skipping ([a-z][a-z0-9_]*) \(already (approved|ai_verified); use --force",
 )
 _RE_REVIEW_COUNTS = re.compile(
-    r"^\s+(\d+) overrides, (\d+) splits, (\d+) added(?:, (pattern_update))?",
+    r"^\s+(\d+) overrides, (\d+) splits, (\d+) added"
+    r"(?:, (pattern_update))?(?:, (removal_proposed))?",
 )
+# Matches the loud one-liner review prints when an agent calls
+# propose_removal: "🗑️ Removal proposed: <reason>". Captured for the
+# detail view; the boolean comes from the counts line above.
+_RE_REVIEW_REMOVAL = re.compile(r"🗑️\s+Removal proposed:\s+(.+?)(?:\s*$|\s*\[)")
 _RE_REVIEW_VERDICTS = re.compile(
     r"^\s+dup:(\S+)\s+\|\s+sub:(\S+)\s+\|\s+gap:(\S+)\s+\|\s+pat:(\S+)\s+\|\s+out:(\S+)\s+\|\s+xprov:(\S+)",
 )
@@ -382,6 +389,12 @@ def parse_log(log_path: Path) -> dict[str, SeriesReport]:
                 cur_review.review_splits = int(m.group(2))
                 cur_review.review_added = int(m.group(3))
                 cur_review.review_pattern_update = m.group(4) is not None
+                cur_review.review_removal_proposed = m.group(5) is not None
+                continue
+            m = _RE_REVIEW_REMOVAL.search(line)
+            if m:
+                cur_review.review_removal_proposed = True
+                cur_review.review_removal_reason = m.group(1).strip()
                 continue
             m = _RE_REVIEW_VERDICTS.match(line)
             if m:
@@ -621,6 +634,7 @@ def classify(r: SeriesReport) -> Health:
         or r.review_coerced_categories
         or r.pattern_coverage_warning
         or r.pattern_revised_mid_run
+        or r.review_removal_proposed
     ):
         return Health.ATTENTION
     if r.id_lock_fired or r.search_disambiguation:
@@ -653,6 +667,8 @@ def collect_flags(r: SeriesReport) -> list[str]:
         flags.append("defer:" + ",".join(r.review_deferred_categories))
     if r.review_coerced_categories:
         flags.append("coerce:" + ",".join(set(r.review_coerced_categories)))
+    if r.review_removal_proposed:
+        flags.append("🗑️removal-proposed")
     if r.verify_status == "escalated":
         flags.append("verify-escalated")
     return flags
@@ -864,7 +880,18 @@ def render_detail(r: SeriesReport) -> Panel:
             f"  actions:  {r.review_overrides} overrides, "
             f"{r.review_splits} splits, {r.review_added} added"
             + (", pattern_update" if r.review_pattern_update else "")
+            + (", removal_proposed" if r.review_removal_proposed else "")
         )
+        if r.review_removal_proposed:
+            # Loud per-detail callout so the human sees the WHY and
+            # can decide whether to act on the removal proposal. Reason
+            # is unbounded in the JSON; truncate here.
+            reason = r.review_removal_reason[:300] if r.review_removal_reason else ""
+            tail = "…" if len(r.review_removal_reason) > 300 else ""
+            lines.append(
+                f"  [yellow]🗑️ removal proposed[/yellow]"
+                + (f": [dim]{reason}{tail}[/dim]" if reason else ""),
+            )
         if r.review_verdicts:
             verdicts = "  | ".join(
                 f"{c}:{r.review_verdicts.get(c, '?')}"

@@ -65,6 +65,21 @@ class SplitProposal(BaseModel):
     reason: str
 
 
+class RemovalProposal(BaseModel):
+    """Agent's verdict that this catalog entry has no legitimate
+    streaming content and should be removed from series.yaml.
+
+    Stored in the curation JSON's review block. Apply does NOT
+    auto-remove — surfaces via log-summary for human review, and
+    a future ``catalog-apply-removals`` command handles batched
+    removal with confirmation.
+    """
+    reason: str
+    # Set by the orchestrator at save time, not by the agent.
+    proposed_by: str = ""
+    proposed_at: str = ""
+
+
 class AddedAlbum(BaseModel):
     album_id: str
     provider: str
@@ -243,6 +258,10 @@ class AssembledReview:
     pattern_update: str | list[str] | None
     decisions: StructuralReview
     summary: str
+    # Agent's "remove this entry entirely" verdict. Persisted in the
+    # curation JSON; apply never auto-removes. log-summary surfaces
+    # it as an ATTENTION-level flag so a human can review and act.
+    removal_proposal: RemovalProposal | None = None
 
 
 # ── Dependencies ───────────────────────────────────────────────────────────
@@ -266,6 +285,11 @@ class Deps:
     proposed_splits: list[dict] = field(default_factory=list)
     added_albums: list[dict] = field(default_factory=list)
     proposed_pattern_update: str | list[str] | None = field(default=None, init=False)
+    # Latest-wins: subsequent propose_removal calls replace the prior
+    # proposal. Stored as a dict ({"reason": str}) so the tool
+    # signature stays minimal — the model + timestamp metadata is
+    # added by assemble_review where we know which model is running.
+    proposed_removal: dict | None = field(default=None, init=False)
     seen_details: dict[str, dict] = field(default_factory=dict)
     _search_count: int = field(default=0, init=False)
     _fetch_count: int = field(default=0, init=False)
@@ -363,6 +387,13 @@ Proposals:
 - ``add_album``: add a missing episode (needs evidence_url from a
   non-provider domain; refuses without prior research)
 - ``propose_pattern_update``: propose a new episode_pattern regex
+- ``propose_removal``: recommend deleting this catalog entry
+  entirely. Use ONLY when there's no legitimate streaming content
+  to support the entry (artist doesn't exist on the providers, all
+  matches are misattributed, series is CD/Audible-only). Not for
+  "needs re-curate" or "a few wrong inclusions" — use overrides for
+  those. Apply never auto-removes; the proposal surfaces for human
+  review via log-summary.
 
 If a tool returns an error, fix the args — don't keep retrying.
 
@@ -882,6 +913,58 @@ def _build_agent(
             f"episode_num for {would_change} album(s)."
         )
 
+    @agent.tool
+    def propose_removal(
+        ctx: RunContext[Deps], reason: str,
+    ) -> str:
+        """Recommend that this entire catalog entry be removed.
+
+        Use when, after looking at the data, you conclude there's no
+        legitimate streaming content to support this entry — for example:
+
+        - Provider search returns nothing recognizable as this series
+          (artist doesn't exist on Spotify/Apple Music; only on
+          Audible, YouTube, or CD-only).
+        - All included albums are misattributed — the provider picked
+          a different artist who happens to share part of the name
+          (e.g. "cocomelon" matched a Japanese pop group).
+        - The "series" turned out to be a label or compilation banner,
+          not a coherent show or artist users would search for.
+        - The catalog entry duplicates another entry with better
+          coverage and there's nothing distinct here worth keeping.
+
+        Do NOT propose removal for entries that just need a re-curate
+        or have a handful of wrong inclusions — use propose_override
+        (single or batch) for those. Small but legitimate series
+        (e.g. a 2-album classic Hörspiel) are not bullshit; keep
+        them.
+
+        Apply does NOT auto-remove. The proposal lands in the
+        curation JSON and surfaces in catalog-log-summary as an
+        ATTENTION-level flag; a human reviews and either confirms
+        the removal (deletes from series.yaml) or rejects it.
+
+        Latest call wins (idempotent replacement). One reason field
+        — be specific so the human can act on it without re-reading
+        the whole curation.
+        """
+        if not (reason or "").strip():
+            return "reason is required — explain WHY this entry should be removed"
+        if len(reason.strip()) < 20:
+            return (
+                "reason is too short — provide enough context that "
+                "a human can act on the removal without re-running "
+                "discovery (mention what's missing/wrong)"
+            )
+        ctx.deps.proposed_removal = {"reason": reason.strip()}
+        console.print(
+            f"  [dim]🗑️ propose_removal → {reason.strip()[:80]}…[/]",
+        )
+        return (
+            f"Removal proposal recorded. The series will surface in "
+            f"catalog-log-summary as ATTENTION; no automatic deletion."
+        )
+
     return agent
 
 
@@ -1112,7 +1195,7 @@ async def _run_review(
                     return run.result.output
 
             result = await asyncio.wait_for(_run(), timeout=timeout)
-            return assemble_review(result, deps)
+            return assemble_review(result, deps, model_name=model_name)
         except asyncio.TimeoutError:
             # Same reasoning as verify: a 600s budget that timed out
             # already burned the budget; retrying just doubles it.
@@ -1166,7 +1249,9 @@ def _merge_split_chunks(chunks: list[dict]) -> list[SplitProposal]:
     return [SplitProposal(**v) for v in by_id.values()]
 
 
-def assemble_review(result: ReviewResult, deps: Deps) -> AssembledReview:
+def assemble_review(
+    result: ReviewResult, deps: Deps, model_name: str = "",
+) -> AssembledReview:
     """Combine model output (decisions + summary) with deps tool-driven actions.
 
     The model emits only ``decisions`` and ``summary``. All action
@@ -1242,6 +1327,14 @@ def assemble_review(result: ReviewResult, deps: Deps) -> AssembledReview:
             f"{_DEFERRED}: {', '.join(coerced)}[/yellow]",
         )
 
+    removal = None
+    if deps.proposed_removal:
+        removal = RemovalProposal(
+            reason=deps.proposed_removal["reason"],
+            proposed_by=model_name or "",
+            proposed_at=datetime.now(UTC).isoformat(),
+        )
+
     return AssembledReview(
         overrides=overrides,
         splits=splits,
@@ -1249,6 +1342,7 @@ def assemble_review(result: ReviewResult, deps: Deps) -> AssembledReview:
         pattern_update=pattern_update,
         decisions=decisions,
         summary=result.summary,
+        removal_proposal=removal,
     )
 
 
@@ -1270,6 +1364,7 @@ def _needs_re_verification(review: AssembledReview) -> bool:
         or review.splits
         or review.added_albums
         or review.pattern_update
+        or review.removal_proposal
     ):
         return True
     d = review.decisions
@@ -1308,6 +1403,13 @@ def save_review(series_id: str, review: AssembledReview) -> Path:
     review_block["pattern_update"] = review.pattern_update
     review_block["decisions"] = review.decisions.model_dump()
     review_block["summary"] = review.summary
+    if review.removal_proposal:
+        review_block["removal_proposal"] = review.removal_proposal.model_dump()
+    else:
+        # Latest-wins: clearing the proposal on a re-review where the
+        # agent didn't repeat it. Without this, a stale proposal
+        # could outlive the situation that triggered it.
+        review_block.pop("removal_proposal", None)
     # Old reviews carried a free-form ``notes`` string. Drop it on save
     # so curations don't mix old and new shapes.
     review_block.pop("notes", None)
@@ -1443,8 +1545,18 @@ def review(
         console.print(
             f"  {len(review.overrides)} overrides, {len(review.splits)} splits, "
             f"{len(review.added_albums)} added"
-            + (", pattern_update" if review.pattern_update else ""),
+            + (", pattern_update" if review.pattern_update else "")
+            + (", removal_proposed" if review.removal_proposal else ""),
         )
+        if review.removal_proposal:
+            # Loud one-liner so the human notices it scrolling past in
+            # an --all run and can decide whether to act. The full
+            # reason is in the JSON; log-summary will surface it again
+            # at ATTENTION health level.
+            console.print(
+                f"  [yellow]🗑️ Removal proposed:[/yellow] "
+                f"[dim]{review.removal_proposal.reason[:120]}[/dim]",
+            )
         console.print(f"  [green]Saved to {save_path}[/green]")
 
         # One-line per-category roll-up so the human can spot

@@ -161,6 +161,50 @@ def test_parses_review_verdicts_after_save(tmp_log):
     assert classify(r) == Health.ATTENTION
 
 
+def test_parses_review_removal_proposal(tmp_log):
+    """propose_removal is the agent's "this entry is bullshit"
+    verdict. The reason gets logged as a "🗑️ Removal proposed:"
+    one-liner; the counts line gets ", removal_proposed" appended.
+    Both signals must surface in the parser; classify must promote
+    the report to ATTENTION so the human sees it in the default
+    filter."""
+    log = tmp_log(
+        "Step 2/5: AI review...\n"
+        "Reviewing Tom Turbo...\n"
+        "  0 overrides, 0 splits, 0 added, removal_proposed\n"
+        "  🗑️ Removal proposed: No streaming presence on Spotify or Apple Music; only Audible.\n"
+        "  Saved to /repo/assets/catalog/curation/tom_turbo.json\n"
+        "    dup:no_within_provider_duplicates | sub:no_sub_series_mixed_in | "
+        "gap:no_gaps_present | pat:current_pattern_correct | "
+        "out:no_outliers_found | xprov:balanced\n"
+        "  Summary: Tom Turbo is only on Audible.\n",
+    )
+    reports = parse_log(log)
+    r = reports["tom_turbo"]
+    assert r.review_status == "success"
+    assert r.review_removal_proposed is True
+    assert "No streaming presence" in r.review_removal_reason
+    assert classify(r) == Health.ATTENTION
+    assert "🗑️removal-proposed" in collect_flags(r)
+
+
+def test_review_counts_line_alone_surfaces_removal_flag(tmp_log):
+    """The counts line ", removal_proposed" suffix alone is enough
+    to know the agent proposed removal — even without parsing the
+    🗑️ reason line. Pin this so a log captured mid-stream still
+    classifies correctly."""
+    log = tmp_log(
+        "Step 2/5: AI review...\n"
+        "Reviewing Tom Turbo...\n"
+        "  0 overrides, 0 splits, 0 added, pattern_update, removal_proposed\n"
+        "  Saved to /repo/assets/catalog/curation/tom_turbo.json\n",
+    )
+    reports = parse_log(log)
+    r = reports["tom_turbo"]
+    assert r.review_pattern_update is True
+    assert r.review_removal_proposed is True
+
+
 def test_parses_review_skip(tmp_log):
     log = tmp_log(
         "Step 2/5: AI review...\n"
