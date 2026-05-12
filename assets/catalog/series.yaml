@@ -14855,175 +14855,6 @@ series:
         title: 'Folge 51: Mister Kartoffels Weihnachtsshow'
   aliases:
   - Peppa Pig
-- id: schule_magische_tiere
-  title: Die Schule der magischen Tiere
-  aliases:
-  - SDMT
-  keywords:
-  - die schule der magischen tiere
-  providers:
-    spotify:
-      artist_ids:
-      - 1BElEHaU2xaZg7FOGsSird
-      - 6wlMx6MhWCynm8yVU0K3V3
-      albums:
-      - id: 21JyQm4gA1T6JPP9D2M6n1
-        episode: 1
-        title: '01: Die Schule der magischen Tiere'
-      - id: 3R5QGeXiLeYbk9uD4zg12C
-        episode: 1
-        title: 'Die Schule der magischen Tiere - Endlich Ferien 1: Rabbat und Ida'
-      - id: 1isQiIubSAe8uOvzDfAF3H
-        episode: 2
-        title: '02: Voller Löcher!'
-      - id: 0EucFZEiJuJ3psm31E6RF6
-        episode: 2
-        title: 'Die Schule der magischen Tiere - Endlich Ferien 2: Silas und Rick'
-      - id: 5TfoKo78yKBCWbLqboT9pl
-        episode: 3
-        title: '03: Licht aus!'
-      - id: 0G0b3Kc6qzItvpk7TglhZD
-        episode: 3
-        title: 'Die Schule der magischen Tiere - Endlich Ferien 3: Henry und Leander'
-      - id: 756UFNiaRWDFiIvXdAfrKQ
-        episode: 4
-        title: '04: Abgefahren!'
-      - id: 7fEGweN9eH9qPRDJ5AjumD
-        episode: 5
-        title: '05: Top oder Flop!'
-      - id: 6VNkVrHo8xbPjjcOsRMNoS
-        episode: 6
-        title: 'Die Schule der magischen Tiere 6: Nass und nasser!'
-      - id: 0Knp5SXB3RfeYYVKyhvZut
-        episode: 7
-        title: 'Die Schule der magischen Tiere 7: Wo ist Mr. M?'
-      - id: 1VJmk9GkZgexLAJoRddZhb
-        episode: 8
-        title: 'Die Schule der magischen Tiere 8: Voll verknallt!'
-      - id: 3K0akNWosBxlTDxYfn8qVo
-        episode: 9
-        title: 'Die Schule der magischen Tiere 9: Versteinert!'
-      - id: 7c4Gw71g1Q89U6oBKHtMIt
-        title: Die Schule der magischen Tiere - Score zum Film
-      - id: 4IAKTxNpOZi0LoP5YXzaUF
-        title: Die Schule der magischen Tiere - Soundtrack zum Film
-      - id: 2vqyWQHCQWqDOHjDIGIOWf
-        title: Die Schule der magischen Tiere 2 - Score zum Film
-      - id: 1zvDDIx3HUSCBGfHkwJhY4
-        title: Die Schule der magischen Tiere 2 - Soundtrack zum Film
-      - id: 6ngoE6dWovkpBQxb8gNdsV
-        title: Die Schule der magischen Tiere 3 - Soundtrack zum Film
-      - id: 6BcR1yeaOQUj3mNzLBQ0QQ
-        title: Die Schule der magischen Tiere 4 - Soundtrack zum Film
-    apple_music:
-      artist_ids:
-      - '1328909127'
-      albums:
-      - id: '1875981083'
-        episode: 1
-        title: '01: Die Schule der magischen Tiere'
-      - id: '1831929684'
-        episode: 1
-        title: 'Die Schule der magischen Tiere ermittelt Neuausgabe 1: Der grüne Glibber-Brief (Der fröhliche Mini-Krimi mit den beliebten magischen Tieren)'
-      - id: '1686139756'
-        episode: 1
-        title: 'Endlich Ferien 1: Rabbat und Ida'
-      - id: '1875981203'
-        episode: 2
-        title: '02: Voller Löcher!'
-      - id: '1686142581'
-        episode: 2
-        title: 'Endlich Ferien 2: Silas und Rick'
-      - id: '1875981054'
-        episode: 3
-        title: '03: Licht aus!'
-      - id: '1769665977'
-        episode: 3
-        title: Die Schule der magischen Tiere 3 - Hörspiel zum Kinofilm
-      - id: '1647812789'
-        episode: 3
-        title: 'Die Schule der magischen Tiere ermittelt - Hörspiele 3: Der Kokosnuss-Klau'
-      - id: '1686140413'
-        episode: 3
-        title: 'Endlich Ferien 3: Henry und Leander'
-      - id: '1875981660'
-        episode: 4
-        title: '04: Abgefahren!'
-      - id: '1841820000'
-        episode: 4
-        title: Die Schule der magischen Tiere 4 - Hörspiel zum Kinofilm
-      - id: '1616895199'
-        episode: 4
-        title: 'Die Schule der magischen Tiere ermittelt - Hörspiele 4: Der Flötenschreck'
-      - id: '1686242747'
-        episode: 4
-        title: 'Endlich Ferien 4: Helene und Karajan'
-      - id: '1885852318'
-        episode: 5
-        title: '05: Top oder Flop!'
-      - id: '1686261888'
-        episode: 5
-        title: 'Endlich Ferien 5: Benni und Henrietta'
-      - id: '1894791871'
-        episode: 6
-        title: '06: Nass und nasser'
-      - id: '1702832306'
-        episode: 6
-        title: 'Die Schule der magischen Tiere ermittelt - Hörspiele 6: Die Plätzchenfalle'
-      - id: '1686281064'
-        episode: 6
-        title: 'Endlich Ferien 6: Hatice und Mette-Maja'
-      - id: '1686284090'
-        episode: 7
-        title: '07: Wo ist Mr. M?'
-      - id: '1686207054'
-        episode: 7
-        title: 'Endlich Ferien 7: Max und Muriel'
-      - id: '1686285068'
-        episode: 8
-        title: '08: Voll verknallt!'
-      - id: '1689357610'
-        episode: 8
-        title: 'Endlich Ferien 8: Franka & Cooper'
-      - id: '1686283833'
-        episode: 9
-        title: '09: Versteinert!'
-      - id: '1761360366'
-        episode: 9
-        title: 'Endlich Ferien 09: Elisa und Silber'
-      - id: '1686286438'
-        episode: 10
-        title: '10: Hin und weg!'
-      - id: '1686249232'
-        episode: 11
-        title: '11: Wilder, wilder Wald!'
-      - id: '1686277307'
-        episode: 12
-        title: '12: Voll das Chaos!'
-      - id: '1686235809'
-        episode: 13
-        title: '13: Bravo, bravissimo!'
-      - id: '1716335135'
-        episode: 14
-        title: '14: Ach du Schreck!'
-      - id: '1781714939'
-        episode: 15
-        title: '15: Vierundzwanzig'
-      - id: '1841670092'
-        episode: 16
-        title: '16: Land unter!'
-      - id: '1645738616'
-        title: Die Schule der magischen Tiere 2 - Score zum Film (Original Score)
-      - id: '1686073562'
-        title: Eingeschneit! Ein Winterabenteuer
-  content_type: music
-  episode_pattern:
-  - '^(\d+): '
-  - ^Die Schule der magischen Tiere (\d+)[\s:-]
-  - '^Endlich Ferien (\d+): '
-  - '^Die Schule der magischen Tiere - Endlich Ferien (\d+): '
-  - '^Die Schule der magischen Tiere ermittelt Neuausgabe (\d+): '
-  - '^Die Schule der magischen Tiere ermittelt - Hörspiele (\d+): '
 - id: globi
   title: Globi
   keywords:
@@ -30083,194 +29914,6 @@ series:
   - Miraculous
   - Ladybug und Cat Noir
   - Miraculous Ladybug
-- id: pettersson_findus
-  title: Pettersson und Findus
-  aliases:
-  - 'Pettersson & Findus'
-  keywords:
-  - Pettersson und Findus
-  episode_pattern: (?i)folge\s*(\d+)[:\s]
-  providers:
-    spotify:
-      artist_ids:
-      - 3YZqnPKdtP5qP4LSvrgx9i
-      albums:
-      - id: 1Rl4Sd1z3aNzJ3iDeyT79v
-        episode: 1
-        title: 'Folge 1: Eine Geburtstagstorte für die Katze + zwei weitere Geschichten (Das Original-Hörspiel zur TV-Serie)'
-      - id: 7cztXAIeIdjj7gHHIaIXQh
-        episode: 2
-        title: 'Folge 2: Ein Feuerwerk für den Fuchs + zwei weitere Geschichten (Das Original-Hörspiel zur TV-Serie)'
-      - id: 4L8sq9jBYuW1pVeIUteUk7
-        episode: 3
-        title: 'Folge 3: Aufruhr im Gemüsebeet + zwei weitere Geschichten (Das Original-Hörspiel zur TV-Serie)'
-      - id: 1wOqPQTwDu2GneJqChLQV4
-        episode: 4
-        title: 'Folge 4: Die Elchjagd + zwei weitere Geschichten (Das Original-Hörspiel zur TV-Serie)'
-      - id: 5ggsRAlwYpxKZrFcn791tX
-        episode: 5
-        title: 'Folge 5: Wie Findus zu Pettersson kam + zwei weitere Geschichten (Das Original-Hörspiel zur TV-Serie)'
-      - id: 48vL216dRDPOoAHGdccO4y
-        episode: 6
-        title: 'Folge 6: Schatzsuche + zwei weitere Geschichten (Das Original-Hörspiel zur TV-Serie)'
-      - id: 2ALteAq5xwlimsetoK9E5y
-        episode: 7
-        title: 'Folge 7: Der Weihnachtsmann kommt - Teil 1 (Das Original-Hörspiel zur TV-Serie)'
-      - id: 5DGEyjSlULxrHlVYGt1NkX
-        episode: 8
-        title: 'Folge 8: Der Weihnachtsmann kommt - Teil 2 (Das Original-Hörspiel zur TV-Serie)'
-      - id: 6uh9nJgSIgyU01uGXGY6OR
-        episode: 9
-        title: 'Folge 9: Überraschung für Pettersson (Das Original-Hörspiel zur TV-Serie)'
-      - id: 4sLtTKx4qappPepQW6KlLC
-        episode: 10
-        title: 'Folge 10: Findus und das eigene Fahrrad (Das Original Hörspiel zur TV-Serie)'
-      - id: 3OsfiTVaxZzsxWuKzGJG7G
-        episode: 11
-        title: 'Folge 11: Fia und der Hühnerfloh (Das Original Hörspiel zur TV-Serie)'
-      - id: 4oIPPpWb8X00qpFoqtFZ6S
-        episode: 12
-        title: 'Folge 12: Duell unterm Kirschbaum (Das Original Hörspiel zur TV-Serie)'
-      - id: 3FHVFy0puddIy7i1MQbmXY
-        episode: 13
-        title: 'Folge 13: Bei Katze und Hund geht es oft rund (Das Original-Hörspiel zur TV-Serie)'
-      - id: 45TPOgfUbfFv6SIEgWAgGj
-        episode: 14
-        title: 'Folge 14: Namenstag für alle (Das Original-Hörspiel zur TV-Serie)'
-      - id: 74eWACIG45euHC11dV18gP
-        episode: 15
-        title: 'Folge 15: Das Denk-Dran-Taschentuch (Das Original-Hörspiel zur TV-Serie)'
-      - id: 10rq97uRicLHltvtdt3fCA
-        episode: 16
-        title: 'Folge 16: Der allerlängste Tag des Jahres (Das Original-Hörspiel zur TV-Serie)'
-      - id: 6Gy4WtmWnYf3IcPGRheWeB
-        title: 'Findus erklärt die Welt: Der Mensch von innen und außen'
-      - id: 2kXKwTAMGso5Hvf0l8zLlw
-        title: 'Findus erklärt die Welt: Der Urknall und das Weltall'
-      - id: 5SqOysEyYwB08Rfc00ctMx
-        title: 'Findus erklärt die Welt: Eine Kugel namens Erde'
-      - id: 6zuKQptNPGsZYuPLjRpDBz
-        title: 'Findus erklärt die Welt: Findus kunterbunte Werkstatt'
-      - id: 7AzE84tzTbyQuiAU13sQom
-        title: 'Findus erklärt die Welt: In der Natur mit Pettersson und Findus (Das Original-Hörspiel zum Naturbuch)'
-      - id: 0V8EmGbXyvDS3L4lDpgrqI
-        title: 'Findus erklärt die Welt: Kluge Köpfe und schöne Klänge'
-      - id: 4YRXxki5bkewmZjhFev86Y
-        title: 'Findus erklärt die Welt: Mein Gartenjahr (Frühling & Sommer)'
-      - id: 6BToH492F1F8ueDPpy2Pdg
-        title: 'Findus erklärt die Welt: Mein Gartenjahr (Herbst & Winter)'
-      - id: 1mfzZZXINHFfKFVNmxDORZ
-        title: 'Findus erklärt die Welt: Meine ersten Experimente und Erfindungen'
-      - id: 4v8HRRE9VUYJ8SfkrssuJg
-        title: 'Findus erklärt die Welt: Schmutz und Katzenwäsche'
-      - id: 6rjEFCIx3HbZEAZwrtzejQ
-        title: 'Findus erklärt die Welt: Tiere entdecken in Wald und Wiese (Das Original-Hörspiel zum Naturbuch)'
-      - id: 2JNUcqfRYRunIV0BwzaThJ
-        title: 'Findus erklärt die Welt: Tiere im Wasser und an Land'
-      - id: 7MsUEZeCBzvqmYMYh5EJtQ
-        title: Kuddelmuddel bei Pettersson und Findus (Das Original-Hörspiel zum Kinofilm)
-      - id: 0IKwVZoH75CCN7opPEChDL
-        title: Morgen, Findus, wird's was geben! (Das Original-Hörspiel zum Kinofilm)
-      - id: 0tyZwkknvmSxHkCThlrsHj
-        title: Neues von Pettersson und Findus (Das Original-Hörspiel zum Kinofilm)
-      - id: 5YhSLWGEtrOS6sYLnFEhE3
-        title: Pettersson und Findus (Das Original-Hörspiel zum Kinofilm)
-      - id: 1v80UCutPCY7iipL2wTAQc
-        title: Pettersson und Findus. Das schönste Weihnachten überhaupt (Das Originalhörspiel zum Kinofilm)
-      - id: 0VzP09hIIf9hXOLxW5gNkQ
-        title: Pettersson und Findus. Findus zieht um (Das Original-Hörspiel zum Kinofilm)
-      - id: 5iraXLnDhlWR0ikKnJUqid
-        title: Pettersson und Findus. Kleiner Quälgeist - große Freundschaft (Filmhörspiel)
-    apple_music:
-      artist_ids:
-      - '51883585'
-      albums:
-      - id: '1463411408'
-        episode: 1
-        title: 'Folge 1: Eine Geburtstagstorte für die Katze + zwei weitere Geschichten (Das Original-Hörspiel zur TV-Serie)'
-      - id: '1463411535'
-        episode: 2
-        title: 'Folge 2: Ein Feuerwerk für den Fuchs / Armer Pettersson / Pettersson zeltet (Das Original-Hörspiel zur TV-Serie)'
-      - id: '1463412935'
-        episode: 3
-        title: 'Folge 3: Aufruhr im Gemüsebeet + zwei weitere Geschichten (Das Original-Hörspiel zur TV-Serie)'
-      - id: '1463413329'
-        episode: 4
-        title: 'Folge 4: Die Elchjagd + zwei weitere Geschichten (Das Original-Hörspiel zur TV-Serie)'
-      - id: '1463419480'
-        episode: 5
-        title: 'Folge 5: Wie Findus zu Pettersson kam + zwei weitere Geschichten (Das Original-Hörspiel zur TV-Serie)'
-      - id: '1463414021'
-        episode: 6
-        title: 'Folge 6: Schatzsuche + zwei weitere Geschichten (Das Original-Hörspiel zur TV-Serie)'
-      - id: '1463414019'
-        episode: 7
-        title: 'Folge 7: Der Weihnachtsmann kommt - Teil 1 (Das Original-Hörspiel zur TV-Serie)'
-      - id: '1463619276'
-        episode: 8
-        title: 'Folge 8: Der Weihnachtsmann kommt - Teil 2 (Das Original-Hörspiel zur TV-Serie)'
-      - id: '1565136648'
-        episode: 9
-        title: 'Folge 9: Überraschung für Pettersson (Das Original-Hörspiel zur TV-Serie)'
-      - id: '1565136467'
-        episode: 10
-        title: 'Folge 10: Findus und das eigene Fahrrad (Das Original Hörspiel zur TV-Serie)'
-      - id: '1588399520'
-        episode: 11
-        title: 'Folge 11: Fia und der Hühnerfloh (Das Original Hörspiel zur TV-Serie)'
-      - id: '1588398502'
-        episode: 12
-        title: 'Folge 12: Duell unterm Kirschbaum (Das Original Hörspiel zur TV-Serie)'
-      - id: '1599694687'
-        episode: 13
-        title: 'Folge 13: Bei Katze und Hund geht es oft rund / Die tote Elster / Im Kürbis-König-Fieber (Das Original-Hörspiel zur TV-Serie)'
-      - id: '1598609936'
-        episode: 14
-        title: 'Folge 14: Namenstag für alle (Das Original-Hörspiel zur TV-Serie)'
-      - id: '1609253390'
-        episode: 15
-        title: 'Folge 15: Das Denk-Dran-Taschentuch (Das Original-Hörspiel zur TV-Serie)'
-      - id: '1609285871'
-        episode: 16
-        title: 'Folge 16: Der allerlängste Tag des Jahres (Das Original-Hörspiel zur TV-Serie)'
-      - id: '1739781043'
-        title: 'Findus erklärt die Welt: Der Mensch von innen und außen'
-      - id: '1721273472'
-        title: 'Findus erklärt die Welt: Der Urknall und das Weltall'
-      - id: '1735987280'
-        title: 'Findus erklärt die Welt: Eine Kugel namens Erde'
-      - id: '1777073692'
-        title: 'Findus erklärt die Welt: Findus kunterbunte Werkstatt'
-      - id: '1492436426'
-        title: 'Findus erklärt die Welt: In der Natur mit Pettersson und Findus (Das Original-Hörspiel zum Naturbuch)'
-      - id: '1843732997'
-        title: 'Findus erklärt die Welt: Kluge Köpfe und schöne Klänge'
-      - id: '1672015790'
-        title: 'Findus erklärt die Welt: Mein Gartenjahr (Frühling & Sommer)'
-      - id: '1705281223'
-        title: 'Findus erklärt die Welt: Mein Gartenjahr (Herbst & Winter)'
-      - id: '1621738060'
-        title: 'Findus erklärt die Welt: Meine ersten Experimente und Erfindungen'
-      - id: '1829438492'
-        title: 'Findus erklärt die Welt: Schmutz und Katzenwäsche'
-      - id: '1529635536'
-        title: 'Findus erklärt die Welt: Tiere entdecken in Wald und Wiese (Das Orginal-Hörspiel zum Naturbuch)'
-      - id: '1774009601'
-        title: 'Findus erklärt die Welt: Tiere im Wasser und an Land'
-      - id: '1463595195'
-        title: Kuddelmuddel bei Pettersson und Findus (Das Original-Hörspiel zum Kinofilm)
-      - id: '1463595135'
-        title: Morgen, Findus, wird's was geben! (Das Original-Hörspiel zum Kinofilm)
-      - id: '1463596352'
-        title: Neues von Pettersson und Findus (Das Original-Hörspiel zum Kinofilm)
-      - id: '1463571162'
-        title: Pettersson und Findus (Das Original-Hörspiel zum Kinofilm)
-      - id: '1728520713'
-        title: Pettersson und Findus. Das schönste Weihnachten überhaupt
-      - id: '1701347669'
-        title: Pettersson und Findus. Findus zieht um
-      - id: '1701351660'
-        title: Pettersson und Findus. Kleiner Quälgeist - große Freundschaft
 - id: pumuckl_neue_geschichten
   title: Neue Geschichten vom Pumuckl
   episode_pattern: '^(\d{1,2}):'
@@ -41060,3 +40703,55 @@ series:
   content_type: music
   aliases:
   - Simsa Marko
+- id: benjamin_bluemich_finds_raus
+  title: Benjamin Blümchen: Find's raus mit Benjamin
+- id: benjamin_bluemich_gute_nacht
+  title: Benjamin Blümchen: Gute-Nacht-Geschichten
+- id: benjamin_bluemich_minis
+  title: Benjamin Blümchen: Minis
+- id: bibi_und_tina_bff_talk
+  title: Bibi und Tina: BFF Talk
+- id: biene_maja_cgi
+  title: Biene Maja CGI (2013+ TV Series)
+- id: biene_maja_klassiker
+  title: Biene Maja Klassiker (1976-79)
+- id: boss_baby_kinofilme
+  title: Boss Baby (Kinofilme)
+- id: die_drei_fragezeichen_kids_mini_fall
+  title: Die drei ??? Kids: Mini-Fall
+- id: die_wilden_kerle_kinofilm
+  title: Die wilden Kerle - Kinofilm Hörspiele
+- id: findus_erklaert_die_welt
+  title: Findus erklärt die Welt
+- id: hui_buh_neue_welt
+  title: Hui Buh Neue Welt
+- id: kleiner_rabe_socke_tv_serie
+  title: Der kleine Rabe Socke - Hörspiele zur TV Serie
+- id: petronella_apfelmus_erstleser
+  title: Petronella Apfelmus Erstleser
+- id: petronella_apfelmus_tv_serie
+  title: Petronella Apfelmus - Hörspiele zur TV-Serie
+- id: prinzessin_lillifee_gute_nacht_geschichten
+  title: Prinzessin Lillifee - Gute-Nacht-Geschichten
+- id: prinzessin_lillifee_mein_zauberhaftes_tierhotel
+  title: Prinzessin Lillifee - Mein zauberhaftes Tierhotel
+- id: ritter_rost_tv_serie
+  title: Ritter Rost: Hörspiel zur TV-Serie
+- id: seawalkers
+  title: Seawalkers
+- id: sternenschweif_sternchen
+  title: Sternenschweif Sternchen
+- id: tabaluga_2021_neuauflage
+  title: Tabaluga (2021 Neuauflage)
+- id: teufelskicker_em_wissen
+  title: Teufelskicker EM-Wissen
+- id: teufelskicker_frauen_wm_wissen
+  title: Teufelskicker Frauen-WM-Wissen
+- id: teufelskicker_wissen_em_2024
+  title: Teufelskicker Wissen zur EM 2024
+- id: teufelskicker_wm_wissen
+  title: Teufelskicker WM-Wissen
+- id: wendy_tv_serie
+  title: Wendy (TV-Serie)
+- id: wickie_cgi
+  title: Wickie und die starken Männer (CGI-Serie)
