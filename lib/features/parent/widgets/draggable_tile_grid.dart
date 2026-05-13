@@ -872,15 +872,33 @@ class _BoundaryLabel extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 4),
-          Text(
-            'Auf eine Kachel ziehen oder zwei zu einer neuen Kachel verbinden',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontFamily: 'Nunito',
-              fontSize: 11,
-              height: 1.3,
-              color: AppColors.textSecondary.withAlpha(180),
-            ),
+          // Style mirrors the top-of-screen _DragHint exactly (same
+          // touch_app_rounded icon, 12pt Nunito, faded textSecondary)
+          // so parents read the two hints as a pair. The Row is centered
+          // here while the top one is left-aligned — the only intentional
+          // difference, because the divider band frames this hint.
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                Icons.touch_app_rounded,
+                size: 14,
+                color: AppColors.textSecondary.withAlpha(150),
+              ),
+              const SizedBox(width: 6),
+              Flexible(
+                child: Text(
+                  'Auf eine Kachel ziehen oder zwei zu einer neuen '
+                  'Kachel verbinden',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontFamily: 'Nunito',
+                    fontSize: 12,
+                    color: AppColors.textSecondary.withAlpha(150),
+                  ),
+                ),
+              ),
+            ],
           ),
         ],
       ),
