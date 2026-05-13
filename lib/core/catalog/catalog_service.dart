@@ -57,7 +57,6 @@ class CatalogSeries {
     required this.id,
     required this.title,
     required this.aliases,
-    required this.keywords,
     required this.spotifyArtistIds,
     this.appleMusicArtistIds = const [],
     this.coverUrl,
@@ -78,22 +77,12 @@ class CatalogSeries {
   bool get isMusic => contentType == ContentType.music;
   final List<String> aliases;
 
-  /// Single-word or phrase tokens to detect this series in search results.
-  /// Matched case-insensitively. Longer keywords are checked first to
-  /// avoid matching a broad series before a more specific one (e.g.,
-  /// "drei ??? kids" before "drei ???").
-  final List<String> keywords;
-
   /// Spotify artist IDs whose albums belong to this series.
-  ///
-  /// Used as a secondary (phase-2) match when the album title contains no
-  /// series name (e.g. TKKG "140/Draculas Erben", Die drei ??? "116/Cobra").
-  /// Pass them to `CatalogService.match()` via the `albumArtistIds` parameter
-  /// so phase-2 matching can fire for albums with no series name in their title.
+  /// Used by tile-edit and detail screens (not by the matcher).
   final List<String> spotifyArtistIds;
 
   /// Apple Music artist IDs whose albums belong to this series.
-  /// Same role as [spotifyArtistIds] but for Apple Music catalog matching.
+  /// Used by tile-edit and detail screens (not by the matcher).
   final List<String> appleMusicArtistIds;
 
   /// Curated cover image URL for this series.
@@ -126,26 +115,11 @@ class CatalogSeries {
       albumsForProvider(provider).isNotEmpty;
 }
 
-/// How a catalog match was found — useful for display/confidence decisions.
-enum CatalogMatchSource {
-  /// Album title contained a series keyword.
-  keyword,
-
-  /// Album had a Spotify artist ID matching a known series.
-  /// (Series name not necessarily in the album title.)
-  artistId,
-}
-
 /// Result when a catalog match is found.
 class CatalogMatch {
-  const CatalogMatch({
-    required this.series,
-    required this.source,
-    this.episodeNumber,
-  });
+  const CatalogMatch({required this.series, this.episodeNumber});
 
   final CatalogSeries series;
-  final CatalogMatchSource source;
 
   /// Extracted episode number, or null if title format didn't match.
   final int? episodeNumber;
@@ -156,12 +130,38 @@ class CatalogMatch {
 /// The catalog is heuristic — used to suggest group assignments when adding
 /// cards. It is not a sync mechanism; episode lists may be incomplete.
 class CatalogService {
-  CatalogService._(this._series);
+  CatalogService._(this._series) : _albumIndex = _buildAlbumIndex(_series);
 
   final List<CatalogSeries> _series;
 
+  /// Fast lookup from a provider+album_id to its owning series. Built once
+  /// at load time from every series's curated album list (both Spotify and
+  /// Apple Music). Key format: ``'${provider.value}:${album_id}'``.
+  ///
+  /// This is the backbone of Phase 0 matching — when a discovered album's
+  /// id is already in the catalog, the lookup is O(1) and 100% precise.
+  final Map<String, CatalogSeries> _albumIndex;
+
+  static Map<String, CatalogSeries> _buildAlbumIndex(
+    List<CatalogSeries> series,
+  ) {
+    final out = <String, CatalogSeries>{};
+    for (final s in series) {
+      for (final a in s.albums) {
+        out['${a.provider.value}:${a.id}'] = s;
+      }
+      for (final a in s.appleMusicAlbums) {
+        out['${a.provider.value}:${a.id}'] = s;
+      }
+    }
+    return out;
+  }
+
   /// Number of known series.
   int get seriesCount => _series.length;
+
+  /// Number of catalog-known albums across all series and providers.
+  int get albumCount => _albumIndex.length;
 
   /// Load the catalog from bundled YAML asset.
   static Future<CatalogService> load() async {
@@ -172,16 +172,6 @@ class CatalogService {
     final parsed = <CatalogSeries>[];
     for (final entry in seriesList) {
       final map = entry as YamlMap;
-
-      // Sort keywords by length descending — more specific first
-      final keywordsRaw = map['keywords'] as YamlList?;
-      final keywords =
-          keywordsRaw == null
-              ? <String>[]
-              : (keywordsRaw
-                  .map<String>((k) => (k as String).toLowerCase())
-                  .toList()
-                ..sort((a, b) => b.length.compareTo(a.length)));
 
       final aliasesRaw = map['aliases'] as YamlList?;
       final aliases =
@@ -244,7 +234,6 @@ class CatalogService {
           id: map['id'] as String,
           title: map['title'] as String,
           aliases: aliases,
-          keywords: keywords,
           spotifyArtistIds: artistIds,
           appleMusicArtistIds: amArtistIds,
           coverUrl: map['cover_url'] as String?,
@@ -256,181 +245,79 @@ class CatalogService {
       );
     }
 
-    // Sort series so more specific ones (longer primary keyword) come first.
-    // This prevents "Die drei ???" from stealing "Die drei ??? Kids" matches.
-    parsed.sort(
-      (a, b) => (b.keywords.firstOrNull?.length ?? 0).compareTo(
-        a.keywords.firstOrNull?.length ?? 0,
-      ),
-    );
-
     final curated = parsed.where((s) => s.hasCuratedAlbums).length;
+    final service = CatalogService._(parsed);
     Log.info(
       _tag,
       'Catalog loaded',
       data: {
         'series': '${parsed.length}',
         'curated': '$curated',
+        'albums': '${service.albumCount}',
       },
     );
 
-    return CatalogService._(parsed);
+    return service;
   }
 
-  // German letters for whole-word boundary checks. Lowercase only since
-  // titles are lowered before matching.
-  static final _germanLetter = RegExp('[a-zäöüß]');
-
-  /// Whether [keyword] matches in [titleLower] respecting word boundaries.
+  /// Look up a discovered album in the catalog by its provider+id.
   ///
-  /// Multi-word keywords (containing spaces) use substring matching since
-  /// spaces provide natural word boundaries. Single-word keywords require
-  /// whole-word boundaries: the characters immediately before and after the
-  /// match must not be German letters. This prevents German compound word
-  /// false positives like "Drachen" matching "Drachenbabys" or "Bär"
-  /// matching "Bären".
+  /// Returns the owning series and the extracted episode number if the
+  /// album_id is in our curated catalog. Returns null otherwise — we don't
+  /// fall back to fuzzy keyword/artist heuristics, which historically
+  /// produced false positives (a search for "blaze" being tagged as
+  /// Encanto because both albums shared the phrase "Das Original-Hörspiel"
+  /// in their titles). A clean contract: in the catalog → identified;
+  /// not in the catalog → no badge.
   ///
-  /// Checks ALL occurrences, not just the first. "Die Tigerbären und der
-  /// kleine Tiger" must find the second standalone "Tiger".
-  bool _keywordMatches(String titleLower, String keyword) {
-    // Multi-word keywords have natural boundaries from spaces.
-    if (keyword.contains(' ')) return titleLower.contains(keyword);
-
-    // Single-word: find any occurrence with whole-word boundaries.
-    var start = 0;
-    while (true) {
-      final index = titleLower.indexOf(keyword, start);
-      if (index == -1) return false;
-
-      final beforeOk =
-          index == 0 || !_germanLetter.hasMatch(titleLower[index - 1]);
-      final afterIndex = index + keyword.length;
-      final afterOk =
-          afterIndex >= titleLower.length ||
-          !_germanLetter.hasMatch(titleLower[afterIndex]);
-
-      if (beforeOk && afterOk) return true;
-      start = index + 1;
+  /// Coverage of new releases / under-discovered albums is intentionally
+  /// left to the planned subscription/refresh feature, which can detect
+  /// genuinely new albums without guessing at series membership.
+  CatalogMatch? match(
+    String title, {
+    required String albumId,
+    required ProviderType albumProvider,
+  }) {
+    final hit = _albumIndex['${albumProvider.value}:$albumId'];
+    if (hit == null) {
+      Log.debug(_tag, 'No match', data: {'title': title, 'albumId': albumId});
+      return null;
     }
-  }
-
-  /// Match [title] against all known series using a two-phase strategy.
-  ///
-  /// **Phase 1 — keyword match** with whole-word boundaries for single-word
-  ///   keywords. Prevents German compound false positives ("Drachenbabys"
-  ///   won't match "Drachen"). When multiple series match, the artist ID
-  ///   is used as tiebreaker; otherwise the most specific keyword wins
-  ///   (series are pre-sorted by keyword length descending).
-  ///
-  /// **Phase 2 — artist ID match** (fallback for structurally-missing names):
-  ///   Used when no keyword fires. Catches albums whose titles contain no
-  ///   series name (e.g. TKKG "140/Draculas Erben", compound-word titles
-  ///   like "Drachenreiter" where the standalone keyword check rejects the
-  ///   compound but the artist ID correctly identifies the series).
-  ///
-  /// Pass [albumArtistIds] (from `SpotifyAlbum.artistIds`) for best results.
-  /// Returns null if no series is recognized by either strategy.
-  CatalogMatch? match(String title, {List<String> albumArtistIds = const []}) {
-    final titleLower = title.toLowerCase();
-    Log.debug(_tag, 'Matching album', data: {'title': title});
-
-    // Phase 1: collect keyword matches using whole-word boundaries.
-    final keywordMatches = <CatalogSeries>[];
-    for (final series in _series) {
-      if (series.keywords.any((k) => _keywordMatches(titleLower, k))) {
-        keywordMatches.add(series);
-      }
-    }
-
-    // Phase 2: find first artist ID match (checks all provider ID lists).
-    CatalogSeries? artistMatch;
-    if (albumArtistIds.isNotEmpty) {
-      final artistIdSet = albumArtistIds.toSet();
-      for (final series in _series) {
-        if (series.spotifyArtistIds.any(artistIdSet.contains) ||
-            series.appleMusicArtistIds.any(artistIdSet.contains)) {
-          artistMatch = series;
-          break;
-        }
-      }
-    }
-
-    // Resolve: keyword matches take priority, artist ID is tiebreaker/fallback.
-    if (keywordMatches.isNotEmpty) {
-      // If artist confirms one of the keyword candidates, it wins.
-      final winner =
-          (artistMatch != null &&
-                  keywordMatches.any((s) => s.id == artistMatch!.id))
-              ? artistMatch
-              : keywordMatches
-                  .first; // Most specific (longest keyword, pre-sorted)
-
-      Log.debug(
-        _tag,
-        'Matched by keyword',
-        data: {
-          'title': title,
-          'series': winner.id,
-          'candidates': '${keywordMatches.length}',
-        },
-      );
-
-      return CatalogMatch(
-        series: winner,
-        // Keyword found it, even if artist confirmed it.
-        source: CatalogMatchSource.keyword,
-        episodeNumber: _extractEpisode(title, winner.episodePattern),
-      );
-    }
-
-    // No keyword matches — fall back to artist ID alone.
-    if (artistMatch != null) {
-      Log.debug(
-        _tag,
-        'Matched by artist ID',
-        data: {
-          'title': title,
-          'series': artistMatch.id,
-        },
-      );
-      return CatalogMatch(
-        series: artistMatch,
-        source: CatalogMatchSource.artistId,
-        episodeNumber: _extractEpisode(title, artistMatch.episodePattern),
-      );
-    }
-
-    Log.debug(_tag, 'No match', data: {'title': title});
-    return null;
+    Log.debug(
+      _tag,
+      'Matched',
+      data: {'title': title, 'series': hit.id, 'albumId': albumId},
+    );
+    return CatalogMatch(
+      series: hit,
+      episodeNumber: _extractEpisode(title, hit.episodePattern),
+    );
   }
 
   /// All series sorted alphabetically — for UI display.
   List<CatalogSeries> get all => List.unmodifiable(_series);
 
-  /// Search series by title/keyword (local, instant). Returns matches sorted
-  /// by relevance: exact title prefix first, then keyword matches.
+  /// Search series by title or alias (local, instant). Returns matches
+  /// sorted by relevance: exact title prefix first, then contains-matches
+  /// against title or aliases.
   List<CatalogSeries> search(String query) {
     if (query.isEmpty) return [];
     final q = query.toLowerCase();
     final titlePrefixMatches = <CatalogSeries>[];
-    final keywordMatches = <CatalogSeries>[];
+    final substringMatches = <CatalogSeries>[];
     for (final s in _series) {
       if (s.title.toLowerCase().startsWith(q)) {
         titlePrefixMatches.add(s);
       } else if (s.title.toLowerCase().contains(q) ||
-          s.aliases.any((a) => a.toLowerCase().contains(q)) ||
-          s.keywords.any((k) => k.toLowerCase().contains(q))) {
-        keywordMatches.add(s);
+          s.aliases.any((a) => a.toLowerCase().contains(q))) {
+        substringMatches.add(s);
       }
     }
-    final results = [...titlePrefixMatches, ...keywordMatches];
+    final results = [...titlePrefixMatches, ...substringMatches];
     Log.debug(
       _tag,
       'Search',
-      data: {
-        'query': query,
-        'results': '${results.length}',
-      },
+      data: {'query': query, 'results': '${results.length}'},
     );
     return results;
   }

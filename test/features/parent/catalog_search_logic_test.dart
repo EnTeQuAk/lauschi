@@ -6,11 +6,9 @@ CatalogMatch _match(String seriesId) => CatalogMatch(
   series: CatalogSeries(
     id: seriesId,
     title: seriesId,
-    aliases: const [],
-    keywords: const [],
-    spotifyArtistIds: const [],
+    aliases: const <String>[],
+    spotifyArtistIds: const <String>[],
   ),
-  source: CatalogMatchSource.keyword,
 );
 
 void main() {

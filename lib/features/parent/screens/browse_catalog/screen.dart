@@ -208,7 +208,11 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen>
         catalog != null
             ? albums
                 .map(
-                  (a) => catalog.match(a.name, albumArtistIds: a.artistIds),
+                  (a) => catalog.match(
+                    a.name,
+                    albumId: a.id,
+                    albumProvider: a.provider,
+                  ),
                 )
                 .toList()
             : List<CatalogMatch?>.filled(albums.length, null);
