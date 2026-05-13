@@ -13842,15 +13842,9 @@ series:
       - id: 61sVa8n3jJwmzApfSHu32n
         episode: 11
         title: 'Folge 11: Ich will ein Haustier!'
-      - id: 6Nn3ezMZrMWIvuhFke8jyl
-        episode: 11
-        title: 'Kurzgeschichte: Leo will alles alleine machen'
       - id: 4Vg5HIkSPuRHlXcTML58np
         episode: 12
         title: 'Folge 12: Das war keine Absicht!'
-      - id: 7L433w3xQNwWu1QlBI7bok
-        episode: 12
-        title: 'Folge 12: verläuft sich'
       - id: 5duPJN3HRwCvuMyxOPCzZn
         episode: 13
         title: 'Folge 13: Beste Freunde'
@@ -13875,84 +13869,33 @@ series:
       - id: 5Q75MUZy9PSTnqiTIZIPBq
         episode: 20
         title: 'Folge 20: Wo ist Teddy?'
-      - id: 0KnPAG3bE4CwsTVef5tAbh
+      - id: 4RyCFkxrN9X3aVKxAKJPQL
         episode: 21
-        title: 'Folge 21: Für immer wütend!'
-      - id: 4uxjfSUjQmmxemnEqWyJIw
+        title: Folge 21
+      - id: 7DTFxbu2wz1b772SAgHwr9
         episode: 22
-        title: 'Folge 22: Das Kostüm'
-      - id: 2GIuP6K5Xwb1p6lVnRcrcm
-        episode: 23
-        title: 'Folge 23: Der Schnupfen'
-      - id: 5q6S8FUIU33aBZqHJziyhI
-        episode: 24
-        title: 'Folge 24: Das Feuerwehrauto'
-      - id: 6VeikohjbhcByuQzsplavd
-        episode: 25
-        title: 'Folge 25: Das Regen-Picknick'
-      - id: 3PVhaRlGZMTt8bz8U9yfvV
-        episode: 26
-        title: 'Folge 26: Das Geburtstags-Konzert'
-      - id: 2MVidXCAZVDMS5Fy6gh1BU
-        episode: 27
-        title: 'Folge 27: Ich bin noch nicht müde!'
-      - id: 637umZ1OZ1R7CgBipFs0it
-        episode: 28
-        title: 'Folge 28: Endlich Ferien!'
-      - id: 3CLKycRHKddDGy9VsLJ6Yk
-        episode: 29
-        title: 'Folge 29: Die Turnstunde'
-      - id: 6HrbkLfTA9r8Kwzxxfr42B
-        episode: 30
-        title: 'Folge 30: Ein Pirat kennt keine Angst!'
+        title: Folge 22
       - id: 7CglHaTxm5XYmmc8C4xHbW
         episode: 31
         title: 'Folge 31: Besuch von Billy!'
-      - id: 6CWy72YKZtJJXDqbuEErWX
-        episode: 32
-        title: 'Folge 32: Hilfe! Ein Drache!'
-      - id: 0JCMbDDHs79uqnxGqElXvl
-        episode: 33
-        title: 'Folge 33: Das Sommerfest'
-      - id: 50nhw21cxh5MfVoUSSdcEH
-        episode: 34
-        title: 'Folge 34: Ich hab was gefunden!'
-      - id: 4oWBr6S7lN9cz57tuXO9BA
-        episode: 35
-        title: 'Folge 35: Das Frechdachs-Spiel'
       - id: 1hNEEtWRx12NSBqrT4pWN5
         episode: 36
         title: 'Folge 36: Lecker! Kekse!'
       - id: 2MOwFXrwt7yvHXkbYzOfVQ
         episode: 37
         title: 'Folge 37: Ich helfe dir, Mama!'
-      - id: 2a4iQGahmiDST9yqi3KX8P
-        episode: 38
-        title: 'Folge 38: Ich mag die Natur!'
       - id: 7dHB8a0MuhrstjhZtGmRB5
         episode: 39
         title: 'Folge 39: Hurra! Es hat geschneit!'
       - id: 2hd8uL6SZWavPvm4KDfacZ
         episode: 40
         title: 'Folge 40: Helfen macht Spaß!'
-      - id: 3UKaVZ0OctAwUofIFzY1LS
-        episode: 41
-        title: 'Folge 41: Es tut mir leid!'
-      - id: 45Tkx1l09PuQF3qFC2HBI7
-        episode: 42
-        title: 'Folge 42: Das ist lustig!'
       - id: 0EuMDrK9YKOSeQn2A8IeHl
         episode: 43
         title: 'Folge 43: Wir gehen zelten!'
       - id: 3hjkp5ib96HNZvP7HAFl8R
         episode: 44
         title: 'Folge 44: Ich will nicht zum Friseur!'
-      - id: 6hDAyMBwhq96ml1MU3nOG5
-        episode: 45
-        title: 'Folge 45: Heute bin ich ein Faulpelz!'
-      - id: 77BmGJkRAejRThjOoVP4ld
-        episode: 46
-        title: 'Folge 46: Ich will endlich groß sein!'
       - id: 1gprUehvum5HbB7yV1V3Wm
         episode: 47
         title: 'Folge 47: Versprochen ist versprochen!'
@@ -14131,39 +14074,36 @@ series:
       artist_ids:
       - '263499755'
       albums:
-      - id: '1801168957'
-        episode: 1
-        title: 'Folge 01: Regeln sind blöd!'
       - id: '1038173200'
         episode: 1
         title: Folge 1
       - id: '1038084918'
         episode: 2
         title: Folge 2
-      - id: '1801166489'
-        episode: 3
-        title: 'Folge 03: Das Algenmonster'
       - id: '1038096044'
         episode: 3
         title: Folge 3
+      - id: '1801167451'
+        episode: 4
+        title: 'Folge 04: Die Schatzsuche - EP'
       - id: '1038181251'
         episode: 4
         title: Folge 4
-      - id: '1801168349'
-        episode: 5
-        title: 'Folge 05: Jungs sind besser als Mädchen! - EP'
       - id: '1038173238'
         episode: 5
         title: Folge 5
+      - id: '1801167341'
+        episode: 6
+        title: 'Folge 06: Das gehört mir! - EP'
       - id: '1038136999'
         episode: 6
         title: Folge 6
-      - id: '1801211237'
-        episode: 7
-        title: 'Folge 07: Ich will gewinnen!'
       - id: '1038176873'
         episode: 7
         title: Folge 7
+      - id: '1801168209'
+        episode: 8
+        title: 'Folge 08: Wer einmal lügt? - EP'
       - id: '1038148297'
         episode: 8
         title: Folge 8
@@ -14176,66 +14116,120 @@ series:
       - id: '1340422826'
         episode: 10
         title: Folge 10
-      - id: '1801168914'
-        episode: 10
-        title: 'Folge 10: Babysitter? Nein Danke! - EP'
       - id: '1475767678'
         episode: 11
         title: Folge 11
+      - id: '1801167770'
+        episode: 11
+        title: 'Folge 11: Ich will ein Haustier! - EP'
       - id: '1481234515'
         episode: 12
         title: Folge 12
-      - id: '1801166544'
-        episode: 12
-        title: 'Folge 12: Das war keine Absicht! - EP'
-      - id: '1801165249'
-        episode: 13
-        title: 'Folge 13: Beste Freunde - EP'
       - id: '1503065305'
         episode: 13
         title: 'Folge 13: Lässt sich nicht ärgern'
       - id: '1534328975'
         episode: 14
         title: Folge 14
+      - id: '1801169240'
+        episode: 14
+        title: 'Folge 14: Bitte lächeln! - EP'
       - id: '1561147430'
         episode: 15
         title: Folge 15
+      - id: '1801167767'
+        episode: 15
+        title: 'Folge 15: Das Schatten-Monster - EP'
       - id: '1584989632'
         episode: 16
         title: Folge 16
-      - id: '1708129186'
-        episode: 17
-        title: Folge 17
+      - id: '1801166979'
+        episode: 16
+        title: 'Folge 16: Didis Lieblingsspielzeug - EP'
       - id: '1728474757'
         episode: 18
         title: Folge 18
       - id: '1801166092'
         episode: 18
         title: 'Folge 18: Die Übernachtungsparty - EP'
-      - id: '1802173751'
-        episode: 21
-        title: 'Folge 21: Für immer wütend! - EP'
+      - id: '1801167208'
+        episode: 20
+        title: 'Folge 20: Wo ist Teddy? - EP'
+      - id: '1802174530'
+        episode: 23
+        title: 'Folge 23: Der Schnupfen - EP'
       - id: '1802174106'
         episode: 24
         title: 'Folge 24: Das Feuerwehrauto - EP'
       - id: '1802173787'
         episode: 25
         title: 'Folge 25: Das Regen-Picknick - EP'
+      - id: '1802173457'
+        episode: 26
+        title: 'Folge 26: Das Geburtstags-Konzert - EP'
+      - id: '1802173903'
+        episode: 27
+        title: 'Folge 27: Ich bin noch nicht müde! - EP'
+      - id: '1802174298'
+        episode: 28
+        title: 'Folge 28: Endlich Ferien! - EP'
+      - id: '1802173834'
+        episode: 29
+        title: 'Folge 29: Die Turnstunde - EP'
+      - id: '1802173198'
+        episode: 30
+        title: 'Folge 30: Ein Pirat kennt keine Angst! - EP'
       - id: '1802173770'
         episode: 31
         title: 'Folge 31: Besuch von Billy! - EP'
       - id: '1802174238'
         episode: 32
         title: 'Folge 32: Hilfe! Ein Drache! - EP'
+      - id: '1802173996'
+        episode: 33
+        title: 'Folge 33: Das Sommerfest - EP'
+      - id: '1802173116'
+        episode: 34
+        title: 'Folge 34: Ich hab was gefunden! - EP'
+      - id: '1802173624'
+        episode: 35
+        title: 'Folge 35: Das Frechdachs-Spiel - EP'
+      - id: '1802174087'
+        episode: 36
+        title: 'Folge 36: Lecker! Kekse! - EP'
       - id: '1802173985'
         episode: 37
         title: 'Folge 37: Ich helfe dir, Mama! - EP'
+      - id: '1802174035'
+        episode: 38
+        title: 'Folge 38: Ich mag die Natur! - EP'
+      - id: '1802173577'
+        episode: 39
+        title: 'Folge 39: Hurra! Es hat geschneit! - EP'
       - id: '1802174444'
         episode: 40
         title: 'Folge 40: Helfen macht Spaß! - EP'
+      - id: '1802173420'
+        episode: 41
+        title: 'Folge 41: Es tut mir leid! - EP'
+      - id: '1802174229'
+        episode: 42
+        title: 'Folge 42: Das ist lustig! - EP'
+      - id: '1802174139'
+        episode: 43
+        title: 'Folge 43: Wir gehen zelten! - EP'
       - id: '1802173297'
         episode: 44
         title: 'Folge 44: Ich will nicht zum Friseur! - EP'
+      - id: '1802173601'
+        episode: 45
+        title: 'Folge 45: Heute bin ich ein Faulpelz! - EP'
+      - id: '1802174243'
+        episode: 46
+        title: 'Folge 46: Ich will endlich groß sein! - EP'
+      - id: '1802174162'
+        episode: 47
+        title: 'Folge 47: Versprochen ist versprochen! - EP'
       - id: '1802173583'
         episode: 49
         title: 'Folge 49: Das Puppentheater - EP'
@@ -14245,87 +14239,90 @@ series:
       - id: '1802174296'
         episode: 51
         title: 'Folge 51: Ich räume später auf! - EP'
-      - id: '1802173184'
-        episode: 52
-        title: 'Folge 52: Ich will nicht Schlittschuhlaufen! - EP'
-      - id: '1803429791'
-        episode: 55
-        title: 'Folge 55: Warten ist doof - EP'
+      - id: '1803429900'
+        episode: 53
+        title: 'Folge 53: Mein eigenes Zimmer - EP'
+      - id: '1803428916'
+        episode: 54
+        title: 'Folge 54: Jetzt und nicht später! - EP'
+      - id: '1803433405'
+        episode: 56
+        title: 'Folge 56: Halloween - EP'
+      - id: '1803440098'
+        episode: 57
+        title: 'Folge 57: Mein erster Wackelzahn - EP'
       - id: '1803433325'
         episode: 58
         title: 'Folge 58: Schlechte Laune - EP'
+      - id: '1803432857'
+        episode: 59
+        title: 'Folge 59: Spaß im Winter - EP'
+      - id: '1803439461'
+        episode: 60
+        title: 'Folge 60: "Entschuldigung" sagen ist nicht schwer! - EP'
       - id: '1803439698'
         episode: 61
         title: 'Folge 61: Ihr habt sie lieber als mich! - EP'
       - id: '1803438190'
         episode: 62
         title: 'Folge 62: Die Glücks-Brille - EP'
-      - id: '1803437982'
-        episode: 65
-        title: 'Folge 65: Amelias Schatz - EP'
-      - id: '1803439035'
-        episode: 67
-        title: 'Folge 67: Versuch es noch mal! - EP'
-      - id: '1803438835'
-        episode: 71
-        title: 'Folge 71: Ich bin mutig! - EP'
-      - id: '1803440150'
-        episode: 72
-        title: 'Folge 72: Papa ist der Beste! - EP'
-      - id: '1803437539'
-        episode: 78
-        title: "Folge 78: Gemeinsam geht's besser!"
-      - id: '1807109771'
-        episode: 79
-        title: 'Folge 79: Wünsch dir was!'
-      - id: '1807110005'
-        episode: 80
-        title: 'Folge 80: Mama kann zaubern - EP'
-      - id: '1807109946'
-        episode: 81
-        title: 'Folge 81: Verkehrte Welt - EP'
-      - id: '1807109869'
-        episode: 82
-        title: 'Folge 82: Echte Superhelden - EP'
-      - id: '1807110132'
-        episode: 83
-        title: 'Folge 83: Sicherheit geht vor!'
-      - id: '1807110061'
-        episode: 84
-        title: 'Folge 84: Lampenfieber - EP'
-      - id: '1807109590'
-        episode: 85
-        title: 'Folge 85: Ferien für immer! - EP'
-      - id: '1807109591'
-        episode: 86
-        title: 'Folge 86: Von Beruf Kind - EP'
-      - id: '1807304096'
-        episode: 87
-        title: 'Folge 87: Als Leo ein großer Bruder wurde - EP'
-      - id: '1807303547'
-        episode: 88
-        title: 'Folge 88: Der Glücksbringer - EP'
+      - id: '1803439479'
+        episode: 63
+        title: 'Folge 63: Zusammen macht es mehr Spaß! - EP'
+      - id: '1803439544'
+        episode: 64
+        title: 'Folge 64: Kunst ist überall - EP'
+      - id: '1803439539'
+        episode: 68
+        title: 'Folge 68: Anstrengen lohnt sich! - EP'
+      - id: '1803438430'
+        episode: 69
+        title: 'Folge 69: Keine Angst vor Fehlern! - EP'
+      - id: '1803438252'
+        episode: 73
+        title: 'Folge 73: Probier mal was Neues - EP'
+      - id: '1803439747'
+        episode: 74
+        title: 'Folge 74: Wo ist mein Stift? - EP'
+      - id: '1803439595'
+        episode: 76
+        title: 'Folge 76: Jeder braucht mal Hilfe - EP'
+      - id: '1803438602'
+        episode: 77
+        title: 'Folge 77: Sag auch mal "Nein"! - EP'
+      - id: '1807304208'
+        episode: 89
+        title: 'Folge 89: Ein Korb voller Wut - EP'
       - id: '1807304114'
         episode: 90
         title: 'Folge 90: Ich bin unsichtbar!'
-      - id: '1807304440'
-        episode: 92
-        title: 'Folge 92: Die Fast-Wahrheit - EP'
-      - id: '1807304328'
-        episode: 94
-        title: 'Folge 94: Gute Ratschläge - EP'
-      - id: '1807304059'
-        episode: 95
-        title: 'Folge 95: Leo hat immer recht! - EP'
+      - id: '1807304176'
+        episode: 91
+        title: 'Folge 91: Besondere Freunde - EP'
+      - id: '1807304463'
+        episode: 93
+        title: 'Folge 93: Ich mache es später! - EP'
+      - id: '1807109694'
+        episode: 97
+        title: 'Folge 97: Aufhören, wenn es am Schönsten ist - EP'
       - id: '1807109470'
         episode: 98
         title: 'Folge 98: Ich brauche keinen Mittagsschlaf mehr!'
-      - id: '1807304298'
-        episode: 100
-        title: 'Folge 100: Es ist doch ein Geheimnis! - EP'
+      - id: '1807109990'
+        episode: 99
+        title: 'Folge 99: Wir kümmern uns darum! - EP'
+      - id: '1807303800'
+        episode: 101
+        title: 'Folge 101: Keine Küsschen mehr'
+      - id: '1807303429'
+        episode: 102
+        title: 'Folge 102: Seid nicht so laut! - EP'
       - id: '1807303866'
         episode: 103
         title: 'Folge 103: Bist du schon wach?'
+      - id: '1807303853'
+        episode: 104
+        title: 'Folge 104: Die neue Knete'
 - id: sandmaennchen
   title: Sandmännchen
   aliases:
@@ -23991,38 +23988,9 @@ series:
       - id: 7cWtxTcosezzDYGly4sgyH
         episode: 4
         title: 'Teil 4: Zauberhut und Bienenstich'
-      - id: 2ynxC5LbwWaM30a4j7c38y
-        title: 'Erstleser Teil 1: Überraschungsfest für Lucius'
-      - id: 2F2C0NL9tgW68hFLzw2m6P
-        title: 'Erstleser Teil 2: Wer schleicht denn da durchs Erdbeerbeet (Ungekürzt)'
-      - id: 7a0cCpsKO6Uux6eFFZns9S
-        title: 'Erstleser Teil 3: Krawall im Hühnerstall'
-      - id: 1RUpQ5bcRAxKoJ2IqzDpzB
-        title: 'Erstleser Teil 4: Spargelzahn zieht um'
-      - id: 2EQ9WTnV9yhLbMJ6jdDiee
-        title: 'Teil 10: Die verflogene Einladung, Der große Fund, Die Zauberäpfel (Hörspiele zur TV-Serie)'
-      - id: 2UO9cEOsZltdLqiTlLxPDN
-        title: 'Teil 11: Eine abenteuerliche Nacht, Der komische Cousin, Die Mondglockenblume (Hörspiele zur TV-Serie)'
-      - id: 0pyNGAv1Gw7GsC5fC5ZBDG
-        title: 'Teil 12: Eine seltsame Aushilfe, Diebesjagd!, Hexische Beförderung (Hörspiele zur TV-Serie)'
-      - id: 0GxgRepTAKICCgnjxXabnn
-        title: 'Teil 1: Der Oberhexenbesen, Papa ist geschrumpft, Verwichtelte Freundschaft (Hörspiele zur TV-Serie)'
-      - id: 5BCDZehG1Ir8cokNvw6Lio
-        title: 'Teil 2: Das Überraschungs-Picknick, Der Spielverderber, Selfie mit Heckenschrat (Hörspiele zur TV-Serie)'
-      - id: 1cx3GIKlloCu7MrTD8oCA8
-        title: 'Teil 3: Rettet Amanda!, Vollmondparty, Hatschi (Hörspiele zur TV-Serie)'
-      - id: 0hj2baHLWGAChZFOULHMS5
-        title: 'Teil 4: Verhexte Bäckerei, Das Band der Freundschaft, Hexengeburtstag, Aufprall mit Folgen (Hörspiele zur TV-Serie)'
-      - id: 3OA6geEzvBlfwXQPzUAkEZ
-        title: 'Teil 5: Was ist nur mit Dornwald los?, Blick in die Zukunft, Hilda in der Falle (Hörspiele zur TV-Serie)'
-      - id: 0C1wwnIVWTjtsfNKICN9gK
-        title: 'Teil 6: Energie aus der Dose, Das blaue Wunder, Die Zauberprüfung (Hörspiele zur TV-Serie)'
-      - id: 6SJJSnB8mbOkIO50hTIOC5
-        title: 'Teil 7: Hexenschnupfen, Fürchten sich Heckenschrate?, Der größte Wichtel der Welt (Hörspiele zur TV-Serie)'
-      - id: 5Q1psKbqPKYqW9dHwXoiSz
-        title: 'Teil 8: Das Stinkeparfüm, Der Zaubersauberbesen, Der verlorene Ring, Die Doppelgängerin (Hörspiele zur TV-Serie)'
-      - id: 51xrQDuxKHKT4FB0993k4V
-        title: 'Teil 9: Alles singt, Des Wichtels Gespür für Wasser, Das Geschichtengerät (Hörspiele zur TV-Serie)'
+      - id: 07Dc8nBiT1UNW2KOtildc6
+        episode: 6
+        title: 'Teil 6: Schnattergans und Hexenhaus'
     apple_music:
       artist_ids:
       - '1451309462'
@@ -24048,32 +24016,6 @@ series:
       - id: '1872017184'
         episode: 8
         title: 'Folge 8: Zaubertricks und Maulwurfshügel'
-      - id: '1795425967'
-        title: 'Erstleser Teil 4: Spargelzahn zieht um'
-      - id: '1561848173'
-        title: 'Teil 10: Die verflogene Einladung, Der große Fund, Die Zauberäpfel (Hörspiele zur TV-Serie)'
-      - id: '1564490397'
-        title: 'Teil 11: Eine abenteuerliche Nacht, Der komische Cousin, Die Mondglockenblume (Hörspiele zur TV-Serie)'
-      - id: '1593240124'
-        title: 'Teil 12: Eine seltsame Aushilfe, Diebesjagd!, Hexische Beförderung (Hörspiele zur TV-Serie)'
-      - id: '1531866840'
-        title: 'Teil 1: Der Oberhexenbesen, Papa ist geschrumpft, Verwichtelte Freundschaft (Hörspiele zur TV-Serie)'
-      - id: '1531866469'
-        title: 'Teil 2: Das Überraschungs-Picknick / Der Spielverderber / Selfie mit Heckenschrat (Hörspiele zur TV-Serie)'
-      - id: '1534715730'
-        title: 'Teil 3: Rettet Amanda!, Vollmondparty, Hatschi (Hörspiele zur TV-Serie)'
-      - id: '1534719147'
-        title: 'Teil 4: Verhexte Bäckerei, Das Band der Freundschaft, Hexengeburtstag, Aufprall mit Folgen (Hörspiele zur TV-Serie)'
-      - id: '1539658210'
-        title: 'Teil 5: Was ist nur mit Dornwald los?, Blick in die Zukunft, Hilda in der Falle (Hörspiele zur TV-Serie)'
-      - id: '1539667305'
-        title: 'Teil 6: Energie aus der Dose, Das blaue Wunder, Die Zauberprüfung (Hörspiele zur TV-Serie)'
-      - id: '1542759469'
-        title: 'Teil 7: Hexenschnupfen, Fürchten sich Heckenschrate?, Der größte Wichtel der Welt (Hörspiele zur TV-Serie)'
-      - id: '1542760201'
-        title: 'Teil 8: Das Stinkeparfüm, Der Zaubersauberbesen, Der verlorene Ring, Die Doppelgängerin (Hörspiele zur TV-Serie)'
-      - id: '1561785976'
-        title: 'Teil 9: Alles singt, Des Wichtels Gespür für Wasser, Das Geschichtengerät (Hörspiele zur TV-Serie)'
 - id: simsalagrimm
   title: SimsalaGrimm
   providers:
@@ -28632,9 +28574,6 @@ series:
       - id: '1843576526'
         episode: 40
         title: 'Folge 40: Ein genialer Plan'
-      - id: '1876584603'
-        episode: 41
-        title: 'Folge 41: Die Macht des Uhus'
 - id: kira_kolumna
   title: Kira Kolumna
   episode_pattern: '^Folge (\d+): '
@@ -32704,6 +32643,9 @@ series:
       - id: 46RI8kpxobLChuu8dzq9KZ
         episode: 49
         title: Folge 49 (Das Original-Hörspiel zur TV-Serie)
+      - id: 1wCVUHGRowbpDa3Xyq7Abt
+        episode: 50
+        title: Folge 50 - Jubiläumsedition (Das Original-Hörspiel zur TV-Serie)
       - id: 0Dg6uhKGyoiRfYkDE8gUQC
         episode: 201
         title: 'Folge 201: Ein Platz für Haustiere (Das Original-Hörspiel zur TV-Serie)'
@@ -35611,8 +35553,6 @@ series:
       artist_ids:
       - 3QTPj4dzAbanx0RJ20CW1S
       albums:
-      - id: 0H3oGP8jf2QVfLHzaj2NVG
-        title: 'D!E GÄNG'
       - id: 3rImMXX7l2IOsScd9vqHcB
         title: Irgendwas Bestimmtes
     apple_music:
