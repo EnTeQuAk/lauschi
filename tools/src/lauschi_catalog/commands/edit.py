@@ -38,14 +38,25 @@ def edit():
 @click.argument("series_id")
 @click.argument("album_id")
 @click.option("--provider", "-p", default="spotify")
-def exclude(series_id: str, album_id: str, provider: str):
-    """Exclude an album from a curation."""
+@click.option(
+    "--reason",
+    "-r",
+    required=True,
+    help="Why this album is being excluded (recorded in the curation JSON)",
+)
+def exclude(series_id: str, album_id: str, provider: str, reason: str):
+    """Exclude an album from a curation.
+
+    Records the reason on the album, so a future review pass (or
+    re-curation) can tell intentional drops from agent-generated ones.
+    """
     path, data = _load(series_id)
     for a in data["albums"]:
         if a["album_id"] == album_id and a.get("provider", "spotify") == provider:
             a["include"] = False
-            a["exclude_reason"] = "manual exclusion"
+            a["exclude_reason"] = reason
             console.print(f"Excluded: {a['title']}")
+            console.print(f"  reason: {reason}")
             _save(path, data)
             return
     console.print(f"[yellow]Album {album_id} not found in {series_id}[/yellow]")
