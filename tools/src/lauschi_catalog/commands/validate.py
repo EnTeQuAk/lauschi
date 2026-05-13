@@ -1,7 +1,6 @@
 """Catalog validation across providers.
 
 L1  SYNTAX      required fields, regex compiles, unique IDs
-L2  SEARCH      keyword hit-rate against provider album search
 L3  PATTERN     episode extraction rate within matched albums
 L4  DISCOVERY   probes common naming patterns, suggests improvements
 L5  ARTIST      full discography via artist ID (per provider)
@@ -29,7 +28,6 @@ class ValidationResult:
     series_id: str
     title: str
     issues: list[str] = field(default_factory=list)
-    l2_hit_rate: float = 0.0
     l3_match_rate: float = 0.0
     l5_coverage: dict[str, float] = field(default_factory=dict)
 

@@ -67,8 +67,7 @@ def canonicalize(data: dict) -> None:
     - ``provider_artist_ids``: list values sorted.
 
     What's intentionally not touched:
-    - ``aliases`` and ``keywords``: human-curated; order can carry
-      intent (primary alias first).
+    - ``aliases``: human-curated; order can carry intent (primary alias first).
     - Top-level dict key order: insertion order keeps related fields
       adjacent for human readers.
     """

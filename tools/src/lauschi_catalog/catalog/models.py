@@ -26,7 +26,6 @@ class CatalogEntry:
 
     id: str
     title: str
-    keywords: list[str] = field(default_factory=list)
     aliases: list[str] = field(default_factory=list)
     episode_pattern: str | list[str] | None = None
     cover_url: str | None = None

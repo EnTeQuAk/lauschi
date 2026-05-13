@@ -179,17 +179,12 @@ def test_sorts_added_albums_by_album_key():
 # ── intentional non-touching ──────────────────────────────────────────────
 
 
-def test_does_not_reorder_aliases_or_keywords():
-    """Both fields can carry curation intent in their order
-    (primary alias first, etc.). Leave them alone."""
-    data = {
-        "aliases": ["Zorro", "Aaron"],
-        "keywords": ["zebra", "apple"],
-    }
+def test_does_not_reorder_aliases():
+    """Order can carry curation intent (primary alias first). Leave alone."""
+    data = {"aliases": ["Zorro", "Aaron"]}
     snapshot = deepcopy(data)
     canonicalize(data)
     assert data["aliases"] == snapshot["aliases"]
-    assert data["keywords"] == snapshot["keywords"]
 
 
 def test_does_not_reorder_top_level_keys():

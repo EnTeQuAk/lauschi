@@ -60,7 +60,6 @@ def apply_splits(series_id: str | None, do_apply: bool):
                     "id": new_id,
                     "title": new_title,
                     "aliases": [],
-                    "keywords": [],
                     "episode_pattern": data.get("episode_pattern"),
                     "provider_artist_ids": data.get("provider_artist_ids", {}),
                     "albums": moved,

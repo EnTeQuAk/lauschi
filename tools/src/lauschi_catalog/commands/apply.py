@@ -159,12 +159,11 @@ def _apply_one(series_id: str, data: dict, yaml_data: dict) -> bool:
                 ]
                 updated = True
 
-    # Update keywords/aliases
-    for field in ("keywords", "aliases"):
-        val = data.get(field)
-        if val and val != yaml_series.get(field):
-            yaml_series[field] = val
-            updated = True
+    # Update aliases
+    aliases = data.get("aliases")
+    if aliases and aliases != yaml_series.get("aliases"):
+        yaml_series["aliases"] = aliases
+        updated = True
 
     return updated
 

@@ -98,7 +98,6 @@ class CuratedSeries(BaseModel):
     id: str = Field(pattern=r"^[a-z][a-z0-9_]*$")
     title: str
     aliases: list[str] = Field(default_factory=list)
-    keywords: list[str] = Field(default_factory=list)
     episode_pattern: str | list[str] | None = Field(
         default=None,
         description=_EPISODE_PATTERN_DESCRIPTION,
@@ -157,7 +156,6 @@ class SeriesMetadata(BaseModel):
     id: str = Field(pattern=r"^[a-z][a-z0-9_]*$")
     title: str
     aliases: list[str] = Field(default_factory=list)
-    keywords: list[str] = Field(default_factory=list)
     episode_pattern: str | list[str] | None = Field(
         default=None,
         description=_EPISODE_PATTERN_DESCRIPTION,
@@ -324,7 +322,6 @@ multiple providers — title, total_tracks, release_date — provide:
 - id: lowercase snake_case identifier (e.g., "paw_patrol", "die_drei_fragezeichen")
 - title: display name (e.g., "PAW Patrol", "Die drei ???")
 - aliases: alternate names the series goes by (different languages, abbreviations)
-- keywords: only if the series name literally appears in album titles
 - episode_pattern: regex (or list of regexes) with exactly 1 capture group each
   for the episode number. The captured group MUST be a digit string —
   `int(group)` has to succeed. Use a list when a series changed naming
@@ -383,8 +380,6 @@ discography across multiple providers, provide:
 - id: lowercase snake_case identifier (e.g., "detlev_joecker")
 - title: display name
 - aliases: alternate names the artist goes by
-- keywords: artist name plus any iconic album/song titles parents
-  might search for
 - episode_pattern: leave as None. Music albums don't have episode
   numbers and the catalog UI doesn't show "Folge N" for music.
 - age_note: "Suitable from 2+", "Suitable from 3+", "Suitable from
@@ -1385,7 +1380,6 @@ async def _run_large(
         id=meta.id,
         title=meta.title,
         aliases=meta.aliases,
-        keywords=meta.keywords,
         episode_pattern=final_pattern,
         albums=all_decisions,
         provider_artist_ids=meta.provider_artist_ids,
@@ -1494,7 +1488,6 @@ def save_curation(series: CuratedSeries) -> Path:
         "title": series.title,
         "content_type": series.content_type,
         "aliases": series.aliases,
-        "keywords": series.keywords,
         "episode_pattern": series.episode_pattern,
         "provider_artist_ids": series.provider_artist_ids,
         "age_note": series.age_note,

@@ -1,7 +1,7 @@
 """Add a new series to the catalog.
 
-Creates a seed entry in series.yaml with title, keywords, episode_pattern,
-and provider artist IDs. The rest of the pipeline (curate, review, apply,
+Creates a seed entry in series.yaml with title, episode_pattern, and
+provider artist IDs. The rest of the pipeline (curate, review, apply,
 validate) handles album-level curation.
 
 Ported from the old scripts/discover-titles.py --ai workflow.
@@ -163,7 +163,6 @@ def build_entry(
     series_id: str | None = None,
     artists: dict[str, Artist],
     analysis: dict | None = None,
-    keywords: list[str] | None = None,
 ) -> dict:
     """Build a series.yaml entry dict (ruamel-compatible plain dict).
 
@@ -172,14 +171,12 @@ def build_entry(
         series_id: Override for the auto-generated ID.
         artists: {provider_name: Artist} from discovery.
         analysis: Pattern analysis from analyse_patterns(), if available.
-        keywords: Override keywords. Defaults to [title].
     """
     sid = series_id or title_to_id(title)
 
     entry: dict = {
         "id": sid,
         "title": title,
-        "keywords": keywords or [title],
     }
 
     # Episode pattern from analysis
@@ -208,7 +205,6 @@ def append_to_yaml(entry: dict) -> None:
 @click.option("--id", "series_id", default=None, help="Override auto-generated snake_case ID")
 @click.option("--spotify-artist-id", default=None, help="Spotify artist ID (skips search)")
 @click.option("--apple-music-artist-id", default=None, help="Apple Music artist ID (skips search)")
-@click.option("--keyword", "-k", multiple=True, help="Keywords (repeatable). Defaults to title.")
 @click.option("--no-analyse", is_flag=True, help="Skip discography analysis (just create a minimal seed)")
 @click.option("--dry-run", "-n", is_flag=True, help="Print the entry without writing")
 def add(
@@ -216,7 +212,6 @@ def add(
     series_id: str | None,
     spotify_artist_id: str | None,
     apple_music_artist_id: str | None,
-    keyword: tuple[str, ...],
     no_analyse: bool,
     dry_run: bool,
 ):
@@ -230,7 +225,7 @@ def add(
       \b
       lauschi-catalog add "Senta"
       lauschi-catalog add "TKKG" --spotify-artist-id 7uVDfCKp96l3xCHFYf39vU
-      lauschi-catalog add "Bibi Blocksberg" -k "Bibi Blocksberg" --dry-run
+      lauschi-catalog add "Bibi Blocksberg" --dry-run
     """
     from lauschi_catalog.providers.spotify import SpotifyProvider
     from lauschi_catalog.providers.apple_music import AppleMusicProvider
@@ -309,7 +304,6 @@ def add(
         series_id=series_id,
         artists=artists,
         analysis=analysis,
-        keywords=list(keyword) if keyword else None,
     )
 
     # Preview
