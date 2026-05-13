@@ -5,6 +5,7 @@ import click
 from lauschi_catalog.commands.add import add
 from lauschi_catalog.commands.apply import apply
 from lauschi_catalog.commands.apply_splits import apply_splits
+from lauschi_catalog.commands.delete import delete
 from lauschi_catalog.commands.discover import discover
 from lauschi_catalog.commands.edit import edit
 from lauschi_catalog.commands.log_summary import log_summary
@@ -26,6 +27,7 @@ def cli():
 cli.add_command(add)
 cli.add_command(apply)
 cli.add_command(apply_splits)
+cli.add_command(delete)
 cli.add_command(discover)
 cli.add_command(edit)
 cli.add_command(log_summary)

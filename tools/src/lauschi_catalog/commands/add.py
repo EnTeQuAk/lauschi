@@ -207,6 +207,11 @@ def append_to_yaml(entry: dict) -> None:
 @click.option("--apple-music-artist-id", default=None, help="Apple Music artist ID (skips search)")
 @click.option("--no-analyse", is_flag=True, help="Skip discography analysis (just create a minimal seed)")
 @click.option("--dry-run", "-n", is_flag=True, help="Print the entry without writing")
+@click.option(
+    "--force-readd",
+    is_flag=True,
+    help="Re-introduce an id that was previously deleted (removes the deletion-log entry)",
+)
 def add(
     title: str,
     series_id: str | None,
@@ -214,6 +219,7 @@ def add(
     apple_music_artist_id: str | None,
     no_analyse: bool,
     dry_run: bool,
+    force_readd: bool,
 ):
     """Add a new series to the catalog.
 
@@ -227,6 +233,7 @@ def add(
       lauschi-catalog add "TKKG" --spotify-artist-id 7uVDfCKp96l3xCHFYf39vU
       lauschi-catalog add "Bibi Blocksberg" --dry-run
     """
+    from lauschi_catalog.catalog.deleted import is_deleted, remove_from_deleted
     from lauschi_catalog.providers.spotify import SpotifyProvider
     from lauschi_catalog.providers.apple_music import AppleMusicProvider
 
@@ -236,6 +243,17 @@ def add(
     existing_ids = {e.id for e in existing}
     if sid in existing_ids:
         console.print(f"[red]Series '{sid}' already exists in series.yaml[/red]")
+        raise SystemExit(1)
+
+    # Guard against silently re-introducing a deliberately-deleted id.
+    deletion = is_deleted(sid)
+    if deletion and not force_readd:
+        console.print(
+            f"[red]Series '{sid}' was previously deleted "
+            f"({deletion.get('deleted_at', '?')}).[/red]\n"
+            f"[red]Reason on file: {deletion.get('reason', '(no reason recorded)')!r}[/red]\n"
+            f"[yellow]Re-add anyway with --force-readd if you've reconsidered.[/yellow]",
+        )
         raise SystemExit(1)
 
     # Resolve artists per provider
@@ -315,6 +333,13 @@ def add(
         return
 
     append_to_yaml(entry)
+
+    # If --force-readd, clear the deletion log entry so the next reader
+    # doesn't see a stale "this is deleted" claim for an id that's now back.
+    if force_readd and deletion:
+        remove_from_deleted(sid)
+        console.print(f"[dim]Removed {sid!r} from deleted.yaml.[/dim]")
+
     console.print(f"\n[green]Added '{entry['id']}' to series.yaml[/green]")
     console.print("[dim]Next steps: catalog-discover (fill missing IDs) → catalog-curate → catalog-review → catalog-apply → catalog-validate[/dim]")
 

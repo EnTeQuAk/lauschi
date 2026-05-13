@@ -20,9 +20,15 @@ _yaml.preserve_quotes = True  # type: ignore[assignment]
 _yaml.width = 200  # avoid unwanted line wrapping
 
 
-def load_catalog(path: Path = SERIES_YAML) -> list[CatalogEntry]:
+def _series_path(path: Path | None) -> Path:
+    # Module-level SERIES_YAML is resolved at call time so tests can
+    # monkeypatch ``loader.SERIES_YAML`` without binding stale defaults.
+    return path if path is not None else SERIES_YAML
+
+
+def load_catalog(path: Path | None = None) -> list[CatalogEntry]:
     """Load series.yaml into CatalogEntry models."""
-    data = _yaml.load(path)
+    data = _yaml.load(_series_path(path))
     entries = []
 
     for raw in data["series"]:
@@ -61,19 +67,19 @@ def load_catalog(path: Path = SERIES_YAML) -> list[CatalogEntry]:
     return entries
 
 
-def load_raw(path: Path = SERIES_YAML):
+def load_raw(path: Path | None = None):
     """Load series.yaml as raw ruamel.yaml data (preserves comments)."""
-    return _yaml.load(path)
+    return _yaml.load(_series_path(path))
 
 
-def save_raw(data, path: Path = SERIES_YAML):
+def save_raw(data, path: Path | None = None):
     """Write modified ruamel.yaml data back, preserving comments."""
-    with open(path, "w") as f:
+    with open(_series_path(path), "w") as f:
         _yaml.dump(data, f)
 
 
 def update_provider_ids(
-    path: Path = SERIES_YAML,
+    path: Path | None = None,
     *,
     updates: dict[str, dict[str, list[str]]],
 ) -> int:
