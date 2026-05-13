@@ -5965,8 +5965,6 @@ series:
         title: '80: Pumuckl setzt sich nicht durch (Das Original aus dem Fernsehen)'
 - id: conni
   title: Conni
-  aliases:
-  - Conni
   providers:
     spotify:
       artist_ids:
@@ -6388,7 +6386,6 @@ series:
 - id: pettersson_und_findus
   title: Pettersson und Findus
   aliases:
-  - Pettersson und Findus
   - 'Pettersson & Findus'
   episode_pattern: 'Folge\s+(\d+)'
   providers:
@@ -9462,11 +9459,8 @@ series:
         title: 'Folge 24: Hexe Lilli auf magischer Rettungsmission'
   aliases:
   - Lilli die kleine Hexe
-  - Lilli
 - id: lauras_stern
   title: Lauras Stern
-  aliases:
-  - Lauras Stern
   episode_pattern:
   - (?:[Ff]olge|[Tt]eil|[Bb]and)\s+(\d+)
   - Lauras Stern,?\s+(?:Folge|Teil|Band)\s+(\d+)
@@ -9551,8 +9545,6 @@ series:
         title: Lauras Weihnachtsstern (Das Original-Hörspiel zum Weihnachtsspezial)
 - id: tom_turbo
   title: Tom Turbo
-  aliases:
-  - Tom Turbo
   episode_pattern: '[Tt]eil\s+(\d+)'
   providers:
     spotify:
@@ -10444,12 +10436,8 @@ series:
       - id: '1468865785'
         episode: 13
         title: 'Folge 13: Das größte Glück'
-  aliases:
-  - Heidi (CGI)
 - id: emil_detektive
   title: Emil und die Detektive
-  aliases:
-  - Emil und die Detektive
   providers:
     apple_music:
       artist_ids:
@@ -10475,7 +10463,6 @@ series:
 - id: bob_baumeister
   title: Bob der Baumeister
   aliases:
-  - Bob der Baumeister
   - Bob the Builder
   episode_pattern: '^(\d{2,3})/'
   providers:
@@ -10935,8 +10922,6 @@ series:
         title: Prinzessin Lillifee (Original Hörspiel zum Kinofilm)
       - id: '1581405950'
         title: Prinzessin Lillifee - Ein Wintermärchen
-  aliases:
-  - Prinzessin Lillifee (TV-Serie)
 - id: die_fuchsbande
   title: Die Fuchsbande
   episode_pattern: (?:Folge\s+|^(\d{3})/)
@@ -11241,8 +11226,6 @@ series:
   - Fuchsbande
 - id: tkkg_junior
   title: TKKG Junior
-  aliases:
-  - TKKG Junior
   episode_pattern: 'Folge\s+(\d+)'
   providers:
     spotify:
@@ -13197,8 +13180,6 @@ series:
   content_type: hoerspiel
 - id: die_wilden_huehner
   title: Die wilden Hühner
-  aliases:
-  - Die Wilden Hühner
   episode_pattern: '[Ff]olge\s+(\d+)'
   providers:
     spotify:
@@ -14382,7 +14363,6 @@ series:
 - id: sandmaennchen
   title: Sandmännchen
   aliases:
-  - Sandmännchen
   - Unser Sandmännchen
   - Sandmaennchen
   providers:
@@ -14462,8 +14442,6 @@ series:
   content_type: hoerspiel
 - id: kleiner_rabe_socke
   title: Der kleine Rabe Socke
-  aliases:
-  - Der Kleine Rabe Socke
   providers:
     spotify:
       artist_ids:
@@ -15030,7 +15008,6 @@ series:
 - id: was_ist_was
   title: Was ist Was
   aliases:
-  - Was ist was
   - WIW
   episode_pattern: '^(\d+): '
   providers:
@@ -16219,8 +16196,6 @@ series:
 - id: sternenschweif
   title: Sternenschweif
   aliases:
-  - Sternenschweif
-  - Sternenfohlen
   - Sternenschweif - Sternchen
   episode_pattern:
   - '^Teil (\d+):'
@@ -16885,7 +16860,6 @@ series:
 - id: ferien_saltkrokan
   title: Ferien auf Saltkrokan
   aliases:
-  - Ferien auf Saltkrokan
   - Wir auf Saltkrokan
   providers:
     apple_music:
@@ -18753,7 +18727,6 @@ series:
       - id: '1824733906'
         title: 'Kampf um Kartoffelbrei (Special) - Teil 9: Karla in Gefahr'
   aliases:
-  - Bibi Blocksberg - Die Kinofilme
   - Bibi erzählt
 - id: biene_maja_2023
   title: Biene Maja (2023)
@@ -19481,8 +19454,6 @@ series:
       - id: '1875257084'
         episode: 45
         title: 'Folge 45: Schummeln schwer gemacht'
-  aliases:
-  - Der kleine Hui Buh
 - id: der_kleine_rabe_socke
   title: Der kleine Rabe Socke
   episode_pattern:
@@ -19611,8 +19582,6 @@ series:
       - id: '1582032343'
         episode: 17
         title: Der Onkel aus der Südsee, Der große Streichewettbewerb, Rollentausch, Der Schatzkistentag (Der kleine Rabe Socke - Hörspiele zur TV Serie 17)
-  aliases:
-  - Der Kleine Rabe Socke
 - id: die_oktonauten
   title: Die Oktonauten
   episode_pattern: '(?:[Ff]olge|[Ff]olge\s+N?|\d{1,2})/\s*(?:und|die|der|das)\s+(.+)'
@@ -21791,8 +21760,6 @@ series:
         title: Das Hörspiel zum TV-Special
 - id: paw_patrol
   title: PAW Patrol
-  aliases:
-  - Paw Patrol
   episode_pattern: '^Folge (\d+):'
   providers:
     spotify:
@@ -24672,7 +24639,6 @@ series:
         episode: 79
         title: Kämmen, schneiden, Haare waschen (Wieso? Weshalb? Warum? JUNIOR, Folge 79)
   aliases:
-  - Wieso? Weshalb? Warum? JUNIOR
   - WWW junior
 - id: willi_wills_wissen
   title: Willi wills wissen
@@ -26187,9 +26153,6 @@ series:
       - id: '1863387202'
         episode: 26
         title: Umweltschutz (Wieso? Weshalb? Warum? PROFIWISSEN, Folge 26)
-  aliases:
-  - Wieso? Weshalb? Warum? PROFIWISSEN
-  - Wieso? Weshalb? Warum? ProfiWissen
 - id: lego_city_abenteuer
   title: LEGO City Abenteuer
   aliases:
@@ -27397,8 +27360,6 @@ series:
       - id: '1761360366'
         episode: 9
         title: 'Endlich Ferien 09: Elisa und Silber'
-  aliases:
-  - Endlich Ferien
 - id: eule_findet_den_beat
   title: Eule findet den Beat
   content_type: hoerspiel
@@ -27767,7 +27728,6 @@ series:
       - id: '1449571015'
         title: Verschollen in Fernost
   aliases:
-  - 5 Geschwister
   - 5 Geschwister Special
   - 5 Geschwister Adventskalender
 - id: gespensterjaeger
@@ -28230,8 +28190,6 @@ series:
       - id: '1858194177'
         episode: 4
         title: 'Folge 4: Immer Ärger mit Elli (Neue Abenteuer)'
-  aliases:
-  - Hanni und Nanni
 - id: heavysaurus
   title: Heavysaurus
   episode_pattern: 'Folge\s+(\d+):'
@@ -28360,7 +28318,6 @@ series:
       - '1277333069'
   aliases:
   - Heidi CGI
-  - Heidi (CGI)
 - id: kaeptn_sharky
   title: 'Käpt''n Sharky'
   episode_pattern: '(?:[Ff]olge|[Tt]eil|[Uu]nd|Band)\s*(\d+)|^(?:Der|Die|Das)\s+|Abenteuer|Bei|Im|Rettet|Schiffbruch'
@@ -29393,8 +29350,6 @@ series:
         title: 'Lauras Stern - Tonspur der TV-Serie, Teil 10: Fabelhafte Gutenacht-Geschichten'
       artist_ids:
       - '51919817'
-  aliases:
-  - Lauras Stern
 - id: lichterkinder
   title: Lichterkinder
   episode_pattern: '\(Folge (\d+)\)'
@@ -29585,8 +29540,6 @@ series:
       - id: '1893285590'
         episode: 12
         title: Abenteuer mit Kranich Klaus - Hörspiel zum Kinofilm
-  aliases:
-  - Conni
 - id: michel_aus_loenneberga
   title: Michel aus Lönneberga
   providers:
@@ -30347,14 +30300,6 @@ series:
       - id: 6k8nU0I0c3aawfYfwKulCV
         title: Töpfchen, Pipi & Kacka Kindermusik
   content_type: music
-  aliases:
-  - Ronja Räubertochter
-  - Pippi Langstrumpf
-  - Michel aus Lönneberga
-  - Karlsson vom Dach
-  - Wir Kinder aus Bullerbü
-  - Madita
-  - Kalle Blomquist
 - id: sternenfohlen
   title: Sternenfohlen
   episode_pattern: '[Tt]eil\s+(\d+)'
@@ -30754,8 +30699,6 @@ series:
       - id: 5JQbV8c9ZqipQvNkIOhojx
         episode: 26
         title: 26/Der verhängnisvolle Sandsturm / Kopf oder Zahl
-  aliases:
-  - Tabaluga (Neuauflage 2021+)
 - id: tabaluga_und_leo
   title: Tabaluga und Leo
   episode_pattern: '(?:Folge |^\d{2}/|/)(\d+)'
@@ -32032,7 +31975,6 @@ series:
         episode: 17
         title: Im Wald (Wieso? Weshalb? Warum? ERSTLESER, Folge 17)
   aliases:
-  - Wieso? Weshalb? Warum? Erstleser
   - Wieso Weshalb Warum Erstleser
 - id: woodwalkers
   title: Woodwalkers
@@ -33531,8 +33473,6 @@ series:
       - id: '1744976064'
         episode: 2
         title: '02: Mein Geschichtenkissen! Mehr lustige Hörspiele'
-  aliases:
-  - KiKANiNCHEN
 - id: die_feriendetektive
   title: Die Feriendetektive
   episode_pattern: '[Ff]olge\s+(\d+)'
@@ -34178,8 +34118,6 @@ series:
       - id: 5JQbV8c9ZqipQvNkIOhojx
         episode: 26
         title: 26/Der verhängnisvolle Sandsturm / Kopf oder Zahl
-  aliases:
-  - Tabaluga (Klassik-Serie 1997)
 - id: wieso_weshalb_warum_vorlesegeschichten
   title: Wieso? Weshalb? Warum? Meine Vorlesegeschichten
   episode_pattern: '(?:Folge)\s+(\d+)'
@@ -34197,8 +34135,6 @@ series:
       - id: 20idnrDkDmTHirWuVDbEA8
         episode: 3
         title: 'Wer ist hier im Einsatz? (Wieso? Weshalb? Warum? Meine Vorlesegeschichten, Folge 3)'
-  aliases:
-  - Wieso? Weshalb? Warum? Meine Vorlesegeschichten
 - id: cars_hoerspiel
   title: Cars Hörspiel
   episode_pattern:
@@ -34539,7 +34475,6 @@ series:
   - Dragons - Auf zu neuen Ufern
   - Dragons - Die 9 Welten
   - Dragons - Die jungen Drachenretter
-  - Drachenzähmen leicht gemacht
   episode_pattern: Folge\s+(\d+)
   providers:
     spotify:
