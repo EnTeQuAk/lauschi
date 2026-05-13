@@ -7,7 +7,6 @@
 #   id                  stable snake_case identifier
 #   title               canonical German series title
 #   aliases             alternative titles providers may use
-#   keywords            words that must appear in album/episode titles (case-insensitive)
 #   episode_pattern     regex (one capture group) extracting the episode number
 #   cover_url           curated cover image URL (optional)
 #   providers           per-provider identifiers:
@@ -26,8 +25,6 @@
 series:
 - id: yakari
   title: Yakari
-  keywords:
-  - Yakari
   episode_pattern: 'Folge (\d+):'
   providers:
     spotify:
@@ -272,8 +269,6 @@ series:
   title: Bibi Blocksberg
   aliases:
   - Bibi
-  keywords:
-  - bibi blocksberg
   episode_pattern: '^Folge (\d+):'
   providers:
     spotify:
@@ -1159,9 +1154,6 @@ series:
   - Benjamin Minis
   - Gute-Nacht-Geschichten mit Benjamin
   - Benjamin Blümchen als...
-  keywords:
-  - Benjamin
-  - Benjamin Blümchen
   episode_pattern: 'Folge (\d+):'
   providers:
     spotify:
@@ -3257,16 +3249,11 @@ series:
         title: und der dreiäugige Totenkopf
       - id: '1860827440'
         title: und die singende Schlange (Neufassung)
-  keywords:
-  - Die drei ???
-  - die drei Fragezeichen
 - id: die_drei_fragezeichen_kids
   title: Die drei ??? Kids
   aliases:
   - Die drei Fragezeichen Kids
   - ??? Kids
-  keywords:
-  - Die drei ??? Kids
   episode_pattern:
   - ^(\d{3})/
   - '^Folge (\d+):'
@@ -4554,14 +4541,10 @@ series:
       - id: '1880633189'
         episode: 241
         title: 'Folge 241: Das Rätsel der Gruselvilla'
-  keywords:
-  - TKKG
 - id: bibi_und_tina
   title: Bibi und Tina
   aliases:
   - Bibi & Tina
-  keywords:
-  - Bibi und Tina
   episode_pattern:
   - '^Folge (\d+):'
   - '^BFF Talk - Talk (\d+):'
@@ -5311,8 +5294,6 @@ series:
   title: Pumuckl
   aliases:
   - Meister Eder und sein Pumuckl
-  keywords:
-  - Pumuckl
   episode_pattern:
   - '^(\d+):'
   - '^(?:Folge|Fogle)\s+(\d+):'
@@ -5986,8 +5967,6 @@ series:
   title: Conni
   aliases:
   - Conni
-  keywords:
-  - Conni
   providers:
     spotify:
       artist_ids:
@@ -6355,10 +6334,6 @@ series:
         title: Weihnachten mit Conni
 - id: pippi_langstrumpf
   title: Pippi Langstrumpf
-  keywords:
-  - Pippi Langstrumpf
-  - Pippi
-  - Astrid Lindgren
   episode_pattern: ^Pippi Langstrumpf (\d+)
   providers:
     spotify:
@@ -6415,9 +6390,6 @@ series:
   aliases:
   - Pettersson und Findus
   - 'Pettersson & Findus'
-  keywords:
-  - pettersson
-  - findus
   episode_pattern: 'Folge\s+(\d+)'
   providers:
     spotify:
@@ -6560,8 +6532,6 @@ series:
   title: Das Sams
   aliases:
   - Paul Maars Das Sams
-  keywords:
-  - Sams
   episode_pattern: 'Das Sams (\d+)\.'
   providers:
     spotify:
@@ -6618,8 +6588,6 @@ series:
   title: Feuerwehrmann Sam
   aliases:
   - Fireman Sam
-  keywords:
-  - Feuerwehrmann Sam
   episode_pattern: '^Folge (\d+):'
   providers:
     spotify:
@@ -7391,8 +7359,6 @@ series:
   title: Biene Maja
   aliases:
   - Die Biene Maja
-  keywords:
-  - Biene Maja
   episode_pattern:
   - ^(\d{2})/
   - Folge (\d+)[:/]
@@ -7606,8 +7572,6 @@ series:
 - id: hui_buh
   title: Hui Buh das Schlossgespenst
   aliases:
-  - Hui Buh
-  keywords:
   - Hui Buh
   episode_pattern:
   - ^(\d{2})/
@@ -7974,8 +7938,6 @@ series:
   - Hanni and Nanni
   - Die Zwillinge vom Internat
   - 'Enid Blyton: Hanni und Nanni'
-  keywords:
-  - Hanni und Nanni
   episode_pattern:
   - '^Folge (\d+):'
   - ^(\d{2,3})/
@@ -8487,8 +8449,6 @@ series:
   - Die 5 Freunde
   - 5 Freunde
   - Famous Five
-  keywords:
-  - Fünf Freunde
   episode_pattern:
   - '^Folge (\d+):'
   - ^(\d+)/
@@ -9276,8 +9236,6 @@ series:
   title: Die Olchis
   aliases:
   - Olchis
-  keywords:
-  - Die Olchis
   providers:
     spotify:
       artist_ids:
@@ -9348,8 +9306,6 @@ series:
   - ^Olchi-Detektive (\d+)\.\s
 - id: hexe_lilli
   title: Hexe Lilli
-  keywords:
-  - Hexe Lilli
   episode_pattern: (?:Folge\s+|00|^)(\d+)|(?:Teil\s+|/)(\d+)
   providers:
     spotify:
@@ -9511,9 +9467,6 @@ series:
   title: Lauras Stern
   aliases:
   - Lauras Stern
-  keywords:
-  - Lauras Stern
-  - Laura
   episode_pattern:
   - (?:[Ff]olge|[Tt]eil|[Bb]and)\s+(\d+)
   - Lauras Stern,?\s+(?:Folge|Teil|Band)\s+(\d+)
@@ -9600,8 +9553,6 @@ series:
   title: Tom Turbo
   aliases:
   - Tom Turbo
-  keywords:
-  - tom turbo
   episode_pattern: '[Tt]eil\s+(\d+)'
   providers:
     spotify:
@@ -9611,8 +9562,6 @@ series:
   title: Ritter Rost
   aliases:
   - Ritter-Rost
-  keywords:
-  - Ritter Rost
   episode_pattern:
   - Folge\s+(\d+)
   - ^(\d{1,2})/
@@ -9821,9 +9770,6 @@ series:
   title: Kommissar Kugelblitz
   aliases:
   - Kugelblitz
-  keywords:
-  - Kommissar Kugelblitz
-  - Kugelblitz
   episode_pattern:
   - '^Folge (\d+):'
   - ^Folge (\d+) -
@@ -9996,8 +9942,6 @@ series:
         title: Folge 17 - KK fischt im Internet
 - id: nils_holgersson
   title: Nils Holgersson
-  keywords:
-  - Nils Holgersson
   episode_pattern: Folge (\d+)
   providers:
     spotify:
@@ -10500,22 +10444,12 @@ series:
       - id: '1468865785'
         episode: 13
         title: 'Folge 13: Das größte Glück'
-  keywords:
-  - Heidi
   aliases:
   - Heidi (CGI)
 - id: emil_detektive
   title: Emil und die Detektive
   aliases:
   - Emil und die Detektive
-  keywords:
-  - Emil und die Detektive
-  - Parole Emil
-  - Deine Bande deine Gang
-  - Schokoeis zum Frühstück
-  - Bildet Banden
-  - Erich Kästner
-  - Düsseldorfer Schauspielhaus
   providers:
     apple_music:
       artist_ids:
@@ -10543,8 +10477,6 @@ series:
   aliases:
   - Bob der Baumeister
   - Bob the Builder
-  keywords:
-  - bob der baumeister
   episode_pattern: '^(\d{2,3})/'
   providers:
     spotify:
@@ -10556,8 +10488,6 @@ series:
 - id: wickie
   title: Wickie und die starken Männer
   aliases:
-  - Wickie
-  keywords:
   - Wickie
   episode_pattern: '^(?:Folge\s+|(?:0?[0-9])\/)([0-9]+)'
   providers:
@@ -10737,9 +10667,6 @@ series:
         title: Wickie und die starken Männer (Das magische Schwert)
 - id: prinzessin_lillifee
   title: Prinzessin Lillifee
-  keywords:
-  - Prinzessin Lillifee
-  - Lillifee
   episode_pattern: '^(?:(\d+)/|Folge\s+(\d+)|Gute-Nacht-Geschichten\s+Folgen?\s+(\d+))'
   providers:
     spotify:
@@ -11012,8 +10939,6 @@ series:
   - Prinzessin Lillifee (TV-Serie)
 - id: die_fuchsbande
   title: Die Fuchsbande
-  keywords:
-  - Fuchsbande
   episode_pattern: (?:Folge\s+|^(\d{3})/)
   providers:
     spotify:
@@ -11588,8 +11513,6 @@ series:
   title: Fünf Freunde Junior
   aliases:
   - Fünf Freunde Junior - Doppelhörspiele
-  keywords:
-  - Fünf Freunde Junior
   episode_pattern: 'Folge (\d+):'
   providers:
     spotify:
@@ -11696,9 +11619,6 @@ series:
   - Playmos
   - Playmobil
   - Das Original Playmobil Hörspiel
-  keywords:
-  - Playmos
-  - Playmobil
   episode_pattern: '^Folge (\d+):'
   providers:
     spotify:
@@ -12340,8 +12260,6 @@ series:
         title: Die Playmos - Wie die Playmos sich kennenlernten
 - id: wendy
   title: Wendy
-  keywords:
-  - wendy
   episode_pattern: '^Folge (\d+):'
   providers:
     spotify:
@@ -12865,8 +12783,6 @@ series:
         title: 'Folge 88: Gefahr von oben'
 - id: asterix
   title: Asterix
-  keywords:
-  - Asterix
   episode_pattern: '^(\d+):'
   providers:
     spotify:
@@ -13122,8 +13038,6 @@ series:
         title: '41: Asterix in Lusitanien'
 - id: lucky_luke
   title: Lucky Luke
-  keywords:
-  - Lucky Luke
   episode_pattern: '^(?:(?:Folge\s+)?0?(\d+):|(\d+):)'
   providers:
     spotify:
@@ -13233,12 +13147,6 @@ series:
         title: Letzte Runde für die Daltons
 - id: michael_ende
   title: Michael Ende
-  keywords:
-  - Michael Ende
-  - Jim Knopf
-  - Jim Knopf und Lukas
-  - Kinderoper
-  - Komische Oper Berlin
   providers:
     spotify:
       artist_ids:
@@ -13291,9 +13199,6 @@ series:
   title: Die wilden Hühner
   aliases:
   - Die Wilden Hühner
-  keywords:
-  - Die Wilden Hühner
-  - Wilde Hühner
   episode_pattern: '[Ff]olge\s+(\d+)'
   providers:
     spotify:
@@ -13337,9 +13242,6 @@ series:
   - Wir Kinder aus Bullerbü
   - Children of Noisy Village
   - 'Astrid Lindgren: Bullerbü'
-  keywords:
-  - bullerbü
-  - wir kinder aus bullerbü
   episode_pattern:
   - ^Wir Kinder aus Bullerbü ([123])
   - ^Michel aus Lönneberga (\d+)[\.\s]
@@ -13420,11 +13322,6 @@ series:
   aliases:
   - Tiger und Bär
   - Oh, wie schön ist Panama
-  keywords:
-  - Tiger
-  - Bär
-  - Panama
-  - Janosch
   episode_pattern: ^(?:Folge\s+)?(\d+)|^(Oh, wie schön ist Panama)$
   providers:
     spotify:
@@ -13463,10 +13360,6 @@ series:
   title: Detektivbüro LasseMaja
   aliases:
   - LasseMajas detektivbyrå
-  keywords:
-  - lassemaja
-  - lasse-maja
-  - lasse maja
   episode_pattern: '[Tt]eil\s+(\d+)'
   providers:
     spotify:
@@ -13564,8 +13457,6 @@ series:
   title: Tabaluga
   aliases:
   - Tabaluga - Die Serie
-  keywords:
-  - Tabaluga
   episode_pattern:
   - ^(\d{2})/
   - '^Folge (\d+):'
@@ -13800,16 +13691,6 @@ series:
         title: 'Folge 26: Der verhängnisvolle Sandsturm / Kopf oder Zahl'
 - id: bobo_siebenschlaefer
   title: Bobo Siebenschläfer
-  keywords:
-  - Bobo Siebenschläfer
-  - Bobo
-  - Siebenschläfer
-  - Lied für Bobo
-  - Backe backe Kuchen
-  - Alle meine Entchen
-  - Kinderlieder
-  - Markus Osterwalder
-  - Bobo & Hasi
   providers:
     spotify:
       artist_ids:
@@ -13945,8 +13826,6 @@ series:
   content_type: music
 - id: leo_lausemaus
   title: Leo Lausemaus
-  keywords:
-  - Leo Lausemaus
   episode_pattern: '^Folge (\d+)'
   providers:
     spotify:
@@ -14506,17 +14385,6 @@ series:
   - Sandmännchen
   - Unser Sandmännchen
   - Sandmaennchen
-  keywords:
-  - Sandmännchen
-  - Unser Sandmännchen
-  - Sandmann
-  - La-Le-Lu
-  - Schlaf Kindlein schlaf
-  - Guten Abend gute Nacht
-  - Schlaflieder
-  - Gute Nacht Lieder
-  - Abendgruß
-  - DDR Sandmännchen
   providers:
     spotify:
       artist_ids:
@@ -14596,8 +14464,6 @@ series:
   title: Der kleine Rabe Socke
   aliases:
   - Der Kleine Rabe Socke
-  keywords:
-  - Der kleine Rabe Socke
   providers:
     spotify:
       artist_ids:
@@ -14673,8 +14539,6 @@ series:
   content_type: hoerspiel
 - id: peppa_wutz
   title: Peppa Wutz
-  keywords:
-  - Peppa
   episode_pattern: '^Folge (\d+):'
   providers:
     spotify:
@@ -14857,8 +14721,6 @@ series:
   - Peppa Pig
 - id: globi
   title: Globi
-  keywords:
-  - Globi
   providers:
     spotify:
       artist_ids:
@@ -15170,9 +15032,6 @@ series:
   aliases:
   - Was ist was
   - WIW
-  keywords:
-  - Was ist Was
-  - WAS IST WAS
   episode_pattern: '^(\d+): '
   providers:
     spotify:
@@ -15288,9 +15147,6 @@ series:
   title: Wieso? Weshalb? Warum?
   aliases:
   - WWW
-  keywords:
-  - Wieso? Weshalb? Warum?
-  - Wieso Weshalb Warum
   episode_pattern:
   - Folge (\d+)
   - Folge(\d+)
@@ -16366,8 +16222,6 @@ series:
   - Sternenschweif
   - Sternenfohlen
   - Sternenschweif - Sternchen
-  keywords:
-  - Sternenschweif
   episode_pattern:
   - '^Teil (\d+):'
   - '^Band (\d+):'
@@ -16824,10 +16678,6 @@ series:
         title: 'Teil 75: Das Regenbogen-Einhorn'
 - id: loewenzahn
   title: Löwenzahn
-  keywords:
-  - Löwenzahn
-  - Peter Lustig
-  - Fritz Fuchs
   episode_pattern:
   - '[Ee]pisode\s+(\d+)'
   - '[Ff]olge\s+(\d+)'
@@ -17037,8 +16887,6 @@ series:
   aliases:
   - Ferien auf Saltkrokan
   - Wir auf Saltkrokan
-  keywords:
-  - Ferien auf Saltkrokan
   providers:
     apple_music:
       albums:
@@ -17055,9 +16903,6 @@ series:
   content_type: hoerspiel
 - id: bibi_blocksberg_kampf_kartoffelbrei
   title: Bibi Blocksberg - Kampf um Kartoffelbrei
-  keywords:
-  - Bibi Blocksberg
-  - Bibi erzählt
   episode_pattern: '^Folge (\d+):'
   providers:
     spotify:
@@ -18047,8 +17892,6 @@ series:
   - Bibi erzählt
 - id: bibi_blocksberg_kinofilme
   title: Bibi Blocksberg - Die Kinofilme
-  keywords:
-  - Bibi Blocksberg
   episode_pattern: '^Folge (\d+):'
   providers:
     spotify:
@@ -18914,8 +18757,6 @@ series:
   - Bibi erzählt
 - id: biene_maja_2023
   title: Biene Maja (2023)
-  keywords:
-  - Biene Maja
   episode_pattern: '(?:Folge|Teil)\s+(\d+)'
   providers:
     spotify:
@@ -19086,8 +18927,6 @@ series:
   - Die Biene Maja
 - id: biene_maja_2025
   title: Biene Maja (2025)
-  keywords:
-  - Maja
   episode_pattern:
   - 'Folge (\d+):'
   - (\d+)/
@@ -19256,10 +19095,6 @@ series:
   - Die Biene Maja
 - id: biene_maja_klassik
   title: Biene Maja (Klassik)
-  keywords:
-  - Biene Maja
-  - Maja
-  - Willi
   episode_pattern: '(?:[Kk]lassiker,?\s*[Ff]olge|Folge|0?\d+)\s*(?:[:\-/]?\s*)(\d+)'
   providers:
     spotify:
@@ -19366,9 +19201,6 @@ series:
   - Biene Maja Klassiker
 - id: der_kleine_hui_buh
   title: Der kleine Hui Buh
-  keywords:
-  - Der kleine Hui Buh
-  - Hui Buh
   episode_pattern: '^(?:(?:Folge\s+)|(?:0{0,2}))(\d+)(?::|/)'
   providers:
     spotify:
@@ -19653,9 +19485,6 @@ series:
   - Der kleine Hui Buh
 - id: der_kleine_rabe_socke
   title: Der kleine Rabe Socke
-  keywords:
-  - Der kleine Rabe Socke
-  - Rabe Socke
   episode_pattern:
   - (?:Hörspiele zur TV Serie|Hörspiele zur TV-Serie)\s+(\d+)
   - \[Hörspiele zur TV Serie\s+(\d+)\]
@@ -19786,8 +19615,6 @@ series:
   - Der Kleine Rabe Socke
 - id: die_oktonauten
   title: Die Oktonauten
-  keywords:
-  - Die Oktonauten
   episode_pattern: '(?:[Ff]olge|[Ff]olge\s+N?|\d{1,2})/\s*(?:und|die|der|das)\s+(.+)'
   providers:
     spotify:
@@ -19958,8 +19785,6 @@ series:
   - Octonauts
 - id: hedda_hex
   title: Hedda Hex
-  keywords:
-  - Hedda Hex
   episode_pattern: '^(?:Folge |00?)(\d+)[:/\s]'
   providers:
     spotify:
@@ -20118,8 +19943,6 @@ series:
 - id: hui_buh_schlossgespenst
   title: Hui Buh das Schlossgespenst
   aliases:
-  - Hui Buh
-  keywords:
   - Hui Buh
   episode_pattern:
   - ^(\d+)/
@@ -20348,8 +20171,6 @@ series:
   title: LEGO Ninjago
   aliases:
   - Ninjago
-  keywords:
-  - LEGO Ninjago
   episode_pattern:
   - '^Folge (\d+):'
   - \(Book (\d+)\)
@@ -21971,9 +21792,6 @@ series:
 - id: paw_patrol
   title: PAW Patrol
   aliases:
-  - Paw Patrol
-  keywords:
-  - PAW Patrol
   - Paw Patrol
   episode_pattern: '^Folge (\d+):'
   providers:
@@ -24228,8 +24046,6 @@ series:
         title: Rasend schnelle Rettung (Das Special)
 - id: petronella_apfelmus
   title: Petronella Apfelmus
-  keywords:
-  - Petronella Apfelmus
   episode_pattern: '(?:[Tt]eil|[Bb]and|[Ff]olge)\s+(\d+)'
   providers:
     spotify:
@@ -24327,8 +24143,6 @@ series:
         title: 'Teil 9: Alles singt, Des Wichtels Gespür für Wasser, Das Geschichtengerät (Hörspiele zur TV-Serie)'
 - id: simsalagrimm
   title: SimsalaGrimm
-  keywords:
-  - SimsalaGrimm
   providers:
     spotify:
       artist_ids:
@@ -24577,9 +24391,6 @@ series:
   content_type: hoerspiel
 - id: wieso_weshalb_warum_junior
   title: Wieso? Weshalb? Warum? junior
-  keywords:
-  - Wieso? Weshalb? Warum? junior
-  - Wieso? Weshalb? Warum? JUNIOR
   episode_pattern: '\(Wieso\? Weshalb\? Warum\? (?:junior|JUNIOR), Folge (\d+)\)$'
   providers:
     spotify:
@@ -24865,8 +24676,6 @@ series:
   - WWW junior
 - id: willi_wills_wissen
   title: Willi wills wissen
-  keywords:
-  - Willi wills wissen
   episode_pattern: Folge (\d+)
   providers:
     spotify:
@@ -24948,9 +24757,6 @@ series:
         title: 'Folge 13: Wo geht es hin, das Rohr im Klo? / So kommt der Strom in die Steckdose'
 - id: die_schlumpfe
   title: Die Schlümpfe
-  keywords:
-  - Die Schlümpfe
-  - Schlümpfe
   episode_pattern: '^Folge (\d+):'
   providers:
     spotify:
@@ -25301,8 +25107,6 @@ series:
   title: Die Schule der magischen Tiere
   aliases:
   - SDMT
-  keywords:
-  - Die Schule der magischen Tiere
   episode_pattern:
   - '^Die Schule der magischen Tiere (\d+):'
   - '^(\d+):'
@@ -25831,8 +25635,6 @@ series:
   title: Mein Lotta-Leben
   aliases:
   - Lotta Leben
-  keywords:
-  - Mein Lotta-Leben
   episode_pattern: \(Band\s+(\d+)\)
   providers:
     spotify:
@@ -25990,8 +25792,6 @@ series:
         title: Mein Lotta-Leben. Süßer die Esel nie singen
 - id: mia_and_me
   title: Mia and Me
-  keywords:
-  - Mia and Me
   episode_pattern: '^Folge (\d+):'
   providers:
     spotify:
@@ -26387,9 +26187,6 @@ series:
       - id: '1863387202'
         episode: 26
         title: Umweltschutz (Wieso? Weshalb? Warum? PROFIWISSEN, Folge 26)
-  keywords:
-  - Wieso? Weshalb? Warum?
-  - PROFIWISSEN
   aliases:
   - Wieso? Weshalb? Warum? PROFIWISSEN
   - Wieso? Weshalb? Warum? ProfiWissen
@@ -27063,9 +26860,6 @@ series:
       - id: '1860347035'
         episode: 106
         title: 'Folge 106: Dunkle Geheimnisse - EP'
-  keywords:
-  - LEGO
-  - City
 - id: deine_freunde
   title: Deine Freunde
   episode_pattern: "^(\x02\\d):"
@@ -27102,8 +26896,6 @@ series:
       - id: '1840167248'
         episode: 4
         title: '04: Der Lollimann'
-  keywords:
-  - Deine Freunde
 - id: die_eiskoenigin
   title: Die Eiskönigin
   providers:
@@ -27130,22 +26922,8 @@ series:
       - id: '1444448343'
         title: Wir machen den Tag zum schönsten Tag (Aus "Die Eiskönigin - Party-Fieber") - Single
   content_type: music
-  keywords:
-  - Die Eiskönigin
-  - Frozen
-  - Disney
-  - Lass jetzt los
-  - Let It Go
-  - Willst du einen Schneemann bauen
-  - Wo noch niemand war
-  - Elsa
-  - Anna
-  - Olaf
 - id: die_punkies
   title: Die Punkies
-  keywords:
-  - Die Punkies
-  - Punkies
   episode_pattern: '^Folge (\d+):'
   providers:
     spotify:
@@ -27551,9 +27329,6 @@ series:
         title: 'Folge 2: Ein  '
       artist_ids:
       - '128557561'
-  keywords:
-  - Schlumpf
-  - Schlümpfe
 - id: die_schule_der_magischen_tiere_endlich_ferien
   title: 'Die Schule der magischen Tiere: Endlich Ferien'
   episode_pattern: 'Endlich Ferien (\d+)'
@@ -27627,8 +27402,6 @@ series:
 - id: eule_findet_den_beat
   title: Eule findet den Beat
   content_type: hoerspiel
-  keywords:
-  - Eule findet den Beat
   providers:
     spotify:
       artist_ids:
@@ -27667,8 +27440,6 @@ series:
   title: Ferien auf Saltkrokan
   aliases:
   - Vi på Saltkråkan
-  keywords:
-  - Ferien auf Saltkrokan
   episode_pattern: '(?:Ferien auf Saltkrokan)\s*(\d+)'
   providers:
     spotify:
@@ -27995,17 +27766,12 @@ series:
         title: Gefährlich rieselt der Schnee
       - id: '1449571015'
         title: Verschollen in Fernost
-  keywords:
-  - 5 Geschwister
   aliases:
   - 5 Geschwister
   - 5 Geschwister Special
   - 5 Geschwister Adventskalender
 - id: gespensterjaeger
   title: Gespensterjäger
-  keywords:
-  - Gespensterjäger
-  - gespensterjaeger
   episode_pattern: '(?:[Bb]and|[Ff]olge)\s+(\d+)'
   providers:
     spotify:
@@ -28180,8 +27946,6 @@ series:
       - id: '1848972102'
         episode: 20
         title: 'Folge 20: Bock auf Party?'
-  keywords:
-  - Gregs Tagebuch
   aliases:
   - Diary of a Wimpy Kid
 - id: hanni_und_nanni_neue_abenteuer
@@ -28466,8 +28230,6 @@ series:
       - id: '1858194177'
         episode: 4
         title: 'Folge 4: Immer Ärger mit Elli (Neue Abenteuer)'
-  keywords:
-  - Hanni und Nanni
   aliases:
   - Hanni und Nanni
 - id: heavysaurus
@@ -28506,8 +28268,6 @@ series:
       - id: '1830187365'
         episode: 4
         title: 'Folge 4: Die Hexenmeister des Metal'
-  keywords:
-  - Heavysaurus
 - id: heidi_cgi
   title: Heidi (CGI)
   episode_pattern: '(?:Folge\s*)?(\d+)'
@@ -28598,9 +28358,6 @@ series:
         title: 'Folge 13: Das größte Glück'
       artist_ids:
       - '1277333069'
-  keywords:
-  - Heidi
-  - CGI
   aliases:
   - Heidi CGI
   - Heidi (CGI)
@@ -28957,8 +28714,6 @@ series:
         title: 'Folge 41: Die Macht des Uhus'
 - id: kira_kolumna
   title: Kira Kolumna
-  keywords:
-  - Kira Kolumna
   episode_pattern: '^Folge (\d+): '
   providers:
     spotify:
@@ -29127,9 +28882,6 @@ series:
   aliases:
   - Monika Häuschen
   - Die kleine Schnecke
-  keywords:
-  - Monika Häuschen
-  - kleine Schnecke
   episode_pattern: '^(?:Folge )?(\\d+): '
   providers:
     spotify:
@@ -29641,8 +29393,6 @@ series:
         title: 'Lauras Stern - Tonspur der TV-Serie, Teil 10: Fabelhafte Gutenacht-Geschichten'
       artist_ids:
       - '51919817'
-  keywords:
-  - Lauras Stern
   aliases:
   - Lauras Stern
 - id: lichterkinder
@@ -29664,8 +29414,6 @@ series:
       - '1035655315'
 - id: lieselotte_filmhoerspiele
   title: Lieselotte Filmhörspiele
-  keywords:
-  - Lieselotte
   episode_pattern: 'Folge (\d+)'
   providers:
     spotify:
@@ -29758,8 +29506,6 @@ series:
   - Lieselotte Hörspiele
 - id: meine_freundin_conni
   title: Meine Freundin Conni
-  keywords:
-  - Conni
   episode_pattern: '^(?:Folge\s+)?(\d+)[\.\s:]*'
   providers:
     spotify:
@@ -29877,8 +29623,6 @@ series:
       - id: '1684494099'
         title: Als Michel versuchte, Linas Backenzahn zu ziehen
   episode_pattern: Michel aus Lönneberga (\d+)
-  keywords:
-  - Michel aus Lönneberga
   aliases:
   - Emil i Lönneberga
   - Emil aus Lönneberga
@@ -29902,14 +29646,6 @@ series:
       artist_ids:
       - '1353483673'
   content_type: music
-  keywords:
-  - Miraculous
-  - Ladybug
-  - Cat Noir
-  - Miraculous Ladybug
-  - Der Film Soundtrack
-  - Gemeinsam stark
-  - Du Bist Ladybug
   aliases:
   - Miraculous
   - Ladybug und Cat Noir
@@ -30523,16 +30259,12 @@ series:
       - id: '1685890338'
         episode: 80
         title: '80: Pumuckl setzt sich nicht durch (Das Original aus dem Fernsehen)'
-  keywords:
-  - Neue Geschichten vom Pumuckl
   aliases:
   - Pumuckl - Neue Geschichten
 - id: raeuber_hotzenplotz
   title: Räuber Hotzenplotz
   aliases:
   - Der Räuber Hotzenplotz
-  keywords:
-  - Räuber Hotzenplotz
   episode_pattern: '(?:^|Hörspiele\s)(\d+):'
   providers:
     spotify:
@@ -30578,15 +30310,6 @@ series:
         title: 'Der Räuber Hotzenplotz - Hörspiele: Der Räuber Hotzenplotz und die Mondrakete - Das Hörspiel'
 - id: rolf_zuckowski
   title: Rolf Zuckowski
-  keywords:
-  - Rolf Zuckowski
-  - Rolfs
-  - Kinderlieder
-  - Vogelhochzeit
-  - Hasengeschichte
-  - Weihnachten
-  - Ostern
-  - Kindergarten
   providers:
     spotify:
       artist_ids:
@@ -30606,23 +30329,6 @@ series:
   - Rolfs
 - id: ronja_raeubertochter
   title: Ronja Räubertochter
-  keywords:
-  - Pippi Langstrumpf
-  - Michel aus Lönneberga
-  - Karlsson vom Dach
-  - Ronja Räubertochter
-  - Wir Kinder aus Bullerbü
-  - Madita
-  - Ferien auf Saltkrokan
-  - Idas Sommerlied
-  - Faul sein ist wunderschön
-  - Astrid Lindgren Musik
-  - Kinderlieder Astrid Lindgren
-  - Musik aus Kinderserien
-  - Tomte Tummetott
-  - Kalle Blomquist
-  - Die Brüder Löwenherz
-  - Rasmus Pontus
   providers:
     spotify:
       artist_ids:
@@ -30651,8 +30357,6 @@ series:
   - Kalle Blomquist
 - id: sternenfohlen
   title: Sternenfohlen
-  keywords:
-  - Sternenfohlen
   episode_pattern: '[Tt]eil\s+(\d+)'
   providers:
     spotify:
@@ -31050,8 +30754,6 @@ series:
       - id: 5JQbV8c9ZqipQvNkIOhojx
         episode: 26
         title: 26/Der verhängnisvolle Sandsturm / Kopf oder Zahl
-  keywords:
-  - Tabaluga
   aliases:
   - Tabaluga (Neuauflage 2021+)
 - id: tabaluga_und_leo
@@ -31074,8 +30776,6 @@ series:
   - Tabaluga & Leo
 - id: teufelskicker
   title: Teufelskicker
-  keywords:
-  - Teufelskicker
   episode_pattern:
   - '^Wissen zur EM 2024 - Folge (\d+):'
   - ^Frauen-WM-Wissen (\d+)
@@ -31885,11 +31585,6 @@ series:
         title: 'WM-Wissen: WM-Pokal!'
 - id: volker_rosin
   title: Volker Rosin
-  keywords:
-  - Volker Rosin
-  - Disco Krokodil
-  - blauer Hund
-  - Affenschrille Hitbananen
   providers:
     spotify:
       artist_ids:
@@ -32343,10 +32038,6 @@ series:
   title: Woodwalkers
   aliases:
   - Woodwalkers - Die Rückkehr
-  keywords:
-  - Woodwalkers
-  - Die Rückkehr
-  - Seawalkers
   episode_pattern: '[Bb]and (\d+)'
   providers:
     spotify:
@@ -32956,9 +32647,6 @@ series:
   title: SpongeBob Schwammkopf
   aliases:
   - SpongeBob SquarePants
-  - SpongeBob
-  keywords:
-  - Schwammkopf
   - SpongeBob
   episode_pattern:
   - '^Folge (\d+):'
@@ -33843,14 +33531,10 @@ series:
       - id: '1744976064'
         episode: 2
         title: '02: Mein Geschichtenkissen! Mehr lustige Hörspiele'
-  keywords:
-  - Kikaninchen
   aliases:
   - KiKANiNCHEN
 - id: die_feriendetektive
   title: Die Feriendetektive
-  keywords:
-  - Feriendetektive
   episode_pattern: '[Ff]olge\s+(\d+)'
   providers:
     spotify:
@@ -33991,8 +33675,6 @@ series:
         title: 'Die Schule der magischen Tiere ermittelt Neuausgabe 7: Das Biber-Rätsel'
 - id: die_wilden_kerle
   title: Die wilden Kerle
-  keywords:
-  - Die wilden Kerle
   episode_pattern: (?:[Ff]olge|[Dd]ie wilden Kerle)\s*(\d+)
   providers:
     spotify:
@@ -34206,8 +33888,6 @@ series:
       - '13429372'
 - id: max
   title: Max
-  keywords:
-  - max
   episode_pattern: '^(\d+): '
   providers:
     spotify:
@@ -34292,10 +33972,6 @@ series:
         title: Das kleine Einhorn (Original Hörspiel zum Kinofilm)
       artist_ids:
       - '130216498'
-  keywords:
-  - Lillifee
-  - Prinzessin Lillifee
-  - Kinofilm
   aliases:
   - Prinzessin Lillifee Kinofilme
 - id: prinzessin_lillifee_tierhotel
@@ -34340,9 +34016,6 @@ series:
         title: 'Mein zauberhaftes Tierhotel: Folge 9+10'
       artist_ids:
       - '130216498'
-  keywords:
-  - Tierhotel
-  - Prinzessin Lillifee
 - id: prinzessin_lillifee_tv_serie
   title: Prinzessin Lillifee (TV-Serie)
   episode_pattern: '(?:0([1-6])|([1-6]))\/Das Hörspiel zur TV-Serie'
@@ -34505,8 +34178,6 @@ series:
       - id: 5JQbV8c9ZqipQvNkIOhojx
         episode: 26
         title: 26/Der verhängnisvolle Sandsturm / Kopf oder Zahl
-  keywords:
-  - Tabaluga
   aliases:
   - Tabaluga (Klassik-Serie 1997)
 - id: wieso_weshalb_warum_vorlesegeschichten
@@ -34526,14 +34197,10 @@ series:
       - id: 20idnrDkDmTHirWuVDbEA8
         episode: 3
         title: 'Wer ist hier im Einsatz? (Wieso? Weshalb? Warum? Meine Vorlesegeschichten, Folge 3)'
-  keywords:
-  - Wieso? Weshalb? Warum? Meine Vorlesegeschichten
   aliases:
   - Wieso? Weshalb? Warum? Meine Vorlesegeschichten
 - id: cars_hoerspiel
   title: Cars Hörspiel
-  keywords:
-  - Cars
   episode_pattern:
   - '^0?(\d+):\s+Cars on the Road'
   providers:
@@ -34580,16 +34247,6 @@ series:
       - id: '1685982613'
         title: Encanto (Das Original-Hörspiel zum Disney Film)
   content_type: hoerspiel
-  keywords:
-  - Encanto
-  - Encanto Hörspiel
-  - Disney Encanto
-  - Familie Madrigal
-  - Mirabel
-  - Bruno
-  - Casita
-  - Das Original-Hörspiel
-  - Disney Film
   aliases:
   - Encanto (Hörspiel)
   - Disney Encanto Hörspiel
@@ -34623,16 +34280,11 @@ series:
       - id: '1686453218'
         episode: 3
         title: Peter Pan & Wendy (Hörspiel zum Disney Real-Kinofilm)
-  keywords:
-  - Peter Pan
-  - Disney
   aliases:
   - Peter Pan Hörspiel
   - Peter Pan Disney
 - id: kim_possible_hoerspiel
   title: Kim Possible Hörspiel
-  keywords:
-  - Kim Possible
   episode_pattern: '^(?:Folge\s+)?(\d+):'
   providers:
     spotify:
@@ -34767,8 +34419,6 @@ series:
   title: Bambi Hörspiel
   aliases:
   - Bambi
-  keywords:
-  - Bambi
   providers:
     spotify:
       artist_ids:
@@ -34789,8 +34439,6 @@ series:
   content_type: hoerspiel
 - id: boss_baby
   title: Boss Baby
-  keywords:
-  - Boss Baby
   episode_pattern: '[Ff]olge\s+(\d+)'
   providers:
     spotify:
@@ -34849,8 +34497,6 @@ series:
   title: Drachenzähmen leicht gemacht
   aliases:
   - How to Train Your Dragon
-  keywords:
-  - Drachenzähmen leicht gemacht
   episode_pattern: '(\d+)'
   providers:
     spotify:
@@ -34894,10 +34540,6 @@ series:
   - Dragons - Die 9 Welten
   - Dragons - Die jungen Drachenretter
   - Drachenzähmen leicht gemacht
-  keywords:
-  - Dragons
-  - Hörspiel
-  - Original-Hörspiel
   episode_pattern: Folge\s+(\d+)
   providers:
     spotify:
@@ -35509,8 +35151,6 @@ series:
       - '942900338'
 - id: kung_fu_panda
   title: Kung Fu Panda
-  keywords:
-  - Kung Fu Panda
   providers:
     spotify:
       artist_ids:
@@ -35553,15 +35193,6 @@ series:
   - Kung Fu Panda Hörspiel
 - id: shrek_hoerspiel
   title: Shrek Hörspiel
-  keywords:
-  - Shrek
-  - Shrek Hörspiel
-  - Edelkids
-  - Shrek der Dritte
-  - Shrek 2
-  - Für immer Shrek
-  - Ogre
-  - Dreamworks
   providers:
     spotify:
       artist_ids:
@@ -35712,8 +35343,6 @@ series:
 - id: madagascar_hoerspiel
   title: Madagascar Hörspiel
   content_type: hoerspiel
-  keywords:
-  - Madagascar
   providers:
     spotify:
       artist_ids:
@@ -35750,8 +35379,6 @@ series:
   title: Trolljäger
   aliases:
   - Trollhunters
-  keywords:
-  - Trolljäger
   episode_pattern: '[Ff]olge\s+(\d+)'
   providers:
     spotify:
@@ -35920,8 +35547,6 @@ series:
         title: 'Folge 33: Der neue Dragur / Der Höhlenbrecher (Das Original-Hörspiel zur TV-Serie)'
 - id: simone_sommerland
   title: Simone Sommerland
-  keywords:
-  - Simone Sommerland
   episode_pattern:
   - ' (\d+)$'
   - '^Folge (\d+):'
@@ -36103,8 +35728,6 @@ series:
   - Die 30 besten
 - id: dikka
   title: DIKKA
-  keywords:
-  - DIKKA
   providers:
     spotify:
       artist_ids:
@@ -36139,12 +35762,6 @@ series:
       - id: '1778260271'
         title: Irgendwas Bestimmtes
   content_type: music
-  keywords:
-  - Bummelkasten
-  - Irgendwas Bestimmtes
-  - D!E GÄNG
-  - Weil ick mich so freue
-  - Rolltreppenmax
 - id: fredrik_vahle
   title: Fredrik Vahle
   providers:
@@ -36277,23 +35894,8 @@ series:
       - id: '1368451495'
         title: Zauberhände - Beruhigende und bewegende Lieder
   content_type: music
-  keywords:
-  - Fredrik Vahle
-  - Anne Kaffeekanne
-  - Die Rübe
-  - Der Spatz
-  - Der Fuchs
-  - Ping Pong Pinguin
-  - Baumelbaum
-  - Katzentatzentanzfest
-  - Hupp Tsching PAU
-  - Tiger Oma Samurai
-  - Friedensmaler
-  - Lilo Lausch
 - id: hurra_kinderlieder
   title: Hurra Kinderlieder
-  keywords:
-  - Hurra Kinderlieder
   episode_pattern:
   - ^Hurra Kinderlieder (\d+)$
   providers:
@@ -36322,8 +35924,6 @@ series:
         title: Hurra Kinderlieder 2
 - id: giraffenaffen
   title: Giraffenaffen
-  keywords:
-  - Giraffenaffen
   episode_pattern: ^Giraffenaffen (\d+)
   providers:
     spotify:
@@ -36376,9 +35976,6 @@ series:
 - id: sing_kinderlieder
   title: Sing Kinderlieder
   aliases:
-  - Sing mit mir
-  keywords:
-  - Sing Kinderlieder
   - Sing mit mir
   episode_pattern: ^(?:Sing mit mir )?Kinderlieder,? (?:Vol\.? )?(\d+)$
   providers:
@@ -37095,32 +36692,12 @@ series:
       - id: '1791569835'
         title: Öffis, Öffis, Öffis (Wir sind die Öffis!) - Single
   content_type: music
-  keywords:
-  - EMMALU
-  - Kinderlieder
-  - Fahrzeuglieder
-  - Stadtlieder
-  - Der Bagger-Song
-  - Der Müllauto-Song
-  - Das Zug-Lied
-  - Der rote Traktor
-  - Billy Betonmischer
-  - Bruno der Brummi
-  - Sing mit mir
-  - Milo das Müllautokind
-  - Bagger Mats
   aliases:
   - Emma Lu
 - id: der_grueffelo
   title: Der Grüffelo
   aliases:
   - The Gruffalo
-  keywords:
-  - Der Grüffelo
-  - Grüffelo
-  - Gruffalo
-  - Julia Donaldson
-  - Axel Scheffler
   providers:
     spotify:
       artist_ids:
@@ -37164,11 +36741,6 @@ series:
       - id: '1567489852'
         episode: 3
         title: 'Tintentod: Das Hörspiel'
-  keywords:
-  - Tintenherz
-  - Tintenblut
-  - Tintentod
-  - Tintenwelt
   aliases:
   - Tintenwelt
 - id: liliane_susewind
@@ -37188,31 +36760,8 @@ series:
       artist_ids:
       - '283648125'
   content_type: music
-  keywords:
-  - Liliane Susewind
-  - Meine Songs
-  - Elefantensong
-  - Tigerdisco
-  - Das Lied der Delphine
-  - Kein Stress
-  - Der Bonsai-Song
-  - Tanya Stewner
 - id: detlev_joecker
   title: Detlev Jöcker
-  keywords:
-  - Detlev Jöcker
-  - Kinderschlummerland
-  - Wenn das Bärchen Bauchweh hat
-  - Der Regenbogenfisch
-  - Ich sing mit dir
-  - Si-Sa-Singemaus
-  - Tamusiland
-  - Minimonster
-  - Mats und die Wundersteine
-  - Kinderlieder
-  - Weihnachtslieder
-  - Adventslieder
-  - Schlaflieder
   providers:
     apple_music:
       artist_ids:
@@ -37595,21 +37144,6 @@ series:
   content_type: music
 - id: stephen_janetzko
   title: Stephen Janetzko
-  keywords:
-  - Stephen Janetzko
-  - Komm, sing mir nach durchs ganze Jahr
-  - Willkommen in der Kita
-  - Endlich Laternenzeit
-  - Turndrache Lotti
-  - Viel Glück und viel Segen
-  - Das Licht einer Kerze
-  - Piraten-Lieder für Kinder
-  - Kinderlieder rund um die Bibel
-  - Laterne, Laterne, ich gehe Laterne
-  - Martin, Martin, Martinsmann
-  - Kita Lieder
-  - Sankt Martin Lieder
-  - Weihnachtslieder für Kinder
   providers:
     apple_music:
       artist_ids:
@@ -39012,15 +38546,6 @@ series:
   content_type: music
 - id: senta
   title: Senta
-  keywords:
-  - Senta
-  - Hoch die Hände
-  - Hoch die Hände Wochenende
-  - Farben sind für alle da
-  - Einhornzeit
-  - Kinderlieder
-  - Komm spielen
-  - Das rote Album
   providers:
     apple_music:
       artist_ids:
@@ -39103,21 +38628,6 @@ series:
   - Senta-Sofia Delliponti
 - id: mira_und_das_fliegende_haus
   title: Mira und das fliegende Haus
-  keywords:
-  - Mira und das fliegende Haus
-  - MC Pieps
-  - Das fliegende Haus
-  - Ich bin Ich
-  - Alle Gefühle
-  - Alle Hände hoch
-  - Hoch wie ne Rakete
-  - 1000 Seifenblasen
-  - Land der Träume
-  - Hallo Zukunft
-  - Einfach so
-  - Nirgendwo sonst
-  - Kinderlieder
-  - Kinderpop
   providers:
     apple_music:
       artist_ids:
@@ -39236,8 +38746,6 @@ series:
   episode_pattern: \([Ff]olge\s+(\d+)\)
 - id: reinhard_horn
   title: Reinhard Horn
-  keywords:
-  - Reinhard Horn
   providers:
     apple_music:
       artist_ids:
@@ -39812,24 +39320,6 @@ series:
   content_type: music
 - id: herrh
   title: herrH
-  keywords:
-  - herrH
-  - Frechdachs
-  - Mach mal lauter
-  - Meine Mütze und Ich
-  - Poesiealbum
-  - Wenn ich groß bin
-  - herrH ist da
-  - Endlich Winter
-  - Harry der Schneemann
-  - Ich bin ein Pinguin
-  - Wir machen Party
-  - Es gibt Nudeln
-  - Kalle das Krokodil
-  - Kinderlieder umgedacht
-  - Raffi die Giraffe
-  - Elefantenfunk
-  - Partybär
   providers:
     apple_music:
       artist_ids:
@@ -39956,28 +39446,6 @@ series:
   - herr H
 - id: nilsen
   title: Nilsen
-  keywords:
-  - Nilsen
-  - Das blaue Album
-  - Das gelbe Album
-  - Das grüne Album
-  - Das rote Album
-  - Dino Party
-  - Gruselparty
-  - Piraten
-  - Achterbahn
-  - Teddybär
-  - Rabatz
-  - Sommerferien
-  - Kuhfisch
-  - Cowboy
-  - Konfetti
-  - Einhorn
-  - Glitzer
-  - Eule
-  - Schlossfest
-  - Weihnachtszeit
-  - Winterspaß
   providers:
     apple_music:
       artist_ids:
@@ -40096,19 +39564,6 @@ series:
   content_type: music
 - id: mai_cocopelli
   title: Mai Cocopelli
-  keywords:
-  - Mai Cocopelli
-  - Ich bin eine Sonne
-  - Einmal Weltraum und zurück
-  - Wenn es Winter wird
-  - Wenn es Weihnacht wird
-  - Eine kleine Kerze
-  - Luisa sagt
-  - Eka Mai
-  - Wozu sind Kriege da
-  - Kinderlieder
-  - Österreich
-  - Attersee
   providers:
     apple_music:
       artist_ids:
@@ -40158,16 +39613,6 @@ series:
   content_type: music
 - id: unter_meinem_bett
   title: Unter meinem Bett
-  keywords:
-  - Unter meinem Bett
-  - Kinderlieder
-  - Planet
-  - Singer-Songwriter
-  - Oetinger
-  - Deine Freunde
-  - Bosse
-  - Clueso
-  - LOTTE
   providers:
     apple_music:
       artist_ids:
@@ -40224,19 +39669,6 @@ series:
   - Unter meinem Bett 8
 - id: der_singende_bauernhof
   title: Der singende Bauernhof
-  keywords:
-  - Der singende Bauernhof
-  - Kinderlieder
-  - Das tanzende Alpaka
-  - Die Kuh Karatscha
-  - Der bunte Hund
-  - Regenpfützen Mambo
-  - Otti Stubs
-  - Sarah Bauernhof
-  - Kuhle Muuuh-sik
-  - singender Bauernhof
-  - moderne Kinderlieder
-  - Wi Wa Waschlappenbär
   providers:
     apple_music:
       artist_ids:
@@ -40320,19 +39752,6 @@ series:
   - Sarah Bauernhof
 - id: honigkuchenpferde
   title: Honigkuchenpferde
-  keywords:
-  - Honigkuchenpferde
-  - Pizza mit Alles
-  - Der Boden ist Lava
-  - Für Alle
-  - Das rote Album
-  - Das grüne Album
-  - Hip Hop 1x1
-  - Kinderpop
-  - Kinderlieder
-  - Zum Einschlafen
-  - Ich lass mich nicht ärgern
-  - Freunde finden
   providers:
     apple_music:
       artist_ids:
@@ -40442,25 +39861,6 @@ series:
   content_type: music
 - id: ena_kinderlieder
   title: Ena Kinderlieder
-  keywords:
-  - Ena Kinderlieder
-  - Kinderlieder
-  - Schlaflieder
-  - Lullaby
-  - Zauberhaft
-  - Kleiner Zwerg
-  - Weißer Ritter
-  - Filzstifte
-  - 1, 2, 3 Schlaf gleich ein
-  - Alles schläft
-  - Nachthimmel
-  - Weihnachtslieder
-  - Traumreise
-  - Wunderland
-  - Jahrmarkt
-  - Land vor unserer Zeit
-  - Sommerferien
-  - Träumeland
   providers:
     apple_music:
       artist_ids:
@@ -40543,22 +39943,6 @@ series:
   content_type: music
 - id: marko_simsa
   title: Marko Simsa
-  keywords:
-  - Marko Simsa
-  - Karneval der Tiere
-  - Peter und der Wolf
-  - Bach für Kinder
-  - Mozart für Kinder
-  - Beethoven für Kinder
-  - Klezmer für Kinder
-  - Klassik für Kinder
-  - Die vier Jahreszeiten
-  - Der Nussknacker
-  - Hänsel und Gretel
-  - Simsa-La-Bim
-  - Bombo Poncho und Gitarre
-  - Kinderlieder
-  - Klassik für kleine Ohren
   providers:
     apple_music:
       artist_ids:
