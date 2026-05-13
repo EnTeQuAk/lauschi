@@ -66,13 +66,22 @@ def test_retries_on_503_and_succeeds(fake_credentials, no_sleep, monkeypatch):
     assert len(calls) == 2
 
 
-def test_gives_up_after_three_5xx(fake_credentials, no_sleep, monkeypatch):
-    """If Spotify is genuinely down for all three attempts, raise
+def test_gives_up_after_five_5xx(fake_credentials, no_sleep, monkeypatch):
+    """If Spotify is genuinely down for all five attempts, raise
     a clear HTTPError. Don't loop forever and don't swallow the
-    error silently."""
-    monkeypatch.setattr("requests.post", lambda *a, **kw: _make_response(503))
+    error silently.
+
+    Five attempts (2+4+8+16+32s sleeps = 62s total) cover a
+    roughly-one-minute outage. After that, surface the failure.
+    """
+    calls = []
+    def fake_post(*a, **kw):
+        calls.append(1)
+        return _make_response(503)
+    monkeypatch.setattr("requests.post", fake_post)
     with pytest.raises(requests.HTTPError):
         SpotifyProvider(use_cache=False)
+    assert len(calls) == 5
 
 
 # ── transient network errors ──────────────────────────────────────────────
@@ -107,14 +116,17 @@ def test_retries_on_connection_error(fake_credentials, no_sleep, monkeypatch):
     assert p._token == "tok"
 
 
-def test_propagates_timeout_after_three_attempts(fake_credentials, no_sleep, monkeypatch):
+def test_propagates_timeout_after_five_attempts(fake_credentials, no_sleep, monkeypatch):
     """A genuinely-down network surfaces as the original exception
     so the caller can log it clearly."""
+    calls = []
     def always_timeout(*a, **kw):
+        calls.append(1)
         raise requests.Timeout("perpetual timeout")
     monkeypatch.setattr("requests.post", always_timeout)
     with pytest.raises(requests.Timeout):
         SpotifyProvider(use_cache=False)
+    assert len(calls) == 5
 
 
 # ── 429 honors Retry-After ────────────────────────────────────────────────
