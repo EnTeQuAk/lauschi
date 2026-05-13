@@ -9543,13 +9543,6 @@ series:
         title: Lauras Stern und die Traummonster (Das Original-Hörspiel zum Kinofilm)
       - id: '1555480474'
         title: Lauras Weihnachtsstern (Das Original-Hörspiel zum Weihnachtsspezial)
-- id: tom_turbo
-  title: Tom Turbo
-  episode_pattern: '[Tt]eil\s+(\d+)'
-  providers:
-    spotify:
-      artist_ids:
-      - 39ePAp05xC1loWbb7bF46b
 - id: ritter_rost
   title: Ritter Rost
   aliases:
