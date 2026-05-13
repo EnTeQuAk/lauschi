@@ -35204,6 +35204,9 @@ series:
         title: Weihnachten in Miradero (Das Original-Hörspiel zum Weihnachts-Special)
       - id: 53CZ3AeaUBb6Vm6aL01Qz6
         title: Weihnachts-Spirit (Das Original-Hörspiel zur TV-Serie)
+    apple_music:
+      artist_ids:
+      - '263750731'
 - id: madagascar_hoerspiel
   title: Madagascar Hörspiel
   content_type: hoerspiel
