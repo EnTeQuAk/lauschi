@@ -34398,56 +34398,20 @@ series:
   title: Drachenzähmen leicht gemacht
   aliases:
   - How to Train Your Dragon
-  episode_pattern: '(\d+)'
-  providers:
-    spotify:
-      artist_ids:
-      - 2Ce2nZgndLDkajvDy4msQi
-      albums:
-      - id: 1jwHXBQdqJb9ILFDf3NPzP
-        episode: 1
-        title: Drachenzähmen leicht gemacht (Das Original-Hörspiel zum Kinofilm)
-      - id: 48axOMWHpYmXZLH1BATfLO
-        episode: 2
-        title: Drachenzähmen leicht gemacht 2 (Das Original-Hörspiel zum Kinofilm)
-      - id: 58TLbfTManCWgskqrKrwnF
-        episode: 3
-        title: Drachenzähmen leicht gemacht 3 (Das Original-Hörspiel zum Kinofilm)
-      - id: 6bDEtcCNZmHK6oPWSYmVjW
-        episode: 4
-        title: Die guten alten Zeiten (Das Original-Hörspiel zum Film-Special)
-    apple_music:
-      artist_ids:
-      - '437313554'
-      albums:
-      - id: '1829984391'
-        episode: 1
-        title: Drachenzähmen leicht gemacht (Das Original-Hörspiel zum Kinofilm)
-      - id: '1372059217'
-        episode: 2
-        title: Drachenzähmen leicht gemacht 2 (Das Original-Hörspiel zum Kinofilm)
-      - id: '1450046028'
-        episode: 3
-        title: Drachenzähmen leicht gemacht 3 (Das Original-Hörspiel zum Kinofilm)
-      - id: '1490147153'
-        episode: 4
-        title: Die guten alten Zeiten (Das Original-Hörspiel zum Film-Special)
-- id: dragons_hoerspiel
-  title: Dragons Hörspiel
-  aliases:
   - Dragons - Die Reiter von Berk
   - Dragons - Die Wächter von Berk
   - Dragons - Auf zu neuen Ufern
   - Dragons - Die 9 Welten
   - Dragons - Die jungen Drachenretter
-  episode_pattern: Folge\s+(\d+)
+  - Dragons Hörspiel
+  episode_pattern: 'Folge\s+(\d+)'
   providers:
     spotify:
       artist_ids:
+      - 2Ce2nZgndLDkajvDy4msQi
       - 1z8ytficgBWsoYigwE2QVM
       - 1zo1vxkpoT8JMJYdHv2zsa
       - 29cfLkZSDejeI0vowGYWvg
-      - 2Ce2nZgndLDkajvDy4msQi
       - 4flLF0QDCVMtQCc7JJ94gt
       - 6N8M6C5nd7mfTIaihfVSeu
       albums:
@@ -34753,6 +34717,13 @@ series:
       - id: 3q8UBUC6MoyH6Li4rnSAKS
         title: Ein Geschenk von Nachtschatten (Das Original-Hörspiel zum Film-Special)
     apple_music:
+      artist_ids:
+      - '437313554'
+      - '1112695110'
+      - '1583179718'
+      - '1686560256'
+      - '893615354'
+      - '942900338'
       albums:
       - id: '1583180171'
         episode: 1
@@ -35042,13 +35013,6 @@ series:
         title: Drachenzähmen leicht gemacht 3 (Das Original-Hörspiel zum Kinofilm)
       - id: '1440509406'
         title: Ein Geschenk von Nachtschatten (Das Original-Hörspiel zum Film-Special)
-      artist_ids:
-      - '1112695110'
-      - '1583179718'
-      - '1686560256'
-      - '437313554'
-      - '893615354'
-      - '942900338'
 - id: kung_fu_panda
   title: Kung Fu Panda
   providers:
