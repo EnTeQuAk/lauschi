@@ -13234,12 +13234,6 @@ series:
       - 6zjAfmQRjD2sWgEOkmKD3D
       - 7sRF5KPi10c3pueaKGmArz
       albums:
-      - id: 1Oks9U9yEBqVuSIi32snuH
-        episode: 1
-        title: Kalle Blomquist 1. Meisterdetektiv. Hörspielklassiker
-      - id: 59EVR2Soq8YpDqxX9P05qj
-        episode: 1
-        title: Michel aus Lönneberga 1. Michel in der Suppenschüssel
       - id: 2DepxkUs4ebtWQY2cVvN6n
         episode: 1
         title: Wir Kinder aus Bullerbü 1
@@ -13249,18 +13243,6 @@ series:
       - id: 2YnQbwUV1ZXv2lngvIDjqM
         episode: 1
         title: Wir Kinder aus Bullerbü 1. Hörspielklassiker
-      - id: 3jRt8b2ceEcnbk5P7YCMC7
-        episode: 2
-        title: Kalle Blomquist 2. Kalle Blomquist lebt gefährlich. Hörspielklassiker
-      - id: 2Xhhdx6lKpwEPa07oXPOZa
-        episode: 2
-        title: Karlsson vom Dach 2. Karlsson fliegt wieder. Hörspielklassiker
-      - id: 3ZKGlKTnqrYQnsjrba0a6H
-        episode: 2
-        title: Michel aus Lönneberga 2. Michel muss mehr Männchen machen
-      - id: 51zkGY77ycVnHvJVzOxTRQ
-        episode: 2
-        title: Michel aus Lönneberga 2. Michel muss mehr Männchen machen. Hörspielklassiker
       - id: 3nmu0g0rQ60YzhBFmH6l2q
         episode: 2
         title: Wir Kinder aus Bullerbü 2. Mehr von uns Kindern aus Bullerbü
@@ -13276,15 +13258,6 @@ series:
       - id: 17PTQKJ1DTv6glw5o0dfaS
         episode: 2
         title: Wir Kinder aus Bullerbü 2. Mehr von uns Kindern aus Bullerbü. Hörspielklassiker
-      - id: 7g9oI6MyAwMOheznKQc7GX
-        episode: 3
-        title: Karlsson vom Dach 3. Der beste Karlsson der Welt. Hörspielklassiker
-      - id: 1bSXuTSPqtOGheTglRzgyj
-        episode: 3
-        title: Michel aus Lönneberga 3. Michel bringt die Welt in Ordnung
-      - id: 6Om6x3cAbuYz4fLOX5Pxo5
-        episode: 3
-        title: Michel aus Lönneberga 3. Michel bringt die Welt in Ordnung. Hörspielklassiker
       - id: 2CIv3mEhn1ywdClh84DzQd
         episode: 3
         title: Wir Kinder aus Bullerbü 3. Immer lustig in Bullerbü (Hörspiel)
@@ -30287,19 +30260,11 @@ series:
       artist_ids:
       - 7sRF5KPi10c3pueaKGmArz
       albums:
-      - id: 1ji8fFMd6GRycuadbnFtPv
-        title: Der allerbeste Karlsson auf der Welt
-      - id: 16uwrpK3ZkuW3dOVqW4Y3Z
-        title: Faul sein ist wunderschön
-      - id: 5AEGF9Oh3rciqgWVSYJbd4
-        title: Hier kommt Pippi Langstrumpf
-      - id: 4LdzXTHhwOWSpLDOkC8QKv
-        title: Idas Sommerlied
-      - id: 4w1x81xX4lNI2qxqjQCx0U
-        title: Michel war ein Lausejunge
-      - id: 6k8nU0I0c3aawfYfwKulCV
-        title: Töpfchen, Pipi & Kacka Kindermusik
-  content_type: music
+      - id: 5DcgKpZpZxkakLCxKU3tJy
+        title: Ronja Räubertochter
+      - id: 52tuBgtTIPvtKlUI8NXZXq
+        title: Ronja Räubertochter (Ungekürzte Lesungen)
+  content_type: hoerspiel
 - id: sternenfohlen
   title: Sternenfohlen
   episode_pattern: '[Tt]eil\s+(\d+)'
