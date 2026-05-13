@@ -101,6 +101,15 @@ class AppleMusicProvider(CatalogProvider):
         self._cache.set(key, result, expire=DEFAULT_TTL)
         return result
 
+    def artist_exists(self, artist_id: str) -> bool:
+        try:
+            self._get(f"artists/{artist_id}")
+        except requests.HTTPError as e:
+            if e.response is not None and e.response.status_code == 404:
+                return False
+            raise
+        return True
+
     def search_artists(self, query: str, limit: int = 8) -> list[Artist]:
         def fetch():
             # Throttle live API calls only. The previous unconditional

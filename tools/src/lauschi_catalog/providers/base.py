@@ -56,6 +56,15 @@ class CatalogProvider(ABC):
         """Search for artists by name."""
 
     @abstractmethod
+    def artist_exists(self, artist_id: str) -> bool:
+        """Cheap existence check for an artist id.
+
+        Returns True if the provider knows the id (200), False if it
+        returns 404. Other HTTP errors propagate so transient issues
+        aren't silently treated as "missing".
+        """
+
+    @abstractmethod
     def artist_albums(self, artist_id: str) -> list[Album]:
         """Fetch all albums for an artist."""
 

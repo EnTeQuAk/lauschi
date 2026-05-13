@@ -69,12 +69,25 @@ def discover_for_provider(
 @click.argument("query", required=False)
 @click.option("--provider", "-p", type=click.Choice(["spotify", "apple_music", "all"]), default="all")
 @click.option("--write", "-w", is_flag=True, help="Write discovered IDs to series.yaml")
+@click.option(
+    "--prune-broken",
+    is_flag=True,
+    help="Check every existing artist_id and remove those returning 404 from the provider",
+)
 @click.option("--verbose", "-v", is_flag=True)
-def discover(query: str | None, provider: str, write: bool, verbose: bool):
+def discover(
+    query: str | None,
+    provider: str,
+    write: bool,
+    prune_broken: bool,
+    verbose: bool,
+):
     """Discover artist IDs for a series across providers.
 
     If QUERY is given, searches for that series. Without QUERY, scans all
-    series in the catalog that are missing provider IDs.
+    series in the catalog that are missing provider IDs. With
+    ``--prune-broken`` (no QUERY), instead validates every existing
+    artist_id and removes any that return 404 from its provider.
     """
     from lauschi_catalog.providers.apple_music import AppleMusicProvider
     from lauschi_catalog.providers.spotify import SpotifyProvider
@@ -96,7 +109,12 @@ def discover(query: str | None, provider: str, write: bool, verbose: bool):
         raise SystemExit(1)
 
     if query:
+        if prune_broken:
+            console.print("[red]--prune-broken cannot be combined with a QUERY[/red]")
+            raise SystemExit(2)
         _discover_single(query, providers, verbose=verbose)
+    elif prune_broken:
+        _prune_broken_ids(providers, write=write, verbose=verbose)
     else:
         _discover_all(providers, write=write, verbose=verbose)
 
@@ -165,4 +183,84 @@ def _discover_all(
         count = update_provider_ids(updates=updates)
         console.print(f"[green]Updated {count} entries in series.yaml[/green]")
     elif updates:
+        console.print("[dim]Dry run. Pass --write to update series.yaml.[/dim]")
+
+
+def _prune_broken_ids(
+    providers: list[CatalogProvider],
+    *,
+    write: bool,
+    verbose: bool,
+):
+    """Remove artist_ids that return 404 from their provider.
+
+    Walks every catalog entry, calls ``provider.artist_exists`` on each
+    existing artist_id, and collects the ones that 404. Reports a table
+    and, with --write, persists the kept-only list back to series.yaml.
+
+    A 404 means the provider doesn't recognise the id anymore (artist
+    moved, was renamed, was a hallucination, or never existed). Other
+    HTTP errors propagate so a transient outage isn't treated as
+    "missing" and silently nuked.
+    """
+    from lauschi_catalog.catalog.loader import load_catalog, update_provider_ids
+
+    entries = load_catalog()
+    table = Table(title="Broken artist_id Audit")
+    table.add_column("Series", style="cyan", max_width=30)
+    table.add_column("Provider", style="yellow")
+    table.add_column("Removed", style="red")
+    table.add_column("Kept", style="green")
+
+    updates: dict[str, dict[str, list[str]]] = {}
+    broken_count = 0
+    checked_count = 0
+
+    for entry in entries:
+        for p in providers:
+            existing = entry.artist_ids(p.name)
+            if not existing:
+                continue
+            kept: list[str] = []
+            removed: list[str] = []
+            for aid in existing:
+                checked_count += 1
+                try:
+                    ok = p.artist_exists(aid)
+                except Exception as e:
+                    if verbose:
+                        console.print(
+                            f"  [red]error checking {entry.id}/{p.name}/{aid}: {e}[/red]",
+                        )
+                    # On non-404 errors keep the id — don't punish transient
+                    # outages by removing real data.
+                    kept.append(aid)
+                    continue
+                if ok:
+                    kept.append(aid)
+                else:
+                    removed.append(aid)
+                    broken_count += 1
+            if removed:
+                table.add_row(
+                    entry.id,
+                    p.name,
+                    ", ".join(removed),
+                    ", ".join(kept) or "[dim](empty)[/dim]",
+                )
+                updates.setdefault(entry.id, {})[p.name] = kept
+
+    console.print(table)
+    console.print(
+        f"\n[bold]Checked {checked_count} artist_ids; "
+        f"{broken_count} broken across {len(updates)} series[/bold]",
+    )
+
+    if not updates:
+        return
+
+    if write:
+        count = update_provider_ids(updates=updates)
+        console.print(f"[green]Updated {count} entries in series.yaml[/green]")
+    else:
         console.print("[dim]Dry run. Pass --write to update series.yaml.[/dim]")
