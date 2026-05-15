@@ -1,5 +1,25 @@
 # Changelog
 
+## v2026.5.1 (Mai 2026)
+
+🎯 **Ein Raster für alles**
+"Kacheln verwalten" zeigt jetzt Ordner und einzelne Folgen in einem einzigen Raster. Ein Strich mit "N einzelne Folgen" trennt die beiden Bereiche. Folgen lassen sich per Drag & Drop in Ordner ziehen, oder aufeinander ziehen um einen neuen Ordner zu erzeugen. Antippen öffnet den Folgen-Editor. "Karten verwalten" gibt es nicht mehr; alles passiert jetzt an einem Ort.
+
+✨ **Einzelne Folgen bearbeiten**
+Jede einzelne Folge kann jetzt angetippt werden, um Titel oder Cover zu ändern, sie in einen anderen Ordner zu verschieben, oder zu löschen.
+
+🔍 **Zuverlässigere Serien-Erkennung**
+Im Katalog-Browser erkennt lauschi Alben jetzt an ihrer eindeutigen ID statt an Schlüsselwörtern im Titel. Das verhindert Fehlzuordnungen; zum Beispiel wurde Blaze fälschlicherweise als Encanto erkannt.
+
+📂 **Katalog aufgeräumt**
+Die Serien-Datenbank wurde gründlich aufgeräumt. Unterserien (z.B. "Die drei ??? Kids Mini-Fälle", "Bibi und Tina BFF Talk", verschiedene Biene-Maja-Adaptionen) sind jetzt eigene Einträge statt durcheinander gemischt. Serien ohne Streaming-Angebot (z.B. Tom Turbo, Coco, Kleiner Drache Kokosnuss) wurden entfernt. Episode-Nummern und Inhaltsarten (Musik vs. Hörspiel) sind jetzt zuverlässiger.
+
+🛠️ **Kleinigkeiten**
+- Drag & Drop zeigt jetzt einen Hinweis zwischen Ordnern und einzelnen Folgen
+- Zieltreffer beim Verschieben ist präziser, besonders in gemischten Listen
+- Sentry-Erklärung in den Einstellungen ist deutlicher formuliert
+- GitHub-Button nennt sich jetzt "lauschi ist Open Source" mit Erklärung darunter
+
 ## v2026.4.6 (April 2026)
 
 🎯 **Erst anschauen, dann hinzufügen**
