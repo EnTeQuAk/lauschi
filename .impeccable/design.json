@@ -1,0 +1,303 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-05-14T14:00:00Z",
+  "title": "Design System: lauschi",
+  "extensions": {
+    "colorMeta": {
+      "forest-green": {
+        "role": "primary",
+        "displayName": "Forest Green",
+        "canonical": "oklch(55% 0.12 155)",
+        "tonalRamp": [
+          "oklch(15% 0.05 155)",
+          "oklch(25% 0.08 155)",
+          "oklch(35% 0.10 155)",
+          "oklch(45% 0.11 155)",
+          "oklch(55% 0.12 155)",
+          "oklch(65% 0.11 155)",
+          "oklch(75% 0.09 155)",
+          "oklch(85% 0.06 155)"
+        ]
+      },
+      "terracotta": {
+        "role": "accent",
+        "displayName": "Terracotta",
+        "canonical": "oklch(65% 0.15 45)",
+        "tonalRamp": [
+          "oklch(25% 0.08 45)",
+          "oklch(35% 0.12 45)",
+          "oklch(45% 0.14 45)",
+          "oklch(55% 0.15 45)",
+          "oklch(65% 0.15 45)",
+          "oklch(75% 0.12 45)",
+          "oklch(85% 0.08 45)",
+          "oklch(95% 0.03 45)"
+        ]
+      },
+      "warm-cream": {
+        "role": "neutral",
+        "displayName": "Warm Cream",
+        "canonical": "oklch(95% 0.01 110)",
+        "tonalRamp": [
+          "oklch(70% 0.02 110)",
+          "oklch(75% 0.02 110)",
+          "oklch(80% 0.02 110)",
+          "oklch(85% 0.02 110)",
+          "oklch(90% 0.02 110)",
+          "oklch(93% 0.01 110)",
+          "oklch(95% 0.01 110)",
+          "oklch(98% 0.005 110)"
+        ]
+      },
+      "surface": {
+        "role": "neutral",
+        "displayName": "Surface White",
+        "canonical": "oklch(100% 0 0)",
+        "tonalRamp": [
+          "oklch(85% 0 0)",
+          "oklch(88% 0 0)",
+          "oklch(91% 0 0)",
+          "oklch(94% 0 0)",
+          "oklch(97% 0 0)",
+          "oklch(98% 0 0)",
+          "oklch(99% 0 0)",
+          "oklch(100% 0 0)"
+        ]
+      },
+      "surface-dim": {
+        "role": "neutral",
+        "displayName": "Surface Dim",
+        "canonical": "oklch(90% 0.015 110)",
+        "tonalRamp": [
+          "oklch(70% 0.02 110)",
+          "oklch(75% 0.02 110)",
+          "oklch(80% 0.02 110)",
+          "oklch(85% 0.02 110)",
+          "oklch(88% 0.015 110)",
+          "oklch(90% 0.015 110)",
+          "oklch(93% 0.01 110)",
+          "oklch(96% 0.005 110)"
+        ]
+      },
+      "text-primary": {
+        "role": "text",
+        "displayName": "Text Primary",
+        "canonical": "oklch(20% 0.01 155)",
+        "tonalRamp": [
+          "oklch(5% 0 0)",
+          "oklch(10% 0.005 155)",
+          "oklch(15% 0.01 155)",
+          "oklch(20% 0.01 155)",
+          "oklch(30% 0.01 155)",
+          "oklch(40% 0.01 155)",
+          "oklch(50% 0.01 155)",
+          "oklch(60% 0.005 155)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Screen titles — bold, warm, immediate."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Section headers in parent mode, group labels."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Card titles, list items, dialog headings. The workhorse."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Settings, descriptions, parent-facing content."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Metadata, counts, duration counters. Small but never light."
+      }
+    },
+    "shadows": [
+      {
+        "name": "ambient-art",
+        "value": "0 8px 24px rgba(0,0,0,0.15)",
+        "purpose": "Player album art only. Soft lift for large cover."
+      },
+      {
+        "name": "drag-feedback",
+        "value": "0 4px 16px rgba(45,122,84,0.3)",
+        "purpose": "Green-tinted shadow when dragging tiles in parent mode."
+      },
+      {
+        "name": "badge-drop",
+        "value": "0 2px 4px rgba(0,0,0,0.3)",
+        "purpose": "Small shadow under floating pills like '▶ Weiter' badge."
+      },
+      {
+        "name": "card-rest",
+        "value": "0 2px 6px rgba(0,0,0,0.04)",
+        "purpose": "Barely-there lift for catalog hero cards in search results."
+      }
+    ],
+    "motion": [
+      {
+        "name": "press-scale",
+        "value": "scale(0.96)",
+        "duration": "150ms",
+        "easing": "ease-in-out",
+        "purpose": "Tactile press feedback on cards and tiles."
+      },
+      {
+        "name": "nest-target",
+        "value": "scale(1.08)",
+        "duration": "200ms",
+        "easing": "cubic-bezier(0.33, 1, 0.68, 1)",
+        "purpose": "Hover feedback when a tile is targeted for nesting."
+      },
+      {
+        "name": "bar-slide-up",
+        "value": "translateY(0)",
+        "duration": "300ms",
+        "easing": "ease-out",
+        "purpose": "Now-playing bar entrance from bottom."
+      },
+      {
+        "name": "page-transition",
+        "value": "shared-axis",
+        "duration": "300ms",
+        "easing": "ease-in-out",
+        "purpose": "Parent mode page transitions (Material 3)."
+      },
+      {
+        "name": "pin-dot",
+        "value": "scale(1.0 → 1.3 → 1.0)",
+        "duration": "150ms",
+        "easing": "spring",
+        "purpose": "PIN digit entry bounce. Brief and terminal."
+      },
+      {
+        "name": "pin-shake",
+        "value": "translateX(±12px)",
+        "duration": "300ms",
+        "easing": "elastic-in",
+        "purpose": "Wrong PIN horizontal shake with haptic."
+      }
+    ],
+    "breakpoints": [
+      { "name": "phone", "value": "0px" },
+      { "name": "large-phone", "value": "600px" },
+      { "name": "tablet", "value": "840px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Filled forest-green button for primary actions. Generous padding for kid and parent thumbs.",
+      "html": "<button class=\"ds-btn-primary\">Los geht's</button>",
+      "css": ".ds-btn-primary { background: #2D7A54; color: #FFFFFF; font-family: 'Nunito', sans-serif; font-weight: 700; font-size: 15px; padding: 16px 48px; border: none; border-radius: 12px; min-height: 48px; cursor: pointer; transition: background 0.2s ease; } .ds-btn-primary:hover { background: #5BA37D; } .ds-btn-primary:active { transform: scale(0.98); }"
+    },
+    {
+      "name": "Ghost Button",
+      "kind": "button",
+      "refersTo": "button-ghost",
+      "description": "Transparent button with forest-green text for secondary actions.",
+      "html": "<button class=\"ds-btn-ghost\">Abbrechen</button>",
+      "css": ".ds-btn-ghost { background: transparent; color: #2D7A54; font-family: 'Nunito', sans-serif; font-weight: 700; font-size: 15px; padding: 16px 48px; border: none; border-radius: 12px; min-height: 48px; cursor: pointer; transition: background 0.2s ease; } .ds-btn-ghost:hover { background: rgba(45,122,84,0.08); }"
+    },
+    {
+      "name": "Tile Card",
+      "kind": "card",
+      "refersTo": "card-tile",
+      "description": "Image-only card in kid mode. The art IS the card. No container, no border at rest.",
+      "html": "<div class=\"ds-tile-card\"><img src=\"cover.jpg\" alt=\"Bibi und Tina\"><div class=\"ds-tile-label\">Bibi und Tina</div></div>",
+      "css": ".ds-tile-card { border-radius: 16px; overflow: hidden; cursor: pointer; transition: transform 0.15s ease-in-out; } .ds-tile-card:hover { transform: scale(0.96); } .ds-tile-card img { width: 100%; aspect-ratio: 1; object-fit: cover; display: block; } .ds-tile-label { font-family: 'Nunito', sans-serif; font-weight: 700; font-size: 13px; color: #1A1E1C; text-align: center; margin-top: 6px; line-height: 1.2; } .ds-tile-card.playing { box-shadow: 0 0 0 3px #2D7A54; }"
+    },
+    {
+      "name": "Input Field",
+      "kind": "input",
+      "refersTo": "input-field",
+      "description": "Rounded text input with green focus ring. White surface on warm cream background.",
+      "html": "<input class=\"ds-input\" placeholder=\"Suchen...\" />",
+      "css": ".ds-input { background: #FFFFFF; color: #1A1E1C; font-family: 'Nunito', sans-serif; font-size: 15px; padding: 12px 16px; border: 1px solid #E7E3CE; border-radius: 12px; outline: none; transition: border-color 0.2s ease; width: 100%; box-sizing: border-box; } .ds-input:focus { border-color: #2D7A54; border-width: 2px; padding: 11px 15px; } .ds-input::placeholder { color: #ABAFAD; }"
+    },
+    {
+      "name": "PIN Numpad Key",
+      "kind": "button",
+      "refersTo": "numpad-key",
+      "description": "72dp circular button for PIN entry. Surface background, full hit area for reliable touch injection.",
+      "html": "<button class=\"ds-numpad-key\">5</button>",
+      "css": ".ds-numpad-key { width: 72px; height: 72px; background: #FFFFFF; color: #1A1E1C; font-family: 'Nunito', sans-serif; font-weight: 700; font-size: 22px; border: none; border-radius: 999px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.15s ease; } .ds-numpad-key:hover { background: #F0EDE0; } .ds-numpad-key:active { background: #E7E3CE; transform: scale(0.95); }"
+    },
+    {
+      "name": "Progress Bar",
+      "kind": "custom",
+      "description": "6dp rounded track with forest-green fill. Labels flanking.",
+      "html": "<div class=\"ds-progress\"><span class=\"ds-progress-time\">12:34</span><div class=\"ds-progress-track\"><div class=\"ds-progress-fill\" style=\"width: 35%\"></div></div><span class=\"ds-progress-time\">45:01</span></div>",
+      "css": ".ds-progress { display: flex; align-items: center; gap: 8px; font-family: 'Nunito', sans-serif; } .ds-progress-time { font-size: 12px; font-weight: 600; color: #555A57; letter-spacing: 0.02em; flex-shrink: 0; } .ds-progress-track { flex: 1; height: 6px; background: #E7E3CE; border-radius: 999px; overflow: hidden; position: relative; } .ds-progress-fill { height: 100%; background: #2D7A54; border-radius: 999px; transition: width 0.1s linear; }"
+    },
+    {
+      "name": "Now Playing Bar",
+      "kind": "custom",
+      "description": "Compact bottom bar showing current track. Slides up when playback starts.",
+      "html": "<div class=\"ds-now-playing\"><img src=\"thumb.jpg\" class=\"ds-np-art\" alt=\"\" /><div class=\"ds-np-info\"><div class=\"ds-np-title\">Folge 23</div><div class=\"ds-np-artist\">Bibi und Tina</div></div><button class=\"ds-np-play\">▶</button></div>",
+      "css": ".ds-now-playing { display: flex; align-items: center; gap: 16px; padding: 0 16px; height: 92px; background: #FFFFFF; border-top: 1px solid #E7E3CE; font-family: 'Nunito', sans-serif; } .ds-np-art { width: 64px; height: 64px; border-radius: 10px; object-fit: cover; flex-shrink: 0; } .ds-np-info { flex: 1; min-width: 0; } .ds-np-title { font-weight: 700; font-size: 15px; color: #1A1E1C; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } .ds-np-artist { font-size: 13px; color: #555A57; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } .ds-np-play { width: 48px; height: 48px; border-radius: 999px; background: #2D7A54; color: #FFFFFF; border: none; font-size: 20px; cursor: pointer; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Listening Fox",
+    "overview": "The lauschi mascot is a watercolor fox — green fur, terracotta headphones, cream belly, eyes closed in contentment. The entire design system is derived from this character. The app should feel like handing a child that fox: calm, warm, trustworthy, and already listening. The kid experience is one screen, one decision. Album art is the hero; the UI recedes. Parent mode shifts to a slightly cooler, more information-dense tone, but the same fox DNA runs through both.",
+    "keyCharacteristics": [
+      "Album art is the interface — text is minimal and secondary",
+      "Warm cream backgrounds let every cover pop equally",
+      "Green signals safe and calm; terracotta adds human warmth",
+      "Tactile, focused, and soft — no sharp edges, no aggressive motion",
+      "The PIN is a portal between two different experiences in one app",
+      "Neurodivergent-friendly: no continuous motion, no hidden gestures, predictable state changes"
+    ],
+    "rules": [
+      {
+        "name": "The Album Art Rule",
+        "body": "UI colors are intentionally restrained so every album cover, from neon cartoon to muted photography, pops equally. If a screen feels busy, the UI is stealing from the art. Remove, don't add.",
+        "section": "colors"
+      },
+      {
+        "name": "The No-Layering-Without-Reason Rule",
+        "body": "If a surface doesn't need to float, it doesn't get a shadow. Most depth is communicated by color and position.",
+        "section": "elevation"
+      },
+      {
+        "name": "The No-Em-Dash Rule",
+        "body": "Typography follows the same voice as copy: commas, colons, semicolons, periods, or parentheses. Never em-dashes or en-dashes.",
+        "section": "typography"
+      }
+    ],
+    "dos": [
+      "Do let album art dominate every screen it's on. UI chrome recedes.",
+      "Do use forest green for every primary action, active state, and playing indicator. Consistency builds trust.",
+      "Do keep touch targets at 48dp minimum, 64dp+ for kid-facing controls.",
+      "Do combine color with shape or position for state. Never color alone.",
+      "Do use spring-curve press animations (scale 0.96, 150ms) for tactile feedback.",
+      "Do keep all animations brief and terminal. No loops, no pulses, no continuous motion.",
+      "Do use Nunito for everything. One family, weight and size create hierarchy.",
+      "Do prefer inline feedback over toasts or snackbars.",
+      "Do use shimmer placeholders instead of spinners for loading states."
+    ],
+    "donts": [
+      "Don't use pure black or pure white as page backgrounds. Tint neutrals toward the fox's green.",
+      "Don't use dark mode. The app is always light. Warm cream is the fox's paper.",
+      "Don't add tabs, carousels, feeds, or recommendation strips to the kid experience.",
+      "Don't use side-stripe borders on cards, lists, or callouts.",
+      "Don't use gradient text. Use weight or size for emphasis.",
+      "Don't use glassmorphism. No blurs, no frosted cards.",
+      "Don't use the hero-metric template. Not a dashboard.",
+      "Don't use modals as a first thought. Exhaust inline and progressive alternatives.",
+      "Don't rely on color alone for state. Combine with icon, shape, or position.",
+      "Don't use Spotify's dark density, over-colorful toy-store energy, or flat characterless Material defaults.",
+      "Don't use continuous animations — pulsing, spinning, bouncing loops.",
+      "Don't use em-dashes in any copy.",
+      "Don't add long-press menus, context menus, or hidden gestures in kid mode."
+    ]
+  }
+}

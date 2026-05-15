@@ -21,3 +21,7 @@ source = "path:.agents/skills/release"
 [[skills]]
 name = "code-simplifier"
 source = "path:.agents/skills/code-simplifier"
+
+[[skills]]
+name = "impeccable"
+source = "pbakaus/impeccable"
