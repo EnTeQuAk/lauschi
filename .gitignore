@@ -62,6 +62,7 @@ app.*.map.json
 
 # Agent scaffolding
 .ralph/
+.pi/
 
 # Claude Code — local permissions are per-user, don't commit
 .claude/settings.local.json
