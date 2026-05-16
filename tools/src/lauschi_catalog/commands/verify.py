@@ -37,7 +37,7 @@ console = Console()
 REPO_ROOT = Path(__file__).parent.parent.parent.parent.parent
 CURATION_DIR = REPO_ROOT / "assets" / "catalog" / "curation"
 
-_VERIFY_MODEL = "minimax-m2.5"
+_VERIFY_MODEL = "minimax-m2.7"
 _MAX_RETRIES = 3
 _RETRY_DELAY = 5
 
@@ -137,6 +137,19 @@ to independently verify those decisions.
   a child) is much higher than the cost of escalating a borderline
   case for human review. Set ``approve: false`` whenever you're not
   confident the curation is correct.
+
+## Tool limits (hard caps)
+
+Some tools have per-run caps. When a tool responds with "limit
+reached", do NOT call that tool again — use what you already have
+and move on. This is normal, not an error.
+
+- ``web_search``: max 3 calls
+- ``fetch_page``: max 2 calls
+- ``album_details``: max 5 calls
+
+If a tool returns an error about args or missing data, fix the
+args and retry. If it returns "limit reached", stop calling it.
 """
 
 
@@ -205,7 +218,7 @@ def _build_verify_agent(
         - 'site:hoerspiele.de "Series Name"'
         """
         if ctx.deps._search_count >= ctx.deps._MAX_SEARCHES:
-            return [{"error": "Search limit reached (max 3)."}]
+            return [{"result": f"web_search limit reached ({ctx.deps._search_count}/{ctx.deps._MAX_SEARCHES}). Do not call web_search again; proceed with current knowledge."}]
         ctx.deps._search_count += 1
 
         from lauschi_catalog.search import brave_search
@@ -222,7 +235,7 @@ def _build_verify_agent(
         Useful for hoerspiele.de series pages with episode listings.
         """
         if ctx.deps._fetch_count >= ctx.deps._MAX_FETCHES:
-            return "Fetch limit reached (max 2)."
+            return f"fetch_page limit reached ({ctx.deps._fetch_count}/{ctx.deps._MAX_FETCHES}). Do not call fetch_page again; proceed with current knowledge."
         ctx.deps._fetch_count += 1
 
         from lauschi_catalog.search import fetch_page as _fetch

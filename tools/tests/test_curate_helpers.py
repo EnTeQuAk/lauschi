@@ -526,22 +526,6 @@ def test_album_decision_release_date_defaults_none():
 # ── album_details tools return release_date and artists ────────────────────
 
 
-def test_curate_small_flow_album_details_returns_release_date_and_artists():
-    """Pin the small-flow get_album_details return shape. The bug
-    was that release_date and artists were being fetched from the
-    provider but dropped before reaching the agent."""
-    src = open(
-        "src/lauschi_catalog/commands/curate.py", encoding="utf-8",
-    ).read()
-    # Locate the small-flow agent's get_album_details (Deps, not BatchDeps)
-    block = src.split("def _build_small_agent")[1].split(
-        "def _build_metadata_agent",
-    )[0]
-    # The detail dict must include both fields
-    assert '"release_date": album.release_date' in block
-    assert '"artists": album.artists' in block
-
-
 def test_curate_batch_flow_album_details_returns_release_date_and_artists():
     src = open(
         "src/lauschi_catalog/commands/curate.py", encoding="utf-8",
@@ -560,7 +544,7 @@ def test_review_album_details_returns_release_date_and_artists():
     # Find the review agent's album_details tool
     idx = src.find("def album_details")
     assert idx >= 0
-    block = src[idx:idx + 1500]
+    block = src[idx:idx + 2000]
     assert '"release_date": album.release_date' in block
     assert '"artists": album.artists' in block
 
@@ -571,7 +555,7 @@ def test_verify_album_details_returns_release_date_and_artists():
     ).read()
     idx = src.find("def album_details")
     assert idx >= 0
-    block = src[idx:idx + 1500]
+    block = src[idx:idx + 2000]
     assert '"release_date": album.release_date' in block
     assert '"artists": album.artists' in block
 
@@ -787,3 +771,140 @@ def test_batch_prompt_distinguishes_structure_from_numbering():
         "agent may invent a non-numeric pattern just to give the "
         "framework something to extract from"
     )
+
+
+# ── dropped-album detection ───────────────────────────────────────────────
+
+
+def test_restore_dropped_albums_adds_missing():
+    """If the agent omits an album from its output, the validation
+    step should add it back as 'not_decided' so it doesn't vanish."""
+    from lauschi_catalog.commands.curate import (
+        AlbumDecision, _restore_dropped_albums,
+    )
+
+    decisions = [
+        AlbumDecision(
+            album_id="a1", provider="spotify", include=True, title="T1",
+            episode_num=None,
+        ),
+    ]
+    index = {
+        ("spotify", "a1"): {"name": "T1", "release_date": "2020-01-01"},
+        ("apple_music", "b1"): {"name": "T2", "release_date": "2020-02-01"},
+    }
+    _restore_dropped_albums(decisions, index)
+
+    assert len(decisions) == 2
+    dropped = [d for d in decisions if d.album_id == "b1"]
+    assert len(dropped) == 1
+    assert dropped[0].include is False
+    assert "not_decided" in (dropped[0].exclude_reason or "")
+    assert dropped[0].title == "T2"
+    assert dropped[0].release_date == "2020-02-01"
+
+
+def test_restore_dropped_albums_no_op_when_all_present():
+    """When every discovered album has a decision, the helper is a no-op."""
+    from lauschi_catalog.commands.curate import (
+        AlbumDecision, _restore_dropped_albums,
+    )
+
+    decisions = [
+        AlbumDecision(
+            album_id="a1", provider="spotify", include=True, title="T1",
+            episode_num=None,
+        ),
+        AlbumDecision(
+            album_id="b1", provider="apple_music", include=False, title="T2",
+            episode_num=None,
+        ),
+    ]
+    index = {
+        ("spotify", "a1"): {"name": "T1"},
+        ("apple_music", "b1"): {"name": "T2"},
+    }
+    _restore_dropped_albums(decisions, index)
+    assert len(decisions) == 2
+
+
+# ── batch summary ───────────────────────────────────────────────────────
+
+
+def test_batch_summary_includes_episode_runs_and_exclusion_reasons():
+    from lauschi_catalog.commands.curate import AlbumDecision, _build_batch_summary
+
+    decisions = [
+        AlbumDecision(album_id="a1", provider="spotify", include=True, episode_num=1, title="T1"),
+        AlbumDecision(album_id="a2", provider="spotify", include=True, episode_num=2, title="T2"),
+        AlbumDecision(album_id="a3", provider="spotify", include=True, episode_num=3, title="T3"),
+        AlbumDecision(album_id="a5", provider="spotify", include=True, episode_num=5, title="T5"),
+        AlbumDecision(album_id="b1", provider="apple_music", include=False, episode_num=None, title="Box",
+                      exclude_reason="compilation"),
+        AlbumDecision(album_id="b2", provider="apple_music", include=False, episode_num=None, title="Best Of",
+                      exclude_reason="compilation"),
+        AlbumDecision(album_id="b3", provider="apple_music", include=False, episode_num=None, title="Karaoke",
+                      exclude_reason="karaoke"),
+    ]
+    summary = _build_batch_summary(decisions, r"^Folge (\d+):", batch_num=2)
+    assert "1-3" in summary
+    assert "5" in summary
+    assert "Active pattern:" in summary
+    assert "compilation (2)" in summary
+    assert "karaoke (1)" in summary
+
+
+def test_batch_summary_empty_when_no_prior_decisions():
+    from lauschi_catalog.commands.curate import _build_batch_summary
+
+    summary = _build_batch_summary([], None, batch_num=1)
+    assert summary == ""
+
+
+def test_batch_summary_compresses_non_consecutive_episodes():
+    from lauschi_catalog.commands.curate import AlbumDecision, _build_batch_summary
+
+    decisions = [
+        AlbumDecision(album_id="a1", provider="spotify", include=True, episode_num=1, title="T1"),
+        AlbumDecision(album_id="a3", provider="spotify", include=True, episode_num=3, title="T3"),
+        AlbumDecision(album_id="a4", provider="spotify", include=True, episode_num=4, title="T4"),
+        AlbumDecision(album_id="a10", provider="spotify", include=True, episode_num=10, title="T10"),
+    ]
+    summary = _build_batch_summary(decisions, None, batch_num=2)
+    assert "1" in summary
+    assert "3-4" in summary
+    assert "10" in summary
+
+
+def test_batch_summary_groups_included_episodes_by_provider():
+    """Cross-provider duplicates must not be excluded because the agent
+    conflates providers. The summary must show which episodes are
+    already included on *each* provider, not a flat global list."""
+    from lauschi_catalog.commands.curate import AlbumDecision, _build_batch_summary
+
+    decisions = [
+        # Spotify has episodes 1-3
+        AlbumDecision(album_id="s1", provider="spotify", include=True, episode_num=1, title="T1"),
+        AlbumDecision(album_id="s2", provider="spotify", include=True, episode_num=2, title="T2"),
+        AlbumDecision(album_id="s3", provider="spotify", include=True, episode_num=3, title="T3"),
+        # Apple Music has episode 2 (different provider, same episode = must keep)
+        AlbumDecision(album_id="a1", provider="apple_music", include=False, episode_num=2, title="T2",
+                      exclude_reason="already included"),
+    ]
+    summary = _build_batch_summary(decisions, None, batch_num=2)
+
+    # Must show episodes grouped by provider, not a flat global list
+    assert "(by provider):" in summary
+    assert "spotify:" in summary
+    assert "1-3" in summary
+    # apple_music is NOT in the included section (agent wrongly excluded it)
+    # but the summary must NOT claim episode 2 is already included globally
+    lines = summary.splitlines()
+    for line in lines:
+        if "Prior included" in line and "provider" not in line:
+            pytest.fail("Summary must not show a flat 'Prior included episodes' list")
+
+    # Verify no line implies episode 2 is already included on apple_music
+    for line in lines:
+        if "apple_music:" in line and "2" in line:
+            pytest.fail("apple_music should not show episode 2 as already included")

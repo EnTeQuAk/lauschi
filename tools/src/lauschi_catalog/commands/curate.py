@@ -34,6 +34,7 @@ from rich.panel import Panel
 from rich.table import Table
 
 from lauschi_catalog.catalog.canonical import canonicalize
+from lauschi_catalog.catalog.matcher import compute_pattern_coverage as _compute_pattern_coverage
 from lauschi_catalog.catalog.prompt import album_to_dict, format_albums_xml
 from lauschi_catalog.providers import Album, CatalogProvider
 from lauschi_catalog.providers._validate import explain_invalid, is_valid_id
@@ -45,12 +46,10 @@ REPO_ROOT = Path(__file__).parent.parent.parent.parent.parent
 CURATION_DIR = REPO_ROOT / "assets" / "catalog" / "curation"
 CURATION_DIR.mkdir(parents=True, exist_ok=True)
 
-_DEFAULT_MODEL = "kimi-k2.5"
+_DEFAULT_MODEL = "kimi-k2.6"
 _MAX_RETRIES = 3
 _RETRY_DELAY = 5
 
-# Discographies above this threshold use the batched flow.
-_LARGE_THRESHOLD = 100
 _BATCH_SIZE = 30
 
 
@@ -711,189 +710,6 @@ def _dry_run_prompts(query: str, is_music: bool = False) -> None:
 
 # ── Agent builders ─────────────────────────────────────────────────────────
 
-def _build_small_agent(
-    model_name: str, api_key: str, *, is_music: bool = False,
-) -> Agent[Deps, CuratedSeries]:
-    model = build_opencode_model(model_name, api_key)
-    prompt = _MUSIC_SYSTEM_PROMPT if is_music else _SYSTEM_PROMPT
-    agent: Agent[Deps, CuratedSeries] = Agent(
-        model,
-        output_type=CuratedSeries,
-        system_prompt=prompt,
-        retries=2,
-    )
-
-    @agent.tool
-    def search_artists(ctx: RunContext[Deps], query: str) -> list[dict]:
-        """Search all providers for artists by name.
-
-        WHEN TO USE:
-        - First step of every curation: find the correct artist on each provider.
-        - Artist search on a provider returns no results: try a variant
-          (e.g. "Benjamin Blümchen" → "Benjamin Blümchen Europa").
-
-        WHEN NOT TO USE:
-        - Don't search for sub-series, spin-offs, or compilations — those are
-          curated as separate series entries. Stick to the primary artist.
-
-        Returns: list of {provider, id, name, genres}
-        """
-        results = []
-        for p in ctx.deps.providers:
-            for artist in p.search_artists(query):
-                results.append({
-                    "provider": p.name, "id": artist.id,
-                    "name": artist.name, "genres": artist.genres,
-                })
-        console.print(f"  [dim]🔍 search_artists({query!r}) → {len(results)} results[/]")
-        return results
-
-    @agent.tool
-    def get_artist_albums(
-        ctx: RunContext[Deps], provider: str, artist_id: str,
-    ) -> list[dict]:
-        """Fetch every album released by an artist on a specific provider.
-
-        WHEN TO USE:
-        - After search_artists identified the correct artist_id for a provider.
-        - Results are cached per run — safe to call again if you need the list.
-
-        WHEN NOT TO USE:
-        - Don't call for every batch; call once per provider per artist and
-          rely on the cached result.
-
-        Returns: list of {provider, id, name, release_date, total_tracks}
-        """
-        if not is_valid_id(provider, artist_id):
-            # Reject obvious provider/id mismatches (e.g., a Spotify-format
-            # 22-char id passed with provider='apple_music') before the
-            # call hits the API. Returning a descriptive error here lets
-            # the agent self-correct instead of 4xx-ing.
-            return [{"error": explain_invalid(provider, artist_id)}]
-
-        key = f"{provider}:{artist_id}"
-        if key in ctx.deps.seen_albums:
-            n = len(ctx.deps.seen_albums[key])
-            console.print(f"  [dim]📀 get_artist_albums({provider}, {artist_id[:8]}…) → (cached, {n} albums)[/]")
-            return ctx.deps.seen_albums[key]
-        target = next((p for p in ctx.deps.providers if p.name == provider), None)
-        if not target:
-            return []
-        albums = target.artist_albums(artist_id)
-        result = [
-            {"provider": provider, "id": a.id, "name": a.name,
-             "release_date": a.release_date, "total_tracks": a.total_tracks}
-            for a in albums
-        ]
-        ctx.deps.seen_albums[key] = result
-        console.print(f"  [dim]📀 get_artist_albums({provider}, {artist_id[:8]}…) → {len(result)} albums[/]")
-        return result
-
-    @agent.tool
-    def get_album_details(
-        ctx: RunContext[Deps], provider: str, album_ids: list[str],
-    ) -> list[dict]:
-        """Fetch full album details (track listing, label, runtime) from a provider.
-
-        WHEN TO USE:
-        - Title + track count genuinely ambiguous (e.g. "Die schönsten Lieder"
-          could be a music compilation or a Hörspiel with songs inside).
-        - Episode number unclear from title alone (e.g. "Brainwash" needs
-          track names to confirm it's episode 147).
-        - Unusually high/low track count: 1 track = likely a single, not a
-          Hörspiel; 120 tracks = possibly a Kopfhörer-Hörspiel or double episode.
-
-        WHEN NOT TO USE:
-        - Title clearly matches the episode pattern (e.g. "Folge 42: Der Geist")
-          — the pattern already extracted the number, no details needed.
-        - Obvious compilation from title alone ("Best of", "Jubiläumsbox",
-          "Folge 1–10") — exclude immediately without burning a tool call.
-
-        BATCHING: Pass up to 5 album IDs in one call. Batch IDs when multiple
-        albums from the same provider are ambiguous.
-
-        Returns: list of {provider, id, name, release_date, total_tracks,
-        label, artists, tracks}. ``release_date`` is ISO format (YYYY-MM-DD
-        or YYYY) — useful for spotting compilations (recent date, old
-        content), original-vs-remaster decisions (older = original), and
-        inferring chronological order when titles lack episode numbers.
-        ``artists`` is the credited primary artist string — use to spot
-        cross-artist compilations or wrong-artist matches.
-        """
-        results = []
-        # Reject malformed ids per provider (Spotify 22-base62 vs
-        # Apple Music all-digit). Invalid ids are reported in-line
-        # so the agent sees which one failed without poisoning the
-        # whole batch.
-        invalid = [aid for aid in album_ids if not is_valid_id(provider, aid)]
-        valid_ids = [aid for aid in album_ids if is_valid_id(provider, aid)]
-        for bad in invalid:
-            results.append({"id": bad, "error": explain_invalid(provider, bad)})
-
-        target = next((p for p in ctx.deps.providers if p.name == provider), None)
-        if not target:
-            return results or []
-        for aid in valid_ids:
-            key = f"{provider}:{aid}"
-            if key in ctx.deps.seen_details:
-                results.append(ctx.deps.seen_details[key])
-                continue
-            album = target.album_details(aid)
-            if album:
-                detail = {
-                    "provider": provider, "id": album.id, "name": album.name,
-                    "release_date": album.release_date,
-                    "total_tracks": album.total_tracks,
-                    "label": album.label,
-                    "artists": album.artists,
-                    "tracks": [{"name": t.name, "duration_ms": t.duration_ms}
-                               for t in album.tracks],
-                }
-                ctx.deps.seen_details[key] = detail
-                results.append(detail)
-                console.print(f"  [dim]🔎 {provider}:{aid[:8]}… → {album.total_tracks} tracks[/]")
-        return results
-
-    @agent.tool
-    def web_search(ctx: RunContext[Deps], query: str) -> list[dict]:
-        """Search the web for series info. Max 2 searches per curation.
-
-        WHEN TO USE:
-        - Unclear whether the artist is a Hörspiel or Hörbuch/music series.
-        - Need to verify episode count (e.g. "does this series really have 200 episodes?").
-        - Confirm whether a specific album is a compilation vs. original release.
-
-        WHEN NOT TO USE:
-        - Well-known series with unambiguous metadata (TKKG, Die drei ???,
-          Bibi Blocksberg) — don't waste searches on obvious cases.
-        - Album titles already clearly indicate include/exclude.
-
-        Good queries:
-        - '"Series Name" Hörspiel Episodenliste'
-        - 'site:hoerspiele.de "Series Name"'
-
-        Returns: list of {title, url, snippet, age}
-        """
-        if ctx.deps._search_count >= ctx.deps._MAX_SEARCHES:
-            return [{"error": "Search limit reached (max 2)."}]
-        ctx.deps._search_count += 1
-
-        from lauschi_catalog.search import brave_search
-
-        results = brave_search(query, count=5)
-        n = len([r for r in results if "error" not in r])
-        console.print(f"  [dim]🌐 web_search({query!r}) → {n} results[/]")
-        return results
-
-    return agent
-
-
-# Backwards-compat alias for tests and internal callers; the canonical
-# home is matcher.py since both curate and review need it.
-from lauschi_catalog.catalog.matcher import (
-    compute_pattern_coverage as _compute_pattern_coverage,
-)
-
 
 def _build_metadata_agent(
     model, *, is_music: bool = False,
@@ -1149,91 +965,6 @@ async def _run_with_retry(coro_factory, *, phase: str = ""):
 
 
 # ── Small discography flow (single agent) ──────────────────────────────────
-
-async def _run_small(
-    query: str,
-    providers: list[CatalogProvider],
-    *,
-    model_name: str,
-    api_key: str,
-    timeout: int,
-    existing_curation: dict | None = None,
-    is_music: bool = False,
-    known_artist_ids: dict[str, list[str]] | None = None,
-) -> CuratedSeries:
-    agent = _build_small_agent(model_name, api_key, is_music=is_music)
-    deps = Deps(providers=providers)
-    provider_names = ", ".join(p.name for p in providers)
-
-    content_type = "children's music artist" if is_music else "Hörspiel series"
-    prompt = (
-        f"Curate the DACH {content_type}: {query!r}.\n\n"
-        f"Available providers: {provider_names}.\n"
-        "Search for the primary artist on EACH provider, fetch their "
-        "discography, then classify every album."
-    )
-
-    if existing_curation:
-        prev = existing_curation.get("albums", [])
-        prev_inc = [a for a in prev if a.get("include")]
-        prompt += (
-            f"\n\nPrevious curation: {len(prev_inc)} included albums. "
-            "Build on these decisions, add any new providers."
-        )
-
-    series = await _run_with_retry(
-        lambda: asyncio.wait_for(
-            _run_agent(agent, prompt, deps), timeout=timeout,
-        ),
-        phase="curation",
-    )
-
-    # Hydrate release_date on every decision from the discovery cache
-    # the agent populated via get_artist_albums. The agent's schema
-    # doesn't ask for release_date so it never echoes it; we want the
-    # field on disk for review/verify and the release-order strategy.
-    album_index: dict[tuple[str, str], dict] = {}
-    for entries in deps.seen_albums.values():
-        for src in entries:
-            album_index[(src["provider"], src["id"])] = src
-
-    # If the series has configured artist_ids, constrain decisions to
-    # albums from those artists only. Prevents the agent's free search
-    # from pulling in unrelated artists (e.g. a shared label artist).
-    known = known_artist_ids or {}
-    if known:
-        allowed_keys: set[tuple[str, str]] = set()
-        for key, entries in deps.seen_albums.items():
-            prov, _, aid = key.partition(":")
-            if aid in (known.get(prov) or []):
-                for src in entries:
-                    allowed_keys.add((src["provider"], src["id"]))
-        before = len(series.albums)
-        series.albums = [d for d in series.albums
-                         if (d.provider, d.album_id) in allowed_keys]
-        dropped = before - len(series.albums)
-        if dropped:
-            console.print(
-                f"  [yellow]⚠ Filtered {dropped} decision(s) from "
-                f"unconfigured artists (kept {len(series.albums)} from "
-                f"known artist_ids)[/]",
-            )
-        # Rebuild album_index from allowed albums only so
-        # _restore_dropped_albums doesn't pull in extras.
-        album_index = {
-            k: v for k, v in album_index.items() if k in allowed_keys
-        }
-
-    for d in series.albums:
-        if d.release_date:
-            continue
-        src = album_index.get((d.provider, d.album_id))
-        if src:
-            d.release_date = src.get("release_date") or None
-
-    _restore_dropped_albums(series.albums, album_index)
-
-    return series
 
 
 # ── Large discography flow (batched) ───────────────────────────────────────
@@ -1722,24 +1453,14 @@ async def run_curation(
             albums = p.artist_albums(aid)
             total_albums += len(albums)
 
-    if total_albums <= _LARGE_THRESHOLD:
-        console.print(f"  {total_albums} albums — using [bold]single-agent[/] flow\n")
-        result = await _run_small(
-            query, providers,
-            model_name=model_name, api_key=api_key,
-            timeout=timeout, existing_curation=existing_curation,
-            is_music=is_music,
-            known_artist_ids=known_artist_ids,
-        )
-    else:
-        console.print(f"  {total_albums} albums — using [bold]batched[/] flow\n")
-        result = await _run_large(
-            query, providers,
-            model_name=model_name, api_key=api_key,
-            timeout=timeout, existing_curation=existing_curation,
-            is_music=is_music,
-            known_artist_ids=known_artist_ids,
-        )
+    console.print(f"  {total_albums} albums — curating\n")
+    result = await _run_large(
+        query, providers,
+        model_name=model_name, api_key=api_key,
+        timeout=timeout, existing_curation=existing_curation,
+        is_music=is_music,
+        known_artist_ids=known_artist_ids,
+    )
 
     # Persist content type so re-curation uses the right prompt.
     if is_music:
