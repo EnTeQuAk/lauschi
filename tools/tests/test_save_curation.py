@@ -45,12 +45,12 @@ def _series(sid: str = "test_series", *, albums: list[AlbumDecision] | None = No
     )
 
 
-def _write_existing(path: Path, sid: str, review: dict[str, Any] | None = None) -> Path:
+def _write_existing(path: Path, sid: str, review: dict[str, Any] | None = None, album_id: str = "old") -> Path:
     p = path / f"{sid}.json"
     data: dict[str, Any] = {
         "id": sid,
         "title": "Old Title",
-        "albums": [{"album_id": "old", "provider": "spotify",
+        "albums": [{"album_id": album_id, "provider": "spotify",
                     "include": True, "title": "Folge 1: Old"}],
     }
     if review is not None:
@@ -80,7 +80,7 @@ def test_save_curation_preserves_existing_review_block(curation_dir: Path):
         "decisions": {"duplicates": {"verdict": "resolved_via_overrides", "reasoning": "x"}},
         "summary": "all good",
     }
-    _write_existing(curation_dir, "test_series", review=review)
+    _write_existing(curation_dir, "test_series", review=review, album_id="a")
 
     save_curation(_series("test_series"))
 

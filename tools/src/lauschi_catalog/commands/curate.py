@@ -34,6 +34,7 @@ from rich.panel import Panel
 from rich.table import Table
 
 from lauschi_catalog.catalog.canonical import canonicalize
+from lauschi_catalog.catalog.prompt import album_to_dict, format_albums_xml
 from lauschi_catalog.providers import Album, CatalogProvider
 from lauschi_catalog.providers._validate import explain_invalid, is_valid_id
 from lauschi_catalog.retry import is_retryable
@@ -51,6 +52,105 @@ _RETRY_DELAY = 5
 # Discographies above this threshold use the batched flow.
 _LARGE_THRESHOLD = 100
 _BATCH_SIZE = 30
+
+
+def _build_batch_summary(
+    decisions: list[AlbumDecision],
+    pattern: str | list[str] | None,
+    batch_num: int,
+) -> str:
+    """Produce a concise rolling summary for the next batch prompt.
+
+    Prior batches' decisions are summarized so the agent can stay
+    consistent: which episode numbers are already included, what
+    pattern is active, what kinds of albums are being excluded.
+
+    Episodes are grouped by provider so the agent knows whether a
+    given episode has been included on the CURRENT provider or only
+    on another one.  This prevents cross-provider duplicates from
+    being wrongly excluded.
+    """
+    included = [d for d in decisions if d.include]
+    excluded = [d for d in decisions if not d.include]
+
+    lines: list[str] = []
+
+    if included:
+        eps_by_provider: dict[str, list[int]] = {}
+        for d in included:
+            if d.episode_num is not None:
+                eps_by_provider.setdefault(d.provider, []).append(d.episode_num)
+
+        if eps_by_provider:
+            lines.append("Prior included episodes (by provider):")
+            for prov in sorted(eps_by_provider):
+                eps = sorted(set(eps_by_provider[prov]))
+                # Compress consecutive runs: 1,2,3,5,6 → 1-3, 5-6
+                runs: list[str] = []
+                start = prev = eps[0]
+                for e in eps[1:]:
+                    if e == prev + 1:
+                        prev = e
+                    else:
+                        runs.append(f"{start}-{prev}" if prev > start else str(start))
+                        start = prev = e
+                runs.append(f"{start}-{prev}" if prev > start else str(start))
+                lines.append(f"  {prov}: {', '.join(runs)}")
+
+    if pattern is not None:
+        pat_str = pattern if isinstance(pattern, str) else " | ".join(pattern)
+        lines.append(f"Active pattern: {pat_str!r}")
+
+    if excluded:
+        reasons: dict[str, int] = {}
+        for d in excluded:
+            r = d.exclude_reason or "unspecified"
+            reasons[r] = reasons.get(r, 0) + 1
+        # Pick the top 3 most common reasons
+        top = sorted(reasons.items(), key=lambda kv: kv[1], reverse=True)[:3]
+        if top:
+            reason_lines = [f"  {r} ({n})" for r, n in top]
+            lines.append("Prior exclusions:")
+            lines.extend(reason_lines)
+
+    if batch_num > 1 and not lines:
+        lines.append("No decisions from prior batches yet.")
+
+    return "\n".join(lines) if lines else ""
+
+
+def _restore_dropped_albums(
+    decisions: list[AlbumDecision],
+    album_index: dict[tuple[str, str], dict],
+) -> None:
+    """Add any discovered albums the agent omitted as 'not_decided'.
+
+    Mutates ``decisions`` in place. The caller must have built
+    ``album_index`` from the discovery-phase output so every omitted
+    album can be reconstructed with its original title and
+    release_date.
+    """
+    discovered_ids = set(album_index.keys())
+    decided_ids = {(d.provider, d.album_id) for d in decisions}
+    dropped = discovered_ids - decided_ids
+    if not dropped:
+        return
+
+    console.print(
+        f"  [yellow]⚠ {len(dropped)} discovered album(s) missing from "
+        f"agent output — adding as 'not_decided'[/]",
+    )
+    for prov, aid in sorted(dropped):
+        src = album_index.get((prov, aid))
+        decisions.append(AlbumDecision(
+            album_id=aid,
+            provider=prov,
+            include=False,
+            title=src["name"] if src else "unknown",
+            exclude_reason="not_decided: agent omitted this album",
+            release_date=src.get("release_date") if src else None,
+            episode_num=None,
+        ))
 
 
 # ── Output models ──────────────────────────────────────────────────────────
@@ -110,6 +210,12 @@ class CuratedSeries(BaseModel):
     # Content type: "hoerspiel" (default) or "music". Persisted in the
     # curation JSON so re-curation picks the right AI prompt.
     content_type: str = "hoerspiel"
+    # True when a provider failed during discovery or returned zero
+    # albums while another provider had data. Signals that the curation
+    # may be incomplete and should be re-run once the provider issue
+    # is resolved. Review escalates these automatically.
+    incomplete: bool = False
+    incomplete_reason: str = ""
 
     @field_validator("episode_pattern")
     @classmethod
@@ -194,19 +300,52 @@ class Deps:
 class BatchDeps:
     providers: list[CatalogProvider]
     seen_details: dict[str, dict] = field(default_factory=dict)
-    # Pattern starts at whatever the metadata phase decided. The batch
-    # agent can revise it via propose_pattern_update when it observes
-    # titles the current pattern misses. Subsequent batches see the
-    # revised value in their prompts; after all batches we re-extract
-    # episode_num across every decision using the final pattern.
+    # Pattern starts at whatever the metadata phase decided. The finalize
+    # agent (post-batch) can revise it via propose_pattern_update when
+    # track listings reveal a systematic format the metadata phase
+    # missed. The final pattern is used to re-extract episode_num across
+    # every decision at the end of the run.
     pattern: str | list[str] | None = None
     pattern_revisions: list[str | list[str]] = field(default_factory=list)
-    # All discovery-phase titles, carried so propose_pattern_update can
-    # verify that a proposed regex actually captures digits before
-    # accepting it. Without this, a batch agent that proposed
-    # `^(.+?) \(...\)$` (capturing story names, not numbers) silently
-    # installed a dead pattern in the SimsalaGrimm run.
+    # All discovery-phase titles, carried so the finalize agent's
+    # propose_pattern_update tool can verify that a proposed regex
+    # actually captures digits before accepting it. Without this, the
+    # agent could propose `^(.+?) \(...\)$` (capturing story names,
+    # not numbers) and silently install a dead pattern.
     titles: list[str] = field(default_factory=list)
+
+
+@dataclass
+class FinalizeDeps:
+    """Deps for the metadata-finalization agent.
+
+    Carries cached album details from the batch phase so the
+    finalize agent can inspect track listings without re-fetching.
+    """
+
+    providers: list[CatalogProvider]
+    seen_details: dict[str, dict] = field(default_factory=dict)
+    pattern: str | list[str] | None = None
+    titles: list[str] = field(default_factory=list)
+
+
+class FinalizeResult(BaseModel):
+    """Output of the metadata-finalization agent.
+
+    For included albums that the batch agent couldn't number from
+    album titles alone, the finalize agent inspects track listings
+    (especially track 1) to extract episode numbers and optionally
+    proposes an updated episode_pattern.
+    """
+
+    episode_updates: list[dict] = Field(
+        default_factory=list,
+        description="Albums where track listings revealed the episode number. Each item: {album_id, provider, episode_num}",
+    )
+    proposed_pattern_update: str | list[str] | None = Field(
+        default=None,
+        description="If track listings reveal a systematic new format not caught by the current pattern, propose an updated regex. Null if no change needed.",
+    )
 
 
 @dataclass
@@ -508,6 +647,8 @@ Apply it to each album title to extract the episode number.
 - Match: set episode_num to the captured integer
 - No match: set episode_num to null (still include if it's a valid episode)
 - Examples: "Folge 123: Title" → 123, "123/Title" → 123, "Teil 5" → 5
+- A structured suffix (e.g. "(Das Original-Hörspiel zur TV Serie)") is
+  NOT episode numbering — do not propose a pattern update for it.
 
 ## Exclude (set exclude_reason)
 - Compilations / box sets ("Folge 1-10", "Best of")
@@ -516,37 +657,13 @@ Apply it to each album title to extract the episode number.
 - Multi-artist compilations ("Kinderparty Hits", "Nick Jr.'s …")
 - Remixes, sped-up versions, sing-alongs, soundtracks
 - Audiobooks ("ungekürzt") that are book readings, not radio dramas
-- Duplicates of already-included episodes (same episode number, same provider)
+- Duplicates of already-included episodes (same episode number AND similar title on the same provider). If the episode number matches but the title is completely different or the release date differs by years, these are NOT duplicates — they are different eras or continuations. Include BOTH.
 
-## When unsure
-Call get_album_details to see the track listing, that usually resolves it.
-Only fetch details for albums where the title + track count is genuinely
-ambiguous. Most episodes are obvious from the title alone.
-
-## When the episode pattern doesn't match this batch
-
-Only consider propose_pattern_update when titles in this batch
-CONTAIN digit-string episode numbers that the current pattern
-doesn't match. The captured group MUST yield an integer
-(`int(group)` must succeed) — that's the hard contract enforced
-by the tool, which will reject non-numeric captures.
-
-Example of a legitimate update: pattern is `^Folge (\\d+):` but
-this batch shows `001/Title`, `002/Title`, etc. The new form
-also has digit captures, so call:
-  propose_pattern_update(patterns=["^Folge (\\d+):", "^(\\d+)/"])
-
-When NOT to propose:
-- Titles are structured but have no episode number (e.g. fairy
-  tale names with consistent suffix like `Aschenputtel (Das
-  Original-Hörspiel zur TV Serie)`). Structure ≠ numbering. Leave
-  episode_pattern as None — the framework sorts unnumbered
-  episodes by release_date downstream.
-- Only one or two outliers (specials, untitled releases). Pattern
-  changes need a systematic mismatch.
-- The captured group would be a string, not a digit. Patterns
-  like `^(.+?) \\(Subtitle\\)$` capture story names and get
-  rejected by the tool.
+## Rich metadata
+Each album is provided as XML with: title, release_date, type, tracks_count,
+duration_min, label, artist, and sample tracks. Use these fields to distinguish
+genuine episodes from singles, compilations, or duplicates. No additional
+detail fetching is needed.
 
 ## Important
 - Produce an AlbumDecision for EVERY album in this batch.
@@ -851,117 +968,48 @@ def _build_batch_agent(model, *, is_music: bool = False) -> Agent[BatchDeps, Bat
         retries=2,
     )
 
-    if not is_music:
-        @agent.tool
-        def propose_pattern_update(
-            ctx: RunContext[BatchDeps],
-            patterns: list[str],
-        ) -> str:
-            """Replace the current episode_pattern with a new list.
+    return agent
 
-            Use when the titles in your current batch are episode-numbered
-            but the active pattern doesn't match them. Provide a list
-            (typically the existing pattern(s) PLUS additional regex(es)
-            for the new naming form). Each regex must compile, have
-            ≥1 capture group, AND its first capture group must yield a
-            digit string when matched against the discovery-phase titles
-            — otherwise the pattern is dead weight (it would extract
-            zero episode numbers downstream).
 
-            The new pattern propagates to subsequent batches' prompts
-            and is used to re-extract episode_num across every decision
-            at the end of the run. Don't propose for sporadic outliers —
-            only systematic mismatches.
-            """
-            if not patterns:
-                return "patterns list cannot be empty"
-            for p in patterns:
-                try:
-                    compiled = re.compile(p)
-                except re.error as e:
-                    return f"invalid regex {p!r}: {e}"
-                if compiled.groups < 1:
-                    return f"pattern {p!r}: needs ≥1 capture group"
+def _build_finalize_agent(model) -> Agent[FinalizeDeps, FinalizeResult]:
+    """Agent for post-batch metadata finalization.
 
-            # Verify the proposed pattern actually extracts integer
-            # episode numbers from at least one title. A non-numeric
-            # capture (e.g. `^(.+?) \(Subtitle\)$` capturing story
-            # names) passes the compile check but silently installs
-            # a dead pattern — exactly the SimsalaGrimm regression
-            # we're guarding against. Re-uses the same coverage logic
-            # the metadata phase exposes to the metadata agent.
-            if ctx.deps.titles:
-                check = _compute_pattern_coverage(ctx.deps.titles, patterns)
-                if "error" in check:
-                    return check["error"]
-                if check["matched"] == 0:
-                    non_numeric = check.get("non_numeric_capture_samples") or []
-                    if non_numeric:
-                        sample = non_numeric[0]
-                        return (
-                            f"pattern {patterns!r}: matches titles but "
-                            f"capture group 1 isn't numeric — captured "
-                            f"{sample['captured']!r} from "
-                            f"{sample['title']!r}. Episode numbers must "
-                            f"be int-parseable. Tighten group 1 to "
-                            f"(\\d+) or similar. If the series has no "
-                            f"episode numbers, don't propose a pattern "
-                            f"— leave it as None and the framework "
-                            f"sorts by release_date."
-                        )
-                    return (
-                        f"pattern {patterns!r}: didn't match any of "
-                        f"{len(ctx.deps.titles)} discovery titles. "
-                        f"Check the regex against the sample titles "
-                        f"in your prompt before re-trying."
-                    )
+    Re-examines included albums that lack episode numbers by looking
+    at track listings (especially track 1), which often carry the
+    episode identifier even when the album title doesn't match the
+    current pattern.
+    """
+    agent: Agent[FinalizeDeps, FinalizeResult] = Agent(
+        model,
+        output_type=FinalizeResult,
+        system_prompt="""\
+You are a metadata finalizer for a DACH children's Hörspiel series curation.
 
-            new_pattern: str | list[str] = (
-                patterns[0] if len(patterns) == 1 else list(patterns)
-            )
-            ctx.deps.pattern = new_pattern
-            ctx.deps.pattern_revisions.append(new_pattern)
-            console.print(
-                f"  [cyan]🔄 propose_pattern_update → {new_pattern}[/]",
-            )
-            return (
-                f"Pattern updated to {new_pattern}. Subsequent batches "
-                f"see this pattern; episode_num is re-extracted across "
-                f"all decisions at the end of the run."
-            )
+Some included albums lack episode numbers because their album titles
+don't match the current episode_pattern regex. Your job is to find
+the episode number by inspecting track listings — especially track 1,
+which typically starts with the episode identifier.
+
+For each album provided, you may call get_album_details to fetch the
+track listing if it's not already in the context. Then:
+1. Apply the current episode_pattern to each track name (esp. track 1)
+2. If a track name reveals the episode number, return it in episode_updates
+3. If you discover a SYSTEMATIC new format in track names (e.g. all
+   tracks start with "Folge NNN:" while album titles don't), propose
+   a pattern_update
+
+Be conservative: only return episode_updates where you're confident
+from the track listing. Don't guess.
+""",
+        retries=2,
+    )
 
     @agent.tool
     def get_album_details(
-        ctx: RunContext[BatchDeps], provider: str, album_ids: list[str],
+        ctx: RunContext[FinalizeDeps], provider: str, album_ids: list[str],
     ) -> list[dict]:
-        """Fetch full album details (track listing, label, runtime) from a provider.
-
-        WHEN TO USE:
-        - Title + track count genuinely ambiguous (e.g. "Die schönsten Lieder"
-          could be a music compilation or a Hörspiel with songs inside).
-        - Episode number unclear from title alone.
-        - Unusually high/low track count: 1 track = likely a single; 120+ tracks
-          = possibly a Kopfhörer-Hörspiel or double episode.
-
-        WHEN NOT TO USE:
-        - Title clearly matches the episode pattern — the pattern already
-          extracted the number, no details needed.
-        - Obvious compilation from title alone ("Best of", "Jubiläumsbox",
-          "Folge 1–10") — exclude immediately without burning a tool call.
-
-        BATCHING: Pass up to 5 album IDs in one call. Batch IDs when multiple
-        albums from the same provider are ambiguous.
-
-        Returns: list of {provider, id, name, release_date, total_tracks,
-        label, artists, tracks (first 10)}. ``release_date`` and
-        ``artists`` are populated from the same provider response that
-        gives you the track listing — they're free, no extra fetch.
-        Use ``release_date`` for original-vs-remaster and dedup
-        decisions; ``artists`` to catch cross-artist compilations.
-        """
+        """Fetch full album details (track listing) from a provider."""
         results = []
-        # Same provider/id format guard as the small-flow agent — see
-        # providers/_validate.py for the rationale.
         invalid = [aid for aid in album_ids if not is_valid_id(provider, aid)]
         valid_ids = [aid for aid in album_ids if is_valid_id(provider, aid)]
         for bad in invalid:
@@ -973,7 +1021,6 @@ def _build_batch_agent(model, *, is_music: bool = False) -> Agent[BatchDeps, Bat
         for aid in valid_ids:
             key = f"{provider}:{aid}"
             if key in ctx.deps.seen_details:
-                console.print(f"  [dim]🔎 {provider}:{aid[:8]}… → (cached)[/]")
                 results.append(ctx.deps.seen_details[key])
                 continue
             album = target.album_details(aid)
@@ -988,10 +1035,48 @@ def _build_batch_agent(model, *, is_music: bool = False) -> Agent[BatchDeps, Bat
                                for t in album.tracks[:10]],
                 }
                 ctx.deps.seen_details[key] = detail
-                name = album.name[:40]
-                console.print(f"  [dim]🔎 {provider}:{aid[:8]}… → {album.total_tracks} tracks — {name}[/]")
                 results.append(detail)
         return results
+
+    @agent.tool
+    def propose_pattern_update(
+        ctx: RunContext[FinalizeDeps],
+        patterns: list[str],
+    ) -> str:
+        """Propose an updated episode_pattern regex.
+
+        Only use if track listings reveal a systematic new format that
+        the current pattern doesn't catch. Verify the new pattern
+        actually extracts digit/integer episode numbers from album titles
+        (not just track names — the pattern must work on titles too).
+        """
+        if not patterns:
+            return "patterns list cannot be empty"
+        for p in patterns:
+            try:
+                compiled = re.compile(p)
+            except re.error as e:
+                return f"invalid regex {p!r}: {e}"
+            if compiled.groups < 1:
+                return f"pattern {p!r}: needs ≥1 capture group"
+
+        if ctx.deps.titles:
+            check = _compute_pattern_coverage(ctx.deps.titles, patterns)
+            if "error" in check:
+                return check["error"]
+            if check["matched"] == 0:
+                return (
+                    f"pattern {patterns!r}: didn't match any album titles. "
+                    f"Track-name-only patterns are not useful here."
+                )
+
+        new_pattern: str | list[str] = (
+            patterns[0] if len(patterns) == 1 else list(patterns)
+        )
+        console.print(
+            f"  [cyan]🔄 finalize propose_pattern_update → {new_pattern}[/]",
+        )
+        return f"Pattern updated to {new_pattern}."
 
     return agent
 
@@ -1017,7 +1102,7 @@ async def _run_agent(agent, prompt, deps):
                     # Show thinking in a dim panel
                     console.print(
                         Panel(
-                            text.strip()[:500],
+                            escape(text.strip()[:500]),
                             border_style="dim",
                             title="💭 reasoning",
                             padding=(0, 1),
@@ -1074,6 +1159,7 @@ async def _run_small(
     timeout: int,
     existing_curation: dict | None = None,
     is_music: bool = False,
+    known_artist_ids: dict[str, list[str]] | None = None,
 ) -> CuratedSeries:
     agent = _build_small_agent(model_name, api_key, is_music=is_music)
     deps = Deps(providers=providers)
@@ -1110,12 +1196,42 @@ async def _run_small(
     for entries in deps.seen_albums.values():
         for src in entries:
             album_index[(src["provider"], src["id"])] = src
+
+    # If the series has configured artist_ids, constrain decisions to
+    # albums from those artists only. Prevents the agent's free search
+    # from pulling in unrelated artists (e.g. a shared label artist).
+    known = known_artist_ids or {}
+    if known:
+        allowed_keys: set[tuple[str, str]] = set()
+        for key, entries in deps.seen_albums.items():
+            prov, _, aid = key.partition(":")
+            if aid in (known.get(prov) or []):
+                for src in entries:
+                    allowed_keys.add((src["provider"], src["id"]))
+        before = len(series.albums)
+        series.albums = [d for d in series.albums
+                         if (d.provider, d.album_id) in allowed_keys]
+        dropped = before - len(series.albums)
+        if dropped:
+            console.print(
+                f"  [yellow]⚠ Filtered {dropped} decision(s) from "
+                f"unconfigured artists (kept {len(series.albums)} from "
+                f"known artist_ids)[/]",
+            )
+        # Rebuild album_index from allowed albums only so
+        # _restore_dropped_albums doesn't pull in extras.
+        album_index = {
+            k: v for k, v in album_index.items() if k in allowed_keys
+        }
+
     for d in series.albums:
         if d.release_date:
             continue
         src = album_index.get((d.provider, d.album_id))
         if src:
             d.release_date = src.get("release_date") or None
+
+    _restore_dropped_albums(series.albums, album_index)
 
     return series
 
@@ -1141,60 +1257,105 @@ async def _run_large(
     all_albums: list[dict] = []
     artist_ids: dict[str, list[str]] = {}
     known_artist_ids = known_artist_ids or {}
+    provider_errors: list[str] = []
+    provider_album_counts: dict[str, int] = {}
 
     for p in providers:
         known = known_artist_ids.get(p.name) or []
-        if known:
-            # Canonical IDs from series.yaml. Skip search entirely; using
-            # search_artists for known series risks picking the wrong
-            # artist when there's a same-named band. This is the same
-            # principle as _lock_series_id — series.yaml is authoritative
-            # for identity.
-            for aid in known:
-                artist_ids.setdefault(p.name, []).append(aid)
-                albums = p.artist_albums(aid)
+        try:
+            if known:
+                # Canonical IDs from series.yaml. Skip search entirely; using
+                # search_artists for known series risks picking the wrong
+                # artist when there's a same-named band. This is the same
+                # principle as _lock_series_id — series.yaml is authoritative
+                # for identity.
+                for aid in known:
+                    artist_ids.setdefault(p.name, []).append(aid)
+                    albums = p.artist_albums(aid)
+                    console.print(
+                        f"  [{p.name}] canonical artist: [{aid}] → {len(albums)} albums",
+                    )
+                    for a in albums:
+                        all_albums.append({
+                            "provider": p.name, "id": a.id, "name": a.name,
+                            "release_date": a.release_date,
+                            "total_tracks": a.total_tracks,
+                        })
+                continue
+
+            artists = p.search_artists(query)
+            if not artists:
+                console.print(f"  [{p.name}] No artist found")
+                continue
+
+            # No canonical id → fall back to search. Log the chosen artist's
+            # name (not just the id) so the user can spot wrong-disambiguation
+            # at glance, and flag if the search returned multiple plausible
+            # candidates so they know it's a guess.
+            artist = artists[0]
+            artist_ids.setdefault(p.name, []).append(artist.id)
+            if len(artists) > 1:
+                others = ", ".join(a.name for a in artists[1:4])
                 console.print(
-                    f"  [{p.name}] canonical artist: [{aid}] → {len(albums)} albums",
+                    f"  [{p.name}] [yellow]chose[/] [bold]{artist.name}[/] "
+                    f"[{artist.id}] (also matched: {others})",
                 )
-                for a in albums:
-                    all_albums.append({
-                        "provider": p.name, "id": a.id, "name": a.name,
-                        "release_date": a.release_date,
-                        "total_tracks": a.total_tracks,
-                    })
-            continue
+            else:
+                console.print(
+                    f"  [{p.name}] Artist: [bold]{artist.name}[/] [{artist.id}]",
+                )
 
-        artists = p.search_artists(query)
-        if not artists:
-            console.print(f"  [{p.name}] No artist found")
-            continue
+            albums = p.artist_albums(artist.id)
+            for a in albums:
+                all_albums.append({
+                    "provider": p.name, "id": a.id, "name": a.name,
+                    "release_date": a.release_date, "total_tracks": a.total_tracks,
+                })
+            console.print(f"  [{p.name}] {len(albums)} albums")
+            provider_album_counts[p.name] = len(albums)
+        except Exception as e:
+            err = f"{type(e).__name__}: {e}" if str(e) else type(e).__name__
+            console.print(f"  [red][{p.name}] Discovery failed: {err}[/]")
+            provider_errors.append(f"{p.name}: {err}")
 
-        # No canonical id → fall back to search. Log the chosen artist's
-        # name (not just the id) so the user can spot wrong-disambiguation
-        # at glance, and flag if the search returned multiple plausible
-        # candidates so they know it's a guess.
-        artist = artists[0]
-        artist_ids.setdefault(p.name, []).append(artist.id)
-        if len(artists) > 1:
-            others = ", ".join(a.name for a in artists[1:4])
-            console.print(
-                f"  [{p.name}] [yellow]chose[/] [bold]{artist.name}[/] "
-                f"[{artist.id}] (also matched: {others})",
-            )
-        else:
-            console.print(
-                f"  [{p.name}] Artist: [bold]{artist.name}[/] [{artist.id}]",
-            )
+    # Mark as incomplete when a provider errors out, or when one
+    # provider has zero albums while another has data.
+    incomplete = bool(provider_errors)
+    if not incomplete and provider_album_counts:
+        max_count = max(provider_album_counts.values())
+        for name, count in provider_album_counts.items():
+            if count == 0 and max_count > 0:
+                incomplete = True
+                provider_errors.append(
+                    f"{name}: 0 albums while another provider has {max_count}"
+                )
 
-        albums = p.artist_albums(artist.id)
-        for a in albums:
-            all_albums.append({
-                "provider": p.name, "id": a.id, "name": a.name,
-                "release_date": a.release_date, "total_tracks": a.total_tracks,
-            })
-        console.print(f"  [{p.name}] {len(albums)} albums")
+    if incomplete:
+        console.print(
+            f"  [yellow]⚠ Curation marked incomplete: "
+            f"{'; '.join(provider_errors)}[/]",
+        )
 
     console.print(f"\n  Total: {len(all_albums)} albums across {len(providers)} providers\n")
+
+    # ── Step 2a: Pre-fetch full album details ─────────────────────────
+    # Every agent needs full metadata (tracks, label, duration) to make
+    # good decisions. Fetching upfront eliminates reactive tool calls
+    # in the batch agent and guarantees consistent metadata across all
+    # pipeline phases.
+    console.print("[dim]  Pre-fetching album details…[/]")
+    prefetch_details: dict[str, dict] = {}
+    for a in all_albums:
+        provider = next((p for p in providers if p.name == a["provider"]), None)
+        if not provider:
+            continue
+        key = f"{a['provider']}:{a['id']}"
+        if key in prefetch_details:
+            continue
+        detail = provider.album_details(a["id"])
+        if detail:
+            prefetch_details[key] = album_to_dict(detail)
+    console.print(f"  [dim]→ {len(prefetch_details)} albums with full metadata[/]\n")
 
     # ── Step 2: Metadata extraction (tiny call, no tools) ──────────────
     console.print("[bold cyan]Metadata[/]\n")
@@ -1226,7 +1387,7 @@ async def _run_large(
                 f"{sample_lines}",
                 deps=meta_deps,
             ),
-            timeout=120,
+            timeout=300,
         ),
         phase="metadata",
     )
@@ -1236,7 +1397,7 @@ async def _run_large(
 
     # Orchestrator-side safety net: if the agent skipped or fumbled the
     # check_pattern_coverage tool, surface low coverage loudly. The
-    # batch agent's propose_pattern_update tool is the recovery path,
+    # finalize agent's propose_pattern_update tool is the recovery path,
     # but a heads-up here lets a human spot the issue early.
     if meta.episode_pattern and not is_music:
         from lauschi_catalog.catalog.matcher import extract_episode
@@ -1252,7 +1413,7 @@ async def _run_large(
             console.print(
                 f"  [yellow]⚠ Low metadata-phase pattern coverage: "
                 f"{matched}/{len(all_titles)} = {coverage:.0%}. "
-                f"Batch agent may revise via propose_pattern_update.[/]",
+                f"Finalize agent may revise via propose_pattern_update.[/]",
             )
             for t in unmatched:
                 console.print(f"  [dim]unmatched: {t[:80]}[/]")
@@ -1284,6 +1445,7 @@ async def _run_large(
         providers=providers,
         pattern=meta.episode_pattern,
         titles=all_titles,
+        seen_details=prefetch_details,
     )
 
     all_decisions: list[AlbumDecision] = []
@@ -1302,24 +1464,62 @@ async def _run_large(
         else:
             progress = f"Progress: {total_inc} included, {total_exc} excluded."
 
-        album_lines = "\n".join(
-            f"  {a['provider']}:{a['id']} | {a['name']} | "
-            f"{a['total_tracks']} tracks | {a['release_date']}"
-            for a in batch
+        rolling = _build_batch_summary(
+            all_decisions, shared_deps.pattern, batch_num,
         )
-        # Use shared_deps.pattern (not meta.episode_pattern) so any
-        # revision made in an earlier batch is visible here.
+
+        # Build unified album metadata for the XML prompt
+        batch_albums: list[dict] = []
+        for a in batch:
+            key = f"{a['provider']}:{a['id']}"
+            detail = shared_deps.seen_details.get(key)
+            if detail:
+                batch_albums.append(detail)
+            else:
+                batch_albums.append({
+                    "provider": a["provider"],
+                    "id": a["id"],
+                    "title": a["name"],
+                    "episode_num": None,
+                    "release_date": a.get("release_date", ""),
+                    "album_type": "",
+                    "total_tracks": a.get("total_tracks", 0),
+                    "duration_min": None,
+                    "label": "",
+                    "artist": "",
+                    "tracks": [],
+                })
+        album_xml = format_albums_xml(batch_albums, include_tracks=True)
+
         prompt = (
             f"Series: {meta.title!r}\n"
             f"Episode pattern: {shared_deps.pattern}\n"
-            f"{progress}\n\n"
-            f"Batch {batch_num}/{len(batches)} ({len(batch)} albums):\n\n"
-            f"{album_lines}"
+            f"{progress}\n"
+        )
+        if rolling:
+            prompt += f"{rolling}\n"
+        prompt += (
+            f"\nBatch {batch_num}/{len(batches)} ({len(batch)} albums):\n"
+            f"\n"
+            f"[CRITICAL] Each provider is a separate catalog. "
+            f"If this batch contains an album from provider X with the same "
+            f"episode number as a prior included album from provider Y, "
+            f"you MUST include it — parents need both provider versions.\n"
+            f"\n"
+            f"Duplicate detection rules:\n"
+            f"- Same provider + same episode number + similar title = duplicate\n"
+            f"- Same provider + same episode number BUT different title OR "
+            f"release_date differs by 5+ years = different era/continuation, "
+            f"include BOTH\n"
+            f"- Use <type> (album/single/compilation/ep), <label>, and "
+            f"<duration_min> to distinguish genuine episodes from singles/compilations\n"
+            f"\n"
+            f"{album_xml}"
         )
 
         result: BatchResult = await _run_with_retry(
             lambda p=prompt: asyncio.wait_for(
-                _run_agent(batch_agent, p, shared_deps), timeout=300,
+                _run_agent(batch_agent, p, shared_deps), timeout=600,
             ),
             phase=f"batch {batch_num}/{len(batches)}",
         )
@@ -1376,6 +1576,104 @@ async def _run_large(
             f"numbers across all batches.[/]\n",
         )
 
+    # Detect silently-dropped albums: every discovered album must have a
+    # decision. If the agent omitted one, add it as "not_decided" so the
+    # human notices rather than it vanishing from the catalog.
+    batch_index = {(a["provider"], a["id"]): a for a in all_albums}
+    _restore_dropped_albums(all_decisions, batch_index)
+
+    # ── Finalize metadata: extract episode numbers from track listings ──
+    final_pattern = shared_deps.pattern
+    if not is_music:
+        unnumbered = [
+            d for d in all_decisions
+            if d.include and d.episode_num is None
+        ]
+        if unnumbered:
+            console.print(
+                f"[bold cyan]Finalize[/] — {len(unnumbered)} included albums "
+                f"lack episode numbers. Inspecting track listings...\n",
+            )
+            finalize_agent = _build_finalize_agent(model)
+            # Build prompt with album titles and any cached track listings
+            lines: list[str] = []
+            for d in unnumbered[:50]:  # cap to keep prompt size reasonable
+                key = f"{d.provider}:{d.album_id}"
+                detail = shared_deps.seen_details.get(key)
+                tracks = ""
+                if detail and detail.get("tracks"):
+                    track_names = [t["name"] for t in detail["tracks"][:5]]
+                    tracks = " | tracks: " + " | ".join(track_names[:3])
+                lines.append(
+                    f"  {d.provider}:{d.album_id} | {d.title}{tracks}"
+                )
+            finalize_prompt = (
+                f"Series: {meta.title!r}\n"
+                f"Episode pattern: {shared_deps.pattern}\n\n"
+                f"Included albums missing episode numbers ({len(unnumbered)} total):\n"
+                f"\n".join(lines)
+            )
+            finalize_deps = FinalizeDeps(
+                providers=providers,
+                seen_details=shared_deps.seen_details,
+                pattern=shared_deps.pattern,
+                titles=all_titles,
+            )
+            try:
+                finalize_result: FinalizeResult = await _run_with_retry(
+                    lambda: asyncio.wait_for(
+                        _run_agent(finalize_agent, finalize_prompt, finalize_deps),
+                        timeout=300,
+                    ),
+                    phase="finalize",
+                )
+                # Apply episode updates
+                updated = 0
+                for upd in finalize_result.episode_updates:
+                    for d in all_decisions:
+                        if d.album_id == upd.get("album_id") and d.provider == upd.get("provider"):
+                            d.episode_num = upd.get("episode_num")
+                            updated += 1
+                            break
+                if updated:
+                    console.print(
+                        f"  [green]Finalize set {updated} episode numbers from "
+                        f"track listings.[/]\n",
+                    )
+                # Apply pattern update if proposed
+                if finalize_result.proposed_pattern_update is not None:
+                    shared_deps.pattern = finalize_result.proposed_pattern_update
+                    shared_deps.pattern_revisions.append(
+                        finalize_result.proposed_pattern_update,
+                    )
+                    console.print(
+                        f"  [cyan]🔄 Finalize proposed pattern update → "
+                        f"{finalize_result.proposed_pattern_update}[/]\n",
+                    )
+            except Exception as exc:
+                console.print(
+                    f"  [yellow]⚠ Finalize phase failed: {exc}. "
+                    f"Proceeding with batch results.[/]\n",
+                )
+
+        # Re-extract episode numbers with the final pattern (post-finalize)
+        final_pattern = shared_deps.pattern
+        if shared_deps.pattern_revisions and final_pattern is not None:
+            from lauschi_catalog.catalog.matcher import extract_episode
+
+            re_extracted = 0
+            for d in all_decisions:
+                new_ep = extract_episode(final_pattern, d.title)
+                if new_ep is not None and new_ep != d.episode_num:
+                    d.episode_num = new_ep
+                    re_extracted += 1
+            if re_extracted:
+                console.print(
+                    f"  [cyan]Pattern revised: {meta.episode_pattern!r} "
+                    f"→ {final_pattern!r}. Re-extracted {re_extracted} episode "
+                    f"numbers across all batches.[/]\n",
+                )
+
     return CuratedSeries(
         id=meta.id,
         title=meta.title,
@@ -1385,6 +1683,8 @@ async def _run_large(
         provider_artist_ids=meta.provider_artist_ids,
         age_note=meta.age_note,
         curator_notes=meta.curator_notes,
+        incomplete=incomplete,
+        incomplete_reason="; ".join(provider_errors) if incomplete else "",
     )
 
 
@@ -1429,6 +1729,7 @@ async def run_curation(
             model_name=model_name, api_key=api_key,
             timeout=timeout, existing_curation=existing_curation,
             is_music=is_music,
+            known_artist_ids=known_artist_ids,
         )
     else:
         console.print(f"  {total_albums} albums — using [bold]batched[/] flow\n")
@@ -1483,6 +1784,25 @@ def save_curation(series: CuratedSeries) -> Path:
             )
             raise SystemExit(1)
 
+    # If the album list changed substantively (different count or IDs),
+    # action proposals in the review block reference stale album IDs.
+    # Clear them so the next review starts from a clean slate.
+    old_albums = data.get("albums", [])
+    new_album_ids = {a.album_id for a in series.albums}
+    old_album_ids = {a.get("album_id") for a in old_albums if a.get("album_id")}
+    if old_album_ids and new_album_ids != old_album_ids:
+        review = data.get("review", {})
+        if review:
+            for key in ("overrides", "splits", "added_albums", "pattern_update"):
+                review.pop(key, None)
+            # Reset verification too since review state changed
+            review.pop("verification", None)
+            data["review"] = review
+        console.print(
+            f"  [yellow]Album set changed ({len(old_album_ids)} → {len(new_album_ids)}). "
+            f"Cleared stale review action proposals.[/yellow]"
+        )
+
     data.update({
         "id": series.id,
         "title": series.title,
@@ -1494,6 +1814,8 @@ def save_curation(series: CuratedSeries) -> Path:
         "curator_notes": series.curator_notes,
         "curated_at": datetime.now(UTC).isoformat(),
         "albums": [a.model_dump() for a in series.albums],
+        "incomplete": series.incomplete,
+        "incomplete_reason": series.incomplete_reason,
     })
 
     canonicalize(data)

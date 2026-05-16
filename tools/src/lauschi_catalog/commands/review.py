@@ -29,10 +29,11 @@ from rich.console import Console
 from rich.markup import escape
 from rich.panel import Panel
 
-from lauschi_catalog.catalog.analysis import analyze_series, effective_albums
+from lauschi_catalog.catalog.analysis import analyze_series
 from lauschi_catalog.catalog.canonical import canonicalize
 from lauschi_catalog.catalog.lifecycle import review_is_stale
 from lauschi_catalog.catalog.matcher import compute_pattern_coverage
+from lauschi_catalog.catalog.prompt import curation_album_to_dict, format_albums_xml
 from lauschi_catalog.providers import CatalogProvider
 from lauschi_catalog.retry import is_retryable
 
@@ -296,6 +297,7 @@ class Deps:
     _split_count: int = field(default=0, init=False)
     _add_count: int = field(default=0, init=False)
     _pattern_count: int = field(default=0, init=False)
+    _provider_search_count: int = field(default=0, init=False)
     # Caps split by cost profile. External-cost tools (web_search,
     # fetch_page, album_details, and add_album which calls
     # album_details internally) stay tightly capped — those map to
@@ -313,6 +315,7 @@ class Deps:
     _MAX_FETCHES: int = 3
     _MAX_DETAILS: int = 10
     _MAX_ADDS: int = 10
+    _MAX_PROVIDER_SEARCHES: int = 10
 
 
 def _try_record_override(
@@ -393,7 +396,19 @@ Proposals:
   those. Apply never auto-removes; the proposal surfaces for human
   review via log-summary.
 
-If a tool returns an error, fix the args — don't keep retrying.
+## Tool limits (hard caps)
+
+Some tools have per-run caps. When a tool responds with "limit
+reached", do NOT call that tool again — use what you already have
+and move on. This is normal, not an error.
+
+- ``web_search``: max 5 calls
+- ``fetch_page``: max 3 calls
+- ``album_details``: max 10 calls
+- ``add_album``: max 10 calls
+
+If a tool returns an error about args or missing data, fix the
+args and retry. If it returns "limit reached", stop calling it.
 
 ## Output
 
@@ -489,7 +504,7 @@ def _build_agent(
         - ``site:hoerspiele.de "Series Name"``
         """
         if ctx.deps._search_count >= ctx.deps._MAX_SEARCHES:
-            return [{"error": f"Search limit reached (max {ctx.deps._MAX_SEARCHES})."}]
+            return [{"result": f"web_search limit reached ({ctx.deps._search_count}/{ctx.deps._MAX_SEARCHES}). Do not call web_search again; proceed with current knowledge."}]
         ctx.deps._search_count += 1
 
         from lauschi_catalog.search import brave_search
@@ -511,7 +526,7 @@ def _build_agent(
         episode listings.
         """
         if ctx.deps._fetch_count >= ctx.deps._MAX_FETCHES:
-            return f"Fetch limit reached (max {ctx.deps._MAX_FETCHES})."
+            return f"fetch_page limit reached ({ctx.deps._fetch_count}/{ctx.deps._MAX_FETCHES}). Do not call fetch_page again; proceed with current knowledge."
         ctx.deps._fetch_count += 1
 
         from lauschi_catalog.search import fetch_page as _fetch
@@ -543,7 +558,7 @@ def _build_agent(
             return ctx.deps.seen_details[key]
 
         if ctx.deps._details_count >= ctx.deps._MAX_DETAILS:
-            return {"error": f"Album details limit reached (max {ctx.deps._MAX_DETAILS})."}
+            return {"result": f"album_details limit reached ({ctx.deps._details_count}/{ctx.deps._MAX_DETAILS}). Do not call album_details again; proceed with current knowledge."}
         ctx.deps._details_count += 1
 
         target = next((p for p in ctx.deps.providers if p.name == provider_name), None)
@@ -567,6 +582,38 @@ def _build_agent(
             f"[{ctx.deps._details_count}/{ctx.deps._MAX_DETAILS}][/]",
         )
         return result
+
+    @agent.tool
+    def search_albums(
+        ctx: RunContext[Deps], provider_name: str, query: str,
+    ) -> list[dict]:
+        """Search a provider's catalog for albums matching a query.
+
+        Use when you know an episode exists (from web_search evidence)
+        but don't have its album_id yet. Search with the series title
+        + episode number to find the specific album, then call
+        album_details to verify, then add_album to include it.
+
+        Capped at Deps._MAX_PROVIDER_SEARCHES.
+        """
+        if ctx.deps._provider_search_count >= ctx.deps._MAX_PROVIDER_SEARCHES:
+            return [{"error": f"search_albums limit reached ({ctx.deps._provider_search_count}/{ctx.deps._MAX_PROVIDER_SEARCHES})."}]
+        ctx.deps._provider_search_count += 1
+
+        target = next((p for p in ctx.deps.providers if p.name == provider_name), None)
+        if not target:
+            return [{"error": f"Provider {provider_name} not available"}]
+        albums = target.search_albums(query, limit=5)
+        results = [
+            {"id": a.id, "name": a.name, "release_date": a.release_date, "total_tracks": a.total_tracks}
+            for a in albums
+        ]
+        console.print(
+            f"  [dim]🔍 search_albums({provider_name}, {query!r}) "
+            f"→ {len(results)} results "
+            f"[{ctx.deps._provider_search_count}/{ctx.deps._MAX_PROVIDER_SEARCHES}][/]",
+        )
+        return results
 
     @agent.tool
     def add_album(
@@ -606,7 +653,7 @@ def _build_agent(
             return f"Not found: {album_id}"
 
         if ctx.deps._add_count >= ctx.deps._MAX_ADDS:
-            return f"Add limit reached (max {ctx.deps._MAX_ADDS})."
+            return f"add_album limit reached ({ctx.deps._add_count}/{ctx.deps._MAX_ADDS}). Do not call add_album again; proceed with current knowledge."
         ctx.deps._add_count += 1
 
         from lauschi_catalog.catalog.matcher import extract_episode
@@ -958,8 +1005,8 @@ def _build_agent(
             f"  [dim]🗑️ propose_removal → {reason.strip()[:80]}…[/]",
         )
         return (
-            f"Removal proposal recorded. The series will surface in "
-            f"catalog-log-summary as ATTENTION; no automatic deletion."
+            "Removal proposal recorded. The series will surface in "
+            "catalog-log-summary as ATTENTION; no automatic deletion."
         )
 
     return agent
@@ -1010,6 +1057,17 @@ def _build_prompt(curation: dict) -> str:
         f"Provider artist IDs: {artist_ids}",
         "",
     ]
+
+    if curation.get("incomplete"):
+        reason = curation.get("incomplete_reason", "unknown")
+        lines.extend([
+            "### ⚠️ INCOMPLETE CURATION",
+            f"Discovery failed or returned partial data: {reason}",
+            "Do NOT approve this curation. Escalate or propose actions "
+            "that account for missing provider data.",
+            "",
+        ])
+
     if content_type == "music":
         lines.extend([
             "### Music artist — different rules apply",
@@ -1024,32 +1082,24 @@ def _build_prompt(curation: dict) -> str:
             " mixed into a music artist.",
             "",
         ])
+    included_xml = format_albums_xml(
+        [curation_album_to_dict(a) for a in included],
+        include_tracks=False,
+    )
+    excluded_xml = format_albums_xml(
+        [curation_album_to_dict(a) for a in excluded[:30]],
+        include_tracks=False,
+    )
+
     lines.extend([
         "### Structural analysis",
         json.dumps(analysis, indent=2, ensure_ascii=False),
         "",
         f"### Included albums ({len(included)})",
+        included_xml,
     ])
-    for a in included:
-        ep = a.get("episode_num")
-        ep_str = f"Ep {ep}: " if ep is not None else ""
-        rel = a.get("release_date") or ""
-        rel_str = f" ({rel})" if rel else ""
-        lines.append(
-            f"  ✅ [{a.get('provider', '?')}] {ep_str}{a['title']}"
-            f"{rel_str} [{a['album_id']}]",
-        )
-
     lines.append(f"\n### Excluded albums ({len(excluded)})")
-    for a in excluded[:30]:
-        reason = a.get("exclude_reason", "")
-        suffix = f" — {reason}" if reason else ""
-        rel = a.get("release_date") or ""
-        rel_str = f" ({rel})" if rel else ""
-        lines.append(
-            f"  ❌ [{a.get('provider', '?')}] {a['title']}"
-            f"{rel_str} [{a['album_id']}]{suffix}",
-        )
+    lines.append(excluded_xml)
     if len(excluded) > 30:
         lines.append(f"  … and {len(excluded) - 30} more")
 

@@ -193,6 +193,7 @@ class SpotifyProvider(CatalogProvider):
                 provider="spotify",
                 release_date=a.get("release_date", ""),
                 total_tracks=a.get("total_tracks", 0),
+                album_type=a.get("album_type", ""),
             )
             for a in raw
         ]
@@ -216,6 +217,7 @@ class SpotifyProvider(CatalogProvider):
             release_date=data.get("release_date", ""),
             total_tracks=data.get("total_tracks", 0),
             label=data.get("label", ""),
+            album_type=data.get("album_type", ""),
             tracks=[
                 Track(name=t["name"], duration_ms=t.get("duration_ms", 0))
                 for t in data.get("tracks", {}).get("items", [])

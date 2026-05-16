@@ -181,6 +181,17 @@ class AppleMusicProvider(CatalogProvider):
             .get("data", [])
         )
 
+        # Derive album_type from Apple Music flags
+        am_type = ""
+        if attrs.get("isSingle"):
+            am_type = "single"
+        elif attrs.get("isCompilation"):
+            am_type = "compilation"
+        elif attrs.get("trackCount", 0) <= 5:
+            am_type = "ep"
+        else:
+            am_type = "album"
+
         return Album(
             id=data["id"],
             name=attrs["name"],
@@ -188,6 +199,7 @@ class AppleMusicProvider(CatalogProvider):
             release_date=attrs.get("releaseDate", ""),
             total_tracks=attrs.get("trackCount", 0),
             artists=attrs.get("artistName", ""),
+            album_type=am_type,
             tracks=[
                 Track(
                     name=t["attributes"]["name"],
