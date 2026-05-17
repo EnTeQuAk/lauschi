@@ -1013,6 +1013,68 @@ def _build_agent(
             "catalog-log-summary as ATTENTION; no automatic deletion."
         )
 
+    @agent.tool
+    def propose_series_facts(
+        ctx: RunContext[Deps],
+        era_boundaries: list[dict] | None = None,
+        known_gaps: list[dict] | None = None,
+        sub_series: list[dict] | None = None,
+    ) -> str:
+        """Override or augment the series_facts discovered by curate.
+
+        Use when the curate-proposed facts are wrong, incomplete, or
+        missing. Each call REPLACES the prior facts entirely — so
+        include ALL facts you want, not just changes.
+
+        Only propose facts supported by the album data. Be conservative.
+        """
+        from lauschi_catalog.catalog.facts import EraBoundary, KnownGap, SubSeriesFact
+
+        facts = ctx.deps.curation.setdefault("series_facts", {})
+        recorded: list[str] = []
+
+        if era_boundaries is not None:
+            facts["era_boundaries"] = [
+                {
+                    "label": e.get("label", ""),
+                    "release_date_range": e.get("release_date_range", ""),
+                    "discovered_by": "review",
+                }
+                for e in era_boundaries
+            ]
+            recorded.append(f"{len(era_boundaries)} era(s)")
+
+        if known_gaps is not None:
+            facts["known_gaps"] = [
+                {
+                    "number": g.get("number"),
+                    "reason": g.get("reason", ""),
+                    "discovered_by": "review",
+                }
+                for g in known_gaps
+            ]
+            recorded.append(f"{len(known_gaps)} gap(s)")
+
+        if sub_series is not None:
+            facts["sub_series"] = [
+                {
+                    "label": s.get("label", ""),
+                    "album_ids": s.get("album_ids", []),
+                    "reason": s.get("reason", ""),
+                    "discovered_by": "review",
+                }
+                for s in sub_series
+            ]
+            recorded.append(f"{len(sub_series)} sub-series")
+
+        if not recorded:
+            return "No changes proposed."
+
+        console.print(
+            f"  [cyan]📊 review propose_series_facts → {', '.join(recorded)}[/]",
+        )
+        return f"Updated series_facts: {', '.join(recorded)}."
+
     return agent
 
 
@@ -1071,6 +1133,28 @@ def _build_prompt(curation: dict) -> str:
             "that account for missing provider data.",
             "",
         ])
+
+    # Series facts discovered by curate
+    facts = curation.get("series_facts")
+    if facts:
+        lines.append("### Series facts (discovered by curate)")
+        for e in facts.get("era_boundaries", []):
+            lines.append(
+                f"  • Era: {e.get('label', '?')} ({e.get('release_date_range', '?')})"
+            )
+        for g in facts.get("known_gaps", []):
+            lines.append(
+                f"  • Known gap: episode {g.get('number', '?')} — {g.get('reason', '')}"
+            )
+        for s in facts.get("sub_series", []):
+            lines.append(
+                f"  • Sub-series: {s.get('label', '?')} — {s.get('reason', '')}"
+            )
+        if facts.get("verify_status") == "disagreed":
+            lines.append(
+                f"  ⚠ Verify disagreed: {facts.get('verify_reasoning', '')}"
+            )
+        lines.append("")
 
     if content_type == "music":
         lines.extend([

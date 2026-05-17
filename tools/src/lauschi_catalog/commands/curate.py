@@ -34,6 +34,7 @@ from rich.panel import Panel
 from rich.table import Table
 
 from lauschi_catalog.catalog.canonical import canonicalize
+from lauschi_catalog.catalog.facts import SeriesFacts
 from lauschi_catalog.catalog.matcher import compute_pattern_coverage as _compute_pattern_coverage
 from lauschi_catalog.catalog.prompt import album_to_dict, format_albums_xml
 from lauschi_catalog.providers import Album, CatalogProvider
@@ -209,6 +210,10 @@ class CuratedSeries(BaseModel):
     # Content type: "hoerspiel" (default) or "music". Persisted in the
     # curation JSON so re-curation picks the right AI prompt.
     content_type: str = "hoerspiel"
+    # Structured facts discovered from the discography: era_boundaries,
+    # known_gaps, sub_series. Proposed by curate (finalize agent), may be
+    # overridden by review, flagged by verify, frozen into series.yaml.
+    series_facts: SeriesFacts | None = None
     # True when a provider failed during discovery or returned zero
     # albums while another provider had data. Signals that the curation
     # may be incomplete and should be re-run once the provider issue
@@ -320,12 +325,16 @@ class FinalizeDeps:
 
     Carries cached album details from the batch phase so the
     finalize agent can inspect track listings without re-fetching.
+    Also carries existing frozen facts (from series.yaml) so the
+    agent only proposes genuinely new ones.
     """
 
     providers: list[CatalogProvider]
     seen_details: dict[str, dict] = field(default_factory=dict)
     pattern: str | list[str] | None = None
     titles: list[str] = field(default_factory=list)
+    existing_facts: SeriesFacts | None = None
+    proposed_facts: SeriesFacts | None = field(default=None, init=False)
 
 
 class FinalizeResult(BaseModel):
@@ -344,6 +353,10 @@ class FinalizeResult(BaseModel):
     proposed_pattern_update: str | list[str] | None = Field(
         default=None,
         description="If track listings reveal a systematic new format not caught by the current pattern, propose an updated regex. Null if no change needed.",
+    )
+    series_facts: SeriesFacts | None = Field(
+        default=None,
+        description="Structural facts discovered from the full discography: era boundaries, known gaps, sub-series. Only propose NEW facts not already in existing_facts.",
     )
 
 
@@ -814,6 +827,23 @@ track listing if it's not already in the context. Then:
    tracks start with "Folge NNN:" while album titles don't), propose
    a pattern_update
 
+## Series facts
+
+After handling episode numbers, analyze the series structure and propose
+facts: era_boundaries, known_gaps, sub_series. Use the propose_series_facts
+tool. Only propose NEW facts not already documented in the existing facts
+provided in the prompt.
+
+- era_boundaries: contiguous time periods with distinct naming conventions.
+  E.g., "1976-1979 klassik" vs "2015-2018 cgi_reboot" vs "2025- continuation".
+  Derived from release_date clustering and title patterns.
+- known_gaps: episode numbers that are genuinely missing (legal disputes,
+  skipped numbers), NOT curation errors.
+- sub_series: spin-offs or sub-series that belong in a separate catalog entry.
+
+Be conservative: only propose facts you're confident about from the data.
+If existing facts are already comprehensive, leave series_facts null.
+
 Be conservative: only return episode_updates where you're confident
 from the track listing. Don't guess.
 """,
@@ -893,6 +923,77 @@ from the track listing. Don't guess.
             f"  [cyan]🔄 finalize propose_pattern_update → {new_pattern}[/]",
         )
         return f"Pattern updated to {new_pattern}."
+
+    @agent.tool
+    def propose_series_facts(
+        ctx: RunContext[FinalizeDeps],
+        era_boundaries: list[dict] | None = None,
+        known_gaps: list[dict] | None = None,
+        sub_series: list[dict] | None = None,
+    ) -> str:
+        """Propose structured facts about the series.
+
+        Only propose facts not already present in existing_facts.
+        Each fact must have a clear justification based on the
+        discography data (release_date clustering, title patterns).
+        """
+        from lauschi_catalog.catalog.facts import EraBoundary, KnownGap, SubSeriesFact
+
+        existing = ctx.deps.existing_facts or SeriesFacts()
+        new_facts = SeriesFacts()
+        recorded: list[str] = []
+
+        # era_boundaries
+        if era_boundaries:
+            existing_labels = {e.label for e in existing.era_boundaries}
+            for raw in era_boundaries:
+                label = raw.get("label", "")
+                if label in existing_labels:
+                    continue
+                new_facts.era_boundaries.append(EraBoundary(
+                    label=label,
+                    release_date_range=raw.get("release_date_range", ""),
+                    discovered_by="curate",
+                ))
+                recorded.append(f"era: {label}")
+
+        # known_gaps
+        if known_gaps:
+            existing_nums = {g.number for g in existing.known_gaps}
+            for raw in known_gaps:
+                num = raw.get("number")
+                if num in existing_nums:
+                    continue
+                new_facts.known_gaps.append(KnownGap(
+                    number=num,
+                    reason=raw.get("reason", ""),
+                    discovered_by="curate",
+                ))
+                recorded.append(f"gap: {num}")
+
+        # sub_series
+        if sub_series:
+            existing_labels = {s.label for s in existing.sub_series}
+            for raw in sub_series:
+                label = raw.get("label", "")
+                if label in existing_labels:
+                    continue
+                new_facts.sub_series.append(SubSeriesFact(
+                    label=label,
+                    album_ids=raw.get("album_ids", []),
+                    reason=raw.get("reason", ""),
+                    discovered_by="curate",
+                ))
+                recorded.append(f"sub: {label}")
+
+        if not recorded:
+            return "No new facts proposed (all already documented or empty)."
+
+        ctx.deps.proposed_facts = new_facts
+        console.print(
+            f"  [cyan]📊 propose_series_facts → {', '.join(recorded)}[/]",
+        )
+        return f"Recorded {len(recorded)} new fact(s): {', '.join(recorded)}"
 
     return agent
 
@@ -981,6 +1082,7 @@ async def _run_large(
     existing_curation: dict | None = None,
     is_music: bool = False,
     known_artist_ids: dict[str, list[str]] | None = None,
+    existing_facts: SeriesFacts | None = None,
 ) -> CuratedSeries:
     model = (
         build_mistral_model(model_name, api_key)
@@ -1327,6 +1429,7 @@ async def _run_large(
 
     # ── Finalize metadata: extract episode numbers from track listings ──
     final_pattern = shared_deps.pattern
+    proposed_facts: SeriesFacts | None = None
     if not is_music:
         unnumbered = [
             d for d in all_decisions
@@ -1350,9 +1453,28 @@ async def _run_large(
                 lines.append(
                     f"  {d.provider}:{d.album_id} | {d.title}{tracks}"
                 )
+            facts_lines: list[str] = []
+            if existing_facts:
+                if existing_facts.era_boundaries:
+                    facts_lines.append("Existing era_boundaries:")
+                    for e in existing_facts.era_boundaries:
+                        facts_lines.append(f"  - {e.label}: {e.release_date_range}")
+                if existing_facts.known_gaps:
+                    facts_lines.append("Existing known_gaps:")
+                    for g in existing_facts.known_gaps:
+                        facts_lines.append(f"  - Episode {g.number}: {g.reason}")
+                if existing_facts.sub_series:
+                    facts_lines.append("Existing sub_series:")
+                    for s in existing_facts.sub_series:
+                        facts_lines.append(f"  - {s.label}: {s.reason}")
+                if not facts_lines:
+                    facts_lines.append("Existing facts: (none)")
+            else:
+                facts_lines.append("Existing facts: (none)")
             finalize_prompt = (
                 f"Series: {meta.title!r}\n"
                 f"Episode pattern: {shared_deps.pattern}\n\n"
+                f"{'\n'.join(facts_lines)}\n\n"
                 f"Included albums missing episode numbers ({len(unnumbered)} total):\n"
                 f"\n".join(lines)
             )
@@ -1361,6 +1483,7 @@ async def _run_large(
                 seen_details=shared_deps.seen_details,
                 pattern=shared_deps.pattern,
                 titles=all_titles,
+                existing_facts=existing_facts,
             )
             try:
                 finalize_result: FinalizeResult = await _run_with_retry(
@@ -1393,6 +1516,14 @@ async def _run_large(
                         f"  [cyan]🔄 Finalize proposed pattern update → "
                         f"{finalize_result.proposed_pattern_update}[/]\n",
                     )
+                # Collect proposed facts
+                proposed_facts = finalize_deps.proposed_facts or finalize_result.series_facts
+                if proposed_facts:
+                    n_new = len(proposed_facts.era_boundaries) + len(proposed_facts.known_gaps) + len(proposed_facts.sub_series)
+                    if n_new:
+                        console.print(
+                            f"  [cyan]📊 Finalize proposed {n_new} new fact(s)[/]\n",
+                        )
             except Exception as exc:
                 console.print(
                     f"  [yellow]⚠ Finalize phase failed: {exc}. "
@@ -1417,6 +1548,19 @@ async def _run_large(
                     f"numbers across all batches.[/]\n",
                 )
 
+    # Merge existing + proposed facts for the output
+    merged_facts: SeriesFacts | None = None
+    if existing_facts or proposed_facts:
+        merged_facts = SeriesFacts()
+        if existing_facts:
+            merged_facts.era_boundaries.extend(existing_facts.era_boundaries)
+            merged_facts.known_gaps.extend(existing_facts.known_gaps)
+            merged_facts.sub_series.extend(existing_facts.sub_series)
+        if proposed_facts:
+            merged_facts.era_boundaries.extend(proposed_facts.era_boundaries)
+            merged_facts.known_gaps.extend(proposed_facts.known_gaps)
+            merged_facts.sub_series.extend(proposed_facts.sub_series)
+
     return CuratedSeries(
         id=meta.id,
         title=meta.title,
@@ -1426,6 +1570,7 @@ async def _run_large(
         provider_artist_ids=meta.provider_artist_ids,
         age_note=meta.age_note,
         curator_notes=meta.curator_notes,
+        series_facts=merged_facts,
         incomplete=incomplete,
         incomplete_reason="; ".join(provider_errors) if incomplete else "",
     )
@@ -1442,6 +1587,7 @@ async def run_curation(
     existing_curation: dict | None = None,
     is_music: bool = False,
     known_artist_ids: dict[str, list[str]] | None = None,
+    existing_facts: SeriesFacts | None = None,
 ) -> CuratedSeries:
     """Pick single-agent or batched flow based on discography size."""
     if model_name.startswith("mistral-"):
@@ -1478,6 +1624,7 @@ async def run_curation(
         timeout=timeout, existing_curation=existing_curation,
         is_music=is_music,
         known_artist_ids=known_artist_ids,
+        existing_facts=existing_facts,
     )
 
     # Persist content type so re-curation uses the right prompt.
@@ -1551,6 +1698,7 @@ def save_curation(series: CuratedSeries) -> Path:
         "provider_artist_ids": series.provider_artist_ids,
         "age_note": series.age_note,
         "curator_notes": series.curator_notes,
+        "series_facts": series.series_facts.model_dump() if series.series_facts else None,
         "curated_at": datetime.now(UTC).isoformat(),
         "albums": [a.model_dump() for a in series.albums],
         "incomplete": series.incomplete,
@@ -1734,6 +1882,7 @@ def _curate_one(
     existing_curation: dict | None = None,
     is_music: bool = False,
     dry_run: bool = False,
+    existing_facts: SeriesFacts | None = None,
 ) -> Path | None:
     if dry_run:
         console.print(f"  [cyan]Mode: {'music artist' if is_music else 'Hörspiel'} (dry run)[/]")
@@ -1749,6 +1898,7 @@ def _curate_one(
                 existing_curation=existing_curation,
                 is_music=is_music,
                 known_artist_ids=known_artist_ids,
+                existing_facts=existing_facts,
             ),
         )
         _lock_series_id(series, series_id)
@@ -1845,6 +1995,10 @@ def curate(
                     "[yellow]Note: --music ignored — series.yaml has the "
                     "entry as hoerspiel. Edit series.yaml to change.[/yellow]",
                 )
+            existing_facts = (
+                SeriesFacts.model_validate(entry.series_facts)
+                if entry.series_facts else None
+            )
             path = _curate_one(
                 entry.title, providers,
                 model=model, timeout=timeout,
@@ -1853,6 +2007,7 @@ def curate(
                 existing_curation=existing,
                 is_music=entry_is_music,
                 dry_run=dry_run,
+                existing_facts=existing_facts,
             )
             if path is None and not dry_run:
                 # Surface failure so pipeline scripts (catalog-pipeline-one)
@@ -1913,6 +2068,10 @@ def curate(
             entry_has_pattern=bool(entry.episode_pattern),
             existing_content_type=(existing or {}).get("content_type"),
         )
+        existing_facts = (
+            SeriesFacts.model_validate(entry.series_facts)
+            if entry.series_facts else None
+        )
         path = _curate_one(
             entry.title, providers,
             model=model, timeout=timeout,
@@ -1921,6 +2080,7 @@ def curate(
             existing_curation=existing,
             is_music=entry_is_music,
             dry_run=dry_run,
+            existing_facts=existing_facts,
         )
         if path:
             succeeded += 1

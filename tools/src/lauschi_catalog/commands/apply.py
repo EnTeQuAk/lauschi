@@ -165,7 +165,43 @@ def _apply_one(series_id: str, data: dict, yaml_data: dict) -> bool:
         yaml_series["aliases"] = aliases
         updated = True
 
+    # Update series_facts: write only confirmed facts (discovered_by
+    # and confirmed_by present). Drop unconfirmed/flagged facts so
+    # the yaml doesn't carry low-trust data.
+    facts = data.get("series_facts")
+    if facts:
+        confirmed = _filter_confirmed_facts(facts)
+        if confirmed != yaml_series.get("series_facts"):
+            if confirmed:
+                yaml_series["series_facts"] = confirmed
+            else:
+                yaml_series.pop("series_facts", None)
+            updated = True
+
     return updated
+
+
+def _filter_confirmed_facts(facts: dict) -> dict | None:
+    """Strip unconfirmed/flagged facts before writing to series.yaml.
+
+    Only keep facts that have been confirmed_by a verify pass or human
+    review. Facts with verify_status='disagreed' or missing confirmed_by
+    stay in the curation JSON for human review but don't pollute the
+    canonical yaml.
+    """
+    result: dict[str, list[dict]] = {}
+    for key in ("era_boundaries", "known_gaps", "sub_series"):
+        kept = []
+        for item in facts.get(key, []):
+            if item.get("confirmed_by") and item.get("confirmed_at"):
+                # Drop provenance fields from yaml (keep it clean)
+                kept.append({
+                    k: v for k, v in item.items()
+                    if k not in ("discovered_by", "confirmed_by", "confirmed_at")
+                })
+        if kept:
+            result[key] = kept
+    return result if result else None
 
 
 def _should_apply(data: dict, force: bool) -> str | None:
@@ -182,8 +218,16 @@ def _should_apply(data: dict, force: bool) -> str | None:
         if cur_status == "escalated":
             return (
                 "refusing to apply — status is 'escalated' "
-                "(verify flagged issues). Resolve via catalog-review, "
+                "(verify found incoherent output). Resolve via catalog-review, "
                 "or use --force to override."
+            )
+        # ai_verified means verify approved but flagged some facts.
+        # That's fine to apply — the facts are in the JSON for human
+        # review but the album decisions are sound.
+        if cur_status not in ("approved", "ai_verified"):
+            return (
+                f"refusing to apply — status is '{cur_status}' "
+                f"(run verify first). Use --force to override."
             )
     return None
 
@@ -191,7 +235,10 @@ def _should_apply(data: dict, force: bool) -> str | None:
 @click.command()
 @click.argument("series_id", required=False)
 @click.option("--all", "run_all", is_flag=True, help="Apply all approved curations")
-@click.option("--status", default="approved", help="Only apply curations with this status")
+@click.option(
+    "--status", default="approved,ai_verified",
+    help="Only apply curations with this status (comma-separated)",
+)
 @click.option("--dry-run", is_flag=True, help="Don't write changes")
 @click.option(
     "--force",
@@ -228,7 +275,8 @@ def apply(series_id: str | None, run_all: bool, status: str, dry_run: bool, forc
         # Check status
         review = data.get("review", {})
         cur_status = review.get("status", "curated")
-        if cur_status != status and not series_id:
+        allowed = {s.strip() for s in status.split(",")}
+        if cur_status not in allowed and not series_id:
             skipped += 1
             continue
 

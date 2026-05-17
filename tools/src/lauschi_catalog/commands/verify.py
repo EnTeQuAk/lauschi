@@ -56,14 +56,27 @@ class SplitVerdict(BaseModel):
     reason: str = ""
 
 
+class FactVerdict(BaseModel):
+    """Verify's opinion on a specific proposed fact."""
+
+    fact_type: str  # "era_boundary", "known_gap", "sub_series"
+    label: str
+    agree: bool
+    reason: str = ""
+
+
 class VerifyResult(BaseModel):
     series_id: str
     approve: bool = Field(
         description="True if the curation is correct overall. "
-        "False if issues need human attention.",
+        "False if issues need human attention. "
+        "Fact disagreements alone do NOT set this to False; use "
+        "fact_verdicts for those. Only set False when facts contradict "
+        "decisions in ways that would corrupt the catalog.",
     )
     override_verdicts: list[OverrideVerdict] = Field(default_factory=list)
     split_verdicts: list[SplitVerdict] = Field(default_factory=list)
+    fact_verdicts: list[FactVerdict] = Field(default_factory=list)
     concerns: str = Field(
         default="",
         description="Issues found, even if still approving.",
@@ -104,6 +117,17 @@ to independently verify those decisions.
 3. **Overrides** (changes the first AI proposed): Do you agree with each?
 
 4. **Splits** (proposed sub-series): Do these make sense?
+
+5. **Facts** (era boundaries, known gaps, sub-series): Does the prompt
+   show any series_facts? Check whether they match the album data.
+   - era_boundaries: Do release dates cluster as described?
+   - known_gaps: Is the stated reason plausible (legal dispute, skipped
+     number)? Or is it a curation error (episode actually exists)?
+   - sub_series: Do the claimed albums really belong to a separate series?
+   Record your opinion using `fact_verdicts`. Disagreeing with a fact does
+   NOT set `approve: false` — only flag the fact. Set `approve: false`
+   only when facts contradict album decisions (e.g., a known_gap says
+   episode 3 is missing, but episode 3 is included).
 
 ## Your decision
 
@@ -465,6 +489,16 @@ def apply_verification(
     data = json.loads(path.read_text())
     review = data.setdefault("review", {})
 
+    # Fact disagreements: flag the facts, don't escalate the series
+    fact_disagreements = [v for v in result.fact_verdicts if not v.agree]
+    series_facts = data.get("series_facts")
+    if series_facts and fact_disagreements:
+        series_facts["verify_status"] = "disagreed"
+        series_facts["verify_reasoning"] = "; ".join(
+            f"{v.fact_type} '{v.label}': {v.reason}" for v in fact_disagreements
+        )
+        data["series_facts"] = series_facts
+
     review["verification"] = {
         "model": model_name,
         "verified_at": datetime.now(tz=UTC).isoformat(),
@@ -472,19 +506,26 @@ def apply_verification(
         "concerns": result.concerns,
         "override_verdicts": [v.model_dump() for v in result.override_verdicts],
         "split_verdicts": [v.model_dump() for v in result.split_verdicts],
+        "fact_verdicts": [v.model_dump() for v in result.fact_verdicts],
     }
 
+    # Structural disagreements (overrides/splits) still matter
     disagreements = (
         [v for v in result.override_verdicts if not v.agree]
         + [v for v in result.split_verdicts if not v.agree]
     )
 
-    if result.approve and not disagreements:
-        action = "approved"
-        review["status"] = "approved"
-    else:
+    # Escalate ONLY when genuinely incoherent (approve=False).
+    # Fact disagreements alone flag the facts but let the series pass.
+    if not result.approve:
         action = "escalated"
         review["status"] = "escalated"
+    elif disagreements:
+        action = "approved_with_flags"
+        review["status"] = "ai_verified"
+    else:
+        action = "approved"
+        review["status"] = "approved"
 
     if not dry_run:
         canonicalize(data)
@@ -551,6 +592,7 @@ def verify(
     skipped = 0
     failed = 0
 
+    flagged = 0
     for path in paths:
         sid = path.stem
         console.print(f"\n[bold]Verifying {sid}...[/bold]")
@@ -578,14 +620,19 @@ def verify(
             console.print(f"  [green]✓ Approved[/green]")
             if result.concerns:
                 console.print(f"  [dim]Concerns: {result.concerns}[/dim]")
+        elif action == "approved_with_flags":
+            flagged += 1
+            console.print(f"  [green]✓ Approved[/green] [yellow](flagged {len([v for v in result.fact_verdicts if not v.agree])} facts)[/yellow]")
+            if result.concerns:
+                console.print(f"  [dim]Concerns: {result.concerns}[/dim]")
         else:
             escalated += 1
             console.print(f"  [yellow]⚠ Escalated for human review[/yellow]")
             console.print(f"  Concerns: {result.concerns}")
 
     console.print(
-        f"\n[bold]Results:[/bold] {approved} approved, {escalated} escalated, "
-        f"{skipped} skipped, {failed} failed",
+        f"\n[bold]Results:[/bold] {approved} approved, {flagged} approved-with-flags, "
+        f"{escalated} escalated, {skipped} skipped, {failed} failed",
     )
     if dry_run:
         console.print("[dim]Dry run, no changes written.[/dim]")

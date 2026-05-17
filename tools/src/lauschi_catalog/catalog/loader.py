@@ -51,6 +51,8 @@ def load_catalog(path: Path | None = None) -> list[CatalogEntry]:
                 has_albums=bool(pdata.get("albums")),
             )
 
+        series_facts = raw.get("series_facts")
+
         pattern = raw.get("episode_pattern")
 
         entries.append(
@@ -61,6 +63,7 @@ def load_catalog(path: Path | None = None) -> list[CatalogEntry]:
                 episode_pattern=pattern,
                 cover_url=raw.get("cover_url"),
                 content_type=raw.get("content_type"),
+                series_facts=series_facts,
                 providers=providers,
             ),
         )
