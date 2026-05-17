@@ -43,16 +43,19 @@ def lint_curation(curation: dict) -> list[str]:
     pattern = curation.get("episode_pattern")
 
     included = [a for a in albums if a.get("include")]
-    eps_by_provider: dict[str, dict[int, dict]] = {}
+    # All episode numbers per provider (allowing duplicates for detection)
+    eps_by_provider: dict[str, list[int]] = {}
+    eps_albums_by_provider: dict[str, dict[int, list[dict]]] = {}
     for a in included:
         ep = a.get("episode_num")
         if ep is not None:
             prov = a.get("provider", "?")
-            eps_by_provider.setdefault(prov, {})[ep] = a
+            eps_by_provider.setdefault(prov, []).append(ep)
+            eps_albums_by_provider.setdefault(prov, {}).setdefault(ep, []).append(a)
 
     # ── Rule 1: Episode numbers unique per provider per era ─────────
     if facts and facts.era_boundaries:
-        for prov, eps in eps_by_provider.items():
+        for prov in eps_by_provider:
             for era in facts.era_boundaries:
                 # Parse year range like "1976-1979" or "2025-"
                 rng = era.release_date_range
@@ -62,8 +65,13 @@ def lint_curation(curation: dict) -> list[str]:
                 start_y = int(parts[0].strip())
                 end_y = int(parts[1].strip()) if parts[1].strip() else 9999
                 era_eps = [
-                    ep for ep, a in eps.items()
-                    if _year(a.get("release_date", "")) in range(start_y, end_y + 1)
+                    ep for ep in eps_by_provider[prov]
+                    if _year(
+                        next(
+                            (a.get("release_date", "") for a in eps_albums_by_provider[prov].get(ep, [])),
+                            "",
+                        ),
+                    ) in range(start_y, end_y + 1)
                 ]
                 dupes = _find_duplicates(era_eps)
                 if dupes:
@@ -74,7 +82,7 @@ def lint_curation(curation: dict) -> list[str]:
     else:
         # No era boundaries: just check globally per provider
         for prov, eps in eps_by_provider.items():
-            dupes = _find_duplicates(list(eps.keys()))
+            dupes = _find_duplicates(eps)
             if dupes:
                 issues.append(
                     f"[{prov}] Duplicate episode numbers: {dupes}"
@@ -82,7 +90,7 @@ def lint_curation(curation: dict) -> list[str]:
 
     # ── Rule 2: Unknown gaps ─────────────────────────────────────────
     for prov, eps in eps_by_provider.items():
-        nums = sorted(eps.keys())
+        nums = sorted(set(eps))
         if len(nums) < 2:
             continue
         gaps = _find_gaps(nums)
@@ -106,7 +114,7 @@ def lint_curation(curation: dict) -> list[str]:
 
     for prov, inc_eps in eps_by_provider.items():
         exc_eps = excluded_eps.get(prov, {})
-        for ep in sorted(inc_eps.keys()):
+        for ep in sorted(set(inc_eps)):
             if ep <= 1:
                 continue
             prev = ep - 1
@@ -139,7 +147,7 @@ def lint_curation(curation: dict) -> list[str]:
     # Episode on one provider but not the other, with no exclude_reason
     all_providers = sorted({a.get("provider", "?") for a in albums})
     if len(all_providers) > 1:
-        for ep in set().union(*[set(eps.keys()) for eps in eps_by_provider.values()]):
+        for ep in set().union(*[set(eps) for eps in eps_by_provider.values()]):
             present = {prov for prov, eps in eps_by_provider.items() if ep in eps}
             missing = set(all_providers) - present
             if missing and len(present) >= 1:
