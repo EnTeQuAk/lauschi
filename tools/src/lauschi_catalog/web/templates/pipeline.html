@@ -1,0 +1,177 @@
+{% extends "base.html" %}
+{% block title %}Pipeline — lauschi{% endblock %}
+{% block content %}
+    <script type="application/json" id="pipeline-series-data">{{ series | tojson }}</script>
+    <div x-data="pipelineApp()">
+        <header class="flex items-baseline justify-between gap-1 wrap mb-15">
+            <div>
+                <h1 class="mb-025">Pipeline</h1>
+                <p class="text-muted mb-0" x-text="filteredSeries.length + ' series'"></p>
+            </div>
+            <div class="flex gap-05 items-center wrap">
+                <input type="search"
+                       x-model.debounce.300ms="q"
+                       placeholder="Search…"
+                       aria-label="Search"
+                       class="max-w-220" />
+                <select x-model="filterStep" aria-label="Filter by step">
+                    <option value="all">All steps</option>
+                    <option value="0">Discover</option>
+                    <option value="1">Curate</option>
+                    <option value="2">Review</option>
+                    <option value="3">Verify</option>
+                    <option value="4">Apply</option>
+                    <option value="5">Validate</option>
+                </select>
+                <form method="post" action="/api/jobs" class="form-inline">
+                    <input type="hidden" name="series_id" value="all" />
+                    <input type="hidden" name="command" value="validate" />
+                    <button type="submit" class="outline btn-sm">Validate all</button>
+                </form>
+            </div>
+        </header>
+        {# Bulk actions #}
+        <div x-show="selectedCount > 0"
+             class="flex gap-05 items-center mb-1"
+             x-cloak>
+            <span x-text="selectedCount + ' selected'"></span>
+            <button class="contrast" @click="runNextForSelected()">Run next step</button>
+            <button class="outline" @click="runPipelineForSelected()">Run full pipeline</button>
+        </div>
+        <table role="grid">
+            <thead>
+                <tr>
+                    <th class="w-2rem">
+                        <input type="checkbox" @change="toggleAll($event.target.checked)">
+                    </th>
+                    <th>Title</th>
+                    <th>Step</th>
+                    <th>Status</th>
+                    <th>Pipeline</th>
+                    <th class="w-7rem">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <template x-for="s in filteredSeries" :key="s.id">
+                    <tr>
+                        <td>
+                            <input type="checkbox" x-model="selected" :value="s.id">
+                        </td>
+                        <td>
+                            <a :href="'/catalog/' + s.id" x-text="s.title" class="pipeline-link"></a>
+                            <br>
+                            <small class="text-muted"><code x-text="s.id"></code></small>
+                        </td>
+                        <td x-text="s.current_label"></td>
+                        <td>
+                            <span class="status-badge" :class="statusClass(s.status)" x-text="s.status"></span>
+                        </td>
+                        <td>
+                            <div class="pipeline-bar">
+                                <template x-for="(label, idx) in s.pipeline.labels" :key="idx">
+                                    <span class="pipeline-step"
+                                          :class="'pipeline-step--' + s.pipeline.statuses[idx]"
+                                          :title="label + ': ' + s.pipeline.statuses[idx]">
+                                        <span class="pipeline-step__dot"></span>
+                                        <span class="pipeline-step__label" x-text="label.substring(0,1)"></span>
+                                    </span>
+                                    <span class="pipeline-step__connector"
+                                          x-show="idx < s.pipeline.labels.length - 1"></span>
+                                </template>
+                            </div>
+                        </td>
+                        <td>
+                            <button x-show="s.next_action !== 'done'"
+                                    class="secondary outline btn-sm"
+                                    @click="runNextAction(s.id, s.next_action)">
+                                <span x-text="s.next_action"></span>
+                            </button>
+                            <span x-show="s.next_action === 'done'" class="text-muted">—</span>
+                        </td>
+                    </tr>
+                </template>
+            </tbody>
+        </table>
+        <p x-show="filteredSeries.length === 0"
+           class="text-muted text-center mt-3">No matches.</p>
+    </div>
+{% endblock %}
+{% block scripts %}
+    <script>
+function pipelineApp() {
+  const raw = document.getElementById('pipeline-series-data').textContent;
+  const series = JSON.parse(raw);
+  return {
+    q: '',
+    filterStep: 'all',
+    selected: [],
+    series: series,
+    get filteredSeries() {
+      let result = this.series;
+      if (this.filterStep !== 'all') {
+        const step = parseInt(this.filterStep);
+        result = result.filter(s => s.current_step === step);
+      }
+      if (this.q) {
+        const term = this.q.toLowerCase();
+        result = result.filter(s =>
+          s.title.toLowerCase().includes(term) ||
+          s.id.toLowerCase().includes(term)
+        );
+      }
+      return result;
+    },
+    get selectedCount() {
+      return this.selected.length;
+    },
+    statusClass(status) {
+      return {
+        'status-badge--curated': status === 'curated',
+        'status-badge--reviewed': status === 'reviewed',
+        'status-badge--verified': status === 'approved',
+        'status-badge--escalated': status === 'escalated',
+        'status-badge--pending': status === 'missing',
+        'status-badge--missing': status === 'missing',
+      };
+    },
+    toggleAll(checked) {
+      this.selected = checked ? this.filteredSeries.map(s => s.id) : [];
+    },
+    async runNextAction(seriesId, command) {
+      const res = await fetch('/api/jobs', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ series_id: seriesId, command: command })
+      });
+      const data = await res.json();
+      if (data.error) { alert(data.error); return; }
+      Alpine.store('jobs').open = true;
+      connectJobStream(data.job_id);
+    },
+    async runNextForSelected() {
+      for (const id of this.selected) {
+        const s = this.series.find(x => x.id === id);
+        if (s) await this.runNextAction(s.id, s.next_action);
+      }
+    },
+    async runPipelineForSelected() {
+      for (const id of this.selected) {
+        const s = this.series.find(x => x.id === id);
+        if (s) {
+          const res = await fetch('/api/jobs', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ series_id: s.id, command: 'pipeline' })
+          });
+          const data = await res.json();
+          if (!data.error) {
+            Alpine.store('jobs').open = true;
+            connectJobStream(data.job_id);
+          }
+        }
+      }
+    }
+  };
+}
+    </script>
+{% endblock %}

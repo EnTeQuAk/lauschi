@@ -50,3 +50,12 @@ else:
     cli.add_command(curate)
     cli.add_command(review)
     cli.add_command(verify)
+
+# Lazy-load web UI command (requires the 'web' optional extra).
+try:
+    from lauschi_catalog.web.main import web_cli
+except ModuleNotFoundError as e:
+    if e.name and e.name.split(".")[0] not in ("fastapi", "uvicorn", "jinja2"):
+        raise
+else:
+    cli.add_command(web_cli)

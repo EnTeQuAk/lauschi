@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% block title %}Jobs — lauschi{% endblock %}
+{% block content %}
+    <header class="flex items-baseline justify-between gap-1 wrap mb-15">
+        <div>
+            <h1 class="mb-025">Jobs</h1>
+            <p class="text-muted mb-0">{{ jobs | length }} recent jobs</p>
+        </div>
+    </header>
+    {% if jobs %}
+        <table role="grid">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Series</th>
+                    <th>Command</th>
+                    <th>Status</th>
+                    <th>Logs</th>
+                    <th>Created</th>
+                    <th class="w-7rem">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for j in jobs %}
+                    <tr>
+                        <td>
+                            <code>{{ j.id }}</code>
+                        </td>
+                        <td>
+                            <a href="/catalog/{{ j.series_id }}">{{ j.series_id }}</a>
+                        </td>
+                        <td>{{ j.command }}</td>
+                        <td>
+                            <span class="status-badge status-badge--{{ j.status }}">{{ j.status }}</span>
+                        </td>
+                        <td>{{ j.log_count }} lines</td>
+                        <td class="text-muted">{{ j.created_at[:19] }}</td>
+                        <td>
+                            <button class="secondary outline btn-sm"
+                                    onclick="openJobDrawer('{{ j.id }}')">View logs</button>
+                            {% if j.status in ('running', 'queued') %}
+                                <form method="post"
+                                      action="/api/jobs/{{ j.id }}/cancel"
+                                      class="form-inline">
+                                    <button type="submit" class="outline btn-sm">Cancel</button>
+                                </form>
+                            {% endif %}
+                            {% if j.status in ('error', 'cancelled') %}
+                                <form method="post" action="/api/jobs" class="form-inline">
+                                    <input type="hidden" name="series_id" value="{{ j.series_id }}" />
+                                    <input type="hidden" name="command" value="{{ j.command }}" />
+                                    <button type="submit" class="contrast btn-sm">Retry</button>
+                                </form>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p class="text-muted text-center mt-3">No jobs yet.</p>
+    {% endif %}
+{% endblock %}
+{% block scripts %}
+    <script>
+async function openJobDrawer(jobId) {
+    const store = Alpine.store('jobs');
+    if (!store) return;
+    store.open = true;
+    store.lines = [];
+    store.active = 0;
+    store.currentJobId = jobId;
+    // Clear history guard so explicit "View logs" always re-loads
+    if (window._loadedHistory) window._loadedHistory.delete(jobId);
+    await connectJobStream(jobId);
+}
+    </script>
+{% endblock %}

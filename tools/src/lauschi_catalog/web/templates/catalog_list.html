@@ -1,0 +1,137 @@
+{% extends "base.html" %}
+{% from "partials/pipeline_bar.html" import pipeline_bar %}
+{% from "partials/icons.html" import provider_icon %}
+{% block title %}Catalog — lauschi{% endblock %}
+{% block content %}
+    <header class="flex items-baseline justify-between gap-1 wrap mb-15">
+        <div>
+            <h1 class="mb-025">Catalog</h1>
+            <p class="text-muted mb-0">
+                {{ series | length }} of {{ total }} series
+                {% if q %}matching "{{ q }}"{% endif %}
+            </p>
+        </div>
+        <form method="get" action="/catalog" class="flex gap-05">
+            <input type="search"
+                   name="q"
+                   value="{{ q }}"
+                   placeholder="Search series…"
+                   aria-label="Search"
+                   class="max-w-320" />
+            <button type="submit">Search</button>
+            {% if q %}<a href="/catalog" role="button" class="secondary outline">Clear</a>{% endif %}
+        </form>
+    </header>
+    <div class="mb-15">
+        <button type="button"
+                class="contrast"
+                onclick="document.getElementById('add-series-panel').classList.toggle('hidden')">
+            Add new series
+        </button>
+        <div id="add-series-panel" class="hidden">
+            <form method="post" action="/catalog/add" class="flex gap-1 wrap mt-05">
+                <label>
+                    <input type="text"
+                           name="title"
+                           id="add-title"
+                           placeholder="Series title"
+                           required />
+                </label>
+                <label>
+                    <input type="text"
+                           name="spotify_artist_id"
+                           id="add-spotify"
+                           placeholder="Spotify artist ID (optional)" />
+                </label>
+                <label>
+                    <input type="text"
+                           name="apple_music_artist_id"
+                           id="add-apple"
+                           placeholder="Apple Music artist ID (optional)" />
+                </label>
+                <button type="submit" class="contrast">Add</button>
+            </form>
+            <div class="flex gap-05 mt-05 items-center">
+                <button type="button" class="btn-sm" onclick="searchProviders()">Search providers</button>
+                <span id="search-status" class="text-muted"></span>
+            </div>
+        </div>
+        <script>
+        async function searchProviders() {
+            const title = document.getElementById('add-title').value.trim();
+            const status = document.getElementById('search-status');
+            if (!title) { status.textContent = 'Enter a title first.'; return; }
+            status.textContent = 'Searching…';
+            try {
+                const res = await fetch('/api/search-artists', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ title })
+                });
+                const data = await res.json();
+                const results = data.results || {};
+                const sp = results.spotify;
+                const am = results.apple_music;
+                if (sp) document.getElementById('add-spotify').value = sp.id;
+                if (am) document.getElementById('add-apple').value = am.id;
+                const parts = [];
+                if (sp) parts.push('Spotify: ' + sp.name + ' (' + sp.id + ')');
+                if (am) parts.push('Apple Music: ' + am.name + ' (' + am.id + ')');
+                status.textContent = parts.length ? parts.join(' · ') : 'No matches found.';
+            } catch (e) {
+                status.textContent = 'Search failed: ' + e.message;
+            }
+        }
+        </script>
+    </div>
+    {% if series %}
+        <div class="card-grid">
+            {% for s in series %}
+                <div class="series-card">
+                    <a href="/catalog/{{ s.id }}" class="card-link">
+                        <div class="flex justify-between items-start gap-05 mb-05">
+                            <h2 class="series-card__title mb-0">{{ s.title }}</h2>
+                            <span class="status-badge shrink-0 status-badge--{{ s.status }}">{{ s.current_label }}</span>
+                        </div>
+                        <p class="series-card__meta">
+                            <code>{{ s.id }}</code>
+                            · {{ s.content_type }}
+                        </p>
+                        {# Pipeline mini-bar #}
+                        <div class="pipeline-bar pipeline-bar--small">
+                            {% for label in s.pipeline.labels %}
+                                {% set idx = loop.index0 %}
+                                <span class="pipeline-step pipeline-step--{{ s.pipeline.statuses[idx] }}"
+                                      title="{{ label }}: {{ s.pipeline.statuses[idx] }}">
+                                    <span class="pipeline-step__dot"></span>
+                                </span>
+                                {% if not loop.last %}<span class="pipeline-step__connector"></span>{% endif %}
+                            {% endfor %}
+                        </div>
+                        <div class="series-card__footer series-card__footer--left">
+                            <div class="series-card__providers">
+                                {% for p in s.providers %}{{ provider_icon(p, 18) }}{% endfor %}
+                            </div>
+                        </div>
+                    </a>
+                    {% if s.next_action == 'discover' %}
+                        <div class="card-actions">
+                            <form method="post" action="/catalog/{{ s.id }}/run" class="form-inline">
+                                <input type="hidden" name="command" value="discover" />
+                                <button type="submit" class="secondary outline btn-sm">Discover</button>
+                            </form>
+                        </div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="text-muted text-center mt-3">
+            {% if q %}
+                No matches for "{{ q }}".
+            {% else %}
+                No series found.
+            {% endif %}
+        </p>
+    {% endif %}
+{% endblock %}

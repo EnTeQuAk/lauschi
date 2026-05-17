@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Validate — lauschi{% endblock %}
+{% block content %}
+    <h1>Catalog Validation</h1>
+    <p>
+        Run L1 (syntax) and L5 (provider API) validation against <code>series.yaml</code>.
+    </p>
+    <form method="post" action="/validate/run">
+        <button type="submit">Run Validation</button>
+    </form>
+    <p class="text-muted mt-1">
+        Watch progress in the <strong>Jobs</strong> drawer above.
+    </p>
+{% endblock %}

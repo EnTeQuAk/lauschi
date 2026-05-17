@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="de" data-theme="dark">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="lauschi catalog - manage Hörspiel series">
+        <meta name="keywords" content="lauschi, hörspiel, catalog">
+        <title>
+            {% block title %}lauschi catalog{% endblock %}
+        </title>
+        <link rel="stylesheet"
+              href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+        <link rel="stylesheet" href="/static/styles.css">
+        <style>
+    :root {
+      --pico-font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    }
+    .nav-brand {
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35em;
+      padding: 0.2em 0.7em;
+      border-radius: 999px;
+      font-size: 0.7em;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      line-height: 1;
+      background: var(--pico-color-slate-600);
+      color: var(--pico-color-slate-100);
+    }
+    .status-badge--curated    { background: #1a7f37; color: #fff; }
+    .status-badge--reviewed   { background: #0969da; color: #fff; }
+    .status-badge--verified   { background: #0d7d6f; color: #fff; }
+    .status-badge--escalated  { background: #c21c1c; color: #fff; }
+    .status-badge--pending    { background: #9a6700; color: #fff; }
+    .status-badge--missing    { background: #656d76; color: #fff; }
+
+    .provider-icon {
+      display: inline-flex;
+      align-items: center;
+      width: 1.1em;
+      height: 1.1em;
+    }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1rem;
+    }
+    .series-card {
+      padding: 1.25rem;
+      border-radius: var(--pico-border-radius);
+      background: var(--pico-card-background-color);
+      border: 1px solid var(--pico-muted-border-color);
+      transition: border-color 0.15s ease, transform 0.1s ease;
+    }
+    .series-card:hover {
+      border-color: var(--pico-primary-border);
+      transform: translateY(-1px);
+    }
+    .series-card__title {
+      font-size: 1.15em;
+      font-weight: 600;
+      margin: 0 0 0.25rem;
+      line-height: 1.3;
+      flex: 1;
+    }
+    .series-card__meta {
+      font-size: 0.8em;
+      color: var(--pico-muted-color);
+      margin-bottom: 0.75rem;
+    }
+    .series-card__footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+    }
+    .series-card__footer--left {
+      justify-content: flex-start;
+    }
+    .series-card__providers {
+      display: flex;
+      gap: 0.4rem;
+    }
+    .episode-row--excluded { opacity: 0.5; }
+    [x-cloak] { display: none !important; }
+
+    .pipeline-bar {
+      display: flex;
+      align-items: center;
+      gap: 0.15rem;
+    }
+    .pipeline-step {
+      display: flex;
+      align-items: center;
+      gap: 0.2rem;
+    }
+    .pipeline-step__dot {
+      display: block;
+      width: 0.65em;
+      height: 0.65em;
+      border-radius: 50%;
+      background: #484f58;
+      transition: background 0.15s ease;
+    }
+    .pipeline-step--done .pipeline-step__dot {
+      background: #3fb950;
+    }
+    .pipeline-step--current .pipeline-step__dot {
+      background: #58a6ff;
+      box-shadow: 0 0 0 2px #58a6ff;
+    }
+    .pipeline-step--error .pipeline-step__dot,
+    .pipeline-step--escalated .pipeline-step__dot,
+    .pipeline-step--missing .pipeline-step__dot {
+      background: #f85149;
+    }
+    .pipeline-step--pending .pipeline-step__dot {
+      background: #30363d;
+      opacity: 0.5;
+    }
+    .pipeline-step__connector {
+      display: block;
+      width: 0.5rem;
+      height: 2px;
+      background: var(--pico-color-slate-600);
+    }
+    .pipeline-bar--large .pipeline-step__dot {
+      width: 0.8em;
+      height: 0.8em;
+    }
+    .pipeline-step__label {
+      font-size: 0.65em;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      color: var(--pico-muted-color);
+    }
+    .pipeline-step--current .pipeline-step__label {
+      color: var(--pico-color-blue-500);
+      font-weight: 600;
+    }
+
+    .job-drawer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      max-height: 40vh;
+      overflow-y: auto;
+      background: var(--pico-card-background-color);
+      border-top: 1px solid var(--pico-muted-border-color);
+      padding: 0.5rem 1rem;
+      font-family: var(--pico-font-family-monospace);
+      font-size: 0.75em;
+      z-index: 100;
+    }
+    .job-drawer--hidden { display: none; }
+    .job-log-line { margin: 0; padding: 0.05em 0; white-space: pre-wrap; font-size: 0.7rem; }
+        </style>
+        <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3/dist/cdn.min.js"></script>
+        <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+        <script>document.addEventListener('DOMContentLoaded', () => lucide.createIcons());</script>
+        {% block head %}{% endblock %}
+    </head>
+    <body>
+        <nav class="container-fluid">
+            <ul>
+                <li>
+                    <a href="/" class="nav-brand">lauschi catalog</a>
+                </li>
+                <li>
+                    <a href="/catalog">Browse</a>
+                </li>
+                <li>
+                    <a href="/pipeline">Pipeline</a>
+                </li>
+                <li>
+                    <a href="/review">Review</a>
+                </li>
+                <li>
+                    <a href="/splits">Splits</a>
+                </li>
+                <li>
+                    <a href="/merge">Merge</a>
+                </li>
+                <li>
+                    <a href="/validate">Validate</a>
+                </li>
+                <li>
+                    <a href="/jobs">Jobs</a>
+                </li>
+            </ul>
+            <ul>
+                <li>
+                    <button class="secondary outline flex items-center gap-04"
+                            onclick="toggleJobDrawer()">
+                        <i data-lucide="terminal" class="icon-1em"></i>
+                        Jobs
+                        <span id="job-count" class="status-badge status-badge--curated hidden"></span>
+                    </button>
+                </li>
+            </ul>
+        </nav>
+        <main class="container">
+            {% block content %}{% endblock %}
+        </main>
+        {# Global job store + drawer #}
+        <div x-data="jobManager()"
+             x-init="initStore()"
+             class="job-drawer"
+             :class="$store.jobs.open ? '' : 'job-drawer--hidden'"
+             x-show="$store.jobs.open">
+            <div class="flex justify-between items-center mb-05">
+                <strong>
+                    Job log
+                    <small x-show="$store.jobs.currentJobId"
+                           x-text="$store.jobs.currentJobId"
+                           class="text-muted font-normal ml-05"></small>
+                </strong>
+                <div>
+                    <button class="secondary outline flex items-center gap-03"
+                            @click="$store.jobs.clear()"
+                            aria-label="Clear">
+                        <i data-lucide="trash-2" class="icon-1em"></i> Clear
+                    </button>
+                    <button class="secondary outline flex items-center gap-03"
+                            @click="$store.jobs.close()"
+                            aria-label="Close">
+                        <i data-lucide="x" class="icon-1em"></i>
+                    </button>
+                </div>
+            </div>
+            <div id="job-log-lines" class="job-log-scroll">
+                <template x-for="line in $store.jobs.lines" :key="line.id">
+                    <p class="job-log-line"
+                       x-text="line.text"
+                       x-init="$el.scrollIntoView({behavior:'smooth'})"></p>
+                </template>
+            </div>
+            <p x-show="$store.jobs.lines.length === 0" class="text-muted">No active jobs.</p>
+        </div>
+        <script>
+    function toggleJobDrawer() {
+      const store = Alpine.store('jobs');
+      if (store) store.toggle();
+    }
+
+    document.addEventListener('alpine:init', () => {
+      Alpine.store('jobs', {
+        open: false,
+        lines: [],
+        active: 0,
+        lineId: 0,
+        currentJobId: null,
+        toggle() { this.open = !this.open },
+        close() { this.open = false },
+        addLine(text) {
+          this.lines.push({ id: ++this.lineId, text });
+          if (this.lines.length > 500) this.lines.shift();
+        },
+        clear() { this.lines = []; this.active = 0; this.currentJobId = null; }
+      });
+    });
+
+    // Update nav badge when store changes
+    document.addEventListener('alpine:initialized', () => {
+      const store = Alpine.store('jobs');
+      const badge = document.getElementById('job-count');
+      if (!badge) return;
+      Alpine.effect(() => {
+        badge.textContent = store.active;
+        badge.classList.toggle('hidden', store.active <= 0);
+        badge.className = store.active > 0
+          ? 'status-badge status-badge--running'
+          : 'status-badge status-badge--curated hidden';
+      });
+    });
+
+    function jobManager() {
+      return {
+        initStore() {
+          // global store already set up; this component just binds the drawer visibility
+        }
+      };
+    }
+
+    async function connectJobStream(jobId) {
+      if (!window._loadedHistory) window._loadedHistory = new Set();
+      if (!window._connectedJobs) window._connectedJobs = new Set();
+
+      // Prevent duplicate SSE connections for the same job.
+      if (window._connectedJobs.has(jobId)) return;
+      window._connectedJobs.add(jobId);
+      Alpine.store('jobs').currentJobId = jobId;
+      Alpine.store('jobs').active++;
+
+      // Fetch existing log lines before connecting to SSE so
+      // page reloads and drawer toggles show the full history.
+      if (!window._loadedHistory.has(jobId)) {
+        window._loadedHistory.add(jobId);
+        try {
+          const res = await fetch('/api/jobs/' + jobId + '/logs');
+          const data = await res.json();
+          if (data.lines) {
+            for (const line of data.lines) {
+              Alpine.store('jobs').addLine(line);
+            }
+          }
+          if (data.status === 'error' && data.error) {
+            Alpine.store('jobs').addLine('[Error: ' + data.error + ']');
+          }
+          if (data.status === 'done' || data.status === 'error' || data.status === 'cancelled') {
+            Alpine.store('jobs').addLine('[' + data.status + ']');
+            // Job already finished — don't connect SSE
+            Alpine.store('jobs').active = Math.max(0, Alpine.store('jobs').active - 1);
+            return;
+          }
+        } catch (e) {
+          Alpine.store('jobs').addLine('[Failed to load history: ' + e.message + ']');
+        }
+      }
+
+      const source = new EventSource('/api/jobs/' + jobId + '/events');
+      source.addEventListener('log', (e) => {
+        const payload = JSON.parse(e.data);
+        Alpine.store('jobs').addLine(payload.line);
+      });
+      source.addEventListener('done', (e) => {
+        const payload = JSON.parse(e.data);
+        Alpine.store('jobs').addLine('[' + payload.status + ']');
+        Alpine.store('jobs').active = Math.max(0, Alpine.store('jobs').active - 1);
+        source.close();
+      });
+      source.addEventListener('error', (e) => {
+        Alpine.store('jobs').addLine('[SSE error]');
+        Alpine.store('jobs').active = Math.max(0, Alpine.store('jobs').active - 1);
+        source.close();
+      });
+    }
+
+    // Auto-connect to SSE for any running/queued jobs on page load
+    (async function autoConnectJobs() {
+      if (!window._connectedJobs) window._connectedJobs = new Set();
+      try {
+        const res = await fetch('/api/jobs');
+        const jobs = await res.json();
+        let errored = 0;
+        for (const job of jobs) {
+          if (job.status === 'running' || job.status === 'queued') {
+            await connectJobStream(job.id);
+          }
+          if (job.status === 'error' || job.status === 'cancelled') {
+            errored++;
+          }
+        }
+        // Show badge for errored jobs too so user notices failures
+        if (errored > 0) {
+          const badge = document.getElementById('job-count');
+          if (badge) {
+            badge.textContent = errored;
+            badge.classList.remove('hidden');
+            badge.className = 'status-badge status-badge--missing';
+          }
+        }
+      } catch (_) {
+        /* ignore */
+      }
+    })();
+        </script>
+        {% block scripts %}{% endblock %}
+    </body>
+</html>

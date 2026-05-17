@@ -1,0 +1,13 @@
+{% macro pipeline_bar(state, size="small") %}
+    <div class="pipeline-bar pipeline-bar--{{ size }}"
+         aria-label="Pipeline status: {{ state.status }}">
+        {% for label, status in zip(state.step_labels, state.step_statuses) %}
+            <span class="pipeline-step pipeline-step--{{ status }}"
+                  title="{{ label }}: {{ status }}">
+                <span class="pipeline-step__dot"></span>
+                {% if size == "large" %}<span class="pipeline-step__label">{{ label }}</span>{% endif %}
+            </span>
+            {% if not loop.last %}<span class="pipeline-step__connector"></span>{% endif %}
+        {% endfor %}
+    </div>
+{% endmacro %}

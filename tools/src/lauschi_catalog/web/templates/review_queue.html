@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Review Queue — lauschi{% endblock %}
+{% block content %}
+    <header class="mb-15">
+        <h1>Review Queue</h1>
+        <p class="text-muted mb-0">{{ series | length }} series need attention</p>
+    </header>
+    {% if series %}
+        <div class="card-grid card-grid--compact">
+            {% for s in series %}
+                <a href="/catalog/{{ s.id }}" class="series-card card-link">
+                    <h2 class="series-card__title">{{ s.title }}</h2>
+                    <p class="series-card__meta">
+                        <code>{{ s.id }}</code> · {{ s.content_type }}
+                    </p>
+                    <div class="mb-075">
+                        <span class="status-badge {% if s.status == 'escalated' %}status-badge--escalated{% else %}status-badge--missing{% endif %}">
+                            {{ s.status }}
+                        </span>
+                        <small class="text-muted">· {{ s.current_label }}</small>
+                    </div>
+                    <div class="series-card__footer">
+                        <span role="button" class="secondary outline btn-sm">Review</span>
+                    </div>
+                </a>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="text-muted text-center mt-3">Nothing needs review right now.</p>
+    {% endif %}
+{% endblock %}

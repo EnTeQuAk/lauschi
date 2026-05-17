@@ -949,12 +949,14 @@ async def _run_with_retry(coro_factory, *, phase: str = ""):
             # The exception type + message is enough to diagnose, and a
             # user can re-run with PYTHONFAULTHANDLER=1 if they want more.
             if is_retryable(e) and attempt < _MAX_RETRIES:
+                # Exponential backoff: 2s, 5s, 10s — helps with rate limits
+                delay = {1: 2, 2: 5, 3: 10}.get(attempt, _RETRY_DELAY)
                 console.print(
                     f"[yellow]{phase} attempt {attempt}/{_MAX_RETRIES} "
                     f"failed ({type(e).__name__}), retrying in "
-                    f"{_RETRY_DELAY}s…[/]",
+                    f"{delay}s…[/]",
                 )
-                await asyncio.sleep(_RETRY_DELAY)
+                await asyncio.sleep(delay)
                 continue
             console.print(
                 f"[red]{phase} failed: {type(e).__name__}: "
@@ -1284,6 +1286,12 @@ async def _run_large(
         )
 
         all_decisions.extend(result.albums)
+
+        # Rate-limit pacing for providers with strict RPS limits
+        # (e.g. Mistral free tier: ~0.83 requests/sec for small-2603).
+        # Only sleep between batches, not after the last one.
+        if batch_num < len(batches):
+            await asyncio.sleep(2)
 
     console.print(
         f"\n  [bold]Total: [green]{total_inc} included[/]  "

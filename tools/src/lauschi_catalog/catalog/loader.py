@@ -48,6 +48,7 @@ def load_catalog(path: Path | None = None) -> list[CatalogEntry]:
             providers[pname] = ProviderConfig(
                 artist_ids=[str(a) for a in aids] if aids else [],
                 episode_pattern=pdata.get("episode_pattern"),
+                has_albums=bool(pdata.get("albums")),
             )
 
         pattern = raw.get("episode_pattern")

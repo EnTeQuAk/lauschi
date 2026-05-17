@@ -2,6 +2,7 @@
 flutter = "3.41.7"
 gh = "latest"
 java = "temurin-21.0.10+7.0.LTS"
+biome = "1.9.4"
 
 [env]
 _.file = ".env"
@@ -188,6 +189,8 @@ AI_DEPS="--extra ai"
 RUN="uv run --directory tools $AI_DEPS lauschi-catalog"
 RUN_CORE="uv run --directory tools lauschi-catalog"
 
+TIMEOUT="${TIMEOUT:-1800}"
+
 LOGDIR="logs/catalog"
 mkdir -p "$LOGDIR"
 TIMESTAMP=$(date +%Y%m%d-%H%M%S)
@@ -200,16 +203,16 @@ exec > >(tee -a "$LOG") 2>&1
 FORCE_FLAG=""
 if [ "${usage_force:-false}" = "true" ]; then FORCE_FLAG="--force"; fi
 
-echo "Step 1/5: Curating all series (this takes hours)..."
-$RUN curate --all --timeout 1800 $FORCE_FLAG || echo "Some curations failed (expected for large series). Continuing..."
+echo "Step 1/5: Curating all series (timeout ${TIMEOUT}s per series, this takes hours)..."
+$RUN curate --all --timeout "$TIMEOUT" $FORCE_FLAG || echo "Some curations failed (expected for large series). Continuing..."
 
 echo ""
 echo "Step 2/5: AI review..."
-$RUN review --all || echo "Some reviews failed. Continuing..."
+$RUN review --all --timeout "$TIMEOUT" || echo "Some reviews failed. Continuing..."
 
 echo ""
 echo "Step 3/5: 4-eye verification..."
-$RUN verify --all || echo "Some verifications failed. Continuing..."
+$RUN verify --all --timeout "$TIMEOUT" || echo "Some verifications failed. Continuing..."
 
 echo ""
 echo "Step 4/5: Applying approved curations..."
@@ -232,8 +235,12 @@ set -euo pipefail
 SID="${1:-}"
 if [ -z "$SID" ]; then
   echo "usage: mise run catalog-pipeline-one -- <series_id>"
+  echo "   Set TIMEOUT env var to override per-step timeout (default 7200s):"
+  echo "   TIMEOUT=3600 mise run catalog-pipeline-one -- <series_id>"
   exit 64
 fi
+
+TIMEOUT="${TIMEOUT:-7200}"
 
 AI_DEPS="--extra ai"
 RUN="uv run --directory tools $AI_DEPS lauschi-catalog"
@@ -246,19 +253,41 @@ LOG="$LOGDIR/one-${SID}-${TIMESTAMP}.log"
 echo "Logging to $LOG"
 exec > >(tee -a "$LOG") 2>&1
 
-echo "Step 1/4: Curating $SID..."
-$RUN curate "$SID" --timeout 3600 --force
+echo "Step 1/4: Curating $SID (timeout ${TIMEOUT}s)..."
+$RUN curate "$SID" --timeout "$TIMEOUT" --force
 
 echo ""
-echo "Step 2/4: AI review..."
-$RUN review "$SID" --force
+echo "Step 2/4: AI review (timeout ${TIMEOUT}s)..."
+$RUN review "$SID" --timeout "$TIMEOUT" --force
 
 echo ""
-echo "Step 3/4: 4-eye verification..."
-$RUN verify "$SID" --force
+echo "Step 3/4: 4-eye verification (timeout ${TIMEOUT}s)..."
+$RUN verify "$SID" --timeout "$TIMEOUT" --force
 
 echo ""
-echo "Step 4/4: Applying..."
+echo "Step 4/4: Checking verification status..."
+STATUS=$(python3 -c "
+import json, sys
+from pathlib import Path
+path = Path('assets/catalog/curation') / f'{sys.argv[1]}.json'
+if not path.exists():
+    print('missing')
+    sys.exit(0)
+data = json.loads(path.read_text())
+print(data.get('review', {}).get('status', 'curated'))
+" "$SID")
+
+if [ "$STATUS" = "escalated" ]; then
+    echo ""
+    echo "⚠️  Verify escalated $SID. Apply skipped."
+    echo "   Resolve via: mise run catalog-review"
+    echo "   Or force:    mise run catalog-apply -- $SID --force"
+    echo ""
+    exit 1
+fi
+
+echo ""
+echo "Step 4/4: Applying ($STATUS)..."
 $RUN_CORE apply "$SID"
 
 echo ""
@@ -346,6 +375,34 @@ echo ""
 echo "Installing $IPA..."
 pymobiledevice3 apps install "$IPA"
 echo "Done."
+"""
+
+# ── Catalog web UI ─────────────────────────────────────────────────
+
+[tasks.catalog-web]
+description = "Run the catalog web UI (launches lauschi-catalog web)"
+run = "uv run --directory tools --extra web lauschi-catalog web"
+
+# Start the web UI: uv run --directory tools --extra web lauschi-catalog web --port 8009 --no-reload
+
+[tasks.catalog-web-format]
+description = "Auto-format all catalog-web source files (Python, Jinja, JS, CSS)"
+run = """
+cd tools
+uv run ruff format src/lauschi_catalog/web
+uv run djlint --reformat src/lauschi_catalog/web/templates
+cd src/lauschi_catalog/web/static
+biome format --write styles.css
+"""
+
+[tasks.catalog-web-check]
+description = "Full catalog-web QA: ruff, biome, djlint"
+run = """
+cd tools
+uv run ruff check src/lauschi_catalog/web
+uv run ruff format --check src/lauschi_catalog/web
+biome check src/lauschi_catalog/web/static/styles.css
+uv run djlint --lint src/lauschi_catalog/web/templates
 """
 
 # apple-music-discover replaced by catalog-discover.

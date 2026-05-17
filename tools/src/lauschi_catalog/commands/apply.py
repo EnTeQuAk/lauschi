@@ -168,6 +168,26 @@ def _apply_one(series_id: str, data: dict, yaml_data: dict) -> bool:
     return updated
 
 
+def _should_apply(data: dict, force: bool) -> str | None:
+    """Return a human-readable refusal reason, or None if safe to apply.
+
+    Defense-in-depth checks before _apply_one writes to series.yaml.
+    """
+    if not force:
+        unsafe = apply_is_unsafe(data)
+        if unsafe is not None:
+            return f"refusing to apply — {unsafe} (use --force to override)"
+
+        cur_status = data.get("review", {}).get("status", "curated")
+        if cur_status == "escalated":
+            return (
+                "refusing to apply — status is 'escalated' "
+                "(verify flagged issues). Resolve via catalog-review, "
+                "or use --force to override."
+            )
+    return None
+
+
 @click.command()
 @click.argument("series_id", required=False)
 @click.option("--all", "run_all", is_flag=True, help="Apply all approved curations")
@@ -212,20 +232,11 @@ def apply(series_id: str | None, run_all: bool, status: str, dry_run: bool, forc
             skipped += 1
             continue
 
-        # Defense in depth: refuse to apply curations whose review or
-        # verify is stale relative to the current curate output. The
-        # standard pipeline keeps these in sync; this catches the case
-        # where ``apply --all`` runs standalone after a re-curate that
-        # skipped review/verify.
-        if not force:
-            unsafe = apply_is_unsafe(data)
-            if unsafe is not None:
-                console.print(
-                    f"[yellow]{data.get('title', sid)}: refusing to apply — "
-                    f"{unsafe} (use --force to override)[/yellow]",
-                )
-                skipped += 1
-                continue
+        refusal = _should_apply(data, force)
+        if refusal is not None:
+            console.print(f"[yellow]{data.get('title', sid)}: {refusal}[/yellow]")
+            skipped += 1
+            continue
 
         console.print(f"[bold]{data.get('title', sid)}[/bold] (status: {cur_status})")
 

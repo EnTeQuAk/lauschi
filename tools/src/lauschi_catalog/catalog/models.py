@@ -14,6 +14,7 @@ class ProviderConfig:
 
     artist_ids: list[str] = field(default_factory=list)
     episode_pattern: str | list[str] | None = None  # override
+    has_albums: bool = False
 
 
 @dataclass

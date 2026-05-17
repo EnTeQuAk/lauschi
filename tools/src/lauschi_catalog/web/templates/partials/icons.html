@@ -1,0 +1,17 @@
+{% macro provider_icon(name, size=20, alt="") -%}
+    {% if name == 'spotify' %}
+        <img src="/static/icons/spotify.svg"
+             width="{{ size }}"
+             height="{{ size }}"
+             alt="{{ alt }}"
+             class="provider-icon">
+    {% elif name == 'apple_music' %}
+        <img src="/static/icons/applemusic.svg"
+             width="{{ size }}"
+             height="{{ size }}"
+             alt="{{ alt }}"
+             class="provider-icon">
+    {% else %}
+        <span class="status-badge">{{ name }}</span>
+    {% endif %}
+{%- endmacro %}

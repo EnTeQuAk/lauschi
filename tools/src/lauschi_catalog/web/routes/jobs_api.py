@@ -1,0 +1,379 @@
+"""API routes for job queue and SSE streaming."""
+
+from __future__ import annotations
+
+import asyncio
+import json
+import os
+import shlex
+import traceback
+from typing import Any
+
+from fastapi import APIRouter, HTTPException, Request
+from fastapi.responses import RedirectResponse, StreamingResponse
+
+from lauschi_catalog.web.config import REPO_ROOT
+from lauschi_catalog.web.jobs import (
+    append_log,
+    create_job,
+    get_active_job,
+    get_job,
+    list_jobs,
+    set_done,
+    set_error,
+    set_status,
+)
+from lauschi_catalog.web.pipeline import pipeline_status
+
+router = APIRouter()
+
+# Track subprocess processes and their owning asyncio tasks for cancellation.
+_active_procs: dict[str, asyncio.subprocess.Process] = {}
+_active_tasks: dict[str, asyncio.Task[None]] = {}
+
+
+@router.post("/jobs", response_model=None)
+async def queue_job(request: Request):
+    """Queue a new AI job. Body: {series_id, command}. Form POSTs redirect back."""
+    content_type = request.headers.get("content-type", "")
+    is_form = (
+        "application/x-www-form-urlencoded" in content_type
+        or "multipart/form-data" in content_type
+    )
+    if is_form:
+        body = await request.form()
+    else:
+        body = await request.json()
+    series_id = body.get("series_id")
+    command = body.get("command")
+    if not series_id or not command:
+        if is_form:
+            return RedirectResponse(url="/jobs?error=bad+request", status_code=303)
+        raise HTTPException(status_code=400, detail="series_id and command required")
+    existing = get_active_job(series_id)
+    if existing:
+        if is_form:
+            return RedirectResponse(url="/jobs?error=already+running", status_code=303)
+        raise HTTPException(
+            status_code=409,
+            detail=f"Active job already running for {series_id}: {existing.command} ({existing.id})",
+        )
+    job_id = create_job(series_id, command)
+    run_subprocess(job_id, series_id, command)
+    if is_form:
+        return RedirectResponse(url="/jobs", status_code=303)
+    return {"job_id": job_id}
+
+
+def _build_cli_args(series_id: str, command: str) -> tuple[list[str], str]:
+    """Return subprocess args and cwd for a catalog CLI command.
+
+    Normal commands: ``uv run lauschi-catalog <command> <series_id>``
+    Discover: ``uv run lauschi-catalog discover <series_id> --write``
+    Pipeline: a shell script that runs all remaining steps from current state.
+    Pipeline-one: forcefully re-runs curate → review → verify → apply.
+    """
+    tools_dir = str(REPO_ROOT / "tools")
+    curation_dir = str(REPO_ROOT / "assets" / "catalog" / "curation")
+    safe_series = shlex.quote(series_id)
+
+    if command == "discover":
+        return (
+            ["uv", "run", "lauschi-catalog", "discover", series_id, "--write"],
+            tools_dir,
+        )
+
+    if command == "pipeline":
+        state = pipeline_status(series_id)
+        steps = ["discover", "curate", "review", "verify", "apply"]
+        remaining: list[str] = []
+        if state.current_step < 0:
+            remaining = steps
+        elif state.current_step < len(steps):
+            remaining = steps[state.current_step :]
+
+        script_lines = [f'cd "{tools_dir}"']
+        for step in remaining:
+            if step == "discover":
+                script_lines.append(
+                    f"uv run lauschi-catalog discover {safe_series} --write"
+                )
+            else:
+                script_lines.append(f"uv run lauschi-catalog {step} {safe_series}")
+
+        script = "\n".join(script_lines)
+        return (
+            ["bash", "-c", script],
+            str(REPO_ROOT),
+        )
+
+    if command == "pipeline-one":
+        # Full pipeline from scratch: discover → curate → review → verify → apply → validate
+        timeout = "7200"
+        script = f'''set -euo pipefail
+cd "{tools_dir}"
+echo "Step 1/6: Discovering {safe_series}..."
+uv run lauschi-catalog discover {safe_series} --write
+
+echo ""
+echo "Step 2/6: Curating {safe_series}..."
+uv run --extra ai lauschi-catalog curate {safe_series} --timeout {timeout} --force
+
+echo ""
+echo "Step 3/6: AI review..."
+uv run --extra ai lauschi-catalog review {safe_series} --timeout {timeout} --force
+
+echo ""
+echo "Step 4/6: 4-eye verification..."
+uv run --extra ai lauschi-catalog verify {safe_series} --timeout {timeout} --force
+
+echo ""
+echo "Step 5/6: Checking verification status..."
+STATUS=$(python3 -c "
+import json, sys
+from pathlib import Path
+p = Path('{curation_dir}') / f'{safe_series}.json'
+if not p.exists(): print('missing'); sys.exit(0)
+d = json.loads(p.read_text())
+print(d.get('review', {{}}).get('status', 'curated'))
+")
+if [ "$STATUS" = "escalated" ]; then
+    echo "Verify escalated. Apply and validate skipped."
+    exit 1
+fi
+
+echo "Applying..."
+uv run lauschi-catalog apply {safe_series}
+
+echo ""
+echo "Step 6/6: Validating..."
+uv run lauschi-catalog validate
+echo "Done."
+'''
+        return (
+            ["bash", "-c", script],
+            str(REPO_ROOT),
+        )
+
+    if command == "validate":
+        # validate supports --series to filter to one series
+        return (
+            ["uv", "run", "lauschi-catalog", "validate", "--series", series_id],
+            tools_dir,
+        )
+
+    # Default: curate, review, verify, apply
+    return (
+        ["uv", "run", "lauschi-catalog", command, series_id],
+        tools_dir,
+    )
+
+
+async def _stream_proc(job_id: str, cmd: list[str], cwd: str) -> None:
+    """Run a subprocess, stream stdout to job log, and update status.
+
+    Races ``stdout.readline()`` against ``proc.wait()`` so an external
+    kill (or a hung grandchild keeping the pipe open) doesn't leave the
+    job stuck as ``running`` in the database.
+    """
+    set_status(job_id, "running")
+    try:
+        proc = await asyncio.create_subprocess_exec(
+            *cmd,
+            stdout=asyncio.subprocess.PIPE,
+            stderr=asyncio.subprocess.STDOUT,
+            cwd=cwd,
+            env={**os.environ, "PYTHONUNBUFFERED": "1"},
+        )
+        _active_procs[job_id] = proc
+        assert proc.stdout is not None
+
+        read_task: asyncio.Task[bytes] | None = None
+        while True:
+            if read_task is None:
+                read_task = asyncio.create_task(proc.stdout.readline())
+            wait_task = asyncio.create_task(proc.wait())
+            done, pending = await asyncio.wait(
+                {read_task, wait_task},
+                return_when=asyncio.FIRST_COMPLETED,
+            )
+            if read_task in done:
+                for t in pending:
+                    t.cancel()
+                line = read_task.result()
+                read_task = None
+                if not line:
+                    break
+                text = line.decode("utf-8", errors="replace").rstrip("\n")
+                if text:
+                    append_log(job_id, text)
+            else:
+                # Process exited; drain remaining buffered stdout then stop.
+                for t in pending:
+                    t.cancel()
+                try:
+                    remaining = await asyncio.wait_for(
+                        proc.stdout.read(),
+                        timeout=2.0,
+                    )
+                    if remaining:
+                        for ln in remaining.decode("utf-8", errors="replace").split(
+                            "\n"
+                        ):
+                            if ln:
+                                append_log(job_id, ln)
+                except asyncio.TimeoutError:
+                    if read_task:
+                        read_task.cancel()
+                break
+
+        if proc.returncode == 0:
+            set_done(job_id)
+        else:
+            set_error(job_id, f"exit code {proc.returncode}")
+    except asyncio.CancelledError:
+        set_status(job_id, "cancelled")
+        raise
+    except Exception as e:
+        tb = traceback.format_exc()
+        set_error(job_id, f"{type(e).__name__}: {e}\n{tb}")
+
+
+def run_subprocess(job_id: str, series_id: str, command: str) -> None:
+    """Launch the CLI command as a subprocess and stream lines to the job log."""
+    cmd, cwd = _build_cli_args(series_id, command)
+
+    async def _runner() -> None:
+        await _stream_proc(job_id, cmd, cwd)
+
+    task = asyncio.create_task(_runner())
+    _active_tasks[job_id] = task
+
+    def _cleanup(t: asyncio.Task[None]) -> None:
+        _active_procs.pop(job_id, None)
+        _active_tasks.pop(job_id, None)
+
+    task.add_done_callback(_cleanup)
+
+
+def run_custom_subprocess(job_id: str, cmd: list[str], cwd: str) -> None:
+    """Run an arbitrary command as a subprocess and stream lines to the job log."""
+
+    async def _runner() -> None:
+        await _stream_proc(job_id, cmd, cwd)
+
+    task = asyncio.create_task(_runner())
+    _active_tasks[job_id] = task
+
+    def _cleanup(t: asyncio.Task[None]) -> None:
+        _active_procs.pop(job_id, None)
+        _active_tasks.pop(job_id, None)
+
+    task.add_done_callback(_cleanup)
+
+
+@router.get("/jobs")
+async def get_jobs(series_id: str | None = None) -> list[dict[str, Any]]:
+    jobs = list_jobs(series_id)
+    return [
+        {
+            "id": j.id,
+            "series_id": j.series_id,
+            "command": j.command,
+            "status": j.status,
+            "log_count": len(j.log_lines),
+            "created_at": j.created_at,
+            "updated_at": j.updated_at,
+        }
+        for j in jobs
+    ]
+
+
+@router.get("/jobs/{job_id}/logs")
+async def get_job_logs(job_id: str) -> dict[str, Any]:
+    """Return all log lines and status for a job (for viewing historical logs)."""
+    job = get_job(job_id)
+    if job is None:
+        raise HTTPException(status_code=404, detail="job not found")
+    return {
+        "id": job.id,
+        "status": job.status,
+        "error": job.error,
+        "lines": job.log_lines,
+    }
+
+
+@router.get("/jobs/{job_id}/events")
+async def job_events(job_id: str) -> StreamingResponse:
+    """SSE endpoint: stream new log lines as they are written.
+
+    Keeps the connection alive indefinitely with periodic heartbeats
+    so long-running pipeline jobs (hours) can be monitored.
+    """
+
+    async def event_stream():
+        last_count = 0
+        heartbeat = 0
+        while True:
+            job = get_job(job_id)
+            if job is None:
+                yield "event: error\ndata: Job not found\n\n"
+                break
+            current = len(job.log_lines)
+            if current > last_count:
+                for line in job.log_lines[last_count:]:
+                    payload = json.dumps({"line": line, "status": job.status})
+                    yield f"event: log\ndata: {payload}\n\n"
+                last_count = current
+            if job.status in ("done", "error", "cancelled"):
+                payload = json.dumps({"status": job.status, "done": True})
+                yield f"event: done\ndata: {payload}\n\n"
+                break
+            # Heartbeat every 30s to keep connection alive through proxies
+            heartbeat += 1
+            if heartbeat % 60 == 0:
+                yield ":heartbeat\n\n"
+            await asyncio.sleep(0.5)
+
+    return StreamingResponse(
+        event_stream(),
+        media_type="text/event-stream",
+        headers={"Cache-Control": "no-cache", "Connection": "keep-alive"},
+    )
+
+
+@router.post("/jobs/{job_id}/cancel", response_model=None)
+async def post_cancel_job(job_id: str, request: Request):
+    """Cancel an active job. Works for in-memory tasks and orphaned DB rows.
+
+    Form POSTs redirect back to /jobs so the UI stays on the page.
+    """
+    content_type = request.headers.get("content-type", "")
+    is_form = (
+        "application/x-www-form-urlencoded" in content_type
+        or "multipart/form-data" in content_type
+    )
+    cancelled = False
+    task = _active_tasks.get(job_id)
+    if task and not task.done():
+        task.cancel()
+        cancelled = True
+    proc = _active_procs.get(job_id)
+    if proc and proc.returncode is None:
+        proc.terminate()
+        cancelled = True
+    job = get_job(job_id)
+    if job and job.status in ("running", "queued"):
+        set_status(job_id, "cancelled")
+        cancelled = True
+    if is_form:
+        return RedirectResponse(url="/jobs", status_code=303)
+    return {"cancelled": cancelled}
+
+
+@router.post("/series/{series_id}/apply")
+async def apply_series(series_id: str) -> dict[str, str]:
+    """Queue an apply job for a series. Writes approved curation to series.yaml."""
+    job_id = create_job(series_id, "apply")
+    run_subprocess(job_id, series_id, "apply")
+    return {"job_id": job_id}

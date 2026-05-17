@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}Pending Splits — lauschi{% endblock %}
+{% block content %}
+    <h1>Pending Splits</h1>
+    <p class="splits-intro">Split proposals from AI review waiting for human approval.</p>
+    {% if splits %}
+        <div class="splits-list">
+            {% for s in splits %}
+                <article class="splits-item">
+                    <div class="splits-item__header">
+                        <div>
+                            <h3>{{ s.title }}</h3>
+                            <p>
+                                <a href="/catalog/{{ s.series_id }}"><code>{{ s.series_id }}</code></a>
+                            </p>
+                        </div>
+                        <div class="splits-item__actions">
+                            <a href="/catalog/{{ s.series_id }}"
+                               role="button"
+                               class="secondary outline">Review</a>
+                        </div>
+                    </div>
+                    <div class="splits-proposals">
+                        {% for split in s.splits %}
+                            <div class="series-card card-compact">
+                                <div class="flex justify-between items-center gap-05 wrap">
+                                    <div>
+                                        <strong>{{ split.new_series_title }}</strong>
+                                        <small class="text-muted block">
+                                            <code>{{ split.new_series_id }}</code> · {{ split.album_ids | length }} albums
+                                        </small>
+                                    </div>
+                                    <a href="/catalog/{{ s.series_id }}"
+                                       role="button"
+                                       class="secondary outline btn-sm">Preview & Decide</a>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </article>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="splits-empty">No pending splits.</p>
+    {% endif %}
+{% endblock %}

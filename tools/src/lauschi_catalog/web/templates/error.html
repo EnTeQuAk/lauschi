@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}Error — lauschi{% endblock %}
+{% block content %}
+    <article class="error-hero">
+        <h1>{{ code }}</h1>
+        <p class="text-muted text-lg">{{ message }}</p>
+        <a href="/catalog" role="button">Back to catalog</a>
+    </article>
+{% endblock %}

@@ -8,8 +8,11 @@ L5  ARTIST      full discography via artist ID (per provider)
 
 from __future__ import annotations
 
+import json
 import re
 from dataclasses import dataclass, field
+from datetime import UTC, datetime
+from pathlib import Path
 
 import click
 import requests
@@ -19,6 +22,9 @@ from rich.table import Table
 from lauschi_catalog.catalog.loader import load_catalog
 from lauschi_catalog.catalog.matcher import extract_episode
 from lauschi_catalog.providers import Album, CatalogProvider
+
+REPO_ROOT = Path(__file__).parent.parent.parent.parent.parent
+CURATION_DIR = REPO_ROOT / "assets" / "catalog" / "curation"
 
 console = Console()
 
@@ -177,6 +183,16 @@ def validate(provider: str, series: str | None, verbose: bool):
                     console.print(f"    [{p.name}] ✗ {t}", style="dim")
 
         table.add_row(*row)
+
+        # Mark this series as validated in its curation JSON
+        curation_path = CURATION_DIR / f"{entry.id}.json"
+        if curation_path.exists():
+            try:
+                data = json.loads(curation_path.read_text())
+                data["validated_at"] = datetime.now(UTC).isoformat()
+                curation_path.write_text(json.dumps(data, indent=2, ensure_ascii=False))
+            except Exception:
+                pass  # Validation output already printed; don't crash here
 
     console.print(table)
 

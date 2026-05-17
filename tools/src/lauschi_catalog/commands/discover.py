@@ -112,28 +112,90 @@ def discover(
         if prune_broken:
             console.print("[red]--prune-broken cannot be combined with a QUERY[/red]")
             raise SystemExit(2)
-        _discover_single(query, providers, verbose=verbose)
+        _discover_single(query, providers, write=write, verbose=verbose)
     elif prune_broken:
         _prune_broken_ids(providers, write=write, verbose=verbose)
     else:
         _discover_all(providers, write=write, verbose=verbose)
 
 
-def _discover_single(query: str, providers: list[CatalogProvider], *, verbose: bool):
-    """Discover artist IDs for a single series."""
+def _discover_single(
+    query: str,
+    providers: list[CatalogProvider],
+    *,
+    write: bool = False,
+    verbose: bool,
+):
+    """Discover artist IDs for a single series.
+
+    With ``--write``, looks up the series in the catalog by id or title
+    and persists discovered artist IDs back to series.yaml.
+    """
     table = Table(title=f"Artist Discovery: {query}")
     table.add_column("Provider", style="cyan")
     table.add_column("Artist", style="green")
     table.add_column("ID", style="yellow")
 
+    discoveries: dict[str, Artist] = {}
     for p in providers:
         artist = discover_for_provider(p, query, verbose=verbose)
         if artist:
             table.add_row(p.name, artist.name, artist.id)
+            discoveries[p.name] = artist
         else:
             table.add_row(p.name, "", "[dim]not found[/dim]")
 
     console.print(table)
+
+    if write:
+        from lauschi_catalog.catalog.loader import (
+            load_catalog,
+            load_raw,
+            save_raw,
+            SERIES_YAML,
+        )
+
+        # Find the matching catalog entry by id or title
+        catalog = load_catalog()
+        entry = None
+        for e in catalog:
+            if e.id == query or e.title == query:
+                entry = e
+                break
+
+        if not entry:
+            console.print(
+                f"[red]Cannot write: no catalog entry matches id={query!r} "
+                "or title={query!r}. Add the series to series.yaml first.[/red]"
+            )
+            raise SystemExit(1)
+
+        raw = load_raw()
+        updated = False
+        for raw_entry in raw.get("series", []):
+            if raw_entry.get("id") != entry.id:
+                continue
+            raw_providers = raw_entry.setdefault("providers", {})
+            for pname, artist in discoveries.items():
+                raw_cfg = raw_providers.setdefault(pname, {})
+                existing = raw_cfg.get("artist_ids") or []
+                if not existing and raw_cfg.get("artist_id"):
+                    existing = [raw_cfg.pop("artist_id")]
+                if artist.id not in existing:
+                    existing.append(artist.id)
+                    raw_cfg["artist_ids"] = existing
+                    updated = True
+                    console.print(
+                        f"[green]Added {pname} artist_id {artist.id} to "
+                        f"{entry.id}[/green]"
+                    )
+            break
+
+        if updated:
+            save_raw(raw)
+            console.print(f"[green]Updated {SERIES_YAML}[/green]")
+        else:
+            console.print("[dim]No new artist_ids to write.[/dim]")
 
 
 def _discover_all(

@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}Merge Series — lauschi{% endblock %}
+{% block content %}
+    <h1>Merge Series</h1>
+    <p class="text-muted">Combine two series. Albums from source are moved to target. Source is deleted.</p>
+    <form method="post" action="/api/series/merge" id="merge-form">
+        <div class="flex gap-1 mb-15 wrap">
+            <div class="merge-field">
+                <label for="source">Source</label>
+                <select name="source_id" id="source" required>
+                    <option value="">Select source…</option>
+                    {% for s in series %}<option value="{{ s.id }}">{{ s.title }} ({{ s.id }})</option>{% endfor %}
+                </select>
+            </div>
+            <div class="flex items-center pt-15">
+                <span class="text-xl text-muted">→</span>
+            </div>
+            <div class="merge-field">
+                <label for="target">Target</label>
+                <select name="target_id" id="target" required>
+                    <option value="">Select target…</option>
+                    {% for s in series %}<option value="{{ s.id }}">{{ s.title }} ({{ s.id }})</option>{% endfor %}
+                </select>
+            </div>
+        </div>
+        <div class="flex gap-05">
+            <button type="submit" class="contrast">Merge</button>
+        </div>
+    </form>
+    {% if message %}<p class="text-green mt-05">{{ message }}</p>{% endif %}
+    {% if error %}<p class="text-red mt-05">{{ error }}</p>{% endif %}
+{% endblock %}

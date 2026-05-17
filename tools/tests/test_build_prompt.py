@@ -98,6 +98,24 @@ def test_prompt_hoerspiel_does_not_emit_music_section():
     assert "Music artist" not in prompt
 
 
+def test_prompt_reflects_content_type_flip_from_prior_review():
+    """A series that flipped from music to hoerspiel in the curation
+    JSON should be reviewed with the hoerspiel rules, even if the
+    prior review block was music-oriented. Defensive test for #137."""
+    curation = make_curation(
+        albums=[make_album("a", "Folge 1: A", episode_num=1)],
+        review={
+            "status": "approved",
+            "reviewed_at": "2026-01-01T00:00:00+00:00",
+            "summary": "Previously reviewed as music",
+        },
+    )
+    curation["content_type"] = "hoerspiel"
+    prompt = _build_prompt(curation)
+    assert "Content type: hoerspiel" in prompt
+    assert "Music artist" not in prompt
+
+
 def test_prompt_carries_structural_analysis_as_json():
     """The structural analysis is included so the agent doesn't recompute it."""
     curation = make_curation(albums=[

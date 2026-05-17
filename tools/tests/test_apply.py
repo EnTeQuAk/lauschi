@@ -1,14 +1,15 @@
-"""Tests for apply._apply_one — the function that ships approved
-curations into series.yaml. Pinning the change-detection logic because
-a silent skip here means the live catalog disagrees with the reviewed
-curation, and the disagreement is invisible until someone re-runs apply.
+"""Tests for apply._apply_one and apply._should_apply.
+
+The change-detection logic is pinned because a silent skip means the
+live catalog disagrees with the reviewed curation. The escalation
+guard is pinned because unverified data must never ship silently.
 """
 
 from __future__ import annotations
 
 from typing import Any
 
-from lauschi_catalog.commands.apply import _apply_one
+from lauschi_catalog.commands.apply import _apply_one, _should_apply
 
 
 def _curation(*, albums: list[dict[str, Any]]) -> dict[str, Any]:
@@ -253,3 +254,72 @@ def test_apply_no_op_when_pattern_already_matches():
     # Album entry is also unchanged so the only thing that could
     # trigger a write is the pattern. None does → updated=False.
     assert _apply_one("s1", curation, yaml_data) is False
+
+
+# ── escalation guard ──────────────────────────────────────────────────────
+
+
+def _escalated_data() -> dict:
+    return {
+        "review": {
+            "status": "escalated",
+            "reviewed_at": "2026-05-01T00:00:00+00:00",
+            "verification": {
+                "verified_at": "2026-05-01T00:00:00+00:00",
+            },
+        },
+        "curated_at": "2026-04-01T00:00:00+00:00",
+    }
+
+
+def test_should_apply_refuses_escalated():
+    data = _escalated_data()
+    result = _should_apply(data, force=False)
+    assert result is not None
+    assert "escalated" in result
+
+
+def test_should_apply_allows_escalated_with_force():
+    data = _escalated_data()
+    assert _should_apply(data, force=True) is None
+
+
+def test_should_apply_allows_approved():
+    data = {
+        "review": {
+            "status": "approved",
+            "reviewed_at": "2026-05-01T00:00:00+00:00",
+            "verification": {
+                "verified_at": "2026-05-01T00:00:00+00:00",
+            },
+        },
+        "curated_at": "2026-04-01T00:00:00+00:00",
+    }
+    assert _should_apply(data, force=False) is None
+
+
+def test_should_apply_refuses_stale_review():
+    data = {
+        "review": {
+            "status": "approved",
+            "reviewed_at": "2026-01-01T00:00:00+00:00",
+        },
+        "curated_at": "2026-02-01T00:00:00+00:00",
+    }
+    assert _should_apply(data, force=False) is not None
+    assert "stale" in _should_apply(data, force=False)
+
+
+def test_should_apply_refuses_stale_verification():
+    data = {
+        "review": {
+            "status": "approved",
+            "reviewed_at": "2026-02-01T00:00:00+00:00",
+            "verification": {
+                "verified_at": "2026-01-01T00:00:00+00:00",
+            },
+        },
+        "curated_at": "2026-01-01T00:00:00+00:00",
+    }
+    assert _should_apply(data, force=False) is not None
+    assert "stale" in _should_apply(data, force=False)

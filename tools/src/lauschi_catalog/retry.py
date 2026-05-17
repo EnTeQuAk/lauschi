@@ -27,8 +27,8 @@ _RETRYABLE_PATTERNS: tuple[str, ...] = (
     "temporarily unavailable",
 )
 
-# Any 5xx status code embedded in an error string.
-_RETRYABLE_STATUS = re.compile(r"\b5\d\d\b")
+# Any 5xx or 429 status code embedded in an error string.
+_RETRYABLE_STATUS = re.compile(r"\b(?:5\d\d|429)\b")
 
 # Type-name match by string so we don't take an import dependency on
 # every SDK's exception namespace. Matched against the full MRO so a

@@ -446,3 +446,16 @@ Consistent rounded corners reinforce the Headspace-like organic feel.
 - **Don't** use continuous animations — pulsing, spinning, bouncing loops. Motion is breathing, not performing.
 - **Don't** use em-dashes in any copy. Commas, colons, semicolons, periods, or parentheses.
 - **Don't** add long-press menus, context menus, or hidden gestures in kid mode. Predictable tap-only.
+
+---
+
+## Accessibility & Inclusion
+
+- WCAG 2.1 AA baseline
+- Neurodivergent-friendly: no flashing, no pulsing, no continuous motion. Predictable state changes. No hidden gestures or long-press menus.
+- Dyslexia considerations: generous line spacing, clean sans-serif typeface (Nunito), short labels, high-contrast text
+- Color-vision safety: never rely on color alone for state (combine with shape, icon, or position)
+- Touch targets: 48dp minimum, 64dp+ for kid-facing controls
+- Screen reader support for parent mode; semantic labels for all interactive elements
+
+See [accessibility.md](accessibility.md) for detailed age-group guidance and touch-target breakdowns.

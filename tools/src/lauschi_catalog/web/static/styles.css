@@ -1,0 +1,456 @@
+/* lauschi catalog web — semantic components & minimal utilities */
+
+/* ── Spacing utilities (keep minimal set) ───────── */
+.mb-0 {
+	margin-bottom: 0;
+}
+.mb-05 {
+	margin-bottom: 0.5rem;
+}
+.mb-1 {
+	margin-bottom: 1rem;
+}
+.mb-15 {
+	margin-bottom: 1.5rem;
+}
+.mt-05 {
+	margin-top: 0.5rem;
+}
+.mt-1 {
+	margin-top: 1rem;
+}
+.mt-3 {
+	margin-top: 3rem;
+}
+.pt-15 {
+	padding-top: 1.5rem;
+}
+.mb-075 {
+	margin-bottom: 0.75rem;
+}
+
+/* ── Text utilities ─────────────────────────────── */
+.text-muted {
+	color: var(--pico-muted-color);
+}
+.text-green {
+	color: var(--pico-color-green-500);
+}
+.text-red {
+	color: var(--pico-color-red-500);
+}
+.text-center {
+	text-align: center;
+}
+.text-lg {
+	font-size: 1.25em;
+}
+.text-xl {
+	font-size: 1.5em;
+}
+
+/* ── Layout utilities (minimal) ───────────────── */
+.flex {
+	display: flex;
+}
+.flex-col {
+	flex-direction: column;
+}
+.items-center {
+	align-items: center;
+}
+.items-start {
+	align-items: flex-start;
+}
+.justify-between {
+	justify-content: space-between;
+}
+.gap-05 {
+	gap: 0.5rem;
+}
+.gap-1 {
+	gap: 1rem;
+}
+.wrap {
+	flex-wrap: wrap;
+}
+.shrink-0 {
+	flex-shrink: 0;
+}
+
+/* ── Sizing utilities ───────────────────────────── */
+.w-full {
+	width: 100%;
+}
+.w-2rem {
+	width: 2rem;
+}
+.w-7rem {
+	width: 7rem;
+}
+.max-w-220 {
+	max-width: 220px;
+}
+.max-w-320 {
+	max-width: 320px;
+}
+.max-w-600 {
+	max-width: 600px;
+}
+
+/* ── Visibility ─────────────────────────────────── */
+.hidden {
+	display: none !important;
+}
+
+/* ── Nav tabs ───────────────────────────────────── */
+.nav-tabs {
+	border-bottom: 1px solid var(--pico-muted-border-color);
+	margin-bottom: 1rem;
+}
+.nav-tabs ul {
+	gap: 0;
+}
+.nav-tabs button,
+.nav-tabs a[role="button"] {
+	border-radius: var(--pico-border-radius) var(--pico-border-radius) 0 0;
+}
+
+/* ── Detail meta panel ──────────────────────────── */
+.detail-meta {
+	padding: 1.5rem;
+	margin-bottom: 1.5rem;
+}
+.detail-meta__header {
+	margin-bottom: 0.75rem;
+}
+
+/* ── Provider list ────────────────────────────────── */
+.provider-list {
+	display: flex;
+	gap: 0.4rem;
+	align-items: center;
+	flex-wrap: wrap;
+}
+
+/* ── Article panels ─────────────────────────────── */
+.panel {
+	padding: 1rem 1.25rem;
+	margin-bottom: 1.5rem;
+}
+.panel-sm {
+	padding: 1rem 1.25rem;
+	margin-bottom: 1rem;
+}
+
+/* ── Dialog overlay (Alpine x-show modal) ───────── */
+.dialog-overlay {
+	position: fixed;
+	inset: 0;
+	background: rgba(0, 0, 0, 0.6);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	z-index: 200;
+	padding: 1rem;
+}
+.dialog-panel {
+	background: var(--pico-card-background-color);
+	border-radius: var(--pico-border-radius);
+	padding: 1.5rem;
+	max-width: 600px;
+	width: 100%;
+	max-height: 80vh;
+	overflow-y: auto;
+	box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+[x-cloak] {
+	display: none !important;
+}
+
+/* ── Dialog wide ─────────────────────────────────── */
+.dialog-wide {
+	max-width: 600px;
+	width: 90vw;
+}
+
+/* ── Footer actions ──────────────────────────────── */
+.footer-actions {
+	display: flex;
+	gap: 0.5rem;
+	justify-content: flex-end;
+}
+
+/* ── Small pre/code ─────────────────────────────── */
+.pre-sm {
+	font-size: 0.8em;
+}
+
+/* ── Small buttons ──────────────────────────────── */
+.btn-sm {
+	padding: 0.2em 0.5em;
+	font-size: 0.8em;
+}
+
+/* ── Block-level elements ───────────────────────── */
+.block {
+	display: block;
+}
+
+/* ── Job log scroll area ────────────────────────── */
+.job-log-scroll {
+	overflow-y: auto;
+	max-height: calc(40vh - 4rem);
+}
+
+/* ── Icons ───────────────────────────────────────── */
+.icon-1em {
+	width: 1em;
+	height: 1em;
+}
+
+/* ── Provider icons ──────────────────────────────── */
+.provider-icon {
+	width: 20px;
+	height: 20px;
+	display: block;
+}
+
+/* ── Card link (no underline) ────────────────────── */
+.card-link {
+	text-decoration: none;
+}
+
+/* ── Pipeline bar spacing ────────────────────────── */
+.pipeline-bar--small {
+	margin-bottom: 0.75rem;
+}
+.pipeline-link {
+	font-weight: 600;
+}
+
+/* ── Episode coverage bar ────────────────────────── */
+.coverage-bar {
+	font-family: monospace;
+	font-size: 0.85em;
+	line-height: 1.4;
+}
+.coverage-row {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	margin-bottom: 0.15rem;
+}
+.coverage-label {
+	color: var(--pico-muted-color);
+	font-size: 0.75em;
+	min-width: 4.5em;
+	text-align: right;
+	flex-shrink: 0;
+}
+.coverage-dots {
+	display: flex;
+	gap: 2px;
+	flex-wrap: nowrap;
+}
+.coverage-dot {
+	display: inline-block;
+	width: 1.1em;
+	height: 1.1em;
+	border-radius: 50%;
+	background: #22c55e;
+	text-decoration: none;
+	transition: transform 0.15s ease, opacity 0.15s ease;
+	cursor: pointer;
+}
+.coverage-dot:hover {
+	transform: scale(1.3);
+	z-index: 1;
+}
+.coverage-dot--full {
+	background: #22c55e;
+}
+.coverage-dot--partial {
+	background: #f59e0b;
+}
+.coverage-dot--missing {
+	background: #ef4444;
+	opacity: 0.5;
+}
+.coverage-dot--missing:hover {
+	opacity: 1;
+}
+.coverage-legend {
+	font-size: 0.75em;
+	margin-bottom: 0;
+	margin-top: 0.5rem;
+}
+.coverage-legend .coverage-dot {
+	width: 1.1em;
+	height: 1.1em;
+	display: inline-block;
+	vertical-align: middle;
+	margin-right: 0.15em;
+}
+.coverage-legend .coverage-dot + .coverage-dot {
+	margin-left: 0.5em;
+}
+
+/* ── Coverage diff table cells ──────────────────── */
+.coverage-cell {
+	display: inline-block;
+	text-align: center;
+	min-width: 1.2em;
+}
+.coverage-cell--present {
+	color: #22c55e;
+	font-weight: bold;
+}
+.coverage-cell--missing {
+	opacity: 0.25;
+}
+
+/* ── Table scroll wrapper ───────────────────────── */
+.table-scroll {
+	max-height: 40vh;
+	overflow-y: auto;
+}
+
+/* ── Active pipeline banner ──────────────────────── */
+.pipeline-banner {
+	padding: 0.5rem 1rem;
+	background: var(--pico-color-amber-700);
+	border-radius: var(--pico-border-radius);
+	color: #fff;
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	margin-top: 0.5rem;
+}
+.pipeline-banner .subtle {
+	color: rgba(255, 255, 255, 0.8);
+}
+
+/* ── Error page ──────────────────────────────────── */
+.error-page {
+	padding: 4rem 1rem;
+	text-align: center;
+}
+
+/* ── Merge form fields ──────────────────────────── */
+.merge-field {
+	flex: 1;
+	min-width: 200px;
+}
+
+/* ── Splits page ─────────────────────────────────── */
+.splits-list {
+	display: flex;
+	flex-direction: column;
+	gap: 0.75rem;
+}
+.splits-item {
+	padding: 1.25rem;
+}
+.splits-item__header {
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-start;
+	gap: 1rem;
+	flex-wrap: wrap;
+}
+.splits-item__header h3 {
+	margin-bottom: 0.25rem;
+}
+.splits-item__header p {
+	color: var(--pico-muted-color);
+	margin: 0;
+}
+.splits-item__actions {
+	display: flex;
+	gap: 0.3rem;
+	flex-shrink: 0;
+}
+.splits-item__actions a {
+	padding: 0.2em 0.5em;
+	font-size: 0.8em;
+}
+.splits-proposals {
+	margin-top: 0.75rem;
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+}
+.splits-proposal {
+	padding: 0.75rem 1rem;
+}
+.splits-empty {
+	color: var(--pico-muted-color);
+	text-align: center;
+	margin-top: 3rem;
+}
+.splits-intro {
+	color: var(--pico-muted-color);
+}
+
+/* ── Card grid variant (review queue) ───────────── */
+.card-grid--compact {
+	grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+}
+
+/* ── Table column widths ────────────────────────── */
+.col-check {
+	width: 3rem;
+}
+.col-num {
+	width: 3rem;
+}
+.col-release {
+	width: 7rem;
+}
+
+/* ── Compact card variant ─────────────────────────── */
+.card-compact {
+	padding: 1rem;
+}
+
+/* ── Inline reason input ──────────────────────────── */
+.reason-input {
+	font-size: 0.75em;
+	padding: 0.15em 0.3em;
+	margin: 0;
+}
+
+/* ── Card action bar (catalog browse) ─────────────── */
+.card-actions {
+	display: flex;
+	gap: 0.5rem;
+	margin-top: 0.75rem;
+	padding-top: 0.5rem;
+	border-top: 1px solid var(--pico-muted-border-color);
+}
+
+/* ── Inline form (for table action buttons) ──────── */
+.form-inline {
+	display: inline;
+}
+
+/* ── Row highlight (scroll-to-episode) ────────────── */
+.highlight-row {
+	outline: 2px solid var(--pico-primary);
+	outline-offset: -2px;
+	animation: flash-row 2s ease-out;
+}
+@keyframes flash-row {
+	from {
+		background: var(--pico-primary-focus);
+	}
+	to {
+		background: transparent;
+	}
+}
+
+/* ── Main content bottom padding (for job drawer) ─── */
+main.container {
+	padding-bottom: 6rem;
+}
