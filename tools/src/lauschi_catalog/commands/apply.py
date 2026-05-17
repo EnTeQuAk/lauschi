@@ -197,6 +197,10 @@ def _filter_confirmed_facts(facts: dict) -> dict | None:
     for key in ("era_boundaries", "known_gaps", "sub_series"):
         kept = []
         for item in facts.get(key, []):
+            # Defense in depth: reject if verify explicitly disagreed,
+            # even if a stale confirmed_by/confirmed_at is present.
+            if item.get("verify_status") == "disagreed":
+                continue
             if item.get("confirmed_by") and item.get("confirmed_at"):
                 # Keep provenance in yaml; strip curation-time fields
                 kept.append({

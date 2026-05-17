@@ -36,10 +36,16 @@ def lint_curation(curation: dict) -> list[str]:
     issues: list[str] = []
     albums = curation.get("albums", [])
     facts_dict = curation.get("series_facts")
-    facts = (
-        SeriesFacts.model_validate(facts_dict)
-        if facts_dict else None
-    )
+    facts: SeriesFacts | None = None
+    if facts_dict:
+        try:
+            facts = SeriesFacts.model_validate(facts_dict)
+        except Exception as e:
+            # Don't crash lint because a bad fact shape sneaked in.
+            # Surface it as an issue so the human can fix it.
+            issues.append(
+                f"[malformed series_facts: {type(e).__name__}: {e}]"
+            )
     pattern = curation.get("episode_pattern")
 
     included = [a for a in albums if a.get("include")]

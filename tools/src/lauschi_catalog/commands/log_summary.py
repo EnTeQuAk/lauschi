@@ -128,7 +128,7 @@ class SeriesReport:
 
     # Verify phase
     verify_seen: bool = False
-    verify_status: str = "not_seen"  # approved | escalated | failed | not_seen
+    verify_status: str = "not_seen"  # approved | flagged | escalated | failed | not_seen
     verify_concerns: str = ""
 
     # Apply phase
@@ -179,7 +179,8 @@ _RE_REVIEW_SUMMARY = re.compile(r"^\s+Summary: (.+)$")
 
 # Verify phase
 _RE_VERIFYING = re.compile(r"^Verifying ([a-z][a-z0-9_]*)\.{3}")
-_RE_VERIFY_APPROVED = re.compile(r"^\s+✓ Approved")
+_RE_VERIFY_APPROVED = re.compile(r"^\s+✓ Approved(?:\s+\[|$)")
+_RE_VERIFY_FLAGGED = re.compile(r"^\s+✓ Approved\s+\(flagged")
 _RE_VERIFY_ESCALATED = re.compile(r"^\s+⚠ Escalated")
 _RE_VERIFY_CONCERNS = re.compile(r"^\s+Concerns: (.+)$")
 
@@ -433,6 +434,9 @@ def parse_log(log_path: Path) -> dict[str, SeriesReport]:
             cur_verify.verify_seen = True
             continue
         if phase == "verify" and cur_verify is not None:
+            if _RE_VERIFY_FLAGGED.match(line):
+                cur_verify.verify_status = "flagged"
+                continue
             if _RE_VERIFY_APPROVED.match(line):
                 cur_verify.verify_status = "approved"
                 continue
@@ -473,13 +477,14 @@ class PhaseCounts:
     failed: int = 0
     skipped: int = 0
     not_seen: int = 0
-    # Phase-specific extras (escalated only meaningful for verify, etc.)
+    # Phase-specific extras (escalated/flagged only meaningful for verify)
+    flagged: int = 0
     escalated: int = 0
 
     @property
     def reached(self) -> int:
         """Series that this phase touched (success + failed + skipped)."""
-        return self.success + self.failed + self.skipped + self.escalated
+        return self.success + self.failed + self.skipped + self.flagged + self.escalated
 
 
 def _count_phase(
@@ -497,8 +502,11 @@ def _count_phase(
         else:
             status = "not_seen"
 
-        if status == "success" or status == "approved" or status == "applied":
+        if status in ("success", "approved", "applied"):
             counts.success += 1
+        elif status == "flagged":
+            counts.success += 1
+            counts.flagged += 1
         elif status == "escalated":
             counts.escalated += 1
         elif status == "failed":
@@ -627,6 +635,8 @@ def classify(r: SeriesReport) -> Health:
         return Health.FAILED
     if r.verify_status == "escalated":
         return Health.ESCALATED
+    if r.verify_status == "flagged":
+        return Health.ATTENTION
     if r.verify_status == "failed":
         return Health.FAILED
     if (
@@ -671,6 +681,8 @@ def collect_flags(r: SeriesReport) -> list[str]:
         flags.append("🗑️removal-proposed")
     if r.verify_status == "escalated":
         flags.append("verify-escalated")
+    if r.verify_status == "flagged":
+        flags.append("verify-flagged")
     return flags
 
 
@@ -686,6 +698,8 @@ def _phase_cell(status: str) -> str:
         return "[red]✗[/red]"
     if status in ("approved",):
         return "[green]✓[/green]"
+    if status == "flagged":
+        return "[yellow]✓[/yellow]"
     if status == "escalated":
         return "[magenta]⚠[/magenta]"
     if status == "applied":
@@ -756,6 +770,8 @@ def render_progress(
         bits: list[str] = []
         if counts.success:
             bits.append(f"[green]{counts.success} ok[/green]")
+        if counts.flagged:
+            bits.append(f"[yellow]{counts.flagged} flagged[/yellow]")
         if counts.escalated:
             bits.append(f"[magenta]{counts.escalated} escalated[/magenta]")
         if counts.failed:

@@ -61,7 +61,7 @@ class TestLintGapDetection:
                 _make_album("a3", "Ep 3", episode_num=3),
             ],
             "series_facts": {
-                "known_gaps": [{"number": 2, "reason": "legal dispute"}],
+                "known_gaps": [{"number": 2, "reason": "legal dispute", "discovered_by": "curate"}],
             },
         }
         assert lint_curation(curation) == []
@@ -116,7 +116,7 @@ class TestLintDuplicateDetection:
             ],
             "series_facts": {
                 "era_boundaries": [
-                    {"label": "modern", "release_date_range": "2019-2022"},
+                    {"label": "modern", "release_date_range": "2019-2022", "discovered_by": "curate"},
                 ],
             },
         }
@@ -238,6 +238,7 @@ class TestLintUnconfirmedFacts:
                     {
                         "label": "modern",
                         "release_date_range": "2020-2022",
+                        "discovered_by": "curate",
                         "verify_status": "disagreed",
                         "verify_reasoning": "no albums in this range",
                     },
@@ -255,6 +256,7 @@ class TestLintUnconfirmedFacts:
                     {
                         "number": 7,
                         "reason": "legal dispute",
+                        "discovered_by": "curate",
                         "verify_status": "disagreed",
                         "verify_reasoning": "episode exists on provider",
                     },
@@ -272,6 +274,7 @@ class TestLintUnconfirmedFacts:
                     {
                         "label": "modern",
                         "release_date_range": "2020-2022",
+                        "discovered_by": "curate",
                         "verify_status": "agreed",
                     },
                 ],

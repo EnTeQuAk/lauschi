@@ -15,6 +15,7 @@ import os
 from dataclasses import dataclass, field
 from datetime import UTC, datetime
 from pathlib import Path
+from typing import Literal
 
 import click
 from pydantic import BaseModel, Field
@@ -59,7 +60,7 @@ class SplitVerdict(BaseModel):
 class FactVerdict(BaseModel):
     """Verify's opinion on a specific proposed fact."""
 
-    fact_type: str  # "era_boundary", "known_gap", "sub_series"
+    fact_type: Literal["era_boundary", "known_gap", "sub_series"]
     identifier: str | int  # label for era_boundary/sub_series, number for known_gap
     agree: bool
     reason: str = ""
@@ -497,6 +498,41 @@ async def verify_one(
                 raise
 
 
+def _match_verdict(
+    verdicts: dict[tuple[str, str | int], FactVerdict],
+    fact_type: str,
+    identifier: str | int,
+) -> FactVerdict | None:
+    """Lookup a FactVerdict with type coercion for known gaps.
+
+    LLMs may return ``identifier: "156"`` (string) when the fact has
+    ``number: 156`` (int). We coerce int-like strings and strip/lower
+    labels so the match survives schema drift.
+    """
+    candidates: list[str | int] = [identifier]
+    if isinstance(identifier, str) and fact_type == "known_gap":
+        try:
+            candidates.append(int(identifier))
+        except ValueError:
+            pass
+    elif isinstance(identifier, int) and fact_type == "known_gap":
+        candidates.append(str(identifier))
+    if isinstance(identifier, str):
+        candidates.append(identifier.strip())
+    # Try each candidate form
+    for cand in candidates:
+        key = (fact_type, cand)
+        if key in verdicts:
+            return verdicts[key]
+    # Case-fold fallback for labels
+    if isinstance(identifier, str):
+        target = identifier.strip().casefold()
+        for (ft, ident), v in verdicts.items():
+            if ft == fact_type and isinstance(ident, str) and ident.strip().casefold() == target:
+                return v
+    return None
+
+
 def apply_verification(
     series_id: str,
     result: VerifyResult,
@@ -519,38 +555,69 @@ def apply_verification(
             for v in result.fact_verdicts
         }
 
+        matched: set[tuple[str, str | int]] = set()
+
         for e in series_facts.get("era_boundaries", []):
-            v = verdicts.get(("era_boundary", e.get("label", "")))
+            label = e.get("label", "")
+            v = _match_verdict(verdicts, "era_boundary", label)
             if v:
+                matched.add(("era_boundary", label))
                 if v.agree:
                     e["confirmed_by"] = "verify"
-                    e["confirmed_at"] = now
+                    # Only stamp confirmed_at on first confirmation; re-agreement
+                    # leaves the original timestamp intact for the audit trail.
+                    if not e.get("confirmed_at"):
+                        e["confirmed_at"] = now
                     e["verify_status"] = "agreed"
                 else:
+                    # Disagreement wipes any stale confirmation so the fact
+                    # can't slip through _filter_confirmed_facts.
+                    e["confirmed_by"] = None
+                    e["confirmed_at"] = None
                     e["verify_status"] = "disagreed"
                     e["verify_reasoning"] = v.reason
 
         for g in series_facts.get("known_gaps", []):
-            v = verdicts.get(("known_gap", g.get("number")))
+            num = g.get("number")
+            v = _match_verdict(verdicts, "known_gap", num)
             if v:
+                matched.add(("known_gap", num))
                 if v.agree:
                     g["confirmed_by"] = "verify"
-                    g["confirmed_at"] = now
+                    if not g.get("confirmed_at"):
+                        g["confirmed_at"] = now
                     g["verify_status"] = "agreed"
                 else:
+                    g["confirmed_by"] = None
+                    g["confirmed_at"] = None
                     g["verify_status"] = "disagreed"
                     g["verify_reasoning"] = v.reason
 
         for s in series_facts.get("sub_series", []):
-            v = verdicts.get(("sub_series", s.get("label", "")))
+            label = s.get("label", "")
+            v = _match_verdict(verdicts, "sub_series", label)
             if v:
+                matched.add(("sub_series", label))
                 if v.agree:
                     s["confirmed_by"] = "verify"
-                    s["confirmed_at"] = now
+                    if not s.get("confirmed_at"):
+                        s["confirmed_at"] = now
                     s["verify_status"] = "agreed"
                 else:
+                    s["confirmed_by"] = None
+                    s["confirmed_at"] = None
                     s["verify_status"] = "disagreed"
                     s["verify_reasoning"] = v.reason
+
+        # Warn about verdicts that didn't match any fact — these are
+        # likely hallucinations or identifier drift and will be silently
+        # ignored if not surfaced.
+        unmatched = set((v.fact_type, v.identifier) for v in result.fact_verdicts) - matched
+        for ft, ident in sorted(unmatched):
+            console.print(
+                f"  [yellow]⚠ Verify verdict {ft!r} ({ident!r}) "
+                f"did not match any fact in {series_id}[/yellow]",
+            )
 
         data["series_facts"] = series_facts
 

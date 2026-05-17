@@ -11,6 +11,8 @@ from hallucination that slipped through.
 
 from __future__ import annotations
 
+from typing import Literal
+
 from pydantic import BaseModel, Field, field_validator
 
 
@@ -36,10 +38,10 @@ class EraBoundary(BaseModel):
             )
             raise ValueError(msg)
         return v
-    discovered_by: str = Field(default="curate")
+    discovered_by: str
     confirmed_by: str | None = Field(default=None)
     confirmed_at: str | None = Field(default=None)
-    verify_status: str | None = Field(
+    verify_status: Literal["agreed", "disagreed"] | None = Field(
         default=None,
         description="'agreed' or 'disagreed' — set by verify per-fact",
     )
@@ -56,10 +58,10 @@ class KnownGap(BaseModel):
     reason: str = Field(
         description="Why this episode is missing, e.g. 'legal dispute'.",
     )
-    discovered_by: str = Field(default="curate")
+    discovered_by: str
     confirmed_by: str | None = Field(default=None)
     confirmed_at: str | None = Field(default=None)
-    verify_status: str | None = Field(
+    verify_status: Literal["agreed", "disagreed"] | None = Field(
         default=None,
         description="'agreed' or 'disagreed' — set by verify per-fact",
     )
@@ -75,10 +77,10 @@ class SubSeriesFact(BaseModel):
     label: str
     album_ids: list[str] = Field(default_factory=list)
     reason: str = ""
-    discovered_by: str = Field(default="curate")
+    discovered_by: str
     confirmed_by: str | None = Field(default=None)
     confirmed_at: str | None = Field(default=None)
-    verify_status: str | None = Field(
+    verify_status: Literal["agreed", "disagreed"] | None = Field(
         default=None,
         description="'agreed' or 'disagreed' — set by verify per-fact",
     )

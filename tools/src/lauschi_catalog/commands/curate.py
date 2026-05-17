@@ -929,63 +929,71 @@ from the track listing. Don't guess.
     ) -> str:
         """Propose structured facts about the series.
 
-        Only propose facts not already present in existing_facts.
+        You may call this tool multiple times in a single finalize run;
+        each call accumulates new facts. Only propose facts not already
+        present in existing_facts or in facts proposed by a prior call.
         Each fact must have a clear justification based on the
         discography data (release_date clustering, title patterns).
         """
         from lauschi_catalog.catalog.facts import EraBoundary, KnownGap, SubSeriesFact
 
         existing = ctx.deps.existing_facts or SeriesFacts()
-        new_facts = SeriesFacts()
+        # Start from any already-proposed facts in this run so multiple
+        # calls accumulate rather than overwrite.
+        if ctx.deps.proposed_facts is None:
+            ctx.deps.proposed_facts = SeriesFacts()
+        accumulated = ctx.deps.proposed_facts
         recorded: list[str] = []
 
         # era_boundaries
         if era_boundaries:
-            existing_labels = {e.label for e in existing.era_boundaries}
+            all_labels = {e.label for e in existing.era_boundaries} | {e.label for e in accumulated.era_boundaries}
             for raw in era_boundaries:
                 label = raw.get("label", "")
-                if label in existing_labels:
+                if label in all_labels:
                     continue
-                new_facts.era_boundaries.append(EraBoundary(
+                accumulated.era_boundaries.append(EraBoundary(
                     label=label,
                     release_date_range=raw.get("release_date_range", ""),
                     discovered_by="curate",
                 ))
                 recorded.append(f"era: {label}")
+                all_labels.add(label)
 
         # known_gaps
         if known_gaps:
-            existing_nums = {g.number for g in existing.known_gaps}
+            all_nums = {g.number for g in existing.known_gaps} | {g.number for g in accumulated.known_gaps}
             for raw in known_gaps:
                 num = raw.get("number")
-                if num in existing_nums:
+                if num in all_nums:
                     continue
-                new_facts.known_gaps.append(KnownGap(
+                accumulated.known_gaps.append(KnownGap(
                     number=num,
                     reason=raw.get("reason", ""),
                     discovered_by="curate",
                 ))
                 recorded.append(f"gap: {num}")
+                all_nums.add(num)
 
         # sub_series
         if sub_series:
-            existing_labels = {s.label for s in existing.sub_series}
+            all_labels = {s.label for s in existing.sub_series} | {s.label for s in accumulated.sub_series}
             for raw in sub_series:
                 label = raw.get("label", "")
-                if label in existing_labels:
+                if label in all_labels:
                     continue
-                new_facts.sub_series.append(SubSeriesFact(
+                accumulated.sub_series.append(SubSeriesFact(
                     label=label,
                     album_ids=raw.get("album_ids", []),
                     reason=raw.get("reason", ""),
                     discovered_by="curate",
                 ))
                 recorded.append(f"sub: {label}")
+                all_labels.add(label)
 
         if not recorded:
             return "No new facts proposed (all already documented or empty)."
 
-        ctx.deps.proposed_facts = new_facts
         console.print(
             f"  [cyan]📊 propose_series_facts → {', '.join(recorded)}[/]",
         )
