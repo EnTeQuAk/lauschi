@@ -39,6 +39,7 @@ from lauschi_catalog.catalog.matcher import compute_pattern_coverage as _compute
 from lauschi_catalog.catalog.prompt import album_to_dict, format_albums_xml
 from lauschi_catalog.providers import Album, CatalogProvider
 from lauschi_catalog.providers._validate import explain_invalid, is_valid_id
+from lauschi_catalog.rate_limit import RateLimiter, run_with_rate_limit_retry
 from lauschi_catalog.retry import is_retryable
 
 console = Console()
@@ -48,8 +49,6 @@ CURATION_DIR = REPO_ROOT / "assets" / "catalog" / "curation"
 CURATION_DIR.mkdir(parents=True, exist_ok=True)
 
 _DEFAULT_MODEL = "kimi-k2.6"
-_MAX_RETRIES = 3
-_RETRY_DELAY = 5
 
 _BATCH_SIZE = 30
 
@@ -1038,37 +1037,20 @@ async def _run_agent(agent, prompt, deps):
 _is_retryable = is_retryable
 
 
-async def _run_with_retry(coro_factory, *, phase: str = ""):
-    last_err: Exception | None = None
-    for attempt in range(1, _MAX_RETRIES + 1):
-        try:
-            return await coro_factory()
-        except asyncio.TimeoutError:
-            raise
-        except Exception as e:
-            last_err = e
-            err_str = str(e)
-            # Don't dump the full traceback: the SDK formats raw response
-            # bodies into exception messages and a 1000-char slice can
-            # carry request headers (incl. Authorization) into the log.
-            # The exception type + message is enough to diagnose, and a
-            # user can re-run with PYTHONFAULTHANDLER=1 if they want more.
-            if is_retryable(e) and attempt < _MAX_RETRIES:
-                # Exponential backoff: 2s, 5s, 10s — helps with rate limits
-                delay = {1: 2, 2: 5, 3: 10}.get(attempt, _RETRY_DELAY)
-                console.print(
-                    f"[yellow]{phase} attempt {attempt}/{_MAX_RETRIES} "
-                    f"failed ({type(e).__name__}), retrying in "
-                    f"{delay}s…[/]",
-                )
-                await asyncio.sleep(delay)
-                continue
-            console.print(
-                f"[red]{phase} failed: {type(e).__name__}: "
-                f"{escape(err_str[:300])}[/]",
-            )
-            raise
-    raise RuntimeError(f"Exhausted {_MAX_RETRIES} retries in {phase}: {last_err}")
+async def _run_with_retry(
+    coro_factory, *, phase: str = "", model_name: str = "",
+):
+    rate_limiter = RateLimiter(model_name) if model_name.startswith("mistral-") else None
+    return await run_with_rate_limit_retry(
+        coro_factory,
+        phase=phase,
+        model_name=model_name,
+        rate_limiter=rate_limiter,
+        max_retries=5,
+        base_delay=5.0,
+        max_delay=120.0,
+        console=console,
+    )
 
 
 # ── Small discography flow (single agent) ──────────────────────────────────
@@ -1233,6 +1215,7 @@ async def _run_large(
             timeout=300,
         ),
         phase="metadata",
+        model_name=model_name,
     )
     # Ensure artist IDs are in metadata
     if not meta.provider_artist_ids:
@@ -1365,6 +1348,7 @@ async def _run_large(
                 _run_agent(batch_agent, p, shared_deps), timeout=600,
             ),
             phase=f"batch {batch_num}/{len(batches)}",
+            model_name=model_name,
         )
 
         # Hydrate release_date from the discovery dict — the agent
@@ -1397,7 +1381,7 @@ async def _run_large(
         # (e.g. Mistral free tier: ~0.83 requests/sec for small-2603).
         # Only sleep between batches, not after the last one.
         if batch_num < len(batches):
-            await asyncio.sleep(2)
+            await asyncio.sleep(4)
 
     console.print(
         f"\n  [bold]Total: [green]{total_inc} included[/]  "
@@ -1496,6 +1480,7 @@ async def _run_large(
                         timeout=300,
                     ),
                     phase="finalize",
+                    model_name=model_name,
                 )
                 # Apply episode updates
                 updated = 0

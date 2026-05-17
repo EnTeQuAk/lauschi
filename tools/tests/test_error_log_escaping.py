@@ -73,14 +73,14 @@ def test_review_per_series_error_log_uses_escape():
 
 def test_curate_run_with_retry_error_log_uses_escape():
     src = open(
-        "src/lauschi_catalog/commands/curate.py", encoding="utf-8",
+        "src/lauschi_catalog/rate_limit.py", encoding="utf-8",
     ).read()
-    block_start = src.find("phase} failed:")
-    assert block_start >= 0, "expected curate retry error line not found"
+    block_start = src.find("failed:")
+    assert block_start >= 0, "expected rate_limit retry error line not found"
     line = src[block_start - 200:block_start + 400]
-    assert "escape(err_str" in line, (
-        "curate.py's _run_with_retry final failure log must "
-        "escape(err_str) for the same reason as review.py"
+    assert "escape(" in line, (
+        "rate_limit.py's run_with_rate_limit_retry final failure log must "
+        "escape() for the same reason as review.py"
     )
 
 
