@@ -504,34 +504,38 @@ def _match_verdict(
     verdicts: dict[tuple[str, str | int], FactVerdict],
     fact_type: str,
     identifier: str | int,
-) -> FactVerdict | None:
+) -> tuple[FactVerdict, tuple[str, str | int]] | None:
     """Lookup a FactVerdict with type coercion for known gaps.
 
     LLMs may return ``identifier: "156"`` (string) when the fact has
     ``number: 156`` (int). We coerce int-like strings and strip/lower
     labels so the match survives schema drift.
+
+    Returns ``(verdict, matched_key)`` so the caller knows which raw
+    verdict was consumed and can exclude it from the unmatched warning.
     """
-    candidates: list[str | int] = [identifier]
+    candidates: list[tuple[str | int, tuple[str, str | int]]] = [
+        (identifier, (fact_type, identifier)),
+    ]
     if isinstance(identifier, str) and fact_type == "known_gap":
         try:
-            candidates.append(int(identifier))
+            candidates.append((int(identifier), (fact_type, int(identifier))))
         except ValueError:
             pass
     elif isinstance(identifier, int) and fact_type == "known_gap":
-        candidates.append(str(identifier))
+        candidates.append((str(identifier), (fact_type, str(identifier))))
     if isinstance(identifier, str):
-        candidates.append(identifier.strip())
+        candidates.append((identifier.strip(), (fact_type, identifier.strip())))
     # Try each candidate form
-    for cand in candidates:
-        key = (fact_type, cand)
+    for _, key in candidates:
         if key in verdicts:
-            return verdicts[key]
+            return verdicts[key], key
     # Case-fold fallback for labels
     if isinstance(identifier, str):
         target = identifier.strip().casefold()
         for (ft, ident), v in verdicts.items():
             if ft == fact_type and isinstance(ident, str) and ident.strip().casefold() == target:
-                return v
+                return v, (ft, ident)
     return None
 
 
@@ -561,9 +565,10 @@ def apply_verification(
 
         for e in series_facts.get("era_boundaries", []):
             label = e.get("label", "")
-            v = _match_verdict(verdicts, "era_boundary", label)
-            if v:
-                matched.add(("era_boundary", label))
+            match = _match_verdict(verdicts, "era_boundary", label)
+            if match:
+                v, matched_key = match
+                matched.add(matched_key)
                 if v.agree:
                     e["confirmed_by"] = "verify"
                     # Only stamp confirmed_at on first confirmation; re-agreement
@@ -581,9 +586,10 @@ def apply_verification(
 
         for g in series_facts.get("known_gaps", []):
             num = g.get("number")
-            v = _match_verdict(verdicts, "known_gap", num)
-            if v:
-                matched.add(("known_gap", num))
+            match = _match_verdict(verdicts, "known_gap", num)
+            if match:
+                v, matched_key = match
+                matched.add(matched_key)
                 if v.agree:
                     g["confirmed_by"] = "verify"
                     if not g.get("confirmed_at"):
@@ -597,9 +603,10 @@ def apply_verification(
 
         for s in series_facts.get("sub_series", []):
             label = s.get("label", "")
-            v = _match_verdict(verdicts, "sub_series", label)
-            if v:
-                matched.add(("sub_series", label))
+            match = _match_verdict(verdicts, "sub_series", label)
+            if match:
+                v, matched_key = match
+                matched.add(matched_key)
                 if v.agree:
                     s["confirmed_by"] = "verify"
                     if not s.get("confirmed_at"):
