@@ -43,11 +43,7 @@ def review_human(status: tuple[str, ...], detail: bool):
     incoherent output) or flagged (verify approved but disagreed with
     some facts). This command shows them with the next action to take.
 
-    Examples:
-        catalog-review-human              # all needing attention
-        catalog-review-human -s escalated # only escalated
-        catalog-review-human -s flagged   # only flagged
-        catalog-review-human -d           # with per-series details
+    Examples: catalog-review-human (all), -s escalated, -s flagged, -d
     """
     all_data = _load_all()
     if not all_data:

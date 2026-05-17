@@ -231,7 +231,7 @@ echo "Done. Run 'mise run catalog-review' to see flagged/escalated items."
 """
 
 [tasks.catalog-pipeline-one]
-description = "Run curate → review → verify → apply on a single series"
+description = "Run curate → review → verify → lint → apply on a single series"
 run = """
 #!/usr/bin/env bash
 set -euo pipefail
@@ -295,7 +295,7 @@ if [ "$STATUS" = "escalated" ]; then
 fi
 
 echo ""
-echo "Step 5/5: Applying ($STATUS)..."
+echo "Applying ($STATUS)..."
 $RUN_CORE apply "$SID"
 
 echo ""
