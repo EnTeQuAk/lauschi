@@ -11,7 +11,7 @@ from lauschi_catalog.commands.edit import edit
 from lauschi_catalog.commands.lint import lint
 from lauschi_catalog.commands.log_summary import log_summary
 from lauschi_catalog.commands.report import report
-from lauschi_catalog.commands.review_tui import review_tui
+from lauschi_catalog.commands.review_human import review_human
 
 from lauschi_catalog.commands.validate import validate
 
@@ -34,7 +34,7 @@ cli.add_command(edit)
 cli.add_command(lint)
 cli.add_command(log_summary)
 cli.add_command(report)
-cli.add_command(review_tui)
+cli.add_command(review_human)
 cli.add_command(validate)
 
 # Lazy-load AI commands (the 'ai' optional extra pulls in pydantic_ai,
