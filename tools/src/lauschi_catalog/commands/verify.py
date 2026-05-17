@@ -19,7 +19,7 @@ from pathlib import Path
 import click
 from pydantic import BaseModel, Field
 from pydantic_ai import Agent, RunContext, ToolOutput
-from lauschi_catalog._opencode import build_opencode_model
+from lauschi_catalog._opencode import build_mistral_model, build_opencode_model
 from pydantic_ai.usage import UsageLimits
 from rich import box
 from rich.console import Console
@@ -156,7 +156,11 @@ args and retry. If it returns "limit reached", stop calling it.
 def _build_verify_agent(
     model_name: str, api_key: str,
 ) -> Agent[Deps, VerifyResult]:
-    model = build_opencode_model(model_name, api_key)
+    model = (
+        build_mistral_model(model_name, api_key)
+        if model_name.startswith("mistral-")
+        else build_opencode_model(model_name, api_key)
+    )
     # Wrap in ToolOutput so the model emits VerifyResult as a function-call
     # payload rather than free-form JSON in message content. Same mechanism
     # review.py uses; gives stronger schema adherence on models that
@@ -173,7 +177,7 @@ def _build_verify_agent(
             ),
         ),
         system_prompt=_SYSTEM_PROMPT,
-        retries=2,
+        tool_retries=2, output_retries=2,
     )
 
     @agent.tool

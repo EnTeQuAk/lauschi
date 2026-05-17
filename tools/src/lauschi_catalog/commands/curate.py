@@ -25,7 +25,7 @@ from pathlib import Path
 import click
 from pydantic import BaseModel, Field, field_validator
 from pydantic_ai import Agent, RunContext
-from lauschi_catalog._opencode import build_opencode_model
+from lauschi_catalog._opencode import build_mistral_model, build_opencode_model
 from pydantic_ai.usage import UsageLimits
 from rich import box
 from rich.console import Console
@@ -734,7 +734,7 @@ def _build_metadata_agent(
         model,
         output_type=SeriesMetadata,
         system_prompt=system_prompt,
-        retries=2,
+        tool_retries=2, output_retries=2,
     )
 
     if is_music:
@@ -781,7 +781,7 @@ def _build_batch_agent(model, *, is_music: bool = False) -> Agent[BatchDeps, Bat
         model,
         output_type=BatchResult,
         system_prompt=prompt,
-        retries=2,
+        tool_retries=2, output_retries=2,
     )
 
     return agent
@@ -817,7 +817,7 @@ track listing if it's not already in the context. Then:
 Be conservative: only return episode_updates where you're confident
 from the track listing. Don't guess.
 """,
-        retries=2,
+        tool_retries=2, output_retries=2,
     )
 
     @agent.tool
@@ -980,7 +980,11 @@ async def _run_large(
     is_music: bool = False,
     known_artist_ids: dict[str, list[str]] | None = None,
 ) -> CuratedSeries:
-    model = build_opencode_model(model_name, api_key)
+    model = (
+        build_mistral_model(model_name, api_key)
+        if model_name.startswith("mistral-")
+        else build_opencode_model(model_name, api_key)
+    )
 
     # ── Step 1: Discovery — find artists + fetch discographies ─────────
     console.print("\n[bold cyan]Discovery[/]\n")
@@ -1432,10 +1436,16 @@ async def run_curation(
     known_artist_ids: dict[str, list[str]] | None = None,
 ) -> CuratedSeries:
     """Pick single-agent or batched flow based on discography size."""
-    api_key = os.environ.get("OPENCODE_API_KEY", "")
-    if not api_key:
-        console.print("[red]OPENCODE_API_KEY not set[/red]")
-        raise SystemExit(1)
+    if model_name.startswith("mistral-"):
+        api_key = os.environ.get("MISTRAL_API_KEY", "")
+        if not api_key:
+            console.print("[red]MISTRAL_API_KEY not set[/red]")
+            raise SystemExit(1)
+    else:
+        api_key = os.environ.get("OPENCODE_API_KEY", "")
+        if not api_key:
+            console.print("[red]OPENCODE_API_KEY not set[/red]")
+            raise SystemExit(1)
 
     # Probe total album count across providers (results are cached by the
     # provider's diskcache, so _run_large won't re-fetch). Use canonical

@@ -23,7 +23,7 @@ import click
 
 from pydantic import BaseModel, Field
 from pydantic_ai import Agent, RunContext, ToolOutput
-from lauschi_catalog._opencode import build_opencode_model
+from lauschi_catalog._opencode import build_mistral_model, build_opencode_model
 from pydantic_ai.usage import UsageLimits
 from rich.console import Console
 from rich.markup import escape
@@ -467,7 +467,11 @@ tool calls and merged in by the assembler.
 def _build_agent(
     model_name: str, api_key: str,
 ) -> Agent[Deps, ReviewResult]:
-    model = build_opencode_model(model_name, api_key)
+    model = (
+        build_mistral_model(model_name, api_key)
+        if model_name.startswith("mistral-")
+        else build_opencode_model(model_name, api_key)
+    )
 
     # ToolOutput forces the model to emit ReviewResult as a function-call
     # payload (the OpenAI "tools" API) instead of free-form JSON in the
@@ -491,7 +495,7 @@ def _build_agent(
             ),
         ),
         system_prompt=_SYSTEM_PROMPT,
-        retries=2,
+        tool_retries=2, output_retries=2,
     )
 
     @agent.tool

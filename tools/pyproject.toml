@@ -10,21 +10,33 @@ dependencies = [
     "ruamel.yaml>=0.18",
     "rich>=13.7",
     "PyJWT[crypto]>=2.8",
+    "pydantic-ai-slim[mistral]>=1.97.0",
 ]
 
 [project.optional-dependencies]
 ai = [
-    "pydantic-ai>=1.62.0",
+    "pydantic-ai>=1.97.0",
     "pydantic>=2.0",
+]
+web = [
+    "fastapi>=0.136",
+    "uvicorn[standard]>=0.46",
+    "jinja2>=3.1.6",
+    "python-multipart>=0.0.28",
+    "filelock>=3.18",
 ]
 
 [dependency-groups]
 dev = [
     "pytest>=8.0",
+    "ruff>=0.11",
+    "basedpyright>=1.30",
+    "djlint>=1.36",
 ]
 
 [project.scripts]
 lauschi-catalog = "lauschi_catalog.cli:cli"
+lauschi-catalog-web = "lauschi_catalog.web.main:cli"
 
 [build-system]
 requires = ["hatchling"]
@@ -37,3 +49,9 @@ packages = ["src/lauschi_catalog"]
 testpaths = ["tests"]
 python_files = ["test_*.py"]
 addopts = "-ra --strict-markers"
+
+[tool.basedpyright]
+pythonVersion = "3.11"
+typeCheckingMode = "strict"
+exclude = ["tests", ".venv", "src/lauschi_catalog_web"]
+reportMissingTypeStubs = false
