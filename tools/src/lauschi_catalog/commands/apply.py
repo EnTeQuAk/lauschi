@@ -188,16 +188,20 @@ def _filter_confirmed_facts(facts: dict) -> dict | None:
     review. Facts with verify_status='disagreed' or missing confirmed_by
     stay in the curation JSON for human review but don't pollute the
     canonical yaml.
+
+    Provenance fields (discovered_by, confirmed_by, confirmed_at) are
+    preserved in yaml — they're the audit trail that distinguishes
+    documented history from hallucination.
     """
     result: dict[str, list[dict]] = {}
     for key in ("era_boundaries", "known_gaps", "sub_series"):
         kept = []
         for item in facts.get(key, []):
             if item.get("confirmed_by") and item.get("confirmed_at"):
-                # Drop provenance fields from yaml (keep it clean)
+                # Keep provenance in yaml; strip curation-time fields
                 kept.append({
                     k: v for k, v in item.items()
-                    if k not in ("discovered_by", "confirmed_by", "confirmed_at")
+                    if k not in ("verify_status", "verify_reasoning")
                 })
         if kept:
             result[key] = kept

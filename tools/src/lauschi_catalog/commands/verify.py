@@ -60,7 +60,7 @@ class FactVerdict(BaseModel):
     """Verify's opinion on a specific proposed fact."""
 
     fact_type: str  # "era_boundary", "known_gap", "sub_series"
-    label: str
+    identifier: str | int  # label for era_boundary/sub_series, number for known_gap
     agree: bool
     reason: str = ""
 
@@ -339,6 +339,26 @@ def _build_prompt(curation: dict) -> str:
                 f"{len(s.get('album_ids', []))} albums — {s.get('reason', '')}",
             )
 
+    # Series facts discovered by curate / reviewed by review
+    facts = curation.get("series_facts")
+    if facts:
+        lines.append("\n### Series facts (proposed by curate/review)")
+        for e in facts.get("era_boundaries", []):
+            status = f" [{e.get('verify_status') or 'unverified'}]" if e.get('verify_status') else ""
+            lines.append(
+                f"  • Era: {e.get('label', '?')} ({e.get('release_date_range', '?')}){status}"
+            )
+        for g in facts.get("known_gaps", []):
+            status = f" [{g.get('verify_status') or 'unverified'}]" if g.get('verify_status') else ""
+            lines.append(
+                f"  • Known gap: episode {g.get('number', '?')} — {g.get('reason', '')}{status}"
+            )
+        for s in facts.get("sub_series", []):
+            status = f" [{s.get('verify_status') or 'unverified'}]" if s.get('verify_status') else ""
+            lines.append(
+                f"  • Sub-series: {s.get('label', '?')} — {s.get('reason', '')}{status}"
+            )
+
     # Per-category decisions + reasoning. Without this, the verifier
     # only sees outcomes (overrides, splits) and is asked to agree
     # without knowing WHY the first reviewer chose them. 4-eye is
@@ -488,20 +508,55 @@ def apply_verification(
     path = CURATION_DIR / f"{series_id}.json"
     data = json.loads(path.read_text())
     review = data.setdefault("review", {})
+    now = datetime.now(tz=UTC).isoformat()
 
-    # Fact disagreements: flag the facts, don't escalate the series
-    fact_disagreements = [v for v in result.fact_verdicts if not v.agree]
+    # Per-fact verification: stamp confirmations and flag disagreements
     series_facts = data.get("series_facts")
-    if series_facts and fact_disagreements:
-        series_facts["verify_status"] = "disagreed"
-        series_facts["verify_reasoning"] = "; ".join(
-            f"{v.fact_type} '{v.label}': {v.reason}" for v in fact_disagreements
-        )
+    if series_facts:
+        # Build lookup: (fact_type, identifier) -> verdict
+        verdicts = {
+            (v.fact_type, v.identifier): v
+            for v in result.fact_verdicts
+        }
+
+        for e in series_facts.get("era_boundaries", []):
+            v = verdicts.get(("era_boundary", e.get("label", "")))
+            if v:
+                if v.agree:
+                    e["confirmed_by"] = "verify"
+                    e["confirmed_at"] = now
+                    e["verify_status"] = "agreed"
+                else:
+                    e["verify_status"] = "disagreed"
+                    e["verify_reasoning"] = v.reason
+
+        for g in series_facts.get("known_gaps", []):
+            v = verdicts.get(("known_gap", g.get("number")))
+            if v:
+                if v.agree:
+                    g["confirmed_by"] = "verify"
+                    g["confirmed_at"] = now
+                    g["verify_status"] = "agreed"
+                else:
+                    g["verify_status"] = "disagreed"
+                    g["verify_reasoning"] = v.reason
+
+        for s in series_facts.get("sub_series", []):
+            v = verdicts.get(("sub_series", s.get("label", "")))
+            if v:
+                if v.agree:
+                    s["confirmed_by"] = "verify"
+                    s["confirmed_at"] = now
+                    s["verify_status"] = "agreed"
+                else:
+                    s["verify_status"] = "disagreed"
+                    s["verify_reasoning"] = v.reason
+
         data["series_facts"] = series_facts
 
     review["verification"] = {
         "model": model_name,
-        "verified_at": datetime.now(tz=UTC).isoformat(),
+        "verified_at": now,
         "approve": result.approve,
         "concerns": result.concerns,
         "override_verdicts": [v.model_dump() for v in result.override_verdicts],

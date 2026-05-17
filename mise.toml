@@ -179,7 +179,7 @@ run = "uv run --directory tools lauschi-catalog apply-splits"
 # ── Full pipeline shortcut ───────────────────────────────────────────
 
 [tasks.catalog-pipeline]
-description = "Full automated curation pipeline: curate → review → verify → apply"
+description = "Full automated curation pipeline: curate → review → verify → lint → apply → validate"
 usage = 'flag "--force" help="Re-curate all series, even those already curated"'
 run = """
 #!/usr/bin/env bash
@@ -203,11 +203,11 @@ exec > >(tee -a "$LOG") 2>&1
 FORCE_FLAG=""
 if [ "${usage_force:-false}" = "true" ]; then FORCE_FLAG="--force"; fi
 
-echo "Step 1/5: Curating all series (timeout ${TIMEOUT}s per series, this takes hours)..."
+echo "Step 1/6: Curating all series (timeout ${TIMEOUT}s per series, this takes hours)..."
 $RUN curate --all --timeout "$TIMEOUT" $FORCE_FLAG || echo "Some curations failed (expected for large series). Continuing..."
 
 echo ""
-echo "Step 2/5: AI review..."
+echo "Step 2/6: AI review..."
 $RUN review --all --timeout "$TIMEOUT" || echo "Some reviews failed. Continuing..."
 
 echo ""
@@ -215,11 +215,15 @@ echo "Step 3/5: 4-eye verification..."
 $RUN verify --all --timeout "$TIMEOUT" || echo "Some verifications failed. Continuing..."
 
 echo ""
-echo "Step 4/5: Applying approved curations..."
+echo "Step 4/5: Structural lint..."
+$RUN_CORE lint --all || echo "Lint flagged issues. Review findings above."
+
+echo ""
+echo "Step 5/5: Applying approved curations..."
 $RUN_CORE apply --all
 
 echo ""
-echo "Step 5/5: Validating..."
+echo "Step 6/6: Validating..."
 $RUN_CORE validate
 
 echo ""

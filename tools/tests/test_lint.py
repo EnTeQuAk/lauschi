@@ -230,22 +230,51 @@ class TestLintCrossProviderAsymmetry:
 
 
 class TestLintUnconfirmedFacts:
-    def test_unconfirmed_facts_flagged(self):
+    def test_unconfirmed_era_boundary_flagged(self):
         curation = {
             "albums": [],
             "series_facts": {
-                "verify_status": "disagreed",
-                "verify_reasoning": "era boundaries don't match release dates",
+                "era_boundaries": [
+                    {
+                        "label": "modern",
+                        "release_date_range": "2020-2022",
+                        "verify_status": "disagreed",
+                        "verify_reasoning": "no albums in this range",
+                    },
+                ],
             },
         }
         issues = lint_curation(curation)
-        assert any("Unconfirmed facts (verify disagreed)" in i for i in issues)
+        assert any("Unconfirmed era_boundary 'modern'" in i for i in issues)
+
+    def test_unconfirmed_known_gap_flagged(self):
+        curation = {
+            "albums": [],
+            "series_facts": {
+                "known_gaps": [
+                    {
+                        "number": 7,
+                        "reason": "legal dispute",
+                        "verify_status": "disagreed",
+                        "verify_reasoning": "episode exists on provider",
+                    },
+                ],
+            },
+        }
+        issues = lint_curation(curation)
+        assert any("Unconfirmed known_gap ep 7" in i for i in issues)
 
     def test_confirmed_facts_not_flagged(self):
         curation = {
             "albums": [],
             "series_facts": {
-                "verify_status": "agreed",
+                "era_boundaries": [
+                    {
+                        "label": "modern",
+                        "release_date_range": "2020-2022",
+                        "verify_status": "agreed",
+                    },
+                ],
             },
         }
         assert lint_curation(curation) == []

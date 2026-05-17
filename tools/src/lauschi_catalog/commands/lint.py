@@ -166,10 +166,22 @@ def lint_curation(curation: dict) -> list[str]:
                         )
 
     # ── Rule 6: Unconfirmed facts ────────────────────────────────────
-    if facts and facts.verify_status == "disagreed":
-        issues.append(
-            f"Unconfirmed facts (verify disagreed): {facts.verify_reasoning}"
-        )
+    if facts:
+        for e in facts.era_boundaries:
+            if e.verify_status == "disagreed":
+                issues.append(
+                    f"Unconfirmed era_boundary '{e.label}': {e.verify_reasoning}"
+                )
+        for g in facts.known_gaps:
+            if g.verify_status == "disagreed":
+                issues.append(
+                    f"Unconfirmed known_gap ep {g.number}: {g.verify_reasoning}"
+                )
+        for s in facts.sub_series:
+            if s.verify_status == "disagreed":
+                issues.append(
+                    f"Unconfirmed sub_series '{s.label}': {s.verify_reasoning}"
+                )
 
     return issues
 

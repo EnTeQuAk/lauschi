@@ -25,6 +25,14 @@ class EraBoundary(BaseModel):
     discovered_by: str = Field(default="curate")
     confirmed_by: str | None = Field(default=None)
     confirmed_at: str | None = Field(default=None)
+    verify_status: str | None = Field(
+        default=None,
+        description="'agreed' or 'disagreed' — set by verify per-fact",
+    )
+    verify_reasoning: str = Field(
+        default="",
+        description="Why verify disagreed with this specific fact",
+    )
 
 
 class KnownGap(BaseModel):
@@ -37,6 +45,14 @@ class KnownGap(BaseModel):
     discovered_by: str = Field(default="curate")
     confirmed_by: str | None = Field(default=None)
     confirmed_at: str | None = Field(default=None)
+    verify_status: str | None = Field(
+        default=None,
+        description="'agreed' or 'disagreed' — set by verify per-fact",
+    )
+    verify_reasoning: str = Field(
+        default="",
+        description="Why verify disagreed with this specific fact",
+    )
 
 
 class SubSeriesFact(BaseModel):
@@ -48,26 +64,26 @@ class SubSeriesFact(BaseModel):
     discovered_by: str = Field(default="curate")
     confirmed_by: str | None = Field(default=None)
     confirmed_at: str | None = Field(default=None)
+    verify_status: str | None = Field(
+        default=None,
+        description="'agreed' or 'disagreed' — set by verify per-fact",
+    )
+    verify_reasoning: str = Field(
+        default="",
+        description="Why verify disagreed with this specific fact",
+    )
 
 
 class SeriesFacts(BaseModel):
     """Discovered structural facts about a series.
 
     Curate proposes these from the discography. Review audits them.
-    Verify flags disagreements (setting verify_status + verify_reasoning
-    but NOT escalating the whole series). After human review, confirmed
-    facts are frozen into series.yaml with provenance.
+    Verify stamps agreed facts with confirmed_by + confirmed_at,
+    and flags disagreed ones with verify_status + verify_reasoning
+    per-fact. After human review, confirmed facts are frozen into
+    series.yaml with provenance.
     """
 
     era_boundaries: list[EraBoundary] = Field(default_factory=list)
     known_gaps: list[KnownGap] = Field(default_factory=list)
     sub_series: list[SubSeriesFact] = Field(default_factory=list)
-    # Verify can flag individual facts without escalating the series.
-    verify_status: str | None = Field(
-        default=None,
-        description="'agreed' or 'disagreed' — set by verify",
-    )
-    verify_reasoning: str = Field(
-        default="",
-        description="Why verify disagreed with specific facts",
-    )

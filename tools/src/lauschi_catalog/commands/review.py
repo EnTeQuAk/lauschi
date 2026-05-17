@@ -1150,10 +1150,34 @@ def _build_prompt(curation: dict) -> str:
             lines.append(
                 f"  • Sub-series: {s.get('label', '?')} — {s.get('reason', '')}"
             )
-        if facts.get("verify_status") == "disagreed":
-            lines.append(
-                f"  ⚠ Verify disagreed: {facts.get('verify_reasoning', '')}"
-            )
+        for e in facts.get("era_boundaries", []):
+            if e.get("verify_status") == "disagreed":
+                lines.append(
+                    f"  ⚠ Verify disagreed on era '{e.get('label', '?')}': "
+                    f"{e.get('verify_reasoning', '')}"
+                )
+        for g in facts.get("known_gaps", []):
+            if g.get("verify_status") == "disagreed":
+                lines.append(
+                    f"  ⚠ Verify disagreed on gap ep {g.get('number', '?')}: "
+                    f"{g.get('verify_reasoning', '')}"
+                )
+        for s in facts.get("sub_series", []):
+            if s.get("verify_status") == "disagreed":
+                lines.append(
+                    f"  ⚠ Verify disagreed on sub-series '{s.get('label', '?')}': "
+                    f"{s.get('verify_reasoning', '')}"
+                )
+        lines.append("")
+
+    # Lint findings: deterministic structural checks
+    from lauschi_catalog.commands.lint import lint_curation
+
+    lint_issues = lint_curation(curation)
+    if lint_issues:
+        lines.append("### Structural concerns (deterministic lint)")
+        for issue in lint_issues:
+            lines.append(f"  • {issue}")
         lines.append("")
 
     if content_type == "music":
