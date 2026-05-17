@@ -207,7 +207,7 @@ class TestLintCrossProviderAsymmetry:
         # has albums in the curation but is missing this specific episode.
         # If a provider has zero albums, that's a discovery issue, not
         # an asymmetry.
-        assert not any("missing from" in i for i in issues)
+        assert not any("not even excluded" in i for i in issues)
 
     def test_episode_excluded_without_reason(self):
         curation = {
@@ -217,7 +217,7 @@ class TestLintCrossProviderAsymmetry:
             ],
         }
         issues = lint_curation(curation)
-        assert any("excluded on apple_music without reason" in i for i in issues)
+        assert any("excluded without reason on apple_music" in i for i in issues)
 
     def test_episode_excluded_with_reason_ok(self):
         curation = {

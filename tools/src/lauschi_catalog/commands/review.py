@@ -1019,12 +1019,14 @@ def _build_agent(
         era_boundaries: list[dict] | None = None,
         known_gaps: list[dict] | None = None,
         sub_series: list[dict] | None = None,
+        replace: bool = False,
     ) -> str:
         """Override or augment the series_facts discovered by curate.
 
         Use when the curate-proposed facts are wrong, incomplete, or
-        missing. Each call REPLACES the prior facts entirely — so
-        include ALL facts you want, not just changes.
+        missing. Default mode is MERGE: new facts are added, existing
+        facts are preserved. Set replace=True only when you want to
+        completely discard the prior facts and start fresh (rare).
 
         Only propose facts supported by the album data. Be conservative.
         """
@@ -1033,38 +1035,73 @@ def _build_agent(
         facts = ctx.deps.curation.setdefault("series_facts", {})
         recorded: list[str] = []
 
+        if replace:
+            if era_boundaries is not None:
+                facts["era_boundaries"] = []
+            if known_gaps is not None:
+                facts["known_gaps"] = []
+            if sub_series is not None:
+                facts["sub_series"] = []
+
+        existing_e_labels = {e.get("label", "") for e in facts.get("era_boundaries", [])}
+        existing_g_nums = {g.get("number") for g in facts.get("known_gaps", [])}
+        existing_s_labels = {s.get("label", "") for s in facts.get("sub_series", [])}
+
         if era_boundaries is not None:
-            facts["era_boundaries"] = [
-                {
-                    "label": e.get("label", ""),
-                    "release_date_range": e.get("release_date_range", ""),
-                    "discovered_by": "review",
-                }
-                for e in era_boundaries
-            ]
+            for e in era_boundaries:
+                label = e.get("label", "")
+                if label in existing_e_labels:
+                    # Update existing: review becomes modifier
+                    for existing in facts.get("era_boundaries", []):
+                        if existing.get("label") == label:
+                            existing["release_date_range"] = e.get("release_date_range", "")
+                            existing["discovered_by"] = existing.get("discovered_by", "curate")
+                            existing["modified_by"] = "review"
+                            break
+                else:
+                    facts.setdefault("era_boundaries", []).append({
+                        "label": label,
+                        "release_date_range": e.get("release_date_range", ""),
+                        "discovered_by": "review",
+                    })
             recorded.append(f"{len(era_boundaries)} era(s)")
 
         if known_gaps is not None:
-            facts["known_gaps"] = [
-                {
-                    "number": g.get("number"),
-                    "reason": g.get("reason", ""),
-                    "discovered_by": "review",
-                }
-                for g in known_gaps
-            ]
+            for g in known_gaps:
+                num = g.get("number")
+                if num in existing_g_nums:
+                    for existing in facts.get("known_gaps", []):
+                        if existing.get("number") == num:
+                            existing["reason"] = g.get("reason", "")
+                            existing["discovered_by"] = existing.get("discovered_by", "curate")
+                            existing["modified_by"] = "review"
+                            break
+                else:
+                    facts.setdefault("known_gaps", []).append({
+                        "number": num,
+                        "reason": g.get("reason", ""),
+                        "discovered_by": "review",
+                    })
             recorded.append(f"{len(known_gaps)} gap(s)")
 
         if sub_series is not None:
-            facts["sub_series"] = [
-                {
-                    "label": s.get("label", ""),
-                    "album_ids": s.get("album_ids", []),
-                    "reason": s.get("reason", ""),
-                    "discovered_by": "review",
-                }
-                for s in sub_series
-            ]
+            for s in sub_series:
+                label = s.get("label", "")
+                if label in existing_s_labels:
+                    for existing in facts.get("sub_series", []):
+                        if existing.get("label") == label:
+                            existing["album_ids"] = s.get("album_ids", [])
+                            existing["reason"] = s.get("reason", "")
+                            existing["discovered_by"] = existing.get("discovered_by", "curate")
+                            existing["modified_by"] = "review"
+                            break
+                else:
+                    facts.setdefault("sub_series", []).append({
+                        "label": label,
+                        "album_ids": s.get("album_ids", []),
+                        "reason": s.get("reason", ""),
+                        "discovered_by": "review",
+                    })
             recorded.append(f"{len(sub_series)} sub-series")
 
         if not recorded:

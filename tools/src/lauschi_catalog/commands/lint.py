@@ -144,26 +144,33 @@ def lint_curation(curation: dict) -> list[str]:
             )
 
     # ── Rule 5: Cross-provider asymmetry ─────────────────────────────
-    # Episode on one provider but not the other, with no exclude_reason
+    # Group by pattern (present providers -> missing provider) so a series
+    # with 50 episodes missing on one provider produces one line, not 50.
     all_providers = sorted({a.get("provider", "?") for a in albums})
     if len(all_providers) > 1:
+        # Collect episode numbers by (present_key, missing_provider, reason_type)
+        asym: dict[tuple[str, str, str], list[int]] = {}
         for ep in set().union(*[set(eps) for eps in eps_by_provider.values()]):
             present = {prov for prov, eps in eps_by_provider.items() if ep in eps}
             missing = set(all_providers) - present
-            if missing and len(present) >= 1:
-                # Check if the missing provider has this episode excluded
-                for prov in missing:
-                    exc = excluded_eps.get(prov, {})
-                    if ep not in exc:
-                        issues.append(
-                            f"Episode {ep} on {', '.join(sorted(present))} "
-                            f"but missing from {prov} (not even excluded)"
-                        )
-                    elif not exc[ep].get("exclude_reason"):
-                        issues.append(
-                            f"Episode {ep} on {', '.join(sorted(present))} "
-                            f"but excluded on {prov} without reason"
-                        )
+            for prov in missing:
+                exc = excluded_eps.get(prov, {})
+                if ep not in exc:
+                    reason_type = "not even excluded"
+                elif not exc[ep].get("exclude_reason"):
+                    reason_type = "excluded without reason"
+                else:
+                    continue  # properly excluded, not an asymmetry
+                key = (",".join(sorted(present)), prov, reason_type,
+                )
+                asym.setdefault(key, []).append(ep)
+
+        for (present_key, prov, reason_type), eps in sorted(asym.items()):
+            eps_str = _compress_runs(sorted(eps))
+            issues.append(
+                f"Episodes {eps_str} on {present_key} but {reason_type} "
+                f"on {prov}"
+            )
 
     # ── Rule 6: Unconfirmed facts ────────────────────────────────────
     if facts:
@@ -187,13 +194,40 @@ def lint_curation(curation: dict) -> list[str]:
 
 
 def _year(release_date: str) -> int:
-    """Extract year from ISO date or YYYY string."""
+    """Extract year from ISO date (YYYY-MM-DD) or YYYY string."""
     if not release_date:
         return 0
-    try:
-        return int(release_date[:4])
-    except ValueError:
-        return 0
+    # Accept "YYYY" or "YYYY-MM-DD" only; anything else returns 0
+    if len(release_date) == 4:
+        try:
+            return int(release_date)
+        except ValueError:
+            return 0
+    if len(release_date) >= 10 and release_date[4] == "-" and release_date[7] == "-":
+        try:
+            return int(release_date[:4])
+        except ValueError:
+            return 0
+    return 0
+
+
+def _compress_runs(nums: list[int]) -> str:
+    """Compress a sorted list of integers into run notation.
+
+    1,2,3,5,6,8 -> "1-3, 5-6, 8"
+    """
+    if not nums:
+        return ""
+    runs: list[str] = []
+    start = prev = nums[0]
+    for n in nums[1:]:
+        if n == prev + 1:
+            prev = n
+        else:
+            runs.append(f"{start}-{prev}" if prev > start else str(start))
+            start = prev = n
+    runs.append(f"{start}-{prev}" if prev > start else str(start))
+    return ", ".join(runs)
 
 
 def _find_duplicates(nums: list[int]) -> list[int]:

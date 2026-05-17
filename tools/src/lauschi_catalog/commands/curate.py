@@ -354,10 +354,6 @@ class FinalizeResult(BaseModel):
         default=None,
         description="If track listings reveal a systematic new format not caught by the current pattern, propose an updated regex. Null if no change needed.",
     )
-    series_facts: SeriesFacts | None = Field(
-        default=None,
-        description="Structural facts discovered from the full discography: era boundaries, known gaps, sub-series. Only propose NEW facts not already in existing_facts.",
-    )
 
 
 @dataclass
@@ -1517,7 +1513,7 @@ async def _run_large(
                         f"{finalize_result.proposed_pattern_update}[/]\n",
                     )
                 # Collect proposed facts
-                proposed_facts = finalize_deps.proposed_facts or finalize_result.series_facts
+                proposed_facts = finalize_deps.proposed_facts
                 if proposed_facts:
                     n_new = len(proposed_facts.era_boundaries) + len(proposed_facts.known_gaps) + len(proposed_facts.sub_series)
                     if n_new:
@@ -1847,6 +1843,17 @@ def _resolve_is_music(
     return True
 
 
+def _load_existing_facts(entry) -> SeriesFacts | None:
+    """Load frozen facts from a CatalogEntry, if any.
+
+    Centralized so both single-series CLI and --all batch paths share
+    one loading rule.
+    """
+    if entry.series_facts:
+        return SeriesFacts.model_validate(entry.series_facts)
+    return None
+
+
 def _lock_series_id(series: CuratedSeries, canonical_id: str | None) -> CuratedSeries:
     """Force ``series.id`` to the canonical value when one is known.
 
@@ -1995,10 +2002,6 @@ def curate(
                     "[yellow]Note: --music ignored — series.yaml has the "
                     "entry as hoerspiel. Edit series.yaml to change.[/yellow]",
                 )
-            existing_facts = (
-                SeriesFacts.model_validate(entry.series_facts)
-                if entry.series_facts else None
-            )
             path = _curate_one(
                 entry.title, providers,
                 model=model, timeout=timeout,
@@ -2007,7 +2010,7 @@ def curate(
                 existing_curation=existing,
                 is_music=entry_is_music,
                 dry_run=dry_run,
-                existing_facts=existing_facts,
+                existing_facts=_load_existing_facts(entry),
             )
             if path is None and not dry_run:
                 # Surface failure so pipeline scripts (catalog-pipeline-one)
@@ -2068,10 +2071,6 @@ def curate(
             entry_has_pattern=bool(entry.episode_pattern),
             existing_content_type=(existing or {}).get("content_type"),
         )
-        existing_facts = (
-            SeriesFacts.model_validate(entry.series_facts)
-            if entry.series_facts else None
-        )
         path = _curate_one(
             entry.title, providers,
             model=model, timeout=timeout,
@@ -2080,7 +2079,7 @@ def curate(
             existing_curation=existing,
             is_music=entry_is_music,
             dry_run=dry_run,
-            existing_facts=existing_facts,
+            existing_facts=_load_existing_facts(entry),
         )
         if path:
             succeeded += 1

@@ -246,3 +246,75 @@ def test_idempotent():
     twice = deepcopy(once)
     canonicalize(twice)
     assert once == twice
+
+
+# ── series_facts ──────────────────────────────────────────────────────────
+
+
+def test_sorts_era_boundaries_by_start_year():
+    data = {
+        "series_facts": {
+            "era_boundaries": [
+                {"label": "modern", "release_date_range": "2015-2018"},
+                {"label": "klassik", "release_date_range": "1976-1979"},
+                {"label": "continuation", "release_date_range": "2025-"},
+            ],
+        },
+    }
+    canonicalize(data)
+    labels = [e["label"] for e in data["series_facts"]["era_boundaries"]]
+    assert labels == ["klassik", "modern", "continuation"]
+
+
+def test_sorts_known_gaps_by_number():
+    data = {
+        "series_facts": {
+            "known_gaps": [
+                {"number": 156, "reason": "legal dispute"},
+                {"number": 7, "reason": "not released"},
+            ],
+        },
+    }
+    canonicalize(data)
+    nums = [g["number"] for g in data["series_facts"]["known_gaps"]]
+    assert nums == [7, 156]
+
+
+def test_sorts_sub_series_by_label():
+    data = {
+        "series_facts": {
+            "sub_series": [
+                {"label": "Zebra", "album_ids": ["b", "a"]},
+                {"label": "Alpha", "album_ids": ["c"]},
+            ],
+        },
+    }
+    canonicalize(data)
+    labels = [s["label"] for s in data["series_facts"]["sub_series"]]
+    assert labels == ["Alpha", "Zebra"]
+    # Inner album_ids also sorted
+    assert data["series_facts"]["sub_series"][1]["album_ids"] == ["a", "b"]
+
+
+def test_corrupt_series_facts_entry_does_not_crash():
+    """Defense in depth: non-dict entries in lists shouldn't crash."""
+    data = {
+        "series_facts": {
+            "era_boundaries": [
+                {"label": "valid", "release_date_range": "2020-2022"},
+                "junk",
+            ],
+            "known_gaps": [
+                {"number": 1, "reason": "ok"},
+                "bad",
+            ],
+            "sub_series": [
+                {"label": "ok", "album_ids": []},
+                None,
+            ],
+        },
+    }
+    canonicalize(data)
+    assert len(data["series_facts"]["era_boundaries"]) == 2
+    assert len(data["series_facts"]["known_gaps"]) == 2
+    assert len(data["series_facts"]["sub_series"]) == 2

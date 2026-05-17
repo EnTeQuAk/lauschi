@@ -55,6 +55,34 @@ def _split_key(split: Any) -> str:
     return split.get("new_series_id") or ""
 
 
+def _era_start_year(era: Any) -> int:
+    """Extract start year from era_boundary release_date_range for sorting."""
+    if not isinstance(era, dict):
+        return 0
+    rng = era.get("release_date_range") or ""
+    if rng and len(rng) >= 4:
+        try:
+            return int(rng[:4])
+        except ValueError:
+            pass
+    return 0
+
+
+def _gap_number(gap: Any) -> int:
+    """Extract episode number from known_gap for sorting."""
+    if not isinstance(gap, dict):
+        return 0
+    n = gap.get("number")
+    return n if isinstance(n, int) else 0
+
+
+def _sub_series_label(sub: Any) -> str:
+    """Extract label from sub_series for sorting."""
+    if not isinstance(sub, dict):
+        return ""
+    return sub.get("label") or ""
+
+
 def canonicalize(data: dict) -> None:
     """Sort all unordered lists in a curation JSON in place.
 
@@ -65,6 +93,9 @@ def canonicalize(data: dict) -> None:
       ``album_ids`` sorted lexicographically.
     - ``review.added_albums``: same key as albums.
     - ``provider_artist_ids``: list values sorted.
+    - ``series_facts.era_boundaries``: by start year.
+    - ``series_facts.known_gaps``: by episode number.
+    - ``series_facts.sub_series``: by label.
 
     What's intentionally not touched:
     - ``aliases``: human-curated; order can carry intent (primary alias first).
@@ -99,3 +130,22 @@ def canonicalize(data: dict) -> None:
         added = review.get("added_albums")
         if isinstance(added, list):
             review["added_albums"] = sorted(added, key=_album_key)
+
+    facts = data.get("series_facts")
+    if isinstance(facts, dict):
+        boundaries = facts.get("era_boundaries")
+        if isinstance(boundaries, list):
+            facts["era_boundaries"] = sorted(boundaries, key=_era_start_year)
+
+        gaps = facts.get("known_gaps")
+        if isinstance(gaps, list):
+            facts["known_gaps"] = sorted(gaps, key=_gap_number)
+
+        subs = facts.get("sub_series")
+        if isinstance(subs, list):
+            for s in subs:
+                if isinstance(s, dict):
+                    aids = s.get("album_ids")
+                    if isinstance(aids, list):
+                        s["album_ids"] = sorted(aids)
+            facts["sub_series"] = sorted(subs, key=_sub_series_label)

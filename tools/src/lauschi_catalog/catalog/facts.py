@@ -11,7 +11,10 @@ from hallucination that slipped through.
 
 from __future__ import annotations
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator
+
+
+import re as _re
 
 
 class EraBoundary(BaseModel):
@@ -22,6 +25,17 @@ class EraBoundary(BaseModel):
         description="Year range like '1976-1979' or '2015-2018' or '2025-'. "
         "The trailing dash means 'ongoing'.",
     )
+
+    @field_validator("release_date_range", mode="before")
+    @classmethod
+    def _validate_range(cls, v: str) -> str:
+        if not _re.fullmatch(r"^\d{4}-(\d{4})?$", v):
+            msg = (
+                f"release_date_range must be 'YYYY-YYYY' or 'YYYY-', "
+                f"got {v!r}"
+            )
+            raise ValueError(msg)
+        return v
     discovered_by: str = Field(default="curate")
     confirmed_by: str | None = Field(default=None)
     confirmed_at: str | None = Field(default=None)
