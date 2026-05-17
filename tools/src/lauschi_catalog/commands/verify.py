@@ -125,10 +125,12 @@ to independently verify those decisions.
    - known_gaps: Is the stated reason plausible (legal dispute, skipped
      number)? Or is it a curation error (episode actually exists)?
    - sub_series: Do the claimed albums really belong to a separate series?
-   Record your opinion using `fact_verdicts`. Disagreeing with a fact does
-   NOT set `approve: false` — only flag the fact. Set `approve: false`
-   only when facts contradict album decisions (e.g., a known_gap says
-   episode 3 is missing, but episode 3 is included).
+   Record your opinion using `fact_verdicts`. For each fact, set:
+   - `fact_type`: exactly one of `era_boundary`, `known_gap`, `sub_series`
+   - `identifier`: the era label (string) or gap number (int)
+   - `agree`: true if the fact matches the album data, false otherwise
+   Disagreeing with a fact does NOT set `approve: false` — only flag the
+   fact. Set `approve: false` only when facts contradict album decisions.
 
 ## Your decision
 

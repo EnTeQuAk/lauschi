@@ -838,7 +838,7 @@ provided in the prompt.
 - sub_series: spin-offs or sub-series that belong in a separate catalog entry.
 
 Be conservative: only propose facts you're confident about from the data.
-If existing facts are already comprehensive, leave series_facts null.
+If existing facts are already comprehensive, do not call propose_series_facts.
 
 Be conservative: only return episode_updates where you're confident
 from the track listing. Don't guess.
