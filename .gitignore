@@ -78,6 +78,10 @@ sentry-wizard
 
 # catalog validation cache
 .cache/
+assets/catalog/curation/.bak/
+assets/catalog/.series.yaml.lock
+tools/jobs.db
+tools/src/jobs.db
 ios_distribution_private_key
 ios_distribution_private_key.pub
 
