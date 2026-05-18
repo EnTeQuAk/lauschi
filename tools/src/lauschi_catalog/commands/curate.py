@@ -21,9 +21,10 @@ import sys
 from dataclasses import dataclass, field
 from datetime import UTC, datetime
 from pathlib import Path
+from typing import Literal
 
 import click
-from pydantic import BaseModel, Field, field_validator
+from pydantic import BaseModel, Field, field_validator, model_validator
 from pydantic_ai import Agent, RunContext
 from lauschi_catalog._opencode import build_mistral_model, build_opencode_model
 from pydantic_ai.usage import UsageLimits
@@ -184,6 +185,23 @@ class AlbumDecision(BaseModel):
     # their prompts without re-fetching from the provider, and so the
     # release-order strategy (when enabled) has the data it needs.
     release_date: str | None = None
+    confidence: Literal["high", "medium", "low"] = "high"
+    notes: str | None = Field(
+        default=None,
+        description=(
+            "Required when confidence != 'high'. Name the failure-"
+            "taxonomy pattern that almost matched, or describe what's "
+            "missing. Empty/None when confidence == 'high'."
+        ),
+    )
+
+    @model_validator(mode="after")
+    def _notes_required_when_unsure(self) -> AlbumDecision:
+        if self.confidence != "high" and not self.notes:
+            raise ValueError(
+                "confidence != 'high' requires `notes` describing why",
+            )
+        return self
 
 
 _EPISODE_PATTERN_DESCRIPTION = (

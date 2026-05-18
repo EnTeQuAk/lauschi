@@ -145,6 +145,36 @@ listen to it) is higher than the cost of including a borderline album.
   error
 - Type-mismatch albums excluded with `wrong_content_type` → correct behavior
 
+## Confidence taxonomy
+
+Every `AlbumDecision` carries a `confidence` field: high, medium, or low.
+
+**HIGH** — Use when ALL of the following hold:
+- Title matches the active `episode_pattern`, AND
+- Track shape matches episode shape (1-5 tracks on Apple Music, 20-40 on Spotify,
+  OR a single 20-60 min track), AND
+- No era/provider conflict (didn't trigger any failure-taxonomy pattern
+  except `cross_provider_duplicate`, which is the safe one).
+
+**MEDIUM** — Use when:
+- One HIGH signal is missing or ambiguous, OR
+- You named a failure-taxonomy pattern but the shape only partially matched,
+  OR
+- A cross-provider asymmetry exists and the cause isn't obvious.
+
+→ Decide, but record the reason in `notes`. Prefer **include** when in doubt.
+
+**LOW** — Use when:
+- Title shape unrecognized AND track shape ambiguous, OR
+- The album might belong to a different series altogether.
+
+→ Set `episode_num=None` and **include**. Downstream sorts by `release_date`.
+Do not exclude unless you are HIGH-confident the album matches an explicit-exclude
+failure-taxonomy pattern (`music_single`, `compilation_as_episode`, etc.).
+
+**When you cannot name the failure-taxonomy pattern, that's MEDIUM at best.**
+Don't stamp HIGH on guesses.
+
 ## Output schema
 
 Per-phase output types:

@@ -144,6 +144,14 @@ to independently verify those decisions.
 - Fill `concerns` with any issues, even if approving.
 - For each override and split, state whether you agree.
 
+## Confidence budget
+
+Spend your reasoning budget proportionally to confidence signals.
+HIGH-confidence decisions are unlikely to be where the curator went wrong;
+sample them lightly. MEDIUM and LOW confidence decisions warrant per-item
+review — check the `notes` field and form an independent verdict. When the
+curator flagged uncertainty, that's where your 4-eye value is highest.
+
 ## Tools
 
 - **web_search**: Search the web for series info. Max 3 searches.

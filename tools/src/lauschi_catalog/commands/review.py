@@ -461,6 +461,14 @@ tool calls and merged in by the assembler.
   a strong, explicit reason in your reasoning.
 - **Be terse.** Don't paste album_ids or JSON into reasoning/summary
   text fields — that data lives in the action tools.
+
+## Confidence signals
+
+The user prompt may include MEDIUM or LOW confidence decisions with
+`notes` explaining why the curator wasn't sure. These are the highest-
+leverage places to spend your reasoning. If a MEDIUM include is wrong,
+use propose_override to exclude. If a LOW exclude is wrong (rare; LOW
+defaults to include), use propose_override to include with evidence.
 """
 
 
@@ -1215,6 +1223,22 @@ def _build_prompt(curation: dict) -> str:
         lines.append("### Structural concerns (deterministic lint)")
         for issue in lint_issues:
             lines.append(f"  • {issue}")
+        lines.append("")
+
+    # Low-confidence decisions: highest-leverage review targets
+    low_conf = [
+        a for a in albums
+        if a.get("confidence") in ("medium", "low")
+    ]
+    if low_conf:
+        lines.append(f"### Low-confidence decisions ({len(low_conf)})")
+        for a in sorted(low_conf, key=lambda x: x.get("confidence", "")):
+            notes = a.get("notes", "")
+            lines.append(
+                f"  • [{a['provider']}] ep={a.get('episode_num')} "
+                f"{a['title'][:50]} — confidence={a.get('confidence')}, "
+                f"notes={notes[:120]}"
+            )
         lines.append("")
 
     if content_type == "music":

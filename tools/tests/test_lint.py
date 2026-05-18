@@ -21,8 +21,10 @@ def _make_album(
     episode_num: int | None = None,
     exclude_reason: str | None = None,
     release_date: str = "",
+    confidence: str | None = None,
+    notes: str | None = None,
 ) -> dict:
-    return {
+    album = {
         "album_id": album_id,
         "provider": provider,
         "include": include,
@@ -31,6 +33,11 @@ def _make_album(
         "exclude_reason": exclude_reason,
         "release_date": release_date,
     }
+    if confidence is not None:
+        album["confidence"] = confidence
+    if notes is not None:
+        album["notes"] = notes
+    return album
 
 
 class TestLintGapDetection:
@@ -279,5 +286,73 @@ class TestLintUnconfirmedFacts:
                     },
                 ],
             },
+        }
+        assert lint_curation(curation) == []
+
+
+class TestLintLowConfidence:
+    def test_no_low_confidence_no_issue(self):
+        curation = {
+            "albums": [
+                _make_album("a1", "Ep 1", episode_num=1, confidence="high"),
+                _make_album("a2", "Ep 2", episode_num=2, confidence="high"),
+            ],
+        }
+        assert lint_curation(curation) == []
+
+    def test_few_low_confidence_no_issue(self):
+        curation = {
+            "albums": [
+                _make_album("a1", "Ep 1", episode_num=1, confidence="high"),
+                _make_album("a2", "Ep 2", episode_num=2, confidence="medium", notes="unsure"),
+            ],
+        }
+        assert lint_curation(curation) == []
+
+    def test_many_low_confidence_fires(self):
+        curation = {
+            "albums": [
+                _make_album(f"a{i}", f"Ep {i}", episode_num=i, confidence="medium", notes="unsure")
+                for i in range(1, 7)
+            ],
+        }
+        issues = lint_curation(curation)
+        assert any("low_confidence_cluster" in i for i in issues)
+        assert any("6 decisions are MEDIUM or LOW" in i for i in issues)
+
+    def test_percentage_threshold_fires_on_small_series(self):
+        curation = {
+            "albums": [
+                _make_album("a1", "Ep 1", episode_num=1, confidence="high"),
+                _make_album("a2", "Ep 2", episode_num=2, confidence="medium", notes="unsure"),
+                _make_album("a3", "Ep 3", episode_num=3, confidence="medium", notes="unsure"),
+                _make_album("a4", "Ep 4", episode_num=4, confidence="medium", notes="unsure"),
+            ],
+        }
+        issues = lint_curation(curation)
+        # 4 albums, threshold = max(5, 0) = 5, but wait: 4//10 = 0, max(5, 0) = 5
+        # 3 MEDIUM < 5, so no issue
+        assert not any("low_confidence_cluster" in i for i in issues)
+
+    def test_percentage_threshold_fires_on_medium_series(self):
+        curation = {
+            "albums": [
+                _make_album("a1", "Ep 1", episode_num=1, confidence="high"),
+                *[
+                    _make_album(f"a{i}", f"Ep {i}", episode_num=i, confidence="medium", notes="unsure")
+                    for i in range(2, 13)
+                ],
+            ],
+        }
+        issues = lint_curation(curation)
+        # 12 albums, 11 MEDIUM, threshold = max(5, 1) = 5
+        assert any("low_confidence_cluster" in i for i in issues)
+
+    def test_legacy_albums_without_confidence_treated_as_high(self):
+        curation = {
+            "albums": [
+                _make_album("a1", "Ep 1", episode_num=1),
+                _make_album("a2", "Ep 2", episode_num=2),
+            ],
         }
         assert lint_curation(curation) == []

@@ -523,6 +523,52 @@ def test_album_decision_release_date_defaults_none():
     assert d.release_date is None
 
 
+def test_confidence_high_without_notes_ok():
+    d = AlbumDecision(
+        album_id="x", provider="spotify", include=True,
+        episode_num=1, title="t", confidence="high",
+    )
+    assert d.confidence == "high"
+    assert d.notes is None
+
+
+def test_confidence_medium_requires_notes():
+    with pytest.raises(ValueError, match="notes"):
+        AlbumDecision(
+            album_id="x", provider="spotify", include=True,
+            episode_num=1, title="t", confidence="medium",
+        )
+
+
+def test_confidence_low_requires_notes():
+    with pytest.raises(ValueError, match="notes"):
+        AlbumDecision(
+            album_id="x", provider="spotify", include=True,
+            episode_num=1, title="t", confidence="low",
+        )
+
+
+def test_confidence_medium_with_notes_ok():
+    d = AlbumDecision(
+        album_id="x", provider="spotify", include=True,
+        episode_num=1, title="t", confidence="medium",
+        notes="cross-provider asymmetry on this episode",
+    )
+    assert d.confidence == "medium"
+    assert d.notes is not None
+
+
+def test_legacy_json_without_confidence_loads_as_high():
+    """Backward compat: old curation JSONs lack confidence field."""
+    import json
+    raw = {
+        "album_id": "x", "provider": "spotify", "include": True,
+        "episode_num": 1, "title": "t",
+    }
+    d = AlbumDecision.model_validate(raw)
+    assert d.confidence == "high"
+
+
 # ── album_details tools return release_date and artists ────────────────────
 
 
