@@ -429,29 +429,6 @@ def _stratified_sample(items: list, n: int) -> list:
     return [items[int(i * step)] for i in range(n)]
 
 
-def _compress_runs(nums: list[int]) -> str:
-    """Compress a sorted integer list into run notation: 1-3, 5, 7-9."""
-    if not nums:
-        return ""
-    out: list[str] = []
-    start = nums[0]
-    prev = nums[0]
-    for n in nums[1:]:
-        if n == prev + 1:
-            prev = n
-            continue
-        if start == prev:
-            out.append(str(start))
-        else:
-            out.append(f"{start}-{prev}")
-        start = prev = n
-    if start == prev:
-        out.append(str(start))
-    else:
-        out.append(f"{start}-{prev}")
-    return ", ".join(out)
-
-
 # ── Shared prompt fragments ──────────────────────────────────────────────
 
 def _dry_run_prompts(query: str, content_type: str = "hoerspiel", discography_span_years: int | None = None) -> None:
@@ -986,7 +963,7 @@ async def _run_large(
                     f"{sample_lines}",
                     deps=meta_deps,
                 ),
-                timeout=600,
+                timeout=1200,
             ),
             phase="metadata",
             model_name=model_name,
@@ -1134,7 +1111,7 @@ async def _run_large(
 
         result: BatchResult = await _run_with_retry(
             lambda p=prompt: asyncio.wait_for(
-                _run_agent(batch_agent, p, shared_deps), timeout=600,
+                _run_agent(batch_agent, p, shared_deps), timeout=1200,
             ),
             phase=f"batch {batch_num}/{len(batches)}",
             model_name=model_name,
@@ -1244,15 +1221,19 @@ async def _run_large(
                 era_evidence_lines.append(
                     "### Batch-phase era evidence (review before proposing facts)",
                 )
+                era_evidence_lines.append(
+                    "The batch phase flagged the following albums as era "
+                    "collisions (same episode number, different title / "
+                    "release date). Group them into distinct eras by "
+                    "release_date and title pattern, then propose era_boundary "
+                    "facts. Look for ~3 distinct clusters (e.g. 1977 classics, "
+                    "2015 CGI reboot, 2025 continuation)."
+                )
                 for prov, items in sorted(by_provider.items()):
                     items.sort(key=lambda x: x[0])
-                    eps = _compress_runs([e for e, _, _ in items])
-                    dates = sorted({r for _, _, r in items if r != "?"})
-                    date_range = f" ({dates[0]}–{dates[-1]})" if len(dates) > 1 else f" ({dates[0]})" if dates else ""
-                    era_evidence_lines.append(
-                        f"  {prov}: episodes {eps}{date_range} — "
-                        f"{len(items)} album(s) flagged with era notes in batch phase",
-                    )
+                    era_evidence_lines.append(f"  {prov} ({len(items)} albums):")
+                    for ep, title, date in items:
+                        era_evidence_lines.append(f"    ep {ep} | {date} | {title}")
                 era_evidence_lines.append("")
 
             for d in unnumbered[:50]:  # cap to keep prompt size reasonable
@@ -1302,7 +1283,7 @@ async def _run_large(
                 finalize_result: FinalizeResult = await _run_with_retry(
                     lambda: asyncio.wait_for(
                         _run_agent(finalize_agent, finalize_prompt, finalize_deps),
-                        timeout=300,
+                        timeout=1200,
                     ),
                     phase="finalize",
                     model_name=model_name,
