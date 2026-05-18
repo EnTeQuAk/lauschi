@@ -90,6 +90,39 @@ class SubSeriesFact(BaseModel):
     )
 
 
+class EraBoundaryProposal(BaseModel):
+    """Wire input for proposing an era boundary.
+
+    Enforces non-empty fields so pydantic-ai surfaces validation
+    errors back to the agent instead of silently storing garbage.
+    """
+    label: str = Field(min_length=1, description="Short label, e.g. 'klassik'.")
+    release_date_range: str = Field(
+        min_length=1,
+        description="Year range like '1976-1979' or '2015-'.",
+    )
+
+
+class KnownGapProposal(BaseModel):
+    """Wire input for proposing a known gap."""
+    number: int = Field(ge=1, description="Missing episode number.")
+    reason: str = Field(min_length=1, description="Why it's missing.")
+
+
+class SubSeriesProposal(BaseModel):
+    """Wire input for proposing a sub-series."""
+    label: str = Field(min_length=1, description="Short label.")
+    album_ids: list[str] = Field(
+        default_factory=list,
+        description="Album IDs belonging to this sub-series.",
+    )
+    reason: str = Field(
+        default="",
+        min_length=1,
+        description="Why this is a distinct sub-series.",
+    )
+
+
 class SeriesFacts(BaseModel):
     """Discovered structural facts about a series.
 

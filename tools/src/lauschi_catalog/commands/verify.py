@@ -109,7 +109,11 @@ to independently verify those decisions.
 
 1. **Included albums**: Do these look like real episodes of this series?
    Albums may come from different providers (Spotify, Apple Music). The same
-   episode on both providers is fine and expected.
+   episode on both providers is fine and expected — different provider
+   metadata (titles, release dates, track counts) does NOT make it a
+   duplicate. Worked example: spotify "01/Majas Geburt" (1977, 26 tracks)
+   and apple_music "Klassiker, Folge 1: Maja lernt fliegen" (1976, 3 tracks)
+   are the SAME episode, different catalogs. BOTH should be included.
 
 2. **Excluded albums**: Were these correctly excluded? Real episodes should
    not be excluded. Valid exclusions: compilations, box sets, best-of,

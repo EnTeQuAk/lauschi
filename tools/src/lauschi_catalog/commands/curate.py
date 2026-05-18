@@ -34,7 +34,19 @@ from rich.panel import Panel
 from rich.table import Table
 
 from lauschi_catalog.catalog.canonical import canonicalize
-from lauschi_catalog.catalog.facts import SeriesFacts
+class PatternCheckError(Exception):
+    """Raised when the metadata agent returns an episode_pattern that
+    fails the coverage check or was never verified. The orchestrator
+    catches this and re-runs the metadata phase with corrective
+    guidance in the prompt."""
+
+
+from lauschi_catalog.catalog.facts import (
+    EraBoundaryProposal,
+    KnownGapProposal,
+    SeriesFacts,
+    SubSeriesProposal,
+)
 from lauschi_catalog.catalog.matcher import compute_pattern_coverage as _compute_pattern_coverage
 from lauschi_catalog.catalog.prompt import album_to_dict, format_albums_xml
 from lauschi_catalog.providers import Album, CatalogProvider
@@ -212,7 +224,8 @@ class CuratedSeries(BaseModel):
     # Structured facts discovered from the discography: era_boundaries,
     # known_gaps, sub_series. Proposed by curate (finalize agent), may be
     # overridden by review, flagged by verify, frozen into series.yaml.
-    series_facts: SeriesFacts | None = None
+    # Always present — empty lists mean "no facts discovered".
+    series_facts: SeriesFacts = Field(default_factory=SeriesFacts)
     # True when a provider failed during discovery or returned zero
     # albums while another provider had data. Signals that the curation
     # may be incomplete and should be re-run once the provider issue
@@ -332,7 +345,7 @@ class FinalizeDeps:
     seen_details: dict[str, dict] = field(default_factory=dict)
     pattern: str | list[str] | None = None
     titles: list[str] = field(default_factory=list)
-    existing_facts: SeriesFacts | None = None
+    existing_facts: SeriesFacts = field(default_factory=SeriesFacts)
     proposed_facts: SeriesFacts | None = field(default=None, init=False)
 
 
@@ -364,6 +377,8 @@ class MetadataDeps:
     against every album, not just the sample in the prompt.
     """
     titles: list[str]
+    _pattern_check_count: int = field(default=0, init=False)
+    _MAX_PATTERN_CHECKS: int = 5
 
 
 def _stratified_sample(items: list, n: int) -> list:
@@ -384,81 +399,85 @@ def _stratified_sample(items: list, n: int) -> list:
     return [items[int(i * step)] for i in range(n)]
 
 
+# ── Shared prompt fragments ──────────────────────────────────────────────
+
+_CROSS_PROVIDER_RULE = """\
+## Cross-provider episodes (INCLUDE BOTH)
+
+The same episode on different providers (e.g., spotify + apple_music) is NOT a
+duplicate. Each provider has its own catalog metadata: different titles,
+different release dates, different track counts. INCLUDE BOTH.
+
+Worked example — "Biene Maja" episode 1:
+  • spotify: "01/Majas Geburt" (1977, 26 tracks)
+  • apple_music: "Klassiker, Folge 1: Maja lernt fliegen" (1976, 3 tracks)
+  Same content, different provider metadata. Different release_date because
+  Apple Music labels re-issues with the original year while Spotify labels
+  with the streaming-release year. INCLUDE BOTH.
+
+Same-provider duplicates (same episode number + similar title on the SAME
+provider) ARE duplicates. Keep the most recent or unabridged.
+"""
+
 # ── System prompts ─────────────────────────────────────────────────────────
 
-_SYSTEM_PROMPT = """\
-You are curating a DACH (Germany/Austria/Switzerland) children's Hörspiel series
-catalog for "lauschi", a privacy-first kids audio player.
-
-## Your job
-
-Given a series name, use your tools to:
-1. Search for the correct artist on EACH available provider (Spotify, Apple Music).
-2. Fetch the full discography from each provider.
-3. Classify every album: include (episode) or exclude (box set, duplicate, etc.).
-4. For ambiguous albums, call get_album_details with multiple IDs at once (batching saves time).
-
-Albums from different providers representing the same episode should BOTH be
-included. Each gets its own AlbumDecision with the correct provider tag.
-
-Do NOT search for "Junior", "Retro-Archiv", or other variant artists — those
-are curated separately. Focus only on the primary artist for this series.
-
-## Include
-Individual episodes: 20-60 min runtime. Track count varies by provider
-(1-5 on Apple Music, 20-40 on Spotify where chapters are individual tracks).
-
-## Exclude (with exclude_reason)
-- Box sets / compilations ("Folge 1-10", "Jubiläumsbox", "Best of")
-- Duplicate episodes: same number released twice; keep the most recent or unabridged
-- Spinoff series from a different artist (note in curator_notes)
-- Audiobooks ("ungekürzt"), soundtracks, sing-alongs, podcast episodes
-- Short stories / Kurzhörspiele (unless they have episode numbers in the main run)
-- Foreign language releases (Polish, Spanish, etc.) unless the series is bilingual
-- Single music tracks (1 track, not a Hörspiel)
-- Sped-up / nightcore versions, karaoke, instrumental arrangements
-
-## Episode numbers
-Extract from: Folge N, Teil N, Episode N, Fall N, Band N, NNN/Title.
-When prefixes change mid-run, use alternation: (?:[Tt]eil|[Bb]and)\\s+(\\d+)
-
-If titles carry no episode number, leave episode_num=None for those
-albums. They'll display sorted by release_date downstream — don't
-invent numbers.
-
-## Keywords
-Only if the series name literally appears in album titles. Otherwise leave empty.
-
-## Age guidance
-lauschi targets kids aged 3-14. Set age_note based on your knowledge:
-- "Suitable from 3+" for gentle series (Benjamin Blümchen, Peppa Wutz)
-- "Suitable from 5+" for series with mild tension (Fünf Freunde)
-- "Recommended 8+" for crime, horror, or complex themes (Die drei ???, TKKG)
-
-## provider_artist_ids
-Return a dict mapping provider name to artist ID list:
-{"spotify": ["abc123"], "apple_music": ["456789"]}
-
-## Web search
-You have a web_search tool (max 2 searches). Use it when:
-- You're unsure whether a series is a Hörspiel or Hörbuch/music
-- The artist search returns ambiguous results (multiple artists, wrong genre)
-- You need to confirm how many episodes a series actually has
-
-Good queries:
-- `"Series Name" Hörspiel Episodenliste` for episode info
-- `site:hoerspiele.de "Series Name"` for the authoritative German Hörspiel database
-- `"Series Name" Hörspiel OR Hörbuch` to clarify format
-
-Don't search for well-known series (TKKG, Die drei ???, Benjamin Blümchen) where
-the album metadata is unambiguous.
-
-## Important
-- Produce an AlbumDecision for EVERY album in each artist's discography.
-- album_id must exactly match the IDs returned by tools.
-- provider must match the provider that returned the album.
-- Do NOT invent album IDs.
-"""
+_SYSTEM_PROMPT = (
+    "You are curating a DACH (Germany/Austria/Switzerland) children's Hörspiel series\n"
+    'catalog for "lauschi", a privacy-first kids audio player.\n\n'
+    "## Your job\n\n"
+    "Given a series name, use your tools to:\n"
+    '1. Search for the correct artist on EACH available provider (Spotify, Apple Music).\n'
+    "2. Fetch the full discography from each provider.\n"
+    "3. Classify every album: include (episode) or exclude (box set, duplicate, etc.).\n"
+    "4. For ambiguous albums, call get_album_details with multiple IDs at once (batching saves time).\n\n"
+    + _CROSS_PROVIDER_RULE
+    + '\n\nDo NOT search for "Junior", "Retro-Archiv", or other variant artists — those\n'
+    "are curated separately. Focus only on the primary artist for this series.\n\n"
+    "## Include\n"
+    "Individual episodes: 20-60 min runtime. Track count varies by provider\n"
+    "(1-5 on Apple Music, 20-40 on Spotify where chapters are individual tracks).\n\n"
+    "## Exclude (with exclude_reason)\n"
+    '- Box sets / compilations ("Folge 1-10", "Jubiläumsbox", "Best of")\n'
+    "- Duplicate episodes: same number released twice; keep the most recent or unabridged\n"
+    "- Spinoff series from a different artist (note in curator_notes)\n"
+    '- Audiobooks ("ungekürzt"), soundtracks, sing-alongs, podcast episodes\n'
+    "- Short stories / Kurzhörspiele (unless they have episode numbers in the main run)\n"
+    "- Foreign language releases (Polish, Spanish, etc.) unless the series is bilingual\n"
+    "- Single music tracks (1 track, not a Hörspiel)\n"
+    "- Sped-up / nightcore versions, karaoke, instrumental arrangements\n\n"
+    "## Episode numbers\n"
+    "Extract from: Folge N, Teil N, Episode N, Fall N, Band N, NNN/Title.\n"
+    "When prefixes change mid-run, use alternation: (?:[Tt]eil|[Bb]and)\\s+(\\d+)\n\n"
+    "If titles carry no episode number, leave episode_num=None for those\n"
+    "albums. They'll display sorted by release_date downstream — don't\n"
+    "invent numbers.\n\n"
+    "## Keywords\n"
+    "Only if the series name literally appears in album titles. Otherwise leave empty.\n\n"
+    "## Age guidance\n"
+    "lauschi targets kids aged 3-14. Set age_note based on your knowledge:\n"
+    '- "Suitable from 3+" for gentle series (Benjamin Blümchen, Peppa Wutz)\n'
+    '- "Suitable from 5+" for series with mild tension (Fünf Freunde)\n'
+    '- "Recommended 8+" for crime, horror, or complex themes (Die drei ???, TKKG)\n\n'
+    "## provider_artist_ids\n"
+    'Return a dict mapping provider name to artist ID list:\n'
+    '{"spotify": ["abc123"], "apple_music": ["456789"]}\n\n'
+    "## Web search\n"
+    "You have a web_search tool (max 2 searches). Use it when:\n"
+    "- You're unsure whether a series is a Hörspiel or Hörbuch/music\n"
+    "- The artist search returns ambiguous results (multiple artists, wrong genre)\n"
+    "- You need to confirm how many episodes a series actually has\n\n"
+    "Good queries:\n"
+    '- `"Series Name" Hörspiel Episodenliste` for episode info\n'
+    '- `site:hoerspiele.de "Series Name"` for the authoritative German Hörspiel database\n'
+    '- `"Series Name" Hörspiel OR Hörbuch` to clarify format\n\n'
+    "Don't search for well-known series (TKKG, Die drei ???, Benjamin Blümchen) where\n"
+    "the album metadata is unambiguous.\n\n"
+    "## Important\n"
+    "- Produce an AlbumDecision for EVERY album in each artist's discography.\n"
+    "- album_id must exactly match the IDs returned by tools.\n"
+    "- provider must match the provider that returned the album.\n"
+    "- Do NOT invent album IDs.\n"
+)
 
 _METADATA_SYSTEM_PROMPT = """\
 You are setting up metadata for a DACH children's Hörspiel series catalog entry.
@@ -508,6 +527,17 @@ If coverage < 80% AND most failures are unmatched_regex_samples,
 add alternation. If most are non_numeric_capture_samples, your
 group is wrong. Re-test until coverage > 90% or remaining
 unmatched are legitimate non-episodes (specials, compilations).
+
+Worked example:
+  Proposed: ["Teil (\\d+)"] on titles like "01/Majas Geburt", "Folge 2: Der Ball"
+  → Call check_pattern_coverage(["Teil (\\d+)"])
+  → Returns coverage_pct: 0 (no matches)
+  → Fix: switch to ["^(\\d+)/", "^Folge (\\d+):"] and re-test.
+  → Returns coverage_pct: 72 (some matched, some not)
+  → Fix: add "^Klassiker, Folge (\\d+):" and re-test.
+  → Returns coverage_pct: 70 (still below 80%)
+  → Remaining unmatched are movie Hörspiele and singles: legitimate
+     non-episodes. Commit the pattern.
 
 If the series uses NAMED episodes without numbering (fairy tales,
 themes, etc.), set episode_pattern=None and DO NOT call the tool
@@ -633,51 +663,46 @@ Call get_album_details to see the track listing.
 - provider must EXACTLY match the provider provided.
 """
 
-_BATCH_SYSTEM_PROMPT = """\
-You are curating a batch of albums for a DACH children's Hörspiel series.
-
-You receive:
-- Series context (title, episode pattern, what's been decided so far)
-- A batch of albums with: provider, album_id, title, total_tracks, release_date
-
-For each album, decide: include or exclude.
-
-## Include — individual episodes
-- Title matches episode pattern (e.g., "Folge NNN: …")
-- Episode runtime 20-60 min. Track count varies by provider (1-5 on Apple Music,
-  20-40 on Spotify where chapters are individual tracks).
-- Albums from different providers for the same episode: include BOTH
-
-## Episode numbers
-The series context includes an episode_pattern (regex with 1 capture group).
-Apply it to each album title to extract the episode number.
-- Match: set episode_num to the captured integer
-- No match: set episode_num to null (still include if it's a valid episode)
-- Examples: "Folge 123: Title" → 123, "123/Title" → 123, "Teil 5" → 5
-- A structured suffix (e.g. "(Das Original-Hörspiel zur TV Serie)") is
-  NOT episode numbering — do not propose a pattern update for it.
-
-## Exclude (set exclude_reason)
-- Compilations / box sets ("Folge 1-10", "Best of")
-- Foreign language releases (Polish, Spanish, etc.)
-- Single music tracks (1 track, not a Hörspiel)
-- Multi-artist compilations ("Kinderparty Hits", "Nick Jr.'s …")
-- Remixes, sped-up versions, sing-alongs, soundtracks
-- Audiobooks ("ungekürzt") that are book readings, not radio dramas
-- Duplicates of already-included episodes (same episode number AND similar title on the same provider). If the episode number matches but the title is completely different or the release date differs by years, these are NOT duplicates — they are different eras or continuations. Include BOTH.
-
-## Rich metadata
-Each album is provided as XML with: title, release_date, type, tracks_count,
-duration_min, label, artist, and sample tracks. Use these fields to distinguish
-genuine episodes from singles, compilations, or duplicates. No additional
-detail fetching is needed.
-
-## Important
-- Produce an AlbumDecision for EVERY album in this batch.
-- album_id must EXACTLY match the IDs provided.
-- provider must EXACTLY match the provider provided.
-- Do NOT invent album IDs.
-"""
+_BATCH_SYSTEM_PROMPT = (
+    "You are curating a batch of albums for a DACH children's Hörspiel series.\n\n"
+    "You receive:\n"
+    "- Series context (title, episode pattern, what's been decided so far)\n"
+    "- A batch of albums with: provider, album_id, title, total_tracks, release_date\n\n"
+    "For each album, decide: include or exclude.\n\n"
+    "## Include — individual episodes\n"
+    '- Title matches episode pattern (e.g., "Folge NNN: …")\n'
+    "- Episode runtime 20-60 min. Track count varies by provider (1-5 on Apple Music,\n"
+    "  20-40 on Spotify where chapters are individual tracks).\n\n"
+    + _CROSS_PROVIDER_RULE
+    + "\n\n"
+    "## Episode numbers\n"
+    "The series context includes an episode_pattern (regex with 1 capture group).\n"
+    "Apply it to each album title to extract the episode number.\n"
+    "- Match: set episode_num to the captured integer\n"
+    "- No match: set episode_num to null (still include if it's a valid episode)\n"
+    '- Examples: "Folge 123: Title" → 123, "123/Title" → 123, "Teil 5" → 5\n'
+    '- A structured suffix (e.g. "(Das Original-Hörspiel zur TV Serie)") is\n'
+    "  NOT episode numbering — do not propose a pattern update for it.\n\n"
+    "## Exclude (set exclude_reason)\n"
+    '- Compilations / box sets ("Folge 1-10", "Best of")\n'
+    "- Foreign language releases (Polish, Spanish, etc.)\n"
+    "- Single music tracks (1 track, not a Hörspiel)\n"
+    "- Multi-artist compilations (\"Kinderparty Hits\", \"Nick Jr.'s ...\")\n"
+    "- Remixes, sped-up versions, sing-alongs, soundtracks\n"
+    '- Audiobooks ("ungekürzt") that are book readings, not radio dramas\n'
+    "- SAME-provider duplicates: same episode number + similar title on the SAME\n"
+    "  provider. Keep the most recent or unabridged.\n\n"
+    "## Rich metadata\n"
+    "Each album is provided as XML with: title, release_date, type, tracks_count,\n"
+    "duration_min, label, artist, and sample tracks. Use these fields to distinguish\n"
+    "genuine episodes from singles, compilations, or duplicates. No additional\n"
+    "detail fetching is needed.\n\n"
+    "## Important\n"
+    "- Produce an AlbumDecision for EVERY album in this batch.\n"
+    "- album_id must EXACTLY match the IDs provided.\n"
+    "- provider must EXACTLY match the provider provided.\n"
+    "- Do NOT invent album IDs.\n"
+)
 
 
 def _dry_run_prompts(query: str, is_music: bool = False) -> None:
@@ -769,7 +794,24 @@ def _build_metadata_agent(
         If the discography uses named/themed episodes (fairy tales,
         themes) instead of numbers, no pattern can succeed: return
         episode_pattern=None without calling this tool again.
+
+        Limited to 5 calls per run. If you've already tested 3+ patterns
+        and coverage stays below 80%, set episode_pattern=None — the
+        series likely uses named episodes.
         """
+        ctx.deps._pattern_check_count += 1
+        if ctx.deps._pattern_check_count > ctx.deps._MAX_PATTERN_CHECKS:
+            console.print(
+                f"  [yellow]⚠ check_pattern_coverage limit reached "
+                f"({ctx.deps._pattern_check_count - 1}/{ctx.deps._MAX_PATTERN_CHECKS}). "
+                f"Set episode_pattern=None or commit to your best pattern.[/]",
+            )
+            return {
+                "limit_reached": True,
+                "message": f"Maximum {ctx.deps._MAX_PATTERN_CHECKS} pattern checks reached. "
+                    "Set episode_pattern=None if coverage is below 80%, "
+                    "or use your best pattern if coverage is acceptable.",
+            }
         result = _compute_pattern_coverage(ctx.deps.titles, pattern)
         if "error" not in result:
             console.print(
@@ -809,38 +851,47 @@ def _build_finalize_agent(model) -> Agent[FinalizeDeps, FinalizeResult]:
         system_prompt="""\
 You are a metadata finalizer for a DACH children's Hörspiel series curation.
 
-Some included albums lack episode numbers because their album titles
-don't match the current episode_pattern regex. Your job is to find
-the episode number by inspecting track listings — especially track 1,
-which typically starts with the episode identifier.
+You have two tasks, in this order:
 
-For each album provided, you may call get_album_details to fetch the
-track listing if it's not already in the context. Then:
-1. Apply the current episode_pattern to each track name (esp. track 1)
-2. If a track name reveals the episode number, return it in episode_updates
-3. If you discover a SYSTEMATIC new format in track names (e.g. all
+## Task 1: Series facts (USE propose_series_facts tool)
+
+Analyze the full discography and propose structural facts:
+era_boundaries, known_gaps, sub_series.
+
+Evidence checklist — look at the data, not your memory:
+- Group included albums by release_date decade. If two clusters exist
+  with distinct title conventions (e.g., "NNN/Title" vs "Folge NNN:"),
+  that's an era_boundary.
+- Look for title-prefix changes: "Klassiker, Folge" vs plain "Folge" vs
+  "NNN/" — each prefix shift is a potential era boundary.
+- Check episode-number gaps. If episode N is missing after pattern-fixing
+  AND the missing episode isn't anywhere in the discography, propose a
+  known_gaps with reason='unknown' (verify will flag if you're guessing).
+- Albums that share a title prefix/theme but don't match the main episode
+  pattern (e.g., all movie Hörspiele start with "Das Hörspiel zum Kinofilm")
+  may be a sub_series.
+
+Propose what the data supports. Verify will flag anything wrong.
+Only skip calling propose_series_facts if existing_facts already covers
+all of the above with no gaps.
+
+## Task 2: Episode numbers (episode_updates)
+
+Some included albums lack episode numbers because their album titles
+don't match the current episode_pattern regex. Find the episode number
+by inspecting track listings — especially track 1, which typically
+starts with the episode identifier.
+
+For each album provided:
+1. Call get_album_details if track listings aren't in context
+2. Apply the current episode_pattern to each track name (esp. track 1)
+3. If a track name reveals the episode number, return it in episode_updates
+4. If you discover a SYSTEMATIC new format in track names (e.g. all
    tracks start with "Folge NNN:" while album titles don't), propose
    a pattern_update
 
-## Series facts
-
-After handling episode numbers, analyze the series structure and propose
-facts: era_boundaries, known_gaps, sub_series. Use the propose_series_facts
-tool. Only propose NEW facts not already documented in the existing facts
-provided in the prompt.
-
-- era_boundaries: contiguous time periods with distinct naming conventions.
-  E.g., "1976-1979 klassik" vs "2015-2018 cgi_reboot" vs "2025- continuation".
-  Derived from release_date clustering and title patterns.
-- known_gaps: episode numbers that are genuinely missing (legal disputes,
-  skipped numbers), NOT curation errors.
-- sub_series: spin-offs or sub-series that belong in a separate catalog entry.
-
-Be conservative: only propose facts you're confident about from the data.
-If existing facts are already comprehensive, do not call propose_series_facts.
-
-Be conservative: only return episode_updates where you're confident
-from the track listing. Don't guess.
+Only return episode_updates where you're confident from the track
+listing. Don't guess.
 """,
         tool_retries=2, output_retries=2,
     )
@@ -922,9 +973,9 @@ from the track listing. Don't guess.
     @agent.tool
     def propose_series_facts(
         ctx: RunContext[FinalizeDeps],
-        era_boundaries: list[dict] | None = None,
-        known_gaps: list[dict] | None = None,
-        sub_series: list[dict] | None = None,
+        era_boundaries: list[EraBoundaryProposal] = [],
+        known_gaps: list[KnownGapProposal] = [],
+        sub_series: list[SubSeriesProposal] = [],
     ) -> str:
         """Propose structured facts about the series.
 
@@ -933,10 +984,13 @@ from the track listing. Don't guess.
         present in existing_facts or in facts proposed by a prior call.
         Each fact must have a clear justification based on the
         discography data (release_date clustering, title patterns).
+
+        The tool validates inputs: empty labels or reasons will be
+        rejected with a validation error you can fix and retry.
         """
         from lauschi_catalog.catalog.facts import EraBoundary, KnownGap, SubSeriesFact
 
-        existing = ctx.deps.existing_facts or SeriesFacts()
+        existing = ctx.deps.existing_facts
         # Start from any already-proposed facts in this run so multiple
         # calls accumulate rather than overwrite.
         if ctx.deps.proposed_facts is None:
@@ -945,50 +999,44 @@ from the track listing. Don't guess.
         recorded: list[str] = []
 
         # era_boundaries
-        if era_boundaries:
-            all_labels = {e.label for e in existing.era_boundaries} | {e.label for e in accumulated.era_boundaries}
-            for raw in era_boundaries:
-                label = raw.get("label", "")
-                if label in all_labels:
-                    continue
-                accumulated.era_boundaries.append(EraBoundary(
-                    label=label,
-                    release_date_range=raw.get("release_date_range", ""),
-                    discovered_by="curate",
-                ))
-                recorded.append(f"era: {label}")
-                all_labels.add(label)
+        all_labels = {e.label for e in existing.era_boundaries} | {e.label for e in accumulated.era_boundaries}
+        for proposal in era_boundaries:
+            if proposal.label in all_labels:
+                continue
+            accumulated.era_boundaries.append(EraBoundary(
+                label=proposal.label,
+                release_date_range=proposal.release_date_range,
+                discovered_by="curate",
+            ))
+            recorded.append(f"era: {proposal.label}")
+            all_labels.add(proposal.label)
 
         # known_gaps
-        if known_gaps:
-            all_nums = {g.number for g in existing.known_gaps} | {g.number for g in accumulated.known_gaps}
-            for raw in known_gaps:
-                num = raw.get("number")
-                if num in all_nums:
-                    continue
-                accumulated.known_gaps.append(KnownGap(
-                    number=num,
-                    reason=raw.get("reason", ""),
-                    discovered_by="curate",
-                ))
-                recorded.append(f"gap: {num}")
-                all_nums.add(num)
+        all_nums = {g.number for g in existing.known_gaps} | {g.number for g in accumulated.known_gaps}
+        for proposal in known_gaps:
+            if proposal.number in all_nums:
+                continue
+            accumulated.known_gaps.append(KnownGap(
+                number=proposal.number,
+                reason=proposal.reason,
+                discovered_by="curate",
+            ))
+            recorded.append(f"gap: {proposal.number}")
+            all_nums.add(proposal.number)
 
         # sub_series
-        if sub_series:
-            all_labels = {s.label for s in existing.sub_series} | {s.label for s in accumulated.sub_series}
-            for raw in sub_series:
-                label = raw.get("label", "")
-                if label in all_labels:
-                    continue
-                accumulated.sub_series.append(SubSeriesFact(
-                    label=label,
-                    album_ids=raw.get("album_ids", []),
-                    reason=raw.get("reason", ""),
-                    discovered_by="curate",
-                ))
-                recorded.append(f"sub: {label}")
-                all_labels.add(label)
+        all_labels = {s.label for s in existing.sub_series} | {s.label for s in accumulated.sub_series}
+        for proposal in sub_series:
+            if proposal.label in all_labels:
+                continue
+            accumulated.sub_series.append(SubSeriesFact(
+                label=proposal.label,
+                album_ids=proposal.album_ids,
+                reason=proposal.reason,
+                discovered_by="curate",
+            ))
+            recorded.append(f"sub: {proposal.label}")
+            all_labels.add(proposal.label)
 
         if not recorded:
             return "No new facts proposed (all already documented or empty)."
@@ -1020,14 +1068,22 @@ async def _run_agent(agent, prompt, deps):
                 kind = getattr(part, "part_kind", "")
                 if kind == "thinking":
                     # Show thinking in a dim panel
-                    console.print(
-                        Panel(
-                            escape(text.strip()[:500]),
-                            border_style="dim",
-                            title="💭 reasoning",
-                            padding=(0, 1),
-                        ),
-                    )
+                    # Escape ALL brackets — model reasoning can contain regex
+                    # character classes like [/\.\-] which crash Rich's parser.
+                    safe = escape(text.strip()[:500])
+                    try:
+                        console.print(
+                            Panel(
+                                safe,
+                                border_style="dim",
+                                title="💭 reasoning",
+                                padding=(0, 1),
+                            ),
+                        )
+                    except Exception:
+                        # If even escaped text fails (edge case in Rich),
+                        # skip the panel and continue — reasoning is diagnostic.
+                        pass
         return run.result.output
 
 
@@ -1203,46 +1259,78 @@ async def _run_large(
         f" | {a.get('release_date') or '?'}"
         for a in sample_albums
     )
-    meta: SeriesMetadata = await _run_with_retry(
-        lambda: asyncio.wait_for(
-            _run_agent(
-                metadata_agent,
-                f"Series: {query!r}\nProviders: {provider_list}\n"
-                f"Sample albums (title | tracks | release_date):\n"
-                f"{sample_lines}",
-                deps=meta_deps,
+    # ── Metadata with pattern hard-check retry ───────────────────────
+    meta: SeriesMetadata | None = None
+    for meta_attempt in range(1, 3):
+        meta_deps._pattern_check_count = 0  # reset per attempt
+        meta = await _run_with_retry(
+            lambda: asyncio.wait_for(
+                _run_agent(
+                    metadata_agent,
+                    f"Series: {query!r}\nProviders: {provider_list}\n"
+                    f"Sample albums (title | tracks | release_date):\n"
+                    f"{sample_lines}",
+                    deps=meta_deps,
+                ),
+                timeout=600,
             ),
-            timeout=300,
-        ),
-        phase="metadata",
-        model_name=model_name,
-    )
-    # Ensure artist IDs are in metadata
-    if not meta.provider_artist_ids:
-        meta.provider_artist_ids = artist_ids
-
-    # Orchestrator-side safety net: if the agent skipped or fumbled the
-    # check_pattern_coverage tool, surface low coverage loudly. The
-    # finalize agent's propose_pattern_update tool is the recovery path,
-    # but a heads-up here lets a human spot the issue early.
-    if meta.episode_pattern and not is_music:
-        from lauschi_catalog.catalog.matcher import extract_episode
-
-        matched = sum(
-            1 for t in all_titles if extract_episode(meta.episode_pattern, t) is not None
+            phase="metadata",
+            model_name=model_name,
         )
-        coverage = matched / len(all_titles) if all_titles else 0
-        if coverage < 0.5:
-            unmatched = [
-                t for t in all_titles if extract_episode(meta.episode_pattern, t) is None
-            ][:5]
-            console.print(
-                f"  [yellow]⚠ Low metadata-phase pattern coverage: "
-                f"{matched}/{len(all_titles)} = {coverage:.0%}. "
-                f"Finalize agent may revise via propose_pattern_update.[/]",
+        # Ensure artist IDs are in metadata
+        if not meta.provider_artist_ids:
+            meta.provider_artist_ids = artist_ids
+
+        if meta.episode_pattern and not is_music:
+            from lauschi_catalog.catalog.matcher import extract_episode
+
+            matched = sum(
+                1 for t in all_titles if extract_episode(meta.episode_pattern, t) is not None
             )
-            for t in unmatched:
-                console.print(f"  [dim]unmatched: {t[:80]}[/]")
+            coverage = matched / len(all_titles) if all_titles else 0
+            if meta_deps._pattern_check_count == 0:
+                console.print(
+                    f"  [red]✗ Agent never called check_pattern_coverage "
+                    f"(attempt {meta_attempt}/2). "
+                    f"Retrying with corrective prompt.[/]",
+                )
+                # Inject reminder into prompt for next attempt
+                sample_lines += (
+                    "\n\n⚠️ REQUIRED: Call check_pattern_coverage with your "
+                    "proposed episode_pattern before returning."
+                )
+                if meta_attempt < 2:
+                    continue
+                raise PatternCheckError(
+                    "Metadata agent never called check_pattern_coverage "
+                    "after 2 attempts. Pattern cannot be trusted.",
+                )
+            if coverage < 0.3:
+                console.print(
+                    f"  [red]✗ Pattern coverage {matched}/{len(all_titles)} = "
+                    f"{coverage:.0%} < 30% (attempt {meta_attempt}/2). "
+                    f"Retrying with corrective prompt.[/]",
+                )
+                # Inject coverage data into prompt for next attempt
+                unmatched = [
+                    t for t in all_titles if extract_episode(meta.episode_pattern, t) is None
+                ][:8]
+                sample_lines += (
+                    f"\n\n⚠️ Coverage check failed: only {coverage:.0%} of "
+                    f"{len(all_titles)} titles matched. Unmatched examples:\n"
+                    + "\n".join(f"  - {t[:80]}" for t in unmatched)
+                    + "\n\nAdd alternations or set episode_pattern=None for "
+                    "named episodes."
+                )
+                if meta_attempt < 2:
+                    continue
+                raise PatternCheckError(
+                    f"Pattern coverage {coverage:.0%} below 30% threshold "
+                    "after 2 attempts. Series may use named episodes.",
+                )
+        break
+
+    assert meta is not None
 
     console.print(
         f"  id={meta.id}  title={meta.title!r}  "
@@ -1541,10 +1629,9 @@ async def _run_large(
     merged_facts: SeriesFacts | None = None
     if existing_facts or proposed_facts:
         merged_facts = SeriesFacts()
-        if existing_facts:
-            merged_facts.era_boundaries.extend(existing_facts.era_boundaries)
-            merged_facts.known_gaps.extend(existing_facts.known_gaps)
-            merged_facts.sub_series.extend(existing_facts.sub_series)
+        merged_facts.era_boundaries.extend(existing_facts.era_boundaries)
+        merged_facts.known_gaps.extend(existing_facts.known_gaps)
+        merged_facts.sub_series.extend(existing_facts.sub_series)
         if proposed_facts:
             merged_facts.era_boundaries.extend(proposed_facts.era_boundaries)
             merged_facts.known_gaps.extend(proposed_facts.known_gaps)
@@ -1687,7 +1774,7 @@ def save_curation(series: CuratedSeries) -> Path:
         "provider_artist_ids": series.provider_artist_ids,
         "age_note": series.age_note,
         "curator_notes": series.curator_notes,
-        "series_facts": series.series_facts.model_dump() if series.series_facts else None,
+        "series_facts": series.series_facts.model_dump(),
         "curated_at": datetime.now(UTC).isoformat(),
         "albums": [a.model_dump() for a in series.albums],
         "incomplete": series.incomplete,
@@ -1844,7 +1931,7 @@ def _load_existing_facts(entry) -> SeriesFacts | None:
     """
     if entry.series_facts:
         return SeriesFacts.model_validate(entry.series_facts)
-    return None
+    return SeriesFacts()
 
 
 def _lock_series_id(series: CuratedSeries, canonical_id: str | None) -> CuratedSeries:
