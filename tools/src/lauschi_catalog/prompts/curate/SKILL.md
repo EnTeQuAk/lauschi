@@ -86,9 +86,11 @@ When you see the same episode number in the discography, apply in order:
 
 **Step 1: Same provider?**
 - Same provider + same episode number + similar title → **DUPLICATE**. Keep the
-  most recent or unabridged. "Similar title" means the same episode story name
-  modulo formatting (prefix, suffix, punctuation); title-string equality is not
-  required.
+  most recent or unabridged. "Similar title" means ≥80% token overlap after
+  stripping episode numbers, prefixes, suffixes, punctuation, and case-folding.
+  "01/Maja lernt fliegen" and "Klassiker, Folge 1: Maja lernt fliegen" are
+  similar (shared "Maja lernt fliegen"). "Maja (Summ Summ Summ)" and
+  "01/Maja lernt fliegen" are not.
 
 **Step 2: Different providers?**
 - Different providers + same episode number → **NOT a duplicate**. Each
@@ -144,8 +146,11 @@ listen to it) is higher than the cost of including a borderline album.
 
 - Different provider + same episode number → not a duplicate (see
   cross_provider_duplicate)
-- Episode-pattern coverage 70-90% with remaining titles being legitimate
-  non-episodes (movies, specials) → keep the pattern
+- Episode-pattern coverage below 80% → you MUST list every unmatched title and
+  classify it as (a) legitimate non-episode (movie, music single, compilation
+  box), (b) missed episode that needs a new pattern, or (c) compilation that
+  should be excluded. Only keep the pattern when every unmatched title is
+  accounted for. Never round coverage up to a threshold.
 - Missing episode N when `known_gaps` documents it → not a curation error
 - Cross-provider asymmetry on 1-3 episodes → content rotation, not a curation
   error

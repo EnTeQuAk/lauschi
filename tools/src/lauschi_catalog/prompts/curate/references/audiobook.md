@@ -95,6 +95,19 @@ When you see the same source novel in both forms (e.g. "Momo" as Hörbuch AND "M
 
 When prefix and suffix conflict, **suffix wins**. "Jim Knopf: Jim Knopf und Lukas der Lokomotivführer - Die ungekürzte Lesung" is a Hörbuch because "- Die ungekürzte Lesung" is the Hörbuch suffix. The "Jim Knopf:" prefix is just the series label applied by the publisher (Europa), not a Hörspiel signal. The same logic applies to any "Series: Title - Lesung" format.
 
+## Confidence worked examples
+
+Use track count and duration as **positive** signals, not just absence of Hörspiel labels.
+
+| Album title | Tracks | Duration | Signals | Confidence | Reasoning |
+|---|---|---|---|---|---|
+| "Jim Knopf und die Wilde 13 - Die ungekürzte Lesung" | 116 | ~5h | Many tracks, long duration, "Lesung" suffix | **HIGH** | All positive signals align |
+| "Momo - Die ungekürzte Lesung" | 42 | ~2.5h | Many tracks, "Lesung" suffix | **HIGH** | Clear Hörbuch |
+| "Momo - Das Hörspiel" | 12 | 50min | Few tracks, "Hörspiel" suffix | **LOW** for audiobook | Hörspiel label contradicts Hörbuch — exclude as `wrong_content_type` |
+| "Verdi: Messa da Requiem" | 4 | 45min | Classical music, no narrative | **HIGH** for exclusion | `non_kids_work` + `wrong_content_type` |
+
+Defaulting to MEDIUM because "no Hörspiel label found" is absence-based reasoning. Stamp HIGH only when you have **positive** evidence (many tracks, long duration, "Lesung"/"ungekürzt" suffix).
+
 ## Pattern and facts
 
 - `episode_pattern=None` always. Books are standalone; chapter/Teil numbers
