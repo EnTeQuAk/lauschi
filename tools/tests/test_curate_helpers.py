@@ -245,11 +245,11 @@ def test_metadata_agent_for_music_has_no_tools():
 def test_metadata_music_prompt_tells_agent_no_pattern_no_tools():
     """Pin the prompt content so a future refactor can't silently
     re-introduce the music-pattern bug."""
-    from lauschi_catalog.commands.curate import _METADATA_MUSIC_SYSTEM_PROMPT
+    from lauschi_catalog.prompts import load_curate_skill
 
-    p = _METADATA_MUSIC_SYSTEM_PROMPT
-    assert "MUSIC" in p  # not Hörspiel
-    assert "leave as None" in p or "None" in p  # episode_pattern guidance
+    p = load_curate_skill(phase="metadata", content_type="music")
+    assert "music" in p.lower()  # not Hörspiel
+    assert "None" in p  # episode_pattern guidance
     assert "no tools" in p.lower() or "Do NOT call" in p
 
 
@@ -403,9 +403,9 @@ def test_metadata_hoerspiel_prompt_allows_none_for_named_episodes():
     (like SimsalaGrimm fairy tales). Without this, the agent
     interprets 'MUST call check_pattern_coverage' as unconditional
     and burns its timeout retrying impossible patterns."""
-    from lauschi_catalog.commands.curate import _METADATA_SYSTEM_PROMPT
+    from lauschi_catalog.prompts import load_curate_skill
 
-    p = _METADATA_SYSTEM_PROMPT
+    p = load_curate_skill(phase="metadata", content_type="hoerspiel")
     # Hint to bail out
     assert "None" in p
     # Explicit named/themed escape hatch
@@ -422,9 +422,9 @@ def test_metadata_prompt_mentions_release_date_signal():
     release_date. The prompt must tell the agent these fields exist,
     otherwise the model treats the trailing date as noise. Pin the
     contract so a future prompt rewrite can't silently drop it."""
-    from lauschi_catalog.commands.curate import _METADATA_SYSTEM_PROMPT
+    from lauschi_catalog.prompts import load_curate_skill
 
-    p = _METADATA_SYSTEM_PROMPT
+    p = load_curate_skill(phase="metadata", content_type="hoerspiel")
     assert "release_date" in p
     assert "total_tracks" in p
 
@@ -752,21 +752,21 @@ def test_batch_prompt_distinguishes_structure_from_numbering():
     suffix — structure but no number — and the agent still
     proposed a story-name-capturing pattern. Pin that the prompt
     now explicitly tells the agent: structure isn't numbering."""
-    from lauschi_catalog.commands.curate import _BATCH_SYSTEM_PROMPT
+    from lauschi_catalog.prompts import load_curate_skill
 
-    p = _BATCH_SYSTEM_PROMPT
+    p = load_curate_skill(phase="batch", content_type="hoerspiel")
     # Must specifically tell the agent NOT to propose for named
     # episodes with structured suffixes — that was the SimsalaGrimm
     # failure mode. Looking for the conceptual distinction.
     assert "structure" in p.lower() or "structured" in p.lower(), (
-        "_BATCH_SYSTEM_PROMPT must mention 'structure' to "
+        "batch prompt must mention 'structure' to "
         "distinguish from 'numbering'"
     )
     # And explicitly point at release_date as the fallback for
     # unnumbered series, so the agent knows there IS a downstream
     # plan and doesn't feel pressured to invent a pattern.
     assert "release_date" in p, (
-        "_BATCH_SYSTEM_PROMPT must point at release_date as the "
+        "batch prompt must point at release_date as the "
         "fallback sort key for unnumbered series, otherwise the "
         "agent may invent a non-numeric pattern just to give the "
         "framework something to extract from"

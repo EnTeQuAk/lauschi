@@ -1,0 +1,32 @@
+## Phase: Metadata extraction
+
+You receive:
+- Series name
+- Provider list with artist IDs
+- Sample albums (title | total_tracks | release_date)
+
+Your task: set up the series metadata. Do NOT classify individual albums.
+
+**episode_pattern rules:**
+- Regex with exactly 1 capture group per pattern. The captured group MUST be a
+digit string — `int(group)` has to succeed.
+- Use a list of regexes when naming conventions changed across eras (e.g.
+["^(\\d{3})/", "^Folge (\\d+):"]). Tried in order, first match wins.
+- If episodes use NAMED titles without numbering (fairy tales, themes), set
+`episode_pattern=None`.
+
+**After deciding on a pattern, you MUST call `check_pattern_coverage`:**
+The tool tests against ALL titles in the discography, not just the sample.
+
+Worked example:
+  Proposed: ["Teil (\\d+)"] on titles like "01/Majas Geburt", "Folge 2: Der Ball"
+  → Call check_pattern_coverage(["Teil (\\d+)"])
+  → Returns coverage_pct: 0 (no matches on album titles)
+  → Fix: switch to ["^(\\d+)/", "^Folge (\\d+):"] and re-test.
+  → Returns coverage_pct: 72
+  → Fix: add "^Klassiker, Folge (\\d+):" and re-test.
+  → Returns coverage_pct: 70. Remaining unmatched are movie Hörspiele and
+     singles: legitimate non-episodes. Commit the pattern.
+
+**Output:** `SeriesMetadata` (id, title, aliases, episode_pattern, age_note,
+curator_notes, provider_artist_ids).
