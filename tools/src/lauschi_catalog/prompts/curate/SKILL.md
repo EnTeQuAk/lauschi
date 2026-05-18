@@ -86,7 +86,9 @@ When you see the same episode number in the discography, apply in order:
 
 **Step 1: Same provider?**
 - Same provider + same episode number + similar title → **DUPLICATE**. Keep the
-  most recent or unabridged.
+  most recent or unabridged. "Similar title" means the same episode story name
+  modulo formatting (prefix, suffix, punctuation); title-string equality is not
+  required.
 
 **Step 2: Different providers?**
 - Different providers + same episode number → **NOT a duplicate**. Each
@@ -113,6 +115,10 @@ When you see the same episode number in the discography, apply in order:
 
 An `episode_pattern` is the answer to "*how do I order included albums?*", not
 "*what numbers appear anywhere in the discography?*".
+
+**Always anchor each pattern with `^`.** Unanchored `Folge (\d+):` matches
+inside `Folge 1-10: Sammelbox` and silently mis-orders compilations. Use
+`^Folge (\d+):`, not `Folge (\d+):`.
 
 **Track-level numbers are NOT episode numbers.** If an album's tracks are
 "Teil 01", "Teil 02", "Teil 03" — those are chapter markers within ONE

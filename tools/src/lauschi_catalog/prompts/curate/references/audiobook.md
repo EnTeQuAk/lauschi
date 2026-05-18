@@ -3,6 +3,12 @@
 Printed books turned into audio. Usually single narrator, minimal sound
 design. One entry per book; no `episode_pattern`.
 
+## Metadata phase note
+
+There are no tools available in the metadata phase for audiobook curation.
+Do NOT call `check_pattern_coverage` or any other tools — they are not
+registered for audiobook metadata. Just set up the metadata directly.
+
 ## Hörbuch vs Hörspiel
 
 This is the most error-prone classification for non-DACH models. Same novel
@@ -33,6 +39,12 @@ the same title exists in the same artist's catalog.
 Small-cast dramatized reading of one source book (1-3 voices, light music,
 still anchored to reading the text). Include — this is still a Hörbuch.
 
+Worked example: "Jim Knopf und Lukas der Lokomotivführer — Hörspiel
+nach der Romanvorlage" (Spotify, 8 tracks, ~75 min). Title says "Hörspiel"
+but the track count is low and duration is short-ish. However, the credit
+lists "Sprecher: …" (one narrator) with occasional guest voices — this is
+an inszenierte Lesung, not a full Hörspiel cast. **Include** as Hörbuch.
+
 ### hoerspiel_adaptation
 Multi-voice dramatized production with sound design, even if based on the
 artist's novel. **Exclude** (`wrong_content_type`). Flag for splitting into a
@@ -49,6 +61,18 @@ Multi-book box (e.g., "Sammelband: 5 Romane in einer Lesung"). Exclude.
 
 ### excerpt_or_sample
 Leseprobe, sample chapter, promotional excerpt. Exclude.
+
+## Positive confidence signals (Hörbuch)
+
+When the title is bare and the artist is a known children's author, use
+track count and duration as the primary signal:
+
+- Many tracks on Spotify (30–150, one per chapter) = Hörbuch, **HIGH confidence**
+- 3–12 hours total duration on Apple Music (few long tracks per CD/cassette)
+  = Hörbuch, **HIGH confidence**
+- Few tracks (<10) and 30–70 min total = likely Hörspiel, **LOW confidence**
+  for audiobook — prefer exclude with `wrong_content_type` unless the title
+  explicitly says "ungekürzt" or "Lesung"
 
 ## Title decoder — worked examples (Michael Ende)
 

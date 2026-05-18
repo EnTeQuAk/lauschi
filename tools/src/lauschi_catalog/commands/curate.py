@@ -422,11 +422,11 @@ def _stratified_sample(items: list, n: int) -> list:
 
 # ── Shared prompt fragments ──────────────────────────────────────────────
 
-def _dry_run_prompts(query: str, content_type: str = "hoerspiel") -> None:
+def _dry_run_prompts(query: str, content_type: str = "hoerspiel", discography_span_years: int | None = None) -> None:
     """Print assembled prompts without calling the API."""
-    batch = load_curate_skill(phase="batch", content_type=content_type)
-    metadata = load_curate_skill(phase="metadata", content_type=content_type)
-    finalize = load_curate_skill(phase="finalize", content_type=content_type)
+    batch = load_curate_skill(phase="batch", content_type=content_type, discography_span_years=discography_span_years)
+    metadata = load_curate_skill(phase="metadata", content_type=content_type, discography_span_years=discography_span_years)
+    finalize = load_curate_skill(phase="finalize", content_type=content_type, discography_span_years=discography_span_years)
 
     console.print(Panel("Batch system prompt", border_style="blue"))
     console.print(batch)
@@ -463,7 +463,7 @@ def _dry_run_prompts(query: str, content_type: str = "hoerspiel") -> None:
 
 
 def _build_metadata_agent(
-    model, *, content_type: str = "hoerspiel",
+    model, *, content_type: str = "hoerspiel", discography_span_years: int | None = None,
 ) -> Agent[MetadataDeps, SeriesMetadata]:
     """Metadata-extraction agent.
 
@@ -479,7 +479,7 @@ def _build_metadata_agent(
     gets a tool error, and may invent a bogus pattern to satisfy the
     instruction.
     """
-    system_prompt = load_curate_skill(phase="metadata", content_type=content_type)
+    system_prompt = load_curate_skill(phase="metadata", content_type=content_type, discography_span_years=discography_span_years)
     agent: Agent[MetadataDeps, SeriesMetadata] = Agent(
         model,
         output_type=SeriesMetadata,
@@ -541,9 +541,9 @@ def _build_metadata_agent(
     return agent
 
 
-def _build_batch_agent(model, *, content_type: str = "hoerspiel") -> Agent[BatchDeps, BatchResult]:
+def _build_batch_agent(model, *, content_type: str = "hoerspiel", discography_span_years: int | None = None) -> Agent[BatchDeps, BatchResult]:
     """Agent for processing one batch of albums."""
-    system_prompt = load_curate_skill(phase="batch", content_type=content_type)
+    system_prompt = load_curate_skill(phase="batch", content_type=content_type, discography_span_years=discography_span_years)
     agent: Agent[BatchDeps, BatchResult] = Agent(
         model,
         output_type=BatchResult,
@@ -554,7 +554,7 @@ def _build_batch_agent(model, *, content_type: str = "hoerspiel") -> Agent[Batch
     return agent
 
 
-def _build_finalize_agent(model) -> Agent[FinalizeDeps, FinalizeResult]:
+def _build_finalize_agent(model, *, content_type: str = "hoerspiel", discography_span_years: int | None = None) -> Agent[FinalizeDeps, FinalizeResult]:
     """Agent for post-batch metadata finalization.
 
     Re-examines included albums that lack episode numbers by looking
@@ -562,7 +562,7 @@ def _build_finalize_agent(model) -> Agent[FinalizeDeps, FinalizeResult]:
     episode identifier even when the album title doesn't match the
     current pattern.
     """
-    system_prompt = load_curate_skill(phase="finalize")
+    system_prompt = load_curate_skill(phase="finalize", content_type=content_type, discography_span_years=discography_span_years)
     agent: Agent[FinalizeDeps, FinalizeResult] = Agent(
         model,
         output_type=FinalizeResult,
@@ -916,13 +916,21 @@ async def _run_large(
     console.print("[bold cyan]Metadata[/]\n")
 
     all_titles = [a["name"] for a in all_albums]
+    # Compute discography span for era_detection reference doc
+    years = []
+    for a in all_albums:
+        rd = a.get("release_date")
+        if rd and len(str(rd)) >= 4 and str(rd)[:4].isdigit():
+            years.append(int(str(rd)[:4]))
+    discography_span_years = (max(years) - min(years)) if len(years) >= 2 else None
+
     # Stratified sample so era-mixed series (older NNN/ titles + newer
     # Folge XXX: titles) hand the metadata agent evidence of both
     # naming conventions.
     sample_albums = _stratified_sample(all_albums, 40)
     provider_list = ", ".join(f"{k}: {v}" for k, v in artist_ids.items())
 
-    metadata_agent = _build_metadata_agent(model, content_type=content_type)
+    metadata_agent = _build_metadata_agent(model, content_type=content_type, discography_span_years=discography_span_years)
     meta_deps = MetadataDeps(titles=all_titles)
     # Sample lines carry release_date and total_tracks alongside the
     # title. Title alone tells half the story for series where streaming
@@ -1022,7 +1030,7 @@ async def _run_large(
         f"{len(batches)} batches of ≤{_BATCH_SIZE}\n",
     )
 
-    batch_agent = _build_batch_agent(model, content_type=content_type)
+    batch_agent = _build_batch_agent(model, content_type=content_type, discography_span_years=discography_span_years)
     # Shared deps across all batches: pattern revisions made by the
     # batch agent in batch N propagate to batch N+1's prompt, and at
     # the end we re-extract episode_num for every decision using the
@@ -1177,7 +1185,7 @@ async def _run_large(
                 f"[bold cyan]Finalize[/] — {len(unnumbered)} included albums "
                 f"lack episode numbers. Inspecting track listings...\n",
             )
-            finalize_agent = _build_finalize_agent(model)
+            finalize_agent = _build_finalize_agent(model, content_type=content_type, discography_span_years=discography_span_years)
             # Build prompt with album titles and any cached track listings
             lines: list[str] = []
             for d in unnumbered[:50]:  # cap to keep prompt size reasonable
@@ -1575,10 +1583,20 @@ def _resolve_content_type(
     """
     if entry_content_type in ("hoerspiel", "music", "audiobook"):
         return entry_content_type  # type: ignore[return-value]
+    if entry_content_type is not None:
+        raise ValueError(
+            f"unknown content_type {entry_content_type!r} in series.yaml. "
+            f"Use one of: hoerspiel, music, audiobook.",
+        )
     if entry_has_pattern:
         return "hoerspiel"
     if existing_content_type in ("hoerspiel", "music", "audiobook"):
         return existing_content_type  # type: ignore[return-value]
+    if existing_content_type is not None:
+        raise ValueError(
+            f"unknown content_type {existing_content_type!r} in existing "
+            f"curation. Use one of: hoerspiel, music, audiobook.",
+        )
     return "hoerspiel"
 
 
