@@ -89,8 +89,11 @@ Use the title as your primary signal. Track count confirms.
 | "Englisch lernen mit …" | Educational, not narrative | **Exclude** (`wrong_content_type` or `non_kids_work`) |
 | "Let's Have Fun!" / "Verdi: Messa da Requiem" | Not by Michael Ende | **Exclude** (`non_kids_work` or `wrong_content_type`) |
 | Multi-book box: "… und weitere Geschichten" with 2+ titles | Compilation | **Exclude** (`compilation_set`) |
+| Title prefix says "Jim Knopf:" but suffix says "- Die ungekürzte Lesung" | Prefix vs suffix conflict | **Suffix wins**: "Lesung" / "ungekürzt" = Hörbuch, **include**. The "Jim Knopf:" prefix is a series label, not a Hörspiel signal. |
 
 When you see the same source novel in both forms (e.g. "Momo" as Hörbuch AND "Momo - Das Hörspiel"), the one WITHOUT "Hörspiel" / "Kinderoper" / "zum Film" is the Hörbuch — **include it**. The one WITH those suffixes is the Hörspiel — **exclude it**.
+
+When prefix and suffix conflict, **suffix wins**. "Jim Knopf: Jim Knopf und Lukas der Lokomotivführer - Die ungekürzte Lesung" is a Hörbuch because "- Die ungekürzte Lesung" is the Hörbuch suffix. The "Jim Knopf:" prefix is just the series label applied by the publisher (Europa), not a Hörspiel signal. The same logic applies to any "Series: Title - Lesung" format.
 
 ## Pattern and facts
 

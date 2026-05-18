@@ -203,6 +203,15 @@ class AlbumDecision(BaseModel):
             )
         return self
 
+    @model_validator(mode="after")
+    def _exclude_reason_required_when_excluded(self) -> AlbumDecision:
+        if not self.include and not self.exclude_reason:
+            raise ValueError(
+                "include=False requires `exclude_reason` naming the failure-"
+                "taxonomy pattern",
+            )
+        return self
+
 
 _EPISODE_PATTERN_DESCRIPTION = (
     "Regex(es) with one capture group that yields an integer episode "
@@ -418,6 +427,29 @@ def _stratified_sample(items: list, n: int) -> list:
         return list(items)
     step = len(items) / n
     return [items[int(i * step)] for i in range(n)]
+
+
+def _compress_runs(nums: list[int]) -> str:
+    """Compress a sorted integer list into run notation: 1-3, 5, 7-9."""
+    if not nums:
+        return ""
+    out: list[str] = []
+    start = nums[0]
+    prev = nums[0]
+    for n in nums[1:]:
+        if n == prev + 1:
+            prev = n
+            continue
+        if start == prev:
+            out.append(str(start))
+        else:
+            out.append(f"{start}-{prev}")
+        start = prev = n
+    if start == prev:
+        out.append(str(start))
+    else:
+        out.append(f"{start}-{prev}")
+    return ", ".join(out)
 
 
 # ── Shared prompt fragments ──────────────────────────────────────────────
@@ -1188,6 +1220,41 @@ async def _run_large(
             finalize_agent = _build_finalize_agent(model, content_type=content_type, discography_span_years=discography_span_years)
             # Build prompt with album titles and any cached track listings
             lines: list[str] = []
+
+            # Pre-compute era evidence from batch-phase decisions so the
+            # finalize agent sees it before the episode-numbering task.
+            # Batch agents already identified era_collisions with per-album
+            # notes — surfacing the summary prevents the agent from only
+            # looking at unnumbered albums and missing the whole-discography
+            # era structure.
+            era_evidence_lines: list[str] = []
+            era_decisions = [
+                d for d in all_decisions
+                if d.include and d.notes and "era" in d.notes.lower()
+            ]
+            if era_decisions:
+                by_provider: dict[str, list[tuple[int, str, str]]] = {}
+                for d in era_decisions:
+                    ep = d.episode_num
+                    if ep is None:
+                        continue
+                    by_provider.setdefault(d.provider, []).append(
+                        (ep, d.title, d.release_date or "?"),
+                    )
+                era_evidence_lines.append(
+                    "### Batch-phase era evidence (review before proposing facts)",
+                )
+                for prov, items in sorted(by_provider.items()):
+                    items.sort(key=lambda x: x[0])
+                    eps = _compress_runs([e for e, _, _ in items])
+                    dates = sorted({r for _, _, r in items if r != "?"})
+                    date_range = f" ({dates[0]}–{dates[-1]})" if len(dates) > 1 else f" ({dates[0]})" if dates else ""
+                    era_evidence_lines.append(
+                        f"  {prov}: episodes {eps}{date_range} — "
+                        f"{len(items)} album(s) flagged with era notes in batch phase",
+                    )
+                era_evidence_lines.append("")
+
             for d in unnumbered[:50]:  # cap to keep prompt size reasonable
                 key = f"{d.provider}:{d.album_id}"
                 detail = shared_deps.seen_details.get(key)
@@ -1220,6 +1287,7 @@ async def _run_large(
                 f"Series: {meta.title!r}\n"
                 f"Episode pattern: {shared_deps.pattern}\n\n"
                 f"{'\n'.join(facts_lines)}\n\n"
+                f"{'\n'.join(era_evidence_lines)}\n"
                 f"Included albums missing episode numbers ({len(unnumbered)} total):\n"
                 f"\n".join(lines)
             )

@@ -575,6 +575,23 @@ def test_legacy_json_without_confidence_loads_as_high():
     assert d.confidence == "high"
 
 
+def test_excluded_without_reason_rejected():
+    with pytest.raises(ValueError, match="exclude_reason"):
+        AlbumDecision(
+            album_id="x", provider="spotify", include=False,
+            episode_num=None, title="t",
+        )
+
+
+def test_excluded_with_reason_ok():
+    d = AlbumDecision(
+        album_id="x", provider="spotify", include=False,
+        episode_num=None, title="t", exclude_reason="music_single",
+    )
+    assert not d.include
+    assert d.exclude_reason == "music_single"
+
+
 # ── album_details tools return release_date and artists ────────────────────
 
 
@@ -869,7 +886,7 @@ def test_restore_dropped_albums_no_op_when_all_present():
         ),
         AlbumDecision(
             album_id="b1", provider="apple_music", include=False, title="T2",
-            episode_num=None,
+            episode_num=None, exclude_reason="compilation",
         ),
     ]
     index = {
