@@ -239,9 +239,9 @@ class CuratedSeries(BaseModel):
     provider_artist_ids: dict[str, list[str]] = Field(default_factory=dict)
     age_note: str = ""
     curator_notes: str = ""
-    # Content type: "hoerspiel" (default) or "music". Persisted in the
-    # curation JSON so re-curation picks the right AI prompt.
-    content_type: str = "hoerspiel"
+    # Content type: "hoerspiel" (default), "music", or "audiobook".
+    # Persisted in the curation JSON so re-curation picks the right AI prompt.
+    content_type: Literal["hoerspiel", "music", "audiobook"] = "hoerspiel"
     # Structured facts discovered from the discography: era_boundaries,
     # known_gaps, sub_series. Proposed by curate (finalize agent), may be
     # overridden by review, flagged by verify, frozen into series.yaml.
@@ -422,9 +422,8 @@ def _stratified_sample(items: list, n: int) -> list:
 
 # ── Shared prompt fragments ──────────────────────────────────────────────
 
-def _dry_run_prompts(query: str, is_music: bool = False) -> None:
+def _dry_run_prompts(query: str, content_type: str = "hoerspiel") -> None:
     """Print assembled prompts without calling the API."""
-    content_type = "music" if is_music else "hoerspiel"
     batch = load_curate_skill(phase="batch", content_type=content_type)
     metadata = load_curate_skill(phase="metadata", content_type=content_type)
     finalize = load_curate_skill(phase="finalize", content_type=content_type)
@@ -464,7 +463,7 @@ def _dry_run_prompts(query: str, is_music: bool = False) -> None:
 
 
 def _build_metadata_agent(
-    model, *, is_music: bool = False,
+    model, *, content_type: str = "hoerspiel",
 ) -> Agent[MetadataDeps, SeriesMetadata]:
     """Metadata-extraction agent.
 
@@ -472,14 +471,14 @@ def _build_metadata_agent(
     before finalizing — that's how it learns whether the pattern it
     inferred from the sample actually covers the full discography.
 
-    For music artists, episode_pattern is meaningless (music albums
-    aren't numbered), so the tool isn't registered and the prompt
-    doesn't ask for verification. Without this split, a music
-    metadata run obeys the "MUST call check_pattern_coverage"
-    instruction with a None pattern, gets a tool error, and may
-    invent a bogus pattern to satisfy the instruction.
+    For music and audiobook artists, episode_pattern is meaningless
+    (music albums and audiobook readings aren't numbered episodes), so
+    the tool isn't registered and the prompt doesn't ask for
+    verification. Without this split, a music metadata run obeys the
+    "MUST call check_pattern_coverage" instruction with a None pattern,
+    gets a tool error, and may invent a bogus pattern to satisfy the
+    instruction.
     """
-    content_type = "music" if is_music else "hoerspiel"
     system_prompt = load_curate_skill(phase="metadata", content_type=content_type)
     agent: Agent[MetadataDeps, SeriesMetadata] = Agent(
         model,
@@ -488,7 +487,7 @@ def _build_metadata_agent(
         tool_retries=2, output_retries=2,
     )
 
-    if is_music:
+    if content_type in ("music", "audiobook"):
         return agent
 
     @agent.tool
@@ -542,9 +541,8 @@ def _build_metadata_agent(
     return agent
 
 
-def _build_batch_agent(model, *, is_music: bool = False) -> Agent[BatchDeps, BatchResult]:
+def _build_batch_agent(model, *, content_type: str = "hoerspiel") -> Agent[BatchDeps, BatchResult]:
     """Agent for processing one batch of albums."""
-    content_type = "music" if is_music else "hoerspiel"
     system_prompt = load_curate_skill(phase="batch", content_type=content_type)
     agent: Agent[BatchDeps, BatchResult] = Agent(
         model,
@@ -798,7 +796,7 @@ async def _run_large(
     api_key: str,
     timeout: int,
     existing_curation: dict | None = None,
-    is_music: bool = False,
+    content_type: str = "hoerspiel",
     known_artist_ids: dict[str, list[str]] | None = None,
     existing_facts: SeriesFacts | None = None,
 ) -> CuratedSeries:
@@ -924,7 +922,7 @@ async def _run_large(
     sample_albums = _stratified_sample(all_albums, 40)
     provider_list = ", ".join(f"{k}: {v}" for k, v in artist_ids.items())
 
-    metadata_agent = _build_metadata_agent(model, is_music=is_music)
+    metadata_agent = _build_metadata_agent(model, content_type=content_type)
     meta_deps = MetadataDeps(titles=all_titles)
     # Sample lines carry release_date and total_tracks alongside the
     # title. Title alone tells half the story for series where streaming
@@ -957,7 +955,7 @@ async def _run_large(
         if not meta.provider_artist_ids:
             meta.provider_artist_ids = artist_ids
 
-        if meta.episode_pattern and not is_music:
+        if meta.episode_pattern and content_type not in ("music", "audiobook"):
             from lauschi_catalog.catalog.matcher import extract_episode
 
             matched = sum(
@@ -1024,7 +1022,7 @@ async def _run_large(
         f"{len(batches)} batches of ≤{_BATCH_SIZE}\n",
     )
 
-    batch_agent = _build_batch_agent(model, is_music=is_music)
+    batch_agent = _build_batch_agent(model, content_type=content_type)
     # Shared deps across all batches: pattern revisions made by the
     # batch agent in batch N propagate to batch N+1's prompt, and at
     # the end we re-extract episode_num for every decision using the
@@ -1169,7 +1167,7 @@ async def _run_large(
     # ── Finalize metadata: extract episode numbers from track listings ──
     final_pattern = shared_deps.pattern
     proposed_facts: SeriesFacts | None = None
-    if not is_music:
+    if content_type not in ("music", "audiobook"):
         unnumbered = [
             d for d in all_decisions
             if d.include and d.episode_num is None
@@ -1324,7 +1322,7 @@ async def run_curation(
     model_name: str = _DEFAULT_MODEL,
     timeout: int = 1800,
     existing_curation: dict | None = None,
-    is_music: bool = False,
+    content_type: str = "hoerspiel",
     known_artist_ids: dict[str, list[str]] | None = None,
     existing_facts: SeriesFacts | None = None,
 ) -> CuratedSeries:
@@ -1361,14 +1359,13 @@ async def run_curation(
         query, providers,
         model_name=model_name, api_key=api_key,
         timeout=timeout, existing_curation=existing_curation,
-        is_music=is_music,
+        content_type=content_type,
         known_artist_ids=known_artist_ids,
         existing_facts=existing_facts,
     )
 
     # Persist content type so re-curation uses the right prompt.
-    if is_music:
-        result.content_type = "music"
+    result.content_type = content_type
 
     return result
 
@@ -1558,12 +1555,12 @@ def _lookup_catalog_entry(query: str):
     return None
 
 
-def _resolve_is_music(
+def _resolve_content_type(
     entry_content_type: str | None,
     entry_has_pattern: bool,
     existing_content_type: str | None,
-) -> bool:
-    """Decide whether a series should be curated as music or Hörspiel.
+) -> Literal["hoerspiel", "music", "audiobook"]:
+    """Decide the content_type for curation.
 
     series.yaml is canonical: an explicit content_type there wins over
     everything else. This prevents the failure mode where a one-time
@@ -1571,19 +1568,18 @@ def _resolve_is_music(
     --force re-curate. Resolution order:
 
     1. Explicit ``content_type`` on the catalog entry → that value.
-    2. ``episode_pattern`` on the entry → Hörspiel (patterns are only
+    2. ``episode_pattern`` on the entry → hoerspiel (patterns are only
        meaningful for episode-numbered content).
-    3. Existing curation file's ``content_type`` → legacy escape hatch
-       for entries not yet migrated to series.yaml's explicit form.
-    4. Default → music (no signals point at Hörspiel).
+    3. Existing curation file's ``content_type`` → legacy escape hatch.
+    4. Default → hoerspiel (most of the catalog).
     """
-    if entry_content_type in ("hoerspiel", "music"):
-        return entry_content_type == "music"
+    if entry_content_type in ("hoerspiel", "music", "audiobook"):
+        return entry_content_type  # type: ignore[return-value]
     if entry_has_pattern:
-        return False
-    if existing_content_type == "music":
-        return True
-    return True
+        return "hoerspiel"
+    if existing_content_type in ("hoerspiel", "music", "audiobook"):
+        return existing_content_type  # type: ignore[return-value]
+    return "hoerspiel"
 
 
 def _load_existing_facts(entry) -> SeriesFacts | None:
@@ -1630,23 +1626,23 @@ def _curate_one(
     series_id: str | None = None,
     known_artist_ids: dict[str, list[str]] | None = None,
     existing_curation: dict | None = None,
-    is_music: bool = False,
+    content_type: str = "hoerspiel",
     dry_run: bool = False,
     existing_facts: SeriesFacts | None = None,
 ) -> Path | None:
     if dry_run:
-        console.print(f"  [cyan]Mode: {'music artist' if is_music else 'Hörspiel'} (dry run)[/]")
-        _dry_run_prompts(query, is_music=is_music)
+        console.print(f"  [cyan]Mode: {content_type} (dry run)[/]")
+        _dry_run_prompts(query, content_type=content_type)
         return None
     try:
-        if is_music:
+        if content_type == "music":
             console.print(f"  [cyan]Mode: music artist (not Hörspiel)[/]")
         series = asyncio.run(
             run_curation(
                 query, providers,
                 model_name=model, timeout=timeout,
                 existing_curation=existing_curation,
-                is_music=is_music,
+                content_type=content_type,
                 known_artist_ids=known_artist_ids,
                 existing_facts=existing_facts,
             ),
@@ -1681,6 +1677,7 @@ def _curate_one(
 @click.option("--provider", "-p", type=click.Choice(["spotify", "apple_music", "all"]), default="all")
 @click.option("--no-cache", is_flag=True, help="Bypass provider API cache")
 @click.option("--music", is_flag=True, help="Curate as music artist (not Hörspiel series)")
+@click.option("--content-type", type=click.Choice(["hoerspiel", "music", "audiobook"]), default=None, help="Content type override")
 @click.option("--dry-run", is_flag=True, help="Print assembled prompts without calling the API")
 def curate(
     query: str | None,
@@ -1691,6 +1688,7 @@ def curate(
     provider: str,
     no_cache: bool,
     music: bool,
+    content_type: str | None,
     dry_run: bool,
 ):
     """AI-curate a Hörspiel series or music artist across providers.
@@ -1706,14 +1704,16 @@ def curate(
     providers = _init_providers(provider, no_cache=no_cache)
     provider_names = ", ".join(p.name for p in providers)
 
+    # Resolve content_type from flags: explicit --content-type wins, then
+    # --music alias for backward compat.
+    cli_content_type: str | None = content_type
+    if cli_content_type is None and music:
+        cli_content_type = "music"
+
     if query and not run_all:
         # When the query matches a known catalog entry, use yaml as
         # canonical for content_type, artist_ids, and series_id —
         # same architectural rule as --all mode and as _lock_series_id.
-        # A bare CLI invocation like 'curate -- detlev_joecker' was
-        # previously curating known music artists as Hörspiele
-        # because content_type from series.yaml was ignored, leaving
-        # the agent to exclude every album as 'music, not Hörspiel'.
         entry = _lookup_catalog_entry(query)
         if entry is not None:
             existing: dict | None = None
@@ -1723,27 +1723,27 @@ def curate(
                     existing = json.loads(curation_path.read_text())
                 except (OSError, json.JSONDecodeError):
                     existing = None
-            entry_is_music = _resolve_is_music(
+            entry_content_type = _resolve_content_type(
                 entry_content_type=entry.content_type,
                 entry_has_pattern=bool(entry.episode_pattern),
                 existing_content_type=(existing or {}).get("content_type"),
             )
+            # CLI override wins over yaml for one-off experiments
+            resolved_type = cli_content_type or entry_content_type
             console.print(
                 Panel(
                     f"Curating [bold]{entry.title}[/bold] with {model}\n"
                     f"Catalog id: {entry.id}\n"
-                    f"Content type: "
-                    f"{'music' if entry_is_music else 'hoerspiel'}\n"
+                    f"Content type: {resolved_type}\n"
                     f"Providers: {provider_names}",
                     title="lauschi-catalog curate",
                 ),
             )
-            if music and not entry_is_music:
-                # User passed --music but yaml says hoerspiel. Yaml wins,
-                # but tell them so the override silence isn't surprising.
+            if cli_content_type and cli_content_type != entry_content_type:
                 console.print(
-                    "[yellow]Note: --music ignored — series.yaml has the "
-                    "entry as hoerspiel. Edit series.yaml to change.[/yellow]",
+                    f"[yellow]Note: --content-type {cli_content_type} overrides "
+                    f"series.yaml value {entry_content_type}. "
+                    f"Edit series.yaml to make permanent.[/yellow]",
                 )
             path = _curate_one(
                 entry.title, providers,
@@ -1751,27 +1751,26 @@ def curate(
                 series_id=entry.id,
                 known_artist_ids=entry.all_artist_ids() or None,
                 existing_curation=existing,
-                is_music=entry_is_music,
+                content_type=resolved_type,
                 dry_run=dry_run,
                 existing_facts=_load_existing_facts(entry),
             )
             if path is None and not dry_run:
-                # Surface failure so pipeline scripts (catalog-pipeline-one)
-                # abort instead of running review/verify on stale curation.
                 raise SystemExit(1)
             return
 
         # New series not yet in series.yaml — trust the user's flags.
+        resolved_type = cli_content_type or "hoerspiel"
         console.print(
             Panel(
                 f"Curating [bold]{query}[/bold] with {model}\n"
                 f"Providers: {provider_names}\n"
                 f"[dim]Not in series.yaml; treating as new "
-                f"{'music artist' if music else 'Hörspiel series'}.[/dim]",
+                f"{resolved_type}.[/dim]",
                 title="lauschi-catalog curate",
             ),
         )
-        path = _curate_one(query, providers, model=model, timeout=timeout, is_music=music, dry_run=dry_run)
+        path = _curate_one(query, providers, model=model, timeout=timeout, content_type=resolved_type, dry_run=dry_run)
         if path is None and not dry_run:
             raise SystemExit(1)
         return
@@ -1809,7 +1808,7 @@ def curate(
             f"[dim]({succeeded} done, {failed} failed, {skipped} skipped)[/dim]",
         )
 
-        entry_is_music = _resolve_is_music(
+        entry_content_type = _resolve_content_type(
             entry_content_type=entry.content_type,
             entry_has_pattern=bool(entry.episode_pattern),
             existing_content_type=(existing or {}).get("content_type"),
@@ -1820,7 +1819,7 @@ def curate(
             series_id=entry.id,
             known_artist_ids=entry.all_artist_ids() or None,
             existing_curation=existing,
-            is_music=entry_is_music,
+            content_type=entry_content_type,
             dry_run=dry_run,
             existing_facts=_load_existing_facts(entry),
         )

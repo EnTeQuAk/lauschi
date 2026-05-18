@@ -126,7 +126,7 @@ def _apply_one(series_id: str, data: dict, yaml_data: dict) -> bool:
     #
     # But when an entry has NO other signal (no episode_pattern,
     # no curation file yet), stripping content_type leaves
-    # _resolve_is_music with nothing to go on and it falls back to
+    # _resolve_content_type with nothing to go on and it falls back to
     # MUSIC — re-introducing the original misclassification bug. In
     # that case keep `content_type: hoerspiel` explicit so future
     # re-curates (even after deleting the curation JSON) pick the

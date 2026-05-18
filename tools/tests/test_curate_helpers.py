@@ -18,7 +18,7 @@ from lauschi_catalog.commands.curate import (
     _compute_pattern_coverage,
     _lock_series_id,
     _lookup_catalog_entry,
-    _resolve_is_music,
+    _resolve_content_type,
     _stratified_sample,
 )
 
@@ -84,17 +84,17 @@ def test_exception_format_falls_back_to_type_when_str_empty(exc, expected_substr
     assert expected_substring in msg
 
 
-# ── _resolve_is_music ─────────────────────────────────────────────────────
+# ── _resolve_content_type ─────────────────────────────────────────────────
 
 
 def test_yaml_explicit_music_wins_over_pattern():
     """Even if a leftover episode_pattern exists, an explicit
     content_type='music' in series.yaml is canonical."""
-    assert _resolve_is_music(
+    assert _resolve_content_type(
         entry_content_type="music",
         entry_has_pattern=True,
         existing_content_type=None,
-    ) is True
+    ) == "music"
 
 
 def test_yaml_explicit_hoerspiel_wins_over_existing_music():
@@ -102,71 +102,77 @@ def test_yaml_explicit_hoerspiel_wins_over_existing_music():
     curated as music in its JSON file gets correctly recognized as
     hoerspiel when series.yaml says so. Without this, every
     --force re-curate would keep using the music prompt."""
-    assert _resolve_is_music(
+    assert _resolve_content_type(
         entry_content_type="hoerspiel",
         entry_has_pattern=False,
         existing_content_type="music",
-    ) is False
+    ) == "hoerspiel"
 
 
 def test_pattern_implies_hoerspiel_when_yaml_silent():
     """No explicit content_type, but episode_pattern is set → it's a
     Hörspiel by definition (patterns are only meaningful for
     episode-numbered content)."""
-    assert _resolve_is_music(
+    assert _resolve_content_type(
         entry_content_type=None,
         entry_has_pattern=True,
         existing_content_type=None,
-    ) is False
+    ) == "hoerspiel"
 
 
 def test_pattern_implies_hoerspiel_overrides_existing_music():
     """If yaml has episode_pattern but no explicit content_type, the
     pattern wins over a stale content_type='music' in the existing
     curation. Same root concern: don't compound misclassifications."""
-    assert _resolve_is_music(
+    assert _resolve_content_type(
         entry_content_type=None,
         entry_has_pattern=True,
         existing_content_type="music",
-    ) is False
+    ) == "hoerspiel"
 
 
 def test_existing_music_used_when_yaml_has_neither():
     """Legacy escape hatch: if yaml is silent on content_type AND has
     no episode_pattern, fall back to the existing curation. Lets
     pre-migration entries continue to work."""
-    assert _resolve_is_music(
+    assert _resolve_content_type(
         entry_content_type=None,
         entry_has_pattern=False,
         existing_content_type="music",
-    ) is True
+    ) == "music"
 
 
-def test_default_to_music_when_nothing_signals_hoerspiel():
+def test_default_to_hoerspiel_when_nothing_signals():
     """Brand-new entry with no pattern, no existing curation, no
-    explicit content_type. Default to music; the curate prompt's
-    music branch is the safer assumption (Hörspiel curation has
-    stricter rules that misfire on a music artist)."""
-    assert _resolve_is_music(
+    explicit content_type. Default to hoerspiel (most of the catalog)."""
+    assert _resolve_content_type(
         entry_content_type=None,
         entry_has_pattern=False,
         existing_content_type=None,
-    ) is True
+    ) == "hoerspiel"
 
 
-def test_unrecognized_content_type_treated_as_silent():
-    """A garbage content_type in series.yaml shouldn't lock us into
-    that value. Fall through to the next signal."""
-    assert _resolve_is_music(
-        entry_content_type="audiobook",
-        entry_has_pattern=True,
-        existing_content_type=None,
-    ) is False  # pattern wins
-    assert _resolve_is_music(
+def test_audiobook_content_type_supported():
+    """audiobook is a recognized content_type."""
+    assert _resolve_content_type(
         entry_content_type="audiobook",
         entry_has_pattern=False,
         existing_content_type=None,
-    ) is True  # falls through to default
+    ) == "audiobook"
+    assert _resolve_content_type(
+        entry_content_type="audiobook",
+        entry_has_pattern=True,
+        existing_content_type=None,
+    ) == "audiobook"
+
+
+def test_legacy_content_type_from_existing_curation():
+    """An existing curation with content_type='audiobook' is picked up."""
+    assert _resolve_content_type(
+        entry_content_type=None,
+        entry_has_pattern=False,
+        existing_content_type="audiobook",
+    ) == "audiobook"
 
 
 # ── _stratified_sample ────────────────────────────────────────────────────
@@ -238,7 +244,7 @@ def test_metadata_agent_for_music_has_no_tools():
     explicitly tells the agent there are no tools available."""
     from pydantic_ai.models.test import TestModel
 
-    agent = _build_metadata_agent(TestModel(), is_music=True)
+    agent = _build_metadata_agent(TestModel(), content_type="music")
     assert _agent_tool_names(agent) == []
 
 
