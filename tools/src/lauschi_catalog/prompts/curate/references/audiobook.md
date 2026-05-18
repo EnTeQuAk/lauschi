@@ -50,6 +50,24 @@ Multi-book box (e.g., "Sammelband: 5 Romane in einer Lesung"). Exclude.
 ### excerpt_or_sample
 Leseprobe, sample chapter, promotional excerpt. Exclude.
 
+## Title decoder — worked examples (Michael Ende)
+
+Use the title as your primary signal. Track count confirms.
+
+| Title fragment | Type | Action |
+|---|---|---|
+| "… - Die ungekürzte Lesung" | Hörbuch (full reading) | **Include** |
+| "… - Die Lesung" | Hörbuch (reading) | **Include** |
+| "… (116 tracks)" / "… (106 tracks)" / "… (108 tracks)" | Hörbuch (chapter-per-chapter) | **Include** |
+| "… - Das Hörspiel" | Hörspiel (dramatized) | **Exclude** (`wrong_content_type`) |
+| "… - Kinderoper" | Hörspiel (musical adaptation) | **Exclude** (`wrong_content_type`) |
+| "… - Das Hörspiel zum Film" / "… - Das Hörspiel zum Kinofilm" | Hörspiel (movie tie-in) | **Exclude** (`wrong_content_type`) |
+| "Englisch lernen mit …" | Educational, not narrative | **Exclude** (`wrong_content_type` or `non_kids_work`) |
+| "Let's Have Fun!" / "Verdi: Messa da Requiem" | Not by Michael Ende | **Exclude** (`non_kids_work` or `wrong_content_type`) |
+| Multi-book box: "… und weitere Geschichten" with 2+ titles | Compilation | **Exclude** (`compilation_set`) |
+
+When you see the same source novel in both forms (e.g. "Momo" as Hörbuch AND "Momo - Das Hörspiel"), the one WITHOUT "Hörspiel" / "Kinderoper" / "zum Film" is the Hörbuch — **include it**. The one WITH those suffixes is the Hörspiel — **exclude it**.
+
 ## Pattern and facts
 
 - `episode_pattern=None` always. Books are standalone; chapter/Teil numbers

@@ -13170,7 +13170,7 @@ series:
         title: Momo – Das Hörspiel zum Kinofilm (Das Hörspiel zum Film)
       - id: '1442686534'
         title: Norbert Nackendick + Tranquilla Trampeltreu
-  content_type: hoerspiel
+  content_type: audiobook
 - id: die_wilden_huehner
   title: Die wilden Hühner
   episode_pattern: '[Ff]olge\s+(\d+)'
