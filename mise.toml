@@ -98,11 +98,11 @@ if [ "$usage_force" = "true" ]; then FORCE_FLAG="--force"; fi
 uv run --directory tools --extra ai lauschi-catalog curate --all --timeout 3600 $FORCE_FLAG
 """
 
-[tasks.catalog-review-ai]
-description = "AI review curations for quality issues (all by default, or one series)"
+[tasks.catalog-audit]
+description = "4-eye audit: second AI model reviews curations (all by default, or one series)"
 usage = '''
-flag "--force" help="Re-review even already-approved curations"
-arg "[series_id]" help="Optional series id; if omitted, reviews all"
+flag "--force" help="Re-audit even already-approved curations"
+arg "[series_id]" help="Optional series id; if omitted, audits all"
 '''
 run = """
 #!/usr/bin/env bash
@@ -113,7 +113,7 @@ mkdir -p "$LOGDIR"
 TIMESTAMP=$(date +%Y%m%d-%H%M%S)
 SID="${usage_series_id:-}"
 LOG_SUFFIX="${SID:-all}"
-LOG="$LOGDIR/review-${LOG_SUFFIX}-${TIMESTAMP}.log"
+LOG="$LOGDIR/audit-${LOG_SUFFIX}-${TIMESTAMP}.log"
 echo "Logging to $LOG"
 exec > >(tee -a "$LOG") 2>&1
 
@@ -122,29 +122,10 @@ if [ "${usage_force:-false}" = "true" ]; then FORCE_FLAG="--force"; fi
 
 if [ -n "$SID" ]; then
   uv run --directory tools --extra ai \\
-    lauschi-catalog review "$SID" $FORCE_FLAG
+    lauschi-catalog audit "$SID" $FORCE_FLAG
 else
   uv run --directory tools --extra ai \\
-    lauschi-catalog review --all $FORCE_FLAG
-fi
-"""
-
-[tasks.catalog-verify]
-description = "4-eye: second AI model verifies curations (all by default, or one series)"
-usage = '''
-arg "[series_id]" help="Optional series id; if omitted, verifies all"
-'''
-run = """
-#!/usr/bin/env bash
-set -euo pipefail
-
-SID="${usage_series_id:-}"
-if [ -n "$SID" ]; then
-  uv run --directory tools --extra ai \\
-    lauschi-catalog verify "$SID"
-else
-  uv run --directory tools --extra ai \\
-    lauschi-catalog verify --all
+    lauschi-catalog audit --all $FORCE_FLAG
 fi
 """
 
@@ -179,7 +160,7 @@ run = "uv run --directory tools lauschi-catalog apply-splits"
 # ── Full pipeline shortcut ───────────────────────────────────────────
 
 [tasks.catalog-pipeline]
-description = "Full automated curation pipeline: curate → review → verify → lint → apply → validate"
+description = "Full automated curation pipeline: curate → audit → lint → apply → validate"
 usage = 'flag "--force" help="Re-curate all series, even those already curated"'
 run = """
 #!/usr/bin/env bash
@@ -203,27 +184,23 @@ exec > >(tee -a "$LOG") 2>&1
 FORCE_FLAG=""
 if [ "${usage_force:-false}" = "true" ]; then FORCE_FLAG="--force"; fi
 
-echo "Step 1/6: Curating all series (timeout ${TIMEOUT}s per series, this takes hours)..."
+echo "Step 1/5: Curating all series (timeout ${TIMEOUT}s per series, this takes hours)..."
 $RUN curate --all --timeout "$TIMEOUT" $FORCE_FLAG || echo "Some curations failed (expected for large series). Continuing..."
 
 echo ""
-echo "Step 2/6: AI review..."
-$RUN review --all --timeout "$TIMEOUT" || echo "Some reviews failed. Continuing..."
+echo "Step 2/5: 4-eye audit..."
+$RUN audit --all --timeout "$TIMEOUT" || echo "Some audits failed. Continuing..."
 
 echo ""
-echo "Step 3/6: 4-eye verification..."
-$RUN verify --all --timeout "$TIMEOUT" || echo "Some verifications failed. Continuing..."
-
-echo ""
-echo "Step 4/6: Structural lint..."
+echo "Step 3/5: Structural lint..."
 $RUN_CORE lint --all || echo "Lint flagged issues. Review findings above."
 
 echo ""
-echo "Step 5/6: Applying approved curations..."
+echo "Step 4/5: Applying approved curations..."
 $RUN_CORE apply --all
 
 echo ""
-echo "Step 6/6: Validating..."
+echo "Step 5/5: Validating..."
 $RUN_CORE validate
 
 echo ""
@@ -231,7 +208,7 @@ echo "Done. Run 'mise run catalog-review' to see flagged/escalated items."
 """
 
 [tasks.catalog-pipeline-one]
-description = "Run curate → review → verify → lint → apply on a single series"
+description = "Run curate → audit → lint → apply on a single series"
 run = """
 #!/usr/bin/env bash
 set -euo pipefail
@@ -257,23 +234,19 @@ LOG="$LOGDIR/one-${SID}-${TIMESTAMP}.log"
 echo "Logging to $LOG"
 exec > >(tee -a "$LOG") 2>&1
 
-echo "Step 1/5: Curating $SID (timeout ${TIMEOUT}s)..."
+echo "Step 1/4: Curating $SID (timeout ${TIMEOUT}s)..."
 $RUN curate "$SID" --timeout "$TIMEOUT" --force
 
 echo ""
-echo "Step 2/5: AI review (timeout ${TIMEOUT}s)..."
-$RUN review "$SID" --timeout "$TIMEOUT" --force
+echo "Step 2/4: 4-eye audit (timeout ${TIMEOUT}s)..."
+$RUN audit "$SID" --timeout "$TIMEOUT" --force
 
 echo ""
-echo "Step 3/5: 4-eye verification (timeout ${TIMEOUT}s)..."
-$RUN verify "$SID" --timeout "$TIMEOUT" --force
-
-echo ""
-echo "Step 4/5: Structural lint..."
+echo "Step 3/4: Structural lint..."
 $RUN_CORE lint -- "$SID"
 
 echo ""
-echo "Step 5/5: Checking verification status..."
+echo "Step 4/4: Checking audit status..."
 STATUS=$(python3 -c "
 import json, sys
 from pathlib import Path
@@ -287,7 +260,7 @@ print(data.get('review', {}).get('status', 'curated'))
 
 if [ "$STATUS" = "escalated" ]; then
     echo ""
-    echo "⚠️  Verify escalated $SID. Apply skipped."
+    echo "⚠️  Audit escalated $SID. Apply skipped."
     echo "   Resolve via: mise run catalog-review -- $SID"
     echo "   Or force:    mise run catalog-apply -- $SID --force"
     echo ""

@@ -51,21 +51,21 @@ def test_escape_neutralizes_problematic_content():
 # ── Pin the call sites ────────────────────────────────────────────────────
 
 
-def test_review_per_series_error_log_uses_escape():
-    """The except block in review --all must wrap user-content in
+def test_audit_per_series_error_log_uses_escape():
+    """The except block in audit --all must wrap user-content in
     escape(). Reading the source is the most reliable check —
     constructing the actual exception path needs an LLM."""
     src = open(
-        "src/lauschi_catalog/commands/review.py", encoding="utf-8",
+        "src/lauschi_catalog/commands/audit.py", encoding="utf-8",
     ).read()
     # Find the per-series failure block
-    block_start = src.find("Failed to review")
+    block_start = src.find("Failed:")
     assert block_start >= 0, "expected error log line not found"
     # The expression rendered into [red]...{x}...[/red] must call escape()
     # on the user-content variable, otherwise we re-introduce the crash.
     line = src[block_start - 200:block_start + 200]
     assert "escape(err" in line, (
-        "review.py's per-series failure log must escape(err) — "
+        "audit.py's per-series failure log must escape(err) — "
         "raw err strings can contain bracket-shaped substrings "
         "that crash Rich's markup parser"
     )
@@ -80,7 +80,7 @@ def test_curate_run_with_retry_error_log_uses_escape():
     line = src[block_start - 200:block_start + 400]
     assert "escape(" in line, (
         "rate_limit.py's run_with_rate_limit_retry final failure log must "
-        "escape() for the same reason as review.py"
+        "escape() for the same reason as audit.py"
     )
 
 

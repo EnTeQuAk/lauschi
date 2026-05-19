@@ -572,7 +572,9 @@ def audit(
             else:
                 overridden += 1
         except Exception as e:
-            console.print(f"[red]Failed: {e}[/red]")
+            from rich.markup import escape
+            err = f"{type(e).__name__}: {e}" if str(e) else type(e).__name__
+            console.print(f"[red]Failed: {escape(err)}[/red]")
 
     console.print(
         f"\nDone: {approved} approved, {overridden} overridden, {escalated} escalated"

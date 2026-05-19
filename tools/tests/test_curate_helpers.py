@@ -606,29 +606,6 @@ def test_curate_batch_flow_album_details_returns_release_date_and_artists():
     assert '"artists": album.artists' in block
 
 
-def test_review_album_details_returns_release_date_and_artists():
-    src = open(
-        "src/lauschi_catalog/commands/review.py", encoding="utf-8",
-    ).read()
-    # Find the review agent's album_details tool
-    idx = src.find("def album_details")
-    assert idx >= 0
-    block = src[idx:idx + 2000]
-    assert '"release_date": album.release_date' in block
-    assert '"artists": album.artists' in block
-
-
-def test_verify_album_details_returns_release_date_and_artists():
-    src = open(
-        "src/lauschi_catalog/commands/verify.py", encoding="utf-8",
-    ).read()
-    idx = src.find("def album_details")
-    assert idx >= 0
-    block = src[idx:idx + 2000]
-    assert '"release_date": album.release_date' in block
-    assert '"artists": album.artists' in block
-
-
 # ── propose_pattern_update guards against non-numeric captures ────────────
 #
 # The SimsalaGrimm pipeline run committed
@@ -710,59 +687,6 @@ def test_pattern_update_docstring_warns_about_numeric_capture():
 # happily accepted '(\d+)' on alles_steht_kopf — a 4-album series
 # where the pattern matched only 2 albums (the "Inside Out 2" sequels)
 # and would silently break on any future album with a year in title.
-
-
-def test_review_pattern_update_calls_coverage_check():
-    """Source-level pin: review's propose_pattern_update must call
-    compute_pattern_coverage. Without that, the numeric + coverage
-    guards never fire."""
-    src = open(
-        "src/lauschi_catalog/commands/review.py", encoding="utf-8",
-    ).read()
-    idx = src.find("def propose_pattern_update")
-    assert idx >= 0
-    block = src[idx:idx + 4000]
-    assert "compute_pattern_coverage" in block, (
-        "review's propose_pattern_update must run candidates through "
-        "compute_pattern_coverage to apply the same numeric + "
-        "coverage contract as the batch agent"
-    )
-
-
-def test_review_pattern_update_enforces_coverage_floor():
-    """The coverage floor is what catches alles_steht_kopf-style
-    cosmetic patterns. Pin that 0.5 (50%) is the threshold."""
-    src = open(
-        "src/lauschi_catalog/commands/review.py", encoding="utf-8",
-    ).read()
-    idx = src.find("def propose_pattern_update")
-    block = src[idx:idx + 4000]
-    # The threshold must be present as a literal so a refactor can't
-    # silently raise/lower it without test failure.
-    assert "0.5" in block, (
-        "review propose_pattern_update must enforce a coverage "
-        "floor — 0.5 catches the alles_steht_kopf '(\\\\d+)' case "
-        "where pattern matched 2 of 4 titles"
-    )
-
-
-def test_review_pattern_update_docstring_warns_against_cosmetic():
-    """Agent-facing docstring must explain the rule so the model
-    doesn't keep trying after rejection."""
-    src = open(
-        "src/lauschi_catalog/commands/review.py", encoding="utf-8",
-    ).read()
-    idx = src.find("def propose_pattern_update")
-    block = src[idx:idx + 2000]
-    assert "cosmetic" in block.lower() or "fragile" in block.lower(), (
-        "docstring should explain WHY low-coverage patterns are "
-        "rejected, not just THAT they are"
-    )
-    assert "None" in block and "release_date" in block, (
-        "docstring should point at the alternative (leave None, "
-        "release_date sorts) so the agent doesn't keep trying"
-    )
-
 
 # ── Field-level schema descriptions for episode_pattern ───────────────────
 #
