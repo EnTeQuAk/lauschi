@@ -529,9 +529,10 @@ def audit(
     verbose: bool,
 ) -> None:
     """Run 4-eye audit on curated series."""
-    from lauschi_catalog.providers import get_providers
+    from lauschi_catalog.commands.curate import _init_providers
 
-    providers = get_providers(provider_filter=list(provider) if provider else None)
+    provider_filter = provider[0] if provider else "all"
+    providers = _init_providers(provider_filter)
 
     if series:
         series_ids = [series]
