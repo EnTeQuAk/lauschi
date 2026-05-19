@@ -184,9 +184,9 @@ async def series_curation(request: Request, series_id: str):
     return _render_series_detail(request, series_id, tab="curation")
 
 
-@router.get("/catalog/{series_id}/review", response_class=HTMLResponse)
-async def series_review(request: Request, series_id: str):
-    return _render_series_detail(request, series_id, tab="review")
+@router.get("/catalog/{series_id}/audit", response_class=HTMLResponse)
+async def series_audit(request: Request, series_id: str):
+    return _render_series_detail(request, series_id, tab="audit")
 
 
 @router.get("/catalog/{series_id}/edit", response_class=HTMLResponse)
@@ -325,7 +325,7 @@ async def review_queue(request: Request):
 
 @router.post("/catalog/{series_id}/run", response_class=RedirectResponse)
 async def series_run_post(request: Request, series_id: str):
-    """Queue a pipeline command for a series (curate/review/verify/apply/validate)."""
+    """Queue a pipeline command for a series (curate/audit/apply/validate)."""
     from lauschi_catalog.web.jobs import create_job, get_active_job
     from lauschi_catalog.web.routes.jobs_api import run_subprocess
 
@@ -337,8 +337,7 @@ async def series_run_post(request: Request, series_id: str):
     command = str(form.get("command", "")).strip()
     if command not in (
         "curate",
-        "review",
-        "verify",
+        "audit",
         "apply",
         "validate",
         "discover",

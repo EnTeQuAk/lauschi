@@ -189,11 +189,11 @@ class SplitAction(BaseModel):
 async def post_split_action(
     series_id: str, split_index: int, action: SplitAction
 ) -> dict[str, Any]:
-    """Accept or reject a split proposal from AI review.
+    """Accept or reject a split proposal from AI audit.
 
     Accept: creates a new curation JSON, removes albums from original,
     adds the new series to series.yaml.
-    Reject: removes the split proposal from review.splits.
+    Reject: removes the split proposal from review.splits (legacy key).
     """
     curation_path = CURATION_DIR / f"{series_id}.json"
     if not curation_path.exists():

@@ -61,9 +61,9 @@
                    class="{% if tab == 'curation' %}contrast{% else %}outline{% endif %}">Curation</a>
             </li>
             <li>
-                <a href="/catalog/{{ series.id }}/review"
+                <a href="/catalog/{{ series.id }}/audit"
                    role="button"
-                   class="{% if tab == 'review' %}contrast{% else %}outline{% endif %}">Review</a>
+                   class="{% if tab == 'audit' %}contrast{% else %}outline{% endif %}">Audit</a>
             </li>
             <li>
                 <a href="/catalog/{{ series.id }}/edit"
@@ -222,8 +222,7 @@
                 <select name="command" aria-label="Command">
                     <option value="discover">Discover</option>
                     <option value="curate">Curate</option>
-                    <option value="review">Review</option>
-                    <option value="verify">Verify</option>
+                    <option value="audit">Audit</option>
                     <option value="apply">Apply</option>
                     <option value="validate">Validate</option>
                 </select>
@@ -232,7 +231,7 @@
         </form>
         <form method="post" action="/catalog/{{ series.id }}/run">
             <input type="hidden" name="command" value="pipeline-one" />
-            <button type="submit" class="contrast">Run full pipeline (discover → curate → review → verify → apply → validate)</button>
+            <button type="submit" class="contrast">Run full pipeline (discover → curate → audit → apply → validate)</button>
             <p class="text-muted">
                 <small>Takes hours. Opens in the Jobs drawer.</small>
             </p>
@@ -243,21 +242,15 @@
                 <pre class="pre-sm"><code>{{ curation | tojson(indent=2) }}</code></pre>
             </details>
         {% endif %}
-    {% elif tab == 'review' %}
+    {% elif tab == 'audit' %}
         {% if curation and curation.review %}
             <div class="flex items-center gap-075 mb-1">
-                <span>Review:</span>
+                <span>Audit:</span>
                 <span class="status-badge status-badge--{{ curation.review.status or 'pending' }}">
                     {{ curation.review.status or 'pending' }}
                 </span>
-                {% if curation.review.verification %}
-                    <span>Verify:</span>
-                    <span class="status-badge status-badge--{{ curation.review.verification.status }}">
-                        {{ curation.review.verification.status }}
-                    </span>
-                {% endif %}
             </div>
-            {% if curation.review.verification and curation.review.verification.status == 'approved' %}
+            {% if curation.review.status == 'approved' %}
                 <form method="post" action="/catalog/{{ series.id }}/run" class="mb-15">
                     <input type="hidden" name="command" value="apply" />
                     <button type="submit" class="contrast">Apply to series.yaml</button>
@@ -395,7 +388,7 @@
             {% endif %}
         {% else %}
             <p class="text-muted">
-                No review data yet. Run <strong>Review</strong> first.
+                No audit data yet. Run <strong>Audit</strong> first.
             </p>
         {% endif %}
     {% elif tab == 'edit' %}

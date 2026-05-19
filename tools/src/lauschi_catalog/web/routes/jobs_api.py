@@ -71,7 +71,7 @@ def _build_cli_args(series_id: str, command: str) -> tuple[list[str], str]:
     Normal commands: ``uv run lauschi-catalog <command> <series_id>``
     Discover: ``uv run lauschi-catalog discover <series_id> --write``
     Pipeline: a shell script that runs all remaining steps from current state.
-    Pipeline-one: forcefully re-runs curate → review → verify → apply.
+    Pipeline-one: forcefully re-runs curate → audit → apply.
     """
     tools_dir = str(REPO_ROOT / "tools")
     curation_dir = str(REPO_ROOT / "assets" / "catalog" / "curation")
@@ -85,7 +85,7 @@ def _build_cli_args(series_id: str, command: str) -> tuple[list[str], str]:
 
     if command == "pipeline":
         state = pipeline_status(series_id)
-        steps = ["discover", "curate", "review", "verify", "apply"]
+        steps = ["discover", "curate", "audit", "apply"]
         remaining: list[str] = []
         if state.current_step < 0:
             remaining = steps
@@ -108,27 +108,22 @@ def _build_cli_args(series_id: str, command: str) -> tuple[list[str], str]:
         )
 
     if command == "pipeline-one":
-        # Full pipeline from scratch: discover → curate → review → verify → apply → validate
         timeout = "7200"
         script = f'''set -euo pipefail
 cd "{tools_dir}"
-echo "Step 1/6: Discovering {safe_series}..."
+echo "Step 1/5: Discovering {safe_series}..."
 uv run lauschi-catalog discover {safe_series} --write
 
 echo ""
-echo "Step 2/6: Curating {safe_series}..."
+echo "Step 2/5: Curating {safe_series}..."
 uv run --extra ai lauschi-catalog curate {safe_series} --timeout {timeout} --force
 
 echo ""
-echo "Step 3/6: AI review..."
-uv run --extra ai lauschi-catalog review {safe_series} --timeout {timeout} --force
+echo "Step 3/5: Auditing (4-eye)..."
+uv run --extra ai lauschi-catalog audit {safe_series} --timeout {timeout} --force
 
 echo ""
-echo "Step 4/6: 4-eye verification..."
-uv run --extra ai lauschi-catalog verify {safe_series} --timeout {timeout} --force
-
-echo ""
-echo "Step 5/6: Checking verification status..."
+echo "Step 4/5: Checking audit status..."
 STATUS=$(python3 -c "
 import json, sys
 from pathlib import Path
@@ -138,7 +133,7 @@ d = json.loads(p.read_text())
 print(d.get('review', {{}}).get('status', 'curated'))
 ")
 if [ "$STATUS" = "escalated" ]; then
-    echo "Verify escalated. Apply and validate skipped."
+    echo "Audit escalated. Apply and validate skipped."
     exit 1
 fi
 
@@ -146,7 +141,7 @@ echo "Applying..."
 uv run lauschi-catalog apply {safe_series}
 
 echo ""
-echo "Step 6/6: Validating..."
+echo "Step 5/5: Validating..."
 uv run lauschi-catalog validate
 echo "Done."
 '''
@@ -162,7 +157,7 @@ echo "Done."
             tools_dir,
         )
 
-    # Default: curate, review, verify, apply
+    # Default: curate, audit, apply
     return (
         ["uv", "run", "lauschi-catalog", command, series_id],
         tools_dir,

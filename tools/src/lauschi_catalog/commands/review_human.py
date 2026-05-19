@@ -1,8 +1,7 @@
 """Human review: list series needing attention and suggest next steps.
 
-Replaces the broken review-tui command that shelled out to a missing
-scripts/review-curation.py. Provides a fast CLI view of what the
-pipeline flagged for human eyes, with actionable commands.
+Provides a fast CLI view of what the pipeline flagged for human eyes,
+with actionable commands.
 """
 
 from __future__ import annotations
@@ -34,13 +33,13 @@ def _load_all() -> list[dict]:
 
 
 @click.command("review-human")
-@click.option("--status", "-s", multiple=True, help="Filter by status (escalated, flagged, approved, curated, ai_reviewed)")
+@click.option("--status", "-s", multiple=True, help="Filter by status (escalated, flagged, approved, curated, audited)")
 @click.option("--detail", "-d", is_flag=True, help="Show per-series detail (concerns, fact disagreements)")
 def review_human(status: tuple[str, ...], detail: bool):
     """List series that need human attention.
 
-    After a pipeline run, some series are escalated (verify found
-    incoherent output) or flagged (verify approved but disagreed with
+    After a pipeline run, some series are escalated (audit found
+    incoherent output) or flagged (audit approved but disagreed with
     some facts). This command shows them with the next action to take.
 
     Examples: catalog-review-human (all), -s escalated, -s flagged, -d
@@ -50,10 +49,8 @@ def review_human(status: tuple[str, ...], detail: bool):
         console.print("[dim]No curation files found.[/dim]")
         return
 
-    # Normalize status filter
-    want = set(s.lower() for s in status) if status else {"escalated", "flagged", "ai_verified", "curated", "ai_reviewed"}
+    want = set(s.lower() for s in status) if status else {"escalated", "flagged", "audited", "curated"}
 
-    # Group by effective status
     need_attention: list[dict] = []
     for d in all_data:
         sid = d.get("id", "?")
@@ -61,16 +58,13 @@ def review_human(status: tuple[str, ...], detail: bool):
         review = d.get("review", {})
         cur_status = review.get("status", "curated")
 
-        # Map internal statuses to human-facing buckets
         effective = cur_status
-        if cur_status == "ai_verified":
-            effective = "flagged"  # approved but facts disagreed
-        elif cur_status == "approved":
+        if cur_status == "approved":
             effective = "approved"
         elif cur_status == "escalated":
             effective = "escalated"
-        elif cur_status == "ai_reviewed":
-            effective = "reviewed"
+        elif cur_status == "approved_with_flags":
+            effective = "flagged"
         elif cur_status == "curated":
             effective = "curated"
 
@@ -89,7 +83,6 @@ def review_human(status: tuple[str, ...], detail: bool):
         console.print("[green]Nothing needs human attention.[/green]")
         return
 
-    # Summary table
     table = Table(box=box.SIMPLE, title=f"Series needing attention ({len(need_attention)})")
     table.add_column("Status", width=12)
     table.add_column("Series", min_width=30)
@@ -97,43 +90,40 @@ def review_human(status: tuple[str, ...], detail: bool):
 
     for item in sorted(need_attention, key=lambda x: (x["status"] != "escalated", x["status"] != "flagged", x["title"])):
         sid = item["id"]
-        title = item["title"]
         st = item["status"]
-        raw = item["raw_status"]
 
         if st == "escalated":
             action = (
                 f"mise run catalog-edit -- {sid} list\n"
-                f"  then: mise run catalog-review-ai -- {sid} --force\n"
-                f"  then: mise run catalog-verify -- {sid} --force"
+                f"  then: mise run catalog-curate -- {sid} --force\n"
+                f"  then: mise run catalog-audit -- {sid} --force"
             )
             style = "red"
         elif st == "flagged":
             action = (
                 f"mise run catalog-edit -- {sid} list\n"
-                f"  then: mise run catalog-verify -- {sid} --force"
+                f"  then: mise run catalog-audit -- {sid} --force"
             )
             style = "yellow"
         elif st == "curated":
-            action = f"mise run catalog-review-ai -- {sid}"
+            action = f"mise run catalog-audit -- {sid}"
             style = "dim"
-        elif st == "reviewed":
-            action = f"mise run catalog-verify -- {sid}"
-            style = "blue"
         else:
             action = "(ready for apply)"
             style = "green"
 
         table.add_row(
             f"[{style}]{st}[/{style}]",
-            f"{title}\n[dim]{sid}[/dim]",
+            f"{item['title']}\n[dim]{sid}[/dim]",
             action,
         )
 
         if detail:
-            concerns = item["review"].get("verification", {}).get("concerns", "")
+            concerns = item["review"].get("concerns", [])
             if concerns:
-                table.add_row("", f"  [dim]Concerns: {concerns[:120]}[/dim]", "")
+                for c in concerns[:3]:
+                    reason = c if isinstance(c, str) else c.get("reason", "")
+                    table.add_row("", f"  [dim]Concern: {reason[:120]}[/dim]", "")
             facts = item.get("facts")
             if facts:
                 for e in facts.get("era_boundaries", []):

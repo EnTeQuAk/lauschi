@@ -4,11 +4,10 @@ Derives the current pipeline step for a series by inspecting
 curation JSON and series.yaml. Steps are ordered:
 
 1. Discover  (artist IDs present in series.yaml)
-2. Curate   (curation JSON exists with curated_at)
-3. Review   (curation JSON has review.reviewed_at)
-4. Verify   (curation JSON has review.verification)
-5. Apply    (albums written to series.yaml)
-6. Validate (validated_at in curation JSON)
+2. Curate    (curation JSON exists with curated_at)
+3. Audit     (curation JSON has review.audited_at)
+4. Apply     (albums written to series.yaml)
+5. Validate  (validated_at in curation JSON)
 
 """
 
@@ -25,8 +24,7 @@ from lauschi_catalog.web.config import CURATION_DIR
 _PIPELINE_STEPS = [
     ("discover", "Discover"),
     ("curate", "Curate"),
-    ("review", "Review"),
-    ("verify", "Verify"),
+    ("audit", "Audit"),
     ("apply", "Apply"),
     ("validate", "Validate"),
 ]
@@ -63,7 +61,6 @@ def pipeline_status(
             step_statuses=["missing"] * len(_PIPELINE_STEPS),
         )
 
-    # Check curation JSON
     curation_path = CURATION_DIR / f"{series_id}.json"
     curation: dict[str, Any] | None = None
     if curation_path.exists():
@@ -72,57 +69,50 @@ def pipeline_status(
     step_statuses: list[str] = []
     current_step = 0
 
-    # Step 0: Discover — any provider has artist_ids
+    # Step 0: Discover
     has_artists = bool(series.providers)
     step_statuses.append("done" if has_artists else "current")
     if not has_artists:
         current_step = 0
 
-    # Step 1: Curate — curation JSON exists with curated_at
+    # Step 1: Curate
     has_curation = curation is not None and curation.get("curated_at")
     if has_artists:
         step_statuses.append("done" if has_curation else "current")
         if not has_curation:
             current_step = 1
 
-    # Step 2: Review — review block with reviewed_at
-    has_review = curation is not None and curation.get("review", {}).get("reviewed_at")
+    # Step 2: Audit
+    review = curation.get("review", {}) if curation else {}
+    has_audit = bool(review.get("audited_at"))
+    audit_status = review.get("status", "")
     if has_curation:
-        step_statuses.append("done" if has_review else "current")
-        if not has_review:
-            current_step = 2
-
-    # Step 3: Verify — verification block exists
-    verification = curation.get("review", {}).get("verification") if curation else None
-    if has_review:
-        if verification and verification.get("status") == "escalated":
+        if audit_status == "escalated":
             step_statuses.append("escalated")
-            current_step = 3
-        elif verification:
+            current_step = 2
+        elif has_audit:
             step_statuses.append("done")
         else:
             step_statuses.append("current")
-            current_step = 3
+            current_step = 2
 
-    # Step 4: Apply — albums are in series.yaml (any albums under provider config)
+    # Step 3: Apply
     has_applied = any(prov_cfg.has_albums for prov_cfg in series.providers.values())
-    if verification and verification.get("status") != "escalated":
+    if has_audit and audit_status != "escalated":
         step_statuses.append("done" if has_applied else "current")
         if not has_applied:
-            current_step = 4
+            current_step = 3
 
-    # Step 5: Validate — validated_at in curation
+    # Step 4: Validate
     has_validated = curation is not None and curation.get("validated_at")
     if has_applied:
         step_statuses.append("done" if has_validated else "current")
         if not has_validated:
-            current_step = 5
+            current_step = 4
 
-    # Fill any remaining steps (e.g. if series has no curation at all)
     while len(step_statuses) < len(_PIPELINE_STEPS):
         step_statuses.append("pending")
 
-    # If every step is done, mark as fully complete
     if all(s == "done" for s in step_statuses):
         current_step = len(_PIPELINE_STEPS)
         current_label = "Done"
@@ -159,9 +149,8 @@ def next_action(series_id: str, state: PipelineState | None = None) -> str:
     step_map = {
         0: "discover",
         1: "curate",
-        2: "review",
-        3: "verify",
-        4: "apply",
-        5: "validate",
+        2: "audit",
+        3: "apply",
+        4: "validate",
     }
     return step_map.get(state.current_step, "validate")
