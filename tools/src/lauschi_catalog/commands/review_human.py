@@ -137,14 +137,14 @@ def review_human(status: tuple[str, ...], detail: bool):
             facts = item.get("facts")
             if facts:
                 for e in facts.get("era_boundaries", []):
-                    if e.get("verify_status") == "disagreed":
-                        table.add_row("", f"  [yellow]⚠ era '{e.get('label')}': {e.get('verify_reasoning', '')[:80]}[/yellow]", "")
+                    if not e.get("audited_by"):
+                        table.add_row("", f"  [yellow]⚠ era '{e.get('label')}': unaudited[/yellow]", "")
                 for g in facts.get("known_gaps", []):
-                    if g.get("verify_status") == "disagreed":
-                        table.add_row("", f"  [yellow]⚠ gap {g.get('number')}: {g.get('verify_reasoning', '')[:80]}[/yellow]", "")
+                    if not g.get("audited_by"):
+                        table.add_row("", f"  [yellow]⚠ gap {g.get('number')}: unaudited[/yellow]", "")
                 for s in facts.get("sub_series", []):
-                    if s.get("verify_status") == "disagreed":
-                        table.add_row("", f"  [yellow]⚠ sub-series '{s.get('label')}': {s.get('verify_reasoning', '')[:80]}[/yellow]", "")
+                    if not s.get("audited_by"):
+                        table.add_row("", f"  [yellow]⚠ sub-series '{s.get('label')}': unaudited[/yellow]", "")
 
     console.print(table)
     console.print()

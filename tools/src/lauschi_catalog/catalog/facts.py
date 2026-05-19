@@ -1,22 +1,40 @@
 """Structured series facts discovered by the curation pipeline.
 
 Facts like era_boundaries, known_gaps, and sub_series are discovered by
-LLM agents during curation, reviewed, verified, and then frozen into
-series.yaml. On subsequent runs (incremental updates), curate loads the
-frozen facts as input context and only proposes genuinely new ones.
+LLM agents during curation, audited by a second model (4-eye principle),
+and then frozen into series.yaml. On subsequent runs (incremental
+updates), curate loads the frozen facts as input context and only
+proposes genuinely new ones.
 
-Each fact carries provenance so we can distinguish documented history
-from hallucination that slipped through.
+Each fact carries provenance (curated_by, audited_by, audited_at)
+so we can distinguish documented history from hallucination.
 """
 
 from __future__ import annotations
 
-from typing import Literal
+from typing import Any
 
-from pydantic import BaseModel, Field, field_validator
+from pydantic import BaseModel, Field, field_validator, model_validator
 
 
 import re as _re
+
+
+def _migrate_provenance(data: dict[str, Any]) -> dict[str, Any]:
+    """Map old provenance field names to the current schema.
+
+    Old: discovered_by, confirmed_by, confirmed_at, verify_status, verify_reasoning
+    New: curated_by, audited_by, audited_at
+    """
+    if "discovered_by" in data and "curated_by" not in data:
+        data["curated_by"] = data.pop("discovered_by")
+    if "confirmed_by" in data and "audited_by" not in data:
+        data["audited_by"] = data.pop("confirmed_by")
+    if "confirmed_at" in data and "audited_at" not in data:
+        data["audited_at"] = data.pop("confirmed_at")
+    data.pop("verify_status", None)
+    data.pop("verify_reasoning", None)
+    return data
 
 
 class EraBoundary(BaseModel):
@@ -38,17 +56,17 @@ class EraBoundary(BaseModel):
             )
             raise ValueError(msg)
         return v
-    discovered_by: str
-    confirmed_by: str | None = Field(default=None)
-    confirmed_at: str | None = Field(default=None)
-    verify_status: Literal["agreed", "disagreed"] | None = Field(
-        default=None,
-        description="'agreed' or 'disagreed' — set by verify per-fact",
-    )
-    verify_reasoning: str = Field(
-        default="",
-        description="Why verify disagreed with this specific fact",
-    )
+
+    curated_by: str
+    audited_by: str | None = Field(default=None)
+    audited_at: str | None = Field(default=None)
+
+    @model_validator(mode="before")
+    @classmethod
+    def _migrate(cls, data: Any) -> Any:
+        if isinstance(data, dict):
+            return _migrate_provenance(data)
+        return data
 
 
 class KnownGap(BaseModel):
@@ -58,17 +76,16 @@ class KnownGap(BaseModel):
     reason: str = Field(
         description="Why this episode is missing, e.g. 'legal dispute'.",
     )
-    discovered_by: str
-    confirmed_by: str | None = Field(default=None)
-    confirmed_at: str | None = Field(default=None)
-    verify_status: Literal["agreed", "disagreed"] | None = Field(
-        default=None,
-        description="'agreed' or 'disagreed' — set by verify per-fact",
-    )
-    verify_reasoning: str = Field(
-        default="",
-        description="Why verify disagreed with this specific fact",
-    )
+    curated_by: str
+    audited_by: str | None = Field(default=None)
+    audited_at: str | None = Field(default=None)
+
+    @model_validator(mode="before")
+    @classmethod
+    def _migrate(cls, data: Any) -> Any:
+        if isinstance(data, dict):
+            return _migrate_provenance(data)
+        return data
 
 
 class SubSeriesFact(BaseModel):
@@ -77,17 +94,16 @@ class SubSeriesFact(BaseModel):
     label: str
     album_ids: list[str] = Field(default_factory=list)
     reason: str = ""
-    discovered_by: str
-    confirmed_by: str | None = Field(default=None)
-    confirmed_at: str | None = Field(default=None)
-    verify_status: Literal["agreed", "disagreed"] | None = Field(
-        default=None,
-        description="'agreed' or 'disagreed' — set by verify per-fact",
-    )
-    verify_reasoning: str = Field(
-        default="",
-        description="Why verify disagreed with this specific fact",
-    )
+    curated_by: str
+    audited_by: str | None = Field(default=None)
+    audited_at: str | None = Field(default=None)
+
+    @model_validator(mode="before")
+    @classmethod
+    def _migrate(cls, data: Any) -> Any:
+        if isinstance(data, dict):
+            return _migrate_provenance(data)
+        return data
 
 
 class EraBoundaryProposal(BaseModel):
@@ -126,11 +142,10 @@ class SubSeriesProposal(BaseModel):
 class SeriesFacts(BaseModel):
     """Discovered structural facts about a series.
 
-    Curate proposes these from the discography. Review audits them.
-    Verify stamps agreed facts with confirmed_by + confirmed_at,
-    and flags disagreed ones with verify_status + verify_reasoning
-    per-fact. After human review, confirmed facts are frozen into
-    series.yaml with provenance.
+    Curate proposes facts from the discography. Audit (a different
+    model family) stamps agreed facts with audited_by + audited_at.
+    Unaudited or disagreed facts stay without audited_by; apply only
+    writes audited facts to series.yaml.
     """
 
     era_boundaries: list[EraBoundary] = Field(default_factory=list)

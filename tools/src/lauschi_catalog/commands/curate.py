@@ -444,6 +444,25 @@ def _stratified_sample(items: list, n: int) -> list:
     return [items[int(i * step)] for i in range(n)]
 
 
+def _reextract_episode_numbers(
+    decisions: list[AlbumDecision],
+    pattern: str | list[str] | None,
+) -> int:
+    """Re-run episode extraction on all decisions with a (possibly revised)
+    pattern. Returns the number of decisions whose episode_num changed."""
+    if pattern is None:
+        return 0
+    from lauschi_catalog.catalog.matcher import extract_episode
+
+    changed = 0
+    for d in decisions:
+        new_ep = extract_episode(pattern, d.title)
+        if new_ep is not None and new_ep != d.episode_num:
+            d.episode_num = new_ep
+            changed += 1
+    return changed
+
+
 # ── Shared prompt fragments ──────────────────────────────────────────────
 
 def _dry_run_prompts(query: str, content_type: str = "hoerspiel", discography_span_years: int | None = None) -> None:
@@ -761,7 +780,7 @@ def _build_finalize_agent(model, *, model_name: str = "", content_type: str = "h
             accumulated.era_boundaries.append(EraBoundary(
                 label=proposal.label,
                 release_date_range=proposal.release_date_range,
-                discovered_by="curate",
+                curated_by="curate",
             ))
             recorded.append(f"era: {proposal.label}")
             all_labels.add(proposal.label)
@@ -774,7 +793,7 @@ def _build_finalize_agent(model, *, model_name: str = "", content_type: str = "h
             accumulated.known_gaps.append(KnownGap(
                 number=proposal.number,
                 reason=proposal.reason,
-                discovered_by="curate",
+                curated_by="curate",
             ))
             recorded.append(f"gap: {proposal.number}")
             all_nums.add(proposal.number)
@@ -788,7 +807,7 @@ def _build_finalize_agent(model, *, model_name: str = "", content_type: str = "h
                 label=proposal.label,
                 album_ids=proposal.album_ids,
                 reason=proposal.reason,
-                discovered_by="curate",
+                curated_by="curate",
             ))
             recorded.append(f"sub: {proposal.label}")
             all_labels.add(proposal.label)
@@ -1178,14 +1197,7 @@ async def _run_large(
     # field is updated.
     final_pattern = shared_deps.pattern
     if shared_deps.pattern_revisions and final_pattern is not None:
-        from lauschi_catalog.catalog.matcher import extract_episode
-
-        re_extracted = 0
-        for d in all_decisions:
-            new_ep = extract_episode(final_pattern, d.title)
-            if new_ep is not None and new_ep != d.episode_num:
-                d.episode_num = new_ep
-                re_extracted += 1
+        re_extracted = _reextract_episode_numbers(all_decisions, final_pattern)
         console.print(
             f"  [cyan]Pattern revised mid-run: {meta.episode_pattern!r} "
             f"→ {final_pattern!r}. Re-extracted {re_extracted} episode "
@@ -1376,12 +1388,7 @@ async def _run_large(
         if shared_deps.pattern_revisions and final_pattern is not None:
             from lauschi_catalog.catalog.matcher import extract_episode
 
-            re_extracted = 0
-            for d in all_decisions:
-                new_ep = extract_episode(final_pattern, d.title)
-                if new_ep is not None and new_ep != d.episode_num:
-                    d.episode_num = new_ep
-                    re_extracted += 1
+            re_extracted = _reextract_episode_numbers(all_decisions, final_pattern)
             if re_extracted:
                 console.print(
                     f"  [cyan]Pattern revised: {meta.episode_pattern!r} "

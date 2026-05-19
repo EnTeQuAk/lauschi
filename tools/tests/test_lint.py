@@ -68,7 +68,7 @@ class TestLintGapDetection:
                 _make_album("a3", "Ep 3", episode_num=3),
             ],
             "series_facts": {
-                "known_gaps": [{"number": 2, "reason": "legal dispute", "discovered_by": "curate"}],
+                "known_gaps": [{"number": 2, "reason": "legal dispute", "curated_by": "curate", "audited_by": "audit"}],
             },
         }
         assert lint_curation(curation) == []
@@ -245,15 +245,14 @@ class TestLintUnconfirmedFacts:
                     {
                         "label": "modern",
                         "release_date_range": "2020-2022",
-                        "discovered_by": "curate",
-                        "verify_status": "disagreed",
-                        "verify_reasoning": "no albums in this range",
+                        "curated_by": "curate",
+                        "audited_by": None,
                     },
                 ],
             },
         }
         issues = lint_curation(curation)
-        assert any("Unconfirmed era_boundary 'modern'" in i for i in issues)
+        assert any("Unaudited era_boundary 'modern'" in i for i in issues)
 
     def test_unconfirmed_known_gap_flagged(self):
         curation = {
@@ -263,15 +262,14 @@ class TestLintUnconfirmedFacts:
                     {
                         "number": 7,
                         "reason": "legal dispute",
-                        "discovered_by": "curate",
-                        "verify_status": "disagreed",
-                        "verify_reasoning": "episode exists on provider",
+                        "curated_by": "curate",
+                        "audited_by": None,
                     },
                 ],
             },
         }
         issues = lint_curation(curation)
-        assert any("Unconfirmed known_gap ep 7" in i for i in issues)
+        assert any("Unaudited known_gap ep 7" in i for i in issues)
 
     def test_confirmed_facts_not_flagged(self):
         curation = {
@@ -281,8 +279,8 @@ class TestLintUnconfirmedFacts:
                     {
                         "label": "modern",
                         "release_date_range": "2020-2022",
-                        "discovered_by": "curate",
-                        "verify_status": "agreed",
+                        "curated_by": "curate",
+                        "audited_by": "audit",
                     },
                 ],
             },

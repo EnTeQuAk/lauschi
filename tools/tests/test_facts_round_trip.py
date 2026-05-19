@@ -27,18 +27,18 @@ class TestFactsRoundTrip:
                     {
                         "label": "klassik",
                         "release_date_range": "1976-1979",
-                        "discovered_by": "curate",
-                        "confirmed_by": "verify",
-                        "confirmed_at": "2026-05-17T12:00:00+00:00",
+                        "curated_by": "curate",
+                        "audited_by": "audit",
+                        "audited_at": "2026-05-17T12:00:00+00:00",
                     },
                 ],
                 "known_gaps": [
                     {
                         "number": 156,
                         "reason": "legal dispute",
-                        "discovered_by": "curate",
-                        "confirmed_by": "verify",
-                        "confirmed_at": "2026-05-17T12:00:00+00:00",
+                        "curated_by": "curate",
+                        "audited_by": "audit",
+                        "audited_at": "2026-05-17T12:00:00+00:00",
                     },
                 ],
                 "sub_series": [],
@@ -48,50 +48,41 @@ class TestFactsRoundTrip:
         assert yaml_facts is not None
         assert "era_boundaries" in yaml_facts
         assert "known_gaps" in yaml_facts
-        # Provenance kept in yaml
         era = yaml_facts["era_boundaries"][0]
-        assert era["discovered_by"] == "curate"
-        assert era["confirmed_by"] == "verify"
-        assert era["confirmed_at"] == "2026-05-17T12:00:00+00:00"
-        # Verify-time fields stripped
-        assert "verify_status" not in era
-        assert "verify_reasoning" not in era
+        assert era["curated_by"] == "curate"
+        assert era["audited_by"] == "audit"
+        assert era["audited_at"] == "2026-05-17T12:00:00+00:00"
 
-    def test_unconfirmed_facts_dropped_from_yaml(self):
+    def test_unaudited_facts_dropped_from_yaml(self):
         curation = {
             "series_facts": {
                 "era_boundaries": [
                     {
                         "label": "dubious",
                         "release_date_range": "1999-2000",
-                        "discovered_by": "curate",
-                        "verify_status": "disagreed",
-                        "verify_reasoning": "no albums in range",
+                        "curated_by": "curate",
                     },
                 ],
             },
         }
         yaml_facts = _filter_confirmed_facts(curation["series_facts"])
-        # No confirmed_by -> dropped entirely
         assert yaml_facts is None or yaml_facts == {}
 
-    def test_mixed_confirmed_and_unconfirmed(self):
+    def test_mixed_audited_and_unaudited(self):
         curation = {
             "series_facts": {
                 "era_boundaries": [
                     {
                         "label": "good",
                         "release_date_range": "1976-1979",
-                        "discovered_by": "curate",
-                        "confirmed_by": "verify",
-                        "confirmed_at": "2026-05-17T12:00:00+00:00",
+                        "curated_by": "curate",
+                        "audited_by": "audit",
+                        "audited_at": "2026-05-17T12:00:00+00:00",
                     },
                     {
                         "label": "bad",
                         "release_date_range": "1999-2000",
-                        "discovered_by": "curate",
-                        "verify_status": "disagreed",
-                        "verify_reasoning": "nope",
+                        "curated_by": "curate",
                     },
                 ],
             },
@@ -108,23 +99,23 @@ class TestFactsRoundTrip:
                 {
                     "label": "klassik",
                     "release_date_range": "1976-1979",
-                    "discovered_by": "curate",
-                    "confirmed_by": "verify",
-                    "confirmed_at": "2026-05-17T12:00:00+00:00",
+                    "curated_by": "curate",
+                    "audited_by": "audit",
+                    "audited_at": "2026-05-17T12:00:00+00:00",
                 },
             ],
             "known_gaps": [
                 {
                     "number": 156,
                     "reason": "legal dispute",
-                    "discovered_by": "curate",
+                    "curated_by": "curate",
                 },
             ],
         }
         facts = SeriesFacts.model_validate(raw)
         assert len(facts.era_boundaries) == 1
         assert facts.era_boundaries[0].label == "klassik"
-        assert facts.era_boundaries[0].confirmed_by == "verify"
+        assert facts.era_boundaries[0].audited_by == "audit"
         assert len(facts.known_gaps) == 1
         assert facts.known_gaps[0].number == 156
 
@@ -143,9 +134,9 @@ class TestFactsRoundTrip:
                             {
                                 "label": "modern",
                                 "release_date_range": "2020-2022",
-                                "discovered_by": "curate",
-                                "confirmed_by": "verify",
-                                "confirmed_at": "2026-05-17T12:00:00+00:00",
+                                "curated_by": "curate",
+                                "audited_by": "audit",
+                                "audited_at": "2026-05-17T12:00:00+00:00",
                             },
                         ],
                     },
@@ -156,7 +147,6 @@ class TestFactsRoundTrip:
         with open(path, "w") as f:
             yaml.dump(data, f)
 
-        # Monkeypatch loader to use our temp file
         import lauschi_catalog.catalog.loader as loader
         orig_path = loader.SERIES_YAML
         loader.SERIES_YAML = path
@@ -168,7 +158,7 @@ class TestFactsRoundTrip:
             assert "era_boundaries" in entry.series_facts
             era = entry.series_facts["era_boundaries"][0]
             assert era["label"] == "modern"
-            assert era["confirmed_by"] == "verify"
+            assert era["audited_by"] == "audit"
         finally:
             loader.SERIES_YAML = orig_path
 

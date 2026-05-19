@@ -178,22 +178,22 @@ def lint_curation(curation: dict) -> list[str]:
                 f"on {prov}"
             )
 
-    # ── Rule 6: Unconfirmed facts ────────────────────────────────────
+    # ── Rule 6: Unaudited facts ─────────────────────────────────────
     if facts:
         for e in facts.era_boundaries:
-            if e.verify_status == "disagreed":
+            if not e.audited_by:
                 issues.append(
-                    f"Unconfirmed era_boundary '{e.label}': {e.verify_reasoning}"
+                    f"Unaudited era_boundary '{e.label}'"
                 )
         for g in facts.known_gaps:
-            if g.verify_status == "disagreed":
+            if not g.audited_by:
                 issues.append(
-                    f"Unconfirmed known_gap ep {g.number}: {g.verify_reasoning}"
+                    f"Unaudited known_gap ep {g.number}"
                 )
         for s in facts.sub_series:
-            if s.verify_status == "disagreed":
+            if not s.audited_by:
                 issues.append(
-                    f"Unconfirmed sub_series '{s.label}': {s.verify_reasoning}"
+                    f"Unaudited sub_series '{s.label}'"
                 )
 
     # ── Rule 7: Low-confidence clusters ──────────────────────────────

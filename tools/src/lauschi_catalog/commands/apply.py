@@ -165,9 +165,9 @@ def _apply_one(series_id: str, data: dict, yaml_data: dict) -> bool:
         yaml_series["aliases"] = aliases
         updated = True
 
-    # Update series_facts: write only confirmed facts (discovered_by
-    # and confirmed_by present). Drop unconfirmed/flagged facts so
-    # the yaml doesn't carry low-trust data.
+    # Update series_facts: write only audited facts (audited_by
+    # present). Unaudited facts stay in the curation JSON for human
+    # review but don't pollute the canonical yaml.
     facts = data.get("series_facts")
     if facts:
         confirmed = _filter_confirmed_facts(facts)
@@ -182,31 +182,21 @@ def _apply_one(series_id: str, data: dict, yaml_data: dict) -> bool:
 
 
 def _filter_confirmed_facts(facts: dict) -> dict | None:
-    """Strip unconfirmed/flagged facts before writing to series.yaml.
+    """Keep only audited facts for series.yaml.
 
-    Only keep facts that have been confirmed_by a verify pass or human
-    review. Facts with verify_status='disagreed' or missing confirmed_by
-    stay in the curation JSON for human review but don't pollute the
-    canonical yaml.
+    Facts without audited_by stay in the curation JSON for human
+    review. Provenance fields are preserved in yaml as audit trail.
 
-    Provenance fields (discovered_by, confirmed_by, confirmed_at) are
-    preserved in yaml — they're the audit trail that distinguishes
-    documented history from hallucination.
+    Handles both old (discovered_by/confirmed_by) and new
+    (curated_by/audited_by) field names for backward compatibility.
     """
     result: dict[str, list[dict]] = {}
     for key in ("era_boundaries", "known_gaps", "sub_series"):
         kept = []
         for item in facts.get(key, []):
-            # Defense in depth: reject if verify explicitly disagreed,
-            # even if a stale confirmed_by/confirmed_at is present.
-            if item.get("verify_status") == "disagreed":
-                continue
-            if item.get("confirmed_by") and item.get("confirmed_at"):
-                # Keep provenance in yaml; strip curation-time fields
-                kept.append({
-                    k: v for k, v in item.items()
-                    if k not in ("verify_status", "verify_reasoning")
-                })
+            audited = item.get("audited_by") or item.get("confirmed_by")
+            if audited:
+                kept.append(item)
         if kept:
             result[key] = kept
     return result if result else None
