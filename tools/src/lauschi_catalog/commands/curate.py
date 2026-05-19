@@ -535,6 +535,9 @@ def _build_metadata_agent(
             )
             total = len(ctx.deps.titles)
             coverage = matched / total if total else 0
+            # Tiered threshold: <30% is a hard fail (pattern is catastrophically
+            # wrong), 30-80% is a soft fail (pattern works for the majority but
+            # systematic misses remain — the agent should keep iterating).
             if coverage < 0.3:
                 raise ModelRetry(
                     f"Coverage only {coverage:.0%} ({matched}/{total}). "
@@ -542,6 +545,23 @@ def _build_metadata_agent(
                     f"pattern that matches the unmatched titles, or set "
                     f"episode_pattern=None if this series truly has no "
                     f"numbered episodes.",
+                )
+            if coverage < 0.8:
+                # Find a few unmatched titles that look like they SHOULD match
+                # (long titles with track counts, not obviously compilations)
+                # to nudge the agent toward the right pattern shape.
+                unmatched = [
+                    t for t in ctx.deps.titles
+                    if extract_episode(meta.episode_pattern, t) is None
+                ][:10]
+                raise ModelRetry(
+                    f"Coverage {coverage:.0%} ({matched}/{total}) is below "
+                    f"the 80% safe band. The unmatched titles likely contain "
+                    f"systematic episode markers your pattern missed. "
+                    f"Unmatched samples: {unmatched!r}. "
+                    f"Look for episode numbers in suffixes, parentheses, or "
+                    f"alternate prefixes. Add a regex alternation for the "
+                    f"dominant missed shape, then re-test.",
                 )
         return meta
 
@@ -1184,7 +1204,7 @@ async def _run_large(
     batch_index = {(a["provider"], a["id"]): a for a in all_albums}
     _restore_dropped_albums(all_decisions, batch_index)
 
-    # ── Finalize metadata: extract episode numbers from track listings ──
+    # ── Finalize metadata: facts discovery + episode extraction ──
     final_pattern = shared_deps.pattern
     proposed_facts: SeriesFacts | None = None
     if content_type not in ("music", "audiobook"):
@@ -1192,53 +1212,52 @@ async def _run_large(
             d for d in all_decisions
             if d.include and d.episode_num is None
         ]
-        if unnumbered:
-            console.print(
-                f"[bold cyan]Finalize[/] — {len(unnumbered)} included albums "
-                f"lack episode numbers. Inspecting track listings...\n",
+
+        # Pre-compute era evidence from batch-phase decisions so the
+        # finalize agent sees it before the episode-numbering task.
+        # Batch agents already identified era_collisions with per-album
+        # notes — surfacing the summary prevents the agent from only
+        # looking at unnumbered albums and missing the whole-discography
+        # era structure.
+        era_evidence_lines: list[str] = []
+        era_decisions = [
+            d for d in all_decisions
+            if d.include and d.notes and "era" in d.notes.lower()
+        ]
+        if era_decisions:
+            by_provider: dict[str, list[tuple[int, str, str]]] = {}
+            for d in era_decisions:
+                ep = d.episode_num
+                if ep is None:
+                    continue
+                by_provider.setdefault(d.provider, []).append(
+                    (ep, d.title, d.release_date or "?"),
+                )
+            era_evidence_lines.append(
+                "### Batch-phase era evidence (review before proposing facts)",
             )
-            finalize_agent = _build_finalize_agent(model, model_name=model_name, content_type=content_type, discography_span_years=discography_span_years)
-            # Build prompt with album titles and any cached track listings
+            era_evidence_lines.append(
+                "The batch phase flagged the following albums as era "
+                "collisions (same episode number, different title / "
+                "release date). Group them into distinct eras by "
+                "release_date and title pattern, then propose era_boundary "
+                "facts. Look for ~3 distinct clusters (e.g. 1977 classics, "
+                "2015 CGI reboot, 2025 continuation)."
+            )
+            for prov, items in sorted(by_provider.items()):
+                items.sort(key=lambda x: x[0])
+                era_evidence_lines.append(f"  {prov} ({len(items)} albums):")
+                for ep, title, date in items:
+                    era_evidence_lines.append(f"    ep {ep} | {date} | {title}")
+            era_evidence_lines.append("")
+
+        # Run finalize whenever there is EITHER unnumbered albums OR era
+        # evidence. Facts discovery should not be gated on episode-number
+        # gaps alone — eras can be fully numbered and still need
+        # era_boundaries/sub_series.
+        needs_finalize = bool(unnumbered) or bool(era_evidence_lines)
+        if needs_finalize:
             lines: list[str] = []
-
-            # Pre-compute era evidence from batch-phase decisions so the
-            # finalize agent sees it before the episode-numbering task.
-            # Batch agents already identified era_collisions with per-album
-            # notes — surfacing the summary prevents the agent from only
-            # looking at unnumbered albums and missing the whole-discography
-            # era structure.
-            era_evidence_lines: list[str] = []
-            era_decisions = [
-                d for d in all_decisions
-                if d.include and d.notes and "era" in d.notes.lower()
-            ]
-            if era_decisions:
-                by_provider: dict[str, list[tuple[int, str, str]]] = {}
-                for d in era_decisions:
-                    ep = d.episode_num
-                    if ep is None:
-                        continue
-                    by_provider.setdefault(d.provider, []).append(
-                        (ep, d.title, d.release_date or "?"),
-                    )
-                era_evidence_lines.append(
-                    "### Batch-phase era evidence (review before proposing facts)",
-                )
-                era_evidence_lines.append(
-                    "The batch phase flagged the following albums as era "
-                    "collisions (same episode number, different title / "
-                    "release date). Group them into distinct eras by "
-                    "release_date and title pattern, then propose era_boundary "
-                    "facts. Look for ~3 distinct clusters (e.g. 1977 classics, "
-                    "2015 CGI reboot, 2025 continuation)."
-                )
-                for prov, items in sorted(by_provider.items()):
-                    items.sort(key=lambda x: x[0])
-                    era_evidence_lines.append(f"  {prov} ({len(items)} albums):")
-                    for ep, title, date in items:
-                        era_evidence_lines.append(f"    ep {ep} | {date} | {title}")
-                era_evidence_lines.append("")
-
             for d in unnumbered[:50]:  # cap to keep prompt size reasonable
                 key = f"{d.provider}:{d.album_id}"
                 detail = shared_deps.seen_details.get(key)
@@ -1267,14 +1286,44 @@ async def _run_large(
                     facts_lines.append("Existing facts: (none)")
             else:
                 facts_lines.append("Existing facts: (none)")
-            finalize_prompt = (
-                f"Series: {meta.title!r}\n"
-                f"Episode pattern: {shared_deps.pattern}\n\n"
-                f"{'\n'.join(facts_lines)}\n\n"
-                f"{'\n'.join(era_evidence_lines)}\n"
-                f"Included albums missing episode numbers ({len(unnumbered)} total):\n"
-                f"\n".join(lines)
+
+            if unnumbered and era_evidence_lines:
+                header = (
+                    f"[bold cyan]Finalize[/] — {len(unnumbered)} included albums "
+                    f"lack episode numbers AND era evidence found. "
+                    f"Inspecting track listings and proposing facts...\n"
+                )
+            elif era_evidence_lines:
+                header = (
+                    f"[bold cyan]Finalize[/] — era evidence found. "
+                    f"Proposing era_boundaries / sub_series...\n"
+                )
+            else:
+                header = (
+                    f"[bold cyan]Finalize[/] — {len(unnumbered)} included albums "
+                    f"lack episode numbers. Inspecting track listings...\n"
+                )
+            console.print(header)
+
+            finalize_agent = _build_finalize_agent(
+                model, model_name=model_name, content_type=content_type,
+                discography_span_years=discography_span_years,
             )
+
+            prompt_parts: list[str] = [
+                f"Series: {meta.title!r}",
+                f"Episode pattern: {shared_deps.pattern}",
+                "",
+                "\n".join(facts_lines),
+                "",
+                "\n".join(era_evidence_lines),
+            ]
+            if unnumbered:
+                prompt_parts.append(
+                    f"Included albums missing episode numbers ({len(unnumbered)} total):\n"
+                    f"\n".join(lines)
+                )
+            finalize_prompt = "\n".join(prompt_parts)
             finalize_deps = FinalizeDeps(
                 providers=providers,
                 seen_details=shared_deps.seen_details,
