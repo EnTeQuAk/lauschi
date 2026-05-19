@@ -45,6 +45,7 @@ try:
     from lauschi_catalog.commands.curate import curate
     from lauschi_catalog.commands.review import review
     from lauschi_catalog.commands.verify import verify
+    from lauschi_catalog.commands.audit import audit
 except ModuleNotFoundError as e:
     if e.name and e.name.split(".")[0] != "pydantic_ai":
         raise
@@ -52,6 +53,7 @@ else:
     cli.add_command(curate)
     cli.add_command(review)
     cli.add_command(verify)
+    cli.add_command(audit)
 
 # Lazy-load web UI command (requires the 'web' optional extra).
 try:
