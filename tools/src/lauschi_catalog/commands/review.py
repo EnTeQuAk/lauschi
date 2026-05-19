@@ -23,7 +23,11 @@ import click
 
 from pydantic import BaseModel, Field
 from pydantic_ai import Agent, RunContext, ToolOutput
-from lauschi_catalog._opencode import build_mistral_model, build_opencode_model
+from lauschi_catalog._opencode import (
+    REVIEW_SETTINGS,
+    build_mistral_model,
+    build_opencode_model,
+)
 from pydantic_ai.usage import UsageLimits
 from rich.console import Console
 from rich.markup import escape
@@ -503,6 +507,7 @@ def _build_agent(
             ),
         ),
         system_prompt=_SYSTEM_PROMPT,
+        model_settings=REVIEW_SETTINGS,
         tool_retries=2, output_retries=2,
     )
 

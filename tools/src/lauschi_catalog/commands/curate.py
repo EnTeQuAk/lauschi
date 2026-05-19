@@ -55,6 +55,7 @@ from lauschi_catalog.catalog.matcher import compute_pattern_coverage as _compute
 from lauschi_catalog.catalog.prompt import album_to_dict, format_albums_xml
 from lauschi_catalog.providers import Album, CatalogProvider
 from lauschi_catalog.providers._validate import explain_invalid, is_valid_id
+from lauschi_catalog._opencode import CURATE_SETTINGS, FINALIZE_SETTINGS
 from lauschi_catalog.rate_limit import RateLimiter, run_with_rate_limit_retry
 from lauschi_catalog.retry import is_retryable
 
@@ -493,6 +494,7 @@ def _build_metadata_agent(
         model,
         output_type=SeriesMetadata,
         system_prompt=system_prompt,
+        model_settings=CURATE_SETTINGS,
         tool_retries=2, output_retries=2,
     )
 
@@ -557,6 +559,7 @@ def _build_batch_agent(model, *, content_type: str = "hoerspiel", discography_sp
         model,
         output_type=BatchResult,
         system_prompt=system_prompt,
+        model_settings=CURATE_SETTINGS,
         tool_retries=2, output_retries=2,
     )
 
@@ -576,6 +579,7 @@ def _build_finalize_agent(model, *, content_type: str = "hoerspiel", discography
         model,
         output_type=FinalizeResult,
         system_prompt=system_prompt,
+        model_settings=FINALIZE_SETTINGS,
         tool_retries=2, output_retries=2,
     )
 

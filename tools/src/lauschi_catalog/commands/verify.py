@@ -20,7 +20,11 @@ from typing import Literal
 import click
 from pydantic import BaseModel, Field
 from pydantic_ai import Agent, RunContext, ToolOutput
-from lauschi_catalog._opencode import build_mistral_model, build_opencode_model
+from lauschi_catalog._opencode import (
+    VERIFY_SETTINGS,
+    build_mistral_model,
+    build_opencode_model,
+)
 from pydantic_ai.usage import UsageLimits
 from rich import box
 from rich.console import Console
@@ -216,6 +220,7 @@ def _build_verify_agent(
             ),
         ),
         system_prompt=_SYSTEM_PROMPT,
+        model_settings=VERIFY_SETTINGS,
         tool_retries=2, output_retries=2,
     )
 

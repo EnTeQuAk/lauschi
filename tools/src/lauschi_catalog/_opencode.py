@@ -12,8 +12,18 @@ from pydantic_ai.models.openai import OpenAIChatModel
 from pydantic_ai.profiles.openai import OpenAIModelProfile
 from pydantic_ai.providers.mistral import MistralProvider
 from pydantic_ai.providers.openai import OpenAIProvider
+from pydantic_ai.settings import ModelSettings
 
 OPENCODE_BASE_URL = "https://opencode.ai/zen/v1"
+
+# Per-phase model settings for deterministic analytical classification.
+# temperature=0.0 for strict reproducibility; 0.1 for tasks needing slight
+# exploration (clustering, interpretation). Same seed across phases
+# because prompts are always different.
+CURATE_SETTINGS = ModelSettings(temperature=0.0, seed=42)
+FINALIZE_SETTINGS = ModelSettings(temperature=0.1, seed=42)
+REVIEW_SETTINGS = ModelSettings(temperature=0.1, seed=42)
+VERIFY_SETTINGS = ModelSettings(temperature=0.0, seed=42)
 
 
 def build_opencode_model(model_name: str, api_key: str) -> OpenAIChatModel:
