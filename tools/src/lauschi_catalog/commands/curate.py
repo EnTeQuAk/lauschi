@@ -376,6 +376,27 @@ class FinalizeDeps:
     proposed_facts: SeriesFacts | None = field(default=None, init=False)
 
 
+class EpisodeUpdate(BaseModel):
+    """One album whose episode number was discovered from track listings."""
+
+    album_id: str
+    provider: str
+    episode_num: int
+
+
+class PatternCoverageReport(BaseModel):
+    """Result of testing an episode_pattern against the full discography."""
+
+    pattern: str | list[str] | None = None
+    matched: int = 0
+    total: int = 0
+    coverage: float = 0.0
+    unmatched_regex_samples: list[str] = Field(default_factory=list)
+    non_numeric_capture_samples: list[dict[str, str]] = Field(default_factory=list)
+    limit_reached: bool = False
+    message: str = ""
+
+
 class FinalizeResult(BaseModel):
     """Output of the metadata-finalization agent.
 
@@ -385,9 +406,9 @@ class FinalizeResult(BaseModel):
     proposes an updated episode_pattern.
     """
 
-    episode_updates: list[dict] = Field(
+    episode_updates: list[EpisodeUpdate] = Field(
         default_factory=list,
-        description="Albums where track listings revealed the episode number. Each item: {album_id, provider, episode_num}",
+        description="Albums where track listings revealed the episode number.",
     )
     proposed_pattern_update: str | list[str] | None = Field(
         default=None,
@@ -528,18 +549,18 @@ def _build_metadata_agent(
     def check_pattern_coverage(
         ctx: RunContext[MetadataDeps],
         pattern: str | list[str],
-    ) -> dict:
+    ) -> PatternCoverageReport:
         """Test a proposed episode_pattern against ALL discovered titles.
 
         Returns coverage stats. The pattern's first capture group MUST
         capture a digit string (the episode number). A title can fail
         in two distinct ways:
-          - regex_no_match: the regex didn't find a match at all
-          - non_numeric_capture: regex matched but capture group 1
+          - unmatched_regex_samples: the regex didn't find a match at all
+          - non_numeric_capture_samples: regex matched but capture group 1
             wasn't an integer (e.g. you used `(.*)` and captured the
             whole title, or your group caught text instead of digits)
 
-        If non_numeric_capture is high, the regex itself is fine but
+        If non_numeric_capture_samples is high, the regex itself is fine but
         the capture group is wrong — narrow group 1 to `(\\d+)`.
 
         If the discography uses named/themed episodes (fairy tales,
@@ -557,20 +578,27 @@ def _build_metadata_agent(
                 f"({ctx.deps._pattern_check_count - 1}/{ctx.deps._MAX_PATTERN_CHECKS}). "
                 f"Set episode_pattern=None or commit to your best pattern.[/]",
             )
-            return {
-                "limit_reached": True,
-                "message": f"Maximum {ctx.deps._MAX_PATTERN_CHECKS} pattern checks reached. "
+            return PatternCoverageReport(
+                limit_reached=True,
+                message=f"Maximum {ctx.deps._MAX_PATTERN_CHECKS} pattern checks reached. "
                     "Set episode_pattern=None if coverage is below 80%, "
                     "or use your best pattern if coverage is acceptable.",
-            }
-        result = _compute_pattern_coverage(ctx.deps.titles, pattern)
-        if "error" not in result:
+            )
+        raw = _compute_pattern_coverage(ctx.deps.titles, pattern)
+        if "error" not in raw:
             console.print(
                 f"  [dim]✅ check_pattern_coverage({pattern!r}) → "
-                f"{result['matched']}/{result['total']} = "
-                f"{result['coverage']:.0%}[/]",
+                f"{raw['matched']}/{raw['total']} = "
+                f"{raw['coverage']:.0%}[/]",
             )
-        return result
+        return PatternCoverageReport(
+            pattern=raw.get("pattern"),
+            matched=raw.get("matched", 0),
+            total=raw.get("total", 0),
+            coverage=raw.get("coverage", 0.0),
+            unmatched_regex_samples=raw.get("unmatched_regex_samples", []),
+            non_numeric_capture_samples=raw.get("non_numeric_capture_samples", []),
+        )
 
     return agent
 
@@ -1267,8 +1295,8 @@ async def _run_large(
                 updated = 0
                 for upd in finalize_result.episode_updates:
                     for d in all_decisions:
-                        if d.album_id == upd.get("album_id") and d.provider == upd.get("provider"):
-                            d.episode_num = upd.get("episode_num")
+                        if d.album_id == upd.album_id and d.provider == upd.provider:
+                            d.episode_num = upd.episode_num
                             updated += 1
                             break
                 if updated:
