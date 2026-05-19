@@ -39,7 +39,6 @@ from lauschi_catalog.catalog.facts import (
 from lauschi_catalog.catalog.lifecycle import review_is_stale
 from lauschi_catalog.catalog.loader import load_raw, save_raw
 from lauschi_catalog.commands.lint import lint_curation
-from lauschi_catalog.providers import CatalogProvider
 from lauschi_catalog.retry import is_retryable
 
 console = Console()
@@ -95,7 +94,6 @@ class AuditResult(BaseModel):
 
 @dataclass
 class Deps:
-    providers: list[CatalogProvider]
     series_id: str
     curation: dict
     lint_issues: list[str]
@@ -326,7 +324,6 @@ def _build_prompt(curation: dict, lint_issues: list[str]) -> str:
 
 async def audit_one(
     series_id: str,
-    providers: list[CatalogProvider],
     *,
     model_name: str = _DEFAULT_MODEL,
     timeout: int = 600,
@@ -350,8 +347,8 @@ async def audit_one(
     if not force:
         if review_is_stale(curation):
             console.print(
-                f"[yellow]Skipping {series_id}: review is stale "
-                f"(curate ran after last review). Re-run curate first.[/yellow]"
+                f"[yellow]Skipping {series_id}: audit is stale "
+                f"(curate ran after last audit). Re-run curate first.[/yellow]"
             )
             return None
         if status in ("approved", "audited"):
@@ -371,7 +368,6 @@ async def audit_one(
 
     for attempt in range(_MAX_RETRIES):
         deps = Deps(
-            providers=providers,
             series_id=series_id,
             curation=curation,
             lint_issues=lint_issues,
@@ -490,6 +486,13 @@ def apply_audit(
     return action
 
 
+_FACT_IDENTITY_KEY: dict[str, str] = {
+    "era_boundaries": "label",
+    "known_gaps": "number",
+    "sub_series": "label",
+}
+
+
 def _merge_facts(
     series_facts: dict,
     update: AuditFactUpdate,
@@ -502,9 +505,10 @@ def _merge_facts(
         ("known_gaps", update.known_gaps),
         ("sub_series", update.sub_series),
     ]:
-        existing = {e.get("label", e.get("number")): e for e in series_facts.get(key, [])}
+        id_field = _FACT_IDENTITY_KEY[key]
+        existing = {e.get(id_field): e for e in series_facts.get(key, [])}
         for item in items:
-            ident = item.label if hasattr(item, "label") else item.number
+            ident = getattr(item, id_field)
             existing[ident] = {**item.model_dump(), "audited_by": model_name, "audited_at": now}
         series_facts[key] = list(existing.values())
 
@@ -517,23 +521,14 @@ def _merge_facts(
 @click.option("-t", "--timeout", default=600, help="Timeout per series")
 @click.option("--force", is_flag=True, help="Re-audit even if already done")
 @click.option("--dry-run", is_flag=True, help="Print, don't save")
-@click.option("-p", "--provider", multiple=True, help="Provider filter")
-@click.option("-v", "--verbose", is_flag=True)
 def audit(
     series: str | None,
     model: str,
     timeout: int,
     force: bool,
     dry_run: bool,
-    provider: tuple[str, ...],
-    verbose: bool,
 ) -> None:
     """Run 4-eye audit on curated series."""
-    from lauschi_catalog.commands.curate import _init_providers
-
-    provider_filter = provider[0] if provider else "all"
-    providers = _init_providers(provider_filter)
-
     if series:
         series_ids = [series]
     else:
@@ -561,7 +556,7 @@ def audit(
         console.print(f"\n[bold]{sid}[/]")
         try:
             result = asyncio.run(
-                audit_one(sid, providers, model_name=model, timeout=timeout, force=force)
+                audit_one(sid, model_name=model, timeout=timeout, force=force)
             )
             if result is None:
                 continue
