@@ -1,6 +1,6 @@
 """Shared prompt-formatting utilities for catalog agents.
 
-Every pipeline phase (curate, review, verify, finalize) feeds album
+Every pipeline phase (curate, audit, finalize) feeds album
 metadata to an LLM through prompts. This module provides ONE canonical
 formatter so the representation is unified across all phases.
 """

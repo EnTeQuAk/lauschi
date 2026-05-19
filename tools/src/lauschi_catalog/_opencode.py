@@ -22,8 +22,7 @@ OPENCODE_BASE_URL = "https://opencode.ai/zen/v1"
 # because prompts are always different.
 _DEFAULT_CURATE = ModelSettings(temperature=0.0, seed=42)
 _DEFAULT_FINALIZE = ModelSettings(temperature=0.1, seed=42)
-_DEFAULT_REVIEW = ModelSettings(temperature=0.1, seed=42)
-_DEFAULT_VERIFY = ModelSettings(temperature=0.0, seed=42)
+_DEFAULT_AUDIT = ModelSettings(temperature=0.0, seed=42)
 
 # Model-specific overrides. Keyed by model-name prefix; first match wins.
 # Use this to tune per-model behavior as we discover what each model
@@ -36,8 +35,7 @@ _OVERRIDES: dict[str, dict[str, ModelSettings]] = {
     "mistral-small-2603": {
         "curate": ModelSettings(temperature=0.0, seed=42, extra_body={"reasoning_effort": "none"}),
         "finalize": ModelSettings(temperature=0.1, seed=42, extra_body={"reasoning_effort": "none"}),
-        "review": ModelSettings(temperature=0.1, seed=42, extra_body={"reasoning_effort": "none"}),
-        "verify": ModelSettings(temperature=0.0, seed=42, extra_body={"reasoning_effort": "none"}),
+        "audit": ModelSettings(temperature=0.0, seed=42, extra_body={"reasoning_effort": "none"}),
     },
 }
 
@@ -52,8 +50,7 @@ def get_model_settings(phase: str, model_name: str) -> ModelSettings:
     defaults = {
         "curate": _DEFAULT_CURATE,
         "finalize": _DEFAULT_FINALIZE,
-        "review": _DEFAULT_REVIEW,
-        "verify": _DEFAULT_VERIFY,
+        "audit": _DEFAULT_AUDIT,
     }
     for prefix, phases in _OVERRIDES.items():
         if model_name.startswith(prefix):

@@ -1,4 +1,4 @@
-"""Prompt loader for curate, review, and verify agents.
+"""Prompt loader for curate and audit agents.
 
 Loads skill-style prompt documents from disk and assembles per-phase,
 per-content-type system prompts. Pure function: no global state, no

@@ -8,7 +8,7 @@ chains; opencode-zen's relay can't resolve them and crashes with:
     '#/$defs/OverrideVerdict':
     AttributeError("'NoneType' object has no attribute 'lookup'")
 
-That's how verify failed on kleiner_rabe_socke when the curation
+That's how the old verify step failed on kleiner_rabe_socke when the curation
 carried a split proposal. The transformer flattens $defs inline so
 the relay never has to follow a $ref. Same fix pydantic-ai uses
 for Meta, Amazon, Qwen, and OpenRouter providers.
@@ -38,9 +38,8 @@ def test_helper_uses_opencode_base_url():
 
 
 def test_helper_passes_through_arbitrary_model_name():
-    """The relay fronts both kimi-k2.5 (curate/review) and minimax-
-    m2.5/m2.7 (verify). The helper must work for any string the
-    callers pick."""
+    """The relay fronts both kimi-k2.5 (curate) and minimax-m2.5/m2.7
+    (audit). The helper must work for any string the callers pick."""
     for name in ("kimi-k2.5", "minimax-m2.5", "minimax-m2.7"):
         model = build_opencode_model(name, api_key="test-key")
         # model.model_name is the public accessor for the configured name.

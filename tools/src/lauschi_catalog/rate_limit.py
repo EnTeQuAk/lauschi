@@ -1,7 +1,7 @@
 """Rate limiting for LLM API calls.
 
 Tracks per-model request timestamps and enforces minimum spacing to
-avoid 429 rate-limit errors. Used across curate, review, and verify.
+avoid 429 rate-limit errors. Used across curate and audit.
 """
 
 from __future__ import annotations

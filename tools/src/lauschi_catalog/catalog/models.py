@@ -38,7 +38,7 @@ class CatalogEntry:
     content_type: str | None = None
     # Structured facts discovered by the curation pipeline: era
     # boundaries, known episode gaps, sub-series. Frozen into
-    # series.yaml after verify confirms them. Curate loads them as
+    # series.yaml after audit confirms them. Curate loads them as
     # input context for incremental updates.
     series_facts: dict | None = None
     providers: dict[str, ProviderConfig] = field(default_factory=dict)

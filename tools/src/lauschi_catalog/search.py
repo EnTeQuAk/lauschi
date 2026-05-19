@@ -1,6 +1,6 @@
 """Web search and page fetching via Brave Search API.
 
-Used by curate and verify agents to research series when provider
+Used by curate and audit agents to research series when provider
 metadata alone is ambiguous. Searches default to German results
 (country=DE, search_lang=de) since the catalog targets DACH.
 """

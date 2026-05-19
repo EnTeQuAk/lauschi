@@ -1,4 +1,4 @@
-"""Shared retry-decision helpers used by curate, review, and verify.
+"""Shared retry-decision helpers used by curate and audit.
 
 The pipeline's three LLM commands all wrap their agent calls in a
 manual retry loop. They need the same answer to "is this exception
@@ -7,9 +7,9 @@ and validation errors should die fast; transport errors and 5xx
 should retry.
 
 Keeping this in a single module avoids three copies of the heuristic
-drifting apart, and lets review/verify benefit from refinements that
-were originally driven by curate's failure modes (mostly opencode
-upstream blips).
+drifting apart, and lets audit benefit from refinements that were
+originally driven by curate's failure modes (mostly opencode upstream
+blips).
 """
 
 from __future__ import annotations

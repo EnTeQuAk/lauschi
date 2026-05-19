@@ -1,6 +1,6 @@
 """Canonical ordering for curation JSON files.
 
-Three commands write curation JSONs (curate, review, verify). Without
+Multiple pipeline steps write curation JSONs (curate, audit). Without
 canonical ordering, every re-run produces churn on unrelated entries —
 Spotify might return albums in a different order, the agent might
 emit overrides in a different sequence — making PR review painful.
