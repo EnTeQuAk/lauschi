@@ -400,6 +400,22 @@ def test_pattern_coverage_rejects_zero_capture_groups():
     assert "capture group" in result["error"]
 
 
+def test_pattern_coverage_samples_spread_across_list():
+    """Unmatched samples should be spread evenly, not head-biased.
+
+    With 20 unmatched titles and a cap of 5, we should get titles
+    from positions 0, 4, 8, 12, 16 (spread), not 0-4 (head).
+    """
+    titles = [f"Title {i}" for i in range(20)]
+    result = _compute_pattern_coverage(titles, r"^Folge (\d+):")
+    assert result["matched"] == 0
+    samples = result["unmatched_regex_samples"]
+    assert len(samples) == 5
+    assert samples[0] == "Title 0"
+    assert samples[-1] == "Title 16"
+    assert samples != titles[:5]
+
+
 # ── episode_pattern prompt allows the None escape hatch ───────────────────
 
 

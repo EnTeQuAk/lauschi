@@ -83,6 +83,19 @@ def apply_episode_pattern(
     return out
 
 
+def _spread_sample(items: list, n: int) -> list:
+    """Pick up to ``n`` items spread evenly across ``items``.
+
+    Provider APIs return albums in a specific order (e.g. newest-first).
+    Taking the first N blinds the model to era-specific naming. Spreading
+    across the list surfaces early, middle, and late naming conventions.
+    """
+    if len(items) <= n:
+        return items
+    step = len(items) / n
+    return [items[int(i * step)] for i in range(n)]
+
+
 def compute_pattern_coverage(
     titles: list[str],
     pattern: str | list[str],
@@ -100,10 +113,9 @@ def compute_pattern_coverage(
     pattern matched but capture group 1 was non-numeric. The agent
     can read these and pick the right fix.
 
-    Used by curate's batch agent (to validate propose_pattern_update
-    proposals) and by review's propose_pattern_update tool (to
-    apply the same numeric-capture + coverage-floor contract there).
-    Lives in matcher.py so both consumers share one implementation.
+    Used by curate's metadata agent (check_pattern_coverage tool) and
+    the output_validator (coverage floor enforcement). Lives in
+    matcher.py so both consumers share one implementation.
     """
     patterns = [pattern] if isinstance(pattern, str) else list(pattern)
     if not patterns:
@@ -146,9 +158,9 @@ def compute_pattern_coverage(
 
         if outcome == "matched":
             matched += 1
-        elif outcome == "non_numeric" and len(non_numeric) < 5:
+        elif outcome == "non_numeric":
             non_numeric.append({"title": title, "captured": captured or ""})
-        elif outcome == "no_match" and len(no_match) < 5:
+        elif outcome == "no_match":
             no_match.append(title)
 
     total = len(titles)
@@ -158,6 +170,6 @@ def compute_pattern_coverage(
         "matched": matched,
         "total": total,
         "coverage": coverage,
-        "unmatched_regex_samples": no_match,
-        "non_numeric_capture_samples": non_numeric,
+        "unmatched_regex_samples": _spread_sample(no_match, 5),
+        "non_numeric_capture_samples": _spread_sample(non_numeric, 5),
     }
