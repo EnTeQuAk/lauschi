@@ -176,8 +176,8 @@ class AlbumDecision(BaseModel):
     exclude_reason: str | None = None
     # Populated after the agent returns, by joining (provider, album_id)
     # against the discovery-phase album list. Persisted in the curation
-    # JSON so the review and verify phases can render release_date in
-    # their prompts without re-fetching from the provider, and so the
+    # JSON so the audit phase can render release_date in its prompt
+    # without re-fetching from the provider, and so the
     # release-order strategy (when enabled) has the data it needs.
     release_date: str | None = None
     confidence: Literal["high", "medium", "low"] = "high"
@@ -248,7 +248,7 @@ class CuratedSeries(BaseModel):
     content_type: Literal["hoerspiel", "music", "audiobook"] = "hoerspiel"
     # Structured facts discovered from the discography: era_boundaries,
     # known_gaps, sub_series. Proposed by curate (finalize agent), may be
-    # overridden by review, flagged by verify, frozen into series.yaml.
+    # audited by a second model (4-eye), then frozen into series.yaml.
     # Always present — empty lists mean "no facts discovered".
     series_facts: SeriesFacts = Field(default_factory=SeriesFacts)
     # True when a provider failed during discovery or returned zero
@@ -1161,8 +1161,8 @@ async def _run_large(
 
         # Hydrate release_date from the discovery dict — the agent
         # doesn't (and shouldn't) echo this field, but we want it on
-        # every decision so review/verify renders dates in their
-        # prompts without re-fetching.
+        # every decision so audit renders dates in its prompt without
+        # re-fetching.
         batch_index = {(a["provider"], a["id"]): a for a in batch}
         for a in result.albums:
             src = batch_index.get((a.provider, a.album_id))
@@ -1246,7 +1246,7 @@ async def _run_large(
                     (ep, d.title, d.release_date or "?"),
                 )
             era_evidence_lines.append(
-                "### Batch-phase era evidence (review before proposing facts)",
+                "### Batch-phase era evidence (consider before proposing facts)",
             )
             era_evidence_lines.append(
                 "The batch phase flagged the following albums as era "
@@ -1444,8 +1444,6 @@ async def _run_large(
         # Re-extract episode numbers with the final pattern (post-finalize)
         final_pattern = shared_deps.pattern
         if shared_deps.pattern_revisions and final_pattern is not None:
-            from lauschi_catalog.catalog.matcher import extract_episode
-
             re_extracted = _reextract_episode_numbers(all_decisions, final_pattern)
             if re_extracted:
                 console.print(
@@ -1543,13 +1541,11 @@ async def run_curation(
 def save_curation(series: CuratedSeries) -> Path:
     """Persist curate's findings into the curation JSON.
 
-    The JSON file is canonical state shared across pipeline steps —
-    curate, review, verify each own specific subkeys. This function
-    reads the existing file (if any) and overwrites only the
-    curate-owned fields (id, title, episode_pattern, albums, etc.).
-    Anything we don't touch — review block, future fields owned by
-    other pipeline steps — is naturally preserved. Same pattern
-    save_review uses on its side.
+    The JSON file is canonical state shared across pipeline steps.
+    This function reads the existing file (if any) and overwrites
+    only curate-owned fields (id, title, episode_pattern, albums,
+    etc.). Anything we don't touch (review/audit block, future
+    fields) is naturally preserved.
     """
     path = CURATION_DIR / f"{series.id}.json"
 
@@ -1559,8 +1555,8 @@ def save_curation(series: CuratedSeries) -> Path:
             data = json.loads(path.read_text())
         except (OSError, json.JSONDecodeError) as exc:
             # Don't silently overwrite an existing-but-unparseable file.
-            # The risk: if the JSON had an approved review block (human
-            # curation work) and got partially corrupted, restarting
+            # The risk: if the JSON had an approved audit block and
+            # got partially corrupted, restarting
             # from data={} would discard that work on the next save.
             # Surface loudly and abort; the user can inspect, repair,
             # or move the file aside before re-running.
@@ -1568,29 +1564,28 @@ def save_curation(series: CuratedSeries) -> Path:
                 f"[red]Refusing to overwrite unreadable curation file[/red]\n"
                 f"  Path: {path}\n"
                 f"  Error: {type(exc).__name__}: {exc}\n"
-                f"  This file may contain approved review state. "
+                f"  This file may contain approved audit state. "
                 f"Inspect it before re-curating; rename/remove the file "
                 f"if you intend to start fresh.",
             )
             raise SystemExit(1)
 
     # If the album list changed substantively (different count or IDs),
-    # action proposals in the review block reference stale album IDs.
-    # Clear them so the next review starts from a clean slate.
+    # audit overrides reference stale album IDs. Clear them so the
+    # next audit starts from a clean slate.
     old_albums = data.get("albums", [])
     new_album_ids = {a.album_id for a in series.albums}
     old_album_ids = {a.get("album_id") for a in old_albums if a.get("album_id")}
     if old_album_ids and new_album_ids != old_album_ids:
         review = data.get("review", {})
         if review:
-            for key in ("overrides", "splits", "added_albums", "pattern_update"):
+            for key in ("overrides", "concerns", "fact_updates"):
                 review.pop(key, None)
-            # Reset verification too since review state changed
-            review.pop("verification", None)
+            review.pop("status", None)
             data["review"] = review
         console.print(
             f"  [yellow]Album set changed ({len(old_album_ids)} → {len(new_album_ids)}). "
-            f"Cleared stale review action proposals.[/yellow]"
+            f"Cleared stale audit state.[/yellow]"
         )
 
     data.update({
@@ -1668,7 +1663,7 @@ def print_summary(series: CuratedSeries):
         for a in excluded[:5]:
             console.print(f"  [dim]{a.provider}: {a.title} — {a.exclude_reason}[/dim]")
 
-    console.print(f"\n[dim]Review with: mise run catalog-review-ai -- {series.id}[/]")
+    console.print(f"\n[dim]Audit with: mise run catalog-audit -- {series.id}[/]")
 
 
 # ── CLI ────────────────────────────────────────────────────────────────────

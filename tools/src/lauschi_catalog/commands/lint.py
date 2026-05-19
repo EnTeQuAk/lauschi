@@ -1,12 +1,11 @@
 """Deterministic lint checks for curation correctness.
 
-Runs after review, before verify. Uses series_facts (era_boundaries,
-known_gaps, etc.) to catch structural invariants. The goal is to catch
-known failure modes deterministically so verify can focus on genuinely
-novel inconsistencies.
+Runs standalone, as part of the pipeline, and as a tool inside the
+curate finalize agent for self-correction. Uses series_facts
+(era_boundaries, known_gaps, etc.) to catch structural invariants.
 
 Lint rules are generic (apply to every Hörspiel series). Per-series
-facts (discovered by curate, confirmed by verify/human) guide the
+facts (discovered by curate, audited by a second model) guide the
 checks so they don't fire false positives on documented quirks.
 """
 

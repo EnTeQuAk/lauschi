@@ -1,10 +1,10 @@
-"""Tests for curate.save_curation, focused on review-block preservation.
+"""Tests for curate.save_curation.
 
-The bug this guards against: a re-curate (e.g., pipeline pulling fresh
-albums from providers) used to overwrite the curation file with a flat
-dict that had no ``review`` key, wiping every prior override, split,
-decision, status, and verification. Now save_curation reads the
-existing file and carries the review block through the rewrite.
+Guards against re-curation silently overwriting audit state or
+unrelated keys in the curation JSON. save_curation reads the
+existing file, overwrites curate-owned fields, and preserves
+everything else. When the album set changes, stale audit state
+(overrides, concerns) is cleared since it references old album IDs.
 """
 
 from __future__ import annotations
@@ -91,7 +91,8 @@ def test_save_curation_preserves_existing_review_block(curation_dir: Path):
 
 
 def test_save_curation_replaces_curate_owned_fields(curation_dir: Path):
-    """Curate-side fields (title, albums, etc.) get the new values."""
+    """Curate-side fields (title, albums, etc.) get the new values.
+    When album IDs change, stale audit state is cleared."""
     _write_existing(curation_dir, "test_series", review={"status": "approved"})
 
     save_curation(_series("test_series"))
@@ -100,7 +101,7 @@ def test_save_curation_replaces_curate_owned_fields(curation_dir: Path):
     assert saved["title"] == "Test Series"  # new
     assert saved["albums"][0]["album_id"] == "a"  # new
     assert "old" not in str(saved["albums"])  # old replaced
-    assert saved["review"]["status"] == "approved"  # review preserved
+    assert "status" not in saved.get("review", {})  # stale audit cleared
 
 
 def test_save_curation_preserves_unrelated_keys(curation_dir: Path):
