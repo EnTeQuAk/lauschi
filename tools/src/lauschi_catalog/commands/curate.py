@@ -329,50 +329,26 @@ class SeriesMetadata(BaseModel):
 # ── Agent dependencies ─────────────────────────────────────────────────────
 
 @dataclass
-class Deps:
-    providers: list[CatalogProvider]
-    seen_albums: dict[str, list[dict]] = field(default_factory=dict)
-    seen_details: dict[str, dict] = field(default_factory=dict)
-    _search_count: int = field(default=0, init=False)
-    _MAX_SEARCHES: int = 2
+class CurateDeps:
+    """Shared dependency container for all curate-phase agents.
 
-
-@dataclass
-class BatchDeps:
-    providers: list[CatalogProvider]
-    seen_details: dict[str, dict] = field(default_factory=dict)
-    # Pattern starts at whatever the metadata phase decided. The finalize
-    # agent (post-batch) can revise it via propose_pattern_update when
-    # track listings reveal a systematic format the metadata phase
-    # missed. The final pattern is used to re-extract episode_num across
-    # every decision at the end of the run.
-    pattern: str | list[str] | None = None
-    pattern_revisions: list[str | list[str]] = field(default_factory=list)
-    # All discovery-phase titles, carried so the finalize agent's
-    # propose_pattern_update tool can verify that a proposed regex
-    # actually captures digits before accepting it. Without this, the
-    # agent could propose `^(.+?) \(...\)$` (capturing story names,
-    # not numbers) and silently install a dead pattern.
-    titles: list[str] = field(default_factory=list)
-
-
-@dataclass
-class FinalizeDeps:
-    """Deps for the metadata-finalization agent.
-
-    Carries cached album details from the batch phase so the
-    finalize agent can inspect track listings without re-fetching.
-    Also carries existing frozen facts (from series.yaml) so the
-    agent only proposes genuinely new ones.
+    One dataclass serves metadata, batch, and finalize agents. Each
+    agent only accesses the fields it needs; unused fields carry
+    zero cost. This keeps the codebase simple and prevents drift
+    between parallel dependency shapes.
     """
 
-    providers: list[CatalogProvider]
+    providers: list[CatalogProvider] = field(default_factory=list)
+    seen_albums: dict[str, list[dict]] = field(default_factory=dict)
     seen_details: dict[str, dict] = field(default_factory=dict)
     pattern: str | list[str] | None = None
+    pattern_revisions: list[str | list[str]] = field(default_factory=list)
     titles: list[str] = field(default_factory=list)
     existing_facts: SeriesFacts = field(default_factory=SeriesFacts)
     proposed_facts: SeriesFacts | None = field(default=None, init=False)
     all_decisions: list[AlbumDecision] = field(default_factory=list)
+    _pattern_check_count: int = field(default=0, init=False)
+    _MAX_PATTERN_CHECKS: int = 5
 
 
 class EpisodeUpdate(BaseModel):
@@ -413,19 +389,6 @@ class FinalizeResult(BaseModel):
         default=None,
         description="If track listings reveal a systematic new format not caught by the current pattern, propose an updated regex. Null if no change needed.",
     )
-
-
-@dataclass
-class MetadataDeps:
-    """Deps for the metadata-extraction agent.
-
-    Carries the full discography titles so the agent's
-    check_pattern_coverage tool can score a proposed episode_pattern
-    against every album, not just the sample in the prompt.
-    """
-    titles: list[str]
-    _pattern_check_count: int = field(default=0, init=False)
-    _MAX_PATTERN_CHECKS: int = 5
 
 
 def _stratified_sample(items: list, n: int) -> list:
@@ -509,7 +472,7 @@ def _dry_run_prompts(query: str, content_type: str = "hoerspiel", discography_sp
 
 def _build_metadata_agent(
     model, *, model_name: str = "", content_type: str = "hoerspiel", discography_span_years: int | None = None,
-) -> Agent[MetadataDeps, SeriesMetadata]:
+) -> Agent[CurateDeps, SeriesMetadata]:
     """Metadata-extraction agent.
 
     For Hörspiel series, the agent must call check_pattern_coverage
@@ -525,7 +488,7 @@ def _build_metadata_agent(
     instruction.
     """
     system_prompt = load_curate_skill(phase="metadata", content_type=content_type, discography_span_years=discography_span_years)
-    agent: Agent[MetadataDeps, SeriesMetadata] = Agent(
+    agent: Agent[CurateDeps, SeriesMetadata] = Agent(
         model,
         output_type=SeriesMetadata,
         system_prompt=system_prompt,
@@ -537,7 +500,7 @@ def _build_metadata_agent(
         return agent
 
     @agent.output_validator
-    def _validate_metadata(ctx: RunContext[MetadataDeps], meta: SeriesMetadata) -> SeriesMetadata:
+    def _validate_metadata(ctx: RunContext[CurateDeps], meta: SeriesMetadata) -> SeriesMetadata:
         """Post-output validation: ensure the agent tested its pattern."""
         if ctx.deps._pattern_check_count == 0:
             raise ModelRetry(
@@ -585,7 +548,7 @@ def _build_metadata_agent(
 
     @agent.tool
     def check_pattern_coverage(
-        ctx: RunContext[MetadataDeps],
+        ctx: RunContext[CurateDeps],
         pattern: str | list[str],
     ) -> PatternCoverageReport:
         """Test a proposed episode_pattern against ALL discovered titles.
@@ -641,10 +604,10 @@ def _build_metadata_agent(
     return agent
 
 
-def _build_batch_agent(model, *, model_name: str = "", content_type: str = "hoerspiel", discography_span_years: int | None = None) -> Agent[BatchDeps, BatchResult]:
+def _build_batch_agent(model, *, model_name: str = "", content_type: str = "hoerspiel", discography_span_years: int | None = None) -> Agent[CurateDeps, BatchResult]:
     """Agent for processing one batch of albums."""
     system_prompt = load_curate_skill(phase="batch", content_type=content_type, discography_span_years=discography_span_years)
-    agent: Agent[BatchDeps, BatchResult] = Agent(
+    agent: Agent[CurateDeps, BatchResult] = Agent(
         model,
         output_type=BatchResult,
         system_prompt=system_prompt,
@@ -655,7 +618,7 @@ def _build_batch_agent(model, *, model_name: str = "", content_type: str = "hoer
     return agent
 
 
-def _build_finalize_agent(model, *, model_name: str = "", content_type: str = "hoerspiel", discography_span_years: int | None = None) -> Agent[FinalizeDeps, FinalizeResult]:
+def _build_finalize_agent(model, *, model_name: str = "", content_type: str = "hoerspiel", discography_span_years: int | None = None) -> Agent[CurateDeps, FinalizeResult]:
     """Agent for post-batch metadata finalization.
 
     Re-examines included albums that lack episode numbers by looking
@@ -664,7 +627,7 @@ def _build_finalize_agent(model, *, model_name: str = "", content_type: str = "h
     current pattern.
     """
     system_prompt = load_curate_skill(phase="finalize", content_type=content_type, discography_span_years=discography_span_years)
-    agent: Agent[FinalizeDeps, FinalizeResult] = Agent(
+    agent: Agent[CurateDeps, FinalizeResult] = Agent(
         model,
         output_type=FinalizeResult,
         system_prompt=system_prompt,
@@ -674,7 +637,7 @@ def _build_finalize_agent(model, *, model_name: str = "", content_type: str = "h
 
     @agent.tool
     def get_album_details(
-        ctx: RunContext[FinalizeDeps], provider: str, album_ids: list[str],
+        ctx: RunContext[CurateDeps], provider: str, album_ids: list[str],
     ) -> list[dict]:
         """Fetch full album details (track listing) from a provider."""
         results = []
@@ -708,7 +671,7 @@ def _build_finalize_agent(model, *, model_name: str = "", content_type: str = "h
 
     @agent.tool
     def propose_pattern_update(
-        ctx: RunContext[FinalizeDeps],
+        ctx: RunContext[CurateDeps],
         patterns: list[str],
     ) -> str:
         """Propose an updated episode_pattern regex.
@@ -748,7 +711,7 @@ def _build_finalize_agent(model, *, model_name: str = "", content_type: str = "h
 
     @agent.tool
     def lint_current_curation(
-        ctx: RunContext[FinalizeDeps],
+        ctx: RunContext[CurateDeps],
     ) -> list[str]:
         """Run deterministic structural checks on the current curation.
 
@@ -789,7 +752,7 @@ def _build_finalize_agent(model, *, model_name: str = "", content_type: str = "h
 
     @agent.tool
     def propose_series_facts(
-        ctx: RunContext[FinalizeDeps],
+        ctx: RunContext[CurateDeps],
         era_boundaries: list[EraBoundaryProposal] = [],
         known_gaps: list[KnownGapProposal] = [],
         sub_series: list[SubSeriesProposal] = [],
@@ -1071,7 +1034,7 @@ async def _run_large(
     provider_list = ", ".join(f"{k}: {v}" for k, v in artist_ids.items())
 
     metadata_agent = _build_metadata_agent(model, model_name=model_name, content_type=content_type, discography_span_years=discography_span_years)
-    meta_deps = MetadataDeps(titles=all_titles)
+    meta_deps = CurateDeps(titles=all_titles)
     # Sample lines carry release_date and total_tracks alongside the
     # title. Title alone tells half the story for series where streaming
     # stripped the "Folge N:" prefix — release_date order can hint at
@@ -1125,7 +1088,7 @@ async def _run_large(
     # final pattern. Without sharing, each batch starts fresh and the
     # signal is thrown away (the whole reason the previous run
     # silently dropped 250+ ddF episode numbers).
-    shared_deps = BatchDeps(
+    shared_deps = CurateDeps(
         providers=providers,
         pattern=meta.episode_pattern,
         titles=all_titles,
@@ -1424,7 +1387,7 @@ async def _run_large(
                     f"\n".join(lines)
                 )
             finalize_prompt = "\n".join(prompt_parts)
-            finalize_deps = FinalizeDeps(
+            finalize_deps = CurateDeps(
                 providers=providers,
                 seen_details=shared_deps.seen_details,
                 pattern=shared_deps.pattern,
