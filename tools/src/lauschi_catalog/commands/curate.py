@@ -25,7 +25,7 @@ from typing import Literal
 
 import click
 from pydantic import BaseModel, Field, field_validator, model_validator
-from pydantic_ai import Agent, RunContext
+from pydantic_ai import Agent, ModelRetry, RunContext
 from lauschi_catalog._opencode import build_mistral_model, build_opencode_model
 from pydantic_ai.usage import UsageLimits
 from rich import box
@@ -38,11 +38,7 @@ from lauschi_catalog.catalog.canonical import canonicalize
 from lauschi_catalog.prompts import load_curate_skill
 
 
-class PatternCheckError(Exception):
-    """Raised when the metadata agent returns an episode_pattern that
-    fails the coverage check or was never verified. The orchestrator
-    catches this and re-runs the metadata phase with corrective
-    guidance in the prompt."""
+
 
 
 from lauschi_catalog.catalog.facts import (
@@ -501,6 +497,33 @@ def _build_metadata_agent(
     if content_type in ("music", "audiobook"):
         return agent
 
+    @agent.output_validator
+    def _validate_metadata(ctx: RunContext[MetadataDeps], meta: SeriesMetadata) -> SeriesMetadata:
+        """Post-output validation: ensure the agent tested its pattern."""
+        if ctx.deps._pattern_check_count == 0:
+            raise ModelRetry(
+                "You must call check_pattern_coverage with your proposed "
+                "episode_pattern before returning. If titles genuinely carry "
+                "no episode numbers, set episode_pattern=None.",
+            )
+        if meta.episode_pattern:
+            from lauschi_catalog.catalog.matcher import extract_episode
+            matched = sum(
+                1 for t in ctx.deps.titles
+                if extract_episode(meta.episode_pattern, t) is not None
+            )
+            total = len(ctx.deps.titles)
+            coverage = matched / total if total else 0
+            if coverage < 0.3:
+                raise ModelRetry(
+                    f"Coverage only {coverage:.0%} ({matched}/{total}). "
+                    f"Legitimate episodes are being missed. Add a new regex "
+                    f"pattern that matches the unmatched titles, or set "
+                    f"episode_pattern=None if this series truly has no "
+                    f"numbered episodes.",
+                )
+        return meta
+
     @agent.tool
     def check_pattern_coverage(
         ctx: RunContext[MetadataDeps],
@@ -954,76 +977,24 @@ async def _run_large(
         f" | {a.get('release_date') or '?'}"
         for a in sample_albums
     )
-    # ── Metadata with pattern hard-check retry ───────────────────────
-    meta: SeriesMetadata | None = None
-    for meta_attempt in range(1, 3):
-        meta_deps._pattern_check_count = 0  # reset per attempt
-        meta = await _run_with_retry(
-            lambda: asyncio.wait_for(
-                _run_agent(
-                    metadata_agent,
-                    f"Series: {query!r}\nProviders: {provider_list}\n"
-                    f"Sample albums (title | tracks | release_date):\n"
-                    f"{sample_lines}",
-                    deps=meta_deps,
-                ),
-                timeout=1200,
+    # ── Metadata extraction (with output validator for pattern check) ──
+    meta = await _run_with_retry(
+        lambda: asyncio.wait_for(
+            _run_agent(
+                metadata_agent,
+                f"Series: {query!r}\nProviders: {provider_list}\n"
+                f"Sample albums (title | tracks | release_date):\n"
+                f"{sample_lines}",
+                deps=meta_deps,
             ),
-            phase="metadata",
-            model_name=model_name,
-        )
-        # Ensure artist IDs are in metadata
-        if not meta.provider_artist_ids:
-            meta.provider_artist_ids = artist_ids
-
-        if meta.episode_pattern and content_type not in ("music", "audiobook"):
-            from lauschi_catalog.catalog.matcher import extract_episode
-
-            matched = sum(
-                1 for t in all_titles if extract_episode(meta.episode_pattern, t) is not None
-            )
-            coverage = matched / len(all_titles) if all_titles else 0
-            if meta_deps._pattern_check_count == 0:
-                console.print(
-                    f"  [red]✗ Agent never called check_pattern_coverage "
-                    f"(attempt {meta_attempt}/2). "
-                    f"Retrying with corrective prompt.[/]",
-                )
-                # Inject reminder into prompt for next attempt
-                sample_lines += (
-                    "\n\n⚠️ REQUIRED: Call check_pattern_coverage with your "
-                    "proposed episode_pattern before returning."
-                )
-                if meta_attempt < 2:
-                    continue
-                raise PatternCheckError(
-                    "Metadata agent never called check_pattern_coverage "
-                    "after 2 attempts. Pattern cannot be trusted.",
-                )
-            if coverage < 0.3:
-                console.print(
-                    f"  [red]✗ Pattern coverage {matched}/{len(all_titles)} = "
-                    f"{coverage:.0%} < 30% (attempt {meta_attempt}/2). "
-                    f"Retrying with corrective prompt.[/]",
-                )
-                # Inject coverage data into prompt for next attempt
-                unmatched = [
-                    t for t in all_titles if extract_episode(meta.episode_pattern, t) is None
-                ][:8]
-                sample_lines += (
-                    f"\n\n⚠️ Coverage check failed: only {coverage:.0%} of "
-                    f"{len(all_titles)} titles matched. Unmatched examples:\n"
-                    + "\n".join(f"  - {t[:80]}" for t in unmatched)
-                    + "\n\nAdd alternations or set episode_pattern=None for "
-                    "named episodes."
-                )
-                if meta_attempt < 2:
-                    continue
-                raise PatternCheckError(
-                    f"Pattern coverage {coverage:.0%} below 30% threshold "
-                    "after 2 attempts. Series may use named episodes.",
-                )
-        break
+            timeout=1200,
+        ),
+        phase="metadata",
+        model_name=model_name,
+    )
+    # Ensure artist IDs are in metadata
+    if not meta.provider_artist_ids:
+        meta.provider_artist_ids = artist_ids
 
     assert meta is not None
 
