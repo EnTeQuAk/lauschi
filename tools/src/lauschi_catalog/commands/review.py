@@ -18,6 +18,7 @@ from dataclasses import dataclass, field
 from datetime import UTC, datetime
 from enum import StrEnum
 from pathlib import Path
+from typing import Literal
 
 import click
 
@@ -53,10 +54,13 @@ _RETRY_DELAY = 5
 
 # ── Output models ──────────────────────────────────────────────────────────
 
+Provider = Literal["spotify", "apple_music"]
+
+
 class ReviewOverride(BaseModel):
     album_id: str
-    provider: str
-    action: str  # "exclude" or "include"
+    provider: Provider
+    action: Literal["exclude", "include"]
     reason: str
 
 
@@ -64,7 +68,7 @@ class SplitProposal(BaseModel):
     new_series_id: str
     new_series_title: str
     album_ids: list[str]
-    provider: str
+    provider: Provider
     reason: str
 
 
@@ -85,7 +89,7 @@ class RemovalProposal(BaseModel):
 
 class AddedAlbum(BaseModel):
     album_id: str
-    provider: str
+    provider: Provider
     title: str
     episode_num: int | None = Field(
         description="Episode number extracted from the title via the series "
@@ -635,7 +639,7 @@ def _build_agent(
     @agent.tool
     def add_album(
         ctx: RunContext[Deps],
-        provider_name: str,
+        provider_name: Provider,
         album_id: str,
         evidence_url: str,
     ) -> str:
@@ -698,8 +702,8 @@ def _build_agent(
     def propose_override(
         ctx: RunContext[Deps],
         album_id: str,
-        provider: str,
-        action: str,
+        provider: Provider,
+        action: Literal["exclude", "include"],
         reason: str,
     ) -> str:
         """Propose excluding (or including) one album from the curation.
@@ -748,7 +752,7 @@ def _build_agent(
     def propose_overrides_batch(
         ctx: RunContext[Deps],
         album_ids: list[str],
-        action: str,
+        action: Literal["exclude", "include"],
         reason: str,
     ) -> str:
         """Propose the same override (exclude/include) on many albums at once.
@@ -821,7 +825,7 @@ def _build_agent(
         new_series_id: str,
         new_series_title: str,
         album_ids: list[str],
-        provider: str,
+        provider: Provider,
         reason: str,
     ) -> str:
         """Propose moving a group of albums to a new series entry.
