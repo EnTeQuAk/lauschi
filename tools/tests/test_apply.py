@@ -298,28 +298,13 @@ def test_should_apply_allows_approved():
     assert _should_apply(data, force=False) is None
 
 
-def test_should_apply_refuses_stale_review():
+def test_should_apply_refuses_stale_audit():
     data = {
         "review": {
             "status": "approved",
-            "reviewed_at": "2026-01-01T00:00:00+00:00",
+            "audited_at": "2026-01-01T00:00:00+00:00",
         },
         "curated_at": "2026-02-01T00:00:00+00:00",
-    }
-    assert _should_apply(data, force=False) is not None
-    assert "stale" in _should_apply(data, force=False)
-
-
-def test_should_apply_refuses_stale_verification():
-    data = {
-        "review": {
-            "status": "approved",
-            "reviewed_at": "2026-02-01T00:00:00+00:00",
-            "verification": {
-                "verified_at": "2026-01-01T00:00:00+00:00",
-            },
-        },
-        "curated_at": "2026-01-01T00:00:00+00:00",
     }
     assert _should_apply(data, force=False) is not None
     assert "stale" in _should_apply(data, force=False)

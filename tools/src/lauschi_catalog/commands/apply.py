@@ -216,16 +216,13 @@ def _should_apply(data: dict, force: bool) -> str | None:
         if cur_status == "escalated":
             return (
                 "refusing to apply — status is 'escalated' "
-                "(verify found incoherent output). Resolve via catalog-review, "
-                "or use --force to override."
+                "(audit flagged significant problems). Resolve via "
+                "catalog-review, or use --force to override."
             )
-        # ai_verified means verify approved but flagged some facts.
-        # That's fine to apply — the facts are in the JSON for human
-        # review but the album decisions are sound.
         if cur_status not in ("approved", "ai_verified"):
             return (
                 f"refusing to apply — status is '{cur_status}' "
-                f"(run verify first). Use --force to override."
+                f"(run audit first). Use --force to override."
             )
     return None
 
@@ -241,7 +238,7 @@ def _should_apply(data: dict, force: bool) -> str | None:
 @click.option(
     "--force",
     is_flag=True,
-    help="Skip the lifecycle staleness check (apply even if review or verify is stale)",
+    help="Skip the lifecycle staleness check (apply even if audit is stale)",
 )
 def apply(series_id: str | None, run_all: bool, status: str, dry_run: bool, force: bool):
     """Apply approved curations to series.yaml.

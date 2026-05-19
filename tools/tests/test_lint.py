@@ -123,7 +123,7 @@ class TestLintDuplicateDetection:
             ],
             "series_facts": {
                 "era_boundaries": [
-                    {"label": "modern", "release_date_range": "2019-2022", "discovered_by": "curate"},
+                    {"label": "modern", "release_date_range": "2019-2022", "curated_by": "curate"},
                 ],
             },
         }
