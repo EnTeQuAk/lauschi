@@ -13,10 +13,13 @@ Remove once pydantic-ai natively supports this.
 
 from __future__ import annotations
 
+import logging
 from typing import Any
 
 from pydantic_ai.models.mistral import MistralModel
 from pydantic_ai.settings import ModelSettings
+
+logger = logging.getLogger(__name__)
 
 _THINKING_TO_REASONING_EFFORT: dict[str | bool | None, str | None] = {
     True: "high",
@@ -28,6 +31,41 @@ _THINKING_TO_REASONING_EFFORT: dict[str | bool | None, str | None] = {
     "low": "none",
     "minimal": "none",
 }
+
+
+def _log_payload(kwargs: dict[str, Any]) -> None:
+    """Log key fields of the outbound Mistral API payload for debugging.
+
+    Truncates message content to avoid spam; records tool presence,
+    response_format, and reasoning_effort.
+    """
+    safe: dict[str, Any] = {}
+    for k, v in kwargs.items():
+        if k == "messages" and isinstance(v, list):
+            safe["messages_count"] = len(v)
+            safe["messages"] = [
+                {
+                    "role": m.get("role") if isinstance(m, dict) else getattr(m, "role", None),
+                    "content_preview": (
+                        (m.get("content", "")[:200] + "…")
+                        if isinstance(m, dict) else
+                        (str(getattr(m, "content", ""))[:200] + "…")
+                    ),
+                }
+                for m in v[:3]
+            ]
+        elif k == "tools" and v:
+            safe["tools_count"] = len(v)
+            safe["tool_names"] = [
+                t.get("function", {}).get("name") if isinstance(t, dict) else getattr(t, "name", None)
+                for t in (v[:5] if isinstance(v, list) else [])
+            ]
+        elif k == "response_format" and v:
+            safe["response_format"] = v
+        else:
+            safe[k] = v
+    logger.debug("Mistral outbound payload: %s", safe)
+    print(f"[MISTRAL PAYLOAD] {safe}", flush=True)
 
 
 def _resolve_reasoning_effort(model_settings: ModelSettings | None) -> str | None:
@@ -55,11 +93,13 @@ class _ChatProxy:
     async def complete_async(self, *args: Any, **kwargs: Any) -> Any:
         if self._reasoning_effort is not None:
             kwargs["reasoning_effort"] = self._reasoning_effort
+        _log_payload(kwargs)
         return await self._underlying.complete_async(*args, **kwargs)
 
     async def stream_async(self, *args: Any, **kwargs: Any) -> Any:
         if self._reasoning_effort is not None:
             kwargs["reasoning_effort"] = self._reasoning_effort
+        _log_payload(kwargs)
         return await self._underlying.stream_async(*args, **kwargs)
 
     def __getattr__(self, name: str) -> Any:

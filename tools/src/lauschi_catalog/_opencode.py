@@ -29,15 +29,15 @@ _DEFAULT_VERIFY = ModelSettings(temperature=0.0, seed=42)
 # Use this to tune per-model behavior as we discover what each model
 # needs. Format: {prefix: {phase: ModelSettings(...)}}.
 _OVERRIDES: dict[str, dict[str, ModelSettings]] = {
-    # Mistral Small 4 needs reasoning_effort="high" for complex analytical
-    # tasks (pattern construction, era discovery). Proven insufficient for
-    # curation quality on Biene Maja, but the mechanism is correct.
-    # See https://github.com/pydantic/pydantic-ai/issues/5285
+    # Mistral Small 4: experimentation shows pattern induction (regex
+    # construction) is the capability gap, not reasoning. Higher
+    # temperature improves calibration but doesn't fix regex abstraction.
+    # See model-comparison.md for full analysis.
     "mistral-small-2603": {
-        "curate": ModelSettings(temperature=0.0, seed=42, thinking="high"),
-        "finalize": ModelSettings(temperature=0.1, seed=42, thinking="high"),
-        "review": ModelSettings(temperature=0.1, seed=42, thinking="high"),
-        "verify": ModelSettings(temperature=0.0, seed=42),
+        "curate": ModelSettings(temperature=0.0, seed=42, extra_body={"reasoning_effort": "none"}),
+        "finalize": ModelSettings(temperature=0.1, seed=42, extra_body={"reasoning_effort": "none"}),
+        "review": ModelSettings(temperature=0.1, seed=42, extra_body={"reasoning_effort": "none"}),
+        "verify": ModelSettings(temperature=0.0, seed=42, extra_body={"reasoning_effort": "none"}),
     },
 }
 
