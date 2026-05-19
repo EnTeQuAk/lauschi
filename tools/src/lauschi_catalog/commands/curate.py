@@ -31,6 +31,7 @@ from rich.markup import escape
 from rich.panel import Panel
 from rich.table import Table
 
+from lauschi_catalog.catalog.analysis import analyze_series
 from lauschi_catalog.catalog.canonical import canonicalize
 from lauschi_catalog.prompts import load_curate_skill
 
@@ -1257,6 +1258,52 @@ async def _run_large(
                     era_evidence_lines.append(f"    ep {ep} | {date} | {title}")
             era_evidence_lines.append("")
 
+        # Pre-compute structural analysis to feed into finalize. The
+        # agent can spot duplicates/gaps/asymmetries itself, but
+        # deterministic analysis prevents hallucinated structural
+        # "findings" and grounds the agent's reasoning.
+        analysis_lines: list[str] = []
+        if all_decisions:
+            partial_curation = {
+                "albums": [
+                    {
+                        "album_id": d.album_id,
+                        "provider": d.provider,
+                        "include": d.include,
+                        "title": d.title,
+                        "episode_num": d.episode_num,
+                        "release_date": d.release_date,
+                    }
+                    for d in all_decisions
+                ],
+                "episode_pattern": shared_deps.pattern,
+            }
+            analysis = analyze_series(partial_curation)
+            if analysis.get("gaps"):
+                analysis_lines.append(
+                    f"Gaps: {analysis['gap_count']} missing episodes "
+                    f"({analysis['gaps'][:10]}{'…' if analysis['gap_count'] > 10 else ''})"
+                )
+            if analysis.get("duplicates_within_provider"):
+                for prov, eps in analysis["duplicates_within_provider"].items():
+                    analysis_lines.append(
+                        f"Duplicates on {prov}: episodes {sorted(eps)}"
+                    )
+            if analysis.get("cross_provider_coverage"):
+                for prov, cov in analysis["cross_provider_coverage"].items():
+                    if cov.get("missing"):
+                        analysis_lines.append(
+                            f"{prov} missing: {cov['missing'][:10]}{'…' if len(cov['missing']) > 10 else ''}"
+                        )
+            if analysis.get("outliers"):
+                analysis_lines.append(
+                    f"Outlier title shapes: {len(analysis['outliers'])}"
+                )
+            if analysis.get("pattern_coverage") is not None:
+                analysis_lines.append(
+                    f"Pattern coverage: {analysis['pattern_coverage']:.0%}"
+                )
+
         # Run finalize whenever there is EITHER unnumbered albums OR era
         # evidence. Facts discovery should not be gated on episode-number
         # gaps alone — eras can be fully numbered and still need
@@ -1324,6 +1371,11 @@ async def _run_large(
                 "",
                 "\n".join(era_evidence_lines),
             ]
+            if analysis_lines:
+                prompt_parts.append(
+                    "### Structural analysis (deterministic)\n"
+                    + "\n".join(analysis_lines)
+                )
             if unnumbered:
                 prompt_parts.append(
                     f"Included albums missing episode numbers ({len(unnumbered)} total):\n"
