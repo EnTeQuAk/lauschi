@@ -372,6 +372,7 @@ class FinalizeDeps:
     titles: list[str] = field(default_factory=list)
     existing_facts: SeriesFacts = field(default_factory=SeriesFacts)
     proposed_facts: SeriesFacts | None = field(default=None, init=False)
+    all_decisions: list[AlbumDecision] = field(default_factory=list)
 
 
 class EpisodeUpdate(BaseModel):
@@ -744,6 +745,47 @@ def _build_finalize_agent(model, *, model_name: str = "", content_type: str = "h
             f"  [cyan]🔄 finalize propose_pattern_update → {new_pattern}[/]",
         )
         return f"Pattern updated to {new_pattern}."
+
+    @agent.tool
+    def lint_current_curation(
+        ctx: RunContext[FinalizeDeps],
+    ) -> list[str]:
+        """Run deterministic structural checks on the current curation.
+
+        Call this AFTER proposing facts or episode numbers to catch
+        structural issues the batch phase may have missed: duplicate
+        episodes per era, unconfirmed facts, pattern coverage gaps,
+        cross-provider asymmetry, etc.
+
+        Returns a list of human-readable issue strings. Empty list
+        means no issues found.
+        """
+        # Build a partial curation dict from current state
+        partial_curation = {
+            "albums": [
+                {
+                    "album_id": d.album_id,
+                    "provider": d.provider,
+                    "include": d.include,
+                    "title": d.title,
+                    "episode_num": d.episode_num,
+                    "release_date": d.release_date,
+                }
+                for d in ctx.deps.all_decisions
+            ],
+            "episode_pattern": ctx.deps.pattern,
+            "series_facts": (
+                ctx.deps.proposed_facts.model_dump()
+                if ctx.deps.proposed_facts else None
+            ),
+        }
+        from lauschi_catalog.commands.lint import lint_curation
+        issues = lint_curation(partial_curation)
+        if issues:
+            console.print(
+                f"  [yellow]⚠ Finalize lint: {len(issues)} issue(s)[/]"
+            )
+        return issues
 
     @agent.tool
     def propose_series_facts(
@@ -1388,6 +1430,7 @@ async def _run_large(
                 pattern=shared_deps.pattern,
                 titles=all_titles,
                 existing_facts=existing_facts,
+                all_decisions=all_decisions,
             )
             try:
                 finalize_result: FinalizeResult = await _run_with_retry(
