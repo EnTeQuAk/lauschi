@@ -51,7 +51,7 @@ from lauschi_catalog.catalog.matcher import compute_pattern_coverage as _compute
 from lauschi_catalog.catalog.prompt import album_to_dict, format_albums_xml
 from lauschi_catalog.providers import Album, CatalogProvider
 from lauschi_catalog.providers._validate import explain_invalid, is_valid_id
-from lauschi_catalog._opencode import CURATE_SETTINGS, FINALIZE_SETTINGS
+from lauschi_catalog._opencode import get_model_settings
 from lauschi_catalog.rate_limit import RateLimiter, run_with_rate_limit_retry
 from lauschi_catalog.retry import is_retryable
 
@@ -490,7 +490,7 @@ def _dry_run_prompts(query: str, content_type: str = "hoerspiel", discography_sp
 
 
 def _build_metadata_agent(
-    model, *, content_type: str = "hoerspiel", discography_span_years: int | None = None,
+    model, *, model_name: str = "", content_type: str = "hoerspiel", discography_span_years: int | None = None,
 ) -> Agent[MetadataDeps, SeriesMetadata]:
     """Metadata-extraction agent.
 
@@ -511,7 +511,7 @@ def _build_metadata_agent(
         model,
         output_type=SeriesMetadata,
         system_prompt=system_prompt,
-        model_settings=CURATE_SETTINGS,
+        model_settings=get_model_settings("curate", model_name),
         tool_retries=2, output_retries=2,
     )
 
@@ -603,21 +603,21 @@ def _build_metadata_agent(
     return agent
 
 
-def _build_batch_agent(model, *, content_type: str = "hoerspiel", discography_span_years: int | None = None) -> Agent[BatchDeps, BatchResult]:
+def _build_batch_agent(model, *, model_name: str = "", content_type: str = "hoerspiel", discography_span_years: int | None = None) -> Agent[BatchDeps, BatchResult]:
     """Agent for processing one batch of albums."""
     system_prompt = load_curate_skill(phase="batch", content_type=content_type, discography_span_years=discography_span_years)
     agent: Agent[BatchDeps, BatchResult] = Agent(
         model,
         output_type=BatchResult,
         system_prompt=system_prompt,
-        model_settings=CURATE_SETTINGS,
+        model_settings=get_model_settings("curate", model_name),
         tool_retries=2, output_retries=2,
     )
 
     return agent
 
 
-def _build_finalize_agent(model, *, content_type: str = "hoerspiel", discography_span_years: int | None = None) -> Agent[FinalizeDeps, FinalizeResult]:
+def _build_finalize_agent(model, *, model_name: str = "", content_type: str = "hoerspiel", discography_span_years: int | None = None) -> Agent[FinalizeDeps, FinalizeResult]:
     """Agent for post-batch metadata finalization.
 
     Re-examines included albums that lack episode numbers by looking
@@ -630,7 +630,7 @@ def _build_finalize_agent(model, *, content_type: str = "hoerspiel", discography
         model,
         output_type=FinalizeResult,
         system_prompt=system_prompt,
-        model_settings=FINALIZE_SETTINGS,
+        model_settings=get_model_settings("finalize", model_name),
         tool_retries=2, output_retries=2,
     )
 
@@ -994,7 +994,7 @@ async def _run_large(
     sample_albums = _stratified_sample(all_albums, 40)
     provider_list = ", ".join(f"{k}: {v}" for k, v in artist_ids.items())
 
-    metadata_agent = _build_metadata_agent(model, content_type=content_type, discography_span_years=discography_span_years)
+    metadata_agent = _build_metadata_agent(model, model_name=model_name, content_type=content_type, discography_span_years=discography_span_years)
     meta_deps = MetadataDeps(titles=all_titles)
     # Sample lines carry release_date and total_tracks alongside the
     # title. Title alone tells half the story for series where streaming
@@ -1042,7 +1042,7 @@ async def _run_large(
         f"{len(batches)} batches of ≤{_BATCH_SIZE}\n",
     )
 
-    batch_agent = _build_batch_agent(model, content_type=content_type, discography_span_years=discography_span_years)
+    batch_agent = _build_batch_agent(model, model_name=model_name, content_type=content_type, discography_span_years=discography_span_years)
     # Shared deps across all batches: pattern revisions made by the
     # batch agent in batch N propagate to batch N+1's prompt, and at
     # the end we re-extract episode_num for every decision using the
@@ -1197,7 +1197,7 @@ async def _run_large(
                 f"[bold cyan]Finalize[/] — {len(unnumbered)} included albums "
                 f"lack episode numbers. Inspecting track listings...\n",
             )
-            finalize_agent = _build_finalize_agent(model, content_type=content_type, discography_span_years=discography_span_years)
+            finalize_agent = _build_finalize_agent(model, model_name=model_name, content_type=content_type, discography_span_years=discography_span_years)
             # Build prompt with album titles and any cached track listings
             lines: list[str] = []
 

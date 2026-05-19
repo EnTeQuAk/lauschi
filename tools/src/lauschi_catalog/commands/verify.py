@@ -21,9 +21,9 @@ import click
 from pydantic import BaseModel, Field
 from pydantic_ai import Agent, RunContext, ToolOutput
 from lauschi_catalog._opencode import (
-    VERIFY_SETTINGS,
     build_mistral_model,
     build_opencode_model,
+    get_model_settings,
 )
 from pydantic_ai.usage import UsageLimits
 from rich import box
@@ -220,7 +220,7 @@ def _build_verify_agent(
             ),
         ),
         system_prompt=_SYSTEM_PROMPT,
-        model_settings=VERIFY_SETTINGS,
+        model_settings=get_model_settings("verify", model_name),
         tool_retries=2, output_retries=2,
     )
 

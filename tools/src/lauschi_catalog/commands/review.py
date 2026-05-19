@@ -25,9 +25,9 @@ import click
 from pydantic import BaseModel, Field
 from pydantic_ai import Agent, RunContext, ToolOutput
 from lauschi_catalog._opencode import (
-    REVIEW_SETTINGS,
     build_mistral_model,
     build_opencode_model,
+    get_model_settings,
 )
 from pydantic_ai.usage import UsageLimits
 from rich.console import Console
@@ -511,7 +511,7 @@ def _build_agent(
             ),
         ),
         system_prompt=_SYSTEM_PROMPT,
-        model_settings=REVIEW_SETTINGS,
+        model_settings=get_model_settings("review", model_name),
         tool_retries=2, output_retries=2,
     )
 
