@@ -3,12 +3,9 @@
 Uses pydantic-ai to analyze discographies from all configured providers,
 decide which albums belong to the series, and extract episode numbers.
 
-For small discographies (≤100 albums total), a single agent call handles it.
-For large ones, albums are processed in batches of ~30. Each batch gets
-series context + album metadata, and the AI can call get_album_details for
-anything ambiguous. Fresh context per batch keeps things fast and reliable.
-
-Ported from scripts/curate-series.py with multi-provider support.
+Albums are processed in batches of ~30. Each batch gets series context +
+album metadata, and the AI can call get_album_details for anything
+ambiguous. Fresh context per batch keeps things fast and reliable.
 """
 
 from __future__ import annotations
@@ -865,9 +862,6 @@ async def _run_with_retry(
         max_delay=120.0,
         console=console,
     )
-
-
-# ── Small discography flow (single agent) ──────────────────────────────────
 
 
 # ── Large discography flow (batched) ───────────────────────────────────────

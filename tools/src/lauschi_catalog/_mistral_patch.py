@@ -65,7 +65,6 @@ def _log_payload(kwargs: dict[str, Any]) -> None:
         else:
             safe[k] = v
     logger.debug("Mistral outbound payload: %s", safe)
-    print(f"[MISTRAL PAYLOAD] {safe}", flush=True)
 
 
 def _resolve_reasoning_effort(model_settings: ModelSettings | None) -> str | None:
