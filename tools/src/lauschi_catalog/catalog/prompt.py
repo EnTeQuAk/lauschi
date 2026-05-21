@@ -107,6 +107,7 @@ def album_to_dict(album_detail: object) -> dict:
             "duration_min": d.get("duration_min"),
             "label": d.get("label", ""),
             "artist": d.get("artists", ""),
+            "image_url": d.get("image_url", ""),
             "tracks": [
                 {
                     "name": t.get("name", ""),
@@ -134,6 +135,7 @@ def album_to_dict(album_detail: object) -> dict:
             "duration_min": dur_min,
             "label": album_detail.label,
             "artist": album_detail.artists,
+            "image_url": album_detail.image_url,
             "tracks": [
                 {
                     "name": t.name,

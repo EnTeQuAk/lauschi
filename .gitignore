@@ -79,6 +79,7 @@ sentry-wizard
 # catalog validation cache
 .cache/
 assets/catalog/curation/.bak/
+assets/catalog/.covers/
 assets/catalog/.series.yaml.lock
 tools/jobs.db
 tools/src/jobs.db

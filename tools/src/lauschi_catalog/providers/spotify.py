@@ -17,6 +17,16 @@ CACHE_DIR = cache_dir("spotify")
 DEFAULT_TTL = 7 * 24 * 3600  # 7 days
 
 
+def _pick_image(images: list[dict]) -> str:
+    """Pick a ~300px image URL from Spotify's images array (sorted largest-first)."""
+    if not images:
+        return ""
+    for img in images:
+        if img.get("width", 0) <= 300:
+            return img.get("url", "")
+    return images[-1].get("url", "")
+
+
 class SpotifyProvider(CatalogProvider):
     """Spotify Web API with transparent disk caching and auto token refresh."""
 
@@ -193,6 +203,7 @@ class SpotifyProvider(CatalogProvider):
                 release_date=a.get("release_date", ""),
                 total_tracks=a.get("total_tracks", 0),
                 album_type=a.get("album_type", ""),
+                image_url=_pick_image(a.get("images", [])),
             )
             for a in raw
         ]
@@ -217,6 +228,7 @@ class SpotifyProvider(CatalogProvider):
             total_tracks=data.get("total_tracks", 0),
             label=data.get("label", ""),
             album_type=data.get("album_type", ""),
+            image_url=_pick_image(data.get("images", [])),
             tracks=[
                 Track(name=t["name"], duration_ms=t.get("duration_ms", 0))
                 for t in data.get("tracks", {}).get("items", [])
@@ -236,6 +248,7 @@ class SpotifyProvider(CatalogProvider):
                 provider="spotify",
                 total_tracks=a.get("total_tracks", 0),
                 artists=", ".join(art["name"] for art in a.get("artists", [])),
+                image_url=_pick_image(a.get("images", [])),
             )
             for a in raw
         ]

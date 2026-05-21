@@ -52,7 +52,7 @@ from lauschi_catalog._opencode import get_model_settings
 from lauschi_catalog.rate_limit import RateLimiter, run_with_rate_limit_retry
 from lauschi_catalog.retry import is_retryable
 
-from lauschi_catalog.catalog.paths import CURATION_DIR
+from lauschi_catalog.catalog.paths import CURATION_DIR, cover_cache_dir, cover_cache_path
 
 console = Console()
 
@@ -944,6 +944,7 @@ async def _run_large(
                             "provider": p.name, "id": a.id, "name": a.name,
                             "release_date": a.release_date,
                             "total_tracks": a.total_tracks,
+                            "image_url": a.image_url,
                         })
                 continue
 
@@ -974,6 +975,7 @@ async def _run_large(
                 all_albums.append({
                     "provider": p.name, "id": a.id, "name": a.name,
                     "release_date": a.release_date, "total_tracks": a.total_tracks,
+                    "image_url": a.image_url,
                 })
             console.print(f"  [{p.name}] {len(albums)} albums")
             provider_album_counts[p.name] = len(albums)
@@ -1507,6 +1509,8 @@ async def _run_large(
             merged_facts.known_gaps.extend(proposed_facts.known_gaps)
             merged_facts.sub_series.extend(proposed_facts.sub_series)
 
+    write_cover_cache(meta.id, all_albums)
+
     return CuratedSeries(
         id=meta.id,
         title=meta.title,
@@ -1580,6 +1584,27 @@ async def run_curation(
 
 
 # ── Save / display ────────────────────────────────────────────────────────
+
+def write_cover_cache(series_id: str, albums: list[dict]) -> None:
+    """Write album_id → image_url mapping to the gitignored cover cache.
+
+    Accepts the raw album dicts from discovery (key: "id") or curation
+    JSON (key: "album_id"). Skips albums without an image_url.
+    """
+    covers = {}
+    for a in albums:
+        album_id = a.get("album_id") or a.get("id")
+        url = a.get("image_url", "")
+        if album_id and url:
+            covers[album_id] = url
+    if not covers:
+        return
+    cache = cover_cache_dir()
+    cache.mkdir(parents=True, exist_ok=True)
+    cover_cache_path(series_id).write_text(
+        json.dumps(covers, indent=2, ensure_ascii=False)
+    )
+
 
 def save_curation(series: CuratedSeries) -> Path:
     """Persist curate's findings into the curation JSON.

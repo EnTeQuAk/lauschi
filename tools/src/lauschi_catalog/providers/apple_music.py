@@ -16,6 +16,15 @@ CACHE_DIR = cache_dir("apple_music")
 KEY_PATH = repo_root() / "android" / "app" / "AuthKey_PWHK2R76T9.p8"
 DEFAULT_TTL = 7 * 24 * 3600  # 7 days
 
+
+def _pick_artwork(attrs: dict, size: int = 300) -> str:
+    """Resolve Apple Music artwork URL template to a concrete URL."""
+    artwork = attrs.get("artwork", {})
+    url = artwork.get("url", "")
+    if not url:
+        return ""
+    return url.replace("{w}", str(size)).replace("{h}", str(size))
+
 # MusicKit config
 TEAM_ID = "QDF8U52UF4"
 KEY_ID = "PWHK2R76T9"
@@ -155,6 +164,7 @@ class AppleMusicProvider(CatalogProvider):
                 release_date=a["attributes"].get("releaseDate", ""),
                 total_tracks=a["attributes"].get("trackCount", 0),
                 artists=a["attributes"].get("artistName", ""),
+                image_url=_pick_artwork(a.get("attributes", {})),
             )
             for a in raw
         ]
@@ -199,6 +209,7 @@ class AppleMusicProvider(CatalogProvider):
             total_tracks=attrs.get("trackCount", 0),
             artists=attrs.get("artistName", ""),
             album_type=am_type,
+            image_url=_pick_artwork(attrs),
             tracks=[
                 Track(
                     name=t["attributes"]["name"],
@@ -222,6 +233,7 @@ class AppleMusicProvider(CatalogProvider):
                 provider="apple_music",
                 total_tracks=a["attributes"].get("trackCount", 0),
                 artists=a["attributes"].get("artistName", ""),
+                image_url=_pick_artwork(a.get("attributes", {})),
             )
             for a in raw
         ]

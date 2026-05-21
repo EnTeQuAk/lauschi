@@ -58,6 +58,18 @@ def test_repo_root_env_override(monkeypatch, tmp_path):
     assert paths.repo_root() == tmp_path
 
 
+def test_cover_cache_dir():
+    d = paths.cover_cache_dir()
+    assert d.name == ".covers"
+    assert "assets" in str(d)
+
+
+def test_cover_cache_path():
+    p = paths.cover_cache_path("benjamin_bluemchen")
+    assert p.name == "benjamin_bluemchen.json"
+    assert p.parent == paths.cover_cache_dir()
+
+
 def test_module_level_constants_are_paths():
     assert isinstance(paths.REPO_ROOT, Path)
     assert isinstance(paths.SERIES_YAML, Path)

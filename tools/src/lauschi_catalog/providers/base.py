@@ -29,6 +29,7 @@ class Album:
     artists: str = ""
     label: str = ""
     album_type: str = ""  # album | single | compilation | ep
+    image_url: str = ""
     tracks: list[Track] = field(default_factory=list)
 
 
