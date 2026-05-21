@@ -46,6 +46,33 @@ def match_artist(
     return None
 
 
+def classify_match(series_title: str, candidate: Artist) -> str:
+    """Return confidence label for a candidate match."""
+    title_lower = series_title.lower()
+    name_lower = candidate.name.lower()
+
+    if name_lower == title_lower:
+        return "exact"
+    if title_lower in name_lower or name_lower in title_lower:
+        return "substring"
+
+    kids_genres = {"kinder", "hörspiel", "hörbuch", "children", "kids", "spoken"}
+    genre_str = " ".join(candidate.genres).lower()
+    if any(g in genre_str for g in kids_genres):
+        return "genre"
+
+    return "weak"
+
+
+def discover_candidates(
+    provider: CatalogProvider,
+    series_title: str,
+) -> list[tuple[Artist, str]]:
+    """Return all candidates with confidence classification."""
+    candidates = provider.search_artists(series_title)
+    return [(c, classify_match(series_title, c)) for c in candidates]
+
+
 def discover_for_provider(
     provider: CatalogProvider,
     series_title: str,

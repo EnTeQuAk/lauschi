@@ -7,7 +7,11 @@ from typing import Any
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 
-from lauschi_catalog.commands.discover import discover_for_provider
+from lauschi_catalog.commands.discover import (
+    discover_candidates,
+    discover_for_provider,
+    match_artist,
+)
 from lauschi_catalog.providers import CatalogProvider
 from lauschi_catalog.web.catalog_db import get_series_by_id, sync_catalog_to_db
 from lauschi_catalog.web.jobs import create_job, list_jobs
@@ -127,6 +131,41 @@ async def discover_series(series_id: str) -> dict[str, str]:
     return {"job_id": job_id}
 
 
+class AcceptArtistRequest(BaseModel):
+    provider: str
+    artist_id: str
+
+
+@router.post("/series/{series_id}/accept-artist")
+async def accept_artist(
+    series_id: str, request: AcceptArtistRequest
+) -> dict[str, Any]:
+    """Write a discovered artist ID to series.yaml for a specific provider.
+
+    Merges with existing artist_ids so accepting a new ID doesn't
+    overwrite previously accepted ones.
+    """
+    from lauschi_catalog.catalog.loader import update_provider_ids
+
+    series = get_series_by_id(series_id)
+    if series is None:
+        raise HTTPException(status_code=404, detail="series not found")
+
+    existing = series.artist_ids(request.provider) if series else []
+    merged = list(existing)
+    if request.artist_id not in merged:
+        merged.append(request.artist_id)
+
+    count = update_provider_ids(
+        updates={series_id: {request.provider: merged}}
+    )
+    if count == 0:
+        raise HTTPException(status_code=400, detail="no series updated")
+
+    sync_catalog_to_db()
+    return {"ok": True, "series_id": series_id, "provider": request.provider}
+
+
 class MergeRequest(BaseModel):
     source_id: str
     target_id: str
@@ -176,6 +215,36 @@ async def search_artists(request: SearchArtistsRequest) -> dict[str, Any]:
         if artist:
             results[p.name] = {"name": artist.name, "id": artist.id}
     return {"results": results}
+
+
+@router.post("/series/{series_id}/discover-preview")
+async def discover_preview(series_id: str) -> dict[str, Any]:
+    """Return structured discover candidates per provider (no side effects)."""
+    series = get_series_by_id(series_id)
+    if series is None:
+        raise HTTPException(status_code=404, detail="series not found")
+
+    providers = _init_providers()
+    results: dict[str, list[dict[str, Any]]] = {}
+    best_match: dict[str, dict[str, Any] | None] = {}
+
+    for p in providers:
+        candidates = discover_candidates(p, series.title)
+        results[p.name] = [
+            {
+                "id": artist.id,
+                "name": artist.name,
+                "provider": artist.provider,
+                "genres": artist.genres,
+                "followers": artist.followers,
+                "confidence": confidence,
+            }
+            for artist, confidence in candidates
+        ]
+        matched = match_artist(series.title, [a for a, _ in candidates])
+        best_match[p.name] = {"id": matched.id, "name": matched.name} if matched else None
+
+    return {"candidates": results, "best_match": best_match}
 
 
 _STAGE_COMMANDS = ["discover", "curate", "audit", "apply", "validate"]

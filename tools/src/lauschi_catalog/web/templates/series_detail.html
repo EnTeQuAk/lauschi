@@ -319,7 +319,111 @@
                 <p x-show="stageLogLines.length === 0" class="text-muted">No output yet.</p>
             </div>
         </div>
-        <p x-show="!stageJobId" class="text-muted">No job run for this stage yet.</p>
+        <p x-show="!stageJobId && selectedStage !== 0" class="text-muted">No job run for this stage yet.</p>
+    </div>
+    {# Interactive discover panel (Discover stage only) #}
+    <div x-show="selectedStage === 0" class="panel mt-1">
+        <div class="flex justify-between items-center mb-075">
+            <h3 class="heading-reset">Artist Discovery</h3>
+            <button class="btn-sm"
+                    :class="discoverLoading ? 'outline' : ''"
+                    :disabled="discoverLoading"
+                    @click="previewDiscover()">
+                <span x-show="!discoverLoading">Preview discover</span>
+                <span x-show="discoverLoading">Searching…</span>
+            </button>
+        </div>
+        <p x-show="!discoverResults && !discoverLoading" class="text-muted">
+            Click "Preview discover" to search providers for matching artists.
+        </p>
+        <p x-show="discoverError" class="text-red" x-text="discoverError"></p>
+        {# Per-provider results #}
+        <template x-for="[provName, candidates] in Object.entries(discoverResults || {})" :key="provName">
+            <div class="discover-provider mb-1">
+                <h4 class="flex items-center gap-04 mb-05">
+                    <span x-text="provName"></span>
+                    <small class="text-muted" x-text="candidates.length + ' candidates'"></small>
+                </h4>
+                {# Best match card #}
+                <template x-if="discoverBestMatch[provName]">
+                    <div class="discover-card discover-card--best">
+                        <div class="flex justify-between items-start gap-05">
+                            <div>
+                                <p class="discover-card__name" x-text="discoverBestMatch[provName].name"></p>
+                                <p class="discover-card__id text-muted">
+                                    <small x-text="discoverBestMatch[provName].id"></small>
+                                </p>
+                            </div>
+                            <div class="flex gap-03 items-center shrink-0">
+                                <span class="status-badge status-badge--done">Best match</span>
+                                <button class="btn-sm contrast"
+                                        @click="acceptArtist(provName, discoverBestMatch[provName].id)">Accept</button>
+                            </div>
+                        </div>
+                        <template x-if="candidates.find(c => c.id === discoverBestMatch[provName]?.id)">
+                            <div class="discover-card__meta mt-05">
+                                <template x-if="candidates.find(c => c.id === discoverBestMatch[provName].id)?.genres?.length">
+                                    <span class="text-muted">
+                                        <small x-text="'Genres: ' + candidates.find(c => c.id === discoverBestMatch[provName].id).genres.join(', ')"></small>
+                                    </span>
+                                </template>
+                                <template x-if="candidates.find(c => c.id === discoverBestMatch[provName].id)?.followers">
+                                    <span class="text-muted ml-05">
+                                        <small x-text="candidates.find(c => c.id === discoverBestMatch[provName].id).followers.toLocaleString() + ' followers'"></small>
+                                    </span>
+                                </template>
+                                <span class="ml-05">
+                                    <small class="discover-confidence"
+                                           :class="'discover-confidence--' + candidates.find(c => c.id === discoverBestMatch[provName].id)?.confidence"
+                                           x-text="candidates.find(c => c.id === discoverBestMatch[provName].id)?.confidence"></small>
+                                </span>
+                            </div>
+                        </template>
+                    </div>
+                </template>
+                <template x-if="!discoverBestMatch[provName]">
+                    <p class="text-muted">No confident match found.</p>
+                </template>
+                {# Other candidates (collapsible) #}
+                <template x-if="candidates.length > 1 || !discoverBestMatch[provName]">
+                    <details class="mt-05">
+                        <summary class="text-muted">
+                            <small x-text="(candidates.length > 1 ? 'Show all ' + candidates.length + ' candidates' : 'Show candidate')"></small>
+                        </summary>
+                        <div class="discover-candidates mt-05">
+                            <template x-for="candidate in candidates" :key="candidate.id">
+                                <div class="discover-card"
+                                     :class="candidate.id === discoverBestMatch[provName]?.id ? 'discover-card--best-dim' : ''">
+                                    <div class="flex justify-between items-start gap-05">
+                                        <div>
+                                            <p class="discover-card__name" x-text="candidate.name"></p>
+                                            <p class="text-muted mb-0">
+                                                <small x-text="candidate.id"></small>
+                                            </p>
+                                            <p class="text-muted mb-0">
+                                                <small x-text="(candidate.genres || []).join(', ') || 'no genres'"></small>
+                                                <template x-if="candidate.followers">
+                                                    <small x-text="' · ' + candidate.followers.toLocaleString() + ' followers'"></small>
+                                                </template>
+                                            </p>
+                                        </div>
+                                        <div class="flex gap-03 items-center shrink-0">
+                                            <small class="discover-confidence"
+                                                   :class="'discover-confidence--' + candidate.confidence"
+                                                   x-text="candidate.confidence"></small>
+                                            <button class="btn-sm outline"
+                                                    :disabled="candidate.id === discoverBestMatch[provName]?.id"
+                                                    @click="acceptArtist(provName, candidate.id)">Use this</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </template>
+                        </div>
+                    </details>
+                </template>
+            </div>
+        </template>
+        <p x-show="discoverAccepted" x-text="discoverAccepted" class="text-green mt-05"></p>
     </div>
     {% if curation %}
         <details class="mt-1">
@@ -612,6 +716,11 @@ function pipelineStages(seriesId) {
     stageLogLines: [],
     _logLineId: 0,
     _eventSource: null,
+    discoverResults: null,
+    discoverBestMatch: {},
+    discoverLoading: false,
+    discoverError: null,
+    discoverAccepted: null,
     get selectedStageLabel() {
       if (this.selectedStage === null) return '';
       return this.stages[this.selectedStage]?.label || '';
@@ -688,6 +797,45 @@ function pipelineStages(seriesId) {
       if (idx >= 0) {
         this.stages[idx].last_job = { job_id: data.job_id, status: 'queued' };
         this.selectStage(idx);
+      }
+    },
+    async previewDiscover() {
+      this.discoverLoading = true;
+      this.discoverError = null;
+      this.discoverAccepted = null;
+      try {
+        const res = await fetch(`/api/series/${seriesId}/discover-preview`, { method: 'POST' });
+        if (!res.ok) {
+          const data = await res.json();
+          this.discoverError = data.detail || 'Failed to discover';
+          return;
+        }
+        const data = await res.json();
+        this.discoverResults = data.candidates;
+        this.discoverBestMatch = data.best_match;
+      } catch (e) {
+        this.discoverError = 'Request failed: ' + e.message;
+      } finally {
+        this.discoverLoading = false;
+      }
+    },
+    async acceptArtist(providerName, artistId) {
+      this.discoverAccepted = null;
+      try {
+        const res = await fetch(`/api/series/${seriesId}/accept-artist`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ provider: providerName, artist_id: artistId }),
+        });
+        if (!res.ok) {
+          const data = await res.json();
+          alert('Failed: ' + (data.detail || 'unknown error'));
+          return;
+        }
+        this.discoverAccepted = `Wrote ${providerName} artist ID ${artistId} to series.yaml.`;
+        await this.loadPipeline();
+      } catch (e) {
+        alert('Request failed: ' + e.message);
       }
     },
     async runFullPipeline() {
