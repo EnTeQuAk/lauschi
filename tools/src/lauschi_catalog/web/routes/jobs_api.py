@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import asyncio
 import json
+import logging
 import os
 import shlex
 import traceback
@@ -24,6 +25,8 @@ from lauschi_catalog.web.jobs import (
     set_status,
 )
 from lauschi_catalog.web.pipeline import pipeline_status
+
+log = logging.getLogger(__name__)
 
 router = APIRouter()
 
@@ -71,7 +74,7 @@ def _build_cli_args(series_id: str, command: str) -> tuple[list[str], str]:
     Normal commands: ``uv run lauschi-catalog <command> <series_id>``
     Discover: ``uv run lauschi-catalog discover <series_id> --write``
     Pipeline: a shell script that runs all remaining steps from current state.
-    Pipeline-one: forcefully re-runs curate → audit → apply.
+    Pipeline-one: forcefully re-runs curate -> audit -> apply.
     """
     tools_dir = str(repo_root() / "tools")
     curation_dir = str(repo_root() / "assets" / "catalog" / "curation")
@@ -164,107 +167,177 @@ echo "Done."
     )
 
 
-async def _stream_proc(job_id: str, cmd: list[str], cwd: str) -> None:
-    """Run a subprocess, stream stdout to job log, and update status.
+def _force_status(job_id: str, status: str, error: str | None = None) -> None:
+    """Best-effort status update that never raises.
 
-    Races ``stdout.readline()`` against ``proc.wait()`` so an external
-    kill (or a hung grandchild keeping the pipe open) doesn't leave the
-    job stuck as ``running`` in the database.
+    Used in finally blocks and cleanup callbacks where we must not let
+    a DB error prevent the rest of the teardown from running.
     """
+    try:
+        if status == "done":
+            set_done(job_id)
+        elif status == "error":
+            set_error(job_id, error or "unknown error")
+        else:
+            set_status(job_id, status)
+    except Exception:
+        log.exception("job %s: failed to set status to %r in DB", job_id, status)
+
+
+async def _stream_proc(job_id: str, cmd: list[str], cwd: str) -> None:
+    """Run a subprocess, stream stdout to job log, update status on exit.
+
+    Guarantees:
+    - Status is always updated to a terminal state (done/error/cancelled),
+      even if the DB write fails on first attempt.
+    - ``proc.wait()`` is always called so returncode is set.
+    - All exceptions are caught and logged.
+    """
+    log.info("job %s: starting subprocess: %s (cwd=%s)", job_id, cmd, cwd)
     set_status(job_id, "running")
+
+    final_status = "error"
+    final_error: str | None = "process never started"
+    proc: asyncio.subprocess.Process | None = None
+
     try:
         proc = await asyncio.create_subprocess_exec(
             *cmd,
+            stdin=asyncio.subprocess.DEVNULL,
             stdout=asyncio.subprocess.PIPE,
             stderr=asyncio.subprocess.STDOUT,
             cwd=cwd,
             env={**os.environ, "PYTHONUNBUFFERED": "1"},
         )
         _active_procs[job_id] = proc
+        log.info("job %s: subprocess started (pid=%d)", job_id, proc.pid)
         assert proc.stdout is not None
 
-        read_task: asyncio.Task[bytes] | None = None
-        while True:
-            if read_task is None:
-                read_task = asyncio.create_task(proc.stdout.readline())
-            wait_task = asyncio.create_task(proc.wait())
-            done, pending = await asyncio.wait(
-                {read_task, wait_task},
-                return_when=asyncio.FIRST_COMPLETED,
-            )
-            if read_task in done:
-                for t in pending:
-                    t.cancel()
-                line = read_task.result()
-                read_task = None
-                if not line:
-                    break
-                text = line.decode("utf-8", errors="replace").rstrip("\n")
-                if text:
-                    append_log(job_id, text)
-            else:
-                # Process exited; drain remaining buffered stdout then stop.
-                for t in pending:
-                    t.cancel()
-                try:
-                    remaining = await asyncio.wait_for(
-                        proc.stdout.read(),
-                        timeout=2.0,
-                    )
-                    if remaining:
-                        for ln in remaining.decode("utf-8", errors="replace").split(
-                            "\n"
-                        ):
-                            if ln:
-                                append_log(job_id, ln)
-                except asyncio.TimeoutError:
-                    if read_task:
-                        read_task.cancel()
-                break
+        await _read_output(job_id, proc)
+
+        # Ensure the process has fully exited and returncode is set.
+        await proc.wait()
+        log.info("job %s: subprocess exited (rc=%s, pid=%d)", job_id, proc.returncode, proc.pid)
 
         if proc.returncode == 0:
-            set_done(job_id)
+            final_status = "done"
+            final_error = None
         else:
-            set_error(job_id, f"exit code {proc.returncode}")
+            final_status = "error"
+            final_error = f"exit code {proc.returncode}"
+
     except asyncio.CancelledError:
-        set_status(job_id, "cancelled")
+        final_status = "cancelled"
+        final_error = None
+        log.info("job %s: task cancelled", job_id)
+        if proc and proc.returncode is None:
+            proc.terminate()
+            try:
+                await asyncio.wait_for(proc.wait(), timeout=5.0)
+            except asyncio.TimeoutError:
+                proc.kill()
+                log.warning("job %s: had to SIGKILL subprocess", job_id)
         raise
+
     except Exception as e:
-        tb = traceback.format_exc()
-        set_error(job_id, f"{type(e).__name__}: {e}\n{tb}")
+        final_status = "error"
+        final_error = f"{type(e).__name__}: {e}\n{traceback.format_exc()}"
+        log.exception("job %s: unhandled exception in _stream_proc", job_id)
+
+    finally:
+        log.info("job %s: finalizing with status=%r", job_id, final_status)
+        _force_status(job_id, final_status, final_error)
+
+
+async def _read_output(job_id: str, proc: asyncio.subprocess.Process) -> None:
+    """Read subprocess stdout line by line, appending each to the job log.
+
+    Uses a simple read loop. If the process exits but a grandchild holds
+    the pipe open, we race against proc.wait() and drain with a timeout.
+    """
+    assert proc.stdout is not None
+
+    while True:
+        # Race readline against process exit to avoid hanging if a
+        # grandchild keeps stdout open after the main process exits.
+        read_task = asyncio.create_task(proc.stdout.readline())
+        wait_task = asyncio.create_task(proc.wait())
+
+        done, pending = await asyncio.wait(
+            {read_task, wait_task},
+            return_when=asyncio.FIRST_COMPLETED,
+        )
+
+        if read_task in done:
+            for t in pending:
+                t.cancel()
+            line_bytes = read_task.result()
+            if not line_bytes:
+                # EOF on stdout; process may or may not have exited yet.
+                break
+            text = line_bytes.decode("utf-8", errors="replace").rstrip("\n")
+            if text:
+                append_log(job_id, text)
+        else:
+            # Process exited before readline completed. Drain remaining
+            # buffered output with a timeout, then stop.
+            read_task.cancel()
+            try:
+                remaining = await asyncio.wait_for(
+                    proc.stdout.read(), timeout=2.0
+                )
+                if remaining:
+                    for ln in remaining.decode("utf-8", errors="replace").split("\n"):
+                        if ln:
+                            append_log(job_id, ln)
+            except asyncio.TimeoutError:
+                log.warning("job %s: timed out draining stdout after process exit", job_id)
+            break
+
+
+def _launch_task(job_id: str, cmd: list[str], cwd: str) -> None:
+    """Create an asyncio task to run _stream_proc with cleanup on completion."""
+
+    async def _runner() -> None:
+        await _stream_proc(job_id, cmd, cwd)
+
+    task = asyncio.create_task(_runner())
+    _active_tasks[job_id] = task
+
+    def _cleanup(t: asyncio.Task[None]) -> None:
+        _active_procs.pop(job_id, None)
+        _active_tasks.pop(job_id, None)
+
+        # Safety net: if the task ended but status is still non-terminal
+        # (e.g. because _stream_proc's finally block failed), force it.
+        try:
+            job = get_job(job_id)
+            if job and job.status in ("queued", "running"):
+                error_detail = "task ended without setting terminal status"
+                exc = t.exception() if not t.cancelled() else None
+                if exc:
+                    error_detail = f"{type(exc).__name__}: {exc}"
+                elif t.cancelled():
+                    error_detail = "task was cancelled"
+                log.error("job %s: safety net triggered, status was %r", job_id, job.status)
+                _force_status(job_id, "error", error_detail)
+        except Exception:
+            log.exception("job %s: safety net itself failed", job_id)
+
+    task.add_done_callback(_cleanup)
 
 
 def run_subprocess(job_id: str, series_id: str, command: str) -> None:
     """Launch the CLI command as a subprocess and stream lines to the job log."""
     cmd, cwd = _build_cli_args(series_id, command)
-
-    async def _runner() -> None:
-        await _stream_proc(job_id, cmd, cwd)
-
-    task = asyncio.create_task(_runner())
-    _active_tasks[job_id] = task
-
-    def _cleanup(t: asyncio.Task[None]) -> None:
-        _active_procs.pop(job_id, None)
-        _active_tasks.pop(job_id, None)
-
-    task.add_done_callback(_cleanup)
+    log.info("job %s: queuing subprocess for %s/%s", job_id, series_id, command)
+    _launch_task(job_id, cmd, cwd)
 
 
 def run_custom_subprocess(job_id: str, cmd: list[str], cwd: str) -> None:
     """Run an arbitrary command as a subprocess and stream lines to the job log."""
-
-    async def _runner() -> None:
-        await _stream_proc(job_id, cmd, cwd)
-
-    task = asyncio.create_task(_runner())
-    _active_tasks[job_id] = task
-
-    def _cleanup(t: asyncio.Task[None]) -> None:
-        _active_procs.pop(job_id, None)
-        _active_tasks.pop(job_id, None)
-
-    task.add_done_callback(_cleanup)
+    log.info("job %s: queuing custom subprocess: %s", job_id, cmd)
+    _launch_task(job_id, cmd, cwd)
 
 
 @router.get("/jobs")
