@@ -53,6 +53,11 @@
             <li>
                 <a href="/catalog/{{ series.id }}"
                    role="button"
+                   class="{% if tab == 'preview' %}contrast{% else %}outline{% endif %}">Preview</a>
+            </li>
+            <li>
+                <a href="/catalog/{{ series.id }}/episodes"
+                   role="button"
                    class="{% if tab == 'episodes' %}contrast{% else %}outline{% endif %}">Episodes</a>
             </li>
             <li>
@@ -75,7 +80,45 @@
     {% if curation %}
         <script type="application/json" id="album-data">{{ (curation.albums or []) | tojson }}</script>
     {% endif %}
-    {% if tab == 'episodes' %}
+    {% if tab == 'preview' %}
+        {% if curation and curation.albums %}
+            {% set included = curation.albums | selectattr('include') | list | sort(attribute='episode_num') %}
+            <div class="panel">
+                <h3 class="mb-05">{{ included | length }} Folgen</h3>
+                <div>
+                    {% for album in included %}
+                        <div class="episode-tile">
+                            {% if album.image_url %}
+                                <img src="{{ album.image_url }}"
+                                     alt=""
+                                     class="episode-tile__art"
+                                     loading="lazy" />
+                            {% else %}
+                                <div class="episode-tile__art-placeholder">
+                                    <i data-lucide="music" style="width:20px;height:20px"></i>
+                                </div>
+                            {% endif %}
+                            <div class="episode-tile__info">
+                                <p class="episode-tile__title">{{ album.title }}</p>
+                                <p class="episode-tile__subtitle">
+                                    {% if album.episode_num %}
+                                        Folge {{ album.episode_num }}
+                                    {% else %}
+                                        {{ album.release_date or '' }}
+                                    {% endif %}
+                                </p>
+                            </div>
+                            <span class="episode-tile__status text-green">✓</span>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% else %}
+            <p class="text-muted">
+                No curation data yet. Run <strong>Curate</strong> to discover episodes.
+            </p>
+        {% endif %}
+    {% elif tab == 'episodes' %}
         {% if coverage %}
             <article class="panel-sm panel-compact">
                 <div class="flex items-baseline justify-between mb-05">
@@ -291,7 +334,11 @@
                                         <td>{{ o.action }}</td>
                                         <td>
                                             {% if album %}
-                                                {% if album.include %}included{% else %}excluded{% endif %}
+                                                {% if album.include %}
+                                                    included
+                                                {% else %}
+                                                    excluded
+                                                {% endif %}
                                                 {% if o.action == 'exclude' and not album.include %}
                                                     <small class="text-red">(redundant)</small>
                                                 {% elif o.action == 'include' and album.include %}
@@ -365,8 +412,7 @@
                                     <tbody>
                                         <template x-for="a in previewAlbums" :key="a.album_id">
                                             <tr :class="a.include ? '' : 'episode-row--excluded'">
-                                                <td x-text="a.episode_num ?? '-'"
-                                                    class="col-num"></td>
+                                                <td x-text="a.episode_num ?? '-'" class="col-num"></td>
                                                 <td x-text="a.provider"></td>
                                                 <td x-text="a.title"></td>
                                                 <td>

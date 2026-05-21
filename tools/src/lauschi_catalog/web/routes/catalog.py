@@ -139,6 +139,20 @@ def _render_series_detail(
     if cur_path.exists():
         curation = json.loads(cur_path.read_text())
 
+    # Inject cover URLs from cache into album dicts
+    covers: dict[str, str] = {}
+    cache = cover_cache_path(series_id)
+    if cache.exists():
+        try:
+            covers = json.loads(cache.read_text())
+        except json.JSONDecodeError:
+            pass
+    if curation and curation.get("albums") and covers:
+        for album in curation["albums"]:
+            aid = album.get("album_id") or album.get("id", "")
+            if aid in covers:
+                album["image_url"] = covers[aid]
+
     pipe_state = pipeline_status(series_id, series=series)
     pipeline = {
         "labels": pipe_state.step_labels,
@@ -204,6 +218,11 @@ def _render_series_detail(
 
 @router.get("/catalog/{series_id}", response_class=HTMLResponse)
 async def series_detail(request: Request, series_id: str):
+    return _render_series_detail(request, series_id, tab="preview")
+
+
+@router.get("/catalog/{series_id}/episodes", response_class=HTMLResponse)
+async def series_episodes(request: Request, series_id: str):
     return _render_series_detail(request, series_id, tab="episodes")
 
 

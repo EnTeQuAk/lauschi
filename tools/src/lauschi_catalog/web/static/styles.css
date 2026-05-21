@@ -538,6 +538,63 @@ nav[aria-label="breadcrumb"] li + li::before {
 	}
 }
 
+/* ── Episode tile (Flutter _AlbumTile) ─────────────── */
+.episode-tile {
+	display: flex;
+	align-items: center;
+	gap: var(--space-sm);
+	padding: var(--space-sm) 0;
+	border-bottom: 1px solid var(--color-border);
+}
+.episode-tile:last-child {
+	border-bottom: none;
+}
+.episode-tile__art {
+	width: 44px;
+	height: 44px;
+	border-radius: 4px;
+	object-fit: cover;
+	flex-shrink: 0;
+	background: var(--color-surface-dim);
+}
+.episode-tile__art-placeholder {
+	width: 44px;
+	height: 44px;
+	border-radius: 4px;
+	flex-shrink: 0;
+	background: var(--color-surface-dim);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: var(--color-text-tertiary);
+	font-size: 0.7rem;
+}
+.episode-tile__info {
+	flex: 1;
+	min-width: 0;
+}
+.episode-tile__title {
+	font-size: 14px;
+	font-weight: 600;
+	color: var(--color-text);
+	margin: 0;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+.episode-tile__subtitle {
+	font-size: 12px;
+	color: var(--color-text-secondary);
+	margin: 0;
+}
+.episode-tile__status {
+	flex-shrink: 0;
+	font-size: 16px;
+}
+.episode-tile--excluded {
+	opacity: 0.5;
+}
+
 /* ── Provider icons ────────────────────────────────── */
 .provider-icon {
 	width: 20px;
