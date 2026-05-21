@@ -123,8 +123,10 @@ sub_series). Your job is to independently verify that work.
    Do known_gaps have plausible reasons (legal dispute, skipped number)?
    Do sub_series labels match the claimed albums?
 4. **Lint findings**: The deterministic linter flagged structural
-   issues. These are data-driven warnings, not opinions. Treat them as
-   high-priority signals.
+   issues before you saw the curation. These are computed from the
+   data, not opinions. Every lint finding must be addressed: either
+   fix it (via override or fact_update), record it as a concern, or
+   explain why it's a false positive. Do not ignore lint findings.
 
 ## Your decision
 
@@ -275,6 +277,11 @@ def _build_prompt(curation: dict, lint_issues: list[str]) -> str:
 
     if lint_issues:
         lines.append(f"\n### Lint findings ({len(lint_issues)})")
+        lines.append(
+            "Each finding below is a data-driven structural warning. "
+            "For each one: fix it (override/fact_update), record as a "
+            "concern, or explain why it's a false positive."
+        )
         for issue in lint_issues[:20]:
             lines.append(f"  ⚠️  {issue}")
 
