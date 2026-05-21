@@ -347,6 +347,7 @@ class CurateDeps:
     existing_facts: SeriesFacts = field(default_factory=SeriesFacts)
     proposed_facts: SeriesFacts | None = field(default=None, init=False)
     all_decisions: list[AlbumDecision] = field(default_factory=list)
+    current_batch_ids: set[tuple[str, str]] = field(default_factory=set, init=False)
     _pattern_check_count: int = field(default=0, init=False)
     _MAX_PATTERN_CHECKS: int = 5
 
@@ -614,6 +615,23 @@ def _build_batch_agent(model, *, model_name: str = "", content_type: str = "hoer
         model_settings=get_model_settings("curate", model_name),
         tool_retries=2, output_retries=2,
     )
+
+    @agent.output_validator
+    def _validate_batch_completeness(ctx: RunContext[CurateDeps], result: BatchResult) -> BatchResult:
+        """Every album in the batch must have a decision."""
+        if not ctx.deps.current_batch_ids:
+            return result
+        returned_ids = {(a.provider, a.album_id) for a in result.albums}
+        missing = ctx.deps.current_batch_ids - returned_ids
+        if missing:
+            samples = [f"{p}:{aid}" for p, aid in sorted(missing)[:5]]
+            raise ModelRetry(
+                f"You omitted {len(missing)} album(s) from your output. "
+                f"Every album in the batch needs a decision (include or "
+                f"exclude). Missing: {', '.join(samples)}"
+                f"{'…' if len(missing) > 5 else ''}",
+            )
+        return result
 
     return agent
 
@@ -1151,6 +1169,9 @@ async def _run_large(
             f"{album_xml}"
         )
 
+        shared_deps.current_batch_ids = {
+            (a["provider"], a["id"]) for a in batch
+        }
         result: BatchResult = await _run_with_retry(
             lambda p=prompt: asyncio.wait_for(
                 _run_agent(batch_agent, p, shared_deps), timeout=1200,
@@ -1436,9 +1457,12 @@ async def _run_large(
                             f"  [cyan]📊 Finalize proposed {n_new} new fact(s)[/]\n",
                         )
             except Exception as exc:
+                incomplete = True
+                err = f"{type(exc).__name__}: {exc}" if str(exc) else type(exc).__name__
+                provider_errors.append(f"finalize: {err}")
                 console.print(
                     f"  [yellow]⚠ Finalize phase failed: {exc}. "
-                    f"Proceeding with batch results.[/]\n",
+                    f"Proceeding with batch results (marked incomplete).[/]\n",
                 )
 
         # Re-extract episode numbers with the final pattern (post-finalize)
@@ -1456,9 +1480,10 @@ async def _run_large(
     merged_facts: SeriesFacts | None = None
     if existing_facts or proposed_facts:
         merged_facts = SeriesFacts()
-        merged_facts.era_boundaries.extend(existing_facts.era_boundaries)
-        merged_facts.known_gaps.extend(existing_facts.known_gaps)
-        merged_facts.sub_series.extend(existing_facts.sub_series)
+        if existing_facts:
+            merged_facts.era_boundaries.extend(existing_facts.era_boundaries)
+            merged_facts.known_gaps.extend(existing_facts.known_gaps)
+            merged_facts.sub_series.extend(existing_facts.sub_series)
         if proposed_facts:
             merged_facts.era_boundaries.extend(proposed_facts.era_boundaries)
             merged_facts.known_gaps.extend(proposed_facts.known_gaps)

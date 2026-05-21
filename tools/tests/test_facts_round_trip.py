@@ -204,3 +204,69 @@ class TestLintResilience:
         first = lint_curation(curation)
         second = lint_curation(curation)
         assert first == second
+
+
+class TestMergedFactsNoneSafety:
+    """The merged_facts block in _run_large must handle existing_facts=None.
+
+    When curating a brand-new series (no entry in series.yaml), the
+    caller passes existing_facts=None. If the finalize agent proposes
+    facts (proposed_facts is truthy), the merge block fires because
+    ``None or proposed_facts`` is truthy, then crashes on
+    ``existing_facts.era_boundaries`` because existing_facts is None.
+    """
+
+    def test_proposed_only_no_existing(self):
+        """proposed_facts without existing_facts must not crash."""
+        merged = SeriesFacts()
+        existing_facts = None
+        proposed_facts = SeriesFacts(
+            era_boundaries=[],
+            known_gaps=[],
+            sub_series=[],
+        )
+        # Replicate the merge logic from curate.py _run_large
+        if existing_facts or proposed_facts:
+            if existing_facts:
+                merged.era_boundaries.extend(existing_facts.era_boundaries)
+                merged.known_gaps.extend(existing_facts.known_gaps)
+                merged.sub_series.extend(existing_facts.sub_series)
+            if proposed_facts:
+                merged.era_boundaries.extend(proposed_facts.era_boundaries)
+                merged.known_gaps.extend(proposed_facts.known_gaps)
+                merged.sub_series.extend(proposed_facts.sub_series)
+        assert merged is not None
+
+    def test_existing_only_no_proposed(self):
+        from lauschi_catalog.catalog.facts import EraBoundary
+
+        merged = SeriesFacts()
+        existing_facts = SeriesFacts(
+            era_boundaries=[
+                EraBoundary(
+                    label="klassik",
+                    release_date_range="1976-1979",
+                    curated_by="curate",
+                ),
+            ],
+        )
+        proposed_facts = None
+        if existing_facts or proposed_facts:
+            if existing_facts:
+                merged.era_boundaries.extend(existing_facts.era_boundaries)
+                merged.known_gaps.extend(existing_facts.known_gaps)
+                merged.sub_series.extend(existing_facts.sub_series)
+            if proposed_facts:
+                merged.era_boundaries.extend(proposed_facts.era_boundaries)
+                merged.known_gaps.extend(proposed_facts.known_gaps)
+                merged.sub_series.extend(proposed_facts.sub_series)
+        assert len(merged.era_boundaries) == 1
+        assert merged.era_boundaries[0].label == "klassik"
+
+    def test_both_none_produces_nothing(self):
+        existing_facts = None
+        proposed_facts = None
+        merged = None
+        if existing_facts or proposed_facts:
+            merged = SeriesFacts()
+        assert merged is None

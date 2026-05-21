@@ -129,14 +129,14 @@ sub_series). Your job is to independently verify that work.
 ## Your decision
 
 - `approve: true` if sound overall. Minor overrides and a few concerns
-  are fine — that's what the tools are for.
+  are fine.
 - `approve: false` if significant problems: real episodes excluded,
   wrong content included, facts that contradict album data.
-- Use `propose_override` for per-album fixes (exclude a compilation
+- Use the `overrides` field for per-album fixes (exclude a compilation
   that curate missed, include a real episode that was wrongly dropped).
-- Use `flag_concern` for anything worth human attention even if you
-  still approve. Concerns are surfaced in pipeline output.
-- Use `propose_series_facts` to fix, add, or remove structural facts.
+- Use the `concerns` field for anything worth human attention even if
+  you still approve. Concerns are surfaced in pipeline output.
+- Use the `fact_updates` field to fix, add, or remove structural facts.
   Prefer "merge" mode (adds/changes on top of existing facts).
 
 ## Confidence budget
@@ -151,10 +151,9 @@ verdict. When the curator flagged uncertainty, that's where your
 
 - **web_search**: Search for series info. Max 3 searches.
 - **fetch_page**: Fetch a URL for details. Max 2 fetches.
-- **propose_override**: Fix a single album's include/exclude status.
-- **flag_concern**: Flag a general issue for human review.
-- **propose_series_facts**: Update era_boundaries, known_gaps, or
-  sub_series. Default mode is "merge".
+
+All other output (overrides, concerns, fact_updates) goes directly
+into the structured `submit_audit` output. No separate tools needed.
 
 ## Rules
 
@@ -208,40 +207,6 @@ def _build_audit_agent(model_name: str, api_key: str) -> Agent[Deps, AuditResult
         content = _fetch(url, max_chars=4000)
         console.print(f"  [dim]📄 fetch_page({url[:60]}…) → {len(content)} chars[/]")
         return content
-
-    @agent.tool
-    def propose_override(
-        ctx: RunContext[Deps],
-        album_id: str,
-        provider: Provider,
-        action: Literal["exclude", "include"],
-        reason: str,
-    ) -> str:
-        """Propose an override for a single album."""
-        return f"Override recorded: {provider}:{album_id} → {action}"
-
-    @agent.tool
-    def flag_concern(ctx: RunContext[Deps], reason: str) -> str:
-        """Flag a general concern for human review."""
-        return f"Concern recorded: {reason}"
-
-    @agent.tool
-    def propose_series_facts(
-        ctx: RunContext[Deps],
-        mode: Literal["merge", "replace"] = "merge",
-        era_boundaries: list[EraBoundaryProposal] | None = None,
-        known_gaps: list[KnownGapProposal] | None = None,
-        sub_series: list[SubSeriesProposal] | None = None,
-    ) -> str:
-        """Propose changes to series_facts."""
-        parts = [f"mode={mode}"]
-        if era_boundaries:
-            parts.append(f"era_boundaries={len(era_boundaries)}")
-        if known_gaps:
-            parts.append(f"known_gaps={len(known_gaps)}")
-        if sub_series:
-            parts.append(f"sub_series={len(sub_series)}")
-        return f"Series facts proposal: {', '.join(parts)}"
 
     return agent
 

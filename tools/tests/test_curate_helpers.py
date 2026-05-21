@@ -917,3 +917,86 @@ def test_batch_summary_groups_included_episodes_by_provider():
     for line in lines:
         if "apple_music:" in line and "2" in line:
             pytest.fail("apple_music should not show episode 2 as already included")
+
+
+# ── batch output validator ───────────────────────────────────────────────
+
+
+def test_batch_agent_has_output_validator():
+    """The batch agent must validate that every album in the batch got
+    a decision. Without this, the agent can silently omit albums and
+    the only safety net is the post-hoc _restore_dropped_albums."""
+    from pydantic_ai.models.test import TestModel
+
+    from lauschi_catalog.commands.curate import _build_batch_agent
+
+    agent = _build_batch_agent(TestModel())
+    validators = agent._output_validators
+    assert len(validators) >= 1, "batch agent needs an output validator"
+
+
+def test_batch_completeness_validator_rejects_incomplete_output():
+    """If the model omits an album, the validator should raise
+    ModelRetry so pydantic-ai feeds the error back to the model."""
+    from pydantic_ai import ModelRetry
+
+    from lauschi_catalog.commands.curate import (
+        BatchResult,
+        CurateDeps,
+        _build_batch_agent,
+    )
+
+    agent = _build_batch_agent("test")
+    validator_fn = agent._output_validators[0]
+
+    deps = CurateDeps()
+    deps.current_batch_ids = {("spotify", "a1"), ("spotify", "a2")}
+
+    result = BatchResult(albums=[
+        AlbumDecision(
+            album_id="a1", provider="spotify", include=True,
+            episode_num=1, title="T1",
+        ),
+    ])
+
+    class FakeCtx:
+        def __init__(self, deps):
+            self.deps = deps
+
+    ctx = FakeCtx(deps)
+    with pytest.raises(ModelRetry, match="omitted 1 album"):
+        validator_fn.function(ctx, result)
+
+
+def test_batch_completeness_validator_accepts_complete_output():
+    """Complete output passes validation without error."""
+    from lauschi_catalog.commands.curate import (
+        BatchResult,
+        CurateDeps,
+        _build_batch_agent,
+    )
+
+    agent = _build_batch_agent("test")
+    validator_fn = agent._output_validators[0]
+
+    deps = CurateDeps()
+    deps.current_batch_ids = {("spotify", "a1"), ("spotify", "a2")}
+
+    result = BatchResult(albums=[
+        AlbumDecision(
+            album_id="a1", provider="spotify", include=True,
+            episode_num=1, title="T1",
+        ),
+        AlbumDecision(
+            album_id="a2", provider="spotify", include=False,
+            episode_num=None, title="T2", exclude_reason="compilation",
+        ),
+    ])
+
+    class FakeCtx:
+        def __init__(self, deps):
+            self.deps = deps
+
+    ctx = FakeCtx(deps)
+    validated = validator_fn.function(ctx, result)
+    assert validated is result
