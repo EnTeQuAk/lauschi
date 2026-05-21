@@ -22,10 +22,8 @@ from typing import Literal
 
 import click
 from pydantic import BaseModel, Field, field_validator, model_validator
-from pydantic_ai import Agent, CallToolsNode, ModelRetry, RunContext
-from pydantic_ai.messages import ThinkingPart
+from pydantic_ai import Agent, ModelRetry, RunContext
 from lauschi_catalog._opencode import build_mistral_model, build_opencode_model
-from pydantic_ai.usage import UsageLimits
 from rich import box
 from rich.console import Console
 from rich.markup import escape
@@ -873,33 +871,8 @@ def _build_finalize_agent(model, *, model_name: str = "", content_type: str = "h
 
 async def _run_agent(agent, prompt, deps):
     """Run an agent with streaming reasoning output."""
-    async with agent.iter(
-        prompt, deps=deps,
-        usage_limits=UsageLimits(request_limit=200),
-    ) as run:
-        async for node in run:
-            if not isinstance(node, CallToolsNode):
-                continue
-            for part in node.model_response.parts:
-                if not isinstance(part, ThinkingPart):
-                    continue
-                if len(part.content.strip()) <= 80:
-                    continue
-                # Escape ALL brackets; model reasoning can contain regex
-                # character classes like [/\.\-] which crash Rich's parser.
-                safe = escape(part.content.strip()[:500])
-                try:
-                    console.print(
-                        Panel(
-                            safe,
-                            border_style="dim",
-                            title="💭 reasoning",
-                            padding=(0, 1),
-                        ),
-                    )
-                except Exception:
-                    pass
-        return run.result.output
+    from lauschi_catalog.run import run_agent_streaming
+    return await run_agent_streaming(agent, prompt, deps, request_limit=200)
 
 
 # Re-export so existing tests/imports of curate._is_retryable keep

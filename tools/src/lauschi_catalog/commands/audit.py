@@ -20,16 +20,13 @@ from typing import Literal
 
 import click
 from pydantic import BaseModel, Field
-from pydantic_ai import Agent, CallToolsNode, RunContext, ToolOutput
-from pydantic_ai.messages import ThinkingPart
+from pydantic_ai import Agent, RunContext, ToolOutput
 from lauschi_catalog._opencode import (
     build_mistral_model,
     build_opencode_model,
     get_model_settings,
 )
-from pydantic_ai.usage import UsageLimits
 from rich.console import Console
-from rich.panel import Panel
 
 from lauschi_catalog.catalog.canonical import canonicalize
 from lauschi_catalog.catalog.facts import (
@@ -346,27 +343,11 @@ async def audit_one(
             lint_issues=lint_issues,
         )
         try:
-            async def _run():
-                async with agent.iter(
-                    prompt, deps=deps,
-                    usage_limits=UsageLimits(request_limit=20),
-                ) as run:
-                    async for node in run:
-                        if not isinstance(node, CallToolsNode):
-                            continue
-                        for part in node.model_response.parts:
-                            if not isinstance(part, ThinkingPart):
-                                continue
-                            if len(part.content.strip()) > 80:
-                                console.print(Panel(
-                                    part.content.strip()[:500],
-                                    border_style="dim",
-                                    title="💭",
-                                    padding=(0, 1),
-                                ))
-                    return run.result.output
-
-            result = await asyncio.wait_for(_run(), timeout=timeout)
+            from lauschi_catalog.run import run_agent_streaming
+            result = await asyncio.wait_for(
+                run_agent_streaming(agent, prompt, deps, request_limit=20),
+                timeout=timeout,
+            )
             return result
         except asyncio.TimeoutError:
             raise
