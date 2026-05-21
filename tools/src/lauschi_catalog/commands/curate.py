@@ -632,7 +632,7 @@ def _get_album_details(
                 "label": album.label,
                 "artists": album.artists,
                 "tracks": [{"name": t.name, "duration_ms": t.duration_ms}
-                           for t in album.tracks[:10]],
+                           for t in album.tracks],
             }
             ctx.deps.seen_details[key] = detail
             results.append(detail)
