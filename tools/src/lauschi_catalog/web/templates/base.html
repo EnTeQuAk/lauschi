@@ -15,7 +15,20 @@
         <link rel="stylesheet" href="/static/styles.css">
         <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3/dist/cdn.min.js"></script>
         <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
-        <script>document.addEventListener('DOMContentLoaded', () => lucide.createIcons());</script>
+        <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+            // Highlight active nav link
+            const path = location.pathname;
+            document.querySelectorAll('nav.container-fluid a[href]').forEach(a => {
+                const href = a.getAttribute('href');
+                if (href === '/' || a.classList.contains('nav-brand')) return;
+                if (path === href || path.startsWith(href + '/')) {
+                    a.classList.add('nav-active');
+                }
+            });
+        });
+        </script>
         {% block head %}{% endblock %}
     </head>
     <body>

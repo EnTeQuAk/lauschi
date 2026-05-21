@@ -167,6 +167,10 @@ nav.container-fluid a:hover {
 	letter-spacing: -0.02em;
 	color: var(--color-primary) !important;
 }
+nav.container-fluid a.nav-active {
+	background: var(--color-primary);
+	color: var(--color-text-on-primary) !important;
+}
 
 /* ── Main content ──────────────────────────────────── */
 main.container {
@@ -788,13 +792,13 @@ nav[aria-label="breadcrumb"] li + li::before {
 	bottom: 0;
 	left: 0;
 	right: 0;
-	max-height: 40vh;
+	max-height: 50vh;
 	overflow-y: auto;
 	background: #1e1e2e;
 	border-top: 2px solid var(--color-primary);
 	padding: 0.5rem 1rem;
 	font-family: var(--font-mono);
-	font-size: 0.8em;
+	font-size: 13px;
 	color: #cdd6f4;
 	z-index: 100;
 }
@@ -822,7 +826,7 @@ nav[aria-label="breadcrumb"] li + li::before {
 }
 .job-log-scroll {
 	overflow-y: auto;
-	max-height: calc(40vh - 4rem);
+	max-height: calc(50vh - 4rem);
 }
 
 /* ── Nav tabs ──────────────────────────────────────── */
@@ -1190,6 +1194,17 @@ nav[aria-label="breadcrumb"] li + li::before {
 
 /* ── Icons ─────────────────────────────────────────── */
 .icon-1em { width: 1em; height: 1em; }
+
+/* ── Skeleton loading animation ─────────────────────── */
+@keyframes skeleton-pulse {
+	0%, 100% { opacity: 0.4; }
+	50% { opacity: 0.7; }
+}
+.skeleton {
+	background: var(--color-surface-dim);
+	border-radius: var(--radius-button);
+	animation: skeleton-pulse 1.5s ease-in-out infinite;
+}
 
 /* ── Figure reset (for table wrappers) ─────────────── */
 .figure-reset {
