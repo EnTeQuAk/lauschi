@@ -1,20 +1,9 @@
-"""Web-specific configuration.
-
-Path constants are re-exported from the shared catalog.paths module
-so existing web imports keep working.
-"""
+"""Web-specific configuration."""
 
 from __future__ import annotations
 
 import os
 from pathlib import Path
-
-from lauschi_catalog.catalog.paths import (
-    CURATION_DIR,  # noqa: F401
-    REPO_ROOT,  # noqa: F401
-    SERIES_LOCK,  # noqa: F401
-    SERIES_YAML,  # noqa: F401
-)
 
 # SQLite database for job state (kept inside catalog-web, not the repo root).
 DEFAULT_DB_PATH = Path(__file__).resolve().parent.parent.parent / "jobs.db"

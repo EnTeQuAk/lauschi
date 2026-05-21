@@ -14,7 +14,8 @@ from filelock import FileLock
 
 from lauschi_catalog.catalog.loader import load_catalog
 from lauschi_catalog.catalog.models import CatalogEntry, ProviderConfig
-from lauschi_catalog.web.config import DB_PATH, SERIES_LOCK, SERIES_YAML
+from lauschi_catalog.catalog.paths import series_lock_path, series_yaml_path
+from lauschi_catalog.web.config import DB_PATH
 
 # ---------------------------------------------------------------------------
 # Schema
@@ -59,8 +60,8 @@ def _now() -> str:
 
 def sync_catalog_to_db() -> int:
     """Load series.yaml and upsert into SQLite. Deletes orphan rows. Returns count."""
-    with FileLock(str(SERIES_LOCK)):
-        entries = load_catalog(SERIES_YAML)
+    with FileLock(str(series_lock_path())):
+        entries = load_catalog(series_yaml_path())
     ids = {e.id for e in entries}
     with _conn() as conn:
         for e in entries:

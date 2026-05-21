@@ -12,7 +12,7 @@ from typing import Any
 from fastapi import APIRouter, HTTPException, Request
 from fastapi.responses import RedirectResponse, StreamingResponse
 
-from lauschi_catalog.web.config import REPO_ROOT
+from lauschi_catalog.catalog.paths import repo_root
 from lauschi_catalog.web.jobs import (
     append_log,
     create_job,
@@ -73,8 +73,8 @@ def _build_cli_args(series_id: str, command: str) -> tuple[list[str], str]:
     Pipeline: a shell script that runs all remaining steps from current state.
     Pipeline-one: forcefully re-runs curate → audit → apply.
     """
-    tools_dir = str(REPO_ROOT / "tools")
-    curation_dir = str(REPO_ROOT / "assets" / "catalog" / "curation")
+    tools_dir = str(repo_root() / "tools")
+    curation_dir = str(repo_root() / "assets" / "catalog" / "curation")
     safe_series = shlex.quote(series_id)
 
     if command == "discover":
@@ -104,7 +104,7 @@ def _build_cli_args(series_id: str, command: str) -> tuple[list[str], str]:
         script = "\n".join(script_lines)
         return (
             ["bash", "-c", script],
-            str(REPO_ROOT),
+            str(repo_root()),
         )
 
     if command == "pipeline-one":
@@ -147,7 +147,7 @@ echo "Done."
 '''
         return (
             ["bash", "-c", script],
-            str(REPO_ROOT),
+            str(repo_root()),
         )
 
     if command == "validate":
