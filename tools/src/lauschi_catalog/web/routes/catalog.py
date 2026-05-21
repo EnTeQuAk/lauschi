@@ -452,6 +452,30 @@ async def splits_page(request: Request):
     )
 
 
+@router.get("/jobs/{job_id}", response_class=HTMLResponse)
+async def job_detail_page(request: Request, job_id: str):
+    """Full-page job detail with terminal output and SSE streaming."""
+    from lauschi_catalog.web.jobs import get_job
+
+    job = get_job(job_id)
+    if job is None:
+        return HTMLResponse("Job not found", status_code=404)
+    return templates.TemplateResponse(
+        request,
+        "job_detail.html",
+        {
+            "job": {
+                "id": job.id,
+                "series_id": job.series_id,
+                "command": job.command,
+                "status": job.status,
+                "error": job.error,
+                "created_at": job.created_at,
+            },
+        },
+    )
+
+
 @router.get("/jobs", response_class=HTMLResponse)
 async def jobs_page(request: Request):
     """Show all jobs with status and logs."""

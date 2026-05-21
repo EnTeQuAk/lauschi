@@ -758,8 +758,28 @@ nav[aria-label="breadcrumb"] li + li::before {
 .job-terminal .job-log-line {
 	color: #cdd6f4;
 }
+.job-terminal--fullpage {
+	min-height: 60vh;
+	max-height: 75vh;
+}
 .job-terminal .text-muted {
 	color: #6c7086;
+}
+
+/* ── Scroll-to-bottom button ───────────────────────── */
+.btn-scroll-bottom {
+	position: sticky;
+	bottom: 7rem;
+	float: right;
+	background: var(--color-primary);
+	color: var(--color-text-on-primary);
+	border: none;
+	border-radius: var(--radius-pill);
+	padding: var(--space-xs) var(--space-md);
+	font-size: 0.8rem;
+	cursor: pointer;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+	z-index: 10;
 }
 
 /* ── Job drawer (dark terminal exception) ──────────── */

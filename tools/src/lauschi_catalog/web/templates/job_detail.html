@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+{% block title %}Job {{ job.id }} — lauschi{% endblock %}
+{% block content %}
+    <nav aria-label="breadcrumb" class="mb-1">
+        <ul>
+            <li>
+                <a href="/jobs">Jobs</a>
+            </li>
+            <li>{{ job.id }}</li>
+        </ul>
+    </nav>
+    <div class="flex justify-between items-start gap-1 wrap mb-15">
+        <div>
+            <h1 class="mb-025">
+                Job <code>{{ job.id }}</code>
+            </h1>
+            <p class="text-muted mb-0">
+                <a href="/catalog/{{ job.series_id }}">{{ job.series_id }}</a>
+                · {{ job.command }}
+                · {{ job.created_at[:19] }}
+            </p>
+        </div>
+        <div class="flex gap-05">
+            <span class="status-badge status-badge--{{ job.status }}">{{ job.status }}</span>
+            {% if job.status in ('running', 'queued') %}
+                <form method="post"
+                      action="/api/jobs/{{ job.id }}/cancel"
+                      class="form-inline">
+                    <button type="submit" class="outline btn-sm">Cancel</button>
+                </form>
+            {% endif %}
+            {% if job.status in ('error', 'cancelled') %}
+                <form method="post" action="/api/jobs" class="form-inline">
+                    <input type="hidden" name="series_id" value="{{ job.series_id }}" />
+                    <input type="hidden" name="command" value="{{ job.command }}" />
+                    <button type="submit" class="contrast btn-sm">Retry</button>
+                </form>
+            {% endif %}
+        </div>
+    </div>
+    {% if job.error %}
+        <div class="panel-sm" style="border-color: var(--color-error)">
+            <p class="text-red mb-0">{{ job.error }}</p>
+        </div>
+    {% endif %}
+    <div x-data="jobDetailApp('{{ job.id }}', '{{ job.status }}')"
+         x-init="init()">
+        <div class="job-terminal job-terminal--fullpage">
+            <template x-for="line in lines" :key="line.id">
+                <p class="job-log-line" x-text="line.text"></p>
+            </template>
+            <p x-show="lines.length === 0" class="text-muted">No output.</p>
+        </div>
+        <button x-show="!atBottom && lines.length > 20"
+                class="btn-scroll-bottom"
+                @click="scrollToBottom()">Scroll to bottom</button>
+    </div>
+{% endblock %}
+{% block scripts %}
+    <script>
+function jobDetailApp(jobId, initialStatus) {
+  return {
+    lines: [],
+    _lineId: 0,
+    atBottom: true,
+    _terminal: null,
+    init() {
+      this._terminal = this.$el.querySelector('.job-terminal');
+      if (this._terminal) {
+        this._terminal.addEventListener('scroll', () => {
+          const el = this._terminal;
+          this.atBottom = el.scrollTop + el.clientHeight >= el.scrollHeight - 20;
+        });
+      }
+      this.loadLogs();
+    },
+    async loadLogs() {
+      try {
+        const res = await fetch(`/api/jobs/${jobId}/logs`);
+        const data = await res.json();
+        if (data.lines) {
+          for (const line of data.lines) {
+            this.lines.push({ id: ++this._lineId, text: line });
+          }
+        }
+        if (data.status === 'running' || data.status === 'queued') {
+          this.connectSSE();
+        }
+        this.$nextTick(() => this.scrollToBottom());
+      } catch (_) {}
+    },
+    connectSSE() {
+      const source = new EventSource(`/api/jobs/${jobId}/events`);
+      source.addEventListener('log', (e) => {
+        const payload = JSON.parse(e.data);
+        this.lines.push({ id: ++this._lineId, text: payload.line });
+        if (this.atBottom) this.$nextTick(() => this.scrollToBottom());
+      });
+      source.addEventListener('done', (e) => {
+        const payload = JSON.parse(e.data);
+        this.lines.push({ id: ++this._lineId, text: `[${payload.status}]` });
+        source.close();
+        if (this.atBottom) this.$nextTick(() => this.scrollToBottom());
+      });
+      source.addEventListener('error', () => {
+        this.lines.push({ id: ++this._lineId, text: '[SSE error]' });
+        source.close();
+      });
+    },
+    scrollToBottom() {
+      if (this._terminal) {
+        this._terminal.scrollTop = this._terminal.scrollHeight;
+        this.atBottom = true;
+      }
+    }
+  };
+}
+    </script>
+{% endblock %}

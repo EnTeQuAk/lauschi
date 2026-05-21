@@ -73,6 +73,12 @@
                            class="text-muted font-normal ml-05"></small>
                 </strong>
                 <div class="flex gap-03">
+                    <a x-show="$store.jobs.currentJobId"
+                       :href="'/jobs/' + $store.jobs.currentJobId"
+                       role="button"
+                       class="secondary outline btn-sm">
+                        <i data-lucide="maximize-2" class="icon-1em"></i> Full page
+                    </a>
                     <button @click="$store.jobs.clear()" aria-label="Clear">
                         <i data-lucide="trash-2" class="icon-1em"></i> Clear
                     </button>

@@ -24,7 +24,7 @@
                 {% for j in jobs %}
                     <tr>
                         <td>
-                            <code>{{ j.id }}</code>
+                            <a href="/jobs/{{ j.id }}"><code>{{ j.id }}</code></a>
                         </td>
                         <td>
                             <a href="/catalog/{{ j.series_id }}">{{ j.series_id }}</a>
