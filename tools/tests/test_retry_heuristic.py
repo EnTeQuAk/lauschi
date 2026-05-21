@@ -1,10 +1,10 @@
-"""Tests for curate._is_retryable.
+"""Tests for is_retryable.
 
 The retry decision in _run_with_retry gates whether a transient
 opencode/SDK failure costs us one slot or burns the whole curation.
 Pinning both prongs of the check (type-by-name and string fallback)
-because regressions here are silent: too narrow → spurious failures,
-too broad → wasted budget on auth errors that won't fix themselves.
+because regressions here are silent: too narrow -> spurious failures,
+too broad -> wasted budget on auth errors that won't fix themselves.
 """
 
 from __future__ import annotations
@@ -13,7 +13,7 @@ import socket
 
 import pytest
 
-from lauschi_catalog.commands.curate import _is_retryable
+from lauschi_catalog.retry import is_retryable as _is_retryable
 
 
 # ── Type-by-name (MRO walk) ───────────────────────────────────────────────

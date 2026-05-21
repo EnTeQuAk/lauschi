@@ -186,15 +186,12 @@ def _filter_confirmed_facts(facts: dict) -> dict | None:
 
     Facts without audited_by stay in the curation JSON for human
     review. Provenance fields are preserved in yaml as audit trail.
-
-    Handles both old (discovered_by/confirmed_by) and new
-    (curated_by/audited_by) field names for backward compatibility.
     """
     result: dict[str, list[dict]] = {}
     for key in ("era_boundaries", "known_gaps", "sub_series"):
         kept = []
         for item in facts.get(key, []):
-            audited = item.get("audited_by") or item.get("confirmed_by")
+            audited = item.get("audited_by")
             if audited:
                 kept.append(item)
         if kept:

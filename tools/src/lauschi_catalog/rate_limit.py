@@ -35,8 +35,6 @@ class RateLimiter:
 
     def _min_spacing(self) -> float:
         """Minimum seconds between requests for this model."""
-        # Check prefix match: "mistral-small-2603" → "mistral-small-2603"
-        # Also exact match for backward compat.
         for key, spacing in _MIN_SPACING.items():
             if self.model_name.startswith(key):
                 return spacing

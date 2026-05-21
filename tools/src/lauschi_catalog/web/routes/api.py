@@ -193,7 +193,7 @@ async def post_split_action(
 
     Accept: creates a new curation JSON, removes albums from original,
     adds the new series to series.yaml.
-    Reject: removes the split proposal from review.splits (legacy key).
+    Reject: removes the split proposal from review.splits.
     """
     curation_path = CURATION_DIR / f"{series_id}.json"
     if not curation_path.exists():

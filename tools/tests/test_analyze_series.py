@@ -71,7 +71,6 @@ def test_analyze_empty_curation():
         "with_episode_num": 0,
         "episode_range": "none",
         "gaps": [],
-        "gap_count": 0,
         "providers": {},
         "common_words": [],
         "duplicates_within_provider": [],
@@ -93,7 +92,7 @@ def test_analyze_returns_expected_keys():
     ])
     assert set(analyze_series(curation)) == {
         "total", "with_episode_num", "episode_range",
-        "gaps", "gap_count", "providers", "common_words",
+        "gaps", "providers", "common_words",
         "duplicates_within_provider", "title_clusters",
         "outliers", "outlier_count",
         "cross_provider_coverage", "pattern_coverage",
@@ -122,41 +121,29 @@ def test_analyze_finds_simple_gaps():
     assert result["gaps"] == [3, 4]
 
 
-def test_analyze_caps_gaps_at_20():
+def test_analyze_gaps_includes_all():
     """All gap numbers are included so agents see the full picture."""
     albums = [
         make_album("low", "Folge 1: low", episode_num=1),
         make_album("high", "Folge 100: high", episode_num=100),
     ]
     result = analyze_series(make_curation(albums=albums))
-    assert len(result["gaps"]) == 98
     assert result["gaps"] == list(range(2, 100))
 
 
-def test_analyze_gap_count_reports_full_severity():
-    albums = [
-        make_album("low", "Folge 1: low", episode_num=1),
-        make_album("high", "Folge 100: high", episode_num=100),
-    ]
-    result = analyze_series(make_curation(albums=albums))
-    assert result["gap_count"] == 98
-    assert len(result["gaps"]) == 98
-
-
-def test_analyze_gap_count_matches_when_under_cap():
+def test_analyze_gaps_small_range():
     albums = [
         make_album("a", "Folge 1: A", episode_num=1),
         make_album("b", "Folge 5: B", episode_num=5),
     ]
     result = analyze_series(make_curation(albums=albums))
     assert result["gaps"] == [2, 3, 4]
-    assert result["gap_count"] == 3
 
 
-def test_analyze_gap_count_zero_when_contiguous():
+def test_analyze_gaps_empty_when_contiguous():
     albums = [make_album(str(i), f"Folge {i}", episode_num=i) for i in range(1, 6)]
     result = analyze_series(make_curation(albums=albums))
-    assert result["gap_count"] == 0
+    assert result["gaps"] == []
 
 
 def test_analyze_no_episode_nums_means_no_range():

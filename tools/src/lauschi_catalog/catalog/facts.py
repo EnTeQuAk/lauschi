@@ -12,29 +12,10 @@ so we can distinguish documented history from hallucination.
 
 from __future__ import annotations
 
-from typing import Any
-
-from pydantic import BaseModel, Field, field_validator, model_validator
+from pydantic import BaseModel, Field, field_validator
 
 
 import re as _re
-
-
-def _migrate_provenance(data: dict[str, Any]) -> dict[str, Any]:
-    """Map old provenance field names to the current schema.
-
-    Old: discovered_by, confirmed_by, confirmed_at, verify_status, verify_reasoning
-    New: curated_by, audited_by, audited_at
-    """
-    if "discovered_by" in data and "curated_by" not in data:
-        data["curated_by"] = data.pop("discovered_by")
-    if "confirmed_by" in data and "audited_by" not in data:
-        data["audited_by"] = data.pop("confirmed_by")
-    if "confirmed_at" in data and "audited_at" not in data:
-        data["audited_at"] = data.pop("confirmed_at")
-    data.pop("verify_status", None)
-    data.pop("verify_reasoning", None)
-    return data
 
 
 class EraBoundary(BaseModel):
@@ -61,13 +42,6 @@ class EraBoundary(BaseModel):
     audited_by: str | None = Field(default=None)
     audited_at: str | None = Field(default=None)
 
-    @model_validator(mode="before")
-    @classmethod
-    def _migrate(cls, data: Any) -> Any:
-        if isinstance(data, dict):
-            return _migrate_provenance(data)
-        return data
-
 
 class KnownGap(BaseModel):
     """A documented missing episode number, not a curation error."""
@@ -80,13 +54,6 @@ class KnownGap(BaseModel):
     audited_by: str | None = Field(default=None)
     audited_at: str | None = Field(default=None)
 
-    @model_validator(mode="before")
-    @classmethod
-    def _migrate(cls, data: Any) -> Any:
-        if isinstance(data, dict):
-            return _migrate_provenance(data)
-        return data
-
 
 class SubSeriesFact(BaseModel):
     """A spin-off or sub-series discovered within the discography."""
@@ -97,13 +64,6 @@ class SubSeriesFact(BaseModel):
     curated_by: str
     audited_by: str | None = Field(default=None)
     audited_at: str | None = Field(default=None)
-
-    @model_validator(mode="before")
-    @classmethod
-    def _migrate(cls, data: Any) -> Any:
-        if isinstance(data, dict):
-            return _migrate_provenance(data)
-        return data
 
 
 class EraBoundaryProposal(BaseModel):

@@ -875,10 +875,6 @@ async def _run_agent(agent, prompt, deps):
     return await run_agent_streaming(agent, prompt, deps, request_limit=200)
 
 
-# Re-export so existing tests/imports of curate._is_retryable keep
-# working. New code should import is_retryable from
-# lauschi_catalog.retry directly.
-_is_retryable = is_retryable
 
 
 async def _run_with_retry(
@@ -1892,8 +1888,7 @@ def curate(
     providers = _init_providers(provider, no_cache=no_cache)
     provider_names = ", ".join(p.name for p in providers)
 
-    # Resolve content_type from flags: explicit --content-type wins, then
-    # --music alias for backward compat.
+    # Resolve content_type: explicit --content-type wins, then --music alias.
     cli_content_type: str | None = content_type
     if cli_content_type is None and music:
         cli_content_type = "music"
