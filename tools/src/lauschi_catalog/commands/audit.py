@@ -181,7 +181,7 @@ def _build_audit_agent(model_name: str, api_key: str) -> Agent[Deps, AuditResult
                 "for targeted fixes; concerns for anything worth flagging."
             ),
         ),
-        system_prompt=_SYSTEM_PROMPT,
+        instructions=_SYSTEM_PROMPT,
         model_settings=get_model_settings("audit", model_name),
         tool_retries=2,
         output_retries=2,

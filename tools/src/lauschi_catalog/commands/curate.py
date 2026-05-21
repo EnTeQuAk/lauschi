@@ -484,11 +484,11 @@ def _build_metadata_agent(
     gets a tool error, and may invent a bogus pattern to satisfy the
     instruction.
     """
-    system_prompt = load_curate_skill(phase="metadata", content_type=content_type, discography_span_years=discography_span_years)
+    skill_instructions = load_curate_skill(phase="metadata", content_type=content_type, discography_span_years=discography_span_years)
     agent: Agent[CurateDeps, SeriesMetadata] = Agent(
         model,
         output_type=SeriesMetadata,
-        system_prompt=system_prompt,
+        instructions=skill_instructions,
         model_settings=get_model_settings("curate", model_name),
         tool_retries=2, output_retries=2,
     )
@@ -641,11 +641,11 @@ def _get_album_details(
 
 def _build_batch_agent(model, *, model_name: str = "", content_type: str = "hoerspiel", discography_span_years: int | None = None) -> Agent[CurateDeps, BatchResult]:
     """Agent for processing one batch of albums."""
-    system_prompt = load_curate_skill(phase="batch", content_type=content_type, discography_span_years=discography_span_years)
+    skill_instructions = load_curate_skill(phase="batch", content_type=content_type, discography_span_years=discography_span_years)
     agent: Agent[CurateDeps, BatchResult] = Agent(
         model,
         output_type=BatchResult,
-        system_prompt=system_prompt,
+        instructions=skill_instructions,
         model_settings=get_model_settings("curate", model_name),
         tool_retries=2, output_retries=2,
     )
@@ -691,11 +691,11 @@ def _build_finalize_agent(model, *, model_name: str = "", content_type: str = "h
     episode identifier even when the album title doesn't match the
     current pattern.
     """
-    system_prompt = load_curate_skill(phase="finalize", content_type=content_type, discography_span_years=discography_span_years)
+    skill_instructions = load_curate_skill(phase="finalize", content_type=content_type, discography_span_years=discography_span_years)
     agent: Agent[CurateDeps, FinalizeResult] = Agent(
         model,
         output_type=FinalizeResult,
-        system_prompt=system_prompt,
+        instructions=skill_instructions,
         model_settings=get_model_settings("finalize", model_name),
         tool_retries=2, output_retries=2,
     )
