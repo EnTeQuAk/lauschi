@@ -26,7 +26,7 @@ class TestLoadCurateSkill:
 
     def test_loads_content_type_reference(self):
         p = load_curate_skill(phase="batch", content_type="hoerspiel")
-        assert "cross_provider_duplicate" in p
+        assert "cross_provider_pair" in p
 
         p = load_curate_skill(phase="batch", content_type="music")
         assert "kinderlieder_compilation" in p

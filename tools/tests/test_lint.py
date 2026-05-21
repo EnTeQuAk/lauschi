@@ -354,3 +354,25 @@ class TestLintLowConfidence:
             ],
         }
         assert lint_curation(curation) == []
+
+
+class TestAutoIncludedRule:
+    def test_flags_auto_included_albums(self):
+        curation = {
+            "albums": [
+                _make_album("a1", "Ep 1", episode_num=1),
+                {**_make_album("a2", "Mystery Album"), "notes": "auto-included: agent omitted this album from its output"},
+            ],
+        }
+        issues = lint_curation(curation)
+        assert any("auto_included" in i for i in issues)
+        assert any("Mystery Album" in i for i in issues)
+
+    def test_no_flag_when_notes_normal(self):
+        curation = {
+            "albums": [
+                {**_make_album("a1", "Ep 1", episode_num=1), "notes": "standard notes"},
+            ],
+        }
+        issues = lint_curation(curation)
+        assert not any("auto_included" in i for i in issues)

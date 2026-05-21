@@ -30,4 +30,13 @@ episode number, return it in `episode_updates`. If you discover a SYSTEMATIC
 new format (e.g., all tracks start with "Folge NNN:" while album titles
 don't), propose a `pattern_update`.
 
+**Task 3: Lint check (use `lint_current_curation` tool)**
+
+After proposing facts, episode numbers, and any pattern updates, call
+`lint_current_curation` to run deterministic structural checks. The lint
+tool sees the updated pattern (if you proposed one), so call it AFTER
+`propose_pattern_update`, not before. Address any findings: fix via
+additional episode_updates or fact proposals, or accept them as known
+limitations documented in your concerns.
+
 **Output:** `FinalizeResult` with episode_updates and optional pattern_update.

@@ -92,6 +92,32 @@ class TestBuildPrompt:
         prompt = _build_prompt(_curation(), [])
         assert "[high]" not in prompt
 
+    def test_shows_notes_for_medium_confidence_included(self):
+        c = _curation()
+        c["albums"][0]["confidence"] = "medium"
+        c["albums"][0]["notes"] = "title doesn't match pattern exactly"
+        prompt = _build_prompt(c, [])
+        assert "notes: title doesn't match pattern exactly" in prompt
+
+    def test_shows_notes_for_low_confidence_included(self):
+        c = _curation()
+        c["albums"][0]["confidence"] = "low"
+        c["albums"][0]["notes"] = "uncertain match"
+        prompt = _build_prompt(c, [])
+        assert "notes: uncertain match" in prompt
+
+    def test_hides_notes_for_high_confidence_included(self):
+        c = _curation()
+        c["albums"][0]["notes"] = "should not appear"
+        prompt = _build_prompt(c, [])
+        assert "should not appear" not in prompt
+
+    def test_shows_notes_for_excluded_album(self):
+        c = _curation()
+        c["albums"][1]["notes"] = "borderline decision"
+        prompt = _build_prompt(c, [])
+        assert "notes: borderline decision" in prompt
+
     def test_shows_lint_issues(self):
         prompt = _build_prompt(_curation(), ["Duplicate ep 5 on spotify"])
         assert "Lint findings (1)" in prompt
@@ -380,6 +406,61 @@ class TestMergeFacts:
         update = AuditFactUpdate()
         _merge_facts(series_facts, update, "test-model", "2026-01-01T00:00:00+00:00")
         assert len(series_facts["era_boundaries"]) == 1
+
+
+# ── apply_audit: multiple fact_updates ─────────────────────────────────
+
+
+class TestApplyAuditMultipleFactUpdates:
+    def _apply_with_facts(self, tmp_path, fact_updates):
+        path = tmp_path / "test_series.json"
+        path.write_text(json.dumps(_curation()))
+
+        import lauschi_catalog.commands.audit as audit_mod
+        orig = audit_mod.CURATION_DIR
+        audit_mod.CURATION_DIR = tmp_path
+        try:
+            result = AuditResult(
+                approve=True,
+                fact_updates=fact_updates,
+            )
+            apply_audit("test_series", result, model_name="test-model")
+        finally:
+            audit_mod.CURATION_DIR = orig
+
+        yaml = ruamel.yaml.YAML()
+        return yaml.load(path)
+
+    def test_all_fact_updates_applied_not_just_last(self, tmp_path):
+        updates = [
+            AuditFactUpdate(
+                era_boundaries=[EraBoundaryProposal(label="klassik", release_date_range="1976-1979")],
+            ),
+            AuditFactUpdate(
+                known_gaps=[KnownGapProposal(number=13, reason="legal dispute")],
+            ),
+        ]
+        data = self._apply_with_facts(tmp_path, updates)
+        facts = data["series_facts"]
+        assert len(facts["era_boundaries"]) == 1
+        assert facts["era_boundaries"][0]["label"] == "klassik"
+        assert len(facts["known_gaps"]) == 1
+        assert facts["known_gaps"][0]["number"] == 13
+
+    def test_replace_then_merge_applies_both(self, tmp_path):
+        updates = [
+            AuditFactUpdate(
+                mode="replace",
+                era_boundaries=[EraBoundaryProposal(label="original", release_date_range="1970-1980")],
+            ),
+            AuditFactUpdate(
+                mode="merge",
+                era_boundaries=[EraBoundaryProposal(label="modern", release_date_range="2020-")],
+            ),
+        ]
+        data = self._apply_with_facts(tmp_path, updates)
+        labels = {e["label"] for e in data["series_facts"]["era_boundaries"]}
+        assert labels == {"original", "modern"}
 
 
 # ── Dry-run mode ─────────────────────────────────────────────────────────

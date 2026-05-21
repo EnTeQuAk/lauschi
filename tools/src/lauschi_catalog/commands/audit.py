@@ -20,7 +20,7 @@ from typing import Literal
 
 import click
 from pydantic import BaseModel, Field
-from pydantic_ai import Agent, RunContext, ToolOutput
+from pydantic_ai import Agent, ModelRetry, RunContext, ToolOutput
 from lauschi_catalog._opencode import (
     build_mistral_model,
     build_opencode_model,
@@ -190,7 +190,10 @@ def _build_audit_agent(model_name: str, api_key: str) -> Agent[Deps, AuditResult
     @agent.tool
     def web_search(ctx: RunContext[Deps], query: str) -> list[dict]:
         if ctx.deps._search_count >= ctx.deps._MAX_SEARCHES:
-            return [{"result": f"limit reached ({ctx.deps._search_count}/{ctx.deps._MAX_SEARCHES})"}]
+            raise ModelRetry(
+                f"Search limit reached ({ctx.deps._MAX_SEARCHES}/{ctx.deps._MAX_SEARCHES}). "
+                f"Make your audit decision using the information you already have."
+            )
         ctx.deps._search_count += 1
         from lauschi_catalog.search import brave_search
         results = brave_search(query, count=5)
@@ -201,7 +204,10 @@ def _build_audit_agent(model_name: str, api_key: str) -> Agent[Deps, AuditResult
     @agent.tool
     def fetch_page(ctx: RunContext[Deps], url: str) -> str:
         if ctx.deps._fetch_count >= ctx.deps._MAX_FETCHES:
-            return f"limit reached ({ctx.deps._fetch_count}/{ctx.deps._MAX_FETCHES})"
+            raise ModelRetry(
+                f"Fetch limit reached ({ctx.deps._MAX_FETCHES}/{ctx.deps._MAX_FETCHES}). "
+                f"Make your audit decision using the information you already have."
+            )
         ctx.deps._fetch_count += 1
         from lauschi_catalog.search import fetch_page as _fetch
         content = _fetch(url, max_chars=4000)
@@ -237,8 +243,10 @@ def _build_prompt(curation: dict, lint_issues: list[str]) -> str:
         ep_str = f"Ep {ep}: " if ep is not None else ""
         conf = a.get("confidence", "high")
         conf_tag = f" [{conf}]" if conf != "high" else ""
+        notes = a.get("notes", "")
+        notes_str = f" — notes: {notes}" if notes and conf != "high" else ""
         lines.append(
-            f"  ✅ [{a.get('provider', '?')}] {ep_str}{a['title']}{conf_tag}"
+            f"  ✅ [{a.get('provider', '?')}] {ep_str}{a['title']}{conf_tag}{notes_str}"
         )
 
     lines.append(f"\n### Excluded albums ({len(excluded)})")
@@ -247,8 +255,10 @@ def _build_prompt(curation: dict, lint_issues: list[str]) -> str:
         rel = a.get("release_date") or ""
         rel_str = f" ({rel})" if rel else ""
         reason_str = f" — {reason}" if reason else ""
+        notes = a.get("notes", "")
+        notes_str = f" (notes: {notes})" if notes else ""
         lines.append(
-            f"  ❌ [{a.get('provider', '?')}] {a['title']}{rel_str}{reason_str}"
+            f"  ❌ [{a.get('provider', '?')}] {a['title']}{rel_str}{reason_str}{notes_str}"
         )
 
     facts = curation.get("series_facts")
@@ -389,11 +399,9 @@ def apply_audit(
     if result.overrides:
         review["overrides"] = list(existing_overrides.values())
 
-    # Apply fact updates
+    # Apply fact updates (all of them, in order)
     series_facts = data.setdefault("series_facts", {})
-    if result.fact_updates:
-        # Take the last fact_update (agent may iterate)
-        update = result.fact_updates[-1]
+    for update in result.fact_updates:
         if update.mode == "replace":
             series_facts["era_boundaries"] = [
                 {**e.model_dump(), "audited_by": model_name, "audited_at": now}
@@ -408,7 +416,6 @@ def apply_audit(
                 for s in update.sub_series
             ]
         else:
-            # Merge: update existing by label/number, add new ones
             _merge_facts(series_facts, update, model_name, now)
 
     # Determine final status

@@ -145,7 +145,7 @@ listen to it) is higher than the cost of including a borderline album.
 ## Safe patterns (do not flag as wrong)
 
 - Different provider + same episode number → not a duplicate (see
-  cross_provider_duplicate)
+  cross_provider_pair)
 - Episode-pattern coverage below 80% → you MUST list every unmatched title and
   classify it as (a) legitimate non-episode (movie, music single, compilation
   box), (b) missed episode that needs a new pattern, or (c) compilation that
@@ -156,35 +156,34 @@ listen to it) is higher than the cost of including a borderline album.
   error
 - Type-mismatch albums excluded with `wrong_content_type` → correct behavior
 
-## Confidence taxonomy
+## Confidence decision tree
 
-Every `AlbumDecision` carries a `confidence` field: high, medium, or low.
+Every `AlbumDecision` carries a `confidence` field. Walk this tree top-down:
 
-**HIGH** — Use when ALL of the following hold:
-- Title matches the active `episode_pattern`, AND
-- Track shape matches episode shape (1-5 tracks on Apple Music, 20-40 on Spotify,
-  OR a single 20-60 min track), AND
-- No era/provider conflict (didn't trigger any failure-taxonomy pattern
-  except `cross_provider_duplicate`, which is the safe one).
+```
+1. Does the title match episode_pattern?
+   ├─ YES → Does track shape fit episode shape?
+   │        (Apple Music: 1-5 tracks; Spotify: 20-40 tracks; or single 20-60 min track)
+   │        ├─ YES → No era/provider conflict?
+   │        │        (only cross_provider_pair, which is safe, not a real conflict)
+   │        │        ├─ YES → HIGH
+   │        │        └─ NO  → MEDIUM (record the conflict in notes)
+   │        └─ NO  → MEDIUM (record what's unusual about the track shape)
+   │
+   └─ NO  → Can you name a failure-taxonomy pattern?
+            ├─ YES, and you're certain → HIGH exclude (name the pattern)
+            ├─ YES, but shape only partially matches → MEDIUM (record doubt in notes)
+            └─ NO  → Is the album completely unrecognizable?
+                     ├─ YES → LOW, include with episode_num=null
+                     └─ NO  → MEDIUM, include with episode_num=null
+```
 
-**MEDIUM** — Use when:
-- One HIGH signal is missing or ambiguous, OR
-- You named a failure-taxonomy pattern but the shape only partially matched,
-  OR
-- A cross-provider asymmetry exists and the cause isn't obvious.
-
-→ Decide, but record the reason in `notes`. Prefer **include** when in doubt.
-
-**LOW** — Use when:
-- Title shape unrecognized AND track shape ambiguous, OR
-- The album might belong to a different series altogether.
-
-→ Set `episode_num=None` and **include**. Downstream sorts by `release_date`.
-Do not exclude unless you are HIGH-confident the album matches an explicit-exclude
-failure-taxonomy pattern (`music_single`, `compilation_as_episode`, etc.).
-
-**When you cannot name the failure-taxonomy pattern, that's MEDIUM at best.**
-Don't stamp HIGH on guesses.
+Rules that override the tree:
+- **Exclude requires HIGH + a named failure pattern.** If you can't name it,
+  don't exclude. Include with MEDIUM or LOW and let the auditor decide.
+- **MEDIUM and LOW always require `notes`** explaining the uncertainty.
+- When in doubt at any branch, move one level down (HIGH→MEDIUM, MEDIUM→LOW)
+  and **include**.
 
 ## Output schema
 

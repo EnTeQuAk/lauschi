@@ -30,6 +30,82 @@ Karaoke, instrumental, sped-up, nightcore. Exclude.
 Hörspiel or Hörbuch in a music artist's catalog. Exclude, flag for series
 split if substantial.
 
+## Worked examples
+
+Given artist "Rolf Zuckowski" (content_type: music):
+
+**Regular album** (include):
+```
+Title: "Rolfs neue Vogelhochzeit"
+Tracks: 14 songs, each 2-4 min
+Artist: Rolf Zuckowski
+Reasoning:
+  1. Single artist, original songs, standard album length
+  2. No failure-taxonomy pattern applies
+  3. Track count (14) and durations (2-4 min each) match typical Kinderlieder album
+→ include=true, episode_num=null, confidence=high
+```
+
+**Best-of compilation** (exclude):
+```
+Title: "Rolf Zuckowski - Die schönsten Lieder"
+Tracks: 28 songs, mixed durations
+Reasoning:
+  1. "Die schönsten Lieder" (the best songs) signals greatest hits compilation
+  2. High track count (28) further confirms compilation
+  3. Named failure pattern: kinderlieder_compilation
+→ include=false, exclude_reason=kinderlieder_compilation, confidence=high
+```
+
+**Multi-artist compilation** (exclude):
+```
+Title: "Kinderhits 2024 - Die besten Kinderlieder"
+Tracks: 22 songs by various artists
+Reasoning:
+  1. Title contains year-stamped collection pattern ("Kinderhits 2024")
+  2. Multiple artists, not a single-artist release
+  3. Named failure pattern: multi_artist_compilation
+→ include=false, exclude_reason=multi_artist_compilation, confidence=high
+```
+
+**Karaoke / instrumental variant** (exclude):
+```
+Title: "Rolfs Vogelhochzeit (Karaoke Version)"
+Tracks: 14 instrumental versions
+Reasoning:
+  1. "(Karaoke Version)" explicitly labels this as a format variant
+  2. Same track listing as the original but without vocals
+  3. Named failure pattern: format_variant
+→ include=false, exclude_reason=format_variant, confidence=high
+```
+
+**Hörspiel in a music artist's catalog** (exclude):
+```
+Title: "Rolf Zuckowski erzählt: Der kleine Tag"
+Tracks: 22 tracks, mixed spoken word and songs, 58 min total
+Reasoning:
+  1. "erzählt" (narrates) signals dramatic reading, not music album
+  2. Mixed spoken word + songs with long total duration = Hörspiel structure
+  3. Named failure pattern: wrong_content_type (Hörspiel in music catalog)
+  4. If this artist has many Hörspiel releases, flag for series split
+→ include=false, exclude_reason=wrong_content_type, confidence=high
+  notes: "Hörspiel/narrative album in music artist catalog"
+```
+
+**Borderline, can't name a failure pattern** (default to include):
+```
+Title: "Rolf Zuckowski und seine Freunde: Live in Concert"
+Tracks: 18 songs, 72 min
+Reasoning:
+  1. Live recording of existing songs, but still original artist performing
+  2. Can I name a failure pattern? "Live" isn't in the taxonomy.
+     It's not a compilation (single artist), not a format variant (still vocals),
+     not wrong content type.
+  3. Inclusion bias: can't name a failure pattern, so include.
+→ include=true, episode_num=null, confidence=medium
+  notes: "Live concert recording; not in failure taxonomy, including per inclusion bias"
+```
+
 ## Pattern and facts
 
 - `episode_pattern=None` always (artist career, not episode series).

@@ -6,7 +6,7 @@ Usually episodic with episode numbers.
 
 ## Failure taxonomy
 
-### cross_provider_duplicate
+### cross_provider_pair
 Same episode number on different providers (spotify + apple_music).
 **NOT a duplicate.** Different provider metadata: different titles, release dates,
 track counts. **INCLUDE BOTH.**

@@ -789,7 +789,7 @@ def test_batch_prompt_distinguishes_structure_from_numbering():
 
 def test_restore_dropped_albums_adds_missing():
     """If the agent omits an album from its output, the validation
-    step should add it back as 'not_decided' so it doesn't vanish."""
+    step should auto-include it with low confidence (inclusion bias)."""
     from lauschi_catalog.commands.curate import (
         AlbumDecision, _restore_dropped_albums,
     )
@@ -809,8 +809,9 @@ def test_restore_dropped_albums_adds_missing():
     assert len(decisions) == 2
     dropped = [d for d in decisions if d.album_id == "b1"]
     assert len(dropped) == 1
-    assert dropped[0].include is False
-    assert "not_decided" in (dropped[0].exclude_reason or "")
+    assert dropped[0].include is True
+    assert dropped[0].confidence == "low"
+    assert "auto-included" in (dropped[0].notes or "")
     assert dropped[0].title == "T2"
     assert dropped[0].release_date == "2020-02-01"
 
@@ -1002,3 +1003,87 @@ def test_batch_completeness_validator_accepts_complete_output():
     ctx = FakeCtx(deps)
     validated = validator_fn.function(ctx, result)
     assert validated is result
+
+
+# ── _reextract_episode_numbers ───────────────────────────────────────
+
+
+def test_reextract_updates_episode_numbers_with_new_pattern():
+    """When the pattern changes mid-run, re-extraction should update
+    episode numbers from album titles that now match."""
+    from lauschi_catalog.commands.curate import (
+        AlbumDecision, _reextract_episode_numbers,
+    )
+
+    decisions = [
+        AlbumDecision(
+            album_id="a1", provider="spotify", include=True,
+            title="Folge 1: Der Anfang", episode_num=None,
+        ),
+        AlbumDecision(
+            album_id="a2", provider="spotify", include=True,
+            title="Folge 2: Die Mitte", episode_num=None,
+        ),
+        AlbumDecision(
+            album_id="a3", provider="spotify", include=False,
+            title="Best Of", episode_num=None, exclude_reason="compilation",
+        ),
+    ]
+
+    changed = _reextract_episode_numbers(decisions, r"Folge (\d+):")
+    assert changed == 2
+    assert decisions[0].episode_num == 1
+    assert decisions[1].episode_num == 2
+    assert decisions[2].episode_num is None
+
+
+def test_reextract_noop_when_pattern_is_none():
+    from lauschi_catalog.commands.curate import (
+        AlbumDecision, _reextract_episode_numbers,
+    )
+
+    decisions = [
+        AlbumDecision(
+            album_id="a1", provider="spotify", include=True,
+            title="Folge 1: Test", episode_num=None,
+        ),
+    ]
+    changed = _reextract_episode_numbers(decisions, None)
+    assert changed == 0
+    assert decisions[0].episode_num is None
+
+
+def test_reextract_does_not_downgrade_existing_episode_num():
+    """If an album already has the correct episode_num, re-extraction
+    should not count it as changed."""
+    from lauschi_catalog.commands.curate import (
+        AlbumDecision, _reextract_episode_numbers,
+    )
+
+    decisions = [
+        AlbumDecision(
+            album_id="a1", provider="spotify", include=True,
+            title="Folge 5: Abenteuer", episode_num=5,
+        ),
+    ]
+    changed = _reextract_episode_numbers(decisions, r"Folge (\d+):")
+    assert changed == 0
+    assert decisions[0].episode_num == 5
+
+
+def test_reextract_corrects_wrong_episode_num():
+    """If an album was numbered wrong by a previous pattern, the new
+    pattern should fix it."""
+    from lauschi_catalog.commands.curate import (
+        AlbumDecision, _reextract_episode_numbers,
+    )
+
+    decisions = [
+        AlbumDecision(
+            album_id="a1", provider="spotify", include=True,
+            title="047/Das Geheimnis", episode_num=4,
+        ),
+    ]
+    changed = _reextract_episode_numbers(decisions, r"^(\d+)/")
+    assert changed == 1
+    assert decisions[0].episode_num == 47

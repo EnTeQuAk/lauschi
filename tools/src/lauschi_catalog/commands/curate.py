@@ -167,11 +167,12 @@ def _restore_dropped_albums(
         decisions.append(AlbumDecision(
             album_id=aid,
             provider=prov,
-            include=False,
+            include=True,
             title=src["name"] if src else "unknown",
-            exclude_reason="not_decided: agent omitted this album",
             release_date=src.get("release_date") if src else None,
             episode_num=None,
+            confidence="low",
+            notes="auto-included: agent omitted this album from its output",
         ))
 
 
@@ -720,21 +721,21 @@ def _build_finalize_agent(model, *, model_name: str = "", content_type: str = "h
         (not just track names — the pattern must work on titles too).
         """
         if not patterns:
-            return "patterns list cannot be empty"
+            raise ModelRetry("patterns list cannot be empty")
         for p in patterns:
             try:
                 compiled = re.compile(p)
             except re.error as e:
-                return f"invalid regex {p!r}: {e}"
+                raise ModelRetry(f"invalid regex {p!r}: {e}")
             if compiled.groups < 1:
-                return f"pattern {p!r}: needs ≥1 capture group"
+                raise ModelRetry(f"pattern {p!r}: needs ≥1 capture group")
 
         if ctx.deps.titles:
             check = _compute_pattern_coverage(ctx.deps.titles, patterns)
             if "error" in check:
-                return check["error"]
+                raise ModelRetry(check["error"])
             if check["matched"] == 0:
-                return (
+                raise ModelRetry(
                     f"pattern {patterns!r}: didn't match any album titles. "
                     f"Track-name-only patterns are not useful here."
                 )
@@ -742,6 +743,7 @@ def _build_finalize_agent(model, *, model_name: str = "", content_type: str = "h
         new_pattern: str | list[str] = (
             patterns[0] if len(patterns) == 1 else list(patterns)
         )
+        ctx.deps.pattern = new_pattern
         console.print(
             f"  [cyan]🔄 finalize propose_pattern_update → {new_pattern}[/]",
         )
@@ -1142,6 +1144,34 @@ async def _run_large(
                 })
         album_xml = format_albums_xml(batch_albums, include_tracks=True)
 
+        # Run partial structural analysis on decisions so far so the
+        # batch agent knows about gaps, duplicates, and coverage.
+        analysis_hint = ""
+        if all_decisions:
+            partial = {
+                "albums": [
+                    {
+                        "album_id": d.album_id,
+                        "provider": d.provider,
+                        "include": d.include,
+                        "title": d.title,
+                        "episode_num": d.episode_num,
+                        "release_date": d.release_date,
+                    }
+                    for d in all_decisions
+                ],
+                "episode_pattern": shared_deps.pattern,
+            }
+            analysis = analyze_series(partial)
+            hints: list[str] = []
+            if analysis.get("gaps"):
+                hints.append(f"Missing episodes so far: {analysis['gaps']}")
+            if analysis.get("duplicates_within_provider"):
+                for prov, eps in analysis["duplicates_within_provider"].items():
+                    hints.append(f"Duplicate episodes on {prov}: {sorted(eps)}")
+            if hints:
+                analysis_hint = "Structural signals from prior batches:\n" + "\n".join(f"  {h}" for h in hints) + "\n"
+
         prompt = (
             f"Series: {meta.title!r}\n"
             f"Episode pattern: {shared_deps.pattern}\n"
@@ -1149,6 +1179,8 @@ async def _run_large(
         )
         if rolling:
             prompt += f"{rolling}\n"
+        if analysis_hint:
+            prompt += f"{analysis_hint}\n"
         prompt += (
             f"\nBatch {batch_num}/{len(batches)} ({len(batch)} albums):\n"
             f"\n"

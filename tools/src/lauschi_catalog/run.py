@@ -12,7 +12,14 @@ from rich.panel import Panel
 console = Console()
 
 
-async def run_agent_streaming(agent, prompt, deps, *, request_limit: int = 200):
+async def run_agent_streaming(
+    agent,
+    prompt,
+    deps,
+    *,
+    request_limit: int = 200,
+    response_tokens_limit: int | None = 32_000,
+):
     """Run a pydantic-ai agent, streaming thinking parts to the console.
 
     Returns the agent's structured output. Thinking fragments longer
@@ -21,7 +28,10 @@ async def run_agent_streaming(agent, prompt, deps, *, request_limit: int = 200):
     """
     async with agent.iter(
         prompt, deps=deps,
-        usage_limits=UsageLimits(request_limit=request_limit),
+        usage_limits=UsageLimits(
+            request_limit=request_limit,
+            response_tokens_limit=response_tokens_limit,
+        ),
     ) as run:
         async for node in run:
             if not isinstance(node, CallToolsNode):
