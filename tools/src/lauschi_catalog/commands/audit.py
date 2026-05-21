@@ -20,7 +20,8 @@ from typing import Literal
 
 import click
 from pydantic import BaseModel, Field
-from pydantic_ai import Agent, RunContext, ToolOutput
+from pydantic_ai import Agent, CallToolsNode, RunContext, ToolOutput
+from pydantic_ai.messages import ThinkingPart
 from lauschi_catalog._opencode import (
     build_mistral_model,
     build_opencode_model,
@@ -351,19 +352,18 @@ async def audit_one(
                     usage_limits=UsageLimits(request_limit=20),
                 ) as run:
                     async for node in run:
-                        if not hasattr(node, "model_response"):
+                        if not isinstance(node, CallToolsNode):
                             continue
                         for part in node.model_response.parts:
-                            text = getattr(part, "content", None)
-                            if isinstance(text, str) and len(text.strip()) > 80:
-                                kind = getattr(part, "part_kind", "")
-                                if kind == "thinking":
-                                    console.print(Panel(
-                                        text.strip()[:500],
-                                        border_style="dim",
-                                        title="💭",
-                                        padding=(0, 1),
-                                    ))
+                            if not isinstance(part, ThinkingPart):
+                                continue
+                            if len(part.content.strip()) > 80:
+                                console.print(Panel(
+                                    part.content.strip()[:500],
+                                    border_style="dim",
+                                    title="💭",
+                                    padding=(0, 1),
+                                ))
                     return run.result.output
 
             result = await asyncio.wait_for(_run(), timeout=timeout)

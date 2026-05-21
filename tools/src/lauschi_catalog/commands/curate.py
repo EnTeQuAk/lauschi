@@ -22,7 +22,8 @@ from typing import Literal
 
 import click
 from pydantic import BaseModel, Field, field_validator, model_validator
-from pydantic_ai import Agent, ModelRetry, RunContext
+from pydantic_ai import Agent, CallToolsNode, ModelRetry, RunContext
+from pydantic_ai.messages import ThinkingPart
 from lauschi_catalog._opencode import build_mistral_model, build_opencode_model
 from pydantic_ai.usage import UsageLimits
 from rich import box
@@ -877,32 +878,27 @@ async def _run_agent(agent, prompt, deps):
         usage_limits=UsageLimits(request_limit=200),
     ) as run:
         async for node in run:
-            # Show AI reasoning as it streams in.
-            if not hasattr(node, "model_response"):
+            if not isinstance(node, CallToolsNode):
                 continue
             for part in node.model_response.parts:
-                text = getattr(part, "content", None)
-                if not isinstance(text, str) or len(text.strip()) <= 80:
+                if not isinstance(part, ThinkingPart):
                     continue
-                kind = getattr(part, "part_kind", "")
-                if kind == "thinking":
-                    # Show thinking in a dim panel
-                    # Escape ALL brackets — model reasoning can contain regex
-                    # character classes like [/\.\-] which crash Rich's parser.
-                    safe = escape(text.strip()[:500])
-                    try:
-                        console.print(
-                            Panel(
-                                safe,
-                                border_style="dim",
-                                title="💭 reasoning",
-                                padding=(0, 1),
-                            ),
-                        )
-                    except Exception:
-                        # If even escaped text fails (edge case in Rich),
-                        # skip the panel and continue — reasoning is diagnostic.
-                        pass
+                if len(part.content.strip()) <= 80:
+                    continue
+                # Escape ALL brackets; model reasoning can contain regex
+                # character classes like [/\.\-] which crash Rich's parser.
+                safe = escape(part.content.strip()[:500])
+                try:
+                    console.print(
+                        Panel(
+                            safe,
+                            border_style="dim",
+                            title="💭 reasoning",
+                            padding=(0, 1),
+                        ),
+                    )
+                except Exception:
+                    pass
         return run.result.output
 
 
