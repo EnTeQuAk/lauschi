@@ -444,6 +444,100 @@ nav[aria-label="breadcrumb"] li + li::before {
 	gap: 0.4rem;
 }
 
+/* ── Art card (Flutter CuratedSeriesCard + _StackedArt) */
+.art-card {
+	display: flex;
+	flex-direction: column;
+	text-decoration: none;
+	color: inherit;
+	transition: transform 0.15s ease;
+}
+.art-card:hover {
+	transform: translateY(-2px);
+	text-decoration: none;
+}
+.art-card__stack {
+	position: relative;
+	width: 100%;
+	aspect-ratio: 3 / 4;
+	margin-bottom: var(--space-sm);
+}
+.art-card__layer {
+	position: absolute;
+	border-radius: var(--radius-card);
+	overflow: hidden;
+	background: var(--color-surface);
+	border: 1px solid var(--color-border);
+}
+.art-card__layer--back {
+	inset: 5px 0 0 5px;
+	right: 0;
+	bottom: 0;
+	opacity: 0.4;
+}
+.art-card__layer--mid {
+	inset: 2.5px 0 0 2.5px;
+	right: 0;
+	bottom: 0;
+	opacity: 0.7;
+}
+.art-card__layer--front {
+	inset: 0;
+}
+.art-card__img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	display: block;
+}
+.art-card__placeholder {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 2rem;
+	color: var(--color-text-on-primary);
+	font-weight: 800;
+}
+.art-card__badge {
+	position: absolute;
+	top: var(--space-sm);
+	right: var(--space-sm);
+	z-index: 1;
+}
+.art-card__label {
+	margin-top: var(--space-xs);
+}
+.art-card__title {
+	font-size: 13px;
+	font-weight: 700;
+	line-height: 1.3;
+	margin: 0;
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+	color: var(--color-text);
+}
+.art-card__subtitle {
+	font-size: 10px;
+	color: var(--color-text-secondary);
+	margin: 2px 0 0;
+}
+
+/* Art card grid (narrower cards, more columns) */
+.art-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+	gap: var(--space-md);
+}
+@media (min-width: 600px) {
+	.art-grid {
+		grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+	}
+}
+
 /* ── Provider icons ────────────────────────────────── */
 .provider-icon {
 	width: 20px;

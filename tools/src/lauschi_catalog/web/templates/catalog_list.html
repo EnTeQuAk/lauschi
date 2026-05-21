@@ -24,7 +24,7 @@
     </header>
     <div class="mb-15">
         <button type="button"
-                class="contrast"
+                class="outline"
                 onclick="document.getElementById('add-series-panel').classList.toggle('hidden')">
             Add new series
         </button>
@@ -52,7 +52,7 @@
                 <button type="submit" class="contrast">Add</button>
             </form>
             <div class="flex gap-05 mt-05 items-center">
-                <button type="button" class="btn-sm" onclick="searchProviders()">Search providers</button>
+                <button type="button" class="btn-sm outline" onclick="searchProviders()">Search providers</button>
                 <span id="search-status" class="text-muted"></span>
             </div>
         </div>
@@ -85,44 +85,39 @@
         </script>
     </div>
     {% if series %}
-        <div class="card-grid">
+        <div class="art-grid">
             {% for s in series %}
-                <div class="series-card">
-                    <a href="/catalog/{{ s.id }}" class="card-link">
-                        <div class="flex justify-between items-start gap-05 mb-05">
-                            <h2 class="series-card__title mb-0">{{ s.title }}</h2>
-                            <span class="status-badge shrink-0 status-badge--{{ s.status }}">{{ s.current_label }}</span>
+                <a href="/catalog/{{ s.id }}" class="art-card">
+                    <div class="art-card__stack">
+                        {# Stacked shadow layers #}
+                        <div class="art-card__layer art-card__layer--back"></div>
+                        <div class="art-card__layer art-card__layer--mid"></div>
+                        <div class="art-card__layer art-card__layer--front">
+                            {% if s.cover_url %}
+                                <img src="{{ s.cover_url }}"
+                                     alt="{{ s.title }}"
+                                     class="art-card__img"
+                                     loading="lazy" />
+                            {% else %}
+                                <div class="art-card__placeholder"
+                                     style="background: hsl({{ (s.title | length * 37) % 360 }}, 45%, 55%)">
+                                    {{ s.title[:2] | upper }}
+                                </div>
+                            {% endif %}
                         </div>
-                        <p class="series-card__meta">
-                            <code>{{ s.id }}</code>
-                            · {{ s.content_type }}
+                        <span class="art-card__badge status-badge status-badge--{{ s.status }}">{{ s.current_label }}</span>
+                    </div>
+                    <div class="art-card__label">
+                        <p class="art-card__title">{{ s.title }}</p>
+                        <p class="art-card__subtitle">
+                            {% if s.album_count %}
+                                {{ s.album_count }} Folgen
+                            {% else %}
+                                {{ s.content_type }}
+                            {% endif %}
                         </p>
-                        {# Pipeline mini-bar #}
-                        <div class="pipeline-bar pipeline-bar--small">
-                            {% for label in s.pipeline.labels %}
-                                {% set idx = loop.index0 %}
-                                <span class="pipeline-step pipeline-step--{{ s.pipeline.statuses[idx] }}"
-                                      title="{{ label }}: {{ s.pipeline.statuses[idx] }}">
-                                    <span class="pipeline-step__dot"></span>
-                                </span>
-                                {% if not loop.last %}<span class="pipeline-step__connector"></span>{% endif %}
-                            {% endfor %}
-                        </div>
-                        <div class="series-card__footer series-card__footer--left">
-                            <div class="series-card__providers">
-                                {% for p in s.providers %}{{ provider_icon(p, 18) }}{% endfor %}
-                            </div>
-                        </div>
-                    </a>
-                    {% if s.next_action == 'discover' %}
-                        <div class="card-actions">
-                            <form method="post" action="/catalog/{{ s.id }}/run" class="form-inline">
-                                <input type="hidden" name="command" value="discover" />
-                                <button type="submit" class="secondary outline btn-sm">Discover</button>
-                            </form>
-                        </div>
-                    {% endif %}
-                </div>
+                    </div>
+                </a>
             {% endfor %}
         </div>
     {% else %}

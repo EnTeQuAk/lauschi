@@ -15,11 +15,39 @@ from lauschi_catalog.web.catalog_db import (
     get_series_by_id,
     sync_catalog_to_db,
 )
-from lauschi_catalog.catalog.paths import curation_path as _curation_path, repo_root
+from lauschi_catalog.catalog.paths import (
+    cover_cache_path,
+    curation_path as _curation_path,
+    repo_root,
+)
 from lauschi_catalog.web.jobs import get_active_job, list_jobs
 from lauschi_catalog.web.pipeline import next_action, pipeline_status
 
 router = APIRouter()
+
+
+def _series_cover_url(series_id: str) -> str:
+    """Load the first cover URL from the cover cache, or empty string."""
+    cache = cover_cache_path(series_id)
+    if not cache.exists():
+        return ""
+    try:
+        covers = json.loads(cache.read_text())
+        return next(iter(covers.values()), "")
+    except (json.JSONDecodeError, StopIteration):
+        return ""
+
+
+def _curation_album_count(series_id: str) -> int:
+    """Count included albums in curation JSON."""
+    path = _curation_path(series_id)
+    if not path.exists():
+        return 0
+    try:
+        data = json.loads(path.read_text())
+        return sum(1 for a in data.get("albums", []) if a.get("include"))
+    except (json.JSONDecodeError, KeyError):
+        return 0
 
 
 @router.get("/pipeline", response_class=HTMLResponse)
@@ -82,6 +110,8 @@ async def catalog_list(request: Request, q: str = ""):
                     "statuses": state.step_statuses,
                 },
                 "next_action": next_action(s.id, state=state),
+                "cover_url": _series_cover_url(s.id),
+                "album_count": _curation_album_count(s.id),
             }
         )
     return templates.TemplateResponse(
