@@ -605,6 +605,44 @@ def _build_metadata_agent(
     return agent
 
 
+def _get_album_details(
+    ctx: RunContext[CurateDeps], provider: str, album_ids: list[str],
+) -> list[dict]:
+    """Fetch full album details (track listing) from a provider.
+
+    Shared implementation registered on both batch and finalize agents.
+    Results are cached in deps.seen_details so repeated lookups are free.
+    """
+    results = []
+    invalid = [aid for aid in album_ids if not is_valid_id(provider, aid)]
+    valid_ids = [aid for aid in album_ids if is_valid_id(provider, aid)]
+    for bad in invalid:
+        results.append({"id": bad, "error": explain_invalid(provider, bad)})
+
+    target = next((p for p in ctx.deps.providers if p.name == provider), None)
+    if not target:
+        return results or []
+    for aid in valid_ids:
+        key = f"{provider}:{aid}"
+        if key in ctx.deps.seen_details:
+            results.append(ctx.deps.seen_details[key])
+            continue
+        album = target.album_details(aid)
+        if album:
+            detail = {
+                "provider": provider, "id": album.id, "name": album.name,
+                "release_date": album.release_date,
+                "total_tracks": album.total_tracks,
+                "label": album.label,
+                "artists": album.artists,
+                "tracks": [{"name": t.name, "duration_ms": t.duration_ms}
+                           for t in album.tracks[:10]],
+            }
+            ctx.deps.seen_details[key] = detail
+            results.append(detail)
+    return results
+
+
 def _build_batch_agent(model, *, model_name: str = "", content_type: str = "hoerspiel", discography_span_years: int | None = None) -> Agent[CurateDeps, BatchResult]:
     """Agent for processing one batch of albums."""
     system_prompt = load_curate_skill(phase="batch", content_type=content_type, discography_span_years=discography_span_years)
@@ -615,6 +653,19 @@ def _build_batch_agent(model, *, model_name: str = "", content_type: str = "hoer
         model_settings=get_model_settings("curate", model_name),
         tool_retries=2, output_retries=2,
     )
+
+    @agent.tool
+    def get_album_details(
+        ctx: RunContext[CurateDeps], provider: str, album_ids: list[str],
+    ) -> list[dict]:
+        """Fetch full album details (track listing) for ambiguous albums.
+
+        Most albums already have full metadata in the prompt. Only call
+        this when the provided data is insufficient to make a confident
+        include/exclude decision (e.g. missing track listing, unclear
+        album type).
+        """
+        return _get_album_details(ctx, provider, album_ids)
 
     @agent.output_validator
     def _validate_batch_completeness(ctx: RunContext[CurateDeps], result: BatchResult) -> BatchResult:
@@ -658,34 +709,7 @@ def _build_finalize_agent(model, *, model_name: str = "", content_type: str = "h
         ctx: RunContext[CurateDeps], provider: str, album_ids: list[str],
     ) -> list[dict]:
         """Fetch full album details (track listing) from a provider."""
-        results = []
-        invalid = [aid for aid in album_ids if not is_valid_id(provider, aid)]
-        valid_ids = [aid for aid in album_ids if is_valid_id(provider, aid)]
-        for bad in invalid:
-            results.append({"id": bad, "error": explain_invalid(provider, bad)})
-
-        target = next((p for p in ctx.deps.providers if p.name == provider), None)
-        if not target:
-            return results or []
-        for aid in valid_ids:
-            key = f"{provider}:{aid}"
-            if key in ctx.deps.seen_details:
-                results.append(ctx.deps.seen_details[key])
-                continue
-            album = target.album_details(aid)
-            if album:
-                detail = {
-                    "provider": provider, "id": album.id, "name": album.name,
-                    "release_date": album.release_date,
-                    "total_tracks": album.total_tracks,
-                    "label": album.label,
-                    "artists": album.artists,
-                    "tracks": [{"name": t.name, "duration_ms": t.duration_ms}
-                               for t in album.tracks[:10]],
-                }
-                ctx.deps.seen_details[key] = detail
-                results.append(detail)
-        return results
+        return _get_album_details(ctx, provider, album_ids)
 
     @agent.tool
     def propose_pattern_update(

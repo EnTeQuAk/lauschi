@@ -615,8 +615,10 @@ def test_curate_batch_flow_album_details_returns_release_date_and_artists():
     src = open(
         "src/lauschi_catalog/commands/curate.py", encoding="utf-8",
     ).read()
-    block = src.split("def _build_batch_agent")[1].split(
-        "# ── Shared helpers",
+    # The shared _get_album_details function (used by both batch and
+    # finalize agents) must populate release_date and artists.
+    block = src.split("def _get_album_details")[1].split(
+        "def _build_batch_agent",
     )[0]
     assert '"release_date": album.release_date' in block
     assert '"artists": album.artists' in block
