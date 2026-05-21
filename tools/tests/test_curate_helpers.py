@@ -266,14 +266,24 @@ def test_lookup_resolves_by_id(monkeypatch):
     """Single-series CLI usage: 'curate -- detlev_joecker' must
     resolve to the catalog entry so yaml fields (content_type,
     artist_ids, title) get used canonically."""
+    from lauschi_catalog.catalog.models import CatalogEntry
+    import lauschi_catalog.catalog.loader as loader_mod
+
+    fake = [CatalogEntry(id="detlev_joecker", title="Detlev Jöcker", content_type="music")]
+    monkeypatch.setattr(loader_mod, "load_catalog", lambda: fake)
     entry = _lookup_catalog_entry("detlev_joecker")
     assert entry is not None
     assert entry.id == "detlev_joecker"
     assert entry.content_type == "music"
 
 
-def test_lookup_resolves_by_title():
+def test_lookup_resolves_by_title(monkeypatch):
     """Users often type the proper title rather than the id slug."""
+    from lauschi_catalog.catalog.models import CatalogEntry
+    import lauschi_catalog.catalog.loader as loader_mod
+
+    fake = [CatalogEntry(id="detlev_joecker", title="Detlev Jöcker")]
+    monkeypatch.setattr(loader_mod, "load_catalog", lambda: fake)
     entry = _lookup_catalog_entry("Detlev Jöcker")
     assert entry is not None
     assert entry.id == "detlev_joecker"

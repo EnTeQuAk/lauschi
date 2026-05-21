@@ -163,14 +163,36 @@ def _discover_single(
                 entry = e
                 break
 
-        if not entry:
-            console.print(
-                f"[red]Cannot write: no catalog entry matches id={query!r} "
-                "or title={query!r}. Add the series to series.yaml first.[/red]"
-            )
-            raise SystemExit(1)
-
         raw = load_raw()
+
+        if not entry:
+            # Auto-create a new series entry
+            from lauschi_catalog.commands.add import title_to_id
+
+            new_id = title_to_id(query)
+            # Use the discovered artist name if available, fall back to query
+            title = query
+            for artist in discoveries.values():
+                if artist.name:
+                    title = artist.name
+                    break
+
+            new_entry = {
+                "id": new_id,
+                "title": title,
+                "providers": {},
+            }
+            for pname, artist in discoveries.items():
+                new_entry["providers"][pname] = {"artist_ids": [artist.id]}
+
+            raw.setdefault("series", []).append(new_entry)
+            save_raw(raw)
+            console.print(
+                f"[green]Created new series '{title}' (id: {new_id}) "
+                f"with {len(discoveries)} provider(s)[/green]"
+            )
+            return
+
         updated = False
         for raw_entry in raw.get("series", []):
             if raw_entry.get("id") != entry.id:
