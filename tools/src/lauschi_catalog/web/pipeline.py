@@ -18,8 +18,8 @@ from dataclasses import dataclass
 from typing import Any
 
 from lauschi_catalog.catalog.models import CatalogEntry
+from lauschi_catalog.catalog.paths import curation_path
 from lauschi_catalog.web.catalog_db import get_series_by_id
-from lauschi_catalog.web.config import CURATION_DIR
 
 _PIPELINE_STEPS = [
     ("discover", "Discover"),
@@ -61,10 +61,10 @@ def pipeline_status(
             step_statuses=["missing"] * len(_PIPELINE_STEPS),
         )
 
-    curation_path = CURATION_DIR / f"{series_id}.json"
+    cur_path = curation_path(series_id)
     curation: dict[str, Any] | None = None
-    if curation_path.exists():
-        curation = json.loads(curation_path.read_text())
+    if cur_path.exists():
+        curation = json.loads(cur_path.read_text())
 
     step_statuses: list[str] = []
     current_step = 0

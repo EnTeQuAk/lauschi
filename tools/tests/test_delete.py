@@ -19,6 +19,8 @@ from ruamel.yaml import YAML
 
 from lauschi_catalog.catalog import deleted as deleted_mod
 from lauschi_catalog.catalog import loader as loader_mod
+from lauschi_catalog.catalog import paths as paths_mod
+from lauschi_catalog.catalog import series_ops as series_ops_mod
 from lauschi_catalog.commands import add as add_mod
 from lauschi_catalog.commands import delete as delete_mod
 
@@ -50,10 +52,17 @@ def fake_catalog(monkeypatch, tmp_path):
         json.dumps({"id": "tom_turbo", "title": "Tom Turbo", "albums": []}),
     )
 
-    # Redirect every module's catalog/curation/deletion-log path.
+    # Redirect all path resolution to tmp_path.
+    monkeypatch.setattr(paths_mod, "repo_root", lambda: tmp_path)
+    monkeypatch.setattr(paths_mod, "series_yaml_path", lambda: series_yaml)
+    monkeypatch.setattr(paths_mod, "curation_dir", lambda: curation_dir)
+    monkeypatch.setattr(paths_mod, "curation_path", lambda sid: curation_dir / f"{sid}.json")
+    monkeypatch.setattr(paths_mod, "series_lock_path", lambda: tmp_path / ".lock")
+    monkeypatch.setattr(paths_mod, "SERIES_YAML", series_yaml)
+    monkeypatch.setattr(paths_mod, "CURATION_DIR", curation_dir)
+    monkeypatch.setattr(paths_mod, "SERIES_LOCK", tmp_path / ".lock")
+    monkeypatch.setattr(paths_mod, "REPO_ROOT", tmp_path)
     monkeypatch.setattr(loader_mod, "SERIES_YAML", series_yaml)
-    monkeypatch.setattr(delete_mod, "SERIES_YAML", series_yaml)
-    monkeypatch.setattr(delete_mod, "CURATION_DIR", curation_dir)
     monkeypatch.setattr(deleted_mod, "DELETED_YAML", deleted_yaml)
     return {
         "series_yaml": series_yaml,

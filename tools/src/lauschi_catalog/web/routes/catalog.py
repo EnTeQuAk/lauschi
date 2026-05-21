@@ -3,8 +3,6 @@
 from __future__ import annotations
 
 import json
-import re
-from pathlib import Path
 from typing import Any
 
 from fastapi import APIRouter, Request
@@ -16,10 +14,9 @@ from lauschi_catalog.web.catalog_db import (
     get_series_by_id,
     sync_catalog_to_db,
 )
-from lauschi_catalog.web.config import CURATION_DIR, REPO_ROOT, SERIES_LOCK, SERIES_YAML
+from lauschi_catalog.catalog.paths import curation_path as _curation_path, repo_root
 from lauschi_catalog.web.jobs import get_active_job, list_jobs
 from lauschi_catalog.web.pipeline import next_action, pipeline_status
-from lauschi_catalog.web.utils import safe_write_json, safe_write_yaml
 
 router = APIRouter()
 
@@ -106,10 +103,10 @@ def _render_series_detail(
     if series is None:
         return HTMLResponse("Series not found", status_code=404)
 
-    curation_path = CURATION_DIR / f"{series_id}.json"
+    cur_path = _curation_path(series_id)
     curation = None
-    if curation_path.exists():
-        curation = json.loads(curation_path.read_text())
+    if cur_path.exists():
+        curation = json.loads(cur_path.read_text())
 
     pipe_state = pipeline_status(series_id, series=series)
     pipeline = {
@@ -197,16 +194,13 @@ async def series_edit(request: Request, series_id: str):
 @router.post("/catalog/{series_id}/edit", response_class=HTMLResponse)
 async def series_edit_post(request: Request, series_id: str):
     """Handle edit form submission."""
-    from filelock import FileLock
-
-    from lauschi_catalog.catalog.loader import load_raw
+    from lauschi_catalog.catalog.series_ops import SeriesChanges, edit_series, validate_series_changes
 
     series = get_series_by_id(series_id)
     if series is None:
         return HTMLResponse("Series not found", status_code=404)
 
     form = await request.form()
-    errors: dict[str, str] = {}
 
     title = str(form.get("title", "")).strip()
     new_id = str(form.get("id", "")).strip()
@@ -214,27 +208,25 @@ async def series_edit_post(request: Request, series_id: str):
     episode_pattern = str(form.get("episode_pattern", "")).strip()
     content_type = str(form.get("content_type", "hoerspiel")).strip()
 
-    # Validation
+    # Form-level validation (field-specific errors for the template)
+    errors: dict[str, str] = {}
     if not title:
         errors["title"] = "Title is required"
-    if not re.match(r"^[a-z][a-z0-9_]*$", new_id):
-        errors["id"] = "ID must be snake_case"
-    else:
-        all_series = get_all_series()
-        existing = [s.id for s in all_series if s.id != series_id]
-        if new_id in existing:
-            errors["id"] = f"ID '{new_id}' already exists"
 
-    if episode_pattern:
-        try:
-            compiled = re.compile(episode_pattern)
-            if compiled.groups < 1:
-                errors["episode_pattern"] = "Pattern needs at least 1 capture group"
-        except re.error as e:
-            errors["episode_pattern"] = f"Invalid regex: {e}"
-
-    if content_type not in ("hoerspiel", "music"):
-        errors["content_type"] = "Must be 'hoerspiel' or 'music'"
+    changes = SeriesChanges(
+        title=title or None,
+        id=new_id or None,
+        aliases=[a.strip() for a in aliases_text.split(",") if a.strip()] if aliases_text else None,
+        episode_pattern=episode_pattern or None,
+        content_type=content_type or None,
+    )
+    for msg in validate_series_changes(series_id, changes):
+        if "id" in msg.lower() and "id" not in errors:
+            errors["id"] = msg
+        elif "pattern" in msg.lower():
+            errors["episode_pattern"] = msg
+        elif "content_type" in msg.lower():
+            errors["content_type"] = msg
 
     if errors:
         return _render_series_detail(
@@ -251,51 +243,12 @@ async def series_edit_post(request: Request, series_id: str):
             },
         )
 
-    # Apply changes
-    aliases = [a.strip() for a in aliases_text.split(",") if a.strip()]
+    result = edit_series(series_id, changes)
+    if not result.ok:
+        return HTMLResponse(result.error or "Unknown error", status_code=404)
 
-    with FileLock(str(SERIES_LOCK)):
-        data = load_raw(SERIES_YAML)
-        raw_entry = None
-        for entry in data["series"]:
-            if entry.get("id") == series_id:
-                raw_entry = entry
-                break
-
-        if raw_entry is None:
-            return HTMLResponse("Series not found in series.yaml", status_code=404)
-
-        raw_entry["title"] = title
-        if new_id != series_id:
-            raw_entry["id"] = new_id
-        if aliases:
-            raw_entry["aliases"] = aliases
-        elif "aliases" in raw_entry:
-            del raw_entry["aliases"]
-        if episode_pattern:
-            raw_entry["episode_pattern"] = episode_pattern
-        elif "episode_pattern" in raw_entry:
-            del raw_entry["episode_pattern"]
-        if content_type != "hoerspiel":
-            raw_entry["content_type"] = content_type
-        elif "content_type" in raw_entry:
-            del raw_entry["content_type"]
-
-        safe_write_yaml(SERIES_YAML, data)
-
-    # Rename curation file if ID changed
-    if new_id != series_id:
-        old_curation = CURATION_DIR / f"{series_id}.json"
-        new_curation = CURATION_DIR / f"{new_id}.json"
-        if old_curation.exists():
-            old_curation.rename(new_curation)
-            curation = json.loads(new_curation.read_text())
-            curation["id"] = new_id
-            safe_write_json(new_curation, curation)
-
-    # Sync DB and redirect
     sync_catalog_to_db()
-    return RedirectResponse(url=f"/catalog/{new_id}", status_code=303)
+    return RedirectResponse(url=f"/catalog/{result.series_id}", status_code=303)
 
 
 @router.get("/review", response_class=HTMLResponse)
@@ -397,90 +350,27 @@ async def merge_page(request: Request, message: str = "", error: str = ""):
 @router.post("/merge", response_class=RedirectResponse)
 async def merge_post(request: Request):
     """Handle merge form submission."""
-    from filelock import FileLock
-
-    from lauschi_catalog.catalog.loader import load_raw
+    from lauschi_catalog.catalog.merge_ops import merge_series
 
     form = await request.form()
     source_id = str(form.get("source_id", "")).strip()
     target_id = str(form.get("target_id", "")).strip()
 
-    if source_id == target_id:
-        return RedirectResponse(
-            url="/merge?error=source+and+target+must+be+different", status_code=303
-        )
-
-    source = get_series_by_id(source_id)
     target = get_series_by_id(target_id)
-    if source is None:
-        return RedirectResponse(url="/merge?error=source+not+found", status_code=303)
-    if target is None:
-        return RedirectResponse(url="/merge?error=target+not+found", status_code=303)
-
-    source_curation_path = CURATION_DIR / f"{source_id}.json"
-    target_curation_path = CURATION_DIR / f"{target_id}.json"
-
-    if not source_curation_path.exists():
+    result = merge_series(
+        source_id, target_id,
+        target_title=target.title if target else None,
+    )
+    if not result.ok:
+        from urllib.parse import quote_plus
         return RedirectResponse(
-            url="/merge?error=source+curation+not+found", status_code=303
+            url=f"/merge?error={quote_plus(result.error or 'unknown error')}",
+            status_code=303,
         )
 
-    source_curation = json.loads(source_curation_path.read_text())
-    source_albums = source_curation.get("albums", [])
-
-    if target_curation_path.exists():
-        target_curation = json.loads(target_curation_path.read_text())
-        target_albums = target_curation.get("albums", [])
-    else:
-        target_curation = {
-            "id": target_id,
-            "title": target.title,
-            "aliases": [],
-            "albums": [],
-        }
-        target_albums = []
-
-    existing_keys = {
-        (a.get("episode_num"), a.get("provider"), a.get("album_id"))
-        for a in target_albums
-    }
-    added = 0
-    skipped = 0
-    for a in source_albums:
-        key = (a.get("episode_num"), a.get("provider"), a.get("album_id"))
-        if key in existing_keys:
-            skipped += 1
-            continue
-        target_albums.append(a)
-        existing_keys.add(key)
-        added += 1
-
-    target_curation["albums"] = target_albums
-
-    # Merge provider_artist_ids
-    source_providers: dict[str, list[str]] = source_curation.get(
-        "provider_artist_ids", {}
-    )  # type: ignore[assignment]
-    target_providers: dict[str, list[str]] = target_curation.get(
-        "provider_artist_ids", {}
-    )  # type: ignore[assignment]
-    for prov, aids in source_providers.items():
-        existing = set(target_providers.get(prov, []))
-        existing.update(aids)
-        target_providers[prov] = list(existing)
-    target_curation["provider_artist_ids"] = target_providers  # type: ignore[reportArgumentType]
-
-    safe_write_json(target_curation_path, target_curation)
-
-    with FileLock(str(SERIES_LOCK)):
-        data: dict[str, Any] = load_raw(SERIES_YAML)  # type: ignore[assignment]
-        data["series"] = [s for s in data["series"] if s.get("id") != source_id]
-        safe_write_yaml(SERIES_YAML, data)
-
-    source_curation_path.unlink()
     sync_catalog_to_db()
     return RedirectResponse(
-        url=f"/merge?message=Merged%20{added}%20albums%2C%20skipped%20{skipped}%20duplicates",
+        url=f"/merge?message=Merged%20{result.added}%20albums%2C%20skipped%20{result.skipped}%20duplicates",
         status_code=303,
     )
 
@@ -491,10 +381,10 @@ async def splits_page(request: Request):
     all_series = get_all_series()
     pending = []
     for s in all_series:
-        curation_path = CURATION_DIR / f"{s.id}.json"
-        if not curation_path.exists():
+        cur_path = _curation_path(s.id)
+        if not cur_path.exists():
             continue
-        data = json.loads(curation_path.read_text())
+        data = json.loads(cur_path.read_text())
         review = data.get("review", {})
         splits = review.get("splits", [])
         if splits:
@@ -558,6 +448,6 @@ async def add_series(request: Request):
         cmd.extend(["--apple-music-artist-id", apple_id])
 
     job_id = create_job("_new_", "add")
-    tools_dir = str(REPO_ROOT / "tools")
+    tools_dir = str(repo_root() / "tools")
     run_custom_subprocess(job_id, cmd, tools_dir)
     return RedirectResponse(url="/jobs", status_code=303)

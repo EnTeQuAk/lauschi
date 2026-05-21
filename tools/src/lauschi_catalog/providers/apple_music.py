@@ -3,18 +3,17 @@
 from __future__ import annotations
 
 import time
-from pathlib import Path
 
 import diskcache
 import jwt
 import requests
 
+from lauschi_catalog.catalog.paths import cache_dir, repo_root
 from lauschi_catalog.providers._retry import parse_retry_after
 from lauschi_catalog.providers.base import Album, Artist, CatalogProvider, Track
 
-REPO_ROOT = Path(__file__).parent.parent.parent.parent.parent
-CACHE_DIR = REPO_ROOT / ".cache" / "apple_music"
-KEY_PATH = REPO_ROOT / "android" / "app" / "AuthKey_PWHK2R76T9.p8"
+CACHE_DIR = cache_dir("apple_music")
+KEY_PATH = repo_root() / "android" / "app" / "AuthKey_PWHK2R76T9.p8"
 DEFAULT_TTL = 7 * 24 * 3600  # 7 days
 
 # MusicKit config

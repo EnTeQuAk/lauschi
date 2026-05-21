@@ -39,11 +39,12 @@ from rich.panel import Panel
 from rich.table import Table
 
 from lauschi_catalog.catalog.loader import load_catalog
+from lauschi_catalog.catalog.paths import log_dir, repo_root
 
 console = Console()
 
-REPO_ROOT = Path(__file__).parent.parent.parent.parent.parent
-LOG_DIR = REPO_ROOT / "logs" / "catalog"
+REPO_ROOT = repo_root()
+LOG_DIR = log_dir()
 
 
 # ── Health levels ─────────────────────────────────────────────────────────

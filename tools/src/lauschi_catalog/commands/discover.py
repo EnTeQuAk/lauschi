@@ -89,20 +89,12 @@ def discover(
     ``--prune-broken`` (no QUERY), instead validates every existing
     artist_id and removes any that return 404 from its provider.
     """
-    from lauschi_catalog.providers.apple_music import AppleMusicProvider
-    from lauschi_catalog.providers.spotify import SpotifyProvider
+    from lauschi_catalog.catalog.providers_init import init_providers
 
-    providers: list[CatalogProvider] = []
-    if provider in ("spotify", "all"):
-        try:
-            providers.append(SpotifyProvider())
-        except SystemExit:
-            console.print("[yellow]Spotify credentials not set, skipping[/yellow]")
-    if provider in ("apple_music", "all"):
-        try:
-            providers.append(AppleMusicProvider())
-        except FileNotFoundError:
-            console.print("[yellow]Apple Music key not found, skipping[/yellow]")
+    result = init_providers(provider)
+    for w in result.warnings:
+        console.print(f"[yellow]{w}[/yellow]")
+    providers = result.providers
 
     if not providers:
         console.print("[red]No providers available[/red]")
@@ -168,16 +160,16 @@ def _discover_single(
         if not entry:
             # Auto-create a new series entry
             from lauschi_catalog.commands.add import title_to_id
+            from lauschi_catalog.catalog.series_ops import add_series_entry
 
             new_id = title_to_id(query)
-            # Use the discovered artist name if available, fall back to query
             title = query
             for artist in discoveries.values():
                 if artist.name:
                     title = artist.name
                     break
 
-            new_entry = {
+            new_entry: dict = {
                 "id": new_id,
                 "title": title,
                 "providers": {},
@@ -185,8 +177,10 @@ def _discover_single(
             for pname, artist in discoveries.items():
                 new_entry["providers"][pname] = {"artist_ids": [artist.id]}
 
-            raw.setdefault("series", []).append(new_entry)
-            save_raw(raw)
+            add_result = add_series_entry(new_entry)
+            if not add_result.ok:
+                console.print(f"[red]{add_result.error}[/red]")
+                raise SystemExit(1)
             console.print(
                 f"[green]Created new series '{title}' (id: {new_id}) "
                 f"with {len(discoveries)} provider(s)[/green]"

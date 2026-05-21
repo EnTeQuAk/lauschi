@@ -7,18 +7,15 @@ per provider, and writes them into the providers section of series.yaml.
 from __future__ import annotations
 
 import json
-from pathlib import Path
 
 import click
 from rich.console import Console
 
 from lauschi_catalog.catalog.lifecycle import apply_is_unsafe
 from lauschi_catalog.catalog.loader import SERIES_YAML, load_raw, save_raw
+from lauschi_catalog.catalog.paths import CURATION_DIR
 
 console = Console()
-
-REPO_ROOT = Path(__file__).parent.parent.parent.parent.parent
-CURATION_DIR = REPO_ROOT / "assets" / "catalog" / "curation"
 
 
 def _apply_one(series_id: str, data: dict, yaml_data: dict) -> bool:

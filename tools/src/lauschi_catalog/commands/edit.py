@@ -9,9 +9,7 @@ import click
 from rich.console import Console
 
 from lauschi_catalog.catalog.matcher import extract_episode
-
-REPO_ROOT = Path(__file__).parent.parent.parent.parent.parent
-CURATION_DIR = REPO_ROOT / "assets" / "catalog" / "curation"
+from lauschi_catalog.catalog.paths import CURATION_DIR
 
 console = Console()
 

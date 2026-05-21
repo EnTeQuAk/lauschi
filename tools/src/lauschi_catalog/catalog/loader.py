@@ -11,9 +11,10 @@ from pathlib import Path
 from ruamel.yaml import YAML
 
 from lauschi_catalog.catalog.models import CatalogEntry, ProviderConfig
-
-REPO_ROOT = Path(__file__).parent.parent.parent.parent.parent
-SERIES_YAML = REPO_ROOT / "assets" / "catalog" / "series.yaml"
+from lauschi_catalog.catalog.paths import (
+    REPO_ROOT,  # noqa: F401 — re-exported for existing callers
+    SERIES_YAML,  # noqa: F401 — re-exported for existing callers
+)
 
 _yaml = YAML()
 _yaml.preserve_quotes = True  # type: ignore[assignment]
@@ -76,10 +77,15 @@ def load_raw(path: Path | None = None):
     return _yaml.load(_series_path(path))
 
 
-def save_raw(data, path: Path | None = None):
-    """Write modified ruamel.yaml data back, preserving comments."""
-    with open(_series_path(path), "w") as f:
-        _yaml.dump(data, f)
+def save_raw(data: object, path: Path | None = None) -> None:
+    """Write modified ruamel.yaml data back, preserving comments.
+
+    Uses atomic write (temp file + os.replace) with file locking
+    via catalog.io.
+    """
+    from lauschi_catalog.catalog.io import save_raw as _save_raw
+
+    _save_raw(data, path)
 
 
 def update_provider_ids(

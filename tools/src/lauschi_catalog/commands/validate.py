@@ -12,7 +12,6 @@ import json
 import re
 from dataclasses import dataclass, field
 from datetime import UTC, datetime
-from pathlib import Path
 
 import click
 import requests
@@ -23,8 +22,7 @@ from lauschi_catalog.catalog.loader import load_catalog
 from lauschi_catalog.catalog.matcher import extract_episode
 from lauschi_catalog.providers import Album, CatalogProvider
 
-REPO_ROOT = Path(__file__).parent.parent.parent.parent.parent
-CURATION_DIR = REPO_ROOT / "assets" / "catalog" / "curation"
+from lauschi_catalog.catalog.paths import CURATION_DIR
 
 console = Console()
 

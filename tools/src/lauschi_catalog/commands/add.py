@@ -195,9 +195,11 @@ def build_entry(
 
 def append_to_yaml(entry: dict) -> None:
     """Append a new series entry to series.yaml, preserving formatting."""
-    data = load_raw()
-    data["series"].append(entry)
-    save_raw(data)
+    from lauschi_catalog.catalog.series_ops import add_series_entry
+
+    result = add_series_entry(entry)
+    if not result.ok:
+        raise SystemExit(result.error or "failed to add series")
 
 
 @click.command()

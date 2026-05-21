@@ -5,15 +5,13 @@ from __future__ import annotations
 import json
 import re
 from collections import Counter
-from pathlib import Path
 
 import click
 from rich import box
 from rich.console import Console
 from rich.table import Table
 
-REPO_ROOT = Path(__file__).parent.parent.parent.parent.parent
-CURATION_DIR = REPO_ROOT / "assets" / "catalog" / "curation"
+from lauschi_catalog.catalog.paths import CURATION_DIR
 
 console = Console()
 

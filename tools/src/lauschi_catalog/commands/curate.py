@@ -52,10 +52,10 @@ from lauschi_catalog._opencode import get_model_settings
 from lauschi_catalog.rate_limit import RateLimiter, run_with_rate_limit_retry
 from lauschi_catalog.retry import is_retryable
 
+from lauschi_catalog.catalog.paths import CURATION_DIR
+
 console = Console()
 
-REPO_ROOT = Path(__file__).parent.parent.parent.parent.parent
-CURATION_DIR = REPO_ROOT / "assets" / "catalog" / "curation"
 CURATION_DIR.mkdir(parents=True, exist_ok=True)
 
 _DEFAULT_MODEL = "kimi-k2.6"

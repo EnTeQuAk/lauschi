@@ -5,16 +5,15 @@ from __future__ import annotations
 import os
 import sys
 import time
-from pathlib import Path
 
 import diskcache
 import requests
 
+from lauschi_catalog.catalog.paths import cache_dir
 from lauschi_catalog.providers._retry import parse_retry_after
 from lauschi_catalog.providers.base import Album, Artist, CatalogProvider, Track
 
-REPO_ROOT = Path(__file__).parent.parent.parent.parent.parent
-CACHE_DIR = REPO_ROOT / ".cache" / "spotify"
+CACHE_DIR = cache_dir("spotify")
 DEFAULT_TTL = 7 * 24 * 3600  # 7 days
 
 

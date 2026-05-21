@@ -26,9 +26,9 @@ from pathlib import Path
 
 from ruamel.yaml import YAML
 
-from lauschi_catalog.catalog.loader import REPO_ROOT
+from lauschi_catalog.catalog.paths import deleted_yaml_path
 
-DELETED_YAML = REPO_ROOT / "assets" / "catalog" / "deleted.yaml"
+DELETED_YAML = deleted_yaml_path()
 
 _yaml = YAML()
 _yaml.preserve_quotes = True

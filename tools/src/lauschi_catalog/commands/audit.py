@@ -15,7 +15,6 @@ import json
 import os
 from dataclasses import dataclass, field
 from datetime import UTC, datetime
-from pathlib import Path
 from typing import Literal
 
 import click
@@ -39,10 +38,9 @@ from lauschi_catalog.catalog.loader import load_raw, save_raw
 from lauschi_catalog.commands.lint import lint_curation
 from lauschi_catalog.retry import is_retryable
 
-console = Console()
+from lauschi_catalog.catalog.paths import CURATION_DIR
 
-REPO_ROOT = Path(__file__).parent.parent.parent.parent.parent
-CURATION_DIR = REPO_ROOT / "assets" / "catalog" / "curation"
+console = Console()
 
 _DEFAULT_MODEL = "minimax-m2.7"
 _MAX_RETRIES = 3

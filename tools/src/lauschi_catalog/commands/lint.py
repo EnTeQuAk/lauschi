@@ -12,17 +12,15 @@ checks so they don't fire false positives on documented quirks.
 from __future__ import annotations
 
 import json
-from pathlib import Path
 
 import click
 from rich.console import Console
 
 from lauschi_catalog.catalog.facts import SeriesFacts
 
-console = Console()
+from lauschi_catalog.catalog.paths import CURATION_DIR
 
-REPO_ROOT = Path(__file__).parent.parent.parent.parent.parent
-CURATION_DIR = REPO_ROOT / "assets" / "catalog" / "curation"
+console = Console()
 
 
 def lint_curation(curation: dict) -> list[str]:
