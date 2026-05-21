@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="de" data-theme="dark">
+<html lang="de">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -8,160 +8,11 @@
         <title>
             {% block title %}lauschi catalog{% endblock %}
         </title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link rel="stylesheet"
-              href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+              href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap">
         <link rel="stylesheet" href="/static/styles.css">
-        <style>
-    :root {
-      --pico-font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-    }
-    .nav-brand {
-      font-weight: 700;
-      letter-spacing: -0.02em;
-    }
-    .status-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.35em;
-      padding: 0.2em 0.7em;
-      border-radius: 999px;
-      font-size: 0.7em;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-      line-height: 1;
-      background: var(--pico-color-slate-600);
-      color: var(--pico-color-slate-100);
-    }
-    .status-badge--curated    { background: #1a7f37; color: #fff; }
-    .status-badge--audited    { background: #0969da; color: #fff; }
-    .status-badge--escalated  { background: #c21c1c; color: #fff; }
-    .status-badge--pending    { background: #9a6700; color: #fff; }
-    .status-badge--missing    { background: #656d76; color: #fff; }
-
-    .provider-icon {
-      display: inline-flex;
-      align-items: center;
-      width: 1.1em;
-      height: 1.1em;
-    }
-
-    .card-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 1rem;
-    }
-    .series-card {
-      padding: 1.25rem;
-      border-radius: var(--pico-border-radius);
-      background: var(--pico-card-background-color);
-      border: 1px solid var(--pico-muted-border-color);
-      transition: border-color 0.15s ease, transform 0.1s ease;
-    }
-    .series-card:hover {
-      border-color: var(--pico-primary-border);
-      transform: translateY(-1px);
-    }
-    .series-card__title {
-      font-size: 1.15em;
-      font-weight: 600;
-      margin: 0 0 0.25rem;
-      line-height: 1.3;
-      flex: 1;
-    }
-    .series-card__meta {
-      font-size: 0.8em;
-      color: var(--pico-muted-color);
-      margin-bottom: 0.75rem;
-    }
-    .series-card__footer {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 0.5rem;
-    }
-    .series-card__footer--left {
-      justify-content: flex-start;
-    }
-    .series-card__providers {
-      display: flex;
-      gap: 0.4rem;
-    }
-    .episode-row--excluded { opacity: 0.5; }
-    [x-cloak] { display: none !important; }
-
-    .pipeline-bar {
-      display: flex;
-      align-items: center;
-      gap: 0.15rem;
-    }
-    .pipeline-step {
-      display: flex;
-      align-items: center;
-      gap: 0.2rem;
-    }
-    .pipeline-step__dot {
-      display: block;
-      width: 0.65em;
-      height: 0.65em;
-      border-radius: 50%;
-      background: #484f58;
-      transition: background 0.15s ease;
-    }
-    .pipeline-step--done .pipeline-step__dot {
-      background: #3fb950;
-    }
-    .pipeline-step--current .pipeline-step__dot {
-      background: #58a6ff;
-      box-shadow: 0 0 0 2px #58a6ff;
-    }
-    .pipeline-step--error .pipeline-step__dot,
-    .pipeline-step--escalated .pipeline-step__dot,
-    .pipeline-step--missing .pipeline-step__dot {
-      background: #f85149;
-    }
-    .pipeline-step--pending .pipeline-step__dot {
-      background: #30363d;
-      opacity: 0.5;
-    }
-    .pipeline-step__connector {
-      display: block;
-      width: 0.5rem;
-      height: 2px;
-      background: var(--pico-color-slate-600);
-    }
-    .pipeline-bar--large .pipeline-step__dot {
-      width: 0.8em;
-      height: 0.8em;
-    }
-    .pipeline-step__label {
-      font-size: 0.65em;
-      text-transform: uppercase;
-      letter-spacing: 0.03em;
-      color: var(--pico-muted-color);
-    }
-    .pipeline-step--current .pipeline-step__label {
-      color: var(--pico-color-blue-500);
-      font-weight: 600;
-    }
-
-    .job-drawer {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      max-height: 40vh;
-      overflow-y: auto;
-      background: var(--pico-card-background-color);
-      border-top: 1px solid var(--pico-muted-border-color);
-      padding: 0.5rem 1rem;
-      font-family: var(--pico-font-family-monospace);
-      font-size: 0.75em;
-      z-index: 100;
-    }
-    .job-drawer--hidden { display: none; }
-    .job-log-line { margin: 0; padding: 0.05em 0; white-space: pre-wrap; font-size: 0.7rem; }
-        </style>
         <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3/dist/cdn.min.js"></script>
         <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
         <script>document.addEventListener('DOMContentLoaded', () => lucide.createIcons());</script>
@@ -197,8 +48,7 @@
             </ul>
             <ul>
                 <li>
-                    <button class="secondary outline flex items-center gap-04"
-                            onclick="toggleJobDrawer()">
+                    <button class="secondary outline" onclick="toggleJobDrawer()">
                         <i data-lucide="terminal" class="icon-1em"></i>
                         Jobs
                         <span id="job-count" class="status-badge status-badge--curated hidden"></span>
@@ -222,15 +72,11 @@
                            x-text="$store.jobs.currentJobId"
                            class="text-muted font-normal ml-05"></small>
                 </strong>
-                <div>
-                    <button class="secondary outline flex items-center gap-03"
-                            @click="$store.jobs.clear()"
-                            aria-label="Clear">
+                <div class="flex gap-03">
+                    <button @click="$store.jobs.clear()" aria-label="Clear">
                         <i data-lucide="trash-2" class="icon-1em"></i> Clear
                     </button>
-                    <button class="secondary outline flex items-center gap-03"
-                            @click="$store.jobs.close()"
-                            aria-label="Close">
+                    <button @click="$store.jobs.close()" aria-label="Close">
                         <i data-lucide="x" class="icon-1em"></i>
                     </button>
                 </div>
