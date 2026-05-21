@@ -61,9 +61,9 @@
                    class="{% if tab == 'episodes' %}contrast{% else %}outline{% endif %}">Episodes</a>
             </li>
             <li>
-                <a href="/catalog/{{ series.id }}/curation"
+                <a href="/catalog/{{ series.id }}/pipeline"
                    role="button"
-                   class="{% if tab == 'curation' %}contrast{% else %}outline{% endif %}">Curation</a>
+                   class="{% if tab == 'pipeline' %}contrast{% else %}outline{% endif %}">Pipeline</a>
             </li>
             <li>
                 <a href="/catalog/{{ series.id }}/audit"
@@ -259,240 +259,283 @@
                 No curation data yet. Run <strong>Curate</strong> to discover episodes.
             </p>
         {% endif %}
-    {% elif tab == 'curation' %}
-        <form method="post" action="/catalog/{{ series.id }}/run" class="mb-1">
-            <fieldset role="group">
-                <select name="command" aria-label="Command">
-                    <option value="discover">Discover</option>
-                    <option value="curate">Curate</option>
-                    <option value="audit">Audit</option>
-                    <option value="apply">Apply</option>
-                    <option value="validate">Validate</option>
-                </select>
-                <button type="submit">Run</button>
-            </fieldset>
-        </form>
-        <form method="post" action="/catalog/{{ series.id }}/run">
-            <input type="hidden" name="command" value="pipeline-one" />
-            <button type="submit" class="contrast">Run full pipeline (discover → curate → audit → apply → validate)</button>
+    {% elif tab == 'pipeline' %}
+        <div x-data="pipelineStages('{{ series.id }}')" x-init="loadPipeline()">
+            {# Stage nodes #}
+            <div class="pipeline-stages mb-15">
+                <template x-for="(stage, idx) in stages" :key="stage.command">
+                    <div class="pipeline-stage-node"
+                         :class="{'pipeline-stage-node--selected': selectedStage === idx, 'pipeline-stage-node--done': stage.status === 'done', 'pipeline-stage-node--current': stage.status === 'current', 'pipeline-stage-node--error': stage.status === 'error' || stage.status === 'escalated', 'pipeline-stage-node--pending': stage.status === 'pending'}"
+                         @click="selectStage(idx)">
+                        <div class="pipeline-stage-node__icon">
+                            <template x-if="stage.status === 'done'">
+                                <span class="text-green">✓</span>
+                            </template>
+                            <template x-if="stage.status === 'current'">
+                                <span class="pipeline-stage-node__pulse"></span>
+                            </template>
+                            <template x-if="stage.status === 'error' || stage.status === 'escalated'">
+                                <span class="text-red">✕</span>
+                            </template>
+                            <template x-if="stage.status === 'pending'">
+                                <span class="text-muted">○</span>
+                            </template>
+                        </div>
+                        <span class="pipeline-stage-node__label" x-text="stage.label"></span>
+                        <span x-show="idx < stages.length - 1"
+                              class="pipeline-stage-node__connector"></span>
+                    </div>
+                </template>
+            </div>
+            {# Run controls #}
+            <div class="flex gap-05 mb-15">
+                <button x-show="nextAction !== 'done'"
+                        @click="runStage(nextAction)"
+                        x-text="'Run ' + nextAction">Run next</button>
+                <button class="contrast" @click="runFullPipeline()">Run full pipeline</button>
+            </div>
+            {# Selected stage detail #}
+            <div x-show="selectedStage !== null" class="panel">
+                <div class="flex justify-between items-center mb-05">
+                    <h3 class="heading-reset" x-text="selectedStageLabel"></h3>
+                    <div class="flex gap-03">
+                        <button x-show="selectedStage !== null"
+                                class="btn-sm outline"
+                                @click="runStage(stages[selectedStage]?.command)">Run</button>
+                    </div>
+                </div>
+                <div x-show="stageJobId">
+                    <p class="text-muted mb-05">
+                    <small>Job <code x-text="stageJobId"></code>
+                    <span class="status-badge ml-05"
+                          :class="'status-badge--' + stageJobStatus"
+                          x-text="stageJobStatus"></span>
+                </small>
+            </p>
+            <div class="job-terminal">
+                <template x-for="line in stageLogLines" :key="line.id">
+                    <p class="job-log-line" x-text="line.text"></p>
+                </template>
+                <p x-show="stageLogLines.length === 0" class="text-muted">No output yet.</p>
+            </div>
+        </div>
+        <p x-show="!stageJobId" class="text-muted">No job run for this stage yet.</p>
+    </div>
+    {% if curation %}
+        <details class="mt-1">
+            <summary>Raw curation metadata</summary>
+            <pre class="pre-sm"><code>{{ curation | tojson(indent=2) }}</code></pre>
+        </details>
+    {% endif %}
+</div>
+{% elif tab == 'audit' %}
+{% if curation and curation.review %}
+    <div class="flex items-center gap-075 mb-1">
+        <span>Audit:</span>
+        <span class="status-badge status-badge--{{ curation.review.status or 'pending' }}">
+            {{ curation.review.status or 'pending' }}
+        </span>
+    </div>
+    {% if curation.review.status == 'approved' %}
+        <form method="post" action="/catalog/{{ series.id }}/run" class="mb-15">
+            <input type="hidden" name="command" value="apply" />
+            <button type="submit" class="contrast">Apply to series.yaml</button>
             <p class="text-muted">
-                <small>Takes hours. Opens in the Jobs drawer.</small>
+                <small>Writes curated album list into series.yaml. Does not affect splits (those are applied individually below).</small>
             </p>
         </form>
-        {% if curation %}
-            <details class="mt-1">
-                <summary>Raw metadata</summary>
-                <pre class="pre-sm"><code>{{ curation | tojson(indent=2) }}</code></pre>
-            </details>
-        {% endif %}
-    {% elif tab == 'audit' %}
-        {% if curation and curation.review %}
-            <div class="flex items-center gap-075 mb-1">
-                <span>Audit:</span>
-                <span class="status-badge status-badge--{{ curation.review.status or 'pending' }}">
-                    {{ curation.review.status or 'pending' }}
-                </span>
+    {% endif %}
+    {% if curation.review.overrides %}
+        <article class="panel-sm">
+            <h3>Overrides ({{ curation.review.overrides | length }})</h3>
+            <div class="table-scroll">
+                <table class="table-sm" role="grid">
+                    <thead>
+                        <tr>
+                            <th>Album</th>
+                            <th>Action</th>
+                            <th>Current state</th>
+                            <th>Reason</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for o in curation.review.overrides %}
+                            {% set album = curation.albums | selectattr('album_id', 'equalto', o.album_id) | first %}
+                            <tr>
+                                <td>
+                                    {% if album %}
+                                        <span x-html="providerIcon(album.provider)"></span>
+                                        {{ album.title }}
+                                        <br>
+                                        <small><code>{{ o.album_id[:16] }}…</code></small>
+                                    {% else %}
+                                        <code>{{ o.album_id[:16] }}…</code>
+                                        <br>
+                                        <small class="text-red">Not found in curation</small>
+                                    {% endif %}
+                                </td>
+                                <td>{{ o.action }}</td>
+                                <td>
+                                    {% if album %}
+                                        {% if album.include %}
+                                            included
+                                        {% else %}
+                                            excluded
+                                        {% endif %}
+                                        {% if o.action == 'exclude' and not album.include %}
+                                            <small class="text-red">(redundant)</small>
+                                        {% elif o.action == 'include' and album.include %}
+                                            <small class="text-red">(redundant)</small>
+                                        {% endif %}
+                                    {% else %}
+                                        —
+                                    {% endif %}
+                                </td>
+                                <td>{{ o.reason }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
             </div>
-            {% if curation.review.status == 'approved' %}
-                <form method="post" action="/catalog/{{ series.id }}/run" class="mb-15">
-                    <input type="hidden" name="command" value="apply" />
-                    <button type="submit" class="contrast">Apply to series.yaml</button>
-                    <p class="text-muted">
-                        <small>Writes curated album list into series.yaml. Does not affect splits (those are applied individually below).</small>
+        </article>
+    {% endif %}
+    {% if curation.review.splits %}
+        <article class="panel-sm" x-data="splitsApp('{{ series.id }}')">
+            <h3>Proposed splits</h3>
+            <div class="flex flex-col gap-075">
+                {% for s in curation.review.splits %}
+                    <div class="series-card card-compact"
+                         data-split-albums='{{ s.album_ids | tojson }}'>
+                        <div class="flex justify-between items-start gap-05">
+                            <div>
+                                <strong>{{ s.new_series_title }}</strong>
+                                <br>
+                                <small><code>{{ s.new_series_id }}</code> · {{ s.album_ids | length }} albums</small>
+                            </div>
+                            <div class="flex gap-03 shrink-0">
+                                <button class="secondary outline btn-sm"
+                                        @click="previewSplit({{ loop.index0 }})">Preview</button>
+                                <button class="contrast btn-sm" @click="acceptSplit({{ loop.index0 }})">Accept</button>
+                                <button class="secondary outline btn-sm"
+                                        @click="rejectSplit({{ loop.index0 }})">Reject</button>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            <div x-show="previewOpen"
+                 x-transition.opacity.duration.150ms
+                 class="dialog-overlay"
+                 @click="previewOpen = false">
+                <article class="dialog-panel" @click.stop>
+                    <header>
+                        <h3>Split Preview</h3>
+                    </header>
+                    <p x-text="previewTitle"></p>
+                    <p x-show="previewAlbums.length > 0">
+                        <strong x-text="previewSummary"></strong>
                     </p>
-                </form>
-            {% endif %}
-            {% if curation.review.overrides %}
-                <article class="panel-sm">
-                    <h3>Overrides ({{ curation.review.overrides | length }})</h3>
-                    <div class="table-scroll">
+                    <p x-show="previewExcludedCount === previewAlbums.length && previewAlbums.length > 0"
+                       class="text-red mt-05">
+                        ⚠ All albums in this split are excluded. Nothing will appear in the app.
+                    </p>
+                    <p x-show="previewAlbums.length === 0" class="text-red mt-05">
+                        No matching albums found. The proposed album IDs may not exist in the curation.
+                    </p>
+                    <div class="table-scroll mt-05" x-show="previewAlbums.length > 0">
                         <table class="table-sm" role="grid">
                             <thead>
                                 <tr>
-                                    <th>Album</th>
-                                    <th>Action</th>
-                                    <th>Current state</th>
-                                    <th>Reason</th>
+                                    <th>#</th>
+                                    <th>Provider</th>
+                                    <th>Title</th>
+                                    <th>Status</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {% for o in curation.review.overrides %}
-                                    {% set album = curation.albums | selectattr('album_id', 'equalto', o.album_id) | first %}
-                                    <tr>
+                                <template x-for="a in previewAlbums" :key="a.album_id">
+                                    <tr :class="a.include ? '' : 'episode-row--excluded'">
+                                        <td x-text="a.episode_num ?? '-'" class="col-num"></td>
+                                        <td x-text="a.provider"></td>
+                                        <td x-text="a.title"></td>
                                         <td>
-                                            {% if album %}
-                                                <span x-html="providerIcon(album.provider)"></span>
-                                                {{ album.title }}
-                                                <br>
-                                                <small><code>{{ o.album_id[:16] }}…</code></small>
-                                            {% else %}
-                                                <code>{{ o.album_id[:16] }}…</code>
-                                                <br>
-                                                <small class="text-red">Not found in curation</small>
-                                            {% endif %}
+                                            <span x-show="a.include" class="text-green">included</span>
+                                            <span x-show="!a.include" class="text-red">excluded</span>
                                         </td>
-                                        <td>{{ o.action }}</td>
-                                        <td>
-                                            {% if album %}
-                                                {% if album.include %}
-                                                    included
-                                                {% else %}
-                                                    excluded
-                                                {% endif %}
-                                                {% if o.action == 'exclude' and not album.include %}
-                                                    <small class="text-red">(redundant)</small>
-                                                {% elif o.action == 'include' and album.include %}
-                                                    <small class="text-red">(redundant)</small>
-                                                {% endif %}
-                                            {% else %}
-                                                —
-                                            {% endif %}
-                                        </td>
-                                        <td>{{ o.reason }}</td>
                                     </tr>
-                                {% endfor %}
+                                </template>
                             </tbody>
                         </table>
                     </div>
+                    <footer class="footer-actions">
+                        <button class="secondary" @click="previewOpen = false">Close</button>
+                    </footer>
                 </article>
-            {% endif %}
-            {% if curation.review.splits %}
-                <article class="panel-sm" x-data="splitsApp('{{ series.id }}')">
-                    <h3>Proposed splits</h3>
-                    <div class="flex flex-col gap-075">
-                        {% for s in curation.review.splits %}
-                            <div class="series-card card-compact"
-                                 data-split-albums='{{ s.album_ids | tojson }}'>
-                                <div class="flex justify-between items-start gap-05">
-                                    <div>
-                                        <strong>{{ s.new_series_title }}</strong>
-                                        <br>
-                                        <small><code>{{ s.new_series_id }}</code> · {{ s.album_ids | length }} albums</small>
-                                    </div>
-                                    <div class="flex gap-03 shrink-0">
-                                        <button class="secondary outline btn-sm"
-                                                @click="previewSplit({{ loop.index0 }})">Preview</button>
-                                        <button class="contrast btn-sm" @click="acceptSplit({{ loop.index0 }})">Accept</button>
-                                        <button class="secondary outline btn-sm"
-                                                @click="rejectSplit({{ loop.index0 }})">Reject</button>
-                                    </div>
-                                </div>
-                            </div>
-                        {% endfor %}
-                    </div>
-                    <div x-show="previewOpen"
-                         x-transition.opacity.duration.150ms
-                         class="dialog-overlay"
-                         @click="previewOpen = false">
-                        <article class="dialog-panel" @click.stop>
-                            <header>
-                                <h3>Split Preview</h3>
-                            </header>
-                            <p x-text="previewTitle"></p>
-                            <p x-show="previewAlbums.length > 0">
-                                <strong x-text="previewSummary"></strong>
-                            </p>
-                            <p x-show="previewExcludedCount === previewAlbums.length && previewAlbums.length > 0"
-                               class="text-red mt-05">
-                                ⚠ All albums in this split are excluded. Nothing will appear in the app.
-                            </p>
-                            <p x-show="previewAlbums.length === 0" class="text-red mt-05">
-                                No matching albums found. The proposed album IDs may not exist in the curation.
-                            </p>
-                            <div class="table-scroll mt-05" x-show="previewAlbums.length > 0">
-                                <table class="table-sm" role="grid">
-                                    <thead>
-                                        <tr>
-                                            <th>#</th>
-                                            <th>Provider</th>
-                                            <th>Title</th>
-                                            <th>Status</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <template x-for="a in previewAlbums" :key="a.album_id">
-                                            <tr :class="a.include ? '' : 'episode-row--excluded'">
-                                                <td x-text="a.episode_num ?? '-'" class="col-num"></td>
-                                                <td x-text="a.provider"></td>
-                                                <td x-text="a.title"></td>
-                                                <td>
-                                                    <span x-show="a.include" class="text-green">included</span>
-                                                    <span x-show="!a.include" class="text-red">excluded</span>
-                                                </td>
-                                            </tr>
-                                        </template>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <footer class="footer-actions">
-                                <button class="secondary" @click="previewOpen = false">Close</button>
-                            </footer>
-                        </article>
-                    </div>
-                    <p x-show="message" x-text="message" class="text-green mt-05"></p>
-                </article>
-            {% endif %}
-        {% else %}
-            <p class="text-muted">
-                No audit data yet. Run <strong>Audit</strong> first.
-            </p>
-        {% endif %}
-    {% elif tab == 'edit' %}
-        <form method="post" action="/catalog/{{ series.id }}/edit">
-            <fieldset>
-                <label>
-                    Title
-                    <input type="text"
-                           name="title"
-                           value="{{ form_data.title | default(series.title) }}"
-                           required />
-                    {% if errors.title %}<small class="text-red">{{ errors.title }}</small>{% endif %}
-                </label>
-                <label>
-                    ID
-                    <input type="text"
-                           name="id"
-                           value="{{ form_data.id | default(series.id) }}"
-                           pattern="[a-z][a-z0-9_]*"
-                           required />
-                    {% if errors.id %}<small class="text-red">{{ errors.id }}</small>{% endif %}
-                </label>
-                <label>
-                    Aliases <small class="text-muted">(comma-separated)</small>
-                    <input type="text"
-                           name="aliases"
-                           value="{{ form_data.aliases | default(series.aliases | join(', ') ) }}" />
-                </label>
-                <label>
-                    Episode Pattern <small class="text-muted">(regex with capture group)</small>
-                    <input type="text"
-                           name="episode_pattern"
-                           value="{{ form_data.episode_pattern | default(series.episode_pattern or '') }}" />
-                    {% if errors.episode_pattern %}<small class="text-red">{{ errors.episode_pattern }}</small>{% endif %}
-                </label>
-                <label>
-                    Content Type
-                    <select name="content_type">
-                        <option value="hoerspiel"
-                                {% if (form_data.content_type | default(series.content_type or 'hoerspiel')) == 'hoerspiel' %}selected{% endif %}>
-                            hoerspiel
-                        </option>
-                        <option value="music"
-                                {% if (form_data.content_type | default(series.content_type or 'hoerspiel')) == 'music' %}selected{% endif %}>
-                            music
-                        </option>
-                    </select>
-                    {% if errors.content_type %}<small class="text-red">{{ errors.content_type }}</small>{% endif %}
-                </label>
-            </fieldset>
-            <div class="flex gap-05">
-                <button type="submit">Save</button>
-                <a href="/catalog/{{ series.id }}"
-                   role="button"
-                   class="secondary outline">Cancel</a>
             </div>
-        </form>
+            <p x-show="message" x-text="message" class="text-green mt-05"></p>
+        </article>
     {% endif %}
+{% else %}
+    <p class="text-muted">
+        No audit data yet. Run <strong>Audit</strong> first.
+    </p>
+{% endif %}
+{% elif tab == 'edit' %}
+<form method="post" action="/catalog/{{ series.id }}/edit">
+    <fieldset>
+        <label>
+            Title
+            <input type="text"
+                   name="title"
+                   value="{{ form_data.title | default(series.title) }}"
+                   required />
+            {% if errors.title %}<small class="text-red">{{ errors.title }}</small>{% endif %}
+        </label>
+        <label>
+            ID
+            <input type="text"
+                   name="id"
+                   value="{{ form_data.id | default(series.id) }}"
+                   pattern="[a-z][a-z0-9_]*"
+                   required />
+            {% if errors.id %}<small class="text-red">{{ errors.id }}</small>{% endif %}
+        </label>
+        <label>
+            Aliases <small class="text-muted">(comma-separated)</small>
+            <input type="text"
+                   name="aliases"
+                   value="{{ form_data.aliases | default(series.aliases | join(', ') ) }}" />
+        </label>
+        <label>
+            Episode Pattern <small class="text-muted">(regex with capture group)</small>
+            <input type="text"
+                   name="episode_pattern"
+                   value="{{ form_data.episode_pattern | default(series.episode_pattern or '') }}" />
+            {% if errors.episode_pattern %}<small class="text-red">{{ errors.episode_pattern }}</small>{% endif %}
+        </label>
+        <label>
+            Content Type
+            <select name="content_type">
+                <option value="hoerspiel"
+                        {% if (form_data.content_type | default(series.content_type or 'hoerspiel')) == 'hoerspiel' %}selected{% endif %}>
+                    hoerspiel
+                </option>
+                <option value="music"
+                        {% if (form_data.content_type | default(series.content_type or 'hoerspiel')) == 'music' %}selected{% endif %}>
+                    music
+                </option>
+            </select>
+            {% if errors.content_type %}<small class="text-red">{{ errors.content_type }}</small>{% endif %}
+        </label>
+    </fieldset>
+    <div class="flex gap-05">
+        <button type="submit">Save</button>
+        <a href="/catalog/{{ series.id }}"
+           role="button"
+           class="secondary outline">Cancel</a>
+    </div>
+</form>
+{% endif %}
 {% endblock %}
 {% block scripts %}
     <style>.episode-row--excluded { opacity: 0.55; }</style>
@@ -557,6 +600,108 @@ function scrollToEpisode(num) {
     row.classList.add('highlight-row');
     setTimeout(() => row.classList.remove('highlight-row'), 2000);
   }
+}
+
+function pipelineStages(seriesId) {
+  return {
+    stages: [],
+    nextAction: 'done',
+    selectedStage: null,
+    stageJobId: null,
+    stageJobStatus: null,
+    stageLogLines: [],
+    _logLineId: 0,
+    _eventSource: null,
+    get selectedStageLabel() {
+      if (this.selectedStage === null) return '';
+      return this.stages[this.selectedStage]?.label || '';
+    },
+    async loadPipeline() {
+      try {
+        const res = await fetch(`/api/series/${seriesId}/pipeline`);
+        const data = await res.json();
+        this.stages = data.stages;
+        this.nextAction = data.next_action;
+      } catch (_) {}
+    },
+    selectStage(idx) {
+      this.selectedStage = idx;
+      this.stageLogLines = [];
+      this._logLineId = 0;
+      if (this._eventSource) { this._eventSource.close(); this._eventSource = null; }
+      const stage = this.stages[idx];
+      const job = stage?.last_job;
+      if (!job) { this.stageJobId = null; this.stageJobStatus = null; return; }
+      this.stageJobId = job.job_id;
+      this.stageJobStatus = job.status;
+      this.loadJobLogs(job.job_id, job.status);
+    },
+    async loadJobLogs(jobId, status) {
+      try {
+        const res = await fetch(`/api/jobs/${jobId}/logs`);
+        const data = await res.json();
+        this.stageJobStatus = data.status;
+        if (data.lines) {
+          for (const line of data.lines) {
+            this.stageLogLines.push({ id: ++this._logLineId, text: line });
+          }
+        }
+        if (data.status === 'running' || data.status === 'queued') {
+          this.connectSSE(jobId);
+        }
+      } catch (_) {}
+    },
+    connectSSE(jobId) {
+      if (this._eventSource) this._eventSource.close();
+      const source = new EventSource(`/api/jobs/${jobId}/events`);
+      this._eventSource = source;
+      source.addEventListener('log', (e) => {
+        const payload = JSON.parse(e.data);
+        this.stageLogLines.push({ id: ++this._logLineId, text: payload.line });
+        this.stageJobStatus = payload.status || this.stageJobStatus;
+      });
+      source.addEventListener('done', (e) => {
+        const payload = JSON.parse(e.data);
+        this.stageJobStatus = payload.status;
+        this.stageLogLines.push({ id: ++this._logLineId, text: `[${payload.status}]` });
+        source.close();
+        this._eventSource = null;
+        this.loadPipeline();
+      });
+      source.addEventListener('error', () => {
+        this.stageLogLines.push({ id: ++this._logLineId, text: '[SSE error]' });
+        source.close();
+        this._eventSource = null;
+      });
+    },
+    async runStage(command) {
+      if (!command || command === 'done') return;
+      const res = await fetch('/api/jobs', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ series_id: seriesId, command }),
+      });
+      const data = await res.json();
+      if (data.error) { alert(data.error); return; }
+      await this.loadPipeline();
+      const idx = this.stages.findIndex(s => s.command === command);
+      if (idx >= 0) {
+        this.stages[idx].last_job = { job_id: data.job_id, status: 'queued' };
+        this.selectStage(idx);
+      }
+    },
+    async runFullPipeline() {
+      const res = await fetch('/api/jobs', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ series_id: seriesId, command: 'pipeline-one' }),
+      });
+      const data = await res.json();
+      if (data.error) { alert(data.error); return; }
+      Alpine.store('jobs').open = true;
+      connectJobStream(data.job_id);
+    }
+  };
 }
 
 function splitsApp(seriesId) {

@@ -226,9 +226,9 @@ async def series_episodes(request: Request, series_id: str):
     return _render_series_detail(request, series_id, tab="episodes")
 
 
-@router.get("/catalog/{series_id}/curation", response_class=HTMLResponse)
-async def series_curation(request: Request, series_id: str):
-    return _render_series_detail(request, series_id, tab="curation")
+@router.get("/catalog/{series_id}/pipeline", response_class=HTMLResponse)
+async def series_pipeline(request: Request, series_id: str):
+    return _render_series_detail(request, series_id, tab="pipeline")
 
 
 @router.get("/catalog/{series_id}/audit", response_class=HTMLResponse)
@@ -346,19 +346,19 @@ async def series_run_post(request: Request, series_id: str):
         "discover",
         "pipeline-one",
     ):
-        return RedirectResponse(url=f"/catalog/{series_id}/curation", status_code=303)
+        return RedirectResponse(url=f"/catalog/{series_id}/pipeline", status_code=303)
 
     existing = get_active_job(series_id)
     if existing:
         # Show flash via query param
         return RedirectResponse(
-            url=f"/catalog/{series_id}/curation?flash=job-{existing.command}-already-running",
+            url=f"/catalog/{series_id}/pipeline?flash=job-{existing.command}-already-running",
             status_code=303,
         )
 
     job_id = create_job(series_id, command)
     run_subprocess(job_id, series_id, command)
-    return RedirectResponse(url=f"/catalog/{series_id}/curation", status_code=303)
+    return RedirectResponse(url=f"/catalog/{series_id}/pipeline", status_code=303)
 
 
 @router.get("/validate", response_class=HTMLResponse)

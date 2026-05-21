@@ -10,7 +10,8 @@ from pydantic import BaseModel
 from lauschi_catalog.commands.discover import discover_for_provider
 from lauschi_catalog.providers import CatalogProvider
 from lauschi_catalog.web.catalog_db import get_series_by_id, sync_catalog_to_db
-from lauschi_catalog.web.jobs import create_job
+from lauschi_catalog.web.jobs import create_job, list_jobs
+from lauschi_catalog.web.pipeline import next_action, pipeline_status
 from lauschi_catalog.web.routes.jobs_api import run_subprocess
 
 router = APIRouter()
@@ -175,3 +176,45 @@ async def search_artists(request: SearchArtistsRequest) -> dict[str, Any]:
         if artist:
             results[p.name] = {"name": artist.name, "id": artist.id}
     return {"results": results}
+
+
+_STAGE_COMMANDS = ["discover", "curate", "audit", "apply", "validate"]
+
+
+@router.get("/series/{series_id}/pipeline")
+async def get_pipeline_state(series_id: str) -> dict[str, Any]:
+    """Return pipeline stage status with last job per stage."""
+    series = get_series_by_id(series_id)
+    if series is None:
+        raise HTTPException(status_code=404, detail="series not found")
+
+    state = pipeline_status(series_id, series=series)
+    jobs = list_jobs(series_id=series_id, limit=100)
+
+    last_job_by_command: dict[str, dict[str, str]] = {}
+    for j in jobs:
+        cmd = j.command
+        if cmd in _STAGE_COMMANDS and cmd not in last_job_by_command:
+            last_job_by_command[cmd] = {
+                "job_id": j.id,
+                "status": j.status,
+                "created_at": j.created_at,
+            }
+
+    stages = []
+    for i, label in enumerate(state.step_labels):
+        cmd = _STAGE_COMMANDS[i] if i < len(_STAGE_COMMANDS) else label.lower()
+        job_info = last_job_by_command.get(cmd)
+        stages.append({
+            "label": label,
+            "command": cmd,
+            "status": state.step_statuses[i],
+            "last_job": job_info,
+        })
+
+    return {
+        "series_id": series_id,
+        "current_step": state.current_step,
+        "next_action": next_action(series_id, state=state),
+        "stages": stages,
+    }
