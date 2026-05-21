@@ -64,6 +64,19 @@ _DEFAULT_MODEL = "kimi-k2.6"
 _BATCH_SIZE = 30
 
 
+def _validate_episode_pattern(v: str | list[str] | None) -> str | list[str] | None:
+    """Validate that an episode_pattern has at least one capture group."""
+    if v is None:
+        return None
+    patterns = [v] if isinstance(v, str) else v
+    for p in patterns:
+        c = re.compile(p)
+        if c.groups < 1:
+            msg = f"Pattern {p!r}: needs at least 1 capture group"
+            raise ValueError(msg)
+    return v
+
+
 def _build_batch_summary(
     decisions: list[AlbumDecision],
     pattern: str | list[str] | None,
@@ -261,15 +274,7 @@ class CuratedSeries(BaseModel):
     @field_validator("episode_pattern")
     @classmethod
     def _valid_pattern(cls, v: str | list[str] | None) -> str | list[str] | None:
-        if v is None:
-            return None
-        patterns = [v] if isinstance(v, str) else v
-        for p in patterns:
-            c = re.compile(p)
-            if c.groups < 1:
-                msg = f"Pattern {p!r}: needs at least 1 capture group"
-                raise ValueError(msg)
-        return v
+        return _validate_episode_pattern(v)
 
     def included(self) -> list[AlbumDecision]:
         return sorted(
@@ -315,15 +320,7 @@ class SeriesMetadata(BaseModel):
     @field_validator("episode_pattern")
     @classmethod
     def _valid_pattern(cls, v: str | list[str] | None) -> str | list[str] | None:
-        if v is None:
-            return None
-        patterns = [v] if isinstance(v, str) else v
-        for p in patterns:
-            c = re.compile(p)
-            if c.groups < 1:
-                msg = f"Pattern {p!r}: needs at least 1 capture group"
-                raise ValueError(msg)
-        return v
+        return _validate_episode_pattern(v)
 
 
 # ── Agent dependencies ─────────────────────────────────────────────────────
