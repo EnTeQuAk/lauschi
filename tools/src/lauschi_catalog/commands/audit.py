@@ -242,7 +242,7 @@ def _build_prompt(curation: dict, lint_issues: list[str]) -> str:
         )
 
     lines.append(f"\n### Excluded albums ({len(excluded)})")
-    for a in excluded[:30]:
+    for a in excluded:
         reason = a.get("exclude_reason", "")
         rel = a.get("release_date") or ""
         rel_str = f" ({rel})" if rel else ""
@@ -280,7 +280,7 @@ def _build_prompt(curation: dict, lint_issues: list[str]) -> str:
             "For each one: fix it (override/fact_update), record as a "
             "concern, or explain why it's a false positive."
         )
-        for issue in lint_issues[:20]:
+        for issue in lint_issues:
             lines.append(f"  ⚠️  {issue}")
 
     lines.append(

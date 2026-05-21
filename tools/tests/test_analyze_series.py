@@ -123,26 +123,24 @@ def test_analyze_finds_simple_gaps():
 
 
 def test_analyze_caps_gaps_at_20():
-    """Long gap runs are truncated to the first 20 missing numbers."""
+    """All gap numbers are included so agents see the full picture."""
     albums = [
         make_album("low", "Folge 1: low", episode_num=1),
         make_album("high", "Folge 100: high", episode_num=100),
     ]
     result = analyze_series(make_curation(albums=albums))
-    assert len(result["gaps"]) == 20
-    assert result["gaps"] == list(range(2, 22))
+    assert len(result["gaps"]) == 98
+    assert result["gaps"] == list(range(2, 100))
 
 
 def test_analyze_gap_count_reports_full_severity():
-    """gap_count is the truth even when the displayed list is capped.
-    Without it, a 98-gap series and a 20-gap series look identical
-    to the review agent and the verdict choice is mis-informed."""
     albums = [
         make_album("low", "Folge 1: low", episode_num=1),
         make_album("high", "Folge 100: high", episode_num=100),
     ]
     result = analyze_series(make_curation(albums=albums))
     assert result["gap_count"] == 98
+    assert len(result["gaps"]) == 98
 
 
 def test_analyze_gap_count_matches_when_under_cap():

@@ -134,7 +134,7 @@ class TestBuildPrompt:
         prompt = _build_prompt(c, [])
         assert "[audited by minimax]" in prompt
 
-    def test_caps_excluded_at_30(self):
+    def test_shows_all_excluded(self):
         albums = [
             {
                 "album_id": f"x{i}",
@@ -147,14 +147,13 @@ class TestBuildPrompt:
         ]
         c = _curation(albums=albums)
         prompt = _build_prompt(c, [])
-        # Header line also contains "Excluded", so count the album lines directly
-        assert prompt.count("[spotify] Excluded ") == 30
+        assert prompt.count("[spotify] Excluded ") == 50
 
-    def test_caps_lint_at_20(self):
+    def test_shows_all_lint_issues(self):
         issues = [f"Issue {i}" for i in range(30)]
         prompt = _build_prompt(_curation(), issues)
         assert "Lint findings (30)" in prompt
-        assert prompt.count("Issue ") == 20
+        assert prompt.count("Issue ") == 30
 
 
 # ── apply_audit: status determination ────────────────────────────────────

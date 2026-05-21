@@ -61,7 +61,7 @@ def format_album_xml(album: dict, *, include_tracks: bool = True) -> str:
     tracks = album.get("tracks", [])
     if include_tracks and tracks:
         lines.append("  <tracks>")
-        for t in tracks[:8]:
+        for t in tracks:
             dur_ms = t.get("duration_ms", 0)
             dur_s = f' duration_ms="{dur_ms}"' if dur_ms else ""
             num = t.get("track_number")
@@ -69,8 +69,6 @@ def format_album_xml(album: dict, *, include_tracks: bool = True) -> str:
             lines.append(
                 f"    <track{num_attr}{dur_s}>{t.get('name', '')}</track>"
             )
-        if len(tracks) > 8:
-            lines.append(f"    <!-- {len(tracks) - 8} more tracks -->")
         lines.append("  </tracks>")
     lines.append("</album>")
     return "\n".join(lines)

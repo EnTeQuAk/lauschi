@@ -104,8 +104,7 @@ def lint_curation(curation: dict) -> list[str]:
         unknown = [g for g in gaps if g not in known]
         if unknown:
             issues.append(
-                f"[{prov}] Unexpected gaps at episodes: {unknown[:10]}"
-                f"{'…' if len(unknown) > 10 else ''}"
+                f"[{prov}] Unexpected gaps at episodes: {unknown}"
             )
 
     # ── Rule 3: Episode N included but N-1 from same era excluded ─────

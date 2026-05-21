@@ -224,12 +224,7 @@ def analyze_series(curation: dict) -> dict[str, Any]:
         "total": len(albums),
         "with_episode_num": len(episodes),
         "episode_range": f"{nums[0]}-{nums[-1]}" if nums else "none",
-        # Truncate the listed gaps to keep the prompt bounded, but
-        # always report the true count separately. Without gap_count,
-        # a series with 80 missing episodes looks identical to one
-        # with 20, which mis-informs the GapsVerdict choice
-        # (FILLED_VIA_ADD_ALBUM vs VERIFIED_CONTENT_ROTATION).
-        "gaps": gaps[:20],
+        "gaps": gaps,
         "gap_count": len(gaps),
         "providers": dict(providers),
         "common_words": title_counter.most_common(10),

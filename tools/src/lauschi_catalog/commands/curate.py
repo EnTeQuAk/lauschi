@@ -531,7 +531,7 @@ def _build_metadata_agent(
                 unmatched = [
                     t for t in ctx.deps.titles
                     if extract_episode(meta.episode_pattern, t) is None
-                ][:10]
+                ]
                 raise ModelRetry(
                     f"Coverage {coverage:.0%} ({matched}/{total}) is below "
                     f"the 80% safe band. The unmatched titles likely contain "
@@ -1297,8 +1297,8 @@ async def _run_large(
             analysis = analyze_series(partial_curation)
             if analysis.get("gaps"):
                 analysis_lines.append(
-                    f"Gaps: {analysis['gap_count']} missing episodes "
-                    f"({analysis['gaps'][:10]}{'…' if analysis['gap_count'] > 10 else ''})"
+                    f"Gaps: {len(analysis['gaps'])} missing episodes "
+                    f"({analysis['gaps']})"
                 )
             if analysis.get("duplicates_within_provider"):
                 for prov, eps in analysis["duplicates_within_provider"].items():
@@ -1309,7 +1309,7 @@ async def _run_large(
                 for prov, cov in analysis["cross_provider_coverage"].items():
                     if cov.get("missing"):
                         analysis_lines.append(
-                            f"{prov} missing: {cov['missing'][:10]}{'…' if len(cov['missing']) > 10 else ''}"
+                            f"{prov} missing: {cov['missing']}"
                         )
             if analysis.get("outliers"):
                 analysis_lines.append(
@@ -1327,13 +1327,13 @@ async def _run_large(
         needs_finalize = bool(unnumbered) or bool(era_evidence_lines)
         if needs_finalize:
             lines: list[str] = []
-            for d in unnumbered[:50]:  # cap to keep prompt size reasonable
+            for d in unnumbered:
                 key = f"{d.provider}:{d.album_id}"
                 detail = shared_deps.seen_details.get(key)
                 tracks = ""
                 if detail and detail.get("tracks"):
-                    track_names = [t["name"] for t in detail["tracks"][:5]]
-                    tracks = " | tracks: " + " | ".join(track_names[:3])
+                    track_names = [t["name"] for t in detail["tracks"]]
+                    tracks = " | tracks: " + " | ".join(track_names)
                 lines.append(
                     f"  {d.provider}:{d.album_id} | {d.title}{tracks}"
                 )
