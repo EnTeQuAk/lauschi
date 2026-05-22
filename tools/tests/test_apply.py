@@ -1,4 +1,4 @@
-"""Tests for apply._apply_one and apply._should_apply.
+"""Tests for apply.apply_one and apply.should_apply.
 
 The change-detection logic is pinned because a silent skip means the
 live catalog disagrees with the reviewed curation. The escalation
@@ -9,7 +9,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from lauschi_catalog.commands.apply import _apply_one, _should_apply
+from lauschi_catalog.catalog.apply_ops import apply_one, should_apply
 
 
 def _curation(*, albums: list[dict[str, Any]]) -> dict[str, Any]:
@@ -40,7 +40,7 @@ def _yaml_with(series_albums: list[dict] | None = None) -> dict:
     return {"series": [entry]}
 
 
-def test_apply_one_writes_when_episode_number_changed_via_pattern_update():
+def testapply_one_writes_when_episode_number_changed_via_pattern_update():
     """The bug this test pins: a pattern update re-extracts an episode
     number, the album_id is unchanged, but the episode field IS
     different. ID-only comparison would skip the write and ship stale
@@ -52,23 +52,23 @@ def test_apply_one_writes_when_episode_number_changed_via_pattern_update():
         _included("a", episode_num=47, title="Folge 47: Title"),
     ])
     # Same album, but title changed (and could be episode change too).
-    updated = _apply_one("s1", curation, yaml_data)
+    updated = apply_one("s1", curation, yaml_data)
     assert updated is True
     saved = yaml_data["series"][0]["providers"]["spotify"]["albums"]
     assert saved[0]["title"] == "Folge 47: Title"
 
 
-def test_apply_one_skips_write_when_everything_identical():
+def testapply_one_skips_write_when_everything_identical():
     yaml_data = _yaml_with([
         {"id": "a", "episode": 1, "title": "T"},
     ])
     curation = _curation(albums=[
         _included("a", episode_num=1, title="T"),
     ])
-    assert _apply_one("s1", curation, yaml_data) is False
+    assert apply_one("s1", curation, yaml_data) is False
 
 
-def test_apply_one_writes_when_album_added():
+def testapply_one_writes_when_album_added():
     yaml_data = _yaml_with([
         {"id": "a", "episode": 1, "title": "T"},
     ])
@@ -76,7 +76,7 @@ def test_apply_one_writes_when_album_added():
         _included("a", episode_num=1, title="T"),
         _included("b", episode_num=2, title="U"),
     ])
-    assert _apply_one("s1", curation, yaml_data) is True
+    assert apply_one("s1", curation, yaml_data) is True
     saved_ids = [
         e["id"] for e in
         yaml_data["series"][0]["providers"]["spotify"]["albums"]
@@ -84,7 +84,7 @@ def test_apply_one_writes_when_album_added():
     assert saved_ids == ["a", "b"]
 
 
-def test_apply_one_writes_when_album_removed():
+def testapply_one_writes_when_album_removed():
     yaml_data = _yaml_with([
         {"id": "a", "episode": 1, "title": "T"},
         {"id": "b", "episode": 2, "title": "U"},
@@ -92,10 +92,10 @@ def test_apply_one_writes_when_album_removed():
     curation = _curation(albums=[
         _included("a", episode_num=1, title="T"),
     ])
-    assert _apply_one("s1", curation, yaml_data) is True
+    assert apply_one("s1", curation, yaml_data) is True
 
 
-def test_apply_one_writes_when_only_episode_number_differs():
+def testapply_one_writes_when_only_episode_number_differs():
     """Episode number flipped (e.g., review correction); same id+title."""
     yaml_data = _yaml_with([
         {"id": "a", "episode": 5, "title": "T"},
@@ -103,7 +103,7 @@ def test_apply_one_writes_when_only_episode_number_differs():
     curation = _curation(albums=[
         _included("a", episode_num=6, title="T"),
     ])
-    assert _apply_one("s1", curation, yaml_data) is True
+    assert apply_one("s1", curation, yaml_data) is True
     saved = yaml_data["series"][0]["providers"]["spotify"]["albums"]
     assert saved[0]["episode"] == 6
 
@@ -123,7 +123,7 @@ def test_apply_writes_music_content_type():
     curation = _curation_with_ct("music", albums=[
         _included("a", episode_num=1, title="T"),
     ])
-    _apply_one("s1", curation, yaml_data)
+    apply_one("s1", curation, yaml_data)
     assert yaml_data["series"][0].get("content_type") == "music"
 
 
@@ -138,7 +138,7 @@ def test_apply_strips_redundant_hoerspiel_when_pattern_signals_it():
         _included("a", episode_num=1, title="Folge 1: T"),
     ])
     curation["episode_pattern"] = r"^Folge (\d+):"
-    updated = _apply_one("s1", curation, yaml_data)
+    updated = apply_one("s1", curation, yaml_data)
     assert updated is True
     assert "content_type" not in yaml_data["series"][0]
 
@@ -156,7 +156,7 @@ def test_apply_keeps_explicit_hoerspiel_when_no_other_signal():
     curation = _curation_with_ct("hoerspiel", albums=[
         _included("a", episode_num=None, title="T"),
     ])
-    _apply_one("s1", curation, yaml_data)
+    apply_one("s1", curation, yaml_data)
     # content_type must persist as a signal for future re-curates.
     assert yaml_data["series"][0].get("content_type") == "hoerspiel"
 
@@ -173,7 +173,7 @@ def test_apply_writes_explicit_hoerspiel_when_correcting_stale_music_without_pat
     curation = _curation_with_ct("hoerspiel", albums=[
         _included("a", episode_num=None, title="T"),
     ])
-    updated = _apply_one("s1", curation, yaml_data)
+    updated = apply_one("s1", curation, yaml_data)
     assert updated is True
     assert yaml_data["series"][0].get("content_type") == "hoerspiel"
 
@@ -189,7 +189,7 @@ def test_apply_clears_stale_hoerspiel_when_pattern_is_authoritative():
         _included("a", episode_num=1, title="Folge 1: T"),
     ])
     curation["episode_pattern"] = r"^Folge (\d+):"
-    _apply_one("s1", curation, yaml_data)
+    apply_one("s1", curation, yaml_data)
     assert "content_type" not in yaml_data["series"][0]
     # Pattern still there as the surviving hoerspiel signal
     assert yaml_data["series"][0].get("episode_pattern") == r"^Folge (\d+):"
@@ -205,7 +205,7 @@ def test_apply_writes_new_episode_pattern():
         _included("a", episode_num=1, title="Folge 1: T"),
     ])
     curation["episode_pattern"] = r"^Folge (\d+):"
-    updated = _apply_one("s1", curation, yaml_data)
+    updated = apply_one("s1", curation, yaml_data)
     assert updated is True
     assert yaml_data["series"][0]["episode_pattern"] == r"^Folge (\d+):"
 
@@ -225,7 +225,7 @@ def test_apply_clears_stale_pattern_when_curation_now_none():
         _included("a", episode_num=None, title="Aladin (Das Original)"),
     ])
     # No episode_pattern in curation → None
-    updated = _apply_one("s1", curation, yaml_data)
+    updated = apply_one("s1", curation, yaml_data)
     assert updated is True
     assert "episode_pattern" not in yaml_data["series"][0]
 
@@ -238,7 +238,7 @@ def test_apply_replaces_pattern_with_different_pattern():
         _included("a", episode_num=1, title="01/T"),
     ])
     curation["episode_pattern"] = r"^(\d+)/"
-    updated = _apply_one("s1", curation, yaml_data)
+    updated = apply_one("s1", curation, yaml_data)
     assert updated is True
     assert yaml_data["series"][0]["episode_pattern"] == r"^(\d+)/"
 
@@ -253,7 +253,7 @@ def test_apply_no_op_when_pattern_already_matches():
     curation["episode_pattern"] = r"^Folge (\d+):"
     # Album entry is also unchanged so the only thing that could
     # trigger a write is the pattern. None does → updated=False.
-    assert _apply_one("s1", curation, yaml_data) is False
+    assert apply_one("s1", curation, yaml_data) is False
 
 
 # ── escalation guard ──────────────────────────────────────────────────────
@@ -272,19 +272,19 @@ def _escalated_data() -> dict:
     }
 
 
-def test_should_apply_refuses_escalated():
+def testshould_apply_refuses_escalated():
     data = _escalated_data()
-    result = _should_apply(data, force=False)
+    result = should_apply(data, force=False)
     assert result is not None
     assert "escalated" in result
 
 
-def test_should_apply_allows_escalated_with_force():
+def testshould_apply_allows_escalated_with_force():
     data = _escalated_data()
-    assert _should_apply(data, force=True) is None
+    assert should_apply(data, force=True) is None
 
 
-def test_should_apply_allows_approved():
+def testshould_apply_allows_approved():
     data = {
         "review": {
             "status": "approved",
@@ -295,10 +295,10 @@ def test_should_apply_allows_approved():
         },
         "curated_at": "2026-04-01T00:00:00+00:00",
     }
-    assert _should_apply(data, force=False) is None
+    assert should_apply(data, force=False) is None
 
 
-def test_should_apply_refuses_stale_audit():
+def testshould_apply_refuses_stale_audit():
     data = {
         "review": {
             "status": "approved",
@@ -306,5 +306,5 @@ def test_should_apply_refuses_stale_audit():
         },
         "curated_at": "2026-02-01T00:00:00+00:00",
     }
-    assert _should_apply(data, force=False) is not None
-    assert "stale" in _should_apply(data, force=False)
+    assert should_apply(data, force=False) is not None
+    assert "stale" in should_apply(data, force=False)

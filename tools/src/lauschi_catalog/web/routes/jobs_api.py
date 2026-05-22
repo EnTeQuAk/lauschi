@@ -393,6 +393,10 @@ def run_subprocess(job_id: str, series_id: str, command: str) -> None:
     """
     if command == "discover" and _try_in_process_discover(job_id, series_id):
         return
+    if command == "apply" and _try_in_process_apply(job_id, series_id):
+        return
+    if command == "validate" and _try_in_process_validate(job_id, series_id):
+        return
 
     cmd, cwd = _build_cli_args(series_id, command)
     log.info("job %s: queuing subprocess for %s/%s", job_id, series_id, command)
@@ -417,6 +421,35 @@ def _try_in_process_discover(job_id: str, series_id: str) -> bool:
 
     log.info("job %s: running discover in-process for %s", job_id, series_id)
     launch_in_process(job_id, discover_one, series.title, providers, write=True)
+    return True
+
+
+def _try_in_process_apply(job_id: str, series_id: str) -> bool:
+    """Run apply in-process. Returns False to fall back to subprocess."""
+    from lauschi_catalog.catalog.apply_ops import apply_curations
+
+    log.info("job %s: running apply in-process for %s", job_id, series_id)
+    launch_in_process(
+        job_id, apply_curations, series_id, force=True,
+    )
+    return True
+
+
+def _try_in_process_validate(job_id: str, series_id: str) -> bool:
+    """Run validate in-process. Returns False to fall back to subprocess."""
+    from lauschi_catalog.catalog.providers_init import init_providers
+    from lauschi_catalog.catalog.validate_ops import validate_catalog
+
+    result = init_providers()
+    providers = result.providers
+    if not providers:
+        log.warning("job %s: no providers available for in-process validate", job_id)
+        return False
+
+    log.info("job %s: running validate in-process for %s", job_id, series_id)
+    launch_in_process(
+        job_id, validate_catalog, providers, series_filter=series_id,
+    )
     return True
 
 

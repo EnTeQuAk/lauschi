@@ -12,7 +12,7 @@ import pytest
 
 from lauschi_catalog.catalog.facts import SeriesFacts
 from lauschi_catalog.catalog.loader import load_catalog
-from lauschi_catalog.commands.apply import _filter_confirmed_facts
+from lauschi_catalog.catalog.apply_ops import filter_confirmed_facts
 
 
 class TestFactsRoundTrip:
@@ -44,7 +44,7 @@ class TestFactsRoundTrip:
                 "sub_series": [],
             },
         }
-        yaml_facts = _filter_confirmed_facts(curation["series_facts"])
+        yaml_facts = filter_confirmed_facts(curation["series_facts"])
         assert yaml_facts is not None
         assert "era_boundaries" in yaml_facts
         assert "known_gaps" in yaml_facts
@@ -65,7 +65,7 @@ class TestFactsRoundTrip:
                 ],
             },
         }
-        yaml_facts = _filter_confirmed_facts(curation["series_facts"])
+        yaml_facts = filter_confirmed_facts(curation["series_facts"])
         assert yaml_facts is None or yaml_facts == {}
 
     def test_mixed_audited_and_unaudited(self):
@@ -87,13 +87,13 @@ class TestFactsRoundTrip:
                 ],
             },
         }
-        yaml_facts = _filter_confirmed_facts(curation["series_facts"])
+        yaml_facts = filter_confirmed_facts(curation["series_facts"])
         assert yaml_facts is not None
         labels = {e["label"] for e in yaml_facts.get("era_boundaries", [])}
         assert labels == {"good"}
 
     def test_series_facts_model_validates_yaml_shape(self):
-        """The shape _filter_confirmed_facts emits must load via SeriesFacts."""
+        """The shape filter_confirmed_facts emits must load via SeriesFacts."""
         raw = {
             "era_boundaries": [
                 {

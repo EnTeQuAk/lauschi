@@ -1,99 +1,20 @@
-"""Catalog validation across providers.
+"""Catalog validation across providers (CLI wrapper).
 
-L1  SYNTAX      required fields, regex compiles, unique IDs
-L3  PATTERN     episode extraction rate within matched albums
-L4  DISCOVERY   probes common naming patterns, suggests improvements
-L5  ARTIST      full discography via artist ID (per provider)
+Thin CLI layer over catalog.validate_ops. All business logic lives in
+the library module.
 """
 
 from __future__ import annotations
 
-import json
-import re
-from dataclasses import dataclass, field
-from datetime import UTC, datetime
-
 import click
-import requests
 from rich.console import Console
+from rich.markup import escape
 from rich.table import Table
 
-from lauschi_catalog.catalog.loader import load_catalog
-from lauschi_catalog.catalog.matcher import extract_episode
-from lauschi_catalog.providers import Album, CatalogProvider
-
-from lauschi_catalog.catalog.paths import CURATION_DIR
+from lauschi_catalog.catalog.validate_ops import validate_catalog
+from lauschi_catalog.providers import CatalogProvider
 
 console = Console()
-
-
-@dataclass
-class ValidationResult:
-    series_id: str
-    title: str
-    issues: list[str] = field(default_factory=list)
-    l3_match_rate: float = 0.0
-    l5_coverage: dict[str, float] = field(default_factory=dict)
-
-
-def _validate_l1(entries) -> list[str]:
-    """L1: syntax checks."""
-    issues = []
-    ids_seen = set()
-    for e in entries:
-        if not e.id:
-            issues.append(f"Entry missing id: {e.title}")
-        if e.id in ids_seen:
-            issues.append(f"Duplicate id: {e.id}")
-        ids_seen.add(e.id)
-        if e.episode_pattern:
-            patterns = [e.episode_pattern] if isinstance(e.episode_pattern, str) else e.episode_pattern
-            for p in patterns:
-                try:
-                    re.compile(p)
-                except re.error as err:
-                    issues.append(f"{e.id}: bad pattern {p!r}: {err}")
-    return issues
-
-
-def _validate_l5(entry, provider: CatalogProvider) -> tuple[int, int, list[str]]:
-    """L5: full discography validation via artist ID.
-
-    Returns (matched, total, unmatched_titles).
-    """
-    aids = entry.artist_ids(provider.name)
-    if not aids:
-        return 0, 0, []
-
-    all_albums: list[Album] = []
-    for aid in aids:
-        try:
-            all_albums.extend(provider.artist_albums(aid))
-        except requests.HTTPError as e:
-            # 404 = artist removed/relocated on the provider side; that's
-            # benign here, validate just reports zero coverage. Other HTTP
-            # errors (auth, rate limit, server) are real failures the user
-            # should see, not silently swallowed.
-            status = e.response.status_code if e.response is not None else None
-            if status == 404:
-                continue
-            raise
-
-    if not all_albums:
-        return 0, 0, []
-
-    pattern = entry.effective_pattern(provider.name)
-    matched = 0
-    unmatched = []
-
-    for album in all_albums:
-        ep = extract_episode(pattern, album.name)
-        if ep is not None:
-            matched += 1
-        else:
-            unmatched.append(album.name)
-
-    return matched, len(all_albums), unmatched
 
 
 @click.command()
@@ -106,97 +27,65 @@ def validate(provider: str, series: str | None, verbose: bool):
     Runs L1 (syntax) always. L5 (artist discography) for providers with
     artist IDs configured.
     """
-    from lauschi_catalog.providers.apple_music import AppleMusicProvider
-    from lauschi_catalog.providers.spotify import SpotifyProvider
+    from lauschi_catalog.catalog.providers_init import init_providers
 
-    providers: list[CatalogProvider] = []
-    if provider in ("spotify", "all"):
-        try:
-            providers.append(SpotifyProvider())
-        except SystemExit:
-            console.print("[yellow]Spotify credentials not set, skipping[/yellow]")
-    if provider in ("apple_music", "all"):
-        try:
-            providers.append(AppleMusicProvider())
-        except FileNotFoundError:
-            console.print("[yellow]Apple Music key not found, skipping[/yellow]")
+    result = init_providers(provider)
+    for w in result.warnings:
+        console.print(f"[yellow]{w}[/yellow]")
+    providers = result.providers
 
-    entries = load_catalog()
-    if series:
-        q = series.lower()
-        entries = [e for e in entries if q in e.title.lower() or q in e.id]
+    vresult = validate_catalog(
+        providers,
+        series_filter=series,
+        on_progress=lambda msg: console.print(msg),
+    )
 
-    # L1: syntax
-    l1_issues = _validate_l1(entries)
-    if l1_issues:
+    if vresult.l1_issues:
         console.print("[red]L1 SYNTAX issues:[/red]")
-        for issue in l1_issues:
+        for issue in vresult.l1_issues:
             console.print(f"  {issue}")
     else:
-        console.print(f"[green]L1 SYNTAX: {len(entries)} series, no issues[/green]")
+        console.print("[green]L1 SYNTAX: no issues[/green]")
 
     if not providers:
         return
 
-    # L5: artist discography match rates
     table = Table(title="L5 Artist Discography Validation")
     table.add_column("Series", style="cyan", max_width=25)
     table.add_column("Pattern", style="dim", max_width=25)
     for p in providers:
         table.add_column(f"{p.name} rate", justify="right")
 
-    perfect = {p.name: 0 for p in providers}
-    tested = {p.name: 0 for p in providers}
-
-    for entry in entries:
-        has_any = any(entry.artist_ids(p.name) for p in providers)
-        if not has_any:
-            continue
-
-        from rich.markup import escape
-        pattern_str = escape(str(entry.episode_pattern or "-")[:25])
-        row = [escape(entry.title), pattern_str]
+    for sv in vresult.series_results:
+        pattern_str = escape(str(sv.pattern or "-")[:25])
+        row = [escape(sv.title), pattern_str]
 
         for p in providers:
-            aids = entry.artist_ids(p.name)
-            if not aids:
+            l5 = sv.l5_results.get(p.name)
+            if l5 is None:
                 row.append("[dim]-[/dim]")
                 continue
-
-            matched, total, unmatched = _validate_l5(entry, p)
-            tested[p.name] += 1
-
-            if total == 0:
+            if l5.total == 0:
                 row.append("[dim]0 albums[/dim]")
-            elif matched == total:
-                row.append(f"[green]{matched}/{total}[/green]")
-                perfect[p.name] += 1
-            elif matched > total * 0.7:
-                row.append(f"[yellow]{matched}/{total}[/yellow]")
+            elif l5.is_perfect:
+                row.append(f"[green]{l5.matched}/{l5.total}[/green]")
+            elif l5.rate > 0.7:
+                row.append(f"[yellow]{l5.matched}/{l5.total}[/yellow]")
             else:
-                row.append(f"[red]{matched}/{total}[/red]")
+                row.append(f"[red]{l5.matched}/{l5.total}[/red]")
 
-            if verbose and unmatched:
-                for t in unmatched[:3]:
-                    console.print(f"    [{p.name}] ✗ {t}", style="dim")
+            if verbose and l5.unmatched:
+                for t in l5.unmatched[:3]:
+                    console.print(f"    [{p.name}] x {t}", style="dim")
 
         table.add_row(*row)
-
-        # Mark this series as validated in its curation JSON
-        curation_path = CURATION_DIR / f"{entry.id}.json"
-        if curation_path.exists():
-            try:
-                data = json.loads(curation_path.read_text())
-                data["validated_at"] = datetime.now(UTC).isoformat()
-                curation_path.write_text(json.dumps(data, indent=2, ensure_ascii=False))
-            except Exception:
-                pass  # Validation output already printed; don't crash here
 
     console.print(table)
 
     for p in providers:
-        if tested[p.name] > 0:
+        count = vresult.tested.get(p.name, 0)
+        if count > 0:
             console.print(
-                f"[bold]{p.name}:[/bold] {perfect[p.name]}/{tested[p.name]} "
+                f"[bold]{p.name}:[/bold] {vresult.perfect.get(p.name, 0)}/{count} "
                 f"series with perfect match rate"
             )
