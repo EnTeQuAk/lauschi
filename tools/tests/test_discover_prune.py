@@ -14,7 +14,7 @@ import pytest
 import requests
 from click.testing import CliRunner
 
-from lauschi_catalog.catalog import discover_ops, loader as loader_mod
+from lauschi_catalog.catalog import discover_ops
 from lauschi_catalog.catalog.models import CatalogEntry, ProviderConfig
 from lauschi_catalog.commands import discover as discover_mod
 

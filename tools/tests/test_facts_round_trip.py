@@ -13,6 +13,7 @@ import pytest
 from lauschi_catalog.catalog.facts import SeriesFacts
 from lauschi_catalog.catalog.loader import load_catalog
 from lauschi_catalog.catalog.apply_ops import filter_confirmed_facts
+from lauschi_catalog.catalog.lint_ops import lint_curation
 
 
 class TestFactsRoundTrip:
@@ -169,8 +170,6 @@ class TestLintResilience:
     """Lint handles edge cases gracefully."""
 
     def test_malformed_facts_does_not_crash(self):
-        from lauschi_catalog.commands.lint import lint_curation
-
         curation = {
             "albums": [],
             "series_facts": {
@@ -183,8 +182,6 @@ class TestLintResilience:
         assert any("malformed series_facts" in i for i in issues)
 
     def test_no_series_facts_is_fine(self):
-        from lauschi_catalog.commands.lint import lint_curation
-
         curation = {
             "albums": [
                 {"provider": "spotify", "album_id": "a1", "title": "Ep 1", "include": True, "episode_num": 1},
@@ -193,8 +190,6 @@ class TestLintResilience:
         assert lint_curation(curation) == []
 
     def test_determinism(self):
-        from lauschi_catalog.commands.lint import lint_curation
-
         curation = {
             "albums": [
                 {"provider": "spotify", "album_id": "a1", "title": "Ep 1", "include": True, "episode_num": 1},

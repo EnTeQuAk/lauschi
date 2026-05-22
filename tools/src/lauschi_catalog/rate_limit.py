@@ -7,8 +7,8 @@ avoid 429 rate-limit errors. Used across curate and audit.
 from __future__ import annotations
 
 import asyncio
-import json
 import time
+from collections.abc import Callable
 from dataclasses import dataclass, field
 from typing import Any
 
@@ -81,8 +81,6 @@ def extract_retry_delay(exc: BaseException) -> float | None:
         depth += 1
     return None
 
-
-from collections.abc import Callable
 
 Progress = Callable[[str], None]
 _noop: Progress = lambda _msg: None

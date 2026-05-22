@@ -33,7 +33,7 @@ from lauschi_catalog.catalog.facts import (
 from lauschi_catalog.catalog.lifecycle import review_is_stale
 from lauschi_catalog.catalog.loader import load_raw, save_raw
 from lauschi_catalog.catalog.paths import CURATION_DIR
-from lauschi_catalog.commands.lint import lint_curation
+from lauschi_catalog.catalog.lint_ops import lint_curation
 from lauschi_catalog.retry import is_retryable
 from lauschi_catalog.run import run_agent_streaming
 from lauschi_catalog.search import brave_search

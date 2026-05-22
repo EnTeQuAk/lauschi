@@ -44,7 +44,7 @@ from lauschi_catalog.catalog.matcher import (
 )
 from lauschi_catalog.catalog.paths import CURATION_DIR, cover_cache_dir, cover_cache_path
 from lauschi_catalog.catalog.prompt import album_to_dict, format_albums_xml
-from lauschi_catalog.commands.lint import lint_curation
+from lauschi_catalog.catalog.lint_ops import lint_curation
 from lauschi_catalog.prompts import load_curate_skill
 from lauschi_catalog.providers import CatalogProvider
 from lauschi_catalog.providers._validate import explain_invalid, is_valid_id
@@ -53,8 +53,6 @@ from lauschi_catalog.run import run_agent_streaming
 
 Progress = Callable[[str], None]
 _noop: Progress = lambda _msg: None
-
-CURATION_DIR.mkdir(parents=True, exist_ok=True)
 
 _DEFAULT_MODEL = "kimi-k2.6"
 
@@ -1412,6 +1410,7 @@ def save_curation(
 
     Raises ValueError if the existing file is corrupt.
     """
+    CURATION_DIR.mkdir(parents=True, exist_ok=True)
     path = CURATION_DIR / f"{series.id}.json"
 
     data: dict = {}

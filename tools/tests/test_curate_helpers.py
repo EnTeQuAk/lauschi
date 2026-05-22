@@ -1,7 +1,7 @@
 """Tests for curate.py helpers — the small functions that gate
 correctness of an --all run without exercising the LLM or providers.
 
-_lock_series_id is the safety net that prevents the umlaut-
+lock_series_id is the safety net that prevents the umlaut-
 transliteration bug from corrupting filenames. The exception
 formatter is the diagnostic that decides whether you can tell what
 went wrong from the log.
@@ -11,16 +11,16 @@ from __future__ import annotations
 
 import pytest
 
-from lauschi_catalog.commands.curate import (
+from lauschi_catalog.catalog.curate_ops import (
     AlbumDecision,
     CuratedSeries,
     _build_metadata_agent,
-    _compute_pattern_coverage,
-    _lock_series_id,
-    _lookup_catalog_entry,
-    _resolve_content_type,
     _stratified_sample,
+    lock_series_id,
+    lookup_catalog_entry,
+    resolve_content_type,
 )
+from lauschi_catalog.catalog.matcher import compute_pattern_coverage
 
 
 def _series(sid: str = "any") -> CuratedSeries:
@@ -34,7 +34,7 @@ def _series(sid: str = "any") -> CuratedSeries:
     )
 
 
-# ── _lock_series_id ───────────────────────────────────────────────────────
+# ── lock_series_id ───────────────────────────────────────────────────────
 
 
 def test_lock_overrides_when_canonical_differs():
@@ -42,13 +42,13 @@ def test_lock_overrides_when_canonical_differs():
     series.yaml entry 'benjamin_bluemchen'. Override silently fails
     catalog round-tripping; we want a loud override instead."""
     s = _series("benjamin_bluechen")
-    _lock_series_id(s, "benjamin_bluemchen")
+    lock_series_id(s, "benjamin_bluemchen")
     assert s.id == "benjamin_bluemchen"
 
 
 def test_lock_is_noop_when_canonical_matches():
     s = _series("die_drei_fragezeichen")
-    _lock_series_id(s, "die_drei_fragezeichen")
+    lock_series_id(s, "die_drei_fragezeichen")
     assert s.id == "die_drei_fragezeichen"
 
 
@@ -56,15 +56,15 @@ def test_lock_noop_when_canonical_is_none():
     """Single-series curate (no --all) has no canonical id; trust
     the model's choice."""
     s = _series("brand_new_series")
-    _lock_series_id(s, None)
+    lock_series_id(s, None)
     assert s.id == "brand_new_series"
 
 
 def test_lock_returns_same_instance_for_chaining():
-    """Caller pattern: _lock_series_id(series, sid).save_curation() etc.
+    """Caller pattern: lock_series_id(series, sid).save_curation() etc.
     The function mutates in place and returns the same object."""
     s = _series("a")
-    result = _lock_series_id(s, "b")
+    result = lock_series_id(s, "b")
     assert result is s
 
 
@@ -84,13 +84,13 @@ def test_exception_format_falls_back_to_type_when_str_empty(exc, expected_substr
     assert expected_substring in msg
 
 
-# ── _resolve_content_type ─────────────────────────────────────────────────
+# ── resolve_content_type ─────────────────────────────────────────────────
 
 
 def test_yaml_explicit_music_wins_over_pattern():
     """Even if a leftover episode_pattern exists, an explicit
     content_type='music' in series.yaml is canonical."""
-    assert _resolve_content_type(
+    assert resolve_content_type(
         entry_content_type="music",
         entry_has_pattern=True,
         existing_content_type=None,
@@ -102,7 +102,7 @@ def test_yaml_explicit_hoerspiel_wins_over_existing_music():
     curated as music in its JSON file gets correctly recognized as
     hoerspiel when series.yaml says so. Without this, every
     --force re-curate would keep using the music prompt."""
-    assert _resolve_content_type(
+    assert resolve_content_type(
         entry_content_type="hoerspiel",
         entry_has_pattern=False,
         existing_content_type="music",
@@ -113,7 +113,7 @@ def test_pattern_implies_hoerspiel_when_yaml_silent():
     """No explicit content_type, but episode_pattern is set → it's a
     Hörspiel by definition (patterns are only meaningful for
     episode-numbered content)."""
-    assert _resolve_content_type(
+    assert resolve_content_type(
         entry_content_type=None,
         entry_has_pattern=True,
         existing_content_type=None,
@@ -124,7 +124,7 @@ def test_pattern_implies_hoerspiel_overrides_existing_music():
     """If yaml has episode_pattern but no explicit content_type, the
     pattern wins over a stale content_type='music' in the existing
     curation. Same root concern: don't compound misclassifications."""
-    assert _resolve_content_type(
+    assert resolve_content_type(
         entry_content_type=None,
         entry_has_pattern=True,
         existing_content_type="music",
@@ -135,7 +135,7 @@ def test_existing_music_used_when_yaml_has_neither():
     """Legacy escape hatch: if yaml is silent on content_type AND has
     no episode_pattern, fall back to the existing curation. Lets
     pre-migration entries continue to work."""
-    assert _resolve_content_type(
+    assert resolve_content_type(
         entry_content_type=None,
         entry_has_pattern=False,
         existing_content_type="music",
@@ -145,7 +145,7 @@ def test_existing_music_used_when_yaml_has_neither():
 def test_default_to_hoerspiel_when_nothing_signals():
     """Brand-new entry with no pattern, no existing curation, no
     explicit content_type. Default to hoerspiel (most of the catalog)."""
-    assert _resolve_content_type(
+    assert resolve_content_type(
         entry_content_type=None,
         entry_has_pattern=False,
         existing_content_type=None,
@@ -154,12 +154,12 @@ def test_default_to_hoerspiel_when_nothing_signals():
 
 def test_audiobook_content_type_supported():
     """audiobook is a recognized content_type."""
-    assert _resolve_content_type(
+    assert resolve_content_type(
         entry_content_type="audiobook",
         entry_has_pattern=False,
         existing_content_type=None,
     ) == "audiobook"
-    assert _resolve_content_type(
+    assert resolve_content_type(
         entry_content_type="audiobook",
         entry_has_pattern=True,
         existing_content_type=None,
@@ -168,7 +168,7 @@ def test_audiobook_content_type_supported():
 
 def test_legacy_content_type_from_existing_curation():
     """An existing curation with content_type='audiobook' is picked up."""
-    assert _resolve_content_type(
+    assert resolve_content_type(
         entry_content_type=None,
         entry_has_pattern=False,
         existing_content_type="audiobook",
@@ -259,7 +259,7 @@ def test_metadata_music_prompt_tells_agent_no_pattern_no_tools():
     assert "no tools" in p.lower() or "Do NOT call" in p
 
 
-# ── _lookup_catalog_entry ─────────────────────────────────────────────────
+# ── lookup_catalog_entry ─────────────────────────────────────────────────
 
 
 def test_lookup_resolves_by_id(monkeypatch):
@@ -271,7 +271,7 @@ def test_lookup_resolves_by_id(monkeypatch):
 
     fake = [CatalogEntry(id="detlev_joecker", title="Detlev Jöcker", content_type="music")]
     monkeypatch.setattr(curate_ops_mod, "load_catalog", lambda: fake)
-    entry = _lookup_catalog_entry("detlev_joecker")
+    entry = lookup_catalog_entry("detlev_joecker")
     assert entry is not None
     assert entry.id == "detlev_joecker"
     assert entry.content_type == "music"
@@ -284,7 +284,7 @@ def test_lookup_resolves_by_title(monkeypatch):
 
     fake = [CatalogEntry(id="detlev_joecker", title="Detlev Jöcker")]
     monkeypatch.setattr(curate_ops_mod, "load_catalog", lambda: fake)
-    entry = _lookup_catalog_entry("Detlev Jöcker")
+    entry = lookup_catalog_entry("Detlev Jöcker")
     assert entry is not None
     assert entry.id == "detlev_joecker"
 
@@ -292,14 +292,14 @@ def test_lookup_resolves_by_title(monkeypatch):
 def test_lookup_returns_none_for_unknown():
     """Brand-new series not in the catalog → caller falls back to
     the no-yaml path."""
-    assert _lookup_catalog_entry("definitely_not_a_real_series_id") is None
+    assert lookup_catalog_entry("definitely_not_a_real_series_id") is None
 
 
 def test_lookup_id_match_takes_precedence_over_title_match(monkeypatch):
     """If a query matches both an id and a different entry's title
     (rare but possible), the id match wins. Pin the resolution
     order so a future loader rearrangement can't flip it."""
-    from lauschi_catalog.commands import curate as curate_mod
+    from lauschi_catalog.catalog import curate_ops as curate_ops_mod
     from lauschi_catalog.catalog.models import CatalogEntry
 
     fake_entries = [
@@ -311,19 +311,14 @@ def test_lookup_id_match_takes_precedence_over_title_match(monkeypatch):
         ),
     ]
     monkeypatch.setattr(
-        curate_mod, "_lookup_catalog_entry",
-        # Avoid load_catalog by re-implementing via the same logic
-        lambda q: next(
-            (e for e in fake_entries if e.id == q),
-            next((e for e in fake_entries if e.title == q), None),
-        ),
+        curate_ops_mod, "load_catalog", lambda: fake_entries,
     )
-    entry = curate_mod._lookup_catalog_entry("exact_id_string")
+    entry = lookup_catalog_entry("exact_id_string")
     assert entry.id == "exact_id_string"
     assert entry.title == "Another Title"
 
 
-# ── _compute_pattern_coverage: failure-mode reporting ─────────────────────
+# ── compute_pattern_coverage: failure-mode reporting ─────────────────────
 #
 # A SimsalaGrimm curate run wedged in a tool-call loop because the
 # old tool reported BOTH "regex didn't match" and "regex matched but
@@ -343,7 +338,7 @@ def test_pattern_coverage_separates_no_match_from_non_numeric():
         "Aladin und die Wunderlampe (Das Original-Hörspiel zur TV Serie)",
         "Aschenputtel (Das Original-Hörspiel zur TV Serie)",
     ]
-    result = _compute_pattern_coverage(titles, "(.*)")
+    result = compute_pattern_coverage(titles, "(.*)")
     assert result["matched"] == 0
     assert result["coverage"] == 0.0
     # All titles fell into non_numeric, NOT no_match. This is the
@@ -359,7 +354,7 @@ def test_pattern_coverage_buckets_no_match_correctly():
     must report no_match, not non_numeric. This is what the agent
     sees for the 'add another regex alternative' fix path."""
     titles = ["Episode A", "Episode B", "Episode C"]
-    result = _compute_pattern_coverage(titles, r"^Folge (\d+):")
+    result = compute_pattern_coverage(titles, r"^Folge (\d+):")
     assert result["matched"] == 0
     assert len(result["unmatched_regex_samples"]) == 3
     assert result["non_numeric_capture_samples"] == []
@@ -372,7 +367,7 @@ def test_pattern_coverage_counts_numeric_captures():
         "Folge 2: Bar",
         "Special edition",  # legitimate non-episode
     ]
-    result = _compute_pattern_coverage(titles, r"^Folge (\d+):")
+    result = compute_pattern_coverage(titles, r"^Folge (\d+):")
     assert result["matched"] == 2
     assert result["total"] == 3
     assert result["coverage"] == round(2 / 3, 3)
@@ -387,7 +382,7 @@ def test_pattern_coverage_alternation_falls_through_non_numeric():
     # First pattern matches every word with `(.+)` (non-numeric);
     # second pattern captures the digit. The title should still
     # count as matched.
-    result = _compute_pattern_coverage(
+    result = compute_pattern_coverage(
         titles, [r"^(.+):", r"^Folge (\d+):"],
     )
     assert result["matched"] == 1
@@ -395,17 +390,17 @@ def test_pattern_coverage_alternation_falls_through_non_numeric():
 
 
 def test_pattern_coverage_rejects_empty_pattern():
-    assert "error" in _compute_pattern_coverage(["x"], [])
+    assert "error" in compute_pattern_coverage(["x"], [])
 
 
 def test_pattern_coverage_rejects_invalid_regex():
-    result = _compute_pattern_coverage(["x"], "(unclosed")
+    result = compute_pattern_coverage(["x"], "(unclosed")
     assert "error" in result
     assert "invalid regex" in result["error"]
 
 
 def test_pattern_coverage_rejects_zero_capture_groups():
-    result = _compute_pattern_coverage(["x"], r"^Folge \d+:")
+    result = compute_pattern_coverage(["x"], r"^Folge \d+:")
     assert "error" in result
     assert "capture group" in result["error"]
 
@@ -417,7 +412,7 @@ def test_pattern_coverage_samples_spread_across_list():
     from positions 0, 4, 8, 12, 16 (spread), not 0-4 (head).
     """
     titles = [f"Title {i}" for i in range(20)]
-    result = _compute_pattern_coverage(titles, r"^Folge (\d+):")
+    result = compute_pattern_coverage(titles, r"^Folge (\d+):")
     assert result["matched"] == 0
     samples = result["unmatched_regex_samples"]
     assert len(samples) == 5
@@ -642,7 +637,7 @@ def test_curate_batch_flow_album_details_returns_release_date_and_artists():
 # The check `c.groups < 1` passed it through, but the captured value
 # could never int(), so downstream re-extraction set every
 # episode_num to None. These tests pin the new defensive check:
-# propose_pattern_update calls _compute_pattern_coverage and rejects
+# propose_pattern_update calls compute_pattern_coverage and rejects
 # patterns whose group 1 isn't numeric on any title.
 
 
@@ -660,9 +655,9 @@ def test_propose_pattern_update_source_calls_coverage_check():
     # The function body must reference the coverage helper — that's
     # how the non-numeric reject path gets invoked.
     block = src[idx:idx + 3000]
-    assert "_compute_pattern_coverage" in block, (
+    assert "compute_pattern_coverage" in block, (
         "propose_pattern_update must run candidate patterns through "
-        "_compute_pattern_coverage to reject non-numeric captures"
+        "compute_pattern_coverage to reject non-numeric captures"
     )
     # And there must be a path that returns an error string when
     # the matched count is 0 — without that, the helper output is
@@ -732,7 +727,7 @@ def test_series_metadata_episode_pattern_field_describes_none_choice():
     the agent sees an unannotated str|list|null union and tends to
     fill in a catch-all pattern (alles_steht_kopf '(\\\\d+)' was the
     motivating case)."""
-    from lauschi_catalog.commands.curate import SeriesMetadata
+    from lauschi_catalog.catalog.curate_ops import SeriesMetadata
 
     schema = SeriesMetadata.model_json_schema()
     pat = schema["properties"]["episode_pattern"]
@@ -757,7 +752,7 @@ def test_series_metadata_episode_pattern_field_describes_none_choice():
 def test_curated_series_episode_pattern_field_describes_none_choice():
     """Same description on CuratedSeries (the small-flow output) so
     the single-agent path gets the same hint."""
-    from lauschi_catalog.commands.curate import CuratedSeries
+    from lauschi_catalog.catalog.curate_ops import CuratedSeries
 
     schema = CuratedSeries.model_json_schema()
     pat = schema["properties"]["episode_pattern"]
@@ -800,7 +795,7 @@ def test_batch_prompt_distinguishes_structure_from_numbering():
 def test_restore_dropped_albums_adds_missing():
     """If the agent omits an album from its output, the validation
     step should auto-include it with low confidence (inclusion bias)."""
-    from lauschi_catalog.commands.curate import (
+    from lauschi_catalog.catalog.curate_ops import (
         AlbumDecision, _restore_dropped_albums,
     )
 
@@ -828,7 +823,7 @@ def test_restore_dropped_albums_adds_missing():
 
 def test_restore_dropped_albums_no_op_when_all_present():
     """When every discovered album has a decision, the helper is a no-op."""
-    from lauschi_catalog.commands.curate import (
+    from lauschi_catalog.catalog.curate_ops import (
         AlbumDecision, _restore_dropped_albums,
     )
 
@@ -854,7 +849,7 @@ def test_restore_dropped_albums_no_op_when_all_present():
 
 
 def test_batch_summary_includes_episode_runs_and_exclusion_reasons():
-    from lauschi_catalog.commands.curate import AlbumDecision, _build_batch_summary
+    from lauschi_catalog.catalog.curate_ops import AlbumDecision, _build_batch_summary
 
     decisions = [
         AlbumDecision(album_id="a1", provider="spotify", include=True, episode_num=1, title="T1"),
@@ -877,14 +872,14 @@ def test_batch_summary_includes_episode_runs_and_exclusion_reasons():
 
 
 def test_batch_summary_empty_when_no_prior_decisions():
-    from lauschi_catalog.commands.curate import _build_batch_summary
+    from lauschi_catalog.catalog.curate_ops import _build_batch_summary
 
     summary = _build_batch_summary([], None, batch_num=1)
     assert summary == ""
 
 
 def test_batch_summary_compresses_non_consecutive_episodes():
-    from lauschi_catalog.commands.curate import AlbumDecision, _build_batch_summary
+    from lauschi_catalog.catalog.curate_ops import AlbumDecision, _build_batch_summary
 
     decisions = [
         AlbumDecision(album_id="a1", provider="spotify", include=True, episode_num=1, title="T1"),
@@ -902,7 +897,7 @@ def test_batch_summary_groups_included_episodes_by_provider():
     """Cross-provider duplicates must not be excluded because the agent
     conflates providers. The summary must show which episodes are
     already included on *each* provider, not a flat global list."""
-    from lauschi_catalog.commands.curate import AlbumDecision, _build_batch_summary
+    from lauschi_catalog.catalog.curate_ops import AlbumDecision, _build_batch_summary
 
     decisions = [
         # Spotify has episodes 1-3
@@ -941,7 +936,7 @@ def test_batch_agent_has_output_validator():
     the only safety net is the post-hoc _restore_dropped_albums."""
     from pydantic_ai.models.test import TestModel
 
-    from lauschi_catalog.commands.curate import _build_batch_agent
+    from lauschi_catalog.catalog.curate_ops import _build_batch_agent
 
     agent = _build_batch_agent(TestModel())
     validators = agent._output_validators
@@ -953,7 +948,7 @@ def test_batch_completeness_validator_rejects_incomplete_output():
     ModelRetry so pydantic-ai feeds the error back to the model."""
     from pydantic_ai import ModelRetry
 
-    from lauschi_catalog.commands.curate import (
+    from lauschi_catalog.catalog.curate_ops import (
         BatchResult,
         CurateDeps,
         _build_batch_agent,
@@ -983,7 +978,7 @@ def test_batch_completeness_validator_rejects_incomplete_output():
 
 def test_batch_completeness_validator_accepts_complete_output():
     """Complete output passes validation without error."""
-    from lauschi_catalog.commands.curate import (
+    from lauschi_catalog.catalog.curate_ops import (
         BatchResult,
         CurateDeps,
         _build_batch_agent,
@@ -1021,7 +1016,7 @@ def test_batch_completeness_validator_accepts_complete_output():
 def test_reextract_updates_episode_numbers_with_new_pattern():
     """When the pattern changes mid-run, re-extraction should update
     episode numbers from album titles that now match."""
-    from lauschi_catalog.commands.curate import (
+    from lauschi_catalog.catalog.curate_ops import (
         AlbumDecision, _reextract_episode_numbers,
     )
 
@@ -1048,7 +1043,7 @@ def test_reextract_updates_episode_numbers_with_new_pattern():
 
 
 def test_reextract_noop_when_pattern_is_none():
-    from lauschi_catalog.commands.curate import (
+    from lauschi_catalog.catalog.curate_ops import (
         AlbumDecision, _reextract_episode_numbers,
     )
 
@@ -1066,7 +1061,7 @@ def test_reextract_noop_when_pattern_is_none():
 def test_reextract_does_not_downgrade_existing_episode_num():
     """If an album already has the correct episode_num, re-extraction
     should not count it as changed."""
-    from lauschi_catalog.commands.curate import (
+    from lauschi_catalog.catalog.curate_ops import (
         AlbumDecision, _reextract_episode_numbers,
     )
 
@@ -1084,7 +1079,7 @@ def test_reextract_does_not_downgrade_existing_episode_num():
 def test_reextract_corrects_wrong_episode_num():
     """If an album was numbered wrong by a previous pattern, the new
     pattern should fix it."""
-    from lauschi_catalog.commands.curate import (
+    from lauschi_catalog.catalog.curate_ops import (
         AlbumDecision, _reextract_episode_numbers,
     )
 

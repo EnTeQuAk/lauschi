@@ -113,6 +113,15 @@ def match_artist(
     return None
 
 
+def discover_for_provider(
+    provider: CatalogProvider,
+    series_title: str,
+) -> Artist | None:
+    """Search a single provider and return the best matching artist."""
+    candidates = provider.search_artists(series_title)
+    return match_artist(series_title, candidates)
+
+
 def discover_candidates(
     provider: CatalogProvider,
     series_title: str,

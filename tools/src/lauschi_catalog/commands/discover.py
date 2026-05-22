@@ -1,4 +1,4 @@
-"""Discover artist IDs across providers for catalog series."""
+"""CLI wrapper for artist discovery across providers."""
 
 from __future__ import annotations
 
@@ -7,44 +7,14 @@ from rich.console import Console
 from rich.table import Table
 
 from lauschi_catalog.catalog.discover_ops import (
-    classify_match,
     discover_all,
-    discover_candidates,
     discover_one,
-    match_artist,
     prune_broken,
 )
 from lauschi_catalog.catalog.providers_init import init_providers
-from lauschi_catalog.providers import Artist, CatalogProvider
+from lauschi_catalog.providers import CatalogProvider
 
 console = Console()
-
-# Re-export library functions so existing imports keep working.
-__all__ = [
-    "classify_match",
-    "discover_candidates",
-    "discover_for_provider",
-    "match_artist",
-]
-
-
-def discover_for_provider(
-    provider: CatalogProvider,
-    series_title: str,
-    *,
-    verbose: bool = False,
-) -> Artist | None:
-    """Search a provider for the best matching artist."""
-    candidates = provider.search_artists(series_title)
-
-    if verbose and candidates:
-        for c in candidates:
-            console.print(
-                f"  [{provider.name}] {c.name} ({c.id}) genres={c.genres}",
-                style="dim",
-            )
-
-    return match_artist(series_title, candidates)
 
 
 @click.command()

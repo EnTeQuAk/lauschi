@@ -24,7 +24,7 @@ from lauschi_catalog.catalog.add_ops import (
 )
 from lauschi_catalog.catalog.deleted import is_deleted
 from lauschi_catalog.catalog.loader import load_catalog
-from lauschi_catalog.commands.discover import discover_for_provider, match_artist
+from lauschi_catalog.catalog.discover_ops import discover_for_provider, match_artist
 from lauschi_catalog.providers import Album, Artist
 from lauschi_catalog.providers.apple_music import AppleMusicProvider
 from lauschi_catalog.providers.spotify import SpotifyProvider
@@ -161,7 +161,7 @@ def add(
                 provider="apple_music",
             )
         else:
-            found = discover_for_provider(apple, title, verbose=True)
+            found = discover_for_provider(apple, title)
             if found:
                 artists["apple_music"] = found
 

@@ -129,11 +129,13 @@ def validate_catalog(
     providers: list[CatalogProvider],
     *,
     series_filter: str | None = None,
+    stamp_curations: bool = True,
     on_progress: Progress = _noop,
 ) -> ValidationResult:
     """Validate catalog syntax and discography match rates.
 
-    Returns structured results for each series and provider.
+    When ``stamp_curations`` is True (default), writes a
+    ``validated_at`` timestamp into each series' curation JSON.
     """
     entries = load_catalog()
     if series_filter:
@@ -185,14 +187,15 @@ def validate_catalog(
 
         result.series_results.append(sv)
 
-        curation_path = CURATION_DIR / f"{entry.id}.json"
-        if curation_path.exists():
-            try:
-                data = json.loads(curation_path.read_text())
-                data["validated_at"] = datetime.now(UTC).isoformat()
-                curation_path.write_text(json.dumps(data, indent=2, ensure_ascii=False))
-            except Exception:
-                pass
+        if stamp_curations:
+            curation_path = CURATION_DIR / f"{entry.id}.json"
+            if curation_path.exists():
+                try:
+                    data = json.loads(curation_path.read_text())
+                    data["validated_at"] = datetime.now(UTC).isoformat()
+                    curation_path.write_text(json.dumps(data, indent=2, ensure_ascii=False))
+                except Exception:
+                    pass
 
     for p in providers:
         if result.tested[p.name] > 0:

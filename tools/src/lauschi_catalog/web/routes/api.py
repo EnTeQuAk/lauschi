@@ -10,6 +10,7 @@ from pydantic import BaseModel
 from lauschi_catalog.catalog.album_ops import update_album_status as _update_album_status
 from lauschi_catalog.catalog.discover_ops import (
     discover_candidates,
+    discover_for_provider,
     discover_one,
     match_artist,
 )
@@ -17,7 +18,6 @@ from lauschi_catalog.catalog.loader import update_provider_ids
 from lauschi_catalog.catalog.merge_ops import accept_split, merge_series, reject_split
 from lauschi_catalog.catalog.providers_init import init_providers
 from lauschi_catalog.catalog.series_ops import SeriesChanges, edit_series
-from lauschi_catalog.commands.discover import discover_for_provider
 from lauschi_catalog.providers import CatalogProvider
 from lauschi_catalog.web.catalog_db import get_series_by_id, sync_catalog_to_db
 from lauschi_catalog.web.jobs import create_job, list_jobs
@@ -216,7 +216,7 @@ async def search_artists(request: SearchArtistsRequest) -> dict[str, Any]:
     providers = _init_providers()
     results: dict[str, Any] = {}
     for p in providers:
-        artist = discover_for_provider(p, request.title, verbose=False)
+        artist = discover_for_provider(p, request.title)
         if artist:
             results[p.name] = {"name": artist.name, "id": artist.id}
     return {"results": results}

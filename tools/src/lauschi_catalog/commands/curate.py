@@ -18,36 +18,13 @@ from rich.panel import Panel
 from rich.table import Table
 
 from lauschi_catalog.catalog.curate_ops import (
-    AlbumDecision,
-    BatchResult,
-    CurateDeps,
-    CurateOneResult,
     CuratedSeries,
-    EpisodeUpdate,
-    FinalizeResult,
-    PatternCoverageReport,
-    SeriesMetadata,
-    _BATCH_SIZE,
     _DEFAULT_MODEL,
-    _build_batch_agent,
-    _build_batch_summary,
-    _build_metadata_agent,
-    _get_album_details,
-    _reextract_episode_numbers,
-    _restore_dropped_albums,
-    _stratified_sample,
-    _validate_episode_pattern,
     curate_all,
     curate_one,
     load_existing_facts,
-    lock_series_id,
     lookup_catalog_entry,
     resolve_content_type,
-    save_curation,
-    write_cover_cache,
-)
-from lauschi_catalog.catalog.matcher import (
-    compute_pattern_coverage as _compute_pattern_coverage,
 )
 from lauschi_catalog.catalog.paths import CURATION_DIR
 from lauschi_catalog.prompts import load_curate_skill
@@ -55,33 +32,6 @@ from lauschi_catalog.providers.apple_music import AppleMusicProvider
 from lauschi_catalog.providers.spotify import SpotifyProvider
 
 console = Console()
-
-# Re-export library functions so existing imports keep working.
-__all__ = [
-    "AlbumDecision",
-    "BatchResult",
-    "CurateDeps",
-    "CuratedSeries",
-    "EpisodeUpdate",
-    "FinalizeResult",
-    "PatternCoverageReport",
-    "SeriesMetadata",
-    "_build_batch_agent",
-    "_build_batch_summary",
-    "_build_metadata_agent",
-    "_reextract_episode_numbers",
-    "_restore_dropped_albums",
-    "_stratified_sample",
-    "_validate_episode_pattern",
-    "save_curation",
-    "write_cover_cache",
-]
-
-# Keep old private names pointing to public versions for backward compat.
-_resolve_content_type = resolve_content_type
-_lookup_catalog_entry = lookup_catalog_entry
-_load_existing_facts = load_existing_facts
-_lock_series_id = lock_series_id
 
 
 def print_summary(series: CuratedSeries) -> None:

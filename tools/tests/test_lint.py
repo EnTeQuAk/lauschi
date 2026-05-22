@@ -9,7 +9,7 @@ from __future__ import annotations
 
 import pytest
 
-from lauschi_catalog.commands.lint import lint_curation
+from lauschi_catalog.catalog.lint_ops import lint_curation
 
 
 def _make_album(
