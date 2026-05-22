@@ -81,8 +81,8 @@ sentry-wizard
 assets/catalog/curation/.bak/
 assets/catalog/.covers/
 assets/catalog/.series.yaml.lock
-tools/jobs.db
-tools/src/jobs.db
+tools/jobs.db*
+tools/src/jobs.db*
 ios_distribution_private_key
 ios_distribution_private_key.pub
 

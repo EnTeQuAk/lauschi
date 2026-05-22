@@ -11,7 +11,7 @@ import sys
 
 import pytest
 
-from lauschi_catalog.web.jobs import get_job, init_db, set_status
+from lauschi_catalog.web.jobs import get_job, init_db, reap_zombie_jobs, set_status
 
 
 @pytest.fixture(autouse=True)
@@ -94,6 +94,30 @@ class TestStreamProc:
         job = get_job(job_id)
         assert job is not None
         assert job.status == "done"
+
+
+class TestReapZombieJobs:
+    """reap_zombie_jobs marks stale running/queued jobs as errored on startup."""
+
+    def test_reaps_running_and_queued_jobs(self):
+        j1 = _create_job("s1", "curate")
+        j2 = _create_job("s2", "discover")
+        j3 = _create_job("s3", "audit")
+        set_status(j1, "running")
+        set_status(j2, "queued")
+        set_status(j3, "done")
+
+        reaped = reap_zombie_jobs()
+        assert reaped == 2
+        assert get_job(j1).status == "error"
+        assert "reaped" in get_job(j1).error
+        assert get_job(j2).status == "error"
+        assert get_job(j3).status == "done"
+
+    def test_returns_zero_when_nothing_to_reap(self):
+        j1 = _create_job("s1", "curate")
+        set_status(j1, "done")
+        assert reap_zombie_jobs() == 0
 
 
 class TestSafetyNet:

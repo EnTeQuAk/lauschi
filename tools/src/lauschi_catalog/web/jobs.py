@@ -46,6 +46,7 @@ CREATE INDEX IF NOT EXISTS idx_jobs_status ON jobs(status);
 def _conn() -> sqlite3.Connection:
     conn = sqlite3.connect(str(DB_PATH), check_same_thread=False)
     conn.row_factory = sqlite3.Row
+    conn.execute("PRAGMA journal_mode=WAL")
     return conn
 
 
@@ -54,6 +55,23 @@ def init_db() -> None:
     with _conn() as conn:
         conn.executescript(SCHEMA)
         conn.commit()
+
+
+def reap_zombie_jobs() -> int:
+    """Mark stale running/queued jobs as errored.
+
+    Called at startup to clean up jobs left behind by a previous crash
+    or by commands that hung on interactive prompts (e.g. `add` with
+    DEVNULL stdin). Returns the number of reaped jobs.
+    """
+    with _conn() as conn:
+        cursor = conn.execute(
+            "UPDATE jobs SET status = 'error', error = 'reaped: server restarted while job was active', updated_at = ? "
+            "WHERE status IN ('running', 'queued')",
+            (_now(),),
+        )
+        conn.commit()
+        return cursor.rowcount
 
 
 # ---------------------------------------------------------------------------

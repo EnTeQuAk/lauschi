@@ -346,7 +346,8 @@
                 </h4>
                 {# Best match card #}
                 <template x-if="discoverBestMatch[provName]">
-                    <div class="discover-card discover-card--best">
+                    <div class="discover-card discover-card--best"
+                         x-data="{ best: bestCandidate(provName, candidates) }">
                         <div class="flex justify-between items-start gap-05">
                             <div>
                                 <p class="discover-card__name" x-text="discoverBestMatch[provName].name"></p>
@@ -360,22 +361,22 @@
                                         @click="acceptArtist(provName, discoverBestMatch[provName].id)">Accept</button>
                             </div>
                         </div>
-                        <template x-if="candidates.find(c => c.id === discoverBestMatch[provName]?.id)">
+                        <template x-if="best">
                             <div class="discover-card__meta mt-05">
-                                <template x-if="candidates.find(c => c.id === discoverBestMatch[provName].id)?.genres?.length">
+                                <template x-if="best.genres?.length">
                                     <span class="text-muted">
-                                        <small x-text="'Genres: ' + candidates.find(c => c.id === discoverBestMatch[provName].id).genres.join(', ')"></small>
+                                        <small x-text="'Genres: ' + best.genres.join(', ')"></small>
                                     </span>
                                 </template>
-                                <template x-if="candidates.find(c => c.id === discoverBestMatch[provName].id)?.followers">
+                                <template x-if="best.followers">
                                     <span class="text-muted ml-05">
-                                        <small x-text="candidates.find(c => c.id === discoverBestMatch[provName].id).followers.toLocaleString() + ' followers'"></small>
+                                        <small x-text="best.followers.toLocaleString() + ' followers'"></small>
                                     </span>
                                 </template>
                                 <span class="ml-05">
                                     <small class="discover-confidence"
-                                           :class="'discover-confidence--' + candidates.find(c => c.id === discoverBestMatch[provName].id)?.confidence"
-                                           x-text="candidates.find(c => c.id === discoverBestMatch[provName].id)?.confidence"></small>
+                                           :class="'discover-confidence--' + best.confidence"
+                                           x-text="best.confidence"></small>
                                 </span>
                             </div>
                         </template>
@@ -721,6 +722,10 @@ function pipelineStages(seriesId) {
     discoverLoading: false,
     discoverError: null,
     discoverAccepted: null,
+    bestCandidate(provName, candidates) {
+      const match = this.discoverBestMatch[provName];
+      return match ? candidates.find(c => c.id === match.id) : null;
+    },
     get selectedStageLabel() {
       if (this.selectedStage === null) return '';
       return this.stages[this.selectedStage]?.label || '';

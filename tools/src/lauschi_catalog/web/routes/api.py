@@ -160,7 +160,7 @@ async def accept_artist(
     if series is None:
         raise HTTPException(status_code=404, detail="series not found")
 
-    existing = series.artist_ids(request.provider) if series else []
+    existing = series.artist_ids(request.provider)
     merged = list(existing)
     if request.artist_id not in merged:
         merged.append(request.artist_id)

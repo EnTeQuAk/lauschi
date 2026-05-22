@@ -604,13 +604,17 @@ async def get_job_logs(job_id: str) -> dict[str, Any]:
 async def job_events(job_id: str) -> StreamingResponse:
     """SSE endpoint: stream new log lines as they are written.
 
-    Keeps the connection alive indefinitely with periodic heartbeats
-    so long-running pipeline jobs (hours) can be monitored.
+    Keeps the connection alive with periodic heartbeats so long-running
+    pipeline jobs (hours) can be monitored. Closes automatically if a
+    job produces no new output for 5 minutes (protects against zombie
+    jobs left by commands that hung on interactive prompts).
     """
+    _IDLE_TIMEOUT_TICKS = 600  # 600 * 0.5s = 5 minutes
 
     async def event_stream():
         last_count = 0
         heartbeat = 0
+        idle_ticks = 0
         while True:
             job = get_job(job_id)
             if job is None:
@@ -622,11 +626,18 @@ async def job_events(job_id: str) -> StreamingResponse:
                     payload = json.dumps({"line": line, "status": job.status})
                     yield f"event: log\ndata: {payload}\n\n"
                 last_count = current
+                idle_ticks = 0
+            else:
+                idle_ticks += 1
             if job.status in ("done", "error", "cancelled"):
                 payload = json.dumps({"status": job.status, "done": True})
                 yield f"event: done\ndata: {payload}\n\n"
                 break
-            # Heartbeat every 30s to keep connection alive through proxies
+            if idle_ticks >= _IDLE_TIMEOUT_TICKS:
+                payload = json.dumps({"status": "error", "done": True})
+                yield f"event: done\ndata: {payload}\n\n"
+                log.warning("job %s: SSE closed after %ds idle", job_id, _IDLE_TIMEOUT_TICKS // 2)
+                break
             heartbeat += 1
             if heartbeat % 60 == 0:
                 yield ":heartbeat\n\n"

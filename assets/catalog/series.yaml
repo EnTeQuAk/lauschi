@@ -22,4 +22,26 @@
 #
 # Validated via `lauschi-catalog validate` (tools/ package).
 
-series: []
+series:
+- id: lego_ninjago
+  title: Lego Ninjago
+  episode_pattern: '[Ff]olge\s+(\d+)'
+  providers:
+    apple_music:
+      artist_ids:
+      - '1460064731'
+    spotify:
+      artist_ids:
+      - 3YVNhnRJA4fODe4IyUIeWN
+- id: tom_turbo
+  title: Tom Turbo
+- id: tom_turbo
+  title: Tom Turbo
+- id: tom_turbo
+  title: Tom Turbo
+- id: tom_turbo
+  title: Tom Turbo
+- id: tom_turbo
+  title: Tom Turbo
+- id: tom_turbo
+  title: Tom Turbo

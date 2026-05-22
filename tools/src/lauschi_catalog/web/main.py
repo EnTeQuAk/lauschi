@@ -15,7 +15,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
 from lauschi_catalog.web.catalog_db import init_catalog_db, sync_catalog_to_db
-from lauschi_catalog.web.jobs import init_db
+from lauschi_catalog.web.jobs import init_db, reap_zombie_jobs
 from lauschi_catalog.web.routes import api, catalog, jobs_api
 
 # Paths relative to this file
@@ -43,6 +43,9 @@ async def _background_sync() -> None:
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     init_db()
+    reaped = reap_zombie_jobs()
+    if reaped:
+        logging.info("Reaped %d zombie job(s) from previous run", reaped)
     init_catalog_db()
     sync_catalog_to_db()
     task = asyncio.create_task(_background_sync())

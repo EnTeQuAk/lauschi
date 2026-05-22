@@ -154,6 +154,11 @@
       };
     }
 
+    if (!window._activeSources) window._activeSources = {};
+    window.addEventListener('beforeunload', () => {
+      Object.values(window._activeSources).forEach(s => s.close());
+    });
+
     async function connectJobStream(jobId) {
       if (!window._loadedHistory) window._loadedHistory = new Set();
       if (!window._connectedJobs) window._connectedJobs = new Set();
@@ -191,6 +196,7 @@
       }
 
       const source = new EventSource('/api/jobs/' + jobId + '/events');
+      window._activeSources[jobId] = source;
       source.addEventListener('log', (e) => {
         const payload = JSON.parse(e.data);
         Alpine.store('jobs').addLine(payload.line);
@@ -200,11 +206,13 @@
         Alpine.store('jobs').addLine('[' + payload.status + ']');
         Alpine.store('jobs').active = Math.max(0, Alpine.store('jobs').active - 1);
         source.close();
+        delete window._activeSources[jobId];
       });
       source.addEventListener('error', (e) => {
         Alpine.store('jobs').addLine('[SSE error]');
         Alpine.store('jobs').active = Math.max(0, Alpine.store('jobs').active - 1);
         source.close();
+        delete window._activeSources[jobId];
       });
     }
 

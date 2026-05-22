@@ -222,7 +222,13 @@ def _render_series_detail(
 
 @router.get("/catalog/{series_id}", response_class=HTMLResponse)
 async def series_detail(request: Request, series_id: str):
-    return _render_series_detail(request, series_id, tab="preview")
+    series = get_series_by_id(series_id)
+    if series is None:
+        return HTMLResponse("Series not found", status_code=404)
+    state = pipeline_status(series_id, series=series)
+    active = get_active_job(series_id)
+    tab = "preview" if state.status == "done" and not active else "pipeline"
+    return _render_series_detail(request, series_id, tab=tab)
 
 
 @router.get("/catalog/{series_id}/episodes", response_class=HTMLResponse)
@@ -471,23 +477,25 @@ async def job_detail_page(request: Request, job_id: str):
 async def jobs_page(request: Request):
     """Show all jobs with status and logs."""
     jobs = list_jobs(limit=100)
+    jobs_data = [
+        {
+            "id": j.id,
+            "series_id": j.series_id,
+            "command": j.command,
+            "status": j.status,
+            "log_count": len(j.log_lines),
+            "created_at": j.created_at,
+            "updated_at": j.updated_at,
+            "error": j.error,
+        }
+        for j in jobs
+    ]
     return templates.TemplateResponse(
         request,
         "jobs.html",
         {
-            "jobs": [
-                {
-                    "id": j.id,
-                    "series_id": j.series_id,
-                    "command": j.command,
-                    "status": j.status,
-                    "log_count": len(j.log_lines),
-                    "created_at": j.created_at,
-                    "updated_at": j.updated_at,
-                    "error": j.error,
-                }
-                for j in jobs
-            ]
+            "jobs": jobs_data,
+            "jobs_json": json.dumps(jobs_data),
         },
     )
 
