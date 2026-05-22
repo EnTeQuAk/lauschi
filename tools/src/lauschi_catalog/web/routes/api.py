@@ -7,16 +7,17 @@ from typing import Any
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 
-from lauschi_catalog.commands.discover import (
+from lauschi_catalog.catalog.discover_ops import (
     discover_candidates,
-    discover_for_provider,
+    discover_one,
     match_artist,
 )
+from lauschi_catalog.commands.discover import discover_for_provider
 from lauschi_catalog.providers import CatalogProvider
 from lauschi_catalog.web.catalog_db import get_series_by_id, sync_catalog_to_db
 from lauschi_catalog.web.jobs import create_job, list_jobs
 from lauschi_catalog.web.pipeline import next_action, pipeline_status
-from lauschi_catalog.web.routes.jobs_api import run_subprocess
+from lauschi_catalog.web.routes.jobs_api import launch_in_process
 
 router = APIRouter()
 
@@ -125,9 +126,20 @@ async def post_split_action(
 
 @router.post("/series/{series_id}/discover")
 async def discover_series(series_id: str) -> dict[str, str]:
-    """Queue a discover job for a series. Discovers artist IDs across providers."""
+    """Queue a discover job for a series. Runs in-process via library."""
+    series = get_series_by_id(series_id)
+    if series is None:
+        raise HTTPException(status_code=404, detail="series not found")
+
+    providers = _init_providers()
     job_id = create_job(series_id, "discover")
-    run_subprocess(job_id, series_id, "discover")
+    launch_in_process(
+        job_id,
+        discover_one,
+        series.title,
+        providers,
+        write=True,
+    )
     return {"job_id": job_id}
 
 

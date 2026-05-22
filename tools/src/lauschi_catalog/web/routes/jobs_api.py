@@ -8,6 +8,7 @@ import logging
 import os
 import shlex
 import traceback
+from collections.abc import Callable
 from typing import Any
 
 from fastapi import APIRouter, HTTPException, Request
@@ -327,11 +328,96 @@ def _launch_task(job_id: str, cmd: list[str], cwd: str) -> None:
     task.add_done_callback(_cleanup)
 
 
+def launch_in_process(
+    job_id: str,
+    func: Callable[..., Any],
+    *args: Any,
+    **kwargs: Any,
+) -> None:
+    """Run a sync library function in-process as a job.
+
+    The function receives ``on_progress=callback`` where callback
+    appends lines to the job log. Runs in a thread so the event loop
+    stays free.
+    """
+
+    async def _runner() -> None:
+        log.info("job %s: starting in-process: %s", job_id, func.__name__)
+        set_status(job_id, "running")
+        final_status = "error"
+        final_error: str | None = "function never completed"
+
+        def _progress(msg: str) -> None:
+            append_log(job_id, msg)
+
+        try:
+            await asyncio.to_thread(
+                func, *args, on_progress=_progress, **kwargs
+            )
+            final_status = "done"
+            final_error = None
+            log.info("job %s: in-process completed: %s", job_id, func.__name__)
+        except asyncio.CancelledError:
+            final_status = "cancelled"
+            final_error = None
+            log.info("job %s: in-process cancelled", job_id)
+            raise
+        except Exception as e:
+            final_status = "error"
+            final_error = f"{type(e).__name__}: {e}\n{traceback.format_exc()}"
+            log.exception("job %s: in-process failed", job_id)
+        finally:
+            _force_status(job_id, final_status, final_error)
+
+    task = asyncio.create_task(_runner())
+    _active_tasks[job_id] = task
+
+    def _cleanup(t: asyncio.Task[None]) -> None:
+        _active_tasks.pop(job_id, None)
+        try:
+            job = get_job(job_id)
+            if job and job.status in ("queued", "running"):
+                log.error("job %s: in-process safety net triggered", job_id)
+                _force_status(job_id, "error", "task ended without terminal status")
+        except Exception:
+            log.exception("job %s: in-process safety net failed", job_id)
+
+    task.add_done_callback(_cleanup)
+
+
 def run_subprocess(job_id: str, series_id: str, command: str) -> None:
-    """Launch the CLI command as a subprocess and stream lines to the job log."""
+    """Run a catalog command as a job.
+
+    Commands with in-process library implementations run directly
+    (no subprocess overhead). Others fall back to subprocess execution.
+    """
+    if command == "discover" and _try_in_process_discover(job_id, series_id):
+        return
+
     cmd, cwd = _build_cli_args(series_id, command)
     log.info("job %s: queuing subprocess for %s/%s", job_id, series_id, command)
     _launch_task(job_id, cmd, cwd)
+
+
+def _try_in_process_discover(job_id: str, series_id: str) -> bool:
+    """Run discover in-process if the series exists. Returns False to fall back."""
+    from lauschi_catalog.catalog.discover_ops import discover_one
+    from lauschi_catalog.catalog.providers_init import init_providers
+    from lauschi_catalog.web.catalog_db import get_series_by_id
+
+    series = get_series_by_id(series_id)
+    if series is None:
+        return False
+
+    result = init_providers()
+    providers = result.providers
+    if not providers:
+        log.warning("job %s: no providers available for in-process discover", job_id)
+        return False
+
+    log.info("job %s: running discover in-process for %s", job_id, series_id)
+    launch_in_process(job_id, discover_one, series.title, providers, write=True)
+    return True
 
 
 def run_custom_subprocess(job_id: str, cmd: list[str], cwd: str) -> None:

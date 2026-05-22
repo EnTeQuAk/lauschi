@@ -14,7 +14,7 @@ import pytest
 import requests
 from click.testing import CliRunner
 
-from lauschi_catalog.catalog import loader as loader_mod
+from lauschi_catalog.catalog import discover_ops, loader as loader_mod
 from lauschi_catalog.catalog.models import CatalogEntry, ProviderConfig
 from lauschi_catalog.commands import discover as discover_mod
 
@@ -68,7 +68,7 @@ def fake_catalog(monkeypatch):
 def test_prune_keeps_clean_ids_removes_only_404s(fake_providers, fake_catalog):
     """Only the explicit "*-bad" ids should be removed. Verifies the
     pruner doesn't over-fire on the half_broken entry's good id."""
-    discover_mod._prune_broken_ids(fake_providers, write=True, verbose=False)
+    discover_ops.prune_broken(fake_providers, write=True)
 
     updates = fake_catalog["updates"]
     # 'clean' is untouched.
@@ -80,7 +80,7 @@ def test_prune_keeps_clean_ids_removes_only_404s(fake_providers, fake_catalog):
 
 
 def test_prune_dry_run_does_not_write(fake_providers, fake_catalog):
-    discover_mod._prune_broken_ids(fake_providers, write=False, verbose=False)
+    discover_ops.prune_broken(fake_providers, write=False)
     # No write happened.
     assert "updates" not in fake_catalog
 
@@ -94,7 +94,7 @@ def test_prune_keeps_id_on_transient_provider_error(fake_providers, fake_catalog
     sp.artist_exists = MagicMock(side_effect=requests.Timeout("flaky"))
     am.artist_exists = MagicMock(return_value=True)
 
-    discover_mod._prune_broken_ids(fake_providers, write=True, verbose=False)
+    discover_ops.prune_broken(fake_providers, write=True)
 
     # No removals captured — everything was kept despite the error.
     assert fake_catalog.get("updates", {}) == {}
