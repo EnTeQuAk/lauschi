@@ -518,15 +518,21 @@ def _try_in_process_curate(job_id: str, series_id: str) -> bool:
     )
 
     log.info("job %s: running curate in-process for %s", job_id, series_id)
-    launch_in_process_async(
-        job_id, curate_one,
-        entry.title, providers,
-        series_id=entry.id,
-        known_artist_ids=entry.all_artist_ids() or None,
-        existing_curation=existing,
-        content_type=entry_content_type,
-        existing_facts=load_existing_facts(entry),
-    )
+
+    async def _curate_checked(*, on_progress):
+        result = await curate_one(
+            entry.title, providers,
+            series_id=entry.id,
+            known_artist_ids=entry.all_artist_ids() or None,
+            existing_curation=existing,
+            content_type=entry_content_type,
+            existing_facts=load_existing_facts(entry),
+            on_progress=on_progress,
+        )
+        if not result.ok:
+            raise RuntimeError(result.error or "curation failed")
+
+    launch_in_process_async(job_id, _curate_checked)
     return True
 
 
@@ -557,9 +563,15 @@ def _try_in_process_validate(job_id: str, series_id: str) -> bool:
 def _try_in_process_audit(job_id: str, series_id: str) -> bool:
     """Run audit in-process. Returns False to fall back to subprocess."""
     log.info("job %s: running audit in-process for %s", job_id, series_id)
-    launch_in_process_async(
-        job_id, audit_series, [series_id], force=True,
-    )
+
+    async def _audit_checked(*, on_progress):
+        result = await audit_series(
+            [series_id], force=True, on_progress=on_progress,
+        )
+        if result.failed:
+            raise RuntimeError(f"audit failed for: {', '.join(result.failed)}")
+
+    launch_in_process_async(job_id, _audit_checked)
     return True
 
 
@@ -601,18 +613,16 @@ async def get_job_logs(job_id: str) -> dict[str, Any]:
 
 
 @router.get("/jobs/{job_id}/events")
-async def job_events(job_id: str) -> StreamingResponse:
+async def job_events(job_id: str, from_line: int = 0) -> StreamingResponse:
     """SSE endpoint: stream new log lines as they are written.
 
-    Keeps the connection alive with periodic heartbeats so long-running
-    pipeline jobs (hours) can be monitored. Closes automatically if a
-    job produces no new output for 5 minutes (protects against zombie
-    jobs left by commands that hung on interactive prompts).
+    Pass ``?from_line=N`` to skip the first N lines (already fetched
+    via the /logs endpoint). Closes after 30 minutes of no new output.
     """
-    _IDLE_TIMEOUT_TICKS = 600  # 600 * 0.5s = 5 minutes
+    _IDLE_TIMEOUT_TICKS = 3600  # 3600 * 0.5s = 30 minutes
 
     async def event_stream():
-        last_count = 0
+        last_count = max(from_line, 0)
         heartbeat = 0
         idle_ticks = 0
         while True:

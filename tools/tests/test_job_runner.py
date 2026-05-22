@@ -120,6 +120,44 @@ class TestReapZombieJobs:
         assert reap_zombie_jobs() == 0
 
 
+class TestInProcessErrorPropagation:
+    """In-process async jobs must set status=error when the wrapped function fails."""
+
+    def test_async_job_sets_error_on_raised_exception(self):
+        from lauschi_catalog.web.routes.jobs_api import launch_in_process_async
+
+        job_id = _create_job()
+
+        async def _failing(*, on_progress):
+            on_progress("starting")
+            raise RuntimeError("curation failed")
+
+        async def run():
+            launch_in_process_async(job_id, _failing)
+            await asyncio.sleep(0.2)
+
+        asyncio.run(run())
+        job = get_job(job_id)
+        assert job.status == "error"
+        assert "curation failed" in (job.error or "")
+
+    def test_async_job_sets_done_on_success(self):
+        from lauschi_catalog.web.routes.jobs_api import launch_in_process_async
+
+        job_id = _create_job()
+
+        async def _ok(*, on_progress):
+            on_progress("done")
+
+        async def run():
+            launch_in_process_async(job_id, _ok)
+            await asyncio.sleep(0.2)
+
+        asyncio.run(run())
+        job = get_job(job_id)
+        assert job.status == "done"
+
+
 class TestSafetyNet:
     """The _cleanup callback catches stuck jobs."""
 

@@ -171,12 +171,14 @@
 
       // Fetch existing log lines before connecting to SSE so
       // page reloads and drawer toggles show the full history.
+      let fetchedLineCount = 0;
       if (!window._loadedHistory.has(jobId)) {
         window._loadedHistory.add(jobId);
         try {
           const res = await fetch('/api/jobs/' + jobId + '/logs');
           const data = await res.json();
           if (data.lines) {
+            fetchedLineCount = data.lines.length;
             for (const line of data.lines) {
               Alpine.store('jobs').addLine(line);
             }
@@ -186,7 +188,6 @@
           }
           if (data.status === 'done' || data.status === 'error' || data.status === 'cancelled') {
             Alpine.store('jobs').addLine('[' + data.status + ']');
-            // Job already finished — don't connect SSE
             Alpine.store('jobs').active = Math.max(0, Alpine.store('jobs').active - 1);
             return;
           }
@@ -195,7 +196,7 @@
         }
       }
 
-      const source = new EventSource('/api/jobs/' + jobId + '/events');
+      const source = new EventSource('/api/jobs/' + jobId + '/events?from_line=' + fetchedLineCount);
       window._activeSources[jobId] = source;
       source.addEventListener('log', (e) => {
         const payload = JSON.parse(e.data);

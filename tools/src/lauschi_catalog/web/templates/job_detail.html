@@ -84,27 +84,36 @@ function jobDetailApp(jobId, initialStatus) {
           }
         }
         if (data.status === 'running' || data.status === 'queued') {
-          this.connectSSE();
+          this.connectSSE(data.lines ? data.lines.length : 0);
         }
         this.$nextTick(() => this.scrollToBottom());
       } catch (_) {}
     },
-    connectSSE() {
-      const source = new EventSource(`/api/jobs/${jobId}/events`);
+    connectSSE(fromLine) {
+      // Mark job as connected so autoConnectJobs in base.html skips it.
+      if (!window._connectedJobs) window._connectedJobs = new Set();
+      window._connectedJobs.add(jobId);
+
+      const source = new EventSource(`/api/jobs/${jobId}/events?from_line=${fromLine || 0}`);
+      if (!window._activeSources) window._activeSources = {};
+      window._activeSources[jobId] = source;
+      const self = this;
       source.addEventListener('log', (e) => {
         const payload = JSON.parse(e.data);
-        this.lines.push({ id: ++this._lineId, text: payload.line });
-        if (this.atBottom) this.$nextTick(() => this.scrollToBottom());
+        self.lines.push({ id: ++self._lineId, text: payload.line });
+        if (self.atBottom) self.$nextTick(() => self.scrollToBottom());
       });
       source.addEventListener('done', (e) => {
         const payload = JSON.parse(e.data);
-        this.lines.push({ id: ++this._lineId, text: `[${payload.status}]` });
+        self.lines.push({ id: ++self._lineId, text: `[${payload.status}]` });
         source.close();
-        if (this.atBottom) this.$nextTick(() => this.scrollToBottom());
+        delete window._activeSources[jobId];
+        if (self.atBottom) self.$nextTick(() => self.scrollToBottom());
       });
       source.addEventListener('error', () => {
-        this.lines.push({ id: ++this._lineId, text: '[SSE error]' });
+        self.lines.push({ id: ++self._lineId, text: '[SSE error]' });
         source.close();
+        delete window._activeSources[jobId];
       });
     },
     scrollToBottom() {
