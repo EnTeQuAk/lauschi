@@ -447,6 +447,8 @@ def run_subprocess(job_id: str, series_id: str, command: str) -> None:
     """
     if command == "discover" and _try_in_process_discover(job_id, series_id):
         return
+    if command == "curate" and _try_in_process_curate(job_id, series_id):
+        return
     if command == "apply" and _try_in_process_apply(job_id, series_id):
         return
     if command == "validate" and _try_in_process_validate(job_id, series_id):
@@ -477,6 +479,57 @@ def _try_in_process_discover(job_id: str, series_id: str) -> bool:
 
     log.info("job %s: running discover in-process for %s", job_id, series_id)
     launch_in_process(job_id, discover_one, series.title, providers, write=True)
+    return True
+
+
+def _try_in_process_curate(job_id: str, series_id: str) -> bool:
+    """Run curate in-process. Returns False to fall back to subprocess."""
+    import json
+
+    from lauschi_catalog.catalog.curate_ops import (
+        curate_one,
+        load_existing_facts,
+        lookup_catalog_entry,
+        resolve_content_type,
+    )
+    from lauschi_catalog.catalog.paths import CURATION_DIR
+    from lauschi_catalog.catalog.providers_init import init_providers
+
+    result = init_providers()
+    providers = result.providers
+    if not providers:
+        log.warning("job %s: no providers available for in-process curate", job_id)
+        return False
+
+    entry = lookup_catalog_entry(series_id)
+    if entry is None:
+        log.warning("job %s: series %s not in catalog, falling back to subprocess", job_id, series_id)
+        return False
+
+    existing: dict | None = None
+    curation_path = CURATION_DIR / f"{entry.id}.json"
+    if curation_path.exists():
+        try:
+            existing = json.loads(curation_path.read_text())
+        except (OSError, json.JSONDecodeError):
+            existing = None
+
+    entry_content_type = resolve_content_type(
+        entry_content_type=entry.content_type,
+        entry_has_pattern=bool(entry.episode_pattern),
+        existing_content_type=(existing or {}).get("content_type"),
+    )
+
+    log.info("job %s: running curate in-process for %s", job_id, series_id)
+    launch_in_process_async(
+        job_id, curate_one,
+        entry.title, providers,
+        series_id=entry.id,
+        known_artist_ids=entry.all_artist_ids() or None,
+        existing_curation=existing,
+        content_type=entry_content_type,
+        existing_facts=load_existing_facts(entry),
+    )
     return True
 
 

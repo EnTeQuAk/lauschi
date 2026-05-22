@@ -15,8 +15,8 @@ from typing import Any
 
 import pytest
 
-from lauschi_catalog.commands import curate as curate_mod
-from lauschi_catalog.commands.curate import (
+from lauschi_catalog.catalog import curate_ops as curate_ops_mod
+from lauschi_catalog.catalog.curate_ops import (
     AlbumDecision,
     CuratedSeries,
     save_curation,
@@ -25,7 +25,7 @@ from lauschi_catalog.commands.curate import (
 
 @pytest.fixture
 def curation_dir(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> Path:
-    monkeypatch.setattr(curate_mod, "CURATION_DIR", tmp_path)
+    monkeypatch.setattr(curate_ops_mod, "CURATION_DIR", tmp_path)
     return tmp_path
 
 
@@ -136,7 +136,7 @@ def test_save_curation_aborts_on_corrupt_existing_file(curation_dir: Path):
     p = curation_dir / "test_series.json"
     p.write_text("{not json at all")
 
-    with pytest.raises(SystemExit):
+    with pytest.raises(ValueError, match="unreadable curation file"):
         save_curation(_series("test_series"))
 
     # File untouched — still the corrupt content the user can recover from

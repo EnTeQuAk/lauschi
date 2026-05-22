@@ -7,7 +7,7 @@ import json
 from lauschi_catalog.providers.base import Album
 from lauschi_catalog.providers.spotify import _pick_image
 from lauschi_catalog.providers.apple_music import _pick_artwork
-from lauschi_catalog.commands.curate import write_cover_cache
+from lauschi_catalog.catalog.curate_ops import write_cover_cache
 
 
 class TestSpotifyPickImage:
@@ -66,17 +66,10 @@ class TestAlbumImageUrl:
 
 class TestWriteCoverCache:
     def test_writes_cache_from_raw_albums(self, tmp_path, monkeypatch):
-        from lauschi_catalog.catalog import paths as paths_mod
-        monkeypatch.setattr(paths_mod, "cover_cache_dir", lambda: tmp_path)
+        from lauschi_catalog.catalog import curate_ops as curate_ops_mod
+        monkeypatch.setattr(curate_ops_mod, "cover_cache_dir", lambda: tmp_path)
         monkeypatch.setattr(
-            paths_mod, "cover_cache_path",
-            lambda sid: tmp_path / f"{sid}.json",
-        )
-        # Also patch the imports in curate module
-        from lauschi_catalog.commands import curate as curate_mod
-        monkeypatch.setattr(curate_mod, "cover_cache_dir", lambda: tmp_path)
-        monkeypatch.setattr(
-            curate_mod, "cover_cache_path",
+            curate_ops_mod, "cover_cache_path",
             lambda sid: tmp_path / f"{sid}.json",
         )
 
@@ -93,10 +86,10 @@ class TestWriteCoverCache:
         assert data == {"abc": "https://img/a", "def": "https://img/b"}
 
     def test_skips_when_no_images(self, tmp_path, monkeypatch):
-        from lauschi_catalog.commands import curate as curate_mod
-        monkeypatch.setattr(curate_mod, "cover_cache_dir", lambda: tmp_path)
+        from lauschi_catalog.catalog import curate_ops as curate_ops_mod
+        monkeypatch.setattr(curate_ops_mod, "cover_cache_dir", lambda: tmp_path)
         monkeypatch.setattr(
-            curate_mod, "cover_cache_path",
+            curate_ops_mod, "cover_cache_path",
             lambda sid: tmp_path / f"{sid}.json",
         )
 
@@ -106,10 +99,10 @@ class TestWriteCoverCache:
 
     def test_handles_album_id_key(self, tmp_path, monkeypatch):
         """Curation JSON uses album_id instead of id."""
-        from lauschi_catalog.commands import curate as curate_mod
-        monkeypatch.setattr(curate_mod, "cover_cache_dir", lambda: tmp_path)
+        from lauschi_catalog.catalog import curate_ops as curate_ops_mod
+        monkeypatch.setattr(curate_ops_mod, "cover_cache_dir", lambda: tmp_path)
         monkeypatch.setattr(
-            curate_mod, "cover_cache_path",
+            curate_ops_mod, "cover_cache_path",
             lambda sid: tmp_path / f"{sid}.json",
         )
 

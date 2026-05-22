@@ -82,6 +82,12 @@ def extract_retry_delay(exc: BaseException) -> float | None:
     return None
 
 
+from collections.abc import Callable
+
+Progress = Callable[[str], None]
+_noop: Progress = lambda _msg: None
+
+
 async def run_with_rate_limit_retry(
     coro_factory,
     *,
@@ -91,15 +97,13 @@ async def run_with_rate_limit_retry(
     max_retries: int = 5,
     base_delay: float = 5.0,
     max_delay: float = 120.0,
-    console=None,
+    on_progress: Progress = _noop,
 ) -> Any:
     """Run a coroutine with rate-limit-aware retry.
 
-    Differences from the old _run_with_retry:
-    - Uses a RateLimiter for preemptive spacing between requests
-    - Parses server-suggested retry delay from 429 responses
-    - More retries (5 instead of 3) with longer, adaptive backoff
-    - Exponential backoff with jitter for 429
+    Uses a RateLimiter for preemptive spacing between requests,
+    parses server-suggested retry delay from 429 responses, and
+    applies exponential backoff with jitter.
     """
     last_err: Exception | None = None
 
@@ -125,25 +129,18 @@ async def run_with_rate_limit_retry(
                 delay = min(base_delay * (2 ** (attempt - 1)), max_delay)
                 delay += (hash(phase) % 100) / 1000.0  # small jitter
 
-            if console is not None and attempt < max_retries:
-                from rich.markup import escape
-
-                err_str = str(e)
-                console.print(
-                    f"[yellow]{phase} attempt {attempt}/{max_retries} "
+            if attempt < max_retries:
+                on_progress(
+                    f"{phase} attempt {attempt}/{max_retries} "
                     f"failed ({type(e).__name__}), "
-                    f"retrying in {delay:.1f}s…[/]",
+                    f"retrying in {delay:.1f}s...",
                 )
                 await asyncio.sleep(delay)
-            elif attempt >= max_retries:
-                from rich.markup import escape
-
-                console.print(
-                    f"[red]{phase} failed: {type(e).__name__}: "
-                    f"{escape(str(e)[:300])}[/]",
+            else:
+                err_str = str(e)[:300]
+                on_progress(
+                    f"{phase} failed: {type(e).__name__}: {err_str}",
                 )
                 raise
-            else:
-                await asyncio.sleep(delay)
 
     raise RuntimeError(f"Exhausted {max_retries} retries in {phase}: {last_err}")

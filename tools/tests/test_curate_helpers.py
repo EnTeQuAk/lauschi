@@ -623,7 +623,7 @@ def test_excluded_with_reason_ok():
 
 def test_curate_batch_flow_album_details_returns_release_date_and_artists():
     src = open(
-        "src/lauschi_catalog/commands/curate.py", encoding="utf-8",
+        "src/lauschi_catalog/catalog/curate_ops.py", encoding="utf-8",
     ).read()
     # The shared _get_album_details function (used by both batch and
     # finalize agents) must populate release_date and artists.
@@ -652,7 +652,7 @@ def test_propose_pattern_update_source_calls_coverage_check():
     because calling the closure-bound tool requires a full agent
     instance with a model."""
     src = open(
-        "src/lauschi_catalog/commands/curate.py", encoding="utf-8",
+        "src/lauschi_catalog/catalog/curate_ops.py", encoding="utf-8",
     ).read()
     # Locate the batch agent's propose_pattern_update
     idx = src.find("def propose_pattern_update")
@@ -678,7 +678,7 @@ def test_propose_pattern_update_carries_titles_via_batch_deps():
     has data to test against. _run_large must populate the field
     on the shared_deps it hands to every batch."""
     src = open(
-        "src/lauschi_catalog/commands/curate.py", encoding="utf-8",
+        "src/lauschi_catalog/catalog/curate_ops.py", encoding="utf-8",
     ).read()
     # The dataclass declares the field
     assert "titles: list[str] = field(default_factory=list)" in src, (
@@ -696,7 +696,7 @@ def test_pattern_update_docstring_warns_about_numeric_capture():
     """Pin the user-facing contract in the tool's docstring — the
     agent reads this when deciding how to construct a pattern."""
     src = open(
-        "src/lauschi_catalog/commands/curate.py", encoding="utf-8",
+        "src/lauschi_catalog/catalog/curate_ops.py", encoding="utf-8",
     ).read()
     idx = src.find("def propose_pattern_update")
     block = src[idx:idx + 2000]
