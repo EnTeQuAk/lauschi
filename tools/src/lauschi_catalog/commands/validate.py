@@ -11,6 +11,7 @@ from rich.console import Console
 from rich.markup import escape
 from rich.table import Table
 
+from lauschi_catalog.catalog.providers_init import init_providers
 from lauschi_catalog.catalog.validate_ops import validate_catalog
 from lauschi_catalog.providers import CatalogProvider
 
@@ -27,8 +28,6 @@ def validate(provider: str, series: str | None, verbose: bool):
     Runs L1 (syntax) always. L5 (artist discography) for providers with
     artist IDs configured.
     """
-    from lauschi_catalog.catalog.providers_init import init_providers
-
     result = init_providers(provider)
     for w in result.warnings:
         console.print(f"[yellow]{w}[/yellow]")

@@ -11,6 +11,9 @@ from collections.abc import Callable
 from dataclasses import dataclass, field
 from typing import Any
 
+from lauschi_catalog.catalog.add_ops import title_to_id
+from lauschi_catalog.catalog.loader import load_catalog, load_raw, save_raw, update_provider_ids
+from lauschi_catalog.catalog.series_ops import add_series_entry
 from lauschi_catalog.providers import Artist, CatalogProvider
 
 
@@ -166,11 +169,6 @@ def discover_one(
     if not write:
         return result
 
-    # Write to series.yaml
-    from lauschi_catalog.catalog.loader import load_catalog, load_raw, save_raw
-    from lauschi_catalog.catalog.series_ops import add_series_entry
-    from lauschi_catalog.catalog.add_ops import title_to_id
-
     discoveries = {
         name: m for name, m in matches.items() if m is not None
     }
@@ -245,8 +243,6 @@ def discover_all(
     on_progress: Progress = _noop,
 ) -> DiscoverAllResult:
     """Discover missing artist IDs for all catalog series."""
-    from lauschi_catalog.catalog.loader import load_catalog, update_provider_ids
-
     entries = load_catalog()
     updates: dict[str, dict[str, list[str]]] = {}
     found_total = 0
@@ -288,8 +284,6 @@ def prune_broken(
     on_progress: Progress = _noop,
 ) -> PruneResult:
     """Remove artist_ids that return 404 from their provider."""
-    from lauschi_catalog.catalog.loader import load_catalog, update_provider_ids
-
     entries = load_catalog()
     updates: dict[str, dict[str, list[str]]] = {}
     broken_count = 0

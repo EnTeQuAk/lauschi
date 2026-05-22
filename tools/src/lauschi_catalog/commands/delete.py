@@ -16,6 +16,7 @@ from rich.console import Console
 from lauschi_catalog.catalog import paths
 from lauschi_catalog.catalog.deleted import is_deleted
 from lauschi_catalog.catalog.loader import load_raw
+from lauschi_catalog.catalog.series_ops import delete_series
 
 console = Console()
 
@@ -80,8 +81,6 @@ def delete(series_id: str, reason: str, dry_run: bool):
     if dry_run:
         console.print("\n[dim]Dry run; nothing written. Drop --dry-run to apply.[/dim]")
         return
-
-    from lauschi_catalog.catalog.series_ops import delete_series
 
     result = delete_series(series_id, reason=reason)
     if not result.ok:

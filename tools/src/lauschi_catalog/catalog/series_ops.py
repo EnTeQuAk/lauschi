@@ -14,6 +14,7 @@ from typing import Any
 from filelock import FileLock
 
 from lauschi_catalog.catalog import paths
+from lauschi_catalog.catalog.deleted import record_deletion
 from lauschi_catalog.catalog.io import safe_write_json, safe_write_yaml
 from lauschi_catalog.catalog.loader import load_catalog, load_raw
 
@@ -148,8 +149,6 @@ def delete_series(series_id: str, *, reason: str) -> DeleteResult:
     Records the deletion in deleted.yaml. Does NOT check the deletion
     log (the CLI wrapper handles --force-readd).
     """
-    from lauschi_catalog.catalog.deleted import record_deletion
-
     yaml_path = paths.series_yaml_path()
     lock = paths.series_lock_path()
 

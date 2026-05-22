@@ -7,11 +7,14 @@ provider search with user prompts.
 
 from __future__ import annotations
 
+from io import StringIO
+
 import click
 from rich import box
 from rich.console import Console
 from rich.panel import Panel
 from rich.table import Table
+from ruamel.yaml import YAML
 
 from lauschi_catalog.catalog.add_ops import (
     add_series,
@@ -19,7 +22,12 @@ from lauschi_catalog.catalog.add_ops import (
     build_entry,
     title_to_id,
 )
+from lauschi_catalog.catalog.deleted import is_deleted
+from lauschi_catalog.catalog.loader import load_catalog
+from lauschi_catalog.commands.discover import discover_for_provider, match_artist
 from lauschi_catalog.providers import Album, Artist
+from lauschi_catalog.providers.apple_music import AppleMusicProvider
+from lauschi_catalog.providers.spotify import SpotifyProvider
 
 console = Console()
 
@@ -104,11 +112,6 @@ def add(
       lauschi-catalog add "TKKG" --spotify-artist-id 7uVDfCKp96l3xCHFYf39vU
       lauschi-catalog add "Bibi Blocksberg" --dry-run
     """
-    from lauschi_catalog.catalog.deleted import is_deleted
-    from lauschi_catalog.catalog.loader import load_catalog
-    from lauschi_catalog.providers.apple_music import AppleMusicProvider
-    from lauschi_catalog.providers.spotify import SpotifyProvider
-
     sid = series_id or title_to_id(title)
     existing_ids = {e.id for e in load_catalog()}
     if sid in existing_ids:
@@ -158,7 +161,6 @@ def add(
                 provider="apple_music",
             )
         else:
-            from lauschi_catalog.commands.discover import discover_for_provider
             found = discover_for_provider(apple, title, verbose=True)
             if found:
                 artists["apple_music"] = found
@@ -240,7 +242,6 @@ def _search_and_pick(provider: SpotifyProvider, query: str) -> Artist | None:
         return a
 
     # Use the same matching logic as discover
-    from lauschi_catalog.commands.discover import match_artist
     auto = match_artist(query, candidates)
 
     console.print(f"\n[bold]Spotify artist candidates for '{query}':[/bold]")
@@ -267,9 +268,6 @@ def _search_and_pick(provider: SpotifyProvider, query: str) -> Artist | None:
 
 def _print_entry(entry: dict) -> None:
     """Pretty-print a series entry."""
-    from ruamel.yaml import YAML
-    from io import StringIO
-
     y = YAML()
     y.default_flow_style = False
     buf = StringIO()

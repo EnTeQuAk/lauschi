@@ -29,20 +29,27 @@ from lauschi_catalog._opencode import (
 from lauschi_catalog.catalog.analysis import analyze_series
 from lauschi_catalog.catalog.canonical import canonicalize
 from lauschi_catalog.catalog.facts import (
+    EraBoundary,
     EraBoundaryProposal,
+    KnownGap,
     KnownGapProposal,
     SeriesFacts,
+    SubSeriesFact,
     SubSeriesProposal,
 )
+from lauschi_catalog.catalog.loader import load_catalog
 from lauschi_catalog.catalog.matcher import (
     compute_pattern_coverage as _compute_pattern_coverage,
+    extract_episode,
 )
 from lauschi_catalog.catalog.paths import CURATION_DIR, cover_cache_dir, cover_cache_path
 from lauschi_catalog.catalog.prompt import album_to_dict, format_albums_xml
+from lauschi_catalog.commands.lint import lint_curation
 from lauschi_catalog.prompts import load_curate_skill
 from lauschi_catalog.providers import CatalogProvider
 from lauschi_catalog.providers._validate import explain_invalid, is_valid_id
 from lauschi_catalog.rate_limit import RateLimiter, run_with_rate_limit_retry
+from lauschi_catalog.run import run_agent_streaming
 
 Progress = Callable[[str], None]
 _noop: Progress = lambda _msg: None
@@ -189,8 +196,6 @@ def _reextract_episode_numbers(
     pattern. Returns the number of decisions whose episode_num changed."""
     if pattern is None:
         return 0
-    from lauschi_catalog.catalog.matcher import extract_episode
-
     changed = 0
     for d in decisions:
         new_ep = extract_episode(pattern, d.title)
@@ -415,7 +420,6 @@ def _build_metadata_agent(
                 "no episode numbers, set episode_pattern=None.",
             )
         if meta.episode_pattern:
-            from lauschi_catalog.catalog.matcher import extract_episode
             matched = sum(
                 1 for t in ctx.deps.titles
                 if extract_episode(meta.episode_pattern, t) is not None
@@ -651,7 +655,6 @@ def _build_finalize_agent(model, *, model_name: str = "", content_type: str = "h
                 if ctx.deps.proposed_facts else None
             ),
         }
-        from lauschi_catalog.commands.lint import lint_curation
         issues = lint_curation(partial_curation)
         if issues:
             ctx.deps.on_progress(
@@ -667,8 +670,6 @@ def _build_finalize_agent(model, *, model_name: str = "", content_type: str = "h
         sub_series: list[SubSeriesProposal] = [],
     ) -> str:
         """Propose structured facts about the series."""
-        from lauschi_catalog.catalog.facts import EraBoundary, KnownGap, SubSeriesFact
-
         existing = ctx.deps.existing_facts
         if ctx.deps.proposed_facts is None:
             ctx.deps.proposed_facts = SeriesFacts()
@@ -731,7 +732,6 @@ def _build_finalize_agent(model, *, model_name: str = "", content_type: str = "h
 
 async def _run_agent(agent, prompt, deps, *, on_progress: Progress = _noop):
     """Run an agent with streaming reasoning output."""
-    from lauschi_catalog.run import run_agent_streaming
     return await run_agent_streaming(
         agent, prompt, deps, request_limit=200, on_progress=on_progress,
     )
@@ -1498,8 +1498,6 @@ def lookup_catalog_entry(query: str):
 
     Returns the entry on first match (by ID or title) or None.
     """
-    from lauschi_catalog.catalog.loader import load_catalog
-
     try:
         entries = load_catalog()
     except Exception:
@@ -1609,8 +1607,6 @@ async def curate_all(
     on_progress: Progress = _noop,
 ) -> CurateAllResult:
     """Curate all series in the catalog."""
-    from lauschi_catalog.catalog.loader import load_catalog
-
     entries = load_catalog()
     total = len(entries)
     result = CurateAllResult(total=total)

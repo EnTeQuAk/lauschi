@@ -7,6 +7,8 @@ formatter so the representation is unified across all phases.
 
 from __future__ import annotations
 
+from lauschi_catalog.providers import Album
+
 
 def format_album_xml(album: dict, *, include_tracks: bool = True) -> str:
     """Format a single album as XML-tagged metadata.
@@ -117,9 +119,6 @@ def album_to_dict(album_detail: object) -> dict:
                 for t in d.get("tracks", [])
             ],
         }
-
-    # Provider Album dataclass
-    from lauschi_catalog.providers import Album
 
     if isinstance(album_detail, Album):
         total_dur = sum(t.duration_ms for t in album_detail.tracks)

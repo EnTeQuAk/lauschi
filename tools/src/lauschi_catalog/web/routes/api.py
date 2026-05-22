@@ -7,11 +7,16 @@ from typing import Any
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 
+from lauschi_catalog.catalog.album_ops import update_album_status as _update_album_status
 from lauschi_catalog.catalog.discover_ops import (
     discover_candidates,
     discover_one,
     match_artist,
 )
+from lauschi_catalog.catalog.loader import update_provider_ids
+from lauschi_catalog.catalog.merge_ops import accept_split, merge_series, reject_split
+from lauschi_catalog.catalog.providers_init import init_providers
+from lauschi_catalog.catalog.series_ops import SeriesChanges, edit_series
 from lauschi_catalog.commands.discover import discover_for_provider
 from lauschi_catalog.providers import CatalogProvider
 from lauschi_catalog.web.catalog_db import get_series_by_id, sync_catalog_to_db
@@ -47,9 +52,7 @@ async def update_album_status(
     series_id: str, album_id: str, update: AlbumStatusUpdate
 ) -> dict[str, bool]:
     """Toggle include/exclude for a single album in a curation JSON."""
-    from lauschi_catalog.catalog.album_ops import update_album_status as _update
-
-    result = _update(
+    result = _update_album_status(
         series_id, album_id, include=update.include,
         exclude_reason=update.exclude_reason,
     )
@@ -77,8 +80,6 @@ async def get_series_edit(series_id: str) -> dict[str, Any]:
 @router.post("/series/{series_id}/edit")
 async def post_series_edit(series_id: str, edit: SeriesEdit) -> dict[str, Any]:
     """Edit series properties in series.yaml."""
-    from lauschi_catalog.catalog.series_ops import SeriesChanges, edit_series
-
     changes = SeriesChanges(
         title=edit.title,
         id=edit.id,
@@ -104,8 +105,6 @@ async def post_split_action(
     series_id: str, split_index: int, action: SplitAction
 ) -> dict[str, Any]:
     """Accept or reject a split proposal from AI audit."""
-    from lauschi_catalog.catalog.merge_ops import accept_split, reject_split
-
     if action.action == "reject":
         result = reject_split(series_id, split_index)
     elif action.action == "accept":
@@ -157,8 +156,6 @@ async def accept_artist(
     Merges with existing artist_ids so accepting a new ID doesn't
     overwrite previously accepted ones.
     """
-    from lauschi_catalog.catalog.loader import update_provider_ids
-
     series = get_series_by_id(series_id)
     if series is None:
         raise HTTPException(status_code=404, detail="series not found")
@@ -186,8 +183,6 @@ class MergeRequest(BaseModel):
 @router.post("/series/merge")
 async def post_merge(request: MergeRequest) -> dict[str, Any]:
     """Merge source series into target."""
-    from lauschi_catalog.catalog.merge_ops import merge_series
-
     target = get_series_by_id(request.target_id)
     result = merge_series(
         request.source_id,
@@ -208,8 +203,6 @@ class SearchArtistsRequest(BaseModel):
 
 def _init_providers() -> list[CatalogProvider]:
     """Initialize available catalog providers, skipping ones missing credentials."""
-    from lauschi_catalog.catalog.providers_init import init_providers
-
     return init_providers().providers
 
 

@@ -10,6 +10,7 @@ from pathlib import Path
 
 from ruamel.yaml import YAML
 
+from lauschi_catalog.catalog.io import save_raw as _save_raw
 from lauschi_catalog.catalog.models import CatalogEntry, ProviderConfig
 from lauschi_catalog.catalog.paths import (
     REPO_ROOT,  # noqa: F401 — re-exported for existing callers
@@ -83,8 +84,6 @@ def save_raw(data: object, path: Path | None = None) -> None:
     Uses atomic write (temp file + os.replace) with file locking
     via catalog.io.
     """
-    from lauschi_catalog.catalog.io import save_raw as _save_raw
-
     _save_raw(data, path)
 
 

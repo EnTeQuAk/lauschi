@@ -51,6 +51,8 @@ from lauschi_catalog.catalog.matcher import (
 )
 from lauschi_catalog.catalog.paths import CURATION_DIR
 from lauschi_catalog.prompts import load_curate_skill
+from lauschi_catalog.providers.apple_music import AppleMusicProvider
+from lauschi_catalog.providers.spotify import SpotifyProvider
 
 console = Console()
 
@@ -138,9 +140,6 @@ def print_summary(series: CuratedSeries) -> None:
 
 
 def _init_providers(provider: str, *, no_cache: bool = False) -> list:
-    from lauschi_catalog.providers.apple_music import AppleMusicProvider
-    from lauschi_catalog.providers.spotify import SpotifyProvider
-
     providers = []
     if provider in ("spotify", "all"):
         try:

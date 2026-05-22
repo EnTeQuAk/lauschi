@@ -14,7 +14,19 @@ from typing import Any
 from fastapi import APIRouter, HTTPException, Request
 from fastapi.responses import RedirectResponse, StreamingResponse
 
-from lauschi_catalog.catalog.paths import repo_root
+from lauschi_catalog.catalog.apply_ops import apply_curations
+from lauschi_catalog.catalog.audit_ops import audit_series
+from lauschi_catalog.catalog.curate_ops import (
+    curate_one,
+    load_existing_facts,
+    lookup_catalog_entry,
+    resolve_content_type,
+)
+from lauschi_catalog.catalog.discover_ops import discover_one
+from lauschi_catalog.catalog.paths import CURATION_DIR, repo_root
+from lauschi_catalog.catalog.providers_init import init_providers
+from lauschi_catalog.catalog.validate_ops import validate_catalog
+from lauschi_catalog.web.catalog_db import get_series_by_id
 from lauschi_catalog.web.jobs import (
     append_log,
     create_job,
@@ -463,10 +475,6 @@ def run_subprocess(job_id: str, series_id: str, command: str) -> None:
 
 def _try_in_process_discover(job_id: str, series_id: str) -> bool:
     """Run discover in-process if the series exists. Returns False to fall back."""
-    from lauschi_catalog.catalog.discover_ops import discover_one
-    from lauschi_catalog.catalog.providers_init import init_providers
-    from lauschi_catalog.web.catalog_db import get_series_by_id
-
     series = get_series_by_id(series_id)
     if series is None:
         return False
@@ -484,17 +492,6 @@ def _try_in_process_discover(job_id: str, series_id: str) -> bool:
 
 def _try_in_process_curate(job_id: str, series_id: str) -> bool:
     """Run curate in-process. Returns False to fall back to subprocess."""
-    import json
-
-    from lauschi_catalog.catalog.curate_ops import (
-        curate_one,
-        load_existing_facts,
-        lookup_catalog_entry,
-        resolve_content_type,
-    )
-    from lauschi_catalog.catalog.paths import CURATION_DIR
-    from lauschi_catalog.catalog.providers_init import init_providers
-
     result = init_providers()
     providers = result.providers
     if not providers:
@@ -535,8 +532,6 @@ def _try_in_process_curate(job_id: str, series_id: str) -> bool:
 
 def _try_in_process_apply(job_id: str, series_id: str) -> bool:
     """Run apply in-process. Returns False to fall back to subprocess."""
-    from lauschi_catalog.catalog.apply_ops import apply_curations
-
     log.info("job %s: running apply in-process for %s", job_id, series_id)
     launch_in_process(
         job_id, apply_curations, series_id, force=True,
@@ -546,9 +541,6 @@ def _try_in_process_apply(job_id: str, series_id: str) -> bool:
 
 def _try_in_process_validate(job_id: str, series_id: str) -> bool:
     """Run validate in-process. Returns False to fall back to subprocess."""
-    from lauschi_catalog.catalog.providers_init import init_providers
-    from lauschi_catalog.catalog.validate_ops import validate_catalog
-
     result = init_providers()
     providers = result.providers
     if not providers:
@@ -564,8 +556,6 @@ def _try_in_process_validate(job_id: str, series_id: str) -> bool:
 
 def _try_in_process_audit(job_id: str, series_id: str) -> bool:
     """Run audit in-process. Returns False to fall back to subprocess."""
-    from lauschi_catalog.catalog.audit_ops import audit_series
-
     log.info("job %s: running audit in-process for %s", job_id, series_id)
     launch_in_process_async(
         job_id, audit_series, [series_id], force=True,

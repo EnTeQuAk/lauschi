@@ -17,7 +17,7 @@ import click
 from rich.console import Console
 
 from lauschi_catalog.catalog.facts import SeriesFacts
-
+from lauschi_catalog.catalog.matcher import extract_episode
 from lauschi_catalog.catalog.paths import CURATION_DIR
 
 console = Console()
@@ -133,8 +133,6 @@ def lint_curation(curation: dict) -> list[str]:
 
     # ── Rule 4: Pattern coverage < 80% ───────────────────────────────
     if pattern and included:
-        from lauschi_catalog.catalog.matcher import extract_episode
-
         matched = sum(
             1 for a in included if extract_episode(pattern, a.get("title", "")) is not None
         )

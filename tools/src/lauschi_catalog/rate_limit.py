@@ -12,6 +12,8 @@ import time
 from dataclasses import dataclass, field
 from typing import Any
 
+from pydantic_ai import ModelHTTPError
+
 from lauschi_catalog.retry import is_retryable
 
 
@@ -59,8 +61,6 @@ def extract_retry_delay(exc: BaseException) -> float | None:
     containing retry_after_ms, retry_after, or similar fields.
     Returns delay in seconds, or None if no hint found.
     """
-    from pydantic_ai import ModelHTTPError
-
     cur: BaseException | None = exc
     depth = 0
     seen: set[int] = set()

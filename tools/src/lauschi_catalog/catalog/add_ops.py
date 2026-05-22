@@ -12,6 +12,7 @@ from collections import Counter
 from collections.abc import Callable
 from dataclasses import dataclass, field
 
+from lauschi_catalog.catalog.deleted import is_deleted, remove_from_deleted
 from lauschi_catalog.catalog.loader import load_catalog
 from lauschi_catalog.catalog.series_ops import add_series_entry
 from lauschi_catalog.providers import Album, Artist
@@ -163,8 +164,6 @@ def add_series(
     Checks for duplicates and deleted entries, builds the entry,
     and writes to series.yaml.
     """
-    from lauschi_catalog.catalog.deleted import is_deleted, remove_from_deleted
-
     sid = series_id or title_to_id(title)
 
     existing = load_catalog()

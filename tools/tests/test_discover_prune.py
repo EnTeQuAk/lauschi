@@ -54,14 +54,14 @@ def fake_catalog(monkeypatch):
         ),
         _entry("apple_broken", spotify_ids=["spotify-good"], apple_ids=["apple-bad"]),
     ]
-    monkeypatch.setattr(loader_mod, "load_catalog", lambda: entries)
+    monkeypatch.setattr(discover_ops, "load_catalog", lambda: entries)
     captured: dict = {}
 
     def fake_update(*, updates):
         captured["updates"] = updates
         return len(updates)
 
-    monkeypatch.setattr(loader_mod, "update_provider_ids", fake_update)
+    monkeypatch.setattr(discover_ops, "update_provider_ids", fake_update)
     return captured
 
 

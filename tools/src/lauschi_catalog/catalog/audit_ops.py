@@ -17,7 +17,13 @@ from datetime import UTC, datetime
 from typing import Literal
 
 from pydantic import BaseModel, Field
+from pydantic_ai import Agent, ModelRetry, RunContext, ToolOutput
 
+from lauschi_catalog._opencode import (
+    build_mistral_model,
+    build_opencode_model,
+    get_model_settings,
+)
 from lauschi_catalog.catalog.canonical import canonicalize
 from lauschi_catalog.catalog.facts import (
     EraBoundaryProposal,
@@ -29,6 +35,9 @@ from lauschi_catalog.catalog.loader import load_raw, save_raw
 from lauschi_catalog.catalog.paths import CURATION_DIR
 from lauschi_catalog.commands.lint import lint_curation
 from lauschi_catalog.retry import is_retryable
+from lauschi_catalog.run import run_agent_streaming
+from lauschi_catalog.search import brave_search
+from lauschi_catalog.search import fetch_page as _fetch_page
 
 _DEFAULT_MODEL = "minimax-m2.7"
 _MAX_RETRIES = 3
@@ -151,14 +160,6 @@ into the structured `submit_audit` output. No separate tools needed.
 
 
 def _build_audit_agent(model_name: str, api_key: str, on_progress: Progress = _noop):
-    from pydantic_ai import Agent, ModelRetry, RunContext, ToolOutput
-
-    from lauschi_catalog._opencode import (
-        build_mistral_model,
-        build_opencode_model,
-        get_model_settings,
-    )
-
     model = (
         build_mistral_model(model_name, api_key)
         if model_name.startswith("mistral-")
@@ -188,7 +189,6 @@ def _build_audit_agent(model_name: str, api_key: str, on_progress: Progress = _n
                 f"Make your audit decision using the information you already have."
             )
         ctx.deps._search_count += 1
-        from lauschi_catalog.search import brave_search
         results = brave_search(query, count=5)
         n = len([r for r in results if "error" not in r])
         ctx.deps.on_progress(f"  web_search({query!r}) -> {n} results")
@@ -202,8 +202,7 @@ def _build_audit_agent(model_name: str, api_key: str, on_progress: Progress = _n
                 f"Make your audit decision using the information you already have."
             )
         ctx.deps._fetch_count += 1
-        from lauschi_catalog.search import fetch_page as _fetch
-        content = _fetch(url, max_chars=4000)
+        content = _fetch_page(url, max_chars=4000)
         ctx.deps.on_progress(f"  fetch_page({url[:60]}) -> {len(content)} chars")
         return content
 
@@ -346,7 +345,6 @@ async def audit_one(
             on_progress=on_progress,
         )
         try:
-            from lauschi_catalog.run import run_agent_streaming
             result = await asyncio.wait_for(
                 run_agent_streaming(agent, prompt, deps, request_limit=20),
                 timeout=timeout,

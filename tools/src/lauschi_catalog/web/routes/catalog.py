@@ -5,23 +5,27 @@ from __future__ import annotations
 import json
 from pathlib import Path
 from typing import Any
+from urllib.parse import quote_plus
 
 from fastapi import APIRouter, Request
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
 
-from lauschi_catalog.web.catalog_db import (
-    get_all_series,
-    get_series_by_id,
-    sync_catalog_to_db,
-)
+from lauschi_catalog.catalog.merge_ops import merge_series
 from lauschi_catalog.catalog.paths import (
     cover_cache_path,
     curation_path as _curation_path,
     repo_root,
 )
-from lauschi_catalog.web.jobs import get_active_job, list_jobs
+from lauschi_catalog.catalog.series_ops import SeriesChanges, edit_series, validate_series_changes
+from lauschi_catalog.web.catalog_db import (
+    get_all_series,
+    get_series_by_id,
+    sync_catalog_to_db,
+)
+from lauschi_catalog.web.jobs import create_job, get_active_job, get_job, list_jobs
 from lauschi_catalog.web.pipeline import next_action, pipeline_status
+from lauschi_catalog.web.routes.jobs_api import run_custom_subprocess, run_subprocess
 
 router = APIRouter()
 
@@ -244,8 +248,6 @@ async def series_edit(request: Request, series_id: str):
 @router.post("/catalog/{series_id}/edit", response_class=HTMLResponse)
 async def series_edit_post(request: Request, series_id: str):
     """Handle edit form submission."""
-    from lauschi_catalog.catalog.series_ops import SeriesChanges, edit_series, validate_series_changes
-
     series = get_series_by_id(series_id)
     if series is None:
         return HTMLResponse("Series not found", status_code=404)
@@ -329,9 +331,6 @@ async def review_queue(request: Request):
 @router.post("/catalog/{series_id}/run", response_class=RedirectResponse)
 async def series_run_post(request: Request, series_id: str):
     """Queue a pipeline command for a series (curate/audit/apply/validate)."""
-    from lauschi_catalog.web.jobs import create_job, get_active_job
-    from lauschi_catalog.web.routes.jobs_api import run_subprocess
-
     series = get_series_by_id(series_id)
     if series is None:
         return HTMLResponse("Series not found", status_code=404)
@@ -374,9 +373,6 @@ async def validate_page(request: Request):
 @router.post("/validate/run", response_class=RedirectResponse)
 async def validate_run_post(request: Request):
     """Queue full catalog validation job."""
-    from lauschi_catalog.web.jobs import create_job
-    from lauschi_catalog.web.routes.jobs_api import run_subprocess
-
     job_id = create_job("all", "validate")
     run_subprocess(job_id, "all", "validate")
     return RedirectResponse(url="/validate", status_code=303)
@@ -400,8 +396,6 @@ async def merge_page(request: Request, message: str = "", error: str = ""):
 @router.post("/merge", response_class=RedirectResponse)
 async def merge_post(request: Request):
     """Handle merge form submission."""
-    from lauschi_catalog.catalog.merge_ops import merge_series
-
     form = await request.form()
     source_id = str(form.get("source_id", "")).strip()
     target_id = str(form.get("target_id", "")).strip()
@@ -412,7 +406,6 @@ async def merge_post(request: Request):
         target_title=target.title if target else None,
     )
     if not result.ok:
-        from urllib.parse import quote_plus
         return RedirectResponse(
             url=f"/merge?error={quote_plus(result.error or 'unknown error')}",
             status_code=303,
@@ -455,8 +448,6 @@ async def splits_page(request: Request):
 @router.get("/jobs/{job_id}", response_class=HTMLResponse)
 async def job_detail_page(request: Request, job_id: str):
     """Full-page job detail with terminal output and SSE streaming."""
-    from lauschi_catalog.web.jobs import get_job
-
     job = get_job(job_id)
     if job is None:
         return HTMLResponse("Job not found", status_code=404)
@@ -504,9 +495,6 @@ async def jobs_page(request: Request):
 @router.post("/catalog/add", response_class=RedirectResponse)
 async def add_series(request: Request):
     """Queue a job to add a new series to the catalog."""
-    from lauschi_catalog.web.jobs import create_job
-    from lauschi_catalog.web.routes.jobs_api import run_custom_subprocess
-
     form = await request.form()
     title = str(form.get("title", "")).strip()
     if not title:

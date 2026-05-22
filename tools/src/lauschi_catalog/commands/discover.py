@@ -14,6 +14,7 @@ from lauschi_catalog.catalog.discover_ops import (
     match_artist,
     prune_broken,
 )
+from lauschi_catalog.catalog.providers_init import init_providers
 from lauschi_catalog.providers import Artist, CatalogProvider
 
 console = Console()
@@ -70,8 +71,6 @@ def discover(
     ``--prune-broken`` (no QUERY), instead validates every existing
     artist_id and removes any that return 404 from its provider.
     """
-    from lauschi_catalog.catalog.providers_init import init_providers
-
     result = init_providers(provider)
     for w in result.warnings:
         console.print(f"[yellow]{w}[/yellow]")
