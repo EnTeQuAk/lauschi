@@ -385,6 +385,60 @@ def launch_in_process(
     task.add_done_callback(_cleanup)
 
 
+def launch_in_process_async(
+    job_id: str,
+    coro_func: Callable[..., Any],
+    *args: Any,
+    **kwargs: Any,
+) -> None:
+    """Run an async library function in-process as a job.
+
+    Like launch_in_process but for coroutines. The function receives
+    ``on_progress=callback`` where callback appends lines to the job log.
+    """
+
+    async def _runner() -> None:
+        log.info("job %s: starting async in-process: %s", job_id, coro_func.__name__)
+        set_status(job_id, "running")
+        final_status = "error"
+        final_error: str | None = "function never completed"
+
+        def _progress(msg: str) -> None:
+            append_log(job_id, msg)
+
+        try:
+            await coro_func(*args, on_progress=_progress, **kwargs)
+            final_status = "done"
+            final_error = None
+            log.info("job %s: async in-process completed: %s", job_id, coro_func.__name__)
+        except asyncio.CancelledError:
+            final_status = "cancelled"
+            final_error = None
+            log.info("job %s: async in-process cancelled", job_id)
+            raise
+        except Exception as e:
+            final_status = "error"
+            final_error = f"{type(e).__name__}: {e}\n{traceback.format_exc()}"
+            log.exception("job %s: async in-process failed", job_id)
+        finally:
+            _force_status(job_id, final_status, final_error)
+
+    task = asyncio.create_task(_runner())
+    _active_tasks[job_id] = task
+
+    def _cleanup(t: asyncio.Task[None]) -> None:
+        _active_tasks.pop(job_id, None)
+        try:
+            job = get_job(job_id)
+            if job and job.status in ("queued", "running"):
+                log.error("job %s: async in-process safety net triggered", job_id)
+                _force_status(job_id, "error", "task ended without terminal status")
+        except Exception:
+            log.exception("job %s: async in-process safety net failed", job_id)
+
+    task.add_done_callback(_cleanup)
+
+
 def run_subprocess(job_id: str, series_id: str, command: str) -> None:
     """Run a catalog command as a job.
 
@@ -396,6 +450,8 @@ def run_subprocess(job_id: str, series_id: str, command: str) -> None:
     if command == "apply" and _try_in_process_apply(job_id, series_id):
         return
     if command == "validate" and _try_in_process_validate(job_id, series_id):
+        return
+    if command == "audit" and _try_in_process_audit(job_id, series_id):
         return
 
     cmd, cwd = _build_cli_args(series_id, command)
@@ -449,6 +505,17 @@ def _try_in_process_validate(job_id: str, series_id: str) -> bool:
     log.info("job %s: running validate in-process for %s", job_id, series_id)
     launch_in_process(
         job_id, validate_catalog, providers, series_filter=series_id,
+    )
+    return True
+
+
+def _try_in_process_audit(job_id: str, series_id: str) -> bool:
+    """Run audit in-process. Returns False to fall back to subprocess."""
+    from lauschi_catalog.catalog.audit_ops import audit_series
+
+    log.info("job %s: running audit in-process for %s", job_id, series_id)
+    launch_in_process_async(
+        job_id, audit_series, [series_id], force=True,
     )
     return True
 

@@ -13,13 +13,13 @@ import json
 import pytest
 import ruamel.yaml
 
-from lauschi_catalog.commands.audit import (
+from lauschi_catalog.catalog.audit_ops import (
     AuditFactUpdate,
     AuditOverride,
     AuditResult,
-    _build_prompt,
     _merge_facts,
     apply_audit,
+    build_prompt,
 )
 from lauschi_catalog.catalog.facts import EraBoundaryProposal, KnownGapProposal
 
@@ -56,70 +56,70 @@ def _curation(**overrides) -> dict:
     return base
 
 
-# ── _build_prompt ────────────────────────────────────────────────────────
+# ── build_prompt ────────────────────────────────────────────────────────
 
 
 class TestBuildPrompt:
     def test_includes_series_title_and_id(self):
-        prompt = _build_prompt(_curation(), [])
+        prompt = build_prompt(_curation(), [])
         assert "Test Series" in prompt
         assert "test_series" in prompt
 
     def test_includes_episode_pattern(self):
-        prompt = _build_prompt(_curation(), [])
+        prompt = build_prompt(_curation(), [])
         assert "Folge" in prompt
 
     def test_separates_included_and_excluded(self):
-        prompt = _build_prompt(_curation(), [])
+        prompt = build_prompt(_curation(), [])
         assert "Included albums (1)" in prompt
         assert "Excluded albums (1)" in prompt
 
     def test_shows_episode_number_for_included(self):
-        prompt = _build_prompt(_curation(), [])
+        prompt = build_prompt(_curation(), [])
         assert "Ep 1:" in prompt
 
     def test_shows_exclude_reason(self):
-        prompt = _build_prompt(_curation(), [])
+        prompt = build_prompt(_curation(), [])
         assert "compilation" in prompt
 
     def test_shows_confidence_tag_for_non_high(self):
         c = _curation()
         c["albums"][0]["confidence"] = "medium"
-        prompt = _build_prompt(c, [])
+        prompt = build_prompt(c, [])
         assert "[medium]" in prompt
 
     def test_hides_confidence_tag_for_high(self):
-        prompt = _build_prompt(_curation(), [])
+        prompt = build_prompt(_curation(), [])
         assert "[high]" not in prompt
 
     def test_shows_notes_for_medium_confidence_included(self):
         c = _curation()
         c["albums"][0]["confidence"] = "medium"
         c["albums"][0]["notes"] = "title doesn't match pattern exactly"
-        prompt = _build_prompt(c, [])
+        prompt = build_prompt(c, [])
         assert "notes: title doesn't match pattern exactly" in prompt
 
     def test_shows_notes_for_low_confidence_included(self):
         c = _curation()
         c["albums"][0]["confidence"] = "low"
         c["albums"][0]["notes"] = "uncertain match"
-        prompt = _build_prompt(c, [])
+        prompt = build_prompt(c, [])
         assert "notes: uncertain match" in prompt
 
     def test_hides_notes_for_high_confidence_included(self):
         c = _curation()
         c["albums"][0]["notes"] = "should not appear"
-        prompt = _build_prompt(c, [])
+        prompt = build_prompt(c, [])
         assert "should not appear" not in prompt
 
     def test_shows_notes_for_excluded_album(self):
         c = _curation()
         c["albums"][1]["notes"] = "borderline decision"
-        prompt = _build_prompt(c, [])
+        prompt = build_prompt(c, [])
         assert "notes: borderline decision" in prompt
 
     def test_shows_lint_issues(self):
-        prompt = _build_prompt(_curation(), ["Duplicate ep 5 on spotify"])
+        prompt = build_prompt(_curation(), ["Duplicate ep 5 on spotify"])
         assert "Lint findings (1)" in prompt
         assert "Duplicate ep 5" in prompt
 
@@ -132,7 +132,7 @@ class TestBuildPrompt:
                 {"number": 13, "reason": "legal dispute"},
             ],
         })
-        prompt = _build_prompt(c, [])
+        prompt = build_prompt(c, [])
         assert "klassik" in prompt
         assert "1976-1979" in prompt
         assert "episode 13" in prompt
@@ -144,7 +144,7 @@ class TestBuildPrompt:
                 {"label": "modern", "release_date_range": "2020-"},
             ],
         })
-        prompt = _build_prompt(c, [])
+        prompt = build_prompt(c, [])
         assert "[unaudited]" in prompt
 
     def test_marks_audited_facts(self):
@@ -157,7 +157,7 @@ class TestBuildPrompt:
                 },
             ],
         })
-        prompt = _build_prompt(c, [])
+        prompt = build_prompt(c, [])
         assert "[audited by minimax]" in prompt
 
     def test_shows_all_excluded(self):
@@ -172,12 +172,12 @@ class TestBuildPrompt:
             for i in range(50)
         ]
         c = _curation(albums=albums)
-        prompt = _build_prompt(c, [])
+        prompt = build_prompt(c, [])
         assert prompt.count("[spotify] Excluded ") == 50
 
     def test_shows_all_lint_issues(self):
         issues = [f"Issue {i}" for i in range(30)]
-        prompt = _build_prompt(_curation(), issues)
+        prompt = build_prompt(_curation(), issues)
         assert "Lint findings (30)" in prompt
         assert prompt.count("Issue ") == 30
 
@@ -190,7 +190,7 @@ class TestApplyAuditStatus:
         path = tmp_path / "test_series.json"
         path.write_text(json.dumps(_curation()))
 
-        import lauschi_catalog.commands.audit as audit_mod
+        import lauschi_catalog.catalog.audit_ops as audit_mod
         orig = audit_mod.CURATION_DIR
         audit_mod.CURATION_DIR = tmp_path
         try:
@@ -277,7 +277,7 @@ class TestApplyAuditOverrides:
         path = tmp_path / "test_series.json"
         path.write_text(json.dumps(_curation()))
 
-        import lauschi_catalog.commands.audit as audit_mod
+        import lauschi_catalog.catalog.audit_ops as audit_mod
         orig = audit_mod.CURATION_DIR
         audit_mod.CURATION_DIR = tmp_path
         try:
@@ -318,7 +318,7 @@ class TestApplyAuditOverrides:
         path = tmp_path / "test_series.json"
         path.write_text(json.dumps(c))
 
-        import lauschi_catalog.commands.audit as audit_mod
+        import lauschi_catalog.catalog.audit_ops as audit_mod
         orig = audit_mod.CURATION_DIR
         audit_mod.CURATION_DIR = tmp_path
         try:
@@ -416,7 +416,7 @@ class TestApplyAuditMultipleFactUpdates:
         path = tmp_path / "test_series.json"
         path.write_text(json.dumps(_curation()))
 
-        import lauschi_catalog.commands.audit as audit_mod
+        import lauschi_catalog.catalog.audit_ops as audit_mod
         orig = audit_mod.CURATION_DIR
         audit_mod.CURATION_DIR = tmp_path
         try:
@@ -472,7 +472,7 @@ class TestDryRun:
         original = _curation()
         path.write_text(json.dumps(original))
 
-        import lauschi_catalog.commands.audit as audit_mod
+        import lauschi_catalog.catalog.audit_ops as audit_mod
         orig = audit_mod.CURATION_DIR
         audit_mod.CURATION_DIR = tmp_path
         try:
