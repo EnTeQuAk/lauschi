@@ -14,6 +14,7 @@ import pytest
 from click.testing import CliRunner
 from ruamel.yaml import YAML
 
+from lauschi_catalog.catalog import add_ops as add_ops_mod
 from lauschi_catalog.catalog import deleted as deleted_mod
 from lauschi_catalog.catalog import loader as loader_mod
 from lauschi_catalog.commands import add as add_mod
@@ -49,7 +50,7 @@ def env(monkeypatch, tmp_path):
     class _NoApple:
         def __init__(self):
             raise FileNotFoundError
-    monkeypatch.setattr(add_mod, "load_catalog", lambda: [])
+    monkeypatch.setattr(add_ops_mod, "load_catalog", lambda: [])
     return {"series_yaml": series_yaml, "deleted_yaml": deleted_yaml}
 
 

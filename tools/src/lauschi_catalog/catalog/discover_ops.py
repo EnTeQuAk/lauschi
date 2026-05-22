@@ -169,7 +169,7 @@ def discover_one(
     # Write to series.yaml
     from lauschi_catalog.catalog.loader import load_catalog, load_raw, save_raw
     from lauschi_catalog.catalog.series_ops import add_series_entry
-    from lauschi_catalog.commands.add import title_to_id
+    from lauschi_catalog.catalog.add_ops import title_to_id
 
     discoveries = {
         name: m for name, m in matches.items() if m is not None

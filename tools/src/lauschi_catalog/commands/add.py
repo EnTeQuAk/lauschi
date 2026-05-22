@@ -1,120 +1,34 @@
-"""Add a new series to the catalog.
+"""Add a new series to the catalog (CLI wrapper).
 
-Creates a seed entry in series.yaml with title, episode_pattern, and
-provider artist IDs. The rest of the pipeline (curate, review, apply,
-validate) handles album-level curation.
-
-Ported from the old scripts/discover-titles.py --ai workflow.
+Interactive CLI layer over catalog.add_ops. Analysis, entry building,
+and duplicate checks live in the library module. This module handles
+provider search with user prompts.
 """
 
 from __future__ import annotations
 
-import re
-from collections import Counter
-
 import click
+from rich import box
 from rich.console import Console
 from rich.panel import Panel
 from rich.table import Table
-from rich import box
 
-from lauschi_catalog.catalog.loader import load_catalog, load_raw, save_raw, SERIES_YAML
-from lauschi_catalog.providers import Album, Artist, CatalogProvider
+from lauschi_catalog.catalog.add_ops import (
+    add_series,
+    analyse_patterns,
+    build_entry,
+    title_to_id,
+)
+from lauschi_catalog.providers import Album, Artist
 
 console = Console()
 
-# Known episode-number prefixes in DACH Hörspiele, in priority order.
-_PATTERNS: list[tuple[str, str]] = [
-    ("NNN/", r"^(\d{1,3})/"),
-    ("N:", r"^(\d{1,2}):\s"),
-    ("Folge N", r"[Ff]olge\s+(\d+)"),
-    ("Teil N", r"[Tt]eil\s+(\d+)"),
-    ("Episode N", r"[Ee]pisode\s+(\d+)"),
-    ("Fall N", r"[Ff]all\s+(\d+)"),
-    ("Band N", r"[Bb]and\s+(\d+)"),
-    ("Hörspiel N", r"[Hh]örspiel\s+(\d+)"),
-    ("Nr. N", r"[Nn]r\\.?\\s+(\\d+)"),
+# Re-export library functions so existing imports keep working.
+__all__ = [
+    "analyse_patterns",
+    "build_entry",
+    "title_to_id",
 ]
-
-
-def title_to_id(title: str) -> str:
-    """Convert a series title to a snake_case ASCII identifier.
-
-    Handles German umlauts explicitly (ä->ae, ö->oe, ü->ue, ß->ss)
-    rather than stripping them via NFKD decomposition, which produces
-    better IDs for German titles.
-    """
-    s = title.lower()
-    for src, dst in [("ä", "ae"), ("ö", "oe"), ("ü", "ue"), ("ß", "ss")]:
-        s = s.replace(src, dst)
-    # Replace non-alphanum with underscore, collapse runs, strip edges
-    s = re.sub(r"[^a-z0-9]+", "_", s)
-    return s.strip("_")
-
-
-def _which_pattern(title: str) -> tuple[str, str] | None:
-    """Return the (name, regex) of the first matching pattern, or None."""
-    for name, pat in _PATTERNS:
-        if re.search(pat, title):
-            return name, pat
-    return None
-
-
-def analyse_patterns(albums: list[Album]) -> dict:
-    """Analyze album titles for episode numbering patterns.
-
-    Returns a dict with pattern distribution, dominant pattern regex,
-    and gap analysis.
-    """
-    titles = [a.name for a in albums]
-
-    # For each title, which (first-matching) pattern fires?
-    pattern_of: dict[str, tuple[str, str]] = {}  # title -> (name, regex)
-    for t in titles:
-        match = _which_pattern(t)
-        if match:
-            pattern_of[t] = match
-
-    by_pattern: Counter[str] = Counter(name for name, _ in pattern_of.values())
-
-    # Dominant pattern (most matches)
-    dominant_name = by_pattern.most_common(1)[0][0] if by_pattern else None
-    dominant_regex: str | None = None
-    if dominant_name:
-        for name, pat in _PATTERNS:
-            if name == dominant_name:
-                dominant_regex = pat
-                break
-
-    # Extract episode numbers using dominant pattern
-    numbered: list[tuple[str, int]] = []
-    if dominant_regex:
-        for t in titles:
-            m = re.search(dominant_regex, t)
-            if m:
-                try:
-                    numbered.append((t, int(m.group(1))))
-                except (ValueError, IndexError):
-                    pass
-    numbered.sort(key=lambda x: x[1])
-
-    # Gap analysis
-    nums = [n for _, n in numbered]
-    if nums:
-        full_range = set(range(min(nums), max(nums) + 1))
-        gaps = sorted(full_range - set(nums))
-    else:
-        gaps = []
-
-    return {
-        "total": len(titles),
-        "by_pattern": dict(by_pattern.most_common()),
-        "unmatched": [t for t in titles if t not in pattern_of],
-        "numbered": numbered,
-        "gaps": gaps,
-        "dominant_name": dominant_name,
-        "dominant_regex": dominant_regex,
-    }
 
 
 def print_analysis(artist: Artist, albums: list[Album], analysis: dict) -> None:
@@ -157,51 +71,6 @@ def print_analysis(artist: Artist, albums: list[Album], analysis: dict) -> None:
             console.print(f"  [dim]... and {len(analysis['numbered']) - 20} more[/]")
 
 
-def build_entry(
-    title: str,
-    *,
-    series_id: str | None = None,
-    artists: dict[str, Artist],
-    analysis: dict | None = None,
-) -> dict:
-    """Build a series.yaml entry dict (ruamel-compatible plain dict).
-
-    Args:
-        title: Series title.
-        series_id: Override for the auto-generated ID.
-        artists: {provider_name: Artist} from discovery.
-        analysis: Pattern analysis from analyse_patterns(), if available.
-    """
-    sid = series_id or title_to_id(title)
-
-    entry: dict = {
-        "id": sid,
-        "title": title,
-    }
-
-    # Episode pattern from analysis
-    if analysis and analysis.get("dominant_regex"):
-        entry["episode_pattern"] = analysis["dominant_regex"]
-
-    # Provider artist IDs
-    if artists:
-        providers: dict = {}
-        for pname, artist in sorted(artists.items()):
-            providers[pname] = {"artist_ids": [artist.id]}
-        entry["providers"] = providers
-
-    return entry
-
-
-def append_to_yaml(entry: dict) -> None:
-    """Append a new series entry to series.yaml, preserving formatting."""
-    from lauschi_catalog.catalog.series_ops import add_series_entry
-
-    result = add_series_entry(entry)
-    if not result.ok:
-        raise SystemExit(result.error or "failed to add series")
-
-
 @click.command()
 @click.argument("title")
 @click.option("--id", "series_id", default=None, help="Override auto-generated snake_case ID")
@@ -235,19 +104,17 @@ def add(
       lauschi-catalog add "TKKG" --spotify-artist-id 7uVDfCKp96l3xCHFYf39vU
       lauschi-catalog add "Bibi Blocksberg" --dry-run
     """
-    from lauschi_catalog.catalog.deleted import is_deleted, remove_from_deleted
-    from lauschi_catalog.providers.spotify import SpotifyProvider
+    from lauschi_catalog.catalog.deleted import is_deleted
+    from lauschi_catalog.catalog.loader import load_catalog
     from lauschi_catalog.providers.apple_music import AppleMusicProvider
+    from lauschi_catalog.providers.spotify import SpotifyProvider
 
-    # Check for duplicate
     sid = series_id or title_to_id(title)
-    existing = load_catalog()
-    existing_ids = {e.id for e in existing}
+    existing_ids = {e.id for e in load_catalog()}
     if sid in existing_ids:
         console.print(f"[red]Series '{sid}' already exists in series.yaml[/red]")
         raise SystemExit(1)
 
-    # Guard against silently re-introducing a deliberately-deleted id.
     deletion = is_deleted(sid)
     if deletion and not force_readd:
         console.print(
@@ -258,10 +125,9 @@ def add(
         )
         raise SystemExit(1)
 
-    # Resolve artists per provider
+    # Resolve artists per provider (interactive)
     artists: dict[str, Artist] = {}
 
-    # Spotify
     spotify: SpotifyProvider | None = None
     try:
         spotify = SpotifyProvider()
@@ -270,7 +136,6 @@ def add(
 
     if spotify:
         if spotify_artist_id:
-            # Fetch artist info for the given ID
             artist = _fetch_artist_by_id(spotify, spotify_artist_id)
             if artist:
                 artists["spotify"] = artist
@@ -279,7 +144,6 @@ def add(
             if artist:
                 artists["spotify"] = artist
 
-    # Apple Music
     apple: AppleMusicProvider | None = None
     try:
         apple = AppleMusicProvider()
@@ -304,10 +168,8 @@ def add(
         if not click.confirm("Create entry without provider IDs?"):
             raise SystemExit(0)
 
-    # Analyse discography for episode patterns
     analysis = None
     if not no_analyse:
-        # Use first available provider that has albums
         for pname, artist in artists.items():
             provider = spotify if pname == "spotify" else apple
             if provider:
@@ -318,7 +180,6 @@ def add(
                     print_analysis(artist, albums, analysis)
                     break
 
-    # Build and write
     entry = build_entry(
         title,
         series_id=series_id,
@@ -326,7 +187,6 @@ def add(
         analysis=analysis,
     )
 
-    # Preview
     console.print()
     _print_entry(entry)
 
@@ -334,16 +194,20 @@ def add(
         console.print("\n[dim]Dry run, not writing.[/dim]")
         return
 
-    append_to_yaml(entry)
+    result = add_series(
+        title,
+        series_id=series_id,
+        artists=artists,
+        analysis=analysis,
+        force_readd=force_readd,
+        on_progress=lambda msg: console.print(msg),
+    )
 
-    # If --force-readd, clear the deletion log entry so the next reader
-    # doesn't see a stale "this is deleted" claim for an id that's now back.
-    if force_readd and deletion:
-        remove_from_deleted(sid)
-        console.print(f"[dim]Removed {sid!r} from deleted.yaml.[/dim]")
+    if not result.ok:
+        console.print(f"[red]{result.error}[/red]")
+        raise SystemExit(1)
 
-    console.print(f"\n[green]Added '{entry['id']}' to series.yaml[/green]")
-    console.print("[dim]Next steps: catalog-discover (fill missing IDs) → catalog-curate → catalog-review → catalog-apply → catalog-validate[/dim]")
+    console.print(f"\n[green]Added '{result.series_id}' to series.yaml[/green]")
 
 
 def _fetch_artist_by_id(provider: SpotifyProvider, artist_id: str) -> Artist | None:
