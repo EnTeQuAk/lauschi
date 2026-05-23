@@ -112,7 +112,17 @@ async def run_with_rate_limit_retry(
         try:
             return await coro_factory()
         except asyncio.TimeoutError:
-            raise
+            last_err = TimeoutError(f"Timeout in {phase}")
+            if attempt < max_retries:
+                delay = min(base_delay * (2 ** (attempt - 1)), max_delay)
+                on_progress(
+                    f"{phase} attempt {attempt}/{max_retries} "
+                    f"timed out, retrying in {delay:.1f}s...",
+                )
+                await asyncio.sleep(delay)
+            else:
+                on_progress(f"{phase} failed: timed out after {max_retries} attempts")
+                raise
         except Exception as e:
             last_err = e
             if not is_retryable(e):

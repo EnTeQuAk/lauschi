@@ -895,7 +895,7 @@ async def _run_large(
                 deps=meta_deps,
                 on_progress=on_progress,
             ),
-            timeout=1200,
+            timeout=timeout,
         ),
         phase="metadata",
         model_name=model_name,
@@ -1019,7 +1019,7 @@ async def _run_large(
         result: BatchResult = await _run_with_retry(
             lambda p=prompt: asyncio.wait_for(
                 _run_agent(batch_agent, p, shared_deps, on_progress=on_progress),
-                timeout=1200,
+                timeout=timeout,
             ),
             phase=f"batch {batch_num}/{len(batches)}",
             model_name=model_name,
@@ -1238,7 +1238,7 @@ async def _run_large(
                 finalize_result: FinalizeResult = await _run_with_retry(
                     lambda: asyncio.wait_for(
                         _run_agent(finalize_agent, finalize_prompt, finalize_deps, on_progress=on_progress),
-                        timeout=1200,
+                        timeout=timeout,
                     ),
                     phase="finalize",
                     model_name=model_name,
@@ -1329,7 +1329,7 @@ async def run_curation(
     providers: list[CatalogProvider],
     *,
     model_name: str = _DEFAULT_MODEL,
-    timeout: int = 1800,
+    timeout: int = 3600,
     existing_curation: dict | None = None,
     content_type: str = "hoerspiel",
     known_artist_ids: dict[str, list[str]] | None = None,
