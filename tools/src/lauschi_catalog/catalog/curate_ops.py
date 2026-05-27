@@ -1004,9 +1004,10 @@ async def _run_large(
             hints: list[str] = []
             if analysis.get("gaps"):
                 hints.append(f"Missing episodes so far: {analysis['gaps']}")
-            if analysis.get("duplicates_within_provider"):
-                for prov, eps in analysis["duplicates_within_provider"].items():
-                    hints.append(f"Duplicate episodes on {prov}: {sorted(eps)}")
+            for dup in analysis.get("duplicates_within_provider") or []:
+                hints.append(
+                    f"Duplicate episodes on {dup['provider']}: ep {dup['episode_num']}"
+                )
             if hints:
                 analysis_hint = "Structural signals from prior batches:\n" + "\n".join(f"  {h}" for h in hints) + "\n"
 
@@ -1148,8 +1149,12 @@ async def _run_large(
                     f"Gaps: {len(analysis['gaps'])} missing episodes "
                     f"({analysis['gaps']})"
                 )
-            if analysis.get("duplicates_within_provider"):
-                for prov, eps in analysis["duplicates_within_provider"].items():
+            dupes = analysis.get("duplicates_within_provider") or []
+            if dupes:
+                by_prov: dict[str, list[int]] = {}
+                for d in dupes:
+                    by_prov.setdefault(d["provider"], []).append(d["episode_num"])
+                for prov, eps in by_prov.items():
                     analysis_lines.append(
                         f"Duplicates on {prov}: episodes {sorted(eps)}"
                     )
@@ -1164,9 +1169,10 @@ async def _run_large(
                 analysis_lines.append(
                     f"Outlier title shapes: {len(analysis['outliers'])}"
                 )
-            if analysis.get("pattern_coverage") is not None:
+            pc = analysis.get("pattern_coverage")
+            if isinstance(pc, dict):
                 analysis_lines.append(
-                    f"Pattern coverage: {analysis['pattern_coverage']:.0%}"
+                    f"Pattern coverage: {pc['percentage']}%"
                 )
 
         needs_finalize = bool(unnumbered) or bool(era_evidence_lines)
