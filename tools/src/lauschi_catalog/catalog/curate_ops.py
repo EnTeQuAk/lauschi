@@ -12,6 +12,7 @@ import asyncio
 import json
 import os
 import re
+import time
 from collections.abc import Callable
 from dataclasses import dataclass, field
 from datetime import UTC, datetime
@@ -735,6 +736,13 @@ async def _run_agent(agent, prompt, deps, *, on_progress: Progress = _noop):
     )
 
 
+def _fmt_elapsed(seconds: float) -> str:
+    s = int(seconds)
+    if s < 60:
+        return f"{s}s"
+    return f"{s // 60}m {s % 60:02d}s"
+
+
 async def _run_with_retry(
     coro_factory, *, phase: str = "", model_name: str = "",
     on_progress: Progress = _noop,
@@ -865,6 +873,8 @@ async def _run_large(
     on_progress(f"  -> {len(prefetch_details)} albums with full metadata\n")
 
     # -- Step 2: Metadata extraction
+    t_overall = time.monotonic()
+    t0 = time.monotonic()
     on_progress("== Metadata ==\n")
 
     all_titles = [a["name"] for a in all_albums]
@@ -910,6 +920,7 @@ async def _run_large(
         f"  id={meta.id}  title={meta.title!r}  "
         f"pattern={meta.episode_pattern}  age={meta.age_note}\n",
     )
+    on_progress(f"  ({_fmt_elapsed(time.monotonic() - t0)})\n")
 
     # -- Step 3: Batched curation
     batches = [
@@ -917,6 +928,7 @@ async def _run_large(
         for i in range(0, len(all_albums), _BATCH_SIZE)
     ]
 
+    t_curation = time.monotonic()
     on_progress(
         f"== Curation == {len(all_albums)} albums in "
         f"{len(batches)} batches of <={_BATCH_SIZE}\n",
@@ -1016,6 +1028,7 @@ async def _run_large(
         shared_deps.current_batch_ids = {
             (a["provider"], a["id"]) for a in batch
         }
+        t_batch = time.monotonic()
         result: BatchResult = await _run_with_retry(
             lambda p=prompt: asyncio.wait_for(
                 _run_agent(batch_agent, p, shared_deps, on_progress=on_progress),
@@ -1040,10 +1053,12 @@ async def _run_large(
             if a.include and a.episode_num is not None:
                 episode_nums.append(a.episode_num)
 
+        batch_elapsed = _fmt_elapsed(time.monotonic() - t_batch)
         on_progress(
             f"  Batch {batch_num}/{len(batches)}: "
             f"+{n_inc} -{n_exc}  "
-            f"(total: {total_inc} included, {total_exc} excluded)",
+            f"(total: {total_inc} included, {total_exc} excluded) "
+            f"[{batch_elapsed}]",
         )
 
         all_decisions.extend(result.albums)
@@ -1051,9 +1066,10 @@ async def _run_large(
         if batch_num < len(batches):
             await asyncio.sleep(4)
 
+    curation_elapsed = _fmt_elapsed(time.monotonic() - t_curation)
     on_progress(
         f"\n  Total: {total_inc} included  "
-        f"{total_exc} excluded\n",
+        f"{total_exc} excluded  [{curation_elapsed}]\n",
     )
 
     final_pattern = shared_deps.pattern
@@ -1069,6 +1085,7 @@ async def _run_large(
     _restore_dropped_albums(all_decisions, batch_index, on_progress=on_progress)
 
     # -- Finalize metadata: facts discovery + episode extraction
+    t_finalize = time.monotonic()
     final_pattern = shared_deps.pattern
     proposed_facts: SeriesFacts | None = None
     if content_type not in ("music", "audiobook"):
@@ -1303,6 +1320,11 @@ async def _run_large(
             merged_facts.era_boundaries.extend(proposed_facts.era_boundaries)
             merged_facts.known_gaps.extend(proposed_facts.known_gaps)
             merged_facts.sub_series.extend(proposed_facts.sub_series)
+
+    on_progress(f"  Finalize: {_fmt_elapsed(time.monotonic() - t_finalize)}\n")
+
+    overall = _fmt_elapsed(time.monotonic() - t_overall)
+    on_progress(f"\n== Done == {total_inc} included, {total_exc} excluded [{overall}]\n")
 
     write_cover_cache(meta.id, all_albums)
 
