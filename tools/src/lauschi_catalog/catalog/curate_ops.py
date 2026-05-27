@@ -1153,12 +1153,13 @@ async def _run_large(
                     analysis_lines.append(
                         f"Duplicates on {prov}: episodes {sorted(eps)}"
                     )
-            if analysis.get("cross_provider_coverage"):
-                for prov, cov in analysis["cross_provider_coverage"].items():
-                    if cov.get("missing"):
-                        analysis_lines.append(
-                            f"{prov} missing: {cov['missing']}"
-                        )
+            xpc = analysis.get("cross_provider_coverage") or {}
+            missing_per = xpc.get("missing_per_provider") or {}
+            for prov, missing_eps in missing_per.items():
+                if missing_eps:
+                    analysis_lines.append(
+                        f"{prov} missing: {missing_eps}"
+                    )
             if analysis.get("outliers"):
                 analysis_lines.append(
                     f"Outlier title shapes: {len(analysis['outliers'])}"
@@ -1614,8 +1615,10 @@ async def curate_one(
         on_progress(f"Saved to {path}")
         return CurateOneResult(ok=True, series=series, path=path)
     except Exception as e:
+        import traceback
         msg = f"{type(e).__name__}: {e}" if str(e) else type(e).__name__
         on_progress(f"Failed to curate {query}: {msg}")
+        on_progress(traceback.format_exc())
         return CurateOneResult(ok=False, error=msg)
 
 
