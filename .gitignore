@@ -83,6 +83,8 @@ assets/catalog/.covers/
 assets/catalog/.series.yaml.lock
 tools/jobs.db*
 tools/src/jobs.db*
+tools/src/**/jobs.db*
+reference_catalog.md
 ios_distribution_private_key
 ios_distribution_private_key.pub
 

@@ -239,7 +239,7 @@ $RUN curate "$SID" --timeout "$TIMEOUT" --force
 
 echo ""
 echo "Step 2/4: 4-eye audit (timeout ${TIMEOUT}s)..."
-$RUN audit "$SID" --timeout "$TIMEOUT" --force
+$RUN audit -s "$SID" --timeout "$TIMEOUT" --force
 
 echo ""
 echo "Step 3/4: Structural lint..."
