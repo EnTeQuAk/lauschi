@@ -36,10 +36,14 @@ _PATTERNS: list[tuple[str, str]] = [
 def title_to_id(title: str) -> str:
     """Convert a series title to a snake_case ASCII identifier.
 
-    Handles German umlauts explicitly (ae, oe, ue, ss) rather than
-    stripping via NFKD decomposition.
+    Replaces brand-name punctuation (???, !!!, &) with German words,
+    then handles umlauts (ae, oe, ue, ss) before stripping the rest.
     """
-    s = title.lower()
+    s = title
+    s = s.replace("???", " Fragezeichen ")
+    s = s.replace("!!!", " Ausrufezeichen ")
+    s = s.replace("&", " und ")
+    s = s.lower()
     for src, dst in [("ä", "ae"), ("ö", "oe"), ("ü", "ue"), ("ß", "ss")]:
         s = s.replace(src, dst)
     s = re.sub(r"[^a-z0-9]+", "_", s)

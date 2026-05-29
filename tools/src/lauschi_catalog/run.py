@@ -18,7 +18,7 @@ async def run_agent_streaming(
     deps,
     *,
     request_limit: int = 200,
-    response_tokens_limit: int | None = 32_000,
+    response_tokens_limit: int | None = None,
     on_progress: Progress = _noop,
 ):
     """Run a pydantic-ai agent, streaming thinking parts via callback.

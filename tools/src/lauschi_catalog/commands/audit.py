@@ -20,6 +20,7 @@ from lauschi_catalog.catalog.audit_ops import (
 )
 from lauschi_catalog.catalog.loader import load_raw
 from lauschi_catalog.catalog.paths import CURATION_DIR
+from lauschi_catalog.catalog.providers_init import init_providers
 
 console = Console()
 
@@ -58,6 +59,10 @@ def audit(
         console.print("[dim]No series to audit.[/]")
         return
 
+    prov_result = init_providers()
+    for w in prov_result.warnings:
+        console.print(f"[yellow]{w}[/yellow]")
+
     asyncio.run(
         audit_series(
             series_ids,
@@ -65,6 +70,7 @@ def audit(
             timeout=timeout,
             force=force,
             dry_run=dry_run,
+            providers=prov_result.providers,
             on_progress=lambda msg: console.print(msg),
         )
     )

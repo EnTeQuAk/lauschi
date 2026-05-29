@@ -7,6 +7,18 @@ from __future__ import annotations
 
 import re
 
+_OVER_ESCAPED = re.compile(r"\\\\([dDwWsShHbB])")
+
+
+def _fix_escapes(pattern: str) -> str:
+    r"""Collapse double-escaped regex shortcuts (\\d -> \d).
+
+    LLMs generating JSON tool calls sometimes write \\\\d instead of
+    \\d, which after JSON parsing becomes the literal two-char sequence
+    ``\`` + ``d`` instead of the regex metacharacter ``\d``.
+    """
+    return _OVER_ESCAPED.sub(r"\\\1", pattern)
+
 
 def extract_episode(
     pattern: str | list[str] | None,
@@ -21,7 +33,7 @@ def extract_episode(
         return None
     patterns = [pattern] if isinstance(pattern, str) else pattern
     for p in patterns:
-        m = re.search(p, title)
+        m = re.search(_fix_escapes(p), title)
         if m and m.groups():
             try:
                 g = m.group(1)
@@ -33,10 +45,14 @@ def extract_episode(
 
 
 def validate_pattern(pattern: str | list[str] | None) -> str | list[str] | None:
-    """Validate episode patterns: each must have at least 1 capture group."""
+    """Validate episode patterns: each must have at least 1 capture group.
+
+    Also normalizes over-escaped regex shortcuts from LLM output.
+    """
     if pattern is None:
         return None
-    items = [pattern] if isinstance(pattern, str) else pattern
+    raw = [pattern] if isinstance(pattern, str) else pattern
+    items = [_fix_escapes(p) for p in raw]
     for p in items:
         c = re.compile(p)
         if c.groups < 1:
@@ -99,6 +115,8 @@ def _spread_sample(items: list, n: int) -> list:
 def compute_pattern_coverage(
     titles: list[str],
     pattern: str | list[str],
+    *,
+    max_samples: int = 5,
 ) -> dict:
     """Test ``pattern`` against ``titles`` and bucket failures by mode.
 
@@ -118,6 +136,7 @@ def compute_pattern_coverage(
     matcher.py so both consumers share one implementation.
     """
     patterns = [pattern] if isinstance(pattern, str) else list(pattern)
+    patterns = [_fix_escapes(p) for p in patterns]
     if not patterns:
         return {"error": "pattern must be non-empty"}
     compiled: list[re.Pattern[str]] = []
@@ -170,6 +189,6 @@ def compute_pattern_coverage(
         "matched": matched,
         "total": total,
         "coverage": coverage,
-        "unmatched_regex_samples": _spread_sample(no_match, 5),
-        "non_numeric_capture_samples": _spread_sample(non_numeric, 5),
+        "unmatched_regex_samples": _spread_sample(no_match, max_samples),
+        "non_numeric_capture_samples": _spread_sample(non_numeric, max_samples),
     }

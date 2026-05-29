@@ -3,9 +3,12 @@
 from __future__ import annotations
 
 from lauschi_catalog.catalog.matcher import (
+    _fix_escapes,
     apply_episode_pattern,
+    compute_pattern_coverage,
     extract_episode,
     preview_episode_pattern,
+    validate_pattern,
 )
 
 
@@ -103,3 +106,52 @@ def test_apply_handles_pattern_list():
     result = apply_episode_pattern(albums, [r"^Folge (\d+):", r"^(\d+)/"])
     assert result[0]["episode_num"] == 47
     assert result[1]["episode_num"] == 50
+
+
+# ── Over-escaped regex fix ────────────────────────────────────────────────
+
+
+class TestFixEscapes:
+    def test_collapses_double_escaped_d(self):
+        assert _fix_escapes("^Folge (\\\\d+):") == "^Folge (\\d+):"
+
+    def test_collapses_double_escaped_w(self):
+        assert _fix_escapes("^(\\\\w+)_") == "^(\\w+)_"
+
+    def test_collapses_double_escaped_s(self):
+        assert _fix_escapes("\\\\s+") == "\\s+"
+
+    def test_leaves_correct_escapes_alone(self):
+        assert _fix_escapes("^Folge (\\d+):") == "^Folge (\\d+):"
+
+    def test_leaves_literal_backslash_before_non_meta(self):
+        assert _fix_escapes("\\\\n") == "\\\\n"
+
+    def test_handles_multiple_shortcuts(self):
+        assert _fix_escapes("(\\\\d+)\\\\s+(\\\\w+)") == "(\\d+)\\s+(\\w+)"
+
+
+def test_extract_episode_handles_over_escaped_pattern():
+    assert extract_episode("^Folge (\\\\d+):", "Folge 47: Title") == 47
+
+
+def test_compute_coverage_handles_over_escaped_pattern():
+    titles = ["Folge 1: A", "Folge 2: B", "Special"]
+    result = compute_pattern_coverage(titles, "^Folge (\\\\d+):")
+    assert result["matched"] == 2
+    assert result["total"] == 3
+
+
+def test_compute_coverage_respects_max_samples():
+    titles = [f"Special {i}" for i in range(30)] + ["Folge 1: A"]
+    result = compute_pattern_coverage(titles, "^Folge (\\d+):", max_samples=15)
+    assert result["matched"] == 1
+    assert len(result["unmatched_regex_samples"]) == 15
+
+    result_default = compute_pattern_coverage(titles, "^Folge (\\d+):")
+    assert len(result_default["unmatched_regex_samples"]) == 5
+
+
+def test_validate_pattern_normalizes_over_escaped():
+    result = validate_pattern("^Folge (\\\\d+):")
+    assert result == "^Folge (\\d+):"

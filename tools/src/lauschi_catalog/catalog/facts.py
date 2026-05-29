@@ -6,8 +6,8 @@ and then frozen into series.yaml. On subsequent runs (incremental
 updates), curate loads the frozen facts as input context and only
 proposes genuinely new ones.
 
-Each fact carries provenance (curated_by, audited_by, audited_at)
-so we can distinguish documented history from hallucination.
+Each fact carries provenance: curated_by/curated_at record who created
+it, audited_by/audited_at record who last reviewed it.
 """
 
 from __future__ import annotations
@@ -18,7 +18,16 @@ from pydantic import BaseModel, Field, field_validator
 import re as _re
 
 
-class EraBoundary(BaseModel):
+class _FactProvenance(BaseModel):
+    """Shared provenance fields for all fact types."""
+
+    curated_by: str = "unknown"
+    curated_at: str | None = Field(default=None)
+    audited_by: str | None = Field(default=None)
+    audited_at: str | None = Field(default=None)
+
+
+class EraBoundary(_FactProvenance):
     """A contiguous time period with a distinct naming convention."""
 
     label: str = Field(description="Short label, e.g. 'klassik', 'cgi_reboot'.")
@@ -38,32 +47,36 @@ class EraBoundary(BaseModel):
             raise ValueError(msg)
         return v
 
-    curated_by: str
-    audited_by: str | None = Field(default=None)
-    audited_at: str | None = Field(default=None)
 
-
-class KnownGap(BaseModel):
+class KnownGap(_FactProvenance):
     """A documented missing episode number, not a curation error."""
 
     number: int
     reason: str = Field(
         description="Why this episode is missing, e.g. 'legal dispute'.",
     )
-    curated_by: str
-    audited_by: str | None = Field(default=None)
-    audited_at: str | None = Field(default=None)
 
 
-class SubSeriesFact(BaseModel):
+class SubSeriesFact(_FactProvenance):
     """A spin-off or sub-series discovered within the discography."""
 
     label: str
     album_ids: list[str] = Field(default_factory=list)
     reason: str = ""
-    curated_by: str
-    audited_by: str | None = Field(default=None)
-    audited_at: str | None = Field(default=None)
+
+
+def fact_provenance(*, by: str, at: str, audited: bool = False) -> dict:
+    """Build the provenance dict to spread onto a proposal's model_dump().
+
+    ``by`` is the model or agent name. ``at`` is an ISO timestamp.
+    When ``audited`` is True, the same values are set for the audit
+    fields too (used when audit replaces or merges facts).
+    """
+    d: dict = {"curated_by": by, "curated_at": at}
+    if audited:
+        d["audited_by"] = by
+        d["audited_at"] = at
+    return d
 
 
 class EraBoundaryProposal(BaseModel):
@@ -90,7 +103,10 @@ class SubSeriesProposal(BaseModel):
     label: str = Field(min_length=1, description="Short label.")
     album_ids: list[str] = Field(
         default_factory=list,
-        description="Album IDs belonging to this sub-series.",
+        description=(
+            "Album IDs belonging to this sub-series. "
+            "Use search_included_albums to find them by title keyword."
+        ),
     )
     reason: str = Field(
         default="",

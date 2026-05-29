@@ -8,6 +8,7 @@ from pathlib import Path
 import click
 from rich.console import Console
 
+from lauschi_catalog.catalog.io import safe_write_json
 from lauschi_catalog.catalog.matcher import extract_episode
 from lauschi_catalog.catalog.paths import CURATION_DIR
 
@@ -23,7 +24,7 @@ def _load(series_id: str) -> tuple[Path, dict]:
 
 
 def _save(path: Path, data: dict):
-    path.write_text(json.dumps(data, indent=2, ensure_ascii=False))
+    safe_write_json(path, data)
     console.print(f"[green]Saved {path}[/green]")
 
 

@@ -10,7 +10,6 @@ from __future__ import annotations
 
 import json
 
-import pytest
 import ruamel.yaml
 
 from lauschi_catalog.catalog.audit_ops import (
@@ -21,7 +20,7 @@ from lauschi_catalog.catalog.audit_ops import (
     apply_audit,
     build_prompt,
 )
-from lauschi_catalog.catalog.facts import EraBoundaryProposal, KnownGapProposal
+from lauschi_catalog.catalog.facts import EraBoundaryProposal, KnownGapProposal, fact_provenance
 
 
 # ── Fixtures ─────────────────────────────────────────────────────────────
@@ -160,6 +159,51 @@ class TestBuildPrompt:
         prompt = build_prompt(c, [])
         assert "[audited by minimax]" in prompt
 
+    def test_included_album_shows_release_date(self):
+        c = _curation()
+        c["albums"][0]["release_date"] = "2020-01-15"
+        prompt = build_prompt(c, [])
+        assert "2020-01-15" in prompt
+
+    def test_sub_series_facts_show_album_ids(self):
+        c = _curation(series_facts={
+            "sub_series": [
+                {
+                    "label": "adventskalender",
+                    "album_ids": ["a1", "a2"],
+                    "reason": "Seasonal special",
+                },
+            ],
+        })
+        prompt = build_prompt(c, [])
+        assert "album_ids: ['a1', 'a2']" in prompt
+
+    def test_sub_series_without_album_ids_flagged(self):
+        c = _curation(series_facts={
+            "sub_series": [
+                {"label": "specials", "album_ids": [], "reason": "one-offs"},
+            ],
+        })
+        prompt = build_prompt(c, [])
+        assert "no album_ids" in prompt
+
+    def test_structural_analysis_included(self):
+        """Audit agent should see the same structural analysis data
+        that the finalize agent gets, not just lint findings."""
+        c = _curation()
+        c["albums"] = [
+            {
+                "album_id": f"s{i}",
+                "provider": "spotify",
+                "include": True,
+                "episode_num": i,
+                "title": f"Folge {i}: Test",
+            }
+            for i in range(1, 6)
+        ]
+        prompt = build_prompt(c, [])
+        assert "Structural analysis" in prompt or "Pattern coverage" in prompt
+
     def test_shows_all_excluded(self):
         albums = [
             {
@@ -173,13 +217,51 @@ class TestBuildPrompt:
         ]
         c = _curation(albums=albums)
         prompt = build_prompt(c, [])
-        assert prompt.count("[spotify] Excluded ") == 50
+        for i in range(50):
+            assert f"[spotify:x{i}] Excluded {i}" in prompt
 
     def test_shows_all_lint_issues(self):
         issues = [f"Issue {i}" for i in range(30)]
         prompt = build_prompt(_curation(), issues)
         assert "Lint findings (30)" in prompt
         assert prompt.count("Issue ") == 30
+
+    def test_included_album_shows_album_id(self):
+        """The agent needs real album_ids to write valid overrides.
+        Without them, it invents descriptive strings that don't match
+        any album in the curation file."""
+        prompt = build_prompt(_curation(), [])
+        assert "a1" in prompt
+
+    def test_excluded_album_shows_album_id(self):
+        prompt = build_prompt(_curation(), [])
+        assert "a2" in prompt
+
+    def test_album_ids_appear_next_to_provider(self):
+        """album_id should be visually associated with its provider
+        so the agent can use both in overrides."""
+        c = _curation()
+        c["albums"] = [
+            {
+                "album_id": "sp_123",
+                "provider": "spotify",
+                "include": True,
+                "episode_num": 1,
+                "title": "Folge 1: Test",
+                "confidence": "high",
+            },
+            {
+                "album_id": "am_456",
+                "provider": "apple_music",
+                "include": True,
+                "episode_num": 1,
+                "title": "Folge 1: Test",
+                "confidence": "high",
+            },
+        ]
+        prompt = build_prompt(c, [])
+        assert "sp_123" in prompt
+        assert "am_456" in prompt
 
 
 # ── apply_audit: status determination ────────────────────────────────────
@@ -343,6 +425,48 @@ class TestApplyAuditOverrides:
         assert overrides["a2"]["reason"] == "new override"
 
 
+    def test_override_with_fake_album_id_is_skipped(self, tmp_path):
+        """The agent sometimes invents descriptive album_ids instead of
+        using the real ones from the prompt. These should be silently
+        dropped so they don't pollute the curation file."""
+        path = tmp_path / "test_series.json"
+        path.write_text(json.dumps(_curation()))
+
+        import lauschi_catalog.catalog.audit_ops as audit_mod
+        orig = audit_mod.CURATION_DIR
+        audit_mod.CURATION_DIR = tmp_path
+        warnings = []
+        try:
+            result = AuditResult(
+                approve=True,
+                overrides=[
+                    AuditOverride(
+                        album_id="Ep 121: Folge 121: Der neue Schulgarten",
+                        provider="spotify",
+                        action="exclude", reason="duplicate",
+                    ),
+                    AuditOverride(
+                        album_id="a2", provider="spotify",
+                        action="include", reason="real episode",
+                    ),
+                ],
+            )
+            apply_audit(
+                "test_series", result, model_name="test-model",
+                on_progress=warnings.append,
+            )
+        finally:
+            audit_mod.CURATION_DIR = orig
+
+        yaml = ruamel.yaml.YAML()
+        data = yaml.load(path)
+        overrides = data["review"]["overrides"]
+        override_ids = {o["album_id"] for o in overrides}
+        assert "a2" in override_ids
+        assert "Ep 121: Folge 121: Der neue Schulgarten" not in override_ids
+        assert any("not found" in w for w in warnings)
+
+
 # ── _merge_facts ─────────────────────────────────────────────────────────
 
 
@@ -352,7 +476,7 @@ class TestMergeFacts:
         update = AuditFactUpdate(
             era_boundaries=[EraBoundaryProposal(label="klassik", release_date_range="1976-1979")],
         )
-        _merge_facts(series_facts, update, "test-model", "2026-01-01T00:00:00+00:00")
+        _merge_facts(series_facts, update, fact_provenance(by="test-model", at="2026-01-01T00:00:00+00:00", audited=True))
         assert len(series_facts["era_boundaries"]) == 1
         assert series_facts["era_boundaries"][0]["label"] == "klassik"
         assert series_facts["era_boundaries"][0]["audited_by"] == "test-model"
@@ -366,7 +490,7 @@ class TestMergeFacts:
         update = AuditFactUpdate(
             era_boundaries=[EraBoundaryProposal(label="klassik", release_date_range="1976-1979")],
         )
-        _merge_facts(series_facts, update, "test-model", "2026-01-01T00:00:00+00:00")
+        _merge_facts(series_facts, update, fact_provenance(by="test-model", at="2026-01-01T00:00:00+00:00", audited=True))
         assert len(series_facts["era_boundaries"]) == 1
         assert series_facts["era_boundaries"][0]["release_date_range"] == "1976-1979"
         assert series_facts["era_boundaries"][0]["audited_by"] == "test-model"
@@ -376,7 +500,7 @@ class TestMergeFacts:
         update = AuditFactUpdate(
             known_gaps=[KnownGapProposal(number=13, reason="legal dispute")],
         )
-        _merge_facts(series_facts, update, "test-model", "2026-01-01T00:00:00+00:00")
+        _merge_facts(series_facts, update, fact_provenance(by="test-model", at="2026-01-01T00:00:00+00:00", audited=True))
         assert len(series_facts["known_gaps"]) == 1
         assert series_facts["known_gaps"][0]["number"] == 13
 
@@ -393,7 +517,7 @@ class TestMergeFacts:
         update = AuditFactUpdate(
             era_boundaries=[EraBoundaryProposal(label="modern", release_date_range="2020-")],
         )
-        _merge_facts(series_facts, update, "test-model", "2026-01-01T00:00:00+00:00")
+        _merge_facts(series_facts, update, fact_provenance(by="test-model", at="2026-01-01T00:00:00+00:00", audited=True))
         assert len(series_facts["era_boundaries"]) == 2
         assert len(series_facts["known_gaps"]) == 1
 
@@ -404,7 +528,7 @@ class TestMergeFacts:
             "sub_series": [],
         }
         update = AuditFactUpdate()
-        _merge_facts(series_facts, update, "test-model", "2026-01-01T00:00:00+00:00")
+        _merge_facts(series_facts, update, fact_provenance(by="test-model", at="2026-01-01T00:00:00+00:00", audited=True))
         assert len(series_facts["era_boundaries"]) == 1
 
 

@@ -48,6 +48,10 @@ def cover_cache_path(series_id: str) -> Path:
     return cover_cache_dir() / f"{series_id}.json"
 
 
+def artist_image_path(series_id: str) -> Path:
+    return cover_cache_dir() / f"{series_id}_artist.json"
+
+
 def cache_dir(provider: str) -> Path:
     return repo_root() / ".cache" / provider
 

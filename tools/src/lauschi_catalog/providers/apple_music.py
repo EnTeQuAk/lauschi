@@ -118,6 +118,26 @@ class AppleMusicProvider(CatalogProvider):
             raise
         return True
 
+    def artist_details(self, artist_id: str) -> Artist | None:
+        try:
+            data = self._get(f"artists/{artist_id}")
+        except requests.HTTPError as e:
+            if e.response is not None and e.response.status_code == 404:
+                return None
+            raise
+        items = data.get("data", [])
+        if not items:
+            return None
+        a = items[0]
+        attrs = a.get("attributes", {})
+        return Artist(
+            id=a["id"],
+            name=attrs.get("name", ""),
+            provider="apple_music",
+            genres=attrs.get("genreNames", []),
+            image_url=_pick_artwork(attrs),
+        )
+
     def search_artists(self, query: str, limit: int = 8) -> list[Artist]:
         def fetch():
             # Throttle live API calls only. The previous unconditional
@@ -134,6 +154,7 @@ class AppleMusicProvider(CatalogProvider):
                 name=a["attributes"]["name"],
                 provider="apple_music",
                 genres=a["attributes"].get("genreNames", []),
+                image_url=_pick_artwork(a.get("attributes", {})),
             )
             for a in raw
         ]

@@ -25,13 +25,16 @@ from lauschi_catalog._opencode import (
     get_model_settings,
 )
 from lauschi_catalog.catalog.canonical import canonicalize
+from lauschi_catalog.providers._validate import explain_invalid, is_valid_id
 from lauschi_catalog.catalog.facts import (
     EraBoundaryProposal,
     KnownGapProposal,
     SubSeriesProposal,
+    fact_provenance,
 )
+from lauschi_catalog.catalog.analysis import analyze_series
 from lauschi_catalog.catalog.lifecycle import review_is_stale
-from lauschi_catalog.catalog.loader import load_raw, save_raw
+from lauschi_catalog.catalog.io import safe_write_json
 from lauschi_catalog.catalog.paths import CURATION_DIR
 from lauschi_catalog.catalog.lint_ops import lint_curation
 from lauschi_catalog.retry import is_retryable
@@ -46,7 +49,7 @@ _RETRY_DELAY = 5
 Provider = Literal["spotify", "apple_music"]
 
 Progress = Callable[[str], None]
-_noop: Progress = lambda _msg: None
+def _noop(_msg: str) -> None: pass
 
 
 # -- Output models --
@@ -89,6 +92,8 @@ class Deps:
     series_id: str
     curation: dict
     lint_issues: list[str]
+    providers: list = field(default_factory=list)
+    seen_details: dict[str, dict] = field(default_factory=dict)
     on_progress: Progress = _noop
     _search_count: int = field(default=0, init=False)
     _fetch_count: int = field(default=0, init=False)
@@ -129,10 +134,22 @@ sub_series). Your job is to independently verify that work.
   wrong content included, facts that contradict album data.
 - Use the `overrides` field for per-album fixes (exclude a compilation
   that curate missed, include a real episode that was wrongly dropped).
+  Each album is listed as `[provider:album_id]` in the data below.
+  Use the exact `album_id` and `provider` values from those brackets
+  in your overrides; invented or descriptive IDs will silently fail.
 - Use the `concerns` field for anything worth human attention even if
   you still approve. Concerns are surfaced in pipeline output.
 - Use the `fact_updates` field to fix, add, or remove structural facts.
   Prefer "merge" mode (adds/changes on top of existing facts).
+
+## Cross-provider investigation
+
+The structural analysis section shows cross-provider gaps, duplicates,
+and missing episodes. These are your highest-value findings. When you
+see that an episode exists on one provider but not the other, use
+`get_album_details` and `search_included_albums` to determine whether
+it's truly missing, miscategorized, or excluded under a different title.
+Propose overrides or concerns for each unresolved discrepancy.
 
 ## Confidence budget
 
@@ -145,6 +162,12 @@ per-item review. When the curator flagged uncertainty, that's where your
 
 - **web_search**: Search for series info. Max 3 searches.
 - **fetch_page**: Fetch a URL for details. Max 2 fetches.
+- **get_album_details**: Fetch full album details (track listing) from a
+  provider. Use to verify episode content or resolve ambiguous titles.
+- **search_included_albums**: Search included albums by title keyword.
+  Use to check whether an episode is already included under a variant title.
+- **lint_current_curation**: Run deterministic lint checks on the curation.
+  Use after proposing overrides to verify structural integrity.
 
 All other output (overrides, concerns, fact_updates) goes directly
 into the structured `submit_audit` output. No separate tools needed.
@@ -206,6 +229,70 @@ def _build_audit_agent(model_name: str, api_key: str, on_progress: Progress = _n
         ctx.deps.on_progress(f"  fetch_page({url[:60]}) -> {len(content)} chars")
         return content
 
+    @agent.tool
+    def get_album_details(
+        ctx: RunContext[Deps], provider: str, album_ids: list[str],
+    ) -> list[dict]:
+        """Fetch full album details (track listing) from a provider."""
+        results: list[dict] = []
+        invalid = [aid for aid in album_ids if not is_valid_id(provider, aid)]
+        valid_ids = [aid for aid in album_ids if is_valid_id(provider, aid)]
+        for bad in invalid:
+            results.append({"id": bad, "error": explain_invalid(provider, bad)})
+        target = next((p for p in ctx.deps.providers if p.name == provider), None)
+        if not target:
+            return results or []
+        for aid in valid_ids:
+            key = f"{provider}:{aid}"
+            if key in ctx.deps.seen_details:
+                results.append(ctx.deps.seen_details[key])
+                continue
+            album = target.album_details(aid)
+            if album:
+                detail = {
+                    "provider": provider, "id": album.id, "name": album.name,
+                    "release_date": album.release_date,
+                    "total_tracks": album.total_tracks,
+                    "label": album.label,
+                    "artists": album.artists,
+                    "tracks": [{"name": t.name, "duration_ms": t.duration_ms}
+                               for t in album.tracks],
+                }
+                ctx.deps.seen_details[key] = detail
+                results.append(detail)
+        ctx.deps.on_progress(
+            f"  get_album_details({provider}, {len(album_ids)} ids) -> {len(results)} results",
+        )
+        return results
+
+    @agent.tool
+    def search_included_albums(
+        ctx: RunContext[Deps], query: str,
+    ) -> list[dict[str, str]]:
+        """Search included albums by title keyword (case-insensitive).
+
+        Use this to find album_ids when writing overrides or verifying
+        sub_series membership.
+        """
+        q = query.lower()
+        albums = ctx.deps.curation.get("albums", [])
+        results = [
+            {"album_id": a["album_id"], "provider": a.get("provider", "?"), "title": a["title"]}
+            for a in albums
+            if a.get("include") and q in a["title"].lower()
+        ]
+        ctx.deps.on_progress(
+            f"  search_included_albums({query!r}) -> {len(results)} hits",
+        )
+        return results
+
+    @agent.tool
+    def lint_current_curation(ctx: RunContext[Deps]) -> list[str]:
+        """Run deterministic structural checks on the current curation."""
+        issues = lint_curation(ctx.deps.curation)
+        ctx.deps.on_progress(f"  lint_current_curation -> {len(issues)} issues")
+        return issues
+
     return agent
 
 
@@ -227,18 +314,28 @@ def build_prompt(curation: dict, lint_issues: list[str]) -> str:
     lines = [
         f"## Series: {curation.get('title', '?')} (id: {curation.get('id', '?')})",
         f"Episode pattern: {curation.get('episode_pattern', 'none')}",
+    ]
+    split_from = curation.get("split_from")
+    if split_from:
+        lines.append(
+            f"Note: This series was split from '{split_from}'. "
+            "The albums were moved from the parent's curation, not re-discovered."
+        )
+    lines += [
         "",
         f"### Included albums ({len(included)})",
     ]
     for a in included:
         ep = a.get("episode_num")
         ep_str = f"Ep {ep}: " if ep is not None else ""
+        rel = a.get("release_date") or ""
+        rel_str = f" ({rel})" if rel else ""
         conf = a.get("confidence", "high")
         conf_tag = f" [{conf}]" if conf != "high" else ""
         notes = a.get("notes", "")
         notes_str = f" -- notes: {notes}" if notes and conf != "high" else ""
         lines.append(
-            f"  [{a.get('provider', '?')}] {ep_str}{a['title']}{conf_tag}{notes_str}"
+            f"  [{a.get('provider', '?')}:{a['album_id']}] {ep_str}{a['title']}{rel_str}{conf_tag}{notes_str}"
         )
 
     lines.append(f"\n### Excluded albums ({len(excluded)})")
@@ -250,7 +347,7 @@ def build_prompt(curation: dict, lint_issues: list[str]) -> str:
         notes = a.get("notes", "")
         notes_str = f" (notes: {notes})" if notes else ""
         lines.append(
-            f"  [{a.get('provider', '?')}] {a['title']}{rel_str}{reason_str}{notes_str}"
+            f"  [{a.get('provider', '?')}:{a['album_id']}] {a['title']}{rel_str}{reason_str}{notes_str}"
         )
 
     facts = curation.get("series_facts")
@@ -271,9 +368,46 @@ def build_prompt(curation: dict, lint_issues: list[str]) -> str:
         for s in facts.get("sub_series", []):
             aud = s.get("audited_by")
             status = f" [audited by {aud}]" if aud else " [unaudited]"
+            aids = s.get("album_ids", [])
+            ids_str = f" (album_ids: {aids})" if aids else " (no album_ids)"
             lines.append(
-                f"  Sub-series: {s.get('label', '?')} -- {s.get('reason', '')}{status}"
+                f"  Sub-series: {s.get('label', '?')} -- {s.get('reason', '')}{ids_str}{status}"
             )
+
+    analysis = analyze_series(curation)
+    analysis_parts: list[str] = []
+    if analysis.get("gaps"):
+        analysis_parts.append(
+            f"  Gaps: {len(analysis['gaps'])} missing episodes ({analysis['gaps']})"
+        )
+    dupes = analysis.get("duplicates_within_provider") or []
+    if dupes:
+        by_prov: dict[str, list[int]] = {}
+        for d in dupes:
+            by_prov.setdefault(d["provider"], []).append(d["episode_num"])
+        for prov, eps in by_prov.items():
+            analysis_parts.append(
+                f"  Duplicates on {prov}: episodes {sorted(eps)}"
+            )
+    xpc = analysis.get("cross_provider_coverage") or {}
+    missing_per = xpc.get("missing_per_provider") or {}
+    for prov, missing_eps in missing_per.items():
+        if missing_eps:
+            analysis_parts.append(f"  {prov} missing: {missing_eps}")
+    clusters = analysis.get("title_clusters") or []
+    if clusters:
+        analysis_parts.append(f"  Title clusters ({len(clusters)} groups):")
+        for c in clusters:
+            examples = ", ".join(c["examples"][:3])
+            analysis_parts.append(
+                f"    {c['shape']!r} ({c['count']} albums): {examples}"
+            )
+    pc = analysis.get("pattern_coverage")
+    if isinstance(pc, dict):
+        analysis_parts.append(f"  Pattern coverage: {pc['percentage']}%")
+    if analysis_parts:
+        lines.append("\n### Structural analysis (deterministic)")
+        lines.extend(analysis_parts)
 
     if lint_issues:
         lines.append(f"\n### Lint findings ({len(lint_issues)})")
@@ -300,6 +434,7 @@ async def audit_one(
     model_name: str = _DEFAULT_MODEL,
     timeout: int = 600,
     force: bool = False,
+    providers: list | None = None,
     on_progress: Progress = _noop,
 ) -> AuditResult | None:
     api_key = os.environ.get("OPENCODE_API_KEY", "")
@@ -333,6 +468,8 @@ async def audit_one(
     lint_issues = lint_curation(curation)
     if lint_issues:
         on_progress(f"  Lint: {len(lint_issues)} issues")
+        for issue in lint_issues:
+            on_progress(f"    - {issue}")
 
     agent = _build_audit_agent(model_name, api_key, on_progress)
     prompt = build_prompt(curation, lint_issues)
@@ -342,6 +479,7 @@ async def audit_one(
             series_id=series_id,
             curation=curation,
             lint_issues=lint_issues,
+            providers=providers or [],
             on_progress=on_progress,
         )
         try:
@@ -374,8 +512,7 @@ _FACT_IDENTITY_KEY: dict[str, str] = {
 def _merge_facts(
     series_facts: dict,
     update: AuditFactUpdate,
-    model_name: str,
-    now: str,
+    prov: dict,
 ) -> None:
     for key, items in [
         ("era_boundaries", update.era_boundaries),
@@ -386,7 +523,7 @@ def _merge_facts(
         existing = {e.get(id_field): e for e in series_facts.get(key, [])}
         for item in items:
             ident = getattr(item, id_field)
-            existing[ident] = {**item.model_dump(), "audited_by": model_name, "audited_at": now}
+            existing[ident] = {**item.model_dump(), **prov}
         series_facts[key] = list(existing.values())
 
 
@@ -404,8 +541,15 @@ def apply_audit(
     review = data.setdefault("review", {})
     now = datetime.now(tz=UTC).isoformat()
 
+    known_ids = {a["album_id"] for a in data.get("albums", [])}
     existing_overrides = {o["album_id"]: o for o in review.get("overrides", [])}
     for o in result.overrides:
+        if o.album_id not in known_ids:
+            on_progress(
+                f"  [warning] Override skipped: album_id {o.album_id!r} "
+                f"not found in curation"
+            )
+            continue
         existing_overrides[o.album_id] = {
             "album_id": o.album_id,
             "provider": o.provider,
@@ -418,22 +562,20 @@ def apply_audit(
         review["overrides"] = list(existing_overrides.values())
 
     series_facts = data.setdefault("series_facts", {})
+    prov = fact_provenance(by=model_name, at=now, audited=True)
     for update in result.fact_updates:
         if update.mode == "replace":
             series_facts["era_boundaries"] = [
-                {**e.model_dump(), "audited_by": model_name, "audited_at": now}
-                for e in update.era_boundaries
+                {**e.model_dump(), **prov} for e in update.era_boundaries
             ]
             series_facts["known_gaps"] = [
-                {**g.model_dump(), "audited_by": model_name, "audited_at": now}
-                for g in update.known_gaps
+                {**g.model_dump(), **prov} for g in update.known_gaps
             ]
             series_facts["sub_series"] = [
-                {**s.model_dump(), "audited_by": model_name, "audited_at": now}
-                for s in update.sub_series
+                {**s.model_dump(), **prov} for s in update.sub_series
             ]
         else:
-            _merge_facts(series_facts, update, model_name, now)
+            _merge_facts(series_facts, update, prov)
 
     if not result.approve or len(result.concerns) > 5:
         review["status"] = "escalated"
@@ -451,7 +593,7 @@ def apply_audit(
 
     if not dry_run:
         canonicalize(data)
-        save_raw(data, path)
+        safe_write_json(path, data)
     else:
         on_progress(f"Dry-run for {series_id}")
         on_progress(f"  Action: {action}")
@@ -479,6 +621,7 @@ async def audit_series(
     timeout: int = 600,
     force: bool = False,
     dry_run: bool = False,
+    providers: list | None = None,
     on_progress: Progress = _noop,
 ) -> AuditAllResult:
     """Audit one or more series. Returns summary counts."""
@@ -490,7 +633,8 @@ async def audit_series(
         try:
             result = await audit_one(
                 sid, model_name=model_name, timeout=timeout,
-                force=force, on_progress=on_progress,
+                force=force, providers=providers,
+                on_progress=on_progress,
             )
             if result is None:
                 continue

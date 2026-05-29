@@ -20,6 +20,7 @@ from lauschi_catalog.catalog.curate_ops import (
     lookup_catalog_entry,
     resolve_content_type,
 )
+from lauschi_catalog.catalog.facts import SubSeriesProposal
 from lauschi_catalog.catalog.matcher import compute_pattern_coverage
 
 
@@ -232,20 +233,28 @@ def test_metadata_agent_for_hoerspiel_has_coverage_tool():
     from pydantic_ai.models.test import TestModel
 
     agent = _build_metadata_agent(TestModel())
-    assert _agent_tool_names(agent) == ["check_pattern_coverage"]
+    tool_names = _agent_tool_names(agent)
+    assert "check_pattern_coverage" in tool_names
+    assert "web_search" in tool_names
+    assert "fetch_page" in tool_names
+    assert "get_album_details" in tool_names
 
 
-def test_metadata_agent_for_music_has_no_tools():
+def test_metadata_agent_for_music_has_no_pattern_tools():
     """Music agents must NOT see check_pattern_coverage. The
     'you MUST call check_pattern_coverage' instruction in the
     Hörspiel prompt would otherwise either be ignored (silent
     instruction violation) or cause the agent to invent a bogus
-    pattern to satisfy the instruction. The music prompt also
-    explicitly tells the agent there are no tools available."""
+    pattern to satisfy the instruction. Web tools are still
+    available for general research."""
     from pydantic_ai.models.test import TestModel
 
     agent = _build_metadata_agent(TestModel(), content_type="music")
-    assert _agent_tool_names(agent) == []
+    tool_names = _agent_tool_names(agent)
+    assert "check_pattern_coverage" not in tool_names
+    assert "web_search" in tool_names
+    assert "fetch_page" in tool_names
+    assert "get_album_details" in tool_names
 
 
 def test_metadata_music_prompt_tells_agent_no_pattern_no_tools():
@@ -587,7 +596,6 @@ def test_confidence_medium_with_notes_ok():
 
 def test_legacy_json_without_confidence_loads_as_high():
     """Backward compat: old curation JSONs lack confidence field."""
-    import json
     raw = {
         "album_id": "x", "provider": "spotify", "include": True,
         "episode_num": 1, "title": "t",
@@ -1092,3 +1100,151 @@ def test_reextract_corrects_wrong_episode_num():
     changed = _reextract_episode_numbers(decisions, r"^(\d+)/")
     assert changed == 1
     assert decisions[0].episode_num == 47
+
+
+# ── search_included_albums (finalize agent tool) ───────────────────────────
+
+
+def test_search_included_albums_filters_by_title_keyword():
+    """The finalize agent needs to find album IDs for sub_series members.
+    The search tool should return included albums whose titles contain
+    the query string (case-insensitive)."""
+    from lauschi_catalog.catalog.curate_ops import _search_included_albums
+
+    decisions = [
+        _decision("a1", "Bibi Blocksberg Adventskalender 2020", provider="spotify", episode_num=None),
+        _decision("a2", "Folge 1: Hexen gibt es doch", provider="spotify", episode_num=1),
+        _decision("a3", "Bibi Blocksberg Adventskalender 2021", provider="apple_music", episode_num=None),
+        AlbumDecision(
+            album_id="a4", provider="spotify", include=False,
+            episode_num=None, title="Best Of", exclude_reason="compilation",
+        ),
+    ]
+    results = _search_included_albums(decisions, "adventskalender")
+    assert len(results) == 2
+    assert all("Adventskalender" in r["title"] for r in results)
+    assert {r["album_id"] for r in results} == {"a1", "a3"}
+
+
+def test_search_included_albums_case_insensitive():
+    from lauschi_catalog.catalog.curate_ops import _search_included_albums
+
+    decisions = [
+        _decision("a1", "Das Hörspiel zum Kinofilm", provider="spotify"),
+    ]
+    results = _search_included_albums(decisions, "kinofilm")
+    assert len(results) == 1
+
+
+def test_search_included_albums_excludes_non_included():
+    from lauschi_catalog.catalog.curate_ops import _search_included_albums
+
+    decisions = [
+        AlbumDecision(
+            album_id="a1", provider="spotify", include=False,
+            episode_num=None, title="Adventskalender 2020",
+            exclude_reason="compilation",
+        ),
+    ]
+    results = _search_included_albums(decisions, "adventskalender")
+    assert results == []
+
+
+def test_search_included_albums_returns_provider_and_id():
+    from lauschi_catalog.catalog.curate_ops import _search_included_albums
+
+    decisions = [
+        _decision("abc123", "Special Title", provider="apple_music"),
+    ]
+    results = _search_included_albums(decisions, "special")
+    assert results[0]["album_id"] == "abc123"
+    assert results[0]["provider"] == "apple_music"
+    assert results[0]["title"] == "Special Title"
+
+
+# ── finalize agent has search_included_albums tool ─────────────────────────
+
+
+def test_finalize_agent_has_search_included_albums_tool():
+    """The finalize agent must expose the search tool so it can look
+    up album IDs when proposing sub_series."""
+    from pydantic_ai.models.test import TestModel
+
+    from lauschi_catalog.catalog.curate_ops import _build_finalize_agent
+
+    agent = _build_finalize_agent(TestModel())
+    tool_names = _agent_tool_names(agent)
+    assert "search_included_albums" in tool_names
+
+
+# ── propose_series_facts rejects empty album_ids via ModelRetry ──────────────
+
+
+def test_propose_series_facts_rejects_empty_album_ids():
+    """When the agent proposes a sub_series without album_ids, the tool
+    must raise ModelRetry so the agent is forced to use search_included_albums
+    before re-calling."""
+    from pydantic_ai import ModelRetry
+
+    from lauschi_catalog.catalog.curate_ops import (
+        CurateDeps,
+        _build_finalize_agent,
+    )
+
+    agent = _build_finalize_agent("test")
+    tool_fn = agent.toolsets[0].tools["propose_series_facts"]
+
+    deps = CurateDeps()
+    deps.all_decisions = [
+        _decision("a1", "Adventskalender 2020", provider="spotify"),
+    ]
+
+    class FakeCtx:
+        def __init__(self, deps):
+            self.deps = deps
+
+    ctx = FakeCtx(deps)
+    with pytest.raises(ModelRetry, match="album_ids"):
+        tool_fn.function(
+            ctx,
+            era_boundaries=[],
+            known_gaps=[],
+            sub_series=[SubSeriesProposal(
+                label="adventskalender",
+                album_ids=[],
+                reason="Seasonal special",
+            )],
+        )
+
+
+def test_propose_series_facts_accepts_sub_series_with_album_ids():
+    """When sub_series have album_ids populated, the tool should accept them."""
+    from lauschi_catalog.catalog.curate_ops import (
+        CurateDeps,
+        _build_finalize_agent,
+    )
+
+    agent = _build_finalize_agent("test")
+    tool_fn = agent.toolsets[0].tools["propose_series_facts"]
+
+    deps = CurateDeps()
+    deps.all_decisions = [
+        _decision("a1", "Adventskalender 2020", provider="spotify"),
+    ]
+
+    class FakeCtx:
+        def __init__(self, deps):
+            self.deps = deps
+
+    ctx = FakeCtx(deps)
+    result = tool_fn.function(
+        ctx,
+        era_boundaries=[],
+        known_gaps=[],
+        sub_series=[SubSeriesProposal(
+            label="adventskalender",
+            album_ids=["a1"],
+            reason="Seasonal special",
+        )],
+    )
+    assert "adventskalender" in result

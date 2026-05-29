@@ -12,7 +12,9 @@ from dataclasses import dataclass, field
 from typing import Any
 
 from lauschi_catalog.catalog.add_ops import title_to_id
+from lauschi_catalog.catalog.io import safe_write_json
 from lauschi_catalog.catalog.loader import load_catalog, load_raw, save_raw, update_provider_ids
+from lauschi_catalog.catalog.paths import artist_image_path
 from lauschi_catalog.catalog.series_ops import add_series_entry
 from lauschi_catalog.providers import Artist, CatalogProvider
 
@@ -27,6 +29,7 @@ class DiscoverMatch:
     genres: list[str] = field(default_factory=list)
     followers: int = 0
     confidence: str = "weak"
+    image_url: str = ""
 
 
 @dataclass
@@ -139,7 +142,28 @@ def _artist_to_match(artist: Artist, confidence: str) -> DiscoverMatch:
         genres=artist.genres,
         followers=artist.followers,
         confidence=confidence,
+        image_url=artist.image_url,
     )
+
+
+def _save_artist_images(
+    series_id: str,
+    matches: dict[str, DiscoverMatch | None],
+    candidates: dict[str, list[DiscoverMatch]],
+) -> None:
+    """Cache artist image URLs from matched candidates."""
+    images: dict[str, str] = {}
+    for pname, match in matches.items():
+        if match is None:
+            continue
+        for c in candidates.get(pname, []):
+            if c.artist_id == match.artist_id and c.image_url:
+                images[pname] = c.image_url
+                break
+    if images:
+        path = artist_image_path(series_id)
+        path.parent.mkdir(parents=True, exist_ok=True)
+        safe_write_json(path, images)
 
 
 def discover_one(
@@ -188,6 +212,9 @@ def discover_one(
         if e.id == query or e.title == query:
             entry = e
             break
+
+    series_id = entry.id if entry else title_to_id(query)
+    _save_artist_images(series_id, matches, all_candidates)
 
     if not entry:
         new_id = title_to_id(query)

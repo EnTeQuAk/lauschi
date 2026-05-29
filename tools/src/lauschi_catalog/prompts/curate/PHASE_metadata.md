@@ -12,6 +12,10 @@ Your task: set up the series metadata. Do NOT classify individual albums.
 digit string — `int(group)` has to succeed.
 - Use a list of regexes when naming conventions changed across eras (e.g.
 ["^(\\d{3})/", "^Folge (\\d+):"]). Tried in order, first match wins.
+- A series may have distinct sub-formats with their own numbering (e.g. main
+episodes "Folge N:" plus talk episodes "BFF Talk - Talk N:"). Include patterns
+for all numbered sub-formats, not just the dominant one. Dropping a sub-format's
+pattern causes those albums to be excluded as unmatched.
 - If episodes use NAMED titles without numbering (fairy tales, themes), set
 `episode_pattern=None`.
 
@@ -27,6 +31,12 @@ Worked example:
   → Fix: add "^Klassiker, Folge (\\d+):" and re-test.
   → Returns coverage_pct: 70. Remaining unmatched are movie Hörspiele and
      singles: legitimate non-episodes. Commit the pattern.
+
+**Web research (optional):**
+You have `web_search` (max 3 queries) and `fetch_page` (max 2 URLs) available.
+Use them when provider metadata alone is ambiguous, e.g. to check episode
+numbering conventions on fan wikis or verify series identity. Don't search
+for every series; most are straightforward from the album titles alone.
 
 **Output:** `SeriesMetadata` (id, title, aliases, episode_pattern, age_note,
 curator_notes, provider_artist_ids).

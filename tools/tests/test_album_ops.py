@@ -28,9 +28,9 @@ def album_env(monkeypatch, tmp_path):
     return curation_dir
 
 
-class TestUpdateAlbumStatus:
+class TestUpdateAlbum:
     def test_exclude_album(self, album_env):
-        result = album_ops.update_album_status(
+        result = album_ops.update_album(
             "test_series", "alb1", include=False, exclude_reason="music_single",
         )
         assert result.ok
@@ -40,7 +40,7 @@ class TestUpdateAlbumStatus:
         assert alb["exclude_reason"] == "music_single"
 
     def test_include_album_clears_reason(self, album_env):
-        result = album_ops.update_album_status("test_series", "alb2", include=True)
+        result = album_ops.update_album("test_series", "alb2", include=True)
         assert result.ok
         data = json.loads((album_env / "test_series.json").read_text())
         alb = next(a for a in data["albums"] if a["album_id"] == "alb2")
@@ -48,11 +48,34 @@ class TestUpdateAlbumStatus:
         assert "exclude_reason" not in alb
 
     def test_nonexistent_album(self, album_env):
-        result = album_ops.update_album_status("test_series", "no_such_album", include=True)
+        result = album_ops.update_album("test_series", "no_such_album", include=True)
         assert not result.ok
         assert "album not found" in result.error
 
+    def test_update_episode_num(self, album_env):
+        result = album_ops.update_album("test_series", "alb1", episode_num=42)
+        assert result.ok
+        data = json.loads((album_env / "test_series.json").read_text())
+        alb = next(a for a in data["albums"] if a["album_id"] == "alb1")
+        assert alb["episode_num"] == 42
+
+    def test_update_title(self, album_env):
+        result = album_ops.update_album("test_series", "alb1", title="New Title")
+        assert result.ok
+        data = json.loads((album_env / "test_series.json").read_text())
+        alb = next(a for a in data["albums"] if a["album_id"] == "alb1")
+        assert alb["title"] == "New Title"
+
+    def test_update_fields_without_include(self, album_env):
+        result = album_ops.update_album("test_series", "alb1", episode_num=7, title="Renamed")
+        assert result.ok
+        data = json.loads((album_env / "test_series.json").read_text())
+        alb = next(a for a in data["albums"] if a["album_id"] == "alb1")
+        assert alb["episode_num"] == 7
+        assert alb["title"] == "Renamed"
+        assert alb["include"] is True
+
     def test_nonexistent_curation(self, album_env):
-        result = album_ops.update_album_status("no_such_series", "alb1", include=True)
+        result = album_ops.update_album("no_such_series", "alb1", include=True)
         assert not result.ok
         assert "curation not found" in result.error

@@ -37,12 +37,14 @@ from lauschi_catalog.catalog.facts import (
     SeriesFacts,
     SubSeriesFact,
     SubSeriesProposal,
+    fact_provenance,
 )
 from lauschi_catalog.catalog.loader import load_catalog
 from lauschi_catalog.catalog.matcher import (
     compute_pattern_coverage as _compute_pattern_coverage,
     extract_episode,
 )
+from lauschi_catalog.catalog.io import safe_write_json
 from lauschi_catalog.catalog.paths import CURATION_DIR, cover_cache_dir, cover_cache_path
 from lauschi_catalog.catalog.prompt import album_to_dict, format_albums_xml
 from lauschi_catalog.catalog.lint_ops import lint_curation
@@ -51,9 +53,11 @@ from lauschi_catalog.providers import CatalogProvider
 from lauschi_catalog.providers._validate import explain_invalid, is_valid_id
 from lauschi_catalog.rate_limit import RateLimiter, run_with_rate_limit_retry
 from lauschi_catalog.run import run_agent_streaming
+from lauschi_catalog.search import brave_search
+from lauschi_catalog.search import fetch_page as _fetch_page
 
 Progress = Callable[[str], None]
-_noop: Progress = lambda _msg: None
+def _noop(_msg: str) -> None: pass
 
 _DEFAULT_MODEL = "kimi-k2.6"
 
@@ -349,6 +353,10 @@ class CurateDeps:
     on_progress: Progress = field(default=_noop)
     _pattern_check_count: int = field(default=0, init=False)
     _MAX_PATTERN_CHECKS: int = 5
+    _search_count: int = field(default=0, init=False)
+    _fetch_count: int = field(default=0, init=False)
+    _MAX_SEARCHES: int = 3
+    _MAX_FETCHES: int = 2
 
 
 class EpisodeUpdate(BaseModel):
@@ -406,6 +414,40 @@ def _build_metadata_agent(
         tool_retries=2, output_retries=2,
     )
 
+    @agent.tool
+    def web_search(ctx: RunContext[CurateDeps], query: str) -> list[dict]:
+        """Search the web for series information (e.g. episode lists, background)."""
+        if ctx.deps._search_count >= ctx.deps._MAX_SEARCHES:
+            raise ModelRetry(
+                f"Search limit reached ({ctx.deps._MAX_SEARCHES}/{ctx.deps._MAX_SEARCHES}). "
+                f"Make your decision using the information you already have."
+            )
+        ctx.deps._search_count += 1
+        results = brave_search(query, count=5)
+        n = len([r for r in results if "error" not in r])
+        ctx.deps.on_progress(f"  web_search({query!r}) -> {n} results")
+        return results
+
+    @agent.tool
+    def fetch_page(ctx: RunContext[CurateDeps], url: str) -> str:
+        """Fetch a web page for detailed information. Max 4000 chars returned."""
+        if ctx.deps._fetch_count >= ctx.deps._MAX_FETCHES:
+            raise ModelRetry(
+                f"Fetch limit reached ({ctx.deps._MAX_FETCHES}/{ctx.deps._MAX_FETCHES}). "
+                f"Make your decision using the information you already have."
+            )
+        ctx.deps._fetch_count += 1
+        content = _fetch_page(url, max_chars=4000)
+        ctx.deps.on_progress(f"  fetch_page({url[:60]}) -> {len(content)} chars")
+        return content
+
+    @agent.tool
+    def get_album_details(
+        ctx: RunContext[CurateDeps], provider: str, album_ids: list[str],
+    ) -> list[dict]:
+        """Fetch full album details (track listing) from a provider."""
+        return _get_album_details(ctx, provider, album_ids)
+
     if content_type in ("music", "audiobook"):
         return agent
 
@@ -434,18 +476,10 @@ def _build_metadata_agent(
                     f"numbered episodes.",
                 )
             if coverage < 0.8:
-                unmatched = [
-                    t for t in ctx.deps.titles
-                    if extract_episode(meta.episode_pattern, t) is None
-                ]
-                raise ModelRetry(
-                    f"Coverage {coverage:.0%} ({matched}/{total}) is below "
-                    f"the 80% safe band. The unmatched titles likely contain "
-                    f"systematic episode markers your pattern missed. "
-                    f"Unmatched samples: {unmatched!r}. "
-                    f"Look for episode numbers in suffixes, parentheses, or "
-                    f"alternate prefixes. Add a regex alternation for the "
-                    f"dominant missed shape, then re-test.",
+                ctx.deps.on_progress(
+                    f"  [warning] Pattern coverage {coverage:.0%} "
+                    f"({matched}/{total}) is below 80%. Unmatched albums "
+                    f"may be sub-series, compilations, or non-episode content.",
                 )
         return meta
 
@@ -478,7 +512,7 @@ def _build_metadata_agent(
                     "Set episode_pattern=None if coverage is below 80%, "
                     "or use your best pattern if coverage is acceptable.",
             )
-        raw = _compute_pattern_coverage(ctx.deps.titles, pattern)
+        raw = _compute_pattern_coverage(ctx.deps.titles, pattern, max_samples=15)
         if "error" not in raw:
             ctx.deps.on_progress(
                 f"  check_pattern_coverage({pattern!r}) -> "
@@ -553,6 +587,33 @@ def _build_batch_agent(model, *, model_name: str = "", content_type: str = "hoer
         """Fetch full album details (track listing) for ambiguous albums."""
         return _get_album_details(ctx, provider, album_ids)
 
+    @agent.tool
+    def web_search(ctx: RunContext[CurateDeps], query: str) -> list[dict]:
+        """Search the web for series information (e.g. episode lists, background)."""
+        if ctx.deps._search_count >= ctx.deps._MAX_SEARCHES:
+            raise ModelRetry(
+                f"Search limit reached ({ctx.deps._MAX_SEARCHES}/{ctx.deps._MAX_SEARCHES}). "
+                f"Make your decision using the information you already have."
+            )
+        ctx.deps._search_count += 1
+        results = brave_search(query, count=5)
+        n = len([r for r in results if "error" not in r])
+        ctx.deps.on_progress(f"  web_search({query!r}) -> {n} results")
+        return results
+
+    @agent.tool
+    def fetch_page(ctx: RunContext[CurateDeps], url: str) -> str:
+        """Fetch a web page for detailed information. Max 4000 chars returned."""
+        if ctx.deps._fetch_count >= ctx.deps._MAX_FETCHES:
+            raise ModelRetry(
+                f"Fetch limit reached ({ctx.deps._MAX_FETCHES}/{ctx.deps._MAX_FETCHES}). "
+                f"Make your decision using the information you already have."
+            )
+        ctx.deps._fetch_count += 1
+        content = _fetch_page(url, max_chars=4000)
+        ctx.deps.on_progress(f"  fetch_page({url[:60]}) -> {len(content)} chars")
+        return content
+
     @agent.output_validator
     def _validate_batch_completeness(ctx: RunContext[CurateDeps], result: BatchResult) -> BatchResult:
         """Every album in the batch must have a decision."""
@@ -573,6 +634,24 @@ def _build_batch_agent(model, *, model_name: str = "", content_type: str = "hoer
     return agent
 
 
+def _search_included_albums(
+    decisions: list[AlbumDecision],
+    query: str,
+) -> list[dict[str, str]]:
+    """Search included albums by title keyword (case-insensitive).
+
+    Returns dicts with album_id, provider, title for each match.
+    Used by the finalize agent to look up album IDs when building
+    sub_series proposals.
+    """
+    q = query.lower()
+    return [
+        {"album_id": d.album_id, "provider": d.provider, "title": d.title}
+        for d in decisions
+        if d.include and q in d.title.lower()
+    ]
+
+
 def _build_finalize_agent(model, *, model_name: str = "", content_type: str = "hoerspiel", discography_span_years: int | None = None) -> Agent[CurateDeps, FinalizeResult]:
     """Agent for post-batch metadata finalization."""
     skill_instructions = load_curate_skill(phase="finalize", content_type=content_type, discography_span_years=discography_span_years)
@@ -590,6 +669,22 @@ def _build_finalize_agent(model, *, model_name: str = "", content_type: str = "h
     ) -> list[dict]:
         """Fetch full album details (track listing) from a provider."""
         return _get_album_details(ctx, provider, album_ids)
+
+    @agent.tool
+    def search_included_albums(
+        ctx: RunContext[CurateDeps], query: str,
+    ) -> list[dict[str, str]]:
+        """Search included albums by title keyword (case-insensitive).
+
+        Use this to find the real album_ids for sub_series proposals.
+        For example, search "adventskalender" to find all Adventskalender
+        albums and their IDs across providers.
+        """
+        results = _search_included_albums(ctx.deps.all_decisions, query)
+        ctx.deps.on_progress(
+            f"  search_included_albums({query!r}) -> {len(results)} hits",
+        )
+        return results
 
     @agent.tool
     def propose_pattern_update(
@@ -669,49 +764,49 @@ def _build_finalize_agent(model, *, model_name: str = "", content_type: str = "h
         sub_series: list[SubSeriesProposal] = [],
     ) -> str:
         """Propose structured facts about the series."""
+        empty_subs = [p.label for p in sub_series if not p.album_ids]
+        if empty_subs:
+            raise ModelRetry(
+                f"sub_series {empty_subs} have no album_ids. "
+                f"Without album_ids, downstream tools can't act on them. "
+                f"Use search_included_albums to find matching albums, "
+                f"then call propose_series_facts again with album_ids populated."
+            )
+
         existing = ctx.deps.existing_facts
         if ctx.deps.proposed_facts is None:
             ctx.deps.proposed_facts = SeriesFacts()
         accumulated = ctx.deps.proposed_facts
         recorded: list[str] = []
+        prov = fact_provenance(by="curate", at=datetime.now(UTC).isoformat())
 
-        # era_boundaries
         all_labels = {e.label for e in existing.era_boundaries} | {e.label for e in accumulated.era_boundaries}
         for proposal in era_boundaries:
             if proposal.label in all_labels:
                 continue
-            accumulated.era_boundaries.append(EraBoundary(
-                label=proposal.label,
-                release_date_range=proposal.release_date_range,
-                curated_by="curate",
-            ))
+            accumulated.era_boundaries.append(
+                EraBoundary(**proposal.model_dump(), **prov),
+            )
             recorded.append(f"era: {proposal.label}")
             all_labels.add(proposal.label)
 
-        # known_gaps
         all_nums = {g.number for g in existing.known_gaps} | {g.number for g in accumulated.known_gaps}
         for proposal in known_gaps:
             if proposal.number in all_nums:
                 continue
-            accumulated.known_gaps.append(KnownGap(
-                number=proposal.number,
-                reason=proposal.reason,
-                curated_by="curate",
-            ))
+            accumulated.known_gaps.append(
+                KnownGap(**proposal.model_dump(), **prov),
+            )
             recorded.append(f"gap: {proposal.number}")
             all_nums.add(proposal.number)
 
-        # sub_series
         all_labels = {s.label for s in existing.sub_series} | {s.label for s in accumulated.sub_series}
         for proposal in sub_series:
             if proposal.label in all_labels:
                 continue
-            accumulated.sub_series.append(SubSeriesFact(
-                label=proposal.label,
-                album_ids=proposal.album_ids,
-                reason=proposal.reason,
-                curated_by="curate",
-            ))
+            accumulated.sub_series.append(
+                SubSeriesFact(**proposal.model_dump(), **prov),
+            )
             recorded.append(f"sub: {proposal.label}")
             all_labels.add(proposal.label)
 
@@ -722,6 +817,33 @@ def _build_finalize_agent(model, *, model_name: str = "", content_type: str = "h
             f"  propose_series_facts -> {', '.join(recorded)}",
         )
         return f"Recorded {len(recorded)} new fact(s): {', '.join(recorded)}"
+
+    @agent.tool
+    def web_search(ctx: RunContext[CurateDeps], query: str) -> list[dict]:
+        """Search the web for series information (e.g. episode lists, background)."""
+        if ctx.deps._search_count >= ctx.deps._MAX_SEARCHES:
+            raise ModelRetry(
+                f"Search limit reached ({ctx.deps._MAX_SEARCHES}/{ctx.deps._MAX_SEARCHES}). "
+                f"Make your decision using the information you already have."
+            )
+        ctx.deps._search_count += 1
+        results = brave_search(query, count=5)
+        n = len([r for r in results if "error" not in r])
+        ctx.deps.on_progress(f"  web_search({query!r}) -> {n} results")
+        return results
+
+    @agent.tool
+    def fetch_page(ctx: RunContext[CurateDeps], url: str) -> str:
+        """Fetch a web page for detailed information. Max 4000 chars returned."""
+        if ctx.deps._fetch_count >= ctx.deps._MAX_FETCHES:
+            raise ModelRetry(
+                f"Fetch limit reached ({ctx.deps._MAX_FETCHES}/{ctx.deps._MAX_FETCHES}). "
+                f"Make your decision using the information you already have."
+            )
+        ctx.deps._fetch_count += 1
+        content = _fetch_page(url, max_chars=4000)
+        ctx.deps.on_progress(f"  fetch_page({url[:60]}) -> {len(content)} chars")
+        return content
 
     return agent
 
@@ -889,7 +1011,9 @@ async def _run_large(
     provider_list = ", ".join(f"{k}: {v}" for k, v in artist_ids.items())
 
     metadata_agent = _build_metadata_agent(model, model_name=model_name, content_type=content_type, discography_span_years=discography_span_years)
-    meta_deps = CurateDeps(titles=all_titles, on_progress=on_progress)
+    meta_deps = CurateDeps(
+        providers=providers, titles=all_titles, on_progress=on_progress,
+    )
     sample_lines = "\n".join(
         f"  - {a['name']} | {a['total_tracks']} tracks"
         f" | {a.get('release_date') or '?'}"
@@ -1008,6 +1132,18 @@ async def _run_large(
                 hints.append(
                     f"Duplicate episodes on {dup['provider']}: ep {dup['episode_num']}"
                 )
+            xpc = analysis.get("cross_provider_coverage") or {}
+            missing_per = xpc.get("missing_per_provider") or {}
+            for prov, missing_eps in missing_per.items():
+                if missing_eps:
+                    hints.append(f"{prov} missing episodes: {missing_eps}")
+            clusters = analysis.get("title_clusters") or []
+            if clusters:
+                for c in clusters:
+                    examples = ", ".join(c["examples"][:3])
+                    hints.append(
+                        f"Title cluster {c['shape']!r} ({c['count']} albums): {examples}"
+                    )
             if hints:
                 analysis_hint = "Structural signals from prior batches:\n" + "\n".join(f"  {h}" for h in hints) + "\n"
 
@@ -1215,8 +1351,8 @@ async def _run_large(
                 )
             elif era_evidence_lines:
                 header = (
-                    f"== Finalize == era evidence found. "
-                    f"Proposing era_boundaries / sub_series...\n"
+                    "== Finalize == era evidence found. "
+                    "Proposing era_boundaries / sub_series...\n"
                 )
             else:
                 header = (
@@ -1422,9 +1558,7 @@ def write_cover_cache(series_id: str, albums: list[dict]) -> None:
         return
     cache = cover_cache_dir()
     cache.mkdir(parents=True, exist_ok=True)
-    cover_cache_path(series_id).write_text(
-        json.dumps(covers, indent=2, ensure_ascii=False)
-    )
+    safe_write_json(cover_cache_path(series_id), covers)
 
 
 def save_curation(
@@ -1486,7 +1620,7 @@ def save_curation(
     })
 
     canonicalize(data)
-    path.write_text(json.dumps(data, indent=2, ensure_ascii=False))
+    safe_write_json(path, data)
     return path
 
 
@@ -1606,7 +1740,7 @@ async def curate_one(
     """
     try:
         if content_type == "music":
-            on_progress(f"  Mode: music artist (not Hoerspiel)")
+            on_progress("  Mode: music artist (not Hoerspiel)")
         series = await run_curation(
             query, providers,
             model_name=model, timeout=timeout,

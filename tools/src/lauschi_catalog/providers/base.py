@@ -15,6 +15,7 @@ class Artist:
     provider: str
     genres: list[str] = field(default_factory=list)
     followers: int = 0
+    image_url: str = ""
 
 
 @dataclass(frozen=True)
@@ -65,6 +66,10 @@ class CatalogProvider(ABC):
         returns 404. Other HTTP errors propagate so transient issues
         aren't silently treated as "missing".
         """
+
+    @abstractmethod
+    def artist_details(self, artist_id: str) -> Artist | None:
+        """Fetch artist metadata by ID. Returns None on 404."""
 
     @abstractmethod
     def artist_albums(self, artist_id: str) -> list[Album]:

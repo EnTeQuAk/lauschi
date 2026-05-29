@@ -155,6 +155,24 @@ class SpotifyProvider(CatalogProvider):
             raise
         return True
 
+    def artist_details(self, artist_id: str) -> Artist | None:
+        try:
+            a = self._get(f"artists/{artist_id}")
+        except requests.HTTPError as e:
+            if e.response is not None and e.response.status_code == 404:
+                return None
+            raise
+        return Artist(
+            id=a["id"],
+            name=a["name"],
+            provider="spotify",
+            genres=a.get("genres", []),
+            followers=a.get("followers", {}).get("total", 0)
+            if isinstance(a.get("followers"), dict)
+            else a.get("followers", 0),
+            image_url=_pick_image(a.get("images", [])),
+        )
+
     def search_artists(self, query: str, limit: int = 8) -> list[Artist]:
         def fetch():
             data = self._get("search", q=query, type="artist", market="DE", limit=limit)
@@ -170,6 +188,7 @@ class SpotifyProvider(CatalogProvider):
                 followers=a.get("followers", {}).get("total", 0)
                 if isinstance(a.get("followers"), dict)
                 else a.get("followers", 0),
+                image_url=_pick_image(a.get("images", [])),
             )
             for a in raw
         ]

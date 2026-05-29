@@ -15,14 +15,24 @@ class AlbumResult:
     error: str | None = None
 
 
-def update_album_status(
+_SENTINEL = object()
+
+
+def update_album(
     series_id: str,
     album_id: str,
     *,
-    include: bool,
+    include: bool | None = None,
     exclude_reason: str | None = None,
+    episode_num: int | str | None = _SENTINEL,
+    title: str | None = _SENTINEL,
 ) -> AlbumResult:
-    """Toggle include/exclude for a single album in a curation JSON."""
+    """Update fields on a single album in a curation JSON.
+
+    Only provided fields are written. ``_SENTINEL`` default means
+    "not provided" so we can distinguish None (clear the field)
+    from absent.
+    """
     path = curation_path(series_id)
     if not path.exists():
         return AlbumResult(ok=False, error="curation not found")
@@ -30,11 +40,21 @@ def update_album_status(
     data = json.loads(path.read_text())
     for album in data.get("albums", []):
         if album.get("album_id") == album_id:
-            album["include"] = include
-            if include:
-                album.pop("exclude_reason", None)
-            elif exclude_reason:
+            if include is not None:
+                album["include"] = include
+                if include:
+                    album.pop("exclude_reason", None)
+                elif exclude_reason:
+                    album["exclude_reason"] = exclude_reason
+            elif exclude_reason is not None:
                 album["exclude_reason"] = exclude_reason
+
+            if episode_num is not _SENTINEL:
+                album["episode_num"] = episode_num
+
+            if title is not _SENTINEL:
+                album["title"] = title
+
             safe_write_json(path, data)
             return AlbumResult(ok=True)
 

@@ -16,6 +16,7 @@ from datetime import UTC, datetime
 
 import requests
 
+from lauschi_catalog.catalog.io import safe_write_json
 from lauschi_catalog.catalog.loader import load_catalog
 from lauschi_catalog.catalog.matcher import extract_episode
 from lauschi_catalog.catalog.models import CatalogEntry
@@ -193,7 +194,7 @@ def validate_catalog(
                 try:
                     data = json.loads(curation_path.read_text())
                     data["validated_at"] = datetime.now(UTC).isoformat()
-                    curation_path.write_text(json.dumps(data, indent=2, ensure_ascii=False))
+                    safe_write_json(curation_path, data)
                 except Exception:
                     pass
 

@@ -8,7 +8,6 @@ fs caching. Cheap enough to call per-agent-build.
 from __future__ import annotations
 
 import importlib.resources
-from pathlib import Path
 from typing import Literal
 
 ContentType = Literal["hoerspiel", "music", "audiobook"]
