@@ -66,6 +66,7 @@ def load_catalog(path: Path | None = None) -> list[CatalogEntry]:
                 cover_url=raw.get("cover_url"),
                 content_type=raw.get("content_type"),
                 series_facts=series_facts,
+                split_from=raw.get("split_from"),
                 providers=providers,
             ),
         )

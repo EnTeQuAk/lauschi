@@ -29,6 +29,21 @@
                 <small>Aliases: {{ series.aliases | join(", ") }}</small>
             </p>
         {% endif %}
+        {% if split_from %}
+            <p class="mb-05 text-muted">
+                <small>Split from <a href="/catalog/{{ split_from.id }}">{{ split_from.title }}</a></small>
+            </p>
+        {% endif %}
+        {% if split_children %}
+            <p class="mb-05 text-muted">
+                <small>Sub-series:
+                    {% for child in split_children %}
+                        {% if not loop.first %}, {% endif %}
+                        <a href="/catalog/{{ child.id }}">{{ child.title }}</a>
+                    {% endfor %}
+                </small>
+            </p>
+        {% endif %}
         <div class="mb-075">
             <div class="pipeline-bar pipeline-bar--large">
                 {% for label, status in zip(pipeline.labels, pipeline.statuses) %}

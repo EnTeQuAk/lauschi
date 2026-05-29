@@ -28,6 +28,7 @@ CREATE TABLE IF NOT EXISTS series (
     aliases_json    TEXT NOT NULL DEFAULT '[]',
     episode_pattern TEXT,
     content_type    TEXT,
+    split_from      TEXT,
     providers_json  TEXT NOT NULL DEFAULT '{}',
     created_at      TEXT NOT NULL,
     updated_at      TEXT NOT NULL
@@ -46,6 +47,10 @@ def _conn() -> sqlite3.Connection:
 def init_catalog_db() -> None:
     with _conn() as conn:
         conn.executescript(SERIES_SCHEMA)
+        # Add split_from column if missing (existing DBs predating the schema change)
+        cols = {r[1] for r in conn.execute("PRAGMA table_info(series)").fetchall()}
+        if "split_from" not in cols:
+            conn.execute("ALTER TABLE series ADD COLUMN split_from TEXT")
         conn.commit()
 
 
@@ -68,13 +73,15 @@ def sync_catalog_to_db() -> int:
             conn.execute(
                 """
                 INSERT INTO series (id, title, aliases_json, episode_pattern,
-                                    content_type, providers_json, created_at, updated_at)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+                                    content_type, split_from, providers_json,
+                                    created_at, updated_at)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
                 ON CONFLICT(id) DO UPDATE SET
                     title = excluded.title,
                     aliases_json = excluded.aliases_json,
                     episode_pattern = excluded.episode_pattern,
                     content_type = excluded.content_type,
+                    split_from = excluded.split_from,
                     providers_json = excluded.providers_json,
                     updated_at = excluded.updated_at
                 """,
@@ -84,6 +91,7 @@ def sync_catalog_to_db() -> int:
                     json.dumps(e.aliases),
                     _serialize_episode_pattern(e.episode_pattern),
                     e.content_type,
+                    e.split_from,
                     json.dumps(_providers_to_dict(e.providers)),
                     _now(),
                     _now(),
@@ -157,6 +165,7 @@ def _row_to_entry(row: sqlite3.Row) -> CatalogEntry:
         aliases=json.loads(row["aliases_json"]),
         episode_pattern=ep_pattern,
         content_type=row["content_type"],
+        split_from=row["split_from"],
         providers=providers,
     )
 
@@ -197,8 +206,9 @@ def insert_series(entry: CatalogEntry) -> None:
         conn.execute(
             """
             INSERT INTO series (id, title, aliases_json, episode_pattern,
-                                content_type, providers_json, created_at, updated_at)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+                                content_type, split_from, providers_json,
+                                created_at, updated_at)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
             """,
             (
                 entry.id,
@@ -206,6 +216,7 @@ def insert_series(entry: CatalogEntry) -> None:
                 json.dumps(entry.aliases),
                 _serialize_episode_pattern(entry.episode_pattern),
                 entry.content_type,
+                entry.split_from,
                 json.dumps(_providers_to_dict(entry.providers)),
                 _now(),
                 _now(),

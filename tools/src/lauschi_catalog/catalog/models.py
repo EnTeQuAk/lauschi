@@ -41,6 +41,7 @@ class CatalogEntry:
     # series.yaml after audit confirms them. Curate loads them as
     # input context for incremental updates.
     series_facts: dict | None = None
+    split_from: str | None = None
     providers: dict[str, ProviderConfig] = field(default_factory=dict)
 
     def artist_ids(self, provider: str) -> list[str]:

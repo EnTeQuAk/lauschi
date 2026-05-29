@@ -197,6 +197,18 @@ def _render_series_detail(
 
     active_job = get_active_job(series_id)
 
+    # Split relationship: parent and children
+    split_from = None
+    if series.split_from:
+        parent = get_series_by_id(series.split_from)
+        if parent:
+            split_from = {"id": parent.id, "title": parent.title}
+    split_children = [
+        {"id": s.id, "title": s.title}
+        for s in get_all_series()
+        if s.split_from == series_id
+    ]
+
     # Group included albums by episode for the preview tab
     grouped_episodes: list[dict[str, Any]] = []
     if curation and curation.get("albums"):
@@ -275,6 +287,8 @@ def _render_series_detail(
             "grouped_episodes": grouped_episodes,
             "artist_image_url": _series_cover_url(series_id),
             "coverage": coverage,
+            "split_from": split_from,
+            "split_children": split_children,
         },
     )
 
