@@ -49,12 +49,6 @@ def _override_key(override: Any) -> tuple:
     return (override.get("provider") or "", override.get("album_id") or "")
 
 
-def _split_key(split: Any) -> str:
-    if not isinstance(split, dict):
-        return ""
-    return split.get("new_series_id") or ""
-
-
 def _era_start_year(era: Any) -> int:
     """Extract start year from era_boundary release_date_range for sorting."""
     if not isinstance(era, dict):
@@ -89,13 +83,12 @@ def canonicalize(data: dict) -> None:
     What gets sorted:
     - ``albums``: by (provider, episode_num, title, album_id).
     - ``review.overrides``: by (provider, album_id).
-    - ``review.splits``: by new_series_id, with each split's inner
-      ``album_ids`` sorted lexicographically.
     - ``review.added_albums``: same key as albums.
     - ``provider_artist_ids``: list values sorted.
     - ``series_facts.era_boundaries``: by start year.
     - ``series_facts.known_gaps``: by episode number.
-    - ``series_facts.sub_series``: by label.
+    - ``series_facts.sub_series``: by label, with each entry's inner
+      ``album_ids`` sorted lexicographically.
 
     What's intentionally not touched:
     - ``aliases``: human-curated; order can carry intent (primary alias first).
@@ -117,15 +110,6 @@ def canonicalize(data: dict) -> None:
         overrides = review.get("overrides")
         if isinstance(overrides, list):
             review["overrides"] = sorted(overrides, key=_override_key)
-
-        splits = review.get("splits")
-        if isinstance(splits, list):
-            for s in splits:
-                if isinstance(s, dict):
-                    aids = s.get("album_ids")
-                    if isinstance(aids, list):
-                        s["album_ids"] = sorted(aids)
-            review["splits"] = sorted(splits, key=_split_key)
 
         added = review.get("added_albums")
         if isinstance(added, list):

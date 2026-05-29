@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+from datetime import datetime
 
 import pytest
 from ruamel.yaml import YAML
@@ -119,17 +120,18 @@ class TestSplitOps:
             "episode_pattern": r"Folge\s+(\d+)",
             "provider_artist_ids": {"spotify": ["p1"]},
             "content_type": "hoerspiel",
+            "age_note": "ab 6 Jahren",
             "albums": [
-                {"album_id": "a1", "title": "Ep 1"},
-                {"album_id": "a2", "title": "Ep 2"},
-                {"album_id": "a3", "title": "Spinoff 1"},
+                {"album_id": "a1", "provider": "spotify", "title": "Ep 1"},
+                {"album_id": "a2", "provider": "spotify", "title": "Ep 2"},
+                {"album_id": "a3", "provider": "spotify", "title": "Spinoff 1"},
             ],
-            "review": {
-                "splits": [
+            "series_facts": {
+                "sub_series": [
                     {
-                        "new_series_id": "spinoff",
-                        "new_series_title": "Spinoff Series",
-                        "album_ids": ["a3"],
+                        "label": "spinoff",
+                        "album_ids": ["spotify:a3"],
+                        "reason": "test sub_series",
                     },
                 ],
             },
@@ -143,15 +145,15 @@ class TestSplitOps:
         assert result.action == "rejected"
 
         data = json.loads((split_env["curation_dir"] / "parent.json").read_text())
-        assert len(data["review"]["splits"]) == 0
+        assert len(data["series_facts"]["sub_series"]) == 0
 
     def test_accept_split_creates_new_curation(self, split_env):
         result = merge_ops.accept_split("parent", 0)
         assert result.ok
         assert result.action == "accepted"
-        assert result.new_id == "spinoff"
+        assert result.new_id == "parent_spinoff"
 
-        new_path = split_env["curation_dir"] / "spinoff.json"
+        new_path = split_env["curation_dir"] / "parent_spinoff.json"
         assert new_path.exists()
         new_data = json.loads(new_path.read_text())
         assert len(new_data["albums"]) == 1
@@ -164,11 +166,31 @@ class TestSplitOps:
         assert "a3" not in album_ids
         assert "a1" in album_ids
 
-    def test_accept_split_adds_to_series_yaml(self, split_env):
+    def test_accept_split_adds_to_series_yaml_with_providers(self, split_env):
         merge_ops.accept_split("parent", 0)
         data = yaml.load(split_env["series_yaml"])
-        ids = [e["id"] for e in data["series"]]
-        assert "spinoff" in ids
+        entry = next(e for e in data["series"] if e["id"] == "parent_spinoff")
+        assert entry["providers"]["spotify"]["artist_ids"] == ["p1"]
+
+    def test_accept_split_is_pipeline_ready(self, split_env):
+        merge_ops.accept_split("parent", 0)
+        new_data = json.loads(
+            (split_env["curation_dir"] / "parent_spinoff.json").read_text()
+        )
+        assert new_data["curated_at"]
+        datetime.fromisoformat(new_data["curated_at"])
+        assert new_data["age_note"] == "ab 6 Jahren"
+        assert "Split from Parent Series" in new_data["curator_notes"]
+        assert new_data["split_from"] == "parent"
+        assert new_data["series_facts"] == {}
+        assert new_data["incomplete"] is False
+        assert new_data["incomplete_reason"] == ""
+
+    def test_accept_split_records_split_from_in_series_yaml(self, split_env):
+        merge_ops.accept_split("parent", 0)
+        data = yaml.load(split_env["series_yaml"])
+        entry = next(e for e in data["series"] if e["id"] == "parent_spinoff")
+        assert entry["split_from"] == "parent"
 
     def test_split_nonexistent_curation(self, split_env):
         result = merge_ops.accept_split("nonexistent", 0)

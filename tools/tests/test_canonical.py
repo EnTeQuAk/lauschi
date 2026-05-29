@@ -128,37 +128,6 @@ def test_sorts_overrides_by_provider_then_album_id():
     assert pairs == [("apple_music", "m"), ("spotify", "a"), ("spotify", "z")]
 
 
-# ── review.splits ─────────────────────────────────────────────────────────
-
-
-def test_sorts_splits_by_new_series_id():
-    data = {
-        "review": {
-            "splits": [
-                {"new_series_id": "z_sub", "album_ids": []},
-                {"new_series_id": "a_sub", "album_ids": []},
-                {"new_series_id": "m_sub", "album_ids": []},
-            ],
-        },
-    }
-    canonicalize(data)
-    assert [s["new_series_id"] for s in data["review"]["splits"]] == [
-        "a_sub", "m_sub", "z_sub",
-    ]
-
-
-def test_sorts_album_ids_inside_each_split():
-    data = {
-        "review": {
-            "splits": [
-                {"new_series_id": "sub", "album_ids": ["z", "a", "m"]},
-            ],
-        },
-    }
-    canonicalize(data)
-    assert data["review"]["splits"][0]["album_ids"] == ["a", "m", "z"]
-
-
 # ── review.added_albums ───────────────────────────────────────────────────
 
 
@@ -234,10 +203,6 @@ def test_idempotent():
             "overrides": [
                 {"provider": "spotify", "album_id": "z"},
                 {"provider": "spotify", "album_id": "a"},
-            ],
-            "splits": [
-                {"new_series_id": "b", "album_ids": ["c", "a"]},
-                {"new_series_id": "a", "album_ids": ["z"]},
             ],
         },
     }

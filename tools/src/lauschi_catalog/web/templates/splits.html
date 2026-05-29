@@ -2,7 +2,7 @@
 {% block title %}Pending Splits — lauschi{% endblock %}
 {% block content %}
     <h1>Pending Splits</h1>
-    <p class="splits-intro">Split proposals from AI audit waiting for human approval.</p>
+    <p class="splits-intro">Sub-series identified during curation, waiting for review.</p>
     {% if splits %}
         <div class="splits-list">
             {% for s in splits %}
@@ -12,27 +12,118 @@
                             <h3>{{ s.title }}</h3>
                             <p>
                                 <a href="/catalog/{{ s.series_id }}"><code>{{ s.series_id }}</code></a>
+                                · {{ s.sub_series | length }} sub-series
                             </p>
-                        </div>
-                        <div class="splits-item__actions">
-                            <a href="/catalog/{{ s.series_id }}"
-                               role="button"
-                               class="secondary outline">Review</a>
                         </div>
                     </div>
                     <div class="splits-proposals">
-                        {% for split in s.splits %}
-                            <div class="series-card card-compact">
+                        {% for sub in s.sub_series %}
+                            <div class="series-card card-compact"
+                                 x-data="{
+                                     expanded: false,
+                                     newId: '{{ sub.default_id }}',
+                                     newTitle: '{{ sub.default_title | replace("'", "\\'") }}',
+                                     busy: false,
+                                     error: '',
+                                     async doAction(action) {
+                                         this.busy = true;
+                                         this.error = '';
+                                         try {
+                                             const body = { action };
+                                             if (action === 'accept') {
+                                                 body.new_id = this.newId;
+                                                 body.new_title = this.newTitle;
+                                             }
+                                             const res = await fetch('/api/series/{{ s.series_id }}/split/{{ sub.index }}', {
+                                                 method: 'POST',
+                                                 headers: {'Content-Type': 'application/json'},
+                                                 body: JSON.stringify(body),
+                                             });
+                                             const data = await res.json();
+                                             if (!res.ok) {
+                                                 this.error = data.detail || 'Request failed';
+                                                 return;
+                                             }
+                                             if (action === 'accept' && data.new_id) {
+                                                 window.location.href = '/catalog/' + data.new_id;
+                                                 return;
+                                             }
+                                             this.$el.remove();
+                                         } catch (e) {
+                                             this.error = e.message;
+                                         } finally {
+                                             this.busy = false;
+                                         }
+                                     }
+                                 }">
                                 <div class="flex justify-between items-center gap-05 wrap">
-                                    <div>
-                                        <strong>{{ split.new_series_title }}</strong>
+                                    <div style="flex: 1; min-width: 0">
+                                        <strong>{{ sub.label | replace("_", " ") | title }}</strong>
                                         <small class="text-muted block">
-                                            <code>{{ split.new_series_id }}</code> · {{ split.album_ids | length }} albums
+                                            {{ sub.albums | length }} albums
+                                            {% if sub.reason %} · {{ sub.reason }}{% endif %}
                                         </small>
                                     </div>
-                                    <a href="/catalog/{{ s.series_id }}"
-                                       role="button"
-                                       class="secondary outline btn-sm">Preview & Decide</a>
+                                    <div class="flex gap-03">
+                                        <button class="secondary outline btn-sm"
+                                                @click="expanded = !expanded"
+                                                x-text="expanded ? 'Collapse' : 'Review'"></button>
+                                    </div>
+                                </div>
+
+                                <div x-show="expanded" x-cloak style="margin-top: 0.75rem">
+                                    <div class="flex gap-05 wrap mb-075">
+                                        <label style="flex: 1; min-width: 200px">
+                                            <small class="text-muted">New series ID</small>
+                                            <input type="text" x-model="newId"
+                                                   style="margin-top: 0.2rem; font-size: 0.85rem">
+                                        </label>
+                                        <label style="flex: 2; min-width: 200px">
+                                            <small class="text-muted">New series title</small>
+                                            <input type="text" x-model="newTitle"
+                                                   style="margin-top: 0.2rem; font-size: 0.85rem">
+                                        </label>
+                                    </div>
+
+                                    {% if sub.albums %}
+                                        <details class="mb-075">
+                                            <summary class="text-muted" style="cursor: pointer; font-size: 0.85rem">
+                                                {{ sub.albums | length }} albums to split off
+                                            </summary>
+                                            <table role="grid" style="font-size: 0.8rem; margin-top: 0.5rem">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Ep</th>
+                                                        <th>Provider</th>
+                                                        <th>Title</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {% for a in sub.albums %}
+                                                        <tr>
+                                                            <td>{{ a.episode_num if a.episode_num is not none else '-' }}</td>
+                                                            <td>{{ a.provider }}</td>
+                                                            <td>{{ a.title }}</td>
+                                                        </tr>
+                                                    {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </details>
+                                    {% endif %}
+
+                                    <template x-if="error">
+                                        <p class="text-red" style="font-size: 0.85rem" x-text="error"></p>
+                                    </template>
+
+                                    <div class="flex gap-03 justify-end">
+                                        <button class="outline btn-sm"
+                                                style="color: var(--color-red)"
+                                                @click="doAction('reject')"
+                                                :disabled="busy">Dismiss</button>
+                                        <button class="btn-sm"
+                                                @click="doAction('accept')"
+                                                :disabled="busy">Apply Split</button>
+                                    </div>
                                 </div>
                             </div>
                         {% endfor %}

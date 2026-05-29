@@ -11,8 +11,8 @@ from datetime import UTC, datetime
 from typing import Any
 
 from lauschi_catalog.catalog import paths
-from lauschi_catalog.catalog.io import safe_write_json, safe_write_yaml
-from lauschi_catalog.catalog.loader import load_catalog, load_raw
+from lauschi_catalog.catalog.io import safe_write_json
+from lauschi_catalog.catalog.loader import load_catalog
 from lauschi_catalog.catalog.series_ops import add_series_entry, remove_series_from_yaml
 
 
@@ -112,40 +112,55 @@ class SplitResult:
     error: str | None = None
 
 
+def _get_sub_series(curation: dict) -> list[dict]:
+    """Get the sub_series list from series_facts."""
+    return curation.get("series_facts", {}).get("sub_series", [])
+
+
 def reject_split(series_id: str, split_index: int) -> SplitResult:
-    """Remove a split proposal from review.splits."""
+    """Remove a sub_series proposal from series_facts."""
     cur_path = paths.curation_path(series_id)
     if not cur_path.exists():
         return SplitResult(ok=False, error="curation not found")
 
     curation = json.loads(cur_path.read_text())
-    splits = curation.get("review", {}).get("splits", [])
-    if split_index < 0 or split_index >= len(splits):
+    subs = _get_sub_series(curation)
+    if split_index < 0 or split_index >= len(subs):
         return SplitResult(ok=False, error="split not found")
 
-    splits.pop(split_index)
+    subs.pop(split_index)
     safe_write_json(cur_path, curation)
     return SplitResult(ok=True, action="rejected")
 
 
-def accept_split(series_id: str, split_index: int) -> SplitResult:
+def accept_split(
+    series_id: str,
+    split_index: int,
+    *,
+    new_id: str | None = None,
+    new_title: str | None = None,
+) -> SplitResult:
     """Accept a split: create new curation, move albums, add to series.yaml."""
     cur_path = paths.curation_path(series_id)
     if not cur_path.exists():
         return SplitResult(ok=False, error="curation not found")
 
     curation = json.loads(cur_path.read_text())
-    splits = curation.get("review", {}).get("splits", [])
-    if split_index < 0 or split_index >= len(splits):
+    subs = _get_sub_series(curation)
+    if split_index < 0 or split_index >= len(subs):
         return SplitResult(ok=False, error="split not found")
 
-    split = splits[split_index]
-    new_id = split.get("new_series_id")
-    new_title = split.get("new_series_title")
-    album_ids = set(split.get("album_ids", []))
+    sub = subs[split_index]
+    label = sub.get("label", "")
+    parent_title = curation.get("title", series_id)
+    if not new_id:
+        new_id = f"{series_id}_{label}"
+    if not new_title:
+        new_title = f"{parent_title}: {label.replace('_', ' ').title()}"
+    album_ids = set(sub.get("album_ids", []))
 
-    if not new_id or not new_title or not album_ids:
-        return SplitResult(ok=False, error="split proposal missing required fields")
+    if not label or not album_ids:
+        return SplitResult(ok=False, error="sub_series missing label or album_ids")
 
     existing = load_catalog()
     if any(e.id == new_id for e in existing):
@@ -157,12 +172,19 @@ def accept_split(series_id: str, split_index: int) -> SplitResult:
             ok=False, error=f"curation file '{new_id}.json' already exists",
         )
 
+    # sub_series album_ids use "provider:id" format, match against albums
+    def _matches(album: dict) -> bool:
+        key = f"{album.get('provider')}:{album.get('album_id')}"
+        return key in album_ids
+
     albums = curation.get("albums", [])
-    moved = [a for a in albums if a.get("album_id") in album_ids]
-    remaining = [a for a in albums if a.get("album_id") not in album_ids]
+    moved = [a for a in albums if _matches(a)]
+    remaining = [a for a in albums if not _matches(a)]
 
     if not moved:
-        return SplitResult(ok=False, error="no albums matched split proposal")
+        return SplitResult(ok=False, error="no albums matched sub_series")
+
+    now = datetime.now(UTC).isoformat()
 
     new_curation = {
         "id": new_id,
@@ -170,16 +192,29 @@ def accept_split(series_id: str, split_index: int) -> SplitResult:
         "aliases": [],
         "episode_pattern": curation.get("episode_pattern"),
         "provider_artist_ids": curation.get("provider_artist_ids", {}),
+        "age_note": curation.get("age_note", ""),
+        "curator_notes": (
+            f"Split from {parent_title}. "
+            f"Contains {len(moved)} albums from the '{label}' sub-series."
+        ),
+        "series_facts": {},
         "albums": moved,
         "content_type": curation.get("content_type", "hoerspiel"),
+        "incomplete": False,
+        "incomplete_reason": "",
         "split_from": series_id,
-        "split_at": datetime.now(UTC).isoformat(),
+        "split_at": now,
+        "curated_at": now,
     }
     safe_write_json(new_path, new_curation)
 
     curation["albums"] = remaining
-    splits.pop(split_index)
+    subs.pop(split_index)
     safe_write_json(cur_path, curation)
+
+    providers: dict = {}
+    for prov, aids in curation.get("provider_artist_ids", {}).items():
+        providers[prov] = {"artist_ids": list(aids)}
 
     add_series_entry({
         "id": new_id,
@@ -187,7 +222,8 @@ def accept_split(series_id: str, split_index: int) -> SplitResult:
         "aliases": [],
         "episode_pattern": curation.get("episode_pattern"),
         "content_type": curation.get("content_type", "hoerspiel"),
-        "providers": {},
+        "split_from": series_id,
+        "providers": providers,
     })
 
     return SplitResult(ok=True, action="accepted", new_id=new_id)

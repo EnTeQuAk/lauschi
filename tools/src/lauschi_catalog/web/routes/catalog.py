@@ -13,6 +13,7 @@ from fastapi.templating import Jinja2Templates
 
 from lauschi_catalog.catalog.merge_ops import merge_series
 from lauschi_catalog.catalog.paths import (
+    artist_image_path,
     cover_cache_path,
     curation_path as _curation_path,
     repo_root,
@@ -31,7 +32,16 @@ router = APIRouter()
 
 
 def _series_cover_url(series_id: str) -> str:
-    """Load the first cover URL from the cover cache, or empty string."""
+    """Load artist image URL (preferred) or first album cover as fallback."""
+    artist_cache = artist_image_path(series_id)
+    if artist_cache.exists():
+        try:
+            images = json.loads(artist_cache.read_text())
+            url = images.get("spotify") or next(iter(images.values()), "")
+            if url:
+                return url
+        except (json.JSONDecodeError, StopIteration):
+            pass
     cache = cover_cache_path(series_id)
     if not cache.exists():
         return ""
@@ -90,21 +100,32 @@ templates.env.globals["zip"] = zip  # type: ignore[reportArgumentType]
 
 
 @router.get("/catalog", response_class=HTMLResponse)
-async def catalog_list(request: Request, q: str = ""):
+async def catalog_list(request: Request, q: str = "", tab: str = "hoerspiel"):
     all_series = get_all_series()
     series = all_series
+
+    if tab in ("hoerspiel", "music"):
+        series = [s for s in series if (s.content_type or "hoerspiel") == tab]
+
     if q:
         term = q.lower()
         series = [s for s in series if term in s.title.lower() or term in s.id.lower()]
 
+    counts = {"hoerspiel": 0, "music": 0}
+    for s in all_series:
+        ct = s.content_type or "hoerspiel"
+        if ct in counts:
+            counts[ct] += 1
+
     enriched = []
     for s in series:
+        ct = s.content_type or "hoerspiel"
         state = pipeline_status(s.id, series=s)
         enriched.append(
             {
                 "id": s.id,
                 "title": s.title,
-                "content_type": s.content_type or "hoerspiel",
+                "content_type": ct,
                 "providers": list(s.providers.keys()),
                 "status": state.status,
                 "current_step": state.current_step,
@@ -121,7 +142,13 @@ async def catalog_list(request: Request, q: str = ""):
     return templates.TemplateResponse(
         request,
         "catalog_list.html",
-        {"series": enriched, "q": q, "total": len(all_series)},
+        {
+            "series": enriched,
+            "q": q,
+            "tab": tab,
+            "counts": counts,
+            "total": len(all_series),
+        },
     )
 
 
@@ -143,7 +170,7 @@ def _render_series_detail(
     if cur_path.exists():
         curation = json.loads(cur_path.read_text())
 
-    # Inject cover URLs from cache into album dicts
+    # Inject cover URLs and sort-safe episode_num into album dicts
     covers: dict[str, str] = {}
     cache = cover_cache_path(series_id)
     if cache.exists():
@@ -151,11 +178,13 @@ def _render_series_detail(
             covers = json.loads(cache.read_text())
         except json.JSONDecodeError:
             pass
-    if curation and curation.get("albums") and covers:
+    if curation and curation.get("albums"):
         for album in curation["albums"]:
             aid = album.get("album_id") or album.get("id", "")
             if aid in covers:
                 album["image_url"] = covers[aid]
+            ep = album.get("episode_num")
+            album["episode_num_sort"] = ep if ep is not None else 999999
 
     pipe_state = pipeline_status(series_id, series=series)
     pipeline = {
@@ -167,6 +196,34 @@ def _render_series_detail(
     }
 
     active_job = get_active_job(series_id)
+
+    # Group included albums by episode for the preview tab
+    grouped_episodes: list[dict[str, Any]] = []
+    if curation and curation.get("albums"):
+        by_episode: dict[int | None, list[dict]] = {}
+        for a in curation["albums"]:
+            if not a.get("include"):
+                continue
+            ep = a.get("episode_num")
+            by_episode.setdefault(ep, []).append(a)
+
+        for ep_num in sorted(by_episode, key=lambda x: x if x is not None else 999999):
+            albums_for_ep = by_episode[ep_num]
+            providers_present = sorted({a.get("provider", "") for a in albums_for_ep})
+            first = albums_for_ep[0]
+            image = first.get("image_url", "")
+            if not image:
+                for a in albums_for_ep:
+                    if a.get("image_url"):
+                        image = a["image_url"]
+                        break
+            grouped_episodes.append({
+                "episode_num": ep_num,
+                "title": first.get("title", ""),
+                "image_url": image,
+                "release_date": first.get("release_date", ""),
+                "providers": providers_present,
+            })
 
     # Episode coverage: which providers cover each episode number
     coverage: dict[str, Any] | None = None
@@ -215,6 +272,8 @@ def _render_series_detail(
             "errors": errors or {},
             "form_data": form_data or {},
             "active_job": active_job,
+            "grouped_episodes": grouped_episodes,
+            "artist_image_url": _series_cover_url(series_id),
             "coverage": coverage,
         },
     )
@@ -434,16 +493,40 @@ async def splits_page(request: Request):
         if not cur_path.exists():
             continue
         data = json.loads(cur_path.read_text())
-        review = data.get("review", {})
-        splits = review.get("splits", [])
-        if splits:
-            pending.append(
-                {
-                    "series_id": s.id,
-                    "title": s.title,
-                    "splits": splits,
-                }
-            )
+        subs = data.get("series_facts", {}).get("sub_series", [])
+        if not subs:
+            continue
+
+        albums = data.get("albums", [])
+        album_lookup: dict[str, dict] = {}
+        for a in albums:
+            key = f"{a.get('provider')}:{a.get('album_id')}"
+            album_lookup[key] = a
+
+        enriched_subs = []
+        for i, sub in enumerate(subs):
+            matched = [
+                album_lookup[aid]
+                for aid in sub.get("album_ids", [])
+                if aid in album_lookup
+            ]
+            enriched_subs.append({
+                "index": i,
+                "label": sub.get("label", ""),
+                "reason": sub.get("reason", ""),
+                "album_ids": sub.get("album_ids", []),
+                "albums": sorted(
+                    matched,
+                    key=lambda a: (a.get("episode_num") or 0, a.get("provider", "")),
+                ),
+                "default_id": f"{s.id}_{sub.get('label', '')}",
+                "default_title": f"{s.title}: {sub.get('label', '').replace('_', ' ').title()}",
+            })
+        pending.append({
+            "series_id": s.id,
+            "title": s.title,
+            "sub_series": enriched_subs,
+        })
     return templates.TemplateResponse(
         request,
         "splits.html",

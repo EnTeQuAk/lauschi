@@ -7,7 +7,7 @@ from typing import Any
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 
-from lauschi_catalog.catalog.album_ops import update_album_status as _update_album_status
+from lauschi_catalog.catalog.album_ops import update_album as _update_album
 from lauschi_catalog.catalog.discover_ops import (
     discover_candidates,
     discover_for_provider,
@@ -35,8 +35,10 @@ async def post_sync() -> dict[str, int]:
 
 
 class AlbumStatusUpdate(BaseModel):
-    include: bool
+    include: bool | None = None
     exclude_reason: str | None = None
+    episode_num: int | str | None = None
+    title: str | None = None
 
 
 class SeriesEdit(BaseModel):
@@ -48,17 +50,24 @@ class SeriesEdit(BaseModel):
 
 
 @router.patch("/series/{series_id}/albums/{album_id}")
-async def update_album_status(
+async def update_album(
     series_id: str, album_id: str, update: AlbumStatusUpdate
 ) -> dict[str, bool]:
-    """Toggle include/exclude for a single album in a curation JSON."""
-    result = _update_album_status(
-        series_id, album_id, include=update.include,
-        exclude_reason=update.exclude_reason,
-    )
+    """Update fields on a single album in a curation JSON."""
+    sent = update.model_fields_set
+    kwargs: dict[str, Any] = {}
+    if "include" in sent:
+        kwargs["include"] = update.include
+    if "exclude_reason" in sent:
+        kwargs["exclude_reason"] = update.exclude_reason
+    if "episode_num" in sent:
+        kwargs["episode_num"] = update.episode_num
+    if "title" in sent:
+        kwargs["title"] = update.title
+
+    result = _update_album(series_id, album_id, **kwargs)
     if not result.ok:
-        status = 404
-        raise HTTPException(status_code=status, detail=result.error or "unknown error")
+        raise HTTPException(status_code=404, detail=result.error or "unknown error")
     return {"ok": True}
 
 
@@ -98,17 +107,22 @@ async def post_series_edit(series_id: str, edit: SeriesEdit) -> dict[str, Any]:
 
 class SplitAction(BaseModel):
     action: str  # accept | reject
+    new_id: str | None = None
+    new_title: str | None = None
 
 
 @router.post("/series/{series_id}/split/{split_index}")
 async def post_split_action(
     series_id: str, split_index: int, action: SplitAction
 ) -> dict[str, Any]:
-    """Accept or reject a split proposal from AI audit."""
+    """Accept or reject a sub_series split proposal."""
     if action.action == "reject":
         result = reject_split(series_id, split_index)
     elif action.action == "accept":
-        result = accept_split(series_id, split_index)
+        result = accept_split(
+            series_id, split_index,
+            new_id=action.new_id, new_title=action.new_title,
+        )
     else:
         raise HTTPException(status_code=400, detail="action must be 'accept' or 'reject'")
 
