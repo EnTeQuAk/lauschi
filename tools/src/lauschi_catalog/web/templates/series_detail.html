@@ -11,6 +11,11 @@
         </ul>
     </nav>
     <article class="detail-meta">
+        {% if artist_image_url %}
+            <img src="{{ artist_image_url }}"
+                 alt="{{ series.title }}"
+                 class="detail-meta__art" />
+        {% endif %}
         <header class="detail-meta__header">
             <h1 class="mb-025">{{ series.title }}</h1>
             <p class="text-muted mb-0">
@@ -38,7 +43,16 @@
         </div>
         {% if series.providers %}
             <div class="provider-list">
-                {% for name in series.providers.keys() %}{{ provider_icon(name) }}{% endfor %}
+                {% for name, cfg in series.providers.items() %}
+                    {% set aid = cfg.artist_ids[0] if cfg.artist_ids else '' %}
+                    {% if name == 'spotify' and aid %}
+                        <a href="https://open.spotify.com/artist/{{ aid }}" target="_blank" rel="noopener">{{ provider_icon(name) }}</a>
+                    {% elif name == 'apple_music' and aid %}
+                        <a href="https://music.apple.com/artist/{{ aid }}" target="_blank" rel="noopener">{{ provider_icon(name) }}</a>
+                    {% else %}
+                        {{ provider_icon(name) }}
+                    {% endif %}
+                {% endfor %}
             </div>
         {% endif %}
         {% if active_job %}
@@ -81,15 +95,14 @@
         <script type="application/json" id="album-data">{{ (curation.albums or []) | tojson }}</script>
     {% endif %}
     {% if tab == 'preview' %}
-        {% if curation and curation.albums %}
-            {% set included = curation.albums | selectattr('include') | list | sort(attribute='episode_num') %}
+        {% if grouped_episodes %}
             <div class="panel">
-                <h3 class="mb-05">{{ included | length }} Folgen</h3>
+                <h3 class="mb-05">{{ grouped_episodes | length }} Folgen</h3>
                 <div>
-                    {% for album in included %}
+                    {% for ep in grouped_episodes %}
                         <div class="episode-tile">
-                            {% if album.image_url %}
-                                <img src="{{ album.image_url }}"
+                            {% if ep.image_url %}
+                                <img src="{{ ep.image_url }}"
                                      alt=""
                                      class="episode-tile__art"
                                      loading="lazy" />
@@ -99,16 +112,20 @@
                                 </div>
                             {% endif %}
                             <div class="episode-tile__info">
-                                <p class="episode-tile__title">{{ album.title }}</p>
+                                <p class="episode-tile__title">{{ ep.title }}</p>
                                 <p class="episode-tile__subtitle">
-                                    {% if album.episode_num %}
-                                        Folge {{ album.episode_num }}
+                                    {% if ep.episode_num %}
+                                        Folge {{ ep.episode_num }}
                                     {% else %}
-                                        {{ album.release_date or '' }}
+                                        {{ ep.release_date or '' }}
                                     {% endif %}
                                 </p>
                             </div>
-                            <span class="episode-tile__status text-green">✓</span>
+                            <div class="episode-tile__providers">
+                                {% for pname in ep.providers %}
+                                    {{ provider_icon(pname, size=16) }}
+                                {% endfor %}
+                            </div>
                         </div>
                     {% endfor %}
                 </div>
@@ -231,8 +248,34 @@
                                                        :checked="album.include"
                                                        @change="toggleAlbum(album, $event.target.checked)" />
                                             </td>
-                                            <td x-text="album.episode_num ?? '-'"></td>
-                                            <td x-text="album.title"></td>
+                                            <td @dblclick="album._epDraft = String(album.episode_num ?? ''); album._editEp = true; $nextTick(() => $el.querySelector('input')?.focus())"
+                                                class="editable-cell">
+                                                <template x-if="!album._editEp">
+                                                    <span x-text="album.episode_num ?? '-'"></span>
+                                                </template>
+                                                <template x-if="album._editEp">
+                                                    <input type="text"
+                                                           x-model="album._epDraft"
+                                                           @blur="saveEpisodeNum(album, album._epDraft)"
+                                                           @keydown.enter="$event.target.blur()"
+                                                           @keydown.escape="album._editEp = false"
+                                                           class="inline-edit" />
+                                                </template>
+                                            </td>
+                                            <td @dblclick="album._editTitle = true; $nextTick(() => $el.querySelector('input')?.focus())"
+                                                class="editable-cell">
+                                                <template x-if="!album._editTitle">
+                                                    <span x-text="album.title"></span>
+                                                </template>
+                                                <template x-if="album._editTitle">
+                                                    <input type="text"
+                                                           x-model="album.title"
+                                                           @blur="saveTitle(album)"
+                                                           @keydown.enter="$event.target.blur()"
+                                                           @keydown.escape="album._editTitle = false"
+                                                           class="inline-edit" />
+                                                </template>
+                                            </td>
                                             <td x-text="album.release_date ?? '-'"></td>
                                             <td>
                                                 <input x-show="!album.include"
@@ -318,6 +361,12 @@
                 </template>
                 <p x-show="stageLogLines.length === 0" class="text-muted">No output yet.</p>
             </div>
+            <button x-show="stageLogLines.length > 0"
+                    @click="copyJobLogs(stageLogLines, $el)"
+                    class="secondary outline btn-sm mt-05"
+                    aria-label="Copy logs">
+                <i data-lucide="clipboard-copy" class="icon-1em"></i> Copy logs
+            </button>
         </div>
         <p x-show="!stageJobId && selectedStage !== 0" class="text-muted">No job run for this stage yet.</p>
     </div>
@@ -692,6 +741,32 @@ function episodesApp(seriesId) {
       });
       if (!res.ok) {
         alert('Failed to save reason');
+      }
+    },
+    async saveEpisodeNum(album, raw) {
+      album._editEp = false;
+      const val = raw.trim();
+      const num = val === '' ? null : (isNaN(Number(val)) ? val : Number(val));
+      if (num === album.episode_num) return;
+      album.episode_num = num;
+      const res = await fetch(`/api/series/${seriesId}/albums/${album.album_id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ episode_num: num }),
+      });
+      if (!res.ok) {
+        alert('Failed to save episode number');
+      }
+    },
+    async saveTitle(album) {
+      album._editTitle = false;
+      const res = await fetch(`/api/series/${seriesId}/albums/${album.album_id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ title: album.title }),
+      });
+      if (!res.ok) {
+        alert('Failed to save title');
       }
     }
   };

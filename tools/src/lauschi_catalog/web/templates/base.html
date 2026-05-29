@@ -86,6 +86,12 @@
                            class="text-muted font-normal ml-05"></small>
                 </strong>
                 <div class="flex gap-03">
+                    <button x-show="$store.jobs.lines.length > 0"
+                            @click="copyJobLogs($store.jobs.lines, $el)"
+                            class="secondary outline btn-sm"
+                            aria-label="Copy logs">
+                        <i data-lucide="clipboard-copy" class="icon-1em"></i> Copy
+                    </button>
                     <a x-show="$store.jobs.currentJobId"
                        :href="'/jobs/' + $store.jobs.currentJobId"
                        role="button"
@@ -113,6 +119,15 @@
     function toggleJobDrawer() {
       const store = Alpine.store('jobs');
       if (store) store.toggle();
+    }
+
+    function copyJobLogs(lines, btn) {
+      const text = lines.map(l => l.text).join('\n');
+      navigator.clipboard.writeText(text).then(() => {
+        const orig = btn.innerHTML;
+        btn.textContent = 'Copied!';
+        setTimeout(() => { btn.innerHTML = orig; lucide.createIcons(); }, 1500);
+      });
     }
 
     document.addEventListener('alpine:init', () => {

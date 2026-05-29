@@ -3,15 +3,16 @@
 {% from "partials/icons.html" import provider_icon %}
 {% block title %}Catalog — lauschi{% endblock %}
 {% block content %}
-    <header class="flex items-baseline justify-between gap-1 wrap mb-15">
+    <header class="flex items-baseline justify-between gap-1 wrap mb-1">
         <div>
             <h1 class="mb-025">Catalog</h1>
             <p class="text-muted mb-0">
-                {{ series | length }} of {{ total }} series
+                {{ series | length }} series
                 {% if q %}matching "{{ q }}"{% endif %}
             </p>
         </div>
         <form method="get" action="/catalog" class="flex gap-05">
+            <input type="hidden" name="tab" value="{{ tab }}" />
             <input type="search"
                    name="q"
                    value="{{ q }}"
@@ -19,9 +20,28 @@
                    aria-label="Search"
                    class="max-w-320" />
             <button type="submit">Search</button>
-            {% if q %}<a href="/catalog" role="button" class="secondary outline">Clear</a>{% endif %}
+            {% if q %}<a href="/catalog?tab={{ tab }}" role="button" class="secondary outline">Clear</a>{% endif %}
         </form>
     </header>
+    <nav class="catalog-tabs mb-15">
+        <a href="/catalog?tab=hoerspiel{% if q %}&q={{ q }}{% endif %}"
+           class="catalog-tab {% if tab == 'hoerspiel' %}catalog-tab--active{% endif %}">
+            <i data-lucide="book-open" style="width:16px;height:16px"></i>
+            Hörspiele
+            <span class="catalog-tab__count">{{ counts.hoerspiel }}</span>
+        </a>
+        <a href="/catalog?tab=music{% if q %}&q={{ q }}{% endif %}"
+           class="catalog-tab {% if tab == 'music' %}catalog-tab--active{% endif %}">
+            <i data-lucide="music" style="width:16px;height:16px"></i>
+            Musik
+            <span class="catalog-tab__count">{{ counts.music }}</span>
+        </a>
+        <a href="/catalog?tab=all{% if q %}&q={{ q }}{% endif %}"
+           class="catalog-tab {% if tab == 'all' %}catalog-tab--active{% endif %}">
+            Alle
+            <span class="catalog-tab__count">{{ counts.hoerspiel + counts.music }}</span>
+        </a>
+    </nav>
     <div class="mb-15">
         <button type="button"
                 class="outline"
@@ -111,9 +131,9 @@
                         <p class="art-card__title">{{ s.title }}</p>
                         <p class="art-card__subtitle">
                             {% if s.album_count %}
-                                {{ s.album_count }} Folgen
+                                {{ s.album_count }} {{ 'Alben' if s.content_type == 'music' else 'Folgen' }}
                             {% else %}
-                                {{ s.content_type }}
+                                {{ 'Musik' if s.content_type == 'music' else 'Hörspiel' }}
                             {% endif %}
                         </p>
                     </div>

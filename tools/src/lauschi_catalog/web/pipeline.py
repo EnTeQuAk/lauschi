@@ -64,7 +64,12 @@ def pipeline_status(
     cur_path = curation_path(series_id)
     curation: dict[str, Any] | None = None
     if cur_path.exists():
-        curation = json.loads(cur_path.read_text())
+        text = cur_path.read_text().strip()
+        if text:
+            try:
+                curation = json.loads(text)
+            except json.JSONDecodeError:
+                pass
 
     step_statuses: list[str] = []
     current_step = 0

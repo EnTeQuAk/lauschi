@@ -563,10 +563,12 @@ def _try_in_process_validate(job_id: str, series_id: str) -> bool:
 def _try_in_process_audit(job_id: str, series_id: str) -> bool:
     """Run audit in-process. Returns False to fall back to subprocess."""
     log.info("job %s: running audit in-process for %s", job_id, series_id)
+    prov_result = init_providers()
 
     async def _audit_checked(*, on_progress):
         result = await audit_series(
-            [series_id], force=True, on_progress=on_progress,
+            [series_id], force=True, providers=prov_result.providers,
+            on_progress=on_progress,
         )
         if result.failed:
             raise RuntimeError(f"audit failed for: {', '.join(result.failed)}")

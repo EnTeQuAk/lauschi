@@ -51,9 +51,17 @@
             </template>
             <p x-show="lines.length === 0" class="text-muted">No output.</p>
         </div>
-        <button x-show="!atBottom && lines.length > 20"
-                class="btn-scroll-bottom"
-                @click="scrollToBottom()">Scroll to bottom</button>
+        <div class="flex gap-05 mt-05">
+            <button x-show="lines.length > 0"
+                    @click="copyJobLogs(lines, $el)"
+                    class="secondary outline btn-sm"
+                    aria-label="Copy logs">
+                <i data-lucide="clipboard-copy" class="icon-1em"></i> Copy logs
+            </button>
+            <button x-show="!atBottom && lines.length > 20"
+                    class="btn-scroll-bottom"
+                    @click="scrollToBottom()">Scroll to bottom</button>
+        </div>
     </div>
 {% endblock %}
 {% block scripts %}

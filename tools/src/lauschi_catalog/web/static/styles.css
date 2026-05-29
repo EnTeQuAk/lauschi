@@ -530,6 +530,48 @@ nav[aria-label="breadcrumb"] li + li::before {
 	margin: 2px 0 0;
 }
 
+/* Catalog tabs (segmented control) */
+.catalog-tabs {
+	display: inline-flex;
+	gap: 2px;
+	background: var(--color-surface-dim);
+	border-radius: var(--radius-button);
+	padding: 3px;
+}
+.catalog-tab {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	padding: 8px 16px;
+	border-radius: calc(var(--radius-button) - 2px);
+	font-size: 14px;
+	font-weight: 600;
+	color: var(--color-text-secondary);
+	text-decoration: none;
+	transition: background 0.15s, color 0.15s;
+}
+.catalog-tab:hover {
+	color: var(--color-text);
+	background: rgba(0, 0, 0, 0.04);
+}
+.catalog-tab--active {
+	background: var(--color-surface);
+	color: var(--color-primary);
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+.catalog-tab--active:hover {
+	background: var(--color-surface);
+	color: var(--color-primary);
+}
+.catalog-tab__count {
+	font-size: 12px;
+	font-weight: 700;
+	color: var(--color-text-tertiary);
+}
+.catalog-tab--active .catalog-tab__count {
+	color: var(--color-primary-soft);
+}
+
 /* Art card grid (narrower cards, more columns) */
 .art-grid {
 	display: grid;
@@ -590,6 +632,12 @@ nav[aria-label="breadcrumb"] li + li::before {
 	font-size: 12px;
 	color: var(--color-text-secondary);
 	margin: 0;
+}
+.episode-tile__providers {
+	flex-shrink: 0;
+	display: flex;
+	gap: 4px;
+	align-items: center;
 }
 .episode-tile__status {
 	flex-shrink: 0;
@@ -909,11 +957,21 @@ nav[aria-label="breadcrumb"] li + li::before {
 
 /* ── Detail meta panel ─────────────────────────────── */
 .detail-meta {
+	position: relative;
 	padding: var(--space-lg);
 	margin-bottom: var(--space-lg);
 }
 .detail-meta__header {
 	margin-bottom: 0.75rem;
+}
+.detail-meta__art {
+	position: absolute;
+	top: var(--space-lg);
+	right: var(--space-lg);
+	width: 96px;
+	height: 96px;
+	border-radius: var(--radius-card);
+	object-fit: cover;
 }
 
 /* ── Provider list ─────────────────────────────────── */
@@ -1170,6 +1228,14 @@ nav[aria-label="breadcrumb"] li + li::before {
 	font-size: 0.75em;
 	padding: 0.15em 0.3em;
 	margin: 0;
+}
+.editable-cell { cursor: text; }
+.inline-edit {
+	font-size: inherit;
+	padding: 0.1em 0.25em;
+	margin: -0.1em 0;
+	width: 100%;
+	box-sizing: border-box;
 }
 .pre-sm { font-size: 0.8em; }
 
