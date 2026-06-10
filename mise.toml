@@ -122,10 +122,10 @@ if [ "${usage_force:-false}" = "true" ]; then FORCE_FLAG="--force"; fi
 
 if [ -n "$SID" ]; then
   uv run --directory tools --extra ai \\
-    lauschi-catalog audit "$SID" $FORCE_FLAG
+    lauschi-catalog audit -s "$SID" $FORCE_FLAG
 else
   uv run --directory tools --extra ai \\
-    lauschi-catalog audit --all $FORCE_FLAG
+    lauschi-catalog audit $FORCE_FLAG
 fi
 """
 
