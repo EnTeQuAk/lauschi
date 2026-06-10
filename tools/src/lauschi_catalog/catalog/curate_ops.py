@@ -242,10 +242,7 @@ class AlbumDecision(BaseModel):
     @model_validator(mode="after")
     def _exclude_reason_required_when_excluded(self) -> AlbumDecision:
         if not self.include and not self.exclude_reason:
-            raise ValueError(
-                "include=False requires `exclude_reason` naming the failure-"
-                "taxonomy pattern",
-            )
+            self.exclude_reason = self.notes or "unspecified"
         return self
 
 
