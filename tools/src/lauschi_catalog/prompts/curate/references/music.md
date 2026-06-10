@@ -13,11 +13,33 @@ Kinderlieder, Kinderpop, and music albums. No episode numbers, no
 | Karaoke, instrumental, sped-up | Variable | FORMAT_VARIANT | Exclude |
 | Hörspiel in music artist catalog | Variable | WRONG_TYPE | Exclude (`wrong_content_type`) |
 
+## Singles-first artists
+
+Some Kinderlieder artists release almost everything as singles and only
+package them into their own collection albums ("Sing mit mir Vol. 1",
+"Die schönsten Kinderlieder Vol. 2", "Kinderklassiker Vol. 1"). For
+these artists the collection albums ARE the catalog — **include them**.
+The compilation exclusions below exist to avoid redundancy with regular
+albums; when an artist has no regular albums, that rationale doesn't
+apply.
+
+How to recognize the case: the discography is dominated by 1-2 track
+singles, and the only multi-track releases are the artist's own themed
+collections. The `album_type` field helps: the artist's own primary
+releases carry `album_type=album` even when their titles sound like
+compilations (e.g. Simone Sommerland's "Die 30 besten …" series — those
+are her primary studio albums, include them).
+
+Singles stay excluded either way (`music_single`): one-track albums make
+poor listening units, and their songs are on the collection albums.
+
 ## Failure taxonomy
 
 ### kinderlieder_compilation
 "Best of", "Greatest Hits", numbered albums where each is a compilation.
-Exclude.
+Exclude — UNLESS the artist is singles-first and these collections are
+their only multi-track releases (see "Singles-first artists" above), or
+`album_type=album` marks them as the artist's primary releases.
 
 ### multi_artist_compilation
 Albums featuring other artists ("Kinderparty Hits", "Nick Jr.'s …").
@@ -55,6 +77,20 @@ Reasoning:
   2. High track count (28) further confirms compilation
   3. Named failure pattern: kinderlieder_compilation
 → include=false, exclude_reason=kinderlieder_compilation, confidence=high
+```
+
+**Singles-first artist's own collection** (include):
+```
+Title: "Sing mit mir Vol. 1"
+Tracks: 22 songs, each 1-3 min
+Artist catalog: 71 singles, 6 "Sing mit mir" collections, no regular albums
+Reasoning:
+  1. Title sounds like a compilation, but the artist has no regular albums
+  2. These collections are the artist's only multi-track releases —
+     excluding them leaves the series empty
+  3. Singles-first rule: the collection albums ARE the catalog
+→ include=true, episode_num=null, confidence=high
+  notes: "Artist-own collection; singles-first artist, no regular albums"
 ```
 
 **Multi-artist compilation** (exclude):
