@@ -159,21 +159,49 @@ class AppleMusicProvider(CatalogProvider):
             for a in raw
         ]
 
+    # The artist's own output. The plain `albums` relationship also
+    # includes albums where the artist is only feature-credited (e.g.
+    # the "Kinderlied für dich" personalized-name factory albums
+    # "feat. Simone Sommerland"), which flooded discographies. The
+    # appears-on-albums view isolates those and is deliberately absent.
+    _OWN_RELEASE_VIEWS = (
+        "full-albums",
+        "singles",
+        "compilation-albums",
+        "live-albums",
+    )
+
     def artist_albums(self, artist_id: str) -> list[Album]:
         def fetch():
             # Apple Music paginates at 25 by default, max 100.
             all_albums: list[dict] = []
-            data = self._get(f"artists/{artist_id}/albums", limit=100)
-            all_albums.extend(data.get("data", []))
-            # Follow pagination through _request so token refresh and 429
-            # handling apply on every page, not just the first.
-            next_url = data.get("next")
-            while next_url:
+            seen_ids: set[str] = set()
+            for view in self._OWN_RELEASE_VIEWS:
+                try:
+                    data = self._get(
+                        f"artists/{artist_id}/view/{view}", limit=100,
+                    )
+                except requests.HTTPError as e:
+                    # Artists without e.g. live albums 404 on that view.
+                    if e.response is not None and e.response.status_code == 404:
+                        continue
+                    raise
+                while True:
+                    for a in data.get("data", []):
+                        if a["id"] in seen_ids:
+                            continue
+                        seen_ids.add(a["id"])
+                        all_albums.append(a)
+                    # Follow pagination through _request so token refresh
+                    # and 429 handling apply on every page.
+                    next_url = data.get("next")
+                    if not next_url:
+                        break
+                    time.sleep(0.1)
+                    data = self._request(
+                        f"https://api.music.apple.com{next_url}",
+                    )
                 time.sleep(0.1)
-                page = self._request(f"https://api.music.apple.com{next_url}")
-                all_albums.extend(page.get("data", []))
-                next_url = page.get("next")
-            time.sleep(0.1)
             return all_albums
 
         raw = self._cached(f"am_artist_albums:{artist_id}", fetch)
