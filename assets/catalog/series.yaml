@@ -6958,3 +6958,16 @@ series:
     apple_music:
       artist_ids:
       - '220152697'
+- id: heavysaurus_hoerspiele
+  title: 'Heavysaurus: Hörspiele'
+  aliases: []
+  episode_pattern: '^Folge (\d+): '
+  content_type: hoerspiel
+  split_from: heavysaurus
+  providers:
+    spotify:
+      artist_ids:
+      - 6uyCfgv8FWIc2mifriVXqw
+    apple_music:
+      artist_ids:
+      - '1335570145'
