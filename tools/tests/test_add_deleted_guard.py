@@ -17,6 +17,7 @@ from ruamel.yaml import YAML
 from lauschi_catalog.catalog import add_ops as add_ops_mod
 from lauschi_catalog.catalog import deleted as deleted_mod
 from lauschi_catalog.catalog import loader as loader_mod
+from lauschi_catalog.catalog import paths as paths_mod
 from lauschi_catalog.commands import add as add_mod
 
 yaml = YAML()
@@ -33,6 +34,13 @@ def env(monkeypatch, tmp_path):
 
     monkeypatch.setattr(loader_mod, "SERIES_YAML", series_yaml)
     monkeypatch.setattr(deleted_mod, "DELETED_YAML", deleted_yaml)
+    # series_ops.add_series_entry resolves the file through
+    # paths.series_yaml_path() at call time; without these patches the
+    # force-readd test writes a tom_turbo stub into the REAL series.yaml.
+    monkeypatch.setattr(paths_mod, "series_yaml_path", lambda: series_yaml)
+    monkeypatch.setattr(
+        paths_mod, "series_lock_path", lambda: tmp_path / ".series.yaml.lock",
+    )
 
     # Pre-seed the log with a deletion.
     deleted_mod.record_deletion(
@@ -107,3 +115,10 @@ def test_add_with_force_readd_clears_log_entry(env, monkeypatch, tmp_path):
 
     # The deletion log no longer contains tom_turbo.
     assert deleted_mod.is_deleted("tom_turbo", env["deleted_yaml"]) is None
+
+    # The new entry landed in the test catalog, not the real repo one.
+    # add_series_entry resolves the file via paths.series_yaml_path()
+    # at call time; an unpatched paths module silently appends a
+    # tom_turbo stub to the real series.yaml on every test run.
+    data = yaml.load(env["series_yaml"])
+    assert any(e["id"] == "tom_turbo" for e in data["series"])
