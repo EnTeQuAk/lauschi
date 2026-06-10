@@ -6627,10 +6627,14 @@ series:
     spotify:
       artist_ids:
       - 3GxW2mmzRySZHcA0RUk8d8
+      - 2MRBYMwOyQql8G4BngW89E
     apple_music:
       artist_ids:
       - '961585712'
+      - '1657440857'
   content_type: music
+  aliases:
+  - Kinderlieder Gang
 - id: kati_breuer
   title: Kati Breuer
   providers:
@@ -6740,16 +6744,6 @@ series:
     apple_music:
       artist_ids:
       - '1499681659'
-  content_type: music
-- id: kinderlieder_gang
-  title: Kinderlieder Gang
-  providers:
-    spotify:
-      artist_ids:
-      - 2MRBYMwOyQql8G4BngW89E
-    apple_music:
-      artist_ids:
-      - '1657440857'
   content_type: music
 - id: manuel_straube
   title: Manuel Straube
