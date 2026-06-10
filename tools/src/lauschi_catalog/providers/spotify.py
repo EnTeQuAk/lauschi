@@ -199,10 +199,14 @@ class SpotifyProvider(CatalogProvider):
             # ``data["next"]`` already encode them, so subsequent calls
             # pass no params. Splitting the first call out reads cleaner
             # than the reset-to-{} pattern.
+            # The filter param is include_groups; album_type is only a
+            # response field and gets silently ignored as a query param,
+            # which floods the result with appears_on albums (other
+            # artists' releases this artist features on).
             data = self._get(
                 f"artists/{artist_id}/albums",
                 market="DE", limit=50,
-                album_type="album,single,compilation",
+                include_groups="album,single,compilation",
             )
             raw: list[dict] = list(data.get("items", []))
             url = data.get("next") or ""
@@ -225,6 +229,9 @@ class SpotifyProvider(CatalogProvider):
                 image_url=_pick_image(a.get("images", [])),
             )
             for a in raw
+            # Safety net for cache entries fetched before the
+            # include_groups fix: drop appears_on items here too.
+            if a.get("album_group") != "appears_on"
         ]
 
     def album_details(self, album_id: str) -> Album | None:
