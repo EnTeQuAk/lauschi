@@ -6460,7 +6460,7 @@ series:
     apple_music:
       artist_ids:
       - '1328909127'
-  content_type: music
+  content_type: hoerspiel
 - id: dikka
   title: DIKKA
   providers:
@@ -6480,7 +6480,7 @@ series:
     apple_music:
       artist_ids:
       - '532585010'
-  content_type: music
+  content_type: hoerspiel
 - id: lichterkinder
   title: Lichterkinder
   providers:
@@ -6500,7 +6500,7 @@ series:
     apple_music:
       artist_ids:
       - '122162987'
-  content_type: music
+  content_type: hoerspiel
 - id: die_schluempfe
   title: Die Schlümpfe
   providers:
@@ -6510,7 +6510,7 @@ series:
     apple_music:
       artist_ids:
       - '128557561'
-  content_type: music
+  content_type: hoerspiel
 - id: leo_lausemaus
   title: Leo Lausemaus
   providers:
@@ -6520,7 +6520,7 @@ series:
     apple_music:
       artist_ids:
       - '263499755'
-  content_type: music
+  content_type: hoerspiel
 - id: hurra_kinderlieder
   title: Hurra Kinderlieder
   providers:
@@ -6710,7 +6710,7 @@ series:
     apple_music:
       artist_ids:
       - '269723263'
-  content_type: music
+  content_type: hoerspiel
 - id: jonina
   title: Jonina
   providers:
@@ -6966,7 +6966,7 @@ series:
     apple_music:
       artist_ids:
       - '1716921195'
-  content_type: music
+  content_type: hoerspiel
 - id: bibi_und_tina_bff_talk
   title: 'Bibi und Tina: Bff Talk'
   aliases: []
