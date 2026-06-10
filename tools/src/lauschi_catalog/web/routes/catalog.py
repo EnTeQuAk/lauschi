@@ -100,7 +100,7 @@ templates.env.globals["zip"] = zip  # type: ignore[reportArgumentType]
 
 
 @router.get("/catalog", response_class=HTMLResponse)
-async def catalog_list(request: Request, q: str = "", tab: str = "hoerspiel"):
+async def catalog_list(request: Request, q: str = "", tab: str = "hoerspiel", status: str = ""):
     all_series = get_all_series()
     series = all_series
 
@@ -121,6 +121,7 @@ async def catalog_list(request: Request, q: str = "", tab: str = "hoerspiel"):
     for s in series:
         ct = s.content_type or "hoerspiel"
         state = pipeline_status(s.id, series=s)
+        label = state.current_label if state.status != "escalated" else "Escalated"
         enriched.append(
             {
                 "id": s.id,
@@ -130,6 +131,7 @@ async def catalog_list(request: Request, q: str = "", tab: str = "hoerspiel"):
                 "status": state.status,
                 "current_step": state.current_step,
                 "current_label": state.current_label,
+                "filter_label": label,
                 "pipeline": {
                     "labels": state.step_labels,
                     "statuses": state.step_statuses,
@@ -139,6 +141,22 @@ async def catalog_list(request: Request, q: str = "", tab: str = "hoerspiel"):
                 "album_count": _curation_album_count(s.id),
             }
         )
+
+    status_counts: dict[str, int] = {}
+    for s in enriched:
+        status_counts[s["filter_label"]] = status_counts.get(s["filter_label"], 0) + 1
+
+    active_filters = {f for f in status.split(",") if f} if status else set()
+    if active_filters:
+        enriched = [s for s in enriched if s["filter_label"] in active_filters]
+
+    filter_order = ["Discover", "Curate", "Audit", "Apply", "Validate", "Done", "Escalated"]
+    status_filters = [
+        {"label": label, "count": status_counts.get(label, 0), "active": label in active_filters}
+        for label in filter_order
+        if status_counts.get(label, 0) > 0
+    ]
+
     return templates.TemplateResponse(
         request,
         "catalog_list.html",
@@ -146,8 +164,10 @@ async def catalog_list(request: Request, q: str = "", tab: str = "hoerspiel"):
             "series": enriched,
             "q": q,
             "tab": tab,
+            "status": status,
             "counts": counts,
             "total": len(all_series),
+            "status_filters": status_filters,
         },
     )
 

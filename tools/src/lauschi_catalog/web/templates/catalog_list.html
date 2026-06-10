@@ -13,6 +13,7 @@
         </div>
         <form method="get" action="/catalog" class="flex gap-05">
             <input type="hidden" name="tab" value="{{ tab }}" />
+            {% if status %}<input type="hidden" name="status" value="{{ status }}" />{% endif %}
             <input type="search"
                    name="q"
                    value="{{ q }}"
@@ -20,28 +21,52 @@
                    aria-label="Search"
                    class="max-w-320" />
             <button type="submit">Search</button>
-            {% if q %}<a href="/catalog?tab={{ tab }}" role="button" class="secondary outline">Clear</a>{% endif %}
+            {% if q %}<a href="/catalog?tab={{ tab }}{% if status %}&status={{ status }}{% endif %}" role="button" class="secondary outline">Clear</a>{% endif %}
         </form>
     </header>
-    <nav class="catalog-tabs mb-15">
-        <a href="/catalog?tab=hoerspiel{% if q %}&q={{ q }}{% endif %}"
+    {% set qs_tail %}{% if q %}&q={{ q }}{% endif %}{% if status %}&status={{ status }}{% endif %}{% endset %}
+    <nav class="catalog-tabs mb-1">
+        <a href="/catalog?tab=hoerspiel{{ qs_tail }}"
            class="catalog-tab {% if tab == 'hoerspiel' %}catalog-tab--active{% endif %}">
             <i data-lucide="book-open" style="width:16px;height:16px"></i>
             Hörspiele
             <span class="catalog-tab__count">{{ counts.hoerspiel }}</span>
         </a>
-        <a href="/catalog?tab=music{% if q %}&q={{ q }}{% endif %}"
+        <a href="/catalog?tab=music{{ qs_tail }}"
            class="catalog-tab {% if tab == 'music' %}catalog-tab--active{% endif %}">
             <i data-lucide="music" style="width:16px;height:16px"></i>
             Musik
             <span class="catalog-tab__count">{{ counts.music }}</span>
         </a>
-        <a href="/catalog?tab=all{% if q %}&q={{ q }}{% endif %}"
+        <a href="/catalog?tab=all{{ qs_tail }}"
            class="catalog-tab {% if tab == 'all' %}catalog-tab--active{% endif %}">
             Alle
             <span class="catalog-tab__count">{{ counts.hoerspiel + counts.music }}</span>
         </a>
     </nav>
+    {% if status_filters %}
+    <div class="catalog-filters mb-15">
+        <span class="catalog-filters__label">Pipeline</span>
+        {% for f in status_filters %}
+            {% set active_set = status.split(',') if status else [] %}
+            {% if f.active %}
+                {% set new_filters = active_set | reject('equalto', f.label) | list %}
+            {% else %}
+                {% set new_filters = active_set + [f.label] %}
+            {% endif %}
+            {% set new_status = new_filters | reject('equalto', '') | join(',') %}
+            <a href="/catalog?tab={{ tab }}{% if q %}&q={{ q }}{% endif %}{% if new_status %}&status={{ new_status }}{% endif %}"
+               class="catalog-filter {% if f.active %}catalog-filter--active{% endif %} catalog-filter--{{ f.label | lower }}">
+                {{ f.label }}
+                <span class="catalog-filter__count">{{ f.count }}</span>
+            </a>
+        {% endfor %}
+        {% if status %}
+            <a href="/catalog?tab={{ tab }}{% if q %}&q={{ q }}{% endif %}"
+               class="catalog-filter catalog-filter--clear">Clear</a>
+        {% endif %}
+    </div>
+    {% endif %}
     <div class="mb-15">
         <button type="button"
                 class="outline"
