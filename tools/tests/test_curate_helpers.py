@@ -604,12 +604,22 @@ def test_legacy_json_without_confidence_loads_as_high():
     assert d.confidence == "high"
 
 
-def test_excluded_without_reason_rejected():
-    with pytest.raises(ValueError, match="exclude_reason"):
-        AlbumDecision(
-            album_id="x", provider="spotify", include=False,
-            episode_num=None, title="t",
-        )
+def test_excluded_without_reason_autofills_from_notes():
+    """Models occasionally omit exclude_reason; raising burned an output
+    retry per batch, so the validator auto-fills from notes instead."""
+    d = AlbumDecision(
+        album_id="x", provider="spotify", include=False,
+        episode_num=None, title="t", notes="multi-artist compilation",
+    )
+    assert d.exclude_reason == "multi-artist compilation"
+
+
+def test_excluded_without_reason_or_notes_autofills_unspecified():
+    d = AlbumDecision(
+        album_id="x", provider="spotify", include=False,
+        episode_num=None, title="t",
+    )
+    assert d.exclude_reason == "unspecified"
 
 
 def test_excluded_with_reason_ok():

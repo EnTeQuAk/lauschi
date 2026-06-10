@@ -862,6 +862,24 @@ def _fmt_elapsed(seconds: float) -> str:
     return f"{s // 60}m {s % 60:02d}s"
 
 
+def _discovery_album_dict(provider_name: str, album) -> dict:
+    """Convert a provider Album to the dict shape the curate flow uses.
+
+    album_type (album/single/compilation, Spotify only) is part of the
+    batch prompt: it lets the agent tell artist-own primary albums from
+    repackaged compilations.
+    """
+    return {
+        "provider": provider_name,
+        "id": album.id,
+        "name": album.name,
+        "release_date": album.release_date,
+        "total_tracks": album.total_tracks,
+        "album_type": album.album_type,
+        "image_url": album.image_url,
+    }
+
+
 async def _run_with_retry(
     coro_factory, *, phase: str = "", model_name: str = "",
     on_progress: Progress = _noop,
@@ -917,13 +935,9 @@ async def _run_large(
                     on_progress(
                         f"  [{p.name}] canonical artist: [{aid}] -> {len(albums)} albums",
                     )
-                    for a in albums:
-                        all_albums.append({
-                            "provider": p.name, "id": a.id, "name": a.name,
-                            "release_date": a.release_date,
-                            "total_tracks": a.total_tracks,
-                            "image_url": a.image_url,
-                        })
+                    all_albums.extend(
+                        _discovery_album_dict(p.name, a) for a in albums
+                    )
                 continue
 
             artists = p.search_artists(query)
@@ -945,12 +959,9 @@ async def _run_large(
                 )
 
             albums = p.artist_albums(artist.id)
-            for a in albums:
-                all_albums.append({
-                    "provider": p.name, "id": a.id, "name": a.name,
-                    "release_date": a.release_date, "total_tracks": a.total_tracks,
-                    "image_url": a.image_url,
-                })
+            all_albums.extend(
+                _discovery_album_dict(p.name, a) for a in albums
+            )
             on_progress(f"  [{p.name}] {len(albums)} albums")
             provider_album_counts[p.name] = len(albums)
         except Exception as e:
@@ -1096,7 +1107,7 @@ async def _run_large(
                     "title": a["name"],
                     "episode_num": None,
                     "release_date": a.get("release_date", ""),
-                    "album_type": "",
+                    "album_type": a.get("album_type", ""),
                     "total_tracks": a.get("total_tracks", 0),
                     "duration_min": None,
                     "label": "",
