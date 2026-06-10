@@ -3896,6 +3896,7 @@ series:
     spotify:
       artist_ids:
       - 6TiAVm5JS4cEeKdAUMc9bh
+  content_type: audiobook
 - id: der_kleine_hui_buh
   title: Der kleine Hui Buh
   providers:
@@ -5212,6 +5213,7 @@ series:
     spotify:
       artist_ids:
       - 7sdugL0BnF0QBh3fGPvYJz
+  content_type: audiobook
 - id: yakari
   title: Yakari
   providers:
