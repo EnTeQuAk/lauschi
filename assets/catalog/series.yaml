@@ -6415,15 +6415,23 @@ series:
       audited_by: minimax-m2.7
       audited_at: '2026-05-29T05:28:44.686348+00:00'
 - id: simone_sommerland
-  title: Simone Sommerland
+  title: Simone Sommerland, Karsten Glück & die Kita-Frösche
   providers:
     spotify:
       artist_ids:
       - 04yr1h3maDSKvM08pgOezF
+      - 5Asmk7uzCjVJN77MLDnvma
+      - 2yOGWPXuL8wG3F1q5FWmep
     apple_music:
       artist_ids:
       - '397732566'
+      - '397732581'
+      - '478521053'
   content_type: music
+  aliases:
+  - Simone Sommerland
+  - Karsten Glück
+  - Die Kita-Frösche
 - id: rolf_zuckowski
   title: Rolf Zuckowski
   providers:
@@ -6573,16 +6581,6 @@ series:
       artist_ids:
       - '622903322'
   content_type: music
-- id: die_kita_froesche
-  title: Die Kita-Frösche
-  providers:
-    spotify:
-      artist_ids:
-      - 2yOGWPXuL8wG3F1q5FWmep
-    apple_music:
-      artist_ids:
-      - '478521053'
-  content_type: music
 - id: giraffenaffen
   title: Giraffenaffen
   providers:
@@ -6612,16 +6610,6 @@ series:
     apple_music:
       artist_ids:
       - '1505131248'
-  content_type: music
-- id: karsten_glueck
-  title: Karsten Glück
-  providers:
-    spotify:
-      artist_ids:
-      - 5Asmk7uzCjVJN77MLDnvma
-    apple_music:
-      artist_ids:
-      - '397732581'
   content_type: music
 - id: stephen_janetzko
   title: Stephen Janetzko
@@ -6732,13 +6720,6 @@ series:
     apple_music:
       artist_ids:
       - '1305380291'
-  content_type: music
-- id: kinderliedertv
-  title: KinderliederTV
-  providers:
-    spotify:
-      artist_ids:
-      - 2h2aSvHJqrhxThqw0VT0QK
   content_type: music
 - id: familie_sonntag
   title: Familie Sonntag

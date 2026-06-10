@@ -862,6 +862,24 @@ def _fmt_elapsed(seconds: float) -> str:
     return f"{s // 60}m {s % 60:02d}s"
 
 
+def _dedupe_albums(albums: list[dict]) -> list[dict]:
+    """Drop repeated (provider, id) entries, keeping first occurrence.
+
+    Series with multiple artist IDs per provider (e.g. a trio whose
+    albums are credited to every member) fetch the same album once per
+    artist page.
+    """
+    seen: set[tuple[str, str]] = set()
+    result: list[dict] = []
+    for a in albums:
+        key = (a["provider"], a["id"])
+        if key in seen:
+            continue
+        seen.add(key)
+        result.append(a)
+    return result
+
+
 def _discovery_album_dict(provider_name: str, album) -> dict:
     """Convert a provider Album to the dict shape the curate flow uses.
 
@@ -983,6 +1001,14 @@ async def _run_large(
         on_progress(
             f"  Curation marked incomplete: "
             f"{'; '.join(provider_errors)}",
+        )
+
+    fetched = len(all_albums)
+    all_albums = _dedupe_albums(all_albums)
+    if len(all_albums) < fetched:
+        on_progress(
+            f"  Deduplicated {fetched - len(all_albums)} albums shared "
+            f"across artist pages",
         )
 
     on_progress(f"\n  Total: {len(all_albums)} albums across {len(providers)} providers\n")
