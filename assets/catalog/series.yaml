@@ -3933,6 +3933,7 @@ series:
     apple_music:
       artist_ids:
       - '1493895024'
+  content_type: audiobook
 - id: hedda_hex
   title: Hedda Hex
   providers:
