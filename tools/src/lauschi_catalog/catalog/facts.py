@@ -127,3 +127,54 @@ class SeriesFacts(BaseModel):
     era_boundaries: list[EraBoundary] = Field(default_factory=list)
     known_gaps: list[KnownGap] = Field(default_factory=list)
     sub_series: list[SubSeriesFact] = Field(default_factory=list)
+
+
+def merge_facts(*sources: "SeriesFacts | None") -> "SeriesFacts | None":
+    """Merge facts from multiple sources, deduped by natural key.
+
+    Keys: era label, gap number, sub_series label. Earlier sources
+    win on conflict, so pass the most authoritative first (frozen
+    series.yaml facts, then prior curation, then new proposals).
+    Returns None when nothing survives, matching the convention that
+    an absent series_facts block means "no facts".
+    """
+    merged = SeriesFacts()
+    seen_eras: set[str] = set()
+    seen_gaps: set[int] = set()
+    seen_subs: set[str] = set()
+    for src in sources:
+        if src is None:
+            continue
+        for era in src.era_boundaries:
+            if era.label not in seen_eras:
+                seen_eras.add(era.label)
+                merged.era_boundaries.append(era)
+        for gap in src.known_gaps:
+            if gap.number not in seen_gaps:
+                seen_gaps.add(gap.number)
+                merged.known_gaps.append(gap)
+        for sub in src.sub_series:
+            if sub.label not in seen_subs:
+                seen_subs.add(sub.label)
+                merged.sub_series.append(sub)
+    if not (merged.era_boundaries or merged.known_gaps or merged.sub_series):
+        return None
+    return merged
+
+
+def facts_from_curation(curation: "dict | None") -> "SeriesFacts | None":
+    """Parse the series_facts block of a curation JSON, tolerantly.
+
+    A malformed block (hand-edited or from an older schema) returns
+    None instead of raising: carrying no facts forward is recoverable,
+    a crashed re-curation is not.
+    """
+    if not curation:
+        return None
+    raw = curation.get("series_facts")
+    if not raw:
+        return None
+    try:
+        return SeriesFacts.model_validate(raw)
+    except Exception:
+        return None

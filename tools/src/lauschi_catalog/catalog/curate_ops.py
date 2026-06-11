@@ -42,6 +42,8 @@ from lauschi_catalog.catalog.facts import (
     SubSeriesFact,
     SubSeriesProposal,
     fact_provenance,
+    facts_from_curation,
+    merge_facts,
 )
 from lauschi_catalog.catalog.loader import load_catalog
 from lauschi_catalog.catalog.matcher import (
@@ -1522,18 +1524,8 @@ async def _run_large(
                     f"numbers across all batches.\n",
                 )
 
-    # Merge existing + proposed facts
-    merged_facts: SeriesFacts | None = None
-    if existing_facts or proposed_facts:
-        merged_facts = SeriesFacts()
-        if existing_facts:
-            merged_facts.era_boundaries.extend(existing_facts.era_boundaries)
-            merged_facts.known_gaps.extend(existing_facts.known_gaps)
-            merged_facts.sub_series.extend(existing_facts.sub_series)
-        if proposed_facts:
-            merged_facts.era_boundaries.extend(proposed_facts.era_boundaries)
-            merged_facts.known_gaps.extend(proposed_facts.known_gaps)
-            merged_facts.sub_series.extend(proposed_facts.sub_series)
+    # Merge existing + proposed facts, deduped by natural key.
+    merged_facts = merge_facts(existing_facts, proposed_facts)
 
     on_progress(f"  Finalize: {_fmt_elapsed(time.monotonic() - t_finalize)}\n")
 
@@ -1814,6 +1806,12 @@ async def curate_one(
     try:
         if content_type == "music":
             on_progress("  Mode: music artist (not Hoerspiel)")
+        # Carry facts from the prior curation JSON forward, not just the
+        # frozen series.yaml facts: re-curation is an incremental update,
+        # not a rediscovery from scratch. series.yaml wins on conflict.
+        existing_facts = merge_facts(
+            existing_facts, facts_from_curation(existing_curation),
+        )
         series = await run_curation(
             query, providers,
             model_name=model, timeout=timeout,
