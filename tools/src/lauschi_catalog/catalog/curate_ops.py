@@ -23,7 +23,11 @@ from pydantic import BaseModel, Field, field_validator, model_validator
 from pydantic_ai import Agent, ModelRetry, RunContext
 
 from lauschi_catalog._opencode import (
+    OLLAMA_PREFIX,
+    OPENAI_COMPAT_PREFIX,
     build_mistral_model,
+    build_ollama_model,
+    build_openai_compat_model,
     build_opencode_model,
     get_model_settings,
 )
@@ -928,11 +932,14 @@ async def _run_large(
     existing_facts: SeriesFacts | None = None,
     on_progress: Progress = _noop,
 ) -> CuratedSeries:
-    model = (
-        build_mistral_model(model_name, api_key)
-        if model_name.startswith("mistral-")
-        else build_opencode_model(model_name, api_key)
-    )
+    if model_name.startswith(OLLAMA_PREFIX):
+        model = build_ollama_model(model_name)
+    elif model_name.startswith(OPENAI_COMPAT_PREFIX):
+        model = build_openai_compat_model(model_name)
+    elif model_name.startswith("mistral-"):
+        model = build_mistral_model(model_name, api_key)
+    else:
+        model = build_opencode_model(model_name, api_key)
 
     # -- Step 1: Discovery
     on_progress("\n== Discovery ==\n")
@@ -1536,7 +1543,9 @@ async def run_curation(
     on_progress: Progress = _noop,
 ) -> CuratedSeries:
     """Pick single-agent or batched flow based on discography size."""
-    if model_name.startswith("mistral-"):
+    if model_name.startswith((OLLAMA_PREFIX, OPENAI_COMPAT_PREFIX)):
+        api_key = ""  # resolved by the model builder, not here
+    elif model_name.startswith("mistral-"):
         api_key = os.environ.get("MISTRAL_API_KEY", "")
         if not api_key:
             raise ValueError("MISTRAL_API_KEY not set")
