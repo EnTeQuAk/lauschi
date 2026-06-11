@@ -3,7 +3,7 @@
 Finalize may replace the episode_pattern. The impact report compares
 old vs new on two axes: coverage of included titles (episodes that
 lose their numbers) and matches on excluded titles (stray digits a
-too-broad regex would capture, the gemma-26b merged-regex failure).
+too-broad regex would capture, the merged-regex failure mode).
 Shrinking or denoising is allowed; only a pattern that is both below
 the 30% coverage floor AND worse than its predecessor is rejected.
 """

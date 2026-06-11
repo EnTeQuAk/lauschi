@@ -20,11 +20,7 @@ from pydantic import BaseModel, Field
 from pydantic_ai import Agent, ModelRetry, RunContext, ToolOutput
 
 from lauschi_catalog._opencode import (
-    OLLAMA_PREFIX,
-    OPENAI_COMPAT_PREFIX,
     build_mistral_model,
-    build_ollama_model,
-    build_openai_compat_model,
     build_opencode_model,
     get_model_settings,
 )
@@ -197,14 +193,11 @@ def audit_system_prompt() -> str:
 
 
 def _build_audit_agent(model_name: str, api_key: str, on_progress: Progress = _noop):
-    if model_name.startswith(OLLAMA_PREFIX):
-        model = build_ollama_model(model_name)
-    elif model_name.startswith(OPENAI_COMPAT_PREFIX):
-        model = build_openai_compat_model(model_name)
-    elif model_name.startswith("mistral-"):
-        model = build_mistral_model(model_name, api_key)
-    else:
-        model = build_opencode_model(model_name, api_key)
+    model = (
+        build_mistral_model(model_name, api_key)
+        if model_name.startswith("mistral-")
+        else build_opencode_model(model_name, api_key)
+    )
     agent: Agent[Deps, AuditResult] = Agent(
         model,
         output_type=ToolOutput(
@@ -454,12 +447,10 @@ async def audit_one(
     providers: list | None = None,
     on_progress: Progress = _noop,
 ) -> AuditResult | None:
-    api_key = ""
-    if not model_name.startswith((OLLAMA_PREFIX, OPENAI_COMPAT_PREFIX)):
-        api_key = os.environ.get("OPENCODE_API_KEY", "")
-        if not api_key:
-            on_progress("OPENCODE_API_KEY not set")
-            return None
+    api_key = os.environ.get("OPENCODE_API_KEY", "")
+    if not api_key:
+        on_progress("OPENCODE_API_KEY not set")
+        return None
 
     path = CURATION_DIR / f"{series_id}.json"
     if not path.exists():

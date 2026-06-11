@@ -1,9 +1,9 @@
 """Pin the regression and sanity lints.
 
 lint_regression compares a re-curation against the previous curation:
-an include-collapse (gemma stamped all of mama_sandy music_single,
-kimi-k2.6 once scoped a mixed artist to Hörspiel only) or a facts
-wipe must surface as CRITICAL so the audit gate can refuse
+an include-collapse (one curate run stamped all of mama_sandy
+music_single; another once scoped a mixed artist to Hörspiel only) or
+a facts wipe must surface as CRITICAL so the audit gate can refuse
 auto-approval. The sanity rules in lint_curation catch what models
 reason about unreliably: future dates (models live at their training
 cutoff) and year-capture episode numbers from over-broad regexes.

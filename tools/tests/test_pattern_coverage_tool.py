@@ -4,8 +4,8 @@ When compute_pattern_coverage returns an error (invalid regex, missing
 capture group), the report must carry that error in ``message``.
 Dropping it returns all-zeros with no explanation, which reads to the
 model like "the pattern matched nothing", sending it down wrong paths
-(gemma4 concluded list patterns were unsupported and merged its clean
-per-era regexes into one unanchored blob).
+(one model concluded list patterns were unsupported and merged its
+clean per-era regexes into one unanchored blob).
 """
 
 from __future__ import annotations

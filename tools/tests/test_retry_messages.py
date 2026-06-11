@@ -33,7 +33,7 @@ def test_retry_message_includes_status_and_body():
         if calls["n"] == 1:
             raise ModelHTTPError(
                 status_code=500,
-                model_name="@cf/google/gemma-4-26b-a4b-it",
+                model_name="some-hosted-model",
                 body={"error": "capacity temporarily exceeded"},
             )
         return "ok"
