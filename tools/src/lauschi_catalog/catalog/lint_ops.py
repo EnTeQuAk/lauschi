@@ -11,11 +11,82 @@ checks so they don't fire false positives on documented quirks.
 
 from __future__ import annotations
 
+from datetime import date
+
 from lauschi_catalog.catalog.facts import SeriesFacts
 from lauschi_catalog.catalog.matcher import extract_episode
 
+# Issues with this prefix are hard-gate: the audit phase refuses to
+# auto-approve while any are present, regardless of the audit model's
+# verdict. Everything else is advisory context for the auditor.
+CRITICAL_PREFIX = "CRITICAL: "
 
-def lint_curation(curation: dict) -> list[str]:
+
+def critical_issues(issues: list[str]) -> list[str]:
+    """Filter issues down to the hard-gate ones."""
+    return [i for i in issues if i.startswith(CRITICAL_PREFIX)]
+
+
+def _included_count(curation: dict) -> int:
+    return sum(1 for a in curation.get("albums", []) if a.get("include"))
+
+
+def _facts_count(curation: dict) -> int:
+    facts = curation.get("series_facts") or {}
+    return sum(
+        len(facts.get(k) or [])
+        for k in ("era_boundaries", "known_gaps", "sub_series")
+    )
+
+
+def lint_regression(previous: dict | None, current: dict) -> list[str]:
+    """Compare a re-curation against the previous curation.
+
+    A model that silently empties a series (every album stamped
+    music_single) or wipes discovered facts produces a structurally
+    valid curation; only the comparison with what was there before
+    makes the damage visible. CRITICAL issues here feed the audit
+    hard-gate.
+    """
+    if not previous:
+        return []
+    issues: list[str] = []
+
+    prev_inc = _included_count(previous)
+    cur_inc = _included_count(current)
+    if prev_inc > 0 and cur_inc == 0:
+        issues.append(
+            f"{CRITICAL_PREFIX}Include collapse: 0 included "
+            f"(previous curation had {prev_inc})",
+        )
+    elif prev_inc > 0 and cur_inc < prev_inc * 0.5:
+        issues.append(
+            f"{CRITICAL_PREFIX}Included count dropped more than half: "
+            f"{prev_inc} -> {cur_inc}",
+        )
+
+    if _facts_count(previous) > 0 and _facts_count(current) == 0:
+        issues.append(
+            f"{CRITICAL_PREFIX}series_facts lost: previous curation had "
+            f"{_facts_count(previous)} facts, this one has none",
+        )
+
+    return issues
+
+
+def _norm_title(title: str) -> str:
+    """Normalize a title for cross-provider comparison.
+
+    Apple Music decorates with ' - EP' / ' - Single' suffixes that
+    Spotify doesn't carry.
+    """
+    t = " ".join(title.casefold().split())
+    for suffix in (" - ep", " - single"):
+        t = t.removesuffix(suffix)
+    return t
+
+
+def lint_curation(curation: dict, *, today: date | None = None) -> list[str]:
     """Run deterministic checks on a curation.
 
     Returns a list of human-readable issue strings. Empty list means
@@ -209,6 +280,63 @@ def lint_curation(curation: dict) -> list[str]:
             f"[auto_included] {len(auto_included)} album(s) were auto-included "
             f"because the agent omitted them: {', '.join(titles)}{suffix}"
         )
+
+    # ── Rule 9: Future-dated releases ────────────────────────────────
+    # Deterministic on purpose: models date-reason from their training
+    # cutoff (an auditor once flagged a three-month-old release as
+    # "future"). Code knows what day it is.
+    cutoff = (today or date.today()).isoformat()
+    future = [
+        a for a in included
+        if len(a.get("release_date") or "") == 10
+        and a["release_date"] > cutoff
+    ]
+    if future:
+        titles = [f"{a.get('title', '?')} ({a['release_date']})" for a in future[:5]]
+        issues.append(
+            f"[future_release] {len(future)} included album(s) dated in the "
+            f"future: {', '.join(titles)}"
+        )
+
+    # ── Rule 10: Episode-number sanity ───────────────────────────────
+    # episode_num >= 1000 is almost always a year captured by an
+    # over-broad regex; <= 0 is never a real episode.
+    insane = [
+        a for a in included
+        if a.get("episode_num") is not None
+        and not (0 < a["episode_num"] < 1000)
+    ]
+    if insane:
+        pairs = [f"{a.get('title', '?')!r} -> {a['episode_num']}" for a in insane[:5]]
+        issues.append(
+            f"[episode_num_sanity] {len(insane)} implausible episode_num "
+            f"value(s): {', '.join(pairs)}"
+        )
+
+    # ── Rule 11: Cross-provider title counterparts ───────────────────
+    # Same normalized title included on one provider but excluded on
+    # another with a CONTENT-classifying reason: the same content can't
+    # be a music_single there and an episode here. Redundancy reasons
+    # (duplicate) are deliberate and stay silent, matching Rule 5's
+    # "properly excluded" convention. Complements Rule 5, which needs
+    # episode numbers; this catches the unnumbered case (music albums).
+    contradictory_reasons = {
+        "music_single", "compilation", "wrong_content_type", "sub_series_bleed",
+    }
+    included_titles: dict[str, str] = {}
+    for a in included:
+        included_titles.setdefault(_norm_title(a.get("title") or ""), a.get("provider", "?"))
+    for a in albums:
+        if a.get("include") or a.get("exclude_reason") not in contradictory_reasons:
+            continue
+        norm = _norm_title(a.get("title") or "")
+        other = included_titles.get(norm)
+        if other and other != a.get("provider"):
+            issues.append(
+                f"[title_counterpart] {a.get('title', '?')!r} excluded on "
+                f"{a.get('provider', '?')} ({a.get('exclude_reason')}) but its "
+                f"counterpart is included on {other}"
+            )
 
     return issues
 

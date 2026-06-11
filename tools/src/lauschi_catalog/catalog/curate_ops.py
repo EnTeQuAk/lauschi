@@ -53,7 +53,7 @@ from lauschi_catalog.catalog.matcher import (
 from lauschi_catalog.catalog.io import safe_write_json
 from lauschi_catalog.catalog.paths import CURATION_DIR, cover_cache_dir, cover_cache_path
 from lauschi_catalog.catalog.prompt import album_to_dict, format_albums_xml
-from lauschi_catalog.catalog.lint_ops import lint_curation
+from lauschi_catalog.catalog.lint_ops import lint_curation, lint_regression
 from lauschi_catalog.prompts import load_curate_skill
 from lauschi_catalog.providers import CatalogProvider
 from lauschi_catalog.providers._validate import explain_invalid, is_valid_id
@@ -291,6 +291,10 @@ class CuratedSeries(BaseModel):
     series_facts: SeriesFacts = Field(default_factory=SeriesFacts)
     incomplete: bool = False
     incomplete_reason: str = ""
+    # Deterministic regressions vs the previous curation (see
+    # lint_ops.lint_regression). CRITICAL entries hard-gate audit
+    # approval.
+    regression_flags: list[str] = Field(default_factory=list)
 
     @field_validator("episode_pattern")
     @classmethod
@@ -1754,6 +1758,7 @@ def save_curation(
         "age_note": series.age_note,
         "curator_notes": series.curator_notes,
         "series_facts": series.series_facts.model_dump(),
+        "regression_flags": series.regression_flags,
         "curated_at": datetime.now(UTC).isoformat(),
         "albums": [a.model_dump() for a in series.albums],
         "incomplete": series.incomplete,
@@ -1898,6 +1903,15 @@ async def curate_one(
             on_progress=on_progress,
         )
         lock_series_id(series, series_id, on_progress=on_progress)
+        series.regression_flags = lint_regression(
+            existing_curation,
+            {
+                "albums": [a.model_dump() for a in series.albums],
+                "series_facts": series.series_facts.model_dump(),
+            },
+        )
+        for flag in series.regression_flags:
+            on_progress(f"  [regression] {flag}")
         path = save_curation(series, on_progress=on_progress)
         on_progress(f"Saved to {path}")
         return CurateOneResult(ok=True, series=series, path=path)

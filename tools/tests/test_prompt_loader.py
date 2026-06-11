@@ -57,3 +57,22 @@ class TestLoadCurateSkill:
         p = load_curate_skill(phase="batch", content_type="hoerspiel")
         assert "01/Majas Geburt" in p
         assert "Klassiker, Folge 1" in p
+
+
+def test_curate_skill_contains_current_date():
+    """Models date-reason from their training cutoff (an auditor once
+    flagged a three-month-old release as 'future'). Every assembled
+    prompt carries today's date so release-date reasoning has an
+    anchor."""
+    from datetime import date
+    from lauschi_catalog.prompts import load_curate_skill
+
+    prompt = load_curate_skill(phase="batch", content_type="hoerspiel")
+    assert f"Today is {date.today().isoformat()}." in prompt
+
+
+def test_audit_system_prompt_contains_current_date():
+    from datetime import date
+    from lauschi_catalog.catalog.audit_ops import audit_system_prompt
+
+    assert f"Today is {date.today().isoformat()}." in audit_system_prompt()

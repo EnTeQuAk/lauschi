@@ -68,4 +68,15 @@ def load_curate_skill(
     phase_file = f"PHASE_{phase}.md"
     parts.append(_read_resource(phase_file))
 
+    # 5. Date anchor: models date-reason from their training cutoff
+    # without it (release dates, "future" releases, era recency).
+    parts.append(current_date_line())
+
     return "\n\n".join(parts)
+
+
+def current_date_line() -> str:
+    """Return a 'Today is YYYY-MM-DD.' line for prompt assembly."""
+    from datetime import date
+
+    return f"Today is {date.today().isoformat()}."

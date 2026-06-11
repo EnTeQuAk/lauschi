@@ -617,3 +617,44 @@ class TestDryRun:
 
         data = json.loads(path.read_text())
         assert "review" not in data
+
+
+# ── apply_audit: hard gate on critical regression flags ──────────────────
+
+
+class TestApplyAuditHardGate:
+    """The auditor's approval is necessary, not sufficient: critical
+    deterministic regressions (include-collapse, facts-wipe) force
+    escalation no matter what the model concluded. mama_sandy showed
+    an auditor approving a curation that emptied an entire artist."""
+
+    def _apply(self, tmp_path, result: AuditResult, flags: list[str]):
+        path = tmp_path / "test_series.json"
+        curation = _curation()
+        curation["regression_flags"] = flags
+        path.write_text(json.dumps(curation))
+
+        import lauschi_catalog.catalog.audit_ops as audit_mod
+        orig = audit_mod.CURATION_DIR
+        audit_mod.CURATION_DIR = tmp_path
+        try:
+            action = apply_audit(
+                "test_series", result, model_name="test-model",
+            )
+        finally:
+            audit_mod.CURATION_DIR = orig
+        yaml = ruamel.yaml.YAML()
+        data = yaml.load(path)
+        return action, data
+
+    def test_critical_regression_escalates_despite_approval(self, tmp_path):
+        flags = ["CRITICAL: Include collapse: 0 included (previous curation had 8)"]
+        action, data = self._apply(tmp_path, AuditResult(approve=True), flags)
+        assert action == "escalated"
+        assert data["review"]["status"] == "escalated"
+        assert any("hard-gate" in c for c in data["review"]["concerns"])
+
+    def test_non_critical_flags_do_not_gate(self, tmp_path):
+        flags = ["Included count looks different but within tolerance"]
+        action, data = self._apply(tmp_path, AuditResult(approve=True), flags)
+        assert action == "approved"

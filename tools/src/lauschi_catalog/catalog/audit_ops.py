@@ -40,7 +40,8 @@ from lauschi_catalog.catalog.analysis import analyze_series
 from lauschi_catalog.catalog.lifecycle import review_is_stale
 from lauschi_catalog.catalog.io import safe_write_json
 from lauschi_catalog.catalog.paths import CURATION_DIR
-from lauschi_catalog.catalog.lint_ops import lint_curation
+from lauschi_catalog.catalog.lint_ops import critical_issues, lint_curation
+from lauschi_catalog.prompts import current_date_line
 from lauschi_catalog.retry import is_retryable
 from lauschi_catalog.run import run_agent_streaming
 from lauschi_catalog.search import brave_search
@@ -186,6 +187,15 @@ into the structured `submit_audit` output. No separate tools needed.
 """
 
 
+def audit_system_prompt() -> str:
+    """Audit instructions with a date anchor appended.
+
+    Models date-reason from their training cutoff without it (one
+    flagged a three-month-old release as "future").
+    """
+    return f"{_SYSTEM_PROMPT}\n\n{current_date_line()}"
+
+
 def _build_audit_agent(model_name: str, api_key: str, on_progress: Progress = _noop):
     if model_name.startswith(OLLAMA_PREFIX):
         model = build_ollama_model(model_name)
@@ -205,7 +215,7 @@ def _build_audit_agent(model_name: str, api_key: str, on_progress: Progress = _n
                 "for targeted fixes; concerns for anything worth flagging."
             ),
         ),
-        instructions=_SYSTEM_PROMPT,
+        instructions=audit_system_prompt(),
         model_settings=get_model_settings("audit", model_name),
         tool_retries=2,
         output_retries=2,
@@ -586,7 +596,18 @@ def apply_audit(
         else:
             _merge_facts(series_facts, update, prov)
 
-    if not result.approve or len(result.concerns) > 5:
+    # Hard gate: critical deterministic regressions (include-collapse,
+    # facts-wipe vs the previous curation) force escalation no matter
+    # what the audit model concluded. Approval is necessary, not
+    # sufficient; a human resolves these via catalog-review.
+    hard_flags = critical_issues(data.get("regression_flags") or [])
+    gate_concerns = [f"[hard-gate] {f}" for f in hard_flags]
+    if hard_flags:
+        for c in gate_concerns:
+            on_progress(f"  {c}")
+        review["status"] = "escalated"
+        action = "escalated"
+    elif not result.approve or len(result.concerns) > 5:
         review["status"] = "escalated"
         action = "escalated"
     elif result.overrides or result.fact_updates:
@@ -598,7 +619,7 @@ def apply_audit(
 
     review["audited_by"] = model_name
     review["audited_at"] = now
-    review["concerns"] = result.concerns
+    review["concerns"] = result.concerns + gate_concerns
 
     if not dry_run:
         canonicalize(data)

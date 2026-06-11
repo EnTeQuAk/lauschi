@@ -141,3 +141,14 @@ def test_save_curation_aborts_on_corrupt_existing_file(curation_dir: Path):
 
     # File untouched — still the corrupt content the user can recover from
     assert p.read_text() == "{not json at all"
+
+
+def test_save_curation_persists_regression_flags(curation_dir: Path):
+    """Regression flags computed by curate_one (include-collapse,
+    facts-wipe vs the previous curation) must survive into the JSON:
+    the audit hard-gate reads them from there."""
+    series = _series()
+    series.regression_flags = ["CRITICAL: Include collapse: 0 included (previous curation had 8)"]
+    save_curation(series)
+    data = json.loads((curation_dir / "test_series.json").read_text())
+    assert data["regression_flags"] == series.regression_flags
