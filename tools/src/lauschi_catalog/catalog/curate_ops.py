@@ -394,6 +394,32 @@ class FinalizeResult(BaseModel):
     )
 
 
+def _pattern_coverage_report(
+    titles: list[str],
+    pattern: str | list[str],
+    *,
+    max_samples: int = 15,
+) -> PatternCoverageReport:
+    """Run compute_pattern_coverage and map the result to a report.
+
+    Errors (invalid regex, missing capture group) land in ``message``
+    so the model can read what went wrong; an all-zeros report with no
+    explanation reads as "the pattern matched nothing" and sends the
+    model down wrong paths.
+    """
+    raw = _compute_pattern_coverage(titles, pattern, max_samples=max_samples)
+    if "error" in raw:
+        return PatternCoverageReport(pattern=pattern, message=raw["error"])
+    return PatternCoverageReport(
+        pattern=raw.get("pattern"),
+        matched=raw.get("matched", 0),
+        total=raw.get("total", 0),
+        coverage=raw.get("coverage", 0.0),
+        unmatched_regex_samples=raw.get("unmatched_regex_samples", []),
+        non_numeric_capture_samples=raw.get("non_numeric_capture_samples", []),
+    )
+
+
 # ── Agent builders ────────────────────────────────────────────────────────
 
 
@@ -491,12 +517,19 @@ def _build_metadata_agent(
     ) -> PatternCoverageReport:
         """Test a proposed episode_pattern against ALL discovered titles.
 
-        Returns coverage stats. The pattern's first capture group MUST
+        Accepts a single regex or a list of regexes (tried in order,
+        first match wins). Use a list when naming conventions changed
+        across eras; do NOT merge eras into one broad regex.
+
+        Returns coverage stats. Each pattern's first capture group MUST
         capture a digit string (the episode number). A title can fail
         in two distinct ways:
-          - unmatched_regex_samples: the regex didn't find a match at all
-          - non_numeric_capture_samples: regex matched but capture group 1
-            wasn't an integer
+          - unmatched_regex_samples: no regex found a match at all
+          - non_numeric_capture_samples: a regex matched but capture
+            group 1 wasn't an integer
+
+        If ``message`` is non-empty, the pattern was rejected (invalid
+        regex or missing capture group); fix it and check again.
 
         Limited to 5 calls per run.
         """
@@ -513,21 +546,18 @@ def _build_metadata_agent(
                     "Set episode_pattern=None if coverage is below 80%, "
                     "or use your best pattern if coverage is acceptable.",
             )
-        raw = _compute_pattern_coverage(ctx.deps.titles, pattern, max_samples=15)
-        if "error" not in raw:
+        report = _pattern_coverage_report(ctx.deps.titles, pattern, max_samples=15)
+        if report.message:
+            ctx.deps.on_progress(
+                f"  check_pattern_coverage({pattern!r}) -> error: {report.message}",
+            )
+        else:
             ctx.deps.on_progress(
                 f"  check_pattern_coverage({pattern!r}) -> "
-                f"{raw['matched']}/{raw['total']} = "
-                f"{raw['coverage']:.0%}",
+                f"{report.matched}/{report.total} = "
+                f"{report.coverage:.0%}",
             )
-        return PatternCoverageReport(
-            pattern=raw.get("pattern"),
-            matched=raw.get("matched", 0),
-            total=raw.get("total", 0),
-            coverage=raw.get("coverage", 0.0),
-            unmatched_regex_samples=raw.get("unmatched_regex_samples", []),
-            non_numeric_capture_samples=raw.get("non_numeric_capture_samples", []),
-        )
+        return report
 
     return agent
 
