@@ -3,3 +3,7 @@ deleted:
   title: Tom Turbo
   reason: No streaming presence in the Hörspiel-album format. The previously-assigned Spotify artist (Thomas Brezina) is the author's general profile, not the show. Curation had 0 included albums.
   deleted_at: '2026-05-13T08:56:07+00:00'
+- id: aprilkind
+  title: Aprilkind
+  reason: No standalone releases; the artist's songs appear on 3berlin albums, which are already in the catalog
+  deleted_at: '2026-06-11T06:31:30+00:00'

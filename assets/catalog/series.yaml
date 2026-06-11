@@ -5159,6 +5159,8 @@ series:
     spotify:
       artist_ids:
       - 0imTuUn6Ca6KAprEAS0nDI
+      - 4wqQElhXCfCRWxDEVvPCLH
+  content_type: audiobook
 - id: loewenzahn
   title: Löwenzahn
   providers:
@@ -6834,16 +6836,6 @@ series:
     apple_music:
       artist_ids:
       - '1596159720'
-  content_type: music
-- id: aprilkind
-  title: Aprilkind
-  providers:
-    spotify:
-      artist_ids:
-      - 30fyoGMSvJG5gO59sYKsXn
-    apple_music:
-      artist_ids:
-      - '1493942708'
   content_type: music
 - id: herrh
   title: herrH
