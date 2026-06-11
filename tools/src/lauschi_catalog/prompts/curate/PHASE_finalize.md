@@ -37,6 +37,13 @@ episode number, return it in `episode_updates`. If you discover a SYSTEMATIC
 new format (e.g., all tracks start with "Folge NNN:" while album titles
 don't), propose a `pattern_update`.
 
+A `pattern_update` must EXTEND the current pattern: add a regex to the
+list or refine a single entry. Never replace a list of era patterns with
+one merged regex. A broad unanchored regex (e.g. `(\d+)(?=/|:|\))`)
+passes today's coverage check but grabs stray digits in future titles
+and corrupts episode numbers. One anchored regex per naming convention
+is the contract.
+
 **Task 3: Lint check (use `lint_current_curation` tool)**
 
 After proposing facts, episode numbers, and any pattern updates, call
