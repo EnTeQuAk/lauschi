@@ -86,6 +86,28 @@ Progress = Callable[[str], None]
 _noop: Progress = lambda _msg: None
 
 
+def _error_summary(exc: BaseException) -> str:
+    """One-line error description for retry logs.
+
+    Walks the exception chain for a ModelHTTPError so the status code
+    and body surface even when the outermost type is a generic
+    wrapper; falls back to the stringified exception.
+    """
+    cur: BaseException | None = exc
+    depth = 0
+    seen: set[int] = set()
+    while cur is not None and id(cur) not in seen and depth < 8:
+        seen.add(id(cur))
+        if isinstance(cur, ModelHTTPError):
+            return (
+                f"{type(exc).__name__} {cur.status_code}: "
+                f"{str(cur.body)[:120]}"
+            )
+        cur = cur.__cause__ or cur.__context__
+        depth += 1
+    return f"{type(exc).__name__}: {str(exc)[:120]}"
+
+
 async def run_with_rate_limit_retry(
     coro_factory,
     *,
@@ -140,7 +162,7 @@ async def run_with_rate_limit_retry(
             if attempt < max_retries:
                 on_progress(
                     f"{phase} attempt {attempt}/{max_retries} "
-                    f"failed ({type(e).__name__}), "
+                    f"failed ({_error_summary(e)}), "
                     f"retrying in {delay:.1f}s...",
                 )
                 await asyncio.sleep(delay)
