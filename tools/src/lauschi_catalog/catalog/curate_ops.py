@@ -422,6 +422,65 @@ def _pattern_coverage_report(
     )
 
 
+def pattern_update_impact(
+    old: str | list[str] | None,
+    new: str | list[str],
+    included_titles: list[str],
+    excluded_titles: list[str],
+) -> dict:
+    """Compare a proposed episode_pattern against the current one.
+
+    Two axes: coverage of included titles (a drop means episodes lose
+    their numbers, which can be deliberate denoising) and matches on
+    excluded titles (an increase means stray digits would be captured;
+    the merged-regex failure mode). ``rejected`` is set only when the
+    new pattern is below the 30% coverage floor AND worse than the old
+    one; improving from a bad baseline is always allowed.
+    """
+    def _cov(pattern, titles):
+        if pattern is None:
+            return 0
+        return sum(1 for t in titles if extract_episode(pattern, t) is not None)
+
+    old_inc = _cov(old, included_titles)
+    new_inc = _cov(new, included_titles)
+    old_exc = _cov(old, excluded_titles)
+    new_exc = _cov(new, excluded_titles)
+    total = len(included_titles)
+
+    lines = [f"Coverage on included titles: {new_inc}/{total} (was {old_inc}/{total})."]
+    if new_inc < old_inc:
+        lines.append(
+            f"WARNING: {old_inc - new_inc} included title(s) lose their "
+            f"episode number under the new pattern. Intentional denoising "
+            f"is fine; verify those titles are noise, not episodes."
+        )
+    if new_exc > old_exc:
+        lines.append(
+            f"WARNING: the new pattern matches {new_exc} excluded title(s) "
+            f"(was {old_exc}). Digits captured from non-episode content "
+            f"corrupt episode numbers; prefer one anchored regex per "
+            f"naming convention."
+        )
+
+    rejected = None
+    if total and new_inc < total * 0.3 and new_inc < old_inc:
+        rejected = (
+            f"Coverage {new_inc}/{total} is below the 30% floor and worse "
+            f"than the current pattern ({old_inc}/{total}). Keep the "
+            f"current pattern or extend it instead."
+        )
+
+    return {
+        "old_included": old_inc,
+        "new_included": new_inc,
+        "old_excluded_matches": old_exc,
+        "new_excluded_matches": new_exc,
+        "report": " ".join(lines),
+        "rejected": rejected,
+    }
+
+
 # ── Agent builders ────────────────────────────────────────────────────────
 
 
@@ -728,7 +787,11 @@ def _build_finalize_agent(model, *, model_name: str = "", content_type: str = "h
 
         Only use if track listings reveal a systematic new format that
         the current pattern doesn't catch. Verify the new pattern
-        actually extracts digit/integer episode numbers from album titles.
+        actually extracts digit/integer episode numbers from album
+        titles. Extend the pattern list rather than merging conventions
+        into one broad regex. Returns a deterministic impact report
+        (coverage delta on included titles, matches on excluded
+        titles); read its warnings.
         """
         if not patterns:
             raise ModelRetry("patterns list cannot be empty")
@@ -753,11 +816,24 @@ def _build_finalize_agent(model, *, model_name: str = "", content_type: str = "h
         new_pattern: str | list[str] = (
             patterns[0] if len(patterns) == 1 else list(patterns)
         )
+        impact = pattern_update_impact(
+            ctx.deps.pattern,
+            new_pattern,
+            included_titles=[d.title for d in ctx.deps.all_decisions if d.include],
+            excluded_titles=[d.title for d in ctx.deps.all_decisions if not d.include],
+        )
+        if impact["rejected"]:
+            ctx.deps.on_progress(
+                f"  finalize propose_pattern_update rejected: {impact['rejected']}",
+            )
+            raise ModelRetry(impact["rejected"])
+
         ctx.deps.pattern = new_pattern
         ctx.deps.on_progress(
-            f"  finalize propose_pattern_update -> {new_pattern}",
+            f"  finalize propose_pattern_update -> {new_pattern}\n"
+            f"    {impact['report']}",
         )
-        return f"Pattern updated to {new_pattern}."
+        return f"Pattern updated to {new_pattern}. {impact['report']}"
 
     @agent.tool
     def lint_current_curation(
