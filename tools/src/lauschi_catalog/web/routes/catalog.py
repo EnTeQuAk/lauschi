@@ -324,6 +324,11 @@ async def series_detail(request: Request, series_id: str):
     return _render_series_detail(request, series_id, tab=tab)
 
 
+@router.get("/catalog/{series_id}/preview", response_class=HTMLResponse)
+async def series_preview(request: Request, series_id: str):
+    return _render_series_detail(request, series_id, tab="preview")
+
+
 @router.get("/catalog/{series_id}/episodes", response_class=HTMLResponse)
 async def series_episodes(request: Request, series_id: str):
     return _render_series_detail(request, series_id, tab="episodes")
