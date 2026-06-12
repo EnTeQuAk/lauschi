@@ -6,9 +6,6 @@ load -> incremental curate without being dropped or corrupted.
 
 from __future__ import annotations
 
-import copy
-
-import pytest
 
 from lauschi_catalog.catalog.facts import SeriesFacts
 from lauschi_catalog.catalog.loader import load_catalog
@@ -149,6 +146,7 @@ class TestFactsRoundTrip:
             yaml.dump(data, f)
 
         import lauschi_catalog.catalog.loader as loader
+
         orig_path = loader.SERIES_YAML
         loader.SERIES_YAML = path
         try:
@@ -162,8 +160,6 @@ class TestFactsRoundTrip:
             assert era["audited_by"] == "audit"
         finally:
             loader.SERIES_YAML = orig_path
-
-
 
 
 class TestLintResilience:
@@ -184,7 +180,13 @@ class TestLintResilience:
     def test_no_series_facts_is_fine(self):
         curation = {
             "albums": [
-                {"provider": "spotify", "album_id": "a1", "title": "Ep 1", "include": True, "episode_num": 1},
+                {
+                    "provider": "spotify",
+                    "album_id": "a1",
+                    "title": "Ep 1",
+                    "include": True,
+                    "episode_num": 1,
+                },
             ],
         }
         assert lint_curation(curation) == []
@@ -192,8 +194,20 @@ class TestLintResilience:
     def test_determinism(self):
         curation = {
             "albums": [
-                {"provider": "spotify", "album_id": "a1", "title": "Ep 1", "include": True, "episode_num": 1},
-                {"provider": "spotify", "album_id": "a2", "title": "Ep 3", "include": True, "episode_num": 3},
+                {
+                    "provider": "spotify",
+                    "album_id": "a1",
+                    "title": "Ep 1",
+                    "include": True,
+                    "episode_num": 1,
+                },
+                {
+                    "provider": "spotify",
+                    "album_id": "a2",
+                    "title": "Ep 3",
+                    "include": True,
+                    "episode_num": 3,
+                },
             ],
         }
         first = lint_curation(curation)

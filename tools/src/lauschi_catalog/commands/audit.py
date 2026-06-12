@@ -14,9 +14,7 @@ from rich.console import Console
 
 from lauschi_catalog.catalog.audit_ops import (
     _DEFAULT_MODEL,
-    audit_one,
     audit_series,
-    apply_audit,
 )
 from lauschi_catalog.catalog.loader import load_raw
 from lauschi_catalog.catalog.paths import CURATION_DIR

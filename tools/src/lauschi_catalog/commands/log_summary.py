@@ -129,7 +129,9 @@ class SeriesReport:
 
     # Verify phase
     verify_seen: bool = False
-    verify_status: str = "not_seen"  # approved | flagged | escalated | failed | not_seen
+    verify_status: str = (
+        "not_seen"  # approved | flagged | escalated | failed | not_seen
+    )
     verify_concerns: str = ""
 
     # Apply phase
@@ -142,7 +144,9 @@ class SeriesReport:
 
 # Curate phase
 _RE_PHASE = re.compile(r"^Step (\d)/5: (.+?)\.\.\.")
-_RE_CURATE_HEADER = re.compile(r"^\(\d+/\d+\) (.+?) \(\d+ done, \d+ failed, \d+ skipped\)$")
+_RE_CURATE_HEADER = re.compile(
+    r"^\(\d+/\d+\) (.+?) \(\d+ done, \d+ failed, \d+ skipped\)$"
+)
 _RE_FLOW = re.compile(r"^\s+(\d+) albums — using (single-agent|batched) flow$")
 _RE_TOTAL = re.compile(r"^\s+Total: (\d+) albums across \d+ providers")
 # Both unindented (curate) and indented (review's "  Saved to ...") forms.
@@ -187,14 +191,19 @@ _RE_VERIFY_CONCERNS = re.compile(r"^\s+Concerns: (.+)$")
 
 
 _VERDICT_CATEGORIES = (
-    "duplicates", "sub_series", "gaps", "pattern", "outliers", "cross_provider",
+    "duplicates",
+    "sub_series",
+    "gaps",
+    "pattern",
+    "outliers",
+    "cross_provider",
 )
 
 _PHASE_NAMES = {
     "curate": "Step 1 Curate",
     "review": "Step 2 Review",
     "verify": "Step 3 Verify",
-    "apply":  "Step 4 Apply",
+    "apply": "Step 4 Apply",
 }
 
 
@@ -293,7 +302,9 @@ def parse_log(log_path: Path) -> dict[str, SeriesReport]:
         m = _RE_PHASE.match(line)
         if m:
             step = m.group(1)
-            phase = {"1": "curate", "2": "review", "3": "verify", "4": "apply"}.get(step)
+            phase = {"1": "curate", "2": "review", "3": "verify", "4": "apply"}.get(
+                step
+            )
             cur_curate = cur_review = cur_verify = None
             continue
 
@@ -303,7 +314,8 @@ def parse_log(log_path: Path) -> dict[str, SeriesReport]:
             title = m.group(1)
             phase = "curate"
             cur_curate = by_title.setdefault(
-                title, SeriesReport(series_id="", title=title),
+                title,
+                SeriesReport(series_id="", title=title),
             )
             cur_curate.curate_seen = True
             if not cur_curate.title:
@@ -361,7 +373,9 @@ def parse_log(log_path: Path) -> dict[str, SeriesReport]:
                 sid = m.group(1)
                 r = _resolve_save(sid, cur_curate)
                 r.curate_status = "success"
-                cur_curate = r  # post-save signals (none for curate today) attribute here
+                cur_curate = (
+                    r  # post-save signals (none for curate today) attribute here
+                )
                 continue
 
         # ── Review phase ──────────────────────────────────────────────
@@ -370,7 +384,8 @@ def parse_log(log_path: Path) -> dict[str, SeriesReport]:
             title = m.group(1)
             phase = "review"
             cur_review = by_title.setdefault(
-                title, SeriesReport(series_id="", title=title),
+                title,
+                SeriesReport(series_id="", title=title),
             )
             cur_review.review_seen = True
             if not cur_review.title:
@@ -474,6 +489,7 @@ _CATALOG_SIZE_CACHE: int | None = None
 @dataclass
 class PhaseCounts:
     """Per-phase tally derived from per-series reports."""
+
     success: int = 0
     failed: int = 0
     skipped: int = 0
@@ -489,7 +505,8 @@ class PhaseCounts:
 
 
 def _count_phase(
-    reports: dict[str, SeriesReport], phase: str,
+    reports: dict[str, SeriesReport],
+    phase: str,
 ) -> PhaseCounts:
     """Count phase outcomes across all reports."""
     counts = PhaseCounts()
@@ -539,7 +556,10 @@ def _scan_pipeline_state(log_path: Path) -> PipelineState:
         if m:
             step = m.group(1)
             state.last_phase = {
-                "1": "curate", "2": "review", "3": "verify", "4": "apply",
+                "1": "curate",
+                "2": "review",
+                "3": "verify",
+                "4": "apply",
             }.get(step)
             continue
 
@@ -620,10 +640,9 @@ def _merge_into(target: SeriesReport, source: SeriesReport) -> None:
             setattr(target, field_name, list(value))
         elif isinstance(value, dict) and not getattr(target, field_name):
             setattr(target, field_name, dict(value))
-        elif (
-            value not in (None, False, "", "not_seen", 0)
-            and getattr(target, field_name) in (None, False, "", "not_seen", 0)
-        ):
+        elif value not in (None, False, "", "not_seen", 0) and getattr(
+            target, field_name
+        ) in (None, False, "", "not_seen", 0):
             setattr(target, field_name, value)
 
 
@@ -763,9 +782,9 @@ def render_progress(
         status = _phase_state(phase_key, state.last_phase, counts)
 
         marker = {
-            "done":        "[green]✓ done       [/green]",
+            "done": "[green]✓ done       [/green]",
             "in_progress": "[cyan]⠿ in progress[/cyan]",
-            "pending":     "[dim]· pending    [/dim]",
+            "pending": "[dim]· pending    [/dim]",
         }[status]
 
         bits: list[str] = []
@@ -830,8 +849,13 @@ def render_pretty(
         counts[h] += 1
     summary = "  ".join(
         f"[{_HEALTH_STYLE[h]}]{counts[h]} {h.value}[/{_HEALTH_STYLE[h]}]"
-        for h in (Health.FAILED, Health.ESCALATED, Health.ATTENTION,
-                  Health.INFO, Health.HEALTHY)
+        for h in (
+            Health.FAILED,
+            Health.ESCALATED,
+            Health.ATTENTION,
+            Health.INFO,
+            Health.HEALTHY,
+        )
         if counts[h] or filter_levels is None or h in filter_levels
     )
     yield Panel(summary, title="lauschi-catalog log-summary", border_style="dim")
@@ -877,7 +901,9 @@ def render_detail(r: SeriesReport) -> Panel:
     if r.id_lock_fired:
         lines.append(f"  id-lock:  '{r.id_lock_from}' → '{r.series_id}'")
     if r.search_disambiguation:
-        lines.append(f"  disambig: chose primary; also matched {r.search_disambiguation_alt}")
+        lines.append(
+            f"  disambig: chose primary; also matched {r.search_disambiguation_alt}"
+        )
     if r.pattern_coverage_warning:
         lines.append(
             f"  coverage: [yellow]{r.pattern_coverage_matched}/"
@@ -906,13 +932,12 @@ def render_detail(r: SeriesReport) -> Panel:
             reason = r.review_removal_reason[:300] if r.review_removal_reason else ""
             tail = "…" if len(r.review_removal_reason) > 300 else ""
             lines.append(
-                f"  [yellow]🗑️ removal proposed[/yellow]"
+                "  [yellow]🗑️ removal proposed[/yellow]"
                 + (f": [dim]{reason}{tail}[/dim]" if reason else ""),
             )
         if r.review_verdicts:
             verdicts = "  | ".join(
-                f"{c}:{r.review_verdicts.get(c, '?')}"
-                for c in _VERDICT_CATEGORIES
+                f"{c}:{r.review_verdicts.get(c, '?')}" for c in _VERDICT_CATEGORIES
             )
             lines.append(f"  verdicts: {verdicts}")
         if r.review_deferred_categories:
@@ -942,8 +967,7 @@ def render_ids(
 ) -> str:
     """Bare list of series_ids matching the filter, one per line."""
     matched = sorted(
-        r.series_id for r in reports.values()
-        if classify(r) in filter_levels
+        r.series_id for r in reports.values() if classify(r) in filter_levels
     )
     return "\n".join(matched)
 
@@ -1018,19 +1042,25 @@ def _parse_filter(value: str) -> set[Health]:
 @click.command("log-summary")
 @click.argument("log", required=False)
 @click.option(
-    "--filter", "filter_str", default="default",
+    "--filter",
+    "filter_str",
+    default="default",
     help=(
         "Comma-separated health levels to include. "
         "Default: failed,escalated,attention. Special: 'all'."
     ),
 )
 @click.option(
-    "--ids", "as_ids", is_flag=True,
+    "--ids",
+    "as_ids",
+    is_flag=True,
     help="Output just the series_ids (one per line). Suitable for piping.",
 )
 @click.option("--as-json", "as_json", is_flag=True, help="Output structured JSON.")
 @click.option(
-    "--detail", "detail_id", default=None,
+    "--detail",
+    "detail_id",
+    default=None,
     help="Show every captured signal for one series_id.",
 )
 def log_summary(

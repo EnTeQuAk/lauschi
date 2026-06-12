@@ -22,10 +22,12 @@ def test_effective_albums_empty():
 
 
 def test_effective_albums_drops_excluded():
-    curation = make_curation(albums=[
-        make_album("a", "Folge 1: A", include=True),
-        make_album("b", "Folge 2: B", include=False, exclude_reason="box set"),
-    ])
+    curation = make_curation(
+        albums=[
+            make_album("a", "Folge 1: A", include=True),
+            make_album("b", "Folge 2: B", include=False, exclude_reason="box set"),
+        ]
+    )
     result = effective_albums(curation)
     assert [a["album_id"] for a in result] == ["a"]
 
@@ -87,15 +89,24 @@ def test_analyze_empty_curation():
 
 
 def test_analyze_returns_expected_keys():
-    curation = make_curation(albums=[
-        make_album("a", "Folge 1: A", episode_num=1),
-    ])
+    curation = make_curation(
+        albums=[
+            make_album("a", "Folge 1: A", episode_num=1),
+        ]
+    )
     assert set(analyze_series(curation)) == {
-        "total", "with_episode_num", "episode_range",
-        "gaps", "providers", "common_words",
-        "duplicates_within_provider", "title_clusters",
-        "outliers", "outlier_count",
-        "cross_provider_coverage", "pattern_coverage",
+        "total",
+        "with_episode_num",
+        "episode_range",
+        "gaps",
+        "providers",
+        "common_words",
+        "duplicates_within_provider",
+        "title_clusters",
+        "outliers",
+        "outlier_count",
+        "cross_provider_coverage",
+        "pattern_coverage",
     }
 
 
@@ -227,10 +238,7 @@ def test_analyze_common_words_drops_short_tokens():
 
 def test_analyze_common_words_limited_to_ten():
     titles = [f"Folge {n}: word{n}a word{n}b word{n}c" for n in range(1, 16)]
-    albums = [
-        make_album(f"id{n}", t, episode_num=n + 1)
-        for n, t in enumerate(titles)
-    ]
+    albums = [make_album(f"id{n}", t, episode_num=n + 1) for n, t in enumerate(titles)]
     result = analyze_series(make_curation(albums=albums))
     assert len(result["common_words"]) <= 10
 
@@ -333,8 +341,7 @@ def test_analyze_clusters_sub_series_separately():
     cluster.
     """
     albums = [
-        make_album(f"main{n}", f"Folge {n}: Main", episode_num=n)
-        for n in range(1, 11)
+        make_album(f"main{n}", f"Folge {n}: Main", episode_num=n) for n in range(1, 11)
     ] + [
         make_album(f"junior{n}", f"Junior - Folge {n}: Sub", episode_num=n)
         for n in range(1, 4)
@@ -409,10 +416,7 @@ def test_analyze_cluster_examples_are_real_titles():
 
 
 def test_analyze_no_outliers_when_all_titles_share_a_shape():
-    albums = [
-        make_album(f"id{n}", f"Folge {n}: T", episode_num=n)
-        for n in range(1, 6)
-    ]
+    albums = [make_album(f"id{n}", f"Folge {n}: T", episode_num=n) for n in range(1, 6)]
     result = analyze_series(make_curation(albums=albums))
     assert result["outliers"] == []
     assert result["outlier_count"] == 0
@@ -435,6 +439,7 @@ def test_analyze_singleton_title_surfaces_as_outlier():
 def test_analyze_outlier_list_capped_at_20():
     """Long outlier tails are capped, but outlier_count carries the truth."""
     import string
+
     chars = string.ascii_lowercase
     albums = [
         make_album(
@@ -486,8 +491,12 @@ def test_analyze_coverage_single_provider_has_no_missing():
 def test_analyze_coverage_balanced_two_providers():
     albums = []
     for n in (1, 2, 3):
-        albums.append(make_album(f"s{n}", f"Folge {n}", provider="spotify", episode_num=n))
-        albums.append(make_album(f"a{n}", f"Folge {n}", provider="apple_music", episode_num=n))
+        albums.append(
+            make_album(f"s{n}", f"Folge {n}", provider="spotify", episode_num=n)
+        )
+        albums.append(
+            make_album(f"a{n}", f"Folge {n}", provider="apple_music", episode_num=n)
+        )
     result = analyze_series(make_curation(albums=albums))
     cov = result["cross_provider_coverage"]
     assert cov["by_provider"] == {"spotify": 3, "apple_music": 3}
@@ -551,8 +560,7 @@ def test_analyze_pattern_coverage_empty_curation():
 
 def test_analyze_pattern_coverage_full_match():
     albums = [
-        make_album(f"id{n}", f"Folge {n}: T", episode_num=n)
-        for n in range(1, 11)
+        make_album(f"id{n}", f"Folge {n}: T", episode_num=n) for n in range(1, 11)
     ]
     result = analyze_series(make_curation(albums=albums))
     assert result["pattern_coverage"] == {"percentage": 100.0, "missing": 0}
@@ -571,10 +579,7 @@ def test_analyze_pattern_coverage_partial_match():
 
 
 def test_analyze_pattern_coverage_zero_match():
-    albums = [
-        make_album(f"id{n}", f"Special {n}")
-        for n in range(3)
-    ]
+    albums = [make_album(f"id{n}", f"Special {n}") for n in range(3)]
     result = analyze_series(make_curation(albums=albums))
     assert result["pattern_coverage"] == {"percentage": 0.0, "missing": 3}
 

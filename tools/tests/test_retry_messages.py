@@ -17,12 +17,14 @@ from lauschi_catalog.rate_limit import run_with_rate_limit_retry
 
 
 def _run(coro_factory, messages):
-    return asyncio.run(run_with_rate_limit_retry(
-        coro_factory,
-        phase="batch 2/4",
-        base_delay=0.01,
-        on_progress=messages.append,
-    ))
+    return asyncio.run(
+        run_with_rate_limit_retry(
+            coro_factory,
+            phase="batch 2/4",
+            base_delay=0.01,
+            on_progress=messages.append,
+        )
+    )
 
 
 def test_retry_message_includes_status_and_body():
@@ -40,9 +42,9 @@ def test_retry_message_includes_status_and_body():
         return "ok"
 
     assert _run(lambda: flaky(), messages) == "ok"
-    assert any(
-        "500" in m and "capacity temporarily exceeded" in m for m in messages
-    ), messages
+    assert any("500" in m and "capacity temporarily exceeded" in m for m in messages), (
+        messages
+    )
 
 
 def test_retry_message_unwraps_chained_http_error():
@@ -56,7 +58,9 @@ def test_retry_message_unwraps_chained_http_error():
         if calls["n"] == 1:
             try:
                 raise ModelHTTPError(
-                    status_code=503, model_name="m", body="upstream unavailable",
+                    status_code=503,
+                    model_name="m",
+                    body="upstream unavailable",
                 )
             except ModelHTTPError as inner:
                 raise RuntimeError("model request failed") from inner
@@ -91,11 +95,13 @@ def test_timeout_retried_by_default():
             raise asyncio.TimeoutError()
         return "ok"
 
-    result = asyncio.run(run_with_rate_limit_retry(
-        lambda: flaky(),
-        phase="test",
-        base_delay=0.01,
-    ))
+    result = asyncio.run(
+        run_with_rate_limit_retry(
+            lambda: flaky(),
+            phase="test",
+            base_delay=0.01,
+        )
+    )
     assert result == "ok"
     assert calls["n"] == 2
 
@@ -111,12 +117,14 @@ def test_timeout_not_retried_when_disabled():
         raise asyncio.TimeoutError()
 
     with pytest.raises(asyncio.TimeoutError):
-        asyncio.run(run_with_rate_limit_retry(
-            lambda: flaky(),
-            phase="test",
-            base_delay=0.01,
-            retry_timeout=False,
-        ))
+        asyncio.run(
+            run_with_rate_limit_retry(
+                lambda: flaky(),
+                phase="test",
+                base_delay=0.01,
+                retry_timeout=False,
+            )
+        )
     assert calls["n"] == 1
 
 
@@ -129,11 +137,13 @@ def test_non_retryable_error_propagates_immediately():
         raise ValueError("401 Unauthorized: invalid api key")
 
     with pytest.raises(ValueError, match="401"):
-        asyncio.run(run_with_rate_limit_retry(
-            lambda: auth_fail(),
-            phase="test",
-            base_delay=0.01,
-        ))
+        asyncio.run(
+            run_with_rate_limit_retry(
+                lambda: auth_fail(),
+                phase="test",
+                base_delay=0.01,
+            )
+        )
     assert calls["n"] == 1
 
 
@@ -153,11 +163,13 @@ def test_server_suggested_delay_respected():
             )
         return "ok"
 
-    result = asyncio.run(run_with_rate_limit_retry(
-        lambda: rate_limited(),
-        phase="test",
-        base_delay=0.01,
-        on_progress=messages.append,
-    ))
+    result = asyncio.run(
+        run_with_rate_limit_retry(
+            lambda: rate_limited(),
+            phase="test",
+            base_delay=0.01,
+            on_progress=messages.append,
+        )
+    )
     assert result == "ok"
     assert any("0.0s" in m for m in messages), messages

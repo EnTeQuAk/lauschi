@@ -68,5 +68,7 @@ def flash_context(request: Request) -> dict[str, list[FlashDict]]:
     """Template context processor: pop flash messages from session."""
     messages: list[FlashDict] = []
     for stored in request.session.pop("_flash", []):
-        messages.append({"type": stored["type"], "value": stored["value"], "safe": False})
+        messages.append(
+            {"type": stored["type"], "value": stored["value"], "safe": False}
+        )
     return {"flash_messages": messages}

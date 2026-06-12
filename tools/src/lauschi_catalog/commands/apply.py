@@ -18,7 +18,8 @@ console = Console()
 @click.argument("series_id", required=False)
 @click.option("--all", "run_all", is_flag=True, help="Apply all approved curations")
 @click.option(
-    "--status", default="approved,ai_verified",
+    "--status",
+    default="approved,ai_verified",
     help="Only apply curations with this status (comma-separated)",
 )
 @click.option("--dry-run", is_flag=True, help="Don't write changes")
@@ -27,7 +28,9 @@ console = Console()
     is_flag=True,
     help="Skip the lifecycle staleness check (apply even if audit is stale)",
 )
-def apply(series_id: str | None, run_all: bool, status: str, dry_run: bool, force: bool):
+def apply(
+    series_id: str | None, run_all: bool, status: str, dry_run: bool, force: bool
+):
     """Apply approved curations to series.yaml.
 
     Reads curation JSONs, extracts per-provider album IDs, and writes
@@ -50,7 +53,9 @@ def apply(series_id: str | None, run_all: bool, status: str, dry_run: bool, forc
     )
 
     if result.applied > 0 and result.written:
-        console.print(f"\n[green]Applied {result.applied} curations to series.yaml[/green]")
+        console.print(
+            f"\n[green]Applied {result.applied} curations to series.yaml[/green]"
+        )
     elif result.applied > 0 and dry_run:
         console.print(f"\n[dim]Dry run: {result.applied} would be applied[/dim]")
     elif result.applied == 0:

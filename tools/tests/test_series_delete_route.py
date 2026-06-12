@@ -58,9 +58,7 @@ def test_delete_success_flash_appears_on_redirect(client):
 
 
 def test_delete_requires_reason(client):
-    with patch(
-        "lauschi_catalog.web.routes.catalog.delete_series"
-    ) as mock_delete:
+    with patch("lauschi_catalog.web.routes.catalog.delete_series") as mock_delete:
         resp = client.post(
             "/catalog/christian/delete",
             data={"reason": "   "},
@@ -88,9 +86,7 @@ def test_delete_unknown_series_shows_error(client):
 def test_first_post_asks_for_confirmation(client):
     """Without confirm=1 the route renders an Inyoka-style confirm flash
     that re-submits the same form, instead of deleting."""
-    with patch(
-        "lauschi_catalog.web.routes.catalog.delete_series"
-    ) as mock_delete:
+    with patch("lauschi_catalog.web.routes.catalog.delete_series") as mock_delete:
         resp = client.post(
             "/catalog/5_geschwister/delete",
             data={"reason": "test reason"},

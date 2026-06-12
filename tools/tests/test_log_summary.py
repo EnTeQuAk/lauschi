@@ -29,10 +29,12 @@ from lauschi_catalog.commands.log_summary import (
 @pytest.fixture
 def tmp_log(tmp_path: Path):
     """Helper to write a log fixture and return its path."""
+
     def _write(text: str) -> Path:
         p = tmp_path / "pipeline.log"
         p.write_text(text)
         return p
+
     return _write
 
 
@@ -246,9 +248,7 @@ def test_review_pattern_update_flag(tmp_log):
 
 def test_parses_verify_approved(tmp_log):
     log = tmp_log(
-        "Step 3/5: 4-eye verification...\n"
-        "Verifying yakari...\n"
-        "  ✓ Approved\n",
+        "Step 3/5: 4-eye verification...\nVerifying yakari...\n  ✓ Approved\n",
     )
     reports = parse_log(log)
     assert reports["yakari"].verify_status == "approved"
@@ -323,7 +323,10 @@ def test_same_title_different_subseries_resolved_by_save(tmp_log):
     assert "bibi_blocksberg_kinofilme" in reports
     assert reports["bibi_blocksberg"].review_overrides == 6
     assert reports["bibi_blocksberg_kinofilme"].review_overrides == 0
-    assert reports["bibi_blocksberg_kinofilme"].review_verdicts["sub_series"] == "splits_proposed"
+    assert (
+        reports["bibi_blocksberg_kinofilme"].review_verdicts["sub_series"]
+        == "splits_proposed"
+    )
 
 
 # ── classification ────────────────────────────────────────────────────────
@@ -349,8 +352,10 @@ def test_classification_attention_for_low_coverage():
     from lauschi_catalog.commands.log_summary import SeriesReport
 
     r = SeriesReport(
-        series_id="x", pattern_coverage_warning=True,
-        pattern_coverage_matched=40, pattern_coverage_total=300,
+        series_id="x",
+        pattern_coverage_warning=True,
+        pattern_coverage_matched=40,
+        pattern_coverage_total=300,
     )
     assert classify(r) == Health.ATTENTION
 
@@ -378,9 +383,11 @@ def test_flag_collection_for_compound_signals():
 
     r = SeriesReport(
         series_id="x",
-        id_lock_fired=True, id_lock_from="oldid",
+        id_lock_fired=True,
+        id_lock_from="oldid",
         pattern_coverage_warning=True,
-        pattern_coverage_matched=10, pattern_coverage_total=50,
+        pattern_coverage_matched=10,
+        pattern_coverage_total=50,
     )
     r.review_deferred_categories = ["gaps", "outliers"]
     flags = collect_flags(r)
@@ -450,5 +457,6 @@ def test_resolve_log_path_absolute_path_used_as_is(tmp_path):
 def test_resolve_log_path_missing_raises(tmp_path, monkeypatch):
     monkeypatch.chdir(tmp_path)
     import click
+
     with pytest.raises(click.BadParameter):
         _resolve_log_path("nope/never/exists.log")

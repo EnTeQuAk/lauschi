@@ -40,7 +40,7 @@ def test_preview_counts_albums_that_would_change():
     albums = [
         {"title": "Folge 1: A", "episode_num": None},
         {"title": "Folge 2: B", "episode_num": 99},  # wrong number
-        {"title": "Folge 3: C", "episode_num": 3},   # already correct
+        {"title": "Folge 3: C", "episode_num": 3},  # already correct
     ]
     assert preview_episode_pattern(albums, r"^Folge (\d+):") == 2
 
@@ -81,7 +81,12 @@ def test_apply_does_not_mutate_input_albums():
 
 def test_apply_preserves_other_album_fields():
     albums = [
-        {"title": "Folge 1: A", "episode_num": None, "include": True, "provider": "spotify"},
+        {
+            "title": "Folge 1: A",
+            "episode_num": None,
+            "include": True,
+            "provider": "spotify",
+        },
     ]
     result = apply_episode_pattern(albums, r"^Folge (\d+):")
     assert result[0]["include"] is True

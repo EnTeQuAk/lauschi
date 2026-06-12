@@ -20,7 +20,12 @@ def test_sorts_albums_by_provider_first():
     data = {
         "albums": [
             {"provider": "spotify", "album_id": "s1", "title": "A", "episode_num": 1},
-            {"provider": "apple_music", "album_id": "a1", "title": "A", "episode_num": 1},
+            {
+                "provider": "apple_music",
+                "album_id": "a1",
+                "title": "A",
+                "episode_num": 1,
+            },
         ],
     }
     canonicalize(data)
@@ -30,9 +35,24 @@ def test_sorts_albums_by_provider_first():
 def test_sorts_albums_by_episode_num_within_provider():
     data = {
         "albums": [
-            {"provider": "spotify", "album_id": "x", "title": "Folge 5", "episode_num": 5},
-            {"provider": "spotify", "album_id": "y", "title": "Folge 1", "episode_num": 1},
-            {"provider": "spotify", "album_id": "z", "title": "Folge 3", "episode_num": 3},
+            {
+                "provider": "spotify",
+                "album_id": "x",
+                "title": "Folge 5",
+                "episode_num": 5,
+            },
+            {
+                "provider": "spotify",
+                "album_id": "y",
+                "title": "Folge 1",
+                "episode_num": 1,
+            },
+            {
+                "provider": "spotify",
+                "album_id": "z",
+                "title": "Folge 3",
+                "episode_num": 3,
+            },
         ],
     }
     canonicalize(data)
@@ -42,9 +62,24 @@ def test_sorts_albums_by_episode_num_within_provider():
 def test_sorts_unnumbered_albums_after_numbered_within_provider():
     data = {
         "albums": [
-            {"provider": "spotify", "album_id": "u1", "title": "Special", "episode_num": None},
-            {"provider": "spotify", "album_id": "n1", "title": "Folge 1", "episode_num": 1},
-            {"provider": "spotify", "album_id": "u2", "title": "Best Of", "episode_num": None},
+            {
+                "provider": "spotify",
+                "album_id": "u1",
+                "title": "Special",
+                "episode_num": None,
+            },
+            {
+                "provider": "spotify",
+                "album_id": "n1",
+                "title": "Folge 1",
+                "episode_num": 1,
+            },
+            {
+                "provider": "spotify",
+                "album_id": "u2",
+                "title": "Best Of",
+                "episode_num": None,
+            },
         ],
     }
     canonicalize(data)
@@ -58,7 +93,12 @@ def test_sorts_unnumbered_with_missing_episode_key_same_as_none():
     data = {
         "albums": [
             {"provider": "spotify", "album_id": "missing", "title": "Beta"},
-            {"provider": "spotify", "album_id": "explicit", "title": "Alpha", "episode_num": None},
+            {
+                "provider": "spotify",
+                "album_id": "explicit",
+                "title": "Alpha",
+                "episode_num": None,
+            },
         ],
     }
     canonicalize(data)
@@ -71,8 +111,18 @@ def test_album_id_is_final_tiebreaker():
     fall back to album_id so order is fully deterministic."""
     data = {
         "albums": [
-            {"provider": "spotify", "album_id": "z", "title": "Folge 1", "episode_num": 1},
-            {"provider": "spotify", "album_id": "a", "title": "Folge 1", "episode_num": 1},
+            {
+                "provider": "spotify",
+                "album_id": "z",
+                "title": "Folge 1",
+                "episode_num": 1,
+            },
+            {
+                "provider": "spotify",
+                "album_id": "a",
+                "title": "Folge 1",
+                "episode_num": 1,
+            },
         ],
     }
     canonicalize(data)
@@ -135,8 +185,18 @@ def test_sorts_added_albums_by_album_key():
     data = {
         "review": {
             "added_albums": [
-                {"provider": "spotify", "album_id": "z", "title": "T", "episode_num": 5},
-                {"provider": "spotify", "album_id": "a", "title": "T", "episode_num": 2},
+                {
+                    "provider": "spotify",
+                    "album_id": "z",
+                    "title": "T",
+                    "episode_num": 5,
+                },
+                {
+                    "provider": "spotify",
+                    "album_id": "a",
+                    "title": "T",
+                    "episode_num": 2,
+                },
             ],
         },
     }
@@ -162,7 +222,9 @@ def test_does_not_reorder_top_level_keys():
     data = {
         "id": "s1",
         "title": "T",
-        "albums": [{"provider": "spotify", "album_id": "a", "title": "T", "episode_num": 1}],
+        "albums": [
+            {"provider": "spotify", "album_id": "a", "title": "T", "episode_num": 1}
+        ],
         "review": {"status": "approved"},
     }
     before = list(data.keys())
@@ -180,7 +242,11 @@ def test_empty_curation_does_not_crash():
 
 
 def test_curation_without_review_block_handled():
-    data = {"albums": [{"provider": "spotify", "album_id": "a", "title": "T", "episode_num": 1}]}
+    data = {
+        "albums": [
+            {"provider": "spotify", "album_id": "a", "title": "T", "episode_num": 1}
+        ]
+    }
     canonicalize(data)
     assert "review" not in data
 
@@ -196,7 +262,12 @@ def test_idempotent():
     data = {
         "albums": [
             {"provider": "spotify", "album_id": "z", "title": "Z", "episode_num": 5},
-            {"provider": "apple_music", "album_id": "a", "title": "A", "episode_num": 1},
+            {
+                "provider": "apple_music",
+                "album_id": "a",
+                "title": "A",
+                "episode_num": 1,
+            },
             {"provider": "spotify", "album_id": "a", "title": "A", "episode_num": 1},
         ],
         "review": {

@@ -29,8 +29,7 @@ def format_album_xml(album: dict, *, include_tracks: bool = True) -> str:
     """
     lines: list[str] = []
     lines.append(
-        f'<album provider="{album.get("provider", "?")}" '
-        f'id="{album.get("id", "?")}">'
+        f'<album provider="{album.get("provider", "?")}" id="{album.get("id", "?")}">'
     )
     lines.append(f"  <title>{album.get('title', '')}</title>")
     ep = album.get("episode_num")
@@ -68,9 +67,7 @@ def format_album_xml(album: dict, *, include_tracks: bool = True) -> str:
             dur_s = f' duration_ms="{dur_ms}"' if dur_ms else ""
             num = t.get("track_number")
             num_attr = f' num="{num}"' if num else ""
-            lines.append(
-                f"    <track{num_attr}{dur_s}>{t.get('name', '')}</track>"
-            )
+            lines.append(f"    <track{num_attr}{dur_s}>{t.get('name', '')}</track>")
         lines.append("  </tracks>")
     lines.append("</album>")
     return "\n".join(lines)

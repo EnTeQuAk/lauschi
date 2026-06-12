@@ -83,10 +83,12 @@ def merge_series(
 
     # Merge provider_artist_ids
     source_providers: dict[str, list[str]] = source_curation.get(
-        "provider_artist_ids", {},
+        "provider_artist_ids",
+        {},
     )
     target_providers: dict[str, list[str]] = target_curation.get(
-        "provider_artist_ids", {},
+        "provider_artist_ids",
+        {},
     )
     for prov, aids in source_providers.items():
         existing = set(target_providers.get(prov, []))
@@ -169,7 +171,8 @@ def accept_split(
     new_path = paths.curation_path(new_id)
     if new_path.exists():
         return SplitResult(
-            ok=False, error=f"curation file '{new_id}.json' already exists",
+            ok=False,
+            error=f"curation file '{new_id}.json' already exists",
         )
 
     # sub_series album_ids use "provider:id" format, match against albums
@@ -226,14 +229,16 @@ def accept_split(
     for prov, aids in curation.get("provider_artist_ids", {}).items():
         providers[prov] = {"artist_ids": list(aids)}
 
-    add_series_entry({
-        "id": new_id,
-        "title": new_title,
-        "aliases": [],
-        "episode_pattern": curation.get("episode_pattern"),
-        "content_type": curation.get("content_type", "hoerspiel"),
-        "split_from": series_id,
-        "providers": providers,
-    })
+    add_series_entry(
+        {
+            "id": new_id,
+            "title": new_title,
+            "aliases": [],
+            "episode_pattern": curation.get("episode_pattern"),
+            "content_type": curation.get("content_type", "hoerspiel"),
+            "split_from": series_id,
+            "providers": providers,
+        }
+    )
 
     return SplitResult(ok=True, action="accepted", new_id=new_id)

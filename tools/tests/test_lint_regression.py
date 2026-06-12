@@ -24,16 +24,29 @@ def _curation(albums, facts=None):
     return {"albums": albums, "series_facts": facts}
 
 
-def _album(title="Folge 1: x", include=True, provider="spotify", ep=None,
-           release_date="2020-01-01", reason=None, album_id="a1"):
+def _album(
+    title="Folge 1: x",
+    include=True,
+    provider="spotify",
+    ep=None,
+    release_date="2020-01-01",
+    reason=None,
+    album_id="a1",
+):
     return {
-        "album_id": album_id, "provider": provider, "include": include,
-        "episode_num": ep, "title": title, "release_date": release_date,
-        "exclude_reason": reason, "confidence": "high",
+        "album_id": album_id,
+        "provider": provider,
+        "include": include,
+        "episode_num": ep,
+        "title": title,
+        "release_date": release_date,
+        "exclude_reason": reason,
+        "confidence": "high",
     }
 
 
 # -- lint_regression ------------------------------------------------------
+
 
 def test_include_collapse_to_zero_is_critical():
     prev = _curation([_album() for _ in range(8)])
@@ -46,7 +59,10 @@ def test_include_drop_over_half_is_critical():
     prev = _curation([_album(album_id=f"a{i}") for i in range(20)])
     cur = _curation(
         [_album(album_id=f"a{i}") for i in range(8)]
-        + [_album(album_id=f"a{i}", include=False, reason="compilation") for i in range(8, 20)],
+        + [
+            _album(album_id=f"a{i}", include=False, reason="compilation")
+            for i in range(8, 20)
+        ],
     )
     issues = lint_regression(prev, cur)
     assert critical_issues(issues)
@@ -72,6 +88,7 @@ def test_no_previous_curation_no_issues():
 
 # -- new lint_curation sanity rules ---------------------------------------
 
+
 def test_future_release_date_flagged():
     cur = _curation([_album(release_date="2027-01-01")])
     issues = lint_curation(cur, today=date(2026, 6, 11))
@@ -91,11 +108,18 @@ def test_episode_number_year_capture_flagged():
 
 
 def test_title_counterpart_conflict_flagged():
-    cur = _curation([
-        _album(title="Das grüne Album", provider="spotify"),
-        _album(title="Das grüne Album - EP", provider="apple_music",
-               include=False, reason="music_single", album_id="b1"),
-    ])
+    cur = _curation(
+        [
+            _album(title="Das grüne Album", provider="spotify"),
+            _album(
+                title="Das grüne Album - EP",
+                provider="apple_music",
+                include=False,
+                reason="music_single",
+                album_id="b1",
+            ),
+        ]
+    )
     issues = lint_curation(cur)
     assert any("counterpart" in i.lower() for i in issues)
 
@@ -103,20 +127,34 @@ def test_title_counterpart_conflict_flagged():
 def test_duplicate_exclusion_is_not_a_counterpart_conflict():
     """'duplicate' asserts redundancy, not a content classification;
     flagging it would contradict Rule 5's properly-excluded convention."""
-    cur = _curation([
-        _album(title="Ep 1", provider="spotify"),
-        _album(title="Ep 1", provider="apple_music",
-               include=False, reason="duplicate", album_id="b1"),
-    ])
+    cur = _curation(
+        [
+            _album(title="Ep 1", provider="spotify"),
+            _album(
+                title="Ep 1",
+                provider="apple_music",
+                include=False,
+                reason="duplicate",
+                album_id="b1",
+            ),
+        ]
+    )
     issues = lint_curation(cur)
     assert not any("counterpart" in i.lower() for i in issues)
 
 
 def test_properly_distinct_titles_no_counterpart_issue():
-    cur = _curation([
-        _album(title="Folge 1: Der Anfang", provider="spotify"),
-        _album(title="Intro Song", provider="apple_music",
-               include=False, reason="music_single", album_id="b1"),
-    ])
+    cur = _curation(
+        [
+            _album(title="Folge 1: Der Anfang", provider="spotify"),
+            _album(
+                title="Intro Song",
+                provider="apple_music",
+                include=False,
+                reason="music_single",
+                album_id="b1",
+            ),
+        ]
+    )
     issues = lint_curation(cur)
     assert not any("counterpart" in i.lower() for i in issues)

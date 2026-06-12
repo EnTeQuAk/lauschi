@@ -54,7 +54,9 @@ class TestAppleMusicPickArtwork:
 class TestAlbumImageUrl:
     def test_album_has_image_url_field(self):
         album = Album(
-            id="123", name="Test", provider="spotify",
+            id="123",
+            name="Test",
+            provider="spotify",
             image_url="https://example.com/cover.jpg",
         )
         assert album.image_url == "https://example.com/cover.jpg"
@@ -67,9 +69,11 @@ class TestAlbumImageUrl:
 class TestWriteCoverCache:
     def test_writes_cache_from_raw_albums(self, tmp_path, monkeypatch):
         from lauschi_catalog.catalog import curate_ops as curate_ops_mod
+
         monkeypatch.setattr(curate_ops_mod, "cover_cache_dir", lambda: tmp_path)
         monkeypatch.setattr(
-            curate_ops_mod, "cover_cache_path",
+            curate_ops_mod,
+            "cover_cache_path",
             lambda sid: tmp_path / f"{sid}.json",
         )
 
@@ -87,9 +91,11 @@ class TestWriteCoverCache:
 
     def test_skips_when_no_images(self, tmp_path, monkeypatch):
         from lauschi_catalog.catalog import curate_ops as curate_ops_mod
+
         monkeypatch.setattr(curate_ops_mod, "cover_cache_dir", lambda: tmp_path)
         monkeypatch.setattr(
-            curate_ops_mod, "cover_cache_path",
+            curate_ops_mod,
+            "cover_cache_path",
             lambda sid: tmp_path / f"{sid}.json",
         )
 
@@ -100,9 +106,11 @@ class TestWriteCoverCache:
     def test_handles_album_id_key(self, tmp_path, monkeypatch):
         """Curation JSON uses album_id instead of id."""
         from lauschi_catalog.catalog import curate_ops as curate_ops_mod
+
         monkeypatch.setattr(curate_ops_mod, "cover_cache_dir", lambda: tmp_path)
         monkeypatch.setattr(
-            curate_ops_mod, "cover_cache_path",
+            curate_ops_mod,
+            "cover_cache_path",
             lambda sid: tmp_path / f"{sid}.json",
         )
 

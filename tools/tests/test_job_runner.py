@@ -25,6 +25,7 @@ def _setup_db(tmp_path, monkeypatch):
 
 def _create_job(series_id: str = "test", command: str = "test") -> str:
     from lauschi_catalog.web.jobs import create_job
+
     return create_job(series_id, command)
 
 
@@ -45,7 +46,9 @@ class TestStreamProc:
         from lauschi_catalog.web.routes.jobs_api import _stream_proc
 
         job_id = _create_job()
-        asyncio.run(_stream_proc(job_id, [sys.executable, "-c", "raise SystemExit(42)"], "."))
+        asyncio.run(
+            _stream_proc(job_id, [sys.executable, "-c", "raise SystemExit(42)"], ".")
+        )
         job = get_job(job_id)
         assert job is not None
         assert job.status == "error"
@@ -83,7 +86,9 @@ class TestStreamProc:
         job = get_job(job_id)
         assert job is not None
         assert job.status == "error"
-        assert "FileNotFoundError" in (job.error or "") or "No such file" in (job.error or "")
+        assert "FileNotFoundError" in (job.error or "") or "No such file" in (
+            job.error or ""
+        )
 
     def test_fast_exit_still_sets_done(self):
         """Regression: fast-exiting processes previously left returncode as None."""
@@ -174,6 +179,7 @@ class TestSafetyNet:
 
             # Patch _stream_proc to raise without updating status
             import lauschi_catalog.web.routes.jobs_api as mod
+
             original = mod._stream_proc
 
             async def broken_stream_proc(jid, cmd, cwd):

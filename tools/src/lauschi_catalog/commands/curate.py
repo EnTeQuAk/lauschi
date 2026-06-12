@@ -38,27 +38,26 @@ def print_summary(series: CuratedSeries) -> None:
     included = series.included()
     excluded = [a for a in series.albums if not a.include]
     eps = [a.episode_num for a in included if a.episode_num is not None]
-    providers_used = sorted(set(a.provider for a in included))
-
     ep_pat = series.episode_pattern or "(none)"
     pattern = escape(str(ep_pat))
 
-    console.print(Panel(
-        f"[bold]{escape(series.title)}[/]  [dim]{series.id}[/]\n"
-        f"Providers: {', '.join(f'{k}: {v}' for k, v in series.provider_artist_ids.items())}\n"
-        f"Episodes: {len(included)} included · {len(excluded)} excluded\n"
-        f"Range: {min(eps) if eps else '—'}–{max(eps) if eps else '—'}\n"
-        f"Pattern: {pattern}",
-        title="Curated",
-        border_style="green",
-    ))
+    console.print(
+        Panel(
+            f"[bold]{escape(series.title)}[/]  [dim]{series.id}[/]\n"
+            f"Providers: {', '.join(f'{k}: {v}' for k, v in series.provider_artist_ids.items())}\n"
+            f"Episodes: {len(included)} included · {len(excluded)} excluded\n"
+            f"Range: {min(eps) if eps else '—'}–{max(eps) if eps else '—'}\n"
+            f"Pattern: {pattern}",
+            title="Curated",
+            border_style="green",
+        )
+    )
 
     if eps:
         gaps = sorted(set(range(min(eps), max(eps) + 1)) - set(eps))
         if gaps:
             console.print(
-                f"[yellow]Gaps: {gaps[:20]}"
-                f"{'...' if len(gaps) > 20 else ''}[/]",
+                f"[yellow]Gaps: {gaps[:20]}{'...' if len(gaps) > 20 else ''}[/]",
             )
 
     table = Table(box=box.SIMPLE, title=f"Included (first 10 of {len(included)})")
@@ -69,7 +68,9 @@ def print_summary(series: CuratedSeries) -> None:
     for a in included[:10]:
         table.add_row(
             str(a.episode_num) if a.episode_num else "—",
-            a.provider, a.title[:50], a.album_id[:14],
+            a.provider,
+            a.title[:50],
+            a.album_id[:14],
         )
     if len(included) > 10:
         table.add_row("...", "", f"({len(included) - 10} more)", "")
@@ -108,11 +109,27 @@ def _init_providers(provider: str, *, no_cache: bool = False) -> list:
     return providers
 
 
-def _dry_run_prompts(query: str, content_type: str = "hoerspiel", discography_span_years: int | None = None) -> None:
+def _dry_run_prompts(
+    query: str,
+    content_type: str = "hoerspiel",
+    discography_span_years: int | None = None,
+) -> None:
     """Print assembled prompts without calling the API."""
-    batch = load_curate_skill(phase="batch", content_type=content_type, discography_span_years=discography_span_years)
-    metadata = load_curate_skill(phase="metadata", content_type=content_type, discography_span_years=discography_span_years)
-    finalize = load_curate_skill(phase="finalize", content_type=content_type, discography_span_years=discography_span_years)
+    batch = load_curate_skill(
+        phase="batch",
+        content_type=content_type,
+        discography_span_years=discography_span_years,
+    )
+    metadata = load_curate_skill(
+        phase="metadata",
+        content_type=content_type,
+        discography_span_years=discography_span_years,
+    )
+    finalize = load_curate_skill(
+        phase="finalize",
+        content_type=content_type,
+        discography_span_years=discography_span_years,
+    )
 
     console.print(Panel("Batch system prompt", border_style="blue"))
     console.print(batch)
@@ -127,8 +144,20 @@ def _dry_run_prompts(query: str, content_type: str = "hoerspiel", discography_sp
     console.print()
 
     sample_batch = [
-        {"provider": "spotify", "id": "abc123", "name": "Folge 1: Der Anfang", "total_tracks": 3, "release_date": "2020-01-15"},
-        {"provider": "apple_music", "id": "def456", "name": "Folge 2: Die Reise", "total_tracks": 4, "release_date": "2020-03-20"},
+        {
+            "provider": "spotify",
+            "id": "abc123",
+            "name": "Folge 1: Der Anfang",
+            "total_tracks": 3,
+            "release_date": "2020-01-15",
+        },
+        {
+            "provider": "apple_music",
+            "id": "def456",
+            "name": "Folge 2: Die Reise",
+            "total_tracks": 4,
+            "release_date": "2020-03-20",
+        },
     ]
     album_lines = "\n".join(
         f"  {a['provider']}:{a['id']} | {a['name']} | {a['total_tracks']} tracks | {a['release_date']}"
@@ -150,16 +179,31 @@ def _dry_run_prompts(query: str, content_type: str = "hoerspiel", discography_sp
 @click.option("--force", is_flag=True, help="Re-curate even if curation JSON exists")
 @click.option("--model", default=_DEFAULT_MODEL, help="AI model to use")
 @click.option(
-    "--timeout", default=3600,
+    "--timeout",
+    default=3600,
     help="Timeout per series in seconds (default 60 min). Big series "
     "with many batches and tool calls genuinely take 30+ min; the old "
     "1800 default was timing out 14 series in the catalog.",
 )
-@click.option("--provider", "-p", type=click.Choice(["spotify", "apple_music", "all"]), default="all")
+@click.option(
+    "--provider",
+    "-p",
+    type=click.Choice(["spotify", "apple_music", "all"]),
+    default="all",
+)
 @click.option("--no-cache", is_flag=True, help="Bypass provider API cache")
-@click.option("--music", is_flag=True, help="Curate as music artist (not Hörspiel series)")
-@click.option("--content-type", type=click.Choice(["hoerspiel", "music", "audiobook"]), default=None, help="Content type override")
-@click.option("--dry-run", is_flag=True, help="Print assembled prompts without calling the API")
+@click.option(
+    "--music", is_flag=True, help="Curate as music artist (not Hörspiel series)"
+)
+@click.option(
+    "--content-type",
+    type=click.Choice(["hoerspiel", "music", "audiobook"]),
+    default=None,
+    help="Content type override",
+)
+@click.option(
+    "--dry-run", is_flag=True, help="Print assembled prompts without calling the API"
+)
 def curate(
     query: str | None,
     run_all: bool,
@@ -226,16 +270,20 @@ def curate(
                 _dry_run_prompts(query, content_type=resolved_type)
                 return
 
-            result = asyncio.run(curate_one(
-                entry.title, providers,
-                model=model, timeout=timeout,
-                series_id=entry.id,
-                known_artist_ids=entry.all_artist_ids() or None,
-                existing_curation=existing,
-                content_type=resolved_type,
-                existing_facts=load_existing_facts(entry),
-                on_progress=lambda msg: console.print(msg),
-            ))
+            result = asyncio.run(
+                curate_one(
+                    entry.title,
+                    providers,
+                    model=model,
+                    timeout=timeout,
+                    series_id=entry.id,
+                    known_artist_ids=entry.all_artist_ids() or None,
+                    existing_curation=existing,
+                    content_type=resolved_type,
+                    existing_facts=load_existing_facts(entry),
+                    on_progress=lambda msg: console.print(msg),
+                )
+            )
             if result.ok and result.series:
                 print_summary(result.series)
             if not result.ok:
@@ -259,12 +307,16 @@ def curate(
             _dry_run_prompts(query, content_type=resolved_type)
             return
 
-        result = asyncio.run(curate_one(
-            query, providers,
-            model=model, timeout=timeout,
-            content_type=resolved_type,
-            on_progress=lambda msg: console.print(msg),
-        ))
+        result = asyncio.run(
+            curate_one(
+                query,
+                providers,
+                model=model,
+                timeout=timeout,
+                content_type=resolved_type,
+                on_progress=lambda msg: console.print(msg),
+            )
+        )
         if result.ok and result.series:
             print_summary(result.series)
         if not result.ok:
@@ -281,12 +333,15 @@ def curate(
         ),
     )
 
-    all_result = asyncio.run(curate_all(
-        providers,
-        model=model, timeout=timeout,
-        force=force,
-        on_progress=lambda msg: console.print(msg),
-    ))
+    all_result = asyncio.run(
+        curate_all(
+            providers,
+            model=model,
+            timeout=timeout,
+            force=force,
+            on_progress=lambda msg: console.print(msg),
+        )
+    )
 
     console.print(
         f"\n[bold]Results:[/bold] {all_result.succeeded} curated, "

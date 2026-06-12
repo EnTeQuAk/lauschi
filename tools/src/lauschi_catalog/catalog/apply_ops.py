@@ -9,14 +9,16 @@ from __future__ import annotations
 import json
 from collections.abc import Callable
 from dataclasses import dataclass, field
-from pathlib import Path
 
 from lauschi_catalog.catalog.lifecycle import apply_is_unsafe
 from lauschi_catalog.catalog.loader import load_raw, save_raw
 from lauschi_catalog.catalog.paths import CURATION_DIR
 
 Progress = Callable[[str], None]
-_noop: Progress = lambda _msg: None
+
+
+def _noop(_msg: str) -> None:
+    pass
 
 
 @dataclass
@@ -120,7 +122,8 @@ def apply_one(
         sorted_albums = sorted(
             prov_albums,
             key=lambda a: (
-                a.get("episode_num") is None, a.get("episode_num"),
+                a.get("episode_num") is None,
+                a.get("episode_num"),
                 a.get("release_date") or "",
                 a.get("title", ""),
             ),

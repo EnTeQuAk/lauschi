@@ -25,14 +25,28 @@ def _make(name: str, base: type = Exception, *, msg: str = "") -> Exception:
     return cls(msg)
 
 
-@pytest.mark.parametrize("name", [
-    "ConnectionError", "ConnectTimeout", "ReadTimeout", "Timeout",
-    "SSLError", "ChunkedEncodingError",
-    "MaxRetryError", "NewConnectionError", "ProtocolError",
-    "ConnectError", "ReadError", "WriteError",
-    "PoolTimeout", "RemoteProtocolError",
-    "APIConnectionError", "APITimeoutError", "InternalServerError",
-])
+@pytest.mark.parametrize(
+    "name",
+    [
+        "ConnectionError",
+        "ConnectTimeout",
+        "ReadTimeout",
+        "Timeout",
+        "SSLError",
+        "ChunkedEncodingError",
+        "MaxRetryError",
+        "NewConnectionError",
+        "ProtocolError",
+        "ConnectError",
+        "ReadError",
+        "WriteError",
+        "PoolTimeout",
+        "RemoteProtocolError",
+        "APIConnectionError",
+        "APITimeoutError",
+        "InternalServerError",
+    ],
+)
 def test_known_network_type_names_retry(name: str):
     """Each name in _RETRYABLE_TYPE_NAMES must trigger a retry, even
     when the message is empty (some SDK errors set only .response)."""
@@ -65,16 +79,19 @@ def test_socket_error_retries_via_alias():
 # ── String fallback ───────────────────────────────────────────────────────
 
 
-@pytest.mark.parametrize("msg", [
-    "<!DOCTYPE html><html><body>502 Bad Gateway</body></html>",
-    "HTTP 502 Bad Gateway",
-    "Status 503 Service Unavailable",
-    "504 Gateway Timeout",
-    "Server returned 524",
-    "Read timed out (read timeout=600)",
-    "Connection reset by peer",
-    "Service temporarily unavailable",
-])
+@pytest.mark.parametrize(
+    "msg",
+    [
+        "<!DOCTYPE html><html><body>502 Bad Gateway</body></html>",
+        "HTTP 502 Bad Gateway",
+        "Status 503 Service Unavailable",
+        "504 Gateway Timeout",
+        "Server returned 524",
+        "Read timed out (read timeout=600)",
+        "Connection reset by peer",
+        "Service temporarily unavailable",
+    ],
+)
 def test_string_fallback_catches_transient_messages(msg: str):
     assert _is_retryable(Exception(msg)) is True
 
@@ -82,14 +99,17 @@ def test_string_fallback_catches_transient_messages(msg: str):
 # ── Non-retryable cases ───────────────────────────────────────────────────
 
 
-@pytest.mark.parametrize("msg", [
-    "401 Unauthorized: invalid api key",
-    "AuthenticationError: token expired",
-    "ValidationError: 1 validation error for ReviewResult",
-    "404 Not Found",
-    "400 Bad Request: malformed input",
-    "Forbidden: insufficient scope",
-])
+@pytest.mark.parametrize(
+    "msg",
+    [
+        "401 Unauthorized: invalid api key",
+        "AuthenticationError: token expired",
+        "ValidationError: 1 validation error for ReviewResult",
+        "404 Not Found",
+        "400 Bad Request: malformed input",
+        "Forbidden: insufficient scope",
+    ],
+)
 def test_auth_and_validation_errors_do_not_retry(msg: str):
     """These all need human action — retrying just burns budget."""
     assert _is_retryable(Exception(msg)) is False

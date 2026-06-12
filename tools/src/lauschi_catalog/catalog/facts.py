@@ -40,10 +40,7 @@ class EraBoundary(_FactProvenance):
     @classmethod
     def _validate_range(cls, v: str) -> str:
         if not _re.fullmatch(r"^\d{4}-(\d{4})?$", v):
-            msg = (
-                f"release_date_range must be 'YYYY-YYYY' or 'YYYY-', "
-                f"got {v!r}"
-            )
+            msg = f"release_date_range must be 'YYYY-YYYY' or 'YYYY-', got {v!r}"
             raise ValueError(msg)
         return v
 
@@ -85,6 +82,7 @@ class EraBoundaryProposal(BaseModel):
     Enforces non-empty fields so pydantic-ai surfaces validation
     errors back to the agent instead of silently storing garbage.
     """
+
     label: str = Field(min_length=1, description="Short label, e.g. 'klassik'.")
     release_date_range: str = Field(
         min_length=1,
@@ -94,12 +92,14 @@ class EraBoundaryProposal(BaseModel):
 
 class KnownGapProposal(BaseModel):
     """Wire input for proposing a known gap."""
+
     number: int = Field(ge=1, description="Missing episode number.")
     reason: str = Field(min_length=1, description="Why it's missing.")
 
 
 class SubSeriesProposal(BaseModel):
     """Wire input for proposing a sub-series."""
+
     label: str = Field(min_length=1, description="Short label.")
     album_ids: list[str] = Field(
         default_factory=list,

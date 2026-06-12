@@ -8,7 +8,6 @@ These tests pin the contract from the add side.
 
 from __future__ import annotations
 
-from pathlib import Path
 
 import pytest
 from click.testing import CliRunner
@@ -39,7 +38,9 @@ def env(monkeypatch, tmp_path):
     # force-readd test writes a tom_turbo stub into the REAL series.yaml.
     monkeypatch.setattr(paths_mod, "series_yaml_path", lambda: series_yaml)
     monkeypatch.setattr(
-        paths_mod, "series_lock_path", lambda: tmp_path / ".series.yaml.lock",
+        paths_mod,
+        "series_lock_path",
+        lambda: tmp_path / ".series.yaml.lock",
     )
 
     # Pre-seed the log with a deletion.
@@ -55,9 +56,11 @@ def env(monkeypatch, tmp_path):
     class _NoSpotify:
         def __init__(self):
             raise SystemExit
+
     class _NoApple:
         def __init__(self):
             raise FileNotFoundError
+
     monkeypatch.setattr(add_ops_mod, "load_catalog", lambda: [])
     return {"series_yaml": series_yaml, "deleted_yaml": deleted_yaml}
 
@@ -71,8 +74,10 @@ def test_add_refuses_to_readd_deleted_id(env, monkeypatch):
 
     def _no_spotify(*_a, **_kw):
         raise SystemExit
+
     def _no_apple(*_a, **_kw):
         raise FileNotFoundError
+
     monkeypatch.setattr(sp_mod, "SpotifyProvider", _no_spotify)
     monkeypatch.setattr(am_mod, "AppleMusicProvider", _no_apple)
 
@@ -100,8 +105,10 @@ def test_add_with_force_readd_clears_log_entry(env, monkeypatch, tmp_path):
 
     def _no_spotify(*_a, **_kw):
         raise SystemExit
+
     def _no_apple(*_a, **_kw):
         raise FileNotFoundError
+
     monkeypatch.setattr(sp_mod, "SpotifyProvider", _no_spotify)
     monkeypatch.setattr(am_mod, "AppleMusicProvider", _no_apple)
 

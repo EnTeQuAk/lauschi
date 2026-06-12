@@ -13,7 +13,12 @@ from typing import Any
 
 from lauschi_catalog.catalog.add_ops import title_to_id
 from lauschi_catalog.catalog.io import safe_write_json
-from lauschi_catalog.catalog.loader import load_catalog, load_raw, save_raw, update_provider_ids
+from lauschi_catalog.catalog.loader import (
+    load_catalog,
+    load_raw,
+    save_raw,
+    update_provider_ids,
+)
 from lauschi_catalog.catalog.paths import artist_image_path
 from lauschi_catalog.catalog.series_ops import add_series_entry
 from lauschi_catalog.providers import Artist, CatalogProvider
@@ -64,7 +69,10 @@ class PruneResult:
 
 
 Progress = Callable[[str], None]
-_noop: Progress = lambda _msg: None
+
+
+def _noop(_msg: str) -> None:
+    pass
 
 
 def classify_match(series_title: str, candidate: Artist) -> str:
@@ -183,9 +191,7 @@ def discover_one(
 
     for p in providers:
         candidates = discover_candidates(p, query)
-        all_candidates[p.name] = [
-            _artist_to_match(a, conf) for a, conf in candidates
-        ]
+        all_candidates[p.name] = [_artist_to_match(a, conf) for a, conf in candidates]
         best = match_artist(query, [a for a, _ in candidates])
         if best:
             conf = classify_match(query, best)
@@ -195,16 +201,12 @@ def discover_one(
             matches[p.name] = None
             on_progress(f"  [{p.name}] not found")
 
-    result = DiscoverResult(
-        query=query, matches=matches, candidates=all_candidates
-    )
+    result = DiscoverResult(query=query, matches=matches, candidates=all_candidates)
 
     if not write:
         return result
 
-    discoveries = {
-        name: m for name, m in matches.items() if m is not None
-    }
+    discoveries = {name: m for name, m in matches.items() if m is not None}
 
     catalog = load_catalog()
     entry = None
@@ -257,9 +259,7 @@ def discover_one(
                 existing.append(m.artist_id)
                 raw_cfg["artist_ids"] = existing
                 updated = True
-                on_progress(
-                    f"Added {pname} artist_id {m.artist_id} to {entry.id}"
-                )
+                on_progress(f"Added {pname} artist_id {m.artist_id} to {entry.id}")
         break
 
     if updated:
@@ -290,9 +290,7 @@ def discover_all(
             if existing:
                 continue
             any_missing = True
-            best = match_artist(
-                entry.title, p.search_artists(entry.title)
-            )
+            best = match_artist(entry.title, p.search_artists(entry.title))
             if best:
                 found_total += 1
                 updates.setdefault(entry.id, {})[p.name] = [best.id]
@@ -337,9 +335,7 @@ def prune_broken(
                 try:
                     ok = p.artist_exists(aid)
                 except Exception as e:
-                    on_progress(
-                        f"  error checking {entry.id}/{p.name}/{aid}: {e}"
-                    )
+                    on_progress(f"  error checking {entry.id}/{p.name}/{aid}: {e}")
                     kept.append(aid)
                     continue
                 if ok:

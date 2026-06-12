@@ -34,9 +34,7 @@ def _provider_with(image_url: str | None):
 
 def test_redirects_to_cdn_image(client):
     provider = _provider_with("https://cdn.example/cover.jpg")
-    with patch(
-        "lauschi_catalog.web.routes.api._cover_provider", return_value=provider
-    ):
+    with patch("lauschi_catalog.web.routes.api._cover_provider", return_value=provider):
         resp = client.get("/api/cover/spotify/abc123", follow_redirects=False)
     assert resp.status_code == 302
     assert resp.headers["location"] == "https://cdn.example/cover.jpg"
@@ -46,9 +44,7 @@ def test_redirects_to_cdn_image(client):
 
 def test_404_when_album_has_no_image(client):
     provider = _provider_with(None)
-    with patch(
-        "lauschi_catalog.web.routes.api._cover_provider", return_value=provider
-    ):
+    with patch("lauschi_catalog.web.routes.api._cover_provider", return_value=provider):
         resp = client.get("/api/cover/spotify/abc123", follow_redirects=False)
     assert resp.status_code == 404
 

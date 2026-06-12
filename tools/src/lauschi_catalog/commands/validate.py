@@ -13,13 +13,17 @@ from rich.table import Table
 
 from lauschi_catalog.catalog.providers_init import init_providers
 from lauschi_catalog.catalog.validate_ops import validate_catalog
-from lauschi_catalog.providers import CatalogProvider
 
 console = Console()
 
 
 @click.command()
-@click.option("--provider", "-p", type=click.Choice(["spotify", "apple_music", "all"]), default="all")
+@click.option(
+    "--provider",
+    "-p",
+    type=click.Choice(["spotify", "apple_music", "all"]),
+    default="all",
+)
 @click.option("--series", "-s", help="Filter to series whose title contains this")
 @click.option("--verbose", "-v", is_flag=True)
 def validate(provider: str, series: str | None, verbose: bool):

@@ -120,7 +120,9 @@ templates.env.globals["album_url"] = album_url
 
 
 @router.get("/catalog", response_class=HTMLResponse)
-async def catalog_list(request: Request, q: str = "", tab: str = "hoerspiel", status: str = ""):
+async def catalog_list(
+    request: Request, q: str = "", tab: str = "hoerspiel", status: str = ""
+):
     all_series = get_all_series()
     series = all_series
 
@@ -170,9 +172,21 @@ async def catalog_list(request: Request, q: str = "", tab: str = "hoerspiel", st
     if active_filters:
         enriched = [s for s in enriched if s["filter_label"] in active_filters]
 
-    filter_order = ["Discover", "Curate", "Audit", "Apply", "Validate", "Done", "Escalated"]
+    filter_order = [
+        "Discover",
+        "Curate",
+        "Audit",
+        "Apply",
+        "Validate",
+        "Done",
+        "Escalated",
+    ]
     status_filters = [
-        {"label": label, "count": status_counts.get(label, 0), "active": label in active_filters}
+        {
+            "label": label,
+            "count": status_counts.get(label, 0),
+            "active": label in active_filters,
+        }
         for label in filter_order
         if status_counts.get(label, 0) > 0
     ]
@@ -276,16 +290,18 @@ def _render_series_detail(
                     if a.get("image_url"):
                         image = a["image_url"]
                         break
-            grouped_episodes.append({
-                "episode_num": ep_num,
-                "title": first.get("title", ""),
-                "image_url": image,
-                "release_date": first.get("release_date", ""),
-                "providers": [
-                    {"name": name, "album_id": aid}
-                    for name, aid in sorted(provider_albums.items())
-                ],
-            })
+            grouped_episodes.append(
+                {
+                    "episode_num": ep_num,
+                    "title": first.get("title", ""),
+                    "image_url": image,
+                    "release_date": first.get("release_date", ""),
+                    "providers": [
+                        {"name": name, "album_id": aid}
+                        for name, aid in sorted(provider_albums.items())
+                    ],
+                }
+            )
 
     # Episode coverage: which providers cover each episode number
     coverage: dict[str, Any] | None = None
@@ -397,9 +413,7 @@ async def series_delete(request: Request, series_id: str):
     # Inyoka-style confirmation: the first POST renders a confirm flash
     # that re-submits the same form with confirm=1.
     if form.get("confirm") != "1":
-        prompt = templates.get_template(
-            "partials/confirm_action_flash.html"
-        ).render(
+        prompt = templates.get_template("partials/confirm_action_flash.html").render(
             message=f"Delete {series_id} from the catalog?",
             confirm_label="Delete series",
             action_url=f"/catalog/{series_id}/delete",
@@ -448,7 +462,9 @@ async def series_edit_post(request: Request, series_id: str):
     changes = SeriesChanges(
         title=title or None,
         id=new_id or None,
-        aliases=[a.strip() for a in aliases_text.split(",") if a.strip()] if aliases_text else None,
+        aliases=[a.strip() for a in aliases_text.split(",") if a.strip()]
+        if aliases_text
+        else None,
         episode_pattern=episode_pattern or None,
         content_type=content_type or None,
     )
@@ -578,18 +594,22 @@ async def merge_post(request: Request):
 
     target = get_series_by_id(target_id)
     result = merge_series(
-        source_id, target_id,
+        source_id,
+        target_id,
         target_title=target.title if target else None,
     )
     if not result.ok:
         return redirect_with_flash(
-            request, "/merge", error=result.error or "unknown error",
+            request,
+            "/merge",
+            error=result.error or "unknown error",
             status_code=303,
         )
 
     sync_catalog_to_db()
     return redirect_with_flash(
-        request, "/merge",
+        request,
+        "/merge",
         message=f"Merged {result.added} albums, skipped {result.skipped} duplicates",
     )
 
@@ -621,23 +641,30 @@ async def splits_page(request: Request):
                 for aid in sub.get("album_ids", [])
                 if aid in album_lookup
             ]
-            enriched_subs.append({
-                "index": i,
-                "label": sub.get("label", ""),
-                "reason": sub.get("reason", ""),
-                "album_ids": sub.get("album_ids", []),
-                "albums": sorted(
-                    matched,
-                    key=lambda a: (a.get("episode_num") or 0, a.get("provider", "")),
-                ),
-                "default_id": f"{s.id}_{sub.get('label', '')}",
-                "default_title": f"{s.title}: {sub.get('label', '').replace('_', ' ').title()}",
-            })
-        pending.append({
-            "series_id": s.id,
-            "title": s.title,
-            "sub_series": enriched_subs,
-        })
+            enriched_subs.append(
+                {
+                    "index": i,
+                    "label": sub.get("label", ""),
+                    "reason": sub.get("reason", ""),
+                    "album_ids": sub.get("album_ids", []),
+                    "albums": sorted(
+                        matched,
+                        key=lambda a: (
+                            a.get("episode_num") or 0,
+                            a.get("provider", ""),
+                        ),
+                    ),
+                    "default_id": f"{s.id}_{sub.get('label', '')}",
+                    "default_title": f"{s.title}: {sub.get('label', '').replace('_', ' ').title()}",
+                }
+            )
+        pending.append(
+            {
+                "series_id": s.id,
+                "title": s.title,
+                "sub_series": enriched_subs,
+            }
+        )
     return templates.TemplateResponse(
         request,
         "splits.html",

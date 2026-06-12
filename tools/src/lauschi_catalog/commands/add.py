@@ -41,11 +41,13 @@ __all__ = [
 
 def print_analysis(artist: Artist, albums: list[Album], analysis: dict) -> None:
     """Print a summary of the discography analysis."""
-    console.print(Panel(
-        f"[bold]{artist.name}[/]  [dim]{artist.id}[/]\n"
-        f"Followers: {artist.followers:,} · Albums: {analysis['total']}",
-        title="Discography analysis",
-    ))
+    console.print(
+        Panel(
+            f"[bold]{artist.name}[/]  [dim]{artist.id}[/]\n"
+            f"Followers: {artist.followers:,} · Albums: {analysis['total']}",
+            title="Discography analysis",
+        )
+    )
 
     t = Table(box=box.SIMPLE, title="Episode patterns (first-match wins)")
     t.add_column("Pattern", min_width=12)
@@ -58,8 +60,10 @@ def print_analysis(artist: Artist, albums: list[Album], analysis: dict) -> None:
     if analysis["unmatched"]:
         pct = round(100 * len(analysis["unmatched"]) / total) if total else 0
         t.add_row(
-            "[dim]unmatched[/]", str(len(analysis["unmatched"])),
-            f"{pct}%", style="dim",
+            "[dim]unmatched[/]",
+            str(len(analysis["unmatched"])),
+            f"{pct}%",
+            style="dim",
         )
     console.print(t)
 
@@ -81,10 +85,20 @@ def print_analysis(artist: Artist, albums: list[Album], analysis: dict) -> None:
 
 @click.command()
 @click.argument("title")
-@click.option("--id", "series_id", default=None, help="Override auto-generated snake_case ID")
-@click.option("--spotify-artist-id", default=None, help="Spotify artist ID (skips search)")
-@click.option("--apple-music-artist-id", default=None, help="Apple Music artist ID (skips search)")
-@click.option("--no-analyse", is_flag=True, help="Skip discography analysis (just create a minimal seed)")
+@click.option(
+    "--id", "series_id", default=None, help="Override auto-generated snake_case ID"
+)
+@click.option(
+    "--spotify-artist-id", default=None, help="Spotify artist ID (skips search)"
+)
+@click.option(
+    "--apple-music-artist-id", default=None, help="Apple Music artist ID (skips search)"
+)
+@click.option(
+    "--no-analyse",
+    is_flag=True,
+    help="Skip discography analysis (just create a minimal seed)",
+)
 @click.option("--dry-run", "-n", is_flag=True, help="Print the entry without writing")
 @click.option(
     "--force-readd",
@@ -175,7 +189,9 @@ def add(
         for pname, artist in artists.items():
             provider = spotify if pname == "spotify" else apple
             if provider:
-                console.print(f"\n[bold]Analysing {artist.name} discography ({pname})...[/bold]")
+                console.print(
+                    f"\n[bold]Analysing {artist.name} discography ({pname})...[/bold]"
+                )
                 albums = provider.artist_albums(artist.id)
                 if albums:
                     analysis = analyse_patterns(albums)
@@ -238,7 +254,9 @@ def _search_and_pick(provider: SpotifyProvider, query: str) -> Artist | None:
 
     if len(candidates) == 1:
         a = candidates[0]
-        console.print(f"[green]Found:[/green] {a.name} ({a.id}) {a.followers:,} followers")
+        console.print(
+            f"[green]Found:[/green] {a.name} ({a.id}) {a.followers:,} followers"
+        )
         return a
 
     # Use the same matching logic as discover
@@ -274,4 +292,6 @@ def _print_entry(entry: dict) -> None:
     y.dump([entry], buf)
     yaml_text = buf.getvalue()
 
-    console.print(Panel(yaml_text.strip(), title="New series entry", border_style="green"))
+    console.print(
+        Panel(yaml_text.strip(), title="New series entry", border_style="green")
+    )

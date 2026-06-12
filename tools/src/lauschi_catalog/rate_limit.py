@@ -10,10 +10,16 @@ from __future__ import annotations
 import asyncio
 import time
 from dataclasses import dataclass, field
+from collections.abc import Callable
 from typing import Any
 
 from pydantic_ai import ModelHTTPError
-from tenacity import AsyncRetrying, RetryCallState, retry_if_exception, stop_after_attempt
+from tenacity import (
+    AsyncRetrying,
+    RetryCallState,
+    retry_if_exception,
+    stop_after_attempt,
+)
 
 from lauschi_catalog.agent_deps import Progress, _noop
 from lauschi_catalog.retry import is_retryable
@@ -92,10 +98,7 @@ def _error_summary(exc: BaseException) -> str:
     while cur is not None and id(cur) not in seen and depth < 8:
         seen.add(id(cur))
         if isinstance(cur, ModelHTTPError):
-            return (
-                f"{type(exc).__name__} {cur.status_code}: "
-                f"{str(cur.body)[:120]}"
-            )
+            return f"{type(exc).__name__} {cur.status_code}: {str(cur.body)[:120]}"
         cur = cur.__cause__ or cur.__context__
         depth += 1
     return f"{type(exc).__name__}: {str(exc)[:120]}"

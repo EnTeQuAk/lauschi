@@ -82,14 +82,14 @@ class SpotifyProvider(CatalogProvider):
             except (requests.ConnectionError, requests.Timeout):
                 if attempt == max_attempts - 1:
                     raise
-                time.sleep(2 * 2 ** attempt)
+                time.sleep(2 * 2**attempt)
                 continue
 
             if r.status_code == 429 and attempt < max_attempts - 1:
                 time.sleep(parse_retry_after(r.headers.get("Retry-After")))
                 continue
             if 500 <= r.status_code < 600 and attempt < max_attempts - 1:
-                time.sleep(2 * 2 ** attempt)
+                time.sleep(2 * 2**attempt)
                 continue
 
             r.raise_for_status()
@@ -111,7 +111,9 @@ class SpotifyProvider(CatalogProvider):
 
     def _get(self, url: str, **params) -> dict:
         self._ensure_token()
-        full_url = url if url.startswith("http") else f"https://api.spotify.com/v1/{url}"
+        full_url = (
+            url if url.startswith("http") else f"https://api.spotify.com/v1/{url}"
+        )
         for attempt in range(3):
             r = requests.get(
                 full_url,
@@ -205,7 +207,8 @@ class SpotifyProvider(CatalogProvider):
             # artists' releases this artist features on).
             data = self._get(
                 f"artists/{artist_id}/albums",
-                market="DE", limit=50,
+                market="DE",
+                limit=50,
                 include_groups="album,single,compilation",
             )
             raw: list[dict] = list(data.get("items", []))

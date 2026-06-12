@@ -33,7 +33,9 @@ def no_sleep(monkeypatch):
     monkeypatch.setattr(time, "sleep", lambda _s: None)
 
 
-def _make_response(status: int, json_data: dict | None = None, headers: dict | None = None):
+def _make_response(
+    status: int, json_data: dict | None = None, headers: dict | None = None
+):
     r = MagicMock(spec=requests.Response)
     r.status_code = status
     r.headers = headers or {}
@@ -54,11 +56,13 @@ def test_retries_on_503_and_succeeds(fake_credentials, no_sleep, monkeypatch):
     attempt, success on second. Without retry, the provider can't
     even be constructed."""
     calls: list[MagicMock] = []
+
     def fake_post(url, **kwargs):
         calls.append(MagicMock(url=url, kwargs=kwargs))
         if len(calls) == 1:
             return _make_response(503)
         return _make_response(200, {"access_token": "tok-after-retry"})
+
     monkeypatch.setattr("requests.post", fake_post)
 
     p = SpotifyProvider(use_cache=False)
@@ -75,9 +79,11 @@ def test_gives_up_after_five_5xx(fake_credentials, no_sleep, monkeypatch):
     roughly-one-minute outage. After that, surface the failure.
     """
     calls = []
+
     def fake_post(*a, **kw):
         calls.append(1)
         return _make_response(503)
+
     monkeypatch.setattr("requests.post", fake_post)
     with pytest.raises(requests.HTTPError):
         SpotifyProvider(use_cache=False)
@@ -91,11 +97,13 @@ def test_retries_on_read_timeout_and_succeeds(fake_credentials, no_sleep, monkey
     """The other failure seen in the catalog loop — a ReadTimeout
     against accounts.spotify.com. Same retry-and-recover path."""
     calls = []
+
     def fake_post(*a, **kw):
         calls.append(1)
         if len(calls) == 1:
             raise requests.Timeout("read timed out")
         return _make_response(200, {"access_token": "tok-after-timeout"})
+
     monkeypatch.setattr("requests.post", fake_post)
 
     p = SpotifyProvider(use_cache=False)
@@ -106,23 +114,29 @@ def test_retries_on_read_timeout_and_succeeds(fake_credentials, no_sleep, monkey
 def test_retries_on_connection_error(fake_credentials, no_sleep, monkeypatch):
     """DNS hiccup or connection refused — also transient."""
     calls = []
+
     def fake_post(*a, **kw):
         calls.append(1)
         if len(calls) == 1:
             raise requests.ConnectionError("connection refused")
         return _make_response(200, {"access_token": "tok"})
+
     monkeypatch.setattr("requests.post", fake_post)
     p = SpotifyProvider(use_cache=False)
     assert p._token == "tok"
 
 
-def test_propagates_timeout_after_five_attempts(fake_credentials, no_sleep, monkeypatch):
+def test_propagates_timeout_after_five_attempts(
+    fake_credentials, no_sleep, monkeypatch
+):
     """A genuinely-down network surfaces as the original exception
     so the caller can log it clearly."""
     calls = []
+
     def always_timeout(*a, **kw):
         calls.append(1)
         raise requests.Timeout("perpetual timeout")
+
     monkeypatch.setattr("requests.post", always_timeout)
     with pytest.raises(requests.Timeout):
         SpotifyProvider(use_cache=False)
@@ -136,11 +150,13 @@ def test_retries_on_429_honoring_retry_after(fake_credentials, no_sleep, monkeyp
     """The existing _get path honors Retry-After on 429; the token
     fetch should too, for consistency."""
     calls = []
+
     def fake_post(*a, **kw):
         calls.append(1)
         if len(calls) == 1:
             return _make_response(429, headers={"Retry-After": "1"})
         return _make_response(200, {"access_token": "tok"})
+
     monkeypatch.setattr("requests.post", fake_post)
     p = SpotifyProvider(use_cache=False)
     assert p._token == "tok"
@@ -154,9 +170,11 @@ def test_does_not_retry_on_401(fake_credentials, no_sleep, monkeypatch):
     fast so the user sees the misconfig immediately rather than
     after three retries."""
     calls = []
+
     def fake_post(*a, **kw):
         calls.append(1)
         return _make_response(401)
+
     monkeypatch.setattr("requests.post", fake_post)
     with pytest.raises(requests.HTTPError):
         SpotifyProvider(use_cache=False)
@@ -165,9 +183,11 @@ def test_does_not_retry_on_401(fake_credentials, no_sleep, monkeypatch):
 
 def test_does_not_retry_on_400(fake_credentials, no_sleep, monkeypatch):
     calls = []
+
     def fake_post(*a, **kw):
         calls.append(1)
         return _make_response(400)
+
     monkeypatch.setattr("requests.post", fake_post)
     with pytest.raises(requests.HTTPError):
         SpotifyProvider(use_cache=False)

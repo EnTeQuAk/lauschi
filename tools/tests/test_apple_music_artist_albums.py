@@ -57,7 +57,9 @@ def test_fetches_own_release_views_not_albums_relationship(provider, monkeypatch
         if "/view/singles" in url:
             return {"data": [_album_resource("s1", "Blinde Kuh - Single", "Trio")]}
         if "/view/compilation-albums" in url:
-            return {"data": [_album_resource("c1", "Die 100 besten Winterlieder", "Trio")]}
+            return {
+                "data": [_album_resource("c1", "Die 100 besten Winterlieder", "Trio")]
+            }
         if "/view/live-albums" in url:
             raise _http_404(url)
         raise AssertionError(f"unexpected URL fetched: {url}")
@@ -84,6 +86,7 @@ def test_album_in_multiple_views_appears_once(provider, monkeypatch):
 
 def test_missing_view_is_skipped(provider, monkeypatch):
     """Artists without live albums 404 on that view; other views still load."""
+
     def fake_request(self, url, *, params=None):
         if "/view/full-albums" in url:
             return {"data": [_album_resource("a1", "Album", "Trio")]}

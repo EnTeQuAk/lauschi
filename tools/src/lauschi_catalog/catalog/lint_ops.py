@@ -34,8 +34,7 @@ def _included_count(curation: dict) -> int:
 def _facts_count(curation: dict) -> int:
     facts = curation.get("series_facts") or {}
     return sum(
-        len(facts.get(k) or [])
-        for k in ("era_boundaries", "known_gaps", "sub_series")
+        len(facts.get(k) or []) for k in ("era_boundaries", "known_gaps", "sub_series")
     )
 
 
@@ -103,9 +102,7 @@ def lint_curation(curation: dict, *, today: date | None = None) -> list[str]:
         except Exception as e:
             # Don't crash lint because a bad fact shape sneaked in.
             # Surface it as an issue so the human can fix it.
-            issues.append(
-                f"[malformed series_facts: {type(e).__name__}: {e}]"
-            )
+            issues.append(f"[malformed series_facts: {type(e).__name__}: {e}]")
     pattern = curation.get("episode_pattern")
 
     included = [a for a in albums if a.get("include")]
@@ -131,13 +128,18 @@ def lint_curation(curation: dict, *, today: date | None = None) -> list[str]:
                 start_y = int(parts[0].strip())
                 end_y = int(parts[1].strip()) if parts[1].strip() else 9999
                 era_eps = [
-                    ep for ep in eps_by_provider[prov]
+                    ep
+                    for ep in eps_by_provider[prov]
                     if _year(
                         next(
-                            (a.get("release_date", "") for a in eps_albums_by_provider[prov].get(ep, [])),
+                            (
+                                a.get("release_date", "")
+                                for a in eps_albums_by_provider[prov].get(ep, [])
+                            ),
                             "",
                         ),
-                    ) in range(start_y, end_y + 1)
+                    )
+                    in range(start_y, end_y + 1)
                 ]
                 dupes = _find_duplicates(era_eps)
                 if dupes:
@@ -150,9 +152,7 @@ def lint_curation(curation: dict, *, today: date | None = None) -> list[str]:
         for prov, eps in eps_by_provider.items():
             dupes = _find_duplicates(eps)
             if dupes:
-                issues.append(
-                    f"[{prov}] Duplicate episode numbers: {dupes}"
-                )
+                issues.append(f"[{prov}] Duplicate episode numbers: {dupes}")
 
     # ── Rule 2: Unknown gaps ─────────────────────────────────────────
     for prov, eps in eps_by_provider.items():
@@ -164,9 +164,7 @@ def lint_curation(curation: dict, *, today: date | None = None) -> list[str]:
         known = {g.number for g in (facts.known_gaps if facts else [])}
         unknown = [g for g in gaps if g not in known]
         if unknown:
-            issues.append(
-                f"[{prov}] Unexpected gaps at episodes: {unknown}"
-            )
+            issues.append(f"[{prov}] Unexpected gaps at episodes: {unknown}")
 
     # ── Rule 3: Episode N included but N-1 from same era excluded ─────
     excluded = [a for a in albums if not a.get("include")]
@@ -197,7 +195,9 @@ def lint_curation(curation: dict, *, today: date | None = None) -> list[str]:
     # ── Rule 4: Pattern coverage < 80% ───────────────────────────────
     if pattern and included:
         matched = sum(
-            1 for a in included if extract_episode(pattern, a.get("title", "")) is not None
+            1
+            for a in included
+            if extract_episode(pattern, a.get("title", "")) is not None
         )
         coverage = matched / len(included)
         if coverage < 0.8:
@@ -224,40 +224,33 @@ def lint_curation(curation: dict, *, today: date | None = None) -> list[str]:
                     reason_type = "excluded without reason"
                 else:
                     continue  # properly excluded, not an asymmetry
-                key = (",".join(sorted(present)), prov, reason_type,
+                key = (
+                    ",".join(sorted(present)),
+                    prov,
+                    reason_type,
                 )
                 asym.setdefault(key, []).append(ep)
 
         for (present_key, prov, reason_type), eps in sorted(asym.items()):
             eps_str = _compress_runs(sorted(eps))
             issues.append(
-                f"Episodes {eps_str} on {present_key} but {reason_type} "
-                f"on {prov}"
+                f"Episodes {eps_str} on {present_key} but {reason_type} on {prov}"
             )
 
     # ── Rule 6: Unaudited facts ─────────────────────────────────────
     if facts:
         for e in facts.era_boundaries:
             if not e.audited_by:
-                issues.append(
-                    f"Unaudited era_boundary '{e.label}'"
-                )
+                issues.append(f"Unaudited era_boundary '{e.label}'")
         for g in facts.known_gaps:
             if not g.audited_by:
-                issues.append(
-                    f"Unaudited known_gap ep {g.number}"
-                )
+                issues.append(f"Unaudited known_gap ep {g.number}")
         for s in facts.sub_series:
             if not s.audited_by:
-                issues.append(
-                    f"Unaudited sub_series '{s.label}'"
-                )
+                issues.append(f"Unaudited sub_series '{s.label}'")
 
     # ── Rule 7: Low-confidence clusters ──────────────────────────────
-    low_conf = [
-        a for a in albums
-        if a.get("confidence") in ("medium", "low")
-    ]
+    low_conf = [a for a in albums if a.get("confidence") in ("medium", "low")]
     total_decisions = len(albums)
     if low_conf:
         threshold = max(5, total_decisions // 10)
@@ -269,13 +262,12 @@ def lint_curation(curation: dict, *, today: date | None = None) -> list[str]:
             )
 
     # ── Rule 8: Auto-included albums (agent omissions) ──────────────
-    auto_included = [
-        a for a in albums
-        if "auto-included" in (a.get("notes") or "")
-    ]
+    auto_included = [a for a in albums if "auto-included" in (a.get("notes") or "")]
     if auto_included:
         titles = [a.get("title", "?") for a in auto_included[:5]]
-        suffix = f" (and {len(auto_included) - 5} more)" if len(auto_included) > 5 else ""
+        suffix = (
+            f" (and {len(auto_included) - 5} more)" if len(auto_included) > 5 else ""
+        )
         issues.append(
             f"[auto_included] {len(auto_included)} album(s) were auto-included "
             f"because the agent omitted them: {', '.join(titles)}{suffix}"
@@ -287,9 +279,9 @@ def lint_curation(curation: dict, *, today: date | None = None) -> list[str]:
     # "future"). Code knows what day it is.
     cutoff = (today or date.today()).isoformat()
     future = [
-        a for a in included
-        if len(a.get("release_date") or "") == 10
-        and a["release_date"] > cutoff
+        a
+        for a in included
+        if len(a.get("release_date") or "") == 10 and a["release_date"] > cutoff
     ]
     if future:
         titles = [f"{a.get('title', '?')} ({a['release_date']})" for a in future[:5]]
@@ -302,9 +294,9 @@ def lint_curation(curation: dict, *, today: date | None = None) -> list[str]:
     # episode_num >= 1000 is almost always a year captured by an
     # over-broad regex; <= 0 is never a real episode.
     insane = [
-        a for a in included
-        if a.get("episode_num") is not None
-        and not (0 < a["episode_num"] < 1000)
+        a
+        for a in included
+        if a.get("episode_num") is not None and not (0 < a["episode_num"] < 1000)
     ]
     if insane:
         pairs = [f"{a.get('title', '?')!r} -> {a['episode_num']}" for a in insane[:5]]
@@ -321,11 +313,16 @@ def lint_curation(curation: dict, *, today: date | None = None) -> list[str]:
     # "properly excluded" convention. Complements Rule 5, which needs
     # episode numbers; this catches the unnumbered case (music albums).
     contradictory_reasons = {
-        "music_single", "compilation", "wrong_content_type", "sub_series_bleed",
+        "music_single",
+        "compilation",
+        "wrong_content_type",
+        "sub_series_bleed",
     }
     included_titles: dict[str, str] = {}
     for a in included:
-        included_titles.setdefault(_norm_title(a.get("title") or ""), a.get("provider", "?"))
+        included_titles.setdefault(
+            _norm_title(a.get("title") or ""), a.get("provider", "?")
+        )
     for a in albums:
         if a.get("include") or a.get("exclude_reason") not in contradictory_reasons:
             continue

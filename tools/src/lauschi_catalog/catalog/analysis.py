@@ -23,12 +23,11 @@ def effective_albums(curation: dict) -> list[dict]:
     """
     review = curation.get("review", {})
     excludes = {
-        o["album_id"]
-        for o in review.get("overrides", [])
-        if o["action"] == "exclude"
+        o["album_id"] for o in review.get("overrides", []) if o["action"] == "exclude"
     }
     return [
-        a for a in curation.get("albums", [])
+        a
+        for a in curation.get("albums", [])
         if a.get("include") and a["album_id"] not in excludes
     ]
 
@@ -58,7 +57,7 @@ def _title_shape(title: str) -> str:
     s = title.lower()
     cuts = [s.index(d) for d in _CLUSTER_DELIMITERS if d in s]
     if cuts:
-        s = s[:min(cuts)]
+        s = s[: min(cuts)]
     return re.sub(r"\d+", "n", s).strip()
 
 
@@ -131,10 +130,7 @@ def _cross_provider_coverage(albums: list[dict]) -> dict:
     all_eps: set[int] = set().union(*eps_by_provider.values())
     on_all = set.intersection(*eps_by_provider.values())
 
-    missing = {
-        p: sorted(all_eps - eps)
-        for p, eps in eps_by_provider.items()
-    }
+    missing = {p: sorted(all_eps - eps) for p, eps in eps_by_provider.items()}
     return {
         "by_provider": {p: len(eps) for p, eps in eps_by_provider.items()},
         "missing_per_provider": {p: m for p, m in missing.items() if m},
@@ -230,7 +226,9 @@ def analyze_series(curation: dict) -> dict[str, Any]:
         "outlier_count": outlier_count,
         "cross_provider_coverage": _cross_provider_coverage(albums),
         "pattern_coverage": {
-            "percentage": round(len(episodes) / len(albums) * 100, 1) if albums else 0.0,
+            "percentage": round(len(episodes) / len(albums) * 100, 1)
+            if albums
+            else 0.0,
             "missing": len(albums) - len(episodes),
         },
     }

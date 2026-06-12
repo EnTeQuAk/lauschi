@@ -25,6 +25,7 @@ def _pick_artwork(attrs: dict, size: int = 300) -> str:
         return ""
     return url.replace("{w}", str(size)).replace("{h}", str(size))
 
+
 # MusicKit config
 TEAM_ID = "QDF8U52UF4"
 KEY_ID = "PWHK2R76T9"
@@ -179,7 +180,8 @@ class AppleMusicProvider(CatalogProvider):
             for view in self._OWN_RELEASE_VIEWS:
                 try:
                     data = self._get(
-                        f"artists/{artist_id}/view/{view}", limit=100,
+                        f"artists/{artist_id}/view/{view}",
+                        limit=100,
                     )
                 except requests.HTTPError as e:
                     # Artists without e.g. live albums 404 on that view.
@@ -233,11 +235,7 @@ class AppleMusicProvider(CatalogProvider):
             return None
 
         attrs = data["attributes"]
-        tracks_data = (
-            data.get("relationships", {})
-            .get("tracks", {})
-            .get("data", [])
-        )
+        tracks_data = data.get("relationships", {}).get("tracks", {}).get("data", [])
 
         # Derive album_type from Apple Music flags
         am_type = ""

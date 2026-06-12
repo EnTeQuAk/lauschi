@@ -8,7 +8,7 @@ from __future__ import annotations
 
 import json
 import re
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from typing import Any
 
 from filelock import FileLock
@@ -94,7 +94,9 @@ def edit_series(series_id: str, changes: SeriesChanges) -> EditResult:
 
         if raw_entry is None:
             return EditResult(
-                ok=False, series_id=series_id, error="series not found in series.yaml",
+                ok=False,
+                series_id=series_id,
+                error="series not found in series.yaml",
             )
 
         if changes.title is not None:
@@ -198,7 +200,9 @@ def add_series_entry(entry: dict[str, Any]) -> AddResult:
     existing = load_catalog()
     if any(e.id == sid for e in existing):
         return AddResult(
-            ok=False, series_id=sid, title=title,
+            ok=False,
+            series_id=sid,
+            title=title,
             error=f"series '{sid}' already exists",
         )
 

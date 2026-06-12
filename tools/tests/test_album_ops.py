@@ -19,19 +19,29 @@ def album_env(monkeypatch, tmp_path):
         "id": "test_series",
         "albums": [
             {"album_id": "alb1", "include": True, "title": "Episode 1"},
-            {"album_id": "alb2", "include": False, "exclude_reason": "compilation", "title": "Best Of"},
+            {
+                "album_id": "alb2",
+                "include": False,
+                "exclude_reason": "compilation",
+                "title": "Best Of",
+            },
         ],
     }
     (curation_dir / "test_series.json").write_text(json.dumps(curation))
 
-    monkeypatch.setattr(album_ops, "curation_path", lambda sid: curation_dir / f"{sid}.json")
+    monkeypatch.setattr(
+        album_ops, "curation_path", lambda sid: curation_dir / f"{sid}.json"
+    )
     return curation_dir
 
 
 class TestUpdateAlbum:
     def test_exclude_album(self, album_env):
         result = album_ops.update_album(
-            "test_series", "alb1", include=False, exclude_reason="music_single",
+            "test_series",
+            "alb1",
+            include=False,
+            exclude_reason="music_single",
         )
         assert result.ok
         data = json.loads((album_env / "test_series.json").read_text())
@@ -67,7 +77,9 @@ class TestUpdateAlbum:
         assert alb["title"] == "New Title"
 
     def test_update_fields_without_include(self, album_env):
-        result = album_ops.update_album("test_series", "alb1", episode_num=7, title="Renamed")
+        result = album_ops.update_album(
+            "test_series", "alb1", episode_num=7, title="Renamed"
+        )
         assert result.ok
         data = json.loads((album_env / "test_series.json").read_text())
         alb = next(a for a in data["albums"] if a["album_id"] == "alb1")

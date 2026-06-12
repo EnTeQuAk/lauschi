@@ -19,7 +19,12 @@ console = Console()
 
 @click.command()
 @click.argument("query", required=False)
-@click.option("--provider", "-p", type=click.Choice(["spotify", "apple_music", "all"]), default="all")
+@click.option(
+    "--provider",
+    "-p",
+    type=click.Choice(["spotify", "apple_music", "all"]),
+    default="all",
+)
 @click.option("--write", "-w", is_flag=True, help="Write discovered IDs to series.yaml")
 @click.option(
     "--prune-broken",
@@ -69,7 +74,9 @@ def _cli_discover_single(
 ) -> None:
     """CLI wrapper: discover one series, render Rich table."""
     result = discover_one(
-        query, providers, write=write,
+        query,
+        providers,
+        write=write,
         on_progress=lambda msg: console.print(msg),
     )
 
@@ -87,9 +94,7 @@ def _cli_discover_single(
     console.print(table)
 
     if result.created_new:
-        console.print(
-            f"[green]Created new series (id: {result.new_series_id})[/green]"
-        )
+        console.print(f"[green]Created new series (id: {result.new_series_id})[/green]")
     elif result.written:
         console.print("[green]Updated series.yaml[/green]")
     elif not write:
@@ -113,7 +118,9 @@ def _cli_discover_all(
         console.print(msg, style="dim")
 
     result = discover_all(
-        providers, write=write, on_progress=on_progress,
+        providers,
+        write=write,
+        on_progress=on_progress,
     )
 
     console.print(f"\n[bold]{result.found_total} new IDs discovered[/bold]")
@@ -140,12 +147,16 @@ def _cli_prune_broken(
         console.print(msg, style="dim")
 
     result = prune_broken(
-        providers, write=write, on_progress=on_progress,
+        providers,
+        write=write,
+        on_progress=on_progress,
     )
 
     for sid, provider_updates in result.pruned_series.items():
         for pname, kept in provider_updates.items():
-            table.add_row(sid, pname, "(removed)", ", ".join(kept) or "[dim](empty)[/dim]")
+            table.add_row(
+                sid, pname, "(removed)", ", ".join(kept) or "[dim](empty)[/dim]"
+            )
 
     console.print(table)
     console.print(

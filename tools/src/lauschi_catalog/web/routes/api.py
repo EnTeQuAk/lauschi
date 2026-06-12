@@ -155,11 +155,15 @@ async def post_split_action(
         result = reject_split(series_id, split_index)
     elif action.action == "accept":
         result = accept_split(
-            series_id, split_index,
-            new_id=action.new_id, new_title=action.new_title,
+            series_id,
+            split_index,
+            new_id=action.new_id,
+            new_title=action.new_title,
         )
     else:
-        raise HTTPException(status_code=400, detail="action must be 'accept' or 'reject'")
+        raise HTTPException(
+            status_code=400, detail="action must be 'accept' or 'reject'"
+        )
 
     if not result.ok:
         status = 404 if "not found" in (result.error or "") else 400
@@ -197,9 +201,7 @@ class AcceptArtistRequest(BaseModel):
 
 
 @router.post("/series/{series_id}/accept-artist")
-async def accept_artist(
-    series_id: str, request: AcceptArtistRequest
-) -> dict[str, Any]:
+async def accept_artist(series_id: str, request: AcceptArtistRequest) -> dict[str, Any]:
     """Write a discovered artist ID to series.yaml for a specific provider.
 
     Merges with existing artist_ids so accepting a new ID doesn't
@@ -214,9 +216,7 @@ async def accept_artist(
     if request.artist_id not in merged:
         merged.append(request.artist_id)
 
-    count = update_provider_ids(
-        updates={series_id: {request.provider: merged}}
-    )
+    count = update_provider_ids(updates={series_id: {request.provider: merged}})
     if count == 0:
         raise HTTPException(status_code=400, detail="no series updated")
 
@@ -296,7 +296,9 @@ async def discover_preview(series_id: str) -> dict[str, Any]:
             for artist, confidence in candidates
         ]
         matched = match_artist(series.title, [a for a, _ in candidates])
-        best_match[p.name] = {"id": matched.id, "name": matched.name} if matched else None
+        best_match[p.name] = (
+            {"id": matched.id, "name": matched.name} if matched else None
+        )
 
     return {"candidates": results, "best_match": best_match}
 
@@ -328,12 +330,14 @@ async def get_pipeline_state(series_id: str) -> dict[str, Any]:
     for i, label in enumerate(state.step_labels):
         cmd = _STAGE_COMMANDS[i] if i < len(_STAGE_COMMANDS) else label.lower()
         job_info = last_job_by_command.get(cmd)
-        stages.append({
-            "label": label,
-            "command": cmd,
-            "status": state.step_statuses[i],
-            "last_job": job_info,
-        })
+        stages.append(
+            {
+                "label": label,
+                "command": cmd,
+                "status": state.step_statuses[i],
+                "last_job": job_info,
+            }
+        )
 
     return {
         "series_id": series_id,

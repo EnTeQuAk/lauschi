@@ -35,11 +35,15 @@ class TestLoadCurateSkill:
         assert "ungekuerzt_reading" in p
 
     def test_loads_era_detection_when_span_long(self):
-        p = load_curate_skill(phase="finalize", content_type="hoerspiel", discography_span_years=15)
+        p = load_curate_skill(
+            phase="finalize", content_type="hoerspiel", discography_span_years=15
+        )
         assert "# Era detection" in p
 
     def test_skips_era_detection_when_span_short(self):
-        p = load_curate_skill(phase="finalize", content_type="hoerspiel", discography_span_years=5)
+        p = load_curate_skill(
+            phase="finalize", content_type="hoerspiel", discography_span_years=5
+        )
         assert "# Era detection" not in p
 
     def test_composition_order(self):

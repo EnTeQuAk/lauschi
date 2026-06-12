@@ -10,7 +10,7 @@ from __future__ import annotations
 import re
 from collections import Counter
 from collections.abc import Callable
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 
 from lauschi_catalog.catalog.deleted import is_deleted, remove_from_deleted
 from lauschi_catalog.catalog.loader import load_catalog
@@ -18,7 +18,11 @@ from lauschi_catalog.catalog.series_ops import add_series_entry
 from lauschi_catalog.providers import Album, Artist
 
 Progress = Callable[[str], None]
-_noop: Progress = lambda _msg: None
+
+
+def _noop(_msg: str) -> None:
+    pass
+
 
 _PATTERNS: list[tuple[str, str]] = [
     ("NNN/", r"^(\d{1,3})/"),
@@ -173,19 +177,24 @@ def add_series(
     existing = load_catalog()
     existing_ids = {e.id for e in existing}
     if sid in existing_ids:
-        return AddResult(ok=False, series_id=sid, error=f"series '{sid}' already exists")
+        return AddResult(
+            ok=False, series_id=sid, error=f"series '{sid}' already exists"
+        )
 
     deletion = is_deleted(sid)
     if deletion and not force_readd:
         reason = deletion.get("reason", "(no reason recorded)")
         return AddResult(
-            ok=False, series_id=sid,
+            ok=False,
+            series_id=sid,
             error=f"series '{sid}' was previously deleted. Reason: {reason}",
         )
 
     entry = build_entry(
-        title, series_id=series_id,
-        artists=artists, analysis=analysis,
+        title,
+        series_id=series_id,
+        artists=artists,
+        analysis=analysis,
     )
 
     result = add_series_entry(entry)

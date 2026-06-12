@@ -7,7 +7,6 @@ with and without series_facts so we can trust the lint output.
 
 from __future__ import annotations
 
-import pytest
 
 from lauschi_catalog.catalog.lint_ops import lint_curation
 
@@ -68,7 +67,14 @@ class TestLintGapDetection:
                 _make_album("a3", "Ep 3", episode_num=3),
             ],
             "series_facts": {
-                "known_gaps": [{"number": 2, "reason": "legal dispute", "curated_by": "curate", "audited_by": "audit"}],
+                "known_gaps": [
+                    {
+                        "number": 2,
+                        "reason": "legal dispute",
+                        "curated_by": "curate",
+                        "audited_by": "audit",
+                    }
+                ],
             },
         }
         assert lint_curation(curation) == []
@@ -123,7 +129,11 @@ class TestLintDuplicateDetection:
             ],
             "series_facts": {
                 "era_boundaries": [
-                    {"label": "modern", "release_date_range": "2019-2022", "curated_by": "curate"},
+                    {
+                        "label": "modern",
+                        "release_date_range": "2019-2022",
+                        "curated_by": "curate",
+                    },
                 ],
             },
         }
@@ -141,13 +151,21 @@ class TestLintEpisodeNWithoutNMinus1:
             ],
         }
         issues = lint_curation(curation)
-        assert any("Episode 3 included but 2 excluded without reason" in i for i in issues)
+        assert any(
+            "Episode 3 included but 2 excluded without reason" in i for i in issues
+        )
 
     def test_n_without_n_minus_1_excluded_with_reason(self):
         curation = {
             "albums": [
                 _make_album("a1", "Ep 1", episode_num=1),
-                _make_album("a2", "Ep 2", episode_num=2, include=False, exclude_reason="duplicate"),
+                _make_album(
+                    "a2",
+                    "Ep 2",
+                    episode_num=2,
+                    include=False,
+                    exclude_reason="duplicate",
+                ),
                 _make_album("a3", "Ep 3", episode_num=3),
             ],
         }
@@ -220,7 +238,9 @@ class TestLintCrossProviderAsymmetry:
         curation = {
             "albums": [
                 _make_album("a1", "Ep 1", provider="spotify", episode_num=1),
-                _make_album("a2", "Ep 1", provider="apple_music", episode_num=1, include=False),
+                _make_album(
+                    "a2", "Ep 1", provider="apple_music", episode_num=1, include=False
+                ),
             ],
         }
         issues = lint_curation(curation)
@@ -230,7 +250,14 @@ class TestLintCrossProviderAsymmetry:
         curation = {
             "albums": [
                 _make_album("a1", "Ep 1", provider="spotify", episode_num=1),
-                _make_album("a2", "Ep 1", provider="apple_music", episode_num=1, include=False, exclude_reason="duplicate"),
+                _make_album(
+                    "a2",
+                    "Ep 1",
+                    provider="apple_music",
+                    episode_num=1,
+                    include=False,
+                    exclude_reason="duplicate",
+                ),
             ],
         }
         assert lint_curation(curation) == []
@@ -302,7 +329,9 @@ class TestLintLowConfidence:
         curation = {
             "albums": [
                 _make_album("a1", "Ep 1", episode_num=1, confidence="high"),
-                _make_album("a2", "Ep 2", episode_num=2, confidence="medium", notes="unsure"),
+                _make_album(
+                    "a2", "Ep 2", episode_num=2, confidence="medium", notes="unsure"
+                ),
             ],
         }
         assert lint_curation(curation) == []
@@ -310,7 +339,13 @@ class TestLintLowConfidence:
     def test_many_low_confidence_fires(self):
         curation = {
             "albums": [
-                _make_album(f"a{i}", f"Ep {i}", episode_num=i, confidence="medium", notes="unsure")
+                _make_album(
+                    f"a{i}",
+                    f"Ep {i}",
+                    episode_num=i,
+                    confidence="medium",
+                    notes="unsure",
+                )
                 for i in range(1, 7)
             ],
         }
@@ -322,9 +357,15 @@ class TestLintLowConfidence:
         curation = {
             "albums": [
                 _make_album("a1", "Ep 1", episode_num=1, confidence="high"),
-                _make_album("a2", "Ep 2", episode_num=2, confidence="medium", notes="unsure"),
-                _make_album("a3", "Ep 3", episode_num=3, confidence="medium", notes="unsure"),
-                _make_album("a4", "Ep 4", episode_num=4, confidence="medium", notes="unsure"),
+                _make_album(
+                    "a2", "Ep 2", episode_num=2, confidence="medium", notes="unsure"
+                ),
+                _make_album(
+                    "a3", "Ep 3", episode_num=3, confidence="medium", notes="unsure"
+                ),
+                _make_album(
+                    "a4", "Ep 4", episode_num=4, confidence="medium", notes="unsure"
+                ),
             ],
         }
         issues = lint_curation(curation)
@@ -337,7 +378,13 @@ class TestLintLowConfidence:
             "albums": [
                 _make_album("a1", "Ep 1", episode_num=1, confidence="high"),
                 *[
-                    _make_album(f"a{i}", f"Ep {i}", episode_num=i, confidence="medium", notes="unsure")
+                    _make_album(
+                        f"a{i}",
+                        f"Ep {i}",
+                        episode_num=i,
+                        confidence="medium",
+                        notes="unsure",
+                    )
                     for i in range(2, 13)
                 ],
             ],
@@ -361,7 +408,10 @@ class TestAutoIncludedRule:
         curation = {
             "albums": [
                 _make_album("a1", "Ep 1", episode_num=1),
-                {**_make_album("a2", "Mystery Album"), "notes": "auto-included: agent omitted this album from its output"},
+                {
+                    **_make_album("a2", "Mystery Album"),
+                    "notes": "auto-included: agent omitted this album from its output",
+                },
             ],
         }
         issues = lint_curation(curation)

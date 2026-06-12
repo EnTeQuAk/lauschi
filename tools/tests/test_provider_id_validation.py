@@ -20,23 +20,29 @@ from lauschi_catalog.providers._validate import (
 # ── Spotify ───────────────────────────────────────────────────────────────
 
 
-@pytest.mark.parametrize("aid", [
-    "39ePAp05xC1loWbb7bF46b",  # 22 chars, alnum
-    "0nNcNNBedN3GKqhlUsAObU",
-    "1l6d0RIxTL3JytlLGvWzYe",
-])
+@pytest.mark.parametrize(
+    "aid",
+    [
+        "39ePAp05xC1loWbb7bF46b",  # 22 chars, alnum
+        "0nNcNNBedN3GKqhlUsAObU",
+        "1l6d0RIxTL3JytlLGvWzYe",
+    ],
+)
 def test_valid_spotify_ids(aid):
     assert is_valid_id("spotify", aid) is True
 
 
-@pytest.mark.parametrize("aid", [
-    "1X8MD9Zf1qQhOnJWcP4aD",     # 21 chars (Tom Turbo hallucination)
-    "39ePAp05xC1loWbb7bF46bX",   # 23 chars
-    "39ePAp05-C1loWbb7bF46b",    # contains '-'
-    "39ePAp05 C1loWbb7bF46b",    # contains space
-    "",                          # empty
-    "403963841",                 # all-digit (Apple Music format)
-])
+@pytest.mark.parametrize(
+    "aid",
+    [
+        "1X8MD9Zf1qQhOnJWcP4aD",  # 21 chars (Tom Turbo hallucination)
+        "39ePAp05xC1loWbb7bF46bX",  # 23 chars
+        "39ePAp05-C1loWbb7bF46b",  # contains '-'
+        "39ePAp05 C1loWbb7bF46b",  # contains space
+        "",  # empty
+        "403963841",  # all-digit (Apple Music format)
+    ],
+)
 def test_invalid_spotify_ids(aid):
     assert is_valid_id("spotify", aid) is False
 
@@ -44,24 +50,30 @@ def test_invalid_spotify_ids(aid):
 # ── Apple Music ───────────────────────────────────────────────────────────
 
 
-@pytest.mark.parametrize("aid", [
-    "403963841",
-    "1443995096",
-    "253463055",  # 9-digit older form
-    "12345678",   # 8-digit
-])
+@pytest.mark.parametrize(
+    "aid",
+    [
+        "403963841",
+        "1443995096",
+        "253463055",  # 9-digit older form
+        "12345678",  # 8-digit
+    ],
+)
 def test_valid_apple_music_ids(aid):
     assert is_valid_id("apple_music", aid) is True
 
 
-@pytest.mark.parametrize("aid", [
-    "5E8nho2JtN5wXmR8Y7JBxp",   # Spotify-format id used with apple_music
-    "59bf2D81aHzl0ot28xzQbk",   # eule_findet_den_beat case
-    "0a7ReNgiORz9sEajzbbmqw",   # spirit_hoerspiel case
-    "Cars Hörspiel",            # literal title (cars_hoerspiel case)
-    "",
-    "abc123",                   # mix of letters/digits
-])
+@pytest.mark.parametrize(
+    "aid",
+    [
+        "5E8nho2JtN5wXmR8Y7JBxp",  # Spotify-format id used with apple_music
+        "59bf2D81aHzl0ot28xzQbk",  # eule_findet_den_beat case
+        "0a7ReNgiORz9sEajzbbmqw",  # spirit_hoerspiel case
+        "Cars Hörspiel",  # literal title (cars_hoerspiel case)
+        "",
+        "abc123",  # mix of letters/digits
+    ],
+)
 def test_invalid_apple_music_ids(aid):
     assert is_valid_id("apple_music", aid) is False
 

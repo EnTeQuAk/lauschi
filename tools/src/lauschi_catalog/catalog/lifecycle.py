@@ -71,8 +71,5 @@ def apply_is_unsafe(curation: dict) -> str | None:
     catches the silent-stale-data case.
     """
     if audit_is_stale(curation):
-        return (
-            "audit is stale (curate ran after last audit). "
-            "Run audit before apply."
-        )
+        return "audit is stale (curate ran after last audit). Run audit before apply."
     return None

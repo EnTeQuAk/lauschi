@@ -24,7 +24,10 @@ from lauschi_catalog.catalog.paths import CURATION_DIR
 from lauschi_catalog.providers import Album, CatalogProvider
 
 Progress = Callable[[str], None]
-_noop: Progress = lambda _msg: None
+
+
+def _noop(_msg: str) -> None:
+    pass
 
 
 @dataclass
@@ -76,7 +79,11 @@ def validate_l1(entries: list[CatalogEntry]) -> list[str]:
             issues.append(f"Duplicate id: {e.id}")
         ids_seen.add(e.id)
         if e.episode_pattern:
-            patterns = [e.episode_pattern] if isinstance(e.episode_pattern, str) else e.episode_pattern
+            patterns = (
+                [e.episode_pattern]
+                if isinstance(e.episode_pattern, str)
+                else e.episode_pattern
+            )
             for p in patterns:
                 try:
                     re.compile(p)
@@ -182,9 +189,7 @@ def validate_catalog(
                 result.perfect[p.name] += 1
 
             if l5.total > 0:
-                on_progress(
-                    f"  {entry.title}/{p.name}: {l5.matched}/{l5.total}"
-                )
+                on_progress(f"  {entry.title}/{p.name}: {l5.matched}/{l5.total}")
 
         result.series_results.append(sv)
 

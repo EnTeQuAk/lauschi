@@ -20,7 +20,11 @@ from lauschi_catalog.catalog.audit_ops import (
     apply_audit,
     build_prompt,
 )
-from lauschi_catalog.catalog.facts import EraBoundaryProposal, KnownGapProposal, fact_provenance
+from lauschi_catalog.catalog.facts import (
+    EraBoundaryProposal,
+    KnownGapProposal,
+    fact_provenance,
+)
 
 
 # ── Fixtures ─────────────────────────────────────────────────────────────
@@ -123,14 +127,16 @@ class TestBuildPrompt:
         assert "Duplicate ep 5" in prompt
 
     def test_shows_series_facts(self):
-        c = _curation(series_facts={
-            "era_boundaries": [
-                {"label": "klassik", "release_date_range": "1976-1979"},
-            ],
-            "known_gaps": [
-                {"number": 13, "reason": "legal dispute"},
-            ],
-        })
+        c = _curation(
+            series_facts={
+                "era_boundaries": [
+                    {"label": "klassik", "release_date_range": "1976-1979"},
+                ],
+                "known_gaps": [
+                    {"number": 13, "reason": "legal dispute"},
+                ],
+            }
+        )
         prompt = build_prompt(c, [])
         assert "klassik" in prompt
         assert "1976-1979" in prompt
@@ -138,24 +144,28 @@ class TestBuildPrompt:
         assert "legal dispute" in prompt
 
     def test_marks_unaudited_facts(self):
-        c = _curation(series_facts={
-            "era_boundaries": [
-                {"label": "modern", "release_date_range": "2020-"},
-            ],
-        })
+        c = _curation(
+            series_facts={
+                "era_boundaries": [
+                    {"label": "modern", "release_date_range": "2020-"},
+                ],
+            }
+        )
         prompt = build_prompt(c, [])
         assert "[unaudited]" in prompt
 
     def test_marks_audited_facts(self):
-        c = _curation(series_facts={
-            "era_boundaries": [
-                {
-                    "label": "modern",
-                    "release_date_range": "2020-",
-                    "audited_by": "minimax",
-                },
-            ],
-        })
+        c = _curation(
+            series_facts={
+                "era_boundaries": [
+                    {
+                        "label": "modern",
+                        "release_date_range": "2020-",
+                        "audited_by": "minimax",
+                    },
+                ],
+            }
+        )
         prompt = build_prompt(c, [])
         assert "[audited by minimax]" in prompt
 
@@ -166,24 +176,28 @@ class TestBuildPrompt:
         assert "2020-01-15" in prompt
 
     def test_sub_series_facts_show_album_ids(self):
-        c = _curation(series_facts={
-            "sub_series": [
-                {
-                    "label": "adventskalender",
-                    "album_ids": ["a1", "a2"],
-                    "reason": "Seasonal special",
-                },
-            ],
-        })
+        c = _curation(
+            series_facts={
+                "sub_series": [
+                    {
+                        "label": "adventskalender",
+                        "album_ids": ["a1", "a2"],
+                        "reason": "Seasonal special",
+                    },
+                ],
+            }
+        )
         prompt = build_prompt(c, [])
         assert "album_ids: ['a1', 'a2']" in prompt
 
     def test_sub_series_without_album_ids_flagged(self):
-        c = _curation(series_facts={
-            "sub_series": [
-                {"label": "specials", "album_ids": [], "reason": "one-offs"},
-            ],
-        })
+        c = _curation(
+            series_facts={
+                "sub_series": [
+                    {"label": "specials", "album_ids": [], "reason": "one-offs"},
+                ],
+            }
+        )
         prompt = build_prompt(c, [])
         assert "no album_ids" in prompt
 
@@ -273,11 +287,14 @@ class TestApplyAuditStatus:
         path.write_text(json.dumps(_curation()))
 
         import lauschi_catalog.catalog.audit_ops as audit_mod
+
         orig = audit_mod.CURATION_DIR
         audit_mod.CURATION_DIR = tmp_path
         try:
             action = apply_audit(
-                "test_series", result, model_name="test-model",
+                "test_series",
+                result,
+                model_name="test-model",
             )
         finally:
             audit_mod.CURATION_DIR = orig
@@ -296,8 +313,10 @@ class TestApplyAuditStatus:
             approve=True,
             overrides=[
                 AuditOverride(
-                    album_id="a2", provider="spotify",
-                    action="include", reason="real episode",
+                    album_id="a2",
+                    provider="spotify",
+                    action="include",
+                    reason="real episode",
                 ),
             ],
         )
@@ -360,6 +379,7 @@ class TestApplyAuditOverrides:
         path.write_text(json.dumps(_curation()))
 
         import lauschi_catalog.catalog.audit_ops as audit_mod
+
         orig = audit_mod.CURATION_DIR
         audit_mod.CURATION_DIR = tmp_path
         try:
@@ -367,8 +387,10 @@ class TestApplyAuditOverrides:
                 approve=True,
                 overrides=[
                     AuditOverride(
-                        album_id="a2", provider="spotify",
-                        action="include", reason="real episode",
+                        album_id="a2",
+                        provider="spotify",
+                        action="include",
+                        reason="real episode",
                     ),
                 ],
             )
@@ -401,6 +423,7 @@ class TestApplyAuditOverrides:
         path.write_text(json.dumps(c))
 
         import lauschi_catalog.catalog.audit_ops as audit_mod
+
         orig = audit_mod.CURATION_DIR
         audit_mod.CURATION_DIR = tmp_path
         try:
@@ -408,8 +431,10 @@ class TestApplyAuditOverrides:
                 approve=True,
                 overrides=[
                     AuditOverride(
-                        album_id="a2", provider="spotify",
-                        action="include", reason="new override",
+                        album_id="a2",
+                        provider="spotify",
+                        action="include",
+                        reason="new override",
                     ),
                 ],
             )
@@ -424,7 +449,6 @@ class TestApplyAuditOverrides:
         assert "a2" in overrides
         assert overrides["a2"]["reason"] == "new override"
 
-
     def test_override_with_fake_album_id_is_skipped(self, tmp_path):
         """The agent sometimes invents descriptive album_ids instead of
         using the real ones from the prompt. These should be silently
@@ -433,6 +457,7 @@ class TestApplyAuditOverrides:
         path.write_text(json.dumps(_curation()))
 
         import lauschi_catalog.catalog.audit_ops as audit_mod
+
         orig = audit_mod.CURATION_DIR
         audit_mod.CURATION_DIR = tmp_path
         warnings = []
@@ -443,16 +468,21 @@ class TestApplyAuditOverrides:
                     AuditOverride(
                         album_id="Ep 121: Folge 121: Der neue Schulgarten",
                         provider="spotify",
-                        action="exclude", reason="duplicate",
+                        action="exclude",
+                        reason="duplicate",
                     ),
                     AuditOverride(
-                        album_id="a2", provider="spotify",
-                        action="include", reason="real episode",
+                        album_id="a2",
+                        provider="spotify",
+                        action="include",
+                        reason="real episode",
                     ),
                 ],
             )
             apply_audit(
-                "test_series", result, model_name="test-model",
+                "test_series",
+                result,
+                model_name="test-model",
                 on_progress=warnings.append,
             )
         finally:
@@ -474,9 +504,17 @@ class TestMergeFacts:
     def test_adds_new_era_boundary(self):
         series_facts: dict = {"era_boundaries": []}
         update = AuditFactUpdate(
-            era_boundaries=[EraBoundaryProposal(label="klassik", release_date_range="1976-1979")],
+            era_boundaries=[
+                EraBoundaryProposal(label="klassik", release_date_range="1976-1979")
+            ],
         )
-        _merge_facts(series_facts, update, fact_provenance(by="test-model", at="2026-01-01T00:00:00+00:00", audited=True))
+        _merge_facts(
+            series_facts,
+            update,
+            fact_provenance(
+                by="test-model", at="2026-01-01T00:00:00+00:00", audited=True
+            ),
+        )
         assert len(series_facts["era_boundaries"]) == 1
         assert series_facts["era_boundaries"][0]["label"] == "klassik"
         assert series_facts["era_boundaries"][0]["audited_by"] == "test-model"
@@ -484,13 +522,25 @@ class TestMergeFacts:
     def test_updates_existing_era_boundary_by_label(self):
         series_facts: dict = {
             "era_boundaries": [
-                {"label": "klassik", "release_date_range": "1976-1980", "curated_by": "curate"},
+                {
+                    "label": "klassik",
+                    "release_date_range": "1976-1980",
+                    "curated_by": "curate",
+                },
             ],
         }
         update = AuditFactUpdate(
-            era_boundaries=[EraBoundaryProposal(label="klassik", release_date_range="1976-1979")],
+            era_boundaries=[
+                EraBoundaryProposal(label="klassik", release_date_range="1976-1979")
+            ],
         )
-        _merge_facts(series_facts, update, fact_provenance(by="test-model", at="2026-01-01T00:00:00+00:00", audited=True))
+        _merge_facts(
+            series_facts,
+            update,
+            fact_provenance(
+                by="test-model", at="2026-01-01T00:00:00+00:00", audited=True
+            ),
+        )
         assert len(series_facts["era_boundaries"]) == 1
         assert series_facts["era_boundaries"][0]["release_date_range"] == "1976-1979"
         assert series_facts["era_boundaries"][0]["audited_by"] == "test-model"
@@ -500,14 +550,24 @@ class TestMergeFacts:
         update = AuditFactUpdate(
             known_gaps=[KnownGapProposal(number=13, reason="legal dispute")],
         )
-        _merge_facts(series_facts, update, fact_provenance(by="test-model", at="2026-01-01T00:00:00+00:00", audited=True))
+        _merge_facts(
+            series_facts,
+            update,
+            fact_provenance(
+                by="test-model", at="2026-01-01T00:00:00+00:00", audited=True
+            ),
+        )
         assert len(series_facts["known_gaps"]) == 1
         assert series_facts["known_gaps"][0]["number"] == 13
 
     def test_merge_preserves_unmentioned_facts(self):
         series_facts: dict = {
             "era_boundaries": [
-                {"label": "klassik", "release_date_range": "1976-1979", "curated_by": "curate"},
+                {
+                    "label": "klassik",
+                    "release_date_range": "1976-1979",
+                    "curated_by": "curate",
+                },
             ],
             "known_gaps": [
                 {"number": 13, "reason": "old reason", "curated_by": "curate"},
@@ -515,9 +575,17 @@ class TestMergeFacts:
             "sub_series": [],
         }
         update = AuditFactUpdate(
-            era_boundaries=[EraBoundaryProposal(label="modern", release_date_range="2020-")],
+            era_boundaries=[
+                EraBoundaryProposal(label="modern", release_date_range="2020-")
+            ],
         )
-        _merge_facts(series_facts, update, fact_provenance(by="test-model", at="2026-01-01T00:00:00+00:00", audited=True))
+        _merge_facts(
+            series_facts,
+            update,
+            fact_provenance(
+                by="test-model", at="2026-01-01T00:00:00+00:00", audited=True
+            ),
+        )
         assert len(series_facts["era_boundaries"]) == 2
         assert len(series_facts["known_gaps"]) == 1
 
@@ -528,7 +596,13 @@ class TestMergeFacts:
             "sub_series": [],
         }
         update = AuditFactUpdate()
-        _merge_facts(series_facts, update, fact_provenance(by="test-model", at="2026-01-01T00:00:00+00:00", audited=True))
+        _merge_facts(
+            series_facts,
+            update,
+            fact_provenance(
+                by="test-model", at="2026-01-01T00:00:00+00:00", audited=True
+            ),
+        )
         assert len(series_facts["era_boundaries"]) == 1
 
 
@@ -541,6 +615,7 @@ class TestApplyAuditMultipleFactUpdates:
         path.write_text(json.dumps(_curation()))
 
         import lauschi_catalog.catalog.audit_ops as audit_mod
+
         orig = audit_mod.CURATION_DIR
         audit_mod.CURATION_DIR = tmp_path
         try:
@@ -558,7 +633,9 @@ class TestApplyAuditMultipleFactUpdates:
     def test_all_fact_updates_applied_not_just_last(self, tmp_path):
         updates = [
             AuditFactUpdate(
-                era_boundaries=[EraBoundaryProposal(label="klassik", release_date_range="1976-1979")],
+                era_boundaries=[
+                    EraBoundaryProposal(label="klassik", release_date_range="1976-1979")
+                ],
             ),
             AuditFactUpdate(
                 known_gaps=[KnownGapProposal(number=13, reason="legal dispute")],
@@ -575,11 +652,17 @@ class TestApplyAuditMultipleFactUpdates:
         updates = [
             AuditFactUpdate(
                 mode="replace",
-                era_boundaries=[EraBoundaryProposal(label="original", release_date_range="1970-1980")],
+                era_boundaries=[
+                    EraBoundaryProposal(
+                        label="original", release_date_range="1970-1980"
+                    )
+                ],
             ),
             AuditFactUpdate(
                 mode="merge",
-                era_boundaries=[EraBoundaryProposal(label="modern", release_date_range="2020-")],
+                era_boundaries=[
+                    EraBoundaryProposal(label="modern", release_date_range="2020-")
+                ],
             ),
         ]
         data = self._apply_with_facts(tmp_path, updates)
@@ -597,6 +680,7 @@ class TestDryRun:
         path.write_text(json.dumps(original))
 
         import lauschi_catalog.catalog.audit_ops as audit_mod
+
         orig = audit_mod.CURATION_DIR
         audit_mod.CURATION_DIR = tmp_path
         try:
@@ -604,13 +688,18 @@ class TestDryRun:
                 approve=True,
                 overrides=[
                     AuditOverride(
-                        album_id="a2", provider="spotify",
-                        action="include", reason="test",
+                        album_id="a2",
+                        provider="spotify",
+                        action="include",
+                        reason="test",
                     ),
                 ],
             )
             apply_audit(
-                "test_series", result, model_name="test-model", dry_run=True,
+                "test_series",
+                result,
+                model_name="test-model",
+                dry_run=True,
             )
         finally:
             audit_mod.CURATION_DIR = orig
@@ -635,11 +724,14 @@ class TestApplyAuditHardGate:
         path.write_text(json.dumps(curation))
 
         import lauschi_catalog.catalog.audit_ops as audit_mod
+
         orig = audit_mod.CURATION_DIR
         audit_mod.CURATION_DIR = tmp_path
         try:
             action = apply_audit(
-                "test_series", result, model_name="test-model",
+                "test_series",
+                result,
+                model_name="test-model",
             )
         finally:
             audit_mod.CURATION_DIR = orig

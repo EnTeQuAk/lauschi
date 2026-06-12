@@ -74,9 +74,17 @@ def test_clamps_http_date_in_past_to_zero():
 # ── error / fallback ──────────────────────────────────────────────────────
 
 
-@pytest.mark.parametrize("raw", [
-    None, "", "   ", "not a number", "abc123", "tomorrow",
-])
+@pytest.mark.parametrize(
+    "raw",
+    [
+        None,
+        "",
+        "   ",
+        "not a number",
+        "abc123",
+        "tomorrow",
+    ],
+)
 def test_returns_default_on_unparseable(raw):
     assert _parse_retry_after(raw) == _RETRY_AFTER_DEFAULT
 

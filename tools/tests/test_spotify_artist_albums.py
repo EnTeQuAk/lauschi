@@ -22,9 +22,7 @@ from lauschi_catalog.providers.spotify import SpotifyProvider
 def provider(monkeypatch):
     monkeypatch.setenv("SPOTIFY_CLIENT_ID", "test-id")
     monkeypatch.setenv("SPOTIFY_CLIENT_SECRET", "test-secret")
-    monkeypatch.setattr(
-        SpotifyProvider, "_fetch_token", lambda self: "test-token"
-    )
+    monkeypatch.setattr(SpotifyProvider, "_fetch_token", lambda self: "test-token")
     return SpotifyProvider(use_cache=False)
 
 

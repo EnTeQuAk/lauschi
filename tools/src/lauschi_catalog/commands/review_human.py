@@ -31,8 +31,18 @@ def _load_all() -> list[dict]:
 
 
 @click.command("review-human")
-@click.option("--status", "-s", multiple=True, help="Filter by status (escalated, flagged, approved, curated, audited)")
-@click.option("--detail", "-d", is_flag=True, help="Show per-series detail (concerns, fact disagreements)")
+@click.option(
+    "--status",
+    "-s",
+    multiple=True,
+    help="Filter by status (escalated, flagged, approved, curated, audited)",
+)
+@click.option(
+    "--detail",
+    "-d",
+    is_flag=True,
+    help="Show per-series detail (concerns, fact disagreements)",
+)
 def review_human(status: tuple[str, ...], detail: bool):
     """List series that need human attention.
 
@@ -47,7 +57,11 @@ def review_human(status: tuple[str, ...], detail: bool):
         console.print("[dim]No curation files found.[/dim]")
         return
 
-    want = set(s.lower() for s in status) if status else {"escalated", "flagged", "audited", "curated"}
+    want = (
+        set(s.lower() for s in status)
+        if status
+        else {"escalated", "flagged", "audited", "curated"}
+    )
 
     need_attention: list[dict] = []
     for d in all_data:
@@ -67,26 +81,37 @@ def review_human(status: tuple[str, ...], detail: bool):
             effective = "curated"
 
         if not want or effective in want or cur_status in want:
-            need_attention.append({
-                "id": sid,
-                "title": title,
-                "status": effective,
-                "raw_status": cur_status,
-                "review": review,
-                "facts": d.get("series_facts"),
-                "albums": d.get("albums", []),
-            })
+            need_attention.append(
+                {
+                    "id": sid,
+                    "title": title,
+                    "status": effective,
+                    "raw_status": cur_status,
+                    "review": review,
+                    "facts": d.get("series_facts"),
+                    "albums": d.get("albums", []),
+                }
+            )
 
     if not need_attention:
         console.print("[green]Nothing needs human attention.[/green]")
         return
 
-    table = Table(box=box.SIMPLE, title=f"Series needing attention ({len(need_attention)})")
+    table = Table(
+        box=box.SIMPLE, title=f"Series needing attention ({len(need_attention)})"
+    )
     table.add_column("Status", width=12)
     table.add_column("Series", min_width=30)
     table.add_column("Action")
 
-    for item in sorted(need_attention, key=lambda x: (x["status"] != "escalated", x["status"] != "flagged", x["title"])):
+    for item in sorted(
+        need_attention,
+        key=lambda x: (
+            x["status"] != "escalated",
+            x["status"] != "flagged",
+            x["title"],
+        ),
+    ):
         sid = item["id"]
         st = item["status"]
 
@@ -126,13 +151,25 @@ def review_human(status: tuple[str, ...], detail: bool):
             if facts:
                 for e in facts.get("era_boundaries", []):
                     if not e.get("audited_by"):
-                        table.add_row("", f"  [yellow]⚠ era '{e.get('label')}': unaudited[/yellow]", "")
+                        table.add_row(
+                            "",
+                            f"  [yellow]⚠ era '{e.get('label')}': unaudited[/yellow]",
+                            "",
+                        )
                 for g in facts.get("known_gaps", []):
                     if not g.get("audited_by"):
-                        table.add_row("", f"  [yellow]⚠ gap {g.get('number')}: unaudited[/yellow]", "")
+                        table.add_row(
+                            "",
+                            f"  [yellow]⚠ gap {g.get('number')}: unaudited[/yellow]",
+                            "",
+                        )
                 for s in facts.get("sub_series", []):
                     if not s.get("audited_by"):
-                        table.add_row("", f"  [yellow]⚠ sub-series '{s.get('label')}': unaudited[/yellow]", "")
+                        table.add_row(
+                            "",
+                            f"  [yellow]⚠ sub-series '{s.get('label')}': unaudited[/yellow]",
+                            "",
+                        )
 
     console.print(table)
     console.print()

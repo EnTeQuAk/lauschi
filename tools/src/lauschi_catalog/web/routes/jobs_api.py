@@ -231,7 +231,12 @@ async def _stream_proc(job_id: str, cmd: list[str], cwd: str) -> None:
 
         # Ensure the process has fully exited and returncode is set.
         await proc.wait()
-        log.info("job %s: subprocess exited (rc=%s, pid=%d)", job_id, proc.returncode, proc.pid)
+        log.info(
+            "job %s: subprocess exited (rc=%s, pid=%d)",
+            job_id,
+            proc.returncode,
+            proc.pid,
+        )
 
         if proc.returncode == 0:
             final_status = "done"
@@ -297,15 +302,15 @@ async def _read_output(job_id: str, proc: asyncio.subprocess.Process) -> None:
             # buffered output with a timeout, then stop.
             read_task.cancel()
             try:
-                remaining = await asyncio.wait_for(
-                    proc.stdout.read(), timeout=2.0
-                )
+                remaining = await asyncio.wait_for(proc.stdout.read(), timeout=2.0)
                 if remaining:
                     for ln in remaining.decode("utf-8", errors="replace").split("\n"):
                         if ln:
                             append_log(job_id, ln)
             except asyncio.TimeoutError:
-                log.warning("job %s: timed out draining stdout after process exit", job_id)
+                log.warning(
+                    "job %s: timed out draining stdout after process exit", job_id
+                )
             break
 
 
@@ -333,7 +338,9 @@ def _launch_task(job_id: str, cmd: list[str], cwd: str) -> None:
                     error_detail = f"{type(exc).__name__}: {exc}"
                 elif t.cancelled():
                     error_detail = "task was cancelled"
-                log.error("job %s: safety net triggered, status was %r", job_id, job.status)
+                log.error(
+                    "job %s: safety net triggered, status was %r", job_id, job.status
+                )
                 _force_status(job_id, "error", error_detail)
         except Exception:
             log.exception("job %s: safety net itself failed", job_id)
@@ -364,9 +371,7 @@ def launch_in_process(
             append_log(job_id, msg)
 
         try:
-            await asyncio.to_thread(
-                func, *args, on_progress=_progress, **kwargs
-            )
+            await asyncio.to_thread(func, *args, on_progress=_progress, **kwargs)
             final_status = "done"
             final_error = None
             log.info("job %s: in-process completed: %s", job_id, func.__name__)
@@ -423,7 +428,9 @@ def launch_in_process_async(
             await coro_func(*args, on_progress=_progress, **kwargs)
             final_status = "done"
             final_error = None
-            log.info("job %s: async in-process completed: %s", job_id, coro_func.__name__)
+            log.info(
+                "job %s: async in-process completed: %s", job_id, coro_func.__name__
+            )
         except asyncio.CancelledError:
             final_status = "cancelled"
             final_error = None
@@ -501,7 +508,11 @@ def _try_in_process_curate(job_id: str, series_id: str) -> bool:
 
     entry = lookup_catalog_entry(series_id)
     if entry is None:
-        log.warning("job %s: series %s not in catalog, falling back to subprocess", job_id, series_id)
+        log.warning(
+            "job %s: series %s not in catalog, falling back to subprocess",
+            job_id,
+            series_id,
+        )
         return False
 
     existing: dict | None = None
@@ -522,7 +533,8 @@ def _try_in_process_curate(job_id: str, series_id: str) -> bool:
 
     async def _curate_checked(*, on_progress):
         result = await curate_one(
-            entry.title, providers,
+            entry.title,
+            providers,
             series_id=entry.id,
             known_artist_ids=entry.all_artist_ids() or None,
             existing_curation=existing,
@@ -541,7 +553,10 @@ def _try_in_process_apply(job_id: str, series_id: str) -> bool:
     """Run apply in-process. Returns False to fall back to subprocess."""
     log.info("job %s: running apply in-process for %s", job_id, series_id)
     launch_in_process(
-        job_id, apply_curations, series_id, force=True,
+        job_id,
+        apply_curations,
+        series_id,
+        force=True,
     )
     return True
 
@@ -556,7 +571,10 @@ def _try_in_process_validate(job_id: str, series_id: str) -> bool:
 
     log.info("job %s: running validate in-process for %s", job_id, series_id)
     launch_in_process(
-        job_id, validate_catalog, providers, series_filter=series_id,
+        job_id,
+        validate_catalog,
+        providers,
+        series_filter=series_id,
     )
     return True
 
@@ -568,7 +586,9 @@ def _try_in_process_audit(job_id: str, series_id: str) -> bool:
 
     async def _audit_checked(*, on_progress):
         result = await audit_series(
-            [series_id], force=True, providers=prov_result.providers,
+            [series_id],
+            force=True,
+            providers=prov_result.providers,
             on_progress=on_progress,
         )
         if result.failed:
@@ -649,7 +669,11 @@ async def job_events(job_id: str, from_line: int = 0) -> StreamingResponse:
             if idle_ticks >= _IDLE_TIMEOUT_TICKS:
                 payload = json.dumps({"status": "error", "done": True})
                 yield f"event: done\ndata: {payload}\n\n"
-                log.warning("job %s: SSE closed after %ds idle", job_id, _IDLE_TIMEOUT_TICKS // 2)
+                log.warning(
+                    "job %s: SSE closed after %ds idle",
+                    job_id,
+                    _IDLE_TIMEOUT_TICKS // 2,
+                )
                 break
             heartbeat += 1
             if heartbeat % 60 == 0:

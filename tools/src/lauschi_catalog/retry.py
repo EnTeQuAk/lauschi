@@ -35,17 +35,30 @@ _RETRYABLE_STATUS = re.compile(r"\b(?:5\d\d|429)\b")
 # subclass (e.g. requests.ConnectTimeout < Timeout) still hits.
 # Covers requests / urllib3 / httpx / openai SDK — the layers
 # pydantic-ai routes through to opencode.
-_RETRYABLE_TYPE_NAMES: frozenset[str] = frozenset({
-    # requests / urllib3
-    "ConnectionError", "ConnectTimeout", "ReadTimeout", "Timeout",
-    "SSLError", "ChunkedEncodingError",
-    "MaxRetryError", "NewConnectionError", "ProtocolError",
-    # httpx
-    "ConnectError", "ReadError", "WriteError",
-    "PoolTimeout", "RemoteProtocolError",
-    # openai SDK
-    "APIConnectionError", "APITimeoutError", "InternalServerError",
-})
+_RETRYABLE_TYPE_NAMES: frozenset[str] = frozenset(
+    {
+        # requests / urllib3
+        "ConnectionError",
+        "ConnectTimeout",
+        "ReadTimeout",
+        "Timeout",
+        "SSLError",
+        "ChunkedEncodingError",
+        "MaxRetryError",
+        "NewConnectionError",
+        "ProtocolError",
+        # httpx
+        "ConnectError",
+        "ReadError",
+        "WriteError",
+        "PoolTimeout",
+        "RemoteProtocolError",
+        # openai SDK
+        "APIConnectionError",
+        "APITimeoutError",
+        "InternalServerError",
+    }
+)
 
 
 def _exception_chain(exc: BaseException) -> Iterable[BaseException]:

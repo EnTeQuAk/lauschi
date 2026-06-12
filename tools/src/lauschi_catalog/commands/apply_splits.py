@@ -16,7 +16,12 @@ console = Console()
 
 @click.command("apply-splits")
 @click.argument("series_id", required=False)
-@click.option("--apply", "do_apply", is_flag=True, help="Actually write changes (default: dry run)")
+@click.option(
+    "--apply",
+    "do_apply",
+    is_flag=True,
+    help="Actually write changes (default: dry run)",
+)
 def apply_splits(series_id: str | None, do_apply: bool):
     """Apply sub_series split proposals from curation.
 
@@ -95,4 +100,6 @@ def apply_splits(series_id: str | None, do_apply: bool):
     if splits_found == 0:
         console.print("[dim]No sub_series with album_ids found[/dim]")
     elif not do_apply:
-        console.print(f"\n[dim]{splits_found} splits found. Pass --apply to write.[/dim]")
+        console.print(
+            f"\n[dim]{splits_found} splits found. Pass --apply to write.[/dim]"
+        )

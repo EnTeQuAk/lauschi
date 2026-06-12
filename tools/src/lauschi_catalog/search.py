@@ -53,12 +53,14 @@ def brave_search(
 
     results: list[dict[str, str]] = []
     for item in r.json().get("web", {}).get("results", []):
-        results.append({
-            "title": item.get("title", ""),
-            "url": item.get("url", ""),
-            "snippet": _strip_html(item.get("description", "")),
-            "age": item.get("age", ""),
-        })
+        results.append(
+            {
+                "title": item.get("title", ""),
+                "url": item.get("url", ""),
+                "snippet": _strip_html(item.get("description", "")),
+                "age": item.get("age", ""),
+            }
+        )
     return results
 
 
@@ -90,7 +92,9 @@ def _strip_html(html: str) -> str:
     # Remove script/style/noscript blocks
     text = re.sub(
         r"<(script|style|noscript)[^>]*>.*?</\1>",
-        "", html, flags=re.DOTALL | re.IGNORECASE,
+        "",
+        html,
+        flags=re.DOTALL | re.IGNORECASE,
     )
     # Remove HTML comments
     text = re.sub(r"<!--.*?-->", "", text, flags=re.DOTALL)
@@ -101,8 +105,14 @@ def _strip_html(html: str) -> str:
     # Remove remaining tags
     text = re.sub(r"<[^>]+>", " ", text)
     # Decode common entities
-    for entity, char in [("&amp;", "&"), ("&lt;", "<"), ("&gt;", ">"),
-                         ("&quot;", '"'), ("&#39;", "'"), ("&nbsp;", " ")]:
+    for entity, char in [
+        ("&amp;", "&"),
+        ("&lt;", "<"),
+        ("&gt;", ">"),
+        ("&quot;", '"'),
+        ("&#39;", "'"),
+        ("&nbsp;", " "),
+    ]:
         text = text.replace(entity, char)
     # Collapse whitespace: multiple spaces/tabs to single space
     text = re.sub(r"[ \t]+", " ", text)

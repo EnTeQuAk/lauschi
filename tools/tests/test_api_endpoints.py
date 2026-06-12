@@ -6,7 +6,7 @@ shape) by mocking the provider and catalog layers.
 
 from __future__ import annotations
 
-from unittest.mock import MagicMock, patch
+from unittest.mock import MagicMock
 
 import pytest
 from fastapi.testclient import TestClient
@@ -48,10 +48,12 @@ class TestAcceptArtist:
             return 1
 
         monkeypatch.setattr(
-            "lauschi_catalog.web.routes.api.update_provider_ids", fake_update,
+            "lauschi_catalog.web.routes.api.update_provider_ids",
+            fake_update,
         )
         monkeypatch.setattr(
-            "lauschi_catalog.web.routes.api.sync_catalog_to_db", lambda: None,
+            "lauschi_catalog.web.routes.api.sync_catalog_to_db",
+            lambda: None,
         )
 
         resp = client.post(
@@ -78,10 +80,12 @@ class TestAcceptArtist:
             return 1
 
         monkeypatch.setattr(
-            "lauschi_catalog.web.routes.api.update_provider_ids", fake_update,
+            "lauschi_catalog.web.routes.api.update_provider_ids",
+            fake_update,
         )
         monkeypatch.setattr(
-            "lauschi_catalog.web.routes.api.sync_catalog_to_db", lambda: None,
+            "lauschi_catalog.web.routes.api.sync_catalog_to_db",
+            lambda: None,
         )
 
         resp = client.post(
@@ -115,10 +119,12 @@ class TestAcceptArtist:
             return 1
 
         monkeypatch.setattr(
-            "lauschi_catalog.web.routes.api.update_provider_ids", fake_update,
+            "lauschi_catalog.web.routes.api.update_provider_ids",
+            fake_update,
         )
         monkeypatch.setattr(
-            "lauschi_catalog.web.routes.api.sync_catalog_to_db", lambda: None,
+            "lauschi_catalog.web.routes.api.sync_catalog_to_db",
+            lambda: None,
         )
 
         resp = client.post(
@@ -142,8 +148,20 @@ class TestDiscoverPreview:
         fake_provider = MagicMock()
         fake_provider.name = "spotify"
         fake_provider.search_artists.return_value = [
-            Artist(id="sp-1", name="Bibi Blocksberg", provider="spotify", genres=["kinder"], followers=5000),
-            Artist(id="sp-2", name="Bibi und Tina", provider="spotify", genres=["hörspiel"], followers=3000),
+            Artist(
+                id="sp-1",
+                name="Bibi Blocksberg",
+                provider="spotify",
+                genres=["kinder"],
+                followers=5000,
+            ),
+            Artist(
+                id="sp-2",
+                name="Bibi und Tina",
+                provider="spotify",
+                genres=["hörspiel"],
+                followers=3000,
+            ),
         ]
         monkeypatch.setattr(
             "lauschi_catalog.web.routes.api._init_providers",

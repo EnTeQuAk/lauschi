@@ -9,7 +9,6 @@ import click
 from rich.console import Console
 
 from lauschi_catalog.catalog.io import safe_write_json
-from lauschi_catalog.catalog.matcher import extract_episode
 from lauschi_catalog.catalog.paths import CURATION_DIR
 
 console = Console()
@@ -91,7 +90,8 @@ def list_albums(series_id: str, excluded: bool):
     for a in sorted(
         albums,
         key=lambda x: (
-            x.get("episode_num") is None, x.get("episode_num"),
+            x.get("episode_num") is None,
+            x.get("episode_num"),
             x.get("release_date") or "",
             x["title"],
         ),

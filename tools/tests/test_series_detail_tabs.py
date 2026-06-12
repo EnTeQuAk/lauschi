@@ -36,12 +36,15 @@ def _pipeline_state(status: str):
 
 
 def _get(client, path):
-    with patch(
-        "lauschi_catalog.web.routes.catalog.pipeline_status",
-        return_value=_pipeline_state("in_progress"),
-    ), patch(
-        "lauschi_catalog.web.routes.catalog.get_active_job",
-        return_value=None,
+    with (
+        patch(
+            "lauschi_catalog.web.routes.catalog.pipeline_status",
+            return_value=_pipeline_state("in_progress"),
+        ),
+        patch(
+            "lauschi_catalog.web.routes.catalog.get_active_job",
+            return_value=None,
+        ),
     ):
         return client.get(path)
 
@@ -50,7 +53,8 @@ def _tab_button_line(html: str, label: str) -> str:
     # Tab buttons render as one <a role="button" class="...">Label</a> line;
     # matching on the class attribute skips the global nav links.
     return next(
-        line for line in html.splitlines()
+        line
+        for line in html.splitlines()
         if f">{label}</a>" in line and "class=" in line
     )
 

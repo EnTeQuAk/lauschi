@@ -22,15 +22,21 @@ from lauschi_catalog.catalog.facts import (
 
 def _facts(eras=(), gaps=(), subs=()):
     return SeriesFacts(
-        era_boundaries=[EraBoundary(label=l, release_date_range=r) for l, r in eras],
+        era_boundaries=[
+            EraBoundary(label=lbl, release_date_range=r) for lbl, r in eras
+        ],
         known_gaps=[KnownGap(number=n, reason="r") for n in gaps],
-        sub_series=[SubSeriesFact(label=l) for l in subs],
+        sub_series=[SubSeriesFact(label=lbl) for lbl in subs],
     )
 
 
 def test_merge_dedupes_by_natural_key_first_wins():
     frozen = _facts(eras=[("klassik", "1976-1979")], gaps=[19])
-    prior = _facts(eras=[("klassik", "1976-1980"), ("cgi", "2015-")], gaps=[19, 23], subs=["kinofilm"])
+    prior = _facts(
+        eras=[("klassik", "1976-1980"), ("cgi", "2015-")],
+        gaps=[19, 23],
+        subs=["kinofilm"],
+    )
     merged = merge_facts(frozen, prior)
     assert [e.label for e in merged.era_boundaries] == ["klassik", "cgi"]
     # first source wins on conflict

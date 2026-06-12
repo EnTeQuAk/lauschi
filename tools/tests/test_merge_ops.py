@@ -38,8 +38,18 @@ def merge_env(monkeypatch, tmp_path):
         "title": "Source Series",
         "provider_artist_ids": {"spotify": ["s1"]},
         "albums": [
-            {"album_id": "a1", "episode_num": 1, "provider": "spotify", "title": "Ep 1"},
-            {"album_id": "a2", "episode_num": 2, "provider": "spotify", "title": "Ep 2"},
+            {
+                "album_id": "a1",
+                "episode_num": 1,
+                "provider": "spotify",
+                "title": "Ep 1",
+            },
+            {
+                "album_id": "a2",
+                "episode_num": 2,
+                "provider": "spotify",
+                "title": "Ep 2",
+            },
         ],
     }
     (curation_dir / "source.json").write_text(json.dumps(source_curation))
@@ -49,7 +59,12 @@ def merge_env(monkeypatch, tmp_path):
         "title": "Target Series",
         "provider_artist_ids": {"spotify": ["t1"]},
         "albums": [
-            {"album_id": "a1", "episode_num": 1, "provider": "spotify", "title": "Ep 1"},
+            {
+                "album_id": "a1",
+                "episode_num": 1,
+                "provider": "spotify",
+                "title": "Ep 1",
+            },
         ],
     }
     (curation_dir / "target.json").write_text(json.dumps(target_curation))
@@ -57,7 +72,9 @@ def merge_env(monkeypatch, tmp_path):
     monkeypatch.setattr(paths_mod, "repo_root", lambda: tmp_path)
     monkeypatch.setattr(paths_mod, "series_yaml_path", lambda: series_yaml)
     monkeypatch.setattr(paths_mod, "curation_dir", lambda: curation_dir)
-    monkeypatch.setattr(paths_mod, "curation_path", lambda sid: curation_dir / f"{sid}.json")
+    monkeypatch.setattr(
+        paths_mod, "curation_path", lambda sid: curation_dir / f"{sid}.json"
+    )
     monkeypatch.setattr(paths_mod, "series_lock_path", lambda: tmp_path / ".lock")
     monkeypatch.setattr(paths_mod, "SERIES_YAML", series_yaml)
     monkeypatch.setattr(loader_mod, "SERIES_YAML", series_yaml)
