@@ -7298,15 +7298,40 @@ series:
   title: 'Deine Freunde: Tür zu, es zieht!'
   aliases: []
   episode_pattern: '^(\d+): '
-  content_type: hoerspiel
   split_from: deine_freunde
   providers:
     spotify:
       artist_ids:
       - 5e7w4jeuld5367jaczHkng
+      albums:
+      - id: 6U67cmpihNdVr6uqaKotXP
+        episode: 1
+        title: '01: Hausenheim Hood News'
+      - id: 4AqAXCI3UaiT1oY0aXVWcQ
+        episode: 2
+        title: '02: Kinderlalaland'
+      - id: 3TTsF4Q5qEwTsig5aeTOed
+        episode: 3
+        title: '03: Hamsterdam'
+      - id: 0OHQxJeF6IJUSw6drODNrL
+        episode: 4
+        title: '04: Der Lollimann'
     apple_music:
       artist_ids:
       - '520953076'
+      albums:
+      - id: '1734228741'
+        episode: 1
+        title: '01: Hausenheim Hood News'
+      - id: '1734216271'
+        episode: 2
+        title: '02: Kinderlalaland'
+      - id: '1800157783'
+        episode: 3
+        title: '03: Hamsterdam'
+      - id: '1840167248'
+        episode: 4
+        title: '04: Der Lollimann'
 - id: sentas_welt
   title: Senta's Welt
   aliases: []
