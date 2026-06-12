@@ -77,8 +77,21 @@ mixed-type content under one series.
 | Range pattern ("Folge 1-10", "Jubiläumsbox") | Very high (>50) | Variable | BOX_SET | Exclude (`compilation`) |
 | Single track, <5 min | 1 | <5 min | SINGLE | Exclude (`music_single` or `wrong_content_type`) |
 | "ungekürzt", "Lesung", "gelesen von" | Many tracks | 3-12 h | AUDIOBOOK | Exclude (`wrong_content_type`) |
-| "Best of", "Greatest Hits", "Kinderparty" | Variable | Variable | COMPILATION | Exclude (`compilation` or `multi_artist`) |
+| "Best of", "Greatest Hits", "Kinderparty" | Variable | Variable | COMPILATION | Exclude (`compilation` or `multi_artist_compilation`) |
 | Instrumental, karaoke, sped-up, nightcore | Variable | Variable | FORMAT_VARIANT | Exclude (`format_variant`) |
+
+## Cross-provider consistency (critical rule)
+
+The same title on Spotify and Apple Music is the same content, just with
+different packaging (track counts, release dates, metadata). Your include/exclude
+decision for a title MUST be the same on both providers. If you include
+"Folge 5: Der Zauberer" on Spotify, you include it on Apple Music too, even if
+the track count or album type looks different. If you exclude it, use the same
+`exclude_reason` on both.
+
+Different track counts between providers are expected and never a reason to
+exclude. Apple Music often splits one episode into fewer, longer tracks;
+Spotify often shows individual scenes as separate tracks.
 
 ## Discriminator: same-episode-number cases
 
@@ -193,4 +206,5 @@ Per-phase output types:
 - **finalize**: `FinalizeResult` (episode_updates, pattern_update, facts via tool)
 
 `AlbumDecision` fields: album_id, provider, include, episode_num, title,
-exclude_reason, confidence, notes.
+exclude_reason, confidence, notes. The `exclude_reason` field is an enum; see
+the batch phase prompt for the full list of valid values.
