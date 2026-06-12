@@ -291,6 +291,19 @@ def test_metadata_agent_for_music_has_no_pattern_tools():
     assert "get_album_details" in tool_names
 
 
+def test_metadata_agent_has_progress_hooks():
+    """Agents should have the progress hooks capability attached."""
+    from pydantic_ai.capabilities.hooks import Hooks
+    from pydantic_ai.models.test import TestModel
+
+    agent = _build_metadata_agent(TestModel())
+    hooks_caps = [c for c in agent.root_capability.capabilities if isinstance(c, Hooks)]
+    assert len(hooks_caps) == 1, "Expected exactly one Hooks capability"
+    registry = hooks_caps[0]._registry
+    assert "after_model_request" in registry
+    assert "after_tool_execute" in registry
+
+
 def test_metadata_music_prompt_tells_agent_no_pattern_no_tools():
     """Pin the prompt content so a future refactor can't silently
     re-introduce the music-pattern bug."""

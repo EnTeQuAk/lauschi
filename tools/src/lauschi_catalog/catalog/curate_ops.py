@@ -53,11 +53,12 @@ from lauschi_catalog.catalog.paths import (
     cover_cache_path,
 )
 from lauschi_catalog.catalog.prompt import album_to_dict, format_albums_xml
+from lauschi_catalog.agent_hooks import build_progress_hooks
 from lauschi_catalog.catalog.lint_ops import lint_curation, lint_regression
 from lauschi_catalog.prompts import load_curate_skill
 from lauschi_catalog.providers import CatalogProvider
 from lauschi_catalog.rate_limit import RateLimiter, run_with_rate_limit_retry
-from lauschi_catalog.run import run_agent_streaming
+from lauschi_catalog.run import run_agent
 
 _DEFAULT_MODEL = "kimi-k2.6"
 
@@ -508,6 +509,7 @@ def _build_metadata_agent(
         model_settings=get_model_settings("curate", model_name),
         retries={"tools": 2, "output": 2},
         toolsets=[build_agent_tools()],
+        capabilities=[build_progress_hooks()],
     )
 
     if content_type in ("music", "audiobook"):
@@ -620,6 +622,7 @@ def _build_batch_agent(
         model_settings=get_model_settings("curate", model_name),
         retries={"tools": 2, "output": 2},
         toolsets=[build_agent_tools()],
+        capabilities=[build_progress_hooks()],
     )
 
     @agent.output_validator
@@ -682,6 +685,7 @@ def _build_finalize_agent(
         model_settings=get_model_settings("finalize", model_name),
         retries={"tools": 2, "output": 2},
         toolsets=[build_agent_tools()],
+        capabilities=[build_progress_hooks()],
     )
 
     @agent.tool
@@ -861,15 +865,9 @@ def _build_finalize_agent(
 # ── Async core ────────────────────────────────────────────────────────────
 
 
-async def _run_agent(agent, prompt, deps, *, on_progress: Progress = _noop):
-    """Run an agent with streaming reasoning output."""
-    return await run_agent_streaming(
-        agent,
-        prompt,
-        deps,
-        request_limit=200,
-        on_progress=on_progress,
-    )
+async def _run_agent(agent, prompt, deps):
+    """Run an agent and return its structured output."""
+    return await run_agent(agent, prompt, deps, request_limit=200)
 
 
 def _fmt_elapsed(seconds: float) -> str:
@@ -1079,7 +1077,6 @@ async def _run_large(
                 f"Sample albums (title | tracks | release_date):\n"
                 f"{sample_lines}",
                 deps=meta_deps,
-                on_progress=on_progress,
             ),
             timeout=timeout,
         ),
@@ -1228,7 +1225,7 @@ async def _run_large(
         t_batch = time.monotonic()
         result: BatchResult = await _run_with_retry(
             lambda p=prompt: asyncio.wait_for(
-                _run_agent(batch_agent, p, shared_deps, on_progress=on_progress),
+                _run_agent(batch_agent, p, shared_deps),
                 timeout=timeout,
             ),
             phase=f"batch {batch_num}/{len(batches)}",
@@ -1455,7 +1452,6 @@ async def _run_large(
                             finalize_agent,
                             finalize_prompt,
                             finalize_deps,
-                            on_progress=on_progress,
                         ),
                         timeout=timeout,
                     ),

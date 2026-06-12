@@ -37,8 +37,9 @@ from lauschi_catalog.catalog.io import safe_write_json
 from lauschi_catalog.catalog.paths import CURATION_DIR
 from lauschi_catalog.catalog.lint_ops import critical_issues, lint_curation
 from lauschi_catalog.prompts import current_date_line
+from lauschi_catalog.agent_hooks import build_progress_hooks
 from lauschi_catalog.rate_limit import run_with_rate_limit_retry
-from lauschi_catalog.run import run_agent_streaming
+from lauschi_catalog.run import run_agent
 
 _DEFAULT_MODEL = "minimax-m2.7"
 _MAX_RETRIES = 3
@@ -196,6 +197,7 @@ def _build_audit_agent(model_name: str, api_key: str, on_progress: Progress = _n
         model_settings=get_model_settings("audit", model_name),
         retries={"tools": 2, "output": 2},
         toolsets=[build_agent_tools()],
+        capabilities=[build_progress_hooks()],
     )
 
     @agent.tool
@@ -421,7 +423,7 @@ async def audit_one(
     )
     return await run_with_rate_limit_retry(
         lambda: asyncio.wait_for(
-            run_agent_streaming(agent, prompt, deps, request_limit=20),
+            run_agent(agent, prompt, deps, request_limit=20),
             timeout=timeout,
         ),
         phase=f"audit {series_id}",

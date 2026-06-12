@@ -33,10 +33,7 @@ def build_agent_tools() -> FunctionToolset[AgentDeps]:
                 f"Make your decision using the information you already have."
             )
         ctx.deps._search_count += 1
-        results = brave_search(query, count=5)
-        n = len([r for r in results if "error" not in r])
-        ctx.deps.on_progress(f"  web_search({query!r}) -> {n} results")
-        return results
+        return brave_search(query, count=5)
 
     @ts.tool
     def fetch_page(ctx: RunContext[AgentDeps], url: str) -> str:
@@ -47,9 +44,7 @@ def build_agent_tools() -> FunctionToolset[AgentDeps]:
                 f"Make your decision using the information you already have."
             )
         ctx.deps._fetch_count += 1
-        content = _fetch_page(url, max_chars=4000)
-        ctx.deps.on_progress(f"  fetch_page({url[:60]}) -> {len(content)} chars")
-        return content
+        return _fetch_page(url, max_chars=4000)
 
     @ts.tool
     def get_album_details(
@@ -89,9 +84,6 @@ def build_agent_tools() -> FunctionToolset[AgentDeps]:
                 }
                 ctx.deps.seen_details[key] = detail
                 results.append(detail)
-        ctx.deps.on_progress(
-            f"  get_album_details({provider}, {len(album_ids)} ids) -> {len(results)} results",
-        )
         return results
 
     return ts
