@@ -10,12 +10,12 @@ dependencies = [
     "ruamel.yaml>=0.18",
     "rich>=13.7",
     "PyJWT[crypto]>=2.8",
-    "pydantic-ai-slim[mistral]>=1.97.0",
+    "pydantic-ai-slim[openai]>=1.105.0",
 ]
 
 [project.optional-dependencies]
 ai = [
-    "pydantic-ai>=1.97.0",
+    "pydantic-ai>=1.105.0",
     "pydantic>=2.0",
 ]
 web = [

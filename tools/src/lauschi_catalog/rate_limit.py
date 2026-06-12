@@ -17,14 +17,11 @@ from pydantic_ai import ModelHTTPError
 from lauschi_catalog.retry import is_retryable
 
 
-# Known rate limits (requests per second) by model provider.
-# None means "don't know, use conservative default".
-_MIN_SPACING: dict[str, float] = {
-    "mistral-small-2603": 1.5,   # 0.83 req/sec free tier → ~1.2s min, add margin
-    "mistral-small-2506": 1.5,
-    "mistral-large-2512": 1.5,
-}
-_DEFAULT_MIN_SPACING: float = 0.5  # conservative default for unknown models
+# Known rate limits (requests per second) by model provider prefix.
+# First match wins. Add entries when a provider's free/paid tier has
+# a known ceiling lower than the default.
+_MIN_SPACING: dict[str, float] = {}
+_DEFAULT_MIN_SPACING: float = 0.5
 
 
 @dataclass

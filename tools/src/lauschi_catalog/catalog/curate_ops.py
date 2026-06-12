@@ -23,8 +23,7 @@ from pydantic import BaseModel, Field, field_validator, model_validator
 from pydantic_ai import Agent, ModelRetry, RunContext
 
 from lauschi_catalog._opencode import (
-    build_mistral_model,
-    build_opencode_model,
+    build_model,
     get_model_settings,
 )
 from lauschi_catalog.catalog.analysis import analyze_series
@@ -499,7 +498,7 @@ def _build_metadata_agent(
         output_type=SeriesMetadata,
         instructions=skill_instructions,
         model_settings=get_model_settings("curate", model_name),
-        tool_retries=2, output_retries=2,
+        retries={"tools": 2, "output": 2},
     )
 
     @agent.tool
@@ -669,7 +668,7 @@ def _build_batch_agent(model, *, model_name: str = "", content_type: str = "hoer
         output_type=BatchResult,
         instructions=skill_instructions,
         model_settings=get_model_settings("curate", model_name),
-        tool_retries=2, output_retries=2,
+        retries={"tools": 2, "output": 2},
     )
 
     @agent.tool
@@ -752,7 +751,7 @@ def _build_finalize_agent(model, *, model_name: str = "", content_type: str = "h
         output_type=FinalizeResult,
         instructions=skill_instructions,
         model_settings=get_model_settings("finalize", model_name),
-        tool_retries=2, output_retries=2,
+        retries={"tools": 2, "output": 2},
     )
 
     @agent.tool
@@ -1014,7 +1013,7 @@ async def _run_with_retry(
     coro_factory, *, phase: str = "", model_name: str = "",
     on_progress: Progress = _noop,
 ):
-    rate_limiter = RateLimiter(model_name) if model_name.startswith("mistral-") else None
+    rate_limiter = RateLimiter(model_name)
     return await run_with_rate_limit_retry(
         coro_factory,
         phase=phase,
@@ -1040,11 +1039,7 @@ async def _run_large(
     existing_facts: SeriesFacts | None = None,
     on_progress: Progress = _noop,
 ) -> CuratedSeries:
-    model = (
-        build_mistral_model(model_name, api_key)
-        if model_name.startswith("mistral-")
-        else build_opencode_model(model_name, api_key)
-    )
+    model = build_model(model_name, api_key)
 
     # -- Step 1: Discovery
     on_progress("\n== Discovery ==\n")
@@ -1638,14 +1633,9 @@ async def run_curation(
     on_progress: Progress = _noop,
 ) -> CuratedSeries:
     """Pick single-agent or batched flow based on discography size."""
-    if model_name.startswith("mistral-"):
-        api_key = os.environ.get("MISTRAL_API_KEY", "")
-        if not api_key:
-            raise ValueError("MISTRAL_API_KEY not set")
-    else:
-        api_key = os.environ.get("OPENCODE_API_KEY", "")
-        if not api_key:
-            raise ValueError("OPENCODE_API_KEY not set")
+    api_key = os.environ.get("OPENCODE_API_KEY", "")
+    if not api_key:
+        raise ValueError("OPENCODE_API_KEY not set")
 
     total_albums = 0
     known = known_artist_ids or {}

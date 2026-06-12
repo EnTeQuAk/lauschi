@@ -1,16 +1,15 @@
 """Shared model construction for AI providers.
 
-Originally built for the opencode-zen relay; now also supports
-Mistral via their native pydantic-ai integration.
+All models route through the opencode-zen relay, an OpenAI-compatible
+endpoint. Model-specific tuning (temperature, seed) is centralized
+here so agents don't carry per-model configuration.
 """
 
 from __future__ import annotations
 
 from pydantic_ai import InlineDefsJsonSchemaTransformer
-from lauschi_catalog._mistral_patch import PatchedMistralModel
 from pydantic_ai.models.openai import OpenAIChatModel
 from pydantic_ai.profiles.openai import OpenAIModelProfile
-from pydantic_ai.providers.mistral import MistralProvider
 from pydantic_ai.providers.openai import OpenAIProvider
 from pydantic_ai.settings import ModelSettings
 
@@ -27,17 +26,7 @@ _DEFAULT_AUDIT = ModelSettings(temperature=0.0, seed=42)
 # Model-specific overrides. Keyed by model-name prefix; first match wins.
 # Use this to tune per-model behavior as we discover what each model
 # needs. Format: {prefix: {phase: ModelSettings(...)}}.
-_OVERRIDES: dict[str, dict[str, ModelSettings]] = {
-    # Mistral Small 4: experimentation shows pattern induction (regex
-    # construction) is the capability gap, not reasoning. Higher
-    # temperature improves calibration but doesn't fix regex abstraction.
-    # See model-comparison.md for full analysis.
-    "mistral-small-2603": {
-        "curate": ModelSettings(temperature=0.0, seed=42, extra_body={"reasoning_effort": "none"}),
-        "finalize": ModelSettings(temperature=0.1, seed=42, extra_body={"reasoning_effort": "none"}),
-        "audit": ModelSettings(temperature=0.0, seed=42, extra_body={"reasoning_effort": "none"}),
-    },
-}
+_OVERRIDES: dict[str, dict[str, ModelSettings]] = {}
 
 
 def get_model_settings(phase: str, model_name: str) -> ModelSettings:
@@ -58,7 +47,7 @@ def get_model_settings(phase: str, model_name: str) -> ModelSettings:
     return defaults[phase]
 
 
-def build_opencode_model(model_name: str, api_key: str) -> OpenAIChatModel:
+def build_model(model_name: str, api_key: str) -> OpenAIChatModel:
     """Construct an OpenAIChatModel pointed at opencode-zen with
     ``$defs`` inlined in the output schema.
 
@@ -75,17 +64,3 @@ def build_opencode_model(model_name: str, api_key: str) -> OpenAIChatModel:
             json_schema_transformer=InlineDefsJsonSchemaTransformer,
         ),
     )
-
-
-def build_mistral_model(model_name: str, api_key: str) -> PatchedMistralModel:
-    """Construct a patched MistralModel with reasoning_effort support.
-
-    Uses pydantic-ai's Mistral integration with a monkey-patch that
-    forwards ``reasoning_effort`` to the Mistral client. Needed for
-    Mistral Small 4 and Medium 3.5 which support adjustable reasoning.
-
-    Remove once https://github.com/pydantic/pydantic-ai/issues/5285
-    is resolved.
-    """
-    provider = MistralProvider(api_key=api_key)
-    return PatchedMistralModel(model_name, provider=provider)

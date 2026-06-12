@@ -20,8 +20,7 @@ from pydantic import BaseModel, Field
 from pydantic_ai import Agent, ModelRetry, RunContext, ToolOutput
 
 from lauschi_catalog._opencode import (
-    build_mistral_model,
-    build_opencode_model,
+    build_model,
     get_model_settings,
 )
 from lauschi_catalog.catalog.canonical import canonicalize
@@ -193,11 +192,7 @@ def audit_system_prompt() -> str:
 
 
 def _build_audit_agent(model_name: str, api_key: str, on_progress: Progress = _noop):
-    model = (
-        build_mistral_model(model_name, api_key)
-        if model_name.startswith("mistral-")
-        else build_opencode_model(model_name, api_key)
-    )
+    model = build_model(model_name, api_key)
     agent: Agent[Deps, AuditResult] = Agent(
         model,
         output_type=ToolOutput(
@@ -210,8 +205,7 @@ def _build_audit_agent(model_name: str, api_key: str, on_progress: Progress = _n
         ),
         instructions=audit_system_prompt(),
         model_settings=get_model_settings("audit", model_name),
-        tool_retries=2,
-        output_retries=2,
+        retries={"tools": 2, "output": 2},
     )
 
     @agent.tool
