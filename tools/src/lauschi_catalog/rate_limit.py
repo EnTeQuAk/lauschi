@@ -9,13 +9,13 @@ from __future__ import annotations
 
 import asyncio
 import time
-from collections.abc import Callable
 from dataclasses import dataclass, field
 from typing import Any
 
 from pydantic_ai import ModelHTTPError
 from tenacity import AsyncRetrying, RetryCallState, retry_if_exception, stop_after_attempt
 
+from lauschi_catalog.agent_deps import Progress, _noop
 from lauschi_catalog.retry import is_retryable
 
 
@@ -77,10 +77,6 @@ def extract_retry_delay(exc: BaseException) -> float | None:
         cur = cur.__cause__ or cur.__context__
         depth += 1
     return None
-
-
-Progress = Callable[[str], None]
-_noop: Progress = lambda _msg: None
 
 
 def _error_summary(exc: BaseException) -> str:

@@ -11,7 +11,6 @@ from __future__ import annotations
 import asyncio
 import json
 import os
-from collections.abc import Callable
 from dataclasses import dataclass, field
 from datetime import UTC, datetime
 from typing import Literal
@@ -23,6 +22,7 @@ from lauschi_catalog._opencode import (
     build_model,
     get_model_settings,
 )
+from lauschi_catalog.agent_deps import AgentDeps, Progress, _noop
 from lauschi_catalog.catalog.canonical import canonicalize
 from lauschi_catalog.providers._validate import explain_invalid, is_valid_id
 from lauschi_catalog.catalog.facts import (
@@ -47,10 +47,6 @@ _MAX_RETRIES = 3
 _RETRY_DELAY = 5
 
 Provider = Literal["spotify", "apple_music"]
-
-Progress = Callable[[str], None]
-def _noop(_msg: str) -> None: pass
-
 
 # -- Output models --
 
@@ -88,13 +84,12 @@ class AuditResult(BaseModel):
 # -- Agent --
 
 @dataclass
-class Deps:
-    series_id: str
-    curation: dict
-    lint_issues: list[str]
+class AuditDeps(AgentDeps):
+    series_id: str = ""
+    curation: dict = field(default_factory=dict)
+    lint_issues: list[str] = field(default_factory=list)
     providers: list = field(default_factory=list)
     seen_details: dict[str, dict] = field(default_factory=dict)
-    on_progress: Progress = _noop
     _search_count: int = field(default=0, init=False)
     _fetch_count: int = field(default=0, init=False)
     _MAX_SEARCHES: int = 3
@@ -193,7 +188,7 @@ def audit_system_prompt() -> str:
 
 def _build_audit_agent(model_name: str, api_key: str, on_progress: Progress = _noop):
     model = build_model(model_name, api_key)
-    agent: Agent[Deps, AuditResult] = Agent(
+    agent: Agent[AuditDeps, AuditResult] = Agent(
         model,
         output_type=ToolOutput(
             AuditResult,
@@ -209,7 +204,7 @@ def _build_audit_agent(model_name: str, api_key: str, on_progress: Progress = _n
     )
 
     @agent.tool
-    def web_search(ctx: RunContext[Deps], query: str) -> list[dict]:
+    def web_search(ctx: RunContext[AuditDeps], query: str) -> list[dict]:
         if ctx.deps._search_count >= ctx.deps._MAX_SEARCHES:
             raise ModelRetry(
                 f"Search limit reached ({ctx.deps._MAX_SEARCHES}/{ctx.deps._MAX_SEARCHES}). "
@@ -222,7 +217,7 @@ def _build_audit_agent(model_name: str, api_key: str, on_progress: Progress = _n
         return results
 
     @agent.tool
-    def fetch_page(ctx: RunContext[Deps], url: str) -> str:
+    def fetch_page(ctx: RunContext[AuditDeps], url: str) -> str:
         if ctx.deps._fetch_count >= ctx.deps._MAX_FETCHES:
             raise ModelRetry(
                 f"Fetch limit reached ({ctx.deps._MAX_FETCHES}/{ctx.deps._MAX_FETCHES}). "
@@ -235,7 +230,7 @@ def _build_audit_agent(model_name: str, api_key: str, on_progress: Progress = _n
 
     @agent.tool
     def get_album_details(
-        ctx: RunContext[Deps], provider: str, album_ids: list[str],
+        ctx: RunContext[AuditDeps], provider: str, album_ids: list[str],
     ) -> list[dict]:
         """Fetch full album details (track listing) from a provider."""
         results: list[dict] = []
@@ -271,7 +266,7 @@ def _build_audit_agent(model_name: str, api_key: str, on_progress: Progress = _n
 
     @agent.tool
     def search_included_albums(
-        ctx: RunContext[Deps], query: str,
+        ctx: RunContext[AuditDeps], query: str,
     ) -> list[dict[str, str]]:
         """Search included albums by title keyword (case-insensitive).
 
@@ -291,7 +286,7 @@ def _build_audit_agent(model_name: str, api_key: str, on_progress: Progress = _n
         return results
 
     @agent.tool
-    def lint_current_curation(ctx: RunContext[Deps]) -> list[str]:
+    def lint_current_curation(ctx: RunContext[AuditDeps]) -> list[str]:
         """Run deterministic structural checks on the current curation."""
         issues = lint_curation(ctx.deps.curation)
         ctx.deps.on_progress(f"  lint_current_curation -> {len(issues)} issues")
@@ -478,7 +473,7 @@ async def audit_one(
     agent = _build_audit_agent(model_name, api_key, on_progress)
     prompt = build_prompt(curation, lint_issues)
 
-    deps = Deps(
+    deps = AuditDeps(
         series_id=series_id,
         curation=curation,
         lint_issues=lint_issues,

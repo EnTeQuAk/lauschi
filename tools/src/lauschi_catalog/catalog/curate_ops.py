@@ -13,7 +13,6 @@ import json
 import os
 import re
 import time
-from collections.abc import Callable
 from dataclasses import dataclass, field
 from datetime import UTC, datetime
 from pathlib import Path
@@ -26,6 +25,7 @@ from lauschi_catalog._opencode import (
     build_model,
     get_model_settings,
 )
+from lauschi_catalog.agent_deps import AgentDeps, Progress, _noop
 from lauschi_catalog.catalog.analysis import analyze_series
 from lauschi_catalog.catalog.canonical import canonicalize
 from lauschi_catalog.catalog.facts import (
@@ -56,9 +56,6 @@ from lauschi_catalog.rate_limit import RateLimiter, run_with_rate_limit_retry
 from lauschi_catalog.run import run_agent_streaming
 from lauschi_catalog.search import brave_search
 from lauschi_catalog.search import fetch_page as _fetch_page
-
-Progress = Callable[[str], None]
-def _noop(_msg: str) -> None: pass
 
 _DEFAULT_MODEL = "kimi-k2.6"
 
@@ -339,8 +336,8 @@ class SeriesMetadata(BaseModel):
 
 
 @dataclass
-class CurateDeps:
-    """Shared dependency container for all curate-phase agents."""
+class CurateDeps(AgentDeps):
+    """Dependency container for all curate-phase agents."""
 
     providers: list[CatalogProvider] = field(default_factory=list)
     seen_albums: dict[str, list[dict]] = field(default_factory=dict)
@@ -352,7 +349,6 @@ class CurateDeps:
     proposed_facts: SeriesFacts | None = field(default=None, init=False)
     all_decisions: list[AlbumDecision] = field(default_factory=list)
     current_batch_ids: set[tuple[str, str]] = field(default_factory=set, init=False)
-    on_progress: Progress = field(default=_noop)
     _pattern_check_count: int = field(default=0, init=False)
     _MAX_PATTERN_CHECKS: int = 5
     _search_count: int = field(default=0, init=False)

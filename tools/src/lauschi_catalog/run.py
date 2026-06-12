@@ -2,14 +2,11 @@
 
 from __future__ import annotations
 
-from collections.abc import Callable
-
 from pydantic_ai import CallToolsNode
 from pydantic_ai.messages import ThinkingPart
 from pydantic_ai.usage import UsageLimits
 
-Progress = Callable[[str], None]
-_noop: Progress = lambda _msg: None
+from lauschi_catalog.agent_deps import Progress, _noop
 
 
 async def run_agent_streaming(
