@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import asyncio
 
+import pytest
 from pydantic_ai import ModelHTTPError
 
 from lauschi_catalog.rate_limit import run_with_rate_limit_retry
@@ -77,3 +78,86 @@ def test_retry_message_falls_back_to_str_for_plain_errors():
 
     assert _run(lambda: flaky(), messages) == "ok"
     assert any("connection reset by peer" in m for m in messages), messages
+
+
+def test_timeout_retried_by_default():
+    """asyncio.TimeoutError is retried with retry_timeout=True (default),
+    matching curate's behavior where timeouts are network-level blips."""
+    calls = {"n": 0}
+
+    async def flaky():
+        calls["n"] += 1
+        if calls["n"] == 1:
+            raise asyncio.TimeoutError()
+        return "ok"
+
+    result = asyncio.run(run_with_rate_limit_retry(
+        lambda: flaky(),
+        phase="test",
+        base_delay=0.01,
+    ))
+    assert result == "ok"
+    assert calls["n"] == 2
+
+
+def test_timeout_not_retried_when_disabled():
+    """With retry_timeout=False, asyncio.TimeoutError propagates on first
+    occurrence. This is audit's behavior where the timeout is an outer
+    operation deadline."""
+    calls = {"n": 0}
+
+    async def flaky():
+        calls["n"] += 1
+        raise asyncio.TimeoutError()
+
+    with pytest.raises(asyncio.TimeoutError):
+        asyncio.run(run_with_rate_limit_retry(
+            lambda: flaky(),
+            phase="test",
+            base_delay=0.01,
+            retry_timeout=False,
+        ))
+    assert calls["n"] == 1
+
+
+def test_non_retryable_error_propagates_immediately():
+    """Auth errors and validation errors should never be retried."""
+    calls = {"n": 0}
+
+    async def auth_fail():
+        calls["n"] += 1
+        raise ValueError("401 Unauthorized: invalid api key")
+
+    with pytest.raises(ValueError, match="401"):
+        asyncio.run(run_with_rate_limit_retry(
+            lambda: auth_fail(),
+            phase="test",
+            base_delay=0.01,
+        ))
+    assert calls["n"] == 1
+
+
+def test_server_suggested_delay_respected():
+    """When a 429 carries retry_after, that delay should be used instead
+    of exponential backoff."""
+    messages: list[str] = []
+    calls = {"n": 0}
+
+    async def rate_limited():
+        calls["n"] += 1
+        if calls["n"] == 1:
+            raise ModelHTTPError(
+                status_code=429,
+                model_name="m",
+                body={"retry_after": 0.02},
+            )
+        return "ok"
+
+    result = asyncio.run(run_with_rate_limit_retry(
+        lambda: rate_limited(),
+        phase="test",
+        base_delay=0.01,
+        on_progress=messages.append,
+    ))
+    assert result == "ok"
+    assert any("0.0s" in m for m in messages), messages

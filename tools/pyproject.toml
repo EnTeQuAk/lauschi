@@ -11,6 +11,7 @@ dependencies = [
     "rich>=13.7",
     "PyJWT[crypto]>=2.8",
     "pydantic-ai-slim[openai]>=1.105.0",
+    "tenacity>=9.0",
 ]
 
 [project.optional-dependencies]

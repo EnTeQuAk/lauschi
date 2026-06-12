@@ -37,7 +37,7 @@ from lauschi_catalog.catalog.io import safe_write_json
 from lauschi_catalog.catalog.paths import CURATION_DIR
 from lauschi_catalog.catalog.lint_ops import critical_issues, lint_curation
 from lauschi_catalog.prompts import current_date_line
-from lauschi_catalog.retry import is_retryable
+from lauschi_catalog.rate_limit import run_with_rate_limit_retry
 from lauschi_catalog.run import run_agent_streaming
 from lauschi_catalog.search import brave_search
 from lauschi_catalog.search import fetch_page as _fetch_page
@@ -478,30 +478,24 @@ async def audit_one(
     agent = _build_audit_agent(model_name, api_key, on_progress)
     prompt = build_prompt(curation, lint_issues)
 
-    for attempt in range(_MAX_RETRIES):
-        deps = Deps(
-            series_id=series_id,
-            curation=curation,
-            lint_issues=lint_issues,
-            providers=providers or [],
-            on_progress=on_progress,
-        )
-        try:
-            result = await asyncio.wait_for(
-                run_agent_streaming(agent, prompt, deps, request_limit=20),
-                timeout=timeout,
-            )
-            return result
-        except asyncio.TimeoutError:
-            raise
-        except Exception as e:
-            if is_retryable(e) and attempt < _MAX_RETRIES - 1:
-                err = f"{type(e).__name__}: {e}" if str(e) else type(e).__name__
-                on_progress(f"Attempt {attempt + 1} failed: {err}")
-                await asyncio.sleep(_RETRY_DELAY)
-            else:
-                raise
-    return None
+    deps = Deps(
+        series_id=series_id,
+        curation=curation,
+        lint_issues=lint_issues,
+        providers=providers or [],
+        on_progress=on_progress,
+    )
+    return await run_with_rate_limit_retry(
+        lambda: asyncio.wait_for(
+            run_agent_streaming(agent, prompt, deps, request_limit=20),
+            timeout=timeout,
+        ),
+        phase=f"audit {series_id}",
+        max_retries=_MAX_RETRIES,
+        base_delay=float(_RETRY_DELAY),
+        retry_timeout=False,
+        on_progress=on_progress,
+    )
 
 
 # -- Apply audit --

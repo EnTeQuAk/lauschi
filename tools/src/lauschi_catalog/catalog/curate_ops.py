@@ -1017,7 +1017,6 @@ async def _run_with_retry(
     return await run_with_rate_limit_retry(
         coro_factory,
         phase=phase,
-        model_name=model_name,
         rate_limiter=rate_limiter,
         max_retries=5,
         base_delay=5.0,

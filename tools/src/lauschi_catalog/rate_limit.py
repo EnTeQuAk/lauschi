@@ -1,7 +1,8 @@
-"""Rate limiting for LLM API calls.
+"""Rate limiting and retry for LLM API calls.
 
 Tracks per-model request timestamps and enforces minimum spacing to
-avoid 429 rate-limit errors. Used across curate and audit.
+avoid 429 rate-limit errors. Retry is handled by tenacity with our
+domain-specific retry predicate and server-hint-aware backoff.
 """
 
 from __future__ import annotations
@@ -13,6 +14,7 @@ from dataclasses import dataclass, field
 from typing import Any
 
 from pydantic_ai import ModelHTTPError
+from tenacity import AsyncRetrying, RetryCallState, retry_if_exception, stop_after_attempt
 
 from lauschi_catalog.retry import is_retryable
 
@@ -55,7 +57,7 @@ def extract_retry_delay(exc: BaseException) -> float | None:
     """Extract server-suggested retry delay from a 429 error.
 
     Checks the exception chain for ModelHTTPError with a dict body
-    containing retry_after_ms, retry_after, or similar fields.
+    containing retry_after_ms or retry_after fields.
     Returns delay in seconds, or None if no hint found.
     """
     cur: BaseException | None = exc
@@ -66,11 +68,9 @@ def extract_retry_delay(exc: BaseException) -> float | None:
         if isinstance(cur, ModelHTTPError) and cur.status_code == 429:
             body = cur.body
             if isinstance(body, dict):
-                # Mistral-style retry_after_ms
                 ms = body.get("retry_after_ms")
                 if isinstance(ms, (int, float)) and ms > 0:
                     return ms / 1000.0
-                # Generic retry_after (seconds)
                 sec = body.get("retry_after")
                 if isinstance(sec, (int, float)) and sec > 0:
                     return float(sec)
@@ -106,68 +106,86 @@ def _error_summary(exc: BaseException) -> str:
 
 
 async def run_with_rate_limit_retry(
-    coro_factory,
+    coro_factory: Callable[[], Any],
     *,
     phase: str = "",
-    model_name: str = "",
     rate_limiter: RateLimiter | None = None,
     max_retries: int = 5,
     base_delay: float = 5.0,
     max_delay: float = 120.0,
+    retry_timeout: bool = True,
     on_progress: Progress = _noop,
 ) -> Any:
     """Run a coroutine with rate-limit-aware retry.
 
-    Uses a RateLimiter for preemptive spacing between requests,
-    parses server-suggested retry delay from 429 responses, and
-    applies exponential backoff with jitter.
+    Uses tenacity for retry orchestration with our domain-specific
+    retry predicate (is_retryable), server-suggested delay parsing
+    from 429 responses, and preemptive rate limiting via RateLimiter.
+
+    Set retry_timeout=False to let asyncio.TimeoutError propagate
+    immediately (useful when the timeout is an outer operation
+    deadline, not a transient network blip).
     """
-    last_err: Exception | None = None
 
-    for attempt in range(1, max_retries + 1):
-        if rate_limiter is not None:
-            await rate_limiter.acquire()
+    def should_retry(exc: BaseException) -> bool:
+        if isinstance(exc, asyncio.TimeoutError):
+            return retry_timeout
+        return is_retryable(exc)
 
-        try:
-            return await coro_factory()
-        except asyncio.TimeoutError:
-            last_err = TimeoutError(f"Timeout in {phase}")
-            if attempt < max_retries:
-                delay = min(base_delay * (2 ** (attempt - 1)), max_delay)
-                on_progress(
-                    f"{phase} attempt {attempt}/{max_retries} "
-                    f"timed out, retrying in {delay:.1f}s...",
-                )
-                await asyncio.sleep(delay)
-            else:
-                on_progress(f"{phase} failed: timed out after {max_retries} attempts")
-                raise
-        except Exception as e:
-            last_err = e
-            if not is_retryable(e):
-                raise
-
-            # Extract server-suggested delay, or use exponential backoff
-            server_delay = extract_retry_delay(e)
+    def compute_wait(retry_state: RetryCallState) -> float:
+        exc = retry_state.outcome.exception() if retry_state.outcome else None
+        if exc is not None:
+            server_delay = extract_retry_delay(exc)
             if server_delay is not None:
-                delay = min(server_delay, max_delay)
-            else:
-                # Exponential backoff: base_delay * 2^(attempt-1) + jitter
-                delay = min(base_delay * (2 ** (attempt - 1)), max_delay)
-                delay += (hash(phase) % 100) / 1000.0  # small jitter
+                return min(server_delay, max_delay)
+        attempt = retry_state.attempt_number
+        delay = min(base_delay * (2 ** (attempt - 1)), max_delay)
+        delay += (hash(phase) % 100) / 1000.0
+        return delay
 
-            if attempt < max_retries:
-                on_progress(
-                    f"{phase} attempt {attempt}/{max_retries} "
-                    f"failed ({_error_summary(e)}), "
-                    f"retrying in {delay:.1f}s...",
-                )
-                await asyncio.sleep(delay)
-            else:
-                err_str = str(e)[:300]
-                on_progress(
-                    f"{phase} failed: {type(e).__name__}: {err_str}",
-                )
-                raise
+    def log_retry(retry_state: RetryCallState) -> None:
+        exc = retry_state.outcome.exception() if retry_state.outcome else None
+        if exc is None:
+            return
+        attempt = retry_state.attempt_number
+        wait = retry_state.next_action.sleep  # type: ignore[union-attr]
+        if isinstance(exc, asyncio.TimeoutError):
+            on_progress(
+                f"{phase} attempt {attempt}/{max_retries} "
+                f"timed out, retrying in {wait:.1f}s...",
+            )
+        else:
+            on_progress(
+                f"{phase} attempt {attempt}/{max_retries} "
+                f"failed ({_error_summary(exc)}), "
+                f"retrying in {wait:.1f}s...",
+            )
 
-    raise RuntimeError(f"Exhausted {max_retries} retries in {phase}: {last_err}")
+    attempt_count = 0
+
+    try:
+        async for attempt in AsyncRetrying(
+            retry=retry_if_exception(should_retry),
+            stop=stop_after_attempt(max_retries),
+            wait=compute_wait,
+            before_sleep=log_retry,
+            reraise=True,
+        ):
+            with attempt:
+                attempt_count += 1
+                if rate_limiter is not None:
+                    await rate_limiter.acquire()
+                return await coro_factory()
+    except BaseException:
+        if attempt_count >= max_retries:
+            exc = attempt.retry_state.outcome.exception()  # type: ignore[union-attr]
+            if isinstance(exc, asyncio.TimeoutError):
+                on_progress(f"{phase} failed: timed out after {max_retries} attempts")
+            elif exc is not None:
+                err_str = str(exc)[:300]
+                on_progress(
+                    f"{phase} failed: {type(exc).__name__}: {err_str}",
+                )
+        raise
+
+    raise RuntimeError(f"Exhausted {max_retries} retries in {phase}")
