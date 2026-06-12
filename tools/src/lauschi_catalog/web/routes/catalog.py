@@ -391,7 +391,7 @@ async def series_delete(request: Request, series_id: str):
     reason = str(form.get("reason", "")).strip()
     if not reason:
         return redirect_with_flash(
-            f"/catalog/{series_id}/edit", error="A deletion reason is required"
+            request, f"/catalog/{series_id}/edit", error="A deletion reason is required"
         )
 
     # Inyoka-style confirmation: the first POST renders a confirm flash
@@ -416,12 +416,12 @@ async def series_delete(request: Request, series_id: str):
     result = delete_series(series_id, reason=reason)
     if not result.ok:
         return redirect_with_flash(
-            f"/catalog/{series_id}/edit", error=result.error or "delete failed"
+            request, f"/catalog/{series_id}/edit", error=result.error or "delete failed"
         )
 
     sync_catalog_to_db()
     return redirect_with_flash(
-        "/catalog", message=f"Deleted {series_id} from the catalog"
+        request, "/catalog", message=f"Deleted {series_id} from the catalog"
     )
 
 
@@ -529,8 +529,8 @@ async def series_run_post(request: Request, series_id: str):
 
     existing = get_active_job(series_id)
     if existing:
-        # Show flash via query param
         return redirect_with_flash(
+            request,
             f"/catalog/{series_id}/pipeline",
             error=f"A {existing.command} job is already running for this series",
         )
@@ -583,13 +583,13 @@ async def merge_post(request: Request):
     )
     if not result.ok:
         return redirect_with_flash(
-            "/merge", error=result.error or "unknown error",
+            request, "/merge", error=result.error or "unknown error",
             status_code=303,
         )
 
     sync_catalog_to_db()
     return redirect_with_flash(
-        "/merge",
+        request, "/merge",
         message=f"Merged {result.added} albums, skipped {result.skipped} duplicates",
     )
 
@@ -700,7 +700,7 @@ async def add_series(request: Request):
     form = await request.form()
     title = str(form.get("title", "")).strip()
     if not title:
-        return redirect_with_flash("/catalog", error="title required")
+        return redirect_with_flash(request, "/catalog", error="title required")
 
     spotify_id = str(form.get("spotify_artist_id", "")).strip()
     apple_id = str(form.get("apple_music_artist_id", "")).strip()

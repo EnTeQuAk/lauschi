@@ -35,11 +35,26 @@ def test_delete_calls_series_ops_and_redirects(client):
             follow_redirects=False,
         )
     assert resp.status_code == 303
-    assert resp.headers["location"].startswith("/catalog?flash=success%3ADeleted")
+    assert resp.headers["location"] == "/catalog"
     mock_delete.assert_called_once_with(
         "christian",
         reason="Contributor-only artist; albums belong to Kikaninchen",
     )
+
+
+def test_delete_success_flash_appears_on_redirect(client):
+    """Following the redirect should render the one-shot flash banner."""
+    with patch(
+        "lauschi_catalog.web.routes.catalog.delete_series",
+        return_value=DeleteResult(ok=True),
+    ):
+        resp = client.post(
+            "/catalog/christian/delete",
+            data={"reason": "test", "confirm": "1"},
+        )
+    assert resp.status_code == 200
+    assert "flash-success" in resp.text
+    assert "Deleted christian" in resp.text
 
 
 def test_delete_requires_reason(client):
@@ -52,7 +67,7 @@ def test_delete_requires_reason(client):
             follow_redirects=False,
         )
     assert resp.status_code == 303
-    assert "error" in resp.headers["location"]
+    assert resp.headers["location"] == "/catalog/christian/edit"
     mock_delete.assert_not_called()
 
 
@@ -67,7 +82,7 @@ def test_delete_unknown_series_shows_error(client):
             follow_redirects=False,
         )
     assert resp.status_code == 303
-    assert "error" in resp.headers["location"]
+    assert resp.headers["location"] == "/catalog/nope/edit"
 
 
 def test_first_post_asks_for_confirmation(client):
@@ -86,3 +101,20 @@ def test_first_post_asks_for_confirmation(client):
     assert 'name="confirm" value="1"' in resp.text
     assert 'value="test reason"' in resp.text
     mock_delete.assert_not_called()
+
+
+def test_flash_is_one_shot(client):
+    """Flash messages should disappear after the first display (no F5 replay)."""
+    with patch(
+        "lauschi_catalog.web.routes.catalog.delete_series",
+        return_value=DeleteResult(ok=True),
+    ):
+        resp = client.post(
+            "/catalog/christian/delete",
+            data={"reason": "test", "confirm": "1"},
+        )
+    assert "flash-success" in resp.text
+
+    resp2 = client.get("/catalog")
+    assert "flash-success" not in resp2.text
+    assert "Deleted" not in resp2.text

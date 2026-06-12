@@ -5,6 +5,7 @@ from __future__ import annotations
 import asyncio
 import contextlib
 import logging
+import os
 from contextlib import asynccontextmanager
 from pathlib import Path
 
@@ -13,6 +14,7 @@ from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
+from starlette.middleware.sessions import SessionMiddleware
 
 from lauschi_catalog.web.catalog_db import init_catalog_db, sync_catalog_to_db
 from lauschi_catalog.web.flash import flash_context
@@ -59,6 +61,11 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(title="lauschi-catalog-web", lifespan=lifespan)
+
+app.add_middleware(
+    SessionMiddleware,
+    secret_key=os.environ.get("SESSION_SECRET", "lauschi-catalog-dev-key"),
+)
 
 app.mount("/static", StaticFiles(directory=str(STATIC_DIR)), name="static")
 

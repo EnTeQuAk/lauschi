@@ -65,12 +65,12 @@ async def queue_job(request: Request):
     command = body.get("command")
     if not series_id or not command:
         if is_form:
-            return redirect_with_flash("/jobs", error="bad request")
+            return redirect_with_flash(request, "/jobs", error="bad request")
         raise HTTPException(status_code=400, detail="series_id and command required")
     existing = get_active_job(series_id)
     if existing:
         if is_form:
-            return redirect_with_flash("/jobs", error="already running")
+            return redirect_with_flash(request, "/jobs", error="already running")
         raise HTTPException(
             status_code=409,
             detail=f"Active job already running for {series_id}: {existing.command} ({existing.id})",

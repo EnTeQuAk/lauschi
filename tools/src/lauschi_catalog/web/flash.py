@@ -1,34 +1,44 @@
-"""Query-param flash messages.
+"""Session-backed flash messages (one-shot, consumed on display).
 
-Routes redirect with one or more typed messages encoded as repeated
-``?flash=type:value`` params via :func:`redirect_with_flash`. A
-template context processor decodes them into ``flash_messages``
-(a list of ``{"type", "value"}`` dicts) for every render, and
-``base.html`` renders the banners once for all pages. No sessions:
-the messages live in the URL of the page they land on.
+Routes store typed messages in the session via :func:`add_flash` or
+the convenience :func:`redirect_with_flash`.  A template context
+processor (:func:`flash_context`) pops them on the next render so
+they appear exactly once, then disappear.
 
 Types map to CSS classes ``flash-<type>``; error, success, info and
 warning ship with styles.
+
+For same-request rendering (e.g. the confirm-action pattern), use
+:func:`make_flash` to build dicts for the template's ``extra_flashes``
+list.  These bypass the session entirely.
 """
 
 from __future__ import annotations
 
-from urllib.parse import urlencode
+from typing import Any
 
 from fastapi import Request
 from fastapi.responses import RedirectResponse
 
 Flash = tuple[str, str]  # (type, value)
+FlashDict = dict[str, Any]
+
+
+def add_flash(request: Request, type_: str, value: str) -> None:
+    """Store a flash message in the session for the next request."""
+    flashes: list[dict[str, str]] = request.session.setdefault("_flash", [])
+    flashes.append({"type": type_, "value": value})
 
 
 def redirect_with_flash(
+    request: Request,
     url: str,
     *flashes: Flash,
     error: str = "",
     message: str = "",
     status_code: int = 303,
 ) -> RedirectResponse:
-    """Redirect to ``url`` carrying typed flash messages.
+    """Store flash messages in the session and redirect to *url*.
 
     Arbitrary types go through positional ``(type, value)`` tuples;
     ``error=`` and ``message=`` are ergonomic shorthands for the two
@@ -39,28 +49,24 @@ def redirect_with_flash(
         items.append(("error", error))
     if message:
         items.append(("success", message))
-    if items:
-        query = urlencode([("flash", f"{t}:{v}") for t, v in items])
-        sep = "&" if "?" in url else "?"
-        url = f"{url}{sep}{query}"
+    for type_, value in items:
+        add_flash(request, type_, value)
     return RedirectResponse(url=url, status_code=status_code)
 
 
-def make_flash(type_: str, value: str, *, safe: bool = False) -> dict:
+def make_flash(type_: str, value: str, *, safe: bool = False) -> FlashDict:
     """Build a flash dict for a route's ``extra_flashes`` context.
 
-    ``safe=True`` renders the value as HTML — only ever pass content
+    ``safe=True`` renders the value as HTML; only ever pass content
     rendered from our own templates (e.g. a confirm-action partial),
-    never request data. Query-param flashes are always escaped.
+    never request data.  Session flashes are always escaped.
     """
     return {"type": type_, "value": value, "safe": safe}
 
 
-def flash_context(request: Request) -> dict[str, list[dict]]:
-    """Template context processor: decoded flash messages for every render."""
-    messages = []
-    for raw in request.query_params.getlist("flash"):
-        type_, _, value = raw.partition(":")
-        if type_ and value:
-            messages.append(make_flash(type_, value))
+def flash_context(request: Request) -> dict[str, list[FlashDict]]:
+    """Template context processor: pop flash messages from session."""
+    messages: list[FlashDict] = []
+    for stored in request.session.pop("_flash", []):
+        messages.append({"type": stored["type"], "value": stored["value"], "safe": False})
     return {"flash_messages": messages}
