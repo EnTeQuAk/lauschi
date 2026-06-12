@@ -69,6 +69,54 @@ def test_lock_returns_same_instance_for_chaining():
     assert result is s
 
 
+# ── AlbumDecision.exclude_reason enum ───────────────────────────────────
+
+
+class TestAlbumDecisionExcludeReason:
+    def test_valid_reason_accepted(self):
+        d = AlbumDecision(
+            album_id="x",
+            provider="spotify",
+            include=False,
+            episode_num=None,
+            title="T",
+            exclude_reason="compilation",
+        )
+        assert d.exclude_reason == "compilation"
+
+    def test_invalid_reason_rejected(self):
+        with pytest.raises(Exception):
+            AlbumDecision(
+                album_id="x",
+                provider="spotify",
+                include=False,
+                episode_num=None,
+                title="T",
+                exclude_reason="some verbose nonsense about compilations",
+            )
+
+    def test_none_allowed_for_included_albums(self):
+        d = AlbumDecision(
+            album_id="x",
+            provider="spotify",
+            include=True,
+            episode_num=None,
+            title="T",
+            exclude_reason=None,
+        )
+        assert d.exclude_reason is None
+
+    def test_fallback_to_unspecified_when_excluded_without_reason(self):
+        d = AlbumDecision(
+            album_id="x",
+            provider="spotify",
+            include=False,
+            episode_num=None,
+            title="T",
+        )
+        assert d.exclude_reason == "unspecified"
+
+
 # ── exception formatter (covered indirectly via _curate_one) ──────────────
 
 
@@ -1015,7 +1063,7 @@ def test_batch_summary_includes_episode_runs_and_exclusion_reasons():
             include=False,
             episode_num=None,
             title="Karaoke",
-            exclude_reason="karaoke",
+            exclude_reason="format_variant",
         ),
     ]
     summary = _build_batch_summary(decisions, r"^Folge (\d+):", batch_num=2)
@@ -1023,7 +1071,7 @@ def test_batch_summary_includes_episode_runs_and_exclusion_reasons():
     assert "5" in summary
     assert "Active pattern:" in summary
     assert "compilation (2)" in summary
-    assert "karaoke (1)" in summary
+    assert "format_variant (1)" in summary
 
 
 def test_batch_summary_empty_when_no_prior_decisions():
@@ -1084,7 +1132,7 @@ def test_batch_summary_groups_included_episodes_by_provider():
             include=False,
             episode_num=2,
             title="T2",
-            exclude_reason="already included",
+            exclude_reason="duplicate",
         ),
     ]
     summary = _build_batch_summary(decisions, None, batch_num=2)

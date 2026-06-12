@@ -214,6 +214,23 @@ def _reextract_episode_numbers(
 # ── Output models ─────────────────────────────────────────────────────────
 
 
+ExcludeReason = Literal[
+    "compilation",
+    "kinderlieder_compilation",
+    "multi_artist_compilation",
+    "wrong_content_type",
+    "music_single",
+    "format_variant",
+    "sub_series_bleed",
+    "sub_series",
+    "duplicate",
+    "not_kids_content",
+    "different_series",
+    "partial_release",
+    "unspecified",
+]
+
+
 class AlbumDecision(BaseModel):
     """Decision for a single album from any provider."""
 
@@ -224,7 +241,7 @@ class AlbumDecision(BaseModel):
         description="Episode number extracted from the album title using the series episode_pattern regex"
     )
     title: str
-    exclude_reason: str | None = None
+    exclude_reason: ExcludeReason | None = None
     release_date: str | None = None
     confidence: Literal["high", "medium", "low"] = "high"
     notes: str | None = Field(

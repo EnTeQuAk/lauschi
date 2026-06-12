@@ -11,8 +11,31 @@ For each album: decide include or exclude.
 - Match: set episode_num to the captured integer
 - No match: set episode_num to null (still include if it's a valid episode)
 
-**Exclude with a named reason** from the failure taxonomy. If you cannot name
-the pattern, include with `episode_num=None`.
+**Exclude with a named reason** from the failure taxonomy. The `exclude_reason`
+field is an enum; use exactly one of these values:
+
+| Value | When to use |
+|---|---|
+| `compilation` | Box sets, multi-episode compilations, "Folge 1-10" range releases |
+| `kinderlieder_compilation` | "Die schönsten..." children's song compilations |
+| `multi_artist_compilation` | Multi-artist compilations, "Kinderparty" releases |
+| `wrong_content_type` | Audiobook reading in a Hörspiel series, music in a non-music series, etc. |
+| `music_single` | Single track under 5 min, not an episode |
+| `format_variant` | Karaoke, instrumental, sped-up, nightcore versions |
+| `sub_series_bleed` | Belongs to a sub-series that has its own catalog entry |
+| `sub_series` | Sub-series content that doesn't belong in the parent |
+| `duplicate` | Same content, same provider (keep the most recent) |
+| `not_kids_content` | Adult content in a children's series |
+| `different_series` | Belongs to a completely different series |
+| `partial_release` | Incomplete or preview release |
+| `unspecified` | Catch-all when no other category fits (prefer including instead) |
+
+If you cannot name a pattern from this list, **include** with `episode_num=None`.
+
+**Cross-provider consistency**: the same title on Spotify and Apple Music is
+the same content. If you include it on one provider, include it on the other.
+If you exclude it, use the same reason on both. Different track counts and
+packaging are expected between providers.
 
 If the provided metadata for an album is insufficient to make a confident
 decision (e.g. missing track listing, unclear album type), call

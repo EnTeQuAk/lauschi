@@ -29,29 +29,44 @@ def curation_dir(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> Path:
     return tmp_path
 
 
-def _series(sid: str = "test_series", *, albums: list[AlbumDecision] | None = None) -> CuratedSeries:
+def _series(
+    sid: str = "test_series", *, albums: list[AlbumDecision] | None = None
+) -> CuratedSeries:
     return CuratedSeries(
         id=sid,
         title="Test Series",
         content_type="hoerspiel",
         episode_pattern=r"^Folge (\d+):",
         provider_artist_ids={"spotify": ["x"]},
-        albums=albums or [
+        albums=albums
+        or [
             AlbumDecision(
-                album_id="a", provider="spotify", include=True,
-                episode_num=1, title="Folge 1: A", exclude_reason=None,
+                album_id="a",
+                provider="spotify",
+                include=True,
+                episode_num=1,
+                title="Folge 1: A",
+                exclude_reason=None,
             ),
         ],
     )
 
 
-def _write_existing(path: Path, sid: str, review: dict[str, Any] | None = None, album_id: str = "old") -> Path:
+def _write_existing(
+    path: Path, sid: str, review: dict[str, Any] | None = None, album_id: str = "old"
+) -> Path:
     p = path / f"{sid}.json"
     data: dict[str, Any] = {
         "id": sid,
         "title": "Old Title",
-        "albums": [{"album_id": album_id, "provider": "spotify",
-                    "include": True, "title": "Folge 1: Old"}],
+        "albums": [
+            {
+                "album_id": album_id,
+                "provider": "spotify",
+                "include": True,
+                "title": "Folge 1: Old",
+            }
+        ],
     }
     if review is not None:
         data["review"] = review
@@ -72,12 +87,18 @@ def test_save_curation_preserves_existing_review_block(curation_dir: Path):
     review = {
         "status": "approved",
         "overrides": [
-            {"album_id": "x", "provider": "spotify",
-             "action": "exclude", "reason": "duplicate"},
+            {
+                "album_id": "x",
+                "provider": "spotify",
+                "action": "exclude",
+                "reason": "duplicate",
+            },
         ],
         "splits": [],
         "added_albums": [],
-        "decisions": {"duplicates": {"verdict": "resolved_via_overrides", "reasoning": "x"}},
+        "decisions": {
+            "duplicates": {"verdict": "resolved_via_overrides", "reasoning": "x"}
+        },
         "summary": "all good",
     }
     _write_existing(curation_dir, "test_series", review=review, album_id="a")
@@ -110,13 +131,17 @@ def test_save_curation_preserves_unrelated_keys(curation_dir: Path):
     fields, leaves the rest alone. Future pipeline steps can add new
     top-level subkeys without curate needing to know about them."""
     p = curation_dir / "test_series.json"
-    p.write_text(json.dumps({
-        "id": "test_series",
-        "title": "Old",
-        "review": {"status": "approved"},
-        "verification_log": [{"step": "verify", "ts": "2026-01-01"}],
-        "custom_human_field": "preserve me too",
-    }))
+    p.write_text(
+        json.dumps(
+            {
+                "id": "test_series",
+                "title": "Old",
+                "review": {"status": "approved"},
+                "verification_log": [{"step": "verify", "ts": "2026-01-01"}],
+                "custom_human_field": "preserve me too",
+            }
+        )
+    )
 
     save_curation(_series("test_series"))
 
@@ -148,7 +173,9 @@ def test_save_curation_persists_regression_flags(curation_dir: Path):
     facts-wipe vs the previous curation) must survive into the JSON:
     the audit hard-gate reads them from there."""
     series = _series()
-    series.regression_flags = ["CRITICAL: Include collapse: 0 included (previous curation had 8)"]
+    series.regression_flags = [
+        "CRITICAL: Include collapse: 0 included (previous curation had 8)"
+    ]
     save_curation(series)
     data = json.loads((curation_dir / "test_series.json").read_text())
     assert data["regression_flags"] == series.regression_flags
