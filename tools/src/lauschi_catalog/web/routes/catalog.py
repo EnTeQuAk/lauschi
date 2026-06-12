@@ -5,7 +5,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 from typing import Any
-from urllib.parse import quote_plus
+
 
 from fastapi import APIRouter, Request
 from fastapi.responses import HTMLResponse, RedirectResponse
@@ -29,6 +29,7 @@ from lauschi_catalog.web.catalog_db import (
     get_series_by_id,
     sync_catalog_to_db,
 )
+from lauschi_catalog.web.flash import flash_context, redirect_with_flash
 from lauschi_catalog.web.jobs import create_job, get_active_job, get_job, list_jobs
 from lauschi_catalog.web.pipeline import next_action, pipeline_status
 from lauschi_catalog.web.routes.jobs_api import run_custom_subprocess, run_subprocess
@@ -100,7 +101,9 @@ async def pipeline_overview(request: Request):
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 TEMPLATES_DIR = BASE_DIR / "templates"
-templates = Jinja2Templates(directory=str(TEMPLATES_DIR))
+templates = Jinja2Templates(
+    directory=str(TEMPLATES_DIR), context_processors=[flash_context]
+)
 templates.env.globals["zip"] = zip  # type: ignore[reportArgumentType]
 
 
@@ -314,7 +317,6 @@ def _render_series_detail(
             "coverage": coverage,
             "split_from": split_from,
             "split_children": split_children,
-            "flash_error": request.query_params.get("error", ""),
         },
     )
 
@@ -365,20 +367,20 @@ async def series_delete(request: Request, series_id: str):
     form = await request.form()
     reason = str(form.get("reason", "")).strip()
     if not reason:
-        return RedirectResponse(
-            url=f"/catalog/{series_id}/edit?error={quote_plus('A deletion reason is required')}",
-            status_code=303,
+        return redirect_with_flash(
+            f"/catalog/{series_id}/edit", error="A deletion reason is required"
         )
 
     result = delete_series(series_id, reason=reason)
     if not result.ok:
-        return RedirectResponse(
-            url=f"/catalog/{series_id}/edit?error={quote_plus(result.error or 'delete failed')}",
-            status_code=303,
+        return redirect_with_flash(
+            f"/catalog/{series_id}/edit", error=result.error or "delete failed"
         )
 
     sync_catalog_to_db()
-    return RedirectResponse(url="/catalog", status_code=303)
+    return redirect_with_flash(
+        "/catalog", message=f"Deleted {series_id} from the catalog"
+    )
 
 
 @router.post("/catalog/{series_id}/edit", response_class=HTMLResponse)
@@ -486,9 +488,9 @@ async def series_run_post(request: Request, series_id: str):
     existing = get_active_job(series_id)
     if existing:
         # Show flash via query param
-        return RedirectResponse(
-            url=f"/catalog/{series_id}/pipeline?flash=job-{existing.command}-already-running",
-            status_code=303,
+        return redirect_with_flash(
+            f"/catalog/{series_id}/pipeline",
+            error=f"A {existing.command} job is already running for this series",
         )
 
     job_id = create_job(series_id, command)
@@ -515,17 +517,13 @@ async def validate_run_post(request: Request):
 
 
 @router.get("/merge", response_class=HTMLResponse)
-async def merge_page(request: Request, message: str = "", error: str = ""):
+async def merge_page(request: Request):
     """Merge two series."""
     all_series = get_all_series()
     return templates.TemplateResponse(
         request,
         "merge.html",
-        {
-            "series": [{"id": s.id, "title": s.title} for s in all_series],
-            "message": message,
-            "error": error,
-        },
+        {"series": [{"id": s.id, "title": s.title} for s in all_series]},
     )
 
 
@@ -542,15 +540,15 @@ async def merge_post(request: Request):
         target_title=target.title if target else None,
     )
     if not result.ok:
-        return RedirectResponse(
-            url=f"/merge?error={quote_plus(result.error or 'unknown error')}",
+        return redirect_with_flash(
+            "/merge", error=result.error or "unknown error",
             status_code=303,
         )
 
     sync_catalog_to_db()
-    return RedirectResponse(
-        url=f"/merge?message=Merged%20{result.added}%20albums%2C%20skipped%20{result.skipped}%20duplicates",
-        status_code=303,
+    return redirect_with_flash(
+        "/merge",
+        message=f"Merged {result.added} albums, skipped {result.skipped} duplicates",
     )
 
 
@@ -660,7 +658,7 @@ async def add_series(request: Request):
     form = await request.form()
     title = str(form.get("title", "")).strip()
     if not title:
-        return RedirectResponse(url="/catalog?error=title+required", status_code=303)
+        return redirect_with_flash("/catalog", error="title required")
 
     spotify_id = str(form.get("spotify_artist_id", "")).strip()
     apple_id = str(form.get("apple_music_artist_id", "")).strip()

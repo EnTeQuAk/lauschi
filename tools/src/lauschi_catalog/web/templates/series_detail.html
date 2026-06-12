@@ -710,9 +710,6 @@
 </form>
 <article class="panel mt-1">
     <h3>Danger zone</h3>
-    {% if flash_error %}
-        <p class="text-red">{{ flash_error }}</p>
-    {% endif %}
     <p class="text-muted">
         Removes the series.yaml entry and the curation file, and records
         the deletion in deleted.yaml so catalog-add warns before

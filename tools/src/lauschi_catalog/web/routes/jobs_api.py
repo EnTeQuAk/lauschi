@@ -27,6 +27,7 @@ from lauschi_catalog.catalog.paths import CURATION_DIR, repo_root
 from lauschi_catalog.catalog.providers_init import init_providers
 from lauschi_catalog.catalog.validate_ops import validate_catalog
 from lauschi_catalog.web.catalog_db import get_series_by_id
+from lauschi_catalog.web.flash import redirect_with_flash
 from lauschi_catalog.web.jobs import (
     append_log,
     create_job,
@@ -64,12 +65,12 @@ async def queue_job(request: Request):
     command = body.get("command")
     if not series_id or not command:
         if is_form:
-            return RedirectResponse(url="/jobs?error=bad+request", status_code=303)
+            return redirect_with_flash("/jobs", error="bad request")
         raise HTTPException(status_code=400, detail="series_id and command required")
     existing = get_active_job(series_id)
     if existing:
         if is_form:
-            return RedirectResponse(url="/jobs?error=already+running", status_code=303)
+            return redirect_with_flash("/jobs", error="already running")
         raise HTTPException(
             status_code=409,
             detail=f"Active job already running for {series_id}: {existing.command} ({existing.id})",

@@ -15,6 +15,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
 from lauschi_catalog.web.catalog_db import init_catalog_db, sync_catalog_to_db
+from lauschi_catalog.web.flash import flash_context
 from lauschi_catalog.web.jobs import init_db, reap_zombie_jobs
 from lauschi_catalog.web.routes import api, catalog, jobs_api
 
@@ -27,7 +28,9 @@ TEMPLATES_DIR.mkdir(parents=True, exist_ok=True)
 STATIC_DIR.mkdir(parents=True, exist_ok=True)
 
 
-templates = Jinja2Templates(directory=str(TEMPLATES_DIR))
+templates = Jinja2Templates(
+    directory=str(TEMPLATES_DIR), context_processors=[flash_context]
+)
 
 
 async def _background_sync() -> None:

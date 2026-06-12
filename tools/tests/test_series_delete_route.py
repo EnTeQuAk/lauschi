@@ -32,7 +32,7 @@ def test_delete_calls_series_ops_and_redirects(client):
             follow_redirects=False,
         )
     assert resp.status_code == 303
-    assert resp.headers["location"] == "/catalog"
+    assert resp.headers["location"].startswith("/catalog?message=Deleted")
     mock_delete.assert_called_once_with(
         "christian",
         reason="Contributor-only artist; albums belong to Kikaninchen",

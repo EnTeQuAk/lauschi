@@ -1399,3 +1399,20 @@ nav[aria-label="breadcrumb"] li + li::before {
 	margin: 0;
 	padding: 0;
 }
+
+/* ── Flash messages (base.html banner) ─────────────── */
+.flash {
+	padding: 0.6rem 1rem;
+	border-radius: 8px;
+	margin-bottom: 1rem;
+}
+.flash-error {
+	background: #fdecea;
+	color: #b71c1c;
+	border: 1px solid #f5c6c2;
+}
+.flash-message {
+	background: #e8f5e9;
+	color: #1b5e20;
+	border: 1px solid #c8e6c9;
+}
