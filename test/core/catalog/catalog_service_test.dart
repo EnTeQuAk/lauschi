@@ -26,16 +26,15 @@ void main() {
 
   group('CatalogService.load', () {
     test('loads ≥150 series and a flagship is present', () {
-      // The catalog has ~160 series (per AGENTS.md). The previous
-      // lower bound of 45 would happily pass if 70% of the YAML failed
-      // to parse. Tighten the floor AND sanity-check the flagship to
-      // catch catastrophic data corruption.
+      // The catalog has ~174 series. The lower bound of 150 catches
+      // catastrophic parse failures. Sanity-check a flagship series
+      // to catch data corruption.
       expect(catalog.seriesCount, greaterThanOrEqualTo(150));
       expect(
-        catalog.all.any((s) => s.id == 'die_drei_fragezeichen'),
+        catalog.all.any((s) => s.id == 'bibi_blocksberg'),
         isTrue,
         reason:
-            'die_drei_fragezeichen is the flagship — its absence '
+            'bibi_blocksberg is a flagship — its absence '
             'means the YAML is corrupted',
       );
     });
@@ -165,9 +164,9 @@ void main() {
     });
 
     test('alias match works', () {
-      // "Ein Fall für TKKG" is an alias for TKKG (see series.yaml).
-      final results = catalog.search('Ein Fall');
-      expect(results.map((r) => r.id), contains('tkkg'));
+      // "Bibi & Tina" is an alias for bibi_und_tina (see series.yaml).
+      final results = catalog.search('Bibi & Tina');
+      expect(results.map((r) => r.id), contains('bibi_und_tina'));
     });
 
     test('case-insensitive matching', () {
@@ -182,7 +181,7 @@ void main() {
     test('multi-word query matches title containing the substring', () {
       final results = catalog.search('die drei');
       final ids = results.map((r) => r.id).toList();
-      expect(ids, contains('die_drei_fragezeichen'));
+      expect(ids, contains('die_drei_fragezeichen_kids'));
     });
   });
 
@@ -198,6 +197,8 @@ void main() {
       expect(ContentType.fromString(null), ContentType.hoerspiel);
       expect(ContentType.fromString('hoerspiel'), ContentType.hoerspiel);
       expect(ContentType.fromString('music'), ContentType.music);
+      // Audiobook maps explicitly to hoerspiel (same playback behavior).
+      expect(ContentType.fromString('audiobook'), ContentType.hoerspiel);
       // Garbage falls back to the safe default rather than throwing.
       expect(ContentType.fromString('garbage'), ContentType.hoerspiel);
     });

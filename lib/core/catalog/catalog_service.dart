@@ -18,6 +18,7 @@ enum ContentType {
   /// Parse from a string (e.g. from YAML or DB). Defaults to hoerspiel.
   static ContentType fromString(String? value) => switch (value) {
     'music' => ContentType.music,
+    'audiobook' || 'hoerspiel' || null => ContentType.hoerspiel,
     _ => ContentType.hoerspiel,
   };
 }
