@@ -5,6 +5,7 @@ from __future__ import annotations
 from typing import Any
 
 from fastapi import APIRouter, HTTPException
+from fastapi.responses import RedirectResponse
 from pydantic import BaseModel
 
 from lauschi_catalog.catalog.album_ops import update_album as _update_album
@@ -32,6 +33,40 @@ async def post_sync() -> dict[str, int]:
     """Trigger a manual sync of series.yaml -> SQLite."""
     count = sync_catalog_to_db()
     return {"series_synced": count}
+
+
+_cover_providers: dict[str, CatalogProvider | None] = {}
+
+
+def _cover_provider(name: str) -> CatalogProvider | None:
+    """Lazily construct one provider instance per process for cover lookups."""
+    if name not in _cover_providers:
+        result = init_providers(name)
+        _cover_providers[name] = result.providers[0] if result.providers else None
+    return _cover_providers[name]
+
+
+@router.get("/cover/{provider}/{album_id}")
+async def album_cover(provider: str, album_id: str) -> RedirectResponse:
+    """Redirect to the album's CDN cover image, resolving on demand.
+
+    album_details is disk-cached in the provider layer, so each album
+    hits the provider API at most once per cache TTL; the browser then
+    caches the CDN image itself.
+    """
+    if provider not in ("spotify", "apple_music"):
+        raise HTTPException(status_code=404, detail="unknown provider")
+    p = _cover_provider(provider)
+    if p is None:
+        raise HTTPException(status_code=404, detail="provider unavailable")
+    detail = p.album_details(album_id)
+    if detail is None or not detail.image_url:
+        raise HTTPException(status_code=404, detail="no cover")
+    return RedirectResponse(
+        url=detail.image_url,
+        status_code=302,
+        headers={"Cache-Control": "public, max-age=86400"},
+    )
 
 
 class AlbumStatusUpdate(BaseModel):

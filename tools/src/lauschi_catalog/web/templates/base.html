@@ -70,11 +70,11 @@
             </ul>
         </nav>
         <main class="container">
-            {% if flash_error %}
-                <div class="flash flash-error">{{ flash_error }}</div>
-            {% elif flash_message %}
-                <div class="flash flash-message">{{ flash_message }}</div>
-            {% endif %}
+            {% for flash in flash_messages + (extra_flashes | default([])) %}
+                <div class="flash flash-{{ flash.type }}">
+                    {%- if flash.safe %}{{ flash.value | safe }}{% else %}{{ flash.value }}{% endif -%}
+                </div>
+            {% endfor %}
             {% block content %}{% endblock %}
         </main>
         {# Global job store + drawer #}

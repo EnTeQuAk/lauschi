@@ -29,7 +29,7 @@ from lauschi_catalog.web.catalog_db import (
     get_series_by_id,
     sync_catalog_to_db,
 )
-from lauschi_catalog.web.flash import flash_context, redirect_with_flash
+from lauschi_catalog.web.flash import flash_context, make_flash, redirect_with_flash
 from lauschi_catalog.web.jobs import create_job, get_active_job, get_job, list_jobs
 from lauschi_catalog.web.pipeline import next_action, pipeline_status
 from lauschi_catalog.web.routes.jobs_api import run_custom_subprocess, run_subprocess
@@ -187,6 +187,7 @@ def _render_series_detail(
     tab: str = "episodes",
     errors: dict[str, str] | None = None,
     form_data: dict[str, str] | None = None,
+    extra_flashes: list[dict] | None = None,
 ) -> HTMLResponse:
     """Render the series detail page."""
     series = get_series_by_id(series_id)
@@ -317,6 +318,7 @@ def _render_series_detail(
             "coverage": coverage,
             "split_from": split_from,
             "split_children": split_children,
+            "extra_flashes": extra_flashes or [],
         },
     )
 
@@ -369,6 +371,25 @@ async def series_delete(request: Request, series_id: str):
     if not reason:
         return redirect_with_flash(
             f"/catalog/{series_id}/edit", error="A deletion reason is required"
+        )
+
+    # Inyoka-style confirmation: the first POST renders a confirm flash
+    # that re-submits the same form with confirm=1.
+    if form.get("confirm") != "1":
+        prompt = templates.get_template(
+            "partials/confirm_action_flash.html"
+        ).render(
+            message=f"Delete {series_id} from the catalog?",
+            confirm_label="Delete series",
+            action_url=f"/catalog/{series_id}/delete",
+            cancel_url=f"/catalog/{series_id}/edit",
+            hidden_fields={"reason": reason},
+        )
+        return _render_series_detail(
+            request,
+            series_id,
+            tab="edit",
+            extra_flashes=[make_flash("warning", prompt, safe=True)],
         )
 
     result = delete_series(series_id, reason=reason)

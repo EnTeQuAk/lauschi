@@ -1,0 +1,12 @@
+{# Confirmation prompt rendered inside a flash banner.
+   Context: message, confirm_label, cancel_url, action_url,
+   hidden_fields (dict of name -> value re-submitted on confirm). #}
+<form method="post" action="{{ action_url }}" class="flash-confirm">
+    <span>{{ message }}</span>
+    {% for name, value in (hidden_fields or {}).items() %}
+        <input type="hidden" name="{{ name }}" value="{{ value }}" />
+    {% endfor %}
+    <input type="hidden" name="confirm" value="1" />
+    <button type="submit" class="contrast">{{ confirm_label or 'Confirm' }}</button>
+    <a href="{{ cancel_url }}" role="button" class="secondary outline">Cancel</a>
+</form>

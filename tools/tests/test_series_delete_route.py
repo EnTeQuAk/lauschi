@@ -28,11 +28,14 @@ def test_delete_calls_series_ops_and_redirects(client):
     ) as mock_delete:
         resp = client.post(
             "/catalog/christian/delete",
-            data={"reason": "Contributor-only artist; albums belong to Kikaninchen"},
+            data={
+                "reason": "Contributor-only artist; albums belong to Kikaninchen",
+                "confirm": "1",
+            },
             follow_redirects=False,
         )
     assert resp.status_code == 303
-    assert resp.headers["location"].startswith("/catalog?message=Deleted")
+    assert resp.headers["location"].startswith("/catalog?flash=success%3ADeleted")
     mock_delete.assert_called_once_with(
         "christian",
         reason="Contributor-only artist; albums belong to Kikaninchen",
@@ -60,8 +63,26 @@ def test_delete_unknown_series_shows_error(client):
     ):
         resp = client.post(
             "/catalog/nope/delete",
-            data={"reason": "whatever"},
+            data={"reason": "whatever", "confirm": "1"},
             follow_redirects=False,
         )
     assert resp.status_code == 303
     assert "error" in resp.headers["location"]
+
+
+def test_first_post_asks_for_confirmation(client):
+    """Without confirm=1 the route renders an Inyoka-style confirm flash
+    that re-submits the same form, instead of deleting."""
+    with patch(
+        "lauschi_catalog.web.routes.catalog.delete_series"
+    ) as mock_delete:
+        resp = client.post(
+            "/catalog/5_geschwister/delete",
+            data={"reason": "test reason"},
+            follow_redirects=False,
+        )
+    assert resp.status_code == 200
+    assert "flash-warning" in resp.text
+    assert 'name="confirm" value="1"' in resp.text
+    assert 'value="test reason"' in resp.text
+    mock_delete.assert_not_called()

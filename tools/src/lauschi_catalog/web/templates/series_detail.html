@@ -715,9 +715,7 @@
         the deletion in deleted.yaml so catalog-add warns before
         re-introducing the same id.
     </p>
-    <form method="post"
-          action="/catalog/{{ series.id }}/delete"
-          onsubmit="return confirm('Delete {{ series.id }} from the catalog?')">
+    <form method="post" action="/catalog/{{ series.id }}/delete">
         <label>
             Reason
             <input type="text"
