@@ -26,6 +26,7 @@ from lauschi_catalog._opencode import (
     get_model_settings,
 )
 from lauschi_catalog.agent_deps import AgentDeps, Progress, _noop
+from lauschi_catalog.agent_tools import build_agent_tools
 from lauschi_catalog.catalog.analysis import analyze_series
 from lauschi_catalog.catalog.canonical import canonicalize
 from lauschi_catalog.catalog.facts import (
@@ -46,16 +47,17 @@ from lauschi_catalog.catalog.matcher import (
     extract_episode,
 )
 from lauschi_catalog.catalog.io import safe_write_json
-from lauschi_catalog.catalog.paths import CURATION_DIR, cover_cache_dir, cover_cache_path
+from lauschi_catalog.catalog.paths import (
+    CURATION_DIR,
+    cover_cache_dir,
+    cover_cache_path,
+)
 from lauschi_catalog.catalog.prompt import album_to_dict, format_albums_xml
 from lauschi_catalog.catalog.lint_ops import lint_curation, lint_regression
 from lauschi_catalog.prompts import load_curate_skill
 from lauschi_catalog.providers import CatalogProvider
-from lauschi_catalog.providers._validate import explain_invalid, is_valid_id
 from lauschi_catalog.rate_limit import RateLimiter, run_with_rate_limit_retry
 from lauschi_catalog.run import run_agent_streaming
-from lauschi_catalog.search import brave_search
-from lauschi_catalog.search import fetch_page as _fetch_page
 
 _DEFAULT_MODEL = "kimi-k2.6"
 
@@ -163,16 +165,18 @@ def _restore_dropped_albums(
     )
     for prov, aid in sorted(dropped):
         src = album_index.get((prov, aid))
-        decisions.append(AlbumDecision(
-            album_id=aid,
-            provider=prov,
-            include=True,
-            title=src["name"] if src else "unknown",
-            release_date=src.get("release_date") if src else None,
-            episode_num=None,
-            confidence="low",
-            notes="auto-included: agent omitted this album from its output",
-        ))
+        decisions.append(
+            AlbumDecision(
+                album_id=aid,
+                provider=prov,
+                include=True,
+                title=src["name"] if src else "unknown",
+                release_date=src.get("release_date") if src else None,
+                episode_num=None,
+                confidence="low",
+                notes="auto-included: agent omitted this album from its output",
+            )
+        )
 
 
 def _stratified_sample(items: list, n: int) -> list:
@@ -215,7 +219,9 @@ class AlbumDecision(BaseModel):
     album_id: str
     provider: str  # "spotify" or "apple_music"
     include: bool
-    episode_num: int | None = Field(description="Episode number extracted from the album title using the series episode_pattern regex")
+    episode_num: int | None = Field(
+        description="Episode number extracted from the album title using the series episode_pattern regex"
+    )
     title: str
     exclude_reason: str | None = None
     release_date: str | None = None
@@ -297,7 +303,8 @@ class CuratedSeries(BaseModel):
         return sorted(
             [a for a in self.albums if a.include],
             key=lambda a: (
-                a.episode_num is None, a.episode_num,
+                a.episode_num is None,
+                a.episode_num,
                 a.release_date or "",
                 a.title,
             ),
@@ -309,11 +316,13 @@ class CuratedSeries(BaseModel):
 
 class BatchResult(BaseModel):
     """Decisions for one batch of albums."""
+
     albums: list[AlbumDecision]
 
 
 class SeriesMetadata(BaseModel):
     """Metadata extracted in the first phase (no album decisions)."""
+
     id: str = Field(pattern=r"^[a-z][a-z0-9_]*$")
     title: str
     aliases: list[str] = Field(default_factory=list)
@@ -339,9 +348,7 @@ class SeriesMetadata(BaseModel):
 class CurateDeps(AgentDeps):
     """Dependency container for all curate-phase agents."""
 
-    providers: list[CatalogProvider] = field(default_factory=list)
     seen_albums: dict[str, list[dict]] = field(default_factory=dict)
-    seen_details: dict[str, dict] = field(default_factory=dict)
     pattern: str | list[str] | None = None
     pattern_revisions: list[str | list[str]] = field(default_factory=list)
     titles: list[str] = field(default_factory=list)
@@ -351,10 +358,6 @@ class CurateDeps(AgentDeps):
     current_batch_ids: set[tuple[str, str]] = field(default_factory=set, init=False)
     _pattern_check_count: int = field(default=0, init=False)
     _MAX_PATTERN_CHECKS: int = 5
-    _search_count: int = field(default=0, init=False)
-    _fetch_count: int = field(default=0, init=False)
-    _MAX_SEARCHES: int = 3
-    _MAX_FETCHES: int = 2
 
 
 class EpisodeUpdate(BaseModel):
@@ -432,6 +435,7 @@ def pattern_update_impact(
     new pattern is below the 30% coverage floor AND worse than the old
     one; improving from a bad baseline is always allowed.
     """
+
     def _cov(pattern, titles):
         if pattern is None:
             return 0
@@ -480,7 +484,11 @@ def pattern_update_impact(
 
 
 def _build_metadata_agent(
-    model, *, model_name: str = "", content_type: str = "hoerspiel", discography_span_years: int | None = None,
+    model,
+    *,
+    model_name: str = "",
+    content_type: str = "hoerspiel",
+    discography_span_years: int | None = None,
 ) -> Agent[CurateDeps, SeriesMetadata]:
     """Metadata-extraction agent.
 
@@ -488,54 +496,27 @@ def _build_metadata_agent(
     before finalizing. For music and audiobook artists, episode_pattern
     is meaningless so the tool isn't registered.
     """
-    skill_instructions = load_curate_skill(phase="metadata", content_type=content_type, discography_span_years=discography_span_years)
+    skill_instructions = load_curate_skill(
+        phase="metadata",
+        content_type=content_type,
+        discography_span_years=discography_span_years,
+    )
     agent: Agent[CurateDeps, SeriesMetadata] = Agent(
         model,
         output_type=SeriesMetadata,
         instructions=skill_instructions,
         model_settings=get_model_settings("curate", model_name),
         retries={"tools": 2, "output": 2},
+        toolsets=[build_agent_tools()],
     )
-
-    @agent.tool
-    def web_search(ctx: RunContext[CurateDeps], query: str) -> list[dict]:
-        """Search the web for series information (e.g. episode lists, background)."""
-        if ctx.deps._search_count >= ctx.deps._MAX_SEARCHES:
-            raise ModelRetry(
-                f"Search limit reached ({ctx.deps._MAX_SEARCHES}/{ctx.deps._MAX_SEARCHES}). "
-                f"Make your decision using the information you already have."
-            )
-        ctx.deps._search_count += 1
-        results = brave_search(query, count=5)
-        n = len([r for r in results if "error" not in r])
-        ctx.deps.on_progress(f"  web_search({query!r}) -> {n} results")
-        return results
-
-    @agent.tool
-    def fetch_page(ctx: RunContext[CurateDeps], url: str) -> str:
-        """Fetch a web page for detailed information. Max 4000 chars returned."""
-        if ctx.deps._fetch_count >= ctx.deps._MAX_FETCHES:
-            raise ModelRetry(
-                f"Fetch limit reached ({ctx.deps._MAX_FETCHES}/{ctx.deps._MAX_FETCHES}). "
-                f"Make your decision using the information you already have."
-            )
-        ctx.deps._fetch_count += 1
-        content = _fetch_page(url, max_chars=4000)
-        ctx.deps.on_progress(f"  fetch_page({url[:60]}) -> {len(content)} chars")
-        return content
-
-    @agent.tool
-    def get_album_details(
-        ctx: RunContext[CurateDeps], provider: str, album_ids: list[str],
-    ) -> list[dict]:
-        """Fetch full album details (track listing) from a provider."""
-        return _get_album_details(ctx, provider, album_ids)
 
     if content_type in ("music", "audiobook"):
         return agent
 
     @agent.output_validator
-    def _validate_metadata(ctx: RunContext[CurateDeps], meta: SeriesMetadata) -> SeriesMetadata:
+    def _validate_metadata(
+        ctx: RunContext[CurateDeps], meta: SeriesMetadata
+    ) -> SeriesMetadata:
         """Post-output validation: ensure the agent tested its pattern."""
         if ctx.deps._pattern_check_count == 0:
             raise ModelRetry(
@@ -545,7 +526,8 @@ def _build_metadata_agent(
             )
         if meta.episode_pattern:
             matched = sum(
-                1 for t in ctx.deps.titles
+                1
+                for t in ctx.deps.titles
                 if extract_episode(meta.episode_pattern, t) is not None
             )
             total = len(ctx.deps.titles)
@@ -599,8 +581,8 @@ def _build_metadata_agent(
             return PatternCoverageReport(
                 limit_reached=True,
                 message=f"Maximum {ctx.deps._MAX_PATTERN_CHECKS} pattern checks reached. "
-                    "Set episode_pattern=None if coverage is below 80%, "
-                    "or use your best pattern if coverage is acceptable.",
+                "Set episode_pattern=None if coverage is below 80%, "
+                "or use your best pattern if coverage is acceptable.",
             )
         report = _pattern_coverage_report(ctx.deps.titles, pattern, max_samples=15)
         if report.message:
@@ -618,91 +600,32 @@ def _build_metadata_agent(
     return agent
 
 
-def _get_album_details(
-    ctx: RunContext[CurateDeps], provider: str, album_ids: list[str],
-) -> list[dict]:
-    """Fetch full album details (track listing) from a provider.
-
-    Shared implementation registered on both batch and finalize agents.
-    Results are cached in deps.seen_details.
-    """
-    results = []
-    invalid = [aid for aid in album_ids if not is_valid_id(provider, aid)]
-    valid_ids = [aid for aid in album_ids if is_valid_id(provider, aid)]
-    for bad in invalid:
-        results.append({"id": bad, "error": explain_invalid(provider, bad)})
-
-    target = next((p for p in ctx.deps.providers if p.name == provider), None)
-    if not target:
-        return results or []
-    for aid in valid_ids:
-        key = f"{provider}:{aid}"
-        if key in ctx.deps.seen_details:
-            results.append(ctx.deps.seen_details[key])
-            continue
-        album = target.album_details(aid)
-        if album:
-            detail = {
-                "provider": provider, "id": album.id, "name": album.name,
-                "release_date": album.release_date,
-                "total_tracks": album.total_tracks,
-                "label": album.label,
-                "artists": album.artists,
-                "tracks": [{"name": t.name, "duration_ms": t.duration_ms}
-                           for t in album.tracks],
-            }
-            ctx.deps.seen_details[key] = detail
-            results.append(detail)
-    return results
-
-
-def _build_batch_agent(model, *, model_name: str = "", content_type: str = "hoerspiel", discography_span_years: int | None = None) -> Agent[CurateDeps, BatchResult]:
+def _build_batch_agent(
+    model,
+    *,
+    model_name: str = "",
+    content_type: str = "hoerspiel",
+    discography_span_years: int | None = None,
+) -> Agent[CurateDeps, BatchResult]:
     """Agent for processing one batch of albums."""
-    skill_instructions = load_curate_skill(phase="batch", content_type=content_type, discography_span_years=discography_span_years)
+    skill_instructions = load_curate_skill(
+        phase="batch",
+        content_type=content_type,
+        discography_span_years=discography_span_years,
+    )
     agent: Agent[CurateDeps, BatchResult] = Agent(
         model,
         output_type=BatchResult,
         instructions=skill_instructions,
         model_settings=get_model_settings("curate", model_name),
         retries={"tools": 2, "output": 2},
+        toolsets=[build_agent_tools()],
     )
 
-    @agent.tool
-    def get_album_details(
-        ctx: RunContext[CurateDeps], provider: str, album_ids: list[str],
-    ) -> list[dict]:
-        """Fetch full album details (track listing) for ambiguous albums."""
-        return _get_album_details(ctx, provider, album_ids)
-
-    @agent.tool
-    def web_search(ctx: RunContext[CurateDeps], query: str) -> list[dict]:
-        """Search the web for series information (e.g. episode lists, background)."""
-        if ctx.deps._search_count >= ctx.deps._MAX_SEARCHES:
-            raise ModelRetry(
-                f"Search limit reached ({ctx.deps._MAX_SEARCHES}/{ctx.deps._MAX_SEARCHES}). "
-                f"Make your decision using the information you already have."
-            )
-        ctx.deps._search_count += 1
-        results = brave_search(query, count=5)
-        n = len([r for r in results if "error" not in r])
-        ctx.deps.on_progress(f"  web_search({query!r}) -> {n} results")
-        return results
-
-    @agent.tool
-    def fetch_page(ctx: RunContext[CurateDeps], url: str) -> str:
-        """Fetch a web page for detailed information. Max 4000 chars returned."""
-        if ctx.deps._fetch_count >= ctx.deps._MAX_FETCHES:
-            raise ModelRetry(
-                f"Fetch limit reached ({ctx.deps._MAX_FETCHES}/{ctx.deps._MAX_FETCHES}). "
-                f"Make your decision using the information you already have."
-            )
-        ctx.deps._fetch_count += 1
-        content = _fetch_page(url, max_chars=4000)
-        ctx.deps.on_progress(f"  fetch_page({url[:60]}) -> {len(content)} chars")
-        return content
-
     @agent.output_validator
-    def _validate_batch_completeness(ctx: RunContext[CurateDeps], result: BatchResult) -> BatchResult:
+    def _validate_batch_completeness(
+        ctx: RunContext[CurateDeps], result: BatchResult
+    ) -> BatchResult:
         """Every album in the batch must have a decision."""
         if not ctx.deps.current_batch_ids:
             return result
@@ -739,27 +662,32 @@ def _search_included_albums(
     ]
 
 
-def _build_finalize_agent(model, *, model_name: str = "", content_type: str = "hoerspiel", discography_span_years: int | None = None) -> Agent[CurateDeps, FinalizeResult]:
+def _build_finalize_agent(
+    model,
+    *,
+    model_name: str = "",
+    content_type: str = "hoerspiel",
+    discography_span_years: int | None = None,
+) -> Agent[CurateDeps, FinalizeResult]:
     """Agent for post-batch metadata finalization."""
-    skill_instructions = load_curate_skill(phase="finalize", content_type=content_type, discography_span_years=discography_span_years)
+    skill_instructions = load_curate_skill(
+        phase="finalize",
+        content_type=content_type,
+        discography_span_years=discography_span_years,
+    )
     agent: Agent[CurateDeps, FinalizeResult] = Agent(
         model,
         output_type=FinalizeResult,
         instructions=skill_instructions,
         model_settings=get_model_settings("finalize", model_name),
         retries={"tools": 2, "output": 2},
+        toolsets=[build_agent_tools()],
     )
 
     @agent.tool
-    def get_album_details(
-        ctx: RunContext[CurateDeps], provider: str, album_ids: list[str],
-    ) -> list[dict]:
-        """Fetch full album details (track listing) from a provider."""
-        return _get_album_details(ctx, provider, album_ids)
-
-    @agent.tool
     def search_included_albums(
-        ctx: RunContext[CurateDeps], query: str,
+        ctx: RunContext[CurateDeps],
+        query: str,
     ) -> list[dict[str, str]]:
         """Search included albums by title keyword (case-insensitive).
 
@@ -850,14 +778,13 @@ def _build_finalize_agent(model, *, model_name: str = "", content_type: str = "h
             "episode_pattern": ctx.deps.pattern,
             "series_facts": (
                 ctx.deps.proposed_facts.model_dump()
-                if ctx.deps.proposed_facts else None
+                if ctx.deps.proposed_facts
+                else None
             ),
         }
         issues = lint_curation(partial_curation)
         if issues:
-            ctx.deps.on_progress(
-                f"  Finalize lint: {len(issues)} issue(s)"
-            )
+            ctx.deps.on_progress(f"  Finalize lint: {len(issues)} issue(s)")
         return issues
 
     @agent.tool
@@ -884,7 +811,9 @@ def _build_finalize_agent(model, *, model_name: str = "", content_type: str = "h
         recorded: list[str] = []
         prov = fact_provenance(by="curate", at=datetime.now(UTC).isoformat())
 
-        all_labels = {e.label for e in existing.era_boundaries} | {e.label for e in accumulated.era_boundaries}
+        all_labels = {e.label for e in existing.era_boundaries} | {
+            e.label for e in accumulated.era_boundaries
+        }
         for proposal in era_boundaries:
             if proposal.label in all_labels:
                 continue
@@ -894,7 +823,9 @@ def _build_finalize_agent(model, *, model_name: str = "", content_type: str = "h
             recorded.append(f"era: {proposal.label}")
             all_labels.add(proposal.label)
 
-        all_nums = {g.number for g in existing.known_gaps} | {g.number for g in accumulated.known_gaps}
+        all_nums = {g.number for g in existing.known_gaps} | {
+            g.number for g in accumulated.known_gaps
+        }
         for proposal in known_gaps:
             if proposal.number in all_nums:
                 continue
@@ -904,7 +835,9 @@ def _build_finalize_agent(model, *, model_name: str = "", content_type: str = "h
             recorded.append(f"gap: {proposal.number}")
             all_nums.add(proposal.number)
 
-        all_labels = {s.label for s in existing.sub_series} | {s.label for s in accumulated.sub_series}
+        all_labels = {s.label for s in existing.sub_series} | {
+            s.label for s in accumulated.sub_series
+        }
         for proposal in sub_series:
             if proposal.label in all_labels:
                 continue
@@ -922,33 +855,6 @@ def _build_finalize_agent(model, *, model_name: str = "", content_type: str = "h
         )
         return f"Recorded {len(recorded)} new fact(s): {', '.join(recorded)}"
 
-    @agent.tool
-    def web_search(ctx: RunContext[CurateDeps], query: str) -> list[dict]:
-        """Search the web for series information (e.g. episode lists, background)."""
-        if ctx.deps._search_count >= ctx.deps._MAX_SEARCHES:
-            raise ModelRetry(
-                f"Search limit reached ({ctx.deps._MAX_SEARCHES}/{ctx.deps._MAX_SEARCHES}). "
-                f"Make your decision using the information you already have."
-            )
-        ctx.deps._search_count += 1
-        results = brave_search(query, count=5)
-        n = len([r for r in results if "error" not in r])
-        ctx.deps.on_progress(f"  web_search({query!r}) -> {n} results")
-        return results
-
-    @agent.tool
-    def fetch_page(ctx: RunContext[CurateDeps], url: str) -> str:
-        """Fetch a web page for detailed information. Max 4000 chars returned."""
-        if ctx.deps._fetch_count >= ctx.deps._MAX_FETCHES:
-            raise ModelRetry(
-                f"Fetch limit reached ({ctx.deps._MAX_FETCHES}/{ctx.deps._MAX_FETCHES}). "
-                f"Make your decision using the information you already have."
-            )
-        ctx.deps._fetch_count += 1
-        content = _fetch_page(url, max_chars=4000)
-        ctx.deps.on_progress(f"  fetch_page({url[:60]}) -> {len(content)} chars")
-        return content
-
     return agent
 
 
@@ -958,7 +864,11 @@ def _build_finalize_agent(model, *, model_name: str = "", content_type: str = "h
 async def _run_agent(agent, prompt, deps, *, on_progress: Progress = _noop):
     """Run an agent with streaming reasoning output."""
     return await run_agent_streaming(
-        agent, prompt, deps, request_limit=200, on_progress=on_progress,
+        agent,
+        prompt,
+        deps,
+        request_limit=200,
+        on_progress=on_progress,
     )
 
 
@@ -1006,7 +916,10 @@ def _discovery_album_dict(provider_name: str, album) -> dict:
 
 
 async def _run_with_retry(
-    coro_factory, *, phase: str = "", model_name: str = "",
+    coro_factory,
+    *,
+    phase: str = "",
+    model_name: str = "",
     on_progress: Progress = _noop,
 ):
     rate_limiter = RateLimiter(model_name)
@@ -1055,9 +968,7 @@ async def _run_large(
                     on_progress(
                         f"  [{p.name}] canonical artist: [{aid}] -> {len(albums)} albums",
                     )
-                    all_albums.extend(
-                        _discovery_album_dict(p.name, a) for a in albums
-                    )
+                    all_albums.extend(_discovery_album_dict(p.name, a) for a in albums)
                 continue
 
             artists = p.search_artists(query)
@@ -1079,9 +990,7 @@ async def _run_large(
                 )
 
             albums = p.artist_albums(artist.id)
-            all_albums.extend(
-                _discovery_album_dict(p.name, a) for a in albums
-            )
+            all_albums.extend(_discovery_album_dict(p.name, a) for a in albums)
             on_progress(f"  [{p.name}] {len(albums)} albums")
             provider_album_counts[p.name] = len(albums)
         except Exception as e:
@@ -1101,8 +1010,7 @@ async def _run_large(
 
     if incomplete:
         on_progress(
-            f"  Curation marked incomplete: "
-            f"{'; '.join(provider_errors)}",
+            f"  Curation marked incomplete: {'; '.join(provider_errors)}",
         )
 
     fetched = len(all_albums)
@@ -1113,7 +1021,9 @@ async def _run_large(
             f"across artist pages",
         )
 
-    on_progress(f"\n  Total: {len(all_albums)} albums across {len(providers)} providers\n")
+    on_progress(
+        f"\n  Total: {len(all_albums)} albums across {len(providers)} providers\n"
+    )
 
     # -- Step 2a: Pre-fetch full album details
     on_progress("  Pre-fetching album details...")
@@ -1146,13 +1056,19 @@ async def _run_large(
     sample_albums = _stratified_sample(all_albums, 40)
     provider_list = ", ".join(f"{k}: {v}" for k, v in artist_ids.items())
 
-    metadata_agent = _build_metadata_agent(model, model_name=model_name, content_type=content_type, discography_span_years=discography_span_years)
+    metadata_agent = _build_metadata_agent(
+        model,
+        model_name=model_name,
+        content_type=content_type,
+        discography_span_years=discography_span_years,
+    )
     meta_deps = CurateDeps(
-        providers=providers, titles=all_titles, on_progress=on_progress,
+        providers=providers,
+        titles=all_titles,
+        on_progress=on_progress,
     )
     sample_lines = "\n".join(
-        f"  - {a['name']} | {a['total_tracks']} tracks"
-        f" | {a.get('release_date') or '?'}"
+        f"  - {a['name']} | {a['total_tracks']} tracks | {a.get('release_date') or '?'}"
         for a in sample_albums
     )
     meta = await _run_with_retry(
@@ -1184,8 +1100,7 @@ async def _run_large(
 
     # -- Step 3: Batched curation
     batches = [
-        all_albums[i : i + _BATCH_SIZE]
-        for i in range(0, len(all_albums), _BATCH_SIZE)
+        all_albums[i : i + _BATCH_SIZE] for i in range(0, len(all_albums), _BATCH_SIZE)
     ]
 
     t_curation = time.monotonic()
@@ -1194,7 +1109,12 @@ async def _run_large(
         f"{len(batches)} batches of <={_BATCH_SIZE}\n",
     )
 
-    batch_agent = _build_batch_agent(model, model_name=model_name, content_type=content_type, discography_span_years=discography_span_years)
+    batch_agent = _build_batch_agent(
+        model,
+        model_name=model_name,
+        content_type=content_type,
+        discography_span_years=discography_span_years,
+    )
     shared_deps = CurateDeps(
         providers=providers,
         pattern=meta.episode_pattern,
@@ -1219,7 +1139,9 @@ async def _run_large(
             progress_text = f"Progress: {total_inc} included, {total_exc} excluded."
 
         rolling = _build_batch_summary(
-            all_decisions, shared_deps.pattern, batch_num,
+            all_decisions,
+            shared_deps.pattern,
+            batch_num,
         )
 
         batch_albums: list[dict] = []
@@ -1229,19 +1151,21 @@ async def _run_large(
             if detail:
                 batch_albums.append(detail)
             else:
-                batch_albums.append({
-                    "provider": a["provider"],
-                    "id": a["id"],
-                    "title": a["name"],
-                    "episode_num": None,
-                    "release_date": a.get("release_date", ""),
-                    "album_type": a.get("album_type", ""),
-                    "total_tracks": a.get("total_tracks", 0),
-                    "duration_min": None,
-                    "label": "",
-                    "artist": "",
-                    "tracks": [],
-                })
+                batch_albums.append(
+                    {
+                        "provider": a["provider"],
+                        "id": a["id"],
+                        "title": a["name"],
+                        "episode_num": None,
+                        "release_date": a.get("release_date", ""),
+                        "album_type": a.get("album_type", ""),
+                        "total_tracks": a.get("total_tracks", 0),
+                        "duration_min": None,
+                        "label": "",
+                        "artist": "",
+                        "tracks": [],
+                    }
+                )
         album_xml = format_albums_xml(batch_albums, include_tracks=True)
 
         analysis_hint = ""
@@ -1281,7 +1205,11 @@ async def _run_large(
                         f"Title cluster {c['shape']!r} ({c['count']} albums): {examples}"
                     )
             if hints:
-                analysis_hint = "Structural signals from prior batches:\n" + "\n".join(f"  {h}" for h in hints) + "\n"
+                analysis_hint = (
+                    "Structural signals from prior batches:\n"
+                    + "\n".join(f"  {h}" for h in hints)
+                    + "\n"
+                )
 
         prompt = (
             f"Series: {meta.title!r}\n"
@@ -1293,14 +1221,10 @@ async def _run_large(
         if analysis_hint:
             prompt += f"{analysis_hint}\n"
         prompt += (
-            f"\nBatch {batch_num}/{len(batches)} ({len(batch)} albums):\n"
-            f"\n"
-            f"{album_xml}"
+            f"\nBatch {batch_num}/{len(batches)} ({len(batch)} albums):\n\n{album_xml}"
         )
 
-        shared_deps.current_batch_ids = {
-            (a["provider"], a["id"]) for a in batch
-        }
+        shared_deps.current_batch_ids = {(a["provider"], a["id"]) for a in batch}
         t_batch = time.monotonic()
         result: BatchResult = await _run_with_retry(
             lambda p=prompt: asyncio.wait_for(
@@ -1362,14 +1286,12 @@ async def _run_large(
     final_pattern = shared_deps.pattern
     proposed_facts: SeriesFacts | None = None
     if content_type not in ("music", "audiobook"):
-        unnumbered = [
-            d for d in all_decisions
-            if d.include and d.episode_num is None
-        ]
+        unnumbered = [d for d in all_decisions if d.include and d.episode_num is None]
 
         era_evidence_lines: list[str] = []
         era_decisions = [
-            d for d in all_decisions
+            d
+            for d in all_decisions
             if d.include and d.notes and "era" in d.notes.lower()
         ]
         if era_decisions:
@@ -1434,18 +1356,14 @@ async def _run_large(
             missing_per = xpc.get("missing_per_provider") or {}
             for prov, missing_eps in missing_per.items():
                 if missing_eps:
-                    analysis_lines.append(
-                        f"{prov} missing: {missing_eps}"
-                    )
+                    analysis_lines.append(f"{prov} missing: {missing_eps}")
             if analysis.get("outliers"):
                 analysis_lines.append(
                     f"Outlier title shapes: {len(analysis['outliers'])}"
                 )
             pc = analysis.get("pattern_coverage")
             if isinstance(pc, dict):
-                analysis_lines.append(
-                    f"Pattern coverage: {pc['percentage']}%"
-                )
+                analysis_lines.append(f"Pattern coverage: {pc['percentage']}%")
 
         needs_finalize = bool(unnumbered) or bool(era_evidence_lines)
         if needs_finalize:
@@ -1457,9 +1375,7 @@ async def _run_large(
                 if detail and detail.get("tracks"):
                     track_names = [t["name"] for t in detail["tracks"]]
                     tracks = " | tracks: " + " | ".join(track_names)
-                lines.append(
-                    f"  {d.provider}:{d.album_id} | {d.title}{tracks}"
-                )
+                lines.append(f"  {d.provider}:{d.album_id} | {d.title}{tracks}")
             facts_lines: list[str] = []
             if existing_facts:
                 if existing_facts.era_boundaries:
@@ -1498,7 +1414,9 @@ async def _run_large(
             on_progress(header)
 
             finalize_agent = _build_finalize_agent(
-                model, model_name=model_name, content_type=content_type,
+                model,
+                model_name=model_name,
+                content_type=content_type,
                 discography_span_years=discography_span_years,
             )
 
@@ -1533,7 +1451,12 @@ async def _run_large(
             try:
                 finalize_result: FinalizeResult = await _run_with_retry(
                     lambda: asyncio.wait_for(
-                        _run_agent(finalize_agent, finalize_prompt, finalize_deps, on_progress=on_progress),
+                        _run_agent(
+                            finalize_agent,
+                            finalize_prompt,
+                            finalize_deps,
+                            on_progress=on_progress,
+                        ),
                         timeout=timeout,
                     ),
                     phase="finalize",
@@ -1563,7 +1486,11 @@ async def _run_large(
                     )
                 proposed_facts = finalize_deps.proposed_facts
                 if proposed_facts:
-                    n_new = len(proposed_facts.era_boundaries) + len(proposed_facts.known_gaps) + len(proposed_facts.sub_series)
+                    n_new = (
+                        len(proposed_facts.era_boundaries)
+                        + len(proposed_facts.known_gaps)
+                        + len(proposed_facts.sub_series)
+                    )
                     if n_new:
                         on_progress(
                             f"  Finalize proposed {n_new} new fact(s)\n",
@@ -1593,7 +1520,9 @@ async def _run_large(
     on_progress(f"  Finalize: {_fmt_elapsed(time.monotonic() - t_finalize)}\n")
 
     overall = _fmt_elapsed(time.monotonic() - t_overall)
-    on_progress(f"\n== Done == {total_inc} included, {total_exc} excluded [{overall}]\n")
+    on_progress(
+        f"\n== Done == {total_inc} included, {total_exc} excluded [{overall}]\n"
+    )
 
     write_cover_cache(meta.id, all_albums)
 
@@ -1646,9 +1575,12 @@ async def run_curation(
 
     on_progress(f"  {total_albums} albums, curating\n")
     result = await _run_large(
-        query, providers,
-        model_name=model_name, api_key=api_key,
-        timeout=timeout, existing_curation=existing_curation,
+        query,
+        providers,
+        model_name=model_name,
+        api_key=api_key,
+        timeout=timeout,
+        existing_curation=existing_curation,
         content_type=content_type,
         known_artist_ids=known_artist_ids,
         existing_facts=existing_facts,
@@ -1724,22 +1656,24 @@ def save_curation(
             f"Cleared stale audit state."
         )
 
-    data.update({
-        "id": series.id,
-        "title": series.title,
-        "content_type": series.content_type,
-        "aliases": series.aliases,
-        "episode_pattern": series.episode_pattern,
-        "provider_artist_ids": series.provider_artist_ids,
-        "age_note": series.age_note,
-        "curator_notes": series.curator_notes,
-        "series_facts": series.series_facts.model_dump(),
-        "regression_flags": series.regression_flags,
-        "curated_at": datetime.now(UTC).isoformat(),
-        "albums": [a.model_dump() for a in series.albums],
-        "incomplete": series.incomplete,
-        "incomplete_reason": series.incomplete_reason,
-    })
+    data.update(
+        {
+            "id": series.id,
+            "title": series.title,
+            "content_type": series.content_type,
+            "aliases": series.aliases,
+            "episode_pattern": series.episode_pattern,
+            "provider_artist_ids": series.provider_artist_ids,
+            "age_note": series.age_note,
+            "curator_notes": series.curator_notes,
+            "series_facts": series.series_facts.model_dump(),
+            "regression_flags": series.regression_flags,
+            "curated_at": datetime.now(UTC).isoformat(),
+            "albums": [a.model_dump() for a in series.albums],
+            "incomplete": series.incomplete,
+            "incomplete_reason": series.incomplete_reason,
+        }
+    )
 
     canonicalize(data)
     safe_write_json(path, data)
@@ -1867,11 +1801,14 @@ async def curate_one(
         # frozen series.yaml facts: re-curation is an incremental update,
         # not a rediscovery from scratch. series.yaml wins on conflict.
         existing_facts = merge_facts(
-            existing_facts, facts_from_curation(existing_curation),
+            existing_facts,
+            facts_from_curation(existing_curation),
         )
         series = await run_curation(
-            query, providers,
-            model_name=model, timeout=timeout,
+            query,
+            providers,
+            model_name=model,
+            timeout=timeout,
             existing_curation=existing_curation,
             content_type=content_type,
             known_artist_ids=known_artist_ids,
@@ -1893,6 +1830,7 @@ async def curate_one(
         return CurateOneResult(ok=True, series=series, path=path)
     except Exception as e:
         import traceback
+
         msg = f"{type(e).__name__}: {e}" if str(e) else type(e).__name__
         on_progress(f"Failed to curate {query}: {msg}")
         on_progress(traceback.format_exc())
@@ -1938,8 +1876,10 @@ async def curate_all(
             existing_content_type=(existing or {}).get("content_type"),
         )
         one_result = await curate_one(
-            entry.title, providers,
-            model=model, timeout=timeout,
+            entry.title,
+            providers,
+            model=model,
+            timeout=timeout,
             series_id=entry.id,
             known_artist_ids=entry.all_artist_ids() or None,
             existing_curation=existing,

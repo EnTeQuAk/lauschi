@@ -16,15 +16,15 @@ from datetime import UTC, datetime
 from typing import Literal
 
 from pydantic import BaseModel, Field
-from pydantic_ai import Agent, ModelRetry, RunContext, ToolOutput
+from pydantic_ai import Agent, RunContext, ToolOutput
 
 from lauschi_catalog._opencode import (
     build_model,
     get_model_settings,
 )
 from lauschi_catalog.agent_deps import AgentDeps, Progress, _noop
+from lauschi_catalog.agent_tools import build_agent_tools
 from lauschi_catalog.catalog.canonical import canonicalize
-from lauschi_catalog.providers._validate import explain_invalid, is_valid_id
 from lauschi_catalog.catalog.facts import (
     EraBoundaryProposal,
     KnownGapProposal,
@@ -39,8 +39,6 @@ from lauschi_catalog.catalog.lint_ops import critical_issues, lint_curation
 from lauschi_catalog.prompts import current_date_line
 from lauschi_catalog.rate_limit import run_with_rate_limit_retry
 from lauschi_catalog.run import run_agent_streaming
-from lauschi_catalog.search import brave_search
-from lauschi_catalog.search import fetch_page as _fetch_page
 
 _DEFAULT_MODEL = "minimax-m2.7"
 _MAX_RETRIES = 3
@@ -49,6 +47,7 @@ _RETRY_DELAY = 5
 Provider = Literal["spotify", "apple_music"]
 
 # -- Output models --
+
 
 class AuditOverride(BaseModel):
     album_id: str
@@ -83,17 +82,12 @@ class AuditResult(BaseModel):
 
 # -- Agent --
 
+
 @dataclass
 class AuditDeps(AgentDeps):
     series_id: str = ""
     curation: dict = field(default_factory=dict)
     lint_issues: list[str] = field(default_factory=list)
-    providers: list = field(default_factory=list)
-    seen_details: dict[str, dict] = field(default_factory=dict)
-    _search_count: int = field(default=0, init=False)
-    _fetch_count: int = field(default=0, init=False)
-    _MAX_SEARCHES: int = 3
-    _MAX_FETCHES: int = 2
 
 
 _SYSTEM_PROMPT = """\
@@ -201,72 +195,13 @@ def _build_audit_agent(model_name: str, api_key: str, on_progress: Progress = _n
         instructions=audit_system_prompt(),
         model_settings=get_model_settings("audit", model_name),
         retries={"tools": 2, "output": 2},
+        toolsets=[build_agent_tools()],
     )
 
     @agent.tool
-    def web_search(ctx: RunContext[AuditDeps], query: str) -> list[dict]:
-        if ctx.deps._search_count >= ctx.deps._MAX_SEARCHES:
-            raise ModelRetry(
-                f"Search limit reached ({ctx.deps._MAX_SEARCHES}/{ctx.deps._MAX_SEARCHES}). "
-                f"Make your audit decision using the information you already have."
-            )
-        ctx.deps._search_count += 1
-        results = brave_search(query, count=5)
-        n = len([r for r in results if "error" not in r])
-        ctx.deps.on_progress(f"  web_search({query!r}) -> {n} results")
-        return results
-
-    @agent.tool
-    def fetch_page(ctx: RunContext[AuditDeps], url: str) -> str:
-        if ctx.deps._fetch_count >= ctx.deps._MAX_FETCHES:
-            raise ModelRetry(
-                f"Fetch limit reached ({ctx.deps._MAX_FETCHES}/{ctx.deps._MAX_FETCHES}). "
-                f"Make your audit decision using the information you already have."
-            )
-        ctx.deps._fetch_count += 1
-        content = _fetch_page(url, max_chars=4000)
-        ctx.deps.on_progress(f"  fetch_page({url[:60]}) -> {len(content)} chars")
-        return content
-
-    @agent.tool
-    def get_album_details(
-        ctx: RunContext[AuditDeps], provider: str, album_ids: list[str],
-    ) -> list[dict]:
-        """Fetch full album details (track listing) from a provider."""
-        results: list[dict] = []
-        invalid = [aid for aid in album_ids if not is_valid_id(provider, aid)]
-        valid_ids = [aid for aid in album_ids if is_valid_id(provider, aid)]
-        for bad in invalid:
-            results.append({"id": bad, "error": explain_invalid(provider, bad)})
-        target = next((p for p in ctx.deps.providers if p.name == provider), None)
-        if not target:
-            return results or []
-        for aid in valid_ids:
-            key = f"{provider}:{aid}"
-            if key in ctx.deps.seen_details:
-                results.append(ctx.deps.seen_details[key])
-                continue
-            album = target.album_details(aid)
-            if album:
-                detail = {
-                    "provider": provider, "id": album.id, "name": album.name,
-                    "release_date": album.release_date,
-                    "total_tracks": album.total_tracks,
-                    "label": album.label,
-                    "artists": album.artists,
-                    "tracks": [{"name": t.name, "duration_ms": t.duration_ms}
-                               for t in album.tracks],
-                }
-                ctx.deps.seen_details[key] = detail
-                results.append(detail)
-        ctx.deps.on_progress(
-            f"  get_album_details({provider}, {len(album_ids)} ids) -> {len(results)} results",
-        )
-        return results
-
-    @agent.tool
     def search_included_albums(
-        ctx: RunContext[AuditDeps], query: str,
+        ctx: RunContext[AuditDeps],
+        query: str,
     ) -> list[dict[str, str]]:
         """Search included albums by title keyword (case-insensitive).
 
@@ -276,7 +211,11 @@ def _build_audit_agent(model_name: str, api_key: str, on_progress: Progress = _n
         q = query.lower()
         albums = ctx.deps.curation.get("albums", [])
         results = [
-            {"album_id": a["album_id"], "provider": a.get("provider", "?"), "title": a["title"]}
+            {
+                "album_id": a["album_id"],
+                "provider": a.get("provider", "?"),
+                "title": a["title"],
+            }
             for a in albums
             if a.get("include") and q in a["title"].lower()
         ]
@@ -296,6 +235,7 @@ def _build_audit_agent(model_name: str, api_key: str, on_progress: Progress = _n
 
 
 # -- Prompt builder --
+
 
 def build_prompt(curation: dict, lint_issues: list[str]) -> str:
     albums = curation.get("albums", [])
@@ -385,9 +325,7 @@ def build_prompt(curation: dict, lint_issues: list[str]) -> str:
         for d in dupes:
             by_prov.setdefault(d["provider"], []).append(d["episode_num"])
         for prov, eps in by_prov.items():
-            analysis_parts.append(
-                f"  Duplicates on {prov}: episodes {sorted(eps)}"
-            )
+            analysis_parts.append(f"  Duplicates on {prov}: episodes {sorted(eps)}")
     xpc = analysis.get("cross_provider_coverage") or {}
     missing_per = xpc.get("missing_per_provider") or {}
     for prov, missing_eps in missing_per.items():
@@ -426,6 +364,7 @@ def build_prompt(curation: dict, lint_issues: list[str]) -> str:
 
 
 # -- Core audit --
+
 
 async def audit_one(
     series_id: str,
@@ -636,15 +575,21 @@ async def audit_series(
         on_progress(f"\n{sid}")
         try:
             result = await audit_one(
-                sid, model_name=model_name, timeout=timeout,
-                force=force, providers=providers,
+                sid,
+                model_name=model_name,
+                timeout=timeout,
+                force=force,
+                providers=providers,
                 on_progress=on_progress,
             )
             if result is None:
                 continue
             action = apply_audit(
-                sid, result, model_name=model_name,
-                dry_run=dry_run, on_progress=on_progress,
+                sid,
+                result,
+                model_name=model_name,
+                dry_run=dry_run,
+                on_progress=on_progress,
             )
             if action == "approved":
                 summary.approved += 1
