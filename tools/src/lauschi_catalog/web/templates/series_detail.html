@@ -137,8 +137,11 @@
                                 </p>
                             </div>
                             <div class="episode-tile__providers">
-                                {% for pname in ep.providers %}
-                                    {{ provider_icon(pname, size=16) }}
+                                {% for prov in ep.providers %}
+                                    <a href="{{ album_url(prov.name, prov.album_id) }}"
+                                       target="_blank"
+                                       rel="noopener"
+                                       title="Open on {{ prov.name }}">{{ provider_icon(prov.name, size=16) }}</a>
                                 {% endfor %}
                             </div>
                         </div>
@@ -533,7 +536,10 @@
                             <tr>
                                 <td>
                                     {% if album %}
-                                        <span x-html="providerIcon(album.provider)"></span>
+                                        <a :href="albumUrl(album.provider, album.album_id)"
+                                           target="_blank"
+                                           rel="noopener"
+                                           x-html="providerIcon(album.provider)"></a>
                                         {{ album.title }}
                                         <br>
                                         <small><code>{{ o.album_id[:16] }}…</code></small>
@@ -748,6 +754,11 @@ function episodesApp(seriesId) {
   }));
   return {
     groupedAlbums: grouped,
+    albumUrl(provider, albumId) {
+      if (provider === 'spotify') return 'https://open.spotify.com/album/' + albumId;
+      if (provider === 'apple_music') return 'https://music.apple.com/de/album/' + albumId;
+      return '#';
+    },
     providerIcon(name) {
       if (name === 'spotify') return '<img src="/static/icons/spotify.svg" width="20" height="20" alt="Spotify" class="provider-icon">';
       if (name === 'apple_music') return '<img src="/static/icons/applemusic.svg" width="20" height="20" alt="Apple Music" class="provider-icon">';

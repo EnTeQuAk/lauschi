@@ -107,6 +107,18 @@ templates = Jinja2Templates(
 templates.env.globals["zip"] = zip  # type: ignore[reportArgumentType]
 
 
+def album_url(provider: str, album_id: str) -> str:
+    """Public album page on the provider, for review links."""
+    if provider == "spotify":
+        return f"https://open.spotify.com/album/{album_id}"
+    if provider == "apple_music":
+        return f"https://music.apple.com/de/album/{album_id}"
+    return ""
+
+
+templates.env.globals["album_url"] = album_url
+
+
 @router.get("/catalog", response_class=HTMLResponse)
 async def catalog_list(request: Request, q: str = "", tab: str = "hoerspiel", status: str = ""):
     all_series = get_all_series()
@@ -212,6 +224,10 @@ def _render_series_detail(
             aid = album.get("album_id") or album.get("id", "")
             if aid in covers:
                 album["image_url"] = covers[aid]
+            elif aid and album.get("provider"):
+                # On-demand cover proxy; resolves and caches at the
+                # provider layer on first view.
+                album["image_url"] = f"/api/cover/{album['provider']}/{aid}"
             ep = album.get("episode_num")
             album["episode_num_sort"] = ep if ep is not None else 999999
 
@@ -250,7 +266,9 @@ def _render_series_detail(
 
         for ep_num in sorted(by_episode, key=lambda x: x if x is not None else 999999):
             albums_for_ep = by_episode[ep_num]
-            providers_present = sorted({a.get("provider", "") for a in albums_for_ep})
+            provider_albums: dict[str, str] = {}
+            for a in albums_for_ep:
+                provider_albums.setdefault(a.get("provider", ""), a.get("album_id", ""))
             first = albums_for_ep[0]
             image = first.get("image_url", "")
             if not image:
@@ -263,7 +281,10 @@ def _render_series_detail(
                 "title": first.get("title", ""),
                 "image_url": image,
                 "release_date": first.get("release_date", ""),
-                "providers": providers_present,
+                "providers": [
+                    {"name": name, "album_id": aid}
+                    for name, aid in sorted(provider_albums.items())
+                ],
             })
 
     # Episode coverage: which providers cover each episode number

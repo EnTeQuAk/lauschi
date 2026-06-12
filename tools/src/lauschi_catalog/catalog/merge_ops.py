@@ -208,6 +208,16 @@ def accept_split(
     }
     safe_write_json(new_path, new_curation)
 
+    # Inherit cover URLs for the moved albums from the parent's cache;
+    # the split flow never re-discovers, so nothing else would write them.
+    parent_covers_path = paths.cover_cache_path(series_id)
+    if parent_covers_path.exists():
+        parent_covers = json.loads(parent_covers_path.read_text())
+        moved_ids = {a.get("album_id") for a in moved}
+        inherited = {k: v for k, v in parent_covers.items() if k in moved_ids}
+        if inherited:
+            safe_write_json(paths.cover_cache_path(new_id), inherited)
+
     curation["albums"] = remaining
     subs.pop(split_index)
     safe_write_json(cur_path, curation)
