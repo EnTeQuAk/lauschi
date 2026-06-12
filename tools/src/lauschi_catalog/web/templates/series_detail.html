@@ -693,6 +693,10 @@
                         {% if (form_data.content_type | default(series.content_type or 'hoerspiel')) == 'music' %}selected{% endif %}>
                     music
                 </option>
+                <option value="audiobook"
+                        {% if (form_data.content_type | default(series.content_type or 'hoerspiel')) == 'audiobook' %}selected{% endif %}>
+                    audiobook
+                </option>
             </select>
             {% if errors.content_type %}<small class="text-red">{{ errors.content_type }}</small>{% endif %}
         </label>
@@ -704,6 +708,29 @@
            class="secondary outline">Cancel</a>
     </div>
 </form>
+<article class="panel mt-1">
+    <h3>Danger zone</h3>
+    {% if flash_error %}
+        <p class="text-red">{{ flash_error }}</p>
+    {% endif %}
+    <p class="text-muted">
+        Removes the series.yaml entry and the curation file, and records
+        the deletion in deleted.yaml so catalog-add warns before
+        re-introducing the same id.
+    </p>
+    <form method="post"
+          action="/catalog/{{ series.id }}/delete"
+          onsubmit="return confirm('Delete {{ series.id }} from the catalog?')">
+        <label>
+            Reason
+            <input type="text"
+                   name="reason"
+                   placeholder="e.g. contributor-only artist; albums belong to another series"
+                   required />
+        </label>
+        <button type="submit" class="contrast">Delete series</button>
+    </form>
+</article>
 {% endif %}
 {% endblock %}
 {% block scripts %}

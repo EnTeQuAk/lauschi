@@ -7,3 +7,7 @@ deleted:
   title: Aprilkind
   reason: No standalone releases; the artist's songs appear on 3berlin albums, which are already in the catalog
   deleted_at: '2026-06-11T06:31:30+00:00'
+- id: christian
+  title: Christian
+  reason: Contributor-only artist; the albums' primary artist is Kikaninchen, which is already in the catalog
+  deleted_at: '2026-06-12T05:59:06+00:00'

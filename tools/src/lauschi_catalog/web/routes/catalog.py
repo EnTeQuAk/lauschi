@@ -18,7 +18,12 @@ from lauschi_catalog.catalog.paths import (
     curation_path as _curation_path,
     repo_root,
 )
-from lauschi_catalog.catalog.series_ops import SeriesChanges, edit_series, validate_series_changes
+from lauschi_catalog.catalog.series_ops import (
+    SeriesChanges,
+    delete_series,
+    edit_series,
+    validate_series_changes,
+)
 from lauschi_catalog.web.catalog_db import (
     get_all_series,
     get_series_by_id,
@@ -309,6 +314,7 @@ def _render_series_detail(
             "coverage": coverage,
             "split_from": split_from,
             "split_children": split_children,
+            "flash_error": request.query_params.get("error", ""),
         },
     )
 
@@ -347,6 +353,32 @@ async def series_audit(request: Request, series_id: str):
 @router.get("/catalog/{series_id}/edit", response_class=HTMLResponse)
 async def series_edit(request: Request, series_id: str):
     return _render_series_detail(request, series_id, tab="edit")
+
+
+@router.post("/catalog/{series_id}/delete", response_class=RedirectResponse)
+async def series_delete(request: Request, series_id: str):
+    """Delete a series: series.yaml entry, curation JSON, deletion log.
+
+    Same path as the CLI delete command; the deletion log keeps
+    catalog-add from silently re-introducing the id later.
+    """
+    form = await request.form()
+    reason = str(form.get("reason", "")).strip()
+    if not reason:
+        return RedirectResponse(
+            url=f"/catalog/{series_id}/edit?error={quote_plus('A deletion reason is required')}",
+            status_code=303,
+        )
+
+    result = delete_series(series_id, reason=reason)
+    if not result.ok:
+        return RedirectResponse(
+            url=f"/catalog/{series_id}/edit?error={quote_plus(result.error or 'delete failed')}",
+            status_code=303,
+        )
+
+    sync_catalog_to_db()
+    return RedirectResponse(url="/catalog", status_code=303)
 
 
 @router.post("/catalog/{series_id}/edit", response_class=HTMLResponse)

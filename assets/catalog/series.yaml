@@ -3949,9 +3949,349 @@ series:
     spotify:
       artist_ids:
       - 0Zc41hC0WfHWoW88IGDmuA
+      albums:
+      - id: 0ueMj8YBB88bjZdI9MzpKC
+        episode: 1
+        title: 'Folge 1: Die Aufnahmeprüfung (Die Legende des Mondsteins)'
+      - id: 0pN9GX93ypyTObNmz0eLzP
+        episode: 2
+        title: 'Folge 2: Der erste Schultag (Die Legende des Mondsteins)'
+      - id: 0YjI0zDElCSKMaUdCZrOi9
+        episode: 3
+        title: 'Folge 3: Das Goldene Horn (Die Legende des Mondsteins)'
+      - id: 17XNCvHdGqQOy6Sp5gOIxY
+        episode: 4
+        title: 'Folge 4: Der neue Lehrer (Die Legende des Mondsteins)'
+      - id: 4YnBTysyQdA2mHEfsyd8RY
+        episode: 5
+        title: 'Folge 5: Das Floh-Problem (Die Legende des Mondsteins)'
+      - id: 4NHmlZQ4C6eL8nhKcsZB5E
+        episode: 6
+        title: 'Folge 6: Die Werwolfjäger (Die Legende des Mondsteins)'
+      - id: 4mLiVdJndNlKGaGUtbZkJv
+        episode: 7
+        title: 'Folge 7: Heuloween (Die Legende des Mondsteins)'
+      - id: 5QRGbYqT2zurm8T6jqV6GX
+        episode: 8
+        title: 'Folge 8: Das Rock-Konzert (Die Legende des Mondsteins)'
+      - id: 7ryn1Yw2d4BBZEWhYZD2yv
+        episode: 9
+        title: 'Folge 9: Der Camping-Ausflug (Die Legende des Mondsteins)'
+      - id: 3BSp1eyGp47NCiy3kFRwo8
+        episode: 10
+        title: 'Folge 10: Die echte Beatrice (Die Legende des Mondsteins)'
+      - id: 54h4TtNk9e3agSPL6oUdvY
+        episode: 11
+        title: 'Folge 11: Cherry (Die Legende des Mondsteins)'
+      - id: 2N65ZNsc7hVb8OxQQzOG7R
+        episode: 12
+        title: 'Folge 12: Die Falle (Die Legende des Mondsteins)'
+      - id: 0N7nM4oj45ukwHQlsh7wQq
+        episode: 13
+        title: 'Folge 13: Werwölfe gegen Finsterwölfe (Die Legende des Mondsteins)'
+      - id: 0kQC4uTDKL3ASqEmCMwF4k
+        episode: 14
+        title: 'Folge 14: Der neue Rektor (Die Legende des Mondsteins)'
+      - id: 3nnQyJqNa5jkP0L147DXWf
+        episode: 15
+        title: 'Folge 15: Schule gegen Schule (Die Legende des Mondsteins)'
+      - id: 7Jqj50NRGTPxAuoSuijdFi
+        episode: 16
+        title: 'Folge 16: Die geheime Grabkammer (Die Legende des Mondsteins)'
+      - id: 17kJB1SjpT4jMogH3yBM57
+        episode: 17
+        title: 'Folge 17: Rettet Heulenstein (Die Legende des Mondsteins)'
+      - id: 4OwSX6iUnzHWqKWNTqLO0n
+        episode: 18
+        title: 'Folge 18: Die Mondstein-Spiele (Die Legende des Mondsteins)'
+      - id: 3jRRQ7FZGQQp8DgaA3j8KV
+        episode: 19
+        title: 'Folge 19: Das pinke Monsterchen (Die Legende des Mondsteins)'
+      - id: 2ShKhSgG2rr4rr0yPXuLZz
+        episode: 20
+        title: 'Folge 20: Scarlet soll bleiben! (Die Legende des Mondsteins)'
+      - id: 1dw9b3uFskByRMfV38TMky
+        episode: 21
+        title: 'Folge 21: Ivan, das Monster (Die Legende des Mondsteins)'
+      - id: 1y0bwiVzfSf0sTc8vL89fe
+        episode: 22
+        title: 'Folge 22: Findet Ivan! (Die Legende des Mondsteins)'
+      - id: 53OHsxlHqGxtDave1pvv1G
+        episode: 23
+        title: 'Folge 23: Stein der Verdammnis (Die Legende des Mondsteins)'
+      - id: 3PKtierKPFoBIx92eHDsYk
+        episode: 24
+        title: 'Folge 24: Eine Oma im Rudel (Die Legende des Mondsteins)'
+      - id: 545wsHryehVDkyEkORfhs7
+        episode: 25
+        title: 'Folge 25: Der Vulkan (Die Legende des Mondsteins)'
+      - id: 64TOEZwFVFFwzxKXuWWUj7
+        episode: 26
+        title: 'Folge 26: Mondfinsternis (Die Legende des Mondsteins)'
+      - id: 2K8LAXXE2WTnyp0pW1siyP
+        title: Das Original Hörspiel zum Kinofilm
+      - id: 0jWlb3VBbkeGi1m4mJqOqi
+        title: 200% Wolf (Das Hörspiel zum Kinofilm)
     apple_music:
       artist_ids:
       - '1525278649'
+      albums:
+      - id: '1585999427'
+        episode: 1
+        title: 'Folge 1: Die Aufnahmeprüfung (Die Legende des Mondsteins)'
+      - id: '1586000027'
+        episode: 2
+        title: 'Folge 2: Der erste Schultag (Legenden des Mondstein)'
+      - id: '1585992713'
+        episode: 3
+        title: 'Folge 3: Das Goldene Horn (Die Legende des Mondsteins)'
+      - id: '1586973468'
+        episode: 4
+        title: 'Folge 4: Der neue Lehrer (Die Legende des Mondsteins)'
+      - id: '1586973497'
+        episode: 5
+        title: 'Folge 5: Das Floh-Problem (Die Legende des Mondsteins)'
+      - id: '1586973440'
+        episode: 6
+        title: 'Folge 6: Die Werwolfjäger (Die Legende des Mondsteins)'
+      - id: '1587332703'
+        episode: 7
+        title: 'Folge 7: Heuloween (Die Legende des Mondsteins)'
+      - id: '1588265964'
+        episode: 8
+        title: 'Folge 8: Das Rock-Konzert (Die Legende des Mondsteins)'
+      - id: '1588954438'
+        episode: 9
+        title: 'Folge 9: Der Camping-Ausflug (Die Legende des Mondsteins)'
+      - id: '1589461193'
+        episode: 10
+        title: 'Folge 10: Die echte Beatrice (Die Legende des Mondsteins)'
+      - id: '1589461586'
+        episode: 11
+        title: 'Folge 11: Cherry (Die Legende des Mondsteins)'
+      - id: '1589460713'
+        episode: 12
+        title: 'Folge 12: Die Falle'
+      - id: '1590936859'
+        episode: 13
+        title: 'Folge 13: Werwölfe gegen Finsterwölfe'
+      - id: '1691123835'
+        episode: 14
+        title: 'Folge 14: Der neue Rektor (Die Legende des Mondsteins)'
+      - id: '1691065832'
+        episode: 15
+        title: 'Folge 15: Schule gegen Schule (Die Legende des Mondsteins)'
+      - id: '1691065694'
+        episode: 16
+        title: 'Folge 16: Die geheime Grabkammer (Die Legende des Mondsteins)'
+      - id: '1691066100'
+        episode: 17
+        title: 'Folge 17: Rettet Heulenstein (Die Legende des Mondsteins)'
+      - id: '1691066184'
+        episode: 18
+        title: 'Folge 18: Die Mondstein-Spiele (Die Legende des Mondsteins)'
+      - id: '1691065725'
+        episode: 19
+        title: 'Folge 19: Das pinke Monsterchen (Die Legende des Mondsteins)'
+      - id: '1691066547'
+        episode: 20
+        title: 'Folge 20: Scarlet soll bleiben! (Die Legende des Mondsteins)'
+      - id: '1691097056'
+        episode: 21
+        title: 'Folge 21:  Ivan, das Monster (Die Legende des Mondsteins)'
+      - id: '1691066478'
+        episode: 22
+        title: 'Folge 22: Findet Ivan! (Die Legende des Mondsteins)'
+      - id: '1691066951'
+        episode: 23
+        title: 'Folge 23: Stein der Verdammnis (Die Legende des Mondsteins)'
+      - id: '1691067108'
+        episode: 24
+        title: 'Folge 24: Eine Oma im Rudel (Die Legende des Mondsteins)'
+      - id: '1691067158'
+        episode: 25
+        title: 'Folge 25: Der Vulkan (Die Legende des Mondsteins)'
+      - id: '1691067517'
+        episode: 26
+        title: 'Folge 26: Mondfinsternis (Die Legende des Mondsteins)'
+      - id: '1571309483'
+        title: Das Original Hörspiel zum Kinofilm
+      - id: '1759530072'
+        title: 200% Wolf (Das Hörspiel zum Kinofilm)
+  episode_pattern: '^Folge (\d+):'
+  aliases:
+  - 100% Wolf – Die Legende des Mondsteins
+  - '100% Wolf: Die Legende des Mondsteins'
+  series_facts:
+    known_gaps:
+    - number: 27
+      reason: Season 2 ('Die Legende von Svenberg') episodes not available on Spotify or Apple Music
+      curated_by: minimax-m2.7
+      curated_at: '2026-06-10T18:55:03.232976+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-06-10T18:55:03.232976+00:00'
+    - number: 28
+      reason: Season 2 ('Die Legende von Svenberg') episodes not available on Spotify or Apple Music
+      curated_by: minimax-m2.7
+      curated_at: '2026-06-10T18:55:03.232976+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-06-10T18:55:03.232976+00:00'
+    - number: 29
+      reason: Season 2 ('Die Legende von Svenberg') episodes not available on Spotify or Apple Music
+      curated_by: minimax-m2.7
+      curated_at: '2026-06-10T18:55:03.232976+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-06-10T18:55:03.232976+00:00'
+    - number: 30
+      reason: Season 2 ('Die Legende von Svenberg') episodes not available on Spotify or Apple Music
+      curated_by: minimax-m2.7
+      curated_at: '2026-06-10T18:55:03.232976+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-06-10T18:55:03.232976+00:00'
+    - number: 31
+      reason: Season 2 ('Die Legende von Svenberg') episodes not available on Spotify or Apple Music
+      curated_by: minimax-m2.7
+      curated_at: '2026-06-10T18:55:03.232976+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-06-10T18:55:03.232976+00:00'
+    - number: 32
+      reason: Season 2 ('Die Legende von Svenberg') episodes not available on Spotify or Apple Music
+      curated_by: minimax-m2.7
+      curated_at: '2026-06-10T18:55:03.232976+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-06-10T18:55:03.232976+00:00'
+    - number: 33
+      reason: Season 2 ('Die Legende von Svenberg') episodes not available on Spotify or Apple Music
+      curated_by: minimax-m2.7
+      curated_at: '2026-06-10T18:55:03.232976+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-06-10T18:55:03.232976+00:00'
+    - number: 34
+      reason: Season 2 ('Die Legende von Svenberg') episodes not available on Spotify or Apple Music
+      curated_by: minimax-m2.7
+      curated_at: '2026-06-10T18:55:03.232976+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-06-10T18:55:03.232976+00:00'
+    - number: 35
+      reason: Season 2 ('Die Legende von Svenberg') episodes not available on Spotify or Apple Music
+      curated_by: minimax-m2.7
+      curated_at: '2026-06-10T18:55:03.232976+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-06-10T18:55:03.232976+00:00'
+    - number: 36
+      reason: Season 2 ('Die Legende von Svenberg') episodes not available on Spotify or Apple Music
+      curated_by: minimax-m2.7
+      curated_at: '2026-06-10T18:55:03.232976+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-06-10T18:55:03.232976+00:00'
+    - number: 37
+      reason: Season 2 ('Die Legende von Svenberg') episodes not available on Spotify or Apple Music
+      curated_by: minimax-m2.7
+      curated_at: '2026-06-10T18:55:03.232976+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-06-10T18:55:03.232976+00:00'
+    - number: 38
+      reason: Season 2 ('Die Legende von Svenberg') episodes not available on Spotify or Apple Music
+      curated_by: minimax-m2.7
+      curated_at: '2026-06-10T18:55:03.232976+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-06-10T18:55:03.232976+00:00'
+    - number: 39
+      reason: Season 2 ('Die Legende von Svenberg') episodes not available on Spotify or Apple Music
+      curated_by: minimax-m2.7
+      curated_at: '2026-06-10T18:55:03.232976+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-06-10T18:55:03.232976+00:00'
+    - number: 40
+      reason: Season 2 ('Die Legende von Svenberg') episodes not available on Spotify or Apple Music
+      curated_by: minimax-m2.7
+      curated_at: '2026-06-10T18:55:03.232976+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-06-10T18:55:03.232976+00:00'
+    - number: 41
+      reason: Season 2 ('Die Legende von Svenberg') episodes not available on Spotify or Apple Music
+      curated_by: minimax-m2.7
+      curated_at: '2026-06-10T18:55:03.232976+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-06-10T18:55:03.232976+00:00'
+    - number: 42
+      reason: Season 2 ('Die Legende von Svenberg') episodes not available on Spotify or Apple Music
+      curated_by: minimax-m2.7
+      curated_at: '2026-06-10T18:55:03.232976+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-06-10T18:55:03.232976+00:00'
+    - number: 43
+      reason: Season 2 ('Die Legende von Svenberg') episodes not available on Spotify or Apple Music
+      curated_by: minimax-m2.7
+      curated_at: '2026-06-10T18:55:03.232976+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-06-10T18:55:03.232976+00:00'
+    - number: 44
+      reason: Season 2 ('Die Legende von Svenberg') episodes not available on Spotify or Apple Music
+      curated_by: minimax-m2.7
+      curated_at: '2026-06-10T18:55:03.232976+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-06-10T18:55:03.232976+00:00'
+    - number: 45
+      reason: Season 2 ('Die Legende von Svenberg') episodes not available on Spotify or Apple Music
+      curated_by: minimax-m2.7
+      curated_at: '2026-06-10T18:55:03.232976+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-06-10T18:55:03.232976+00:00'
+    - number: 46
+      reason: Season 2 ('Die Legende von Svenberg') episodes not available on Spotify or Apple Music
+      curated_by: minimax-m2.7
+      curated_at: '2026-06-10T18:55:03.232976+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-06-10T18:55:03.232976+00:00'
+    - number: 47
+      reason: Season 2 ('Die Legende von Svenberg') episodes not available on Spotify or Apple Music
+      curated_by: minimax-m2.7
+      curated_at: '2026-06-10T18:55:03.232976+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-06-10T18:55:03.232976+00:00'
+    - number: 48
+      reason: Season 2 ('Die Legende von Svenberg') episodes not available on Spotify or Apple Music
+      curated_by: minimax-m2.7
+      curated_at: '2026-06-10T18:55:03.232976+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-06-10T18:55:03.232976+00:00'
+    - number: 49
+      reason: Season 2 ('Die Legende von Svenberg') episodes not available on Spotify or Apple Music
+      curated_by: minimax-m2.7
+      curated_at: '2026-06-10T18:55:03.232976+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-06-10T18:55:03.232976+00:00'
+    - number: 50
+      reason: Season 2 ('Die Legende von Svenberg') episodes not available on Spotify or Apple Music
+      curated_by: minimax-m2.7
+      curated_at: '2026-06-10T18:55:03.232976+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-06-10T18:55:03.232976+00:00'
+    - number: 51
+      reason: Season 2 ('Die Legende von Svenberg') episodes not available on Spotify or Apple Music
+      curated_by: minimax-m2.7
+      curated_at: '2026-06-10T18:55:03.232976+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-06-10T18:55:03.232976+00:00'
+    - number: 52
+      reason: Season 2 ('Die Legende von Svenberg') episodes not available on Spotify or Apple Music
+      curated_by: minimax-m2.7
+      curated_at: '2026-06-10T18:55:03.232976+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-06-10T18:55:03.232976+00:00'
+    sub_series:
+    - label: Kinofilm
+      album_ids:
+      - 0jWlb3VBbkeGi1m4mJqOqi
+      - '1571309483'
+      - '1759530072'
+      - 2K8LAXXE2WTnyp0pW1siyP
+      reason: Movie tie-in Hörspiele (100% Wolf and 200% Wolf film adaptations) that do not follow the main series episode numbering. Both providers have identical content.
+      curated_by: minimax-m2.7
+      curated_at: '2026-06-10T18:55:03.232976+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-06-10T18:55:03.232976+00:00'
 - id: jurassic_world_neue_abenteuer
   title: Jurassic World - Neue Abenteuer
   providers:
@@ -6797,16 +7137,6 @@ series:
     apple_music:
       artist_ids:
       - '1673954040'
-  content_type: music
-- id: christian
-  title: Christian
-  providers:
-    spotify:
-      artist_ids:
-      - 1YE0dGV7nezWn3VHWU6Zvo
-    apple_music:
-      artist_ids:
-      - '1462615988'
   content_type: music
 - id: piano_papa
   title: Piano Papa
