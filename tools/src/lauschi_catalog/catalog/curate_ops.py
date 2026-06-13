@@ -1548,7 +1548,7 @@ async def _run_large(
         provider_artist_ids=meta.provider_artist_ids,
         age_note=meta.age_note,
         curator_notes=meta.curator_notes,
-        series_facts=merged_facts,
+        series_facts=merged_facts or SeriesFacts(),
         incomplete=incomplete,
         incomplete_reason="; ".join(provider_errors) if incomplete else "",
     )
