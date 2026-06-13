@@ -26,7 +26,7 @@ from lauschi_catalog.catalog.discover_ops import discover_one
 from lauschi_catalog.catalog.paths import CURATION_DIR, repo_root
 from lauschi_catalog.catalog.providers_init import init_providers
 from lauschi_catalog.catalog.validate_ops import validate_catalog
-from lauschi_catalog.web.catalog_db import get_series_by_id
+from lauschi_catalog.web.catalog_db import get_series_by_id, sync_catalog_to_db
 from lauschi_catalog.web.flash import redirect_with_flash
 from lauschi_catalog.web.jobs import (
     append_log,
@@ -352,6 +352,7 @@ def launch_in_process(
     job_id: str,
     func: Callable[..., Any],
     *args: Any,
+    on_complete: Callable[[], Any] | None = None,
     **kwargs: Any,
 ) -> None:
     """Run a sync library function in-process as a job.
@@ -359,6 +360,9 @@ def launch_in_process(
     The function receives ``on_progress=callback`` where callback
     appends lines to the job log. Runs in a thread so the event loop
     stays free.
+
+    ``on_complete``, when provided, runs after the function succeeds
+    (e.g. to sync caches that depend on files the function wrote).
     """
 
     async def _runner() -> None:
@@ -372,6 +376,8 @@ def launch_in_process(
 
         try:
             await asyncio.to_thread(func, *args, on_progress=_progress, **kwargs)
+            if on_complete is not None:
+                await asyncio.to_thread(on_complete)
             final_status = "done"
             final_error = None
             log.info("job %s: in-process completed: %s", job_id, func.__name__)
@@ -407,12 +413,15 @@ def launch_in_process_async(
     job_id: str,
     coro_func: Callable[..., Any],
     *args: Any,
+    on_complete: Callable[[], Any] | None = None,
     **kwargs: Any,
 ) -> None:
     """Run an async library function in-process as a job.
 
     Like launch_in_process but for coroutines. The function receives
     ``on_progress=callback`` where callback appends lines to the job log.
+
+    ``on_complete``, when provided, runs after the coroutine succeeds.
     """
 
     async def _runner() -> None:
@@ -426,6 +435,8 @@ def launch_in_process_async(
 
         try:
             await coro_func(*args, on_progress=_progress, **kwargs)
+            if on_complete is not None:
+                await asyncio.to_thread(on_complete)
             final_status = "done"
             final_error = None
             log.info(
@@ -494,7 +505,10 @@ def _try_in_process_discover(job_id: str, series_id: str) -> bool:
         return False
 
     log.info("job %s: running discover in-process for %s", job_id, series_id)
-    launch_in_process(job_id, discover_one, series.title, providers, write=True)
+    launch_in_process(
+        job_id, discover_one, series.title, providers,
+        on_complete=sync_catalog_to_db, write=True,
+    )
     return True
 
 
@@ -556,6 +570,7 @@ def _try_in_process_apply(job_id: str, series_id: str) -> bool:
         job_id,
         apply_curations,
         series_id,
+        on_complete=sync_catalog_to_db,
         force=True,
     )
     return True
