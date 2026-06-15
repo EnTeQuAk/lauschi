@@ -11,7 +11,7 @@ from fastapi import APIRouter, Request
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
 
-from lauschi_catalog.catalog.merge_ops import merge_series
+from lauschi_catalog.catalog.merge_ops import merge_series, normalize_album_ids
 from lauschi_catalog.catalog.paths import (
     artist_image_path,
     cover_cache_path,
@@ -635,11 +635,11 @@ async def splits_page(request: Request):
 
         enriched_subs = []
         for i, sub in enumerate(subs):
-            matched = [
-                album_lookup[aid]
-                for aid in sub.get("album_ids", [])
-                if aid in album_lookup
-            ]
+            resolved = normalize_album_ids(
+                sub.get("album_ids", []),
+                set(album_lookup),
+            )
+            matched = [album_lookup[aid] for aid in resolved]
             enriched_subs.append(
                 {
                     "index": i,

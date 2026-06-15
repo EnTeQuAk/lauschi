@@ -11,6 +11,7 @@ from ruamel.yaml import YAML
 from lauschi_catalog.catalog import paths as paths_mod
 from lauschi_catalog.catalog import loader as loader_mod
 from lauschi_catalog.catalog import merge_ops
+from lauschi_catalog.catalog.merge_ops import normalize_album_ids
 
 yaml = YAML()
 yaml.preserve_quotes = True
@@ -218,3 +219,53 @@ class TestSplitOps:
         result = merge_ops.reject_split("parent", 99)
         assert not result.ok
         assert "not found" in result.error
+
+    def test_accept_split_normalizes_prefixed_album_ids(self, split_env):
+        """accept_split handles album_ids with provider: prefixes."""
+        curation = json.loads(
+            (split_env["curation_dir"] / "parent.json").read_text()
+        )
+        curation["series_facts"]["sub_series"][0]["album_ids"] = ["spotify:a3"]
+        (split_env["curation_dir"] / "parent.json").write_text(
+            json.dumps(curation)
+        )
+
+        result = merge_ops.accept_split("parent", 0)
+        assert result.ok
+        new_data = json.loads(
+            (split_env["curation_dir"] / "parent_spinoff.json").read_text()
+        )
+        assert len(new_data["albums"]) == 1
+        assert new_data["albums"][0]["album_id"] == "a3"
+
+
+class TestNormalizeAlbumIds:
+    def test_bare_ids_pass_through(self):
+        result = normalize_album_ids(["a1", "a2", "a3"])
+        assert result == {"a1", "a2", "a3"}
+
+    def test_strips_spotify_prefix(self):
+        result = normalize_album_ids(["spotify:5DcgKp", "a2"])
+        assert result == {"5DcgKp", "a2"}
+
+    def test_strips_apple_music_prefix(self):
+        result = normalize_album_ids(["apple_music:1069083363"])
+        assert result == {"1069083363"}
+
+    def test_unknown_prefix_kept(self):
+        result = normalize_album_ids(["deezer:abc123"])
+        assert result == {"deezer:abc123"}
+
+    def test_filters_against_album_id_set(self):
+        result = normalize_album_ids(
+            ["a1", "spotify:a2", "a_missing"],
+            album_id_set={"a1", "a2"},
+        )
+        assert result == {"a1", "a2"}
+
+    def test_empty_input(self):
+        assert normalize_album_ids([]) == set()
+
+    def test_deduplicates(self):
+        result = normalize_album_ids(["a1", "spotify:a1"])
+        assert result == {"a1"}

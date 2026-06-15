@@ -119,6 +119,29 @@ def _get_sub_series(curation: dict) -> list[dict]:
     return curation.get("series_facts", {}).get("sub_series", [])
 
 
+_KNOWN_PROVIDERS = frozenset(("spotify", "apple_music"))
+
+
+def normalize_album_ids(
+    raw_ids: list[str],
+    album_id_set: set[str] | None = None,
+) -> set[str]:
+    """Normalize sub_series album_ids to bare IDs.
+
+    Strips ``provider:`` prefixes that older AI outputs sometimes added.
+    When *album_id_set* is provided, unresolvable IDs are dropped silently.
+    """
+    result: set[str] = set()
+    for raw in raw_ids:
+        if ":" in raw:
+            provider, bare = raw.split(":", 1)
+            if provider in _KNOWN_PROVIDERS:
+                raw = bare
+        if album_id_set is None or raw in album_id_set:
+            result.add(raw)
+    return result
+
+
 def reject_split(series_id: str, split_index: int) -> SplitResult:
     """Remove a sub_series proposal from series_facts."""
     cur_path = paths.curation_path(series_id)
@@ -159,7 +182,9 @@ def accept_split(
         new_id = f"{series_id}_{label}"
     if not new_title:
         new_title = f"{parent_title}: {label.replace('_', ' ').title()}"
-    album_ids = set(sub.get("album_ids", []))
+    albums = curation.get("albums", [])
+    all_album_ids = {a.get("album_id", "") for a in albums}
+    album_ids = normalize_album_ids(sub.get("album_ids", []), all_album_ids)
 
     if not label or not album_ids:
         return SplitResult(ok=False, error="sub_series missing label or album_ids")
@@ -175,12 +200,8 @@ def accept_split(
             error=f"curation file '{new_id}.json' already exists",
         )
 
-    def _matches(album: dict) -> bool:
-        return album.get("album_id", "") in album_ids
-
-    albums = curation.get("albums", [])
-    moved = [a for a in albums if _matches(a)]
-    remaining = [a for a in albums if not _matches(a)]
+    moved = [a for a in albums if a.get("album_id", "") in album_ids]
+    remaining = [a for a in albums if a.get("album_id", "") not in album_ids]
 
     if not moved:
         return SplitResult(ok=False, error="no albums matched sub_series")
