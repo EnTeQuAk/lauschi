@@ -190,6 +190,7 @@ async def discover_series(series_id: str) -> dict[str, str]:
         discover_one,
         series.title,
         providers,
+        on_complete=reload_catalog,
         write=True,
     )
     return {"job_id": job_id}
