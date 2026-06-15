@@ -3599,9 +3599,357 @@ series:
     spotify:
       artist_ids:
       - 6k51vTPqkkOG4SpZwtZS1s
+      albums:
+      - id: 1UcA02mGWEzVAtsHAYDIwT
+        episode: 1
+        title: '01: Auf der Abenteuerburg'
+      - id: 3PEi6aG3teyB7tm4Pan37v
+        episode: 2
+        title: '02: Lösen das Geheimnis der Abenteuerburg'
+      - id: 4xUkMge2gbrb3CM7HzCLhV
+        episode: 3
+        title: '03: Im unheimlichen Schloss'
+      - id: 5Q20LwM42ECSPKFpI13bpk
+        episode: 4
+        title: '04: Im geheimnisvollen Palazzo'
+      - id: 5j5qsb636sBQIcv2lPg3BV
+        episode: 5
+        title: '05: Im rätselhaften Herrenhaus'
+      - id: 5bD9nYG3UQfOHGwists8F2
+        episode: 6
+        title: '06: Im verlassenen Kloster'
+      - id: 1hThcbUJ1eSqy3Xh8xd1K3
+        episode: 7
+        title: '07: In der sonderbaren Villa'
+      - id: 10Gi6wU6MiRZraDpwCsAyj
+        episode: 8
+        title: '08: Im ungewöhnlichen Pfarrhaus'
+      - id: 4DpWGBHpEyvJ23PrCzDw98
+        episode: 9
+        title: '09: Im merkwürdigen Jagdschloss'
+      - id: 45MRPKRHkau4SmNgcuhnEg
+        episode: 10
+        title: '10: Im seltsamen Patrizierhaus'
+      - id: 7DqCBml3xHxw7XYZsZ81O4
+        episode: 11
+        title: '11: Im mysteriösen Leuchtturm'
+      - id: 6TZIqpP6UuDN7Hlos6wfnD
+        episode: 12
+        title: '12: Im verbotenen Grab'
+      - id: 1lMxDzwDEks3RVwyP9cIaI
+        episode: 13
+        title: '13: Die vergessene Insel'
+      - id: 2VNkAK4sR5sxn6YcIPonxP
+        episode: 14
+        title: '14: Im unterirdischen Labyrinth'
+      - id: 5TMO2xljifMowusplssGCP
+        episode: 15
+        title: '15: Gefahr auf dem Jahrmarkt'
+      - id: 2PEr01Cx5a0ILQqYMIWnHm
+        episode: 16
+        title: '16: Auf dem düsteren Landgut'
+      - id: 24kpbCXapezjPRqgb7XyCx
+        episode: 17
+        title: '17: Der verborgene Gegenspieler'
+      - id: 0spHlH6wYoFU7Ux1DBJkXw
+        episode: 18
+        title: '18: Luthers Vermächtnis'
+      - id: 7eApjiNkWhSBSFaiG9lNzb
+        episode: 19
+        title: '19: Der Schatten im ewigen Eis'
+      - id: 7LYc1LLsZbiOd3dfu7ZaBC
+        episode: 20
+        title: '20: Angriff auf die Sternwarte'
+      - id: 6EtYZ9InbHFeo7dVZuuIhX
+        episode: 21
+        title: '21: Falsches Spiel zu Weihnachten'
+      - id: 2p7GrP39BXeBEinGWWEuSZ
+        episode: 22
+        title: '22: Im Wilden Westen'
+      - id: 0N29DCVIYigPJ6x3PAX0h2
+        episode: 23
+        title: '23: Die Symphonie des Schreckens'
+      - id: 1YPrwJjDPhZTEFeSfTUf2A
+        episode: 24
+        title: '24: Im Netz der Spinne'
+      - id: 3ah8MNLVdMN6xf77ZYDIgT
+        episode: 25
+        title: '25: Zurück in die Steinzeit'
+      - id: 4fOiVIvtmX7cNQ243jzs9X
+        episode: 26
+        title: '26: Das Gold des Piraten'
+      - id: 2n6E6AfaEsJv1K43QG9IMa
+        episode: 27
+        title: '27: Die Jagd im Hotel'
+      - id: 0l21sHXcdpuH3NAXpJJ1J7
+        episode: 28
+        title: '28: Tappen im Dunkeln'
+      - id: 29so8IxFLG34UUbc2rNFaT
+        episode: 29
+        title: '29: Das Wunder von Rio'
+      - id: 3WzHcoH7hj0ThpYxoA5ASV
+        episode: 30
+        title: '30: Das Geheimnis der Maya'
+      - id: 3FtEAxJrXH70Jx0RzLgRmW
+        episode: 31
+        title: '31: Im Urwald der Träume'
+      - id: 7vdqAY8oKKrubF41cRyCkH
+        episode: 32
+        title: '32: In der verlorenen Stadt'
+      - id: 3gKPnMGRTW1CPsZ5aYvuMt
+        episode: 33
+        title: '33: Das Erbe des Juweliers'
+      - id: 0sD9ii5q4W9lGS63oz9Mgo
+        episode: 34
+        title: '34: Im Haus der 4 Sinne'
+      - id: 7HmxTiJDoeLvNysoaDEG7p
+        episode: 35
+        title: '35: Im Herzen Afrikas'
+      - id: 0p4ultB6xnh6Tb7fKeObPT
+        episode: 36
+        title: '36: Rückkehr zur Abenteuerburg'
+      - id: 1W2DeTMOK6MSgO0ERNHupF
+        episode: 37
+        title: '37: Düstere Vergangenheit'
+      - id: 4tVC2ix4FpYyslhAZuQxlJ
+        episode: 38
+        title: '38: Der verschollene Baron'
+      - id: 3TIpIwiW2r5sQTQX0OgBk7
+        episode: 39
+        title: '39: Die geheimnisvolle Abtei'
+      - id: 1SmJpmfdkm5Cpy06CxsJtf
+        episode: 40
+        title: '40: Schreck im Tonstudio'
+      - id: 486S6qD5rZbmD3FgjFnozf
+        episode: 41
+        title: '41: Im finsteren Schlossgarten'
+      - id: 0QpTAjRnKrIA2maG00hd5f
+        episode: 42
+        title: '42: Das Geheimnis in der Tiefe'
+      - id: 1VDkIolCoTSvAHyVzKeyh5
+        episode: 43
+        title: '43: Der tasmanische Schatz'
+      - id: 0GLYVwdBPom9Lea8h9VvRp
+        episode: 44
+        title: Gefährlich rieselt der Schnee
+      - id: 184qx6wssBodcro3DkMVuC
+        episode: 45
+        title: '45: Schmutziges Feuer'
+      - id: 62KxthV552kdBu6RuO2AM9
+        episode: 46
+        title: '46: Die verborgene Grotte'
+      - id: 5vEDk1NCRxNuaqvnjMHFMl
+        episode: 47
+        title: '47: Zugfahrt ins Ungewisse'
+      - id: 0NnGiKnhoVA3j87qXVi6tb
+        episode: 48
+        title: '48: Der maskierte Schatten'
+      - id: 3FLrbCNWZmti3qBQCCLbSb
+        episode: 49
+        title: '49: Spuren der Erinnerung'
+      - id: 5c7cYZFBimNLd3vvMnq9sN
+        episode: 50
+        title: '50: Countdown bis Mitternacht'
+      - id: 0GLBbIANjLK4coMS9Tvtnv
+        title: Der letzte Schrei
+      - id: 4l4pf9JgOg4M9troLqOoCs
+        title: Nachricht eines Fremden
+      - id: 6erqym9G4q35OVX4ihzw5L
+        title: Geheime Botschaft
+      - id: 1YGp021WiphhKGeCLnws4A
+        title: Besuch zu später Stunde
     apple_music:
       artist_ids:
       - '1487787107'
+      albums:
+      - id: '1437173921'
+        episode: 1
+        title: '01: Auf der Abenteuerburg'
+      - id: '1437179096'
+        episode: 2
+        title: '02: Lösen das Geheimnis der Abenteuerburg'
+      - id: '1437177063'
+        episode: 3
+        title: '03: Im unheimlichen Schloss'
+      - id: '1437173616'
+        episode: 4
+        title: '04: Im geheimnisvollen Palazzo'
+      - id: '1437171102'
+        episode: 5
+        title: '05: Im rätselhaften Herrenhaus'
+      - id: '1437167829'
+        episode: 6
+        title: '06: Im verlassenen Kloster'
+      - id: '1437178119'
+        episode: 7
+        title: '07: In der sonderbaren Villa'
+      - id: '1437176891'
+        episode: 8
+        title: '08: Im ungewöhnlichen Pfarrhaus'
+      - id: '1437174903'
+        episode: 9
+        title: '09: Im merkwürdigen Jagdschloss'
+      - id: '1437172305'
+        episode: 10
+        title: '10: Im seltsamen Patrizierhaus'
+      - id: '1437175337'
+        episode: 11
+        title: '11: Im mysteriösen Leuchtturm'
+      - id: '1437169334'
+        episode: 12
+        title: '12: Im verbotenen Grab'
+      - id: '1437178744'
+        episode: 13
+        title: '13: Die vergessene Insel'
+      - id: '1437177343'
+        episode: 14
+        title: '14: Im unterirdischen Labyrinth'
+      - id: '1437175738'
+        episode: 15
+        title: '15: Gefahr auf dem Jahrmarkt'
+      - id: '1437173324'
+        episode: 16
+        title: '16: Auf dem düsteren Landgut'
+      - id: '1437171975'
+        episode: 17
+        title: '17: Der verborgene Gegenspieler'
+      - id: '1437169991'
+        episode: 18
+        title: '18: Luthers Vermächtnis'
+      - id: '1437167765'
+        episode: 19
+        title: '19: Der Schatten im ewigen Eis'
+      - id: '1437177855'
+        episode: 20
+        title: '20: Angriff auf die Sternwarte'
+      - id: '1437175866'
+        episode: 21
+        title: '21: Falsches Spiel zu Weihnachten'
+      - id: '1437174225'
+        episode: 22
+        title: '22: Im Wilden Westen'
+      - id: '1437172806'
+        episode: 23
+        title: '23: Die Symphonie des Schreckens'
+      - id: '1437176414'
+        episode: 24
+        title: '24: Im Netz der Spinne'
+      - id: '1473966722'
+        episode: 25
+        title: '25: Zurück in die Steinzeit'
+      - id: '1493819528'
+        episode: 26
+        title: '26: Das Gold des Piraten'
+      - id: '1508500101'
+        episode: 27
+        title: '27: Die Jagd im Hotel'
+      - id: '1520389631'
+        episode: 28
+        title: '28: Tappen im Dunkeln'
+      - id: '1565971116'
+        episode: 29
+        title: '29: Das Wunder von Rio'
+      - id: '1582215121'
+        episode: 30
+        title: '30: Das Geheimnis der Maya'
+      - id: '1586552862'
+        episode: 31
+        title: '31: Im Urwald der Träume'
+      - id: '1641515282'
+        episode: 32
+        title: '32: In der verlorenen Stadt'
+      - id: '1616049518'
+        episode: 33
+        title: '33: Das Erbe des Juweliers'
+      - id: '1644414270'
+        episode: 34
+        title: '34: Im Haus der 4 Sinne'
+      - id: '1655423017'
+        episode: 35
+        title: '35: Im Herzen Afrikas'
+      - id: '1670746606'
+        episode: 36
+        title: '36: Rückkehr zur Abenteuerburg'
+      - id: '1678833209'
+        episode: 37
+        title: '37: Düstere Vergangenheit'
+      - id: '1707600561'
+        episode: 38
+        title: '38: Der verschollene Baron'
+      - id: '1712742767'
+        episode: 39
+        title: '39: Die geheimnisvolle Abtei'
+      - id: '1718530936'
+        episode: 40
+        title: '40: Schreck im Tonstudio'
+      - id: '1720440957'
+        episode: 41
+        title: '41: Im finsteren Schlossgarten'
+      - id: '1764374143'
+        episode: 42
+        title: '42: Das Geheimnis in der Tiefe'
+      - id: '1756107738'
+        episode: 43
+        title: '43: Der tasmanische Schatz'
+      - id: '1779119353'
+        episode: 45
+        title: '45: Schmutziges Feuer'
+      - id: '1784469196'
+        episode: 46
+        title: '46: Die verborgene Grotte'
+      - id: '1810261599'
+        episode: 47
+        title: '47: Zugfahrt ins Ungewisse'
+      - id: '1810260978'
+        episode: 48
+        title: '48: Der maskierte Schatten'
+      - id: '1855952363'
+        episode: 49
+        title: '49: Spuren der Erinnerung'
+      - id: '1889572290'
+        episode: 50
+        title: '50: Countdown bis Mitternacht'
+      - id: '1449571015'
+        title: Verschollen in Fernost
+      - id: '1759202283'
+        title: Der letzte Schrei
+  episode_pattern: '^(\d+):'
+  aliases:
+  - Fünf Geschwister
+  series_facts:
+    known_gaps:
+    - number: 44
+      reason: Folge 44 'Gefährlich rieselt der Schnee' exists on Spotify as an unnumbered full album (included); Apple Music has no equivalent.
+      curated_by: minimax-m2.7
+      curated_at: '2026-06-10T18:41:45.116133+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-06-10T18:41:45.116133+00:00'
+    sub_series:
+    - label: 5_geschwister_kids
+      album_ids: []
+      reason: "Verified: Modernized reboot with '5 Geschwister Kids' artist credit. Episode 1 'Der Fahrraddieb' (2026) is distinct from the original 1989 'Auf der Abenteuerburg'. Release dates and duration
+        (39.5 min vs 60+ min) confirm era collision requiring sub-series separation."
+      curated_by: minimax-m2.7
+      curated_at: '2026-06-10T18:41:45.116133+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-06-10T18:41:45.116133+00:00'
+    - label: adventskalender
+      album_ids:
+      - 09FrU6vuKgmbjJ8HZSuTB0
+      - 0G8mI5ypPOJ0yQYevcaBpd
+      - 0itjeKvfolNCsyC6ijojO3
+      - 0vj1sriSgobSS5wMuHMPe3
+      - 2LXqbUF9hJvfu6czCBCjhR
+      - 3IPVM58dYp1mCewkVvSpYR
+      - 3n3UEDzrXoyJlomWioM8gA
+      - 4alR3SUYdJYdntgO3D4KcY
+      - 5NkvlPcXXqjwsLwog9wc9Y
+      reason: "Verified: 24-day Adventskalender format 'Gefährlich rieselt der Schnee' is a distinct sub-series with daily release pattern (Türchen 1-24). Includes full album (spotify:0GLYVwdBPom9Lea8h9VvRp)
+        and Spotify Tags 16-24 excerpts. Excludes Apple Music singles (sub_series_bleed) and Spotify Tags 1-15. Different format and release pattern from main series justifies separate treatment."
+      curated_by: minimax-m2.7
+      curated_at: '2026-06-10T18:41:45.116133+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-06-10T18:41:45.116133+00:00'
 - id: mein_lotta_leben
   title: Mein Lotta-Leben
   providers:
@@ -3734,9 +4082,16 @@ series:
     spotify:
       artist_ids:
       - 41GLF5pTbZGswSqBW2mZX4
+      albums:
+      - id: 0Mr2AoYZIJ8fYZLCZaJQAM
+        title: Angry Birds - Der Film (Original Filmhörspiel)
     apple_music:
       artist_ids:
       - '1274152829'
+      albums:
+      - id: '1478150580'
+        title: Angry Birds 2 (Das Original-Hörspiel zum Kinofilm)
+  content_type: hoerspiel
 - id: hui_buh_das_schlossgespenst
   title: Hui Buh, das Schlossgespenst
   providers:
