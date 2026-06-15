@@ -14,7 +14,7 @@ from collections.abc import Callable
 from dataclasses import dataclass
 from datetime import UTC, datetime
 
-from lauschi_catalog.web.config import DB_PATH
+from lauschi_catalog.web.config import JOBS_DB_PATH
 
 
 def _now() -> str:
@@ -44,14 +44,14 @@ CREATE INDEX IF NOT EXISTS idx_jobs_status ON jobs(status);
 
 
 def _conn() -> sqlite3.Connection:
-    conn = sqlite3.connect(str(DB_PATH), check_same_thread=False)
+    conn = sqlite3.connect(str(JOBS_DB_PATH), check_same_thread=False)
     conn.row_factory = sqlite3.Row
     conn.execute("PRAGMA journal_mode=WAL")
     return conn
 
 
 def init_db() -> None:
-    DB_PATH.parent.mkdir(parents=True, exist_ok=True)
+    JOBS_DB_PATH.parent.mkdir(parents=True, exist_ok=True)
     with _conn() as conn:
         conn.executescript(SCHEMA)
         conn.commit()

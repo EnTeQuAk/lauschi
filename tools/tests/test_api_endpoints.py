@@ -52,7 +52,7 @@ class TestAcceptArtist:
             fake_update,
         )
         monkeypatch.setattr(
-            "lauschi_catalog.web.routes.api.sync_catalog_to_db",
+            "lauschi_catalog.web.routes.api.reload_catalog",
             lambda: None,
         )
 
@@ -84,7 +84,7 @@ class TestAcceptArtist:
             fake_update,
         )
         monkeypatch.setattr(
-            "lauschi_catalog.web.routes.api.sync_catalog_to_db",
+            "lauschi_catalog.web.routes.api.reload_catalog",
             lambda: None,
         )
 
@@ -123,7 +123,7 @@ class TestAcceptArtist:
             fake_update,
         )
         monkeypatch.setattr(
-            "lauschi_catalog.web.routes.api.sync_catalog_to_db",
+            "lauschi_catalog.web.routes.api.reload_catalog",
             lambda: None,
         )
 

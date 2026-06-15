@@ -24,10 +24,10 @@ from lauschi_catalog.catalog.series_ops import (
     edit_series,
     validate_series_changes,
 )
-from lauschi_catalog.web.catalog_db import (
+from lauschi_catalog.web.catalog_store import (
     get_all_series,
     get_series_by_id,
-    sync_catalog_to_db,
+    reload_catalog,
 )
 from lauschi_catalog.web.flash import flash_context, make_flash, redirect_with_flash
 from lauschi_catalog.web.jobs import create_job, get_active_job, get_job, list_jobs
@@ -433,7 +433,7 @@ async def series_delete(request: Request, series_id: str):
             request, f"/catalog/{series_id}/edit", error=result.error or "delete failed"
         )
 
-    sync_catalog_to_db()
+    reload_catalog()
     return redirect_with_flash(
         request, "/catalog", message=f"Deleted {series_id} from the catalog"
     )
@@ -495,7 +495,7 @@ async def series_edit_post(request: Request, series_id: str):
     if not result.ok:
         return HTMLResponse(result.error or "Unknown error", status_code=404)
 
-    sync_catalog_to_db()
+    reload_catalog()
     return RedirectResponse(url=f"/catalog/{result.series_id}", status_code=303)
 
 
@@ -606,7 +606,7 @@ async def merge_post(request: Request):
             status_code=303,
         )
 
-    sync_catalog_to_db()
+    reload_catalog()
     return redirect_with_flash(
         request,
         "/merge",
@@ -631,8 +631,7 @@ async def splits_page(request: Request):
         albums = data.get("albums", [])
         album_lookup: dict[str, dict] = {}
         for a in albums:
-            key = f"{a.get('provider')}:{a.get('album_id')}"
-            album_lookup[key] = a
+            album_lookup[a.get("album_id", "")] = a
 
         enriched_subs = []
         for i, sub in enumerate(subs):

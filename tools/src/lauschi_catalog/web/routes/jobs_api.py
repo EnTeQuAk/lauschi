@@ -26,7 +26,7 @@ from lauschi_catalog.catalog.discover_ops import discover_one
 from lauschi_catalog.catalog.paths import CURATION_DIR, repo_root
 from lauschi_catalog.catalog.providers_init import init_providers
 from lauschi_catalog.catalog.validate_ops import validate_catalog
-from lauschi_catalog.web.catalog_db import get_series_by_id, sync_catalog_to_db
+from lauschi_catalog.web.catalog_store import get_series_by_id, reload_catalog
 from lauschi_catalog.web.flash import redirect_with_flash
 from lauschi_catalog.web.jobs import (
     append_log,
@@ -507,7 +507,7 @@ def _try_in_process_discover(job_id: str, series_id: str) -> bool:
     log.info("job %s: running discover in-process for %s", job_id, series_id)
     launch_in_process(
         job_id, discover_one, series.title, providers,
-        on_complete=sync_catalog_to_db, write=True,
+        on_complete=reload_catalog, write=True,
     )
     return True
 
@@ -570,7 +570,7 @@ def _try_in_process_apply(job_id: str, series_id: str) -> bool:
         job_id,
         apply_curations,
         series_id,
-        on_complete=sync_catalog_to_db,
+        on_complete=reload_catalog,
         force=True,
     )
     return True

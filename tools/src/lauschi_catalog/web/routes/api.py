@@ -20,7 +20,7 @@ from lauschi_catalog.catalog.merge_ops import accept_split, merge_series, reject
 from lauschi_catalog.catalog.providers_init import init_providers
 from lauschi_catalog.catalog.series_ops import SeriesChanges, edit_series
 from lauschi_catalog.providers import CatalogProvider
-from lauschi_catalog.web.catalog_db import get_series_by_id, sync_catalog_to_db
+from lauschi_catalog.web.catalog_store import get_series_by_id, reload_catalog
 from lauschi_catalog.web.jobs import create_job, list_jobs
 from lauschi_catalog.web.pipeline import next_action, pipeline_status
 from lauschi_catalog.web.routes.jobs_api import launch_in_process
@@ -30,8 +30,8 @@ router = APIRouter()
 
 @router.post("/sync")
 async def post_sync() -> dict[str, int]:
-    """Trigger a manual sync of series.yaml -> SQLite."""
-    count = sync_catalog_to_db()
+    """Trigger a manual reload of series.yaml into the catalog store."""
+    count = reload_catalog()
     return {"series_synced": count}
 
 
@@ -136,7 +136,7 @@ async def post_series_edit(series_id: str, edit: SeriesEdit) -> dict[str, Any]:
         status = 404 if "not found" in (result.error or "") else 400
         raise HTTPException(status_code=status, detail=result.error)
 
-    sync_catalog_to_db()
+    reload_catalog()
     return {"ok": True, "id": result.series_id}
 
 
@@ -169,7 +169,7 @@ async def post_split_action(
         status = 404 if "not found" in (result.error or "") else 400
         raise HTTPException(status_code=status, detail=result.error)
 
-    sync_catalog_to_db()
+    reload_catalog()
     resp: dict[str, Any] = {"ok": True, "result": result.action}
     if result.new_id:
         resp["new_id"] = result.new_id
@@ -220,7 +220,7 @@ async def accept_artist(series_id: str, request: AcceptArtistRequest) -> dict[st
     if count == 0:
         raise HTTPException(status_code=400, detail="no series updated")
 
-    sync_catalog_to_db()
+    reload_catalog()
     return {"ok": True, "series_id": series_id, "provider": request.provider}
 
 
@@ -242,7 +242,7 @@ async def post_merge(request: MergeRequest) -> dict[str, Any]:
         status = 404 if "not found" in (result.error or "") else 400
         raise HTTPException(status_code=status, detail=result.error)
 
-    sync_catalog_to_db()
+    reload_catalog()
     return {"ok": True, "added": str(result.added), "skipped": str(result.skipped)}
 
 

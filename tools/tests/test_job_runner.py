@@ -18,8 +18,8 @@ from lauschi_catalog.web.jobs import get_job, init_db, reap_zombie_jobs, set_sta
 def _setup_db(tmp_path, monkeypatch):
     """Point the job DB at a temp file for each test."""
     db_path = tmp_path / "test_jobs.db"
-    monkeypatch.setattr("lauschi_catalog.web.config.DB_PATH", db_path)
-    monkeypatch.setattr("lauschi_catalog.web.jobs.DB_PATH", db_path)
+    monkeypatch.setattr("lauschi_catalog.web.config.JOBS_DB_PATH", db_path)
+    monkeypatch.setattr("lauschi_catalog.web.jobs.JOBS_DB_PATH", db_path)
     init_db()
 
 

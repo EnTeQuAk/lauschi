@@ -19,7 +19,7 @@ from typing import Any
 
 from lauschi_catalog.catalog.models import CatalogEntry
 from lauschi_catalog.catalog.paths import curation_path
-from lauschi_catalog.web.catalog_db import get_series_by_id
+from lauschi_catalog.web.catalog_store import get_series_by_id
 
 _PIPELINE_STEPS = [
     ("discover", "Discover"),

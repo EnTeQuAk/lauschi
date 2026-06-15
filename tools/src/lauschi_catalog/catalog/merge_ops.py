@@ -175,10 +175,8 @@ def accept_split(
             error=f"curation file '{new_id}.json' already exists",
         )
 
-    # sub_series album_ids use "provider:id" format, match against albums
     def _matches(album: dict) -> bool:
-        key = f"{album.get('provider')}:{album.get('album_id')}"
-        return key in album_ids
+        return album.get("album_id", "") in album_ids
 
     albums = curation.get("albums", [])
     moved = [a for a in albums if _matches(a)]

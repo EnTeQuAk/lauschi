@@ -147,7 +147,7 @@ class TestSplitOps:
                 "sub_series": [
                     {
                         "label": "spinoff",
-                        "album_ids": ["spotify:a3"],
+                        "album_ids": ["a3"],
                         "reason": "test sub_series",
                     },
                 ],

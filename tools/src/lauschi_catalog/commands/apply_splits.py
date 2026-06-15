@@ -56,8 +56,7 @@ def apply_splits(series_id: str | None, do_apply: bool):
             new_title = f"{parent_title}: {label.replace('_', ' ').title()}"
 
             def _matches(album: dict) -> bool:
-                key = f"{album.get('provider')}:{album.get('album_id')}"
-                return key in album_ids
+                return album.get("album_id", "") in album_ids
 
             moved = [a for a in data["albums"] if _matches(a)]
             remaining = [a for a in data["albums"] if not _matches(a)]

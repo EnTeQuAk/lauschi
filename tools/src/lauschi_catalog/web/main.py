@@ -16,7 +16,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from starlette.middleware.sessions import SessionMiddleware
 
-from lauschi_catalog.web.catalog_db import init_catalog_db, sync_catalog_to_db
+from lauschi_catalog.web.catalog_store import reload_catalog
 from lauschi_catalog.web.flash import flash_context
 from lauschi_catalog.web.jobs import init_db, reap_zombie_jobs
 from lauschi_catalog.web.routes import api, catalog, jobs_api
@@ -36,13 +36,13 @@ templates = Jinja2Templates(
 
 
 async def _background_sync() -> None:
-    """Periodically sync series.yaml -> SQLite (catches CLI edits)."""
+    """Periodically reload series.yaml into the in-process store."""
     while True:
         await asyncio.sleep(30)
         try:
-            sync_catalog_to_db()
+            reload_catalog()
         except Exception:
-            logging.exception("Background catalog sync failed")
+            logging.exception("Background catalog reload failed")
 
 
 @asynccontextmanager
@@ -51,8 +51,7 @@ async def lifespan(app: FastAPI):
     reaped = reap_zombie_jobs()
     if reaped:
         logging.info("Reaped %d zombie job(s) from previous run", reaped)
-    init_catalog_db()
-    sync_catalog_to_db()
+    reload_catalog()
     task = asyncio.create_task(_background_sync())
     yield
     task.cancel()
