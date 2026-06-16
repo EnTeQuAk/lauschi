@@ -7700,3 +7700,1193 @@ series:
     apple_music:
       artist_ids:
       - '1622871029'
+- id: 100_wolf_kinofilm
+  title: '100% Wolf: Kinofilm'
+  aliases: []
+  episode_pattern: '^Folge (\d+):'
+  content_type: hoerspiel
+  split_from: 100_wolf
+  providers:
+    spotify:
+      artist_ids:
+      - 0Zc41hC0WfHWoW88IGDmuA
+    apple_music:
+      artist_ids:
+      - '1525278649'
+- id: 5_geschwister_adventskalender
+  title: '5 Geschwister: Adventskalender'
+  aliases: []
+  episode_pattern: '^(\d+):'
+  content_type: hoerspiel
+  split_from: 5_geschwister
+  providers:
+    spotify:
+      artist_ids:
+      - 6k51vTPqkkOG4SpZwtZS1s
+    apple_music:
+      artist_ids:
+      - '1487787107'
+- id: bambi_disney_film
+  title: 'Bambi: Disney Film'
+  aliases: []
+  episode_pattern: '^Folge (\d+):'
+  content_type: hoerspiel
+  split_from: bambi
+  providers:
+    spotify:
+      artist_ids:
+      - 0bx509s1CRkp8iErQhjbI4
+    apple_music:
+      artist_ids:
+      - '1670459358'
+- id: bibi_blocksberg_englisch_lernen
+  title: 'Bibi Blocksberg: Englisch Lernen'
+  aliases: []
+  episode_pattern:
+  - '^Folge (\d+):'
+  - '^Kampf um Kartoffelbrei \(Special\) - Teil (\d+):'
+  - ^Englisch lernen mit Bibi Blocksberg - Folge (\d+) -
+  content_type: hoerspiel
+  split_from: bibi_blocksberg
+  providers:
+    spotify:
+      artist_ids:
+      - 3t2iKODSDyzoDJw7AsD99u
+    apple_music:
+      artist_ids:
+      - '41480004'
+- id: bibi_und_tina_adventskalender
+  title: 'Bibi und Tina: Adventskalender'
+  aliases: []
+  episode_pattern:
+  - '^Folge (\d+):'
+  - '^BFF Talk - Talk (\d+):'
+  content_type: hoerspiel
+  split_from: bibi_und_tina
+  providers:
+    spotify:
+      artist_ids:
+      - 2x8vG4f0HYXzMEo3xNsoiI
+    apple_music:
+      artist_ids:
+      - '220152697'
+- id: bibi_und_tina_kinofilm
+  title: 'Bibi und Tina: Kinofilm'
+  aliases: []
+  episode_pattern:
+  - '^Folge (\d+):'
+  - '^BFF Talk - Talk (\d+):'
+  content_type: hoerspiel
+  split_from: bibi_und_tina
+  providers:
+    spotify:
+      artist_ids:
+      - 2x8vG4f0HYXzMEo3xNsoiI
+    apple_music:
+      artist_ids:
+      - '220152697'
+- id: bibi_und_tina_klangreise
+  title: 'Bibi und Tina: Klangreise'
+  aliases: []
+  episode_pattern:
+  - '^Folge (\d+):'
+  - '^BFF Talk - Talk (\d+):'
+  content_type: hoerspiel
+  split_from: bibi_und_tina
+  providers:
+    spotify:
+      artist_ids:
+      - 2x8vG4f0HYXzMEo3xNsoiI
+    apple_music:
+      artist_ids:
+      - '220152697'
+- id: boss_baby_kinofilm
+  title: 'Boss Baby: Kinofilm'
+  aliases: []
+  episode_pattern:
+  - '^Folge (\d+):'
+  content_type: hoerspiel
+  split_from: boss_baby
+  providers:
+    spotify:
+      artist_ids:
+      - 7gGr5h1uarWBQGiv2mkTpl
+    apple_music:
+      artist_ids:
+      - '1216307510'
+- id: cars_cars_toon
+  title: 'Cars: Cars Toon'
+  aliases: []
+  episode_pattern:
+  - '^(\d+): '
+  content_type: hoerspiel
+  split_from: cars
+  providers:
+    spotify:
+      artist_ids:
+      - 6EVnssA6TgyEYmLOCvHcf2
+    apple_music:
+      artist_ids:
+      - '1660553689'
+- id: cars_film_trilogy
+  title: 'Cars: Film Trilogy'
+  aliases: []
+  episode_pattern:
+  - '^(\d+): '
+  content_type: hoerspiel
+  split_from: cars
+  providers:
+    spotify:
+      artist_ids:
+      - 6EVnssA6TgyEYmLOCvHcf2
+    apple_music:
+      artist_ids:
+      - '1660553689'
+- id: conni_abenteuerspass
+  title: 'Conni: Abenteuerspaß mit Conni'
+  aliases: []
+  episode_pattern:
+  content_type: hoerspiel
+  split_from: conni
+  providers:
+    spotify:
+      artist_ids:
+      - 0jRC2uXx4hEpqNrBDJdY7l
+    apple_music:
+      artist_ids:
+      - '14433691'
+- id: der_kleine_rabe_socke_movie
+  title: 'Der kleine Rabe Socke: Movie'
+  aliases: []
+  episode_pattern: ^.*Hörspiele zur TV[- ]Serie (\d+)
+  content_type: hoerspiel
+  split_from: der_kleine_rabe_socke
+  providers:
+    spotify:
+      artist_ids:
+      - 6NdYPh29DHFBbiYzcK7Nb0
+    apple_music:
+      artist_ids:
+      - '726252391'
+- id: der_kleine_rabe_socke_picture_book
+  title: 'Der kleine Rabe Socke: Picture Book'
+  aliases: []
+  episode_pattern: ^.*Hörspiele zur TV[- ]Serie (\d+)
+  content_type: hoerspiel
+  split_from: der_kleine_rabe_socke
+  providers:
+    spotify:
+      artist_ids:
+      - 6NdYPh29DHFBbiYzcK7Nb0
+    apple_music:
+      artist_ids:
+      - '726252391'
+- id: die_biene_maja_kinofilm
+  title: 'Die Biene Maja: Kinofilm'
+  aliases: []
+  episode_pattern:
+  - ^(\d+)/
+  - '^Klassiker, Folge (\d+):'
+  - '^Folge (\d+):'
+  - '^.*\(Biene Maja, Folge (\d+)\)(?: - EP)?$'
+  content_type: hoerspiel
+  split_from: die_biene_maja
+  providers:
+    spotify:
+      artist_ids:
+      - 7GfaHcpmNcrcHoyGnOBsAz
+    apple_music:
+      artist_ids:
+      - '253463055'
+- id: die_drei_ausrufezeichen_adventskalender
+  title: 'Die drei !!!: Adventskalender'
+  aliases: []
+  episode_pattern:
+  - ^(\d{3})/
+  - '^Folge (\d+):'
+  content_type: hoerspiel
+  split_from: die_drei_ausrufezeichen
+  providers:
+    spotify:
+      artist_ids:
+      - 2Jc4AEeBTE47KwuKgYOtcL
+    apple_music:
+      artist_ids:
+      - '329049924'
+- id: die_drei_fragezeichen_kids_adventskalender
+  title: 'Die drei ??? Kids: Adventskalender'
+  aliases: []
+  episode_pattern:
+  - ^(\d{3})/
+  - '^Folge (\d+):'
+  - ^Mini-Fall/.*\(Mini-Fall (\d+)\)
+  content_type: hoerspiel
+  split_from: die_drei_fragezeichen_kids
+  providers:
+    spotify:
+      artist_ids:
+      - 0vLsqW05dyLvjuKKftAEGA
+    apple_music:
+      artist_ids:
+      - '305761269'
+- id: die_wilden_kerle_kinofilm
+  title: 'Die wilden Kerle: Kinofilm'
+  aliases: []
+  episode_pattern:
+  - ^Die wilden Kerle (\d+)
+  - ^Folge (\d+)
+  content_type: hoerspiel
+  split_from: die_wilden_kerle
+  providers:
+    spotify:
+      artist_ids:
+      - 7LzUjEdyDaURYTFAljHQbH
+    apple_music:
+      artist_ids:
+      - '19584648'
+- id: dragons_auf_zu_neuen_ufern_film_specials
+  title: 'Dragons - Auf zu neuen Ufern: Film Specials'
+  aliases: []
+  episode_pattern: '^Folge (\d+):'
+  content_type: hoerspiel
+  split_from: dragons_auf_zu_neuen_ufern
+  providers:
+    spotify:
+      artist_ids:
+      - 1z8ytficgBWsoYigwE2QVM
+    apple_music:
+      artist_ids:
+      - '1112695110'
+- id: eule_hauptreihe
+  title: 'Eule findet den Beat: Hauptreihe'
+  aliases: []
+  episode_pattern:
+  content_type: music
+  split_from: eule
+  providers:
+    spotify:
+      artist_ids:
+      - 59bf2D81aHzl0ot28xzQbk
+    apple_music:
+      artist_ids:
+      - '419885903'
+- id: feuerwehrmann_sam_film_hoerspiele
+  title: 'Feuerwehrmann Sam: Film Hoerspiele'
+  aliases: []
+  episode_pattern: '^Folge (\d+):'
+  content_type: hoerspiel
+  split_from: feuerwehrmann_sam
+  providers:
+    spotify:
+      artist_ids:
+      - 4qhaHyCtCaFugTqT9LzuKp
+    apple_music:
+      artist_ids:
+      - '374131430'
+- id: fuenf_freunde_adventskalender
+  title: 'Fünf Freunde: Adventskalender'
+  aliases: []
+  episode_pattern:
+  - ^(\d{2,3})/
+  - '^Folge (\d+):'
+  content_type: hoerspiel
+  split_from: fuenf_freunde
+  providers:
+    spotify:
+      artist_ids:
+      - 1hD52edfn6aNsK3fb5c2OT
+    apple_music:
+      artist_ids:
+      - '216347875'
+- id: fuenf_freunde_kinofilm
+  title: 'Fünf Freunde: Kinofilm'
+  aliases: []
+  episode_pattern:
+  - ^(\d{2,3})/
+  - '^Folge (\d+):'
+  content_type: hoerspiel
+  split_from: fuenf_freunde
+  providers:
+    spotify:
+      artist_ids:
+      - 1hD52edfn6aNsK3fb5c2OT
+    apple_music:
+      artist_ids:
+      - '216347875'
+- id: hanni_und_nanni_neue_abenteuer
+  title: 'Hanni und Nanni: Neue Abenteuer'
+  aliases: []
+  episode_pattern:
+  - '^Folge (\d+):'
+  - ^(\d+)/
+  - ^Klassiker (\d+)
+  content_type: hoerspiel
+  split_from: hanni_und_nanni
+  providers:
+    spotify:
+      artist_ids:
+      - 3iiABQlNuezpR3DcrlyPoA
+    apple_music:
+      artist_ids:
+      - '218657672'
+- id: hexe_lilli_erstlesergeschichten
+  title: 'Hexe Lilli: Erstlesergeschichten'
+  aliases: []
+  episode_pattern:
+  - ^(\d{3})/
+  - '^(\d{3}):'
+  - '^Folge (\d+):'
+  content_type: hoerspiel
+  split_from: hexe_lilli
+  providers:
+    spotify:
+      artist_ids:
+      - 2IYME9b8x0ptqROxrDvAQ0
+    apple_music:
+      artist_ids:
+      - '218659264'
+- id: hui_buh_neue_welt_kinofilm
+  title: 'Hui Buh neue Welt: Kinofilm'
+  aliases: []
+  episode_pattern:
+  - ^(\d+)/
+  - '^Folge (\d+):'
+  content_type: hoerspiel
+  split_from: hui_buh_neue_welt
+  providers:
+    spotify:
+      artist_ids:
+      - 4qobZpBtoZ58xPbLByIWzD
+    apple_music:
+      artist_ids:
+      - '283665919'
+- id: janosch_kinofilm
+  title: 'Janosch: Kinofilm'
+  aliases: []
+  episode_pattern: '^Folge (\d+):'
+  content_type: hoerspiel
+  split_from: janosch
+  providers:
+    spotify:
+      artist_ids:
+      - 2QnEjtjHZPLkj6dYDmSigw
+    apple_music:
+      artist_ids:
+      - '34031449'
+- id: julia_donaldson_picture_book_songs
+  title: 'Julia Donaldson: Picture Book Songs'
+  aliases: []
+  episode_pattern:
+  content_type: audiobook
+  split_from: julia_donaldson
+  providers:
+    spotify:
+      artist_ids:
+      - 16LvLSIezRcXAEpqcDDl2v
+    apple_music:
+      artist_ids:
+      - '1493895024'
+- id: kira_kolumna_reportage
+  title: 'Kira Kolumna: Reportage'
+  aliases: []
+  episode_pattern:
+  - '^Folge (\d+): '
+  content_type: hoerspiel
+  split_from: kira_kolumna
+  providers:
+    spotify:
+      artist_ids:
+      - 4ZRVadQQ7rbyhiGZurqb72
+    apple_music:
+      artist_ids:
+      - '1580082096'
+- id: kommissar_kugelblitz_stadt_reisen
+  title: 'Kommissar Kugelblitz: Stadt Reisen'
+  aliases: []
+  episode_pattern:
+  - '^Folge (\d+) - '
+  - '^Folge (\d+): '
+  content_type: hoerspiel
+  split_from: kommissar_kugelblitz
+  providers:
+    spotify:
+      artist_ids:
+      - 2c0sDbsWQXZc2Ljq735WgV
+    apple_music:
+      artist_ids:
+      - '161429596'
+- id: lauras_stern_erstleser
+  title: 'Lauras Stern: Erstleser'
+  aliases: []
+  episode_pattern:
+  - '^Lauras Stern, Folge (\d+):'
+  - '^Lauras Stern - Erstleser, Folge (\d+):'
+  - '^Laura, Folge (\d+):'
+  - '^Folge (\d+):'
+  - '^Lauras Stern, Band (\d+):'
+  - ^.*Erstleser (\d+)
+  - '^Lauras Stern - Tonspur der TV-Serie, Teil (\d+):'
+  - ^.*Gutenacht-Geschichten, Teil (\d+)
+  - '^Laura, Teil (\d+):'
+  content_type: hoerspiel
+  split_from: lauras_stern
+  providers:
+    spotify:
+      artist_ids:
+      - 0xY8w0o3cSH3gzx4G4h8qD
+    apple_music:
+      artist_ids:
+      - '51919817'
+- id: lauras_stern_gutenacht_geschichten
+  title: 'Lauras Stern: Gutenacht Geschichten'
+  aliases: []
+  episode_pattern:
+  - '^Lauras Stern, Folge (\d+):'
+  - '^Lauras Stern - Erstleser, Folge (\d+):'
+  - '^Laura, Folge (\d+):'
+  - '^Folge (\d+):'
+  - '^Lauras Stern, Band (\d+):'
+  - ^.*Erstleser (\d+)
+  - '^Lauras Stern - Tonspur der TV-Serie, Teil (\d+):'
+  - ^.*Gutenacht-Geschichten, Teil (\d+)
+  - '^Laura, Teil (\d+):'
+  content_type: hoerspiel
+  split_from: lauras_stern
+  providers:
+    spotify:
+      artist_ids:
+      - 0xY8w0o3cSH3gzx4G4h8qD
+    apple_music:
+      artist_ids:
+      - '51919817'
+- id: lauras_stern_kinofilm
+  title: 'Lauras Stern: Kinofilm'
+  aliases: []
+  episode_pattern:
+  - '^Lauras Stern, Folge (\d+):'
+  - '^Lauras Stern - Erstleser, Folge (\d+):'
+  - '^Laura, Folge (\d+):'
+  - '^Folge (\d+):'
+  - '^Lauras Stern, Band (\d+):'
+  - ^.*Erstleser (\d+)
+  - '^Lauras Stern - Tonspur der TV-Serie, Teil (\d+):'
+  - ^.*Gutenacht-Geschichten, Teil (\d+)
+  - '^Laura, Teil (\d+):'
+  content_type: hoerspiel
+  split_from: lauras_stern
+  providers:
+    spotify:
+      artist_ids:
+      - 0xY8w0o3cSH3gzx4G4h8qD
+    apple_music:
+      artist_ids:
+      - '51919817'
+- id: lauras_stern_laura
+  title: 'Lauras Stern: Laura'
+  aliases: []
+  episode_pattern:
+  - '^Lauras Stern, Folge (\d+):'
+  - '^Lauras Stern - Erstleser, Folge (\d+):'
+  - '^Laura, Folge (\d+):'
+  - '^Folge (\d+):'
+  - '^Lauras Stern, Band (\d+):'
+  - ^.*Erstleser (\d+)
+  - '^Lauras Stern - Tonspur der TV-Serie, Teil (\d+):'
+  - ^.*Gutenacht-Geschichten, Teil (\d+)
+  - '^Laura, Teil (\d+):'
+  content_type: hoerspiel
+  split_from: lauras_stern
+  providers:
+    spotify:
+      artist_ids:
+      - 0xY8w0o3cSH3gzx4G4h8qD
+    apple_music:
+      artist_ids:
+      - '51919817'
+- id: lauras_stern_tv_serie
+  title: 'Lauras Stern: Tv Serie'
+  aliases: []
+  episode_pattern:
+  - '^Lauras Stern, Folge (\d+):'
+  - '^Lauras Stern - Erstleser, Folge (\d+):'
+  - '^Laura, Folge (\d+):'
+  - '^Folge (\d+):'
+  - '^Lauras Stern, Band (\d+):'
+  - ^.*Erstleser (\d+)
+  - '^Lauras Stern - Tonspur der TV-Serie, Teil (\d+):'
+  - ^.*Gutenacht-Geschichten, Teil (\d+)
+  - '^Laura, Teil (\d+):'
+  content_type: hoerspiel
+  split_from: lauras_stern
+  providers:
+    spotify:
+      artist_ids:
+      - 0xY8w0o3cSH3gzx4G4h8qD
+    apple_music:
+      artist_ids:
+      - '51919817'
+- id: lego_city_klassik
+  title: 'LEGO City: Klassik'
+  aliases: []
+  episode_pattern:
+  - '^Folge (\d+):'
+  - '^LEGO City: Folge (\d+) -'
+  - ^Folge (\d+) -
+  - '^LEGO City Folge (\d+):'
+  content_type: hoerspiel
+  split_from: lego_city
+  providers:
+    spotify:
+      artist_ids:
+      - 7lWAti8HlNyw39Z5OI92Ep
+    apple_music:
+      artist_ids:
+      - '672648501'
+- id: lichterkinder_lernland
+  title: 'Lichterkinder: Lernland'
+  aliases: []
+  episode_pattern:
+  content_type: music
+  split_from: lichterkinder
+  providers:
+    spotify:
+      artist_ids:
+      - 5poyNTy0YyDwAMSYBJ7zgv
+    apple_music:
+      artist_ids:
+      - '1035655315'
+- id: liliane_susewind_kleine_reihe
+  title: 'Liliane Susewind: Kleine Reihe'
+  aliases: []
+  episode_pattern:
+  content_type: audiobook
+  split_from: liliane_susewind
+  providers:
+    spotify:
+      artist_ids:
+      - 0imTuUn6Ca6KAprEAS0nDI
+      - 4wqQElhXCfCRWxDEVvPCLH
+- id: loewenzahn_classics
+  title: 'Löwenzahn: Classics'
+  aliases: []
+  episode_pattern:
+  - '^Episode (\d+):'
+  - '^Löwenzahn CLASSICS mit Peter Lustig, Folge (\d+):'
+  - '^Folge (\d+):'
+  content_type: hoerspiel
+  split_from: loewenzahn
+  providers:
+    spotify:
+      artist_ids:
+      - 0p0BKNqJuryRzJj2yrZmNp
+    apple_music:
+      artist_ids:
+      - '13429372'
+- id: mein_lotta_leben_film_hoerspiel
+  title: 'Mein Lotta-Leben: Film Hoerspiel'
+  aliases: []
+  episode_pattern: ^.*\(Band (\d+)\)$
+  content_type: hoerspiel
+  split_from: mein_lotta_leben
+  providers:
+    spotify:
+      artist_ids:
+      - 2G50OTOFPIR57gZ59mFnNR
+    apple_music:
+      artist_ids:
+      - '1548980617'
+- id: mia_and_me_buch
+  title: 'Mia and Me: Buch'
+  aliases: []
+  episode_pattern: '^Folge (\d+):'
+  content_type: hoerspiel
+  split_from: mia_and_me
+  providers:
+    spotify:
+      artist_ids:
+      - 5enzAipom8L2RuY9KtG9Fv
+    apple_music:
+      artist_ids:
+      - '553475434'
+- id: miraculous_tv_specials
+  title: 'Miraculous: Tv Specials'
+  aliases: []
+  episode_pattern:
+  - '^Folge (\d+):'
+  - '^Miraculous (\d+):'
+  content_type: hoerspiel
+  split_from: miraculous
+  providers:
+    spotify:
+      artist_ids:
+      - 0g12RW7N9VQmkjkcQreys3
+    apple_music:
+      artist_ids:
+      - '1353483673'
+- id: pettersson_und_findus_findus_erklaert_die_welt
+  title: 'Pettersson und Findus: Findus erklärt die Welt'
+  aliases: []
+  episode_pattern: '^Folge (\d+):'
+  content_type: hoerspiel
+  split_from: pettersson_und_findus
+  providers:
+    spotify:
+      artist_ids:
+      - 3YZqnPKdtP5qP4LSvrgx9i
+    apple_music:
+      artist_ids:
+      - '51883585'
+- id: pettersson_und_findus_kinofilm
+  title: 'Pettersson und Findus: Kinofilm'
+  aliases: []
+  episode_pattern: '^Folge (\d+):'
+  content_type: hoerspiel
+  split_from: pettersson_und_findus
+  providers:
+    spotify:
+      artist_ids:
+      - 3YZqnPKdtP5qP4LSvrgx9i
+    apple_music:
+      artist_ids:
+      - '51883585'
+- id: prinzessin_lillifee_gute_nacht_geschichten
+  title: 'Prinzessin Lillifee: Gute Nacht Geschichten'
+  aliases: []
+  episode_pattern:
+  - ^(\d+)/Das Hörspiel zur TV-Serie$
+  - '^Mein zauberhaftes Tierhotel: Folge (\d+)'
+  - '^Folge (\d+) \+ \d+: Mein zauberhaftes Tierhotel$'
+  - ^(?:\d{3}/)?Gute-Nacht-Geschichten\s+[Ff]olge[n]? (\d+).*
+  - ^Folgen? (\d+)[\+\-].*\(Gute[-']Nacht-Geschichten\)$
+  content_type: hoerspiel
+  split_from: prinzessin_lillifee
+  providers:
+    spotify:
+      artist_ids:
+      - 78iNrogmY4Ru7d7PLtwD4b
+    apple_music:
+      artist_ids:
+      - '130216498'
+- id: prinzessin_lillifee_kinofilm
+  title: 'Prinzessin Lillifee: Kinofilm'
+  aliases: []
+  episode_pattern:
+  - ^(\d+)/Das Hörspiel zur TV-Serie$
+  - '^Mein zauberhaftes Tierhotel: Folge (\d+)'
+  - '^Folge (\d+) \+ \d+: Mein zauberhaftes Tierhotel$'
+  - ^(?:\d{3}/)?Gute-Nacht-Geschichten\s+[Ff]olge[n]? (\d+).*
+  - ^Folgen? (\d+)[\+\-].*\(Gute[-']Nacht-Geschichten\)$
+  content_type: hoerspiel
+  split_from: prinzessin_lillifee
+  providers:
+    spotify:
+      artist_ids:
+      - 78iNrogmY4Ru7d7PLtwD4b
+    apple_music:
+      artist_ids:
+      - '130216498'
+- id: prinzessin_lillifee_themenwelten
+  title: 'Prinzessin Lillifee: Themenwelten'
+  aliases: []
+  episode_pattern:
+  - ^(\d+)/Das Hörspiel zur TV-Serie$
+  - '^Mein zauberhaftes Tierhotel: Folge (\d+)'
+  - '^Folge (\d+) \+ \d+: Mein zauberhaftes Tierhotel$'
+  - ^(?:\d{3}/)?Gute-Nacht-Geschichten\s+[Ff]olge[n]? (\d+).*
+  - ^Folgen? (\d+)[\+\-].*\(Gute[-']Nacht-Geschichten\)$
+  content_type: hoerspiel
+  split_from: prinzessin_lillifee
+  providers:
+    spotify:
+      artist_ids:
+      - 78iNrogmY4Ru7d7PLtwD4b
+    apple_music:
+      artist_ids:
+      - '130216498'
+- id: prinzessin_lillifee_tierhotel
+  title: 'Prinzessin Lillifee: Tierhotel'
+  aliases: []
+  episode_pattern:
+  - ^(\d+)/Das Hörspiel zur TV-Serie$
+  - '^Mein zauberhaftes Tierhotel: Folge (\d+)'
+  - '^Folge (\d+) \+ \d+: Mein zauberhaftes Tierhotel$'
+  - ^(?:\d{3}/)?Gute-Nacht-Geschichten\s+[Ff]olge[n]? (\d+).*
+  - ^Folgen? (\d+)[\+\-].*\(Gute[-']Nacht-Geschichten\)$
+  content_type: hoerspiel
+  split_from: prinzessin_lillifee
+  providers:
+    spotify:
+      artist_ids:
+      - 78iNrogmY4Ru7d7PLtwD4b
+    apple_music:
+      artist_ids:
+      - '130216498'
+- id: pumuckl_weihnachten
+  title: 'Pumuckl: Weihnachten'
+  aliases: []
+  episode_pattern:
+  - '^(\d+):'
+  - '^Folge (\d+):'
+  content_type: hoerspiel
+  split_from: pumuckl
+  providers:
+    spotify:
+      artist_ids:
+      - 1lhceMHrxr0jC943AuAhhh
+    apple_music:
+      artist_ids:
+      - '1710040920'
+- id: ritter_rost_kinofilm
+  title: 'Ritter Rost: Kinofilm'
+  aliases: []
+  episode_pattern:
+  - '^Folge (\d+): '
+  - ^(\d{2})/
+  - ^Hörspiel zur TV-Serie (\d{2})/
+  - '^Hörspiel zur TV-Serie Folge (\d+): '
+  content_type: hoerspiel
+  split_from: ritter_rost
+  providers:
+    spotify:
+      artist_ids:
+      - 6zn86iqNCkQZqsBvEv6oBO
+    apple_music:
+      artist_ids:
+      - '205704340'
+- id: sternenschweif_sternchen
+  title: 'Sternenschweif Sternchen'
+  aliases: []
+  episode_pattern:
+  - '^Teil (\d+):'
+  - '^Band (\d+):'
+  - '^Folge (\d+):'
+  content_type: hoerspiel
+  split_from: sternenschweif
+  providers:
+    spotify:
+      artist_ids:
+      - 79iLUmzekfn37nPHuM09uq
+    apple_music:
+      artist_ids:
+      - '1062930511'
+- id: tkkg_junior_adventskalender
+  title: 'TKKG Junior: Adventskalender'
+  aliases: []
+  episode_pattern:
+  - '^Folge (\d+):'
+  content_type: hoerspiel
+  split_from: tkkg_junior
+  providers:
+    spotify:
+      artist_ids:
+      - 1ZFGYimyLnfKewOL84ABEp
+    apple_music:
+      artist_ids:
+      - '1400668275'
+- id: wendy_kinofilm
+  title: 'Wendy: Kinofilm'
+  aliases: []
+  episode_pattern:
+  - '^Folge (\d+):'
+  content_type: hoerspiel
+  split_from: wendy
+  providers:
+    spotify:
+      artist_ids:
+      - 7bq6y10LXuxWmZ7Q1E9mwr
+    apple_music:
+      artist_ids:
+      - '89959273'
+- id: woodwalkers_kinofilm
+  title: 'Woodwalkers: Kinofilm'
+  aliases: []
+  episode_pattern:
+  content_type: hoerspiel
+  split_from: woodwalkers
+  providers:
+    spotify:
+      artist_ids:
+      - 0yss9NnZei0eVpmhXpKj6p
+    apple_music:
+      artist_ids:
+      - '1635376952'
+- id: ronja_raeubertochter
+  title: Ronja Räubertochter
+  aliases: []
+  episode_pattern:
+  content_type: hoerspiel
+  split_from: astrid_lindgren_deutsch
+  providers:
+    spotify:
+      artist_ids:
+      - 7sRF5KPi10c3pueaKGmArz
+    apple_music:
+      artist_ids:
+      - '1703088793'
+- id: kalle_blomquist
+  title: Kalle Blomquist
+  aliases: []
+  episode_pattern:
+  content_type: hoerspiel
+  split_from: astrid_lindgren_deutsch
+  providers:
+    spotify:
+      artist_ids:
+      - 7sRF5KPi10c3pueaKGmArz
+    apple_music:
+      artist_ids:
+      - '1703088793'
+- id: karlsson_vom_dach
+  title: Karlsson vom Dach
+  aliases: []
+  episode_pattern:
+  content_type: hoerspiel
+  split_from: astrid_lindgren_deutsch
+  providers:
+    spotify:
+      artist_ids:
+      - 7sRF5KPi10c3pueaKGmArz
+    apple_music:
+      artist_ids:
+      - '1703088793'
+- id: astrid_lindgren_pippi_langstrumpf
+  title: Pippi Langstrumpf (Astrid Lindgren Deutsch)
+  aliases: []
+  episode_pattern:
+  content_type: hoerspiel
+  split_from: astrid_lindgren_deutsch
+  providers:
+    spotify:
+      artist_ids:
+      - 7sRF5KPi10c3pueaKGmArz
+    apple_music:
+      artist_ids:
+      - '1703088793'
+- id: astrid_lindgren_ferien_auf_saltkrokan
+  title: Ferien auf Saltkrokan (Astrid Lindgren Deutsch)
+  aliases: []
+  episode_pattern:
+  content_type: hoerspiel
+  split_from: astrid_lindgren_deutsch
+  providers:
+    spotify:
+      artist_ids:
+      - 7sRF5KPi10c3pueaKGmArz
+    apple_music:
+      artist_ids:
+      - '1703088793'
+- id: die_brueder_loewenherz
+  title: Die Brüder Löwenherz
+  aliases: []
+  episode_pattern:
+  content_type: hoerspiel
+  split_from: astrid_lindgren_deutsch
+  providers:
+    spotify:
+      artist_ids:
+      - 7sRF5KPi10c3pueaKGmArz
+    apple_music:
+      artist_ids:
+      - '1703088793'
+- id: die_kinder_aus_der_krachmacherstrasse
+  title: Die Kinder aus der Krachmacherstraße
+  aliases: []
+  episode_pattern:
+  content_type: hoerspiel
+  split_from: astrid_lindgren_deutsch
+  providers:
+    spotify:
+      artist_ids:
+      - 7sRF5KPi10c3pueaKGmArz
+    apple_music:
+      artist_ids:
+      - '1703088793'
+- id: lotta_aus_der_krachmacherstrasse
+  title: Lotta aus der Krachmacherstraße
+  aliases: []
+  episode_pattern:
+  content_type: hoerspiel
+  split_from: astrid_lindgren_deutsch
+  providers:
+    spotify:
+      artist_ids:
+      - 7sRF5KPi10c3pueaKGmArz
+    apple_music:
+      artist_ids:
+      - '1703088793'
+- id: madita
+  title: Madita
+  aliases: []
+  episode_pattern:
+  content_type: hoerspiel
+  split_from: astrid_lindgren_deutsch
+  providers:
+    spotify:
+      artist_ids:
+      - 7sRF5KPi10c3pueaKGmArz
+    apple_music:
+      artist_ids:
+      - '1703088793'
+- id: michel_aus_loenneberga
+  title: Michel aus Lönneberga
+  aliases: []
+  episode_pattern:
+  content_type: hoerspiel
+  split_from: astrid_lindgren_deutsch
+  providers:
+    spotify:
+      artist_ids:
+      - 7sRF5KPi10c3pueaKGmArz
+    apple_music:
+      artist_ids:
+      - '1703088793'
+- id: mio_mein_mio
+  title: Mio, mein Mio
+  aliases: []
+  episode_pattern:
+  content_type: hoerspiel
+  split_from: astrid_lindgren_deutsch
+  providers:
+    spotify:
+      artist_ids:
+      - 7sRF5KPi10c3pueaKGmArz
+    apple_music:
+      artist_ids:
+      - '1703088793'
+- id: wir_kinder_aus_bullerbue
+  title: Wir Kinder aus Bullerbü
+  aliases: []
+  episode_pattern:
+  content_type: hoerspiel
+  split_from: astrid_lindgren_deutsch
+  providers:
+    spotify:
+      artist_ids:
+      - 7sRF5KPi10c3pueaKGmArz
+    apple_music:
+      artist_ids:
+      - '1703088793'
+- id: drachenreiter
+  title: Drachenreiter
+  aliases: []
+  episode_pattern:
+  - '^Folge (\d+):'
+  - ^Tintenwelt (\d+)\.
+  - ^Drachenreiter (\d+)
+  - '^Die Wilden Hühner, Folge (\d+):'
+  content_type: hoerspiel
+  split_from: cornelia_funke
+  providers:
+    spotify:
+      artist_ids:
+      - 5HQzBHnczgis11u7lSLVbt
+    apple_music:
+      artist_ids:
+      - '3500268'
+- id: haende_weg_von_mississippi
+  title: Hände weg von Mississippi
+  aliases: []
+  episode_pattern:
+  - '^Folge (\d+):'
+  - ^Tintenwelt (\d+)\.
+  - ^Drachenreiter (\d+)
+  - '^Die Wilden Hühner, Folge (\d+):'
+  content_type: hoerspiel
+  split_from: cornelia_funke
+  providers:
+    spotify:
+      artist_ids:
+      - 5HQzBHnczgis11u7lSLVbt
+    apple_music:
+      artist_ids:
+      - '3500268'
+- id: tintenwelt
+  title: Tintenwelt (Tintenherz)
+  aliases: []
+  episode_pattern:
+  - '^Folge (\d+):'
+  - ^Tintenwelt (\d+)\.
+  - ^Drachenreiter (\d+)
+  - '^Die Wilden Hühner, Folge (\d+):'
+  content_type: hoerspiel
+  split_from: cornelia_funke
+  providers:
+    spotify:
+      artist_ids:
+      - 5HQzBHnczgis11u7lSLVbt
+    apple_music:
+      artist_ids:
+      - '3500268'
+- id: das_traumfresserchen
+  title: Das Traumfresserchen
+  aliases: []
+  episode_pattern:
+  content_type: hoerspiel
+  split_from: michael_ende
+  providers:
+    spotify:
+      artist_ids:
+      - 1VORulhv2aMemo1kSvxdVX
+    apple_music:
+      artist_ids:
+      - '1515591006'
+- id: der_wunschpunsch
+  title: Der satanarchäolügenialkohöllische Wunschpunsch
+  aliases: []
+  episode_pattern:
+  content_type: hoerspiel
+  split_from: michael_ende
+  providers:
+    spotify:
+      artist_ids:
+      - 1VORulhv2aMemo1kSvxdVX
+    apple_music:
+      artist_ids:
+      - '1515591006'
+- id: die_unendliche_geschichte
+  title: Die unendliche Geschichte
+  aliases: []
+  episode_pattern:
+  content_type: hoerspiel
+  split_from: michael_ende
+  providers:
+    spotify:
+      artist_ids:
+      - 1VORulhv2aMemo1kSvxdVX
+    apple_music:
+      artist_ids:
+      - '1515591006'
+- id: momo
+  title: Momo
+  aliases: []
+  episode_pattern:
+  content_type: hoerspiel
+  split_from: michael_ende
+  providers:
+    spotify:
+      artist_ids:
+      - 1VORulhv2aMemo1kSvxdVX
+    apple_music:
+      artist_ids:
+      - '1515591006'
+- id: das_kleine_gespenst
+  title: Das kleine Gespenst
+  aliases: []
+  episode_pattern:
+  content_type: hoerspiel
+  split_from: otfried_preussler
+  providers:
+    spotify:
+      artist_ids:
+      - 6OHFxwqdZpOuYMKrV0UHQ5
+    apple_music:
+      artist_ids:
+      - '68437630'
+- id: der_kleine_wassermann
+  title: Der kleine Wassermann
+  aliases: []
+  episode_pattern:
+  content_type: hoerspiel
+  split_from: otfried_preussler
+  providers:
+    spotify:
+      artist_ids:
+      - 6OHFxwqdZpOuYMKrV0UHQ5
+    apple_music:
+      artist_ids:
+      - '68437630'
+- id: die_kleine_hexe
+  title: Die kleine Hexe
+  aliases: []
+  episode_pattern:
+  content_type: hoerspiel
+  split_from: otfried_preussler
+  providers:
+    spotify:
+      artist_ids:
+      - 6OHFxwqdZpOuYMKrV0UHQ5
+    apple_music:
+      artist_ids:
+      - '68437630'
+- id: rasmus_pontus
+  title: 'Rasmus und Pontus'
+  aliases: []
+  episode_pattern:
+  content_type: hoerspiel
+  split_from: astrid_lindgren_deutsch
+  providers:
+    spotify:
+      artist_ids:
+      - 7sRF5KPi10c3pueaKGmArz
+    apple_music:
+      artist_ids:
+      - '1703088793'
+- id: tomte_tummetott
+  title: 'Tomte Tummetott'
+  aliases: []
+  episode_pattern:
+  content_type: hoerspiel
+  split_from: astrid_lindgren_deutsch
+  providers:
+    spotify:
+      artist_ids:
+      - 7sRF5KPi10c3pueaKGmArz
+    apple_music:
+      artist_ids:
+      - '1703088793'
+- id: geisterritter
+  title: 'Geisterritter'
+  aliases: []
+  episode_pattern:
+  - '^Folge (\d+):'
+  - ^Tintenwelt (\d+)\.
+  - ^Drachenreiter (\d+)
+  - '^Die Wilden Hühner, Folge (\d+):'
+  content_type: hoerspiel
+  split_from: cornelia_funke
+  providers:
+    spotify:
+      artist_ids:
+      - 5HQzBHnczgis11u7lSLVbt
+    apple_music:
+      artist_ids:
+      - '3500268'
+- id: die_abenteuer_des_starken_wanja
+  title: 'Die Abenteuer des starken Wanja'
+  aliases: []
+  episode_pattern:
+  content_type: hoerspiel
+  split_from: otfried_preussler
+  providers:
+    spotify:
+      artist_ids:
+      - 6OHFxwqdZpOuYMKrV0UHQ5
+    apple_music:
+      artist_ids:
+      - '68437630'
+- id: hoerbe_mit_dem_grossen_hut
+  title: 'Hörbe mit dem großen Hut'
+  aliases: []
+  episode_pattern:
+  content_type: hoerspiel
+  split_from: otfried_preussler
+  providers:
+    spotify:
+      artist_ids:
+      - 6OHFxwqdZpOuYMKrV0UHQ5
+    apple_music:
+      artist_ids:
+      - '68437630'
+- id: jim_knopf
+  title: Jim Knopf
+  aliases: []
+  episode_pattern:
+  content_type: hoerspiel
+  split_from: michael_ende
+  providers:
+    spotify:
+      artist_ids:
+      - 1VORulhv2aMemo1kSvxdVX
+    apple_music:
+      artist_ids:
+      - '1515591006'
