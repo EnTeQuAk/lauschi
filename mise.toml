@@ -153,9 +153,9 @@ run = "uv run --directory tools --extra ai pytest"
 description = "Edit curation files (exclude/include/list)"
 run = "uv run --directory tools lauschi-catalog edit"
 
-[tasks.catalog-apply-splits]
-description = "Execute split proposals from AI review"
-run = "uv run --directory tools lauschi-catalog apply-splits"
+[tasks.catalog-splits]
+description = "Manage split proposals (list, show, accept, reject)"
+run = "uv run --directory tools lauschi-catalog splits"
 
 # ── Full pipeline shortcut ───────────────────────────────────────────
 

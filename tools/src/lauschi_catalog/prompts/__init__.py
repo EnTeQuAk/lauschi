@@ -36,7 +36,8 @@ def load_curate_skill(
          output schema, content-type purity)
       2. references/<content_type>.md — type-specific failure taxonomy
       3. references/era_detection.md (if discography_span_years >= 10)
-      4. PHASE_<phase>.md — phase-specific reminders + output schema pointer
+      4. references/split_guidelines.md (batch + finalize phases)
+      5. PHASE_<phase>.md — phase-specific reminders + output schema pointer
 
     Args:
         phase: Which pipeline phase (metadata, batch, finalize)
@@ -63,6 +64,8 @@ def load_curate_skill(
     # 3. Cross-cutting references
     if discography_span_years is not None and discography_span_years >= 10:
         parts.append(_read_resource("references/era_detection.md"))
+    if phase in ("batch", "finalize"):
+        parts.append(_read_resource("references/split_guidelines.md"))
 
     # 4. Phase suffix
     phase_file = f"PHASE_{phase}.md"
