@@ -5846,9 +5846,325 @@ series:
     spotify:
       artist_ids:
       - 2c0sDbsWQXZc2Ljq735WgV
+      albums:
+      - id: 2a63gwDW1NrUSnooY9UrlJ
+        episode: 1
+        title: 'Folge 1: Die rote Socke'
+      - id: 5OtiHgJS7bWbUAseDWBDC8
+        episode: 2
+        title: 'Folge 2: Das blaue Zimmer'
+      - id: 18RmT3WdLAXXHZCrfpjbju
+        episode: 3
+        title: Folge 3 - Der gelbe Juwelenkoffer
+      - id: 5DCjg6as20C5i1Qhx9lYvD
+        episode: 4
+        title: Folge 4 - Der grüne Papagei
+      - id: 4qd87CiYfHxNaNZOZCbNLb
+        episode: 5
+        title: Folge 5 - Der lila Leierkasten
+      - id: 3jwQZlgpSPrSxUrj4oZWRC
+        episode: 6
+        title: Folge 6 - Das blaue Zimmer
+      - id: 4RlibXo2zBGkC1l7xh3xR4
+        episode: 7
+        title: Folge 7 - Der schwarze Geist
+      - id: 2OeWg46R4B05IXw0JAXcJj
+        episode: 8
+        title: Folge 8 - Das rosa Nilpferd
+      - id: 2JKavuDqgVeNlMTPzzQKJ6
+        episode: 9
+        title: Folge 9 - Die schneeweiße Katze
+      - id: 1MBpYgGrXWpJqYDB6Z3XP3
+        episode: 10
+        title: Folge 10 - Der goldene Drache
+      - id: 39QJJgkNbOFNrcgUJkkJE8
+        episode: 11
+        title: Folge 11 - Der Jade-Elefant
+      - id: 5f8kqlu2MLc0nntQ6F3xxg
+        episode: 12
+        title: Folge 12 - Der Fall Koralle
+      - id: 3CV2CW7yWJ682lO7pdjmW8
+        episode: 13
+        title: Folge 13 - Kürbisgeist und Silberspray
+      - id: 6xZYdnmOLRlz4Vlq35jOXR
+        episode: 14
+        title: Folge 14 - Der Fall Kobra
+      - id: 3vQTtZU5EN1ib8Q3KRjgOn
+        episode: 15
+        title: Folge 15 - Rauchsignale
+      - id: 5p5SsVbOmcaJCFZaxOflJC
+        episode: 16
+        title: Folge 16 - Nashornjägern auf der Spur
+      - id: 1dP1knLDuLvDaLdPwtHBXm
+        episode: 17
+        title: Folge 17 - KK fischt im Internet
+      - id: 3XW5PmFIq9AhIbmXKV7Cjg
+        title: Kommissar Kugelblitz in Berlin
+      - id: 5boocn7mGH6zphNOLX7A61
+        title: Kommissar Kugelblitz in Wien
+      - id: 6jeLDNwSWLfTF3diCCTjyt
+        title: Kugelblitz in London
+      - id: 2NMb6ZAm4TDd0WHB6bLG9l
+        title: Kugelblitz in New York
+      - id: 4JYlGrNG3eRBEBqT1yMPgb
+        title: Kugelblitz in Paris
+      - id: 7zx28IjvxZDxkuTDx4Zpd0
+        title: Kugelblitz in Sydney
+      - id: 0Q2wkx9R5UDUweTaK4aXnb
+        title: Kugelblitz in Amsterdam
+      - id: 7zeUeWFJU9uanvpv0mfVUL
+        title: Kugelblitz in Barcelona
+      - id: 59wjR1gCmVzl44pOxhMVhM
+        title: Kugelblitz in Spanien
+      - id: 07lAvUvijAgZqYuG5k9Ra0
+        title: Kugelblitz als Weihnachtsmann
+      - id: 6hF9zznEzRkbHHgJO5KMPI
+        title: Kugelblitz in Hamburg
+      - id: 0aXrCMRvN7F2PTJZeHaQ8i
+        title: Die Nikolaus-Bande (Der Adventskalender)
+      - id: 3Ik8gPVRTcFU55PVMwu4sP
+        title: Der Fall Shanghai
+      - id: 4pbnqH5lWntFfE8EZLdubC
+        title: Schnee auf Mallorca
+      - id: 5hqpaijDgptIIO2vMxG7wM
+        title: Tote trinken keine Cola
+      - id: 5qBAXGuN3WJ5TWe0mZ0DCK
+        title: Vermisst am Mississippi
+      - id: 39IfFPvrOQ3ImEKTGUXzKs
+        title: Der Fall Wüstenkönig
+      - id: 4N77PwFUHPIE6qKoZwvq1C
+        title: Das Geheimnis von Spooky Hill
+      - id: 75xFoEfwSYDtjWzuViymPN
+        title: Kugelblitz in München
+      - id: 3pH7UbF2X7wEctx4rg87Ft
+        title: Kugelblitz in Venedig
+      - id: 1w11l4b6TBgDj1cx8pstmY
+        title: Auf Gaunerjagd durch Deutschland
+      - id: 5e0OYpymgepB33NPactKvp
+        title: Unter Hochspannung
+      - id: 6jOpbkUZQp2oZ2A7l6juZF
+        title: Das Geheimnis der gefiederten Schlange
+      - id: 00l4724PhRgQfkoCgSYmNr
+        title: Der Fall Giftnudel
+      - id: 4UtKU8tIOdxpr5LtybPQAm
+        title: Der Fall Kiwi
+      - id: 3PwPv84ivTvcy0kHxLG3ae
+        title: Die Akte 2013
+      - id: 42RwFcOdxyKgDMabNWOLlL
+        title: Die Moskito-Bande
+      - id: 3nX9eDNwNKTmtdea4QIHUw
+        title: Der Fall Rhinozeros
+      - id: 5lxI2ZoC7FpkDyASfnhaU1
+        title: Piraten der Wüste
+      - id: 55ITdCmKdzpL23deLCSwFB
+        title: Alarm in Windhuk
+      - id: 4ztLbXeJM2OMraKegwvdRE
+        title: in Istanbul
     apple_music:
       artist_ids:
       - '161429596'
+      albums:
+      - id: '1038129896'
+        episode: 1
+        title: Folge 1 - Die rote Socke
+      - id: '1391800251'
+        episode: 1
+        title: 'Folge 1: Die rote Socke'
+      - id: '1038187434'
+        episode: 2
+        title: Folge 2 - Die orangefarbene Maske
+      - id: '1391715193'
+        episode: 2
+        title: 'Folge 2: Das blaue Zimmer'
+      - id: '1038157504'
+        episode: 3
+        title: Folge 3 - Der gelbe Juwelenkoffer
+      - id: '1038131829'
+        episode: 4
+        title: Folge 4 - Der grüne Papagei
+      - id: '1038233513'
+        episode: 5
+        title: Folge 5 - Der lila Leierkasten
+      - id: '1038185240'
+        episode: 6
+        title: Folge 6 - Das blaue Zimmer
+      - id: '1038229248'
+        episode: 7
+        title: Folge 7 - Der schwarze Geist
+      - id: '1069187336'
+        episode: 8
+        title: Folge 8 - Das rosa Nilpferd
+      - id: '1038172464'
+        episode: 9
+        title: Folge 9 - Die schneeweiße Katze
+      - id: '1038128487'
+        episode: 10
+        title: Folge 10 - Der goldene Drache
+      - id: '1038151931'
+        episode: 11
+        title: Folge 11 - Der Jade-Elefant
+      - id: '1038128051'
+        episode: 12
+        title: Folge 12 - Der Fall Koralle
+      - id: '1038188669'
+        episode: 13
+        title: Folge 13 - Kürbisgeist und Silberspray
+      - id: '1038222158'
+        episode: 14
+        title: Folge 14 - Der Fall Kobra
+      - id: '1038198000'
+        episode: 15
+        title: Folge 15 - Rauchsignale
+      - id: '1038148406'
+        episode: 16
+        title: Folge 16 - Nashornjägern auf der Spur
+      - id: '1038102410'
+        episode: 17
+        title: Folge 17 - KK fischt im Internet
+      - id: '1469412048'
+        episode: 27
+        title: 'Folge 27: Tote trinken keine Cola'
+      - id: '1469411461'
+        title: Schnee auf Mallorca
+      - id: '1420125083'
+        title: Kommissar Kugelblitz in Berlin
+      - id: '1420127990'
+        title: Kommissar Kugelblitz in Wien
+      - id: '1420033585'
+        title: Kugelblitz in London
+      - id: '1423153667'
+        title: Kugelblitz in New York
+      - id: '1423167329'
+        title: Kugelblitz in Paris
+      - id: '1420123099'
+        title: Kugelblitz in Sydney
+      - id: '1229206428'
+        title: Kugelblitz in Amsterdam
+      - id: '1229222392'
+        title: Kugelblitz in Barcelona
+      - id: '1229783442'
+        title: Kugelblitz in Spanien
+      - id: '1441548959'
+        title: Kugelblitz als Weihnachtsmann
+      - id: '1441548534'
+        title: Kugelblitz in Hamburg
+      - id: '1444770143'
+        title: Die Nikolaus-Bande (Der Adventskalender)
+      - id: '1469398547'
+        title: Der Fall Shanghai
+      - id: '1469406231'
+        title: Vermisst am Mississippi
+      - id: '1629638063'
+        title: Der Fall Wüstenkönig
+      - id: '1642733591'
+        title: Das Geheimnis von Spooky Hill
+      - id: '1664517106'
+        title: Kugelblitz in München
+      - id: '1684691056'
+        title: Kugelblitz in Venedig
+      - id: '1700490614'
+        title: Auf Gaunerjagd durch Deutschland
+      - id: '1712618196'
+        title: Unter Hochspannung
+      - id: '1725822300'
+        title: Das Geheimnis der gefiederten Schlange
+      - id: '1738286314'
+        title: Der Fall Giftnudel
+      - id: '1754561645'
+        title: Der Fall Kiwi
+      - id: '1764108202'
+        title: Die Akte 2013
+      - id: '1778473304'
+        title: Die Moskito-Bande
+      - id: '1809041512'
+        title: Der Fall Rhinozeros
+      - id: '1830366763'
+        title: Piraten der Wüste
+      - id: '1836984983'
+        title: Alarm in Windhuk
+      - id: '1892392893'
+        title: in Istanbul
+  episode_pattern:
+  - '^Folge (\d+):'
+  - ^Folge (\d+) -
+  series_facts:
+    known_gaps:
+    - number: 18
+      reason: Episode 18 not available in current streaming catalogs; series has ~36 total episodes but only 1-17 and 27+ appear digitally
+      curated_by: minimax-m2.7
+      curated_at: '2026-06-17T09:35:08.295448+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-06-17T09:35:08.295448+00:00'
+    - number: 19
+      reason: Episode 19 not available in current streaming catalogs
+      curated_by: minimax-m2.7
+      curated_at: '2026-06-17T09:35:08.295448+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-06-17T09:35:08.295448+00:00'
+    - number: 20
+      reason: Episode 20 not available in current streaming catalogs
+      curated_by: minimax-m2.7
+      curated_at: '2026-06-17T09:35:08.295448+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-06-17T09:35:08.295448+00:00'
+    - number: 21
+      reason: Episode 21 not available in current streaming catalogs
+      curated_by: minimax-m2.7
+      curated_at: '2026-06-17T09:35:08.295448+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-06-17T09:35:08.295448+00:00'
+    - number: 22
+      reason: Episode 22 not available in current streaming catalogs
+      curated_by: minimax-m2.7
+      curated_at: '2026-06-17T09:35:08.295448+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-06-17T09:35:08.295448+00:00'
+    - number: 23
+      reason: Episode 23 not available in current streaming catalogs
+      curated_by: minimax-m2.7
+      curated_at: '2026-06-17T09:35:08.295448+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-06-17T09:35:08.295448+00:00'
+    - number: 24
+      reason: Episode 24 not available in current streaming catalogs
+      curated_by: minimax-m2.7
+      curated_at: '2026-06-17T09:35:08.295448+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-06-17T09:35:08.295448+00:00'
+    - number: 25
+      reason: Episode 25 not available in current streaming catalogs
+      curated_by: minimax-m2.7
+      curated_at: '2026-06-17T09:35:08.295448+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-06-17T09:35:08.295448+00:00'
+    - number: 26
+      reason: Episode 26 not available in current streaming catalogs
+      curated_by: minimax-m2.7
+      curated_at: '2026-06-17T09:35:08.295448+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-06-17T09:35:08.295448+00:00'
+    sub_series:
+    - label: Original Serie
+      album_ids: []
+      reason: Original 1980s-1990s releases with 'Folge N' naming, episodes 1-17 and 27. Episodes 18-26 not digitally available.
+      curated_by: minimax-m2.7
+      curated_at: '2026-06-17T09:35:08.295448+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-06-17T09:35:08.295448+00:00'
+    - label: Specials
+      album_ids: []
+      reason: 'Holiday and themed releases: Weihnachtsmann, Adventskalender, Shanghai, Mississippi, Wüstenkönig, Spooky Hill, etc.'
+      curated_by: minimax-m2.7
+      curated_at: '2026-06-17T09:35:08.295448+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-06-17T09:35:08.295448+00:00'
+    - label: Städte-Specials
+      album_ids: []
+      reason: '2017+ city-themed releases: Berlin, Wien, London, New York, Paris, Sydney, Amsterdam, Barcelona, Spanien, Hamburg, München, Venedig. No episode numbers, themed single episodes.'
+      curated_by: minimax-m2.7
+      curated_at: '2026-06-17T09:35:08.295448+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-06-17T09:35:08.295448+00:00'
 - id: liliane_susewind
   title: Liliane Susewind
   providers:
