@@ -4261,15 +4261,6 @@ series:
     apple_music:
       artist_ids:
       - '1157586852'
-- id: astrid_lindgren_deutsch
-  title: Astrid Lindgren Deutsch
-  providers:
-    spotify:
-      artist_ids:
-      - 7sRF5KPi10c3pueaKGmArz
-    apple_music:
-      artist_ids:
-      - '1703088793'
 - id: trolljaeger
   title: Trolljäger
   providers:
