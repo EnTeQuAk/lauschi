@@ -172,15 +172,24 @@ class ParentDashboardScreen extends ConsumerWidget {
     final isAuthenticated = authState == ProviderAuthState.authenticated;
     final isLoading = authState == ProviderAuthState.loading;
 
+    final hasWarning = provider.warning != null;
+
     final subtitle = switch (provider.type) {
       ProviderType.ardAudiothek => 'Kostenlose Hörspiele und Podcasts',
+      _ when hasWarning => provider.warning!,
       _ when isAuthenticated => 'Verbunden',
       _ when isLoading => 'Verbinde…',
       _ => 'Nicht verbunden',
     };
 
     final trailing =
-        isAuthenticated && provider.auth.requiresAuth
+        hasWarning
+            ? const Icon(
+              Icons.warning_amber_rounded,
+              color: AppColors.warning,
+              size: 18,
+            )
+            : isAuthenticated && provider.auth.requiresAuth
             ? const Icon(Icons.check_circle, color: AppColors.success, size: 18)
             : isLoading
             ? SizedBox(
@@ -221,6 +230,7 @@ class ParentDashboardScreen extends ConsumerWidget {
         leading: leading,
         title: provider.type.displayName,
         subtitle: subtitle,
+        subtitleColor: hasWarning ? AppColors.warning : null,
         trailing: trailing,
         onTap: isLoading ? null : () => _onProviderTap(context, ref, provider),
       ),
@@ -235,12 +245,15 @@ class ParentDashboardScreen extends ConsumerWidget {
     final isAuthenticated =
         provider.authState == ProviderAuthState.authenticated;
 
-    if (!isAuthenticated && provider.auth.requiresAuth) {
+    // Expiring-soon or unauthenticated: trigger (re-)authorization.
+    if (provider.warning != null ||
+        (!isAuthenticated && provider.auth.requiresAuth)) {
       Log.info(
         _tag,
         'Connecting provider',
         data: {
           'provider': provider.type.value,
+          if (provider.warning != null) 'reason': 'reauth_warning',
         },
       );
       unawaited(provider.auth.authenticate());
@@ -299,6 +312,7 @@ class _SettingsTile extends StatelessWidget {
     this.leading,
     this.onTap,
     this.subtitle,
+    this.subtitleColor,
     this.trailing,
   }) : assert(
          icon != null || leading != null,
@@ -309,6 +323,7 @@ class _SettingsTile extends StatelessWidget {
   final Widget? leading;
   final String title;
   final String? subtitle;
+  final Color? subtitleColor;
   final Widget? trailing;
   final VoidCallback? onTap;
 
@@ -328,10 +343,10 @@ class _SettingsTile extends StatelessWidget {
           subtitle != null
               ? Text(
                 subtitle!,
-                style: const TextStyle(
+                style: TextStyle(
                   fontFamily: 'Nunito',
                   fontSize: 13,
-                  color: AppColors.textSecondary,
+                  color: subtitleColor ?? AppColors.textSecondary,
                 ),
               )
               : null,

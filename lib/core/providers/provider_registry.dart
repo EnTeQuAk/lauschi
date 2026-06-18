@@ -16,11 +16,16 @@ class ProviderInfo {
     required this.type,
     required this.auth,
     required this.authState,
+    this.warning,
   });
 
   final ProviderType type;
   final ProviderAuth auth;
   final ProviderAuthState authState;
+
+  /// Non-null when the provider needs attention (e.g. authorization
+  /// expiring soon). Shown as a subtitle in the parent dashboard.
+  final String? warning;
 
   /// Ready for use: no auth required or authenticated.
   bool get isAvailable =>
@@ -76,8 +81,17 @@ List<ProviderInfo> providerRegistry(Ref ref) {
     final authState = switch (sessionState) {
       SpotifyLoading() => ProviderAuthState.loading,
       SpotifyAuthenticated() => ProviderAuthState.authenticated,
-      SpotifyUnauthenticated() => ProviderAuthState.unauthenticated,
+      SpotifyUnauthenticated() ||
+      SpotifyReauthRequired() ||
       SpotifyError() => ProviderAuthState.unauthenticated,
+    };
+
+    final warning = switch (sessionState) {
+      SpotifyAuthenticated(:final tokens)
+          when tokens.isRefreshTokenExpiringSoon =>
+        'Verbindung läuft in ${tokens.refreshTokenDaysRemaining} Tagen ab',
+      SpotifyReauthRequired() => 'Verbindung abgelaufen',
+      _ => null,
     };
 
     providers.add(
@@ -85,6 +99,7 @@ List<ProviderInfo> providerRegistry(Ref ref) {
         type: ProviderType.spotify,
         auth: SpotifyProviderAuth(session),
         authState: authState,
+        warning: warning,
       ),
     );
   }

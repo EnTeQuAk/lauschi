@@ -15,6 +15,7 @@ const _tag = 'SpotifyAuth';
 const _tokenKey = 'spotify_access_token';
 const _refreshKey = 'spotify_refresh_token';
 const _expiryKey = 'spotify_token_expiry';
+const _authTimestampKey = 'spotify_auth_timestamp';
 const _pendingVerifierKey = 'spotify_pending_verifier';
 const _pendingStateKey = 'spotify_pending_state';
 
@@ -31,16 +32,47 @@ class SpotifyTokens {
     required this.accessToken,
     required this.refreshToken,
     required this.expiry,
+    this.authorizedAt,
   });
 
   final String accessToken;
   final String? refreshToken;
   final DateTime expiry;
 
+  /// When the user originally authorized the app via the browser
+  /// login flow. Tracks the 6-month refresh token lifetime.
+  /// Null for users who authorized before this field was added.
+  final DateTime? authorizedAt;
+
+  /// Spotify's refresh token lifetime (from the user's original
+  /// authorization, not from last refresh).
+  static const refreshTokenLifetime = Duration(days: 180);
+
+  /// Start warning 30 days before the refresh token expires.
+  static const _refreshTokenWarningThreshold = Duration(days: 150);
+
   /// Token is considered expired 2 minutes before actual expiry
   /// to avoid races during API calls.
   bool get isExpired =>
       DateTime.now().isAfter(expiry.subtract(const Duration(minutes: 2)));
+
+  /// Whether the refresh token is approaching its 6-month expiry.
+  /// Returns false when [authorizedAt] is unknown (pre-upgrade users).
+  bool get isRefreshTokenExpiringSoon {
+    if (authorizedAt == null) return false;
+    return DateTime.now().isAfter(
+      authorizedAt!.add(_refreshTokenWarningThreshold),
+    );
+  }
+
+  /// Days remaining before the refresh token expires.
+  /// Null when [authorizedAt] is unknown.
+  int? get refreshTokenDaysRemaining {
+    if (authorizedAt == null) return null;
+    final expiresAt = authorizedAt!.add(refreshTokenLifetime);
+    final remaining = expiresAt.difference(DateTime.now()).inDays;
+    return remaining < 0 ? 0 : remaining;
+  }
 
   @override
   bool operator ==(Object other) =>
@@ -48,10 +80,12 @@ class SpotifyTokens {
       other is SpotifyTokens &&
           accessToken == other.accessToken &&
           refreshToken == other.refreshToken &&
-          expiry == other.expiry;
+          expiry == other.expiry &&
+          authorizedAt == other.authorizedAt;
 
   @override
-  int get hashCode => Object.hash(accessToken, refreshToken, expiry);
+  int get hashCode =>
+      Object.hash(accessToken, refreshToken, expiry, authorizedAt);
 }
 
 /// Handles Spotify PKCE OAuth flow, token storage, and refresh.
@@ -209,6 +243,11 @@ class SpotifyAuth {
   }
 
   /// Refresh an expired token using the refresh token.
+  ///
+  /// Throws [SpotifyGrantExpiredException] when Spotify returns
+  /// `invalid_grant`, meaning the refresh token has expired (6-month
+  /// lifetime) or been revoked. Callers must not retry; the user
+  /// needs to re-authorize through the browser login flow.
   Future<SpotifyTokens> refresh(String refreshToken) async {
     Log.info(_tag, 'Refreshing access token');
     try {
@@ -228,6 +267,12 @@ class SpotifyAuth {
         Log.warn(_tag, 'Token refresh failed — no network');
         throw const SpotifyAuthException('Keine Internetverbindung');
       }
+
+      if (_isInvalidGrant(e)) {
+        Log.warn(_tag, 'Refresh token expired (invalid_grant)');
+        throw const SpotifyGrantExpiredException();
+      }
+
       Log.error(
         _tag,
         'Token refresh failed',
@@ -237,6 +282,16 @@ class SpotifyAuth {
       );
       rethrow;
     }
+  }
+
+  /// Spotify returns {"error": "invalid_grant"} when a refresh token
+  /// has expired or been revoked. HTTP status is typically 400.
+  static bool _isInvalidGrant(DioException e) {
+    final data = e.response?.data;
+    if (data is Map<String, dynamic>) {
+      return data['error'] == 'invalid_grant';
+    }
+    return false;
   }
 
   /// Load previously stored tokens from secure storage.
@@ -251,11 +306,14 @@ class SpotifyAuth {
     }
 
     final expiry = DateTime.parse(expiryStr);
+    final authorizedAt = await _readAuthTimestamp();
     Log.info(
       _tag,
       'Loaded stored tokens',
       data: {
         'expired': '${DateTime.now().isAfter(expiry)}',
+        if (authorizedAt != null)
+          'authorized_at': authorizedAt.toIso8601String(),
       },
     );
 
@@ -263,6 +321,7 @@ class SpotifyAuth {
       accessToken: token,
       refreshToken: refreshToken,
       expiry: expiry,
+      authorizedAt: authorizedAt,
     );
   }
 
@@ -279,13 +338,14 @@ class SpotifyAuth {
     return refreshed.accessToken;
   }
 
-  /// Clear all stored tokens.
+  /// Clear all stored tokens and authorization metadata.
   Future<void> logout() async {
     Log.info(_tag, 'Clearing stored tokens');
     await Future.wait([
       _storage.delete(key: _tokenKey),
       _storage.delete(key: _refreshKey),
       _storage.delete(key: _expiryKey),
+      _storage.delete(key: _authTimestampKey),
     ]);
   }
 
@@ -305,7 +365,7 @@ class SpotifyAuth {
         options: Options(contentType: Headers.formUrlEncodedContentType),
       );
       Log.info(_tag, 'Token exchange success');
-      return _saveAndReturn(resp.data!);
+      return _saveAndReturn(resp.data!, authorizedAt: DateTime.now());
     } on DioException catch (e) {
       if (e.type == DioExceptionType.connectionError ||
           e.type == DioExceptionType.connectionTimeout) {
@@ -326,6 +386,7 @@ class SpotifyAuth {
   Future<SpotifyTokens> _saveAndReturn(
     Map<String, dynamic> data, {
     String? fallbackRefreshToken,
+    DateTime? authorizedAt,
   }) async {
     final accessToken = data['access_token'] as String;
     final refreshToken =
@@ -333,18 +394,33 @@ class SpotifyAuth {
     final expiresIn = data['expires_in'] as int? ?? 3600;
     final expiry = DateTime.now().add(Duration(seconds: expiresIn));
 
+    // On initial authorization, authorizedAt is provided by the caller.
+    // On refresh, carry forward the existing timestamp from storage.
+    authorizedAt ??= await _readAuthTimestamp();
+
     await Future.wait([
       _storage.write(key: _tokenKey, value: accessToken),
       if (refreshToken != null)
         _storage.write(key: _refreshKey, value: refreshToken),
       _storage.write(key: _expiryKey, value: expiry.toIso8601String()),
+      if (authorizedAt != null)
+        _storage.write(
+          key: _authTimestampKey,
+          value: authorizedAt.toIso8601String(),
+        ),
     ]);
 
     return SpotifyTokens(
       accessToken: accessToken,
       refreshToken: refreshToken,
       expiry: expiry,
+      authorizedAt: authorizedAt,
     );
+  }
+
+  Future<DateTime?> _readAuthTimestamp() async {
+    final stored = await _storage.read(key: _authTimestampKey);
+    return stored != null ? DateTime.parse(stored) : null;
   }
 
   static ({String verifier, String challenge}) _generatePkce() {
@@ -370,4 +446,16 @@ class SpotifyAuthException implements Exception {
 
   @override
   String toString() => 'SpotifyAuthException: $message';
+}
+
+/// The refresh token has been permanently invalidated by Spotify.
+///
+/// Spotify returns {"error": "invalid_grant"} when a refresh token
+/// has expired (6-month lifetime) or been revoked. The only recovery
+/// is a full re-authorization through the browser login flow.
+class SpotifyGrantExpiredException implements Exception {
+  const SpotifyGrantExpiredException();
+
+  @override
+  String toString() => 'SpotifyGrantExpiredException: refresh token expired';
 }

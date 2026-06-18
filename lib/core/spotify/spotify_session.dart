@@ -53,6 +53,12 @@ class SpotifyError extends SpotifySessionState {
   final String message;
 }
 
+/// Refresh token expired (6-month Spotify lifetime) or revoked.
+/// The user must re-authorize through the browser login flow.
+class SpotifyReauthRequired extends SpotifySessionState {
+  const SpotifyReauthRequired();
+}
+
 // ---------------------------------------------------------------------------
 // SpotifySession provider
 // ---------------------------------------------------------------------------
@@ -165,6 +171,16 @@ class SpotifySession extends _$SpotifySession {
       }
       _setAuthenticated(refreshed);
       return refreshed.accessToken;
+    } on SpotifyGrantExpiredException {
+      Log.warn(_tag, 'Refresh token expired (6-month lifetime)');
+      await _onGrantExpired();
+      return null;
+    } on SpotifyAuthException {
+      // Network error. The refresh token is presumably still valid,
+      // so keep the session state and retry on the next validToken()
+      // call once connectivity returns.
+      Log.warn(_tag, 'Token refresh failed (offline)');
+      return null;
     } on Exception catch (e) {
       Log.error(_tag, 'Token refresh failed', exception: e);
       _onAuthLost();
@@ -279,8 +295,19 @@ class SpotifySession extends _$SpotifySession {
 
       if (tokens.isExpired && tokens.refreshToken != null) {
         Log.info(_tag, 'Stored token expired, refreshing');
-        final refreshed = await _auth.refresh(tokens.refreshToken!);
-        _setAuthenticated(refreshed);
+        try {
+          final refreshed = await _auth.refresh(tokens.refreshToken!);
+          _setAuthenticated(refreshed);
+        } on SpotifyGrantExpiredException {
+          Log.warn(_tag, 'Stored refresh token expired (6-month lifetime)');
+          await _onGrantExpired();
+        } on SpotifyAuthException {
+          // Network error during startup refresh. Keep the stored
+          // tokens (refresh token is presumably still valid) so
+          // validToken() can retry once connectivity returns.
+          Log.warn(_tag, 'Refresh failed (offline), keeping stored tokens');
+          _setAuthenticated(tokens);
+        }
       } else if (tokens.isExpired) {
         Log.warn(_tag, 'Stored token expired, no refresh token');
         state = const SpotifyUnauthenticated();
@@ -300,10 +327,21 @@ class SpotifySession extends _$SpotifySession {
     _api.updateToken(tokens.accessToken);
   }
 
-  /// Handle unrecoverable auth loss (refresh failed, token revoked).
+  /// Handle unrecoverable auth loss (refresh failed, unknown error).
   void _onAuthLost() {
     _tearDownBridge();
     _api.clearToken();
     state = const SpotifyUnauthenticated();
+  }
+
+  /// Handle expired refresh token (6-month Spotify lifetime).
+  /// Clears the dead token from storage so it can't be retried,
+  /// and transitions to a state that tells the UI why re-login
+  /// is needed.
+  Future<void> _onGrantExpired() async {
+    _tearDownBridge();
+    _api.clearToken();
+    await _auth.logout();
+    state = const SpotifyReauthRequired();
   }
 }

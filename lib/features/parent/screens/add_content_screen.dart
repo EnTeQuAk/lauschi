@@ -251,7 +251,9 @@ class _SpotifyTab extends ConsumerWidget {
         embedded: true,
         autoAssignTileId: autoAssignTileId,
       ),
-      SpotifyUnauthenticated() || SpotifyError() => _ProviderConnectPrompt(
+      SpotifyUnauthenticated() ||
+      SpotifyReauthRequired() ||
+      SpotifyError() => _ProviderConnectPrompt(
         type: ProviderType.spotify,
         description:
             'Mit Spotify bekommst du Zugriff auf tausende '

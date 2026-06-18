@@ -191,7 +191,9 @@ class PlayerNotifier extends _$PlayerNotifier {
       // ref.listen fires the callback on state changes; it does NOT
       // cause build() to re-run (unlike ref.watch).
       ref.listen<SpotifySessionState>(spotifySessionProvider, (prev, next) {
-        if (next is SpotifyUnauthenticated || next is SpotifyError) {
+        if (next is SpotifyUnauthenticated ||
+            next is SpotifyReauthRequired ||
+            next is SpotifyError) {
           _onSpotifyDisconnected();
         }
       });
