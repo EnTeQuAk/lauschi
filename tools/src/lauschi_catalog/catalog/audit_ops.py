@@ -42,8 +42,8 @@ from lauschi_catalog.rate_limit import run_with_rate_limit_retry
 from lauschi_catalog.run import run_agent
 
 _DEFAULT_MODEL = "minimax-m2.7"
-_MAX_RETRIES = 3
-_RETRY_DELAY = 5
+_MAX_RETRIES = 12
+_RETRY_DELAY = 10
 
 Provider = Literal["spotify", "apple_music"]
 
@@ -429,6 +429,7 @@ async def audit_one(
         phase=f"audit {series_id}",
         max_retries=_MAX_RETRIES,
         base_delay=float(_RETRY_DELAY),
+        max_delay=300.0,
         retry_timeout=False,
         on_progress=on_progress,
     )

@@ -942,9 +942,9 @@ async def _run_with_retry(
         coro_factory,
         phase=phase,
         rate_limiter=rate_limiter,
-        max_retries=5,
-        base_delay=5.0,
-        max_delay=120.0,
+        max_retries=12,
+        base_delay=10.0,
+        max_delay=300.0,
         on_progress=on_progress,
     )
 
