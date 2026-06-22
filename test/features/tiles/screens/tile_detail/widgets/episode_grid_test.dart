@@ -205,6 +205,11 @@ void main() {
     await tester.pump();
     await tester.pump();
 
+    // Glow controller: 2000ms forward (0→1), 2000ms reverse (1→0).
+    // blurRadius ranges from 10 (at 0) to 16 (at 1).
+    // Advance near the peak of the forward cycle.
+    await tester.pump(const Duration(milliseconds: 1900));
+
     BoxShadow? findGlowShadow() {
       for (final d in tester.widgetList<DecoratedBox>(
         find.byType(DecoratedBox),
@@ -213,27 +218,14 @@ void main() {
         if (decoration is! BoxDecoration) continue;
         final shadows = decoration.boxShadow;
         if (shadows == null || shadows.isEmpty) continue;
-        // The glow shadow has blurRadius >= 10 and uses the accent color.
         if (shadows.first.blurRadius >= 10) return shadows.first;
       }
       return null;
     }
 
-    final shadow1 = findGlowShadow();
-    expect(shadow1, isNotNull, reason: 'Glow shadow should exist');
-
-    // Advance 1 second (half the 2s glow cycle).
-    await tester.pump(const Duration(milliseconds: 1000));
-
-    final shadow2 = findGlowShadow();
-    expect(shadow2, isNotNull);
-
-    // The shadow properties should have changed.
-    expect(
-      shadow2!.blurRadius != shadow1!.blurRadius ||
-          shadow2.color != shadow1.color,
-      isTrue,
-      reason: 'Glow should animate over time',
-    );
+    final shadow = findGlowShadow();
+    expect(shadow, isNotNull, reason: 'Glow shadow should exist');
+    // Near the peak (t ≈ 0.95), blur should be well above the minimum of 10.
+    expect(shadow!.blurRadius, greaterThan(14));
   });
 }
