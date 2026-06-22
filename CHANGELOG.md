@@ -1,6 +1,6 @@
 # Changelog
 
-## v2026.5.1 (Mai 2026)
+## Unreleased
 
 🎯 **Ein Raster für alles**
 "Kacheln verwalten" zeigt jetzt Ordner und einzelne Folgen in einem einzigen Raster. Ein Strich mit "N einzelne Folgen" trennt die beiden Bereiche. Folgen lassen sich per Drag & Drop in Ordner ziehen, oder aufeinander ziehen um einen neuen Ordner zu erzeugen. Antippen öffnet den Folgen-Editor. "Karten verwalten" gibt es nicht mehr; alles passiert jetzt an einem Ort.
@@ -8,11 +8,14 @@
 ✨ **Einzelne Folgen bearbeiten**
 Jede einzelne Folge kann jetzt angetippt werden, um Titel oder Cover zu ändern, sie in einen anderen Ordner zu verschieben, oder zu löschen.
 
-🔍 **Zuverlässigere Serien-Erkennung**
-Im Katalog-Browser erkennt lauschi Alben jetzt an ihrer eindeutigen ID statt an Schlüsselwörtern im Titel. Das verhindert Fehlzuordnungen; zum Beispiel wurde Blaze fälschlicherweise als Encanto erkannt.
+⏳ **Deutlich mehr Inhalte**
+Der Katalog ist kräftig gewachsen: mehr Serien, mehr Unterserien (z.B. "Bibi und Tina BFF Talk", "TKKG Junior: Adventskalender", verschiedene Pumuckl-Reihen), und jede davon taucht im Katalog-Browser separat auf.
 
-📂 **Katalog aufgeräumt**
-Die Serien-Datenbank wurde gründlich aufgeräumt. Unterserien (z.B. "Die drei ??? Kids Mini-Fälle", "Bibi und Tina BFF Talk", verschiedene Biene-Maja-Adaptionen) sind jetzt eigene Einträge statt durcheinander gemischt. Serien ohne Streaming-Angebot (z.B. Tom Turbo, Coco, Kleiner Drache Kokosnuss) wurden entfernt. Episode-Nummern und Inhaltsarten (Musik vs. Hörspiel) sind jetzt zuverlässiger.
+🍏 **Apple Music gleichauf mit Spotify**
+Die allermeisten Serien sind jetzt auf beiden Anbietern verfügbar. Apple-Music-Nutzer sehen praktisch das gleiche Angebot. Ein paar wenige Serien (z.B. Detektivbüro LasseMaja, Liliane Susewind) gibt es nur auf Spotify, weil die Hörspiele dort nicht als Streaming verfügbar sind.
+
+🔍 **Zuverlässigere Serien-Erkennung**
+Im Katalog-Browser erkennt lauschi Alben jetzt an ihrer eindeutigen ID statt an Schlüsselwörtern im Titel. Das verhindert Fehlzuordnungen; zum Beispiel wurde Blaze fälschlicherweise als Encanto erkannt. Jede Serie wird mit anschließendem menschlichen Review geprüft, sodass Kompilationen, Karaoke-Versionen und falsch zugeordnete Alben zuverlässiger aussortiert werden.
 
 🛠️ **Kleinigkeiten**
 - Drag & Drop zeigt jetzt einen Hinweis zwischen Ordnern und einzelnen Folgen
