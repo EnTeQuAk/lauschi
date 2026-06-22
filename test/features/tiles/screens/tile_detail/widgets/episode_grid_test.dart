@@ -53,6 +53,12 @@ class _HarnessState extends State<_Harness> {
     nextUnheardId = widget.initialNextUnheardId;
   }
 
+  void updateNextUnheardId(String? id) {
+    setState(() {
+      nextUnheardId = id;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -110,10 +116,9 @@ void main() {
     expect(initialOffset, greaterThan(0));
 
     // Simulate the badge moving to a later episode.
-    final harnessState = tester.state<_HarnessState>(find.byType(_Harness));
-    harnessState.setState(() {
-      harnessState.nextUnheardId = 'ep-28';
-    });
+    tester
+        .state<_HarnessState>(find.byType(_Harness))
+        .updateNextUnheardId('ep-28');
     // First pump: rebuild + post-frame callback registers animateTo.
     // Second pump: animation ticker starts.
     // Third pump: advance past the 300ms animation duration.
@@ -134,16 +139,16 @@ void main() {
     await tester.pump();
 
     final scrollable = tester.widget<GridView>(find.byType(GridView));
-    final controller = scrollable.controller!;
-    final initialOffset = controller.offset;
-
-    // Manually scroll to 0 to see if rebuild re-scrolls.
-    controller.jumpTo(0);
+    final controller =
+        scrollable.controller!
+          // Manually scroll to 0 to see if rebuild re-scrolls.
+          ..jumpTo(0);
     await tester.pump();
 
-    // Rebuild with the same nextUnheardId.
-    final harnessState = tester.state<_HarnessState>(find.byType(_Harness));
-    harnessState.setState(() {});
+    // Rebuild with the same nextUnheardId (triggers setState without changing the value).
+    tester
+        .state<_HarnessState>(find.byType(_Harness))
+        .updateNextUnheardId('ep-20');
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 350));
 
@@ -170,10 +175,9 @@ void main() {
     );
 
     // Move the badge to trigger a pulse.
-    final harnessState = tester.state<_HarnessState>(find.byType(_Harness));
-    harnessState.setState(() {
-      harnessState.nextUnheardId = 'ep-4';
-    });
+    tester
+        .state<_HarnessState>(find.byType(_Harness))
+        .updateNextUnheardId('ep-4');
     // Rebuild + post-frame callback + animation start.
     await tester.pump();
     // Advance to the pulse midpoint (200ms of 400ms).
@@ -240,10 +244,9 @@ void main() {
     await tester.pump(const Duration(milliseconds: 1000));
 
     // Clear the badge.
-    final harnessState = tester.state<_HarnessState>(find.byType(_Harness));
-    harnessState.setState(() {
-      harnessState.nextUnheardId = null;
-    });
+    tester
+        .state<_HarnessState>(find.byType(_Harness))
+        .updateNextUnheardId(null);
     await tester.pump();
 
     // No glow DecoratedBox should exist (isNext is false for all items).

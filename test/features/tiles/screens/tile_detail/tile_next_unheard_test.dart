@@ -42,7 +42,7 @@ void main() {
 
   test('returns in-progress episode over first unheard', () {
     final result = readNextUnheard([
-      _episode(id: 'ep-1', sortOrder: 0),
+      _episode(id: 'ep-1'),
       _episode(id: 'ep-2', sortOrder: 1, lastPositionMs: 5000),
       _episode(id: 'ep-3', sortOrder: 2),
     ]);
@@ -51,7 +51,7 @@ void main() {
 
   test('returns first unheard when nothing in progress', () {
     final result = readNextUnheard([
-      _episode(id: 'ep-1', sortOrder: 0, isHeard: true),
+      _episode(id: 'ep-1', isHeard: true),
       _episode(id: 'ep-2', sortOrder: 1),
       _episode(id: 'ep-3', sortOrder: 2),
     ]);
@@ -60,7 +60,7 @@ void main() {
 
   test('returns null when all episodes are heard', () {
     final result = readNextUnheard([
-      _episode(id: 'ep-1', sortOrder: 0, isHeard: true),
+      _episode(id: 'ep-1', isHeard: true),
       _episode(id: 'ep-2', sortOrder: 1, isHeard: true),
     ]);
     expect(result, isNull);
@@ -70,7 +70,6 @@ void main() {
     final result = readNextUnheard([
       _episode(
         id: 'ep-1',
-        sortOrder: 0,
         lastPositionMs: 5000,
         markedUnavailable: DateTime(2026),
       ),
@@ -83,7 +82,6 @@ void main() {
     final result = readNextUnheard([
       _episode(
         id: 'ep-1',
-        sortOrder: 0,
         markedUnavailable: DateTime(2026),
       ),
       _episode(
@@ -98,7 +96,7 @@ void main() {
 
   test('returns null when all unheard episodes are expired', () {
     final result = readNextUnheard([
-      _episode(id: 'ep-1', sortOrder: 0, isHeard: true),
+      _episode(id: 'ep-1', isHeard: true),
       _episode(
         id: 'ep-2',
         sortOrder: 1,
