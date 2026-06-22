@@ -65,11 +65,23 @@ class _EpisodeGridState extends State<EpisodeGrid>
       vsync: this,
       duration: const Duration(milliseconds: 2000),
     );
-    unawaited(_glowController.repeat(reverse: true));
+    if (widget.nextUnheardId != null) {
+      unawaited(_glowController.repeat(reverse: true));
+    }
     _pulseController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 400),
     );
+  }
+
+  @override
+  void didUpdateWidget(EpisodeGrid oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.nextUnheardId != null && !_glowController.isAnimating) {
+      unawaited(_glowController.repeat(reverse: true));
+    } else if (widget.nextUnheardId == null && _glowController.isAnimating) {
+      _glowController.reset();
+    }
   }
 
   @override

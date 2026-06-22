@@ -228,4 +228,63 @@ void main() {
     // Near the peak (t ≈ 0.95), blur should be well above the minimum of 10.
     expect(shadow!.blurRadius, greaterThan(14));
   });
+
+  testWidgets('glow stops when nextUnheardId becomes null', (tester) async {
+    await tester.pumpWidget(
+      _Harness(episodes: episodes, initialNextUnheardId: 'ep-2'),
+    );
+    await tester.pump();
+    await tester.pump();
+
+    // Glow is running: advance past baseline so we can detect a stop.
+    await tester.pump(const Duration(milliseconds: 1000));
+
+    // Clear the badge.
+    final harnessState = tester.state<_HarnessState>(find.byType(_Harness));
+    harnessState.setState(() {
+      harnessState.nextUnheardId = null;
+    });
+    await tester.pump();
+
+    // No glow DecoratedBox should exist (isNext is false for all items).
+    for (final d in tester.widgetList<DecoratedBox>(
+      find.byType(DecoratedBox),
+    )) {
+      final decoration = d.decoration;
+      if (decoration is! BoxDecoration) continue;
+      final shadows = decoration.boxShadow;
+      if (shadows == null || shadows.isEmpty) continue;
+      expect(
+        shadows.first.blurRadius,
+        lessThan(10),
+        reason: 'Glow shadow should not exist after badge removed',
+      );
+    }
+  });
+
+  testWidgets('glow does not tick when initialized without nextUnheardId', (
+    tester,
+  ) async {
+    await tester.pumpWidget(
+      _Harness(episodes: episodes, initialNextUnheardId: null),
+    );
+    await tester.pump();
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 2000));
+
+    // No glow shadows should exist.
+    for (final d in tester.widgetList<DecoratedBox>(
+      find.byType(DecoratedBox),
+    )) {
+      final decoration = d.decoration;
+      if (decoration is! BoxDecoration) continue;
+      final shadows = decoration.boxShadow;
+      if (shadows == null || shadows.isEmpty) continue;
+      expect(
+        shadows.first.blurRadius,
+        lessThan(10),
+        reason: 'No glow should exist without a nextUnheardId',
+      );
+    }
+  });
 }

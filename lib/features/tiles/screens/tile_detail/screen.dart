@@ -391,12 +391,6 @@ final tileByIdProvider = StreamProvider.family<db.Tile?, String>((
 
 /// The episode to show the "Weiter" badge on.
 ///
-/// Priority:
-/// 1. Most recently played in-progress episode (has saved position from DB,
-///    meaning 30s play threshold was met)
-/// 2. First unheard episode (sequential fallback)
-/// Determines which episode the "Weiter" badge points at.
-///
 /// Each tile is a CD player: at most one episode can be in progress.
 /// `clearPositions` enforces this invariant by wiping stale positions
 /// when a new episode starts or the current one completes.
