@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:lauschi/core/apple_music/apple_music_api.dart';
 import 'package:lauschi/core/apple_music/apple_music_stream_resolver.dart';
-import 'package:lauschi/features/player/apple_music_player.dart';
+import 'package:lauschi/features/player/apple_music_drm_backend.dart';
 import 'package:lauschi/features/player/player_error.dart';
 import 'package:lauschi/features/player/player_state.dart';
 import 'package:mocktail/mocktail.dart';
@@ -21,12 +21,12 @@ const _twoTracks = [
 ];
 
 void main() {
-  group('AppleMusicPlayer', () {
+  group('AppleMusicDrmBackend', () {
     late MockStreamResolver mockResolver;
     late MockAppleMusicApi mockApi;
     late MockMusicKit mockMusicKit;
     late StreamController<Map<String, dynamic>> drmStateController;
-    late AppleMusicPlayer player;
+    late AppleMusicDrmBackend player;
 
     setUp(() {
       mockResolver = MockStreamResolver();
@@ -52,7 +52,7 @@ void main() {
       when(() => mockMusicKit.drmStop()).thenAnswer((_) async {});
       when(() => mockMusicKit.drmSeek(any())).thenAnswer((_) async {});
 
-      player = AppleMusicPlayer(
+      player = AppleMusicDrmBackend(
         streamResolver: mockResolver,
         api: mockApi,
         musicKit: mockMusicKit,
@@ -259,7 +259,7 @@ void main() {
       // a future bug that breaks state propagation entirely would
       // make `playing` empty and the `expect(playing, isNotEmpty)`
       // would fail with a confusing 'expected non-empty, actual []'
-      // — you couldn't tell if play() failed or the EventChannel
+      // -- you couldn't tell if play() failed or the EventChannel
       // failed. With this precondition the failure message is
       // clear: 'no states emitted at all'.
       expect(states, isNotEmpty, reason: 'player must emit at least one state');
@@ -345,7 +345,7 @@ void main() {
       );
 
       // Adding events after dispose must not throw. (Originally
-      // the only thing this test verified — too weak to catch
+      // the only thing this test verified -- too weak to catch
       // a leaked subscription.)
       drmStateController.add({'type': 'state', 'isPlaying': false});
       await Future<void>.delayed(const Duration(milliseconds: 50));

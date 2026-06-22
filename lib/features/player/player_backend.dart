@@ -3,7 +3,7 @@ import 'package:lauschi/features/player/player_state.dart';
 /// Abstraction over playback control for different audio providers.
 ///
 /// Implementations: SpotifyPlayer (WebView SDK), StreamPlayer
-/// (just_audio for ARD), AppleMusicPlayer (MusicKit SDK).
+/// (just_audio for ARD), AppleMusicBackend subclasses (MusicKit SDK).
 ///
 /// `PlayerNotifier` delegates pause/resume/seek to the active backend
 /// without branching on provider type. The "start playing" step differs
@@ -36,16 +36,4 @@ abstract class PlayerBackend {
   /// Multi-track navigation. No-op for single-file backends.
   Future<void> nextTrack() async {}
   Future<void> prevTrack() async {}
-}
-
-/// Shared interface for Apple Music backends (native MusicKit on iOS,
-/// ExoPlayer + DRM on Android). Both accept the same play() parameters;
-/// this mixin avoids duplicating the call site in PlayerNotifier.
-mixin AlbumPlayback on PlayerBackend {
-  Future<void> play({
-    required String albumId,
-    required TrackInfo trackInfo,
-    int trackIndex = 0,
-    int positionMs = 0,
-  });
 }

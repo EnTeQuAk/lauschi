@@ -9,8 +9,9 @@ import 'package:lauschi/core/log.dart';
 import 'package:lauschi/core/providers/provider_type.dart';
 import 'package:lauschi/core/spotify/spotify_api.dart';
 import 'package:lauschi/core/spotify/spotify_session.dart';
+import 'package:lauschi/features/player/apple_music_backend.dart';
+import 'package:lauschi/features/player/apple_music_drm_backend.dart';
 import 'package:lauschi/features/player/apple_music_native_backend.dart';
-import 'package:lauschi/features/player/apple_music_player.dart';
 import 'package:lauschi/features/player/media_session_handler.dart';
 import 'package:lauschi/features/player/player_backend.dart';
 import 'package:lauschi/features/player/player_error.dart';
@@ -741,14 +742,14 @@ class PlayerNotifier extends _$PlayerNotifier {
     );
   }
 
-  // ─── AppleMusicPlayer startup ─────────────────────────────────────
+  // ─── Apple Music startup ──────────────────────────────────────────
 
   Future<void> _startAppleMusic(db.TileItem card, int gen) async {
     final amSession = ref.read(appleMusicSessionProvider.notifier);
 
     Log.info(
       _tag,
-      'Starting AppleMusicPlayer gen=$gen',
+      'Starting Apple Music gen=$gen',
       data: {'card': card.title},
     );
 
@@ -771,14 +772,14 @@ class PlayerNotifier extends _$PlayerNotifier {
     // iOS: native MusicKit (ApplicationMusicPlayer). No stream resolution,
     // no DRM plumbing. MusicKit handles everything internally.
     // Android: ExoPlayer + Widevine DRM via webPlayback API.
-    final PlayerBackend player;
+    final AppleMusicBackend player;
     if (Platform.isIOS) {
       player = AppleMusicNativeBackend(
         api: amSession.api,
         musicKit: amSession.musicKit,
       );
     } else {
-      player = AppleMusicPlayer(
+      player = AppleMusicDrmBackend(
         streamResolver: amSession.streamResolver,
         api: amSession.api,
         musicKit: amSession.musicKit,
@@ -822,8 +823,7 @@ class PlayerNotifier extends _$PlayerNotifier {
     final savedTrackIndex =
         card.lastTrackNumber > 0 ? card.lastTrackNumber - 1 : 0;
 
-    // Both Apple backends implement AlbumPlayback (shared play() signature).
-    await (player as AlbumPlayback).play(
+    await player.play(
       albumId: albumId,
       trackInfo: trackInfo,
       trackIndex: savedTrackIndex,
