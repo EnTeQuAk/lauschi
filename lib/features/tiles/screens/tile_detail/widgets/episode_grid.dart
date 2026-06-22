@@ -3,7 +3,6 @@ import 'dart:math' show pi, sin;
 
 import 'package:flutter/material.dart';
 import 'package:lauschi/core/database/app_database.dart' as db;
-import 'package:lauschi/core/database/tile_item_repository.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
 import 'package:lauschi/features/tiles/widgets/audio_tile.dart';
 
@@ -19,7 +18,6 @@ class EpisodeGrid extends StatefulWidget {
     super.key,
     this.nextUnheardId,
     this.showEpisodeTitles = false,
-    this.onExpiredTap,
   });
 
   final List<db.TileItem> episodes;
@@ -29,9 +27,6 @@ class EpisodeGrid extends StatefulWidget {
   final bool isActive;
   final void Function(db.TileItem card) onCardTap;
   final bool showEpisodeTitles;
-
-  /// Called when an expired tile is tapped. Shows an explanation modal.
-  final VoidCallback? onExpiredTap;
 
   /// Computes playback progress (0.0-1.0) for a card.
   final double Function(db.TileItem card) albumProgress;
@@ -165,12 +160,9 @@ class _EpisodeGridState extends State<EpisodeGrid>
           itemCount: widget.episodes.length,
           itemBuilder: (context, index) {
             final card = widget.episodes[index];
-            final expired = isItemExpired(card);
             final isCurrentCard =
-                !expired &&
-                widget.isActive &&
-                widget.activeUri == card.providerUri;
-            final isNext = !expired && card.id == widget.nextUnheardId;
+                widget.isActive && widget.activeUri == card.providerUri;
+            final isNext = card.id == widget.nextUnheardId;
 
             final tile = TileItem(
               key: ValueKey(card.id),
@@ -179,15 +171,11 @@ class _EpisodeGridState extends State<EpisodeGrid>
               isPlaying: isCurrentCard && widget.isPlaying,
               isPaused: isCurrentCard && !widget.isPlaying,
               isHeard: card.isHeard,
-              isExpired: expired,
-              progress: expired ? 0 : widget.albumProgress(card),
+              progress: widget.albumProgress(card),
               kidMode: true,
               episodeNumber: card.episodeNumber,
               showEpisodeTitles: widget.showEpisodeTitles,
-              onTap:
-                  expired
-                      ? widget.onExpiredTap ?? () {}
-                      : () => widget.onCardTap(card),
+              onTap: () => widget.onCardTap(card),
             );
 
             if (!isNext) return tile;

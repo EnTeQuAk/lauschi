@@ -245,24 +245,19 @@ Future<void> _runPlaybackSuite(
   expect(started.isPlaying, isTrue, reason: '[$label] isPlaying after start');
   expect(started.activeCardId, itemId, reason: '[$label] activeCardId set');
   expect(started.track, isNotNull, reason: '[$label] track metadata set');
-  // **Provider context-assert** (round-1 review unanimous): with three
-  // different player backends (ARD/Spotify/Apple Music) running in one
-  // session, checking activeCardId alone is not enough. A bug could
-  // leave one provider playing while we think we're testing another,
-  // and the activeCardId match would pass for the wrong reason.
-  //
-  // We check the provider prefix, not the full URI: the card stores an
-  // album URI (e.g. `apple_music:album:X`) while the player reports a
-  // track URI (e.g. `apple_music:track:Y`). The prefix match catches
-  // wrong-provider bugs without conflating album IDs and track IDs.
-  final trackUri = started.track?.uri ?? '';
-  final expectedPrefix = expectedCard!.providerUri.split(':').first;
+  // **Provider context-assert**: with three different player backends
+  // running in one session, checking activeCardId alone is not enough.
+  // A bug could leave one provider playing while we think we're testing
+  // another. activeContextUri is the field the UI uses for card matching
+  // (set from card.providerUri in playCard, never overwritten by the
+  // backend), so an exact match here proves the right provider is active.
   expect(
-    trackUri.startsWith(expectedPrefix),
-    isTrue,
+    started.activeContextUri,
+    expectedCard!.providerUri,
     reason:
-        '[$label] player URI must match provider prefix '
-        '(got $trackUri, expected prefix: $expectedPrefix)',
+        '[$label] activeContextUri must match the card providerUri '
+        '(got ${started.activeContextUri}, '
+        'expected ${expectedCard.providerUri})',
   );
   // resetPlaybackPosition above must have actually cleared the saved
   // position. If it didn't, the playback state would inherit the
