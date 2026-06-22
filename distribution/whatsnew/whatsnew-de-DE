@@ -1,4 +1,5 @@
-🎯 Hörspiel-Schätze: Antippen öffnet jetzt die Sendungsseite statt sofort hinzuzufügen.
-✨ Einheitliche Darstellung in allen Kachel-Übersichten, Folgenanzahl ist immer sichtbar.
-🔧 Bereits hinzugefügte Folgen können jetzt direkt aus der Sendungsansicht entfernt werden.
-🛠️ Vor/Zurück-Buttons ausgegraut wenn nicht verfügbar. Android 15/16 Support.
+🎯 "Kacheln verwalten" zeigt Ordner und einzelne Folgen in einem Raster. Folgen per Drag & Drop in Ordner ziehen oder neue Ordner erzeugen.
+✨ Einzelne Folgen antippen, um Titel, Cover oder Ordner zu ändern.
+⏳ Der Katalog ist kräftig gewachsen: mehr Serien, mehr Unterserien, und jede davon taucht separat im Browser auf.
+✨ Weiter-Badge scrollt automatisch zur nächsten ungehörten Folge, mit sanftem Leuchteffekt.
+🛠️ Spotify erneuert abgelaufene Anmeldungen automatisch.

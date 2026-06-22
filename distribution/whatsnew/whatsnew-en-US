@@ -1,4 +1,5 @@
-🎯 Featured episodes: tapping now opens the show page instead of adding instantly.
-✨ Consistent tile layout across all screens, episode counts are always visible.
-🔧 Already-added episodes can now be removed directly from the show detail view.
-🛠️ Prev/next buttons greyed out when unavailable. Android 15/16 support.
+🎯 "Manage tiles" shows folders and individual episodes in one grid. Drag & drop episodes into folders or create new ones.
+✨ Tap any episode to edit title, cover, or move it to a different folder.
+⏳ The catalog has grown significantly: more series, more sub-series, each showing up separately in the browser.
+✨ "Next" badge auto-scrolls to the next unheard episode, with a gentle glow effect.
+🛠️ Spotify automatically renews expired logins.

@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## v2026.6.1 (Juni 2026)
 
 🎯 **Ein Raster für alles**
 "Kacheln verwalten" zeigt jetzt Ordner und einzelne Folgen in einem einzigen Raster. Ein Strich mit "N einzelne Folgen" trennt die beiden Bereiche. Folgen lassen sich per Drag & Drop in Ordner ziehen, oder aufeinander ziehen um einen neuen Ordner zu erzeugen. Antippen öffnet den Folgen-Editor. "Karten verwalten" gibt es nicht mehr; alles passiert jetzt an einem Ort.
