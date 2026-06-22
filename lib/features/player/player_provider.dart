@@ -242,8 +242,9 @@ class PlayerNotifier extends _$PlayerNotifier {
       }
 
       // Single write: merge isReady + playback fields.
+      final wasPlaying = state.isPlaying;
       state = mergeSpotifyBridgeState(state, bridgeState);
-      _onPlaybackStateChange(state);
+      _onPlaybackStateChange(state, wasPlaying: wasPlaying);
     } else if (bridgeState.isReady != state.isReady) {
       // Non-Spotify: only accept readiness changes so the bridge stays
       // warm for the UI ("connecting..." spinner on kid home screen).
@@ -696,6 +697,7 @@ class PlayerNotifier extends _$PlayerNotifier {
       player,
       player.stateStream.listen((directState) {
         if (_playGen != gen) return;
+        final wasPlaying = state.isPlaying;
         state = state.copyWith(
           isPlaying: directState.isPlaying,
           isReady: directState.isReady,
@@ -709,7 +711,7 @@ class PlayerNotifier extends _$PlayerNotifier {
           durationMs: directState.durationMs,
           error: directState.error ?? state.error,
         );
-        _onPlaybackStateChange(state);
+        _onPlaybackStateChange(state, wasPlaying: wasPlaying);
       }),
     );
 
@@ -791,6 +793,7 @@ class PlayerNotifier extends _$PlayerNotifier {
       player,
       player.stateStream.listen((amState) {
         if (_playGen != gen) return;
+        final wasPlaying = state.isPlaying;
         state = state.copyWith(
           isPlaying: amState.isPlaying,
           isReady: amState.isReady,
@@ -801,7 +804,7 @@ class PlayerNotifier extends _$PlayerNotifier {
           durationMs: amState.durationMs,
           error: amState.error ?? state.error,
         );
-        _onPlaybackStateChange(state);
+        _onPlaybackStateChange(state, wasPlaying: wasPlaying);
       }),
     );
 
@@ -830,12 +833,15 @@ class PlayerNotifier extends _$PlayerNotifier {
 
   // ─── Playback state change handling ─────────────────────────────────
 
-  void _onPlaybackStateChange(PlaybackState newState) {
+  void _onPlaybackStateChange(
+    PlaybackState newState, {
+    required bool wasPlaying,
+  }) {
     // No active backend → no side effects.
     if (_active == null) return;
 
     // Log play/pause transitions (not every position tick).
-    if (newState.isPlaying != state.isPlaying) {
+    if (newState.isPlaying != wasPlaying) {
       Log.debug(
         _tag,
         newState.isPlaying ? 'State: playing' : 'State: paused',
