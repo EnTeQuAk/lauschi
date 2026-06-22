@@ -17,11 +17,16 @@ Die allermeisten Serien sind jetzt auf beiden Anbietern verfügbar. Apple-Music-
 🔍 **Zuverlässigere Serien-Erkennung**
 Im Katalog-Browser erkennt lauschi Alben jetzt an ihrer eindeutigen ID statt an Schlüsselwörtern im Titel. Das verhindert Fehlzuordnungen; zum Beispiel wurde Blaze fälschlicherweise als Encanto erkannt. Jede Serie wird mit anschließendem menschlichen Review geprüft, sodass Kompilationen, Karaoke-Versionen und falsch zugeordnete Alben zuverlässiger aussortiert werden.
 
+✨ **Weiter-Badge zeigt den Weg**
+Die "Weiter"-Markierung scrollt jetzt automatisch zur nächsten ungehörten Folge. Der Leuchteffekt atmet sanft statt statisch zu leuchten, und beim Wechsel zur nächsten Folge gibt es eine kurze Puls-Animation.
+
 🛠️ **Kleinigkeiten**
 - Drag & Drop zeigt jetzt einen Hinweis zwischen Ordnern und einzelnen Folgen
 - Zieltreffer beim Verschieben ist präziser, besonders in gemischten Listen
 - Sentry-Erklärung in den Einstellungen ist deutlicher formuliert
 - GitHub-Button nennt sich jetzt "lauschi ist Open Source" mit Erklärung darunter
+- Spotify erneuert abgelaufene Anmeldungen automatisch (bisher war nach 6 Monaten eine Neuanmeldung nötig)
+- Apple Music zeigt Wiedergabefehler jetzt direkt in der App an, statt still zu scheitern
 
 ## v2026.4.6 (April 2026)
 
