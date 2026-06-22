@@ -10,9 +10,9 @@ import 'package:flutter/services.dart';
 import 'package:meta/meta.dart' show immutable, protected, visibleForTesting;
 
 Object? _extractReplyValueOrThrow(
-    List<Object?>? replyList,
-    String channelName, {
-    required bool isNullValid,
+  List<Object?>? replyList,
+  String channelName, {
+  required bool isNullValid,
 }) {
   if (replyList == null) {
     throw PlatformException(
@@ -34,8 +34,11 @@ Object? _extractReplyValueOrThrow(
   return replyList.firstOrNull;
 }
 
-
-List<Object?> wrapResponse({Object? result, PlatformException? error, bool empty = false}) {
+List<Object?> wrapResponse({
+  Object? result,
+  PlatformException? error,
+  bool empty = false,
+}) {
   if (empty) {
     return <Object?>[];
   }
@@ -44,6 +47,7 @@ List<Object?> wrapResponse({Object? result, PlatformException? error, bool empty
   }
   return <Object?>[error.code, error.message, error.details];
 }
+
 bool _deepEquals(Object? a, Object? b) {
   if (identical(a, b)) {
     return true;
@@ -56,8 +60,9 @@ bool _deepEquals(Object? a, Object? b) {
   }
   if (a is List && b is List) {
     return a.length == b.length &&
-        a.indexed
-            .every(((int, dynamic) item) => _deepEquals(item.$2, b[item.$1]));
+        a.indexed.every(
+          ((int, dynamic) item) => _deepEquals(item.$2, b[item.$1]),
+        );
   }
   if (a is Map && b is Map) {
     if (a.length != b.length) {
@@ -106,7 +111,6 @@ int _deepHash(Object? value) {
   return value.hashCode;
 }
 
-
 enum ReaderFlagPigeon {
   nfcA,
   nfcB,
@@ -117,12 +121,7 @@ enum ReaderFlagPigeon {
   skipNdefCheck,
 }
 
-enum AdapterStatePigeon {
-  off,
-  turningOn,
-  on,
-  turningOff,
-}
+enum AdapterStatePigeon { off, turningOn, on, turningOff }
 
 enum TypeNameFormatPigeon {
   empty,
@@ -134,23 +133,11 @@ enum TypeNameFormatPigeon {
   unchanged,
 }
 
-enum NfcBarcodeTypePigeon {
-  kovio,
-  unknown,
-}
+enum NfcBarcodeTypePigeon { kovio, unknown }
 
-enum MifareClassicTypePigeon {
-  classic,
-  plus,
-  pro,
-  unknown,
-}
+enum MifareClassicTypePigeon { classic, plus, pro, unknown }
 
-enum MifareUltralightTypePigeon {
-  ultralight,
-  ultralightC,
-  unknown,
-}
+enum MifareUltralightTypePigeon { ultralight, ultralightC, unknown }
 
 class TagPigeon {
   TagPigeon({
@@ -214,7 +201,8 @@ class TagPigeon {
   }
 
   Object encode() {
-    return _toList();  }
+    return _toList();
+  }
 
   static TagPigeon decode(Object result) {
     result as List<Object?>;
@@ -244,7 +232,19 @@ class TagPigeon {
     if (identical(this, other)) {
       return true;
     }
-    return _deepEquals(handle, other.handle) && _deepEquals(id, other.id) && _deepEquals(techList, other.techList) && _deepEquals(ndef, other.ndef) && _deepEquals(nfcA, other.nfcA) && _deepEquals(nfcB, other.nfcB) && _deepEquals(nfcF, other.nfcF) && _deepEquals(nfcV, other.nfcV) && _deepEquals(isoDep, other.isoDep) && _deepEquals(mifareClassic, other.mifareClassic) && _deepEquals(mifareUltralight, other.mifareUltralight) && _deepEquals(ndefFormatable, other.ndefFormatable) && _deepEquals(nfcBarcode, other.nfcBarcode);
+    return _deepEquals(handle, other.handle) &&
+        _deepEquals(id, other.id) &&
+        _deepEquals(techList, other.techList) &&
+        _deepEquals(ndef, other.ndef) &&
+        _deepEquals(nfcA, other.nfcA) &&
+        _deepEquals(nfcB, other.nfcB) &&
+        _deepEquals(nfcF, other.nfcF) &&
+        _deepEquals(nfcV, other.nfcV) &&
+        _deepEquals(isoDep, other.isoDep) &&
+        _deepEquals(mifareClassic, other.mifareClassic) &&
+        _deepEquals(mifareUltralight, other.mifareUltralight) &&
+        _deepEquals(ndefFormatable, other.ndefFormatable) &&
+        _deepEquals(nfcBarcode, other.nfcBarcode);
   }
 
   @override
@@ -287,7 +287,8 @@ class NdefPigeon {
   }
 
   Object encode() {
-    return _toList();  }
+    return _toList();
+  }
 
   static NdefPigeon decode(Object result) {
     result as List<Object?>;
@@ -309,7 +310,11 @@ class NdefPigeon {
     if (identical(this, other)) {
       return true;
     }
-    return _deepEquals(type, other.type) && _deepEquals(canMakeReadOnly, other.canMakeReadOnly) && _deepEquals(isWritable, other.isWritable) && _deepEquals(maxSize, other.maxSize) && _deepEquals(cachedNdefMessage, other.cachedNdefMessage);
+    return _deepEquals(type, other.type) &&
+        _deepEquals(canMakeReadOnly, other.canMakeReadOnly) &&
+        _deepEquals(isWritable, other.isWritable) &&
+        _deepEquals(maxSize, other.maxSize) &&
+        _deepEquals(cachedNdefMessage, other.cachedNdefMessage);
   }
 
   @override
@@ -323,31 +328,23 @@ class NdefPigeon {
 }
 
 class NfcAPigeon {
-  NfcAPigeon({
-    required this.atqa,
-    required this.sak,
-  });
+  NfcAPigeon({required this.atqa, required this.sak});
 
   Uint8List atqa;
 
   int sak;
 
   List<Object?> _toList() {
-    return <Object?>[
-      atqa,
-      sak,
-    ];
+    return <Object?>[atqa, sak];
   }
 
   Object encode() {
-    return _toList();  }
+    return _toList();
+  }
 
   static NfcAPigeon decode(Object result) {
     result as List<Object?>;
-    return NfcAPigeon(
-      atqa: result[0]! as Uint8List,
-      sak: result[1]! as int,
-    );
+    return NfcAPigeon(atqa: result[0]! as Uint8List, sak: result[1]! as int);
   }
 
   @override
@@ -373,24 +370,19 @@ class NfcAPigeon {
 }
 
 class NfcBPigeon {
-  NfcBPigeon({
-    required this.applicationData,
-    required this.protocolInfo,
-  });
+  NfcBPigeon({required this.applicationData, required this.protocolInfo});
 
   Uint8List applicationData;
 
   Uint8List protocolInfo;
 
   List<Object?> _toList() {
-    return <Object?>[
-      applicationData,
-      protocolInfo,
-    ];
+    return <Object?>[applicationData, protocolInfo];
   }
 
   Object encode() {
-    return _toList();  }
+    return _toList();
+  }
 
   static NfcBPigeon decode(Object result) {
     result as List<Object?>;
@@ -409,7 +401,8 @@ class NfcBPigeon {
     if (identical(this, other)) {
       return true;
     }
-    return _deepEquals(applicationData, other.applicationData) && _deepEquals(protocolInfo, other.protocolInfo);
+    return _deepEquals(applicationData, other.applicationData) &&
+        _deepEquals(protocolInfo, other.protocolInfo);
   }
 
   @override
@@ -423,24 +416,19 @@ class NfcBPigeon {
 }
 
 class NfcFPigeon {
-  NfcFPigeon({
-    required this.manufacturer,
-    required this.systemCode,
-  });
+  NfcFPigeon({required this.manufacturer, required this.systemCode});
 
   Uint8List manufacturer;
 
   Uint8List systemCode;
 
   List<Object?> _toList() {
-    return <Object?>[
-      manufacturer,
-      systemCode,
-    ];
+    return <Object?>[manufacturer, systemCode];
   }
 
   Object encode() {
-    return _toList();  }
+    return _toList();
+  }
 
   static NfcFPigeon decode(Object result) {
     result as List<Object?>;
@@ -459,7 +447,8 @@ class NfcFPigeon {
     if (identical(this, other)) {
       return true;
     }
-    return _deepEquals(manufacturer, other.manufacturer) && _deepEquals(systemCode, other.systemCode);
+    return _deepEquals(manufacturer, other.manufacturer) &&
+        _deepEquals(systemCode, other.systemCode);
   }
 
   @override
@@ -473,24 +462,19 @@ class NfcFPigeon {
 }
 
 class NfcVPigeon {
-  NfcVPigeon({
-    required this.dsfId,
-    required this.responseFlags,
-  });
+  NfcVPigeon({required this.dsfId, required this.responseFlags});
 
   int dsfId;
 
   int responseFlags;
 
   List<Object?> _toList() {
-    return <Object?>[
-      dsfId,
-      responseFlags,
-    ];
+    return <Object?>[dsfId, responseFlags];
   }
 
   Object encode() {
-    return _toList();  }
+    return _toList();
+  }
 
   static NfcVPigeon decode(Object result) {
     result as List<Object?>;
@@ -509,7 +493,8 @@ class NfcVPigeon {
     if (identical(this, other)) {
       return true;
     }
-    return _deepEquals(dsfId, other.dsfId) && _deepEquals(responseFlags, other.responseFlags);
+    return _deepEquals(dsfId, other.dsfId) &&
+        _deepEquals(responseFlags, other.responseFlags);
   }
 
   @override
@@ -544,7 +529,8 @@ class IsoDepPigeon {
   }
 
   Object encode() {
-    return _toList();  }
+    return _toList();
+  }
 
   static IsoDepPigeon decode(Object result) {
     result as List<Object?>;
@@ -564,7 +550,12 @@ class IsoDepPigeon {
     if (identical(this, other)) {
       return true;
     }
-    return _deepEquals(hiLayerResponse, other.hiLayerResponse) && _deepEquals(historicalBytes, other.historicalBytes) && _deepEquals(isExtendedLengthApduSupported, other.isExtendedLengthApduSupported);
+    return _deepEquals(hiLayerResponse, other.hiLayerResponse) &&
+        _deepEquals(historicalBytes, other.historicalBytes) &&
+        _deepEquals(
+          isExtendedLengthApduSupported,
+          other.isExtendedLengthApduSupported,
+        );
   }
 
   @override
@@ -594,16 +585,12 @@ class MifareClassicPigeon {
   int size;
 
   List<Object?> _toList() {
-    return <Object?>[
-      type,
-      blockCount,
-      sectorCount,
-      size,
-    ];
+    return <Object?>[type, blockCount, sectorCount, size];
   }
 
   Object encode() {
-    return _toList();  }
+    return _toList();
+  }
 
   static MifareClassicPigeon decode(Object result) {
     result as List<Object?>;
@@ -624,7 +611,10 @@ class MifareClassicPigeon {
     if (identical(this, other)) {
       return true;
     }
-    return _deepEquals(type, other.type) && _deepEquals(blockCount, other.blockCount) && _deepEquals(sectorCount, other.sectorCount) && _deepEquals(size, other.size);
+    return _deepEquals(type, other.type) &&
+        _deepEquals(blockCount, other.blockCount) &&
+        _deepEquals(sectorCount, other.sectorCount) &&
+        _deepEquals(size, other.size);
   }
 
   @override
@@ -638,20 +628,17 @@ class MifareClassicPigeon {
 }
 
 class MifareUltralightPigeon {
-  MifareUltralightPigeon({
-    required this.type,
-  });
+  MifareUltralightPigeon({required this.type});
 
   MifareUltralightTypePigeon type;
 
   List<Object?> _toList() {
-    return <Object?>[
-      type,
-    ];
+    return <Object?>[type];
   }
 
   Object encode() {
-    return _toList();  }
+    return _toList();
+  }
 
   static MifareUltralightPigeon decode(Object result) {
     result as List<Object?>;
@@ -683,24 +670,19 @@ class MifareUltralightPigeon {
 }
 
 class NfcBarcodePigeon {
-  NfcBarcodePigeon({
-    required this.type,
-    required this.barcode,
-  });
+  NfcBarcodePigeon({required this.type, required this.barcode});
 
   NfcBarcodeTypePigeon type;
 
   Uint8List barcode;
 
   List<Object?> _toList() {
-    return <Object?>[
-      type,
-      barcode,
-    ];
+    return <Object?>[type, barcode];
   }
 
   Object encode() {
-    return _toList();  }
+    return _toList();
+  }
 
   static NfcBarcodePigeon decode(Object result) {
     result as List<Object?>;
@@ -733,20 +715,17 @@ class NfcBarcodePigeon {
 }
 
 class NdefMessagePigeon {
-  NdefMessagePigeon({
-    required this.records,
-  });
+  NdefMessagePigeon({required this.records});
 
   List<NdefRecordPigeon> records;
 
   List<Object?> _toList() {
-    return <Object?>[
-      records,
-    ];
+    return <Object?>[records];
   }
 
   Object encode() {
-    return _toList();  }
+    return _toList();
+  }
 
   static NdefMessagePigeon decode(Object result) {
     result as List<Object?>;
@@ -794,16 +773,12 @@ class NdefRecordPigeon {
   Uint8List payload;
 
   List<Object?> _toList() {
-    return <Object?>[
-      tnf,
-      type,
-      id,
-      payload,
-    ];
+    return <Object?>[tnf, type, id, payload];
   }
 
   Object encode() {
-    return _toList();  }
+    return _toList();
+  }
 
   static NdefRecordPigeon decode(Object result) {
     result as List<Object?>;
@@ -824,7 +799,10 @@ class NdefRecordPigeon {
     if (identical(this, other)) {
       return true;
     }
-    return _deepEquals(tnf, other.tnf) && _deepEquals(type, other.type) && _deepEquals(id, other.id) && _deepEquals(payload, other.payload);
+    return _deepEquals(tnf, other.tnf) &&
+        _deepEquals(type, other.type) &&
+        _deepEquals(id, other.id) &&
+        _deepEquals(payload, other.payload);
   }
 
   @override
@@ -837,7 +815,6 @@ class NdefRecordPigeon {
   }
 }
 
-
 class _PigeonCodec extends StandardMessageCodec {
   const _PigeonCodec();
   @override
@@ -845,58 +822,58 @@ class _PigeonCodec extends StandardMessageCodec {
     if (value is int) {
       buffer.putUint8(4);
       buffer.putInt64(value);
-    }    else if (value is ReaderFlagPigeon) {
+    } else if (value is ReaderFlagPigeon) {
       buffer.putUint8(129);
       writeValue(buffer, value.index);
-    }    else if (value is AdapterStatePigeon) {
+    } else if (value is AdapterStatePigeon) {
       buffer.putUint8(130);
       writeValue(buffer, value.index);
-    }    else if (value is TypeNameFormatPigeon) {
+    } else if (value is TypeNameFormatPigeon) {
       buffer.putUint8(131);
       writeValue(buffer, value.index);
-    }    else if (value is NfcBarcodeTypePigeon) {
+    } else if (value is NfcBarcodeTypePigeon) {
       buffer.putUint8(132);
       writeValue(buffer, value.index);
-    }    else if (value is MifareClassicTypePigeon) {
+    } else if (value is MifareClassicTypePigeon) {
       buffer.putUint8(133);
       writeValue(buffer, value.index);
-    }    else if (value is MifareUltralightTypePigeon) {
+    } else if (value is MifareUltralightTypePigeon) {
       buffer.putUint8(134);
       writeValue(buffer, value.index);
-    }    else if (value is TagPigeon) {
+    } else if (value is TagPigeon) {
       buffer.putUint8(135);
       writeValue(buffer, value.encode());
-    }    else if (value is NdefPigeon) {
+    } else if (value is NdefPigeon) {
       buffer.putUint8(136);
       writeValue(buffer, value.encode());
-    }    else if (value is NfcAPigeon) {
+    } else if (value is NfcAPigeon) {
       buffer.putUint8(137);
       writeValue(buffer, value.encode());
-    }    else if (value is NfcBPigeon) {
+    } else if (value is NfcBPigeon) {
       buffer.putUint8(138);
       writeValue(buffer, value.encode());
-    }    else if (value is NfcFPigeon) {
+    } else if (value is NfcFPigeon) {
       buffer.putUint8(139);
       writeValue(buffer, value.encode());
-    }    else if (value is NfcVPigeon) {
+    } else if (value is NfcVPigeon) {
       buffer.putUint8(140);
       writeValue(buffer, value.encode());
-    }    else if (value is IsoDepPigeon) {
+    } else if (value is IsoDepPigeon) {
       buffer.putUint8(141);
       writeValue(buffer, value.encode());
-    }    else if (value is MifareClassicPigeon) {
+    } else if (value is MifareClassicPigeon) {
       buffer.putUint8(142);
       writeValue(buffer, value.encode());
-    }    else if (value is MifareUltralightPigeon) {
+    } else if (value is MifareUltralightPigeon) {
       buffer.putUint8(143);
       writeValue(buffer, value.encode());
-    }    else if (value is NfcBarcodePigeon) {
+    } else if (value is NfcBarcodePigeon) {
       buffer.putUint8(144);
       writeValue(buffer, value.encode());
-    }    else if (value is NdefMessagePigeon) {
+    } else if (value is NdefMessagePigeon) {
       buffer.putUint8(145);
       writeValue(buffer, value.encode());
-    }    else if (value is NdefRecordPigeon) {
+    } else if (value is NdefRecordPigeon) {
       buffer.putUint8(146);
       writeValue(buffer, value.encode());
     } else {
@@ -962,12 +939,20 @@ abstract class FlutterApiPigeon {
 
   void onAdapterStateChanged(AdapterStatePigeon state);
 
-  static void setUp(FlutterApiPigeon? api, {BinaryMessenger? binaryMessenger, String messageChannelSuffix = '',}) {
-    messageChannelSuffix = messageChannelSuffix.isNotEmpty ? '.$messageChannelSuffix' : '';
+  static void setUp(
+    FlutterApiPigeon? api, {
+    BinaryMessenger? binaryMessenger,
+    String messageChannelSuffix = '',
+  }) {
+    messageChannelSuffix = messageChannelSuffix.isNotEmpty
+        ? '.$messageChannelSuffix'
+        : '';
     {
       final pigeonVar_channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.nfc_manager.FlutterApiPigeon.onTagDiscovered$messageChannelSuffix', pigeonChannelCodec,
-          binaryMessenger: binaryMessenger);
+        'dev.flutter.pigeon.nfc_manager.FlutterApiPigeon.onTagDiscovered$messageChannelSuffix',
+        pigeonChannelCodec,
+        binaryMessenger: binaryMessenger,
+      );
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
       } else {
@@ -979,16 +964,20 @@ abstract class FlutterApiPigeon {
             return wrapResponse(empty: true);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          }          catch (e) {
-            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
+          } catch (e) {
+            return wrapResponse(
+              error: PlatformException(code: 'error', message: e.toString()),
+            );
           }
         });
       }
     }
     {
       final pigeonVar_channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.nfc_manager.FlutterApiPigeon.onAdapterStateChanged$messageChannelSuffix', pigeonChannelCodec,
-          binaryMessenger: binaryMessenger);
+        'dev.flutter.pigeon.nfc_manager.FlutterApiPigeon.onAdapterStateChanged$messageChannelSuffix',
+        pigeonChannelCodec,
+        binaryMessenger: binaryMessenger,
+      );
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
       } else {
@@ -1000,8 +989,10 @@ abstract class FlutterApiPigeon {
             return wrapResponse(empty: true);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          }          catch (e) {
-            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
+          } catch (e) {
+            return wrapResponse(
+              error: PlatformException(code: 'error', message: e.toString()),
+            );
           }
         });
       }
@@ -1013,9 +1004,13 @@ class HostApiPigeon {
   /// Constructor for [HostApiPigeon]. The [binaryMessenger] named argument is
   /// available for dependency injection. If it is left null, the default
   /// BinaryMessenger will be used which routes to the host platform.
-  HostApiPigeon({BinaryMessenger? binaryMessenger, String messageChannelSuffix = ''})
-      : pigeonVar_binaryMessenger = binaryMessenger,
-        pigeonVar_messageChannelSuffix = messageChannelSuffix.isNotEmpty ? '.$messageChannelSuffix' : '';
+  HostApiPigeon({
+    BinaryMessenger? binaryMessenger,
+    String messageChannelSuffix = '',
+  }) : pigeonVar_binaryMessenger = binaryMessenger,
+       pigeonVar_messageChannelSuffix = messageChannelSuffix.isNotEmpty
+           ? '.$messageChannelSuffix'
+           : '';
   final BinaryMessenger? pigeonVar_binaryMessenger;
 
   static const MessageCodec<Object?> pigeonChannelCodec = _PigeonCodec();
@@ -1023,7 +1018,8 @@ class HostApiPigeon {
   final String pigeonVar_messageChannelSuffix;
 
   Future<bool> nfcAdapterIsEnabled() async {
-    final pigeonVar_channelName = 'dev.flutter.pigeon.nfc_manager.HostApiPigeon.nfcAdapterIsEnabled$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName =
+        'dev.flutter.pigeon.nfc_manager.HostApiPigeon.nfcAdapterIsEnabled$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -1033,16 +1029,16 @@ class HostApiPigeon {
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
 
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-        pigeonVar_replyList,
-        pigeonVar_channelName,
-        isNullValid: false,
-    )
-    ;
+      pigeonVar_replyList,
+      pigeonVar_channelName,
+      isNullValid: false,
+    );
     return pigeonVar_replyValue! as bool;
   }
 
   Future<bool> nfcAdapterIsSecureNfcEnabled() async {
-    final pigeonVar_channelName = 'dev.flutter.pigeon.nfc_manager.HostApiPigeon.nfcAdapterIsSecureNfcEnabled$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName =
+        'dev.flutter.pigeon.nfc_manager.HostApiPigeon.nfcAdapterIsSecureNfcEnabled$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -1052,16 +1048,16 @@ class HostApiPigeon {
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
 
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-        pigeonVar_replyList,
-        pigeonVar_channelName,
-        isNullValid: false,
-    )
-    ;
+      pigeonVar_replyList,
+      pigeonVar_channelName,
+      isNullValid: false,
+    );
     return pigeonVar_replyValue! as bool;
   }
 
   Future<bool> nfcAdapterIsSecureNfcSupported() async {
-    final pigeonVar_channelName = 'dev.flutter.pigeon.nfc_manager.HostApiPigeon.nfcAdapterIsSecureNfcSupported$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName =
+        'dev.flutter.pigeon.nfc_manager.HostApiPigeon.nfcAdapterIsSecureNfcSupported$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -1071,34 +1067,38 @@ class HostApiPigeon {
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
 
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-        pigeonVar_replyList,
-        pigeonVar_channelName,
-        isNullValid: false,
-    )
-    ;
+      pigeonVar_replyList,
+      pigeonVar_channelName,
+      isNullValid: false,
+    );
     return pigeonVar_replyValue! as bool;
   }
 
-  Future<void> nfcAdapterEnableReaderMode({required List<ReaderFlagPigeon> flags}) async {
-    final pigeonVar_channelName = 'dev.flutter.pigeon.nfc_manager.HostApiPigeon.nfcAdapterEnableReaderMode$pigeonVar_messageChannelSuffix';
+  Future<void> nfcAdapterEnableReaderMode({
+    required List<ReaderFlagPigeon> flags,
+  }) async {
+    final pigeonVar_channelName =
+        'dev.flutter.pigeon.nfc_manager.HostApiPigeon.nfcAdapterEnableReaderMode$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
       binaryMessenger: pigeonVar_binaryMessenger,
     );
-    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[flags]);
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(
+      <Object?>[flags],
+    );
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
 
     _extractReplyValueOrThrow(
-        pigeonVar_replyList,
-        pigeonVar_channelName,
-        isNullValid: true,
-    )
-    ;
+      pigeonVar_replyList,
+      pigeonVar_channelName,
+      isNullValid: true,
+    );
   }
 
   Future<void> nfcAdapterDisableReaderMode() async {
-    final pigeonVar_channelName = 'dev.flutter.pigeon.nfc_manager.HostApiPigeon.nfcAdapterDisableReaderMode$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName =
+        'dev.flutter.pigeon.nfc_manager.HostApiPigeon.nfcAdapterDisableReaderMode$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -1108,794 +1108,973 @@ class HostApiPigeon {
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
 
     _extractReplyValueOrThrow(
-        pigeonVar_replyList,
-        pigeonVar_channelName,
-        isNullValid: true,
-    )
-    ;
+      pigeonVar_replyList,
+      pigeonVar_channelName,
+      isNullValid: true,
+    );
   }
 
-  Future<NdefMessagePigeon?> ndefGetNdefMessage({required String handle}) async {
-    final pigeonVar_channelName = 'dev.flutter.pigeon.nfc_manager.HostApiPigeon.ndefGetNdefMessage$pigeonVar_messageChannelSuffix';
+  Future<NdefMessagePigeon?> ndefGetNdefMessage({
+    required String handle,
+  }) async {
+    final pigeonVar_channelName =
+        'dev.flutter.pigeon.nfc_manager.HostApiPigeon.ndefGetNdefMessage$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
       binaryMessenger: pigeonVar_binaryMessenger,
     );
-    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[handle]);
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(
+      <Object?>[handle],
+    );
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
 
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-        pigeonVar_replyList,
-        pigeonVar_channelName,
-        isNullValid: true,
-    )
-    ;
+      pigeonVar_replyList,
+      pigeonVar_channelName,
+      isNullValid: true,
+    );
     return pigeonVar_replyValue as NdefMessagePigeon?;
   }
 
-  Future<void> ndefWriteNdefMessage({required String handle, required NdefMessagePigeon message}) async {
-    final pigeonVar_channelName = 'dev.flutter.pigeon.nfc_manager.HostApiPigeon.ndefWriteNdefMessage$pigeonVar_messageChannelSuffix';
+  Future<void> ndefWriteNdefMessage({
+    required String handle,
+    required NdefMessagePigeon message,
+  }) async {
+    final pigeonVar_channelName =
+        'dev.flutter.pigeon.nfc_manager.HostApiPigeon.ndefWriteNdefMessage$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
       binaryMessenger: pigeonVar_binaryMessenger,
     );
-    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[handle, message]);
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(
+      <Object?>[handle, message],
+    );
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
 
     _extractReplyValueOrThrow(
-        pigeonVar_replyList,
-        pigeonVar_channelName,
-        isNullValid: true,
-    )
-    ;
+      pigeonVar_replyList,
+      pigeonVar_channelName,
+      isNullValid: true,
+    );
   }
 
   Future<bool> ndefMakeReadOnly({required String handle}) async {
-    final pigeonVar_channelName = 'dev.flutter.pigeon.nfc_manager.HostApiPigeon.ndefMakeReadOnly$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName =
+        'dev.flutter.pigeon.nfc_manager.HostApiPigeon.ndefMakeReadOnly$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
       binaryMessenger: pigeonVar_binaryMessenger,
     );
-    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[handle]);
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(
+      <Object?>[handle],
+    );
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
 
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-        pigeonVar_replyList,
-        pigeonVar_channelName,
-        isNullValid: false,
-    )
-    ;
+      pigeonVar_replyList,
+      pigeonVar_channelName,
+      isNullValid: false,
+    );
     return pigeonVar_replyValue! as bool;
   }
 
   Future<int> nfcAGetMaxTransceiveLength({required String handle}) async {
-    final pigeonVar_channelName = 'dev.flutter.pigeon.nfc_manager.HostApiPigeon.nfcAGetMaxTransceiveLength$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName =
+        'dev.flutter.pigeon.nfc_manager.HostApiPigeon.nfcAGetMaxTransceiveLength$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
       binaryMessenger: pigeonVar_binaryMessenger,
     );
-    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[handle]);
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(
+      <Object?>[handle],
+    );
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
 
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-        pigeonVar_replyList,
-        pigeonVar_channelName,
-        isNullValid: false,
-    )
-    ;
+      pigeonVar_replyList,
+      pigeonVar_channelName,
+      isNullValid: false,
+    );
     return pigeonVar_replyValue! as int;
   }
 
   Future<int> nfcAGetTimeout({required String handle}) async {
-    final pigeonVar_channelName = 'dev.flutter.pigeon.nfc_manager.HostApiPigeon.nfcAGetTimeout$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName =
+        'dev.flutter.pigeon.nfc_manager.HostApiPigeon.nfcAGetTimeout$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
       binaryMessenger: pigeonVar_binaryMessenger,
     );
-    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[handle]);
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(
+      <Object?>[handle],
+    );
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
 
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-        pigeonVar_replyList,
-        pigeonVar_channelName,
-        isNullValid: false,
-    )
-    ;
+      pigeonVar_replyList,
+      pigeonVar_channelName,
+      isNullValid: false,
+    );
     return pigeonVar_replyValue! as int;
   }
 
-  Future<void> nfcASetTimeout({required String handle, required int timeout}) async {
-    final pigeonVar_channelName = 'dev.flutter.pigeon.nfc_manager.HostApiPigeon.nfcASetTimeout$pigeonVar_messageChannelSuffix';
+  Future<void> nfcASetTimeout({
+    required String handle,
+    required int timeout,
+  }) async {
+    final pigeonVar_channelName =
+        'dev.flutter.pigeon.nfc_manager.HostApiPigeon.nfcASetTimeout$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
       binaryMessenger: pigeonVar_binaryMessenger,
     );
-    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[handle, timeout]);
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(
+      <Object?>[handle, timeout],
+    );
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
 
     _extractReplyValueOrThrow(
-        pigeonVar_replyList,
-        pigeonVar_channelName,
-        isNullValid: true,
-    )
-    ;
+      pigeonVar_replyList,
+      pigeonVar_channelName,
+      isNullValid: true,
+    );
   }
 
-  Future<Uint8List> nfcATransceive({required String handle, required Uint8List bytes}) async {
-    final pigeonVar_channelName = 'dev.flutter.pigeon.nfc_manager.HostApiPigeon.nfcATransceive$pigeonVar_messageChannelSuffix';
+  Future<Uint8List> nfcATransceive({
+    required String handle,
+    required Uint8List bytes,
+  }) async {
+    final pigeonVar_channelName =
+        'dev.flutter.pigeon.nfc_manager.HostApiPigeon.nfcATransceive$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
       binaryMessenger: pigeonVar_binaryMessenger,
     );
-    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[handle, bytes]);
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(
+      <Object?>[handle, bytes],
+    );
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
 
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-        pigeonVar_replyList,
-        pigeonVar_channelName,
-        isNullValid: false,
-    )
-    ;
+      pigeonVar_replyList,
+      pigeonVar_channelName,
+      isNullValid: false,
+    );
     return pigeonVar_replyValue! as Uint8List;
   }
 
   Future<int> nfcBGetMaxTransceiveLength({required String handle}) async {
-    final pigeonVar_channelName = 'dev.flutter.pigeon.nfc_manager.HostApiPigeon.nfcBGetMaxTransceiveLength$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName =
+        'dev.flutter.pigeon.nfc_manager.HostApiPigeon.nfcBGetMaxTransceiveLength$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
       binaryMessenger: pigeonVar_binaryMessenger,
     );
-    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[handle]);
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(
+      <Object?>[handle],
+    );
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
 
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-        pigeonVar_replyList,
-        pigeonVar_channelName,
-        isNullValid: false,
-    )
-    ;
+      pigeonVar_replyList,
+      pigeonVar_channelName,
+      isNullValid: false,
+    );
     return pigeonVar_replyValue! as int;
   }
 
-  Future<Uint8List> nfcBTransceive({required String handle, required Uint8List bytes}) async {
-    final pigeonVar_channelName = 'dev.flutter.pigeon.nfc_manager.HostApiPigeon.nfcBTransceive$pigeonVar_messageChannelSuffix';
+  Future<Uint8List> nfcBTransceive({
+    required String handle,
+    required Uint8List bytes,
+  }) async {
+    final pigeonVar_channelName =
+        'dev.flutter.pigeon.nfc_manager.HostApiPigeon.nfcBTransceive$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
       binaryMessenger: pigeonVar_binaryMessenger,
     );
-    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[handle, bytes]);
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(
+      <Object?>[handle, bytes],
+    );
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
 
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-        pigeonVar_replyList,
-        pigeonVar_channelName,
-        isNullValid: false,
-    )
-    ;
+      pigeonVar_replyList,
+      pigeonVar_channelName,
+      isNullValid: false,
+    );
     return pigeonVar_replyValue! as Uint8List;
   }
 
   Future<int> nfcFGetMaxTransceiveLength({required String handle}) async {
-    final pigeonVar_channelName = 'dev.flutter.pigeon.nfc_manager.HostApiPigeon.nfcFGetMaxTransceiveLength$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName =
+        'dev.flutter.pigeon.nfc_manager.HostApiPigeon.nfcFGetMaxTransceiveLength$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
       binaryMessenger: pigeonVar_binaryMessenger,
     );
-    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[handle]);
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(
+      <Object?>[handle],
+    );
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
 
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-        pigeonVar_replyList,
-        pigeonVar_channelName,
-        isNullValid: false,
-    )
-    ;
+      pigeonVar_replyList,
+      pigeonVar_channelName,
+      isNullValid: false,
+    );
     return pigeonVar_replyValue! as int;
   }
 
   Future<int> nfcFGetTimeout({required String handle}) async {
-    final pigeonVar_channelName = 'dev.flutter.pigeon.nfc_manager.HostApiPigeon.nfcFGetTimeout$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName =
+        'dev.flutter.pigeon.nfc_manager.HostApiPigeon.nfcFGetTimeout$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
       binaryMessenger: pigeonVar_binaryMessenger,
     );
-    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[handle]);
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(
+      <Object?>[handle],
+    );
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
 
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-        pigeonVar_replyList,
-        pigeonVar_channelName,
-        isNullValid: false,
-    )
-    ;
+      pigeonVar_replyList,
+      pigeonVar_channelName,
+      isNullValid: false,
+    );
     return pigeonVar_replyValue! as int;
   }
 
-  Future<void> nfcFSetTimeout({required String handle, required int timeout}) async {
-    final pigeonVar_channelName = 'dev.flutter.pigeon.nfc_manager.HostApiPigeon.nfcFSetTimeout$pigeonVar_messageChannelSuffix';
+  Future<void> nfcFSetTimeout({
+    required String handle,
+    required int timeout,
+  }) async {
+    final pigeonVar_channelName =
+        'dev.flutter.pigeon.nfc_manager.HostApiPigeon.nfcFSetTimeout$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
       binaryMessenger: pigeonVar_binaryMessenger,
     );
-    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[handle, timeout]);
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(
+      <Object?>[handle, timeout],
+    );
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
 
     _extractReplyValueOrThrow(
-        pigeonVar_replyList,
-        pigeonVar_channelName,
-        isNullValid: true,
-    )
-    ;
+      pigeonVar_replyList,
+      pigeonVar_channelName,
+      isNullValid: true,
+    );
   }
 
-  Future<Uint8List> nfcFTransceive({required String handle, required Uint8List bytes}) async {
-    final pigeonVar_channelName = 'dev.flutter.pigeon.nfc_manager.HostApiPigeon.nfcFTransceive$pigeonVar_messageChannelSuffix';
+  Future<Uint8List> nfcFTransceive({
+    required String handle,
+    required Uint8List bytes,
+  }) async {
+    final pigeonVar_channelName =
+        'dev.flutter.pigeon.nfc_manager.HostApiPigeon.nfcFTransceive$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
       binaryMessenger: pigeonVar_binaryMessenger,
     );
-    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[handle, bytes]);
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(
+      <Object?>[handle, bytes],
+    );
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
 
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-        pigeonVar_replyList,
-        pigeonVar_channelName,
-        isNullValid: false,
-    )
-    ;
+      pigeonVar_replyList,
+      pigeonVar_channelName,
+      isNullValid: false,
+    );
     return pigeonVar_replyValue! as Uint8List;
   }
 
   Future<int> nfcVGetMaxTransceiveLength({required String handle}) async {
-    final pigeonVar_channelName = 'dev.flutter.pigeon.nfc_manager.HostApiPigeon.nfcVGetMaxTransceiveLength$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName =
+        'dev.flutter.pigeon.nfc_manager.HostApiPigeon.nfcVGetMaxTransceiveLength$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
       binaryMessenger: pigeonVar_binaryMessenger,
     );
-    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[handle]);
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(
+      <Object?>[handle],
+    );
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
 
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-        pigeonVar_replyList,
-        pigeonVar_channelName,
-        isNullValid: false,
-    )
-    ;
+      pigeonVar_replyList,
+      pigeonVar_channelName,
+      isNullValid: false,
+    );
     return pigeonVar_replyValue! as int;
   }
 
-  Future<Uint8List> nfcVTransceive({required String handle, required Uint8List bytes}) async {
-    final pigeonVar_channelName = 'dev.flutter.pigeon.nfc_manager.HostApiPigeon.nfcVTransceive$pigeonVar_messageChannelSuffix';
+  Future<Uint8List> nfcVTransceive({
+    required String handle,
+    required Uint8List bytes,
+  }) async {
+    final pigeonVar_channelName =
+        'dev.flutter.pigeon.nfc_manager.HostApiPigeon.nfcVTransceive$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
       binaryMessenger: pigeonVar_binaryMessenger,
     );
-    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[handle, bytes]);
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(
+      <Object?>[handle, bytes],
+    );
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
 
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-        pigeonVar_replyList,
-        pigeonVar_channelName,
-        isNullValid: false,
-    )
-    ;
+      pigeonVar_replyList,
+      pigeonVar_channelName,
+      isNullValid: false,
+    );
     return pigeonVar_replyValue! as Uint8List;
   }
 
   Future<int> isoDepGetMaxTransceiveLength({required String handle}) async {
-    final pigeonVar_channelName = 'dev.flutter.pigeon.nfc_manager.HostApiPigeon.isoDepGetMaxTransceiveLength$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName =
+        'dev.flutter.pigeon.nfc_manager.HostApiPigeon.isoDepGetMaxTransceiveLength$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
       binaryMessenger: pigeonVar_binaryMessenger,
     );
-    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[handle]);
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(
+      <Object?>[handle],
+    );
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
 
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-        pigeonVar_replyList,
-        pigeonVar_channelName,
-        isNullValid: false,
-    )
-    ;
+      pigeonVar_replyList,
+      pigeonVar_channelName,
+      isNullValid: false,
+    );
     return pigeonVar_replyValue! as int;
   }
 
   Future<int> isoDepGetTimeout({required String handle}) async {
-    final pigeonVar_channelName = 'dev.flutter.pigeon.nfc_manager.HostApiPigeon.isoDepGetTimeout$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName =
+        'dev.flutter.pigeon.nfc_manager.HostApiPigeon.isoDepGetTimeout$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
       binaryMessenger: pigeonVar_binaryMessenger,
     );
-    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[handle]);
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(
+      <Object?>[handle],
+    );
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
 
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-        pigeonVar_replyList,
-        pigeonVar_channelName,
-        isNullValid: false,
-    )
-    ;
+      pigeonVar_replyList,
+      pigeonVar_channelName,
+      isNullValid: false,
+    );
     return pigeonVar_replyValue! as int;
   }
 
-  Future<void> isoDepSetTimeout({required String handle, required int timeout}) async {
-    final pigeonVar_channelName = 'dev.flutter.pigeon.nfc_manager.HostApiPigeon.isoDepSetTimeout$pigeonVar_messageChannelSuffix';
+  Future<void> isoDepSetTimeout({
+    required String handle,
+    required int timeout,
+  }) async {
+    final pigeonVar_channelName =
+        'dev.flutter.pigeon.nfc_manager.HostApiPigeon.isoDepSetTimeout$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
       binaryMessenger: pigeonVar_binaryMessenger,
     );
-    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[handle, timeout]);
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(
+      <Object?>[handle, timeout],
+    );
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
 
     _extractReplyValueOrThrow(
-        pigeonVar_replyList,
-        pigeonVar_channelName,
-        isNullValid: true,
-    )
-    ;
+      pigeonVar_replyList,
+      pigeonVar_channelName,
+      isNullValid: true,
+    );
   }
 
-  Future<Uint8List> isoDepTransceive({required String handle, required Uint8List bytes}) async {
-    final pigeonVar_channelName = 'dev.flutter.pigeon.nfc_manager.HostApiPigeon.isoDepTransceive$pigeonVar_messageChannelSuffix';
+  Future<Uint8List> isoDepTransceive({
+    required String handle,
+    required Uint8List bytes,
+  }) async {
+    final pigeonVar_channelName =
+        'dev.flutter.pigeon.nfc_manager.HostApiPigeon.isoDepTransceive$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
       binaryMessenger: pigeonVar_binaryMessenger,
     );
-    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[handle, bytes]);
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(
+      <Object?>[handle, bytes],
+    );
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
 
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-        pigeonVar_replyList,
-        pigeonVar_channelName,
-        isNullValid: false,
-    )
-    ;
+      pigeonVar_replyList,
+      pigeonVar_channelName,
+      isNullValid: false,
+    );
     return pigeonVar_replyValue! as Uint8List;
   }
 
-  Future<int> mifareClassicGetMaxTransceiveLength({required String handle}) async {
-    final pigeonVar_channelName = 'dev.flutter.pigeon.nfc_manager.HostApiPigeon.mifareClassicGetMaxTransceiveLength$pigeonVar_messageChannelSuffix';
+  Future<int> mifareClassicGetMaxTransceiveLength({
+    required String handle,
+  }) async {
+    final pigeonVar_channelName =
+        'dev.flutter.pigeon.nfc_manager.HostApiPigeon.mifareClassicGetMaxTransceiveLength$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
       binaryMessenger: pigeonVar_binaryMessenger,
     );
-    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[handle]);
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(
+      <Object?>[handle],
+    );
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
 
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-        pigeonVar_replyList,
-        pigeonVar_channelName,
-        isNullValid: false,
-    )
-    ;
+      pigeonVar_replyList,
+      pigeonVar_channelName,
+      isNullValid: false,
+    );
     return pigeonVar_replyValue! as int;
   }
 
   Future<int> mifareClassicGetTimeout({required String handle}) async {
-    final pigeonVar_channelName = 'dev.flutter.pigeon.nfc_manager.HostApiPigeon.mifareClassicGetTimeout$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName =
+        'dev.flutter.pigeon.nfc_manager.HostApiPigeon.mifareClassicGetTimeout$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
       binaryMessenger: pigeonVar_binaryMessenger,
     );
-    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[handle]);
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(
+      <Object?>[handle],
+    );
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
 
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-        pigeonVar_replyList,
-        pigeonVar_channelName,
-        isNullValid: false,
-    )
-    ;
+      pigeonVar_replyList,
+      pigeonVar_channelName,
+      isNullValid: false,
+    );
     return pigeonVar_replyValue! as int;
   }
 
-  Future<void> mifareClassicSetTimeout({required String handle, required int timeout}) async {
-    final pigeonVar_channelName = 'dev.flutter.pigeon.nfc_manager.HostApiPigeon.mifareClassicSetTimeout$pigeonVar_messageChannelSuffix';
+  Future<void> mifareClassicSetTimeout({
+    required String handle,
+    required int timeout,
+  }) async {
+    final pigeonVar_channelName =
+        'dev.flutter.pigeon.nfc_manager.HostApiPigeon.mifareClassicSetTimeout$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
       binaryMessenger: pigeonVar_binaryMessenger,
     );
-    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[handle, timeout]);
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(
+      <Object?>[handle, timeout],
+    );
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
 
     _extractReplyValueOrThrow(
-        pigeonVar_replyList,
-        pigeonVar_channelName,
-        isNullValid: true,
-    )
-    ;
+      pigeonVar_replyList,
+      pigeonVar_channelName,
+      isNullValid: true,
+    );
   }
 
-  Future<int> mifareClassicBlockToSector({required String handle, required int blockIndex}) async {
-    final pigeonVar_channelName = 'dev.flutter.pigeon.nfc_manager.HostApiPigeon.mifareClassicBlockToSector$pigeonVar_messageChannelSuffix';
+  Future<int> mifareClassicBlockToSector({
+    required String handle,
+    required int blockIndex,
+  }) async {
+    final pigeonVar_channelName =
+        'dev.flutter.pigeon.nfc_manager.HostApiPigeon.mifareClassicBlockToSector$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
       binaryMessenger: pigeonVar_binaryMessenger,
     );
-    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[handle, blockIndex]);
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(
+      <Object?>[handle, blockIndex],
+    );
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
 
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-        pigeonVar_replyList,
-        pigeonVar_channelName,
-        isNullValid: false,
-    )
-    ;
+      pigeonVar_replyList,
+      pigeonVar_channelName,
+      isNullValid: false,
+    );
     return pigeonVar_replyValue! as int;
   }
 
-  Future<int> mifareClassicGetBlockCountInSector({required String handle, required int sectorIndex}) async {
-    final pigeonVar_channelName = 'dev.flutter.pigeon.nfc_manager.HostApiPigeon.mifareClassicGetBlockCountInSector$pigeonVar_messageChannelSuffix';
+  Future<int> mifareClassicGetBlockCountInSector({
+    required String handle,
+    required int sectorIndex,
+  }) async {
+    final pigeonVar_channelName =
+        'dev.flutter.pigeon.nfc_manager.HostApiPigeon.mifareClassicGetBlockCountInSector$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
       binaryMessenger: pigeonVar_binaryMessenger,
     );
-    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[handle, sectorIndex]);
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(
+      <Object?>[handle, sectorIndex],
+    );
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
 
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-        pigeonVar_replyList,
-        pigeonVar_channelName,
-        isNullValid: false,
-    )
-    ;
+      pigeonVar_replyList,
+      pigeonVar_channelName,
+      isNullValid: false,
+    );
     return pigeonVar_replyValue! as int;
   }
 
-  Future<int> mifareClassicSectorToBlock({required String handle, required int sectorIndex}) async {
-    final pigeonVar_channelName = 'dev.flutter.pigeon.nfc_manager.HostApiPigeon.mifareClassicSectorToBlock$pigeonVar_messageChannelSuffix';
+  Future<int> mifareClassicSectorToBlock({
+    required String handle,
+    required int sectorIndex,
+  }) async {
+    final pigeonVar_channelName =
+        'dev.flutter.pigeon.nfc_manager.HostApiPigeon.mifareClassicSectorToBlock$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
       binaryMessenger: pigeonVar_binaryMessenger,
     );
-    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[handle, sectorIndex]);
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(
+      <Object?>[handle, sectorIndex],
+    );
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
 
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-        pigeonVar_replyList,
-        pigeonVar_channelName,
-        isNullValid: false,
-    )
-    ;
+      pigeonVar_replyList,
+      pigeonVar_channelName,
+      isNullValid: false,
+    );
     return pigeonVar_replyValue! as int;
   }
 
-  Future<bool> mifareClassicAuthenticateSectorWithKeyA({required String handle, required int sectorIndex, required Uint8List key, }) async {
-    final pigeonVar_channelName = 'dev.flutter.pigeon.nfc_manager.HostApiPigeon.mifareClassicAuthenticateSectorWithKeyA$pigeonVar_messageChannelSuffix';
+  Future<bool> mifareClassicAuthenticateSectorWithKeyA({
+    required String handle,
+    required int sectorIndex,
+    required Uint8List key,
+  }) async {
+    final pigeonVar_channelName =
+        'dev.flutter.pigeon.nfc_manager.HostApiPigeon.mifareClassicAuthenticateSectorWithKeyA$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
       binaryMessenger: pigeonVar_binaryMessenger,
     );
-    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[handle, sectorIndex, key]);
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(
+      <Object?>[handle, sectorIndex, key],
+    );
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
 
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-        pigeonVar_replyList,
-        pigeonVar_channelName,
-        isNullValid: false,
-    )
-    ;
+      pigeonVar_replyList,
+      pigeonVar_channelName,
+      isNullValid: false,
+    );
     return pigeonVar_replyValue! as bool;
   }
 
-  Future<bool> mifareClassicAuthenticateSectorWithKeyB({required String handle, required int sectorIndex, required Uint8List key, }) async {
-    final pigeonVar_channelName = 'dev.flutter.pigeon.nfc_manager.HostApiPigeon.mifareClassicAuthenticateSectorWithKeyB$pigeonVar_messageChannelSuffix';
+  Future<bool> mifareClassicAuthenticateSectorWithKeyB({
+    required String handle,
+    required int sectorIndex,
+    required Uint8List key,
+  }) async {
+    final pigeonVar_channelName =
+        'dev.flutter.pigeon.nfc_manager.HostApiPigeon.mifareClassicAuthenticateSectorWithKeyB$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
       binaryMessenger: pigeonVar_binaryMessenger,
     );
-    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[handle, sectorIndex, key]);
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(
+      <Object?>[handle, sectorIndex, key],
+    );
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
 
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-        pigeonVar_replyList,
-        pigeonVar_channelName,
-        isNullValid: false,
-    )
-    ;
+      pigeonVar_replyList,
+      pigeonVar_channelName,
+      isNullValid: false,
+    );
     return pigeonVar_replyValue! as bool;
   }
 
-  Future<void> mifareClassicIncrement({required String handle, required int blockIndex, required int value, }) async {
-    final pigeonVar_channelName = 'dev.flutter.pigeon.nfc_manager.HostApiPigeon.mifareClassicIncrement$pigeonVar_messageChannelSuffix';
+  Future<void> mifareClassicIncrement({
+    required String handle,
+    required int blockIndex,
+    required int value,
+  }) async {
+    final pigeonVar_channelName =
+        'dev.flutter.pigeon.nfc_manager.HostApiPigeon.mifareClassicIncrement$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
       binaryMessenger: pigeonVar_binaryMessenger,
     );
-    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[handle, blockIndex, value]);
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(
+      <Object?>[handle, blockIndex, value],
+    );
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
 
     _extractReplyValueOrThrow(
-        pigeonVar_replyList,
-        pigeonVar_channelName,
-        isNullValid: true,
-    )
-    ;
+      pigeonVar_replyList,
+      pigeonVar_channelName,
+      isNullValid: true,
+    );
   }
 
-  Future<void> mifareClassicDecrement({required String handle, required int blockIndex, required int value, }) async {
-    final pigeonVar_channelName = 'dev.flutter.pigeon.nfc_manager.HostApiPigeon.mifareClassicDecrement$pigeonVar_messageChannelSuffix';
+  Future<void> mifareClassicDecrement({
+    required String handle,
+    required int blockIndex,
+    required int value,
+  }) async {
+    final pigeonVar_channelName =
+        'dev.flutter.pigeon.nfc_manager.HostApiPigeon.mifareClassicDecrement$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
       binaryMessenger: pigeonVar_binaryMessenger,
     );
-    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[handle, blockIndex, value]);
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(
+      <Object?>[handle, blockIndex, value],
+    );
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
 
     _extractReplyValueOrThrow(
-        pigeonVar_replyList,
-        pigeonVar_channelName,
-        isNullValid: true,
-    )
-    ;
+      pigeonVar_replyList,
+      pigeonVar_channelName,
+      isNullValid: true,
+    );
   }
 
-  Future<Uint8List> mifareClassicReadBlock({required String handle, required int blockIndex}) async {
-    final pigeonVar_channelName = 'dev.flutter.pigeon.nfc_manager.HostApiPigeon.mifareClassicReadBlock$pigeonVar_messageChannelSuffix';
+  Future<Uint8List> mifareClassicReadBlock({
+    required String handle,
+    required int blockIndex,
+  }) async {
+    final pigeonVar_channelName =
+        'dev.flutter.pigeon.nfc_manager.HostApiPigeon.mifareClassicReadBlock$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
       binaryMessenger: pigeonVar_binaryMessenger,
     );
-    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[handle, blockIndex]);
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(
+      <Object?>[handle, blockIndex],
+    );
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
 
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-        pigeonVar_replyList,
-        pigeonVar_channelName,
-        isNullValid: false,
-    )
-    ;
+      pigeonVar_replyList,
+      pigeonVar_channelName,
+      isNullValid: false,
+    );
     return pigeonVar_replyValue! as Uint8List;
   }
 
-  Future<void> mifareClassicWriteBlock({required String handle, required int blockIndex, required Uint8List data, }) async {
-    final pigeonVar_channelName = 'dev.flutter.pigeon.nfc_manager.HostApiPigeon.mifareClassicWriteBlock$pigeonVar_messageChannelSuffix';
+  Future<void> mifareClassicWriteBlock({
+    required String handle,
+    required int blockIndex,
+    required Uint8List data,
+  }) async {
+    final pigeonVar_channelName =
+        'dev.flutter.pigeon.nfc_manager.HostApiPigeon.mifareClassicWriteBlock$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
       binaryMessenger: pigeonVar_binaryMessenger,
     );
-    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[handle, blockIndex, data]);
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(
+      <Object?>[handle, blockIndex, data],
+    );
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
 
     _extractReplyValueOrThrow(
-        pigeonVar_replyList,
-        pigeonVar_channelName,
-        isNullValid: true,
-    )
-    ;
+      pigeonVar_replyList,
+      pigeonVar_channelName,
+      isNullValid: true,
+    );
   }
 
-  Future<void> mifareClassicRestore({required String handle, required int blockIndex}) async {
-    final pigeonVar_channelName = 'dev.flutter.pigeon.nfc_manager.HostApiPigeon.mifareClassicRestore$pigeonVar_messageChannelSuffix';
+  Future<void> mifareClassicRestore({
+    required String handle,
+    required int blockIndex,
+  }) async {
+    final pigeonVar_channelName =
+        'dev.flutter.pigeon.nfc_manager.HostApiPigeon.mifareClassicRestore$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
       binaryMessenger: pigeonVar_binaryMessenger,
     );
-    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[handle, blockIndex]);
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(
+      <Object?>[handle, blockIndex],
+    );
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
 
     _extractReplyValueOrThrow(
-        pigeonVar_replyList,
-        pigeonVar_channelName,
-        isNullValid: true,
-    )
-    ;
+      pigeonVar_replyList,
+      pigeonVar_channelName,
+      isNullValid: true,
+    );
   }
 
-  Future<void> mifareClassicTransfer({required String handle, required int blockIndex}) async {
-    final pigeonVar_channelName = 'dev.flutter.pigeon.nfc_manager.HostApiPigeon.mifareClassicTransfer$pigeonVar_messageChannelSuffix';
+  Future<void> mifareClassicTransfer({
+    required String handle,
+    required int blockIndex,
+  }) async {
+    final pigeonVar_channelName =
+        'dev.flutter.pigeon.nfc_manager.HostApiPigeon.mifareClassicTransfer$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
       binaryMessenger: pigeonVar_binaryMessenger,
     );
-    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[handle, blockIndex]);
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(
+      <Object?>[handle, blockIndex],
+    );
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
 
     _extractReplyValueOrThrow(
-        pigeonVar_replyList,
-        pigeonVar_channelName,
-        isNullValid: true,
-    )
-    ;
+      pigeonVar_replyList,
+      pigeonVar_channelName,
+      isNullValid: true,
+    );
   }
 
-  Future<Uint8List> mifareClassicTransceive({required String handle, required Uint8List bytes}) async {
-    final pigeonVar_channelName = 'dev.flutter.pigeon.nfc_manager.HostApiPigeon.mifareClassicTransceive$pigeonVar_messageChannelSuffix';
+  Future<Uint8List> mifareClassicTransceive({
+    required String handle,
+    required Uint8List bytes,
+  }) async {
+    final pigeonVar_channelName =
+        'dev.flutter.pigeon.nfc_manager.HostApiPigeon.mifareClassicTransceive$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
       binaryMessenger: pigeonVar_binaryMessenger,
     );
-    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[handle, bytes]);
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(
+      <Object?>[handle, bytes],
+    );
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
 
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-        pigeonVar_replyList,
-        pigeonVar_channelName,
-        isNullValid: false,
-    )
-    ;
+      pigeonVar_replyList,
+      pigeonVar_channelName,
+      isNullValid: false,
+    );
     return pigeonVar_replyValue! as Uint8List;
   }
 
-  Future<int> mifareUltralightGetMaxTransceiveLength({required String handle}) async {
-    final pigeonVar_channelName = 'dev.flutter.pigeon.nfc_manager.HostApiPigeon.mifareUltralightGetMaxTransceiveLength$pigeonVar_messageChannelSuffix';
+  Future<int> mifareUltralightGetMaxTransceiveLength({
+    required String handle,
+  }) async {
+    final pigeonVar_channelName =
+        'dev.flutter.pigeon.nfc_manager.HostApiPigeon.mifareUltralightGetMaxTransceiveLength$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
       binaryMessenger: pigeonVar_binaryMessenger,
     );
-    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[handle]);
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(
+      <Object?>[handle],
+    );
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
 
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-        pigeonVar_replyList,
-        pigeonVar_channelName,
-        isNullValid: false,
-    )
-    ;
+      pigeonVar_replyList,
+      pigeonVar_channelName,
+      isNullValid: false,
+    );
     return pigeonVar_replyValue! as int;
   }
 
   Future<int> mifareUltralightGetTimeout({required String handle}) async {
-    final pigeonVar_channelName = 'dev.flutter.pigeon.nfc_manager.HostApiPigeon.mifareUltralightGetTimeout$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName =
+        'dev.flutter.pigeon.nfc_manager.HostApiPigeon.mifareUltralightGetTimeout$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
       binaryMessenger: pigeonVar_binaryMessenger,
     );
-    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[handle]);
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(
+      <Object?>[handle],
+    );
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
 
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-        pigeonVar_replyList,
-        pigeonVar_channelName,
-        isNullValid: false,
-    )
-    ;
+      pigeonVar_replyList,
+      pigeonVar_channelName,
+      isNullValid: false,
+    );
     return pigeonVar_replyValue! as int;
   }
 
-  Future<void> mifareUltralightSetTimeout({required String handle, required int timeout}) async {
-    final pigeonVar_channelName = 'dev.flutter.pigeon.nfc_manager.HostApiPigeon.mifareUltralightSetTimeout$pigeonVar_messageChannelSuffix';
+  Future<void> mifareUltralightSetTimeout({
+    required String handle,
+    required int timeout,
+  }) async {
+    final pigeonVar_channelName =
+        'dev.flutter.pigeon.nfc_manager.HostApiPigeon.mifareUltralightSetTimeout$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
       binaryMessenger: pigeonVar_binaryMessenger,
     );
-    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[handle, timeout]);
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(
+      <Object?>[handle, timeout],
+    );
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
 
     _extractReplyValueOrThrow(
-        pigeonVar_replyList,
-        pigeonVar_channelName,
-        isNullValid: true,
-    )
-    ;
+      pigeonVar_replyList,
+      pigeonVar_channelName,
+      isNullValid: true,
+    );
   }
 
-  Future<Uint8List> mifareUltralightReadPages({required String handle, required int pageOffset}) async {
-    final pigeonVar_channelName = 'dev.flutter.pigeon.nfc_manager.HostApiPigeon.mifareUltralightReadPages$pigeonVar_messageChannelSuffix';
+  Future<Uint8List> mifareUltralightReadPages({
+    required String handle,
+    required int pageOffset,
+  }) async {
+    final pigeonVar_channelName =
+        'dev.flutter.pigeon.nfc_manager.HostApiPigeon.mifareUltralightReadPages$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
       binaryMessenger: pigeonVar_binaryMessenger,
     );
-    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[handle, pageOffset]);
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(
+      <Object?>[handle, pageOffset],
+    );
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
 
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-        pigeonVar_replyList,
-        pigeonVar_channelName,
-        isNullValid: false,
-    )
-    ;
+      pigeonVar_replyList,
+      pigeonVar_channelName,
+      isNullValid: false,
+    );
     return pigeonVar_replyValue! as Uint8List;
   }
 
-  Future<void> mifareUltralightWritePage({required String handle, required int pageOffset, required Uint8List data, }) async {
-    final pigeonVar_channelName = 'dev.flutter.pigeon.nfc_manager.HostApiPigeon.mifareUltralightWritePage$pigeonVar_messageChannelSuffix';
+  Future<void> mifareUltralightWritePage({
+    required String handle,
+    required int pageOffset,
+    required Uint8List data,
+  }) async {
+    final pigeonVar_channelName =
+        'dev.flutter.pigeon.nfc_manager.HostApiPigeon.mifareUltralightWritePage$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
       binaryMessenger: pigeonVar_binaryMessenger,
     );
-    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[handle, pageOffset, data]);
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(
+      <Object?>[handle, pageOffset, data],
+    );
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
 
     _extractReplyValueOrThrow(
-        pigeonVar_replyList,
-        pigeonVar_channelName,
-        isNullValid: true,
-    )
-    ;
+      pigeonVar_replyList,
+      pigeonVar_channelName,
+      isNullValid: true,
+    );
   }
 
-  Future<Uint8List> mifareUltralightTransceive({required String handle, required Uint8List bytes}) async {
-    final pigeonVar_channelName = 'dev.flutter.pigeon.nfc_manager.HostApiPigeon.mifareUltralightTransceive$pigeonVar_messageChannelSuffix';
+  Future<Uint8List> mifareUltralightTransceive({
+    required String handle,
+    required Uint8List bytes,
+  }) async {
+    final pigeonVar_channelName =
+        'dev.flutter.pigeon.nfc_manager.HostApiPigeon.mifareUltralightTransceive$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
       binaryMessenger: pigeonVar_binaryMessenger,
     );
-    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[handle, bytes]);
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(
+      <Object?>[handle, bytes],
+    );
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
 
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-        pigeonVar_replyList,
-        pigeonVar_channelName,
-        isNullValid: false,
-    )
-    ;
+      pigeonVar_replyList,
+      pigeonVar_channelName,
+      isNullValid: false,
+    );
     return pigeonVar_replyValue! as Uint8List;
   }
 
-  Future<void> ndefFormatableFormat({required String handle, required NdefMessagePigeon firstMessage}) async {
-    final pigeonVar_channelName = 'dev.flutter.pigeon.nfc_manager.HostApiPigeon.ndefFormatableFormat$pigeonVar_messageChannelSuffix';
+  Future<void> ndefFormatableFormat({
+    required String handle,
+    required NdefMessagePigeon firstMessage,
+  }) async {
+    final pigeonVar_channelName =
+        'dev.flutter.pigeon.nfc_manager.HostApiPigeon.ndefFormatableFormat$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
       binaryMessenger: pigeonVar_binaryMessenger,
     );
-    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[handle, firstMessage]);
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(
+      <Object?>[handle, firstMessage],
+    );
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
 
     _extractReplyValueOrThrow(
-        pigeonVar_replyList,
-        pigeonVar_channelName,
-        isNullValid: true,
-    )
-    ;
+      pigeonVar_replyList,
+      pigeonVar_channelName,
+      isNullValid: true,
+    );
   }
 
-  Future<void> ndefFormatableFormatReadOnly({required String handle, required NdefMessagePigeon firstMessage}) async {
-    final pigeonVar_channelName = 'dev.flutter.pigeon.nfc_manager.HostApiPigeon.ndefFormatableFormatReadOnly$pigeonVar_messageChannelSuffix';
+  Future<void> ndefFormatableFormatReadOnly({
+    required String handle,
+    required NdefMessagePigeon firstMessage,
+  }) async {
+    final pigeonVar_channelName =
+        'dev.flutter.pigeon.nfc_manager.HostApiPigeon.ndefFormatableFormatReadOnly$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
       binaryMessenger: pigeonVar_binaryMessenger,
     );
-    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[handle, firstMessage]);
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(
+      <Object?>[handle, firstMessage],
+    );
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
 
     _extractReplyValueOrThrow(
-        pigeonVar_replyList,
-        pigeonVar_channelName,
-        isNullValid: true,
-    )
-    ;
+      pigeonVar_replyList,
+      pigeonVar_channelName,
+      isNullValid: true,
+    );
   }
 }
