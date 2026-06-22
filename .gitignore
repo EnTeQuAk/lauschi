@@ -47,6 +47,9 @@ migrate_working_dir/
 .pub/
 /build/
 /coverage/
+# Package lockfiles (only the app's pubspec.lock is committed)
+packages/*/pubspec.lock
+packages/*/example/pubspec.lock
 
 # Symbolication related
 app.*.symbols
