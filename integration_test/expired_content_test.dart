@@ -81,7 +81,7 @@ void main() {
   );
 
   patrolTest(
-    'unavailable item inside tile is hidden from tile detail',
+    'unavailable item inside tile shows greyed out in tile detail',
     ($) async {
       await pumpApp($, prefs: {'onboarding_complete': true});
       await clearAppState($);
@@ -132,8 +132,13 @@ void main() {
       container.read(appRouterProvider).go(AppRoutes.tileDetail(tileId));
       await pumpFrames($);
 
-      // Only the valid episode should be visible.
-      expect(find.byType(TileItem), findsOneWidget);
+      // Both episodes render in the grid: expired ones show greyed out
+      // with a tap handler that explains unavailability. They're not
+      // hidden from the tile detail view (unlike ungrouped items on the
+      // kid home screen, which ARE filtered out entirely).
+      // Episode titles are not shown by default (showEpisodeTitles is
+      // false), so we count TileItem widgets instead of matching text.
+      expect(find.byType(TileItem), findsNWidgets(2));
     },
   );
 

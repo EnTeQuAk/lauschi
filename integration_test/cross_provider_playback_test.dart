@@ -248,9 +248,9 @@ Future<void> _runPlaybackSuite(
   // **Provider context-assert**: with three different player backends
   // running in one session, checking activeCardId alone is not enough.
   // A bug could leave one provider playing while we think we're testing
-  // another. activeContextUri is the field the UI uses for card matching
-  // (set from card.providerUri in playCard, never overwritten by the
-  // backend), so an exact match here proves the right provider is active.
+  // another. activeContextUri is set from card.providerUri in playCard()
+  // and never overwritten by the backend, so an exact match here proves
+  // the right provider is active.
   expect(
     started.activeContextUri,
     expectedCard!.providerUri,
