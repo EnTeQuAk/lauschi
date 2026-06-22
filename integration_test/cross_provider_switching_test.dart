@@ -31,11 +31,26 @@ void main() {
       final ardEpisode = await getStableTestEpisode(container);
       final ardId = await insertTestEpisode($, ardEpisode);
 
+      // Wait for Spotify auto-auth to complete from stored tokens.
+      // Reading the session synchronously would race with token refresh.
+      await waitForCondition(
+        $,
+        () async {
+          final s = container.read(spotifySessionProvider);
+          return s is SpotifyAuthenticated ||
+              s is SpotifyUnauthenticated ||
+              s is SpotifyError;
+        },
+        description: 'Spotify auth to settle',
+        timeout: const Duration(seconds: 30),
+      );
       final spotifySession = container.read(spotifySessionProvider);
       expect(
         spotifySession,
         isA<SpotifyAuthenticated>(),
-        reason: 'Spotify must be authenticated',
+        reason:
+            'Spotify must be authenticated. '
+            'Run `mise run dev` and log into Spotify first.',
       );
       final spotifyApi = container.read(spotifySessionProvider.notifier).api;
       final spotifyResults = await spotifyApi.searchAlbums('TKKG');

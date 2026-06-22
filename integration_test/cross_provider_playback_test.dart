@@ -249,16 +249,20 @@ Future<void> _runPlaybackSuite(
   // different player backends (ARD/Spotify/Apple Music) running in one
   // session, checking activeCardId alone is not enough. A bug could
   // leave one provider playing while we think we're testing another,
-  // and the activeCardId match would pass for the wrong reason. The
-  // track URI carries the provider prefix (`spotify:`, `ard:`,
-  // `apple_music:`) so a single assertion catches both wrong-provider
-  // AND wrong-track at the same time.
+  // and the activeCardId match would pass for the wrong reason.
+  //
+  // We check the provider prefix, not the full URI: the card stores an
+  // album URI (e.g. `apple_music:album:X`) while the player reports a
+  // track URI (e.g. `apple_music:track:Y`). The prefix match catches
+  // wrong-provider bugs without conflating album IDs and track IDs.
+  final trackUri = started.track?.uri ?? '';
+  final expectedPrefix = expectedCard!.providerUri.split(':').first;
   expect(
-    started.track?.uri,
-    expectedCard!.providerUri,
+    trackUri.startsWith(expectedPrefix),
+    isTrue,
     reason:
-        '[$label] player must be playing the expected provider URI '
-        '(got ${started.track?.uri}, expected ${expectedCard.providerUri})',
+        '[$label] player URI must match provider prefix '
+        '(got $trackUri, expected prefix: $expectedPrefix)',
   );
   // resetPlaybackPosition above must have actually cleared the saved
   // position. If it didn't, the playback state would inherit the

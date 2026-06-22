@@ -136,9 +136,9 @@ void main() {
       // with a tap handler that explains unavailability. They're not
       // hidden from the tile detail view (unlike ungrouped items on the
       // kid home screen, which ARE filtered out entirely).
+      // Episode titles are not shown by default (showEpisodeTitles is
+      // false), so we count TileItem widgets instead of matching text.
       expect(find.byType(TileItem), findsNWidgets(2));
-      expect(find.text('Valid Episode'), findsOneWidget);
-      expect(find.text('Unavailable Episode'), findsOneWidget);
     },
   );
 
