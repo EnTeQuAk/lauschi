@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lauschi/core/connectivity/connectivity_provider.dart';
 import 'package:lauschi/core/database/app_database.dart' as db;
+import 'package:lauschi/core/database/tile_item_repository.dart';
 import 'package:lauschi/core/database/tile_repository.dart';
 import 'package:lauschi/core/log.dart';
 import 'package:lauschi/core/nfc/nfc_pair_dialog.dart';
@@ -411,12 +412,12 @@ final tileNextUnheardProvider = Provider.family<db.TileItem?, String>((
 
   // At most one episode has a saved position per tile (CD model).
   for (final ep in episodes) {
-    if (!ep.isHeard && ep.lastPositionMs > 0) return ep;
+    if (!ep.isHeard && !isItemExpired(ep) && ep.lastPositionMs > 0) return ep;
   }
 
   // Nothing in progress; first unheard episode.
   for (final ep in episodes) {
-    if (!ep.isHeard) return ep;
+    if (!ep.isHeard && !isItemExpired(ep)) return ep;
   }
   return null;
 });
