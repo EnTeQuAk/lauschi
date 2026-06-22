@@ -1,5 +1,5 @@
 [tools]
-flutter = "3.41.7"
+flutter = "3.44.3"
 gh = "latest"
 java = "temurin-21.0.11+10.0.LTS"
 biome = "1.9.4"
