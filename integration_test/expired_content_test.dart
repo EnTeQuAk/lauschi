@@ -132,14 +132,13 @@ void main() {
       container.read(appRouterProvider).go(AppRoutes.tileDetail(tileId));
       await pumpFrames($);
 
-      // Only the valid episode should be visible. Unavailable one hidden.
-      expect(find.byType(TileItem), findsOneWidget);
+      // Both episodes render in the grid: expired ones show greyed out
+      // with a tap handler that explains unavailability. They're not
+      // hidden from the tile detail view (unlike ungrouped items on the
+      // kid home screen, which ARE filtered out entirely).
+      expect(find.byType(TileItem), findsNWidgets(2));
       expect(find.text('Valid Episode'), findsOneWidget);
-      expect(
-        find.text('Unavailable Episode'),
-        findsNothing,
-        reason: 'Unavailable episode must not be visible to kids',
-      );
+      expect(find.text('Unavailable Episode'), findsOneWidget);
     },
   );
 

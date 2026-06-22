@@ -147,10 +147,9 @@ void main() {
       }
       await pumpFrames($, count: 15);
 
-      // Should be on parent dashboard.
-      expect(find.text('Einstellungen'), findsOneWidget);
-
-      // Exit parent mode.
+      // Should be on parent dashboard. Use the exit button key rather
+      // than text('Einstellungen') since both the AppBar title and a
+      // section header use that string.
       final exitButton = find.byKey(const Key('exit_parent_mode'));
       expect(exitButton, findsOneWidget);
       await $.tap(exitButton);
