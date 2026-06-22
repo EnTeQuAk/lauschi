@@ -242,6 +242,8 @@ class AppleMusicPlayer extends PlayerBackend with AlbumPlayback {
       _onDrmStateEvent,
       onError: (Object error) {
         Log.error(_tag, 'DRM state stream error', data: {'error': '$error'});
+        _isPlaying = false;
+        _emitState(error: PlayerError.playbackFailed);
       },
     );
   }

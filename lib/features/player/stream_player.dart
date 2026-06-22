@@ -69,9 +69,10 @@ class StreamPlayer extends PlayerBackend {
   int _positionMs = 0;
   bool _isPlaying = false;
 
-  /// Last time we emitted a position update. Throttles to ~1/sec
-  /// to avoid flooding _onStateChange on every just_audio tick (~200ms).
-  DateTime _lastPositionEmit = DateTime(0);
+  /// Monotonic throttle for position emissions (~1/sec). Uses Stopwatch
+  /// instead of DateTime.now() to avoid clock-jump bugs from NTP sync
+  /// or manual time changes.
+  final _positionThrottle = Stopwatch();
 
   /// Created in [_attemptPlay], disposed in [_disposePlayer].
   ja.AudioPlayer? _player;
@@ -132,13 +133,16 @@ class StreamPlayer extends PlayerBackend {
     required TrackInfo trackInfo,
     int positionMs = 0,
   }) async {
+    // Cancel any pending retry before resetting _stopped. The ordering
+    // matters: resetting _stopped first would let a timer callback that
+    // fired between these lines see _stopped == false and proceed.
+    _retryTimer?.cancel();
+    _retryTimer = null;
     _stopped = false;
     _currentAttempt = 0;
     _currentUrl = audioUrl;
     _currentTrack = trackInfo;
     _initialPositionMs = positionMs;
-    _retryTimer?.cancel();
-    _retryTimer = null;
 
     Log.info(_tag, 'Playing', data: {'url': _truncateUrl(audioUrl)});
     await _attemptPlay(positionMs);
@@ -294,9 +298,7 @@ class StreamPlayer extends PlayerBackend {
   @override
   Future<void> dispose() async {
     Log.debug(_tag, 'dispose');
-    _stopped = true;
-    _retryTimer?.cancel();
-    _retryTimer = null;
+    await stop();
     await _disposePlayer();
     await _stateController.close();
   }
@@ -317,14 +319,11 @@ class StreamPlayer extends PlayerBackend {
   void _listenToPlayer(ja.AudioPlayer player) {
     _playerStateSub = player.playerStateStream.listen(
       (playerState) {
-        _isPlaying = playerState.playing;
+        final completed =
+            playerState.processingState == ja.ProcessingState.completed;
+        if (completed) Log.info(_tag, 'Playback completed');
 
-        // Detect completion: just_audio sets processingState to completed.
-        if (playerState.processingState == ja.ProcessingState.completed) {
-          Log.info(_tag, 'Playback completed');
-          _isPlaying = false;
-        }
-
+        _isPlaying = playerState.playing && !completed;
         _emitState();
       },
       onError: (Object e, StackTrace st) {
@@ -352,9 +351,11 @@ class StreamPlayer extends PlayerBackend {
       // Throttle position emissions to ~1/sec. just_audio fires every
       // ~200ms but the UI only needs 1/sec updates, and each emission
       // triggers _onStateChange (wakelock, media session, timer guard).
-      final now = DateTime.now();
-      if (now.difference(_lastPositionEmit).inMilliseconds >= 1000) {
-        _lastPositionEmit = now;
+      if (!_positionThrottle.isRunning ||
+          _positionThrottle.elapsedMilliseconds >= 1000) {
+        _positionThrottle
+          ..reset()
+          ..start();
         _emitState();
       }
     });

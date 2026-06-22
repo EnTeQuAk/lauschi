@@ -188,6 +188,13 @@ class AppleMusicNativeBackend extends PlayerBackend with AlbumPlayback {
       _onStateEvent,
       onError: (Object error) {
         Log.error(_tag, 'State stream error', data: {'error': '$error'});
+        _isPlaying = false;
+        _emitState(
+          error:
+              error is PlatformException
+                  ? _mapPlatformError(error)
+                  : PlayerError.playbackFailed,
+        );
       },
     );
   }
