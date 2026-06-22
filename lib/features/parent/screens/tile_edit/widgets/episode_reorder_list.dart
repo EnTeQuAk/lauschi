@@ -39,11 +39,10 @@ class EpisodeReorderList extends ConsumerWidget {
           child: child,
         );
       },
-      onReorder: (oldIndex, newIndex) {
-        final insertAt = newIndex > oldIndex ? newIndex - 1 : newIndex;
+      onReorderItem: (oldIndex, newIndex) {
         final reordered = List<db.TileItem>.from(episodes);
         final item = reordered.removeAt(oldIndex);
-        reordered.insert(insertAt, item);
+        reordered.insert(newIndex, item);
         Log.info(
           _tag,
           'Episodes reordered',
@@ -51,7 +50,7 @@ class EpisodeReorderList extends ConsumerWidget {
             'tileId': tileId,
             'movedItem': item.id,
             'from': '$oldIndex',
-            'to': '$insertAt',
+            'to': '$newIndex',
           },
         );
         unawaited(
