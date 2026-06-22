@@ -91,10 +91,20 @@ abstract class AppleMusicBackend extends PlayerBackend {
   /// Called inside the [_isAdvancing] guard by [prevTrack].
   Future<void> advanceToPrev();
 
-  /// Classify an error for the UI. Override to provide platform-specific
-  /// error mapping (e.g., iOS maps PlatformException codes to typed errors).
+  /// Classify a Dart exception from the state stream's onError callback.
+  /// Override to provide platform-specific mapping (e.g., iOS maps
+  /// PlatformException codes to typed errors).
   @protected
   PlayerError classifyError(Object error) => PlayerError.playbackFailed;
+
+  /// Classify an error event pushed by native code via the EventChannel.
+  /// Override to map platform-specific error codes to typed errors.
+  /// See TODO(#232) for DRM error code differentiation.
+  @protected
+  PlayerError classifyEventError({
+    required int errorCode,
+    required String message,
+  }) => PlayerError.playbackFailed;
 
   // ── Shared implementation ────────────────────────────────────────
 
@@ -129,7 +139,7 @@ abstract class AppleMusicBackend extends PlayerBackend {
     final safePosition = safeIndex == trackIndex ? positionMs : 0;
     this.trackIndex = safeIndex;
 
-    _listenToStateStream();
+    _ensureStateStreamSubscribed();
     await startPlayback(trackIndex: safeIndex, positionMs: safePosition);
   }
 
@@ -164,8 +174,11 @@ abstract class AppleMusicBackend extends PlayerBackend {
 
   // ── State stream ─────────────────────────────────────────────────
 
-  void _listenToStateStream() {
-    unawaited(_stateSub?.cancel());
+  /// Subscribe to the native EventChannel once. Subsequent calls are
+  /// no-ops, avoiding the race that unawaited cancel + re-subscribe
+  /// creates (brief window with two native listeners active).
+  void _ensureStateStreamSubscribed() {
+    if (_stateSub != null) return;
     _stateSub = musicKit.drmPlayerStateStream.listen(
       _onStateEvent,
       onError: (Object error) {
@@ -242,7 +255,12 @@ abstract class AppleMusicBackend extends PlayerBackend {
           data: {'message': message, 'errorCode': '$errorCode'},
         );
         isPlaying = false;
-        emitState(error: PlayerError.playbackFailed);
+        emitState(
+          error: classifyEventError(
+            errorCode: errorCode,
+            message: message,
+          ),
+        );
 
       default:
         Log.warn(logTag, 'Unknown event type: $type');
