@@ -1,17 +1,16 @@
 import 'dart:async' show unawaited;
 
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lauschi/features/player/player_provider.dart';
 import 'package:lauschi/features/player/player_state.dart';
 import 'package:lauschi/features/player/screens/player/widgets/player_progress_bar.dart';
 
-/// Progress bar with its own ticker; only this widget rebuilds at 60fps.
+/// Progress bar driven by an AnimationController at 1x playback speed.
 ///
-/// Interpolates between SDK-reported positions for smooth slider movement.
-/// Uses the Ticker's monotonic elapsed duration instead of DateTime.now()
-/// to avoid clock-jump bugs from NTP sync or manual time changes.
+/// The controller animates linearly from 0.0 to 1.0 over the track's
+/// duration. SDK position updates snap the controller to the server
+/// value; play/pause starts and stops the animation.
 class InterpolatedProgress extends ConsumerStatefulWidget {
   const InterpolatedProgress({required this.onSeek, super.key});
   final ValueChanged<int> onSeek;
@@ -23,87 +22,87 @@ class InterpolatedProgress extends ConsumerStatefulWidget {
 
 class _InterpolatedProgressState extends ConsumerState<InterpolatedProgress>
     with SingleTickerProviderStateMixin {
-  late final Ticker _ticker;
-  final _position = ValueNotifier<int>(0);
-
-  /// Last position reported by the SDK. When this changes, we re-anchor
-  /// the interpolation to the new server position and interpolate forward
-  /// from there.
-  int _anchorMs = 0;
-  Duration _anchorElapsed = Duration.zero;
+  late final AnimationController _controller;
   bool _scrubbing = false;
 
-  /// Cached player state, updated via ref.listen in build().
-  /// The ticker reads this instead of calling ref.read() per frame.
-  PlaybackState _playerState = const PlaybackState();
-
-  /// Last elapsed duration from the ticker, for re-anchoring in scrub/seek.
-  Duration _lastElapsed = Duration.zero;
+  /// Track the last SDK-reported position to avoid calling
+  /// controller.value = x when nothing changed (the setter calls stop()
+  /// internally, which would interrupt an in-progress animation).
+  int _lastServerMs = -1;
+  int _lastDurationMs = 0;
 
   @override
   void initState() {
     super.initState();
-    _ticker = createTicker(_onTick);
-    unawaited(_ticker.start());
+    _controller = AnimationController(vsync: this);
   }
 
   @override
   void dispose() {
-    _ticker.dispose();
-    _position.dispose();
+    _controller.dispose();
     super.dispose();
   }
 
-  void _onTick(Duration elapsed) {
-    _lastElapsed = elapsed;
+  void _syncController(PlaybackState? _, PlaybackState state) {
     if (_scrubbing) return;
 
-    final serverMs = _playerState.positionMs;
-
-    if (serverMs != _anchorMs) {
-      _anchorMs = serverMs;
-      _anchorElapsed = elapsed;
+    final durationMs = state.durationMs;
+    if (durationMs <= 0) {
+      if (_controller.isAnimating) _controller.stop();
+      return;
     }
 
-    _position.value = interpolatePosition(
-      anchorMs: _anchorMs,
-      elapsedMs: (elapsed - _anchorElapsed).inMilliseconds,
-      durationMs: _playerState.durationMs,
-      isPlaying: _playerState.isPlaying,
-    );
+    if (durationMs != _lastDurationMs) {
+      _lastDurationMs = durationMs;
+      _controller.duration = Duration(milliseconds: durationMs);
+    }
+
+    final serverMs = state.positionMs;
+    if (serverMs != _lastServerMs) {
+      _lastServerMs = serverMs;
+      _controller.value = (serverMs / durationMs).clamp(0.0, 1.0);
+    }
+
+    if (state.isPlaying && !_controller.isAnimating) {
+      unawaited(_controller.forward());
+    } else if (!state.isPlaying && _controller.isAnimating) {
+      _controller.stop();
+    }
   }
 
-  void _reanchor(int ms) {
-    _anchorMs = ms;
-    _anchorElapsed = _lastElapsed;
-    _position.value = ms;
-  }
-
-  /// Update local position during drag without sending a seek command.
   void _scrubTo(int ms) {
     _scrubbing = true;
-    _reanchor(ms);
+    _controller.stop();
+    if (_lastDurationMs > 0) {
+      _controller.value = (ms / _lastDurationMs).clamp(0.0, 1.0);
+    }
   }
 
-  /// Commit the seek when the user releases the slider.
   void _seekTo(int ms) {
     _scrubbing = false;
-    _reanchor(ms);
+    if (_lastDurationMs > 0) {
+      _lastServerMs = ms;
+      _controller.value = (ms / _lastDurationMs).clamp(0.0, 1.0);
+    }
     widget.onSeek(ms);
+    if (ref.read(playerProvider).isPlaying && _lastDurationMs > 0) {
+      unawaited(_controller.forward());
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    ref.listen(playerProvider, (_, next) => _playerState = next);
+    ref.listen(playerProvider, _syncController);
     final durationMs = ref.watch(
       playerProvider.select((s) => s.durationMs),
     );
     return RepaintBoundary(
-      child: ValueListenableBuilder<int>(
-        valueListenable: _position,
+      child: AnimatedBuilder(
+        animation: _controller,
         builder:
-            (context, positionMs, _) => PlayerProgressBar(
-              positionMs: positionMs,
+            (context, _) => PlayerProgressBar(
+              positionMs:
+                  durationMs > 0 ? (_controller.value * durationMs).round() : 0,
               durationMs: durationMs,
               onScrub: _scrubTo,
               onSeek: _seekTo,
