@@ -1084,6 +1084,21 @@ bool shouldSavePosition({
   int minPlayTimeMs = 20000,
 }) => playTimeMs >= minPlayTimeMs;
 
+/// Estimate current playback position by interpolating from a known
+/// anchor point using wall-clock time. Backends that only report
+/// position on discrete events (Spotify Web Playback SDK) need this
+/// to avoid stale positions between events.
+int interpolatePosition({
+  required int anchorMs,
+  required DateTime anchorTime,
+  required int durationMs,
+  required bool isPlaying,
+}) {
+  if (!isPlaying || durationMs <= 0) return anchorMs;
+  final elapsed = DateTime.now().difference(anchorTime).inMilliseconds;
+  return (anchorMs + elapsed).clamp(0, durationMs);
+}
+
 /// Whether the current position is near the end of the track.
 /// Used to detect album/episode completion.
 bool isNearTrackEnd({

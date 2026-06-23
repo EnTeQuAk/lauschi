@@ -88,6 +88,78 @@ void main() {
     });
   });
 
+  group('interpolatePosition', () {
+    test('returns anchor when not playing', () {
+      expect(
+        interpolatePosition(
+          anchorMs: 5000,
+          anchorTime: DateTime.now().subtract(const Duration(seconds: 10)),
+          durationMs: 300000,
+          isPlaying: false,
+        ),
+        5000,
+      );
+    });
+
+    test('returns anchor when duration is zero', () {
+      expect(
+        interpolatePosition(
+          anchorMs: 5000,
+          anchorTime: DateTime.now().subtract(const Duration(seconds: 10)),
+          durationMs: 0,
+          isPlaying: true,
+        ),
+        5000,
+      );
+    });
+
+    test('adds elapsed time when playing', () {
+      final anchor = DateTime.now().subtract(const Duration(seconds: 30));
+      final result = interpolatePosition(
+        anchorMs: 10000,
+        anchorTime: anchor,
+        durationMs: 300000,
+        isPlaying: true,
+      );
+      // 10000 + ~30000 = ~40000. Allow 500ms tolerance.
+      expect(result, greaterThan(39500));
+      expect(result, lessThan(41000));
+    });
+
+    test('clamps to duration (does not overshoot)', () {
+      // Anchor 10s from end, but 30s have elapsed: clamp to duration.
+      final anchor = DateTime.now().subtract(const Duration(seconds: 30));
+      final result = interpolatePosition(
+        anchorMs: 290000,
+        anchorTime: anchor,
+        durationMs: 300000,
+        isPlaying: true,
+      );
+      expect(result, 300000);
+    });
+
+    test('clamps to zero (does not undershoot)', () {
+      expect(
+        interpolatePosition(
+          anchorMs: 0,
+          anchorTime: DateTime.now(),
+          durationMs: 300000,
+          isPlaying: true,
+        ),
+        greaterThanOrEqualTo(0),
+      );
+    });
+  });
+
+  // These tests verify the pure arithmetic of isAlbumComplete.
+  // They do NOT cover the two integration-level concerns that caused
+  // the Weiter badge to fail in production:
+  // 1. Spotify autoplay populates next_tracks with recommendations,
+  //    making hasNextTrack always true. Fixed in player.html by
+  //    filtering next_tracks to same-album only.
+  // 2. Spotify SDK position is stale between events. Fixed by
+  //    interpolatePosition (tested above) used via the bridge's
+  //    estimatedPositionMs getter.
   group('isAlbumComplete', () {
     test('false when there is a next track', () {
       expect(
