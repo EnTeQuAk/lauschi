@@ -15,6 +15,7 @@ import 'package:lauschi/core/router/app_router.dart';
 import 'package:lauschi/core/spotify/spotify_api.dart';
 import 'package:lauschi/core/spotify/spotify_session.dart';
 import 'package:lauschi/core/theme/app_theme.dart';
+import 'package:lauschi/features/parent/screens/browse_catalog/catalog_search_notifier.dart';
 import 'package:lauschi/features/parent/screens/browse_catalog/widgets/album_detail_sheet.dart';
 import 'package:lauschi/features/parent/screens/browse_catalog/widgets/batch_add_banner.dart';
 import 'package:lauschi/features/parent/screens/browse_catalog/widgets/catalog_helpers.dart';
@@ -27,16 +28,16 @@ import 'package:lauschi/features/parent/screens/browse_catalog/widgets/search_re
 
 const _tag = 'BrowseCatalog';
 
-/// Max hero cards shown in unified search results.
-const _maxCatalogResults = 4;
-
 // ── Unified browse + search screen ──────────────────────────────────────────
 
-/// Curated catalog grid with inline Spotify search.
+/// Curated catalog grid with inline search.
 ///
 /// Default view shows the curated series grid with a search bar at the top.
-/// When the user types a query, the grid is replaced by live Spotify results.
-/// This replaces the old separate AddCardScreen for the general add flow.
+/// When the user types a query, the grid is replaced by live search results.
+///
+/// Search state (albums, catalog matches, hero series) lives in
+/// [CatalogSearch]; the widget owns only UI-local state
+/// (text controller, debounce timer, expansion toggle, snackbar batching).
 ///
 /// When [autoAssignTileId] is set (via TileEditScreen FAB), every added
 /// card is silently assigned to that group.
@@ -69,33 +70,8 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen>
   final _searchFocusNode = FocusNode();
   Timer? _debounce;
 
-  // Search state
-  _SearchMode _searchMode = _SearchMode.album;
-  List<CatalogAlbumResult> _albumResults = [];
-  List<SpotifyPlaylist> _playlistResults = [];
-  List<CatalogMatch?> _catalogMatches = [];
-  bool _isSearching = false;
-  bool _hasSearched = false;
-  int _searchGeneration = 0;
-
-  // Hero card state (unified search layout, #195)
-  List<CatalogSeries> _heroSeries = [];
-  int _totalCatalogHits = 0;
+  // UI-only state
   bool _isMatchingExpanded = false;
-
-  List<int> get _matchingIndices => _partition.matching;
-  List<int> get _nonMatchingIndices => _partition.nonMatching;
-
-  ({List<int> matching, List<int> nonMatching}) get _partition =>
-      partitionByHeroSeries(
-        _catalogMatches,
-        _heroSeries.map((h) => h.id).toSet(),
-        _albumResults.length,
-      );
-
-  // Add state
-  final _addedUris = <String>{};
-  final _createdSeriesTitles = <String>{};
   db.Tile? _autoGroup;
 
   // Snackbar batching
@@ -107,10 +83,15 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen>
   bool get _isSearchActive => _searchController.text.trim().isNotEmpty;
   bool get _isAutoAssignMode => widget.autoAssignTileId != null;
 
+  ProviderType get _provider => widget.catalogSource.provider;
+  CatalogSource get _source => widget.catalogSource;
+
+  CatalogSearch get _searchNotifier =>
+      ref.read(catalogSearchProvider(_provider).notifier);
+
   @override
   void initState() {
     super.initState();
-    unawaited(_loadExistingUris());
     if (_isAutoAssignMode) {
       unawaited(_loadAutoGroup());
     }
@@ -125,19 +106,6 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen>
     super.dispose();
   }
 
-  Future<void> _loadExistingUris() async {
-    final all = await ref.read(tileItemRepositoryProvider).getAll();
-    final groups = await ref.read(tileRepositoryProvider).getAll();
-    if (mounted) {
-      setState(() {
-        _addedUris.addAll(all.map((c) => c.providerUri));
-        _createdSeriesTitles.addAll(
-          groups.map((g) => g.title.toLowerCase()),
-        );
-      });
-    }
-  }
-
   Future<void> _loadAutoGroup() async {
     final group = await ref
         .read(tileRepositoryProvider)
@@ -149,21 +117,11 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen>
   // Search
   // ---------------------------------------------------------------------------
 
-  void _resetSearchState() {
-    _albumResults = [];
-    _playlistResults = [];
-    _catalogMatches = [];
-    _heroSeries = [];
-    _totalCatalogHits = 0;
-    _isMatchingExpanded = false;
-    _isSearching = false;
-    _hasSearched = false;
-  }
-
   void _onSearchChanged(String query) {
     _debounce?.cancel();
     if (query.trim().isEmpty) {
-      setState(_resetSearchState);
+      _searchNotifier.reset();
+      _isMatchingExpanded = false;
       return;
     }
     _debounce = Timer(const Duration(milliseconds: 400), () async {
@@ -172,20 +130,19 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen>
   }
 
   Future<void> _search(String query) async {
-    setState(() => _isSearching = true);
     try {
-      // Always search albums (works for all providers and both modes).
-      await _searchAlbums(query);
-      // In Musik mode on Spotify, also search playlists and append them.
-      // Parents may have curated playlists they want to add.
-      if (_searchMode == _SearchMode.playlist &&
-          _source.provider == ProviderType.spotify) {
-        await _searchPlaylists(query);
+      await _searchNotifier.search(query, _source);
+      final searchState = ref.read(catalogSearchProvider(_provider));
+      if (searchState.isMusicMode && _source.provider == ProviderType.spotify) {
+        await _searchNotifier.searchPlaylists(
+          query,
+          ref.read(spotifySessionProvider.notifier),
+        );
       }
+      if (mounted) setState(() => _isMatchingExpanded = false);
     } on Exception catch (e) {
       Log.error(_tag, 'Search failed', exception: e);
       if (mounted) {
-        setState(() => _isSearching = false);
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text('Suche fehlgeschlagen'),
@@ -196,90 +153,11 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen>
     }
   }
 
-  CatalogSource get _source => widget.catalogSource;
-
-  Future<void> _searchAlbums(String query) async {
-    final source = _source;
-    final gen = ++_searchGeneration;
-    final albums = await source.searchAlbums(query);
-    if (!mounted || gen != _searchGeneration) return;
-    final catalog = ref.read(catalogServiceProvider).value;
-    final matches =
-        catalog != null
-            ? albums
-                .map(
-                  (a) => catalog.match(
-                    a.name,
-                    albumId: a.id,
-                    albumProvider: a.provider,
-                  ),
-                )
-                .toList()
-            : List<CatalogMatch?>.filled(albums.length, null);
-    final catalogHits = matches.whereType<CatalogMatch>().length;
-    Log.info(
-      _tag,
-      'Search',
-      data: {
-        'query': query,
-        'results': '${albums.length}',
-        'catalogHits': '$catalogHits',
-      },
-    );
-    // Hero series from catalog search (instant, local).
-    // Filter by content type to match the active tab.
-    final isMusicMode = _searchMode == _SearchMode.playlist;
-    final allCatalogHits =
-        catalog
-            ?.search(query)
-            .where((s) => s.hasCuratedAlbumsFor(_source.provider))
-            .where((s) => isMusicMode ? s.isMusic : !s.isMusic)
-            .toList() ??
-        [];
-    // Catalog-matched albums first, then unmatched.
-    final indices = sortByCatalogMatch(matches, albums.length);
-    final sortedAlbums = [for (final i in indices) albums[i]];
-    final sortedMatches = [for (final i in indices) matches[i]];
-
-    setState(() {
-      _albumResults = sortedAlbums;
-      _playlistResults = [];
-      _catalogMatches = sortedMatches;
-      _heroSeries = allCatalogHits.take(_maxCatalogResults).toList();
-      _totalCatalogHits = allCatalogHits.length;
-      _isMatchingExpanded = false;
-      _isSearching = false;
-      _hasSearched = true;
-    });
-  }
-
-  Future<void> _searchPlaylists(String query) async {
-    final gen = ++_searchGeneration;
-    final result = await ref
-        .read(spotifySessionProvider.notifier)
-        .api
-        .searchPlaylists(query);
-    if (!mounted || gen != _searchGeneration) return;
-    Log.info(
-      _tag,
-      'Search (playlists)',
-      data: {'query': query, 'results': '${result.playlists.length}'},
-    );
-    setState(() {
-      _playlistResults = result.playlists;
-      // Don't clear _albumResults — playlist search runs after album search
-      // in Musik mode, appending playlists below albums.
-      _isSearching = false;
-    });
-  }
-
-  void _setSearchMode(_SearchMode mode) {
-    if (mode == _searchMode) return;
-    _searchGeneration++; // Invalidate in-flight requests for old mode
-    setState(() {
-      _searchMode = mode;
-      _resetSearchState();
-    });
+  void _setSearchMode(CatalogSearchMode mode) {
+    final searchState = ref.read(catalogSearchProvider(_provider));
+    if (mode == searchState.searchMode) return;
+    _searchNotifier.setMode(mode);
+    _isMatchingExpanded = false;
     final query = _searchController.text.trim();
     if (query.isNotEmpty) {
       _debounce?.cancel();
@@ -290,7 +168,8 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen>
   void _clearSearch() {
     _searchController.clear();
     _searchFocusNode.unfocus();
-    setState(_resetSearchState);
+    _searchNotifier.reset();
+    _isMatchingExpanded = false;
   }
 
   // ---------------------------------------------------------------------------
@@ -321,12 +200,16 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen>
             ? widget.autoAssignTileId!
             : await _findOrCreateGroup(seriesTitle);
     if (!mounted) return;
+    final existingUris = ref.read(existingItemUrisProvider);
+    final searchState = ref.read(catalogSearchProvider(_provider));
     var count = 0;
-    for (var i = 0; i < _albumResults.length; i++) {
-      final album = _albumResults[i];
-      if (_addedUris.contains(album.providerUri)) continue;
-      final match = i < _catalogMatches.length ? _catalogMatches[i] : null;
-      // Compares by title (not ID) because batchSeries is title-based.
+    for (var i = 0; i < searchState.albums.length; i++) {
+      final album = searchState.albums[i];
+      if (existingUris.contains(album.providerUri)) continue;
+      final match =
+          i < searchState.catalogMatches.length
+              ? searchState.catalogMatches[i]
+              : null;
       if (match?.series.title != seriesTitle) continue;
       await _addAndAssign(album, groupId, match, silent: true);
       count++;
@@ -376,7 +259,6 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen>
           episodeNumber: match?.episodeNumber,
         );
     if (!mounted) return;
-    setState(() => _addedUris.add(album.providerUri));
 
     if (silent) return;
 
@@ -455,7 +337,6 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen>
           totalTracks: album.totalTracks,
         );
     if (!mounted) return;
-    setState(() => _addedUris.add(album.providerUri));
     _pendingAdded++;
     _snackTimer?.cancel();
     _snackTimer = Timer(const Duration(milliseconds: 500), () {
@@ -494,7 +375,6 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen>
           ],
         );
     if (!mounted) return;
-    setState(() => _addedUris.add(playlist.uri));
     ScaffoldMessenger.of(context)
       ..clearSnackBars()
       ..showSnackBar(
@@ -515,7 +395,8 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen>
     CatalogMatch? match,
   ) async {
     if (!mounted) return;
-    final isAdded = _addedUris.contains(album.providerUri);
+    final existingUris = ref.read(existingItemUrisProvider);
+    final isAdded = existingUris.contains(album.providerUri);
     await showModalBottomSheet<void>(
       context: context,
       isScrollControlled: true,
@@ -536,7 +417,8 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen>
 
   Future<void> _showPlaylistDetail(SpotifyPlaylist playlist) async {
     if (!mounted) return;
-    final isAdded = _addedUris.contains(playlist.uri);
+    final existingUris = ref.read(existingItemUrisProvider);
+    final isAdded = existingUris.contains(playlist.uri);
     await showModalBottomSheet<void>(
       context: context,
       isScrollControlled: true,
@@ -561,31 +443,17 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen>
   Widget build(BuildContext context) {
     super.build(context); // Required for AutomaticKeepAliveClientMixin
     final catalogAsync = ref.watch(catalogServiceProvider);
+    final searchState = ref.watch(catalogSearchProvider(_provider));
+    final existingUris = ref.watch(existingItemUrisProvider);
 
-    // Series detection for the Spotify tier is no longer needed — the catalog
-    // tier above handles series discovery. Only batchSeries (autoAssign mode)
-    // is still relevant.
-
-    // In autoAssign mode, offer batch add when all results match one series
-    String? batchSeries;
-    if (_isAutoAssignMode && _albumResults.isNotEmpty) {
-      String? title;
-      var allMatch = true;
-      for (var i = 0; i < _albumResults.length; i++) {
-        if (_addedUris.contains(_albumResults[i].providerUri)) continue;
-        final match = i < _catalogMatches.length ? _catalogMatches[i] : null;
-        if (match == null) {
-          allMatch = false;
-          break;
-        }
-        title ??= match.series.title;
-        if (title != match.series.title) {
-          allMatch = false;
-          break;
-        }
-      }
-      if (allMatch) batchSeries = title;
-    }
+    final batchSeries =
+        _isAutoAssignMode && searchState.albums.isNotEmpty
+            ? detectBatchSeries(
+              searchState.albums,
+              searchState.catalogMatches,
+              existingUris,
+            )
+            : null;
 
     final body = Column(
       children: [
@@ -597,27 +465,27 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen>
         // Search mode toggle (only in general add mode)
         // Playlist search is Spotify-only.
         if (!_isAutoAssignMode &&
-            (_source.provider == ProviderType.spotify ||
-                _source.provider == ProviderType.appleMusic))
+            (_provider == ProviderType.spotify ||
+                _provider == ProviderType.appleMusic))
           Padding(
             padding: const EdgeInsets.symmetric(
               horizontal: AppSpacing.screenH,
               vertical: AppSpacing.xs,
             ),
-            child: SegmentedButton<_SearchMode>(
+            child: SegmentedButton<CatalogSearchMode>(
               segments: const [
                 ButtonSegment(
-                  value: _SearchMode.album,
+                  value: CatalogSearchMode.album,
                   icon: Icon(Icons.auto_stories_rounded, size: 18),
                   label: Text('Hörspiele'),
                 ),
                 ButtonSegment(
-                  value: _SearchMode.playlist,
+                  value: CatalogSearchMode.playlist,
                   icon: Icon(Icons.music_note_rounded, size: 18),
                   label: Text('Musik'),
                 ),
               ],
-              selected: {_searchMode},
+              selected: {searchState.searchMode},
               onSelectionChanged: (s) => _setSearchMode(s.first),
               style: const ButtonStyle(
                 textStyle: WidgetStatePropertyAll(
@@ -644,7 +512,7 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen>
             onChanged: _onSearchChanged,
             decoration: InputDecoration(
               hintText:
-                  _searchMode == _SearchMode.playlist
+                  searchState.isMusicMode
                       ? 'Kinderlieder suchen…'
                       : 'Hörspiel suchen…',
               prefixIcon: const Icon(Icons.search_rounded),
@@ -664,6 +532,8 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen>
           child:
               _isSearchActive
                   ? _buildTwoTierSearch(
+                    searchState: searchState,
+                    existingUris: existingUris,
                     batchSeries: batchSeries,
                   )
                   : catalogAsync.when(
@@ -672,7 +542,11 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen>
                           child: CircularProgressIndicator(),
                         ),
                     error: (e, _) => Center(child: Text('Fehler: $e')),
-                    data: _buildCuratedGrid,
+                    data:
+                        (catalog) => _buildCuratedGrid(
+                          catalog,
+                          isMusicMode: searchState.isMusicMode,
+                        ),
                   ),
         ),
       ],
@@ -701,11 +575,13 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen>
   // Curated grid (default view)
   // ---------------------------------------------------------------------------
 
-  Widget _buildCuratedGrid(CatalogService catalog) {
-    final isMusicMode = _searchMode == _SearchMode.playlist;
+  Widget _buildCuratedGrid(
+    CatalogService catalog, {
+    required bool isMusicMode,
+  }) {
     final series =
         catalog.all
-            .where((s) => s.hasCuratedAlbumsFor(_source.provider))
+            .where((s) => s.hasCuratedAlbumsFor(_provider))
             .where(
               (s) => isMusicMode ? s.isMusic : !s.isMusic,
             )
@@ -775,7 +651,7 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen>
                 delegate: SliverChildBuilderDelegate(
                   (context, index) => CuratedSeriesCard(
                     series: series[index],
-                    provider: _source.provider,
+                    provider: _provider,
                     autoAssignTileId: widget.autoAssignTileId,
                     onSearchSeries: (title) {
                       _searchController.text = title;
@@ -800,30 +676,33 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen>
   // ---------------------------------------------------------------------------
 
   Widget _buildTwoTierSearch({
+    required CatalogSearchState searchState,
+    required Set<String> existingUris,
     String? batchSeries,
   }) {
-    // Both modes use the two-tier layout: hero cards (filtered by content
-    // type) + album results. In Musik mode on Spotify, playlists are
-    // appended below the album results by _buildSearchResults.
-
-    // Nothing to show yet (still debouncing, no catalog hits)
-    if (_heroSeries.isEmpty && !_isSearching && !_hasSearched) {
+    if (searchState.heroSeries.isEmpty &&
+        !searchState.isSearching &&
+        !searchState.hasSearched) {
       return const SizedBox.shrink();
     }
 
-    final nonMatching = _nonMatchingIndices;
-    final matching = _matchingIndices;
+    final partition = partitionByHeroSeries(
+      searchState.catalogMatches,
+      searchState.heroSeries.map((h) => h.id).toSet(),
+      searchState.albums.length,
+    );
+    final matching = partition.matching;
+    final nonMatching = partition.nonMatching;
 
     return CustomScrollView(
       slivers: [
         // Hero cards (catalog matches, capped at 4)
-        if (_heroSeries.isNotEmpty)
+        if (searchState.heroSeries.isNotEmpty)
           SliverList.builder(
-            itemCount: _heroSeries.length,
+            itemCount: searchState.heroSeries.length,
             itemBuilder: (context, index) {
-              final series = _heroSeries[index];
-              final existingUris = ref.watch(existingItemUrisProvider);
-              final providerAlbums = series.albumsForProvider(_source.provider);
+              final series = searchState.heroSeries[index];
+              final providerAlbums = series.albumsForProvider(_provider);
               final added =
                   providerAlbums
                       .where((a) => existingUris.contains(a.uri))
@@ -832,7 +711,7 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen>
                   added == providerAlbums.length && providerAlbums.isNotEmpty;
               return CatalogHeroCard(
                 series: series,
-                provider: _source.provider,
+                provider: _provider,
                 addedCount: added,
                 allAdded: allAdded,
                 onTap: () {
@@ -853,11 +732,11 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen>
                       }
                     }
                   }
-                  if (series.hasCuratedAlbumsFor(_source.provider)) {
+                  if (series.hasCuratedAlbumsFor(_provider)) {
                     unawaited(
                       context.push(
                         '${AppRoutes.parentCatalogSeries(series.id)}'
-                        '?provider=${_source.provider.value}',
+                        '?provider=${_provider.value}',
                         extra: widget.autoAssignTileId,
                       ),
                     );
@@ -871,7 +750,7 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen>
           ),
 
         // Refinement hint when more catalog matches exist than we show
-        if (_totalCatalogHits > _maxCatalogResults)
+        if (searchState.totalCatalogHits > maxCatalogResults)
           const SliverToBoxAdapter(
             child: Padding(
               padding: EdgeInsets.only(
@@ -897,15 +776,15 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen>
             child: BatchAddBanner(
               seriesTitle: batchSeries,
               count:
-                  _albumResults
-                      .where((a) => !_addedUris.contains(a.providerUri))
+                  searchState.albums
+                      .where((a) => !existingUris.contains(a.providerUri))
                       .length,
               onAddAll: () => unawaited(_handleAddAll(batchSeries)),
             ),
           ),
 
-        // Loading indicator while Spotify search is in flight
-        if (_isSearching)
+        // Loading indicator while search is in flight
+        if (searchState.isSearching)
           const SliverToBoxAdapter(
             child: Padding(
               padding: EdgeInsets.all(AppSpacing.xl),
@@ -913,19 +792,24 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen>
             ),
           ),
 
-        // Non-matching Spotify albums (novel content, always visible)
+        // Non-matching albums (novel content, always visible)
         if (nonMatching.isNotEmpty)
           SliverList.builder(
             itemCount: nonMatching.length,
-            itemBuilder: (_, i) => _buildAlbumTile(nonMatching[i]),
+            itemBuilder:
+                (_, i) => _buildAlbumTile(
+                  nonMatching[i],
+                  searchState: searchState,
+                  existingUris: existingUris,
+                ),
           ),
 
         // Collapsible divider for matching albums
-        if (_heroSeries.isNotEmpty && matching.isNotEmpty)
+        if (searchState.heroSeries.isNotEmpty && matching.isNotEmpty)
           SliverToBoxAdapter(
             child: CollapsibleDivider(
               matchingCount: matching.length,
-              heroes: _heroSeries,
+              heroes: searchState.heroSeries,
               isExpanded: _isMatchingExpanded,
               onToggle:
                   () => setState(
@@ -938,15 +822,21 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen>
         if (_isMatchingExpanded && matching.isNotEmpty)
           SliverList.builder(
             itemCount: matching.length,
-            itemBuilder: (_, i) => _buildAlbumTile(matching[i], compact: true),
+            itemBuilder:
+                (_, i) => _buildAlbumTile(
+                  matching[i],
+                  searchState: searchState,
+                  existingUris: existingUris,
+                  compact: true,
+                ),
           ),
 
         // Empty state: searched but nothing found anywhere
-        if (_hasSearched &&
-            !_isSearching &&
-            _heroSeries.isEmpty &&
-            _albumResults.isEmpty &&
-            _playlistResults.isEmpty)
+        if (searchState.hasSearched &&
+            !searchState.isSearching &&
+            searchState.heroSeries.isEmpty &&
+            searchState.albums.isEmpty &&
+            searchState.playlists.isEmpty)
           const SliverToBoxAdapter(
             child: Padding(
               padding: EdgeInsets.symmetric(
@@ -965,7 +855,7 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen>
           ),
 
         // Playlists (Musik mode on Spotify). Shown below album results.
-        if (_playlistResults.isNotEmpty) ...[
+        if (searchState.playlists.isNotEmpty) ...[
           const SliverToBoxAdapter(
             child: Padding(
               padding: EdgeInsets.fromLTRB(
@@ -986,12 +876,12 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen>
             ),
           ),
           SliverList.builder(
-            itemCount: _playlistResults.length,
+            itemCount: searchState.playlists.length,
             itemBuilder: (_, index) {
-              final playlist = _playlistResults[index];
+              final playlist = searchState.playlists[index];
               return PlaylistResultTile(
                 playlist: playlist,
-                isAdded: _addedUris.contains(playlist.uri),
+                isAdded: existingUris.contains(playlist.uri),
                 onAdd: () => unawaited(_addPlaylist(playlist)),
                 onTap: () => unawaited(_showPlaylistDetail(playlist)),
               );
@@ -1005,17 +895,24 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen>
   }
 
   // ---------------------------------------------------------------------------
-  // Search results (flat list, used by playlist mode)
+  // Album tile builder
   // ---------------------------------------------------------------------------
 
-  Widget _buildAlbumTile(int index, {bool compact = false}) {
-    final album = _albumResults[index];
+  Widget _buildAlbumTile(
+    int index, {
+    required CatalogSearchState searchState,
+    required Set<String> existingUris,
+    bool compact = false,
+  }) {
+    final album = searchState.albums[index];
     final match =
-        index < _catalogMatches.length ? _catalogMatches[index] : null;
+        index < searchState.catalogMatches.length
+            ? searchState.catalogMatches[index]
+            : null;
     return SearchResultTile(
       key: ValueKey(album.providerUri),
       album: album,
-      isAdded: _addedUris.contains(album.providerUri),
+      isAdded: existingUris.contains(album.providerUri),
       catalogMatch: match,
       compact: compact,
       onAdd: () => unawaited(_handleAddTap(album, match)),
@@ -1023,10 +920,6 @@ class _BrowseCatalogScreenState extends ConsumerState<BrowseCatalogScreen>
     );
   }
 }
-
-// ── Search mode ─────────────────────────────────────────────────────────────
-
-enum _SearchMode { album, playlist }
 
 // ── Auto-assign banner ──────────────────────────────────────────────────────
 
