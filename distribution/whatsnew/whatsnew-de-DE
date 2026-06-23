@@ -1,5 +1,3 @@
-🎯 "Kacheln verwalten" zeigt Ordner und einzelne Folgen in einem Raster. Folgen per Drag & Drop in Ordner ziehen oder neue Ordner erzeugen.
-✨ Einzelne Folgen antippen, um Titel, Cover oder Ordner zu ändern.
-⏳ Der Katalog ist kräftig gewachsen: mehr Serien, mehr Unterserien, und jede davon taucht separat im Browser auf.
-✨ Weiter-Badge scrollt automatisch zur nächsten ungehörten Folge, mit sanftem Leuchteffekt.
-🛠️ Spotify erneuert abgelaufene Anmeldungen automatisch.
+🐛 Weiter-Badge springt jetzt zuverlässig zur nächsten Folge, wenn eine Folge zu Ende gehört wurde.
+🔧 Fortschrittsbalken springt nicht mehr kurz zurück beim Vorspulen.
+🛠️ Zeitberechnung im Player ist stabiler (unabhängig von Systemuhr-Änderungen).

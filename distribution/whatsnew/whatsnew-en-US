@@ -1,5 +1,3 @@
-🎯 "Manage tiles" shows folders and individual episodes in one grid. Drag & drop episodes into folders or create new ones.
-✨ Tap any episode to edit title, cover, or move it to a different folder.
-⏳ The catalog has grown significantly: more series, more sub-series, each showing up separately in the browser.
-✨ "Next" badge auto-scrolls to the next unheard episode, with a gentle glow effect.
-🛠️ Spotify automatically renews expired logins.
+🐛 "Next" badge now reliably advances to the next episode when playback finishes.
+🔧 Progress bar no longer jumps back briefly when seeking.
+🛠️ Player timing is more stable (independent of system clock changes).

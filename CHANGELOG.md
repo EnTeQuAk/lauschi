@@ -1,5 +1,17 @@
 # Changelog
 
+## v2026.6.3 (Juni 2026)
+
+🐛 **Weiter-Badge springt zuverlässig zur nächsten Folge**
+Wenn eine Folge zu Ende gespielt wurde, hat der Weiter-Badge manchmal nicht zur nächsten Folge gewechselt. Ursache war, dass Spotify im Hintergrund automatisch Empfehlungen abspielt und die App das Ende des Albums nicht erkennen konnte. Jetzt werden nur noch Folgen desselben Albums berücksichtigt, und die Wiedergabeposition wird laufend interpoliert statt nur bei Statuswechseln abgefragt.
+
+🔧 **Fortschrittsbalken springt nicht mehr beim Vorspulen**
+Beim Loslassen des Wiedergabe-Schiebereglers sprang die Position kurz zurück, bevor sie zum gewählten Punkt gesprungen ist. Das ist behoben.
+
+🛠️ **Unter der Haube**
+- Der Fortschrittsbalken nutzt jetzt Flutters eingebauten AnimationController statt manueller Berechnung
+- Zeitberechnung im Player ist jetzt unabhängig von der Systemuhr (NTP-Sprünge, Zeitumstellung)
+
 ## v2026.6.1 (Juni 2026)
 
 🎯 **Ein Raster für alles**
