@@ -40,6 +40,27 @@ List<int> sortByCatalogMatch(List<CatalogMatch?> matches, int count) {
   return (matching: matching, nonMatching: nonMatching);
 }
 
+/// If all unadded albums match a single series, return its title.
+///
+/// Used in auto-assign mode to offer a "batch add all" action. Returns null
+/// when results span multiple series, contain unmatched albums, or everything
+/// is already added.
+String? detectBatchSeries(
+  List<CatalogAlbumResult> albums,
+  List<CatalogMatch?> matches,
+  Set<String> addedUris,
+) {
+  String? title;
+  for (var i = 0; i < albums.length; i++) {
+    if (addedUris.contains(albums[i].providerUri)) continue;
+    final match = i < matches.length ? matches[i] : null;
+    if (match == null) return null;
+    title ??= match.series.title;
+    if (title != match.series.title) return null;
+  }
+  return title;
+}
+
 // ── UI helpers ──────────────────────────────────────────────────────────────
 
 /// Hue-based placeholder for album art that hasn't loaded yet.
