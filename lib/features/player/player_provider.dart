@@ -86,6 +86,7 @@ class _LastKnownPlaybackState {
     required this.hasNextTrack,
     required this.trackUri,
     required this.timestamp,
+    required this.wasPlaying,
   });
 
   final int positionMs;
@@ -93,10 +94,22 @@ class _LastKnownPlaybackState {
   final bool hasNextTrack;
   final String? trackUri;
   final DateTime timestamp;
+  final bool wasPlaying;
 
-  /// Whether the track was near completion (within threshold of end).
+  /// Estimated position accounting for wall-clock time elapsed since
+  /// the last SDK event. The Spotify Web Playback SDK only fires
+  /// state_changed on discrete events (play/pause/track change), so
+  /// position is stale between events. Interpolating by elapsed time
+  /// lets completion detection work even when the SDK hasn't fired
+  /// for the full duration of a track.
+  int get estimatedPositionMs {
+    if (!wasPlaying || durationMs <= 0) return positionMs;
+    final elapsed = DateTime.now().difference(timestamp).inMilliseconds;
+    return (positionMs + elapsed).clamp(0, durationMs);
+  }
+
   bool isNearEnd({int thresholdMs = _completionThresholdMs}) =>
-      durationMs > 0 && positionMs > durationMs - thresholdMs;
+      durationMs > 0 && estimatedPositionMs > durationMs - thresholdMs;
 }
 
 // ---------------------------------------------------------------------------
@@ -928,6 +941,7 @@ class PlayerNotifier extends _$PlayerNotifier {
       hasNextTrack: _active?.backend.hasNextTrack ?? false,
       trackUri: newState.track?.uri,
       timestamp: DateTime.now(),
+      wasPlaying: newState.isPlaying,
     );
   }
 

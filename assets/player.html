@@ -71,8 +71,15 @@
         }
 
         var tw = state.track_window;
+        var currentAlbumUri = tw.current_track ? tw.current_track.album.uri : null;
         var prevCount = tw.previous_tracks ? tw.previous_tracks.length : 0;
-        var nextCount = tw.next_tracks ? tw.next_tracks.length : 0;
+        // Spotify autoplay populates next_tracks with recommendations
+        // from other albums. Only count tracks from the SAME album so
+        // completion detection knows when the album actually ends.
+        var sameAlbumNext = (tw.next_tracks || []).filter(function(t) {
+          return t.album && t.album.uri === currentAlbumUri;
+        });
+        var nextCount = sameAlbumNext.length;
         post('state_changed', {
           paused: state.paused,
           position_ms: state.position,

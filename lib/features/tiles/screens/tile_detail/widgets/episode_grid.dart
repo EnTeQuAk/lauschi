@@ -201,7 +201,7 @@ class _EpisodeGridState extends State<EpisodeGrid>
                 final pulseT = sin(_pulseController.value * pi);
 
                 return Transform.scale(
-                  scale: 1.0 + 0.05 * pulseT,
+                  scale: 1.0 + 0.03 * pulseT,
                   child: Stack(
                     clipBehavior: Clip.none,
                     children: [
@@ -211,15 +211,12 @@ class _EpisodeGridState extends State<EpisodeGrid>
                             borderRadius: const BorderRadius.all(
                               AppRadius.card,
                             ),
-                            boxShadow: [
-                              BoxShadow(
-                                color: AppColors.accent.withAlpha(
-                                  (40 + 40 * glowT).round(),
-                                ),
-                                blurRadius: 10 + 6 * glowT,
-                                spreadRadius: 1 + 3 * glowT,
+                            border: Border.all(
+                              color: AppColors.accent.withAlpha(
+                                (120 + 80 * glowT).round(),
                               ),
-                            ],
+                              width: 2,
+                            ),
                           ),
                         ),
                       ),

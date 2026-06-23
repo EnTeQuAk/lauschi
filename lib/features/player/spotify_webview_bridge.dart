@@ -69,11 +69,27 @@ class SpotifyWebViewBridge {
   int _trackNumber = 0;
   int _nextTracksCount = 0;
 
+  // Wall-clock timestamp of the last state_changed event. Used to
+  // interpolate position between SDK events (the Spotify Web Playback
+  // SDK only fires state_changed on discrete events, not periodically).
+  DateTime _lastStateTime = DateTime.now();
+
   /// Stream of playback state changes.
   Stream<PlaybackState> get stateStream => _stateController.stream;
 
   /// Current playback state (shared fields only).
   PlaybackState get currentState => _state;
+
+  /// Position interpolated by wall-clock time since the last SDK event.
+  /// The Spotify SDK only fires state_changed on discrete events, so
+  /// the raw position is stale between events. This getter estimates
+  /// the current position by adding elapsed time when playing.
+  int get estimatedPositionMs {
+    final pos = _state.positionMs;
+    if (!_state.isPlaying || _state.durationMs <= 0) return pos;
+    final elapsed = DateTime.now().difference(_lastStateTime).inMilliseconds;
+    return (pos + elapsed).clamp(0, _state.durationMs);
+  }
 
   /// Spotify device ID, or null if not yet connected.
   String? get deviceId => _deviceId;
@@ -251,6 +267,7 @@ class SpotifyWebViewBridge {
     _deviceId = null;
     _trackNumber = 0;
     _nextTracksCount = 0;
+    _lastStateTime = DateTime.now();
     _getValidToken = null;
     _isReloading = false;
 
@@ -451,6 +468,7 @@ class SpotifyWebViewBridge {
 
     _trackNumber = trackNum;
     _nextTracksCount = nextCount;
+    _lastStateTime = DateTime.now();
 
     _updateState(
       _state.copyWith(

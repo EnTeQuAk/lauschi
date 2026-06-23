@@ -210,27 +210,27 @@ void main() {
     await tester.pump();
 
     // Glow controller: 2000ms forward (0→1), 2000ms reverse (1→0).
-    // blurRadius ranges from 10 (at 0) to 16 (at 1).
+    // Border alpha ranges from 120 (at 0) to 200 (at 1).
     // Advance near the peak of the forward cycle.
     await tester.pump(const Duration(milliseconds: 1900));
 
-    BoxShadow? findGlowShadow() {
+    Border? findGlowBorder() {
       for (final d in tester.widgetList<DecoratedBox>(
         find.byType(DecoratedBox),
       )) {
         final decoration = d.decoration;
         if (decoration is! BoxDecoration) continue;
-        final shadows = decoration.boxShadow;
-        if (shadows == null || shadows.isEmpty) continue;
-        if (shadows.first.blurRadius >= 10) return shadows.first;
+        final border = decoration.border;
+        if (border is! Border) continue;
+        if (border.top.width == 2) return border;
       }
       return null;
     }
 
-    final shadow = findGlowShadow();
-    expect(shadow, isNotNull, reason: 'Glow shadow should exist');
-    // Near the peak (t ≈ 0.95), blur should be well above the minimum of 10.
-    expect(shadow!.blurRadius, greaterThan(14));
+    final border = findGlowBorder();
+    expect(border, isNotNull, reason: 'Glow border should exist');
+    // Near the peak (t ≈ 0.95), alpha should be well above the minimum of 120.
+    expect(border!.top.color.a, greaterThan(0.6));
   });
 
   testWidgets('glow stops when nextUnheardId becomes null', (tester) async {
@@ -249,18 +249,18 @@ void main() {
         .updateNextUnheardId(null);
     await tester.pump();
 
-    // No glow DecoratedBox should exist (isNext is false for all items).
+    // No glow border should exist (isNext is false for all items).
     for (final d in tester.widgetList<DecoratedBox>(
       find.byType(DecoratedBox),
     )) {
       final decoration = d.decoration;
       if (decoration is! BoxDecoration) continue;
-      final shadows = decoration.boxShadow;
-      if (shadows == null || shadows.isEmpty) continue;
+      final border = decoration.border;
+      if (border is! Border) continue;
       expect(
-        shadows.first.blurRadius,
-        lessThan(10),
-        reason: 'Glow shadow should not exist after badge removed',
+        border.top.width,
+        lessThan(2),
+        reason: 'Glow border should not exist after badge removed',
       );
     }
   });
@@ -275,18 +275,18 @@ void main() {
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 2000));
 
-    // No glow shadows should exist.
+    // No glow borders should exist.
     for (final d in tester.widgetList<DecoratedBox>(
       find.byType(DecoratedBox),
     )) {
       final decoration = d.decoration;
       if (decoration is! BoxDecoration) continue;
-      final shadows = decoration.boxShadow;
-      if (shadows == null || shadows.isEmpty) continue;
+      final border = decoration.border;
+      if (border is! Border) continue;
       expect(
-        shadows.first.blurRadius,
-        lessThan(10),
-        reason: 'No glow should exist without a nextUnheardId',
+        border.top.width,
+        lessThan(2),
+        reason: 'No glow border should exist without a nextUnheardId',
       );
     }
   });

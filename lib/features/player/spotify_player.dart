@@ -25,7 +25,7 @@ class SpotifyPlayer extends PlayerBackend {
   Stream<PlaybackState> get stateStream => _bridge.stateStream;
 
   @override
-  int get currentPositionMs => _bridge.currentState.positionMs;
+  int get currentPositionMs => _bridge.estimatedPositionMs;
 
   @override
   int get currentTrackNumber => _bridge.trackNumber;
