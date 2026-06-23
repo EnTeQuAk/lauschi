@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lauschi/features/player/player_provider.dart';
+import 'package:lauschi/features/player/player_state.dart';
 import 'package:lauschi/features/player/screens/player/widgets/player_progress_bar.dart';
 
 /// Progress bar with its own ticker; only this widget rebuilds at 60fps.
@@ -30,6 +31,10 @@ class _InterpolatedProgressState extends ConsumerState<InterpolatedProgress>
   DateTime _anchorTime = DateTime.now();
   bool _scrubbing = false;
 
+  /// Cached player state, updated via ref.listen in build().
+  /// The ticker reads this instead of calling ref.read() per frame.
+  PlaybackState _playerState = const PlaybackState();
+
   @override
   void initState() {
     super.initState();
@@ -45,45 +50,46 @@ class _InterpolatedProgressState extends ConsumerState<InterpolatedProgress>
   }
 
   void _onTick(Duration elapsed) {
-    // Don't fight the user's drag with server position updates.
     if (_scrubbing) return;
 
-    final state = ref.read(playerProvider);
-    final serverMs = state.positionMs;
+    final serverMs = _playerState.positionMs;
+    final now = DateTime.now();
 
     if (serverMs != _anchorMs) {
       _anchorMs = serverMs;
-      _anchorTime = DateTime.now();
+      _anchorTime = now;
     }
 
-    if (!state.isPlaying || state.durationMs <= 0) {
-      _position.value = serverMs;
-      return;
-    }
+    _position.value = interpolatePosition(
+      anchorMs: _anchorMs,
+      anchorTime: _anchorTime,
+      durationMs: _playerState.durationMs,
+      isPlaying: _playerState.isPlaying,
+    );
+  }
 
-    final deltaMs = DateTime.now().difference(_anchorTime).inMilliseconds;
-    _position.value = (_anchorMs + deltaMs).clamp(0, state.durationMs);
+  void _reanchor(int ms) {
+    _anchorMs = ms;
+    _anchorTime = DateTime.now();
+    _position.value = ms;
   }
 
   /// Update local position during drag without sending a seek command.
   void _scrubTo(int ms) {
     _scrubbing = true;
-    _anchorMs = ms;
-    _anchorTime = DateTime.now();
-    _position.value = ms;
+    _reanchor(ms);
   }
 
   /// Commit the seek when the user releases the slider.
   void _seekTo(int ms) {
     _scrubbing = false;
-    _anchorMs = ms;
-    _anchorTime = DateTime.now();
-    _position.value = ms;
+    _reanchor(ms);
     widget.onSeek(ms);
   }
 
   @override
   Widget build(BuildContext context) {
+    ref.listen(playerProvider, (_, next) => _playerState = next);
     final durationMs = ref.watch(
       playerProvider.select((s) => s.durationMs),
     );
