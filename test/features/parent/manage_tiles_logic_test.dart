@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:lauschi/core/database/app_database.dart';
 import 'package:lauschi/features/parent/screens/manage_tiles/screen.dart';
+import 'package:lauschi/features/parent/widgets/draggable_tile_grid.dart';
 
 Tile _tile({
   required String id,
@@ -13,6 +14,28 @@ Tile _tile({
   sortOrder: 0,
   createdAt: DateTime(2026),
   contentType: 'hoerspiel',
+);
+
+TileItem _item({
+  required String id,
+  String title = 'Folge 1',
+  String? customTitle,
+  String? coverUrl,
+}) => TileItem(
+  id: id,
+  title: title,
+  customTitle: customTitle,
+  coverUrl: coverUrl,
+  cardType: 'album',
+  provider: 'spotify',
+  providerUri: 'spotify:album:$id',
+  isHeard: false,
+  sortOrder: 0,
+  createdAt: DateTime(2026),
+  totalTracks: 1,
+  durationMs: 0,
+  lastTrackNumber: 0,
+  lastPositionMs: 0,
 );
 
 void main() {
@@ -141,6 +164,40 @@ void main() {
       );
 
       expect(item.childCoverUrls, ['https://img/1.jpg', 'https://img/3.jpg']);
+    });
+  });
+
+  group('buildItemDisplayItem', () {
+    test('uses title when no customTitle', () {
+      final item = _item(id: 'i1', title: 'Folge 42');
+      expect(item.customTitle, isNull, reason: 'setup: no custom title');
+
+      final display = buildItemDisplayItem(item);
+
+      expect(display.title, 'Folge 42');
+      expect(display.episodeCount, 1);
+      expect(display.kind, GridItemKind.episode);
+    });
+
+    test('prefers customTitle over title', () {
+      final item = _item(
+        id: 'i1',
+        title: 'Folge 42',
+        customTitle: 'Der Fluch',
+      );
+      expect(item.customTitle, isNotNull, reason: 'setup: has custom title');
+
+      final display = buildItemDisplayItem(item);
+
+      expect(display.title, 'Der Fluch');
+    });
+
+    test('passes through coverUrl', () {
+      final item = _item(id: 'i1', coverUrl: 'https://img/cover.jpg');
+
+      final display = buildItemDisplayItem(item);
+
+      expect(display.coverUrl, 'https://img/cover.jpg');
     });
   });
 }

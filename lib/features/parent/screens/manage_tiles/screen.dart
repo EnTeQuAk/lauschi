@@ -17,6 +17,9 @@ import 'package:lauschi/features/tiles/screens/tile_detail/screen.dart';
 
 const _tag = 'ManageTilesScreen';
 
+const _tilePrefix = 'tile:';
+const _itemPrefix = 'item:';
+
 /// Parent view: list, create, reorder and delete series groups.
 ///
 /// When [parentTileId] is set, shows only child tiles of that parent
@@ -131,9 +134,6 @@ class _MixedGrid extends ConsumerWidget {
   final List<db.Tile> tiles;
   final List<db.TileItem> items;
   final String? parentTileId;
-
-  static const _tilePrefix = 'tile:';
-  static const _itemPrefix = 'item:';
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -420,7 +420,7 @@ DraggableTileItem buildTileDisplayItem(
   final title = children.isNotEmpty ? folderName(children) : tile.title;
 
   return DraggableTileItem(
-    id: '${_MixedGrid._tilePrefix}${tile.id}',
+    id: '$_tilePrefix${tile.id}',
     title: title,
     coverUrl: tile.coverUrl,
     episodeCount: episodeCount,
@@ -435,7 +435,7 @@ DraggableTileItem buildTileDisplayItem(
 /// tells them this row is single episodes.
 DraggableTileItem buildItemDisplayItem(db.TileItem item) {
   return DraggableTileItem(
-    id: '${_MixedGrid._itemPrefix}${item.id}',
+    id: '$_itemPrefix${item.id}',
     title: item.customTitle ?? item.title,
     coverUrl: item.coverUrl,
     episodeCount: 1,
