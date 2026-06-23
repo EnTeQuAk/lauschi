@@ -1,5 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:lauschi/features/player/player_error.dart';
+import 'package:lauschi/features/player/player_provider.dart'
+    show interpolatePosition;
 import 'package:lauschi/features/player/player_state.dart';
 
 void main() {
@@ -229,22 +231,27 @@ void main() {
 
   group('progress bar anchor interpolation', () {
     test('seek updates anchor so ticker interpolates from seek position', () {
-      var anchorMs = 30000;
-      var anchorTime = DateTime.now().subtract(const Duration(seconds: 2));
+      // Before seek: 2s elapsed from 30s anchor = 32s.
+      expect(
+        interpolatePosition(
+          anchorMs: 30000,
+          elapsedMs: 2000,
+          durationMs: 300000,
+          isPlaying: true,
+        ),
+        32000,
+      );
 
-      // Before seek: interpolated should be near 32s.
-      var deltaMs = DateTime.now().difference(anchorTime).inMilliseconds;
-      var interpolated = anchorMs + deltaMs;
-      expect(interpolated, closeTo(32000, 100));
-
-      // User seeks to 90s. Update anchor.
-      anchorMs = 90000;
-      anchorTime = DateTime.now();
-
-      // After seek: interpolated should be near 90s, not snap back.
-      deltaMs = DateTime.now().difference(anchorTime).inMilliseconds;
-      interpolated = anchorMs + deltaMs;
-      expect(interpolated, closeTo(90000, 100));
+      // User seeks to 90s. Elapsed resets to 0.
+      expect(
+        interpolatePosition(
+          anchorMs: 90000,
+          elapsedMs: 0,
+          durationMs: 300000,
+          isPlaying: true,
+        ),
+        90000,
+      );
     });
   });
 }

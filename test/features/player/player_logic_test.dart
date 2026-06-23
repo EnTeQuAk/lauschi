@@ -93,7 +93,7 @@ void main() {
       expect(
         interpolatePosition(
           anchorMs: 5000,
-          anchorTime: DateTime.now().subtract(const Duration(seconds: 10)),
+          elapsedMs: 10000,
           durationMs: 300000,
           isPlaying: false,
         ),
@@ -105,7 +105,7 @@ void main() {
       expect(
         interpolatePosition(
           anchorMs: 5000,
-          anchorTime: DateTime.now().subtract(const Duration(seconds: 10)),
+          elapsedMs: 10000,
           durationMs: 0,
           isPlaying: true,
         ),
@@ -114,39 +114,38 @@ void main() {
     });
 
     test('adds elapsed time when playing', () {
-      final anchor = DateTime.now().subtract(const Duration(seconds: 30));
-      final result = interpolatePosition(
-        anchorMs: 10000,
-        anchorTime: anchor,
-        durationMs: 300000,
-        isPlaying: true,
+      expect(
+        interpolatePosition(
+          anchorMs: 10000,
+          elapsedMs: 30000,
+          durationMs: 300000,
+          isPlaying: true,
+        ),
+        40000,
       );
-      // 10000 + ~30000 = ~40000. Allow 500ms tolerance.
-      expect(result, greaterThan(39500));
-      expect(result, lessThan(41000));
     });
 
     test('clamps to duration (does not overshoot)', () {
-      // Anchor 10s from end, but 30s have elapsed: clamp to duration.
-      final anchor = DateTime.now().subtract(const Duration(seconds: 30));
-      final result = interpolatePosition(
-        anchorMs: 290000,
-        anchorTime: anchor,
-        durationMs: 300000,
-        isPlaying: true,
+      expect(
+        interpolatePosition(
+          anchorMs: 290000,
+          elapsedMs: 30000,
+          durationMs: 300000,
+          isPlaying: true,
+        ),
+        300000,
       );
-      expect(result, 300000);
     });
 
     test('clamps to zero (does not undershoot)', () {
       expect(
         interpolatePosition(
           anchorMs: 0,
-          anchorTime: DateTime.now(),
+          elapsedMs: 0,
           durationMs: 300000,
           isPlaying: true,
         ),
-        greaterThanOrEqualTo(0),
+        0,
       );
     });
   });
@@ -196,23 +195,24 @@ void main() {
   });
 
   group('computePlayTime', () {
-    test('returns previous when no anchor', () {
+    test('returns previous when no elapsed time', () {
       expect(
-        computePlayTime(playStartedAt: null, previousPlayTimeMs: 5000),
+        computePlayTime(
+          elapsedSinceStartMs: null,
+          previousPlayTimeMs: 5000,
+        ),
         5000,
       );
     });
 
-    test('accumulates time from anchor', () {
-      final anchor = DateTime.now().subtract(const Duration(seconds: 10));
-      final result = computePlayTime(
-        playStartedAt: anchor,
-        previousPlayTimeMs: 5000,
+    test('accumulates elapsed time', () {
+      expect(
+        computePlayTime(
+          elapsedSinceStartMs: 10000,
+          previousPlayTimeMs: 5000,
+        ),
+        15000,
       );
-      // Should be ~15000ms (5000 previous + 10000 elapsed).
-      // Allow 500ms tolerance for test execution time.
-      expect(result, greaterThan(14500));
-      expect(result, lessThan(16000));
     });
   });
 

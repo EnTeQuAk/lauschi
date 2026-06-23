@@ -71,10 +71,10 @@ class SpotifyWebViewBridge {
   int _trackNumber = 0;
   int _nextTracksCount = 0;
 
-  // Wall-clock timestamp of the last state_changed event. Used to
-  // interpolate position between SDK events (the Spotify Web Playback
-  // SDK only fires state_changed on discrete events, not periodically).
-  DateTime _lastStateTime = DateTime.now();
+  // Monotonic clock for position interpolation. Reset on each
+  // state_changed event. Uses Stopwatch instead of DateTime.now()
+  // to avoid clock-jump bugs from NTP sync or manual time changes.
+  final Stopwatch _stateStopwatch = Stopwatch()..start();
 
   /// Stream of playback state changes.
   Stream<PlaybackState> get stateStream => _stateController.stream;
@@ -82,10 +82,10 @@ class SpotifyWebViewBridge {
   /// Current playback state (shared fields only).
   PlaybackState get currentState => _state;
 
-  /// Position interpolated by wall-clock time since the last SDK event.
+  /// Position interpolated by monotonic time since the last SDK event.
   int get estimatedPositionMs => interpolatePosition(
     anchorMs: _state.positionMs,
-    anchorTime: _lastStateTime,
+    elapsedMs: _stateStopwatch.elapsedMilliseconds,
     durationMs: _state.durationMs,
     isPlaying: _state.isPlaying,
   );
@@ -266,7 +266,7 @@ class SpotifyWebViewBridge {
     _deviceId = null;
     _trackNumber = 0;
     _nextTracksCount = 0;
-    _lastStateTime = DateTime.now();
+    _stateStopwatch.reset();
     _getValidToken = null;
     _isReloading = false;
 
@@ -467,7 +467,7 @@ class SpotifyWebViewBridge {
 
     _trackNumber = trackNum;
     _nextTracksCount = nextCount;
-    _lastStateTime = DateTime.now();
+    _stateStopwatch.reset();
 
     _updateState(
       _state.copyWith(

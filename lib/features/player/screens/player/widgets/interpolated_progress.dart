@@ -10,6 +10,8 @@ import 'package:lauschi/features/player/screens/player/widgets/player_progress_b
 /// Progress bar with its own ticker; only this widget rebuilds at 60fps.
 ///
 /// Interpolates between SDK-reported positions for smooth slider movement.
+/// Uses the Ticker's monotonic elapsed duration instead of DateTime.now()
+/// to avoid clock-jump bugs from NTP sync or manual time changes.
 class InterpolatedProgress extends ConsumerStatefulWidget {
   const InterpolatedProgress({required this.onSeek, super.key});
   final ValueChanged<int> onSeek;
@@ -28,12 +30,15 @@ class _InterpolatedProgressState extends ConsumerState<InterpolatedProgress>
   /// the interpolation to the new server position and interpolate forward
   /// from there.
   int _anchorMs = 0;
-  DateTime _anchorTime = DateTime.now();
+  Duration _anchorElapsed = Duration.zero;
   bool _scrubbing = false;
 
   /// Cached player state, updated via ref.listen in build().
   /// The ticker reads this instead of calling ref.read() per frame.
   PlaybackState _playerState = const PlaybackState();
+
+  /// Last elapsed duration from the ticker, for re-anchoring in scrub/seek.
+  Duration _lastElapsed = Duration.zero;
 
   @override
   void initState() {
@@ -50,19 +55,19 @@ class _InterpolatedProgressState extends ConsumerState<InterpolatedProgress>
   }
 
   void _onTick(Duration elapsed) {
+    _lastElapsed = elapsed;
     if (_scrubbing) return;
 
     final serverMs = _playerState.positionMs;
-    final now = DateTime.now();
 
     if (serverMs != _anchorMs) {
       _anchorMs = serverMs;
-      _anchorTime = now;
+      _anchorElapsed = elapsed;
     }
 
     _position.value = interpolatePosition(
       anchorMs: _anchorMs,
-      anchorTime: _anchorTime,
+      elapsedMs: (elapsed - _anchorElapsed).inMilliseconds,
       durationMs: _playerState.durationMs,
       isPlaying: _playerState.isPlaying,
     );
@@ -70,7 +75,7 @@ class _InterpolatedProgressState extends ConsumerState<InterpolatedProgress>
 
   void _reanchor(int ms) {
     _anchorMs = ms;
-    _anchorTime = DateTime.now();
+    _anchorElapsed = _lastElapsed;
     _position.value = ms;
   }
 

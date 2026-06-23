@@ -150,7 +150,7 @@ class PlayerNotifier extends _$PlayerNotifier {
 
   // -- Position tracking state --
   int _playTimeMs = 0;
-  DateTime? _playStartedAt;
+  final Stopwatch _playStopwatch = Stopwatch();
 
   /// Tracks the last known playback state to detect track completion
   /// via transitions (needed for auto-advancing players like Spotify).
@@ -272,7 +272,9 @@ class PlayerNotifier extends _$PlayerNotifier {
     _positionSaveTimer?.cancel();
     _positionSaveTimer = null;
     _playTimeMs = 0;
-    _playStartedAt = null;
+    _playStopwatch
+      ..stop()
+      ..reset();
 
     unawaited(_active?.stop());
     _active = null;
@@ -310,7 +312,9 @@ class PlayerNotifier extends _$PlayerNotifier {
     _positionSaveTimer?.cancel();
     _positionSaveTimer = null;
     _playTimeMs = 0;
-    _playStartedAt = null;
+    _playStopwatch
+      ..stop()
+      ..reset();
     _lastPlaybackState = null;
     _completionHandledForSession = false;
 
@@ -365,7 +369,9 @@ class PlayerNotifier extends _$PlayerNotifier {
     _positionSaveTimer?.cancel();
     _positionSaveTimer = null;
     _playTimeMs = 0;
-    _playStartedAt = null;
+    _playStopwatch
+      ..stop()
+      ..reset();
     _lastPlaybackState = null;
     _completionHandledForSession = false;
 
@@ -983,7 +989,7 @@ class PlayerNotifier extends _$PlayerNotifier {
   void _startPositionSave() {
     if (_positionSaveTimer != null) return;
 
-    _playStartedAt ??= DateTime.now();
+    if (!_playStopwatch.isRunning) _playStopwatch.start();
     _positionSaveTimer = Timer.periodic(
       _positionSaveInterval,
       (_) {
@@ -1020,18 +1026,18 @@ class PlayerNotifier extends _$PlayerNotifier {
     if (_positionSaveTimer == null) return;
     _positionSaveTimer!.cancel();
     _positionSaveTimer = null;
-    if (_playStartedAt != null) {
-      _updatePlayTime();
-      _playStartedAt = null;
-    }
+    _updatePlayTime();
+    _playStopwatch.stop();
   }
 
   void _updatePlayTime() {
     _playTimeMs = computePlayTime(
-      playStartedAt: _playStartedAt,
+      elapsedSinceStartMs:
+          _playStopwatch.isRunning ? _playStopwatch.elapsedMilliseconds : null,
       previousPlayTimeMs: _playTimeMs,
     );
-    if (_playStartedAt != null) _playStartedAt = DateTime.now();
+    _playStopwatch.reset();
+    if (_playTimeMs > 0) _playStopwatch.start();
   }
 
   Future<void> _savePosition(
@@ -1085,18 +1091,18 @@ bool shouldSavePosition({
 }) => playTimeMs >= minPlayTimeMs;
 
 /// Estimate current playback position by interpolating from a known
-/// anchor point using wall-clock time. Backends that only report
-/// position on discrete events (Spotify Web Playback SDK) need this
-/// to avoid stale positions between events.
+/// anchor point. Backends that only report position on discrete events
+/// (Spotify Web Playback SDK) need this to avoid stale positions
+/// between events. Pure function; caller provides elapsed time from
+/// a monotonic source (Stopwatch, Ticker, etc.).
 int interpolatePosition({
   required int anchorMs,
-  required DateTime anchorTime,
+  required int elapsedMs,
   required int durationMs,
   required bool isPlaying,
 }) {
   if (!isPlaying || durationMs <= 0) return anchorMs;
-  final elapsed = DateTime.now().difference(anchorTime).inMilliseconds;
-  return (anchorMs + elapsed).clamp(0, durationMs);
+  return (anchorMs + elapsedMs).clamp(0, durationMs);
 }
 
 /// Whether the current position is near the end of the track.
@@ -1121,15 +1127,15 @@ bool isAlbumComplete({
       thresholdMs: thresholdMs,
     );
 
-/// Accumulate play time from the last anchor to now.
-/// Returns the new total. Does not mutate anything.
+/// Accumulate play time from the last anchor.
+/// Returns the new total. Does not mutate anything. Pure function;
+/// caller provides elapsed time from a monotonic source.
 int computePlayTime({
-  required DateTime? playStartedAt,
+  required int? elapsedSinceStartMs,
   required int previousPlayTimeMs,
 }) {
-  if (playStartedAt == null) return previousPlayTimeMs;
-  return previousPlayTimeMs +
-      DateTime.now().difference(playStartedAt).inMilliseconds;
+  if (elapsedSinceStartMs == null) return previousPlayTimeMs;
+  return previousPlayTimeMs + elapsedSinceStartMs;
 }
 
 /// Handle album completion: mark card as heard, clear all positions in tile.
