@@ -5,7 +5,7 @@ workflows:
     instance_type: mac_mini_m2
     max_build_duration: 30
     environment:
-      flutter: 3.41.1
+      flutter: 3.44.3
       xcode: latest
       cocoapods: default
       vars:
@@ -77,7 +77,7 @@ workflows:
     instance_type: mac_mini_m2
     max_build_duration: 30
     environment:
-      flutter: 3.41.1
+      flutter: 3.44.3
       xcode: latest
       cocoapods: default
       vars:
