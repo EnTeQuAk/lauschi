@@ -31,6 +31,13 @@ class _InterpolatedProgressState extends ConsumerState<InterpolatedProgress>
   int _lastServerMs = -1;
   int _lastDurationMs = 0;
 
+  /// After a seek, the backend may fire one or more state updates with
+  /// the pre-seek position before the seek confirmation arrives. This
+  /// would snap the slider back to the old position, then forward again.
+  /// While set, position snaps are suppressed until the backend reports
+  /// a position within 2s of the seek target.
+  int? _pendingSeekMs;
+
   @override
   void initState() {
     super.initState();
@@ -58,7 +65,12 @@ class _InterpolatedProgressState extends ConsumerState<InterpolatedProgress>
     }
 
     final serverMs = state.positionMs;
-    if (serverMs != _lastServerMs) {
+    if (_pendingSeekMs != null) {
+      if ((serverMs - _pendingSeekMs!).abs() <= 2000) {
+        _pendingSeekMs = null;
+        _lastServerMs = serverMs;
+      }
+    } else if (serverMs != _lastServerMs) {
       _lastServerMs = serverMs;
       _controller.value = (serverMs / durationMs).clamp(0.0, 1.0);
     }
@@ -80,6 +92,7 @@ class _InterpolatedProgressState extends ConsumerState<InterpolatedProgress>
 
   void _seekTo(int ms) {
     _scrubbing = false;
+    _pendingSeekMs = ms;
     if (_lastDurationMs > 0) {
       _lastServerMs = ms;
       _controller.value = (ms / _lastDurationMs).clamp(0.0, 1.0);
