@@ -215,6 +215,9 @@ class ContentImporter extends _$ContentImporter {
   // ── Private helpers ───────────────────────────────────────────────
 
   /// Insert cards into a group. Pure DB work, no state management.
+  ///
+  /// Cards are sorted by episodeNumber before insertion so that
+  /// sortOrder (the fallback sort key) reflects episode order.
   Future<int> _insertCards({
     required String groupTitle,
     required List<PendingCard> cards,
@@ -226,9 +229,16 @@ class ContentImporter extends _$ContentImporter {
         tileId ?? await _findOrCreateGroup(groupTitle, groupCoverUrl);
     final existingUris = ref.read(existingItemUrisProvider);
 
+    final sorted = [...cards]..sort((a, b) {
+      if (a.episodeNumber == null && b.episodeNumber == null) return 0;
+      if (a.episodeNumber == null) return 1;
+      if (b.episodeNumber == null) return -1;
+      return a.episodeNumber!.compareTo(b.episodeNumber!);
+    });
+
     var added = 0;
-    for (var i = 0; i < cards.length; i++) {
-      final card = cards[i];
+    for (var i = 0; i < sorted.length; i++) {
+      final card = sorted[i];
       if (existingUris.contains(card.providerUri)) {
         await _assignExistingToGroup(
           card.providerUri,
@@ -239,7 +249,7 @@ class ContentImporter extends _$ContentImporter {
         await _insertCard(card, groupId: groupId);
         added++;
       }
-      onProgress?.call(i + 1, cards.length);
+      onProgress?.call(i + 1, sorted.length);
     }
 
     Log.info(

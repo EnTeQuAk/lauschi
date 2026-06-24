@@ -536,11 +536,14 @@ class TileRepository {
   }
 
   /// Watch items belonging to a tile, ordered by episodeNumber then sortOrder.
+  /// Episodes without a number sort after numbered ones.
   Stream<List<TileItem>> watchItems(String tileId) {
     return (_db.select(_db.cards)
           ..where((t) => t.groupId.equals(tileId))
           ..orderBy([
-            (t) => OrderingTerm.asc(t.episodeNumber),
+            (t) => OrderingTerm.asc(
+              coalesce([t.episodeNumber, const Constant(2147483647)]),
+            ),
             (t) => OrderingTerm.asc(t.sortOrder),
           ]))
         .watch();
@@ -568,7 +571,9 @@ class TileRepository {
                 t.markedUnavailable.isNull(),
           )
           ..orderBy([
-            (t) => OrderingTerm.asc(t.episodeNumber),
+            (t) => OrderingTerm.asc(
+              coalesce([t.episodeNumber, const Constant(2147483647)]),
+            ),
             (t) => OrderingTerm.asc(t.sortOrder),
           ])
           ..limit(1))

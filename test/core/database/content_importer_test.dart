@@ -171,6 +171,100 @@ void main() {
     }
   });
 
+  test('episodes are sorted by episodeNumber on import', () async {
+    final importer = container.read(contentImporterProvider.notifier);
+    final tiles = container.read(tileRepositoryProvider);
+
+    // Import episodes out of order: 5, 3, 1, 4, 2.
+    final cards = [
+      const PendingCard(
+        title: 'Folge 5',
+        providerUri: 'spotify:album:ep5',
+        cardType: 'album',
+        provider: ProviderType.spotify,
+        episodeNumber: 5,
+      ),
+      const PendingCard(
+        title: 'Folge 3',
+        providerUri: 'spotify:album:ep3',
+        cardType: 'album',
+        provider: ProviderType.spotify,
+        episodeNumber: 3,
+      ),
+      const PendingCard(
+        title: 'Folge 1',
+        providerUri: 'spotify:album:ep1',
+        cardType: 'album',
+        provider: ProviderType.spotify,
+        episodeNumber: 1,
+      ),
+      const PendingCard(
+        title: 'Folge 4',
+        providerUri: 'spotify:album:ep4',
+        cardType: 'album',
+        provider: ProviderType.spotify,
+        episodeNumber: 4,
+      ),
+      const PendingCard(
+        title: 'Folge 2',
+        providerUri: 'spotify:album:ep2',
+        cardType: 'album',
+        provider: ProviderType.spotify,
+        episodeNumber: 2,
+      ),
+    ];
+
+    await importer.importToGroup(
+      groupTitle: 'TKKG',
+      cards: cards,
+    );
+
+    final allTiles = await tiles.getAll();
+    expect(allTiles, hasLength(1));
+
+    final items = await tiles.watchItems(allTiles.first.id).first;
+    final numbers = items.map((i) => i.episodeNumber).toList();
+    expect(numbers, [1, 2, 3, 4, 5]);
+  });
+
+  test('episodes without episodeNumber sort after numbered ones', () async {
+    final importer = container.read(contentImporterProvider.notifier);
+    final tiles = container.read(tileRepositoryProvider);
+
+    final cards = [
+      const PendingCard(
+        title: 'Bonus',
+        providerUri: 'spotify:album:bonus',
+        cardType: 'album',
+        provider: ProviderType.spotify,
+      ),
+      const PendingCard(
+        title: 'Folge 2',
+        providerUri: 'spotify:album:ep2',
+        cardType: 'album',
+        provider: ProviderType.spotify,
+        episodeNumber: 2,
+      ),
+      const PendingCard(
+        title: 'Folge 1',
+        providerUri: 'spotify:album:ep1',
+        cardType: 'album',
+        provider: ProviderType.spotify,
+        episodeNumber: 1,
+      ),
+    ];
+
+    await importer.importToGroup(
+      groupTitle: 'Mixed',
+      cards: cards,
+    );
+
+    final allTiles = await tiles.getAll();
+    final items = await tiles.watchItems(allTiles.first.id).first;
+    final titles = items.map((i) => i.title).toList();
+    expect(titles, ['Folge 1', 'Folge 2', 'Bonus']);
+  });
+
   test('import without onProgress does not crash', () async {
     final importer = container.read(contentImporterProvider.notifier);
     final items = container.read(tileItemRepositoryProvider);
