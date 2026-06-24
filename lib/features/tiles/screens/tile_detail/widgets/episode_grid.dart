@@ -183,7 +183,19 @@ class _EpisodeGridState extends State<EpisodeGrid>
                   child: Stack(
                     clipBehavior: Clip.none,
                     children: [
-                      child!,
+                      DecoratedBox(
+                        decoration: BoxDecoration(
+                          borderRadius: const BorderRadius.all(AppRadius.card),
+                          boxShadow: [
+                            BoxShadow(
+                              color: AppColors.primary.withValues(alpha: 0.45),
+                              blurRadius: 12,
+                              spreadRadius: 2,
+                            ),
+                          ],
+                        ),
+                        child: child,
+                      ),
                       Positioned(
                         top: -8,
                         left: 0,
