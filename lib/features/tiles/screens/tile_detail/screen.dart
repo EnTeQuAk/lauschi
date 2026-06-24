@@ -397,7 +397,8 @@ final tileByIdProvider = StreamProvider.family<db.Tile?, String>((
 ///
 /// Priority:
 /// 1. The in-progress episode (has saved position, not heard)
-/// 2. The first unheard episode in list order
+/// 2. The first unheard episode after the last heard one in list order
+/// 3. The first unheard episode (no heard episodes exist yet)
 final tileNextUnheardProvider = Provider.family<db.TileItem?, String>((
   ref,
   tileId,
@@ -409,7 +410,24 @@ final tileNextUnheardProvider = Provider.family<db.TileItem?, String>((
     if (!ep.isHeard && !isItemExpired(ep) && ep.lastPositionMs > 0) return ep;
   }
 
-  // Nothing in progress; first unheard episode.
+  // Continue from where the user left off: find the last heard episode,
+  // then pick the first unheard one after it.
+  var lastHeardIndex = -1;
+  for (var i = episodes.length - 1; i >= 0; i--) {
+    if (episodes[i].isHeard) {
+      lastHeardIndex = i;
+      break;
+    }
+  }
+
+  if (lastHeardIndex >= 0) {
+    for (var i = lastHeardIndex + 1; i < episodes.length; i++) {
+      final ep = episodes[i];
+      if (!ep.isHeard && !isItemExpired(ep)) return ep;
+    }
+  }
+
+  // No heard episodes yet, or nothing unheard after the last heard one.
   for (final ep in episodes) {
     if (!ep.isHeard && !isItemExpired(ep)) return ep;
   }

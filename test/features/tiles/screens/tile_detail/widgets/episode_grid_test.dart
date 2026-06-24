@@ -201,93 +201,34 @@ void main() {
     );
   });
 
-  testWidgets('breathing glow animates continuously', (tester) async {
-    // ep-2 is on row 1, fully visible in the 400px viewport.
+  testWidgets('Weiter badge pill is shown on nextUnheardId episode', (
+    tester,
+  ) async {
     await tester.pumpWidget(
       _Harness(episodes: episodes, initialNextUnheardId: 'ep-2'),
     );
     await tester.pump();
     await tester.pump();
 
-    // Glow controller: 2000ms forward (0→1), 2000ms reverse (1→0).
-    // Border alpha ranges from 120 (at 0) to 200 (at 1).
-    // Advance near the peak of the forward cycle.
-    await tester.pump(const Duration(milliseconds: 1900));
-
-    Border? findGlowBorder() {
-      for (final d in tester.widgetList<DecoratedBox>(
-        find.byType(DecoratedBox),
-      )) {
-        final decoration = d.decoration;
-        if (decoration is! BoxDecoration) continue;
-        final border = decoration.border;
-        if (border is! Border) continue;
-        if (border.top.width == 2) return border;
-      }
-      return null;
-    }
-
-    final border = findGlowBorder();
-    expect(border, isNotNull, reason: 'Glow border should exist');
-    // Near the peak (t ≈ 0.95), alpha should be well above the minimum of 120.
-    expect(border!.top.color.a, greaterThan(0.6));
+    expect(find.text('▶ Weiter'), findsOneWidget);
   });
 
-  testWidgets('glow stops when nextUnheardId becomes null', (tester) async {
+  testWidgets('Weiter badge disappears when nextUnheardId becomes null', (
+    tester,
+  ) async {
     await tester.pumpWidget(
       _Harness(episodes: episodes, initialNextUnheardId: 'ep-2'),
     );
     await tester.pump();
     await tester.pump();
 
-    // Glow is running: advance past baseline so we can detect a stop.
-    await tester.pump(const Duration(milliseconds: 1000));
+    expect(find.text('▶ Weiter'), findsOneWidget);
 
-    // Clear the badge.
     tester
         .state<_HarnessState>(find.byType(_Harness))
         .updateNextUnheardId(null);
     await tester.pump();
 
-    // No glow border should exist (isNext is false for all items).
-    for (final d in tester.widgetList<DecoratedBox>(
-      find.byType(DecoratedBox),
-    )) {
-      final decoration = d.decoration;
-      if (decoration is! BoxDecoration) continue;
-      final border = decoration.border;
-      if (border is! Border) continue;
-      expect(
-        border.top.width,
-        lessThan(2),
-        reason: 'Glow border should not exist after badge removed',
-      );
-    }
-  });
-
-  testWidgets('glow does not tick when initialized without nextUnheardId', (
-    tester,
-  ) async {
-    await tester.pumpWidget(
-      _Harness(episodes: episodes, initialNextUnheardId: null),
-    );
-    await tester.pump();
-    await tester.pump();
-    await tester.pump(const Duration(milliseconds: 2000));
-
-    // No glow borders should exist.
-    for (final d in tester.widgetList<DecoratedBox>(
-      find.byType(DecoratedBox),
-    )) {
-      final decoration = d.decoration;
-      if (decoration is! BoxDecoration) continue;
-      final border = decoration.border;
-      if (border is! Border) continue;
-      expect(
-        border.top.width,
-        lessThan(2),
-        reason: 'No glow border should exist without a nextUnheardId',
-      );
-    }
+    expect(find.text('▶ Weiter'), findsNothing);
   });
 }

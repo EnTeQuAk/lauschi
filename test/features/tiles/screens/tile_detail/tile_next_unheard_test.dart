@@ -49,13 +49,47 @@ void main() {
     expect(result?.id, 'ep-2');
   });
 
-  test('returns first unheard when nothing in progress', () {
+  test('returns first unheard after last heard', () {
     final result = readNextUnheard([
       _episode(id: 'ep-1', isHeard: true),
       _episode(id: 'ep-2', sortOrder: 1),
       _episode(id: 'ep-3', sortOrder: 2),
     ]);
     expect(result?.id, 'ep-2');
+  });
+
+  test('skips earlier unheard episodes when later ones are heard', () {
+    // User started at ep-3 and finished it. ep-1 and ep-2 were never played.
+    // Badge should point to ep-4, not ep-1.
+    final result = readNextUnheard([
+      _episode(id: 'ep-1'),
+      _episode(id: 'ep-2', sortOrder: 1),
+      _episode(id: 'ep-3', sortOrder: 2, isHeard: true),
+      _episode(id: 'ep-4', sortOrder: 3),
+      _episode(id: 'ep-5', sortOrder: 4),
+    ]);
+    expect(result?.id, 'ep-4');
+  });
+
+  test('falls back to first unheard when no episodes are heard', () {
+    final result = readNextUnheard([
+      _episode(id: 'ep-1'),
+      _episode(id: 'ep-2', sortOrder: 1),
+      _episode(id: 'ep-3', sortOrder: 2),
+    ]);
+    expect(result?.id, 'ep-1');
+  });
+
+  test('wraps to first unheard when all after last heard are heard', () {
+    // User heard ep-3 and ep-4, but ep-1 and ep-2 remain unheard.
+    // Nothing unheard after ep-4, so fall back to first unheard overall.
+    final result = readNextUnheard([
+      _episode(id: 'ep-1'),
+      _episode(id: 'ep-2', sortOrder: 1),
+      _episode(id: 'ep-3', sortOrder: 2, isHeard: true),
+      _episode(id: 'ep-4', sortOrder: 3, isHeard: true),
+    ]);
+    expect(result?.id, 'ep-1');
   });
 
   test('returns null when all episodes are heard', () {

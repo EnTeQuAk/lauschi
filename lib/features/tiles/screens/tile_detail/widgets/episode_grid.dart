@@ -41,7 +41,7 @@ class EpisodeGrid extends StatefulWidget {
 }
 
 class _EpisodeGridState extends State<EpisodeGrid>
-    with TickerProviderStateMixin {
+    with SingleTickerProviderStateMixin {
   static const _crossAxisSpacing = 12.0;
   static const _mainAxisSpacing = 16.0;
   static const _gridPadding = EdgeInsets.fromLTRB(
@@ -55,19 +55,11 @@ class _EpisodeGridState extends State<EpisodeGrid>
 
   String? _lastScrolledToId;
 
-  late final AnimationController _glowController;
   late final AnimationController _pulseController;
 
   @override
   void initState() {
     super.initState();
-    _glowController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 2000),
-    );
-    if (widget.nextUnheardId != null) {
-      unawaited(_glowController.repeat(reverse: true));
-    }
     _pulseController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 400),
@@ -75,19 +67,8 @@ class _EpisodeGridState extends State<EpisodeGrid>
   }
 
   @override
-  void didUpdateWidget(EpisodeGrid oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (widget.nextUnheardId != null && !_glowController.isAnimating) {
-      unawaited(_glowController.repeat(reverse: true));
-    } else if (widget.nextUnheardId == null && _glowController.isAnimating) {
-      _glowController.reset();
-    }
-  }
-
-  @override
   void dispose() {
     _pulseController.dispose();
-    _glowController.dispose();
     _scrollController.dispose();
     super.dispose();
   }
@@ -193,11 +174,8 @@ class _EpisodeGridState extends State<EpisodeGrid>
             if (!isNext) return tile;
 
             return AnimatedBuilder(
-              animation: Listenable.merge([_glowController, _pulseController]),
+              animation: _pulseController,
               builder: (context, child) {
-                final glowT = Curves.easeInOut.transform(
-                  _glowController.value,
-                );
                 final pulseT = sin(_pulseController.value * pi);
 
                 return Transform.scale(
@@ -205,21 +183,6 @@ class _EpisodeGridState extends State<EpisodeGrid>
                   child: Stack(
                     clipBehavior: Clip.none,
                     children: [
-                      Positioned.fill(
-                        child: DecoratedBox(
-                          decoration: BoxDecoration(
-                            borderRadius: const BorderRadius.all(
-                              AppRadius.card,
-                            ),
-                            border: Border.all(
-                              color: AppColors.accent.withAlpha(
-                                (120 + 80 * glowT).round(),
-                              ),
-                              width: 2,
-                            ),
-                          ),
-                        ),
-                      ),
                       child!,
                       Positioned(
                         top: -8,
