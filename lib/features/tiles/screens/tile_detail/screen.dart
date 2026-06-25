@@ -405,31 +405,24 @@ final tileNextUnheardProvider = Provider.family<db.TileItem?, String>((
 ) {
   final episodes = ref.watch(tileItemsProvider(tileId)).value ?? [];
 
-  // At most one episode has a saved position per tile (CD model).
+  bool available(db.TileItem ep) => !ep.isHeard && !isItemExpired(ep);
+
+  // Priority 1: in-progress episode (CD model, at most one per tile).
   for (final ep in episodes) {
-    if (!ep.isHeard && !isItemExpired(ep) && ep.lastPositionMs > 0) return ep;
+    if (available(ep) && ep.lastPositionMs > 0) return ep;
   }
 
-  // Continue from where the user left off: find the last heard episode,
-  // then pick the first unheard one after it.
-  var lastHeardIndex = -1;
-  for (var i = episodes.length - 1; i >= 0; i--) {
-    if (episodes[i].isHeard) {
-      lastHeardIndex = i;
-      break;
-    }
-  }
-
+  // Priority 2: first unheard after the last heard.
+  final lastHeardIndex = episodes.lastIndexWhere((ep) => ep.isHeard);
   if (lastHeardIndex >= 0) {
     for (var i = lastHeardIndex + 1; i < episodes.length; i++) {
-      final ep = episodes[i];
-      if (!ep.isHeard && !isItemExpired(ep)) return ep;
+      if (available(episodes[i])) return episodes[i];
     }
   }
 
-  // No heard episodes yet, or nothing unheard after the last heard one.
+  // Priority 3: first unheard overall.
   for (final ep in episodes) {
-    if (!ep.isHeard && !isItemExpired(ep)) return ep;
+    if (available(ep)) return ep;
   }
   return null;
 });

@@ -1,7 +1,7 @@
 import 'package:drift/drift.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lauschi/core/database/app_database.dart';
-import 'package:lauschi/core/database/tile_item_repository.dart' show sortLast;
+import 'package:lauschi/core/database/tables.dart' show cardOrder;
 import 'package:lauschi/core/log.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:uuid/uuid.dart';
@@ -543,16 +543,7 @@ class TileRepository {
   Stream<List<TileItem>> watchItems(String tileId) {
     return (_db.select(_db.cards)
           ..where((t) => t.groupId.equals(tileId))
-          ..orderBy([
-            (t) => OrderingTerm.asc(
-              coalesce([
-                t.sortOrder,
-                t.episodeNumber,
-                sortLast,
-              ]),
-            ),
-            (t) => OrderingTerm.asc(t.createdAt),
-          ]))
+          ..orderBy(cardOrder()))
         .watch();
   }
 
@@ -567,28 +558,41 @@ class TileRepository {
     return result.read(count) ?? 0;
   }
 
-  /// Get the first unheard, available item in a tile (next episode).
+  /// Get the next episode to play in a tile.
+  ///
+  /// Priority:
+  /// 1. In-progress episode (has saved position, not heard)
+  /// 2. First unheard episode after the last heard one in sort order
+  /// 3. First unheard episode overall (nothing heard yet)
+  ///
   /// Skips items confirmed unavailable via markedUnavailable flag.
-  Future<TileItem?> nextUnheard(String tileId) {
-    return (_db.select(_db.cards)
-          ..where(
-            (t) =>
-                t.groupId.equals(tileId) &
-                t.isHeard.equals(false) &
-                t.markedUnavailable.isNull(),
-          )
-          ..orderBy([
-            (t) => OrderingTerm.asc(
-              coalesce([
-                t.sortOrder,
-                t.episodeNumber,
-                sortLast,
-              ]),
-            ),
-            (t) => OrderingTerm.asc(t.createdAt),
-          ])
-          ..limit(1))
-        .getSingleOrNull();
+  Future<TileItem?> nextUnheard(String tileId) async {
+    final episodes =
+        await (_db.select(_db.cards)
+              ..where((t) => t.groupId.equals(tileId))
+              ..orderBy(cardOrder()))
+            .get();
+
+    bool available(TileItem ep) => !ep.isHeard && ep.markedUnavailable == null;
+
+    // Priority 1: in-progress episode.
+    for (final ep in episodes) {
+      if (available(ep) && ep.lastPositionMs > 0) return ep;
+    }
+
+    // Priority 2: first unheard after the last heard.
+    final lastHeardIndex = episodes.lastIndexWhere((ep) => ep.isHeard);
+    if (lastHeardIndex >= 0) {
+      for (var i = lastHeardIndex + 1; i < episodes.length; i++) {
+        if (available(episodes[i])) return episodes[i];
+      }
+    }
+
+    // Priority 3: first unheard overall.
+    for (final ep in episodes) {
+      if (available(ep)) return ep;
+    }
+    return null;
   }
 }
 

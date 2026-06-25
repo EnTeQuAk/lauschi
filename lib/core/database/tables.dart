@@ -196,3 +196,22 @@ class Cards extends Table {
   @override
   Set<Column<Object>> get primaryKey => {id};
 }
+
+// ── Sort helpers ──────────────────────────────────────────────────────────────
+
+/// SQLite sorts NULLs first in ASC. Items with no sortOrder and no
+/// episodeNumber need a high sentinel to land last.
+const sortLast = Constant<int>(2147483647);
+
+/// Standard card ordering: manual sort, then episode number, then createdAt.
+///
+/// Use [withEpisodeNumber] = false for ungrouped items where episode numbers
+/// from different series aren't comparable.
+List<OrderingTerm Function(Cards)> cardOrder({
+  bool withEpisodeNumber = true,
+}) => [
+  (t) => OrderingTerm.asc(
+    coalesce([t.sortOrder, if (withEpisodeNumber) t.episodeNumber, sortLast]),
+  ),
+  (t) => OrderingTerm.asc(t.createdAt),
+];
