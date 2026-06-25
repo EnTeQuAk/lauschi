@@ -1,5 +1,16 @@
 # Changelog
 
+## v2026.6.4 (Juni 2026)
+
+🎯 **Weiter-Badge folgt dem Hörfortschritt**
+Wenn eine Folge fertig gehört wurde, springt der Weiter-Badge jetzt zur nächsten Folge in der Reihenfolge, nicht mehr zu Folge 1. Beispiel: Folge 3 fertig gehört, Badge zeigt auf Folge 4.
+
+📂 **Folgen automatisch nach Folgennummer sortiert**
+Alle Folgen innerhalb einer Kachel werden jetzt automatisch nach Folgennummer sortiert. Bonus-Folgen ohne Nummer landen am Ende. Manuelles Umsortieren per Drag & Drop überschreibt die automatische Reihenfolge.
+
+✨ **Weiter-Folge dezent hervorgehoben**
+Die nächste ungehörte Folge hat jetzt einen sanften Schatten, der sie vom Rest abhebt. Dazu weiterhin den "Weiter"-Badge und die Puls-Animation beim Wechsel.
+
 ## v2026.6.3 (Juni 2026)
 
 🐛 **Weiter-Badge springt zuverlässig zur nächsten Folge**
