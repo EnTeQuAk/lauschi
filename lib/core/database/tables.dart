@@ -157,7 +157,8 @@ class Cards extends Table {
   IntColumn get episodeNumber => integer().nullable()();
   BoolColumn get isHeard => boolean().withDefault(const Constant(false))();
 
-  IntColumn get sortOrder => integer().withDefault(const Constant(0))();
+  /// NULL = auto-sort by episodeNumber. Non-null = parent manually ordered.
+  IntColumn get sortOrder => integer().nullable()();
   DateTimeColumn get createdAt => dateTime().withDefault(currentDateAndTime)();
 
   /// Total number of tracks in this album (from Spotify at insert time).

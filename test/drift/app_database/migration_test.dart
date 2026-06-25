@@ -7,6 +7,8 @@ import 'package:lauschi/core/database/app_database.dart';
 import 'generated/schema.dart';
 import 'generated/schema_v10.dart' as v10;
 import 'generated/schema_v11.dart' as v11;
+import 'generated/schema_v12.dart' as v12;
+import 'generated/schema_v13.dart' as v13;
 
 void main() {
   driftRuntimeOptions.dontWarnAboutMultipleDatabases = true;
@@ -199,9 +201,7 @@ void main() {
           createdAt: fixedCreatedAt,
           totalTracks: 12,
           durationMs: 1800000,
-          // The whole point of this v11 row is to assert
-          // markedUnavailable defaults to null after the migration.
-          // Don't simplify away this redundant-looking argument.
+          // Explicit null IS the contract under test (v11 added this column).
           // ignore: avoid_redundant_argument_values
           markedUnavailable: null,
           lastTrackUri: 'spotify:track:abc',
@@ -221,8 +221,7 @@ void main() {
           totalTracks: 0,
           audioUrl: 'https://example.test/ohrenbaer.mp3',
           durationMs: 600000,
-          // Same as the card-tkkg-1 row above: this redundant-looking
-          // null IS the contract under test.
+          // Explicit null IS the contract under test (v11 added this column).
           // ignore: avoid_redundant_argument_values
           markedUnavailable: null,
           lastTrackNumber: 1,
@@ -291,6 +290,146 @@ void main() {
           expect(
             expectedNewShowSubscriptionsData,
             await newDb.select(newDb.showSubscriptions).get(),
+          );
+        },
+      );
+    },
+  );
+
+  // The v12 → v13 migration makes cards.sort_order nullable. The old
+  // NOT NULL column with default 0 is replaced via add-drop-rename
+  // (SQLite can't ALTER COLUMN constraints). All existing sort_order
+  // values become NULL, enabling COALESCE(sort_order, episode_number)
+  // auto-sorting. This test verifies data survives the column swap.
+  test(
+    'migration from v12 to v13 nullifies sort_order and preserves all other columns',
+    () async {
+      const fixedCreatedAt = 1700000000000;
+      const fixedLastPlayedAt = 1700001000000;
+
+      final oldCardsData = <v12.CardsData>[
+        const v12.CardsData(
+          id: 'card-tkkg-1',
+          title: 'TKKG Folge 1',
+          cardType: 'episode',
+          provider: 'spotify',
+          providerUri: 'spotify:album:tkkg1',
+          groupId: 'tile-tkkg',
+          episodeNumber: 1,
+          isHeard: 0,
+          sortOrder: 5,
+          createdAt: fixedCreatedAt,
+          totalTracks: 12,
+          durationMs: 1800000,
+          lastTrackUri: 'spotify:track:abc',
+          lastTrackNumber: 5,
+          lastPositionMs: 30000,
+          lastPlayedAt: fixedLastPlayedAt,
+        ),
+        const v12.CardsData(
+          id: 'card-ard-1',
+          title: 'Ohrenbär Folge',
+          cardType: 'episode',
+          provider: 'ard_audiothek',
+          providerUri: 'ard:item:99999',
+          isHeard: 1,
+          sortOrder: 42,
+          createdAt: fixedCreatedAt,
+          totalTracks: 0,
+          audioUrl: 'https://example.test/ohrenbaer.mp3',
+          durationMs: 600000,
+          lastTrackNumber: 1,
+          lastPositionMs: 0,
+        ),
+      ];
+
+      final oldGroupsData = <v12.GroupsData>[
+        const v12.GroupsData(
+          id: 'tile-tkkg',
+          title: 'TKKG',
+          sortOrder: 0,
+          createdAt: fixedCreatedAt,
+          contentType: 'hoerspiel',
+          provider: 'spotify',
+        ),
+      ];
+
+      // After migration, sort_order should be NULL for all cards.
+      // All other columns must be identical.
+      final expectedNewCardsData = <v13.CardsData>[
+        const v13.CardsData(
+          id: 'card-tkkg-1',
+          title: 'TKKG Folge 1',
+          cardType: 'episode',
+          provider: 'spotify',
+          providerUri: 'spotify:album:tkkg1',
+          groupId: 'tile-tkkg',
+          episodeNumber: 1,
+          isHeard: 0,
+          // sort_order was 5, now NULL after column swap.
+          // ignore: avoid_redundant_argument_values
+          sortOrder: null,
+          createdAt: fixedCreatedAt,
+          totalTracks: 12,
+          durationMs: 1800000,
+          lastTrackUri: 'spotify:track:abc',
+          lastTrackNumber: 5,
+          lastPositionMs: 30000,
+          lastPlayedAt: fixedLastPlayedAt,
+        ),
+        const v13.CardsData(
+          id: 'card-ard-1',
+          title: 'Ohrenbär Folge',
+          cardType: 'episode',
+          provider: 'ard_audiothek',
+          providerUri: 'ard:item:99999',
+          isHeard: 1,
+          // sort_order was 42, now NULL after column swap.
+          // ignore: avoid_redundant_argument_values
+          sortOrder: null,
+          createdAt: fixedCreatedAt,
+          totalTracks: 0,
+          audioUrl: 'https://example.test/ohrenbaer.mp3',
+          durationMs: 600000,
+          lastTrackNumber: 1,
+          lastPositionMs: 0,
+        ),
+      ];
+
+      // Groups are unchanged in v13 — only cards.sort_order changed.
+      final expectedNewGroupsData = <v13.GroupsData>[
+        const v13.GroupsData(
+          id: 'tile-tkkg',
+          title: 'TKKG',
+          sortOrder: 0,
+          createdAt: fixedCreatedAt,
+          contentType: 'hoerspiel',
+          provider: 'spotify',
+        ),
+      ];
+
+      expect(expectedNewCardsData, hasLength(oldCardsData.length));
+      expect(expectedNewGroupsData, hasLength(oldGroupsData.length));
+
+      await verifier.testWithDataIntegrity(
+        oldVersion: 12,
+        newVersion: 13,
+        createOld: v12.DatabaseAtV12.new,
+        createNew: v13.DatabaseAtV13.new,
+        openTestedDatabase: AppDatabase.new,
+        createItems: (batch, oldDb) {
+          batch
+            ..insertAll(oldDb.groups, oldGroupsData)
+            ..insertAll(oldDb.cards, oldCardsData);
+        },
+        validateItems: (newDb) async {
+          expect(
+            await newDb.select(newDb.cards).get(),
+            expectedNewCardsData,
+          );
+          expect(
+            await newDb.select(newDb.groups).get(),
+            expectedNewGroupsData,
           );
         },
       );

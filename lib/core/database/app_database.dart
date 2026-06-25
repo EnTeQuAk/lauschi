@@ -18,7 +18,7 @@ class AppDatabase extends _$AppDatabase {
 
   /// Bump when schema changes. See [migration] for upgrade steps.
   @override
-  int get schemaVersion => 12;
+  int get schemaVersion => 13;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -95,6 +95,25 @@ class AppDatabase extends _$AppDatabase {
           await customStatement(
             'CREATE INDEX IF NOT EXISTS idx_cards_provider_uri '
             'ON cards(provider_uri)',
+          );
+        }
+        if (from < 13 && to >= 13) {
+          // Make sort_order nullable on cards. NULL = auto-sort by
+          // episode_number. Non-null = parent manually ordered.
+          // SQLite can't ALTER COLUMN constraints, so we rebuild
+          // the table via Drift's TableMigration, which creates a
+          // new table with the correct schema, copies data, and
+          // swaps. All existing sort_order values become NULL.
+          //
+          // Guard includes `to >= 13` because TableMigration recreates
+          // the table from the current Dart schema (nullable sort_order).
+          // Without the upper bound, migrating to v11/v12 in tests would
+          // incorrectly apply v13's schema.
+          await m.alterTable(
+            TableMigration(
+              cards,
+              columnTransformer: {cards.sortOrder: const Constant(null)},
+            ),
           );
         }
         Log.info('Database', 'Migration complete');

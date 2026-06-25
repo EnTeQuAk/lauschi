@@ -1,6 +1,7 @@
 import 'package:drift/drift.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lauschi/core/database/app_database.dart';
+import 'package:lauschi/core/database/tile_item_repository.dart' show sortLast;
 import 'package:lauschi/core/log.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:uuid/uuid.dart';
@@ -468,6 +469,7 @@ class TileRepository {
           const CardsCompanion(
             groupId: Value(null),
             episodeNumber: Value(null),
+            sortOrder: Value(null),
           ),
         );
       }
@@ -535,16 +537,21 @@ class TileRepository {
         .firstOrNull;
   }
 
-  /// Watch items belonging to a tile, ordered by episodeNumber then sortOrder.
-  /// Episodes without a number sort after numbered ones.
+  /// Watch items belonging to a tile.
+  /// Sort: manual order (sortOrder) if set, otherwise episodeNumber, then
+  /// creation time as tiebreaker for items with neither.
   Stream<List<TileItem>> watchItems(String tileId) {
     return (_db.select(_db.cards)
           ..where((t) => t.groupId.equals(tileId))
           ..orderBy([
             (t) => OrderingTerm.asc(
-              coalesce([t.episodeNumber, const Constant(2147483647)]),
+              coalesce([
+                t.sortOrder,
+                t.episodeNumber,
+                sortLast,
+              ]),
             ),
-            (t) => OrderingTerm.asc(t.sortOrder),
+            (t) => OrderingTerm.asc(t.createdAt),
           ]))
         .watch();
   }
@@ -572,9 +579,13 @@ class TileRepository {
           )
           ..orderBy([
             (t) => OrderingTerm.asc(
-              coalesce([t.episodeNumber, const Constant(2147483647)]),
+              coalesce([
+                t.sortOrder,
+                t.episodeNumber,
+                sortLast,
+              ]),
             ),
-            (t) => OrderingTerm.asc(t.sortOrder),
+            (t) => OrderingTerm.asc(t.createdAt),
           ])
           ..limit(1))
         .getSingleOrNull();

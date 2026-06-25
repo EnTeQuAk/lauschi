@@ -7,7 +7,7 @@ db.TileItem _episode({
   required String id,
   bool isHeard = false,
   int lastPositionMs = 0,
-  int sortOrder = 0,
+  int? sortOrder,
   DateTime? markedUnavailable,
 }) {
   return db.TileItem(

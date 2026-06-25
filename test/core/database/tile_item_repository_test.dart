@@ -81,7 +81,7 @@ void main() {
     expect(cards, hasLength(1), reason: 'duplicate URI did not add a row');
   });
 
-  test('sortOrder auto-increments', () async {
+  test('sortOrder is null on insert (auto-sort by episodeNumber)', () async {
     final id1 = await repo.insert(
       title: 'First',
       providerUri: 'spotify:album:1',
@@ -93,15 +93,13 @@ void main() {
       cardType: 'album',
     );
 
-    // Context: both inserts produced distinct rows. A buggy insert
-    // returning the same id would silently turn this into a 1-row test.
     expect(id1, isNot(equals(id2)), reason: 'inserts produce unique ids');
 
     final cards = await repo.getAll();
     expect(cards, hasLength(2), reason: 'setup: both inserts persist');
 
-    expect(cards[0].sortOrder, 0);
-    expect(cards[1].sortOrder, 1);
+    expect(cards[0].sortOrder, isNull);
+    expect(cards[1].sortOrder, isNull);
   });
 
   test('delete removes the card', () async {

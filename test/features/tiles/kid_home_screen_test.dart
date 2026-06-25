@@ -30,7 +30,6 @@ db.TileItem _card({
     providerUri: providerUri,
     groupId: groupId,
     isHeard: false,
-    sortOrder: 0,
     createdAt: DateTime(2026),
     totalTracks: 10,
     durationMs: 0,

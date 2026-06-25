@@ -18,7 +18,6 @@ TileItem _item({
     cardType: cardType,
     provider: 'ard_audiothek',
     providerUri: 'ard:item:$id',
-    sortOrder: 0,
     isHeard: isHeard,
     totalTracks: totalTracks,
     lastTrackNumber: 0,

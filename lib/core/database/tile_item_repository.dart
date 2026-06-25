@@ -8,6 +8,10 @@ import 'package:uuid/uuid.dart';
 
 part 'tile_item_repository.g.dart';
 
+/// Fallback for COALESCE sort: SQLite sorts NULLs first in ASC, so items
+/// with no sortOrder and no episodeNumber need a high value to land last.
+const sortLast = Constant<int>(2147483647);
+
 const _uuid = Uuid();
 const _tag = 'TileItemRepo';
 
@@ -17,16 +21,24 @@ class TileItemRepository {
 
   final AppDatabase _db;
 
-  /// Watch all items ordered by sortOrder.
+  /// Watch all items ordered by manual sort order, then episode number.
   Stream<List<TileItem>> watchAll() {
-    return (_db.select(_db.cards)
-      ..orderBy([(t) => OrderingTerm.asc(t.sortOrder)])).watch();
+    return (_db.select(_db.cards)..orderBy([
+      (t) => OrderingTerm.asc(
+        coalesce([t.sortOrder, t.episodeNumber, sortLast]),
+      ),
+      (t) => OrderingTerm.asc(t.createdAt),
+    ])).watch();
   }
 
-  /// Get all items ordered by sortOrder.
+  /// Get all items ordered by manual sort order, then episode number.
   Future<List<TileItem>> getAll() {
-    return (_db.select(_db.cards)
-      ..orderBy([(t) => OrderingTerm.asc(t.sortOrder)])).get();
+    return (_db.select(_db.cards)..orderBy([
+      (t) => OrderingTerm.asc(
+        coalesce([t.sortOrder, t.episodeNumber, sortLast]),
+      ),
+      (t) => OrderingTerm.asc(t.createdAt),
+    ])).get();
   }
 
   /// Get a single item by ID.
@@ -86,15 +98,6 @@ class TileItemRepository {
   }) async {
     final id = _uuid.v4();
 
-    // Auto-increment sortOrder
-    final maxOrder =
-        await _db
-            .customSelect(
-              'SELECT COALESCE(MAX(sort_order), -1) AS max_order FROM cards',
-            )
-            .getSingle();
-    final nextOrder = (maxOrder.read<int>('max_order')) + 1;
-
     await _db
         .into(_db.cards)
         .insert(
@@ -105,7 +108,6 @@ class TileItemRepository {
             providerUri: providerUri,
             coverUrl: Value(coverUrl),
             provider: Value(provider.value),
-            sortOrder: Value(nextOrder),
             spotifyArtistIds:
                 spotifyArtistIds != null && spotifyArtistIds.isNotEmpty
                     ? Value(spotifyArtistIds.join(','))
@@ -299,6 +301,7 @@ class TileItemRepository {
       const CardsCompanion(
         groupId: Value(null),
         episodeNumber: Value(null),
+        sortOrder: Value(null),
       ),
     );
     Log.info(_tag, 'Item removed from tile', data: {'itemId': itemId});
@@ -431,7 +434,12 @@ class TileItemRepository {
   Future<List<TileItem>> getUngrouped() {
     return (_db.select(_db.cards)
           ..where((t) => t.groupId.isNull())
-          ..orderBy([(t) => OrderingTerm.asc(t.sortOrder)]))
+          ..orderBy([
+            (t) => OrderingTerm.asc(
+              coalesce([t.sortOrder, sortLast]),
+            ),
+            (t) => OrderingTerm.asc(t.createdAt),
+          ]))
         .get();
   }
 
@@ -439,7 +447,12 @@ class TileItemRepository {
   Stream<List<TileItem>> watchUngrouped() {
     return (_db.select(_db.cards)
           ..where((t) => t.groupId.isNull())
-          ..orderBy([(t) => OrderingTerm.asc(t.sortOrder)]))
+          ..orderBy([
+            (t) => OrderingTerm.asc(
+              coalesce([t.sortOrder, sortLast]),
+            ),
+            (t) => OrderingTerm.asc(t.createdAt),
+          ]))
         .watch();
   }
 }

@@ -8,7 +8,7 @@ db.TileItem _episode({
   required String id,
   bool isHeard = false,
   int lastPositionMs = 0,
-  int sortOrder = 0,
+  int? sortOrder,
   int? episodeNumber,
 }) {
   return db.TileItem(

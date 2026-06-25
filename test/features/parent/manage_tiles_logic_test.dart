@@ -30,7 +30,6 @@ TileItem _item({
   provider: 'spotify',
   providerUri: 'spotify:album:$id',
   isHeard: false,
-  sortOrder: 0,
   createdAt: DateTime(2026),
   totalTracks: 1,
   durationMs: 0,
