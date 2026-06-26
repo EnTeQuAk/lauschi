@@ -1,3 +1,4 @@
+import 'package:drift/drift.dart' hide isNotNull, isNull;
 import 'package:drift/native.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:lauschi/core/database/app_database.dart';
@@ -667,6 +668,116 @@ void main() {
       final card = (await repo.getAll()).firstWhere((c) => c.id == id);
       expect(card.markedUnavailable, isNull);
       expect(isItemExpired(card), isFalse);
+    });
+  });
+
+  // ─── nextUnheard (DB-level, exercises cardOrder() sort) ───────────
+
+  group('nextUnheard', () {
+    late String tileId;
+
+    setUp(() async {
+      tileId = await tiles.insert(title: 'Series');
+    });
+
+    Future<String> addEpisode(
+      String title, {
+      int? episodeNumber,
+      int? sortOrder,
+      bool isHeard = false,
+      int lastPositionMs = 0,
+    }) async {
+      final id = await repo.insertArdEpisode(
+        title: title,
+        providerUri: 'ard:$title',
+        audioUrl: 'https://example.com/$title.mp3',
+        tileId: tileId,
+        episodeNumber: episodeNumber,
+      );
+      if (sortOrder != null) {
+        await (db.update(db.cards)..where((t) => t.id.equals(id))).write(
+          CardsCompanion(sortOrder: Value(sortOrder)),
+        );
+      }
+      if (isHeard) await repo.markHeard(id);
+      if (lastPositionMs > 0) {
+        await repo.savePosition(
+          itemId: id,
+          trackUri: 'ard:track:$title',
+          positionMs: lastPositionMs,
+        );
+      }
+      return id;
+    }
+
+    test(
+      'picks next numbered episode after heard, skipping specials',
+      () async {
+        await addEpisode('ep1', episodeNumber: 1, isHeard: true);
+        await addEpisode('ep2', episodeNumber: 2, isHeard: true);
+        await addEpisode('ep3', episodeNumber: 3, isHeard: true);
+        final ep4 = await addEpisode('ep4', episodeNumber: 4);
+        await addEpisode('ep5', episodeNumber: 5);
+        // Explicit null: this is a special with no episode number.
+        // ignore: avoid_redundant_argument_values
+        await addEpisode('special', episodeNumber: null);
+
+        final next = await tiles.nextUnheard(tileId);
+        expect(next?.id, ep4);
+      },
+    );
+
+    test('falls through to special when all numbered heard', () async {
+      await addEpisode('ep1', episodeNumber: 1, isHeard: true);
+      await addEpisode('ep2', episodeNumber: 2, isHeard: true);
+      // Explicit null: this is a special with no episode number.
+      // ignore: avoid_redundant_argument_values
+      final special = await addEpisode('special', episodeNumber: null);
+
+      final next = await tiles.nextUnheard(tileId);
+      expect(next?.id, special);
+    });
+
+    test('in-progress special takes priority', () async {
+      await addEpisode('ep1', episodeNumber: 1, isHeard: true);
+      await addEpisode('ep2', episodeNumber: 2);
+      final special = await addEpisode(
+        'special',
+        // Explicit null: this is a special with no episode number.
+        // ignore: avoid_redundant_argument_values
+        episodeNumber: null,
+        lastPositionMs: 5000,
+      );
+
+      final next = await tiles.nextUnheard(tileId);
+      expect(next?.id, special);
+    });
+
+    test('manual sortOrder overrides episodeNumber', () async {
+      await addEpisode('ep1', episodeNumber: 1, sortOrder: 0, isHeard: true);
+      final special = await addEpisode('special', sortOrder: 1);
+      await addEpisode('ep2', episodeNumber: 2, sortOrder: 2);
+
+      final next = await tiles.nextUnheard(tileId);
+      expect(next?.id, special);
+    });
+
+    test('returns null when all heard', () async {
+      await addEpisode('ep1', episodeNumber: 1, isHeard: true);
+      await addEpisode('ep2', episodeNumber: 2, isHeard: true);
+
+      expect(await tiles.nextUnheard(tileId), isNull);
+    });
+
+    test('wraps to first unheard when nothing after last heard', () async {
+      final ep1 = await addEpisode('ep1', episodeNumber: 1);
+      await addEpisode('ep2', episodeNumber: 2, isHeard: true);
+      // Explicit null: this is a special with no episode number.
+      // ignore: avoid_redundant_argument_values
+      await addEpisode('special', episodeNumber: null, isHeard: true);
+
+      final next = await tiles.nextUnheard(tileId);
+      expect(next?.id, ep1);
     });
   });
 
