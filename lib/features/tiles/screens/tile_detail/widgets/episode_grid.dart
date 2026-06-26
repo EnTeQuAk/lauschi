@@ -188,7 +188,7 @@ class _EpisodeGridState extends State<EpisodeGrid>
                           borderRadius: const BorderRadius.all(AppRadius.card),
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.black.withValues(alpha: 0.4),
+                              color: AppColors.primary.withValues(alpha: 0.45),
                               blurRadius: 12,
                               spreadRadius: 1,
                             ),
