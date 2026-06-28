@@ -39,6 +39,7 @@ dramatization). These are different productions, separate `series.yaml` entries.
 | Sound design | Minimal or none | Foley, effects, music score |
 | Title hints | "Lesung", "ungekürzt", "gelesen von …" | "Folge N:", "Original-Hörspiel" |
 | Track shape | Many tracks (chapters) on Spotify; few long on Apple Music | Few tracks per episode on both |
+| Track names | Sequential numbering only: "Teil 01", "Teil 02", ... "Teil 40" | Descriptive scene names: "Spuk in der Werkstatt, Teil 1" |
 | Duration | 3-12 h (whole book) | 30-70 min (one episode) |
 
 Example: Michael Ende's "Die unendliche Geschichte" read by Rufus Beck
@@ -70,6 +71,18 @@ Phase-specific instructions and output schemas are loaded separately.
 | "ungekürzt", "Lesung", "gelesen von" | Many tracks | 3-12 h | Exclude (`wrong_content_type`) in non-audiobook series |
 | "Best of", "Greatest Hits", "Kinderparty" | Variable | Variable | Exclude (`compilation` or `multi_artist_compilation`) |
 | Instrumental, karaoke, sped-up, nightcore | Variable | Variable | Exclude (`format_variant`) |
+
+**Caveats to the table above:**
+
+- **Pattern match + sub-series brand:** When a title matches
+  `episode_pattern` but also contains a sub-series name after the number
+  (e.g., "Folge 2: Mini-Fall/Die Räuberjagd"), the sub-series identity
+  takes precedence. Exclude as `sub_series_bleed`. See the type-specific
+  reference doc for known sub-series patterns.
+- **Audiobook without title markers:** Not all audiobooks say "Lesung" or
+  "ungekürzt". Albums with 20+ sequential "Teil"/"Kapitel" tracks at 2-5
+  min each, no descriptive scene names, and 90+ minutes total are audiobook
+  readings. Exclude as `wrong_content_type` even without title hints.
 
 ## Cross-provider consistency (critical rule)
 

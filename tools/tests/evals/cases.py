@@ -402,7 +402,7 @@ _BIBI_KINOFILM = Case[BatchInput, BatchResult](
     metadata={
         ("apple_music", "1144142594"): {
             "include": True,
-            "min_confidence": "high",
+            "min_confidence": "medium",
         },
         ("apple_music", "1851429423"): {
             "include": True,
@@ -485,10 +485,12 @@ _DDF_KIDS_MINI_FALL = Case[BatchInput, BatchResult](
                 "id": "5VGU97jdV50FJ8GgGI9qcf",
                 "title": "Grusel-Fälle",
                 "release_date": "2025-10-03",
-                "total_tracks": 65,
-                "album_type": "compilation",
+                "total_tracks": 369,
+                "album_type": "album",
                 "tracks": [
-                    {"name": "Folge 55: Im Geisterschiff, Teil 01", "duration_ms": 120000, "track_number": 1},
+                    {"name": "94 - Falsche Vampire - Inhaltsangabe", "duration_ms": 40320, "track_number": 1},
+                    {"name": "Die drei ??? Kids Titelsong", "duration_ms": 66792, "track_number": 2},
+                    {"name": "94 - Falsche Vampire - Teil 01", "duration_ms": 183253, "track_number": 3},
                 ],
             },
             {
@@ -546,6 +548,195 @@ _DDF_KIDS_MINI_FALL = Case[BatchInput, BatchResult](
 )
 
 
+# -- Hui Buh: format variant (Kopfhörer-Hörspiel binaural remix) --------------
+
+_HUI_BUH_FORMAT_VARIANT = Case[BatchInput, BatchResult](
+    name="hui_buh_format_variant",
+    inputs=BatchInput(
+        series_title="Hui Buh (neue Welt)",
+        content_type="hoerspiel",
+        episode_pattern=["^(\\d+)/", "^Folge (\\d+):"],
+        discography_span_years=18,
+        albums=[
+            {
+                "provider": "spotify",
+                "id": "6HdhtheEVHFC955BpUEEri",
+                "title": "01/Der verfluchte Geheimgang",
+                "release_date": "2008-01-18",
+                "total_tracks": 40,
+                "album_type": "album",
+                "tracks": [
+                    {"name": "01 - Der verfluchte Geheimgang - Teil 01", "duration_ms": 110533, "track_number": 1},
+                    {"name": "01 - Der verfluchte Geheimgang - Teil 02", "duration_ms": 112426, "track_number": 2},
+                    {"name": "01 - Der verfluchte Geheimgang - Teil 03", "duration_ms": 111480, "track_number": 3},
+                ],
+            },
+            {
+                "provider": "spotify",
+                "id": "6xK1T3x0PgZrvpKiENf48W",
+                "title": "Folge 37: Die magische Karte",
+                "release_date": "2023-02-24",
+                "total_tracks": 29,
+                "album_type": "album",
+                "tracks": [
+                    {"name": "37 - Die magische Karte - Inhaltsangabe", "duration_ms": 50813, "track_number": 1},
+                    {"name": "37 - Die magische Karte - Titelmelodie", "duration_ms": 60760, "track_number": 2},
+                    {"name": "37 - Die magische Karte - Teil 01", "duration_ms": 182106, "track_number": 3},
+                ],
+            },
+            {
+                "provider": "spotify",
+                "id": "0RleVfMyttZoqg7A0f6anm",
+                "title": "Folge 37: Die magische Karte (Kopfhörer-Hörspiel)",
+                "release_date": "2023-06-16",
+                "total_tracks": 31,
+                "album_type": "album",
+                "tracks": [
+                    {"name": "37 - Die magische Karte - Inhaltsangabe", "duration_ms": 51866, "track_number": 1},
+                    {"name": "37 - Die magische Karte - Kopfhörer auf! (Intro)", "duration_ms": 192333, "track_number": 2},
+                    {"name": "37 - Die magische Karte - Titelmelodie", "duration_ms": 60613, "track_number": 3},
+                    {"name": "37 - Die magische Karte - Teil 01", "duration_ms": 181320, "track_number": 4},
+                ],
+            },
+        ],
+    ),
+    metadata={
+        ("spotify", "6HdhtheEVHFC955BpUEEri"): {
+            "include": True,
+            "min_confidence": "high",
+        },
+        ("spotify", "6xK1T3x0PgZrvpKiENf48W"): {
+            "include": True,
+            "min_confidence": "high",
+        },
+        ("spotify", "0RleVfMyttZoqg7A0f6anm"): {
+            "include": False,
+            "exclude_reason": "format_variant",
+            "min_confidence": "high",
+        },
+    },
+    evaluators=(
+        DecisionsCorrect(),
+        ExcludeReasonsCorrect(),
+        ConfidenceMinimum(),
+        NotesPresent(),
+        _judge(
+            "The critical test: 'Folge 37: Die magische Karte (Kopfhörer-Hörspiel)' "
+            "is a binaural remix of the standard stereo episode. Same script, same "
+            "voice cast, different audio mix for headphone listening. It should be "
+            "excluded as format_variant because the standard version is already "
+            "included. The '(Kopfhörer-Hörspiel)' suffix, the extra 'Kopfhörer "
+            "auf! (Intro)' track, and the slightly different track count (31 vs 29) "
+            "are the distinguishing signals."
+        ),
+    ),
+)
+
+
+# -- Liliane Susewind: different_series + audiobook content type ---------------
+
+_LILIANE_DIFFERENT_SERIES = Case[BatchInput, BatchResult](
+    name="liliane_different_series",
+    inputs=BatchInput(
+        series_title="Liliane Susewind",
+        content_type="audiobook",
+        episode_pattern=None,
+        discography_span_years=16,
+        albums=[
+            {
+                "provider": "spotify",
+                "id": "3a4aDBaZ12ldy2dQT8sM2a",
+                "title": "Drei Waschbären sind keiner zu viel [Liliane Susewind (Ungekürzte Lesung mit Musik)]",
+                "release_date": "2018-12-12",
+                "total_tracks": 20,
+                "album_type": "album",
+                "tracks": [
+                    {"name": "Kapitel 1 - Liliane Susewind - Drei Waschbären sind keiner zu viel", "duration_ms": 186185, "track_number": 1},
+                    {"name": "Kapitel 2 - Liliane Susewind - Drei Waschbären sind keiner zu viel", "duration_ms": 188504, "track_number": 2},
+                    {"name": "Kapitel 3 - Liliane Susewind - Drei Waschbären sind keiner zu viel", "duration_ms": 185223, "track_number": 3},
+                ],
+            },
+            {
+                "provider": "spotify",
+                "id": "53Eow0zxQ5WrkaXlQMd7Rt",
+                "title": "24 Tiere suchen ein Zuhause. Das Adventskalender-Hörbuch [Liliane Susewind, Band 16 (Ungekürzte Lesung)]",
+                "release_date": "2022-09-01",
+                "total_tracks": 24,
+                "album_type": "album",
+                "tracks": [
+                    {"name": "1.Dezember", "duration_ms": 461386, "track_number": 1},
+                    {"name": "2. Dezember", "duration_ms": 255010, "track_number": 2},
+                    {"name": "3. Dezember", "duration_ms": 276180, "track_number": 3},
+                ],
+            },
+            {
+                "provider": "spotify",
+                "id": "5dK1plArQ3SNapHRe3aPA7",
+                "title": "Alea Aquarius 1. Der Ruf des Wassers",
+                "release_date": "2015-07-17",
+                "total_tracks": 91,
+                "album_type": "album",
+                "tracks": [
+                    {"name": "Kapitel 1 & Kapitel 2.1 - Alea Aquarius 1. Der Ruf des Wassers", "duration_ms": 188593, "track_number": 1},
+                    {"name": "Kapitel 2.2 - Alea Aquarius 1. Der Ruf des Wassers", "duration_ms": 205800, "track_number": 2},
+                    {"name": "Kapitel 2.3 & Kapitel 3.1 - Alea Aquarius 1. Der Ruf des Wassers", "duration_ms": 189440, "track_number": 3},
+                ],
+            },
+            {
+                "provider": "spotify",
+                "id": "6k6f03BlGSbvlWmWVa8I4k",
+                "title": "Hummelbi [Eine Fee ist keine Elfe (Gekürzte Lesung)]",
+                "release_date": "2010",
+                "total_tracks": 51,
+                "album_type": "album",
+                "tracks": [
+                    {"name": "Kapitel 1 - Hummelbi - Eine Fee ist keine Elfe", "duration_ms": 206934, "track_number": 1},
+                    {"name": "Kapitel 2 - Hummelbi - Eine Fee ist keine Elfe", "duration_ms": 181349, "track_number": 2},
+                    {"name": "Kapitel 3 - Hummelbi - Eine Fee ist keine Elfe", "duration_ms": 185956, "track_number": 3},
+                ],
+            },
+        ],
+    ),
+    metadata={
+        ("spotify", "3a4aDBaZ12ldy2dQT8sM2a"): {
+            "include": True,
+            "min_confidence": "high",
+        },
+        ("spotify", "53Eow0zxQ5WrkaXlQMd7Rt"): {
+            "include": True,
+            "min_confidence": "high",
+        },
+        ("spotify", "5dK1plArQ3SNapHRe3aPA7"): {
+            "include": False,
+            "exclude_reason": "different_series",
+            "min_confidence": "high",
+        },
+        ("spotify", "6k6f03BlGSbvlWmWVa8I4k"): {
+            "include": False,
+            "exclude_reason": "different_series",
+            "min_confidence": "high",
+        },
+    },
+    evaluators=(
+        DecisionsCorrect(),
+        ExcludeReasonsCorrect(),
+        ConfidenceMinimum(),
+        NotesPresent(),
+        _judge(
+            "The agent is curating the audiobook series 'Liliane Susewind'. "
+            "The two included albums have 'Liliane Susewind' in their titles. "
+            "The two excluded albums are different book series by the same "
+            "author (Tanya Stewner) that share the Spotify artist page: "
+            "'Alea Aquarius' (mermaid fantasy) and 'Hummelbi' (fairy story). "
+            "Both should be excluded as different_series. Note that "
+            "'Alea Aquarius' has no 'Liliane Susewind' anywhere in its title "
+            "or track names, and 'Hummelbi' similarly has no connection to "
+            "Liliane Susewind beyond sharing the author."
+        ),
+    ),
+)
+
+
 # ── Dataset ──────────────────────────────────────────────────────────────────
 
 EVAL_CASES = [
@@ -554,6 +745,8 @@ EVAL_CASES = [
     _PUMUCKL_MIXED,
     _BIBI_KINOFILM,
     _DDF_KIDS_MINI_FALL,
+    _HUI_BUH_FORMAT_VARIANT,
+    _LILIANE_DIFFERENT_SERIES,
 ]
 
 

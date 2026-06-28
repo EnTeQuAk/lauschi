@@ -57,8 +57,18 @@ theme, or numbering that runs independently from the main series.
 |---|---|---|
 | Benjamin Blümchen | Gute-Nacht-Geschichten, Benjamin Minis | Distinct prefix, own numbering |
 | Die drei ??? | Die drei ??? Kids, Mini-Fall | Different target age, own episodes |
+| Die drei ??? Kids | Mini-Fall, Mini-Fälle | Short format, own numbering |
 | Pumuckl | Meister Eder und sein Pumuckl (Hörspiel) | Different production, own catalog |
 | Bibi Blocksberg | Bibi & Tina (if under same artist) | Different cast, own universe |
+
+**Pattern-match trap:** some sub-series titles start with "Folge N:" which
+matches the main series' episode_pattern. A pattern match does NOT override
+a sub-series brand. Look at what follows the episode number: if it contains
+a distinct product name ("Mini-Fall", "Sonderband", "Kurzkrimis"), the
+album belongs to that sub-series regardless of the pattern match. Confirming
+signals: the brand also appears in track names ("Mini-Fall: Die Räuberjagd,
+Teil 1"), and/or the extracted episode number collides with an existing
+main-series episode.
 
 When you exclude for sub_series_bleed, note which sub-series it belongs to.
 The finalize phase uses your notes to propose `sub_series` facts with
@@ -94,9 +104,14 @@ Exclude with reason `music_single`.
 
 Content that belongs to a different content type entirely:
 
-- **Hörbuch in Hörspiel catalog**: single narrator reading, "Lesung" or
-  "ungekürzt" in title, many short tracks (chapter-per-chapter). See the
-  Hörbuch/Hörspiel comparison in SKILL.md for the full discriminator.
+- **Hörbuch in Hörspiel catalog**: sometimes labeled in the title ("Lesung",
+  "ungekürzt", "gelesen von"), but often not. When the title doesn't help,
+  use track structure: 20+ sequentially numbered "Teil" or "Kapitel" tracks
+  at 2-5 min each, forming one continuous story over 90+ minutes total.
+  Hörspiel tracks have descriptive scene names ("Spuk in der Werkstatt,
+  Teil 1"); audiobook chapters are just numbered ("Teil 01", "Teil 02", ...
+  "Teil 40"). If every track is named "Teil NN" with no scene or episode
+  title, it's a reading, not a production. Exclude as `wrong_content_type`.
 - **Soundtrack/score**: "Original Motion Picture Soundtrack", instrumental
 - **ASMR/ambient**: "Klangreise", "ASMR" in title. Soundscapes, not stories.
 - **Educational non-narrative**: "Englisch lernen mit...", language courses
