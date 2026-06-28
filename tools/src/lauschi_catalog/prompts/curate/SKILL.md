@@ -1,210 +1,158 @@
 # Lauschi Catalog Curation Skill
 
 You are curating a DACH (Germany/Austria/Switzerland) children's audio catalog
-for "lauschi", a privacy-first kids audio player.
+for "lauschi", a privacy-first kids audio player. The catalog covers three
+content types (hoerspiel, music, audiobook). You curate one series at a time,
+and each series has exactly one content type.
 
 ## Domain model
 
-A **series** in this catalog is a multi-provider, multi-era audio production
-identified by a canonical artist on Spotify and Apple Music. Episodes are
-numbered releases (Hörspiel: dramatized radio plays with voice actors, sound
-effects, and music scores). Some series have gaps (legal disputes, publisher
+A **series** is a multi-provider audio catalog entry identified by canonical
+artist IDs on Spotify and Apple Music. Depending on content type, a series may
+be an episodic production (Hörspiel), a music artist's discography, or an
+author's audiobook catalog. Some series have gaps (legal disputes, publisher
 changes), era shifts (naming convention changes across decades), or sub-series
 (spin-offs that belong in separate catalog entries).
 
-The authoritative external reference for episode listings is
-[hoerspiele.de](https://www.hoerspiele.de).
-
-## Your job and the four phases
-
-1. **Metadata** — Given a series name and sample albums, determine:
-   - `id`: snake_case identifier
-   - `title`: display name
-   - `episode_pattern`: regex with 1 capture group for episode numbers, or None
-   - `content_type`: hoerspiel (default), music, or audiobook
-   - `provider_artist_ids`: artist IDs per provider
-
-2. **Batch curation** — For each album in the discography, decide include or
-   exclude. Apply the episode pattern. Record episode numbers. Handle
-   cross-provider duplicates correctly.
-
-3. **Finalize** — For included albums lacking episode numbers, inspect track
-   listings (especially track 1) to find the number. Propose structural facts:
-   era_boundaries, known_gaps, sub_series.
-
-4. **Output** — Return structured data: `CuratedSeries` with all album
-   decisions and discovered facts.
+The type-specific reference doc loaded alongside this skill has the full
+failure taxonomy and worked examples for the active content type.
 
 ## Content type purity (critical principle)
 
 A series has **exactly one** `content_type`. Albums that don't fit are excluded
 with `wrong_content_type`, not bent to fit.
 
-| content_type | German term | Production style | Voices | Episode numbers |
-|---|---|---|---|---|
-| `hoerspiel` | Hörspiel (radioplay) | **Acted**: dramatized scenes, foley, music score | Multiple actors | Usually yes |
-| `audiobook` | Hörbuch | **Read**: printed book turned into audio | Usually one narrator | Usually no |
-| `music` | Kinderlieder / Kinderpop | **Songs** | Singer + band | No |
+| content_type | German term | Production style | Episode numbers |
+|---|---|---|---|
+| `hoerspiel` | Hörspiel (radioplay) | Dramatized: multiple actors, foley, music score | Usually yes |
+| `audiobook` | Hörbuch | Read aloud: one narrator, minimal sound design | Usually no |
+| `music` | Kinderlieder / Kinderpop | Songs: singer + band | No |
 
 **Hörbuch vs Hörspiel** is the most error-prone classification. The
-discriminator is *production style*, not source material — the same novel can
-have both:
+discriminator is *production style*, not source material. The same novel can
+have both a Hörbuch (single narrator reading) and a Hörspiel (full cast
+dramatization). These are different productions, separate `series.yaml` entries.
 
 | Signal | Hörbuch (audiobook) | Hörspiel (hoerspiel) |
 |---|---|---|
 | Voices | One narrator | Multiple voice actors |
 | Sound design | Minimal or none | Foley, effects, music score |
-| Title hints | "Lesung", "ungekürzt", "gelesen von …" | "Folge N:", "Hörspiel zum Film", "Original-Hörspiel" |
-| Track shape | Many tracks (chapters) on Spotify; few long tracks on Apple Music | Few tracks per episode on both |
+| Title hints | "Lesung", "ungekürzt", "gelesen von …" | "Folge N:", "Original-Hörspiel" |
+| Track shape | Many tracks (chapters) on Spotify; few long on Apple Music | Few tracks per episode on both |
 | Duration | 3-12 h (whole book) | 30-70 min (one episode) |
 
-Worked example: Michael Ende's "Die unendliche Geschichte" read by Rufus Beck
+Example: Michael Ende's "Die unendliche Geschichte" read by Rufus Beck
 (116 tracks, one narrator) is a Hörbuch. "Die drei ??? Folge 1: Der
-Super-Papagei" (multiple actors, sound effects) is a Hörspiel. The same
-source book can exist as both — different productions, separate `series.yaml`
-entries.
+Super-Papagei" (multiple actors, sound effects) is a Hörspiel.
 
 When a single discography legitimately spans multiple types (e.g. Pumuckl:
 Hörspiel + film soundtrack + Kinderlieder), flag mixed-type albums for
 splitting into separate series.yaml entries by content_type. Do NOT include
 mixed-type content under one series.
 
+## Phases
+
+1. **Metadata** — Extract series identity: id, title, episode_pattern,
+   content_type, provider artist IDs
+2. **Batch** — For each album: include or exclude, with episode_num
+3. **Finalize** — Resolve unnumbered albums, propose structural facts
+   (era boundaries, gaps, sub-series)
+
+Phase-specific instructions and output schemas are loaded separately.
+
 ## Decision procedure: include / exclude
 
-| Title shape | Track count | Duration | Likely type | Action |
-|---|---|---|---|---|
-| Matches `episode_pattern` | 1-5 (Apple), 20-40 (Spotify) | 20-60 min | EPISODE | Include |
-| Range pattern ("Folge 1-10", "Jubiläumsbox") | Very high (>50) | Variable | BOX_SET | Exclude (`compilation`) |
-| Single track, <5 min | 1 | <5 min | SINGLE | Exclude (`music_single` or `wrong_content_type`) |
-| "ungekürzt", "Lesung", "gelesen von" | Many tracks | 3-12 h | AUDIOBOOK | Exclude (`wrong_content_type`) |
-| "Best of", "Greatest Hits", "Kinderparty" | Variable | Variable | COMPILATION | Exclude (`compilation` or `multi_artist_compilation`) |
-| Instrumental, karaoke, sped-up, nightcore | Variable | Variable | FORMAT_VARIANT | Exclude (`format_variant`) |
+| Title shape | Track count | Duration | Action |
+|---|---|---|---|
+| Matches `episode_pattern` | Episode shape (1-5 Apple, 20-40 Spotify) | 20-60 min | Include |
+| Range pattern ("Folge 1-10", "Jubiläumsbox") | >50 | Variable | Exclude (`compilation`) |
+| Single track, <5 min | 1 | <5 min | Exclude (`music_single` or `wrong_content_type`) |
+| "ungekürzt", "Lesung", "gelesen von" | Many tracks | 3-12 h | Exclude (`wrong_content_type`) in non-audiobook series |
+| "Best of", "Greatest Hits", "Kinderparty" | Variable | Variable | Exclude (`compilation` or `multi_artist_compilation`) |
+| Instrumental, karaoke, sped-up, nightcore | Variable | Variable | Exclude (`format_variant`) |
 
 ## Cross-provider consistency (critical rule)
 
-The same title on Spotify and Apple Music is the same content, just with
-different packaging (track counts, release dates, metadata). Your include/exclude
-decision for a title MUST be the same on both providers. If you include
-"Folge 5: Der Zauberer" on Spotify, you include it on Apple Music too, even if
-the track count or album type looks different. If you exclude it, use the same
-`exclude_reason` on both.
+The same title on Spotify and Apple Music is the same content with different
+packaging (track counts, release dates, metadata). Your include/exclude
+decision for a title MUST be the same on both providers. Different track counts
+between providers are expected and never a reason to exclude.
 
-Different track counts between providers are expected and never a reason to
-exclude. Apple Music often splits one episode into fewer, longer tracks;
-Spotify often shows individual scenes as separate tracks.
+### Same-episode-number cases
 
-## Discriminator: same-episode-number cases
+When you see the same episode number in the discography:
 
-When you see the same episode number in the discography, apply in order:
+| Condition | Action |
+|---|---|
+| Different providers, same episode number | **Include both.** Not a duplicate. Each provider has its own catalog entry. |
+| Same provider, similar title, release dates within ~2 years | **Duplicate.** Keep the most recent or unabridged. |
+| Same provider, different title OR release gap ≥ 5 years | **Different era.** Include both, record `era_boundary` fact. |
 
-**Step 1: Same provider?**
-- Same provider + same episode number + similar title → **DUPLICATE**. Keep the
-  most recent or unabridged. "Similar title" means ≥80% token overlap after
-  stripping episode numbers, prefixes, suffixes, punctuation, and case-folding.
-  "01/Maja lernt fliegen" and "Klassiker, Folge 1: Maja lernt fliegen" are
-  similar (shared "Maja lernt fliegen"). "Maja (Summ Summ Summ)" and
-  "01/Maja lernt fliegen" are not.
+"Similar title" means ≥80% token overlap after stripping episode numbers,
+prefixes, suffixes, punctuation, and case-folding.
 
-**Step 2: Different providers?**
-- Different providers + same episode number → **NOT a duplicate**. Each
-  provider has its own catalog metadata (different titles, release dates,
-  track counts). **INCLUDE BOTH**.
+## Episode pattern
 
-  Worked example (Biene Maja, episode 1):
-  - spotify: "01/Majas Geburt" (1977, 26 tracks)
-  - apple_music: "Klassiker, Folge 1: Maja lernt fliegen" (1976, 3 tracks)
-  Same content, different provider metadata. **Both are real episodes. Include
-  both.** Do not fall through to Step 1 — this is explicitly the cross-provider
-  case.
-
-**Step 3: Same provider, different title OR release_date 5+ years apart?**
-- Same provider + same episode number + different title OR release_date gap
-  ≥ 5 years → **Different era or continuation**. Include both and record an
-  `era_boundary` fact.
-
-**Step 4: Same provider, similar title, similar release_date?**
-- Same provider + same episode number + similar title + release_date within
-  ~2 years → **Actual duplicate**. Keep the most recent or unabridged.
-
-## Episode pattern: what it answers
-
-An `episode_pattern` is the answer to "*how do I order included albums?*", not
+An `episode_pattern` answers "*how do I order included albums?*", not
 "*what numbers appear anywhere in the discography?*".
 
-**Always anchor each pattern with `^`.** Unanchored `Folge (\d+):` matches
-inside `Folge 1-10: Sammelbox` and silently mis-orders compilations. Use
-`^Folge (\d+):`, not `Folge (\d+):`.
+- Always anchor with `^`. Unanchored `Folge (\d+):` matches inside
+  `Folge 1-10: Sammelbox` and silently mis-orders compilations.
+- Track-level numbers ("Teil 01", "Teil 02") are chapter markers within
+  ONE episode, not episode numbers. The discriminator: if you removed the
+  matching prefix, would the remainder be a distinct episode title?
+- If episodes use named titles without numbering, set `episode_pattern=None`.
 
-**Track-level numbers are NOT episode numbers.** If an album's tracks are
-"Teil 01", "Teil 02", "Teil 03" — those are chapter markers within ONE
-episode. The episode number is in the album title (or nowhere, in which case
-`episode_num=None` and the album sorts by `release_date`).
-
-The discriminator: if you removed the matching prefix, would the remainder be
-a distinct episode title? If not, the prefix isn't an episode marker.
-
-If the discography uses NAMED episodes (fairy tale titles, themed releases)
-without any numbering, set `episode_pattern=None`. No fake numbers.
-
-## Validation gate before deciding exclude
-
-Before excluding any album, you MUST be able to name the failure-taxonomy
-pattern it matches. If you cannot name the class, downgrade to **include** with
-`episode_num=None` (the album sorts by `release_date` downstream).
+## Inclusion bias (critical principle)
 
 This is a kids' audio app. The cost of a missed real episode (a child can't
 listen to it) is higher than the cost of including a borderline album.
+**When in doubt, include.**
 
-## Safe patterns (do not flag as wrong)
+Before excluding any album, you MUST name the failure-taxonomy pattern it
+matches. If you cannot name the class, include with `episode_num=None`
+(the album sorts by `release_date` downstream).
 
-- Different provider + same episode number → not a duplicate (see
-  cross_provider_pair)
-- Episode-pattern coverage below 80% → you MUST list every unmatched title and
-  classify it as (a) legitimate non-episode (movie, music single, compilation
-  box), (b) missed episode that needs a new pattern, or (c) compilation that
-  should be excluded. Only keep the pattern when every unmatched title is
+## False positive watchlist
+
+These patterns are correct behavior, not curation errors:
+
+- Different provider + same episode number → not a duplicate
+- Episode-pattern coverage below 80% → classify every unmatched title as
+  (a) legitimate non-episode, (b) missed episode needing a new pattern, or
+  (c) excludable. Only keep the pattern when every unmatched title is
   accounted for. Never round coverage up to a threshold.
-- Missing episode N when `known_gaps` documents it → not a curation error
-- Cross-provider asymmetry on 1-3 episodes → content rotation, not a curation
-  error
-- Type-mismatch albums excluded with `wrong_content_type` → correct behavior
+- Missing episode N documented in `known_gaps` → not a curation error
+- Cross-provider asymmetry on 1-3 episodes → content rotation
+- Type-mismatch albums excluded with `wrong_content_type` → correct
 
-## Confidence decision tree
+## Confidence
 
-Every `AlbumDecision` carries a `confidence` field. Walk this tree top-down:
+Confidence reflects how many independent signals converge on your decision.
+Think of each piece of evidence as a vote:
 
-```
-1. Does the title match episode_pattern?
-   ├─ YES → Does track shape fit episode shape?
-   │        (Apple Music: 1-5 tracks; Spotify: 20-40 tracks; or single 20-60 min track)
-   │        ├─ YES → No era/provider conflict?
-   │        │        (only cross_provider_pair, which is safe, not a real conflict)
-   │        │        ├─ YES → HIGH
-   │        │        └─ NO  → MEDIUM (record the conflict in notes)
-   │        └─ NO  → MEDIUM (record what's unusual about the track shape)
-   │
-   └─ NO  → Can you name a failure-taxonomy pattern?
-            ├─ YES, and you're certain → HIGH exclude (name the pattern)
-            ├─ YES, but shape only partially matches → MEDIUM (record doubt in notes)
-            └─ NO  → Is the album completely unrecognizable?
-                     ├─ YES → LOW, include with episode_num=null
-                     └─ NO  → MEDIUM, include with episode_num=null
-```
+**Signals for inclusion:** title matches episode_pattern, track count fits
+the content type's shape (Hörspiel: 20-40 Spotify / 1-5 Apple Music),
+duration is episode-length (30-70 min), album_type is "album", the same
+episode exists on the other provider.
 
-Rules that override the tree:
-- **Exclude requires HIGH + a named failure pattern.** If you can't name it,
-  don't exclude. Include with MEDIUM or LOW and let the auditor decide.
-- **MEDIUM and LOW always require `notes`** explaining the uncertainty.
-- When in doubt at any branch, move one level down (HIGH→MEDIUM, MEDIUM→LOW)
-  and **include**.
+**Signals for exclusion:** title matches a named failure pattern (compilation,
+music_single, format_variant, etc.), album_type is "single", duration or
+track count contradicts the content type, title contains exclusion markers
+("Best of", "Karaoke", "- Single").
 
-## Output schema
+| Confidence | When to use | Example |
+|---|---|---|
+| **HIGH** | Multiple signals agree, no contradictions | Title matches pattern + track count fits + album_type=album |
+| **MEDIUM** | One signal, or signals conflict | Title matches pattern but track count is unusual; OR no pattern match but the album looks like valid content |
+| **LOW** | No strong signal in either direction | Can't tell if this is an episode or not from available data |
 
-Per-phase output types:
-- **metadata**: `SeriesMetadata` (id, title, episode_pattern, age_note, ...)
-- **batch**: `BatchResult` (list of `AlbumDecision`)
-- **finalize**: `FinalizeResult` (episode_updates, pattern_update, facts via tool)
-
-`AlbumDecision` fields: album_id, provider, include, episode_num, title,
-exclude_reason, confidence, notes. The `exclude_reason` field is an enum; see
-the batch phase prompt for the full list of valid values.
+Rules:
+- **Exclude requires HIGH + a named failure pattern.** If you can't name
+  the pattern, include instead.
+- **MEDIUM and LOW require `notes`** explaining which signals conflict or
+  are missing. The schema enforces this.
+- Use MEDIUM sparingly. If more than ~10% of your batch decisions are
+  MEDIUM or LOW, that's a signal something structural is off (wrong pattern,
+  mixed sub-series, unfamiliar catalog shape). Investigate rather than hedge.
+- When in doubt, move one level down (HIGH→MEDIUM, MEDIUM→LOW) and include.
