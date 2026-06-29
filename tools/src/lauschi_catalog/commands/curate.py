@@ -281,7 +281,7 @@ def curate(
                     existing_curation=existing,
                     content_type=resolved_type,
                     existing_facts=load_existing_facts(entry),
-                    on_progress=lambda msg: console.print(msg),
+                    on_progress=lambda msg: console.print(msg, markup=False),
                 )
             )
             if result.ok and result.series:
@@ -314,7 +314,7 @@ def curate(
                 model=model,
                 timeout=timeout,
                 content_type=resolved_type,
-                on_progress=lambda msg: console.print(msg),
+                on_progress=lambda msg: console.print(msg, markup=False),
             )
         )
         if result.ok and result.series:
@@ -339,7 +339,7 @@ def curate(
             model=model,
             timeout=timeout,
             force=force,
-            on_progress=lambda msg: console.print(msg),
+            on_progress=lambda msg: console.print(msg, markup=False),
         )
     )
 

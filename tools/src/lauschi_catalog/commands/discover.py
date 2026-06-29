@@ -77,7 +77,7 @@ def _cli_discover_single(
         query,
         providers,
         write=write,
-        on_progress=lambda msg: console.print(msg),
+        on_progress=lambda msg: console.print(msg, markup=False),
     )
 
     table = Table(title=f"Artist Discovery: {query}")

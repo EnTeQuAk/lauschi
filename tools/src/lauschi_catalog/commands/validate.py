@@ -40,7 +40,7 @@ def validate(provider: str, series: str | None, verbose: bool):
     vresult = validate_catalog(
         providers,
         series_filter=series,
-        on_progress=lambda msg: console.print(msg),
+        on_progress=lambda msg: console.print(msg, markup=False),
     )
 
     if vresult.l1_issues:

@@ -218,7 +218,7 @@ def add(
         artists=artists,
         analysis=analysis,
         force_readd=force_readd,
-        on_progress=lambda msg: console.print(msg),
+        on_progress=lambda msg: console.print(msg, markup=False),
     )
 
     if not result.ok:

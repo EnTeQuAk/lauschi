@@ -69,6 +69,6 @@ def audit(
             force=force,
             dry_run=dry_run,
             providers=prov_result.providers,
-            on_progress=lambda msg: console.print(msg),
+            on_progress=lambda msg: console.print(msg, markup=False),
         )
     )

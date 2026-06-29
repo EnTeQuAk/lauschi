@@ -49,7 +49,7 @@ def apply(
         allowed_statuses=allowed_statuses,
         dry_run=dry_run,
         force=force,
-        on_progress=lambda msg: console.print(msg),
+        on_progress=lambda msg: console.print(msg, markup=False),
     )
 
     if result.applied > 0 and result.written:
