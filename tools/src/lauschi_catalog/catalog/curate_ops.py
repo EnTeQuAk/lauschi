@@ -1458,7 +1458,7 @@ async def _run_large(
                 seen_details=shared_deps.seen_details,
                 pattern=shared_deps.pattern,
                 titles=all_titles,
-                existing_facts=existing_facts,
+                existing_facts=existing_facts or SeriesFacts(),
                 all_decisions=all_decisions,
                 on_progress=on_progress,
             )
