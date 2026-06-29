@@ -737,6 +737,93 @@ _LILIANE_DIFFERENT_SERIES = Case[BatchInput, BatchResult](
 )
 
 
+# -- Was Ist Was: Doppelfolge format (two topics per episode, NOT compilations) -
+
+_WAS_IST_WAS_DOPPELFOLGE = Case[BatchInput, BatchResult](
+    name="was_ist_was_doppelfolge",
+    inputs=BatchInput(
+        series_title="Was Ist Was",
+        content_type="hoerspiel",
+        episode_pattern=None,
+        discography_span_years=14,
+        albums=[
+            {
+                "provider": "spotify",
+                "id": "5Kn4ViQaubj4PcmovgN1BN",
+                "title": "07: Roboter & Androiden / Supercomputer",
+                "release_date": "2015-10-09",
+                "total_tracks": 18,
+                "album_type": "album",
+                "tracks": [
+                    {"name": "Roboter & Androiden - Teil 01", "duration_ms": 172106, "track_number": 1},
+                    {"name": "Roboter & Androiden - Teil 02", "duration_ms": 208120, "track_number": 2},
+                    {"name": "Roboter & Androiden - Teil 03", "duration_ms": 198786, "track_number": 3},
+                    {"name": "Supercomputer - Teil 01", "duration_ms": 154066, "track_number": 10},
+                    {"name": "Supercomputer - Teil 02", "duration_ms": 202186, "track_number": 11},
+                ],
+            },
+            {
+                "provider": "apple_music",
+                "id": "1687665295",
+                "title": "07: Roboter & Androiden / Supercomputer",
+                "release_date": "2014-10-10",
+                "total_tracks": 34,
+                "album_type": "",
+                "tracks": [
+                    {"name": "Roboter & Androiden - Teil 01", "duration_ms": 172107, "track_number": 1},
+                    {"name": "Roboter & Androiden - Teil 02", "duration_ms": 77547, "track_number": 2},
+                    {"name": "Roboter & Androiden - Teil 03", "duration_ms": 130573, "track_number": 3},
+                ],
+            },
+            {
+                "provider": "spotify",
+                "id": "0meVjgdE176PTwtQ015z1v",
+                "title": "04: Leben der Ritter / Mächtige Burgen",
+                "release_date": "2012",
+                "total_tracks": 16,
+                "album_type": "album",
+                "tracks": [
+                    {"name": "Leben der Ritter - Teil 01", "duration_ms": 168906, "track_number": 1},
+                    {"name": "Leben der Ritter - Teil 02", "duration_ms": 214093, "track_number": 2},
+                    {"name": "Mächtige Burgen - Teil 01", "duration_ms": 167360, "track_number": 9},
+                    {"name": "Mächtige Burgen - Teil 02", "duration_ms": 194133, "track_number": 10},
+                ],
+            },
+        ],
+    ),
+    metadata={
+        ("spotify", "5Kn4ViQaubj4PcmovgN1BN"): {
+            "include": True,
+            "min_confidence": "high",
+        },
+        ("apple_music", "1687665295"): {
+            "include": True,
+            "min_confidence": "high",
+        },
+        ("spotify", "0meVjgdE176PTwtQ015z1v"): {
+            "include": True,
+            "min_confidence": "high",
+        },
+    },
+    evaluators=(
+        DecisionsCorrect(),
+        ExcludeReasonsCorrect(),
+        ConfidenceMinimum(),
+        NotesPresent(),
+        _judge(
+            "All three albums are standard Was Ist Was Doppelfolge episodes. "
+            "Each episode covers two topics, titled 'Topic A / Topic B'. "
+            "The '/' separates topics within ONE episode, not multiple "
+            "episodes bundled together. Track names confirm this: each "
+            "topic has its own sequential 'Teil' tracks within the album. "
+            "This is the standard format for the entire series. "
+            "All three MUST be included. Excluding any as 'compilation' "
+            "is a false positive."
+        ),
+    ),
+)
+
+
 # ── Dataset ──────────────────────────────────────────────────────────────────
 
 EVAL_CASES = [
@@ -747,6 +834,7 @@ EVAL_CASES = [
     _DDF_KIDS_MINI_FALL,
     _HUI_BUH_FORMAT_VARIANT,
     _LILIANE_DIFFERENT_SERIES,
+    _WAS_IST_WAS_DOPPELFOLGE,
 ]
 
 

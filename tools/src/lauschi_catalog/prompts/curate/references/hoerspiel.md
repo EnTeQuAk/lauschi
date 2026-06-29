@@ -76,16 +76,34 @@ The finalize phase uses your notes to propose `sub_series` facts with
 
 ### compilation_as_episode
 
-Albums that bundle multiple episodes into one release. They look like
-episodes (same artist, same title style) but contain 2+ stories.
+Albums that bundle **multiple episodes** into one release. They look like
+episodes (same artist, same title style) but contain 2+ full stories.
 
 Title signals for compilations:
 - Range in title: "Folge 1-10", "Folgen 1-3"
-- Multiple story titles joined by `/` or `&`: "Der sechste Sinn / Vertrauen"
 - Explicit markers: "Bundle", "Box", "Sammelbox", "Kollektion", "Jubiläumsbox"
 - Anniversary/milestone: "30 Jahre", "Jubiläum", "Best of"
 - Seasonal grouping: "Weihnachtsfolgen", "Sommerfolgen", "Osterbundle"
 - Very high track count (>50 tracks suggests multiple episodes bundled)
+
+**Not compilations (standard episode formats):**
+- **Doppelfolge**: educational series where each episode covers two topics,
+  titled "Topic A / Topic B" (e.g. Was Ist Was "Roboter & Androiden /
+  Supercomputer"). The "/" separates topics within ONE episode, not
+  multiple episodes. If the series consistently uses this format, every
+  such title is a regular episode.
+- **Multi-story Folge**: TV tie-in series where each Folge bundles 2-4 short
+  TV episodes (e.g. SpongeBob "Folge 31" contains three 7-minute stories).
+  This is the standard release format for the series, not a compilation.
+  If every Folge in the series has multiple story titles in its tracks,
+  that's the series format.
+- **Two-part episodes**: "Teil 1" / "Teil 2" releases that together form
+  one story (e.g. "Folge 100: Ottos neue Freundin - Teil 1").
+
+The key test: does this release bundle multiple **independently numbered
+episodes** (Folge 1 + Folge 2 + Folge 3)? That's a compilation. Does it
+contain multiple stories/topics that together form **one episode release**?
+That's a standard episode.
 
 Exclude with reason `compilation`.
 

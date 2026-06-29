@@ -68,25 +68,31 @@ mise run catalog-curate -- "TKKG" --dry-run       # Print prompts without callin
 
 #### Curation Pipeline
 
-The pipeline runs fully autonomous. Each series goes through five stages:
+The pipeline runs fully autonomous. Each series goes through six stages:
 
 1. **Curate** (`curate`): AI classifies every album in the artist's discography
    as include/exclude. Two flows: single-agent (<=100 albums) or batched (~30/batch).
    Output: `assets/catalog/curation/{series_id}.json`.
 
-2. **Review** (`review`): A second AI pass checks for quality issues: sub-series
+2. **Reconcile** (`reconcile`): Deterministic cross-provider consistency fix.
+   When the same title is included on one provider but excluded on the other
+   with a content-classification reason (compilation, wrong_content_type, etc.),
+   auto-flips to include. Structural reasons (sub_series_bleed) are flagged
+   for human review. Runs without AI.
+
+3. **Audit** (`audit`): A second AI pass checks for quality issues: sub-series
    mixed in, episode gaps, duplicate episodes, bad patterns. Can add missing albums,
    update episode patterns, and propose series splits. Non-destructive: writes
    overrides into the curation JSON.
 
-3. **Verify** (`verify`): 4-eye verification using a different model (MiniMax M2.5).
+4. **Verify** (`verify`): 4-eye verification using a different model (MiniMax M2.5).
    Auto-approves when both models agree; escalates disagreements for human review.
    Status transitions: `curated` -> `ai_reviewed` -> `approved` | `escalated`.
 
-4. **Apply** (`apply`): Writes approved curations into `series.yaml`. Copies
+5. **Apply** (`apply`): Writes approved curations into `series.yaml`. Copies
    album IDs, episode patterns, artist IDs, and keywords per provider.
 
-5. **Validate** (`validate`): Checks series.yaml against live provider APIs.
+6. **Validate** (`validate`): Checks series.yaml against live provider APIs.
    L1 (syntax: required fields, regex compiles, unique IDs) and L5 (artist
    discography match rates).
 

@@ -29,22 +29,25 @@ _EXTRA_VALID: frozenset[str] = frozenset(
 ALL_KNOWN_REASONS: frozenset[str] = EXCLUDE_REASONS | _EXTRA_VALID
 
 # Auto-flip: these exclusions on one provider are almost certainly wrong
-# when the same title is included on the other provider.
+# when the same title is included on the other provider. Includes
+# `compilation` because genuine compilations have distinct titles
+# ("Folge 1-10", "Sammelbox") that never match a regular episode on
+# the other provider; a title match means the label is a false positive.
 _AUTO_FLIP_REASONS: frozenset[str] = frozenset(
     {
         "wrong_content_type",
         "music_single",
         "not_kids_content",
         "format_variant",
-    }
-)
-
-# Flag for review: these might reflect genuinely different releases.
-_FLAG_REASONS: frozenset[str] = frozenset(
-    {
         "compilation",
         "kinderlieder_compilation",
         "multi_artist_compilation",
+    }
+)
+
+# Flag for review: structural decisions that may be correct on both sides.
+_FLAG_REASONS: frozenset[str] = frozenset(
+    {
         "sub_series_bleed",
         "sub_series",
         "different_series",
@@ -93,23 +96,37 @@ class ReconcileResult:
     details: list[dict] = field(default_factory=list)
 
 
+def _norm_title(title: str) -> str:
+    """Normalize a title for cross-provider comparison.
+
+    Same logic as lint_ops._norm_title: casefold and strip Apple Music
+    suffixes that Spotify doesn't carry.
+    """
+    t = " ".join(title.casefold().split())
+    for suffix in (" - ep", " - single"):
+        t = t.removesuffix(suffix)
+    return t
+
+
 def reconcile_cross_provider(albums: list[dict]) -> ReconcileResult:
     """Detect and fix cross-provider mismatches in a single curation.
 
     Mutates albums in place. Returns a summary of changes.
 
     Rules:
-    - wrong_content_type/music_single/not_kids_content/format_variant
-      on one provider + included on the other: auto-flip to include
-      (it's the same content, the exclusion was a misclassification).
-    - compilation/sub_series_bleed/audit_override: flag for human
-      review (may be genuinely different releases).
+    - Content-classification reasons (wrong_content_type, music_single,
+      compilation, etc.) on one provider + included on the other:
+      auto-flip to include. Same content can't be a different type on
+      a different provider.
+    - Structural reasons (sub_series_bleed, different_series): flag for
+      human review. These reflect catalog-level decisions that may be
+      correct on both sides.
     """
     result = ReconcileResult()
 
     by_title: dict[str, list[dict]] = {}
     for a in albums:
-        by_title.setdefault(a.get("title", ""), []).append(a)
+        by_title.setdefault(_norm_title(a.get("title", "")), []).append(a)
 
     for title, entries in by_title.items():
         sp = [e for e in entries if e.get("provider") == "spotify"]
@@ -132,13 +149,14 @@ def reconcile_cross_provider(albums: list[dict]) -> ReconcileResult:
             if album.get("include"):
                 continue
             reason = normalize_exclude_reason(album.get("exclude_reason"))
+            original_title = album.get("title", title)
             if reason in _AUTO_FLIP_REASONS:
                 album["include"] = True
                 album.pop("exclude_reason", None)
                 result.flipped += 1
                 result.details.append(
                     {
-                        "title": title,
+                        "title": original_title,
                         "album_id": album["album_id"],
                         "provider": album.get("provider"),
                         "old_reason": reason,
@@ -149,7 +167,7 @@ def reconcile_cross_provider(albums: list[dict]) -> ReconcileResult:
                 result.flagged += 1
                 result.details.append(
                     {
-                        "title": title,
+                        "title": original_title,
                         "album_id": album["album_id"],
                         "provider": album.get("provider"),
                         "reason": reason,

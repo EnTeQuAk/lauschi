@@ -142,15 +142,14 @@ class TestReconcileCrossProvider:
         assert result.flipped == 1
         assert albums[0]["include"] is True
 
-    def test_compilation_gets_flagged_not_flipped(self):
+    def test_compilation_gets_flipped_when_counterpart_included(self):
         albums = [
             _album("sp1", "Folge 1", "spotify", True),
             _album("am1", "Folge 1", "apple_music", False, "compilation"),
         ]
         result = reconcile_cross_provider(albums)
-        assert result.flipped == 0
-        assert result.flagged == 1
-        assert albums[1]["include"] is False
+        assert result.flipped == 1
+        assert albums[1]["include"] is True
 
     def test_sub_series_bleed_gets_flagged(self):
         albums = [
@@ -177,7 +176,7 @@ class TestReconcileCrossProvider:
             _album("sp1", "Folge 1", "spotify", True),
             _album("am1", "Folge 1", "apple_music", False, "wrong_content_type"),
             _album("sp2", "Folge 2", "spotify", True),
-            _album("am2", "Folge 2", "apple_music", False, "compilation"),
+            _album("am2", "Folge 2", "apple_music", False, "sub_series_bleed"),
         ]
         result = reconcile_cross_provider(albums)
         assert result.flipped == 1
@@ -206,7 +205,7 @@ class TestReconcileCrossProvider:
     def test_returns_details_for_flagged(self):
         albums = [
             _album("sp1", "Folge 1", "spotify", True),
-            _album("am1", "Folge 1", "apple_music", False, "compilation"),
+            _album("am1", "Folge 1", "apple_music", False, "sub_series_bleed"),
         ]
         result = reconcile_cross_provider(albums)
         assert len(result.details) == 1
@@ -222,3 +221,30 @@ class TestReconcileCrossProvider:
         assert len(result.details) == 1
         assert result.details[0]["action"] == "flipped"
         assert result.details[0]["album_id"] == "am1"
+
+    def test_normalized_title_matching_strips_single_suffix(self):
+        albums = [
+            _album("sp1", "Song Title", "spotify", True),
+            _album("am1", "Song Title - Single", "apple_music", False, "music_single"),
+        ]
+        result = reconcile_cross_provider(albums)
+        assert result.flipped == 1
+
+    def test_normalized_title_matching_is_case_insensitive(self):
+        albums = [
+            _album("sp1", "Folge 1: Der Super-Papagei", "spotify", True),
+            _album("am1", "folge 1: der super-papagei", "apple_music", False, "compilation"),
+        ]
+        result = reconcile_cross_provider(albums)
+        assert result.flipped == 1
+
+    def test_doppelfolge_compilation_auto_flipped(self):
+        """Was Ist Was 'Topic A / Topic B' excluded as compilation on
+        one provider but included on the other should be auto-flipped."""
+        albums = [
+            _album("am1", "07: Roboter & Androiden / Supercomputer", "apple_music", True),
+            _album("sp1", "07: Roboter & Androiden / Supercomputer", "spotify", False, "compilation"),
+        ]
+        result = reconcile_cross_provider(albums)
+        assert result.flipped == 1
+        assert albums[1]["include"] is True

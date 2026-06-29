@@ -160,7 +160,7 @@ run = "uv run --directory tools lauschi-catalog splits"
 # ── Full pipeline shortcut ───────────────────────────────────────────
 
 [tasks.catalog-pipeline]
-description = "Full automated curation pipeline: curate → audit → lint → apply → validate"
+description = "Full automated curation pipeline: curate → reconcile → audit → lint → apply → validate"
 usage = 'flag "--force" help="Re-curate all series, even those already curated"'
 run = """
 #!/usr/bin/env bash
@@ -184,23 +184,27 @@ exec > >(tee -a "$LOG") 2>&1
 FORCE_FLAG=""
 if [ "${usage_force:-false}" = "true" ]; then FORCE_FLAG="--force"; fi
 
-echo "Step 1/5: Curating all series (timeout ${TIMEOUT}s per series, this takes hours)..."
+echo "Step 1/6: Curating all series (timeout ${TIMEOUT}s per series, this takes hours)..."
 $RUN curate --all --timeout "$TIMEOUT" $FORCE_FLAG || echo "Some curations failed (expected for large series). Continuing..."
 
 echo ""
-echo "Step 2/5: 4-eye audit..."
+echo "Step 2/6: Cross-provider reconciliation..."
+$RUN_CORE reconcile --all
+
+echo ""
+echo "Step 3/6: 4-eye audit..."
 $RUN audit --timeout "$TIMEOUT" || echo "Some audits failed. Continuing..."
 
 echo ""
-echo "Step 3/5: Structural lint..."
+echo "Step 4/6: Structural lint..."
 $RUN_CORE lint --all || echo "Lint flagged issues. Review findings above."
 
 echo ""
-echo "Step 4/5: Applying approved curations..."
+echo "Step 5/6: Applying approved curations..."
 $RUN_CORE apply --all
 
 echo ""
-echo "Step 5/5: Validating..."
+echo "Step 6/6: Validating..."
 $RUN_CORE validate
 
 echo ""
@@ -208,7 +212,7 @@ echo "Done. Run 'mise run catalog-review' to see flagged/escalated items."
 """
 
 [tasks.catalog-pipeline-one]
-description = "Run curate → audit → lint → apply on a single series"
+description = "Run curate → reconcile → audit → lint → apply on a single series"
 run = """
 #!/usr/bin/env bash
 set -euo pipefail
@@ -234,19 +238,23 @@ LOG="$LOGDIR/one-${SID}-${TIMESTAMP}.log"
 echo "Logging to $LOG"
 exec > >(tee -a "$LOG") 2>&1
 
-echo "Step 1/4: Curating $SID (timeout ${TIMEOUT}s)..."
+echo "Step 1/5: Curating $SID (timeout ${TIMEOUT}s)..."
 $RUN curate "$SID" --timeout "$TIMEOUT" --force
 
 echo ""
-echo "Step 2/4: 4-eye audit (timeout ${TIMEOUT}s)..."
+echo "Step 2/5: Cross-provider reconciliation..."
+$RUN_CORE reconcile -s "$SID"
+
+echo ""
+echo "Step 3/5: 4-eye audit (timeout ${TIMEOUT}s)..."
 $RUN audit -s "$SID" --timeout "$TIMEOUT" --force
 
 echo ""
-echo "Step 3/4: Structural lint..."
+echo "Step 4/5: Structural lint..."
 $RUN_CORE lint -- "$SID"
 
 echo ""
-echo "Step 4/4: Checking audit status..."
+echo "Step 5/5: Checking audit status..."
 STATUS=$(python3 -c "
 import json, sys
 from pathlib import Path
