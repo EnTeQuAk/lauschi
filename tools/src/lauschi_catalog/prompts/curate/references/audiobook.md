@@ -3,12 +3,6 @@
 Printed books turned into audio. Usually single narrator, minimal sound
 design. One entry per book; no `episode_pattern`.
 
-## Metadata phase note
-
-There are no tools available in the metadata phase for audiobook curation.
-Do NOT call `check_pattern_coverage` or any other tools — they are not
-registered for audiobook metadata. Just set up the metadata directly.
-
 ## Hörbuch vs Hörspiel
 
 This is the most error-prone classification for non-DACH models. Same novel

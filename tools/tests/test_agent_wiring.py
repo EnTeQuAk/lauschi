@@ -47,33 +47,21 @@ def _run(coro: Any) -> Any:
 
 
 class TestAuditAgentWiring:
-    def test_has_shared_tools(self, monkeypatch: pytest.MonkeyPatch) -> None:
-        monkeypatch.setattr(
-            "lauschi_catalog.catalog.audit_ops.build_model",
-            lambda name, key: TestModel(),
-        )
-        agent = _build_audit_agent("test", "fake-key")
+    def test_has_shared_tools(self) -> None:
+        agent = _build_audit_agent(TestModel())
         names = _agent_tool_names(agent)
         assert "web_search" in names
         assert "fetch_page" in names
         assert "get_album_details" in names
 
-    def test_has_audit_specific_tools(self, monkeypatch: pytest.MonkeyPatch) -> None:
-        monkeypatch.setattr(
-            "lauschi_catalog.catalog.audit_ops.build_model",
-            lambda name, key: TestModel(),
-        )
-        agent = _build_audit_agent("test", "fake-key")
+    def test_has_audit_specific_tools(self) -> None:
+        agent = _build_audit_agent(TestModel())
         names = _agent_tool_names(agent)
         assert "search_included_albums" in names
         assert "lint_current_curation" in names
 
-    def test_has_progress_hooks(self, monkeypatch: pytest.MonkeyPatch) -> None:
-        monkeypatch.setattr(
-            "lauschi_catalog.catalog.audit_ops.build_model",
-            lambda name, key: TestModel(),
-        )
-        agent = _build_audit_agent("test", "fake-key")
+    def test_has_progress_hooks(self) -> None:
+        agent = _build_audit_agent(TestModel())
         hooks_caps = [
             c for c in agent.root_capability.capabilities if isinstance(c, Hooks)
         ]
@@ -82,16 +70,10 @@ class TestAuditAgentWiring:
         assert "after_model_request" in registry
         assert "after_tool_execute" in registry
 
-    def test_uses_submit_audit_tool_output(
-        self, monkeypatch: pytest.MonkeyPatch
-    ) -> None:
+    def test_uses_submit_audit_tool_output(self) -> None:
         from pydantic_ai import ToolOutput
 
-        monkeypatch.setattr(
-            "lauschi_catalog.catalog.audit_ops.build_model",
-            lambda name, key: TestModel(),
-        )
-        agent = _build_audit_agent("test", "fake-key")
+        agent = _build_audit_agent(TestModel())
         assert isinstance(agent.output_type, ToolOutput)
         assert agent.output_type.name == "submit_audit"
 
@@ -125,12 +107,8 @@ class TestAgentRuns:
         result = agent.run_sync("Finalize the curation", deps=deps)
         assert isinstance(result.output, FinalizeResult)
 
-    def test_audit_agent_run(self, monkeypatch: pytest.MonkeyPatch) -> None:
-        monkeypatch.setattr(
-            "lauschi_catalog.catalog.audit_ops.build_model",
-            lambda name, key: TestModel(call_tools=[]),
-        )
-        agent = _build_audit_agent("test", "fake-key")
+    def test_audit_agent_run(self) -> None:
+        agent = _build_audit_agent(TestModel(call_tools=[]))
         deps = AuditDeps(
             curation={"id": "test", "title": "Test", "albums": []},
         )

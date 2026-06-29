@@ -19,8 +19,9 @@ pattern causes those albums to be excluded as unmatched.
 - If episodes use NAMED titles without numbering (fairy tales, themes), set
 `episode_pattern=None`.
 
-**After deciding on a pattern, you MUST call `check_pattern_coverage`:**
-The tool tests against ALL titles in the discography, not just the sample.
+**Pattern verification (hoerspiel only):**
+After proposing a pattern, you MUST call `check_pattern_coverage`. The tool
+tests against ALL titles in the discography, not just the sample.
 
 Worked example:
   Proposed: ["Teil (\\d+)"] on titles like "01/Majas Geburt", "Folge 2: Der Ball"
@@ -31,6 +32,9 @@ Worked example:
   → Fix: add "^Klassiker, Folge (\\d+):" and re-test.
   → Returns coverage_pct: 70. Remaining unmatched are movie Hörspiele and
      singles: legitimate non-episodes. Commit the pattern.
+
+For music and audiobook series, episode_pattern is always None and no pattern
+tools are registered. Set up the metadata directly.
 
 **Web research (optional):**
 You have `web_search` (max 3 queries) and `fetch_page` (max 2 URLs) available.

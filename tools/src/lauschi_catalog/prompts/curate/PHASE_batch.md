@@ -32,25 +32,14 @@ field is an enum; use exactly one of these values:
 
 If you cannot name a pattern from this list, **include** with `episode_num=None`.
 
-**Cross-provider consistency**: the same title on Spotify and Apple Music is
-the same content. If you include it on one provider, include it on the other.
-If you exclude it, use the same reason on both. Different track counts and
-packaging are expected between providers.
+**Cross-provider consistency**: same include/exclude decision on both providers
+for the same title. Different track counts are expected, never a reason to exclude.
 
 If the provided metadata for an album is insufficient to make a confident
 decision (e.g. missing track listing, unclear album type), call
 `get_album_details` to fetch the full data before deciding.
 
 **Output:** `BatchResult` — an `AlbumDecision` for EVERY album in the batch.
-
-### Inclusion bias
-
-This is a children's audio app. A missed real episode means a child can't
-listen to something they're looking for. An included borderline album is
-harmless (it just sits in the catalog). When in doubt, **include**.
-
-The only valid reason to exclude is a named failure-taxonomy pattern you can
-point to. If you can't name the pattern, include with `episode_num=None`.
 
 ### Worked examples
 

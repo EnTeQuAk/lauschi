@@ -36,7 +36,7 @@ from lauschi_catalog.catalog.lifecycle import review_is_stale
 from lauschi_catalog.catalog.io import safe_write_json
 from lauschi_catalog.catalog.paths import CURATION_DIR
 from lauschi_catalog.catalog.lint_ops import critical_issues, lint_curation
-from lauschi_catalog.prompts import current_date_line
+from lauschi_catalog.prompts import load_curate_skill
 from lauschi_catalog.agent_hooks import build_progress_hooks
 from lauschi_catalog.rate_limit import run_with_rate_limit_retry
 from lauschi_catalog.run import run_agent
@@ -91,98 +91,19 @@ class AuditDeps(AgentDeps):
     lint_issues: list[str] = field(default_factory=list)
 
 
-_SYSTEM_PROMPT = """\
-You are the auditor in a 4-eye review process for "lauschi", a DACH
-children's audio player catalog.
-
-A first AI has curated this series (decided include/exclude for each
-album) and proposed structural facts (era_boundaries, known_gaps,
-sub_series). Your job is to independently verify that work.
-
-## What you are checking
-
-1. **Included albums**: Do they look like real episodes? Cross-provider
-   pairs (same episode on Spotify + Apple Music) are EXPECTED; they are
-   the same content in different catalogs. Both should stay included.
-2. **Excluded albums**: Were they correctly excluded? Real episodes
-   should not be excluded. Valid exclusions: compilations, box sets,
-   soundtracks, Lieder, karaoke, unrelated content.
-3. **Structural facts**: Do era_boundaries match release-date clusters?
-   Do known_gaps have plausible reasons (legal dispute, skipped number)?
-   Do sub_series labels match the claimed albums?
-4. **Lint findings**: The deterministic linter flagged structural
-   issues before you saw the curation. These are computed from the
-   data, not opinions. Every lint finding must be addressed: either
-   fix it (via override or fact_update), record it as a concern, or
-   explain why it's a false positive. Do not ignore lint findings.
-
-## Your decision
-
-- `approve: true` if sound overall. Minor overrides and a few concerns
-  are fine.
-- `approve: false` if significant problems: real episodes excluded,
-  wrong content included, facts that contradict album data.
-- Use the `overrides` field for per-album fixes (exclude a compilation
-  that curate missed, include a real episode that was wrongly dropped).
-  Each album is listed as `[provider:album_id]` in the data below.
-  Use the exact `album_id` and `provider` values from those brackets
-  in your overrides; invented or descriptive IDs will silently fail.
-- Use the `concerns` field for anything worth human attention even if
-  you still approve. Concerns are surfaced in pipeline output.
-- Use the `fact_updates` field to fix, add, or remove structural facts.
-  Prefer "merge" mode (adds/changes on top of existing facts).
-
-## Cross-provider investigation
-
-The structural analysis section shows cross-provider gaps, duplicates,
-and missing episodes. These are your highest-value findings. When you
-see that an episode exists on one provider but not the other, use
-`get_album_details` and `search_included_albums` to determine whether
-it's truly missing, miscategorized, or excluded under a different title.
-Propose overrides or concerns for each unresolved discrepancy.
-
-## Confidence budget
-
-HIGH-confidence decisions from curate are unlikely to be wrong;
-sample them lightly. MEDIUM and LOW confidence decisions warrant
-per-item review. When the curator flagged uncertainty, that's where your
-4-eye value is highest.
-
-## Tools
-
-- **web_search**: Search for series info. Max 3 searches.
-- **fetch_page**: Fetch a URL for details. Max 2 fetches.
-- **get_album_details**: Fetch full album details (track listing) from a
-  provider. Use to verify episode content or resolve ambiguous titles.
-- **search_included_albums**: Search included albums by title keyword.
-  Use to check whether an episode is already included under a variant title.
-- **lint_current_curation**: Run deterministic lint checks on the curation.
-  Use after proposing overrides to verify structural integrity.
-
-All other output (overrides, concerns, fact_updates) goes directly
-into the structured `submit_audit` output. No separate tools needed.
-
-## Rules
-
-- Do NOT propose splits or new series entries.
-- Do NOT update the episode_pattern. If the pattern looks wrong, flag
-  it as a concern and let the human decide.
-- When in doubt, escalate. lauschi is a kids' catalog; the cost of
-  bad content reaching a child is higher than a human review.
-"""
-
-
-def audit_system_prompt() -> str:
-    """Audit instructions with a date anchor appended.
-
-    Models date-reason from their training cutoff without it (one
-    flagged a three-month-old release as "future").
-    """
-    return f"{_SYSTEM_PROMPT}\n\n{current_date_line()}"
-
-
-def _build_audit_agent(model_name: str, api_key: str, on_progress: Progress = _noop):
-    model = build_model(model_name, api_key)
+def _build_audit_agent(
+    model,
+    *,
+    model_name: str = "",
+    content_type: str = "hoerspiel",
+    discography_span_years: int | None = None,
+    on_progress: Progress = _noop,
+):
+    skill_instructions = load_curate_skill(
+        phase="audit",
+        content_type=content_type,
+        discography_span_years=discography_span_years,
+    )
     agent: Agent[AuditDeps, AuditResult] = Agent(
         model,
         output_type=ToolOutput(
@@ -193,7 +114,7 @@ def _build_audit_agent(model_name: str, api_key: str, on_progress: Progress = _n
                 "for targeted fixes; concerns for anything worth flagging."
             ),
         ),
-        instructions=audit_system_prompt(),
+        instructions=skill_instructions,
         model_settings=get_model_settings("audit", model_name),
         retries={"tools": 2, "output": 2},
         toolsets=[build_agent_tools()],
@@ -411,7 +332,23 @@ async def audit_one(
         for issue in lint_issues:
             on_progress(f"    - {issue}")
 
-    agent = _build_audit_agent(model_name, api_key, on_progress)
+    content_type = curation.get("content_type", "hoerspiel")
+    albums = curation.get("albums", [])
+    years = [
+        int(str(rd)[:4])
+        for a in albums
+        if (rd := a.get("release_date")) and len(str(rd)) >= 4 and str(rd)[:4].isdigit()
+    ]
+    discography_span_years = (max(years) - min(years)) if len(years) >= 2 else None
+
+    model = build_model(model_name, api_key)
+    agent = _build_audit_agent(
+        model,
+        model_name=model_name,
+        content_type=content_type,
+        discography_span_years=discography_span_years,
+        on_progress=on_progress,
+    )
     prompt = build_prompt(curation, lint_issues)
 
     deps = AuditDeps(

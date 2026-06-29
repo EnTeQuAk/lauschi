@@ -150,8 +150,3 @@ Reasoning:
 - `sub_series` rarely used (e.g., "Liederalbum" vs "Hörspiel" if the artist
   genuinely does both — flag for split instead).
 
-## Metadata phase note
-
-For music artists, there are no tools available in the metadata phase.
-Do NOT call `check_pattern_coverage` or any other tools — they are not
-registered for music metadata. Just set up the metadata directly.

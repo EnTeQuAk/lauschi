@@ -360,7 +360,7 @@ def test_metadata_music_prompt_tells_agent_no_pattern_no_tools():
     p = load_curate_skill(phase="metadata", content_type="music")
     assert "music" in p.lower()  # not Hörspiel
     assert "None" in p  # episode_pattern guidance
-    assert "no tools" in p.lower() or "Do NOT call" in p
+    assert "no pattern" in p.lower() and "tools" in p.lower()
 
 
 # ── lookup_catalog_entry ─────────────────────────────────────────────────

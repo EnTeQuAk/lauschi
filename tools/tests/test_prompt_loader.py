@@ -77,6 +77,7 @@ def test_curate_skill_contains_current_date():
 
 def test_audit_system_prompt_contains_current_date():
     from datetime import date
-    from lauschi_catalog.catalog.audit_ops import audit_system_prompt
+    from lauschi_catalog.prompts import load_curate_skill
 
-    assert f"Today is {date.today().isoformat()}." in audit_system_prompt()
+    prompt = load_curate_skill(phase="audit", content_type="hoerspiel")
+    assert f"Today is {date.today().isoformat()}." in prompt
