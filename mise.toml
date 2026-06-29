@@ -189,7 +189,7 @@ $RUN curate --all --timeout "$TIMEOUT" $FORCE_FLAG || echo "Some curations faile
 
 echo ""
 echo "Step 2/5: 4-eye audit..."
-$RUN audit --all --timeout "$TIMEOUT" || echo "Some audits failed. Continuing..."
+$RUN audit --timeout "$TIMEOUT" || echo "Some audits failed. Continuing..."
 
 echo ""
 echo "Step 3/5: Structural lint..."
