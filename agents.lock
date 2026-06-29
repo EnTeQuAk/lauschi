@@ -8,13 +8,19 @@ source = "path:.agents/skills/code-simplifier"
 source = "getsentry/dotagents"
 resolved_url = "https://github.com/getsentry/dotagents"
 resolved_path = "skills/dotagents"
-resolved_commit = "46cd1ebe5c2d4084b7a1fd62fda25c738d325d24"
+resolved_commit = "3fefc9680a2413abe4801a6e073c1c9be63c1e04"
 
 [skills.impeccable]
 source = "pbakaus/impeccable"
 resolved_url = "https://github.com/pbakaus/impeccable"
-resolved_path = "skill"
-resolved_commit = "dc715c7359cc44f7d20c638deaec2f17e6b2f4b3"
+resolved_path = ".agents/skills/impeccable"
+resolved_commit = "3590bf9e37c84ecbc92f9c205ce1aebf2185a971"
+
+[skills.prompt-optimizer]
+source = "getsentry/skills"
+resolved_url = "https://github.com/getsentry/skills"
+resolved_path = "skills/prompt-optimizer"
+resolved_commit = "89a1f0105c5be12934bda2bcd01f58ab894976e2"
 
 [skills.release]
 source = "path:.agents/skills/release"
@@ -23,7 +29,7 @@ source = "path:.agents/skills/release"
 source = "getsentry/sentry-for-ai"
 resolved_url = "https://github.com/getsentry/sentry-for-ai"
 resolved_path = "skills/sentry-flutter-sdk"
-resolved_commit = "006a3fd23c603a2f0a4df6f138af50881babb713"
+resolved_commit = "7d311bc603f637e49ca24c354c27162cbed77121"
 
 [skills.update-changelog]
 source = "path:.agents/skills/update-changelog"

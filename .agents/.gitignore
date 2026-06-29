@@ -2,4 +2,5 @@
 # Managed skills (installed by dotagents)
 /skills/dotagents/
 /skills/impeccable/
+/skills/prompt-optimizer/
 /skills/sentry-flutter-sdk/

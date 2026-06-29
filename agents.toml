@@ -25,3 +25,7 @@ source = "path:.agents/skills/code-simplifier"
 [[skills]]
 name = "impeccable"
 source = "pbakaus/impeccable"
+
+[[skills]]
+name = "prompt-optimizer"
+source = "getsentry/skills"
