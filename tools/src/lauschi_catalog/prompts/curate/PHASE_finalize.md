@@ -3,68 +3,55 @@
 You receive the batch phase's output plus pre-computed structural analysis.
 Your job: resolve the specific items the user prompt lists. Nothing more.
 
-**Input in the user prompt:**
-- Work-item summary (what needs your attention)
-- Existing series_facts (already-documented era_boundaries, known_gaps, sub_series)
-- Era evidence (batch-flagged same-episode-number collisions, if any)
-- Structural analysis (gaps, duplicates, cross-provider coverage, pattern coverage)
-- Unnumbered albums (included but no episode_num from pattern match, if any)
+## Scope
+
+You can propose `episode_updates` and `series_facts` (era_boundaries,
+known_gaps, sub_series). You CANNOT change include/exclude decisions
+from the batch phase. If you notice batch-phase inconsistencies (some
+albums of the same type included, others excluded), note them in your
+response but do not investigate further.
 
 ## Workflow
 
-Process the work items listed in the user prompt. For each category:
+Complete these steps in order. Do not reorder them.
 
-### Unnumbered albums
-
-For each unnumbered album, check the inline track listing first. If that's
-not enough, call `get_album_details`. If track names reveal the episode
-number (e.g. track 1 is "Folge 42: Der Blutfleck, Teil 1"), return it in
+**Step 1: Unnumbered albums.** For each unnumbered album listed in the
+user prompt, check the inline track listing. If that's not enough, call
+`get_album_details`. If tracks reveal an episode number, add it to
 `episode_updates`. Films, specials, and compilations are legitimately
-unnumbered; leave them with episode_num=null.
+unnumbered; leave them with `episode_num=null`.
 
-### Era evidence
+**Step 2: Era evidence.** Compare batch-flagged era collisions against
+existing `era_boundaries` in the user prompt. If existing facts already
+explain the clusters (same eras, same date ranges), skip. Only call
+`propose_series_facts` for genuinely new eras not yet documented.
 
-Compare the batch-flagged era collisions against existing `era_boundaries`
-in the user prompt. If existing facts already explain the clusters (same
-eras, same date ranges), skip. Only call `propose_series_facts` for
-genuinely new eras not yet documented.
-
-### Duplicate episode numbers
-
-Same-provider duplicates are usually explained by era_boundaries or
-sub_series already in existing facts. Check before investigating. If a
-sub_series explains the collisions, call `search_included_albums` once
-to gather album_ids, then `propose_series_facts`.
-
-### Gaps
-
-If the structural analysis lists gaps, check whether existing `known_gaps`
-already cover them. For truly new gaps, use `web_search` to confirm the
-reason (legal dispute, publisher skip), then propose via
+**Step 3: Sub-series.** If structural analysis shows duplicate episode
+numbers explained by a sub_series not yet in existing facts, call
+`search_included_albums` once to gather album_ids, then
 `propose_series_facts`.
 
-If the structural analysis shows no gaps, do not search for gaps.
+**Step 4: Gaps.** If the structural analysis lists gaps, check whether
+existing `known_gaps` cover them. For truly new gaps, use `web_search`
+to confirm the reason, then propose via `propose_series_facts`. If the
+analysis shows no gaps, skip this step entirely.
 
-### Verification
-
-After all updates, call `lint_current_curation` once. Address actionable
-findings. Expected findings (era-based duplicates, unnumbered films)
-are fine to document rather than fix.
+**Step 5 (last): Lint.** Call `lint_current_curation` once. If findings
+are explained by existing facts (era-based duplicates, known sub-series),
+document them in your response rather than investigating further.
 
 ## Scope control
 
-- Work only the items listed in the user prompt. Don't explore the catalog.
-- Existing facts that already explain a structural signal = no action needed.
+- Work only the items listed in the user prompt. Don't explore.
+- Existing facts that already explain a signal = no action needed.
 - `search_included_albums` returns album_id, provider, title, and
-  episode_num. Use it to check numbering state before calling
-  `get_album_details`.
-- Most series need 3-6 tool calls total. Past 10 means over-investigating.
+  episode_num. Check numbering there before calling `get_album_details`.
+- Most series need 3-6 tool calls. Past 8 means over-investigating.
 
 ## Output channels
 
 1. **Tools (side effects)**: `propose_series_facts` for era_boundaries,
    known_gaps, sub_series. `propose_pattern_update` for pattern changes.
-   These take effect immediately.
 
 2. **Return value**: `FinalizeResult` with `episode_updates` (album_id →
    episode_num) and optional `proposed_pattern_update`.
@@ -78,6 +65,7 @@ conventions into one broad regex. Each regex must be `^`-anchored.
 ## Web research (optional)
 
 `web_search` (max 3 queries) and `fetch_page` (max 2 URLs). Use for
-confirming gap reasons or sub-series boundaries, not for mapping the catalog.
+confirming gap reasons or sub-series boundaries, not for mapping the
+catalog.
 
 **Output:** `FinalizeResult` with episode_updates and optional pattern_update.
