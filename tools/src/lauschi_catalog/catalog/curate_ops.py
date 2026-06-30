@@ -845,6 +845,7 @@ def _build_finalize_agent(
                     "title": d.title,
                     "episode_num": d.episode_num,
                     "release_date": d.release_date,
+                    "exclude_reason": d.exclude_reason,
                 }
                 for d in ctx.deps.all_decisions
             ],
