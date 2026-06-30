@@ -1355,12 +1355,21 @@ async def _run_large(
 
     final_pattern = shared_deps.pattern
     if shared_deps.pattern_revisions and final_pattern is not None:
-        re_extracted = _reextract_episode_numbers(all_decisions, final_pattern)
         on_progress(
             f"  Pattern revised mid-run: {meta.episode_pattern!r} "
-            f"-> {final_pattern!r}. Re-extracted {re_extracted} episode "
-            f"numbers across all batches.\n",
+            f"-> {final_pattern!r}\n",
         )
+
+    # Always run deterministic episode extraction after batches.
+    # The batch agent may return episode_num=null even when the title
+    # clearly matches the pattern.
+    if final_pattern is not None:
+        re_extracted = _reextract_episode_numbers(all_decisions, final_pattern)
+        if re_extracted:
+            on_progress(
+                f"  Deterministic extraction set {re_extracted} episode "
+                f"numbers from pattern.\n",
+            )
 
     batch_index = {(a["provider"], a["id"]): a for a in all_albums}
     _restore_dropped_albums(all_decisions, batch_index, on_progress=on_progress)
