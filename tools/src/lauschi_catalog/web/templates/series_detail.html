@@ -77,6 +77,51 @@
             </div>
         {% endif %}
     </article>
+    {% if insights %}
+        <details class="insights-panel mb-075" {% if insights.incomplete %}open{% endif %}>
+            <summary class="insights-summary">
+                {% if insights.incomplete %}
+                    <span class="text-red">⚠ Incomplete curation</span>
+                {% else %}
+                    Insights
+                {% endif %}
+            </summary>
+            <div class="insights-body">
+                {% if insights.incomplete %}
+                    <p class="text-red mb-05">
+                        <small>{{ insights.incomplete_reason }}</small>
+                    </p>
+                {% endif %}
+                {% if insights.curator_notes %}
+                    <p class="mb-05"><small>{{ insights.curator_notes }}</small></p>
+                {% endif %}
+                {% if insights.era_boundaries %}
+                    <p class="mb-025"><small><strong>Eras:</strong>
+                        {% for era in insights.era_boundaries %}
+                            {% if not loop.first %} · {% endif %}
+                            {{ era.label }} ({{ era.range }})
+                        {% endfor %}
+                    </small></p>
+                {% endif %}
+                {% if insights.sub_series %}
+                    <p class="mb-025"><small><strong>Sub-series:</strong></small></p>
+                    <ul class="insights-list">
+                        {% for sub in insights.sub_series %}
+                            <li><small><strong>{{ sub.name }}</strong>{% if sub.description %}: {{ sub.description }}{% endif %}</small></li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+                {% if insights.known_gaps %}
+                    <p class="mb-025"><small><strong>Known gaps:</strong></small></p>
+                    <ul class="insights-list">
+                        {% for gap in insights.known_gaps %}
+                            <li><small>{{ gap }}</small></li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+        </details>
+    {% endif %}
     <nav class="nav-tabs">
         <ul>
             <li>

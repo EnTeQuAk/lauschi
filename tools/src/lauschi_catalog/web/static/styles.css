@@ -1191,6 +1191,30 @@ nav[aria-label="breadcrumb"] li + li::before {
 	color: rgba(255, 255, 255, 0.8);
 }
 
+/* ── Insights panel ────────────────────────────────── */
+.insights-panel {
+	border: 1px solid var(--color-border);
+	border-radius: var(--radius-button);
+	padding: 0;
+}
+.insights-summary {
+	padding: 0.4rem 0.75rem;
+	cursor: pointer;
+	font-size: 0.85rem;
+	color: var(--color-text-muted);
+}
+.insights-body {
+	padding: 0 0.75rem 0.5rem;
+}
+.insights-list {
+	margin: 0 0 0.5rem;
+	padding-left: 1.25rem;
+	font-size: 0.85rem;
+}
+.insights-list li {
+	margin-bottom: 0.15rem;
+}
+
 /* ── Error page ────────────────────────────────────── */
 .error-page, .error-hero {
 	padding: 4rem 1rem;

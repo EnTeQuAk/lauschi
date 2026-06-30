@@ -206,6 +206,72 @@ async def catalog_list(
     )
 
 
+def _summarize_gaps(gaps: list[dict]) -> list[str]:
+    """Collapse known_gaps into human-readable range summaries.
+
+    Groups consecutive episode numbers that share the same reason into
+    "Episodes N-M: reason" strings.
+    """
+    if not gaps:
+        return []
+    sorted_gaps = sorted(gaps, key=lambda g: g.get("number", 0))
+    runs: list[tuple[int, int, str]] = []
+    for g in sorted_gaps:
+        num = g.get("number", 0)
+        reason = g.get("reason", "")
+        if runs and runs[-1][2] == reason and num == runs[-1][1] + 1:
+            runs[-1] = (runs[-1][0], num, reason)
+        else:
+            runs.append((num, num, reason))
+    result = []
+    for start, end, reason in runs:
+        label = f"Episode {start}" if start == end else f"Episodes {start}-{end}"
+        short_reason = reason[:120] + "..." if len(reason) > 120 else reason
+        result.append(f"{label}: {short_reason}")
+    return result
+
+
+def _build_insights(curation: dict | None) -> dict[str, Any]:
+    """Extract structured insights from curation JSON for the detail page."""
+    if not curation:
+        return {}
+    facts = curation.get("series_facts") or {}
+    insights: dict[str, Any] = {}
+
+    if curation.get("curator_notes"):
+        insights["curator_notes"] = curation["curator_notes"]
+
+    if curation.get("incomplete"):
+        insights["incomplete"] = True
+        insights["incomplete_reason"] = curation.get("incomplete_reason", "")
+
+    gap_summaries = _summarize_gaps(facts.get("known_gaps") or [])
+    if gap_summaries:
+        insights["known_gaps"] = gap_summaries
+
+    eras = facts.get("era_boundaries") or []
+    if eras:
+        insights["era_boundaries"] = [
+            {
+                "label": e.get("label", ""),
+                "range": e.get("release_date_range", ""),
+            }
+            for e in eras
+        ]
+
+    subs = facts.get("sub_series") or []
+    if subs:
+        insights["sub_series"] = [
+            {
+                "name": s.get("name") or s.get("label", ""),
+                "description": s.get("description") or s.get("reason", ""),
+            }
+            for s in subs
+        ]
+
+    return insights
+
+
 def _render_series_detail(
     request: Request,
     series_id: str,
@@ -356,6 +422,7 @@ def _render_series_detail(
             "split_from": split_from,
             "split_children": split_children,
             "extra_flashes": extra_flashes or [],
+            "insights": _build_insights(curation),
         },
     )
 
