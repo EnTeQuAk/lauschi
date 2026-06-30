@@ -1430,12 +1430,13 @@ def test_search_included_albums_returns_provider_and_id():
     from lauschi_catalog.catalog.curate_ops import _search_included_albums
 
     decisions = [
-        _decision("abc123", "Special Title", provider="apple_music"),
+        _decision("abc123", "Special Title", provider="apple_music", episode_num=7),
     ]
     results = _search_included_albums(decisions, "special")
     assert results[0]["album_id"] == "abc123"
     assert results[0]["provider"] == "apple_music"
     assert results[0]["title"] == "Special Title"
+    assert results[0]["episode_num"] == 7
 
 
 # ── finalize agent has search_included_albums tool ─────────────────────────

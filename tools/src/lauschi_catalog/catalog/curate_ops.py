@@ -713,16 +713,22 @@ def _build_batch_agent(
 def _search_included_albums(
     decisions: list[AlbumDecision],
     query: str,
-) -> list[dict[str, str]]:
+) -> list[dict]:
     """Search included albums by title keyword (case-insensitive).
 
-    Returns dicts with album_id, provider, title for each match.
+    Returns dicts with album_id, provider, title, episode_num for each match.
     Used by the finalize agent to look up album IDs when building
-    sub_series proposals.
+    sub_series proposals and to check numbering state without needing
+    get_album_details.
     """
     q = query.lower()
     return [
-        {"album_id": d.album_id, "provider": d.provider, "title": d.title}
+        {
+            "album_id": d.album_id,
+            "provider": d.provider,
+            "title": d.title,
+            "episode_num": d.episode_num,
+        }
         for d in decisions
         if d.include and q in d.title.lower()
     ]
@@ -755,12 +761,12 @@ def _build_finalize_agent(
     def search_included_albums(
         ctx: RunContext[CurateDeps],
         query: str,
-    ) -> list[dict[str, str]]:
+    ) -> list[dict]:
         """Search included albums by title keyword (case-insensitive).
 
-        Use this to find the real album_ids for sub_series proposals.
-        For example, search "adventskalender" to find all Adventskalender
-        albums and their IDs across providers.
+        Returns album_id, provider, title, and episode_num for each match.
+        Use this to find album_ids for sub_series proposals and to check
+        numbering state without needing get_album_details.
         """
         results = _search_included_albums(ctx.deps.all_decisions, query)
         ctx.deps.on_progress(
@@ -1517,14 +1523,44 @@ async def _run_large(
                 discography_span_years=discography_span_years,
             )
 
+            # Build a concise work-item summary so the agent
+            # knows exactly what to focus on.
+            work_items: list[str] = []
+            if unnumbered:
+                work_items.append(
+                    f"- {len(unnumbered)} unnumbered album(s): "
+                    f"check track listings for episode numbers"
+                )
+            if era_evidence_lines:
+                n_existing_eras = len(
+                    (existing_facts or SeriesFacts()).era_boundaries
+                )
+                if n_existing_eras:
+                    work_items.append(
+                        f"- Era evidence: {n_existing_eras} era_boundaries "
+                        f"already documented; verify they cover the "
+                        f"evidence before proposing new ones"
+                    )
+                else:
+                    work_items.append(
+                        "- Era evidence: propose era_boundaries "
+                        "from flagged albums"
+                    )
+
             prompt_parts: list[str] = [
                 f"Series: {meta.title!r}",
                 f"Episode pattern: {shared_deps.pattern}",
+            ]
+            if work_items:
+                prompt_parts.append(
+                    "## Work items\n" + "\n".join(work_items)
+                )
+            prompt_parts.extend([
                 "",
                 "\n".join(facts_lines),
                 "",
                 "\n".join(era_evidence_lines),
-            ]
+            ])
             if analysis_lines:
                 prompt_parts.append(
                     "### Structural analysis (deterministic)\n"

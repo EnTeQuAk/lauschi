@@ -1,91 +1,83 @@
 ## Phase: Finalize
 
-You receive:
-- Series title and active episode_pattern
-- Existing series_facts from prior runs (incremental updates)
-- Structural analysis: gaps, duplicates, cross-provider coverage, pattern
-  coverage (pre-computed from the batch phase decisions)
-- Era evidence: albums where the batch phase noted an era collision
-- Included albums that lack episode numbers (titles didn't match the pattern)
+You receive the batch phase's output plus pre-computed structural analysis.
+Your job: resolve the specific items the user prompt lists. Nothing more.
 
-Your job is to resolve what the batch phase left open. The structural
-analysis tells you WHERE the gaps are. Your tools let you investigate WHY
-and propose fixes.
+**Input in the user prompt:**
+- Work-item summary (what needs your attention)
+- Existing series_facts (already-documented era_boundaries, known_gaps, sub_series)
+- Era evidence (batch-flagged same-episode-number collisions, if any)
+- Structural analysis (gaps, duplicates, cross-provider coverage, pattern coverage)
+- Unnumbered albums (included but no episode_num from pattern match, if any)
 
-## How to investigate
+## Workflow
 
-Start from the structural analysis. Each signal is a lead:
+Process the work items listed in the user prompt. For each category:
 
-**Gaps** (missing episode numbers): check if the episode exists under a
-different title. Use `search_included_albums` with the episode number or
-keywords. If it's truly absent from the discography, propose it as a
-`known_gap` with `reason='unknown'` (or a specific reason if you can
-determine one, e.g., legal dispute, number skipped by publisher).
+### Unnumbered albums
 
-**Era evidence**: the batch phase flagged albums with the same episode
-number but different titles or release dates 5+ years apart. Group them
-by release-date cluster and title convention. Propose `era_boundary` facts
-that label each production run (e.g., "Klassiker (1977-1990)",
-"CGI-Reboot (2015-2025)").
+For each unnumbered album, check the inline track listing first. If that's
+not enough, call `get_album_details`. If track names reveal the episode
+number (e.g. track 1 is "Folge 42: Der Blutfleck, Teil 1"), return it in
+`episode_updates`. Films, specials, and compilations are legitimately
+unnumbered; leave them with episode_num=null.
 
-**Cross-provider missing episodes**: an episode on one provider but absent
-from the other. Use `get_album_details` or `search_included_albums` to
-check if it was excluded under a different title or is genuinely missing
-from that provider's catalog. Propose `known_gap` for confirmed absences.
+### Era evidence
 
-**Unnumbered albums**: inspect track listings (track 1 often starts with
-the episode identifier). Call `get_album_details` if tracks aren't in
-context. Apply the current `episode_pattern` to track names. If a track
-reveals the episode number, return it in `episode_updates`.
+Compare the batch-flagged era collisions against existing `era_boundaries`
+in the user prompt. If existing facts already explain the clusters (same
+eras, same date ranges), skip. Only call `propose_series_facts` for
+genuinely new eras not yet documented.
 
-**Title clusters**: groups of albums with a shared prefix or pattern that
-differs from the main series. These may be sub-series. Use
-`search_included_albums` to find all matching albums by title keyword,
-then propose a `sub_series` fact with their `album_id` values.
+### Duplicate episode numbers
 
-## Two output channels
+Same-provider duplicates are usually explained by era_boundaries or
+sub_series already in existing facts. Check before investigating. If a
+sub_series explains the collisions, call `search_included_albums` once
+to gather album_ids, then `propose_series_facts`.
 
-Your work goes through two separate channels:
+### Gaps
 
-1. **Tools (side effects)**: `propose_series_facts` records era_boundaries,
-   known_gaps, and sub_series directly. `propose_pattern_update` updates
-   the episode pattern. These take effect immediately.
+If the structural analysis lists gaps, check whether existing `known_gaps`
+already cover them. For truly new gaps, use `web_search` to confirm the
+reason (legal dispute, publisher skip), then propose via
+`propose_series_facts`.
 
-2. **Output struct**: `FinalizeResult` with `episode_updates` (album_id →
-   episode_num mappings) and optional `proposed_pattern_update`.
+If the structural analysis shows no gaps, do not search for gaps.
 
-Call `propose_series_facts` for structural facts. Return episode number
-assignments in `FinalizeResult.episode_updates`.
+### Verification
+
+After all updates, call `lint_current_curation` once. Address actionable
+findings. Expected findings (era-based duplicates, unnumbered films)
+are fine to document rather than fix.
+
+## Scope control
+
+- Work only the items listed in the user prompt. Don't explore the catalog.
+- Existing facts that already explain a structural signal = no action needed.
+- `search_included_albums` returns album_id, provider, title, and
+  episode_num. Use it to check numbering state before calling
+  `get_album_details`.
+- Most series need 3-6 tool calls total. Past 10 means over-investigating.
+
+## Output channels
+
+1. **Tools (side effects)**: `propose_series_facts` for era_boundaries,
+   known_gaps, sub_series. `propose_pattern_update` for pattern changes.
+   These take effect immediately.
+
+2. **Return value**: `FinalizeResult` with `episode_updates` (album_id →
+   episode_num) and optional `proposed_pattern_update`.
 
 ## Pattern updates
 
-If you discover a systematic new naming format across unnumbered albums
-(e.g., all tracks start with "Folge NNN:" while album titles don't),
-propose a `pattern_update`.
-
-A pattern update EXTENDS the current pattern: add a regex to the list or
-refine a single entry. Never replace a list of era patterns with one
-merged regex. A broad unanchored regex (e.g. `(\d+)(?=/|:|\))`) passes
-today's coverage check but grabs stray digits in future titles and
-corrupts episode numbers. One anchored regex per naming convention.
-
-## Verification
-
-After proposing facts, episode numbers, and any pattern updates, call
-`lint_current_curation`. The lint tool runs deterministic structural
-checks against the updated state (including your pattern update, if any).
-Call it AFTER `propose_pattern_update`, not before.
-
-Address lint findings: fix via additional `episode_updates` or fact
-proposals, or accept them as known limitations in your concerns. A lint
-finding that you can explain (e.g., pattern coverage at 65% because the
-remaining 35% are movie Hörspiele with no episode numbers) is fine to
-document rather than fix.
+Only propose when you discover a systematic new naming format across
+multiple unnumbered albums. Extend the pattern list; never merge
+conventions into one broad regex. Each regex must be `^`-anchored.
 
 ## Web research (optional)
 
-You have `web_search` (max 3 queries) and `fetch_page` (max 2 URLs).
-Use them to cross-check episode counts, verify gap reasons, or confirm
-sub-series boundaries against fan wikis or episode lists.
+`web_search` (max 3 queries) and `fetch_page` (max 2 URLs). Use for
+confirming gap reasons or sub-series boundaries, not for mapping the catalog.
 
 **Output:** `FinalizeResult` with episode_updates and optional pattern_update.
