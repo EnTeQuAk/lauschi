@@ -1451,6 +1451,7 @@ async def _run_large(
 
         needs_finalize = bool(unnumbered) or bool(era_evidence_lines)
         if needs_finalize:
+            _MAX_INLINE_TRACKS = 3
             lines: list[str] = []
             for d in unnumbered:
                 key = f"{d.provider}:{d.album_id}"
@@ -1458,7 +1459,10 @@ async def _run_large(
                 tracks = ""
                 if detail and detail.get("tracks"):
                     track_names = [t["name"] for t in detail["tracks"]]
-                    tracks = " | tracks: " + " | ".join(track_names)
+                    shown = track_names[:_MAX_INLINE_TRACKS]
+                    if len(track_names) > _MAX_INLINE_TRACKS:
+                        shown.append(f"... +{len(track_names) - _MAX_INLINE_TRACKS} more")
+                    tracks = " | tracks: " + " | ".join(shown)
                 lines.append(f"  {d.provider}:{d.album_id} | {d.title}{tracks}")
             facts_lines: list[str] = []
             if existing_facts:

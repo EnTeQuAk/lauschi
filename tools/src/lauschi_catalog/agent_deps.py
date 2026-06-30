@@ -33,5 +33,7 @@ class AgentDeps:
     seen_details: dict[str, dict] = field(default_factory=dict)
     _search_count: int = field(default=0, init=False)
     _fetch_count: int = field(default=0, init=False)
+    _detail_count: int = field(default=0, init=False)
     _MAX_SEARCHES: int = 3
     _MAX_FETCHES: int = 2
+    _MAX_DETAIL_CALLS: int = 10

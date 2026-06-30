@@ -53,6 +53,12 @@ def build_agent_tools() -> FunctionToolset[AgentDeps]:
         album_ids: list[str],
     ) -> list[dict]:
         """Fetch full album details (track listing) from a provider."""
+        if ctx.deps._detail_count >= ctx.deps._MAX_DETAIL_CALLS:
+            raise ModelRetry(
+                f"Detail fetch limit reached ({ctx.deps._MAX_DETAIL_CALLS}). "
+                f"Make your decision using the information you already have."
+            )
+        ctx.deps._detail_count += 1
         results: list[dict] = []
         invalid = [aid for aid in album_ids if not is_valid_id(provider, aid)]
         valid_ids = [aid for aid in album_ids if is_valid_id(provider, aid)]
