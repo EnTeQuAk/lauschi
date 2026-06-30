@@ -15,6 +15,7 @@ from lauschi_catalog.catalog.curate_ops import (
     AlbumDecision,
     CuratedSeries,
     _build_metadata_agent,
+    _preseed_decisions,
     _stratified_sample,
     lock_series_id,
     lookup_catalog_entry,
@@ -1527,3 +1528,112 @@ def test_propose_series_facts_accepts_sub_series_with_album_ids():
         ],
     )
     assert "adventskalender" in result
+
+
+# ── _preseed_decisions ──────────────────────────────────────────────────
+
+
+def _album(provider: str, album_id: str, name: str = "Album") -> dict:
+    """Build a minimal discovery album dict."""
+    return {"provider": provider, "id": album_id, "name": name}
+
+
+def _curation_album(
+    provider: str,
+    album_id: str,
+    include: bool,
+    title: str = "Album",
+    episode_num: int | None = None,
+    exclude_reason: str | None = None,
+) -> dict:
+    return {
+        "provider": provider,
+        "album_id": album_id,
+        "include": include,
+        "title": title,
+        "episode_num": episode_num,
+        "exclude_reason": exclude_reason,
+    }
+
+
+class TestPreseedDecisions:
+    def test_no_existing_curation_returns_all_albums(self):
+        albums = [_album("spotify", "a1"), _album("spotify", "a2")]
+        carried, remaining = _preseed_decisions(albums, None)
+        assert carried == []
+        assert remaining is albums
+
+    def test_empty_curation_albums_returns_all(self):
+        albums = [_album("spotify", "a1")]
+        carried, remaining = _preseed_decisions(albums, {"albums": []})
+        assert carried == []
+        assert remaining is albums
+
+    def test_carries_forward_matching_decisions(self):
+        discovered = [
+            _album("spotify", "a1", "Folge 1"),
+            _album("spotify", "a2", "Folge 2"),
+            _album("spotify", "a3", "Folge 3"),
+        ]
+        existing = {
+            "albums": [
+                _curation_album("spotify", "a1", True, "Folge 1", 1),
+                _curation_album("spotify", "a2", False, "Folge 2",
+                                exclude_reason="compilation"),
+            ],
+        }
+        carried, remaining = _preseed_decisions(discovered, existing)
+        assert len(carried) == 2
+        assert carried[0].album_id == "a1"
+        assert carried[0].include is True
+        assert carried[0].episode_num == 1
+        assert carried[1].album_id == "a2"
+        assert carried[1].include is False
+        assert len(remaining) == 1
+        assert remaining[0]["id"] == "a3"
+
+    def test_ignores_albums_no_longer_in_discovery(self):
+        """Albums removed from the artist's discography since the
+        last curation should not be carried forward."""
+        discovered = [_album("spotify", "a2")]
+        existing = {
+            "albums": [
+                _curation_album("spotify", "a1", True, "Gone"),
+                _curation_album("spotify", "a2", True, "Still here"),
+            ],
+        }
+        carried, remaining = _preseed_decisions(discovered, existing)
+        assert len(carried) == 1
+        assert carried[0].album_id == "a2"
+        assert remaining == []
+
+    def test_cross_provider_matching(self):
+        """Decisions are matched by (provider, album_id), not just album_id."""
+        discovered = [
+            _album("spotify", "shared_id"),
+            _album("apple_music", "shared_id"),
+        ]
+        existing = {
+            "albums": [
+                _curation_album("spotify", "shared_id", True),
+            ],
+        }
+        carried, remaining = _preseed_decisions(discovered, existing)
+        assert len(carried) == 1
+        assert carried[0].provider == "spotify"
+        assert len(remaining) == 1
+        assert remaining[0]["provider"] == "apple_music"
+
+    def test_skips_malformed_curation_entries(self):
+        """Missing required fields should not crash the pre-seeding."""
+        discovered = [_album("spotify", "a1"), _album("spotify", "a2")]
+        existing = {
+            "albums": [
+                {"provider": "spotify"},  # missing album_id, include
+                _curation_album("spotify", "a2", True, "OK"),
+            ],
+        }
+        carried, remaining = _preseed_decisions(discovered, existing)
+        assert len(carried) == 1
+        assert carried[0].album_id == "a2"
+        assert len(remaining) == 1

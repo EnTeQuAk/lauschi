@@ -145,6 +145,52 @@ def _build_batch_summary(
     return "\n".join(lines) if lines else ""
 
 
+def _preseed_decisions(
+    all_albums: list[dict],
+    existing_curation: dict | None,
+) -> tuple[list[AlbumDecision], list[dict]]:
+    """Carry forward decisions from a prior (possibly incomplete) curation.
+
+    Returns (carried_decisions, remaining_albums) where remaining_albums
+    is the subset of all_albums not already decided.
+    """
+    if not existing_curation or not existing_curation.get("albums"):
+        return [], all_albums
+
+    discovered_ids = {(a["provider"], a["id"]) for a in all_albums}
+    carried: list[AlbumDecision] = []
+    for ea in existing_curation["albums"]:
+        key = (ea.get("provider", ""), ea.get("album_id", ""))
+        if key not in discovered_ids:
+            continue
+        try:
+            carried.append(
+                AlbumDecision(
+                    album_id=ea["album_id"],
+                    provider=ea["provider"],
+                    include=ea["include"],
+                    episode_num=ea.get("episode_num"),
+                    title=ea.get("title", ""),
+                    exclude_reason=ea.get("exclude_reason"),
+                    release_date=ea.get("release_date"),
+                    confidence=ea.get("confidence", "high"),
+                    notes=ea.get("notes"),
+                )
+            )
+        except Exception:
+            continue
+
+    if not carried:
+        return [], all_albums
+
+    carried_ids = {(d.provider, d.album_id) for d in carried}
+    remaining = [
+        a for a in all_albums
+        if (a["provider"], a["id"]) not in carried_ids
+    ]
+    return carried, remaining
+
+
 def _restore_dropped_albums(
     decisions: list[AlbumDecision],
     album_index: dict[tuple[str, str], dict[str, str]],
@@ -1113,6 +1159,21 @@ async def _run_large(
     on_progress(f"  ({_fmt_elapsed(time.monotonic() - t0)})\n")
 
     # -- Step 3: Batched curation
+    all_discovered = all_albums  # full list for cover cache
+    all_decisions, all_albums = _preseed_decisions(all_albums, existing_curation)
+    total_inc = sum(1 for d in all_decisions if d.include)
+    total_exc = sum(1 for d in all_decisions if not d.include)
+    episode_nums: list[int] = [
+        d.episode_num for d in all_decisions
+        if d.include and d.episode_num is not None
+    ]
+    if all_decisions:
+        on_progress(
+            f"  Carried forward {len(all_decisions)} decisions from "
+            f"prior run ({total_inc} included, {total_exc} excluded). "
+            f"{len(all_albums)} albums remaining.\n",
+        )
+
     batches = [
         all_albums[i : i + _BATCH_SIZE] for i in range(0, len(all_albums), _BATCH_SIZE)
     ]
@@ -1123,6 +1184,8 @@ async def _run_large(
         f"{len(batches)} batches of <={_BATCH_SIZE}\n",
     )
 
+    if not all_albums:
+        on_progress("  All albums already decided, skipping batches.\n")
     batch_agent = _build_batch_agent(
         model,
         model_name=model_name,
@@ -1136,11 +1199,6 @@ async def _run_large(
         seen_details=prefetch_details,
         on_progress=on_progress,
     )
-
-    all_decisions: list[AlbumDecision] = []
-    total_inc = 0
-    total_exc = 0
-    episode_nums: list[int] = []
 
     for batch_num, batch in enumerate(batches, 1):
         if episode_nums:
@@ -1240,15 +1298,27 @@ async def _run_large(
 
         shared_deps.current_batch_ids = {(a["provider"], a["id"]) for a in batch}
         t_batch = time.monotonic()
-        result: BatchResult = await _run_with_retry(
-            lambda p=prompt: asyncio.wait_for(
-                _run_agent(batch_agent, p, shared_deps),
-                timeout=timeout,
-            ),
-            phase=f"batch {batch_num}/{len(batches)}",
-            model_name=model_name,
-            on_progress=on_progress,
-        )
+        try:
+            result: BatchResult = await _run_with_retry(
+                lambda p=prompt: asyncio.wait_for(
+                    _run_agent(batch_agent, p, shared_deps),
+                    timeout=timeout,
+                ),
+                phase=f"batch {batch_num}/{len(batches)}",
+                model_name=model_name,
+                on_progress=on_progress,
+            )
+        except Exception as exc:
+            err = f"{type(exc).__name__}: {exc}" if str(exc) else type(exc).__name__
+            on_progress(
+                f"  Batch {batch_num}/{len(batches)} failed after retries: "
+                f"{err}. Saving {len(all_decisions)} partial results.\n",
+            )
+            incomplete = True
+            provider_errors.append(
+                f"batch {batch_num}/{len(batches)}: {err}"
+            )
+            break
 
         batch_index = {(a["provider"], a["id"]): a for a in batch}
         for a in result.albums:
@@ -1537,7 +1607,7 @@ async def _run_large(
         f"\n== Done == {total_inc} included, {total_exc} excluded [{overall}]\n"
     )
 
-    write_cover_cache(meta.id, all_albums)
+    write_cover_cache(meta.id, all_discovered)
 
     return CuratedSeries(
         id=meta.id,
