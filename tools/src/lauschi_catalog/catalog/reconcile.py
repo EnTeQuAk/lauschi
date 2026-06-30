@@ -42,6 +42,7 @@ _AUTO_FLIP_REASONS: frozenset[str] = frozenset(
         "compilation",
         "kinderlieder_compilation",
         "multi_artist_compilation",
+        "partial_release",
     }
 )
 
@@ -51,7 +52,6 @@ _FLAG_REASONS: frozenset[str] = frozenset(
         "sub_series_bleed",
         "sub_series",
         "different_series",
-        "partial_release",
         "audit_override",
     }
 )

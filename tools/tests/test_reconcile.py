@@ -248,3 +248,15 @@ class TestReconcileCrossProvider:
         result = reconcile_cross_provider(albums)
         assert result.flipped == 1
         assert albums[1]["include"] is True
+
+    def test_partial_release_auto_flipped(self):
+        """Die Playmos 'Brief von Captain Tolle' excluded as
+        partial_release on Apple Music but included on Spotify."""
+        albums = [
+            _album("sp1", "Brief von Captain Tolle", "spotify", True),
+            _album("am1", "Brief von Captain Tolle", "apple_music", False, "partial_release"),
+        ]
+        result = reconcile_cross_provider(albums)
+        assert result.flipped == 1
+        assert albums[1]["include"] is True
+        assert albums[1].get("exclude_reason") is None
