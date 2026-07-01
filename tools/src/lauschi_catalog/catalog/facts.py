@@ -89,6 +89,14 @@ class EraBoundaryProposal(BaseModel):
         description="Year range like '1976-1979' or '2015-'.",
     )
 
+    @field_validator("release_date_range", mode="before")
+    @classmethod
+    def _validate_range(cls, v: str) -> str:
+        if not _re.fullmatch(r"^\d{4}-(\d{4})?$", v):
+            msg = f"release_date_range must be 'YYYY-YYYY' or 'YYYY-', got {v!r}"
+            raise ValueError(msg)
+        return v
+
 
 class KnownGapProposal(BaseModel):
     """Wire input for proposing a known gap."""

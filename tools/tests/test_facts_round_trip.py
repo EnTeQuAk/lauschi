@@ -279,3 +279,44 @@ class TestMergedFactsNoneSafety:
         if existing_facts or proposed_facts:
             merged = SeriesFacts()
         assert merged is None
+
+
+class TestEraBoundaryProposalValidation:
+    """EraBoundaryProposal must reject bad release_date_range values
+    at proposal time, not only when the persisted fact is loaded."""
+
+    def test_valid_closed_range(self):
+        from lauschi_catalog.catalog.facts import EraBoundaryProposal
+
+        p = EraBoundaryProposal(label="klassik", release_date_range="1976-1979")
+        assert p.release_date_range == "1976-1979"
+
+    def test_valid_open_range(self):
+        from lauschi_catalog.catalog.facts import EraBoundaryProposal
+
+        p = EraBoundaryProposal(label="modern", release_date_range="2023-")
+        assert p.release_date_range == "2023-"
+
+    def test_single_year_rejected(self):
+        import pytest
+        from lauschi_catalog.catalog.facts import EraBoundaryProposal
+
+        with pytest.raises(ValueError, match="release_date_range must be"):
+            EraBoundaryProposal(label="bad", release_date_range="2023")
+
+    def test_full_date_string_rejected(self):
+        import pytest
+        from lauschi_catalog.catalog.facts import EraBoundaryProposal
+
+        with pytest.raises(ValueError, match="release_date_range must be"):
+            EraBoundaryProposal(
+                label="bad",
+                release_date_range="2021-07-02 to 2024-01-19",
+            )
+
+    def test_empty_rejected(self):
+        import pytest
+        from lauschi_catalog.catalog.facts import EraBoundaryProposal
+
+        with pytest.raises(ValueError):
+            EraBoundaryProposal(label="bad", release_date_range="")
