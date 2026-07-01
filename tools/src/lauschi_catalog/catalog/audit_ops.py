@@ -32,7 +32,6 @@ from lauschi_catalog.catalog.facts import (
     fact_provenance,
 )
 from lauschi_catalog.catalog.analysis import analyze_series
-from lauschi_catalog.catalog.lifecycle import review_is_stale
 from lauschi_catalog.catalog.io import safe_write_json
 from lauschi_catalog.catalog.paths import CURATION_DIR
 from lauschi_catalog.catalog.lint_ops import critical_issues, lint_curation
@@ -313,12 +312,6 @@ async def audit_one(
     review = curation.get("review", {})
     status = review.get("status")
     if not force:
-        if review_is_stale(curation):
-            on_progress(
-                f"Skipping {series_id}: audit is stale "
-                f"(curate ran after last audit). Re-run curate first."
-            )
-            return None
         if status in ("approved", "audited"):
             on_progress(f"Skipping {series_id} (already {status})")
             return None

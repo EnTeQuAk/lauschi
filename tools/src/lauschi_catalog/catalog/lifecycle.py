@@ -1,21 +1,21 @@
 """Pipeline-step staleness checks.
 
 The catalog flows through curate → audit → apply. Each step writes a
-timestamp on the curation it produced. Downstream steps must not act
-on outputs that have been invalidated by a later upstream re-run.
+timestamp on the curation it produced. The apply step must not ship
+data that hasn't been verified by audit since the last curate.
 
-This module is the single source of truth for "is the prior pipeline
-output still trustworthy?" Pure data-in / bool-out helpers, no I/O,
-no side effects. The CLI commands (audit, apply) ask these questions
-to gate their skip/run/refuse logic.
+curate clears the entire ``review`` block when it writes, so audit
+always runs on freshly-curated series (no review.status → not skipped).
+The ``audit_is_stale`` check is defense-in-depth for apply: it catches
+the edge case where ``review.audited_at`` wasn't cleared properly.
 
 Timestamps:
 - ``curated_at`` (top-level): set by curate on each run.
 - ``review.audited_at``: set by audit (the 4-eye pass).
 
 If a human edits a curation JSON without bumping ``curated_at``,
-the staleness checks won't notice. When you hand-edit, also clear
-``review.audited_at`` or pass ``--force`` on the next run.
+the staleness checks won't notice. When you hand-edit, remove the
+``review`` block or pass ``--force`` on the next audit run.
 """
 
 from __future__ import annotations
@@ -55,10 +55,6 @@ def audit_is_stale(curation: dict) -> bool:
     if curated is None or audited is None:
         return False
     return curated > audited
-
-
-# Keep old name as alias so audit.py's existing import works.
-review_is_stale = audit_is_stale
 
 
 def apply_is_unsafe(curation: dict) -> str | None:

@@ -1781,16 +1781,14 @@ def save_curation(
     new_album_ids = {a.album_id for a in series.albums}
     old_album_ids = {a.get("album_id") for a in old_albums if a.get("album_id")}
     if old_album_ids and new_album_ids != old_album_ids:
-        review = data.get("review", {})
-        if review:
-            for key in ("overrides", "concerns", "fact_updates"):
-                review.pop(key, None)
-            review.pop("status", None)
-            data["review"] = review
         on_progress(
-            f"  Album set changed ({len(old_album_ids)} -> {len(new_album_ids)}). "
-            f"Cleared stale audit state."
+            f"  Album set changed ({len(old_album_ids)} -> {len(new_album_ids)})."
         )
+
+    # Any re-curation invalidates the prior audit: the agent may have
+    # changed include/exclude decisions, episode numbers, or facts even
+    # when the album ID set is identical. Clearing forces re-audit.
+    data.pop("review", None)
 
     data.update(
         {

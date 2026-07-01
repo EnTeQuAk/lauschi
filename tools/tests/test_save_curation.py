@@ -82,10 +82,17 @@ def test_save_curation_creates_new_file_without_review(curation_dir: Path):
     assert "review" not in saved
 
 
-def test_save_curation_preserves_existing_review_block(curation_dir: Path):
-    """The bug fix: re-curating doesn't wipe the prior review."""
+def test_save_curation_clears_review_on_recuration(curation_dir: Path):
+    """Any re-curation invalidates the prior audit approval.
+
+    Even when the album set hasn't changed, the curate agent may have
+    made different include/exclude decisions. The old audit approved
+    the OLD decisions, not the new ones.
+    """
     review = {
         "status": "approved",
+        "audited_at": "2026-01-01T00:00:00+00:00",
+        "audited_by": "minimax-m2.7",
         "overrides": [
             {
                 "album_id": "x",
@@ -94,26 +101,18 @@ def test_save_curation_preserves_existing_review_block(curation_dir: Path):
                 "reason": "duplicate",
             },
         ],
-        "splits": [],
-        "added_albums": [],
-        "decisions": {
-            "duplicates": {"verdict": "resolved_via_overrides", "reasoning": "x"}
-        },
-        "summary": "all good",
     }
     _write_existing(curation_dir, "test_series", review=review, album_id="a")
 
     save_curation(_series("test_series"))
 
     saved = json.loads((curation_dir / "test_series.json").read_text())
-    assert saved["review"] == review
-    assert saved["review"]["status"] == "approved"
-    assert saved["review"]["overrides"][0]["album_id"] == "x"
+    assert "review" not in saved
 
 
 def test_save_curation_replaces_curate_owned_fields(curation_dir: Path):
     """Curate-side fields (title, albums, etc.) get the new values.
-    When album IDs change, stale audit state is cleared."""
+    Review is cleared since any re-curation invalidates it."""
     _write_existing(curation_dir, "test_series", review={"status": "approved"})
 
     save_curation(_series("test_series"))
@@ -122,14 +121,14 @@ def test_save_curation_replaces_curate_owned_fields(curation_dir: Path):
     assert saved["title"] == "Test Series"  # new
     assert saved["albums"][0]["album_id"] == "a"  # new
     assert "old" not in str(saved["albums"])  # old replaced
-    assert "status" not in saved.get("review", {})  # stale audit cleared
+    assert "review" not in saved  # audit invalidated
 
 
 def test_save_curation_preserves_unrelated_keys(curation_dir: Path):
-    """Anything outside the curate-owned set is carried forward —
-    that's the architectural property: curate only touches its own
-    fields, leaves the rest alone. Future pipeline steps can add new
-    top-level subkeys without curate needing to know about them."""
+    """Anything outside the curate-owned set is carried forward
+    (except review, which is invalidated). Future pipeline steps can
+    add new top-level subkeys without curate needing to know about
+    them."""
     p = curation_dir / "test_series.json"
     p.write_text(
         json.dumps(
@@ -146,7 +145,7 @@ def test_save_curation_preserves_unrelated_keys(curation_dir: Path):
     save_curation(_series("test_series"))
 
     saved = json.loads(p.read_text())
-    assert saved["review"] == {"status": "approved"}
+    assert "review" not in saved  # audit invalidated
     assert saved["verification_log"] == [{"step": "verify", "ts": "2026-01-01"}]
     assert saved["custom_human_field"] == "preserve me too"
     # Curate-owned field still updated
