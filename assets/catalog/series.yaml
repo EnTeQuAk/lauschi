@@ -25324,6 +25324,17 @@ series:
       curated_at: '2026-06-10T18:48:22.159170+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-06-10T18:48:22.159170+00:00'
+- id: peter_pan_kinofilm
+  title: 'Peter Pan: Kinofilm'
+  split_from: peter_pan
+  providers:
+    apple_music:
+      artist_ids: []
+      albums:
+      - id: '1686453218'
+        title: Peter Pan & Wendy (Hörspiel zum Disney Real-Kinofilm)
+      - id: '1685994028'
+        title: Peter Pan 2 - Neue Abenteuer in Nimmer Land (Das Original-Hörspiel zum Film)
 - id: angry_birds
   title: Angry Birds
   providers:
