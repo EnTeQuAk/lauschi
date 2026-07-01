@@ -1389,12 +1389,20 @@ async def _run_large(
         unnumbered = [d for d in all_decisions if d.include and d.episode_num is None]
 
         era_evidence_lines: list[str] = []
+        n_existing_eras = len(
+            (existing_facts or SeriesFacts()).era_boundaries
+        )
         era_decisions = [
             d
             for d in all_decisions
             if d.include and d.notes and "era" in d.notes.lower()
         ]
-        if era_decisions:
+        # Only include era evidence when no era_boundaries exist yet.
+        # When eras are already documented, the agent wastes 20-30 tool
+        # calls re-investigating collisions it can't resolve. The
+        # existing eras are shown in the facts section; the agent can
+        # still propose genuinely new eras if it discovers them.
+        if era_decisions and not n_existing_eras:
             by_provider: dict[str, list[tuple[int, str, str]]] = {}
             for d in era_decisions:
                 ep = d.episode_num
@@ -1533,20 +1541,15 @@ async def _run_large(
                     f"check track listings for episode numbers"
                 )
             if era_evidence_lines:
-                n_existing_eras = len(
-                    (existing_facts or SeriesFacts()).era_boundaries
+                work_items.append(
+                    "- Era evidence: propose era_boundaries "
+                    "from flagged albums"
                 )
-                if n_existing_eras:
-                    work_items.append(
-                        f"- Era evidence: {n_existing_eras} era_boundaries "
-                        f"already documented; verify they cover the "
-                        f"evidence before proposing new ones"
-                    )
-                else:
-                    work_items.append(
-                        "- Era evidence: propose era_boundaries "
-                        "from flagged albums"
-                    )
+            elif era_decisions and n_existing_eras:
+                work_items.append(
+                    f"- Era: {n_existing_eras} era_boundaries already "
+                    f"documented, skip Step 2"
+                )
 
             prompt_parts: list[str] = [
                 f"Series: {meta.title!r}",
