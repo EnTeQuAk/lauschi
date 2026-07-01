@@ -429,3 +429,61 @@ class TestEraBoundaryProposalValidation:
 
         with pytest.raises(ValueError):
             EraBoundaryProposal(label="bad", release_date_range="")
+
+
+class TestKnownGapRange:
+    """KnownGap range support: a single gap entry can cover a contiguous range."""
+
+    def test_single_gap_episode_numbers(self):
+        from lauschi_catalog.catalog.facts import KnownGap
+
+        gap = KnownGap(number=7, reason="legal dispute", curated_by="test")
+        assert gap.episode_numbers() == {7}
+
+    def test_range_gap_episode_numbers(self):
+        from lauschi_catalog.catalog.facts import KnownGap
+
+        gap = KnownGap(number=51, range_end=55, reason="not produced", curated_by="test")
+        assert gap.episode_numbers() == {51, 52, 53, 54, 55}
+
+    def test_merge_range_deduplicates_with_individual(self):
+        """A range already covering episode 52 prevents a single gap at 52."""
+        from lauschi_catalog.catalog.facts import KnownGap, SeriesFacts, merge_facts
+
+        existing = SeriesFacts(known_gaps=[
+            KnownGap(number=51, range_end=55, reason="bulk gap", curated_by="c"),
+        ])
+        proposed = SeriesFacts(known_gaps=[
+            KnownGap(number=52, reason="individual gap", curated_by="c"),
+        ])
+        merged = merge_facts(existing, proposed)
+        assert merged is not None
+        assert len(merged.known_gaps) == 1
+        assert merged.known_gaps[0].number == 51
+        assert merged.known_gaps[0].range_end == 55
+
+    def test_merge_individual_then_range_no_overlap(self):
+        """Non-overlapping gaps are both kept."""
+        from lauschi_catalog.catalog.facts import KnownGap, SeriesFacts, merge_facts
+
+        existing = SeriesFacts(known_gaps=[
+            KnownGap(number=3, reason="pulled", curated_by="c"),
+        ])
+        proposed = SeriesFacts(known_gaps=[
+            KnownGap(number=51, range_end=55, reason="bulk gap", curated_by="c"),
+        ])
+        merged = merge_facts(existing, proposed)
+        assert merged is not None
+        assert len(merged.known_gaps) == 2
+
+    def test_proposal_allows_range_end(self):
+        from lauschi_catalog.catalog.facts import KnownGapProposal
+
+        p = KnownGapProposal(number=51, range_end=200, reason="not produced")
+        assert p.range_end == 200
+
+    def test_proposal_allows_episode_zero(self):
+        from lauschi_catalog.catalog.facts import KnownGapProposal
+
+        p = KnownGapProposal(number=0, reason="pilot numbering")
+        assert p.number == 0

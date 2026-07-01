@@ -897,17 +897,21 @@ def _build_finalize_agent(
             recorded.append(f"era: {proposal.label}")
             all_labels.add(proposal.label)
 
-        all_nums = {g.number for g in existing.known_gaps} | {
-            g.number for g in accumulated.known_gaps
-        }
+        all_nums: set[int] = set()
+        for g in existing.known_gaps:
+            all_nums |= g.episode_numbers()
+        for g in accumulated.known_gaps:
+            all_nums |= g.episode_numbers()
         for proposal in known_gaps:
-            if proposal.number in all_nums:
+            prop_nums = set(range(proposal.number, (proposal.range_end or proposal.number) + 1))
+            if prop_nums & all_nums:
                 continue
             accumulated.known_gaps.append(
                 KnownGap(**proposal.model_dump(), **prov),
             )
-            recorded.append(f"gap: {proposal.number}")
-            all_nums.add(proposal.number)
+            label = f"{proposal.number}-{proposal.range_end}" if proposal.range_end else str(proposal.number)
+            recorded.append(f"gap: {label}")
+            all_nums |= prop_nums
 
         all_labels = {s.label for s in existing.sub_series} | {
             s.label for s in accumulated.sub_series
@@ -1497,7 +1501,8 @@ async def _run_large(
                 if existing_facts.known_gaps:
                     facts_lines.append("Existing known_gaps:")
                     for g in existing_facts.known_gaps:
-                        facts_lines.append(f"  - Episode {g.number}: {g.reason}")
+                        label = f"{g.number}-{g.range_end}" if g.range_end else str(g.number)
+                        facts_lines.append(f"  - Episode {label}: {g.reason}")
                 if existing_facts.sub_series:
                     facts_lines.append("Existing sub_series:")
                     for s in existing_facts.sub_series:

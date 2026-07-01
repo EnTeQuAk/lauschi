@@ -150,8 +150,10 @@ def lint_curation(curation: dict, *, today: date | None = None) -> list[str]:
         if len(nums) < 2:
             continue
         gaps = _find_gaps(nums)
-        # Filter out known gaps
-        known = {g.number for g in (facts.known_gaps if facts else [])}
+        # Filter out known gaps (individual numbers and ranges)
+        known: set[int] = set()
+        for g in (facts.known_gaps if facts else []):
+            known |= g.episode_numbers()
         unknown = [g for g in gaps if g not in known]
         if unknown:
             issues.append(f"[{prov}] Unexpected gaps at episodes: {unknown}")
@@ -234,7 +236,8 @@ def lint_curation(curation: dict, *, today: date | None = None) -> list[str]:
                 issues.append(f"Unaudited era_boundary '{e.label}'")
         for g in facts.known_gaps:
             if not g.audited_by:
-                issues.append(f"Unaudited known_gap ep {g.number}")
+                label = f"{g.number}-{g.range_end}" if g.range_end else str(g.number)
+                issues.append(f"Unaudited known_gap ep {label}")
         for s in facts.sub_series:
             if not s.audited_by:
                 issues.append(f"Unaudited sub_series '{s.label}'")

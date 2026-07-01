@@ -46,12 +46,23 @@ class EraBoundary(_FactProvenance):
 
 
 class KnownGap(_FactProvenance):
-    """A documented missing episode number, not a curation error."""
+    """A documented missing episode number or range, not a curation error."""
 
     number: int
+    range_end: int | None = Field(
+        default=None,
+        description="End of a contiguous range (inclusive). When set, "
+        "the gap covers number..range_end.",
+    )
     reason: str = Field(
         description="Why this episode is missing, e.g. 'legal dispute'.",
     )
+
+    def episode_numbers(self) -> set[int]:
+        """All episode numbers covered by this gap."""
+        if self.range_end is not None:
+            return set(range(self.number, self.range_end + 1))
+        return {self.number}
 
 
 class SubSeriesFact(_FactProvenance):
@@ -99,9 +110,14 @@ class EraBoundaryProposal(BaseModel):
 
 
 class KnownGapProposal(BaseModel):
-    """Wire input for proposing a known gap."""
+    """Wire input for proposing a known gap or contiguous range."""
 
-    number: int = Field(ge=1, description="Missing episode number.")
+    number: int = Field(ge=0, description="Missing episode number (or range start).")
+    range_end: int | None = Field(
+        default=None,
+        ge=0,
+        description="End of a contiguous range (inclusive). Omit for single gaps.",
+    )
     reason: str = Field(min_length=1, description="Why it's missing.")
 
 
@@ -148,7 +164,7 @@ def merge_facts(*sources: "SeriesFacts | None") -> "SeriesFacts | None":
     """
     merged = SeriesFacts()
     seen_eras: set[str] = set()
-    seen_gaps: set[int] = set()
+    seen_gap_nums: set[int] = set()
     seen_subs: set[str] = set()
     for src in sources:
         if src is None:
@@ -158,8 +174,9 @@ def merge_facts(*sources: "SeriesFacts | None") -> "SeriesFacts | None":
                 seen_eras.add(era.label)
                 merged.era_boundaries.append(era)
         for gap in src.known_gaps:
-            if gap.number not in seen_gaps:
-                seen_gaps.add(gap.number)
+            gap_nums = gap.episode_numbers()
+            if not gap_nums & seen_gap_nums:
+                seen_gap_nums |= gap_nums
                 merged.known_gaps.append(gap)
         for sub in src.sub_series:
             if sub.label not in seen_subs:

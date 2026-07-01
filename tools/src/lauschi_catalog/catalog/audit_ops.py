@@ -223,8 +223,11 @@ def build_prompt(curation: dict, lint_issues: list[str]) -> str:
         for g in facts.get("known_gaps", []):
             aud = g.get("audited_by")
             status = f" [audited by {aud}]" if aud else " [unaudited]"
+            num = g.get("number", "?")
+            rend = g.get("range_end")
+            ep_label = f"{num}-{rend}" if rend else str(num)
             lines.append(
-                f"  Known gap: episode {g.get('number', '?')} -- {g.get('reason', '')}{status}"
+                f"  Known gap: episode {ep_label} -- {g.get('reason', '')}{status}"
             )
         for s in facts.get("sub_series", []):
             aud = s.get("audited_by")

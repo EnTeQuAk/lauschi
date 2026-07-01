@@ -79,6 +79,49 @@ class TestLintGapDetection:
         }
         assert lint_curation(curation) == []
 
+    def test_known_gap_range_suppresses_all_episodes(self):
+        """A single range gap covers all episodes in the range."""
+        curation = {
+            "albums": [
+                _make_album("a1", "Ep 1", episode_num=1),
+                _make_album("a5", "Ep 5", episode_num=5),
+            ],
+            "series_facts": {
+                "known_gaps": [
+                    {
+                        "number": 2,
+                        "range_end": 4,
+                        "reason": "not produced",
+                        "curated_by": "curate",
+                        "audited_by": "audit",
+                    }
+                ],
+            },
+        }
+        assert lint_curation(curation) == []
+
+    def test_known_gap_range_partial_still_flags_remainder(self):
+        """A range that doesn't cover all gaps leaves the rest flagged."""
+        curation = {
+            "albums": [
+                _make_album("a1", "Ep 1", episode_num=1),
+                _make_album("a6", "Ep 6", episode_num=6),
+            ],
+            "series_facts": {
+                "known_gaps": [
+                    {
+                        "number": 2,
+                        "range_end": 4,
+                        "reason": "not produced",
+                        "curated_by": "curate",
+                        "audited_by": "audit",
+                    }
+                ],
+            },
+        }
+        issues = lint_curation(curation)
+        assert any("[5]" in i for i in issues)
+
     def test_multiple_unknown_gaps(self):
         curation = {
             "albums": [
@@ -297,6 +340,25 @@ class TestLintUnconfirmedFacts:
         }
         issues = lint_curation(curation)
         assert any("Unaudited known_gap ep 7" in i for i in issues)
+
+    def test_unconfirmed_known_gap_range_shows_range(self):
+        curation = {
+            "albums": [],
+            "series_facts": {
+                "known_gaps": [
+                    {
+                        "number": 51,
+                        "range_end": 200,
+                        "reason": "not produced",
+                        "curated_by": "curate",
+                        "audited_by": None,
+                    },
+                ],
+            },
+        }
+        issues = lint_curation(curation)
+        assert any("Unaudited known_gap ep 51-200" in i for i in issues)
+        assert len([i for i in issues if "known_gap" in i]) == 1
 
     def test_confirmed_facts_not_flagged(self):
         curation = {
