@@ -162,6 +162,115 @@ class TestFactsRoundTrip:
             loader.SERIES_YAML = orig_path
 
 
+class TestLintEraAwareDuplicates:
+    """Rule 1 uses each album's own release date for era assignment."""
+
+    def test_cross_era_same_episode_not_flagged(self):
+        """Jan Tenner pattern: ep 1 in klassik (1978) and reboot (2017)."""
+        curation = {
+            "albums": [
+                {
+                    "provider": "spotify",
+                    "album_id": "a1",
+                    "title": "Folge 1: Klassik",
+                    "include": True,
+                    "episode_num": 1,
+                    "release_date": "1978-01-01",
+                },
+                {
+                    "provider": "spotify",
+                    "album_id": "a2",
+                    "title": "Folge 1: Reboot",
+                    "include": True,
+                    "episode_num": 1,
+                    "release_date": "2017-01-01",
+                },
+            ],
+            "series_facts": {
+                "era_boundaries": [
+                    {
+                        "label": "klassik",
+                        "release_date_range": "1975-1985",
+                        "curated_by": "curate",
+                    },
+                    {
+                        "label": "reboot",
+                        "release_date_range": "2015-",
+                        "curated_by": "curate",
+                    },
+                ],
+            },
+        }
+        issues = lint_curation(curation)
+        assert not any("Duplicate" in i for i in issues)
+
+    def test_within_era_duplicate_still_flagged(self):
+        """Two albums with ep 1, both from the same era."""
+        curation = {
+            "albums": [
+                {
+                    "provider": "spotify",
+                    "album_id": "a1",
+                    "title": "Folge 1: Original",
+                    "include": True,
+                    "episode_num": 1,
+                    "release_date": "1978-01-01",
+                },
+                {
+                    "provider": "spotify",
+                    "album_id": "a2",
+                    "title": "Folge 1: Reissue",
+                    "include": True,
+                    "episode_num": 1,
+                    "release_date": "1980-01-01",
+                },
+            ],
+            "series_facts": {
+                "era_boundaries": [
+                    {
+                        "label": "klassik",
+                        "release_date_range": "1975-1985",
+                        "curated_by": "curate",
+                    },
+                ],
+            },
+        }
+        issues = lint_curation(curation)
+        assert any("Duplicate" in i and "klassik" in i for i in issues)
+
+    def test_no_release_date_falls_through_to_no_era(self):
+        """Albums without release dates should not create false positives."""
+        curation = {
+            "albums": [
+                {
+                    "provider": "spotify",
+                    "album_id": "a1",
+                    "title": "Folge 1",
+                    "include": True,
+                    "episode_num": 1,
+                },
+                {
+                    "provider": "spotify",
+                    "album_id": "a2",
+                    "title": "Folge 1 Reboot",
+                    "include": True,
+                    "episode_num": 1,
+                },
+            ],
+            "series_facts": {
+                "era_boundaries": [
+                    {
+                        "label": "klassik",
+                        "release_date_range": "1975-1985",
+                        "curated_by": "curate",
+                    },
+                ],
+            },
+        }
+        issues = lint_curation(curation)
+        assert not any("Duplicate" in i and "klassik" in i for i in issues)
+
+
 class TestLintResilience:
     """Lint handles edge cases gracefully."""
 

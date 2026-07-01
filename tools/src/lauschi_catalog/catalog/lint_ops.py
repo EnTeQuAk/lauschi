@@ -118,29 +118,19 @@ def lint_curation(curation: dict, *, today: date | None = None) -> list[str]:
 
     # ── Rule 1: Episode numbers unique per provider per era ─────────
     if facts and facts.era_boundaries:
-        for prov in eps_by_provider:
+        for prov in eps_albums_by_provider:
             for era in facts.era_boundaries:
-                # Parse year range like "1976-1979" or "2025-"
                 rng = era.release_date_range
                 if "-" not in rng:
                     continue
                 parts = rng.split("-")
                 start_y = int(parts[0].strip())
                 end_y = int(parts[1].strip()) if parts[1].strip() else 9999
-                era_eps = [
-                    ep
-                    for ep in eps_by_provider[prov]
-                    if _year(
-                        next(
-                            (
-                                a.get("release_date", "")
-                                for a in eps_albums_by_provider[prov].get(ep, [])
-                            ),
-                            "",
-                        ),
-                    )
-                    in range(start_y, end_y + 1)
-                ]
+                era_eps: list[int] = []
+                for ep, ep_albums in eps_albums_by_provider[prov].items():
+                    for a in ep_albums:
+                        if _year(a.get("release_date", "")) in range(start_y, end_y + 1):
+                            era_eps.append(ep)
                 dupes = _find_duplicates(era_eps)
                 if dupes:
                     issues.append(
