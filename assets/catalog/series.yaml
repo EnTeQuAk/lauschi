@@ -4051,6 +4051,9 @@ series:
       - id: '1565951705'
         episode: 74
         title: 'Folge 74: Rätsel der Vergangenheit'
+      - id: '1576327154'
+        episode: 75
+        title: 'Folge 75: Tatort Hollywood'
       - id: '1586835042'
         episode: 76
         title: 'Folge 76: #Falscher Ruhm'
@@ -8065,6 +8068,9 @@ series:
       - id: 46RI8kpxobLChuu8dzq9KZ
         episode: 49
         title: Folge 49 (Das Original-Hörspiel zur TV-Serie)
+      - id: 1wCVUHGRowbpDa3Xyq7Abt
+        episode: 50
+        title: Folge 50 - Jubiläumsedition (Das Original-Hörspiel zur TV-Serie)
       - id: 0Dg6uhKGyoiRfYkDE8gUQC
         episode: 201
         title: 'Folge 201: Ein Platz für Haustiere (Das Original-Hörspiel zur TV-Serie)'
@@ -12454,6 +12460,8 @@ series:
         title: 'Folge 80: Ein Hoch auf Hanni und Nanni!'
       - id: '1227729328'
         title: Mehr als beste Freunde - Das Original-Hörspiel zum Kinofilm
+      - id: '1594163498'
+        title: Adventskalender - Weihnachtszauber mit Hanni und Nanni
   episode_pattern:
   - '^Folge (\d+):'
   - ^(\d+)/
@@ -13191,6 +13199,9 @@ series:
       - id: '6772154747'
         episode: 154
         title: 'Folge 154: Hilfspolizist James (Das Original-Hörspiel zur TV-Serie)'
+      - id: '6772181843'
+        episode: 155
+        title: 'Folge 155: Das Disco-Desaster (Das Original-Hörspiel zur TV-Serie)'
       - id: '6772182107'
         episode: 156
         title: 'Folge 156: Erste Hilfe in den Bergen (Das Original-Hörspiel zur TV-Serie) - EP'
@@ -21096,6 +21107,8 @@ series:
         title: 'Die Olchis: Jagd auf das Phantom'
       - id: '1502593342'
         title: Die Olchis. Gefangen auf der Pirateninsel
+      - id: '1502594090'
+        title: Die Olchis und das Schrumpfpulver
       - id: '1502591552'
         title: Die Olchis. Krötige Weihnachten
       - id: '1502591878'
@@ -22350,7 +22363,7 @@ series:
       audited_by: minimax-m2.7
       audited_at: '2026-06-10T18:37:59.011354+00:00'
     - label: doppelfolge_cgi_nachholung
-      release_date_range: '2023'
+      release_date_range: 2023-2023
       curated_by: minimax-m2.7
       curated_at: '2026-06-10T18:37:59.011354+00:00'
       audited_by: minimax-m2.7
@@ -23201,8 +23214,16 @@ series:
         title: '50: Countdown bis Mitternacht'
       - id: '1449571015'
         title: Verschollen in Fernost
+      - id: '1763995642'
+        title: Gefährlich rieselt der Schnee
       - id: '1759202283'
         title: Der letzte Schrei
+      - id: '1862813652'
+        title: Nachricht eines Fremden - Single
+      - id: '1868812071'
+        title: Geheime Botschaft - Single
+      - id: '1862814624'
+        title: Besuch zu später Stunde - Single
   episode_pattern: '^(\d+):'
   aliases:
   - Fünf Geschwister
@@ -24031,6 +24052,8 @@ series:
         title: 'Folge 49: Wächter der Erde'
       - id: '1439176548'
         title: 'Live-Hörspiel: Der schwebende Lollländer'
+      - id: '1593642438'
+        title: Adventskalender - Tausend vertückte Türen
   episode_pattern:
   - ^(\d+)/
   - '^Folge (\d+):'
@@ -24335,7 +24358,7 @@ series:
       audited_by: minimax-m2.7
       audited_at: '2026-06-10T18:44:35.687198+00:00'
     - label: neue_folgen
-      release_date_range: '2015'
+      release_date_range: 2015-2015
       curated_by: minimax-m2.7
       curated_at: '2026-06-10T18:44:35.687198+00:00'
       audited_by: minimax-m2.7
@@ -26886,7 +26909,7 @@ series:
       audited_by: minimax-m2.7
       audited_at: '2026-05-31T16:30:29.844618+00:00'
     - label: streaming-rerelease
-      release_date_range: '2016'
+      release_date_range: 2016-2016
       curated_by: minimax-m2.7
       curated_at: '2026-05-31T16:30:29.844618+00:00'
       audited_by: minimax-m2.7
@@ -30950,19 +30973,19 @@ series:
   series_facts:
     era_boundaries:
     - label: reboot
-      release_date_range: 2021-07-02 to 2024-01-19
+      release_date_range: 2021-2024
       curated_by: minimax-m2.7
       curated_at: '2026-05-31T16:32:54.052449+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-05-31T16:32:54.052449+00:00'
     - label: classics
-      release_date_range: 2023-05-05 to 2023-11-03
+      release_date_range: 2023-2023
       curated_by: minimax-m2.7
       curated_at: '2026-05-31T16:32:54.052449+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-05-31T16:32:54.052449+00:00'
     - label: continuation
-      release_date_range: 2025-06-20 to 2026-02-27
+      release_date_range: 2025-
       curated_by: minimax-m2.7
       curated_at: '2026-05-31T16:32:54.052449+00:00'
       audited_by: minimax-m2.7
@@ -31046,6 +31069,12 @@ series:
       - id: 46PTzGESyJ3QFDqE9ZNfJt
         episode: 23
         title: In Närke (Nils Holgersson, Folge 23)
+      - id: 2v7DmqeXoPlnzVYphwl3MH
+        episode: 24
+        title: Der Eisbruch (Nils Holgersson, Folge 24)
+      - id: 5pnQdlovJfZuRQV0xRwetH
+        episode: 25
+        title: Die Erbteilung (Nils Holgersson, Folge 25)
       - id: 3314DPvNKuu4TTpbtWAu0U
         episode: 26
         title: Im Bergwerkdistrikt (Nils Holgersson, Folge 26)
@@ -31058,8 +31087,12 @@ series:
         title: Das Bruderteil (Nils Holgersson, Folge 29)
       - id: 2LSMeiBPJ5wlUtpSStIAXh
         title: Der Walpurgisabend (Nils Holgersson, Folge 30)
+      - id: 5wdk0qQmLHmrGqRJ6PkPx9
+        title: Bei den Kirchen (Nils Holgersson, Folge 31)
       - id: 0emdfHOuW9aARJWB1YfvgR
         title: Die Überschwemmung (Nils Holgersson, Folge 32)
+      - id: 4oRJle2M5hAVHxwnZYUWsx
+        title: Die Sage von Uppland (Nils Holgersson, Folge 33)
       - id: 0Lq9R5WZio85Zpag32hfxr
         title: In Upsala (Nils Holgersson, Folge 34)
       - id: 4wdYYbQ9982GhDWSpeGi98
@@ -31096,8 +31129,12 @@ series:
         title: Silber im Meer (Nils Holgersson, Folge 50)
       - id: 5dvwDwsG32uK00LTyCs0Yn
         title: Ein großer Herrenhof (Nils Holgersson, Folge 51)
+      - id: 34ViYOqSsJrygMlZlg26oU
+        title: Die Reise nach Bemmenhög (Nils Holgersson, Folge 52)
       - id: 7ppjruUtRlaYndCrekf0YC
         title: Bei Holger Nielsens (Nils Holgersson, Folge 53)
+      - id: 5sBvy0x8HkWpNBUn7lTJDB
+        title: Der Abschied von den Wildgänsen (Nils Holgersson, Folge 54)
     apple_music:
       artist_ids:
       - '26247337'
@@ -33451,6 +33488,8 @@ series:
         title: Die 30 besten Babylieder
       - id: '1561807788'
         title: Die 30 besten Piraten- und Seemanslieder
+      - id: '1574719823'
+        title: Le 30 più belle Canzoni per bambini
       - id: '1574301717'
         title: Die 30 besten Gute-Nacht-Lieder
       - id: '1574301916'
@@ -33642,6 +33681,8 @@ series:
         title: Conni löst einen kniffligen Fall
       - id: 2WIMJaF4y9bC6YbwHLpiaN
         title: Conni und das Ponyabenteuer
+      - id: 4NZQhiCZxqI4fkeyUkLxrZ
+        title: Conni & Co - Das Original-Hörspiel zum Kinofilm
       - id: 5jX9DhZywmVK1O0xDNGb4M
         title: Conni und die Katzenliebe
       - id: 4c2D6uwta4L4Sz9iHYKP23
@@ -34225,6 +34266,8 @@ series:
         title: Boom Schakkalakka
       - id: '1717753114'
         title: Lasst uns frech und munter sein - EP
+      - id: '1727350390'
+        title: Konfetti - Single
       - id: '1722461465'
         title: Die tollsten Tage mit DIKKA
       - id: '1820429601'
@@ -34838,6 +34881,10 @@ series:
       - id: '6771728891'
         episode: 34
         title: 'Folge 34: Farmis neues Haustier'
+      - id: '1515694665'
+        title: Die Schlümpfe (Das Original-Hörspiel zum Kinofilm)
+      - id: '1515707905'
+        title: Die Schlümpfe 2 (Das Original-Hörspiel zum Kinofilm)
   episode_pattern: '^Folge (\d+):'
   series_facts:
     known_gaps:
@@ -35695,6 +35742,8 @@ series:
         title: Hurra Kinderlieder 2
       - id: '1686593750'
         title: Hurra Kinderlieder 3
+      - id: '1895854268'
+        title: Gute Laune Kinderparty
   content_type: music
   series_facts:
     known_gaps:
@@ -35823,6 +35872,16 @@ series:
         title: Wenn ich groß bin
       - id: 20hBTS92YHvo2a1ctaNO4K
         title: Giraffenaffen 9 - Weltreise
+      - id: 5pAUL8Vhjr9LtmtMb25kth
+        title: Es ist Sommer
+      - id: 55tRRYyEGb9hKwpHvH5ab6
+        title: Frühlingslieder
+      - id: 566dlGwEhIJYa8gbocEQg0
+        title: REISE
+      - id: 0PBvPhE8lbUxiuMKBlBxPq
+        title: Wir gehen wandern
+      - id: 1XMIFPEEukPvh1s9NDJnxB
+        title: Ostern
       - id: 5RcrLDzYrOhLPqn3uholId
         title: Giraffenaffen 10
     apple_music:
@@ -36025,6 +36084,8 @@ series:
         title: Sing mit mir Kinderlieder 3
       - id: '1689826468'
         title: Sing mit mir Kinderlieder, Vol. 4
+      - id: '1689819242'
+        title: Sing mit mir Spiel- und Bewegungslieder
       - id: '1689808684'
         title: Papa Müsli, Vol. 1
       - id: '1689808840'
@@ -36035,8 +36096,26 @@ series:
         title: Sing mit mir - Faschings- und Partylieder
       - id: '1707902453'
         title: Sing mit mir - Die schönsten Fahrzeuglieder
+      - id: '1734277864'
+        title: Das Kutschen-Lied (So unendlich frei) - Single
+      - id: '1735356624'
+        title: Mäusetanz (Olé, olé) - Single
+      - id: '1740984741'
+        title: Von den Schultern bis zum Zeh - Single
+      - id: '1744019459'
+        title: Großer Spaß - Single
+      - id: '1747558039'
+        title: Das Verstecklied - Single
+      - id: '1747971525'
+        title: Ich sehe was, was Du nicht siehst - Single
+      - id: '1741583233'
+        title: Der Vogel-Song - Single
+      - id: '1760530148'
+        title: Der Stau-Song - Single
       - id: '1770280359'
         title: Kloalabär - Single
+      - id: '1770612971'
+        title: Billy Betonmischer (Drehen und mischen) - Single
       - id: '1801200583'
         title: Sing mit mir Schlaflieder
       - id: '1814003289'
@@ -36180,8 +36259,12 @@ series:
         title: Kinderlieder - Herbst (2022)
       - id: 3Ns1HxmcxU0VjupggtyedW
         title: Fußball WM 2022 - Lieder für Kinder
+      - id: 7nYuSD3gmoMjWx2UtSuwWI
+        title: Weihnachtslieder für Kinder (2022)
       - id: 7gMHZbkEt5BUNxf1vOWOU1
         title: Kinderlieder - Karneval & Fasching (2023)
+      - id: 63QfJvMTSGIyu1ruHCnRkx
+        title: Kinderlieder - Frühling & Ostern (2023)
       - id: 3BNlUuy3J6zs1ZIJ6Cykzw
         title: Tanzbare Weihnachtslieder für Kinder
       - id: 6Vau6vdkU5g4Lj1xBgKcB7
@@ -36192,6 +36275,10 @@ series:
         title: Weihnachtslieder für Kinder (2024)
       - id: 49Hup5y0BtnaYKn8cLPRFM
         title: Einschlafmusik für Babys
+      - id: 3tst0lFZfdb8oMQJJSYrze
+        title: Dumme kleine Angst
+      - id: 4XmfPo6dikjnffTnRI1LN4
+        title: Dumme kleine Angst
     apple_music:
       artist_ids:
       - '961585712'
@@ -36679,6 +36766,12 @@ series:
         title: 1,2,3 im Sauseschritt
       - id: 6GceMcPGXiacE5n8oN87Qv
         title: 1,2,3 wir singen mit
+      - id: 65U3Oqac5G1nbPeHKxreyB
+        title: 40 schönste Baby- und Krabbellieder
+      - id: 0xgEkp9DLEHFrjKR4FzGAv
+        title: 40 schönste Kindergartenlieder
+      - id: 6hfwO9mjRNzNDohdvRGH6M
+        title: 40 schönste religiöse Kinderlieder
       - id: 0wgwx3aHXHFJ2eLUMVtM9Y
         title: Achtung Kinder! Aufgepasst!
       - id: 7gxqI1KZCWmh48aQMXWIiA
@@ -36805,8 +36898,18 @@ series:
         title: Weihnachten ist nicht mehr weit
       - id: 2dPTzN7j0fJ7eXDqQDbg2x
         title: Erde, ich beschütze dich
+      - id: 6iHzyfaZFrbiQFJY7twoa5
+        title: Singen und Bewegen, Vol. 1
+      - id: 4UZFCHcRkI5kxPeDoYSXft
+        title: Singen und Bewegen, Vol. 2
+      - id: 3M0OO0hYTnLjvjz44xu28d
+        title: Singen und Bewegen, Vol. 3
+      - id: 3acrC85xpPgCL3gRAZo224
+        title: Vaterunser Hits
       - id: 4icEp3cIpamHqCmYZK9Smx
         title: Weihnachtslieder-Klassik
+      - id: 30CvEQPnYzK1iw6uWbWgI0
+        title: Willkommen im Tamusiland, Vol. 2
       - id: 6MzL89ca73D4SrbUMo9je5
         title: Singemaus & Affenbande
       - id: 7Fw7IAkuzYxPkrkS7gazVE
@@ -37015,6 +37118,20 @@ series:
         title: Neues aus der Milchzahnstrasse / Neues aus dem Bahnhof Bauch
       - id: '1668083681'
         title: Partylieder für die Kinderdisco
+      - id: '1683332956'
+        title: Die schönsten Schlaflieder und Entspannungsmusiken für Kinder
+      - id: '1694514077'
+        title: Die schönsten Spiellieder mit Bewegungen für Kinder
+      - id: '1712643384'
+        title: Die schönsten Winter- und Weihnachtslieder für Kinder
+      - id: '1732694714'
+        title: Die schönsten Kinderlieder zu beliebten Hörspielen
+      - id: '1757873501'
+        title: Die schönsten Kinderlieder für die erste Schulzeit
+      - id: '1773409676'
+        title: Meine schönsten Advents- und Weihnachtslieder - Akustisch
+      - id: '1843572780'
+        title: Die schönsten traditionellen Weihnachtslieder
       - id: '1877903192'
         title: Christliche Kinderlieder
   content_type: music
@@ -37326,6 +37443,8 @@ series:
         title: Immer sicher unterwegs! Verkehrs- & Brandschutz-Lieder
       - id: 3eS6LfPevcUeCy9uIzLgHo
         title: Schützt unsere Erde! Umwelt- & Tierschutz-Lieder
+      - id: 4Bzx5yun4rPbV68JW1IKF9
+        title: Sommer, Sonne, Ferienspaß! Animationshits für Kids
       - id: 5Z1pFR01dBUYVzHUymzF2Q
         title: Der Herbst ist cool!
       - id: 1JHztyh6Qmz7BFhFlA8zY2
@@ -37448,18 +37567,28 @@ series:
         title: Der Tag geht zu Ende - Songs zur guten Nacht
       - id: '1520586862'
         title: Karneval ist klasse!
+      - id: '1520384431'
+        title: Die 60 besten Kinderlieder, Vol. 1
       - id: '1520590044'
         title: Unsere schönsten Kinderdisco-Lieder
       - id: '1520587902'
         title: Unsere schönsten Kinderlieder-Klassiker
       - id: '1520621844'
         title: 'Unsere schönsten Kinderlieder: Jahreszeiten & Träumen'
+      - id: '1753223110'
+        title: Kinderdisco 2 - Air Berlin
+      - id: '1753228743'
+        title: Kinderdisco 3 - Air Berlin
+      - id: '1753229046'
+        title: alltours - alltourini Kinderhits Vol. 2
       - id: '1750443973'
         title: Calimigo Urlaubs-Hits, Vol. 1
       - id: '1520384474'
         title: Unsere schönsten Geburtstags- und Mitmach-Lieder
       - id: '1520384651'
         title: Unsere schönsten Kinderdisco-Lieder, Vol. 2
+      - id: '1520631762'
+        title: Die 60 besten Kinderlieder, Vol. 3 - Traditionelle Lieder
       - id: '1520590484'
         title: Unsere schönsten Weihnachtslieder
       - id: '1520431611'
@@ -37512,10 +37641,16 @@ series:
         title: Calimigo Herbst-Hits
       - id: '1777038813'
         title: Calimigo Winter & Weihnachts Hits
+      - id: '1815494319'
+        title: Calimigo Umwelt & Natur Hits
+      - id: '1815495352'
+        title: Calimigo Discohits Vol. 3
       - id: '1823676189'
         title: Unsere schönsten Dinosaurier-Lieder
       - id: '1879744500'
         title: Line Dance Party für Kids
+      - id: '1894105459'
+        title: Ferien- und Sommerhits von Familie Sonntag
   content_type: music
   aliases:
   - Calimigo
@@ -37582,6 +37717,8 @@ series:
         title: Alle lieben Weihnachtslieder
       - id: '1875906118'
         title: Niemand ist dumm - EP
+      - id: '1884671050'
+        title: 'Alle lieben Kinderlieder: Mutmacher'
       - id: '1893042865'
         title: Wo ist Teddy? - Single
   content_type: music
@@ -37723,10 +37860,20 @@ series:
         title: Singen und Bewegen - Das Liederalbum
       - id: '1618630826'
         title: Von Monsterstreiks und Kissenschlachten. Kinderlieder
+      - id: '1654152842'
+        title: Happy Christmas - Für Dich Und Alle Welt - Single
+      - id: '1654152840'
+        title: Happy Christmas - Para Todos por Igual - Single
+      - id: '1654161065'
+        title: Happy Christmas - Pour Toi, Pour Nous, Pour Vous (Version Française) - Single
+      - id: '1654156119'
+        title: Happy Christmas - To You and Everyone - Single
       - id: '1675269340'
         title: Summ, Summ, Summ! - Die beliebtesten Schlaflieder Vol. 2
       - id: '1737197800'
         title: Summ, Summ, Summ! - Die beliebtesten Schlaflieder, Vol. 3
+      - id: '1754510777'
+        title: Wenn ich den See seh' - Single
       - id: '1755412517'
         title: Mit der Bahn - EP
       - id: '1755413615'
@@ -37735,6 +37882,12 @@ series:
         title: Hier auf dem Bauernhof
       - id: '1768661353'
         title: Summ, Summ, Summ! - Die beliebtesten Urlaubslieder
+      - id: '1791120682'
+        title: Hermann, das Leben ist schön - Single
+      - id: '1793746517'
+        title: Du da oben (Original-Version) - Single
+      - id: '1795669515'
+        title: So sein wie ich bin - Single
       - id: '1797591368'
         title: Wiedersehen - EP
       - id: '1799973671'
@@ -37743,6 +37896,8 @@ series:
         title: Privatverhext
       - id: '1801434068'
         title: Summ, Summ, Summ! - Die beliebtesten Freundschaftslieder, Vol. 2
+      - id: '1820480806'
+        title: Schulfrei - Single
       - id: '1820372931'
         title: Ritter Rüdiger - EP
       - id: '1820374360'
@@ -37751,10 +37906,14 @@ series:
         title: Cowgummi
       - id: '1820377844'
         title: Summ, Summ, Summ! - Die beliebtesten Wissenslieder
+      - id: '1849624626'
+        title: Das bist du - Single
       - id: '1849624858'
         title: Ich lieb' die Weihnachtszeit - EP
       - id: '1852788689'
         title: Summ, Summ, Summ! - Die beliebtesten Weihnachtslieder, Vol. 2
+      - id: '1890187565'
+        title: Mein kleines Monster - Single
       - id: '1890194896'
         title: Irgendwas geht immer - EP
       - id: '1890438534'
@@ -37858,6 +38017,10 @@ series:
         title: Meine Lieblingskinderlieder zum Entspannen, Vol. 2
       - id: 39yHZyVhxG76KxyXTYSD15
         title: Meine Lieblingskinderlieder für den Frühling und Ostern
+      - id: 1uH6hQXOatmpnk3CWFCcdh
+        title: Perfekt, so wie du bist
+      - id: 4pBomtHujOeKEATfSOZ5IN
+        title: Mutiger Maikäfer
     apple_music:
       artist_ids:
       - '1654712358'
@@ -38024,8 +38187,12 @@ series:
       artist_ids:
       - '1685254479'
       albums:
+      - id: '1771221392'
+        title: Es ist Winterzeit - Single
       - id: '1834127392'
         title: Zwischen Fantasie & Wirklichkeit
+      - id: '1877400380'
+        title: Musik ist überall - Single
   content_type: music
 - id: die_flohtoene
   title: Die Flohtöne
@@ -38182,6 +38349,8 @@ series:
         title: Kinderlieder - umgedacht & neu gemacht
       - id: 6vSRPCkAhubRtCVxCR30R5
         title: Meine Mütze und Ich
+      - id: 69CJEydp5orqdGNcatmFDw
+        title: MyMo Song
       - id: 0QuEWKrCi53NtuCzRpvpyR
         title: Frechdachs
     apple_music:
@@ -38230,6 +38399,8 @@ series:
         title: Konfetti - EP
       - id: 0BGDSsu5XTul7GibDupO8D
         title: Das rote Album
+      - id: 2ronsJIbYZNlfzRyTHGB5L
+        title: Anpfiff!
     apple_music:
       artist_ids:
       - '1394730619'
@@ -38242,6 +38413,8 @@ series:
         title: Das gelbe Album
       - id: '1703985814'
         title: Cowboy - EP
+      - id: '1767338546'
+        title: Das grüne Album
       - id: '1745057456'
         title: Kuhfisch - EP
       - id: '1805564473'
@@ -40075,25 +40248,25 @@ series:
   series_facts:
     era_boundaries:
     - label: erster_film
-      release_date_range: '2004'
+      release_date_range: 2004-2004
       curated_by: minimax-m2.7
       curated_at: '2026-06-17T20:39:11.597050+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-06-17T20:39:11.597050+00:00'
     - label: zweiter_film
-      release_date_range: '2009'
+      release_date_range: 2009-2009
       curated_by: minimax-m2.7
       curated_at: '2026-06-17T20:39:11.597050+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-06-17T20:39:11.597050+00:00'
     - label: dritter_film
-      release_date_range: '2011'
+      release_date_range: 2011-2011
       curated_by: minimax-m2.7
       curated_at: '2026-06-17T20:39:11.597050+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-06-17T20:39:11.597050+00:00'
     - label: vierter_film
-      release_date_range: '2020'
+      release_date_range: 2020-2020
       curated_by: minimax-m2.7
       curated_at: '2026-06-17T20:39:11.597050+00:00'
       audited_by: minimax-m2.7
@@ -40627,7 +40800,7 @@ series:
       audited_by: minimax-m2.7
       audited_at: '2026-06-17T20:45:23.973745+00:00'
     - label: Christmas Special
-      release_date_range: '2016'
+      release_date_range: 2016-2016
       curated_by: minimax-m2.7
       curated_at: '2026-06-17T20:45:23.973745+00:00'
       audited_by: minimax-m2.7
@@ -41026,6 +41199,19 @@ series:
     apple_music:
       artist_ids:
       - '130216498'
+      albums:
+      - id: '1703988083'
+        episode: 3
+        title: 'Mein zauberhaftes Tierhotel: Folge 3+4'
+      - id: '1726409118'
+        episode: 5
+        title: 'Mein zauberhaftes Tierhotel: Folge 5+6'
+      - id: '1756894273'
+        episode: 7
+        title: 'Mein zauberhaftes Tierhotel: Folge 7+8'
+      - id: '1824918561'
+        episode: 9
+        title: 'Mein zauberhaftes Tierhotel: Folge 9+10'
 - id: pumuckl_weihnachten
   title: 'Pumuckl: Weihnachten'
   aliases: []
@@ -41331,7 +41517,7 @@ series:
       audited_by: minimax-m2.7
       audited_at: '2026-06-17T20:36:02.298014+00:00'
     - label: neuauflage
-      release_date_range: '1995'
+      release_date_range: 1995-1995
       curated_by: minimax-m2.7
       curated_at: '2026-06-17T20:36:02.298014+00:00'
       audited_by: minimax-m2.7
