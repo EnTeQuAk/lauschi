@@ -31,6 +31,15 @@ def _included_count(curation: dict) -> int:
     return sum(1 for a in curation.get("albums", []) if a.get("include"))
 
 
+def _included_by_provider(curation: dict) -> dict[str, int]:
+    counts: dict[str, int] = {}
+    for a in curation.get("albums", []):
+        if a.get("include"):
+            prov = a.get("provider", "unknown")
+            counts[prov] = counts.get(prov, 0) + 1
+    return counts
+
+
 def _facts_count(curation: dict) -> int:
     facts = curation.get("series_facts") or {}
     return sum(
@@ -63,6 +72,19 @@ def lint_regression(previous: dict | None, current: dict) -> list[str]:
             f"{CRITICAL_PREFIX}Included count dropped more than half: "
             f"{prev_inc} -> {cur_inc}",
         )
+
+    # Per-provider regression: a provider losing most included albums
+    # while another stays stable is invisible to the total count check.
+    # This catches discography fetch issues (e.g. API returning fewer results).
+    prev_by_prov = _included_by_provider(previous)
+    cur_by_prov = _included_by_provider(current)
+    for prov, prev_count in prev_by_prov.items():
+        cur_count = cur_by_prov.get(prov, 0)
+        if prev_count >= 10 and cur_count < prev_count * 0.5:
+            issues.append(
+                f"{CRITICAL_PREFIX}Provider collapse on {prov}: "
+                f"{prev_count} -> {cur_count} included albums",
+            )
 
     if _facts_count(previous) > 0 and _facts_count(current) == 0:
         issues.append(

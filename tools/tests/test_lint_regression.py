@@ -82,6 +82,36 @@ def test_facts_wipe_is_critical():
     assert any("series_facts" in i for i in critical_issues(issues))
 
 
+def test_per_provider_collapse_detected():
+    """PAW Patrol scenario: Spotify drops from 445 to 3, Apple Music stays.
+    Total included count doesn't drop enough, but per-provider does."""
+    prev = _curation(
+        [_album(album_id=f"s{i}", provider="spotify") for i in range(50)]
+        + [_album(album_id=f"a{i}", provider="apple_music") for i in range(50)],
+    )
+    cur = _curation(
+        [_album(album_id=f"s{i}", provider="spotify") for i in range(3)]
+        + [_album(album_id=f"s{i}", provider="spotify", include=False, reason="music_single") for i in range(3, 50)]
+        + [_album(album_id=f"a{i}", provider="apple_music") for i in range(50)],
+    )
+    issues = lint_regression(prev, cur)
+    assert any("spotify" in i.lower() and "collapse" in i.lower() for i in issues)
+
+
+def test_per_provider_modest_drop_ok():
+    """A modest per-provider drop shouldn't trigger."""
+    prev = _curation(
+        [_album(album_id=f"s{i}", provider="spotify") for i in range(20)]
+        + [_album(album_id=f"a{i}", provider="apple_music") for i in range(20)],
+    )
+    cur = _curation(
+        [_album(album_id=f"s{i}", provider="spotify") for i in range(15)]
+        + [_album(album_id=f"a{i}", provider="apple_music") for i in range(20)],
+    )
+    issues = lint_regression(prev, cur)
+    assert not any("provider" in i.lower() for i in issues)
+
+
 def test_no_previous_curation_no_issues():
     assert lint_regression(None, _curation([_album()])) == []
 
