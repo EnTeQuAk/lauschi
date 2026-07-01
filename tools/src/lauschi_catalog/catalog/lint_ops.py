@@ -282,11 +282,12 @@ def lint_curation(curation: dict, *, today: date | None = None) -> list[str]:
 
     # ── Rule 10: Episode-number sanity ───────────────────────────────
     # episode_num >= 1000 is almost always a year captured by an
-    # over-broad regex; <= 0 is never a real episode.
+    # over-broad regex; < 0 is never valid. 0 is rare but real
+    # (e.g. Die Originale "Folge 00").
     insane = [
         a
         for a in included
-        if a.get("episode_num") is not None and not (0 < a["episode_num"] < 1000)
+        if a.get("episode_num") is not None and not (0 <= a["episode_num"] < 1000)
     ]
     if insane:
         pairs = [f"{a.get('title', '?')!r} -> {a['episode_num']}" for a in insane[:5]]

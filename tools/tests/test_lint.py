@@ -403,6 +403,44 @@ class TestLintLowConfidence:
         assert lint_curation(curation) == []
 
 
+class TestEpisodeNumSanity:
+    def test_episode_zero_is_valid(self):
+        """Folge 00 is a real pilot episode (e.g. Die Originale)."""
+        curation = {
+            "albums": [
+                _make_album("a0", "Folge 00: Goldrausch", episode_num=0),
+                _make_album("a1", "Folge 01: Weltreise", episode_num=1),
+            ],
+        }
+        assert lint_curation(curation) == []
+
+    def test_negative_episode_num_flagged(self):
+        curation = {
+            "albums": [
+                _make_album("a1", "Ep -1", episode_num=-1),
+            ],
+        }
+        issues = lint_curation(curation)
+        assert any("episode_num_sanity" in i for i in issues)
+
+    def test_episode_1000_flagged(self):
+        curation = {
+            "albums": [
+                _make_album("a1", "Ep 2023", episode_num=2023),
+            ],
+        }
+        issues = lint_curation(curation)
+        assert any("episode_num_sanity" in i for i in issues)
+
+    def test_normal_episode_num_ok(self):
+        curation = {
+            "albums": [
+                _make_album("a1", "Folge 42: Something", episode_num=42),
+            ],
+        }
+        assert lint_curation(curation) == []
+
+
 class TestAutoIncludedRule:
     def test_flags_auto_included_albums(self):
         curation = {
