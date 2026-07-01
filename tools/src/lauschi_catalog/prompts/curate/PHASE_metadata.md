@@ -19,9 +19,23 @@ pattern causes those albums to be excluded as unmatched.
 - If episodes use NAMED titles without numbering (fairy tales, themes), set
 `episode_pattern=None`.
 
-**Pattern verification (hoerspiel only):**
-After proposing a pattern, you MUST call `check_pattern_coverage`. The tool
-tests against ALL titles in the discography, not just the sample.
+**Workflow (hoerspiel only):**
+
+Step 1: Infer candidate patterns from the sample titles. Look for common
+formats like `^Folge (\d+):`, `^(\d{3})/`, `^Teil (\d+):`, etc.
+
+Step 2: Call `check_pattern_coverage` immediately with your candidates.
+The tool tests against ALL titles in the discography, not just the sample.
+Most series reach >90% coverage on the first or second try. If coverage
+is acceptable, commit the pattern and move on.
+
+Step 3 (only if needed): Use `web_search` (max 3 queries) and
+`fetch_page` (max 2 URLs) when:
+- Coverage is ambiguous (60-80%) and you need to classify unmatched titles
+- You need to find missing artist IDs for a provider
+- The series structure is genuinely unclear from titles alone
+Don't search for every series; most are straightforward from the sample
+titles + one pattern check.
 
 Worked example:
   Proposed: ["Teil (\\d+)"] on titles like "01/Majas Geburt", "Folge 2: Der Ball"
@@ -35,12 +49,6 @@ Worked example:
 
 For music and audiobook series, episode_pattern is always None and no pattern
 tools are registered. Set up the metadata directly.
-
-**Web research (optional):**
-You have `web_search` (max 3 queries) and `fetch_page` (max 2 URLs) available.
-Use them when provider metadata alone is ambiguous, e.g. to check episode
-numbering conventions on fan wikis or verify series identity. Don't search
-for every series; most are straightforward from the album titles alone.
 
 **Output:** `SeriesMetadata` (id, title, aliases, episode_pattern, age_note,
 curator_notes, provider_artist_ids).
