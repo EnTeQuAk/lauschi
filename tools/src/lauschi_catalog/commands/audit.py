@@ -16,6 +16,7 @@ from lauschi_catalog.catalog.audit_ops import (
     _DEFAULT_MODEL,
     audit_series,
 )
+from lauschi_catalog.catalog.lifecycle import audit_is_stale
 from lauschi_catalog.catalog.loader import load_raw
 from lauschi_catalog.catalog.paths import CURATION_DIR
 from lauschi_catalog.catalog.providers_init import init_providers
@@ -50,7 +51,9 @@ def audit(
             curation = json.loads(path.read_text())
             review = curation.get("review", {})
             status = review.get("status", "")
-            if status not in ("approved", "audited", "rejected") or force:
+            needs_audit = status not in ("approved", "audited", "rejected")
+            stale = audit_is_stale(curation)
+            if needs_audit or stale or force:
                 series_ids.append(sid)
 
     if not series_ids:
