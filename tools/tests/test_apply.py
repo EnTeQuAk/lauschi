@@ -354,3 +354,65 @@ def testshould_apply_refuses_stale_audit():
     }
     assert should_apply(data, force=False) is not None
     assert "stale" in should_apply(data, force=False)
+
+
+# ── per-provider regression guard ────────────────────────────────────────
+
+
+def test_apply_refuses_provider_collapse():
+    """PAW Patrol scenario: curation has 3 Spotify albums but series.yaml
+    has 445. Apply must refuse to replace, preserving existing data."""
+    yaml_data = _yaml_with(
+        [{"id": f"a{i}", "episode": i, "title": f"Folge {i}"} for i in range(50)]
+    )
+    curation = _curation(
+        albums=[_included(f"a{i}", episode_num=i, title=f"Folge {i}") for i in range(3)]
+    )
+    messages: list[str] = []
+    updated = apply_one(
+        "s1", curation, yaml_data, on_progress=messages.append
+    )
+    assert updated is False
+    saved = yaml_data["series"][0]["providers"]["spotify"]["albums"]
+    assert len(saved) == 50
+    assert any("SKIPPED" in m for m in messages)
+
+
+def test_apply_allows_provider_collapse_with_force():
+    """--force overrides the regression guard."""
+    yaml_data = _yaml_with(
+        [{"id": f"a{i}", "episode": i, "title": f"Folge {i}"} for i in range(50)]
+    )
+    curation = _curation(
+        albums=[_included(f"a{i}", episode_num=i, title=f"Folge {i}") for i in range(3)]
+    )
+    updated = apply_one("s1", curation, yaml_data, force=True)
+    assert updated is True
+    saved = yaml_data["series"][0]["providers"]["spotify"]["albums"]
+    assert len(saved) == 3
+
+
+def test_apply_allows_modest_drop():
+    """A modest drop (< 50%) should still apply normally."""
+    yaml_data = _yaml_with(
+        [{"id": f"a{i}", "episode": i, "title": f"Folge {i}"} for i in range(20)]
+    )
+    curation = _curation(
+        albums=[_included(f"a{i}", episode_num=i, title=f"Folge {i}") for i in range(15)]
+    )
+    updated = apply_one("s1", curation, yaml_data)
+    assert updated is True
+    saved = yaml_data["series"][0]["providers"]["spotify"]["albums"]
+    assert len(saved) == 15
+
+
+def test_apply_allows_drop_below_threshold():
+    """Small series (< 10 existing albums) don't trigger the guard."""
+    yaml_data = _yaml_with(
+        [{"id": f"a{i}", "episode": i, "title": f"Folge {i}"} for i in range(8)]
+    )
+    curation = _curation(
+        albums=[_included(f"a{i}", episode_num=i, title=f"Folge {i}") for i in range(2)]
+    )
+    updated = apply_one("s1", curation, yaml_data)
+    assert updated is True

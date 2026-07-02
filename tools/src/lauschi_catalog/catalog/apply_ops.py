@@ -88,6 +88,7 @@ def apply_one(
     data: dict,
     yaml_data: dict,
     *,
+    force: bool = False,
     on_progress: Progress = _noop,
 ) -> bool:
     """Apply a single curation to the yaml data. Returns True if updated."""
@@ -153,6 +154,22 @@ def apply_one(
         new_sigs = {_sig(e) for e in album_entries}
 
         if new_sigs != existing_sigs:
+            # Guard: refuse to replace when a provider's album count
+            # drops by more than half. This catches API fetch issues
+            # (e.g. Spotify returning only recent albums) that would
+            # silently wipe curated data from series.yaml.
+            if (
+                not force
+                and len(existing) >= 10
+                and len(album_entries) < len(existing) * 0.5
+            ):
+                on_progress(
+                    f"  {prov_name}: SKIPPED — would drop from "
+                    f"{len(existing)} to {len(album_entries)} albums "
+                    f"(>50% loss). Fix the curation or use --force.",
+                )
+                continue
+
             prov_section["albums"] = album_entries
             updated = True
             ep_changed = len(new_sigs - existing_sigs) - len(new_ids - existing_ids)
@@ -266,7 +283,7 @@ def apply_curations(
         title = data.get("title", sid)
         on_progress(f"{title} (status: {cur_status})")
 
-        if apply_one(sid, data, yaml_data, on_progress=on_progress):
+        if apply_one(sid, data, yaml_data, force=force, on_progress=on_progress):
             result.applied += 1
             result.details.append(ApplyOneResult(sid, updated=True))
         else:
