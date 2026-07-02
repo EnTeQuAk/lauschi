@@ -4452,61 +4452,61 @@ series:
       - id: 6IHTEidXJyCn44ze0KOrSx
         episode: 91
         title: 'Folge 91: Der Magnet'
-      - id: 4ncLeazZ1oxZA0W0W8s7TH
+      - id: 15RdvBZx64XTQlwjGFQpKw
         episode: 92
         title: 'Folge 92: Das Tintenfisch-Baby'
-      - id: 15RdvBZx64XTQlwjGFQpKw
+      - id: 0HYuWaFRI1Vp3VA33mvR9y
         episode: 93
         title: 'Folge 93: Der seltsame Hai'
-      - id: 0HYuWaFRI1Vp3VA33mvR9y
+      - id: 2cLn8CCZS4JUtcEyiDlRHm
         episode: 94
         title: 'Folge 94: Künstler in Not'
-      - id: 2cLn8CCZS4JUtcEyiDlRHm
+      - id: 3pxO8OPfKc38Ox6629HEda
         episode: 95
         title: 'Folge 95: Der Piratenzauber'
-      - id: 3pxO8OPfKc38Ox6629HEda
+      - id: 4qCKzzG2FUc2wIidx2Xk07
         episode: 96
         title: 'Folge 96: Die eingefrorene Flunder'
-      - id: 4qCKzzG2FUc2wIidx2Xk07
+      - id: 627YK6cUUfZoQfsH1MTuyo
         episode: 97
         title: 'Folge 97: Das Ein-Leopard-Löwe-Horn'
-      - id: 627YK6cUUfZoQfsH1MTuyo
+      - id: 4aUETaaUUUeICP1nBhEmaj
         episode: 98
         title: 'Folge 98: Die Fellfreunde retten Wufflantis'
-      - id: 4aUETaaUUUeICP1nBhEmaj
+      - id: 5pzQNvrsCjqxBzlh21swLA
         episode: 99
         title: 'Folge 99: Die Suche nach der Krone'
-      - id: 5pzQNvrsCjqxBzlh21swLA
+      - id: 0qUGkKwrKPQqiLTRVR3lU4
         episode: 100
         title: 'Folge 100: Die traurige Prinzessin'
-      - id: 0qUGkKwrKPQqiLTRVR3lU4
+      - id: 3VwbrNvOHv2Ov8CScGjj2W
         episode: 101
         title: 'Folge 101: Das Schlossgespenst'
-      - id: 3VwbrNvOHv2Ov8CScGjj2W
+      - id: 7bbwGxRqLa6kvl7OX4YwQg
         episode: 102
         title: 'Folge 102: Auf Safari'
-      - id: 7bbwGxRqLa6kvl7OX4YwQg
+      - id: 4mRuHMQzi8Kqnb8TZGSwEG
         episode: 103
         title: 'Folge 103: Affen-Alarm'
-      - id: 4mRuHMQzi8Kqnb8TZGSwEG
+      - id: 2pcHIUXjUG6eZvMUdsBhi0
         episode: 104
         title: 'Folge 104: Flugkatze in Not'
-      - id: 2pcHIUXjUG6eZvMUdsBhi0
+      - id: 4GvsWoTGCXkDIqUIib7GNt
         episode: 105
         title: 'Folge 105: Paket in Gefahr'
-      - id: 4GvsWoTGCXkDIqUIib7GNt
+      - id: 2DjKQVFugxBPyPtHEP7CCt
         episode: 106
         title: 'Folge 106: Frau Frosch-Bürgermeisterin'
-      - id: 2DjKQVFugxBPyPtHEP7CCt
+      - id: 4v5uuYJ0W5RypvlqXNKj1Y
         episode: 107
         title: 'Folge 107: Die Schildkröten-Eier'
-      - id: 4v5uuYJ0W5RypvlqXNKj1Y
+      - id: 0W8Jjf7B9F117t61Vi7yN8
         episode: 108
         title: 'Folge 108: Die Schaf-Schermaschine'
-      - id: 0W8Jjf7B9F117t61Vi7yN8
+      - id: 2hwwmnG5QsKV7Jbgi2zkfZ
         episode: 109
         title: 'Folge 109: Francois, der Pinguin'
-      - id: 2hwwmnG5QsKV7Jbgi2zkfZ
+      - id: 4ncLeazZ1oxZA0W0W8s7TH
         episode: 110
         title: 'Folge 110: Danny X und sein Flusspferd'
       - id: 14cwoh3vb44viPGqsDmmrf
@@ -5207,13 +5207,13 @@ series:
         title: 'Folge 342: Liberty findet einen neuen Freund (Das Original-Hörspiel zur TV-Serie)'
       - id: 0r5Jyx3xqFrEfXk7PZVioP
         episode: 343
-        title: 'Folge 343: Der Bell-Bell-Boogie Tanzwettbewerb'
+        title: 'Folge 343: Der Bell-Bell-Boogie Tanzwettbewerb (Das Original-Hörspiel zur TV-Serie)'
       - id: 6ti6ccjz2NwqRYexE9eETu
         episode: 344
         title: 'Folge 344: Alle Pfoten halten zusammen!'
       - id: 2qUltMlKVQPVVtN3ePkVfF
         episode: 345
-        title: 'Folge 345: Die Fellfreunde und die Katzen-Bande'
+        title: 'Folge 345: Die Fellfreunde und die Katzen-Bande (Das Original-Hörspiel zur TV-Serie)'
       - id: 1cpJkZPrTbqG6ER7tpcdbx
         episode: 346
         title: 'Folge 346: Eine Puppe für Zottelaffe'
@@ -5511,6 +5511,9 @@ series:
       - id: 7Ce7aJ5BWbd8hur1UDyDS9
         episode: 444
         title: 'Folge 444: Luftrettung der königlichen Gäste (Das Original-Hörspiel zur TV-Serie)'
+      - id: 78d9tsUPfndbv1OVZ61EQR
+        episode: 445
+        title: 'Folge 445: Der Super-Kuh-Wettbewerb (Das Original-Hörspiel zur TV-Serie)'
       - id: 6hCVDuhHEAxO4ycLH9PGYh
         title: Die Super-Hunde (Das Special)
       - id: 6hxFJL6OxsAYm8xH6Cdgyw
@@ -6864,19 +6867,19 @@ series:
         title: Die Super-Hunde (Das Special)
       - id: '1764641301'
         title: Rasend schnelle Rettung (Das Special)
-  episode_pattern:
-  - '^Folge (\d+):'
+  episode_pattern: '^Folge (\d+):'
   aliases:
   - Paw Patrol
   series_facts:
     known_gaps:
-    - number: 59
-      reason: Episode 59 does not appear in the discography; release dates of surrounding episodes (58 and 60 both 2020-03-27) suggest it may have been skipped at the start of the series, or was 
-        withheld from streaming platforms.
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-05-31T16:34:30.861135+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-05-31T16:34:30.861135+00:00'
+      number: 59
+      range_end:
+      reason: Episode 59 does not appear in the discography; release dates of surrounding episodes (58 and 60 both 2020-03-27) suggest it may have been skipped at the start of the series, or was 
+        withheld from streaming platforms.
 - id: fuenf_freunde
   title: Fünf Freunde
   providers:
