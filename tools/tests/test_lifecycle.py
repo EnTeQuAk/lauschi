@@ -98,3 +98,20 @@ def test_apply_unsafe_when_audit_stale():
     msg = apply_is_unsafe(c)
     assert msg is not None
     assert "audit" in msg.lower()
+
+
+def test_apply_unsafe_when_curation_incomplete():
+    """Curations marked incomplete (e.g. from discovery regression)
+    must not reach series.yaml regardless of audit state."""
+    c = _curation(curated_at=T1, audited_at=T2)
+    c["incomplete"] = True
+    c["incomplete_reason"] = "spotify discovery collapsed: 445 -> 47"
+    msg = apply_is_unsafe(c)
+    assert msg is not None
+    assert "incomplete" in msg.lower()
+
+
+def test_apply_safe_when_not_incomplete():
+    c = _curation(curated_at=T1, audited_at=T2)
+    c["incomplete"] = False
+    assert apply_is_unsafe(c) is None
