@@ -29717,9 +29717,6 @@ series:
       - id: '1139284022'
         episode: 100
         title: 'Folge 100: Ottos neue Freundin - Teil 1'
-      - id: '1139302678'
-        episode: 101
-        title: 'Folge 101: Ottos neue Freundin - Teil 2'
       - id: '1139307236'
         episode: 102
         title: 'Folge 102: Das Pinguin-Ei'
@@ -29934,26 +29931,53 @@ series:
         title: Benjamin Blümchen als Apotheker (Sonderedition)
       - id: '1139285408'
         title: als Apotheker (Sonderedition)
-  episode_pattern: '^Folge (\d+):'
+  episode_pattern:
+  - '^Folge (\d+):'
   series_facts:
     known_gaps:
-    - number: 39
+    - curated_by: unknown
+      curated_at:
+      audited_by: minimax-m2.7
+      audited_at: '2026-05-28T11:07:48.014853+00:00'
+      number: 39
+      range_end:
       reason: Episode exists on Spotify but is completely absent from Apple Music catalog - neither included nor excluded. Cross-provider catalog gap.
-      audited_by: minimax-m2.7
-      audited_at: '2026-05-28T11:07:48.014853+00:00'
     - number: 67
-      reason: Episode 67 'Meine schönsten Lieder' exists in both catalogs as a music compilation album (songs from earlier episodes), not a narrative Hörspiel episode. The actual narrative episode 67 
-        does not exist in catalogs.
+      range_end:
+      reason: Episode 67 exists in both catalogs as a music compilation album ('Meine schönsten Lieder', 12 song tracks), not a narrative Hörspiel episode. The actual narrative episode 67 does not 
+        exist in catalogs.
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-02T16:02:12.034356+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-02T16:02:12.034356+00:00'
+    - curated_by: unknown
+      curated_at:
       audited_by: minimax-m2.7
       audited_at: '2026-05-28T11:07:48.014853+00:00'
-    - number: 71
+      number: 71
+      range_end:
       reason: Episode 71 'Alle meine Freunde' exists in both catalogs as a music compilation album, not a narrative Hörspiel. The actual narrative episode 71 does not exist in catalogs.
+    - curated_by: unknown
+      curated_at:
       audited_by: minimax-m2.7
       audited_at: '2026-05-28T11:07:48.014853+00:00'
-    - number: 74
+      number: 74
+      range_end:
       reason: Episode 74 'singt Weihnachtslieder' exists in both catalogs as a Christmas songs album, not a narrative Hörspiel. The actual narrative episode 74 does not exist in catalogs.
+    - number: 101
+      range_end:
+      reason: "Cross-provider catalog gap: Episode 101 'Ottos neue Freundin - Teil 2' exists on Spotify (included) but is completely absent from Apple Music catalog."
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-02T16:02:12.034356+00:00'
       audited_by: minimax-m2.7
-      audited_at: '2026-05-28T11:07:48.014853+00:00'
+      audited_at: '2026-07-02T16:02:12.034356+00:00'
+    - number: 171
+      range_end:
+      reason: "Cross-provider catalog gap: Episode 171 'als Kleingärtner' exists on Apple Music (included, future release 2026-08-07) but is completely absent from Spotify catalog."
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-02T16:02:12.034356+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-02T16:02:12.034356+00:00'
 - id: die_wilden_huehner
   title: Die Wilden Hühner
   providers:
@@ -30633,9 +30657,15 @@ series:
       artist_ids:
       - 2c0sDbsWQXZc2Ljq735WgV
       albums:
+      - id: 3XaE6tpyg9wQpK0MOpQcnK
+        episode: 1
+        title: Folge 1 - Die rote Socke
       - id: 2a63gwDW1NrUSnooY9UrlJ
         episode: 1
         title: 'Folge 1: Die rote Socke'
+      - id: 3rJJBDxGmMcQeTVQVDxq6O
+        episode: 2
+        title: Folge 2 - Die orangefarbene Maske
       - id: 5OtiHgJS7bWbUAseDWBDC8
         episode: 2
         title: 'Folge 2: Das blaue Zimmer'
@@ -30875,82 +30905,112 @@ series:
   - ^Folge (\d+) -
   series_facts:
     known_gaps:
-    - number: 18
+    - curated_by: minimax-m2.7
+      curated_at: '2026-06-17T09:35:08.295448+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-06-17T09:35:08.295448+00:00'
+      number: 18
+      range_end:
       reason: Episode 18 not available in current streaming catalogs; series has ~36 total episodes but only 1-17 and 27+ appear digitally
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-06-17T09:35:08.295448+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-06-17T09:35:08.295448+00:00'
-    - number: 19
+      number: 19
+      range_end:
       reason: Episode 19 not available in current streaming catalogs
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-06-17T09:35:08.295448+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-06-17T09:35:08.295448+00:00'
-    - number: 20
+      number: 20
+      range_end:
       reason: Episode 20 not available in current streaming catalogs
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-06-17T09:35:08.295448+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-06-17T09:35:08.295448+00:00'
-    - number: 21
+      number: 21
+      range_end:
       reason: Episode 21 not available in current streaming catalogs
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-06-17T09:35:08.295448+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-06-17T09:35:08.295448+00:00'
-    - number: 22
+      number: 22
+      range_end:
       reason: Episode 22 not available in current streaming catalogs
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-06-17T09:35:08.295448+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-06-17T09:35:08.295448+00:00'
-    - number: 23
+      number: 23
+      range_end:
       reason: Episode 23 not available in current streaming catalogs
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-06-17T09:35:08.295448+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-06-17T09:35:08.295448+00:00'
-    - number: 24
+      number: 24
+      range_end:
       reason: Episode 24 not available in current streaming catalogs
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-06-17T09:35:08.295448+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-06-17T09:35:08.295448+00:00'
-    - number: 25
+      number: 25
+      range_end:
       reason: Episode 25 not available in current streaming catalogs
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-06-17T09:35:08.295448+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-06-17T09:35:08.295448+00:00'
-    - number: 26
+      number: 26
+      range_end:
       reason: Episode 26 not available in current streaming catalogs
+    - number: 27
+      range_end:
+      reason: Digitally available on Apple Music only; not present in Spotify catalog
       curated_by: minimax-m2.7
+      curated_at: '2026-07-02T16:04:54.312842+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-02T16:04:54.312842+00:00'
+    sub_series:
+    - curated_by: minimax-m2.7
       curated_at: '2026-06-17T09:35:08.295448+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-06-17T09:35:08.295448+00:00'
-    sub_series:
-    - label: Original Serie
+      label: Original Serie
       album_ids: []
       reason: Original 1980s-1990s releases with 'Folge N' naming, episodes 1-17 and 27. Episodes 18-26 not digitally available.
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-06-17T09:35:08.295448+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-06-17T09:35:08.295448+00:00'
-    - label: Specials
+      label: Specials
       album_ids: []
       reason: 'Holiday and themed releases: Weihnachtsmann, Adventskalender, Shanghai, Mississippi, Wüstenkönig, Spooky Hill, etc.'
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-06-17T09:35:08.295448+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-06-17T09:35:08.295448+00:00'
-    - label: Städte-Specials
+      label: Städte-Specials
       album_ids: []
       reason: '2017+ city-themed releases: Berlin, Wien, London, New York, Paris, Sydney, Amsterdam, Barcelona, Spanien, Hamburg, München, Venedig. No episode numbers, themed single episodes.'
+    - label: hoerbuch
+      album_ids:
+      - '1391715193'
+      - '1391800251'
+      - 2a63gwDW1NrUSnooY9UrlJ
+      - 5OtiHgJS7bWbUAseDWBDC8
+      reason: REMOVED. Spotify versions 2a63gwDW1NrUSnooY9UrlJ and 5OtiHgJS7bWbUAseDWBDC8 are Hörspiel re-recordings with descriptive scene names (Fall N), not sequential-track Hörbuch. Apple Music 
+        versions 1391715193 and 1391800251 remain correctly excluded as content-type mismatch (sequential Teil tracks only).
       curated_by: minimax-m2.7
-      curated_at: '2026-06-17T09:35:08.295448+00:00'
+      curated_at: '2026-07-02T16:04:54.312842+00:00'
       audited_by: minimax-m2.7
-      audited_at: '2026-06-17T09:35:08.295448+00:00'
+      audited_at: '2026-07-02T16:04:54.312842+00:00'
+  aliases:
+  - Kugelblitz
 - id: liliane_susewind
   title: Liliane Susewind
   providers:
@@ -40702,53 +40762,129 @@ series:
       - 2095wofkLJPuP7ZmCNwvOS
       albums:
       - id: 2YMLzYeviwjn7d9ZIYpbSG
+        episode: 1
         title: Chaos im fliegenden Haus (Folge 1)
       - id: 6KpmrdGKgH99RRnMQdWLnN
+        episode: 2
         title: Die Gefühlsdetektive (Folge 2)
       - id: 1aBcccnGWaagZfo1O42q0j
+        episode: 3
         title: Niemand ist "komisch" (Folge 3)
       - id: 4xmCFL6vl5CFMnC3v74ivQ
+        episode: 4
         title: Der perfekte Tanz (Folge 4)
       - id: 283nTkfOlf2V6oltv1WZ2W
+        episode: 5
         title: Der Zukunftsbahnhof (Folge 5)
       - id: 1TCTDiHwveraMCagxRr9BX
+        episode: 6
         title: Typisch Kater, typisch Katze (Folge 6)
       - id: 3br0DVlORAXrEAGW91UJgV
+        episode: 7
         title: Das Weltraum-Abenteuer (Folge 7)
       - id: 37iBJnfmZQdKbpotyVNGP4
+        episode: 8
         title: Herz & Kopf (Folge 8)
       - id: 38SQe4KnnBSI7Dmqz0KmBa
+        episode: 9
         title: Mission Schulhof (Folge 9)
       - id: 6OF4s0kACDmaJFhQdEn521
+        episode: 10
         title: Mein Körper gehört mir! (Folge 10)
+      - id: 7Iz5yHw2k9kfQVkPrRIdgH
+        episode: 11
+        title: Der Wuthase (Folge 11)
     apple_music:
       artist_ids:
       - '1716921195'
       albums:
       - id: '1716920911'
+        episode: 1
         title: Chaos im fliegenden Haus (Folge 1)
       - id: '1718907862'
+        episode: 2
         title: Die Gefühlsdetektive (Folge 2)
       - id: '1720720755'
+        episode: 3
         title: Niemand ist "komisch" (Folge 3)
       - id: '1731184013'
+        episode: 4
         title: Der perfekte Tanz (Folge 4)
       - id: '1743147746'
+        episode: 5
         title: Der Zukunftsbahnhof (Folge 5)
       - id: '1772876784'
+        episode: 6
         title: Typisch Kater, typisch Katze (Folge 6)
       - id: '1822259055'
+        episode: 7
         title: Das Weltraum-Abenteuer (Folge 7)
       - id: '1884334846'
+        episode: 8
         title: Herz & Kopf (Folge 8)
       - id: '1885676770'
+        episode: 9
         title: Mission Schulhof (Folge 9)
       - id: '6771354159'
+        episode: 10
         title: Mein Körper gehört mir! (Folge 10)
-  content_type: hoerspiel
+      - id: '6779343117'
+        episode: 11
+        title: Der Wuthase (Folge 11)
   aliases:
   - MIRA & das fliegende Haus
   - Mira und das fliegende Haus - Die Hörspiele
+  episode_pattern: ^.*\(Folge (\d+)\)$
+  series_facts:
+    sub_series:
+    - label: kindermeditation_wolkenwunderland
+      album_ids:
+      - apple_music:1764911394
+      - apple_music:1768240191
+      - apple_music:1807952343
+      - spotify:0HIqDwHBD41iLY1q7b5ggU
+      - spotify:0a5wgvdNtlRorDo4PPqRmP
+      - spotify:2HkC0DgzpMnG1Psg81pRhg
+      - spotify:41F1SQxFjeV6q4PUULy5jX
+      reason: Children's meditation sub-series with distinct branding, relaxation/guided-imagery format, not a dramatized story.
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-02T16:05:26.092402+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-02T16:05:26.092402+00:00'
+    - label: mira_show
+      album_ids:
+      - apple_music:1889146013
+      - apple_music:1895739122
+      - spotify:5xhe5M3NS0n5nz7HJ9zi7a
+      - spotify:7y2JA8b4tqYAhFPHymPYIj
+      reason: Talk-show format with intro/outro segments, Q&A production style, clearly distinct from Hörspiel episodes.
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-02T16:05:26.092402+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-02T16:05:26.092402+00:00'
+    - label: traumreise
+      album_ids:
+      - apple_music:1750864280
+      - apple_music:1754388603
+      - apple_music:1758041520
+      - apple_music:1766707315
+      - apple_music:1773265187
+      - apple_music:1780533467
+      - apple_music:1813138203
+      - apple_music:1893588962
+      - spotify:06N6QtcVCH0lYY5h8kQ1XI
+      - spotify:14e6UhMnP4ZThFt7bYKdwG
+      - spotify:3I9vWitAAmFMaAwX87wdIT
+      - spotify:3qH8Cc4X0qgppjzyPU1cIQ
+      - spotify:532WT2YXUcucTBWOKddusk
+      - spotify:5ArEGgpMq0Y2IohKiJ74i5
+      - spotify:5JUGQFCyfkYsSIb4Y9wTby
+      - spotify:6bvHgEDLPuu393OG6Mq3JF
+      reason: Guided dream journey/meditation content, distinct from main Hörspiel episodes. No episode numbering, different production format.
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-02T16:05:26.092402+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-02T16:05:26.092402+00:00'
 - id: bibi_und_tina_bff_talk
   title: 'Bibi und Tina: Bff Talk'
   aliases: []
