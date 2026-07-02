@@ -2337,24 +2337,15 @@ series:
       - id: 016dC2sOt7x7FXQ6N8Bxi5
         episode: 1
         title: 'Folge 1: Hexen gibt es doch'
-      - id: 52MciMhichwTXMlwvkYikQ
-        episode: 1
-        title: 'Kampf um Kartoffelbrei (Special) - Teil 1: Malicias Rache'
       - id: 6X51IeJchTdorw4xosg6ha
         episode: 2
         title: 'Folge 2: Hexerei in der Schule'
-      - id: 0FpTHkAiviemFeIrZKOmNC
-        episode: 2
-        title: 'Kampf um Kartoffelbrei (Special) - Teil 2: Auf heißer Spur'
       - id: 14igDYerOOomBtHHYxvFLz
         episode: 3
         title: 'Folge 3: Die Zauberlimonade'
-      - id: 4ugqQGYYrWYSwYDgR69Xid
-        episode: 3
-        title: 'Kampf um Kartoffelbrei (Special) - Teil 3: Hexerei aus der Ferne'
-      - id: 6ufbMbSRG5Ru2TDwt4ogsW
+      - id: 7fj4TDf4T2thg5BuFUluNY
         episode: 4
-        title: 'Kampf um Kartoffelbrei (Special) - Teil 4: Eine Falle für Malicia'
+        title: 'Folge 4: Der Bankräuber'
       - id: 0OhISkdajK4qD5fx9CxPpx
         episode: 5
         title: 'Folge 5: Ein verhexter Urlaub'
@@ -2364,10 +2355,10 @@ series:
       - id: 0viYjQhnyJVulf0D265Qnd
         episode: 7
         title: 'Folge 7: heilt den Bürgermeister'
-      - id: 4UiRVmfNLWyGMDbPzg109x
+      - id: 4evoKVgGoAw4R617nW85W5
         episode: 8
         title: 'Folge 8: Die Schlossgespenster'
-      - id: 4evoKVgGoAw4R617nW85W5
+      - id: 4UiRVmfNLWyGMDbPzg109x
         episode: 9
         title: 'Folge 9: verliebt sich'
       - id: 5TAliz0iVXH4UnnG3xuUSa
@@ -2834,12 +2825,6 @@ series:
         title: 'Folge 164: Hexerei im Cluburlaub'
       - id: 4tjQJ8CEeQu8E8cf23aNnj
         title: Der verhexte Weihnachtsmarkt [Der Adventskalender zum Hören]
-      - id: 0L0bQDe5QySJg0SoDmuDjQ
-        title: Englisch lernen mit Bibi Blocksberg - Folge 3 - Das Hex-Tagebuch
-      - id: 5DZDFoPIIu2Kx2ACTYB7zz
-        title: Englisch lernen mit Bibi Blocksberg - Folge 4 - Verhexte Feste
-      - id: 3uTQwEp2pdXyD7BKZJn6lC
-        title: Englisch lernen mit Bibi Blocksberg - Folge 5 - Das Ungeheuer von Loch Ness
       - id: 7HIgLk8Y8m3KQIFjPiYWQW
         title: Kurzgeschichte - Bibi als Krankenschwester
       - id: 1t8zf2fKNcPrWgHYM6Osdx
@@ -2862,30 +2847,6 @@ series:
         title: Kurzgeschichte - Wer hat Angst vor Klopf-Monstern?
       - id: 1ZFAoGJnnqowbNhy3Y8mjI
         title: Kurzgeschichte - Zeltausflug mit Hindernissen
-      - id: 68yjM7W4zz2To5L1yYUpsv
-        title: 'Kurzhörspiel - Bibi erzählt: Familiengeschichten'
-      - id: 6WpOdxZIwoSazFwCTX79fX
-        title: 'Kurzhörspiel - Bibi erzählt: Junghexengeschichten'
-      - id: 4UtbzU2piW8JL61Md3AqRN
-        title: 'Kurzhörspiel - Bibi erzählt: Schulgeschichten'
-      - id: 5LKLw2DejyrWbDKPAlCk8P
-        title: 'Kurzhörspiel - Bibi erzählt: Familiengeschichten'
-      - id: 0ULD2ilRFbYzJwGpTj9PvU
-        title: 'Kurzhörspiel - Bibi erzählt: Rathausgeschichten'
-      - id: 3rOPn20HBIk5rnlwoPgcBV
-        title: 'Kurzhörspiel - Bibi erzählt: Weihnachtsgeschichten'
-      - id: 4OFQcpklILyntR0CA0YwUK
-        title: 'Kurzhörspiel - Bibi erzählt: Tiergeschichten'
-      - id: 02Kn2SoIna6hNJGWeXOMUy
-        title: 'Kurzhörspiel - Bibi erzählt: Bürogeschichten'
-      - id: 63gO4K2x4xOmJvn8bWnk3S
-        title: 'Kurzhörspiel - Bibi erzählt: Feriengeschichten'
-      - id: 3JSgtEbyjSSd2SlF4DqHCg
-        title: 'Kurzhörspiel - Bibi erzählt: Der Haar-Notfall'
-      - id: 4ty58ME24lhUWwtHnlvUSh
-        title: 'Kurzhörspiel - Bibi erzählt: Hexenlaborgeschichten'
-      - id: 4a3LKUotBcb6adgjefMWNV
-        title: 'Kurzhörspiele - Bibi erzählt: Freundinnengeschichten'
       - id: 7uz12MVJH6pVlPW4q3qMAR
         title: 'Kurzhörspiele - Bibi erzählt: Sensationsgeschichten'
       - id: 0wXyygsfQ3zdeQ5TJ5TbdE
@@ -2906,8 +2867,16 @@ series:
         title: 'Kurzhörspiele - Bibi erzählt: Irlandgeschichten'
       - id: 5GCfCc49yUevoXg5JkUilY
         title: Mein verhextes Halloween
+      - id: 52MciMhichwTXMlwvkYikQ
+        title: 'Kampf um Kartoffelbrei (Special) - Teil 1: Malicias Rache'
+      - id: 0FpTHkAiviemFeIrZKOmNC
+        title: 'Kampf um Kartoffelbrei (Special) - Teil 2: Auf heißer Spur'
+      - id: 4ugqQGYYrWYSwYDgR69Xid
+        title: 'Kampf um Kartoffelbrei (Special) - Teil 3: Hexerei aus der Ferne'
       - id: 4kU5RcCic1cYsy8ruIMGV1
         title: 'Kurzhörspiele - Bibi erzählt: Ostergeschichten'
+      - id: 6ufbMbSRG5Ru2TDwt4ogsW
+        title: 'Kampf um Kartoffelbrei (Special) - Teil 4: Eine Falle für Malicia'
       - id: 1YxIFAuzmIlNwQjbq4ayFj
         title: 'Bibi erzählt: Verkehrserziehungsgeschichten'
       - id: 1BsPIjY5OGVilHg51ZURXI
@@ -2918,39 +2887,39 @@ series:
       artist_ids:
       - '41480004'
       albums:
-      - id: '1786569919'
+      - id: '1143559999'
         episode: 1
-        title: 'Kampf um Kartoffelbrei (Special) - Teil 1: Malicias Rache'
-      - id: '1786569681'
+        title: 'Folge 1: Hexen gibt es doch'
+      - id: '1155741831'
         episode: 2
-        title: 'Kampf um Kartoffelbrei (Special) - Teil 2: Auf heißer Spur'
-      - id: '1796205054'
+        title: 'Folge 2: Hexerei in der Schule'
+      - id: '1143558808'
         episode: 3
-        title: 'Kampf um Kartoffelbrei (Special) - Teil 3: Hexerei aus der Ferne'
-      - id: '1801723420'
+        title: 'Folge 3: Die Zauberlimonade'
+      - id: '1143560812'
         episode: 4
-        title: 'Kampf um Kartoffelbrei (Special) - Teil 4: Eine Falle für Malicia'
-      - id: '1808479473'
+        title: 'Folge 4: Der Bankräuber'
+      - id: '1143583702'
         episode: 5
-        title: 'Kampf um Kartoffelbrei (Special) - Teil 5: Der Wirbelsturm'
-      - id: '1808477655'
+        title: 'Folge 5: Ein verhexter Urlaub'
+      - id: '1143573489'
         episode: 6
-        title: 'Kampf um Kartoffelbrei (Special) - Teil 6: Die geheime Mission'
-      - id: '1810581953'
+        title: 'Folge 6: Die Kuh im Schlafzimmer'
+      - id: '1143572177'
         episode: 7
-        title: 'Kampf um Kartoffelbrei (Special) - Teil 7: Mutige Junghexen'
-      - id: '1815272999'
+        title: 'Folge 7: heilt den Bürgermeister'
+      - id: '1143583025'
         episode: 8
-        title: 'Kampf um Kartoffelbrei (Special) - Teil 8: Mania greift ein'
-      - id: '1824733906'
+        title: 'Folge 8: Die Schlossgespenster'
+      - id: '1143572708'
         episode: 9
-        title: 'Kampf um Kartoffelbrei (Special) - Teil 9: Karla in Gefahr'
-      - id: '1831888726'
+        title: 'Folge 9: verliebt sich'
+      - id: '1143582073'
         episode: 10
-        title: 'Kampf um Kartoffelbrei (Special) - Teil 10: Die verhexte Fledermaus'
-      - id: '1844414174'
+        title: 'Folge 10: Bibis neue Freundin'
+      - id: '1143582616'
         episode: 11
-        title: 'Kampf um Kartoffelbrei (Special) - Teil 11: Das Hex-Duell'
+        title: 'Folge 11: Der Schulausflug'
       - id: '1143581597'
         episode: 12
         title: 'Folge 12: hat Geburtstag'
@@ -3089,7 +3058,7 @@ series:
       - id: '1143588447'
         episode: 58
         title: 'Folge 58: und das Dino-Ei'
-      - id: '1143598828'
+      - id: '1143597516'
         episode: 59
         title: 'Folge 59: und Dino'
       - id: '1143589742'
@@ -3098,7 +3067,7 @@ series:
       - id: '1143597516'
         episode: 61
         title: 'Folge 61: Der Flaschengeist'
-      - id: '1143598388'
+      - id: '1143598828'
         episode: 63
         title: 'Folge 63: Die Wahrsagerin'
       - id: '1143566236'
@@ -3110,13 +3079,13 @@ series:
       - id: '1143577553'
         episode: 66
         title: 'Folge 66: Das verhexte Osterei'
-      - id: '1143599151'
+      - id: '1143598388'
         episode: 67
         title: 'Folge 67: Der weiße Kakadu'
       - id: '1143588962'
         episode: 68
         title: 'Folge 68: und die Piraten'
-      - id: '1143575835'
+      - id: '1143599151'
         episode: 69
         title: 'Folge 69: Verhexte Weihnachten'
       - id: '1143598061'
@@ -3409,16 +3378,6 @@ series:
         title: 'Folge 165: Die doppelte Klassenfahrt'
       - id: '1069121458'
         title: Der verhexte Weihnachtsmarkt (Der Adventskalender zum Hören)
-      - id: '1069234958'
-        title: 'Englisch lernen mit Bibi Blocksberg - Folge 1: Der Schatz von Blackford Castle'
-      - id: '1069083363'
-        title: Englisch lernen mit Bibi Blocksberg - Folge 2 - Hexenfest in Stonehenge
-      - id: '794941039'
-        title: Englisch lernen mit Bibi Blocksberg - Folge 3 - Das Hex-Tagebuch
-      - id: '847534208'
-        title: Englisch lernen mit Bibi Blocksberg - Folge 4 - Verhexte Feste
-      - id: '867645875'
-        title: Englisch lernen mit Bibi Blocksberg - Folge 5 - Das Ungeheuer von Loch Ness
       - id: '1069102309'
         title: Kurzgeschichte - Bibi als Krankenschwester - Single
       - id: '1069173664'
@@ -3441,24 +3400,6 @@ series:
         title: Kurzgeschichte - Wer hat Angst vor Klopf-Monstern? - Single
       - id: '1069059907'
         title: Kurzgeschichte - Zeltausflug mit Hindernissen - Single
-      - id: '1476558897'
-        title: 'Kurzhörspiel - Bibi erzählt: Familiengeschichten'
-      - id: '1476559558'
-        title: 'Kurzhörspiel - Bibi erzählt: Junghexengeschichten'
-      - id: '1477114243'
-        title: 'Kurzhörspiel - Bibi erzählt: Rathausgeschichten'
-      - id: '1477113585'
-        title: 'Bibi erzählt: Weihnachtsgeschichten (Kurzhörspiel)'
-      - id: '1477114620'
-        title: 'Kurzhörspiel - Bibi erzählt: Tiergeschichten'
-      - id: '1477114049'
-        title: 'Kurzhörspiel - Bibi erzählt: Bürogeschichten'
-      - id: '1465951895'
-        title: 'Kurzhörspiel - Bibi erzählt: Feriengeschichten'
-      - id: '1476061825'
-        title: 'Bibi erzählt: Hexenlaborgeschichten'
-      - id: '1495409525'
-        title: 'Kurzhörspiele - Bibi erzählt: Freundinnengeschichten'
       - id: '1532939500'
         title: 'Kurzhörspiele - Bibi erzählt: Sensationsgeschichten'
       - id: '1560190831'
@@ -3481,8 +3422,16 @@ series:
         title: 'Kurzhörspiele - Bibi erzählt: Irlandgeschichten'
       - id: '1771056773'
         title: Mein verhextes Halloween
+      - id: '1786569919'
+        title: 'Kampf um Kartoffelbrei (Special) - Teil 1: Malicias Rache'
+      - id: '1786569681'
+        title: 'Kampf um Kartoffelbrei (Special) - Teil 2: Auf heißer Spur'
+      - id: '1796205054'
+        title: 'Kampf um Kartoffelbrei (Special) - Teil 3: Hexerei aus der Ferne'
       - id: '1798506107'
         title: 'Kurzhörspiele - Bibi erzählt: Ostergeschichten'
+      - id: '1801723420'
+        title: 'Kampf um Kartoffelbrei (Special) - Teil 4: Eine Falle für Malicia'
       - id: '1827427597'
         title: 'Bibi erzählt: Verkehrserziehungsgeschichten'
       - id: '1851429423'
@@ -3490,28 +3439,28 @@ series:
       - id: '1873129555'
         title: 'Kurzhörspiele - Bibi erzählt: Neustadtgeschichten'
   episode_pattern:
-  - ^Folge (\d+)(?![-\d])
-  - ^Kampf um Kartoffelbrei \(Special\) - Teil (\d+)(?![-\d])
+  - '^Folge (\d+):'
   series_facts:
     known_gaps:
     - number: 44
-      reason: Episode 44 (Der Reiterhof Teil 2) only exists on Spotify; Apple Music has no matching entry. Cross-provider gap, not a missing episode in the canon.
+      range_end:
+      reason: 'Cross-provider gap: episode 44 exists on Spotify but Apple Music has no matching entry. Not a missing episode in the canon.'
       curated_by: minimax-m2.7
-      curated_at: '2026-06-19T03:50:21.835844+00:00'
+      curated_at: '2026-07-02T09:47:27.369541+00:00'
       audited_by: minimax-m2.7
-      audited_at: '2026-06-19T03:50:21.835844+00:00'
+      audited_at: '2026-07-02T09:47:27.369541+00:00'
     - curated_by: minimax-m2.7
       curated_at: '2026-05-28T18:47:07.663948+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-05-28T18:47:07.663948+00:00'
       number: 62
       reason: Folge 62 never released; famously absent from original MC/cassette collections. Episodes 61 and 63 exist. Well-documented gap in the Bibi Blocksberg Hörspiel canon.
-    - number: 165
-      reason: Episode 165 (Die doppelte Klassenfahrt) only exists on Apple Music; Spotify has no matching entry. Cross-provider gap, not a missing episode in the canon.
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-06-19T03:50:21.835844+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-06-19T03:50:21.835844+00:00'
+      number: 165
+      reason: Episode 165 (Die doppelte Klassenfahrt) only exists on Apple Music; Spotify has no matching entry. Cross-provider gap, not a missing episode in the canon.
     sub_series:
     - curated_by: minimax-m2.7
       curated_at: '2026-05-28T18:47:07.663948+00:00'
@@ -10707,7 +10656,18 @@ series:
         title: 'English Edition #1 (Das Original-Hörspiel zur TV-Serie) [Das Deutsch-Englische Hörspiel zur TV-Serie]'
       - id: '1701347820'
         title: Schau mal, was ich kann, Pettersson!
-  episode_pattern: '^Folge (\d+):'
+  content_type: hoerspiel
+  aliases:
+  - Pettersson & Findus
+  series_facts:
+    known_gaps:
+    - number: 9
+      range_end:
+      reason: Apple Music does not carry episodes 9-16 (2021-2022 TV-series episodes); these episodes are only available on Spotify. Cross-provider availability gap, not a missing episode.
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-02T09:31:40.291911+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-02T09:31:40.291911+00:00'
 - id: die_playmos
   title: Die Playmos
   providers:
@@ -11326,30 +11286,6 @@ series:
       - id: '1886133182'
         episode: 100
         title: 'Folge 100: Der magische Ring - Episode 1'
-      - id: '1886134485'
-        episode: 100
-        title: 'Folge 100: Der magische Ring - Episode 2'
-      - id: '1886137458'
-        episode: 100
-        title: 'Folge 100: Der magische Ring - Episode 3'
-      - id: '1886137627'
-        episode: 100
-        title: 'Folge 100: Der magische Ring - Episode 4'
-      - id: '1886280912'
-        episode: 100
-        title: 'Folge 100: Der magische Ring - Episode 5'
-      - id: '1886673424'
-        episode: 100
-        title: 'Folge 100: Der magische Ring - Episode 6'
-      - id: '1888429198'
-        episode: 100
-        title: 'Folge 100: Der magische Ring - Episode 7'
-      - id: '1891337424'
-        episode: 100
-        title: 'Folge 100: Der magische Ring - Episode 8'
-      - id: '1892312149'
-        episode: 100
-        title: 'Folge 100: Der magische Ring - Episode 9'
       - id: '1523986029'
         title: Im Land der Riesen (Hörspiel)
       - id: '1216140384'
@@ -11360,9 +11296,20 @@ series:
         title: Die Playmos - Das Versteck in der Goldmine
       - id: '1458466092'
         title: Brief von Captain Tolle
-  episode_pattern: '^Folge (\d+):'
+  episode_pattern:
+  - '^Folge (\d+):'
   aliases:
   - Das Original Playmobil Hörspiel
+  series_facts:
+    known_gaps:
+    - number: 70
+      range_end:
+      reason: Cross-provider rotation - Spotify previously had this episode but it was excluded as 'unspecified' during curation. Apple Music has episode 70 (99-track chapterized version). After audit
+        fix (include), episode 70 will be available on both providers.
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-02T09:33:09.486159+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-02T09:33:09.486159+00:00'
 - id: kati_und_azuro
   title: Kati & Azuro
   providers:
@@ -11621,8 +11568,8 @@ series:
         episode: 41
         title: 'Folge 41: Die Macht des Uhus'
   episode_pattern:
-  - ^(\d{2,3})/
   - '^Folge (\d+):'
+  - ^0*(\d+)/
   aliases:
   - Kati und Azuro
 - id: miraculous
@@ -12670,9 +12617,15 @@ series:
       - id: 4oRQ541UL1v7v1qHUFcQL9
         episode: 9
         title: 009/und das magische Schwert
+      - id: 3lDYDRvVd3Ngjr6vdPq7O7
+        episode: 9
+        title: 009/Ein zauberhafter erster Schultag (Erstlesergeschichten)
       - id: 0G3RqtyGOgxi4RV1vu8Wyc
         episode: 10
         title: 010/auf Schloss Dracula
+      - id: 1sKEP8ee2dpRZ5dGgrsGnq
+        episode: 10
+        title: 'Folge 10: Hexe Lilli und der Elfenzauber (Erstlesergeschichten)'
       - id: 6wCQWfFLjfH2Uz5BhwkM94
         episode: 11
         title: 011/auf der Jagd nach dem verlorenen Schatz
@@ -12715,6 +12668,9 @@ series:
       - id: 2F4qbEk1JH1nj4E89882JI
         episode: 24
         title: 'Folge 24: auf magischer Rettungsmission'
+      - id: 4NHm49J138o8iOADgQfLwk
+        episode: 26
+        title: Hexe Lilli und die Zaubernacht im Kindergarten
       - id: 4rRg8Lxw09m5FsCGWid99d
         title: Im wilden Wilden Westen
       - id: 4ghoOGAttLAGG5LHZ2TyJI
@@ -12729,8 +12685,6 @@ series:
         title: Die Reise nach Mandolan
       - id: 1ateqhraMBgvZdaYeMuIok
         title: Und der kleine Eisbär Knöpfchen
-      - id: 4NHm49J138o8iOADgQfLwk
-        title: Hexe Lilli und die Zaubernacht im Kindergarten
       - id: 4fAxKCklCcMxl7LAxBeGDD
         title: Hexe Lilli und der kleine Delfin
       - id: 6K5a3qRU976BpPIEG9mZnb
@@ -12741,6 +12695,10 @@ series:
         title: Hexe Lilli und der verzauberte Goldesel
       - id: 2UFXuzfiqd0cThQRCalzdy
         title: Hexe Lilli rettet Weihnachten - Das Hörspiel zum Kinofilm
+      - id: 3CiZjceqtFe8yc63b4ZmsL
+        title: Hilfe! Die Murze kommen! (Erstlesergeschichten)
+      - id: 1s2fFBRaLCFreCBop1ZUiQ
+        title: Hexe Lilli und der geheimnisvolle Flaschengeist Suki (Erstlesergeschichten)
     apple_music:
       artist_ids:
       - '218659264'
@@ -12778,9 +12736,15 @@ series:
       - id: '1356630401'
         episode: 9
         title: 'Folge 9: und das magische Schwert'
+      - id: '1543172293'
+        episode: 9
+        title: 'Folge 9: Ein zauberhafter erster Schultag (Erstlesergeschichten)'
       - id: '1356629791'
         episode: 10
         title: 010/auf Schloss Dracula
+      - id: '1584634209'
+        episode: 10
+        title: 'Folge 10: Hexe Lilli und der Elfenzauber (Erstlesergeschichten)'
       - id: '1056433966'
         episode: 11
         title: 'Folge 11: und das wilde Indianerabenteuer'
@@ -12832,12 +12796,13 @@ series:
       - id: '1690334161'
         episode: 24
         title: 'Folge 24: Hexe Lilli auf magischer Rettungsmission'
+      - id: '1061923870'
+        episode: 26
+        title: Hexe Lilli und die Zaubernacht im Kindergarten
       - id: '1356622351'
         title: Das Buch des Drachen
       - id: '1061926033'
         title: Hexe Lilli und der kleine Eisbär Knöpfchen
-      - id: '1061923870'
-        title: Hexe Lilli und die Zaubernacht im Kindergarten
       - id: '1055052863'
         title: Hexe Lilli und der kleine Delfin
       - id: '1055054537'
@@ -12846,43 +12811,60 @@ series:
         title: Hexe Lilli und das verzauberte Fußballspiel
       - id: '1055082502'
         title: Hexe Lilli und der verzauberte Goldesel
+      - id: '1465730970'
+        title: Hilfe! Die Murze kommen! (Erstlesergeschichten)
+      - id: '1490107448'
+        title: Hexe Lilli und der geheimnisvolle Flaschengeist Suki (Erstlesergeschichten)
   episode_pattern:
   - ^(\d{3})/
-  - '^(\d{3}):'
   - '^Folge (\d+):'
   series_facts:
     era_boundaries:
-    - label: original
+    - curated_by: minimax-m2.7
+      curated_at: '2026-06-10T18:20:48.585232+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-06-10T18:20:48.585232+00:00'
+      label: original
       release_date_range: 1994-1999
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-06-10T18:20:48.585232+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-06-10T18:20:48.585232+00:00'
-    - label: continuation
+      label: continuation
       release_date_range: 2005-2013
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-06-10T18:20:48.585232+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-06-10T18:20:48.585232+00:00'
-    - label: modern
+      label: modern
       release_date_range: 2018-
-      curated_by: minimax-m2.7
-      curated_at: '2026-06-10T18:20:48.585232+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-10T18:20:48.585232+00:00'
     known_gaps:
     - number: 25
-      reason: Latest numbering shows episodes 25+ exist (e.g., 'wird Prinzessin' as ep 25); current catalog includes 'wird Prinzessin' as ep 19/25 depending on era. Verify canonical numbering.
+      range_end:
+      reason: Episode 25 not found in current catalog. The modern series jumped from episode 24 to episode 26.
       curated_by: minimax-m2.7
-      curated_at: '2026-06-10T18:20:48.585232+00:00'
+      curated_at: '2026-07-02T09:35:06.380479+00:00'
       audited_by: minimax-m2.7
-      audited_at: '2026-06-10T18:20:48.585232+00:00'
+      audited_at: '2026-07-02T09:35:06.380479+00:00'
     - number: 26
-      reason: External sources show episode 26 'die Zaubernacht im Kindergarten' exists; current catalog includes this as unnumbered double episode (2012). Verify canonical episode assignment.
+      range_end:
+      reason: RETRACTED - episode 26 exists as 'Hexe Lilli und die Zaubernacht im Kindergarten' (2012), a standard double-story Hexe Lilli release format containing two stories in one album.
       curated_by: minimax-m2.7
-      curated_at: '2026-06-10T18:20:48.585232+00:00'
+      curated_at: '2026-07-02T09:35:06.380479+00:00'
       audited_by: minimax-m2.7
-      audited_at: '2026-06-10T18:20:48.585232+00:00'
+      audited_at: '2026-07-02T09:35:06.380479+00:00'
+    sub_series:
+    - label: Erstlesergeschichten
+      album_ids:
+      - apple_music:1465730970
+      - apple_music:1490107448
+      - spotify:1s2fFBRaLCFreCBop1ZUiQ
+      - spotify:3CiZjceqtFe8yc63b4ZmsL
+      reason: Beginner reader series with simplified text, launched 2018. Uses 'Erstlesergeschichten' branding. Episodes are numbered 7, 8 (based on publisher info) but not in album title.
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-02T09:35:06.380479+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-02T09:35:06.380479+00:00'
 - id: feuerwehrmann_sam
   title: Feuerwehrmann Sam
   providers:
@@ -15075,16 +15057,9 @@ series:
       - id: 63wIc7PxcTLTlYqCopO709
         episode: 26
         title: 'Folge 26: Zusammengewachsen'
-      - id: 1woE4NCtJqa0DRE9BkxxZP
-        title: 'Kira Kolumna Reportage: Campen ohne Eltern - Freiheit pur?'
-      - id: 4yKoYmOnw7nuhNhqVrI84w
-        title: 'Kira Kolumna Reportage: Playlist an – und ich bin DJ?'
-      - id: 5cgeLp9ZvcjcBfuLSWluBV
-        title: 'Kira Kolumna Reportage: Plötzlich Patchwork – voll das Chaos?'
-      - id: 3qdTJbmfukxTeKk0YZur7H
-        title: 'Kira Kolumna Reportage: Der eigene Roller - endlich unabhängig?'
-      - id: 67zrGxcINeNDhjVJhNSkyh
-        title: 'Kira Kolumna Reportage: Im Tierheim - wer rettet hier wen?'
+      - id: 02ODNhmT6ceInATXBcdr9P
+        episode: 27
+        title: 'Folge 27: Gangsterjagd'
     apple_music:
       artist_ids:
       - '1580082096'
@@ -15170,30 +15145,25 @@ series:
       - id: '1889874170'
         episode: 27
         title: 'Folge 27: Gangsterjagd'
-      - id: '1738254635'
-        title: 'Kira Kolumna Reportage: Kann ein Rummel ein Zuhause sein?'
-      - id: '1738263031'
-        title: 'Kira Kolumna Reportage: Machen Influencer immer Urlaub?'
-      - id: '1751489938'
-        title: 'Kira Kolumna Reportage: Ist die Arche nur für Noah?'
-      - id: '1751486552'
-        title: 'Kira Kolumna Reportage: Sind Schüler gute Schauspieler?'
-      - id: '1764108031'
-        title: 'Kira Kolumna Reportage: Sind Graffitis auch Kunst?'
-      - id: '1778469991'
-        title: 'Kira Kolumna Reportage: Match auf dem Eis - und in echt?'
-      - id: '1790905816'
-        title: 'Kira Kolumna Reportage: Große Story, nichts dahinter?'
-  episode_pattern:
-  - '^Folge (\d+): '
+      - id: '6777077801'
+        episode: 28
+        title: 'Folge 28: Der Praktikums-Fail'
+  episode_pattern: '^Folge (\d+):'
   series_facts:
     known_gaps:
-    - number: 27
-      reason: Missing on Spotify; only present on Apple Music as 'Gangsterjagd' (2026-06-12). May be a future release or platform-specific gap.
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-06-10T18:23:10.262210+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-06-10T18:23:10.262210+00:00'
+      number: 27
+      reason: Missing on Spotify; only present on Apple Music as 'Gangsterjagd' (2026-06-12). May be a future release or platform-specific gap.
+    - number: 28
+      range_end:
+      reason: "Platform-specific gap: Episode 28 exists on Apple Music but not on Spotify. Not an error—Spotify simply hasn't added this release yet."
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-02T09:37:15.805768+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-02T09:37:15.805768+00:00'
 - id: h2o_ploetzlich_meerjungfrau
   title: H2O - Plötzlich Meerjungfrau!
   providers:
@@ -18342,8 +18312,7 @@ series:
         title: Biblische Geschichten
   episode_pattern:
   - ^(\d+)/
-  - '^Folge (\d+):'
-  - '^Folge: (\d+):'
+  - '^Folge:? (\d+):'
   series_facts:
     known_gaps:
     - number: 71
@@ -19835,6 +19804,8 @@ series:
         title: Der Onkel aus der Südsee, Der große Streichewettbewerb, Rollentausch, Der Schatzkistentag (Der kleine Rabe Socke - Hörspiele zur TV Serie 17)
       - id: 14E7VcuVdeHNJrN4qs3ofY
         title: Der kleine Rabe Socke - Suche nach dem verlorenen Schatz
+      - id: 4sisLEShJplT9VQrRelb99
+        title: Alles Freunde! (Der kleine Rabe Socke) [Freundschaftsgeschichten vom kleinen Raben Socke]
     apple_music:
       artist_ids:
       - '726252391'
@@ -19890,27 +19861,53 @@ series:
       - id: '1582032343'
         episode: 17
         title: Der Onkel aus der Südsee, Der große Streichewettbewerb, Rollentausch, Der Schatzkistentag (Der kleine Rabe Socke - Hörspiele zur TV Serie 17)
-  episode_pattern: ^.*Hörspiele zur TV[- ]Serie (\d+)
+      - id: '1741350976'
+        title: Alles Freunde! (Der kleine Rabe Socke) (Freundschaftsgeschichten vom kleinen Raben Socke)
+  episode_pattern:
+  - ^.*\(Der kleine Rabe Socke - Hörspiele zur TV Serie (\d+)\)$
+  - ^.*\[Hörspiele zur TV Serie (\d+)\]$
+  - ^.*\(Hörspiele zur TV-Serie (\d+)\)$
   series_facts:
     era_boundaries:
-    - label: klassik
+    - curated_by: minimax-m2.7
+      curated_at: '2026-05-31T16:21:52.014541+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-05-31T16:21:52.014541+00:00'
+      label: klassik
       release_date_range: 1998-2010
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-05-31T16:21:52.014541+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-05-31T16:21:52.014541+00:00'
-    - label: tv_serie
+      label: tv_serie
       release_date_range: 2016-2018
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-05-31T16:21:52.014541+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-05-31T16:21:52.014541+00:00'
-    - label: neu
+      label: neu
       release_date_range: 2019-
+    known_gaps:
+    - number: 18
+      range_end:
+      reason: Limited Hörspiele catalog release - only episodes 1-17 produced. TV series had 52 episodes total (26 per season), but only first 17 episodes received Hörspiele releases.
       curated_by: minimax-m2.7
-      curated_at: '2026-05-31T16:21:52.014541+00:00'
+      curated_at: '2026-07-02T08:20:57.323783+00:00'
       audited_by: minimax-m2.7
-      audited_at: '2026-05-31T16:21:52.014541+00:00'
+      audited_at: '2026-07-02T08:20:57.323783+00:00'
+    sub_series:
+    - label: film_sub_series
+      album_ids:
+      - spotify:2ISiO0pXLgO7uTdUnEFjMn
+      - spotify:6TDRew6FCdoLc4rmWtkSGs
+      reason: LEONINE Audio film Hörspiele from 2019. Explicit 'Hörspiel zum Film' branding, structurally distinct from TV series episodes (77-80 min, single continuous story). Belongs in a separate 
+        film sub-series entry from the main TV-series catalog.
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-02T09:42:33.475225+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-02T09:42:33.475225+00:00'
+  aliases:
+  - Der Kleine Rabe Socke
 - id: madagascar
   title: Madagascar
   providers:
@@ -20705,8 +20702,8 @@ series:
         episode: 80
         title: '80: Warum haben Hummeln Käsefüße?'
   episode_pattern:
-  - '^(\d+): '
-  - '^Folge (\d+): '
+  - '^(\d+):'
+  - '^Folge (\d+):'
   aliases:
   - Monika Häuschen
 - id: ritter_rost
@@ -21187,9 +21184,29 @@ series:
         episode: 49
         title: 'Folge 49: Fall 97: Die lasche Limonade/Fall 98: Die verknopfte Spur'
   episode_pattern:
-  - ^(\d{3})/
   - '^Folge (\d+):'
-  - ^Fall \d+.*\(Folge (\d+)\)
+  - ^(\d{3})/
+  - \(Folge (\d+)\)$
+  series_facts:
+    era_boundaries:
+    - label: early
+      release_date_range: 2017-2020
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-02T10:00:29.963756+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-02T10:00:29.963756+00:00'
+    - label: transition
+      release_date_range: 2021-2021
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-02T10:00:29.963756+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-02T10:00:29.963756+00:00'
+    - label: modern
+      release_date_range: 2021-
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-02T10:00:29.963756+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-02T10:00:29.963756+00:00'
 - id: michael_ende
   title: Michael Ende
   providers:
@@ -21197,33 +21214,121 @@ series:
       artist_ids:
       - 1VORulhv2aMemo1kSvxdVX
       albums:
+      - id: 3bbFly6zBqFp6Sp5jk2n1V
+        title: Jim Knopf und Lukas der Lokomotivführer
+      - id: 3MpO7ItzjK8ADRMq3q9nmt
+        title: Jim Knopf und die Wilde 13
+      - id: 4KQ7CvGTbdgwBJnxSFjLly
+        title: Momo
+      - id: 7HnjeGFb2qv3Mjg0KP5fEE
+        title: Die unendliche Geschichte - Das Hörspiel
+      - id: 4eTEB1b216vcQjXuBjA6Ph
+        title: Der satanarchäolügenialkohöllische Wunschpunsch - Das Hörspiel
+      - id: 3qWpx1DiKpZcYkedfIa4AI
+        title: Der satanarchäolügenialkohöllische Wunschpunsch - Das WDR-Hörspiel
+      - id: 4SV29ZWSvIrBkByNCZyMxP
+        title: Das Traumfresserchen
       - id: 6iqicOtTGvLXFaMzjIkaRl
         title: Das kleine Lumpenkasperle
       - id: 5TxGfagtpgnubzckeYL1cp
         title: 'Michael Ende: Der Spiegel im Spiegel'
       - id: 0P5PProFj9QrFq7A1SOiz5
         title: Die Zauberschule und andere Geschichten
+      - id: 4iyysgUrEoLyQytonklJXk
+        title: 'Jim Knopf - Hörspiele: Jim Knopf und Lukas der Lokomotivführer - Das Hörspiel'
+      - id: 5MjawExCW8GQ3V1b2mQzch
+        title: 'Jim Knopf - Hörspiele: Jim Knopf und die Wilde 13 - Das Hörspiel'
       - id: 58B517SVoupqnL3LazpOtc
         title: Filemon Faltenreich + Der Lindwurm und der Schmetterling
       - id: 7KbELvtm6SGQIzFgA3h0q2
         title: Norbert Nackendick + Tranquilla Trampeltreu
       - id: 11wArUgNLB4hEeDHzd2t2M
         title: Tranquilla Trampeltreu und weitere Fabeln von Michael Ende (Tranquilla Trampeltreu, Der Lindwurm und der Schmetterling und Norbert Nackendick)
+      - id: 735iwIhG7zQyNE4LSpBAq7
+        title: Jim Knopf findet's raus (Geschichten von Himmelsforschern, Halbdrachen und Flugmaschinen)
+      - id: 4T219OxthZeYAtVEcLtd16
+        title: Das Schnurpsenbuch
       - id: 2WsIzNKGcuYJxvrcgmSv2p
         title: Der Teddy und die Tiere und weitere Geschichten
+      - id: 3uEIZnPLCL7oyzAv1LDLbX
+        title: Das Traumfresserchen / Das kleine Lumpenkasperle
+      - id: 1DdJ8dfyR3tCNKFObDv1EC
+        title: Jim Knopf und Lukas auf großer Reise
+      - id: 2wFuB4iNXrE6FlOkrJAHtq
+        title: Lenchens Geheimnis
+      - id: 1OYQLxTOg3IhOi7gR31QHk
+        title: Jim Knopf und Lukas – Auf zu neuen Ufern
+      - id: 4D3freTvvr9R3IY9ffoPJE
+        title: 'Jim Knopf - Hörspiele: Jim Knopf und Lukas der Lokomotivführer - Das Hörspiel'
+      - id: 1zrUuet13zT0U6zVE4DGeh
+        title: 'Jim Knopf - Hörspiele: Jim Knopf und die Wilde 13 - Das Hörspiel'
+      - id: 5ZSqHZinNuGiEvhRuIpTxi
+        title: Momo - Das Hörspiel
+      - id: 2OJxlcuEHJOtEp0PAMDdeY
+        title: Momo – Das Hörspiel zum Kinofilm (Das Hörspiel zum Film)
     apple_music:
       artist_ids:
       - '1515591006'
       albums:
+      - id: '1686066186'
+        title: Jim Knopf und Lukas der Lokomotivführer
+      - id: '1686043874'
+        title: Jim Knopf und die Wilde 13
+      - id: '1686069382'
+        title: Momo
       - id: '1442686534'
         title: Norbert Nackendick + Tranquilla Trampeltreu
+      - id: '1587881546'
+        title: 'Jim Knopf - Hörspiele: Jim Knopf und Lukas der Lokomotivführer - Das Hörspiel'
+      - id: '1686146867'
+        title: Das Traumfresserchen
+      - id: '1574290551'
+        title: Das Traumfresserchen / Das kleine Lumpenkasperle
       - id: '1686139136'
         title: Das kleine Lumpenkasperle
+      - id: '1587875100'
+        title: 'Jim Knopf - Hörspiele: Jim Knopf und die Wilde 13 - Das Hörspiel'
+      - id: '1672014052'
+        title: 'Jim Knopf - Hörspiele: Jim Knopf und die Wilde 13 - Das Hörspiel'
       - id: '1442407804'
         title: Filemon Faltenreich + Der Lindwurm und der Schmetterling
       - id: '1574290850'
         title: Der Teddy und die Tiere und weitere Geschichten
+      - id: '1704818083'
+        title: Momo - Das Hörspiel
+      - id: '1755749074'
+        title: Der satanarchäolügenialkohöllische Wunschpunsch - Das Hörspiel
+      - id: '1837244852'
+        title: Momo – Das Hörspiel zum Kinofilm (Das Hörspiel zum Film)
   content_type: hoerspiel
+  series_facts:
+    era_boundaries:
+    - label: klassik
+      release_date_range: 1973-1991
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-02T09:44:11.150652+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-02T09:44:11.150652+00:00'
+    - label: silberfisch_reissue
+      release_date_range: 1999-2009
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-02T09:44:11.150652+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-02T09:44:11.150652+00:00'
+    - label: neuauflage
+      release_date_range: 2016-
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-02T09:44:11.150652+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-02T09:44:11.150652+00:00'
+    known_gaps:
+    - number: 1
+      range_end:
+      reason: Original 1973 recording exists only as audiobook (Hörbuch); no Hörspiel production from this era.
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-02T10:02:15.549940+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-02T10:02:15.549940+00:00'
 - id: die_olchis
   title: Die Olchis
   providers:
@@ -21428,6 +21533,30 @@ series:
       - id: '1749249913'
         title: Kung Fu Panda 4 (Das Original-Hörspiel zum Kinofilm)
   content_type: hoerspiel
+  series_facts:
+    era_boundaries:
+    - label: theatrical_tie-in
+      release_date_range: 2008-2016
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-02T10:04:56.303988+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-02T10:04:56.303988+00:00'
+    - label: modern_re-release
+      release_date_range: 2019-2024
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-02T10:04:56.303988+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-02T10:04:56.303988+00:00'
+    sub_series:
+    - label: winter_special
+      album_ids:
+      - '1574311937'
+      - 7oNef7yw3RyZLhYBeNiBkZ
+      reason: Standalone holiday special, not part of the main movie sequel series
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-02T10:04:56.303988+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-02T10:04:56.303988+00:00'
 - id: bobo_siebenschlaefer
   title: Bobo Siebenschläfer
   providers:
@@ -21437,6 +21566,8 @@ series:
       albums:
       - id: 0jg0zXIpovGxlE46IHIOLr
         title: Bobo Siebenschläfer ist wieder da (Geschichten für ganz Kleine mit KlangErlebnissen und Musik)
+      - id: 4Jn5thCSaI4j6nM2d2nGq5
+        title: Bobo Siebenschläfer (Geschichten für ganz Kleine mit KlangErlebnissen und Musik)
       - id: 4HNcJXn6oHWHi3jcqlCI6E
         title: Bobo Siebenschläfer macht munter weiter (Geschichten für ganz Kleine mit KlangErlebnissen und Musik)
       - id: 3LQvO2miZ3MJvQ1A0s2xbf
@@ -23057,9 +23188,118 @@ series:
     spotify:
       artist_ids:
       - 78iNrogmY4Ru7d7PLtwD4b
+      albums:
+      - id: 08aIC0yrgsL7KbawTYYAT7
+        episode: 2
+        title: 02/Das Hörspiel zur TV-Serie
+      - id: 7mdhhDvpdqWJKjT9lYsybh
+        episode: 4
+        title: 04/Das Hörspiel zur TV-Serie
+      - id: 6ujIiSFu9K2ZqptykIDmx1
+        episode: 5
+        title: 05/Das Hörspiel zur TV-Serie
+      - id: 3ZYrlaczw1qMYuXnmL43k5
+        episode: 6
+        title: Vorhang auf für Prinzessin Lillifee
+      - id: 3y9jloTirKL9ZU7wkpOnRn
+        episode: 6
+        title: 06/Das Hörspiel zur TV-Serie
     apple_music:
       artist_ids:
       - '130216498'
+      albums:
+      - id: '1358383237'
+        episode: 1
+        title: 01/Das Hörspiel zur TV-Serie
+      - id: '1358385614'
+        episode: 3
+        title: 03/Das Hörspiel zur TV-Serie
+      - id: '1358394233'
+        episode: 4
+        title: 04/Das Hörspiel zur TV-Serie
+      - id: '1358381387'
+        episode: 5
+        title: 05/Das Hörspiel zur TV-Serie
+      - id: '1358384903'
+        episode: 6
+        title: 06/Das Hörspiel zur TV-Serie
+      - id: '1487805330'
+        episode: 7
+        title: "Folgen 7+8: Das Eisballett/Die goldene Brücke (Gute-'Nacht-Geschichten)"
+      - id: '1581405950'
+        title: Prinzessin Lillifee - Ein Wintermärchen
+      - id: '1472630209'
+        title: Prinzessin Lillifee in der Tierklinik
+      - id: '1358372841'
+        title: Vorhang auf für Prinzessin Lillifee
+      - id: '1358385641'
+        title: Und der Feenball
+      - id: '1358382800'
+        title: Rettet das Einhornparadies
+      - id: '1358388141'
+        title: Und der fliegende Elefant
+      - id: '1421984210'
+        title: Sucht den verlorenen Stern
+      - id: '1499630670'
+        title: Prinzessin Lillifee und die Zaubermuschel
+  episode_pattern:
+  - ^(\d+)/Das Hörspiel zur TV-Serie$
+  - '^Mein zauberhaftes Tierhotel: Folge (\d+)'
+  - '^Folge (\d+) \+ \d+: Mein zauberhaftes Tierhotel$'
+  - ^(?:\d{3}/)?Gute-Nacht-Geschichten\s+[Ff]olge[n]? (\d+).*
+  - ^Folgen? (\d+)[\+\-].*\(Gute[-']Nacht-Geschichten\)$
+  series_facts:
+    known_gaps:
+    - curated_by: minimax-m2.7
+      curated_at: '2026-06-10T18:40:00.083293+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-06-10T18:40:00.083293+00:00'
+      number: 2
+      reason: TV series episode 02 not available on Apple Music; present on Spotify as '02/Das Hörspiel zur TV-Serie'.
+    - number: 8
+      range_end:
+      reason: TV series episode 08 not available on Apple Music; Spotify has '08/Das Hörspiel zur TV-Serie'.
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-02T10:08:04.515114+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-02T10:08:04.515114+00:00'
+    - number: 10
+      range_end:
+      reason: TV series episode 10 not available on Apple Music; Spotify has '10/Das Hörspiel zur TV-Serie'.
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-02T10:08:04.515114+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-02T10:08:04.515114+00:00'
+    - curated_by: minimax-m2.7
+      curated_at: '2026-06-10T18:40:00.083293+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-06-10T18:40:00.083293+00:00'
+      number: 11
+      reason: Gute-Nacht-Geschichten episode 11 not available on Spotify; present on Apple Music as 'Folgen 11+12' double album.
+    - curated_by: minimax-m2.7
+      curated_at: '2026-06-10T18:40:00.083293+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-06-10T18:40:00.083293+00:00'
+      number: 13
+      reason: Gute-Nacht-Geschichten episode 13 not available on Spotify; present on Apple Music as 'Folge 13+14' double album.
+    - curated_by: minimax-m2.7
+      curated_at: '2026-06-10T18:40:00.083293+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-06-10T18:40:00.083293+00:00'
+      number: 15
+      reason: Gute-Nacht-Geschichten episode 15 not available on Spotify; present on Apple Music as 'Folge 15+16' double album.
+    - curated_by: minimax-m2.7
+      curated_at: '2026-06-10T18:40:00.083293+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-06-10T18:40:00.083293+00:00'
+      number: 17
+      reason: Gute-Nacht-Geschichten episode 17 not available on Spotify; present on Apple Music as 'Folgen 17+18' double album.
+    - curated_by: minimax-m2.7
+      curated_at: '2026-06-10T18:40:00.083293+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-06-10T18:40:00.083293+00:00'
+      number: 19
+      reason: Gute-Nacht-Geschichten episode 19 not available on Spotify; present on Apple Music as 'Folge 19+20' double album.
 - id: lucky_luke
   title: Lucky Luke
   providers:
@@ -33498,9 +33738,169 @@ series:
     spotify:
       artist_ids:
       - 2qn4hIXsvRUyFoboMi31XB
+      albums:
+      - id: 7fRHiKDTXZe772cYMPkIaf
+        title: Radio Lollipop
+      - id: 4Nt3B9Pvy7LwfAOKFy8cQO
+        title: Neues von Radio Lollipop (Lieder, die wie Brücken sind)
+      - id: 4cldmq2op9lG0YwfdqkTv8
+        title: Wir warten auf Weihnachten
+      - id: 2iRhk3WF3O2GHGPGKkbP3q
+        title: Was Spaß macht...
+      - id: 3L9WTwVlenGgsZCLagSk5k
+        title: Zeit für Kinder - Zeit für uns
+      - id: 3oB7vNBAGRl0zEEJcHVPWf
+        title: Frag mir doch kein Loch in'n Bauch
+      - id: 7h4CEzgecVSP9JwpFepdx6
+        title: Winterkinder ...auf der Suche nach Weihnachten
+      - id: 0sT2WiLEsIpsHIEXHYcdno
+        title: Starke Kinder
+      - id: 7mHmWhkbgakknf8jMbQy9o
+        title: Das Geheimnis der Oper - Das große Abenteuer Musik - Folge 3
+      - id: 2oZxj8dbEssIgvAbuN9tjd
+        title: Nahaufnahme
+      - id: 3qeiWEKBADWXGc0KvCHZoh
+        title: Ein armes Tier ist das Klavier - Das große Abenteuer Musik - Folge 2
+      - id: 09au3ViAkjIjJA4dEjIJTp
+        title: Rolfs neue Schulweg-Hitparade
+      - id: 2ecEZ0qYMnrR8W2K4ZtxFv
+        title: Dezemberträume
+      - id: 5YDUq3kcfZ8VaAOK61rPO7
+        title: Claras Traum vom Nussknacker und Mäusekönig - Das große Abenteuer Musik - Folge 4
+      - id: 3jOa5x2ON65krbdYaF201a
+        title: Die vier Jahreszeiten des kleinen Bären - Das große Abenteuer Musik - Folge 1
+      - id: 2QbFKs4vPbE7LYV5ubQLs6
+        title: Du brauchst ein Lied
+      - id: 38fU1VW61DMdWabqL8psOZ
+        title: Im Kindergarten
+      - id: 4SIMTfYVduuhrzev72aZR5
+        title: Sing mit uns - Rolfs Vogelhochzeit
+      - id: 01JrN7TzqiE7Vs1JNJ3Mkl
+        title: Rolfs Vogelhochzeit (Das Original in der Urfassung)
+      - id: 0ijBGSXUC6LCpKF0RDbXZE
+        title: Freunde wie wir
+      - id: 34fvEGFsxX9vl6phTn23XS
+        title: Rolfs Liederbüchermaus
+      - id: 2LmMH14BnYYZtJGd7VJbGu
+        title: Stille Nächte - helles Licht
+      - id: 6XE9dU4oy4eTS8LCx4Q5TQ
+        title: Tiere brauchen Freunde
+      - id: 31HUOn29YBC9kJlpaKm5BF
+        title: Tage voller Glücksminuten
+      - id: 0zAswLWCBWrzJjqy07cJmA
+        title: Der kleine Tag
+      - id: 7wMwoa7qToshciBvIMWYoX
+        title: Kinder werden groß
+      - id: 3nYNwdW3Bf6W1CC8P7bA8c
+        title: Rolfs Hasengeschichte
+      - id: 7mJZnWMAHzHpGqaMfXYx7U
+        title: Rot + Grün - Schau mal, hör mal, mach mal mit!
+      - id: 2BoE5JRnuUIYw02JNnvOrK
+        title: '...und ganz doll live!'
+      - id: 3r0nObzCQpX0qmv8wnn00y
+        title: Die bayerische Vogelhochzeit
+      - id: 1UA1gc2chJwHZwkBZtXkhM
+        title: Nobbi und die Sonnenkinder
+      - id: 5hOZsxFiOXO9ZqPCKei3wf
+        title: Heia - Rolfs kleine Nachtmusik
+      - id: 3PJGcfbcK3H3FANJGrm8nY
+        title: Hat alles seine Zeit
+      - id: 5LggEmMa37HjvjXWnFJ67d
+        title: Orchesterspaß für Ohrenspitzer
+      - id: 7fWEgGHHsu029Gpkq9Aqlv
+        title: Das große Abenteuer Musik mit Rolf Zuckowski
+      - id: 60hOaInymmfKbZXFARP70V
+        title: Rolfs Kinderfrühling
+      - id: 0OkVwlzwtpFmexlBkqT09H
+        title: Leben ist mehr
+      - id: 5TCb6pHDGzNKuU0VGYFGi6
+        title: Rolfs Familien-Sommerfest
+      - id: 5VOBTWkOx6AdqqEiVdDkDC
+        title: Mit Kindern singen - Rolfs Gitarrenschule
+      - id: 2GmcoK6qYfjXtxXEYe4LFf
+        title: Sehnsucht nach Weihnachten
+      - id: 55cDtS0CsN9WPskqZ321i7
+        title: Dein kleines Leben
+      - id: 4x5GjyI5mjuNwVTVRm5rF9
+        title: In der Weihnachtsbäckerei
+      - id: 4y0ZKgr9xOkwBbCwI3Wo5b
+        title: leiseStärke
+      - id: 16IzmPeth4GOmsRk7haYQz
+        title: 3 Klassiker für Kinder
+      - id: 4TOQUUWEZeQ9ZNnfFDR0M0
+        title: Schule ist mehr - 14 Lieder für die Grundschulzeit
+      - id: 3ZZ0Bfd3QJAEsqF2MeJaLb
+        title: Rolfs neue Vogelhochzeit
+      - id: 6Ayw2onb8b7M5rMBy8vbgJ
+        title: 'Rolf Zuckowski präsentiert: Reiten ist mehr'
+      - id: 4ThoiOZmkF8ZLIatJDyajl
+        title: Laterne Laufen mit Rolf Zuckowski
+      - id: 7wT87VXTDPC58cBufEOlVo
+        title: Weihnachten und Winter mit Rolf Zuckowski
+      - id: 5jFoc0eAgpmnwnv9wBpv1L
+        title: Karneval & Fasching – Spaßlieder mit Rolf Zuckowski
+      - id: 2YqfxpKgyXpwExidhnHJ1z
+        title: Frühling und Ostern Kinderlieder von Rolf Zuckowski
     apple_music:
       artist_ids:
       - '13498146'
+      albums:
+      - id: '1443270708'
+        title: Zeit für Kinder - Zeit für uns
+      - id: '1442545400'
+        title: Starke Kinder
+      - id: '1442368843'
+        title: Das Geheimnis der Oper - Das große Abenteuer Musik - Folge 3
+      - id: '1443658882'
+        title: Nahaufnahme
+      - id: '1442263441'
+        title: Ein armes Tier ist das Klavier - Das große Abenteuer Musik - Folge 2
+      - id: '1440721056'
+        title: Rolfs Kinderfrühling
+      - id: '1442519033'
+        title: Claras Traum vom Nussknacker und Mäusekönig - Das große Abenteuer Musik - Folge 4
+      - id: '1442683544'
+        title: Die vier Jahreszeiten des kleinen Bären - Das große Abenteuer Musik - Folge 1
+      - id: '1442517751'
+        title: Du brauchst ein Lied
+      - id: '1442544005'
+        title: Freunde wie wir
+      - id: '1442764501'
+        title: Rolfs Liederbüchermaus
+      - id: '1445752625'
+        title: Der kleine Tag
+      - id: '1442770454'
+        title: Dein kleines Leben
+      - id: '1442218538'
+        title: Kinder Werden Groß
+      - id: '1442425031'
+        title: Nobbi und die Sonnenkinder
+      - id: '1442232169'
+        title: Heia - Rolfs kleine Nachtmusik
+      - id: '1442411162'
+        title: Hat alles seine Zeit
+      - id: '1644241659'
+        title: Leben ist mehr
+      - id: '1811631775'
+        title: Mit Kindern singen - Rolfs Gitarrenschule
+      - id: '1442238036'
+        title: LeiseStärke
+      - id: '1442368890'
+        title: 3 Klassiker für Kinder
+      - id: '1442394744'
+        title: Einmal leben (Live / Remastered 2015)
+      - id: '1442645075'
+        title: Rolfs neue Vogelhochzeit
+      - id: '1675281973'
+        title: 'Rolf Zuckowski präsentiert: Reiten ist mehr'
+      - id: '1843665485'
+        title: Laterne Laufen mit Rolf Zuckowski
+      - id: '1853609871'
+        title: Weihnachten und Winter mit Rolf Zuckowski
+      - id: '1859696461'
+        title: Karneval & Fasching – Spaßlieder mit Rolf Zuckowski
+      - id: '1882399507'
+        title: Frühling und Ostern Kinderlieder von Rolf Zuckowski
   content_type: music
 - id: conni
   title: Conni
@@ -35714,9 +36114,233 @@ series:
     spotify:
       artist_ids:
       - 4LDZtk1nfyhIx4bzDDHoBf
+      albums:
+      - id: 51jy8aj88HXi7xlT26mokr
+        title: Volkers Liederwiese
+      - id: 75HvA8lJIVQnhXt0zhAxpK
+        title: Volkers bunte Liederkiste
+      - id: 5Nqdgxz61bxtpETCoQrSmR
+        title: Winterzeit Weihnachtszeit
+      - id: 551go8oDb7nBipn1nx6J90
+        title: Das ist unsere Welt
+      - id: 0F6INiz4Gj6XBq6ArFQYMp
+        title: Vorfahrt für Kinder
+      - id: 0oeo2XmBV2vxp2GktFkUv1
+        title: Mit Spaß und Fantasie
+      - id: 5rfbCBwFt727Bjlz2ZC4pO
+        title: Itzibitz die Liedermaus
+      - id: 3SsQsRf91YqXunSIbDyHQf
+        title: Gummibärchen und Spaghetti
+      - id: 5HGhxRXIhlT3hhfQDgqycV
+        title: Weihnacht im Schnee
+      - id: 3vuw6dxw90ST9tlNLl1oXf
+        title: Der Gorilla mit der Sonnenbrille
+      - id: 6B0qhLVBcwQVY1RhWGGHDC
+        title: WeihnaWeihnachts Träumechts Träume
+      - id: 38I4JBWRrXO5HYk5rYAtyt
+        title: Das singende Känguruh
+      - id: 2Ig2DcjXSNYcCb7VK6oCuP
+        title: Sicher ist Sicher
+      - id: 2YgCMkbWTMbcI3lMZ0v5RS
+        title: Typisch Volker Rosin
+      - id: 0Z7tuVehu5CkWf9dK7WRPB
+        title: Oldies für Kinder
+      - id: 7s12ZIxevpjzGssWRLxvWW
+        title: Das Nilpferd mit dem Dudelsack
+      - id: 3P7nLHXs3QdtdtwqRVmXkX
+        title: Roby und die Piraten
+      - id: 34jYhTS33lMWh9jnALH2wD
+        title: Affenschrille Hitbananen
+      - id: 2Q8czElTs337X1yp2Hs1hG
+        title: Der Frosch im roten Cabrio
+      - id: 1NH3oGHuam4rtIUkxVyMO3
+        title: Roby und das Geheimnis der Magie
+      - id: 5CR8hZVrX8rTT2L2ZgCAb8
+        title: Das Kamel tanzt gern Cha Cha Cha
+      - id: 6BPUbiMCOj0WDsITUEJ89A
+        title: Hallo, kleiner Kuschelbär
+      - id: 1oJXxo8cQXroevXAqOrAhD
+        title: Heut' ist Partytime
+      - id: 23WcTORw3s9VIABw1CLVIp
+        title: The Beatles für Kinder
+      - id: 6MC3GBNto0QTQmHuHNAjQd
+        title: Turnen macht Spaß
+      - id: 630ipLhnfKB792fsCuVUrT
+        title: Hejo Weihnachtsmann
+      - id: 1yUkT5YLGeaabuswsanxMM
+        title: 24 Türchen
+      - id: 0uLfusn9QCffSu5GtZ4KxM
+        title: Hoppelhase Hans
+      - id: 2A6wIe1cUgiyg7kQApcOoB
+        title: Schöne Bescherung
+      - id: 0usnfP6OACQXsJ2HtLFrx1
+        title: Discobär & Hexentanz
+      - id: 750F28vWYz9m50cxSpBQtp
+        title: Affenschrille Hitbananen 2
+      - id: 1tLg5rIm68ro1TWD0Cre4E
+        title: Unglaubliche Geschichten von Milli und Molli
+      - id: 40kaxR72UOThUN0Qp34kuX
+        title: Cinderella - Das Musical!
+      - id: 1QGQir0xgVijQ0srNQuBOw
+        title: Flitze Flattermann
+      - id: 6ZqwJPm9qZquY92PZietKq
+        title: Live!
+      - id: 74LZgF7HQkRQRDrBYikhHV
+        title: Arkadaşlar elele - Lasst uns heute Freunde sein
+      - id: 5qPPUjm7UZn6uqwm0zgnrU
+        title: Jambo Mambo
+      - id: 34PrK0cbxMsYRunUvZ5m9y
+        title: Kinderdisco - Das Original
+      - id: 2I1nnVpaVCWiFJ3cG5rdUu
+        title: Dezember Disco - Die Weihnachtsparty zum Tanzen und Träumen
+      - id: 6k3LaJlVHocXcqrdV6aiHX
+        title: Minidisco International
+      - id: 5Tm70NTILWHVT2Y1iAHNse
+        title: Tanzen macht Spaß
+      - id: 5fyHv95Srub6wiaVac0KkR
+        title: Der Nikolaus will tanzen
+      - id: 5iQe009BChZJiR4Gvw1iOa
+        title: Tierisch in Bewegung
+      - id: 5ziXA04XS51BV1nhjqRWu4
+        title: Turnen macht Spaß 2
+      - id: 51o2sE4r1HQuTPpXf9Tr0z
+        title: Alle Kinder tanzen
+      - id: 2lVtSLJKTiqmbEeLlLSV6W
+        title: Schnuller Disco
+      - id: 5fmCT5pOmaEcdWuAvvnS8a
+        title: Kunterbunte Jahreszeiten
+      - id: 31SYFMw6kTMSeSrgfHi1Ey
+        title: Der blaue Hund will tanzen (Live)
+      - id: 5I1xV9wDPzDHUyN4GwlnH2
+        title: Der blaue Hund will tanzen
+      - id: 6haEyE4IHRrzdi0eerSkWl
+        title: Volle Kraft voraus
+      - id: 06eZoUAMH8lMEpshxRfHj2
+        title: Tanzfieber!
+      - id: 0s2PJDyQ7vhjWBqgQu1ge1
+        title: Das Disco Krokodil
+      - id: 1hs2Yi5Xdc1Ps2KvQQ1BlY
+        title: Das Disco Krokodil - Die Sommer-Edition
+      - id: 0nIkAvX7mu0uLYEkCeapdE
+        title: Tierische Kinderdisco
+      - id: 5XFutBFpGrFRhhqwRfAiY0
+        title: Beatles für Kinder (Remastered 2024)
+      - id: 7keVRV96wJ9iL1vOEzlcJu
+        title: Après Ski Hits für Kids
     apple_music:
       artist_ids:
       - '13431944'
+      albums:
+      - id: '1836549350'
+        title: Volkers Liederwiese
+      - id: '1833639361'
+        title: Volkers bunte Liederkiste
+      - id: '1833598208'
+        title: Winterzeit Weihnachtszeit
+      - id: '1833495636'
+        title: Das ist unsere Welt
+      - id: '1799146698'
+        title: Vorfahrt für Kinder
+      - id: '1442724027'
+        title: Mit Spaß und Fantasie
+      - id: '1833363465'
+        title: Weihnacht im Schnee
+      - id: '1442375140'
+        title: Der Gorilla Mit Der Sonnenbrille
+      - id: '1833468628'
+        title: WeihnaWeihnachts Träumechts Träume
+      - id: '1855528363'
+        title: Typisch Volker Rosin
+      - id: '1442570069'
+        title: Oldies für Kinder
+      - id: '1442401743'
+        title: Gummibärchen und Spaghetti
+      - id: '1442493930'
+        title: Itzibitz Die Liedermaus
+      - id: '1442235831'
+        title: Das Nilpferd Mit Dem Dudelsack
+      - id: '1442724095'
+        title: Tanzen macht Spaß
+      - id: '1442540291'
+        title: Der Frosch im roten Cabrio
+      - id: '1442241198'
+        title: Turnen macht Spaß
+      - id: '1442233759'
+        title: Turnen macht Spaß 2
+      - id: '1703490484'
+        title: Roby und das Geheimnis der Magie
+      - id: '1442240013'
+        title: Discobär & Hexentanz
+      - id: '1442238520'
+        title: Affenschrille Hitbananen
+      - id: '1442439994'
+        title: Beatles für Kinder
+      - id: '1442487437'
+        title: Das Kamel tanzt gern Cha Cha Cha
+      - id: '1442235384'
+        title: Das singende Känguruh
+      - id: '1442354265'
+        title: Hallo, kleiner Kuschelbär
+      - id: '1442489633'
+        title: Heut' Ist Partytime
+      - id: '1442495441'
+        title: Roby Und Die Piraten
+      - id: '1442416630'
+        title: Sicher ist sicher
+      - id: '1442243760'
+        title: 24 Türchen
+      - id: '1442765937'
+        title: Hejo Weihnachtsmann
+      - id: '1442243744'
+        title: Hoppelhase Hans
+      - id: '1442239750'
+        title: Schöne Bescherung
+      - id: '1442377888'
+        title: Affenschrille Hitbananen, Vol. 2
+      - id: '1833522702'
+        title: Unglaubliche Geschichten von Milli und Molli
+      - id: '1443009420'
+        title: Cinderella - Das Musical!
+      - id: '1442562987'
+        title: Flitze Flattermann
+      - id: '1799147077'
+        title: Live!
+      - id: '1833666215'
+        title: Arkadaşlar elele - Lasst uns heute Freunde sein (feat. Belgin Öztekin)
+      - id: '1442627298'
+        title: Kinderdisco - Das Original
+      - id: '1442315444'
+        title: Jambo Mambo
+      - id: '1442555764'
+        title: Dezember Disco - Die Weihnachtsparty zum Tanzen und Träumen
+      - id: '1442610442'
+        title: Minidisco International
+      - id: '1442229537'
+        title: Der Nikolaus will tanzen
+      - id: '1442497743'
+        title: Tierisch in Bewegung
+      - id: '1442540093'
+        title: Alle Kinder tanzen
+      - id: '1570119345'
+        title: Schnuller Disco
+      - id: '1442501158'
+        title: Kunterbunte Jahreszeiten
+      - id: '1832192143'
+        title: Der blaue Hund will tanzen (Live)
+      - id: '1443560772'
+        title: Der blaue Hund will tanzen
+      - id: '1443881215'
+        title: Volle Kraft voraus
+      - id: '1442670679'
+        title: Tanzfieber!
+      - id: '1688642947'
+        title: Das Disco Krokodil - Die Sommer-Edition
+      - id: '1703828565'
+        title: Herbst Kinderdisco mit Volker Rosin
+      - id: '1739630419'
+        title: Tierische Kinderdisco
+      - id: '1871561550'
+        title: Après Ski Hits für Kids
   content_type: music
 - id: kinderlieder_superstar
   title: Kinderlieder-Superstar
@@ -36082,10 +36706,888 @@ series:
     spotify:
       artist_ids:
       - 0HC9OQdqPCCE1WNMetTTmG
+      albums:
+      - id: 3PiBmdRv1lUWT4tK9zf6HH
+        title: Seeräuber Wackelzahn
+      - id: 1wCfuMxe4Tk9oGRkuBZ2Wn
+        title: Augen Ohren Nase
+      - id: 7Ak8K7bFVZUkG6B8zpNPJW
+        title: Gott ist überall
+      - id: 2Iw7dITYv8iz4FbSijOtbk
+        title: Lieder und Geschichten von den kleinen Indianern
+      - id: 4peo2rPTKkjEfEmMgNPbjp
+        title: Mit uns erlebst du was! Spiel- und Tanzlieder für Kindergarten und Grundschule
+      - id: 1XSxfpGxPePcuIk61VX1Qc
+        title: Ritter Kunibert
+      - id: 0AOGm0xYIAdYNLSPPqFrnX
+        title: Wir warten und warten - Lieder für den Advent
+      - id: 3wLDgHVTv5ua5RxybeZiTK
+        title: Der Winter ist da
+      - id: 3CajCu3WHaza2cnb63qfOS
+        title: Der joggende Elefant
+      - id: 1yXO4nHl4lRZeKBnEI7B69
+        title: Es tanzt der Bär
+      - id: 7ClDicsU81GAaFGkku7fN0
+        title: Hand in Hand
+      - id: 4Q4IIXW7yQey4N4VWsinyS
+        title: Husch husch ins Bettchen
+      - id: 3IdVu0QtZ6N6hGbKAtWcEO
+        title: In meiner Bi-Ba-Badewanne
+      - id: 2DIjNEiGJA9PU7ijUPGV2T
+        title: Roh macht froh!-Lieder
+      - id: 3PhXk69WdHYt0WiN5Lp10X
+        title: Zünd die erste Kerze an
+      - id: 5XznXbqZf0toCAejrWp7oq
+        title: Like warm winter sun
+      - id: 2vixaNwk7kIwkrc2mmGxWj
+        title: Gott ist die Liebe
+      - id: 2P2CxJ1WMC4PawlLlf4WXe
+        title: Kulumbubu der Ausserirdische (Alle Mixe UFO Ostern Weihnacht total)
+      - id: 3GlEYW8A7lke4oej9go3I3
+        title: Brenn, Laterne
+      - id: 1znMmDNJ9i8UUBxKqH6Et0
+        title: Hits zu Halloween - 8 frische Halloween-Hits für Kids
+      - id: 0Ils1WDUPh1vblpBpwi3yd
+        title: Viel Glück und viel Segen
+      - id: 1dEl5BwS6tGUb1gtXPdtlN
+        title: 'Krabbel-Hits für Krabbel-Kids: Häng dich an, häng dich an'
+      - id: 2vOqQjsjSe5pXXWORpweQp
+        title: 'Krabbel-Hits für Krabbel-Kids: Mama, Papa & ich'
+      - id: 4w9wsGBgZwrCk658jTv1bN
+        title: 'Krabbel-Hits für Krabbel-Kids: Sonnenlieder'
+      - id: 2WvgbtJ1mam92803FqC6A4
+        title: 'Krabbel-Hits für Krabbel-Kids: Kleiner Löwe, kleiner Tiger'
+      - id: 5SJSWYylhlVK86PdqOLWor
+        title: Ich geh jetzt in die Schule
+      - id: 6IAkK0sCW4QbuQ1w4Id0YW
+        title: Im Piraten-Kindergarten
+      - id: 5EzKZgsDBoKuxoXDortEsc
+        title: Geburtstag, Geburtstag
+      - id: 1pfY5zCMJxGOdVxCpnInPR
+        title: Lieder zur Taufe
+      - id: 46UTuWvp0RmWBdy9LfLMeO
+        title: Zum Gottesdienst willkommen
+      - id: 37ShEivwXFiEo46Q4u1s45
+        title: Früchte Früchte Früchte (25 leckere Lieder rund um Früchte, Kräuter, Nüsse, Gemüse, Bio-Essen, Rohkost, Natur, Tiere und starke Kinder)
+      - id: 6OeaVKMAGyzT0KZK1ioPQY
+        title: Lieder zu Bibel-Geschichten - Jesus, Bartimäus, Zachäus & Co
+      - id: 53db3eBpaApUgZ0g5oirJ4
+        title: Winterzeit in Schule und zu Hause
+      - id: 3g6iW7jzxIntgP8CdhCTXM
+        title: Zwölf Kinder hat das Jahr
+      - id: 7JQXHOAmblWn0NINUZVtid
+        title: Meine Mama ist die Beste!
+      - id: 1VrvqBYG2ixVMHhLN8YX1e
+        title: Engel-Lieder
+      - id: 0l2EEyrhArmjog2ndmv82S
+        title: Lieder des Gottvertrauens
+      - id: 3t8yC3DVG3gUC4hE3LN5Pj
+        title: Lieder zur Erstkommunion
+      - id: 6uv6gD4xXV5tVZTfGm1T8Y
+        title: Lieder zur Firmung und Konfirmation
+      - id: 5raU0fCm4tHlUsFupDEYnd
+        title: Lieder zur Hochzeit
+      - id: 0jubPzItlsfwO4S0SRqIDD
+        title: Matilda und die Kraft der Sonne
+      - id: 3GTmJt67xGvi04OO6y68Ab
+        title: In der Weihnachtsnacht - Krippenspiel
+      - id: 4ZZlsbAcf4i3fDyRFSWioC
+        title: Advents-Lieder (inkl. Lieder der Weihnachtsbäckerei)
+      - id: 4N8iNhUXDJtrLBMfeshJsS
+        title: Kerzen-Lieder im Advent
+      - id: 02TbFmBQERmfpaUw1hKaOe
+        title: Weihnachts-Lieder für die Heilige Nacht
+      - id: 2KLFhBQNGoSpzbwsOVc0gP
+        title: Hexe und Vampir
+      - id: 6JhdnGRb4iODRJ45WeRGwp
+        title: Wenn es schneit, wenn es schneit! - noch mehr Schnee-Lieder (garantiert weihnachts-frei!)
+      - id: 7A0E6gFjAZU8ljxXQoPAtD
+        title: Niko-, Niko-, Nikolaus
+      - id: 4KgQAb2aPoC6EpIjnev9Gh
+        title: Was zu Ostern geschah
+      - id: 6OpyvErdbho5ZTh8rojkgQ
+        title: Kleine Engel
+      - id: 3GfQqwK7fSOBosdmrpmKCg
+        title: Herbst, Halloween & Laterne
+      - id: 0fAXGe5aWS9rXCLJKJasd7
+        title: Turndrache Lotti
+      - id: 0tyqkd7dAFNI83yFnYLCGX
+        title: Zünd die erste Kerze an
+      - id: 44b0KnBUCyq7Y8vqVWa9I2
+        title: Der Sonnenkäferreigen
+      - id: 1xSs0B7ijScLEe9Z3CBtPe
+        title: Bi-Ba-Badewanne
+      - id: 0cgPJyo1Dkqs9DnTq46TIY
+        title: Stark wie ein Baum - Frühling, Natur, Ostern, Walpurgisnacht, Muttertag
+      - id: 5oa4MXsfApLlDIQszqgthw
+        title: Hoch wie ein Flummi - Neue Spiellieder für die Kleinsten (Lieder für Zuhause, Eltern-Kind-Gruppe, Krabbelgruppe & Kindergarten)
+      - id: 6BQXHWzIOZ85Kz4vCRvDkc
+        title: Sommer - Sommer-Hits, Sonnenlieder, heiße Bewegungs- & Mitmachknaller für Kinder
+      - id: 6ty6XlegvU7EmW0dNarB5i
+        title: Os anjos do Advento
+      - id: 3rBjD1GzO8uSxSYAgc8Vdo
+        title: Bi-Ba-Pi-Pa-Naschi - Hand in Hand 4 Kids!
+      - id: 3zogb0Cbz2uSgKomgxAxs4
+        title: Bi-Ba-Badewannen-Hits - 20 Kinderlieder mit Gitarre (Die beliebtesten Kinderlieder)
+      - id: 7kzdp7rBE4Y3hShrIl8szI
+        title: Kinderlieder Für Den Stuhlkreis - 14 Bunte Mitmachsongs Für Jederzeit Und Zwischendurch
+      - id: 1gbTo3rwEyez2Z94Xkot3p
+        title: Kinderlieder Für Den Stuhlkreis - Xxl-Version Mit Allen Liedern
+      - id: 4b7aXRjjFneuQIpUOpPmPb
+        title: Kinderlieder Für Den Stuhlkreis - Zusätzliche Lieder Und Playbacks
+      - id: 5u3bq7by23fDaxsHQkyvnk
+        title: An meiner Schule ist es schön - für besseres Lernen
+      - id: 2CHyTpdJ7O5IG2dwwNDDuZ
+        title: Mein Jahr In Gottes Schöner Welt - 9 Neue Religiöse Lieder
+      - id: 5BgcEyn14Dd0F1VyIfNDEl
+        title: Sommer und Sonne
+      - id: 5n2qYpblR5v5eNp4Qu5yg6
+        title: '24 Lieblingslieder für Krabbelkinder: Zum Mitsingen, Zuhören und Bewegen'
+      - id: 7Mn5ZQU46kZsQBotcmgiuw
+        title: Weiße Flocken überall (Winterlieder aus dem Kindergarten)
+      - id: 1a0NSWD3iVyaAP6ilpH6hr
+        title: Polonäse - Neue Kinderlieder zum ankommen, bewegen, mitmachen, ausruhen und Tschüs sagen
+      - id: 2jFNFc2RYj35JdMIcSQ6a4
+        title: Unsere Lieder aus der Eltern-Kind-Gruppe
+      - id: 5hABqASP9RESoZVBLZhqHO
+        title: Fußball-Lieder für Kinder - 24 bunte Kinderlieder für mehr Bewegung und Miteinander
+      - id: 5lvqht1TAxyhJk3Y8X2ZlP
+        title: Kindertanz – Beweg dich ganz (24 Kindertänze fürs ganze Jahr)
+      - id: 5gmnMjb7pJuZi59OyQcEGP
+        title: Erst kommt der Sonnenkäferpapa - 20 Hits für Spielgruppe, Krippe und Kindergarten
+      - id: 0JlnvT78hhq5KP4lh4nOWr
+        title: Herbst und Erntedank
+      - id: 200DPSMMA2W5p0xqR7vQnZ
+        title: Winter und Schnee
+      - id: 6mel9it777UO7EdQmi37uK
+        title: Danke, danke, danke - Danke-Lieder
+      - id: 7lkaDhPStpaZkmujpacO6W
+        title: Frühling und Ostern
+      - id: 26WyzzouGaMtIEtIFmaeeC
+        title: Das Licht einer Kerze - Die 25 schönsten Weihnachtslieder
+      - id: 1te7oZlqQNO8QDtk12wHpb
+        title: Es schneit, es schneit, es schneit - Viele neue Schnee-Lieder zum Mitsingen, Tanzen und Anhören (25-Lieder-Edition)
+      - id: 2cY3QhFuf3F6nVk9kwNPn3
+        title: Kinderlieder - German Children's Songs & Nursery Rhymes - Kids Songs
+      - id: 4WTubaSdYYMYr4i7MSSXXf
+        title: Lieder für Mama - Die schönsten Kinderlieder zum Muttertag - Kids Songs for a Happy Mother's Day
+      - id: 0JiG2U9VT4uo9oLUCdvktW
+        title: Deutsche Kinderlieder - Simple Kids Songs - German Children's Songs & Nursery Rhymes
+      - id: 24PuWuCA2uREpb7GPD9Doc
+        title: Der Seebär und andere Lieder
+      - id: 2JGQFkPA5ahPQUrlq9Xjbj
+        title: Das Duschlied und andere Lieder
+      - id: 14w2vF8UYBmfNnMz2b7Hzo
+        title: Neue und alte Laternenlieder
+      - id: 3gUzTXZjRx4uaNvOvcV6fH
+        title: Frohe Weihnacht
+      - id: 2TXlaGyrmW8Pwmzj9kbxNv
+        title: Kinderlieder für Kinder
+      - id: 3MYyMcKsDefR3A3UHQwZN4
+        title: Seeräuber Wackelzahn
+      - id: 4KiMGTMubmY1uBLsREcyPL
+        title: Die 30 schönsten Laternenlieder
+      - id: 2sclNWquW4b58fwBYRljpe
+        title: Husch, husch, ins Bettchen - 17 neue Gute Nacht-Lieder
+      - id: 0DuG08uZL00wyTH1b1BMuo
+        title: Weihnachten - Die schönsten neuen Kinderlieder 1
+      - id: 51r56UO8kWBduRgmQPKyAW
+        title: Weihnachten - Die schönsten neuen Kinderlieder 2
+      - id: 6KZbSKH0AeCSJWy2InlWoe
+        title: 'Piraten-Sommer-Party: Sonnige Kinderlieder'
+      - id: 2sK68qV1PCkzACzJBeo1ww
+        title: Meine bunten, fröhlichen Kinderlieder
+      - id: 5I21OulIBgAkqIROlX0h92
+        title: Der Advent ist da - 15 Lieder für die Kerzenzeit
+      - id: 5765Du9j0jWbYAsNZlP3fz
+        title: Weihnachtsfeier und Krippenspiel - 15 Lieder für die Zeit kurz vor Heiligabend
+      - id: 0IGZSBAQCxzUlMUPfbTYth
+        title: Weiße Flocken überall - 15 Lieder für Winter und Schnee
+      - id: 4N4X2rhBvfDga4HY42d3B6
+        title: Der Frühling ist da - 20 schönste Kinderlieder im Frühling
+      - id: 2o35kHlgh3Tnhy6LjGhEWs
+        title: Der Sommer ist da - 20 schönste Kinderlieder im Sommer
+      - id: 7CDX2vDXS5f9DMhssOgpTG
+        title: 'Der Winter ist da: 20 schönste Kinderlieder im Winter'
+      - id: 4DLYovnHp9ChWzgVdUyhCA
+        title: Kinderlieder mit Zahlen und Formen (Von 1 bis 10, Wiegen, Messen, Uhr und Geld)
+      - id: 1AcHqW4oClh2zvcefDgHib
+        title: Laterne, Laterne - Die 10 schönsten Kinderlieder zu Sankt Martin (Laternenlieder zum Mitsingen mit Gesangsversionen und Playbacks)
+      - id: 52Pq4bNSQfmrNuYnNe1wCy
+        title: 'Kinderlieder für den Morgenkreis: 22 fröhliche Mitmachsongs zum Tanzen und Bewegen'
+      - id: 4bHuDcXYMya18i0n67Nkrn
+        title: 'Kinderlieder rund um die Bibel: 28 religiöse Lieder inkl. Erntedank und Vaterunser'
+      - id: 3wAaxbObShCSbKIWv4WWpL
+        title: 'Ich schenk dir einen Stern: 25 Winter- und Weihnachtslieder'
+      - id: 19RiuCSmKGqmFdRaTwytHv
+        title: 'Alle Kinder sind jetzt fit: 22 sportliche Kinderlieder fürs Kinderturnen'
+      - id: 4AGCSLiVkORl023u1ds80G
+        title: 'Willkommen im Kreis: Lieder zum Begrüßen und Verabschieden'
+      - id: 4B3w5F5hwDY6DRQSbhKdOR
+        title: 'Kinderlieder rund um die Bibel, Vol. 2: 28 religiöse Lieder inkl. Tauflied und Liturgie'
+      - id: 2W0uq8gGP9lGE7jLJLA7E7
+        title: Weihnachtslieder mit Maria und Josef (Lieder rund um Jesus Geburt)
+      - id: 4SlrByY5aMd4hCuAKo4AJ8
+        title: 'Bunte Mischung: Kinderlieder für Kindergarten und Schule'
+      - id: 45sWzUEalbMxNqrs8nWIJO
+        title: Si Sa Sommerlieder für Kinder
+      - id: 5DyYfH3hXHteoRNx166rGm
+        title: Hi Ha Herbstlieder für Kinder
+      - id: 5Zv8tXARHaA74vboc4ouRf
+        title: Aus der Raupe wird ein Schmetterling - Fröhlich krabbelige Kinderlieder
+      - id: 5qmynPG5Ef3eBEDwYRYQzu
+        title: Li La Laternenlieder für Kinder - Kinderlieder
+      - id: 49Km3EwyQ8vISgwVMcMek4
+        title: Die Herbstzeit in der Kita - Herbst mit Kindern
+      - id: 7wjvwwfeubzC1ok1wqXFNq
+        title: 'Laterne, Laterne, ich gehe Laterne: 22 zauberhafte Laternenlieder'
+      - id: 6suEasetOMUGVij7NnoVEf
+        title: Komm, wir geh'n Laterne (Die ultimative Liedersammlung zu St. Martin)
+      - id: 6o11457W01M4VTiZHm4xUy
+        title: Kürbis, Kürbis, schau mich an (Kürbislieder, Herbstsongs & Halloweenhits)
+      - id: 5k36u2ADELpII5YS5QVqqp
+        title: Spiel Weihnachtslieder!
+      - id: 3CibsK6TZ9C56Kry5mnZxh
+        title: Spiel Kinderlieder!
+      - id: 7cQ6OjxLt3uexHYKVbzpVH
+        title: Indianerlieder - Kinderlieder für kleine Indianer
+      - id: 1XUtr6lGCde7zYQ9Z8YKaW
+        title: Spiel Osterlieder!
+      - id: 3rl8IAfGLuyS3AC13RhF23
+        title: Ich hab dich lieb - Kinderlieder für mein Baby und mich
+      - id: 01Ma0ckANt5734xPf40Z2G
+        title: 'Bibelgeschichten in der Kita: Biblische Lieder für Kinder'
+      - id: 1N45xx2toAVIxdJ9pdBydU
+        title: Gute Laune Kinderlieder
+      - id: 26pmAzPIO2fcZQ3VrwYfOa
+        title: Unsere 33 schönsten Kinderlieder Hits
+      - id: 2s9o8epXtiybLDxqi1OmTC
+        title: Zahlenlieder für die Kita
+      - id: 4XVQmih7xlEcBCnJ4CVr1W
+        title: 'Kindertanz: Jetzt geht es los! (22 Kindertänze fürs ganze Jahr)'
+      - id: 6NWAoKghkOcAYtNKZGNxru
+        title: Endlich Laternenzeit - Sankt Martin Kinderlieder
+      - id: 7yOixLaZPNRSIJdisqrJVJ
+        title: Laterne laufen ist schön
+      - id: 7gvVsQg4FfewJ4AvZ12WbE
+        title: Weihnachtslieder und Mandarinen
+      - id: 0cNxnuoQoBeCAqhD5TKVda
+        title: Weihnachten ist immer schön
+      - id: 3MxA0NhtVc15KnTNV7s82f
+        title: Sieh, wie die Kerze leuchtet (Weihnachtslieder)
+      - id: 1dHeSrktx5uNjRzqOIHRPE
+        title: Gemütliche Weihnachtszeit mit Gurke
+      - id: 17C0l5t9nAUsqSDtuIon8f
+        title: Weihnachten daheim 2020 - bleibt gesund!
+      - id: 4UQtC3KP5D1tCn7l1o3V3A
+        title: Meine Winterlieder
+      - id: 2bMnKUcOvYWaXHw989ELXi
+        title: 'Indianer, Ritter und Piraten: Themenlieder für die Faschingsparty oder Projekte mit Kindern'
+      - id: 7wPthRQG9q4jk7sUW9kxTd
+        title: Meine Faschingslieder
+      - id: 2Pqk8HPPmIZROSVWD9FDhf
+        title: Meine Frühlingslieder
+      - id: 0muO3gFFHGdMUXPzPKz2cU
+        title: Gute-Laune-Lieder
+      - id: 1isCo1ljMZKa7L63B4rUsn
+        title: Frühlingslieder Kinderlieder
+      - id: 4D5aHSsebM53Ohc9O9xY9X
+        title: Spiel mal mit dem Becher und zwar ganz genau im Takt (Becher-Song)
+      - id: 6c8t8LZ24I326jhOqq64xW
+        title: Ein Männlein steht im Walde - Neue und alte Kinderlieder
+      - id: 7cS8rXfsX9NMsVTAkGS2fe
+        title: 15 tolle Kinderlieder zum Spielen, Toben und Ausruhen
+      - id: 79v5RzhvqI7haH7bdDaH4w
+        title: Meine Sommerlieder
+      - id: 0ltbLJBK3TF84AHA5q2T9X
+        title: Kinderlieder - German Children's Songs & Nursery Rhymes - Lullabies
+      - id: 4aHZarrdc8q8G8fcv5etD5
+        title: Kinderlieder - German Children's Songs & Nursery Rhymes - Summer Songs
+      - id: 4I9FlWr1hXPVsXp8f6CAuO
+        title: Kinderlieder - German Children's Songs & Nursery Rhymes - Kids Songs, Vol. 2
+      - id: 7MN4eZpfsqnfv2cCb8JxVQ
+        title: Und jetzt geht's los! (Wir singen und bewegen uns)
+      - id: 1OPgBswcIhiZ2z5IYp2xji
+        title: 5 Volkslieder
+      - id: 6czBrnXF3MCam6lajtJgNp
+        title: Kinderlieder - German Children's Songs & Nursery Rhymes - Autumn Songs
+      - id: 6ksGaFoWjgdJRzGaT6LLlX
+        title: Ihr Blätter, wollt ihr tanzen?
+      - id: 7Gd4lPduQ6N1fvHEU4OdfG
+        title: Meine Herbstlieder
+      - id: 72Brm1kh3nKMqutCXFF39j
+        title: Bunt sind meine Herbstlieder
+      - id: 28gpM6iLO31ocosV12A33p
+        title: Willkommen in der Kita - Kinderlieder für jeden Tag
+      - id: 2gXREZIeyMf4DR3Br1M0I8
+        title: Meine Weihnachtslieder
+      - id: 6Z7uBNu6ESdUMPoTWUxakt
+        title: Das kleine Weihnachtsalbum
+      - id: 533v9GZNQvUjvT8i4KFI3W
+        title: Wie im Himmel, so auf Erden
+      - id: 3YHscX4E9H1e97cPVhYYQo
+        title: Die Gedanken, sie sind frei, frei, frei - Songs, Volkslieder & Lagerfeuerhits
+      - id: 4DZ7KSsp1pD1DyZBDHUmK6
+        title: Winterlieder für Kinder
+      - id: 2vGeiZ2yZSpqOv4RTWktYI
+        title: Zähl mit uns die Jahreskinder (30 Kinderlieder durch die Jahreszeiten)
+      - id: 2qt8TIgd5eMznMDIKdb8Y1
+        title: Willkommen im Kita-Frühling - Komm, wir begrüßen den Frühling
+      - id: 2LMcxFoNIQtR7UFt9cYsOY
+        title: Frühling, du bist da
+      - id: 4svVe3AOMEAxszmoozI6pN
+        title: Finger und Hände - Mit Kinderliedern lernen (22 Kinderlieder zum Mitsingen & Mitmachen)
+      - id: 6Z3mjuYLSEu5vLtIUd8llQ
+        title: Unser Volksliederalbum - 30 bekannte und weniger bekannte Volkslieder
+      - id: 4CQZ5caGpFM70Copnd2qng
+        title: Kinderlieder - German Children's Songs & Nursery Rhymes - Spring Songs
+      - id: 1gjsAYNSPFAbWWPHQob4JM
+        title: Kinderlieder - German Children's Songs & Nursery Rhymes - Christmas Songs
+      - id: 1hOriL0OWafga9xpragBYY
+        title: Kinderlieder - German Children's Songs & Nursery Rhymes - Winter Songs
+      - id: 3HQenfHIfsonqsizkvTPgz
+        title: Turnhits für Kids - 20 Kinderturnlieder
+      - id: 5i1zqWJQVHXDUNh551vRkY
+        title: Endlich gibt es Sonnenschein - Sommerlieder
+      - id: 0veMuISz1yxPBBQzjwH4Id
+        title: Martin, Martin, Martinsmann - 25 Herbstlieder und Laternenlieder zu St. Martin
+      - id: 4h8tMLsF4ebE5I8uB0nQn8
+        title: Eine Muh, eine Mäh, eine Täterätätä (Der Weihnachtsmann kommt)
+      - id: 64z9c67mXGfFjQoJKqRdR9
+        title: Winterlied - Weihnachten im Märchenwald
+      - id: 3pEIUmkvZNhoQZkAWYjZbY
+        title: Ich wünsche dir einen Engel - Zauberhafte Lieder in verzauberter Zeit
+      - id: 13KVOGVOGaFbBmo6gIC0B0
+        title: Heute ist ein guter Tag
+      - id: 7yBJOamhaxp8VvED8PXgmw
+        title: Zwei kleine Fische - Das fröhliche Kinderlied für Babys & Kleinkinder
+      - id: 6MOiCCreEkv99jlEm7uI5u
+        title: Kinderlieder - 20 fröhliche Kinderlieder mit Gitarre
+      - id: 2SjSphzitXUkKd5JSx7CDx
+        title: Hallo liebes Christkind (Die Wunschsterne)
+      - id: 3175kfiZeYi96D4pDSsFl6
+        title: Ihr seid meine Sonne
+      - id: 5oCFn1d4sc1rmMS0ycy4iD
+        title: Hund, Katze, Maus - Kinderlieder für Babys und Kleinkinder
+      - id: 7oKzMh5l642U0ZSkyIwNRT
+        title: Kleine Begrüßungsliedchen
+      - id: 5UZIRt3cYfuygFvJ1KM5x1
+        title: Kleine Mi Ma Maus
+      - id: 2ZykXdSUXwOJgLIrkKhmBY
+        title: Die Giraffe und der Wolf (GFK-Lied)
+      - id: 6ATzERlIEbLecEi3M72oso
+        title: Marienkäferlein
+      - id: 5CATqR0bHHopHHpes5iNGK
+        title: Erdbeer-Song (Erdbeer'n, Erdbeer'n lieb ich sehr)
+      - id: 3wNBKQA9PJRdtKN0mFRHn2
+        title: Erntelied - Obst und Gemüse (Pick a bale of cotton)
+      - id: 7sZRyqHAua3e4dYyPm0AGA
+        title: Tra ri ra, der Sommer, der ist da
+      - id: 5nicZR2S4qoqGCF23ae7rs
+        title: Das Sommerfest Lied
+      - id: 7x0t04spNvSBCH0XvNZzqJ
+        title: Hey, die Sonne lacht mir zu
+      - id: 3SStbSA98MYPj2yUqEq0n6
+        title: Die Flüsse, sie fließen (The river is flowing)
+      - id: 2GtnJLWnfo2xl0GkjcSOLP
+        title: Tiny mini mouse - Kleine Mi Ma Maus
+      - id: 3SbFcVwVCr9SIMNNG80oyP
+        title: Minicik farecik - Kleine Mi Ma Maus
+      - id: 5nW24R1U9ZokVuDTCLDSds
+        title: Topolino mio - Kleine Mi Ma Maus
+      - id: 3z15sdnPJw9cpk7StTzxrX
+        title: Lieve kleine muis - Kleine Mi Ma Maus
+      - id: 70zBRcy6zYVqciwK7yDhHf
+        title: Pequeño raton - Kleine Mi Ma Maus
+      - id: 1OxJ7zfJCcWL3KexOC5NVH
+        title: Herbst, du bist da
+      - id: 1UKtvvIUSSYVlaaTU1abKt
+        title: Der Wind - Kleines Windlied
+      - id: 3c5Pqr9czibwLn1dhTqaK2
+        title: Schau, der Herbst ist da & Der Blättertanz
+      - id: 4FlcFrr5ONzL26vK04OQDA
+        title: Laterne, Laterne, leuchte durch die Nacht
+      - id: 1rdaF7ppns4a1ebTYxupqW
+        title: Ich liebe alle Sterne (Laternenlied)
+      - id: 2DipdLTVG67ctbiYmzJYcm
+        title: Tri-Tra-Trommelzeit (Das Trommellied)
+      - id: 1LpNhvmudupnOSnVL73JMp
+        title: Das Tücherlied (Einkaufslied mit Farben)
+      - id: 0Oeps4k15t2ASPfqy6HEyV
+        title: Wir machen heute Nussmusik - 4 neue Weihnachtslieder für Kinder
+      - id: 2BFhaG1cKl2bMDkeX4WitC
+        title: Komm, sing mir nach durchs ganze Jahr
     apple_music:
       artist_ids:
       - '182493885'
+      albums:
+      - id: '375804931'
+        title: Gott Ist Überall
+      - id: '375805923'
+        title: Ritter Kunibert
+      - id: '1536003110'
+        title: Seeräuber Wackelzahn
+      - id: '375813512'
+        title: Der Joggende Elefant
+      - id: '375811044'
+        title: Der Winter Ist Da
+      - id: '375810445'
+        title: Es Tanzt Der Bär
+      - id: '375811537'
+        title: Hand In Hand
+      - id: '375809672'
+        title: Husch Husch Ins Bettchen
+      - id: '375812389'
+        title: In Meiner Bi-Ba-Badewanne
+      - id: '375813060'
+        title: Roh Macht Froh!-Lieder
+      - id: '375813486'
+        title: Zünd Die Erste Kerze An
+      - id: '375816356'
+        title: Like Warm Winter Sun
+      - id: '375818290'
+        title: Gott Ist Die Liebe
+      - id: '376204031'
+        title: Kulumbubu Der Ausserirdische (Alle Mixe UFO Ostern Weihnacht Total)
+      - id: '272153123'
+        title: Es schneit, es schneit, es schneit - EP
+      - id: '1540157154'
+        title: Brenn, Laterne
+      - id: '375887965'
+        title: Hits zu Halloween - 8 frische Halloween-Hits für Kids
+      - id: '375888317'
+        title: Viel Glück Und Viel Segen
+      - id: '277586057'
+        title: 'Krabbel-Hits Für Krabbel-Kids: Mama, Papa & Ich'
+      - id: '279202704'
+        title: 'Krabbel-Hits für Krabbel-Kids: Häng Dich an, häng dich an'
+      - id: '375892818'
+        title: 'Krabbel-Hits Für Krabbel-Kids: Kleiner Löwe, Kleiner Tiger'
+      - id: '279204886'
+        title: Ich geh' jetzt in die Schule
+      - id: '1539619872'
+        title: Im Piraten-Kindergarten - EP
+      - id: '284828317'
+        title: Geburtstag, Geburtstag
+      - id: '1536957227'
+        title: Lieder zur Taufe
+      - id: '292133794'
+        title: Zum Gottesdienst Willkommen
+      - id: '6770584893'
+        title: Früchte Früchte Früchte (25 leckere Lieder rund um Früchte, Kräuter, Nüsse, Gemüse, Bio-Essen, Rohkost, Natur, Tiere und starke Kinder)
+      - id: '1538483512'
+        title: Lieder zu Bibel-Geschichten - Jesus, Bartimäus, Zachäus & Co
+      - id: '358741592'
+        title: Winterzeit in Schule und zu Hause
+      - id: '375897250'
+        title: Zwölf Kinder Hat Das Jahr
+      - id: '306981789'
+        title: Der Osterhase kommt! - Lieder zu Ostern - EP
+      - id: '1540158786'
+        title: Meine Mama ist die Beste! - EP
+      - id: '320524704'
+        title: Engel-Lieder
+      - id: '320523973'
+        title: Lieder Des Gottvertrauens
+      - id: '320524717'
+        title: Lieder Zur Firmung Und Konfirmation
+      - id: '320524681'
+        title: Lieder Zur Hochzeit
+      - id: '1541913674'
+        title: Lieder zur Erstkommunion
+      - id: '320522292'
+        title: Matilda Und Die Kraft Der Sonne
+      - id: '375896667'
+        title: In Der Weihnachtsnacht - Krippenspiel
+      - id: '375897284'
+        title: Advents-Lieder (inkl. Lieder Der Weihnachtsbäckerei)
+      - id: '375897654'
+        title: Kerzen-Lieder Im Advent
+      - id: '375897225'
+        title: Weihnachts-Lieder Für Die Heilige Nacht
+      - id: '1539928062'
+        title: Hexe und Vampir
+      - id: '352312390'
+        title: Wenn Es Schneit, Wenn Es Schneit! - Noch Mehr Schnee-Lieder (garantiert Weihnachts-frei!)
+      - id: '375896991'
+        title: Niko-, Niko-, Nikolaus
+      - id: '375897068'
+        title: Was Zu Ostern Geschah
+      - id: '375570773'
+        title: Kleine Engel
+      - id: '1536956841'
+        title: Herbst, Halloween & Laterne
+      - id: '396433257'
+        title: Turndrache Lotti
+      - id: '404381753'
+        title: Zünd die erste Kerze an
+      - id: '405847520'
+        title: Der Sonnenkäferreigen
+      - id: '1540925382'
+        title: Bi-Ba-Badewanne
+      - id: '1537156785'
+        title: Stark wie ein Baum - Frühling, Natur, Ostern, Walpurgisnacht, Muttertag
+      - id: '6769112884'
+        title: Hoch wie ein Flummi - Neue Spiellieder für die Kleinsten (Lieder für Zuhause, Eltern-Kind-Gruppe, Krabbelgruppe & Kindergarten)
+      - id: '1539621658'
+        title: 'Sommer: Sommer-Hits, Sonnenlieder, heiße Bewegungs- & Mitmachknaller für Kinder'
+      - id: '484503563'
+        title: Oma erzählt …
+      - id: '563605366'
+        title: Os Anjos do Advento
+      - id: '575568591'
+        title: Bi-Ba-Pi-Pa-Naschi - Hand in Hand 4 Kids!
+      - id: '595771883'
+        title: Bi-Ba-Badewannen-Hits - 20 Kinderlieder mit Gitarre (Die beliebtesten Kinderlieder)
+      - id: '596047529'
+        title: Kinderlieder Für Den Stuhlkreis - 14 Bunte Mitmachsongs Für Jederzeit Und Zwischendurch
+      - id: '596243502'
+        title: Kinderlieder Für Den Stuhlkreis - Xxl-Version Mit Allen Liedern
+      - id: '596050116'
+        title: Kinderlieder Für Den Stuhlkreis - Zusätzliche Lieder Und Playbacks
+      - id: '601295094'
+        title: An meiner Schule ist es schön - für besseres Lernen
+      - id: '604818580'
+        title: Mein Jahr In Gottes Schöner Welt - 9 Neue Religiöse Lieder
+      - id: '673089045'
+        title: Sommer und Sonne
+      - id: '712161934'
+        title: 'Best of neue Kinderlieder: 50 Winterlieder & Weihnachtslieder'
+      - id: '712420327'
+        title: Best of Neue Kinderlieder - 20 Laterne Nikolaus Advent
+      - id: '722884752'
+        title: 'Best of neue Kinderlieder: 20 Frühling Ostern Muttertag'
+      - id: '768059641'
+        title: Weiße Flocken überall (Winterlieder aus dem Kindergarten)
+      - id: '781469165'
+        title: Unsere Lieder aus der Eltern-Kind-Gruppe
+      - id: '813710354'
+        title: Fußball-Lieder für Kinder - 24 bunte Kinderlieder für mehr Bewegung und Miteinander
+      - id: '868188158'
+        title: Erst kommt der Sonnenkäferpapa - 20 Hits für Spielgruppe, Krippe und Kindergarten
+      - id: '918034034'
+        title: Herbst und Erntedank
+      - id: '919585788'
+        title: Winter und Schnee
+      - id: '923292116'
+        title: Danke, danke, danke - Danke-Lieder
+      - id: '920055946'
+        title: Frühling und Ostern
+      - id: '932860635'
+        title: Das Licht einer Kerze (Die 25 schönsten Weihnachtslieder)
+      - id: '971168228'
+        title: Kinderlieder - Kids Songs (German Children's Songs & Nursery Rhymes )
+      - id: '986386337'
+        title: Lieder für Mama - Die schönsten Kinderlieder zum Muttertag - Kids Songs for a Happy Mother's Day
+      - id: '987401774'
+        title: Deutsche Kinderlieder - Simple Kids Songs - German Children's Songs & Nursery Rhymes
+      - id: '988426988'
+        title: Neue Deutsche Kinderlieder - 20 New German Children's Favourite Songs & Nursery Rhymes for Kids (To Learn on Guitar)
+      - id: '1003257228'
+        title: Der Seebär und andere Lieder
+      - id: '1003254454'
+        title: Das Duschlied und andere Lieder
+      - id: '1003256613'
+        title: Neue und alte Laternenlieder - EP
+      - id: '1012433931'
+        title: Frohe Weihnacht
+      - id: '1022769708'
+        title: Kinderlieder für Kinder
+      - id: '1023345530'
+        title: 'Durch die Straßen auf und nieder: Viele schöne Herbst- und Laternenlieder'
+      - id: '1035660838'
+        title: Die 30 schönsten Laternenlieder
+      - id: '1035658834'
+        title: Husch, husch, ins Bettchen - 17 neue Gute Nacht-Lieder
+      - id: '1059315578'
+        title: Weihnachten - Die schönsten neuen Kinderlieder 1
+      - id: '1059374545'
+        title: 'Weihnachten: Die schönsten neuen Kinderlieder 2'
+      - id: '1077390037'
+        title: 'Piraten-Sommer-Party: Sonnige Kinderlieder'
+      - id: '1123957674'
+        title: Meine bunten, fröhlichen Kinderlieder
+      - id: '1174295651'
+        title: Der Advent ist da - 15 Lieder für die Kerzenzeit
+      - id: '1174294939'
+        title: Weihnachtsfeier und Krippenspiel - 15 Lieder für die Zeit kurz vor Heiligabend
+      - id: '1174294466'
+        title: Weiße Flocken überall - 15 Lieder für Winter und Schnee
+      - id: '1200498263'
+        title: Der Frühling ist da - 20 schönste Kinderlieder im Frühling
+      - id: '1243407050'
+        title: Der Sommer ist da - 20 schönste Kinderlieder im Sommer
+      - id: '1261364001'
+        title: 'Die Herbstzeit ist da: 20 schönste Kinderlieder im Herbst'
+      - id: '1280442310'
+        title: 'Der Winter ist da: 20 schönste Kinderlieder im Winter'
+      - id: '1373434395'
+        title: Laterne, Laterne - Die 10 schönsten Kinderlieder zu Sankt Martin (Laternenlieder zum Mitsingen mit Gesangsversionen und Playbacks)
+      - id: '1377650955'
+        title: 'Kinderlieder für den Morgenkreis: 22 fröhliche Mitmachsongs zum Tanzen und Bewegen'
+      - id: '1413290380'
+        title: 'Kinderlieder rund um die Bibel: 28 religiöse Lieder inkl. Erntedank und Vaterunser'
+      - id: '1437371150'
+        title: 'Ich schenk dir einen Stern: 25 Winter- und Weihnachtslieder'
+      - id: '1438741584'
+        title: 'Alle Kinder sind jetzt fit: 22 sportliche Kinderlieder fürs Kinderturnen'
+      - id: '1438739458'
+        title: 'Willkommen im Kreis: Lieder zum Begrüßen und Verabschieden'
+      - id: '1440153509'
+        title: 'Kinderlieder rund um die Bibel, Vol. 2: 28 religiöse Lieder inkl. Tauflied und Liturgie'
+      - id: '1440475145'
+        title: Weihnachtslieder mit Maria und Josef (Lieder rund um Jesus Geburt)
+      - id: '1453518225'
+        title: 'Bunte Mischung: Kinderlieder für Kindergarten und Schule'
+      - id: '1465918588'
+        title: Si Sa Sommerlieder für Kinder
+      - id: '1467333069'
+        title: Hi Ha Herbstlieder für Kinder
+      - id: '1469244054'
+        title: 'Aus der Raupe wird ein Schmetterling: Fröhlich krabbelige Kinderlieder'
+      - id: '1476278987'
+        title: Die Herbstzeit in der Kita - Herbst mit Kindern
+      - id: '1477336474'
+        title: 'Laterne, Laterne, ich gehe Laterne: 22 zauberhafte Laternenlieder'
+      - id: '1482119664'
+        title: Komm, wir geh'n Laterne (Die ultimative Liedersammlung zu St. Martin)
+      - id: '1482120402'
+        title: Kürbis, Kürbis, schau mich an (Kürbislieder, Herbstsongs & Halloweenhits)
+      - id: '1488639537'
+        title: Spiel Weihnachtslieder!
+      - id: '1489707709'
+        title: Spiel Kinderlieder!
+      - id: '1495794847'
+        title: Indianerlieder - Kinderlieder für kleine Indianer
+      - id: '1496145514'
+        title: Spiel Osterlieder!
+      - id: '1503514283'
+        title: 'Ich hab dich lieb: Kinderlieder für mein Baby und mich'
+      - id: '1523277255'
+        title: 'Bibelgeschichten in der Kita: Biblische Lieder für Kinder'
+      - id: '1523866109'
+        title: Gute Laune Kinderlieder
+      - id: '1527435266'
+        title: Unsere 33 schönsten Kinderlieder Hits
+      - id: '1527409951'
+        title: Zahlenlieder für die Kita
+      - id: '1530934733'
+        title: 'Kindertanz: Jetzt geht es los! (22 Kindertänze fürs ganze Jahr)'
+      - id: '1533804140'
+        title: Endlich Laternenzeit - Sankt Martin Kinderlieder
+      - id: '1534866378'
+        title: Laterne laufen ist schön
+      - id: '1542198809'
+        title: Weihnachtslieder und Mandarinen
+      - id: '1543148403'
+        title: Sieh, wie die Kerze leuchtet (Weihnachtslieder)
+      - id: '1543672150'
+        title: Gemütliche Weihnachtszeit mit Gurke
+      - id: '1544976799'
+        title: Weihnachten daheim 2020 - bleibt gesund!
+      - id: '1551162923'
+        title: Meine Winterlieder
+      - id: '1553783460'
+        title: Meine Faschingslieder
+      - id: '1556452526'
+        title: Meine Frühlingslieder
+      - id: '1557639922'
+        title: Gute-Laune-Lieder
+      - id: '1559590531'
+        title: Frühlingslieder Kinderlieder
+      - id: '1564282488'
+        title: Spiel mal mit dem Becher und zwar ganz genau im Takt (Becher-Song)
+      - id: '1566877082'
+        title: Ein Männlein steht im Walde - Neue und alte Kinderlieder
+      - id: '1572416388'
+        title: 15 tolle Kinderlieder zum Spielen, Toben und Ausruhen
+      - id: '1573391438'
+        title: Meine Sommerlieder
+      - id: '1576185441'
+        title: Kinderlieder - German Children's Songs & Nursery Rhymes - Lullabies
+      - id: '1576491430'
+        title: Kinderlieder - German Children's Songs & Nursery Rhymes - Summer Songs
+      - id: '1579027322'
+        title: Kinderlieder - German Children's Songs & Nursery Rhymes - Kids Songs, Vol. 2
+      - id: '1580897027'
+        title: Und jetzt geht's los! (Wir singen und bewegen uns)
+      - id: '1581774782'
+        title: 5 Volkslieder - EP
+      - id: '1576682840'
+        title: Kinderlieder - German Children's Songs & Nursery Rhymes - Autumn Songs
+      - id: '1582807738'
+        title: Ihr Blätter, wollt ihr tanzen?
+      - id: '1585952405'
+        title: Meine Herbstlieder
+      - id: '1589251522'
+        title: Bunt sind meine Herbstlieder
+      - id: '1591927635'
+        title: Willkommen in der Kita - Kinderlieder für jeden Tag
+      - id: '1596753340'
+        title: Meine Weihnachtslieder
+      - id: '1598694876'
+        title: Das kleine Weihnachtsalbum
+      - id: '1599039608'
+        title: Wie im Himmel, so auf Erden
+      - id: '1598891310'
+        title: Die Gedanken, sie sind frei, frei, frei - Songs, Volkslieder & Lagerfeuerhits
+      - id: '1600072548'
+        title: Winterlieder für Kinder
+      - id: '1607997056'
+        title: Zähl mit uns die Jahreskinder (30 Kinderlieder durch die Jahreszeiten)
+      - id: '1615708499'
+        title: Willkommen im Kita-Frühling - Komm, wir begrüßen den Frühling
+      - id: '1615250342'
+        title: Frühling, du bist da
+      - id: '1622595787'
+        title: Finger und Hände - Mit Kinderliedern lernen (22 Kinderlieder zum Mitsingen & Mitmachen)
+      - id: '1624909052'
+        title: Unser Volksliederalbum - 30 bekannte und weniger bekannte Volkslieder
+      - id: '1626859488'
+        title: Kinderlieder - German Children's Songs & Nursery Rhymes - Spring Songs
+      - id: '1627239391'
+        title: Kinderlieder - German Children's Songs & Nursery Rhymes - Christmas Songs
+      - id: '1627220844'
+        title: Kinderlieder - German Children's Songs & Nursery Rhymes - Winter Songs
+      - id: '1626475575'
+        title: Turnhits für Kids - 20 Kinderturnlieder
+      - id: '1632608650'
+        title: Endlich gibt es Sonnenschein - Sommerlieder
+      - id: '1643135581'
+        title: Martin, Martin, Martinsmann - 25 Herbstlieder und Laternenlieder zu St. Martin
+      - id: '1654140814'
+        title: Eine Muh, eine Mäh, eine Täterätätä (Der Weihnachtsmann kommt) - Single
+      - id: '1655137783'
+        title: Winterlied - Weihnachten im Märchenwald - Single
+      - id: '1655653784'
+        title: Ich wünsche dir einen Engel - Zauberhafte Lieder in verzauberter Zeit
+      - id: '1659636355'
+        title: Heute ist ein guter Tag
+      - id: '1656441850'
+        title: Zwei kleine Fische - Das fröhliche Kinderlied für Babys & Kleinkinder - Single
+      - id: '1664199875'
+        title: Kinderlieder - 20 fröhliche Kinderlieder mit Gitarre
+      - id: '1671586949'
+        title: Hallo liebes Christkind (Die Wunschsterne) - Single
+      - id: '1671595514'
+        title: Ihr seid meine Sonne - Single
+      - id: '1674863680'
+        title: Hund, Katze, Maus - Kinderlieder für Babys und Kleinkinder
+      - id: '1683315685'
+        title: Kleine Begrüßungsliedchen
+      - id: '1685154042'
+        title: Auge, Auge, Nase, Mund (Alles hat einen Namen) - EP
+      - id: '1686149522'
+        title: Kleine Mi Ma Maus
+      - id: '1685982824'
+        title: Die Giraffe und der Wolf (GFK-Lied) - EP
+      - id: '1687175055'
+        title: Marienkäferlein - Single
+      - id: '1690141751'
+        title: Erdbeer-Song (Erdbeer'n, Erdbeer'n lieb ich sehr) - Single
+      - id: '1690673343'
+        title: Erntelied - Obst und Gemüse (Pick a bale of cotton) - Single
+      - id: '1692740235'
+        title: Tra ri ra, der Sommer, der ist da - Single
+      - id: '1694294681'
+        title: Das Sommerfest Lied - Single
+      - id: '1694303436'
+        title: Hey, die Sonne lacht mir zu - Single
+      - id: '1698306685'
+        title: Die Flüsse, sie fließen (The river is flowing) - Single
+      - id: '1699009042'
+        title: Tiny mini mouse - Kleine Mi Ma Maus - Single
+      - id: '1699186337'
+        title: Minicik farecik - Kleine Mi Ma Maus - Single
+      - id: '1699192644'
+        title: Topolino mio - Kleine Mi Ma Maus - Single
+      - id: '1699194647'
+        title: Lieve kleine muis - Kleine Mi Ma Maus - Single
+      - id: '1701121748'
+        title: Pequeño raton - Kleine Mi Ma Maus - Single
+      - id: '1704140421'
+        title: Herbst, du bist da - Single
+      - id: '1705865669'
+        title: Der Wind - Kleines Windlied - Single
+      - id: '1707006152'
+        title: Schau, der Herbst ist da & Der Blättertanz
+      - id: '1707010214'
+        title: Laterne, Laterne, leuchte durch die Nacht - Single
+      - id: '1709519653'
+        title: Ich liebe alle Sterne (Laternenlied) - Single
+      - id: '1712300680'
+        title: Tri-Tra-Trommelzeit (Das Trommellied) - Single
+      - id: '1747897930'
+        title: Das Tücherlied (Einkaufslied mit Farben) - EP
+      - id: '1760112877'
+        title: Kinderlieder - German Children's Songs & Nursery Rhymes - Kids Songs, Vol. 3
+      - id: '1778032789'
+        title: Wir machen heute Nussmusik - 4 neue Weihnachtslieder für Kinder - EP
+      - id: '1814339288'
+        title: Das Jahr sagt allen Guten Tag - Single
+      - id: '1814091676'
+        title: Erdbeerlied (feat. Toni Geiling) - Single
+      - id: '1815536963'
+        title: Das bunte Meer - Single
+      - id: '1820983663'
+        title: Glühwürmchen-Tanz (feat. Toni Geiling) - Single
+      - id: '1826521485'
+        title: Der junge Schiffer - Single
+      - id: '1826990840'
+        title: Wir begrüßen die Jahreszeiten (feat. Toni Geiling) - EP
+      - id: '1825391451'
+        title: Hallo Schule - Single
+      - id: '1830315737'
+        title: Herbst, du hast schöne Farben - Single
+      - id: '1841371875'
+        title: Kleines Lichtlein - die Lichterreise (Taler, Taler, du musst wandern) [Lichterversion] [feat. Toni Geiling] - Single
+      - id: '1841379208'
+        title: Laterne, du leuchtest wie die Sterne - EP
+      - id: '1849113112'
+        title: Wenn die erste Kerze brennt (Bruder Jakob) [Adventsversion] [feat. Toni Geiling] - Single
+      - id: '1853807142'
+        title: Wichtellied & Advent-Rap - EP
+      - id: '1857602708'
+        title: Nikolaus, Nikolaus (Hänschen klein) [Nikolausversion] [feat. Toni Geiling] - Single
+      - id: '1857904150'
+        title: Tatütata-Lied (feat. Toni Geiling) - Single
+      - id: '1856670148'
+        title: Wir sind Astronauten - Single
+      - id: '1862793196'
+        title: Komm, sing mir nach durchs ganze Jahr
+      - id: '1868343959'
+        title: Dschungelparty (Im Dschungel steigt 'ne Party) - Single
+      - id: '1876911060'
+        title: Das Jahr geht auf die Reise - Single
+      - id: '1894165658'
+        title: Der traurige Bär Bjarne - Single
   content_type: music
+  series_facts:
+    era_boundaries:
+    - curated_by: minimax-m2.7
+      curated_at: '2026-06-10T17:37:15.818721+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-06-10T17:37:15.818721+00:00'
+      label: fruehwerk
+      release_date_range: 2006-2010
+    - curated_by: minimax-m2.7
+      curated_at: '2026-06-10T17:37:15.818721+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-06-10T17:37:15.818721+00:00'
+      label: kinderlieder-core
+      release_date_range: 2011-2017
+    - curated_by: minimax-m2.7
+      curated_at: '2026-06-10T17:37:15.818721+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-06-10T17:37:15.818721+00:00'
+      label: kinderlieder-expanded
+      release_date_range: 2018-2022
+    - curated_by: minimax-m2.7
+      curated_at: '2026-06-10T17:37:15.818721+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-06-10T17:37:15.818721+00:00'
+      label: kinderlieder-recent
+      release_date_range: 2023-
 - id: schnabi_schnabel
   title: Schnabi Schnabel
   providers:
@@ -39020,9 +40522,175 @@ series:
     spotify:
       artist_ids:
       - 1VKmmv2A3M54cnh6CW1xMX
+      albums:
+      - id: 76vW9dCZzixuVIwW1NZtom
+        title: Peter und der Wolf
+      - id: 4xe4V74VbG32BSYVFsvDB0
+        title: Mit Gesang und Himmelsklang. Johann Sebastian Bach für Kinder
+      - id: 07iwFm7WF73lUnYA4LoHSi
+        title: Nightmusic and Magic Flute. Mozart for Children
+      - id: 1199odLsLKLG7RBERh70GC
+        title: Classical Hits for Children
+      - id: 54iVQKZQsMOFwuOlOCPboM
+        title: Klassik-Hits für Klein und Groß
+      - id: 6QdRE2nacEKsBdHWhIS4ah
+        title: Haydn-Hits für Kinder
+      - id: 3RLbpK2rvTMWcPj0x9xWHZ
+        title: Mozart-Hits für Kinder
+      - id: 48bgqInPzZtYwbPuPtGVPA
+        title: The Four Seasons. Vivaldi for Children (A Concert with Birdsong, Thunder and Sleeping Shepherds for People Aged 5 and Above)
+      - id: 4EA35UoUnOvVsgtqDCxEWk
+        title: Klezmer für Kinder (Ein Konzert zum Mitsingen, Mittanzen und Mitfeiern)
+      - id: 0wkPcWDf0QjOWrpSRZQwSP
+        title: Walzerschritt und Polkahit (Johann Strauß für Kinder)
+      - id: 3xP1frevzY3EpPVwo5xnb5
+        title: Die Bremer Stadtmusikanten (Das Märchen der Brüder Grimm mit Musik von Erke Duit)
+      - id: 4UivUuniZfvtALZLArRs7p
+        title: Die Moldau. Friedrich Smetana für Kinder.
+      - id: 3sNf3b4uNp3hgkmZHktTyl
+        title: Die vier Jahreszeiten (Vivaldi für Kinder)
+      - id: 5EpuiPg3knZgV42Ubqt5cB
+        title: Der Karneval der Tiere
+      - id: 7K1ZvyEv0FDujrCi9S2vh5
+        title: Der Nussknacker (Ballett von Peter Iljitsch Tschaikowski)
+      - id: 4zgMfrkQMZLDXAp6TI8yxT
+        title: Geburtstagskonzert für die Prinzessin (Barockmusik für Kinder von Bach, Händel, Purcell u.a.)
+      - id: 6sU6QEXVaPwLsAhPWoF8Qa
+        title: Bombo, Poncho und Gitarre
+      - id: 4aadJBnWOhES0BsJW96rHl
+        title: Hänsel und Gretel (Nach der Oper von Engelbert Humperdinck)
+      - id: 29XeJ5uLiSfBaeUcdgtPJP
+        title: Filipp Frosch und das Geheimnis des Wassers (Ein musikalisches Entdeckungs-Hörspiel rund um den Wasserkreislauf)
+      - id: 1MpibzdA8UP54I6o9LVhze
+        title: Große Komponisten für kleine und große Ohren
+      - id: 67NL1tkbLIvN94ZomzM2aT
+        title: Beethoven für Kinder. Königsfloh und Tastenzauber
+      - id: 0d8qzl3Wfcar25Qd6nONWj
+        title: Tina und das Orchester (Ein Hörspiel, in dem die Instrumente zeigen, was sie können - Jedes für sich und alle gemeinsam)
+      - id: 4aBQbIZC6NDSRWwMPYmTJh
+        title: Gitarren-Hits für Kinder
+      - id: 6yDAaTh5Kg1RqzlydHC1Vu
+        title: Das Zookonzert (Eine sinfonische Geschichte für Kinder)
+      - id: 5gZDK32arcpIz5bVMLpp1s
+        title: Bach für Kinder. Mit Gesang und Himmelsklang
+      - id: 4VMOEXisQIPTM2sioVFNm4
+        title: Dornröschen. Ballett von Peter Iljitsch Tschaikowski
+      - id: 5kn9X3gQjbfRBXsL527CDN
+        title: Walzerschritt und Polkahit. Johann Strauß für Kinder
+      - id: 51YdrAfOpbX2SRGv0jEm30
+        title: Die Bremer Stadtmusikanten (Das Märchen der Brüder Grimm zur Musik von Erke Duit)
+      - id: 6eM4SdDdETgMHJArqP4sOL
+        title: Die vier Jahreszeiten (Eine Geschichte zur Musik von Antonio Vivaldi)
+      - id: 7yTa3EOYQu0PJlp0scPAEk
+        title: Herr Beethoven macht Musik
+      - id: 3f2ZrKxah8H1pqCIBVezdq
+        title: Herr Mozart macht Musik
+      - id: 0UoLxo3Or8lAaj0ktNZ9E5
+        title: Karneval der Tiere
     apple_music:
       artist_ids:
       - '684358517'
+      albums:
+      - id: '1865197278'
+        title: Peter und der Wolf
+      - id: '1870573999'
+        title: Walzerschritt und Polkahit. Johann Strauß für Kinder
+      - id: '1828602203'
+        title: Die Bremer Stadtmusikanten
+      - id: '1828601366'
+        title: Die vier Jahreszeiten
+      - id: '1828901103'
+        title: Herr Beethoven macht Musik
+      - id: '1828602131'
+        title: Herr Mozart macht Musik
+      - id: '1828602195'
+        title: Karneval der Tiere
+  content_type: hoerspiel
+  series_facts:
+    era_boundaries:
+    - label: hoerspiel_jumbo_era
+      release_date_range: 2001-2021
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-02T08:33:19.924677+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-02T08:33:19.924677+00:00'
+    - label: kapitel_format
+      release_date_range: 2025-
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-02T08:33:19.924677+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-02T08:33:19.924677+00:00'
+    known_gaps:
+    - number: 1
+      range_end:
+      reason: Series uses standalone titles - no numbered episodes to gap
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-02T10:13:55.576495+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-02T10:13:55.576495+00:00'
+    - number: 2
+      range_end:
+      reason: Series uses standalone titles - no numbered episodes to gap
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-02T10:13:55.576495+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-02T10:13:55.576495+00:00'
+    - number: 3
+      range_end:
+      reason: Series uses standalone titles - no numbered episodes to gap
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-02T10:13:55.576495+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-02T10:13:55.576495+00:00'
+    - number: 4
+      range_end:
+      reason: Series uses standalone titles - no numbered episodes to gap
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-02T10:13:55.576495+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-02T10:13:55.576495+00:00'
+    - number: 5
+      range_end:
+      reason: Series uses standalone titles - no numbered episodes to gap
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-02T10:13:55.576495+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-02T10:13:55.576495+00:00'
+    - number: 6
+      range_end:
+      reason: Series uses standalone titles - no numbered episodes to gap
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-02T10:13:55.576495+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-02T10:13:55.576495+00:00'
+    - number: 7
+      range_end:
+      reason: Series uses standalone titles - no numbered episodes to gap
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-02T10:13:55.576495+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-02T10:13:55.576495+00:00'
+    - number: 8
+      range_end:
+      reason: Series uses standalone titles - no numbered episodes to gap
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-02T10:13:55.576495+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-02T10:13:55.576495+00:00'
+    - number: 9
+      range_end:
+      reason: Series uses standalone titles - no numbered episodes to gap
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-02T10:13:55.576495+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-02T10:13:55.576495+00:00'
+    - number: 10
+      range_end:
+      reason: Series uses standalone titles - no numbered episodes to gap
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-02T10:13:55.576495+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-02T10:13:55.576495+00:00'
 - id: mira_und_das_fliegende_haus
   title: Mira und das fliegende Haus
   providers:
