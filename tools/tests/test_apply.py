@@ -416,3 +416,34 @@ def test_apply_allows_drop_below_threshold():
     )
     updated = apply_one("s1", curation, yaml_data)
     assert updated is True
+
+
+def testshould_apply_refuses_incomplete_curation():
+    """Incomplete curations (e.g. from a discovery regression) must
+    never reach series.yaml. The lifecycle guard catches this even
+    if the curate step's DiscoveryRegressionError is bypassed."""
+    data = {
+        "review": {
+            "status": "approved",
+            "audited_at": "2026-05-01T00:00:00+00:00",
+        },
+        "curated_at": "2026-04-01T00:00:00+00:00",
+        "incomplete": True,
+        "incomplete_reason": "spotify discovery collapsed: 445 -> 47",
+    }
+    result = should_apply(data, force=False)
+    assert result is not None
+    assert "incomplete" in result
+
+
+def testshould_apply_allows_incomplete_with_force():
+    data = {
+        "review": {
+            "status": "approved",
+            "audited_at": "2026-05-01T00:00:00+00:00",
+        },
+        "curated_at": "2026-04-01T00:00:00+00:00",
+        "incomplete": True,
+        "incomplete_reason": "spotify discovery collapsed",
+    }
+    assert should_apply(data, force=True) is None

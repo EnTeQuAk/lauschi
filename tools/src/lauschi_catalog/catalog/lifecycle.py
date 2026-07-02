@@ -66,6 +66,9 @@ def apply_is_unsafe(curation: dict) -> str | None:
     ``apply --all`` standalone after a re-curate-without-audit, this
     catches the silent-stale-data case.
     """
+    if curation.get("incomplete"):
+        reason = curation.get("incomplete_reason", "unknown reason")
+        return f"curation is incomplete ({reason}). Fix the curation first."
     if audit_is_stale(curation):
         return "audit is stale (curate ran after last audit). Run audit before apply."
     return None

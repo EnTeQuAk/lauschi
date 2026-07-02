@@ -14,7 +14,9 @@ import pytest
 from lauschi_catalog.catalog.curate_ops import (
     AlbumDecision,
     CuratedSeries,
+    DiscoveryRegressionError,
     _build_metadata_agent,
+    _check_discovery_regression,
     _preseed_decisions,
     _stratified_sample,
     lock_series_id,
@@ -1638,3 +1640,113 @@ class TestPreseedDecisions:
         assert len(carried) == 1
         assert carried[0].album_id == "a2"
         assert len(remaining) == 1
+
+
+# ── _check_discovery_regression ──────────────────────────────────────────
+
+
+class TestDiscoveryRegression:
+    """The PAW Patrol root cause: Spotify API returned 47 of 445 albums,
+    _preseed_decisions silently dropped 442, and the curation was saved
+    with only 3 included Spotify albums. _check_discovery_regression
+    catches this at discovery time, before any AI tokens are spent."""
+
+    def test_detects_provider_collapse(self):
+        """PAW Patrol scenario: previous curation has 445 Spotify albums,
+        current discovery returns only 47."""
+        discovered = [_album("spotify", f"a{i}") for i in range(47)]
+        existing = {
+            "albums": [
+                _curation_album("spotify", f"a{i}", True) for i in range(445)
+            ],
+        }
+        regressions = _check_discovery_regression(discovered, existing)
+        assert len(regressions) == 1
+        assert "spotify" in regressions[0]
+        assert "collapsed" in regressions[0]
+
+    def test_no_regression_when_counts_stable(self):
+        discovered = [_album("spotify", f"a{i}") for i in range(100)]
+        existing = {
+            "albums": [
+                _curation_album("spotify", f"a{i}", True) for i in range(105)
+            ],
+        }
+        assert _check_discovery_regression(discovered, existing) == []
+
+    def test_no_regression_without_existing_curation(self):
+        discovered = [_album("spotify", f"a{i}") for i in range(10)]
+        assert _check_discovery_regression(discovered, None) == []
+        assert _check_discovery_regression(discovered, {"albums": []}) == []
+
+    def test_ignores_small_series(self):
+        """Series with fewer than 20 albums in the previous curation
+        are not checked, since small counts fluctuate legitimately."""
+        discovered = [_album("spotify", f"a{i}") for i in range(3)]
+        existing = {
+            "albums": [
+                _curation_album("spotify", f"a{i}", True) for i in range(15)
+            ],
+        }
+        assert _check_discovery_regression(discovered, existing) == []
+
+    def test_detects_per_provider_independently(self):
+        """Collapse on one provider triggers even if the other is stable."""
+        discovered = (
+            [_album("spotify", f"s{i}") for i in range(5)]
+            + [_album("apple_music", f"a{i}") for i in range(50)]
+        )
+        existing = {
+            "albums": (
+                [_curation_album("spotify", f"s{i}", True) for i in range(50)]
+                + [_curation_album("apple_music", f"a{i}", True) for i in range(50)]
+            ),
+        }
+        regressions = _check_discovery_regression(discovered, existing)
+        assert len(regressions) == 1
+        assert "spotify" in regressions[0]
+
+    def test_both_providers_can_collapse(self):
+        discovered = (
+            [_album("spotify", f"s{i}") for i in range(5)]
+            + [_album("apple_music", f"a{i}") for i in range(3)]
+        )
+        existing = {
+            "albums": (
+                [_curation_album("spotify", f"s{i}", True) for i in range(100)]
+                + [_curation_album("apple_music", f"a{i}", True) for i in range(80)]
+            ),
+        }
+        regressions = _check_discovery_regression(discovered, existing)
+        assert len(regressions) == 2
+
+    def test_modest_drop_below_threshold_passes(self):
+        """A 40% drop is below the 50% threshold, should pass."""
+        discovered = [_album("spotify", f"a{i}") for i in range(60)]
+        existing = {
+            "albums": [
+                _curation_album("spotify", f"a{i}", True) for i in range(100)
+            ],
+        }
+        assert _check_discovery_regression(discovered, existing) == []
+
+    def test_exactly_at_boundary(self):
+        """Exactly 50% of previous count should pass (not strictly less)."""
+        discovered = [_album("spotify", f"a{i}") for i in range(50)]
+        existing = {
+            "albums": [
+                _curation_album("spotify", f"a{i}", True) for i in range(100)
+            ],
+        }
+        assert _check_discovery_regression(discovered, existing) == []
+
+    def test_just_below_boundary(self):
+        """49 of 100 is below 50%, should trigger."""
+        discovered = [_album("spotify", f"a{i}") for i in range(49)]
+        existing = {
+            "albums": [
+                _curation_album("spotify", f"a{i}", True) for i in range(100)
+            ],
+        }
+        regressions = _check_discovery_regression(discovered, existing)
+        assert len(regressions) == 1
