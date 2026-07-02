@@ -65,49 +65,6 @@ _DEFAULT_MODEL = "kimi-k2.6"
 _BATCH_SIZE = 30
 
 
-class DiscoveryRegressionError(Exception):
-    """Raised when a provider API returns dramatically fewer albums than
-    the previous curation, indicating an incomplete API response rather
-    than genuine catalog changes."""
-
-
-def _check_discovery_regression(
-    all_albums: list[dict],
-    existing_curation: dict | None,
-    *,
-    min_prev_count: int = 20,
-    max_drop_ratio: float = 0.5,
-) -> list[str]:
-    """Compare per-provider album counts against a previous curation.
-
-    Returns a list of regression messages (empty = no regression).
-    Each message describes a provider whose discovered album count
-    dropped below the threshold relative to the previous curation.
-    """
-    if not existing_curation or not existing_curation.get("albums"):
-        return []
-
-    prev_by_prov: dict[str, int] = {}
-    for a in existing_curation["albums"]:
-        prov = a.get("provider", "")
-        prev_by_prov[prov] = prev_by_prov.get(prov, 0) + 1
-
-    cur_by_prov: dict[str, int] = {}
-    for a in all_albums:
-        prov = a.get("provider", "")
-        cur_by_prov[prov] = cur_by_prov.get(prov, 0) + 1
-
-    regressions: list[str] = []
-    for prov, prev_count in prev_by_prov.items():
-        cur_count = cur_by_prov.get(prov, 0)
-        if prev_count >= min_prev_count and cur_count < prev_count * max_drop_ratio:
-            regressions.append(
-                f"{prov} discovery collapsed: {prev_count} albums in "
-                f"previous curation, only {cur_count} returned now"
-            )
-    return regressions
-
-
 # ── Pure helpers ──────────────────────────────────────────────────────────
 
 
@@ -1139,18 +1096,6 @@ async def _run_large(
     on_progress(
         f"\n  Total: {len(all_albums)} albums across {len(providers)} providers\n"
     )
-
-    # -- Step 1b: Per-provider discovery regression check
-    regressions = _check_discovery_regression(all_albums, existing_curation)
-    if regressions:
-        for msg in regressions:
-            on_progress(f"  [REGRESSION] {msg}")
-        raise DiscoveryRegressionError(
-            "Refusing to curate: provider API returned dramatically "
-            "fewer albums than the previous curation. The existing "
-            "curation file is preserved.\n"
-            + "\n".join(f"  - {r}" for r in regressions)
-        )
 
     # -- Step 2a: Pre-fetch full album details
     on_progress("  Pre-fetching album details...")

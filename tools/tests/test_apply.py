@@ -419,9 +419,8 @@ def test_apply_allows_drop_below_threshold():
 
 
 def testshould_apply_refuses_incomplete_curation():
-    """Incomplete curations (e.g. from a discovery regression) must
-    never reach series.yaml. The lifecycle guard catches this even
-    if the curate step's DiscoveryRegressionError is bypassed."""
+    """Incomplete curations (e.g. from a wrong artist ID) must
+    never reach series.yaml. The lifecycle guard catches this."""
     data = {
         "review": {
             "status": "approved",
