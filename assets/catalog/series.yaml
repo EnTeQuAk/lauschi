@@ -25,7 +25,8 @@
 series:
 - id: lego_ninjago
   title: Lego Ninjago
-  episode_pattern: '^Folge (\d+):'
+  episode_pattern:
+  - '^Folge (\d+):'
   providers:
     apple_music:
       artist_ids:
@@ -649,9 +650,6 @@ series:
       - id: '1712289563'
         episode: 211
         title: 'Folge 211: Die Verschmelzung: Teil 1'
-      - id: '1712289718'
-        episode: 212
-        title: 'Folge 212: Die Verschmelzung: Teil 2'
       - id: '1712297494'
         episode: 213
         title: 'Folge 213: Der Crossroads-Jahrmarkt'
@@ -811,6 +809,12 @@ series:
       - id: '6771414159'
         episode: 265
         title: 'Folge 265: Echte Freundschaften'
+      - id: '6771413820'
+        episode: 266
+        title: 'Folge 266: Der Prisma-Mond'
+      - id: '6779628121'
+        episode: 267
+        title: 'Folge 267: Die Fokus-Gruft'
       - id: '1521876878'
         title: 'Special: Tag der Erinnerungen'
       - id: '1521876514'
@@ -1614,34 +1618,57 @@ series:
       - id: 70Z4jchJNMmL5UyMdZLB4j
         episode: 265
         title: 'Folge 265: Echte Freundschaften'
+      - id: 7fMbI5aXmIjXtgSCggkEFI
+        episode: 266
+        title: 'Folge 266: Der Prisma-Mond'
+      - id: 60hZMlqOqf3hhFLeRYnrFM
+        episode: 267
+        title: 'Folge 267: Die Fokus-Gruft'
       - id: 6ZvCPzRguOIlyJnwqCm0qy
         title: Das Hörspiel zum TV-Special
       - id: 3PQ1Jy2EoBVTnaeHhNLruV
         title: 'Special: Tag der Erinnerungen'
   aliases:
-  - Ninjago
+  - LEGO Ninjago - Masters of Spinjitzu
   series_facts:
     known_gaps:
-    - number: 28
-      reason: 'Catalog gap: present on Spotify but absent from apple_music catalog. No apple_music album ID available to override.'
+    - curated_by: unknown
+      curated_at:
       audited_by: minimax-m2.7
       audited_at: '2026-05-27T11:32:00.479800+00:00'
-    - number: 46
+      number: 28
       reason: 'Catalog gap: present on Spotify but absent from apple_music catalog. No apple_music album ID available to override.'
+    - curated_by: unknown
+      curated_at:
       audited_by: minimax-m2.7
       audited_at: '2026-05-27T11:32:00.479800+00:00'
-    - number: 49
+      number: 46
       reason: 'Catalog gap: present on Spotify but absent from apple_music catalog. No apple_music album ID available to override.'
+    - curated_by: unknown
+      curated_at:
       audited_by: minimax-m2.7
       audited_at: '2026-05-27T11:32:00.479800+00:00'
-    - number: 51
+      number: 49
       reason: 'Catalog gap: present on Spotify but absent from apple_music catalog. No apple_music album ID available to override.'
+    - curated_by: unknown
+      curated_at:
       audited_by: minimax-m2.7
       audited_at: '2026-05-27T11:32:00.479800+00:00'
-    - number: 54
+      number: 51
+      reason: 'Catalog gap: present on Spotify but absent from apple_music catalog. No apple_music album ID available to override.'
+    - curated_by: unknown
+      curated_at:
+      audited_by: minimax-m2.7
+      audited_at: '2026-05-27T11:32:00.479800+00:00'
+      number: 54
       reason: 'Catalog gap: present on apple_music but absent from spotify catalog. No spotify album ID available to override.'
+    - number: 212
+      range_end:
+      reason: Present on Spotify but absent from Apple Music catalog. No apple_music album ID available to override.
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-02T07:40:52.374502+00:00'
       audited_by: minimax-m2.7
-      audited_at: '2026-05-27T11:32:00.479800+00:00'
+      audited_at: '2026-07-02T07:40:52.374502+00:00'
 - id: die_drei_fragezeichen_kids
   title: Die drei ??? Kids
   providers:
@@ -1947,6 +1974,14 @@ series:
         title: Adventskalender - 24 Tage im Weihnachtszirkus
       - id: 5ZcAMixtzUYEBZNVSrixNE
         title: Adventskalender - 24 Tage Chaos im Zoo
+      - id: 5MXAyx7ZeQGGbHdR1HEbtU
+        title: Adventskalender - 24 Tage eingeschneit
+      - id: 5o3ryPeYmpRkmgEv4hnDmJ
+        title: Adventskalender - 24 Tage Weihnachtsspuk
+      - id: 4KFElrzg5yWmppwtZ84UzG
+        title: Adventskalender - 24 Tage Elfen-Alarm
+      - id: 2Xn2j4vYeYALVmoDj6NT5D
+        title: Adventskalender - 24 Tage Weihnachtsparade
     apple_music:
       artist_ids:
       - '305761269'
@@ -2257,6 +2292,9 @@ series:
       - id: '1872987119'
         episode: 102
         title: 'Folge 102: Spur der Tresorknacker'
+      - id: '6775767498'
+        episode: 103
+        title: 'Folge 103: SOS im Bike-Park'
       - id: '1295156351'
         title: Adventskalender - 24 Tage im Weihnachtsland
       - id: '1294728211'
@@ -2278,9 +2316,17 @@ series:
   episode_pattern:
   - ^(\d{3})/
   - '^Folge (\d+):'
-  - ^Mini-Fall/.*\(Mini-Fall (\d+)\)
   aliases:
-  - Die 3 ??? Kids
+  - Die drei Fragezeichen Kids
+  series_facts:
+    known_gaps:
+    - number: 103
+      range_end:
+      reason: Episode 103 exists on Apple Music (6775767498, 2026-07-03) but Spotify catalog entry not found. This is a data capture gap, not a content gap.
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-02T07:41:54.883416+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-02T07:41:54.883416+00:00'
 - id: bibi_blocksberg
   title: Bibi Blocksberg
   providers:
@@ -3826,8 +3872,16 @@ series:
         title: Adventskalender - Wintertraum in Gefahr
       - id: 3trwiTOpImrBHlfRFL2jqB
         title: Adventskalender/Die Marzipan-Mission
+      - id: 2S6DeiIPdkQPIQi5JQRqtD
+        title: Adventskalender/Geheimnisse zur Weihnachtszeit
       - id: 6HUsj30bF5HtJzwNZLzoY0
         title: Die Ponyverschwörung
+      - id: 4ZbwSV67s5f4nwn1UYzwGE
+        title: Adventskalender/Weihnachtsponys in Gefahr
+      - id: 6r5Z1GCgD8diUD9inajKvd
+        title: Adventskalender - Wirbel im Weihnachtshotel
+      - id: 7rOiqNA8gO1qWLEUTvXAun
+        title: Adventskalender - Zauberhafte Eiswelt
     apple_music:
       artist_ids:
       - '329049924'
@@ -3850,6 +3904,9 @@ series:
       - id: '1092513608'
         episode: 6
         title: 'Folge 6: Skandal auf Sendung'
+      - id: '361378214'
+        episode: 7
+        title: 'Folge 7: Skaterfieber'
       - id: '1092515790'
         episode: 7
         title: 'Folge 7: Skaterfieber'
@@ -4123,6 +4180,9 @@ series:
       - id: '1893932283'
         episode: 98
         title: 'Folge 98: Influencerin in Not'
+      - id: '6781630754'
+        episode: 99
+        title: 'Folge 99: Spuk auf dem Campingplatz'
       - id: '1165473629'
         title: Adventskalender - Geheimnis im Schnee
       - id: '1295014226'
@@ -4133,6 +4193,8 @@ series:
         title: Das original Hörspiel zum Kinofilm
       - id: '1477951025'
         title: Adventskalender - Wintertraum in Gefahr
+      - id: '1683893611'
+        title: Die Ponyverschwörung
       - id: '1588738563'
         title: Adventskalender/Die Marzipan-Mission
       - id: '1682060874'
@@ -4141,6 +4203,8 @@ series:
         title: Die Ponyverschwörung
       - id: '1752715756'
         title: 'Adventskalender: Weihnachtsponys in Gefahr'
+      - id: '1773744482'
+        title: Adventskalender - Wirbel im Weihnachtshotel
       - id: '1844567466'
         title: Adventskalender - Zauberhafte Eiswelt
   episode_pattern:
@@ -6835,11 +6899,24 @@ series:
       - id: '6772183887'
         episode: 444
         title: 'Folge 444: Luftrettung der königlichen Gäste (Das Original-Hörspiel zur TV-Serie)'
+      - id: '6774770419'
+        episode: 445
+        title: 'Folge 445: Der Super-Kuh-Wettbewerb (Das Original-Hörspiel zur TV-Serie)'
+      - id: '6777913577'
+        episode: 446
+        title: 'Folge 446: Die Rettung der Ziegen (Das Original-Hörspiel zur TV-Serie)'
+      - id: '6777936026'
+        episode: 447
+        title: 'Folge 447: Kite-Surfer auf dem Berg (Das Original-Hörspiel zur TV-Serie)'
+      - id: '6778020952'
+        episode: 448
+        title: 'Folge 448: Urlaubs-Chaos (Das Original-Hörspiel zur TV-Serie)'
       - id: '1764585350'
         title: Die Super-Hunde (Das Special)
       - id: '1764641301'
         title: Rasend schnelle Rettung (Das Special)
-  episode_pattern: '^Folge (\d+):'
+  episode_pattern:
+  - '^Folge (\d+):'
   aliases:
   - Paw Patrol
   series_facts:
@@ -6861,15 +6938,27 @@ series:
       - id: 7Hx03j0oo3eLfuijiUXAHg
         episode: 1
         title: 001/beim Wanderzirkus
+      - id: 3dDoz1yLMHx0n6rllLAXeV
+        episode: 1
+        title: 01/Das Original-Hörspiel zum Kinofilm
       - id: 7tfESyt6scRuKPzOAXF4PC
         episode: 2
         title: 002/im Zeltlager
+      - id: 7GgmiV6ZH3yklTQpIrgQCC
+        episode: 2
+        title: 02/Das Original-Hörspiel zum Kinofilm
       - id: 3M4cqtKzzPRWUdwxoFiBnz
         episode: 3
         title: 003/und das Burgverlies
+      - id: 1hM6Tv4HKwuRnGNbtN4lLz
+        episode: 3
+        title: 03/Das Original-Hörspiel zum Kinofilm
       - id: 6Uou6b83FPi6q0BNQi4Px2
         episode: 4
         title: 004/als Retter in der Not
+      - id: 6DKW0i593WcqpKBl0xx2Zb
+        episode: 4
+        title: 04/Das Original-Hörspiel zum Kinofilm
       - id: 5gCYYcivqoJL2voJg5K1ou
         episode: 5
         title: 005/und der Zauberer Wu
@@ -7362,6 +7451,13 @@ series:
       - id: 2DZRfxE8zgIUeCIX45iIAf
         episode: 170
         title: 'Folge 170: und das Flüstern aus der Geisterwelt'
+      - id: 0T6eDA8yFm5bzJxT01PF09
+        episode: 171
+        title: 'Folge 171: und der doppelte Onkel'
+      - id: 2akmTQWswD0lQBMedOyhUU
+        title: Fünf Freunde und das Tal der Dinosaurier - Das Original-Hörspiel zum Kinofilm
+      - id: 1MSUqIRZ02rYLly5YOsVYQ
+        title: Adventskalender - Fünf Freunde und das Abenteuer im Wald
     apple_music:
       artist_ids:
       - '216347875'
@@ -7369,15 +7465,27 @@ series:
       - id: '1002457082'
         episode: 1
         title: 'Folge 1: beim Wanderzirkus'
+      - id: '1237102110'
+        episode: 1
+        title: 01/Das Original-Hörspiel zum Kinofilm
       - id: '1002560999'
         episode: 2
         title: 'Folge 2: im Zeltlager'
+      - id: '1237104158'
+        episode: 2
+        title: 'Folge 2: Das Original-Hörspiel zum Kinofilm'
       - id: '1002449163'
         episode: 3
         title: 'Folge 3: und das Burgverlies'
+      - id: '1237107921'
+        episode: 3
+        title: 'Folge 3: Das Original-Hörspiel zum Kinofilm'
       - id: '1002464334'
         episode: 4
         title: 'Folge 4: als Retter in der Not'
+      - id: '1237110207'
+        episode: 4
+        title: 'Folge 4: Das Original-Hörspiel zum Kinofilm'
       - id: '1002556878'
         episode: 5
         title: 'Folge 5: und der Zauberer Wu'
@@ -7876,44 +7984,76 @@ series:
       - id: '1872936338'
         episode: 171
         title: 'Folge 171: und der doppelte Onkel'
+      - id: '1349181673'
+        title: Fünf Freunde und das Tal der Dinosaurier - Das Original-Hörspiel zum Kinofilm
+      - id: '1594162214'
+        title: Adventskalender - Fünf Freunde und das Abenteuer im Wald
   episode_pattern:
-  - ^(\d{2,3})/
+  - ^(\d+)/
   - '^Folge (\d+):'
   aliases:
-  - Die fünf Freunde
+  - 5 Freunde
   series_facts:
     era_boundaries:
-    - label: klassik
+    - curated_by: minimax-m2.7
+      curated_at: '2026-06-10T18:16:04.584574+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-06-10T18:16:04.584574+00:00'
+      label: klassik
       release_date_range: 1978-1989
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-06-10T18:16:04.584574+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-06-10T18:16:04.584574+00:00'
-    - label: kinofilm
+      label: kinofilm
       release_date_range: 2012-2018
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-06-10T18:16:04.584574+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-06-10T18:16:04.584574+00:00'
-    - label: modern
+      label: modern
       release_date_range: 2019-
-      curated_by: minimax-m2.7
-      curated_at: '2026-06-10T18:16:04.584574+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-10T18:16:04.584574+00:00'
     known_gaps:
-    - number: 8
+    - curated_by: minimax-m2.7
+      curated_at: '2026-06-10T18:16:04.584574+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-06-10T18:16:04.584574+00:00'
+      number: 8
       reason: Episode exists on Apple Music ('retten Jo') but not on Spotify
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-06-10T18:16:04.584574+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-06-10T18:16:04.584574+00:00'
-    - number: 10
+      number: 10
       reason: Episode exists in official series ('im Nebel') but missing from both streaming catalogs
+    sub_series:
+    - label: adventskalender
+      album_ids:
+      - apple_music:1594162214
+      - spotify:1MSUqIRZ02rYLly5YOsVYQ
+      reason: Seasonal Adventskalender special format (2021), not a numbered episode. Distinct product category from regular episodic releases.
       curated_by: minimax-m2.7
-      curated_at: '2026-06-10T18:16:04.584574+00:00'
+      curated_at: '2026-07-02T07:44:55.403436+00:00'
       audited_by: minimax-m2.7
-      audited_at: '2026-06-10T18:16:04.584574+00:00'
+      audited_at: '2026-07-02T07:44:55.403436+00:00'
+    - label: kinofilm
+      album_ids:
+      - apple_music:1237102110
+      - apple_music:1237104158
+      - apple_music:1237107921
+      - apple_music:1237110207
+      - apple_music:1349181673
+      - spotify:1hM6Tv4HKwuRnGNbtN4lLz
+      - spotify:2akmTQWswD0lQBMedOyhUU
+      - spotify:3dDoz1yLMHx0n6rllLAXeV
+      - spotify:6DKW0i593WcqpKBl0xx2Zb
+      - spotify:7GgmiV6ZH3yklTQpIrgQCC
+      reason: Kinofilm tie-in Hörspiels (2012-2018) distinct from main series episodes. Albums titled 'Das Original-Hörspiel zum Kinofilm' or 'Tal der Dinosaurier' belong to separate movie-adaptation 
+        product line.
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-02T07:44:55.403436+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-02T07:44:55.403436+00:00'
 - id: spongebob_schwammkopf
   title: SpongeBob Schwammkopf
   providers:
@@ -8278,6 +8418,15 @@ series:
       - id: 3OSg50oeEn5NqbvWWsMLhw
         episode: 271
         title: 'Folge 271: Der Aufstieg (Das Original-Hörspiel zur TV-Serie)'
+      - id: 2LEb6g5Fn9gXOekvda0fhk
+        episode: 272
+        title: 'Folge 272: Die Aliens kommen (Das Original-Hörspiel zur TV-Serie)'
+      - id: 3BcgXQuJjfRmCclDz8K68F
+        episode: 273
+        title: 'Folge 273: Der Pech-Bob (Das Original-Hörspiel zur TV-Serie)'
+      - id: 1PUQZeBPkeekyZ63vMHxYh
+        episode: 274
+        title: 'Folge 274: Der Sandmann kommt (Das Original-Hörspiel zur TV-Serie)'
       - id: 2b6UlYURVhpiOT8tdfHOEm
         title: X-Mas Edition (Das Original-Hörspiel zur TV-Serie)
     apple_music:
@@ -8623,9 +8772,6 @@ series:
       - id: '1887202706'
         episode: 263
         title: 'Folge 263: Ein Ausflug ins Museum (Das Original-Hörspiel zur TV-Serie)'
-      - id: '1889594572'
-        episode: 264
-        title: 'Folge 264: Kamp Grusel (Teil 1) [Das Original-Hörspiel zur TV-Serie]'
       - id: '1891291010'
         episode: 265
         title: 'Folge 265: Kamp Grusel (Teil 2) [Das Original-Hörspiel zur TV-Serie]'
@@ -8647,28 +8793,42 @@ series:
       - id: '6772118842'
         episode: 271
         title: 'Folge 271: Der Aufstieg (Das Original-Hörspiel zur TV-Serie)'
+      - id: '6774773034'
+        episode: 272
+        title: 'Folge 272: Die Aliens kommen (Das Original-Hörspiel zur TV-Serie)'
+      - id: '6776173955'
+        episode: 273
+        title: 'Folge 273: Der Pech-Bob (Das Original-Hörspiel zur TV-Serie)'
+      - id: '6780384334'
+        episode: 274
+        title: 'Folge 274: Der Sandmann kommt (Das Original-Hörspiel zur TV-Serie)'
       - id: '1841765171'
         title: X-Mas Edition (Das Original-Hörspiel zur TV-Serie)
-  episode_pattern:
-  - '^Folge (\d+):'
-  - ^Folge (\d+) \(
-  - ^Folge (\d+) -
+  episode_pattern: ^Folge (\d+)
   aliases:
   - SpongeBob SquarePants
   series_facts:
     era_boundaries:
-    - label: klassik
+    - curated_by: minimax-m2.7
+      curated_at: '2026-06-10T18:16:38.530946+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-06-10T18:16:38.530946+00:00'
+      label: klassik
       release_date_range: 2006-2013
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-06-10T18:16:38.530946+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-06-10T18:16:38.530946+00:00'
-    - label: modern
+      label: modern
       release_date_range: 2025-
+    known_gaps:
+    - number: 51
+      range_end:
+      reason: TV episodes 51-200 were never adapted into Hörspiele; the classic era ended at episode 50 (2013) and the modern era resumed at episode 201 (2025).
       curated_by: minimax-m2.7
-      curated_at: '2026-06-10T18:16:38.530946+00:00'
+      curated_at: '2026-07-02T07:45:44.406467+00:00'
       audited_by: minimax-m2.7
-      audited_at: '2026-06-10T18:16:38.530946+00:00'
+      audited_at: '2026-07-02T07:45:44.406467+00:00'
 - id: gregs_tagebuch
   title: Gregs Tagebuch
   providers:
@@ -9170,6 +9330,9 @@ series:
       - id: 4L4jvLa7OEhw5V0Ng3OJql
         episode: 110
         title: 'Folge 110: Eine Stimme für Blau-Gelb!'
+      - id: 6awlk4FyN1DajvQ3NmNUhC
+        episode: 111
+        title: 'Folge 111: Road to 26!'
       - id: 036GNQLwnsQjeNvTSiw3u6
         title: 'WM-Wissen: Rote Karte!'
       - id: 0ybqT8AibGFEYfHEm29yNR
@@ -9599,19 +9762,19 @@ series:
       - id: '1398250439'
         title: 'WM-Wissen: WM-Pokal!'
   episode_pattern:
-  - ^(\d+)/
   - '^Folge (\d+):'
-  - ^EM-Wissen (\d+)
-  - ^Frauen-WM-Wissen (\d+)
-  - ^Wissen zur EM 2024 - Folge (\d+)
+  - ^(\d+)/
   series_facts:
     known_gaps:
     - number: 111
-      reason: Episode 111 'Road to 26!' is available on Apple Music (2026-06-05) but missing from Spotify. Confirmed available on Spotify via external sources.
+      range_end:
+      reason: Episode 111 'Road to 26!' is now available on both Apple Music and Spotify (2026-06-05). Remove this known_gap.
       curated_by: minimax-m2.7
-      curated_at: '2026-05-31T16:41:13.892997+00:00'
+      curated_at: '2026-07-02T07:48:23.643108+00:00'
       audited_by: minimax-m2.7
-      audited_at: '2026-05-31T16:41:13.892997+00:00'
+      audited_at: '2026-07-02T07:48:23.643108+00:00'
+  aliases:
+  - Die Teufelskicker
 - id: tkkg_junior
   title: TKKG Junior
   providers:
@@ -9745,8 +9908,15 @@ series:
       - id: 5WExN3NReVNB5LP9jYzWv4
         episode: 42
         title: 'Folge 42: Der Raub-Zug'
+      - id: 6BP783QfdWwFSgjbC9QOyQ
+        episode: 43
+        title: 'Folge 43: Zwischen Wölfen und Banditen'
+      - id: 0SsYmJ9JQmizpobDaqIMyE
+        title: Adventskalender - Der widerliche Weihnachtswichtel
       - id: 2NOjKvA3XxO7J3TauLYxUK
         title: Die Fußball-Lüge
+      - id: 31YcOLMSdN0QYYeODng1R6
+        title: Adventskalender - Eine schöne Bescherung
     apple_music:
       artist_ids:
       - '1400668275'
@@ -9880,18 +10050,22 @@ series:
       - id: '1895823496'
         episode: 43
         title: 'Folge 43: Zwischen Wölfen und Banditen'
+      - id: '1685193736'
+        title: Adventskalender - Der widerliche Weihnachtswichtel
       - id: '1734654620'
         title: Die Fußball-Lüge
-  episode_pattern:
-  - '^Folge (\d+):'
+      - id: '1777047904'
+        title: Adventskalender (Eine schöne Bescherung)
+  episode_pattern: '^Folge (\d+):'
   series_facts:
     known_gaps:
     - number: 43
-      reason: Not yet released (scheduled for 2026-06-19)
+      range_end:
+      reason: RELEASED - remove outdated fact. Episode 'Zwischen Wölfen und Banditen' published 2026-06-19, confirmed in catalog and on official website.
       curated_by: minimax-m2.7
-      curated_at: '2026-06-10T18:17:28.585505+00:00'
+      curated_at: '2026-07-02T07:49:27.705399+00:00'
       audited_by: minimax-m2.7
-      audited_at: '2026-06-10T18:17:28.585505+00:00'
+      audited_at: '2026-07-02T07:49:27.705399+00:00'
 - id: was_ist_was
   title: Was Ist Was
   providers:
@@ -10108,6 +10282,8 @@ series:
         title: Entdecke Deutschland
       - id: 7BxrqaFNRBrCgSi9tYhX9a
         title: Quallen - glibberig schön!
+      - id: 5zSoqEwv8EVNCLRPItj9RS
+        title: Dein Körper - voller Leben!
     apple_music:
       artist_ids:
       - '13496563'
@@ -10321,78 +10497,77 @@ series:
         title: Entdecke Deutschland
       - id: '1869387852'
         title: Quallen - glibberig schön!
-  episode_pattern: '^(\d+):'
+      - id: '6778373301'
+        title: Dein Körper - voller Leben!
+  episode_pattern: '^(\d+): '
   aliases:
   - WAS IST WAS
   series_facts:
     era_boundaries:
-    - label: double_features
+    - curated_by: minimax-m2.7
+      curated_at: '2026-05-31T16:42:55.774201+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-05-31T16:42:55.774201+00:00'
+      label: double_features
       release_date_range: 2007-2018
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-05-31T16:42:55.774201+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-05-31T16:42:55.774201+00:00'
-    - label: modern_single
+      label: modern_single
       release_date_range: 2022-
-      curated_by: minimax-m2.7
-      curated_at: '2026-05-31T16:42:55.774201+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-05-31T16:42:55.774201+00:00'
     known_gaps:
-    - number: 5
-      reason: Not available in Spotify or Apple Music catalogs
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-05-31T16:42:55.774201+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-05-31T16:42:55.774201+00:00'
-    - number: 6
+      number: 5
       reason: Not available in Spotify or Apple Music catalogs
-      curated_by: minimax-m2.7
+      range_end: 6
+    - curated_by: minimax-m2.7
       curated_at: '2026-05-31T16:42:55.774201+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-05-31T16:42:55.774201+00:00'
-    - number: 8
+      number: 8
       reason: Not available in Spotify or Apple Music catalogs
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-05-31T16:42:55.774201+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-05-31T16:42:55.774201+00:00'
-    - number: 14
+      number: 14
       reason: Not available in Spotify or Apple Music catalogs
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-05-31T16:42:55.774201+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-05-31T16:42:55.774201+00:00'
-    - number: 19
+      number: 19
       reason: Not available in Spotify or Apple Music catalogs
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-05-31T16:42:55.774201+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-05-31T16:42:55.774201+00:00'
-    - number: 34
+      number: 34
       reason: Not available in Spotify or Apple Music catalogs
-      curated_by: minimax-m2.7
-      curated_at: '2026-05-31T16:42:55.774201+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-05-31T16:42:55.774201+00:00'
     - number: 40
-      reason: Not available in Spotify or Apple Music catalogs
+      range_end:
+      reason: "Original double-feature 'Folge 40: Das alte Ägypten/ Pyramiden' was removed from streaming platforms per Wikipedia evidence about catalog restructuring. Standalone 'Pyramiden' re-releases
+        are available but are separate productions, not the original numbered episode."
       curated_by: minimax-m2.7
+      curated_at: '2026-07-02T07:51:18.103290+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-02T07:51:18.103290+00:00'
+    - curated_by: minimax-m2.7
       curated_at: '2026-05-31T16:42:55.774201+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-05-31T16:42:55.774201+00:00'
-    - number: 56
+      number: 56
       reason: Not available in Spotify or Apple Music catalogs
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-05-31T16:42:55.774201+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-05-31T16:42:55.774201+00:00'
-    - number: 58
+      number: 58
       reason: Not available in Spotify or Apple Music catalogs
-      curated_by: minimax-m2.7
-      curated_at: '2026-05-31T16:42:55.774201+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-05-31T16:42:55.774201+00:00'
 - id: pettersson_und_findus
   title: Pettersson und Findus
   providers:
@@ -11655,18 +11830,31 @@ series:
       - id: 0Rhu4g7lGR5tYQbfhoXpDm
         episode: 66
         title: 'Folge 66: Monsieur Agreste / Auf dem falschen Weg (Das Original-Hörspiel zur TV-Serie)'
+      - id: 1YauaCGiGBUyqjouWiAyVM
+        episode: 67
+        title: 'Folge 67: Alix Geburtstag / Ängste (Das Original-Hörspiel zur TV-Serie)'
       - id: 1pE3I6Rb3nAenCTbeDePNq
         title: Eine böse Weihnachtsüberraschung (Das Original-Hörspiel zur TV-Serie)
+      - id: 3zI973MbFwxHfS4qBofQJb
+        title: New York - United Heroez (Das Original-Hörspiel zum Film-Special)
       - id: 3mbW2WWGG1cr430vc2JApd
         title: Marinette, die Weihnachtselfe (Das Original-Hörspiel zur TV-Serie)
+      - id: 7mr3Jo35HHlJn9HSSSMzGa
+        title: Shanghai - Die Legende von Lady Dragon (Das Original-Hörspiel zum TV-Special)
       - id: 0SXKn1DvrpmJ3dSCXZ4xrN
         title: 'Miraculous: Ladybug & Cat Noir, Der Film - Das Original-Hörspiel'
       - id: 1rznWaNDsYTW4sLEVcRDKT
         title: 'Miraculous: Ladybug & Cat Noir, the Movie - Audio Play'
       - id: 5MJ9qn5btULJONQNS2c5eb
         title: 'Miraculous: Ladybug & Chat Noir, Le Film - Audio Play'
+      - id: 7otNv1uDwJIcyEx93V2Soo
+        title: 'Miraculous World - Paris: Geschichten von Shadybug und Claw Noir (Das Original-Hörspiel zum TV-Special)'
       - id: 30bSmwlSuccq89DiunaBLv
         title: Action (Das Original-Hörspiel zur TV-Serie)
+      - id: 554FFfpB5evmkMz5yaz7yH
+        title: 'Miraculous World London: Am Rande der Zeit (Das Original-Hörspiel zum TV-Special)'
+      - id: 5BjtzRlhnjwpQyke2oXeos
+        title: 'Miraculous World: Tokyo - Stellar Force (Das Original-Hörspiel zum TV-Special)'
     apple_music:
       artist_ids:
       - '1353483673'
@@ -11869,25 +12057,36 @@ series:
       - id: '1882994088'
         episode: 66
         title: 'Folge 66: Monsieur Agreste / Auf dem falschen Weg (Das Original-Hörspiel zur TV-Serie)'
+      - id: '6768668041'
+        episode: 67
+        title: 'Folge 67: Alix Geburtstag / Ängste (Das Original-Hörspiel zur TV-Serie)'
       - id: '1441804700'
         title: Eine böse Weihnachtsüberraschung (Das Original-Hörspiel zum TV-Special)
+      - id: '1563039584'
+        title: New York - United Heroez (Das Original-Hörspiel zum Film-Special)
       - id: '1593179961'
         title: Marinette, die Weihnachtselfe (Das Original-Hörspiel zur TV-Serie)
+      - id: '1592727556'
+        title: Shanghai - Die Legende von Lady Dragons (Das Original-Hörspiel zum TV-Special)
       - id: '1694892522'
         title: 'Miraculous: Ladybug & Cat Noir, Der Film - Das Original-Hörspiel'
       - id: '1704372607'
         title: 'Miraculous: Ladybug & Cat Noir, The Movie - Audio Play'
       - id: '1705254284'
         title: 'Miraculous: Ladybug & Chat Noir, Le Film - Audio Play'
+      - id: '1777100666'
+        title: 'Miraculous World - Paris: Geschichten von Shadybug und Claw Noir (Das Original-Hörspiel zum TV-Special)'
       - id: '1774467027'
         title: Action (Das Original-Hörspiel zur TV-Serie)
+      - id: '1810043061'
+        title: 'Miraculous World London: Am Rande der Zeit (Das Original-Hörspiel zum TV-Special)'
+      - id: '1893982949'
+        title: 'Miraculous World: Tokyo - Stellar Force (Das Original-Hörspiel zum TV-Special)'
   episode_pattern:
   - '^Folge (\d+):'
   - '^Miraculous (\d+):'
   aliases:
-  - Miraculous Ladybug
-  - 'Miraculous: Geschichten von Ladybug & Cat Noir'
-  - Ladybug & Cat Noir
+  - 'Miraculous: Geschichten von Ladybug und Cat Noir'
 - id: hanni_und_nanni
   title: Hanni und Nanni
   providers:
@@ -11898,75 +12097,54 @@ series:
       - id: 4CUufLD10OrD2yuk3PJkYG
         episode: 1
         title: 01/sind immer dagegen
-      - id: 2EQGBwh6wRTHobnvSXGKYb
+      - id: 4xrdTvOrQTFEGke8945KNt
         episode: 1
-        title: Klassiker 1 - 1972 Hanni und Nanni sind immer dagegen
+        title: 'Folge 1: Warum denn ausgerechnet Internat Lindenhof? (Neue Abenteuer)'
       - id: 3ujRGehOcxUD9j9SYCFgAj
         episode: 2
         title: 02/schmieden neue Pläne
-      - id: 5ERpKJPjy20MbbIf9nfbka
-        episode: 2
-        title: Klassiker 2 - 1972 Hanni und Nanni schmieden neue Pläne
       - id: 5cSal1otXLIaRfDpocF2RH
         episode: 3
         title: 03/in neuen Abenteuern
-      - id: 4RgEomzCHKEO0cltgfLC6M
+      - id: 2AtMEM0eThrrAFZgsVdI2t
         episode: 3
-        title: Klassiker 3 - 1972 Hanni und Nanni in neuen Abenteuern
+        title: 'Folge 3: Ein heimlicher Gast auf Lindenhof (Neue Abenteuer)'
       - id: 3cVoL42B6Tk0XfENDvESrw
         episode: 4
         title: 04/Lustige Streiche mit Hanni und Nanni
-      - id: 6bawb37LvOlNhlZXLTEkmS
+      - id: 6XTedYExfvjpVlgsqHg8Lh
         episode: 4
-        title: Klassiker 4 - 1973 Lustige Streiche mit Hanni und Nanni
+        title: 'Folge 4: Immer Ärger mit Elli (Neue Abenteuer)'
       - id: 4drTbbpheLCgo4D4bq6hd7
         episode: 5
         title: 05/gründen einen Klub
-      - id: 2dcFyoHWEiZYjJqxN7jVhH
+      - id: 2caWpGESEVfs0hTNLHqyh3
         episode: 5
-        title: Klassiker 5 - 1973 Hanni und Nanni gründen einen Klub
+        title: 'Folge 5: So ein Zirkus! (Neue Abenteuer)'
       - id: 7IkoKOxdHRHdamCTmsO5rc
         episode: 6
         title: 06/im Geisterschloss
-      - id: 2trOdYvD2P0iv5RSzLxSDU
+      - id: 0GnYzpykZas1Y4EoT94MCj
         episode: 6
-        title: Klassiker 6 - 1974 Hanni und Nanni und das Geisterschloß
+        title: 'Folge 6: Tilda und der Wolf (Neue Abenteuer)'
       - id: 1TtQzjRDb96hyRQlZTnCU4
         episode: 7
         title: 07/suchen Gespenster
-      - id: 0p9Xye50JzzetboKoAtYYd
-        episode: 7
-        title: Klassiker 7 - 1974 Hanni und Nanni suchen Gespenster
       - id: 1QSvqWwWxwQ3ZZe95eAGdA
         episode: 8
         title: 08/Fröhliche Tage für Hanni und Nanni
-      - id: 39PdMpo2mrLKgRcEcwFqQW
-        episode: 8
-        title: Klassiker 8 - 1974 Fröhliche Tage für Hanni und Nanni
       - id: 1TBj5vu4Hq6jsIqNS7Jwjf
         episode: 9
         title: 09/in tausend Nöten
-      - id: 2rJ3YbxYpf9BiPo1UvCjdn
-        episode: 9
-        title: Klassiker 9 - 1976 Hanni und Nanni in tausend Nöten
       - id: 3FRMWu6bfBo3zVr8MVoYQ8
         episode: 10
         title: 10/groß in Form
-      - id: 4CknL6e9eppCHLp7csNrzk
-        episode: 10
-        title: Klassiker 10 - 1976 Hanni und Nanni sind groß in Form
       - id: 3xGuyCiCaggZtadtSD3Kyb
         episode: 11
         title: 11/geben ein Fest
-      - id: 2pnMcetAP4Q9foSW0vwGKQ
-        episode: 11
-        title: Klassiker 11 - 1976 Hanni und Nanni geben ein Fest
       - id: 5DqKY4QJrCk9Q35PLZf4Rq
         episode: 12
         title: 12/im Landschulheim
-      - id: 5yigtkDxPvV6YB4cIXYpQ2
-        episode: 12
-        title: Klassiker 12 - 1976 Hanni und Nanni im Landschulheim
       - id: 5qVndoaeQrkWCokVElf91J
         episode: 13
         title: 13/geben nicht auf
@@ -12182,78 +12360,54 @@ series:
       - id: '1012467087'
         episode: 1
         title: 'Folge 1: sind immer dagegen'
-      - id: '1536633670'
-        episode: 1
-        title: Klassiker 1 - 1972 Hanni und Nanni sind immer dagegen
       - id: '1836393124'
         episode: 1
         title: 'Folge 1: Warum denn ausgerechnet Internat Lindenhof? (Neue Abenteuer)'
       - id: '1012468790'
         episode: 2
         title: 'Folge 2: schmieden neue Pläne'
-      - id: '1536633434'
-        episode: 2
-        title: Klassiker 2 - 1972 Hanni und Nanni schmieden neue Pläne
       - id: '1012466891'
         episode: 3
         title: 'Folge 3: in neuen Abenteuern'
-      - id: '1536633946'
+      - id: '1844309469'
         episode: 3
-        title: Klassiker 3 - 1972  Hanni und Nanni in neuen Abenteuern
+        title: 'Folge 3: Ein heimlicher Gast auf Lindenhof (Neue Abenteuer)'
       - id: '1012462655'
         episode: 4
         title: 'Folge 4: Lustige Streiche mit Hanni und Nanni'
-      - id: '1537412615'
+      - id: '1858194177'
         episode: 4
-        title: Klassiker 4 - 1973  Lustige Streiche mit Hanni und Nanni
+        title: 'Folge 4: Immer Ärger mit Elli (Neue Abenteuer)'
       - id: '1012735142'
         episode: 5
         title: 'Folge 5: gründen einen Klub'
-      - id: '1537411339'
+      - id: '1869033566'
         episode: 5
-        title: Klassiker 5 - 1973 Hanni und Nanni gründen einen Klub
+        title: 'Folge 5: So ein Zirkus! (Neue Abenteuer)'
       - id: '1012459484'
         episode: 6
         title: 'Folge 6: im Geisterschloss'
-      - id: '1537411522'
+      - id: '1875255677'
         episode: 6
-        title: Klassiker 6 - 1974 Hanni und Nanni und das Geisterschloß
+        title: 'Folge 6: Tilda und der Wolf (Neue Abenteuer)'
       - id: '1012459277'
         episode: 7
         title: 'Folge 7: suchen Gespenster'
-      - id: '1537405617'
-        episode: 7
-        title: Klassiker 7 - 1974 Hanni und Nanni suchen Gespenster
       - id: '1012466597'
         episode: 8
         title: 'Folge 8: Fröhliche Tage für Hanni und Nanni'
-      - id: '1537406318'
-        episode: 8
-        title: Klassiker 8 - 1974 Fröhliche Tage für Hanni und Nanni
       - id: '1012464644'
         episode: 9
         title: 'Folge 9: in tausend Nöten'
-      - id: '1537406737'
-        episode: 9
-        title: 'Klassiker 9: 1976 Hanni und Nanni in tausend Nöten'
       - id: '1012459220'
         episode: 10
         title: 'Folge 10: groß in Form'
-      - id: '1537406793'
-        episode: 10
-        title: Klassiker 10 - 1976 Hanni und Nanni sind groß in Form
       - id: '1012463145'
         episode: 11
         title: 'Folge 11: geben ein Fest'
-      - id: '1537406661'
-        episode: 11
-        title: 'Klassiker 11: 1976 Hanni und Nanni geben ein Fest'
       - id: '1012462728'
         episode: 12
         title: 'Folge 12: im Landschulheim'
-      - id: '1537406630'
-        episode: 12
-        title: Klassiker 12 - 1976 Hanni und Nanni im Landschulheim
       - id: '1012462730'
         episode: 13
         title: 'Folge 13: geben nicht auf'
@@ -12470,18 +12624,18 @@ series:
   - Hanni & Nanni
   series_facts:
     era_boundaries:
-    - label: klassik
-      release_date_range: 1972-2025
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-06-10T18:19:38.016580+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-06-10T18:19:38.016580+00:00'
-    - label: neue_abenteuer
+      label: klassik
+      release_date_range: 1972-2024
+    - curated_by: minimax-m2.7
+      curated_at: '2026-06-10T18:19:38.016580+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-06-10T18:19:38.016580+00:00'
+      label: neue_abenteuer
       release_date_range: 2025-
-      curated_by: minimax-m2.7
-      curated_at: '2026-06-10T18:19:38.016580+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-10T18:19:38.016580+00:00'
 - id: hexe_lilli
   title: Hexe Lilli
   providers:
@@ -13114,8 +13268,6 @@ series:
       - id: 7oipSGxDWo8YL1dimL0Jzr
         episode: 258
         title: 'Folge 258: Die große Show'
-      - id: 1aINvB8BoFkcPNONprp720
-        title: Helden im Sturm (Das Original-Hörspiel zum Film)
       - id: 6y9ihfDcD6uPo1JIdBDIuf
         title: Feuerwehrmann Sam - Das Kanurennen
       - id: 464jJhDCyjwCZIXZoVHZq4
@@ -13196,12 +13348,9 @@ series:
       - id: '6772154701'
         episode: 153
         title: 'Folge 153: Die karibische Grillparty (Das Original-Hörspiel zur TV-Serie)'
-      - id: '6772154747'
-        episode: 154
-        title: 'Folge 154: Hilfspolizist James (Das Original-Hörspiel zur TV-Serie)'
-      - id: '6772181843'
+      - id: '6783692402'
         episode: 155
-        title: 'Folge 155: Das Disco-Desaster (Das Original-Hörspiel zur TV-Serie)'
+        title: 'Folge 155: Das Disco-Desaster (Das Original-Hörspiel zur TV-Serie) - EP'
       - id: '6772182107'
         episode: 156
         title: 'Folge 156: Erste Hilfe in den Bergen (Das Original-Hörspiel zur TV-Serie) - EP'
@@ -13244,9 +13393,6 @@ series:
       - id: '6772186877'
         episode: 169
         title: 'Folge 169: Die Jagd nach dem Fleckenrochen (Das Original-Hörspiel zur TV-Serie) - EP'
-      - id: '6772238421'
-        episode: 170
-        title: 'Folge 170: Feuer auf dem Wasser (Das Original-Hörspiel zur TV-Serie)'
       - id: '6772238370'
         episode: 171
         title: 'Folge 171: Gefährliche Gezeiten (Das Original-Hörspiel zur TV-Serie)'
@@ -13256,6 +13402,9 @@ series:
       - id: '6772239711'
         episode: 173
         title: 'Folge 173: In der Falle (Das Original-Hörspiel zur TV-Serie)'
+      - id: '6783740454'
+        episode: 174
+        title: 'Folge 174: Paddel-Probleme (Das Original-Hörspiel zur TV-Serie) - EP'
       - id: '6772189277'
         episode: 175
         title: 'Folge 175: Feuer im Veterinär-Zentrum (Das Original-Hörspiel zur TV-Serie)'
@@ -13507,180 +13656,57 @@ series:
   - Fireman Sam
   series_facts:
     known_gaps:
-    - number: 142
+    - curated_by: minimax-m2.7
+      curated_at: '2026-06-19T03:56:54.833958+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-06-19T03:56:54.833958+00:00'
+      number: 142
       reason: Episodes 142, 192, 231 are Spotify-only with no Apple Music entry (not even excluded). Cross-provider catalog gap.
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-06-19T03:56:54.833958+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-06-19T03:56:54.833958+00:00'
-    - number: 155
+      number: 155
       reason: Episode 155 missing on Apple Music. Spotify has the individual episode; Apple Music only has it in multi-episode compilations (excluded).
-      curated_by: minimax-m2.7
-      curated_at: '2026-06-19T03:56:54.833958+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-19T03:56:54.833958+00:00'
     - curated_by: minimax-m2.7
       curated_at: '2026-06-10T18:22:15.958281+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-06-10T18:22:15.958281+00:00'
       number: 156
       reason: Episodes 155-180 missing on Apple Music; available on Spotify. Catalog gap due to Apple Music not carrying these episodes.
-    - curated_by: minimax-m2.7
-      curated_at: '2026-06-10T18:22:15.958281+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-10T18:22:15.958281+00:00'
-      number: 157
-      reason: Episodes 155-180 missing on Apple Music; available on Spotify. Catalog gap due to Apple Music not carrying these episodes.
-    - curated_by: minimax-m2.7
-      curated_at: '2026-06-10T18:22:15.958281+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-10T18:22:15.958281+00:00'
-      number: 158
-      reason: Episodes 155-180 missing on Apple Music; available on Spotify. Catalog gap due to Apple Music not carrying these episodes.
-    - curated_by: minimax-m2.7
-      curated_at: '2026-06-10T18:22:15.958281+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-10T18:22:15.958281+00:00'
-      number: 159
-      reason: Episodes 155-180 missing on Apple Music; available on Spotify. Catalog gap due to Apple Music not carrying these episodes.
-    - curated_by: minimax-m2.7
-      curated_at: '2026-06-10T18:22:15.958281+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-10T18:22:15.958281+00:00'
-      number: 160
-      reason: Episodes 155-180 missing on Apple Music; available on Spotify. Catalog gap due to Apple Music not carrying these episodes.
-    - curated_by: minimax-m2.7
-      curated_at: '2026-06-10T18:22:15.958281+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-10T18:22:15.958281+00:00'
-      number: 161
-      reason: Episodes 155-180 missing on Apple Music; available on Spotify. Catalog gap due to Apple Music not carrying these episodes.
-    - curated_by: minimax-m2.7
-      curated_at: '2026-06-10T18:22:15.958281+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-10T18:22:15.958281+00:00'
-      number: 162
-      reason: Episodes 155-180 missing on Apple Music; available on Spotify. Catalog gap due to Apple Music not carrying these episodes.
-    - curated_by: minimax-m2.7
-      curated_at: '2026-06-10T18:22:15.958281+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-10T18:22:15.958281+00:00'
-      number: 163
-      reason: Episodes 155-180 missing on Apple Music; available on Spotify. Catalog gap due to Apple Music not carrying these episodes.
-    - curated_by: minimax-m2.7
-      curated_at: '2026-06-10T18:22:15.958281+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-10T18:22:15.958281+00:00'
-      number: 164
-      reason: Episodes 155-180 missing on Apple Music; available on Spotify. Catalog gap due to Apple Music not carrying these episodes.
-    - curated_by: minimax-m2.7
-      curated_at: '2026-06-10T18:22:15.958281+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-10T18:22:15.958281+00:00'
-      number: 165
-      reason: Episodes 155-180 missing on Apple Music; available on Spotify. Catalog gap due to Apple Music not carrying these episodes.
-    - curated_by: minimax-m2.7
-      curated_at: '2026-06-10T18:22:15.958281+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-10T18:22:15.958281+00:00'
-      number: 166
-      reason: Episodes 155-180 missing on Apple Music; available on Spotify. Catalog gap due to Apple Music not carrying these episodes.
-    - curated_by: minimax-m2.7
-      curated_at: '2026-06-10T18:22:15.958281+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-10T18:22:15.958281+00:00'
-      number: 167
-      reason: Episodes 155-180 missing on Apple Music; available on Spotify. Catalog gap due to Apple Music not carrying these episodes.
-    - curated_by: minimax-m2.7
-      curated_at: '2026-06-10T18:22:15.958281+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-10T18:22:15.958281+00:00'
-      number: 168
-      reason: Episodes 155-180 missing on Apple Music; available on Spotify. Catalog gap due to Apple Music not carrying these episodes.
-    - curated_by: minimax-m2.7
-      curated_at: '2026-06-10T18:22:15.958281+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-10T18:22:15.958281+00:00'
-      number: 169
-      reason: Episodes 155-180 missing on Apple Music; available on Spotify. Catalog gap due to Apple Music not carrying these episodes.
-    - curated_by: minimax-m2.7
-      curated_at: '2026-06-10T18:22:15.958281+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-10T18:22:15.958281+00:00'
-      number: 170
-      reason: Episodes 155-180 missing on Apple Music; available on Spotify. Catalog gap due to Apple Music not carrying these episodes.
-    - curated_by: minimax-m2.7
-      curated_at: '2026-06-10T18:22:15.958281+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-10T18:22:15.958281+00:00'
-      number: 171
-      reason: Episodes 155-180 missing on Apple Music; available on Spotify. Catalog gap due to Apple Music not carrying these episodes.
-    - curated_by: minimax-m2.7
-      curated_at: '2026-06-10T18:22:15.958281+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-10T18:22:15.958281+00:00'
-      number: 172
-      reason: Episodes 155-180 missing on Apple Music; available on Spotify. Catalog gap due to Apple Music not carrying these episodes.
-    - curated_by: minimax-m2.7
-      curated_at: '2026-06-10T18:22:15.958281+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-10T18:22:15.958281+00:00'
-      number: 173
-      reason: Episodes 155-180 missing on Apple Music; available on Spotify. Catalog gap due to Apple Music not carrying these episodes.
-    - number: 174
-      reason: Episode 174 missing on Apple Music. Spotify has the individual episode; Apple Music only has it in multi-episode compilations (excluded).
+      range_end: 173
+    - number: 170
+      range_end:
+      reason: Episode 170 'Feuer auf dem Wasser' exists on Spotify (LEONINE Audio, 5 tracks) but has no Apple Music entry. Cross-provider catalog gap.
       curated_by: minimax-m2.7
+      curated_at: '2026-07-02T07:59:47.227273+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-02T07:59:47.227273+00:00'
+    - curated_by: minimax-m2.7
       curated_at: '2026-06-19T03:56:54.833958+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-06-19T03:56:54.833958+00:00'
+      number: 174
+      reason: Episode 174 missing on Apple Music. Spotify has the individual episode; Apple Music only has it in multi-episode compilations (excluded).
     - curated_by: minimax-m2.7
       curated_at: '2026-06-10T18:22:15.958281+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-06-10T18:22:15.958281+00:00'
       number: 175
       reason: Episodes 155-180 missing on Apple Music; available on Spotify. Catalog gap due to Apple Music not carrying these episodes.
+      range_end: 180
     - curated_by: minimax-m2.7
-      curated_at: '2026-06-10T18:22:15.958281+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-10T18:22:15.958281+00:00'
-      number: 176
-      reason: Episodes 155-180 missing on Apple Music; available on Spotify. Catalog gap due to Apple Music not carrying these episodes.
-    - curated_by: minimax-m2.7
-      curated_at: '2026-06-10T18:22:15.958281+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-10T18:22:15.958281+00:00'
-      number: 177
-      reason: Episodes 155-180 missing on Apple Music; available on Spotify. Catalog gap due to Apple Music not carrying these episodes.
-    - curated_by: minimax-m2.7
-      curated_at: '2026-06-10T18:22:15.958281+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-10T18:22:15.958281+00:00'
-      number: 178
-      reason: Episodes 155-180 missing on Apple Music; available on Spotify. Catalog gap due to Apple Music not carrying these episodes.
-    - curated_by: minimax-m2.7
-      curated_at: '2026-06-10T18:22:15.958281+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-10T18:22:15.958281+00:00'
-      number: 179
-      reason: Episodes 155-180 missing on Apple Music; available on Spotify. Catalog gap due to Apple Music not carrying these episodes.
-    - curated_by: minimax-m2.7
-      curated_at: '2026-06-10T18:22:15.958281+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-10T18:22:15.958281+00:00'
-      number: 180
-      reason: Episodes 155-180 missing on Apple Music; available on Spotify. Catalog gap due to Apple Music not carrying these episodes.
-    - number: 192
-      reason: Episodes 142, 192, 231 are Spotify-only with no Apple Music entry (not even excluded). Cross-provider catalog gap.
-      curated_by: minimax-m2.7
       curated_at: '2026-06-19T03:56:54.833958+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-06-19T03:56:54.833958+00:00'
-    - number: 231
+      number: 192
       reason: Episodes 142, 192, 231 are Spotify-only with no Apple Music entry (not even excluded). Cross-provider catalog gap.
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-06-19T03:56:54.833958+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-06-19T03:56:54.833958+00:00'
+      number: 231
+      reason: Episodes 142, 192, 231 are Spotify-only with no Apple Music entry (not even excluded). Cross-provider catalog gap.
 - id: shrek
   title: Shrek
   providers:
@@ -13719,36 +13745,54 @@ series:
       - id: 1cOFQWQW6BHrLbSiuQfsdO
         episode: 1
         title: '01: Spuk in der Werkstatt (Das Original aus dem Fernsehen)'
+      - id: 6XYhYR3is3Bp6jMbdZraiC
+        episode: 1
+        title: '01: Weihnachten - Pumuckl und der Nikolaus (Das Original aus dem Fernsehen)'
       - id: 3uE5b9Ky4hPqMwqGMbt94q
         episode: 1
         title: '01: Koboldsgesetz (Neue Geschichten vom Pumuckl)'
       - id: 2KUGWNkv3fqt5BSEz2pkEF
         episode: 2
         title: '02: Das verkaufte Bett (Das Original aus dem Fernsehen)'
+      - id: 1i5j40JrA7Uq3sNHgVEYQA
+        episode: 2
+        title: '02: Weihnachten - Auf heißer Spur (Das Original aus dem Fernsehen)'
       - id: 6Gh01XkNx5zCy6YpF2TqNk
         episode: 2
         title: '02: Pumuckl wird verschenkt (Neue Geschichten vom Pumuckl)'
       - id: 3fyNFOUjASIxPs7UZ9KUFa
         episode: 3
         title: '03: Das neue Badezimmer (Das Original aus dem Fernsehen)'
+      - id: 3zWItP43T8egaHsynZBZIS
+        episode: 3
+        title: '03: Weihnachten - Das Weihnachtsgeschenk (Das Original aus dem Fernsehen)'
       - id: 4ifhQ2uMVkPvCWowXQON05
         episode: 3
         title: '03: Der alte Eder (Neue Geschichten vom Pumuckl)'
       - id: 0bpPat7Xf3EOZyfEFlzBmp
         episode: 4
         title: '04: Das Schlossgespenst (Das Original aus dem Fernsehen)'
+      - id: 5qoNwBcEil2enjbC6zG8LT
+        episode: 4
+        title: '04: Weihnachten - Der erste Schnee (Das Original aus dem Fernsehen)'
       - id: 1iT5NytGG3gXo4zflAF99l
         episode: 4
         title: '04: Der verflixte Kaugummi (Neue Geschichten vom Pumuckl)'
       - id: 28botZO81Az1D06lngMUev
         episode: 5
         title: '05: Die abergläubische Putzfrau (Das Original aus dem Fernsehen)'
+      - id: 0t5XbGvxjnnQz1FWhFt7go
+        episode: 5
+        title: '05: Weihnachten - Pumuckl und die Christbaumkugeln (Das Original aus dem Fernsehen)'
       - id: 5noRHJMN1Q8stRHv2Hhoqx
         episode: 5
         title: '05: Eder ist an allem schuld (Neue Geschichten vom Pumuckl)'
       - id: 4FcnJ8EWrVIDljp1q8E4ce
         episode: 6
         title: '06: Pumuckl und die Schule (Das Original aus dem Fernsehen)'
+      - id: 7GOZ8qDGyH9Q1KD2TxiQwP
+        episode: 6
+        title: '06: Weihnachten Folge - Pumuckl und die Schatulle (Das Original aus dem Fernsehen)'
       - id: 1aTk0FeiimvscYkptrCl6K
         episode: 6
         title: '06: Pumuckl und die Geburtstagsüberraschung (Neue Geschichten vom Pumuckl)'
@@ -14043,6 +14087,9 @@ series:
       - id: '1685911446'
         episode: 1
         title: '01: Spuk in der Werkstatt (Das Original aus dem Fernsehen)'
+      - id: '1685873704'
+        episode: 1
+        title: '01: Weihnachten - Pumuckl und der Nikolaus (Das Original aus dem Fernsehen)'
       - id: '1720424550'
         episode: 1
         title: '01: Koboldsgesetz (Neue Geschichten vom Pumuckl)'
@@ -14067,6 +14114,9 @@ series:
       - id: '1685919056'
         episode: 4
         title: '04: Das Schlossgespenst (Das Original aus dem Fernsehen)'
+      - id: '1685873793'
+        episode: 4
+        title: '04: Weihnachten - Der erste Schnee (Das Original aus dem Fernsehen)'
       - id: '1728709973'
         episode: 4
         title: '04: Der verflixte Kaugummi (Neue Geschichten vom Pumuckl)'
@@ -14082,6 +14132,9 @@ series:
       - id: '1685894693'
         episode: 6
         title: '06: Pumuckl und die Schule (Das Original aus dem Fernsehen)'
+      - id: '1686156110'
+        episode: 6
+        title: '06: Weihnachten Folge - Pumuckl und die Schatulle (Das Original aus dem Fernsehen)'
       - id: '1729621436'
         episode: 6
         title: '06: Pumuckl und die Geburtstagsüberraschung (Neue Geschichten vom Pumuckl)'
@@ -14369,40 +14422,44 @@ series:
         title: '80: Pumuckl setzt sich nicht durch (Das Original aus dem Fernsehen)'
       - id: '1847324343'
         title: Pumuckl und das große Missverständnis (Das Original-Hörspiel zum Kinofilm) (Neue Geschichten vom Pumuckl)
-  episode_pattern:
-  - '^(\d+):'
-  - '^Folge (\d+):'
+  episode_pattern: '^(\d+):'
   aliases:
   - Meister Eder und sein Pumuckl
   series_facts:
     era_boundaries:
-    - label: klassik
+    - curated_by: minimax-m2.7
+      curated_at: '2026-06-19T04:01:54.453280+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-06-19T04:01:54.453280+00:00'
+      label: klassik
       release_date_range: 1982-1985
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-06-19T04:01:54.453280+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-06-19T04:01:54.453280+00:00'
-    - label: neue_geschichten
+      label: neue_geschichten
       release_date_range: 2023-2026
-      curated_by: minimax-m2.7
-      curated_at: '2026-06-19T04:01:54.453280+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-19T04:01:54.453280+00:00'
     sub_series:
     - label: Weihnachten
       album_ids:
+      - apple_music:1685873704
+      - apple_music:1685873793
       - apple_music:1685888292
       - apple_music:1685888452
-      - apple_music:1685909661
       - apple_music:1685914278
-      - apple_music:1721518234
-      - apple_music:1721518411
-      reason: Christmas specials with independent episode numbering (Ep 2, 3, 5, etc.) that collide with main-series klassik numbering. Treated as separate sub-series by curator but not formally 
-        declared, causing false-positive lint flags for duplicates.
+      - apple_music:1686156110
+      - spotify:0t5XbGvxjnnQz1FWhFt7go
+      - spotify:1i5j40JrA7Uq3sNHgVEYQA
+      - spotify:3zWItP43T8egaHsynZBZIS
+      - spotify:5qoNwBcEil2enjbC6zG8LT
+      - spotify:6XYhYR3is3Bp6jMbdZraiC
+      - spotify:7GOZ8qDGyH9Q1KD2TxiQwP
+      reason: 'Christmas specials (2008) with independent episode numbering (01-06) that collides with main series. Contains 6 distinct holiday stories: Pumuckl und der Nikolaus, Auf heißer Spur, Das Weihnachtsgeschenk,
+        Der erste Schnee, Pumuckl und die Christbaumkugeln, Pumuckl und die Schatulle.'
       curated_by: minimax-m2.7
-      curated_at: '2026-06-19T04:01:54.453280+00:00'
+      curated_at: '2026-07-02T08:01:06.074709+00:00'
       audited_by: minimax-m2.7
-      audited_at: '2026-06-19T04:01:54.453280+00:00'
+      audited_at: '2026-07-02T08:01:06.074709+00:00'
 - id: asterix
   title: Asterix
   providers:
@@ -14795,6 +14852,9 @@ series:
       - id: 5w5nRGCTFFyZ3yc5DJpRZK
         episode: 41
         title: '41: Die Naturfüchse: Im Einsatz für Tiere'
+      - id: 7Ehx1nT98S2FJx6Juxjry1
+        episode: 42
+        title: '42: Erforsche die Ozeane!'
     apple_music:
       artist_ids:
       - '1189363385'
@@ -14922,12 +14982,14 @@ series:
       - id: '1842157002'
         episode: 41
         title: '41: Die Naturfüchse: Im Einsatz für Tiere'
+      - id: '6781981281'
+        episode: 42
+        title: '42: Erforsche die Ozeane!'
   episode_pattern:
   - '^(\d+):'
   - '^Folge (\d+):'
   aliases:
   - WAS IST WAS Junior
-  - Was ist was Junior
 - id: kira_kolumna
   title: Kira Kolumna
   providers:
@@ -15326,6 +15388,9 @@ series:
       - id: '1686241254'
         episode: 5
         title: '05: Rikki macht fette Beute / Der Filmpreis'
+      - id: '1815985256'
+        episode: 5
+        title: 'Staffel 3, Episode 5: Zane fährt falsch (Das Original-Hörspiel zur TV-Serie)'
       - id: '1686230788'
         episode: 6
         title: '06: Duell im Wasser / Gesang der Sirenen'
@@ -15476,12 +15541,21 @@ series:
       - id: 26z7t5oPL1gWB0EyrdsHwT
         episode: 1
         title: 'Teil 1: Geheimnisvolle Verwandlung'
+      - id: 4PeJ7S0Njod6b2xPg19mo7
+        episode: 1
+        title: 'Teil 1: Ein Einhorn in der Schule'
       - id: 2470T11OWEiG7JNzNocUkX
         episode: 2
         title: 'Teil 2: Sprung in die Nacht'
+      - id: 62XN52fjzBjzYihERmePkp
+        episode: 2
+        title: 'Teil 2: Die goldene Feder'
       - id: 2FNX4VTDktcxh3wNIjJvw6
         episode: 3
         title: 'Teil 3: Der Steinerne Spiegel'
+      - id: 1diZg9wfrm8Y9dVVjPjpTG
+        episode: 3
+        title: 'Teil 3: Fest auf dem Ponyhof'
       - id: 1HBSqiyZ0QaSG7I2iJ1Yf3
         episode: 4
         title: 'Teil 4: Lauras Zauberritt'
@@ -15939,6 +16013,18 @@ series:
   - '^Teil (\d+):'
   - '^Band (\d+):'
   - '^Folge (\d+):'
+  series_facts:
+    sub_series:
+    - label: sternenschweif_sternchen
+      album_ids:
+      - 1diZg9wfrm8Y9dVVjPjpTG
+      - 4PeJ7S0Njod6b2xPg19mo7
+      - 62XN52fjzBjzYihERmePkp
+      reason: Shorter episodes (~30 min) based on the 'Bücherhelden' book series, released under the 'Sternenschweif Sternchen' label since 2025. Distinct product line from the main series.
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-02T08:06:19.077957+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-02T08:06:19.077957+00:00'
 - id: mia_and_me
   title: Mia and Me
   providers:
@@ -16342,6 +16428,15 @@ series:
       - id: 0i4G1pnA26ZjHkH9dCIA8H
         episode: 24
         title: 'Folge 24: Silberstreif'
+      - id: 1Ozl4N09OmrggQ0X4awdiA
+        episode: 25
+        title: 'Folge 25: Harl-Hubbs-Tag'
+      - id: 2ZeMBBUjICk35KElaLZJ8T
+        episode: 26
+        title: 'Folge 26: Annes Traum'
+      - id: 05doppNybeiwJ8jazbXtgd
+        episode: 27
+        title: 'Folge 27: Ungewöhnliche Rettungsmethoden'
       - id: 616d2Ee1kFtBfy2CGwYRiW
         episode: 28
         title: 'Folge 28: Der Namenlose mit Namen'
@@ -16583,6 +16678,9 @@ series:
       artist_ids:
       - '672648501'
       albums:
+      - id: '1460129278'
+        episode: 5
+        title: 'LEGO City Folge 5: Raumfahrt - LUNA 1 antwortet nicht'
       - id: '1501854451'
         episode: 11
         title: 'Folge 11: Die kleine Carol'
@@ -16625,6 +16723,15 @@ series:
       - id: '1540728625'
         episode: 24
         title: 'Folge 24: Silberstreif'
+      - id: '1540728555'
+        episode: 25
+        title: 'Folge 25: Harl-Hubbs-Tag'
+      - id: '1542013902'
+        episode: 26
+        title: 'Folge 26: Annes Traum - EP'
+      - id: '1540735426'
+        episode: 27
+        title: 'Folge 27: Ungewöhnliche Rettungsmethoden'
       - id: '1540735448'
         episode: 28
         title: 'Folge 28: Der Namenlose mit Namen'
@@ -16784,9 +16891,6 @@ series:
       - id: '1678061480'
         episode: 80
         title: 'Folge 80: Wer ist Schaf Wheeler?'
-      - id: '1678061329'
-        episode: 81
-        title: 'Folge 81: König Fendrich – Teil 1'
       - id: '1678061465'
         episode: 82
         title: 'Folge 82: König Fendrich – Teil 2'
@@ -16864,48 +16968,96 @@ series:
         title: 'Folge 106: Dunkle Geheimnisse - EP'
   episode_pattern:
   - '^Folge (\d+):'
-  - '^LEGO City: Folge (\d+) -'
   - ^Folge (\d+) -
-  - '^LEGO City Folge (\d+):'
+  - ^LEGO City:? Folge (\d+):?
   series_facts:
     era_boundaries:
-    - label: '2019'
+    - curated_by: minimax-m2.7
+      curated_at: '2026-06-10T18:28:36.180873+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-06-10T18:28:36.180873+00:00'
+      label: '2019'
       release_date_range: 2019-2019
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-06-10T18:28:36.180873+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-06-10T18:28:36.180873+00:00'
-    - label: 2020-2023
+      label: 2020-2023
       release_date_range: 2020-2023
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-06-10T18:28:36.180873+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-06-10T18:28:36.180873+00:00'
-    - label: '2025'
+      label: '2025'
       release_date_range: 2025-
-      curated_by: minimax-m2.7
-      curated_at: '2026-06-10T18:28:36.180873+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-10T18:28:36.180873+00:00'
     known_gaps:
-    - number: 1
+    - curated_by: minimax-m2.7
+      curated_at: '2026-06-10T18:28:36.180873+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-06-10T18:28:36.180873+00:00'
+      number: 1
       reason: Episode 1 not available on Apple Music (platform availability gap)
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-06-10T18:28:36.180873+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-06-10T18:28:36.180873+00:00'
-    - number: 2
+      number: 2
       reason: Episode 2 not available on Apple Music (platform availability gap)
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-06-10T18:28:36.180873+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-06-10T18:28:36.180873+00:00'
-    - number: 4
+      number: 4
       reason: Episode 4 not available on Apple Music (platform availability gap)
+    - number: 5
+      range_end:
+      reason: Episode not available on Spotify (TV series episode 5 not in catalog; only classic series version exists which belongs to different series)
       curated_by: minimax-m2.7
-      curated_at: '2026-06-10T18:28:36.180873+00:00'
+      curated_at: '2026-07-02T08:09:54.620244+00:00'
       audited_by: minimax-m2.7
-      audited_at: '2026-06-10T18:28:36.180873+00:00'
+      audited_at: '2026-07-02T08:09:54.620244+00:00'
+    - number: 6
+      range_end:
+      reason: Episodes 6–10 only available in compilation box sets (Folgen 6–10), excluded as compilation_as_episode; individual episodes unavailable on Apple Music
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-02T08:09:54.620244+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-02T08:09:54.620244+00:00'
+    - number: 7
+      range_end:
+      reason: Episodes 6–10 only available in compilation box sets (Folgen 6–10), excluded as compilation_as_episode; individual episodes unavailable on Apple Music
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-02T08:09:54.620244+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-02T08:09:54.620244+00:00'
+    - number: 8
+      range_end:
+      reason: Episodes 6–10 only available in compilation box sets (Folgen 6–10), excluded as compilation_as_episode; individual episodes unavailable on Apple Music
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-02T08:09:54.620244+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-02T08:09:54.620244+00:00'
+    - number: 9
+      range_end:
+      reason: Episodes 6–10 only available in compilation box sets (Folgen 6–10), excluded as compilation_as_episode; individual episodes unavailable on Apple Music
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-02T08:09:54.620244+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-02T08:09:54.620244+00:00'
+    - number: 10
+      range_end:
+      reason: Episodes 6–10 only available in compilation box sets (Folgen 6–10), excluded as compilation_as_episode; individual episodes unavailable on Apple Music
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-02T08:09:54.620244+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-02T08:09:54.620244+00:00'
+    - number: 81
+      range_end:
+      reason: Episode 81 exists on Spotify but not on Apple Music (platform availability gap)
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-02T08:09:54.620244+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-02T08:09:54.620244+00:00'
 - id: peppa_pig_hoerspiele
   title: Peppa Pig Hörspiele
   providers:
@@ -17111,6 +17263,18 @@ series:
       - id: 1RpKsJB0nwyfIYPo9jsp5V
         episode: 66
         title: 'Folge 66: Das Café von Herrn Mieze'
+      - id: 7xzq44aF0GrwOE4PxUzuyj
+        title: Das ABC - A - Das Abrakadabra-Abenteuer
+      - id: 1cdPv9Xp3JBDR7CbsnnXOj
+        title: Das ABC - B - Besuch von Herrn Bulle
+      - id: 1rBWv1NcBiCET260RnPHgP
+        title: Das ABC - C - Cousine Chloé und der Campingplatz
+      - id: 0nNrQh7kIq8Xh4jh3OdME8
+        title: Das ABC - D - Dampfschiff-Ausflug
+      - id: 6sXvEByGo9LCXngq9z99cT
+        title: Das ABC - E - Erdbeer-Eis bei Ebbe
+      - id: 3rGpezzPWiTcaLTAMuYV9j
+        title: Das ABC - F - Fußballspiel mit Freunden
     apple_music:
       artist_ids:
       - '1489717131'
@@ -17313,6 +17477,18 @@ series:
       - id: '1895739765'
         episode: 66
         title: 'Folge 66: Das Café von Herrn Mieze'
+      - id: '6768985101'
+        title: Das ABC - A - Das Abrakadabra-Abenteuer
+      - id: '6768989596'
+        title: Das ABC - B - Besuch von Herrn Bulle
+      - id: '6768989409'
+        title: Das ABC - C - Cousine Chloé und der Campingplatz
+      - id: '6768996658'
+        title: Das ABC - D - Dampfschiff-Ausflug
+      - id: '6768986730'
+        title: Das ABC - E - Erdbeer-Eis bei Ebbe
+      - id: '6768995564'
+        title: Das ABC - F - Fußballspiel mit Freunden
   episode_pattern:
   - '^Folge (\d+):'
   - ^(\d{3})/
@@ -18265,6 +18441,9 @@ series:
       - id: 1Aq9udF7avDwZ6owjdVcJF
         episode: 33
         title: 'Folge 33: Der neue Dragur / Der Höhlenbrecher (Das Original-Hörspiel zur TV-Serie)'
+      - id: 2HbqJeQcWMmNOheAftjRkm
+        episode: 33
+        title: 'Folge 33: Der neue Dragur / Der Höhlenbrecher + Trolljäger: Das Amulett (Das Original-Hörspiel zur TV-Serie)'
       - id: 61qjJZK6zLyPGqJZdcHmtY
         episode: 34
         title: 'Folge 34: Ein wahrer Anführer / Der Klügere gibt nach (Das Original-Hörspiel zur TV-Serie)'
@@ -18337,6 +18516,12 @@ series:
       - id: 07fWpKRdBLc8WmQlAkzQDz
         episode: 57
         title: 'Folge 57: Die Wächter von Vanagrad / Der König der Drachen - Teil 1+2 (Das Original-Hörspiel zur TV-Serie)'
+      - id: 3q8UBUC6MoyH6Li4rnSAKS
+        title: Ein Geschenk von Nachtschatten (Das Original-Hörspiel zum Film-Special)
+      - id: 7BB0ldQAVRCFUKu9TtHqXm
+        title: Buch der Drachen (Das Original-Hörspiel zum Film-Special)
+      - id: 16eIcgl9Ua9OeJkHtyrYQP
+        title: Das große Drachenrennen (Das Original-Hörspiel zum Film-Special)
     apple_music:
       artist_ids:
       - '1112695110'
@@ -18431,6 +18616,9 @@ series:
       - id: '1529283498'
         episode: 49
         title: 'Folge 49: Hicks Geheimnis (Das Original Hörspiel zur TV-Serie)'
+      - id: '1535964927'
+        episode: 50
+        title: 'Folge 50: Kein Drache bleibt zurück (Das Original-Hörspiel zur TV-Serie)'
       - id: '1536048663'
         episode: 51
         title: 'Folge 51: Händler Johann (Das Original-Hörspiel zur TV-Serie)'
@@ -18452,128 +18640,21 @@ series:
       - id: '1574973154'
         episode: 57
         title: 'Folge 57: Die Wächter von Vanagrad / Der König der Drachen - Teil 1+2 (Das Original-Hörspiel zur TV-Serie)'
+      - id: '1440509406'
+        title: Ein Geschenk von Nachtschatten (Das Original-Hörspiel zum Film-Special)
   episode_pattern: '^Folge (\d+):'
   series_facts:
     known_gaps:
-    - number: 4
-      reason: Belongs to earlier series 'Dragons - Die Reiter von Berk' (Hörspiele started from episode 21 of this series, or 'Die Wächter von Berk') - not produced as Hörspiele for 'Auf zu neuen 
-        Ufern'
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-05-31T16:28:00.544916+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-05-31T16:28:00.544916+00:00'
-    - number: 5
+      number: 4
       reason: Belongs to earlier series 'Dragons - Die Reiter von Berk' (Hörspiele started from episode 21 of this series, or 'Die Wächter von Berk') - not produced as Hörspiele for 'Auf zu neuen 
         Ufern'
-      curated_by: minimax-m2.7
-      curated_at: '2026-05-31T16:28:00.544916+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-05-31T16:28:00.544916+00:00'
-    - number: 6
-      reason: Belongs to earlier series 'Dragons - Die Reiter von Berk' (Hörspiele started from episode 21 of this series, or 'Die Wächter von Berk') - not produced as Hörspiele for 'Auf zu neuen 
-        Ufern'
-      curated_by: minimax-m2.7
-      curated_at: '2026-05-31T16:28:00.544916+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-05-31T16:28:00.544916+00:00'
-    - number: 7
-      reason: Belongs to earlier series 'Dragons - Die Reiter von Berk' (Hörspiele started from episode 21 of this series, or 'Die Wächter von Berk') - not produced as Hörspiele for 'Auf zu neuen 
-        Ufern'
-      curated_by: minimax-m2.7
-      curated_at: '2026-05-31T16:28:00.544916+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-05-31T16:28:00.544916+00:00'
-    - number: 8
-      reason: Belongs to earlier series 'Dragons - Die Reiter von Berk' (Hörspiele started from episode 21 of this series, or 'Die Wächter von Berk') - not produced as Hörspiele for 'Auf zu neuen 
-        Ufern'
-      curated_by: minimax-m2.7
-      curated_at: '2026-05-31T16:28:00.544916+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-05-31T16:28:00.544916+00:00'
-    - number: 9
-      reason: Belongs to earlier series 'Dragons - Die Reiter von Berk' (Hörspiele started from episode 21 of this series, or 'Die Wächter von Berk') - not produced as Hörspiele for 'Auf zu neuen 
-        Ufern'
-      curated_by: minimax-m2.7
-      curated_at: '2026-05-31T16:28:00.544916+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-05-31T16:28:00.544916+00:00'
-    - number: 10
-      reason: Belongs to earlier series 'Dragons - Die Reiter von Berk' (Hörspiele started from episode 21 of this series, or 'Die Wächter von Berk') - not produced as Hörspiele for 'Auf zu neuen 
-        Ufern'
-      curated_by: minimax-m2.7
-      curated_at: '2026-05-31T16:28:00.544916+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-05-31T16:28:00.544916+00:00'
-    - number: 11
-      reason: Belongs to earlier series 'Dragons - Die Reiter von Berk' (Hörspiele started from episode 21 of this series, or 'Die Wächter von Berk') - not produced as Hörspiele for 'Auf zu neuen 
-        Ufern'
-      curated_by: minimax-m2.7
-      curated_at: '2026-05-31T16:28:00.544916+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-05-31T16:28:00.544916+00:00'
-    - number: 12
-      reason: Belongs to earlier series 'Dragons - Die Reiter von Berk' (Hörspiele started from episode 21 of this series, or 'Die Wächter von Berk') - not produced as Hörspiele for 'Auf zu neuen 
-        Ufern'
-      curated_by: minimax-m2.7
-      curated_at: '2026-05-31T16:28:00.544916+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-05-31T16:28:00.544916+00:00'
-    - number: 13
-      reason: Belongs to earlier series 'Dragons - Die Reiter von Berk' (Hörspiele started from episode 21 of this series, or 'Die Wächter von Berk') - not produced as Hörspiele for 'Auf zu neuen 
-        Ufern'
-      curated_by: minimax-m2.7
-      curated_at: '2026-05-31T16:28:00.544916+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-05-31T16:28:00.544916+00:00'
-    - number: 14
-      reason: Belongs to earlier series 'Dragons - Die Reiter von Berk' (Hörspiele started from episode 21 of this series, or 'Die Wächter von Berk') - not produced as Hörspiele for 'Auf zu neuen 
-        Ufern'
-      curated_by: minimax-m2.7
-      curated_at: '2026-05-31T16:28:00.544916+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-05-31T16:28:00.544916+00:00'
-    - number: 15
-      reason: Belongs to earlier series 'Dragons - Die Reiter von Berk' (Hörspiele started from episode 21 of this series, or 'Die Wächter von Berk') - not produced as Hörspiele for 'Auf zu neuen 
-        Ufern'
-      curated_by: minimax-m2.7
-      curated_at: '2026-05-31T16:28:00.544916+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-05-31T16:28:00.544916+00:00'
-    - number: 16
-      reason: Belongs to earlier series 'Dragons - Die Reiter von Berk' (Hörspiele started from episode 21 of this series, or 'Die Wächter von Berk') - not produced as Hörspiele for 'Auf zu neuen 
-        Ufern'
-      curated_by: minimax-m2.7
-      curated_at: '2026-05-31T16:28:00.544916+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-05-31T16:28:00.544916+00:00'
-    - number: 17
-      reason: Belongs to earlier series 'Dragons - Die Reiter von Berk' (Hörspiele started from episode 21 of this series, or 'Die Wächter von Berk') - not produced as Hörspiele for 'Auf zu neuen 
-        Ufern'
-      curated_by: minimax-m2.7
-      curated_at: '2026-05-31T16:28:00.544916+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-05-31T16:28:00.544916+00:00'
-    - number: 18
-      reason: Belongs to earlier series 'Dragons - Die Reiter von Berk' (Hörspiele started from episode 21 of this series, or 'Die Wächter von Berk') - not produced as Hörspiele for 'Auf zu neuen 
-        Ufern'
-      curated_by: minimax-m2.7
-      curated_at: '2026-05-31T16:28:00.544916+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-05-31T16:28:00.544916+00:00'
-    - number: 19
-      reason: Belongs to earlier series 'Dragons - Die Reiter von Berk' (Hörspiele started from episode 21 of this series, or 'Die Wächter von Berk') - not produced as Hörspiele for 'Auf zu neuen 
-        Ufern'
-      curated_by: minimax-m2.7
-      curated_at: '2026-05-31T16:28:00.544916+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-05-31T16:28:00.544916+00:00'
-    - number: 20
-      reason: Belongs to earlier series 'Dragons - Die Reiter von Berk' (Hörspiele started from episode 21 of this series, or 'Die Wächter von Berk') - not produced as Hörspiele for 'Auf zu neuen 
-        Ufern'
-      curated_by: minimax-m2.7
-      curated_at: '2026-05-31T16:28:00.544916+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-05-31T16:28:00.544916+00:00'
+      range_end: 20
+  aliases:
+  - 'Dragons: Race to the Edge'
 - id: die_punkies
   title: Die Punkies
   providers:
@@ -18875,7 +18956,8 @@ series:
         title: 'Kurz-Hörspiel: Nikolas - Drei süße Pinguine'
       - id: '1542185952'
         title: 'Kurz-Hörspiel: Aylin - All Eyes On Me'
-  episode_pattern: '^Folge (\d+): '
+  episode_pattern:
+  - '^Folge (\d+):'
 - id: cornelia_funke
   title: Cornelia Funke
   providers:
@@ -18967,9 +19049,15 @@ series:
       - id: 4teCqJn4CqFg1mCzaeqKUg
         episode: 30
         title: Bei den Römern (Wieso? Weshalb? Warum? Folge 30)
+      - id: 5QhV3TMwyItl0ss8kEPyKC
+        episode: 31
+        title: Wir entdecken Deutschland (Wieso? Weshalb? Warum?)
       - id: 3z8Q6Dj9JEgPl2g6wlHh5y
         episode: 32
         title: Wir entdecken den Weltraum (Wieso? Weshalb? Warum? Folge 32)
+      - id: 0SJwUfZiU55SOgvFzjDg3B
+        episode: 33
+        title: Wir entdecken die Bibel (Wieso? Weshalb? Warum?)
       - id: 5NhTrJXXNYsv0sBgfof7iu
         episode: 34
         title: Wir feiern Weihnachten (Wieso? Weshalb? Warum? Folge 34)
@@ -19087,10 +19175,6 @@ series:
       - id: 1alHNywINSD1EgYegBFVEX
         episode: 74
         title: Rund um den Müll (Wieso? Weshalb? Warum? Folge 74)
-      - id: 5QhV3TMwyItl0ss8kEPyKC
-        title: Wir entdecken Deutschland (Wieso? Weshalb? Warum?)
-      - id: 0SJwUfZiU55SOgvFzjDg3B
-        title: Wir entdecken die Bibel (Wieso? Weshalb? Warum?)
     apple_music:
       artist_ids:
       - '1560025489'
@@ -19143,9 +19227,6 @@ series:
       - id: '1561043910'
         episode: 15
         title: Alles über Prinzessinnen
-      - id: '1863396813'
-        episode: 15
-        title: Alles über Prinzessinnen (Wieso? Weshalb? Warum? Folge 15)
       - id: '1863381874'
         episode: 16
         title: Tiere im Einsatz (Wieso? Weshalb? Warum? Folge 16)
@@ -19194,12 +19275,18 @@ series:
       - id: '1863402249'
         episode: 30
         title: Bei den Römern (Wieso? Weshalb? Warum? Folge 30)
+      - id: '1863397626'
+        episode: 31
+        title: Wir entdecken Deutschland (Wieso? Weshalb? Warum?)
       - id: '1561045519'
         episode: 32
         title: Wieso? Weshalb? Warum? Wir entdecken den Weltraum
       - id: '1863404702'
         episode: 32
         title: Wir entdecken den Weltraum (Wieso? Weshalb? Warum? Folge 32)
+      - id: '1863395917'
+        episode: 33
+        title: Wir entdecken die Bibel (Wieso? Weshalb? Warum?)
       - id: '1561043417'
         episode: 34
         title: Wieso? Weshalb? Warum? Wir feiern Weihnachten
@@ -19308,6 +19395,9 @@ series:
       - id: '1863408090'
         episode: 65
         title: Alles über Einsatzkräfte (Wieso? Weshalb? Warum? Folge 65)
+      - id: '1561045307'
+        episode: 66
+        title: Wieso? Weshalb? Warum? Wir entdecken Kleidung und Mode
       - id: '1863406219'
         episode: 67
         title: Wir schützen unsere Umwelt (Wieso? Weshalb? Warum? Folge 67)
@@ -19335,130 +19425,169 @@ series:
       - id: '1863377882'
         episode: 74
         title: Rund um den Müll (Wieso? Weshalb? Warum? Folge 74)
-      - id: '1863397626'
-        title: Wir entdecken Deutschland (Wieso? Weshalb? Warum?)
-      - id: '1863395917'
-        title: Wir entdecken die Bibel (Wieso? Weshalb? Warum?)
-      - id: '1561045307'
-        title: Wieso? Weshalb? Warum? Wir entdecken Kleidung und Mode
-  episode_pattern: ^.*\(Wieso\? Weshalb\? Warum\? Folge\s*(\d+)\)?$
+  episode_pattern: ^.*\(Wieso\? Weshalb\? Warum\?[^)]*Folge\s*(\d+)(?!\s*[-–]\d+).*$
   series_facts:
     era_boundaries:
     - label: klassik
       release_date_range: 2004-2009
       curated_by: minimax-m2.7
-      curated_at: '2026-05-31T16:47:31.584558+00:00'
+      curated_at: '2026-07-02T08:18:13.890057+00:00'
       audited_by: minimax-m2.7
-      audited_at: '2026-05-31T16:47:31.584558+00:00'
+      audited_at: '2026-07-02T08:18:13.890057+00:00'
     - label: moderne
       release_date_range: 2010-2019
       curated_by: minimax-m2.7
-      curated_at: '2026-05-31T16:47:31.584558+00:00'
+      curated_at: '2026-07-02T08:18:13.890057+00:00'
       audited_by: minimax-m2.7
-      audited_at: '2026-05-31T16:47:31.584558+00:00'
+      audited_at: '2026-07-02T08:18:13.890057+00:00'
     - label: aktuell
       release_date_range: 2020-2026
       curated_by: minimax-m2.7
-      curated_at: '2026-05-31T16:47:31.584558+00:00'
+      curated_at: '2026-07-02T08:18:13.890057+00:00'
       audited_by: minimax-m2.7
-      audited_at: '2026-05-31T16:47:31.584558+00:00'
+      audited_at: '2026-07-02T08:18:13.890057+00:00'
     known_gaps:
     - number: 6
+      range_end:
       reason: Missing from catalog - not found on Spotify or Apple Music
       curated_by: minimax-m2.7
-      curated_at: '2026-05-31T16:47:31.584558+00:00'
+      curated_at: '2026-07-02T08:18:13.890057+00:00'
       audited_by: minimax-m2.7
-      audited_at: '2026-05-31T16:47:31.584558+00:00'
+      audited_at: '2026-07-02T08:18:13.890057+00:00'
     - number: 9
+      range_end:
       reason: Missing from catalog - not found on Spotify or Apple Music
       curated_by: minimax-m2.7
-      curated_at: '2026-05-31T16:47:31.584558+00:00'
+      curated_at: '2026-07-02T08:18:13.890057+00:00'
       audited_by: minimax-m2.7
-      audited_at: '2026-05-31T16:47:31.584558+00:00'
+      audited_at: '2026-07-02T08:18:13.890057+00:00'
     - number: 13
+      range_end:
       reason: Missing from catalog - not found on Spotify or Apple Music
       curated_by: minimax-m2.7
-      curated_at: '2026-05-31T16:47:31.584558+00:00'
+      curated_at: '2026-07-02T08:18:13.890057+00:00'
       audited_by: minimax-m2.7
-      audited_at: '2026-05-31T16:47:31.584558+00:00'
+      audited_at: '2026-07-02T08:18:13.890057+00:00'
     - number: 19
+      range_end:
       reason: Missing from catalog - not found on Spotify or Apple Music
       curated_by: minimax-m2.7
-      curated_at: '2026-05-31T16:47:31.584558+00:00'
+      curated_at: '2026-07-02T08:18:13.890057+00:00'
       audited_by: minimax-m2.7
-      audited_at: '2026-05-31T16:47:31.584558+00:00'
+      audited_at: '2026-07-02T08:18:13.890057+00:00'
     - number: 29
+      range_end:
       reason: Missing from catalog - not found on Spotify or Apple Music
       curated_by: minimax-m2.7
-      curated_at: '2026-05-31T16:47:31.584558+00:00'
+      curated_at: '2026-07-02T08:18:13.890057+00:00'
       audited_by: minimax-m2.7
-      audited_at: '2026-05-31T16:47:31.584558+00:00'
+      audited_at: '2026-07-02T08:18:13.890057+00:00'
     - number: 31
+      range_end:
       reason: Episode likely exists but without 'Folge N' suffix; may be 'Wir entdecken Deutschland'
       curated_by: minimax-m2.7
-      curated_at: '2026-05-31T16:47:31.584558+00:00'
+      curated_at: '2026-07-02T08:18:13.890057+00:00'
       audited_by: minimax-m2.7
-      audited_at: '2026-05-31T16:47:31.584558+00:00'
+      audited_at: '2026-07-02T08:18:13.890057+00:00'
     - number: 33
+      range_end:
       reason: Episode likely exists but without 'Folge N' suffix; may be 'Wir entdecken die Bibel'
       curated_by: minimax-m2.7
-      curated_at: '2026-05-31T16:47:31.584558+00:00'
+      curated_at: '2026-07-02T08:18:13.890057+00:00'
       audited_by: minimax-m2.7
-      audited_at: '2026-05-31T16:47:31.584558+00:00'
+      audited_at: '2026-07-02T08:18:13.890057+00:00'
     - number: 42
+      range_end:
       reason: Missing from catalog - not found on Spotify or Apple Music
       curated_by: minimax-m2.7
-      curated_at: '2026-05-31T16:47:31.584558+00:00'
+      curated_at: '2026-07-02T08:18:13.890057+00:00'
       audited_by: minimax-m2.7
-      audited_at: '2026-05-31T16:47:31.584558+00:00'
+      audited_at: '2026-07-02T08:18:13.890057+00:00'
     - number: 49
+      range_end:
       reason: Missing from catalog - not found on Spotify or Apple Music
       curated_by: minimax-m2.7
-      curated_at: '2026-05-31T16:47:31.584558+00:00'
+      curated_at: '2026-07-02T08:18:13.890057+00:00'
       audited_by: minimax-m2.7
-      audited_at: '2026-05-31T16:47:31.584558+00:00'
+      audited_at: '2026-07-02T08:18:13.890057+00:00'
     - number: 54
+      range_end:
       reason: Missing from catalog - not found on Spotify or Apple Music
       curated_by: minimax-m2.7
-      curated_at: '2026-05-31T16:47:31.584558+00:00'
+      curated_at: '2026-07-02T08:18:13.890057+00:00'
       audited_by: minimax-m2.7
-      audited_at: '2026-05-31T16:47:31.584558+00:00'
+      audited_at: '2026-07-02T08:18:13.890057+00:00'
     - number: 56
+      range_end:
       reason: Missing from catalog - not found on Spotify or Apple Music
       curated_by: minimax-m2.7
-      curated_at: '2026-05-31T16:47:31.584558+00:00'
+      curated_at: '2026-07-02T08:18:13.890057+00:00'
       audited_by: minimax-m2.7
-      audited_at: '2026-05-31T16:47:31.584558+00:00'
+      audited_at: '2026-07-02T08:18:13.890057+00:00'
     - number: 57
+      range_end:
       reason: Missing from catalog - not found on Spotify or Apple Music
       curated_by: minimax-m2.7
-      curated_at: '2026-05-31T16:47:31.584558+00:00'
+      curated_at: '2026-07-02T08:18:13.890057+00:00'
       audited_by: minimax-m2.7
-      audited_at: '2026-05-31T16:47:31.584558+00:00'
+      audited_at: '2026-07-02T08:18:13.890057+00:00'
     - number: 62
+      range_end:
       reason: Missing from catalog - not found on Spotify or Apple Music
       curated_by: minimax-m2.7
-      curated_at: '2026-05-31T16:47:31.584558+00:00'
+      curated_at: '2026-07-02T08:18:13.890057+00:00'
       audited_by: minimax-m2.7
-      audited_at: '2026-05-31T16:47:31.584558+00:00'
+      audited_at: '2026-07-02T08:18:13.890057+00:00'
     - number: 63
+      range_end:
       reason: Missing from catalog - not found on Spotify or Apple Music
       curated_by: minimax-m2.7
-      curated_at: '2026-05-31T16:47:31.584558+00:00'
+      curated_at: '2026-07-02T08:18:13.890057+00:00'
       audited_by: minimax-m2.7
-      audited_at: '2026-05-31T16:47:31.584558+00:00'
+      audited_at: '2026-07-02T08:18:13.890057+00:00'
     - number: 66
-      reason: Missing from catalog - not found on Spotify or Apple Music
+      range_end:
+      reason: Missing from Spotify catalog - present on Apple Music as 'Wir entdecken Kleidung und Mode'
       curated_by: minimax-m2.7
-      curated_at: '2026-05-31T16:47:31.584558+00:00'
+      curated_at: '2026-07-02T08:18:13.890057+00:00'
       audited_by: minimax-m2.7
-      audited_at: '2026-05-31T16:47:31.584558+00:00'
+      audited_at: '2026-07-02T08:18:13.890057+00:00'
     - number: 70
+      range_end:
       reason: Missing from catalog - not found on Spotify or Apple Music
       curated_by: minimax-m2.7
-      curated_at: '2026-05-31T16:47:31.584558+00:00'
+      curated_at: '2026-07-02T08:18:13.890057+00:00'
       audited_by: minimax-m2.7
-      audited_at: '2026-05-31T16:47:31.584558+00:00'
+      audited_at: '2026-07-02T08:18:13.890057+00:00'
+    sub_series:
+    - label: ERSTLESER
+      album_ids: []
+      reason: Early reader sub-series with distinct episode numbering. Excluded from main series.
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-02T08:18:13.890057+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-02T08:18:13.890057+00:00'
+    - label: JUNIOR
+      album_ids: []
+      reason: Lowercase 'junior' brand sub-series with distinct episode numbering (Folge 1-81). Excluded from main series.
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-02T08:18:13.890057+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-02T08:18:13.890057+00:00'
+    - label: Meine Vorlesegeschichten
+      album_ids: []
+      reason: Read-aloud stories sub-series with distinct episode numbering. Excluded from main series.
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-02T08:18:13.890057+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-02T08:18:13.890057+00:00'
+    - label: PROFIWISSEN
+      album_ids: []
+      reason: Advanced knowledge sub-series with distinct episode numbering. Excluded from main series.
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-02T08:18:13.890057+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-02T08:18:13.890057+00:00'
 - id: otfried_preussler
   title: Otfried Preußler
   providers:
@@ -19466,16 +19595,38 @@ series:
       artist_ids:
       - 6OHFxwqdZpOuYMKrV0UHQ5
       albums:
+      - id: 2zgCdgnOoep0XYcMhk65nx
+        episode: 1
+        title: 'Der Räuber Hotzenplotz 1: Der Räuber Hotzenplotz'
+      - id: 60E8SCY3oG0S4ouo9zGEJf
+        episode: 1
+        title: '1: Der Räuber Hotzenplotz'
+      - id: 2psWDBpuMuQF9yIcXiqN4F
+        episode: 1
+        title: 'Der Räuber Hotzenplotz - Hörspiele 1: Der Räuber Hotzenplotz - Das Hörspiel'
+      - id: 3Ik0ZUPEEaHJ7OKp78broi
+        episode: 2
+        title: 'Der Räuber Hotzenplotz 2: Neues vom Räuber Hotzenplotz (2. Band des Kinderbuch-Klassiker)'
+      - id: 2LaaedYUhpMjgkjU9b4EGi
+        episode: 2
+        title: '2: Neues vom Räuber Hotzenplotz'
+      - id: 5Xmy3t937WiwSBfEYK6QgZ
+        episode: 2
+        title: 'Der Räuber Hotzenplotz - Hörspiele 2: Neues vom Räuber Hotzenplotz - Das Hörspiel'
+      - id: 1HKQ4d298PtVxT0a4BQsng
+        episode: 3
+        title: '3: Der Räuber Hotzenplotz - Schluss mit der Räuberei'
+      - id: 2YOK83serJO3UNnU8bDbja
+        episode: 3
+        title: 'Der Räuber Hotzenplotz - Hörspiele 3: Schluss mit der Räuberei - Das Hörspiel'
       - id: 3nLocdKUV5ujJPoRbCj4L5
         title: Der kleine Wassermann
       - id: 56zUkcOUxRdhfg8YOTfbCb
         title: Die kleine Hexe
       - id: 6FG0NJrp5QNPRos8yMVQIq
         title: Bei uns in Schilda
-      - id: 2zgCdgnOoep0XYcMhk65nx
-        title: 'Der Räuber Hotzenplotz 1: Der Räuber Hotzenplotz'
-      - id: 3Ik0ZUPEEaHJ7OKp78broi
-        title: 'Der Räuber Hotzenplotz 2: Neues vom Räuber Hotzenplotz (2. Band des Kinderbuch-Klassiker)'
+      - id: 4Q07f6FmmseMjv6bk1UDv8
+        title: Die Abenteuer des starken Wanja
       - id: 22O3YNErbMtCwNAyQJQyv0
         title: Die Kleine Hexe (Part. 1)
       - id: 6cnxciqWfKI21f6W0Q5Xou
@@ -19484,6 +19635,8 @@ series:
         title: Die Kleine Hexe (Part. 3)
       - id: 7clCZxcbo61wfg34f3HPlu
         title: Die Kleine Hexe (Part. 4)
+      - id: 1EDL1HJ6jTVDU7HV4ZomVj
+        title: Hörbe mit dem großen Hut (Kinderbuch-Klassiker als Hörspiel)
       - id: 1GMH819f7bIJApsxMJfTi9
         title: Die Abenteuer des starken Wanja
       - id: 7DUZMoN2Oxn1P5r9L3FY8D
@@ -19494,31 +19647,115 @@ series:
         title: Brot für Myra (Die Legende vom heiligen Nikolaus)
       - id: 7IPVK3BrCUQcH88dPg3Ge8
         title: Herr Klingsor konnte ein bißchen zaubern
+      - id: 5FD9TSOgubeepZsSQdk2oS
+        title: Hörbe mit dem großen Hut
+      - id: 3351m0GWawlGhlpjFW3yM6
+        title: Zwölfe hat's geschlagen
+      - id: 6QY06XYTjihkPKEWCi1PjM
+        title: Das kleine Gespenst
+      - id: 2OB0I2qW3RwixCtNEPE09h
+        title: Der kleine Wassermann
+      - id: 60r4JW9AcLzEPrQIRoJ31p
+        title: Die kleine Hexe
+      - id: 3vW62UcuXbB0YBjBPFgZZI
+        title: Das kleine Gespenst
+      - id: 1pV9ZitMywO46h4igOPD2X
+        title: Das kleine Gespenst - Das Hörspiel
+      - id: 4emzzQdNqiGnnTdJQxQH0Z
+        title: Der kleine Wassermann - Das Hörspiel
+      - id: 7JVJLlMf9v7lFHAnesmmZ4
+        title: Die kleine Hexe (Ausflug mit Abraxas und Winterzauber mit Abraxas)
+      - id: 2ePUhKbymZCmXJ4wItsql7
+        title: Die kleine Hexe - Das Hörspiel
+      - id: 2Uecb4RSMPonBJGJGbJkLK
+        title: Der kleine Wassermann - Frühling im Mühlenweiher
+      - id: 59C2HIBgP2sVkPGj2QNoe2
+        title: Der kleine Wassermann - Herbst im Mühlenweiher
+      - id: 24UoR4DeKKYQoOyi2ezy4U
+        title: Der kleine Wassermann - Sommerfest im Mühlenweiher
+      - id: 0WKXcZesO4alcDdC8JKIKF
+        title: Das kleine Gespenst - Tohuwabohu auf Burg Eulenstein
       - id: 1JxVVfB7HVaFuwkHMIsItF
         title: Fette Beute (Wilde Geschichten von Räubern und Banditen)
+      - id: 4NaZuAgDM92V1nfjJKi0m4
+        title: 'Der Räuber Hotzenplotz - Hörspiele: Der Räuber Hotzenplotz und die Mondrakete - Das Hörspiel'
+      - id: 36CwCR1wz682jxOLSUaUwh
+        title: Der Räuber Hotzenplotz und die Mondrakete
       - id: 12nXACFkqFVOUINCtDYwO3
         title: Winterzeit, tief verschneit (Wintergeschichten von Hexe, Hörbe, Wassermann und vielen anderen Preußler-Figuren)
+      - id: 4tgA4hMn7r356EyKPKv7cr
+        title: 'Der Räuber Hotzenplotz - Hörspiele: Der Räuber Hotzenplotz. Das Originalhörspiel zum Kinofilm'
     apple_music:
       artist_ids:
       - '68437630'
       albums:
-      - id: '1685901386'
-        title: Das kleine Gespenst
-      - id: '1685935364'
-        title: Der kleine Wassermann
-      - id: '1685880726'
-        title: Die kleine Hexe
       - id: '1842150368'
+        episode: 1
         title: '1: Der Räuber Hotzenplotz'
+      - id: '1582041552'
+        episode: 1
+        title: 'Der Räuber Hotzenplotz - Hörspiele 1: Der Räuber Hotzenplotz - Das Hörspiel'
       - id: '1686245883'
+        episode: 2
         title: '2: Neues vom Räuber Hotzenplotz'
       - id: '1686210686'
+        episode: 3
         title: '3: Der Räuber Hotzenplotz - Schluss mit der Räuberei'
+      - id: '1685880520'
+        title: Die Abenteuer des starken Wanja
+      - id: '1808930855'
+        title: Die Kleine Hexe (Part. 1)
+      - id: '1808929321'
+        title: Die Kleine Hexe (Part. 2)
+      - id: '1808930037'
+        title: Die Kleine Hexe (Part. 3)
+      - id: '6782026815'
+        title: Herr Klingsor konnte ein bißchen zaubern
+      - id: '6782076776'
+        title: Hörbe mit dem großen Hut
+      - id: '6782028740'
+        title: Hörbe und sein Freund Zwottel
+      - id: '6782029595'
+        title: Zwölfe hat's geschlagen
+      - id: '1685901386'
+        title: Das kleine Gespenst
+      - id: '1611139975'
+        title: Das kleine Gespenst - Das Hörspiel
+      - id: '1685935364'
+        title: Der kleine Wassermann
+      - id: '1744000521'
+        title: Hörbe mit dem großen Hut (Kinderbuch-Klassiker als Hörspiel)
+      - id: '1685880726'
+        title: Die kleine Hexe
+      - id: '1686048211'
+        title: Der kleine Wassermann - Frühling im Mühlenweiher
+      - id: '1686040041'
+        title: Das kleine Gespenst (Tohuwabohu auf Burg Eulenstein)
+      - id: '1686157107'
+        title: Der Räuber Hotzenplotz und die Mondrakete
+      - id: '1460369563'
+        title: Das kleine Gespenst - Das Hörspiel zum Kinofilm
+      - id: '1582038611'
+        title: 'Der Räuber Hotzenplotz - Hörspiele 2: Neues vom Räuber Hotzenplotz - Das Hörspiel'
+      - id: '1582022951'
+        title: 'Der Räuber Hotzenplotz - Hörspiele 3: Schluss mit der Räuberei - Das Hörspiel'
+      - id: '1610777749'
+        title: Die kleine Hexe - Das Hörspiel
+      - id: '1646471187'
+        title: Der Räuber Hotzenplotz. Das Originalhörspiel zum Kinofilm
+      - id: '1711556948'
+        title: 'Der Räuber Hotzenplotz - Hörspiele: Der Räuber Hotzenplotz und die Mondrakete - Das Hörspiel'
   content_type: hoerspiel
   aliases:
-  - Otfried Preußler Hörspiele
+  - Otfried Preussler
   series_facts:
     era_boundaries:
+    - label: klassik_fruehwerk
+      release_date_range: 1956-1972
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-02T08:19:26.888869+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-02T08:19:26.888869+00:00'
     - curated_by: minimax-m2.7
       curated_at: '2026-05-31T16:33:51.641769+00:00'
       audited_by: minimax-m2.7
@@ -19532,12 +19769,12 @@ series:
       label: digital_reissues
       release_date_range: 2007-2024
     known_gaps:
-    - number: 3
-      reason: Spotify carries only the 1962/1969 original Hörspiele and the 2012 audiobook (excluded as Hörbuch). The 2008 Hörspiel recording exists only on Apple Music.
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-06-19T04:01:08.334526+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-06-19T04:01:08.334526+00:00'
+      number: 3
+      reason: Spotify carries only the 1962/1969 original Hörspiele and the 2012 audiobook (excluded as Hörbuch). The 2008 Hörspiel recording exists only on Apple Music.
 - id: der_kleine_rabe_socke
   title: Der Kleine Rabe Socke
   providers:
@@ -19733,10 +19970,20 @@ series:
         title: 'Folge 4: Komm, wir finden einen Schatz'
       - id: '1498442592'
         title: Oh, wie schön ist Panama
-  episode_pattern: '^Folge (\d+):'
   aliases:
   - Tiger & Bär
   - Tiger und Bär
+  content_type: hoerspiel
+  series_facts:
+    known_gaps:
+    - number: 1
+      range_end:
+      reason: Episode 1 "Post für den Tiger" appears to be mislabeled as "Folge 2" on both Spotify and Apple Music. The fan database hoerspielland.de lists it as "Folge 1". If this is correct, there's
+        no actual Episode 2 in the streaming catalog - the series skips from Episode 1 directly to Episodes 3 and 4.
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-02T08:22:01.971961+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-02T08:22:01.971961+00:00'
 - id: spirit
   title: Spirit
   providers:
@@ -19847,6 +20094,8 @@ series:
         title: Weihnachten in Miradero (Das Original-Hörspiel zum Weihnachts-Special)
       - id: 3DOAT13yWO6anvcLKBRpKu
         title: Halloween - Special (Das Original-Hörspiel zum Special)
+      - id: 4sTySe6HuHPDfc8cBODIh5
+        title: Frei und ungezähmt (Das Original-Hörspiel zum Kinofilm)
       - id: 53CZ3AeaUBb6Vm6aL01Qz6
         title: Weihnachts-Spirit (Das Original-Hörspiel zur TV-Serie)
     apple_music:
@@ -19860,7 +20109,7 @@ series:
         episode: 2
         title: 'Folge 2: Die rätselhafte Karte / Der Konkurrenzkampf (Das Original-Hörspiel zur TV-Serie)'
       - id: '1434409926'
-        episode: 3
+        episode: 2
         title: 'Folge 2: Ein Pferd für Turo / Überraschung! (Das Original-Hörspiel zur TV-Serie)'
       - id: '1449602755'
         episode: 4
@@ -19956,11 +20205,14 @@ series:
         title: Weihnachten in Miradero (Das Original-Hörspiel zum Weihnachts-Special)
       - id: '1555716916'
         title: 'Halloween Special: Der Halloween Geist (Das Original-Hörspiel zum Special)'
+      - id: '1569206580'
+        title: Frei und ungezähmt (Das Original-Hörspiel zum Kinofilm)
       - id: '1585960681'
         title: Weihnachts-Spirit (Das Original-Hörspiel zur TV-Serie)
   episode_pattern: '^Folge (\d+):'
   aliases:
   - Spirit
+  - Spirit Riding Free
 - id: die_kleine_schnecke_monika_haeuschen
   title: Die kleine Schnecke Monika Häuschen
   providers:
@@ -20613,10 +20865,22 @@ series:
         episode: 24
         title: 'Folge 24: Die Riesen aus dem Wald'
   episode_pattern:
-  - '^Folge (\d+): '
-  - ^(\d{2})/
-  - ^Hörspiel zur TV-Serie (\d{2})/
-  - '^Hörspiel zur TV-Serie Folge (\d+): '
+  - '^Folge (\d+):'
+  - ^(\d{1,2})/
+  series_facts:
+    era_boundaries:
+    - label: original
+      release_date_range: 2007-2013
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-02T08:23:24.433929+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-02T08:23:24.433929+00:00'
+    - label: revival
+      release_date_range: 2023-2026
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-02T08:23:24.433929+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-02T08:23:24.433929+00:00'
 - id: die_fuchsbande
   title: Die Fuchsbande
   providers:
@@ -21812,8 +22076,16 @@ series:
       - id: '1895951092'
         episode: 89
         title: 'Folge 89: Streit am Meer'
-  episode_pattern:
-  - '^Folge (\d+):'
+  episode_pattern: '^Folge (\d+):'
+  series_facts:
+    known_gaps:
+    - number: 19
+      range_end:
+      reason: 'Production hiatus: episodes 1-18 released 1994-1996, then 11-year gap before episode 19 in 2007. Series continued with episode 19 as the next numbered episode in the sequence.'
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-02T08:25:27.191681+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-02T08:25:27.191681+00:00'
 - id: sternenfohlen
   title: Sternenfohlen
   providers:
@@ -21950,6 +22222,9 @@ series:
       - id: 3zvv92EJrPWROmyButrOFZ
         episode: 43
         title: 'Teil 43: Der verwunschene Wald'
+      - id: 7uYa819x7AUWALth6QkztR
+        episode: 44
+        title: 'Teil 44: Zauberhaftes Schultheater'
     apple_music:
       artist_ids:
       - '1077131667'
@@ -22080,6 +22355,9 @@ series:
       - id: '1884380563'
         episode: 43
         title: 'Teil 43: Der verwunschene Wald'
+      - id: '1896409005'
+        episode: 44
+        title: 'Teil 44: Zauberhaftes Schultheater'
   episode_pattern: '^Teil (\d+):'
   series_facts:
     known_gaps:
@@ -24407,18 +24685,7 @@ series:
       curated_at: '2026-06-10T18:45:43.593281+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-06-10T18:45:43.593281+00:00'
-    - number: 3
-      reason: Episode number not found in available catalog across providers - genuine gap in numbering sequence
-      curated_by: minimax-m2.7
-      curated_at: '2026-06-10T18:45:43.593281+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-10T18:45:43.593281+00:00'
-    - number: 4
-      reason: Episode number not found in available catalog across providers - genuine gap in numbering sequence
-      curated_by: minimax-m2.7
-      curated_at: '2026-06-10T18:45:43.593281+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-10T18:45:43.593281+00:00'
+      range_end: 4
     - number: 8
       reason: Episode number not found in available catalog across providers - genuine gap in numbering sequence
       curated_by: minimax-m2.7
@@ -25116,36 +25383,7 @@ series:
       curated_at: '2026-06-10T18:47:58.618797+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-06-10T18:47:58.618797+00:00'
-    - number: 42
-      reason: Original series episode; not rebooted in 'Der neue Superheld' series
-      curated_by: minimax-m2.7
-      curated_at: '2026-06-10T18:47:58.618797+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-10T18:47:58.618797+00:00'
-    - number: 43
-      reason: Original series episode; not rebooted in 'Der neue Superheld' series
-      curated_by: minimax-m2.7
-      curated_at: '2026-06-10T18:47:58.618797+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-10T18:47:58.618797+00:00'
-    - number: 44
-      reason: Original series episode; not rebooted in 'Der neue Superheld' series
-      curated_by: minimax-m2.7
-      curated_at: '2026-06-10T18:47:58.618797+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-10T18:47:58.618797+00:00'
-    - number: 45
-      reason: Original series episode; not rebooted in 'Der neue Superheld' series
-      curated_by: minimax-m2.7
-      curated_at: '2026-06-10T18:47:58.618797+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-10T18:47:58.618797+00:00'
-    - number: 46
-      reason: Original series episode; not rebooted in 'Der neue Superheld' series
-      curated_by: minimax-m2.7
-      curated_at: '2026-06-10T18:47:58.618797+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-10T18:47:58.618797+00:00'
+      range_end: 46
 - id: peter_pan
   title: Peter Pan
   providers:
@@ -25335,6 +25573,7 @@ series:
         title: Peter Pan & Wendy (Hörspiel zum Disney Real-Kinofilm)
       - id: '1685994028'
         title: Peter Pan 2 - Neue Abenteuer in Nimmer Land (Das Original-Hörspiel zum Film)
+  content_type: hoerspiel
 - id: angry_birds
   title: Angry Birds
   providers:
@@ -26277,142 +26516,18 @@ series:
       curated_at: '2026-06-11T07:19:29.027905+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-06-11T07:19:29.027905+00:00'
-    - number: 29
-      reason: Apple Music only has episodes 27-52 in excluded box sets.
-      curated_by: minimax-m2.7
-      curated_at: '2026-06-11T07:19:29.027905+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-11T07:19:29.027905+00:00'
-    - number: 30
-      reason: Apple Music only has episodes 27-52 in excluded box sets.
-      curated_by: minimax-m2.7
-      curated_at: '2026-06-11T07:19:29.027905+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-11T07:19:29.027905+00:00'
-    - number: 31
-      reason: Apple Music only has episodes 27-52 in excluded box sets.
-      curated_by: minimax-m2.7
-      curated_at: '2026-06-11T07:19:29.027905+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-11T07:19:29.027905+00:00'
-    - number: 32
-      reason: Apple Music only has episodes 27-52 in excluded box sets.
-      curated_by: minimax-m2.7
-      curated_at: '2026-06-11T07:19:29.027905+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-11T07:19:29.027905+00:00'
-    - number: 33
-      reason: Apple Music only has episodes 27-52 in excluded box sets.
-      curated_by: minimax-m2.7
-      curated_at: '2026-06-11T07:19:29.027905+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-11T07:19:29.027905+00:00'
-    - number: 34
-      reason: Apple Music only has episodes 27-52 in excluded box sets.
-      curated_by: minimax-m2.7
-      curated_at: '2026-06-11T07:19:29.027905+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-11T07:19:29.027905+00:00'
-    - number: 35
-      reason: Apple Music only has episodes 27-52 in excluded box sets.
-      curated_by: minimax-m2.7
-      curated_at: '2026-06-11T07:19:29.027905+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-11T07:19:29.027905+00:00'
-    - number: 36
-      reason: Apple Music only has episodes 27-52 in excluded box sets.
-      curated_by: minimax-m2.7
-      curated_at: '2026-06-11T07:19:29.027905+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-11T07:19:29.027905+00:00'
-    - number: 37
-      reason: Apple Music only has episodes 27-52 in excluded box sets.
-      curated_by: minimax-m2.7
-      curated_at: '2026-06-11T07:19:29.027905+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-11T07:19:29.027905+00:00'
-    - number: 38
-      reason: Apple Music only has episodes 27-52 in excluded box sets.
-      curated_by: minimax-m2.7
-      curated_at: '2026-06-11T07:19:29.027905+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-11T07:19:29.027905+00:00'
-    - number: 39
-      reason: Apple Music only has episodes 27-52 in excluded box sets.
-      curated_by: minimax-m2.7
-      curated_at: '2026-06-11T07:19:29.027905+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-11T07:19:29.027905+00:00'
-    - number: 40
-      reason: Apple Music only has episodes 27-52 in excluded box sets.
-      curated_by: minimax-m2.7
-      curated_at: '2026-06-11T07:19:29.027905+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-11T07:19:29.027905+00:00'
+      range_end: 40
+    - number: 42
+      reason: Episode 42 on Apple Music is a 2.3-min stub (excluded); full version only on Spotify.
+      audited_by: third-pass-review
+      audited_at: '2026-06-11T20:37:47.244530+00:00'
     - number: 43
       reason: Apple Music only has episodes 27-52 in excluded box sets.
       curated_by: minimax-m2.7
       curated_at: '2026-06-11T07:19:29.027905+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-06-11T07:19:29.027905+00:00'
-    - number: 44
-      reason: Apple Music only has episodes 27-52 in excluded box sets.
-      curated_by: minimax-m2.7
-      curated_at: '2026-06-11T07:19:29.027905+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-11T07:19:29.027905+00:00'
-    - number: 45
-      reason: Apple Music only has episodes 27-52 in excluded box sets.
-      curated_by: minimax-m2.7
-      curated_at: '2026-06-11T07:19:29.027905+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-11T07:19:29.027905+00:00'
-    - number: 46
-      reason: Apple Music only has episodes 27-52 in excluded box sets.
-      curated_by: minimax-m2.7
-      curated_at: '2026-06-11T07:19:29.027905+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-11T07:19:29.027905+00:00'
-    - number: 47
-      reason: Apple Music only has episodes 27-52 in excluded box sets.
-      curated_by: minimax-m2.7
-      curated_at: '2026-06-11T07:19:29.027905+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-11T07:19:29.027905+00:00'
-    - number: 48
-      reason: Apple Music only has episodes 27-52 in excluded box sets.
-      curated_by: minimax-m2.7
-      curated_at: '2026-06-11T07:19:29.027905+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-11T07:19:29.027905+00:00'
-    - number: 49
-      reason: Apple Music only has episodes 27-52 in excluded box sets.
-      curated_by: minimax-m2.7
-      curated_at: '2026-06-11T07:19:29.027905+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-11T07:19:29.027905+00:00'
-    - number: 50
-      reason: Apple Music only has episodes 27-52 in excluded box sets.
-      curated_by: minimax-m2.7
-      curated_at: '2026-06-11T07:19:29.027905+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-11T07:19:29.027905+00:00'
-    - number: 51
-      reason: Apple Music only has episodes 27-52 in excluded box sets.
-      curated_by: minimax-m2.7
-      curated_at: '2026-06-11T07:19:29.027905+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-11T07:19:29.027905+00:00'
-    - number: 52
-      reason: Apple Music only has episodes 27-52 in excluded box sets.
-      curated_by: minimax-m2.7
-      curated_at: '2026-06-11T07:19:29.027905+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-11T07:19:29.027905+00:00'
-    - number: 42
-      reason: Episode 42 on Apple Music is a 2.3-min stub (excluded); full version only on Spotify.
-      audited_by: third-pass-review
-      audited_at: '2026-06-11T20:37:47.244530+00:00'
+      range_end: 52
 - id: bambi
   title: Bambi
   providers:
@@ -26444,14 +26559,7 @@ series:
       reason: Folgen 1-3 exist on Apple Music (included); absent from the Spotify catalog.
       audited_by: minimax-m2.7
       audited_at: '2026-05-27T17:28:30.031505+00:00'
-    - number: 2
-      reason: Folgen 1-3 exist on Apple Music (included); absent from the Spotify catalog.
-      audited_by: minimax-m2.7
-      audited_at: '2026-05-27T17:28:30.031505+00:00'
-    - number: 3
-      reason: Folgen 1-3 exist on Apple Music (included); absent from the Spotify catalog.
-      audited_by: minimax-m2.7
-      audited_at: '2026-05-27T17:28:30.031505+00:00'
+      range_end: 3
 - id: woodwalkers
   title: Woodwalkers
   providers:
@@ -28012,156 +28120,7 @@ series:
       curated_at: '2026-06-10T18:55:03.232976+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-06-10T18:55:03.232976+00:00'
-    - number: 28
-      reason: Season 2 ('Die Legende von Svenberg') episodes not available on Spotify or Apple Music
-      curated_by: minimax-m2.7
-      curated_at: '2026-06-10T18:55:03.232976+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-10T18:55:03.232976+00:00'
-    - number: 29
-      reason: Season 2 ('Die Legende von Svenberg') episodes not available on Spotify or Apple Music
-      curated_by: minimax-m2.7
-      curated_at: '2026-06-10T18:55:03.232976+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-10T18:55:03.232976+00:00'
-    - number: 30
-      reason: Season 2 ('Die Legende von Svenberg') episodes not available on Spotify or Apple Music
-      curated_by: minimax-m2.7
-      curated_at: '2026-06-10T18:55:03.232976+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-10T18:55:03.232976+00:00'
-    - number: 31
-      reason: Season 2 ('Die Legende von Svenberg') episodes not available on Spotify or Apple Music
-      curated_by: minimax-m2.7
-      curated_at: '2026-06-10T18:55:03.232976+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-10T18:55:03.232976+00:00'
-    - number: 32
-      reason: Season 2 ('Die Legende von Svenberg') episodes not available on Spotify or Apple Music
-      curated_by: minimax-m2.7
-      curated_at: '2026-06-10T18:55:03.232976+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-10T18:55:03.232976+00:00'
-    - number: 33
-      reason: Season 2 ('Die Legende von Svenberg') episodes not available on Spotify or Apple Music
-      curated_by: minimax-m2.7
-      curated_at: '2026-06-10T18:55:03.232976+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-10T18:55:03.232976+00:00'
-    - number: 34
-      reason: Season 2 ('Die Legende von Svenberg') episodes not available on Spotify or Apple Music
-      curated_by: minimax-m2.7
-      curated_at: '2026-06-10T18:55:03.232976+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-10T18:55:03.232976+00:00'
-    - number: 35
-      reason: Season 2 ('Die Legende von Svenberg') episodes not available on Spotify or Apple Music
-      curated_by: minimax-m2.7
-      curated_at: '2026-06-10T18:55:03.232976+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-10T18:55:03.232976+00:00'
-    - number: 36
-      reason: Season 2 ('Die Legende von Svenberg') episodes not available on Spotify or Apple Music
-      curated_by: minimax-m2.7
-      curated_at: '2026-06-10T18:55:03.232976+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-10T18:55:03.232976+00:00'
-    - number: 37
-      reason: Season 2 ('Die Legende von Svenberg') episodes not available on Spotify or Apple Music
-      curated_by: minimax-m2.7
-      curated_at: '2026-06-10T18:55:03.232976+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-10T18:55:03.232976+00:00'
-    - number: 38
-      reason: Season 2 ('Die Legende von Svenberg') episodes not available on Spotify or Apple Music
-      curated_by: minimax-m2.7
-      curated_at: '2026-06-10T18:55:03.232976+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-10T18:55:03.232976+00:00'
-    - number: 39
-      reason: Season 2 ('Die Legende von Svenberg') episodes not available on Spotify or Apple Music
-      curated_by: minimax-m2.7
-      curated_at: '2026-06-10T18:55:03.232976+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-10T18:55:03.232976+00:00'
-    - number: 40
-      reason: Season 2 ('Die Legende von Svenberg') episodes not available on Spotify or Apple Music
-      curated_by: minimax-m2.7
-      curated_at: '2026-06-10T18:55:03.232976+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-10T18:55:03.232976+00:00'
-    - number: 41
-      reason: Season 2 ('Die Legende von Svenberg') episodes not available on Spotify or Apple Music
-      curated_by: minimax-m2.7
-      curated_at: '2026-06-10T18:55:03.232976+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-10T18:55:03.232976+00:00'
-    - number: 42
-      reason: Season 2 ('Die Legende von Svenberg') episodes not available on Spotify or Apple Music
-      curated_by: minimax-m2.7
-      curated_at: '2026-06-10T18:55:03.232976+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-10T18:55:03.232976+00:00'
-    - number: 43
-      reason: Season 2 ('Die Legende von Svenberg') episodes not available on Spotify or Apple Music
-      curated_by: minimax-m2.7
-      curated_at: '2026-06-10T18:55:03.232976+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-10T18:55:03.232976+00:00'
-    - number: 44
-      reason: Season 2 ('Die Legende von Svenberg') episodes not available on Spotify or Apple Music
-      curated_by: minimax-m2.7
-      curated_at: '2026-06-10T18:55:03.232976+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-10T18:55:03.232976+00:00'
-    - number: 45
-      reason: Season 2 ('Die Legende von Svenberg') episodes not available on Spotify or Apple Music
-      curated_by: minimax-m2.7
-      curated_at: '2026-06-10T18:55:03.232976+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-10T18:55:03.232976+00:00'
-    - number: 46
-      reason: Season 2 ('Die Legende von Svenberg') episodes not available on Spotify or Apple Music
-      curated_by: minimax-m2.7
-      curated_at: '2026-06-10T18:55:03.232976+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-10T18:55:03.232976+00:00'
-    - number: 47
-      reason: Season 2 ('Die Legende von Svenberg') episodes not available on Spotify or Apple Music
-      curated_by: minimax-m2.7
-      curated_at: '2026-06-10T18:55:03.232976+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-10T18:55:03.232976+00:00'
-    - number: 48
-      reason: Season 2 ('Die Legende von Svenberg') episodes not available on Spotify or Apple Music
-      curated_by: minimax-m2.7
-      curated_at: '2026-06-10T18:55:03.232976+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-10T18:55:03.232976+00:00'
-    - number: 49
-      reason: Season 2 ('Die Legende von Svenberg') episodes not available on Spotify or Apple Music
-      curated_by: minimax-m2.7
-      curated_at: '2026-06-10T18:55:03.232976+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-10T18:55:03.232976+00:00'
-    - number: 50
-      reason: Season 2 ('Die Legende von Svenberg') episodes not available on Spotify or Apple Music
-      curated_by: minimax-m2.7
-      curated_at: '2026-06-10T18:55:03.232976+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-10T18:55:03.232976+00:00'
-    - number: 51
-      reason: Season 2 ('Die Legende von Svenberg') episodes not available on Spotify or Apple Music
-      curated_by: minimax-m2.7
-      curated_at: '2026-06-10T18:55:03.232976+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-10T18:55:03.232976+00:00'
-    - number: 52
-      reason: Season 2 ('Die Legende von Svenberg') episodes not available on Spotify or Apple Music
-      curated_by: minimax-m2.7
-      curated_at: '2026-06-10T18:55:03.232976+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-10T18:55:03.232976+00:00'
+      range_end: 52
 - id: jurassic_world_neue_abenteuer
   title: Jurassic World - Neue Abenteuer
   providers:
@@ -28476,12 +28435,7 @@ series:
       curated_at: '2026-06-10T18:56:54.064216+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-06-10T18:56:54.064216+00:00'
-    - number: 2
-      reason: Apple Music only has episodes 1-2 within a compilation box set, which was correctly excluded. Standalone episodes not available on Apple Music.
-      curated_by: minimax-m2.7
-      curated_at: '2026-06-10T18:56:54.064216+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-10T18:56:54.064216+00:00'
+      range_end: 2
 - id: das_sams
   title: Das Sams
   providers:
@@ -28703,12 +28657,7 @@ series:
       curated_at: '2026-06-10T18:58:13.736090+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-06-10T18:58:13.736090+00:00'
-    - number: 32
-      reason: Episode exists in series but not found on Spotify; may not have been released as German audiobook yet
-      curated_by: minimax-m2.7
-      curated_at: '2026-06-10T18:58:13.736090+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-10T18:58:13.736090+00:00'
+      range_end: 32
     - number: 35
       reason: Das Kostümgeheimnis exists in series but not found on Spotify; may not have been released as German audiobook yet
       curated_by: minimax-m2.7
@@ -30820,42 +30769,7 @@ series:
       reason: Bands 1-10 (2008-2014 era) are not in the Spotify catalog; likely out of print or not licensed for streaming.
       audited_by: minimax-m2.7
       audited_at: '2026-06-11T07:26:35.242170+00:00'
-    - number: 2
-      reason: Bands 1-10 (2008-2014 era) are not in the Spotify catalog; likely out of print or not licensed for streaming.
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-11T07:26:35.242170+00:00'
-    - number: 3
-      reason: Bands 1-10 (2008-2014 era) are not in the Spotify catalog; likely out of print or not licensed for streaming.
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-11T07:26:35.242170+00:00'
-    - number: 4
-      reason: Bands 1-10 (2008-2014 era) are not in the Spotify catalog; likely out of print or not licensed for streaming.
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-11T07:26:35.242170+00:00'
-    - number: 5
-      reason: Bands 1-10 (2008-2014 era) are not in the Spotify catalog; likely out of print or not licensed for streaming.
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-11T07:26:35.242170+00:00'
-    - number: 6
-      reason: Bands 1-10 (2008-2014 era) are not in the Spotify catalog; likely out of print or not licensed for streaming.
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-11T07:26:35.242170+00:00'
-    - number: 7
-      reason: Bands 1-10 (2008-2014 era) are not in the Spotify catalog; likely out of print or not licensed for streaming.
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-11T07:26:35.242170+00:00'
-    - number: 8
-      reason: Bands 1-10 (2008-2014 era) are not in the Spotify catalog; likely out of print or not licensed for streaming.
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-11T07:26:35.242170+00:00'
-    - number: 9
-      reason: Bands 1-10 (2008-2014 era) are not in the Spotify catalog; likely out of print or not licensed for streaming.
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-11T07:26:35.242170+00:00'
-    - number: 10
-      reason: Bands 1-10 (2008-2014 era) are not in the Spotify catalog; likely out of print or not licensed for streaming.
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-11T07:26:35.242170+00:00'
+      range_end: 10
 - id: loewenzahn
   title: Löwenzahn
   providers:
@@ -37409,9 +37323,23 @@ series:
     spotify:
       artist_ids:
       - 3z4aXIXMPnlSsk9zJFqmEh
+      albums:
+      - id: 3OZpsd1elhbBYVtMiTPr4a
+        title: Kinderlieder (Klassiker für Kinder)
+      - id: 214p0K41eWdOoe5S2CnFDF
+        title: Weihnachtslieder (Klassiker für Kinder)
+      - id: 4m6IfJmrYotJiQ1N6cmw5v
+        title: Kirchenlieder (Klassiker für Kinder)
     apple_music:
       artist_ids:
       - '321034778'
+      albums:
+      - id: '321034747'
+        title: Kinderlieder (Klassiker für Kinder)
+      - id: '397954299'
+        title: Weihnachtslieder (Klassiker für Kinder)
+      - id: '806031065'
+        title: Kirchenlieder (Klassiker für Kinder)
   content_type: music
 - id: liederkiste
   title: Liederkiste
@@ -38514,9 +38442,405 @@ series:
     spotify:
       artist_ids:
       - 0yAi20HvvwcrnDFWcVldvI
+      albums:
+      - id: 7wWBKw9xSFd4exKPOXY2XF
+        title: Die Kinder von Tschernobyl – Ein Rock-Requiem
+      - id: 4HJDU9DUiazVkBVVfz1RI2
+        title: Fingerspitzengefühl (Live)
+      - id: 5VAlbMPm56eeofPaYad3IY
+        title: Kinderträume im Advent
+      - id: 03Rmv1VjnAsIl5llRtHrkZ
+        title: Streichelwiese
+      - id: 4Fp3MtXSbIrr8Jvwvmwnox
+        title: In der allerlängsten Nacht
+      - id: 0lQI9407aidVOgjyRZ2Udc
+        title: KlassenHits – Teil 1 – 143 Lieder rund um die Schule
+      - id: 4lvnmgfhN8R2WTJOAQcFfP
+        title: KlassenHits – Teil 2 – 143 Lieder rund um die Schule
+      - id: 6mS9YtkujH2Q3NwWmzdF3j
+        title: KlassenHits – Teil 3 – 143 Lieder rund um die Schule
+      - id: 3icHob83BLjo4LkBxFM3YD
+        title: KlassenHits – Teil 4 – 143 Lieder rund um die Schule
+      - id: 3nsrKcoEvQeilgglMxKyQA
+        title: Spirit Of My Soul
+      - id: 1pQkZO0CQp8hyMZz2K9MaZ
+        title: Babys Einschlaf-Musik
+      - id: 6ouLxYuAv6i2P7gwU2xdoN
+        title: Fremde werden Freunde
+      - id: 3cc5YJmU6VerMGP6AMgeZ1
+        title: Quatsch mit Salsa
+      - id: 5C7I6kjsKvc654LAZUYyu7
+        title: Lichtertänze zur Winter- und Weihnachtszeit
+      - id: 33vIf1v5n4xkMy58UZazWD
+        title: BibelHits – Teil 1
+      - id: 6aGwizKbQmOZ9w4FqqQ6d3
+        title: BibelHits – Teil 2
+      - id: 6MUTWvVgWWBBYN3yXc19zL
+        title: BibelHits – Teil 3
+      - id: 2VPmFH07yrnBPglP5CsOCH
+        title: BibelHits – Teil 4
+      - id: 4ucl3mJGNMs43zQa0yjJC4
+        title: Ich schenk dir einen Sonnenstrah
+      - id: 7yPa8KX3jDYXgrTRWoxDVM
+        title: Auf einmal ist uns der Himmel ganz nah
+      - id: 315V9kg01symoebsPGog2u
+        title: WeihnachtsHits – Teil 1
+      - id: 3BHB2glpNRnY59cqOME4zP
+        title: WeihnachtsHits – Teil 2
+      - id: 2HsBuMyqtPf8sSd0FMXEY6
+        title: WeihnachtsHits – Teil 3
+      - id: 4tOsOnz9nqAkvRkHArQI92
+        title: Eine Kuh mit Tattoo
+      - id: 1FFozyF6D9VnWStKZc7zNI
+        title: Bibel-Musicals
+      - id: 1uIne4GbR6Y4FhYrURfab4
+        title: Fans, Fairplay & Fußballfieber
+      - id: 7EBUQ1h5ehHxF36i75mKW7
+        title: Mit dem Friedenskreuz durch das Kirchenjahr
+      - id: 2tTNw2wpOg8s6WhKTZE99X
+        title: Fünf Minimusicals zur Advents- und Weihnachtszeit
+      - id: 6tpjc1Xnq19c7D5nYrmHcy
+        title: KlassenHits – Die Zugabe – Teil 1 – 71 1/2 Lieder rund um die Schule
+      - id: 4bs8NrFdWcLaglukJQO5N5
+        title: KlassenHits – Die Zugabe – Teil 2 – 71 1/2 Lieder rund um die Schule
+      - id: 4McfXA9pzm5QlZIKn7JXjo
+        title: KlassenHits – Die Zugabe – Teil 3 – 71 1/2 Lieder rund um die Schule
+      - id: 2wXctnYYxWw7otcnKQOYm9
+        title: Unter einem guten Stern steht dein ganzes Leben
+      - id: 73CvGIfWg77Qrit26irVB9
+        title: Eisbär, Dr. Ping und die Freunde der Erde – Lieder und Playbacks zum Klima-Musical
+      - id: 43b7oxzg5KNR9p89BKjAVk
+        title: Montags im Advent
+      - id: 4qe6PcpWwhsGEWDL5TqSyV
+        title: Turnzwerge, ganz groß! – Spiel und Bewegungslieder für die ganz Kleinen
+      - id: 7AX7WJ9GcD6ZksL0lR2gYm
+        title: Echte KinderRechte – Lieder zu Kinderrechten
+      - id: 1H4ZG2qDAbq0A6mnt6yBML
+        title: Advent und Weihnachten mit dem Friedenskreuz
+      - id: 4iU7Y9YBJv2WqeM7bKypSU
+        title: Bei Jesus sind wir heut zu Gast – zur Kommunion
+      - id: 5tuqbRZXTtnxl56kwXINE8
+        title: Heute geht die Schule los – zum Schulstart
+      - id: 7dLn9T6PqLYRsFRs5Uziuf
+        title: Wir Kinder feiern Abendmahl – zum Abendmahl
+      - id: 5jguGfe7zayduXyYpriRoN
+        title: Das Robinson Kindermusical
+      - id: 50D4yn3399JRmr2jTxuQDB
+        title: Hallo & Tschüss Musicals zum Anfang und Ende der Grundschulzeit
+      - id: 0jT8WXpD7Krwo5oEDL6InH
+        title: Elefantenlieder für kleine Mäuse
+      - id: 5yDwr228evzuQHuOkXfM8I
+        title: Eins – zwei – drei – vier – Weihnachten steht vor der Tür
+      - id: 79D3zL5HnT4KLqjLb2lLuq
+        title: Spiel mit – Praktisch! Musik 1
+      - id: 0PdUGixUbeIQmMmEIc3bzD
+        title: Rhythmix – Praktisch! Musik 2
+      - id: 4nNYPgIMmlsZeP7i6eC3jZ
+        title: Streichelwiese 2
+      - id: 65ZyS1sVnFrOIY0D4vnMGT
+        title: Groß werden mit dir, lieber Gott!
+      - id: 3db3YfA9r69zSPhMT4bhXi
+        title: Einfach nur so bist du von Gott geliebt
+      - id: 3HyJ0V4tBco9u2iocMzrU9
+        title: Lachen, Singen, Tanzen
+      - id: 3DX2SPQ4YfcAhRt9CfAkbX
+        title: Einmal Himmel und zurück
+      - id: 78kUKAIYH9Wrr68ofAb3n0
+        title: Baby in Bewegung
+      - id: 0f2aZN4YkJh7uxHKwWUAEY
+        title: Nashorn, Elefant und Krokodil – Kinder-Konzert-Knaller mit Reinhard Horn
+      - id: 4pyuynXo8bCbLoJDmWmxdq
+        title: Frühling
+      - id: 4r81ozTfTzYbaxmu4DV40s
+        title: Herbst
+      - id: 6IC7q94bFpRvkTIGWM1g9x
+        title: Turnzwerge unterwegs! – Spiel- und Bewegungslieder für die ganz Kleinen
+      - id: 1wqy9ugZ4HYsJvccbb0OxK
+        title: ReliHits – Teil 1
+      - id: 1LqFdKdEZyKypYu7PZ7q3t
+        title: ReliHits – Teil 2
+      - id: 6kzkXK9o74CgerPEd2OtFz
+        title: ReliHits – Teil 3
+      - id: 0oWw6MqWjhknhSO3wT78jB
+        title: Sommer
+      - id: 3W6glOjIX0rsXYw0cmcv9t
+        title: Weihnachten unterm Sternenzelt
+      - id: 0F5zjXktj2vACRPIO9dWl9
+        title: 1000 Farben hat die Welt – Praktisch! Musicals 1
+      - id: 05QK8VrhLuecPiOCJbRKX7
+        title: Fremde werden Freunde – Praktisch! Musicals 2
+      - id: 1l6dmJIVNMLmkge6i2ni7d
+        title: Jesusgeschichten mit dem Friedenskreuz
+      - id: 4MAWpJNvegVyoq20YI98k1
+        title: Winter
+      - id: 3fTGprO4L94W2WVwySQ6h1
+        title: Pirates of the Sea
+      - id: 3i58KfBXzTHU467NwzQuy7
+        title: WolkenTräumeZeit – Instrumentalmusik zur Entspannung, für Traum- und Fantasiereisen
+      - id: 4CaG8hKgAFarFb1MIkIjLZ
+        title: Happy Birthday In Vielen Sprachen Aus Vielen Ländern
+      - id: 1eJ69tySFE4XIib6S62vhI
+        title: Willkommen hier bei uns
+      - id: 426nzTsCbJE4U6rxyg3MUB
+        title: Vierzehn Engel um mich stehn
+      - id: 0SgR1WBCI3VqHrx0lC5aHS
+        title: Neue Lichtertänze zur Winter- und Weihnachtszeit
+      - id: 66ZWi6T55TXS8iDs6m7Xhm
+        title: Meine Piano-Lieder – Meine frühen Piano-Lieder
+      - id: 4WnGzFJyUVKzlpxIP1fCnB
+        title: Jedes Kind kann irgendwas – Praktisch! Musicals 3
+      - id: 2K7Xl5MTdpGtUtmecmCofd
+        title: Habe Mut!
+      - id: 0UTZd7yQtzT1NntrgicuuJ
+        title: Martin Luther mit dem Friedenskreuz erzählt
+      - id: 0YiajmK9416G8nFWHhIa6y
+        title: Für die Seele
+      - id: 6qccXT5OIDwQk1WpZYVWwo
+        title: Familie sind wir!
+      - id: 7e3jkKPIlvOljg4c2FXcSt
+        title: Singen ist 'ne coole Sache
+      - id: 7FRyeGKf5RaKMrixmW7loq
+        title: Mit der Klasse auf Tour – Praktisch! Musik 5
+      - id: 67DmI2boSQpz5QAJKx3VsB
+        title: Auf dem Weg nach Bethlehem
+      - id: 0LgnK2Y47Pf0TBAW1Mn9wv
+        title: Drei Minimusicals zur Advents- und Weihnachtszeit
+      - id: 0e7wopJlywjKtOWiKUafJF
+        title: Krabbellieder für Krabbelkinder
+      - id: 6TuS2tCf8w0XVq9xdvZz58
+        title: Fußball, Football, Soccer
+      - id: 0VoHhQoE8e4xkbqNENDys1
+        title: Aufeinander zugehen – gemeinsam Schätze teilen
+      - id: 6CIEEUNWSseFlvQaY4pOWs
+        title: Boomwhackers und Stabspiele – Praktisch! Musik 6
+      - id: 6Tft5aN9icuENtXUwZJpdz
+        title: Turnen ist 'ne coole Sache
+      - id: 6ZFR0Sf7oRYq17i2AS9Sm7
+        title: Gemeinsam sind wir stark! – Das Bunte Bande-Musical – Die Lieder
+      - id: 0b3ycSELDhGhkvwYDFU34P
+        title: Kinder feiern Weihnachten – hier und überall
+      - id: 47jPAPOJX2WTJRo1JFy6hm
+        title: Märchen-Lieder-Zeit
+      - id: 2ZkhxzNY4NfZo43nJzYkBn
+        title: Was wir zum Leben brauchen – Neue christliche Kinderlieder
+      - id: 5ix5rdEa1eVbj0tgKdGN8J
+        title: Earth • Choir • Kids – Unsere Stimmen für das Klima
+      - id: 3ulnVtU8rZetw5dRIbc6Ht
+        title: Gott, wir müssen reden!
+      - id: 3TWa7hoGru2P8rFYKaB2rU
+        title: Unterwegs zu den Kindern dieser Welt
+      - id: 5G8SLTdk6fgu5D8GnQdXWV
+        title: Weihnachten unterm Sternenzelt – Die Lieder zum Konzert
+      - id: 0r856aeFy3HguUOguPfYQO
+        title: Meine Lieder – Mein Leben – Die Songs zum Buch
+      - id: 0jgc4hHkBdS4GWtc4nIjcT
+        title: Meine Lieder – Mein Leben – Farewell-Gala-Konzert (Live)
+      - id: 4UuaTvIxIKYflL6w5hX4Vx
+        title: Die Liebe bleibt – Ein Minimusical zur Osterzeit
+      - id: 5dUV7oxb8ndxrKxfkezwAd
+        title: Meine Schulhymnen
     apple_music:
       artist_ids:
       - '260321820'
+      albums:
+      - id: '1884272618'
+        title: Die Kinder von Tschernobyl – Ein Rock-Requiem
+      - id: '1706975020'
+        title: Fingerspitzengefühl (Live)
+      - id: '1538532293'
+        title: Kinderträume im Advent
+      - id: '1539004634'
+        title: Streichelwiese
+      - id: '1538554037'
+        title: In der allerlängsten Nacht
+      - id: '1551217854'
+        title: KlassenHits – Teil 1 – 143 Lieder rund um die Schule
+      - id: '1551183380'
+        title: KlassenHits – Teil 2 – 143 Lieder rund um die Schule
+      - id: '1551137241'
+        title: KlassenHits – Teil 3 – 143 Lieder rund um die Schule
+      - id: '1551137796'
+        title: KlassenHits – Teil 4 – 143 Lieder rund um die Schule
+      - id: '1615058415'
+        title: Spirit of My Soul
+      - id: '1474074275'
+        title: Babys Einschlaf-Musik
+      - id: '1538540216'
+        title: Fremde werden Freunde
+      - id: '1538413672'
+        title: Quatsch mit Salsa
+      - id: '1886075172'
+        title: Lichtertänze zur Winter- und Weihnachtszeit
+      - id: '1615917849'
+        title: BibelHits – Teil 1
+      - id: '1615921804'
+        title: BibelHits – Teil 2
+      - id: '1614707213'
+        title: BibelHits – Teil 3
+      - id: '1614817314'
+        title: BibelHits – Teil 4
+      - id: '1671551752'
+        title: Ich schenk dir einen Sonnenstrah - EP
+      - id: '1884285700'
+        title: Auf einmal ist uns der Himmel ganz nah
+      - id: '1615914711'
+        title: WeihnachtsHits – Teil 1
+      - id: '1614791577'
+        title: WeihnachtsHits – Teil 2
+      - id: '1614829607'
+        title: WeihnachtsHits – Teil 3
+      - id: '1538408335'
+        title: Eine Kuh mit Tattoo
+      - id: '1884567598'
+        title: Bibel-Musicals
+      - id: '1734186735'
+        title: Fans, Fairplay & Fußballfieber
+      - id: '1689726300'
+        title: Mit dem Friedenskreuz durch das Kirchenjahr
+      - id: '1884565461'
+        title: Fünf Minimusicals zur Advents- und Weihnachtszeit
+      - id: '1552554920'
+        title: KlassenHits – Die Zugabe – Teil 1 – 71 1/2 Lieder rund um die Schule
+      - id: '1552553073'
+        title: KlassenHits – Die Zugabe – Teil 2 – 71 1/2 Lieder rund um die Schule
+      - id: '1552556711'
+        title: KlassenHits – Die Zugabe – Teil 3 – 71 1/2 Lieder rund um die Schule
+      - id: '1886074100'
+        title: Unter einem guten Stern steht dein ganzes Leben
+      - id: '1884568722'
+        title: Eisbär, Dr. Ping und die Freunde der Erde – Lieder und Playbacks zum Klima-Musical
+      - id: '1731812657'
+        title: Montags im Advent
+      - id: '1895719764'
+        title: Turnzwerge, ganz groß! – Spiel und Bewegungslieder für die ganz Kleinen
+      - id: '1886077811'
+        title: Echte KinderRechte – Lieder zu Kinderrechten
+      - id: '1671793439'
+        title: Advent und Weihnachten mit dem Friedenskreuz
+      - id: '1886078192'
+        title: Bei Jesus sind wir heut zu Gast – zur Kommunion
+      - id: '1886075711'
+        title: Heute geht die Schule los – zum Schulstart
+      - id: '1886073088'
+        title: Wir Kinder feiern Abendmahl – zum Abendmahl
+      - id: '1884858273'
+        title: Das Robinson Kindermusical
+      - id: '1884261482'
+        title: Hallo & Tschüss Musicals zum Anfang und Ende der Grundschulzeit
+      - id: '1731811816'
+        title: Elefantenlieder für kleine Mäuse
+      - id: '1728217779'
+        title: Eins – zwei – drei – vier – Weihnachten steht vor der Tür
+      - id: '1473406623'
+        title: 'Ich lass dich nicht im Regen stehn: Lieder und Playbacks zum Don Bosco Musical'
+      - id: '1896228875'
+        title: Spiel mit – Praktisch! Musik 1
+      - id: '1896230894'
+        title: Rhythmix – Praktisch! Musik 2
+      - id: '1538455511'
+        title: Streichelwiese 2
+      - id: '1671786972'
+        title: Groß werden mit dir, lieber Gott!
+      - id: '1731425019'
+        title: Einfach nur so bist du von Gott geliebt
+      - id: '1442385790'
+        title: Lachen, singen, tanzen
+      - id: '1538477702'
+        title: Einmal Himmel und zurück
+      - id: '1442408779'
+        title: Baby in Bewegung
+      - id: '1474078496'
+        title: Nashorn, Elefant und Krokodil – Kinder-Konzert-Knaller mit Reinhard Horn
+      - id: '1442708002'
+        title: Frühling
+      - id: '1442724269'
+        title: Herbst
+      - id: '6764322182'
+        title: Turnzwerge unterwegs! – Spiel- und Bewegungslieder für die ganz Kleinen
+      - id: '1614423172'
+        title: ReliHits – Teil 1
+      - id: '1615918563'
+        title: ReliHits – Teil 2
+      - id: '1614425096'
+        title: ReliHits – Teil 3
+      - id: '1442363193'
+        title: Sommer
+      - id: '1442345960'
+        title: Weihnachten unterm Sternenzelt
+      - id: '1885475141'
+        title: 1000 Farben hat die Welt – Praktisch! Musicals 1
+      - id: '1884968374'
+        title: Fremde werden Freunde – Praktisch! Musicals 2
+      - id: '1690573579'
+        title: Jesusgeschichten mit dem Friedenskreuz
+      - id: '1442295640'
+        title: Winter
+      - id: '1708863722'
+        title: Pirates of the Sea
+      - id: '1886076813'
+        title: WolkenTräumeZeit – Instrumentalmusik zur Entspannung, für Traum- und Fantasiereisen
+      - id: '1727673376'
+        title: Happy Birthday In Vielen Sprachen Aus Vielen Ländern
+      - id: '1690126749'
+        title: Willkommen hier bei uns
+      - id: '1538514228'
+        title: Vierzehn Engel um mich stehn
+      - id: '1886074483'
+        title: Neue Lichtertänze zur Winter- und Weihnachtszeit
+      - id: '1691426284'
+        title: Meine Piano-Lieder – Meine frühen Piano-Lieder
+      - id: '1885513847'
+        title: Jedes Kind kann irgendwas – Praktisch! Musicals 3
+      - id: '1671527246'
+        title: Habe Mut!
+      - id: '1671426394'
+        title: Martin Luther mit dem Friedenskreuz erzählt
+      - id: '1466756014'
+        title: Für die Seele
+      - id: '1442662532'
+        title: Familie sind wir!
+      - id: '1465089549'
+        title: Singen ist 'ne coole Sache
+      - id: '6766192373'
+        title: Mit der Klasse auf Tour – Praktisch! Musik 5
+      - id: '1465486062'
+        title: Auf dem Weg nach Bethlehem
+      - id: '1885500701'
+        title: Drei Minimusicals zur Advents- und Weihnachtszeit
+      - id: '1442352859'
+        title: Krabbellieder für Krabbelkinder
+      - id: '1360071033'
+        title: Fußball, Football, Soccer
+      - id: '1465302571'
+        title: Aufeinander zugehen – gemeinsam Schätze teilen
+      - id: '6766193273'
+        title: Boomwhackers und Stabspiele – Praktisch! Musik 6
+      - id: '1464737243'
+        title: Turnen ist 'ne coole Sache
+      - id: '1727673151'
+        title: Gemeinsam sind wir stark! – Das Bunte Bande-Musical – Die Lieder
+      - id: '1483781609'
+        title: Kinder feiern Weihnachten – hier und überall
+      - id: '1483343951'
+        title: Märchen-Lieder-Zeit
+      - id: '1553799771'
+        title: Was wir zum Leben brauchen – Neue christliche Kinderlieder
+      - id: '1608032500'
+        title: Earth • Choir • Kids – Unsere Stimmen für das Klima
+      - id: '1626532884'
+        title: Gott, wir müssen reden!
+      - id: '1670610369'
+        title: Unterwegs zu den Kindern dieser Welt
+      - id: '1846854108'
+        title: Weihnachten unterm Sternenzelt – Die Lieder zum Konzert
+      - id: '1808433575'
+        title: Meine Lieder – Mein Leben – Die Songs zum Buch
+      - id: '6766229091'
+        title: Meine Lieder – Mein Leben – Farewell-Gala-Konzert (Live)
+      - id: '1885492927'
+        title: Die Liebe bleibt – Ein Minimusical zur Osterzeit
+      - id: '6781163766'
+        title: Meine Schulhymnen
   content_type: music
 - id: mai_cocopelli
   title: Mai Cocopelli
@@ -38524,9 +38848,27 @@ series:
     spotify:
       artist_ids:
       - 6c8QYgh9q616gJRI9XF74o
+      albums:
+      - id: 2QE91tNDMUXkjJfzSZHzKB
+        title: Einmal Weltraum und zurück
+      - id: 19Rlg5ztbchJQbXmtDt2Ox
+        title: Wenn es Weihnacht wird
+      - id: 3UpDsJjinakUMvdXEmpxzx
+        title: Wenn es Winter wird
+      - id: 3qmI6o4G0745VAoDmnb5xO
+        title: Today’s Your Day
     apple_music:
       artist_ids:
       - '398353575'
+      albums:
+      - id: '776782635'
+        title: Wenn es Winter wird
+      - id: '774313047'
+        title: Einmal Weltraum und zurück
+      - id: '777290815'
+        title: Wenn es Weihnacht wird
+      - id: '1581437068'
+        title: Today’s Your Day
   content_type: music
 - id: senta
   title: Senta
@@ -38574,9 +38916,43 @@ series:
     spotify:
       artist_ids:
       - 7BWj0quGHpkdSx9HZnD3CN
+      albums:
+      - id: 1qRvntDNn7NhQfDOuzLGPh
+        title: 1, 2, 3 (Schlaf gleich ein...)
+      - id: 2b039q1o5DWArFUXYIAQ7Y
+        title: Sommerferien
+      - id: 3XMoSywNV9ZN5CVN4cTIv3
+        title: Filzstifte
+      - id: 0wMEmFGYDupP0Q4oeAykvf
+        title: Zauberhaft
+      - id: 2B2rIxCYPZB4BEbnGXZGpk
+        title: Alles schläft
+      - id: 7K3DgbJv0nAyB1zrP7yXY6
+        title: Weihnachtslieder
+      - id: 17jfw9QXPkejBV1GPZtomE
+        title: Winter Wunderland
+      - id: 2f6Y3ur4j6sXkF4iP439Le
+        title: Happy Birthday
     apple_music:
       artist_ids:
       - '1815219984'
+      albums:
+      - id: '1814290423'
+        title: 1, 2, 3 (Schlaf gleich ein...) - Single
+      - id: '1819713104'
+        title: Sommerferien - Single
+      - id: '1831322128'
+        title: Filzstifte - Single
+      - id: '1833564706'
+        title: Zauberhaft - EP
+      - id: '1844034890'
+        title: Alles schläft - Single
+      - id: '1848427557'
+        title: Weihnachtslieder - EP
+      - id: '1858525710'
+        title: Winter Wunderland - Single
+      - id: '6774278953'
+        title: Happy Birthday - Single
   content_type: music
 - id: honigkuchenpferde
   title: Honigkuchenpferde
@@ -41274,12 +41650,7 @@ series:
       curated_at: '2026-06-17T20:52:10.647759+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-06-17T20:52:10.647759+00:00'
-    - number: 3
-      reason: Not available in Apple Music catalog
-      curated_by: minimax-m2.7
-      curated_at: '2026-06-17T20:52:10.647759+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-17T20:52:10.647759+00:00'
+      range_end: 3
     - number: 5
       reason: Not available in Apple Music catalog
       curated_by: minimax-m2.7
@@ -41543,12 +41914,99 @@ series:
     spotify:
       artist_ids:
       - 7sRF5KPi10c3pueaKGmArz
+      albums:
+      - id: 685atdItP2RRPz3mZQh2zQ
+        episode: 1
+        title: Pippi Langstrumpf 1. Das Hörspiel
+      - id: 5ygygpGYvNKTV1RR9BjETd
+        episode: 2
+        title: Pippi Langstrumpf 2. Pippi Langstrumpf geht an Bord
+      - id: 6ZKTzxPQsOqzPTp4D4qcfa
+        episode: 3
+        title: Pippi Langstrumpf 3. Pippi in Taka-Tuka-Land
+      - id: 1rrUTFdaxywT80Me8NuyMi
+        episode: 3
+        title: Pippi Langstrumpf 3. Pippi in Taka-Tuka-Land. Das Hörspiel
+      - id: 1bFjnWuG1m3RDDeiffLaHP
+        episode: 3
+        title: Pippi Langstrumpf 3. Pippi in Taka-Tuka-Land. Hörspielklassiker
+      - id: 3QsTCxfG72lKMCtIxdgSNL
+        title: Pippi Langstrumpf geht in den Zirkus und andere Abenteuer
+      - id: 2xKk1pD8sG7KCpvuoGK7mT
+        title: Pippi Langstrumpf geht in die Schule und andere Abenteuer
+      - id: 1qlwK1FCtvNcg60DKUhqM1
+        title: Pippi Langstrumpf macht einen Ausflug
+      - id: 5lCloMFtlKiiCULMM4I7tb
+        title: Pippi Langstrumpf geht einkaufen
+      - id: 31GIMLgEXtaAHpUF3ZpcJ9
+        title: Pippi Langstrumpf geht einkaufen und andere Abenteuer
+      - id: 7jUnDPc9RZS887Q7OOKYxG
+        title: Pippi Langstrumpf findet einen Spunk und andere Abenteuer
+      - id: 6bCDp732XNWBKCTQA5l15r
+        title: Pippi Langstrumpf will nicht groß werden und andere Abenteuer
+      - id: 1F9iktKsHF3zVHRFDYbuXj
+        title: Pippi Langstrumpf 1
+      - id: 2fBFXKeZqgKCy4H8VBLEWe
+        title: Pippi plündert den Weihnachtsbaum und eine weitere Geschichte
+      - id: 4VjgjeIgk71Rt8WHIShMvK
+        title: Pippi Langstrumpf. Kunterbunte Geschichten
     apple_music:
       artist_ids:
       - '1703088793'
+      albums:
+      - id: '1851523250'
+        episode: 1
+        title: Pippi Langstrumpf 1. Das Hörspiel
+      - id: '1485698208'
+        episode: 3
+        title: Pippi Langstrumpf 3. Pippi in Taka-Tuka-Land Hörspielklassiker
+      - id: '1804592408'
+        episode: 3
+        title: Pippi Langstrumpf 3. Pippi in Taka-Tuka-Land
+      - id: '1657621060'
+        title: Pippi Langstrumpf findet einen Spunk und andere Abenteuer
+      - id: '1657634308'
+        title: Pippi Langstrumpf geht einkaufen und andere Abenteuer
+      - id: '1657623472'
+        title: Pippi Langstrumpf will nicht groß werden und andere Abenteuer
+      - id: '1803621165'
+        title: Pippi Langstrumpf außer Rand und Band
+      - id: '1847938396'
+        title: Pippi Langstrumpf geht in den Zirkus und andere Abenteuer
+      - id: '1847938386'
+        title: Pippi Langstrumpf geht in die Schule und andere Abenteuer
+  series_facts:
+    era_boundaries:
+    - label: klassik
+      release_date_range: 1945-1997
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-02T08:34:41.202774+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-02T08:34:41.202774+00:00'
+    - label: hörspielklassiker
+      release_date_range: 2006-2006
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-02T08:34:41.202774+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-02T08:34:41.202774+00:00'
+    - label: neuauflage
+      release_date_range: 2024-2025
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-02T08:34:41.202774+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-02T08:34:41.202774+00:00'
+    known_gaps:
+    - number: 2
+      range_end:
+      reason: Catalog gap - Episode 2 (Pippi Langstrumpf geht an Bord) not released on Apple Music platform. Available on Spotify only.
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-02T08:34:41.202774+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-02T08:34:41.202774+00:00'
 - id: astrid_lindgren_ferien_auf_saltkrokan
   title: Ferien auf Saltkrokan (Astrid Lindgren Deutsch)
-  aliases: []
+  aliases:
+  - Ferien auf der Kräheninsel
   episode_pattern:
   content_type: hoerspiel
   split_from: astrid_lindgren_deutsch
@@ -41556,9 +42014,21 @@ series:
     spotify:
       artist_ids:
       - 7sRF5KPi10c3pueaKGmArz
+      albums:
+      - id: 70GaL8TOZZyXiQzHfX2LE6
+        title: Ferien auf Saltkrokan. Als Tjorven einen Seehund bekam
+      - id: 00ew0iiHQFHE8Gs5VAhkE0
+        title: Ferien auf Saltkrokan. Ein Kaninchen für Pelle
+      - id: 7tQCdaErong5Q2slfWK9oo
+        title: Ferien auf Saltkrokan. Pelle feiert Weihnachten
+      - id: 6hjritIbcYaqyPhXJubKH1
+        title: Ferien auf Saltkrokan. Pelle findet einen Wunschstein
     apple_music:
       artist_ids:
       - '1703088793'
+      albums:
+      - id: '1485704846'
+        title: Ferien auf Saltkrokan
 - id: die_brueder_loewenherz
   title: Die Brüder Löwenherz
   aliases: []
@@ -41708,30 +42178,7 @@ series:
       curated_at: '2026-06-17T20:45:54.539553+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-06-17T20:45:54.539553+00:00'
-    - number: 5
-      reason: Original Oetinger Hörspiel numbers 4+ not found on streaming platforms
-      curated_by: minimax-m2.7
-      curated_at: '2026-06-17T20:45:54.539553+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-17T20:45:54.539553+00:00'
-    - number: 6
-      reason: Original Oetinger Hörspiel numbers 4+ not found on streaming platforms
-      curated_by: minimax-m2.7
-      curated_at: '2026-06-17T20:45:54.539553+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-17T20:45:54.539553+00:00'
-    - number: 7
-      reason: Original Oetinger Hörspiel numbers 4+ not found on streaming platforms
-      curated_by: minimax-m2.7
-      curated_at: '2026-06-17T20:45:54.539553+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-17T20:45:54.539553+00:00'
-    - number: 8
-      reason: Original Oetinger Hörspiel numbers 4+ not found on streaming platforms
-      curated_by: minimax-m2.7
-      curated_at: '2026-06-17T20:45:54.539553+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-17T20:45:54.539553+00:00'
+      range_end: 8
 - id: mio_mein_mio
   title: Mio, mein Mio
   aliases: []
