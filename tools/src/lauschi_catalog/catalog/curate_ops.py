@@ -775,6 +775,32 @@ def _build_finalize_agent(
         return results
 
     @agent.tool
+    def search_excluded_albums(
+        ctx: RunContext[CurateDeps],
+        query: str,
+    ) -> list[dict]:
+        """Search excluded albums by title keyword (case-insensitive).
+
+        Returns album_id, provider, title, and exclude_reason for each
+        match. Use this to collect album_ids for sub_series proposals.
+        """
+        q = query.lower()
+        results = [
+            {
+                "album_id": d.album_id,
+                "provider": d.provider,
+                "title": d.title,
+                "exclude_reason": d.exclude_reason,
+            }
+            for d in ctx.deps.all_decisions
+            if not d.include and q in d.title.lower()
+        ]
+        ctx.deps.on_progress(
+            f"  search_excluded_albums({query!r}) -> {len(results)} hits",
+        )
+        return results
+
+    @agent.tool
     def propose_pattern_update(
         ctx: RunContext[CurateDeps],
         patterns: list[str],
@@ -1477,7 +1503,35 @@ async def _run_large(
             if isinstance(pc, dict):
                 analysis_lines.append(f"Pattern coverage: {pc['percentage']}%")
 
-        needs_finalize = bool(unnumbered) or bool(era_evidence_lines)
+        sub_bleed_clusters: dict[str, list[str]] = {}
+        for d in all_decisions:
+            if d.include or d.exclude_reason not in (
+                "sub_series_bleed",
+                "sub_series",
+            ):
+                continue
+            sub_bleed_clusters.setdefault(d.exclude_reason, []).append(
+                f"{d.provider}:{d.album_id} | {d.title}"
+            )
+        has_sub_bleed = bool(sub_bleed_clusters)
+        if has_sub_bleed:
+            total = sum(len(v) for v in sub_bleed_clusters.values())
+            analysis_lines.append(
+                f"Sub-series exclusions: {total} albums excluded as "
+                f"sub_series_bleed or sub_series. "
+                f"Propose sub_series facts for clusters of 3+ albums "
+                f"sharing a recognizable brand/prefix."
+            )
+            for reason, items in sub_bleed_clusters.items():
+                analysis_lines.append(f"  [{reason}] ({len(items)} albums):")
+                for item in items[:30]:
+                    analysis_lines.append(f"    {item}")
+                if len(items) > 30:
+                    analysis_lines.append(f"    ... +{len(items) - 30} more")
+
+        needs_finalize = (
+            bool(unnumbered) or bool(era_evidence_lines) or has_sub_bleed
+        )
         if needs_finalize:
             _MAX_INLINE_TRACKS = 3
             lines: list[str] = []
@@ -1512,22 +1566,22 @@ async def _run_large(
             else:
                 facts_lines.append("Existing facts: (none)")
 
-            if unnumbered and era_evidence_lines:
-                header = (
-                    f"== Finalize == {len(unnumbered)} included albums "
-                    f"lack episode numbers AND era evidence found. "
-                    f"Inspecting track listings and proposing facts...\n"
+            header_parts: list[str] = []
+            if unnumbered:
+                header_parts.append(
+                    f"{len(unnumbered)} included albums lack episode numbers"
                 )
-            elif era_evidence_lines:
-                header = (
-                    "== Finalize == era evidence found. "
-                    "Proposing era_boundaries / sub_series...\n"
+            if era_evidence_lines:
+                header_parts.append("era evidence found")
+            if has_sub_bleed:
+                n_bleed = sum(len(v) for v in sub_bleed_clusters.values())
+                header_parts.append(
+                    f"{n_bleed} sub-series exclusions to evaluate for splits"
                 )
-            else:
-                header = (
-                    f"== Finalize == {len(unnumbered)} included albums "
-                    f"lack episode numbers. Inspecting track listings...\n"
-                )
+            header = (
+                f"== Finalize == {' AND '.join(header_parts)}. "
+                f"Inspecting track listings and proposing facts...\n"
+            )
             on_progress(header)
 
             finalize_agent = _build_finalize_agent(
@@ -1554,6 +1608,14 @@ async def _run_large(
                 work_items.append(
                     f"- Era: {n_existing_eras} era_boundaries already "
                     f"documented, skip Step 2"
+                )
+            if has_sub_bleed:
+                n_bleed = sum(len(v) for v in sub_bleed_clusters.values())
+                work_items.append(
+                    f"- Sub-series: {n_bleed} excluded albums with "
+                    f"sub_series_bleed/sub_series reason. "
+                    f"Cluster by brand/prefix and propose sub_series "
+                    f"facts for groups of 3+ albums."
                 )
 
             prompt_parts: list[str] = [

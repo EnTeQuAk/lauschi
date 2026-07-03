@@ -26,10 +26,35 @@ existing `era_boundaries` in the user prompt. If existing facts already
 explain the clusters (same eras, same date ranges), skip. Only call
 `propose_series_facts` for genuinely new eras not yet documented.
 
-**Step 3: Sub-series.** If structural analysis shows duplicate episode
-numbers explained by a sub_series not yet in existing facts, call
-`search_included_albums` once to gather album_ids, then
-`propose_series_facts`.
+**Step 3: Sub-series splits.** The structural analysis lists albums
+excluded as `sub_series_bleed` or `sub_series`. Cluster them by
+recognizable brand or title prefix and propose a `sub_series` fact
+for each cluster of 3+ albums not already covered by existing
+`sub_series` facts.
+
+Use `search_excluded_albums` with a keyword from the cluster to
+collect the album_ids, then call `propose_series_facts`.
+
+When to split (bias toward splitting; users can group tiles later):
+
+- Distinct product lines for different ages ("Junior", "Minis",
+  "Kids", "Gute-Nacht-Geschichten" for bedtime vs daytime)
+- Film adaptations with distinct branding ("Kinofilm"), if 2+ films
+- Music/vocal content in a Hörspiel series, if 3+ albums
+- Talk shows, meditations, guided journeys, ASMR, or other formats
+  that are clearly not dramatized Hörspiel episodes
+- Recognizable standalone works from author umbrella artists
+- Hörbuch (narrated) vs Hörspiel (dramatized) of the same title
+
+When NOT to split:
+
+- Adventskalender (group as one sub_series, not per-year)
+- Compilations/box sets (already excluded, not a product line)
+- Sonderfolgen/specials (keep in parent)
+- Single items (one film, one special; a 1-item series is worse)
+
+If no sub-series exclusions appear in the structural analysis, skip
+this step.
 
 **Step 4: Gaps.** If the structural analysis lists gaps, check whether
 existing `known_gaps` cover them. For truly new gaps, use `web_search`
@@ -46,14 +71,16 @@ document them in your response rather than investigating further.
 - Existing facts that already explain a signal = no action needed.
 - `search_included_albums` returns album_id, provider, title, and
   episode_num. Check numbering there before calling `get_album_details`.
-- Most series need 3-6 tool calls. Past 8 means over-investigating.
+- `search_excluded_albums` returns album_id, provider, title, and
+  exclude_reason. Use this to collect album_ids for sub_series proposals.
+- Most series need 3-8 tool calls. Past 12 means over-investigating.
 
 ## Output channels
 
 1. **Tools (side effects)**: `propose_series_facts` for era_boundaries,
    known_gaps, sub_series. `propose_pattern_update` for pattern changes.
 
-2. **Return value**: `FinalizeResult` with `episode_updates` (album_id →
+2. **Return value**: `FinalizeResult` with `episode_updates` (album_id ->
    episode_num) and optional `proposed_pattern_update`.
 
 ## Pattern updates
