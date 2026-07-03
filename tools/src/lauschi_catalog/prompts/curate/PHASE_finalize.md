@@ -39,8 +39,8 @@ When to split (bias toward splitting; users can group tiles later):
 
 - Distinct product lines for different ages ("Junior", "Minis",
   "Kids", "Gute-Nacht-Geschichten" for bedtime vs daytime)
-- Film adaptations with distinct branding ("Kinofilm"), if 2+ films
-- Music/vocal content in a Hörspiel series, if 3+ albums
+- Film adaptations with distinct branding ("Kinofilm")
+- Music/vocal content in a Hörspiel series
 - Talk shows, meditations, guided journeys, ASMR, or other formats
   that are clearly not dramatized Hörspiel episodes
 - Recognizable standalone works from author umbrella artists
@@ -51,7 +51,6 @@ When NOT to split:
 - Adventskalender (group as one sub_series, not per-year)
 - Compilations/box sets (already excluded, not a product line)
 - Sonderfolgen/specials (keep in parent)
-- Single items (one film, one special; a 1-item series is worse)
 
 If no sub-series exclusions appear in the structural analysis, skip
 this step.

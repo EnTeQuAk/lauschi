@@ -43,13 +43,11 @@ Propose a split when the films:
 - Are structurally different (60-90 min vs 30-50 min episodes)
 - Would break chronological/numbered browsing in the parent
 
-Keep with parent when:
-- Only 1 film exists (one-item series is worse than slight clutter)
-- The "films" are just elongated TV episodes without distinct branding
+Keep with parent when the "films" are just elongated TV episodes
+without distinct branding (same cover art style, same duration range).
 
 Examples to split: "Bibi und Tina Kinofilm" (4 theatrical releases),
 "Die drei ??? Kinofilm", "Ostwind" film Hörspiele.
-Examples to keep: a single 50-min "Benjamin Blümchen" TV special.
 
 ### 3. Music content in a Hörspiel series
 
@@ -58,8 +56,8 @@ alongside their Hörspiel episodes. Music albums ("Die schönsten Lieder",
 "Hexen-Hits") are a completely different listening experience. Kids
 tapping a Hörspiel series expect stories, not songs.
 
-Propose a split when there are 3+ music/vocal albums under a Hörspiel
-artist. Use content_type "music" for the split.
+Propose a split for music/vocal albums under a Hörspiel artist.
+Use content_type "music" for the split.
 
 ### 4. Recognizable standalone works from author umbrellas
 
@@ -168,13 +166,13 @@ Reasoning:
   reason="Standalone literary work, parents search by title"
 ```
 
-**Do NOT split** (single film, no distinct branding):
+**Do NOT split** (no distinct branding):
 ```
 Series: "Benjamin Blümchen"
 Albums found: 140 numbered episodes, 1 album "Benjamin Blümchen: Der Kinofilm"
 Reasoning:
-  1. Only 1 film, creating a 1-item series is worse than slight clutter
-  2. 50 min duration, not drastically different from regular episodes
+  1. No "Kinofilm" sub-branding, just the series name
+  2. 50 min duration, same range as regular episodes
   3. Keep in parent. Include with episode_num=null
 → No sub_series proposal
 ```
