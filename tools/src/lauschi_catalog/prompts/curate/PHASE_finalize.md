@@ -29,8 +29,7 @@ explain the clusters (same eras, same date ranges), skip. Only call
 **Step 3: Sub-series splits.** The structural analysis lists albums
 excluded as `sub_series_bleed` or `sub_series`. Cluster them by
 recognizable brand or title prefix and propose a `sub_series` fact
-for each cluster of 3+ albums not already covered by existing
-`sub_series` facts.
+for each cluster not already covered by existing `sub_series` facts.
 
 Use `search_excluded_albums` with a keyword from the cluster to
 collect the album_ids, then call `propose_series_facts`.

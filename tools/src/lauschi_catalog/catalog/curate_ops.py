@@ -781,22 +781,27 @@ def _build_finalize_agent(
     ) -> list[dict]:
         """Search excluded albums by title keyword (case-insensitive).
 
-        Returns album_id, provider, title, and exclude_reason for each
-        match. Use this to collect album_ids for sub_series proposals.
+        Returns results grouped by title. Each entry has title,
+        exclude_reason, and album_ids (list of {album_id, provider}).
+        Use this to collect album_ids for sub_series proposals.
         """
         q = query.lower()
-        results = [
-            {
-                "album_id": d.album_id,
-                "provider": d.provider,
-                "title": d.title,
-                "exclude_reason": d.exclude_reason,
-            }
-            for d in ctx.deps.all_decisions
-            if not d.include and q in d.title.lower()
-        ]
+        by_title: dict[str, dict] = {}
+        for d in ctx.deps.all_decisions:
+            if d.include or q not in d.title.lower():
+                continue
+            if d.title not in by_title:
+                by_title[d.title] = {
+                    "title": d.title,
+                    "exclude_reason": d.exclude_reason,
+                    "album_ids": [],
+                }
+            by_title[d.title]["album_ids"].append(
+                {"album_id": d.album_id, "provider": d.provider},
+            )
+        results = sorted(by_title.values(), key=lambda x: x["title"])
         ctx.deps.on_progress(
-            f"  search_excluded_albums({query!r}) -> {len(results)} hits",
+            f"  search_excluded_albums({query!r}) -> {len(results)} titles",
         )
         return results
 
@@ -1503,31 +1508,35 @@ async def _run_large(
             if isinstance(pc, dict):
                 analysis_lines.append(f"Pattern coverage: {pc['percentage']}%")
 
-        sub_bleed_clusters: dict[str, list[str]] = {}
+        sub_bleed_titles: list[str] = []
+        seen_titles: set[str] = set()
         for d in all_decisions:
             if d.include or d.exclude_reason not in (
                 "sub_series_bleed",
                 "sub_series",
             ):
                 continue
-            sub_bleed_clusters.setdefault(d.exclude_reason, []).append(
-                f"{d.provider}:{d.album_id} | {d.title}"
-            )
-        has_sub_bleed = bool(sub_bleed_clusters)
+            if d.title in seen_titles:
+                continue
+            seen_titles.add(d.title)
+            sub_bleed_titles.append(d.title)
+        has_sub_bleed = bool(sub_bleed_titles)
+        _MAX_INLINE_SUB_TITLES = 40
         if has_sub_bleed:
-            total = sum(len(v) for v in sub_bleed_clusters.values())
+            sorted_titles = sorted(sub_bleed_titles)
             analysis_lines.append(
-                f"Sub-series exclusions: {total} albums excluded as "
-                f"sub_series_bleed or sub_series. "
-                f"Propose sub_series facts for clusters of 3+ albums "
-                f"sharing a recognizable brand/prefix."
+                f"Sub-series exclusions: {len(sub_bleed_titles)} unique "
+                f"titles excluded as sub_series_bleed or sub_series. "
+                f"Cluster by brand/prefix and propose sub_series facts "
+                f"for each recognizable group."
             )
-            for reason, items in sub_bleed_clusters.items():
-                analysis_lines.append(f"  [{reason}] ({len(items)} albums):")
-                for item in items[:30]:
-                    analysis_lines.append(f"    {item}")
-                if len(items) > 30:
-                    analysis_lines.append(f"    ... +{len(items) - 30} more")
+            for title in sorted_titles[:_MAX_INLINE_SUB_TITLES]:
+                analysis_lines.append(f"    {title}")
+            if len(sorted_titles) > _MAX_INLINE_SUB_TITLES:
+                analysis_lines.append(
+                    f"    ... +{len(sorted_titles) - _MAX_INLINE_SUB_TITLES} "
+                    f"more (use search_excluded_albums to explore)"
+                )
 
         needs_finalize = (
             bool(unnumbered) or bool(era_evidence_lines) or has_sub_bleed
@@ -1574,9 +1583,8 @@ async def _run_large(
             if era_evidence_lines:
                 header_parts.append("era evidence found")
             if has_sub_bleed:
-                n_bleed = sum(len(v) for v in sub_bleed_clusters.values())
                 header_parts.append(
-                    f"{n_bleed} sub-series exclusions to evaluate for splits"
+                    f"{len(sub_bleed_titles)} sub-series exclusions to evaluate for splits"
                 )
             header = (
                 f"== Finalize == {' AND '.join(header_parts)}. "
@@ -1610,12 +1618,11 @@ async def _run_large(
                     f"documented, skip Step 2"
                 )
             if has_sub_bleed:
-                n_bleed = sum(len(v) for v in sub_bleed_clusters.values())
                 work_items.append(
-                    f"- Sub-series: {n_bleed} excluded albums with "
-                    f"sub_series_bleed/sub_series reason. "
+                    f"- Sub-series: {len(sub_bleed_titles)} unique titles "
+                    f"excluded as sub_series_bleed/sub_series. "
                     f"Cluster by brand/prefix and propose sub_series "
-                    f"facts for groups of 3+ albums."
+                    f"facts for each recognizable group."
                 )
 
             prompt_parts: list[str] = [
