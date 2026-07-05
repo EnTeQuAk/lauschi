@@ -1624,12 +1624,16 @@ series:
       - id: 60hZMlqOqf3hhFLeRYnrFM
         episode: 267
         title: 'Folge 267: Die Fokus-Gruft'
+      - id: 1jnKWkDnqWk1bZ4teP1Xsy
+        episode: 268
+        title: 'Folge 268: Wenn die letzte Stunde schlägt'
       - id: 6ZvCPzRguOIlyJnwqCm0qy
         title: Das Hörspiel zum TV-Special
       - id: 3PQ1Jy2EoBVTnaeHhNLruV
         title: 'Special: Tag der Erinnerungen'
   aliases:
-  - LEGO Ninjago - Masters of Spinjitzu
+  - Ninjago
+  - LEGO Ninjago
   series_facts:
     known_gaps:
     - curated_by: unknown
@@ -1637,38 +1641,44 @@ series:
       audited_by: minimax-m2.7
       audited_at: '2026-05-27T11:32:00.479800+00:00'
       number: 28
+      range_end:
       reason: 'Catalog gap: present on Spotify but absent from apple_music catalog. No apple_music album ID available to override.'
     - curated_by: unknown
       curated_at:
       audited_by: minimax-m2.7
       audited_at: '2026-05-27T11:32:00.479800+00:00'
       number: 46
+      range_end:
       reason: 'Catalog gap: present on Spotify but absent from apple_music catalog. No apple_music album ID available to override.'
     - curated_by: unknown
       curated_at:
       audited_by: minimax-m2.7
       audited_at: '2026-05-27T11:32:00.479800+00:00'
       number: 49
+      range_end:
       reason: 'Catalog gap: present on Spotify but absent from apple_music catalog. No apple_music album ID available to override.'
     - curated_by: unknown
       curated_at:
       audited_by: minimax-m2.7
       audited_at: '2026-05-27T11:32:00.479800+00:00'
       number: 51
-      reason: 'Catalog gap: present on Spotify but absent from apple_music catalog. No apple_music album ID available to override.'
-    - curated_by: unknown
-      curated_at:
-      audited_by: minimax-m2.7
-      audited_at: '2026-05-27T11:32:00.479800+00:00'
-      number: 54
-      reason: 'Catalog gap: present on apple_music but absent from spotify catalog. No spotify album ID available to override.'
-    - number: 212
       range_end:
-      reason: Present on Spotify but absent from Apple Music catalog. No apple_music album ID available to override.
+      reason: 'Catalog gap: present on Spotify but absent from apple_music catalog. No apple_music album ID available to override.'
+    - number: 54
+      range_end:
+      reason: "Catalog gap: present on Spotify but absent from Apple Music catalog. No apple_music album ID available to override. (Direction corrected from previous entry which incorrectly stated 'present
+        on apple_music but absent from spotify'.)"
       curated_by: minimax-m2.7
+      curated_at: '2026-07-05T07:54:48.820957+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-05T07:54:48.820957+00:00'
+    - curated_by: minimax-m2.7
       curated_at: '2026-07-02T07:40:52.374502+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-07-02T07:40:52.374502+00:00'
+      number: 212
+      range_end:
+      reason: Present on Spotify but absent from Apple Music catalog. No apple_music album ID available to override.
 - id: die_drei_fragezeichen_kids
   title: Die drei ??? Kids
   providers:
@@ -1964,6 +1974,9 @@ series:
       - id: 14GyPFeUi6pNCgjHgF9zUw
         episode: 102
         title: 'Folge 102: Spur der Tresorknacker'
+      - id: 7rLkOzBiK5q5GHP3L9IaJl
+        episode: 103
+        title: 'Folge 103: SOS im Bike-Park'
       - id: 7d8GIfIRWUNIZZXc5bjsrT
         title: Adventskalender - 24 Tage im Weihnachtsland
       - id: 4SVQrvQkXzYC1nU7DfDJx2
@@ -2320,13 +2333,38 @@ series:
   - Die drei Fragezeichen Kids
   series_facts:
     known_gaps:
-    - number: 103
-      range_end:
-      reason: Episode 103 exists on Apple Music (6775767498, 2026-07-03) but Spotify catalog entry not found. This is a data capture gap, not a content gap.
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-07-02T07:41:54.883416+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-07-02T07:41:54.883416+00:00'
+      number: 103
+      range_end:
+      reason: Episode 103 exists on Apple Music (6775767498, 2026-07-03) but Spotify catalog entry not found. This is a data capture gap, not a content gap.
+    sub_series:
+    - label: mini_fall
+      album_ids:
+      - 0qybrewjst6zJBOrdBghc2
+      - '1752881332'
+      - '1752882153'
+      - '1752882217'
+      - '1753045100'
+      - '1774712902'
+      - '1790622238'
+      - '1815464807'
+      - '1891320197'
+      - 1IrBxq3kgqabhcp6xfIezB
+      - 1q9psu1dvUemN0x8tFnwhr
+      - 2AeYE1PVAulFFJlfp6GYZL
+      - 2SW10jAJqdxfbJZCW6hlEF
+      - 45Wfn7ndkXnhQrH9dWHjf9
+      - 74usgzfUNYeiXgAe3CKrr7
+      - 7DA8OgWsVgCSM5ayHEOQHo
+      reason: Short-format Mini-Fall episodes with independent numbering (Mini-Fall 01-08), distinct from main Die drei ??? Kids episode sequence. Titles contain 'Mini-Fall' brand, shorter runtime 
+        (~34-45 min vs ~66 min for regular episodes), and sub-series numbering. All 16 albums verified via track listing - correctly excluded as sub_series_bleed.
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-05T07:55:29.711901+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-05T07:55:29.711901+00:00'
 - id: bibi_blocksberg
   title: Bibi Blocksberg
   providers:
@@ -4163,18 +4201,50 @@ series:
   - Die drei Ausrufezeichen
   series_facts:
     known_gaps:
-    - number: 50
+    - curated_by: minimax-m2.7
+      curated_at: '2026-06-10T18:15:24.865023+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-06-10T18:15:24.865023+00:00'
+      number: 50
+      range_end:
       reason: Apple Music version exists as 3-part compilation (120 tracks, 050 A/B/C) - not missing, correctly excluded. Spotify double-episode version (120 tracks, I/II) included.
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-06-10T18:15:24.865023+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-06-10T18:15:24.865023+00:00'
-    - number: 75
+      number: 75
+      range_end:
       reason: Apple Music version exists as 3-story compilation (103 tracks, I/II/III) - not missing, correctly excluded. Spotify double-episode version (75 tracks, I/II) included.
+    - number: 99
+      range_end:
+      reason: Spotify discography has no episode 99. Apple Music version exists but is future-dated (2026-07-31). Verify if episode 99 is a legitimate numbered episode or a special release that 
+        shouldn't follow standard numbering.
       curated_by: minimax-m2.7
-      curated_at: '2026-06-10T18:15:24.865023+00:00'
+      curated_at: '2026-07-05T07:56:41.464510+00:00'
       audited_by: minimax-m2.7
-      audited_at: '2026-06-10T18:15:24.865023+00:00'
+      audited_at: '2026-07-05T07:56:41.464510+00:00'
+    sub_series:
+    - label: adventskalender
+      album_ids:
+      - '1165473629'
+      - '1295014226'
+      - '1295114870'
+      - '1477951025'
+      - '1588738563'
+      - '1682060874'
+      - '1752715756'
+      - '1773744482'
+      - '1844567466'
+      - 2S6DeiIPdkQPIQi5JQRqtD
+      - 3trwiTOpImrBHlfRFL2jqB
+      - 5337c71ghTYTKz3sJBYeAK
+      - 6sY5T9eROTkGXkprYS1JIc
+      - 7rOiqNA8gO1qWLEUTvXAun
+      reason: Annual Advent calendar format with 24 daily December stories, distinct from the numbered episode sequence. Spotify versions excluded to match Apple Music cross-provider consistency.
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-05T07:56:41.464510+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-05T07:56:41.464510+00:00'
 - id: paw_patrol
   title: PAW Patrol
   providers:
@@ -10664,13 +10734,59 @@ series:
   - Pettersson & Findus
   series_facts:
     known_gaps:
-    - number: 9
-      range_end:
-      reason: Apple Music does not carry episodes 9-16 (2021-2022 TV-series episodes); these episodes are only available on Spotify. Cross-provider availability gap, not a missing episode.
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-07-02T09:31:40.291911+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-07-02T09:31:40.291911+00:00'
+      number: 9
+      range_end:
+      reason: Apple Music does not carry episodes 9-16 (2021-2022 TV-series episodes); these episodes are only available on Spotify. Cross-provider availability gap, not a missing episode.
+    sub_series:
+    - label: findus_erklärt_die_welt
+      album_ids:
+      - apple_music:1492436426
+      - apple_music:1721273472
+      - apple_music:1735987280
+      - apple_music:1739781043
+      - apple_music:1774009601
+      - apple_music:1777073692
+      - apple_music:1829438492
+      - apple_music:1843732997
+      - spotify:0V8EmGbXyvDS3L4lDpgrqI
+      - spotify:1mfzZZXINHFfKFVNmxDORZ
+      - spotify:2JNUcqfRYRunIV0BwzaThJ
+      - spotify:2kXKwTAMGso5Hvf0l8zLlw
+      - spotify:4YRXxki5bkewmZjhFev86Y
+      - spotify:4v8HRRE9VUYJ8SfkrssuJg
+      - spotify:5SqOysEyYwB08Rfc00ctMx
+      - spotify:6BToH492F1F8ueDPpy2Pdg
+      - spotify:6Gy4WtmWnYf3IcPGRheWeB
+      - spotify:6rjEFCIx3HbZEAZwrtzejQ
+      - spotify:6zuKQptNPGsZYuPLjRpDBz
+      - spotify:7AzE84tzTbyQuiAU13sQom
+      reason: Educational spin-off 'Findus erklärt die Welt' covering science, nature and everyday topics. Distinct product line from the main narrative Hörspiele.
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-05T07:57:36.653069+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-05T07:57:36.653069+00:00'
+    - label: kinofilm
+      album_ids:
+      - apple_music:1463571162
+      - apple_music:1463595135
+      - apple_music:1463595195
+      - apple_music:1463596352
+      - spotify:0IKwVZoH75CCN7opPEChDL
+      - spotify:0VzP09hIIf9hXOLxW5gNkQ
+      - spotify:0tyZwkknvmSxHkCThlrsHj
+      - spotify:1v80UCutPCY7iipL2wTAQc
+      - spotify:5YhSLWGEtrOS6sYLnFEhE3
+      - spotify:5iraXLnDhlWR0ikKnJUqid
+      - spotify:7MsUEZeCBzvqmYMYh5EJtQ
+      reason: Theatrical film adaptation Hörspiele with explicit 'zum Kinofilm' / 'Filmhörspiel' branding. These are based on the movies and belong in a separate series entry.
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-05T07:57:36.653069+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-05T07:57:36.653069+00:00'
 - id: die_playmos
   title: Die Playmos
   providers:
@@ -12568,7 +12684,7 @@ series:
         title: Adventskalender - Weihnachtszauber mit Hanni und Nanni
   episode_pattern:
   - '^Folge (\d+):'
-  - ^(\d+)/
+  - ^(\d{2,3})/
   - ^Klassiker (\d+)
   aliases:
   - Hanni & Nanni
@@ -13641,57 +13757,77 @@ series:
   - Fireman Sam
   series_facts:
     known_gaps:
-    - curated_by: minimax-m2.7
-      curated_at: '2026-06-19T03:56:54.833958+00:00'
+    - number: 142
+      range_end:
+      reason: Spotify-only; no Apple Music entry. Cross-provider catalog gap. [audited by audit-agent]
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-05T07:59:14.216304+00:00'
       audited_by: minimax-m2.7
-      audited_at: '2026-06-19T03:56:54.833958+00:00'
-      number: 142
-      reason: Episodes 142, 192, 231 are Spotify-only with no Apple Music entry (not even excluded). Cross-provider catalog gap.
+      audited_at: '2026-07-05T07:59:14.216304+00:00'
+    - number: 154
+      range_end:
+      reason: Spotify-only; no Apple Music entry. Cross-provider catalog gap. [audited by audit-agent]
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-05T07:59:14.216304+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-05T07:59:14.216304+00:00'
     - curated_by: minimax-m2.7
       curated_at: '2026-06-19T03:56:54.833958+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-06-19T03:56:54.833958+00:00'
       number: 155
+      range_end:
       reason: Episode 155 missing on Apple Music. Spotify has the individual episode; Apple Music only has it in multi-episode compilations (excluded).
     - curated_by: minimax-m2.7
       curated_at: '2026-06-10T18:22:15.958281+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-06-10T18:22:15.958281+00:00'
       number: 156
-      reason: Episodes 155-180 missing on Apple Music; available on Spotify. Catalog gap due to Apple Music not carrying these episodes.
       range_end: 173
+      reason: Episodes 155-180 missing on Apple Music; available on Spotify. Catalog gap due to Apple Music not carrying these episodes.
     - number: 170
       range_end:
-      reason: Episode 170 'Feuer auf dem Wasser' exists on Spotify (LEONINE Audio, 5 tracks) but has no Apple Music entry. Cross-provider catalog gap.
+      reason: Spotify-only; no Apple Music entry. Cross-provider catalog gap. [audited by audit-agent]
       curated_by: minimax-m2.7
-      curated_at: '2026-07-02T07:59:47.227273+00:00'
+      curated_at: '2026-07-05T07:59:14.216304+00:00'
       audited_by: minimax-m2.7
-      audited_at: '2026-07-02T07:59:47.227273+00:00'
+      audited_at: '2026-07-05T07:59:14.216304+00:00'
     - curated_by: minimax-m2.7
       curated_at: '2026-06-19T03:56:54.833958+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-06-19T03:56:54.833958+00:00'
       number: 174
+      range_end:
       reason: Episode 174 missing on Apple Music. Spotify has the individual episode; Apple Music only has it in multi-episode compilations (excluded).
     - curated_by: minimax-m2.7
       curated_at: '2026-06-10T18:22:15.958281+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-06-10T18:22:15.958281+00:00'
       number: 175
-      reason: Episodes 155-180 missing on Apple Music; available on Spotify. Catalog gap due to Apple Music not carrying these episodes.
       range_end: 180
-    - curated_by: minimax-m2.7
-      curated_at: '2026-06-19T03:56:54.833958+00:00'
+      reason: Episodes 155-180 missing on Apple Music; available on Spotify. Catalog gap due to Apple Music not carrying these episodes.
+    - number: 192
+      range_end:
+      reason: Spotify-only; no Apple Music entry. Cross-provider catalog gap. [audited by audit-agent]
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-05T07:59:14.216304+00:00'
       audited_by: minimax-m2.7
-      audited_at: '2026-06-19T03:56:54.833958+00:00'
-      number: 192
-      reason: Episodes 142, 192, 231 are Spotify-only with no Apple Music entry (not even excluded). Cross-provider catalog gap.
-    - curated_by: minimax-m2.7
-      curated_at: '2026-06-19T03:56:54.833958+00:00'
+      audited_at: '2026-07-05T07:59:14.216304+00:00'
+    - number: 231
+      range_end:
+      reason: Spotify-only; no Apple Music entry. Cross-provider catalog gap. [audited by audit-agent]
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-05T07:59:14.216304+00:00'
       audited_by: minimax-m2.7
-      audited_at: '2026-06-19T03:56:54.833958+00:00'
-      number: 231
-      reason: Episodes 142, 192, 231 are Spotify-only with no Apple Music entry (not even excluded). Cross-provider catalog gap.
+      audited_at: '2026-07-05T07:59:14.216304+00:00'
+    sub_series:
+    - label: kinofilm
+      album_ids: []
+      reason: Theatrical film Hörspiele with distinct 'zum Film'/'zum Kinofilm' branding. Feature-length film adaptations that disrupt numbered episode browsing. [audited by audit-agent]
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-05T07:59:14.216304+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-05T07:59:14.216304+00:00'
 - id: shrek
   title: Shrek
   providers:
@@ -16337,21 +16473,40 @@ series:
         title: 'Folge 51: Die letzte Zutat / Der Trank der Einheit / Centopia in Gefahr (Das Original-Hörspiel zur TV-Serie)'
       - id: '1624446231'
         title: Das Geheimnis von Centopia (Das Original-Hörspiel zum Kinofilm)
-  episode_pattern: '^Folge (\d+):'
+  episode_pattern:
+  - '^Folge (\d+):'
   series_facts:
     era_boundaries:
-    - label: tv_serie
+    - curated_by: minimax-m2.7
+      curated_at: '2026-06-10T18:27:05.624754+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-06-10T18:27:05.624754+00:00'
+      label: tv_serie
       release_date_range: 2012-2024
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-06-10T18:27:05.624754+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-06-10T18:27:05.624754+00:00'
-    - label: continuation
+      label: continuation
       release_date_range: 2025-
+    sub_series:
+    - label: buch
+      album_ids:
+      - 0Ln0JTQdgoM3kBa6OJtUfT
+      - 0XBqorFZ6HJYjyiOdSMwb6
+      - '1560654801'
+      - '1560656738'
+      - '1564426657'
+      - '1564426659'
+      - '1564427017'
+      - 4RD9uJBrANRosSWik1wWwU
+      - 58XoNOFEGev2Fi3m4Qg7cP
+      - 6LjaO0VATb8SYtyTJF1X12
+      reason: Book tie-in Hörspiele with distinct numbering and branding (Das Original-Hörspiel zum Buch), separate from the TV series episodes.
       curated_by: minimax-m2.7
-      curated_at: '2026-06-10T18:27:05.624754+00:00'
+      curated_at: '2026-07-05T07:59:34.592984+00:00'
       audited_by: minimax-m2.7
-      audited_at: '2026-06-10T18:27:05.624754+00:00'
+      audited_at: '2026-07-05T07:59:34.592984+00:00'
 - id: lego_city
   title: LEGO City
   providers:
@@ -20076,19 +20231,32 @@ series:
       - id: '1498442592'
         title: Oh, wie schön ist Panama
   aliases:
-  - Tiger & Bär
   - Tiger und Bär
+  - Janosch – Tiger und Bär
   content_type: hoerspiel
   series_facts:
     known_gaps:
-    - number: 1
-      range_end:
-      reason: Episode 1 "Post für den Tiger" appears to be mislabeled as "Folge 2" on both Spotify and Apple Music. The fan database hoerspielland.de lists it as "Folge 1". If this is correct, there's
-        no actual Episode 2 in the streaming catalog - the series skips from Episode 1 directly to Episodes 3 and 4.
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-07-02T08:22:01.971961+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-07-02T08:22:01.971961+00:00'
+      number: 1
+      range_end:
+      reason: Episode 1 "Post für den Tiger" appears to be mislabeled as "Folge 2" on both Spotify and Apple Music. The fan database hoerspielland.de lists it as "Folge 1". If this is correct, there's
+        no actual Episode 2 in the streaming catalog - the series skips from Episode 1 directly to Episodes 3 and 4.
+    sub_series:
+    - label: kinofilm
+      album_ids:
+      - apple_music:1554100644
+      - apple_music:1561985267
+      - spotify:1NYB6fQ8okVNr3D9owIQTC
+      - spotify:7DystyZetX5Muhtvoq6ja7
+      reason: Film adaptations with explicit 'Das Original-Hörspiel zum Kinofilm' branding. These are distinct theatrical productions that would disrupt the main numbered episode sequence. Verified 
+        via track structure (Intro/Outro, Edelkids/Edel labels).
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-05T08:01:10.594368+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-05T08:01:10.594368+00:00'
 - id: spirit
   title: Spirit
   providers:
@@ -20971,21 +21139,79 @@ series:
         title: 'Folge 24: Die Riesen aus dem Wald'
   episode_pattern:
   - '^Folge (\d+):'
-  - ^(\d{1,2})/
+  - ^(\d+)/
   series_facts:
     era_boundaries:
-    - label: original
+    - curated_by: minimax-m2.7
+      curated_at: '2026-07-02T08:23:24.433929+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-02T08:23:24.433929+00:00'
+      label: original
       release_date_range: 2007-2013
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-07-02T08:23:24.433929+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-07-02T08:23:24.433929+00:00'
-    - label: revival
+      label: revival
       release_date_range: 2023-2026
+    sub_series:
+    - label: radio_schrottland
+      album_ids:
+      - 00mx089tRjRNCbLbpbOaNq
+      - 0vKhQY57K7SEwltVEjjftX
+      - '1776872666'
+      - '1776873082'
+      - '1776873235'
+      - '1776873281'
+      - '1777047777'
+      - '1777048104'
+      - '1777050533'
+      - '1777094781'
+      - '1777097232'
+      - 1y49oGjLi8o3zUMH0kzhH0
+      - 2zGR30QEsUKVszWN0zjC8U
+      - 4CFN8H3JmhjVA4j85ga2yY
+      - 4ipi6JKubB5E5t0jqgg91e
+      - 5oyD4gQvIaNrlLVLbcPtKe
+      - 6IaFDDTNauu0NNJf9eL6Mz
+      - 6uqZzrMfKSw2UkLI1Uv5rt
+      reason: Distinct spin-off radio show product with 'Radio Schrottland' branding. Contains moderation, songs, word segments, and playback tracks — not a Hörspiel episode. Audited and confirmed.
       curated_by: minimax-m2.7
-      curated_at: '2026-07-02T08:23:24.433929+00:00'
+      curated_at: '2026-07-05T08:01:37.403928+00:00'
       audited_by: minimax-m2.7
-      audited_at: '2026-07-02T08:23:24.433929+00:00'
+      audited_at: '2026-07-05T08:01:37.403928+00:00'
+    - label: tv_serie
+      album_ids:
+      - 06ONkoUL5voBy7QyCSUGHk
+      - 0Too6v0absFuMwkUUU1oyR
+      - 0pkC1bydhGNKxNpBzpC7dg
+      - '1051755356'
+      - '1062847039'
+      - '1062847805'
+      - '1076362666'
+      - '1099771724'
+      - '1116206412'
+      - '1116207537'
+      - '1116713763'
+      - '1116715327'
+      - '1116718065'
+      - '1133210961'
+      - '1186216522'
+      - 2D6HXgKxvBqo0bLs3Pg7PU
+      - 2jKykXKc6VtAwEl7v6hgYT
+      - 2jkGfKWKwbT31GBkhq0LqU
+      - 48gWFUydUDKGtXjmV7kIIO
+      - 4zq0Op9NMOxi3j3e4uLuz4
+      - 6RX1WnTxJhQWASR4WFgnNg
+      - 6iqqVY07fQd1b9Q0CmTDoR
+      - 71hI0O0kfkPzUB18XnQ8LN
+      - 76kBHZPhoUbz2eR9dMgsBz
+      reason: TV series tie-in with 'Hörspiel zur TV-Serie' branding and independent numbering (Folge 1-12). Each disc bundles 4 distinct TV episodes as multi-episode compilation — a different product
+        from the main Ritter Rost episode series. Audited and confirmed.
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-05T08:01:37.403928+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-05T08:01:37.403928+00:00'
 - id: die_fuchsbande
   title: Die Fuchsbande
   providers:
@@ -21609,6 +21835,39 @@ series:
       - id: '1725521512'
         title: Die Olchis im Land der Drachen
   content_type: hoerspiel
+  series_facts:
+    sub_series:
+    - label: olchi_detektive
+      album_ids:
+      - 045r5GB8FForUsSjex24gQ
+      - '1573466838'
+      - '1573471733'
+      - '1573473627'
+      - '1573479673'
+      - 17SSDMYscSNsBvwZubonNw
+      - 1OuRd7ktC70ELun2PIh3bA
+      - 1ut0uHARGd6rd2u1sTkKuY
+      - 1uzRxeC1NHplN1rNKO61M7
+      - 2ExQJI91WZd1av8in4zrJ7
+      - 2WViA4GvDY25YYrQYb9PsR
+      - 2XG2Yc35xnduSiBllza82G
+      - 2ghoETMh7cEiaSgZtlJbf6
+      - 2ycRWGy7XTuhIzWP5MZOqi
+      - 3NdLxPIyulnZtmOaNDrDXi
+      - 3YbQasSAfcPeE3Cv3I3IjN
+      - 4A8np03Bcme3bv4V05hL4I
+      - 4dC3YA59SWJCZu21BVncN8
+      - 543QMwmSdrQv29i8A4Qhi2
+      - 5oappd2T1kRdFZCMwgqmsq
+      - 7JTcsA8FRdAQ5HJaEfWs9Y
+      - 7ockICf82zAaT9lUzcICh7
+      - 7spqt81kgEvTbcuNxoOFtt
+      - 7vZFM4jIZCg4RQLMjH2DV6
+      reason: Distinct spin-off product line 'Olchi-Detektive' with its own episode numbering (1-20), separate from the main 'Die Olchis' Hörspiel series. All albums correctly excluded.
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-05T08:02:55.256904+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-05T08:02:55.256904+00:00'
 - id: kung_fu_panda
   title: Kung Fu Panda
   providers:
@@ -21773,6 +22032,21 @@ series:
       - id: '1883199027'
         title: Bobo Siebenschläfer. So schön ist der Winter! Geschichten für Kleine mit KlangErlebnissen und Liedern
   content_type: hoerspiel
+  aliases:
+  - Bobo & Hasi
+  series_facts:
+    sub_series:
+    - label: bobo_und_hasi
+      album_ids:
+      - '1883198731'
+      - 2XOAww2En5h6NCrzsZJDUP
+      - 4FJFVUgtsFKmWuw5rZLrds
+      reason: 'Confirmed via audit: Distinct spin-off series featuring Bobo and friend Hasi. Albums correctly excluded as sub_series_bleed. Cross-provider pairs verified (apple_music:1883198731 and spotify:4FJFVUgtsFKmWuw5rZLrds
+        are the same content on different providers).'
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-05T08:03:39.689360+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-05T08:03:39.689360+00:00'
 - id: wendy
   title: Wendy
   providers:
@@ -22318,13 +22592,26 @@ series:
   episode_pattern: '^Folge (\d+):'
   series_facts:
     known_gaps:
-    - number: 19
-      range_end:
-      reason: 'Production hiatus: episodes 1-18 released 1994-1996, then 11-year gap before episode 19 in 2007. Series continued with episode 19 as the next numbered episode in the sequence.'
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-07-02T08:25:27.191681+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-07-02T08:25:27.191681+00:00'
+      number: 19
+      range_end:
+      reason: 'Production hiatus: episodes 1-18 released 1994-1996, then 11-year gap before episode 19 in 2007. Series continued with episode 19 as the next numbered episode in the sequence.'
+    sub_series:
+    - label: kinofilm
+      album_ids:
+      - 0u5YaG7xYJ0IUCJSEI3nUz
+      - '1686023135'
+      - '1686026362'
+      - 3kANNfqeu6rFkLqhvgLxvC
+      reason: "Verified: All 4 album IDs are theatrical film Hörspiele with 'Kinofilm' branding, correctly excluded as sub_series_bleed. Cross-provider pairs exist (apple_music:1686026362 ↔ spotify:3kANNfqeu6rFkLqhvgLxvC
+        for Wendy 1; apple_music:1686023135 ↔ spotify:0u5YaG7xYJ0IUCJSEI3nUz for Wendy 2). These are structurally distinct from regular numbered episodes."
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-05T08:04:22.737619+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-05T08:04:22.737619+00:00'
 - id: sternenfohlen
   title: Sternenfohlen
   providers:
@@ -23679,6 +23966,24 @@ series:
       - id: 5c7cYZFBimNLd3vvMnq9sN
         episode: 50
         title: '50: Countdown bis Mitternacht'
+      - id: 0itjeKvfolNCsyC6ijojO3
+        title: Adventskalender Tag 16 - Gefährlich rieselt der Schnee
+      - id: 0G8mI5ypPOJ0yQYevcaBpd
+        title: Adventskalender Tag 17 - Gefährlich rieselt der Schnee
+      - id: 2LXqbUF9hJvfu6czCBCjhR
+        title: Adventskalender Tag 18 - Gefährlich rieselt der Schnee
+      - id: 3IPVM58dYp1mCewkVvSpYR
+        title: Adventskalender Tag 19 - Gefährlich rieselt der Schnee
+      - id: 0vj1sriSgobSS5wMuHMPe3
+        title: Adventskalender Tag 20 - Gefährlich rieselt der Schnee
+      - id: 5NkvlPcXXqjwsLwog9wc9Y
+        title: Adventskalender Tag 21 - Gefährlich rieselt der Schnee
+      - id: 4alR3SUYdJYdntgO3D4KcY
+        title: Adventskalender Tag 22 - Gefährlich rieselt der Schnee
+      - id: 09FrU6vuKgmbjJ8HZSuTB0
+        title: Adventskalender Tag 23 - Gefährlich rieselt der Schnee
+      - id: 3n3UEDzrXoyJlomWioM8gA
+        title: Adventskalender Tag 24 - Gefährlich rieselt der Schnee
       - id: 0GLBbIANjLK4coMS9Tvtnv
         title: Der letzte Schrei
       - id: 4l4pf9JgOg4M9troLqOoCs
@@ -23850,17 +24155,47 @@ series:
         title: Geheime Botschaft - Single
       - id: '1862814624'
         title: Besuch zu später Stunde - Single
-  episode_pattern: '^(\d+):'
+  episode_pattern: '^(\d{2}): '
   aliases:
   - Fünf Geschwister
   series_facts:
-    known_gaps:
-    - number: 44
-      reason: Folge 44 'Gefährlich rieselt der Schnee' exists on Spotify as an unnumbered full album (included); Apple Music has no equivalent.
+    era_boundaries:
+    - label: klassik
+      release_date_range: 1989-1990
       curated_by: minimax-m2.7
+      curated_at: '2026-07-05T08:05:56.306529+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-05T08:05:56.306529+00:00'
+    - label: continuation
+      release_date_range: 2014-
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-05T08:05:56.306529+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-05T08:05:56.306529+00:00'
+    known_gaps:
+    - curated_by: minimax-m2.7
       curated_at: '2026-06-10T18:41:45.116133+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-06-10T18:41:45.116133+00:00'
+      number: 44
+      range_end:
+      reason: Folge 44 'Gefährlich rieselt der Schnee' exists on Spotify as an unnumbered full album (included); Apple Music has no equivalent.
+    sub_series:
+    - label: adventskalender
+      album_ids: []
+      reason: Adventskalender format with daily episodes for 'Gefährlich rieselt der Schnee'. The 24-day advent calendar is a distinct sub-series from regular numbered episodes. Full album included as
+        episode 44; daily singles excluded on both providers.
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-05T08:05:56.306529+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-05T08:05:56.306529+00:00'
+    - label: soundtrack
+      album_ids: []
+      reason: Music soundtracks from the series. Instrumental background music and score tracks, different content type (music) from Hörspiel episodes.
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-05T08:05:56.306529+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-05T08:05:56.306529+00:00'
 - id: mein_lotta_leben
   title: Mein Lotta-Leben
   providers:
@@ -24485,6 +24820,9 @@ series:
       - id: 6xK1T3x0PgZrvpKiENf48W
         episode: 37
         title: 'Folge 37: Die magische Karte'
+      - id: 0RleVfMyttZoqg7A0f6anm
+        episode: 37
+        title: 'Folge 37: Die magische Karte (Kopfhörer-Hörspiel)'
       - id: 0soSVlJbtjWh2K9Hi7YMLh
         episode: 38
         title: 'Folge 38: Die listige Lüge'
@@ -24525,6 +24863,10 @@ series:
         title: 'Live-Hörspiel: Der schwebende Lollländer'
       - id: 1nHKbhw1vSUI996P2duncc
         title: Adventskalender - Tausend vertückte Türen
+      - id: 4wxvwPk6zfBP8T8vyM4Aan
+        title: Hui Buh - Das Schlossgespenst (Hörspiel zum Kinofilm)
+      - id: 56oDZguAZ9l5bT0dqubjla
+        title: Hui Buh und das Hexenschloss (Hörspiel zum Kinofilm)
     apple_music:
       artist_ids:
       - '283665919'
@@ -24684,7 +25026,26 @@ series:
   - ^(\d+)/
   - '^Folge (\d+):'
   aliases:
-  - HUI BUH neue Welt
+  - Hui Buh
+  series_facts:
+    known_gaps:
+    - number: 37
+      range_end:
+      reason: Spotify has duplicate episode 37 entry (Kopfhörer-Hörspiel variant); Apple Music has duplicate episode 37 entries. One version per provider is included.
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-05T08:06:15.000620+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-05T08:06:15.000620+00:00'
+    sub_series:
+    - label: kinofilm
+      album_ids:
+      - '1600283857'
+      - '1686114395'
+      reason: "Theatrical film Hörspiele with 'Hörspiel zum Kinofilm' branding; excluded from main episode sequence. Note: Spotify counterparts also now excluded for cross-provider consistency."
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-05T08:06:15.000620+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-05T08:06:15.000620+00:00'
 - id: dinotrux
   title: Dinotrux
   providers:
@@ -26995,11 +27356,19 @@ series:
   series_facts:
     era_boundaries:
     - label: staffel_1
-      release_date_range: 2016-2019
+      release_date_range: 2022-
       curated_by: minimax-m2.7
-      curated_at: '2026-06-10T18:50:31.703317+00:00'
+      curated_at: '2026-07-05T08:07:29.498498+00:00'
       audited_by: minimax-m2.7
-      audited_at: '2026-06-10T18:50:31.703317+00:00'
+      audited_at: '2026-07-05T08:07:29.498498+00:00'
+    - label: staffel_2
+      release_date_range: 2022-2025
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-05T08:07:29.498498+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-05T08:07:29.498498+00:00'
+  aliases:
+  - Woodwalkers Hörspiel
 - id: cars
   title: Cars
   providers:
@@ -28062,12 +28431,25 @@ series:
   - Trollhunters
   series_facts:
     known_gaps:
-    - number: 26
-      reason: Audio series ended at episode 25; no episodes 26+ exist on streaming platforms (TV series continues but may not have been adapted to audio)
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-05-31T16:42:08.913719+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-05-31T16:42:08.913719+00:00'
+      number: 26
+      range_end:
+      reason: Audio series ended at episode 25; no episodes 26+ exist on streaming platforms (TV series continues but may not have been adapted to audio)
+    sub_series:
+    - label: dragons
+      album_ids:
+      - 0HcGZAnpPjDTjL1CF2FW4k
+      - '1434563606'
+      - 2HbqJeQcWMmNOheAftjRkm
+      reason: "Verified: These albums contain DreamWorks Dragons content ('Der neue Dagur', 'Der Höhlenbrecher', 'Das Drachenauge') misattributed to the Trolljäger artist page. Trolljäger only has 25 episodes;
+        'Folge 33' does not exist in this series. All three are correctly excluded as sub_series_bleed."
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-05T08:07:52.301080+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-05T08:07:52.301080+00:00'
 - id: julia_donaldson
   title: Julia Donaldson
   providers:
@@ -34400,16 +34782,26 @@ series:
         title: Conni und der Weltkindertag / Conni in der Verkehrsschule
       - id: 0DUEOkW7SljUOcb3JFX9ce
         title: Conni und der beste Spürhund der Welt
+      - id: 5X3up0Wo8zzker74Yp8sGc
+        title: Conni im Ferienlager (Abenteuerspaß mit Conni)
+      - id: 5xvFAhcAmSz5HI0mLN5Czb
+        title: Conni und der Segelausflug (Abenteuerspaß mit Conni)
+      - id: 3L5aTC0QByzt577gJOQ2Vu
+        title: Conni und das Filmprojekt (Abenteuerspaß mit Conni)
       - id: 52uyq2UDlvzQFRKfIOW1Yg
         title: Klar kann Conni das! / Conni lernt teilen, vertrauen und sich vertragen
       - id: 4ElLuCLd9TsZBn4umPSAhh
         title: Conni und das Fußballcamp
+      - id: 4237MIZ5g9WgpccGcUZsJR
+        title: Conni und die Stecken-Ponys (Abenteuerspaß mit Conni)
       - id: 2Zjjj73OxxEl4DmzgRq11J
         title: Conni und der neue Lehrer
       - id: 2WDjf0PzITBCuoEsY2xIUC
         title: Conni sagt Stopp! / Ein Tag in der Schule
       - id: 63d6nqQwT9mdpqScsZEYSC
         title: Conni und der Pferdeflüsterhof
+      - id: 0H3sXCjdkcvfNunYzorniX
+        title: Conni im Weltall-Camp (Abenteuerspaß mit Conni)
     apple_music:
       artist_ids:
       - '14433691'
@@ -34573,19 +34965,42 @@ series:
         title: Conni und der Weltkindertag / Conni in der Verkehrsschule
       - id: '1773309595'
         title: Conni und der beste Spürhund der Welt
+      - id: '1789567580'
+        title: Conni im Ferienlager (Abenteuerspaß mit Conni)
+      - id: '1799241706'
+        title: Conni und der Segelausflug (Abenteuerspaß mit Conni)
+      - id: '1807358432'
+        title: Conni und das Filmprojekt (Abenteuerspaß mit Conni)
       - id: '1814866173'
         title: Klar kann Conni das! / Conni lernt teilen, vertrauen und sich vertragen
       - id: '1823191331'
         title: Conni und das Fußballcamp
+      - id: '1829722955'
+        title: Conni und die Stecken-Ponys (Abenteuerspaß mit Conni)
       - id: '1837171915'
         title: Conni und der neue Lehrer
       - id: '1858312751'
         title: Conni sagt Stopp! / Ein Tag in der Schule
       - id: '1877130138'
         title: Conni und der Pferdeflüsterhof
+      - id: '1885853321'
+        title: Conni im Weltall-Camp (Abenteuerspaß mit Conni)
   content_type: hoerspiel
   aliases:
-  - Meine Freundin Conni
+  - Conni
+  series_facts:
+    sub_series:
+    - label: conni_co_kinofilm
+      album_ids:
+      - apple_music:1686258930
+      - apple_music:1686280023
+      - spotify:4NZQhiCZxqI4fkeyUkLxrZ
+      - spotify:5UX4VwXIZXBXRAqhIJoniL
+      reason: Theatrical film Hörspiele with distinct 'Kinofilm' branding. All four entries (both Conni & Co films on both providers) belong to this sub-series.
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-05T08:08:35.372621+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-05T08:08:35.372621+00:00'
 - id: deine_freunde
   title: Deine Freunde
   providers:
@@ -35544,138 +35959,174 @@ series:
         title: Die Schlümpfe 2 (Das Original-Hörspiel zum Kinofilm)
   episode_pattern: '^Folge (\d+):'
   series_facts:
+    era_boundaries:
+    - label: klassik
+      release_date_range: 2020-2020
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-02T16:03:31.889191+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-02T16:03:31.889191+00:00'
+    - label: modern
+      release_date_range: 2022-
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-02T16:03:31.889191+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-02T16:03:31.889191+00:00'
     known_gaps:
-    - number: 1
+    - curated_by: minimax-m2.7
+      curated_at: '2026-06-19T06:41:04.687279+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-06-19T06:41:04.687279+00:00'
+      number: 1
+      range_end:
       reason: Spotify only has classic-era (2020) Episode 1; modern-era (2022) 'Ein tollpatschiger Held' missing from Spotify but present on Apple Music
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-06-19T06:41:04.687279+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-06-19T06:41:04.687279+00:00'
-    - number: 2
+      number: 2
+      range_end:
       reason: Spotify only has classic-era (2020) Episode 2; modern-era (2022) 'Ein unwiderschlumpfliches Lächeln' missing from Spotify but present on Apple Music
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-06-19T06:41:04.687279+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-06-19T06:41:04.687279+00:00'
-    - number: 3
+      number: 3
+      range_end:
       reason: Spotify only has classic-era (2020) Episode 3; modern-era (2022) 'Wer ist heftiger?' missing from Spotify but present on Apple Music
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-06-19T06:41:04.687279+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-06-19T06:41:04.687279+00:00'
-    - number: 4
+      number: 4
+      range_end:
       reason: Spotify only has classic-era (2020) Episode 4; modern-era (2023) 'Mein Schlumpf, der Held' missing from Spotify but present on Apple Music
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-06-19T06:41:04.687279+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-06-19T06:41:04.687279+00:00'
-    - number: 5
+      number: 5
+      range_end:
       reason: Spotify only has classic-era (2020) Episode 5; modern-era (2023) 'Schlumpf Fu' missing from Spotify but present on Apple Music
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-06-19T06:41:04.687279+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-06-19T06:41:04.687279+00:00'
-    - number: 6
+      number: 6
+      range_end:
       reason: Spotify only has classic-era (2020) Episode 6; modern-era (2023) 'Die Plümpfe' missing from Spotify but present on Apple Music
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-06-19T06:41:04.687279+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-06-19T06:41:04.687279+00:00'
-    - number: 7
+      number: 7
+      range_end:
       reason: Spotify only has classic-era (2020) Episode 7; modern-era (2023) 'Ein schlumpfiger Kindergarten' missing from Spotify but present on Apple Music
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-06-19T06:41:04.687279+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-06-19T06:41:04.687279+00:00'
-    - number: 8
+      number: 8
+      range_end:
       reason: Spotify only has classic-era (2020) Episode 8; modern-era (2023) 'Gargaschlumpf' missing from Spotify but present on Apple Music
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-06-19T06:41:04.687279+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-06-19T06:41:04.687279+00:00'
-    - number: 9
+      number: 9
+      range_end:
       reason: Spotify only has classic-era (2020) Episode 9; modern-era (2023) 'Sturm verliert ihr Mojo' missing from Spotify but present on Apple Music
-      curated_by: minimax-m2.7
-      curated_at: '2026-06-19T06:41:04.687279+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-19T06:41:04.687279+00:00'
     - number: 10
-      reason: Spotify only has classic-era (2020) Episode 10; modern-era (2023) 'Die Schlumpfshow' missing from Spotify but present on Apple Music
+      range_end:
+      reason: Spotify has modern-era "Die Schlumpfshow" (2023) but is missing classic-era "Ein Geschenk für Yolanda" (2020) which is present on Apple Music.
       curated_by: minimax-m2.7
+      curated_at: '2026-07-05T05:18:16.977443+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-05T05:18:16.977443+00:00'
+    - curated_by: minimax-m2.7
       curated_at: '2026-06-19T06:41:04.687279+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-06-19T06:41:04.687279+00:00'
-    - number: 11
+      number: 11
+      range_end:
       reason: Spotify only has classic-era (2020) Episode 11; modern-era (2023) 'Der Laborassistent' missing from Spotify but present on Apple Music
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-06-19T06:41:04.687279+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-06-19T06:41:04.687279+00:00'
-    - number: 12
+      number: 12
+      range_end:
       reason: Spotify only has classic-era (2020) Episode 12; modern-era (2023) 'Der doppelte Papa Schlumpf' missing from Spotify but present on Apple Music
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-06-19T06:41:04.687279+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-06-19T06:41:04.687279+00:00'
-    - number: 13
+      number: 13
+      range_end:
       reason: Spotify only has classic-era (2020) Episode 13; modern-era (2023) 'Ihr seid gefeuert!' missing from Spotify but present on Apple Music
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-06-19T06:41:04.687279+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-06-19T06:41:04.687279+00:00'
-    - number: 14
+      number: 14
+      range_end:
       reason: Spotify only has classic-era (2020) Episode 14; modern-era (2024) 'Schlumpfige Manieren' missing from Spotify but present on Apple Music
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-06-19T06:41:04.687279+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-06-19T06:41:04.687279+00:00'
-    - number: 15
+      number: 15
+      range_end:
       reason: Spotify only has classic-era (2020) Episode 15; modern-era (2024) 'Der Gast, der nicht gehen wollte' missing from Spotify but present on Apple Music
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-06-19T06:41:04.687279+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-06-19T06:41:04.687279+00:00'
-    - number: 16
+      number: 16
+      range_end:
       reason: Spotify only has classic-era (2020) Episode 16; modern-era (2024) 'Ogerliebe' missing from Spotify but present on Apple Music
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-06-19T06:41:04.687279+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-06-19T06:41:04.687279+00:00'
-    - number: 17
+      number: 17
+      range_end:
       reason: Spotify only has classic-era (2020) Episode 17; modern-era (2024) 'Blüte zieht aus' missing from Spotify but present on Apple Music
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-06-19T06:41:04.687279+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-06-19T06:41:04.687279+00:00'
-    - number: 18
+      number: 18
+      range_end:
       reason: Spotify only has classic-era (2020) Episode 18; modern-era (2024) 'Okey Dokey!' missing from Spotify but present on Apple Music
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-06-19T06:41:04.687279+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-06-19T06:41:04.687279+00:00'
-    - number: 19
+      number: 19
+      range_end:
       reason: Spotify only has classic-era (2020) Episode 19; modern-era (2024) 'Baby Sensei' missing from Spotify but present on Apple Music
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-06-19T06:41:04.687279+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-06-19T06:41:04.687279+00:00'
-    - number: 20
+      number: 20
+      range_end:
       reason: Spotify only has classic-era (2020) Episode 20; modern-era (2024) 'Die fliegenden Schlümpfe' missing from Spotify but present on Apple Music
-      curated_by: minimax-m2.7
-      curated_at: '2026-06-19T06:41:04.687279+00:00'
-      audited_by: minimax-m2.7
-      audited_at: '2026-06-19T06:41:04.687279+00:00'
     sub_series:
     - label: kinofilm
       album_ids:
       - 0qP7VeHHHrrw6fM5umiV1e
+      - '1515694665'
+      - '1515707905'
+      - '1610550228'
       - 2tZgJuVAbqmuHuUQXGiJGw
       - 680A52IEs8f9MfrTTUoFFD
-      reason: Movie adaptation Hörspiele (2011, 2013, 2017) - valid content but not part of numbered episode series; create separate browsing path
+      reason: Cross-provider movie adaptation Hörspiele (2011, 2013, 2017). Valid Hörspiel content but separate from numbered episode series.
       curated_by: minimax-m2.7
-      curated_at: '2026-06-19T06:41:04.687279+00:00'
+      curated_at: '2026-07-05T08:09:44.433676+00:00'
       audited_by: minimax-m2.7
-      audited_at: '2026-06-19T06:41:04.687279+00:00'
+      audited_at: '2026-07-05T08:09:44.433676+00:00'
 - id: leo_lausemaus
   title: Leo Lausemaus
   providers:
