@@ -17579,6 +17579,9 @@ series:
       - id: '1468869322'
         episode: 3
         title: 'Folge 3: Tanz mit dem Wolf'
+      - id: '1468865195'
+        episode: 4
+        title: 'Klassiker, Folge 4: Sturm auf die Festung / Nochmal davongekommen'
       - id: '1468859634'
         episode: 4
         title: 'Folge 4: Der Donnergott'
@@ -17630,7 +17633,7 @@ series:
       - id: '1575745023'
         title: Wickie und die starken Männer (Das magische Schwert)
   episode_pattern:
-  - ^(\d{2,3})/
+  - ^(\d+)/
   - '^Folge (\d+):'
   - '^Klassiker, Folge (\d+):'
   aliases:
@@ -17638,36 +17641,138 @@ series:
   series_facts:
     era_boundaries:
     - label: klassik
-      release_date_range: 1975-2015
+      release_date_range: 1974-1979
       curated_by: minimax-m2.7
-      curated_at: '2026-06-10T18:30:08.123902+00:00'
+      curated_at: '2026-07-02T08:13:15.548457+00:00'
       audited_by: minimax-m2.7
-      audited_at: '2026-06-10T18:30:08.123902+00:00'
+      audited_at: '2026-07-02T08:13:15.548457+00:00'
     - label: cgi_reboot
       release_date_range: 2015-2016
       curated_by: minimax-m2.7
-      curated_at: '2026-06-10T18:30:08.123902+00:00'
+      curated_at: '2026-07-02T08:13:15.548457+00:00'
       audited_by: minimax-m2.7
-      audited_at: '2026-06-10T18:30:08.123902+00:00'
+      audited_at: '2026-07-02T08:13:15.548457+00:00'
     known_gaps:
+    - number: 1
+      range_end:
+      reason: Episodes 1-15 only available in multi-episode compilation volumes (2-3 episodes per CD for classic era, 6-7 episodes per CD for CGI era). No single-episode release format exists in this 
+        catalog.
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-05T05:15:01.519851+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-05T05:15:01.519851+00:00'
+    - number: 2
+      range_end:
+      reason: Episodes 1-15 only available in multi-episode compilation volumes (2-3 episodes per CD for classic era, 6-7 episodes per CD for CGI era). No single-episode release format exists in this 
+        catalog.
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-05T05:15:01.519851+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-05T05:15:01.519851+00:00'
+    - number: 3
+      range_end:
+      reason: Episodes 1-15 only available in multi-episode compilation volumes (2-3 episodes per CD for classic era, 6-7 episodes per CD for CGI era). No single-episode release format exists in this 
+        catalog.
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-05T05:15:01.519851+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-05T05:15:01.519851+00:00'
+    - number: 4
+      range_end:
+      reason: Episodes 1-15 only available in multi-episode compilation volumes (2-3 episodes per CD for classic era, 6-7 episodes per CD for CGI era). No single-episode release format exists in this 
+        catalog.
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-05T05:15:01.519851+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-05T05:15:01.519851+00:00'
+    - number: 5
+      range_end:
+      reason: Episodes 1-15 only available in multi-episode compilation volumes (2-3 episodes per CD for classic era, 6-7 episodes per CD for CGI era). No single-episode release format exists in this 
+        catalog.
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-05T05:15:01.519851+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-05T05:15:01.519851+00:00'
+    - number: 6
+      range_end:
+      reason: Episodes 1-15 only available in multi-episode compilation volumes (2-3 episodes per CD for classic era, 6-7 episodes per CD for CGI era). No single-episode release format exists in this 
+        catalog.
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-05T05:15:01.519851+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-05T05:15:01.519851+00:00'
+    - number: 7
+      range_end:
+      reason: Episodes 1-15 only available in multi-episode compilation volumes (2-3 episodes per CD for classic era, 6-7 episodes per CD for CGI era). No single-episode release format exists in this 
+        catalog.
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-05T05:15:01.519851+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-05T05:15:01.519851+00:00'
+    - number: 8
+      range_end:
+      reason: Episodes 1-15 only available in multi-episode compilation volumes (2-3 episodes per CD for classic era, 6-7 episodes per CD for CGI era). No single-episode release format exists in this 
+        catalog.
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-05T05:15:01.519851+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-05T05:15:01.519851+00:00'
+    - number: 9
+      range_end:
+      reason: Episodes 1-15 only available in multi-episode compilation volumes (2-3 episodes per CD for classic era, 6-7 episodes per CD for CGI era). No single-episode release format exists in this 
+        catalog.
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-05T05:15:01.519851+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-05T05:15:01.519851+00:00'
+    - number: 10
+      range_end:
+      reason: Episodes 1-15 only available in multi-episode compilation volumes (2-3 episodes per CD for classic era, 6-7 episodes per CD for CGI era). No single-episode release format exists in this 
+        catalog.
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-05T05:15:01.519851+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-05T05:15:01.519851+00:00'
+    - number: 11
+      range_end:
+      reason: Episodes 1-15 only available in multi-episode compilation volumes (2-3 episodes per CD for classic era, 6-7 episodes per CD for CGI era). No single-episode release format exists in this 
+        catalog.
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-05T05:15:01.519851+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-05T05:15:01.519851+00:00'
+    - number: 12
+      range_end:
+      reason: Episodes 1-15 only available in multi-episode compilation volumes (2-3 episodes per CD for classic era, 6-7 episodes per CD for CGI era). No single-episode release format exists in this 
+        catalog.
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-05T05:15:01.519851+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-05T05:15:01.519851+00:00'
     - number: 13
-      reason: Classic episode only on Spotify; Apple Music has no release matching this title
+      range_end:
+      reason: Episodes 1-15 only available in multi-episode compilation volumes (2-3 episodes per CD for classic era, 6-7 episodes per CD for CGI era). No single-episode release format exists in this 
+        catalog.
       curated_by: minimax-m2.7
-      curated_at: '2026-06-10T18:30:08.123902+00:00'
+      curated_at: '2026-07-05T05:15:01.519851+00:00'
       audited_by: minimax-m2.7
-      audited_at: '2026-06-10T18:30:08.123902+00:00'
+      audited_at: '2026-07-05T05:15:01.519851+00:00'
     - number: 14
-      reason: Classic episode only on Spotify; Apple Music has no release matching this title
+      range_end:
+      reason: Episodes 1-15 only available in multi-episode compilation volumes (2-3 episodes per CD for classic era, 6-7 episodes per CD for CGI era). No single-episode release format exists in this 
+        catalog.
       curated_by: minimax-m2.7
-      curated_at: '2026-06-10T18:30:08.123902+00:00'
+      curated_at: '2026-07-05T05:15:01.519851+00:00'
       audited_by: minimax-m2.7
-      audited_at: '2026-06-10T18:30:08.123902+00:00'
+      audited_at: '2026-07-05T05:15:01.519851+00:00'
     - number: 15
-      reason: Classic episode only on Spotify; Apple Music has no release matching this title
+      range_end:
+      reason: Episodes 1-15 only available in multi-episode compilation volumes (2-3 episodes per CD for classic era, 6-7 episodes per CD for CGI era). No single-episode release format exists in this 
+        catalog.
       curated_by: minimax-m2.7
-      curated_at: '2026-06-10T18:30:08.123902+00:00'
+      curated_at: '2026-07-05T05:15:01.519851+00:00'
       audited_by: minimax-m2.7
-      audited_at: '2026-06-10T18:30:08.123902+00:00'
+      audited_at: '2026-07-05T05:15:01.519851+00:00'
 - id: die_eiskoenigin
   title: Die Eiskönigin
   providers:
@@ -29942,14 +30047,14 @@ series:
       number: 39
       range_end:
       reason: Episode exists on Spotify but is completely absent from Apple Music catalog - neither included nor excluded. Cross-provider catalog gap.
-    - number: 67
-      range_end:
-      reason: Episode 67 exists in both catalogs as a music compilation album ('Meine schönsten Lieder', 12 song tracks), not a narrative Hörspiel episode. The actual narrative episode 67 does not 
-        exist in catalogs.
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-07-02T16:02:12.034356+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-07-02T16:02:12.034356+00:00'
+      number: 67
+      range_end:
+      reason: Episode 67 exists in both catalogs as a music compilation album ('Meine schönsten Lieder', 12 song tracks), not a narrative Hörspiel episode. The actual narrative episode 67 does not 
+        exist in catalogs.
     - curated_by: unknown
       curated_at:
       audited_by: minimax-m2.7
@@ -29964,20 +30069,184 @@ series:
       number: 74
       range_end:
       reason: Episode 74 'singt Weihnachtslieder' exists in both catalogs as a Christmas songs album, not a narrative Hörspiel. The actual narrative episode 74 does not exist in catalogs.
-    - number: 101
+    - curated_by: minimax-m2.7
+      curated_at: '2026-07-02T16:02:12.034356+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-02T16:02:12.034356+00:00'
+      number: 101
       range_end:
       reason: "Cross-provider catalog gap: Episode 101 'Ottos neue Freundin - Teil 2' exists on Spotify (included) but is completely absent from Apple Music catalog."
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-07-02T16:02:12.034356+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-07-02T16:02:12.034356+00:00'
-    - number: 171
+      number: 171
       range_end:
       reason: "Cross-provider catalog gap: Episode 171 'als Kleingärtner' exists on Apple Music (included, future release 2026-08-07) but is completely absent from Spotify catalog."
+    sub_series:
+    - label: benjamin_minis
+      album_ids:
+      - 0MN49nhoq9kCwtW8y4jEMV
+      - '1525766721'
+      - '1527469485'
+      - '1548517341'
+      - '1608387565'
+      - '1719798401'
+      - '1757991520'
+      - '1816058031'
+      - '1873046534'
+      - 373A10PBGMIleibQAAtKUO
+      - 3PnaYpicNEwuo4Gv2SJ5N8
+      - 4QCzgi6ctPLnBzbpXm02BT
+      - 4X62W6cvPja2b2bx6yFpSO
+      - 5ymm9RXqHRg6SxYgM2Cc3A
+      - 72zDeiWHQEPFyFNlTqDEJi
+      - 7AhVdEAC0mQspr8a3crPHk
+      reason: Short-format episodes for younger children, distinct product line with own numbering.
       curated_by: minimax-m2.7
-      curated_at: '2026-07-02T16:02:12.034356+00:00'
+      curated_at: '2026-07-05T05:16:59.741320+00:00'
       audited_by: minimax-m2.7
-      audited_at: '2026-07-02T16:02:12.034356+00:00'
+      audited_at: '2026-07-05T05:16:59.741320+00:00'
+    - label: englisch_lernen
+      album_ids:
+      - '1069147252'
+      - 65t3mAbkGAyq23jOyQCzyO
+      reason: Language-learning content, not dramatized Hörspiel episodes.
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-05T05:16:59.741320+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-05T05:16:59.741320+00:00'
+    - label: finds_raus
+      album_ids:
+      - '1473615663'
+      - '1473618222'
+      - '1500615880'
+      - '1524693160'
+      - '1552276514'
+      - '1589450921'
+      - '1619310248'
+      - '1651540450'
+      - '1686577013'
+      - '1707036276'
+      - '1742941728'
+      - '1766395764'
+      - '1796206077'
+      - '1830367223'
+      - '1878736130'
+      - 1U5WPQvOaUen0rEUXSF2xF
+      - 2Ck5U56StYxqFpecUB4Js4
+      - 2rgYh2I7zLKUf6IcrbrvsP
+      - 37hOJLiFhOgMF5Oo4aFQSR
+      - 3ANkD069p7sujMWGFYL7Gk
+      - 3Rr99zTIYQ15YEITCS0tNS
+      - 3TjPqzJLI3RvEMAfBWoXus
+      - 41CbYGVf8P9q22coeXy1jI
+      - 4BoMFkcqYNlQEzIRVA5O0v
+      - 4oURlGd6tLuF6C7VLqba2z
+      - 5WZUcUwjAPQtneLG6HYlFU
+      - 5iOHGdKsVr0aUmDAOMkIIG
+      - 5pDlWwNtOK3CheIcs1stBR
+      - 6GIYDPQ87bC5lxq1P9aKeW
+      - 6I1iPM5ON3k2nPDa4dWVdz
+      reason: Educational knowledge series (Find's raus mit Benjamin), distinct from narrative Hörspiel episodes.
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-05T05:16:59.741320+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-05T05:16:59.741320+00:00'
+    - label: gute_nacht_geschichten
+      album_ids:
+      - 0CpO06kRKI1Bmxaq1tdODi
+      - 0Hk61KJfCPFrCuq2CsRKal
+      - 0nitnuUS2XZxyT82P5Zq4s
+      - 0y7BgWCMzJfHpdFDKuQxb4
+      - '1038159013'
+      - '1069063539'
+      - '1287159375'
+      - '1287160158'
+      - '1287160617'
+      - '1287204519'
+      - '1293269857'
+      - 12HAZnjCSumqoi7VNw1Srz
+      - '1333181294'
+      - '1439332340'
+      - '1458122474'
+      - '1458122758'
+      - '1458123123'
+      - '1458126368'
+      - '1458349480'
+      - '1458350733'
+      - '1458350988'
+      - '1458351055'
+      - '1458351777'
+      - '1458351833'
+      - '1458351842'
+      - '1458352461'
+      - '1458352781'
+      - '1458353140'
+      - '1458353358'
+      - '1458355650'
+      - '1458355969'
+      - '1458376002'
+      - '1458376501'
+      - '1458751755'
+      - '1465950082'
+      - '1536986439'
+      - '1581446133'
+      - '1631517975'
+      - '1692770508'
+      - '1772761022'
+      - '1843651398'
+      - 1XEgnkoYMJWVdgXLHyxtiR
+      - 1ZjAixYm8T5nH3eYC4KXDn
+      - 22IyszbjSWQ9PHD7UEjalx
+      - 27upXzmCmVNjJsMRmD7bOv
+      - 2VZdKhtpBNHZOlFKwNijDo
+      - 2W3XvoHpwNONqyRBTgzj2X
+      - 2fb6qUSV8TUQoW8G50da7P
+      - 2fiFlD2ujQz6E4s52D60sC
+      - 2jBNdNjnkWyWhqYCdw44FW
+      - 2r1WsIxAgbenRBDW5Ok16y
+      - 2snOPoNgGcybL52ymByZF7
+      - 2xx69IjNiel4mrcn7EI2IW
+      - 30f4zKTJOXMSyynihrW8E5
+      - 3CUqrbDq54UZ1J0mHGznle
+      - 3U00CUyWGu4Aav1I4kEMRm
+      - 3X3VYRdhraDuIIYp1OGNeM
+      - 43Gr4JRHBiPEYZD4B5rAH8
+      - 47v1qzw9NhmSxoxnc1y2YZ
+      - 4Mw3LGGUNoS8UqxLGQyVz4
+      - 4fmih7v3hLOwJk0Wmmav2R
+      - 4rKGBbiC5kNqgzXCwNQUSu
+      - 4vl7h8Wkqj8JYHpacb7Y9v
+      - 58sCMP2uMJZUCYtyqI5ZN2
+      - 5erZoyJ22F2XI13RydIXmk
+      - 5hfoUCzelAJ8TEeheK4v58
+      - '6770476376'
+      - 6u9Vz8ky2X27v8m2KBe2f9
+      - 6wsUgHGmV2M61ooQpM5StQ
+      - 7473i7iDDz5kC3BLsgEdXc
+      - 7I7qLmUxgIcljxBOzb0YlE
+      - 7g5j2uYgt2iKbCnOoaNbLB
+      - 7qDYRuMu9XgqaaMt0bxUAG
+      - 7rn6tf64uofISHlWtOksU1
+      reason: Bedtime story spin-off with distinct numbering and shorter format, separate from main episodic series.
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-05T05:16:59.741320+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-05T05:16:59.741320+00:00'
+    - label: tv_serie
+      album_ids:
+      - 06WqykBOQJpIF1VqwavWWh
+      - '1886742567'
+      - '1892392106'
+      - 5s07qikQaxOyV0CenyJ23J
+      reason: Hörspiele based on the TV series, distinct from the main audio-play episode line.
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-05T05:16:59.741320+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-05T05:16:59.741320+00:00'
+  aliases:
+  - Benjamin Blümchen Hörspiel
 - id: die_wilden_huehner
   title: Die Wilden Hühner
   providers:
