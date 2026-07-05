@@ -145,6 +145,59 @@ def _build_batch_summary(
     return "\n".join(lines) if lines else ""
 
 
+def _inject_split_children(
+    existing_curation: dict | None,
+    series_id: str | None,
+) -> dict | None:
+    """Add split children's albums as pre-excluded to the parent curation.
+
+    Looks up the catalog for entries with split_from == series_id,
+    loads their curation files, and injects their albums as excluded
+    with sub_series_bleed. This way _preseed_decisions carries them
+    forward and the batch agent never sees them as undecided.
+    """
+    if not series_id:
+        return existing_curation
+
+    catalog = load_catalog()
+    children = [e for e in catalog if e.split_from == series_id]
+    if not children:
+        return existing_curation
+
+    if existing_curation is None:
+        existing_curation = {"albums": []}
+
+    existing_keys = {
+        (a.get("provider"), a.get("album_id"))
+        for a in existing_curation.get("albums", [])
+    }
+
+    injected = 0
+    for child in children:
+        child_path = CURATION_DIR / f"{child.id}.json"
+        if not child_path.exists():
+            continue
+        child_data = json.loads(child_path.read_text())
+        for album in child_data.get("albums", []):
+            key = (album.get("provider"), album.get("album_id"))
+            if key in existing_keys:
+                continue
+            existing_curation.setdefault("albums", []).append({
+                "album_id": album.get("album_id", ""),
+                "provider": album.get("provider", ""),
+                "title": album.get("title", ""),
+                "include": False,
+                "exclude_reason": "sub_series_bleed",
+                "confidence": "high",
+                "notes": f"Belongs to split series '{child.id}'",
+                "release_date": album.get("release_date"),
+            })
+            existing_keys.add(key)
+            injected += 1
+
+    return existing_curation
+
+
 def _preseed_decisions(
     all_albums: list[dict],
     existing_curation: dict | None,
@@ -1994,6 +2047,9 @@ async def curate_one(
     try:
         if content_type == "music":
             on_progress("  Mode: music artist (not Hoerspiel)")
+        existing_curation = _inject_split_children(
+            existing_curation, series_id,
+        )
         # Carry facts from the prior curation JSON forward, not just the
         # frozen series.yaml facts: re-curation is an incremental update,
         # not a rediscovery from scratch. series.yaml wins on conflict.
