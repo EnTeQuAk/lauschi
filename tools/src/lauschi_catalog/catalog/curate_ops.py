@@ -1521,22 +1521,11 @@ async def _run_large(
             seen_titles.add(d.title)
             sub_bleed_titles.append(d.title)
         has_sub_bleed = bool(sub_bleed_titles)
-        _MAX_INLINE_SUB_TITLES = 40
         if has_sub_bleed:
-            sorted_titles = sorted(sub_bleed_titles)
             analysis_lines.append(
                 f"Sub-series exclusions: {len(sub_bleed_titles)} unique "
-                f"titles excluded as sub_series_bleed or sub_series. "
-                f"Cluster by brand/prefix and propose sub_series facts "
-                f"for each recognizable group."
+                f"titles excluded as sub_series_bleed or sub_series."
             )
-            for title in sorted_titles[:_MAX_INLINE_SUB_TITLES]:
-                analysis_lines.append(f"    {title}")
-            if len(sorted_titles) > _MAX_INLINE_SUB_TITLES:
-                analysis_lines.append(
-                    f"    ... +{len(sorted_titles) - _MAX_INLINE_SUB_TITLES} "
-                    f"more (use search_excluded_albums to explore)"
-                )
 
         needs_finalize = (
             bool(unnumbered) or bool(era_evidence_lines) or has_sub_bleed
@@ -1621,8 +1610,8 @@ async def _run_large(
                 work_items.append(
                     f"- Sub-series: {len(sub_bleed_titles)} unique titles "
                     f"excluded as sub_series_bleed/sub_series. "
-                    f"Cluster by brand/prefix and propose sub_series "
-                    f"facts for each recognizable group."
+                    f"Use search_excluded_albums to explore and propose "
+                    f"sub_series facts."
                 )
 
             prompt_parts: list[str] = [

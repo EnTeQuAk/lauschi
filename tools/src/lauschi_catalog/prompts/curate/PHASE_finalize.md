@@ -26,13 +26,27 @@ existing `era_boundaries` in the user prompt. If existing facts already
 explain the clusters (same eras, same date ranges), skip. Only call
 `propose_series_facts` for genuinely new eras not yet documented.
 
-**Step 3: Sub-series splits.** The structural analysis lists albums
-excluded as `sub_series_bleed` or `sub_series`. Cluster them by
-recognizable brand or title prefix and propose a `sub_series` fact
-for each cluster not already covered by existing `sub_series` facts.
+**Step 3: Sub-series splits.** The structural analysis reports how
+many unique titles were excluded as `sub_series_bleed` or `sub_series`.
+If the count is zero, skip this step.
 
-Use `search_excluded_albums` with a keyword from the cluster to
-collect the album_ids, then call `propose_series_facts`.
+Use `search_excluded_albums` to discover what these titles are:
+
+1. Search with the series name to get excluded titles. Focus on
+   entries whose `exclude_reason` is `sub_series_bleed` or
+   `sub_series` (ignore compilations, wrong_content_type, etc.).
+2. Read the returned titles. Identify distinct product lines, formats,
+   or brands (age-bracket spinoffs, bedtime editions, film tie-ins,
+   music releases, educational content, etc.).
+3. For each cluster, call `search_excluded_albums` with a keyword
+   specific to that cluster to collect its album_ids, then call
+   `propose_series_facts`.
+
+Do not repeat the same search query. If a prior search already
+returned the albums for a cluster, use those album_ids directly.
+
+Propose a `sub_series` fact for each cluster not already covered by
+existing `sub_series` facts.
 
 When to split (bias toward splitting; users can group tiles later):
 
@@ -51,9 +65,6 @@ When NOT to split:
 - Compilations/box sets (already excluded, not a product line)
 - Sonderfolgen/specials (keep in parent)
 
-If no sub-series exclusions appear in the structural analysis, skip
-this step.
-
 **Step 4: Gaps.** If the structural analysis lists gaps, check whether
 existing `known_gaps` cover them. For truly new gaps, use `web_search`
 to confirm the reason, then propose via `propose_series_facts`. If the
@@ -69,8 +80,9 @@ document them in your response rather than investigating further.
 - Existing facts that already explain a signal = no action needed.
 - `search_included_albums` returns album_id, provider, title, and
   episode_num. Check numbering there before calling `get_album_details`.
-- `search_excluded_albums` returns album_id, provider, title, and
-  exclude_reason. Use this to collect album_ids for sub_series proposals.
+- `search_excluded_albums` returns results grouped by title. Each entry
+  has title, exclude_reason, and album_ids (list of {album_id, provider}).
+  Use this to discover sub-series clusters and collect album_ids.
 - Most series need 3-8 tool calls. Past 12 means over-investigating.
 
 ## Output channels
