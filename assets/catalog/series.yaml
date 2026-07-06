@@ -12685,7 +12685,6 @@ series:
   episode_pattern:
   - '^Folge (\d+):'
   - ^(\d{2,3})/
-  - ^Klassiker (\d+)
   aliases:
   - Hanni & Nanni
   series_facts:
@@ -17096,7 +17095,6 @@ series:
         title: 'Folge 106: Dunkle Geheimnisse - EP'
   episode_pattern:
   - '^Folge (\d+):'
-  - ^Folge (\d+) -
   - ^LEGO City:? Folge (\d+):?
   series_facts:
     era_boundaries:
@@ -23637,12 +23635,7 @@ series:
         title: Sucht den verlorenen Stern
       - id: '1499630670'
         title: Prinzessin Lillifee und die Zaubermuschel
-  episode_pattern:
-  - ^(\d+)/Das Hörspiel zur TV-Serie$
-  - '^Mein zauberhaftes Tierhotel: Folge (\d+)'
-  - '^Folge (\d+) \+ \d+: Mein zauberhaftes Tierhotel$'
-  - ^(?:\d{3}/)?Gute-Nacht-Geschichten\s+[Ff]olge[n]? (\d+).*
-  - ^Folgen? (\d+)[\+\-].*\(Gute[-']Nacht-Geschichten\)$
+  episode_pattern: ^(\d+)/Das Hörspiel zur TV-Serie$
   series_facts:
     known_gaps:
     - curated_by: minimax-m2.7
@@ -25378,14 +25371,7 @@ series:
         title: Lauras Weihnachtsstern (Das Original-Hörspiel zum Weihnachtsspezial)
   episode_pattern:
   - '^Lauras Stern, Folge (\d+):'
-  - '^Lauras Stern - Erstleser, Folge (\d+):'
-  - '^Laura, Folge (\d+):'
   - '^Folge (\d+):'
-  - '^Lauras Stern, Band (\d+):'
-  - ^.*Erstleser (\d+)
-  - '^Lauras Stern - Tonspur der TV-Serie, Teil (\d+):'
-  - ^.*Gutenacht-Geschichten, Teil (\d+)
-  - '^Laura, Teil (\d+):'
   series_facts:
     known_gaps:
     - number: 2
@@ -27479,9 +27465,7 @@ series:
       - id: '1506781700'
         episode: 12
         title: Folge 12 (Das Original-Hörspiel zur TV-Serie)
-  episode_pattern:
-  - ^Die wilden Kerle (\d+)
-  - ^Folge (\d+)
+  episode_pattern: ^Folge (\d+)
 - id: dragons_die_jungen_drachenretter
   title: Dragons - Die jungen Drachenretter
   providers:
@@ -31843,10 +31827,7 @@ series:
       - id: '1873366682'
         episode: 18
         title: 'Episode 18: Das entführte Schlauto (Das Original-Hörspiel zur TV-Serie)'
-  episode_pattern:
-  - '^Episode (\d+):'
-  - '^Löwenzahn CLASSICS mit Peter Lustig, Folge (\d+):'
-  - '^Folge (\d+):'
+  episode_pattern: '^Episode (\d+):'
   aliases:
   - Löwenzahn CLASSICS
   series_facts:
@@ -34059,9 +34040,7 @@ series:
         title: Viktoria und Sarina auf dem Martinshof
       - id: '1577225954'
         title: Getrennt auf heißer Spur! (Hörspiel-Special)
-  episode_pattern:
-  - '^Folge (\d+):'
-  - '^BFF Talk - Talk (\d+):'
+  episode_pattern: '^Folge (\d+):'
   aliases:
   - Bibi & Tina
   series_facts:
