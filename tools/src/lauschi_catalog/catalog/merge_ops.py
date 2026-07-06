@@ -212,7 +212,7 @@ def accept_split(
         "id": new_id,
         "title": new_title,
         "aliases": [],
-        "episode_pattern": curation.get("episode_pattern"),
+        "episode_pattern": None,
         "provider_artist_ids": curation.get("provider_artist_ids", {}),
         "age_note": curation.get("age_note", ""),
         "curator_notes": (
@@ -253,7 +253,7 @@ def accept_split(
             "id": new_id,
             "title": new_title,
             "aliases": [],
-            "episode_pattern": curation.get("episode_pattern"),
+            "episode_pattern": None,
             "content_type": curation.get("content_type", "hoerspiel"),
             "split_from": series_id,
             "providers": providers,
