@@ -130,6 +130,9 @@ def validate_l5(
             album_check=True,
         )
 
+    if not pattern and not configured_ids:
+        return L5ProviderResult(provider=provider.name)
+
     matched = 0
     unmatched: list[str] = []
 
@@ -204,7 +207,8 @@ def validate_catalog(
                 result.perfect[p.name] += 1
 
             if l5.total > 0:
-                on_progress(f"  {entry.title}/{p.name}: {l5.matched}/{l5.total}")
+                prefix = "ids:" if l5.album_check else ""
+                on_progress(f"  {entry.title}/{p.name}: {prefix}{l5.matched}/{l5.total}")
 
         result.series_results.append(sv)
 
