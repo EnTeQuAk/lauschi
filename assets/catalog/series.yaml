@@ -41807,7 +41807,7 @@ series:
 - id: 100_wolf_kinofilm
   title: '100% Wolf: Kinofilm'
   aliases: []
-  episode_pattern: '^Folge (\d+):'
+  episode_pattern:
   split_from: 100_wolf
   providers:
     spotify:
@@ -41829,7 +41829,7 @@ series:
 - id: 5_geschwister_adventskalender
   title: '5 Geschwister: Adventskalender'
   aliases: []
-  episode_pattern: '^(\d+):'
+  episode_pattern:
   content_type: hoerspiel
   split_from: 5_geschwister
   providers:
@@ -41842,7 +41842,7 @@ series:
 - id: bambi_disney_film
   title: 'Bambi: Disney Film'
   aliases: []
-  episode_pattern: '^Folge (\d+):'
+  episode_pattern:
   split_from: bambi
   providers:
     spotify:
@@ -41873,10 +41873,7 @@ series:
 - id: bibi_blocksberg_englisch_lernen
   title: 'Bibi Blocksberg: Englisch Lernen'
   aliases: []
-  episode_pattern:
-  - '^Folge (\d+):'
-  - '^Kampf um Kartoffelbrei \(Special\) - Teil (\d+):'
-  - ^Englisch lernen mit Bibi Blocksberg - Folge (\d+) -
+  episode_pattern: ^Englisch lernen mit Bibi Blocksberg - Folge (\d+) -
   split_from: bibi_blocksberg
   providers:
     spotify:
@@ -41921,8 +41918,6 @@ series:
   title: 'Bibi und Tina: Adventskalender'
   aliases: []
   episode_pattern:
-  - '^Folge (\d+):'
-  - '^BFF Talk - Talk (\d+):'
   split_from: bibi_und_tina
   providers:
     spotify:
@@ -41945,8 +41940,6 @@ series:
   title: 'Bibi und Tina: Kinofilm'
   aliases: []
   episode_pattern:
-  - '^Folge (\d+):'
-  - '^BFF Talk - Talk (\d+):'
   split_from: bibi_und_tina
   providers:
     spotify:
@@ -41987,8 +41980,6 @@ series:
   title: 'Bibi und Tina: Klangreise'
   aliases: []
   episode_pattern:
-  - '^Folge (\d+):'
-  - '^BFF Talk - Talk (\d+):'
   content_type: hoerspiel
   split_from: bibi_und_tina
   providers:
@@ -42002,7 +41993,6 @@ series:
   title: 'Boss Baby: Kinofilm'
   aliases: []
   episode_pattern:
-  - '^Folge (\d+):'
   split_from: boss_baby
   providers:
     spotify:
@@ -42025,7 +42015,6 @@ series:
   title: 'Cars: Cars Toon'
   aliases: []
   episode_pattern:
-  - '^(\d+): '
   split_from: cars
   providers:
     spotify:
@@ -42044,7 +42033,6 @@ series:
   title: 'Cars: Film Trilogy'
   aliases: []
   episode_pattern:
-  - '^(\d+): '
   split_from: cars
   providers:
     spotify:
@@ -42105,7 +42093,7 @@ series:
 - id: der_kleine_rabe_socke_movie
   title: 'Der kleine Rabe Socke: Movie'
   aliases: []
-  episode_pattern: ^.*Hörspiele zur TV[- ]Serie (\d+)
+  episode_pattern:
   split_from: der_kleine_rabe_socke
   providers:
     spotify:
@@ -42122,7 +42110,7 @@ series:
 - id: der_kleine_rabe_socke_picture_book
   title: 'Der kleine Rabe Socke: Picture Book'
   aliases: []
-  episode_pattern: ^.*Hörspiele zur TV[- ]Serie (\d+)
+  episode_pattern:
   split_from: der_kleine_rabe_socke
   providers:
     spotify:
@@ -42321,10 +42309,6 @@ series:
   title: 'Die Biene Maja: Kinofilm'
   aliases: []
   episode_pattern:
-  - ^(\d+)/
-  - '^Klassiker, Folge (\d+):'
-  - '^Folge (\d+):'
-  - '^.*\(Biene Maja, Folge (\d+)\)(?: - EP)?$'
   split_from: die_biene_maja
   providers:
     spotify:
@@ -42382,8 +42366,6 @@ series:
   title: 'Die drei !!!: Adventskalender'
   aliases: []
   episode_pattern:
-  - ^(\d{3})/
-  - '^Folge (\d+):'
   split_from: die_drei_ausrufezeichen
   providers:
     spotify:
@@ -42408,9 +42390,6 @@ series:
   title: 'Die drei ??? Kids: Adventskalender'
   aliases: []
   episode_pattern:
-  - ^(\d{3})/
-  - '^Folge (\d+):'
-  - ^Mini-Fall/.*\(Mini-Fall (\d+)\)
   split_from: die_drei_fragezeichen_kids
   providers:
     spotify:
@@ -42451,9 +42430,7 @@ series:
 - id: die_wilden_kerle_kinofilm
   title: 'Die wilden Kerle: Kinofilm'
   aliases: []
-  episode_pattern:
-  - ^Die wilden Kerle (\d+)
-  - ^Folge (\d+)
+  episode_pattern: ^Die wilden Kerle (\d+)
   split_from: die_wilden_kerle
   providers:
     spotify:
@@ -42503,7 +42480,7 @@ series:
 - id: dragons_auf_zu_neuen_ufern_film_specials
   title: 'Dragons - Auf zu neuen Ufern: Film Specials'
   aliases: []
-  episode_pattern: '^Folge (\d+):'
+  episode_pattern:
   split_from: dragons_auf_zu_neuen_ufern
   providers:
     spotify:
@@ -42556,7 +42533,7 @@ series:
 - id: feuerwehrmann_sam_film_hoerspiele
   title: 'Feuerwehrmann Sam: Film Hoerspiele'
   aliases: []
-  episode_pattern: '^Folge (\d+):'
+  episode_pattern:
   split_from: feuerwehrmann_sam
   providers:
     spotify:
@@ -42608,8 +42585,6 @@ series:
   title: 'Fünf Freunde: Adventskalender'
   aliases: []
   episode_pattern:
-  - ^(\d{2,3})/
-  - '^Folge (\d+):'
   split_from: fuenf_freunde
   providers:
     spotify:
@@ -42690,10 +42665,7 @@ series:
 - id: hanni_und_nanni_neue_abenteuer
   title: 'Hanni und Nanni: Neue Abenteuer'
   aliases: []
-  episode_pattern:
-  - '^Folge (\d+):'
-  - ^(\d+)/
-  - ^Klassiker (\d+)
+  episode_pattern: '^Folge (\d+):'
   split_from: hanni_und_nanni
   providers:
     spotify:
@@ -42736,7 +42708,6 @@ series:
   aliases: []
   episode_pattern:
   - ^(\d{3})/
-  - '^(\d{3}):'
   - '^Folge (\d+):'
   split_from: hexe_lilli
   providers:
@@ -42810,8 +42781,6 @@ series:
   title: 'Hui Buh neue Welt: Kinofilm'
   aliases: []
   episode_pattern:
-  - ^(\d+)/
-  - '^Folge (\d+):'
   split_from: hui_buh_neue_welt
   providers:
     spotify:
@@ -42840,7 +42809,7 @@ series:
 - id: janosch_kinofilm
   title: 'Janosch: Kinofilm'
   aliases: []
-  episode_pattern: '^Folge (\d+):'
+  episode_pattern:
   split_from: janosch
   providers:
     spotify:
@@ -42912,7 +42881,6 @@ series:
   title: 'Kira Kolumna: Reportage'
   aliases: []
   episode_pattern:
-  - '^Folge (\d+): '
   split_from: kira_kolumna
   providers:
     spotify:
@@ -42963,8 +42931,6 @@ series:
   title: 'Kommissar Kugelblitz: Stadt Reisen'
   aliases: []
   episode_pattern:
-  - '^Folge (\d+) - '
-  - '^Folge (\d+): '
   split_from: kommissar_kugelblitz
   providers:
     spotify:
@@ -43021,15 +42987,8 @@ series:
   title: 'Lauras Stern: Erstleser'
   aliases: []
   episode_pattern:
-  - '^Lauras Stern, Folge (\d+):'
   - '^Lauras Stern - Erstleser, Folge (\d+):'
-  - '^Laura, Folge (\d+):'
-  - '^Folge (\d+):'
-  - '^Lauras Stern, Band (\d+):'
   - ^.*Erstleser (\d+)
-  - '^Lauras Stern - Tonspur der TV-Serie, Teil (\d+):'
-  - ^.*Gutenacht-Geschichten, Teil (\d+)
-  - '^Laura, Teil (\d+):'
   split_from: lauras_stern
   providers:
     spotify:
@@ -43075,15 +43034,8 @@ series:
   title: 'Lauras Stern: Gutenacht Geschichten'
   aliases: []
   episode_pattern:
-  - '^Lauras Stern, Folge (\d+):'
-  - '^Lauras Stern - Erstleser, Folge (\d+):'
-  - '^Laura, Folge (\d+):'
-  - '^Folge (\d+):'
   - '^Lauras Stern, Band (\d+):'
-  - ^.*Erstleser (\d+)
-  - '^Lauras Stern - Tonspur der TV-Serie, Teil (\d+):'
   - ^.*Gutenacht-Geschichten, Teil (\d+)
-  - '^Laura, Teil (\d+):'
   split_from: lauras_stern
   providers:
     spotify:
@@ -43124,15 +43076,6 @@ series:
   title: 'Lauras Stern: Kinofilm'
   aliases: []
   episode_pattern:
-  - '^Lauras Stern, Folge (\d+):'
-  - '^Lauras Stern - Erstleser, Folge (\d+):'
-  - '^Laura, Folge (\d+):'
-  - '^Folge (\d+):'
-  - '^Lauras Stern, Band (\d+):'
-  - ^.*Erstleser (\d+)
-  - '^Lauras Stern - Tonspur der TV-Serie, Teil (\d+):'
-  - ^.*Gutenacht-Geschichten, Teil (\d+)
-  - '^Laura, Teil (\d+):'
   split_from: lauras_stern
   providers:
     spotify:
@@ -43189,14 +43132,7 @@ series:
   title: 'Lauras Stern: Laura'
   aliases: []
   episode_pattern:
-  - '^Lauras Stern, Folge (\d+):'
-  - '^Lauras Stern - Erstleser, Folge (\d+):'
   - '^Laura, Folge (\d+):'
-  - '^Folge (\d+):'
-  - '^Lauras Stern, Band (\d+):'
-  - ^.*Erstleser (\d+)
-  - '^Lauras Stern - Tonspur der TV-Serie, Teil (\d+):'
-  - ^.*Gutenacht-Geschichten, Teil (\d+)
   - '^Laura, Teil (\d+):'
   split_from: lauras_stern
   providers:
@@ -43260,16 +43196,7 @@ series:
 - id: lauras_stern_tv_serie
   title: 'Lauras Stern: Tv Serie'
   aliases: []
-  episode_pattern:
-  - '^Lauras Stern, Folge (\d+):'
-  - '^Lauras Stern - Erstleser, Folge (\d+):'
-  - '^Laura, Folge (\d+):'
-  - '^Folge (\d+):'
-  - '^Lauras Stern, Band (\d+):'
-  - ^.*Erstleser (\d+)
-  - '^Lauras Stern - Tonspur der TV-Serie, Teil (\d+):'
-  - ^.*Gutenacht-Geschichten, Teil (\d+)
-  - '^Laura, Teil (\d+):'
+  episode_pattern: '^Lauras Stern - Tonspur der TV-Serie, Teil (\d+):'
   split_from: lauras_stern
   providers:
     spotify:
@@ -43544,7 +43471,6 @@ series:
   title: 'Löwenzahn: Classics'
   aliases: []
   episode_pattern:
-  - '^Episode (\d+):'
   - '^Löwenzahn CLASSICS mit Peter Lustig, Folge (\d+):'
   - '^Folge (\d+):'
   split_from: loewenzahn
@@ -43644,7 +43570,7 @@ series:
 - id: mein_lotta_leben_film_hoerspiel
   title: 'Mein Lotta-Leben: Film Hoerspiel'
   aliases: []
-  episode_pattern: ^.*\(Band (\d+)\)$
+  episode_pattern:
   split_from: mein_lotta_leben
   providers:
     spotify:
@@ -43741,8 +43667,6 @@ series:
   title: 'Miraculous: Tv Specials'
   aliases: []
   episode_pattern:
-  - '^Folge (\d+):'
-  - '^Miraculous (\d+):'
   split_from: miraculous
   providers:
     spotify:
@@ -43784,7 +43708,7 @@ series:
 - id: pettersson_und_findus_findus_erklaert_die_welt
   title: 'Pettersson und Findus: Findus erklärt die Welt'
   aliases: []
-  episode_pattern: '^Folge (\d+):'
+  episode_pattern:
   split_from: pettersson_und_findus
   providers:
     spotify:
@@ -43838,7 +43762,7 @@ series:
 - id: pettersson_und_findus_kinofilm
   title: 'Pettersson und Findus: Kinofilm'
   aliases: []
-  episode_pattern: '^Folge (\d+):'
+  episode_pattern:
   split_from: pettersson_und_findus
   providers:
     spotify:
@@ -43885,9 +43809,6 @@ series:
   title: 'Prinzessin Lillifee: Gute Nacht Geschichten'
   aliases: []
   episode_pattern:
-  - ^(\d+)/Das Hörspiel zur TV-Serie$
-  - '^Mein zauberhaftes Tierhotel: Folge (\d+)'
-  - '^Folge (\d+) \+ \d+: Mein zauberhaftes Tierhotel$'
   - ^(?:\d{3}/)?Gute-Nacht-Geschichten\s+[Ff]olge[n]? (\d+).*
   - ^Folgen? (\d+)[\+\-].*\(Gute[-']Nacht-Geschichten\)$
   split_from: prinzessin_lillifee
@@ -44008,11 +43929,6 @@ series:
   title: 'Prinzessin Lillifee: Kinofilm'
   aliases: []
   episode_pattern:
-  - ^(\d+)/Das Hörspiel zur TV-Serie$
-  - '^Mein zauberhaftes Tierhotel: Folge (\d+)'
-  - '^Folge (\d+) \+ \d+: Mein zauberhaftes Tierhotel$'
-  - ^(?:\d{3}/)?Gute-Nacht-Geschichten\s+[Ff]olge[n]? (\d+).*
-  - ^Folgen? (\d+)[\+\-].*\(Gute[-']Nacht-Geschichten\)$
   split_from: prinzessin_lillifee
   providers:
     spotify:
@@ -44035,11 +43951,6 @@ series:
   title: 'Prinzessin Lillifee: Themenwelten'
   aliases: []
   episode_pattern:
-  - ^(\d+)/Das Hörspiel zur TV-Serie$
-  - '^Mein zauberhaftes Tierhotel: Folge (\d+)'
-  - '^Folge (\d+) \+ \d+: Mein zauberhaftes Tierhotel$'
-  - ^(?:\d{3}/)?Gute-Nacht-Geschichten\s+[Ff]olge[n]? (\d+).*
-  - ^Folgen? (\d+)[\+\-].*\(Gute[-']Nacht-Geschichten\)$
   split_from: prinzessin_lillifee
   providers:
     spotify:
@@ -44083,12 +43994,7 @@ series:
 - id: prinzessin_lillifee_tierhotel
   title: 'Prinzessin Lillifee: Tierhotel'
   aliases: []
-  episode_pattern:
-  - ^(\d+)/Das Hörspiel zur TV-Serie$
-  - '^Mein zauberhaftes Tierhotel: Folge (\d+)'
-  - '^Folge (\d+) \+ \d+: Mein zauberhaftes Tierhotel$'
-  - ^(?:\d{3}/)?Gute-Nacht-Geschichten\s+[Ff]olge[n]? (\d+).*
-  - ^Folgen? (\d+)[\+\-].*\(Gute[-']Nacht-Geschichten\)$
+  episode_pattern: '^Mein zauberhaftes Tierhotel: Folge (\d+)'
   split_from: prinzessin_lillifee
   providers:
     spotify:
@@ -44129,9 +44035,7 @@ series:
 - id: pumuckl_weihnachten
   title: 'Pumuckl: Weihnachten'
   aliases: []
-  episode_pattern:
-  - '^(\d+):'
-  - '^Folge (\d+):'
+  episode_pattern: '^(\d+):'
   split_from: pumuckl
   providers:
     spotify:
@@ -44205,10 +44109,6 @@ series:
   title: 'Ritter Rost: Kinofilm'
   aliases: []
   episode_pattern:
-  - '^Folge (\d+): '
-  - ^(\d{2})/
-  - ^Hörspiel zur TV-Serie (\d{2})/
-  - '^Hörspiel zur TV-Serie Folge (\d+): '
   split_from: ritter_rost
   providers:
     spotify:
@@ -44230,10 +44130,7 @@ series:
 - id: sternenschweif_sternchen
   title: 'Sternenschweif Sternchen'
   aliases: []
-  episode_pattern:
-  - '^Teil (\d+):'
-  - '^Band (\d+):'
-  - '^Folge (\d+):'
+  episode_pattern: '^Teil (\d+):'
   split_from: sternenschweif
   providers:
     spotify:
@@ -44256,7 +44153,6 @@ series:
   title: 'TKKG Junior: Adventskalender'
   aliases: []
   episode_pattern:
-  - '^Folge (\d+):'
   split_from: tkkg_junior
   providers:
     spotify:
@@ -44279,7 +44175,6 @@ series:
   title: 'Wendy: Kinofilm'
   aliases: []
   episode_pattern:
-  - '^Folge (\d+):'
   split_from: wendy
   providers:
     spotify:
@@ -44754,11 +44649,7 @@ series:
 - id: drachenreiter
   title: Drachenreiter
   aliases: []
-  episode_pattern:
-  - '^Folge (\d+):'
-  - ^Tintenwelt (\d+)\.
-  - ^Drachenreiter (\d+)
-  - '^Die Wilden Hühner, Folge (\d+):'
+  episode_pattern: ^Drachenreiter (\d+)
   split_from: cornelia_funke
   providers:
     spotify:
@@ -44808,10 +44699,6 @@ series:
   title: Hände weg von Mississippi
   aliases: []
   episode_pattern:
-  - '^Folge (\d+):'
-  - ^Tintenwelt (\d+)\.
-  - ^Drachenreiter (\d+)
-  - '^Die Wilden Hühner, Folge (\d+):'
   split_from: cornelia_funke
   providers:
     spotify:
@@ -44847,11 +44734,7 @@ series:
 - id: tintenwelt
   title: Tintenwelt (Tintenherz)
   aliases: []
-  episode_pattern:
-  - '^Folge (\d+):'
-  - ^Tintenwelt (\d+)\.
-  - ^Drachenreiter (\d+)
-  - '^Die Wilden Hühner, Folge (\d+):'
+  episode_pattern: ^Tintenwelt (\d+)\.
   split_from: cornelia_funke
   providers:
     spotify:
@@ -45114,10 +44997,6 @@ series:
   title: 'Geisterritter'
   aliases: []
   episode_pattern:
-  - '^Folge (\d+):'
-  - ^Tintenwelt (\d+)\.
-  - ^Drachenreiter (\d+)
-  - '^Die Wilden Hühner, Folge (\d+):'
   split_from: cornelia_funke
   providers:
     spotify:
