@@ -70,6 +70,12 @@ def validate(provider: str, series: str | None, verbose: bool):
                 continue
             if l5.total == 0:
                 row.append("[dim]0 albums[/dim]")
+            elif l5.album_check:
+                prefix = "ids:"
+                if l5.is_perfect:
+                    row.append(f"[green]{prefix}{l5.matched}/{l5.total}[/green]")
+                else:
+                    row.append(f"[red]{prefix}{l5.matched}/{l5.total}[/red]")
             elif l5.is_perfect:
                 row.append(f"[green]{l5.matched}/{l5.total}[/green]")
             elif l5.rate > 0.7:

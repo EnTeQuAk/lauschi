@@ -13,6 +13,7 @@ class ProviderConfig:
     """Per-provider configuration for a series."""
 
     artist_ids: list[str] = field(default_factory=list)
+    album_ids: list[str] = field(default_factory=list)
     episode_pattern: str | list[str] | None = None  # override
     has_albums: bool = False
 
@@ -56,6 +57,11 @@ class CatalogEntry:
             for name, cfg in self.providers.items()
             if cfg.artist_ids
         }
+
+    def provider_album_ids(self, provider: str) -> list[str]:
+        """Get configured album IDs for a specific provider."""
+        cfg = self.providers.get(provider)
+        return cfg.album_ids if cfg else []
 
     def effective_pattern(self, provider: str | None = None) -> str | list[str] | None:
         """Get the effective episode pattern, with optional per-provider override."""

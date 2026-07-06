@@ -38,6 +38,7 @@ class L5ProviderResult:
     matched: int = 0
     total: int = 0
     unmatched: list[str] = field(default_factory=list)
+    album_check: bool = False
 
     @property
     def rate(self) -> float:
@@ -115,6 +116,20 @@ def validate_l5(
         return L5ProviderResult(provider=provider.name)
 
     pattern = entry.effective_pattern(provider.name)
+    configured_ids = entry.provider_album_ids(provider.name)
+
+    if not pattern and configured_ids:
+        disco_ids = {a.id for a in all_albums}
+        found = [aid for aid in configured_ids if aid in disco_ids]
+        missing = [aid for aid in configured_ids if aid not in disco_ids]
+        return L5ProviderResult(
+            provider=provider.name,
+            matched=len(found),
+            total=len(configured_ids),
+            unmatched=missing,
+            album_check=True,
+        )
+
     matched = 0
     unmatched: list[str] = []
 
