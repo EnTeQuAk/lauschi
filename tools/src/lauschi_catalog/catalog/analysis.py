@@ -14,22 +14,13 @@ from typing import Any
 
 
 def effective_albums(curation: dict) -> list[dict]:
-    """Return included albums, respecting existing review overrides.
+    """Return included albums.
 
-    Excluded albums (``include=False``) and albums explicitly excluded by a
-    prior review override (``review.overrides[].action == "exclude"``) are
-    dropped. Override ``action="include"`` is intentionally ignored: only the
-    curate step decides initial inclusion.
+    Album include flags are the single source of truth: audit overrides
+    materialize into them at audit time (``review.overrides`` is a
+    trail, not an active filter).
     """
-    review = curation.get("review", {})
-    excludes = {
-        o["album_id"] for o in review.get("overrides", []) if o["action"] == "exclude"
-    }
-    return [
-        a
-        for a in curation.get("albums", [])
-        if a.get("include") and a["album_id"] not in excludes
-    ]
+    return [a for a in curation.get("albums", []) if a.get("include")]
 
 
 _CLUSTER_DELIMITERS = (":", "/", " - ", " | ")

@@ -446,3 +446,4 @@ def testshould_apply_allows_incomplete_with_force():
         "incomplete_reason": "spotify discovery collapsed",
     }
     assert should_apply(data, force=True) is None
+

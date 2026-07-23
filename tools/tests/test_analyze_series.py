@@ -32,7 +32,11 @@ def test_effective_albums_drops_excluded():
     assert [a["album_id"] for a in result] == ["a"]
 
 
-def test_effective_albums_respects_review_overrides():
+def test_effective_albums_ignores_override_trail():
+    """Overrides materialize into include flags at audit time;
+    review.overrides is a trail. A stale trail entry that contradicts
+    the album state (wickie: 43 excludes from a superseded audit round)
+    must not filter the effective set."""
     curation = make_curation(
         albums=[
             make_album("a", "Folge 1: A", include=True),
@@ -45,22 +49,7 @@ def test_effective_albums_respects_review_overrides():
         },
     )
     result = effective_albums(curation)
-    assert [a["album_id"] for a in result] == ["a"]
-
-
-def test_effective_albums_ignores_include_overrides():
-    """Override action='include' is not used to resurrect excluded albums."""
-    curation = make_curation(
-        albums=[
-            make_album("a", "Folge 1: A", include=False),
-        ],
-        review={
-            "overrides": [
-                {"album_id": "a", "action": "include", "reason": "actually fine"},
-            ],
-        },
-    )
-    assert effective_albums(curation) == []
+    assert [a["album_id"] for a in result] == ["a", "b"]
 
 
 # ── analyze_series basic shape ─────────────────────────────────────────────
@@ -288,18 +277,16 @@ def test_analyze_episodes_without_number_are_not_duplicates():
     assert result["duplicates_within_provider"] == []
 
 
-def test_analyze_duplicates_respect_overrides():
-    """Excluding one of a pair via review override resolves the duplicate."""
+def test_analyze_duplicates_resolved_by_materialized_exclude():
+    """Excluding one of a pair (as a materialized audit override does)
+    resolves the duplicate."""
     curation = make_curation(
         albums=[
             make_album("a", "Folge 1: A", provider="spotify", episode_num=1),
-            make_album("b", "Folge 1: B", provider="spotify", episode_num=1),
+            make_album(
+                "b", "Folge 1: B", provider="spotify", episode_num=1, include=False
+            ),
         ],
-        review={
-            "overrides": [
-                {"album_id": "b", "action": "exclude", "reason": "duplicate"},
-            ],
-        },
     )
     result = analyze_series(curation)
     assert result["duplicates_within_provider"] == []
@@ -533,18 +520,15 @@ def test_analyze_coverage_ignores_albums_without_episode_num():
     assert cov["on_all_providers"] == 1
 
 
-def test_analyze_coverage_respects_overrides():
+def test_analyze_coverage_reflects_materialized_exclude():
     curation = make_curation(
         albums=[
             make_album("s1", "Folge 1", provider="spotify", episode_num=1),
-            make_album("s2", "Folge 2", provider="spotify", episode_num=2),
+            make_album(
+                "s2", "Folge 2", provider="spotify", episode_num=2, include=False
+            ),
             make_album("a1", "Folge 1", provider="apple_music", episode_num=1),
         ],
-        review={
-            "overrides": [
-                {"album_id": "s2", "action": "exclude", "reason": "wrong content"},
-            ],
-        },
     )
     result = analyze_series(curation)
     assert result["cross_provider_coverage"]["missing_per_provider"] == {}
@@ -587,18 +571,13 @@ def test_analyze_pattern_coverage_zero_match():
 # ── interaction with overrides ─────────────────────────────────────────────
 
 
-def test_analyze_excludes_albums_marked_via_review_override():
+def test_analyze_excludes_materialized_audit_excludes():
     curation = make_curation(
         albums=[
             make_album("a", "Folge 1: A", episode_num=1),
-            make_album("b", "Folge 2: B", episode_num=2),
+            make_album("b", "Folge 2: B", episode_num=2, include=False),
             make_album("c", "Folge 3: C", episode_num=3),
         ],
-        review={
-            "overrides": [
-                {"album_id": "b", "action": "exclude", "reason": "duplicate"},
-            ],
-        },
     )
     result = analyze_series(curation)
     assert result["total"] == 2

@@ -413,15 +413,25 @@ def apply_audit(
     review = data.setdefault("review", {})
     now = datetime.now(tz=UTC).isoformat()
 
-    known_ids = {a["album_id"] for a in data.get("albums", [])}
+    albums_by_id = {a["album_id"]: a for a in data.get("albums", [])}
     existing_overrides = {o["album_id"]: o for o in review.get("overrides", [])}
     for o in result.overrides:
-        if o.album_id not in known_ids:
+        album = albums_by_id.get(o.album_id)
+        if album is None:
             on_progress(
                 f"  [warning] Override skipped: album_id {o.album_id!r} "
                 f"not found in curation"
             )
             continue
+        # Materialize into the album record: include flags are the one
+        # source of truth for apply and later audit rounds. The
+        # overrides list below is an audit trail only.
+        if o.action == "exclude":
+            album["include"] = False
+            album["exclude_reason"] = o.reason
+        else:
+            album["include"] = True
+            album["exclude_reason"] = ""
         existing_overrides[o.album_id] = {
             "album_id": o.album_id,
             "provider": o.provider,

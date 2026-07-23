@@ -750,3 +750,83 @@ class TestApplyAuditHardGate:
         flags = ["Included count looks different but within tolerance"]
         action, data = self._apply(tmp_path, AuditResult(approve=True), flags)
         assert action == "approved"
+
+
+# ── apply_audit: override materialization ────────────────────────────────
+
+
+class TestApplyAuditMaterialization:
+    """Overrides materialize into album include flags at audit time.
+
+    The overrides list is an audit trail, not an active filter. Before
+    materialization, stale overrides from superseded audit rounds
+    silently excluded albums (wickie lost 43 albums to a round the
+    next audit explicitly contradicted) while apply ignored overrides
+    entirely and shipped 183 audit-rejected albums."""
+
+    def _run(self, tmp_path, curation, result):
+        path = tmp_path / "test_series.json"
+        path.write_text(json.dumps(curation))
+
+        import lauschi_catalog.catalog.audit_ops as audit_mod
+
+        orig = audit_mod.CURATION_DIR
+        audit_mod.CURATION_DIR = tmp_path
+        try:
+            apply_audit("test_series", result, model_name="test-model")
+        finally:
+            audit_mod.CURATION_DIR = orig
+        return json.loads(path.read_text())
+
+    def test_exclude_override_flips_album_include_flag(self, tmp_path):
+        result = AuditResult(
+            approve=True,
+            overrides=[
+                AuditOverride(
+                    album_id="a1",
+                    provider="spotify",
+                    action="exclude",
+                    reason="compilation_as_episode",
+                ),
+            ],
+        )
+        data = self._run(tmp_path, _curation(), result)
+        albums = {a["album_id"]: a for a in data["albums"]}
+        assert albums["a1"]["include"] is False
+        assert albums["a1"]["exclude_reason"] == "compilation_as_episode"
+        # Trail entry still recorded.
+        assert data["review"]["overrides"][0]["album_id"] == "a1"
+
+    def test_include_override_flips_album_include_flag(self, tmp_path):
+        result = AuditResult(
+            approve=True,
+            overrides=[
+                AuditOverride(
+                    album_id="a2",
+                    provider="spotify",
+                    action="include",
+                    reason="real episode, wrongly excluded",
+                ),
+            ],
+        )
+        data = self._run(tmp_path, _curation(), result)
+        albums = {a["album_id"]: a for a in data["albums"]}
+        assert albums["a2"]["include"] is True
+        assert albums["a2"].get("exclude_reason", "") == ""
+
+    def test_unknown_album_id_not_materialized(self, tmp_path):
+        result = AuditResult(
+            approve=True,
+            overrides=[
+                AuditOverride(
+                    album_id="invented_id",
+                    provider="spotify",
+                    action="exclude",
+                    reason="hallucinated",
+                ),
+            ],
+        )
+        data = self._run(tmp_path, _curation(), result)
+        albums = {a["album_id"]: a for a in data["albums"]}
+        assert albums["a1"]["include"] is True
+        assert not data["review"].get("overrides")
