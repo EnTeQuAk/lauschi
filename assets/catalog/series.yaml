@@ -17056,68 +17056,130 @@ series:
       audited_by: minimax-m2.7
       audited_at: '2026-06-10T18:28:36.180873+00:00'
       number: 1
+      range_end:
       reason: Episode 1 not available on Apple Music (platform availability gap)
     - curated_by: minimax-m2.7
       curated_at: '2026-06-10T18:28:36.180873+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-06-10T18:28:36.180873+00:00'
       number: 2
+      range_end:
       reason: Episode 2 not available on Apple Music (platform availability gap)
     - curated_by: minimax-m2.7
       curated_at: '2026-06-10T18:28:36.180873+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-06-10T18:28:36.180873+00:00'
       number: 4
+      range_end:
       reason: Episode 4 not available on Apple Music (platform availability gap)
-    - number: 5
+    - curated_by: minimax-m2.7
+      curated_at: '2026-07-02T08:09:54.620244+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-02T08:09:54.620244+00:00'
+      number: 5
       range_end:
       reason: Episode not available on Spotify (TV series episode 5 not in catalog; only classic series version exists which belongs to different series)
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-07-02T08:09:54.620244+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-07-02T08:09:54.620244+00:00'
-    - number: 6
+      number: 6
       range_end:
       reason: Episodes 6–10 only available in compilation box sets (Folgen 6–10), excluded as compilation_as_episode; individual episodes unavailable on Apple Music
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-07-02T08:09:54.620244+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-07-02T08:09:54.620244+00:00'
-    - number: 7
+      number: 7
       range_end:
       reason: Episodes 6–10 only available in compilation box sets (Folgen 6–10), excluded as compilation_as_episode; individual episodes unavailable on Apple Music
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-07-02T08:09:54.620244+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-07-02T08:09:54.620244+00:00'
-    - number: 8
+      number: 8
       range_end:
       reason: Episodes 6–10 only available in compilation box sets (Folgen 6–10), excluded as compilation_as_episode; individual episodes unavailable on Apple Music
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-07-02T08:09:54.620244+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-07-02T08:09:54.620244+00:00'
-    - number: 9
+      number: 9
       range_end:
       reason: Episodes 6–10 only available in compilation box sets (Folgen 6–10), excluded as compilation_as_episode; individual episodes unavailable on Apple Music
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-07-02T08:09:54.620244+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-07-02T08:09:54.620244+00:00'
-    - number: 10
+      number: 10
       range_end:
       reason: Episodes 6–10 only available in compilation box sets (Folgen 6–10), excluded as compilation_as_episode; individual episodes unavailable on Apple Music
-      curated_by: minimax-m2.7
+    - curated_by: minimax-m2.7
       curated_at: '2026-07-02T08:09:54.620244+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-07-02T08:09:54.620244+00:00'
-    - number: 81
+      number: 81
       range_end:
       reason: Episode 81 exists on Spotify but not on Apple Music (platform availability gap)
+    sub_series:
+    - label: tv_serie
+      album_ids:
+      - 0As6WtfaAP61uTSNME7Jet
+      - '1460125378'
+      - '1460126125'
+      - '1460126146'
+      - '1460126524'
+      - '1460127060'
+      - '1460127494'
+      - '1460128073'
+      - '1460128912'
+      - '1460129278'
+      - '1460129548'
+      - '1460129615'
+      - '1460130370'
+      - '1460130567'
+      - '1460131626'
+      - '1475741502'
+      - '1485428848'
+      - '1485429140'
+      - '1506189048'
+      - '1534555398'
+      - '1554524368'
+      - '1588219992'
+      - 1E5vNiPDYTmFwgy4tko3hA
+      - 1FKo6rTIST1l9BxIYmgULC
+      - 1O0IHH6pVTImC2yIE5avD3
+      - 1eZDAdZmJeDtIHzGUEPs6k
+      - 2Lv1i3QqsMZowG9WR3yjfE
+      - 2xXCU788DCGwZdzDdvdgJG
+      - 3bmf47LdkcVgixbjl3F8lp
+      - 3gkwsJlCOtOwdNUQ3s0jQy
+      - 3imgBl66bdTHnBTAgdEcnU
+      - 3imxYG6y8VsVx4LyUlkfOf
+      - 3ngKLboDjsx8LhBPo5sxs8
+      - 4SygfBWhlHUihHA4PFqH8I
+      - 5OuS244mCL3yET4TcCmCeQ
+      - 5OxUVo6FLul7Mjwise5nvM
+      - 5ZSLwaqveRltBWgVUborci
+      - 5cVHUuCdUJ9pK0yB6nc8Xb
+      - 5iINh6qhzGr4sRzNL0lrso
+      - 64I0e15NOY6wnw7FHFxPmI
+      - 6Qfw9ITHwveogDwmmKzr2I
+      - 6UpxTGaHx3oTPcUeTj86Xp
+      - 6WYhYFLMfKIv6ZmUB2Dhtm
+      - 6kSyYBxOHtMauNs5dsPd6x
+      - 6mAffXeHyQ3FqzVHKOnAj0
+      - 720GhdzAYOaf1sgonrNH72
+      - 746hc4vaxwrBzI4UT4jRSn
+      - 7dP8gv1I2IcdIBHX0mMUxB
+      - 7uIGc3hXpnMyFBMufBJvwf
+      - 7v1Ej98IjaotwJcaWcoWwH
+      reason: "TV-series tie-in episodes with distinct 'LEGO City: Folge N - Theme' title format and parallel numbering that overlaps the main series. Explicitly branded as 'TV-Serie' in compilation releases.
+        Mixing these into the main episode sequence would disrupt chronological browsing. Includes classic series albums (2019-2021) plus compilation box sets."
       curated_by: minimax-m2.7
-      curated_at: '2026-07-02T08:09:54.620244+00:00'
+      curated_at: '2026-07-23T10:44:25.836988+00:00'
       audited_by: minimax-m2.7
-      audited_at: '2026-07-02T08:09:54.620244+00:00'
+      audited_at: '2026-07-23T10:44:25.836988+00:00'
 - id: peppa_pig_hoerspiele
   title: Peppa Pig Hörspiele
   providers:
@@ -23216,16 +23278,16 @@ series:
       artist_ids:
       - 7x0Gb1gpe2xRXsp6qXL3xC
       albums:
-      - id: 6cin4nc6W4kYZEXVT8cTxp
+      - id: 6EEHKosbnf4M4rfzZ1qHvI
         episode: 1
         title: 'Teil 1: Verhext und festgeklebt'
-      - id: 1wizSwFwBNIKcg7y8dJ5cP
+      - id: 0LjRdnnrgQBRyNG9Tqar6U
         episode: 2
         title: 'Teil 2: Zauberschlaf und Knallfroschchaos'
-      - id: 6SmOg0QDpFVyMaCKrfxpzR
+      - id: 6DcpKxnsZZCFkBXEOQuAxv
         episode: 3
         title: 'Teil 3: Schneeballschlacht und Wichtelstreiche'
-      - id: 7cWtxTcosezzDYGly4sgyH
+      - id: 2nHGvQbfCIKAbZy6rR4EnY
         episode: 4
         title: 'Teil 4: Zauberhut und Bienenstich'
       - id: 1Qb9CKyizqDPVArVUH97ya
@@ -23234,10 +23296,10 @@ series:
       - id: 07Dc8nBiT1UNW2KOtildc6
         episode: 6
         title: 'Teil 6: Schnattergans und Hexenhaus'
-      - id: 7hCY4leb1YXRBYimJcPbke
+      - id: 3draWJGsBSrG9ABMSoRSFe
         episode: 7
         title: 'Teil 7: Hexenfest und Waldgeflüster'
-      - id: 50mYCWfTwZdYffzWJKCE34
+      - id: 2Xnp0MFRwPP72lproYBsqS
         episode: 8
         title: 'Folge 8: Zaubertricks und Maulwurfshügel'
     apple_music:
@@ -23259,26 +23321,92 @@ series:
       - id: '1740068876'
         episode: 5
         title: 'Teil 5: Hexenbuch und Schnüffelnase'
+      - id: '6783920047'
+        episode: 6
+        title: 'Teil 6: Schnattergans und Hexenhaus'
       - id: '1853524102'
         episode: 7
         title: 'Teil 7: Hexenfest und Waldgeflüster'
       - id: '1872017184'
         episode: 8
         title: 'Folge 8: Zaubertricks und Maulwurfshügel'
+      - id: '6784699176'
+        title: Petronella Apfelmus - Überraschungsfest für Lucius - EP
   episode_pattern:
-  - '^Teil (\d+):'
+  - '^Erstleser Teil (\d+):'
   - '^Folge (\d+):'
   - '^Die Hörspielreihe, Teil (\d+):'
+  - '^Teil (\d+):'
+  - ^.*\[Petronella Apfelmus, Band (\d+)
+  - ^.* - Petronella Apfelmus, Teil (\d+)
+  - ^.*\(Petronella Apfelmus, Teil (\d+)\)
+  - ^.*\(Petronella Apfelmus, Band (\d+)\)
   aliases:
   - Petronella Applewitch
   series_facts:
-    known_gaps:
-    - number: 6
-      reason: Apple Music does not have a Hörspiel version of this episode. Only the Spotify version exists.
+    sub_series:
+    - label: erstleser
+      album_ids:
+      - '1795425967'
+      - 1RUpQ5bcRAxKoJ2IqzDpzB
+      - 1eWv9v9FokMIPYUGbXcS2n
+      - 1g1scG4rsVgowmX4qIJjLr
+      - 1ucFogfP8rLfwRxhcpZzab
+      - 2F2C0NL9tgW68hFLzw2m6P
+      - 2ynxC5LbwWaM30a4j7c38y
+      - 36d6mGGCWsgQS4kWT2OYzy
+      - '6784595369'
+      - 7a0cCpsKO6Uux6eFFZns9S
+      reason: Early-reader spin-off with simplified text, distinct product line from main Hörspiel series. Based on book sources confirming 'Überraschungsfest für Lucius' is Teil 1 of the Erstleser 
+        sub-series, separate from main series 'Verhext und festgeklebt'.
       curated_by: minimax-m2.7
-      curated_at: '2026-05-31T16:35:27.608104+00:00'
+      curated_at: '2026-07-23T10:41:32.121538+00:00'
       audited_by: minimax-m2.7
-      audited_at: '2026-05-31T16:35:27.608104+00:00'
+      audited_at: '2026-07-23T10:41:32.121538+00:00'
+    - label: tv_serie
+      album_ids:
+      - 03FVJobgKGHsupvlsppJE9
+      - 0C1wwnIVWTjtsfNKICN9gK
+      - 0GxgRepTAKICCgnjxXabnn
+      - 0hj2baHLWGAChZFOULHMS5
+      - 0pyNGAv1Gw7GsC5fC5ZBDG
+      - '1531866469'
+      - '1531866840'
+      - '1534715730'
+      - '1534719147'
+      - '1539658210'
+      - '1539667305'
+      - '1542759469'
+      - '1542760201'
+      - '1561785976'
+      - '1561848173'
+      - '1564490397'
+      - '1593240124'
+      - 1BQHeapK9Nwpd7BCStPjr4
+      - 1ZRHrKVlbTAAF18xlwRHXl
+      - 1cx3GIKlloCu7MrTD8oCA8
+      - 2EQ9WTnV9yhLbMJ6jdDiee
+      - 2UO9cEOsZltdLqiTlLxPDN
+      - 3OA6geEzvBlfwXQPzUAkEZ
+      - 3zZg0p70EJVRdz5m1oObmh
+      - 409prZSokH92U4Cqs990Js
+      - 4DViegfNa6l0zZTqGnSwVP
+      - 503rE3Am9I0dapuGpezkBQ
+      - 51xrQDuxKHKT4FB0993k4V
+      - 5BCDZehG1Ir8cokNvw6Lio
+      - 5Q1psKbqPKYqW9dHwXoiSz
+      - 5cJPVZr3WB94wvkIsBxLyL
+      - 6SJJSnB8mbOkIO50hTIOC5
+      - 6nyZHxP7bORHaqtWLlISVX
+      - 750DACR9FAa2hcjwNSdQ39
+      - 7DDsjdPOECsczrU9eUecBG
+      - 7gLUfeeARIDx3x8UhLkIfx
+      reason: Hörspiele based on the TV series, bundling multiple short episodes per release. Track names show distinct story titles ('Der Oberhexenbesen', 'Papa ist geschrumpft') different from main 
+        series. Correctly excluded as sub-series_bleed.
+      curated_by: minimax-m2.7
+      curated_at: '2026-07-23T10:41:32.121538+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-07-23T10:41:32.121538+00:00'
 - id: kaept_n_sharky
   title: Käpt'n Sharky
   providers:
