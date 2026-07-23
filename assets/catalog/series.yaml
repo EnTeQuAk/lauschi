@@ -29091,8 +29091,9 @@ series:
       - id: 6q76sgu7wmtrkrBYWUKPIW
         title: Coco (Hörspiel zum Disney/Pixar Film)
     apple_music:
-      artist_ids:
-      - '1459424735'
+      # No Hörspiel artist page exists; the album is live but standalone.
+      # Do not re-discover: every Apple Music artist named "Coco" is an
+      # unrelated music act (checked 2026-07).
       albums:
       - id: '1685948531'
         title: Coco (Hörspiel zum Disney/Pixar Film)
@@ -29108,7 +29109,7 @@ series:
         title: Encanto (Hörspiel zum Disney Film)
     apple_music:
       artist_ids:
-      - '1790329326'
+      - '1597162487'
       albums:
       - id: '1685982613'
         title: Encanto (Das Original-Hörspiel zum Disney Film)
@@ -38855,8 +38856,8 @@ series:
       artist_ids:
       - '1509046617'
       albums:
-      - id: '1779681614'
-        title: Kinderklassiker Vol. 1
+      - id: '6777229583'
+        title: Kinderklassiker, Vol. 1
   content_type: music
 - id: eule
   title: Eule
@@ -43139,7 +43140,7 @@ series:
       artist_ids:
       - '51919817'
       albums:
-      - id: '1564809127'
+      - id: '6784602925'
         title: Laura und die kleine Robbe
   series_facts:
     known_gaps:
