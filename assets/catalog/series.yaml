@@ -1692,6 +1692,24 @@ series:
       - id: 50d2KMK7GtbCTfLqxDfHIS
         episode: 2
         title: 002/Radio Rocky Beach
+      - id: 0jhxRM2HsImXg5W28JfUv8
+        episode: 3
+        title: 003/Invasion der Fliegen
+      - id: 30w9IzSbHHevllaU299TMh
+        episode: 4
+        title: 004/Chaos vor der Kamera
+      - id: 1wNy1x9hCcnmU1vhT7S2Tc
+        episode: 5
+        title: 005/Flucht in die Zukunft
+      - id: 4TSPWdUo2J4w6VuwQgUK2e
+        episode: 6
+        title: 006/Gefahr im Gruselgarten
+      - id: 2rleLzoiSWt5IVyZpkkVHA
+        episode: 7
+        title: 007/Gruft der Piraten
+      - id: 3RRqQIyDs7AkO3TPbmuRpt
+        episode: 8
+        title: 008/Nacht unter Wölfen
       - id: 7A5GQZrirxYgjWCTGpbnbs
         episode: 9
         title: 009/SOS über den Wolken
@@ -3411,9 +3429,6 @@ series:
       - id: '1886730705'
         episode: 164
         title: 'Folge 164: Hexerei im Cluburlaub'
-      - id: '6772208931'
-        episode: 165
-        title: 'Folge 165: Die doppelte Klassenfahrt'
       - id: '1069121458'
         title: Der verhexte Weihnachtsmarkt (Der Adventskalender zum Hören)
       - id: '1069102309'
@@ -3843,10 +3858,6 @@ series:
       - id: 2FyN9E6Rf3UMAzlnxRywfV
         episode: 98
         title: 'Folge 98: Influencerin in Not'
-      - id: 5hS6afCS6iR3fyeyjixu5I
-        title: Adventskalender - Engel in Gefahr
-      - id: 6dgraZML3CQZkRuoFQkzJk
-        title: Adventskalender - Eisprinzessin in Not
       - id: 3Y7SbC7xEqmh6beaCAUjFd
         title: Adventskalender - Geheimnis im Schnee
       - id: 5337c71ghTYTKz3sJBYeAK
@@ -10469,8 +10480,6 @@ series:
       - id: '1687673808'
         episode: 65
         title: '65: Wunder Evolution / Darwins Weltreise'
-      - id: '1690224036'
-        title: Pyramiden
       - id: '1731390035'
         title: Korallenriffe
       - id: '1768782748'
@@ -10723,12 +10732,8 @@ series:
         title: Pettersson und Findus. Findus zieht um
       - id: '1701350651'
         title: Findus zieht um
-      - id: '1728520713'
-        title: Pettersson und Findus. Das schönste Weihnachten überhaupt
       - id: '1270116073'
         title: 'English Edition #1 (Das Original-Hörspiel zur TV-Serie) [Das Deutsch-Englische Hörspiel zur TV-Serie]'
-      - id: '1701347820'
-        title: Schau mal, was ich kann, Pettersson!
   content_type: hoerspiel
   aliases:
   - Pettersson & Findus
@@ -11001,6 +11006,9 @@ series:
       - id: 4HN0xnLhkzpz7ySSkqyhuQ
         episode: 69
         title: 'Folge 69: Die Macht der Kürbislaterne (Das Original Playmobil Hörspiel)'
+      - id: 0ot4bdZsPZhekrAqYt5TGT
+        episode: 70
+        title: 'Folge 70: Die Würfel sind gefallen (Das Original Playmobil Hörspiel)'
       - id: 5MLMemOz7sEyS0UJE3iPxo
         episode: 71
         title: 'Folge 71: Das dramatische Finale (Das Original Playmobil Hörspiel)'
@@ -12786,9 +12794,6 @@ series:
       - id: 2F4qbEk1JH1nj4E89882JI
         episode: 24
         title: 'Folge 24: auf magischer Rettungsmission'
-      - id: 4NHm49J138o8iOADgQfLwk
-        episode: 26
-        title: Hexe Lilli und die Zaubernacht im Kindergarten
       - id: 4rRg8Lxw09m5FsCGWid99d
         title: Im wilden Wilden Westen
       - id: 4ghoOGAttLAGG5LHZ2TyJI
@@ -12801,16 +12806,6 @@ series:
         title: Das Buch des Drachen
       - id: 7iQo6EXjMtLPorNrw2vlXW
         title: Die Reise nach Mandolan
-      - id: 1ateqhraMBgvZdaYeMuIok
-        title: Und der kleine Eisbär Knöpfchen
-      - id: 4fAxKCklCcMxl7LAxBeGDD
-        title: Hexe Lilli und der kleine Delfin
-      - id: 6K5a3qRU976BpPIEG9mZnb
-        title: Feiert Geburtstag
-      - id: 23Xt15lSmNEmJVmqjOqUeQ
-        title: Hexe Lilli und das verzauberte Fußballspiel
-      - id: 2qffSlb9FcXLjuAmVmxusg
-        title: Hexe Lilli und der verzauberte Goldesel
       - id: 2UFXuzfiqd0cThQRCalzdy
         title: Hexe Lilli rettet Weihnachten - Das Hörspiel zum Kinofilm
       - id: 3CiZjceqtFe8yc63b4ZmsL
@@ -12914,21 +12909,8 @@ series:
       - id: '1690334161'
         episode: 24
         title: 'Folge 24: Hexe Lilli auf magischer Rettungsmission'
-      - id: '1061923870'
-        episode: 26
-        title: Hexe Lilli und die Zaubernacht im Kindergarten
       - id: '1356622351'
         title: Das Buch des Drachen
-      - id: '1061926033'
-        title: Hexe Lilli und der kleine Eisbär Knöpfchen
-      - id: '1055052863'
-        title: Hexe Lilli und der kleine Delfin
-      - id: '1055054537'
-        title: Hexe Lilli feiert Geburtstag
-      - id: '1055088464'
-        title: Hexe Lilli und das verzauberte Fußballspiel
-      - id: '1055082502'
-        title: Hexe Lilli und der verzauberte Goldesel
       - id: '1465730970'
         title: Hilfe! Die Murze kommen! (Erstlesergeschichten)
       - id: '1490107448'
@@ -13865,54 +13847,36 @@ series:
       - id: 1cOFQWQW6BHrLbSiuQfsdO
         episode: 1
         title: '01: Spuk in der Werkstatt (Das Original aus dem Fernsehen)'
-      - id: 6XYhYR3is3Bp6jMbdZraiC
-        episode: 1
-        title: '01: Weihnachten - Pumuckl und der Nikolaus (Das Original aus dem Fernsehen)'
       - id: 3uE5b9Ky4hPqMwqGMbt94q
         episode: 1
         title: '01: Koboldsgesetz (Neue Geschichten vom Pumuckl)'
       - id: 2KUGWNkv3fqt5BSEz2pkEF
         episode: 2
         title: '02: Das verkaufte Bett (Das Original aus dem Fernsehen)'
-      - id: 1i5j40JrA7Uq3sNHgVEYQA
-        episode: 2
-        title: '02: Weihnachten - Auf heißer Spur (Das Original aus dem Fernsehen)'
       - id: 6Gh01XkNx5zCy6YpF2TqNk
         episode: 2
         title: '02: Pumuckl wird verschenkt (Neue Geschichten vom Pumuckl)'
       - id: 3fyNFOUjASIxPs7UZ9KUFa
         episode: 3
         title: '03: Das neue Badezimmer (Das Original aus dem Fernsehen)'
-      - id: 3zWItP43T8egaHsynZBZIS
-        episode: 3
-        title: '03: Weihnachten - Das Weihnachtsgeschenk (Das Original aus dem Fernsehen)'
       - id: 4ifhQ2uMVkPvCWowXQON05
         episode: 3
         title: '03: Der alte Eder (Neue Geschichten vom Pumuckl)'
       - id: 0bpPat7Xf3EOZyfEFlzBmp
         episode: 4
         title: '04: Das Schlossgespenst (Das Original aus dem Fernsehen)'
-      - id: 5qoNwBcEil2enjbC6zG8LT
-        episode: 4
-        title: '04: Weihnachten - Der erste Schnee (Das Original aus dem Fernsehen)'
       - id: 1iT5NytGG3gXo4zflAF99l
         episode: 4
         title: '04: Der verflixte Kaugummi (Neue Geschichten vom Pumuckl)'
       - id: 28botZO81Az1D06lngMUev
         episode: 5
         title: '05: Die abergläubische Putzfrau (Das Original aus dem Fernsehen)'
-      - id: 0t5XbGvxjnnQz1FWhFt7go
-        episode: 5
-        title: '05: Weihnachten - Pumuckl und die Christbaumkugeln (Das Original aus dem Fernsehen)'
       - id: 5noRHJMN1Q8stRHv2Hhoqx
         episode: 5
         title: '05: Eder ist an allem schuld (Neue Geschichten vom Pumuckl)'
       - id: 4FcnJ8EWrVIDljp1q8E4ce
         episode: 6
         title: '06: Pumuckl und die Schule (Das Original aus dem Fernsehen)'
-      - id: 7GOZ8qDGyH9Q1KD2TxiQwP
-        episode: 6
-        title: '06: Weihnachten Folge - Pumuckl und die Schatulle (Das Original aus dem Fernsehen)'
       - id: 1aTk0FeiimvscYkptrCl6K
         episode: 6
         title: '06: Pumuckl und die Geburtstagsüberraschung (Neue Geschichten vom Pumuckl)'
@@ -14207,54 +14171,36 @@ series:
       - id: '1685911446'
         episode: 1
         title: '01: Spuk in der Werkstatt (Das Original aus dem Fernsehen)'
-      - id: '1685873704'
-        episode: 1
-        title: '01: Weihnachten - Pumuckl und der Nikolaus (Das Original aus dem Fernsehen)'
       - id: '1720424550'
         episode: 1
         title: '01: Koboldsgesetz (Neue Geschichten vom Pumuckl)'
       - id: '1685908372'
         episode: 2
         title: '02: Das verkaufte Bett (Das Original aus dem Fernsehen)'
-      - id: '1685914278'
-        episode: 2
-        title: '02: Weihnachten - Auf heißer Spur (Das Original aus dem Fernsehen)'
       - id: '1721518411'
         episode: 2
         title: '02: Pumuckl wird verschenkt (Neue Geschichten vom Pumuckl)'
       - id: '1685899920'
         episode: 3
         title: '03: Das neue Badezimmer (Das Original aus dem Fernsehen)'
-      - id: '1685888452'
-        episode: 3
-        title: '03: Weihnachten - Das Weihnachtsgeschenk (Das Original aus dem Fernsehen)'
       - id: '1721518234'
         episode: 3
         title: '03: Der alte Eder (Neue Geschichten vom Pumuckl)'
       - id: '1685919056'
         episode: 4
         title: '04: Das Schlossgespenst (Das Original aus dem Fernsehen)'
-      - id: '1685873793'
-        episode: 4
-        title: '04: Weihnachten - Der erste Schnee (Das Original aus dem Fernsehen)'
       - id: '1728709973'
         episode: 4
         title: '04: Der verflixte Kaugummi (Neue Geschichten vom Pumuckl)'
       - id: '1685892179'
         episode: 5
         title: '05: Die abergläubische Putzfrau (Das Original aus dem Fernsehen)'
-      - id: '1685888292'
-        episode: 5
-        title: '05: Weihnachten - Pumuckl und die Christbaumkugeln (Das Original aus dem Fernsehen)'
       - id: '1729621198'
         episode: 5
         title: '05: Eder ist an allem schuld (Neue Geschichten vom Pumuckl)'
       - id: '1685894693'
         episode: 6
         title: '06: Pumuckl und die Schule (Das Original aus dem Fernsehen)'
-      - id: '1686156110'
-        episode: 6
-        title: '06: Weihnachten Folge - Pumuckl und die Schatulle (Das Original aus dem Fernsehen)'
       - id: '1729621436'
         episode: 6
         title: '06: Pumuckl und die Geburtstagsüberraschung (Neue Geschichten vom Pumuckl)'
@@ -15280,9 +15226,6 @@ series:
       - id: '1872675390'
         episode: 26
         title: 'Folge 26: Zusammengewachsen'
-      - id: '1889874170'
-        episode: 27
-        title: 'Folge 27: Gangsterjagd'
       - id: '6777077801'
         episode: 28
         title: 'Folge 28: Der Praktikums-Fail'
@@ -15649,21 +15592,12 @@ series:
       - id: 26z7t5oPL1gWB0EyrdsHwT
         episode: 1
         title: 'Teil 1: Geheimnisvolle Verwandlung'
-      - id: 4PeJ7S0Njod6b2xPg19mo7
-        episode: 1
-        title: 'Teil 1: Ein Einhorn in der Schule'
       - id: 2470T11OWEiG7JNzNocUkX
         episode: 2
         title: 'Teil 2: Sprung in die Nacht'
-      - id: 62XN52fjzBjzYihERmePkp
-        episode: 2
-        title: 'Teil 2: Die goldene Feder'
       - id: 2FNX4VTDktcxh3wNIjJvw6
         episode: 3
         title: 'Teil 3: Der Steinerne Spiegel'
-      - id: 1diZg9wfrm8Y9dVVjPjpTG
-        episode: 3
-        title: 'Teil 3: Fest auf dem Ponyhof'
       - id: 1HBSqiyZ0QaSG7I2iJ1Yf3
         episode: 4
         title: 'Teil 4: Lauras Zauberritt'
@@ -17780,9 +17714,21 @@ series:
       - id: '1468874513'
         episode: 11
         title: 'Folge 11: Svens Schiffbruch'
+      - id: '1468866910'
+        episode: 12
+        title: 'Klassiker, Folge 12: Auf der Dracheninsel'
       - id: '1468872534'
         episode: 12
         title: 'Folge 12: Aufstand in Flake'
+      - id: '1468874106'
+        episode: 13
+        title: 'Klassiker, Folge 13: Wer anderen eine Grube gräbt'
+      - id: '1468874644'
+        episode: 14
+        title: 'Klassiker, Folge 14: Die zwei Kampfhähne / Baltac sitzt in der Klemme / Wir sind wirklich Wikinger'
+      - id: '1468866534'
+        episode: 15
+        title: 'Klassiker, Folge 15: Das goldene Schwert'
       - id: '1575745023'
         title: Wickie und die starken Männer (Das magische Schwert)
   episode_pattern:
@@ -18671,9 +18617,6 @@ series:
       - id: 1Aq9udF7avDwZ6owjdVcJF
         episode: 33
         title: 'Folge 33: Der neue Dragur / Der Höhlenbrecher (Das Original-Hörspiel zur TV-Serie)'
-      - id: 2HbqJeQcWMmNOheAftjRkm
-        episode: 33
-        title: 'Folge 33: Der neue Dragur / Der Höhlenbrecher + Trolljäger: Das Amulett (Das Original-Hörspiel zur TV-Serie)'
       - id: 61qjJZK6zLyPGqJZdcHmtY
         episode: 34
         title: 'Folge 34: Ein wahrer Anführer / Der Klügere gibt nach (Das Original-Hörspiel zur TV-Serie)'
@@ -20063,8 +20006,6 @@ series:
       - id: 4MF3vRrimefhW3x9RK9I1V
         episode: 17
         title: Der Onkel aus der Südsee, Der große Streichewettbewerb, Rollentausch, Der Schatzkistentag (Der kleine Rabe Socke - Hörspiele zur TV Serie 17)
-      - id: 14E7VcuVdeHNJrN4qs3ofY
-        title: Der kleine Rabe Socke - Suche nach dem verlorenen Schatz
       - id: 4sisLEShJplT9VQrRelb99
         title: Alles Freunde! (Der kleine Rabe Socke) [Freundschaftsgeschichten vom kleinen Raben Socke]
     apple_music:
@@ -21562,8 +21503,6 @@ series:
         title: Das Traumfresserchen
       - id: 6iqicOtTGvLXFaMzjIkaRl
         title: Das kleine Lumpenkasperle
-      - id: 5TxGfagtpgnubzckeYL1cp
-        title: 'Michael Ende: Der Spiegel im Spiegel'
       - id: 0P5PProFj9QrFq7A1SOiz5
         title: Die Zauberschule und andere Geschichten
       - id: 4iyysgUrEoLyQytonklJXk
@@ -21574,10 +21513,6 @@ series:
         title: Filemon Faltenreich + Der Lindwurm und der Schmetterling
       - id: 7KbELvtm6SGQIzFgA3h0q2
         title: Norbert Nackendick + Tranquilla Trampeltreu
-      - id: 11wArUgNLB4hEeDHzd2t2M
-        title: Tranquilla Trampeltreu und weitere Fabeln von Michael Ende (Tranquilla Trampeltreu, Der Lindwurm und der Schmetterling und Norbert Nackendick)
-      - id: 735iwIhG7zQyNE4LSpBAq7
-        title: Jim Knopf findet's raus (Geschichten von Himmelsforschern, Halbdrachen und Flugmaschinen)
       - id: 4T219OxthZeYAtVEcLtd16
         title: Das Schnurpsenbuch
       - id: 2WsIzNKGcuYJxvrcgmSv2p
@@ -21602,12 +21537,6 @@ series:
       artist_ids:
       - '1515591006'
       albums:
-      - id: '1686066186'
-        title: Jim Knopf und Lukas der Lokomotivführer
-      - id: '1686043874'
-        title: Jim Knopf und die Wilde 13
-      - id: '1686069382'
-        title: Momo
       - id: '1442686534'
         title: Norbert Nackendick + Tranquilla Trampeltreu
       - id: '1587881546'
@@ -23594,9 +23523,6 @@ series:
       - id: 3ZYrlaczw1qMYuXnmL43k5
         episode: 6
         title: Vorhang auf für Prinzessin Lillifee
-      - id: 3y9jloTirKL9ZU7wkpOnRn
-        episode: 6
-        title: 06/Das Hörspiel zur TV-Serie
     apple_music:
       artist_ids:
       - '130216498'
@@ -23959,32 +23885,8 @@ series:
       - id: 5c7cYZFBimNLd3vvMnq9sN
         episode: 50
         title: '50: Countdown bis Mitternacht'
-      - id: 0itjeKvfolNCsyC6ijojO3
-        title: Adventskalender Tag 16 - Gefährlich rieselt der Schnee
-      - id: 0G8mI5ypPOJ0yQYevcaBpd
-        title: Adventskalender Tag 17 - Gefährlich rieselt der Schnee
-      - id: 2LXqbUF9hJvfu6czCBCjhR
-        title: Adventskalender Tag 18 - Gefährlich rieselt der Schnee
-      - id: 3IPVM58dYp1mCewkVvSpYR
-        title: Adventskalender Tag 19 - Gefährlich rieselt der Schnee
-      - id: 0vj1sriSgobSS5wMuHMPe3
-        title: Adventskalender Tag 20 - Gefährlich rieselt der Schnee
-      - id: 5NkvlPcXXqjwsLwog9wc9Y
-        title: Adventskalender Tag 21 - Gefährlich rieselt der Schnee
-      - id: 4alR3SUYdJYdntgO3D4KcY
-        title: Adventskalender Tag 22 - Gefährlich rieselt der Schnee
-      - id: 09FrU6vuKgmbjJ8HZSuTB0
-        title: Adventskalender Tag 23 - Gefährlich rieselt der Schnee
-      - id: 3n3UEDzrXoyJlomWioM8gA
-        title: Adventskalender Tag 24 - Gefährlich rieselt der Schnee
       - id: 0GLBbIANjLK4coMS9Tvtnv
         title: Der letzte Schrei
-      - id: 4l4pf9JgOg4M9troLqOoCs
-        title: Nachricht eines Fremden
-      - id: 6erqym9G4q35OVX4ihzw5L
-        title: Geheime Botschaft
-      - id: 1YGp021WiphhKGeCLnws4A
-        title: Besuch zu später Stunde
     apple_music:
       artist_ids:
       - '1487787107'
@@ -24856,10 +24758,6 @@ series:
         title: 'Live-Hörspiel: Der schwebende Lollländer'
       - id: 1nHKbhw1vSUI996P2duncc
         title: Adventskalender - Tausend vertückte Türen
-      - id: 4wxvwPk6zfBP8T8vyM4Aan
-        title: Hui Buh - Das Schlossgespenst (Hörspiel zum Kinofilm)
-      - id: 56oDZguAZ9l5bT0dqubjla
-        title: Hui Buh und das Hexenschloss (Hörspiel zum Kinofilm)
     apple_music:
       artist_ids:
       - '283665919'
@@ -27229,11 +27127,6 @@ series:
     spotify:
       artist_ids:
       - 0bx509s1CRkp8iErQhjbI4
-      albums:
-      - id: 4B0J8jipiDexYUPyHTQuX6
-        title: Bambi 2 - Der Herr der Wälder (Hörspiel zum Disney Film)
-      - id: 6R8jAh8m3jgpB30irFGajw
-        title: Bambi (Hörspiel zum Disney Film)
     apple_music:
       artist_ids:
       - '1670459358'
@@ -29584,9 +29477,6 @@ series:
       - id: 1yv8jm64CiSPosTsxh4lCo
         episode: 66
         title: 'Folge 66: als Ballonfahrer'
-      - id: 1SeO1t4hsaR0pZImgwCYpa
-        episode: 67
-        title: 'Folge 67: Meine schönsten Lieder'
       - id: 63RcR5NFniG16nkYiTyaGc
         episode: 68
         title: 'Folge 68: als Taxifahrer'
@@ -30093,9 +29983,6 @@ series:
       - id: '1139278523'
         episode: 66
         title: 'Folge 66: als Ballonfahrer'
-      - id: '1659079965'
-        episode: 67
-        title: 'Folge 67: Meine schönsten Lieder'
       - id: '1139279409'
         episode: 68
         title: 'Folge 68: als Taxifahrer'
@@ -31858,9 +31745,6 @@ series:
       artist_ids:
       - 6vS1r2PgQlby3jeU4KpDds
       albums:
-      - id: 3iTBrFan4v2EqG384uDaIo
-        episode: 1
-        title: 'Folge 1: Die wunderbare Reise des kleinen Nils Holgersson mit den Wildgänsen'
       - id: 66vsTLmia6vLXLF6gFRWdB
         episode: 1
         title: Der Junge (Nils Holgersson, Folge 1)
@@ -32069,15 +31953,6 @@ series:
       - id: '1814549258'
         episode: 23
         title: In Närke (Nils Holgersson, Folge 23)
-      - id: '1814549011'
-        episode: 24
-        title: Der Eisbruch (Nils Holgersson, Folge 24) - EP
-      - id: '1814548970'
-        episode: 25
-        title: Die Erbteilung (Nils Holgersson, Folge 25) - EP
-      - id: '1814548277'
-        episode: 26
-        title: Im Bergwerkdistrikt (Nils Holgersson, Folge 26)
       - id: '1814548399'
         episode: 27
         title: Das Eisenwerk (Nils Holgersson, Folge 27)
@@ -32087,81 +31962,6 @@ series:
       - id: '1814604925'
         episode: 29
         title: Das Bruderteil (Nils Holgersson, Folge 29)
-      - id: '1814549506'
-        episode: 30
-        title: Der Walpurgisabend (Nils Holgersson, Folge 30)
-      - id: '1814549388'
-        episode: 31
-        title: Bei den Kirchen (Nils Holgersson, Folge 31) - EP
-      - id: '1814549316'
-        episode: 32
-        title: Die Überschwemmung (Nils Holgersson, Folge 32)
-      - id: '1814549445'
-        episode: 33
-        title: Die Sage von Uppland (Nils Holgersson, Folge 33) - EP
-      - id: '1814811442'
-        episode: 34
-        title: In Upsala (Nils Holgersson, Folge 34)
-      - id: '1814812854'
-        episode: 35
-        title: Daunenfein (Nils Holgersson, Folge 35)
-      - id: '1814813096'
-        episode: 36
-        title: Stockholm (Nils Holgersson, Folge 36)
-      - id: '1814811544'
-        episode: 37
-        title: Der Adler Gorgo (Nils Holgersson, Folge 37)
-      - id: '1814814679'
-        episode: 38
-        title: Über Gästrikland dahin (Nils Holgersson, Folge 38)
-      - id: '1814813229'
-        episode: 39
-        title: Ein Tag in Hälsingeland (Nils Holgersson, Folge 39)
-      - id: '1814814496'
-        episode: 40
-        title: In Medelpad (Nils Holgersson, Folge 40)
-      - id: '1814814709'
-        episode: 41
-        title: Ein Morgen in Ångermanland (Nils Holgersson, Folge 41)
-      - id: '1814814924'
-        episode: 42
-        title: Västerbotten und Lappland (Nils Holgersson, Folge 42)
-      - id: '1814814626'
-        episode: 43
-        title: Das Gänsemädchen Aase und der kleine Mads (Nils Holgersson, Folge 43)
-      - id: '1814811094'
-        episode: 44
-        title: Bei den Lappen (Nils Holgersson, Folge 44)
-      - id: '1815231680'
-        episode: 45
-        title: Gen Süden! Gen Süden! (Nils Holgersson, Folge 45)
-      - id: '1814808858'
-        episode: 46
-        title: Die Sage vom Härjetal (Nils Holgersson, Folge 46)
-      - id: '1814808693'
-        episode: 47
-        title: Värmland und Dalsland (Nils Holgersson, Folge 47)
-      - id: '1815246720'
-        episode: 48
-        title: Ein kleiner Herrenhof (Nils Holgersson, Folge 48)
-      - id: '1815266767'
-        episode: 49
-        title: Das Gold auf der Schäre (Nils Holgersson, Folge 49)
-      - id: '1815264860'
-        episode: 50
-        title: Silber im Meer (Nils Holgersson, Folge 50)
-      - id: '1815260559'
-        episode: 51
-        title: Ein großer Herrenhof (Nils Holgersson, Folge 51)
-      - id: '1815266220'
-        episode: 52
-        title: Die Reise nach Bemmenhög (Nils Holgersson, Folge 52) - EP
-      - id: '1815259338'
-        episode: 53
-        title: Bei Holger Nielsens (Nils Holgersson, Folge 53)
-      - id: '1815571865'
-        episode: 54
-        title: Der Abschied von den Wildgänsen (Nils Holgersson, Folge 54) - Single
   episode_pattern:
   - ^.*\(Nils Holgersson, Folge (\d+)\)
   - '^Folge (\d+):'
@@ -34467,8 +34267,6 @@ series:
         title: Du brauchst ein Lied
       - id: 38fU1VW61DMdWabqL8psOZ
         title: Im Kindergarten
-      - id: 4SIMTfYVduuhrzev72aZR5
-        title: Sing mit uns - Rolfs Vogelhochzeit
       - id: 01JrN7TzqiE7Vs1JNJ3Mkl
         title: Rolfs Vogelhochzeit (Das Original in der Urfassung)
       - id: 0ijBGSXUC6LCpKF0RDbXZE
@@ -34527,14 +34325,6 @@ series:
         title: Rolfs neue Vogelhochzeit
       - id: 6Ayw2onb8b7M5rMBy8vbgJ
         title: 'Rolf Zuckowski präsentiert: Reiten ist mehr'
-      - id: 4ThoiOZmkF8ZLIatJDyajl
-        title: Laterne Laufen mit Rolf Zuckowski
-      - id: 7wT87VXTDPC58cBufEOlVo
-        title: Weihnachten und Winter mit Rolf Zuckowski
-      - id: 5jFoc0eAgpmnwnv9wBpv1L
-        title: Karneval & Fasching – Spaßlieder mit Rolf Zuckowski
-      - id: 2YqfxpKgyXpwExidhnHJ1z
-        title: Frühling und Ostern Kinderlieder von Rolf Zuckowski
     apple_music:
       artist_ids:
       - '13498146'
@@ -34587,14 +34377,6 @@ series:
         title: Rolfs neue Vogelhochzeit
       - id: '1675281973'
         title: 'Rolf Zuckowski präsentiert: Reiten ist mehr'
-      - id: '1843665485'
-        title: Laterne Laufen mit Rolf Zuckowski
-      - id: '1853609871'
-        title: Weihnachten und Winter mit Rolf Zuckowski
-      - id: '1859696461'
-        title: Karneval & Fasching – Spaßlieder mit Rolf Zuckowski
-      - id: '1882399507'
-        title: Frühling und Ostern Kinderlieder von Rolf Zuckowski
   content_type: music
 - id: conni
   title: Conni
@@ -35773,18 +35555,6 @@ series:
         title: Die Schlümpfe 2 (Das Original-Hörspiel zum Kinofilm)
       - id: 680A52IEs8f9MfrTTUoFFD
         title: Das verlorene Dorf (Das Original-Hörspiel zum Kinofilm)
-      - id: 1d69EaJYf5AuPtiC1l5Bc7
-        title: Die Schlümpfe - Geschichtensammlung 1
-      - id: 6LdlZUUVnq2bediSj7HQRJ
-        title: Die Schlümpfe - Geschichtensammlung 2
-      - id: 0pAQU8xFJeo3NsS0lvrCYz
-        title: Die Schlümpfe - Geschichtensammlung 3
-      - id: 5VYbNu16WI8P6qeeMsx9ZA
-        title: Die Schlümpfe - Geschichtensammlung 4
-      - id: 4ZdJvLVDTwxk9JefV1qYQE
-        title: Die Schlümpfe - Geschichtensammlung 5
-      - id: 2HOKCeVoNCJp8DHeOAA3Sc
-        title: Die Schlümpfe - Geschichtensammlung 6
     apple_music:
       artist_ids:
       - '128557561'
@@ -35937,6 +35707,8 @@ series:
         title: Die Schlümpfe (Das Original-Hörspiel zum Kinofilm)
       - id: '1515707905'
         title: Die Schlümpfe 2 (Das Original-Hörspiel zum Kinofilm)
+      - id: '1610550228'
+        title: Das verlorene Dorf - Hörspiel zum Kinofilm 3
   episode_pattern: '^Folge (\d+):'
   series_facts:
     era_boundaries:
@@ -36830,8 +36602,6 @@ series:
         title: Hurra Kinderlieder 2
       - id: '1686593750'
         title: Hurra Kinderlieder 3
-      - id: '1895854268'
-        title: Gute Laune Kinderparty
   content_type: music
   series_facts:
     known_gaps:
@@ -36986,8 +36756,6 @@ series:
         title: Das Disco Krokodil - Die Sommer-Edition
       - id: 0nIkAvX7mu0uLYEkCeapdE
         title: Tierische Kinderdisco
-      - id: 5XFutBFpGrFRhhqwRfAiY0
-        title: Beatles für Kinder (Remastered 2024)
       - id: 7keVRV96wJ9iL1vOEzlcJu
         title: Après Ski Hits für Kids
     apple_music:
@@ -39128,10 +38896,6 @@ series:
         title: Die schönsten Kinderlieder zu beliebten Hörspielen
       - id: 3PlULb5MDH1i9zD9bKLU9t
         title: Die schönsten Kinderlieder für die erste Schulzeit
-      - id: 0bGHbdwZwaphnFhYEHZDPV
-        title: Meine schönsten Advents- und Weihnachtslieder - Akustisch
-      - id: 04Cp7dE8pnlkFvsfWDXBop
-        title: Die schönsten traditionellen Weihnachtslieder
       - id: 0cO6jpwEHNMG0Ga500f4in
         title: Christliche Kinderlieder
     apple_music:
@@ -41288,18 +41052,8 @@ series:
       albums:
       - id: 76vW9dCZzixuVIwW1NZtom
         title: Peter und der Wolf
-      - id: 4xe4V74VbG32BSYVFsvDB0
-        title: Mit Gesang und Himmelsklang. Johann Sebastian Bach für Kinder
       - id: 07iwFm7WF73lUnYA4LoHSi
         title: Nightmusic and Magic Flute. Mozart for Children
-      - id: 1199odLsLKLG7RBERh70GC
-        title: Classical Hits for Children
-      - id: 54iVQKZQsMOFwuOlOCPboM
-        title: Klassik-Hits für Klein und Groß
-      - id: 6QdRE2nacEKsBdHWhIS4ah
-        title: Haydn-Hits für Kinder
-      - id: 3RLbpK2rvTMWcPj0x9xWHZ
-        title: Mozart-Hits für Kinder
       - id: 48bgqInPzZtYwbPuPtGVPA
         title: The Four Seasons. Vivaldi for Children (A Concert with Birdsong, Thunder and Sleeping Shepherds for People Aged 5 and Above)
       - id: 4EA35UoUnOvVsgtqDCxEWk
@@ -41324,14 +41078,10 @@ series:
         title: Hänsel und Gretel (Nach der Oper von Engelbert Humperdinck)
       - id: 29XeJ5uLiSfBaeUcdgtPJP
         title: Filipp Frosch und das Geheimnis des Wassers (Ein musikalisches Entdeckungs-Hörspiel rund um den Wasserkreislauf)
-      - id: 1MpibzdA8UP54I6o9LVhze
-        title: Große Komponisten für kleine und große Ohren
       - id: 67NL1tkbLIvN94ZomzM2aT
         title: Beethoven für Kinder. Königsfloh und Tastenzauber
       - id: 0d8qzl3Wfcar25Qd6nONWj
         title: Tina und das Orchester (Ein Hörspiel, in dem die Instrumente zeigen, was sie können - Jedes für sich und alle gemeinsam)
-      - id: 4aBQbIZC6NDSRWwMPYmTJh
-        title: Gitarren-Hits für Kinder
       - id: 6yDAaTh5Kg1RqzlydHC1Vu
         title: Das Zookonzert (Eine sinfonische Geschichte für Kinder)
       - id: 5gZDK32arcpIz5bVMLpp1s
@@ -41342,12 +41092,6 @@ series:
         title: Walzerschritt und Polkahit. Johann Strauß für Kinder
       - id: 51YdrAfOpbX2SRGv0jEm30
         title: Die Bremer Stadtmusikanten (Das Märchen der Brüder Grimm zur Musik von Erke Duit)
-      - id: 6eM4SdDdETgMHJArqP4sOL
-        title: Die vier Jahreszeiten (Eine Geschichte zur Musik von Antonio Vivaldi)
-      - id: 7yTa3EOYQu0PJlp0scPAEk
-        title: Herr Beethoven macht Musik
-      - id: 3f2ZrKxah8H1pqCIBVezdq
-        title: Herr Mozart macht Musik
       - id: 0UoLxo3Or8lAaj0ktNZ9E5
         title: Karneval der Tiere
     apple_music:
@@ -41358,16 +41102,6 @@ series:
         title: Peter und der Wolf
       - id: '1870573999'
         title: Walzerschritt und Polkahit. Johann Strauß für Kinder
-      - id: '1828602203'
-        title: Die Bremer Stadtmusikanten
-      - id: '1828601366'
-        title: Die vier Jahreszeiten
-      - id: '1828901103'
-        title: Herr Beethoven macht Musik
-      - id: '1828602131'
-        title: Herr Mozart macht Musik
-      - id: '1828602195'
-        title: Karneval der Tiere
   content_type: hoerspiel
   series_facts:
     era_boundaries:
@@ -41806,6 +41540,7 @@ series:
         title: Das Original Hörspiel zum Kinofilm
       - id: '1759530072'
         title: 200% Wolf (Das Hörspiel zum Kinofilm)
+  content_type: hoerspiel
 - id: 5_geschwister_adventskalender
   title: '5 Geschwister: Adventskalender'
   aliases: []
@@ -41816,9 +41551,45 @@ series:
     spotify:
       artist_ids:
       - 6k51vTPqkkOG4SpZwtZS1s
+      albums:
+      - id: 0itjeKvfolNCsyC6ijojO3
+        title: Adventskalender Tag 16 - Gefährlich rieselt der Schnee
+      - id: 0G8mI5ypPOJ0yQYevcaBpd
+        title: Adventskalender Tag 17 - Gefährlich rieselt der Schnee
+      - id: 2LXqbUF9hJvfu6czCBCjhR
+        title: Adventskalender Tag 18 - Gefährlich rieselt der Schnee
+      - id: 3IPVM58dYp1mCewkVvSpYR
+        title: Adventskalender Tag 19 - Gefährlich rieselt der Schnee
+      - id: 0vj1sriSgobSS5wMuHMPe3
+        title: Adventskalender Tag 20 - Gefährlich rieselt der Schnee
+      - id: 5NkvlPcXXqjwsLwog9wc9Y
+        title: Adventskalender Tag 21 - Gefährlich rieselt der Schnee
+      - id: 4alR3SUYdJYdntgO3D4KcY
+        title: Adventskalender Tag 22 - Gefährlich rieselt der Schnee
+      - id: 09FrU6vuKgmbjJ8HZSuTB0
+        title: Adventskalender Tag 23 - Gefährlich rieselt der Schnee
+      - id: 3n3UEDzrXoyJlomWioM8gA
+        title: Adventskalender Tag 24 - Gefährlich rieselt der Schnee
     apple_music:
       artist_ids:
       - '1487787107'
+  series_facts:
+    known_gaps:
+    - number: 1
+      reason: Advent calendar daily releases Tag 1-15 are not in current curation - need discovery and inclusion for complete advent calendar (Tag 16-24 present as excluded, to be included)
+      curated_by: minimax-m2.7
+      curated_at: '2026-06-17T20:12:36.741577+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-06-17T20:12:36.741577+00:00'
+      range_end: 15
+    sub_series:
+    - label: adventskalender_daily
+      album_ids: []
+      reason: 24 daily releases from Dec 1-24 2023, each a chapter of the story 'Gefährlich rieselt der Schnee'. Released as single tracks per day as an audio advent calendar.
+      curated_by: minimax-m2.7
+      curated_at: '2026-06-17T20:12:36.741577+00:00'
+      audited_by: minimax-m2.7
+      audited_at: '2026-06-17T20:12:36.741577+00:00'
 - id: bambi_disney_film
   title: 'Bambi: Disney Film'
   aliases: []
@@ -41850,6 +41621,7 @@ series:
       curated_at: '2026-06-17T20:13:24.659526+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-06-17T20:13:24.659526+00:00'
+  content_type: hoerspiel
 - id: bibi_blocksberg_englisch_lernen
   title: 'Bibi Blocksberg: Englisch Lernen'
   aliases: []
@@ -41916,6 +41688,7 @@ series:
         title: Die falschen Weihnachtsmänner (Der Adventskalender zum Hören)
       - id: '1652303452'
         title: 'Adventskalender: Nick, der Schlittenhund'
+  content_type: hoerspiel
 - id: bibi_und_tina_kinofilm
   title: 'Bibi und Tina: Kinofilm'
   aliases: []
@@ -41956,6 +41729,7 @@ series:
       curated_at: '2026-06-17T20:14:52.642421+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-06-17T20:14:52.642421+00:00'
+  content_type: hoerspiel
 - id: bibi_und_tina_klangreise
   title: 'Bibi und Tina: Klangreise'
   aliases: []
@@ -41991,6 +41765,7 @@ series:
         title: Boss Baby (Das Original-Hörspiel zum Kinofilm)
       - id: '1588694719'
         title: Boss Baby 2 - Schluss mit Kindergarten (Das Original Hörspiel zum Kinofilm)
+  content_type: hoerspiel
 - id: cars_cars_toon
   title: 'Cars: Cars Toon'
   aliases: []
@@ -42009,6 +41784,7 @@ series:
       albums:
       - id: '1686002540'
         title: Cars Toon - Hooks unglaubliche Geschichten (Das Original-Hörspiel zur Disney/Pixar TV-Serie)
+  content_type: hoerspiel
 - id: cars_film_trilogy
   title: 'Cars: Film Trilogy'
   aliases: []
@@ -42035,6 +41811,7 @@ series:
         title: Cars (Hörspiel zum Disney/Pixar Film)
       - id: '1685961354'
         title: Cars 3 - Evolution (Das Original-Hörspiel zum Film)
+  content_type: hoerspiel
 - id: conni_abenteuerspass
   title: 'Conni: Abenteuerspaß mit Conni'
   aliases: []
@@ -42087,6 +41864,7 @@ series:
     apple_music:
       artist_ids:
       - '726252391'
+  content_type: hoerspiel
 - id: der_kleine_rabe_socke_picture_book
   title: 'Der kleine Rabe Socke: Picture Book'
   aliases: []
@@ -42285,6 +42063,7 @@ series:
       curated_at: '2026-06-17T20:18:49.115666+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-06-17T20:18:49.115666+00:00'
+  content_type: hoerspiel
 - id: die_biene_maja_kinofilm
   title: 'Die Biene Maja: Kinofilm'
   aliases: []
@@ -42342,6 +42121,7 @@ series:
       curated_at: '2026-06-17T20:21:19.057902+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-06-17T20:21:19.057902+00:00'
+  content_type: hoerspiel
 - id: die_drei_ausrufezeichen_adventskalender
   title: 'Die drei !!!: Adventskalender'
   aliases: []
@@ -42366,6 +42146,7 @@ series:
       albums:
       - id: '1773744482'
         title: Adventskalender - Wirbel im Weihnachtshotel
+  content_type: hoerspiel
 - id: die_drei_fragezeichen_kids_adventskalender
   title: 'Die drei ??? Kids: Adventskalender'
   aliases: []
@@ -42407,6 +42188,7 @@ series:
       curated_at: '2026-06-17T20:23:10.871921+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-06-17T20:23:10.871921+00:00'
+  content_type: hoerspiel
 - id: die_wilden_kerle_kinofilm
   title: 'Die wilden Kerle: Kinofilm'
   aliases: []
@@ -42479,6 +42261,7 @@ series:
       albums:
       - id: '1440509406'
         title: Ein Geschenk von Nachtschatten (Das Original-Hörspiel zum Film-Special)
+  content_type: hoerspiel
 - id: eule_hauptreihe
   title: 'Eule findet den Beat: Hauptreihe'
   aliases: []
@@ -42561,6 +42344,7 @@ series:
       curated_at: '2026-06-17T20:28:17.807190+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-06-17T20:28:17.807190+00:00'
+  content_type: hoerspiel
 - id: fuenf_freunde_adventskalender
   title: 'Fünf Freunde: Adventskalender'
   aliases: []
@@ -42590,6 +42374,7 @@ series:
       curated_at: '2026-06-17T20:28:42.069965+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-06-17T20:28:42.069965+00:00'
+  content_type: hoerspiel
 - id: fuenf_freunde_kinofilm
   title: 'Fünf Freunde: Kinofilm'
   aliases: []
@@ -42680,9 +42465,6 @@ series:
       - id: '1869033566'
         episode: 5
         title: 'Folge 5: So ein Zirkus! (Neue Abenteuer)'
-      - id: '1875255677'
-        episode: 6
-        title: 'Folge 6: Tilda und der Wolf (Neue Abenteuer)'
 - id: hexe_lilli_erstlesergeschichten
   title: 'Hexe Lilli: Erstlesergeschichten'
   aliases: []
@@ -42786,6 +42568,7 @@ series:
       curated_at: '2026-06-17T20:32:20.680154+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-06-17T20:32:20.680154+00:00'
+  content_type: hoerspiel
 - id: janosch_kinofilm
   title: 'Janosch: Kinofilm'
   aliases: []
@@ -42834,6 +42617,7 @@ series:
       curated_at: '2026-06-17T20:32:50.514755+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-06-17T20:32:50.514755+00:00'
+  content_type: hoerspiel
 - id: julia_donaldson_picture_book_songs
   title: 'Julia Donaldson: Picture Book Songs'
   aliases: []
@@ -42907,6 +42691,7 @@ series:
       curated_at: '2026-06-17T20:36:28.452111+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-06-17T20:36:28.452111+00:00'
+  content_type: hoerspiel
 - id: kommissar_kugelblitz_stadt_reisen
   title: 'Kommissar Kugelblitz: Stadt Reisen'
   aliases: []
@@ -42963,6 +42748,7 @@ series:
       curated_at: '2026-06-17T20:37:11.308219+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-06-17T20:37:11.308219+00:00'
+  content_type: hoerspiel
 - id: lauras_stern_erstleser
   title: 'Lauras Stern: Erstleser'
   aliases: []
@@ -43108,6 +42894,7 @@ series:
       curated_at: '2026-06-17T20:39:11.597050+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-06-17T20:39:11.597050+00:00'
+  content_type: hoerspiel
 - id: lauras_stern_laura
   title: 'Lauras Stern: Laura'
   aliases: []
@@ -43294,18 +43081,9 @@ series:
       - id: 4SygfBWhlHUihHA4PFqH8I
         episode: 25
         title: 'Folge 25: Dem Mega-Oktopus auf der Spur'
-      - id: 1Ozl4N09OmrggQ0X4awdiA
-        episode: 25
-        title: 'Folge 25: Harl-Hubbs-Tag'
-      - id: 2ZeMBBUjICk35KElaLZJ8T
-        episode: 26
-        title: 'Folge 26: Annes Traum'
       - id: 1FKo6rTIST1l9BxIYmgULC
         episode: 26
         title: 'Folge 26: Die Nachteule schlägt wieder zu'
-      - id: 05doppNybeiwJ8jazbXtgd
-        episode: 27
-        title: 'Folge 27: Ungewöhnliche Rettungsmethoden'
       - id: 6mAffXeHyQ3FqzVHKOnAj0
         episode: 27
         title: 'Folge 27: Hochspannung im Motorrad-Sattel'
@@ -43367,18 +43145,9 @@ series:
       - id: '1534555398'
         episode: 25
         title: 'Folge 25: Dem Mega-Oktopus auf der Spur'
-      - id: '1540728555'
-        episode: 25
-        title: 'Folge 25: Harl-Hubbs-Tag'
-      - id: '1542013902'
-        episode: 26
-        title: 'Folge 26: Annes Traum - EP'
       - id: '1554524368'
         episode: 26
         title: 'Folge 26: Die Nachteule schlägt wieder zu'
-      - id: '1540735426'
-        episode: 27
-        title: 'Folge 27: Ungewöhnliche Rettungsmethoden'
       - id: '1588219992'
         episode: 27
         title: 'Folge 27: Hochspannung im Motorrad-Sattel'
@@ -43569,6 +43338,7 @@ series:
         title: Mein Lotta-Leben. Alles Bingo mit Flamingo! (Das Original-Hörspiel zum Film)
       - id: '1862488725'
         title: Mein Lotta-Leben. Alles Tschaka mit Alpaka! (Das Original-Hörspiel zum Film)
+  content_type: hoerspiel
 - id: mia_and_me_buch
   title: 'Mia and Me: Buch'
   aliases: []
@@ -43685,6 +43455,7 @@ series:
       curated_at: '2026-06-17T20:47:02.201535+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-06-17T20:47:02.201535+00:00'
+  content_type: hoerspiel
 - id: pettersson_und_findus_findus_erklaert_die_welt
   title: 'Pettersson und Findus: Findus erklärt die Welt'
   aliases: []
@@ -43739,6 +43510,7 @@ series:
         title: 'Findus erklärt die Welt: Schmutz und Katzenwäsche'
       - id: '1843732997'
         title: 'Findus erklärt die Welt: Kluge Köpfe und schöne Klänge'
+  content_type: hoerspiel
 - id: pettersson_und_findus_kinofilm
   title: 'Pettersson und Findus: Kinofilm'
   aliases: []
@@ -43785,6 +43557,7 @@ series:
       curated_at: '2026-06-17T20:49:24.628796+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-06-17T20:49:24.628796+00:00'
+  content_type: hoerspiel
 - id: prinzessin_lillifee_gute_nacht_geschichten
   title: 'Prinzessin Lillifee: Gute Nacht Geschichten'
   aliases: []
@@ -43837,9 +43610,6 @@ series:
       - id: '1461097540'
         episode: 3
         title: Gute-Nacht-Geschichten Folge 3+4 - Tanz der Einhörner/Das verlorene Ei
-      - id: '1474808673'
-        episode: 3
-        title: 'Gute-Nacht-Geschichten (Folge 3): Das liebe Gespenst / Rosinchens Lächeln'
       - id: '1495040591'
         episode: 9
         title: 'Folge 9+10: Das Bunte-Punkte-Fieber/Der Schrumpfzauber (Gute-Nacht-Geschichten)'
@@ -43927,6 +43697,7 @@ series:
         title: Prinzessin Lillifee
       - id: '1358385651'
         title: Das kleine Einhorn (Original Hörspiel zum Kinofilm)
+  content_type: hoerspiel
 - id: prinzessin_lillifee_themenwelten
   title: 'Prinzessin Lillifee: Themenwelten'
   aliases: []
@@ -43971,6 +43742,7 @@ series:
         title: Im Garten der Düfte
       - id: '1876250998'
         title: Das verzauberte Einhornfohlen
+  content_type: hoerspiel
 - id: prinzessin_lillifee_tierhotel
   title: 'Prinzessin Lillifee: Tierhotel'
   aliases: []
@@ -44000,6 +43772,9 @@ series:
       artist_ids:
       - '130216498'
       albums:
+      - id: '1689762573'
+        episode: 1
+        title: 'Folge 1 + 2: Mein zauberhaftes Tierhotel'
       - id: '1703988083'
         episode: 3
         title: 'Mein zauberhaftes Tierhotel: Folge 3+4'
@@ -44107,6 +43882,7 @@ series:
         title: Das Original-Hörspiel zum Kinofilm
       - id: '1193158413'
         title: 'Das Original-Hörspiel zum Kinofilm 2: Das Schrottkomplott'
+  content_type: hoerspiel
 - id: sternenschweif_sternchen
   title: 'Sternenschweif Sternchen'
   aliases: []
@@ -44151,6 +43927,7 @@ series:
         title: Adventskalender - Der widerliche Weihnachtswichtel
       - id: '1777047904'
         title: Adventskalender (Eine schöne Bescherung)
+  content_type: hoerspiel
 - id: wendy_kinofilm
   title: 'Wendy: Kinofilm'
   aliases: []
@@ -44173,6 +43950,7 @@ series:
         title: Wendy (Das Original-Hörspiel zum Kinofilm)
       - id: '1686023135'
         title: Wendy 2 (Das Original-Hörspiel zum Kinofilm)
+  content_type: hoerspiel
 - id: woodwalkers_kinofilm
   title: 'Woodwalkers: Kinofilm'
   aliases: []
@@ -44428,9 +44206,6 @@ series:
     apple_music:
       artist_ids:
       - '1703088793'
-      albums:
-      - id: '1485704846'
-        title: Ferien auf Saltkrokan
 - id: die_brueder_loewenherz
   title: Die Brüder Löwenherz
   aliases: []
@@ -44711,6 +44486,7 @@ series:
       curated_at: '2026-06-17T20:30:31.847417+00:00'
       audited_by: minimax-m2.7
       audited_at: '2026-06-17T20:30:31.847417+00:00'
+  content_type: hoerspiel
 - id: tintenwelt
   title: Tintenwelt (Tintenherz)
   aliases: []
@@ -44787,8 +44563,6 @@ series:
       artist_ids:
       - '1515591006'
       albums:
-      - id: '1574471439'
-        title: Der satanarchäolügenialkohöllische Wunschpunsch - Das Hörspiel
       - id: '1755749074'
         title: Der satanarchäolügenialkohöllische Wunschpunsch - Das Hörspiel
 - id: die_unendliche_geschichte
@@ -44991,6 +44765,7 @@ series:
       albums:
       - id: '1497322559'
         title: 'Geisterritter: Das Hörspiel'
+  content_type: hoerspiel
 - id: die_abenteuer_des_starken_wanja
   title: 'Die Abenteuer des starken Wanja'
   aliases: []
@@ -45052,10 +44827,6 @@ series:
         title: Jim Knopf und Lukas auf großer Reise
       - id: 1OYQLxTOg3IhOi7gR31QHk
         title: Jim Knopf und Lukas – Auf zu neuen Ufern
-      - id: 4D3freTvvr9R3IY9ffoPJE
-        title: 'Jim Knopf - Hörspiele: Jim Knopf und Lukas der Lokomotivführer - Das Hörspiel'
-      - id: 1zrUuet13zT0U6zVE4DGeh
-        title: 'Jim Knopf - Hörspiele: Jim Knopf und die Wilde 13 - Das Hörspiel'
     apple_music:
       artist_ids:
       - '1515591006'
